@@ -84,7 +84,6 @@ $(document).ready(function () {
     IPython.save_widget = new IPython.SaveWidget('span#save_widget');
     IPython.quick_help = new IPython.QuickHelp('span#quick_help_area');
     IPython.login_widget = new IPython.LoginWidget('span#login_widget');
-    IPython.print_widget = new IPython.PrintWidget();
     IPython.notebook = new IPython.Notebook('div#notebook');
     IPython.kernel_status_widget = new IPython.KernelStatusWidget('#kernel_status');
     IPython.menubar = new IPython.MenuBar('#menubar')
@@ -97,23 +96,12 @@ $(document).ready(function () {
 
     if(IPython.read_only){
         // hide various elements from read-only view
-        IPython.save_widget.element.find('button#save_notebook').addClass('hidden');
-        IPython.quick_help.element.addClass('hidden'); // shortcuts are disabled in read_only
         $('div#pager').remove();
         $('div#pager_splitter').remove();
-        $('button#new_notebook').addClass('hidden');
-        $('div#cell_section').addClass('hidden');
-        $('div#config_section').addClass('hidden');
-        $('div#kernel_section').addClass('hidden');
         $('span#login_widget').removeClass('hidden');
 
         // set the notebook name field as not modifiable
         $('#notebook_name').attr('disabled','disabled')
-
-        // left panel starts collapsed, but the collapse must happen after
-        // elements start drawing.  Don't draw contents of the panel until
-        // after they are collapsed
-        IPython.left_panel.left_panel_element.css('visibility', 'hidden');
     }
 
     $('div#main_app').css('display','block');
@@ -126,14 +114,6 @@ $(document).ready(function () {
             IPython.save_widget.update_url();
             IPython.layout_manager.do_resize();
             IPython.pager.collapse();
-            if(IPython.read_only){
-                // collapse the left panel on read-only
-                IPython.left_panel.collapse();
-                // and finally unhide the panel contents after collapse
-                setTimeout(function(){
-                    IPython.left_panel.left_panel_element.css('visibility', 'visible');
-                }, 200);
-            }
         },100);
     });
 
