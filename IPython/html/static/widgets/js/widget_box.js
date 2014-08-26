@@ -1,87 +1,102 @@
-//----------------------------------------------------------------------------
-//  Copyright (C) 2013 The IPython Development Team
-//
-//  Distributed under the terms of the BSD License.  The full license is in
-//  the file COPYING, distributed as part of this software.
-//----------------------------------------------------------------------------
+// Copyright (c) IPython Development Team.
+// Distributed under the terms of the Modified BSD License.
 
-//============================================================================
-// ContainerWidget
-//============================================================================
+define([
+    "widgets/js/widget",
+    "jqueryui",
+    "bootstrap",
+], function(widget, $){
 
-/**
- * @module IPython
- * @namespace IPython
- **/
+    var BoxView = widget.DOMWidgetView.extend({
+        initialize: function(){
+            // Public constructor
+            BoxView.__super__.initialize.apply(this, arguments);
+            this.model.on('change:children', function(model, value) {
+                this.update_children(model.previous('children'), value);
+            }, this);
+        },
 
-define(["widgets/js/widget"], function(WidgetManager) {
-
-    var ContainerView = IPython.DOMWidgetView.extend({
         render: function(){
             // Called when view is rendered.
-            this.$el.addClass('widget-container')
-                .addClass('vbox');
-            this.children={};
-            this.update_children([], this.model.get('_children'));
-            this.model.on('change:_children', function(model, value, options) {
-                this.update_children(model.previous('_children'), value);
-            }, this);
-            this.update();
-
-            // Trigger model displayed events for any models that are child to 
-            // this model when this model is displayed.
-            var that = this;
-            this.model.on('displayed', function(){
-                that.is_displayed = true;
-                for (var property in that.child_views) {
-                    if (that.child_views.hasOwnProperty(property)) {
-                        that.child_views[property].model.trigger('displayed');
-                    }
-                }
-            });
+            this.$box = this.$el;
+            this.$box.addClass('widget-box');
+            this.update_children([], this.model.get('children'));
         },
         
         update_children: function(old_list, new_list) {
             // Called when the children list changes.
-            this.do_diff(old_list,
-                new_list, 
+            this.do_diff(old_list, new_list, 
                 $.proxy(this.remove_child_model, this),
                 $.proxy(this.add_child_model, this));
         },
 
         remove_child_model: function(model) {
             // Called when a model is removed from the children list.
-            this.child_views[model.id].remove();
-            this.delete_child_view(model);
+            this.pop_child_view(model).remove();
         },
 
         add_child_model: function(model) {
             // Called when a model is added to the children list.
             var view = this.create_child_view(model);
-            this.$el.append(view.$el);
+            this.$box.append(view.$el);
 
-            // Trigger the displayed event if this model is displayed.
-            if (this.is_displayed) {
-                model.trigger('displayed');
-            }
-        },
-        
-        update: function(){
-            // Update the contents of this view
-            //
-            // Called when the model is changed.  The model may have been 
-            // changed by another view or by a state update from the back-end.
-            return ContainerView.__super__.update.apply(this);
+            // Trigger the displayed event of the child view.
+            this.after_displayed(function() {
+                view.trigger('displayed');
+            });
         },
     });
-    
-    WidgetManager.register_widget_view('ContainerView', ContainerView);
-    
-    var PopupView = IPython.DOMWidgetView.extend({
+
+
+    var FlexBoxView = BoxView.extend({
+        render: function(){
+            FlexBoxView.__super__.render.apply(this);
+            this.model.on('change:orientation', this.update_orientation, this);
+            this.model.on('change:flex', this._flex_changed, this);
+            this.model.on('change:pack', this._pack_changed, this);
+            this.model.on('change:align', this._align_changed, this);
+            this._flex_changed();
+            this._pack_changed();
+            this._align_changed();
+            this.update_orientation();
+        },
+
+        update_orientation: function(){
+            var orientation = this.model.get("orientation");
+            if (orientation == "vertical") {
+                this.$box.removeClass("hbox").addClass("vbox");
+            } else {
+                this.$box.removeClass("vbox").addClass("hbox");
+            }
+        },
+
+        _flex_changed: function(){
+            if (this.model.previous('flex')) {
+                this.$box.removeClass('box-flex' + this.model.previous('flex'));
+            }
+            this.$box.addClass('box-flex' + this.model.get('flex'));
+        },
+
+        _pack_changed: function(){
+            if (this.model.previous('pack')) {
+                this.$box.removeClass(this.model.previous('pack'));
+            }
+            this.$box.addClass(this.model.get('pack'));
+        },
+
+        _align_changed: function(){
+            if (this.model.previous('align')) {
+                this.$box.removeClass('align-' + this.model.previous('align'));
+            }
+            this.$box.addClass('align-' + this.model.get('align'));
+        },
+    });
+
+    var PopupView = BoxView.extend({
+
         render: function(){
             // Called when view is rendered.
             var that = this;
-            this.children={};
             
             this.$el.on("remove", function(){
                     that.$backdrop.remove();
@@ -113,7 +128,7 @@ define(["widgets/js/widget"], function(WidgetManager) {
                     that.bring_to_front();
                 });
             this.$close = $('<button />')
-                .addClass('close icon-remove')
+                .addClass('close fa fa-remove')
                 .css('margin-left', '5px')
                 .appendTo(this.$title_bar)
                 .click(function(){
@@ -121,14 +136,14 @@ define(["widgets/js/widget"], function(WidgetManager) {
                     event.stopPropagation();
                 });
             this.$minimize = $('<button />')
-                .addClass('close icon-arrow-down')
+                .addClass('close fa fa-arrow-down')
                 .appendTo(this.$title_bar)
                 .click(function(){
                     that.popped_out = !that.popped_out;
                     if (!that.popped_out) {
                         that.$minimize
-                            .removeClass('icon-arrow-down')
-                            .addClass('icon-arrow-up');
+                            .removeClass('fa fa-arrow-down')
+                            .addClass('fa fa-arrow-up');
                             
                         that.$window
                             .draggable('destroy')
@@ -141,8 +156,8 @@ define(["widgets/js/widget"], function(WidgetManager) {
                         that.$close.hide();
                     } else {
                         that.$minimize
-                            .addClass('icon-arrow-down')
-                            .removeClass('icon-arrow-up');
+                            .addClass('fa fa-arrow-down')
+                            .removeClass('fa fa-arrow-up');
 
                         that.$window
                             .removeClass('docked-widget-modal')
@@ -161,11 +176,11 @@ define(["widgets/js/widget"], function(WidgetManager) {
             this.$title = $('<div />')
                 .addClass('widget-modal-title')
                 .html("&nbsp;")
-                .appendTo(this.$title_bar);
-            this.$body = $('<div />')
+                .appendTo(this.$title_bar);     
+            this.$box = $('<div />')
                 .addClass('modal-body')
                 .addClass('widget-modal-body')
-                .addClass('widget-container')
+                .addClass('widget-box')
                 .addClass('vbox')
                 .appendTo(this.$window);
             
@@ -180,29 +195,16 @@ define(["widgets/js/widget"], function(WidgetManager) {
             this.$window.draggable({handle: '.popover-title', snap: '#notebook, .modal', snapMode: 'both'});
             this.$window.resizable();
             this.$window.on('resize', function(){
-                that.$body.outerHeight(that.$window.innerHeight() - that.$title_bar.outerHeight());
+                that.$box.outerHeight(that.$window.innerHeight() - that.$title_bar.outerHeight());
             });
 
-            this.$el_to_style = this.$body;
             this._shown_once = false;
             this.popped_out = true;
 
-            this.update_children([], this.model.get('_children'));
-            this.model.on('change:_children', function(model, value, options) {
-                this.update_children(model.previous('_children'), value);
+            this.update_children([], this.model.get('children'));
+            this.model.on('change:children', function(model, value) {
+                this.update_children(model.previous('children'), value);
             }, this);
-            this.update();
-
-            // Trigger model displayed events for any models that are child to 
-            // this model when this model is displayed.
-            this.model.on('displayed', function(){
-                that.is_displayed = true;
-                for (var property in that.child_views) {
-                    if (that.child_views.hasOwnProperty(property)) {
-                        that.child_views[property].model.trigger('displayed');
-                    }
-                }
-            });
         },
         
         hide: function() {
@@ -247,31 +249,6 @@ define(["widgets/js/widget"], function(WidgetManager) {
             this.$window.css('z-index', max_zindex);
         },
         
-        update_children: function(old_list, new_list) {
-            // Called when the children list is modified.
-            this.do_diff(old_list, 
-                new_list, 
-                $.proxy(this.remove_child_model, this),
-                $.proxy(this.add_child_model, this));
-        },
-
-        remove_child_model: function(model) {
-            // Called when a child is removed from children list.
-            this.child_views[model.id].remove();
-            this.delete_child_view(model);
-        },
-
-        add_child_model: function(model) {
-            // Called when a child is added to children list.
-            var view = this.create_child_view(model);
-            this.$body.append(view.$el);
-
-            // Trigger the displayed event if this model is displayed.
-            if (this.is_displayed) {
-                model.trigger('displayed');
-            }
-        },
-        
         update: function(){
             // Update the contents of this view
             //
@@ -309,7 +286,7 @@ define(["widgets/js/widget"], function(WidgetManager) {
             // "modal" - select the modal div
             // "modal [selector]" - select element(s) within the modal div.
             // "[selector]" - select elements within $el
-            // "" - select the $el_to_style
+            // "" - select the $el
             if (selector.substring(0, 5) == 'modal') {
                 if (selector == 'modal') {
                     return this.$window;
@@ -321,5 +298,10 @@ define(["widgets/js/widget"], function(WidgetManager) {
             }
         },
     });
-    WidgetManager.register_widget_view('PopupView', PopupView);
+
+    return {
+        'BoxView': BoxView,
+        'PopupView': PopupView,
+        'FlexBoxView': FlexBoxView,
+    };
 });
