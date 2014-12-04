@@ -21,7 +21,9 @@ define([
     };
     
     CommManager.prototype.init_kernel = function (kernel) {
-        // connect the kernel, and register message handlers
+        /**
+         * connect the kernel, and register message handlers
+         */
         this.kernel = kernel;
         var msg_types = ['comm_open', 'comm_msg', 'comm_close'];
         for (var i = 0; i < msg_types.length; i++) {
@@ -31,8 +33,10 @@ define([
     };
     
     CommManager.prototype.new_comm = function (target_name, data, callbacks, metadata) {
-        // Create a new Comm, register it, and open its Kernel-side counterpart
-        // Mimics the auto-registration in `Comm.__init__` in the IPython Comm
+        /**
+         * Create a new Comm, register it, and open its Kernel-side counterpart
+         * Mimics the auto-registration in `Comm.__init__` in the IPython Comm
+         */
         var comm = new Comm(target_name);
         this.register_comm(comm);
         comm.open(data, callbacks, metadata);
@@ -40,24 +44,32 @@ define([
     };
     
     CommManager.prototype.register_target = function (target_name, f) {
-        // Register a target function for a given target name
+        /**
+         * Register a target function for a given target name
+         */
         this.targets[target_name] = f;
     };
     
     CommManager.prototype.unregister_target = function (target_name, f) {
-        // Unregister a target function for a given target name
+        /**
+         * Unregister a target function for a given target name
+         */
         delete this.targets[target_name];
     };
     
     CommManager.prototype.register_comm = function (comm) {
-        // Register a comm in the mapping
-        this.comms[comm.comm_id] = comm;
+        /**
+         * Register a comm in the mapping
+         */
+        this.comms[comm.comm_id] = Promise.resolve(comm);
         comm.kernel = this.kernel;
         return comm.comm_id;
     };
     
     CommManager.prototype.unregister_comm = function (comm) {
-        // Remove a comm from the mapping
+        /**
+         * Remove a comm from the mapping
+         */
         delete this.comms[comm.comm_id];
     };
     
@@ -65,48 +77,63 @@ define([
     
     CommManager.prototype.comm_open = function (msg) {
         var content = msg.content;
-        var f = this.targets[content.target_name];
-        if (f === undefined) {
-            console.log("No such target registered: ", content.target_name);
-            console.log("Available targets are: ", this.targets);
+        var that = this;
+        var comm_id = content.comm_id;
+
+        this.comms[comm_id] = utils.load_class(content.target_name, content.target_module, 
+            this.targets).then(function(target) {
+                var comm = new Comm(content.target_name, comm_id);
+                comm.kernel = that.kernel;
+                try {
+                    var response = target(comm, msg);
+                } catch (e) {
+                    comm.close();
+                    that.unregister_comm(comm);
+                    var wrapped_error = new utils.WrappedError("Exception opening new comm", e);
+                    console.error(wrapped_error);
+                    return Promise.reject(wrapped_error);
+                }
+                // Regardless of the target return value, we need to
+                // then return the comm
+                return Promise.resolve(response).then(function() {return comm;});
+            }, utils.reject('Could not open comm', true));
+        return this.comms[comm_id];
+    };
+    
+    CommManager.prototype.comm_close = function(msg) {
+        var content = msg.content;
+        if (this.comms[content.comm_id] === undefined) {
+            console.error('Comm promise not found for comm id ' + content.comm_id);
             return;
         }
-        var comm = new Comm(content.target_name, content.comm_id);
-        this.register_comm(comm);
-        try {
-            f(comm, msg);
-        } catch (e) {
-            console.log("Exception opening new comm:", e, e.stack, msg);
-            comm.close();
+
+        this.comms[content.comm_id] = this.comms[content.comm_id].then(function(comm) {
             this.unregister_comm(comm);
-        }
+            try {
+                comm.handle_close(msg);
+            } catch (e) {
+                console.log("Exception closing comm: ", e, e.stack, msg);
+            }
+            // don't return a comm, so that further .then() functions
+            // get an undefined comm input
+        });
     };
     
-    CommManager.prototype.comm_close = function (msg) {
+    CommManager.prototype.comm_msg = function(msg) {
         var content = msg.content;
-        var comm = this.comms[content.comm_id];
-        if (comm === undefined) {
+        if (this.comms[content.comm_id] === undefined) {
+            console.error('Comm promise not found for comm id ' + content.comm_id);
             return;
         }
-        this.unregister_comm(comm);
-        try {
-            comm.handle_close(msg);
-        } catch (e) {
-            console.log("Exception closing comm: ", e, e.stack, msg);
-        }
-    };
-    
-    CommManager.prototype.comm_msg = function (msg) {
-        var content = msg.content;
-        var comm = this.comms[content.comm_id];
-        if (comm === undefined) {
-            return;
-        }
-        try {
-            comm.handle_msg(msg);
-        } catch (e) {
-            console.log("Exception handling comm msg: ", e, e.stack, msg);
-        }
+
+        this.comms[content.comm_id] = this.comms[content.comm_id].then(function(comm) {
+            try {
+                comm.handle_msg(msg);
+            } catch (e) {
+                console.log("Exception handling comm msg: ", e, e.stack, msg);
+            }
+            return comm;
+        });
     };
     
     //-----------------------------------------------------------------------
@@ -129,12 +156,12 @@ define([
         return this.kernel.send_shell_message("comm_open", content, callbacks, metadata);
     };
     
-    Comm.prototype.send = function (data, callbacks, metadata) {
+    Comm.prototype.send = function (data, callbacks, metadata, buffers) {
         var content = {
             comm_id : this.comm_id,
             data : data || {},
         };
-        return this.kernel.send_shell_message("comm_msg", content, callbacks, metadata);
+        return this.kernel.send_shell_message("comm_msg", content, callbacks, metadata, buffers);
     };
     
     Comm.prototype.close = function (data, callbacks, metadata) {
@@ -160,7 +187,7 @@ define([
     
     // methods for handling incoming messages
     
-    Comm.prototype._maybe_callback = function (key, msg) {
+    Comm.prototype._callback = function (key, msg) {
         var callback = this['_' + key + '_callback'];
         if (callback) {
             try {
@@ -172,11 +199,11 @@ define([
     };
     
     Comm.prototype.handle_msg = function (msg) {
-        this._maybe_callback('msg', msg);
+        this._callback('msg', msg);
     };
     
     Comm.prototype.handle_close = function (msg) {
-        this._maybe_callback('close', msg);
+        this._callback('close', msg);
     };
     
     // For backwards compatability.
