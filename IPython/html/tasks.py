@@ -1,7 +1,6 @@
-""" fabfile to prepare the notebook """
+"""invoke task file to build CSS"""
 
-from fabric.api import local,lcd
-from fabric.utils import abort
+from invoke import task, run
 import os
 from distutils.version import LooseVersion as V
 from subprocess import check_output
@@ -11,8 +10,8 @@ static_dir = 'static'
 components_dir = pjoin(static_dir, 'components')
 here = os.path.dirname(__file__)
 
-min_less_version = '1.7.0'
-max_less_version = '1.8.0' # exclusive
+min_less_version = '1.7.5'
+max_less_version = None # exclusive if string
 
 def _need_css_update():
     """Does less need to run?"""
@@ -40,11 +39,9 @@ def _need_css_update():
     
     return False
 
+@task
 def css(minify=False, verbose=False, force=False):
     """generate the css from less files"""
-    minify = _to_bool(minify)
-    verbose = _to_bool(verbose)
-    force = _to_bool(force)
     # minify implies force because it's not the default behavior
     if not force and not minify and not _need_css_update():
         print("css up-to-date")
@@ -56,15 +53,10 @@ def css(minify=False, verbose=False, force=False):
         sourcemap = pjoin('style', "%s.min.css.map" % name)
         _compile_less(source, target, sourcemap, minify, verbose)
 
-def _to_bool(b):
-    if not b in ['True', 'False', True, False]:
-        abort('boolean expected, got: %s' % b)
-    return (b in ['True', True])
-
 def _compile_less(source, target, sourcemap, minify=True, verbose=False):
     """Compile a less file by source and target relative to static_dir"""
-    min_flag = '-x' if minify is True else ''
-    ver_flag = '--verbose' if verbose is True else ''
+    min_flag = '-x' if minify else ''
+    ver_flag = '--verbose' if verbose else ''
     
     # pin less to version number from above
     try:
@@ -74,12 +66,18 @@ def _compile_less(source, target, sourcemap, minify=True, verbose=False):
                          % (min_less_version, max_less_version))
     out = out.decode('utf8', 'replace')
     less_version = out.split()[1]
-    if V(less_version) < V(min_less_version):
-        raise ValueError("lessc too old: %s < %s. Use `$ npm install lesscss@X.Y.Z` to install a specific version of less" % (less_version, min_less_version))
-    if V(less_version) >= V(max_less_version):
-        raise ValueError("lessc too new: %s >= %s. Use `$ npm install lesscss@X.Y.Z` to install a specific version of less" % (less_version, max_less_version))
+    if min_less_version and V(less_version) < V(min_less_version):
+        raise ValueError("lessc too old: %s < %s. Use `$ npm install less@X.Y.Z` to install a specific version of less" % (less_version, min_less_version))
+    if max_less_version and V(less_version) >= V(max_less_version):
+        raise ValueError("lessc too new: %s >= %s. Use `$ npm install less@X.Y.Z` to install a specific version of less" % (less_version, max_less_version))
     
     static_path = pjoin(here, static_dir)
-    with lcd(static_dir):
-        local('lessc {min_flag} {ver_flag} --source-map={sourcemap} --source-map-basepath={static_path} --source-map-rootpath="../" {source} {target}'.format(**locals()))
+    cwd = os.getcwd()
+    try:
+        os.chdir(static_dir)
+        run('lessc {min_flag} {ver_flag} --source-map={sourcemap} --source-map-basepath={static_path} --source-map-rootpath="../" {source} {target}'.format(**locals()),
+            echo=True,
+        )
+    finally:
+        os.chdir(cwd)
 
