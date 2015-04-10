@@ -21,7 +21,7 @@ from tornado import web
 from tornado import gen
 from tornado.log import app_log
 
-from IPython.utils.sysinfo import get_sys_info
+from jupyter_notebook._sysinfo import get_sys_info
 
 from traitlets.config import Application
 from ipython_genutils.path import filefind
