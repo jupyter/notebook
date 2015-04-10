@@ -1,39 +1,24 @@
 """utilities for checking submodule status"""
 
-#-----------------------------------------------------------------------------
-#  Copyright (C) 2013  The IPython Development Team
-#
-#  Distributed under the terms of the BSD License.  The full license is in
-#  the file COPYING, distributed as part of this software.
-#-----------------------------------------------------------------------------
-
-#-----------------------------------------------------------------------------
-# Imports
-#-----------------------------------------------------------------------------
+# Copyright (c) Jupyter Development Team.
+# Distributed under the terms of the Modified BSD License.
 
 import os
 import subprocess
 import sys
 
-#-----------------------------------------------------------------------------
-# Globals
-#-----------------------------------------------------------------------------
-
 pjoin = os.path.join
 
-#-----------------------------------------------------------------------------
-# Code
-#-----------------------------------------------------------------------------
 
-def ipython_parent():
+def repo_parent():
     """return IPython's parent (i.e. root if run from git)"""
-    from IPython.utils.path import get_ipython_package_dir
-    return os.path.abspath(os.path.dirname(get_ipython_package_dir()))
+    import jupyter_notebook
+    return os.path.abspath(os.path.dirname(jupyter_notebook.__file__))
 
-def ipython_submodules(root):
-    """return IPython submodules relative to root"""
+def submodule_path(root):
+    """return submodule path relative to root"""
     return [
-        pjoin(root, 'IPython', 'html', 'static', 'components'),
+        pjoin(root, 'jupyter_notebook', 'static', 'components'),
     ]
 
 def is_repo(d):
@@ -64,13 +49,13 @@ def check_submodule_status(root=None):
         return 'clean'
 
     if not root:
-        root = ipython_parent()
+        root = repo_parent()
     
     if not is_repo(root):
         # not in git, assume clean
         return 'clean'
 
-    submodules = ipython_submodules(root)
+    submodules = submodule_path(root)
 
     for submodule in submodules:
         if not os.path.exists(submodule):
