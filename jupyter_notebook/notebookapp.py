@@ -85,7 +85,7 @@ from traitlets import (
 from ipython_genutils import py3compat
 from IPython.paths import get_ipython_dir
 from ipython_genutils.path import filefind
-from IPython.utils.sysinfo import get_sys_info
+from jupyter_notebook._sysinfo import get_sys_info
 
 from .nbextensions import SYSTEM_NBEXTENSIONS_DIRS
 from .utils import url_path_join, check_pid
