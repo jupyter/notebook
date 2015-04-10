@@ -35,8 +35,8 @@ from nose.plugins import Plugin
 from nose.util import safe_str
 
 from IPython.utils.process import is_cmd_found
-from IPython.utils.py3compat import bytes_to_str
-from IPython.utils.importstring import import_item
+from ipython_genutils.py3compat import bytes_to_str
+from ipython_genutils.importstring import import_item
 from IPython.testing.plugin.ipdoctest import IPythonDoctest
 from IPython.external.decorators import KnownFailure, knownfailureif
 

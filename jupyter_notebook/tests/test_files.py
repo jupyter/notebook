@@ -10,14 +10,14 @@ pjoin = os.path.join
 import requests
 import json
 
-from IPython.nbformat import write
-from IPython.nbformat.v4 import (new_notebook,
+from jupyter_nbformat import write
+from jupyter_nbformat.v4 import (new_notebook,
                               new_markdown_cell, new_code_cell,
                               new_output)
 
 from jupyter_notebook.utils import url_path_join
 from .launchnotebook import NotebookTestBase
-from IPython.utils import py3compat
+from ipython_genutils import py3compat
 
 
 class FilesTest(NotebookTestBase):

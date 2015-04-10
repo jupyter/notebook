@@ -1,6 +1,6 @@
 """A base class for contents managers."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from fnmatch import fnmatch
@@ -12,11 +12,11 @@ import re
 from tornado.web import HTTPError
 
 from .checkpoints import Checkpoints
-from IPython.config.configurable import LoggingConfigurable
-from IPython.nbformat import sign, validate, ValidationError
-from IPython.nbformat.v4 import new_notebook
-from IPython.utils.importstring import import_item
-from IPython.utils.traitlets import (
+from traitlets.config.configurable import LoggingConfigurable
+from jupyter_nbformat import sign, validate, ValidationError
+from jupyter_nbformat.v4 import new_notebook
+from ipython_genutils.importstring import import_item
+from traitlets import (
     Any,
     Dict,
     Instance,
@@ -25,7 +25,7 @@ from IPython.utils.traitlets import (
     Type,
     Unicode,
 )
-from IPython.utils.py3compat import string_types
+from ipython_genutils.py3compat import string_types
 
 copy_pat = re.compile(r'\-Copy\d*\.')
 

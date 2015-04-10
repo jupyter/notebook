@@ -4,25 +4,25 @@
 - creates REST API models
 """
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 import os
 
 from tornado import web
 
-from IPython.kernel.multikernelmanager import MultiKernelManager
-from IPython.utils.traitlets import List, Unicode, TraitError
+from jupyter_client.multikernelmanager import MultiKernelManager
+from traitlets import List, Unicode, TraitError
 
 from jupyter_notebook.utils import to_os_path
-from IPython.utils.py3compat import getcwd
+from ipython_genutils.py3compat import getcwd
 
 
 class MappingKernelManager(MultiKernelManager):
     """A KernelManager that handles notebook mapping and HTTP error handling"""
 
     def _kernel_manager_class_default(self):
-        return "IPython.kernel.ioloop.IOLoopKernelManager"
+        return "jupyter_client.ioloop.IOLoopKernelManager"
 
     kernel_argv = List(Unicode)
 

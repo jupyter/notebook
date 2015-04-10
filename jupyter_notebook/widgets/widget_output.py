@@ -3,14 +3,14 @@
 Represents a widget that can be used to display output within the widget area.
 """
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from .widget import DOMWidget
 import sys
-from IPython.utils.traitlets import Unicode, List
+from traitlets import Unicode, List
 from IPython.display import clear_output
-from IPython.kernel.zmq.session import Message
+from jupyter_client.session import Message
 
 class Output(DOMWidget):
     """Widget used as a context manager to display output.

@@ -1,10 +1,10 @@
 """Test trait types of the widget packages."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from unittest import TestCase
-from IPython.utils.traitlets import HasTraits
+from traitlets import HasTraits
 from traitlets.tests.test_traitlets import TraitTestBase
 from jupyter_notebook.widgets import Color, EventfulDict, EventfulList
 

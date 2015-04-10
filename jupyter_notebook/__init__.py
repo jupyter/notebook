@@ -1,4 +1,4 @@
-"""The IPython HTML Notebook"""
+"""The Jupyter HTML Notebook"""
 
 import os
 # Packagers: modify this line if you store the notebook static files elsewhere
@@ -7,7 +7,7 @@ DEFAULT_STATIC_FILES_PATH = os.path.join(os.path.dirname(__file__), "static")
 # Packagers: modify the next line if you store the notebook template files
 # elsewhere
 
-# Include both IPython/html/ and IPython/html/templates/.  This makes it
+# Include both jupyter_notebook/ and jupyter_notebook/templates/.  This makes it
 # possible for users to override a template with a file that inherits from that
 # template.
 #

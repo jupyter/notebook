@@ -3,13 +3,13 @@
 Represents an image in the frontend using a widget.
 """
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 import base64
 
 from .widget import DOMWidget, register
-from IPython.utils.traitlets import Unicode, CUnicode, Bytes
+from traitlets import Unicode, CUnicode, Bytes
 from .deprecated import DeprecatedClass
 
 @register('IPython.Image')

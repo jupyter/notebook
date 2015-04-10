@@ -13,9 +13,9 @@ from .checkpoints import (
 from .fileio import FileManagerMixin
 
 from IPython.utils import tz
-from IPython.utils.path import ensure_dir_exists
-from IPython.utils.py3compat import getcwd
-from IPython.utils.traitlets import Unicode
+from ipython_genutils.path import ensure_dir_exists
+from ipython_genutils.py3compat import getcwd
+from traitlets import Unicode
 
 
 class FileCheckpoints(FileManagerMixin, Checkpoints):

@@ -1,6 +1,6 @@
 """A base class session manager."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 import uuid
@@ -8,9 +8,9 @@ import sqlite3
 
 from tornado import web
 
-from IPython.config.configurable import LoggingConfigurable
-from IPython.utils.py3compat import unicode_type
-from IPython.utils.traitlets import Instance
+from traitlets.config.configurable import LoggingConfigurable
+from ipython_genutils.py3compat import unicode_type
+from traitlets import Instance
 
 
 class SessionManager(LoggingConfigurable):

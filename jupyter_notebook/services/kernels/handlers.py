@@ -1,6 +1,6 @@
 """Tornado handlers for kernels."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 import json
@@ -10,13 +10,13 @@ from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
 
 from jupyter_client.jsonutil import date_default
-from IPython.utils.py3compat import cast_unicode
+from ipython_genutils.py3compat import cast_unicode
 from jupyter_notebook.utils import url_path_join, url_escape
 
 from ...base.handlers import IPythonHandler, json_errors
 from ...base.zmqhandlers import AuthenticatedZMQStreamHandler, deserialize_binary_message
 
-from IPython.core.release import kernel_protocol_version
+from jupyter_client import protocol_version as client_protocol_version
 
 class MainKernelHandler(IPythonHandler):
 
@@ -157,8 +157,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         Set up protocol adaptation, if needed,
         and signal that connection can continue.
         """
-        protocol_version = info.get('protocol_version', kernel_protocol_version)
-        if protocol_version != kernel_protocol_version:
+        protocol_version = info.get('protocol_version', client_protocol_version)
+        if protocol_version != client_protocol_version:
             self.session.adapt_version = int(protocol_version.split('.')[0])
             self.log.info("Adapting to protocol v%s for kernel %s", protocol_version, self.kernel_id)
         if not self._kernel_info_future.done():

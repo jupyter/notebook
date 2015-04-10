@@ -1,6 +1,6 @@
 """Tornado handlers for frontend config storage."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 import json
 import os
@@ -8,7 +8,7 @@ import io
 import errno
 from tornado import web
 
-from IPython.utils.py3compat import PY3
+from ipython_genutils.py3compat import PY3
 from ...base.handlers import IPythonHandler, json_errors
 
 class ConfigHandler(IPythonHandler):

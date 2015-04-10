@@ -12,11 +12,11 @@ from tornado.web import HTTPError
 from unittest import TestCase
 from tempfile import NamedTemporaryFile
 
-from IPython.nbformat import v4 as nbformat
+from jupyter_nbformat import v4 as nbformat
 
-from IPython.utils.tempdir import TemporaryDirectory
-from IPython.utils.traitlets import TraitError
-from IPython.testing import decorators as dec
+from ipython_genutils.tempdir import TemporaryDirectory
+from traitlets import TraitError
+from ipython_genutils.testing import decorators as dec
 
 from ..filemanager import FileContentsManager
 

@@ -11,11 +11,11 @@ pjoin = os.path.join
 
 import requests
 
-from IPython.kernel.kernelspec import NATIVE_KERNEL_NAME
+from jupyter_client.kernelspec import NATIVE_KERNEL_NAME
 from jupyter_notebook.utils import url_path_join
 from jupyter_notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 
-# Copied from IPython.kernel.tests.test_kernelspec so updating that doesn't
+# Copied from jupyter_client.tests.test_kernelspec so updating that doesn't
 # break these tests
 sample_kernel_json = {'argv':['cat', '{connection_file}'],
                       'display_name':'Test kernel',

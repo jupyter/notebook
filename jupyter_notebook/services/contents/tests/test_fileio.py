@@ -1,7 +1,7 @@
 # encoding: utf-8
 """Tests for file IO"""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 import io as stdlib_io
@@ -10,10 +10,10 @@ import stat
 
 import nose.tools as nt
 
-from IPython.testing.decorators import skip_win32
+from ipython_genutils.testing.decorators import skip_win32
 from ..fileio import atomic_writing
 
-from IPython.utils.tempdir import TemporaryDirectory
+from ipython_genutils.tempdir import TemporaryDirectory
 
 umask = 0
 

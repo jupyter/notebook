@@ -9,8 +9,8 @@ import nose.tools as nt
 
 from traitlets.tests.utils import check_help_all_output
 
-from IPython.utils.tempdir import TemporaryDirectory
-from IPython.utils.traitlets import TraitError
+from ipython_genutils.tempdir import TemporaryDirectory
+from traitlets import TraitError
 from jupyter_notebook import notebookapp
 NotebookApp = notebookapp.NotebookApp
 

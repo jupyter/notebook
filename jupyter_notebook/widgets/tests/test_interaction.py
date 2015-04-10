@@ -1,6 +1,6 @@
 """Test interact and interactive."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from __future__ import print_function
@@ -12,10 +12,10 @@ except ImportError:
 
 import nose.tools as nt
 
-from IPython.kernel.comm import Comm
+from ipython_kernel.comm import Comm
 from jupyter_notebook import widgets
 from jupyter_notebook.widgets import interact, interactive, Widget, interaction
-from IPython.utils.py3compat import annotate
+from ipython_genutils.py3compat import annotate
 
 #-----------------------------------------------------------------------------
 # Utility stuff

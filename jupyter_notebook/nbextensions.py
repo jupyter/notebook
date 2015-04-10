@@ -1,7 +1,7 @@
 # coding: utf-8
 """Utilities for installing Javascript extensions for the notebook"""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from __future__ import print_function
@@ -22,9 +22,10 @@ except ImportError:
     from urlparse import urlparse
     from urllib import urlretrieve
 
-from IPython.utils.path import get_ipython_dir, ensure_dir_exists
-from IPython.utils.py3compat import string_types, cast_unicode_py2
-from IPython.utils.tempdir import TemporaryDirectory
+from IPython.paths import get_ipython_dir
+from ipython_genutils.path import ensure_dir_exists
+from ipython_genutils.py3compat import string_types, cast_unicode_py2
+from ipython_genutils.tempdir import TemporaryDirectory
 
 class ArgumentConflict(ValueError):
     pass
@@ -246,7 +247,7 @@ def install_nbextension(path, overwrite=False, symlink=False, user=False, prefix
 # install nbextension app
 #----------------------------------------------------------------------
 
-from IPython.utils.traitlets import Bool, Enum, Unicode, TraitError
+from traitlets import Bool, Enum, Unicode, TraitError
 from IPython.core.application import BaseIPythonApplication
 
 flags = {

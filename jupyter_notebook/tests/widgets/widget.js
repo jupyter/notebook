@@ -63,7 +63,7 @@ casper.notebook_test(function () {
     // Try creating the multiset widget, verify that sets the values correctly.
     var multiset = {};
     multiset.index = this.append_cell([
-        'from IPython.utils.traitlets import Unicode, CInt',
+        'from traitlets import Unicode, CInt',
         'class MultiSetWidget(widgets.Widget):',
         '    _view_name = Unicode("MultiSetView", sync=True)',
         '    a = CInt(0, sync=True)',
@@ -185,7 +185,7 @@ casper.notebook_test(function () {
     var testwidget = {};
     this.append_cell_execute_then([
         'from jupyter_notebook import widgets',
-        'from IPython.utils.traitlets import Unicode, Instance, List',
+        'from traitlets import Unicode, Instance, List',
         'from IPython.display import display',
         'from array import array',
         'def _array_to_memoryview(x):',

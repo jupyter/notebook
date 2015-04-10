@@ -2,7 +2,7 @@
 Utilities for file-based Contents/Checkpoints managers.
 """
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 import base64
@@ -20,7 +20,7 @@ from jupyter_notebook.utils import (
     to_os_path,
 )
 from IPython import nbformat
-from IPython.utils.py3compat import str_to_unicode
+from ipython_genutils.py3compat import str_to_unicode
 
 
 def _copy_metadata(src, dst):

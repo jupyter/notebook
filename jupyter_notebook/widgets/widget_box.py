@@ -3,11 +3,11 @@
 Represents a container that can be used to group other widgets.
 """
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from .widget import DOMWidget, Widget, register, widget_serialization
-from IPython.utils.traitlets import Unicode, Tuple, TraitError, Int, CaselessStrEnum
+from traitlets import Unicode, Tuple, TraitError, Int, CaselessStrEnum
 from .deprecated import DeprecatedClass
 
 
