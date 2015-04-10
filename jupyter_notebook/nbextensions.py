@@ -11,10 +11,8 @@ import shutil
 import sys
 import tarfile
 import zipfile
-import uuid
 from os.path import basename, join as pjoin
 
-# Deferred imports
 try:
     from urllib.parse import urlparse  # Py3
     from urllib.request import urlretrieve
@@ -22,7 +20,7 @@ except ImportError:
     from urlparse import urlparse
     from urllib import urlretrieve
 
-from IPython.paths import get_ipython_dir
+from jupyter_core.paths import jupyter_data_dir
 from ipython_genutils.path import ensure_dir_exists
 from ipython_genutils.py3compat import string_types, cast_unicode_py2
 from ipython_genutils.tempdir import TemporaryDirectory
@@ -93,7 +91,7 @@ def _get_nbext_dir(nbextensions_dir=None, user=False, prefix=None):
     if sum(map(bool, [user, prefix, nbextensions_dir])) > 1:
         raise ArgumentConflict("Cannot specify more than one of user, prefix, or nbextensions_dir.")
     if user:
-        nbext = pjoin(get_ipython_dir(), u'nbextensions')
+        nbext = pjoin(jupyter_data_dir(), u'nbextensions')
     else:
         if prefix:
             nbext = pjoin(prefix, 'share', 'jupyter', 'nbextensions')
@@ -157,7 +155,7 @@ def install_nbextension(path, overwrite=False, symlink=False, user=False, prefix
         Vista or above, Python 3, and a permission bit which only admin users
         have by default, so don't rely on it.
     user : bool [default: False]
-        Whether to install to the user's .ipython/nbextensions directory.
+        Whether to install to the user's nbextensions directory.
         Otherwise do a system-wide install (e.g. /usr/local/share/jupyter/nbextensions).
     prefix : str [optional]
         Specify install prefix, if it should differ from default (e.g. /usr/local).
@@ -247,8 +245,8 @@ def install_nbextension(path, overwrite=False, symlink=False, user=False, prefix
 # install nbextension app
 #----------------------------------------------------------------------
 
-from traitlets import Bool, Enum, Unicode, TraitError
-from IPython.core.application import BaseIPythonApplication
+from traitlets import Bool, Enum, Unicode
+from jupyter_core.application import JupyterApp
 
 flags = {
     "overwrite" : ({
@@ -280,22 +278,21 @@ flags = {
 flags['s'] = flags['symlink']
 
 aliases = {
-    "ipython-dir" : "NBExtensionApp.ipython_dir",
     "prefix" : "NBExtensionApp.prefix",
     "nbextensions" : "NBExtensionApp.nbextensions_dir",
     "destination" : "NBExtensionApp.destination",
 }
 
-class NBExtensionApp(BaseIPythonApplication):
+class NBExtensionApp(JupyterApp):
     """Entry point for installing notebook extensions"""
     
-    description = """Install IPython notebook extensions
+    description = """Install Jupyter notebook extensions
     
     Usage
     
-        ipython install-nbextension path/url
+        jupyter install-nbextension path/url
     
-    This copies a file or a folder into the IPython nbextensions directory.
+    This copies a file or a folder into the Jupyter nbextensions directory.
     If a URL is given, it will be downloaded.
     If an archive is given, it will be extracted into nbextensions.
     If the requested files are already up to date, no action is taken
@@ -303,7 +300,7 @@ class NBExtensionApp(BaseIPythonApplication):
     """
     
     examples = """
-    ipython install-nbextension /path/to/myextension
+    jupyter install-nbextension /path/to/myextension
     """
     aliases = aliases
     flags = flags
@@ -333,7 +330,7 @@ class NBExtensionApp(BaseIPythonApplication):
     
     def start(self):
         if not self.extra_args:
-            for nbext in [pjoin(self.ipython_dir, u'nbextensions')] + SYSTEM_NBEXTENSIONS_DIRS:
+            for nbext in [pjoin(self.data_dir, u'nbextensions')] + SYSTEM_NBEXTENSIONS_DIRS:
                 if os.path.exists(nbext):
                     print("Notebook extensions in %s:" % nbext)
                     for ext in os.listdir(nbext):
@@ -345,7 +342,8 @@ class NBExtensionApp(BaseIPythonApplication):
                 print(str(e), file=sys.stderr)
                 self.exit(1)
 
+main = NBExtensionApp.launch_instance
 
 if __name__ == '__main__':
-    NBExtensionApp.launch_instance()
+    main()
     

@@ -4,18 +4,12 @@
 # Distributed under the terms of the Modified BSD License.
 
 from traitlets.config.manager import BaseJSONConfigManager
-from IPython.utils.path import locate_profile
+from jupyter_core.paths import jupyter_config_dir
 from traitlets import Unicode
 
 class ConfigManager(BaseJSONConfigManager):
     """Config Manager used for storing notebook frontend config"""
     
-    profile = Unicode('default', config=True)
-    
-    profile_dir = Unicode(config=True)
-    
-    def _profile_dir_default(self):
-        return locate_profile(self.profile)
-
+    config_dir = Unicode(config=True)
     def _config_dir_default(self):
-        return self.profile_dir
+        return jupyter_config_dir()

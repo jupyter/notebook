@@ -64,27 +64,26 @@ from .services.sessions.sessionmanager import SessionManager
 
 from .auth.login import LoginHandler
 from .auth.logout import LogoutHandler
-from .base.handlers import IPythonHandler, FileFindHandler
+from .base.handlers import FileFindHandler
 
 from traitlets.config import Config
 from traitlets.config.application import catch_config_error, boolean_flag
-from IPython.core.application import (
-    BaseIPythonApplication, base_flags, base_aliases,
+from jupyter_core.application import (
+    JupyterApp, base_flags, base_aliases,
 )
-from IPython.core.profiledir import ProfileDir
 from jupyter_client import KernelManager
 from jupyter_client.kernelspec import KernelSpecManager, NoSuchKernel, NATIVE_KERNEL_NAME
 from jupyter_client.session import Session
 from jupyter_nbformat.sign import NotebookNotary
-from ipython_genutils.importstring import import_item
 from . import submodule
 from traitlets import (
     Dict, Unicode, Integer, List, Bool, Bytes, Instance,
     TraitError, Type,
 )
 from ipython_genutils import py3compat
-from IPython.paths import get_ipython_dir
 from ipython_genutils.path import filefind
+from IPython.paths import get_ipython_dir
+from jupyter_core.paths import jupyter_runtime_dir
 from jupyter_notebook._sysinfo import get_sys_info
 
 from .nbextensions import SYSTEM_NBEXTENSIONS_DIRS
@@ -256,7 +255,7 @@ class NotebookWebApplication(web.Application):
         return new_handlers
 
 
-class NbserverListApp(BaseIPythonApplication):
+class NbserverListApp(JupyterApp):
     
     description="List currently running notebook servers in this profile."
     
@@ -272,7 +271,7 @@ class NbserverListApp(BaseIPythonApplication):
     def start(self):
         if not self.json:
             print("Currently running servers:")
-        for serverinfo in list_running_servers(self.profile):
+        for serverinfo in list_running_servers(self.runtime_dir):
             if self.json:
                 print(json.dumps(serverinfo))
             else:
@@ -326,12 +325,12 @@ aliases.update({
 # NotebookApp
 #-----------------------------------------------------------------------------
 
-class NotebookApp(BaseIPythonApplication):
+class NotebookApp(JupyterApp):
 
-    name = 'ipython-notebook'
+    name = 'jupyter-notebook'
     
     description = """
-        The IPython HTML Notebook.
+        The Jupyter HTML Notebook.
         
         This launches a Tornado based HTML Notebook Server that serves up an
         HTML5/Javascript Notebook client.
@@ -341,7 +340,7 @@ class NotebookApp(BaseIPythonApplication):
     flags = flags
     
     classes = [
-        KernelManager, ProfileDir, Session, MappingKernelManager,
+        KernelManager, Session, MappingKernelManager,
         ContentsManager, FileContentsManager, NotebookNotary,
         KernelSpecManager,
     ]
@@ -443,9 +442,7 @@ class NotebookApp(BaseIPythonApplication):
         help="""The file where the cookie secret is stored."""
     )
     def _cookie_secret_file_default(self):
-        if self.profile_dir is None:
-            return ''
-        return os.path.join(self.profile_dir.security_dir, 'notebook_cookie_secret')
+        return os.path.join(self.runtime_dir, 'notebook_cookie_secret')
     
     cookie_secret = Bytes(b'', config=True,
         help="""The random bytes used to secure cookies.
@@ -567,7 +564,11 @@ class NotebookApp(BaseIPythonApplication):
         or overriding individual files in the IPython"""
     )
     def _extra_static_paths_default(self):
-        return [os.path.join(self.profile_dir.location, 'static')]
+        return [
+            # FIXME: remove IPython static path once migration is set up
+            # and JUPYTER_CONFIG_DIR/custom is served at static/custom
+            os.path.join(get_ipython_dir(), 'static'),
+        ]
     
     @property
     def static_file_path(self):
@@ -594,7 +595,11 @@ class NotebookApp(BaseIPythonApplication):
     @property
     def nbextensions_path(self):
         """The path to look for Javascript notebook extensions"""
-        return self.extra_nbextensions_path + [os.path.join(get_ipython_dir(), 'nbextensions')] + SYSTEM_NBEXTENSIONS_DIRS
+        return self.extra_nbextensions_path + [
+            os.path.join(self.data_dir, 'nbextensions'),
+            # FIXME: remove IPython nbextensions path once migration is setup
+            os.path.join(get_ipython_dir(), 'nbextensions'),
+        ] + SYSTEM_NBEXTENSIONS_DIRS
 
     websocket_url = Unicode("", config=True,
         help="""The base URL for websockets,
@@ -704,8 +709,8 @@ class NotebookApp(BaseIPythonApplication):
     info_file = Unicode()
 
     def _info_file_default(self):
-        info_file = "nbserver-%s.json"%os.getpid()
-        return os.path.join(self.profile_dir.security_dir, info_file)
+        info_file = "nbserver-%s.json" % os.getpid()
+        return os.path.join(self.runtime_dir, info_file)
     
     pylab = Unicode('disabled', config=True,
         help="""
@@ -781,16 +786,15 @@ class NotebookApp(BaseIPythonApplication):
     def init_configurables(self):
         self.kernel_spec_manager = self.kernel_spec_manager_class(
             parent=self,
-            ipython_dir=self.ipython_dir,
         )
         # FIXME: temporarily add .ipython/kernels to the kernel search path
         self.kernel_spec_manager.kernel_dirs.append(
-            os.path.join(self.ipython_dir, 'kernels'),
+            os.path.join(self.data_dir, 'kernels'),
         )
         self.kernel_manager = self.kernel_manager_class(
             parent=self,
             log=self.log,
-            connection_dir=self.profile_dir.security_dir,
+            connection_dir=self.runtime_dir,
             kernel_spec_manager=self.kernel_spec_manager,
         )
         self.contents_manager = self.contents_manager_class(
@@ -811,7 +815,7 @@ class NotebookApp(BaseIPythonApplication):
         self.config_manager = self.config_manager_class(
             parent=self,
             log=self.log,
-            profile_dir=self.profile_dir.location,
+            config_dir=self.config_dir,
         )
 
     def init_logging(self):
@@ -1122,17 +1126,18 @@ class NotebookApp(BaseIPythonApplication):
         self.io_loop.add_callback(_stop)
 
 
-def list_running_servers(profile='default'):
+def list_running_servers(runtime_dir=None):
     """Iterate over the server info files of running notebook servers.
     
     Given a profile name, find nbserver-* files in the security directory of
     that profile, and yield dicts of their information, each one pertaining to
     a currently running notebook server instance.
     """
-    pd = ProfileDir.find_profile_dir_by_name(get_ipython_dir(), name=profile)
-    for file in os.listdir(pd.security_dir):
+    if runtime_dir is None:
+        runtime_dir = jupyter_runtime_dir()
+    for file in os.listdir(runtime_dir):
         if file.startswith('nbserver-'):
-            with io.open(os.path.join(pd.security_dir, file), encoding='utf-8') as f:
+            with io.open(os.path.join(runtime_dir, file), encoding='utf-8') as f:
                 info = json.load(f)
 
             # Simple check whether that process is really still running
@@ -1149,5 +1154,5 @@ def list_running_servers(profile='default'):
 # Main entry point
 #-----------------------------------------------------------------------------
 
-launch_new_instance = NotebookApp.launch_instance
+main = launch_new_instance = NotebookApp.launch_instance
 
