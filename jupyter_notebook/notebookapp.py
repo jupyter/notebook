@@ -483,7 +483,7 @@ class NotebookApp(BaseIPythonApplication):
 
                       To generate, type in a python/IPython shell:
 
-                        from IPython.lib import passwd; passwd()
+                        from jupyter_notebook.auth import passwd; passwd()
 
                       The string should be of the form type:salt:hashed-password.
                       """
