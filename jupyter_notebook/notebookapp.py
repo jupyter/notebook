@@ -971,7 +971,7 @@ class NotebookApp(BaseIPythonApplication):
         status = submodule.check_submodule_status()
         if status == 'missing':
             self.log.warn("components submodule missing, running `git submodule update`")
-            submodule.update_submodules(submodule.ipython_parent())
+            submodule.update_submodules(submodule.repo_parent())
         elif status == 'unclean':
             self.log.warn("components submodule unclean, you may see 404s on static/components")
             self.log.warn("run `setup.py submodule` or `git submodule update` to update")
