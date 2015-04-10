@@ -21,6 +21,8 @@ import signal
 import sys
 import subprocess
 import time
+from io import BytesIO
+from threading import Thread, Lock, Event
 
 try:
     from unittest.mock import patch
@@ -28,11 +30,8 @@ except ImportError:
     from mock import patch # py3
 
 from jupyter_core.paths import jupyter_runtime_dir
-from .jstest import (
-    have, StreamCapturer,
-)
-from ipython_genutils.py3compat import bytes_to_str
-from jupyter_notebook.sysinfo import get_sys_info
+from ipython_genutils.py3compat import bytes_to_str, which
+from jupyter_notebook._sysinfo import get_sys_info
 from ipython_genutils.tempdir import TemporaryDirectory
 
 try:
@@ -53,6 +52,60 @@ except ImportError:
             raise TimeoutExpired
 
 NOTEBOOK_SHUTDOWN_TIMEOUT = 10
+
+have = {}
+have['casperjs'] = bool(which('casperjs'))
+have['phantomjs'] = bool(which('slimerjs'))
+have['slimerjs'] = bool(which('slimerjs'))
+
+class StreamCapturer(Thread):
+    daemon = True  # Don't hang if main thread crashes
+    started = False
+    def __init__(self, echo=False):
+        super(StreamCapturer, self).__init__()
+        self.echo = echo
+        self.streams = []
+        self.buffer = BytesIO()
+        self.readfd, self.writefd = os.pipe()
+        self.buffer_lock = Lock()
+        self.stop = Event()
+
+    def run(self):
+        self.started = True
+
+        while not self.stop.is_set():
+            chunk = os.read(self.readfd, 1024)
+
+            with self.buffer_lock:
+                self.buffer.write(chunk)
+            if self.echo:
+                sys.stdout.write(bytes_to_str(chunk))
+    
+        os.close(self.readfd)
+        os.close(self.writefd)
+
+    def reset_buffer(self):
+        with self.buffer_lock:
+            self.buffer.truncate(0)
+            self.buffer.seek(0)
+
+    def get_buffer(self):
+        with self.buffer_lock:
+            return self.buffer.getvalue()
+
+    def ensure_started(self):
+        if not self.started:
+            self.start()
+
+    def halt(self):
+        """Safely stop the thread."""
+        if not self.started:
+            return
+
+        self.stop.set()
+        os.write(self.writefd, b'\0')  # Ensure we're not locked in a read()
+        self.join()
+
 
 class TestController(object):
     """Run tests in a subprocess
@@ -163,8 +216,7 @@ def all_js_groups():
 class JSController(TestController):
     """Run CasperJS tests """
     
-    requirements =  ['zmq', 'tornado', 'jinja2', 'casperjs', 'sqlite3',
-                     'jsonschema']
+    requirements =  ['casperjs']
 
     def __init__(self, section, xunit=True, engine='phantomjs', url=None):
         """Create new test runner."""
