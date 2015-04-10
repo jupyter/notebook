@@ -1,0 +1,22 @@
+include COPYING.md
+include CONTRIBUTING.md
+include README.md
+
+# Documentation
+graft docs
+exclude docs/\#*
+
+# Examples
+graft examples
+
+# docs subdirs we want to skip
+prune docs/build
+prune docs/gh-pages
+prune docs/dist
+
+# Patterns to exclude from any directory
+global-exclude *~
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude .git
+global-exclude .ipynb_checkpoints
