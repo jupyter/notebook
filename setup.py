@@ -1,34 +1,29 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Setup script for IPython.
-
-Under Posix environments it works like a typical setup.py script.
-Under Windows, the command sdist is not supported, since IPython
-requires utilities which are not available under Windows."""
+"""Setup script for Jupyter Notebook"""
 
 #-----------------------------------------------------------------------------
-#  Copyright (c) 2008-2011, IPython Development Team.
-#  Copyright (c) 2001-2007, Fernando Perez <fernando.perez@colorado.edu>
-#  Copyright (c) 2001, Janko Hauser <jhauser@zscout.de>
-#  Copyright (c) 2001, Nathaniel Gray <n8gray@caltech.edu>
+#  Copyright (c) 2015-, Jupyter Development Team.
+#  Copyright (c) 2008-2015, IPython Development Team.
 #
 #  Distributed under the terms of the Modified BSD License.
 #
-#  The full license is in the file COPYING.rst, distributed with this software.
+#  The full license is in the file COPYING.md, distributed with this software.
 #-----------------------------------------------------------------------------
+
+from __future__ import print_function
+
+name = "jupyter_notebook"
 
 #-----------------------------------------------------------------------------
 # Minimal Python version sanity check
 #-----------------------------------------------------------------------------
-from __future__ import print_function
 
 import sys
 
-# This check is also made in IPython/__init__, don't forget to update both when
-# changing Python version requirements.
 v = sys.version_info
 if v[:2] < (2,7) or (v[0] >= 3 and v[:2] < (3,3)):
-    error = "ERROR: IPython requires Python version 2.7 or 3.3 or above."
+    error = "ERROR: %s requires Python version 2.7 or 3.3 or above." % name
     print(error, file=sys.stderr)
     sys.exit(1)
 
@@ -36,13 +31,12 @@ PY3 = (sys.version_info[0] >= 3)
 
 # At least we're on the python version we need, move on.
 
+
 #-------------------------------------------------------------------------------
 # Imports
 #-------------------------------------------------------------------------------
 
-# Stdlib imports
 import os
-import shutil
 
 from glob import glob
 
@@ -53,50 +47,49 @@ if os.path.exists('MANIFEST'): os.remove('MANIFEST')
 from distutils.core import setup
 
 # Our own imports
-from setupbase import target_update
 
 from setupbase import (
-    setup_args,
+    version,
     find_packages,
     find_package_data,
     check_package_data_first,
-    find_entry_points,
-    build_scripts_entrypt,
-    find_data_files,
-    check_for_readline,
-    git_prebuild,
     check_submodule_status,
-    update_submodules,
     require_submodules,
+    update_submodules,
     UpdateSubmodules,
-    get_bdist_wheel,
     CompileCSS,
     JavascriptVersion,
     css_js_prerelease,
-    install_symlinked,
-    install_lib_symlink,
-    install_scripts_for_symlink,
-    unsymlink,
 )
 
 isfile = os.path.isfile
 pjoin = os.path.join
 
-#-------------------------------------------------------------------------------
-# Handle OS specific things
-#-------------------------------------------------------------------------------
+setup_args = dict(
+    name            = name,
+    description     = "",
+    version         = version,
+    scripts         = glob(pjoin('scripts', '*')),
+    packages        = find_packages(),
+    package_data     = find_package_data(),
+    author          = 'Jupyter Development Team',
+    author_email    = 'jupyter@googlegroups.com',
+    url             = 'http://jupyter.org',
+    license         = 'BSD',
+    platforms       = "Linux, Mac OS X, Windows",
+    keywords        = ['Interactive', 'Interpreter', 'Shell', 'Web'],
+    classifiers     = [
+        'Intended Audience :: Developers',
+        'Intended Audience :: System Administrators',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: BSD License',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+    ],
+)
 
-if os.name in ('nt','dos'):
-    os_name = 'windows'
-else:
-    os_name = os.name
-
-# Under Windows, 'sdist' has not been supported.  Now that the docs build with
-# Sphinx it might work, but let's not turn it on until someone confirms that it
-# actually works.
-if os_name == 'windows' and 'sdist' in sys.argv:
-    print('The sdist command is not available under Windows.  Exiting.')
-    sys.exit(1)
 
 #-------------------------------------------------------------------------------
 # Make sure we aren't trying to run without submodules
@@ -124,7 +117,7 @@ def require_clean_submodules():
         update_submodules(here)
     elif status == "unclean":
         print('\n'.join([
-            "Cannot build / install IPython with unclean submodules",
+            "Cannot build / install with unclean submodules",
             "Please update submodules with",
             "    python setup.py submodule",
             "or",
@@ -135,24 +128,6 @@ def require_clean_submodules():
 
 require_clean_submodules()
 
-#-------------------------------------------------------------------------------
-# Things related to the IPython documentation
-#-------------------------------------------------------------------------------
-
-# update the manuals when building a source dist
-if len(sys.argv) >= 2 and sys.argv[1] in ('sdist','bdist_rpm'):
-
-    # List of things to be updated. Each entry is a triplet of args for
-    # target_update()
-    to_update = [
-                 ('docs/man/ipython.1.gz',
-                  ['docs/man/ipython.1'],
-                  'cd docs/man && gzip -9c ipython.1 > ipython.1.gz'),
-                 ]
-
-
-    [ target_update(*t) for t in to_update ]
-
 #---------------------------------------------------------------------------
 # Find all the packages, package data, and data_files
 #---------------------------------------------------------------------------
@@ -160,68 +135,23 @@ if len(sys.argv) >= 2 and sys.argv[1] in ('sdist','bdist_rpm'):
 packages = find_packages()
 package_data = find_package_data()
 
-data_files = find_data_files()
-
-setup_args['packages'] = packages
-setup_args['package_data'] = package_data
-setup_args['data_files'] = data_files
-
 #---------------------------------------------------------------------------
 # custom distutils commands
 #---------------------------------------------------------------------------
 # imports here, so they are after setuptools import if there was one
+from distutils.command.build_py import build_py
 from distutils.command.sdist import sdist
-from distutils.command.upload import upload
 
-class UploadWindowsInstallers(upload):
-
-    description = "Upload Windows installers to PyPI (only used from tools/release_windows.py)"
-    user_options = upload.user_options + [
-        ('files=', 'f', 'exe file (or glob) to upload')
-    ]
-    def initialize_options(self):
-        upload.initialize_options(self)
-        meta = self.distribution.metadata
-        base = '{name}-{version}'.format(
-            name=meta.get_name(),
-            version=meta.get_version()
-        )
-        self.files = os.path.join('dist', '%s.*.exe' % base)
-
-    def run(self):
-        for dist_file in glob(self.files):
-            self.upload_file('bdist_wininst', 'any', dist_file)
 
 setup_args['cmdclass'] = {
     'build_py': css_js_prerelease(
-            check_package_data_first(git_prebuild('IPython'))),
-    'sdist' : css_js_prerelease(git_prebuild('IPython', sdist)),
-    'upload_wininst' : UploadWindowsInstallers,
+            check_package_data_first(build_py)),
+    'sdist' : css_js_prerelease(sdist),
     'submodule' : UpdateSubmodules,
     'css' : CompileCSS,
-    'symlink': install_symlinked,
-    'install_lib_symlink': install_lib_symlink,
-    'install_scripts_sym': install_scripts_for_symlink,
-    'unsymlink': unsymlink,
     'jsversion' : JavascriptVersion,
 }
 
-### Temporarily disable install while it's broken during the big split
-from textwrap import dedent
-from distutils.command.install import install
-
-class DisabledInstall(install):
-    def run(self):
-        msg = dedent("""
-        While we are in the midst of The Big Split,
-        IPython cannot be installed from master.
-        You can use `pip install -e .` for an editable install,
-        which still works.
-        """)
-        print(msg, file=sys.stderr)
-        raise SystemExit(1)
-
-setup_args['cmdclass']['install'] = DisabledInstall
 
 
 #---------------------------------------------------------------------------
@@ -246,90 +176,40 @@ setuptools_extra_args = {}
 
 pyzmq = 'pyzmq>=13'
 
-extras_require = dict(
-    parallel = ['ipython_parallel'],
-    qtconsole = ['jupyter_qtconsole'],
-    doc = ['Sphinx>=1.1', 'numpydoc'],
-    test = ['nose>=0.10.1', 'requests'],
-    terminal = [],
-    kernel = ['ipython_kernel'],
-    nbformat = ['jupyter_nbformat'],
-    notebook = ['tornado>=4.0', pyzmq, 'jinja2', 'pygments', 'mistune>=0.5'],
-    nbconvert = ['pygments', 'jinja2', 'mistune>=0.3.1']
-)
-
-if not sys.platform.startswith('win'):
-    extras_require['notebook'].append('terminado>=0.3.3')
-
-if sys.version_info < (3, 3):
-    extras_require['test'].append('mock')
-
-extras_require['nbconvert'].extend(extras_require['nbformat'])
-extras_require['notebook'].extend(extras_require['kernel'])
-extras_require['notebook'].extend(extras_require['nbconvert'])
+setup_args['scripts'] = glob(pjoin('scripts', '*'))
 
 install_requires = [
-    'decorator',
-    'pickleshare',
-    'simplegeneric>0.8',
+    'jinja2',
+    'tornado>=4',
+    'ipython_genutils',
     'traitlets',
+    'jupyter_core',
+    'jupyter_client',
+    'jupyter_nbformat',
+    'jupyter_nbconvert',
+    'ipython_kernel', # bless IPython kernel for now
 ]
-
-# add platform-specific dependencies
-if sys.platform == 'darwin':
-    install_requires.append('appnope')
-    if 'bdist_wheel' in sys.argv[1:] or not check_for_readline():
-        install_requires.append('gnureadline')
-
-if sys.platform.startswith('win'):
-    extras_require['terminal'].append('pyreadline>=2.0')
-else:
-    install_requires.append('pexpect')
-
-everything = set()
-for deps in extras_require.values():
-    everything.update(deps)
-extras_require['all'] = everything
+extras_require = {
+    ':sys_platform != "win32"': ['terminado>=0.3.3'],
+    'test:python_version == "2.7"': ['mock'],
+    'test': ['nose', 'requests'],
+}
 
 if 'setuptools' in sys.modules:
     # setup.py develop should check for submodules
     from setuptools.command.develop import develop
     setup_args['cmdclass']['develop'] = require_submodules(develop)
-    setup_args['cmdclass']['bdist_wheel'] = css_js_prerelease(get_bdist_wheel())
+    
+    try:
+        from wheel.bdist_wheel import bdist_wheel
+    except ImportError:
+        pass
+    else:
+        setup_args['cmdclass']['bdist_wheel'] = css_js_prerelease(bdist_wheel)
     
     setuptools_extra_args['zip_safe'] = False
-    setuptools_extra_args['entry_points'] = {
-        'console_scripts': find_entry_points(),
-        'pygments.lexers': [
-            'ipythonconsole = IPython.lib.lexers:IPythonConsoleLexer',
-            'ipython = IPython.lib.lexers:IPythonLexer',
-            'ipython3 = IPython.lib.lexers:IPython3Lexer',
-        ],
-    }
     setup_args['extras_require'] = extras_require
     requires = setup_args['install_requires'] = install_requires
-
-    # Script to be run by the windows binary installer after the default setup
-    # routine, to add shortcuts and similar windows-only things.  Windows
-    # post-install scripts MUST reside in the scripts/ dir, otherwise distutils
-    # doesn't find them.
-    if 'bdist_wininst' in sys.argv:
-        if len(sys.argv) > 2 and \
-               ('sdist' in sys.argv or 'bdist_rpm' in sys.argv):
-            print("ERROR: bdist_wininst must be run alone. Exiting.", file=sys.stderr)
-            sys.exit(1)
-        setup_args['data_files'].append(
-            ['Scripts', ('scripts/ipython.ico', 'scripts/ipython_nb.ico')])
-        setup_args['scripts'] = [pjoin('scripts','ipython_win_post_install.py')]
-        setup_args['options'] = {"bdist_wininst":
-                                 {"install_script":
-                                  "ipython_win_post_install.py"}}
-
-else:
-    # scripts has to be a non-empty list, or install_scripts isn't called
-    setup_args['scripts'] = [e.split('=')[0].strip() for e in find_entry_points()]
-
-    setup_args['cmdclass']['build_scripts'] = build_scripts_entrypt
 
 #---------------------------------------------------------------------------
 # Do the actual setup now
