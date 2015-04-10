@@ -7,7 +7,7 @@ import uuid
 
 from tornado.escape import url_escape
 
-from IPython.lib.security import passwd_check
+from ..auth.security import passwd_check
 
 from ..base.handlers import IPythonHandler
 
