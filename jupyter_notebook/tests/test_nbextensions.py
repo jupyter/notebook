@@ -15,9 +15,9 @@ from os.path import basename, join as pjoin
 from unittest import TestCase
 
 try:
-    from unittest import mock
+    from unittest.mock import patch
 except ImportError:
-    import mock # py2
+    from mock import patch # py2
 
 import ipython_genutils.testing.decorators as dec
 from ipython_genutils import py3compat
@@ -60,17 +60,18 @@ class TestInstallNBExtension(TestCase):
                 os.makedirs(parent)
             touch(fullpath)
         
-        self.ipdir = self.tempdir()
-        self.save_get_ipython_dir = nbextensions.get_ipython_dir
-        nbextensions.get_ipython_dir = lambda : self.ipdir
-        self.save_system_dir = nbextensions.SYSTEM_NBEXTENSIONS_INSTALL_DIR
-        nbextensions.SYSTEM_NBEXTENSIONS_INSTALL_DIR = self.system_nbext = self.tempdir()
+        self.data_dir = self.tempdir()
+        self.patch_data = patch.object(nbextensions,
+            'jupyter_data_dir', lambda : self.data_dir)
+        self.patch_data.start()
+        self.system_nbext = self.tempdir()
+        self.patch_system_data = patch.object(nbextensions,
+            'SYSTEM_NBEXTENSIONS_INSTALL_DIR', self.system_nbext)
+        self.patch_system_data.start()
     
     def tearDown(self):
-        nbextensions.get_ipython_dir = self.save_get_ipython_dir
-        nbextensions.SYSTEM_NBEXTENSIONS_INSTALL_DIR = self.save_system_dir
-        for td in self.tempdirs:
-            td.cleanup()
+        self.patch_data.stop()
+        self.patch_system_data.stop()
 
     def assert_dir_exists(self, path):
         if not os.path.exists(path):
@@ -83,7 +84,7 @@ class TestInstallNBExtension(TestCase):
     
     def assert_installed(self, relative_path, user=False):
         if user:
-            nbext = pjoin(self.ipdir, u'nbextensions')
+            nbext = pjoin(self.data_dir, u'nbextensions')
         else:
             nbext = self.system_nbext
         self.assert_dir_exists(
@@ -92,28 +93,28 @@ class TestInstallNBExtension(TestCase):
     
     def assert_not_installed(self, relative_path, user=False):
         if user:
-            nbext = pjoin(self.ipdir, u'nbextensions')
+            nbext = pjoin(self.data_dir, u'nbextensions')
         else:
             nbext = self.system_nbext
         self.assert_not_dir_exists(
             pjoin(nbext, relative_path)
         )
     
-    def test_create_ipython_dir(self):
-        """install_nbextension when ipython_dir doesn't exist"""
+    def test_create_data_dir(self):
+        """install_nbextension when data_dir doesn't exist"""
         with TemporaryDirectory() as td:
-            self.ipdir = ipdir = pjoin(td, u'ipython')
+            self.data_dir = pjoin(td, u'jupyter_data')
             install_nbextension(self.src, user=True)
-            self.assert_dir_exists(ipdir)
+            self.assert_dir_exists(self.data_dir)
             for file in self.files:
                 self.assert_installed(
                     pjoin(basename(self.src), file),
-                    user=bool(ipdir)
+                    user=True,
                 )
     
     def test_create_nbextensions_user(self):
         with TemporaryDirectory() as td:
-            self.ipdir = ipdir = pjoin(td, u'ipython')
+            self.data_dir = pjoin(td, u'jupyter_data')
             install_nbextension(self.src, user=True)
             self.assert_installed(
                 pjoin(basename(self.src), u'ƒile'),
@@ -220,8 +221,8 @@ class TestInstallNBExtension(TestCase):
     def test_quiet(self):
         stdout = StringIO()
         stderr = StringIO()
-        with mock.patch.object(sys, 'stdout', stdout), \
-             mock.patch.object(sys, 'stderr', stderr):
+        with patch.object(sys, 'stdout', stdout), \
+             patch.object(sys, 'stderr', stderr):
             install_nbextension(self.src, verbose=0)
         self.assertEqual(stdout.getvalue(), '')
         self.assertEqual(stderr.getvalue(), '')

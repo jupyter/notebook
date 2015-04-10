@@ -2,12 +2,20 @@
 
 from __future__ import print_function
 
+import os
 import sys
 import time
 import requests
 from contextlib import contextmanager
 from threading import Thread, Event
 from unittest import TestCase
+
+pjoin = os.path.join
+
+try:
+    from unittest.mock import patch
+except ImportError:
+    from mock import patch #py2
 
 from tornado.ioloop import IOLoop
 
@@ -25,8 +33,8 @@ class TimeoutError(Exception):
 class NotebookTestBase(TestCase):
     """A base class for tests that need a running notebook.
     
-    This creates an empty profile in a temp ipython_dir
-    and then starts the notebook server with a separate temp notebook_dir.
+    This create some empty config and runtime directories
+    and then starts the notebook server with them.
     """
 
     port = 12341
@@ -58,13 +66,23 @@ class NotebookTestBase(TestCase):
 
     @classmethod
     def setup_class(cls):
-        cls.ipython_dir = TemporaryDirectory()
+        cls.home_dir = TemporaryDirectory()
+        cls.env_patch = patch.dict('os.environ', {
+            'HOME': cls.home_dir.name,
+            'IPYTHONDIR': pjoin(cls.home_dir.name, '.ipython'),
+        })
+        cls.env_patch.start()
+        cls.config_dir = TemporaryDirectory()
+        cls.data_dir = TemporaryDirectory()
+        cls.runtime_dir = TemporaryDirectory()
         cls.notebook_dir = TemporaryDirectory()
         app = cls.notebook = NotebookApp(
             port=cls.port,
             port_retries=0,
             open_browser=False,
-            ipython_dir=cls.ipython_dir.name,
+            config_dir=cls.config_dir.name,
+            data_dir=cls.data_dir.name,
+            runtime_dir=cls.runtime_dir.name,
             notebook_dir=cls.notebook_dir.name,
             config=cls.config,
         )
@@ -94,7 +112,11 @@ class NotebookTestBase(TestCase):
     def teardown_class(cls):
         cls.notebook.stop()
         cls.wait_until_dead()
-        cls.ipython_dir.cleanup()
+        cls.env_patch.start()
+        cls.home_dir.cleanup()
+        cls.config_dir.cleanup()
+        cls.data_dir.cleanup()
+        cls.runtime_dir.cleanup()
         cls.notebook_dir.cleanup()
 
     @classmethod

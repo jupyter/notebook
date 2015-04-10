@@ -20,9 +20,10 @@ def test_help_output():
     check_help_all_output('jupyter_notebook')
 
 def test_server_info_file():
-    nbapp = NotebookApp(profile='nbserver_file_test', log=logging.getLogger())
+    td = TemporaryDirectory()
+    nbapp = NotebookApp(runtime_dir=td.name, log=logging.getLogger())
     def get_servers():
-        return list(notebookapp.list_running_servers(profile='nbserver_file_test'))
+        return list(notebookapp.list_running_servers(nbapp.runtime_dir))
     nbapp.initialize(argv=[])
     nbapp.write_server_info_file()
     servers = get_servers()

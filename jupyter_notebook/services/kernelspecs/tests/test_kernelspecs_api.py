@@ -49,8 +49,7 @@ class KernelSpecAPI(object):
 class APITest(NotebookTestBase):
     """Test the kernelspec web service API"""
     def setUp(self):
-        ipydir = self.ipython_dir.name
-        sample_kernel_dir = pjoin(ipydir, 'kernels', 'sample')
+        sample_kernel_dir = pjoin(self.data_dir.name, 'kernels', 'sample')
         try:
             os.makedirs(sample_kernel_dir)
         except OSError as e:
@@ -68,7 +67,7 @@ class APITest(NotebookTestBase):
 
     def test_list_kernelspecs_bad(self):
         """Can list kernelspecs when one is invalid"""
-        bad_kernel_dir = pjoin(self.ipython_dir.name, 'kernels', 'bad')
+        bad_kernel_dir = pjoin(self.data_dir.name, 'kernels', 'bad')
         try:
             os.makedirs(bad_kernel_dir)
         except OSError as e:
