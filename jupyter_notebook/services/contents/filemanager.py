@@ -19,7 +19,7 @@ from IPython import nbformat
 from ipython_genutils.importstring import import_item
 from traitlets import Any, Unicode, Bool, TraitError
 from ipython_genutils.py3compat import getcwd, string_types
-from IPython.utils import tz
+from . import tz
 from jupyter_notebook.utils import (
     is_hidden,
     to_api_path,
