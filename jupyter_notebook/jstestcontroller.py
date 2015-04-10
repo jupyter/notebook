@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-"""IPython Test Process Controller
+"""Notebook Javascript Test Controller
 
-This module runs one or more subprocesses which will actually run the IPython
+This module runs one or more subprocesses which will actually run the Javascript
 test suite.
 
 """
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from __future__ import print_function
@@ -15,24 +15,25 @@ import argparse
 import json
 import multiprocessing.pool
 import os
-import stat
 import re
 import requests
-import shutil
 import signal
 import sys
 import subprocess
 import time
 
-from .iptest import (
-    have, test_group_names as py_test_group_names, test_sections, StreamCapturer,
-    test_for,
+try:
+    from unittest.mock import patch
+except ImportError:
+    from mock import patch # py3
+
+from jupyter_core.paths import jupyter_runtime_dir
+from .jstest import (
+    have, StreamCapturer,
 )
-from IPython.utils.path import compress_user
 from ipython_genutils.py3compat import bytes_to_str
-from IPython.utils.sysinfo import get_sys_info
+from jupyter_notebook.sysinfo import get_sys_info
 from ipython_genutils.tempdir import TemporaryDirectory
-from IPython.utils.text import strip_ansi
 
 try:
     # Python >= 3.3
@@ -56,7 +57,7 @@ NOTEBOOK_SHUTDOWN_TIMEOUT = 10
 class TestController(object):
     """Run tests in a subprocess
     """
-    #: str, IPython test suite to be executed.
+    #: str, test group to be executed.
     section = None
     #: list, command line arguments to be executed
     cmd = None
@@ -147,106 +148,6 @@ class TestController(object):
     __del__ = cleanup
 
 
-class PyTestController(TestController):
-    """Run Python tests using IPython.testing.iptest"""
-    #: str, Python command to execute in subprocess
-    pycmd = None
-
-    def __init__(self, section, options):
-        """Create new test runner."""
-        TestController.__init__(self)
-        self.section = section
-        # pycmd is put into cmd[2] in PyTestController.launch()
-        self.cmd = [sys.executable, '-c', None, section]
-        self.pycmd = "from IPython.testing.iptest import run_iptest; run_iptest()"
-        self.options = options
-
-    def setup(self):
-        ipydir = TemporaryDirectory()
-        self.dirs.append(ipydir)
-        self.env['IPYTHONDIR'] = ipydir.name
-        # FIXME: install IPython kernel in temporary IPython dir
-        # remove after big split
-        try:
-            from jupyter_client.kernelspec import KernelSpecManager
-        except ImportError:
-            pass
-        else:
-            ksm = KernelSpecManager(ipython_dir=ipydir.name)
-            ksm.install_native_kernel_spec(user=True)
-        
-        self.workingdir = workingdir = TemporaryDirectory()
-        self.dirs.append(workingdir)
-        self.env['IPTEST_WORKING_DIR'] = workingdir.name
-        # This means we won't get odd effects from our own matplotlib config
-        self.env['MPLCONFIGDIR'] = workingdir.name
-        # For security reasons (http://bugs.python.org/issue16202), use
-        # a temporary directory to which other users have no access.
-        self.env['TMPDIR'] = workingdir.name
-
-        # Add a non-accessible directory to PATH (see gh-7053)
-        noaccess = os.path.join(self.workingdir.name, "_no_access_")
-        self.noaccess = noaccess
-        os.mkdir(noaccess, 0)
-
-        PATH = os.environ.get('PATH', '')
-        if PATH:
-            PATH = noaccess + os.pathsep + PATH
-        else:
-            PATH = noaccess
-        self.env['PATH'] = PATH
-
-        # From options:
-        if self.options.xunit:
-            self.add_xunit()
-        if self.options.coverage:
-            self.add_coverage()
-        self.env['IPTEST_SUBPROC_STREAMS'] = self.options.subproc_streams
-        self.cmd.extend(self.options.extra_args)
-
-    def cleanup(self):
-        """
-        Make the non-accessible directory created in setup() accessible
-        again, otherwise deleting the workingdir will fail.
-        """
-        os.chmod(self.noaccess, stat.S_IRWXU)
-        TestController.cleanup(self)
-
-    @property
-    def will_run(self):
-        try:
-            return test_sections[self.section].will_run
-        except KeyError:
-            return True
-
-    def add_xunit(self):
-        xunit_file = os.path.abspath(self.section + '.xunit.xml')
-        self.cmd.extend(['--with-xunit', '--xunit-file', xunit_file])
-
-    def add_coverage(self):
-        try:
-            sources = test_sections[self.section].includes
-        except KeyError:
-            sources = ['IPython']
-
-        coverage_rc = ("[run]\n"
-                       "data_file = {data_file}\n"
-                       "source =\n"
-                       "  {source}\n"
-                      ).format(data_file=os.path.abspath('.coverage.'+self.section),
-                               source="\n  ".join(sources))
-        config_file = os.path.join(self.workingdir.name, '.coveragerc')
-        with open(config_file, 'w') as f:
-            f.write(coverage_rc)
-
-        self.env['COVERAGE_PROCESS_START'] = config_file
-        self.pycmd = "import coverage; coverage.process_startup(); " + self.pycmd
-
-    def launch(self, buffer_output=False):
-        self.cmd[2] = self.pycmd
-        super(PyTestController, self).launch(buffer_output=buffer_output)
-
-
 js_prefix = 'js/'
 
 def get_js_test_dir():
@@ -280,8 +181,17 @@ class JSController(TestController):
 
     def setup(self):
         self.ipydir = TemporaryDirectory()
+        self.config_dir = TemporaryDirectory()
         self.nbdir = TemporaryDirectory()
+        self.home = TemporaryDirectory()
+        self.env = {
+            'HOME': self.home.name,
+            'JUPYTER_CONFIG_DIR': self.config_dir.name,
+            'IPYTHONDIR': self.ipydir.name,
+        }
         self.dirs.append(self.ipydir)
+        self.dirs.append(self.home)
+        self.dirs.append(self.config_dir)
         self.dirs.append(self.nbdir)
         os.makedirs(os.path.join(self.nbdir.name, os.path.join(u'sub ∂ir1', u'sub ∂ir 1a')))
         os.makedirs(os.path.join(self.nbdir.name, os.path.join(u'sub ∂ir2', u'sub ∂ir 1b')))
@@ -333,7 +243,7 @@ class JSController(TestController):
             if ret != 0:
                 # This could still happen e.g. if it's stopped by SIGINT
                 return ret
-            return bool(self.slimer_failure.search(strip_ansi(stdout)))
+            return bool(self.slimer_failure.search(stdout))
         else:
             return ret
 
@@ -350,7 +260,6 @@ class JSController(TestController):
         self.server_command = command = [sys.executable,
             '-m', 'jupyter_notebook',
             '--no-browser',
-            '--ipython-dir', self.ipydir.name,
             '--notebook-dir', self.nbdir.name,
         ]
         # ipc doesn't work on Windows, and darwin has crazy-long temp paths,
@@ -360,16 +269,19 @@ class JSController(TestController):
         self.stream_capturer = c = StreamCapturer()
         c.start()
         env = os.environ.copy()
+        env.update(self.env)
         if self.engine == 'phantomjs':
             env['IPYTHON_ALLOW_DRAFT_WEBSOCKETS_FOR_PHANTOMJS'] = '1'
         self.server = subprocess.Popen(command,
-            stdout=c.writefd,
-            stderr=subprocess.STDOUT,
+            stdout = c.writefd,
+            stderr = subprocess.STDOUT,
             cwd=self.nbdir.name,
             env=env,
         )
-        self.server_info_file = os.path.join(self.ipydir.name,
-            'profile_default', 'security', 'nbserver-%i.json' % self.server.pid
+        with patch.dict('os.environ', {'HOME': self.home.name}):
+            runtime_dir = jupyter_runtime_dir()
+        self.server_info_file = os.path.join(runtime_dir,
+            'nbserver-%i.json' % self.server.pid
         )
         self._wait_for_server()
     
@@ -446,19 +358,13 @@ def prepare_controllers(options):
             js_testgroups = all_js_groups()
         else:
             js_testgroups = [g for g in testgroups if g.startswith(js_prefix)]
-        py_testgroups = [g for g in testgroups if not g.startswith('js')]
     else:
-        py_testgroups = py_test_group_names
-        if not options.all:
-            js_testgroups = []
-        else:
-            js_testgroups = all_js_groups()
+        js_testgroups = all_js_groups()
 
     engine = 'slimerjs' if options.slimerjs else 'phantomjs'
     c_js = [JSController(name, xunit=options.xunit, engine=engine, url=options.url) for name in js_testgroups]
-    c_py = [PyTestController(name, options) for name in py_testgroups]
 
-    controllers = c_py + c_js
+    controllers = c_js
     to_run = [c for c in controllers if c.will_run]
     not_run = [c for c in controllers if not c.will_run]
     return to_run, not_run
@@ -504,11 +410,8 @@ def report():
     def _add(name, value):
         out.append((name, value))
 
-    _add('IPython version', inf['ipython_version'])
-    _add('IPython commit', "{} ({})".format(inf['commit_hash'], inf['commit_source']))
-    _add('IPython package', compress_user(inf['ipython_path']))
     _add('Python version', inf['sys_version'].replace('\n',''))
-    _add('sys.executable', compress_user(inf['sys_executable']))
+    _add('sys.executable', inf['sys_executable'])
     _add('Platform', inf['platform'])
 
     width = max(len(n) for (n,v) in out)
@@ -535,13 +438,10 @@ def report():
 
     return ''.join(out)
 
-def run_iptestall(options):
-    """Run the entire IPython test suite by calling nose and trial.
-
-    This function constructs :class:`IPTester` instances for all IPython
-    modules and package and then runs each of them.  This causes the modules
-    and packages of IPython to be tested each in their own subprocess using
-    nose.
+def run_jstestall(options):
+    """Run the entire Javascript test suite.
+    
+    This function constructs TestControllers and runs them in subprocesses.
 
     Parameters
     ----------
@@ -567,10 +467,6 @@ def run_iptestall(options):
 
     xunit : bool
       Produce Xunit XML output. This is written to multiple foo.xunit.xml files.
-
-    coverage : bool or str
-      Measure code coverage from tests. True will store the raw coverage data,
-      or pass 'html' or 'xml' to get reports.
 
     extra_args : list
       Extra arguments to pass to the test subprocesses, e.g. '-v'
@@ -640,62 +536,17 @@ def run_iptestall(options):
                                   nrunners, ', '.join(failed_sections)), took)
         print()
         print('You may wish to rerun these, with:')
-        print('  iptest', *failed_sections)
+        print('  python -m jupyter_notebook.jstest', *failed_sections)
         print()
-
-    if options.coverage:
-        from coverage import coverage, CoverageException
-        cov = coverage(data_file='.coverage')
-        cov.combine()
-        cov.save()
-
-        # Coverage HTML report
-        if options.coverage == 'html':
-            html_dir = 'ipy_htmlcov'
-            shutil.rmtree(html_dir, ignore_errors=True)
-            print("Writing HTML coverage report to %s/ ... " % html_dir, end="")
-            sys.stdout.flush()
-
-            # Custom HTML reporter to clean up module names.
-            from coverage.html import HtmlReporter
-            class CustomHtmlReporter(HtmlReporter):
-                def find_code_units(self, morfs):
-                    super(CustomHtmlReporter, self).find_code_units(morfs)
-                    for cu in self.code_units:
-                        nameparts = cu.name.split(os.sep)
-                        if 'IPython' not in nameparts:
-                            continue
-                        ix = nameparts.index('IPython')
-                        cu.name = '.'.join(nameparts[ix:])
-
-            # Reimplement the html_report method with our custom reporter
-            cov._harvest_data()
-            cov.config.from_args(omit='*{0}tests{0}*'.format(os.sep), html_dir=html_dir,
-                                 html_title='IPython test coverage',
-                                )
-            reporter = CustomHtmlReporter(cov, cov.config)
-            reporter.report(None)
-            print('done.')
-
-        # Coverage XML report
-        elif options.coverage == 'xml':
-            try:
-                cov.xml_report(outfile='ipy_coverage.xml')
-            except CoverageException as e:
-                print('Generating coverage report failed. Are you running javascript tests only?')
-                import traceback
-                traceback.print_exc()
 
     if failed:
         # Ensure that our exit code indicates failure
         sys.exit(1)
 
-argparser = argparse.ArgumentParser(description='Run IPython test suite')
+argparser = argparse.ArgumentParser(description='Run Jupyter Notebook Javascript tests')
 argparser.add_argument('testgroups', nargs='*',
                     help='Run specified groups of tests. If omitted, run '
                     'all tests.')
-argparser.add_argument('--all', action='store_true',
-                    help='Include slow tests not run by default.')
 argparser.add_argument('--slimerjs', action='store_true',
                     help="Use slimerjs if it's installed instead of phantomjs for casperjs tests.")
 argparser.add_argument('--url', help="URL to use for the JS tests.")
@@ -704,9 +555,6 @@ argparser.add_argument('-j', '--fast', nargs='?', const=None, default=1, type=in
                     'processes as you have cores, or you can specify a number.')
 argparser.add_argument('--xunit', action='store_true',
                     help='Produce Xunit XML results')
-argparser.add_argument('--coverage', nargs='?', const=True, default=False,
-                    help="Measure test coverage. Specify 'html' or "
-                    "'xml' to get reports.")
 argparser.add_argument('--subproc-streams', default='capture',
                     help="What to do with stdout/stderr from subprocesses. "
                     "'capture' (default), 'show' and 'discard' are the options.")
@@ -720,17 +568,6 @@ def default_options():
     return options
 
 def main():
-    # iptest doesn't work correctly if the working directory is the
-    # root of the IPython source tree. Tell the user to avoid
-    # frustration.
-    if os.path.exists(os.path.join(os.getcwd(),
-                                   'IPython', 'testing', '__main__.py')):
-        print("Don't run iptest from the IPython source directory",
-              file=sys.stderr)
-        sys.exit(1)
-    # Arguments after -- should be passed through to nose. Argparse treats
-    # everything after -- as regular positional arguments, so we separate them
-    # first.
     try:
         ix = sys.argv.index('--')
     except ValueError:
@@ -743,7 +580,7 @@ def main():
     options = argparser.parse_args(to_parse)
     options.extra_args = extra_args
 
-    run_iptestall(options)
+    run_jstestall(options)
 
 
 if __name__ == '__main__':
