@@ -7,10 +7,7 @@ from tornado import web
 
 from traitlets.config.configurable import LoggingConfigurable
 from traitlets import Dict, Instance, Float
-from IPython.core.profileapp import list_profiles_in
-from IPython.core.profiledir import ProfileDir
 from ipython_genutils import py3compat
-from IPython.paths import get_ipython_dir
 
 
 class ClusterManager(LoggingConfigurable):
@@ -48,13 +45,19 @@ class ClusterManager(LoggingConfigurable):
         return cl, esl, n
 
     def get_profile_dir(self, name, path):
+        from IPython.core.profiledir import ProfileDir
         p = ProfileDir.find_profile_dir_by_name(path,name=name)
         return p.location
 
     def update_profiles(self):
         """List all profiles in the ipython_dir and cwd.
         """
-        
+        try:
+            from IPythons.paths import get_ipython_dir
+            from IPython.core.profileapp import list_profiles_in
+        except ImportError:
+            self.log.info("IPython not available")
+            return
         stale = set(self.profiles)
         for path in [get_ipython_dir(), py3compat.getcwd()]:
             for profile in list_profiles_in(path):
@@ -74,7 +77,10 @@ class ClusterManager(LoggingConfigurable):
             self.profiles.pop(profile)
 
     def list_profiles(self):
-        self.update_profiles()
+        try:
+            self.update_profiles()
+        except ImportError:
+            return []
         # sorted list, but ensure that 'default' always comes first
         default_first = lambda name: name if name != 'default' else ''
         result = [self.profile_info(p) for p in sorted(self.profiles, key=default_first)]
