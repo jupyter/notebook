@@ -23,3 +23,4 @@ DEFAULT_TEMPLATE_PATH_LIST = [
 del os
 
 from .nbextensions import install_nbextension
+from ._version import version_info, __version__
