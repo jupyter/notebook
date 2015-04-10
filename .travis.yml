@@ -1,0 +1,34 @@
+# http://travis-ci.org/#!/ipython/ipython
+language: python
+python:
+    - 3.4
+    - 2.7
+sudo: false
+env:
+  global:
+    - PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
+  matrix:
+    - GROUP=python
+    - GROUP=js/base
+    - GROUP=js/notebook
+    - GROUP=js/services
+    - GROUP=js/tree
+    - GROUP=js/widgets
+before_install:
+    - 'if [[ $GROUP == js* ]]; then wget https://7de4dfdec62155b49b44-d726a73613a1989d29b147f20996e7c1.ssl.cf2.rackcdn.com/mathjax.zip; fi'
+    - 'if [[ $GROUP == js* ]]; then npm install -g casperjs; fi'
+    - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
+install:
+    - pip install -f travis-wheels/wheelhouse -r requirements.txt file://$PWD#egg=jupyter_notebook[test] coveralls
+before_script:
+    - 'if [[ $GROUP == js* ]]; then python -m IPython.external.mathjax mathjax.zip; fi'
+script:
+    - 'if [[ $GROUP == js* ]]; then python -m jupyter_notebook.jstest $GROUP; fi'
+    - 'if [[ $GROUP == python ]]; then nosetests --with-coverage --cover-package=jupyter_notebook jupyter_notebook; fi'
+matrix:
+    include:
+        - python: 3.3
+          env: GROUP=python
+
+after_success:
+    - coveralls
