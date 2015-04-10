@@ -9,7 +9,7 @@ import nose.tools as nt
 
 from traitlets.tests.utils import check_help_all_output
 from jupyter_notebook.utils import url_escape, url_unescape, is_hidden
-from IPython.utils.tempdir import TemporaryDirectory
+from ipython_genutils.tempdir import TemporaryDirectory
 
 
 def test_help_output():

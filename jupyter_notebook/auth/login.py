@@ -1,6 +1,6 @@
 """Tornado handlers for logging into the notebook."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 import uuid

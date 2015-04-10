@@ -1,6 +1,6 @@
 """A contents manager that uses the local file system for storage."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 
@@ -16,9 +16,9 @@ from .fileio import FileManagerMixin
 from .manager import ContentsManager
 
 from IPython import nbformat
-from IPython.utils.importstring import import_item
-from IPython.utils.traitlets import Any, Unicode, Bool, TraitError
-from IPython.utils.py3compat import getcwd, string_types
+from ipython_genutils.importstring import import_item
+from traitlets import Any, Unicode, Bool, TraitError
+from ipython_genutils.py3compat import getcwd, string_types
 from IPython.utils import tz
 from jupyter_notebook.utils import (
     is_hidden,
@@ -33,7 +33,7 @@ def _post_save_script(model, os_path, contents_manager, **kwargs):
 
     replaces `ipython notebook --script`
     """
-    from IPython.nbconvert.exporters.script import ScriptExporter
+    from jupyter_nbconvert.exporters.script import ScriptExporter
 
     if model['type'] != 'notebook':
         return

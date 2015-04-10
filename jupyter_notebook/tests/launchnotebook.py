@@ -12,7 +12,7 @@ from unittest import TestCase
 from tornado.ioloop import IOLoop
 
 from ..notebookapp import NotebookApp
-from IPython.utils.tempdir import TemporaryDirectory
+from ipython_genutils.tempdir import TemporaryDirectory
 
 MAX_WAITTIME = 30   # seconds to wait for notebook server to start
 POLL_INTERVAL = 0.1 # time between attempts

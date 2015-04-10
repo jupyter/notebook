@@ -3,11 +3,11 @@
 Propagate changes between widgets on the javascript side
 """
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from .widget import Widget
-from IPython.utils.traitlets import Unicode, Tuple, List,Instance, TraitError
+from traitlets import Unicode, Tuple, List,Instance, TraitError
 
 class WidgetTraitTuple(Tuple):
     """Traitlet for validating a single (Widget, 'trait_name') pair"""
@@ -77,7 +77,7 @@ class DirectionalLink(Widget):
     source = WidgetTraitTuple(sync=True)
 
     # Does not quite behave like other widgets but reproduces
-    # the behavior of IPython.utils.traitlets.directional_link
+    # the behavior of traitlets.directional_link
     def __init__(self, source, targets, **kwargs):
         if len(targets) < 1:
             raise TypeError("Require at least two widgets to link")

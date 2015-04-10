@@ -1,6 +1,6 @@
 """Notebook related utilities"""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from __future__ import print_function
@@ -16,7 +16,7 @@ try:
 except ImportError:
     from urllib import quote, unquote
 
-from IPython.utils import py3compat
+from ipython_genutils import py3compat
 
 # UF_HIDDEN is a stat flag not defined in the stat module.
 # It is used by BSD to indicate hidden files.
@@ -165,7 +165,7 @@ def _check_pid_win32(pid):
     return bool(ctypes.windll.kernel32.OpenProcess(1,0,pid))
 
 def _check_pid_posix(pid):
-    """Copy of IPython.utils.pro"""
+    """Copy of IPython.utils.process.check_pid"""
     try:
         os.kill(pid, 0)
     except OSError as err:

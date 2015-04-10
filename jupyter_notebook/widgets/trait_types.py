@@ -3,11 +3,11 @@
 Trait types for html widgets.
 """
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 import re
-from IPython.utils import traitlets
+import traitlets
 
 from . import eventful
 

@@ -3,12 +3,12 @@
 Represents an unbounded int using a widget.
 """
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from .widget import DOMWidget, register
 from .trait_types import Color
-from IPython.utils.traitlets import (Unicode, CInt, Bool, CaselessStrEnum,
+from traitlets import (Unicode, CInt, Bool, CaselessStrEnum,
                                      Tuple, TraitError)
 from .deprecated import DeprecatedClass
 

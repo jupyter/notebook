@@ -3,11 +3,11 @@
 Represents a boolean using a widget.
 """
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from .widget import DOMWidget, register
-from IPython.utils.traitlets import Unicode, Bool, CaselessStrEnum
+from traitlets import Unicode, Bool, CaselessStrEnum
 from .deprecated import DeprecatedClass
 
 

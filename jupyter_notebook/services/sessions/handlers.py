@@ -1,6 +1,6 @@
 """Tornado handlers for the sessions web service."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 import json
@@ -10,7 +10,7 @@ from tornado import web
 from ...base.handlers import IPythonHandler, json_errors
 from jupyter_client.jsonutil import date_default
 from jupyter_notebook.utils import url_path_join, url_escape
-from IPython.kernel.kernelspec import NoSuchKernel
+from jupyter_client.kernelspec import NoSuchKernel
 
 
 class SessionRootHandler(IPythonHandler):

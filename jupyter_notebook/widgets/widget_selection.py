@@ -3,17 +3,17 @@
 Represents an enumeration using a widget.
 """
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from collections import OrderedDict
 from threading import Lock
 
 from .widget import DOMWidget, register
-from IPython.utils.traitlets import (
+from traitlets import (
     Unicode, Bool, Any, Dict, TraitError, CaselessStrEnum, Tuple, List
 )
-from IPython.utils.py3compat import unicode_type
+from ipython_genutils.py3compat import unicode_type
 from .deprecated import DeprecatedClass
 
 

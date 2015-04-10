@@ -1,7 +1,7 @@
 # coding: utf-8
 """Tornado handlers for WebSocket <-> ZMQ sockets."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 import os
@@ -19,9 +19,9 @@ import tornado
 from tornado import gen, ioloop, web
 from tornado.websocket import WebSocketHandler
 
-from IPython.kernel.zmq.session import Session
+from jupyter_client.session import Session
 from jupyter_client.jsonutil import date_default, extract_dates
-from IPython.utils.py3compat import cast_unicode
+from ipython_genutils.py3compat import cast_unicode
 
 from .handlers import IPythonHandler
 

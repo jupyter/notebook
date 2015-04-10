@@ -1,27 +1,21 @@
 """Base Widget class.  Allows user to create widgets in the back-end that render
 in the IPython notebook front-end.
 """
-#-----------------------------------------------------------------------------
-# Copyright (c) 2013, the IPython Development Team.
-#
-# Distributed under the terms of the Modified BSD License.
-#
-# The full license is in the file COPYING.txt, distributed with this software.
-#-----------------------------------------------------------------------------
 
-#-----------------------------------------------------------------------------
-# Imports
-#-----------------------------------------------------------------------------
+# Copyright (c) Jupyter Development Team.
+# Distributed under the terms of the Modified BSD License.
+
+
 from contextlib import contextmanager
 import collections
 
 from IPython.core.getipython import get_ipython
-from IPython.kernel.comm import Comm
-from IPython.config import LoggingConfigurable
-from IPython.utils.importstring import import_item
-from IPython.utils.traitlets import Unicode, Dict, Instance, Bool, List, \
+from ipython_kernel.comm import Comm
+from traitlets.config import LoggingConfigurable
+from ipython_genutils.importstring import import_item
+from traitlets import Unicode, Dict, Instance, Bool, List, \
     CaselessStrEnum, Tuple, CUnicode, Int, Set
-from IPython.utils.py3compat import string_types
+from ipython_genutils.py3compat import string_types
 from .trait_types import Color
 
 
@@ -51,9 +45,6 @@ widget_serialization = {
 }
 
 
-#-----------------------------------------------------------------------------
-# Classes
-#-----------------------------------------------------------------------------
 class CallbackDispatcher(LoggingConfigurable):
     """A structure for registering and running callbacks"""
     callbacks = List()
@@ -156,7 +147,7 @@ class Widget(LoggingConfigurable):
         If empty, look in the global registry.""", sync=True)
     _view_name = Unicode(None, allow_none=True, help="""Default view registered in the front-end
         to use to represent the widget.""", sync=True)
-    comm = Instance('IPython.kernel.comm.Comm', allow_none=True)
+    comm = Instance('ipython_kernel.comm.Comm', allow_none=True)
     
     msg_throttle = Int(3, sync=True, help="""Maximum number of msgs the 
         front-end can send before receiving an idle msg from the back-end.""")

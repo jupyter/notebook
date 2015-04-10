@@ -1,6 +1,6 @@
 """Tornado handlers for nbconvert."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 import io
@@ -13,10 +13,10 @@ from ..base.handlers import (
     IPythonHandler, FilesRedirectHandler,
     path_regex,
 )
-from IPython.nbformat import from_dict
+from jupyter_nbformat import from_dict
 
-from IPython.utils.py3compat import cast_bytes
-from IPython.utils import text
+from ipython_genutils.py3compat import cast_bytes
+from ipython_genutils import text
 
 def find_resource_files(output_files_dir):
     files = []
@@ -57,7 +57,7 @@ def get_exporter(format, **kwargs):
     """get an exporter, raising appropriate errors"""
     # if this fails, will raise 500
     try:
-        from IPython.nbconvert.exporters.export import exporter_map
+        from jupyter_nbconvert.exporters.export import exporter_map
     except ImportError as e:
         raise web.HTTPError(500, "Could not import nbconvert: %s" % e)
     

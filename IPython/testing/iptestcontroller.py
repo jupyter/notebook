@@ -29,9 +29,9 @@ from .iptest import (
     test_for,
 )
 from IPython.utils.path import compress_user
-from IPython.utils.py3compat import bytes_to_str
+from ipython_genutils.py3compat import bytes_to_str
 from IPython.utils.sysinfo import get_sys_info
-from IPython.utils.tempdir import TemporaryDirectory
+from ipython_genutils.tempdir import TemporaryDirectory
 from IPython.utils.text import strip_ansi
 
 try:
@@ -250,7 +250,7 @@ class PyTestController(TestController):
 js_prefix = 'js/'
 
 def get_js_test_dir():
-    import IPython.html.tests as t
+    import jupyter_notebook.tests as t
     return os.path.join(os.path.dirname(t.__file__), '')
 
 def all_js_groups():
@@ -348,7 +348,7 @@ class JSController(TestController):
     def _init_server(self):
         "Start the notebook server in a separate process"
         self.server_command = command = [sys.executable,
-            '-m', 'IPython.html',
+            '-m', 'jupyter_notebook',
             '--no-browser',
             '--ipython-dir', self.ipydir.name,
             '--notebook-dir', self.nbdir.name,

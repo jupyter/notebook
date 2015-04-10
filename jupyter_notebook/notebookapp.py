@@ -1,7 +1,7 @@
 # coding: utf-8
 """A tornado based IPython notebook server."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from __future__ import print_function
@@ -66,24 +66,25 @@ from .auth.login import LoginHandler
 from .auth.logout import LogoutHandler
 from .base.handlers import IPythonHandler, FileFindHandler
 
-from IPython.config import Config
-from IPython.config.application import catch_config_error, boolean_flag
+from traitlets.config import Config
+from traitlets.config.application import catch_config_error, boolean_flag
 from IPython.core.application import (
     BaseIPythonApplication, base_flags, base_aliases,
 )
 from IPython.core.profiledir import ProfileDir
-from IPython.kernel import KernelManager
-from IPython.kernel.kernelspec import KernelSpecManager, NoSuchKernel, NATIVE_KERNEL_NAME
-from IPython.kernel.zmq.session import Session
-from IPython.nbformat.sign import NotebookNotary
-from IPython.utils.importstring import import_item
-from IPython.utils import submodule
-from IPython.utils.traitlets import (
+from jupyter_client import KernelManager
+from jupyter_client.kernelspec import KernelSpecManager, NoSuchKernel, NATIVE_KERNEL_NAME
+from jupyter_client.session import Session
+from jupyter_nbformat.sign import NotebookNotary
+from ipython_genutils.importstring import import_item
+from . import submodule
+from traitlets import (
     Dict, Unicode, Integer, List, Bool, Bytes, Instance,
     TraitError, Type,
 )
-from IPython.utils import py3compat
-from IPython.utils.path import filefind, get_ipython_dir
+from ipython_genutils import py3compat
+from IPython.paths import get_ipython_dir
+from ipython_genutils.path import filefind
 from IPython.utils.sysinfo import get_sys_info
 
 from .nbextensions import SYSTEM_NBEXTENSIONS_DIRS
@@ -674,7 +675,7 @@ class NotebookApp(BaseIPythonApplication):
         config=True,
         help="""
         The kernel spec manager class to use. Should be a subclass
-        of `IPython.kernel.kernelspec.KernelSpecManager`.
+        of `jupyter_client.kernelspec.KernelSpecManager`.
 
         The Api of KernelSpecManager is provisional and might change
         without warning between this version of IPython and the next stable one.

@@ -4,11 +4,11 @@ Represents a button in the frontend using a widget.  Allows user to listen for
 click events on the button and trigger backend code when the clicks are fired.
 """
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from .widget import DOMWidget, CallbackDispatcher, register
-from IPython.utils.traitlets import Unicode, Bool, CaselessStrEnum
+from traitlets import Unicode, Bool, CaselessStrEnum
 from .deprecated import DeprecatedClass
 
 

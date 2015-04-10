@@ -1,11 +1,10 @@
 """Base Tornado handlers for the notebook server."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 import functools
 import json
-import logging
 import os
 import re
 import sys
@@ -22,15 +21,14 @@ from tornado import web
 from tornado import gen
 from tornado.log import app_log
 
-
-import IPython
 from IPython.utils.sysinfo import get_sys_info
 
-from IPython.config import Application
-from IPython.utils.path import filefind
-from IPython.utils.py3compat import string_types
-from jupyter_notebook.utils import is_hidden, url_path_join, url_escape
+from traitlets.config import Application
+from ipython_genutils.path import filefind
+from ipython_genutils.py3compat import string_types
 
+import jupyter_notebook
+from jupyter_notebook.utils import is_hidden, url_path_join, url_escape
 from jupyter_notebook.services.security import csp_report_uri
 
 #-----------------------------------------------------------------------------
@@ -458,7 +456,7 @@ class ApiVersionHandler(IPythonHandler):
     @json_errors
     def get(self):
         # not authenticated, so give as few info as possible
-        self.finish(json.dumps({"version":IPython.__version__}))
+        self.finish(json.dumps({"version":jupyter_notebook.__version__}))
 
 
 class TrailingSlashHandler(web.RequestHandler):

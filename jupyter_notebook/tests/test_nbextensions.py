@@ -1,7 +1,7 @@
 # coding: utf-8
 """Test installation of notebook extensions"""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 import glob
@@ -19,9 +19,9 @@ try:
 except ImportError:
     import mock # py2
 
-import IPython.testing.decorators as dec
-from IPython.utils import py3compat
-from IPython.utils.tempdir import TemporaryDirectory
+import ipython_genutils.testing.decorators as dec
+from ipython_genutils import py3compat
+from ipython_genutils.tempdir import TemporaryDirectory
 from jupyter_notebook import nbextensions
 from jupyter_notebook.nbextensions import install_nbextension, check_nbextension
 

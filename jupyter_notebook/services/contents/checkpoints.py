@@ -2,12 +2,12 @@
 Classes for managing Checkpoints.
 """
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from tornado.web import HTTPError
 
-from IPython.config.configurable import LoggingConfigurable
+from traitlets.config.configurable import LoggingConfigurable
 
 
 class Checkpoints(LoggingConfigurable):

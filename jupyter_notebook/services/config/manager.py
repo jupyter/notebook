@@ -1,11 +1,11 @@
 """Manager to read and modify frontend config data in JSON files.
 """
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-from IPython.config.manager import BaseJSONConfigManager
+from traitlets.config.manager import BaseJSONConfigManager
 from IPython.utils.path import locate_profile
-from IPython.utils.traitlets import Unicode
+from traitlets import Unicode
 
 class ConfigManager(BaseJSONConfigManager):
     """Config Manager used for storing notebook frontend config"""

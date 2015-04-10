@@ -15,16 +15,16 @@ import requests
 
 from ..filecheckpoints import GenericFileCheckpoints
 
-from IPython.config import Config
+from traitlets.config import Config
 from jupyter_notebook.utils import url_path_join, url_escape, to_os_path
 from jupyter_notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
-from IPython.nbformat import read, write, from_dict
-from IPython.nbformat.v4 import (
+from jupyter_nbformat import read, write, from_dict
+from jupyter_nbformat.v4 import (
     new_notebook, new_markdown_cell,
 )
-from IPython.nbformat import v2
-from IPython.utils import py3compat
-from IPython.utils.tempdir import TemporaryDirectory
+from jupyter_nbformat import v2
+from ipython_genutils import py3compat
+from ipython_genutils.tempdir import TemporaryDirectory
 
 def uniq_stable(elems):
     """uniq_stable(elems) -> list

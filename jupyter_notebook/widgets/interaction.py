@@ -1,6 +1,6 @@
 """Interact with functions using widgets."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from __future__ import print_function
@@ -16,8 +16,8 @@ from jupyter_notebook.widgets import (Widget, Text,
     FloatSlider, IntSlider, Checkbox, Dropdown,
     Box, Button, DOMWidget)
 from IPython.display import display, clear_output
-from IPython.utils.py3compat import string_types, unicode_type
-from IPython.utils.traitlets import HasTraits, Any, Unicode
+from ipython_genutils.py3compat import string_types, unicode_type
+from traitlets import HasTraits, Any, Unicode
 
 empty = Parameter.empty
 

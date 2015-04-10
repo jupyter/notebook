@@ -4,7 +4,7 @@ import os
 
 import nose.tools as nt
 
-from IPython.kernel.zmq.session import Session
+from jupyter_client.session import Session
 from ..base.zmqhandlers import (
     serialize_binary_message,
     deserialize_binary_message,

@@ -1,16 +1,16 @@
-"""Manage IPython.parallel clusters in the notebook."""
+"""Manage ipython_parallel clusters in the notebook."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from tornado import web
 
-from IPython.config.configurable import LoggingConfigurable
-from IPython.utils.traitlets import Dict, Instance, Float
+from traitlets.config.configurable import LoggingConfigurable
+from traitlets import Dict, Instance, Float
 from IPython.core.profileapp import list_profiles_in
 from IPython.core.profiledir import ProfileDir
-from IPython.utils import py3compat
-from IPython.utils.path import get_ipython_dir
+from ipython_genutils import py3compat
+from IPython.paths import get_ipython_dir
 
 
 class ClusterManager(LoggingConfigurable):
@@ -26,7 +26,7 @@ class ClusterManager(LoggingConfigurable):
         return IOLoop.instance()
 
     def build_launchers(self, profile_dir):
-        from IPython.parallel.apps.ipclusterapp import IPClusterStart
+        from ipython_parallel.apps.ipclusterapp import IPClusterStart
         
         class DummyIPClusterStart(IPClusterStart):
             """Dummy subclass to skip init steps that conflict with global app.

@@ -8383,7 +8383,7 @@ div.traceback-wrapper {
 /**
  * Primary styles
  *
- * Author: IPython Development Team
+ * Author: Jupyter Development Team
  */
 body {
   background-color: #ffffff;
@@ -8627,7 +8627,7 @@ span#login_widget > .button .badge,
 /**
  * Primary styles
  *
- * Author: IPython Development Team
+ * Author: Jupyter Development Team
  */
 ul#tabs {
   margin-bottom: 4px;
@@ -11293,7 +11293,7 @@ span.autosave_status {
 /**
  * Primary styles
  *
- * Author: IPython Development Team
+ * Author: Jupyter Development Team
  */
 /** WARNING IF YOU ARE EDITTING THIS FILE, if this is a .css file, It has a lot
  * of chance of beeing generated from the ../less/[samename].less file, you can

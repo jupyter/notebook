@@ -1,6 +1,6 @@
 """Tornado handlers for security logging."""
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from tornado import gen, web

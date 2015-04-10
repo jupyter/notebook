@@ -4,11 +4,11 @@ Represents a multipage container that can be used to group other widgets into
 pages.
 """
 
-# Copyright (c) IPython Development Team.
+# Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
 from .widget_box import Box, register
-from IPython.utils.traitlets import Unicode, Dict, CInt
+from traitlets import Unicode, Dict, CInt
 from .deprecated import DeprecatedClass
 
 class _SelectionContainer(Box):
