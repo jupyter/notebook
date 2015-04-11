@@ -432,7 +432,7 @@ define(["widgets/js/manager",
     widgetmanager.WidgetManager.register_widget_model('WidgetModel', WidgetModel);
 
 
-    var WidgetView = Backbone.View.extend({
+    var WidgetInterface = {
         initialize: function(parameters) {
             /**
              * Public constructor.
@@ -513,10 +513,9 @@ define(["widgets/js/manager",
             WidgetView.__super__.remove.apply(this, arguments);
             this.trigger('remove');
         }
-    });
+    };
 
-
-    var DOMWidgetView = WidgetView.extend({
+    var DOMWidgetInterface = {
         initialize: function (parameters) {
             /**
              * Public constructor
@@ -712,7 +711,7 @@ define(["widgets/js/manager",
         typeset: function(element, text){
             utils.typeset.apply(null, arguments);
         },
-    });
+    };
 
 
     var ViewList = function(create_view, remove_view, context) {
@@ -793,6 +792,9 @@ define(["widgets/js/manager",
             });
         },
     });
+
+    var WidgetView = Backbone.View.extend(WidgetInterface);
+    var DOMWidgetView = WidgetView.extend(DOMWidgetInterface);
 
     var widget = {
         'unpack_models': unpack_models,
