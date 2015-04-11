@@ -7,6 +7,7 @@ docs/source/api/generated
 docs/gh-pages
 jupyter_notebook/static/components
 jupyter_notebook/static/style/*.min.css*
+node_modules
 *.py[co]
 __pycache__
 *.egg-info
