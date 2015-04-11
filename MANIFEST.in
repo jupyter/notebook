@@ -1,6 +1,8 @@
 include COPYING.md
 include CONTRIBUTING.md
 include README.md
+include bower.json
+include .bowerrc
 
 # Documentation
 graft docs
