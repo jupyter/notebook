@@ -6,7 +6,7 @@ docs/man/*.gz
 docs/source/api/generated
 docs/gh-pages
 jupyter_notebook/static/components
-jupyter_notebook/static/style/*.map
+jupyter_notebook/static/style/*.min.css*
 *.py[co]
 __pycache__
 *.egg-info
