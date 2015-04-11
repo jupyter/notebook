@@ -4,10 +4,9 @@
 define(["widgets/js/manager",
         "underscore",
         "backbone",
-        "jquery",
         "base/js/utils",
         "base/js/namespace",
-], function(widgetmanager, _, Backbone, $, utils, IPython){
+], function(widgetmanager, _, Backbone, utils, IPython){
     "use strict";
 
     var unpack_models = function unpack_models(value, model) {
@@ -15,7 +14,7 @@ define(["widgets/js/manager",
          * Replace model ids with models recursively.
          */
         var unpacked;
-        if ($.isArray(value)) {
+        if (_.isArray(value)) {
             unpacked = [];
             _.each(value, function(sub_value, key) {
                 unpacked.push(unpack_models(sub_value, model));
@@ -65,8 +64,8 @@ define(["widgets/js/manager",
                 comm.model = this;
 
                 // Hook comm messages up to model.
-                comm.on_close($.proxy(this._handle_comm_closed, this));
-                comm.on_msg($.proxy(this._handle_comm_msg, this));
+                comm.on_close(_.bind(this._handle_comm_closed, this));
+                comm.on_msg(_.bind(this._handle_comm_msg, this));
 
                 // Assume the comm is alive.
                 this.set_comm_live(true);
@@ -274,7 +273,7 @@ define(["widgets/js/manager",
             // Backbone only remembers the diff of the most recent set()
             // operation.  Calling set multiple times in a row results in a 
             // loss of diff information.  Here we keep our own running diff.
-            this._buffered_state_diff = $.extend(this._buffered_state_diff, this.changedAttributes() || {});
+            this._buffered_state_diff = _.extend(this._buffered_state_diff, this.changedAttributes() || {});
             return return_value;
         },
 
@@ -336,7 +335,7 @@ define(["widgets/js/manager",
                     // Combine updates if it is a 'patch' sync, otherwise replace updates
                     switch (method) {
                         case 'patch':
-                            this.msg_buffer = $.extend(this.msg_buffer || {}, attrs);
+                            this.msg_buffer = _.extend(this.msg_buffer || {}, attrs);
                             break;
                         case 'update':
                         case 'create':
@@ -355,7 +354,7 @@ define(["widgets/js/manager",
                     this.pending_msgs++;
                 }
             }
-            // Since the comm is a one-way communication, assume the message
+            // Since the comm is a one-way communication, assume the message 
             // arrived.  Don't call success since we don't have a model back from the server
             // this means we miss out on the 'sync' event.
             this._buffered_state_diff = {};
@@ -369,7 +368,7 @@ define(["widgets/js/manager",
             // being the value or the promise of the serialized value
             var serializers = this.constructor.serializers;
             if (serializers) {
-                for (var k in attrs) {
+                for (k in attrs) {
                     if (serializers[k] && serializers[k].serialize) {
                         attrs[k] = (serializers[k].serialize)(attrs[k], this);
                     }
@@ -383,13 +382,11 @@ define(["widgets/js/manager",
                 for (var i=0; i<keys.length; i++) {
                     var key = keys[i];
                     var value = state[key];
-                    if (value) {
-                        if (value.buffer instanceof ArrayBuffer
-                            || value instanceof ArrayBuffer) {
-                            buffers.push(value);
-                            buffer_keys.push(key);
-                            delete state[key];
-                        }
+                    if (value.buffer instanceof ArrayBuffer
+                        || value instanceof ArrayBuffer) {
+                        buffers.push(value);
+                        buffer_keys.push(key);
+                        delete state[key];
                     }
                 }
                 that.comm.send({method: 'backbone', sync_data: state, buffer_keys: buffer_keys}, callbacks, {}, buffers);
@@ -398,7 +395,7 @@ define(["widgets/js/manager",
                 return (utils.reject("Couldn't send widget sync message", true))(error);
             });
         },
-
+        
         save_changes: function(callbacks) {
             /**
              * Push this model's state to the back-end
@@ -412,7 +409,7 @@ define(["widgets/js/manager",
             /**
              * on_some_change(["key1", "key2"], foo, context) differs from
              * on("change:key1 change:key2", foo, context).
-             * If the widget attributes key1 and key2 are both modified,
+             * If the widget attributes key1 and key2 are both modified, 
              * the second form will result in foo being called twice
              * while the first will call foo only once.
              */
@@ -469,7 +466,7 @@ define(["widgets/js/manager",
              * Create and promise that resolves to a child view of a given model
              */
             var that = this;
-            options = $.extend({ parent: this }, options || {});
+            options = _.extend({ parent: this }, options || {});
             return this.model.widget_manager.create_view(child_model, options).catch(utils.reject("Couldn't create child view", true));
         },
 
@@ -612,7 +609,7 @@ define(["widgets/js/manager",
             /**
              * Set a css attr of the widget view.
              */
-            this.$el.css(name, value);
+            this.el.style[name] = value;
         },
 
         update_visible: function(model, value) {
@@ -621,11 +618,13 @@ define(["widgets/js/manager",
              */
             switch(value) {
                 case null: // python None
-                    this.$el.show().css('visibility', 'hidden'); break;
+                    this.el.style.display = '';
+                    this.el.style.visibility = 'hidden'; break;
                 case false:
-                    this.$el.hide(); break;
+                    this.el.style.display = 'none'; break;
                 case true:
-                    this.$el.show().css('visibility', ''); break;
+                    this.el.style.display = '';
+                    this.el.style.visibility = ''; break;
             }
          },
 
@@ -641,23 +640,25 @@ define(["widgets/js/manager",
                 if (elements.length > 0) {
                     var trait_key = css[i][1];
                     var trait_value = css[i][2];
-                    elements.css(trait_key ,trait_value);
+                    _.each(elements, function(e) {
+                        e.style[trait_key] = trait_value;
+                    });
                 }
             }
         },
 
-        update_classes: function (old_classes, new_classes, $el) {
+        update_classes: function (old_classes, new_classes, el) {
             /**
-             * Update the DOM classes applied to an element, default to this.$el.
+             * Update the DOM classes applied to an element, default to this.el.
              */
-            if ($el===undefined) {
-                $el = this.$el;
+            if (el===undefined) {
+                el = this.el;
             }
-            _.difference(old_classes, new_classes).map(function(c) {$el.removeClass(c);})
-            _.difference(new_classes, old_classes).map(function(c) {$el.addClass(c);})
+            _.difference(old_classes, new_classes).map(function(c) { el.classList.remove(c); });
+            _.difference(new_classes, old_classes).map(function(c) { el.classList.add(c); });
         },
 
-        update_mapped_classes: function(class_map, trait_name, previous_trait_value, $el) {
+        update_mapped_classes: function(class_map, trait_name, previous_trait_value, el) {
             /**
              * Update the DOM classes applied to the widget based on a single
              * trait's value.
@@ -681,7 +682,7 @@ define(["widgets/js/manager",
              *  Name of the trait to check the value of.
              * previous_trait_value: optional string, default ''
              *  Last trait value
-             * $el: optional jQuery element handle, defaults to this.$el
+             * el: optional DOM element, defaults to this.el
              *  Element that the classes are applied to.
              */
             var key = previous_trait_value;
@@ -692,7 +693,7 @@ define(["widgets/js/manager",
             key = this.model.get(trait_name);
             var new_classes = class_map[key] ? class_map[key] : [];
 
-            this.update_classes(old_classes, new_classes, $el || this.$el);
+            this.update_classes(old_classes, new_classes, el || this.el);
         },
         
         _get_selector_element: function (selector) {
@@ -701,9 +702,9 @@ define(["widgets/js/manager",
              */
             var elements;
             if (!selector) {
-                elements = this.$el;
+                elements = [this.el];
             } else {
-                elements = this.$el.find(selector).addBack(selector);
+                elements = this.el.querySelectorAll(selector);
             }
             return elements;
         },
@@ -802,7 +803,7 @@ define(["widgets/js/manager",
     };
 
     // For backwards compatability.
-    $.extend(IPython, widget);
+    _.extend(IPython, widget);
 
     return widget;
 });
