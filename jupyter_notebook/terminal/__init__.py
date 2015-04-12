@@ -13,7 +13,7 @@ from .handlers import TerminalHandler, TermSocket
 from . import api_handlers
 
 def initialize(webapp):
-    shell = os.environ.get('SHELL', 'sh')
+    shell = os.environ.get('SHELL') or 'sh'
     terminal_manager = webapp.settings['terminal_manager'] = NamedTermManager(shell_command=[shell])
     terminal_manager.log = app_log
     base_url = webapp.settings['base_url']
