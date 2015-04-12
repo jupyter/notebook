@@ -188,6 +188,7 @@ define([
     };
 
     KeyboardManager.prototype.register_events = function (e) {
+        e = $(e);
         var that = this;
         var handle_focus = function () {
             that.disable();

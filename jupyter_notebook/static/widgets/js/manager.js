@@ -162,7 +162,7 @@ define([
          * Note, this is only done on the outer most widgets.
          */
         if (this.keyboard_manager) {
-            this.keyboard_manager.register_events(view.$el);
+            this.keyboard_manager.register_events(view.el);
         
             if (view.additional_elements) {
                 for (var i = 0; i < view.additional_elements.length; i++) {
