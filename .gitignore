@@ -4,11 +4,10 @@ dist
 _build
 docs/man/*.gz
 docs/source/api/generated
-docs/source/config/options
-docs/source/interactive/magics-generated.txt
 docs/gh-pages
-jupyter_notebook/notebook/static/mathjax
-jupyter_notebook/static/style/*.map
+jupyter_notebook/static/components
+jupyter_notebook/static/style/*.min.css*
+node_modules
 *.py[co]
 __pycache__
 *.egg-info
