@@ -53,11 +53,8 @@ from setupbase import (
     find_packages,
     find_package_data,
     check_package_data_first,
-    check_submodule_status,
-    require_submodules,
-    update_submodules,
-    UpdateSubmodules,
     CompileCSS,
+    Bower,
     JavascriptVersion,
     css_js_prerelease,
 )
@@ -91,42 +88,6 @@ setup_args = dict(
 )
 
 
-#-------------------------------------------------------------------------------
-# Make sure we aren't trying to run without submodules
-#-------------------------------------------------------------------------------
-here = os.path.abspath(os.path.dirname(__file__))
-
-def require_clean_submodules():
-    """Check on git submodules before distutils can do anything
-
-    Since distutils cannot be trusted to update the tree
-    after everything has been set in motion,
-    this is not a distutils command.
-    """
-    # PACKAGERS: Add a return here to skip checks for git submodules
-    
-    # don't do anything if nothing is actually supposed to happen
-    for do_nothing in ('-h', '--help', '--help-commands', 'clean', 'submodule'):
-        if do_nothing in sys.argv:
-            return
-
-    status = check_submodule_status(here)
-
-    if status == "missing":
-        print("checking out submodules for the first time")
-        update_submodules(here)
-    elif status == "unclean":
-        print('\n'.join([
-            "Cannot build / install with unclean submodules",
-            "Please update submodules with",
-            "    python setup.py submodule",
-            "or",
-            "    git submodule update",
-            "or commit any submodule changes you have made."
-        ]))
-        sys.exit(1)
-
-require_clean_submodules()
 
 #---------------------------------------------------------------------------
 # Find all the packages, package data, and data_files
@@ -147,8 +108,8 @@ setup_args['cmdclass'] = {
     'build_py': css_js_prerelease(
             check_package_data_first(build_py)),
     'sdist' : css_js_prerelease(sdist),
-    'submodule' : UpdateSubmodules,
     'css' : CompileCSS,
+    'js' : Bower,
     'jsversion' : JavascriptVersion,
 }
 
@@ -198,7 +159,9 @@ extras_require = {
 if 'setuptools' in sys.modules:
     # setup.py develop should check for submodules
     from setuptools.command.develop import develop
-    setup_args['cmdclass']['develop'] = require_submodules(develop)
+    setup_args['cmdclass']['develop'] = css_js_prerelease(develop)
+    if not PY3:
+        setup_args['setup_requires'] = ['ipython_genutils']
     
     try:
         from wheel.bdist_wheel import bdist_wheel

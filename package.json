@@ -1,0 +1,16 @@
+{
+ "name": "jupyter-notebook-deps",
+ "version": "4.0.0",
+ "description": "Jupyter Notebook nodejs dependencies",
+ "author": "Jupyter Developers",
+ "license": "BSD",
+ "repository": {
+  "type": "git",
+  "url": "https://github.com/jupyter/jupyter_notebook.git"
+ },
+ "devDependencies": {
+  "bower": "*",
+  "less": "~2",
+  "less-plugin-clean-css": "*"
+ }
+}
