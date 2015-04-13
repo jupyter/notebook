@@ -22,7 +22,7 @@ from distutils.cmd import Command
 from distutils.errors import DistutilsExecError
 from fnmatch import fnmatch
 from glob import glob
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, check_call
 
 #-------------------------------------------------------------------------------
 # Useful globals and utility functions
@@ -175,56 +175,86 @@ def check_package_data_first(command):
             command.run(self)
     return DecoratedCommand
 
-
-#---------------------------------------------------------------------------
-# VCS related
-#---------------------------------------------------------------------------
-
-# utils.submodule has checks for submodule status
-submodule = {}
-execfile(pjoin('jupyter_notebook','submodule.py'), submodule)
-check_submodule_status = submodule['check_submodule_status']
-update_submodules = submodule['update_submodules']
-
-class UpdateSubmodules(Command):
-    """Update git submodules
-    
-    The Notebook's external javascript dependencies live in a separate repo.
-    """
-    description = "Update git submodules"
-    user_options = []
-    
-    def initialize_options(self):
-        pass
-    
-    def finalize_options(self):
-        pass
-    
-    def run(self):
-        try:
-            self.spawn('git submodule init'.split())
-            self.spawn('git submodule update --recursive'.split())
-        except Exception as e:
-            print(e)
-        
-        if not check_submodule_status(repo_root) == 'clean':
-            print("submodules could not be checked out")
-            sys.exit(1)
-
-
-def require_submodules(command):
-    """decorator for instructing a command to check for submodules before running"""
-    class DecoratedCommand(command):
-        def run(self):
-            if not check_submodule_status(repo_root) == 'clean':
-                print("submodules missing! Run `setup.py submodule` and try again")
-                sys.exit(1)
-            command.run(self)
-    return DecoratedCommand
-
 #---------------------------------------------------------------------------
 # Notebook related
 #---------------------------------------------------------------------------
+
+try:
+    from shutil import which
+except ImportError:
+    from ipython_genutils import which
+
+static = pjoin(repo_root, 'jupyter_notebook', 'static')
+
+npm_path = os.pathsep.join([
+    pjoin(repo_root, 'node_modules', '.bin'),
+    os.environ.get("PATH", os.defpath),
+])
+
+def mtime(path):
+    """shorthand for mtime"""
+    return os.stat(path).st_mtime
+
+py3compat_ns = {}
+
+class Bower(Command):
+    description = "fetch static client-side components with bower"
+    
+    user_options = [
+        ('force', 'f', "force fetching of bower dependencies"),
+    ]
+    
+    def initialize_options(self):
+        self.force = False
+    
+    def finalize_options(self):
+        self.force = bool(self.force)
+    
+    bower_dir = pjoin(static, 'components')
+    node_modules = pjoin(repo_root, 'node_modules')
+    
+    def should_run(self):
+        if self.force:
+            return True
+        if not os.path.exists(self.bower_dir):
+            return True
+        return mtime(self.bower_dir) < mtime(pjoin(repo_root, 'bower.json'))
+
+    def should_run_npm(self):
+        if not which('npm'):
+            print("npm unavailable", file=sys.stderr)
+            return False
+        if not os.path.exists(self.node_modules):
+            return True
+        return mtime(self.node_modules) < mtime(pjoin(repo_root, 'package.json'))
+    
+    def run(self):
+        if not self.should_run():
+            print("bower dependencies up to date")
+            return
+        
+        if self.should_run_npm():
+            print("installing build dependencies with npm")
+            check_call(['npm', 'install'], cwd=repo_root)
+            os.utime(self.node_modules)
+        
+        env = os.environ.copy()
+        env['PATH'] = npm_path
+        
+        try:
+            check_call(
+                ['bower', 'install', '--allow-root', '--config.interactive=false'],
+                cwd=repo_root,
+                env=env,
+            )
+        except OSError as e:
+            print("Failed to run bower: %s" % e, file=sys.stderr)
+            print("You can install js dependencies with `npm install`", file=sys.stderr)
+            raise
+        os.utime(self.bower_dir)
+        # update package data in case this created new files
+        self.distribution.package_data = find_package_data()
+
 
 class CompileCSS(Command):
     """Recompile Notebook CSS
@@ -235,33 +265,65 @@ class CompileCSS(Command):
     """
     description = "Recompile Notebook CSS"
     user_options = [
-        ('minify', 'x', "minify CSS"),
         ('force', 'f', "force recompilation of CSS"),
     ]
     
     def initialize_options(self):
-        self.minify = False
         self.force = False
     
     def finalize_options(self):
-        self.minify = bool(self.minify)
         self.force = bool(self.force)
     
-    def run(self):
-        cmd = ['invoke', 'css']
-        if self.minify:
-            cmd.append('--minify')
+    def should_run(self):
+        """Does less need to run?"""
         if self.force:
-            cmd.append('--force')
-        try:
-            p = Popen(cmd, cwd=pjoin(repo_root, "jupyter_notebook"), stderr=PIPE)
-        except OSError:
-            raise DistutilsExecError("invoke is required to rebuild css (pip install invoke)")
-        out, err = p.communicate()
-        if p.returncode:
-            if sys.version_info[0] >= 3:
-                err = err.decode('utf8', 'replace')
-            raise DistutilsExecError(err.strip())
+            return True
+        
+        css_targets = [pjoin(static, 'css', '%s.min.css' % name) for name in ('ipython', 'style')]
+        css_maps = [t + '.map' for t in css_targets]
+        targets = css_targets + css_maps
+        if not all(os.path.exists(t) for t in targets):
+            # some generated files don't exist
+            return True
+        earliest_target = sorted(mtime(t) for t in targets)[0]
+    
+        # check if any .less files are newer than the generated targets
+        for (dirpath, dirnames, filenames) in os.walk(static):
+            for f in filenames:
+                if f.endswith('.less'):
+                    path = pjoin(static, dirpath, f)
+                    timestamp = mtime(path)
+                    if timestamp > earliest_target:
+                        return True
+    
+        return False
+    
+    def run(self):
+        if not self.should_run():
+            print("CSS up-to-date")
+            return
+        
+        self.run_command('js')
+        env = os.environ.copy()
+        env['PATH'] = npm_path
+        for name in ('ipython', 'style'):
+            less = pjoin(static, 'style', '%s.less' % name)
+            css = pjoin(static, 'style', '%s.min.css' % name)
+            sourcemap = css + '.map'
+            try:
+                check_call([
+                    'lessc', '--clean-css',
+                    '--source-map-basepath={}'.format(static),
+                    '--source-map={}'.format(sourcemap),
+                    '--source-map-rootpath=../',
+                    less, css,
+                ], cwd=repo_root, env=env)
+            except OSError as e:
+                print("Failed to run lessc: %s" % e, file=sys.stderr)
+                print("You can install js dependencies with `npm install`", file=sys.stderr)
+                raise
+        # update package data in case this created new files
+        self.distribution.package_data = find_package_data()
 
 
 class JavascriptVersion(Command):
@@ -291,12 +353,14 @@ class JavascriptVersion(Command):
 
 
 def css_js_prerelease(command):
-    """decorator for building js/minified css prior to a release"""
+    """decorator for building js/minified css prior to another command"""
     class DecoratedCommand(command):
         def run(self):
             self.distribution.run_command('jsversion')
+            js = self.distribution.get_command_obj('js')
+            js.force = True
             css = self.distribution.get_command_obj('css')
-            css.minify = True
+            css.force = True
             try:
                 self.distribution.run_command('css')
             except Exception as e:
