@@ -182,6 +182,7 @@ def check_package_data_first(command):
 try:
     from shutil import which
 except ImportError:
+    ## which() function copied from Python 3.4.3; PSF license
     def which(cmd, mode=os.F_OK | os.X_OK, path=None):
         """Given a command, mode, and a PATH string, return the path which
         conforms to the given mode on the PATH, or None if there is no such
