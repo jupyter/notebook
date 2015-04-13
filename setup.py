@@ -152,6 +152,7 @@ install_requires = [
 ]
 extras_require = {
     ':sys_platform != "win32"': ['terminado>=0.3.3'],
+    'doc': ['Sphinx>=1.1'],
     'test:python_version == "2.7"': ['mock'],
     'test': ['nose', 'requests'],
 }
@@ -162,14 +163,14 @@ if 'setuptools' in sys.modules:
     setup_args['cmdclass']['develop'] = css_js_prerelease(develop)
     if not PY3:
         setup_args['setup_requires'] = ['ipython_genutils']
-    
+
     try:
         from wheel.bdist_wheel import bdist_wheel
     except ImportError:
         pass
     else:
         setup_args['cmdclass']['bdist_wheel'] = css_js_prerelease(bdist_wheel)
-    
+
     setuptools_extra_args['zip_safe'] = False
     setup_args['extras_require'] = extras_require
     requires = setup_args['install_requires'] = install_requires
