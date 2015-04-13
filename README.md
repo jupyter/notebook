@@ -5,7 +5,7 @@ The Jupyter HTML notebook is a web-based notebook environment for interactive co
 Dev quickstart:
 
 * Create a virtual env (ie jupyter-dev)
-* ensure that you have node/npm install (ie brew install node on OS X)
+* ensure that you have node/npm installed (ie brew install node on OS X)
 * Clone this repo and cd into it
 * pip install -r requirements.txt
 * pip install -e .
