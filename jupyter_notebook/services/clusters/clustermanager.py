@@ -53,10 +53,10 @@ class ClusterManager(LoggingConfigurable):
         """List all profiles in the ipython_dir and cwd.
         """
         try:
-            from IPythons.paths import get_ipython_dir
+            from IPython.paths import get_ipython_dir
             from IPython.core.profileapp import list_profiles_in
-        except ImportError:
-            self.log.info("IPython not available")
+        except ImportError as e:
+            self.log.info("IPython not available: %s", e)
             return
         stale = set(self.profiles)
         for path in [get_ipython_dir(), py3compat.getcwd()]:
