@@ -6,4 +6,3 @@
 -e git+https://github.com/ipython/ipython.git#egg=ipython
 -e git+https://github.com/ipython/ipython_kernel.git#egg=ipython_kernel
 -e git+https://github.com/jupyter/jupyter_nbconvert.git#egg=jupyter_nbconvert
-invoke
