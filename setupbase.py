@@ -298,7 +298,7 @@ class Bower(Command):
         if self.should_run_npm():
             print("installing build dependencies with npm")
             check_call(['npm', 'install'], cwd=repo_root)
-            os.utime(self.node_modules)
+            os.utime(self.node_modules, None)
         
         env = os.environ.copy()
         env['PATH'] = npm_path
@@ -313,7 +313,7 @@ class Bower(Command):
             print("Failed to run bower: %s" % e, file=sys.stderr)
             print("You can install js dependencies with `npm install`", file=sys.stderr)
             raise
-        os.utime(self.bower_dir)
+        os.utime(self.bower_dir, None)
         # update package data in case this created new files
         self.distribution.package_data = find_package_data()
 
