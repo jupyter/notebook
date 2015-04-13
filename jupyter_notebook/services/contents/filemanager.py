@@ -8,6 +8,7 @@ import io
 import os
 import shutil
 import mimetypes
+import jupyter_nbformat as nbformat
 
 from tornado import web
 
@@ -15,7 +16,7 @@ from .filecheckpoints import FileCheckpoints
 from .fileio import FileManagerMixin
 from .manager import ContentsManager
 
-from IPython import nbformat
+
 from ipython_genutils.importstring import import_item
 from traitlets import Any, Unicode, Bool, TraitError
 from ipython_genutils.py3compat import getcwd, string_types
