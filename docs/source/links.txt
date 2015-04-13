@@ -1,0 +1,38 @@
+.. This (-*- rst -*-) format file contains commonly used link targets
+   and name substitutions.  It may be included in many files,
+   therefore it should only contain link targets and name
+   substitutions.  Try grepping for "^\.\. _" to find plausible
+   candidates for this list.
+
+   NOTE: this file must have an extension *opposite* to that of the main reST
+   files in the manuals, so that we can include it with ".. include::"
+   directives, but without triggering warnings from Sphinx for not being listed
+   in any toctree.  Since IPython uses .txt for the main files, this one will
+   use .rst.
+
+   NOTE: reST targets are
+   __not_case_sensitive__, so only one target definition is needed for
+   ipython, IPython, etc.
+
+   NOTE: Some of these were taken from the nipy links compendium.
+
+.. Main IPython links
+
+.. _Basic Output: notebook_p2_
+.. _notebook_p2: http://nbviewer.ipython.org/urls/raw.github.com/ipython/ipython/1.x/examples/notebooks/Part%202%20-%20Basic%20Output.ipynb
+
+.. _Running Code in the IPython Notebook: notebook_p1_
+.. _notebook_p1: http://nbviewer.ipython.org/urls/raw.github.com/ipython/ipython/1.x/examples/notebooks/Part%25201%2520-%2520Running%2520Code.ipynb
+
+.. Other python projects
+.. _matplotlib: http://matplotlib.org
+.. _nbviewer: http://nbviewer.ipython.org
+
+.. Other tools and projects
+.. _Markdown: http://daringfireball.net/projects/markdown/syntax
+
+.. _Rich Display System: notebook_p5_
+.. _notebook_p5: http://nbviewer.ipython.org/urls/raw.github.com/ipython/ipython/1.x/examples/notebooks/Part%205%20-%20Rich%20Display%20System.ipynb
+
+.. _Plotting with Matplotlib: notebook_p3_
+.. _notebook_p3: http://nbviewer.ipython.org/urls/raw.github.com/ipython/ipython/1.x/examples/notebooks/Part%203%20-%20Plotting%20with%20Matplotlib.ipynb
