@@ -19,7 +19,8 @@ from jupyter_notebook.utils import (
     to_api_path,
     to_os_path,
 )
-from IPython import nbformat
+import jupyter_nbformat as nbformat
+
 from ipython_genutils.py3compat import str_to_unicode
 
 
