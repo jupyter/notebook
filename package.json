@@ -1,16 +1,19 @@
 {
- "name": "jupyter-notebook-deps",
- "version": "4.0.0",
- "description": "Jupyter Notebook nodejs dependencies",
- "author": "Jupyter Developers",
- "license": "BSD",
- "repository": {
-  "type": "git",
-  "url": "https://github.com/jupyter/jupyter_notebook.git"
- },
- "devDependencies": {
-  "bower": "*",
-  "less": "~2",
-  "less-plugin-clean-css": "*"
- }
+  "name": "jupyter-notebook-deps",
+  "version": "4.0.0",
+  "description": "Jupyter Notebook nodejs dependencies",
+  "author": "Jupyter Developers",
+  "license": "BSD",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jupyter/jupyter_notebook.git"
+  },
+  "devDependencies": {
+    "bower": "*",
+    "gulp": "^3.8.11",
+    "gulp-less": "^3.0.2",
+    "gulp-minify-css": "^1.0.0",
+    "gulp-rename": "^1.2.2",
+    "less": "~2"
+  }
 }
