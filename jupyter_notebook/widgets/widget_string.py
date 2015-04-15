@@ -55,7 +55,7 @@ class Text(_String):
         self._submission_callbacks = CallbackDispatcher()
         self.on_msg(self._handle_string_msg)
 
-    def _handle_string_msg(self, _, content):
+    def _handle_string_msg(self, _, content, buffers):
         """Handle a msg from the front-end.
 
         Parameters
