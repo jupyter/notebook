@@ -14,6 +14,7 @@
     "gulp-less": "^3.0.2",
     "gulp-minify-css": "^1.0.0",
     "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.5.1",
     "less": "~2"
   }
 }
