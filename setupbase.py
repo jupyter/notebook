@@ -138,6 +138,25 @@ def find_package_data():
             if f.endswith(('.js', '.css')):
                 static_data.append(pjoin(parent, f))
 
+    # Trim mathjax
+    mj = lambda *path: pjoin(components, 'MathJax', *path)
+    static_data.extend([
+        mj('MathJax.js'),
+        mj('config', 'TeX-AMS_HTML-full.js'),
+        mj('jax', 'output', 'HTML-CSS', '*.js'),
+    ])
+    for tree in [
+        mj('localization'), # limit to en?
+        mj('fonts', 'HTML-CSS', 'STIX-Web', 'woff'),
+        mj('jax', 'input', 'TeX'),
+        mj('jax', 'output', 'HTML-CSS', 'autoload'),
+        mj('jax', 'output', 'HTML-CSS', 'fonts', 'STIX-Web'),
+    ]:
+        for parent, dirs, files in os.walk(tree):
+            for f in files:
+                static_data.append(pjoin(parent, f))
+    
+
     os.chdir(os.path.join('tests',))
     js_tests = glob('*.js') + glob('*/*.js')
 
