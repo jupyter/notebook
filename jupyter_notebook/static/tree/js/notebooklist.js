@@ -151,9 +151,9 @@ define([
     NotebookList.prototype.handleFilesUpload =  function(event, dropOrForm) {
         var that = this;
         var files;
-        if(dropOrForm =='drop'){
+        if(dropOrForm === 'drop'){
             files = event.originalEvent.dataTransfer.files;
-        } else 
+        } else
         {
             files = event.originalEvent.target.files;
         }
@@ -171,7 +171,7 @@ define([
             }
             var item = that.new_item(0, true);
             item.addClass('new-file');
-            that.add_name_input(f.name, item, file_ext == '.ipynb' ? 'notebook' : 'file');
+            that.add_name_input(f.name, item, file_ext === '.ipynb' ? 'notebook' : 'file');
             // Store the list item in the reader so we can use it later
             // to know which item it belongs to.
             $(reader).data('item', item);
@@ -302,7 +302,7 @@ define([
             var list_items = $('.list_item');
             for (var i=0; i<list_items.length; i++) {
                 var $list_item = $(list_items[i]);
-                if ($list_item.data('path') == item.path) {
+                if ($list_item.data('path') === item.path) {
                     $list_item.find('input[type=checkbox]').prop('checked', true);
                     break;
                 }
@@ -430,29 +430,29 @@ define([
         $('.list_item :checked').each(function(index, item) {
             var parent = $(item).parent().parent();
 
-            // If the item doesn't have an upload button, isn't the 
-            // breadcrumbs and isn't the parent folder '..', then it can be selected.  
+            // If the item doesn't have an upload button, isn't the
+            // breadcrumbs and isn't the parent folder '..', then it can be selected.
             // Breadcrumbs path == ''.
             if (parent.find('.upload_button').length === 0 && parent.data('path') !== '' && parent.data('path') !== utils.url_path_split(that.notebook_path)[0]) {
                 checked++;
                 selected.push({
-                    name: parent.data('name'), 
-                    path: parent.data('path'), 
+                    name: parent.data('name'),
+                    path: parent.data('path'),
                     type: parent.data('type')
                 });
 
                 // Set flags according to what is selected.  Flags are later
                 // used to decide which action buttons are visible.
-                has_running_notebook = has_running_notebook || 
-                    (parent.data('type') == 'notebook' && that.sessions[parent.data('path')] !== undefined);
-                has_file = has_file || parent.data('type') == 'file';
-                has_directory = has_directory || parent.data('type') == 'directory';    
+                has_running_notebook = has_running_notebook ||
+                    (parent.data('type') === 'notebook' && that.sessions[parent.data('path')] !== undefined);
+                has_file = has_file || (parent.data('type') === 'file');
+                has_directory = has_directory || (parent.data('type') === 'directory');
             }
         });
         this.selected = selected;
 
         // Rename is only visible when one item is selected, and it is not a running notebook
-        if (selected.length==1 && !has_running_notebook) {
+        if (selected.length === 1 && !has_running_notebook) {
             $('.rename-button').css('display', 'inline-block');
         } else {
             $('.rename-button').css('display', 'none');
@@ -521,8 +521,8 @@ define([
     NotebookList.prototype.add_link = function (model, item) {
         var path = model.path,
             name = model.name;
-        var running = (model.type == 'notebook' && this.sessions[path] !== undefined);
-        
+        var running = (model.type === 'notebook' && this.sessions[path] !== undefined);
+
         item.data('name', name);
         item.data('path', path);
         item.data('type', model.type);
@@ -562,8 +562,8 @@ define([
             .attr('size', '30')
             .attr('type', 'text')
             .keyup(function(event){
-                if(event.keyCode == 13){item.find('.upload_button').click();}
-                else if(event.keyCode == 27){item.remove();}
+                if(event.keyCode === 13){item.find('.upload_button').click();}
+                else if(event.keyCode === 27){item.remove();}
             })
         );
     };
@@ -577,7 +577,7 @@ define([
     NotebookList.prototype.shutdown_selected = function() {
         var that = this;
         this.selected.forEach(function(item) {
-            if (item.type == 'notebook') {
+            if (item.type === 'notebook') {
                 that.shutdown_notebook(item.path);
             }
         });
@@ -608,7 +608,9 @@ define([
     };
 
     NotebookList.prototype.rename_selected = function() {
-        if (this.selected.length != 1) return;
+        if (this.selected.length !== 1){
+            return;
+        }
 
         var that = this;
         var item_path = this.selected[0].path;
@@ -664,7 +666,7 @@ define([
 
     NotebookList.prototype.delete_selected = function() {
         var message;
-        if (this.selected.length == 1) {
+        if (this.selected.length === 1) {
             message = 'Are you sure you want to permanently delete: ' + this.selected[0].name + '?';
         } else {
             message = 'Are you sure you want to permanently delete the ' + this.selected.length + ' files/folders selected?';
@@ -709,7 +711,7 @@ define([
 
     NotebookList.prototype.duplicate_selected = function() {
         var message;
-        if (this.selected.length == 1) {
+        if (this.selected.length === 1) {
             message = 'Are you sure you want to duplicate: ' + this.selected[0].name + '?';
         } else {
             message = 'Are you sure you want to duplicate the ' + this.selected.length + ' files selected?';
@@ -854,7 +856,7 @@ define([
                 } else {
                     that.contents.save(path, model).then(on_success);
                 }
-                
+
                 return false;
             });
         var cancel_button = $('<button/>').text("Cancel")
