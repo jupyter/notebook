@@ -80,7 +80,9 @@ def _compile_less(source, target, sourcemap, minify=True, verbose=False):
     install = "(npm install -g 'less@<{}')".format(max_less_version)
     # pin less to version number from above
     try:
-        out = check_output(['lessc', '--version'])
+        # Use shell=True because shell=False ignores PATH on windows
+        # which causes lessc to not be found if installed with NPM.
+        out = check_output('lessc --version', shell=True)
     except OSError as err:
         _fail("Unable to find lessc.  Rebuilding css requires less >= {0} and < {1} {2}".format(
             min_less_version, max_less_version, install
