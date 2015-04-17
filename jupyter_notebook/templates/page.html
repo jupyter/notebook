@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{static_url("components/jquery-ui/themes/smoothness/jquery-ui.min.css") }}" type="text/css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <link rel="stylesheet" href="{{ static_url("components/phosphor/dist/phosphor.css") }}" type="text/css"/>
     {% block stylesheet %}
     <link rel="stylesheet" href="{{ static_url("style/style.min.css") }}" type="text/css"/>
     {% endblock %}
@@ -36,6 +37,7 @@
             moment: 'components/moment/moment',
             codemirror: 'components/codemirror',
             termjs: 'components/term.js/src/term',
+            phosphor: 'components/phosphor/dist/phosphor',
           },
           shim: {
             underscore: {
@@ -56,6 +58,9 @@
             jqueryui: {
               deps: ["jquery"],
               exports: "$"
+            },
+            phosphor: {
+              exports: 'phosphor'
             }
           }
       });
