@@ -157,6 +157,23 @@ define([
         {
             files = event.originalEvent.target.files;
         }
+
+        var reader_onload = function (event) {
+            var item = $(event.target).data('item');
+            that.add_file_data(event.target.result, item);
+            that.add_upload_button(item);
+        };
+        var reader_onerror = function (event) {
+            var item = $(event.target).data('item');
+            var name = item.data('name');
+            item.remove();
+            dialog.modal({
+                title : 'Failed to read file',
+                body : "Failed to read file '" + name + "'",
+                buttons : {'OK' : { 'class' : 'btn-primary' }}
+            });
+        };
+
         for (var i = 0; i < files.length; i++) {
             var f = files[i];
             var name_and_ext = utils.splitext(f.name);
@@ -175,21 +192,8 @@ define([
             // Store the list item in the reader so we can use it later
             // to know which item it belongs to.
             $(reader).data('item', item);
-            reader.onload = function (event) {
-                var item = $(event.target).data('item');
-                that.add_file_data(event.target.result, item);
-                that.add_upload_button(item);
-            };
-            reader.onerror = function (event) {
-                var item = $(event.target).data('item');
-                var name = item.data('name');
-                item.remove();
-                dialog.modal({
-                    title : 'Failed to read file',
-                    body : "Failed to read file '" + name + "'",
-                    buttons : {'OK' : { 'class' : 'btn-primary' }}
-                });
-            };
+            reader.onload = reader_onload;
+            reader.onerror = reader_onerror;
         }
         // Replace the file input form wth a clone of itself. This is required to
         // reset the form. Otherwise, if you upload a file, delete it and try to 
