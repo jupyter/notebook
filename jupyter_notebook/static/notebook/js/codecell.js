@@ -231,7 +231,7 @@ define([
         var that = this;
         return view_promise.then(function(view) {
             that.widget_area.show();
-            dummy.replaceWith(view.$el);
+            dummy.replaceWith(view.el);
             that.widget_views.push(view);
 
             // Check the live state of the view's model.
