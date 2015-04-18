@@ -23,6 +23,7 @@
           {% endif %}
           baseUrl: '{{static_url("", include_version=False)}}',
           paths: {
+            custom : '{{ base_url }}custom',
             nbextensions : '{{ base_url }}nbextensions',
             kernelspecs : '{{ base_url }}kernelspecs',
             underscore : 'components/underscore/underscore-min',

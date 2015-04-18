@@ -171,6 +171,7 @@ class NotebookWebApplication(web.Application):
             default_url=default_url,
             template_path=template_path,
             static_path=ipython_app.static_file_path,
+            static_custom_path=ipython_app.static_custom_path,
             static_handler_class = FileFindHandler,
             static_url_prefix = url_path_join(base_url,'/static/'),
             static_handler_args = {
@@ -234,6 +235,12 @@ class NotebookWebApplication(web.Application):
                 'path': settings['nbextensions_path'],
                 'no_cache_paths': ['/'], # don't cache anything in nbextensions
             }),
+        )
+        handlers.append(
+            (r"/custom/(.*)", FileFindHandler, {
+                'path': settings['static_custom_path'],
+                'no_cache_paths': ['/'], # don't cache anything in custom
+            })
         )
         # register base handlers last
         handlers.extend(load_handlers('base.handlers'))
@@ -563,25 +570,29 @@ class NotebookApp(JupyterApp):
         This allows adding javascript/css to be available from the notebook server machine,
         or overriding individual files in the IPython"""
     )
-    def _extra_static_paths_default(self):
-        return [
-            # FIXME: remove IPython static path once migration is set up
-            # and JUPYTER_CONFIG_DIR/custom is served at static/custom
-            os.path.join(get_ipython_dir(), 'static'),
-        ]
     
     @property
     def static_file_path(self):
         """return extra paths + the default location"""
         return self.extra_static_paths + [DEFAULT_STATIC_FILES_PATH]
+    
+    static_custom_path = List(Unicode,
+        help="""Path to search for custom.js, css"""
+    )
+    def _static_custom_path_default(self):
+        return [
+            os.path.join(d, 'custom') for d in (
+                self.config_dir,
+                # FIXME: serve IPython profile while we don't have `jupyter migrate`
+                os.path.join(get_ipython_dir(), 'profile_default', 'static'),
+                DEFAULT_STATIC_FILES_PATH)
+        ]
 
     extra_template_paths = List(Unicode, config=True,
         help="""Extra paths to search for serving jinja templates.
 
         Can be used to override templates from jupyter_notebook.templates."""
     )
-    def _extra_template_paths_default(self):
-        return []
 
     @property
     def template_file_path(self):
