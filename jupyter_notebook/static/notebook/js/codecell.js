@@ -154,6 +154,7 @@ define([
         cell.attr('tabindex','2');
 
         var input = $('<div></div>').addClass('input');
+        this.input = input;
         var prompt = $('<div/>').addClass('prompt input_prompt');
         var inner_cell = $('<div/>').addClass('inner_cell');
         this.celltoolbar = new celltoolbar.CellToolbar({

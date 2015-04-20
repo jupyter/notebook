@@ -140,9 +140,9 @@ define([
 
     WidgetManager.prototype.display_view_in_cell = function(cell, model) {
         // Displays a view in a cell.
-        if (cell.display_widget_view) {
+        if (cell.widgetarea) {
             var that = this;
-            return cell.display_widget_view(this.create_view(model, {
+            return cell.widgetarea.display_widget_view(this.create_view(model, {
                 cell: cell,
                 // Only set cell_index when view is displayed as directly.
                 cell_index: that.notebook.find_cell_index(cell),
@@ -152,7 +152,7 @@ define([
                 return view;
             }).catch(utils.reject('Could not create or display view', true)); 
         } else {
-            return Promise.reject(new Error('Cell does not have a `display_widget_view` method'));
+            return Promise.reject(new Error('Cell does not have a `widgetarea` defined'));
         }
     };
 

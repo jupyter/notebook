@@ -2,8 +2,8 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    "widgets/js/widget",
-    "widgets/js/widget_int",
+    "nbextensions/widgets/widgets/js/widget",
+    "nbextensions/widgets/widgets/js/widget_int",
 ], function(widget, int_widgets){
     var IntSliderView = int_widgets.IntSliderView;
     var IntTextView = int_widgets.IntTextView;

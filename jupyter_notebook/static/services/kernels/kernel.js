@@ -6,8 +6,9 @@ define([
     'jquery',
     'base/js/utils',
     './comm',
-    './serialize'
-], function(IPython, $, utils, comm, serialize) {
+    './serialize',
+    'base/js/events'
+], function(IPython, $, utils, comm, serialize, events) {
     "use strict";
 
     /**
@@ -19,11 +20,10 @@ define([
      * @class Kernel
      * @param {string} kernel_service_url - the URL to access the kernel REST api
      * @param {string} ws_url - the websockets URL
-     * @param {Notebook} notebook - notebook object
      * @param {string} name - the kernel type (e.g. python3)
      */
-    var Kernel = function (kernel_service_url, ws_url, notebook, name) {
-        this.events = notebook.events;
+    var Kernel = function (kernel_service_url, ws_url, name) {
+        this.events = events;
 
         this.id = null;
         this.name = name;
