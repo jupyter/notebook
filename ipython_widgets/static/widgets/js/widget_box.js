@@ -2,7 +2,7 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    "widgets/js/widget",
+    "nbextensions/widgets/widgets/js/widget",
     "jqueryui",
     "underscore",
     "base/js/utils",
