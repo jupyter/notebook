@@ -59,15 +59,15 @@ record of a session, interleaving executable code with explanatory text,
 mathematics, and rich representations of resulting objects. These documents
 are internally JSON_ files and are saved with the ``.ipynb`` extension. Since
 JSON is a plain text format, they can be version-controlled and shared with
-colleagues.  
-   
+colleagues.
+
 .. _JSON: http://en.wikipedia.org/wiki/JSON
 
 Notebooks may be exported to a range of static formats, including HTML (for
 example, for blog posts), reStructuredText, LaTeX, PDF, and slide shows, via
 the new :ref:`nbconvert <nbconvert>` command.
 
-Furthermore, any  ``.ipynb`` notebook document available from a public 
+Furthermore, any  ``.ipynb`` notebook document available from a public
 URL can be shared via the `IPython Notebook Viewer <nbviewer>`_ (nbviewer_).
 This service loads the notebook document from the URL and renders it as a
 static web page.  The results may thus be shared with a colleague, or as a
@@ -80,8 +80,8 @@ nbviewer.
 
 .. seealso::
 
-    :ref:`Details on the notebook JSON file format <nbformat>` 
-   
+    :ref:`Details on the notebook JSON file format <nbformat>`
+
 
 Starting the notebook server
 ----------------------------
@@ -116,10 +116,10 @@ from the notebook directory or to create a new notebook.
 
 .. note::
 
-   You can start more than one notebook server at the same time, if you want 
-   to work on notebooks in different directories.  By default the first 
-   notebook server starts on port 8888, and later notebook servers search for  
-   ports near that one.  You can also manually specify the port with the 
+   You can start more than one notebook server at the same time, if you want
+   to work on notebooks in different directories.  By default the first
+   notebook server starts on port 8888, and later notebook servers search for
+   ports near that one.  You can also manually specify the port with the
    ``--port`` option.
 
 Creating a new notebook document
@@ -142,7 +142,7 @@ with an active kernel have a ``Shutdown`` button next to them, whereas
 notebooks without an active kernel have a ``Delete`` button in its place.
 
 Other clients may connect to the same underlying IPython kernel.
-The notebook server always prints to the terminal the full details of 
+The notebook server always prints to the terminal the full details of
 how to connect to each kernel, with messages such as the following::
 
     [NotebookApp] Kernel started: 87f7d2c0-13e3-43df-8bb8-1bd37aaf3373
@@ -158,7 +158,7 @@ kernel from the command line, by passing a portion of the ID::
 
     $ ipython qtconsole --existing 87f7d2c0
 
-Without an ID, ``--existing`` will  connect to the most recently 
+Without an ID, ``--existing`` will  connect to the most recently
 started kernel. This can also be done by running the ``%qtconsole``
 :ref:`magic <magics_explained>` in the notebook.
 
@@ -178,7 +178,7 @@ of the page, next to the ``IP[y]: Notebook`` logo. This name reflects the name
 of the ``.ipynb`` notebook document file.  Clicking on the notebook name
 brings up a dialog which allows you to rename it. Thus, renaming a notebook
 from "Untitled0" to "My first notebook" in the browser, renames the
-``Untitled0.ipynb`` file to ``My first notebook.ipynb``. 
+``Untitled0.ipynb`` file to ``My first notebook.ipynb``.
 
 **menu bar**: The menu bar presents different options that may be used to
 manipulate the way the notebook functions.
@@ -200,7 +200,7 @@ the cell's type.  There are four types of cells: **code cells**, **markdown
 cells**, **raw cells** and **heading cells**.  Every cell starts off
 being a **code cell**, but its type can be changed by using a dropdown on the
 toolbar (which will be "Code", initially), or via :ref:`keyboard shortcuts
-<keyboard-shortcuts>`.  
+<keyboard-shortcuts>`.
 
 For more information on the different things you can do in a notebook,
 see the `collection of examples
@@ -214,11 +214,11 @@ cell is Python, but other languages, such as ``Julia`` and ``R``, can be
 handled using :ref:`cell magic commands <magics_explained>`.
 
 When a code cell is executed, code that it contains is sent to the kernel
-associated with the notebook.  The results that are returned from this 
+associated with the notebook.  The results that are returned from this
 computation  are then displayed in the notebook as the cell's *output*. The
 output is not limited to text, with many other possible forms of output are
-also possible, including ``matplotlib`` figures and HTML tables (as used, for 
-example, in the ``pandas`` data analysis package). This is known as IPython's 
+also possible, including ``matplotlib`` figures and HTML tables (as used, for
+example, in the ``pandas`` data analysis package). This is known as IPython's
 *rich display* capability.
 
 .. seealso::
@@ -229,34 +229,34 @@ example, in the ``pandas`` data analysis package). This is known as IPython's
 
 Markdown cells
 ~~~~~~~~~~~~~~
-You can document the computational process in a literate way, alternating 
-descriptive text with code, using *rich text*. In IPython this is accomplished 
-by marking up text with the Markdown language. The corresponding cells are 
-called *Markdown cells*. The Markdown language provides a simple way to 
-perform this text markup, that is, to specify which parts of the text should 
-be emphasized (italics), bold, form lists, etc. 
+You can document the computational process in a literate way, alternating
+descriptive text with code, using *rich text*. In IPython this is accomplished
+by marking up text with the Markdown language. The corresponding cells are
+called *Markdown cells*. The Markdown language provides a simple way to
+perform this text markup, that is, to specify which parts of the text should
+be emphasized (italics), bold, form lists, etc.
 
 
-When a Markdown cell is executed, the Markdown code is converted into 
+When a Markdown cell is executed, the Markdown code is converted into
 the corresponding formatted rich text. Markdown allows arbitrary HTML code for
 formatting.
 
-Within Markdown cells, you can also include *mathematics* in a straightforward 
-way, using standard LaTeX notation: ``$...$`` for inline mathematics and 
-``$$...$$`` for displayed mathematics. When the Markdown cell is executed, 
-the LaTeX portions are automatically rendered in the HTML output as equations 
-with high quality typography. This is made possible by MathJax_, which 
-supports a `large subset <mathjax_tex>`_ of LaTeX functionality 
+Within Markdown cells, you can also include *mathematics* in a straightforward
+way, using standard LaTeX notation: ``$...$`` for inline mathematics and
+``$$...$$`` for displayed mathematics. When the Markdown cell is executed,
+the LaTeX portions are automatically rendered in the HTML output as equations
+with high quality typography. This is made possible by MathJax_, which
+supports a `large subset <mathjax_tex>`_ of LaTeX functionality
 
 .. _mathjax_tex: http://docs.mathjax.org/en/latest/tex.html
 
-Standard mathematics environments defined by LaTeX and AMS-LaTeX (the 
-`amsmath` package) also work, such as 
+Standard mathematics environments defined by LaTeX and AMS-LaTeX (the
+`amsmath` package) also work, such as
 ``\begin{equation}...\end{equation}``, and ``\begin{align}...\end{align}``.
-New LaTeX macros may be defined using standard methods, 
-such as ``\newcommand``, by placing them anywhere *between math delimiters* in 
-a Markdown cell. These definitions are then available throughout the rest of 
-the IPython session. 
+New LaTeX macros may be defined using standard methods,
+such as ``\newcommand``, by placing them anywhere *between math delimiters* in
+a Markdown cell. These definitions are then available throughout the rest of
+the IPython session.
 
 .. seealso::
 
@@ -275,10 +275,10 @@ nbconvert.
 Heading cells
 ~~~~~~~~~~~~~
 
-You can provide a conceptual structure for your computational document as a 
-whole using different levels of headings; there are 6 levels available, from 
-level 1 (top level) down to level 6 (paragraph). These can be used later for 
-constructing tables of contents, etc.  As with Markdown cells, a heading 
+You can provide a conceptual structure for your computational document as a
+whole using different levels of headings; there are 6 levels available, from
+level 1 (top level) down to level 6 (paragraph). These can be used later for
+constructing tables of contents, etc.  As with Markdown cells, a heading
 cell is replaced by a rich text rendering of the heading when the cell is
 executed.
 
@@ -286,29 +286,29 @@ executed.
 Basic workflow
 --------------
 
-The normal workflow in a notebook is, then, quite similar to a standard 
-IPython session, with the difference that you can edit cells in-place multiple 
-times until you obtain the desired results, rather than having to 
-rerun separate scripts with the ``%run`` magic command. 
+The normal workflow in a notebook is, then, quite similar to a standard
+IPython session, with the difference that you can edit cells in-place multiple
+times until you obtain the desired results, rather than having to
+rerun separate scripts with the ``%run`` magic command.
 
 
-Typically, you will work on a computational problem in pieces, organizing 
-related ideas into cells and moving forward once previous parts work 
-correctly. This is much more convenient for interactive exploration than 
-breaking up a computation into scripts that must be executed together, as was 
+Typically, you will work on a computational problem in pieces, organizing
+related ideas into cells and moving forward once previous parts work
+correctly. This is much more convenient for interactive exploration than
+breaking up a computation into scripts that must be executed together, as was
 previously necessary, especially if parts of them take a long time to run.
 
-At certain moments, it may be necessary to interrupt a calculation which is 
-taking too long to complete. This may be done with the `Kernel | Interrupt` 
+At certain moments, it may be necessary to interrupt a calculation which is
+taking too long to complete. This may be done with the `Kernel | Interrupt`
 menu option, or the :kbd:`Ctrl-m i` keyboard shortcut.
-Similarly, it may be necessary or desirable to restart the whole computational 
-process, with the `Kernel | Restart` menu option or :kbd:`Ctrl-m .` 
-shortcut. 
+Similarly, it may be necessary or desirable to restart the whole computational
+process, with the `Kernel | Restart` menu option or :kbd:`Ctrl-m .`
+shortcut.
 
 A notebook may be downloaded in either a ``.ipynb`` or ``.py`` file from the
 menu option `File | Download as`. Choosing the ``.py`` option downloads a
 Python ``.py`` script, in which all rich output has been removed and the
-content of markdown cells have been inserted as comments.  
+content of markdown cells have been inserted as comments.
 
 .. seealso::
 
@@ -322,20 +322,20 @@ content of markdown cells have been inserted as comments.
 
 Keyboard shortcuts
 ~~~~~~~~~~~~~~~~~~
-All actions in the notebook can be performed with the mouse, but keyboard 
+All actions in the notebook can be performed with the mouse, but keyboard
 shortcuts are also available for the most common ones. The essential shortcuts
 to remember are the following:
 
 * :kbd:`Shift-Enter`:  run cell
-    Execute the current cell, show output (if any), and jump to the next cell 
-    below. If :kbd:`Shift-Enter` is invoked on the last cell, a new code 
-    cell will also be created. Note that in the notebook, typing :kbd:`Enter` 
-    on its own *never* forces execution, but rather just inserts a new line in 
-    the current cell. :kbd:`Shift-Enter` is equivalent to clicking the 
+    Execute the current cell, show output (if any), and jump to the next cell
+    below. If :kbd:`Shift-Enter` is invoked on the last cell, a new code
+    cell will also be created. Note that in the notebook, typing :kbd:`Enter`
+    on its own *never* forces execution, but rather just inserts a new line in
+    the current cell. :kbd:`Shift-Enter` is equivalent to clicking the
     ``Cell | Run`` menu item.
 
 * :kbd:`Ctrl-Enter`: run cell in-place
-    Execute the current cell as if it were in "terminal mode", where any 
+    Execute the current cell as if it were in "terminal mode", where any
     output is shown, but the cursor *remains* in the current cell. The cell's
     entire contents are selected after execution, so you can just start typing
     and only the new input will be in the cell. This is convenient for doing
@@ -344,11 +344,11 @@ to remember are the following:
     to be saved in the notebook.
 
 * :kbd:`Alt-Enter`: run cell, insert below
-    Executes the current cell, shows the output, and inserts a *new* 
-    cell between the current cell and the cell below (if one exists). This  
+    Executes the current cell, shows the output, and inserts a *new*
+    cell between the current cell and the cell below (if one exists). This
     is thus a shortcut for the sequence :kbd:`Shift-Enter`, :kbd:`Ctrl-m a`.
     (:kbd:`Ctrl-m a` adds a new cell above the current one.)
-  
+
 * :kbd:`Esc` and :kbd:`Enter`: Command mode and edit mode
     In command mode, you can easily navigate around the notebook using keyboard
     shortcuts. In edit mode, you can edit text in cells.
@@ -360,7 +360,7 @@ Plotting
 --------
 One major feature of the notebook is the ability to display plots that are the
 output of running code cells. IPython is designed to work seamlessly with the
-matplotlib_ plotting library to provide this functionality. 
+matplotlib_ plotting library to provide this functionality.
 
 To set this up, before any plotting is performed you must execute the
 ``%matplotlib``  :ref:`magic command <magics_explained>`. This performs the
@@ -368,9 +368,9 @@ necessary behind-the-scenes setup for IPython to work correctly hand in hand
 with ``matplotlib``; it does *not*, however, actually execute any Python
 ``import`` commands, that is, no names are added to the namespace.
 
-If the ``%matplotlib`` magic is called without an argument, the 
-output of a plotting command is displayed using the default ``matplotlib`` 
-backend in a separate window. Alternatively, the backend can be explicitly 
+If the ``%matplotlib`` magic is called without an argument, the
+output of a plotting command is displayed using the default ``matplotlib``
+backend in a separate window. Alternatively, the backend can be explicitly
 requested using, for example::
 
   %matplotlib gtk
@@ -383,7 +383,7 @@ backend.  This is available only for the IPython Notebook and the
 
 With this backend, the output of plotting commands is displayed *inline*
 within the notebook, directly below the code cell that produced it. The
-resulting plots will then also be stored in the notebook document. 
+resulting plots will then also be stored in the notebook document.
 
 .. seealso::
 
@@ -392,19 +392,19 @@ resulting plots will then also be stored in the notebook document.
 
 Configuring the IPython Notebook
 --------------------------------
-The notebook server can be run with a variety of command line arguments. 
+The notebook server can be run with a variety of command line arguments.
 To see a list of available options enter::
 
-  $ ipython notebook --help 
+  $ ipython notebook --help
 
-Defaults for these options can also be set by creating a file named 
-``ipython_notebook_config.py`` in your IPython *profile folder*. The profile 
-folder is a subfolder of your IPython directory; to find out where it is 
+Defaults for these options can also be set by creating a file named
+``ipython_notebook_config.py`` in your IPython *profile folder*. The profile
+folder is a subfolder of your IPython directory; to find out where it is
 located, run::
 
   $ ipython locate
 
-To create a new set of default configuration files, with lots of information 
+To create a new set of default configuration files, with lots of information
 on available options, use::
 
   $ ipython profile create
@@ -412,7 +412,7 @@ on available options, use::
 .. seealso::
 
     :ref:`config_overview`, in particular :ref:`Profiles`.
-    
+
     :ref:`notebook_server_security`
 
     :ref:`notebook_public_server`
@@ -470,11 +470,11 @@ You can generate a new notebook signing key with::
 Importing ``.py`` files
 -----------------------
 
-``.py`` files will be imported as a notebook with 
-the same basename, but an ``.ipynb`` extension, located in the notebook 
-directory. The notebook created will have just one cell, which will contain 
-all the code in the ``.py`` file. You can later manually partition this into 
-individual cells using the ``Edit | Split Cell`` menu option, or the 
+``.py`` files will be imported as a notebook with
+the same basename, but an ``.ipynb`` extension, located in the notebook
+directory. The notebook created will have just one cell, which will contain
+all the code in the ``.py`` file. You can later manually partition this into
+individual cells using the ``Edit | Split Cell`` menu option, or the
 :kbd:`Ctrl-m -` keyboard shortcut.
 
 Note that ``.py`` scripts obtained from a notebook document using :doc:`nbconvert <nbconvert>`
@@ -486,17 +486,17 @@ script back into a notebook will preserve this structure.
 .. warning::
 
    While in simple cases you can "roundtrip" a notebook to Python, edit the
-   Python file, and then import it back without loss of main content, this is 
+   Python file, and then import it back without loss of main content, this is
    in general *not guaranteed to work*.  First, there is extra metadata
    saved in the notebook that may not be saved to the ``.py`` format.  And as
    the notebook format evolves in complexity, there will be attributes of the
    notebook that will not survive a roundtrip through the Python form.  You
    should think of the Python format as a way to output a script version of a
-   notebook and the import capabilities as a way to load existing code to get 
+   notebook and the import capabilities as a way to load existing code to get
    a notebook started.  But the Python version is *not* an alternate notebook
    format.
 
 .. seealso::
     :ref:`nbformat`
 
-.. include:: ../links.txt
+.. include:: links.txt
