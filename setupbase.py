@@ -326,7 +326,7 @@ class Bower(Command):
             check_call(
                 ['bower', 'install', '--allow-root', '--config.interactive=false'],
                 cwd=repo_root,
-                env=env,
+                env=env
             )
         except OSError as e:
             print("Failed to run bower: %s" % e, file=sys.stderr)
@@ -342,67 +342,28 @@ class CompileCSS(Command):
     
     Regenerate the compiled CSS from LESS sources.
     
-    Requires various dev dependencies, such as invoke and lessc.
+    Requires various dev dependencies, such as gulp and lessc.
     """
     description = "Recompile Notebook CSS"
-    user_options = [
-        ('force', 'f', "force recompilation of CSS"),
-    ]
-    
+    user_options = []
+
     def initialize_options(self):
-        self.force = False
-    
+        pass
+
     def finalize_options(self):
-        self.force = bool(self.force)
-    
-    def should_run(self):
-        """Does less need to run?"""
-        if self.force:
-            return True
-        
-        css_targets = [pjoin(static, 'css', '%s.min.css' % name) for name in ('ipython', 'style')]
-        css_maps = [t + '.map' for t in css_targets]
-        targets = css_targets + css_maps
-        if not all(os.path.exists(t) for t in targets):
-            # some generated files don't exist
-            return True
-        earliest_target = sorted(mtime(t) for t in targets)[0]
-    
-        # check if any .less files are newer than the generated targets
-        for (dirpath, dirnames, filenames) in os.walk(static):
-            for f in filenames:
-                if f.endswith('.less'):
-                    path = pjoin(static, dirpath, f)
-                    timestamp = mtime(path)
-                    if timestamp > earliest_target:
-                        return True
-    
-        return False
-    
+        pass
+
     def run(self):
-        if not self.should_run():
-            print("CSS up-to-date")
-            return
         
         self.run_command('js')
         env = os.environ.copy()
         env['PATH'] = npm_path
-        for name in ('ipython', 'style'):
-            less = pjoin(static, 'style', '%s.less' % name)
-            css = pjoin(static, 'style', '%s.min.css' % name)
-            sourcemap = css + '.map'
-            try:
-                check_call([
-                    'lessc', '--clean-css',
-                    '--source-map-basepath={}'.format(static),
-                    '--source-map={}'.format(sourcemap),
-                    '--source-map-rootpath=../',
-                    less, css,
-                ], cwd=repo_root, env=env)
-            except OSError as e:
-                print("Failed to run lessc: %s" % e, file=sys.stderr)
-                print("You can install js dependencies with `npm install`", file=sys.stderr)
-                raise
+        try:
+            check_call(['gulp','css'], cwd=repo_root, env=env)
+        except OSError as e:
+            print("Failed to run gulp: %s" % e, file=sys.stderr)
+            print("You can install js dependencies with `npm install`", file=sys.stderr)
+            raise
         # update package data in case this created new files
         self.distribution.package_data = find_package_data()
 
