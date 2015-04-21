@@ -7,8 +7,8 @@ define([
     'base/js/utils',
     './comm',
     './serialize',
-    'widgets/js/init'
-], function(IPython, $, utils, comm, serialize, widgetmanager) {
+    'base/js/events'
+], function(IPython, $, utils, comm, serialize, events) {
     "use strict";
 
     /**
@@ -20,11 +20,10 @@ define([
      * @class Kernel
      * @param {string} kernel_service_url - the URL to access the kernel REST api
      * @param {string} ws_url - the websockets URL
-     * @param {Notebook} notebook - notebook object
      * @param {string} name - the kernel type (e.g. python3)
      */
-    var Kernel = function (kernel_service_url, ws_url, notebook, name) {
-        this.events = notebook.events;
+    var Kernel = function (kernel_service_url, ws_url, name) {
+        this.events = events;
 
         this.id = null;
         this.name = name;
@@ -55,7 +54,6 @@ define([
         this.bind_events();
         this.init_iopub_handlers();
         this.comm_manager = new comm.CommManager(this);
-        this.widget_manager = new widgetmanager.WidgetManager(this.comm_manager, notebook);
         
         this.last_msg_id = null;
         this.last_msg_callbacks = {};

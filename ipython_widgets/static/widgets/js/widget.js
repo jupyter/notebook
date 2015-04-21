@@ -1,7 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define(["widgets/js/manager",
+define(["nbextensions/widgets/widgets/js/manager",
         "underscore",
         "backbone",
         "jquery",

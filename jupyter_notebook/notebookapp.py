@@ -64,7 +64,7 @@ from .services.sessions.sessionmanager import SessionManager
 
 from .auth.login import LoginHandler
 from .auth.logout import LogoutHandler
-from .base.handlers import FileFindHandler
+from .base.handlers import FileFindHandler, IPythonHandler
 
 from traitlets.config import Config
 from traitlets.config.application import catch_config_error, boolean_flag
@@ -119,6 +119,16 @@ def load_handlers(name):
     name = 'jupyter_notebook.' + name
     mod = __import__(name, fromlist=['default_handlers'])
     return mod.default_handlers
+
+
+class DeprecationHandler(IPythonHandler):
+    def get(self, url_path):
+        self.set_header("Content-Type", 'text/javascript')
+        self.finish("""
+            console.warn('`/static/widgets/js` is deprecated.  Use `/nbextensions/widgets/widgets/js` instead.');
+            define(['%s'], function(x) { return x; });
+        """ % url_path_join('nbextensions', 'widgets', 'widgets', url_path.rstrip('.js')))
+        self.log.warn('Deprecated widget Javascript path /static/widgets/js/*.js was used')
 
 #-----------------------------------------------------------------------------
 # The Tornado web application
@@ -214,6 +224,7 @@ class NotebookWebApplication(web.Application):
         
         # Order matters. The first handler to match the URL will handle the request.
         handlers = []
+        handlers.append((r'/deprecatedwidgets/(.*)', DeprecationHandler))
         handlers.extend(load_handlers('tree.handlers'))
         handlers.extend([(r"/login", settings['login_handler_class'])])
         handlers.extend([(r"/logout", settings['logout_handler_class'])])
@@ -251,6 +262,7 @@ class NotebookWebApplication(web.Application):
                 'permanent': False, # want 302, not 301
             })
         )
+
         # prepend base_url onto the patterns that we match
         new_handlers = []
         for handler in handlers:
