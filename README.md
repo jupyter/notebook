@@ -17,3 +17,15 @@ Launch with:
 
     jupyter notebook
 
+For Ubuntu Trusty:
+```
+sudo apt-get install nodejs-legacy npm python-virtualenv python-dev
+python2 -m virtualenv ~/.virtualenvs/jupyter_notebook
+source ~/.virtualenvs/jupyter_notebook/bin/activate
+pip install --upgrade setuptools pip
+git clone https://github.com/jupyter/jupyter_notebook.git
+cd jupyter_notebook
+pip install -r requirements.txt -e .
+jupyter notebook
+```
+
