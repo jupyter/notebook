@@ -55,7 +55,7 @@ NOTEBOOK_SHUTDOWN_TIMEOUT = 10
 
 have = {}
 have['casperjs'] = bool(which('casperjs'))
-have['phantomjs'] = bool(which('slimerjs'))
+have['phantomjs'] = bool(which('phantomjs'))
 have['slimerjs'] = bool(which('slimerjs'))
 
 class StreamCapturer(Thread):
