@@ -19,7 +19,7 @@ before_install:
 install:
     - pip install -f travis-wheels/wheelhouse -r requirements.txt -e file://$PWD#egg=jupyter_notebook[test] coveralls
 script:
-    - 'if [[ $GROUP == js* ]]; then python -m jupyter_notebook.jstest $GROUP; fi'
+    - 'if [[ $GROUP == js* ]]; then python -m jupyter_notebook.jstest ${GROUP:3}; fi'
     - 'if [[ $GROUP == python ]]; then nosetests --with-coverage --cover-package=jupyter_notebook jupyter_notebook; fi'
 matrix:
     include:
