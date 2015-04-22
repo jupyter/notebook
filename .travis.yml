@@ -13,7 +13,6 @@ env:
     - GROUP=js/notebook
     - GROUP=js/services
     - GROUP=js/tree
-    - GROUP=js/widgets
 before_install:
     - 'if [[ $GROUP == js* ]]; then wget https://7de4dfdec62155b49b44-d726a73613a1989d29b147f20996e7c1.ssl.cf2.rackcdn.com/mathjax.zip; fi'
     - 'if [[ $GROUP == js* ]]; then npm install -g casperjs; fi'
