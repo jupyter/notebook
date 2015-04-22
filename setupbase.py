@@ -194,6 +194,13 @@ def check_package_data_first(command):
             command.run(self)
     return DecoratedCommand
 
+def update_package_data(distribution):
+    """update package_data to catch changes during setup"""
+    build_py = distribution.get_command_obj('build_py')
+    distribution.package_data = find_package_data()
+    # re-init build_py options which load package_data
+    build_py.finalize_options()
+
 #---------------------------------------------------------------------------
 # Notebook related
 #---------------------------------------------------------------------------
@@ -276,7 +283,7 @@ def mtime(path):
     """shorthand for mtime"""
     return os.stat(path).st_mtime
 
-py3compat_ns = {}
+
 
 class Bower(Command):
     description = "fetch static client-side components with bower"
@@ -334,7 +341,7 @@ class Bower(Command):
             raise
         os.utime(self.bower_dir, None)
         # update package data in case this created new files
-        self.distribution.package_data = find_package_data()
+        update_package_data(self.distribution)
 
 
 class CompileCSS(Command):
@@ -365,7 +372,7 @@ class CompileCSS(Command):
             print("You can install js dependencies with `npm install`", file=sys.stderr)
             raise
         # update package data in case this created new files
-        self.distribution.package_data = find_package_data()
+        update_package_data(self.distribution)
 
 
 class JavascriptVersion(Command):
