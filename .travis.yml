@@ -17,7 +17,7 @@ before_install:
     - 'if [[ $GROUP == js* ]]; then npm install -g casperjs; fi'
     - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
 install:
-    - pip install -f travis-wheels/wheelhouse -r requirements.txt -e file://$PWD#egg=jupyter_notebook[test] coveralls
+    - pip install -f travis-wheels/wheelhouse -r requirements.txt file://$PWD#egg=jupyter_notebook[test] coveralls
 script:
     - 'if [[ $GROUP == js* ]]; then python -m jupyter_notebook.jstest $GROUP; fi'
     - 'if [[ $GROUP == python ]]; then nosetests --with-coverage --cover-package=jupyter_notebook jupyter_notebook; fi'
