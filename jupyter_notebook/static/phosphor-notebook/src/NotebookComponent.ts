@@ -91,6 +91,7 @@ class NotebookComponent extends Component<nbformat.Notebook> {
       var c = cells[i];
       switch(c.cell_type) {
         case "code":
+          r.push(pre({style:"border: 1px solid blue;"},c.source));
           r.push(CodeCell(<nbformat.CodeCell>c));
           break;
         }
