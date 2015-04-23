@@ -50,10 +50,10 @@ type Output = ExecuteResult | DisplayData | Stream | JupyterError;
 export
 interface Cell {
     cell_type: string;
-    metadata: {
+    /*metadata: {
         name: string;
         tags: string[];
-    };
+    };*/
     source: string | string[];
 }
 
@@ -75,12 +75,12 @@ interface MarkdownCell extends Cell {
 export
 interface CodeCell extends Cell {
     cell_type: string; /*"code"*/
-    metadata: {
+    /*metadata: {
         name: string;
         tags: string[];
         collapsed: boolean;
         scrolled: boolean | string;
-    }
+    }*/
     source: string[];
     outputs: Output[];
     execution_count: number;
