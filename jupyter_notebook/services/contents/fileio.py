@@ -70,18 +70,18 @@ def atomic_writing(path, text=True, encoding='utf-8', **kwargs):
         path = os.path.join(os.path.dirname(path), os.readlink(path))
 
     dirname, basename = os.path.split(path)
-    tmp_dir = tempfile.mkdtemp(prefix=basename, dir=dirname)
-    tmp_path = os.path.join(tmp_dir, basename)
+    # The .~ prefix will be ignored by Dropbox
+    handle, tmp_path = tempfile.mkstemp(prefix='.~'+basename, dir=dirname)
     if text:
-        fileobj = io.open(tmp_path, 'w', encoding=encoding, **kwargs)
+        fileobj = io.open(handle, 'w', encoding=encoding, **kwargs)
     else:
-        fileobj = io.open(tmp_path, 'wb', **kwargs)
+        fileobj = io.open(handle, 'wb', **kwargs)
 
     try:
         yield fileobj
     except:
         fileobj.close()
-        shutil.rmtree(tmp_dir)
+        os.remove(tmp_path)
         raise
 
     # Flush to disk
@@ -94,16 +94,20 @@ def atomic_writing(path, text=True, encoding='utf-8', **kwargs):
     # Copy permission bits, access time, etc.
     try:
         _copy_metadata(path, tmp_path)
-    except OSError:
-        # e.g. the file didn't already exist. Ignore any failure to copy metadata
-        pass
+    except OSError as e:
+        if e.errno == errno.ENOENT:
+            # Set file permissions from default umask
+            mask = os.umask(0)
+            os.umask(mask)  # Set it back... strange API
+            mode = (0o777 & ~mask)
+            os.chmod(tmp_path, mode)
+        # Ignore any other failures to copy metadata
 
     if os.name == 'nt' and os.path.exists(path):
         # Rename over existing file doesn't work on Windows
         os.remove(path)
 
     os.rename(tmp_path, path)
-    shutil.rmtree(tmp_dir)
 
 
 class FileManagerMixin(object):
