@@ -1,7 +1,7 @@
 import NotebookApp = require("./app");
 import NotebookComponent = require("./NotebookComponent");
 import render = phosphor.virtualdom.render;
-import demo = require("demodata")
+import demo = require("./demodata")
 export function main(): void {
     //    var notebook = new NotebookApp.NotebookApplication;
     // notebook.run();
