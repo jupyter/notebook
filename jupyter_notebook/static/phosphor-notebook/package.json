@@ -32,6 +32,7 @@
     "gulp-concat": "~2.5.2",
     "gulp-header": "~1.2.2",
     "event-stream": "~3.3.0",
-    "gulp-rename": "~1.2.2"
+    "gulp-rename": "~1.2.2",
+    "del": "~1.1.1"
   }
 }

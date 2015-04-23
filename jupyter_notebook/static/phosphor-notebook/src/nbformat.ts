@@ -1,7 +1,18 @@
 // Notebook format interfaces
 
 export
-interface MimeBundle {"application/json": {};}
+interface MimeBundle {
+    // values are always string|string[] if we pretend that the application/json key doesn't exist
+    [key: string]: string | string[];
+
+    // we fudge the standard a bit here by not telling Typescript about the application/json
+    // key, which will be a Javascript object if it exists.  If we want to tell 
+    //"application/json": {};
+
+    // we special-case some keys because we what we assume about them
+    "image/png": string;
+    "image/jpg": string;
+}
 
 export
 interface ExecuteResult {
@@ -71,7 +82,7 @@ interface CodeCell extends Cell {
         scrolled: boolean | string;
     }
     source: string[];
-    outputs: Output;
+    outputs: Output[];
     execution_count: number;
 }
 
@@ -88,12 +99,12 @@ interface Notebook {
         };
         language_info: {
             name: string;
-            codemirror_mode?: string;
+            codemirror_mode?: string | {};
             file_extension?: string;
             mimetype?: string;
             pygments_lexer?: string
         };
-        orig_nbformat: number;
+        orig_nbformat?: number;
     }
     nbformat_minor: number;
     nbformat: number;

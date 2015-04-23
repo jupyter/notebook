@@ -6,12 +6,17 @@
     <!--<link href="build/index.css" rel="stylesheet" type="text/css">-->
     <script src="components/phosphor/dist/phosphor.js"></script>
     <script>
-      require(["./dist/index.js"], function() {
+      require(["./dist/index.js"], function(ind) {
           console.log("finished initialization");
+          ind.main();
       });
     </script>
+    <style>
+    #test {border: 1px solid red;}
+    </style>
 </head>
 <body>
     <div id="app"></div>
+    <div id="test"></div>
 </body>
 </html>

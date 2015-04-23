@@ -8,8 +8,7 @@ var concat = require('gulp-concat');
 var header = require('gulp-header');
 var stream = require('event-stream');
 var rename = require('gulp-rename');
-
-
+var del = require('del');
 
 
 var typings = ["./typings/tsd.d.ts", "./components/phosphor/dist/phosphor.d.ts"];
@@ -17,6 +16,9 @@ var typings = ["./typings/tsd.d.ts", "./components/phosphor/dist/phosphor.d.ts"]
 var tsSources = [
     "index",
     "app",
+    "NotebookComponent",
+    "nbformat",
+    "demodata",
 ].map(function(name) {return "./src/" + name + ".ts"; });
 
 
