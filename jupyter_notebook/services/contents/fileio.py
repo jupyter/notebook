@@ -99,7 +99,7 @@ def atomic_writing(path, text=True, encoding='utf-8', **kwargs):
             # Set file permissions from default umask
             mask = os.umask(0)
             os.umask(mask)  # Set it back... strange API
-            mode = (0o777 & ~mask)
+            mode = (0o666 & ~mask)
             os.chmod(tmp_path, mode)
         # Ignore any other failures to copy metadata
 
