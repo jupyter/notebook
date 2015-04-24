@@ -9,7 +9,9 @@ export var notebook: nbformat.Notebook = {
     "\n",
     "This is a *test* of the **markdown** system.\n",
     "* Let's use [marked.js](https://github.com/chjj/marked)\n",
-    "* Does this work?"
+    "* Does this work?\n",
+    "\n",
+    "Math formulas like $e^{\\pi i} + 1 = 0$ and the following work too. \\\\[\\int x^2\\, dx\\\\]\n"
    ]
   },
   {

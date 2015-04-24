@@ -59,10 +59,16 @@ class JupyterErrorComponent extends Component<nbformat.JupyterError> {
 export var JupyterError = createFactory(JupyterErrorComponent)
 
 class MarkdownCellComponent extends BaseComponent<nbformat.MarkdownCell> {
+  constructor(data: nbformat.MarkdownCell, children: Elem[]) {
+    super(data, children);
+    this.onUpdateRequest(undefined);
+  }
+
   onUpdateRequest(msg: IMessage): void {
     // replace the innerHTML of the node with the rendered markdown
     var x = this.data.source;
     this.node.innerHTML = marked(typeof x === "string" ? x : x.join(''));
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.node]);
   }
 }
 export var MarkdownCell = createFactory(MarkdownCellComponent)
