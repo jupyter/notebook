@@ -60,4 +60,7 @@ require([
                                     $(window).height(), $(window).width()]));
     };
 
+    // Expose terminal for fiddling with in the browser
+    window.terminal = terminal;
+
 });
