@@ -2,13 +2,15 @@
 
 import nbformat = require("./nbformat");
 
-    import DOM = phosphor.virtualdom.dom;
-    import Component = phosphor.virtualdom.Component;
-    import Elem = phosphor.virtualdom.Elem;    import createFactory = phosphor.virtualdom.createFactory;
-    var div = DOM.div;
-    var pre = DOM.pre;
-    var img = DOM.img;
+import DOM = phosphor.virtualdom.dom;
+import Component = phosphor.virtualdom.Component;
+import Elem = phosphor.virtualdom.Elem;
+import createFactory = phosphor.virtualdom.createFactory;
+import CodeMirrorFactory = phosphor.lib.CodeMirrorFactory;
 
+var div = DOM.div;
+var pre = DOM.pre;
+var img = DOM.img;
 
 
 class MimeBundleComponent extends Component<nbformat.MimeBundle> {
@@ -57,9 +59,16 @@ class JupyterErrorComponent extends Component<nbformat.JupyterError> {
 export var JupyterError = createFactory(JupyterErrorComponent)
 
 class CodeCellComponent extends Component<nbformat.CodeCell> {
-  render(): Elem[] {
+    render(): Elem[] {
+        var r: Elem[] = [];
+        r.push(div({ className: "ipy-input" }, CodeMirrorFactory({
+            config: {
+                value: this.data.source.join(''),
+                mode: 'python'
+            }
+        })));
+
     var outputs: nbformat.Output[] = this.data.outputs;
-    var r: Elem[] = []; // TODO: how do I type r?
     for(var i = 0; i < outputs.length; i++) {
       var x = outputs[i];
       switch(x.output_type) {
@@ -91,7 +100,6 @@ class NotebookComponent extends Component<nbformat.Notebook> {
       var c = cells[i];
       switch(c.cell_type) {
         case "code":
-          r.push(pre({style:"border: 1px solid blue;"},c.source));
           r.push(CodeCell(<nbformat.CodeCell>c));
           break;
         }

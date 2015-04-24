@@ -19,6 +19,7 @@
     "tests"
   ],
   "dependencies": {
-    "phosphor": "~0.2.0"
+    "phosphor": "~0.2.0",
+    "codemirror": "~5.2.0"
   }
 }
