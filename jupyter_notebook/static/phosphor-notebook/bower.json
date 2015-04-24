@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "phosphor": "~0.2.0",
-    "codemirror": "~5.2.0"
+    "codemirror": "~5.2.0",
+    "marked": "~0.3.3"
   }
 }
