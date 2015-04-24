@@ -48,46 +48,42 @@ export
 type Output = ExecuteResult | DisplayData | Stream | JupyterError;
 
 export
-interface Cell {
-    cell_type: string;
-    /*metadata: {
-        name: string;
-        tags: string[];
-    };*/
-    source: string | string[];
-}
+type Cell = BaseCell | RawCell | MarkdownCell | CodeCell;
 
 export
-interface RawCell extends Cell {
-    cell_type: string; /*"raw"*/
+interface BaseCell {
+    cell_type: string;
     metadata: {
-        format: string;
-        name: string;
-        tags: string[];
+        name?: string;
+        tags?: string[];
     }
 }
 
 export
-interface MarkdownCell extends Cell {
-    cell_type: string; /*"markdown"*/
+interface RawCell extends BaseCell {
+    cell_type: string; /*"raw"*/
+    source: string | string[];
+    metadata: {
+        format?: string;
+    }
 }
 
 export
-interface CodeCell extends Cell {
+interface MarkdownCell extends BaseCell {
+    cell_type: string; /*"markdown"*/
+    source: string | string[];
+}
+
+export
+interface CodeCell extends BaseCell {
     cell_type: string; /*"code"*/
-    /*metadata: {
-        name: string;
-        tags: string[];
-        collapsed: boolean;
-        scrolled: boolean | string;
-    }*/
-    source: string[];
+    source: string | string[];
+    metadata: {
+        collapsed?: boolean;
+        scrolled?: boolean | string;
+    }
     outputs: Output[];
     execution_count: number;
-}
-
-export
-interface UnrecognizedCell extends Cell {
 }
 
 export
