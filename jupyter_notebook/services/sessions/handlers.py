@@ -65,6 +65,12 @@ class SessionRootHandler(IPythonHandler):
         self.set_status(201)
         self.finish(json.dumps(model, default=date_default))
 
+    @web.authenticated
+    @json_errors
+    def options(self):
+        self.set_header('Access-Control-Allow-Headers', 'accept, content-type')
+        self.finish()
+
 class SessionHandler(IPythonHandler):
 
     SUPPORTED_METHODS = ('GET', 'PATCH', 'DELETE')

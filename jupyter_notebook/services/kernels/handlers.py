@@ -48,7 +48,7 @@ class MainKernelHandler(IPythonHandler):
 
 class KernelHandler(IPythonHandler):
 
-    SUPPORTED_METHODS = ('DELETE', 'GET')
+    SUPPORTED_METHODS = ('DELETE', 'GET', 'OPTIONS')
 
     @web.authenticated
     @json_errors
@@ -66,6 +66,12 @@ class KernelHandler(IPythonHandler):
         self.set_status(204)
         self.finish()
 
+    @web.authenticated
+    @json_errors
+    def options(self, kernel_id):
+        self.set_header('Access-Control-Allow-Headers', 'accept, content-type')
+        self.finish()
+
 
 class KernelActionHandler(IPythonHandler):
 
@@ -81,6 +87,12 @@ class KernelActionHandler(IPythonHandler):
             model = km.kernel_model(kernel_id)
             self.set_header('Location', '{0}api/kernels/{1}'.format(self.base_url, kernel_id))
             self.write(json.dumps(model))
+        self.finish()
+
+    @web.authenticated
+    @json_errors
+    def options(self, kernel_id, action):
+        self.set_header('Access-Control-Allow-Headers', 'accept, content-type')
         self.finish()
 
 
