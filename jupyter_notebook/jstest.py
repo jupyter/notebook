@@ -201,8 +201,6 @@ class TestController(object):
     __del__ = cleanup
 
 
-js_prefix = 'js/'
-
 def get_js_test_dir():
     import jupyter_notebook.tests as t
     return os.path.join(os.path.dirname(t.__file__), '')
@@ -211,7 +209,7 @@ def all_js_groups():
     import glob
     test_dir = get_js_test_dir()
     all_subdirs = glob.glob(test_dir + '[!_]*/')
-    return [js_prefix+os.path.relpath(x, test_dir) for x in all_subdirs]
+    return [os.path.relpath(x, test_dir) for x in all_subdirs]
 
 class JSController(TestController):
     """Run CasperJS tests """
@@ -228,7 +226,7 @@ class JSController(TestController):
         self.slimer_failure = re.compile('^FAIL.*', flags=re.MULTILINE)
         js_test_dir = get_js_test_dir()
         includes = '--includes=' + os.path.join(js_test_dir,'util.js')
-        test_cases = os.path.join(js_test_dir, self.section[len(js_prefix):])
+        test_cases = os.path.join(js_test_dir, self.section)
         self.cmd = ['casperjs', 'test', includes, test_cases, '--engine=%s' % self.engine]
 
     def setup(self):
@@ -405,16 +403,11 @@ def prepare_controllers(options):
     """Returns two lists of TestController instances, those to run, and those
     not to run."""
     testgroups = options.testgroups
-    if testgroups:
-        if 'js' in testgroups:
-            js_testgroups = all_js_groups()
-        else:
-            js_testgroups = [g for g in testgroups if g.startswith(js_prefix)]
-    else:
-        js_testgroups = all_js_groups()
+    if not testgroups:
+        testgroups = all_js_groups()
 
     engine = 'slimerjs' if options.slimerjs else 'phantomjs'
-    c_js = [JSController(name, xunit=options.xunit, engine=engine, url=options.url) for name in js_testgroups]
+    c_js = [JSController(name, xunit=options.xunit, engine=engine, url=options.url) for name in testgroups]
 
     controllers = c_js
     to_run = [c for c in controllers if c.will_run]
