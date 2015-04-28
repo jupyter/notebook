@@ -1,5 +1,44 @@
 import nbformat = require("./nbformat");
-export var notebook: nbformat.Notebook = {
+
+var multiToString = function(x: string | string[]): string {
+  return (typeof x === "string") ? x : x.join("");
+}
+
+var diskToMemory = function(disknb: any): nbformat.Notebook {
+  // Make a copy
+  var nb = JSON.parse(JSON.stringify(disknb));
+  // Convert multiline strings that are arrays to just strings
+  var cells = nb.cells;
+  for (var i = 0; i<cells.length; i++) {
+    var c = cells[i];
+    var c_type = c.cell_type;
+    if (c_type === "raw" || c_type === "markdown" || c_type === "code") {
+        c.source = multiToString(c.source)
+    }
+    if (c_type === "code") {
+      for (var j = 0; j < c.outputs.length; j++) {
+          var out = c.outputs[j];
+          switch (out.output_type) {
+              case "stream":
+                  out.text = multiToString(out.text);
+                  break;
+              case "execute_result":
+              case "display_data":
+                  var d = out.data;
+                  for (var key in d) {
+                    if (d.hasOwnProperty(key) && key !== "application/json") {
+                      d[key] = multiToString(d[key]);
+                    }
+                  }
+                  break;
+          }
+      }
+    }
+  }
+  return nb;
+}
+
+var notebook_disk = {
  "cells": [
   {
    "cell_type": "markdown",
@@ -9,9 +48,9 @@ export var notebook: nbformat.Notebook = {
     "\n",
     "This is a *test* of the **markdown** system.\n",
     "* Let's use [marked.js](https://github.com/chjj/marked)\n",
-    "* Does this work?\n",
+    "* Does this work? <b>hi</b>\n",
     "\n",
-    "Math formulas like $e^{\\pi i} + 1 = 0$ and the following work too. \\\\[\\int x^2\\, dx\\\\]\n"
+    "Math formulas like $e^{\\pi i} + 1 = 0$ and the following work too. $$\\int x^2\\, dx$$\n"
    ]
   },
   {
@@ -153,3 +192,5 @@ export var notebook: nbformat.Notebook = {
  "nbformat": 4,
  "nbformat_minor": 0
 }
+
+export var notebook: nbformat.Notebook = diskToMemory(notebook_disk);

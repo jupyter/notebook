@@ -1,22 +1,22 @@
 // Notebook format interfaces
 
+// In the notebook format *disk* representation, this would be string | string[]
+export type multilineString = string;
+
 export
 interface MimeBundle {
-    // values are always string|string[] if we pretend that the application/json key doesn't exist
-    [key: string]: string | string[];
+    // values are always multilineString if we pretend that the application/json key doesn't exist
+    // in fact, the in-memory representation always is a string
+    [key: string]: multilineString;
 
     // we fudge the standard a bit here by not telling Typescript about the application/json
-    // key, which will be a Javascript object if it exists.  If we want to tell 
+    // key, which will be a Javascript object if it exists.  If we want to tell, then uncomment below:
     //"application/json": {};
-
-    // we special-case some keys because we what we assume about them
-    "image/png": string;
-    "image/jpg": string;
 }
 
 export
 interface ExecuteResult {
-    output_type: string; /*"execute_result"*/
+    output_type: string; // "execute_result"
     execution_count: number;
     data:  MimeBundle;
     metadata: {};
@@ -24,21 +24,21 @@ interface ExecuteResult {
 
 export
 interface DisplayData {
-    output_type: string; /*"display_data"*/
+    output_type: string; // "display_data"
     data: MimeBundle;
     metadata: {};
 }
 
 export
 interface Stream {
-    output_type: string; /*"stream"*/
+    output_type: string; // "stream"
     name: string;
-    text: string[];
+    text: multilineString;
 }
 
 export
 interface JupyterError {
-    output_type: string; /*"error"*/
+    output_type: string; // "error"
     ename: string;
     evalue: string;
     traceback: string[];
@@ -62,7 +62,7 @@ interface BaseCell {
 export
 interface RawCell extends BaseCell {
     cell_type: string; /*"raw"*/
-    source: string | string[];
+    source: multilineString;
     metadata: {
         format?: string;
     }
@@ -71,13 +71,13 @@ interface RawCell extends BaseCell {
 export
 interface MarkdownCell extends BaseCell {
     cell_type: string; /*"markdown"*/
-    source: string | string[];
+    source: multilineString;
 }
 
 export
 interface CodeCell extends BaseCell {
     cell_type: string; /*"code"*/
-    source: string | string[];
+    source: multilineString;
     metadata: {
         collapsed?: boolean;
         scrolled?: boolean | string;

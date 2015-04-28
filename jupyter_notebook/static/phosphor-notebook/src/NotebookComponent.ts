@@ -23,7 +23,7 @@ class MimeBundleComponent extends Component<nbformat.MimeBundle> {
     } else if (x = this.data["image/jpg"]) {
       return img({src:"data:image/jpg;base64,"+x})
     } else if (x = this.data["text/plain"]) {
-      return pre(typeof x === "string" ? x : x.join('\n'));
+      return pre(x);
     }
   }
 }
@@ -45,11 +45,10 @@ export var DisplayData = createFactory(DisplayDataComponent);
 
 class StreamComponent extends Component<nbformat.Stream> {
   render() {
-    return pre(this.data.text.join('\n'));
+    return pre(this.data.text);
   }
 }
 export var Stream = createFactory(StreamComponent);
-//export var x;
 
 class JupyterErrorComponent extends Component<nbformat.JupyterError> {
   render() {
@@ -102,17 +101,15 @@ class CodeCellComponent extends BaseComponent<nbformat.CodeCell> {
     this.node.appendChild(this.editor_node);
     this.node.appendChild(this.output_node);
 
-    var x = this.data.source;
     this._editor  = CodeMirror(this.editor_node, {
       mode: 'python', 
-      value: typeof x === "string" ? x : x.join(""),
+      value: this.data.source,
       lineNumbers: true})
   }
 
   protected onUpdateRequest(msg: IMessage): void {
-    var x = this.data.source;
     // we could call setValue on the editor itself, but the dts file doesn't recognize it.
-    this._editor.getDoc().setValue(typeof x === "string" ? x : x.join(""));
+    this._editor.getDoc().setValue(this.data.source);
     // we may want to save the refs at some point
     render(this.renderOutput(), this.output_node);
   }
