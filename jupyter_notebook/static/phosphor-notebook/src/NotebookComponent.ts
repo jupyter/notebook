@@ -1,6 +1,7 @@
 ///<reference path="../components/phosphor/dist/phosphor.d.ts"/>
 
 import nbformat = require("./nbformat");
+import mathjaxutils = require("./mathjaxutils");
 import DOM = phosphor.virtualdom.dom;
 import Component = phosphor.virtualdom.Component;
 import BaseComponent = phosphor.virtualdom.BaseComponent;
@@ -58,17 +59,30 @@ class JupyterErrorComponent extends Component<nbformat.JupyterError> {
 }
 export var JupyterError = createFactory(JupyterErrorComponent)
 
-class MarkdownCellComponent extends BaseComponent<nbformat.MarkdownCell> {
-  constructor(data: nbformat.MarkdownCell, children: Elem[]) {
-    super(data, children);
-    this.onUpdateRequest(undefined);
-  }
+// customized renderer example from marked.js readme
+var renderer = new (<any>marked).Renderer();
+renderer.heading = function (text: string, level: number) {
+  var escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+  return '<h' + level + '><a name="' +
+                escapedText +
+                 '" class="anchor" href="#' +
+                 escapedText +
+                 '"><span class="header-link"></span></a>' +
+                  text + '</h' + level + '>';
+}
+// TODO: make links open new tabs
+// links in markdown cells should open in new tabs
+// html.find("a[href]").not('[href^="#"]').attr("target", "_blank");
 
+
+class MarkdownCellComponent extends BaseComponent<nbformat.MarkdownCell> {
   onUpdateRequest(msg: IMessage): void {
     // replace the innerHTML of the node with the rendered markdown
-    var x = this.data.source;
-    this.node.innerHTML = marked(typeof x === "string" ? x : x.join(''));
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.node]);
+    var t = mathjaxutils.remove_math(this.data.source);
+    marked(t.html, { sanitize: true }, (err: any, html: string) => {
+        this.node.innerHTML = mathjaxutils.replace_math(html, t.math);
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.node]);
+    });
   }
 }
 export var MarkdownCell = createFactory(MarkdownCellComponent)

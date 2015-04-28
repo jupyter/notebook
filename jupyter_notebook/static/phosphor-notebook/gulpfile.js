@@ -19,6 +19,7 @@ var tsSources = [
     "NotebookComponent",
     "nbformat",
     "demodata",
+    "mathjaxutils",
 ].map(function(name) {return "./src/" + name + ".ts"; });
 
 
