@@ -5,6 +5,7 @@
 
 from __future__ import print_function
 
+import ctypes
 import errno
 import os
 import stat
@@ -71,6 +72,8 @@ def url_unescape(path):
         for p in py3compat.unicode_to_str(path, encoding='utf8').split('/')
     ])
 
+_win32_FILE_ATTRIBUTE_HIDDEN = 0x02
+
 def is_hidden(abs_path, abs_root=''):
     """Is a file hidden or contained in a hidden directory?
     
@@ -115,6 +118,15 @@ def is_hidden(abs_path, abs_root=''):
         if getattr(st, 'st_flags', 0) & UF_HIDDEN:
             return True
         path = os.path.dirname(path)
+    
+    if sys.platform == 'win32':
+        try:
+            attrs = ctypes.windll.kernel32.GetFileAttributesW(py3compat.cast_unicode(path))
+        except AttributeError:
+            pass
+        else:
+            if attrs > 0 and attrs & _win32_FILE_ATTRIBUTE_HIDDEN:
+                return True
 
     return False
 

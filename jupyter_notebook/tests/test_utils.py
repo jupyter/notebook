@@ -3,13 +3,16 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
+import ctypes
 import os
 
 import nose.tools as nt
 
 from traitlets.tests.utils import check_help_all_output
 from jupyter_notebook.utils import url_escape, url_unescape, is_hidden
+from ipython_genutils.py3compat import cast_unicode
 from ipython_genutils.tempdir import TemporaryDirectory
+from ipython_genutils.testing.decorators import skip_if_not_win32
 
 
 def test_help_output():
@@ -64,3 +67,15 @@ def test_is_hidden():
         os.makedirs(subdir34)
         nt.assert_equal(is_hidden(subdir34, root), True)
         nt.assert_equal(is_hidden(subdir34), True)
+
+@skip_if_not_win32
+def test_is_hidden_win32():
+    with TemporaryDirectory() as root:
+        root = cast_unicode(root)
+        subdir1 = os.path.join(root, u'subdir')
+        os.makedirs(subdir1)
+        assert not is_hidden(subdir1, root)
+        r = ctypes.windll.kernel32.SetFileAttributesW(subdir1, 0x02)
+        print(r)
+        assert is_hidden(subdir1, root)
+
