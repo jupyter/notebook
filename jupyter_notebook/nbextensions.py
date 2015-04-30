@@ -20,40 +20,13 @@ except ImportError:
     from urlparse import urlparse
     from urllib import urlretrieve
 
-from jupyter_core.paths import jupyter_data_dir
+from jupyter_core.paths import jupyter_data_dir, jupyter_path, SYSTEM_JUPYTER_PATH
 from ipython_genutils.path import ensure_dir_exists
 from ipython_genutils.py3compat import string_types, cast_unicode_py2
 from ipython_genutils.tempdir import TemporaryDirectory
 
 class ArgumentConflict(ValueError):
     pass
-
-# Packagers: modify the next block if you store system-installed nbextensions elsewhere (unlikely)
-SYSTEM_NBEXTENSIONS_DIRS = []
-
-if os.name == 'nt':
-    programdata = os.environ.get('PROGRAMDATA', None)
-    if programdata: # PROGRAMDATA is not defined by default on XP.
-        SYSTEM_NBEXTENSIONS_DIRS = [pjoin(programdata, 'jupyter', 'nbextensions')]
-    prefixes = []
-else:
-    prefixes = [os.path.sep + pjoin('usr', 'local'), os.path.sep + 'usr']
-
-# add sys.prefix at the front
-if sys.prefix not in prefixes:
-    prefixes.insert(0, sys.prefix)
-
-for prefix in prefixes:
-    nbext = pjoin(prefix, 'share', 'jupyter', 'nbextensions')
-    if nbext not in SYSTEM_NBEXTENSIONS_DIRS:
-        SYSTEM_NBEXTENSIONS_DIRS.append(nbext)
-
-if os.name == 'nt':
-    # PROGRAMDATA
-    SYSTEM_NBEXTENSIONS_INSTALL_DIR = SYSTEM_NBEXTENSIONS_DIRS[-1]
-else:
-    # /usr/local
-    SYSTEM_NBEXTENSIONS_INSTALL_DIR = SYSTEM_NBEXTENSIONS_DIRS[-2]
 
 
 def _should_copy(src, dest, verbose=1):
@@ -98,7 +71,7 @@ def _get_nbext_dir(nbextensions_dir=None, user=False, prefix=None):
         elif nbextensions_dir:
             nbext = nbextensions_dir
         else:
-            nbext = SYSTEM_NBEXTENSIONS_INSTALL_DIR
+            nbext = pjoin(SYSTEM_JUPYTER_PATH[0], 'nbextensions')
     return nbext
 
 
@@ -330,7 +303,7 @@ class NBExtensionApp(JupyterApp):
     
     def start(self):
         if not self.extra_args:
-            for nbext in [pjoin(self.data_dir, u'nbextensions')] + SYSTEM_NBEXTENSIONS_DIRS:
+            for nbext in jupyter_path('nbextensions'):
                 if os.path.exists(nbext):
                     print("Notebook extensions in %s:" % nbext)
                     for ext in os.listdir(nbext):
