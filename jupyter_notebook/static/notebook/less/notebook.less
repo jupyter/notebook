@@ -39,6 +39,9 @@ div#notebook_panel {
         min-height: @page-min-height;
         .box-shadow(@global-shadow);
     }
+    @media print {
+        width: 100%;
+    }
 }
 
 div.ui-widget-content {
