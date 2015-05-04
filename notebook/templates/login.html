@@ -48,6 +48,10 @@
 {% block script %}
 {{super()}}
 
-<script src="{{static_url("auth/js/loginmain.js") }}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+  require(["auth/js/main"], function (auth) {
+    auth.login_main();
+  });
+</script>
 
 {% endblock %}
