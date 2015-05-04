@@ -54,6 +54,7 @@ from setupbase import (
     find_package_data,
     check_package_data_first,
     CompileCSS,
+    CompileJS,
     Bower,
     JavascriptVersion,
     css_js_prerelease,
@@ -107,9 +108,10 @@ from distutils.command.sdist import sdist
 setup_args['cmdclass'] = {
     'build_py': css_js_prerelease(
             check_package_data_first(build_py)),
-    'sdist' : css_js_prerelease(sdist),
+    'sdist' : css_js_prerelease(sdist, strict=True),
     'css' : CompileCSS,
-    'js' : Bower,
+    'js' : CompileJS,
+    'jsdeps' : Bower,
     'jsversion' : JavascriptVersion,
 }
 
