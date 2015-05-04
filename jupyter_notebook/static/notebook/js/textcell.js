@@ -10,6 +10,7 @@ define([
     'services/config',
     'notebook/js/mathjaxutils',
     'notebook/js/celltoolbar',
+    'components/vis/vis.min',
     'components/marked/lib/marked',
     'codemirror/lib/codemirror',
     'codemirror/mode/gfm/gfm',
@@ -22,6 +23,7 @@ define([
     configmod,
     mathjaxutils,
     celltoolbar,
+    vis,
     marked,
     CodeMirror,
     gfm,
@@ -54,7 +56,7 @@ define([
         this.notebook = options.notebook;
         this.events = options.events;
         this.config = options.config;
-        
+
         // we cannot put this as a class key as it has handle to "this".
         var config = utils.mergeopt(TextCell, this.config);
         Cell.apply(this, [{
@@ -76,7 +78,6 @@ define([
             lineWrapping : true,
         }
     };
-
 
     /**
      * Create the DOM element of the TextCell
@@ -115,9 +116,8 @@ define([
         this.element = cell;
     };
 
-
     // Cell level actions
-    
+
     TextCell.prototype.select = function () {
         var cont = Cell.prototype.select.apply(this);
         if (cont) {
@@ -179,7 +179,6 @@ define([
         this.element.find('div.text_cell_render').html(text);
     };
 
-
     /**
      * Create Text cell from JSON
      * @param {json} data - JSON serialized text-cell
@@ -213,7 +212,6 @@ define([
         }
         return data;
     };
-
 
     var MarkdownCell = function (options) {
         /**
@@ -300,6 +298,122 @@ define([
     };
 
 
+    var MindmapCell = function (options) {
+        /**
+         * Constructor
+         *
+         * Parameters:
+         *  options: dictionary
+         *      Dictionary of keyword arguments.
+         *          events: $(Events) instance 
+         *          config: ConfigSection instance
+         *          keyboard_manager: KeyboardManager instance 
+         *          notebook: Notebook instance
+         */
+        options = options || {};
+        var config = utils.mergeopt(MindmapCell, {});
+        this.class_config = new configmod.ConfigWithDefaults(options.config,
+                                            {}, 'MindmapCell');
+        TextCell.apply(this, [$.extend({}, options, {config: config})]);
+
+        this.cell_type = 'mindmap';
+    };
+
+    MindmapCell.options_default = {
+        cm_config: {
+            mode: 'ipythongfm'
+        },
+        placeholder: "Enter a hierarchical list of topics"
+    };
+
+    MindmapCell.prototype = Object.create(TextCell.prototype);
+
+    /**
+     * @method render
+     */
+    MindmapCell.prototype.render = function () {
+        var cont = TextCell.prototype.render.apply(this);
+        if (cont) {
+            var that = this;
+            var text = this.get_text();
+            if (text === "") { text = this.placeholder; }
+
+            var lines = text.split("\n");
+
+            var nodes = [];
+            var edges = [];
+
+            var node_ids = {};
+            var node_id_lookup = {};
+
+            var next_node_id = 0;
+
+            var peer_id = null;
+
+            var parse_lines = function(parent_indent, parent_id) {
+                while (lines.length > 0) {
+                    var indent = (lines[0].match(/^\s+/) || "").toString();
+                    if (indent.length == lines[0].length) {
+                        lines.shift(); // skip blank lines
+                    } else if (indent.length > parent_indent.length) {
+                        parse_lines(indent, peer_id); // process children
+                    } else if (indent.length < parent_indent.length) {
+                        return; // return to parent
+                    } else {
+                        var line = lines.shift().trim();
+
+                        var match = line.match(/^(#*)\s*(\(?)(.+?)\s*(\)?)$/);
+
+                        var weight = match[1].length;
+                        var label = match[3];
+                        var light_connect = (match[2] == "(" && match[4] == ")");
+
+                        var node = null;
+
+                        var peer_id = node_ids[label];
+                        if (peer_id == null) {
+                            peer_id = node_ids[label] = next_node_id++;
+
+                            node = {id: peer_id, label: label, hover: true, shape: 'dot'};
+
+                            node_id_lookup[peer_id] = node;
+                            nodes.push(node);
+                        } else {
+                            node = node_id_lookup[peer_id];
+                        }
+
+                        if (weight > 0) {
+                            node['fontSize'] = (14 + (Math.pow((6 - weight), 2)));
+                            node['mass'] = (6 - weight);
+                        }
+
+                        if (parent_id != null) {
+                            if (light_connect)
+                                edges.push({from: parent_id, to: peer_id, color: '#CCCCCC', style: 'dash-line', width: 1});
+                            else {
+                                edges.push({from: parent_id, to: peer_id, color: '#EEEEEE', style: 'arrow', width: 6});
+                            }
+                        }
+                    }
+                }
+            }
+
+            parse_lines('', null);
+
+            var container = this.element.find('div.text_cell_render').get(0);
+            var data = {
+                nodes: nodes,
+                edges: edges
+            };
+            var network = new vis.Network(container, data, {width: '100%', height: '300px', clickToUse: false});
+
+            that.typeset();
+            that.events.trigger("rendered.MindmapCell", {cell: that});
+        }
+        return cont;
+    };
+
+
     var RawCell = function (options) {
         /**
          * Constructor
@@ -326,7 +440,7 @@ define([
             "It will not be rendered in the notebook. " + 
             "When passing through nbconvert, a Raw Cell's content is added to the output unmodified."
     };
-    
+
     RawCell.config_defaults =  {
         highlight_modes : {
             'diff'         :{'reg':[/^diff/]}
@@ -368,6 +482,7 @@ define([
     var textcell = {
         TextCell: TextCell,
         MarkdownCell: MarkdownCell,
+        MindmapCell: MindmapCell,
         RawCell: RawCell
     };
     return textcell;

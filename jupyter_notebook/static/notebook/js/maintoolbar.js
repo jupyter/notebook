@@ -71,6 +71,7 @@ define([
             .addClass('form-control select-xs')
             .append($('<option/>').attr('value','code').text('Code'))
             .append($('<option/>').attr('value','markdown').text('Markdown'))
+            .append($('<option/>').attr('value','mindmap').text('Mind Map'))
             .append($('<option/>').attr('value','raw').text('Raw NBConvert'))
             .append($('<option/>').attr('value','heading').text('Heading'));
         this.notebook.keyboard_manager.register_events(sel);
@@ -89,6 +90,9 @@ define([
                 break;
             case 'markdown':
                 that.notebook.to_markdown();
+                break;
+            case 'mindmap':
+                that.notebook.to_mindmap();
                 break;
             case 'raw':
                 that.notebook.to_raw();

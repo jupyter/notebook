@@ -19,3 +19,8 @@ __pycache__
 \#*#
 .#*
 .coverage
+/.eggs/
+/.settings/
+/src/
+/.project
+/.pydevproject

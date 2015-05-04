@@ -106,6 +106,7 @@ define([
             'b' : 'ipython.insert-cell-after',
             'y' : 'ipython.change-selected-cell-to-code-cell',
             'm' : 'ipython.change-selected-cell-to-markdown-cell',
+            'p' : 'ipython.change-selected-cell-to-mindmap-cell',
             'r' : 'ipython.change-selected-cell-to-raw-cell',
             '1' : 'ipython.change-selected-cell-to-heading-1',
             '2' : 'ipython.change-selected-cell-to-heading-2',
