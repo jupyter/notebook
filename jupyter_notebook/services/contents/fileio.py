@@ -11,7 +11,6 @@ import errno
 import io
 import os
 import shutil
-import tempfile
 
 from tornado.web import HTTPError
 
@@ -39,14 +38,10 @@ def _copy_metadata(src, dst):
 def atomic_writing(path, text=True, encoding='utf-8', **kwargs):
     """Context manager to write to a file only if the entire write is successful.
     
-    This works by creating a temporary file in the same directory, and renaming
-    it over the old file if the context is exited without an error. If other
-    file names are hard linked to the target file, this relationship will not be
-    preserved.
-    
-    On Windows, there is a small chink in the atomicity: the target file is
-    deleted before renaming the temporary file over it. This appears to be
-    unavoidable.
+    This works by copying the previous file contents to a temporary file in the
+    same directory, and renaming that file back to the target if the context
+    exits with an error. If the context is successful, the new data is synced to
+    disk and the temporary file is removed.
     
     Parameters
     ----------
@@ -70,40 +65,35 @@ def atomic_writing(path, text=True, encoding='utf-8', **kwargs):
         path = os.path.join(os.path.dirname(path), os.readlink(path))
 
     dirname, basename = os.path.split(path)
-    tmp_dir = tempfile.mkdtemp(prefix=basename, dir=dirname)
-    tmp_path = os.path.join(tmp_dir, basename)
+    # The .~ prefix will make Dropbox ignore the temporary file.
+    tmp_path = os.path.join(dirname, '.~'+basename)
+    if os.path.isfile(path):
+        shutil.copy2(path, tmp_path)
+
     if text:
-        fileobj = io.open(tmp_path, 'w', encoding=encoding, **kwargs)
+        fileobj = io.open(path, 'w', encoding=encoding, **kwargs)
     else:
-        fileobj = io.open(tmp_path, 'wb', **kwargs)
+        fileobj = io.open(path, 'wb', **kwargs)
 
     try:
         yield fileobj
     except:
+        # Failed! Move the backup file back to the real path to avoid corruption
         fileobj.close()
-        shutil.rmtree(tmp_dir)
+        if os.name == 'nt' and os.path.exists(path):
+            # Rename over existing file doesn't work on Windows
+            os.remove(path)
+        os.rename(tmp_path, path)
         raise
 
     # Flush to disk
     fileobj.flush()
     os.fsync(fileobj.fileno())
-
-    # Written successfully, now rename it
     fileobj.close()
 
-    # Copy permission bits, access time, etc.
-    try:
-        _copy_metadata(path, tmp_path)
-    except OSError:
-        # e.g. the file didn't already exist. Ignore any failure to copy metadata
-        pass
-
-    if os.name == 'nt' and os.path.exists(path):
-        # Rename over existing file doesn't work on Windows
-        os.remove(path)
-
-    os.rename(tmp_path, path)
-    shutil.rmtree(tmp_dir)
+    # Written successfully, now remove the backup copy
+    if os.path.isfile(tmp_path):
+        os.remove(tmp_path)
 
 
 class FileManagerMixin(object):
