@@ -107,7 +107,12 @@ def find_package_data():
             continue
         for f in files:
             static_data.append(pjoin(parent, f))
-
+    
+    # for verification purposes, explicitly add main.min.js
+    # so that installation will fail if they are missing
+    for app in ['auth', 'edit', 'notebook', 'terminal', 'tree']:
+        static_data.append(pjoin('static', app, 'js', 'main.min.js'))
+    
     components = pjoin("static", "components")
     # select the components we actually need to install
     # (there are lots of resources we bundle for sdist-reasons that we don't actually use)
