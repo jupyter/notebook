@@ -263,6 +263,9 @@ define([
         this.element.find('#to_markdown').click(function () {
             that.notebook.to_markdown();
         });
+        this.element.find('#to_mindmap').click(function () {
+            that.notebook.to_mindmap();
+        });
         this.element.find('#to_raw').click(function () {
             that.notebook.to_raw();
         });

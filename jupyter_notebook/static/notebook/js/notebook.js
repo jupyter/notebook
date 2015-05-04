@@ -934,6 +934,9 @@ define(function (require) {
             case 'markdown':
                 cell = new textcell.MarkdownCell(cell_options);
                 break;
+            case 'mindmap':
+                cell = new textcell.MindmapCell(cell_options);
+                break;
             case 'raw':
                 cell = new textcell.RawCell(cell_options);
                 break;
@@ -1060,11 +1063,6 @@ define(function (require) {
         }
     };
 
-    /**
-     * Turn a cell into a Markdown cell.
-     * 
-     * @param {integer} [index] - cell index
-     */
     Notebook.prototype.to_markdown = function (index) {
         var i = this.index_or_selected(index);
         if (this.is_valid_cell_index(i)) {
@@ -1072,6 +1070,43 @@ define(function (require) {
 
             if (!(source_cell instanceof textcell.MarkdownCell)) {
                 var target_cell = this.insert_cell_below('markdown',i);
+                var text = source_cell.get_text();
+
+                if (text === source_cell.placeholder) {
+                    text = '';
+                }
+                // metadata
+                target_cell.metadata = source_cell.metadata;
+                // We must show the editor before setting its contents
+                target_cell.unrender();
+                target_cell.set_text(text);
+                // make this value the starting point, so that we can only undo
+                // to this state, instead of a blank cell
+                target_cell.code_mirror.clearHistory();
+                source_cell.element.remove();
+                this.select(i);
+                if ((source_cell instanceof textcell.TextCell) && source_cell.rendered) {
+                    target_cell.render();
+                }
+                var cursor = source_cell.code_mirror.getCursor();
+                target_cell.code_mirror.setCursor(cursor);
+                this.set_dirty(true);
+            }
+        }
+    };
+
+    /**
+     * Turn a cell into a Mind Map cell.
+     * 
+     * @param {integer} [index] - cell index
+     */
+    Notebook.prototype.to_mindmap = function (index) {
+        var i = this.index_or_selected(index);
+        if (this.is_valid_cell_index(i)) {
+            var source_cell = this.get_cell(i);
+
+            if (!(source_cell instanceof textcell.MindmapCell)) {
+                var target_cell = this.insert_cell_below('mindmap',i);
                 var text = source_cell.get_text();
 
                 if (text === source_cell.placeholder) {

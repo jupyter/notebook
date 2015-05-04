@@ -164,51 +164,58 @@ define(function(require){
                 env.notebook.to_markdown();
             }
         },
+        'change-selected-cell-to-mindmap-cell' : {
+            help    : 'to mindmap',
+            help_index : 'cc',
+            handler : function (env) {
+                env.notebook.to_mindmap();
+            }
+        },
         'change-selected-cell-to-raw-cell' : {
             help    : 'to raw',
-            help_index : 'cc',
+            help_index : 'cd',
             handler : function (env) {
                 env.notebook.to_raw();
             }
         },
         'change-selected-cell-to-heading-1' : {
             help    : 'to heading 1',
-            help_index : 'cd',
+            help_index : 'ce',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 1);
             }
         },
         'change-selected-cell-to-heading-2' : {
             help    : 'to heading 2',
-            help_index : 'ce',
+            help_index : 'cf',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 2);
             }
         },
         'change-selected-cell-to-heading-3' : {
             help    : 'to heading 3',
-            help_index : 'cf',
+            help_index : 'cg',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 3);
             }
         },
         'change-selected-cell-to-heading-4' : {
             help    : 'to heading 4',
-            help_index : 'cg',
+            help_index : 'ch',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 4);
             }
         },
         'change-selected-cell-to-heading-5' : {
             help    : 'to heading 5',
-            help_index : 'ch',
+            help_index : 'ci',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 5);
             }
         },
         'change-selected-cell-to-heading-6' : {
             help    : 'to heading 6',
-            help_index : 'ci',
+            help_index : 'cj',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 6);
             }
