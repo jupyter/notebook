@@ -42,7 +42,7 @@ function build_main(name, callback) {
 
 // build notebook-js, edit-js, etc. tasks
 // which enables parallelism
-var apps = ['edit', 'notebook', 'terminal', 'tree', 'auth'];
+var apps = ['notebook', 'tree', 'edit', 'terminal', 'auth'];
 
 apps.map(function (name) {
   gulp.task(name + '-js', function (finish) {
