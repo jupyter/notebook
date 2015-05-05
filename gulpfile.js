@@ -1,9 +1,13 @@
 var fork = require('child_process').fork;
+var fs = require('fs');
 var path = require('path');
 
+var File = require('vinyl');
+var through = require('through');
 var gulp = require('gulp');
 var less = require('gulp-less');
 var minifyCSS = require('gulp-minify-css');
+var newer = require('gulp-newer');
 var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
 
@@ -46,7 +50,42 @@ var apps = ['notebook', 'tree', 'edit', 'terminal', 'auth'];
 
 apps.map(function (name) {
   gulp.task(name + '-js', function (finish) {
-    build_main(name, finish);
+    var s = path.join('notebook', 'static');
+    var src = path.join(s, name, 'js', 'main.js');
+    var rel_dest = path.join(name, 'js', 'main.min.js');
+    var dest = path.join(s, rel_dest);
+    
+    var sources = [
+      path.join(s, name, 'js', '*.js'),
+      path.join(s, "base", 'js', '*.js'),
+      path.join(s, "auth", 'js', '*.js'),
+      path.join(s, "services", 'config.js'),
+    ];
+    
+    // for required_components
+    if (name === 'notebook') {
+      sources.push(path.join(s, "services", '**', '*.js'));
+    }
+    
+    fs.readdirSync(path.join(s, 'components')).map(function (c) {
+      if (c !== 'MathJax') {
+        // skip MathJax because it has tons of files and makes everything super slow
+        sources.push(path.join(s, 'components', c, '**', '*.js'));
+      }
+    });
+    
+    gulp.src(sources, {base: s})
+    .pipe(newer(dest))
+    .pipe(through(function(file) {
+      console.log(file.relative + " has changed, updating " + rel_dest);
+      this.pause();
+      build_main(name, finish);
+      return;
+    }))
+    .on('end', function () {
+      console.log(rel_dest + " up to date");
+      finish();
+    });
   });
 });
 
