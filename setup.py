@@ -147,7 +147,7 @@ install_requires = [
     'jupyter_core',
     'jupyter_client',
     'jupyter_nbformat',
-    'jupyter_nbconvert',
+    'nbconvert',
     'ipython_kernel', # bless IPython kernel for now
 ]
 extras_require = {

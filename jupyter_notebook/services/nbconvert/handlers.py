@@ -11,7 +11,7 @@ class NbconvertRootHandler(IPythonHandler):
     @json_errors
     def get(self):
         try:
-            from jupyter_nbconvert.exporters.export import exporter_map
+            from nbconvert.exporters.export import exporter_map
         except ImportError as e:
             raise web.HTTPError(500, "Could not import nbconvert: %s" % e)
         res = {}
