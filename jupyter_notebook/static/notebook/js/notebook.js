@@ -1578,7 +1578,7 @@ define(function (require) {
             notebook_path: this.notebook_path,
             notebook_name: this.notebook_name,
             kernel_name: kernel_name,
-            notebook: this
+            events: this.events
         };
 
         var success = $.proxy(this._session_started, this);
