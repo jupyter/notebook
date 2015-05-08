@@ -34,7 +34,7 @@ def _post_save_script(model, os_path, contents_manager, **kwargs):
 
     replaces `ipython notebook --script`
     """
-    from jupyter_nbconvert.exporters.script import ScriptExporter
+    from nbconvert.exporters.script import ScriptExporter
 
     if model['type'] != 'notebook':
         return
