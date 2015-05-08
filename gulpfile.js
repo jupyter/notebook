@@ -14,7 +14,7 @@ gulp.task('css', function () {
     .pipe(less({
       paths: [ path.join(__dirname, 'less', 'includes') ]
     }))
-    .pipe(minifyCSS())
+    .pipe(minifyCSS({restructuring: false}))
     .pipe(rename({
             suffix: '.min'
         }))
