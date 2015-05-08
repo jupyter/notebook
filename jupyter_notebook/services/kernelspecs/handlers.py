@@ -41,7 +41,7 @@ def kernelspec_model(handler, name):
     return d
 
 class MainKernelSpecHandler(IPythonHandler):
-    SUPPORTED_METHODS = ('GET',)
+    SUPPORTED_METHODS = ('GET', 'OPTIONS')
 
     @web.authenticated
     @json_errors
@@ -60,6 +60,11 @@ class MainKernelSpecHandler(IPythonHandler):
             specs[kernel_name] = d
         self.set_header("Content-Type", 'application/json')
         self.finish(json.dumps(model))
+
+    @web.authenticated
+    @json_errors
+    def options(self):
+        self.finish()
 
 
 class KernelSpecHandler(IPythonHandler):
