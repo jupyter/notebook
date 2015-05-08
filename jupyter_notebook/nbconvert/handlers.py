@@ -13,7 +13,7 @@ from ..base.handlers import (
     IPythonHandler, FilesRedirectHandler,
     path_regex,
 )
-from jupyter_nbformat import from_dict
+from nbformat import from_dict
 
 from ipython_genutils.py3compat import cast_bytes
 from ipython_genutils import text

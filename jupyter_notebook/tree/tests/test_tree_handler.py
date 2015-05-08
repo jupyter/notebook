@@ -2,8 +2,8 @@
 import os
 import io
 from jupyter_notebook.utils import url_path_join
-from jupyter_nbformat import write
-from jupyter_nbformat.v4 import new_notebook
+from nbformat import write
+from nbformat.v4 import new_notebook
 
 import requests
 

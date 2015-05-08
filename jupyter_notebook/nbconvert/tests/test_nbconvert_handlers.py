@@ -10,8 +10,8 @@ import requests
 
 from jupyter_notebook.utils import url_path_join
 from jupyter_notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
-from jupyter_nbformat import write
-from jupyter_nbformat.v4 import (
+from nbformat import write
+from nbformat.v4 import (
     new_notebook, new_markdown_cell, new_code_cell, new_output,
 )
 

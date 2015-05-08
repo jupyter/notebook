@@ -74,7 +74,7 @@ from jupyter_core.application import (
 from jupyter_client import KernelManager
 from jupyter_client.kernelspec import KernelSpecManager, NoSuchKernel, NATIVE_KERNEL_NAME
 from jupyter_client.session import Session
-from jupyter_nbformat.sign import NotebookNotary
+from nbformat.sign import NotebookNotary
 from . import submodule
 from traitlets import (
     Dict, Unicode, Integer, List, Bool, Bytes, Instance,

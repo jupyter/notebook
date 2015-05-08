@@ -18,11 +18,11 @@ from ..filecheckpoints import GenericFileCheckpoints
 from traitlets.config import Config
 from jupyter_notebook.utils import url_path_join, url_escape, to_os_path
 from jupyter_notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
-from jupyter_nbformat import read, write, from_dict
-from jupyter_nbformat.v4 import (
+from nbformat import read, write, from_dict
+from nbformat.v4 import (
     new_notebook, new_markdown_cell,
 )
-from jupyter_nbformat import v2
+from nbformat import v2
 from ipython_genutils import py3compat
 from ipython_genutils.tempdir import TemporaryDirectory
 
