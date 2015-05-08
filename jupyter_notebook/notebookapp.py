@@ -988,7 +988,7 @@ class NotebookApp(JupyterApp):
             self.kernel_spec_manager.get_kernel_spec(NATIVE_KERNEL_NAME)
         except NoSuchKernel:
             try:
-                import ipython_kernel
+                import ipykernel
             except ImportError:
                 self.log.warn("IPython kernel not available")
             else:
