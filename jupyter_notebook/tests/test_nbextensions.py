@@ -64,9 +64,10 @@ class TestInstallNBExtension(TestCase):
         self.patch_data = patch.object(nbextensions,
             'jupyter_data_dir', lambda : self.data_dir)
         self.patch_data.start()
-        self.system_nbext = self.tempdir()
+        self.system_path = [self.tempdir()]
+        self.system_nbext = pjoin(self.system_path[0], 'nbextensions')
         self.patch_system_data = patch.object(nbextensions,
-            'SYSTEM_NBEXTENSIONS_INSTALL_DIR', self.system_nbext)
+            'SYSTEM_JUPYTER_PATH', self.system_path)
         self.patch_system_data.start()
     
     def tearDown(self):
@@ -123,12 +124,13 @@ class TestInstallNBExtension(TestCase):
     
     def test_create_nbextensions_system(self):
         with TemporaryDirectory() as td:
-            nbextensions.SYSTEM_NBEXTENSIONS_INSTALL_DIR = self.system_nbext = pjoin(td, u'nbextensions')
-            install_nbextension(self.src, user=False)
-            self.assert_installed(
-                pjoin(basename(self.src), u'ƒile'),
-                user=False
-            )
+            self.system_nbext = pjoin(td, u'nbextensions')
+            with patch.object(nbextensions, 'SYSTEM_JUPYTER_PATH', [td]):
+                install_nbextension(self.src, user=False)
+                self.assert_installed(
+                    pjoin(basename(self.src), u'ƒile'),
+                    user=False
+                )
     
     def test_single_file(self):
         file = self.files[0]

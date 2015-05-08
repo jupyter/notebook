@@ -81,12 +81,10 @@ from traitlets import (
     TraitError, Type,
 )
 from ipython_genutils import py3compat
-from ipython_genutils.path import filefind
 from IPython.paths import get_ipython_dir
-from jupyter_core.paths import jupyter_runtime_dir
+from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
 from jupyter_notebook._sysinfo import get_sys_info
 
-from .nbextensions import SYSTEM_NBEXTENSIONS_DIRS
 from .utils import url_path_join, check_pid
 
 #-----------------------------------------------------------------------------
@@ -618,11 +616,10 @@ class NotebookApp(JupyterApp):
     @property
     def nbextensions_path(self):
         """The path to look for Javascript notebook extensions"""
-        return self.extra_nbextensions_path + [
-            os.path.join(self.data_dir, 'nbextensions'),
-            # FIXME: remove IPython nbextensions path once migration is setup
-            os.path.join(get_ipython_dir(), 'nbextensions'),
-        ] + SYSTEM_NBEXTENSIONS_DIRS
+        path = self.extra_nbextensions_path + jupyter_path('nbextensions')
+        # FIXME: remove IPython nbextensions path once migration is setup
+        path.append(os.path.join(get_ipython_dir(), 'nbextensions'))
+        return path
 
     websocket_url = Unicode("", config=True,
         help="""The base URL for websockets,
