@@ -12,7 +12,7 @@ from tornado.web import HTTPError
 from unittest import TestCase
 from tempfile import NamedTemporaryFile
 
-from jupyter_nbformat import v4 as nbformat
+from nbformat import v4 as nbformat
 
 from ipython_genutils.tempdir import TemporaryDirectory
 from traitlets import TraitError

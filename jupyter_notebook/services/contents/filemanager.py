@@ -8,7 +8,7 @@ import io
 import os
 import shutil
 import mimetypes
-import jupyter_nbformat as nbformat
+import nbformat
 
 from tornado import web
 

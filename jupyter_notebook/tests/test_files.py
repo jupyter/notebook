@@ -10,8 +10,8 @@ pjoin = os.path.join
 import requests
 import json
 
-from jupyter_nbformat import write
-from jupyter_nbformat.v4 import (new_notebook,
+from nbformat import write
+from nbformat.v4 import (new_notebook,
                               new_markdown_cell, new_code_cell,
                               new_output)
 

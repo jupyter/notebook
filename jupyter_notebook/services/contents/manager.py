@@ -13,8 +13,8 @@ from tornado.web import HTTPError
 
 from .checkpoints import Checkpoints
 from traitlets.config.configurable import LoggingConfigurable
-from jupyter_nbformat import sign, validate, ValidationError
-from jupyter_nbformat.v4 import new_notebook
+from nbformat import sign, validate, ValidationError
+from nbformat.v4 import new_notebook
 from ipython_genutils.importstring import import_item
 from traitlets import (
     Any,

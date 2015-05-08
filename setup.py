@@ -146,7 +146,7 @@ install_requires = [
     'traitlets',
     'jupyter_core',
     'jupyter_client',
-    'jupyter_nbformat',
+    'nbformat',
     'nbconvert',
     'ipykernel', # bless IPython kernel for now
 ]
