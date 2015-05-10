@@ -788,10 +788,6 @@ class NotebookApp(JupyterApp):
         self.kernel_spec_manager = self.kernel_spec_manager_class(
             parent=self,
         )
-        # FIXME: temporarily add .ipython/kernels to the kernel search path
-        self.kernel_spec_manager.kernel_dirs.append(
-            os.path.join(self.data_dir, 'kernels'),
-        )
         self.kernel_manager = self.kernel_manager_class(
             parent=self,
             log=self.log,
