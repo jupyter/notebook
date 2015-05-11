@@ -1,4 +1,4 @@
-"""Manage ipython_parallel clusters in the notebook."""
+"""Manage IPython parallel clusters in the notebook."""
 
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
@@ -23,7 +23,7 @@ class ClusterManager(LoggingConfigurable):
         return IOLoop.instance()
 
     def build_launchers(self, profile_dir):
-        from ipython_parallel.apps.ipclusterapp import IPClusterStart
+        from ipyparallel.apps.ipclusterapp import IPClusterStart
         
         class DummyIPClusterStart(IPClusterStart):
             """Dummy subclass to skip init steps that conflict with global app.
