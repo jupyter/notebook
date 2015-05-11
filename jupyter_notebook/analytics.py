@@ -144,11 +144,12 @@ class AnalyticsSender(object):
             self.ioloop.add_callback(self.send)
             return
 
-        since_last = datetime.utcnow() - self.last_submission()
+        since_last = datetime.utcnow() - last
         if since_last > timedelta(days=28):
             self.ioloop.add_callback(self.send)
         else:
-            self.ioloop.call_later(since_last.total_seconds(), self.send)
+            to_next = (last + timedelta(days=28)) - datetime.utcnow()
+            self.ioloop.call_later(to_next.total_seconds(), self.send)
 
     def send(self):
         http_client = AsyncHTTPClient()
