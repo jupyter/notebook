@@ -67,13 +67,15 @@ class NotebookTestBase(TestCase):
     @classmethod
     def setup_class(cls):
         cls.home_dir = TemporaryDirectory()
+        data_dir = TemporaryDirectory()
         cls.env_patch = patch.dict('os.environ', {
             'HOME': cls.home_dir.name,
             'IPYTHONDIR': pjoin(cls.home_dir.name, '.ipython'),
+            'JUPYTER_DATA_DIR' : data_dir.name
         })
         cls.env_patch.start()
         cls.config_dir = TemporaryDirectory()
-        cls.data_dir = TemporaryDirectory()
+        cls.data_dir = data_dir
         cls.runtime_dir = TemporaryDirectory()
         cls.notebook_dir = TemporaryDirectory()
         app = cls.notebook = NotebookApp(
