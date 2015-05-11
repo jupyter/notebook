@@ -75,7 +75,6 @@ from jupyter_client import KernelManager
 from jupyter_client.kernelspec import KernelSpecManager, NoSuchKernel, NATIVE_KERNEL_NAME
 from jupyter_client.session import Session
 from nbformat.sign import NotebookNotary
-from . import submodule
 from traitlets import (
     Dict, Unicode, Integer, List, Bool, Bytes, Instance,
     TraitError, Type,
@@ -970,13 +969,8 @@ class NotebookApp(JupyterApp):
     
     def init_components(self):
         """Check the components submodule, and warn if it's unclean"""
-        status = submodule.check_submodule_status()
-        if status == 'missing':
-            self.log.warn("components submodule missing, running `git submodule update`")
-            submodule.update_submodules(submodule.repo_parent())
-        elif status == 'unclean':
-            self.log.warn("components submodule unclean, you may see 404s on static/components")
-            self.log.warn("run `setup.py submodule` or `git submodule update` to update")
+        # TODO: this should still check, but now we use bower, not git submodule
+        pass
     
     def init_kernel_specs(self):
         """Check that the IPython kernel is present, if available"""
