@@ -2,7 +2,6 @@
 language: python
 python:
     - 3.4
-    - 2.7
 sudo: false
 cache:
   directories:
@@ -13,11 +12,7 @@ env:
   global:
     - PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
   matrix:
-    - GROUP=python
-    - GROUP=js/base
     - GROUP=js/notebook
-    - GROUP=js/services
-    - GROUP=js/tree
 before_install:
     - 'if [[ $GROUP == js* ]]; then npm install -g casperjs; fi'
     - npm install bower
