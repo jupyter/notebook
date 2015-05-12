@@ -23,9 +23,12 @@ before_install:
     - npm install bower
     - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
 install:
-    - pip install coveralls tornado
+    - pip install coveralls tornado ptyprocess terminado
+    - mv ~/.cache/pip ~/.cache/.pip
     - pip install --no-cache-dir -f travis-wheels/wheelhouse -r requirements.txt
     - pip install --no-cache-dir file://$PWD#egg=jupyter_notebook[test]
+    - rm -rf ~/.cache/.pip
+    - mv ~/.cache/.pip ~/.cache/pip
 script:
     - 'if [[ $GROUP == js* ]]; then python -m jupyter_notebook.jstest ${GROUP:3}; fi'
     - 'if [[ $GROUP == python ]]; then nosetests --with-coverage --cover-package=jupyter_notebook jupyter_notebook; fi'
