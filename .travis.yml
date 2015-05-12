@@ -7,7 +7,6 @@ cache:
   directories:
     - $HOME/.cache/bower
     - $HOME/.cache/pip
-    - $HOME/.npm
 env:
   global:
     - PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
