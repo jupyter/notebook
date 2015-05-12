@@ -38,7 +38,7 @@ class AnalyticsSender(object):
             try:
                 with open(self.control_file, 'r') as f:
                     self._control_info = json.load(f)
-            except OSError as e:
+            except IOError as e:
                 if e.errno == errno.ENOENT:
                     self._control_info = {}
                 else:
