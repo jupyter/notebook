@@ -4,6 +4,11 @@ python:
     - 3.4
     - 2.7
 sudo: false
+cache:
+  directories:
+    - $HOME/.cache/bower
+    - $HOME/.cache/pip
+    - $HOME/.npm
 env:
   global:
     - PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
