@@ -8,7 +8,7 @@ sudo: false
 cache:
   directories:
     - $HOME/.cache/bower
-    - $HOME/jupyter/notebook/jupyter_notebook/static/components/
+    - $HOME/jupyter/notebook/jupyter_notebook/static/components
 env:
   global:
     - PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
@@ -23,6 +23,7 @@ before_install:
     - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
 install:
     - pip install -f travis-wheels/wheelhouse -r requirements.txt file://$PWD#egg=jupyter_notebook[test] coveralls
+    - ls $HOME/jupyter/notebook/jupyter_notebook/static/components
 script:
     - 'if [[ $GROUP == js* ]]; then python -m jupyter_notebook.jstest ${GROUP:3}; fi'
     - 'if [[ $GROUP == python ]]; then nosetests --with-coverage --cover-package=jupyter_notebook jupyter_notebook; fi'
