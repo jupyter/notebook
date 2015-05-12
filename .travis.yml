@@ -8,6 +8,7 @@ sudo: false
 cache:
   directories:
     - $HOME/.cache/bower
+    - $HOME/jupyter/notebook/jupyter_notebook/static/components/
 env:
   global:
     - PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
