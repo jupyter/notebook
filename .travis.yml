@@ -26,11 +26,11 @@ install:
     - pip install coveralls tornado ptyprocess terminado
     - mv ~/.cache/pip ~/.cache/.pip
     - pip install --no-cache-dir -f travis-wheels/wheelhouse -r requirements.txt
-    - pip install --no-cache-dir file://$PWD#egg=jupyter_notebook[test]
+    - true # pip install --no-cache-dir file://$PWD#egg=jupyter_notebook[test]
 before_cache:
     - rm -rf ~/.cache/pip
-    - rm ~/.cache/pip/log/debug.log
     - mv ~/.cache/.pip ~/.cache/pip
+    - rm ~/.cache/pip/log/debug.log
 script:
     - true #'if [[ $GROUP == js* ]]; then python -m jupyter_notebook.jstest ${GROUP:3}; fi'
     - true #'if [[ $GROUP == python ]]; then nosetests --with-coverage --cover-package=jupyter_notebook jupyter_notebook; fi'
