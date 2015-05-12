@@ -29,6 +29,7 @@ install:
     - pip install --no-cache-dir file://$PWD#egg=jupyter_notebook[test]
 before_cache:
     - rm -rf ~/.cache/pip
+    - rm ~/.cache/pip/log/debug.log
     - mv ~/.cache/.pip ~/.cache/pip
 script:
     - true #'if [[ $GROUP == js* ]]; then python -m jupyter_notebook.jstest ${GROUP:3}; fi'
