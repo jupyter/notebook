@@ -25,7 +25,7 @@ before_install:
 install:
     - pip install coveralls tornado ptyprocess terminado
     - mv ~/.cache/pip ~/.cache/.pip
-    - pip install --no-cache-dir -f travis-wheels/wheelhouse -r requirements.txt
+    - true # pip install --no-cache-dir -f travis-wheels/wheelhouse -r requirements.txt
     - true # pip install --no-cache-dir file://$PWD#egg=jupyter_notebook[test]
 before_cache:
     - rm -rf ~/.cache/pip
