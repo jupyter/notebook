@@ -3,6 +3,8 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
+import os
+
 from tornado import web
 
 from traitlets.config.configurable import LoggingConfigurable
@@ -60,6 +62,8 @@ class ClusterManager(LoggingConfigurable):
             return
         stale = set(self.profiles)
         for path in [get_ipython_dir(), py3compat.getcwd()]:
+            if not os.path.isdir(path):
+                continue
             for profile in list_profiles_in(path):
                 if profile in stale:
                     stale.remove(profile)
