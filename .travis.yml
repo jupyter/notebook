@@ -27,7 +27,7 @@ install:
     - mv ~/.cache/pip ~/.cache/.pip
     - pip install --no-cache-dir -f travis-wheels/wheelhouse -r requirements.txt
     - pip install --no-cache-dir file://$PWD#egg=jupyter_notebook[test]
-    - rm -rf ~/.cache/.pip
+    - rm -rf ~/.cache/pip
     - mv ~/.cache/.pip ~/.cache/pip
 script:
     - 'if [[ $GROUP == js* ]]; then python -m jupyter_notebook.jstest ${GROUP:3}; fi'
