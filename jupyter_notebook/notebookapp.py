@@ -1126,6 +1126,11 @@ def list_running_servers(runtime_dir=None):
     """
     if runtime_dir is None:
         runtime_dir = jupyter_runtime_dir()
+
+    # The runtime dir might not exist
+    if not os.path.isdir(runtime_dir):
+        return
+
     for file in os.listdir(runtime_dir):
         if file.startswith('nbserver-'):
             with io.open(os.path.join(runtime_dir, file), encoding='utf-8') as f:
