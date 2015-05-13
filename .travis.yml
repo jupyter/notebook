@@ -23,8 +23,13 @@ before_install:
     - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
 install:
     - pip install -f travis-wheels/wheelhouse -r requirements.txt coveralls
-    - pip install -e . file://$PWD#egg=jupyter_notebook[test]
+    - pip install -e file://$PWD#egg=jupyter_notebook[test]
     - ls $HOME/jupyter/notebook/jupyter_notebook/static/components
+    - ls $HOME/jupyter/notebook/jupyter_notebook/static/
+    - ls $HOME/jupyter/notebook/jupyter_notebook/
+    - ls $HOME/jupyter/notebook/
+    - ls $HOME/jupyter/
+    - ls $HOME/
 script:
     - 'if [[ $GROUP == js* ]]; then python -m jupyter_notebook.jstest ${GROUP:3}; fi'
     - 'if [[ $GROUP == python ]]; then nosetests --with-coverage --cover-package=jupyter_notebook jupyter_notebook; fi'
