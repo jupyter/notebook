@@ -210,6 +210,7 @@ class NotebookWebApplication(web.Application):
             config=ipython_app.config,
             jinja2_env=env,
             terminals_available=False,  # Set later if terminals are available
+            analytics_prompt=False,  # Set later if the user hasn't answered before
         )
 
         # allow custom overrides for the tornado web app.
@@ -906,6 +907,11 @@ class NotebookApp(JupyterApp):
             log = self.log.debug if sys.platform == 'win32' else self.log.warn
             log("Terminals not available (error was %s)", e)
 
+    def init_analytics(self):
+        from .analytics import AnalyticsSender
+        self.analytics = AnalyticsSender(self)
+        self.analytics.startup()
+
     def init_signal(self):
         if not sys.platform.startswith('win'):
             signal.signal(signal.SIGINT, self._handle_sigint)
@@ -1015,6 +1021,7 @@ class NotebookApp(JupyterApp):
         self.init_webapp()
         self.init_kernel_specs()
         self.init_terminals()
+        self.init_analytics()
         self.init_signal()
         self.init_server_extensions()
 
