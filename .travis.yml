@@ -30,9 +30,16 @@ install:
     - ls $HOME/build/jupyter/notebook/
     - ls $HOME/build/jupyter/
     - ls $HOME/build/
+before_cache:
+    - ls $HOME/build/jupyter/notebook/jupyter_notebook/static/components
+    - ls $HOME/build/jupyter/notebook/jupyter_notebook/static/
+    - ls $HOME/build/jupyter/notebook/jupyter_notebook/
+    - ls $HOME/build/jupyter/notebook/
+    - echo $HOME
+    - pwd
 script:
-    - 'if [[ $GROUP == js* ]]; then python -m jupyter_notebook.jstest ${GROUP:3}; fi'
-    - 'if [[ $GROUP == python ]]; then nosetests --with-coverage --cover-package=jupyter_notebook jupyter_notebook; fi'
+    - true # 'if [[ $GROUP == js* ]]; then python -m jupyter_notebook.jstest ${GROUP:3}; fi'
+    - true # 'if [[ $GROUP == python ]]; then nosetests --with-coverage --cover-package=jupyter_notebook jupyter_notebook; fi'
 matrix:
     include:
         - python: 3.3
