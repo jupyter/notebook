@@ -16,12 +16,12 @@ To do so we rely on the livereaload extension of various browser (`for chrome
 and the gulp-livereload extension. 
 
 
-To use the livereload extension, in the root of `jupyter_notebook` project launch::
+To use the livereload extension, in the root of `notebook` project launch::
 
     $ gulp watch
     
     
-Any changes to any of the less files under the `jupyter_notebook/static`
+Any changes to any of the less files under the `notebook/static`
 directory will trigger a rebuild of css and ask the reload extension to reload
 the current page. 
 

@@ -6,7 +6,7 @@
   "license": "BSD",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jupyter/jupyter_notebook.git"
+    "url": "https://github.com/jupyter/notebook.git"
   },
   "devDependencies": {
     "bower": "*",

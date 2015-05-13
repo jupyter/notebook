@@ -52,7 +52,7 @@ except NameError:
 # Basic project information
 #---------------------------------------------------------------------------
 
-name = 'jupyter_notebook'
+name = 'notebook'
 
 # release.py contains version, authors, license, url, keywords, etc.
 version_ns = {}
@@ -98,7 +98,7 @@ def find_package_data():
 
     # walk notebook resources:
     cwd = os.getcwd()
-    os.chdir('jupyter_notebook')
+    os.chdir('notebook')
     static_data = []
     for parent, dirs, files in os.walk('static'):
         if any(fnmatch(parent, pat) for pat in excludes):
@@ -163,8 +163,8 @@ def find_package_data():
     os.chdir(cwd)
 
     package_data = {
-        'jupyter_notebook' : ['templates/*'] + static_data,
-        'jupyter_notebook.tests' : js_tests,
+        'notebook' : ['templates/*'] + static_data,
+        'notebook.tests' : js_tests,
     }
     
     return package_data
@@ -272,7 +272,7 @@ except ImportError:
         return None
 
 
-static = pjoin(repo_root, 'jupyter_notebook', 'static')
+static = pjoin(repo_root, 'notebook', 'static')
 
 npm_path = os.pathsep.join([
     pjoin(repo_root, 'node_modules', '.bin'),
@@ -387,7 +387,7 @@ class JavascriptVersion(Command):
         pass
     
     def run(self):
-        nsfile = pjoin(repo_root, "jupyter_notebook", "static", "base", "js", "namespace.js")
+        nsfile = pjoin(repo_root, "notebook", "static", "base", "js", "namespace.js")
         with open(nsfile) as f:
             lines = f.readlines()
         with open(nsfile, 'w') as f:

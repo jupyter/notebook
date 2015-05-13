@@ -9,7 +9,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var livereload = require('gulp-livereload');
  
 gulp.task('css', function () {
-  return gulp.src('./jupyter_notebook/static/style/*.less')
+  return gulp.src('./notebook/static/style/*.less')
     .pipe(sourcemaps.init())
     .pipe(less({
       paths: [ path.join(__dirname, 'less', 'includes') ]
@@ -19,7 +19,7 @@ gulp.task('css', function () {
             suffix: '.min'
         }))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./jupyter_notebook/static/style'))
+    .pipe(gulp.dest('./notebook/static/style'))
     .pipe(livereload());
 });
 
@@ -27,5 +27,5 @@ gulp.task('css', function () {
 
 gulp.task('watch', function() {
   livereload.listen();
-  gulp.watch('jupyter_notebook/static/**/*.less', ['css']);
+  gulp.watch('notebook/static/**/*.less', ['css']);
 });
