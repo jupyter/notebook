@@ -1,0 +1,38 @@
+{
+  "name": "phosphor-notebook",
+  "version": "0.1.0",
+  "description": "Jupyter Notebook nodejs dependencies",
+  "author": "Jupyter Developers",
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jupyter/jupyter_notebook.git"
+  },
+  "devDependencies": {
+    "bower": "*",
+    "gulp": "^3.8.11",
+    "gulp-less": "^3.0.2",
+    "gulp-minify-css": "^1.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.5.1",
+    "gulp-typescript": "^2.4.0",
+    "less": "~2",
+    "source-map": "^0.4.2"
+  },
+  "bugs": {
+    "url": "https://github.com/jupyter/jupyter_notebook/issues"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "gulp": "~3.8.11",
+    "gulp-typescript": "~2.6.0",
+    "gulp-concat": "~2.5.2",
+    "gulp-header": "~1.2.2",
+    "event-stream": "~3.3.0",
+    "gulp-rename": "~1.2.2",
+    "del": "~1.1.1"
+  }
+}

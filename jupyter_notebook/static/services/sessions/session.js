@@ -19,7 +19,7 @@ define([
      *  - kernel_name: the type of kernel (e.g. python3)
      *  - base_url: the root url of the notebook server
      *  - ws_url: the url to access websockets
-     *  - notebook: Notebook object
+     *  - events: events object to listen to
      *
      * @class Session
      * @param {Object} options
@@ -39,9 +39,8 @@ define([
         this.session_service_url = utils.url_join_encode(this.base_url, 'api/sessions');
         this.session_url = null;
 
-        this.notebook = options.notebook;
         this.kernel = null;
-        this.events = options.notebook.events;
+        this.events = options.events;
 
         this.bind_events();
     };
