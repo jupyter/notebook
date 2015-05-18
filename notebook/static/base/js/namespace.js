@@ -5,6 +5,7 @@ var IPython = IPython || {};
 define(function(){
     var utils = require('base/js/utils');
     IPython.security = require('base/js/security');
+    IPython.keyboard = require('base/js/keyboard');
     IPython.utils = utils;
     IPython.load_extensions = utils.load_extensions;
 
