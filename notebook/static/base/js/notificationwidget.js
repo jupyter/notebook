@@ -2,9 +2,8 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jquery',
-], function(IPython, $) {
+], function($) {
     "use strict";
 
     /**
@@ -166,9 +165,6 @@ define([
     NotificationWidget.prototype.get_message = function () {
         return this.inner.html();
     };
-
-    // For backwards compatibility.
-    IPython.NotificationWidget = NotificationWidget;
 
     return {'NotificationWidget': NotificationWidget};
 });

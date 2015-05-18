@@ -7,6 +7,7 @@ define(function(){
     Jupyter.security = require('base/js/security');
     Jupyter.keyboard = require('base/js/keyboard');
     Jupyter.dialog = require('base/js/dialog');
+    Jupyter.NotificationWidget = require('base/js/notificationwidget');
     Jupyter.utils = utils;
     Jupyter.load_extensions = utils.load_extensions;
 
