@@ -5,7 +5,6 @@ define(function(require) {
     "use strict";
 
     var CodeMirror = require('codemirror/lib/codemirror');
-    var IPython = require('base/js/namespace');
     var $ = require('jquery');
     
     /**
@@ -204,9 +203,6 @@ define(function(require) {
         kernel_modal : kernel_modal,
         edit_metadata : edit_metadata,
     };
-
-    // Backwards compatability.
-    IPython.dialog = dialog;
 
     return dialog;
 });
