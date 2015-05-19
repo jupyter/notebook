@@ -58,6 +58,7 @@ define(function(){
     jglobal('Cell','base/js/cell');
     jglobal('OutputArea','notebook/js/outputarea');
     jglobal('KeyboardManager','notebook/js/keyboardmanager');
+    jglobal('Completer','notebook/js/completer');
 
     Jupyter.version = "4.0.0.dev";
     Jupyter._target = '_blank';
