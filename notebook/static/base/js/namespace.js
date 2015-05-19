@@ -1,29 +1,56 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
+//
+//
+
 
 var Jupyter = Jupyter || {};
+
+var jprop = function(name, module_path){
+    Object.defineProperty(Jupyter, name, {
+      get: function() { 
+          console.warn('accessing `'+name+'` is deprecated. Use require("'+module_path+'")');
+          return require(module_path); 
+      },
+      enumerable: true,
+      configurable: false
+    });
+}
+
+var jglobal = function(name, module_path){
+    Object.defineProperty(Jupyter, name, {
+      get: function() { 
+          console.warn('accessing `'+name+'` is deprecated. Use require("'+module_path+'").'+name);
+          return require(module_path)[name]; 
+      },
+      enumerable: true,
+      configurable: false
+    });
+}
+
 define(function(){
     "use strict";
 
     // expose modules
-    Jupyter.utils = require('base/js/utils');
-    Jupyter.load_extensions = Jupyter.utils.load_extensions;
-     
-    Jupyter.security = require('base/js/security');
-    Jupyter.keyboard = require('base/js/keyboard');
-    Jupyter.dialog = require('base/js/dialog');
+    
+    jprop('utils','base/js/utils')
+    
+    //Jupyter.load_extensions = Jupyter.utils.load_extensions;
+    // 
+    jprop('security','base/js/security');
+    jprop('keyboard','base/js/keyboard');
+    jprop('dialog','base/js/dialog');
 
 
-    // exposed constructors
-    var comm = require('services/kernels/comm');
-    Jupyter.CommManager = comm.CommManager;
-    Jupyter.Comm = comm.Comm;
+    //// exposed constructors
+    jglobal('CommManager','services/kernels/comm')
+    jglobal('Comm','services/kernels/comm')
 
-    Jupyter.NotificationWidget = require('base/js/notificationwidget').NotificationWidget;
-    Jupyter.Kernel = require('services/kernels/kernel').Kernel;
-    Jupyter.Session = require('services/kernels/session').Session;
-    Jupyter.LoginWidget = require('auth/js/loginwidget').LoginWidget
-    Jupyter.Page = require('base/js/page').Page;
+    jglobal('NotificationWidget','base/js/notificationwidget');
+    jglobal('Kernel','services/kernels/kernel');
+    jglobal('Session','services/sessions/session');
+    jglobal('LoginWidget','auth/js/loginwidget');
+    jglobal('Page','base/js/page');
 
     Jupyter.version = "4.0.0.dev";
     Jupyter._target = '_blank';
