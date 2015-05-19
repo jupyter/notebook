@@ -40,6 +40,7 @@ define(function(){
     jprop('security','base/js/security');
     jprop('keyboard','base/js/keyboard');
     jprop('dialog','base/js/dialog');
+    jprop('mathjaxutils','notebook/js/mathjaxutils');
 
 
     //// exposed constructors
