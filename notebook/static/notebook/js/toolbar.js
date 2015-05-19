@@ -2,9 +2,8 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jquery'
-], function(IPython, $) {
+], function($) {
     "use strict";
 
     /**
@@ -53,27 +52,6 @@ define([
      *          ...
      *      ]
      *
-     *  For backward compatibility this also support the
-     *  old methods of adding a button directly bound to callbacks:
-     *  @example
-     *      # deprecate, do not use
-     *      IPython.toolbar.add_buttons_group([
-     *          {
-     *            label:'my button',
-     *            icon:'icon-hdd',
-     *            callback:function(){alert('hoho')},
-     *            id : 'my_button_id',    // this is optional
-     *          },
-     *          {
-     *            label:'my second button',
-     *            icon:'icon-play',
-     *            callback:function(){alert('be carefull I cut')}
-     *          }
-     *        ],
-     *        "my_button_group_id"
-     *      )
-     *
-     *  @method add_buttons_group
      *  @param list {List}
      *      List of button of the group, with the following paramter for each :
      *      @param list.label {string} text to show on button hover
@@ -153,9 +131,6 @@ define([
     ToolBar.prototype.toggle = function () {
         this.element.toggle();
     };
-
-    // Backwards compatibility.
-    IPython.ToolBar = ToolBar;
 
     return {'ToolBar': ToolBar};
 });

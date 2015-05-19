@@ -61,6 +61,7 @@ define(function(){
     jglobal('Completer','notebook/js/completer');
     jglobal('Notebook','notebook/js/notebook');
     jglobal('Tooltip','notebook/js/tooltip');
+    jglobal('Toolbar','notebook/js/toolbar');
 
     Jupyter.version = "4.0.0.dev";
     Jupyter._target = '_blank';
