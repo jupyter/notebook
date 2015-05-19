@@ -60,6 +60,7 @@ define(function(){
     jglobal('KeyboardManager','notebook/js/keyboardmanager');
     jglobal('Completer','notebook/js/completer');
     jglobal('Notebook','notebook/js/notebook');
+    jglobal('Tooltip','notebook/js/tooltip');
 
     Jupyter.version = "4.0.0.dev";
     Jupyter._target = '_blank';

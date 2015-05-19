@@ -2,10 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jquery',
     'base/js/utils',
-], function(IPython, $, utils) {
+], function($, utils) {
     "use strict";
 
     // tooltip constructor
@@ -318,9 +317,6 @@ define([
         // keep scroll top to be sure to always see the first line
         this.text.scrollTop(0);
     };
-
-    // Backwards compatibility.
-    IPython.Tooltip = Tooltip;
 
     return {'Tooltip': Tooltip};
 });
