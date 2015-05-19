@@ -56,6 +56,8 @@ define(function(){
     jglobal('MarkdownCell','base/js/textcell');
     jglobal('RawCell','base/js/textcell');
     jglobal('Cell','base/js/cell');
+
+    // notebook
     jglobal('OutputArea','notebook/js/outputarea');
     jglobal('KeyboardManager','notebook/js/keyboardmanager');
     jglobal('Completer','notebook/js/completer');
@@ -65,6 +67,9 @@ define(function(){
     jglobal('SaveWidget','notebook/js/savewidget');
     jglobal('Pager','notebook/js/pager');
     jglobal('QuickHelp','notebook/js/quickhelp');
+
+    // tree
+    jglobal('SessionList','tree/js/sessionlist');
 
     Jupyter.version = "4.0.0.dev";
     Jupyter._target = '_blank';
