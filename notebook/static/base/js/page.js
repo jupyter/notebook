@@ -2,10 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jquery',
     'base/js/events',
-], function(IPython, $, events){
+], function($, events){
     "use strict";
 
     var Page = function () {
@@ -59,7 +58,5 @@ define([
         $('div#site').height($(window).height() - $('#header').height());
     };
 
-    // Register self in the global namespace for convenience.
-    IPython.Page = Page;
     return {'Page': Page};
 });

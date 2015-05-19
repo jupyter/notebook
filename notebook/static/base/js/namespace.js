@@ -23,6 +23,7 @@ define(function(){
     Jupyter.Kernel = require('services/kernels/kernel').Kernel;
     Jupyter.Session = require('services/kernels/session').Session;
     Jupyter.LoginWidget = require('auth/js/loginwidget').LoginWidget
+    Jupyter.Page = require('base/js/page').Page;
 
     Jupyter.version = "4.0.0.dev";
     Jupyter._target = '_blank';
