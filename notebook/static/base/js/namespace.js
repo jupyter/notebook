@@ -51,6 +51,9 @@ define(function(){
     jglobal('Session','services/sessions/session');
     jglobal('LoginWidget','auth/js/loginwidget');
     jglobal('Page','base/js/page');
+    jglobal('TextCell','base/js/textcell');
+    jglobal('MarkdownCell','base/js/textcell');
+    jglobal('RawCell','base/js/textcell');
 
     Jupyter.version = "4.0.0.dev";
     Jupyter._target = '_blank';

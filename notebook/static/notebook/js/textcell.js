@@ -2,7 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'base/js/utils',
     'jquery',
     'notebook/js/cell',
@@ -14,7 +13,7 @@ define([
     'codemirror/lib/codemirror',
     'codemirror/mode/gfm/gfm',
     'notebook/js/codemirror-ipythongfm'
-], function(IPython,
+], function(
     utils,
     $,
     cell,
@@ -359,11 +358,6 @@ define([
         }
         return cont;
     };
-
-    // Backwards compatability.
-    IPython.TextCell = TextCell;
-    IPython.MarkdownCell = MarkdownCell;
-    IPython.RawCell = RawCell;
 
     var textcell = {
         TextCell: TextCell,
