@@ -2,10 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jquery',
     'base/js/utils',
-], function(IPython, $, utils) {
+], function($, utils) {
     "use strict";
 
     //-----------------------------------------------------------------------
@@ -208,10 +207,6 @@ define([
         this._callback('close', msg);
     };
     
-    // For backwards compatability.
-    IPython.CommManager = CommManager;
-    IPython.Comm = Comm;
-
     return {
         'CommManager': CommManager,
         'Comm': Comm

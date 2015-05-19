@@ -3,15 +3,20 @@
 
 var Jupyter = Jupyter || {};
 define(function(){
-    var utils = require('base/js/utils');
+    "use strict";
+
+    Jupyter.utils = require('base/js/utils');
     Jupyter.security = require('base/js/security');
     Jupyter.keyboard = require('base/js/keyboard');
     Jupyter.dialog = require('base/js/dialog');
     Jupyter.NotificationWidget = require('base/js/notificationwidget');
-    Jupyter.utils = utils;
     Jupyter.load_extensions = utils.load_extensions;
 
-    "use strict";
+    var comm = require('services/kernels/comm');
+
+    Juppyter.CommManager = comm.CommManager;
+    Juppyter.Comm = comm.Comm;
+
     Jupyter.version = "4.0.0.dev";
     Jupyter._target = '_blank';
     return Jupyter;
