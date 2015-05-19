@@ -55,6 +55,7 @@ define(function(){
     jglobal('MarkdownCell','base/js/textcell');
     jglobal('RawCell','base/js/textcell');
     jglobal('Cell','base/js/cell');
+    jglobal('OutputArea','notebook/js/outputarea');
 
     Jupyter.version = "4.0.0.dev";
     Jupyter._target = '_blank';
