@@ -57,6 +57,7 @@ define(function(){
     jglobal('RawCell','base/js/textcell');
     jglobal('Cell','base/js/cell');
     jglobal('OutputArea','notebook/js/outputarea');
+    jglobal('KeyboardManager','notebook/js/keyboardmanager');
 
     Jupyter.version = "4.0.0.dev";
     Jupyter._target = '_blank';

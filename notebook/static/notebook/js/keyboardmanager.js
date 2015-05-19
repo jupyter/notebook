@@ -9,11 +9,10 @@
  */
 
 define([
-    'base/js/namespace',
     'jquery',
     'base/js/utils',
     'base/js/keyboard',
-], function(IPython, $, utils, keyboard) {
+], function($, utils, keyboard) {
     "use strict";
     
     // Main keyboard manager for the notebook
@@ -222,10 +221,6 @@ define([
             }
         });
     };
-
-
-    // For backwards compatibility.
-    IPython.KeyboardManager = KeyboardManager;
 
     return {'KeyboardManager': KeyboardManager};
 });
