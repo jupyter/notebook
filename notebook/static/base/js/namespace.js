@@ -5,17 +5,22 @@ var Jupyter = Jupyter || {};
 define(function(){
     "use strict";
 
+    // expose modules
     Jupyter.utils = require('base/js/utils');
+    Jupyter.load_extensions = Jupyter.utils.load_extensions;
+     
     Jupyter.security = require('base/js/security');
     Jupyter.keyboard = require('base/js/keyboard');
     Jupyter.dialog = require('base/js/dialog');
-    Jupyter.NotificationWidget = require('base/js/notificationwidget');
-    Jupyter.load_extensions = utils.load_extensions;
 
+
+    // exposed constructors
     var comm = require('services/kernels/comm');
+    Jupyter.CommManager = comm.CommManager;
+    Jupyter.Comm = comm.Comm;
 
-    Juppyter.CommManager = comm.CommManager;
-    Juppyter.Comm = comm.Comm;
+    Jupyter.NotificationWidget = require('base/js/notificationwidget').NotificationWidget;
+    Jupyter.Kernel = require('services/kernels/kernel').Kernel;
 
     Jupyter.version = "4.0.0.dev";
     Jupyter._target = '_blank';

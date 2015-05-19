@@ -2,13 +2,12 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jquery',
     'base/js/utils',
     './comm',
     './serialize',
     'base/js/events'
-], function(IPython, $, utils, comm, serialize, events) {
+], function($, utils, comm, serialize, events) {
     "use strict";
 
     /**
@@ -1057,9 +1056,6 @@ define([
             }
         }
     };
-
-    // Backwards compatability.
-    IPython.Kernel = Kernel;
 
     return {'Kernel': Kernel};
 });
