@@ -62,6 +62,7 @@ define(function(){
     jglobal('Notebook','notebook/js/notebook');
     jglobal('Tooltip','notebook/js/tooltip');
     jglobal('Toolbar','notebook/js/toolbar');
+    jglobal('SaveWidget','notebook/js/savewidget');
 
     Jupyter.version = "4.0.0.dev";
     Jupyter._target = '_blank';
