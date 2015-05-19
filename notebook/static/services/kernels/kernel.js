@@ -30,7 +30,7 @@ define([
 
         this.kernel_service_url = kernel_service_url;
         this.kernel_url = null;
-        this.ws_url = ws_url || IPython.utils.get_body_data("wsUrl");
+        this.ws_url = ws_url || utils.get_body_data("wsUrl");
         if (!this.ws_url) {
             // trailing 's' in https will become wss for secure web sockets
             this.ws_url = location.protocol.replace('http', 'ws') + "//" + location.host;
