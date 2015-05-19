@@ -2,11 +2,10 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jquery',
     'base/js/utils',
     'services/kernels/kernel',
-], function(IPython, $, utils, kernel) {
+], function($, utils, kernel) {
     "use strict";
 
     /**
@@ -309,11 +308,9 @@ define([
         this.name = "SessionAlreadyStarting";
         this.message = (message || "");
     };
+    
     SessionAlreadyStarting.prototype = Error.prototype;
     
-    // For backwards compatability.
-    IPython.Session = Session;
-
     return {
         Session: Session,
         SessionAlreadyStarting: SessionAlreadyStarting

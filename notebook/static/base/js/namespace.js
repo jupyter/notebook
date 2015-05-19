@@ -21,6 +21,8 @@ define(function(){
 
     Jupyter.NotificationWidget = require('base/js/notificationwidget').NotificationWidget;
     Jupyter.Kernel = require('services/kernels/kernel').Kernel;
+    Jupyter.Session = require('services/kernels/session').Session;
+    Jupyter.LoginWidget = require('auth/js/loginwidget').LoginWidget
 
     Jupyter.version = "4.0.0.dev";
     Jupyter._target = '_blank';
