@@ -17,12 +17,10 @@ import os
 import sys
 
 from distutils import log
-from distutils.command.build_py import build_py
 from distutils.cmd import Command
-from distutils.errors import DistutilsExecError
 from fnmatch import fnmatch
 from glob import glob
-from subprocess import Popen, PIPE, check_call
+from subprocess import check_call
 
 #-------------------------------------------------------------------------------
 # Useful globals and utility functions
@@ -377,7 +375,7 @@ class CompileCSS(Command):
 
 class JavascriptVersion(Command):
     """write the javascript version to notebook javascript"""
-    description = "Write IPython version to javascript"
+    description = "Write Jupyter version to javascript"
     user_options = []
     
     def initialize_options(self):
@@ -393,12 +391,12 @@ class JavascriptVersion(Command):
         with open(nsfile, 'w') as f:
             found = False
             for line in lines:
-                if line.strip().startswith("IPython.version"):
-                    line = '    IPython.version = "{0}";\n'.format(version)
+                if line.strip().startswith("Jupyter.version"):
+                    line = '    Jupyter.version = "{0}";\n'.format(version)
                     found = True
                 f.write(line)
             if not found:
-                raise RuntimeError("Didn't find IPython.version line in %s" % nsfile)
+                raise RuntimeError("Didn't find Jupyter.version line in %s" % nsfile)
 
 
 def css_js_prerelease(command):
