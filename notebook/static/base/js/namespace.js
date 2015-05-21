@@ -52,12 +52,9 @@ define(function(){
     jglobal('Session','services/sessions/session');
     jglobal('LoginWidget','auth/js/loginwidget');
     jglobal('Page','base/js/page');
-    jglobal('TextCell','base/js/textcell');
-    jglobal('MarkdownCell','base/js/textcell');
-    jglobal('RawCell','base/js/textcell');
-    jglobal('Cell','base/js/cell');
 
     // notebook
+    jglobal('TextCell','notebook/js/textcell');
     jglobal('OutputArea','notebook/js/outputarea');
     jglobal('KeyboardManager','notebook/js/keyboardmanager');
     jglobal('Completer','notebook/js/completer');
@@ -67,6 +64,9 @@ define(function(){
     jglobal('SaveWidget','notebook/js/savewidget');
     jglobal('Pager','notebook/js/pager');
     jglobal('QuickHelp','notebook/js/quickhelp');
+    jglobal('MarkdownCell','notebook/js/textcell');
+    jglobal('RawCell','notebook/js/textcell');
+    jglobal('Cell','notebook/js/cell');
 
     // tree
     jglobal('SessionList','tree/js/sessionlist');
