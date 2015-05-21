@@ -1,9 +1,10 @@
-# Installs IPython from the current branch
-# Another Docker container should build from this one to get services like the notebook
+# Installs Jupyter Notebook and IPython kernel from the current branch
+# Another Docker container should inherit with `FROM jupyter/notebook`
+# to run actual services.
 
 FROM ubuntu:14.04
 
-MAINTAINER IPython Project <ipython-dev@scipy.org>
+MAINTAINER Project Jupyter <jupyter@googlegroups.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -40,27 +41,26 @@ RUN apt-get update && apt-get install -y -q \
     nodejs-legacy \
     npm
 
-# In order to build from source, need less
-RUN npm install -g 'less@<3.0'
-
-RUN pip install invoke
+RUN pip2 install --upgrade setuptools pip
+RUN pip3 install --upgrade setuptools pip
 
 RUN mkdir -p /srv/
 WORKDIR /srv/
-ADD . /srv/ipython
-WORKDIR /srv/ipython/
-RUN chmod -R +rX /srv/ipython
+RUN git clone --depth 1 https://github.com/ipython/ipykernel /srv/ipykernel
+WORKDIR /srv/ipykernel
+RUN pip2 install -r requirements.txt -e .
+RUN pip3 install -r requirements.txt -e .
 
-# .[all] only works with -e, so use file://path#egg
-# Can't use -e because ipython2 and ipython3 will clobber each other
-RUN pip2 install file:///srv/ipython#egg=ipython[all]
-RUN pip3 install file:///srv/ipython#egg=ipython[all]
+ADD . /srv/notebook
+WORKDIR /srv/notebook/
+RUN chmod -R +rX /srv/notebook
+
+RUN pip3 install -r requirements.txt -e .[test]
 
 # install kernels
-RUN python2 -m IPython kernelspec install-self
-RUN python3 -m IPython kernelspec install-self
+RUN python2 -m ipykernel.kernelspec
+RUN python3 -m ipykernel.kernelspec
 
 WORKDIR /tmp/
 
-RUN iptest2
-RUN iptest3
+RUN nosetests notebook
