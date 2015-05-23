@@ -20,7 +20,6 @@
     "less": "~2",
     "requirejs": "^2.1.17",
     "source-map": "^0.4.2",
-    "through": "^2.3.7",
-    "vinyl": "^0.4.6"
+    "through": "^2.3.7"
   }
 }

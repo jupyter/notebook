@@ -2,7 +2,6 @@ var fork = require('child_process').fork;
 var fs = require('fs');
 var path = require('path');
 
-var File = require('vinyl');
 var through = require('through');
 var gulp = require('gulp');
 var less = require('gulp-less');
@@ -74,15 +73,19 @@ apps.map(function (name) {
       }
     });
     
+    // sources is a greedy list, containing all dependencies plus some for simplicity.
     gulp.src(sources, {base: s})
     .pipe(newer(dest))
     .pipe(through(function(file) {
-      console.log(file.relative + " has changed, updating " + rel_dest);
+      // if any dependency changed, update main.min.js
+      console.log("A dependency has changed, updating " + rel_dest);
+      // pause halts the pipeline
       this.pause();
       build_main(name, finish);
       return;
     }))
     .on('end', function () {
+      // if we get here, no dependency is newer than the target
       console.log(rel_dest + " up to date");
       finish();
     });
