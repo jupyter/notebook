@@ -107,7 +107,12 @@ def find_package_data():
             continue
         for f in files:
             static_data.append(pjoin(parent, f))
-
+    
+    # for verification purposes, explicitly add main.min.js
+    # so that installation will fail if they are missing
+    for app in ['auth', 'edit', 'notebook', 'terminal', 'tree']:
+        static_data.append(pjoin('static', app, 'js', 'main.min.js'))
+    
     components = pjoin("static", "components")
     # select the components we actually need to install
     # (there are lots of resources we bundle for sdist-reasons that we don't actually use)
@@ -361,14 +366,41 @@ class CompileCSS(Command):
         pass
 
     def run(self):
-        
-        self.run_command('js')
+        self.run_command('jsdeps')
         env = os.environ.copy()
         env['PATH'] = npm_path
         try:
             check_call(['gulp','css'], cwd=repo_root, env=env)
         except OSError as e:
-            print("Failed to run gulp: %s" % e, file=sys.stderr)
+            print("Failed to run gulp css: %s" % e, file=sys.stderr)
+            print("You can install js dependencies with `npm install`", file=sys.stderr)
+            raise
+        # update package data in case this created new files
+        update_package_data(self.distribution)
+
+
+class CompileJS(Command):
+    """Rebuild minified Notebook Javascript
+    
+    Calls `gulp js`
+    """
+    description = "Rebuild Notebook Javascript"
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        self.run_command('jsdeps')
+        env = os.environ.copy()
+        env['PATH'] = npm_path
+        try:
+            check_call(['gulp','js'], cwd=repo_root, env=env)
+        except OSError as e:
+            print("Failed to run gulp js: %s" % e, file=sys.stderr)
             print("You can install js dependencies with `npm install`", file=sys.stderr)
             raise
         # update package data in case this created new files
@@ -401,19 +433,26 @@ class JavascriptVersion(Command):
                 raise RuntimeError("Didn't find IPython.version line in %s" % nsfile)
 
 
-def css_js_prerelease(command):
-    """decorator for building js/minified css prior to another command"""
+def css_js_prerelease(command, strict=False):
+    """decorator for building minified js/css prior to another command"""
     class DecoratedCommand(command):
         def run(self):
             self.distribution.run_command('jsversion')
+            jsdeps = self.distribution.get_command_obj('jsdeps')
+            jsdeps.force = True
             js = self.distribution.get_command_obj('js')
             js.force = True
             css = self.distribution.get_command_obj('css')
             css.force = True
             try:
                 self.distribution.run_command('css')
+                self.distribution.run_command('js')
             except Exception as e:
-                log.warn("rebuilding css and sourcemaps failed (not a problem)")
-                log.warn(str(e))
+                if strict:
+                    log.warn("rebuilding js and css failed")
+                    raise e
+                else:
+                    log.warn("rebuilding js and css failed (not a problem)")
+                    log.warn(str(e))
             command.run(self)
     return DecoratedCommand

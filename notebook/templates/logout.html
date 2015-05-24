@@ -34,6 +34,10 @@
 {% block script %}
 {{super()}}
 
-<script src="{{static_url("auth/js/logoutmain.js") }}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+  require(["auth/js/main"], function (auth) {
+    auth.logout_main();
+  });
+</script>
 
 {% endblock %}

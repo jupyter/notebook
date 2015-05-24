@@ -1,10 +1,12 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-var ipython = ipython || {};
-require(['base/js/page'], function(page) {
-    var page_instance = new page.Page();
-    page_instance.show();
+define(['base/js/namespace', 'base/js/page'], function(IPython, page) {
+    function logout_main() {
+        var page_instance = new page.Page();
+        page_instance.show();
 
-    ipython.page = page_instance;
+        IPython.page = page_instance;
+    }
+    return logout_main;
 });
