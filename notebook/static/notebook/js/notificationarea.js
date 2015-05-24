@@ -178,7 +178,7 @@ define([
                     keyboard_manager: that.keyboard_manager,
                     notebook: that.notebook,
                     buttons : {
-                        "Manual Restart": {
+                        "Try restarting now": {
                             class: "btn-danger",
                             click: function () {
                                 that.notebook.start_session();
