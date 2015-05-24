@@ -2,10 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jquery',
     'bootstraptour',
-], function(IPython, $, Tour) {
+], function($, Tour) {
     "use strict";
 
     var tour_style = "<div class='popover tour'>\n" +
@@ -113,7 +112,7 @@ define([
                 title: "Fin.",
                 placement: 'bottom',
                 orphan: true,
-                content: "This concludes the IPython Notebook User Interface Tour. Happy hacking!"
+                content: "This concludes the Jupyter Notebook User Interface Tour. Happy hacking!"
             }
         ];
 
@@ -158,9 +157,6 @@ define([
         this.notebook.focus_cell(); 
         this.notebook.edit_mode();
     };
-
-    // For backwards compatability.
-    IPython.NotebookTour = NotebookTour;
 
     return {'Tour': NotebookTour};
 

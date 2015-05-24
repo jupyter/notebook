@@ -67,9 +67,14 @@ define(function(){
     jglobal('MarkdownCell','notebook/js/textcell');
     jglobal('RawCell','notebook/js/textcell');
     jglobal('Cell','notebook/js/cell');
+    jglobal('MainToolBar','notebook/js/maintoolbar');
+    jglobal('NotebookNotificationArea','notebook/js/notificationarea');
+    jglobal('NotebookTour', 'notebook/js/tour');
 
     // tree
     jglobal('SessionList','tree/js/sessionlist');
+    jglobal('ClusterList','tree/js/clusterlist');
+    jglobal('ClusterItem','tree/js/clusterlist');
 
     Jupyter.version = "4.0.0.dev";
     Jupyter._target = '_blank';

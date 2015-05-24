@@ -3,11 +3,10 @@
 
 define([
     'require',
-    'base/js/namespace',
     'jquery',
     './toolbar',
     './celltoolbar'
-], function(require, IPython, $, toolbar, celltoolbar) {
+], function(require, $, toolbar, celltoolbar) {
     "use strict";
 
     var MainToolBar = function (selector, options) {
@@ -157,9 +156,6 @@ define([
         wrapper.append(label).append(select);
         return wrapper;
     };
-
-    // Backwards compatibility.
-    IPython.MainToolBar = MainToolBar;
 
     return {'MainToolBar': MainToolBar};
 });
