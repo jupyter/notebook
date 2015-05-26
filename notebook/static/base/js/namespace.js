@@ -70,6 +70,7 @@ define(function(){
     jglobal('MainToolBar','notebook/js/maintoolbar');
     jglobal('NotebookNotificationArea','notebook/js/notificationarea');
     jglobal('NotebookTour', 'notebook/js/tour');
+    jglobal('MenuBar', 'notebook/js/menubar');
 
     // tree
     jglobal('SessionList','tree/js/sessionlist');
