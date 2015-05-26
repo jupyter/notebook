@@ -179,7 +179,7 @@ define(function (require) {
     };
 
     /**
-     * Bind JavaScript events: key presses and custom IPython events.
+     * Bind JavaScript events: key presses and custom Jupyter events.
      */
     Notebook.prototype.bind_events = function () {
         var that = this;
@@ -2237,7 +2237,7 @@ define(function (require) {
             "current notebook format will be used.";
             
             if (nbmodel.nbformat > orig_nbformat) {
-                msg += " Older versions of IPython may not be able to read the new format.";
+                msg += " Older versions of Jupyter may not be able to read the new format.";
             } else {
                 msg += " Some features of the original notebook may not be available.";
             }
