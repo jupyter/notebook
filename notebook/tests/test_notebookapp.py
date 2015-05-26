@@ -9,6 +9,7 @@ import nose.tools as nt
 
 from traitlets.tests.utils import check_help_all_output
 
+from jupyter_core.application import NoStart
 from ipython_genutils.tempdir import TemporaryDirectory
 from traitlets import TraitError
 from notebook import notebookapp
@@ -61,3 +62,11 @@ def test_invalid_nb_dir():
         with nt.assert_raises(TraitError):
             app.notebook_dir = tf
 
+def test_generate_config():
+    with TemporaryDirectory() as td:
+        app = NotebookApp(config_dir=td)
+        app.initialize(['--generate-config'])
+        with nt.assert_raises(NoStart):
+            app.start()
+        assert os.path.exists(os.path.join(td, 'jupyter_notebook_config.py'))
+    

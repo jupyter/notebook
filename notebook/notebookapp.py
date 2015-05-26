@@ -1065,8 +1065,7 @@ class NotebookApp(JupyterApp):
         
         This method takes no arguments so all configuration and initialization
         must be done prior to calling this method."""
-        if self.subapp is not None:
-            return self.subapp.start()
+        super(NotebookApp, self).start()
 
         info = self.log.info
         for line in self.notebook_info().split("\n"):
