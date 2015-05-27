@@ -2,7 +2,7 @@
   "name": "jupyter-notebook-deps",
   "version": "0.0.1",
   "dependencies": {
-    "backbone": "components/backbone#~1.1",
+    "backbone": "components/backbone#~1.2",
     "bootstrap": "components/bootstrap#~3.3",
     "bootstrap-tour": "0.9.0",
     "codemirror": ">=4.11",
