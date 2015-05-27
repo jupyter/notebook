@@ -50,6 +50,12 @@ require([
     ) {
     "use strict";
 
+    // BEGIN HARDCODED WIDGETS HACK
+    // Don't include in above require call, avoiding r.js
+    // and crash on import failure.
+    require(['nbextensions/widgets/notebook/js/extension'], function(){});
+    // END HARDCODED WIDGETS HACK
+
     // compat with old IPython, remove for IPython > 3.0
     window.CodeMirror = CodeMirror;
 
