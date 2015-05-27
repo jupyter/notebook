@@ -9,7 +9,7 @@ from ..utils import url_path_join, url_escape
 
 
 class TreeHandler(IPythonHandler):
-    """Render the tree view, listing notebooks, clusters, etc."""
+    """Render the tree view, listing notebooks, etc."""
 
     def generate_breadcrumbs(self, path):
         breadcrumbs = [(url_escape(url_path_join(self.base_url, 'tree')), '')]

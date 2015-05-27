@@ -11,7 +11,6 @@ require([
     'services/config',
     'contents',
     'tree/js/notebooklist',
-    'tree/js/clusterlist',
     'tree/js/sessionlist',
     'tree/js/kernellist',
     'tree/js/terminallist',
@@ -31,7 +30,6 @@ require([
     config,
     contents_service,
     notebooklist,
-    clusterlist,
     sesssionlist,
     kernellist,
     terminallist,
@@ -64,7 +62,6 @@ require([
         contents: contents,
         session_list:  session_list}, 
         common_options));
-    var cluster_list = new clusterlist.ClusterList('#cluster_list', common_options);
     var kernel_list = new kernellist.KernelList('#running_list',  $.extend({
         session_list:  session_list}, 
         common_options));
@@ -97,7 +94,6 @@ require([
     var _refresh_list = function(){
         _last_refresh = new Date();
         session_list.load_sessions();
-        cluster_list.load_list();
         if (terminal_list) {
             terminal_list.load_terminals();
         }
@@ -144,7 +140,6 @@ require([
     // For backwards compatability.
     IPython.page = page;
     IPython.notebook_list = notebook_list;
-    IPython.cluster_list = cluster_list;
     IPython.session_list = session_list;
     IPython.kernel_list = kernel_list;
     IPython.login_widget = login_widget;

@@ -167,10 +167,6 @@ class IPythonHandler(AuthenticatedHandler):
         return self.settings['contents_manager']
     
     @property
-    def cluster_manager(self):
-        return self.settings['cluster_manager']
-    
-    @property
     def session_manager(self):
         return self.settings['session_manager']
     
