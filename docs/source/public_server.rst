@@ -4,9 +4,9 @@ Running a notebook server
 =========================
 
 
-The  :ref:`IPython notebook <htmlnotebook>` web-application is based on a
+The  :ref:`Jupyter notebook <notebook>` web-application is based on a
 server-client structure.  This server uses a :ref:`two-process kernel
-architecture <ipythonzmq>` based on ZeroMQ_, as well as Tornado_ for serving
+architecture <ipython:ipythonzmq>` based on ZeroMQ_, as well as Tornado_ for serving
 HTTP requests. By default, a notebook server runs on http://127.0.0.1:8888/
 and is accessible only from `localhost`. This document describes how you can
 :ref:`secure a notebook server <notebook_server_security>` and how to :ref:`run it on

@@ -1,9 +1,9 @@
 .. _notebook_security:
 
-Security in IPython notebooks
+Security in Jupyter notebooks
 =============================
 
-As IPython notebooks become more popular for sharing and collaboration,
+As Jupyter notebooks become more popular for sharing and collaboration,
 the potential for malicious people to attempt to exploit the notebook
 for their nefarious purposes increases. IPython 2.0 introduces a
 security model to prevent execution of untrusted code without explicit
@@ -12,11 +12,11 @@ user input.
 The problem
 -----------
 
-The whole point of IPython is arbitrary code execution. We have no
+The whole point of Jupyter is arbitrary code execution. We have no
 desire to limit what can be done with a notebook, which would negatively
 impact its utility.
 
-Unlike other programs, an IPython notebook document includes output.
+Unlike other programs, an Jupyter notebook document includes output.
 Unlike other documents, that output exists in a context that can execute
 code (via Javascript).
 
@@ -40,12 +40,12 @@ Our security model
 The details of trust
 --------------------
 
-IPython notebooks store a signature in metadata, which is used to answer
+Jupyter notebooks store a signature in metadata, which is used to answer
 the question "Did the current user do this?"
 
 This signature is a digest of the notebooks contents plus a secret key,
 known only to the user. The secret key is a user-only readable file in
-the IPython profile's security directory. By default, this is::
+the Jupyter profile's security directory. By default, this is::
 
     ~/.ipython/profile_default/security/notebook_secret
 
@@ -85,7 +85,7 @@ long time. Users can explicitly trust a notebook in two ways:
 
 -  At the command-line, with::
 
-    ipython trust /path/to/notebook.ipynb
+    jupyter trust /path/to/notebook.ipynb
 
 -  After loading the untrusted notebook, with ``File / Trust Notebook``
 
@@ -95,7 +95,7 @@ the user's key, and then store the newly signed notebook.
 Reporting security issues
 -------------------------
 
-If you find a security vulnerability in IPython, either a failure of the
+If you find a security vulnerability in Jupyter, either a failure of the
 code to properly implement the model described here, or a failure of the
 model itself, please report it to security@ipython.org.
 
@@ -105,7 +105,7 @@ you can use :download:`this PGP public key <ipython_security.asc>`.
 Affected use cases
 ------------------
 
-Some use cases that work in IPython 1.0 will become less convenient in
+Some use cases that work in Jupyter 1.0 will become less convenient in
 2.0 as a result of the security changes. We do our best to minimize
 these annoyance, but security is always at odds with convenience.
 
@@ -133,9 +133,9 @@ collaborator's key will differ, this will result in each share starting
 in an untrusted state. There are three basic approaches to this:
 
 -  re-run notebooks when you get them (not always viable)
--  explicitly trust notebooks via ``ipython trust`` or the notebook menu
+-  explicitly trust notebooks via ``jupyter trust`` or the notebook menu
    (annoying, but easy)
--  share a notebook secret, and use an IPython profile dedicated to the
+-  share a notebook secret, and use an Jupyter profile dedicated to the
    collaboration while working on the project.
 
 Multiple profiles or machines
