@@ -2,8 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'components/google-caja/html-css-sanitizer-minified',
-], function(sanitize) {
+], function($, sanitize) {
     "use strict";
     
     var noop = function (x) { return x; };
@@ -57,7 +58,7 @@ define([
          * sanitize just the css in style tags in a block of html
          * called by sanitize_html, if allow_css is true
          */
-        var h = document.createElement('div').append(html);
+        var h = $("<div/>").append(html);
         var style_tags = h.find("style");
         if (!style_tags.length) {
             // no style tags to sanitize
