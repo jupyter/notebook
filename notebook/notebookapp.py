@@ -978,12 +978,12 @@ class NotebookApp(JupyterApp):
             self.kernel_spec_manager.get_kernel_spec(NATIVE_KERNEL_NAME)
         except NoSuchKernel:
             try:
-                import ipykernel
+                from ipykernel.kernelspec import install
             except ImportError:
                 self.log.warn("IPython kernel not available")
             else:
                 self.log.warn("Installing IPython kernel spec")
-                self.kernel_spec_manager.install_native_kernel_spec(user=True)
+                install(kernel_spec_manager=self.kernel_spec_manager, user=True)
         
 
     def init_server_extensions(self):
