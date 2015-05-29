@@ -6,6 +6,7 @@ The Jupyter notebook
     :maxdepth: 2
 
     notebook
+    config
     public_server
     security
     development

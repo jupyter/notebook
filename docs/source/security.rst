@@ -47,7 +47,7 @@ This signature is a digest of the notebooks contents plus a secret key,
 known only to the user. The secret key is a user-only readable file in
 the Jupyter profile's security directory. By default, this is::
 
-    ~/.ipython/profile_default/security/notebook_secret
+    ~/.jupyter/profile_default/security/notebook_secret
 
 .. note::
 

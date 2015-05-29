@@ -40,7 +40,7 @@ hashed password using the function :func:`IPython.lib.security.passwd`:
   argument. **Do not** pass it as an argument inside an IPython session, as it
   will be saved in your input history.
 
-You can then add this to your :file:`ipython_notebook_config.py`, e.g.::
+You can then add this to your :file:`jupyter_notebook_config.py`, e.g.::
 
     # Password to use for web authentication
     c = get_config()
@@ -90,7 +90,7 @@ command line, type::
   $ ipython profile create nbserver
 
 In the profile directory just created, edit the file 
-``ipython_notebook_config.py``.  By default, the file has all fields 
+``jupyter_notebook_config.py``.  By default, the file has all fields 
 commented; the minimum set you need to uncomment and edit is the following::
 
      c = get_config()
@@ -128,7 +128,7 @@ of the notebooks in your working directory) typically lives at the URL
 rest of the notebook, under a sub-directory,
 e.g. ``http://localhost:8888/ipython/``, you can do so with
 configuration options like the following (see above for instructions about
-modifying ``ipython_notebook_config.py``)::
+modifying ``jupyter_notebook_config.py``)::
 
     c.NotebookApp.base_url = '/ipython/'
     c.NotebookApp.webapp_settings = {'static_url_prefix':'/ipython/static/'}

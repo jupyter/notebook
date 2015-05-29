@@ -365,33 +365,6 @@ Specific plotting library integration is a feature of the kernel.  See the
 :ref:`plotting document <ipykernel:plotting>` of the IPython kernel for more
 information.
 
-Configuring the Jupyter Notebook
---------------------------------
-The notebook server can be run with a variety of command line arguments.
-To see a list of available options enter::
-
-  $ jupyter notebook --help
-
-Defaults for these options can also be set by creating a file named
-``ipython_notebook_config.py`` in your Jupyter *profile folder*. The profile
-folder is a subfolder of your Jupyter directory; to find out where it is
-located, run::
-
-  $ jupyter locate
-
-To create a new set of default configuration files, with lots of information
-on available options, use::
-
-  $ jupyter profile create
-
-.. seealso::
-
-    :ref:`config_overview`, in particular :ref:`Profiles`.
-
-    :ref:`notebook_server_security`
-
-    :ref:`notebook_public_server`
-
 Installing kernels
 ------------------
 
