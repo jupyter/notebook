@@ -1,7 +1,5 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-//
-//
 
 
 var Jupyter = Jupyter || {};
@@ -9,7 +7,7 @@ var Jupyter = Jupyter || {};
 var jprop = function(name, module_path){
     Object.defineProperty(Jupyter, name, {
       get: function() { 
-          console.warn('accessing `'+name+'` is deprecated. Use require("'+module_path+'")');
+          console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'")`');
           return require(module_path); 
       },
       enumerable: true,
@@ -20,7 +18,7 @@ var jprop = function(name, module_path){
 var jglobal = function(name, module_path){
     Object.defineProperty(Jupyter, name, {
       get: function() { 
-          console.warn('accessing `'+name+'` is deprecated. Use require("'+module_path+'").'+name);
+          console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'").'+name+'`');
           return require(module_path)[name]; 
       },
       enumerable: true,
