@@ -2,10 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jquery',
     'components/google-caja/html-css-sanitizer-minified',
-], function(IPython, $) {
+], function($, sanitize) {
     "use strict";
     
     var noop = function (x) { return x; };
@@ -122,8 +121,6 @@ define([
         caja: caja,
         sanitize_html: sanitize_html
     };
-
-    IPython.security = security;
 
     return security;
 });

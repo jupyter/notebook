@@ -874,9 +874,5 @@ define([
             .append(cancel_button);
     };
 
-
-    // Backwards compatability.
-    IPython.NotebookList = NotebookList;
-
     return {'NotebookList': NotebookList};
 });

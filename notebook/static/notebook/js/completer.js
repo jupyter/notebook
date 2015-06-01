@@ -2,13 +2,12 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jquery',
     'base/js/utils',
     'base/js/keyboard',
     'notebook/js/contexthint',
     'codemirror/lib/codemirror',
-], function(IPython, $, utils, keyboard, CodeMirror) {
+], function($, utils, keyboard, CodeMirror) {
     "use strict";
 
     // easier key mapping
@@ -408,9 +407,6 @@ define([
             that.carry_on_completion();
         }, 50);
     };
-
-    // For backwards compatability.
-    IPython.Completer = Completer;
 
     return {'Completer': Completer};
 });

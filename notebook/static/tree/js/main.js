@@ -39,6 +39,8 @@ require([
     loginwidget){
     "use strict";
 
+    IPython.NotebookList = notebooklist.NotebookList;
+
     page = new page.Page();
     
     var common_options = {

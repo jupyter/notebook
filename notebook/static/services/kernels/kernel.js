@@ -2,13 +2,12 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jquery',
     'base/js/utils',
     './comm',
     './serialize',
     'base/js/events'
-], function(IPython, $, utils, comm, serialize, events) {
+], function($, utils, comm, serialize, events) {
     "use strict";
 
     /**
@@ -31,7 +30,7 @@ define([
 
         this.kernel_service_url = kernel_service_url;
         this.kernel_url = null;
-        this.ws_url = ws_url || IPython.utils.get_body_data("wsUrl");
+        this.ws_url = ws_url || utils.get_body_data("wsUrl");
         if (!this.ws_url) {
             // trailing 's' in https will become wss for secure web sockets
             this.ws_url = location.protocol.replace('http', 'ws') + "//" + location.host;
@@ -1057,9 +1056,6 @@ define([
             }
         }
     };
-
-    // Backwards compatability.
-    IPython.Kernel = Kernel;
 
     return {'Kernel': Kernel};
 });

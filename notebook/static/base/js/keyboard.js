@@ -9,11 +9,10 @@
  */
 
 define([
-    'base/js/namespace',
     'jquery',
     'base/js/utils',
     'underscore',
-], function(IPython, $, utils, _) {
+], function($, utils, _) {
     "use strict";
 
 
@@ -446,9 +445,6 @@ define([
         shortcut_to_event : shortcut_to_event,
         event_to_shortcut : event_to_shortcut,
     };
-
-    // For backwards compatibility.
-    IPython.keyboard = keyboard;
 
     return keyboard;
 });

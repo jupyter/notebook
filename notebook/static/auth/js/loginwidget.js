@@ -2,10 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'base/js/utils',
     'jquery',
-], function(IPython, utils, $){
+], function(utils, $){
     "use strict";
 
     var LoginWidget = function (selector, options) {
@@ -17,7 +16,6 @@ define([
             this.bind_events();
         }
     };
-
 
 
     LoginWidget.prototype.bind_events = function () {
@@ -35,9 +33,6 @@ define([
             );
         });
     };
-
-    // Set module variables
-    IPython.LoginWidget = LoginWidget;
 
     return {'LoginWidget': LoginWidget};
 });

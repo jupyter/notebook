@@ -2,17 +2,16 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jquery',
     'codemirror/lib/codemirror',
     'moment',
     // silently upgrades CodeMirror
     'codemirror/mode/meta',
-], function(IPython, $, CodeMirror, moment){
+], function($, CodeMirror, moment){
     "use strict";
     
     var load_extensions = function () {
-        // load one or more IPython notebook extensions with requirejs
+        // load one or more Jupyter notebook extensions with requirejs
         
         var extensions = [];
         var extension_names = arguments;
@@ -39,8 +38,6 @@ define([
         );
     };
     
-    IPython.load_extensions = load_extensions;
-
     /**
      * Wait for a config section to load, and then load the extensions specified
      * in a 'load_extensions' key inside it.
@@ -505,7 +502,7 @@ define([
     
     var from_absolute_cursor_pos = function (cm, cursor_pos) {
         /**
-         * turn absolute cursor postion into CodeMirror col, ch cursor
+         * turn absolute cursor position into CodeMirror col, ch cursor
          */
         var i, line, next_line;
         var offset = 0;
@@ -881,8 +878,5 @@ define([
         time: time,
     };
 
-    // Backwards compatability.
-    IPython.utils = utils;
-    
     return utils;
 }); 

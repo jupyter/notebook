@@ -2,11 +2,10 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jquery',
     'base/js/utils',
     'base/js/dialog',
-], function(IPython, $, utils, dialog) {
+], function($, utils, dialog) {
     "use strict";
     var platform = utils.platform;
 
@@ -173,7 +172,7 @@ define([
         doc.append(
             $('<button/>').addClass('close').attr('data-dismiss','alert').html('&times;')
         ).append(
-            'The IPython Notebook has two different keyboard input modes. <b>Edit mode</b> '+
+            'The Jupyter Notebook has two different keyboard input modes. <b>Edit mode</b> '+
             'allows you to type code/text into a cell and is indicated by a green cell '+
             'border. <b>Command mode</b> binds the keyboard to notebook level actions '+
             'and is indicated by a grey cell border.'
@@ -292,9 +291,6 @@ define([
         div.append(sub_div);
         return div;
     };
-
-    // Backwards compatability.
-    IPython.QuickHelp = QuickHelp;
 
     return {'QuickHelp': QuickHelp};
 });

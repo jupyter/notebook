@@ -10,7 +10,7 @@ define(function(require){
     };
 
     /**
-     *  A bunch of predefined `Simple Actions` used by IPython.
+     *  A bunch of predefined `Simple Actions` used by Jupyter.
      *  `Simple Actions` have the following keys:
      *  help (optional): a short string the describe the action.
      *      will be used in various context, like as menu name, tool tips on buttons,
@@ -29,7 +29,7 @@ define(function(require){
      *  avoid conflict the prefix should be all lowercase and end with a dot `.`
      *  in the absence of a prefix the behavior of the action is undefined.
      *
-     *  All action provided by IPython are prefixed with `ipython.`.
+     *  All action provided by Jupyter are prefixed with `ipython.`.
      *
      *  One can register extra actions or replace an existing action with another one is possible
      *  but is considered undefined behavior.
@@ -298,7 +298,7 @@ define(function(require){
     };
 
     /**
-     * A bunch of `Advance actions` for IPython.
+     * A bunch of `Advance actions` for Jupyter.
      * Cf `Simple Action` plus the following properties.
      *
      * handler: first argument of the handler is the event that triggerd the action
@@ -412,7 +412,7 @@ define(function(require){
         return source[subkey].handler;
     };
 
-    // Will actually generate/register all the IPython actions
+    // Will actually generate/register all the Jupyter actions
     var fun = function(){
         var final_actions = {};
         var k;

@@ -179,7 +179,7 @@ define(function (require) {
     };
 
     /**
-     * Bind JavaScript events: key presses and custom IPython events.
+     * Bind JavaScript events: key presses and custom Jupyter events.
      */
     Notebook.prototype.bind_events = function () {
         var that = this;
@@ -1140,7 +1140,7 @@ define(function (require) {
             keyboard_manager: this.keyboard_manager,
             title : "Use markdown headings",
             body : $("<p/>").text(
-                'IPython no longer uses special heading cells. ' + 
+                'Jupyter no longer uses special heading cells. ' + 
                 'Instead, write your headings in Markdown cells using # characters:'
             ).append($('<pre/>').text(
                 '## This is a level 2 heading'
@@ -1618,7 +1618,7 @@ define(function (require) {
     };
     
     /**
-     * Prompt the user to restart the IPython kernel.
+     * Prompt the user to restart the Jupyter kernel.
      */
     Notebook.prototype.restart_kernel = function () {
         var that = this;
@@ -2032,7 +2032,7 @@ define(function (require) {
      */
     Notebook.prototype.trust_notebook = function () {
         var body = $("<div>").append($("<p>")
-            .text("A trusted IPython notebook may execute hidden malicious code ")
+            .text("A trusted Jupyter notebook may execute hidden malicious code ")
             .append($("<strong>")
                 .append(
                     $("<em>").text("when you open it")
@@ -2042,7 +2042,7 @@ define(function (require) {
             ).append(
                 " For more information, see the "
             ).append($("<a>").attr("href", "http://ipython.org/ipython-doc/2/notebook/security.html")
-                .text("IPython security documentation")
+                .text("Jupyter security documentation")
             ).append(".")
         );
 
@@ -2237,7 +2237,7 @@ define(function (require) {
             "current notebook format will be used.";
             
             if (nbmodel.nbformat > orig_nbformat) {
-                msg += " Older versions of IPython may not be able to read the new format.";
+                msg += " Older versions of Jupyter may not be able to read the new format.";
             } else {
                 msg += " Some features of the original notebook may not be available.";
             }
@@ -2508,10 +2508,6 @@ define(function (require) {
         this.events.trigger('checkpoint_deleted.Notebook');
         this.load_notebook(this.notebook_path);
     };
-
-
-    // For backwards compatability.
-    IPython.Notebook = Notebook;
 
     return {'Notebook': Notebook};
 });

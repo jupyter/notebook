@@ -2,10 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jqueryui',
     'base/js/utils',
-], function(IPython, $, utils) {
+], function($, utils) {
     "use strict";
 
     var Pager = function (pager_selector, options) {
@@ -132,7 +131,7 @@ define([
                 .attr('type',"text/css")
         )
         .append(
-                $('<title>').text("IPython Pager")
+                $('<title>').text("Jupyter Pager")
         );
         var pager_body = $(w.document.body);
         pager_body.css('overflow','scroll');
@@ -161,9 +160,6 @@ define([
         // notebook.
         $('.end_space').css('height', Math.max(this.pager_element.height(), this._default_end_space));
     };
-
-    // Backwards compatability.
-    IPython.Pager = Pager;
 
     return {'Pager': Pager};
 });

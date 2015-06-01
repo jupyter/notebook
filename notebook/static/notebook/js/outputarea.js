@@ -2,14 +2,13 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jqueryui',
     'base/js/utils',
     'base/js/security',
     'base/js/keyboard',
     'notebook/js/mathjaxutils',
     'components/marked/lib/marked',
-], function(IPython, $, utils, security, keyboard, mathjaxutils, marked) {
+], function($, utils, security, keyboard, mathjaxutils, marked) {
     "use strict";
 
     /**
@@ -961,9 +960,6 @@ define([
         "application/javascript" : append_javascript,
         "application/pdf" : append_pdf
     };
-
-    // For backwards compatability.
-    IPython.OutputArea = OutputArea;
 
     return {'OutputArea': OutputArea};
 });

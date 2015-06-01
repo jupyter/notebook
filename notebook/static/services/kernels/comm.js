@@ -2,10 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jquery',
     'base/js/utils',
-], function(IPython, $, utils) {
+], function($, utils) {
     "use strict";
 
     //-----------------------------------------------------------------------
@@ -35,7 +34,7 @@ define([
     CommManager.prototype.new_comm = function (target_name, data, callbacks, metadata) {
         /**
          * Create a new Comm, register it, and open its Kernel-side counterpart
-         * Mimics the auto-registration in `Comm.__init__` in the IPython Comm
+         * Mimics the auto-registration in `Comm.__init__` in the Jupyter Comm
          */
         var comm = new Comm(target_name);
         this.register_comm(comm);
@@ -208,10 +207,6 @@ define([
         this._callback('close', msg);
     };
     
-    // For backwards compatability.
-    IPython.CommManager = CommManager;
-    IPython.Comm = Comm;
-
     return {
         'CommManager': CommManager,
         'Comm': Comm

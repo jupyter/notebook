@@ -2,10 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'base/js/namespace',
     'jquery',
     'base/js/utils',
-], function(IPython, $, utils) {
+], function($, utils) {
     "use strict";
 
     var ClusterList = function (selector, options) {
@@ -181,10 +180,6 @@ define([
             $.ajax(url, settings);
         });
     };
-
-    // For backwards compatability.
-    IPython.ClusterList = ClusterList;
-    IPython.ClusterItem = ClusterItem;
 
     return {
         'ClusterList': ClusterList,

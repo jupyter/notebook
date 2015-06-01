@@ -11,15 +11,13 @@
 
 
 define([
-    'base/js/namespace',
     'jquery',
     'base/js/utils',
     'codemirror/lib/codemirror',
     'codemirror/addon/edit/matchbrackets',
     'codemirror/addon/edit/closebrackets',
     'codemirror/addon/comment/comment'
-], function(IPython, $, utils, CodeMirror, cm_match, cm_closeb, cm_comment) {
-    // TODO: remove IPython dependency here 
+], function($, utils, CodeMirror, cm_match, cm_closeb, cm_comment) {
     "use strict";
     
     var overlayHack = CodeMirror.scrollbarModel.native.prototype.overlayHack;
@@ -319,7 +317,7 @@ define([
     };
 
     /**
-     * Delegates keyboard shortcut handling to either IPython keyboard
+     * Delegates keyboard shortcut handling to either Jupyter keyboard
      * manager when in command mode, or CodeMirror when in edit mode
      *
      * @method handle_keyevent
@@ -590,7 +588,7 @@ define([
                 // On 3.0 and below, these things were regex.
                 // But now should be string for json-able config. 
                 // We should get rid of assuming they might be already 
-                // in a later version of IPython. 
+                // in a later version of Jupyter.
                 var re = regs[i];
                 if(typeof(re) === 'string'){
                     re = new RegExp(re) 
@@ -709,9 +707,6 @@ define([
             cell.events.trigger('unrecognized_cell.Cell', {cell: cell});
         });
     };
-
-    // Backwards compatibility.
-    IPython.Cell = Cell;
 
     return {
         Cell: Cell,

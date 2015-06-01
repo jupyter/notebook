@@ -16,7 +16,7 @@ define([
         /**
          * Constructor
          *
-         * A MenuBar Class to generate the menubar of IPython notebook
+         * A MenuBar Class to generate the menubar of Jupyter notebook
          *
          * Parameters:
          *  selector: string
@@ -413,9 +413,6 @@ define([
         });
         
     };
-
-    // Backwards compatability.
-    IPython.MenuBar = MenuBar;
 
     return {'MenuBar': MenuBar};
 });
