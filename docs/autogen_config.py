@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os.path
+import os
 from notebook.notebookapp import NotebookApp
 
 header = """\
@@ -35,7 +35,7 @@ enter::
 
 """
 
-destination = os.path.join(os.path.dirname(__file__), 'source/config.rst')
+destination = os.path.join(os.cwd(), 'source/config.rst')
 
 with open(destination, 'w') as f:
     f.write(header)
