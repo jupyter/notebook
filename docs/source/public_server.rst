@@ -84,12 +84,12 @@ If you want to access your notebook server remotely via a web browser,
 you can do the following.  
 
 Start by creating a certificate file and a hashed password, as explained 
-above.  Then create a custom profile for the notebook, with the following 
-command line, type::
+above.  Then, if you don't already have one, create a config file for the 
+notebook using the following command line::
 
-  $ ipython profile create nbserver
+  $ jupyter notebook --generate-config
 
-In the profile directory just created, edit the file 
+In the ``~/.jupyter`` directory, edit the notebook config file, 
 ``jupyter_notebook_config.py``.  By default, the file has all fields 
 commented; the minimum set you need to uncomment and edit is the following::
 
@@ -104,8 +104,7 @@ commented; the minimum set you need to uncomment and edit is the following::
      c.NotebookApp.port = 9999
 
 You can then start the notebook and access it later by pointing your browser 
-to ``https://your.host.com:9999`` with ``ipython notebook 
---profile=nbserver``.
+to ``https://your.host.com:9999`` with ``jupyter notebook``.
 
 
 Firewall Setup

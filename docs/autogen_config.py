@@ -13,20 +13,13 @@ A list of available options can be found below in the :ref:`options section
 <options>`.
 
 Defaults for these options can also be set by creating a file named
-``jupyter_notebook_config.py`` in your Jupyter *profile folder*. The profile
-folder is a subfolder of your Jupyter directory; to find out where it is
-located, run::
+``jupyter_notebook_config.py`` in your Jupyter folder. The Jupyter
+folder is in your home directory, ``~/.jupyter``.
 
-  $ jupyter locate
+To create a ``jupyter_notebook_config.py`` file, with all the defaults
+commented out, you can use the following command line::
 
-To create a new set of default configuration files, with lots of information
-on available options, use::
-
-  $ jupyter profile create
-
-.. seealso::
-
-    :ref:`public_server`
+  $ jupyter notebook --generate-config
 
 
 .. _options:
