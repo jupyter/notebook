@@ -369,7 +369,7 @@ Installing kernels
 ------------------
 
 For information on how to install a Python kernel, refer to :ref:`IPython kernel's 
-installation document <ipykernel:install>`
+installation document <ipykernel:kernel_install>`
 
 Kernels for other languages can be found in the `IPython wiki
 <https://github.com/ipython/ipython/wiki/IPython%20kernels%20for%20other%20languages>`_.
