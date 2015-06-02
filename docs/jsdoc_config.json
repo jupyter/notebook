@@ -8,7 +8,7 @@
     ],
     "source": {
         "include": [
-            "../IPython/html/static/notebook/js/notebook.js"
+            "../notebook/static/notebook/js/notebook.js"
         ]
     },
     "tags": {
