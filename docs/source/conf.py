@@ -22,6 +22,13 @@ import shlex
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
 
+if os.environ.get('READTHEDOCS', ''):
+
+    # Readthedocs doesn't run our Makefile, so we do this to force it to generate
+    # the config docs.
+    with open('../autogen_config.py') as f:
+        exec(compile(f.read(), '../autogen_config.py', 'exec'), {})
+
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.

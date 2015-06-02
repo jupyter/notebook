@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os.path
 from qtconsole.qtconsoleapp import JupyterQtConsoleApp
 
 header = """\
@@ -34,6 +35,8 @@ enter::
 
 """
 
-with open("source/config.rst", 'w') as f:
+destination = os.path.join(os.path.dirname(__file__), 'source/config.rst')
+
+with open(destination, 'w') as f:
     f.write(header)
     f.write(JupyterQtConsoleApp().document_config_options())
