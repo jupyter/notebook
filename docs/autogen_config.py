@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import os.path
-from qtconsole.qtconsoleapp import JupyterQtConsoleApp
+from notebook.notebookapp import NotebookApp
 
 header = """\
 .. _config:
@@ -39,4 +39,4 @@ destination = os.path.join(os.path.dirname(__file__), 'source/config.rst')
 
 with open(destination, 'w') as f:
     f.write(header)
-    f.write(JupyterQtConsoleApp().document_config_options())
+    f.write(NotebookApp().document_config_options())
