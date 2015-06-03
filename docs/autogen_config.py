@@ -35,7 +35,7 @@ enter::
 
 """
 
-destination = os.path.join(os.cwd(), 'source/config.rst')
+destination = os.path.join(os.getcwd(), 'config.rst')
 
 with open(destination, 'w') as f:
     f.write(header)
