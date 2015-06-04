@@ -34,8 +34,10 @@ enter::
   $ jupyter notebook --help
 
 """
-
-destination = os.path.join(os.getcwd(), 'config.rst')
+try:
+    destination = os.path.join(os.path.dirname(__file__), 'source/config.rst')
+except:
+    destination = os.path.join(os.getcwd(), 'config.rst')
 
 with open(destination, 'w') as f:
     f.write(header)
