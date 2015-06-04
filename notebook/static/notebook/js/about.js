@@ -11,7 +11,7 @@ require([
         // use underscore template to auto html escape
         var text = 'You are using Jupyter notebook.<br/><br/>';
         text = text + 'The version of the notebook server is ';
-        text = text + _.template('<b><%- version %></b>')({ version: sys_info.ipython_version });
+        text = text + _.template('<b><%- version %></b>')({ version: sys_info.notebook_version });
         if (sys_info.commit_hash) {
             text = text + _.template('-<%- hash %>')({ hash: sys_info.commit_hash });
         }
