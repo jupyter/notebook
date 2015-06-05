@@ -1,14 +1,12 @@
 ====================
-The IPython notebook
+The Jupyter notebook
 ====================
 
 .. toctree::
     :maxdepth: 2
 
     notebook
-    nbformat
-    nbconvert
+    config
     public_server
     security
     development
-

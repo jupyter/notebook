@@ -1,6 +1,6 @@
 .. _htmlnotebook:
 
-The IPython Notebook
+The Jupyter Notebook
 ====================
 
 Introduction
@@ -9,7 +9,7 @@ Introduction
 The notebook extends the console-based approach to interactive computing in
 a qualitatively new direction, providing a web-based application suitable for
 capturing the whole computation process: developing, documenting, and
-executing code, as well as communicating the results.  The IPython notebook
+executing code, as well as communicating the results.  The Jupyter notebook
 combines two components:
 
 **A web application**: a browser-based tool for interactive authoring of
@@ -65,22 +65,22 @@ colleagues.
 
 Notebooks may be exported to a range of static formats, including HTML (for
 example, for blog posts), reStructuredText, LaTeX, PDF, and slide shows, via
-the new :ref:`nbconvert <nbconvert>` command.
+the new :ref:`nbconvert <nbconvert:index>` command.
 
 Furthermore, any  ``.ipynb`` notebook document available from a public
-URL can be shared via the `IPython Notebook Viewer <nbviewer>`_ (nbviewer_).
+URL can be shared via the `Jupyter Notebook Viewer <nbviewer>`_ (nbviewer_).
 This service loads the notebook document from the URL and renders it as a
 static web page.  The results may thus be shared with a colleague, or as a
-public blog post, without other users needing to install IPython themselves.
-In effect, nbviewer_ is simply :ref:`nbconvert <nbconvert>` as a web service,
-so you can do your own static conversions with nbconvert, without relying on
-nbviewer.
+public blog post, without other users needing to install the Jupyter notebook 
+themselves.  In effect, nbviewer_ is simply :ref:`nbconvert <nbconvert:index>` as 
+a web service, so you can do your own static conversions with nbconvert, 
+without relying on nbviewer.
 
 
 
 .. seealso::
 
-    :ref:`Details on the notebook JSON file format <nbformat>`
+    :ref:`Details on the notebook JSON file format <nbformat:format_description>`
 
 
 Starting the notebook server
@@ -89,13 +89,13 @@ Starting the notebook server
 You can start running a notebook server from the command line using the
 following command::
 
-    ipython notebook
+    jupyter notebook
 
 This will print some information about the notebook server in your console,
 and open a web browser to the URL of the web application (by default,
 ``http://127.0.0.1:8888``).
 
-The landing page of the IPython notebook web application, the **dashboard**,
+The landing page of the Jupyter notebook web application, the **dashboard**,
 shows the notebooks currently available in the notebook directory (by default,
 the directory from which the notebook server was started).
 
@@ -105,7 +105,7 @@ and drop ``.ipynb`` notebooks and standard ``.py`` Python source code files
 into the notebook list area.
 
 When starting a notebook server from the command line, you can also open a
-particular notebook directly, bypassing the dashboard, with ``ipython notebook
+particular notebook directly, bypassing the dashboard, with ``jupyter notebook
 my_notebook.ipynb``. The ``.ipynb`` extension is assumed if no extension is
 given.
 
@@ -225,7 +225,7 @@ example, in the ``pandas`` data analysis package). This is known as IPython's
 
     `Basic Output`_  example notebook
 
-    `Rich Display System`_  example notebook
+    `Rich Output`_  example notebook
 
 Markdown cells
 ~~~~~~~~~~~~~~
@@ -267,7 +267,7 @@ Raw cells
 
 *Raw* cells provide a place in which you can write *output* directly.
 Raw cells are not evaluated by the notebook.
-When passed through :ref:`nbconvert <nbconvert>`, raw cells arrive in the
+When passed through :ref:`nbconvert <nbconvert:index>`, raw cells arrive in the
 destination format unmodified. For example, this allows you to type full LaTeX
 into a raw cell, which will only be rendered by LaTeX after conversion by
 nbconvert.
@@ -312,9 +312,9 @@ content of markdown cells have been inserted as comments.
 
 .. seealso::
 
-    `Running Code in the IPython Notebook`_ example notebook
+    `Running Code in the Jupyter Notebook`_ example notebook
 
-    `Basic Output`_ example notebook
+    `Notebook Basics`_ example notebook
 
     :ref:`a warning about doing "roundtrip" conversions <note_about_roundtrip>`.
 
@@ -358,80 +358,18 @@ For the full list of available shortcuts, click :guilabel:`Help`,
 
 Plotting
 --------
-One major feature of the notebook is the ability to display plots that are the
-output of running code cells. IPython is designed to work seamlessly with the
-matplotlib_ plotting library to provide this functionality.
+One major feature of the Jupyter notebook is the ability to display plots that 
+are the output of running code cells. The IPython kernel is designed to work 
+seamlessly with the matplotlib_ plotting library to provide this functionality.  
+Specific plotting library integration is a feature of the kernel.  See the
+:ref:`plotting document <ipykernel:plotting>` of the IPython kernel for more
+information.
 
-To set this up, before any plotting is performed you must execute the
-``%matplotlib``  :ref:`magic command <magics_explained>`. This performs the
-necessary behind-the-scenes setup for IPython to work correctly hand in hand
-with ``matplotlib``; it does *not*, however, actually execute any Python
-``import`` commands, that is, no names are added to the namespace.
+Installing kernels
+------------------
 
-If the ``%matplotlib`` magic is called without an argument, the
-output of a plotting command is displayed using the default ``matplotlib``
-backend in a separate window. Alternatively, the backend can be explicitly
-requested using, for example::
-
-  %matplotlib gtk
-
-A particularly interesting backend, provided by IPython, is the ``inline``
-backend.  This is available only for the IPython Notebook and the
-:ref:`IPython QtConsole <qtconsole>`.  It can be invoked as follows::
-
-  %matplotlib inline
-
-With this backend, the output of plotting commands is displayed *inline*
-within the notebook, directly below the code cell that produced it. The
-resulting plots will then also be stored in the notebook document.
-
-.. seealso::
-
-    `Plotting with Matplotlib`_  example notebook
-
-
-Configuring the IPython Notebook
---------------------------------
-The notebook server can be run with a variety of command line arguments.
-To see a list of available options enter::
-
-  $ ipython notebook --help
-
-Defaults for these options can also be set by creating a file named
-``ipython_notebook_config.py`` in your IPython *profile folder*. The profile
-folder is a subfolder of your IPython directory; to find out where it is
-located, run::
-
-  $ ipython locate
-
-To create a new set of default configuration files, with lots of information
-on available options, use::
-
-  $ ipython profile create
-
-.. seealso::
-
-    :ref:`config_overview`, in particular :ref:`Profiles`.
-
-    :ref:`notebook_server_security`
-
-    :ref:`notebook_public_server`
-
-Installing new kernels
-----------------------
-
-Running the notebook makes the current python installation available as a kernel. Other
-python installations (different python versions, virtualenv or conda environments) can
-be installed as kernels by following these steps:
-
-* make sure that the desired python installation is active (e.g. activate the environment)
-  and ipython is installed
-* run once ``ipython kernelspec install-self --user`` (or ``ipython2 ...`` or ``ipython3 ...``
-  if you want to install specific python versions)
-
-The last command installs a kernel spec file for the current python installation in
-``~/.ipython/kernels/``. Kernel spec files are JSON files, which can be viewed and changed with a
-normal text editor.
+For information on how to install a Python kernel, refer to :ref:`IPython kernel's 
+installation document <ipykernel:kernel_install>`
 
 Kernels for other languages can be found in the `IPython wiki
 <https://github.com/ipython/ipython/wiki/IPython%20kernels%20for%20other%20languages>`_.
@@ -458,45 +396,12 @@ you can explicitly trust notebooks, such as those shared with you,
 or those that you have written yourself prior to IPython 2.0,
 at the command-line with::
 
-    $ ipython trust mynotebook.ipynb [other notebooks.ipynb]
+    $ jupyter trust mynotebook.ipynb [other notebooks.ipynb]
 
 This just generates a new signature stored in each notebook.
 
 You can generate a new notebook signing key with::
 
-    $ ipython trust --reset
-
-
-Importing ``.py`` files
------------------------
-
-``.py`` files will be imported as a notebook with
-the same basename, but an ``.ipynb`` extension, located in the notebook
-directory. The notebook created will have just one cell, which will contain
-all the code in the ``.py`` file. You can later manually partition this into
-individual cells using the ``Edit | Split Cell`` menu option, or the
-:kbd:`Ctrl-m -` keyboard shortcut.
-
-Note that ``.py`` scripts obtained from a notebook document using :doc:`nbconvert <nbconvert>`
-maintain the structure of the notebook in comments. Reimporting such a
-script back into a notebook will preserve this structure.
-
-.. _note_about_roundtrip:
-
-.. warning::
-
-   While in simple cases you can "roundtrip" a notebook to Python, edit the
-   Python file, and then import it back without loss of main content, this is
-   in general *not guaranteed to work*.  First, there is extra metadata
-   saved in the notebook that may not be saved to the ``.py`` format.  And as
-   the notebook format evolves in complexity, there will be attributes of the
-   notebook that will not survive a roundtrip through the Python form.  You
-   should think of the Python format as a way to output a script version of a
-   notebook and the import capabilities as a way to load existing code to get
-   a notebook started.  But the Python version is *not* an alternate notebook
-   format.
-
-.. seealso::
-    :ref:`nbformat`
+    $ jupyter trust --reset
 
 .. include:: links.txt

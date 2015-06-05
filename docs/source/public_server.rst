@@ -4,9 +4,9 @@ Running a notebook server
 =========================
 
 
-The  :ref:`IPython notebook <htmlnotebook>` web-application is based on a
+The  :ref:`Jupyter notebook <notebook>` web-application is based on a
 server-client structure.  This server uses a :ref:`two-process kernel
-architecture <ipythonzmq>` based on ZeroMQ_, as well as Tornado_ for serving
+architecture <ipython:ipythonzmq>` based on ZeroMQ_, as well as Tornado_ for serving
 HTTP requests. By default, a notebook server runs on http://127.0.0.1:8888/
 and is accessible only from `localhost`. This document describes how you can
 :ref:`secure a notebook server <notebook_server_security>` and how to :ref:`run it on
@@ -40,7 +40,7 @@ hashed password using the function :func:`IPython.lib.security.passwd`:
   argument. **Do not** pass it as an argument inside an IPython session, as it
   will be saved in your input history.
 
-You can then add this to your :file:`ipython_notebook_config.py`, e.g.::
+You can then add this to your :file:`jupyter_notebook_config.py`, e.g.::
 
     # Password to use for web authentication
     c = get_config()
@@ -84,13 +84,13 @@ If you want to access your notebook server remotely via a web browser,
 you can do the following.  
 
 Start by creating a certificate file and a hashed password, as explained 
-above.  Then create a custom profile for the notebook, with the following 
-command line, type::
+above.  Then, if you don't already have one, create a config file for the 
+notebook using the following command line::
 
-  $ ipython profile create nbserver
+  $ jupyter notebook --generate-config
 
-In the profile directory just created, edit the file 
-``ipython_notebook_config.py``.  By default, the file has all fields 
+In the ``~/.jupyter`` directory, edit the notebook config file, 
+``jupyter_notebook_config.py``.  By default, the file has all fields 
 commented; the minimum set you need to uncomment and edit is the following::
 
      c = get_config()
@@ -104,8 +104,7 @@ commented; the minimum set you need to uncomment and edit is the following::
      c.NotebookApp.port = 9999
 
 You can then start the notebook and access it later by pointing your browser 
-to ``https://your.host.com:9999`` with ``ipython notebook 
---profile=nbserver``.
+to ``https://your.host.com:9999`` with ``jupyter notebook``.
 
 
 Firewall Setup
@@ -128,7 +127,7 @@ of the notebooks in your working directory) typically lives at the URL
 rest of the notebook, under a sub-directory,
 e.g. ``http://localhost:8888/ipython/``, you can do so with
 configuration options like the following (see above for instructions about
-modifying ``ipython_notebook_config.py``)::
+modifying ``jupyter_notebook_config.py``)::
 
     c.NotebookApp.base_url = '/ipython/'
     c.NotebookApp.webapp_settings = {'static_url_prefix':'/ipython/static/'}

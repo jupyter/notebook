@@ -20,7 +20,14 @@ import shlex
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('../..'))
+
+if os.environ.get('READTHEDOCS', ''):
+
+    # Readthedocs doesn't run our Makefile, so we do this to force it to generate
+    # the config docs.
+    with open('../autogen_config.py') as f:
+        exec(compile(f.read(), '../autogen_config.py', 'exec'), {})
 
 # -- General configuration ------------------------------------------------
 
@@ -113,7 +120,7 @@ todo_include_todos = False
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'alabaster'
+# html_theme = 'alabaster'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -289,5 +296,7 @@ texinfo_documents = [
 #texinfo_no_detailmenu = False
 
 intersphinx_mapping = {
-    'ipython': ('http://ipython.org/ipython-doc/dev/', None)
+    'ipython': ('http://ipython.org/ipython-doc/dev/', None),
+    'nbconvert': ('http://nbconvert.readthedocs.org/en/latest/', None),
+    'nbformat': ('http://nbformat.readthedocs.org/en/latest/', None)
 }

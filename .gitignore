@@ -4,6 +4,7 @@ dist
 _build
 docs/man/*.gz
 docs/source/api/generated
+docs/source/config.rst
 docs/gh-pages
 notebook/static/components
 notebook/static/style/*.min.css*
