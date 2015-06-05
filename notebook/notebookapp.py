@@ -59,7 +59,6 @@ from .services.kernels.kernelmanager import MappingKernelManager
 from .services.config import ConfigManager
 from .services.contents.manager import ContentsManager
 from .services.contents.filemanager import FileContentsManager
-from .services.clusters.clustermanager import ClusterManager
 from .services.sessions.sessionmanager import SessionManager
 
 from .auth.login import LoginHandler
@@ -134,12 +133,12 @@ class DeprecationHandler(IPythonHandler):
 class NotebookWebApplication(web.Application):
 
     def __init__(self, ipython_app, kernel_manager, contents_manager,
-                 cluster_manager, session_manager, kernel_spec_manager,
+                 session_manager, kernel_spec_manager,
                  config_manager, log,
                  base_url, default_url, settings_overrides, jinja_env_options):
 
         settings = self.init_settings(
-            ipython_app, kernel_manager, contents_manager, cluster_manager,
+            ipython_app, kernel_manager, contents_manager,
             session_manager, kernel_spec_manager, config_manager, log, base_url,
             default_url, settings_overrides, jinja_env_options)
         handlers = self.init_handlers(settings)
@@ -147,7 +146,7 @@ class NotebookWebApplication(web.Application):
         super(NotebookWebApplication, self).__init__(handlers, **settings)
 
     def init_settings(self, ipython_app, kernel_manager, contents_manager,
-                      cluster_manager, session_manager, kernel_spec_manager,
+                      session_manager, kernel_spec_manager,
                       config_manager,
                       log, base_url, default_url, settings_overrides,
                       jinja_env_options=None):
@@ -197,7 +196,6 @@ class NotebookWebApplication(web.Application):
             # managers
             kernel_manager=kernel_manager,
             contents_manager=contents_manager,
-            cluster_manager=cluster_manager,
             session_manager=session_manager,
             kernel_spec_manager=kernel_spec_manager,
             config_manager=config_manager,
@@ -233,7 +231,6 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('services.config.handlers'))
         handlers.extend(load_handlers('services.kernels.handlers'))
         handlers.extend(load_handlers('services.contents.handlers'))
-        handlers.extend(load_handlers('services.clusters.handlers'))
         handlers.extend(load_handlers('services.sessions.handlers'))
         handlers.extend(load_handlers('services.nbconvert.handlers'))
         handlers.extend(load_handlers('services.kernelspecs.handlers'))
@@ -661,11 +658,6 @@ class NotebookApp(JupyterApp):
         config=True,
         help='The session manager class to use.'
     )
-    cluster_manager_class = Type(
-        default_value=ClusterManager,
-        config=True,
-        help='The cluster manager class to use.'
-    )
 
     config_manager_class = Type(
         default_value=ConfigManager,
@@ -803,11 +795,6 @@ class NotebookApp(JupyterApp):
             kernel_manager=self.kernel_manager,
             contents_manager=self.contents_manager,
         )
-        self.cluster_manager = self.cluster_manager_class(
-            parent=self,
-            log=self.log,
-        )
-
         self.config_manager = self.config_manager_class(
             parent=self,
             log=self.log,
@@ -841,7 +828,7 @@ class NotebookApp(JupyterApp):
         
         self.web_app = NotebookWebApplication(
             self, self.kernel_manager, self.contents_manager,
-            self.cluster_manager, self.session_manager, self.kernel_spec_manager,
+            self.session_manager, self.kernel_spec_manager,
             self.config_manager,
             self.log, self.base_url, self.default_url, self.tornado_settings,
             self.jinja_environment_options

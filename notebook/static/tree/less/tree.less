@@ -98,10 +98,6 @@ ul.breadcrumb {
   }
 }
 
-.action_col {
-    text-align: right;
-}
-
 .list_header>div, .list_item>div {
     padding-top: @dashboard_tb_pad;
     padding-bottom: @dashboard_tb_pad;
@@ -160,17 +156,13 @@ ul.breadcrumb {
     line-height: @btn_small_height;
 }
 
-input.nbname_input, input.engine_num_input {
+.list_item input:not([type=checkbox]) {
     // These settings give these inputs a height that matches @btn_mini_height = 22
     padding-top: 3px;
     padding-bottom: 3px;
     height: @btn_mini_height;
     line-height: 14px;
     margin: 0px;
-}
-
-input.engine_num_input {
-    width: 60px;
 }
 
 .highlight_text {
