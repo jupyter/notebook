@@ -19,7 +19,7 @@ export interface Opt {
 export class Content {
     "use strict";
     
-    private base_url
+    private _base_url
 
     constructor(options) {
         /**
@@ -34,7 +34,7 @@ export class Content {
          *      Dictionary of keyword arguments.
          *          base_url: string
          */
-        this.base_url = options.base_url;
+        this._base_url = options.base_url;
     }
 
     /** Error type */
@@ -56,7 +56,7 @@ export class Content {
 
 
     public api_url = function() {
-        var url_parts = [this.base_url, 'api/contents'].concat(
+        var url_parts = [this._base_url, 'api/contents'].concat(
                                 Array.prototype.slice.apply(arguments));
         return utils.url_join_encode.apply(null, url_parts);
     };
