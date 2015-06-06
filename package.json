@@ -1,5 +1,5 @@
 {
-  "name": "jupyter-notebook-deps",
+  "name": "jupyter-notebook",
   "version": "4.0.0",
   "description": "Jupyter Notebook nodejs dependencies",
   "author": "Jupyter Developers",
@@ -19,6 +19,14 @@
     "less": "~2",
     "requirejs": "^2.1.17",
     "source-map": "^0.4.2",
-    "through": "^2.3.7"
+    "through": "^2.3.7",
+    "gulp-concat": "^2.5.2",
+    "gulp-insert": "^0.4.0",
+    "gulp-typedoc": "^1.1.0",
+    "gulp-typescript": "2.4.2",
+    "gulp-watch": "^4.2.4",
+    "merge2": "^0.3.5",
+    "tsd": "^0.5.7",
+    "typescript": "^1.5.0-beta"
   }
 }
