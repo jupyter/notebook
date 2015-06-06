@@ -2,12 +2,26 @@
 // Distributed under the terms of the Modified BSD License.
 
 
+// make an enum for type = directory, file or notebook maybe. 
+
+
+
 import $ = require('jquery');
 import utils = require('base/js/utils');
 
 export class DirectoryNotEmptyError implements Error {
-    name
-    message
+    public name:string
+    public message:string
+
+    /** Constructor
+     *
+     * An error representing the result of attempting to delete a non-empty
+     * directory.
+     **/
+    constructor() {
+        this.name = "DirectoryNotEmptyError"
+        this.message = 'A directory must be empty before being deleted.';
+    }
 };
 
 export interface Opt {
@@ -16,7 +30,9 @@ export interface Opt {
     content?
 }
 
-export class Content {
+// import already written interface from Jupyter-drive. 
+// and have jupyter-drive use the same. 
+export class Contents {
     "use strict";
     
     private _base_url
@@ -40,22 +56,13 @@ export class Content {
     /** Error type */
     public DIRECTORY_NOT_EMPTY_ERROR = 'DirectoryNotEmptyError';
 
-    // this was not a prototype
-    DirectoryNotEmptyError = function() {
-        // Constructor
-        //
-        // An error representing the result of attempting to delete a non-empty
-        // directory.
-        this.message = 'A directory must be empty before being deleted.';
-    };
-
-    
+     
     //Contents.DirectoryNotEmptyError.prototype = Object.create(Error.prototype);
     //Contents.DirectoryNotEmptyError.prototype.name =
     //    Contents.DIRECTORY_NOT_EMPTY_ERROR;
 
 
-    public api_url = function() {
+    public api_url = function():string {
         var url_parts = [this._base_url, 'api/contents'].concat(
                                 Array.prototype.slice.apply(arguments));
         return utils.url_join_encode.apply(null, url_parts);
@@ -257,7 +264,7 @@ export class Content {
      * the keys:
      *     type: "notebook" or "directory"
      *     created: created date
-     *     last_modified: last modified dat
+     *     last_modified: last modified date
      * @method list_notebooks
      * @param {String} path The path to list notebooks in
      */
