@@ -1,5 +1,19 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
+//
+
+
+export interface CheckpointId extends Object {}
+
+/**
+ * A path to a specific folder, file or notebook. 
+ **/
+export interface Path extends String {}
+
+export interface Model extends Object {}
+
+
+interface Url extends String {}
 
 
 // make an enum for type = directory, file or notebook maybe. 
@@ -10,6 +24,7 @@ import $ = require('jquery');
 import utils = require('base/js/utils');
 
 export class DirectoryNotEmptyError implements Error {
+    "use strict";
     public name:string
     public message:string
 
@@ -28,6 +43,7 @@ export interface Opt {
     type?
     format?
     content?
+    ext?
 }
 
 // import already written interface from Jupyter-drive. 
@@ -35,34 +51,25 @@ export interface Opt {
 export class Contents {
     "use strict";
     
-    private _base_url
+    private _base_url:Url
 
+    /**
+     * Constructor
+     *
+     * A contents handles passing file operations
+     * to the back-end.  This includes checkpointing
+     * with the normal file operations.
+     *
+     * Parameters:
+     *  options: dictionary
+     *      Dictionary of keyword arguments.
+     *          base_url: string
+     */
     constructor(options) {
-        /**
-         * Constructor
-         *
-         * A contents handles passing file operations
-         * to the back-end.  This includes checkpointing
-         * with the normal file operations.
-         *
-         * Parameters:
-         *  options: dictionary
-         *      Dictionary of keyword arguments.
-         *          base_url: string
-         */
         this._base_url = options.base_url;
     }
 
-    /** Error type */
-    public DIRECTORY_NOT_EMPTY_ERROR = 'DirectoryNotEmptyError';
-
-     
-    //Contents.DirectoryNotEmptyError.prototype = Object.create(Error.prototype);
-    //Contents.DirectoryNotEmptyError.prototype.name =
-    //    Contents.DIRECTORY_NOT_EMPTY_ERROR;
-
-
-    public api_url = function():string {
+    private api_url = function():Url {
         var url_parts = [this._base_url, 'api/contents'].concat(
                                 Array.prototype.slice.apply(arguments));
         return utils.url_join_encode.apply(null, url_parts);
@@ -79,7 +86,7 @@ export class Contents {
      * @param{Function} callback
      * @return{Function}
      */
-    public create_basic_error_handler = function(callback:(any)=>void) {
+    private create_basic_error_handler = function(callback:(any)=>void):(xhr, status, error)=>void {
         if (!callback) {
             return utils.log_ajax_error;
         }
@@ -102,7 +109,7 @@ export class Contents {
      *    format: 'text' or 'base64'; only relevant for type: 'file'
      *    content: true or false; // whether to include the content
      */
-    public get = function (path, options:Opt) {
+    public get = function (path:Path, options:Opt):Promise<any> {
         /**
          * We do the call with settings so we can set cache to false.
          */
@@ -112,7 +119,7 @@ export class Contents {
             type : "GET",
             dataType : "json",
         };
-        var url = this.api_url(path);
+        var url:Url = this.api_url(path);
         var params:Opt = {};
         if (options.type) { params.type = options.type; }
         if (options.format) { params.format = options.format; }
@@ -130,7 +137,7 @@ export class Contents {
      *      ext: file extension to use
      *      type: model type to create ('notebook', 'file', or 'directory')
      */
-    public new_untitled = function(path, options) {
+    public new_untitled = function(path:Path, options:Opt):Promise<any> {
         var data = JSON.stringify({
           ext: options.ext,
           type: options.type
@@ -146,7 +153,7 @@ export class Contents {
         return utils.promising_ajax(this.api_url(path), settings);
     };
 
-    public delete = function(path) {
+    public delete = function(path:Path):Promise<any> {
         var settings = {
             processData : false,
             type : "DELETE",
@@ -166,7 +173,7 @@ export class Contents {
         );
     };
 
-    public rename = function(path, new_path) {
+    public rename = function(path:Path, new_path:Path):Promise<any> {
         var data = {path: new_path};
         var settings = {
             processData : false,
@@ -179,7 +186,7 @@ export class Contents {
         return utils.promising_ajax(url, settings);
     };
 
-    public save = function(path, model) {
+    public save = function(path:Path, model:Model):Promise<any> {
         /**
          * We do the call with settings so we can set cache to false.
          */
@@ -194,11 +201,11 @@ export class Contents {
         return utils.promising_ajax(url, settings);
     };
     
-    public copy = function(from_file, to_dir) {
-        /**
-         * Copy a file into a given directory via POST
-         * The server will select the name of the copied file
-         */
+    /**
+     * Copy a file into a given directory via POST
+     * The server will select the name of the copied file
+     */
+    public copy = function(from_file:Path, to_dir:Path):Promise<any> {
         var url = this.api_url(to_dir);
         
         var settings = {
@@ -215,7 +222,7 @@ export class Contents {
      * Checkpointing Functions
      */
 
-    public create_checkpoint = function(path) {
+    public create_checkpoint = function(path:Path):Promise<any> {
         var url = this.api_url(path, 'checkpoints');
         var settings = {
             type : "POST",
@@ -225,7 +232,7 @@ export class Contents {
         return utils.promising_ajax(url, settings);
     };
 
-    public list_checkpoints = function(path) {
+    public list_checkpoints = function(path:Path):Promise<any> {
         var url = this.api_url(path, 'checkpoints');
         var settings = {
             type : "GET",
@@ -235,7 +242,7 @@ export class Contents {
         return utils.promising_ajax(url, settings);
     };
 
-    public restore_checkpoint = function(path, checkpoint_id) {
+    public restore_checkpoint = function(path:Path, checkpoint_id:CheckpointId):Promise<any> {
         var url = this.api_url(path, 'checkpoints', checkpoint_id);
         var settings = {
             type : "POST",
@@ -244,7 +251,7 @@ export class Contents {
         return utils.promising_ajax(url, settings);
     };
 
-    public delete_checkpoint = function(path, checkpoint_id) {
+    public delete_checkpoint = function(path:Path, checkpoint_id:CheckpointId):Promise<any> {
         var url = this.api_url(path, 'checkpoints', checkpoint_id);
         var settings = {
             type : "DELETE",
@@ -268,7 +275,7 @@ export class Contents {
      * @method list_notebooks
      * @param {String} path The path to list notebooks in
      */
-    public list_contents = function(path) {
+    public list_contents = function(path:Path):Promise<any> {
         return this.get(path, {type: 'directory'});
     };
 
