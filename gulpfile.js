@@ -9,9 +9,27 @@ var minifyCSS = require('gulp-minify-css');
 var newer = require('gulp-newer');
 var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
+var merge = require('merge2');
+var insert = require('gulp-insert');
 
 // now some dev nice utilities.
 var livereload = require('gulp-livereload');
+
+
+// deal with typescript
+//
+var ts = require('gulp-typescript');
+var tsProject = ts.createProject({
+    declarationFiles: true,
+    noExternalResolve: false,
+    sortOutput: true,
+    target: 'ES5',
+    module: 'amd',
+});
+
+
+
+
 
 gulp.task('css', function () {
   return gulp.src('./notebook/static/style/*.less')
@@ -60,6 +78,23 @@ apps.map(function (name) {
       path.join(s, "auth", 'js', '*.js'),
       path.join(s, "services", 'config.js'),
     ];
+    ////////////////
+    var tsResult = gulp.src([
+                        path.join(s, "services", '*.ts'),
+                        'typings/*.d.ts',
+                        'typings/*/**.d.ts'
+                        ])
+                       .pipe(sourcemaps.init())
+                       .pipe(ts(tsProject));
+    return merge([
+        tsResult.dts.pipe(gulp.dest("./foo/") ),
+        tsResult.js
+            .pipe(insert.prepend('// AUTOMATICALY GENERATED FILE, see cooresponding .ts file\n'))
+            .pipe(sourcemaps.write('./'))
+            .pipe(gulp.dest(path.join(s, "services")))
+    ]);
+
+    ////////////////
     
     // for required_components
     if (name === 'notebook') {

@@ -1,13 +1,27 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define(function(require) {
+
+import $ = require('jquery');
+import utils = require('base/js/utils');
+
+export class DirectoryNotEmptyError implements Error {
+    name
+    message
+};
+
+export interface Opt {
+    type?
+    format?
+    content?
+}
+
+export class Content {
     "use strict";
+    
+    private base_url
 
-    var $ = require('jquery');
-    var utils = require('base/js/utils');
-
-    var Contents = function(options) {
+    constructor(options) {
         /**
          * Constructor
          *
@@ -21,25 +35,27 @@ define(function(require) {
          *          base_url: string
          */
         this.base_url = options.base_url;
-    };
+    }
 
     /** Error type */
-    Contents.DIRECTORY_NOT_EMPTY_ERROR = 'DirectoryNotEmptyError';
+    public DIRECTORY_NOT_EMPTY_ERROR = 'DirectoryNotEmptyError';
 
-    Contents.DirectoryNotEmptyError = function() {
+    // this was not a prototype
+    DirectoryNotEmptyError = function() {
         // Constructor
         //
         // An error representing the result of attempting to delete a non-empty
         // directory.
         this.message = 'A directory must be empty before being deleted.';
     };
+
     
-    Contents.DirectoryNotEmptyError.prototype = Object.create(Error.prototype);
-    Contents.DirectoryNotEmptyError.prototype.name =
-        Contents.DIRECTORY_NOT_EMPTY_ERROR;
+    //Contents.DirectoryNotEmptyError.prototype = Object.create(Error.prototype);
+    //Contents.DirectoryNotEmptyError.prototype.name =
+    //    Contents.DIRECTORY_NOT_EMPTY_ERROR;
 
 
-    Contents.prototype.api_url = function() {
+    public api_url = function() {
         var url_parts = [this.base_url, 'api/contents'].concat(
                                 Array.prototype.slice.apply(arguments));
         return utils.url_join_encode.apply(null, url_parts);
@@ -56,7 +72,7 @@ define(function(require) {
      * @param{Function} callback
      * @return{Function}
      */
-    Contents.prototype.create_basic_error_handler = function(callback) {
+    public create_basic_error_handler = function(callback:(any)=>void) {
         if (!callback) {
             return utils.log_ajax_error;
         }
@@ -79,7 +95,7 @@ define(function(require) {
      *    format: 'text' or 'base64'; only relevant for type: 'file'
      *    content: true or false; // whether to include the content
      */
-    Contents.prototype.get = function (path, options) {
+    public get = function (path, options:Opt) {
         /**
          * We do the call with settings so we can set cache to false.
          */
@@ -90,7 +106,7 @@ define(function(require) {
             dataType : "json",
         };
         var url = this.api_url(path);
-        var params = {};
+        var params:Opt = {};
         if (options.type) { params.type = options.type; }
         if (options.format) { params.format = options.format; }
         if (options.content === false) { params.content = '0'; }
@@ -107,7 +123,7 @@ define(function(require) {
      *      ext: file extension to use
      *      type: model type to create ('notebook', 'file', or 'directory')
      */
-    Contents.prototype.new_untitled = function(path, options) {
+    public new_untitled = function(path, options) {
         var data = JSON.stringify({
           ext: options.ext,
           type: options.type
@@ -123,7 +139,7 @@ define(function(require) {
         return utils.promising_ajax(this.api_url(path), settings);
     };
 
-    Contents.prototype.delete = function(path) {
+    public delete = function(path) {
         var settings = {
             processData : false,
             type : "DELETE",
@@ -136,14 +152,14 @@ define(function(require) {
                 // TODO: update IPEP27 to specify errors more precisely, so
                 // that error types can be detected here with certainty.
                 if (error.xhr.status === 400) {
-                    throw new Contents.DirectoryNotEmptyError();
+                    throw new DirectoryNotEmptyError();
                 }
                 throw error;
             }
         );
     };
 
-    Contents.prototype.rename = function(path, new_path) {
+    public rename = function(path, new_path) {
         var data = {path: new_path};
         var settings = {
             processData : false,
@@ -156,7 +172,7 @@ define(function(require) {
         return utils.promising_ajax(url, settings);
     };
 
-    Contents.prototype.save = function(path, model) {
+    public save = function(path, model) {
         /**
          * We do the call with settings so we can set cache to false.
          */
@@ -171,7 +187,7 @@ define(function(require) {
         return utils.promising_ajax(url, settings);
     };
     
-    Contents.prototype.copy = function(from_file, to_dir) {
+    public copy = function(from_file, to_dir) {
         /**
          * Copy a file into a given directory via POST
          * The server will select the name of the copied file
@@ -192,7 +208,7 @@ define(function(require) {
      * Checkpointing Functions
      */
 
-    Contents.prototype.create_checkpoint = function(path) {
+    public create_checkpoint = function(path) {
         var url = this.api_url(path, 'checkpoints');
         var settings = {
             type : "POST",
@@ -202,7 +218,7 @@ define(function(require) {
         return utils.promising_ajax(url, settings);
     };
 
-    Contents.prototype.list_checkpoints = function(path) {
+    public list_checkpoints = function(path) {
         var url = this.api_url(path, 'checkpoints');
         var settings = {
             type : "GET",
@@ -212,7 +228,7 @@ define(function(require) {
         return utils.promising_ajax(url, settings);
     };
 
-    Contents.prototype.restore_checkpoint = function(path, checkpoint_id) {
+    public restore_checkpoint = function(path, checkpoint_id) {
         var url = this.api_url(path, 'checkpoints', checkpoint_id);
         var settings = {
             type : "POST",
@@ -221,7 +237,7 @@ define(function(require) {
         return utils.promising_ajax(url, settings);
     };
 
-    Contents.prototype.delete_checkpoint = function(path, checkpoint_id) {
+    public delete_checkpoint = function(path, checkpoint_id) {
         var url = this.api_url(path, 'checkpoints', checkpoint_id);
         var settings = {
             type : "DELETE",
@@ -245,9 +261,8 @@ define(function(require) {
      * @method list_notebooks
      * @param {String} path The path to list notebooks in
      */
-    Contents.prototype.list_contents = function(path) {
+    public list_contents = function(path) {
         return this.get(path, {type: 'directory'});
     };
 
-    return {'Contents': Contents};
-});
+}
