@@ -1752,7 +1752,7 @@ define(function (require) {
      * @return {string} This notebook's name (excluding file extension)
      */
     Notebook.prototype.get_notebook_name = function () {
-        var nbname = this.notebook_name.substring(0,this.notebook_name.length-6);
+        var nbname = utils.splitext(this.notebook_name)[0];
         return nbname;
     };
 
