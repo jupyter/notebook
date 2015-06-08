@@ -48,7 +48,7 @@ export class Session {
      * @class Session
      * @param {Object} options
      */
-    constructor(options) {
+    constructor(options){
         this.id = null;
         this.notebook_model = {
             path: options.notebook_path
@@ -70,7 +70,7 @@ export class Session {
         this.bind_events();
     }
 
-    public bind_events() {
+    public bind_events():void {
         var that = this;
         var record_status = function (evt, info) {
             console.log('Session: ' + evt.type + ' (' + info.session.id + ')');
@@ -98,7 +98,7 @@ export class Session {
      * @param {function} [success] - function executed on ajax success
      * @param {function} [error] - functon executed on ajax error
      */
-    public list(success, error) {
+    public list(success, error):void {
         $.ajax(this.session_service_url, {
             processData: false,
             cache: false,
@@ -118,7 +118,7 @@ export class Session {
      * @param {function} [success] - function executed on ajax success
      * @param {function} [error] - functon executed on ajax error
      */
-    public start(success, error) {
+    public start(success, error):void {
         var that = this;
         var on_success = function (data, status, xhr) {
             if (that.kernel) {
@@ -161,7 +161,7 @@ export class Session {
      * @param {function} [success] - function executed on ajax success
      * @param {function} [error] - functon executed on ajax error
      */
-    public get_info(success, error) {
+    public get_info(success, error):void {
         $.ajax(this.session_url, {
             processData: false,
             cache: false,
@@ -183,7 +183,7 @@ export class Session {
      * @param {function} [success] - function executed on ajax success
      * @param {function} [error] - functon executed on ajax error
      */
-    public rename_notebook(path, success, error) {
+    public rename_notebook(path, success, error):void {
         if (path !== undefined) {
             this.notebook_model.path = path;
         }
@@ -209,7 +209,7 @@ export class Session {
      * @param {function} [success] - function executed on ajax success
      * @param {function} [error] - functon executed on ajax error
      */
-    public delete(success?, error?) {
+    public delete(success?, error?):void {
         if (this.kernel) {
             this.events.trigger('kernel_killed.Session', {session: this, kernel: this.kernel});
             this.kernel._kernel_dead();
@@ -238,7 +238,7 @@ export class Session {
      * @param {function} [success] - function executed on ajax success
      * @param {function} [error] - functon executed on ajax error
      */
-    public restart(options, success, error) {
+    public restart(options, success, error):void {
         var that = this;
         var start = function () {
             if (options && options.notebook_path) {
@@ -278,7 +278,7 @@ export class Session {
      * @function _update_model
      * @param {Object} data - updated data model
      */
-    private _update_model(data) {
+    private _update_model(data):void {
         if (data && data.id) {
             this.id = data.id;
             this.session_url = utils.url_join_encode(this.session_service_url, this.id);
@@ -300,7 +300,7 @@ export class Session {
      * @function _on_success
      * @param {function} success - callback
      */
-    private _on_success(success) {
+    private _on_success(success):(data, success, xhr)=>any {
         var that = this;
         return function (data, status, xhr) {
             that._update_model(data);
@@ -317,7 +317,7 @@ export class Session {
      * @function _on_error
      * @param {function} error - callback
      */
-    private _on_error(error) {
+    private _on_error(error):(data, success, xhr)=>any {
         return function (xhr, status, err) {
             utils.log_ajax_error(xhr, status, err);
             if (error) {
