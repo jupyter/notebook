@@ -1,7 +1,5 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-//
-
 
 export interface CheckpointId extends Object {}
 
@@ -14,10 +12,6 @@ export interface Model extends Object {}
 
 
 interface Url extends String {}
-
-
-// make an enum for type = directory, file or notebook maybe. 
-
 
 
 import $ = require('jquery');

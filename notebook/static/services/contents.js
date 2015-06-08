@@ -1,7 +1,6 @@
 // AUTOMATICALY GENERATED FILE, see cooresponding .ts file
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-//
 define(["require", "exports", 'jquery', 'base/js/utils'], function (require, exports, $, utils) {
     var DirectoryNotEmptyError = (function () {
         /** Constructor
