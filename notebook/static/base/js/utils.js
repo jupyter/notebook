@@ -3,6 +3,8 @@
 // Distributed under the terms of the Modified BSD License.
 define(["require", "exports", 'jquery'], function (require, exports, $) {
     /// <amd-dependency path=”codemirror/lib/codemirror”/>
+    var moment = require('moment');
+    /// <amd-dependency path=”codemirror/lib/codemirror”/>
     var CodeMirror = require('codemirror/lib/codemirror');
     /// <amd-dependency path=”codemirror/mode/meta”/>
     var CodeMirrorModeMeta = require('codemirror/lib/codemirror');

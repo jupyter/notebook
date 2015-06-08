@@ -465,7 +465,7 @@ declare module moment {
         max(moments: Moment[]): Moment;
 
         normalizeUnits(unit: string): string;
-        relativeTimeThreshold(threshold: string, limit: number): void;
+        relativeTimeThreshold(threshold: string, limit?: number): void|number;
 
         /**
          * Constant used to enable explicit ISO_8601 format parsing.

@@ -5,8 +5,8 @@
 import $ = require('jquery')
 
 
-/// <amd-dependency path="moment" name="moment" />
-declare var moment;
+/// <amd-dependency path=”codemirror/lib/codemirror”/>
+var moment = require('moment')
 
 
 /// <amd-dependency path=”codemirror/lib/codemirror”/>
@@ -840,10 +840,10 @@ declare var MathJax
     
     time.thresholds = {
         // moment.js thresholds in milliseconds
-        s: moment.relativeTimeThreshold('s') * time.milliseconds.s,
-        m: moment.relativeTimeThreshold('m') * time.milliseconds.m,
-        h: moment.relativeTimeThreshold('h') * time.milliseconds.h,
-        d: moment.relativeTimeThreshold('d') * time.milliseconds.d,
+        s: (<number>moment.relativeTimeThreshold('s')) * time.milliseconds.s,
+        m: (<number>moment.relativeTimeThreshold('m')) * time.milliseconds.m,
+        h: (<number>moment.relativeTimeThreshold('h')) * time.milliseconds.h,
+        d: (<number>moment.relativeTimeThreshold('d')) * time.milliseconds.d,
     };
     
     time.timeout_from_dt = function (dt) {
