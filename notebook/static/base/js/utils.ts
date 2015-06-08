@@ -1,14 +1,41 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define([
-    'jquery',
-    'codemirror/lib/codemirror',
-    'moment',
-    // silently upgrades CodeMirror
-    'codemirror/mode/meta',
-], function($, CodeMirror, moment){
-    "use strict";
+
+import $ = require('jquery')
+
+
+/// <amd-dependency path="moment" name="moment" />
+declare var moment;
+
+
+/// <amd-dependency path=”codemirror/lib/codemirror”/>
+var CodeMirror = require('codemirror/lib/codemirror')
+
+/// <amd-dependency path=”codemirror/mode/meta”/>
+var CodeMirrorModeMeta = require('codemirror/lib/codemirror')
+
+
+declare var CodeMirrorModeMeta;
+
+interface MyWindow extends Window {
+    MathJax?
+}
+
+interface MyError extends Error {
+    xhr?
+    xhr_status?
+    xhr_error?
+}
+
+
+declare var MathJax
+
+// import moment = require('moment')
+
+// figure out the following
+// import modemeta = require('codemirror/mode/meta')
+
     
     var load_extensions = function () {
         // load one or more Jupyter notebook extensions with requirejs
@@ -480,7 +507,7 @@ define([
          * we should never have any encoded URLs anywhere else in code
          * until we are building an actual request
          */
-        var val = $('body').data(key);
+        var val = String($('body').data(key));
         if (!val)
             return val;
         return decodeURIComponent(val);
@@ -528,7 +555,7 @@ define([
     var browser = (function() {
         if (typeof navigator === 'undefined') {
             // navigator undefined in node
-            return 'None';
+            return ['None'];
         }
         var N= navigator.appName, ua= navigator.userAgent, tem;
         var M= ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
@@ -656,7 +683,7 @@ define([
      * Wraps an AJAX error as an Error object.
      */
     var wrap_ajax_error = function (jqXHR, status, error) {
-        var wrapped_error = new Error(ajax_error_msg(jqXHR));
+        var wrapped_error = <MyError>(new Error(ajax_error_msg(jqXHR)));
         wrapped_error.name =  XHR_ERROR;
         // provide xhr response
         wrapped_error.xhr = jqXHR;
@@ -706,8 +733,6 @@ define([
             this.error_stack = [error];
         }
         this.error_stack.push(tmp);
-
-        return this;
     };
 
     WrappedError.prototype = Object.create(Error.prototype, {});
@@ -794,7 +819,7 @@ define([
         if(arguments.length > 1){
             $el.text(text);
         }
-        if(!window.MathJax){
+        if(!(<MyWindow>window).MathJax){
             return;
         }
         return $el.map(function(){
@@ -803,7 +828,7 @@ define([
         });
     };
     
-    var time = {};
+    var time:any = {};
     time.milliseconds = {};
     time.milliseconds.s = 1000;
     time.milliseconds.m = 60 * time.milliseconds.s;
@@ -878,5 +903,3 @@ define([
         time: time,
     };
 
-    return utils;
-}); 
