@@ -1,12 +1,37 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define([
-    'jquery',
-    'base/js/utils',
-    'services/kernels/kernel',
-], function($, utils, kernel) {
+
+import $ = require('jquery')
+import utils = require('base/js/utils')
+import kernel = require('services/kernels/kernel')
+
+/**
+ * Error type indicating that the session is already starting.
+ */
+export var SessionAlreadyStarting = function (message) {
+    this.name = "SessionAlreadyStarting";
+    this.message = (message || "");
+};
+
+SessionAlreadyStarting.prototype = Error.prototype;
+
+
+export class Session {
     "use strict";
+
+    id
+    notebook_model
+    kernel_model
+    base_url
+    ws_url
+    session_service_url
+    session_url
+    events
+    notebook
+    kernel
+
+
 
     /**
      * Session object for accessing the session REST api. The session
@@ -23,7 +48,7 @@ define([
      * @class Session
      * @param {Object} options
      */
-    var Session = function (options) {
+    constructor(options) {
         this.id = null;
         this.notebook_model = {
             path: options.notebook_path
@@ -43,9 +68,9 @@ define([
         this.events = options.notebook.events;
 
         this.bind_events();
-    };
+    }
 
-    Session.prototype.bind_events = function () {
+    public bind_events() {
         var that = this;
         var record_status = function (evt, info) {
             console.log('Session: ' + evt.type + ' (' + info.session.id + ')');
@@ -59,7 +84,7 @@ define([
         this.events.on('kernel_dead.Kernel', function () {
             that.delete();
         });
-    };
+    }
 
 
     // Public REST api functions
@@ -73,7 +98,7 @@ define([
      * @param {function} [success] - function executed on ajax success
      * @param {function} [error] - functon executed on ajax error
      */
-    Session.prototype.list = function (success, error) {
+    public list(success, error) {
         $.ajax(this.session_service_url, {
             processData: false,
             cache: false,
@@ -82,7 +107,7 @@ define([
             success: success,
             error: this._on_error(error)
         });
-    };
+    }
 
     /**
      * POST /api/sessions
@@ -93,7 +118,7 @@ define([
      * @param {function} [success] - function executed on ajax success
      * @param {function} [error] - functon executed on ajax error
      */
-    Session.prototype.start = function (success, error) {
+    public start(success, error) {
         var that = this;
         var on_success = function (data, status, xhr) {
             if (that.kernel) {
@@ -125,7 +150,7 @@ define([
             success: this._on_success(on_success),
             error: this._on_error(on_error)
         });
-    };
+    }
 
     /**
      * GET /api/sessions/[:session_id]
@@ -136,7 +161,7 @@ define([
      * @param {function} [success] - function executed on ajax success
      * @param {function} [error] - functon executed on ajax error
      */
-    Session.prototype.get_info = function (success, error) {
+    public get_info(success, error) {
         $.ajax(this.session_url, {
             processData: false,
             cache: false,
@@ -145,7 +170,7 @@ define([
             success: this._on_success(success),
             error: this._on_error(error)
         });
-    };
+    }
 
     /**
      * PATCH /api/sessions/[:session_id]
@@ -158,7 +183,7 @@ define([
      * @param {function} [success] - function executed on ajax success
      * @param {function} [error] - functon executed on ajax error
      */
-    Session.prototype.rename_notebook = function (path, success, error) {
+    public rename_notebook(path, success, error) {
         if (path !== undefined) {
             this.notebook_model.path = path;
         }
@@ -173,7 +198,7 @@ define([
             success: this._on_success(success),
             error: this._on_error(error)
         });
-    };
+    }
 
     /**
      * DELETE /api/sessions/[:session_id]
@@ -184,7 +209,7 @@ define([
      * @param {function} [success] - function executed on ajax success
      * @param {function} [error] - functon executed on ajax error
      */
-    Session.prototype.delete = function (success, error) {
+    public delete(success?, error?) {
         if (this.kernel) {
             this.events.trigger('kernel_killed.Session', {session: this, kernel: this.kernel});
             this.kernel._kernel_dead();
@@ -198,7 +223,7 @@ define([
             success: this._on_success(success),
             error: this._on_error(error)
         });
-    };
+    }
 
     /**
      * Restart the session by deleting it and the starting it
@@ -213,7 +238,7 @@ define([
      * @param {function} [success] - function executed on ajax success
      * @param {function} [error] - functon executed on ajax error
      */
-    Session.prototype.restart = function (options, success, error) {
+    public restart(options, success, error) {
         var that = this;
         var start = function () {
             if (options && options.notebook_path) {
@@ -226,7 +251,7 @@ define([
             that.start(success, error);
         };
         this.delete(start, start);
-    };
+    }
 
     // Helper functions
 
@@ -237,12 +262,12 @@ define([
      * @function _get_model
      * @returns {Object} - the data model
      */
-    Session.prototype._get_model = function () {
+    private _get_model() {
         return {
             notebook: this.notebook_model,
             kernel: this.kernel_model
         };
-    };
+    }
 
     /**
      * Update the data model from the given JSON object, which should
@@ -253,7 +278,7 @@ define([
      * @function _update_model
      * @param {Object} data - updated data model
      */
-    Session.prototype._update_model = function (data) {
+    private _update_model(data) {
         if (data && data.id) {
             this.id = data.id;
             this.session_url = utils.url_join_encode(this.session_service_url, this.id);
@@ -265,7 +290,7 @@ define([
             this.kernel_model.name = data.kernel.name;
             this.kernel_model.id = data.kernel.id;
         }
-    };
+    }
 
     /**
      * Handle a successful AJAX request by updating the session data
@@ -275,7 +300,7 @@ define([
      * @function _on_success
      * @param {function} success - callback
      */
-    Session.prototype._on_success = function (success) {
+    private _on_success(success) {
         var that = this;
         return function (data, status, xhr) {
             that._update_model(data);
@@ -283,7 +308,7 @@ define([
                 success(data, status, xhr);
             }
         };
-    };
+    }
 
     /**
      * Handle a failed AJAX request by logging the error message, and
@@ -292,27 +317,13 @@ define([
      * @function _on_error
      * @param {function} error - callback
      */
-    Session.prototype._on_error = function (error) {
+    private _on_error(error) {
         return function (xhr, status, err) {
             utils.log_ajax_error(xhr, status, err);
             if (error) {
                 error(xhr, status, err);
             }
         };
-    };
+    }
 
-    /**
-     * Error type indicating that the session is already starting.
-     */
-    var SessionAlreadyStarting = function (message) {
-        this.name = "SessionAlreadyStarting";
-        this.message = (message || "");
-    };
-    
-    SessionAlreadyStarting.prototype = Error.prototype;
-    
-    return {
-        Session: Session,
-        SessionAlreadyStarting: SessionAlreadyStarting
-    };
-});
+}
