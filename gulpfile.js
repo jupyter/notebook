@@ -87,7 +87,7 @@ apps.map(function (name) {
                         ], {base: './'})
                        .pipe(sourcemaps.init())
                        .pipe(ts(tsProject));
-    return merge([
+    merge([
         tsResult.dts.pipe(gulp.dest("./notebook/static/typings") ),
         tsResult.js
             .pipe(insert.prepend('// AUTOMATICALY GENERATED FILE, see cooresponding .ts file\n'))
