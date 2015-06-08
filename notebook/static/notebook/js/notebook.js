@@ -2101,8 +2101,9 @@ define(function (require) {
      * Returns the filename with the appropriate extension, appending if necessary.
      */
     Notebook.prototype.ensure_extension = function (name) {
-        if (!name.match(/\.ipynb$/)) {
-            name = name + ".ipynb";
+        var ext = utils.splitext(this.notebook_path)[1];
+        if (ext.length && name.slice(-ext.length) !== ext) {
+            name = name + ext;
         }
         return name;
     };
