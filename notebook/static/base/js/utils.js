@@ -9,16 +9,22 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
     // import moment = require('moment')
     // figure out the following
     // import modemeta = require('codemirror/mode/meta')
-    var load_extensions = function () {
-        // load one or more Jupyter notebook extensions with requirejs
+    /**
+     * load one or more Jupyter notebook extensions with requirejs
+     **/
+    exports.load_extensions = function () {
+        var exts = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            exts[_i - 0] = arguments[_i];
+        }
         var extensions = [];
-        var extension_names = arguments;
+        var extension_names = exts;
         for (var i = 0; i < extension_names.length; i++) {
-            extensions.push("nbextensions/" + arguments[i]);
+            extensions.push("nbextensions/" + exts[i]);
         }
         require(extensions, function () {
-            for (var i = 0; i < arguments.length; i++) {
-                var ext = arguments[i];
+            for (var i = 0; i < exts.length; i++) {
+                var ext = exts[i];
                 var ext_name = extension_names[i];
                 // success callback
                 console.log("Loaded extension: " + ext_name);
@@ -39,7 +45,7 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
         section.loaded.then(function () {
             if (section.data.load_extensions) {
                 var nbextension_paths = Object.getOwnPropertyNames(section.data.load_extensions);
-                load_extensions.apply(this, nbextension_paths);
+                exports.load_extensions.apply(this, nbextension_paths);
             }
         });
     }
@@ -82,7 +88,7 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
      * regex_split('..word1 word2..', /([a-z]+)(\d+)/i);
      * // -> ['..', 'word', '1', ' ', 'word', '2', '..']
      */
-    var regex_split = function (str, separator, limit) {
+    exports.regex_split = function (str, separator, limit) {
         var output = [], flags = (separator.ignoreCase ? "i" : "") + (separator.multiline ? "m" : "") + (separator.extended ? "x" : "") + (separator.sticky ? "y" : ""), lastLastIndex = 0, separator2, match, lastIndex, lastLength;
         // Make `global` and avoid `lastIndex` issues by working with a copy
         separator = new RegExp(separator.source, flags + "g");
@@ -141,7 +147,7 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
     //============================================================================
     // End contributed Cross-browser RegEx Split
     //============================================================================
-    var uuid = function () {
+    exports.uuid = function () {
         /**
          * http://www.ietf.org/rfc/rfc4122.txt
          */
@@ -156,11 +162,11 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
         return uuid;
     };
     //Fix raw text to parse correctly in crazy XML
-    function xmlencode(string) {
-        return string.replace(/\&/g, '&' + 'amp;').replace(/</g, '&' + 'lt;').replace(/>/g, '&' + 'gt;').replace(/\'/g, '&' + 'apos;').replace(/\"/g, '&' + 'quot;').replace(/`/g, '&' + '#96;');
+    function xmlencode(str) {
+        return str.replace(/\&/g, '&' + 'amp;').replace(/</g, '&' + 'lt;').replace(/>/g, '&' + 'gt;').replace(/\'/g, '&' + 'apos;').replace(/\"/g, '&' + 'quot;').replace(/`/g, '&' + '#96;');
     }
     //Map from terminal commands to CSS classes
-    var ansi_colormap = {
+    exports.ansi_colormap = {
         "01": "ansibold",
         "30": "ansiblack",
         "31": "ansired",
@@ -182,12 +188,12 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
     function _process_numbers(attrs, numbers) {
         // process ansi escapes
         var n = numbers.shift();
-        if (ansi_colormap[n]) {
+        if (exports.ansi_colormap[n]) {
             if (!attrs["class"]) {
-                attrs["class"] = ansi_colormap[n];
+                attrs["class"] = exports.ansi_colormap[n];
             }
             else {
-                attrs["class"] += " " + ansi_colormap[n];
+                attrs["class"] += " " + exports.ansi_colormap[n];
             }
         }
         else if (n == "38" || n == "48") {
@@ -205,7 +211,7 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
                     // indexed ANSI
                     // ignore bright / non-bright distinction
                     idx = idx % 8;
-                    var ansiclass = ansi_colormap[n[0] + (idx % 8).toString()];
+                    var ansiclass = exports.ansi_colormap[n[0] + (idx % 8).toString()];
                     if (!attrs["class"]) {
                         attrs["class"] = ansiclass;
                     }
@@ -325,7 +331,7 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
     function autoLinkUrls(txt) {
         return txt.replace(/(^|\s)(https?|ftp)(:[^'">\s]+)/gi, "$1<a target=\"_blank\" href=\"$2$3\">$2$3</a>");
     }
-    var points_to_pixels = function (points) {
+    exports.points_to_pixels = function (points) {
         /**
          * A reasonably good way of converting between points and pixels.
          */
@@ -335,7 +341,7 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
         test.remove();
         return Math.floor(points * pixel_per_point);
     };
-    var always_new = function (constructor) {
+    exports.always_new = function (constructor) {
         /**
          * wrapper around contructor to avoid requiring `var a = new constructor()`
          * useful for passing constructors as callbacks,
@@ -348,26 +354,30 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
             return obj;
         };
     };
-    var url_path_join = function () {
+    exports.url_path_join = function () {
+        var paths = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            paths[_i - 0] = arguments[_i];
+        }
         /**
          * join a sequence of url components with '/'
          */
         var url = '';
-        for (var i = 0; i < arguments.length; i++) {
-            if (arguments[i] === '') {
+        for (var i = 0; i < paths.length; i++) {
+            if (paths[i] === '') {
                 continue;
             }
             if (url.length > 0 && url[url.length - 1] != '/') {
-                url = url + '/' + arguments[i];
+                url = url + '/' + paths[i];
             }
             else {
-                url = url + arguments[i];
+                url = url + paths[i];
             }
         }
         url = url.replace(/\/\/+/, '/');
         return url;
     };
-    var url_path_split = function (path) {
+    exports.url_path_split = function (path) {
         /**
          * Like os.path.split for URLs.
          * Always returns two strings, the directory path and the base filename
@@ -380,7 +390,7 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
             return [path.slice(0, idx), path.slice(idx + 1)];
         }
     };
-    var parse_url = function (url) {
+    exports.parse_url = function (url) {
         /**
          * an `a` element with an href allows attr-access to the parsed segments of a URL
          * a = parse_url("http://localhost:8888/path/name#hash")
@@ -395,21 +405,25 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
         a.href = url;
         return a;
     };
-    var encode_uri_components = function (uri) {
+    exports.encode_uri_components = function (uri) {
         /**
          * encode just the components of a multi-segment uri,
          * leaving '/' separators
          */
         return uri.split('/').map(encodeURIComponent).join('/');
     };
-    var url_join_encode = function () {
+    exports.url_join_encode = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
         /**
          * join a sequence of url components with '/',
          * encoding each component with encodeURIComponent
          */
-        return encode_uri_components(url_path_join.apply(null, arguments));
+        return exports.encode_uri_components(exports.url_path_join.apply(null, args));
     };
-    var splitext = function (filename) {
+    exports.splitext = function (filename) {
         /**
          * mimic Python os.path.splitext
          * Returns ['base', '.ext']
@@ -422,13 +436,13 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
             return [filename, ''];
         }
     };
-    var escape_html = function (text) {
+    exports.escape_html = function (text) {
         /**
          * escape text to HTML
          */
         return $("<div/>").text(text).html();
     };
-    var get_body_data = function (key) {
+    exports.get_body_data = function (key) {
         /**
          * get a url-encoded item from body.data and decode it
          * we should never have any encoded URLs anywhere else in code
@@ -439,7 +453,7 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
             return val;
         return decodeURIComponent(val);
     };
-    var to_absolute_cursor_pos = function (cm, cursor) {
+    exports.to_absolute_cursor_pos = function (cm, cursor) {
         /**
          * get the absolute cursor position from CodeMirror's col, ch
          */
@@ -452,7 +466,7 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
         }
         return cursor_pos;
     };
-    var from_absolute_cursor_pos = function (cm, cursor_pos) {
+    exports.from_absolute_cursor_pos = function (cm, cursor_pos) {
         /**
          * turn absolute cursor position into CodeMirror col, ch cursor
          */
@@ -477,7 +491,7 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
         };
     };
     // http://stackoverflow.com/questions/2400935/browser-detection-in-javascript
-    var browser = (function () {
+    exports.browser = (function () {
         if (typeof navigator === 'undefined') {
             // navigator undefined in node
             return ['None'];
@@ -490,7 +504,7 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
         return M;
     })();
     // http://stackoverflow.com/questions/11219582/how-to-detect-my-browser-version-and-operating-system-using-javascript
-    var platform = (function () {
+    exports.platform = (function () {
         if (typeof navigator === 'undefined') {
             // navigator undefined in node
             return 'None';
@@ -506,7 +520,7 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
             OSName = "Linux";
         return OSName;
     })();
-    var get_url_param = function (name) {
+    exports.get_url_param = function (name) {
         // get a URL parameter. I cannot believe we actually need this.
         // Based on http://stackoverflow.com/a/25359264/938949
         var match = new RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
@@ -514,20 +528,20 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
             return decodeURIComponent(match[1] || '');
         }
     };
-    var is_or_has = function (a, b) {
+    exports.is_or_has = function (a, b) {
         /**
          * Is b a child of a or a itself?
          */
         return a.has(b).length !== 0 || a.is(b);
     };
-    var is_focused = function (e) {
+    exports.is_focused = function (e) {
         /**
          * Is element e, or one of its children focused?
          */
         e = $(e);
         var target = $(document.activeElement);
         if (target.length > 0) {
-            if (is_or_has(e, target)) {
+            if (exports.is_or_has(e, target)) {
                 return true;
             }
             else {
@@ -538,12 +552,12 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
             return false;
         }
     };
-    var mergeopt = function (_class, options, overwrite) {
+    exports.mergeopt = function (_class, options, overwrite) {
         options = options || {};
         overwrite = overwrite || {};
         return $.extend(true, {}, _class.options_default, options, overwrite);
     };
-    var ajax_error_msg = function (jqXHR) {
+    exports.ajax_error_msg = function (jqXHR) {
         /**
          * Return a JSON error message if there is one,
          * otherwise the basic HTTP status text.
@@ -558,16 +572,16 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
             return jqXHR.statusText;
         }
     };
-    var log_ajax_error = function (jqXHR, status, error) {
+    exports.log_ajax_error = function (jqXHR, status, error) {
         /**
          * log ajax failures with informative messages
          */
         var msg = "API request failed (" + jqXHR.status + "): ";
         console.log(jqXHR);
-        msg += ajax_error_msg(jqXHR);
+        msg += exports.ajax_error_msg(jqXHR);
         console.log(msg);
     };
-    var requireCodeMirrorMode = function (mode, callback, errback) {
+    exports.requireCodeMirrorMode = function (mode, callback, errback) {
         /**
          * find a predefined mode or detect from CM metadata then
          * require and callback with the resolveable mode string: mime or
@@ -592,20 +606,20 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
         }, errback);
     };
     /** Error type for wrapped XHR errors. */
-    var XHR_ERROR = 'XhrError';
+    exports.XHR_ERROR = 'XhrError';
     /**
      * Wraps an AJAX error as an Error object.
      */
-    var wrap_ajax_error = function (jqXHR, status, error) {
-        var wrapped_error = (new Error(ajax_error_msg(jqXHR)));
-        wrapped_error.name = XHR_ERROR;
+    exports.wrap_ajax_error = function (jqXHR, status, error) {
+        var wrapped_error = (new Error(exports.ajax_error_msg(jqXHR)));
+        wrapped_error.name = exports.XHR_ERROR;
         // provide xhr response
         wrapped_error.xhr = jqXHR;
         wrapped_error.xhr_status = status;
         wrapped_error.xhr_error = error;
         return wrapped_error;
     };
-    var promising_ajax = function (url, settings) {
+    exports.promising_ajax = function (url, settings) {
         /**
          * Like $.ajax, but returning an ES6 promise. success and error settings
          * will be ignored.
@@ -616,13 +630,13 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
                 resolve(data);
             };
             settings.error = function (jqXHR, status, error) {
-                log_ajax_error(jqXHR, status, error);
-                reject(wrap_ajax_error(jqXHR, status, error));
+                exports.log_ajax_error(jqXHR, status, error);
+                reject(exports.wrap_ajax_error(jqXHR, status, error));
             };
             $.ajax(url, settings);
         });
     };
-    var WrappedError = function (message, error) {
+    exports.WrappedError = function (message, error) {
         /**
          * Wrappable Error class
          *
@@ -637,7 +651,7 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
             this[properties[i]] = tmp[properties[i]];
         }
         // Keep a stack of the original error messages.
-        if (error instanceof WrappedError) {
+        if (error instanceof exports.WrappedError) {
             this.error_stack = error.error_stack;
         }
         else {
@@ -645,8 +659,8 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
         }
         this.error_stack.push(tmp);
     };
-    WrappedError.prototype = Object.create(Error.prototype, {});
-    var load_class = function (class_name, module_name, registry) {
+    exports.WrappedError.prototype = Object.create(Error.prototype, {});
+    exports.load_class = function (class_name, module_name, registry) {
         /**
          * Tries to load a class
          *
@@ -676,7 +690,7 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
             }
         });
     };
-    var resolve_promises_dict = function (d) {
+    exports.resolve_promises_dict = function (d) {
         /**
          * Resolve a promiseful dictionary.
          * Returns a single Promise.
@@ -694,7 +708,7 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
             return d;
         });
     };
-    var reject = function (message, log) {
+    exports.reject = function (message, log) {
         /**
          * Creates a wrappable Promise rejection function.
          *
@@ -703,13 +717,13 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
          * caused the promise to reject.
          */
         return function (error) {
-            var wrapped_error = new WrappedError(message, error);
+            var wrapped_error = new exports.WrappedError(message, error);
             if (log)
                 console.error(wrapped_error);
             return Promise.reject(wrapped_error);
         };
     };
-    var typeset = function (element, text) {
+    exports.typeset = function (element, text) {
         /**
          * Apply MathJax rendering to an element, and optionally set its text
          *
@@ -735,20 +749,20 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
             return MathJax.Hub.Queue(["Typeset", MathJax.Hub, this]);
         });
     };
-    var time = {};
-    time.milliseconds = {};
-    time.milliseconds.s = 1000;
-    time.milliseconds.m = 60 * time.milliseconds.s;
-    time.milliseconds.h = 60 * time.milliseconds.m;
-    time.milliseconds.d = 24 * time.milliseconds.h;
-    time.thresholds = {
+    exports.time = {};
+    exports.time.milliseconds = {};
+    exports.time.milliseconds.s = 1000;
+    exports.time.milliseconds.m = 60 * exports.time.milliseconds.s;
+    exports.time.milliseconds.h = 60 * exports.time.milliseconds.m;
+    exports.time.milliseconds.d = 24 * exports.time.milliseconds.h;
+    exports.time.thresholds = {
         // moment.js thresholds in milliseconds
-        s: moment.relativeTimeThreshold('s') * time.milliseconds.s,
-        m: moment.relativeTimeThreshold('m') * time.milliseconds.m,
-        h: moment.relativeTimeThreshold('h') * time.milliseconds.h,
-        d: moment.relativeTimeThreshold('d') * time.milliseconds.d,
+        s: moment.relativeTimeThreshold('s') * exports.time.milliseconds.s,
+        m: moment.relativeTimeThreshold('m') * exports.time.milliseconds.m,
+        h: moment.relativeTimeThreshold('h') * exports.time.milliseconds.h,
+        d: moment.relativeTimeThreshold('d') * exports.time.milliseconds.d,
     };
-    time.timeout_from_dt = function (dt) {
+    exports.time.timeout_from_dt = function (dt) {
         /** compute a timeout based on dt
         
         input and output both in milliseconds
@@ -759,54 +773,15 @@ define(["require", "exports", 'jquery'], function (require, exports, $) {
         - 1 minute if in 'minutes ago'
         - 1 hour otherwise
         */
-        if (dt < time.thresholds.s) {
-            return 10 * time.milliseconds.s;
+        if (dt < exports.time.thresholds.s) {
+            return 10 * exports.time.milliseconds.s;
         }
-        else if (dt < time.thresholds.m) {
-            return time.milliseconds.m;
+        else if (dt < exports.time.thresholds.m) {
+            return exports.time.milliseconds.m;
         }
         else {
-            return time.milliseconds.h;
+            return exports.time.milliseconds.h;
         }
-    };
-    var utils = {
-        load_extensions: load_extensions,
-        load_extensions_from_config: load_extensions_from_config,
-        regex_split: regex_split,
-        uuid: uuid,
-        fixConsole: fixConsole,
-        fixCarriageReturn: fixCarriageReturn,
-        autoLinkUrls: autoLinkUrls,
-        points_to_pixels: points_to_pixels,
-        get_body_data: get_body_data,
-        parse_url: parse_url,
-        url_path_split: url_path_split,
-        url_path_join: url_path_join,
-        url_join_encode: url_join_encode,
-        encode_uri_components: encode_uri_components,
-        splitext: splitext,
-        escape_html: escape_html,
-        always_new: always_new,
-        to_absolute_cursor_pos: to_absolute_cursor_pos,
-        from_absolute_cursor_pos: from_absolute_cursor_pos,
-        browser: browser,
-        platform: platform,
-        get_url_param: get_url_param,
-        is_or_has: is_or_has,
-        is_focused: is_focused,
-        mergeopt: mergeopt,
-        ajax_error_msg: ajax_error_msg,
-        log_ajax_error: log_ajax_error,
-        requireCodeMirrorMode: requireCodeMirrorMode,
-        XHR_ERROR: XHR_ERROR,
-        wrap_ajax_error: wrap_ajax_error,
-        promising_ajax: promising_ajax,
-        WrappedError: WrappedError,
-        load_class: load_class,
-        resolve_promises_dict: resolve_promises_dict,
-        reject: reject,
-        typeset: typeset,
-        time: time,
     };
 });
 

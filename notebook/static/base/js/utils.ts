@@ -22,7 +22,7 @@ interface MyWindow extends Window {
     MathJax?
 }
 
-interface MyError extends Error {
+export interface MyError extends Error {
     xhr?
     xhr_status?
     xhr_error?
@@ -36,20 +36,22 @@ declare var MathJax
 // figure out the following
 // import modemeta = require('codemirror/mode/meta')
 
-    
-    var load_extensions = function () {
-        // load one or more Jupyter notebook extensions with requirejs
+   
+    /**
+     * load one or more Jupyter notebook extensions with requirejs
+     **/
+    export var load_extensions = function (...exts):void {
         
         var extensions = [];
-        var extension_names = arguments;
+        var extension_names = exts;
         for (var i = 0; i < extension_names.length; i++) {
-            extensions.push("nbextensions/" + arguments[i]);
+            extensions.push("nbextensions/" + exts[i]);
         }
         
         require(extensions,
             function () {
-                for (var i = 0; i < arguments.length; i++) {
-                    var ext = arguments[i];
+                for (var i = 0; i < exts.length; i++) {
+                    var ext = exts[i];
                     var ext_name = extension_names[i];
                     // success callback
                     console.log("Loaded extension: " + ext_name);
@@ -69,7 +71,7 @@ declare var MathJax
      * Wait for a config section to load, and then load the extensions specified
      * in a 'load_extensions' key inside it.
      */
-    function load_extensions_from_config(section) {
+    function load_extensions_from_config(section):void {
         section.loaded.then(function() {
             if (section.data.load_extensions) {
                 var nbextension_paths = Object.getOwnPropertyNames(
@@ -121,7 +123,7 @@ declare var MathJax
      * regex_split('..word1 word2..', /([a-z]+)(\d+)/i);
      * // -> ['..', 'word', '1', ' ', 'word', '2', '..']
      */
-    var regex_split = function (str, separator, limit) {
+    export var regex_split = function (str, separator, limit) {
         var output = [],
             flags = (separator.ignoreCase ? "i" : "") +
                     (separator.multiline  ? "m" : "") +
@@ -191,7 +193,7 @@ declare var MathJax
     //============================================================================
 
 
-    var uuid = function () {
+    export var uuid = function ():string {
         /**
          * http://www.ietf.org/rfc/rfc4122.txt
          */
@@ -209,8 +211,8 @@ declare var MathJax
 
 
     //Fix raw text to parse correctly in crazy XML
-    function xmlencode(string) {
-        return string.replace(/\&/g,'&'+'amp;')
+    function xmlencode(str:string):string {
+        return str.replace(/\&/g,'&'+'amp;')
             .replace(/</g,'&'+'lt;')
             .replace(/>/g,'&'+'gt;')
             .replace(/\'/g,'&'+'apos;')
@@ -220,7 +222,7 @@ declare var MathJax
 
 
     //Map from terminal commands to CSS classes
-    var ansi_colormap = {
+    export var ansi_colormap = {
         "01":"ansibold",
         
         "30":"ansiblack",
@@ -242,7 +244,7 @@ declare var MathJax
         "47":"ansibggray"
     };
     
-    function _process_numbers(attrs, numbers) {
+    function _process_numbers(attrs, numbers:string[]) {
         // process ansi escapes
         var n = numbers.shift();
         if (ansi_colormap[n]) {
@@ -322,7 +324,7 @@ declare var MathJax
         }
     }
 
-    function ansispan(str) {
+    function ansispan(str:string):string {
         // ansispan function adapted from github.com/mmalecki/ansispan (MIT License)
         // regular ansi escapes (using the table above)
         var is_open = false;
@@ -357,7 +359,7 @@ declare var MathJax
     // Transform ANSI color escape codes into HTML <span> tags with css
     // classes listed in the above ansi_colormap object. The actual color used
     // are set in the css file.
-    function fixConsole(txt) {
+    function fixConsole(txt:string):string {
         txt = xmlencode(txt);
 
         // Strip all ANSI codes that are not color related.  Matches
@@ -383,12 +385,12 @@ declare var MathJax
     }
 
     // Locate any URLs and convert them to a anchor tag
-    function autoLinkUrls(txt) {
+    function autoLinkUrls(txt:string):string {
         return txt.replace(/(^|\s)(https?|ftp)(:[^'">\s]+)/gi,
             "$1<a target=\"_blank\" href=\"$2$3\">$2$3</a>");
     }
 
-    var points_to_pixels = function (points) {
+    export var points_to_pixels = function (points:number):number {
         /**
          * A reasonably good way of converting between points and pixels.
          */
@@ -399,7 +401,7 @@ declare var MathJax
         return Math.floor(points*pixel_per_point);
     };
     
-    var always_new = function (constructor) {
+    export var always_new = function (constructor) {
         /**
          * wrapper around contructor to avoid requiring `var a = new constructor()`
          * useful for passing constructors as callbacks,
@@ -413,26 +415,26 @@ declare var MathJax
         };
     };
 
-    var url_path_join = function () {
+    export var url_path_join = function (...paths:string[]):string {
         /**
          * join a sequence of url components with '/'
          */
         var url = '';
-        for (var i = 0; i < arguments.length; i++) {
-            if (arguments[i] === '') {
+        for (var i = 0; i < paths.length; i++) {
+            if (paths[i] === '') {
                 continue;
             }
             if (url.length > 0 && url[url.length-1] != '/') {
-                url = url + '/' + arguments[i];
+                url = url + '/' + paths[i];
             } else {
-                url = url + arguments[i];
+                url = url + paths[i];
             }
         }
         url = url.replace(/\/\/+/, '/');
         return url;
     };
     
-    var url_path_split = function (path) {
+    export var url_path_split = function (path:string):string[] {
         /**
          * Like os.path.split for URLs.
          * Always returns two strings, the directory path and the base filename
@@ -446,7 +448,7 @@ declare var MathJax
         }
     };
     
-    var parse_url = function (url) {
+    export var parse_url = function (url:string) {
         /**
          * an `a` element with an href allows attr-access to the parsed segments of a URL
          * a = parse_url("http://localhost:8888/path/name#hash")
@@ -462,7 +464,7 @@ declare var MathJax
         return a;
     };
     
-    var encode_uri_components = function (uri) {
+    export var encode_uri_components = function (uri:string):string {
         /**
          * encode just the components of a multi-segment uri,
          * leaving '/' separators
@@ -470,16 +472,16 @@ declare var MathJax
         return uri.split('/').map(encodeURIComponent).join('/');
     };
     
-    var url_join_encode = function () {
+    export var url_join_encode = function (...args):string {
         /**
          * join a sequence of url components with '/',
          * encoding each component with encodeURIComponent
          */
-        return encode_uri_components(url_path_join.apply(null, arguments));
+        return encode_uri_components(url_path_join.apply(null, args));
     };
 
 
-    var splitext = function (filename) {
+    export var splitext = function (filename:string):string[] {
         /**
          * mimic Python os.path.splitext
          * Returns ['base', '.ext']
@@ -493,7 +495,7 @@ declare var MathJax
     };
 
 
-    var escape_html = function (text) {
+    export var escape_html = function (text:string):string {
         /**
          * escape text to HTML
          */
@@ -501,7 +503,7 @@ declare var MathJax
     };
 
 
-    var get_body_data = function(key) {
+    export var get_body_data = function(key:string):string {
         /**
          * get a url-encoded item from body.data and decode it
          * we should never have any encoded URLs anywhere else in code
@@ -513,7 +515,7 @@ declare var MathJax
         return decodeURIComponent(val);
     };
     
-    var to_absolute_cursor_pos = function (cm, cursor) {
+    export var to_absolute_cursor_pos = function (cm, cursor):number {
         /**
          * get the absolute cursor position from CodeMirror's col, ch
          */
@@ -527,7 +529,7 @@ declare var MathJax
         return cursor_pos;
     };
     
-    var from_absolute_cursor_pos = function (cm, cursor_pos) {
+    export var from_absolute_cursor_pos = function (cm, cursor_pos) {
         /**
          * turn absolute cursor position into CodeMirror col, ch cursor
          */
@@ -552,7 +554,7 @@ declare var MathJax
     };
     
     // http://stackoverflow.com/questions/2400935/browser-detection-in-javascript
-    var browser = (function() {
+    export var browser:string[] = (function() {
         if (typeof navigator === 'undefined') {
             // navigator undefined in node
             return ['None'];
@@ -565,7 +567,7 @@ declare var MathJax
     })();
 
     // http://stackoverflow.com/questions/11219582/how-to-detect-my-browser-version-and-operating-system-using-javascript
-    var platform = (function () {
+    export var platform:string = (function () {
         if (typeof navigator === 'undefined') {
             // navigator undefined in node
             return 'None';
@@ -578,7 +580,7 @@ declare var MathJax
         return OSName;
     })();
     
-    var get_url_param = function (name) {
+    export var get_url_param = function (name:string):string {
         // get a URL parameter. I cannot believe we actually need this.
         // Based on http://stackoverflow.com/a/25359264/938949
         var match = new RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
@@ -587,14 +589,14 @@ declare var MathJax
         }
     };
     
-    var is_or_has = function (a, b) {
+    export var is_or_has = function (a, b):boolean {
         /**
          * Is b a child of a or a itself?
          */
         return a.has(b).length !==0 || a.is(b);
     };
 
-    var is_focused = function (e) {
+    export var is_focused = function (e) {
         /**
          * Is element e, or one of its children focused?
          */
@@ -611,13 +613,13 @@ declare var MathJax
         }
     };
     
-    var mergeopt = function(_class, options, overwrite){
+    export var mergeopt = function(_class, options, overwrite){
         options = options || {};
         overwrite = overwrite || {};
         return $.extend(true, {}, _class.options_default, options, overwrite);
     };
     
-    var ajax_error_msg = function (jqXHR) {
+    export var ajax_error_msg = function (jqXHR) {
         /**
          * Return a JSON error message if there is one,
          * otherwise the basic HTTP status text.
@@ -630,7 +632,8 @@ declare var MathJax
             return jqXHR.statusText;
         }
     };
-    var log_ajax_error = function (jqXHR, status, error) {
+    
+    export var log_ajax_error = function(jqXHR, status, error) {
         /**
          * log ajax failures with informative messages
          */
@@ -638,9 +641,9 @@ declare var MathJax
         console.log(jqXHR);
         msg += ajax_error_msg(jqXHR);
         console.log(msg);
-    };
+    }
 
-    var requireCodeMirrorMode = function (mode, callback, errback) {
+    export var requireCodeMirrorMode = function (mode, callback, errback) {
         /** 
          * find a predefined mode or detect from CM metadata then
          * require and callback with the resolveable mode string: mime or
@@ -677,12 +680,12 @@ declare var MathJax
     };
     
     /** Error type for wrapped XHR errors. */
-    var XHR_ERROR = 'XhrError';
+    export var XHR_ERROR = 'XhrError';
     
     /**
      * Wraps an AJAX error as an Error object.
      */
-    var wrap_ajax_error = function (jqXHR, status, error) {
+    export var wrap_ajax_error = function (jqXHR, status, error) {
         var wrapped_error = <MyError>(new Error(ajax_error_msg(jqXHR)));
         wrapped_error.name =  XHR_ERROR;
         // provide xhr response
@@ -692,7 +695,7 @@ declare var MathJax
         return wrapped_error;
     };
     
-    var promising_ajax = function(url, settings) {
+    export var promising_ajax = function(url, settings) {
         /**
          * Like $.ajax, but returning an ES6 promise. success and error settings
          * will be ignored.
@@ -710,7 +713,7 @@ declare var MathJax
         });
     };
 
-    var WrappedError = function(message, error){
+    export var WrappedError = function(message, error){
         /**
          * Wrappable Error class
          *
@@ -738,7 +741,7 @@ declare var MathJax
     WrappedError.prototype = Object.create(Error.prototype, {});
 
 
-    var load_class = function(class_name, module_name, registry) {
+    export var load_class = function(class_name, module_name, registry) {
         /**
          * Tries to load a class
          *
@@ -767,7 +770,7 @@ declare var MathJax
         });
     };
 
-    var resolve_promises_dict = function(d) {
+    export var resolve_promises_dict = function(d) {
         /**
          * Resolve a promiseful dictionary.
          * Returns a single Promise.
@@ -786,7 +789,7 @@ declare var MathJax
         });
     };
 
-    var reject = function(message, log) {
+    export var reject = function(message, log) {
         /**
          * Creates a wrappable Promise rejection function.
          * 
@@ -801,7 +804,7 @@ declare var MathJax
         };
     };
 
-    var typeset = function(element, text) {
+    export var typeset = function(element, text) {
         /**
          * Apply MathJax rendering to an element, and optionally set its text
          *
@@ -828,7 +831,7 @@ declare var MathJax
         });
     };
     
-    var time:any = {};
+    export var time:any = {};
     time.milliseconds = {};
     time.milliseconds.s = 1000;
     time.milliseconds.m = 60 * time.milliseconds.s;
@@ -862,44 +865,3 @@ declare var MathJax
             return time.milliseconds.h;
         }
     };
-    
-    var utils = {
-        load_extensions: load_extensions,
-        load_extensions_from_config: load_extensions_from_config,
-        regex_split : regex_split,
-        uuid : uuid,
-        fixConsole : fixConsole,
-        fixCarriageReturn : fixCarriageReturn,
-        autoLinkUrls : autoLinkUrls,
-        points_to_pixels : points_to_pixels,
-        get_body_data : get_body_data,
-        parse_url : parse_url,
-        url_path_split : url_path_split,
-        url_path_join : url_path_join,
-        url_join_encode : url_join_encode,
-        encode_uri_components : encode_uri_components,
-        splitext : splitext,
-        escape_html : escape_html,
-        always_new : always_new,
-        to_absolute_cursor_pos : to_absolute_cursor_pos,
-        from_absolute_cursor_pos : from_absolute_cursor_pos,
-        browser : browser,
-        platform: platform,
-        get_url_param: get_url_param,
-        is_or_has : is_or_has,
-        is_focused : is_focused,
-        mergeopt: mergeopt,
-        ajax_error_msg : ajax_error_msg,
-        log_ajax_error : log_ajax_error,
-        requireCodeMirrorMode : requireCodeMirrorMode,
-        XHR_ERROR : XHR_ERROR,
-        wrap_ajax_error : wrap_ajax_error,
-        promising_ajax : promising_ajax,
-        WrappedError: WrappedError,
-        load_class: load_class,
-        resolve_promises_dict: resolve_promises_dict,
-        reject: reject,
-        typeset: typeset,
-        time: time,
-    };
-
