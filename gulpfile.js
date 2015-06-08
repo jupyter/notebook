@@ -80,8 +80,7 @@ apps.map(function (name) {
     ];
     ////////////////
     var tsResult = gulp.src([
-                        path.join(s, "services", '*.ts'),
-                        path.join(s, "services", "sessions", '*.ts'),
+                        path.join(s, "**", '*.ts'),
                         'typings/*.d.ts',
                         'typings/*/**.d.ts'
                         ], {base: './'})
@@ -139,13 +138,20 @@ gulp.task('watch', function() {
   function alljs(name) {
     return path.join(s, name, '**', '*.js');
   }
+  function allts(name) {
+    return path.join(s, '**', '*.ts');
+  }
   var common_js = ['components', 'base', 'auth', 'services'].map(alljs);
   
   gulp.watch(common_js, ['js']);
   apps.map(function (name) {
     gulp.watch([
       alljs(name),
+      allts(name),
       '!' + path.join(s, name, 'js', 'main.min.js'),
     ], [name + '-js']);
   });
 });
+
+
+
