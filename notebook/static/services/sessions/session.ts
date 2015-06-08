@@ -27,10 +27,10 @@ export class Session {
     id
     notebook_model
     kernel_model
-    base_url
-    ws_url
-    session_service_url
-    session_url
+    base_url:string
+    ws_url:string
+    session_service_url:string
+    session_url:string
     events
     notebook
     kernel
