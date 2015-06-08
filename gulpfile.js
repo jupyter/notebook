@@ -84,7 +84,7 @@ apps.map(function (name) {
                         path.join(s, "services", "sessions", '*.ts'),
                         'typings/*.d.ts',
                         'typings/*/**.d.ts'
-                        ])
+                        ], {base: './'})
                        .pipe(sourcemaps.init())
                        .pipe(ts(tsProject));
     return merge([
@@ -92,7 +92,7 @@ apps.map(function (name) {
         tsResult.js
             .pipe(insert.prepend('// AUTOMATICALY GENERATED FILE, see cooresponding .ts file\n'))
             .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest(path.join(s, "services")))
+            .pipe(gulp.dest('./'))
     ]);
 
     ////////////////
