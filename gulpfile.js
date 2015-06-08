@@ -81,6 +81,7 @@ apps.map(function (name) {
     ////////////////
     var tsResult = gulp.src([
                         path.join(s, "services", '*.ts'),
+                        path.join(s, "services", "sessions", '*.ts'),
                         'typings/*.d.ts',
                         'typings/*/**.d.ts'
                         ])
