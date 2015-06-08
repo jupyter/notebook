@@ -1,6 +1,7 @@
 // AUTOMATICALY GENERATED FILE, see cooresponding .ts file
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
+"use strict";
 define(["require", "exports", 'jquery', 'base/js/utils', 'services/kernels/kernel'], function (require, exports, $, utils, kernel) {
     /**
      * Error type indicating that the session is already starting.
@@ -10,11 +11,13 @@ define(["require", "exports", 'jquery', 'base/js/utils', 'services/kernels/kerne
         this.message = (message || "");
     };
     exports.SessionAlreadyStarting.prototype = Error.prototype;
+    /**
+     * Session object for accessing the session REST api. The session
+     * should be used to start kernels and then shut them down -- for
+     * all other operations, the kernel object should be used.
+     **/
     var Session = (function () {
         /**
-         * Session object for accessing the session REST api. The session
-         * should be used to start kernels and then shut them down -- for
-         * all other operations, the kernel object should be used.
          *
          * Options should include:
          *  - notebook_path: the path (not including name) to the notebook

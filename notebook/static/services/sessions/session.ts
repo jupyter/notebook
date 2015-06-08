@@ -1,6 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
+"use strict";
 
 import $ = require('jquery')
 import utils = require('base/js/utils')
@@ -16,9 +17,12 @@ export var SessionAlreadyStarting = function (message) {
 
 SessionAlreadyStarting.prototype = Error.prototype;
 
-
+/**
+ * Session object for accessing the session REST api. The session
+ * should be used to start kernels and then shut them down -- for
+ * all other operations, the kernel object should be used.
+ **/
 export class Session {
-    "use strict";
 
     id
     notebook_model
@@ -34,9 +38,6 @@ export class Session {
 
 
     /**
-     * Session object for accessing the session REST api. The session
-     * should be used to start kernels and then shut them down -- for
-     * all other operations, the kernel object should be used.
      *
      * Options should include:
      *  - notebook_path: the path (not including name) to the notebook
