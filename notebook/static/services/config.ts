@@ -1,13 +1,22 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define([
-    'jquery',
-    'base/js/utils',
-    ],
-function($, utils) {
-    "use strict";
-    var ConfigSection = function(section_name, options) {
+
+import $ = require('jquery');
+import utils = require('base/js/utils');
+
+"use strict";
+
+export class ConfigSection {
+
+    section_name
+    base_url
+    data
+    loaded
+    _one_load_finished
+    _finish_firstload
+
+    constructor(section_name, options) {
         this.section_name = section_name;
         this.base_url = options.base_url;
         this.data = {};
@@ -22,20 +31,20 @@ function($, utils) {
         this.loaded = new Promise(function(resolve, reject) {
             that._finish_firstload = resolve;
         });
-    };
+    }
 
-    ConfigSection.prototype.api_url = function() {
+    public api_url() {
         return utils.url_join_encode(this.base_url, 'api/config', this.section_name);
-    };
+    }
     
-    ConfigSection.prototype._load_done = function() {
+    private _load_done() {
         if (!this._one_load_finished) {
             this._one_load_finished = true;
             this._finish_firstload();
         }
-    };
+    }
     
-    ConfigSection.prototype.load = function() {
+    public load() {
         var that = this;
         return utils.promising_ajax(this.api_url(), {
             cache: false,
@@ -46,14 +55,14 @@ function($, utils) {
             that._load_done();
             return data;
         });
-    };
+    }
     
     /**
      * Modify the config values stored. Update the local data immediately,
      * send the change to the server, and use the updated data from the server
      * when the reply comes.
      */
-    ConfigSection.prototype.update = function(newdata) {
+    public update(newdata) {
         $.extend(true, this.data, newdata);  // true -> recursive update
         
         var that = this;
@@ -68,41 +77,48 @@ function($, utils) {
             that._load_done();
             return data;
         });
-    };
+    }
+
+}
+
+export class ConfigWithDefaults {
+
+    section
+    defaults
+    classname
     
-    
-    var ConfigWithDefaults = function(section, defaults, classname) {
+    constructor(section, defaults, classname) {
         this.section = section;
         this.defaults = defaults;
         this.classname = classname;
-    };
+    }
     
-    ConfigWithDefaults.prototype._class_data = function() {
+    private _class_data() {
         if (this.classname) {
             return this.section.data[this.classname] || {};
         } else {
             return this.section.data
         }
-    };
+    }
     
     /**
      * Wait for config to have loaded, then get a value or the default.
      * Returns a promise.
      */
-    ConfigWithDefaults.prototype.get = function(key) {
+    public get(key) {
         var that = this;
         return this.section.loaded.then(function() {
             return this._class_data()[key] || this.defaults[key]
         });
-    };
+    }
     
     /**
      * Return a config value. If config is not yet loaded, return the default
      * instead of waiting for it to load.
      */
-    ConfigWithDefaults.prototype.get_sync = function(key) {
+    public get_sync(key) {
         return this._class_data()[key] || this.defaults[key];
-    };
+    }
     
     /**
      * Set a config value. Send the update to the server, and change our
@@ -110,7 +126,7 @@ function($, utils) {
      * Returns a promise which is fulfilled when the server replies to the
      * change.
      */
-     ConfigWithDefaults.prototype.set = function(key, value) {
+    public set(key, value) {
          var d = {};
          d[key] = value;
          if (this.classname) {
@@ -120,10 +136,7 @@ function($, utils) {
         } else {
             return this.section.update(d);
         }
-    };
+    }
     
-    return {ConfigSection: ConfigSection,
-            ConfigWithDefaults: ConfigWithDefaults,
-           };
 
-});
+}
