@@ -13,8 +13,8 @@ export class ConfigSection {
     base_url:string
     data:any
     loaded:Promise<any>
-    _one_load_finished:boolean
-    _finish_firstload:()=>any
+    private _one_load_finished:boolean
+    private _finish_firstload:()=>any
 
     constructor(section_name:string, options) {
         this.section_name = section_name;
