@@ -5,8 +5,7 @@
 import $ = require('jquery')
 
 
-/// <amd-dependency path=”codemirror/lib/codemirror”/>
-var moment = require('moment')
+import moment = require('moment')
 
 
 /// <amd-dependency path=”codemirror/lib/codemirror”/>

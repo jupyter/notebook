@@ -1,9 +1,7 @@
 // AUTOMATICALY GENERATED FILE, see cooresponding .ts file
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-define(["require", "exports", 'jquery'], function (require, exports, $) {
-    /// <amd-dependency path=”codemirror/lib/codemirror”/>
-    var moment = require('moment');
+define(["require", "exports", 'jquery', 'moment'], function (require, exports, $, moment) {
     /// <amd-dependency path=”codemirror/lib/codemirror”/>
     var CodeMirror = require('codemirror/lib/codemirror');
     /// <amd-dependency path=”codemirror/mode/meta”/>
