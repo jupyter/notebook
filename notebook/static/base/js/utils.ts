@@ -8,7 +8,9 @@ import $ = require('jquery')
 import moment = require('moment')
 
 
-declare var MathJax
+export interface MathJax {}
+
+declare var MathJax:Mathjax
 
 var CodeMirror = require("codemirror/lib/codemirror");
 var CodeMirrorModeMeta = require('codemirror/mode/meta')
@@ -16,7 +18,7 @@ var CodeMirrorModeMeta = require('codemirror/mode/meta')
 
 
 interface MyWindow extends Window {
-    MathJax?
+    MathJax?:MathJax
 }
 
 export interface MyError extends Error {
@@ -816,7 +818,7 @@ export interface MyError extends Error {
         }
         return $el.map(function(){
             // MathJax takes a DOM node: $.map makes `this` the context
-            return MathJax.Hub.Queue(["Typeset", MathJax.Hub, this]);
+            return window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, this]);
         });
     };
     

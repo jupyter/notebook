@@ -34,10 +34,10 @@ export class DirectoryNotEmptyError implements Error {
 };
 
 export interface Opt {
-    type?
-    format?
+    type?:string
+    format?:string
     content?
-    ext?
+    ext?:string
 }
 
 // import already written interface from Jupyter-drive. 

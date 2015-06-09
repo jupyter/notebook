@@ -11,7 +11,7 @@ declare module "base/js/dialog" {
 
 declare module "services/kernels/kernel" {
     export class Kernel {
-        constructor(kernel_service_url, ws_url, name)
+        constructor(kernel_service_url:string, ws_url:string, name:string)
     
     }
 

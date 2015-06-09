@@ -22,6 +22,7 @@ var ts = require('gulp-typescript');
 var tsProject = ts.createProject({
     declarationFiles: true,
     noExternalResolve: false,
+    noImplicitAny: true,
     sortOutput: true,
     target: 'ES5',
     module: 'amd',
