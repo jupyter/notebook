@@ -36,14 +36,14 @@ define(["require", "exports", 'jquery', 'moment', "codemirror/mode/meta", "codem
      * Wait for a config section to load, and then load the extensions specified
      * in a 'load_extensions' key inside it.
      */
-    function load_extensions_from_config(section) {
+    exports.load_extensions_from_config = function (section) {
         section.loaded.then(function () {
             if (section.data.load_extensions) {
                 var nbextension_paths = Object.getOwnPropertyNames(section.data.load_extensions);
                 exports.load_extensions.apply(this, nbextension_paths);
             }
         });
-    }
+    };
     //============================================================================
     // Cross-browser RegEx Split
     //============================================================================
@@ -157,9 +157,9 @@ define(["require", "exports", 'jquery', 'moment', "codemirror/mode/meta", "codem
         return uuid;
     };
     //Fix raw text to parse correctly in crazy XML
-    function xmlencode(str) {
+    exports.xmlencode = function (str) {
         return str.replace(/\&/g, '&' + 'amp;').replace(/</g, '&' + 'lt;').replace(/>/g, '&' + 'gt;').replace(/\'/g, '&' + 'apos;').replace(/\"/g, '&' + 'quot;').replace(/`/g, '&' + '#96;');
-    }
+    };
     //Map from terminal commands to CSS classes
     exports.ansi_colormap = {
         "01": "ansibold",
@@ -267,7 +267,7 @@ define(["require", "exports", 'jquery', 'moment', "codemirror/mode/meta", "codem
             }
         }
     }
-    function ansispan(str) {
+    exports.ansispan = function (str) {
         // ansispan function adapted from github.com/mmalecki/ansispan (MIT License)
         // regular ansi escapes (using the table above)
         var is_open = false;
@@ -297,23 +297,23 @@ define(["require", "exports", 'jquery', 'moment', "codemirror/mode/meta", "codem
                 return span + ">";
             }
         });
-    }
+    };
     // Transform ANSI color escape codes into HTML <span> tags with css
     // classes listed in the above ansi_colormap object. The actual color used
     // are set in the css file.
-    function fixConsole(txt) {
-        txt = xmlencode(txt);
+    exports.fixConsole = function (txt) {
+        txt = exports.xmlencode(txt);
         // Strip all ANSI codes that are not color related.  Matches
         // all ANSI codes that do not end with "m".
         var ignored_re = /(?=(\033\[[\d;=]*[a-ln-zA-Z]{1}))\1(?!m)/g;
         txt = txt.replace(ignored_re, "");
         // color ansi codes
-        txt = ansispan(txt);
+        txt = exports.ansispan(txt);
         return txt;
-    }
+    };
     // Remove chunks that should be overridden by the effect of
     // carriage return characters
-    function fixCarriageReturn(txt) {
+    exports.fixCarriageReturn = function (txt) {
         var tmp = txt;
         do {
             txt = tmp;
@@ -321,11 +321,11 @@ define(["require", "exports", 'jquery', 'moment', "codemirror/mode/meta", "codem
             tmp = tmp.replace(/^.*\r+/gm, ''); // Other \r --> clear line
         } while (tmp.length < txt.length);
         return txt;
-    }
+    };
     // Locate any URLs and convert them to a anchor tag
-    function autoLinkUrls(txt) {
+    exports.autoLinkUrls = function (txt) {
         return txt.replace(/(^|\s)(https?|ftp)(:[^'">\s]+)/gi, "$1<a target=\"_blank\" href=\"$2$3\">$2$3</a>");
-    }
+    };
     exports.points_to_pixels = function (points) {
         /**
          * A reasonably good way of converting between points and pixels.

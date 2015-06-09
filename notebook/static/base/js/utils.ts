@@ -60,7 +60,7 @@ export interface MyError extends Error {
      * Wait for a config section to load, and then load the extensions specified
      * in a 'load_extensions' key inside it.
      */
-    function load_extensions_from_config(section):void {
+    export var load_extensions_from_config = function(section):void {
         section.loaded.then(function() {
             if (section.data.load_extensions) {
                 var nbextension_paths = Object.getOwnPropertyNames(
@@ -200,7 +200,7 @@ export interface MyError extends Error {
 
 
     //Fix raw text to parse correctly in crazy XML
-    function xmlencode(str:string):string {
+    export var xmlencode = function(str:string):string {
         return str.replace(/\&/g,'&'+'amp;')
             .replace(/</g,'&'+'lt;')
             .replace(/>/g,'&'+'gt;')
@@ -313,7 +313,7 @@ export interface MyError extends Error {
         }
     }
 
-    function ansispan(str:string):string {
+    export var ansispan = function(str:string):string {
         // ansispan function adapted from github.com/mmalecki/ansispan (MIT License)
         // regular ansi escapes (using the table above)
         var is_open = false;
@@ -348,7 +348,7 @@ export interface MyError extends Error {
     // Transform ANSI color escape codes into HTML <span> tags with css
     // classes listed in the above ansi_colormap object. The actual color used
     // are set in the css file.
-    function fixConsole(txt:string):string {
+    export var fixConsole = function(txt:string):string {
         txt = xmlencode(txt);
 
         // Strip all ANSI codes that are not color related.  Matches
@@ -363,7 +363,7 @@ export interface MyError extends Error {
 
     // Remove chunks that should be overridden by the effect of
     // carriage return characters
-    function fixCarriageReturn(txt) {
+    export var fixCarriageReturn = function(txt) {
         var tmp = txt;
         do {
             txt = tmp;
@@ -374,7 +374,7 @@ export interface MyError extends Error {
     }
 
     // Locate any URLs and convert them to a anchor tag
-    function autoLinkUrls(txt:string):string {
+    export var autoLinkUrls = function(txt:string):string {
         return txt.replace(/(^|\s)(https?|ftp)(:[^'">\s]+)/gi,
             "$1<a target=\"_blank\" href=\"$2$3\">$2$3</a>");
     }
