@@ -1752,7 +1752,7 @@ define(function (require) {
      * @return {string} This notebook's name (excluding file extension)
      */
     Notebook.prototype.get_notebook_name = function () {
-        var nbname = this.notebook_name.substring(0,this.notebook_name.length-6);
+        var nbname = utils.splitext(this.notebook_name)[0];
         return nbname;
     };
 
@@ -2101,8 +2101,9 @@ define(function (require) {
      * Returns the filename with the appropriate extension, appending if necessary.
      */
     Notebook.prototype.ensure_extension = function (name) {
-        if (!name.match(/\.ipynb$/)) {
-            name = name + ".ipynb";
+        var ext = utils.splitext(this.notebook_path)[1];
+        if (ext.length && name.slice(-ext.length) !== ext) {
+            name = name + ext;
         }
         return name;
     };
