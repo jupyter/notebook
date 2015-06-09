@@ -2,20 +2,18 @@
 // Distributed under the terms of the Modified BSD License.
 
 
+/// <amd-dependency path="codemirror/mode/meta" name="CodeMirrorModeMeta"/>
+/// <amd-dependency path="codemirror/lib/codemirror" name="CodeMirror"/>
 import $ = require('jquery')
-
-
 import moment = require('moment')
 
 
-/// <amd-dependency path=”codemirror/lib/codemirror”/>
-var CodeMirror = require('codemirror/lib/codemirror')
+declare var MathJax
 
-/// <amd-dependency path=”codemirror/mode/meta”/>
-var CodeMirrorModeMeta = require('codemirror/lib/codemirror')
+var CodeMirror = require("codemirror/lib/codemirror");
+var CodeMirrorModeMeta = require('codemirror/mode/meta')
 
 
-declare var CodeMirrorModeMeta;
 
 interface MyWindow extends Window {
     MathJax?
@@ -28,14 +26,6 @@ export interface MyError extends Error {
 }
 
 
-declare var MathJax
-
-// import moment = require('moment')
-
-// figure out the following
-// import modemeta = require('codemirror/mode/meta')
-
-   
     /**
      * load one or more Jupyter notebook extensions with requirejs
      **/

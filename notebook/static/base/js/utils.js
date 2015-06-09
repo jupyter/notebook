@@ -1,14 +1,9 @@
 // AUTOMATICALY GENERATED FILE, see cooresponding .ts file
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-define(["require", "exports", 'jquery', 'moment'], function (require, exports, $, moment) {
-    /// <amd-dependency path=”codemirror/lib/codemirror”/>
-    var CodeMirror = require('codemirror/lib/codemirror');
-    /// <amd-dependency path=”codemirror/mode/meta”/>
-    var CodeMirrorModeMeta = require('codemirror/lib/codemirror');
-    // import moment = require('moment')
-    // figure out the following
-    // import modemeta = require('codemirror/mode/meta')
+define(["require", "exports", 'jquery', 'moment', "codemirror/mode/meta", "codemirror/lib/codemirror"], function (require, exports, $, moment) {
+    var CodeMirror = require("codemirror/lib/codemirror");
+    var CodeMirrorModeMeta = require('codemirror/mode/meta');
     /**
      * load one or more Jupyter notebook extensions with requirejs
      **/
