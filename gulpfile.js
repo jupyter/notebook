@@ -5,7 +5,6 @@ var path = require('path');
 var through = require('through');
 var gulp = require('gulp');
 var less = require('gulp-less');
-var minifyCSS = require('gulp-minify-css');
 var newer = require('gulp-newer');
 var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
@@ -19,7 +18,7 @@ gulp.task('css', function () {
     .pipe(less({
       paths: [ path.join(__dirname, 'less', 'includes') ]
     }))
-    .pipe(minifyCSS({restructuring: false}))
+    // we don't minify on purpose as it removes rules
     .pipe(rename({
             suffix: '.min'
         }))
