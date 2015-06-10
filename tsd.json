@@ -1,0 +1,15 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "typings",
+  "bundle": "typings/tsd.d.ts",
+  "installed": {
+    "codemirror/codemirror.d.ts": {
+      "commit": "8ebc099072402b1a80d205c3eece59bed963ad87"
+    },
+    "moment/moment.d.ts": {
+      "commit": "8ebc099072402b1a80d205c3eece59bed963ad87"
+    }
+  }
+}
