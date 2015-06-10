@@ -385,10 +385,19 @@ define([
         if( typeof(shortcut) === 'string'){
             shortcut = shortcut.split(',');
         }
-        this._remove_leaf(shortcut, this._shortcuts);
-        if (!suppress_help_update) {
+        /*
+         *  The shortcut error should be explicit here, because it will be
+         *  seen by users.
+         */
+        try
+        {
+          this._remove_leaf(shortcut, this._shortcuts);
+          if (!suppress_help_update) {
             // update the keyboard shortcuts notebook help
             this.events.trigger('rebuild.QuickHelp');
+          }
+        } catch (ex) {
+          throw ('try to remove non-existing shortcut');
         }
     };
 
