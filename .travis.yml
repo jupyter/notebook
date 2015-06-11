@@ -1,5 +1,8 @@
 # http://travis-ci.org/#!/ipython/ipython
 language: python
+cache:
+    directories:
+        - ~/.cache/bower
 python:
     - 3.4
     - 2.7
