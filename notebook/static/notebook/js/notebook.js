@@ -1636,7 +1636,7 @@ define(function (require) {
                     "click" : function(){
                         that.clear_all_output();
                         that.kernel.restart();
-                    }
+                    },
                 "Restart" : {
                     "class" : "btn-warning",
                     "click" : function() {
