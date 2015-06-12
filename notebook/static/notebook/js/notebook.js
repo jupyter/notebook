@@ -1943,8 +1943,16 @@ define(function (require) {
                             notebook: that,
                             keyboard_manager: that.keyboard_manager,
                             title: "Notebook changed",
-                            body: "Notebook has changed since we opened it. Overwrite the changed file?",
+                            body: "The notebook file has changed on disk since the last time we opened or saved it. "+
+                                  "Do you want to overwrite the file on disk with the version open here, or load "+
+                                  "the version on disk (reload the page) ?",
                             buttons: {
+                                Reload: {
+                                    class: 'btn-warning',
+                                    click: function() {
+                                        window.location.reload();
+                                    }
+                                },
                                 Cancel: {},
                                 Overwrite: {
                                     class: 'btn-danger',
