@@ -142,7 +142,7 @@ class NotebookWebApplication(web.Application):
             ipython_app, kernel_manager, contents_manager, cluster_manager,
             session_manager, kernel_spec_manager, config_manager, log, base_url,
             default_url, settings_overrides, jinja_env_options)
-        handlers = self.init_handlers(settings)
+        handlers = self.init_handlers(settings, ipython_app)
 
         super(NotebookWebApplication, self).__init__(handlers, **settings)
 
@@ -216,7 +216,7 @@ class NotebookWebApplication(web.Application):
         settings.update(settings_overrides)
         return settings
 
-    def init_handlers(self, settings):
+    def init_handlers(self, settings, ipython_app):
         """Load the (URL pattern, handler) tuples for each component."""
         
         # Order matters. The first handler to match the URL will handle the request.
@@ -249,7 +249,7 @@ class NotebookWebApplication(web.Application):
                 }),
             )
         except:
-            self.log.warn('ipywidgets package not installed.  Widgets are unavailable.')
+            ipython_app.log.warn('ipywidgets package not installed.  Widgets are unavailable.')
         # END HARDCODED WIDGETS HACK
         
         handlers.append(
