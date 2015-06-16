@@ -1,5 +1,18 @@
 ///<reference path="../components/phosphor/dist/phosphor.d.ts"/>
 
+/* TODO:
+
+For executing, need:
+
+* kernelselector
+* session
+* kernel
+* comm
+
+
+*/
+
+
 import nbformat = require("./nbformat");
 import mathjaxutils = require("./mathjaxutils");
 import DOM = phosphor.virtualdom.dom;

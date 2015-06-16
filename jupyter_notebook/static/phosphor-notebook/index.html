@@ -11,6 +11,21 @@
     <!--<link href="build/index.css" rel="stylesheet" type="text/css">-->
     <script src="components/phosphor/dist/phosphor.js"></script>
 
+
+<script>
+  require.config({
+      baseURL: '/static'
+      paths: {
+        session: 'services/sessions/session',
+        
+        kernelspecs : '/kernelspecs',
+        jquery: 'components/jquery/jquery.min',
+      },
+    }
+  });
+</script>
+    
+
     <script>
       require(["./dist/index.js"], function(ind) {
           console.log("finished initialization");
@@ -25,7 +40,6 @@
     </style>
 </head>
 <body>
-    <div id="app"></div>
     <div id="test"></div>
 </body>
 </html>
