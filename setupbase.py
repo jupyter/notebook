@@ -334,7 +334,7 @@ class Bower(Command):
         
         try:
             check_call(
-                ['bower', 'install', '--allow-root', '--config.interactive=false'],
+                ['bower', 'install', '--allow-root', '--config.interactive=false', '--force-latest=false'],
                 cwd=repo_root,
                 env=env
             )
