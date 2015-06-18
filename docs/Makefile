@@ -62,7 +62,7 @@ source/config.rst:
 	@echo "Created docs for config options"
 
 ipynb2rst:
-	jupyter nbconvert --to rst source/examples/Notebook/*.ipynb --FilesWriter.build_directory=source/examples/Notebook
+	jupyter nbconvert --to rst source/examples/Notebook/*.ipynb --template=source/template --FilesWriter.build_directory=source/examples/Notebook
 	@echo "Converted notebooks to rst"
 
 dirhtml:
