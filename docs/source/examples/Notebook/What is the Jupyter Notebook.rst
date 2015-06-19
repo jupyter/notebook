@@ -1,5 +1,5 @@
 
-`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/ipython/ipython/blob/master/docs/source/examples/Notebook/What%20is%20the%20Jupyter%20Notebook.ipynb>`__
+`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/What%20is%20the%20Jupyter%20Notebook.ipynb>`__
 
 What is the Jupyter Notebook?
 =============================
@@ -133,4 +133,4 @@ This service loads the notebook document from the URL and renders it as
 a static web page. The resulting web page may thus be shared with others
 **without their needing to install the Jupyter Notebook**.
 
-`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/ipython/ipython/blob/master/docs/source/examples/Notebook/What%20is%20the%20Jupyter%20Notebook.ipynb>`__
+`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/What%20is%20the%20Jupyter%20Notebook.ipynb>`__

@@ -1,5 +1,5 @@
 
-`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/ipython/ipython/blob/master/docs/source/examples/Notebook/Running%20Code.ipynb>`__
+`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Running%20Code.ipynb>`__
 
 Running Code
 ============
@@ -151,4 +151,4 @@ Beyond a certain point, output will scroll automatically:
         print(2**i - 1)
 
 
-`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/ipython/ipython/blob/master/docs/source/examples/Notebook/Running%20Code.ipynb>`__
+`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Running%20Code.ipynb>`__

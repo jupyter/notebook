@@ -1,5 +1,5 @@
 
-`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/ipython/ipython/blob/master/docs/source/examples/Notebook/Custom%20Keyboard%20Shortcuts.ipynb>`__
+`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Custom%20Keyboard%20Shortcuts.ipynb>`__
 
 Keyboard Shortcut Customization
 ===============================
@@ -68,4 +68,4 @@ back to it's initial behavior:
     
     Jupyter.keyboard_manager.command_shortcuts.add_shortcut('r', 'ipython.change-selected-cell-to-raw-cell');
 
-`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/ipython/ipython/blob/master/docs/source/examples/Notebook/Custom%20Keyboard%20Shortcuts.ipynb>`__
+`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Custom%20Keyboard%20Shortcuts.ipynb>`__

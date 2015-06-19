@@ -1,5 +1,5 @@
 
-`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/ipython/ipython/blob/master/docs/source/examples/Notebook/Typesetting%20Equations.ipynb>`__
+`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Typesetting%20Equations.ipynb>`__
 
 The Markdown parser included in the Jupyter Notebook is MathJax-aware.
 This means that you can freely mix in mathematical expressions using the
@@ -235,4 +235,4 @@ Display
 
    x=4
 
-`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/ipython/ipython/blob/master/docs/source/examples/Notebook/Typesetting%20Equations.ipynb>`__
+`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Typesetting%20Equations.ipynb>`__

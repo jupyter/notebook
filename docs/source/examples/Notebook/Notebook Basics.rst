@@ -1,5 +1,5 @@
 
-`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/ipython/ipython/blob/master/docs/source/examples/Notebook/Notebook%20Basics.ipynb>`__
+`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Notebook%20Basics.ipynb>`__
 
 Notebook Basics
 ===============
@@ -263,4 +263,4 @@ order:
 5. Cell editing: ``x``, ``c``, ``v``, ``d``, ``z``, ``shift+=``
 6. Kernel operations: ``i``, ``.``
 
-`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/ipython/ipython/blob/master/docs/source/examples/Notebook/Notebook%20Basics.ipynb>`__
+`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Notebook%20Basics.ipynb>`__
