@@ -31,12 +31,14 @@ define([
         }
     };
     
-    CommManager.prototype.new_comm = function (target_name, data, callbacks, metadata) {
+    CommManager.prototype.new_comm = function (target_name, data, callbacks, metadata, comm_id) {
         /**
          * Create a new Comm, register it, and open its Kernel-side counterpart
-         * Mimics the auto-registration in `Comm.__init__` in the Jupyter Comm
+         * Mimics the auto-registration in `Comm.__init__` in the Jupyter Comm.
+         *
+         * argument comm_id is optional
          */
-        var comm = new Comm(target_name);
+        var comm = new Comm(target_name, comm_id);
         this.register_comm(comm);
         comm.open(data, callbacks, metadata);
         return comm;
