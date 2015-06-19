@@ -2,7 +2,7 @@
 
 {% macro notebooklink() -%}
 
-`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/ipython/ipython/blob/master/docs/{{ resources['metadata']['path'] }}/{{ resources['metadata']['name'] | replace(' ', '%20') }}.ipynb>`__
+`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/{{ resources['metadata']['path'] }}/{{ resources['metadata']['name'] | replace(' ', '%20') }}.ipynb>`__
 
 
 {%- endmacro %}
