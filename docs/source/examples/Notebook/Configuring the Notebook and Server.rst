@@ -1,5 +1,5 @@
 
-`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/ipython/ipython/blob/master/docs/source/examples/Notebook/Configuring%20the%20Notebook%20and%20Server.ipynb>`__
+`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Configuring%20the%20Notebook%20and%20Server.ipynb>`__
 
 Configuring the Notebook and Server
 ===================================
@@ -185,4 +185,4 @@ For example, in Firefox, go to the Preferences panel, Advanced section,
 Network tab, click 'Settings...', and add the address of the notebook
 server to the 'No proxy for' field.
 
-`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/ipython/ipython/blob/master/docs/source/examples/Notebook/Configuring%20the%20Notebook%20and%20Server.ipynb>`__
+`View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Configuring%20the%20Notebook%20and%20Server.ipynb>`__
