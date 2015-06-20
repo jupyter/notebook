@@ -1,4 +1,7 @@
-"""Tornado handlers for the contents web service."""
+"""Tornado handlers for the contents web service.
+
+Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-27%3A-Contents-Service
+"""
 
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.

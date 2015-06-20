@@ -34,6 +34,8 @@ define([
     };
     
     KernelSelector.prototype.request_kernelspecs = function() {
+        // Preliminary documentation for kernelspecs api is at 
+        // https://github.com/ipython/ipython/wiki/IPEP-25%3A-Registry-of-installed-kernels#rest-api
         var url = utils.url_join_encode(this.notebook.base_url, 'api/kernelspecs');
         utils.promising_ajax(url).then($.proxy(this._got_kernelspecs, this));
     };

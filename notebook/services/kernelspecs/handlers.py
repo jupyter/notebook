@@ -1,4 +1,7 @@
-"""Tornado handlers for kernel specifications."""
+"""Tornado handlers for kernel specifications.
+
+Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-25%3A-Registry-of-installed-kernels#rest-api
+"""
 
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.

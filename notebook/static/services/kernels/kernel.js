@@ -16,6 +16,9 @@ define([
      * by.  the `Session` object. Once created, this object should be
      * used to communicate with the kernel.
      * 
+     * Preliminary documentation for the REST API is at
+     * https://github.com/ipython/ipython/wiki/IPEP-16%3A-Notebook-multi-directory-dashboard-and-URL-mapping#kernels-api
+     * 
      * @class Kernel
      * @param {string} kernel_service_url - the URL to access the kernel REST api
      * @param {string} ws_url - the websockets URL

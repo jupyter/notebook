@@ -1,4 +1,7 @@
-"""Tornado handlers for the sessions web service."""
+"""Tornado handlers for the sessions web service.
+
+Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-Notebook-multi-directory-dashboard-and-URL-mapping#sessions-api
+"""
 
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.

@@ -11,6 +11,9 @@ define(function(require) {
         /**
          * Constructor
          *
+         * Preliminary documentation for the REST API is at 
+         * https://github.com/ipython/ipython/wiki/IPEP-27%3A-Contents-Service
+         *
          * A contents handles passing file operations
          * to the back-end.  This includes checkpointing
          * with the normal file operations.
