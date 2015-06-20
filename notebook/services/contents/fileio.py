@@ -71,7 +71,9 @@ def atomic_writing(path, text=True, encoding='utf-8', **kwargs):
         shutil.copy2(path, tmp_path)
 
     if text:
-        fileobj = io.open(path, 'w', encoding=encoding, newline='\n', **kwargs)
+        # Make sure that text files have Unix linefeeds by default
+        kwargs.setdefault('newline', '\n')
+        fileobj = io.open(path, 'w', encoding=encoding, **kwargs)
     else:
         fileobj = io.open(path, 'wb', **kwargs)
 
