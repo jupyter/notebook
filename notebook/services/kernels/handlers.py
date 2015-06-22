@@ -16,12 +16,12 @@ from jupyter_client.jsonutil import date_default
 from ipython_genutils.py3compat import cast_unicode
 from notebook.utils import url_path_join, url_escape
 
-from ...base.handlers import IPythonHandler, json_errors
+from ...base.handlers import IPythonHandler, APIHandler, json_errors
 from ...base.zmqhandlers import AuthenticatedZMQStreamHandler, deserialize_binary_message
 
 from jupyter_client import protocol_version as client_protocol_version
 
-class MainKernelHandler(IPythonHandler):
+class MainKernelHandler(APIHandler):
 
     @web.authenticated
     @json_errors
@@ -49,7 +49,7 @@ class MainKernelHandler(IPythonHandler):
         self.finish(json.dumps(model))
 
 
-class KernelHandler(IPythonHandler):
+class KernelHandler(APIHandler):
 
     SUPPORTED_METHODS = ('DELETE', 'GET', 'OPTIONS')
 
@@ -76,7 +76,7 @@ class KernelHandler(IPythonHandler):
         self.finish()
 
 
-class KernelActionHandler(IPythonHandler):
+class KernelActionHandler(APIHandler):
 
     @web.authenticated
     @json_errors

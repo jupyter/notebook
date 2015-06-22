@@ -14,7 +14,7 @@ from notebook.utils import url_path_join, url_escape
 from jupyter_client.jsonutil import date_default
 
 from notebook.base.handlers import (
-    IPythonHandler, json_errors, path_regex,
+    IPythonHandler, APIHandler, json_errors, path_regex,
 )
 
 
@@ -78,7 +78,7 @@ def validate_model(model, expect_content):
             )
 
 
-class ContentsHandler(IPythonHandler):
+class ContentsHandler(APIHandler):
 
     SUPPORTED_METHODS = (u'GET', u'PUT', u'PATCH', u'POST', u'DELETE')
 
@@ -260,7 +260,7 @@ class ContentsHandler(IPythonHandler):
         self.finish()
 
 
-class CheckpointsHandler(IPythonHandler):
+class CheckpointsHandler(APIHandler):
 
     SUPPORTED_METHODS = ('GET', 'POST')
 
@@ -289,7 +289,7 @@ class CheckpointsHandler(IPythonHandler):
         self.finish(data)
 
 
-class ModifyCheckpointsHandler(IPythonHandler):
+class ModifyCheckpointsHandler(APIHandler):
 
     SUPPORTED_METHODS = ('POST', 'DELETE')
 
