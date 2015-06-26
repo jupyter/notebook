@@ -223,27 +223,27 @@ from jupyter_core.application import JupyterApp
 
 flags = {
     "overwrite" : ({
-        "NBExtensionApp" : {
+        "InstallNBExtensionApp" : {
             "overwrite" : True,
         }}, "Force overwrite of existing files"
     ),
     "debug" : ({
-        "NBExtensionApp" : {
+        "InstallNBExtensionApp" : {
             "verbose" : 2,
         }}, "Extra output"
     ),
     "quiet" : ({
-        "NBExtensionApp" : {
+        "InstallNBExtensionApp" : {
             "verbose" : 0,
         }}, "Minimal output"
     ),
     "symlink" : ({
-        "NBExtensionApp" : {
+        "InstallNBExtensionApp" : {
             "symlink" : True,
         }}, "Create symlink instead of copying files"
     ),
     "user" : ({
-        "NBExtensionApp" : {
+        "InstallNBExtensionApp" : {
             "user" : True,
         }}, "Install to the user's IPython directory"
     ),
@@ -251,9 +251,9 @@ flags = {
 flags['s'] = flags['symlink']
 
 aliases = {
-    "prefix" : "NBExtensionApp.prefix",
-    "nbextensions" : "NBExtensionApp.nbextensions_dir",
-    "destination" : "NBExtensionApp.destination",
+    "prefix" : "InstallNBExtensionApp.prefix",
+    "nbextensions" : "InstallNBExtensionApp.nbextensions_dir",
+    "destination" : "InstallNBExtensionApp.destination",
 }
 
 class InstallNBExtensionApp(JupyterApp):
