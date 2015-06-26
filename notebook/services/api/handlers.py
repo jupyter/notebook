@@ -5,11 +5,12 @@
 
 from tornado import web
 from ...base.handlers import IPythonHandler
+import os
 
 class APIHandler(web.StaticFileHandler, IPythonHandler):
 
     def initialize(self):
-        web.StaticFileHandler.initialize(self, path='')
+        web.StaticFileHandler.initialize(self, path=os.path.dirname(__file__))
 
     @web.authenticated
     def get(self):
@@ -17,5 +18,5 @@ class APIHandler(web.StaticFileHandler, IPythonHandler):
         return web.StaticFileHandler.get(self, 'api.yaml')
 
 default_handlers = [
-    (r"/api", APIHandler),
+    (r"/api", APIHandler)
 ]
