@@ -634,6 +634,24 @@ define([
         return this.send_shell_message("kernel_info_request", {}, callbacks);
     };
 
+    Kernel.prototype.comm_info = function (callback) {
+        /**
+         * Get comm info
+         *
+         * @function comm_info
+         * @param callback {function}
+         *
+         * When calling this method, pass a callback function that expects one argument.
+         * The callback will be passed the complete `comm_info_reply` message documented
+         * [here](http://ipython.org/ipython-doc/dev/development/messaging.html#comm_info)
+         */
+        var callbacks;
+        if (callback) {
+            callbacks = { shell : { reply : callback } };
+        }
+        return this.send_shell_message("comm_info_request", {}, callbacks);
+    };
+
     Kernel.prototype.inspect = function (code, cursor_pos, callback) {
         /**
          * Get info on an object
