@@ -223,27 +223,27 @@ from jupyter_core.application import JupyterApp
 
 flags = {
     "overwrite" : ({
-        "NBExtensionApp" : {
+        "InstallNBExtensionApp" : {
             "overwrite" : True,
         }}, "Force overwrite of existing files"
     ),
     "debug" : ({
-        "NBExtensionApp" : {
+        "InstallNBExtensionApp" : {
             "verbose" : 2,
         }}, "Extra output"
     ),
     "quiet" : ({
-        "NBExtensionApp" : {
+        "InstallNBExtensionApp" : {
             "verbose" : 0,
         }}, "Minimal output"
     ),
     "symlink" : ({
-        "NBExtensionApp" : {
+        "InstallNBExtensionApp" : {
             "symlink" : True,
         }}, "Create symlink instead of copying files"
     ),
     "user" : ({
-        "NBExtensionApp" : {
+        "InstallNBExtensionApp" : {
             "user" : True,
         }}, "Install to the user's IPython directory"
     ),
@@ -251,19 +251,19 @@ flags = {
 flags['s'] = flags['symlink']
 
 aliases = {
-    "prefix" : "NBExtensionApp.prefix",
-    "nbextensions" : "NBExtensionApp.nbextensions_dir",
-    "destination" : "NBExtensionApp.destination",
+    "prefix" : "InstallNBExtensionApp.prefix",
+    "nbextensions" : "InstallNBExtensionApp.nbextensions_dir",
+    "destination" : "InstallNBExtensionApp.destination",
 }
 
-class NBExtensionApp(JupyterApp):
+class InstallNBExtensionApp(JupyterApp):
     """Entry point for installing notebook extensions"""
     
     description = """Install Jupyter notebook extensions
     
     Usage
     
-        jupyter install-nbextension path/url
+        jupyter nbextension install path/url
     
     This copies a file or a folder into the Jupyter nbextensions directory.
     If a URL is given, it will be downloaded.
@@ -273,7 +273,7 @@ class NBExtensionApp(JupyterApp):
     """
     
     examples = """
-    jupyter install-nbextension /path/to/myextension
+    jupyter nbextension install /path/to/myextension
     """
     aliases = aliases
     flags = flags
@@ -314,6 +314,25 @@ class NBExtensionApp(JupyterApp):
             except ArgumentConflict as e:
                 print(str(e), file=sys.stderr)
                 self.exit(1)
+
+class NBExtensionApp(JupyterApp):
+    name = "jupyter nbextension"
+
+    description = "Work with Jupyter notebook extensions"
+
+    subcommands = dict(
+        install=(InstallNBExtensionApp,
+            """Install notebook extensions"""
+        ),
+    )
+
+    def start(self):
+        super(NBExtensionApp, self).start()
+
+        # The above should have called a subcommand and raised NoStart; if we
+        # get here, it didn't, so we should print a message.
+        subcmds = ", ".join(sorted(self.subcommands))
+        sys.exit("Please supply at least one subcommand: %s" % subcmds)
 
 main = NBExtensionApp.launch_instance
 
