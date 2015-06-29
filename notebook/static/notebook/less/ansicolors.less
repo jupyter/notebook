@@ -4,20 +4,20 @@
 
 /* use dark versions for foreground, to improve visibility */
 .ansiblack {color: black;}
-.ansired {color: darkred;}
-.ansigreen {color: darkgreen;}
+.ansired {color: @ansired;}
+.ansigreen {color: @ansigreen;}
 .ansiyellow {color: #c4a000;}
-.ansiblue {color: darkblue;}
+.ansiblue {color: @ansiblue;}
 .ansipurple {color: darkviolet;}
-.ansicyan {color: steelblue;}
+.ansicyan {color: @ansicyan;}
 .ansigray {color: gray;}
 
 /* and light for background, for the same reason */
 .ansibgblack {background-color: black;}
-.ansibgred {background-color: red;}
-.ansibggreen {background-color: green;}
+.ansibgred {background-color: darken(@ansired, 20%);}
+.ansibggreen {background-color: darken(@ansigreen, 20%);}
 .ansibgyellow {background-color: yellow;}
-.ansibgblue {background-color: blue;}
+.ansibgblue {background-color: darken(@ansiblue, 20%);}
 .ansibgpurple {background-color: magenta;}
-.ansibgcyan {background-color: cyan;}
+.ansibgcyan {background-color: darken(@ansicyan, 20%);;}
 .ansibggray {background-color: gray;}
