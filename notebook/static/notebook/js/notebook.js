@@ -1631,11 +1631,18 @@ define(function (require) {
             ),
             buttons : {
                 "Continue running" : {},
-                "Restart" : {
+                "Clear all outputs & restart" : {
                     "class" : "btn-danger",
+                    "click" : function(){
+                        that.clear_all_output();
+                        that.kernel.restart();
+                    },
+                "Restart" : {
+                    "class" : "btn-warning",
                     "click" : function() {
                         that.kernel.restart();
                     }
+                },
                 }
             }
         });
