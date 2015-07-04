@@ -157,18 +157,18 @@ div.output_javascript:empty {
 /* raw_input styles */
 
 div.raw_input_container {
-    font-family: @font-family-monospace;
+    line-height: @code_line_height;
     // for some reason, em padding doesn't compute the same for raw_input
     // that is not the first input, but px does
     padding-top: 5px;
 }
 
-span.raw_input_prompt {
-    /* nothing needed here */
+pre.raw_input_prompt {
+    /* nothing needed here. */
 }
 
 input.raw_input {
-    font-family: inherit;
+    font-family: @font-family-monospace;
     font-size: inherit;
     color: inherit;
     width: auto;
