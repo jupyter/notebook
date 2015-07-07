@@ -286,7 +286,7 @@ define([
     };
 
     ShortcutManager.prototype.set_shortcut = function( shortcut, action_name){
-        if( typeof(action_name) !== 'string'){ throw('action is not a string', action_name);}
+        if( typeof(action_name) !== 'string'){throw new Error('action is not a string', action_name);}
         if( typeof(shortcut) === 'string'){
             shortcut = shortcut.split(',');
         }
@@ -351,9 +351,8 @@ define([
          **/
         var action_name = this.actions.get_name(data);
         if (! action_name){
-            throw('does not know how to deal with ', data);
+          throw new Error('does not know how to deal with', data);
         }
-        
         shortcut = normalize_shortcut(shortcut);
         this.set_shortcut(shortcut, action_name);
 
@@ -397,7 +396,7 @@ define([
             this.events.trigger('rebuild.QuickHelp');
           }
         } catch (ex) {
-          throw ('try to remove non-existing shortcut');
+          throw new Error('trying to remove a non-exist shortcut', shortcut);
         }
     };
 
