@@ -396,7 +396,7 @@ define([
             this.events.trigger('rebuild.QuickHelp');
           }
         } catch (ex) {
-          throw new Error('trying to remove a non-exist shortcut', shortcut);
+          throw new Error('trying to remove a non-existent shortcut', shortcut);
         }
     };
 
