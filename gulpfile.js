@@ -8,9 +8,28 @@ var less = require('gulp-less');
 var newer = require('gulp-newer');
 var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
+var merge = require('merge2');
+var insert = require('gulp-insert');
 
 // now some dev nice utilities.
 var livereload = require('gulp-livereload');
+
+
+// deal with typescript
+//
+var ts = require('gulp-typescript');
+var tsProject = ts.createProject({
+    declarationFiles: true,
+    noExternalResolve: false,
+    //noImplicitAny: true, // uncomment this later when we **really** want to Type all the things.
+    sortOutput: true,
+    target: 'ES5',
+    module: 'amd',
+});
+
+
+
+
 
 gulp.task('css', function () {
   return gulp.src('./notebook/static/style/*.less')
@@ -59,6 +78,23 @@ apps.map(function (name) {
       path.join(s, "auth", 'js', '*.js'),
       path.join(s, "services", 'config.js'),
     ];
+    ////////////////
+    var tsResult = gulp.src([
+                        path.join(s, "**", '*.ts'),
+                        'typings/*.d.ts',
+                        'typings/*/**.d.ts'
+                        ], {base: './'})
+                       .pipe(sourcemaps.init())
+                       .pipe(ts(tsProject));
+    merge([
+        tsResult.dts.pipe(gulp.dest("./notebook/static/typings") ),
+        tsResult.js
+            .pipe(insert.prepend('// AUTOMATICALY GENERATED FILE, see cooresponding .ts file\n'))
+            .pipe(sourcemaps.write('./'))
+            .pipe(gulp.dest('./'))
+    ]);
+
+    ////////////////
     
     // for required_components
     if (name === 'notebook') {
@@ -102,13 +138,20 @@ gulp.task('watch', function() {
   function alljs(name) {
     return path.join(s, name, '**', '*.js');
   }
+  function allts(name) {
+    return path.join(s, '**', '*.ts');
+  }
   var common_js = ['components', 'base', 'auth', 'services'].map(alljs);
   
   gulp.watch(common_js, ['js']);
   apps.map(function (name) {
     gulp.watch([
       alljs(name),
+      allts(name),
       '!' + path.join(s, name, 'js', 'main.min.js'),
     ], [name + '-js']);
   });
 });
+
+
+
