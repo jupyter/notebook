@@ -37,7 +37,7 @@ define(function(require){
      **/
     var _actions = {
         'run-select-next': {
-            icon: 'fa-play',
+            icon: 'fa-step-forward',
             help    : 'run cell, select below',
             help_index : 'ba',
             handler : function (env) {
