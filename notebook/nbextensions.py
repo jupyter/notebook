@@ -24,6 +24,7 @@ from jupyter_core.paths import jupyter_data_dir, jupyter_path, SYSTEM_JUPYTER_PA
 from ipython_genutils.path import ensure_dir_exists
 from ipython_genutils.py3compat import string_types, cast_unicode_py2
 from ipython_genutils.tempdir import TemporaryDirectory
+from ._version import __version__
 
 class ArgumentConflict(ValueError):
     pass
@@ -258,7 +259,7 @@ aliases = {
 
 class InstallNBExtensionApp(JupyterApp):
     """Entry point for installing notebook extensions"""
-    
+    version = __version__
     description = """Install Jupyter notebook extensions
     
     Usage
@@ -317,7 +318,7 @@ class InstallNBExtensionApp(JupyterApp):
 
 class NBExtensionApp(JupyterApp):
     name = "jupyter nbextension"
-
+    version = __version__
     description = "Work with Jupyter notebook extensions"
 
     subcommands = dict(
