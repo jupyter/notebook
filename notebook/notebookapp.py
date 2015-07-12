@@ -52,6 +52,7 @@ from tornado.log import LogFormatter, app_log, access_log, gen_log
 from notebook import (
     DEFAULT_STATIC_FILES_PATH,
     DEFAULT_TEMPLATE_PATH_LIST,
+    __version__,
 )
 from .base.handlers import Template404
 from .log import log_request
@@ -269,7 +270,7 @@ class NotebookWebApplication(web.Application):
 
 
 class NbserverListApp(JupyterApp):
-    
+    version = __version__
     description="List currently running notebook servers in this profile."
     
     flags = dict(
@@ -341,7 +342,7 @@ aliases.update({
 class NotebookApp(JupyterApp):
 
     name = 'jupyter-notebook'
-    
+    version = __version__
     description = """
         The Jupyter HTML Notebook.
         
