@@ -17,9 +17,13 @@ define([
      */
     var load_extension = function (extension) {
         return new Promise(function(resolve, reject) {
-            require([extension], function(module) {
+            require(["nbextensions/" + extension], function(module) {
                 console.log("Loaded extension: " + extension);
-                resolve(module);
+                try {
+                    module.load_ipython_extension();
+                } finally {
+                    resolve(module);
+                }
             }, function(err) {
                 reject(err);
             });
@@ -37,7 +41,7 @@ define([
         var extensions = [];
         var extension_names = arguments;
         for (var i = 0; i < extension_names.length; i++) {
-            extensions.push("nbextensions/" + arguments[i]);
+            extensions.push(arguments[i]);
         }
 
         return Promise.all(extensions.map(load_extension)).catch(function(err) {
