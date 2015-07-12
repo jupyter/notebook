@@ -7,8 +7,6 @@ Adapted from GitHub theme
 
 @import (reference) "highlight-refs.less";
 
-@highlight-base: #000;
-
 .highlight-base{
   color: @highlight-base;
 }
@@ -26,16 +24,16 @@ Adapted from GitHub theme
 }
 
 .highlight-string{
-  color: #BA2121;
+  color: @highlight-string;
 }
 
 .highlight-comment{
-  color: #408080;
+  color: @color-muted-5;
   font-style: italic;
 }
 
 .highlight-number{
-  color: #080;
+  color: @color-accent-3;
 }
 
 .highlight-atom{
@@ -43,7 +41,7 @@ Adapted from GitHub theme
 }
 
 .highlight-keyword{
-  color: #008000;
+  color: @highlight-keyword;
   font-weight: bold;
 }
 
@@ -52,11 +50,11 @@ Adapted from GitHub theme
 }
 
 .highlight-error{
-  color: #f00;
+  color: @highlight-error;
 }
 
 .highlight-operator{
-  color: #AA22FF;
+  color: @color-accent-1;
   font-weight: bold;
 }
 
@@ -64,8 +62,12 @@ Adapted from GitHub theme
   color: #AA22FF;
 }
 
+.highlight-cursor {
+  border-left: 1px solid @color-muted-6;
+}
+
 /* previously not defined, copying from default codemirror */
-.highlight-def{ .cm-s-default.cm-def() }
+.highlight-def{ color: @color-accent-2; }
 .highlight-punctuation{ .cm-s-default.cm-punctuation() }
 .highlight-property{ .cm-s-default.cm-property() }
 .highlight-string-2{ .cm-s-default.cm-string-2() }
