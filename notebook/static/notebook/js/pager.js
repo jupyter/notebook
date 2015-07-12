@@ -82,8 +82,13 @@ define([
         });
 
         this.events.on('open_with_text.Pager', function (event, payload) {
-            // FIXME: support other mime types
-            if (payload.data['text/plain'] && payload.data['text/plain'] !== "") {
+            // FIXME: support other mime types with generic mimebundle display
+            // mechanism
+            if (payload.data['text/html'] && payload.data['text/html'] !== "") {
+                that.clear();
+                that.expand();
+                that.append(payload.data['text/html']);
+            } else if (payload.data['text/plain'] && payload.data['text/plain'] !== "") {
                 that.clear();
                 that.expand();
                 that.append_text(payload.data['text/plain']);
