@@ -20,4 +20,20 @@ casper.notebook_test(function () {
     }, input);
 
     this.test.assertEquals(result, output, "IPython.utils.fixConsole() handles [0m correctly");
+    
+    this.thenEvaluate(function() {
+        define('nbextensions/a', [], function() { window.a = true; });
+        define('nbextensions/c', [], function() { window.c = true; });
+        require(['base/js/utils'], function(utils) {
+            utils.load_extensions('a', 'b', 'c');
+        });
+    }).then(function() {
+        this.waitFor(function() {
+            return this.evaluate(function() { return window.a; });
+        });
+        
+        this.waitFor(function() {
+            return this.evaluate(function() { return window.a; });
+        });
+    });
 });
