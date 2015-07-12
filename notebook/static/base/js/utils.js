@@ -36,15 +36,7 @@ define([
      * @return {Promise} that resolves to a list of loaded module handles.
      */
     var load_extensions = function () {
-        // load one or more Jupyter notebook extensions with requirejs
-
-        var extensions = [];
-        var extension_names = arguments;
-        for (var i = 0; i < extension_names.length; i++) {
-            extensions.push(arguments[i]);
-        }
-
-        return Promise.all(extensions.map(load_extension)).catch(function(err) {
+        return Promise.all(Array.prototype.map.call(arguments, load_extension)).catch(function(err) {
             console.error("Failed to load extension" + (err.requireModules.length>1?'s':'') + ":", err.requireModules, err);
         });
     };
