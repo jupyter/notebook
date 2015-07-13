@@ -9,5 +9,6 @@ The Jupyter notebook
     config
     public_server
     security
+    extending
     development
     examples/Notebook/Examples and Tutorials Index

@@ -124,7 +124,7 @@ class ContentsManager(LoggingConfigurable):
     # implemented in subclasses.
 
     def dir_exists(self, path):
-        """Does the API-style path (directory) actually exist?
+        """Does a directory exist at the given path?
 
         Like os.path.isdir
 
@@ -143,7 +143,7 @@ class ContentsManager(LoggingConfigurable):
         raise NotImplementedError
 
     def is_hidden(self, path):
-        """Does the API style path correspond to a hidden directory or file?
+        """Is path a hidden directory or file?
 
         Parameters
         ----------
@@ -196,23 +196,25 @@ class ContentsManager(LoggingConfigurable):
         return self.file_exists(path) or self.dir_exists(path)
 
     def get(self, path, content=True, type=None, format=None):
-        """Get the model of a file or directory with or without content."""
+        """Get a file or directory model."""
         raise NotImplementedError('must be implemented in a subclass')
 
     def save(self, model, path):
-        """Save the file or directory and return the model with no content.
+        """
+        Save a file or directory model to path.
 
-        Save implementations should call self.run_pre_save_hook(model=model, path=path)
-        prior to writing any data.
+        Should return the saved model with no content.  Save implementations
+        should call self.run_pre_save_hook(model=model, path=path) prior to
+        writing any data.
         """
         raise NotImplementedError('must be implemented in a subclass')
 
     def delete_file(self, path):
-        """Delete file or directory by path."""
+        """Delete the file or directory at path."""
         raise NotImplementedError('must be implemented in a subclass')
 
     def rename_file(self, old_path, new_path):
-        """Rename a file."""
+        """Rename a file or directory."""
         raise NotImplementedError('must be implemented in a subclass')
 
     # ContentsManager API part 2: methods that have useable default

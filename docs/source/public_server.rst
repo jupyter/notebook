@@ -132,28 +132,6 @@ modifying ``jupyter_notebook_config.py``)::
     c.NotebookApp.base_url = '/ipython/'
     c.NotebookApp.webapp_settings = {'static_url_prefix':'/ipython/static/'}
 
-Using a different notebook store
---------------------------------
-
-By default, the notebook server stores the notebook documents that it saves as 
-files in the working directory of the notebook server, also known as the
-``notebook_dir``. This  logic is implemented in the 
-:class:`FileNotebookManager` class. However, the server can be configured to 
-use a different notebook manager class, which can 
-store the notebooks in a different format. 
-
-The bookstore_ package currently allows users to store notebooks on Rackspace
-CloudFiles or OpenStack Swift based object stores.
-
-Writing a notebook manager is as simple as extending the base class
-:class:`NotebookManager`. The simple_notebook_manager_ provides a great example
-of an in memory notebook manager, created solely for the purpose of
-illustrating the notebook manager API.
-
-.. _bookstore: https://github.com/rgbkrk/bookstore
-
-.. _simple_notebook_manager: https://github.com/khinsen/simple_notebook_manager
-
 Known issues
 ------------
 
