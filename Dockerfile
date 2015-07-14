@@ -48,8 +48,8 @@ RUN mkdir -p /srv/
 WORKDIR /srv/
 RUN git clone --depth 1 https://github.com/ipython/ipykernel /srv/ipykernel
 WORKDIR /srv/ipykernel
-RUN pip2 install -r requirements.txt -e .
-RUN pip3 install -r requirements.txt -e .
+RUN pip2 install --pre -e .
+RUN pip3 install --pre -e .
 
 ADD . /srv/notebook
 WORKDIR /srv/notebook/
