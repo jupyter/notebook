@@ -1,0 +1,365 @@
+swagger: '2.0'
+info:
+  title: Jupyter Notebook API
+  description: Notebook API
+  version: "4"
+  contact:
+    name: Jupyter Project
+    url: jupyter.org
+# will be prefixed to all paths
+basePath: /api
+produces:
+  - application/json
+consumes:
+  - application/json
+parameters:
+  kernel:
+    name: kernel
+    required: true
+    in: path
+    description: kernel uuid
+    type: string
+    format: uuid
+  session:
+    name: session
+    required: true
+    in: path
+    description: session uuid
+    type: string
+    format: uuid
+
+paths:
+  /sessions/{session}:
+    parameters:
+      - $ref: '#/parameters/session'
+    get:
+      summary: Get session
+      tags:
+        - sessions
+      responses:
+        200:
+          description: Session
+          schema:
+            $ref: '#/definitions/Session'
+    patch:
+      summary: This can be used to rename the notebook, or move it to a new directory.
+      tags:
+        - sessions
+      parameters:
+        - name: model
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              notebook:
+                type: object
+                properties:
+                  path:
+                    type: string
+                    format: path
+                    description: new path for notebook
+      responses:
+        200:
+          description: Session
+          schema:
+            $ref: '#/definitions/Session'
+        400:
+          description: No data provided
+    delete:
+      summary: Delete a session
+      tags:
+        - sessions
+      responses:
+        204:
+          description: Session (and kernel) were deleted
+        410:
+          description: Kernel was deleted before the session, and the session was *not* deleted (TODO - check to make sure session wasn't deleted)
+  /sessions:
+    get:
+      summary: List available sessions
+      tags:
+        - sessions
+      responses:
+        200:
+          description: List of current sessions
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Session'
+    post:
+      summary: Create a new session, or return an existing session if a session for the notebook path already exists
+      tags:
+        - sessions
+      parameters:
+        - name: session
+          in: body
+          schema:
+            type: object
+            properties:
+              notebook:
+                type: object
+                required:
+                  - path
+                properties:
+                  path:
+                    type: string
+                    description: path to notebook file
+              kernel:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Kernel spec name, defaults to default kernel spec
+      responses:
+        201:
+          description: Session created or returned
+          schema:
+            $ref: '#/definitions/Session'
+          headers:
+            Location:
+              description: URL for session commands
+              type: string
+              format: url
+        501:
+          description: Kernel not available
+          schema:
+            type: object
+            description: error message
+            properties:
+              message:
+                type: string
+              short_message:
+                type: string
+
+  /kernels:
+    get:
+      summary: List the JSON data for all kernels that are currently running
+      tags:
+        - kernels
+      responses:
+        200:
+          description: List of currently-running kernel uuids
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Kernel'
+    post:
+      summary: Start a kernel and return the uuid
+      tags:
+        - kernels
+      parameters:
+        - name: name
+          in: body
+          description: Kernel spec name (defaults to default kernel spec for server)
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+      responses:
+        201:
+          description: Kernel started
+          headers:
+            Location:
+              description: URL for kernel commands
+              type: string
+              format: url
+  /kernels/{kernel}:
+    parameters:
+      - $ref: '#/parameters/kernel'
+    get:
+      summary: Get kernel information
+      tags:
+        - kernels
+      responses:
+        200:
+          description: Kernel information
+          schema:
+            $ref: '#/definitions/Kernel'
+    delete:
+      summary: Kill a kernel and delete the kernel id
+      tags:
+        - kernels
+      responses:
+        204:
+          description: Kernel deleted
+  /kernels/{kernel}/interrupt:
+    parameters:
+      - $ref: '#/parameters/kernel'
+    post:
+      summary: Interrupt a kernel
+      tags:
+        - kernels
+      responses:
+        204:
+          description: Kernel interrupted
+  /kernels/{kernel}/restart:
+    parameters:
+      - $ref: '#/parameters/kernel'
+    post:
+      summary: Restart a kernel
+      tags:
+        - kernels
+      responses:
+        200:
+          description: Kernel interrupted
+          headers:
+            Location:
+              description: URL for kernel commands
+              type: string
+              format: url
+          schema:
+            $ref: '#/definitions/Kernel'
+
+  /kernelspecs:
+    get:
+      summary: List kernel specs
+      tags:
+        - kernelspecs
+      responses:
+        200:
+          description: Kernel specs
+          schema:
+            type: object
+            properties:
+              default:
+                type: string
+                description: Default kernel name
+              kernelspecs:
+                type: array
+                items:
+                  $ref: '#/definitions/KernelSpec'
+  /kernelspecs/{kernel}:
+    parameters:
+      - $ref: '#/parameters/kernel'
+    get:
+      summary: Kernel information
+      tags:
+        - kernelspecs
+      responses:
+        200:
+          description: The contents of kernel.json
+          schema:
+            $ref: '#/definitions/KernelSpec'
+        404:
+          description: Kernel spec not found
+  /kernelspecs/{kernel}/{filename}:
+    get:
+      summary: Retrieve a file from the kernel directory
+      tags:
+        - kernelspecs
+      parameters:
+        - name: kernel
+          in: path
+          description: Kernel uuid
+          type: string
+          required: true
+        - name: filename
+          in: path
+          description: filename
+          type: string
+          required: true
+      responses:
+        200:
+          description: file
+
+definitions:
+  KernelSpec:
+    description: Kernel spec (contents of kernel.json)
+    properties:
+      name:
+        type: string
+        description: Unique name for kernel
+      spec:
+        $ref: '#/definitions/KernelSpecFile'
+        description: Kernel spec json file
+      resources:
+        type: object
+        properties:
+          kernel.js:
+            type: string
+            format: filename
+            description: path for kernel.js file
+          kernel.css:
+            type: string
+            format: filename
+            description: path for kernel.css file
+          logo-*:
+            type: string
+            format: filename
+            description: path for logo file.  Logo filenames are of the form `logo-widthxheight`
+  KernelSpecFile:
+    description: Kernel spec json file
+    required:
+      - argv
+      - display_name
+      - language
+    properties:
+      language:
+        type: string
+        description: The programming language which this kernel runs. This will be stored in notebook metadata.
+      argv:
+        type: array
+        description: A list of command line arguments used to start the kernel. The text `{connection_file}` in any argument will be replaced with the path to the connection file.
+        items:
+          type: string
+      display_name:
+        type: string
+        description: The kernel's name as it should be displayed in the UI. Unlike the kernel name used in the API, this can contain arbitrary unicode characters.
+      codemirror_mode:
+        type: string
+        description: Codemirror mode.  Can be a string *or* an valid Codemirror mode object.  This defaults to the string from the `language` property.
+      env:
+        type: object
+        description: A dictionary of environment variables to set for the kernel. These will be added to the current environment variables.
+        additionalProperties:
+          type: string
+      help_links:
+        type: array
+        description: Help items to be displayed in the help menu in the notebook UI.
+        items:
+          type: object
+          required:
+          - text
+          - url
+          properties:
+            text:
+              type: string
+              description: menu item link text
+            url:
+              type: string
+              format: URL
+              description: menu item link url
+  Kernel:
+    description: Kernel information
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: uuid of kernel
+      name:
+        type: string
+        description: kernel spec name
+  Session:
+    description: A session
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      notebook:
+        type: object
+        properties:
+          path:
+            type: string
+            description: path to notebook
+      kernel:
+        $ref: '#/definitions/Kernel'
+        
+        
+
+
