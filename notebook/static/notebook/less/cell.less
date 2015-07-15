@@ -15,7 +15,7 @@ div.cell {
     }
 
     .edit_mode &.selected {
-        border-color: @color-muted-5;
+        border-color: green;
         /* Don't border the cells when printing */
         @media print {
             border-color: transparent;
@@ -37,7 +37,7 @@ div.cell {
     margin: 0px;
     font-family: @font-family-monospace;
     text-align: right;
-    /* This has to match that of the the CodeMirror class line-height below */
+    /* This has to match that of the the CodeMirror class line-height below */	
     line-height: @code_line_height;
 }
 
@@ -82,7 +82,7 @@ div.unrecognized_cell {
     // from text_cell
     padding: 5px 5px 5px 0px;
     .hbox();
-
+    
     .inner_cell {
         .border-radius(@border-radius-base);
         padding: 5px;
