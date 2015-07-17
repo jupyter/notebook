@@ -5,25 +5,26 @@ Extending the Notebook
 ======================
 
 Certain subsystems of the notebook server are designed to be extended or
-overridden by users.  This document explains the abstractions presented by
-these systems and shows how to override the notebook's defaults with your own
-custom behavior.
+overridden by users.  This document explains these systems and shows how to
+override the notebook's defaults with your own custom behavior.
 
 Contents API
 ------------
 
 .. currentmodule:: notebook.services.contents
 
-The Jupyter Notebook web application provides a graphical user interface for
+The Jupyter Notebook web application provides a graphical interface for
 creating, opening, renaming, and deleting files in a virtual filesystem.
 
 The :class:`ContentsManager<manager.ContentsManager>` class defines an abstract
 API for translating these interactions into operations on a particular storage
 medium. The default implementation,
 :class:`FileContentsManager<filemanager.FileContentsManager>`, uses the local
-filesystem of the server for storage: creating a notebook in the browser
-creates a file on disk, deleting a notebook in the browser deletes a file on
-disk, and renaming a file in the browser moves a file on disk.
+filesystem of the server for storage and straightforwardly serializes notebooks
+into JSON.  Users can override these behaviors by supplying custom subclasses
+of `ContentsManager`
+
+This section describes the **Contents API**,
 
 Data Model
 ^^^^^^^^^^
