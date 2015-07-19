@@ -11,7 +11,7 @@ var rjs_config = {
   baseUrl: 'notebook/static',
   preserveLicenseComments: false, // license comments conflict with sourcemap generation
   generateSourceMaps: true,
-  optimize: "uglify2",
+  optimize: "none",
   paths: {
     underscore : 'components/underscore/underscore-min',
     backbone : 'components/backbone/backbone-min',
