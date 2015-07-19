@@ -24,6 +24,7 @@ from jupyter_core.paths import jupyter_data_dir, jupyter_path, SYSTEM_JUPYTER_PA
 from ipython_genutils.path import ensure_dir_exists
 from ipython_genutils.py3compat import string_types, cast_unicode_py2
 from ipython_genutils.tempdir import TemporaryDirectory
+from notebook.services.config import ConfigManager
 from ._version import __version__
 
 class ArgumentConflict(ValueError):
@@ -316,6 +317,57 @@ class InstallNBExtensionApp(JupyterApp):
                 print(str(e), file=sys.stderr)
                 self.exit(1)
 
+
+class EnableNBExtensionApp(JupyterApp):
+    name = "jupyter nbextension enable"
+    version = __version__
+    description = "Configure an nbextension to be automatically loaded"
+
+    section = Unicode('notebook', config=True,
+          help=("Which config section to add the extension to. "
+                "'common' will affect all pages.")
+    )
+
+    aliases = {'section': 'EnableNBExtensionApp.section',
+              }
+
+    def enable_nbextension(self, name):
+        cm = ConfigManager(parent=self, config=self.config)
+        cm.update(self.section, {"load_extensions": {name: True}})
+
+    def start(self):
+        if not self.extra_args:
+            self.print_help()
+            sys.exit('No extensions specified')
+
+        self.enable_nbextension(self.extra_args[0])
+
+
+class DisableNBExtensionApp(JupyterApp):
+    name = "jupyter nbextension disable"
+    version = __version__
+    description = "Remove the configuration to automatically load an extension"
+
+    section = Unicode('notebook', config=True,
+          help=("Which config section to remove the extension from. "
+                "This should match the one it was previously added to.")
+    )
+
+    aliases = {'section': 'DisableNBExtensionApp.section',
+              }
+
+    def disable_nbextension(self, name):
+        cm = ConfigManager(parent=self, config=self.config)
+        # We're using a dict as a set - updating with None removes the key
+        cm.update(self.section, {"load_extensions": {name: None}})
+
+    def start(self):
+        if not self.extra_args:
+            self.print_help()
+            sys.exit('No extensions specified')
+
+        self.disable_nbextension(self.extra_args[0])
+
 class NBExtensionApp(JupyterApp):
     name = "jupyter nbextension"
     version = __version__
@@ -325,6 +377,8 @@ class NBExtensionApp(JupyterApp):
         install=(InstallNBExtensionApp,
             """Install notebook extensions"""
         ),
+        enable=(EnableNBExtensionApp, "Enable a notebook extension"),
+        disable=(DisableNBExtensionApp, "Disable a notebook extension"),
     )
 
     def start(self):
