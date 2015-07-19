@@ -24,7 +24,6 @@ from jupyter_core.paths import jupyter_data_dir, jupyter_path, SYSTEM_JUPYTER_PA
 from ipython_genutils.path import ensure_dir_exists
 from ipython_genutils.py3compat import string_types, cast_unicode_py2
 from ipython_genutils.tempdir import TemporaryDirectory
-from notebook.services.config import ConfigManager
 from ._version import __version__
 
 class ArgumentConflict(ValueError):
@@ -332,6 +331,8 @@ class EnableNBExtensionApp(JupyterApp):
               }
 
     def enable_nbextension(self, name):
+        # Local import to avoid circular import issue on Py 2
+        from notebook.services.config import ConfigManager
         cm = ConfigManager(parent=self, config=self.config)
         cm.update(self.section, {"load_extensions": {name: True}})
 
@@ -357,6 +358,8 @@ class DisableNBExtensionApp(JupyterApp):
               }
 
     def disable_nbextension(self, name):
+        # Local import to avoid circular import issue on Py 2
+        from notebook.services.config import ConfigManager
         cm = ConfigManager(parent=self, config=self.config)
         # We're using a dict as a set - updating with None removes the key
         cm.update(self.section, {"load_extensions": {name: None}})
