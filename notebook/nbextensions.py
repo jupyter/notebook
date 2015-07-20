@@ -288,6 +288,9 @@ class InstallNBExtensionApp(JupyterApp):
     verbose = Enum((0,1,2), default_value=1, config=True,
         help="Verbosity level"
     )
+
+    def _config_file_name_default(self):
+        return 'jupyter_notebook_config'
     
     def install_extensions(self):
         if len(self.extra_args)>1:
@@ -330,6 +333,9 @@ class EnableNBExtensionApp(JupyterApp):
     aliases = {'section': 'EnableNBExtensionApp.section',
               }
 
+    def _config_file_name_default(self):
+        return 'jupyter_notebook_config'
+
     def enable_nbextension(self, name):
         # Local import to avoid circular import issue on Py 2
         from notebook.services.config import ConfigManager
@@ -356,6 +362,9 @@ class DisableNBExtensionApp(JupyterApp):
 
     aliases = {'section': 'DisableNBExtensionApp.section',
               }
+
+    def _config_file_name_default(self):
+        return 'jupyter_notebook_config'
 
     def disable_nbextension(self, name):
         # Local import to avoid circular import issue on Py 2
