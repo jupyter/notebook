@@ -571,7 +571,7 @@ class NotebookApp(JupyterApp):
         self.log.warn("base_project_url is deprecated, use base_url")
         self.base_url = new
 
-    extra_static_paths = List(Unicode, config=True,
+    extra_static_paths = List(Unicode(), config=True,
         help="""Extra paths to search for serving static files.
         
         This allows adding javascript/css to be available from the notebook server machine,
@@ -583,7 +583,7 @@ class NotebookApp(JupyterApp):
         """return extra paths + the default location"""
         return self.extra_static_paths + [DEFAULT_STATIC_FILES_PATH]
     
-    static_custom_path = List(Unicode,
+    static_custom_path = List(Unicode(),
         help="""Path to search for custom.js, css"""
     )
     def _static_custom_path_default(self):
@@ -595,7 +595,7 @@ class NotebookApp(JupyterApp):
                 DEFAULT_STATIC_FILES_PATH)
         ]
 
-    extra_template_paths = List(Unicode, config=True,
+    extra_template_paths = List(Unicode(), config=True,
         help="""Extra paths to search for serving jinja templates.
 
         Can be used to override templates from notebook.templates."""
@@ -606,7 +606,7 @@ class NotebookApp(JupyterApp):
         """return extra paths + the default locations"""
         return self.extra_template_paths + DEFAULT_TEMPLATE_PATH_LIST
 
-    extra_nbextensions_path = List(Unicode, config=True,
+    extra_nbextensions_path = List(Unicode(), config=True,
         help="""extra paths to look for Javascript notebook extensions"""
     )
     

@@ -24,7 +24,7 @@ class MappingKernelManager(MultiKernelManager):
     def _kernel_manager_class_default(self):
         return "jupyter_client.ioloop.IOLoopKernelManager"
 
-    kernel_argv = List(Unicode)
+    kernel_argv = List(Unicode())
 
     root_dir = Unicode(config=True)
 
