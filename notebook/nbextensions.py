@@ -344,8 +344,9 @@ class EnableNBExtensionApp(JupyterApp):
 
     def start(self):
         if not self.extra_args:
-            self.print_help()
             sys.exit('No extensions specified')
+        elif len(self.extra_args) > 1:
+            sys.exit('Please specify one extension at a time')
 
         self.enable_nbextension(self.extra_args[0])
 
@@ -375,8 +376,9 @@ class DisableNBExtensionApp(JupyterApp):
 
     def start(self):
         if not self.extra_args:
-            self.print_help()
             sys.exit('No extensions specified')
+        elif len(self.extra_args) > 1:
+            sys.exit('Please specify one extension at a time')
 
         self.disable_nbextension(self.extra_args[0])
 
