@@ -371,6 +371,8 @@ class DisableNBExtensionApp(JupyterApp):
         # Local import to avoid circular import issue on Py 2
         from notebook.services.config import ConfigManager
         cm = ConfigManager(parent=self, config=self.config)
+        if name not in cm.get(self.section).get('load_extensions', {}):
+            sys.exit('{} is not enabled in section {}'.format(name, self.section))
         # We're using a dict as a set - updating with None removes the key
         cm.update(self.section, {"load_extensions": {name: None}})
 
