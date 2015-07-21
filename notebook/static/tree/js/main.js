@@ -37,6 +37,7 @@ require([
     loginwidget){
     "use strict";
 
+    //gets notebooklist creates a method
     IPython.NotebookList = notebooklist.NotebookList;
 
     page = new page.Page();

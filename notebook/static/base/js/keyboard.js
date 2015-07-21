@@ -411,8 +411,6 @@ define([
         }
     };
 
-
-
     ShortcutManager.prototype.call_handler = function (event) {
         /**
          * Call the corresponding shortcut handler for a keyboard event

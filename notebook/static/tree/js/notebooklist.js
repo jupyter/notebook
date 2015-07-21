@@ -10,7 +10,7 @@ define([
     'base/js/keyboard',
 ], function(IPython, $, utils, dialog, events, keyboard) {
     "use strict";
-    
+  
     var NotebookList = function (selector, options) {
         /**
          * Constructor
@@ -41,7 +41,7 @@ define([
         this.notebook_path = options.notebook_path || utils.get_body_data("notebookPath");
         this.contents = options.contents;
         if (this.session_list && this.session_list.events) {
-            this.session_list.events.on('sessions_loaded.Dashboard', 
+            this.session_list.events.on('sessions_loaded.Dashboard',
                 function(e, d) { that.sessions_loaded(d); });
         }
         this.selected = [];
@@ -329,9 +329,40 @@ define([
      * @return {JQuery} row
      */
     NotebookList.prototype.new_item = function (index, selectable) {
+        $(document).ready( $(document).keyup(function(e){
+            if (e.keyCode === 74 || e.keyCode === 75 && $('.focus').size() === 0){
+              $('.list_item').first().attr("tabindex","0").addClass('focus').focus();
+            }
+          })
+        );
+
         var row = $('<div/>')
-            .addClass("list_item")
-            .addClass("row");
+              .attr("tabindex", "-1")
+              .attr("key", index)
+              .addClass("list_item")
+              .addClass("row")
+              .keyup(function(e){
+                var i = parseInt($('.focus').index())-1;
+                var length = $('.list_item').size();
+                if ($('.focus').size() > 0){
+                  if (e.keyCode === 13){
+                    $('.focus a')[0].click();
+                    $('.focus input').attr('checked',false);
+                    e.stopPropagation();
+                  }
+
+                  if (e.keyCode === 74 && i < length-1 && i >= 0){
+                    $('.focus').attr("tabindex","-1").removeClass("focus");
+                    $('.list_item[key="'+(i+1).toString()+'"').addClass("focus").attr("tabindex","0");
+                  }
+                  if (e.keyCode === 75 && i > 0 && i <= length-1){
+                    $('.focus').attr("tabindex","-1").removeClass("focus");
+                    $('.list_item[key="'+(i-1).toString()+'"').addClass("focus").attr("tabindex","0");
+                  }
+                  $('.focus').focus();
+                  e.stopPropagation();
+              }
+            });
 
         var item = $("<div/>")
             .addClass("col-md-12")
@@ -356,7 +387,7 @@ define([
         $("<span/>")
             .addClass("item_name")
             .appendTo(link);
-        
+
         if (selectable === false) {
             checkbox.css('visibility', 'hidden');
         } else if (selectable === true) {
@@ -500,7 +531,7 @@ define([
                 total++;
             }
         });
-        
+ 
         var select_all = $("#select-all");
         if (checked === 0) {
             select_all.prop('checked', false);
