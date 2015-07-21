@@ -12,9 +12,14 @@ from notebook.utils import url_path_join as ujoin
 from .handlers import TerminalHandler, TermSocket
 from . import api_handlers
 
-def initialize(webapp):
+def initialize(webapp, notebook_dir, connection_url):
     shell = os.environ.get('SHELL') or 'sh'
-    terminal_manager = webapp.settings['terminal_manager'] = NamedTermManager(shell_command=[shell])
+    terminal_manager = webapp.settings['terminal_manager'] = NamedTermManager(
+        shell_command=[shell],
+        extra_env={'JUPYTER_SERVER_ROOT': notebook_dir,
+                   'JUPYTER_SERVER_URL': connection_url,
+                   },
+    )
     terminal_manager.log = app_log
     base_url = webapp.settings['base_url']
     handlers = [

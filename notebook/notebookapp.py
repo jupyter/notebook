@@ -889,7 +889,7 @@ class NotebookApp(JupyterApp):
     def init_terminals(self):
         try:
             from .terminal import initialize
-            initialize(self.web_app)
+            initialize(self.web_app, self.notebook_dir, self.connection_url)
             self.web_app.settings['terminals_available'] = True
         except ImportError as e:
             log = self.log.debug if sys.platform == 'win32' else self.log.warn
