@@ -168,10 +168,8 @@ class ContentsManager(LoggingConfigurable):
 
         Parameters
         ----------
-        name : string
-            The name of the file you are checking.
         path : string
-            The relative path to the file's directory (with '/' as separator)
+            The API path of a file to check for.
 
         Returns
         -------
@@ -188,7 +186,7 @@ class ContentsManager(LoggingConfigurable):
         Parameters
         ----------
         path : string
-            The relative path to the file's directory (with '/' as separator)
+            The API path of a file or directory to check for.
 
         Returns
         -------
