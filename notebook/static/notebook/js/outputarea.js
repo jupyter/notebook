@@ -595,7 +595,7 @@ define([
 
     var append_markdown = function(markdown, md, element) {
         var type = 'text/markdown';
-        var toinsert = this.create_output_subarea(md, "output_markdown", type);
+        var toinsert = this.create_output_subarea(md, "output_markdown rendered_html", type);
         var text_and_math = mathjaxutils.remove_math(markdown);
         var text = text_and_math[0];
         var math = text_and_math[1];
@@ -614,7 +614,7 @@ define([
          * We just eval the JS code, element appears in the local scope.
          */
         var type = 'application/javascript';
-        var toinsert = this.create_output_subarea(md, "output_javascript", type);
+        var toinsert = this.create_output_subarea(md, "output_javascript rendered_html", type);
         this.keyboard_manager.register_events(toinsert);
         element.append(toinsert);
 
