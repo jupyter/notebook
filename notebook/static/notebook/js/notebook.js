@@ -256,7 +256,7 @@ define(function (require) {
         });
         
         this.events.on('kernel_busy.Kernel', function () {
-            that.kernel_busy = false;
+            that.kernel_busy = true;
         });
 
         var collapse_time = function (time) {
@@ -292,10 +292,6 @@ define(function (require) {
             if (kill_kernel) {
                 that.session.delete();
             }
-            // if the kernel is busy, prompt the user if he’s sure
-            if (that.kernel_busy) {
-                return "The Kernel is busy, changes may be lost.";
-            }
             // if we are autosaving, trigger an autosave on nav-away.
             // still warn, because if we don't the autosave may fail.
             if (that.dirty) {
@@ -313,6 +309,10 @@ define(function (require) {
                 } else {
                     return "Unsaved changes will be lost.";
                 }
+            }
+            // if the kernel is busy, prompt the user if he’s sure
+            if (that.kernel_busy) {
+                return "The Kernel is busy, outputs may be lost.";
             }
             // IE treats null as a string.  Instead just return which will avoid the dialog.
             return;
