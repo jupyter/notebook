@@ -16,11 +16,14 @@ from __future__ import print_function
 import os
 import sys
 
+import pipes
 from distutils import log
 from distutils.cmd import Command
 from fnmatch import fnmatch
 from glob import glob
+from multiprocessing.pool import ThreadPool
 from subprocess import check_call
+
 
 #-------------------------------------------------------------------------------
 # Useful globals and utility functions
@@ -287,6 +290,11 @@ def mtime(path):
     return os.stat(path).st_mtime
 
 
+def run(cmd, *args, **kwargs):
+    """Echo a command before running it"""
+    log.info(" ".join(cmd))
+    return check_call(cmd, *args, **kwargs)
+
 
 class Bower(Command):
     description = "fetch static client-side components with bower"
@@ -326,14 +334,14 @@ class Bower(Command):
         
         if self.should_run_npm():
             print("installing build dependencies with npm")
-            check_call(['npm', 'install'], cwd=repo_root)
+            run(['npm', 'install'], cwd=repo_root)
             os.utime(self.node_modules, None)
         
         env = os.environ.copy()
         env['PATH'] = npm_path
         
         try:
-            check_call(
+            run(
                 ['bower', 'install', '--allow-root', '--config.interactive=false'],
                 cwd=repo_root,
                 env=env
@@ -352,7 +360,7 @@ class CompileCSS(Command):
     
     Regenerate the compiled CSS from LESS sources.
     
-    Requires various dev dependencies, such as gulp and lessc.
+    Requires various dev dependencies, such as require and lessc.
     """
     description = "Recompile Notebook CSS"
     user_options = []
@@ -367,22 +375,32 @@ class CompileCSS(Command):
         self.run_command('jsdeps')
         env = os.environ.copy()
         env['PATH'] = npm_path
-        try:
-            check_call(['gulp','css'], cwd=repo_root, env=env)
-        except OSError as e:
-            print("Failed to run gulp css: %s" % e, file=sys.stderr)
-            print("You can install js dependencies with `npm install`", file=sys.stderr)
-            raise
+        
+        for name in ('ipython', 'style'):
+            
+            src = pjoin(static, 'style', '%s.less' % name)
+            dst = pjoin(static, 'style', '%s.min.css' % name)
+            try:
+                run(['lessc',
+                    '--source-map',
+                    '--include-path=%s' % pipes.quote(static),
+                    src,
+                    dst,
+                ], cwd=repo_root, env=env)
+            except OSError as e:
+                print("Failed to build css: %s" % e, file=sys.stderr)
+                print("You can install js dependencies with `npm install`", file=sys.stderr)
+                raise
         # update package data in case this created new files
         update_package_data(self.distribution)
 
 
 class CompileJS(Command):
-    """Rebuild minified Notebook Javascript
+    """Rebuild Notebook Javascript main.min.js files
     
-    Calls `gulp js`
+    Calls require via build-main.js
     """
-    description = "Rebuild Notebook Javascript"
+    description = "Rebuild Notebook Javascript main.min.js files"
     user_options = []
 
     def initialize_options(self):
@@ -390,17 +408,52 @@ class CompileJS(Command):
 
     def finalize_options(self):
         pass
+    
+    def sources(self, name):
+        """Generator yielding .js sources that an application depends on"""
+        yield pjoin(static, name, 'js', 'main.js')
+
+        for sec in [name, 'base', 'auth']:
+            for f in glob(pjoin(static, sec, 'js', '*.js')):
+                yield f
+        yield pjoin(static, 'services', 'config.js')
+        if name == 'notebook':
+            for f in glob(pjoin(static, 'services', '*', '*.js')):
+                yield f
+        for parent, dirs, files in os.walk(pjoin(static, 'components')):
+            if os.path.basename(parent) == 'MathJax':
+                # don't look in MathJax, since it takes forever to walk it
+                dirs[:] = []
+                continue
+            for f in files:
+                yield pjoin(parent, f)
+    
+    def should_run(self, name, target):
+        if not os.path.exists(target):
+            return True
+        target_mtime = mtime(target)
+        for source in self.sources(name):
+            if mtime(source) > target_mtime:
+                print(source, target)
+                return True
+        return False
+        
+    def build_main(self, name):
+        """Build main.min.js"""
+        target = pjoin(static, name, 'js', 'main.min.js')
+        
+        if not self.should_run(name, target):
+            log.info("%s up to date" % target)
+            return
+        log.info("Rebuilding %s" % target)
+        run(['node', 'tools/build-main.js', name])
 
     def run(self):
         self.run_command('jsdeps')
         env = os.environ.copy()
         env['PATH'] = npm_path
-        try:
-            check_call(['gulp','js'], cwd=repo_root, env=env)
-        except OSError as e:
-            print("Failed to run gulp js: %s" % e, file=sys.stderr)
-            print("You can install js dependencies with `npm install`", file=sys.stderr)
-            raise
+        pool = ThreadPool()
+        pool.map(self.build_main, ['notebook', 'tree', 'edit', 'terminal', 'auth'])
         # update package data in case this created new files
         update_package_data(self.distribution)
 
