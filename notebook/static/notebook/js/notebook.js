@@ -114,6 +114,7 @@ define(function (require) {
         this.next_prompt_number = 1;
         this.session = null;
         this.kernel = null;
+        this.kernel_busy = false;
         this.clipboard = null;
         this.undelete_backup = null;
         this.undelete_index = null;
@@ -249,6 +250,14 @@ define(function (require) {
             var cm_mode = langinfo.codemirror_mode || langinfo.name || 'null';
             that.set_codemirror_mode(cm_mode);
         });
+        
+        this.events.on('kernel_idle.Kernel', function () {
+            that.kernel_busy = false;
+        });
+        
+        this.events.on('kernel_busy.Kernel', function () {
+            that.kernel_busy = false;
+        });
 
         var collapse_time = function (time) {
             var app_height = $('#ipython-main-app').height(); // content height
@@ -274,7 +283,7 @@ define(function (require) {
             var time = (extrap !== undefined) ? ((extrap.duration !== undefined ) ? extrap.duration : 'fast') : 'fast';
             expand_time(time);
         });
-        
+
         // Firefox 22 broke $(window).on("beforeunload")
         // I'm not sure why or how.
         window.onbeforeunload = function (e) {
@@ -282,6 +291,10 @@ define(function (require) {
             var kill_kernel = false;
             if (kill_kernel) {
                 that.session.delete();
+            }
+            // if the kernel is busy, prompt the user if he’s sure
+            if (that.kernel_busy) {
+                return "The Kernel is busy, changes may be lost.";
             }
             // if we are autosaving, trigger an autosave on nav-away.
             // still warn, because if we don't the autosave may fail.
