@@ -237,6 +237,20 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('services.nbconvert.handlers'))
         handlers.extend(load_handlers('services.kernelspecs.handlers'))
         handlers.extend(load_handlers('services.security.handlers'))
+        
+        # BEGIN HARDCODED WIDGETS HACK
+        try:
+            import ipywidgets
+            handlers.append(
+                (r"/nbextensions/widgets/(.*)", FileFindHandler, {
+                    'path': ipywidgets.find_static_assets(),
+                    'no_cache_paths': ['/'], # don't cache anything in nbextensions
+                }),
+            )
+        except:
+            app_log.warn('ipywidgets package not installed.  Widgets are unavailable.')
+        # END HARDCODED WIDGETS HACK
+        
         handlers.append(
             (r"/nbextensions/(.*)", FileFindHandler, {
                 'path': settings['nbextensions_path'],
