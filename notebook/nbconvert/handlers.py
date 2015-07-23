@@ -85,7 +85,8 @@ class NbconvertFileHandler(IPythonHandler):
         model = self.contents_manager.get(path=path)
         name = model['name']
         if model['type'] != 'notebook':
-            raise web.HTTPError(400, "Not a notebook: %s" % path)
+            # not a notebook, redirect to files
+            return FilesRedirectHandler.redirect_to_files(self, path)
 
         self.set_header('Last-Modified', model['last_modified'])
 
@@ -157,5 +158,4 @@ default_handlers = [
     (r"/nbconvert/%s" % _format_regex, NbconvertPostHandler),
     (r"/nbconvert/%s%s" % (_format_regex, path_regex),
          NbconvertFileHandler),
-    (r"/nbconvert/html%s" % path_regex, FilesRedirectHandler),
 ]
