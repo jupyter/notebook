@@ -53,7 +53,7 @@ class ContentsManager(LoggingConfigurable):
     def _notary_default(self):
         return sign.NotebookNotary(parent=self)
 
-    hide_globs = List(Unicode, [
+    hide_globs = List(Unicode(), [
             u'__pycache__', '*.pyc', '*.pyo',
             '.DS_Store', '*.so', '*.dylib', '*~',
         ], config=True, help="""
