@@ -1,7 +1,0 @@
--e git+https://github.com/ipython/traitlets.git#egg=traitlets
--e git+https://github.com/jupyter/jupyter_core.git#egg=jupyter_core
--e git+https://github.com/jupyter/nbformat.git#egg=nbformat
--e git+https://github.com/jupyter/jupyter_client.git#egg=jupyter_client
--e git+https://github.com/ipython/ipython.git#egg=ipython
--e git+https://github.com/ipython/ipykernel.git#egg=ipykernel
--e git+https://github.com/jupyter/nbconvert.git#egg=nbconvert

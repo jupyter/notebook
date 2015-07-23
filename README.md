@@ -4,10 +4,9 @@ The Jupyter HTML notebook is a web-based notebook environment for interactive co
 
 Dev quickstart:
 
-* Create a virtual env (ie jupyter-dev)
-* ensure that you have node/npm installed (ie brew install node on OS X)
+* ensure that you have node/npm installed (e.g. `brew install node` on OS X)
 * Clone this repo and cd into it
-* pip install -r requirements.txt -e .
+* `pip install --pre -e .`
 
 _NOTE_: For Debian/Ubuntu systems, if you're installing the system node you need
 to use the 'nodejs-legacy' package and not the 'node' package.
@@ -16,15 +15,15 @@ Launch with:
 
     jupyter notebook
 
-For Ubuntu Trusty:
+Example installation (tested on Ubuntu Trusty):
+
 ```
 sudo apt-get install nodejs-legacy npm python-virtualenv python-dev
-python2 -m virtualenv ~/.virtualenvs/notebook
-source ~/.virtualenvs/notebook/bin/activate
+# ensure setuptools/pip are up-to-date
 pip install --upgrade setuptools pip
 git clone https://github.com/jupyter/notebook.git
 cd notebook
-pip install -r requirements.txt -e .
+pip install --pre -e .
 jupyter notebook
 ```
 
