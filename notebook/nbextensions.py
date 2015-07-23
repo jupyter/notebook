@@ -279,15 +279,15 @@ class InstallNBExtensionApp(JupyterApp):
     aliases = aliases
     flags = flags
     
-    overwrite = Bool(False, config=True, help="Force overwrite of existing files")
-    symlink = Bool(False, config=True, help="Create symlinks instead of copying files")
-    user = Bool(False, config=True, help="Whether to do a user install")
-    prefix = Unicode('', config=True, help="Installation prefix")
-    nbextensions_dir = Unicode('', config=True, help="Full path to nbextensions dir (probably use prefix or user)")
-    destination = Unicode('', config=True, help="Destination for the copy or symlink")
-    verbose = Enum((0,1,2), default_value=1, config=True,
+    overwrite = Bool(False, help="Force overwrite of existing files").tag(config=True)
+    symlink = Bool(False, help="Create symlinks instead of copying files").tag(config=True)
+    user = Bool(False, help="Whether to do a user install").tag(config=True)
+    prefix = Unicode('', help="Installation prefix").tag(config=True)
+    nbextensions_dir = Unicode('', help="Full path to nbextensions dir (probably use prefix or user)").tag(config=True)
+    destination = Unicode('', help="Destination for the copy or symlink").tag(config=True)
+    verbose = Enum((0,1,2), default_value=1, 
         help="Verbosity level"
-    )
+    ).tag(config=True)
     
     def install_extensions(self):
         if len(self.extra_args)>1:
