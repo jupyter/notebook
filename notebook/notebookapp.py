@@ -974,20 +974,6 @@ class NotebookApp(JupyterApp):
         """Check the components submodule, and warn if it's unclean"""
         # TODO: this should still check, but now we use bower, not git submodule
         pass
-    
-    def init_kernel_specs(self):
-        """Check that the IPython kernel is present, if available"""
-        try:
-            self.kernel_spec_manager.get_kernel_spec(NATIVE_KERNEL_NAME)
-        except NoSuchKernel:
-            try:
-                from ipykernel.kernelspec import install
-            except ImportError:
-                self.log.warn("IPython kernel not available")
-            else:
-                self.log.warn("Installing IPython kernel spec")
-                install(kernel_spec_manager=self.kernel_spec_manager, user=True)
-        
 
     def init_server_extensions(self):
         """Load any extensions specified by config.
@@ -1016,7 +1002,6 @@ class NotebookApp(JupyterApp):
         self.init_configurables()
         self.init_components()
         self.init_webapp()
-        self.init_kernel_specs()
         self.init_terminals()
         self.init_signal()
         self.init_server_extensions()
