@@ -295,7 +295,11 @@ define([
         for (var i=0; i<len; i++) {
             model = list.content[i];
             item = this.new_item(i+offset, true);
-            this.add_link(model, item);
+            try {
+                this.add_link(model, item);
+            } catch(err) {
+                console.log('Error adding link: ' + err)
+            }
         }
         // Trigger an event when we've finished drawing the notebook list.
         events.trigger('draw_notebook_list.NotebookList');
