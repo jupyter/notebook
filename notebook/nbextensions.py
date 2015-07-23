@@ -288,6 +288,9 @@ class InstallNBExtensionApp(JupyterApp):
     verbose = Enum((0,1,2), default_value=1, config=True,
         help="Verbosity level"
     )
+
+    def _config_file_name_default(self):
+        return 'jupyter_notebook_config'
     
     def install_extensions(self):
         if len(self.extra_args)>1:
@@ -316,6 +319,71 @@ class InstallNBExtensionApp(JupyterApp):
                 print(str(e), file=sys.stderr)
                 self.exit(1)
 
+
+class EnableNBExtensionApp(JupyterApp):
+    name = "jupyter nbextension enable"
+    version = __version__
+    description = "Configure an nbextension to be automatically loaded"
+
+    section = Unicode('notebook', config=True,
+          help=("Which config section to add the extension to. "
+                "'common' will affect all pages.")
+    )
+
+    aliases = {'section': 'EnableNBExtensionApp.section',
+              }
+
+    def _config_file_name_default(self):
+        return 'jupyter_notebook_config'
+
+    def enable_nbextension(self, name):
+        # Local import to avoid circular import issue on Py 2
+        from notebook.services.config import ConfigManager
+        cm = ConfigManager(parent=self, config=self.config)
+        cm.update(self.section, {"load_extensions": {name: True}})
+
+    def start(self):
+        if not self.extra_args:
+            sys.exit('No extensions specified')
+        elif len(self.extra_args) > 1:
+            sys.exit('Please specify one extension at a time')
+
+        self.enable_nbextension(self.extra_args[0])
+
+
+class DisableNBExtensionApp(JupyterApp):
+    name = "jupyter nbextension disable"
+    version = __version__
+    description = "Remove the configuration to automatically load an extension"
+
+    section = Unicode('notebook', config=True,
+          help=("Which config section to remove the extension from. "
+                "This should match the one it was previously added to.")
+    )
+
+    aliases = {'section': 'DisableNBExtensionApp.section',
+              }
+
+    def _config_file_name_default(self):
+        return 'jupyter_notebook_config'
+
+    def disable_nbextension(self, name):
+        # Local import to avoid circular import issue on Py 2
+        from notebook.services.config import ConfigManager
+        cm = ConfigManager(parent=self, config=self.config)
+        if name not in cm.get(self.section).get('load_extensions', {}):
+            sys.exit('{} is not enabled in section {}'.format(name, self.section))
+        # We're using a dict as a set - updating with None removes the key
+        cm.update(self.section, {"load_extensions": {name: None}})
+
+    def start(self):
+        if not self.extra_args:
+            sys.exit('No extensions specified')
+        elif len(self.extra_args) > 1:
+            sys.exit('Please specify one extension at a time')
+
+        self.disable_nbextension(self.extra_args[0])
+
 class NBExtensionApp(JupyterApp):
     name = "jupyter nbextension"
     version = __version__
@@ -325,6 +393,8 @@ class NBExtensionApp(JupyterApp):
         install=(InstallNBExtensionApp,
             """Install notebook extensions"""
         ),
+        enable=(EnableNBExtensionApp, "Enable a notebook extension"),
+        disable=(DisableNBExtensionApp, "Disable a notebook extension"),
     )
 
     def start(self):
