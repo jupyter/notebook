@@ -29,16 +29,16 @@ class FileCheckpoints(FileManagerMixin, Checkpoints):
 
     checkpoint_dir = Unicode(
         '.ipynb_checkpoints',
-        config=True,
+        
         help="""The directory name in which to keep file checkpoints
 
         This is a path relative to the file's own directory.
 
         By default, it is .ipynb_checkpoints
         """,
-    )
+    ).tag(config=True)
 
-    root_dir = Unicode(config=True)
+    root_dir = Unicode().tag(config=True)
 
     def _root_dir_default(self):
         try:

@@ -293,9 +293,9 @@ class NbserverListApp(JupyterApp):
               "Produce machine-readable JSON output."),
     )
     
-    json = Bool(False, config=True,
+    json = Bool(False, 
           help="If True, each line of output will be a JSON object with the "
-                  "details from the server info file.")
+                  "details from the server info file.").tag(config=True)
 
     def start(self):
         if not self.json:
@@ -397,20 +397,20 @@ class NotebookApp(JupyterApp):
     auto_create = Bool(True)
 
     # file to be opened in the notebook server
-    file_to_run = Unicode('', config=True)
+    file_to_run = Unicode('').tag(config=True)
 
     # Network related information
     
-    allow_origin = Unicode('', config=True,
+    allow_origin = Unicode('', 
         help="""Set the Access-Control-Allow-Origin header
         
         Use '*' to allow any origin to access your server.
         
         Takes precedence over allow_origin_pat.
         """
-    )
+    ).tag(config=True)
     
-    allow_origin_pat = Unicode('', config=True,
+    allow_origin_pat = Unicode('', 
         help="""Use a regular expression for the Access-Control-Allow-Origin header
         
         Requests from an origin matching the expression will get replies with:
@@ -421,19 +421,19 @@ class NotebookApp(JupyterApp):
         
         Ignored if allow_origin is set.
         """
-    )
+    ).tag(config=True)
     
-    allow_credentials = Bool(False, config=True,
+    allow_credentials = Bool(False, 
         help="Set the Access-Control-Allow-Credentials: true header"
-    )
+    ).tag(config=True)
     
-    default_url = Unicode('/tree', config=True,
+    default_url = Unicode('/tree', 
         help="The default URL to redirect to from `/`"
-    )
+    ).tag(config=True)
     
-    ip = Unicode('localhost', config=True,
+    ip = Unicode('localhost', 
         help="The IP address the notebook server will listen on."
-    )
+    ).tag(config=True)
     def _ip_default(self):
         """Return localhost if available, 127.0.0.1 otherwise.
         
@@ -452,28 +452,28 @@ class NotebookApp(JupyterApp):
     def _ip_changed(self, name, old, new):
         if new == u'*': self.ip = u''
 
-    port = Integer(8888, config=True,
+    port = Integer(8888, 
         help="The port the notebook server will listen on."
-    )
-    port_retries = Integer(50, config=True,
+    ).tag(config=True)
+    port_retries = Integer(50, 
         help="The number of additional ports to try if the specified port is not available."
-    )
+    ).tag(config=True)
 
-    certfile = Unicode(u'', config=True, 
+    certfile = Unicode(u'', 
         help="""The full path to an SSL/TLS certificate file."""
-    )
+    ).tag(config=True)
     
-    keyfile = Unicode(u'', config=True, 
+    keyfile = Unicode(u'', 
         help="""The full path to a private key file for usage with SSL/TLS."""
-    )
+    ).tag(config=True)
     
-    cookie_secret_file = Unicode(config=True,
+    cookie_secret_file = Unicode(
         help="""The file where the cookie secret is stored."""
-    )
+    ).tag(config=True)
     def _cookie_secret_file_default(self):
         return os.path.join(self.runtime_dir, 'notebook_cookie_secret')
     
-    cookie_secret = Bytes(b'', config=True,
+    cookie_secret = Bytes(b'', 
         help="""The random bytes used to secure cookies.
         By default this is a new random number every time you start the Notebook.
         Set it to a value in a config file to enable logins to persist across server sessions.
@@ -481,7 +481,7 @@ class NotebookApp(JupyterApp):
         Note: Cookie secrets should be kept private, do not share config files with
         cookie_secret stored in plaintext (you can read the value from a file).
         """
-    )
+    ).tag(config=True)
     def _cookie_secret_default(self):
         if os.path.exists(self.cookie_secret_file):
             with io.open(self.cookie_secret_file, 'rb') as f:
@@ -504,7 +504,7 @@ class NotebookApp(JupyterApp):
                 self.cookie_secret_file
             )
 
-    password = Unicode(u'', config=True,
+    password = Unicode(u'', 
                       help="""Hashed password to use for web authentication.
 
                       To generate, type in a python/IPython shell:
@@ -513,48 +513,48 @@ class NotebookApp(JupyterApp):
 
                       The string should be of the form type:salt:hashed-password.
                       """
-    )
+    ).tag(config=True)
 
-    open_browser = Bool(True, config=True,
+    open_browser = Bool(True, 
                         help="""Whether to open in a browser after starting.
                         The specific browser used is platform dependent and
                         determined by the python standard library `webbrowser`
                         module, unless it is overridden using the --browser
                         (NotebookApp.browser) configuration option.
-                        """)
+                        """).tag(config=True)
 
-    browser = Unicode(u'', config=True,
+    browser = Unicode(u'', 
                       help="""Specify what command to use to invoke a web
                       browser when opening the notebook. If not specified, the
                       default browser will be determined by the `webbrowser`
                       standard library module, which allows setting of the
                       BROWSER environment variable to override it.
-                      """)
+                      """).tag(config=True)
     
-    webapp_settings = Dict(config=True,
+    webapp_settings = Dict(
         help="DEPRECATED, use tornado_settings"
-    )
+    ).tag(config=True)
     def _webapp_settings_changed(self, name, old, new):
         self.log.warn("\n    webapp_settings is deprecated, use tornado_settings.\n")
         self.tornado_settings = new
     
-    tornado_settings = Dict(config=True,
+    tornado_settings = Dict(
             help="Supply overrides for the tornado.web.Application that the "
-                 "IPython notebook uses.")
+                 "IPython notebook uses.").tag(config=True)
     
-    ssl_options = Dict(config=True,
+    ssl_options = Dict(
             help="""Supply SSL options for the tornado HTTPServer.
-            See the tornado docs for details.""")
+            See the tornado docs for details.""").tag(config=True)
     
-    jinja_environment_options = Dict(config=True, 
-            help="Supply extra arguments that will be passed to Jinja environment.")
+    jinja_environment_options = Dict(
+            help="Supply extra arguments that will be passed to Jinja environment.").tag(config=True)
 
     jinja_template_vars = Dict(
-        config=True,
+        
         help="Extra variables to supply to jinja templates when rendering.",
-    )
+    ).tag(config=True)
     
-    enable_mathjax = Bool(True, config=True,
+    enable_mathjax = Bool(True, 
         help="""Whether to enable MathJax for typesetting math/TeX
 
         MathJax is the javascript library IPython uses to render math/LaTeX. It is
@@ -563,35 +563,35 @@ class NotebookApp(JupyterApp):
 
         When disabled, equations etc. will appear as their untransformed TeX source.
         """
-    )
+    ).tag(config=True)
     def _enable_mathjax_changed(self, name, old, new):
         """set mathjax url to empty if mathjax is disabled"""
         if not new:
             self.mathjax_url = u''
 
-    base_url = Unicode('/', config=True,
+    base_url = Unicode('/', 
                                help='''The base URL for the notebook server.
 
                                Leading and trailing slashes can be omitted,
                                and will automatically be added.
-                               ''')
+                               ''').tag(config=True)
     def _base_url_changed(self, name, old, new):
         if not new.startswith('/'):
             self.base_url = '/'+new
         elif not new.endswith('/'):
             self.base_url = new+'/'
     
-    base_project_url = Unicode('/', config=True, help="""DEPRECATED use base_url""")
+    base_project_url = Unicode('/', help="""DEPRECATED use base_url""").tag(config=True)
     def _base_project_url_changed(self, name, old, new):
         self.log.warn("base_project_url is deprecated, use base_url")
         self.base_url = new
 
-    extra_static_paths = List(Unicode, config=True,
+    extra_static_paths = List(Unicode(), 
         help="""Extra paths to search for serving static files.
         
         This allows adding javascript/css to be available from the notebook server machine,
         or overriding individual files in the IPython"""
-    )
+    ).tag(config=True)
     
     @property
     def static_file_path(self):
@@ -610,20 +610,20 @@ class NotebookApp(JupyterApp):
                 DEFAULT_STATIC_FILES_PATH)
         ]
 
-    extra_template_paths = List(Unicode, config=True,
+    extra_template_paths = List(Unicode(), 
         help="""Extra paths to search for serving jinja templates.
 
         Can be used to override templates from notebook.templates."""
-    )
+    ).tag(config=True)
 
     @property
     def template_file_path(self):
         """return extra paths + the default locations"""
         return self.extra_template_paths + DEFAULT_TEMPLATE_PATH_LIST
 
-    extra_nbextensions_path = List(Unicode, config=True,
+    extra_nbextensions_path = List(Unicode(), 
         help="""extra paths to look for Javascript notebook extensions"""
-    )
+    ).tag(config=True)
     
     @property
     def nbextensions_path(self):
@@ -633,16 +633,16 @@ class NotebookApp(JupyterApp):
         path.append(os.path.join(get_ipython_dir(), 'nbextensions'))
         return path
 
-    websocket_url = Unicode("", config=True,
+    websocket_url = Unicode("", 
         help="""The base URL for websockets,
         if it differs from the HTTP server (hint: it almost certainly doesn't).
         
         Should be in the form of an HTTP origin: ws[s]://hostname[:port]
         """
-    )
-    mathjax_url = Unicode("", config=True,
+    ).tag(config=True)
+    mathjax_url = Unicode("", 
         help="""The url for MathJax.js."""
-    )
+    ).tag(config=True)
     def _mathjax_url_default(self):
         if not self.enable_mathjax:
             return u''
@@ -661,19 +661,19 @@ class NotebookApp(JupyterApp):
     contents_manager_class = Type(
         default_value=FileContentsManager,
         klass=ContentsManager,
-        config=True,
+        
         help='The notebook manager class to use.'
-    )
+    ).tag(config=True)
     kernel_manager_class = Type(
         default_value=MappingKernelManager,
-        config=True,
+        
         help='The kernel manager class to use.'
-    )
+    ).tag(config=True)
     session_manager_class = Type(
         default_value=SessionManager,
-        config=True,
+        
         help='The session manager class to use.'
-    )
+    ).tag(config=True)
 
     config_manager_class = Type(
         default_value=ConfigManager,
@@ -685,7 +685,7 @@ class NotebookApp(JupyterApp):
 
     kernel_spec_manager_class = Type(
         default_value=KernelSpecManager,
-        config=True,
+        
         help="""
         The kernel spec manager class to use. Should be a subclass
         of `jupyter_client.kernelspec.KernelSpecManager`.
@@ -693,26 +693,26 @@ class NotebookApp(JupyterApp):
         The Api of KernelSpecManager is provisional and might change
         without warning between this version of IPython and the next stable one.
         """
-    )
+    ).tag(config=True)
 
     login_handler_class = Type(
         default_value=LoginHandler,
         klass=web.RequestHandler,
-        config=True,
+        
         help='The login handler class to use.',
-    )
+    ).tag(config=True)
 
     logout_handler_class = Type(
         default_value=LogoutHandler,
         klass=web.RequestHandler,
-        config=True,
+        
         help='The logout handler class to use.',
-    )
+    ).tag(config=True)
 
-    trust_xheaders = Bool(False, config=True,
+    trust_xheaders = Bool(False, 
         help=("Whether to trust or not X-Scheme/X-Forwarded-Proto and X-Real-Ip/X-Forwarded-For headers"
               "sent by the upstream reverse proxy. Necessary if the proxy handles SSL")
-    )
+    ).tag(config=True)
 
     info_file = Unicode()
 
@@ -720,11 +720,11 @@ class NotebookApp(JupyterApp):
         info_file = "nbserver-%s.json" % os.getpid()
         return os.path.join(self.runtime_dir, info_file)
     
-    pylab = Unicode('disabled', config=True,
+    pylab = Unicode('disabled', 
         help="""
         DISABLED: use %pylab or %matplotlib in the notebook to enable matplotlib.
         """
-    )
+    ).tag(config=True)
     def _pylab_changed(self, name, old, new):
         """when --pylab is specified, display a warning and exit"""
         if new != 'warn':
@@ -737,9 +737,9 @@ class NotebookApp(JupyterApp):
         )
         self.exit(1)
 
-    notebook_dir = Unicode(config=True,
+    notebook_dir = Unicode(
         help="The directory to use for notebooks and kernels."
-    )
+    ).tag(config=True)
 
     def _notebook_dir_default(self):
         if self.file_to_run:
@@ -760,16 +760,16 @@ class NotebookApp(JupyterApp):
         self.config.FileContentsManager.root_dir = new
         self.config.MappingKernelManager.root_dir = new
 
-    server_extensions = List(Unicode(), config=True,
+    server_extensions = List(Unicode(), 
         help=("Python modules to load as notebook server extensions. "
               "This is an experimental API, and may change in future releases.")
-    )
+    ).tag(config=True)
 
     reraise_server_extension_failures = Bool(
         False,
-        config=True,
+        
         help="Reraise exceptions encountered loading server extensions?",
-    )
+    ).tag(config=True)
 
     def parse_command_line(self, argv=None):
         super(NotebookApp, self).parse_command_line(argv)

@@ -12,6 +12,6 @@ from traitlets import Unicode
 class ConfigManager(BaseJSONConfigManager):
     """Config Manager used for storing notebook frontend config"""
     
-    config_dir = Unicode(config=True)
+    config_dir = Unicode().tag(config=True)
     def _config_dir_default(self):
         return os.path.join(jupyter_config_dir(), 'nbconfig')

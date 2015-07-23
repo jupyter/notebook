@@ -55,7 +55,7 @@ def _post_save_script(model, os_path, contents_manager, **kwargs):
 
 class FileContentsManager(FileManagerMixin, ContentsManager):
 
-    root_dir = Unicode(config=True)
+    root_dir = Unicode().tag(config=True)
 
     def _root_dir_default(self):
         try:
@@ -63,7 +63,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         except AttributeError:
             return getcwd()
 
-    save_script = Bool(False, config=True, help='DEPRECATED, use post_save_hook')
+    save_script = Bool(False, help='DEPRECATED, use post_save_hook').tag(config=True)
     def _save_script_changed(self):
         self.log.warn("""
         `--script` is deprecated. You can trigger nbconvert via pre- or post-save hooks:
@@ -80,7 +80,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
         self.post_save_hook = _post_save_script
 
-    post_save_hook = Any(None, config=True,
+    post_save_hook = Any(None, 
         help="""Python callable or importstring thereof
 
         to be called on the path of a file just saved.
@@ -96,7 +96,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         - model: the model representing the file
         - contents_manager: this ContentsManager instance
         """
-    )
+    ).tag(config=True)
     def _post_save_hook_changed(self, name, old, new):
         if new and isinstance(new, string_types):
             self.post_save_hook = import_item(self.post_save_hook)

@@ -26,7 +26,7 @@ class MappingKernelManager(MultiKernelManager):
 
     kernel_argv = List(Unicode)
 
-    root_dir = Unicode(config=True)
+    root_dir = Unicode().tag(config=True)
 
     def _root_dir_default(self):
         try:

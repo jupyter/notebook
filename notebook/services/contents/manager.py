@@ -56,23 +56,23 @@ class ContentsManager(LoggingConfigurable):
     hide_globs = List(Unicode, [
             u'__pycache__', '*.pyc', '*.pyo',
             '.DS_Store', '*.so', '*.dylib', '*~',
-        ], config=True, help="""
+        ], help="""
         Glob patterns to hide in file and directory listings.
-    """)
+    """).tag(config=True)
 
-    untitled_notebook = Unicode("Untitled", config=True,
+    untitled_notebook = Unicode("Untitled", 
         help="The base name used when creating untitled notebooks."
-    )
+    ).tag(config=True)
 
-    untitled_file = Unicode("untitled", config=True,
+    untitled_file = Unicode("untitled", 
         help="The base name used when creating untitled files."
-    )
+    ).tag(config=True)
 
-    untitled_directory = Unicode("Untitled Folder", config=True,
+    untitled_directory = Unicode("Untitled Folder", 
         help="The base name used when creating untitled directories."
-    )
+    ).tag(config=True)
 
-    pre_save_hook = Any(None, config=True,
+    pre_save_hook = Any(None, 
         help="""Python callable or importstring thereof
 
         To be called on a contents model prior to save.
@@ -90,7 +90,7 @@ class ContentsManager(LoggingConfigurable):
         - path: the API path of the save destination
         - contents_manager: this ContentsManager instance
         """
-    )
+    ).tag(config=True)
     def _pre_save_hook_changed(self, name, old, new):
         if new and isinstance(new, string_types):
             self.pre_save_hook = import_item(self.pre_save_hook)
@@ -107,9 +107,9 @@ class ContentsManager(LoggingConfigurable):
             except Exception:
                 self.log.error("Pre-save hook failed on %s", path, exc_info=True)
 
-    checkpoints_class = Type(Checkpoints, config=True)
-    checkpoints = Instance(Checkpoints, config=True)
-    checkpoints_kwargs = Dict(config=True)
+    checkpoints_class = Type(Checkpoints).tag(config=True)
+    checkpoints = Instance(Checkpoints).tag(config=True)
+    checkpoints_kwargs = Dict().tag(config=True)
 
     def _checkpoints_default(self):
         return self.checkpoints_class(**self.checkpoints_kwargs)
