@@ -293,7 +293,7 @@ def mtime(path):
 def run(cmd, *args, **kwargs):
     """Echo a command before running it"""
     log.info(" ".join(cmd))
-    return check_call(cmd, *args, **kwargs)
+    return check_call(cmd, shell = True, *args, **kwargs)
 
 
 class Bower(Command):
