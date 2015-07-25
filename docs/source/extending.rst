@@ -16,10 +16,10 @@ Contents API
 The Jupyter Notebook web application provides a graphical interface for
 creating, opening, renaming, and deleting files in a virtual filesystem.
 
-The :class:`ContentsManager<manager.ContentsManager>` class defines an abstract
+The :class:`~manager.ContentsManager` class defines an abstract
 API for translating these interactions into operations on a particular storage
 medium. The default implementation,
-:class:`FileContentsManager<filemanager.FileContentsManager>`, uses the local
+:class:`~filemanager.FileContentsManager`, uses the local
 filesystem of the server for storage and straightforwardly serializes notebooks
 into JSON.  Users can override these behaviors by supplying custom subclasses
 of ContentsManager.
@@ -186,7 +186,7 @@ Required Methods
 ''''''''''''''''
 
 A minimal complete implementation of a custom
-:class:`ContentsManager<manager.ContentsManager>` must implement the following
+:class:`~manager.ContentsManager` must implement the following
 methods:
 
 .. autosummary::
