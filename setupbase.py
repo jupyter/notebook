@@ -33,6 +33,7 @@ from subprocess import check_call
 isfile = os.path.isfile
 pjoin = os.path.join
 repo_root = os.path.dirname(os.path.abspath(__file__))
+is_repo = os.path.isdir(pjoin(repo_root, '.git'))
 
 def oscmd(s):
     print(">", s)
@@ -371,15 +372,18 @@ class CompileCSS(Command):
     def finalize_options(self):
         pass
 
+    sources = []
+    targets = []
+    for name in ('ipython', 'style'):
+        sources.append(pjoin(static, 'style', '%s.less' % name))
+        targets.append(pjoin(static, 'style', '%s.min.css' % name))
+
     def run(self):
         self.run_command('jsdeps')
         env = os.environ.copy()
         env['PATH'] = npm_path
         
-        for name in ('ipython', 'style'):
-            
-            src = pjoin(static, 'style', '%s.less' % name)
-            dst = pjoin(static, 'style', '%s.min.css' % name)
+        for src, dst in zip(self.sources, self.targets):
             try:
                 run(['lessc',
                     '--source-map',
@@ -401,13 +405,18 @@ class CompileJS(Command):
     Calls require via build-main.js
     """
     description = "Rebuild Notebook Javascript main.min.js files"
-    user_options = []
+    user_options = [
+        ('force', 'f', "force rebuilding js targets"),
+    ]
 
     def initialize_options(self):
-        pass
+        self.force = False
 
     def finalize_options(self):
-        pass
+        self.force = bool(self.force)
+
+    apps = ['notebook', 'tree', 'edit', 'terminal', 'auth']
+    targets = [ pjoin(static, app, 'js', 'main.min.js') for app in apps ]
     
     def sources(self, name):
         """Generator yielding .js sources that an application depends on"""
@@ -415,7 +424,8 @@ class CompileJS(Command):
 
         for sec in [name, 'base', 'auth']:
             for f in glob(pjoin(static, sec, 'js', '*.js')):
-                yield f
+                if not f.endswith('.min.js'):
+                    yield f
         yield pjoin(static, 'services', 'config.js')
         if name == 'notebook':
             for f in glob(pjoin(static, 'services', '*', '*.js')):
@@ -429,7 +439,7 @@ class CompileJS(Command):
                 yield pjoin(parent, f)
     
     def should_run(self, name, target):
-        if not os.path.exists(target):
+        if self.force or not os.path.exists(target):
             return True
         target_mtime = mtime(target)
         for source in self.sources(name):
@@ -453,7 +463,7 @@ class CompileJS(Command):
         env = os.environ.copy()
         env['PATH'] = npm_path
         pool = ThreadPool()
-        pool.map(self.build_main, ['notebook', 'tree', 'edit', 'terminal', 'auth'])
+        pool.map(self.build_main, self.apps)
         # update package data in case this created new files
         update_package_data(self.distribution)
 
@@ -490,20 +500,44 @@ def css_js_prerelease(command, strict=False):
         def run(self):
             self.distribution.run_command('jsversion')
             jsdeps = self.distribution.get_command_obj('jsdeps')
-            jsdeps.force = True
             js = self.distribution.get_command_obj('js')
-            js.force = True
             css = self.distribution.get_command_obj('css')
-            css.force = True
+            jsdeps.force = js.force = strict
+
+            targets = [ jsdeps.bower_dir ]
+            targets.extend(js.targets)
+            targets.extend(css.targets)
+            missing = [ t for t in targets if not os.path.exists(t) ]
+
+            if not is_repo and not missing:
+                # If we're an sdist, we aren't a repo and everything should be present.
+                # Don't rebuild js/css in that case.
+                command.run(self)
+                return
+
             try:
                 self.distribution.run_command('css')
                 self.distribution.run_command('js')
             except Exception as e:
-                if strict:
-                    log.warn("rebuilding js and css failed")
+                # refresh missing
+                missing = [ t for t in targets if not os.path.exists(t) ]
+                if strict or missing:
+                    # die if strict or any targets didn't build
+                    prefix = os.path.commonprefix([repo_root + os.sep] + missing)
+                    missing = [ m[len(prefix):] for m in missing ]
+                    log.warn("rebuilding js and css failed. The following required files are missing: %s" % missing)
                     raise e
                 else:
                     log.warn("rebuilding js and css failed (not a problem)")
                     log.warn(str(e))
+
+            # check again for missing targets, just in case:
+            missing = [ t for t in targets if not os.path.exists(t) ]
+            if missing:
+                # command succeeded, but targets still missing (?!)
+                prefix = os.path.commonprefix([repo_root + os.sep] + missing)
+                missing = [ m[len(prefix):] for m in missing ]
+                raise ValueError("The following required files are missing: %s" % missing)
+
             command.run(self)
     return DecoratedCommand
