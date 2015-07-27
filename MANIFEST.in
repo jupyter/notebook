@@ -1,8 +1,12 @@
 include COPYING.md
 include CONTRIBUTING.md
 include README.md
+include package.json
 include bower.json
 include .bowerrc
+include setupbase.py
+include Dockerfile
+graft tools
 
 # Documentation
 graft docs
