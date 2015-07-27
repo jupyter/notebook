@@ -9,6 +9,6 @@ The Jupyter notebook
     config
     public_server
     security
-    extending
+    extending/index
     development
     examples/Notebook/Examples and Tutorials Index

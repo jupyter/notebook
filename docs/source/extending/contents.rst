@@ -1,15 +1,7 @@
-.. _extending:
-
-======================
-Extending the Notebook
-======================
-
-Certain subsystems of the notebook server are designed to be extended or
-overridden by users.  This document explains these systems and shows how to
-override the notebook's defaults with your own custom behavior.
+.. _contents_api:
 
 Contents API
-------------
+============
 
 .. currentmodule:: notebook.services.contents
 
@@ -28,12 +20,12 @@ This section describes the interface implemented by ContentsManager subclasses.
 We refer to this interface as the **Contents API**.
 
 Data Model
-^^^^^^^^^^
+----------
 
 .. currentmodule:: notebook.services.contents.manager
 
 Filesystem Entities
-'''''''''''''''''''
+~~~~~~~~~~~~~~~~~~~
 .. _notebook models:
 
 ContentsManager methods represent virtual filesystem entities as dictionaries,
@@ -153,7 +145,7 @@ model.  There are three model types: **notebook**, **file**, and **directory** .
 
 
 API Paths
-'''''''''
+~~~~~~~~~
 .. _apipaths:
 
 ContentsManager methods represent the locations of filesystem resources as
@@ -170,7 +162,7 @@ following guarantees are made:
 
 
 Writing a Custom ContentsManager
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------
 
 The default ContentsManager is designed for users running the notebook as an
 application on a personal computer.  It stores notebooks as .ipynb files on the
@@ -183,7 +175,7 @@ own ContentsManager that stores notebooks and files in a database.
 
 
 Required Methods
-''''''''''''''''
+~~~~~~~~~~~~~~~~
 
 A minimal complete implementation of a custom
 :class:`~manager.ContentsManager` must implement the following
@@ -200,13 +192,13 @@ methods:
 
 
 Customizing Checkpoints
-'''''''''''''''''''''''
+-----------------------
 
 TODO:
 
 
 Testing
-'''''''
+-------
 .. currentmodule:: notebook.services.contents.tests
 
 :mod:`notebook.services.contents.tests` includes several test suites written
@@ -216,10 +208,10 @@ ContentsManager.
 
 .. note::
 
-PGContents_ is an example of a complete implementation of a custom
-``ContentsManager``.  It stores notebooks and files in PostgreSQL_ and encodes
-directories as SQL relations.  PGContents also provides an example of how to
-re-use the notebook's tests.
+   PGContents_ is an example of a complete implementation of a custom
+   ``ContentsManager``.  It stores notebooks and files in PostgreSQL_ and encodes
+   directories as SQL relations.  PGContents also provides an example of how to
+   re-use the notebook's tests.
 
 .. _NBFormat: http://nbformat.readthedocs.org/en/latest/index.html
 .. _PGContents: https://github.com/quantopian/pgcontents
