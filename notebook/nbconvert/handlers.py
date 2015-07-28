@@ -98,7 +98,8 @@ class NbconvertFileHandler(IPythonHandler):
                         "name": name[:name.rfind('.')],
                         "modified_date": (model['last_modified']
                             .strftime(text.date_format))
-                    }
+                    },
+                    "profile_dir": self.config_manager.profile_dir
                 }
             )
         except Exception as e:
