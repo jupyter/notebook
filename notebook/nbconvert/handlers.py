@@ -98,7 +98,8 @@ class NbconvertFileHandler(IPythonHandler):
                         "name": name[:name.rfind('.')],
                         "modified_date": (model['last_modified']
                             .strftime(text.date_format))
-                    }
+                    },
+                    "config_dir": self.application.settings['config_dir'],
                 }
             )
         except Exception as e:
@@ -132,7 +133,10 @@ class NbconvertPostHandler(IPythonHandler):
         nbnode = from_dict(model['content'])
         
         try:
-            output, resources = exporter.from_notebook_node(nbnode)
+            output, resources = exporter.from_notebook_node(nbnode, resources={
+                "metadata": {"name": name[:name.rfind('.')],},
+                "config_dir": self.application.settings['config_dir'],
+            })
         except Exception as e:
             raise web.HTTPError(500, "nbconvert failed: %s" % e)
 

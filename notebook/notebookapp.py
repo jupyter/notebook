@@ -207,6 +207,7 @@ class NotebookWebApplication(web.Application):
             websocket_url=ipython_app.websocket_url,
             mathjax_url=ipython_app.mathjax_url,
             config=ipython_app.config,
+            config_dir=ipython_app.config_dir,
             jinja2_env=env,
             terminals_available=False,  # Set later if terminals are available
         )
