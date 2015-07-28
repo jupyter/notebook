@@ -842,6 +842,7 @@ define([
     };
     
     var utils = {
+        load_extension: load_extension,
         load_extensions: load_extensions,
         load_extensions_from_config: load_extensions_from_config,
         regex_split : regex_split,
