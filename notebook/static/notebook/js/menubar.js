@@ -113,12 +113,16 @@ define([
         this.element.find('#download_ipynb').click(function () {
             var base_url = that.notebook.base_url;
             var notebook_path = that.notebook.notebook_path;
+            var w = window.open('');
+            var url = utils.url_join_encode(base_url, 'files', notebook_path)
+                                + '?download=1';
             if (that.notebook.dirty) {
-                that.notebook.save_notebook({async : false});
+                that.notebook.save_notebook().then(function() {
+                    w.location = url;
+                });
+            } else {
+                w.location = url;
             }
-            
-            var url = utils.url_join_encode(base_url, 'files', notebook_path);
-            window.open(url + '?download=1');
         });
         
         this.element.find('#print_preview').click(function () {
