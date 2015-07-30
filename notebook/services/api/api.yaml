@@ -27,8 +27,69 @@ parameters:
     description: session uuid
     type: string
     format: uuid
+  path:
+    name: path
+    required: true
+    in: path
+    description: file path
+    type: string
 
 paths:
+  /contents/{path}:
+    parameters:
+      - $ref: '#/parameters/path'
+    get:
+      summary: Get contents of file or directory
+      description: A client can optionally specify a type and/or format argument via URL parameter. When given, the Contents service shall return a model in the requested type and/or format. If the request cannot be satisfied, e.g. type=text is requested, but the file is binary, then the request shall fail with 400 and have a JSON response containing a 'reason' field, with the value 'bad format' or 'bad type', depending on what was requested.
+      tags:
+        - contents
+      parameters:
+        - name: type
+          in: query
+          description: File type ('file', 'directory')
+          type: string
+          enum:
+            - file
+            - directory
+        - name: format
+          in: query
+          description: How file content should be returned ('text', 'base64')
+          type: string
+          enum:
+            - text
+            - base64
+        - name: content
+          in: query
+          description: return content (0 for no content, 1 for return content)
+          type: integer
+      responses:
+        404:
+          description: No item found
+        400:
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Error condition
+              reason:
+                type: string
+                description: Explanation of error reason
+        200:
+          description: Contents of file or directory.
+          headers:
+            Location:
+              description: Path for file
+              type: string
+            Last-Modified:
+              description: Last modified date for file
+              type: string
+              format: dateTime
+          schema:
+            $ref: '#/definitions/Contents'
+        500:
+          description: Model key error
   /sessions/{session}:
     parameters:
       - $ref: '#/parameters/session'
@@ -359,7 +420,51 @@ definitions:
             description: path to notebook
       kernel:
         $ref: '#/definitions/Kernel'
-        
-        
-
+  Contents:
+    description: A contents object.  The content and format keys may be null if content is not contained.  If type is 'file', then the mimetype will be null.
+    type: object
+    required:
+      - type
+      - name
+      - path
+      - writable
+      - created
+      - last_modified
+      - mimetype
+      - format
+      - content
+    properties:
+      name:
+        type: string
+        description: Name of file or directory, equivalent to the last part of the path
+      path:
+        type: string
+        description: Full path for file or directory
+      type:
+        type: string
+        description: Type of content
+        enum:
+          - directory
+          - file
+          - notebook
+      writable:
+        type: boolean
+        description: indicates whether the requester has permission to edit the file
+      created:
+        type: string
+        description: Creation timestamp
+        format: dateTime
+      last_modified:
+        type: string
+        description: Last modified timestamp
+        format: dateTime
+      mimetype:
+        type: string
+        description: The mimetype of a file.  If content is not null, and type is 'file', this will contain the mimetype of the file, otherwise this will be null.
+      content:
+        type: string
+        description: The content, if requested (otherwise null).  Will be an array if type is 'directory'
+      format:
+        type: string
+        description: Format of content (one of null, 'text', 'base64', 'json')
 
