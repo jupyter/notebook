@@ -815,7 +815,7 @@ class NotebookApp(JupyterApp):
         self.config_manager = self.config_manager_class(
             parent=self,
             log=self.log,
-            config_dir=self.config_dir,
+            config_dir=os.path.join(self.config_dir, 'nbconfig'),
         )
 
     def init_logging(self):
