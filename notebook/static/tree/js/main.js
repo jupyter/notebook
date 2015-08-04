@@ -16,6 +16,8 @@ require([
     'tree/js/terminallist',
     'tree/js/newnotebook',
     'auth/js/loginwidget',
+    'tree/js/treeactions',
+    'notebook/js/keyboardmanager',
     // only loaded, not used:
     'jqueryui',
     'bootstrap',
@@ -34,14 +36,17 @@ require([
     kernellist,
     terminallist,
     newnotebook,
-    loginwidget){
+    loginwidget,
+    actions,
+    keyboardmanager){
     "use strict";
 
     //gets notebooklist creates a method
     IPython.NotebookList = notebooklist.NotebookList;
 
-    page = new page.Page();
-    
+
+    //how to initialize actions with notebooklist instance
+
     var common_options = {
         base_url: utils.get_body_data("baseUrl"),
         notebook_path: utils.get_body_data("notebookPath"),
@@ -55,18 +60,32 @@ require([
     var session_list = new sesssionlist.SesssionList($.extend({
         events: events},
         common_options));
+
     var contents = new contents_service.Contents({
         base_url: common_options.base_url,
         common_config: common_config
     });
+
+    page = new page.Page();
+
+    var acts = new actions.init();
+
+    var keyboard_manager = new keyboardmanager.KeyboardManager({
+        pager: false,
+        events: events,
+        actions: acts});
+
     var notebook_list = new notebooklist.NotebookList('#notebook_list', $.extend({
         contents: contents,
-        session_list:  session_list}, 
+        events: events,
+        keyboard_manager: keyboard_manager,
+        session_list:  session_list},
         common_options));
+
     var kernel_list = new kernellist.KernelList('#running_list',  $.extend({
-        session_list:  session_list}, 
+        session_list:  session_list},
         common_options));
-    
+
     var terminal_list;
     if (utils.get_body_data("terminalsAvailable") === "True") {
         terminal_list = new terminallist.TerminalList('#terminal_list', common_options);
@@ -80,6 +99,8 @@ require([
             common_options
         )
     );
+
+    keyboard_manager.set_notebooklist(notebooklist);
 
     var interval_id=0;
     // auto refresh every xx secondes, no need to be fast,

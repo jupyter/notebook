@@ -20,6 +20,7 @@ define([
          *  options: dictionary
          *      Dictionary of keyword arguments.
          *          session_list: SessionList instance
+         *          keyboard_manager: KeyboardManager instance
          *          element_name: string
          *          base_url: string
          *          notebook_path: string
@@ -319,6 +320,64 @@ define([
         this._selection_changed();  
     };
 
+    NotebookList.prototype.is_selected = function(){
+      if ($('.focus').size() === 0){
+        $('.list_item').first().attr("tabindex","0").addClass('focus').focus();
+      }else{
+        return true;
+      }
+    };
+
+    NotebookList.prototype.get_selected_index = function(){
+      return parseInt($('.focus').index())-1;
+
+    };
+
+    NotebookList.prototype.get_length_siblings = function(selector){
+      return $(selector).size()-1;
+    };
+
+    NotebookList.prototype.can_get_next = function(index){
+      if (this.get_length_siblings('.list_item') > index){
+        return true;
+      }
+    };
+
+    NotebookList.prototype.select_cell = function(index, event){
+      $('.focus').attr("tabindex","-1").removeClass("focus");
+      $('.list_item[key="'+(index).toString()+'"').addClass("focus").attr("tabindex","0");
+      $('.focus').focus();
+      event.stopPropagation();
+    };
+
+    NotebookList.prototype.open = function(event){
+      $('.focus a')[0].click();
+      $('.focus input').attr('checked',false);
+      event.stopPropagation();
+    };
+
+//      var i = parseInt($('.focus').index())-1;
+//
+//      var length = $('.list_item').size();
+//      if ($('.focus').size() > 0){
+//        if (e.keyCode === 13){
+//          $('.focus a')[0].click();
+//          $('.focus input').attr('checked',false);
+//          e.stopPropagation();
+//        }
+//
+//        if (e.keyCode === 74 && i < length-1 && i >= 0){
+//          $('.focus').attr("tabindex","-1").removeClass("focus");
+//          $('.list_item[key="'+(i+1).toString()+'"').addClass("focus").attr("tabindex","0");
+//        }
+//        if (e.keyCode === 75 && i > 0 && i <= length-1){
+//          $('.focus').attr("tabindex","-1").removeClass("focus");
+//          $('.list_item[key="'+(i-1).toString()+'"').addClass("focus").attr("tabindex","0");
+//        }
+//        $('.focus').focus();
+//        e.stopPropagation();
+//    }
+//  });
 
     /**
      * Creates a new item.
@@ -329,40 +388,18 @@ define([
      * @return {JQuery} row
      */
     NotebookList.prototype.new_item = function (index, selectable) {
-        $(document).ready( $(document).keyup(function(e){
-            if (e.keyCode === 74 || e.keyCode === 75 && $('.focus').size() === 0){
-              $('.list_item').first().attr("tabindex","0").addClass('focus').focus();
-            }
-          })
-        );
+//        $(document).ready( $(document).keyup(function(e){
+//            if (e.keyCode === 74 || e.keyCode === 75 && $('.focus').size() === 0){
+//              $('.list_item').first().attr("tabindex","0").addClass('focus').focus();
+//            }
+//          })
+//        );
 
         var row = $('<div/>')
               .attr("tabindex", "-1")
               .attr("key", index)
               .addClass("list_item")
-              .addClass("row")
-              .keyup(function(e){
-                var i = parseInt($('.focus').index())-1;
-                var length = $('.list_item').size();
-                if ($('.focus').size() > 0){
-                  if (e.keyCode === 13){
-                    $('.focus a')[0].click();
-                    $('.focus input').attr('checked',false);
-                    e.stopPropagation();
-                  }
-
-                  if (e.keyCode === 74 && i < length-1 && i >= 0){
-                    $('.focus').attr("tabindex","-1").removeClass("focus");
-                    $('.list_item[key="'+(i+1).toString()+'"').addClass("focus").attr("tabindex","0");
-                  }
-                  if (e.keyCode === 75 && i > 0 && i <= length-1){
-                    $('.focus').attr("tabindex","-1").removeClass("focus");
-                    $('.list_item[key="'+(i-1).toString()+'"').addClass("focus").attr("tabindex","0");
-                  }
-                  $('.focus').focus();
-                  e.stopPropagation();
-              }
-            });
+              .addClass("row");
 
         var item = $("<div/>")
             .addClass("col-md-12")

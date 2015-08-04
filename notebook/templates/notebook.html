@@ -331,10 +331,14 @@ data-notebook-path="{{notebook_path}}"
 
 <script src="{{ static_url("components/text-encoding/lib/encoding.js") }}" charset="utf-8"></script>
 
+<<<<<<< HEAD
 {% if ignore_minified_js %}
     <script src="{{ static_url("notebook/js/main.js") }}" charset="utf-8"></script>
 {% else %}
     <script src="{{ static_url("notebook/js/main.min.js") }}" charset="utf-8"></script>
 {% endif %}
+=======
+<script src="{{ static_url("notebook/js/main.js") }}" charset="utf-8"></script>
+>>>>>>> events reach frontend, but env.notebooklist needs work
 
 {% endblock %}
