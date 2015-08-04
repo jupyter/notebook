@@ -162,6 +162,7 @@ require([
     // For backwards compatability.
     IPython.page = page;
     IPython.notebook_list = notebook_list;
+    IPython.keyboard_manager = keyboard_manager;
     IPython.session_list = session_list;
     IPython.kernel_list = kernel_list;
     IPython.login_widget = login_widget;

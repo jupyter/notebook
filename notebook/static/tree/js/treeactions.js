@@ -63,7 +63,7 @@ define(function(require){
             help    : 'selects next row',
             help_index : 'ac',
             handler : function (env) {
-                var focused = env.notebooklist.Notebooklist.get_length_siblings('.focus');
+                var focused = env.notebooklist.get_length_siblings('.focus');
                 var len_sib = env.notebooklist.get_length_siblings('.list_items');
                 if (focused > 0){
                   var index = env.notebooklist.get_selected_index();
