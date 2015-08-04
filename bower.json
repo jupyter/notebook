@@ -5,7 +5,7 @@
     "backbone": "components/backbone#~1.2",
     "bootstrap": "components/bootstrap#~3.3",
     "bootstrap-tour": "0.9.0",
-    "codemirror": ">=4.11",
+    "codemirror": "~5.5",
     "es6-promise": "~1.0",
     "font-awesome": "components/font-awesome#~4.2.0",
     "google-caja": "5669",
