@@ -22,6 +22,7 @@ require([
     'notebook/js/kernelselector',
     'codemirror/lib/codemirror',
     'notebook/js/about',
+    'typeahead',
     // only loaded, not used, please keep sure this is loaded last
     'custom/custom'
 ], function(
@@ -45,6 +46,7 @@ require([
     kernelselector,
     CodeMirror,
     about,
+    typeahead,
     // please keep sure that even if not used, this is loaded last
     custom
     ) {

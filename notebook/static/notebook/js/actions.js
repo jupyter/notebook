@@ -3,6 +3,8 @@
 
 define(function(require){
     "use strict";
+
+    var dialog = require("base/js/dialog");
     
     var ActionHandler = function (env) {
         this.env = env || {};
@@ -329,9 +331,25 @@ define(function(require){
             handler : function (env) {
                 env.pager.collapse();
             }
+        },
+        'quick-menu': {
+            help_index : 'aa', 
+            handler : function(env){
+                var searchfield = $('input').attr('type', 'text'); 
+
+                dialog.modal({
+                        title: 'Execute Action',
+                        body: $('<div/>')
+                            .append(searchfield)
+                        buttons: {
+                            OK: {'class': 'btn-primary'}
+                        }
+                    });
+            }
         }
 
     };
+
 
     /**
      * A bunch of `Advance actions` for Jupyter.
