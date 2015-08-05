@@ -72,8 +72,8 @@ define([
     KeyboardManager.prototype.get_default_tree_shortcuts = function() {
         return {
             'enter'       : 'ipython.enter-row',
-            'j' : 'ipython.select-next-row',
-            'k'  : 'ipython.select-previous-row'
+            'j'           : 'ipython.select-next-row',
+            'k'           : 'ipython.select-previous-row'
         };
     };
 
@@ -148,6 +148,8 @@ define([
         var notebook_view = window.document.getElementById("pager");
 
         if (notebook_view){
+          //this test expects element with id="pager" to only exist in
+          //notebook view
           this.view = 'notebook';
         }
 
@@ -187,7 +189,7 @@ define([
 
         if (this.view === 'tree'){
           this.tree_shortcuts.call_handler(event);
-        }else{
+        } else {
           if (!this.enabled) {
               if (event.which === keycodes.esc) {
                   this.notebook.command_mode();

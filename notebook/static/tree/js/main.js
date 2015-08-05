@@ -41,6 +41,8 @@ require([
     keyboardmanager){
     "use strict";
 
+    page = new page.Page();
+
     //gets notebooklist creates a method
     IPython.NotebookList = notebooklist.NotebookList;
 
@@ -66,7 +68,6 @@ require([
         common_config: common_config
     });
 
-    page = new page.Page();
 
     var acts = new actions.init();
 

@@ -320,14 +320,6 @@ define([
         this._selection_changed();  
     };
 
-    NotebookList.prototype.is_selected = function(){
-      if ($('.focus').size() === 0){
-        $('.list_item').first().attr("tabindex","0").addClass('focus').focus();
-      }else{
-        return true;
-      }
-    };
-
     NotebookList.prototype.get_selected_index = function(){
       return parseInt($('.focus').index())-1;
 
