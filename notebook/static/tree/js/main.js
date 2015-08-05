@@ -100,7 +100,7 @@ require([
         )
     );
 
-    keyboard_manager.set_notebooklist(notebooklist);
+    keyboard_manager.set_notebooklist(notebook_list);
 
     var interval_id=0;
     // auto refresh every xx secondes, no need to be fast,

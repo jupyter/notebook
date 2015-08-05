@@ -334,16 +334,10 @@ define([
     };
 
     NotebookList.prototype.get_length_siblings = function(selector){
-      return $(selector).size()-1;
+      return $(selector).length;
     };
 
-    NotebookList.prototype.can_get_next = function(index){
-      if (this.get_length_siblings('.list_item') > index){
-        return true;
-      }
-    };
-
-    NotebookList.prototype.select_cell = function(index, event){
+    NotebookList.prototype.select_row = function(index){
       $('.focus').attr("tabindex","-1").removeClass("focus");
       $('.list_item[key="'+(index).toString()+'"').addClass("focus").attr("tabindex","0");
       $('.focus').focus();
@@ -356,29 +350,6 @@ define([
       event.stopPropagation();
     };
 
-//      var i = parseInt($('.focus').index())-1;
-//
-//      var length = $('.list_item').size();
-//      if ($('.focus').size() > 0){
-//        if (e.keyCode === 13){
-//          $('.focus a')[0].click();
-//          $('.focus input').attr('checked',false);
-//          e.stopPropagation();
-//        }
-//
-//        if (e.keyCode === 74 && i < length-1 && i >= 0){
-//          $('.focus').attr("tabindex","-1").removeClass("focus");
-//          $('.list_item[key="'+(i+1).toString()+'"').addClass("focus").attr("tabindex","0");
-//        }
-//        if (e.keyCode === 75 && i > 0 && i <= length-1){
-//          $('.focus').attr("tabindex","-1").removeClass("focus");
-//          $('.list_item[key="'+(i-1).toString()+'"').addClass("focus").attr("tabindex","0");
-//        }
-//        $('.focus').focus();
-//        e.stopPropagation();
-//    }
-//  });
-
     /**
      * Creates a new item.
      * @param  {integer} index
@@ -388,12 +359,6 @@ define([
      * @return {JQuery} row
      */
     NotebookList.prototype.new_item = function (index, selectable) {
-//        $(document).ready( $(document).keyup(function(e){
-//            if (e.keyCode === 74 || e.keyCode === 75 && $('.focus').size() === 0){
-//              $('.list_item').first().attr("tabindex","0").addClass('focus').focus();
-//            }
-//          })
-//        );
 
         var row = $('<div/>')
               .attr("tabindex", "-1")

@@ -42,7 +42,7 @@ define(function(require){
             handler : function (env) {
                 var len_sib = env.notebooklist.get_length_siblings('.focus');
                 if (len_sib > 0){
-                  env.notebooklist.enter_row();
+                  env.notebooklist.open();
                 }
             }
         },
@@ -57,6 +57,10 @@ define(function(require){
                     env.notebooklist.select_row(index-1);
                   }
                 }
+                if (focused === 0){
+                  //focus first elt in .list_items
+                  env.notebooklist.select_row(0);
+                }
             }
         },
         'select-next-row':{
@@ -64,14 +68,17 @@ define(function(require){
             help_index : 'ac',
             handler : function (env) {
                 var focused = env.notebooklist.get_length_siblings('.focus');
-                var len_sib = env.notebooklist.get_length_siblings('.list_items');
+                var len_sib = env.notebooklist.get_length_siblings('.list_item');
                 if (focused > 0){
                   var index = env.notebooklist.get_selected_index();
                   if (index < len_sib){
                     env.notebooklist.select_row(index+1);
                   }
                 }
-
+                if (focused === 0){
+                  //focus first elt in .list_items
+                  env.notebooklist.select_row(0);
+                }
             }
         }
     };
