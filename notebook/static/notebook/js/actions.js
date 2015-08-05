@@ -332,15 +332,25 @@ define(function(require){
                 env.pager.collapse();
             }
         },
-        'quick-menu': {
+        'command-palette': {
             help_index : 'aa', 
             handler : function(env){
-                var searchfield = $('input').attr('type', 'text'); 
+                var searchfield = $('<input/>').attr('type', 'text'); 
+                searchfield.typeahead({
+                    order: "asc",
+                    source: {
+                        groupName: {
+                            data: [ 'abc', 'def', 'ghi', 'jkl' ]
+                        }
+                    },
+                    callback: {
+                        onInit: function () {console.log('this is init') }
+                    }
+                })
 
                 dialog.modal({
                         title: 'Execute Action',
-                        body: $('<div/>')
-                            .append(searchfield)
+                        body: $('<div/>').append(searchfield),
                         buttons: {
                             OK: {'class': 'btn-primary'}
                         }

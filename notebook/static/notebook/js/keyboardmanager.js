@@ -84,6 +84,7 @@ define([
 
     KeyboardManager.prototype.get_default_command_shortcuts = function() {
         return {
+            'cmd-shift-P': 'ipython.command-palette',
             'shift-space': 'ipython.scroll-up',
             'shift-v' : 'ipython.paste-cell-before',
             'shift-m' : 'ipython.merge-selected-cells',
