@@ -25,6 +25,15 @@ define(function(require){
 
         container.append(field)
         form.append(container)
+        var mod = dialog.modal({
+            title: 'Execute Action',
+            body: $('<div/>').append(form),
+            keyboard_manager: notebook.keyboard_manager,
+            show: false
+        }).on('shown.bs.modal', function () {
+              input.focus()
+        });
+        
         input.typeahead({
             order: "asc",
             source: {
@@ -33,17 +42,17 @@ define(function(require){
                 }
             },
             callback: {
-                onInit: function () {console.log('this is init') }
+                onInit: function () {console.log('this is init') },
+                onSubmit: function (node, query, result, resultCount) {
+                    console.log(node, query, result, resultCount);
+                    console.info(input.val(), 'has been selected')
+                    IPython.notebook.keyboard_manager.actions.call(input.val())
+                    mod.modal('hide')
+                }
             }
         })
-        dialog.modal({
-            title: 'Execute Action',
-            body: $('<div/>').append(form),
-            buttons: {
-                OK: {'class': 'btn-primary'}
-            },
-            keyboard_manager: notebook.keyboard_manager
-        });
+
+        mod.modal('show')
     }
     return {'CommandPalette': CommandPalette};
 });
