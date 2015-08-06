@@ -405,3 +405,26 @@ You can generate a new notebook signing key with::
     $ jupyter trust --reset
 
 .. include:: links.txt
+
+Browser Compatibility
+---------------------
+
+The Jupyter Notebook is officially supported on the following browsers:
+
+* Chrome ≥ 13
+* Safari ≥ 5
+* Firefox ≥ 6
+
+The is mainly due to the notebook's usage of WebSockets and the flexible box model.
+
+The following browsers are unsupported:
+
+* Safari < 5
+* Firefox < 6
+* Chrome < 13
+* Opera (any): CSS issues, but execution might work
+* Internet Explorer < 10
+* Internet Explorer ≥ 10 (same as Opera)
+
+Using Safari with HTTPS and an untrusted certificate is known to not work
+(websockets will fail).
