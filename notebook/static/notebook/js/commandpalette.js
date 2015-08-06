@@ -29,7 +29,7 @@ define(function(require){
             order: "asc",
             source: {
                 groupName: {
-                    data: [ 'california', 'washington', 'state', 'france', 'china', 'russia', 'rust', 'river' , 'repression']
+                    data:  Object.keys(IPython.notebook.keyboard_manager.actions._actions)
                 }
             },
             callback: {
