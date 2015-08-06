@@ -13,7 +13,16 @@ define(function(require){
         var span = $('<span>').addClass('typeahead-query');
         var input = $('<input/>').attr('type', 'search');
         span.append(input)
-        field.append(span)
+        field
+            .append(span)
+            .append(
+                $('<span/>').addClass('typeahead-button').append(
+                    $('<button/>').attr('type', 'submit').append(
+                        $('<span/>').addClass('typeahead-search-icon')
+                        )
+                )
+            );
+
         container.append(field)
         form.append(container)
         input.typeahead({
