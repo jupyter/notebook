@@ -27,6 +27,7 @@ define(function (require) {
     var rawcell_celltoolbar = require('notebook/js/celltoolbarpresets/rawcell');
     var slideshow_celltoolbar = require('notebook/js/celltoolbarpresets/slideshow');
     var scrollmanager = require('notebook/js/scrollmanager');
+    var commandpalette = require('notebook/js/commandpalette');
 
     /**
      * Contains and manages cells.
@@ -319,6 +320,11 @@ define(function (require) {
         };
     };
     
+
+    Notebook.prototype.show_command_palette = function() {
+        var x = new commandpalette.CommandPalette(this);
+    }
+
     /**
      * Trigger a warning dialog about missing functionality from newer minor versions
      */
