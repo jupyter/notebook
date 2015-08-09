@@ -100,6 +100,28 @@ define(function(require){
                 }
             }
         },
+        'extend-selection-previous' : {
+            help: 'extend selection above',
+            help_index : 'dc',
+            handler : function (env) {
+                var index = env.notebook.get_selected_index();
+                if (index !== (env.notebook.ncells()-1) && index !== null) {
+                    env.notebook.select_prev(true);
+                    env.notebook.focus_cell();
+                }
+            }
+        },
+        'extend-selection-next' : {
+            help: 'extend selection below',
+            help_index : 'dd',
+            handler : function (env) {
+                var index = env.notebook.get_selected_index();
+                if (index !== (env.notebook.ncells()-1) && index !== null) {
+                    env.notebook.select_next(true);
+                    env.notebook.focus_cell();
+                }
+            }
+        },
         'cut-selected-cell' : {
             icon: 'fa-cut',
             help_index : 'ee',

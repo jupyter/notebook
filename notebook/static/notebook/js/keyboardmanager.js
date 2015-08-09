@@ -98,6 +98,8 @@ define([
             'up' : 'ipython.select-previous-cell',
             'k' : 'ipython.select-previous-cell',
             'j' : 'ipython.select-next-cell',
+            'shift-k': 'ipython.extend-selection-previous',
+            'shift-j': 'ipython.extend-selection-next',
             'x' : 'ipython.cut-selected-cell',
             'c' : 'ipython.copy-selected-cell',
             'v' : 'ipython.paste-cell-after',

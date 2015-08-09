@@ -600,6 +600,17 @@ define(function (require) {
         return result;
     };
 
+    /**
+     * Get an array of the cells in the currently selected range
+     *
+     * @return {Array} The selected cells
+     */
+    Notebook.prototype.get_selected_cells = function () {
+        return this.get_cells().filter(function(cell) {
+            return cell.in_selection;
+        });
+    };
+
 
     // Cell selection.
 
@@ -607,9 +618,10 @@ define(function (require) {
      * Programmatically select a cell.
      * 
      * @param {integer} index - A cell's index
+     * @param {bool} add_to_selection - whether to add to the current selection
      * @return {Notebook} This notebook
      */
-    Notebook.prototype.select = function (index) {
+    Notebook.prototype.select = function (index, add_to_selection) {
         if (this.is_valid_cell_index(index)) {
             var sindex = this.get_selected_index();
             if (sindex !== null && index !== sindex) {
@@ -618,8 +630,12 @@ define(function (require) {
                 if (this.mode !== 'command') {
                     this.command_mode();
                 }
-                this.get_cell(sindex).unselect();
             }
+            var current_selection = this.get_selected_cells();
+            for (var i=0; i<current_selection.length; i++) {
+                current_selection[i].unselect(add_to_selection)
+            }
+
             var cell = this.get_cell(index);
             cell.select();
             if (cell.cell_type === 'heading') {
@@ -638,22 +654,40 @@ define(function (require) {
     /**
      * Programmatically select the next cell.
      *
+     * @param {bool} extend_selection - whether to add to the current selection
      * @return {Notebook} This notebook
      */
-    Notebook.prototype.select_next = function () {
+    Notebook.prototype.select_next = function (extend_selection) {
         var index = this.get_selected_index();
-        this.select(index+1);
+        // XXX: If we're extending the range selection to an already-selected
+        // cell, the cursor is moving back into the selected range, and we
+        // actually want to contract the selection by unselecting the cell at
+        // the previous cursor position. Not entirely happy with this, but it's
+        // the best idea I have for now.
+        if (extend_selection && this.get_cell(index+1).in_selection) {
+            this.get_cell(index).unselect();
+        }
+        this.select(index+1, extend_selection);
         return this;
     };
 
     /**
      * Programmatically select the previous cell.
      *
+     * @param {bool} extend_selection - whether to add to the current selection
      * @return {Notebook} This notebook
      */
-    Notebook.prototype.select_prev = function () {
+    Notebook.prototype.select_prev = function (extend_selection) {
         var index = this.get_selected_index();
-        this.select(index-1);
+        // XXX: If we're extending the range selection to an already-selected
+        // cell, the cursor is moving back into the selected range, and we
+        // actually want to contract the selection by unselecting the cell at
+        // the previous cursor position. Not entirely happy with this, but it's
+        // the best idea I have for now.
+        if (extend_selection && this.get_cell(index-1).in_selection) {
+            this.get_cell(index).unselect();
+        }
+        this.select(index-1, extend_selection);
         return this;
     };
 
