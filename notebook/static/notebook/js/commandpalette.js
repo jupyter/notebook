@@ -7,11 +7,11 @@ define(function(require){
     var $ = require("jquery");
     var dialog = require("base/js/dialog");
     var CommandPalette = function(notebook) {
-        var form = $('<form/>');
+        var form = $('<form/>').css('background', 'white');
         var container = $('<div/>').addClass('typeahead-container');
         var field = $('<div/>').addClass('typeahead-field');
         var span = $('<span>').addClass('typeahead-query');
-        var input = $('<input/>').attr('type', 'search');
+        var input = $('<input/>').attr('type', 'search').css('outline', 'none');
         span.append(input);
         field
             .append(span)
@@ -25,14 +25,38 @@ define(function(require){
 
         container.append(field);
         form.append(container);
-        var mod = dialog.modal({
-            title: 'Execute Action',
-            body: $('<div/>').append(form),
-            keyboard_manager: notebook.keyboard_manager,
-            show: false
-        }).on('shown.bs.modal', function () {
+        
+        var mod = $('<div/>').addClass('modal').append(
+          $('<div/>').addClass('modal-dialog')
+          .css('box-shadow', '2px 4px 16px 7px rgba(0, 0, 0, 0.34);')
+          .css('border-radius', '5px;')
+          .append(
+            $('<div/>').addClass('modal-content').append(
+              $('<div/>').addClass('modal-body')
+              .css('padding', '7px')
+              .append(
+                form
+              )
+            )
+          )
+        )
+        .modal({show: false, backdrop:true})
+        .on('shown.bs.modal', function () {
               input.focus();
+        })
+        .on("hidden.bs.modal", function () {
+            if (notebook) {
+                var cell = notebook.get_selected_cell();
+                if (cell) cell.select();
+            }
+            if (notebook.keyboard_manager) {
+                notebook.keyboard_manager.enable();
+                notebook.keyboard_manager.command_mode();
+            }
         });
+        
+        notebook.keyboard_manager.disable();
+
 
         var onSubmit = function (node, query, result, resultCount) {
                     console.log(node, query, result, resultCount);
@@ -44,7 +68,7 @@ define(function(require){
                     mod.modal('hide');
                 }
 
-        var src = [];
+        var src = {};
 
         var actions = Object.keys(IPython.notebook.keyboard_manager.actions._actions);
         var hum = function(str){
@@ -66,24 +90,30 @@ define(function(require){
         
         
         for( var i=0; i< actions.length; i++){
-          src.push({ display: hum(actions[i]),
+          var group = actions[i].split('.')[0];
+          if(group === 'ipython'){
+            group = 'built-in';
+          }
+          src[group] = src[group] || {data:[], display:'display'};
+          src[group].data.push({ display: hum(actions[i]),
                     shortcut:IPython.keyboard_manager.command_shortcuts.get_shortcut_for_action_name(actions[i])
-                    || IPython.keyboard_manager.edit_shortcuts.get_shortcut_for_action_name(actions[i])||'== no-sht== ',
+                    || IPython.keyboard_manager.edit_shortcuts.get_shortcut_for_action_name(actions[i]),
                     key:actions[i],
-                    group: actions[i].split('.')[0],
-                    modesht: mode(actions[i])
+                    modesht: mode(actions[i]),
+                    group:group,
                    })
         }
         input.typeahead({
+            emptyTemplate: "No results found for {{query}}",
+            maxItem: 15,
             minLength: 0,
             hint: true,
+            group: ["group", "{{group}} extension"],
             searchOnFocus: true,
             mustSelectItem: true,
-            template: '{{display}}  <kbd class="pull-right {{modesht}}">{{shortcut}}</kbd>',
+            template: '{{display}}  <div class="pull-right {{modesht}}"><kbd>{{shortcut}}</kbd></div>',
             order: "asc",
-            source: {
-                data: src
-            },
+            source: src,
             callback: {
                 onInit: function () {console.log('this is init') },
                 onSubmit: onSubmit ,

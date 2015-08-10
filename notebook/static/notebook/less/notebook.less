@@ -89,18 +89,18 @@ p {
     }
 }
 
-
-kbd{
-    border-radius: 5px;
-    &.command-sht{
-       color: #80DBC4; 
-    }
-
-    &.edit-sht{
-        color: #CABD81
-    }
-
-    &.no-sht{
+.no-sht{
         display:none;
-    }
+}
+
+.command-sht:before{
+    content:"(command)";
+    padding-right:3px;
+    color:#ccc
+}
+
+.edit-sht:before{
+    content:"(edit)";
+    padding-right:3px;
+    color:#ccc
 }

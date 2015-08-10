@@ -73,6 +73,7 @@ define([
 
     KeyboardManager.prototype.get_default_edit_shortcuts = function() {
         return {
+            'cmdtrl-shift-p'      : 'ipython.command-palette',
             'esc'                 : 'ipython.go-to-command-mode',
             'ctrl-m'              : 'ipython.go-to-command-mode',
             'up'                  : 'ipython.move-cursor-up-or-previous-cell',
@@ -84,7 +85,7 @@ define([
 
     KeyboardManager.prototype.get_default_command_shortcuts = function() {
         return {
-            'shift-p': 'ipython.command-palette',
+            'cmdtrl-shift-p': 'ipython.command-palette',
             'shift-space': 'ipython.scroll-up',
             'shift-v' : 'ipython.paste-cell-before',
             'shift-m' : 'ipython.merge-selected-cells',
