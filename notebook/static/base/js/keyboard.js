@@ -18,7 +18,7 @@ define([
 
     /**
      * Setup global keycodes and inverse keycodes.
-     * 
+     *
      * See http://unixpapa.com/js/key.html for a complete description. The short of
      * it is that there are different keycode sets. Firefox uses the "Mozilla keycodes"
      * and Webkit/IE use the "IE keycodes". These keycode sets are mostly the same
@@ -190,7 +190,7 @@ define([
         /**
          * Clear the pending shortcut soon, and cancel previous clearing
          * that might be registered.
-         **/ 
+         **/
          var that = this;
          clearTimeout(this._cleartimeout);
          this._cleartimeout = setTimeout(function(){that.clearqueue();}, this.delay);
@@ -225,6 +225,17 @@ define([
         }
         return dct;
     };
+    
+    ShortcutManager.prototype.get_shortcut_for_action_name = function(name){
+      var ftree = flatten_shorttree(this._shortcuts);
+      var res = {};
+      for (var sht in ftree ){
+        if(ftree[sht] === name){
+          return sht
+        }
+      }
+      return undefined;
+    }
 
     ShortcutManager.prototype.help = function () {
         var help = [];

@@ -33,27 +33,61 @@ define(function(require){
         }).on('shown.bs.modal', function () {
               input.focus();
         });
-        var actions = Object.keys(IPython.notebook.keyboard_manager.actions._actions);
-        input.typeahead({
-            order: "asc",
-            source: {
-                groupName: {
-                    data:  actions
-                }
-            },
-            callback: {
-                onInit: function () {console.log('this is init') },
-                onSubmit: function (node, query, result, resultCount) {
+
+        var onSubmit = function (node, query, result, resultCount) {
                     console.log(node, query, result, resultCount);
-                    console.info(input.val(), 'has been selected');
-                    if (actions.indexOf(input.val()) >= 0) {
-                        IPython.notebook.keyboard_manager.actions.call(input.val());
-                    }
-                    else {
-                        console.log("No command " + input.val());
+                    if (actions.indexOf(result.key) >= 0) {
+                        IPython.notebook.keyboard_manager.actions.call(result.key);
+                    } else {
+                        console.log("No command " + result.key)
                     }
                     mod.modal('hide');
                 }
+
+        var src = [];
+
+        var actions = Object.keys(IPython.notebook.keyboard_manager.actions._actions);
+        var hum = function(str){
+          return str.split('.')[1].replace(/-/g,' ').replace(/_/g,'-')
+        }
+        
+        var mode = function(name){
+          var sht = IPython.keyboard_manager.command_shortcuts.get_shortcut_for_action_name(name)
+          if(sht){
+            return 'command-sht'
+          }
+          var sht = IPython.keyboard_manager.edit_shortcuts.get_shortcut_for_action_name(name)
+          if(sht){
+            return 'edit-sht'
+          }
+          return 'no-sht'
+        }
+        
+        
+        
+        for( var i=0; i< actions.length; i++){
+          src.push({ display: hum(actions[i]),
+                    shortcut:IPython.keyboard_manager.command_shortcuts.get_shortcut_for_action_name(actions[i])
+                    || IPython.keyboard_manager.edit_shortcuts.get_shortcut_for_action_name(actions[i])||'== no-sht== ',
+                    key:actions[i],
+                    group: actions[i].split('.')[0],
+                    modesht: mode(actions[i])
+                   })
+        }
+        input.typeahead({
+            minLength: 0,
+            hint: true,
+            searchOnFocus: true,
+            mustSelectItem: true,
+            template: '{{display}}  <kbd class="pull-right {{modesht}}">{{shortcut}}</kbd>',
+            order: "asc",
+            source: {
+                data: src
+            },
+            callback: {
+                onInit: function () {console.log('this is init') },
+                onSubmit: onSubmit ,
+                onClickAfter: onSubmit
             }
         })
 
@@ -61,4 +95,3 @@ define(function(require){
     }
     return {'CommandPalette': CommandPalette};
 });
-
