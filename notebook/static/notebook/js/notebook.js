@@ -1370,6 +1370,12 @@ define(function (require) {
         }
     };
 
+    /**
+     * Merge a series of cells into one
+     *
+     * @param {Array} indices - the numeric indices of the cells to be merged
+     * @param {bool} into_last - merge into the last cell instead of the first
+     */
     Notebook.prototype.merge_cells = function(indices, into_last) {
         if (indices.length <= 1) {
             return;
