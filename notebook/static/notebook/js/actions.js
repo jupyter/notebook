@@ -105,8 +105,8 @@ define(function(require){
             help_index : 'dc',
             handler : function (env) {
                 var index = env.notebook.get_selected_index();
-                if (index !== (env.notebook.ncells()-1) && index !== null) {
-                    env.notebook.select_prev(true);
+                if (index !== 0 && index !== null) {
+                    env.notebook.extend_selection('up');
                     env.notebook.focus_cell();
                 }
             }
@@ -117,7 +117,7 @@ define(function(require){
             handler : function (env) {
                 var index = env.notebook.get_selected_index();
                 if (index !== (env.notebook.ncells()-1) && index !== null) {
-                    env.notebook.select_next(true);
+                    env.notebook.extend_selection('down');
                     env.notebook.focus_cell();
                 }
             }

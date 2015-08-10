@@ -601,6 +601,21 @@ define(function (require) {
     };
 
     /**
+     * Get the index of the anchor cell for range selection
+     *
+     * @return {integer} The anchor cell's numeric index
+     */
+    Notebook.prototype.get_selection_anchor = function() {
+        var result = null;
+        this.get_cell_elements().filter(function (index) {
+            if ($(this).data("cell").selection_anchor === true) {
+                result = index;
+            }
+        });
+        return result;
+    };
+
+    /**
      * Get an array of the cells in the currently selected range
      *
      * @return {Array} The selected cells
@@ -618,10 +633,9 @@ define(function (require) {
      * Programmatically select a cell.
      * 
      * @param {integer} index - A cell's index
-     * @param {bool} add_to_selection - whether to add to the current selection
      * @return {Notebook} This notebook
      */
-    Notebook.prototype.select = function (index, add_to_selection) {
+    Notebook.prototype.select = function (index) {
         if (this.is_valid_cell_index(index)) {
             var sindex = this.get_selected_index();
             if (sindex !== null && index !== sindex) {
@@ -633,62 +647,68 @@ define(function (require) {
             }
             var current_selection = this.get_selected_cells();
             for (var i=0; i<current_selection.length; i++) {
-                current_selection[i].unselect(add_to_selection)
+                current_selection[i].unselect()
             }
 
-            var cell = this.get_cell(index);
-            cell.select();
-            if (cell.cell_type === 'heading') {
-                this.events.trigger('selected_cell_type_changed.Notebook',
-                    {'cell_type':cell.cell_type,level:cell.level}
-                );
-            } else {
-                this.events.trigger('selected_cell_type_changed.Notebook',
-                    {'cell_type':cell.cell_type}
-                );
-            }
+            var cell = this._select(index);
+            cell.selection_anchor = true
         }
         return this;
+    };
+
+    Notebook.prototype._select = function(index) {
+        var cell = this.get_cell(index);
+        cell.select();
+        this.events.trigger('selected_cell_type_changed.Notebook',
+            {'cell_type':cell.cell_type}
+        );
+        return cell;
     };
 
     /**
      * Programmatically select the next cell.
      *
-     * @param {bool} extend_selection - whether to add to the current selection
      * @return {Notebook} This notebook
      */
-    Notebook.prototype.select_next = function (extend_selection) {
+    Notebook.prototype.select_next = function () {
         var index = this.get_selected_index();
-        // XXX: If we're extending the range selection to an already-selected
-        // cell, the cursor is moving back into the selected range, and we
-        // actually want to contract the selection by unselecting the cell at
-        // the previous cursor position. Not entirely happy with this, but it's
-        // the best idea I have for now.
-        if (extend_selection && this.get_cell(index+1).in_selection) {
-            this.get_cell(index).unselect();
-        }
-        this.select(index+1, extend_selection);
+        this.select(index+1);
         return this;
     };
 
     /**
      * Programmatically select the previous cell.
      *
-     * @param {bool} extend_selection - whether to add to the current selection
      * @return {Notebook} This notebook
      */
-    Notebook.prototype.select_prev = function (extend_selection) {
+    Notebook.prototype.select_prev = function () {
         var index = this.get_selected_index();
-        // XXX: If we're extending the range selection to an already-selected
-        // cell, the cursor is moving back into the selected range, and we
-        // actually want to contract the selection by unselecting the cell at
-        // the previous cursor position. Not entirely happy with this, but it's
-        // the best idea I have for now.
-        if (extend_selection && this.get_cell(index-1).in_selection) {
-            this.get_cell(index).unselect();
-        }
-        this.select(index-1, extend_selection);
+        this.select(index-1);
         return this;
+    };
+
+    /**
+     * Extend the selected range
+     *
+     * @param {string} direction - 'up' or 'down
+     */
+    Notebook.prototype.extend_selection = function(direction) {
+        var anchor_ix = this.get_selection_anchor();
+        var cursor_ix = this.get_selected_index();
+        var range_direction = (cursor_ix > anchor_ix) ? 'down' : 'up';
+        var contracting = (cursor_ix !== anchor_ix) &&
+                            (direction !== range_direction);
+        var ix_delta = (direction === 'up') ? -1 : 1;
+        var new_ix = cursor_ix + ix_delta;
+        if (new_ix < 0 || new_ix >= this.ncells()) {
+            return false;
+        }
+        if (this.mode !== 'command') {
+            this.command_mode();
+        }
+        this.get_cell(cursor_ix).unselect(!contracting);
+        this._select(new_ix);
+        return true;
     };
 
 

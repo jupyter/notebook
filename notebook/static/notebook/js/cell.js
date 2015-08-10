@@ -56,6 +56,7 @@ define([
         this.placeholder = config.placeholder || '';
         this.selected = false;
         this.in_selection = false;
+        this.selection_anchor = false;
         this.rendered = false;
         this.mode = 'command';
 
@@ -273,6 +274,7 @@ define([
         this.selected = false;
         if ((!leave_selected) && this.in_selection) {
             this.in_selection = false;
+            this.selection_anchor = false;
             this.element.addClass('unselected');
             this.element.removeClass('selected');
         }
