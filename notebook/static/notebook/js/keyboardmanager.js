@@ -86,7 +86,7 @@ define([
         return {
             'shift-space': 'ipython.scroll-up',
             'shift-v' : 'ipython.paste-cell-before',
-            'shift-m' : 'ipython.merge-selected-cell-with-cell-after',
+            'shift-m' : 'ipython.merge-selected-cells',
             'shift-o' : 'ipython.toggle-output-scrolling-selected-cell',
             'enter' : 'ipython.enter-edit-mode',
             'space' : 'ipython.scroll-down',

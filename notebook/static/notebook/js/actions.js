@@ -310,6 +310,13 @@ define(function(require){
                 env.notebook.merge_cell_below();
             }
         },
+        'merge-selected-cells' : {
+            help : 'merge selected cells',
+            help_index: 'el',
+            handler: function(env) {
+                env.notebook.merge_selected_cells();
+            }
+        },
         'close-pager' : {
             help_index : 'gd',
             handler : function (env) {

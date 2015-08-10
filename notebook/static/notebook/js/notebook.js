@@ -626,6 +626,20 @@ define(function (require) {
         });
     };
 
+    /**
+     * Get the indices of the currently selected range of cells.
+     *
+     * @return {Array} The selected cells' numeric indices
+     */
+    Notebook.prototype.get_selected_indices = function () {
+        var result = [];
+        this.get_cell_elements().filter(function (index) {
+            if ($(this).data("cell").in_selection === true) {
+                result.push(index);
+            }
+        });
+        return result;
+    };
 
     // Cell selection.
 
@@ -1343,37 +1357,66 @@ define(function (require) {
         }
     };
 
+    Notebook.prototype.merge_cells = function(indices, into_last) {
+        if (indices.length <= 1) {
+            return;
+        }
+        for (var i=0; i < indices.length; i++) {
+            if (!this.get_cell(indices[i]).is_mergeable()) {
+                return;
+            }
+        }
+        var target = this.get_cell(into_last ? indices.pop() : indices.shift());
+
+        // Get all the cells' contents
+        var contents = [];
+        for (i=0; i < indices.length; i++) {
+            contents.push(this.get_cell(indices[i]).get_text());
+        }
+        if (into_last) {
+            contents.push(target.get_text())
+        } else {
+            contents.unshift(target.get_text())
+        }
+
+        // Update the contents of the target cell
+        if (target instanceof codecell.CodeCell) {
+            target.set_text(contents.join('\n\n'))
+        } else {
+            var was_rendered = target.rendered;
+            target.unrender(); // Must unrender before we set_text.
+            target.set_text(contents.join('\n\n'));
+            if (was_rendered) {
+                // The rendered state of the final cell should match
+                // that of the original selected cell;
+                target.render();
+            }
+        }
+
+        // Delete the other cells
+        // If we started deleting cells from the top, the later indices would
+        // get offset. We sort them into descending order to avoid that.
+        indices.sort(function(a, b) {return b-a;});
+        for (i=0; i < indices.length; i++) {
+            this.delete_cell(indices[i]);
+        }
+
+        this.select(this.find_cell_index(target));
+    };
+
+    /**
+     * Merge the selected range of cells
+     */
+    Notebook.prototype.merge_selected_cells = function() {
+        this.merge_cells(this.get_selected_indices());
+    };
+
     /**
      * Merge the selected cell into the cell above it.
      */
     Notebook.prototype.merge_cell_above = function () {
         var index = this.get_selected_index();
-        var cell = this.get_cell(index);
-        var render = cell.rendered;
-        if (!cell.is_mergeable()) {
-            return;
-        }
-        if (index > 0) {
-            var upper_cell = this.get_cell(index-1);
-            if (!upper_cell.is_mergeable()) {
-                return;
-            }
-            var upper_text = upper_cell.get_text();
-            var text = cell.get_text();
-            if (cell instanceof codecell.CodeCell) {
-                cell.set_text(upper_text+'\n'+text);
-            } else {
-                cell.unrender(); // Must unrender before we set_text.
-                cell.set_text(upper_text+'\n\n'+text);
-                if (render) {
-                    // The rendered state of the final cell should match
-                    // that of the original selected cell;
-                    cell.render();
-                }
-            }
-            this.delete_cell(index-1);
-            this.select(this.find_cell_index(cell));
-        }
+        this.merge_cells([index-1, index], true)
     };
 
     /**
@@ -1381,32 +1424,7 @@ define(function (require) {
      */
     Notebook.prototype.merge_cell_below = function () {
         var index = this.get_selected_index();
-        var cell = this.get_cell(index);
-        var render = cell.rendered;
-        if (!cell.is_mergeable()) {
-            return;
-        }
-        if (index < this.ncells()-1) {
-            var lower_cell = this.get_cell(index+1);
-            if (!lower_cell.is_mergeable()) {
-                return;
-            }
-            var lower_text = lower_cell.get_text();
-            var text = cell.get_text();
-            if (cell instanceof codecell.CodeCell) {
-                cell.set_text(text+'\n'+lower_text);
-            } else {
-                cell.unrender(); // Must unrender before we set_text.
-                cell.set_text(text+'\n\n'+lower_text);
-                if (render) {
-                    // The rendered state of the final cell should match
-                    // that of the original selected cell;
-                    cell.render();
-                }
-            }
-            this.delete_cell(index+1);
-            this.select(this.find_cell_index(cell));
-        }
+        this.merge_cells([index, index+1], false)
     };
 
 
