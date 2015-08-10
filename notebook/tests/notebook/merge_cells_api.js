@@ -36,8 +36,8 @@ casper.notebook_test(function() {
         return IPython.notebook.get_selected_cell().get_text();
     });
     
-    this.test.assertEquals(output_above, 'a = 5\nprint(a)',
+    this.test.assertEquals(output_above, 'a = 5\n\nprint(a)',
                            'Successful merge_cell_above().');
-    this.test.assertEquals(output_below, 'a = 5\nprint(a)',
+    this.test.assertEquals(output_below, 'a = 5\n\nprint(a)',
                            'Successful merge_cell_below().');
 });
