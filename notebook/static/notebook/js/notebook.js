@@ -725,6 +725,18 @@ define(function (require) {
         return true;
     };
 
+    /**
+     * Clear selection of multiple cells (except the cell at the cursor)
+     */
+    Notebook.prototype.reset_selection = function() {
+        var current_selection = this.get_selected_cells();
+        for (var i=0; i<current_selection.length; i++) {
+            if (!current_selection[i].selected) {
+                current_selection[i].unselect()
+            }
+        }
+    };
+
 
     // Edit/Command mode
 
@@ -778,6 +790,7 @@ define(function (require) {
         if (cell && this.mode !== 'edit') {
             cell.edit_mode();
             this.mode = 'edit';
+            this.reset_selection();
             this.events.trigger('edit_mode.Notebook');
             this.keyboard_manager.edit_mode();
         }

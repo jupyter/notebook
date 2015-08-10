@@ -122,6 +122,13 @@ define(function(require){
                 }
             }
         },
+        'reset-selection': {
+            help: 'clear selected cells',
+            help_index: 'de',
+            handler: function(env) {
+                env.notebook.reset_selection();
+            }
+        },
         'cut-selected-cell' : {
             icon: 'fa-cut',
             help_index : 'ee',
