@@ -29,7 +29,6 @@ define([
          *    @param options.pager: {Pager}  pager instance
          */
         this.mode = 'command';
-        this.view = 'tree';
         this.enabled = true;
         this.pager = options.pager;
         this.quick_help = undefined;
@@ -39,11 +38,10 @@ define([
         this.bind_events();
         this.env = {pager:this.pager};
         this.actions = options.actions;
-        if (this.view === 'tree'){
+        if (this.view === 'tree') {
           this.tree_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env);
           this.tree_shortcuts.add_shortcuts(this.get_default_tree_shortcuts());
-        }
-        if (this.view === 'notebook'){
+        } else if (this.view === 'notebook') {
           this.command_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env );
           this.command_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
           this.command_shortcuts.add_shortcuts(this.get_default_command_shortcuts());
@@ -146,6 +144,7 @@ define([
     KeyboardManager.prototype.bind_events = function () {
         var that = this;
         var notebook_view = window.document.getElementById("pager");
+        this.view = 'tree';
 
         if (notebook_view){
           //this test expects element with id="pager" to only exist in

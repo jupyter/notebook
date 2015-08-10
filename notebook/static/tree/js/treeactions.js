@@ -37,7 +37,7 @@ define(function(require){
      **/
     var _actions = {
         'enter-row': {
-            help    : 'enters row',
+            help    : 'opens active file or directory',
             help_index : 'aa',
             handler : function (env) {
                 var len_sib = env.notebooklist.get_length_siblings('.focus');
@@ -47,7 +47,7 @@ define(function(require){
             }
         },
         'select-previous-row':{
-            help    : 'selects previous row',
+            help    : 'moves focus to previous file or directory',
             help_index : 'ab',
             handler : function (env) {
                 var focused = env.notebooklist.get_length_siblings('.focus');
@@ -64,7 +64,7 @@ define(function(require){
             }
         },
         'select-next-row':{
-            help    : 'selects next row',
+            help    : 'moves focus to next file or directory',
             help_index : 'ac',
             handler : function (env) {
                 var focused = env.notebooklist.get_length_siblings('.focus');
