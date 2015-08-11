@@ -171,7 +171,9 @@ define(function (require) {
         // i) provide a margin between the last cell and the end of the notebook
         // ii) to prevent the div from scrolling up when the last cell is being
         // edited, but is too low on the page, which browsers will do automatically.
-        var end_space = $('<div/>').addClass('end_space');
+        var end_space = $('<div/>')
+            .addClass('end_space')
+            .html('<kbd>Cmd-Shift-P</kbd> for Command palette');
         end_space.dblclick(function (e) {
             var ncells = that.ncells();
             that.insert_cell_below('code',ncells-1);
