@@ -65,14 +65,14 @@ colleagues.
 
 Notebooks may be exported to a range of static formats, including HTML (for
 example, for blog posts), reStructuredText, LaTeX, PDF, and slide shows, via
-the new :ref:`nbconvert <nbconvert:index>` command.
+the nbconvert_ command.
 
 Furthermore, any  ``.ipynb`` notebook document available from a public
 URL can be shared via the `Jupyter Notebook Viewer <nbviewer>`_ (nbviewer_).
 This service loads the notebook document from the URL and renders it as a
 static web page.  The results may thus be shared with a colleague, or as a
 public blog post, without other users needing to install the Jupyter notebook 
-themselves.  In effect, nbviewer_ is simply :ref:`nbconvert <nbconvert:index>` as 
+themselves.  In effect, nbviewer_ is simply nbconvert_ as
 a web service, so you can do your own static conversions with nbconvert, 
 without relying on nbviewer.
 
@@ -80,7 +80,7 @@ without relying on nbviewer.
 
 .. seealso::
 
-    :ref:`Details on the notebook JSON file format <nbformat:format_description>`
+    :ref:`Details on the notebook JSON file format <nbformat:notebook_file_format>`
 
 
 Starting the notebook server
@@ -267,7 +267,7 @@ Raw cells
 
 *Raw* cells provide a place in which you can write *output* directly.
 Raw cells are not evaluated by the notebook.
-When passed through :ref:`nbconvert <nbconvert:index>`, raw cells arrive in the
+When passed through nbconvert_, raw cells arrive in the
 destination format unmodified. For example, this allows you to type full LaTeX
 into a raw cell, which will only be rendered by LaTeX after conversion by
 nbconvert.
@@ -361,15 +361,13 @@ Plotting
 One major feature of the Jupyter notebook is the ability to display plots that 
 are the output of running code cells. The IPython kernel is designed to work 
 seamlessly with the matplotlib_ plotting library to provide this functionality.  
-Specific plotting library integration is a feature of the kernel.  See the
-:ref:`plotting document <ipykernel:plotting>` of the IPython kernel for more
-information.
+Specific plotting library integration is a feature of the kernel.
 
 Installing kernels
 ------------------
 
-For information on how to install a Python kernel, refer to :ref:`IPython kernel's 
-installation document <ipykernel:kernel_install>`
+For information on how to install a Python kernel, refer to the `IPython install
+page <http://ipython.org/install.html>`__.
 
 Kernels for other languages can be found in the `IPython wiki
 <https://github.com/ipython/ipython/wiki/IPython%20kernels%20for%20other%20languages>`_.
@@ -405,3 +403,26 @@ You can generate a new notebook signing key with::
     $ jupyter trust --reset
 
 .. include:: links.txt
+
+Browser Compatibility
+---------------------
+
+The Jupyter Notebook is officially supported on the following browsers:
+
+* Chrome ≥ 13
+* Safari ≥ 5
+* Firefox ≥ 6
+
+The is mainly due to the notebook's usage of WebSockets and the flexible box model.
+
+The following browsers are unsupported:
+
+* Safari < 5
+* Firefox < 6
+* Chrome < 13
+* Opera (any): CSS issues, but execution might work
+* Internet Explorer < 10
+* Internet Explorer ≥ 10 (same as Opera)
+
+Using Safari with HTTPS and an untrusted certificate is known to not work
+(websockets will fail).

@@ -27,6 +27,7 @@
 .. Other python projects
 .. _matplotlib: http://matplotlib.org
 .. _nbviewer: http://nbviewer.jupyter.org
+.. _nbconvert: http://nbconvert.readthedocs.org/en/latest/
 
 .. Other tools and projects
 .. _Markdown: http://daringfireball.net/projects/markdown/syntax

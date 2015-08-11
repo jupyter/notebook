@@ -4,7 +4,7 @@ Running a notebook server
 =========================
 
 
-The  :ref:`Jupyter notebook <notebook>` web-application is based on a
+The :doc:`Jupyter notebook <notebook>` web-application is based on a
 server-client structure.  This server uses a :ref:`two-process kernel
 architecture <ipython:ipythonzmq>` based on ZeroMQ_, as well as Tornado_ for serving
 HTTP requests. By default, a notebook server runs on http://127.0.0.1:8888/
@@ -24,11 +24,11 @@ Securing a notebook server
 
 You can protect your notebook server with a simple single password by
 setting the :attr:`NotebookApp.password` configurable. You can prepare a
-hashed password using the function :func:`IPython.lib.security.passwd`:
+hashed password using the function :func:`notebook.auth.security.passwd`:
 
 .. sourcecode:: ipython
 
-    In [1]: from IPython.lib import passwd
+    In [1]: from notebook.auth import passwd
     In [2]: passwd()
     Enter password: 
     Verify password: 
@@ -36,7 +36,7 @@ hashed password using the function :func:`IPython.lib.security.passwd`:
     
 .. note::
 
-  :func:`~IPython.lib.security.passwd` can also take the password as a string
+  :func:`~notebook.auth.security.passwd` can also take the password as a string
   argument. **Do not** pass it as an argument inside an IPython session, as it
   will be saved in your input history.
 
