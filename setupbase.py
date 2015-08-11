@@ -422,7 +422,7 @@ def css_js_prerelease(command, strict=False):
                 self.distribution.run_command('js')
                 self.distribution.run_command('css')
             except Exception as e:
-                log.warn("rebuilding js and css failed.)
+                log.warn("rebuilding js and css failed.")
                 raise e
                 
             command.run(self)
