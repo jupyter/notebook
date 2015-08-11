@@ -101,6 +101,8 @@ define(function(require){
                     key:actions[i],
                     modesht: mode(actions[i]),
                     group:group,
+                    icon: IPython.keyboard_manager.actions.get(actions[i]).icon,
+                    help: IPython.keyboard_manager.actions.get(actions[i]).help
                    })
         }
         input.typeahead({
@@ -111,7 +113,7 @@ define(function(require){
             group: ["group", "{{group}} extension"],
             searchOnFocus: true,
             mustSelectItem: true,
-            template: '{{display}}  <div class="pull-right {{modesht}}"><kbd>{{shortcut}}</kbd></div>',
+            template: '<i class="fa fa-icon {{icon}}"></i>{{display}}  <div class="pull-right {{modesht}}"><kbd>{{shortcut}}</kbd></div>',
             order: "asc",
             source: src,
             callback: {
