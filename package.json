@@ -28,5 +28,8 @@
     "browserify": "^11.0.1",
     "concurrently": "^0.1.1",
     "less": "~2"
+  },
+  "dependencies": {
+    "jquery": "^2.1.4"
   }
 }
