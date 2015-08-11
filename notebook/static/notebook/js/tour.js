@@ -1,11 +1,9 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'bootstraptour',
-], function($, Tour) {
     "use strict";
+
+    var $ = require('jquery');
+    var Tour = require('bootstraptour');
 
     var tour_style = "<div class='popover tour'>\n" +
         "<div class='arrow'></div>\n" +
@@ -148,17 +146,14 @@ define([
     NotebookTour.prototype.command_icon_hack =  function() {
         $('#modal_indicator').css('min-height', 20);
     };
-    
+
     NotebookTour.prototype.toggle_pause_play = function () { 
         $('#tour-pause').toggleClass('fa-pause fa-play'); 
     };
-    
+
     NotebookTour.prototype.edit_mode = function() { 
         this.notebook.focus_cell(); 
         this.notebook.edit_mode();
     };
 
-    return {'Tour': NotebookTour};
-
-});
-
+    exports.Tour = NotebookTour;

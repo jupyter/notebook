@@ -2,8 +2,8 @@
 // Distributed under the terms of the Modified BSD License.
 
 // highly adapted for codemiror jshint
-define(['codemirror/lib/codemirror'], function(CodeMirror) {
     "use strict";
+    var CodeMirror = require('codemirror/lib/codemirror');
 
     var forEach = function(arr, f) {
         for (var i = 0, e = arr.length; i < e; ++i) f(arr[i]);
@@ -94,5 +94,4 @@ define(['codemirror/lib/codemirror'], function(CodeMirror) {
         return filterd;
     };
 
-    return {'contextHint': CodeMirror.contextHint};
-});
+    exports.contextHint = CodeMirror.contextHint;

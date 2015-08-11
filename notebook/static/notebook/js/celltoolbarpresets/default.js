@@ -1,12 +1,10 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'notebook/js/celltoolbar',
-    'base/js/dialog',
-], function($, celltoolbar, dialog) {
     "use strict";
+
+    var $ = require('jquery');
+    var celltoolbar = require('notebook/js/celltoolbar');
+    var dialog = require('base/js/dialog');
 
     var CellToolbar = celltoolbar.CellToolbar;
 
@@ -47,5 +45,4 @@ define([
         CellToolbar.register_preset('Edit Metadata', example_preset, notebook);
         console.log('Default extension for cell metadata editing loaded.');
     };
-    return {'register': register};
-});
+    exports.register = register;

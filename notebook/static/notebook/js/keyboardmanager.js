@@ -7,14 +7,11 @@
  * @namespace keyboardmanager
  * @class KeyboardManager
  */
-
-define([
-    'jquery',
-    'base/js/utils',
-    'base/js/keyboard',
-], function($, utils, keyboard) {
     "use strict";
-    
+    var $ = require('jquery');
+    var utils = require('base/js/utils');
+    var keyboard = require('base/js/keyboard');
+
     // Main keyboard manager for the notebook
     var keycodes = keyboard.keycodes;
 
@@ -139,7 +136,7 @@ define([
         this.notebook = notebook;
         this.actions.extend_env({notebook:notebook});
     };
-    
+
     KeyboardManager.prototype.set_quickhelp = function (notebook) {
         this.actions.extend_env({quick_help:notebook});
     };
@@ -226,5 +223,4 @@ define([
         });
     };
 
-    return {'KeyboardManager': KeyboardManager};
-});
+    exports.KeyboardManager = KeyboardManager;

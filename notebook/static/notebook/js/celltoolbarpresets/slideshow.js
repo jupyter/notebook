@@ -1,12 +1,9 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'notebook/js/celltoolbar',
-], function($, celltoolbar) {
     "use strict";
 
+    var $ = require('jquery');
+    var celltoolbar = require('notebook/js/celltoolbar');
 
     var CellToolbar = celltoolbar.CellToolbar;
     var slideshow_preset = [];
@@ -42,5 +39,4 @@ define([
         CellToolbar.register_preset('Slideshow',slideshow_preset, notebook);
         console.log('Slideshow extension for metadata editing loaded.');
     };
-    return {'register': register};
-});
+    exports.register = register;

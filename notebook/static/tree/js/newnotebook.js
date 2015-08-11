@@ -1,14 +1,12 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'base/js/namespace',
-    'base/js/utils',
-    'base/js/dialog',
-], function ($, IPython, utils, dialog) {
     "use strict";
-    
+
+    var $ = require('jquery');
+    var IPython = require('base/js/namespace');
+    var utils = require('base/js/utils');
+    var dialog = require('base/js/dialog');
+
     var NewNotebookWidget = function (selector, options) {
         this.selector = selector;
         this.base_url = options.base_url;
@@ -22,20 +20,20 @@ define([
         }
         this.bind_events();
     };
-    
+
     NewNotebookWidget.prototype.bind_events = function () {
         var that = this;
         this.element.find('#new_notebook').click(function () {
             that.new_notebook();
         });
     };
-    
+
     NewNotebookWidget.prototype.request_kernelspecs = function () {
         /** request and then load kernel specs */
         var url = utils.url_join_encode(this.base_url, 'api/kernelspecs');
         utils.promising_ajax(url).then($.proxy(this._load_kernelspecs, this));
     };
-    
+
     NewNotebookWidget.prototype._load_kernelspecs = function (data) {
         /** load kernelspec list */
         var that = this;
@@ -70,7 +68,7 @@ define([
             menu.after(li);
         }
     };
-    
+
     NewNotebookWidget.prototype.new_notebook = function (kernel_name) {
         /** create and open a new notebook */
         var that = this;
@@ -100,6 +98,5 @@ define([
             });
         });
     };
-    
-    return {'NewNotebookWidget': NewNotebookWidget};
-});
+
+    exports.NewNotebookWidget = NewNotebookWidget;

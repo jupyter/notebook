@@ -1,8 +1,8 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-define(['jquery'], function($){
     "use strict";
 
+    var $ = require('jquery');
     var ScrollManager = function(notebook, options) {
         /**
          * Public constructor.
@@ -205,10 +205,9 @@ define(['jquery'], function($){
     };
 
     // Return naemspace for require.js loads
-    return {
+    module.exports = {
         'ScrollManager': ScrollManager,
         'SlideScrollManager': SlideScrollManager,
         'HeadingScrollManager': HeadingScrollManager,
         'TargetScrollManager': TargetScrollManager
     };
-});

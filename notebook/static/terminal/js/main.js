@@ -1,23 +1,15 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-require([
-    'jquery',
-    'termjs',
-    'base/js/utils',
-    'base/js/page',
-    'services/config',
-    'terminal/js/terminado',
-    'custom/custom',
-], function(
-    $, 
-    termjs,
-    utils,
-    page,
-    configmod,
-    terminado
-    ){
     "use strict";
+
+    var $ = require('jquery');
+    var termjs = require('termjs');
+    var utils = require('base/js/utils');
+    var page = require('base/js/page');
+    var configmod = require('services/config');
+    var terminado = require('terminal/js/terminado');
+    require('custom/custom');
+
     page = new page.Page();
 
     var common_config = new configmod.ConfigSection('common', 
@@ -33,7 +25,7 @@ require([
     var ws_path = utils.get_body_data('wsPath');
     var ws_url = location.protocol.replace('http', 'ws') + "//" + location.host
                                     + base_url + ws_path;
-    
+
     var header = $("#header")[0]
     function calculate_size() {
         var height = $(window).height() - header.offsetHeight;
@@ -43,16 +35,16 @@ require([
         console.log("resize to :", rows , 'rows by ', cols, 'columns');
         return {rows: rows, cols: cols};
     }
-    
+
     page.show_header();
-    
+
     var size = calculate_size();
     var terminal = terminado.make_terminal($("#terminado-container")[0], size, ws_url);
-    
+
     page.show_site();
-    
+
     utils.load_extensions_from_config(common_config);
-    
+
     window.onresize = function() { 
       var geom = calculate_size();
       terminal.term.resize(geom.cols, geom.rows);
@@ -62,5 +54,3 @@ require([
 
     // Expose terminal for fiddling with in the browser
     window.terminal = terminal;
-
-});

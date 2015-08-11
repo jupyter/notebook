@@ -1,16 +1,14 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'base/js/namespace',
-    'jquery',
-    'base/js/utils',
-    'base/js/dialog',
-    'base/js/events',
-    'base/js/keyboard',
-], function(IPython, $, utils, dialog, events, keyboard) {
     "use strict";
-    
+
+    var IPython = require('base/js/namespace');
+    var $ = require('jquery');
+    var utils = require('base/js/utils');
+    var dialog = require('base/js/dialog');
+    var events = require('base/js/events');
+    var keyboard = require('base/js/keyboard');
+
     var NotebookList = function (selector, options) {
         /**
          * Constructor
@@ -883,5 +881,4 @@ define([
             .append(cancel_button);
     };
 
-    return {'NotebookList': NotebookList};
-});
+    exports.NotebookList = NotebookList;

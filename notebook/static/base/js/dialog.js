@@ -1,12 +1,11 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define(function(require) {
     "use strict";
 
     var CodeMirror = require('codemirror/lib/codemirror');
     var $ = require('jquery');
-    
+
     /**
      * A wrapper around bootstrap modal for easier use
      * Pass it an option dictionary with the following properties:
@@ -199,12 +198,9 @@ define(function(require) {
 
         modal_obj.on('shown.bs.modal', function(){ editor.refresh(); });
     };
-    
-    var dialog = {
+
+    module.exports = {
         modal : modal,
         kernel_modal : kernel_modal,
         edit_metadata : edit_metadata,
     };
-
-    return dialog;
-});

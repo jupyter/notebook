@@ -1,12 +1,10 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'base/js/namespace',
-    'jquery',
-    'base/js/events'
-], function(IPython, $, events) {
     "use strict";
+
+    var IPython = require('base/js/namespace');
+    var $ = require('jquery');
+    var events = require('base/js/events');
 
     var CellToolbar = function (options) {
         /**
@@ -464,5 +462,4 @@ define([
     // Backwards compatability.
     IPython.CellToolbar = CellToolbar;
 
-    return {'CellToolbar': CellToolbar};
-});
+    exports.CellToolbar = CellToolbar;

@@ -1,15 +1,15 @@
-define([
-    'base/js/notificationarea'
-], function(notificationarea) {
+
     "use strict";
+
+    var notificationarea = require('base/js/notificationarea');
     var NotificationArea = notificationarea.NotificationArea;
-    
+
     var EditorNotificationArea = function(selector, options) {
         NotificationArea.apply(this, [selector, options]);
     }
-    
+
     EditorNotificationArea.prototype = Object.create(NotificationArea.prototype);
-    
+
     /**
      * Initialize the default set of notification widgets.
      *
@@ -23,7 +23,5 @@ define([
             savew.set_message("File saved", 2000);
         });
     };
-    
 
-    return {EditorNotificationArea: EditorNotificationArea};
-});
+    exports.EditorNotificationArea = EditorNotificationArea;

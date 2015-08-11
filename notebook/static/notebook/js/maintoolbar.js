@@ -1,14 +1,11 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'require',
-    'jquery',
-    './toolbar',
-    './celltoolbar'
-], function(require, $, toolbar, celltoolbar) {
     "use strict";
 
+    var require = require('require');
+    var $ = require('jquery');
+    var toolbar = require('./toolbar');
+    var celltoolbar = require('./celltoolbar');
     var MainToolBar = function (selector, options) {
         /**
          * Constructor
@@ -60,7 +57,7 @@ define([
         ];
         this.construct(grps);
     };
-    
+
     // add a cell type drop down to the maintoolbar.
     // triggered when the pseudo action `<add_celltype_list>` is
     // encountered when building a toolbar.
@@ -158,5 +155,4 @@ define([
         return wrapper;
     };
 
-    return {'MainToolBar': MainToolBar};
-});
+    exports.MainToolBar = MainToolBar;

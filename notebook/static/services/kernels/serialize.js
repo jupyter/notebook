@@ -1,11 +1,9 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'underscore',
-    ], function (_) {
     "use strict";
-    
+
+    var _ = require('underscore');
+
     var _deserialize_array_buffer = function (buf) {
         var data = new DataView(buf);
         // read the header: 1 + nbufs 32b integers
@@ -29,7 +27,7 @@ define([
         }
         return msg;
     };
-    
+
     var _deserialize_binary = function(data) {
         /**
          * deserialize the binary message format
@@ -66,7 +64,7 @@ define([
             return Promise.resolve(_deserialize_binary(data));
         }
     };
-    
+
     var _serialize_binary = function (msg) {
         /**
          * implement the binary serialization protocol
@@ -109,7 +107,7 @@ define([
         // return raw ArrayBuffer
         return msg_buf.buffer;
     };
-    
+
     var serialize = function (msg) {
         if (msg.buffers && msg.buffers.length) {
             return _serialize_binary(msg);
@@ -117,10 +115,8 @@ define([
             return JSON.stringify(msg);
         }
     };
-    
-    var exports = {
+
+    module.exports = {
         deserialize : deserialize,
         serialize: serialize
     };
-    return exports;
-});

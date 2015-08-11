@@ -8,17 +8,17 @@
 // require(['base/js/events'], function (events) {
 //     events.on("event.Namespace", function () { do_stuff(); });
 // });
+"use strict";
+    
+var IPython = require('base/js/namespace');
+var $ = require('jquery');
 
-define(['base/js/namespace', 'jquery'], function(IPython, $) {
-    "use strict";
+var Events = function () {};
 
-    var Events = function () {};
-    
-    var events = new Events();
-    
-    // Backwards compatability.
-    IPython.Events = Events;
-    IPython.events = events;
-    
-    return $([events]);
-});
+var events = new Events();
+
+// Backwards compatability.
+IPython.Events = Events;
+IPython.events = events;
+
+module.exports = $([events]);

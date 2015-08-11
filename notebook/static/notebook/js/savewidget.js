@@ -1,14 +1,12 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'base/js/utils',
-    'base/js/dialog',
-    'base/js/keyboard',
-    'moment',
-], function($, utils, dialog, keyboard, moment) {
     "use strict";
+
+    var $ = require('jquery');
+    var utils = require('base/js/utils');
+    var dialog = require('base/js/dialog');
+    var keyboard = require('base/js/keyboard');
+    var moment = require('moment');
 
     var SaveWidget = function (selector, options) {
         /**
@@ -162,7 +160,7 @@ define([
         }
         this._render_checkpoint();
     };
-    
+
     SaveWidget.prototype._render_checkpoint = function () {
         /** actually set the text in the element, from our _checkpoint value
         
@@ -189,7 +187,7 @@ define([
         el.text('Last Checkpoint: ' + human_date).attr('title', long_date);
     };
 
-    
+
     SaveWidget.prototype._schedule_render_checkpoint = function () {
         /** schedule the next update to relative date
         
@@ -216,6 +214,4 @@ define([
         }
     };
 
-    return {'SaveWidget': SaveWidget};
-
-});
+    exports.SaveWidget = SaveWidget;

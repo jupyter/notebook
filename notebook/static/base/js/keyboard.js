@@ -8,12 +8,11 @@
  * @class ShortcutManager
  */
 
-define([
-    'jquery',
-    'base/js/utils',
-    'underscore',
-], function($, utils, _) {
     "use strict";
+
+    var utils = require('base/js/utils');
+    var _ = require('underscore');
+    var $ = require('jquery');
 
 
     /**
@@ -45,20 +44,20 @@ define([
         'end': 35, 'home': 36, 'left': 37, 'up': 38, 'right': 39, 'down': 40,
         'insert': 45, 'delete': 46, 'numlock': 144,
     };
-    
+
     // These apply to Firefox and Opera
     var _mozilla_keycodes = {
         '; :': 59, '= +': 61, '- _': 173, 'meta': 224, 'minus':173
     };
-    
+
     // This apply to Webkit and IE
     var _ie_keycodes = {
         '; :': 186, '= +': 187, '- _': 189, 'minus':189
     };
-    
+
     var browser = utils.browser[0];
     var platform = utils.platform;
-    
+
     if (browser === 'Firefox' || browser === 'Opera' || browser === 'Netscape') {
         $.extend(_keycodes, _mozilla_keycodes);
     } else if (browser === 'Safari' || browser === 'Chrome' || browser === 'MSIE') {
@@ -455,7 +454,7 @@ define([
         return (typeof(action_name) !== 'undefined');
     };
 
-    var keyboard = {
+    module.exports = {
         keycodes : keycodes,
         inv_keycodes : inv_keycodes,
         ShortcutManager : ShortcutManager,
@@ -464,6 +463,3 @@ define([
         shortcut_to_event : shortcut_to_event,
         event_to_shortcut : event_to_shortcut,
     };
-
-    return keyboard;
-});

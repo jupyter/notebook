@@ -1,11 +1,9 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jqueryui',
-    'base/js/utils',
-], function($, utils) {
     "use strict";
+
+    var $ = require('jqueryui');
+    var utils = require('base/js/utils');
 
     var Pager = function (pager_selector, options) {
         /**
@@ -166,5 +164,4 @@ define([
         $('.end_space').css('height', Math.max(this.pager_element.height(), this._default_end_space));
     };
 
-    return {'Pager': Pager};
-});
+    exports.Pager = Pager;

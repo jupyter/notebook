@@ -1,33 +1,20 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-require([
-    'jquery',
-    'base/js/namespace',
-    'base/js/utils',
-    'base/js/page',
-    'base/js/events',
-    'contents',
-    'services/config',
-    'edit/js/editor',
-    'edit/js/menubar',
-    'edit/js/savewidget',
-    'edit/js/notificationarea',
-    'custom/custom',
-], function(
-    $,
-    IPython,
-    utils,
-    page,
-    events,
-    contents,
-    configmod,
-    editmod,
-    menubar,
-    savewidget,
-    notificationarea
-    ){
+            
     "use strict";
+    var $ = require('jquery');
+    var IPython = require('base/js/namespace');
+    var utils = require('base/js/utils');
+    var page = require('base/js/page');
+    var events = require('base/js/events');
+    var contents = require('contents');
+    var configmod = require('services/config');
+    var editmod = require('edit/js/editor');
+    var menubar = require('edit/js/menubar');
+    var savewidget = require('edit/js/savewidget');
+    var notificationarea = require('edit/js/notificationarea');
+    require('custom/custom');
+
     page = new page.Page();
 
     var base_url = utils.get_body_data('baseUrl');
@@ -40,7 +27,7 @@ require([
         base_url: base_url,
         common_config: common_config
     });
-    
+
     var editor = new editmod.Editor('#texteditor-container', {
         base_url: base_url,
         events: events,
@@ -48,22 +35,22 @@ require([
         file_path: file_path,
         config: config,
     });
-    
+
     // Make it available for debugging
     IPython.editor = editor;
-    
+
     var save_widget = new savewidget.SaveWidget('span#save_widget', {
         editor: editor,
         events: events,
     });
-    
+
     var menus = new menubar.MenuBar('#menubar', {
         base_url: base_url,
         editor: editor,
         events: events,
         save_widget: save_widget,
     });
-    
+
     var notification_area = new notificationarea.EditorNotificationArea(
         '#notification_area', {
         events: events,
@@ -94,4 +81,3 @@ require([
 
     // On document ready, resize codemirror.
     $(document).ready(_handle_resize);
-});

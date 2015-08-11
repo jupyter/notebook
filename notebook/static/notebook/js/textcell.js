@@ -1,32 +1,19 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'base/js/utils',
-    'jquery',
-    'notebook/js/cell',
-    'base/js/security',
-    'services/config',
-    'notebook/js/mathjaxutils',
-    'notebook/js/celltoolbar',
-    'components/marked/lib/marked',
-    'codemirror/lib/codemirror',
-    'codemirror/mode/gfm/gfm',
-    'notebook/js/codemirror-ipythongfm'
-], function(
-    utils,
-    $,
-    cell,
-    security,
-    configmod,
-    mathjaxutils,
-    celltoolbar,
-    marked,
-    CodeMirror,
-    gfm,
-    ipgfm
-    ) {
     "use strict";
+
+    var utils = require('base/js/utils');
+    var $ = require('jquery');
+    var cell = require('notebook/js/cell');
+    var security = require('base/js/security');
+    var configmod = require('services/config');
+    var mathjaxutils = require('notebook/js/mathjaxutils');
+    var celltoolbar = require('notebook/js/celltoolbar');
+    var marked = require('components/marked/lib/marked');
+    var CodeMirror = require('codemirror/lib/codemirror');
+    var gfm = require('codemirror/mode/gfm/gfm');
+    var ipgfm = require('notebook/js/codemirror-ipythongfm');
+
     var Cell = cell.Cell;
 
     var TextCell = function (options) {
@@ -116,7 +103,7 @@ define([
 
 
     // Cell level actions
-    
+
     TextCell.prototype.select = function () {
         var cont = Cell.prototype.select.apply(this);
         if (cont) {
@@ -325,7 +312,7 @@ define([
             "It will not be rendered in the notebook. " + 
             "When passing through nbconvert, a Raw Cell's content is added to the output unmodified."
     };
-    
+
     RawCell.config_defaults =  {
         highlight_modes : {
             'diff'         :{'reg':[/^diff/]}
@@ -359,10 +346,8 @@ define([
         return cont;
     };
 
-    var textcell = {
+    module.exports = {
         TextCell: TextCell,
         MarkdownCell: MarkdownCell,
         RawCell: RawCell
     };
-    return textcell;
-});

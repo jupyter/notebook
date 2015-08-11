@@ -1,17 +1,15 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'base/js/namespace',
-    'base/js/dialog',
-    'base/js/utils',
-    'notebook/js/tour',
-    'bootstrap',
-    'moment',
-], function($, IPython, dialog, utils, tour, bootstrap, moment) {
     "use strict";
-    
+
+    var $ = require('jquery');
+    var IPython = require('base/js/namespace');
+    var dialog = require('base/js/dialog');
+    var utils = require('base/js/utils');
+    var tour = require('notebook/js/tour');
+    var bootstrap = require('bootstrap');
+    var moment = require('moment');
+
     var MenuBar = function (selector, options) {
         /**
          * Constructor
@@ -365,7 +363,7 @@ define([
             );
         });
     };
-    
+
     MenuBar.prototype.update_nbconvert_script = function(langinfo) {
         /**
          * Set the 'Download as foo' menu option for the relevant language.
@@ -418,5 +416,4 @@ define([
         
     };
 
-    return {'MenuBar': MenuBar};
-});
+    exports.MenuBar = MenuBar;

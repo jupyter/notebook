@@ -1,12 +1,10 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'base/js/namespace',
-    'jquery',
-    'tree/js/notebooklist',
-], function(IPython, $, notebooklist) {
     "use strict";
+
+    var IPython = require('base/js/namespace');
+    var $ = require('jquery');
+    var notebooklist = require('tree/js/notebooklist');
 
     var KernelList = function (selector, options) {
         /**
@@ -32,7 +30,7 @@ define([
          * do nothing
          */
     };
-    
+
     KernelList.prototype.sessions_loaded = function (d) {
         this.sessions = d;
         this.clear_list();
@@ -68,9 +66,8 @@ define([
             })
             .appendTo(running_indicator);
     };
-    
+
     // Backwards compatability.
     IPython.KernelList = KernelList;
 
-    return {'KernelList': KernelList};
-});
+    exports.KernelList = KernelList;

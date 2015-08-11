@@ -1,21 +1,20 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define([
-    'jquery',
-    'components/google-caja/html-css-sanitizer-minified',
-], function($, sanitize) {
     "use strict";
-    
+        
+    var $ = require('jquery');
+    var sanitize = require('components/google-caja/html-css-sanitizer-minified');
+
     var noop = function (x) { return x; };
-    
+
     var caja;
     if (window && window.html) {
         caja = window.html;
         caja.html4 = window.html4;
         caja.sanitizeStylesheet = window.sanitizeStylesheet;
     }
-    
+
     var sanitizeAttribs = function (tagName, attribs, opt_naiveUriRewriter, opt_nmTokenPolicy, opt_logger) {
         /**
          * add trusting data-attributes to the default sanitizeAttribs from caja
@@ -33,7 +32,7 @@ define([
         }
         return caja.sanitizeAttribs(tagName, attribs, opt_naiveUriRewriter, opt_nmTokenPolicy, opt_logger);
     };
-    
+
     var sanitize_css = function (css, tagPolicy) {
         /**
          * sanitize CSS
@@ -52,7 +51,7 @@ define([
             noop
         );
     };
-    
+
     var sanitize_stylesheets = function (html, tagPolicy) {
         /**
          * sanitize just the css in style tags in a block of html
@@ -69,7 +68,7 @@ define([
         });
         return h.html();
     };
-    
+
     var sanitize_html = function (html, allow_css) {
         /**
          * sanitize HTML
@@ -116,11 +115,8 @@ define([
         
         return sanitized;
     };
-    
-    var security = {
+
+    module.exports = {
         caja: caja,
         sanitize_html: sanitize_html
     };
-
-    return security;
-});

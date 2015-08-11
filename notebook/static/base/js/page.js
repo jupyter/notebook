@@ -1,11 +1,10 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define([
-    'jquery',
-    'base/js/events',
-], function($, events){
     "use strict";
+        
+    var events = require('base/js/events');
+    var $ = require('jquery');
 
     var Page = function () {
         this.bind_events();
@@ -58,5 +57,4 @@ define([
         $('div#site').height($(window).height() - $('#header').height());
     };
 
-    return {'Page': Page};
-});
+    exports.Page = Page;

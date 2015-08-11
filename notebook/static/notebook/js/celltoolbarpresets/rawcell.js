@@ -1,18 +1,16 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'notebook/js/celltoolbar',
-    'base/js/dialog',
-    'base/js/keyboard',
-], function($, celltoolbar, dialog, keyboard) {
     "use strict";
 
-  var CellToolbar = celltoolbar.CellToolbar;
-  var raw_cell_preset = [];
+    var $ = require('jquery');
+    var celltoolbar = require('notebook/js/celltoolbar');
+    var dialog = require('base/js/dialog');
+    var keyboard = require('base/js/keyboard');
 
-  var select_type = CellToolbar.utils.select_ui_generator([
+    var CellToolbar = celltoolbar.CellToolbar;
+    var raw_cell_preset = [];
+
+    var select_type = CellToolbar.utils.select_ui_generator([
     ["None", "-"],
     ["LaTeX", "text/latex"],
     ["reST", "text/restructuredtext"],
@@ -72,15 +70,13 @@ define([
       },
       // name
       "Raw NBConvert Format"
-  );
+    );
 
-  var register = function (notebook) {
+    var register = function (notebook) {
     CellToolbar.register_callback('raw_cell.select', select_type, ['raw']);
     raw_cell_preset.push('raw_cell.select');
 
     CellToolbar.register_preset('Raw Cell Format', raw_cell_preset, notebook);
     console.log('Raw Cell Format toolbar preset loaded.');
-  };
-  return {'register': register};
-
-});
+    };
+    exports.register = register;

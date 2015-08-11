@@ -8,17 +8,15 @@
 // ```
 // $.getScript('/static/js/celltoolbarpresets/example.js');
 // ```
-define([
-    'jquery',
-    'notebook/js/celltoolbar',
-], function($, celltoolbar) {
     "use strict";
-
+    var $ = require('jquery');
+    var celltoolbar = require('notebook/js/celltoolbar');
     var CellToolbar = celltoolbar.CellToolbar;
 
     var example_preset = [];
 
-    var simple_button = function(div, cell) {
+    var simple_button = function(div
+        cell) {
         var button_container = $(div);
         var button = $('<div/>').button({icons:{primary:'ui-icon-locked'}});
         var fun = function(value){
@@ -146,5 +144,4 @@ define([
         CellToolbar.register_preset('Example',example_preset, notebook);
         console.log('Example extension for metadata editing loaded.');
     };
-    return {'register': register};
-});
+    exports.register = register;

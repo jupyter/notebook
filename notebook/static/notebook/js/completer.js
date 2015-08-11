@@ -1,14 +1,12 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'base/js/utils',
-    'base/js/keyboard',
-    'notebook/js/contexthint',
-    'codemirror/lib/codemirror',
-], function($, utils, keyboard, CodeMirror) {
     "use strict";
+
+    var $ = require('jquery');
+    var utils = require('base/js/utils');
+    var keyboard = require('base/js/keyboard');
+    var CodeMirror = require('codemirror/lib/codemirror');
+    require('notebook/js/contexthint');
 
     // easier key mapping
     var keycodes = keyboard.keycodes;
@@ -408,5 +406,4 @@ define([
         }, 50);
     };
 
-    return {'Completer': Completer};
-});
+    exports.Completer = Completer;

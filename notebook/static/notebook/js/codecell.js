@@ -7,36 +7,21 @@
  * @namespace codecell
  * @class CodeCell
  */
-
-
-define([
-    'base/js/namespace',
-    'jquery',
-    'base/js/utils',
-    'base/js/keyboard',
-    'services/config',
-    'notebook/js/cell',
-    'notebook/js/outputarea',
-    'notebook/js/completer',
-    'notebook/js/celltoolbar',
-    'codemirror/lib/codemirror',
-    'codemirror/mode/python/python',
-    'notebook/js/codemirror-ipython'
-], function(IPython,
-    $,
-    utils,
-    keyboard,
-    configmod,
-    cell,
-    outputarea,
-    completer,
-    celltoolbar,
-    CodeMirror,
-    cmpython,
-    cmip
-    ) {
     "use strict";
-    
+
+    var IPython = require('base/js/namespace');
+    var $ = require('jquery');
+    var utils = require('base/js/utils');
+    var keyboard = require('base/js/keyboard');
+    var configmod = require('services/config');
+    var cell = require('notebook/js/cell');
+    var outputarea = require('notebook/js/outputarea');
+    var completer = require('notebook/js/completer');
+    var celltoolbar = require('notebook/js/celltoolbar');
+    var CodeMirror = require('codemirror/lib/codemirror');
+    var cmpython = require('codemirror/mode/python/python');
+    var cmip = require('notebook/js/codemirror-ipython');
+
     var Cell = cell.Cell;
 
     /* local util for codemirror */
@@ -144,7 +129,7 @@ define([
     CodeCell.msg_cells = {};
 
     CodeCell.prototype = Object.create(Cell.prototype);
-    
+
     /** @method create_element */
     CodeCell.prototype.create_element = function () {
         Cell.prototype.create_element.apply(this, arguments);
@@ -331,7 +316,7 @@ define([
         this.render();
         this.events.trigger('execute.CodeCell', {cell: this});
     };
-    
+
     /**
      * Construct the default callbacks for
      * @method get_callbacks
@@ -357,7 +342,7 @@ define([
             input : $.proxy(this._handle_input_request, this)
         };
     };
-    
+
     CodeCell.prototype._open_with_pager = function (payload) {
         this.events.trigger('open_with_text.Pager', payload);
     };
@@ -406,7 +391,7 @@ define([
         // Always execute, even if we are already in the rendered state
         return cont;
     };
-    
+
     CodeCell.prototype.select_all = function () {
         var start = {line: 0, ch: 0};
         var nlines = this.code_mirror.lineCount();
@@ -555,5 +540,4 @@ define([
     // Backwards compatability.
     IPython.CodeCell = CodeCell;
 
-    return {'CodeCell': CodeCell};
-});
+    exports.CodeCell = CodeCell;

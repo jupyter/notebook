@@ -1,7 +1,5 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define(function(require) {
     "use strict";
 
     var $ = require('jquery');
@@ -36,7 +34,7 @@ define(function(require) {
         // directory.
         this.message = 'A directory must be empty before being deleted.';
     };
-    
+
     Contents.DirectoryNotEmptyError.prototype = Object.create(Error.prototype);
     Contents.DirectoryNotEmptyError.prototype.name =
         Contents.DIRECTORY_NOT_EMPTY_ERROR;
@@ -173,7 +171,7 @@ define(function(require) {
         var url = this.api_url(path);
         return utils.promising_ajax(url, settings);
     };
-    
+
     Contents.prototype.copy = function(from_file, to_dir) {
         /**
          * Copy a file into a given directory via POST
@@ -252,5 +250,4 @@ define(function(require) {
         return this.get(path, {type: 'directory'});
     };
 
-    return {'Contents': Contents};
-});
+    exports.Contents = Contents;

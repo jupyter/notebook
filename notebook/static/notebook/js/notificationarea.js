@@ -1,22 +1,24 @@
-define([
-    'jquery',
-    'base/js/utils',
-    'base/js/dialog',
-    'base/js/notificationarea',
-    'moment'
-], function($, utils, dialog, notificationarea, moment) {
+// Copyright (c) Jupyter Development Team.
+// Distributed under the terms of the Modified BSD License.
     "use strict";
+
+    var $ = require('jquery');
+    var utils = require('base/js/utils');
+    var dialog = require('base/js/dialog');
+    var notificationarea = require('base/js/notificationarea');
+    var moment = require('moment');
+
     var NotificationArea = notificationarea.NotificationArea;
-    
+
     var NotebookNotificationArea = function(selector, options) {
         NotificationArea.apply(this, [selector, options]);
         this.save_widget = options.save_widget;
         this.notebook = options.notebook;
         this.keyboard_manager = options.keyboard_manager;
     };
-    
+
     NotebookNotificationArea.prototype = Object.create(NotificationArea.prototype);
-    
+
     /**
      * Initialize the default set of notification widgets.
      *
@@ -339,5 +341,4 @@ define([
         });
     };
 
-    return {'NotebookNotificationArea': NotebookNotificationArea};
-});
+    exports.NotebookNotificationArea = NotebookNotificationArea;

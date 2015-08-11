@@ -1,13 +1,11 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'base/js/namespace',
-    'base/js/utils',
-    'jquery',
-    'tree/js/notebooklist',
-], function(IPython, utils, $, notebooklist) {
     "use strict";
+
+    var IPython = require('base/js/namespace');
+    var utils = require('base/js/utils');
+    var $ = require('jquery');
+    var notebooklist = require('tree/js/notebooklist');
 
     var TerminalList = function (selector, options) {
         /**
@@ -62,7 +60,7 @@ define([
         );
         $.ajax(url, settings);
     };
-    
+
     TerminalList.prototype.load_terminals = function() {
         var url = utils.url_join_encode(this.base_url, 'api/terminals');
         $.ajax(url, {
@@ -86,7 +84,7 @@ define([
         }
         $('#terminal_list_header').toggle(data.length === 0);
     };
-    
+
     TerminalList.prototype.add_link = function(name, item) {
         item.data('term-name', name);
         item.find(".item_name").text("terminals/" + name);
@@ -96,7 +94,7 @@ define([
         link.attr('target', IPython._target||'_blank');
         this.add_shutdown_button(name, item);
     };
-    
+
     TerminalList.prototype.add_shutdown_button = function(name, item) {
         var that = this;
         var shutdown_button = $("<button/>").text("Shutdown").addClass("btn btn-xs btn-warning").
@@ -117,5 +115,4 @@ define([
         item.find(".item_buttons").text("").append(shutdown_button);
     };
 
-    return {TerminalList: TerminalList};
-});
+    exports.TerminalList = TerminalList;

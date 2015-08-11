@@ -1,12 +1,12 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-require([
-    'jquery',
-    'base/js/dialog',
-    'underscore',
-    'base/js/namespace'
-], function ($, dialog, _, IPython) {
     'use strict';
+        
+    var $ = require('jquery');
+    var dialog = require('base/js/dialog');
+    var _ = require('underscore');
+    var IPython = require('base/js/namespace');
+
     $('#notebook_about').click(function () {
         // use underscore template to auto html escape
         var text = 'You are using Jupyter notebook.<br/><br/>';
@@ -35,4 +35,3 @@ require([
             kinfo.html($('<p/>').text('unable to contact kernel'));
         }
     });
-});

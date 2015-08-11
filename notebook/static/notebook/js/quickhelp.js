@@ -1,12 +1,11 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'base/js/utils',
-    'base/js/dialog',
-], function($, utils, dialog) {
     "use strict";
+
+    var $ = require('jquery');
+    var utils = require('base/js/utils');
+    var dialog = require('base/js/dialog');
+
     var platform = utils.platform;
 
     var QuickHelp = function (options) {
@@ -64,7 +63,7 @@ define([
         { shortcut: cmd_ctrl + "Shift-z",   help:"redo"  },
         { shortcut: cmd_ctrl + "y",   help:"redo"  },
     ].concat( platform_specific );
-    
+
     var mac_humanize_map = {
         // all these are unicode, will probably display badly on anything except macs.
         // these are the standard symbol that are used in MacOS native menus
@@ -114,7 +113,7 @@ define([
         'space':'Space',
         'backspace':'Backspace',
         };
-    
+
     var humanize_map;
 
     if (platform === 'MacOS'){
@@ -286,8 +285,7 @@ define([
         return div;
     };
 
-    return {'QuickHelp': QuickHelp,
+    module.exports = {'QuickHelp': QuickHelp,
       humanize_shortcut: humanize_shortcut,
       humanize_sequence: humanize_sequence
   };
-});

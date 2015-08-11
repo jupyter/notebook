@@ -1,15 +1,13 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jqueryui',
-    'base/js/utils',
-    'base/js/security',
-    'base/js/keyboard',
-    'notebook/js/mathjaxutils',
-    'components/marked/lib/marked',
-], function($, utils, security, keyboard, mathjaxutils, marked) {
     "use strict";
+
+    var $ = require('jqueryui');
+    var utils = require('base/js/utils');
+    var security = require('base/js/security');
+    var keyboard = require('base/js/keyboard');
+    var mathjaxutils = require('notebook/js/mathjaxutils');
+    var marked = require('components/marked/lib/marked');
 
     /**
      * @class OutputArea
@@ -232,8 +230,8 @@ define([
         }
         this.append_output(json);
     };
-    
-    
+
+
     OutputArea.output_types = [
         'application/javascript',
         'text/html',
@@ -268,7 +266,7 @@ define([
         });
         return bundle;
     };
-    
+
     OutputArea.prototype.append_output = function (json) {
         this.expand();
         
@@ -401,7 +399,7 @@ define([
             .append($('<div/>').text(err.toString()).addClass('js-error'))
             .append($('<div/>').text('See your browser Javascript console for more details.').addClass('js-error'));
     };
-    
+
     OutputArea.prototype._safe_append = function (toinsert) {
         /**
          * safely append an item to the document
@@ -548,7 +546,7 @@ define([
         'image/png' : true,
         'image/jpeg' : true
     };
-    
+
     OutputArea.prototype.append_mime_type = function (json, element, handle_inserted) {
         for (var i=0; i < OutputArea.display_order.length; i++) {
             var type = OutputArea.display_order[i];
@@ -685,7 +683,7 @@ define([
             }
         });
     };
-    
+
     var set_width_height = function (img, md, mime) {
         /**
          * set width and height of an img element from metadata
@@ -698,7 +696,7 @@ define([
             img.addClass('unconfined');
         }
     };
-    
+
     var append_png = function (png, md, element, handle_inserted) {
         var type = 'image/png';
         var toinsert = this.create_output_subarea(md, "output_png", type);
@@ -961,5 +959,4 @@ define([
         "application/pdf" : append_pdf
     };
 
-    return {'OutputArea': OutputArea};
-});
+    exports.OutputArea = OutputArea;

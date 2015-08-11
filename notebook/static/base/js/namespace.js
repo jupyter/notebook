@@ -1,38 +1,37 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-
-var Jupyter = Jupyter || {};
-
-var jprop = function(name, module_path){
-    Object.defineProperty(Jupyter, name, {
-      get: function() { 
-          console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'")`');
-          return require(module_path); 
-      },
-      enumerable: true,
-      configurable: false
-    });
-}
-
-var jglobal = function(name, module_path){
-    Object.defineProperty(Jupyter, name, {
-      get: function() { 
-          console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'").'+name+'`');
-          return require(module_path)[name]; 
-      },
-      enumerable: true,
-      configurable: false
-    });
-}
-
-define(function(){
     "use strict";
 
+    var Jupyter = Jupyter || {};
+
+    var jprop = function(name, module_path){
+        Object.defineProperty(Jupyter, name, {
+          get: function() { 
+              console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'")`');
+              return require(module_path); 
+          },
+          enumerable: true,
+          configurable: false
+        });
+    }
+
+    var jglobal = function(name, module_path){
+        Object.defineProperty(Jupyter, name, {
+          get: function() { 
+              console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'").'+name+'`');
+              return require(module_path)[name]; 
+          },
+          enumerable: true,
+          configurable: false
+        });
+    }
+
+
     // expose modules
-    
+
     jprop('utils','base/js/utils')
-    
+
     //Jupyter.load_extensions = Jupyter.utils.load_extensions;
     // 
     jprop('security','base/js/security');
@@ -75,8 +74,8 @@ define(function(){
 
     Jupyter.version = "4.1.0.dev";
     Jupyter._target = '_blank';
-    return Jupyter;
-});
 
-// deprecated since 4.0, remove in 5+
-var IPython = Jupyter
+    module.exports = Jupyter;
+
+    // deprecated since 4.0, remove in 5+
+    window.IPython = Jupyter;

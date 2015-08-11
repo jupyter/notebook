@@ -4,8 +4,8 @@
 /**
  * @module notebook
  */
-define(function (require) {
     "use strict";
+
     var IPython = require('base/js/namespace');
     var $ = require('jquery');
     var utils = require('base/js/utils');
@@ -319,7 +319,6 @@ define(function (require) {
             return;
         };
     };
-    
 
     Notebook.prototype.show_command_palette = function() {
         var x = new commandpalette.CommandPalette(this);
@@ -531,7 +530,7 @@ define(function (require) {
         }
         return result;
     };
-    
+
     /**
      * Get the numeric index of a given cell.
      * 
@@ -812,7 +811,7 @@ define(function (require) {
             cell.focus_editor();
         }
     };
-    
+
     /**
      * Ensure either cell, or codemirror is focused. Is none 
      * is focused, focus the cell.
@@ -1266,7 +1265,7 @@ define(function (require) {
             }
         }
     };
-    
+
     /**
      * Warn about heading cell support removal.
      */
@@ -1286,7 +1285,7 @@ define(function (require) {
             }
         });
     };
-    
+
     /**
      * Turn a cell into a heading containing markdown cell.
      * 
@@ -1700,7 +1699,7 @@ define(function (require) {
     var _mode_equal = function(mode1, mode2){
         return ((mode1||{}).name||mode1)===((mode2||{}).name||mode2);
     };
-    
+
     /**
      * Set the codemirror mode for all code cells, including the default for
      * new code cells.
@@ -1780,7 +1779,7 @@ define(function (require) {
         this._session_starting = false;
         utils.log_ajax_error(jqxhr, status, error);
     };
-    
+
     /**
      * Prompt the user to restart the Jupyter kernel.
      */
@@ -1811,7 +1810,7 @@ define(function (require) {
             }
         });
     };
-    
+
     /**
      * Execute or render cell outputs and go into command mode.
      */
@@ -2062,7 +2061,7 @@ define(function (require) {
             this.events.trigger("autosave_disabled.Notebook");
         }
     };
-    
+
     /**
      * Save this notebook on the server. This becomes a notebook instance's
      * .save_notebook method *after* the entire notebook has been loaded.
@@ -2145,7 +2144,7 @@ define(function (require) {
             return _save();
         }
     };
-    
+
     /**
      * Success callback for saving a notebook.
      * 
@@ -2186,7 +2185,7 @@ define(function (require) {
             this._checkpoint_after_save = false;
         }
     };
-    
+
     /**
      * Update the autosave interval based on the duration of the last save.
      * 
@@ -2274,7 +2273,7 @@ define(function (require) {
             }
         );
     };
-    
+
     /**
      * Ensure a filename has the right extension
      * Returns the filename with the appropriate extension, appending if necessary.
@@ -2516,7 +2515,7 @@ define(function (require) {
     };
 
     /*********************  checkpoint-related  ********************/
-    
+
     /**
      * Save the notebook then immediately create a checkpoint.
      */
@@ -2524,7 +2523,7 @@ define(function (require) {
         this._checkpoint_after_save = true;
         this.save_notebook();
     };
-    
+
     /**
      * Add a checkpoint for this notebook.
      */
@@ -2543,7 +2542,7 @@ define(function (require) {
         }
         this.last_checkpoint = this.checkpoints[this.checkpoints.length - 1];
     };
-    
+
     /**
      * List checkpoints for this notebook.
      */
@@ -2640,7 +2639,7 @@ define(function (require) {
                 }
         });
     };
-    
+
     /**
      * Restore the notebook to a checkpoint state.
      * 
@@ -2656,7 +2655,7 @@ define(function (require) {
             }
         );
     };
-    
+
     /**
      * Success callback for restoring a notebook to a checkpoint.
      */
@@ -2680,7 +2679,7 @@ define(function (require) {
             }
         );
     };
-    
+
     /**
      * Success callback for deleting a notebook checkpoint.
      */
@@ -2689,5 +2688,4 @@ define(function (require) {
         this.load_notebook(this.notebook_path);
     };
 
-    return {'Notebook': Notebook};
-});
+    exports.Notebook = Notebook;

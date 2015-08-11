@@ -1,12 +1,10 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'base/js/utils',
-    'base/js/dialog',
-], function($, utils, dialog) {
     "use strict";
+
+    var $ = require('jquery');
+    var utils = require('base/js/utils');
+    var dialog = require('base/js/dialog');
 
     var init = function () {
         if (window.MathJax) {
@@ -202,11 +200,8 @@ define([
         return text;
     };
 
-    var mathjaxutils = {
+    module.exports = {
         init : init,
         remove_math : remove_math,
         replace_math : replace_math
     };
-
-    return mathjaxutils;
-});

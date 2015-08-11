@@ -1,12 +1,10 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'base/js/utils',
-    ],
-function($, utils) {
     "use strict";
+
+    var $ = require('jquery');
+    var utils = require('base/js/utils');
+
     var ConfigSection = function(section_name, options) {
         this.section_name = section_name;
         this.base_url = options.base_url;
@@ -27,14 +25,14 @@ function($, utils) {
     ConfigSection.prototype.api_url = function() {
         return utils.url_join_encode(this.base_url, 'api/config', this.section_name);
     };
-    
+
     ConfigSection.prototype._load_done = function() {
         if (!this._one_load_finished) {
             this._one_load_finished = true;
             this._finish_firstload();
         }
     };
-    
+
     ConfigSection.prototype.load = function() {
         var that = this;
         return utils.promising_ajax(this.api_url(), {
@@ -47,7 +45,7 @@ function($, utils) {
             return data;
         });
     };
-    
+
     /**
      * Modify the config values stored. Update the local data immediately,
      * send the change to the server, and use the updated data from the server
@@ -69,14 +67,14 @@ function($, utils) {
             return data;
         });
     };
-    
-    
+
+
     var ConfigWithDefaults = function(section, defaults, classname) {
         this.section = section;
         this.defaults = defaults;
         this.classname = classname;
     };
-    
+
     ConfigWithDefaults.prototype._class_data = function() {
         if (this.classname) {
             return this.section.data[this.classname] || {};
@@ -84,7 +82,7 @@ function($, utils) {
             return this.section.data
         }
     };
-    
+
     /**
      * Wait for config to have loaded, then get a value or the default.
      * Returns a promise.
@@ -95,7 +93,7 @@ function($, utils) {
             return this._class_data()[key] || this.defaults[key]
         });
     };
-    
+
     /**
      * Return a config value. If config is not yet loaded, return the default
      * instead of waiting for it to load.
@@ -103,7 +101,7 @@ function($, utils) {
     ConfigWithDefaults.prototype.get_sync = function(key) {
         return this._class_data()[key] || this.defaults[key];
     };
-    
+
     /**
      * Set a config value. Send the update to the server, and change our
      * local copy of the data immediately.
@@ -121,9 +119,8 @@ function($, utils) {
             return this.section.update(d);
         }
     };
-    
-    return {ConfigSection: ConfigSection,
-            ConfigWithDefaults: ConfigWithDefaults,
-           };
 
-});
+    module.exports = {
+        ConfigSection: ConfigSection,
+        ConfigWithDefaults: ConfigWithDefaults,
+    };

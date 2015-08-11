@@ -1,6 +1,8 @@
-define ([], function() {
+// Copyright (c) Jupyter Development Team.
+// Distributed under the terms of the Modified BSD License.
     "use strict";
-    function make_terminal(element, size, ws_url) {
+        
+    exports.make_terminal = function(element, size, ws_url) {
         var ws = new WebSocket(ws_url);
         Terminal.brokenBold = true;
         var term = new Terminal({
@@ -36,6 +38,3 @@ define ([], function() {
         };
         return {socket: ws, term: term};
     }
-
-    return {make_terminal: make_terminal};
-});

@@ -23,36 +23,56 @@ require([
     'codemirror/lib/codemirror',
     'notebook/js/about',
     'typeahead',
+
+require([
+    'base/js/namespace',
+    'jquery',
+    'notebook/js/notebook',
+    'contents',
+    'services/config',
+    'base/js/utils',
+    'base/js/page',
+    'base/js/events',
+    'auth/js/loginwidget',
+    'notebook/js/maintoolbar',
+    'notebook/js/pager',
+    'notebook/js/quickhelp',
+    'notebook/js/menubar',
+    'notebook/js/notificationarea',
+    'notebook/js/savewidget',
+    'notebook/js/actions',
+    'notebook/js/keyboardmanager',
+    'notebook/js/kernelselector',
+    'codemirror/lib/codemirror',
+    'notebook/js/about',
+    'typeahead',
     'notebook/js/searchandreplace',
-    // only loaded, not used, please keep sure this is loaded last
-    'custom/custom'
-], function(
-    IPython, 
-    $,
-    notebook, 
-    contents,
-    configmod,
-    utils, 
-    page, 
-    events,
-    loginwidget, 
-    maintoolbar, 
-    pager, 
-    quickhelp, 
-    menubar, 
-    notificationarea, 
-    savewidget,
-    actions,
-    keyboardmanager,
-    kernelselector,
-    CodeMirror,
-    about,
-    typeahead,
-    searchandreplace,
-    // please keep sure that even if not used, this is loaded last
-    custom
-    ) {
     "use strict";
+        
+    var IPython = require('base/js/namespace');
+    var $ = require('jquery');
+    var notebook = require('notebook/js/notebook');
+    var contents = require('contents');
+    var configmod = require('services/config');
+    var utils = require('base/js/utils');
+    var page = require('base/js/page');
+    var events = require('base/js/events');
+    var loginwidget = require('auth/js/loginwidget');
+    var maintoolbar = require('notebook/js/maintoolbar');
+    var pager = require('notebook/js/pager');
+    var quickhelp = require('notebook/js/quickhelp');
+    var menubar = require('notebook/js/menubar');
+    var notificationarea = require('notebook/js/notificationarea');
+    var savewidget = require('notebook/js/savewidget');
+    var actions = require('notebook/js/actions');
+    var keyboardmanager = require('notebook/js/keyboardmanager');
+    var kernelselector = require('notebook/js/kernelselector');
+    var CodeMirror = require('codemirror/lib/codemirror');
+    var about = require('notebook/js/about');
+    var typeahead = require('typeahead');
+    var searchandreplace = 'notebook/js/searchandreplace';
+    // only loaded, not used, please keep sure this is loaded last
+    var custom = require('custom/custom');
 
     // BEGIN HARDCODED WIDGETS HACK
     utils.load_extension('widgets/notebook/js/extension').catch(function () {
@@ -149,7 +169,7 @@ require([
         events.off('notebook_loaded.Notebook', first_load);
     };
     events.on('notebook_loaded.Notebook', first_load);
-    
+
     IPython.page = page;
     IPython.notebook = notebook;
     IPython.contents = contents;
@@ -167,5 +187,3 @@ require([
     utils.load_extensions_from_config(config_section);
     utils.load_extensions_from_config(common_config);
     notebook.load_notebook(common_options.notebook_path);
-
-});

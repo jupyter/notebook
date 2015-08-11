@@ -1,12 +1,10 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'base/js/utils',
-    'services/kernels/kernel',
-], function($, utils, kernel) {
     "use strict";
+
+    var $ = require('jquery');
+    var utils = require('base/js/utils');
+    var kernel = require('services/kernels/kernel');
 
     /**
      * Session object for accessing the session REST api. The session
@@ -311,11 +309,10 @@ define([
         this.name = "SessionAlreadyStarting";
         this.message = (message || "");
     };
-    
+
     SessionAlreadyStarting.prototype = Error.prototype;
-    
-    return {
+
+    module.exports = {
         Session: Session,
         SessionAlreadyStarting: SessionAlreadyStarting
     };
-});

@@ -1,26 +1,21 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define([
-    'jquery',
-    'base/js/utils',
-    'codemirror/lib/codemirror',
-    'codemirror/mode/meta',
-    'codemirror/addon/comment/comment',
-    'codemirror/addon/dialog/dialog',
-    'codemirror/addon/edit/closebrackets',
-    'codemirror/addon/edit/matchbrackets',
-    'codemirror/addon/search/searchcursor',
-    'codemirror/addon/search/search',
-    'codemirror/keymap/emacs',
-    'codemirror/keymap/sublime',
-    'codemirror/keymap/vim',
-    ],
-function($,
-    utils,
-    CodeMirror
-) {
     "use strict";
+        
+    var $ = require('jquery');
+    var CodeMirror = require('codemirror/lib/codemirror');
+    var utils = require('base/js/utils');
+    require('codemirror/mode/meta');
+    require('codemirror/addon/comment/comment');
+    require('codemirror/addon/dialog/dialog');
+    require('codemirror/addon/edit/closebrackets');
+    require('codemirror/addon/edit/matchbrackets');
+    require('codemirror/addon/search/searchcursor');
+    require('codemirror/addon/search/search');
+    require('codemirror/keymap/emacs');
+    require('codemirror/keymap/sublime');
+    require('codemirror/keymap/vim');
 
     var Editor = function(selector, options) {
         var that = this;
@@ -59,7 +54,7 @@ function($,
         $('.last_modified').before(this.clean_sel);
         this.clean_sel.addClass('dirty-indicator-dirty');
     };
-    
+
     // default CodeMirror options
     Editor.default_codemirror_options = {
         extraKeys: {
@@ -70,7 +65,7 @@ function($,
         lineNumbers: true,
         lineWrapping: true,
     };
-    
+
     Editor.prototype.load = function() {
         /** load the file */
         var that = this;
@@ -141,7 +136,7 @@ function($,
             that.events.trigger("mode_changed.Editor", modeinfo);
         });
     };
-    
+
     Editor.prototype.get_filename = function () {
         return utils.url_path_split(this.file_path)[1];
     };
@@ -160,7 +155,7 @@ function($,
             }
         );
     };
-    
+
     Editor.prototype.save = function () {
         /** save the file */
         if (!this.save_enabled) {
@@ -210,7 +205,7 @@ function($,
         });
         var that = this;
     };
-    
+
     Editor.prototype.update_codemirror_options = function (options) {
         /** update codemirror options locally and save changes in config */
         var that = this;
@@ -224,5 +219,4 @@ function($,
         );
     };
 
-    return {Editor: Editor};
-});
+    exports.Editor = Editor;

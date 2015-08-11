@@ -1,16 +1,15 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define([
-    'jquery',
-    'base/js/utils',
-], function($, utils) {
     "use strict";
+
+    var $ = require('jquery');
+    var utils = require('base/js/utils');
 
     //-----------------------------------------------------------------------
     // CommManager class
     //-----------------------------------------------------------------------
-    
+
     var CommManager = function (kernel) {
         this.comms = {};
         this.targets = {};
@@ -18,7 +17,7 @@ define([
             this.init_kernel(kernel);
         }
     };
-    
+
     CommManager.prototype.init_kernel = function (kernel) {
         /**
          * connect the kernel, and register message handlers
@@ -30,7 +29,7 @@ define([
             kernel.register_iopub_handler(msg_type, $.proxy(this[msg_type], this));
         }
     };
-    
+
     CommManager.prototype.new_comm = function (target_name, data, callbacks, metadata, comm_id) {
         /**
          * Create a new Comm, register it, and open its Kernel-side counterpart
@@ -43,21 +42,21 @@ define([
         comm.open(data, callbacks, metadata);
         return comm;
     };
-    
+
     CommManager.prototype.register_target = function (target_name, f) {
         /**
          * Register a target function for a given target name
          */
         this.targets[target_name] = f;
     };
-    
+
     CommManager.prototype.unregister_target = function (target_name, f) {
         /**
          * Unregister a target function for a given target name
          */
         delete this.targets[target_name];
     };
-    
+
     CommManager.prototype.register_comm = function (comm) {
         /**
          * Register a comm in the mapping
@@ -66,16 +65,16 @@ define([
         comm.kernel = this.kernel;
         return comm.comm_id;
     };
-    
+
     CommManager.prototype.unregister_comm = function (comm) {
         /**
          * Remove a comm from the mapping
          */
         delete this.comms[comm.comm_id];
     };
-    
+
     // comm message handlers
-    
+
     CommManager.prototype.comm_open = function (msg) {
         var content = msg.content;
         var that = this;
@@ -100,7 +99,7 @@ define([
             }, utils.reject('Could not open comm', true));
         return this.comms[comm_id];
     };
-    
+
     CommManager.prototype.comm_close = function(msg) {
         var content = msg.content;
         if (this.comms[content.comm_id] === undefined) {
@@ -120,7 +119,7 @@ define([
         });
         return this.comms[content.comm_id];
     };
-    
+
     CommManager.prototype.comm_msg = function(msg) {
         var content = msg.content;
         if (this.comms[content.comm_id] === undefined) {
@@ -138,17 +137,17 @@ define([
         });
         return this.comms[content.comm_id];
     };
-    
+
     //-----------------------------------------------------------------------
     // Comm base class
     //-----------------------------------------------------------------------
-    
+
     var Comm = function (target_name, comm_id) {
         this.target_name = target_name;
         this.comm_id = comm_id || utils.uuid();
         this._msg_callback = this._close_callback = null;
     };
-    
+
     // methods for sending messages
     Comm.prototype.open = function (data, callbacks, metadata) {
         var content = {
@@ -158,7 +157,7 @@ define([
         };
         return this.kernel.send_shell_message("comm_open", content, callbacks, metadata);
     };
-    
+
     Comm.prototype.send = function (data, callbacks, metadata, buffers) {
         var content = {
             comm_id : this.comm_id,
@@ -166,7 +165,7 @@ define([
         };
         return this.kernel.send_shell_message("comm_msg", content, callbacks, metadata, buffers);
     };
-    
+
     Comm.prototype.close = function (data, callbacks, metadata) {
         var content = {
             comm_id : this.comm_id,
@@ -174,22 +173,22 @@ define([
         };
         return this.kernel.send_shell_message("comm_close", content, callbacks, metadata);
     };
-    
+
     // methods for registering callbacks for incoming messages
     Comm.prototype._register_callback = function (key, callback) {
         this['_' + key + '_callback'] = callback;
     };
-    
+
     Comm.prototype.on_msg = function (callback) {
         this._register_callback('msg', callback);
     };
-    
+
     Comm.prototype.on_close = function (callback) {
         this._register_callback('close', callback);
     };
-    
+
     // methods for handling incoming messages
-    
+
     Comm.prototype._callback = function (key, msg) {
         var callback = this['_' + key + '_callback'];
         if (callback) {
@@ -200,17 +199,16 @@ define([
             }
         }
     };
-    
+
     Comm.prototype.handle_msg = function (msg) {
         this._callback('msg', msg);
     };
-    
+
     Comm.prototype.handle_close = function (msg) {
         this._callback('close', msg);
     };
-    
-    return {
+
+    module.exports = {
         'CommManager': CommManager,
         'Comm': Comm
     };
-});

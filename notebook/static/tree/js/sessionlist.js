@@ -1,11 +1,9 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'base/js/utils',
-], function($, utils) {
     "use strict";
+
+    var $ = require('jquery');
+    var utils = require('base/js/utils');
 
     var SesssionList = function (options) {
         /**
@@ -51,7 +49,7 @@ define([
             });
         });
     };
-    
+
     SesssionList.prototype.load_sessions = function(){
         var that = this;
         var settings = {
@@ -77,5 +75,4 @@ define([
         this.events.trigger('sessions_loaded.Dashboard', this.sessions);
     };
 
-    return {'SesssionList': SesssionList};
-});
+    exports.SesssionList = SesssionList;

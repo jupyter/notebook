@@ -1,10 +1,8 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define([
-    'jquery'
-], function($) {
     "use strict";
+    var $ = require('jquery');
 
     /**
      * A generic toolbar on which one can add button
@@ -132,5 +130,4 @@ define([
         this.element.toggle();
     };
 
-    return {'ToolBar': ToolBar};
-});
+    exports.ToolBar = ToolBar;

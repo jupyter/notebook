@@ -1,15 +1,13 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define([
-    'jquery',
-    'codemirror/lib/codemirror',
-    'moment',
-    // silently upgrades CodeMirror
-    'codemirror/mode/meta',
-], function($, CodeMirror, moment){
     "use strict";
-    
+        
+    var $ = require('jquery');
+    var CodeMirror = require('codemirror/lib/codemirror');
+    var moment = require('moment');
+    require('codemirror/mode/meta');
+
     /**
      * Load a single extension.
      * @param  {string} extension - extension path.
@@ -217,7 +215,7 @@ define([
         "46":"ansibgcyan",
         "47":"ansibggray"
     };
-    
+
     function _process_numbers(attrs, numbers) {
         // process ansi escapes
         var n = numbers.shift();
@@ -374,7 +372,7 @@ define([
         test.remove();
         return Math.floor(points*pixel_per_point);
     };
-    
+
     var always_new = function (constructor) {
         /**
          * wrapper around contructor to avoid requiring `var a = new constructor()`
@@ -407,7 +405,7 @@ define([
         url = url.replace(/\/\/+/, '/');
         return url;
     };
-    
+
     var url_path_split = function (path) {
         /**
          * Like os.path.split for URLs.
@@ -421,7 +419,7 @@ define([
             return [ path.slice(0, idx), path.slice(idx + 1) ];
         }
     };
-    
+
     var parse_url = function (url) {
         /**
          * an `a` element with an href allows attr-access to the parsed segments of a URL
@@ -437,7 +435,7 @@ define([
         a.href = url;
         return a;
     };
-    
+
     var encode_uri_components = function (uri) {
         /**
          * encode just the components of a multi-segment uri,
@@ -445,7 +443,7 @@ define([
          */
         return uri.split('/').map(encodeURIComponent).join('/');
     };
-    
+
     var url_join_encode = function () {
         /**
          * join a sequence of url components with '/',
@@ -488,7 +486,7 @@ define([
             return val;
         return decodeURIComponent(val);
     };
-    
+
     var to_absolute_cursor_pos = function (cm, cursor) {
         /**
          * get the absolute cursor position from CodeMirror's col, ch
@@ -502,7 +500,7 @@ define([
         }
         return cursor_pos;
     };
-    
+
     var from_absolute_cursor_pos = function (cm, cursor_pos) {
         /**
          * turn absolute cursor position into CodeMirror col, ch cursor
@@ -526,7 +524,7 @@ define([
             ch : line.length - 1,
         };
     };
-    
+
     // http://stackoverflow.com/questions/2400935/browser-detection-in-javascript
     var browser = (function() {
         if (typeof navigator === 'undefined') {
@@ -553,7 +551,7 @@ define([
         if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
         return OSName;
     })();
-    
+
     var get_url_param = function (name) {
         // get a URL parameter. I cannot believe we actually need this.
         // Based on http://stackoverflow.com/a/25359264/938949
@@ -562,7 +560,7 @@ define([
             return decodeURIComponent(match[1] || '');
         }
     };
-    
+
     var is_or_has = function (a, b) {
         /**
          * Is b a child of a or a itself?
@@ -586,13 +584,13 @@ define([
             return false;
         }
     };
-    
+
     var mergeopt = function(_class, options, overwrite){
         options = options || {};
         overwrite = overwrite || {};
         return $.extend(true, {}, _class.options_default, options, overwrite);
     };
-    
+
     var ajax_error_msg = function (jqXHR) {
         /**
          * Return a JSON error message if there is one,
@@ -651,10 +649,10 @@ define([
             }, errback
         );
     };
-    
+
     /** Error type for wrapped XHR errors. */
     var XHR_ERROR = 'XhrError';
-    
+
     /**
      * Wraps an AJAX error as an Error object.
      */
@@ -667,7 +665,7 @@ define([
         wrapped_error.xhr_error = error;
         return wrapped_error;
     };
-    
+
     var promising_ajax = function(url, settings) {
         /**
          * Like $.ajax, but returning an ES6 promise. success and error settings
@@ -805,14 +803,14 @@ define([
             return MathJax.Hub.Queue(["Typeset", MathJax.Hub, this]);
         });
     };
-    
+
     var time = {};
     time.milliseconds = {};
     time.milliseconds.s = 1000;
     time.milliseconds.m = 60 * time.milliseconds.s;
     time.milliseconds.h = 60 * time.milliseconds.m;
     time.milliseconds.d = 24 * time.milliseconds.h;
-    
+
     time.thresholds = {
         // moment.js thresholds in milliseconds
         s: moment.relativeTimeThreshold('s') * time.milliseconds.s,
@@ -820,7 +818,7 @@ define([
         h: moment.relativeTimeThreshold('h') * time.milliseconds.h,
         d: moment.relativeTimeThreshold('d') * time.milliseconds.d,
     };
-    
+
     time.timeout_from_dt = function (dt) {
         /** compute a timeout based on dt
         
@@ -840,8 +838,8 @@ define([
             return time.milliseconds.h;
         }
     };
-    
-    var utils = {
+
+    module.exports = {
         load_extension: load_extension,
         load_extensions: load_extensions,
         load_extensions_from_config: load_extensions_from_config,
@@ -881,6 +879,3 @@ define([
         typeset: typeset,
         time: time,
     };
-
-    return utils;
-}); 

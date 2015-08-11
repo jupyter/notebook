@@ -1,10 +1,8 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define([
-    'jquery',
-], function($) {
     "use strict";
+    var $ = require('jquery');
 
     /**
      * Construct a NotificationWidget object.
@@ -37,7 +35,7 @@ define([
         // for this particular combination
         this.element.addClass('notification_widget btn btn-xs navbar-btn');
     };
-   
+
     /**
      * hide the widget and empty the text
      **/
@@ -166,5 +164,4 @@ define([
         return this.inner.html();
     };
 
-    return {'NotificationWidget': NotificationWidget};
-});
+    exports.NotificationWidget = NotificationWidget;

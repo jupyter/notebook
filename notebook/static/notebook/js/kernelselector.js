@@ -1,14 +1,10 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'base/js/namespace',
-    'base/js/dialog',
-    'base/js/utils',
-], function($, IPython, dialog, utils) {
     "use strict";
-    
+    var $ = require('jquery');
+    var IPython = require('base/js/namespace');
+    var dialog = require('base/js/dialog');
+    var utils = require('base/js/utils');
     var KernelSelector = function(selector, notebook) {
         var that = this;
         this.selector = selector;
@@ -32,14 +28,14 @@ define([
         
         Object.seal(this);
     };
-    
+
     KernelSelector.prototype.request_kernelspecs = function() {
         // Preliminary documentation for kernelspecs api is at 
         // https://github.com/ipython/ipython/wiki/IPEP-25%3A-Registry-of-installed-kernels#rest-api
         var url = utils.url_join_encode(this.notebook.base_url, 'api/kernelspecs');
         utils.promising_ajax(url).then($.proxy(this._got_kernelspecs, this));
     };
-    
+
     var _sorted_names = function(kernelspecs) {
         // sort kernel names
         return Object.keys(kernelspecs).sort(function (a, b) {
@@ -55,7 +51,7 @@ define([
             }
         });
     };
-    
+
     KernelSelector.prototype._got_kernelspecs = function(data) {
         var that = this;
         this.kernelspecs = data.kernelspecs;
@@ -93,7 +89,7 @@ define([
         this._loaded = true;
         this._finish_load();
     };
-    
+
     KernelSelector.prototype._spec_changed = function (event, ks) {
         /** event handler for spec_changed */
         var that = this;
@@ -238,7 +234,7 @@ define([
         this.current_selection = ks.name;
         this.events.trigger('spec_changed.Kernel', ks);
     };
-    
+
     KernelSelector.prototype._spec_not_found = function (event, data) {
         var that = this;
         var select = $("<select>").addClass('form-control');
@@ -333,5 +329,4 @@ define([
         });
     };
 
-    return {'KernelSelector': KernelSelector};
-});
+    exports.KernelSelector = KernelSelector;

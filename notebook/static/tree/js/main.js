@@ -1,46 +1,30 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-require([
-    'jquery',
-    'base/js/namespace',
-    'base/js/dialog',
-    'base/js/events',
-    'base/js/page',
-    'base/js/utils',
-    'services/config',
-    'contents',
-    'tree/js/notebooklist',
-    'tree/js/sessionlist',
-    'tree/js/kernellist',
-    'tree/js/terminallist',
-    'tree/js/newnotebook',
-    'auth/js/loginwidget',
-    // only loaded, not used:
-    'jqueryui',
-    'bootstrap',
-    'custom/custom',
-], function(
-    $,
-    IPython,
-    dialog,
-    events,
-    page,
-    utils,
-    config,
-    contents_service,
-    notebooklist,
-    sesssionlist,
-    kernellist,
-    terminallist,
-    newnotebook,
-    loginwidget){
     "use strict";
+
+    var $ = require('jquery');
+    var IPython = require('base/js/namespace');
+    var dialog = require('base/js/dialog');
+    var events = require('base/js/events');
+    var page = require('base/js/page');
+    var utils = require('base/js/utils');
+    var config = require('services/config');
+    var contents_service = require('contents');
+    var notebooklist = require('tree/js/notebooklist');
+    var sesssionlist = require('tree/js/sessionlist');
+    var kernellist = require('tree/js/kernellist');
+    var terminallist = require('tree/js/terminallist');
+    var newnotebook = require('tree/js/newnotebook');
+    var loginwidget = require('auth/js/loginwidget');
+
+    require('jqueryui');
+    require('bootstrap');
+    require('custom/custom');
 
     IPython.NotebookList = notebooklist.NotebookList;
 
     page = new page.Page();
-    
+
     var common_options = {
         base_url: utils.get_body_data("baseUrl"),
         notebook_path: utils.get_body_data("notebookPath"),
@@ -65,7 +49,7 @@ require([
     var kernel_list = new kernellist.KernelList('#running_list',  $.extend({
         session_list:  session_list}, 
         common_options));
-    
+
     var terminal_list;
     if (utils.get_body_data("terminalsAvailable") === "True") {
         terminal_list = new terminallist.TerminalList('#terminal_list', common_options);
@@ -148,12 +132,12 @@ require([
     events.trigger('app_initialized.DashboardApp');
     utils.load_extensions_from_config(cfg);
     utils.load_extensions_from_config(common_config);
-    
+
     // bound the upload method to the on change of the file select list
     $("#alternate_upload").change(function (event){
         notebook_list.handleFilesUpload(event,'form');
     });
-    
+
     // set hash on tab click
     $("#tabs").find("a").click(function(e) {
         // Prevent the document from jumping when the active tab is changed to a 
@@ -169,9 +153,8 @@ require([
             window.location.hash = hash;
         }
     });
-    
+
     // load tab if url hash
     if (window.location.hash) {
         $("#tabs").find("a[href=" + window.location.hash + "]").click();
     }
-});

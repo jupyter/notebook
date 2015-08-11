@@ -8,20 +8,17 @@
  * @namespace cell
  * @class Cell
  */
-
-
-define([
-    'jquery',
-    'base/js/utils',
-    'codemirror/lib/codemirror',
-    'codemirror/addon/edit/matchbrackets',
-    'codemirror/addon/edit/closebrackets',
-    'codemirror/addon/comment/comment'
-], function($, utils, CodeMirror, cm_match, cm_closeb, cm_comment) {
     "use strict";
-    
+
+    var $ = require('jquery');
+    var utils = require('base/js/utils');
+    var CodeMirror = require('codemirror/lib/codemirror');
+    var cm_match = require('codemirror/addon/edit/matchbrackets');
+    var cm_closeb = require('codemirror/addon/edit/closebrackets');
+    var cm_comment = require('codemirror/addon/comment/comment');
+
     var overlayHack = CodeMirror.scrollbarModel.native.prototype.overlayHack;
-    
+
     CodeMirror.scrollbarModel.native.prototype.overlayHack = function () {
         overlayHack.apply(this, arguments);
         // Reverse `min-height: 18px` scrollbar hack on OS X
@@ -34,7 +31,7 @@ define([
             this.horiz.style.minHeight = "";
         }
     };
-    
+
     var Cell = function (options) {
         /* Constructor
          *
@@ -122,7 +119,7 @@ define([
             }
         }
     };
-    
+
     // FIXME: Workaround CM Bug #332 (Safari segfault on drag)
     // by disabling drag/drop altogether on Safari
     // https://github.com/codemirror/CodeMirror/issues/332    
@@ -201,7 +198,7 @@ define([
             }
         });
     };
-    
+
     /**
      * This method gets called in CodeMirror's onKeyDown/onKeyPress
      * handlers and is used to provide custom key handling.
@@ -397,7 +394,7 @@ define([
             this.focus_cell();
         }
     }
-    
+
     /**
      * Focus the cell in the DOM sense
      * @method focus_cell
@@ -553,7 +550,7 @@ define([
         this.user_highlight = mode;
         this.auto_highlight();
     };
-    
+
     /**
      * Trigger autodetection of highlight scheme for current cell
      * @method auto_highlight
@@ -561,7 +558,7 @@ define([
     Cell.prototype.auto_highlight = function () {
         this._auto_highlight(this.class_config.get_sync('highlight_modes'));
     };
-    
+
     /**
      * Try to autodetect cell highlight mode, or use selected mode
      * @methods _auto_highlight
@@ -659,17 +656,17 @@ define([
     };
 
     UnrecognizedCell.prototype = Object.create(Cell.prototype);
-    
-    
+
+
     // cannot merge or split unrecognized cells
     UnrecognizedCell.prototype.is_mergeable = function () {
         return false;
     };
-    
+
     UnrecognizedCell.prototype.is_splittable = function () {
         return false;
     };
-    
+
     UnrecognizedCell.prototype.toJSON = function () {
         /**
          * deepcopy the metadata so copied cells don't share the same object
@@ -686,7 +683,7 @@ define([
         }
         this.element.find('.inner_cell').find("a").text("Unrecognized cell type: " + data.cell_type);
     };
-    
+
     UnrecognizedCell.prototype.create_element = function () {
         Cell.prototype.create_element.apply(this, arguments);
         var cell = this.element = $("<div>").addClass('cell unrecognized_cell');
@@ -703,7 +700,7 @@ define([
         cell.append(inner_cell);
         this.element = cell;
     };
-    
+
     UnrecognizedCell.prototype.bind_events = function () {
         Cell.prototype.bind_events.apply(this, arguments);
         var cell = this;
@@ -713,8 +710,7 @@ define([
         });
     };
 
-    return {
+    module.exports = {
         Cell: Cell,
         UnrecognizedCell: UnrecognizedCell
     };
-});

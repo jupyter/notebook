@@ -1,14 +1,12 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'base/js/utils',
-    './comm',
-    './serialize',
-    'base/js/events'
-], function($, utils, comm, serialize, events) {
     "use strict";
+
+    var $ = require('jquery');
+    var utils = require('base/js/utils');
+    var comm = require('./comm');
+    var serialize = require('./serialize');
+    var events = require('base/js/events');
 
     /**
      * A Kernel class to communicate with the Python kernel. This
@@ -527,7 +525,7 @@ define([
         }
         this._schedule_reconnect();
     };
-    
+
     Kernel.prototype._schedule_reconnect = function () {
         /**
          * function to call when kernel connection is lost
@@ -545,7 +543,7 @@ define([
             console.log("Failed to reconnect, giving up.");
         }
     };
-    
+
     Kernel.prototype.stop_channels = function () {
         /**
          * Close the websocket. After successful close, the value
@@ -599,7 +597,7 @@ define([
          */
         return (this.ws === null);
     };
-    
+
     Kernel.prototype.send_shell_message = function (msg_type, content, callbacks, metadata, buffers) {
         /**
          * Send a message on the Kernel's shell channel
@@ -806,7 +804,7 @@ define([
             delete this._msg_callbacks[msg_id];
         }
     };
-    
+
     /**
      * @function _finish_shell
      */
@@ -832,7 +830,7 @@ define([
             }
         }
     };
-    
+
     /**
      * Set callbacks for a particular message.
      * Callbacks should be a struct of the following form:
@@ -856,7 +854,7 @@ define([
             this.last_msg_callbacks = {};
         }
     };
-    
+
     Kernel.prototype._handle_ws_message = function (e) {
         var that = this;
         this._msg_queue = this._msg_queue.then(function() {
@@ -880,7 +878,7 @@ define([
                 console.error("unrecognized message channel", msg.channel, msg);
         }
     };
-    
+
     Kernel.prototype._handle_shell_reply = function (reply) {
         this.events.trigger('shell_reply.Kernel', {kernel: this, reply:reply});
         var that = this;
@@ -977,7 +975,7 @@ define([
             this._kernel_dead();
         }
     };
-    
+
     /**
      * Handle clear_output message
      *
@@ -1060,5 +1058,4 @@ define([
         }
     };
 
-    return {'Kernel': Kernel};
-});
+    exports.Kernel = Kernel;

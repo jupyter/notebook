@@ -1,11 +1,10 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define([
-    'base/js/utils',
-    'jquery',
-], function(utils, $){
     "use strict";
+
+    var utils = require('base/js/utils');
+    var $ = require('jquery');
 
     var LoginWidget = function (selector, options) {
         options = options || {};
@@ -34,5 +33,4 @@ define([
         });
     };
 
-    return {'LoginWidget': LoginWidget};
-});
+    exports.LoginWidget = LoginWidget;

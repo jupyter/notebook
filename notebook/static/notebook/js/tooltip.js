@@ -1,11 +1,9 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'base/js/utils',
-], function($, utils) {
     "use strict";
+
+    var $ = require('jquery');
+    var utils = require('base/js/utils');
 
     // tooltip constructor
     var Tooltip = function (events) {
@@ -318,5 +316,4 @@ define([
         this.text.scrollTop(0);
     };
 
-    return {'Tooltip': Tooltip};
-});
+    exports.Tooltip = Tooltip;

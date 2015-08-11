@@ -1,17 +1,15 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
-define([
-    'jquery',
-    'base/js/namespace',
-    'base/js/utils',
-    'base/js/dialog',
-    'codemirror/lib/codemirror',
-    'codemirror/mode/meta',
-    'bootstrap',
-], function($, IPython, utils, dialog, CodeMirror) {
     "use strict";
-    
+
+    var $ = require('jquery');
+    var IPython = require('base/js/namespace');
+    var utils = require('base/js/utils');
+    var dialog = require('base/js/dialog');
+    var CodeMirror = require('codemirror/lib/codemirror');
+    require('codemirror/mode/meta');
+    require('bootstrap');
+
     var MenuBar = function (selector, options) {
         /**
          * Constructor
@@ -134,7 +132,7 @@ define([
                 );
         });
     };
-    
+
     MenuBar.prototype._load_mode_menu = function () {
         var list = this.element.find("#mode-menu");
         var editor = this.editor;
@@ -156,5 +154,4 @@ define([
         }
     };
 
-    return {'MenuBar': MenuBar};
-});
+    exports.MenuBar = MenuBar;

@@ -1,11 +1,10 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define([
-    'jquery',
-    'base/js/notificationwidget',
-], function($, notificationwidget) {
     "use strict";
+
+    var notificationwidget = require('base/js/notificationwidget');
+    var $ = require('jquery');
 
     // store reference to the NotificationWidget class
     var NotificationWidget = notificationwidget.NotificationWidget;
@@ -79,5 +78,4 @@ define([
         return this.widget_dict[name];
     };
 
-    return {'NotificationArea': NotificationArea};
-});
+    exports.NotificationArea = NotificationArea;
