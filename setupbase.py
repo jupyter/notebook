@@ -300,61 +300,28 @@ def run(cmd, *args, **kwargs):
     return check_call(cmd, *args, **kwargs)
 
 
-class Bower(Command):
+class JSDeps(Command):
     description = "fetch static client-side components with bower"
-    
-    user_options = [
-        ('force', 'f', "force fetching of bower dependencies"),
-    ]
-    
-    def initialize_options(self):
-        self.force = False
-    
-    def finalize_options(self):
-        self.force = bool(self.force)
-    
-    bower_dir = pjoin(static, 'components')
-    node_modules = pjoin(repo_root, 'node_modules')
-    
-    def should_run(self):
-        if self.force:
-            return True
-        if not os.path.exists(self.bower_dir):
-            return True
-        return mtime(self.bower_dir) < mtime(pjoin(repo_root, 'bower.json'))
+    user_options = []
 
-    def should_run_npm(self):
-        if not which('npm'):
-            print("npm unavailable", file=sys.stderr)
-            return False
-        if not os.path.exists(self.node_modules):
-            return True
-        return mtime(self.node_modules) < mtime(pjoin(repo_root, 'package.json'))
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
     
     def run(self):
-        if not self.should_run():
-            print("bower dependencies up to date")
-            return
-        
-        if self.should_run_npm():
-            print("installing build dependencies with npm")
-            run(['npm', 'install'], cwd=repo_root)
-            os.utime(self.node_modules, None)
-        
         env = os.environ.copy()
         env['PATH'] = npm_path
-        
         try:
             run(
-                ['bower', 'install', '--allow-root', '--config.interactive=false'],
+                ['npm', 'install'],
                 cwd=repo_root,
                 env=env
             )
         except OSError as e:
-            print("Failed to run bower: %s" % e, file=sys.stderr)
-            print("You can install js dependencies with `npm install`", file=sys.stderr)
+            print("Failed to run `npm install`: %s" % e, file=sys.stderr)
             raise
-        os.utime(self.bower_dir, None)
         # update package data in case this created new files
         update_package_data(self.distribution)
 
@@ -374,33 +341,21 @@ class CompileCSS(Command):
 
     def finalize_options(self):
         pass
-
-    sources = []
-    targets = []
-    for name in ('ipython', 'style'):
-        sources.append(pjoin(static, 'style', '%s.less' % name))
-        targets.append(pjoin(static, 'style', '%s.min.css' % name))
-
+    
     def run(self):
-        self.run_command('jsdeps')
         env = os.environ.copy()
         env['PATH'] = npm_path
-        
-        for src, dst in zip(self.sources, self.targets):
-            try:
-                run(['lessc',
-                    '--source-map',
-                    '--include-path=%s' % pipes.quote(static),
-                    src,
-                    dst,
-                ], cwd=repo_root, env=env)
-            except OSError as e:
-                print("Failed to build css: %s" % e, file=sys.stderr)
-                print("You can install js dependencies with `npm install`", file=sys.stderr)
-                raise
+        try:
+            run(
+                ['npm', 'run', 'build:css'],
+                cwd=repo_root,
+                env=env
+            )
+        except OSError as e:
+            print("Failed to run `npm run build:css`: %s" % e, file=sys.stderr)
+            raise
         # update package data in case this created new files
         update_package_data(self.distribution)
-
 
 class CompileJS(Command):
     """Rebuild Notebook Javascript main.min.js files
@@ -408,68 +363,28 @@ class CompileJS(Command):
     Calls require via build-main.js
     """
     description = "Rebuild Notebook Javascript main.min.js files"
-    user_options = [
-        ('force', 'f', "force rebuilding js targets"),
-    ]
-
+    user_options = []
+    
     def initialize_options(self):
-        self.force = False
+        pass
 
     def finalize_options(self):
-        self.force = bool(self.force)
-
-    apps = ['notebook', 'tree', 'edit', 'terminal', 'auth']
-    targets = [ pjoin(static, app, 'js', 'main.min.js') for app in apps ]
+        pass
     
-    def sources(self, name):
-        """Generator yielding .js sources that an application depends on"""
-        yield pjoin(static, name, 'js', 'main.js')
-
-        for sec in [name, 'base', 'auth']:
-            for f in glob(pjoin(static, sec, 'js', '*.js')):
-                if not f.endswith('.min.js'):
-                    yield f
-        yield pjoin(static, 'services', 'config.js')
-        if name == 'notebook':
-            for f in glob(pjoin(static, 'services', '*', '*.js')):
-                yield f
-        for parent, dirs, files in os.walk(pjoin(static, 'components')):
-            if os.path.basename(parent) == 'MathJax':
-                # don't look in MathJax, since it takes forever to walk it
-                dirs[:] = []
-                continue
-            for f in files:
-                yield pjoin(parent, f)
-    
-    def should_run(self, name, target):
-        if self.force or not os.path.exists(target):
-            return True
-        target_mtime = mtime(target)
-        for source in self.sources(name):
-            if mtime(source) > target_mtime:
-                print(source, target)
-                return True
-        return False
-        
-    def build_main(self, name):
-        """Build main.min.js"""
-        target = pjoin(static, name, 'js', 'main.min.js')
-        
-        if not self.should_run(name, target):
-            log.info("%s up to date" % target)
-            return
-        log.info("Rebuilding %s" % target)
-        run(['node', 'tools/build-main.js', name])
-
     def run(self):
-        self.run_command('jsdeps')
         env = os.environ.copy()
         env['PATH'] = npm_path
-        pool = ThreadPool()
-        pool.map(self.build_main, self.apps)
+        try:
+            run(
+                ['npm', 'run', 'build:js'],
+                cwd=repo_root,
+                env=env
+            )
+        except OSError as e:
+            print("Failed to run `npm run build:js`: %s" % e, file=sys.stderr)
+            raise
         # update package data in case this created new files
         update_package_data(self.distribution)
-
 
 class JavascriptVersion(Command):
     """write the javascript version to notebook javascript"""
@@ -502,45 +417,13 @@ def css_js_prerelease(command, strict=False):
     class DecoratedCommand(command):
         def run(self):
             self.distribution.run_command('jsversion')
-            jsdeps = self.distribution.get_command_obj('jsdeps')
-            js = self.distribution.get_command_obj('js')
-            css = self.distribution.get_command_obj('css')
-            jsdeps.force = js.force = strict
-
-            targets = [ jsdeps.bower_dir ]
-            targets.extend(js.targets)
-            targets.extend(css.targets)
-            missing = [ t for t in targets if not os.path.exists(t) ]
-
-            if not is_repo and not missing:
-                # If we're an sdist, we aren't a repo and everything should be present.
-                # Don't rebuild js/css in that case.
-                command.run(self)
-                return
-
             try:
-                self.distribution.run_command('css')
+                self.distribution.run_command('jsdeps')
                 self.distribution.run_command('js')
+                self.distribution.run_command('css')
             except Exception as e:
-                # refresh missing
-                missing = [ t for t in targets if not os.path.exists(t) ]
-                if strict or missing:
-                    # die if strict or any targets didn't build
-                    prefix = os.path.commonprefix([repo_root + os.sep] + missing)
-                    missing = [ m[len(prefix):] for m in missing ]
-                    log.warn("rebuilding js and css failed. The following required files are missing: %s" % missing)
-                    raise e
-                else:
-                    log.warn("rebuilding js and css failed (not a problem)")
-                    log.warn(str(e))
-
-            # check again for missing targets, just in case:
-            missing = [ t for t in targets if not os.path.exists(t) ]
-            if missing:
-                # command succeeded, but targets still missing (?!)
-                prefix = os.path.commonprefix([repo_root + os.sep] + missing)
-                missing = [ m[len(prefix):] for m in missing ]
-                raise ValueError("The following required files are missing: %s" % missing)
-
+                log.warn("rebuilding js and css failed.)
+                raise e
+                
             command.run(self)
     return DecoratedCommand

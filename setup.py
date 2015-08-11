@@ -55,7 +55,7 @@ from setupbase import (
     check_package_data_first,
     CompileCSS,
     CompileJS,
-    Bower,
+    JSDeps,
     JavascriptVersion,
     css_js_prerelease,
 )
@@ -111,7 +111,7 @@ setup_args['cmdclass'] = {
     'sdist' : css_js_prerelease(sdist, strict=True),
     'css' : CompileCSS,
     'js' : CompileJS,
-    'jsdeps' : Bower,
+    'jsdeps' : JSDeps,
     'jsversion' : JavascriptVersion,
 }
 

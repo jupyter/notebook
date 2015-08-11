@@ -16,65 +16,6 @@
     {% endblock %}
     <link rel="stylesheet" href="{{ base_url }}custom/custom.css" type="text/css" />
     <script src="{{static_url("components/es6-promise/promise.min.js")}}" type="text/javascript" charset="utf-8"></script>
-    <script src="{{static_url("components/requirejs/require.js") }}" type="text/javascript" charset="utf-8"></script>
-    <script>
-      require.config({
-          {% if version_hash %}
-          urlArgs: "v={{version_hash}}",
-          {% endif %}
-          baseUrl: '{{static_url("", include_version=False)}}',
-          paths: {
-            'auth/js/main': 'auth/js/main.min',
-            custom : '{{ base_url }}custom',
-            nbextensions : '{{ base_url }}nbextensions',
-            widgets : '{{ base_url }}deprecatedwidgets',
-            kernelspecs : '{{ base_url }}kernelspecs',
-            underscore : 'components/underscore/underscore-min',
-            backbone : 'components/backbone/backbone-min',
-            jquery: 'components/jquery/jquery.min',
-            bootstrap: 'components/bootstrap/js/bootstrap.min',
-            bootstraptour: 'components/bootstrap-tour/build/js/bootstrap-tour.min',
-            jqueryui: 'components/jquery-ui/ui/minified/jquery-ui.min',
-            moment: 'components/moment/moment',
-            codemirror: 'components/codemirror',
-            termjs: 'components/term.js/src/term',
-            typeahead: 'components/jquery-typeahead/dist/jquery.typeahead'
-          },
-          shim: {
-            typeahead: {
-              deps: ["jquery"],
-              exports: "typeahead"
-            },
-            underscore: {
-              exports: '_'
-            },
-            backbone: {
-              deps: ["underscore", "jquery"],
-              exports: "Backbone"
-            },
-            bootstrap: {
-              deps: ["jquery"],
-              exports: "bootstrap"
-            },
-            bootstraptour: {
-              deps: ["bootstrap"],
-              exports: "Tour"
-            },
-            jqueryui: {
-              deps: ["jquery"],
-              exports: "$"
-            }
-          }
-      });
-
-      require.config({
-          map: {
-              '*':{
-                'contents': '{{ contents_js_source }}',
-              }
-          }
-      });
-    </script>
 
     {% block meta %}
     {% endblock %}
