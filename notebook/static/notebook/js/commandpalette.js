@@ -6,48 +6,81 @@ define(function(require){
 
     var QH = require("notebook/js/quickhelp");
     var $ = require("jquery");
-    var dialog = require("base/js/dialog");
+
+    /**
+     * Humanize the action name to be consumed by user.
+     * internaly the actions anem are of the form
+     * <namespace>.<description-with-dashes>
+     * we drop <namesapce> and replace dashes for space.
+     */
+    var humanize_action_id = function(str) {
+      return str.split('.')[1].replace(/-/g, ' ').replace(/_/g, '-');
+    };
+
+    /**
+     * given an action id return 'command-shortcut', 'edit-shortcut' or 'no-shortcut'
+     * for the action. This allows us to tag UI in order to visually distinguish
+     * wether an action have a keybinding or not.
+     **/
+    var get_mode_for_action_id = function(name, notebook) {
+      var shortcut = notebook.keyboard_manager.command_shortcuts.get_shortcut_for_action_name(name);
+      if (shortcut) {
+        return 'command-shortcut';
+      }
+      shortcut = notebook.keyboard_manager.edit_shortcuts.get_shortcut_for_action_name(name);
+      if (shortcut) {
+        return 'edit-shortcut';
+      }
+      return 'no-shortcut';
+    };
+
     var CommandPalette = function(notebook) {
+        if(!notebook){
+          throw new Error("CommandPalette take a notebook non-null mandatory arguement");
+        }
+
         var form = $('<form/>').css('background', 'white');
         var container = $('<div/>').addClass('typeahead-container');
         var field = $('<div/>').addClass('typeahead-field');
-        var span = $('<span>').addClass('typeahead-query');
         var input = $('<input/>').attr('type', 'search').css('outline', 'none');
-        span.append(input);
+
         field
-            .append(span)
-            .append(
-                $('<span/>').addClass('typeahead-button').append(
-                    $('<button/>').attr('type', 'submit').append(
-                        $('<span/>').addClass('typeahead-search-icon')
-                        )
-                )
-            );
+          .append(
+            $('<span>').addClass('typeahead-query').append(
+              input
+            )
+          )
+          .append(
+            $('<span/>').addClass('typeahead-button').append(
+              $('<button/>').attr('type', 'submit').append(
+                $('<span/>').addClass('typeahead-search-icon')
+              )
+            )
+          );
 
         container.append(field);
         form.append(container);
 
-        var before_close = function () {
-            // littel trick to trigger early in onSubmit
-            // when the action called pop-up a dialog
-            if(before_close.ok){
-              return;
-            }
-            if (notebook) {
-                var cell = notebook.get_selected_cell();
-                if (cell) cell.select();
-            }
-            if (notebook.keyboard_manager) {
-                notebook.keyboard_manager.enable();
-                notebook.keyboard_manager.command_mode();
-            }
-            before_close.ok = true; // avoid double call.
-        }
-        
+        var before_close = function() {
+          // little trick to trigger early in onsubmit
+          // when the action called pop-up a dialog
+          // insure this function is only called once
+          if (before_close.ok) {
+            return;
+          }
+          var cell = notebook.get_selected_cell();
+          if (cell) {
+            cell.select();
+          }
+          if (notebook.keyboard_manager) {
+            notebook.keyboard_manager.enable();
+            notebook.keyboard_manager.command_mode();
+          }
+          before_close.ok = true; // avoid double call.
+        };
+
         var mod = $('<div/>').addClass('modal').append(
           $('<div/>').addClass('modal-dialog')
-          .css('box-shadow', '2px 4px 16px 7px rgba(0, 0, 0, 0.34);')
-          .css('border-radius', '5px;')
           .append(
             $('<div/>').addClass('modal-content').append(
               $('<div/>').addClass('modal-body')
@@ -60,89 +93,76 @@ define(function(require){
         )
         .modal({show: false, backdrop:true})
         .on('shown.bs.modal', function () {
-              input.focus();
               // click on button trigger de-focus on mouse up.
               // or somethign like that.
-              setTimeout(function(){ input.focus()},100);
+              setTimeout(function(){input.focus();}, 100);
         })
         .on("hide.bs.modal", before_close);
-        
-        
+
         notebook.keyboard_manager.disable();
 
-
-        var onSubmit = function (node, query, result, resultCount) {
-                    console.log(node, query, result, resultCount);
-                    if (actions.indexOf(result.key) >= 0) {
-                        before_close();
-                        IPython.notebook.keyboard_manager.actions.call(result.key);
-                    } else {
-                        console.log("No command " + result.key)
-                    }
-                    mod.modal('hide');
-                }
+        var onSubmit = function(node, query, result, resultCount) {
+          if (actions.indexOf(result.key) >= 0) {
+            before_close();
+            notebook.keyboard_manager.actions.call(result.key);
+          } else {
+            console.warning("No command " + result.key);
+          }
+          mod.modal('hide');
+        };
 
         var src = {};
 
-        var actions = Object.keys(IPython.notebook.keyboard_manager.actions._actions);
-        var hum = function(str){
-          return str.split('.')[1].replace(/-/g,' ').replace(/_/g,'-')
-        }
-        
-        var mode = function(name){
-          var sht = IPython.keyboard_manager.command_shortcuts.get_shortcut_for_action_name(name)
-          if(sht){
-            return 'command-sht'
-          }
-          var sht = IPython.keyboard_manager.edit_shortcuts.get_shortcut_for_action_name(name)
-          if(sht){
-            return 'edit-sht'
-          }
-          return 'no-sht'
-        }
-        
-        
-        
-        for( var i=0; i< actions.length; i++){
-          var group = actions[i].split('.')[0];
-          if(group === 'ipython'){
+        var actions = Object.keys(notebook.keyboard_manager.actions._actions);
+
+        for (var i = 0; i < actions.length; i++) {
+          var action_id = actions[i];
+          var action = notebook.keyboard_manager.actions.get(action_id);
+          var group = action_id.split('.')[0];
+          if (group === 'ipython') {
             group = 'built-in';
           }
-          src[group] = src[group] || {data:[], display:'display'};
-          var short = IPython.keyboard_manager.command_shortcuts.get_shortcut_for_action_name(actions[i])
-              || IPython.keyboard_manager.edit_shortcuts.get_shortcut_for_action_name(actions[i]);
-          if(short){
-            short = QH.humanize_shortcut( short)
+
+          src[group] = src[group] || {
+            data: [],
+            display: 'display'
+          };
+
+          var short = notebook.keyboard_manager.command_shortcuts.get_shortcut_for_action_name(action_id) ||
+            notebook.keyboard_manager.edit_shortcuts.get_shortcut_for_action_name(action_id);
+          if (short) {
+            short = QH.humanize_sequence(short);
           }
-          src[group].data.push({ display: hum(actions[i]),
-                    shortcut:short,
-                    key:actions[i],
-                    modesht: mode(actions[i]),
-                    group:group,
-                    icon: IPython.keyboard_manager.actions.get(actions[i]).icon,
-                    help: IPython.keyboard_manager.actions.get(actions[i]).help
-                   })
+
+          src[group].data.push({
+            display: humanize_action_id(action_id),
+            shortcut: short,
+            mode_shortcut: get_mode_for_action_id(action_id, notebook),
+            group: group,
+            icon: action.icon,
+            help: action.help,
+            key: action_id,
+          });
         }
         input.typeahead({
-            emptyTemplate: "No results found for <pre>{{query}}</pre>",
-            maxItem: 1e3,
-            minLength: 0,
-            hint: true,
-            group: ["group", "{{group}} extension"],
-            searchOnFocus: true,
-            mustSelectItem: true,
-            template: '<i class="fa fa-icon {{icon}}"></i>{{display}}  <div class="pull-right {{modesht}}"><kbd>{{shortcut}}</kbd></div>',
-            order: "asc",
-            source: src,
-            callback: {
-                onInit: function () {console.log('this is init') },
-                onSubmit: onSubmit ,
-                onClickAfter: onSubmit
-            },
-            debug: false,
-        })
+          emptyTemplate: "No results found for <pre>{{query}}</pre>",
+          maxItem: 1e3,
+          minLength: 0,
+          hint: true,
+          group: ["group", "{{group}} extension"],
+          searchOnFocus: true,
+          mustSelectItem: true,
+          template: '<i class="fa fa-icon {{icon}}"></i>{{display}}  <div class="pull-right {{mode_shortcut}}">{{shortcut}}</div>',
+          order: "asc",
+          source: src,
+          callback: {
+            onSubmit: onSubmit,
+            onClickAfter: onSubmit
+          },
+          debug: false,
+        });
 
-        mod.modal('show')
-    }
+        mod.modal('show');
+    };
     return {'CommandPalette': CommandPalette};
 });

@@ -70,7 +70,6 @@ define([
         // these are the standard symbol that are used in MacOS native menus
         // cf http://apple.stackexchange.com/questions/55727/
         // for htmlentities and/or unicode value
-        'meta':'⌘',
         'cmd':'⌘',
         'shift':'⇧',
         'alt':'⌥',
@@ -99,7 +98,6 @@ define([
     var default_humanize_map = {
         'shift':'Shift',
         'alt':'Alt',
-        'meta': 'Alt',
         'up':'Up',
         'down':'Down',
         'left':'Left',
@@ -125,13 +123,29 @@ define([
         humanize_map = default_humanize_map;
     }
 
+    var special_case = { pageup: "PageUp", pagedown: "Page Down", 'minus': '-' };
+    
     function humanize_key(key){
         if (key.length === 1){
-            key = key.toUpperCase();
+            return key.toUpperCase();
         }
-        return humanize_map[key.toLowerCase()]||key;
+
+        key = humanize_map[key.toLowerCase()]||key;
+        
+        if (key.indexOf(',') === -1){
+            return  ( special_case[key] ? special_case[key] : key.charAt(0).toUpperCase() + key.slice(1) );
+        }
     }
 
+    // return an **html** string of the keyboard shortcut
+    // for human eyes consumption.
+    // the sequence is a string, comma sepparated linkt of shortcut,
+    // where the shortcut is a list of dash-joined keys.
+    // Each shortcut will be wrapped in <kbd> tag, and joined by comma is in a
+    // sequence.
+    //
+    // Depending on the platform each shortcut will be normalized, with or without dashes.
+    // and replace with the corresponding unicode symbol for modifier if necessary.
     function humanize_sequence(sequence){
         var joinchar = ',';
         var hum = _.map(sequence.replace(/meta/g, 'cmd').split(','), humanize_shortcut).join(joinchar);
@@ -144,7 +158,7 @@ define([
             joinchar = '';
         }
         var sh = _.map(shortcut.split('-'), humanize_key ).join(joinchar);
-        return sh;
+        return '<kbd>'+sh+'</kbd>';
     }
     
 
@@ -170,10 +184,8 @@ define([
         var element = $('<div/>');
 
         // The documentation
-        var doc = $('<div/>').addClass('alert alert-warning');
+        var doc = $('<div/>').addClass('alert alert-info');
         doc.append(
-            $('<button/>').addClass('close').attr('data-dismiss','alert').html('&times;')
-        ).append(
             'The Jupyter Notebook has two different keyboard input modes. <b>Edit mode</b> '+
             'allows you to type code/text into a cell and is indicated by a green cell '+
             'border. <b>Command mode</b> binds the keyboard to notebook level actions '+
@@ -222,12 +234,12 @@ define([
         var col1 = $('<div/>').addClass('col-md-6');
         var col2 = $('<div/>').addClass('col-md-6');
         n = key_names_mac.length;
-        half = ~~(n/2);  
-        for (i=0; i<half; i++) { col1.append( 
-                build_one(key_names_mac[i]) 
+        half = ~~(n/2);
+        for (i=0; i<half; i++) { col1.append(
+                build_one(key_names_mac[i])
                 ); }
-        for (i=half; i<n; i++) { col2.append( 
-                build_one(key_names_mac[i]) 
+        for (i=half; i<n; i++) { col2.append(
+                build_one(key_names_mac[i])
                 ); }
         sub_div.append(col1).append(col2);
         div.append(sub_div);
@@ -237,41 +249,21 @@ define([
 
     QuickHelp.prototype.build_command_help = function () {
         var command_shortcuts = this.keyboard_manager.command_shortcuts.help();
-        return build_div('<h4>Command Mode (press <code>Esc</code> to enable)</h4>', command_shortcuts);
+        return build_div('<h4>Command Mode (press <kbd>Esc</kbd> to enable)</h4>', command_shortcuts);
     };
 
-    var special_case = { pageup: "PageUp", pagedown: "Page Down", 'minus': '-' };
-    var prettify = function (s) {
-        s = s.replace(/-$/, 'minus'); // catch shortcuts using '-' key
-        var keys = s.split('-');
-        var k, i;
-        for (i=0; i < keys.length; i++) {
-            k = keys[i];
-            if ( k.length == 1 ) {
-                keys[i] = "<code><strong>" + k + "</strong></code>";
-                continue; // leave individual keys lower-cased
-            }
-            if (k.indexOf(',') === -1){
-                keys[i] = ( special_case[k] ? special_case[k] : k.charAt(0).toUpperCase() + k.slice(1) );
-            }
-            keys[i] = "<code><strong>" + keys[i] + "</strong></code>";
-        }
-        return keys.join('-');
-
-
-    };
-
+    
     QuickHelp.prototype.build_edit_help = function (cm_shortcuts) {
         var edit_shortcuts = this.keyboard_manager.edit_shortcuts.help();
         jQuery.merge(cm_shortcuts, edit_shortcuts);
-        return build_div('<h4>Edit Mode (press <code>Enter</code> to enable)</h4>', cm_shortcuts);
+        return build_div('<h4>Edit Mode (press <kbd>Enter</kbd> to enable)</h4>', cm_shortcuts);
     };
 
     var build_one = function (s) {
         var help = s.help;
         var shortcut = '';
         if(s.shortcut){
-            shortcut = prettify(humanize_sequence(s.shortcut));
+            shortcut = humanize_sequence(s.shortcut);
         }
         return $('<div>').addClass('quickhelp').
             append($('<span/>').addClass('shortcut_key').append($(shortcut))).
@@ -295,6 +287,7 @@ define([
     };
 
     return {'QuickHelp': QuickHelp,
-      humanize_shortcut: humanize_shortcut
+      humanize_shortcut: humanize_shortcut,
+      humanize_sequence: humanize_sequence
   };
 });
