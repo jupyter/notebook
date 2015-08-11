@@ -96,38 +96,19 @@ p {
 .command-shortcut:before{
     content:"(command)";
     padding-right:3px;
-    color:#ccc
+    color:@gray-light;
 }
 
 .edit-shortcut:before{
     content:"(edit)";
     padding-right:3px;
-    color:#ccc
-}
-
-.end_space {
-
-    margin-left: auto;
-    margin-right:auto;
-    margin-top:50px;
-    font-size: 20pt;
-    font-weight: bold;
-    width:500px;
-    color: #aaa;
-    
-    & kbd {
-      color: #aaa;
-      border-color: #aaa;
-    }
-
+    color:@gray-light;
 }
 
 kbd {
-    background: transparent;
-    border: 1px solid #888;
+    border-style: solid;
+    border-width: 1px;
     box-shadow: none;
-    border-radius: 3px;
-    color: #888;
     margin: 2px;
     padding-left: 2px;
     padding-right: 2px;
@@ -138,7 +119,6 @@ kbd {
 ul.typeahead-list i{
     margin-left: -10px;
     width: 18px;
-    border: thin solid transparent;
 }
 
 ul.typeahead-list {

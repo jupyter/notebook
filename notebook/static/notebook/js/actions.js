@@ -4,8 +4,6 @@
 define(function(require){
     "use strict";
 
-    var dialog = require("base/js/dialog");
-    
     var ActionHandler = function (env) {
         this.env = env || {};
         Object.seal(this);
