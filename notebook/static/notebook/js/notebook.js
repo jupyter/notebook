@@ -600,6 +600,46 @@ define(function (require) {
         return result;
     };
 
+    /**
+     * Get the index of the anchor cell for range selection
+     *
+     * @return {integer} The anchor cell's numeric index
+     */
+    Notebook.prototype.get_selection_anchor = function() {
+        var result = null;
+        this.get_cell_elements().filter(function (index) {
+            if ($(this).data("cell").selection_anchor === true) {
+                result = index;
+            }
+        });
+        return result;
+    };
+
+    /**
+     * Get an array of the cells in the currently selected range
+     *
+     * @return {Array} The selected cells
+     */
+    Notebook.prototype.get_selected_cells = function () {
+        return this.get_cells().filter(function(cell) {
+            return cell.in_selection;
+        });
+    };
+
+    /**
+     * Get the indices of the currently selected range of cells.
+     *
+     * @return {Array} The selected cells' numeric indices
+     */
+    Notebook.prototype.get_selected_indices = function () {
+        var result = [];
+        this.get_cell_elements().filter(function (index) {
+            if ($(this).data("cell").in_selection === true) {
+                result.push(index);
+            }
+        });
+        return result;
+    };
 
     // Cell selection.
 
@@ -618,21 +658,25 @@ define(function (require) {
                 if (this.mode !== 'command') {
                     this.command_mode();
                 }
-                this.get_cell(sindex).unselect();
             }
-            var cell = this.get_cell(index);
-            cell.select();
-            if (cell.cell_type === 'heading') {
-                this.events.trigger('selected_cell_type_changed.Notebook',
-                    {'cell_type':cell.cell_type,level:cell.level}
-                );
-            } else {
-                this.events.trigger('selected_cell_type_changed.Notebook',
-                    {'cell_type':cell.cell_type}
-                );
+            var current_selection = this.get_selected_cells();
+            for (var i=0; i<current_selection.length; i++) {
+                current_selection[i].unselect()
             }
+
+            var cell = this._select(index);
+            cell.selection_anchor = true
         }
         return this;
+    };
+
+    Notebook.prototype._select = function(index) {
+        var cell = this.get_cell(index);
+        cell.select();
+        this.events.trigger('selected_cell_type_changed.Notebook',
+            {'cell_type':cell.cell_type}
+        );
+        return cell;
     };
 
     /**
@@ -655,6 +699,42 @@ define(function (require) {
         var index = this.get_selected_index();
         this.select(index-1);
         return this;
+    };
+
+    /**
+     * Extend the selected range
+     *
+     * @param {string} direction - 'up' or 'down
+     */
+    Notebook.prototype.extend_selection = function(direction) {
+        var anchor_ix = this.get_selection_anchor();
+        var cursor_ix = this.get_selected_index();
+        var range_direction = (cursor_ix > anchor_ix) ? 'down' : 'up';
+        var contracting = (cursor_ix !== anchor_ix) &&
+                            (direction !== range_direction);
+        var ix_delta = (direction === 'up') ? -1 : 1;
+        var new_ix = cursor_ix + ix_delta;
+        if (new_ix < 0 || new_ix >= this.ncells()) {
+            return false;
+        }
+        if (this.mode !== 'command') {
+            this.command_mode();
+        }
+        this.get_cell(cursor_ix).unselect(!contracting);
+        this._select(new_ix);
+        return true;
+    };
+
+    /**
+     * Clear selection of multiple cells (except the cell at the cursor)
+     */
+    Notebook.prototype.reset_selection = function() {
+        var current_selection = this.get_selected_cells();
+        for (var i=0; i<current_selection.length; i++) {
+            if (!current_selection[i].selected) {
+                current_selection[i].unselect()
+            }
+        }
     };
 
 
@@ -710,6 +790,7 @@ define(function (require) {
         if (cell && this.mode !== 'edit') {
             cell.edit_mode();
             this.mode = 'edit';
+            this.reset_selection();
             this.events.trigger('edit_mode.Notebook');
             this.keyboard_manager.edit_mode();
         }
@@ -1290,36 +1371,71 @@ define(function (require) {
     };
 
     /**
+     * Merge a series of cells into one
+     *
+     * @param {Array} indices - the numeric indices of the cells to be merged
+     * @param {bool} into_last - merge into the last cell instead of the first
+     */
+    Notebook.prototype.merge_cells = function(indices, into_last) {
+        if (indices.length <= 1) {
+            return;
+        }
+        for (var i=0; i < indices.length; i++) {
+            if (!this.get_cell(indices[i]).is_mergeable()) {
+                return;
+            }
+        }
+        var target = this.get_cell(into_last ? indices.pop() : indices.shift());
+
+        // Get all the cells' contents
+        var contents = [];
+        for (i=0; i < indices.length; i++) {
+            contents.push(this.get_cell(indices[i]).get_text());
+        }
+        if (into_last) {
+            contents.push(target.get_text())
+        } else {
+            contents.unshift(target.get_text())
+        }
+
+        // Update the contents of the target cell
+        if (target instanceof codecell.CodeCell) {
+            target.set_text(contents.join('\n\n'))
+        } else {
+            var was_rendered = target.rendered;
+            target.unrender(); // Must unrender before we set_text.
+            target.set_text(contents.join('\n\n'));
+            if (was_rendered) {
+                // The rendered state of the final cell should match
+                // that of the original selected cell;
+                target.render();
+            }
+        }
+
+        // Delete the other cells
+        // If we started deleting cells from the top, the later indices would
+        // get offset. We sort them into descending order to avoid that.
+        indices.sort(function(a, b) {return b-a;});
+        for (i=0; i < indices.length; i++) {
+            this.delete_cell(indices[i]);
+        }
+
+        this.select(this.find_cell_index(target));
+    };
+
+    /**
+     * Merge the selected range of cells
+     */
+    Notebook.prototype.merge_selected_cells = function() {
+        this.merge_cells(this.get_selected_indices());
+    };
+
+    /**
      * Merge the selected cell into the cell above it.
      */
     Notebook.prototype.merge_cell_above = function () {
         var index = this.get_selected_index();
-        var cell = this.get_cell(index);
-        var render = cell.rendered;
-        if (!cell.is_mergeable()) {
-            return;
-        }
-        if (index > 0) {
-            var upper_cell = this.get_cell(index-1);
-            if (!upper_cell.is_mergeable()) {
-                return;
-            }
-            var upper_text = upper_cell.get_text();
-            var text = cell.get_text();
-            if (cell instanceof codecell.CodeCell) {
-                cell.set_text(upper_text+'\n'+text);
-            } else {
-                cell.unrender(); // Must unrender before we set_text.
-                cell.set_text(upper_text+'\n\n'+text);
-                if (render) {
-                    // The rendered state of the final cell should match
-                    // that of the original selected cell;
-                    cell.render();
-                }
-            }
-            this.delete_cell(index-1);
-            this.select(this.find_cell_index(cell));
-        }
+        this.merge_cells([index-1, index], true)
     };
 
     /**
@@ -1327,32 +1443,7 @@ define(function (require) {
      */
     Notebook.prototype.merge_cell_below = function () {
         var index = this.get_selected_index();
-        var cell = this.get_cell(index);
-        var render = cell.rendered;
-        if (!cell.is_mergeable()) {
-            return;
-        }
-        if (index < this.ncells()-1) {
-            var lower_cell = this.get_cell(index+1);
-            if (!lower_cell.is_mergeable()) {
-                return;
-            }
-            var lower_text = lower_cell.get_text();
-            var text = cell.get_text();
-            if (cell instanceof codecell.CodeCell) {
-                cell.set_text(text+'\n'+lower_text);
-            } else {
-                cell.unrender(); // Must unrender before we set_text.
-                cell.set_text(text+'\n\n'+lower_text);
-                if (render) {
-                    // The rendered state of the final cell should match
-                    // that of the original selected cell;
-                    cell.render();
-                }
-            }
-            this.delete_cell(index+1);
-            this.select(this.find_cell_index(cell));
-        }
+        this.merge_cells([index, index+1], false)
     };
 
 

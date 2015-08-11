@@ -100,6 +100,35 @@ define(function(require){
                 }
             }
         },
+        'extend-selection-previous' : {
+            help: 'extend selection above',
+            help_index : 'dc',
+            handler : function (env) {
+                var index = env.notebook.get_selected_index();
+                if (index !== 0 && index !== null) {
+                    env.notebook.extend_selection('up');
+                    env.notebook.focus_cell();
+                }
+            }
+        },
+        'extend-selection-next' : {
+            help: 'extend selection below',
+            help_index : 'dd',
+            handler : function (env) {
+                var index = env.notebook.get_selected_index();
+                if (index !== (env.notebook.ncells()-1) && index !== null) {
+                    env.notebook.extend_selection('down');
+                    env.notebook.focus_cell();
+                }
+            }
+        },
+        'reset-selection': {
+            help: 'clear selected cells',
+            help_index: 'de',
+            handler: function(env) {
+                env.notebook.reset_selection();
+            }
+        },
         'cut-selected-cell' : {
             icon: 'fa-cut',
             help_index : 'ee',
@@ -286,6 +315,13 @@ define(function(require){
             help_index : 'ek',
             handler : function (env) {
                 env.notebook.merge_cell_below();
+            }
+        },
+        'merge-selected-cells' : {
+            help : 'merge selected cells',
+            help_index: 'el',
+            handler: function(env) {
+                env.notebook.merge_selected_cells();
             }
         },
         'close-pager' : {

@@ -55,6 +55,8 @@ define([
         
         this.placeholder = config.placeholder || '';
         this.selected = false;
+        this.in_selection = false;
+        this.selection_anchor = false;
         this.rendered = false;
         this.mode = 'command';
 
@@ -142,7 +144,7 @@ define([
          * Call after this.element exists to initialize the css classes
          * related to selected, rendered and mode.
          */
-        if (this.selected) {
+        if (this.in_selection) {
             this.element.addClass('selected');
         } else {
             this.element.addClass('unselected');
@@ -254,6 +256,7 @@ define([
             this.element.addClass('selected');
             this.element.removeClass('unselected');
             this.selected = true;
+            this.in_selection = true;
             return true;
         } else {
             return false;
@@ -261,19 +264,21 @@ define([
     };
 
     /**
-     * handle cell level logic when a cell is unselected
+     * handle cell level logic when the cursor moves away from a cell
      * @method unselect
+     * @param {bool} leave_selected - true to move cursor away and extend selection
      * @return is the action being taken
      */
-    Cell.prototype.unselect = function () {
-        if (this.selected) {
+    Cell.prototype.unselect = function (leave_selected) {
+        var was_selected_cell = this.selected;
+        this.selected = false;
+        if ((!leave_selected) && this.in_selection) {
+            this.in_selection = false;
+            this.selection_anchor = false;
             this.element.addClass('unselected');
             this.element.removeClass('selected');
-            this.selected = false;
-            return true;
-        } else {
-            return false;
         }
+        return was_selected_cell;
     };
 
     /**

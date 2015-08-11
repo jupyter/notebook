@@ -86,7 +86,7 @@ define([
         return {
             'shift-space': 'ipython.scroll-up',
             'shift-v' : 'ipython.paste-cell-before',
-            'shift-m' : 'ipython.merge-selected-cell-with-cell-after',
+            'shift-m' : 'ipython.merge-selected-cells',
             'shift-o' : 'ipython.toggle-output-scrolling-selected-cell',
             'enter' : 'ipython.enter-edit-mode',
             'space' : 'ipython.scroll-down',
@@ -98,6 +98,8 @@ define([
             'up' : 'ipython.select-previous-cell',
             'k' : 'ipython.select-previous-cell',
             'j' : 'ipython.select-next-cell',
+            'shift-k': 'ipython.extend-selection-previous',
+            'shift-j': 'ipython.extend-selection-next',
             'x' : 'ipython.cut-selected-cell',
             'c' : 'ipython.copy-selected-cell',
             'v' : 'ipython.paste-cell-after',

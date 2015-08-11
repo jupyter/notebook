@@ -1,7 +1,7 @@
 
 // Test
 casper.notebook_test(function () {
-    var a = 'ab\ncd';
+    var a = 'ab\n\ncd';
     var b = 'print("b")';
     var c = 'print("c")';
 
@@ -41,6 +41,7 @@ casper.notebook_test(function () {
         this.test.assertEquals(this.get_cell_text(1), 'cd', 'split; Verify that cell 1 has the second half.');
         this.validate_notebook_state('split', 'edit', 1);
         this.select_cell(0); // Move up to cell 0
+        this.evaluate(function() { IPython.notebook.extend_selection('down');});
         this.trigger_keydown('shift-m'); // Merge
         this.validate_notebook_state('merge', 'command', 0);
         this.test.assertEquals(this.get_cell_text(0), a, 'merge; Verify that cell 0 has the merged contents.');
