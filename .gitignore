@@ -25,3 +25,15 @@ src
 
 *.swp
 *.map
+
+.eggs/
+
+# Bundled/generated JavaScript
+notebook/static/auth/js/main.bundle.js
+notebook/static/edit/js/main.bundle.js
+notebook/static/notebook/js/main.bundle.js
+notebook/static/terminal/js/main.bundle.js
+notebook/static/tree/js/main.bundle.js
+
+# npm logs
+npm-debug.log
