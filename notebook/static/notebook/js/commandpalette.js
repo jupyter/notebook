@@ -4,6 +4,7 @@
 define(function(require){
     "use strict";
 
+    var QH = require("notebook/js/quickhelp");
     var $ = require("jquery");
     var dialog = require("base/js/dialog");
     var CommandPalette = function(notebook) {
@@ -25,6 +26,23 @@ define(function(require){
 
         container.append(field);
         form.append(container);
+
+        var before_close = function () {
+            // littel trick to trigger early in onSubmit
+            // when the action called pop-up a dialog
+            if(before_close.ok){
+              return;
+            }
+            if (notebook) {
+                var cell = notebook.get_selected_cell();
+                if (cell) cell.select();
+            }
+            if (notebook.keyboard_manager) {
+                notebook.keyboard_manager.enable();
+                notebook.keyboard_manager.command_mode();
+            }
+            before_close.ok = true; // avoid double call.
+        }
         
         var mod = $('<div/>').addClass('modal').append(
           $('<div/>').addClass('modal-dialog')
@@ -43,17 +61,12 @@ define(function(require){
         .modal({show: false, backdrop:true})
         .on('shown.bs.modal', function () {
               input.focus();
+              // click on button trigger de-focus on mouse up.
+              // or somethign like that.
+              setTimeout(function(){ input.focus()},100);
         })
-        .on("hidden.bs.modal", function () {
-            if (notebook) {
-                var cell = notebook.get_selected_cell();
-                if (cell) cell.select();
-            }
-            if (notebook.keyboard_manager) {
-                notebook.keyboard_manager.enable();
-                notebook.keyboard_manager.command_mode();
-            }
-        });
+        .on("hide.bs.modal", before_close);
+        
         
         notebook.keyboard_manager.disable();
 
@@ -61,6 +74,7 @@ define(function(require){
         var onSubmit = function (node, query, result, resultCount) {
                     console.log(node, query, result, resultCount);
                     if (actions.indexOf(result.key) >= 0) {
+                        before_close();
                         IPython.notebook.keyboard_manager.actions.call(result.key);
                     } else {
                         console.log("No command " + result.key)
@@ -95,9 +109,13 @@ define(function(require){
             group = 'built-in';
           }
           src[group] = src[group] || {data:[], display:'display'};
+          var short = IPython.keyboard_manager.command_shortcuts.get_shortcut_for_action_name(actions[i])
+              || IPython.keyboard_manager.edit_shortcuts.get_shortcut_for_action_name(actions[i]);
+          if(short){
+            short = QH.humanize_shortcut( short)
+          }
           src[group].data.push({ display: hum(actions[i]),
-                    shortcut:IPython.keyboard_manager.command_shortcuts.get_shortcut_for_action_name(actions[i])
-                    || IPython.keyboard_manager.edit_shortcuts.get_shortcut_for_action_name(actions[i]),
+                    shortcut:short,
                     key:actions[i],
                     modesht: mode(actions[i]),
                     group:group,
@@ -106,8 +124,8 @@ define(function(require){
                    })
         }
         input.typeahead({
-            emptyTemplate: "No results found for {{query}}",
-            maxItem: 15,
+            emptyTemplate: "No results found for <pre>{{query}}</pre>",
+            maxItem: 1e3,
             minLength: 0,
             hint: true,
             group: ["group", "{{group}} extension"],
@@ -120,7 +138,8 @@ define(function(require){
                 onInit: function () {console.log('this is init') },
                 onSubmit: onSubmit ,
                 onClickAfter: onSubmit
-            }
+            },
+            debug: false,
         })
 
         mod.modal('show')

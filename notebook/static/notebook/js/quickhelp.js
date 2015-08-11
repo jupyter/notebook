@@ -70,6 +70,7 @@ define([
         // these are the standard symbol that are used in MacOS native menus
         // cf http://apple.stackexchange.com/questions/55727/
         // for htmlentities and/or unicode value
+        'meta':'⌘',
         'cmd':'⌘',
         'shift':'⇧',
         'alt':'⌥',
@@ -98,6 +99,7 @@ define([
     var default_humanize_map = {
         'shift':'Shift',
         'alt':'Alt',
+        'meta': 'Alt',
         'up':'Up',
         'down':'Down',
         'left':'Left',
@@ -144,7 +146,7 @@ define([
         var sh = _.map(shortcut.split('-'), humanize_key ).join(joinchar);
         return sh;
     }
-
+    
 
     QuickHelp.prototype.show_keyboard_shortcuts = function () {
         /**
@@ -292,5 +294,7 @@ define([
         return div;
     };
 
-    return {'QuickHelp': QuickHelp};
+    return {'QuickHelp': QuickHelp,
+      humanize_shortcut: humanize_shortcut
+  };
 });
