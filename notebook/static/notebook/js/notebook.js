@@ -943,6 +943,7 @@ define(function (require) {
         // Always make sure we have at least one cell.
         if (new_ncells === 0) {
             this.insert_cell_below('code');
+            new_ncells = 1;
         }
 
         this.undelete_below = false;
