@@ -9,6 +9,7 @@
     "url": "https://github.com/jupyter/notebook.git"
   },
   "scripts": {
+    "postinstall": "npm run bower",
     "bower": "bower install --allow-root --config.interactive=false",
     "build": "npm run build:css && npm run build:js",
     "build:css": "concurrent \"npm run build:css:ipython\" \"npm run build:css:style\"",
