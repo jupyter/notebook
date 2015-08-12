@@ -113,7 +113,7 @@ def find_package_data():
     # for verification purposes, explicitly add main.min.js
     # so that installation will fail if they are missing
     for app in ['auth', 'edit', 'notebook', 'terminal', 'tree']:
-        static_data.append(pjoin('static', app, 'js', 'main.min.js'))
+        static_data.append(pjoin('static', app, 'js', 'main.bundle.js'))
     
     components = pjoin("static", "components")
     # select the components we actually need to install
