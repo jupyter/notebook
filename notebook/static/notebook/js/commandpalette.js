@@ -23,11 +23,11 @@ define(function(require){
      * wether an action have a keybinding or not.
      **/
     var get_mode_for_action_id = function(name, notebook) {
-      var shortcut = notebook.keyboard_manager.command_shortcuts.get_shortcut_for_action_name(name);
+      var shortcut = notebook.keyboard_manager.command_shortcuts.get_action_shortcut(name);
       if (shortcut) {
         return 'command-shortcut';
       }
-      shortcut = notebook.keyboard_manager.edit_shortcuts.get_shortcut_for_action_name(name);
+      shortcut = notebook.keyboard_manager.edit_shortcuts.get_action_shortcut(name);
       if (shortcut) {
         return 'edit-shortcut';
       }
@@ -133,8 +133,8 @@ define(function(require){
             display: 'display'
           };
 
-          var short = notebook.keyboard_manager.command_shortcuts.get_shortcut_for_action_name(action_id) ||
-            notebook.keyboard_manager.edit_shortcuts.get_shortcut_for_action_name(action_id);
+          var short = notebook.keyboard_manager.command_shortcuts.get_action_shortcut(action_id) ||
+            notebook.keyboard_manager.edit_shortcuts.get_action_shortcut(action_id);
           if (short) {
             short = QH.humanize_sequence(short);
           }

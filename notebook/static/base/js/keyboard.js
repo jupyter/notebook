@@ -226,16 +226,16 @@ define([
         return dct;
     };
     
-    ShortcutManager.prototype.get_shortcut_for_action_name = function(name){
+    ShortcutManager.prototype.get_action_shortcut = function(name){
       var ftree = flatten_shorttree(this._shortcuts);
       var res = {};
       for (var sht in ftree ){
         if(ftree[sht] === name){
-          return sht
+          return sht;
         }
       }
       return undefined;
-    }
+    };
 
     ShortcutManager.prototype.help = function () {
         var help = [];
