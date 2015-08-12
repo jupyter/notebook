@@ -267,7 +267,7 @@ data-notebook-path="{{notebook_path}}"
 
                         {% for helplinks in sections %}
                             {% for link in helplinks %}
-                                <li><a class='help_link' href="{{link[0]}}" {{'target="_blank" title="Opens in a new window"' if link[2]}}>
+                                <li><a href="{{link[0]}}" {{'target="_blank" title="Opens in a new window"' if link[2]}}>
                                 {{'<i class="fa fa-external-link menu-icon pull-right"></i>' if link[2]}}
                                 {{link[1]}}
                                 </a></li>
