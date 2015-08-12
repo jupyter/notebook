@@ -9,6 +9,9 @@
     "url": "https://github.com/jupyter/notebook.git"
   },
   "scripts": {
+    "clean": "npm run clean:js && npm run clean:css",
+    "clean:css": "rimraf notebook/static/style/ipython.min.css && rimraf notebook/static/style/style.min.css",
+    "clean:js": "rimraf notebook/static/notebook/js/main.bundle.js && rimraf notebook/static/services/contents.bundle.js && rimraf notebook/static/edit/js/main.bundle.js && rimraf notebook/static/tree/js/main.bundle.js && rimraf notebook/static/auth/js/main.bundle.js && rimraf notebook/static/terminal/js/main.bundle.js",
     "postinstall": "npm run bower",
     "bower": "bower install --allow-root --config.interactive=false",
     "build": "npm run build:css && npm run build:js",
@@ -25,18 +28,18 @@
   },
   "devDependencies": {
     "aliasify": "^1.7.2",
+    "backbone": "~1.2",
     "bower": "*",
     "browserify": "^11.0.1",
+    "codemirror": "~5.5",
     "concurrently": "^0.1.1",
-    "less": "~2",
-    
     "jquery": "~2.0",
     "jquery-ui": "~1.10",
-    "term.js": "~0.0.4",
-    "backbone": "~1.2",
-    "codemirror": "~5.5",
+    "less": "~2",
     "marked": "~0.3",
     "moment": "~2.8.4",
+    "rimraf": "^2.4.2",
+    "term.js": "~0.0.4",
     "text-encoding": "~0.1",
     "underscore": "~1.5"
   }
