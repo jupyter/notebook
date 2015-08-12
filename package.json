@@ -11,19 +11,18 @@
   "scripts": {
     "bower": "bower install --allow-root --config.interactive=false",
     "build": "npm run build:css && npm run build:js",
-    
     "build:css": "concurrent \"npm run build:css:ipython\" \"npm run build:css:style\"",
     "build:css:ipython": "lessc --source-map --include-path=./notebook/static/ ./notebook/static/style/ipython.less ./notebook/static/style/ipython.min.css",
     "build:css:style": "lessc --source-map --include-path=./notebook/static/ ./notebook/static/style/style.less ./notebook/static/style/style.min.css",
-    
     "build:js": "concurrent \"npm run build:js:tree\" \"npm run build:js:terminal\" \"npm run build:js:notebook\" \"npm run build:js:edit\" \"npm run build:js:auth\"",
-    "build:js:notebook": "browserify notebook/static/notebook/js/main.js -o notebook/static/notebook/js/main.bundle.js",
-    "build:js:edit": "browserify notebook/static/edit/js/main.js -o notebook/static/edit/js/main.bundle.js",
-    "build:js:tree": "browserify notebook/static/tree/js/main.js -o notebook/static/tree/js/main.bundle.js",
-    "build:js:auth": "browserify notebook/static/auth/js/main.js -o notebook/static/auth/js/main.bundle.js",
-    "build:js:terminal": "browserify notebook/static/terminal/js/main.js -o notebook/static/terminal/js/main.bundle.js"
+    "build:js:notebook": "node ./notebook/build.js notebook/js/main.js notebook/js/main.bundle.js",
+    "build:js:edit": "node ./notebook/build.js edit/js/main.js edit/js/main.bundle.js",
+    "build:js:tree": "node ./notebook/build.js tree/js/main.js tree/js/main.bundle.js",
+    "build:js:auth": "node ./notebook/build.js auth/js/main.js auth/js/main.bundle.js",
+    "build:js:terminal": "node ./notebook/build.js terminal/js/main.js terminal/js/main.bundle.js"
   },
   "devDependencies": {
+    "aliasify": "^1.7.2",
     "bower": "*",
     "browserify": "^11.0.1",
     "concurrently": "^0.1.1",
