@@ -33,7 +33,7 @@
     "browserify": "^11.0.1",
     "codemirror": "~5.5",
     "concurrently": "^0.1.1",
-    "jquery": "~2.0",
+    "jquery": "^2.0",
     "jquery-ui": "~1.10",
     "less": "~2",
     "marked": "~0.3",
