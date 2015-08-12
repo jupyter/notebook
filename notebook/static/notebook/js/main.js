@@ -61,7 +61,7 @@ requirejs(['contents', 'jquery'], function(contents_service) {
     var save_widget = new savewidget.SaveWidget('span#save_widget', {
         events: events, 
         keyboard_manager: keyboard_manager});
-    var contents = new contents.Contents({
+    var contents = new contents_service.Contents({
           base_url: common_options.base_url,
           common_config: common_config
         });
