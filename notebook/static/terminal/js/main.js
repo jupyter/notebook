@@ -3,7 +3,6 @@
     "use strict";
 
     var $ = require('jquery');
-    var termjs = require('termjs');
     var utils = require('base/js/utils');
     var page = require('base/js/page');
     var configmod = require('services/config');

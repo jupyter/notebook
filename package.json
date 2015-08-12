@@ -28,9 +28,16 @@
     "bower": "*",
     "browserify": "^11.0.1",
     "concurrently": "^0.1.1",
-    "less": "~2"
-  },
-  "dependencies": {
-    "jquery": "^2.1.4"
+    "less": "~2",
+    
+    "jquery": "~2.0",
+    "jquery-ui": "~1.10",
+    "term.js": "~0.0.4",
+    "backbone": "~1.2",
+    "codemirror": "~5.5",
+    "marked": "~0.3",
+    "moment": "~2.8.4",
+    "text-encoding": "~0.1",
+    "underscore": "~1.5"
   }
 }

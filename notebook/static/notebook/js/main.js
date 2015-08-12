@@ -3,7 +3,9 @@
 "use strict";
 
 // Contents must be loaded at runtime.
-requirejs(['contents'], function(contents_service) {
+// jQuery must also be loaded at runtime and available globally
+// in order for bootstrap to work...
+requirejs(['contents', 'jquery'], function(contents_service) {
     var IPython = require('base/js/namespace');
     var $ = require('jquery');
     var notebook = require('notebook/js/notebook');

@@ -3,7 +3,9 @@
 "use strict";
 
 // Contents must be loaded at runtime.
-requirejs(['contents'], function(contents_service) {
+// jQuery must also be loaded at runtime and available globally
+// in order for bootstrap to work...
+requirejs(['contents', 'bootstrap'], function(contents_service) {
     var $ = require('jquery');
     var IPython = require('base/js/namespace');
     var utils = require('base/js/utils');
@@ -24,7 +26,7 @@ requirejs(['contents'], function(contents_service) {
     config.load();
     var common_config = new configmod.ConfigSection('common', {base_url: base_url});
     common_config.load();
-    contents = new contents.Contents({
+    var contents = new contents_service.Contents({
         base_url: base_url,
         common_config: common_config
     });

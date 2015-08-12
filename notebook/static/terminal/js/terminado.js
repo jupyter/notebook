@@ -1,11 +1,12 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
     "use strict";
-        
+    var termjs = require('termjs');
+    
     exports.make_terminal = function(element, size, ws_url) {
         var ws = new WebSocket(ws_url);
-        Terminal.brokenBold = true;
-        var term = new Terminal({
+        termjs.Terminal.brokenBold = true;
+        var term = new termjs.Terminal({
           cols: size.cols,
           rows: size.rows,
           screenKeys: false,
