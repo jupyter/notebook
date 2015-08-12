@@ -1,58 +1,12 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
+"use strict";
 
-require([
-    'base/js/namespace',
-    'jquery',
-    'notebook/js/notebook',
-    'contents',
-    'services/config',
-    'base/js/utils',
-    'base/js/page',
-    'base/js/events',
-    'auth/js/loginwidget',
-    'notebook/js/maintoolbar',
-    'notebook/js/pager',
-    'notebook/js/quickhelp',
-    'notebook/js/menubar',
-    'notebook/js/notificationarea',
-    'notebook/js/savewidget',
-    'notebook/js/actions',
-    'notebook/js/keyboardmanager',
-    'notebook/js/kernelselector',
-    'codemirror/lib/codemirror',
-    'notebook/js/about',
-    'typeahead',
-
-require([
-    'base/js/namespace',
-    'jquery',
-    'notebook/js/notebook',
-    'contents',
-    'services/config',
-    'base/js/utils',
-    'base/js/page',
-    'base/js/events',
-    'auth/js/loginwidget',
-    'notebook/js/maintoolbar',
-    'notebook/js/pager',
-    'notebook/js/quickhelp',
-    'notebook/js/menubar',
-    'notebook/js/notificationarea',
-    'notebook/js/savewidget',
-    'notebook/js/actions',
-    'notebook/js/keyboardmanager',
-    'notebook/js/kernelselector',
-    'codemirror/lib/codemirror',
-    'notebook/js/about',
-    'typeahead',
-    'notebook/js/searchandreplace',
-    "use strict";
-        
+// Contents must be loaded at runtime.
+requirejs(['contents'], function(contents_service) {
     var IPython = require('base/js/namespace');
     var $ = require('jquery');
     var notebook = require('notebook/js/notebook');
-    var contents = require('contents');
     var configmod = require('services/config');
     var utils = require('base/js/utils');
     var page = require('base/js/page');
@@ -187,3 +141,4 @@ require([
     utils.load_extensions_from_config(config_section);
     utils.load_extensions_from_config(common_config);
     notebook.load_notebook(common_options.notebook_path);
+});

@@ -251,3 +251,5 @@
     };
 
     exports.Contents = Contents;
+    
+    window.define([], function() { return {Contents: Contents}; })

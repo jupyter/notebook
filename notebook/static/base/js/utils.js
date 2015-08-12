@@ -15,7 +15,7 @@
      */
     var load_extension = function (extension) {
         return new Promise(function(resolve, reject) {
-            require(["nbextensions/" + extension], function(module) {
+            requirejs(["nbextensions/" + extension], function(module) {
                 console.log("Loaded extension: " + extension);
                 try {
                     module.load_ipython_extension();

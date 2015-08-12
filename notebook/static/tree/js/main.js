@@ -1,6 +1,9 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-    "use strict";
+"use strict";
+
+// Contents must be loaded at runtime.
+requirejs(['contents'], function(contents_service) {
 
     var $ = require('jquery');
     var IPython = require('base/js/namespace');
@@ -9,7 +12,6 @@
     var page = require('base/js/page');
     var utils = require('base/js/utils');
     var config = require('services/config');
-    var contents_service = require('contents');
     var notebooklist = require('tree/js/notebooklist');
     var sesssionlist = require('tree/js/sessionlist');
     var kernellist = require('tree/js/kernellist');
@@ -20,7 +22,7 @@
     require('jqueryui');
     require('bootstrap');
     require('custom/custom');
-
+    
     IPython.NotebookList = notebooklist.NotebookList;
 
     page = new page.Page();
@@ -158,3 +160,4 @@
     if (window.location.hash) {
         $("#tabs").find("a[href=" + window.location.hash + "]").click();
     }
+});
