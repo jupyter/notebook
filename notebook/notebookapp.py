@@ -92,7 +92,6 @@ from .utils import url_path_join, check_pid
 
 _examples = """
 jupyter notebook                       # start the notebook
-jupyter notebook --profile=sympy       # use the sympy profile
 jupyter notebook --certfile=mycert.pem # use SSL/TLS certificate
 """
 
