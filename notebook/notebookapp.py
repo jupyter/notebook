@@ -1,5 +1,5 @@
 # coding: utf-8
-"""A tornado based IPython notebook server."""
+"""A tornado based Jupyter notebook server."""
 
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
@@ -33,7 +33,7 @@ from zmq.eventloop import ioloop
 ioloop.install()
 
 # check for tornado 3.1.0
-msg = "The IPython Notebook requires tornado >= 4.0"
+msg = "The Jupyter Notebook requires tornado >= 4.0"
 try:
     import tornado
 except ImportError:
@@ -91,9 +91,9 @@ from .utils import url_path_join, check_pid
 #-----------------------------------------------------------------------------
 
 _examples = """
-ipython notebook                       # start the notebook
-ipython notebook --profile=sympy       # use the sympy profile
-ipython notebook --certfile=mycert.pem # use SSL/TLS certificate
+jupyter notebook                       # start the notebook
+jupyter notebook --profile=sympy       # use the sympy profile
+jupyter notebook --certfile=mycert.pem # use SSL/TLS certificate
 """
 
 #-----------------------------------------------------------------------------
@@ -324,7 +324,7 @@ flags['no-mathjax']=(
     {'NotebookApp' : {'enable_mathjax' : False}},
     """Disable MathJax
     
-    MathJax is the javascript library IPython uses to render math/LaTeX. It is
+    MathJax is the javascript library Jupyter uses to render math/LaTeX. It is
     very large, so you may want to disable it if you have a slow internet
     connection, or for offline use of the notebook.
     
@@ -541,7 +541,7 @@ class NotebookApp(JupyterApp):
     
     tornado_settings = Dict(config=True,
             help="Supply overrides for the tornado.web.Application that the "
-                 "IPython notebook uses.")
+                 "Jupyter notebook uses.")
     
     ssl_options = Dict(config=True,
             help="""Supply SSL options for the tornado HTTPServer.
@@ -558,7 +558,7 @@ class NotebookApp(JupyterApp):
     enable_mathjax = Bool(True, config=True,
         help="""Whether to enable MathJax for typesetting math/TeX
 
-        MathJax is the javascript library IPython uses to render math/LaTeX. It is
+        MathJax is the javascript library Jupyter uses to render math/LaTeX. It is
         very large, so you may want to disable it if you have a slow internet
         connection, or for offline use of the notebook.
 
@@ -692,7 +692,7 @@ class NotebookApp(JupyterApp):
         of `jupyter_client.kernelspec.KernelSpecManager`.
 
         The Api of KernelSpecManager is provisional and might change
-        without warning between this version of IPython and the next stable one.
+        without warning between this version of Jupyter and the next stable one.
         """
     )
 
@@ -1020,7 +1020,7 @@ class NotebookApp(JupyterApp):
         "Return the current working directory and the server url information"
         info = self.contents_manager.info_string() + "\n"
         info += "%d active kernels \n" % len(self.kernel_manager._kernels)
-        return info + "The IPython Notebook is running at: %s" % self.display_url
+        return info + "The Jupyter Notebook is running at: %s" % self.display_url
 
     def server_info(self):
         """Return a JSONable dict of information about this server."""
@@ -1050,7 +1050,7 @@ class NotebookApp(JupyterApp):
                 raise
 
     def start(self):
-        """ Start the IPython Notebook server app, after initialization
+        """ Start the Notebook server app, after initialization
         
         This method takes no arguments so all configuration and initialization
         must be done prior to calling this method."""
