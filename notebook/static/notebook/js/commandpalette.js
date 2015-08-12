@@ -36,13 +36,15 @@ define(function(require){
 
     var CommandPalette = function(notebook) {
         if(!notebook){
-          throw new Error("CommandPalette take a notebook non-null mandatory arguement");
+          throw new Error("CommandPalette takes a notebook non-null mandatory arguement");
         }
 
-        var form = $('<form/>').css('background', 'white');
+        // typeahead lib need a specific layout with specific class names.
+        // the following just does that
+        var form = $('<form/>');
         var container = $('<div/>').addClass('typeahead-container');
         var field = $('<div/>').addClass('typeahead-field');
-        var input = $('<input/>').attr('type', 'search').css('outline', 'none');
+        var input = $('<input/>').attr('type', 'search');
 
         field
           .append(
@@ -60,6 +62,29 @@ define(function(require){
 
         container.append(field);
         form.append(container);
+
+
+        var mod = $('<div/>').addClass('modal cmd-palette').append(
+          $('<div/>').addClass('modal-dialog')
+          .append(
+            $('<div/>').addClass('modal-content').append(
+              $('<div/>').addClass('modal-body')
+              .append(
+                form
+              )
+            )
+          )
+        )
+        // end setting up right layout
+        .modal({show: false, backdrop:true})
+        .on('shown.bs.modal', function () {
+              // click on button trigger de-focus on mouse up.
+              // or somethign like that.
+              setTimeout(function(){input.focus();}, 100);
+        })
+        .on("hide.bs.modal", before_close);
+
+        notebook.keyboard_manager.disable();
 
         var before_close = function() {
           // little trick to trigger early in onsubmit
@@ -79,28 +104,7 @@ define(function(require){
           before_close.ok = true; // avoid double call.
         };
 
-        var mod = $('<div/>').addClass('modal').append(
-          $('<div/>').addClass('modal-dialog')
-          .append(
-            $('<div/>').addClass('modal-content').append(
-              $('<div/>').addClass('modal-body')
-              .css('padding', '7px')
-              .append(
-                form
-              )
-            )
-          )
-        )
-        .modal({show: false, backdrop:true})
-        .on('shown.bs.modal', function () {
-              // click on button trigger de-focus on mouse up.
-              // or somethign like that.
-              setTimeout(function(){input.focus();}, 100);
-        })
-        .on("hide.bs.modal", before_close);
-
-        notebook.keyboard_manager.disable();
-
+        // will be trigger when user select action
         var onSubmit = function(node, query, result, resultCount) {
           if (actions.indexOf(result.key) >= 0) {
             before_close();
@@ -111,6 +115,7 @@ define(function(require){
           mod.modal('hide');
         };
 
+        // generate structure needed for typeahead layout and ability to search
         var src = {};
 
         var actions = Object.keys(notebook.keyboard_manager.actions._actions);
@@ -144,6 +149,10 @@ define(function(require){
             key: action_id,
           });
         }
+
+        // now src is the right structure for typeahead
+
+
         input.typeahead({
           emptyTemplate: "No results found for <pre>{{query}}</pre>",
           maxItem: 1e3,

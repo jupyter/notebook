@@ -1,0 +1,39 @@
+ul.typeahead-list i{
+    margin-left: -10px;
+    width: 18px;
+}
+
+ul.typeahead-list {
+  max-height: 80vh;
+  overflow:auto;
+}
+
+.cmd-palette {
+  & .modal-body{
+    padding: 7px;
+  }
+  
+  & form {
+    background: white;
+  }
+  
+  & input {
+    outline:none;
+  }
+}
+
+.no-shortcut{
+    display:none;
+}
+
+.command-shortcut:before{
+    content:"(command)";
+    padding-right:3px;
+    color:@gray-light;
+}
+
+.edit-shortcut:before{
+    content:"(edit)";
+    padding-right:3px;
+    color:@gray-light;
+}
