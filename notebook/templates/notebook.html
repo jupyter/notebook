@@ -45,7 +45,9 @@ data-notebook-path="{{notebook_path}}"
 </span>
 
 <span id="kernel_logo_widget">
+  {% block kernel_logo_widget %}
   <img class="current_kernel_logo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"/>
+  {% endblock %}
 </span>
 
 {% endblock headercontainer %}
@@ -250,6 +252,7 @@ data-notebook-path="{{notebook_path}}"
                 </li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Help</a>
                     <ul  id="help_menu" class="dropdown-menu">
+                        {% block help %}
                         <li id="notebook_tour" title="A quick tour of the notebook user interface"><a href="#">User Interface Tour</a></li>
                         <li id="keyboard_shortcuts" title="Opens a tooltip with all keyboard shortcuts"><a href="#">Keyboard Shortcuts</a></li>
                         <li class="divider"></li>
@@ -275,6 +278,7 @@ data-notebook-path="{{notebook_path}}"
                         {% endfor %}
                         <li class="divider"></li>
                         <li title="About IPython Notebook"><a id="notebook_about" href="#">About</a></li>
+                        {% endblock %}
                     </ul>
                 </li>
               </ul>
