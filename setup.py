@@ -177,6 +177,14 @@ if 'setuptools' in sys.modules:
     setup_args['extras_require'] = extras_require
     requires = setup_args['install_requires'] = install_requires
 
+    setup_args['entry_points'] = {
+        'console_scripts': [
+            'jupyter-notebook = notebook.notebookapp:main',
+            'jupyter-nbextension = notebook.nbextensions:main',
+        ]
+    }
+    setup_args.pop('scripts', None)
+
 #---------------------------------------------------------------------------
 # Do the actual setup now
 #---------------------------------------------------------------------------
