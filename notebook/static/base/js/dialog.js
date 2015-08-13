@@ -49,7 +49,7 @@ define(function(require) {
             .addClass("modal-content")
             .appendTo(dialog);
         if(typeof(options.body) === 'string' && options.sanitize !== false){
-            options.body = $("<p/>").text(options.body)
+            options.body = $("<p/>").text(options.body);
         }
         dialog_content.append(
             $("<div/>")

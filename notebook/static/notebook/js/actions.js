@@ -337,8 +337,168 @@ define(function(require){
             handler : function(env){
                 env.notebook.show_command_palette();
             }
+        },
+        'search-and-replace-dialog': {
+            help: 'search and replace',
+            handler: function(env){
+                var search  = $("<input/>")
+                  .addClass('form-control')
+                  .attr('placeholder','Search');
+                var repl = $("<input/>")
+                  .addClass('form-control')
+                  .attr('placeholder','replace');
+                //var submit =  $("<input/>").attr('type', 'submit');
+                var body = $('<div/>').css('max-height','60vh').css('overflow','auto');
+                var form = $('<form/>')
+                  .append($('<div/>').addClass('form-group').append(search))
+                  .append($('<div/>').addClass('form-group').append(repl))
+                  //.append(submit)
+                  .append(body);
+                  
+                var onsubmit = function(event){
+                  var sre = search.val();
+                  var replace = repl.val();
+                  if(!sre){
+                    return false;
+                  }
+                  var cells = env.notebook.get_cells();
+                  var arr = [];
+                  for(var c=0; c < cells.length; c++){
+                      //console.log("looping through cell", c);
+                      var oldvalue = cells[c].code_mirror.getValue();
+                      var newvalue = oldvalue.replace(new RegExp(sre, 'g'), replace);
+                      cells[c].code_mirror.setValue(newvalue);
+                      if(cells[c].cell_type === 'markdown'){
+                        //cells[c].unrender();
+                        cells[c].rendered = false;
+                        cells[c].render();
+                      }
+                      
+                  }
+                  
+                };
+                var ontype = function(){
+                    
+                  var sre = search.val();
+                  // abort on invalid RE
+                  if(!sre){
+                    body.empty();
+                    body.append($('<p/>').text('No matches, invalid or empty regular expression'));
+                    return;
+                  }
+                  
+                  try {
+                    new RegExp(sre);
+                  } catch (e){
+                    body.empty();
+                    body.append($('<p/>').text('No matches, invalid or empty regular expression'));
+                    return;
+                  }
+                  var replace = repl.val();
+                  var cells = env.notebook.get_cells();
+                  var arr = [];
+                  for(var c=0; c < cells.length; c++){
+                      //console.log("looping through cell", c);
+                      arr = arr.concat(cells[c].code_mirror.getValue().split('\n'));
+                  }
+                  
+                  var html = [];
+                  for(var r=0; r < arr.length; r++){
+                    var matches = getMatches(sre, arr[r]);
+                    //console.log("looping through line", r, "matches", matches);
+                    for(var mindex=0; mindex < matches.length ; mindex++){
+                      var start = matches[mindex][0];
+                      var stop = matches[mindex][1];
+                      //console.log(matches[mindex], arr[r].slice(start, stop));
+                      var init = arr[r].slice(start, stop);
+                      var replaced = init.replace( new RegExp(sre), replace);
+                      html.push([cutBefore(arr[r].slice(0, start)), arr[r].slice(start, stop), replaced, cutAfter(arr[r].slice(stop))]);
+                    }
+                  }
+                  body.empty();
+                  for(var rindex=0; rindex<html.length; rindex++){
+                    var pre = $('<pre/>').addClass('replace-preview')
+                      .append(html[rindex][0])
+                      .append($('<span/>').addClass('match').text(html[rindex][1]));
+                    if(replace){
+                      pre.append($('<span/>').addClass('replace').text(html[rindex][2]));
+                      pre.addClass('replace');
+                    }
+                    pre.append(html[rindex][3]);
+                    body.append(pre);
+                  }
+                  return false;
+                };
+                  
+                  
+                search.keypress(function (e) {
+                  if (e.which == 13) {//enter
+                    repl.focus();
+                  }
+                });
+                search.on('input', ontype);
+                repl.on('input',  ontype);
+                var mod = IPython.dialog.modal({
+                  show: false,
+                  title: "Search and Replace",
+                  body:form,
+                  keyboard_manager: env.notebook.keyboard_manager,
+                  buttons:{
+                    'Do it':{ class: "btn-primary",
+                        click: function(event){onsubmit(event); return true;}
+                    }
+                  },
+                  open: function(){
+                    search.focus();
+                  }
+                });
+                
+                repl.keypress(function (e) {
+                  if (e.which == 13) {//enter
+                    onsubmit();
+                    mod.modal('hide');
+                  }
+                });
+                mod.modal('show');
+            }
         }
 
+    };
+    
+    var cutAfter = function(string){
+      if(string.length > 13){
+          return string.slice(0, 10)+'...';
+      }
+      return string;
+    };
+    
+    var cutBefore = function(string){
+      if(string.length > 13){
+          return '...'+string.slice(-10);
+      }
+      return string;
+    };
+    
+    var getMatches = function(re, string){
+      try {
+        re = new RegExp(re, 'g');// have to global or infinite loop
+      } catch (e){
+        return [];
+      }
+      //debugger;
+      var res = [];
+      var match;
+      // yes this is a castin !=
+      var escape_hatch = 0;
+      while((match = re.exec(string)) !== null) {
+          res.push([match.index, match.index+match[0].length]);
+          escape_hatch++;
+          if(escape_hatch > 1000){
+            console.warn("More than  1000 matches, aborting");
+            break;
+          }
+      }
+      return res;
     };
 
 
