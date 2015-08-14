@@ -338,7 +338,7 @@ class EnableNBExtensionApp(JupyterApp):
 
     def enable_nbextension(self, name):
         # Local import to avoid circular import issue on Py 2
-        from notebook.services.config import ConfigManager
+        from .services.config import ConfigManager
         cm = ConfigManager(parent=self, config=self.config)
         cm.update(self.section, {"load_extensions": {name: True}})
 
@@ -369,7 +369,7 @@ class DisableNBExtensionApp(JupyterApp):
 
     def disable_nbextension(self, name):
         # Local import to avoid circular import issue on Py 2
-        from notebook.services.config import ConfigManager
+        from .services.config import ConfigManager
         cm = ConfigManager(parent=self, config=self.config)
         if name not in cm.get(self.section).get('load_extensions', {}):
             sys.exit('{} is not enabled in section {}'.format(name, self.section))
