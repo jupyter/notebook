@@ -171,6 +171,14 @@ define(function(require){
           },
           debug: false,
         });
+        
+        // on keypress 13 we shoudl most likely pick the first resutl
+        ////.keypress(function (e) {
+          //if (e.which == 13) {//enter
+            //onsubmit();
+            //mod.modal('hide');
+          //}
+        //});
 
         mod.modal('show');
     };

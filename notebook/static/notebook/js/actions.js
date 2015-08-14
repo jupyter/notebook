@@ -8,6 +8,39 @@ define(function(require){
         this.env = env || {};
         Object.seal(this);
     };
+    
+    function escapeRegExp(string){
+      return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+    
+    /**
+     * Give a  `needle` string, find all occurences of `needle` ins it
+     * and return an array of [][start, stop], ...] non-overlapping indexes.
+     * for compatibility with RexExp equivalent function
+     **/
+    var findAll = function(needle, haystack, caseinsensitive){
+      if(!needle){
+        return [];
+        
+      }
+      if(caseinsensitive){
+        needle = needle.toLowerCase();
+        haystack = haystack.toLowerCase();
+      }
+      var result = [];
+      for(var j=0; j< haystack.length; j++){
+        var next = haystack.indexOf(needle, j);
+        
+        if(next === -1){
+          break;
+        } else{
+          result.push([next, next+needle.length]);
+          j+= needle.length -1;
+        }
+      }
+      return result;
+    };
+    
 
     /**
      *  A bunch of predefined `Simple Actions` used by Jupyter.
@@ -350,19 +383,16 @@ define(function(require){
                   .attr('id', 'isreg')
                   .addClass("btn btn-default")
                   .attr('data-toggle','button')
-                  //.attr('aria-pressed', "false")
                   .attr('title', 'use regular expression (now you have N+1 problems)')
                   .attr('value', '.*')
                   .css('border-radius', '0')
                   .css('border-left', 'none')
-                  .click(function(){search.focus();})
                   .text('.*');
                   
                 var isCaseSensitiveButton = $('<button/>')
                   .attr('type', 'button')
                   .addClass("btn btn-default")
                   .attr('data-toggle','button')
-                  //.attr('aria-pressed', "false")
                   .attr('title', 'is search case sensitive')
                   .attr('value', 'a≠A')
                   .css('border-top-left-radius', '0')
@@ -376,11 +406,21 @@ define(function(require){
                   return value;
                 };
                 
+                var isReg = function(){
+                  var value =  isRegExpButton.attr('aria-pressed') == 'true';
+                  return value;
+                };
+                
                 var RegExpOrNot = function(str, flags){
+                  if (!isCaseSensitive()){
+                    flags = flags || '';
+                    flags = flags+'i';
+                    console.info('using flags:', flags);
+                  }
                   if (isRegExpButton.attr('aria-pressed') === 'true'){
                     return new RegExp(str, flags);
                   } else {
-                    return str;
+                    return new RegExp(escapeRegExp(str), flags);
                   }
                 };
                   
@@ -399,7 +439,6 @@ define(function(require){
                     )
                   )
                   .append($('<div/>').addClass('form-group').append(repl))
-                  //.append(submit)
                   .append(body);
                   
                 var onsubmit = function(event){
@@ -412,10 +451,9 @@ define(function(require){
                   var arr = [];
                   for(var c=0; c < cells.length; c++){
                       var oldvalue = cells[c].code_mirror.getValue();
-                      var newvalue = oldvalue.replace(new RegExp(sre, 'g'), replace);
+                      var newvalue = oldvalue.replace(new RegExpOrNot(sre, 'g'), replace);
                       cells[c].code_mirror.setValue(newvalue);
                       if(cells[c].cell_type === 'markdown'){
-                        //cells[c].unrender();
                         cells[c].rendered = false;
                         cells[c].render();
                       }
@@ -423,6 +461,8 @@ define(function(require){
                   }
                   
                 };
+                
+                
                 var ontype = function(){
                     
                   var sre = search.val();
@@ -444,24 +484,43 @@ define(function(require){
                   var cells = env.notebook.get_cells();
                   var arr = [];
                   for(var c=0; c < cells.length; c++){
-                      //console.log("looping through cell", c);
                       arr = arr.concat(cells[c].code_mirror.getValue().split('\n'));
                   }
                   
                   var html = [];
+                 
+                 
+                
+                  // and create an array of
+                  // before_match, match , replacement, after_match
+                  var aborted = false;
                   for(var r=0; r < arr.length; r++){
-                    var matches = getMatches(sre, arr[r], isCaseSensitive());
-                    //console.log("looping through line", r, "matches", matches);
+                    var match_abort = getMatches(sre, arr[r], isCaseSensitive(), RegExpOrNot);
+                    aborted = aborted || match_abort[1];
+                    var matches = match_abort[0];
+                    console.info('len:', matches.length);
                     for(var mindex=0; mindex < matches.length ; mindex++){
                       var start = matches[mindex][0];
                       var stop = matches[mindex][1];
-                      //console.log(matches[mindex], arr[r].slice(start, stop));
                       var init = arr[r].slice(start, stop);
-                      var replaced = init.replace( new RegExpOrNot(sre), replace);
+                      var replaced;
+                      if (isReg()||true){
+                        replaced = init.replace( new RegExpOrNot(sre), replace);
+                      } else {
+                        replaced = sre;
+                      }
                       html.push([cutBefore(arr[r].slice(0, start)), arr[r].slice(start, stop), replaced, cutAfter(arr[r].slice(stop), 30-(stop-start))]);
                     }
                   }
                   body.empty();
+                  if(aborted){
+                    body.append($('<p/>').addClass('bg-warning').text("Warning, too many matches ("+html.length+"+), some changes might not be shown or applied"));
+                  } else {
+                    body.append($('<p/>').addClass('bg-info').text(html.length+" matche"+(html.length==1?'':'s')));
+                    
+                  }
+                  
+                  
                   for(var rindex=0; rindex<html.length; rindex++){
                     var pre = $('<pre/>').addClass('replace-preview')
                       .append(html[rindex][0])
@@ -477,6 +536,15 @@ define(function(require){
                 };
                   
                   
+                isRegExpButton.click(function(){
+                  search.focus();
+                  setTimeout(function(){ontype();}, 100);
+                });
+                isCaseSensitiveButton.click(function(){
+                  search.focus();
+                  setTimeout(function(){ontype();}, 100);
+                });
+                
                 search.keypress(function (e) {
                   if (e.which == 13) {//enter
                     repl.focus();
@@ -523,34 +591,36 @@ define(function(require){
     };
     
     var cutBefore = function(string){
-      if(string.length > 13){
-          return '...'+string.slice(-10);
+      if(string.length > 33){
+          return '...'+string.slice(-30);
       }
       return string;
     };
     
-    var getMatches = function(re, string, caseSensitive, R){
-      R = R || function(re, extra){ return new RegExp(re, extra);};
+    var getMatches = function(re, string, caseSensitive, r){
       var extra = caseSensitive ? '':'i';
+      extra = '';
       try {
-        re = new R(re, 'g'+extra);// have to global or infinite loop
+        re = r(re, 'g'+extra);// have to global or infinite loop
       } catch (e){
-        return [];
+        return [[], false];
       }
       //debugger;
       var res = [];
       var match;
       // yes this is a castin !=
       var escape_hatch = 0;
+      var abort = false;
       while((match = re.exec(string)) !== null) {
           res.push([match.index, match.index+match[0].length]);
           escape_hatch++;
-          if(escape_hatch > 300){
-            console.warn("More than  300 matches, aborting");
+          if(escape_hatch > 100){
+            console.warn("More than  100 matches, aborting");
+            abort = true;
             break;
           }
       }
-      return res;
+      return [res, abort];
     };
 
 
