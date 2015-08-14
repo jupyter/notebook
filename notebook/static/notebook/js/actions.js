@@ -507,10 +507,13 @@ define(function(require){
                   // should abort on invalid regexp.
 
                   var cells = env.notebook.get_cells();
+                  // need to be multiline if we want to directly replace in codemirror.
+                  // or need to split/replace/join
+                  var reg = RegExpOrNot(sre, 'gm');
                   for (var c = 0; c < cells.length; c++) {
                     var cell = cells[c];
                     var oldvalue = cell.code_mirror.getValue();
-                    var newvalue = oldvalue.replace(new RegExpOrNot(sre, 'g'), replace);
+                    var newvalue = oldvalue.replace(reg , replace);
                     cell.code_mirror.setValue(newvalue);
                     if (cell.cell_type === 'markdown') {
                       cell.rendered = false;
@@ -641,7 +644,6 @@ define(function(require){
       } catch (e){
         return [[], false];
       }
-      //debugger;
       var res = [];
       var match;
       // yes this is a castin !=
