@@ -114,12 +114,12 @@ def find_package_data():
     # so that installation will fail if they are missing
     for app in ['auth', 'edit', 'notebook', 'terminal', 'tree']:
         static_data.append(pjoin('static', app, 'js', 'main.bundle.js'))
+    static_data.append(pjoin('static', 'services', 'contents.bundle.js'))
     
     components = pjoin("static", "components")
     # select the components we actually need to install
     # (there are lots of resources we bundle for sdist-reasons that we don't actually use)
     static_data.extend([
-        pjoin(components, "backbone", "backbone-min.js"),
         pjoin(components, "bootstrap", "js", "bootstrap.min.js"),
         pjoin(components, "bootstrap-tour", "build", "css", "bootstrap-tour.min.css"),
         pjoin(components, "bootstrap-tour", "build", "js", "bootstrap-tour.min.js"),
@@ -130,13 +130,7 @@ def find_package_data():
         pjoin(components, "jquery-ui", "ui", "minified", "jquery-ui.min.js"),
         pjoin(components, "jquery-ui", "themes", "smoothness", "jquery-ui.min.css"),
         pjoin(components, "jquery-ui", "themes", "smoothness", "images", "*"),
-        pjoin(components, "marked", "lib", "marked.js"),
         pjoin(components, "requirejs", "require.js"),
-        pjoin(components, "underscore", "underscore-min.js"),
-        pjoin(components, "moment", "moment.js"),
-        pjoin(components, "moment", "min", "moment.min.js"),
-        pjoin(components, "term.js", "src", "term.js"),
-        pjoin(components, "text-encoding", "lib", "encoding.js"),
     ])
 
     # Ship all of Codemirror's CSS and JS
