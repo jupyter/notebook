@@ -12,6 +12,7 @@ For more detailed information, see `GitHub <https://github.com/jupyter/notebook>
 
 - Fix launching the notebook on Windows
 - Fix the path searched for frontend config
+- Fix nbextension-install on Python 2
 
 
 4.0.0
