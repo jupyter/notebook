@@ -450,19 +450,18 @@ define(function(require){
                 };
 
 
-                var onError = function(){
+                var onError = function(body){
                   body.empty();
                   body.append($('<p/>').text('No matches, invalid or empty regular expression'));
-
                 };
 
-                var get_all_text = function(cells){
-                  if(get_all_text._cache){
+                var get_all_text = function(cells) {
+                  if (get_all_text._cache) {
                     return get_all_text._cache;
                   }
                   var arr = [];
-                  for(var c=0; c < cells.length; c++){
-                      arr = arr.concat(cells[c].code_mirror.getValue().split('\n'));
+                  for (var c = 0; c < cells.length; c++) {
+                    arr = arr.concat(cells[c].code_mirror.getValue().split('\n'));
                   }
                   get_all_text._cache = arr;
                   return arr;
@@ -472,105 +471,64 @@ define(function(require){
                  * request, caseSensitivity, isregex, search or replace
                  * modification.
                  **/
-                var onchange = function(){
+                var onChange = function(){
 
                   var sre = search.val();
                   // abort on invalid RE
-                  if(!sre){
-                    return onError();
+                  if (!sre) {
+                    return onError(body);
                   }
-
                   try {
                     new RegExpOrNot(sre);
-                  } catch (e){
-                    return onError();
+                  } catch (e) {
+                    return onError(body);
                   }
 
                   // might want to warn if replace is empty
                   var replace = repl.val();
-                  var cells = env.notebook.get_cells();
-                  var arr = get_all_text(cells);
-                  var html = [];
-                  // and create an array of
-                  // before_match, match , replacement, after_match
-                  var aborted = false;
-                  var replacer_reg = new RegExpOrNot(sre);
-                  for(var r=0; r < arr.length; r++){
-                    var current_line = arr[r];
-                    var match_abort = getMatches(sre, current_line, isCaseSensitive(), RegExpOrNot);
-                    aborted = aborted || match_abort[1];
-                    var matches = match_abort[0];
-                    for(var mindex=0; mindex < matches.length ; mindex++){
-                      var start = matches[mindex][0];
-                      var stop = matches[mindex][1];
-                      var initial = current_line.slice(start, stop);
-                      var replaced = initial.replace(replacer_reg, replace);
-                      // that might be better as a dict
-                      html.push([cutBefore(current_line.slice(0, start)),
-                                 initial,
-                                 replaced,
-                                 cutAfter(current_line.slice(stop), 30-(stop-start))]);
-                    }
-                  }
+                  var lines = get_all_text(env.notebook.get_cells());
+                  
+                  var _hb = compute_preview_model(sre, lines, isCaseSensitive(), RegExpOrNot, replace);
+                  var html = _hb[0];
+                  var aborted = _hb[1];
 
-                  // build the previewe
-                  var build_preview = function(body, aborted, html){
-                    body.empty();
-                    if(aborted){
-                      body.append($('<p/>').addClass('bg-warning').text("Warning, too many matches ("+html.length+"+), some changes might not be shown or applied"));
-                    } else {
-                      body.append($('<p/>').addClass('bg-info').text(html.length+" matche"+(html.length==1?'':'s')));
-
-                    }
-                    for(var rindex=0; rindex<html.length; rindex++){
-                      var pre = $('<pre/>').addClass('replace-preview')
-                        .append(html[rindex][0])
-                        .append($('<span/>').addClass('match').text(html[rindex][1]));
-                      if(replace){
-                        pre.append($('<span/>').addClass('replace').text(html[rindex][2]));
-                        pre.addClass('replace');
-                      }
-                      pre.append(html[rindex][3]);
-                      body.append(pre);
-                    }
-                  };
-                  build_preview(body, aborted, html);
-
+                  build_preview(body, aborted, html, replace);
+                  
                   // done on type return false not to submit form
                   return false;
                 };
 
-                var onsubmit = function(event){
+                var onsubmit = function(event) {
                   var sre = search.val();
                   var replace = repl.val();
-                  if(!sre){
+                  if (!sre) {
                     return false;
                   }
+                  // should abort on invalid regexp.
+
                   var cells = env.notebook.get_cells();
-                  var arr = [];
-                  for(var c=0; c < cells.length; c++){
-                      var oldvalue = cells[c].code_mirror.getValue();
-                      var newvalue = oldvalue.replace(new RegExpOrNot(sre, 'g'), replace);
-                      cells[c].code_mirror.setValue(newvalue);
-                      if(cells[c].cell_type === 'markdown'){
-                        cells[c].rendered = false;
-                        cells[c].render();
-                      }
-
+                  for (var c = 0; c < cells.length; c++) {
+                    var cell = cells[c];
+                    var oldvalue = cell.code_mirror.getValue();
+                    var newvalue = oldvalue.replace(new RegExpOrNot(sre, 'g'), replace);
+                    cell.code_mirror.setValue(newvalue);
+                    if (cell.cell_type === 'markdown') {
+                      cell.rendered = false;
+                      cell.render();
+                    }
                   }
-
                 };
 
                 // wire-up the UI
 
                 isRegExpButton.click(function(){
                   search.focus();
-                  setTimeout(function(){onchange();}, 100);
+                  setTimeout(function(){onChange();}, 100);
                 });
 
                 isCaseSensitiveButton.click(function(){
                   search.focus();
-                  setTimeout(function(){onchange();}, 100);
+                  setTimeout(function(){onChange();}, 100);
                 });
 
                 search.keypress(function (e) {
@@ -579,8 +537,8 @@ define(function(require){
                   }
                 });
 
-                search.on('input', onchange);
-                repl.on('input',  onchange);
+                search.on('input', onChange);
+                repl.on('input',  onChange);
 
 
                 var mod = dialog.modal({
@@ -610,6 +568,53 @@ define(function(require){
 
     };
 
+    var compute_preview_model = function(sre, arr, isCaseSensitive, RegExpOrNot, replace){
+      var html = [];
+      // and create an array of
+      // before_match, match , replacement, after_match
+      var aborted = false;
+      var replacer_reg = new RegExpOrNot(sre);
+      for(var r=0; r < arr.length; r++){
+        var current_line = arr[r];
+        var match_abort = getMatches(sre, current_line, isCaseSensitive, RegExpOrNot);
+        aborted = aborted || match_abort[1];
+        var matches = match_abort[0];
+        for(var mindex=0; mindex < matches.length ; mindex++){
+          var start = matches[mindex][0];
+          var stop = matches[mindex][1];
+          var initial = current_line.slice(start, stop);
+          var replaced = initial.replace(replacer_reg, replace);
+          // that might be better as a dict
+          html.push([cutBefore(current_line.slice(0, start)),
+                     initial,
+                     replaced,
+                     cutAfter(current_line.slice(stop), 30-(stop-start))]);
+        }
+      }
+      return [html, aborted];
+    };
+    // build the previewe
+    var build_preview = function(body, aborted, html, replace){
+      body.empty();
+      if(aborted){
+        body.append($('<p/>').addClass('bg-warning').text("Warning, too many matches ("+html.length+"+), some changes might not be shown or applied"));
+      } else {
+        body.append($('<p/>').addClass('bg-info').text(html.length+" matche"+(html.length==1?'':'s')));
+
+      }
+      for(var rindex=0; rindex<html.length; rindex++){
+        var pre = $('<pre/>').addClass('replace-preview')
+          .append(html[rindex][0])
+          .append($('<span/>').addClass('match').text(html[rindex][1]));
+        if(replace){
+          pre.append($('<span/>').addClass('replace').text(html[rindex][2]));
+          pre.addClass('replace');
+        }
+        pre.append(html[rindex][3]);
+        body.append(pre);
+      }
+    };
+    
     var cutAfter = function(string, n){
       n=n||10;
       while(n<10){
