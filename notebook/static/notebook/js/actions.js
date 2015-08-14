@@ -4,15 +4,17 @@
 define(function(require){
     "use strict";
 
+    var dialog = require('base/js/dialog');
+
     var ActionHandler = function (env) {
         this.env = env || {};
         Object.seal(this);
     };
-    
+
     function escapeRegExp(string){
       return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     }
-    
+
     /**
      * Give a  `needle` string, find all occurences of `needle` ins it
      * and return an array of [][start, stop], ...] non-overlapping indexes.
@@ -21,7 +23,7 @@ define(function(require){
     var findAll = function(needle, haystack, caseinsensitive){
       if(!needle){
         return [];
-        
+
       }
       if(caseinsensitive){
         needle = needle.toLowerCase();
@@ -30,7 +32,7 @@ define(function(require){
       var result = [];
       for(var j=0; j< haystack.length; j++){
         var next = haystack.indexOf(needle, j);
-        
+
         if(next === -1){
           break;
         } else{
@@ -40,7 +42,7 @@ define(function(require){
       }
       return result;
     };
-    
+
 
     /**
      *  A bunch of predefined `Simple Actions` used by Jupyter.
@@ -388,7 +390,7 @@ define(function(require){
                   .css('border-radius', '0')
                   .css('border-left', 'none')
                   .text('.*');
-                  
+
                 var isCaseSensitiveButton = $('<button/>')
                   .attr('type', 'button')
                   .addClass("btn btn-default")
@@ -398,37 +400,14 @@ define(function(require){
                   .css('border-top-left-radius', '0')
                   .css('border-bottom-left-radius', '0')
                   .css('border-left', 'none')
-                  .click(function(){search.focus();})
                   .text('a≠A');
-                  
-                var isCaseSensitive = function(){
-                  var value =  isCaseSensitiveButton.attr('aria-pressed') == 'true';
-                  return value;
-                };
-                
-                var isReg = function(){
-                  var value =  isRegExpButton.attr('aria-pressed') == 'true';
-                  return value;
-                };
-                
-                var RegExpOrNot = function(str, flags){
-                  if (!isCaseSensitive()){
-                    flags = flags || '';
-                    flags = flags+'i';
-                    console.info('using flags:', flags);
-                  }
-                  if (isRegExpButton.attr('aria-pressed') === 'true'){
-                    return new RegExp(str, flags);
-                  } else {
-                    return new RegExp(escapeRegExp(str), flags);
-                  }
-                };
-                  
+
                 var repl = $("<input/>")
                   .addClass('form-control')
                   .attr('placeholder','replace');
-                //var submit =  $("<input/>").attr('type', 'submit');
-                var body = $('<div/>').css('max-height','60vh').css('overflow','auto');
+                var body = $('<div/>')
+                  .css('max-height','60vh')
+                  .css('overflow','auto');
                 var form = $('<form/>')
                   .append($('<div/>').addClass('form-group')
                     .append(
@@ -440,7 +419,127 @@ define(function(require){
                   )
                   .append($('<div/>').addClass('form-group').append(repl))
                   .append(body);
-                  
+
+
+                // return wether the search is case sensitive
+                var isCaseSensitive = function(){
+                  var value =  isCaseSensitiveButton.attr('aria-pressed') == 'true';
+                  return value;
+                };
+
+                // return wether the search is reex based, or
+                // plain string maching.
+                var isReg = function(){
+                  var value =  isRegExpButton.attr('aria-pressed') == 'true';
+                  return value;
+                };
+
+
+                // returna Pseudo RexEx object that acts
+                // either as a plain RegExp Object, or as a pure string matching.
+                // automatically set the flags for case sensitivity from the UI
+                var RegExpOrNot = function(str, flags){
+                  if (!isCaseSensitive()){
+                    flags = (flags || '')+'i';
+                  }
+                  if (isRegExpButton.attr('aria-pressed') === 'true'){
+                    return new RegExp(str, flags);
+                  } else {
+                    return new RegExp(escapeRegExp(str), flags);
+                  }
+                };
+
+
+                var onError = function(){
+                  body.empty();
+                  body.append($('<p/>').text('No matches, invalid or empty regular expression'));
+
+                };
+
+                var get_all_text = function(cells){
+                  if(get_all_text._cache){
+                    return get_all_text._cache;
+                  }
+                  var arr = [];
+                  for(var c=0; c < cells.length; c++){
+                      arr = arr.concat(cells[c].code_mirror.getValue().split('\n'));
+                  }
+                  get_all_text._cache = arr;
+                  return arr;
+                };
+                /**
+                 * callback trigered anytime a change is made to the
+                 * request, caseSensitivity, isregex, search or replace
+                 * modification.
+                 **/
+                var onchange = function(){
+
+                  var sre = search.val();
+                  // abort on invalid RE
+                  if(!sre){
+                    return onError();
+                  }
+
+                  try {
+                    new RegExpOrNot(sre);
+                  } catch (e){
+                    return onError();
+                  }
+
+                  // might want to warn if replace is empty
+                  var replace = repl.val();
+                  var cells = env.notebook.get_cells();
+                  var arr = get_all_text(cells);
+                  var html = [];
+                  // and create an array of
+                  // before_match, match , replacement, after_match
+                  var aborted = false;
+                  var replacer_reg = new RegExpOrNot(sre);
+                  for(var r=0; r < arr.length; r++){
+                    var current_line = arr[r];
+                    var match_abort = getMatches(sre, current_line, isCaseSensitive(), RegExpOrNot);
+                    aborted = aborted || match_abort[1];
+                    var matches = match_abort[0];
+                    for(var mindex=0; mindex < matches.length ; mindex++){
+                      var start = matches[mindex][0];
+                      var stop = matches[mindex][1];
+                      var initial = current_line.slice(start, stop);
+                      var replaced = initial.replace(replacer_reg, replace);
+                      // that might be better as a dict
+                      html.push([cutBefore(current_line.slice(0, start)),
+                                 initial,
+                                 replaced,
+                                 cutAfter(current_line.slice(stop), 30-(stop-start))]);
+                    }
+                  }
+
+                  // build the previewe
+                  var build_preview = function(body, aborted, html){
+                    body.empty();
+                    if(aborted){
+                      body.append($('<p/>').addClass('bg-warning').text("Warning, too many matches ("+html.length+"+), some changes might not be shown or applied"));
+                    } else {
+                      body.append($('<p/>').addClass('bg-info').text(html.length+" matche"+(html.length==1?'':'s')));
+
+                    }
+                    for(var rindex=0; rindex<html.length; rindex++){
+                      var pre = $('<pre/>').addClass('replace-preview')
+                        .append(html[rindex][0])
+                        .append($('<span/>').addClass('match').text(html[rindex][1]));
+                      if(replace){
+                        pre.append($('<span/>').addClass('replace').text(html[rindex][2]));
+                        pre.addClass('replace');
+                      }
+                      pre.append(html[rindex][3]);
+                      body.append(pre);
+                    }
+                  };
+                  build_preview(body, aborted, html);
+
+                  // done on type return false not to submit form
+                  return false;
+                };
+
                 var onsubmit = function(event){
                   var sre = search.val();
                   var replace = repl.val();
@@ -457,108 +556,40 @@ define(function(require){
                         cells[c].rendered = false;
                         cells[c].render();
                       }
-                      
+
                   }
-                  
+
                 };
-                
-                
-                var ontype = function(){
-                    
-                  var sre = search.val();
-                  // abort on invalid RE
-                  if(!sre){
-                    body.empty();
-                    body.append($('<p/>').text('No matches, invalid or empty regular expression'));
-                    return;
-                  }
-                  
-                  try {
-                    new RegExpOrNot(sre);
-                  } catch (e){
-                    body.empty();
-                    body.append($('<p/>').text('No matches, invalid or empty regular expression'));
-                    return;
-                  }
-                  var replace = repl.val();
-                  var cells = env.notebook.get_cells();
-                  var arr = [];
-                  for(var c=0; c < cells.length; c++){
-                      arr = arr.concat(cells[c].code_mirror.getValue().split('\n'));
-                  }
-                  
-                  var html = [];
-                 
-                 
-                
-                  // and create an array of
-                  // before_match, match , replacement, after_match
-                  var aborted = false;
-                  for(var r=0; r < arr.length; r++){
-                    var match_abort = getMatches(sre, arr[r], isCaseSensitive(), RegExpOrNot);
-                    aborted = aborted || match_abort[1];
-                    var matches = match_abort[0];
-                    console.info('len:', matches.length);
-                    for(var mindex=0; mindex < matches.length ; mindex++){
-                      var start = matches[mindex][0];
-                      var stop = matches[mindex][1];
-                      var init = arr[r].slice(start, stop);
-                      var replaced;
-                      if (isReg()||true){
-                        replaced = init.replace( new RegExpOrNot(sre), replace);
-                      } else {
-                        replaced = sre;
-                      }
-                      html.push([cutBefore(arr[r].slice(0, start)), arr[r].slice(start, stop), replaced, cutAfter(arr[r].slice(stop), 30-(stop-start))]);
-                    }
-                  }
-                  body.empty();
-                  if(aborted){
-                    body.append($('<p/>').addClass('bg-warning').text("Warning, too many matches ("+html.length+"+), some changes might not be shown or applied"));
-                  } else {
-                    body.append($('<p/>').addClass('bg-info').text(html.length+" matche"+(html.length==1?'':'s')));
-                    
-                  }
-                  
-                  
-                  for(var rindex=0; rindex<html.length; rindex++){
-                    var pre = $('<pre/>').addClass('replace-preview')
-                      .append(html[rindex][0])
-                      .append($('<span/>').addClass('match').text(html[rindex][1]));
-                    if(replace){
-                      pre.append($('<span/>').addClass('replace').text(html[rindex][2]));
-                      pre.addClass('replace');
-                    }
-                    pre.append(html[rindex][3]);
-                    body.append(pre);
-                  }
-                  return false;
-                };
-                  
-                  
+
+                // wire-up the UI
+
                 isRegExpButton.click(function(){
                   search.focus();
-                  setTimeout(function(){ontype();}, 100);
+                  setTimeout(function(){onchange();}, 100);
                 });
+
                 isCaseSensitiveButton.click(function(){
                   search.focus();
-                  setTimeout(function(){ontype();}, 100);
+                  setTimeout(function(){onchange();}, 100);
                 });
-                
+
                 search.keypress(function (e) {
                   if (e.which == 13) {//enter
                     repl.focus();
                   }
                 });
-                search.on('input', ontype);
-                repl.on('input',  ontype);
-                var mod = IPython.dialog.modal({
+
+                search.on('input', onchange);
+                repl.on('input',  onchange);
+
+
+                var mod = dialog.modal({
                   show: false,
                   title: "Search and Replace",
                   body:form,
                   keyboard_manager: env.notebook.keyboard_manager,
                   buttons:{
-                    'Do it':{ class: "btn-primary",
+                    'Replace All':{ class: "btn-primary",
                         click: function(event){onsubmit(event); return true;}
                     }
                   },
@@ -566,7 +597,7 @@ define(function(require){
                     search.focus();
                   }
                 });
-                
+
                 repl.keypress(function (e) {
                   if (e.which == 13) {//enter
                     onsubmit();
@@ -578,7 +609,7 @@ define(function(require){
         }
 
     };
-    
+
     var cutAfter = function(string, n){
       n=n||10;
       while(n<10){
@@ -589,14 +620,14 @@ define(function(require){
       }
       return string;
     };
-    
+
     var cutBefore = function(string){
       if(string.length > 33){
           return '...'+string.slice(-30);
       }
       return string;
     };
-    
+
     var getMatches = function(re, string, caseSensitive, r){
       var extra = caseSensitive ? '':'i';
       extra = '';
@@ -790,9 +821,9 @@ define(function(require){
 
     ActionHandler.prototype.register = function(action, name, prefix){
         /**
-         * Register an `action` with an optional name and prefix. 
+         * Register an `action` with an optional name and prefix.
          *
-         * if name and prefix are not given they will be determined automatically. 
+         * if name and prefix are not given they will be determined automatically.
          * if action if just a `function` it will be wrapped in an anonymous action.
          *
          * @return the full name to access this action .
