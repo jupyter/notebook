@@ -8,7 +8,7 @@
     var security = require('base/js/security');
     var keyboard = require('base/js/keyboard');
     var mathjaxutils = require('notebook/js/mathjaxutils');
-    var marked = require('components/marked/lib/marked');
+    var marked = require('marked');
 
     /**
      * @class OutputArea

@@ -7,7 +7,7 @@
     var page = require('base/js/page');
     var configmod = require('services/config');
     var terminado = require('terminal/js/terminado');
-    require('custom/custom');
+    requirejs(['custom/custom'], function() {});
 
     page = new page.Page();
 

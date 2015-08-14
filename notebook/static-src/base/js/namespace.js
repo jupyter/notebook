@@ -3,34 +3,42 @@
 
     "use strict";
 
-    var Jupyter = Jupyter || {};
+    var Jupyter = window.Jupyter || {};
 
-    var jprop = function(name, module_path){
-        Object.defineProperty(Jupyter, name, {
-          get: function() { 
-              console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'")`');
-              return require(module_path); 
-          },
-          enumerable: true,
-          configurable: false
+    var jprop = function(name, module_path) {
+        requirejs([module_path], function(loaded) {
+            if (!Jupyter.hasOwnProperty(name)) {
+                Object.defineProperty(Jupyter, name, {
+                    get: function() { 
+                        console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'")`');
+                        return loaded; 
+                    },
+                    enumerable: true,
+                    configurable: false
+                });    
+            }
         });
-    }
+    };
 
     var jglobal = function(name, module_path){
-        Object.defineProperty(Jupyter, name, {
-          get: function() { 
-              console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'").'+name+'`');
-              return require(module_path)[name]; 
-          },
-          enumerable: true,
-          configurable: false
+        requirejs([module_path], function(loaded) {
+            if (!Jupyter.hasOwnProperty(name)) {
+                Object.defineProperty(Jupyter, name, {
+                    get: function() { 
+                        console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'").'+name+'`');
+                        return loaded[name]; 
+                    },
+                    enumerable: true,
+                    configurable: false
+                });
+            }
         });
     }
 
 
     // expose modules
 
-    jprop('utils','base/js/utils')
+    jprop('utils','base/js/utils');
 
     //Jupyter.load_extensions = Jupyter.utils.load_extensions;
     // 
@@ -41,8 +49,8 @@
 
 
     //// exposed constructors
-    jglobal('CommManager','services/kernels/comm')
-    jglobal('Comm','services/kernels/comm')
+    jglobal('CommManager','services/kernels/comm');
+    jglobal('Comm','services/kernels/comm');
 
     jglobal('NotificationWidget','base/js/notificationwidget');
     jglobal('Kernel','services/kernels/kernel');
@@ -76,6 +84,7 @@
     Jupyter._target = '_blank';
 
     module.exports = Jupyter;
-
+    window.Jupyter = Jupyter;
+    
     // deprecated since 4.0, remove in 5+
     window.IPython = Jupyter;

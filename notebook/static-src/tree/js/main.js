@@ -5,7 +5,7 @@
 // Contents must be loaded at runtime.
 // jQuery must also be loaded at runtime and available globally
 // in order for bootstrap to work...
-requirejs(['contents', 'jquery'], function(contents_service) {
+requirejs(['contents', 'jquery', 'bootstrap'], function(contents_service) {
 
     var $ = require('jquery');
     var IPython = require('base/js/namespace');
@@ -22,8 +22,7 @@ requirejs(['contents', 'jquery'], function(contents_service) {
     var loginwidget = require('auth/js/loginwidget');
 
     require('jqueryui');
-    require('bootstrap');
-    require('custom/custom');
+    requirejs(['custom/custom'], function() {});
     
     IPython.NotebookList = notebooklist.NotebookList;
 

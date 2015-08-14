@@ -17,7 +17,7 @@
     var configmod = require('services/config');
     var session = require('services/sessions/session');
     var celltoolbar = require('notebook/js/celltoolbar');
-    var marked = require('components/marked/lib/marked');
+    var marked = require('marked');
     var CodeMirror = require('codemirror/lib/codemirror');
     var runMode = require('codemirror/addon/runmode/runmode');
     var mathjaxutils = require('notebook/js/mathjaxutils');

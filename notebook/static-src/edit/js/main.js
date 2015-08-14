@@ -16,7 +16,7 @@ requirejs(['contents', 'bootstrap'], function(contents_service) {
     var menubar = require('edit/js/menubar');
     var savewidget = require('edit/js/savewidget');
     var notificationarea = require('edit/js/notificationarea');
-    require('custom/custom');
+    requirejs(['custom/custom'], function() {});
 
     page = new page.Page();
 

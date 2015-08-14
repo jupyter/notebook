@@ -28,13 +28,7 @@ requirejs(['contents', 'jquery'], function(contents_service) {
     var typeahead = require('typeahead');
     var searchandreplace = 'notebook/js/searchandreplace';
     // only loaded, not used, please keep sure this is loaded last
-    var custom = require('custom/custom');
-
-    // BEGIN HARDCODED WIDGETS HACK
-    utils.load_extension('widgets/notebook/js/extension').catch(function () {
-        console.warn('ipywidgets package not installed.  Widgets are not available.');
-    });
-    // END HARDCODED WIDGETS HACK
+    requirejs(['custom/custom'], function() {});
 
     // compat with old IPython, remove for IPython > 3.0
     window.CodeMirror = CodeMirror;
@@ -138,6 +132,12 @@ requirejs(['contents', 'jquery'], function(contents_service) {
     IPython.keyboard_manager = keyboard_manager;
     IPython.save_widget = save_widget;
     IPython.tooltip = notebook.tooltip;
+
+    // BEGIN HARDCODED WIDGETS HACK
+    utils.load_extension('widgets/notebook/js/extension').catch(function (err) {
+        console.warn('ipywidgets package not loaded.  Widgets are not available.  (Maybe they aren\'t installed)', err);
+    });
+    // END HARDCODED WIDGETS HACK
 
     events.trigger('app_initialized.NotebookApp');
     utils.load_extensions_from_config(config_section);

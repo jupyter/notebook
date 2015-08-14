@@ -7,8 +7,8 @@
     var dialog = require('base/js/dialog');
     var utils = require('base/js/utils');
     var tour = require('notebook/js/tour');
-    var bootstrap = require('bootstrap');
     var moment = require('moment');
+    requirejs(['bootstrap'], function() {});
 
     var MenuBar = function (selector, options) {
         /**

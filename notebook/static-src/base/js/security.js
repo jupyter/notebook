@@ -4,7 +4,7 @@
     "use strict";
         
     var $ = require('jquery');
-    var sanitize = require('components/google-caja/html-css-sanitizer-minified');
+    var sanitize = require('sanitizer');
 
     var noop = function (x) { return x; };
 

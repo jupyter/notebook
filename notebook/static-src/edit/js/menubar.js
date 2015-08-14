@@ -8,7 +8,7 @@
     var dialog = require('base/js/dialog');
     var CodeMirror = require('codemirror/lib/codemirror');
     require('codemirror/mode/meta');
-    require('bootstrap');
+    requirejs(['bootstrap'], function() {});
 
     var MenuBar = function (selector, options) {
         /**
