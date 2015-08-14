@@ -55,7 +55,8 @@ define([
             ],
             'run_int'],
          ['<add_celltype_list>'],
-         ['<add_celltoolbar_list>']
+         ['<add_celltoolbar_list>'],
+         [['ipython.command-palette']]
         ];
         this.construct(grps);
     };

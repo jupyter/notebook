@@ -8,6 +8,7 @@
     {% block favicon %}<link rel="shortcut icon" type="image/x-icon" href="{{static_url("base/images/favicon.ico") }}">{% endblock %}
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" href="{{static_url("components/jquery-ui/themes/smoothness/jquery-ui.min.css") }}" type="text/css" />
+    <link rel="stylesheet" href="{{static_url("components/jquery-typeahead/dist/jquery.typeahead.min.css") }}" type="text/css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     {% block stylesheet %}
@@ -37,8 +38,13 @@
             moment: 'components/moment/moment',
             codemirror: 'components/codemirror',
             termjs: 'components/term.js/src/term',
+            typeahead: 'components/jquery-typeahead/dist/jquery.typeahead'
           },
           shim: {
+            typeahead: {
+              deps: ["jquery"],
+              exports: "typeahead"
+            },
             underscore: {
               exports: '_'
             },

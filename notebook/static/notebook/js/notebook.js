@@ -27,6 +27,7 @@ define(function (require) {
     var rawcell_celltoolbar = require('notebook/js/celltoolbarpresets/rawcell');
     var slideshow_celltoolbar = require('notebook/js/celltoolbarpresets/slideshow');
     var scrollmanager = require('notebook/js/scrollmanager');
+    var commandpalette = require('notebook/js/commandpalette');
 
     /**
      * Contains and manages cells.
@@ -170,7 +171,8 @@ define(function (require) {
         // i) provide a margin between the last cell and the end of the notebook
         // ii) to prevent the div from scrolling up when the last cell is being
         // edited, but is too low on the page, which browsers will do automatically.
-        var end_space = $('<div/>').addClass('end_space');
+        var end_space = $('<div/>')
+            .addClass('end_space');
         end_space.dblclick(function (e) {
             var ncells = that.ncells();
             that.insert_cell_below('code',ncells-1);
@@ -319,6 +321,11 @@ define(function (require) {
         };
     };
     
+
+    Notebook.prototype.show_command_palette = function() {
+        var x = new commandpalette.CommandPalette(this);
+    }
+
     /**
      * Trigger a warning dialog about missing functionality from newer minor versions
      */

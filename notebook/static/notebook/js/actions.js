@@ -3,7 +3,7 @@
 
 define(function(require){
     "use strict";
-    
+
     var ActionHandler = function (env) {
         this.env = env || {};
         Object.seal(this);
@@ -329,9 +329,18 @@ define(function(require){
             handler : function (env) {
                 env.pager.collapse();
             }
+        },
+        'command-palette': {
+            help_index : 'aa',
+            help: 'open the command palette',
+            icon: 'fa-search',
+            handler : function(env){
+                env.notebook.show_command_palette();
+            }
         }
 
     };
+
 
     /**
      * A bunch of `Advance actions` for Jupyter.

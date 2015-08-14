@@ -18,7 +18,7 @@ define([
 
     /**
      * Setup global keycodes and inverse keycodes.
-     * 
+     *
      * See http://unixpapa.com/js/key.html for a complete description. The short of
      * it is that there are different keycode sets. Firefox uses the "Mozilla keycodes"
      * and Webkit/IE use the "IE keycodes". These keycode sets are mostly the same
@@ -48,12 +48,12 @@ define([
     
     // These apply to Firefox and Opera
     var _mozilla_keycodes = {
-        '; :': 59, '= +': 61, '- _': 173, 'meta': 224
+        '; :': 59, '= +': 61, '- _': 173, 'meta': 224, 'minus':173
     };
     
     // This apply to Webkit and IE
     var _ie_keycodes = {
-        '; :': 186, '= +': 187, '- _': 189
+        '; :': 186, '= +': 187, '- _': 189, 'minus':189
     };
     
     var browser = utils.browser[0];
@@ -105,7 +105,7 @@ define([
         }
 
         shortcut = shortcut.toLowerCase().replace('cmd', 'meta');
-        shortcut = shortcut.replace(/-$/, '_');  // catch shortcuts using '-' key
+        shortcut = shortcut.replace(/-$/, 'minus');  // catch shortcuts using '-' key
         shortcut = shortcut.replace(/,$/, 'comma');  // catch shortcuts using '-' key
         if(shortcut.indexOf(',') !== -1){
             var sht = shortcut.split(',');
@@ -130,7 +130,7 @@ define([
          **/
         type = type || 'keydown';
         shortcut = normalize_shortcut(shortcut);
-        shortcut = shortcut.replace(/-$/, '_');  // catch shortcuts using '-' key
+        shortcut = shortcut.replace(/-$/, 'minus');  // catch shortcuts using '-' key
         var values = shortcut.split("-");
         var modifiers = values.slice(0,-1);
         var key = values[values.length-1];
@@ -148,7 +148,7 @@ define([
          * false otherwise
          **/
         var key = inv_keycodes[event.which];
-        return ((event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) && 
+        return ((event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) &&
          (key === 'alt'|| key === 'ctrl'|| key === 'meta'|| key === 'shift'));
 
     };
@@ -190,7 +190,7 @@ define([
         /**
          * Clear the pending shortcut soon, and cancel previous clearing
          * that might be registered.
-         **/ 
+         **/
          var that = this;
          clearTimeout(this._cleartimeout);
          this._cleartimeout = setTimeout(function(){that.clearqueue();}, this.delay);
@@ -224,6 +224,17 @@ define([
             } 
         }
         return dct;
+    };
+    
+    ShortcutManager.prototype.get_action_shortcut = function(name){
+      var ftree = flatten_shorttree(this._shortcuts);
+      var res = {};
+      for (var sht in ftree ){
+        if(ftree[sht] === name){
+          return sht;
+        }
+      }
+      return undefined;
     };
 
     ShortcutManager.prototype.help = function () {

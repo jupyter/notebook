@@ -22,9 +22,14 @@ var rjs_config = {
     moment: 'components/moment/moment',
     codemirror: 'components/codemirror',
     termjs: 'components/term.js/src/term',
+    typeahead: 'components/jquery-typeahead/dist/jquery.typeahead',
     contents: 'empty:'
   },
   shim: {
+    typeahead: {
+            deps: ["jquery"],
+            exports: "typeahead"
+          },
     underscore: {
       exports: '_'
     },
