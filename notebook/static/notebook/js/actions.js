@@ -343,14 +343,61 @@ define(function(require){
             handler: function(env){
                 var search  = $("<input/>")
                   .addClass('form-control')
+                  .css('width','86%')
                   .attr('placeholder','Search');
+                var isRegExpButton = $('<button/>')
+                  .attr('type', 'button')
+                  .attr('id', 'isreg')
+                  .addClass("btn btn-default")
+                  .attr('data-toggle','button')
+                  //.attr('aria-pressed', "false")
+                  .attr('title', 'use regular expression (now you have N+1 problems)')
+                  .attr('value', '.*')
+                  .css('border-radius', '0')
+                  .css('border-left', 'none')
+                  .click(function(){search.focus();})
+                  .text('.*');
+                  
+                var isCaseSensitiveButton = $('<button/>')
+                  .attr('type', 'button')
+                  .addClass("btn btn-default")
+                  .attr('data-toggle','button')
+                  //.attr('aria-pressed', "false")
+                  .attr('title', 'is search case sensitive')
+                  .attr('value', 'a≠A')
+                  .css('border-top-left-radius', '0')
+                  .css('border-bottom-left-radius', '0')
+                  .css('border-left', 'none')
+                  .click(function(){search.focus();})
+                  .text('a≠A');
+                  
+                var isCaseSensitive = function(){
+                  var value =  isCaseSensitiveButton.attr('aria-pressed') == 'true';
+                  return value;
+                };
+                
+                var RegExpOrNot = function(str, flags){
+                  if (isRegExpButton.attr('aria-pressed') === 'true'){
+                    return new RegExp(str, flags);
+                  } else {
+                    return str;
+                  }
+                };
+                  
                 var repl = $("<input/>")
                   .addClass('form-control')
                   .attr('placeholder','replace');
                 //var submit =  $("<input/>").attr('type', 'submit');
                 var body = $('<div/>').css('max-height','60vh').css('overflow','auto');
                 var form = $('<form/>')
-                  .append($('<div/>').addClass('form-group').append(search))
+                  .append($('<div/>').addClass('form-group')
+                    .append(
+                      $('<div/>').addClass('input-group').css("width","100%")
+                      .append(search)
+                      .append(isRegExpButton)
+                      .append(isCaseSensitiveButton)
+                    )
+                  )
                   .append($('<div/>').addClass('form-group').append(repl))
                   //.append(submit)
                   .append(body);
@@ -364,7 +411,6 @@ define(function(require){
                   var cells = env.notebook.get_cells();
                   var arr = [];
                   for(var c=0; c < cells.length; c++){
-                      //console.log("looping through cell", c);
                       var oldvalue = cells[c].code_mirror.getValue();
                       var newvalue = oldvalue.replace(new RegExp(sre, 'g'), replace);
                       cells[c].code_mirror.setValue(newvalue);
@@ -388,7 +434,7 @@ define(function(require){
                   }
                   
                   try {
-                    new RegExp(sre);
+                    new RegExpOrNot(sre);
                   } catch (e){
                     body.empty();
                     body.append($('<p/>').text('No matches, invalid or empty regular expression'));
@@ -404,15 +450,15 @@ define(function(require){
                   
                   var html = [];
                   for(var r=0; r < arr.length; r++){
-                    var matches = getMatches(sre, arr[r]);
+                    var matches = getMatches(sre, arr[r], isCaseSensitive());
                     //console.log("looping through line", r, "matches", matches);
                     for(var mindex=0; mindex < matches.length ; mindex++){
                       var start = matches[mindex][0];
                       var stop = matches[mindex][1];
                       //console.log(matches[mindex], arr[r].slice(start, stop));
                       var init = arr[r].slice(start, stop);
-                      var replaced = init.replace( new RegExp(sre), replace);
-                      html.push([cutBefore(arr[r].slice(0, start)), arr[r].slice(start, stop), replaced, cutAfter(arr[r].slice(stop))]);
+                      var replaced = init.replace( new RegExpOrNot(sre), replace);
+                      html.push([cutBefore(arr[r].slice(0, start)), arr[r].slice(start, stop), replaced, cutAfter(arr[r].slice(stop), 30-(stop-start))]);
                     }
                   }
                   body.empty();
@@ -465,9 +511,13 @@ define(function(require){
 
     };
     
-    var cutAfter = function(string){
-      if(string.length > 13){
-          return string.slice(0, 10)+'...';
+    var cutAfter = function(string, n){
+      n=n||10;
+      while(n<10){
+        n+=15;
+      }
+      if(string.length > n+3){
+          return string.slice(0, n)+'...';
       }
       return string;
     };
@@ -479,9 +529,11 @@ define(function(require){
       return string;
     };
     
-    var getMatches = function(re, string){
+    var getMatches = function(re, string, caseSensitive, R){
+      R = R || function(re, extra){ return new RegExp(re, extra);};
+      var extra = caseSensitive ? '':'i';
       try {
-        re = new RegExp(re, 'g');// have to global or infinite loop
+        re = new R(re, 'g'+extra);// have to global or infinite loop
       } catch (e){
         return [];
       }
@@ -493,8 +545,8 @@ define(function(require){
       while((match = re.exec(string)) !== null) {
           res.push([match.index, match.index+match[0].length]);
           escape_hatch++;
-          if(escape_hatch > 1000){
-            console.warn("More than  1000 matches, aborting");
+          if(escape_hatch > 300){
+            console.warn("More than  300 matches, aborting");
             break;
           }
       }
