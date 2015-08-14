@@ -12,3 +12,4 @@ The Jupyter notebook
     extending/index
     development
     examples/Notebook/Examples and Tutorials Index
+    changelog
