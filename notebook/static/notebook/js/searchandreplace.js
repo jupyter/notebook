@@ -41,11 +41,11 @@ define(function(require){
 
     }
     for(var rindex=0; rindex<html.length; rindex++){
-      var pre = $('<pre/>').addClass('replace-preview')
+      var pre = $('<pre/>')
         .append(html[rindex][0])
         .append($('<span/>').addClass('match').text(html[rindex][1]));
       if(replace){
-        pre.append($('<span/>').addClass('replace').text(html[rindex][2]));
+        pre.append($('<span/>').addClass('insert').text(html[rindex][2]));
         pre.addClass('replace');
       }
       pre.append(html[rindex][3]);
@@ -100,7 +100,6 @@ define(function(require){
   var snr = function(env){
     var search  = $("<input/>")
       .addClass('form-control')
-      .css('width','86%')
       .attr('placeholder','Search');
     var isRegExpButton = $('<button/>')
       .attr('type', 'button')
@@ -109,8 +108,6 @@ define(function(require){
       .attr('data-toggle','button')
       .attr('title', 'use regular expression (now you have N+1 problems)')
       .attr('value', '.*')
-      .css('border-radius', '0')
-      .css('border-left', 'none')
       .text('.*');
 
     var isCaseSensitiveButton = $('<button/>')
@@ -119,21 +116,18 @@ define(function(require){
       .attr('data-toggle','button')
       .attr('title', 'is search case sensitive')
       .attr('value', 'a≠A')
-      .css('border-top-left-radius', '0')
-      .css('border-bottom-left-radius', '0')
-      .css('border-left', 'none')
       .text('a≠A');
 
     var repl = $("<input/>")
       .addClass('form-control')
-      .attr('placeholder','replace');
+      .attr('placeholder','Replace');
     var body = $('<div/>')
-      .css('max-height','60vh')
-      .css('overflow','auto');
+      .attr('id', 'replace-preview');
     var form = $('<form/>')
+      .attr('id', 'search-and-replace')
       .append($('<div/>').addClass('form-group')
         .append(
-          $('<div/>').addClass('input-group').css("width","100%")
+          $('<div/>').addClass('input-group')
           .append(search)
           .append(isRegExpButton)
           .append(isCaseSensitiveButton)

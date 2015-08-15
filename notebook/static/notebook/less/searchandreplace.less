@@ -1,0 +1,51 @@
+
+#search-and-replace {
+  #replace-preview .match, #replace-preview .insert{
+    background-color:lightblue;
+    border-color: darken(lightblue, 20%);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: @border-radius-base
+  }
+    
+  #replace-preview .replace {
+    
+    & .match{
+      //display: none;
+      background-color:salmon;
+      text-decoration: line-through;
+      border-color: darken(salmon, 20%);
+    }
+    
+    & .insert{
+      background-color: green;
+      background-color:lightGreen;
+      border-color: darken(lightGreen, 20%);
+    }
+  }
+
+  & #replace-preview {
+    max-height: 60vh;
+    overflow: auto;
+  }
+  
+  & input {
+    width: 86%;
+  }
+  
+  & .input-group{
+    width: 100%;
+  }
+  
+  & .input-group button:last-child{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+  }
+  
+  & input + button {
+    border-radius: 0;
+    border-left: none ;
+  }
+  
+}
