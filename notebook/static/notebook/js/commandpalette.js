@@ -81,8 +81,7 @@ define(function(require){
               // click on button trigger de-focus on mouse up.
               // or somethign like that.
               setTimeout(function(){input.focus();}, 100);
-        })
-        .on("hide.bs.modal", before_close);
+        });
 
         notebook.keyboard_manager.disable();
 
@@ -98,11 +97,14 @@ define(function(require){
             cell.select();
           }
           if (notebook.keyboard_manager) {
+            console.info('reanable command mode');
             notebook.keyboard_manager.enable();
             notebook.keyboard_manager.command_mode();
           }
           before_close.ok = true; // avoid double call.
         };
+        
+        mod.on("hide.bs.modal", before_close);
         
 
         // will be trigger when user select action

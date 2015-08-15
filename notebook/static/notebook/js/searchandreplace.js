@@ -97,7 +97,7 @@ define(function(require){
   };
   
   // main function
-  var snr = function(env){
+  var snr = function(env) {
     var search  = $("<input/>")
       .addClass('form-control')
       .attr('placeholder','Search');
@@ -291,7 +291,9 @@ define(function(require){
         handler: snr
     };
     
-    keyboard_manager.actions.register(snr, 'search-and-replace-dialog', 'ipython');
+    var act = keyboard_manager.actions.register(snr, 'search-and-replace-dialog', 'ipython');
+    
+    keyboard_manager.command_shortcuts.add_shortcut('Shift-F', act) 
     
   };
   
