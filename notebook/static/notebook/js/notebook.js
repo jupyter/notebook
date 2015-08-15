@@ -31,7 +31,6 @@ define(function (require) {
 
     /**
      * Contains and manages cells.
-     * 
      * @class Notebook
      * @param {string}          selector
      * @param {object}          options - Dictionary of keyword arguments.  
