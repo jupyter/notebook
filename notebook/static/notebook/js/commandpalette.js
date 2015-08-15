@@ -81,7 +81,8 @@ define(function(require){
               // click on button trigger de-focus on mouse up.
               // or somethign like that.
               setTimeout(function(){input.focus();}, 100);
-        });
+        })
+        .on("hide.bs.modal", before_close);
 
         notebook.keyboard_manager.disable();
 
@@ -103,8 +104,6 @@ define(function(require){
           before_close.ok = true; // avoid double call.
         };
         
-        mod.on("hide.bs.modal", before_close)
-           .on("hidden.bs.modal", before_close);
 
         // will be trigger when user select action
         var onSubmit = function(node, query, result, resultCount) {
@@ -171,14 +170,6 @@ define(function(require){
           },
           debug: false,
         });
-        
-        // on keypress 13 we shoudl most likely pick the first resutl
-        ////.keypress(function (e) {
-          //if (e.which == 13) {//enter
-            //onsubmit();
-            //mod.modal('hide');
-          //}
-        //});
 
         mod.modal('show');
     };

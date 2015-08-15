@@ -11,35 +11,6 @@ define(function(require){
     };
 
     /**
-     * Give a  `needle` string, find all occurences of `needle` ins it
-     * and return an array of [][start, stop], ...] non-overlapping indexes.
-     * for compatibility with RexExp equivalent function
-     **/
-    var findAll = function(needle, haystack, caseinsensitive){
-      if(!needle){
-        return [];
-
-      }
-      if(caseinsensitive){
-        needle = needle.toLowerCase();
-        haystack = haystack.toLowerCase();
-      }
-      var result = [];
-      for(var j=0; j< haystack.length; j++){
-        var next = haystack.indexOf(needle, j);
-
-        if(next === -1){
-          break;
-        } else{
-          result.push([next, next+needle.length]);
-          j+= needle.length -1;
-        }
-      }
-      return result;
-    };
-
-
-    /**
      *  A bunch of predefined `Simple Actions` used by Jupyter.
      *  `Simple Actions` have the following keys:
      *  help (optional): a short string the describe the action.
