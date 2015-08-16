@@ -97,7 +97,7 @@ define(function(require){
   };
   
   // main function
-  var snr = function(env) {
+  var snr = function(env, event, cells) {
     var search  = $("<input/>")
       .addClass('form-control')
       .attr('placeholder','Search');
@@ -202,7 +202,7 @@ define(function(require){
 
       // might want to warn if replace is empty
       var replace = repl.val();
-      var lines = get_all_text(env.notebook.get_cells());
+      var lines = get_all_text(cells);
       
       var _hb = compute_preview_model(sre, lines, isCaseSensitive(), RegExpOrNot, replace);
       var html = _hb[0];
@@ -222,7 +222,6 @@ define(function(require){
       }
       // should abort on invalid regexp.
 
-      var cells = env.notebook.get_cells();
       // need to be multiline if we want to directly replace in codemirror.
       // or need to split/replace/join
       var reg = RegExpOrNot(sre, 'gm');
@@ -286,14 +285,24 @@ define(function(require){
   
   
   var load = function(keyboard_manager){
-    var action = {
+    var action_all = {
         help: 'search and replace',
-        handler: snr
+        handler: function(env, event){
+          var cells = env.notebook.get_cells();
+          snr(env, event, cells);
+        }
     };
     
-    var act = keyboard_manager.actions.register(snr, 'search-and-replace-dialog', 'ipython');
+    var action_selected = {
+        help: 'search and replace in selected cells',
+        handler: function(env, event){
+          var cells = env.notebook.get_selected_cells();
+          snr(env, event, cells);
+        }
+    };
     
-    keyboard_manager.command_shortcuts.add_shortcut('Shift-F', act) 
+    var act_all = keyboard_manager.actions.register(action_all, 'search-and-replace-dialog', 'ipython');
+    var act_selected = keyboard_manager.actions.register(action_selected, 'search-and-replace-in-selected-cells-diaog', 'ipython');
     
   };
   
