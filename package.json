@@ -46,6 +46,7 @@
     "sanitizer": "^0.1.2",
     "term.js": "~0.0.4",
     "text-encoding": "~0.1",
+    "typeahead": "^0.2.0",
     "underscore": "~1.5"
   }
 }
