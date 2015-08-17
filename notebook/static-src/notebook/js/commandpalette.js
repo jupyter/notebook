@@ -1,7 +1,6 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define(function(require){
     "use strict";
 
     var QH = require("notebook/js/quickhelp");
@@ -174,5 +173,4 @@ define(function(require){
 
         mod.modal('show');
     };
-    return {'CommandPalette': CommandPalette};
-});
+    module.exports = {'CommandPalette': CommandPalette}; 
