@@ -17,11 +17,16 @@ glob(path.join(source, "**/*.js"), function(err, files) {
                 if (err) {
                     console.error('Could not read file ' + file, err);
                 } else {
-                    mkdirp(path.dirname(toFile), function(err) { if (err) {console.error('Could not mkdirp ', err);} });
-                    fs.writeFile(toFile, amdWrap(data), function(err) {
-                        if(err) {
-                            return console.error('Could not write file ' + toFile, err);
-                        }
+                    mkdirp(path.dirname(toFile), function(err) { 
+                        if (err) {
+                            console.error('Could not mkdirp ', err);
+                        } else {
+                            fs.writeFile(toFile, amdWrap(data), function(err) {
+                                if(err) {
+                                    return console.error('Could not write file ' + toFile, err);
+                                }
+                            });
+                        } 
                     }); 
                 }
             });
