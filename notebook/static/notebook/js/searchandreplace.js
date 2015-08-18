@@ -37,7 +37,7 @@ define(function(require){
     if(aborted){
       body.append($('<p/>').addClass('bg-warning').text("Warning, too many matches ("+html.length+"+), some changes might not be shown or applied"));
     } else {
-      body.append($('<p/>').addClass('bg-info').text(html.length+" matche"+(html.length==1?'':'s')));
+      body.append($('<p/>').addClass('bg-info').text(html.length+" match"+(html.length==1?'':'es')));
 
     }
     for(var rindex=0; rindex<html.length; rindex++){
@@ -97,7 +97,7 @@ define(function(require){
   };
   
   // main function
-  var snr = function(env, event, cells) {
+  var snr = function(env, event) {
     var search  = $("<input/>")
       .addClass('form-control')
       .attr('placeholder','Search');
@@ -107,15 +107,23 @@ define(function(require){
       .addClass("btn btn-default")
       .attr('data-toggle','button')
       .attr('title', 'use regular expression (now you have N+1 problems)')
-      .attr('value', '.*')
       .text('.*');
 
+    var onlySelectedButton = $('<button/>')
+      .attr('type', 'button')
+      .addClass("btn btn-default")
+      .append($('<i/>')
+        .addClass("fa fa-check-square-o")
+      )
+      .attr('data-toggle','button')
+      .attr('title', 'replace only in selected cells');
+      
     var isCaseSensitiveButton = $('<button/>')
       .attr('type', 'button')
       .addClass("btn btn-default")
       .attr('data-toggle','button')
+      .attr('tabindex', '0')
       .attr('title', 'is search case sensitive')
-      .attr('value', 'a≠A')
       .text('a≠A');
 
     var repl = $("<input/>")
@@ -128,12 +136,24 @@ define(function(require){
       .append($('<div/>').addClass('form-group')
         .append(
           $('<div/>').addClass('input-group')
+          .append(
+            $('<div/>').addClass('input-group-btn')
+              .append(isCaseSensitiveButton)
+              .append(isRegExpButton)
+          )
           .append(search)
-          .append(isRegExpButton)
-          .append(isCaseSensitiveButton)
         )
       )
-      .append($('<div/>').addClass('form-group').append(repl))
+      .append($('<div/>').addClass('form-group')
+        .append(
+          $('<div/>').addClass('input-group')
+          .append(repl)
+          .append(
+            $('<div/>').addClass('input-group-btn')
+              .append(onlySelectedButton)
+          )
+        )
+      )
       .append(body);
 
 
@@ -148,6 +168,10 @@ define(function(require){
     var isReg = function(){
       var value =  isRegExpButton.attr('aria-pressed') == 'true';
       return value;
+    };
+    
+    var onlySelected = function(){
+      return (onlySelectedButton.attr('aria-pressed') == 'true');
     };
 
 
@@ -170,16 +194,20 @@ define(function(require){
       body.empty();
       body.append($('<p/>').text('No matches, invalid or empty regular expression'));
     };
+    
+    var get_cells = function(env){
+      if(onlySelected()){
+        return env.notebook.get_selected_cells();
+      } else {
+        return env.notebook.get_cells();
+      }
+    };
 
     var get_all_text = function(cells) {
-      if (get_all_text._cache) {
-        return get_all_text._cache;
-      }
       var arr = [];
       for (var c = 0; c < cells.length; c++) {
         arr = arr.concat(cells[c].code_mirror.getValue().split('\n'));
       }
-      get_all_text._cache = arr;
       return arr;
     };
     /**
@@ -202,7 +230,7 @@ define(function(require){
 
       // might want to warn if replace is empty
       var replace = repl.val();
-      var lines = get_all_text(cells);
+      var lines = get_all_text(get_cells(env));
       
       var _hb = compute_preview_model(sre, lines, isCaseSensitive(), RegExpOrNot, replace);
       var html = _hb[0];
@@ -225,6 +253,7 @@ define(function(require){
       // need to be multiline if we want to directly replace in codemirror.
       // or need to split/replace/join
       var reg = RegExpOrNot(sre, 'gm');
+      var cells = get_cells(env);
       for (var c = 0; c < cells.length; c++) {
         var cell = cells[c];
         var oldvalue = cell.code_mirror.getValue();
@@ -248,7 +277,13 @@ define(function(require){
       search.focus();
       setTimeout(function(){onChange();}, 100);
     });
-
+    
+    onlySelectedButton.click(function(){
+      repl.focus();
+      setTimeout(function(){onChange();}, 100);
+    });
+    
+    
     search.keypress(function (e) {
       if (e.which == 13) {//enter
         repl.focus();
@@ -288,21 +323,11 @@ define(function(require){
     var action_all = {
         help: 'search and replace',
         handler: function(env, event){
-          var cells = env.notebook.get_cells();
-          snr(env, event, cells);
-        }
-    };
-    
-    var action_selected = {
-        help: 'search and replace in selected cells',
-        handler: function(env, event){
-          var cells = env.notebook.get_selected_cells();
-          snr(env, event, cells);
+          snr(env, event);
         }
     };
     
     var act_all = keyboard_manager.actions.register(action_all, 'search-and-replace-dialog', 'ipython');
-    var act_selected = keyboard_manager.actions.register(action_selected, 'search-and-replace-in-selected-cells-diaog', 'ipython');
     
   };
   
