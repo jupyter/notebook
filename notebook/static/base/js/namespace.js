@@ -72,8 +72,6 @@ define(function(){
 
     // tree
     jglobal('SessionList','tree/js/sessionlist');
-    jglobal('ClusterList','tree/js/clusterlist');
-    jglobal('ClusterItem','tree/js/clusterlist');
 
     Jupyter.version = "4.1.0.dev";
     Jupyter._target = '_blank';
