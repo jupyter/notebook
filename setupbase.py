@@ -392,7 +392,7 @@ class JavascriptVersion(Command):
         pass
     
     def run(self):
-        nsfile = pjoin(repo_root, "notebook", "static", "base", "js", "namespace.js")
+        nsfile = pjoin(repo_root, "notebook", "static-src", "base", "js", "namespace.js")
         with open(nsfile) as f:
             lines = f.readlines()
         with open(nsfile, 'w') as f:
