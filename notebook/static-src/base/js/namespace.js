@@ -17,6 +17,8 @@
                     configurable: false
                 });    
             }
+        }, function(err) {
+            console.warn('Jupyter.' + name + ' unavailable because "' + module_path + '" was not loaded.', err);
         });
     };
 
@@ -32,6 +34,8 @@
                     configurable: false
                 });
             }
+        }, function(err) {
+            console.warn('Jupyter.' + name + ' unavailable because "' + module_path + '" was not loaded.', err);
         });
     }
 
