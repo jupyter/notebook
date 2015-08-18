@@ -125,7 +125,7 @@ class IPythonHandler(AuthenticatedHandler):
         
         Mainly use for development and avoid file recompilation
         """
-        return self.settings.get('ignore_minified_js', True)
+        return self.settings.get('ignore_minified_js', False)
 
     @property
     def config(self):
