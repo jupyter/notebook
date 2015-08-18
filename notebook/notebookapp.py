@@ -91,9 +91,8 @@ from .utils import url_path_join, check_pid
 #-----------------------------------------------------------------------------
 
 _examples = """
-ipython notebook                       # start the notebook
-ipython notebook --profile=sympy       # use the sympy profile
-ipython notebook --certfile=mycert.pem # use SSL/TLS certificate
+jupyter notebook                       # start the notebook
+jupyter notebook --certfile=mycert.pem # use SSL/TLS certificate
 """
 
 #-----------------------------------------------------------------------------
