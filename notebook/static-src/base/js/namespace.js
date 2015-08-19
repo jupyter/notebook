@@ -59,7 +59,7 @@
     jprop('Completer', require('notebook/js/completer'), 'notebook/js/completer', true);
     jprop('Notebook', require('notebook/js/notebook'), 'notebook/js/notebook', true);
     jprop('Tooltip', require('notebook/js/tooltip'), 'notebook/js/tooltip', true);
-    jprop('Toolbar', require('notebook/js/toolbar'), 'notebook/js/toolbar', true);
+    jprop('ToolBar', require('notebook/js/toolbar'), 'notebook/js/toolbar', true);
     jprop('SaveWidget', require('notebook/js/savewidget'), 'notebook/js/savewidget', true);
     jprop('Pager', require('notebook/js/pager'), 'notebook/js/pager', true);
     jprop('QuickHelp', require('notebook/js/quickhelp'), 'notebook/js/quickhelp', true);
