@@ -185,6 +185,7 @@ class NotebookWebApplication(web.Application):
                 'no_cache_paths': [url_path_join(base_url, 'static', 'custom')],
             },
             version_hash=version_hash,
+            ignore_minified_js=ipython_app.ignore_minified_js,
             
             # authentication
             cookie_secret=ipython_app.cookie_secret,
@@ -395,6 +396,11 @@ class NotebookApp(JupyterApp):
 
     # create requested profiles by default, if they don't exist:
     auto_create = Bool(True)
+
+    ignore_minified_js = Bool(False,
+            config=True,
+            help='Use minified JS file or not, mainly use during dev to avoid JS recompilation', 
+            )
 
     # file to be opened in the notebook server
     file_to_run = Unicode('', config=True)

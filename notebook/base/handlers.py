@@ -117,7 +117,16 @@ class IPythonHandler(AuthenticatedHandler):
     
     Mostly property shortcuts to IPython-specific settings.
     """
-    
+
+
+    @property
+    def ignore_minified_js(self):
+        """Wether to user bundle in template. (*.min files)
+        
+        Mainly use for development and avoid file recompilation
+        """
+        return self.settings.get('ignore_minified_js', False)
+
     @property
     def config(self):
         return self.settings.get('config', None)
@@ -261,6 +270,7 @@ class IPythonHandler(AuthenticatedHandler):
             sys_info=sys_info,
             contents_js_source=self.contents_js_source,
             version_hash=self.version_hash,
+            ignore_minified_js=self.ignore_minified_js,
             **self.jinja_template_vars
         )
     

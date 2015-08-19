@@ -23,3 +23,10 @@ You can then build the Javascript and CSS by running::
 
 This will automatically fetch the remaining dependencies (bower, less) and
 install them in a subdirectory.
+
+For quick iteration on the Notebook's Javascript you can deactivate the use of
+the bundled and minified Javacript by using the option
+``--NotebookApp.ignore_minified_js=True``.  This might though highly increase the
+number of requests that the browser make to the server, but can allow to test
+Javascript file modification without going through the compilation step that
+can take up to 30 sec.
