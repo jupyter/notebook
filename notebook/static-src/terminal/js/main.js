@@ -2,6 +2,7 @@
 // Distributed under the terms of the Modified BSD License.
     "use strict";
 
+requirejs(['jquery'], function() {
     var $ = require('jquery');
     var utils = require('base/js/utils');
     var page = require('base/js/page');
@@ -53,3 +54,4 @@
 
     // Expose terminal for fiddling with in the browser
     window.terminal = terminal;
+});
