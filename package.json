@@ -14,7 +14,7 @@
     "clean:js": "rimraf notebook/static/auth/js && rimraf notebook/static/base/js && rimraf notebook/static/edit/js && rimraf notebook/static/notebook/js && rimraf notebook/static/terminal/js && rimraf notebook/static/tree/js && rimraf notebook/static/services",
     "postinstall": "npm run bower",
     "bower": "bower install --allow-root --config.interactive=false",
-    "build": "npm run build:css && npm run build:js",
+    "build": "concurrent \"npm run build:css\" \"npm run build:js\"",
     "build:css": "concurrent \"npm run build:css:ipython\" \"npm run build:css:style\"",
     "build:css:ipython": "lessc --source-map --include-path=./notebook/static/ ./notebook/static/style/ipython.less ./notebook/static/style/ipython.min.css",
     "build:css:style": "lessc --source-map --include-path=./notebook/static/ ./notebook/static/style/style.less ./notebook/static/style/style.min.css",

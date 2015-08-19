@@ -3,7 +3,6 @@
 
     "use strict";
 
-    var CodeMirror = require('codemirror/lib/codemirror');
     var $ = require('jquery');
 
     /**
@@ -163,40 +162,43 @@
                         .append(textarea)
                     )
             );
-        var editor = CodeMirror.fromTextArea(textarea[0], {
-            lineNumbers: true,
-            matchBrackets: true,
-            indentUnit: 2,
-            autoIndent: true,
-            mode: 'application/json',
-        });
-        var modal_obj = modal({
-            title: "Edit " + options.name + " Metadata",
-            body: dialogform,
-            buttons: {
-                OK: { class : "btn-primary",
-                    click: function() {
-                        /**
-                         * validate json and set it
-                         */
-                        var new_md;
-                        try {
-                            new_md = JSON.parse(editor.getValue());
-                        } catch(e) {
-                            console.log(e);
-                            error_div.text('WARNING: Could not save invalid JSON.');
-                            return false;
+        requirejs(['codemirror/lib/codemirror'], function(CodeMirror) {
+            var editor = CodeMirror.fromTextArea(textarea[0], {
+                lineNumbers: true,
+                matchBrackets: true,
+                indentUnit: 2,
+                autoIndent: true,
+                mode: 'application/json',
+            });
+            var modal_obj = modal({
+                title: "Edit " + options.name + " Metadata",
+                body: dialogform,
+                buttons: {
+                    OK: { class : "btn-primary",
+                        click: function() {
+                            /**
+                             * validate json and set it
+                             */
+                            var new_md;
+                            try {
+                                new_md = JSON.parse(editor.getValue());
+                            } catch(e) {
+                                console.log(e);
+                                error_div.text('WARNING: Could not save invalid JSON.');
+                                return false;
+                            }
+                            options.callback(new_md);
                         }
-                        options.callback(new_md);
-                    }
+                    },
+                    Cancel: {}
                 },
-                Cancel: {}
-            },
-            notebook: options.notebook,
-            keyboard_manager: options.keyboard_manager,
-        });
+                notebook: options.notebook,
+                keyboard_manager: options.keyboard_manager,
+            });
 
-        modal_obj.on('shown.bs.modal', function(){ editor.refresh(); });
+            modal_obj.on('shown.bs.modal', function(){ editor.refresh(); });
+            
+        });
     };
 
     module.exports = {

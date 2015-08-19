@@ -143,7 +143,7 @@
         
         // load kernel js
         if (ks.resources['kernel.js']) {
-            require([ks.resources['kernel.js']],
+            requirejs([ks.resources['kernel.js']],
                 function (kernel_mod) {
                     if (kernel_mod && kernel_mod.onload) {
                         kernel_mod.onload();

@@ -2,8 +2,15 @@
 // Distributed under the terms of the Modified BSD License.
 
     "use strict";
-
-    var Jupyter = window.Jupyter || {};
+    var Jupyter;
+    if (window && window.Jupyter) {
+        Jupyter = window.Jupyter;
+    } else if (global && global.Jupyter) {
+        Jupyter = global.Jupyter;
+    } else {
+        Jupyter = {};
+    }
+    
     var jprop = function(name, loaded, module_path, global) {
         if (!Jupyter.hasOwnProperty(name)) {
             Object.defineProperty(Jupyter, name, {
@@ -16,19 +23,7 @@
             });    
         }
     };
-
-    var jprop_deferred = function(name, module_path, global) {
-        if (!Jupyter.hasOwnProperty(name)) {
-            Jupyter[name] = null;
-            requirejs([module_path], function(loaded) {
-                jprop(name, loaded, module_path, global);
-            }, function(err) {
-                console.warn('Jupyter.' + name + ' unavailable because "' + module_path + '" was not loaded.', err);
-            });
-        }
-    };
-
-
+    
     // expose modules
 
     jprop('utils', require('base/js/utils'), 'base/js/utils');
@@ -75,9 +70,10 @@
 
     Jupyter.version = "4.1.0.dev";
     Jupyter._target = '_blank';
-
+    
     module.exports = Jupyter;
-    window.Jupyter = Jupyter;
+    if (window) window.Jupyter = Jupyter;
+    if (global) global.Jupyter = Jupyter;
     
     // deprecated since 4.0, remove in 5+
-    window.IPython = Jupyter;
+    if (window) window.IPython = Jupyter;

@@ -4,9 +4,7 @@
     "use strict";
         
     var $ = require('jquery');
-    var CodeMirror = require('codemirror/lib/codemirror');
     var moment = require('moment');
-    require('codemirror/mode/meta');
 
     /**
      * Load a single extension.
@@ -624,30 +622,33 @@
         var modename = (typeof mode == "string") ? mode :
             mode.mode || mode.name;
 
-        // simplest, cheapest check by mode name: mode may also have config
-        if (CodeMirror.modes.hasOwnProperty(modename)) {
-            // return the full mode object, if it has a name
-            callback(mode.name ? mode : modename);
-            return;
-        }
+            
+        requirejs(['codemirror/lib/codemirror', 'codemirror/mode/meta'], function(CodeMirror) {
+            // simplest, cheapest check by mode name: mode may also have config
+            if (CodeMirror.modes.hasOwnProperty(modename)) {
+                // return the full mode object, if it has a name
+                callback(mode.name ? mode : modename);
+                return;
+            }
 
-        // *somehow* get back a CM.modeInfo-like object that has .mode and
-        // .mime
-        var info = (mode && mode.mode && mode.mime && mode) ||
-            CodeMirror.findModeByName(modename) ||
-            CodeMirror.findModeByExtension(modename.split(".").slice(-1)) ||
-            CodeMirror.findModeByMIME(modename) ||
-            {mode: modename, mime: modename};
+            // *somehow* get back a CM.modeInfo-like object that has .mode and
+            // .mime
+            var info = (mode && mode.mode && mode.mime && mode) ||
+                CodeMirror.findModeByName(modename) ||
+                CodeMirror.findModeByExtension(modename.split(".").slice(-1)) ||
+                CodeMirror.findModeByMIME(modename) ||
+                {mode: modename, mime: modename};
 
-        require([
-                // might want to use CodeMirror.modeURL here
-                ['codemirror/mode', info.mode, info.mode].join('/'),
-            ], function() {
-              // return the original mode, as from a kernelspec on first load
-              // or the mimetype, as for most highlighting
-              callback(mode.name ? mode : info.mime);
-            }, errback
-        );
+            requirejs([
+                    // might want to use CodeMirror.modeURL here
+                    ['codemirror/mode', info.mode, info.mode].join('/'),
+                ], function() {
+                  // return the original mode, as from a kernelspec on first load
+                  // or the mimetype, as for most highlighting
+                  callback(mode.name ? mode : info.mime);
+                }, errback
+            );    
+        });
     };
 
     /** Error type for wrapped XHR errors. */
@@ -726,7 +727,7 @@
 
             // Try loading the view module using require.js
             if (module_name) {
-                require([module_name], function(module) {
+                requirejs([module_name], function(module) {
                     if (module[class_name] === undefined) {
                         reject(new Error('Class '+class_name+' not found in module '+module_name));
                     } else {

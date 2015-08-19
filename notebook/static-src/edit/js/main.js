@@ -2,10 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
 "use strict";
 
-// Contents must be loaded at runtime.
-// jQuery must also be loaded at runtime and available globally
-// in order for bootstrap to work...
-requirejs(['contents', 'bootstrap'], function(contents_service) {
     var $ = require('jquery');
     var IPython = require('base/js/namespace');
     var utils = require('base/js/utils');
@@ -16,7 +12,11 @@ requirejs(['contents', 'bootstrap'], function(contents_service) {
     var menubar = require('edit/js/menubar');
     var savewidget = require('edit/js/savewidget');
     var notificationarea = require('edit/js/notificationarea');
-    requirejs(['custom/custom'], function() {});
+
+// Contents must be loaded at runtime.
+// jQuery must also be loaded at runtime and available globally
+// in order for bootstrap to work...
+requirejs(['contents', 'bootstrap', 'custom/custom'], function(contents_service) {
 
     page = new page.Page();
 

@@ -9,16 +9,29 @@
 //     events.on("event.Namespace", function () { do_stuff(); });
 // });
 "use strict";
-    
-var IPython = require('base/js/namespace');
-var $ = require('jquery');
 
 var Events = function () {};
 
-var events = new Events();
+var $events;
+if (window && window.IPython && window.IPython.$events) {
+    $events = window.IPython.$events;
+} else if (global && global.IPython && global.IPython.$events) {
+    $events = global.IPython.$events;
+} else {
+    var $ = require('jquery');
+    $events = $([new Events()]);
+}
+var events = $events[0];
 
 // Backwards compatability.
-IPython.Events = Events;
-IPython.events = events;
+if (window && window.IPython) {
+    window.IPython.events = events;
+    window.IPython.$events = $events;
+    window.IPython.Events = Events;
+} else if (global && global.IPython) {
+    global.IPython.events = events;
+    global.IPython.$events = $events;
+    global.IPython.Events = Events;
+}
 
-module.exports = $([events]);
+module.exports = $events;

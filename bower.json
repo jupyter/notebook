@@ -11,10 +11,10 @@
     "bootstrap-tour": "0.9.0",
     "jquery": "components/jquery#~2.0",
     "jquery-ui": "components/jqueryui#~1.10",
+    "codemirror": "~5.5",
     
     "term.js": "chjj/term.js#~0.0.4",
     "backbone": "components/backbone#~1.2",
-    "codemirror": "~5.5",
     "marked": "~0.3",
     "moment": "~2.8.4",
     "text-encoding": "~0.1",
