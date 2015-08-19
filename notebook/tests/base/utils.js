@@ -22,8 +22,8 @@ casper.notebook_test(function () {
     this.test.assertEquals(result, output, "IPython.utils.fixConsole() handles [0m correctly");
     
     this.thenEvaluate(function() {
-        define('nbextensions/a', [], function() { window.a = true; });
-        define('nbextensions/c', [], function() { window.c = true; });
+        define('nbextensions/a', [], function() { return {load_ipython_extension: function() {window.a = true;}}; });
+        define('nbextensions/c', [], function() { return {load_ipython_extension: function() {window.c = true;}}; });
         require(['base/js/utils'], function(utils) {
             utils.load_extensions('a', 'b', 'c');
         });
@@ -33,7 +33,12 @@ casper.notebook_test(function () {
         });
         
         this.waitFor(function() {
-            return this.evaluate(function() { return window.a; });
+            return this.evaluate(function() { return window.c; });
+        });
+        
+        this.then(function() {
+            this.test.assertEquals(this.evaluate(function() { return window.a; }), true, "module a loaded");
+            this.test.assertEquals(this.evaluate(function() { return window.c; }), true, "module c loaded");
         });
     });
 });
