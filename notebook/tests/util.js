@@ -60,11 +60,9 @@ casper.open_new_notebook = function () {
         require(['base/js/namespace', 'base/js/events'], function (IPython, events) {
         
             events.on('kernel_idle.Kernel',function () {
-                console.log('!!Event idle');
                 IPython._status = 'idle';
             });
             events.on('kernel_busy.Kernel',function () {
-                console.log('!!Event busy');
                 IPython._status = 'busy';
             });
         });
