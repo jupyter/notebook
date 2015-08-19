@@ -10,7 +10,7 @@
             Object.defineProperty(Jupyter, name, {
                 get: function() {
                     console.warn('accessing `'+name+'` is deprecated. Use `require(\'' + module_path + '\')' + (global ? '[\'' + name + '\']' : '') + '`');
-                    return loaded; 
+                    return global ? loaded[name] : loaded; 
                 },
                 enumerable: true,
                 configurable: false
