@@ -10,28 +10,10 @@
 // });
 "use strict";
 
-var Events = function () {};
-
-var $events;
-if (window && window.IPython && window.IPython.$events) {
-    $events = window.IPython.$events;
-} else if (global && global.IPython && global.IPython.$events) {
-    $events = global.IPython.$events;
-} else {
+if (!window.jupyterEvents) {
     var $ = require('jquery');
-    $events = $([new Events()]);
-}
-var events = $events[0];
-
-// Backwards compatability.
-if (window && window.IPython) {
-    window.IPython.events = events;
-    window.IPython.$events = $events;
-    window.IPython.Events = Events;
-} else if (global && global.IPython) {
-    global.IPython.events = events;
-    global.IPython.$events = $events;
-    global.IPython.Events = Events;
+    var Events = function () {};
+    window.jupyterEvents = $([new Events()]);
 }
 
-module.exports = $events;
+module.exports = window.jupyterEvents;
