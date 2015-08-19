@@ -19,5 +19,6 @@ var b = browserify({
 });
 
 b.transform(aliasify, aliasifyConfig);
+b.transform('debowerify');
 b.add(__dirname + '/static-src/' + process.argv[2]);
 b.bundle().pipe(fs.createWriteStream(__dirname + '/static/' + process.argv[3]));
