@@ -6,8 +6,9 @@
     var Jupyter = window.Jupyter || {};
 
     var jprop = function(name, module_path) {
-        requirejs([module_path], function(loaded) {
-            if (!Jupyter.hasOwnProperty(name)) {
+        if (Jupyter[name] === undefined) {
+            Jupyter[name] = null;
+            requirejs([module_path], function(loaded) {
                 Object.defineProperty(Jupyter, name, {
                     get: function() { 
                         console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'")`');
@@ -16,15 +17,16 @@
                     enumerable: true,
                     configurable: false
                 });    
-            }
-        }, function(err) {
-            console.warn('Jupyter.' + name + ' unavailable because "' + module_path + '" was not loaded.', err);
-        });
+            }, function(err) {
+                console.warn('Jupyter.' + name + ' unavailable because "' + module_path + '" was not loaded.', err);
+            });
+        }
     };
 
     var jglobal = function(name, module_path){
-        requirejs([module_path], function(loaded) {
-            if (!Jupyter.hasOwnProperty(name)) {
+        if (Jupyter[name] === undefined) {
+            Jupyter[name] = null;
+            requirejs([module_path], function(loaded) {
                 Object.defineProperty(Jupyter, name, {
                     get: function() { 
                         console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'").'+name+'`');
@@ -33,10 +35,10 @@
                     enumerable: true,
                     configurable: false
                 });
-            }
-        }, function(err) {
-            console.warn('Jupyter.' + name + ' unavailable because "' + module_path + '" was not loaded.', err);
-        });
+            }, function(err) {
+                console.warn('Jupyter.' + name + ' unavailable because "' + module_path + '" was not loaded.', err);
+            });
+        }
     }
 
 
