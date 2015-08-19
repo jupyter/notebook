@@ -4,7 +4,9 @@
 "use strict";
 
 if (!window.Jupyter) {
-    window.Jupyter = {};
+    var Jupyter = {};
+    Jupyter.version = "4.1.0.dev";
+    window.Jupyter = Jupyter;
 }
 
 var jprop = function(name, loaded, module_path, global_mod) {
@@ -60,7 +62,6 @@ jprop('MenuBar', require( 'notebook/js/menubar'),  'notebook/js/menubar', true);
 // tree
 jprop('SessionList', require('tree/js/sessionlist'), 'tree/js/sessionlist', true);
 
-window.Jupyter.version = "4.1.0.dev";
 window.Jupyter._target = '_blank';
 
 // deprecated since 4.0, remove in 5+
