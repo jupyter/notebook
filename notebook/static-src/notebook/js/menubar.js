@@ -39,7 +39,7 @@
         this.quick_help = options.quick_help;
 
         try {
-            this.tour = new tour.Tour(this.notebook, this.events);
+            this.tour = new tour.NotebookTour(this.notebook, this.events);
         } catch (e) {
             this.tour = undefined;
             console.log("Failed to instantiate Notebook Tour", e);

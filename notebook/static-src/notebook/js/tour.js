@@ -159,5 +159,5 @@
         this.notebook.edit_mode();
     };
 
-    exports.Tour = NotebookTour;
+    exports.NotebookTour = NotebookTour;
     

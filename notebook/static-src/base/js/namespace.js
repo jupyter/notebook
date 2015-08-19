@@ -4,9 +4,8 @@
     "use strict";
 
     var Jupyter = window.Jupyter || {};
-    
     var jprop = function(name, loaded, module_path, global) {
-        if (!Jupyter[name]) {
+        if (!Jupyter.hasOwnProperty(name)) {
             Object.defineProperty(Jupyter, name, {
                 get: function() {
                     console.warn('accessing `'+name+'` is deprecated. Use `require(\'' + module_path + '\')' + (global ? '[\'' + name + '\']' : '') + '`');
@@ -19,7 +18,7 @@
     };
 
     var jprop_deferred = function(name, module_path, global) {
-        if (Jupyter[name] === undefined) {
+        if (!Jupyter.hasOwnProperty(name)) {
             Jupyter[name] = null;
             requirejs([module_path], function(loaded) {
                 jprop(name, loaded, module_path, global);
