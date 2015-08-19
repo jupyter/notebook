@@ -8,7 +8,7 @@ var aliasifyConfig = {
     aliases: {
         jqueryui: 'jquery-ui',
         termjs: 'term.js',
-        caja: './../../../static/components/google-caja/html-css-sanitizer-minified'
+        caja: 'google-caja/html-css-sanitizer-minified'
     },
     verbose: false
 }
@@ -16,6 +16,7 @@ var aliasifyConfig = {
 var b = browserify({
     paths: [
         __dirname + '/static-src',
+        __dirname + '/static/components',
     ],
     debug: true,
     fullPaths: true
