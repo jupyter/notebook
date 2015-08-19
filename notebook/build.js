@@ -7,7 +7,8 @@ var path = require('path');
 var aliasifyConfig = {
     aliases: {
         jqueryui: 'jquery-ui',
-        termjs: 'term.js'
+        termjs: 'term.js',
+        caja: './../../../static/components/google-caja/html-css-sanitizer-minified'
     },
     verbose: false
 }
