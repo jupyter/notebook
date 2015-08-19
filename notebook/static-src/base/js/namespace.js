@@ -4,87 +4,75 @@
     "use strict";
 
     var Jupyter = window.Jupyter || {};
+    
+    var jprop = function(name, loaded, module_path, global) {
+        if (!Jupyter[name]) {
+            Object.defineProperty(Jupyter, name, {
+                get: function() {
+                    console.warn('accessing `'+name+'` is deprecated. Use `require(\'' + module_path + '\')' + (global ? '[\'' + name + '\']' : '') + '`');
+                    return loaded; 
+                },
+                enumerable: true,
+                configurable: false
+            });    
+        }
+    };
 
-    var jprop = function(name, module_path) {
+    var jprop_deferred = function(name, module_path, global) {
         if (Jupyter[name] === undefined) {
             Jupyter[name] = null;
             requirejs([module_path], function(loaded) {
-                Object.defineProperty(Jupyter, name, {
-                    get: function() { 
-                        console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'")`');
-                        return loaded; 
-                    },
-                    enumerable: true,
-                    configurable: false
-                });    
+                jprop(name, loaded, module_path, global);
             }, function(err) {
                 console.warn('Jupyter.' + name + ' unavailable because "' + module_path + '" was not loaded.', err);
             });
         }
     };
 
-    var jglobal = function(name, module_path){
-        if (Jupyter[name] === undefined) {
-            Jupyter[name] = null;
-            requirejs([module_path], function(loaded) {
-                Object.defineProperty(Jupyter, name, {
-                    get: function() { 
-                        console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'").'+name+'`');
-                        return loaded[name]; 
-                    },
-                    enumerable: true,
-                    configurable: false
-                });
-            }, function(err) {
-                console.warn('Jupyter.' + name + ' unavailable because "' + module_path + '" was not loaded.', err);
-            });
-        }
-    }
-
 
     // expose modules
 
-    jprop('utils','base/js/utils');
+    jprop('utils', require('base/js/utils'), 'base/js/utils');
 
     //Jupyter.load_extensions = Jupyter.utils.load_extensions;
     // 
-    jprop('security','base/js/security');
-    jprop('keyboard','base/js/keyboard');
-    jprop('dialog','base/js/dialog');
-    jprop('mathjaxutils','notebook/js/mathjaxutils');
+    jprop('security', require('base/js/security'), 'base/js/security');
+    jprop('keyboard', require('base/js/keyboard'), 'base/js/keyboard');
+    jprop('dialog', require('base/js/dialog'), 'base/js/dialog');
+    jprop('mathjaxutils', require('notebook/js/mathjaxutils'), 'notebook/js/mathjaxutils');
 
 
     //// exposed constructors
-    jglobal('CommManager','services/kernels/comm');
-    jglobal('Comm','services/kernels/comm');
+    jprop('CommManager', require('services/kernels/comm'), 'services/kernels/comm', true);
+    jprop('Comm', require('services/kernels/comm'), 'services/kernels/comm', true);
 
-    jglobal('NotificationWidget','base/js/notificationwidget');
-    jglobal('Kernel','services/kernels/kernel');
-    jglobal('Session','services/sessions/session');
-    jglobal('LoginWidget','auth/js/loginwidget');
-    jglobal('Page','base/js/page');
+    jprop('NotificationWidget', require('base/js/notificationwidget'), 'base/js/notificationwidget', true);
+    jprop('Kernel', require('services/kernels/kernel'), 'services/kernels/kernel', true);
+    jprop('Session', require('services/sessions/session'), 'services/sessions/session', true);
+    jprop('LoginWidget', require('auth/js/loginwidget'), 'auth/js/loginwidget', true);
+    jprop('Page', require('base/js/page'), 'base/js/page', true);
 
     // notebook
-    jglobal('TextCell','notebook/js/textcell');
-    jglobal('OutputArea','notebook/js/outputarea');
-    jglobal('KeyboardManager','notebook/js/keyboardmanager');
-    jglobal('Completer','notebook/js/completer');
-    jglobal('Notebook','notebook/js/notebook');
-    jglobal('Tooltip','notebook/js/tooltip');
-    jglobal('Toolbar','notebook/js/toolbar');
-    jglobal('SaveWidget','notebook/js/savewidget');
-    jglobal('Pager','notebook/js/pager');
-    jglobal('QuickHelp','notebook/js/quickhelp');
-    jglobal('MarkdownCell','notebook/js/textcell');
-    jglobal('RawCell','notebook/js/textcell');
-    jglobal('Cell','notebook/js/cell');
-    jglobal('MainToolBar','notebook/js/maintoolbar');
-    jglobal('NotebookNotificationArea','notebook/js/notificationarea');
-    jglobal('NotebookTour', 'notebook/js/tour');
-    jglobal('MenuBar', 'notebook/js/menubar');
+    jprop('TextCell', require('notebook/js/textcell'), 'notebook/js/textcell', true);
+    jprop('OutputArea', require('notebook/js/outputarea'), 'notebook/js/outputarea', true);
+    jprop('KeyboardManager', require('notebook/js/keyboardmanager'), 'notebook/js/keyboardmanager', true);
+    jprop('Completer', require('notebook/js/completer'), 'notebook/js/completer', true);
+    jprop('Notebook', require('notebook/js/notebook'), 'notebook/js/notebook', true);
+    jprop('Tooltip', require('notebook/js/tooltip'), 'notebook/js/tooltip', true);
+    jprop('Toolbar', require('notebook/js/toolbar'), 'notebook/js/toolbar', true);
+    jprop('SaveWidget', require('notebook/js/savewidget'), 'notebook/js/savewidget', true);
+    jprop('Pager', require('notebook/js/pager'), 'notebook/js/pager', true);
+    jprop('QuickHelp', require('notebook/js/quickhelp'), 'notebook/js/quickhelp', true);
+    jprop('MarkdownCell', require('notebook/js/textcell'), 'notebook/js/textcell', true);
+    jprop('RawCell', require('notebook/js/textcell'), 'notebook/js/textcell', true);
+    jprop('Cell', require('notebook/js/cell'), 'notebook/js/cell', true);
+    jprop('MainToolBar', require('notebook/js/maintoolbar'), 'notebook/js/maintoolbar', true);
+    jprop('NotebookNotificationArea', require('notebook/js/notificationarea'), 'notebook/js/notificationarea', true);
+    jprop('NotebookTour', require( 'notebook/js/tour'),  'notebook/js/tour', true);
+    jprop('MenuBar', require( 'notebook/js/menubar'),  'notebook/js/menubar', true);
 
     // tree
-    jglobal('SessionList','tree/js/sessionlist');
+    jprop('SessionList', require('tree/js/sessionlist'), 'tree/js/sessionlist', true);
 
     Jupyter.version = "4.1.0.dev";
     Jupyter._target = '_blank';
