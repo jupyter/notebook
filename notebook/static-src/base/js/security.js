@@ -3,7 +3,6 @@
 
     "use strict";
         
-    var $ = require('jquery');
     var caja = require('caja');
 
     var noop = function (x) { return x; };

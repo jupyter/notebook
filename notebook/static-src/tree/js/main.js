@@ -3,11 +3,8 @@
 "use strict";
 
 // Contents must be loaded at runtime.
-// jQuery must also be loaded at runtime and available globally
-// in order for bootstrap to work...
-requirejs(['contents', 'jquery', 'bootstrap'], function(contents_service) {
-
-    var $ = require('jquery');
+requirejs(['contents'], function(contents_service) {
+    require('base/js/globals').then(function() {
     var IPython = require('base/js/namespace');
     var dialog = require('base/js/dialog');
     var events = require('base/js/events');
@@ -20,8 +17,6 @@ requirejs(['contents', 'jquery', 'bootstrap'], function(contents_service) {
     var terminallist = require('tree/js/terminallist');
     var newnotebook = require('tree/js/newnotebook');
     var loginwidget = require('auth/js/loginwidget');
-
-    require('jqueryui');
     requirejs(['custom/custom'], function() {});
     
     IPython.NotebookList = notebooklist.NotebookList;
@@ -161,4 +156,7 @@ requirejs(['contents', 'jquery', 'bootstrap'], function(contents_service) {
     if (window.location.hash) {
         $("#tabs").find("a[href=" + window.location.hash + "]").click();
     }
+    }).catch(function(err) {
+        console.error('Could not load globals', err);
+    });
 });

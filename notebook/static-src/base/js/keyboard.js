@@ -12,7 +12,6 @@
 
     var utils = require('base/js/utils');
     var _ = require('underscore');
-    var $ = require('jquery');
 
 
     /**

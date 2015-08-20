@@ -2,8 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
     "use strict";
 
-    var $ = require('jquery');
-    require('jqueryui');
     var utils = require('base/js/utils');
     var security = require('base/js/security');
     var keyboard = require('base/js/keyboard');

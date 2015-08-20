@@ -3,7 +3,6 @@
     "use strict";
 
     var IPython = require('base/js/namespace');
-    var $ = require('jquery');
     var notebooklist = require('tree/js/notebooklist');
 
     var KernelList = function (selector, options) {

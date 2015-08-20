@@ -11,7 +11,6 @@
 "use strict";
 
 if (!window.jupyterEvents) {
-    var $ = require('jquery');
     var Events = function () {};
     window.jupyterEvents = $([new Events()]);
 }

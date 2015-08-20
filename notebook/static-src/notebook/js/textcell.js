@@ -3,7 +3,6 @@
     "use strict";
 
     var utils = require('base/js/utils');
-    var $ = require('jquery');
     var cell = require('notebook/js/cell');
     var security = require('base/js/security');
     var configmod = require('services/config');

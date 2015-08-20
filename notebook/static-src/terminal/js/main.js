@@ -1,9 +1,8 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-    "use strict";
+"use strict";
 
-requirejs(['jquery'], function() {
-    var $ = require('jquery');
+require('base/js/globals').then(function() {    
     var utils = require('base/js/utils');
     var page = require('base/js/page');
     var configmod = require('services/config');
@@ -54,4 +53,6 @@ requirejs(['jquery'], function() {
 
     // Expose terminal for fiddling with in the browser
     window.terminal = terminal;
+}).catch(function(err) {
+    console.error('Could not load globals', err);
 });

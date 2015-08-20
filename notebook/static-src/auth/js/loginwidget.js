@@ -4,7 +4,6 @@
     "use strict";
 
     var utils = require('base/js/utils');
-    var $ = require('jquery');
 
     var LoginWidget = function (selector, options) {
         options = options || {};

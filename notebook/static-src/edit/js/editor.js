@@ -3,7 +3,6 @@
 
     "use strict";
         
-    var $ = require('jquery');
     var CodeMirror = require('codemirror/lib/codemirror');
     var utils = require('base/js/utils');
     require('codemirror/mode/meta');

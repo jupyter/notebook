@@ -2,9 +2,7 @@
 // Distributed under the terms of the Modified BSD License.
 
     "use strict";
-
-    var $ = require('jquery');
-
+    
     /**
      * A wrapper around bootstrap modal for easier use
      * Pass it an option dictionary with the following properties:
@@ -35,7 +33,6 @@
      *
      **/
     var modal = function (options) {
-
         var modal = $("<div/>")
             .addClass("modal")
             .addClass("fade")

@@ -2,7 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
     "use strict";
 
-    var $ = require('jquery');
     var toolbar = require('./toolbar');
     var celltoolbar = require('./celltoolbar');
     var MainToolBar = function (selector, options) {

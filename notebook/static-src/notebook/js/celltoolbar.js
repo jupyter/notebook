@@ -3,7 +3,6 @@
     "use strict";
 
     var IPython = require('base/js/namespace');
-    var $ = require('jquery');
     var events = require('base/js/events');
 
     var CellToolbar = function (options) {

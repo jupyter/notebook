@@ -4,7 +4,6 @@
     "use strict";
         
     var events = require('base/js/events');
-    var $ = require('jquery');
 
     var Page = function () {
         this.bind_events();

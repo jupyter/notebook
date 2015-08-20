@@ -4,7 +4,6 @@
     "use strict";
 
     var notificationwidget = require('base/js/notificationwidget');
-    var $ = require('jquery');
 
     // store reference to the NotificationWidget class
     var NotificationWidget = notificationwidget.NotificationWidget;

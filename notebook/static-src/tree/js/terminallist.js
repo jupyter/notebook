@@ -4,7 +4,6 @@
 
     var IPython = require('base/js/namespace');
     var utils = require('base/js/utils');
-    var $ = require('jquery');
     var notebooklist = require('tree/js/notebooklist');
 
     var TerminalList = function (selector, options) {

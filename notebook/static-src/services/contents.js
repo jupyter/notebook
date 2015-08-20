@@ -2,7 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
     "use strict";
 
-    var $ = require('jquery');
     var utils = require('base/js/utils');
 
     var Contents = function(options) {

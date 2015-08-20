@@ -3,11 +3,9 @@
 "use strict";
 
 // Contents must be loaded at runtime.
-// jQuery must also be loaded at runtime and available globally
-// in order for bootstrap to work...
-requirejs(['contents', 'jquery'], function(contents_service) {
+requirejs(['contents'], function(contents_service) {
+    require('base/js/globals').then(function() {    
     var IPython = require('base/js/namespace');
-    var $ = require('jquery');
     var notebook = require('notebook/js/notebook');
     var configmod = require('services/config');
     var utils = require('base/js/utils');
@@ -143,4 +141,7 @@ requirejs(['contents', 'jquery'], function(contents_service) {
     utils.load_extensions_from_config(config_section);
     utils.load_extensions_from_config(common_config);
     notebook.load_notebook(common_options.notebook_path);
+    }).catch(function(err) {
+        console.error('Could not load globals', err);
+    });
 });

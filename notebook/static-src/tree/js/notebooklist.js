@@ -3,7 +3,6 @@
     "use strict";
 
     var IPython = require('base/js/namespace');
-    var $ = require('jquery');
     var utils = require('base/js/utils');
     var dialog = require('base/js/dialog');
     var events = require('base/js/events');

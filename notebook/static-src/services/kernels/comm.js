@@ -3,7 +3,6 @@
 
     "use strict";
 
-    var $ = require('jquery');
     var utils = require('base/js/utils');
 
     //-----------------------------------------------------------------------

@@ -10,7 +10,6 @@
  */
     "use strict";
 
-    var $ = require('jquery');
     var utils = require('base/js/utils');
     var CodeMirror = require('codemirror/lib/codemirror');
     var cm_match = require('codemirror/addon/edit/matchbrackets');

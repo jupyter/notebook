@@ -2,9 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
     "use strict";
 
-    var $ = require('jquery');
-
-
     var tour_style = "<div class='popover tour'>\n" +
         "<div class='arrow'></div>\n" +
         "<div style='position:absolute; top:7px; right:7px'>\n" +

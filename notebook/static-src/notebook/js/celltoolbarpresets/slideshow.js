@@ -2,7 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
     "use strict";
 
-    var $ = require('jquery');
     var celltoolbar = require('notebook/js/celltoolbar');
 
     var CellToolbar = celltoolbar.CellToolbar;

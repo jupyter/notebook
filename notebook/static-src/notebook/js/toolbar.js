@@ -2,7 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
 
     "use strict";
-    var $ = require('jquery');
 
     /**
      * A generic toolbar on which one can add button

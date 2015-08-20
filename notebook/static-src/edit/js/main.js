@@ -2,7 +2,8 @@
 // Distributed under the terms of the Modified BSD License.
 "use strict";
 
-    var $ = require('jquery');
+require('base/js/globals').then(function() {
+    
     var IPython = require('base/js/namespace');
     var utils = require('base/js/utils');
     var page = require('base/js/page');
@@ -14,9 +15,7 @@
     var notificationarea = require('edit/js/notificationarea');
 
 // Contents must be loaded at runtime.
-// jQuery must also be loaded at runtime and available globally
-// in order for bootstrap to work...
-requirejs(['contents', 'bootstrap', 'custom/custom'], function(contents_service) {
+requirejs(['contents', 'custom/custom'], function(contents_service) {
 
     page = new page.Page();
 
@@ -85,3 +84,8 @@ requirejs(['contents', 'bootstrap', 'custom/custom'], function(contents_service)
     // On document ready, resize codemirror.
     $(document).ready(_handle_resize);
 });
+
+}).catch(function(err) {
+    console.error('Could not load globals', err);
+});
+    
