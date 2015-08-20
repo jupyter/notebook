@@ -150,6 +150,7 @@ def find_package_data():
     static_data.extend([
         mj('MathJax.js'),
         mj('config', 'TeX-AMS_HTML-full.js'),
+        mj('config', 'Safe.js'),
         mj('jax', 'output', 'HTML-CSS', '*.js'),
     ])
     for tree in [
