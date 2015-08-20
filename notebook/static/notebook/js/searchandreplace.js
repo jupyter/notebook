@@ -1,11 +1,32 @@
 define(function(require){
   "use strict";
-  
+
   var dialog = require('base/js/dialog');
+
+  /**
+   * escape a Regular expression to act as  a pure search string.
+   * though it will still have the case sensitivity options and all
+   * the benefits
+   **/
   function escapeRegExp(string){
     return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   }
 
+  /**
+   * Compute the model of the preview for the search and replace.
+   * It might not be perfectly accurate if matches overlap...
+   * Parameter:
+   *   sre: the string that will become the Search Regular Expression
+   *   arr: a list of string on which the match will be applied.
+   *   isCaseSensitive: should the match be CaseSensitive
+   *   RegExOrNot: a `RegExOrNot` object.
+   *   replace: the replacement string for the matching `sre`
+   * Return: a tuple of 2 value:
+   *   1) array of [before match, match, replacement, after match]
+   *      where before and after match are cut to a reasonable length after the match.
+   *   2) Boolean, whether the matching has been aborted because one of the element of
+   *      arr have too many matches.
+   **/
   var compute_preview_model = function(sre, arr, isCaseSensitive, RegExpOrNot, replace){
     var html = [];
     // and create an array of
@@ -22,7 +43,7 @@ define(function(require){
         var stop = matches[mindex][1];
         var initial = current_line.slice(start, stop);
         var replaced = initial.replace(replacer_reg, replace);
-        // that might be better as a dict
+        // that might be better as a dictionary
         html.push([cutBefore(current_line.slice(0, start)),
                    initial,
                    replaced,
@@ -31,7 +52,17 @@ define(function(require){
     }
     return [html, aborted];
   };
-  // build the previewe
+
+  /**
+   * Build the preview model where things matched and their replacement values
+   * are wrapped in tags with correct CSS classes.
+   * Parameter:
+   *   body: jQuery element into which the preview will be build
+   *   aborted : have the model been aborted (Boolean) use to tell the user
+   *      that the preview might not show all the replacements
+   *   html: array of model created by compute_preview_model
+   *   replace: Boolean: whether we are actually replacing with something or just matching.
+   **/
   var build_preview = function(body, aborted, html, replace){
     body.empty();
     if(aborted){
@@ -52,7 +83,11 @@ define(function(require){
       body.append(pre);
     }
   };
-  
+
+  /**
+   * Given a string, return only the beginning, with potentially an ellipsis
+   * at the end.
+   **/
   var cutAfter = function(string, n){
     n=n||10;
     while(n<10){
@@ -64,6 +99,10 @@ define(function(require){
     return string;
   };
 
+  /**
+   * Given a string, return only the end, with potentially an ellipsis
+   * at the beginning.
+   **/
   var cutBefore = function(string){
     if(string.length > 33){
         return '...'+string.slice(-30);
@@ -71,6 +110,15 @@ define(function(require){
     return string;
   };
 
+  /**
+   * Find all occurrences of `re` in `string`, match in a `caseSensitive`
+   * manner or not, and determine whether `re` is a RegExp or not depending of
+   * the type of object passed as `r`.
+   *
+   * Return a tuple
+   *  1) list of matches [start, stop] indexes in the string.
+   *  2) abort Boolean, if more that 100 matches and the matches were aborted.
+   **/
   var getMatches = function(re, string, caseSensitive, r){
     var extra = caseSensitive ? '':'i';
     extra = '';
@@ -81,7 +129,6 @@ define(function(require){
     }
     var res = [];
     var match;
-    // yes this is a castin !=
     var escape_hatch = 0;
     var abort = false;
     while((match = re.exec(string)) !== null) {
@@ -95,8 +142,11 @@ define(function(require){
     }
     return [res, abort];
   };
-  
+
   // main function
+  /**
+   * Search N' Replace action handler.
+   **/
   var snr = function(env, event) {
     var search  = $("<input/>")
       .addClass('form-control')
@@ -117,7 +167,7 @@ define(function(require){
       )
       .attr('data-toggle','button')
       .attr('title', 'replace only in selected cells');
-      
+
     var isCaseSensitiveButton = $('<button/>')
       .attr('type', 'button')
       .addClass("btn btn-default")
@@ -157,25 +207,25 @@ define(function(require){
       .append(body);
 
 
-    // return wether the search is case sensitive
+    // return whether the search is case sensitive
     var isCaseSensitive = function(){
       var value =  isCaseSensitiveButton.attr('aria-pressed') == 'true';
       return value;
     };
 
-    // return wether the search is reex based, or
-    // plain string maching.
+    // return whether the search is RegExp based, or
+    // plain string matching.
     var isReg = function(){
       var value =  isRegExpButton.attr('aria-pressed') == 'true';
       return value;
     };
-    
+
     var onlySelected = function(){
       return (onlySelectedButton.attr('aria-pressed') == 'true');
     };
 
 
-    // returna Pseudo RexEx object that acts
+    // return a Pseudo RegExp object that acts
     // either as a plain RegExp Object, or as a pure string matching.
     // automatically set the flags for case sensitivity from the UI
     var RegExpOrNot = function(str, flags){
@@ -194,7 +244,7 @@ define(function(require){
       body.empty();
       body.append($('<p/>').text('No matches, invalid or empty regular expression'));
     };
-    
+
     var get_cells = function(env){
       if(onlySelected()){
         return env.notebook.get_selected_cells();
@@ -211,8 +261,8 @@ define(function(require){
       return arr;
     };
     /**
-     * callback trigered anytime a change is made to the
-     * request, caseSensitivity, isregex, search or replace
+     * callback triggered anytime a change is made to the
+     * request, case sensitivity, isregex, search or replace
      * modification.
      **/
     var onChange = function(){
@@ -231,13 +281,13 @@ define(function(require){
       // might want to warn if replace is empty
       var replace = repl.val();
       var lines = get_all_text(get_cells(env));
-      
+
       var _hb = compute_preview_model(sre, lines, isCaseSensitive(), RegExpOrNot, replace);
       var html = _hb[0];
       var aborted = _hb[1];
 
       build_preview(body, aborted, html, replace);
-      
+
       // done on type return false not to submit form
       return false;
     };
@@ -248,9 +298,9 @@ define(function(require){
       if (!sre) {
         return false;
       }
-      // should abort on invalid regexp.
+      // should abort on invalid RegExp.
 
-      // need to be multiline if we want to directly replace in codemirror.
+      // need to be multi line if we want to directly replace in codemirror.
       // or need to split/replace/join
       var reg = RegExpOrNot(sre, 'gm');
       var cells = get_cells(env);
@@ -277,13 +327,13 @@ define(function(require){
       search.focus();
       setTimeout(function(){onChange();}, 100);
     });
-    
+
     onlySelectedButton.click(function(){
       repl.focus();
       setTimeout(function(){onChange();}, 100);
     });
-    
-    
+
+
     search.keypress(function (e) {
       if (e.which == 13) {//enter
         repl.focus();
@@ -317,8 +367,8 @@ define(function(require){
     });
     mod.modal('show');
   };
-  
-  
+
+
   var load = function(keyboard_manager){
     var action_all = {
         help: 'search and replace',
@@ -326,11 +376,11 @@ define(function(require){
           snr(env, event);
         }
     };
-    
+
     var act_all = keyboard_manager.actions.register(action_all, 'search-and-replace-dialog', 'ipython');
-    
+
   };
-  
-  
+
+
   return {load:load};
 });

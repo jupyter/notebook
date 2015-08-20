@@ -97,7 +97,6 @@ define(function(require){
             cell.select();
           }
           if (notebook.keyboard_manager) {
-            console.info('reanable command mode');
             notebook.keyboard_manager.enable();
             notebook.keyboard_manager.command_mode();
           }
