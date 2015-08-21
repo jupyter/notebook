@@ -17,7 +17,7 @@ env:
     - GROUP=js/services
     - GROUP=js/tree
 before_install:
-    - 'if [[ $GROUP == js* ]]; then npm install -g casperjs; fi'
+    - 'if [[ $GROUP == js* ]]; then npm install -g phantomjs && npm install -g casperjs; fi'
     - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
 install:
     - pip install -f travis-wheels/wheelhouse --pre file://$PWD#egg=notebook[test] coveralls
