@@ -14,8 +14,7 @@
 
     var example_preset = [];
 
-    var simple_button = function(div
-        cell) {
+    var simple_button = function(div, cell) {
         var button_container = $(div);
         var button = $('<div/>').button({icons:{primary:'ui-icon-locked'}});
         var fun = function(value){

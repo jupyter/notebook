@@ -111,26 +111,25 @@
             }
         ];
 
-        var that = this;
-        requirejs(['bootstraptour'], function(Tour) {
-            that.tour = new Tour({
+        function assignTour(Tour) {
+            this.tour = new Tour({
                 storage: false, // start tour from beginning every time
                 debug: true,
                 reflex: true, // click on element to continue tour
                 animation: false,
-                duration: that.step_duration,
+                duration: this.step_duration,
                 onStart: function() { console.log('tour started'); },
                 // TODO: remove the onPause/onResume logic once pi's patch has been
                 // merged upstream to make this work via data-resume-class and 
                 // data-resume-text attributes.
-                onPause: that.toggle_pause_play,
-                onResume: that.toggle_pause_play,
-                steps: that.tour_steps,
+                onPause: this.toggle_pause_play,
+                onResume: this.toggle_pause_play,
+                steps: this.tour_steps,
                 template: tour_style,
                 orphan: true
             });
-        });
-        
+        }
+        requirejs(['bootstraptour'], assignTour.bind(this));
     };
 
     NotebookTour.prototype.start = function () {

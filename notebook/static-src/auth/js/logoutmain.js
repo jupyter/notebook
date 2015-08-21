@@ -4,7 +4,7 @@
     var IPython = require('base/js/namespace');
     var page = require('base/js/page');
 
-    module.exports = function () {
+    module.exports = function logoutMain() {
         var page_instance = new page.Page();
         page_instance.show();
 

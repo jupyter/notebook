@@ -4,7 +4,7 @@
     var IPython = require('base/js/namespace');
     var page = require('base/js/page');
 
-    module.exports = function() {
+    module.exports = function loginMain() {
         var page_instance = new page.Page();
         $('button#login_submit').addClass("btn btn-default");
         page_instance.show();
