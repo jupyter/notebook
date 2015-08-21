@@ -2,7 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
 
     "use strict";
-    var CodeMirror = require('codemirror/lib/codemirror');
     
     /**
      * A wrapper around bootstrap modal for easier use

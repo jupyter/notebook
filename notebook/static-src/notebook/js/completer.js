@@ -4,7 +4,6 @@
 
     var utils = require('base/js/utils');
     var keyboard = require('base/js/keyboard');
-    var CodeMirror = require('codemirror/lib/codemirror');
     require('notebook/js/contexthint');
 
     // easier key mapping

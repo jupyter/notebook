@@ -7,8 +7,8 @@ require('base/js/globals').then(function() {
     var page = require('base/js/page');
     var configmod = require('services/config');
     var terminado = require('terminal/js/terminado');
-    requirejs(['custom/custom'], function() {});
-
+    requirejs(['custom/custom'], function() {
+    
     page = new page.Page();
 
     var common_config = new configmod.ConfigSection('common', 
@@ -53,6 +53,8 @@ require('base/js/globals').then(function() {
 
     // Expose terminal for fiddling with in the browser
     window.terminal = terminal;
+    });
+
 }).catch(function(err) {
     console.error('Could not load globals', err);
 });

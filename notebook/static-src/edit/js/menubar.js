@@ -5,9 +5,6 @@
     var IPython = require('base/js/namespace');
     var utils = require('base/js/utils');
     var dialog = require('base/js/dialog');
-    var CodeMirror = require('codemirror/lib/codemirror');
-    require('codemirror/mode/meta');
-    requirejs(['bootstrap'], function() {});
 
     var MenuBar = function (selector, options) {
         /**

@@ -3,7 +3,6 @@
 
 // highly adapted for codemiror jshint
     "use strict";
-    var CodeMirror = require('codemirror/lib/codemirror');
 
     var forEach = function(arr, f) {
         for (var i = 0, e = arr.length; i < e; ++i) f(arr[i]);

@@ -3,8 +3,7 @@
 "use strict";
 
 // Contents must be loaded at runtime.
-requirejs(['contents'], function(contents_service) {
-    require('base/js/globals').then(function() {    
+require('base/js/globals').then(function() {    
     var IPython = require('base/js/namespace');
     var notebook = require('notebook/js/notebook');
     var configmod = require('services/config');
@@ -21,15 +20,11 @@ requirejs(['contents'], function(contents_service) {
     var actions = require('notebook/js/actions');
     var keyboardmanager = require('notebook/js/keyboardmanager');
     var kernelselector = require('notebook/js/kernelselector');
-    var CodeMirror = require('codemirror/lib/codemirror');
     var about = require('notebook/js/about');
     var typeahead = require('typeahead');
     var searchandreplace = 'notebook/js/searchandreplace';
     // only loaded, not used, please keep sure this is loaded last
-    requirejs(['custom/custom'], function() {});
-
-    // compat with old IPython, remove for IPython > 3.0
-    window.CodeMirror = CodeMirror;
+    requirejs(['contents', 'custom/custom'], function(contents_service) {
 
     var common_options = {
         ws_url : utils.get_body_data("wsUrl"),
@@ -42,8 +37,8 @@ requirejs(['contents'], function(contents_service) {
     config_section.load();
     var common_config = new configmod.ConfigSection('common', common_options);
     common_config.load();
-    var page = new page.Page();
-    var pager = new pager.Pager('div#pager', {
+    page = new page.Page();
+    pager = new pager.Pager('div#pager', {
         events: events});
     var acts = new actions.init();
     var keyboard_manager = new keyboardmanager.KeyboardManager({
@@ -57,7 +52,7 @@ requirejs(['contents'], function(contents_service) {
           base_url: common_options.base_url,
           common_config: common_config
         });
-    var notebook = new notebook.Notebook('div#notebook', $.extend({
+    notebook = new notebook.Notebook('div#notebook', $.extend({
         events: events,
         keyboard_manager: keyboard_manager,
         save_widget: save_widget,
@@ -75,7 +70,7 @@ requirejs(['contents'], function(contents_service) {
         notebook: notebook});
     keyboard_manager.set_notebook(notebook);
     keyboard_manager.set_quickhelp(quick_help);
-    var menubar = new menubar.MenuBar('#menubar', $.extend({
+    menubar = new menubar.MenuBar('#menubar', $.extend({
         notebook: notebook, 
         contents: contents,
         events: events, 
@@ -141,7 +136,7 @@ requirejs(['contents'], function(contents_service) {
     utils.load_extensions_from_config(config_section);
     utils.load_extensions_from_config(common_config);
     notebook.load_notebook(common_options.notebook_path);
-    }).catch(function(err) {
-        console.error('Could not load globals', err);
     });
+}).catch(function(err) {
+    console.error('Could not load globals', err);
 });

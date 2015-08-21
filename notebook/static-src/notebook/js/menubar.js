@@ -7,7 +7,6 @@
     var utils = require('base/js/utils');
     var tour = require('notebook/js/tour');
     var moment = require('moment');
-    requirejs(['bootstrap'], function() {});
 
     var MenuBar = function (selector, options) {
         /**

@@ -3,8 +3,7 @@
 "use strict";
 
 // Contents must be loaded at runtime.
-requirejs(['contents'], function(contents_service) {
-    require('base/js/globals').then(function() {
+require('base/js/globals').then(function() {
     var IPython = require('base/js/namespace');
     var dialog = require('base/js/dialog');
     var events = require('base/js/events');
@@ -17,7 +16,7 @@ requirejs(['contents'], function(contents_service) {
     var terminallist = require('tree/js/terminallist');
     var newnotebook = require('tree/js/newnotebook');
     var loginwidget = require('auth/js/loginwidget');
-    requirejs(['custom/custom'], function() {});
+    requirejs(['contents', 'custom/custom'], function(contents_service) {
     
     IPython.NotebookList = notebooklist.NotebookList;
 
@@ -156,7 +155,7 @@ requirejs(['contents'], function(contents_service) {
     if (window.location.hash) {
         $("#tabs").find("a[href=" + window.location.hash + "]").click();
     }
-    }).catch(function(err) {
-        console.error('Could not load globals', err);
     });
+}).catch(function(err) {
+    console.error('Could not load globals', err);
 });

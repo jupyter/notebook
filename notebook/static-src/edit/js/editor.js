@@ -3,18 +3,7 @@
 
     "use strict";
         
-    var CodeMirror = require('codemirror/lib/codemirror');
     var utils = require('base/js/utils');
-    require('codemirror/mode/meta');
-    require('codemirror/addon/comment/comment');
-    require('codemirror/addon/dialog/dialog');
-    require('codemirror/addon/edit/closebrackets');
-    require('codemirror/addon/edit/matchbrackets');
-    require('codemirror/addon/search/searchcursor');
-    require('codemirror/addon/search/search');
-    require('codemirror/keymap/emacs');
-    require('codemirror/keymap/sublime');
-    require('codemirror/keymap/vim');
 
     var Editor = function(selector, options) {
         var that = this;

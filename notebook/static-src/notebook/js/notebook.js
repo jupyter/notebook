@@ -17,8 +17,6 @@
     var session = require('services/sessions/session');
     var celltoolbar = require('notebook/js/celltoolbar');
     var marked = require('marked');
-    var CodeMirror = require('codemirror/lib/codemirror');
-    var runMode = require('codemirror/addon/runmode/runmode');
     var mathjaxutils = require('notebook/js/mathjaxutils');
     var keyboard = require('base/js/keyboard');
     var tooltip = require('notebook/js/tooltip');

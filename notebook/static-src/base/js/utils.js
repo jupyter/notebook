@@ -622,32 +622,30 @@
             mode.mode || mode.name;
 
             
-        requirejs(['codemirror/lib/codemirror', 'codemirror/mode/meta'], function(CodeMirror) {
-            // simplest, cheapest check by mode name: mode may also have config
-            if (CodeMirror.modes.hasOwnProperty(modename)) {
-                // return the full mode object, if it has a name
-                callback(mode.name ? mode : modename);
-                return;
-            }
+        // simplest, cheapest check by mode name: mode may also have config
+        if (CodeMirror.modes.hasOwnProperty(modename)) {
+            // return the full mode object, if it has a name
+            callback(mode.name ? mode : modename);
+            return;
+        }
 
-            // *somehow* get back a CM.modeInfo-like object that has .mode and
-            // .mime
-            var info = (mode && mode.mode && mode.mime && mode) ||
-                CodeMirror.findModeByName(modename) ||
-                CodeMirror.findModeByExtension(modename.split(".").slice(-1)) ||
-                CodeMirror.findModeByMIME(modename) ||
-                {mode: modename, mime: modename};
+        // *somehow* get back a CM.modeInfo-like object that has .mode and
+        // .mime
+        var info = (mode && mode.mode && mode.mime && mode) ||
+            CodeMirror.findModeByName(modename) ||
+            CodeMirror.findModeByExtension(modename.split(".").slice(-1)) ||
+            CodeMirror.findModeByMIME(modename) ||
+            {mode: modename, mime: modename};
 
-            requirejs([
-                    // might want to use CodeMirror.modeURL here
-                    ['codemirror/mode', info.mode, info.mode].join('/'),
-                ], function() {
-                  // return the original mode, as from a kernelspec on first load
-                  // or the mimetype, as for most highlighting
-                  callback(mode.name ? mode : info.mime);
-                }, errback
-            );    
-        });
+        requirejs([
+                // might want to use CodeMirror.modeURL here
+                ['codemirror/mode', info.mode, info.mode].join('/'),
+            ], function() {
+              // return the original mode, as from a kernelspec on first load
+              // or the mimetype, as for most highlighting
+              callback(mode.name ? mode : info.mime);
+            }, errback
+        );
     };
 
     /** Error type for wrapped XHR errors. */

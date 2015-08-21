@@ -9,9 +9,6 @@
     var mathjaxutils = require('notebook/js/mathjaxutils');
     var celltoolbar = require('notebook/js/celltoolbar');
     var marked = require('marked');
-    var CodeMirror = require('codemirror/lib/codemirror');
-    var gfm = require('codemirror/mode/gfm/gfm');
-    var ipgfm = require('notebook/js/codemirror-ipythongfm');
 
     var Cell = cell.Cell;
 

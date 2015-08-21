@@ -17,9 +17,6 @@
     var outputarea = require('notebook/js/outputarea');
     var completer = require('notebook/js/completer');
     var celltoolbar = require('notebook/js/celltoolbar');
-    var CodeMirror = require('codemirror/lib/codemirror');
-    var cmpython = require('codemirror/mode/python/python');
-    var cmip = require('notebook/js/codemirror-ipython');
 
     var Cell = cell.Cell;
 

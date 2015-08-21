@@ -25,7 +25,32 @@ module.exports = new Promise(function(resolve, reject) {
                 reject(new Error('jQueryUI not injected into jQuery prototype'));
             }
             
-            resolve();
+            requirejs([
+                'codemirror/lib/codemirror',
+                'codemirror/mode/meta',
+                'codemirror/addon/comment/comment',
+                'codemirror/addon/dialog/dialog',
+                'codemirror/addon/edit/closebrackets',
+                'codemirror/addon/edit/matchbrackets',
+                'codemirror/addon/search/searchcursor',
+                'codemirror/addon/search/search',
+                'codemirror/keymap/emacs',
+                'codemirror/keymap/sublime',
+                'codemirror/keymap/vim',
+                'codemirror/mode/python/python',
+                'codemirror/addon/runmode/runmode',
+                'codemirror/mode/gfm/gfm',
+                'notebook/js/codemirror-ipython',
+                'notebook/js/codemirror-ipythongfm'
+            ], function(CodeMirror) {
+                window.CodeMirror = CodeMirror;
+                console.log('CodeMirror loaded and available in global namespace');
+                
+                resolve();
+            }, function(err) {
+                console.error('could not load CodeMirror and/or it\'s plugins');
+                reject(err);
+            });
         }, function(err) {
             console.error('could not load jqueryui and/or bootstrap');
             reject(err);

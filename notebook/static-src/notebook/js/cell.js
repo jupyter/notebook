@@ -11,10 +11,6 @@
     "use strict";
 
     var utils = require('base/js/utils');
-    var CodeMirror = require('codemirror/lib/codemirror');
-    var cm_match = require('codemirror/addon/edit/matchbrackets');
-    var cm_closeb = require('codemirror/addon/edit/closebrackets');
-    var cm_comment = require('codemirror/addon/comment/comment');
 
     var overlayHack = CodeMirror.scrollbarModel.native.prototype.overlayHack;
 
