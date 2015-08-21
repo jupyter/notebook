@@ -8,8 +8,19 @@
  * This module handles the global loading of those tools. 
  */
 module.exports = new Promise(function(resolve, reject) {
+    if (window.hasOwnProperty('jquery')) {
+        resolve();
+    }
+    
     requirejs(['jquery'], function($) {
-        window.$ = window.jQuery = $;
+        var jQueryProperty = {
+            get: function() {
+                return $;
+            },
+            configurable: false
+        };
+        Object.defineProperty(window, '$', jQueryProperty);
+        Object.defineProperty(window, 'jQuery', jQueryProperty);
         console.log('jQuery loaded and available in global namespace');
         
         requirejs(['jqueryui', 'bootstrap'], function() {
@@ -19,7 +30,7 @@ module.exports = new Promise(function(resolve, reject) {
                 reject(new Error('bootstrap not injected into jQuery prototype'));
             }
             
-            if ($.prototype.draggable) {
+            if ($.prototype.draggable && $.prototype.resizable) {
                 console.log('jQueryUI loaded and injected into jQuery\'s namespace');
             } else {
                 reject(new Error('jQueryUI not injected into jQuery prototype'));
@@ -43,7 +54,13 @@ module.exports = new Promise(function(resolve, reject) {
                 'notebook/js/codemirror-ipython',
                 'notebook/js/codemirror-ipythongfm'
             ], function(CodeMirror) {
-                window.CodeMirror = CodeMirror;
+                var codeMirrorProperty = {
+                    get: function() {
+                        return CodeMirror;
+                    },
+                    configurable: false
+                };
+                Object.defineProperty(window, 'CodeMirror', codeMirrorProperty);
                 console.log('CodeMirror loaded and available in global namespace');
                 
                 resolve();
