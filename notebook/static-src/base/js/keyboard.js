@@ -11,7 +11,6 @@
     "use strict";
 
     var utils = require('base/js/utils');
-    var _ = require('underscore');
 
 
     /**

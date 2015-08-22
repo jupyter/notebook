@@ -2,8 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
     "use strict";
 
-    var _ = require('underscore');
-
     var _deserialize_array_buffer = function (buf) {
         var data = new DataView(buf);
         // read the header: 1 + nbufs 32b integers

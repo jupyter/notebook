@@ -63,7 +63,22 @@ module.exports = new Promise(function(resolve, reject) {
                 Object.defineProperty(window, 'CodeMirror', codeMirrorProperty);
                 console.log('CodeMirror loaded and available in global namespace');
                 
-                resolve();
+                
+                requirejs(['underscore'], function(_) {
+                    var underscoreProperty = {
+                        get: function() {
+                            return _;
+                        },
+                        configurable: false
+                    };
+                    Object.defineProperty(window, '_', underscoreProperty);
+                    console.log('underscore loaded and available in global namespace');
+
+                    resolve();
+                }, function(err) {
+                    console.error('could not load underscore');
+                    reject(err);
+                });
             }, function(err) {
                 console.error('could not load CodeMirror and/or it\'s plugins');
                 reject(err);

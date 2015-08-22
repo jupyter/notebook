@@ -3,7 +3,6 @@
     'use strict';
         
     var dialog = require('base/js/dialog');
-    var _ = require('underscore');
     var IPython = require('base/js/namespace');
 
     $('#notebook_about').click(function () {
