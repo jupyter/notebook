@@ -149,7 +149,7 @@ casper.wait_for_idle = function () {
     // Waits for the notebook to idle.
     this.waitFor(function () {
         return this.evaluate(function () {
-            return IPython._status == 'idle';
+            return IPython._status == 'idle' || IPython._status === undefined;
         });
     });
 };
