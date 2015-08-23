@@ -33,48 +33,11 @@ define([
             MathJax.Hub.Configured();
         } else if (window.mathjax_url !== "") {
             // Don't have MathJax, but should. Show dialog.
-            var message = $('<div/>')
-                .append(
-                    $("<p/></p>").addClass('dialog').text(
-                        "Math/LaTeX rendering will be disabled."
-                    )
-                ).append(
-                    $("<p></p>").addClass('dialog').text(
-                        "If you have administrative access to the notebook server and" +
-                        " a working internet connection, you can install a local copy" +
-                        " of MathJax for offline use with the following command on the server" +
-                        " at a Python or Jupyter prompt:"
-                    )
-                ).append(
-                    $("<pre></pre>").addClass('dialog').text(
-                        ">>> from Jupyter.external import mathjax; mathjax.install_mathjax()"
-                    )
-                ).append(
-                    $("<p></p>").addClass('dialog').text(
-                        "This will try to install MathJax into the Jupyter source directory."
-                    )
-                ).append(
-                    $("<p></p>").addClass('dialog').text(
-                        "If Jupyter is installed to a location that requires" +
-                        " administrative privileges to write, you will need to make this call as" +
-                        " an administrator, via 'sudo'."
-                    )
-                ).append(
-                    $("<p></p>").addClass('dialog').text(
-                        "When you start the notebook server, you can instruct it to disable MathJax support altogether:"
-                    )
-                ).append(
-                    $("<pre></pre>").addClass('dialog').text(
-                        "$ ipython notebook --no-mathjax"
-                    )
-                ).append(
-                    $("<p></p>").addClass('dialog').text(
-                        "which will prevent this dialog from appearing."
-                    )
-                );
             dialog.modal({
                 title : "Failed to retrieve MathJax from '" + window.mathjax_url + "'",
-                body : message,
+                body : $("<p/>").addClass('dialog').text(
+                        "Math/LaTeX rendering will be disabled."
+                    ),
                 buttons : {
                     OK : {class: "btn-danger"}
                 }
