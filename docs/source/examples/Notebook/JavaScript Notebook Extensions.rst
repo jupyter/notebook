@@ -22,7 +22,7 @@ accessible and reusable as possible. This should allow with minimum
 effort to develop small extensions that customize the behavior of the
 web interface.
 
-Tempering with Notebook app
+Tampering with Notebook app
 ---------------------------
 
 The first tool that is available to you and that you should be aware of
