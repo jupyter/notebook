@@ -39,6 +39,7 @@ define([
         this.events = options.events;
         this.save_widget = options.save_widget;
         this.quick_help = options.quick_help;
+        this.actions = options.actions;
 
         try {
             this.tour = new tour.Tour(this.notebook, this.events);
@@ -90,6 +91,8 @@ define([
         /** 
          * Update header spacer size.
          */
+        console.warn('`_size_header` is deprecated and will be removed in future versions.'+
+                     ' Please trigger the `resize-header.Page` manually if you rely on it.')
         this.events.trigger('resize-header.Page');
     };
 
@@ -153,12 +156,6 @@ define([
             that.save_widget.rename_notebook({notebook: that.notebook});
         });
 
-        this.element.find('#save_checkpoint').click(function () {
-            that.notebook.save_checkpoint();
-        });
-
-        this.element.find('#restore_checkpoint').click(function () {
-        });
 
         this.element.find('#trust_notebook').click(function () {
             that.notebook.trust_notebook();
@@ -190,99 +187,57 @@ define([
         });
 
         // Edit
-        this.element.find('#cut_cell').click(function () {
-            that.notebook.cut_cell();
-        });
-        this.element.find('#copy_cell').click(function () {
-            that.notebook.copy_cell();
-        });
-        this.element.find('#delete_cell').click(function () {
-            that.notebook.delete_cell();
-        });
-        this.element.find('#undelete_cell').click(function () {
-            that.notebook.undelete_cell();
-        });
-        this.element.find('#split_cell').click(function () {
-            that.notebook.split_cell();
-        });
-        this.element.find('#merge_cell_above').click(function () {
-            that.notebook.merge_cell_above();
-        });
-        this.element.find('#merge_cell_below').click(function () {
-            that.notebook.merge_cell_below();
-        });
-        this.element.find('#move_cell_up').click(function () {
-            that.notebook.move_cell_up();
-        });
-        this.element.find('#move_cell_down').click(function () {
-            that.notebook.move_cell_down();
-        });
         this.element.find('#edit_nb_metadata').click(function () {
             that.notebook.edit_metadata({
                 notebook: that.notebook,
                 keyboard_manager: that.notebook.keyboard_manager});
         });
-        this.element.find('#search_and_replace').click(function(event) {
-            that.actions.call('ipython.search-and-replace-dialog', event, that);
-        });
-        
-        // View
-        this.element.find('#toggle_header').click(function () {
-            $('#header-container').toggle();
-            $('.header-bar').toggle();
-            that._size_header();
-        });
-        this.element.find('#toggle_toolbar').click(function () {
-            $('div#maintoolbar').toggle();
-            that._size_header();
-        });
-        // Insert
-        this.element.find('#insert_cell_above').click(function () {
-            that.notebook.insert_cell_above('code');
-            that.notebook.select_prev();
-        });
-        this.element.find('#insert_cell_below').click(function () {
-            that.notebook.insert_cell_below('code');
-            that.notebook.select_next();
-        });
-        // Cell
-        this.element.find('#run_cell').click(function () {
-            that.notebook.execute_cell();
-        });
-        this.element.find('#run_cell_select_below').click(function () {
-            that.notebook.execute_cell_and_select_below();
-        });
-        this.element.find('#run_cell_insert_below').click(function () {
-            that.notebook.execute_cell_and_insert_below();
-        });
-        this.element.find('#run_all_cells').click(function () {
-            that.notebook.execute_all_cells();
-        });
-        this.element.find('#run_all_cells_above').click(function () {
-            that.notebook.execute_cells_above();
-        });
-        this.element.find('#run_all_cells_below').click(function () {
-            that.notebook.execute_cells_below();
-        });
-        this.element.find('#to_code').click(function () {
-            that.notebook.to_code();
-        });
-        this.element.find('#to_markdown').click(function () {
-            that.notebook.to_markdown();
-        });
-        this.element.find('#to_raw').click(function () {
-            that.notebook.to_raw();
-        });
-        
-        this.element.find('#toggle_current_output').click(function () {
-            that.notebook.toggle_output();
-        });
-        this.element.find('#toggle_current_output_scroll').click(function () {
-            that.notebook.toggle_output_scroll();
-        });
-        this.element.find('#clear_current_output').click(function () {
-            that.notebook.clear_output();
-        });
+             
+        var id_actions_dict = {
+            '#search_and_replace' : 'ipython.search-and-replace-dialog',
+            '#save_checkpoint': 'ipython.save-notebook',
+            '#restart_kernel': 'ipython.restart-kernel',
+            '#int_kernel': 'ipython.interrupt-kernel',
+            '#cut_cell': 'ipython.cut-selected-cell',
+            '#copy_cell': 'ipython.copy-selected-cell',
+            '#delete_cell': 'ipython.delete-cell',
+            '#undelete_cell': 'ipython.undo-last-cell-deletion',
+            '#split_cell': 'ipython.split-cell-at-cursor',
+            '#merge_cell_above': 'ipython.merge-selected-cell-with-cell-before',
+            '#merge_cell_below': 'ipython.merge-selected-cell-with-cell-after',
+            '#move_cell_up': 'ipython.move-selected-cell-up',
+            '#move_cell_down': 'ipython.move-selected-cell-down',
+            '#toggle_header': 'ipython.toggle-header',
+            '#toggle_toolbar': 'ipython.toggle-toolbar',
+            '#insert_cell_above': 'ipython.insert-cell-before',
+            '#insert_cell_below': 'ipython.insert-cell-after',
+            '#run_cell': 'ipython.execute-in-place',
+            '#run_cell_select_below': 'ipython.run-select-next',
+            '#run_cell_insert_below': 'ipython.execute-and-insert-after',
+            '#run_all_cells': 'ipython.run-all-cells',
+            '#run_all_cells_above': 'ipython.run-all-cells-above',
+            '#run_all_cells_below': 'ipython.run-all-cells-below',
+            '#to_code': 'ipython.change-selected-cell-to-code-cell',
+            '#to_markdown': 'ipython.change-selected-cell-to-markdown-cell',
+            '#to_raw': 'ipython.change-selected-cell-to-raw-cell',
+            '#toggle_current_output': 'ipython.toggle-output-visibility-selected-cell',
+            '#toggle_current_output_scroll': 'ipython.toggle-output-scrolling-selected-cell',
+            '#clear_current_output': 'ipython.clear-output-selected-cell',
+        };
+
+        for(var idx in id_actions_dict){
+            var id_act = id_actions_dict[idx];
+            if(!that.actions.exists(id_act)){
+                console.warn('actions', id_act, 'does not exist, still binding it in case it will be defined later...' )
+            }
+            // Immediately-Invoked Function Expression cause JS.
+            (function(that, id_act, idx){
+                that.element.find(idx).click(function(event){
+                    that.actions.call(id_act, event)
+                })
+            })(that, id_act, idx);
+        }
+
         
         this.element.find('#toggle_all_output').click(function () {
             that.notebook.toggle_all_output();
@@ -295,12 +250,6 @@ define([
         });
         
         // Kernel
-        this.element.find('#int_kernel').click(function () {
-            that.notebook.kernel.interrupt();
-        });
-        this.element.find('#restart_kernel').click(function () {
-            that.notebook.restart_kernel();
-        });
         this.element.find('#restart_run_all').click(function () {
             that.actions.call('ipython.restart-run-all');
         });
