@@ -10,3 +10,4 @@ override the notebook's defaults with your own custom behavior.
     :maxdepth: 2
 
     contents
+    savehooks
