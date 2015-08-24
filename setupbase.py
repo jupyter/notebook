@@ -157,6 +157,7 @@ def find_package_data():
     for tree in [
         mj('localization'), # limit to en?
         mj('fonts', 'HTML-CSS', 'STIX-Web', 'woff'),
+        mj('extensions', 'TeX'),
         mj('jax', 'input', 'TeX'),
         mj('jax', 'output', 'HTML-CSS', 'autoload'),
         mj('jax', 'output', 'HTML-CSS', 'fonts', 'STIX-Web'),
