@@ -1,4 +1,3 @@
-define(function(require){
   "use strict";
 
   var dialog = require('base/js/dialog');
@@ -382,5 +381,4 @@ define(function(require){
   };
 
 
-  return {load:load};
-});
+  exports.load = load;

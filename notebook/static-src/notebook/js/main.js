@@ -22,7 +22,7 @@ require('base/js/globals').then(function() {
     var kernelselector = require('notebook/js/kernelselector');
     var about = require('notebook/js/about');
     var typeahead = require('typeahead');
-    var searchandreplace = 'notebook/js/searchandreplace';
+    var searchandreplace = require('notebook/js/searchandreplace');
     // only loaded, not used, please keep sure this is loaded last
     requirejs(['contents', 'custom/custom'], function(contents_service) {
 
