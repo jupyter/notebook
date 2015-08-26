@@ -1496,7 +1496,9 @@ define(function (require) {
      */
     Notebook.prototype.merge_cell_above = function () {
         var index = this.get_selected_index();
-        this.merge_cells([index-1, index], true)
+        if (index != 0) {
+            this.merge_cells([index-1, index], true)
+        }
     };
 
     /**
