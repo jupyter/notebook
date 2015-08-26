@@ -58,7 +58,7 @@ casper.open_new_notebook = function () {
     // track the IPython busy/idle state
     this.thenEvaluate(function () {
         require(['base/js/namespace', 'base/js/events'], function (IPython, events) {
-        
+            IPython._status = 'idle';
             events.on('kernel_idle.Kernel',function () {
                 IPython._status = 'idle';
             });
@@ -149,7 +149,7 @@ casper.wait_for_idle = function () {
     // Waits for the notebook to idle.
     this.waitFor(function () {
         return this.evaluate(function () {
-            return IPython._status == 'idle';
+            return IPython._status == 'idle' || IPython._status === undefined;
         });
     });
 };

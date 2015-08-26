@@ -9,12 +9,39 @@
     "url": "https://github.com/jupyter/notebook.git"
   },
   "scripts": {
-    "bower": "bower install",
-    "build": "python setup.py js css"
+    "clean": "npm run clean:js && npm run clean:css",
+    "clean:css": "rimraf notebook/static/style/ipython.min.css && rimraf notebook/static/style/style.min.css",
+    "clean:js": "rimraf notebook/static/auth/js && rimraf notebook/static/base/js && rimraf notebook/static/edit/js && rimraf notebook/static/notebook/js && rimraf notebook/static/terminal/js && rimraf notebook/static/tree/js && rimraf notebook/static/services",
+    "uninstall": "npm run clean && rimraf notebook/static/components && rimraf node_modules",
+    "postinstall": "npm run bower && npm run build",
+    "bower": "bower install --allow-root --config.interactive=false",
+    "build": "concurrent \"npm run build:css\" \"npm run build:js\"",
+    "build:css": "concurrent \"npm run build:css:ipython\" \"npm run build:css:style\"",
+    "build:css:ipython": "lessc --source-map --include-path=./notebook/static/ ./notebook/static/style/ipython.less ./notebook/static/style/ipython.min.css",
+    "build:css:style": "lessc --source-map --include-path=./notebook/static/ ./notebook/static/style/style.less ./notebook/static/style/style.min.css",
+    "build:js": "concurrent \"npm run build:js:amd\" \"npm run build:js:tree\" \"npm run build:js:terminal\" \"npm run build:js:notebook\" \"npm run build:js:edit\" \"npm run build:js:auth\" \"npm run build:js:contents\"",
+    "build:js:amd": "node ./notebook/amd.js",
+    "build:js:notebook": "node ./notebook/build.js notebook/js/main.js notebook/js/main.bundle.js",
+    "build:js:contents": "node ./notebook/build.js services/contents.js services/contents.bundle.js",
+    "build:js:edit": "node ./notebook/build.js edit/js/main.js edit/js/main.bundle.js",
+    "build:js:tree": "node ./notebook/build.js tree/js/main.js tree/js/main.bundle.js",
+    "build:js:auth": "node ./notebook/build.js auth/js/main.js auth/js/main.bundle.js",
+    "build:js:terminal": "node ./notebook/build.js terminal/js/main.js terminal/js/main.bundle.js"
   },
   "devDependencies": {
+    "aliasify": "^1.7.2",
+    "amd-wrap-legacy": "^0.2.0",
     "bower": "*",
+    "browserify": "^11.0.1",
+    "concurrently": "^0.1.1",
+    "glob": "^5.0.14",
     "less": "~2",
-    "requirejs": "^2.1.17"
+    "marked": "~0.3",
+    "mkdirp": "^0.5.1",
+    "moment": "~2.8.4",
+    "rimraf": "^2.4.2",
+    "term.js": "~0.0.4",
+    "text-encoding": "~0.1",
+    "typeahead": "^0.2.0"
   }
 }
