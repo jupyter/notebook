@@ -67,6 +67,21 @@ casper.notebook_test(function () {
         this.test.assert(cell_is_mergeable(2), 'Cell 2 is mergeable');
     });
 
+    // Try to merge cell 0 above, nothing should happen
+    this.then(function () {
+        this.select_cell(0);
+    });
+    this.thenEvaluate(function() {
+        IPython.notebook.merge_cell_above();
+    });
+    this.then(function() {
+        this.test.assertEquals(this.get_cells_length(), 3, 'Merge cell 0 above: There are still 3 cells');
+        this.test.assertEquals(this.get_cell_text(0), a, 'Merge cell 0 above: Cell 0 is unchanged');
+        this.test.assertEquals(this.get_cell_text(1), b, 'Merge cell 0 above: Cell 1 is unchanged');
+        this.test.assertEquals(this.get_cell_text(2), c, 'Merge cell 0 above: Cell 2 is unchanged');
+        this.validate_notebook_state('merge up', command, 0);
+    });
+
     // Try to merge cell 0 below with cell 1
     this.then(function () {
         this.select_cell(0);
