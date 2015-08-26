@@ -1447,8 +1447,9 @@ define(function (require) {
             return;
         }
 
-        // Check if trying to merge above on topmost cell
-        if (indices.indexOf(-1) > -1) {
+        // Check if trying to merge above on topmost cell or wrap around
+        // when merging above, see #330
+        if (indices.filter(function(item) {return item < 0}).length > 0) {
             return;
         }
 
