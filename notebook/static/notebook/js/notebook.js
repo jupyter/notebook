@@ -1446,6 +1446,12 @@ define(function (require) {
         if (indices.length <= 1) {
             return;
         }
+
+        // Check if trying to merge above on topmost cell
+        if (indices.indexOf(-1) > -1) {
+            return;
+        }
+
         for (var i=0; i < indices.length; i++) {
             if (!this.get_cell(indices[i]).is_mergeable()) {
                 return;
@@ -1496,9 +1502,7 @@ define(function (require) {
      */
     Notebook.prototype.merge_cell_above = function () {
         var index = this.get_selected_index();
-        if (index != 0) {
-            this.merge_cells([index-1, index], true)
-        }
+        this.merge_cells([index-1, index], true)
     };
 
     /**
