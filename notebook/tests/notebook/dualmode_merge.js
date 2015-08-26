@@ -79,7 +79,7 @@ casper.notebook_test(function () {
         this.test.assertEquals(this.get_cell_text(0), a, 'Merge cell 0 above: Cell 0 is unchanged');
         this.test.assertEquals(this.get_cell_text(1), b, 'Merge cell 0 above: Cell 1 is unchanged');
         this.test.assertEquals(this.get_cell_text(2), c, 'Merge cell 0 above: Cell 2 is unchanged');
-        this.validate_notebook_state('merge up', command, 0);
+        this.validate_notebook_state('merge up', 'command', 0);
     });
 
     // Try to merge cell 0 below with cell 1
