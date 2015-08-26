@@ -3,6 +3,9 @@
 Development
 ===========
 
+Clone the repository: ``git clone https://github.com/jupyter/notebook``, 
+cd into the newly created repository: `cd notebook`.
+
 Installing Javascript machinery
 -------------------------------
 
@@ -30,3 +33,11 @@ the bundled and minified Javacript by using the option
 number of requests that the browser make to the server, but can allow to test
 Javascript file modification without going through the compilation step that
 can take up to 30 sec.
+
+Python developpement installation:
+----------------------------------
+
+From the root of the notebook repository, make a local developement install : ``pip install -e . ``.
+
+Any change to the Python code in this repository will be reflected by the notebook
+server as soon as you restart it, without having to repeat the installation step.
