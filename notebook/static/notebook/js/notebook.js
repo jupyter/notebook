@@ -366,7 +366,8 @@ define(function (require) {
     /**
      * Scroll the top of the page to a given cell.
      * 
-     * @param {integer}  index - An index of the cell to view
+     * @param {integer}  index - An index of the cell to view. Does not allow
+     *                   negative indexing.
      * @param {integer}  time - Animation time in milliseconds
      * @return {integer} Pixel offset from the top of the container
      */
@@ -377,7 +378,8 @@ define(function (require) {
     /**
      * Scroll the middle of the page to a given cell.
      *
-     * @param {integer}  index - An index of the cell to view
+     * @param {integer}  index - An index of the cell to view, does not allow
+     *                   negative indexing.
      * @param {integer}  percent - 0-100, the location on the screen to scroll.
      *                   0 is the top, 100 is the bottom.
      * @param {integer}  time - Animation time in milliseconds
@@ -444,7 +446,9 @@ define(function (require) {
     /**
      * Get a particular cell element.
      * 
-     * @param {integer} index An index of a cell to select
+     * @param {integer} index An index of a cell to select. Negative indexing
+     *                  will index from the end.
+     * Negative indexing is possible and will select from the end.
      * @return {jQuery} A selector of the given cell.
      */
     Notebook.prototype.get_cell_element = function (index) {
@@ -491,7 +495,8 @@ define(function (require) {
     /**
      * Get a Cell objects from this notebook.
      * 
-     * @param {integer} index - An index of a cell to retrieve
+     * @param {integer} index - An index of a cell to retrieve.
+     *                  Negative indexing will index from the end.
      * @return {Cell} Cell or null if no cell was found.
      */
     Notebook.prototype.get_cell = function (index) {
@@ -580,8 +585,10 @@ define(function (require) {
 
     /**
      * Check whether a cell index is valid.
+     *
+     * Negative indices are not considered valid.
      * 
-     * @param {integer} index - A cell index
+     * @param {integer} index - A cell index.
      * @return True if the index is valid, false otherwise
      */
     Notebook.prototype.is_valid_cell_index = function (index) {
@@ -653,7 +660,7 @@ define(function (require) {
     /**
      * Programmatically select a cell.
      * 
-     * @param {integer} index - A cell's index
+     * @param {integer} index - A cell's index. Does not allow negative index.
      * @return {Notebook} This notebook
      */
     Notebook.prototype.select = function (index) {
@@ -838,7 +845,8 @@ define(function (require) {
     /**
      * Move given (or selected) cell up and select it.
      * 
-     * @param {integer} [index] - cell index
+     * @param {integer} [index] - cell index. Does
+     *        not support negative indexing.
      * @return {Notebook} This notebook
      */
     Notebook.prototype.move_cell_up = function (index) {
@@ -862,7 +870,8 @@ define(function (require) {
     /**
      * Move given (or selected) cell down and select it.
      * 
-     * @param {integer} [index] - cell index
+     * @param {integer} [index] - cell index. Does not support
+     *        negative indexing.
      * @return {Notebook} This notebook
      */
     Notebook.prototype.move_cell_down = function (index) {
@@ -877,8 +886,8 @@ define(function (require) {
                 var cell = this.get_selected_cell();
                 cell.focus_cell();
             }
+            this.set_dirty();
         }
-        this.set_dirty();
         return this;
     };
 
@@ -911,6 +920,7 @@ define(function (require) {
      * Delete cells from the notebook
      *
      * @param {Array} [indices] - the numeric indices of cells to delete.
+     *        Negative indices will delete from the end.
      * @return {Notebook} This notebook
      */
     Notebook.prototype.delete_cells = function(indices) {
@@ -978,7 +988,8 @@ define(function (require) {
     /**
      * Delete a cell from the notebook.
      * 
-     * @param {integer} [index] - cell's numeric index
+     * @param {integer} [index] - cell's numeric index.
+     *        Negative indices will delete from the end.
      * @return {Notebook} This notebook
      */
     Notebook.prototype.delete_cell = function (index) {
@@ -1029,7 +1040,8 @@ define(function (require) {
      * Index will be brought back into the accessible range [0,n].
      *
      * @param {string} [type] - in ['code','markdown', 'raw'], defaults to 'code'
-     * @param {integer} [index] - a valid index where to insert cell
+     * @param {integer} [index] - a valid index where to insert cell.
+     *        Negative indexes will be clipped to 0.
      * @return {Cell|null} created cell or null
      */
     Notebook.prototype.insert_cell_at_index = function(type, index){
@@ -1086,7 +1098,7 @@ define(function (require) {
                 // We used to select the cell after we refresh it, but there
                 // are now cases were this method is called where select is
                 // not appropriate. The selection logic should be handled by the
-                // caller of the the top level insert_cell methods.
+                // caller of the top level insert_cell methods.
                 this.set_dirty(true);
             }
         }
@@ -1098,7 +1110,7 @@ define(function (require) {
      * Insert an element at given cell index.
      *
      * @param {HTMLElement} element - a cell element
-     * @param {integer}     [index] - a valid index where to inser cell
+     * @param {integer}     [index] - a valid index where to insert cell
      * @returns {boolean}   success
      */
     Notebook.prototype._insert_element_at_index = function(element, index){
@@ -1496,6 +1508,9 @@ define(function (require) {
      */
     Notebook.prototype.merge_cell_above = function () {
         var index = this.get_selected_index();
+        if (index <= 0){
+            console.warn("Cannot merge cell above the first cell of the nodebook. Doing nothing")
+        }
         this.merge_cells([index-1, index], true)
     };
 
