@@ -49,7 +49,7 @@ define(function(require) {
             .addClass("modal-content")
             .appendTo(dialog);
         if(typeof(options.body) === 'string' && options.sanitize !== false){
-            options.body = $("<p/>").text(options.body)
+            options.body = $("<p/>").text(options.body);
         }
         dialog_content.append(
             $("<div/>")
@@ -118,8 +118,10 @@ define(function(require) {
         if (options.keyboard_manager) {
             options.keyboard_manager.disable();
         }
-
-        options.backdrop = options.backdrop || 'static';
+        
+        if(options.backdrop === undefined){
+          options.backdrop = 'static';
+        }
         
         return modal.modal(options);
     };

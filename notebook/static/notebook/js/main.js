@@ -23,6 +23,7 @@ require([
     'codemirror/lib/codemirror',
     'notebook/js/about',
     'typeahead',
+    'notebook/js/searchandreplace',
     // only loaded, not used, please keep sure this is loaded last
     'custom/custom'
 ], function(
@@ -47,6 +48,7 @@ require([
     CodeMirror,
     about,
     typeahead,
+    searchandreplace,
     // please keep sure that even if not used, this is loaded last
     custom
     ) {
@@ -121,6 +123,7 @@ require([
     notification_area.init_notification_widgets();
     var kernel_selector = new kernelselector.KernelSelector(
         '#kernel_logo_widget', notebook);
+    searchandreplace.load(keyboard_manager);
 
     $('body').append('<div id="fonttest"><pre><span id="test1">x</span>'+
                      '<span id="test2" style="font-weight: bold;">x</span>'+

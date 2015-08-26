@@ -4,6 +4,7 @@
 define(function(require){
     "use strict";
 
+
     var ActionHandler = function (env) {
         this.env = env || {};
         Object.seal(this);
@@ -337,10 +338,8 @@ define(function(require){
             handler : function(env){
                 env.notebook.show_command_palette();
             }
-        }
-
+        },
     };
-
 
     /**
      * A bunch of `Advance actions` for Jupyter.
@@ -508,9 +507,9 @@ define(function(require){
 
     ActionHandler.prototype.register = function(action, name, prefix){
         /**
-         * Register an `action` with an optional name and prefix. 
+         * Register an `action` with an optional name and prefix.
          *
-         * if name and prefix are not given they will be determined automatically. 
+         * if name and prefix are not given they will be determined automatically.
          * if action if just a `function` it will be wrapped in an anonymous action.
          *
          * @return the full name to access this action .
