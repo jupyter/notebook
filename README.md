@@ -6,7 +6,7 @@ Dev quickstart:
 
 * ensure that you have node/npm installed (e.g. `brew install node` on OS X)
 * Clone this repo and cd into it
-* `pip install --pre -e .`
+* `pip install pre -e .`
 
 _NOTE_: For Debian/Ubuntu systems, if you're installing the system node you need
 to use the 'nodejs-legacy' package and not the 'node' package.
@@ -23,7 +23,8 @@ sudo apt-get install nodejs-legacy npm python-virtualenv python-dev
 pip install --upgrade setuptools pip
 git clone https://github.com/jupyter/notebook.git
 cd notebook
-pip install --pre -e .
+pip install -e .
 jupyter notebook
 ```
 
+See [documentation](http://jupyter-notebook.readthedocs.org/en/latest/development.html) for more info on how to run developement version.
