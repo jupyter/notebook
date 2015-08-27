@@ -6,7 +6,7 @@ Dev quickstart:
 
 * ensure that you have node/npm installed (e.g. `brew install node` on OS X)
 * Clone this repo and cd into it
-* `pip install --pre -e .`
+* `pip install -e .`
 
 _NOTE_: For Debian/Ubuntu systems, if you're installing the system node you need
 to use the 'nodejs-legacy' package and not the 'node' package.
@@ -23,14 +23,23 @@ sudo apt-get install nodejs-legacy npm python-virtualenv python-dev
 pip install --upgrade setuptools pip
 git clone https://github.com/jupyter/notebook.git
 cd notebook
-pip install --pre -e .
+pip install -e .
 jupyter notebook
 ```
 
 ## Working on the frontend
+
 The Notebook frontend depends on a wide set of libraries and package managers.
-NPM is used to macro manage the frontend build process.  You can build the 
-frontend Javascript and LESS by running
+NPM is used to macro manage the frontend build process.
+
+make sure you have all the dependencies installed with
+
+```
+npm install
+```
+
+
+You can build the frontend Javascript and LESS by running
 
 ```
 npm run build
