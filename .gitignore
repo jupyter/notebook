@@ -25,17 +25,3 @@ src
 
 *.swp
 *.map
-
-.eggs/
-
-# Bundled/generated JavaScript
-notebook/static/auth/js
-notebook/static/base/js
-notebook/static/edit/js
-notebook/static/notebook/js
-notebook/static/services
-notebook/static/terminal/js
-notebook/static/tree/js
-
-# npm logs
-npm-debug.log
