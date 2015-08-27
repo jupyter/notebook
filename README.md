@@ -27,36 +27,3 @@ pip install --pre -e .
 jupyter notebook
 ```
 
-## Working on the frontend
-The Notebook frontend depends on a wide set of libraries and package managers.
-NPM is used to macro manage the frontend build process.  You can build the 
-frontend Javascript and LESS by running
-
-```
-npm run build
-```
-
-If you need to build the Javascript alone
-
-```
-npm run build:js
-```
-
-Or LESS
-
-```
-npm run build:css
-```
-
-To build specific sub components, separate using a colon.  i.e. to build only
-the terminal's Javascript
-
-```
-npm run build:js:terminal
-```
-
-To clean all built output
-
-```
-npm run clean
-```
