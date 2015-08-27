@@ -8,7 +8,8 @@ var aliasifyConfig = {
     aliases: {
         jqueryui: 'jquery-ui',
         termjs: 'term.js',
-        caja: 'google-caja/html-css-sanitizer-minified'
+        caja: 'google-caja/html-css-sanitizer-minified',
+        typeahead: 'jquery-typeahead/dist/jquery.typeahead'
     },
     verbose: false
 }
