@@ -1005,6 +1005,8 @@ class NotebookApp(JupyterApp):
     def initialize(self, argv=None):
         super(NotebookApp, self).initialize(argv)
         self.init_logging()
+        if self._dispatching:
+            return
         self.init_configurables()
         self.init_components()
         self.init_webapp()
