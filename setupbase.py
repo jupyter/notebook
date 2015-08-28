@@ -296,8 +296,10 @@ def mtime(path):
 
 def run(cmd, *args, **kwargs):
     """Echo a command before running it"""
-    log.info(" ".join(cmd))
-    kwargs.setdefault('shell', True)
+    if isinstance(cmd, list):
+        cmd = ' '.join(map(pipes.quote, cmd))
+    log.info('> ' + cmd)
+    kwargs['shell'] = True
     return check_call(cmd, *args, **kwargs)
 
 
