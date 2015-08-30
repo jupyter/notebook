@@ -1,6 +1,0 @@
-{
-    "browserify": true,
-    "node": true,
-    "jquery": true,
-    "predef": [ "requirejs", "define", "Promise", "CodeMirror"]
-}
