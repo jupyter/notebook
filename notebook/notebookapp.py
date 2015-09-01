@@ -289,7 +289,7 @@ class NotebookWebApplication(web.Application):
 
 class NbserverListApp(JupyterApp):
     version = __version__
-    description="List currently running notebook servers in this profile."
+    description="List currently running notebook servers."
     
     flags = dict(
         json=({'NbserverListApp': {'json': True}},
@@ -395,9 +395,6 @@ class NotebookApp(JupyterApp):
     def _log_format_default(self):
         """override default log format to include time"""
         return u"%(color)s[%(levelname)1.1s %(asctime)s.%(msecs).03d %(name)s]%(end_color)s %(message)s"
-
-    # create requested profiles by default, if they don't exist:
-    auto_create = Bool(True)
 
     ignore_minified_js = Bool(False,
             config=True,
@@ -613,8 +610,6 @@ class NotebookApp(JupyterApp):
         return [
             os.path.join(d, 'custom') for d in (
                 self.config_dir,
-                # FIXME: serve IPython profile while we don't have `jupyter migrate`
-                os.path.join(get_ipython_dir(), 'profile_default', 'static'),
                 DEFAULT_STATIC_FILES_PATH)
         ]
 
@@ -791,7 +786,7 @@ class NotebookApp(JupyterApp):
                 self.exit(1)
             
             # Use config here, to ensure that it takes higher priority than
-            # anything that comes from the profile.
+            # anything that comes from the config dirs.
             c = Config()
             if os.path.isdir(f):
                 c.NotebookApp.notebook_dir = f
@@ -1117,8 +1112,8 @@ class NotebookApp(JupyterApp):
 def list_running_servers(runtime_dir=None):
     """Iterate over the server info files of running notebook servers.
     
-    Given a profile name, find nbserver-* files in the security directory of
-    that profile, and yield dicts of their information, each one pertaining to
+    Given a runtime directory, find nbserver-* files in the security directory,
+    and yield dicts of their information, each one pertaining to
     a currently running notebook server instance.
     """
     if runtime_dir is None:
