@@ -1,38 +1,37 @@
 
 `View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/JavaScript%20Notebook%20Extensions.ipynb>`__
 
-Embrasing web standards
+Embracing Web Standards
 =======================
 
-One of the main reason that allowed us to developp the current notebook
-web application was to embrase the web technology.
+One of the main reasons that we developed the current notebook
+web application was to embrace  web technology.
 
-By beeing a pure web application using HTML, Javascript and CSS, the
-Notebook can get all the web technology improvement for free. Thus, as
-browsers support for different media extend, The notebook web app should
+By being a pure web application using HTML, Javascript and CSS, the
+Notebook can usell the web technology improvement for free. Given
+browsers support for different media extensions, the notebook web app should
 be able to be compatible without modification.
 
-This is also true with performance of the User Interface as the speed of
-javascript VM increase.
+This is also true for the performance of the User Interface as the speed of
+javascript VM increases.
 
 The other advantage of using only web technology is that the code of the
-interface is fully accessible to the end user, and modifiable live. Even
+interface is fully accessible to the end user and dynamically modifiable . Even
 if this task is not always easy, we strive to keep our code as
-accessible and reusable as possible. This should allow with minimum
-effort to develop small extensions that customize the behavior of the
+accessible and reusable as possible. This should allow, with minimum
+effort, to develop small extensions that customize the behavior of the
 web interface.
 
-Tempering with Notebook app
+Tampering with Notebook app
 ---------------------------
 
-The first tool that is availlable to you and that you shoudl be aware of
-are browser "developpers tool". The exact naming can change across
+The first tools that you should be aware of
+are the browser "developers tool". The exact naming can change across
 browser, and might require the installation of extensions. But basically
 they can allow you to inspect/modify the DOM, and interact with the
 javascript code that run the frontend.
 
--  In Chrome and safari Developper tools are in the menu [Put mmenu name
-   in english here]
+-  In Chrome and safari Developer tools are in the menu "Develop"
 -  In firefox you might need to install
    `Firebug <http://getfirebug.com/>`__
 -  others ?
@@ -46,19 +45,18 @@ Injecting JS
 using magics
 ^^^^^^^^^^^^
 
-Above tools can be tedious to edit long javascipt files. Hopefully we
+The above tools can be tedious to edit long javascipt files. Hopefully we
 provide the ``%%javascript`` magic. This allows you to quickly inject
 javascript into the notebook. Still the javascript injected this way
-will not survive reloading. Hence it is a good tool for testing an
-refinig a script.
+will not survive reloading. Hence it is a good tool for testing and
+refining a script.
 
 You might see here and there people modifying css and injecting js into
-notebook by reading file and publishing them into the notebook. Not only
-this often break the flow of the notebook and make the re-execution of
-the notebook broken, but it also mean that you need to execute those
+notebook by reading file and publishing them into the notebook. Not only can 
+this often break the flow of the notebook and break the re-execution, but it also mean that you need to execute those
 cells on all the notebook every time you need to update the code.
 
-This can still be usefull in some cases, like the ``%autosave`` magic
+This can still be useful in some cases, like the ``%autosave`` magic
 that allows to control the time between each save. But this can be
 replaced by a Javascript dropdown menu to select save interval.
 
@@ -73,7 +71,7 @@ custom.js
 To inject Javascript we provide an entry point: ``custom.js`` that allow
 the user to execute and load other resources into the notebook.
 Javascript code in ``custom.js`` will be executed when the notebook app
-start and can then be used to customise almost anything in the UI and in
+start and can then be used to customize almost anything in the UI and in
 the behavior of the notebook.
 
 ``custom.js`` can be found in the Jupyter dir. You can share your
@@ -106,13 +104,13 @@ and custom js is in
     else:
         print("You don't have a custom.js file")  
 
-Note that ``custom.js`` is ment to be modified by user, when writing a
+Note that ``custom.js`` is meant to be modified by user, when writing a
 script, you can define it in a separate file and add a line of
 configuration into ``custom.js`` that will fetch and execute the file.
 
-**Warning** : even if modification of ``custom.js`` take effect
+**Warning** : even if the modification of ``custom.js`` takes effect
 immediately after browser refresh (except if browser cache is
-aggressive), *creating* a file in ``static/`` directory need a **server
+aggressive), *creating* a file in ``static/`` directory requires a **server
 restart**.
 
 Exercise :
@@ -136,11 +134,11 @@ For the quick ones :
 ^^^^^^^^^^^^^^^^^^^^
 
 We've seen above that you can change the autosave rate by using a magic.
-This is typically something I don't want to type everytime, and that I
-don't like to embed into my workwlow and documents. (reader don't care
+This is typically something I don't want to type every time, and that I
+don't like to embed into my workflow and documents. (the reader doesn't care
 what my autosave time is), let's build an extension that allow to do it.
 
-Create a dropdow elemement in the toolbar (DOM
+Create a drop down element in the toolbar (DOM
 ``Jupyter.toolbar.element``), you will need
 
 -  ``IPython.notebook.set_autosave_interval(miliseconds)``
@@ -225,7 +223,7 @@ Some convenience methods
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 By browsing the doc you will see that we have soem convenience methods
-that avoid to re-invent the UI everytime :
+that avoid to re-invent the UI every time :
 
 .. code:: javascript
 
@@ -246,10 +244,10 @@ select from.
 Cell Metadata
 -------------
 
-The most requested feature is generaly to be able to distinguish
-individual cell in th enotebook, or run specific action with them. To do
+The most requested feature is generally to be able to distinguish
+individual cell in the notebook, or run specific action with them. To do
 so, you can either use ``Jupyter.notebook.get_selected_cell()``, or rely
-on ``CellToolbar``. This allow you to register aset of action and
+on ``CellToolbar``. This allow you to register a set of action and
 graphical element that will be attached on individual cells.
 
 Cell Toolbar
@@ -309,10 +307,10 @@ You should now have access to two presets :
 -  Tutorial 1
 -  Tutorial 2
 
-And check that the buttons you defin share state when you toggle preset.
-Check moreover that the metadata of the cell is modified when you clisk
+And check that the buttons you define share state when you toggle preset.
+Check moreover that the metadata of the cell is modified when you click
 the button, and that when saved on reloaded the metadata is still
-availlable.
+available.
 
 Exercise:
 ^^^^^^^^^
@@ -330,7 +328,7 @@ notebooks.
 ``require`` is provided by a `javascript
 library <http://requirejs.org/>`__ that allow to express dependency. For
 simple extension like the previous one we directly mute the global
-namespace, but for more complexe extension you could pass acallback to
+namespace, but for more complex extension you could pass a callback to
 ``require([...], <callback>)`` call, to allow the user to pass
 configuration information to your plugin.
 
@@ -379,7 +377,7 @@ It should be able to take the 4 following values :
 -  ``Medium``
 -  ``Hard``
 
-We will use it to customise the output of the converted notebook
+We will use it to customize the output of the converted notebook
 depending of the tag on each cell
 
 .. code:: python
