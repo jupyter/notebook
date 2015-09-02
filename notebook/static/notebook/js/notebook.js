@@ -1445,6 +1445,13 @@ define(function (require) {
         if (indices.length <= 1) {
             return;
         }
+
+        // Check if trying to merge above on topmost cell or wrap around
+        // when merging above, see #330
+        if (indices.filter(function(item) {return item < 0}).length > 0) {
+            return;
+        }
+
         for (var i=0; i < indices.length; i++) {
             if (!this.get_cell(indices[i]).is_mergeable()) {
                 return;
