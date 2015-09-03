@@ -149,7 +149,7 @@ def install_nbextension(path, overwrite=False, symlink=False, user=False, prefix
     ensure_dir_exists(nbext)
     
     # forcing symlink parameter to False if os.symlink does not exist (e.g., on Windows machines running python 2)
-    if 'symlink' not in dir(os):
+    if not hasattr(os, 'symlink'):
         symlink = False
     
     if isinstance(path, (list, tuple)):
