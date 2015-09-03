@@ -334,7 +334,7 @@ define(function(require){
         'command-palette': {
             help_index : 'aa',
             help: 'open the command palette',
-            icon: 'fa-search',
+            icon: 'fa-keyboard-o',
             handler : function(env){
                 env.notebook.show_command_palette();
             }
