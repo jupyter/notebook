@@ -148,6 +148,10 @@ def install_nbextension(path, overwrite=False, symlink=False, user=False, prefix
     # make sure nbextensions dir exists
     ensure_dir_exists(nbext)
     
+    # forcing symlink parameter to False if os.symlink does not exist (e.g., on Windows machines running python 2)
+    if not hasattr(os, 'symlink'):
+        symlink = False
+    
     if isinstance(path, (list, tuple)):
         raise TypeError("path must be a string pointing to a single extension to install; call this function multiple times to install multiple extensions")
     
