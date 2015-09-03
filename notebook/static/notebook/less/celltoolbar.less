@@ -12,6 +12,10 @@
     padding-right: 4px;
     .hbox();
     .end();
+    // safari fix, we cannot use -webkit-flex on hbox
+    // and vbox either or all css get borked
+    // cf https://github.com/jupyter/nbgrader/issues/394
+    display: -webkit-flex;
     @media print{
         display: none;
     }
