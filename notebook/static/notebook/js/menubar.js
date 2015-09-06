@@ -35,6 +35,7 @@ define([
         this.base_url = options.base_url || utils.get_body_data("baseUrl");
         this.selector = selector;
         this.notebook = options.notebook;
+        this.actions = this.notebook.keyboard_manager.actions;
         this.contents = options.contents;
         this.events = options.events;
         this.save_widget = options.save_widget;
@@ -297,6 +298,9 @@ define([
         });
         this.element.find('#restart_kernel').click(function () {
             that.notebook.restart_kernel();
+        });
+        this.element.find('#restart_run_all').click(function () {
+            that.actions.call('ipython.restart-run-all');
         });
         this.element.find('#reconnect_kernel').click(function () {
             that.notebook.kernel.reconnect();
