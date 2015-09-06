@@ -71,10 +71,9 @@ define(function(require){
             help_index: 'be',
             handler: function (env) {
                 var notebook = env.notebook;
-                notebook.events.one('kernel_ready.Kernel', function () {
+                notebook.restart_kernel().then(function() {
                     notebook.execute_all_cells();
                 });
-                notebook.restart_kernel();
             }
         },
         'restart': {
