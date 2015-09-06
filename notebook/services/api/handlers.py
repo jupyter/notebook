@@ -15,8 +15,9 @@ class APIHandler(web.StaticFileHandler, IPythonHandler):
     @web.authenticated
     def get(self):
         self.log.debug("Serving api")
+        self.set_header('Content-Type', 'text/x-yaml')
         return web.StaticFileHandler.get(self, 'api.yaml')
 
 default_handlers = [
-    (r"/api", APIHandler)
+    (r"/api/spec.yaml", APIHandler)
 ]
