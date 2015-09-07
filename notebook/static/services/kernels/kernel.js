@@ -634,7 +634,7 @@ define([
         return this.send_shell_message("kernel_info_request", {}, callbacks);
     };
 
-    Kernel.prototype.comm_info = function (callback) {
+    Kernel.prototype.comm_info = function (target_name, callback) {
         /**
          * Get comm info
          *
@@ -649,7 +649,10 @@ define([
         if (callback) {
             callbacks = { shell : { reply : callback } };
         }
-        return this.send_shell_message("comm_info_request", {}, callbacks);
+        var content = {
+            target_name : target_name,
+        };
+        return this.send_shell_message("comm_info_request", content, callbacks);
     };
 
     Kernel.prototype.inspect = function (code, cursor_pos, callback) {
