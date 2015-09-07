@@ -13,7 +13,7 @@ define([
      * should be used to start kernels and then shut them down -- for
      * all other operations, the kernel object should be used.
      *
-     * Preliminary documentation for the REST API is at 
+     * Preliminary documentation for the REST API is at
      * https://github.com/ipython/ipython/wiki/IPEP-16%3A-Notebook-multi-directory-dashboard-and-URL-mapping#sessions-api
      *
      * Options should include:
@@ -38,7 +38,7 @@ define([
 
         this.base_url = options.base_url;
         this.ws_url = options.ws_url;
-        this.session_service_url = utils.url_join_encode(this.base_url, 'api/sessions');
+        this.session_service_url = utils.url_path_join(this.base_url, 'api/sessions');
         this.session_url = null;
 
         this.notebook = options.notebook;
@@ -259,7 +259,7 @@ define([
     Session.prototype._update_model = function (data) {
         if (data && data.id) {
             this.id = data.id;
-            this.session_url = utils.url_join_encode(this.session_service_url, this.id);
+            this.session_url = utils.url_path_join(this.session_service_url, this.id);
         }
         if (data && data.notebook) {
             this.notebook_model.path = data.notebook.path;
@@ -311,9 +311,9 @@ define([
         this.name = "SessionAlreadyStarting";
         this.message = (message || "");
     };
-    
+
     SessionAlreadyStarting.prototype = Error.prototype;
-    
+
     return {
         Session: Session,
         SessionAlreadyStarting: SessionAlreadyStarting
