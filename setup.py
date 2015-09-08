@@ -65,7 +65,7 @@ pjoin = os.path.join
 
 setup_args = dict(
     name            = name,
-    description     = "",
+    description     = "A web-based notebook environment for interactive computing",
     version         = version,
     scripts         = glob(pjoin('scripts', '*')),
     packages        = find_packages(),
