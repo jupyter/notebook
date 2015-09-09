@@ -347,6 +347,7 @@ aliases.update({
     'transport': 'KernelManager.transport',
     'keyfile': 'NotebookApp.keyfile',
     'certfile': 'NotebookApp.certfile',
+    'client-ca': 'NotebookApp.client_ca',
     'notebook-dir': 'NotebookApp.notebook_dir',
     'browser': 'NotebookApp.browser',
     'pylab': 'NotebookApp.pylab',
@@ -469,6 +470,10 @@ class NotebookApp(JupyterApp):
     
     keyfile = Unicode(u'', config=True, 
         help="""The full path to a private key file for usage with SSL/TLS."""
+    )
+    
+    client_ca = Unicode(u'', config=True,
+        help="""The full path to a certificate authority certifificate for SSL/TLS client authentication."""
     )
     
     cookie_secret_file = Unicode(config=True,
@@ -865,6 +870,9 @@ class NotebookApp(JupyterApp):
             ssl_options['certfile'] = self.certfile
         if self.keyfile:
             ssl_options['keyfile'] = self.keyfile
+        if self.client_ca:
+            ssl_options['ca_certs'] = self.client_ca
+            ssl_options['cert_reqs'] = ssl.CERT_REQUIRED
         if not ssl_options:
             # None indicates no SSL config
             ssl_options = None
