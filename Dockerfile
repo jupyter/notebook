@@ -46,16 +46,13 @@ RUN pip3 install --upgrade setuptools pip
 
 RUN mkdir -p /srv/
 WORKDIR /srv/
-RUN git clone --depth 1 https://github.com/ipython/ipykernel /srv/ipykernel
-WORKDIR /srv/ipykernel
-RUN pip2 install --pre -e .
-RUN pip3 install --pre -e .
+RUN pip3 install ipython
 
 ADD . /srv/notebook
 WORKDIR /srv/notebook/
 RUN chmod -R +rX /srv/notebook
 
-RUN pip3 install -e .[test]
+RUN pip3 install --pre -e .[test]
 
 # install kernels
 RUN python2 -m ipykernel.kernelspec
