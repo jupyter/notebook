@@ -180,6 +180,7 @@ define([
         this.delay = delay || 800; // delay in milliseconds
         this.events = events;
         this.actions = actions;
+        this.actions.extend_env(env);
         this._queue = [];
         this._cleartimeout = null;
         Object.seal(this);

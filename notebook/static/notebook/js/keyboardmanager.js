@@ -14,7 +14,7 @@ define([
     'base/js/keyboard',
 ], function($, utils, keyboard) {
     "use strict";
-
+    
     // Main keyboard manager for the notebook
     var keycodes = keyboard.keycodes;
 
@@ -25,7 +25,7 @@ define([
          * @class KeyboardManager
          * @constructor
          * @param options {dict} Dictionary of keyword arguments :
-         *    @param options.events {$(Events)} instance
+         *    @param options.events {$(Events)} instance 
          *    @param options.pager: {Pager}  pager instance
          */
         this.mode = 'command';
@@ -69,9 +69,9 @@ define([
 
     KeyboardManager.prototype.get_default_tree_shortcuts = function() {
         return {
-            'enter'       : 'ipython.enter-row',
-            'j'           : 'ipython.select-next-row',
-            'k'           : 'ipython.select-previous-row'
+            'enter' : 'ipython.enter-row',
+            'j'     : 'ipython.select-next-row',
+            'k'     : 'ipython.select-previous-row'
         };
     };
 
@@ -153,7 +153,6 @@ define([
         }
 
         $(document).keydown(function (event) {
-
             if(event._ipkmIgnore===true||(event.originalEvent||{})._ipkmIgnore===true){
                 return false;
             }
@@ -180,6 +179,7 @@ define([
         /**
          *  returning false from this will stop event propagation
          **/
+
         if (event.which === keycodes.esc) {
             // Intercept escape at highest level to avoid closing
             // websocket connection with firefox

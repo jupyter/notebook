@@ -10,7 +10,7 @@ define([
     'base/js/keyboard',
 ], function(IPython, $, utils, dialog, events, keyboard) {
     "use strict";
-  
+    
     var NotebookList = function (selector, options) {
         /**
          * Constructor
@@ -42,7 +42,7 @@ define([
         this.notebook_path = options.notebook_path || utils.get_body_data("notebookPath");
         this.contents = options.contents;
         if (this.session_list && this.session_list.events) {
-            this.session_list.events.on('sessions_loaded.Dashboard',
+            this.session_list.events.on('sessions_loaded.Dashboard', 
                 function(e, d) { that.sessions_loaded(d); });
         }
         this.selected = [];
@@ -351,12 +351,11 @@ define([
      * @return {JQuery} row
      */
     NotebookList.prototype.new_item = function (index, selectable) {
-
         var row = $('<div/>')
-              .attr("tabindex", "-1")
-              .attr("key", index)
-              .addClass("list_item")
-              .addClass("row");
+            .addClass("list_item")
+            .addClass("row")
+            .attr("tabindex", "-1")
+            .attr("key", index);
 
         var item = $("<div/>")
             .addClass("col-md-12")
@@ -381,7 +380,7 @@ define([
         $("<span/>")
             .addClass("item_name")
             .appendTo(link);
-
+        
         if (selectable === false) {
             checkbox.css('visibility', 'hidden');
         } else if (selectable === true) {
@@ -525,7 +524,7 @@ define([
                 total++;
             }
         });
-
+        
         var select_all = $("#select-all");
         if (checked === 0) {
             select_all.prop('checked', false);

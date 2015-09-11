@@ -41,10 +41,9 @@ require([
     keyboardmanager){
     "use strict";
 
-    page = new page.Page();
-
-    //gets notebooklist creates a method
     IPython.NotebookList = notebooklist.NotebookList;
+
+    page = new page.Page();
 
 
     //how to initialize actions with notebooklist instance
@@ -81,11 +80,10 @@ require([
         keyboard_manager: keyboard_manager,
         session_list:  session_list},
         common_options));
-
     var kernel_list = new kernellist.KernelList('#running_list',  $.extend({
-        session_list:  session_list},
+        session_list:  session_list}, 
         common_options));
-
+    
     var terminal_list;
     if (utils.get_body_data("terminalsAvailable") === "True") {
         terminal_list = new terminallist.TerminalList('#terminal_list', common_options);
