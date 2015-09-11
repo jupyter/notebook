@@ -80,7 +80,6 @@ from traitlets import (
     TraitError, Type,
 )
 from ipython_genutils import py3compat
-from IPython.paths import get_ipython_dir
 from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
 from notebook._sysinfo import get_sys_info
 
@@ -632,8 +631,13 @@ class NotebookApp(JupyterApp):
     def nbextensions_path(self):
         """The path to look for Javascript notebook extensions"""
         path = self.extra_nbextensions_path + jupyter_path('nbextensions')
-        # FIXME: remove IPython nbextensions path once migration is setup
-        path.append(os.path.join(get_ipython_dir(), 'nbextensions'))
+        # FIXME: remove IPython nbextensions path after a migration period
+        try:
+            from IPython.paths import get_ipython_dir
+        except ImportError:
+            pass
+        else:
+            path.append(os.path.join(get_ipython_dir(), 'nbextensions'))
         return path
 
     websocket_url = Unicode("", config=True,
