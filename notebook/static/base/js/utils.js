@@ -10,6 +10,9 @@ define([
 ], function($, CodeMirror, moment){
     "use strict";
     
+    // keep track of which extensions have been loaded already
+    var extensions_loaded = [];
+
     /**
      * Load a single extension.
      * @param  {string} extension - extension path.
@@ -17,10 +20,17 @@ define([
      */
     var load_extension = function (extension) {
         return new Promise(function(resolve, reject) {
-            require(["nbextensions/" + extension], function(module) {
-                console.log("Loaded extension: " + extension);
+            var ext_path = "nbextensions/" + extension;
+            require([ext_path], function(module) {
                 try {
-                    module.load_ipython_extension();
+                    if (extensions_loaded.indexOf(ext_path) < 0) {
+                        console.log("Loading extension: " + extension);
+                        module.load_ipython_extension();
+                        extensions_loaded.push(ext_path);
+                    }
+                    else{
+                        console.log("Loaded extension already: " + extension);
+                    }
                 } finally {
                     resolve(module);
                 }
