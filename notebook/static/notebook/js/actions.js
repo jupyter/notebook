@@ -59,6 +59,30 @@ define(function(require){
                 env.notebook.execute_cell_and_insert_below();
             }
         },
+        'run-all': {
+            help: 'run all cells',
+            help_index: 'bd',
+            handler: function (env) {
+                env.notebook.execute_all_cells();
+            }
+        },
+        'restart-run-all': {
+            help: 'restart the kernel, then re-run the whole notebook',
+            help_index: 'be',
+            handler: function (env) {
+                var notebook = env.notebook;
+                notebook.restart_kernel().then(function() {
+                    notebook.execute_all_cells();
+                });
+            }
+        },
+        'restart': {
+            help: 'restart the kernel',
+            help_index: 'bf',
+            handler: function (env) {
+                env.notebook.restart_kernel();
+            }
+        },
         'go-to-command-mode': {
             help    : 'command mode',
             help_index : 'aa',

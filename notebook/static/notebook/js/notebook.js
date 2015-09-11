@@ -323,7 +323,7 @@ define(function (require) {
 
     Notebook.prototype.show_command_palette = function() {
         var x = new commandpalette.CommandPalette(this);
-    }
+    };
 
     /**
      * Trigger a warning dialog about missing functionality from newer minor versions
@@ -667,11 +667,11 @@ define(function (require) {
             }
             var current_selection = this.get_selected_cells();
             for (var i=0; i<current_selection.length; i++) {
-                current_selection[i].unselect()
+                current_selection[i].unselect();
             }
 
             var cell = this._select(index);
-            cell.selection_anchor = true
+            cell.selection_anchor = true;
         }
         return this;
     };
@@ -738,7 +738,7 @@ define(function (require) {
         var current_selection = this.get_selected_cells();
         for (var i=0; i<current_selection.length; i++) {
             if (!current_selection[i].selected) {
-                current_selection[i].unselect()
+                current_selection[i].unselect();
             }
         }
     };
@@ -821,7 +821,7 @@ define(function (require) {
         var cell = this.get_selected_cell();
         if (cell === null) {return;}  // No cell is selected
         cell.ensure_focused();
-    }
+    };
 
     /**
      * Focus the currently selected cell.
@@ -1465,9 +1465,9 @@ define(function (require) {
             contents.push(this.get_cell(indices[i]).get_text());
         }
         if (into_last) {
-            contents.push(target.get_text())
+            contents.push(target.get_text());
         } else {
-            contents.unshift(target.get_text())
+            contents.unshift(target.get_text());
         }
 
         // Update the contents of the target cell
@@ -1502,7 +1502,7 @@ define(function (require) {
      */
     Notebook.prototype.merge_cell_above = function () {
         var index = this.get_selected_index();
-        this.merge_cells([index-1, index], true)
+        this.merge_cells([index-1, index], true);
     };
 
     /**
@@ -1510,7 +1510,7 @@ define(function (require) {
      */
     Notebook.prototype.merge_cell_below = function () {
         var index = this.get_selected_index();
-        this.merge_cells([index, index+1], false)
+        this.merge_cells([index, index+1], false);
     };
 
 
@@ -1793,9 +1793,22 @@ define(function (require) {
      */
     Notebook.prototype.restart_kernel = function () {
         var that = this;
+        var resolve_promise, reject_promise;
+        var promise = new Promise(function (resolve, reject){
+            resolve_promise = resolve;
+            reject_promise = reject;
+        });
+        
+        function restart_and_resolve () {
+            that.kernel.restart(function () {
+                // resolve when the kernel is *ready* not just started
+                that.events.one('kernel_ready.Kernel', resolve_promise);
+            }, reject_promise);
+        }
+    
         dialog.modal({
-            notebook: this,
-            keyboard_manager: this.keyboard_manager,
+            notebook: that,
+            keyboard_manager: that.keyboard_manager,
             title : "Restart kernel or continue running?",
             body : $("<p/>").text(
                 'Do you want to restart the current kernel?  You will lose all variables defined in it.'
@@ -1806,17 +1819,18 @@ define(function (require) {
                     "class" : "btn-danger",
                     "click" : function(){
                         that.clear_all_output();
-                        that.kernel.restart();
+                        restart_and_resolve();
                     },
                 },
                 "Restart" : {
                     "class" : "btn-warning",
                     "click" : function() {
-                        that.kernel.restart();
+                        restart_and_resolve();
                     }
                 },
             }
         });
+        return promise;
     };
     
     /**
