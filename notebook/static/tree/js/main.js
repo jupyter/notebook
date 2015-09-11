@@ -62,7 +62,6 @@ require([
     var session_list = new sesssionlist.SesssionList($.extend({
         events: events},
         common_options));
-
     var contents = new contents_service.Contents({
         base_url: common_options.base_url,
         common_config: common_config

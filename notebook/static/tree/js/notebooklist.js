@@ -525,7 +525,7 @@ define([
                 total++;
             }
         });
- 
+
         var select_all = $("#select-all");
         if (checked === 0) {
             select_all.prop('checked', false);
