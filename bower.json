@@ -15,7 +15,7 @@
     "MathJax": "components/MathJax#~2.5",
     "moment": "~2.8.4",
     "requirejs": "~2.1",
-    "term.js": "chjj/term.js#~0.0.4",
+    "term.js": "chjj/term.js#~0.0.7",
     "text-encoding": "~0.1",
     "underscore": "components/underscore#~1.5",
     "jquery-typeahead": "~2.0.0"
