@@ -44,23 +44,15 @@ RUN apt-get update && apt-get install -y -q \
 RUN pip2 install --upgrade setuptools pip
 RUN pip3 install --upgrade setuptools pip
 
-RUN mkdir -p /srv/
-WORKDIR /srv/
-RUN git clone --depth 1 https://github.com/ipython/ipykernel /srv/ipykernel
-WORKDIR /srv/ipykernel
-RUN pip2 install --pre -e .
-RUN pip3 install --pre -e .
+RUN pip2 install ipykernel
+RUN pip3 install ipykernel
 
+RUN mkdir -p /srv/
 ADD . /srv/notebook
 WORKDIR /srv/notebook/
-RUN chmod -R +rX /srv/notebook
 
-RUN pip3 install -e .[test]
+RUN pip3 install --pre -e .
 
 # install kernels
 RUN python2 -m ipykernel.kernelspec
 RUN python3 -m ipykernel.kernelspec
-
-WORKDIR /tmp/
-
-RUN nosetests notebook
