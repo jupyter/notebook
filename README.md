@@ -27,3 +27,23 @@ pip install --pre -e .
 jupyter notebook
 ```
 
+For FreeBSD:
+```
+cd /usr/ports/www/npm
+sudo make install    # (Be sure to select the "NODE" option)
+cd /usr/ports/devel/py-pip
+sudo make install
+cd /usr/ports/devel/py-virtualenv
+sudo make install
+cd /usr/ports/shells/bash
+sudo make install
+mkdir -p ~/.virtualenvs
+python2.7 -m virtualenv ~/.virtualenvs/notebook
+bash
+source ~/.virtualenvs/notebook/bin/activate
+pip install --upgrade setuptools pip pycurl
+git clone https://github.com/jupyter/notebook.git
+cd notebook
+pip install -r requirements.txt -e .
+jupyter notebook
+```
