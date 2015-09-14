@@ -138,17 +138,14 @@ require([
 
     page.show();
 
-    var first_load = function () {
+    events.one('notebook_loaded.Notebook', function () {
         var hash = document.location.hash;
         if (hash) {
             document.location.hash = '';
             document.location.hash = hash;
         }
         notebook.set_autosave_interval(notebook.minimum_autosave_interval);
-        // only do this once
-        events.off('notebook_loaded.Notebook', first_load);
-    };
-    events.on('notebook_loaded.Notebook', first_load);
+    });
     
     IPython.page = page;
     IPython.notebook = notebook;
@@ -162,8 +159,11 @@ require([
     IPython.keyboard_manager = keyboard_manager;
     IPython.save_widget = save_widget;
     IPython.tooltip = notebook.tooltip;
-
-    events.trigger('app_initialized.NotebookApp');
+    try {
+        events.trigger('app_initialized.NotebookApp');
+    } catch (e) {
+        console.error("Error in app_initialized callback", e);
+    }
     utils.load_extensions_from_config(config_section);
     utils.load_extensions_from_config(common_config);
     notebook.load_notebook(common_options.notebook_path);
