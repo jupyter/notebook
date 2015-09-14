@@ -500,12 +500,12 @@ define([
     };
     
     var to_absolute_cursor_pos = function (cm, cursor) {
-        console.warn('utils.to_absolute_cursor_pos(cm, pos) is deprecated us cm.indexFromPos(cursor)');
+        console.warn('`utils.to_absolute_cursor_pos(cm, pos)` is deprecated. Use `cm.indexFromPos(cursor)`');
         return cm.indexFromPos(cusrsor);
     };
     
     var from_absolute_cursor_pos = function (cm, cursor_pos) {
-        console.warn('utils.from_absolute_cursor_pos(cm, pos) is deprecated us cm.posFromIndex(index)');
+        console.warn('`utils.from_absolute_cursor_pos(cm, pos)` is deprecated. Use `cm.posFromIndex(index)`');
         return cm.posFromIndex(cursor_pos);
     };
     
