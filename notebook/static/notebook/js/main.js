@@ -138,17 +138,14 @@ require([
 
     page.show();
 
-    var first_load = function () {
+    events.one('notebook_loaded.Notebook', function () {
         var hash = document.location.hash;
         if (hash) {
             document.location.hash = '';
             document.location.hash = hash;
         }
         notebook.set_autosave_interval(notebook.minimum_autosave_interval);
-        // only do this once
-        events.off('notebook_loaded.Notebook', first_load);
-    };
-    events.on('notebook_loaded.Notebook', first_load);
+    });
     
     IPython.page = page;
     IPython.notebook = notebook;
