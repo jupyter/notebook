@@ -76,7 +76,7 @@ define([
         // backward compat.
         Object.defineProperty(this, 'cm_config', {
             get: function() {
-                console.warn("Warning: accessing Cell.cm_config directly is deprecate.")
+                console.warn("Warning: accessing Cell.cm_config directly is deprecated.")
                 return that._options.cm_config;
             },
         });
