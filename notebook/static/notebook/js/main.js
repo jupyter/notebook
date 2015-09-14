@@ -159,8 +159,11 @@ require([
     IPython.keyboard_manager = keyboard_manager;
     IPython.save_widget = save_widget;
     IPython.tooltip = notebook.tooltip;
-
-    events.trigger('app_initialized.NotebookApp');
+    try {
+        events.trigger('app_initialized.NotebookApp');
+    } catch (e) {
+        console.error("Error in app_initialized callback", e);
+    }
     utils.load_extensions_from_config(config_section);
     utils.load_extensions_from_config(common_config);
     notebook.load_notebook(common_options.notebook_path);
