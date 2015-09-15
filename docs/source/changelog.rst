@@ -8,7 +8,7 @@ For more detailed information, see `GitHub <https://github.com/jupyter/notebook>
 
 4.1.0
 ------
-- Deprecated --no-mathjax flag
+- Removed --no-mathjax flag
 
 4.0.2
 -----
