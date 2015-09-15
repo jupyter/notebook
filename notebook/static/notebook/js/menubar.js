@@ -7,9 +7,8 @@ define([
     'base/js/dialog',
     'base/js/utils',
     'notebook/js/tour',
-    'bootstrap',
     'moment',
-], function($, IPython, dialog, utils, tour, bootstrap, moment) {
+], function($, IPython, dialog, utils, tour, moment) {
     "use strict";
     
     var MenuBar = function (selector, options) {
