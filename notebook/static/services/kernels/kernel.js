@@ -883,7 +883,7 @@ define([
         this._msg_queue = this._msg_queue.then(function() {
             return serialize.deserialize(e.data);
         }).then(function(msg) {return that._finish_ws_message(msg);})
-        .catch(utils.reject("Couldn't process kernel message", true));
+        .catch(function(error) {console.error("Couldn't process kernel message", error) });
     };
 
     Kernel.prototype._finish_ws_message = function (msg) {
