@@ -755,7 +755,7 @@ class NotebookApp(JupyterApp):
             return py3compat.getcwd()
 
     def _notebook_dir_validate(self, value, trait):
-        # Strip any trailing backslashes
+        # Strip any trailing slashes
         value = value.rstrip(os.sep)
 
         if not os.path.isabs(value):

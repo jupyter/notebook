@@ -62,8 +62,8 @@ def test_invalid_nb_dir():
         with nt.assert_raises(TraitError):
             app.notebook_dir = tf
 
-def test_nb_dir_with_backslash():
-    with TemporaryDirectory(suffix="_backslash/") as td:
+def test_nb_dir_with_slash():
+    with TemporaryDirectory(suffix="_slash/") as td:
         app = NotebookApp(notebook_dir=td)
         nt.assert_false(app.notebook_dir.endswith("/"))
 
