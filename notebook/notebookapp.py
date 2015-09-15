@@ -754,15 +754,19 @@ class NotebookApp(JupyterApp):
         else:
             return py3compat.getcwd()
 
+    def _notebook_dir_validate(self, value, trait):
+        # Strip any trailing backslashes
+        value = value.rstrip(os.sep)
+
+        if not os.path.isabs(value):
+            # If we receive a non-absolute path, make it absolute.
+            value = os.path.abspath(value)
+        if not os.path.isdir(value):
+            raise TraitError("No such notebook dir: %r" % value)
+        return value
+
     def _notebook_dir_changed(self, name, old, new):
         """Do a bit of validation of the notebook dir."""
-        if not os.path.isabs(new):
-            # If we receive a non-absolute path, make it absolute.
-            self.notebook_dir = os.path.abspath(new)
-            return
-        if not os.path.isdir(new):
-            raise TraitError("No such notebook dir: %r" % new)
-        
         # setting App.notebook_dir implies setting notebook and kernel dirs as well
         self.config.FileContentsManager.root_dir = new
         self.config.MappingKernelManager.root_dir = new
@@ -793,7 +797,7 @@ class NotebookApp(JupyterApp):
             # anything that comes from the config dirs.
             c = Config()
             if os.path.isdir(f):
-                c.NotebookApp.notebook_dir = f.rstrip(os.sep)
+                c.NotebookApp.notebook_dir = f
             elif os.path.isfile(f):
                 c.NotebookApp.file_to_run = f
             self.update_config(c)
