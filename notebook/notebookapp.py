@@ -793,7 +793,7 @@ class NotebookApp(JupyterApp):
             # anything that comes from the config dirs.
             c = Config()
             if os.path.isdir(f):
-                c.NotebookApp.notebook_dir = f
+                c.NotebookApp.notebook_dir = f.rstrip(os.sep)
             elif os.path.isfile(f):
                 c.NotebookApp.file_to_run = f
             self.update_config(c)
