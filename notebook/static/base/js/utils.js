@@ -500,41 +500,13 @@ define([
     };
     
     var to_absolute_cursor_pos = function (cm, cursor) {
-        /**
-         * get the absolute cursor position from CodeMirror's col, ch
-         */
-        if (!cursor) {
-            cursor = cm.getCursor();
-        }
-        var cursor_pos = cursor.ch;
-        for (var i = 0; i < cursor.line; i++) {
-            cursor_pos += cm.getLine(i).length + 1;
-        }
-        return cursor_pos;
+        console.warn('`utils.to_absolute_cursor_pos(cm, pos)` is deprecated. Use `cm.indexFromPos(cursor)`');
+        return cm.indexFromPos(cusrsor);
     };
     
     var from_absolute_cursor_pos = function (cm, cursor_pos) {
-        /**
-         * turn absolute cursor position into CodeMirror col, ch cursor
-         */
-        var i, line, next_line;
-        var offset = 0;
-        for (i = 0, next_line=cm.getLine(i); next_line !== undefined; i++, next_line=cm.getLine(i)) {
-            line = next_line;
-            if (offset + next_line.length < cursor_pos) {
-                offset += next_line.length + 1;
-            } else {
-                return {
-                    line : i,
-                    ch : cursor_pos - offset,
-                };
-            }
-        }
-        // reached end, return endpoint
-        return {
-            line : i - 1,
-            ch : line.length - 1,
-        };
+        console.warn('`utils.from_absolute_cursor_pos(cm, pos)` is deprecated. Use `cm.posFromIndex(index)`');
+        return cm.posFromIndex(cursor_pos);
     };
     
     // http://stackoverflow.com/questions/2400935/browser-detection-in-javascript

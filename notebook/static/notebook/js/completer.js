@@ -152,7 +152,7 @@ define([
 
         // one kernel completion came back, finish_completing will be called with the results
         // we fork here and directly call finish completing if kernel is busy
-        var cursor_pos = utils.to_absolute_cursor_pos(this.editor, cur);
+        var cursor_pos = this.editor.indexFromPos(cur);
         if (this.skip_kernel_completion) {
             this.finish_completing({ content: {
                 matches: [],
@@ -181,7 +181,7 @@ define([
             // adapted message spec replies don't have cursor position info,
             // interpret end=null as current position,
             // and negative start relative to that
-            end = utils.to_absolute_cursor_pos(this.editor, cur);
+            end = this.editor.indexFromPos(cur);
             if (start === null) {
                 start = end;
             } else if (start < 0) {
@@ -202,8 +202,8 @@ define([
         // append the introspection result, in order, at at the beginning of
         // the table and compute the replacement range from current cursor
         // positon and matched_text length.
-        var from = utils.from_absolute_cursor_pos(this.editor, start);
-        var to = utils.from_absolute_cursor_pos(this.editor, end);
+        var from = this.editor.posFromIndex(start);
+        var to = this.editor.posFromIndex(end);
         for (i = matches.length - 1; i >= 0; --i) {
             filtered_results.unshift({
                 str: matches[i],
@@ -274,7 +274,7 @@ define([
         // After everything is on the page, compute the postion.
         // We put it above the code if it is too close to the bottom of the page.
         var pos = this.editor.cursorCoords(
-            utils.from_absolute_cursor_pos(this.editor, start)
+            this.editor.posFromIndex(start)
         );
         var left = pos.left-3;
         var top;
