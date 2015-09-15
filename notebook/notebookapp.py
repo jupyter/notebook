@@ -321,17 +321,6 @@ flags['pylab']=(
     {'NotebookApp' : {'pylab' : 'warn'}},
     "DISABLED: use %pylab or %matplotlib in the notebook to enable matplotlib."
 )
-flags['no-mathjax']=(
-    {'NotebookApp' : {'enable_mathjax' : False}},
-    """Disable MathJax
-    
-    MathJax is the javascript library Jupyter uses to render math/LaTeX. It is
-    very large, so you may want to disable it if you have a slow internet
-    connection, or for offline use of the notebook.
-    
-    When disabled, equations etc. will appear as their untransformed TeX source.
-    """
-)
 
 # Add notebook manager flags
 flags.update(boolean_flag('script', 'FileContentsManager.save_script',
@@ -558,21 +547,6 @@ class NotebookApp(JupyterApp):
         help="Extra variables to supply to jinja templates when rendering.",
     )
     
-    enable_mathjax = Bool(True, config=True,
-        help="""Whether to enable MathJax for typesetting math/TeX
-
-        MathJax is the javascript library Jupyter uses to render math/LaTeX. It is
-        very large, so you may want to disable it if you have a slow internet
-        connection, or for offline use of the notebook.
-
-        When disabled, equations etc. will appear as their untransformed TeX source.
-        """
-    )
-    def _enable_mathjax_changed(self, name, old, new):
-        """set mathjax url to empty if mathjax is disabled"""
-        if not new:
-            self.mathjax_url = u''
-
     base_url = Unicode('/', config=True,
                                help='''The base URL for the notebook server.
 
@@ -651,19 +625,13 @@ class NotebookApp(JupyterApp):
         help="""The url for MathJax.js."""
     )
     def _mathjax_url_default(self):
-        if not self.enable_mathjax:
-            return u''
         static_url_prefix = self.tornado_settings.get("static_url_prefix",
                          url_path_join(self.base_url, "static")
         )
         return url_path_join(static_url_prefix, 'components', 'MathJax', 'MathJax.js')
     
     def _mathjax_url_changed(self, name, old, new):
-        if new and not self.enable_mathjax:
-            # enable_mathjax=False overrides mathjax_url
-            self.mathjax_url = u''
-        else:
-            self.log.info("Using MathJax: %s", new)
+        self.log.info("Using MathJax: %s", new)
 
     contents_manager_class = Type(
         default_value=FileContentsManager,
