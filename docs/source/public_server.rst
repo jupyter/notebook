@@ -4,13 +4,19 @@ Running a notebook server
 =========================
 
 
-The :doc:`Jupyter notebook <notebook>` web-application is based on a
-server-client structure.  This server uses a :ref:`two-process kernel
-architecture <ipython:ipythonzmq>` based on ZeroMQ_, as well as Tornado_ for serving
-HTTP requests. By default, a notebook server runs on http://127.0.0.1:8888/
-and is accessible only from `localhost`. This document describes how you can
-:ref:`secure a notebook server <notebook_server_security>` and how to :ref:`run it on
-a public interface <notebook_public_server>`.
+The :doc:`Jupyter notebook <notebook>` web application is based on a
+server-client structure.  The notebook server uses a :ref:`two-process kernel
+architecture <ipython:ipythonzmq>` based on ZeroMQ_, as well as Tornado_ for
+serving HTTP requests.
+
+.. note::
+   By default, a notebook server runs locally at 127.0.0.1:8888
+   and is accessible only from `localhost`. You may access the
+   notebook server from the browser using `http://127.0.0.1:8888`.
+
+This document describes how you can
+:ref:`secure a notebook server <notebook_server_security>` and how to
+:ref:`run it on a public interface <notebook_public_server>`.
 
 .. _ZeroMQ: http://zeromq.org
 
@@ -23,41 +29,60 @@ Securing a notebook server
 --------------------------
 
 You can protect your notebook server with a simple single password by
-setting the :attr:`NotebookApp.password` configurable. You can prepare a
-hashed password using the function :func:`notebook.auth.security.passwd`:
+configuring the :attr:`NotebookApp.password` setting in
+:file:`jupyter_notebook_config.py`.
+
+Preparing a hashed password
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You can prepare a hashed password using the function
+:func:`notebook.auth.security.passwd`:
 
 .. sourcecode:: ipython
 
     In [1]: from notebook.auth import passwd
     In [2]: passwd()
-    Enter password: 
-    Verify password: 
+    Enter password:
+    Verify password:
     Out[2]: 'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
-    
-.. note::
+
+.. caution::
 
   :func:`~notebook.auth.security.passwd` can also take the password as a string
   argument. **Do not** pass it as an argument inside an IPython session, as it
   will be saved in your input history.
 
-You can then add this to your :file:`jupyter_notebook_config.py`, e.g.::
+Adding hashed password to your notebook configuration file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You can then add the hashed password to your :file:`jupyter_notebook_config.py`,
+e.g.::
 
     # Password to use for web authentication
     c = get_config()
-    c.NotebookApp.password = 
+    c.NotebookApp.password =
     u'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
 
-When using a password, it is a good idea to also use SSL, so that your 
-password is not sent unencrypted by your browser. You can start the notebook 
-to communicate via a secure protocol mode using a self-signed certificate with 
+Using SSL for encrypted communication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+When using a password, it is a good idea to also use SSL with a web certificate,
+so that your hashed password is not sent unencrypted by your browser.
+
+.. important::
+   Web security is rapidly changing and evolving. We provide this document
+   as a convenience to the user, and recommend that the user keep current on
+   changes that may impact security, such as new releases of OpenSSL.
+   The Open Web Application Security Project (`OWASP`_) website is a good resource
+   on general security issues and web practices.
+
+You can start the notebook to communicate via a secure protocol mode by setting
+``certfile`` option to your self-signed certificate, i.e. ``mycert.pem``, with
 the command::
 
-    $ ipython notebook --certfile=mycert.pem
+    $ jupyter notebook --certfile=mycert.pem
 
 .. note::
 
-    A self-signed certificate can be generated with ``openssl``.  For example, 
-    the following command will create a certificate valid for 365 days with 
+    A self-signed certificate can be generated with ``openssl``.  For example,
+    the following command will create a certificate valid for 365 days with
     both the key and certificate data written to the same file::
 
         $ openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mycert.pem -out mycert.pem
@@ -73,6 +98,8 @@ Keep in mind that when you enable SSL support, you will need to access the
 notebook server over ``https://``, not over plain ``http://``.  The startup
 message from the server prints this, but it is easy to overlook and think the
 server is for some reason non-responsive.
+
+.. _OWASP: https://www.owasp.org
 
 
 .. _notebook_public_server:
