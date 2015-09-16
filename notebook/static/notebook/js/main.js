@@ -138,7 +138,7 @@ require([
 
     page.show();
 
-    events.one('notebook_loaded.Notebook', function () {
+    events.trigger('notebook_loaded.Notebook', function () {
         var hash = document.location.hash;
         if (hash) {
             document.location.hash = '';
