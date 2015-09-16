@@ -325,6 +325,11 @@ define(function (require) {
         var x = new commandpalette.CommandPalette(this);
     };
 
+    Notebook.prototype.show_search_and_replace = function(event) {
+        var kbd = this.keyboard_manager;
+        kbd.actions.call('ipython.search-and-replace-dialog', event, kbd);
+    }
+
     /**
      * Trigger a warning dialog about missing functionality from newer minor versions
      */
