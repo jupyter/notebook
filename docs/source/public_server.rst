@@ -47,16 +47,21 @@ You can prepare a hashed password using the function
 
 .. caution::
 
-  :func:`~notebook.auth.security.passwd` can also take the password as a string
-  argument. **Do not** pass it as an argument inside an IPython session, as it
+  :func:`~notebook.auth.security.passwd` when called with no arguments
+  will prompt you to enter and verify your password such as
+  in the above code snippet. Although the function can also
+  be passed a string as an argument such as ``passwd('mypassword')``, please
+  **do not** pass a string as an argument inside an IPython session, as it
   will be saved in your input history.
 
 Adding hashed password to your notebook configuration file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-You can then add the hashed password to your :file:`jupyter_notebook_config.py`,
+You can then add the hashed password to your :file:`jupyter_notebook_config.py`.
+The default location for this file ``jupyter_notebook_config.py`` in your Jupyter
+folder in your home directory, ``~/.jupyter``.
 e.g.::
 
-    # Password to use for web authentication
+    # Get notebook configuration and add hashed password
     c = get_config()
     c.NotebookApp.password =
     u'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
@@ -74,12 +79,12 @@ so that your hashed password is not sent unencrypted by your browser.
    on general security issues and web practices.
 
 You can start the notebook to communicate via a secure protocol mode by setting
-``certfile`` option to your self-signed certificate, i.e. ``mycert.pem``, with
-the command::
+the ``certfile`` option to your self-signed certificate, i.e. ``mycert.pem``,
+with the command::
 
     $ jupyter notebook --certfile=mycert.pem
 
-.. note::
+.. tip::
 
     A self-signed certificate can be generated with ``openssl``.  For example,
     the following command will create a certificate valid for 365 days with
@@ -87,17 +92,20 @@ the command::
 
         $ openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mycert.pem -out mycert.pem
 
-Your browser will warn you of a dangerous certificate because it is
-self-signed.  If you want to have a fully compliant certificate that will not
-raise warnings, it is possible (but rather involved) to obtain one,
-as explained in detail in `this tutorial`__.
+When starting the notebook server, your browser may warn that your self-signed
+certificate is insecure or unrecognized.  If you wish to have a fully
+compliant self-signed certificate that will not raise warnings, it is possible
+(but rather involved) to create one, as explained in detail in `this tutorial`__.
 
 .. __: http://arstechnica.com/security/news/2009/12/how-to-get-set-with-a-secure-sertificate-for-free.ars
-	
+
+.. TODO: Find an additional resource that walks the user through this two-process step by step.
+
 Keep in mind that when you enable SSL support, you will need to access the
 notebook server over ``https://``, not over plain ``http://``.  The startup
-message from the server prints this, but it is easy to overlook and think the
-server is for some reason non-responsive.
+message from the server prints a reminder in the console, but it is easy to
+overlook this detail and think the server is for some reason non-responsive.
+**When using SSL, always access the notebook server with ``https://``.**
 
 .. _OWASP: https://www.owasp.org
 
@@ -108,7 +116,7 @@ Running a public notebook server
 --------------------------------
 
 If you want to access your notebook server remotely via a web browser,
-you can do the following.  
+you can do the following.
 
 Start by creating a certificate file and a hashed password, as explained 
 above.  Then, if you don't already have one, create a config file for the 
@@ -135,7 +143,7 @@ to ``https://your.host.com:9999`` with ``jupyter notebook``.
 
 
 Firewall Setup
-``````````````
+~~~~~~~~~~~~~~
 
 To function correctly, the firewall on the computer running the ipython server must be 
 configured to allow connections from client machines on the ``c.NotebookApp.port``
