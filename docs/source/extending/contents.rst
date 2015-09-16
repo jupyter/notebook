@@ -65,6 +65,7 @@ Models may contain the following entries:
 +--------------------+-----------+------------------------------+
 
 .. _modelcontent:
+
 Certain model fields vary in structure depending on the ``type`` field of the
 model.  There are three model types: **notebook**, **file**, and **directory** .
 
