@@ -244,6 +244,47 @@ class IPythonHandler(AuthenticatedHandler):
         else:
             origin = self.request.headers.get("Sec-Websocket-Origin", None)
         return origin
+
+    # origin_to_satisfy_tornado is present because tornado requires
+    # check_origin to take an origin argument, but we don't use it
+    def check_origin(self, origin_to_satisfy_tornado=""):
+        """Check Origin for cross-site API requests, including websockets
+
+        Copied from WebSocket with changes:
+
+        - allow unspecified host/origin (e.g. scripts)
+        """
+        if self.allow_origin == '*':
+            return True
+
+        host = self.request.headers.get("Host")
+        origin = self.request.headers.get("Origin")
+
+        # If no header is provided, assume it comes from a script/curl.
+        # We are only concerned with cross-site browser stuff here.
+        if origin is None or host is None:
+            return True
+
+        origin = origin.lower()
+        origin_host = urlparse(origin).netloc
+
+        # OK if origin matches host
+        if origin_host == host:
+            return True
+
+        # Check CORS headers
+        if self.allow_origin:
+            allow = self.allow_origin == origin
+        elif self.allow_origin_pat:
+            allow = bool(self.allow_origin_pat.match(origin))
+        else:
+            # No CORS headers deny the request
+            allow = False
+        if not allow:
+            self.log.warn("Blocking Cross Origin API request.  Origin: %s, Host: %s",
+                origin, host,
+            )
+        return allow
     
     #---------------------------------------------------------------
     # template rendering
@@ -327,45 +368,6 @@ class IPythonHandler(AuthenticatedHandler):
 
 class APIHandler(IPythonHandler):
     """Base class for API handlers"""
-    
-    def check_origin(self):
-        """Check Origin for cross-site API requests.
-        
-        Copied from WebSocket with changes:
-        
-        - allow unspecified host/origin (e.g. scripts)
-        """
-        if self.allow_origin == '*':
-            return True
-
-        host = self.request.headers.get("Host")
-        origin = self.request.headers.get("Origin")
-
-        # If no header is provided, assume it comes from a script/curl.
-        # We are only concerned with cross-site browser stuff here.
-        if origin is None or host is None:
-            return True
-        
-        origin = origin.lower()
-        origin_host = urlparse(origin).netloc
-        
-        # OK if origin matches host
-        if origin_host == host:
-            return True
-        
-        # Check CORS headers
-        if self.allow_origin:
-            allow = self.allow_origin == origin
-        elif self.allow_origin_pat:
-            allow = bool(self.allow_origin_pat.match(origin))
-        else:
-            # No CORS headers deny the request
-            allow = False
-        if not allow:
-            self.log.warn("Blocking Cross Origin API request.  Origin: %s, Host: %s",
-                origin, host,
-            )
-        return allow
 
     def prepare(self):
         if not self.check_origin():
