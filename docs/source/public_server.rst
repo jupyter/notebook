@@ -32,6 +32,18 @@ You can protect your notebook server with a simple single password by
 configuring the :attr:`NotebookApp.password` setting in
 :file:`jupyter_notebook_config.py`.
 
+Prerequisite: A notebook configuration file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Check to see if you have a notebook configuration file,
+:file:`jupyter_notebook_config.py`. The default location for this file
+is your Jupyter folder in your home directory, ``~/.jupyter``.
+
+If you don't already have one, create a config file for the notebook
+using the following command::
+
+  $ jupyter notebook --generate-config
+
+
 Preparing a hashed password
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You can prepare a hashed password using the function
@@ -57,9 +69,8 @@ You can prepare a hashed password using the function
 Adding hashed password to your notebook configuration file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You can then add the hashed password to your :file:`jupyter_notebook_config.py`.
-The default location for this file ``jupyter_notebook_config.py`` in your Jupyter
-folder in your home directory, ``~/.jupyter``.
-e.g.::
+The default location for this file :file:`jupyter_notebook_config.py` is in
+your Jupyter folder in your home directory, ``~/.jupyter``, e.g.::
 
     # Get notebook configuration and add hashed password
     c = get_config()
@@ -116,53 +127,68 @@ Running a public notebook server
 --------------------------------
 
 If you want to access your notebook server remotely via a web browser,
-you can do the following.
+you can do so by running a public notebook server. For optimal security
+when running a public notebook server, you should first secure the
+server with a password and SSL/HTTPS as described in
+:ref:`notebook_server_security`.
 
-Start by creating a certificate file and a hashed password, as explained 
-above.  Then, if you don't already have one, create a config file for the 
-notebook using the following command line::
+Start by creating a certificate file and a hashed password, as explained in
+:ref:`notebook_server_security`.
+
+If you don't already have one, create a
+config file for the notebook using the following command line::
 
   $ jupyter notebook --generate-config
 
-In the ``~/.jupyter`` directory, edit the notebook config file, 
-``jupyter_notebook_config.py``.  By default, the file has all fields 
-commented; the minimum set you need to uncomment and edit is the following::
+In the ``~/.jupyter`` directory, edit the notebook config file,
+``jupyter_notebook_config.py``.  By default, the notebook config file has
+all fields commented out. The minimum set of configuration options that
+you should to uncomment and edit in :file:``jupyter_notebook_config.py`` is the
+following::
 
+     # Notebook configuration for public notebook server
      c = get_config()
 
-     # Notebook config
+     # Set options for certfile, ip, password, and toggle off browser auto-opening
      c.NotebookApp.certfile = u'/absolute/path/to/your/certificate/mycert.pem'
-     c.NotebookApp.ip = '*'
+     c.NotebookApp.ip = u'*'   # where * is the desired ip address
+     c.NotebookApp.password = u'sha1:bcd259ccf...<your hashed password here>'
      c.NotebookApp.open_browser = False
-     c.NotebookApp.password = u'sha1:bcd259ccf...[your hashed password here]'
-     # It is a good idea to put it on a known, fixed port
+
+     # It is a good idea to set a known, fixed port for server access
      c.NotebookApp.port = 9999
 
-You can then start the notebook and access it later by pointing your browser 
-to ``https://your.host.com:9999`` with ``jupyter notebook``.
+You can then start the notebook and access it later by pointing your browser
+to ``https://your.host.com:9999`` after starting the ``jupyter notebook``
+client.
 
 
 Firewall Setup
 ~~~~~~~~~~~~~~
 
-To function correctly, the firewall on the computer running the ipython server must be 
-configured to allow connections from client machines on the ``c.NotebookApp.port``
-port to allow connections to the web interface.  The firewall must also allow 
-connections from 127.0.0.1 (localhost) on ports from 49152 to 65535.
-These ports are used by the server to communicate with the notebook kernels.  
-The kernel communication ports are chosen randomly by ZeroMQ, and may require 
+To function correctly, the firewall on the computer running the jupyter
+notebook server must be configured to allow connections from client
+machines on the access port ``c.NotebookApp.port`` set in
+:file:``jupyter_notebook_config.py`` port to allow connections to the
+web interface.  The firewall must also allow connections from
+127.0.0.1 (localhost) on ports from 49152 to 65535.
+These ports are used by the server to communicate with the notebook kernels.
+The kernel communication ports are chosen randomly by ZeroMQ, and may require
 multiple connections per kernel, so a large range of ports must be accessible.
 
-Running with a different URL prefix
------------------------------------
+Running the notebook with a customized URL prefix
+-------------------------------------------------
 
-The notebook dashboard (the landing page with an overview
-of the notebooks in your working directory) typically lives at the URL
-``http://localhost:8888/``. If you prefer that it lives, together with the 
-rest of the notebook, under a sub-directory,
-e.g. ``http://localhost:8888/ipython/``, you can do so with
-configuration options like the following (see above for instructions about
-modifying ``jupyter_notebook_config.py``)::
+The notebook dashboard, which is the landing page with an overview
+of the notebooks in your working directory, is typically found and accessed
+at the default URL ``http://localhost:8888/``.
+
+If you prefer to customize the URL prefix for the notebook dashboard, you can
+do so through modifying ``jupyter_notebook_config.py``. For example, if you
+prefer that the notebook dashboard be located with a sub-directory that
+contains other ipython files, e.g. ``http://localhost:8888/ipython/``,
+you can do so with configuration options like the following (see above for
+instructions about modifying ``jupyter_notebook_config.py``)::
 
     c.NotebookApp.base_url = '/ipython/'
     c.NotebookApp.webapp_settings = {'static_url_prefix':'/ipython/static/'}
