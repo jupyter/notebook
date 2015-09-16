@@ -1,11 +1,12 @@
 casper.notebook_test(function () {
+    // Note, \033 is the octal notation of \u001b
     var input = [
         "\033[0m[\033[0minfo\033[0m] \033[0mtext\033[0m",
         "\033[0m[\033[33mwarn\033[0m] \033[0m\tmore text\033[0m",
         "\033[0m[\033[33mwarn\033[0m] \033[0m  https://some/url/to/a/file.ext\033[0m",
         "\033[0m[\033[31merror\033[0m] \033[0m\033[0m",
         "\033[0m[\033[31merror\033[0m] \033[0m\teven more text\033[0m",
-        "[?25hBuilding wheels for collected packages: scipy",
+        "\u001b[?25hBuilding wheels for collected packages: scipy",
         "\033[0m[\033[31merror\033[0m] \033[0m\t\tand more more text\033[0m"].join("\n");
 
     var output = [
