@@ -348,7 +348,7 @@ define([
 
         // Strip all ANSI codes that are not color related.  Matches
         // all ANSI codes that do not end with "m".
-        var ignored_re = /(?=(\033\[[\d;=]*[a-ln-zA-Z]{1}))\1(?!m)/g;
+        var ignored_re = /(?=(\033\[[?\d;=]*[a-ln-zA-Z]{1}))\1(?!m)/g;
         txt = txt.replace(ignored_re, "");
         
         // color ansi codes
