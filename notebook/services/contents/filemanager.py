@@ -245,7 +245,12 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             model['content'] = contents = []
             os_dir = self._get_os_path(path)
             for name in os.listdir(os_dir):
-                os_path = os.path.join(os_dir, name)
+                try:
+                    os_path = os.path.join(os_dir, name)
+                except UnicodeDecodeError as e:
+                    self.log.warn(
+                        "failed to decode filename '%s': %s", name, e)
+                    continue
                 # skip over broken symlinks in listing
                 if not os.path.exists(os_path):
                     self.log.warn("%s doesn't exist", os_path)
