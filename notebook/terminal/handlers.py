@@ -9,6 +9,12 @@ from tornado import web
 import terminado
 from ..base.handlers import IPythonHandler
 
+try:
+    from urllib.parse import urlparse # Py 3
+except ImportError:
+    from urlparse import urlparse # Py 2
+
+
 class TerminalHandler(IPythonHandler):
     """Render the terminal interface."""
     @web.authenticated
@@ -16,9 +22,15 @@ class TerminalHandler(IPythonHandler):
         self.write(self.render_template('terminal.html',
                    ws_path="terminals/websocket/%s" % term_name))
 
-class TermSocket(terminado.TermSocket, IPythonHandler):
+class TermSocket(IPythonHandler, terminado.TermSocket):
+
     def set_default_headers(self):
         pass
+
+    def origin_check(self):
+        """Override Terminado's origin_check with our own check_origin, confusingly"""
+        return self.check_origin()
+
     
     def get(self, *args, **kwargs):
         if not self.get_current_user():
