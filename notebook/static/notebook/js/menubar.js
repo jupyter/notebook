@@ -222,6 +222,9 @@ define([
                 notebook: that.notebook,
                 keyboard_manager: that.notebook.keyboard_manager});
         });
+        this.element.find('#search_and_replace').click(function(event) {
+            that.actions.call('ipython.search-and-replace-dialog', event, that);
+        });
         
         // View
         this.element.find('#toggle_header').click(function () {
