@@ -223,7 +223,7 @@ define([
                 keyboard_manager: that.notebook.keyboard_manager});
         });
         this.element.find('#search_and_replace').click(function(event) {
-            that.notebook.show_search_and_replace(event);
+            that.actions.call('ipython.search-and-replace-dialog', event, that);
         });
         
         // View
