@@ -226,6 +226,9 @@ define([
         };
 
         for(var idx in id_actions_dict){
+            if (!id_actions_dict.hasOwnProperty(idx)){
+                continue;
+            }
             var id_act = id_actions_dict[idx];
             if(!that.actions.exists(id_act)){
                 console.warn('actions', id_act, 'does not exist, still binding it in case it will be defined later...' )
