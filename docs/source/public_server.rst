@@ -74,8 +74,7 @@ your Jupyter folder in your home directory, ``~/.jupyter``, e.g.::
 
     # Get notebook configuration and add hashed password
     c = get_config()
-    c.NotebookApp.password =
-    u'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
+    c.NotebookApp.password = u'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
 
 Using SSL for encrypted communication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -151,17 +150,17 @@ following::
 
      # Set options for certfile, ip, password, and toggle off browser auto-opening
      c.NotebookApp.certfile = u'/absolute/path/to/your/certificate/mycert.pem'
-     c.NotebookApp.ip = u'*'   # where * is the desired ip address
+     # Set ip to '*' to bind on all interfaces (ips) for the public server
+     c.NotebookApp.ip = '*'
      c.NotebookApp.password = u'sha1:bcd259ccf...<your hashed password here>'
      c.NotebookApp.open_browser = False
 
      # It is a good idea to set a known, fixed port for server access
      c.NotebookApp.port = 9999
 
-You can then start the notebook and access it later by pointing your browser
-to ``https://your.host.com:9999`` after starting the ``jupyter notebook``
-client.
-
+You can then start the notebook using the ``jupyter notebook`` command. You may
+access the public server by pointing your browser to ``https://your.host.com:9999``
+where ``your.host.com`` is your public server's domain.
 
 Firewall Setup
 ~~~~~~~~~~~~~~
