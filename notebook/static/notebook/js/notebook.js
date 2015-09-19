@@ -835,22 +835,22 @@ define(function (require) {
     // Cell movement
 
     /**
-     * Move given (or selected) cell up and select it.
+     * Move given (or selected) cell(s) up and select it.
      * 
      * @param {integer} [index] - cell index
      * @return {Notebook} This notebook
      */
     Notebook.prototype.move_cell_up = function (index) {
-        var i = this.index_or_selected(index);
-        if (this.is_valid_cell_index(i) && i > 0) {
-            var pivot = this.get_cell_element(i-1);
-            var tomove = this.get_cell_element(i);
-            if (pivot !== null && tomove !== null) {
-                tomove.detach();
-                pivot.before(tomove);
-                this.select(i-1);
-                var cell = this.get_selected_cell();
-                cell.focus_cell();
+        var indices = (index === undefined) ? this.get_selected_indices() : [index];
+        var imin = Math.min.apply(null, indices);
+        var imax = Math.max.apply(null, indices);
+        if (this.is_valid_cell_index(imin) && imin > 0) {
+            var tomove_element = this.get_cell_element(imin-1);
+            var lastcell_element = this.get_cell_element(imax);
+            if (lastcell_element !== null && tomove_element !== null) {
+                tomove_element.detach();
+                lastcell_element.after(tomove_element);
+                this.focus_cell();
             }
             this.set_dirty(true);
         }
@@ -859,25 +859,25 @@ define(function (require) {
 
 
     /**
-     * Move given (or selected) cell down and select it.
+     * Move given (or selected) cell(s) down and select it.
      * 
      * @param {integer} [index] - cell index
      * @return {Notebook} This notebook
      */
     Notebook.prototype.move_cell_down = function (index) {
-        var i = this.index_or_selected(index);
-        if (this.is_valid_cell_index(i) && this.is_valid_cell_index(i+1)) {
-            var pivot = this.get_cell_element(i+1);
-            var tomove = this.get_cell_element(i);
-            if (pivot !== null && tomove !== null) {
-                tomove.detach();
-                pivot.after(tomove);
-                this.select(i+1);
-                var cell = this.get_selected_cell();
-                cell.focus_cell();
+        var indices = (index === undefined) ? this.get_selected_indices() : [index];
+        var imin = Math.min.apply(null, indices);
+        var imax = Math.max.apply(null, indices);
+        if (this.is_valid_cell_index(imin) && this.is_valid_cell_index(imax+1)) {
+            var tomove_element = this.get_cell_element(imax+1);
+            var firstcell_element = this.get_cell_element(imin);
+            if (firstcell_element !== null && tomove_element !== null) {
+                tomove_element.detach();
+                firstcell_element.before(tomove_element);
+                this.focus_cell();
             }
+            this.set_dirty(true);
         }
-        this.set_dirty();
         return this;
     };
 
