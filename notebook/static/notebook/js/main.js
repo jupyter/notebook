@@ -85,6 +85,7 @@ require([
     var save_widget = new savewidget.SaveWidget('span#save_widget', {
         events: events, 
         keyboard_manager: keyboard_manager});
+    acts.extend_env({save_widget:save_widget})
     var contents = new contents.Contents({
           base_url: common_options.base_url,
           common_config: common_config
@@ -112,7 +113,8 @@ require([
         contents: contents,
         events: events, 
         save_widget: save_widget, 
-        quick_help: quick_help}, 
+        quick_help: quick_help,
+        actions: acts}, 
         common_options));
     var notification_area = new notificationarea.NotebookNotificationArea(
         '#notification_area', {
@@ -159,11 +161,22 @@ require([
     IPython.keyboard_manager = keyboard_manager;
     IPython.save_widget = save_widget;
     IPython.tooltip = notebook.tooltip;
+
     try {
         events.trigger('app_initialized.NotebookApp');
     } catch (e) {
         console.error("Error in app_initialized callback", e);
     }
+
+    Object.defineProperty( IPython, 'actions', {
+      get: function() { 
+          console.warn('accessing "actions" on the global IPython/Jupyter is not recommended. Pass it to your objects contructors at creation time');
+          return acts;
+      },
+      enumerable: true,
+      configurable: false
+    });
+
     utils.load_extensions_from_config(config_section);
     utils.load_extensions_from_config(common_config);
     notebook.load_notebook(common_options.notebook_path);

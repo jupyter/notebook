@@ -10,6 +10,8 @@ define(function(require){
         Object.seal(this);
     };
 
+    var events =  require('base/js/events');
+
     /**
      *  A bunch of predefined `Simple Actions` used by Jupyter.
      *  `Simple Actions` have the following keys:
@@ -37,6 +39,21 @@ define(function(require){
      *
      **/
     var _actions = {
+        'toggle-toolbar':{
+            help: 'hide/show the toolbar',
+            handler : function(env){
+                $('div#maintoolbar').toggle();
+                events.trigger('resize-header.Page');
+            }
+        },
+        'toggle-header':{
+            help: 'hide/show the header',
+            handler : function(env){
+                $('#header-container').toggle();
+                $('.header-bar').toggle();
+                events.trigger('resize-header.Page');
+            }
+        },
         'run-select-next': {
             icon: 'fa-step-forward',
             help    : 'run cell, select below',
@@ -59,7 +76,7 @@ define(function(require){
                 env.notebook.execute_cell_and_insert_below();
             }
         },
-        'run-all': {
+        'run-all-cells': {
             help: 'run all cells',
             help_index: 'bd',
             handler: function (env) {
@@ -81,6 +98,16 @@ define(function(require){
             help_index: 'bf',
             handler: function (env) {
                 env.notebook.restart_kernel();
+            },
+        },
+        'run-all-cells-above':{
+            handler : function (env) {
+                env.notebook.execute_cells_above();
+            }
+        },
+        'run-all-cells-below':{
+            handler : function (env) {
+                env.notebook.execute_cells_below();
             }
         },
         'go-to-command-mode': {
@@ -281,6 +308,11 @@ define(function(require){
                 env.notebook.toggle_output_scroll();
             }
         },
+        'clear-output-selected-cell' : {
+            handler : function (env) {
+                env.notebook.clear_output();
+            }
+        },
         'move-selected-cell-down' : {
             icon: 'fa-arrow-down',
             help_index : 'eb',
@@ -333,6 +365,13 @@ define(function(require){
             help_index : 'ei',
             handler : function (env) {
                 env.notebook.undelete_cell();
+            }
+        },
+        // TODO reminder
+        // open an issue, merge with above merge with last cell of notebook if at top. 
+        'merge-selected-cell-with-cell-before' : {
+            handler : function (env) {
+                env.notebook.merge_cell_above();
             }
         },
         'merge-selected-cell-with-cell-after' : {
@@ -454,6 +493,21 @@ define(function(require){
                 }
                 var cell = env.notebook.get_selected_index();
                 return env.notebook.scroll_cell_percent(cell, 0, 0);
+            }
+        },
+        'duplicate-notebook':{
+            help: "Create an open a copy of current notebook",
+            handler : function (env, event) {
+                if (env.notebook.dirty) {
+                    env.notebook.save_notebook({async : false});
+                }
+                env.notebook.copy_notebook();
+            }
+        },
+        'rename-notebook':{
+            help: "Rename current notebook",
+            handler : function (env, event) {
+                env.notebook.save_widget.rename_notebook({notebook: env.notebook})
             }
         },
         'save-notebook':{
