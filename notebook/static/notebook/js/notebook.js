@@ -1421,9 +1421,10 @@ define(function (require) {
     };
 
     /**
-     * Paste cells from the clipboard above the selected cell.
+     * Paste cells from the clipboard above the selected cell(s).
      */
     Notebook.prototype.paste_cell_above = function () {
+        this.force_selection_direction('up');
         if (this.clipboard !== null && this.paste_enabled) {
             var first_inserted = null;
             for (var i=0; i < this.clipboard.length; i++) {
@@ -1440,9 +1441,10 @@ define(function (require) {
     };
 
     /**
-     * Paste cells from the clipboard below the selected cell.
+     * Paste cells from the clipboard below the selected cell(s).
      */
     Notebook.prototype.paste_cell_below = function () {
+        this.force_selection_direction('down');
         if (this.clipboard !== null && this.paste_enabled) {
             var first_inserted = null;
             for (var i = this.clipboard.length-1; i >= 0; i--) {
