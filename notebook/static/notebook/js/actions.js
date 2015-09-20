@@ -10,6 +10,7 @@ define(function(require){
         Object.seal(this);
     };
 
+    var $ = require('jquery');
     var events =  require('base/js/events');
 
     /**
@@ -87,10 +88,7 @@ define(function(require){
             help: 'restart the kernel, then re-run the whole notebook',
             help_index: 'be',
             handler: function (env) {
-                var notebook = env.notebook;
-                notebook.restart_kernel().then(function() {
-                    notebook.execute_all_cells();
-                });
+                env.notebook.restart_run_all();
             }
         },
         'restart': {
@@ -98,6 +96,18 @@ define(function(require){
             help_index: 'bf',
             handler: function (env) {
                 env.notebook.restart_kernel();
+            },
+        },
+        'restart-run-all-no-confirm': {
+            help: 'restart the kernel, then re-run the whole notebook (no confirmation dialog)',
+            handler: function (env) {
+                env.notebook.restart_run_all({confirm: false});
+            }
+        },
+        'restart-no-confirm': {
+            help: 'restart the kernel (no confirmation dialog)',
+            handler: function (env) {
+                env.notebook.restart_kernel({confirm: false});
             },
         },
         'run-all-cells-above':{
@@ -507,7 +517,7 @@ define(function(require){
         'rename-notebook':{
             help: "Rename current notebook",
             handler : function (env, event) {
-                env.notebook.save_widget.rename_notebook({notebook: env.notebook})
+                env.notebook.save_widget.rename_notebook({notebook: env.notebook});
             }
         },
         'save-notebook':{
