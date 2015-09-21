@@ -49,14 +49,15 @@ define([
             dataType: "json",
             success : function (data, status, xhr) {
                 var name = data.name;
-                w.location = utils.url_join_encode(base_url, 'terminals', name);
+                w.location = utils.url_path_join(base_url, 'terminals', 
+                    utils.encode_uri_components(name));
             },
             error : function(jqXHR, status, error){
                 w.close();
                 utils.log_ajax_error(jqXHR, status, error);
             },
         };
-        var url = utils.url_join_encode(
+        var url = utils.url_path_join(
             this.base_url,
             'api/terminals'
         );
@@ -64,7 +65,7 @@ define([
     };
     
     TerminalList.prototype.load_terminals = function() {
-        var url = utils.url_join_encode(this.base_url, 'api/terminals');
+        var url = utils.url_path_join(this.base_url, 'api/terminals');
         $.ajax(url, {
             type: "GET",
             cache: false,
@@ -92,7 +93,8 @@ define([
         item.find(".item_name").text("terminals/" + name);
         item.find(".item_icon").addClass("fa fa-terminal");
         var link = item.find("a.item_link")
-            .attr('href', utils.url_join_encode(this.base_url, "terminals", name));
+            .attr('href', utils.url_path_join(this.base_url, "terminals",
+                utils.encode_uri_components(name)));
         link.attr('target', IPython._target||'_blank');
         this.add_shutdown_button(name, item);
     };
@@ -110,7 +112,8 @@ define([
                     },
                     error : utils.log_ajax_error,
                 };
-                var url = utils.url_join_encode(that.base_url, 'api/terminals', name);
+                var url = utils.url_path_join(that.base_url, 'api/terminals',
+                    utils.encode_uri_components(name));
                 $.ajax(url, settings);
                 return false;
             });

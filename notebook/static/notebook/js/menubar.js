@@ -69,8 +69,8 @@ define([
 
     MenuBar.prototype._nbconvert = function (format, download) {
         download = download || false;
-        var notebook_path = this.notebook.notebook_path;
-        var url = utils.url_join_encode(
+        var notebook_path = utils.encode_uri_components(this.notebook.notebook_path);
+        var url = utils.url_path_join(
             this.base_url,
             'nbconvert',
             format,
@@ -92,7 +92,7 @@ define([
          * Update header spacer size.
          */
         console.warn('`_size_header` is deprecated and will be removed in future versions.'+
-                     ' Please trigger the `resize-header.Page` manually if you rely on it.')
+                     ' Please trigger the `resize-header.Page` manually if you rely on it.');
         this.events.trigger('resize-header.Page');
     };
 
@@ -104,7 +104,11 @@ define([
         
         this.element.find('#open_notebook').click(function () {
             var parent = utils.url_path_split(that.notebook.notebook_path)[0];
-            window.open(utils.url_join_encode(that.base_url, 'tree', parent), IPython._target);
+            window.open(
+                utils.url_path_join(
+                    that.base_url, 'tree',
+                    utils.encode_uri_components(parent)
+                ), IPython._target);
         });
         this.element.find('#copy_notebook').click(function () {
             if (that.notebook.dirty) {
@@ -115,10 +119,11 @@ define([
         });
         this.element.find('#download_ipynb').click(function () {
             var base_url = that.notebook.base_url;
-            var notebook_path = that.notebook.notebook_path;
+            var notebook_path = utils.encode_uri_components(that.notebook.notebook_path);
             var w = window.open('');
-            var url = utils.url_join_encode(base_url, 'files', notebook_path)
-                                + '?download=1';
+            var url = utils.url_path_join(
+                base_url, 'files', notebook_path
+            ) + '?download=1';
             if (that.notebook.dirty) {
                 that.notebook.save_notebook().then(function() {
                     w.location = url;
@@ -231,13 +236,13 @@ define([
             }
             var id_act = id_actions_dict[idx];
             if(!that.actions.exists(id_act)){
-                console.warn('actions', id_act, 'does not exist, still binding it in case it will be defined later...' )
+                console.warn('actions', id_act, 'does not exist, still binding it in case it will be defined later...');
             }
             // Immediately-Invoked Function Expression cause JS.
             (function(that, id_act, idx){
                 that.element.find(idx).click(function(event){
-                    that.actions.call(id_act, event)
-                })
+                    that.actions.call(id_act, event);
+                });
             })(that, id_act, idx);
         }
 

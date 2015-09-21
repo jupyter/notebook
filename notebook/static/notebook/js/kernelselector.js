@@ -36,7 +36,7 @@ define([
     KernelSelector.prototype.request_kernelspecs = function() {
         // Preliminary documentation for kernelspecs api is at 
         // https://github.com/ipython/ipython/wiki/IPEP-25%3A-Registry-of-installed-kernels#rest-api
-        var url = utils.url_join_encode(this.notebook.base_url, 'api/kernelspecs');
+        var url = utils.url_path_join(this.notebook.base_url, 'api/kernelspecs');
         utils.promising_ajax(url).then($.proxy(this._got_kernelspecs, this));
     };
     
@@ -292,8 +292,9 @@ define([
         var parent = utils.url_path_split(that.notebook.notebook_path)[0];
         that.notebook.contents.new_untitled(parent, {type: "notebook"}).then(
             function (data) {
-                var url = utils.url_join_encode(
-                    that.notebook.base_url, 'notebooks', data.path
+                var url = utils.url_path_join(
+                    that.notebook.base_url, 'notebooks',
+                    utils.encode_uri_components(data.path)
                 );
                 url += "?kernel_name=" + kernel_name;
                 w.location = url;

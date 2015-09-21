@@ -2293,8 +2293,8 @@ define(function (require) {
         var parent = utils.url_path_split(this.notebook_path)[0];
         this.contents.copy(this.notebook_path, parent).then(
             function (data) {
-                w.location = utils.url_join_encode(
-                    base_url, 'notebooks', data.path
+                w.location = utils.url_path_join(
+                    base_url, 'notebooks', utils.encode_uri_components(data.path)
                 );
             },
             function(error) {

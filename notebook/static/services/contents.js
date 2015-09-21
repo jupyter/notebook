@@ -43,9 +43,11 @@ define(function(require) {
 
 
     Contents.prototype.api_url = function() {
-        var url_parts = [this.base_url, 'api/contents'].concat(
-                                Array.prototype.slice.apply(arguments));
-        return utils.url_join_encode.apply(null, url_parts);
+        var url_parts = [
+            this.base_url, 'api/contents',
+            utils.url_join_encode.apply(null, arguments),
+        ];
+        return utils.url_path_join.apply(null, url_parts);
     };
 
     /**

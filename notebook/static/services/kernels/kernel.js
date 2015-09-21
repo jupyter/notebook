@@ -274,7 +274,7 @@ define([
             }
         };
 
-        var url = utils.url_join_encode(this.kernel_url, 'interrupt');
+        var url = utils.url_path_join(this.kernel_url, 'interrupt');
         $.ajax(url, {
             processData: false,
             cache: false,
@@ -316,7 +316,7 @@ define([
             }
         };
 
-        var url = utils.url_join_encode(this.kernel_url, 'restart');
+        var url = utils.url_path_join(this.kernel_url, 'restart');
         $.ajax(url, {
             processData: false,
             cache: false,
@@ -362,7 +362,8 @@ define([
                 that.id = data.id;
                 that.name = data.name;
             }
-            that.kernel_url = utils.url_join_encode(that.kernel_service_url, that.id);
+            that.kernel_url = utils.url_path_join(that.kernel_service_url,
+                encodeURIComponent(that.id));
             if (success) {
                 success(data, status, xhr);
             }
@@ -394,7 +395,8 @@ define([
          * @param {Object} data - information about the kernel including id
          */
         this.id = data.id;
-        this.kernel_url = utils.url_join_encode(this.kernel_service_url, this.id);
+        this.kernel_url = utils.url_path_join(this.kernel_service_url,
+            encodeURIComponent(this.id));
         this.start_channels();
     };
 
@@ -441,7 +443,7 @@ define([
         
         this.ws = new this.WebSocket([
                 that.ws_url,
-                utils.url_join_encode(that.kernel_url, 'channels'),
+                utils.url_path_join(that.kernel_url, 'channels'),
                 "?session_id=" + that.session_id
             ].join('')
         );
@@ -883,20 +885,17 @@ define([
         this._msg_queue = this._msg_queue.then(function() {
             return serialize.deserialize(e.data);
         }).then(function(msg) {return that._finish_ws_message(msg);})
-        .catch(function(error) {console.error("Couldn't process kernel message", error) });
+        .catch(function(error) { console.error("Couldn't process kernel message", error); });
     };
 
     Kernel.prototype._finish_ws_message = function (msg) {
         switch (msg.channel) {
             case 'shell':
                 return this._handle_shell_reply(msg);
-                break;
             case 'iopub':
                 return this._handle_iopub_message(msg);
-                break;
             case 'stdin':
                 return this._handle_input_request(msg);
-                break;
             default:
                 console.error("unrecognized message channel", msg.channel, msg);
         }
@@ -919,7 +918,7 @@ define([
         this._finish_shell(parent_id);
         
         if (shell_callbacks.reply !== undefined) {
-            promise = promise.then(function() {return shell_callbacks.reply(reply)});
+            promise = promise.then(function() {return shell_callbacks.reply(reply);});
         }
         if (content.payload && shell_callbacks.payload) {
             promise = promise.then(function() {

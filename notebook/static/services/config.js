@@ -25,7 +25,8 @@ function($, utils) {
     };
 
     ConfigSection.prototype.api_url = function() {
-        return utils.url_join_encode(this.base_url, 'api/config', this.section_name);
+        return utils.url_path_join(this.base_url, 'api/config',
+            utils.encode_uri_components(this.section_name));
     };
     
     ConfigSection.prototype._load_done = function() {

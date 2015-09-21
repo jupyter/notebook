@@ -21,13 +21,13 @@ define([
     LoginWidget.prototype.bind_events = function () {
         var that = this;
         this.element.find("button#logout").click(function () {
-            window.location = utils.url_join_encode(
+            window.location = utils.url_path_join(
                 that.base_url,
                 "logout"
             );
         });
         this.element.find("button#login").click(function () {
-            window.location = utils.url_join_encode(
+            window.location = utils.url_path_join(
                 that.base_url,
                 "login"
             );

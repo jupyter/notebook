@@ -54,8 +54,8 @@ define([
             var parent = utils.url_path_split(editor.file_path)[0];
             editor.contents.new_untitled(parent, {type: "file"}).then(
                 function (data) {
-                    w.location = utils.url_join_encode(
-                        that.base_url, 'edit', data.path
+                    w.location = utils.url_path_join(
+                        that.base_url, 'edit', utils.encode_uri_components(data.path)
                     );
                 },
                 function(error) {
@@ -75,8 +75,9 @@ define([
             that.save_widget.rename();
         });
         this.element.find('#download-file').click(function () {
-            window.open(utils.url_join_encode(
-                that.base_url, 'files', that.editor.file_path
+            window.open(utils.url_path_join(
+                that.base_url, 'files',
+                utils.encode_uri_components(that.editor.file_path)
             ) + '?download=1');
         });
         

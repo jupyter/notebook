@@ -62,7 +62,7 @@ define([
             success : $.proxy(that.sessions_loaded, this),
             error : utils.log_ajax_error,
         };
-        var url = utils.url_join_encode(this.base_url, 'api/sessions');
+        var url = utils.url_path_join(this.base_url, 'api/sessions');
         $.ajax(url, settings);
     };
 
