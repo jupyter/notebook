@@ -100,7 +100,7 @@ with the command::
     the following command will create a certificate valid for 365 days with
     both the key and certificate data written to the same file::
 
-        $ openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mycert.pem -out mycert.pem
+        $ openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mycert.key -out mycert.pem
 
 When starting the notebook server, your browser may warn that your self-signed
 certificate is insecure or unrecognized.  If you wish to have a fully
