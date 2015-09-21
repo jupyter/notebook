@@ -63,6 +63,11 @@ require([
     // compat with old IPython, remove for IPython > 3.0
     window.CodeMirror = CodeMirror;
 
+    //minifying/concatenating change the order of main/custom.js execution if
+    //we don't explicitly call a method on the custom module (which might be
+    //undefined if empty)
+    ((custom||{}).load||function(){})()
+
     var common_options = {
         ws_url : utils.get_body_data("wsUrl"),
         base_url : utils.get_body_data("baseUrl"),
