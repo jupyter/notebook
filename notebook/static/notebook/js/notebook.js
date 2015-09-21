@@ -228,11 +228,15 @@ define(function (require) {
         });
         
         this.events.on('spec_changed.Kernel', function(event, data) {
+            var existing_spec = that.metadata.kernelspec;
             that.metadata.kernelspec = {
                 name: data.name,
                 display_name: data.spec.display_name,
                 language: data.spec.language,
             };
+            if (!existing_spec || JSON.stringify(existing_spec) != JSON.stringify(that.metadata.kernelspec)) {
+                that.set_dirty(true);
+            }
             // start session if the current session isn't already correct
             if (!(that.session && that.session.kernel && that.session.kernel.name === data.name)) {
                 that.start_session(data.name);
@@ -245,8 +249,12 @@ define(function (require) {
                 delete that.metadata.language_info;
                 return;
             }
+            var existing_info = that.metadata.language_info;
             var langinfo = kinfo.language_info;
             that.metadata.language_info = langinfo;
+            if (!existing_info || JSON.stringify(existing_info) != JSON.stringify(langinfo)) {
+                that.set_dirty(true);
+            }
             // Mode 'null' should be plain, unhighlighted text.
             var cm_mode = langinfo.codemirror_mode || langinfo.name || 'null';
             that.set_codemirror_mode(cm_mode);
