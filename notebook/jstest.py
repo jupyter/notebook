@@ -310,6 +310,7 @@ class JSController(TestController):
             '-m', 'notebook',
             '--no-browser',
             '--notebook-dir', self.nbdir.name,
+            '--NotebookApp.base_url=/e%40mail/',
         ]
         # ipc doesn't work on Windows, and darwin has crazy-long temp paths,
         # which run afoul of ipc's maximum path length.
