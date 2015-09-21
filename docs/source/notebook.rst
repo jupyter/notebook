@@ -223,9 +223,7 @@ example, in the ``pandas`` data analysis package). This is known as IPython's
 
 .. seealso::
 
-    `Basic Output`_  example notebook
-
-    `Rich Output`_  example notebook
+   `Rich Output`_  example notebook
 
 Markdown cells
 ~~~~~~~~~~~~~~
