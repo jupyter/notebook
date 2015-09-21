@@ -152,7 +152,10 @@ html_theme = 'sphinx_rtd_theme'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-#html_static_path = ['_static']
+# NOTE: Sphinx's 'make html' builder will throw a warning about an unfound
+#       _static directory. Do not remove or comment out html_static_path
+#       since it is needed to properly generate _static in the build directory
+html_static_path = ['_static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
