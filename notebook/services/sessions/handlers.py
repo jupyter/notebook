@@ -12,7 +12,7 @@ from tornado import web
 
 from ...base.handlers import APIHandler, json_errors
 from jupyter_client.jsonutil import date_default
-from notebook.utils import url_path_join, url_escape
+from notebook.utils import url_path_join
 from jupyter_client.kernelspec import NoSuchKernel
 
 
@@ -64,7 +64,7 @@ class SessionRootHandler(APIHandler):
                 return
 
         location = url_path_join(self.base_url, 'api', 'sessions', model['id'])
-        self.set_header('Location', url_escape(location))
+        self.set_header('Location', location)
         self.set_status(201)
         self.finish(json.dumps(model, default=date_default))
 

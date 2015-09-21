@@ -87,9 +87,9 @@ class ContentsHandler(APIHandler):
         path : unicode
             The API path of the file, such as "foo/bar.txt".
         """
-        return url_escape(url_path_join(
-            self.base_url, 'api', 'contents', path
-        ))
+        return url_path_join(
+            self.base_url, 'api', 'contents', url_escape(path)
+        )
 
     def _finish_model(self, model, location=True):
         """Finish a JSON request with a model, setting relevant headers, etc."""
@@ -280,8 +280,8 @@ class CheckpointsHandler(APIHandler):
         checkpoint = yield gen.maybe_future(cm.create_checkpoint(path))
         data = json.dumps(checkpoint, default=date_default)
         location = url_path_join(self.base_url, 'api/contents',
-            path, 'checkpoints', checkpoint['id'])
-        self.set_header('Location', url_escape(location))
+            url_escape(path), 'checkpoints', url_escape(checkpoint['id']))
+        self.set_header('Location', location)
         self.set_status(201)
         self.finish(data)
 

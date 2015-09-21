@@ -92,7 +92,7 @@ class SessionAPITest(NotebookTestBase):
         newsession = resp.json()
         self.assertIn('id', newsession)
         self.assertEqual(newsession['notebook']['path'], 'foo/nb1.ipynb')
-        self.assertEqual(resp.headers['Location'], '/api/sessions/{0}'.format(newsession['id']))
+        self.assertEqual(resp.headers['Location'], self.url_prefix + 'api/sessions/{0}'.format(newsession['id']))
 
         sessions = self.sess_api.list().json()
         self.assertEqual(sessions, [newsession])

@@ -564,7 +564,7 @@ class FilesRedirectHandler(IPythonHandler):
         cm = self.contents_manager
         if cm.dir_exists(path):
             # it's a *directory*, redirect to /tree
-            url = url_path_join(self.base_url, 'tree', path)
+            url = url_path_join(self.base_url, 'tree', url_escape(path))
         else:
             orig_path = path
             # otherwise, redirect to /files
@@ -580,8 +580,7 @@ class FilesRedirectHandler(IPythonHandler):
             if not cm.file_exists(path=path):
                 raise web.HTTPError(404)
 
-            url = url_path_join(self.base_url, 'files', path)
-        url = url_escape(url)
+            url = url_path_join(self.base_url, 'files', url_escape(path))
         self.log.debug("Redirecting %s to %s", self.request.path, url)
         self.redirect(url)
     
