@@ -18,7 +18,7 @@ configuration can be ignored without any error messages.
 
 How front end configuration works
 ---------------------------------
-The frontend configuration system works as follows::
+The frontend configuration system works as follows:
 
   - get a handle of a configurable JavaScript object.
   - access its configuration attribute.
@@ -44,7 +44,7 @@ Then reload the notebook page in your browser. Now, the preferred indent unit
 should be equal to two spaces. The custom setting persists and you do not need
 to reissue the patch on new notebooks.
 
-``indentUnit``, used in this example, is one of the many `Codemirror option
+``indentUnit``, used in this example, is one of the many `CodeMirror options
 <https://codemirror.net/doc/manual.html#option_indentUnit>`_ which are available
 for configuration.
 
@@ -71,8 +71,8 @@ spaces.
 
 Persisting conguration settings
 -------------------------------
-Under the hood, Jupyter will persist preferred configuration settings in the
-configuration file in ``~/.jupyter/nbconfig/<section>.json``, with ``<section>``
+Under the hood, Jupyter will persist the preferred configuration settings in
+``~/.jupyter/nbconfig/<section>.json``, with ``<section>``
 taking various value depending on the page where the configuration is issued.
 ``<section>`` can take various values like ``notebook``, ``tree``, and
 ``editor``. A ``common`` section contains configuration settings shared by all
