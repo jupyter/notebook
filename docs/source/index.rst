@@ -13,6 +13,7 @@ The Jupyter notebook
    :caption: Configuration
 
    config
+   frontend_config
    public_server
    security
    extending/index
