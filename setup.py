@@ -130,14 +130,7 @@ setup_args['cmdclass'] = {
 # Handle scripts, dependencies, and setuptools specific things
 #---------------------------------------------------------------------------
 
-# For some commands, use setuptools.  Note that we do NOT list install here!
-# If you want a setuptools-enhanced install, just run 'setupegg.py install'
-needs_setuptools = set(('develop', 'release', 'bdist_egg', 'bdist_rpm',
-           'bdist', 'bdist_dumb', 'bdist_wininst', 'bdist_wheel',
-           'egg_info', 'easy_install', 'upload', 'install_egg_info',
-            ))
-
-if len(needs_setuptools.intersection(sys.argv)) > 0:
+if any(arg.startswith('bdist') for arg in sys.argv):
     import setuptools
 
 # This dict is used for passing extra arguments that are setuptools
