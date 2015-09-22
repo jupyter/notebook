@@ -79,7 +79,7 @@ casper.open_new_notebook = function () {
 };
 
 casper.page_loaded = function() {
-    // Return whether or not the kernel is running.
+    // Return whether or not the page has been loaded.
     return this.evaluate(function() {
         return typeof IPython !== "undefined" &&
             IPython.page !== undefined;
