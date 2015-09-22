@@ -67,13 +67,13 @@ setup_args = dict(
     name            = name,
     description     = "A web-based notebook environment for interactive computing",
     long_description = """
-        The Jupyter Notebook is a web application that allows you to create and
-        share documents that contain live code, equations, visualizations, and
-        explanatory text. The Notebook has support for multiple programming
-        languages, sharing, and interactive widgets.
+The Jupyter Notebook is a web application that allows you to create and
+share documents that contain live code, equations, visualizations, and
+explanatory text. The Notebook has support for multiple programming
+languages, sharing, and interactive widgets.
 
-        Read `the documentation<https://jupyter-notebook.readthedocs.org>`_
-        for more information.
+Read `the documentation <https://jupyter-notebook.readthedocs.org>`_
+for more information.
     """,
     version         = version,
     scripts         = glob(pjoin('scripts', '*')),
