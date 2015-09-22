@@ -6,8 +6,9 @@ from notebook.notebookapp import NotebookApp
 header = """\
 .. _config:
 
-Config
-======
+
+Config file and command line options
+====================================
 
 The notebook server can be run with a variety of command line arguments.
 A list of available options can be found below in the :ref:`options section 
