@@ -380,7 +380,7 @@ define(function(require){
     var act_all = keyboard_manager.actions.register(action_all, 'search-and-replace-dialog', 'ipython');
 
     keyboard_manager.command_shortcuts.add_shortcuts({
-        'shift-f': 'ipython.search-and-replace-dialog'
+        'f': 'ipython.search-and-replace-dialog'
     });
   };
 
