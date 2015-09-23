@@ -195,6 +195,9 @@ instructions about modifying ``jupyter_notebook_config.py``)::
 Known issues
 ------------
 
+Proxies
+~~~~~~~
+
 When behind a proxy, especially if your system or browser is set to autodetect
 the proxy, the notebook web application might fail to connect to the server's
 websockets, and present you with a warning at startup. In this case, you need
@@ -203,3 +206,23 @@ to configure your system not to use the proxy for the server's address.
 For example, in Firefox, go to the Preferences panel, Advanced section,
 Network tab, click 'Settings...', and add the address of the notebook server
 to the 'No proxy for' field.
+
+Docker CMD
+~~~~~~~~~~
+
+Using ``jupyter notebook`` as a
+`Docker CMD <https://docs.docker.com/reference/builder/#cmd>`_ results in
+kernels repeatedly crashing, likely due to a lack of `PID reaping
+<https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/>`_.
+To avoid this, use the `tini <https://github.com/krallin/tini>`_ ``init`` as your
+Dockerfile `ENTRYPOINT`::
+
+  # Add Tini. Tini operates as a process subreaper for jupyter. This prevents
+  # kernel crashes.
+  ENV TINI_VERSION v0.6.0
+  ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/bin/tini
+  RUN chmod +x /usr/bin/tini
+  ENTRYPOINT ["/usr/bin/tini", "--"]
+
+  EXPOSE 8888
+  CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0"]
