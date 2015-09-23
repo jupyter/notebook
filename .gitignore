@@ -25,3 +25,7 @@ src
 
 *.swp
 *.map
+.idea/
+Read the Docs
+config.rst
+docs/source/examples/Notebook/rstversions/
