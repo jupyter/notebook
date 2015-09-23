@@ -26,7 +26,7 @@ The Jupyter notebook
 .. toctree::
    :maxdepth: 2
    :caption: Community documentation
-   
+
    examples/Notebook/index
 
 .. toctree::
