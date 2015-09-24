@@ -28,7 +28,7 @@ The Jupyter notebook
    :maxdepth: 1
    :caption: Community documentation
 
-   examples/Notebook/rstversions/index
+   examples/Notebook/rstversions/Examples and Tutorials Index
 
 .. toctree::
    :maxdepth: 2
