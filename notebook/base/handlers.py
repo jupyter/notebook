@@ -386,6 +386,13 @@ class APIHandler(IPythonHandler):
         self.set_header('Content-Type', 'application/json')
         return super(APIHandler, self).finish(*args, **kwargs)
 
+    @web.authenticated
+    def options(self, *args, **kwargs):
+        self.set_header('Access-Control-Allow-Headers', 'accept, content-type')
+        self.set_header('Access-Control-Allow-Methods',
+                        'GET, PUT, PATCH, DELETE, OPTIONS')
+        self.finish()
+
 
 class Template404(IPythonHandler):
     """Render our 404 template"""

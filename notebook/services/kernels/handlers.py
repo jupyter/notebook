@@ -51,8 +51,6 @@ class MainKernelHandler(APIHandler):
 
 class KernelHandler(APIHandler):
 
-    SUPPORTED_METHODS = ('DELETE', 'GET', 'OPTIONS')
-
     @web.authenticated
     @json_errors
     def get(self, kernel_id):
@@ -67,12 +65,6 @@ class KernelHandler(APIHandler):
         km = self.kernel_manager
         km.shutdown_kernel(kernel_id)
         self.set_status(204)
-        self.finish()
-
-    @web.authenticated
-    @json_errors
-    def options(self, kernel_id):
-        self.set_header('Access-Control-Allow-Headers', 'accept, content-type')
         self.finish()
 
 
@@ -90,12 +82,6 @@ class KernelActionHandler(APIHandler):
             model = km.kernel_model(kernel_id)
             self.set_header('Location', '{0}api/kernels/{1}'.format(self.base_url, kernel_id))
             self.write(json.dumps(model))
-        self.finish()
-
-    @web.authenticated
-    @json_errors
-    def options(self, kernel_id, action):
-        self.set_header('Access-Control-Allow-Headers', 'accept, content-type')
         self.finish()
 
 

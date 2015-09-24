@@ -77,8 +77,6 @@ def validate_model(model, expect_content):
 
 class ContentsHandler(APIHandler):
 
-    SUPPORTED_METHODS = (u'GET', u'PUT', u'PATCH', u'POST', u'DELETE')
-
     def location_url(self, path):
         """Return the full URL location of a file.
 
@@ -259,8 +257,6 @@ class ContentsHandler(APIHandler):
 
 class CheckpointsHandler(APIHandler):
 
-    SUPPORTED_METHODS = ('GET', 'POST')
-
     @web.authenticated
     @json_errors
     @gen.coroutine
@@ -287,8 +283,6 @@ class CheckpointsHandler(APIHandler):
 
 
 class ModifyCheckpointsHandler(APIHandler):
-
-    SUPPORTED_METHODS = ('POST', 'DELETE')
 
     @web.authenticated
     @json_errors
