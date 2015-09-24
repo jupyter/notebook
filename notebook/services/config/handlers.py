@@ -12,7 +12,7 @@ from ipython_genutils.py3compat import PY3
 from ...base.handlers import APIHandler, json_errors
 
 class ConfigHandler(APIHandler):
-    SUPPORTED_METHODS = ('GET', 'PUT', 'PATCH')
+    SUPPORTED_METHODS = ('GET', 'PUT', 'PATCH', 'OPTIONS')
 
     @web.authenticated
     @json_errors
@@ -33,6 +33,13 @@ class ConfigHandler(APIHandler):
         new_data = self.get_json_body()
         section = self.config_manager.update(section_name, new_data)
         self.finish(json.dumps(section))
+
+    @web.authenticated
+    @json_errors
+    def options(self, section_name):
+        self.set_header('Access-Control-Allow-Headers', 'accept, content-type')
+        self.set_header('Access-Control-Allow-Methods', 'GET, PUT, PATCH')
+        self.finish()
 
 
 # URL to handler mappings
