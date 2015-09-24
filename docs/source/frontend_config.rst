@@ -11,8 +11,8 @@ Configuring the notebook frontend
 This document is a rough explanation on how you can persist some configuration
 options for the notebook JavaScript.
 
-There is no exhaustive list on all the configuration option are most options
-are just passed down to other libraries, which mean that non valid
+There is no exhaustive list of all the configuration options as most options
+are passed down to other libraries, which means that non valid
 configuration can be ignored without any error messages.
 
 
@@ -69,8 +69,8 @@ four spaces. Enter the following code snippet in your JavaScript console::
 Reload the notebook in your browser and the default indent should again be two
 spaces.
 
-Persisting conguration settings
--------------------------------
+Persisting configuration settings
+---------------------------------
 Under the hood, Jupyter will persist the preferred configuration settings in
 ``~/.jupyter/nbconfig/<section>.json``, with ``<section>``
 taking various value depending on the page where the configuration is issued.
