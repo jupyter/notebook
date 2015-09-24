@@ -15,7 +15,7 @@ For more detailed information, see `GitHub <https://github.com/jupyter/notebook>
 Security fixes for maliciously crafted files.
 
 - `CVE-2015-6938 <http://www.openwall.com/lists/oss-security/2015/09/02/3>`__: malicious filenames
-- `CVE-pending <http://www.openwall.com/lists/oss-security/2015/09/16/3>`__: malicious binary files in text editor.
+- `CVE-2015-7337 <http://www.openwall.com/lists/oss-security/2015/09/16/3>`__: malicious binary files in text editor.
 
 Thanks to Jonathan Kamens at Quantopian and Juan Broullón for the reports.
 
