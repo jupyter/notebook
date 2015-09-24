@@ -44,7 +44,6 @@ def kernelspec_model(handler, name):
     return d
 
 class MainKernelSpecHandler(APIHandler):
-    SUPPORTED_METHODS = ('GET', 'OPTIONS')
 
     @web.authenticated
     @json_errors
@@ -64,14 +63,8 @@ class MainKernelSpecHandler(APIHandler):
         self.set_header("Content-Type", 'application/json')
         self.finish(json.dumps(model))
 
-    @web.authenticated
-    @json_errors
-    def options(self):
-        self.finish()
-
 
 class KernelSpecHandler(APIHandler):
-    SUPPORTED_METHODS = ('GET',)
 
     @web.authenticated
     @json_errors

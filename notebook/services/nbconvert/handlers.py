@@ -5,7 +5,6 @@ from tornado import web
 from ...base.handlers import APIHandler, json_errors
 
 class NbconvertRootHandler(APIHandler):
-    SUPPORTED_METHODS = ('GET',)
 
     @web.authenticated
     @json_errors

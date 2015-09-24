@@ -18,6 +18,13 @@ class APIHandler(web.StaticFileHandler, IPythonHandler):
         self.set_header('Content-Type', 'text/x-yaml')
         return web.StaticFileHandler.get(self, 'api.yaml')
 
+    @web.authenticated
+    def options(self, section_name):
+        self.set_header('Access-Control-Allow-Headers', 'accept, content-type')
+        self.set_header('Access-Control-Allow-Methods',
+                        'GET, PUT, POST, PATCH, DELETE, OPTIONS')
+        self.finish()
+
 default_handlers = [
     (r"/api/spec.yaml", APIHandler)
 ]
