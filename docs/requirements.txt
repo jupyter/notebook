@@ -1,3 +1,5 @@
+jupyter
+sphinx_rtd_theme
 jinja2
 tornado
 -e git+https://github.com/ipython/ipython_genutils.git#egg=ipython_genutils
