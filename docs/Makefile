@@ -50,7 +50,7 @@ help:
 
 clean:
 	rm -rf $(BUILDDIR)/*
-	rm -rf source/config.rst
+	rm -rf config.rst
 
 html: source/config.rst ipynb2rst
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
