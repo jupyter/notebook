@@ -20,8 +20,12 @@ import shlex
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
+sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../..'))
 
+# Check if docs are being built by ReadTheDocs
+# If so, generate a config.rst file and populate it with documentation about
+# configuration options
 if os.environ.get('READTHEDOCS', ''):
 
     # Readthedocs doesn't run our Makefile, so we do this to force it to generate

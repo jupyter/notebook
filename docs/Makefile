@@ -50,7 +50,7 @@ help:
 
 clean:
 	rm -rf $(BUILDDIR)/*
-	rm -rf source/config.rst
+	rm -rf config.rst
 
 html: source/config.rst ipynb2rst
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
@@ -62,7 +62,7 @@ source/config.rst:
 	@echo "Created docs for config options"
 
 ipynb2rst:
-	jupyter nbconvert --to rst source/examples/Notebook/*.ipynb --template=source/template --FilesWriter.build_directory=source/examples/Notebook
+	jupyter nbconvert --to rst source/examples/Notebook/*.ipynb --template=source/template --FilesWriter.build_directory=source/examples/Notebook/rstversions
 	@echo "Converted notebooks to rst"
 
 dirhtml:
