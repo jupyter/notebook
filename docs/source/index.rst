@@ -15,6 +15,7 @@ The Jupyter notebook
    config
    public_server
    security
+   frontend_config
    extending/index
 
 .. toctree::
