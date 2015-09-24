@@ -6,6 +6,9 @@ Jupyter notebook changelog
 A summary of changes in the Jupyter notebook.
 For more detailed information, see `GitHub <https://github.com/jupyter/notebook>`__.
 
+4.1.0
+------
+- Removed --no-mathjax flag
 
 4.0.2
 -----
