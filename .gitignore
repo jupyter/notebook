@@ -28,4 +28,7 @@ src
 .idea/
 Read the Docs
 config.rst
-docs/source/examples/Notebook/rstversions/
+
+# Ignore all in rstversions but index.rst
+docs/source/examples/Notebook/rstversions/*
+!docs/source/examples/Notebook/rstversions/index.rst
