@@ -194,7 +194,7 @@ define([
         });
              
         var id_actions_dict = {
-            '#search_and_replace' : 'ipython.search-and-replace-dialog',
+            '#find_and_replace' : 'ipython.find-and-replace-dialog',
             '#save_checkpoint': 'ipython.save-notebook',
             '#restart_kernel': 'ipython.restart-kernel',
             '#int_kernel': 'ipython.interrupt-kernel',
