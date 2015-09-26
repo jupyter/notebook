@@ -22,8 +22,7 @@ text, mathematics, images, and rich media representations of objects.
 
 .. seealso::
 
-    See the :ref:`installation documentation <installnotebook>` for directions
-    on how to install the notebook and its dependencies.
+    See the :ref:`installation guide <jupyter:install>` on how to install the notebook and its dependencies.
 
 
 Main features of the web application

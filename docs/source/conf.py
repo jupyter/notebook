@@ -326,5 +326,6 @@ texinfo_documents = [
 intersphinx_mapping = {
     'ipython': ('http://ipython.org/ipython-doc/dev/', None),
     'nbconvert': ('http://nbconvert.readthedocs.org/en/latest/', None),
-    'nbformat': ('http://nbformat.readthedocs.org/en/latest/', None)
+    'nbformat': ('http://nbformat.readthedocs.org/en/latest/', None),
+    'jupyter': ('http://jupyter.readthedocs.org/en/latest/', None),
 }
