@@ -182,7 +182,7 @@ define(function(require){
     var body = $('<div/>')
       .attr('id', 'replace-preview');
     var form = $('<form/>')
-      .attr('id', 'search-and-replace')
+      .attr('id', 'find-and-replace')
       .append($('<div/>').addClass('form-group')
         .append(
           $('<div/>').addClass('input-group')
