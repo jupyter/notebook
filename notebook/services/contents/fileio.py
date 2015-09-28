@@ -23,19 +23,21 @@ import nbformat
 from ipython_genutils.py3compat import str_to_unicode
 
 
-def _copy_metadata(src, dst):
-    """Copy the set of metadata we want for atomic_writing.
-    
-    Permission bits and flags. We'd like to copy file ownership as well, but we
-    can't do that.
+def copy2_safe(src, dst, log=None):
+    """copy src to dst
+
+    like shutil.copy2, but log errors in copystat instead of raising
     """
-    shutil.copymode(src, dst)
-    st = os.stat(src)
-    if hasattr(os, 'chflags') and hasattr(st, 'st_flags'):
-        os.chflags(dst, st.st_flags)
+    shutil.copyfile(src, dst)
+    try:
+        shutil.copystat(src, dst)
+    except OSError:
+        if log:
+            log.debug("copystat on %s failed", dst, exc_info=True)
+
 
 @contextmanager
-def atomic_writing(path, text=True, encoding='utf-8', **kwargs):
+def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     """Context manager to write to a file only if the entire write is successful.
     
     This works by copying the previous file contents to a temporary file in the
@@ -68,7 +70,7 @@ def atomic_writing(path, text=True, encoding='utf-8', **kwargs):
     # The .~ prefix will make Dropbox ignore the temporary file.
     tmp_path = os.path.join(dirname, '.~'+basename)
     if os.path.isfile(path):
-        shutil.copy2(path, tmp_path)
+        copy2_safe(path, tmp_path, log=log)
 
     if text:
         # Make sure that text files have Unix linefeeds by default
@@ -128,7 +130,7 @@ class FileManagerMixin(object):
     def atomic_writing(self, os_path, *args, **kwargs):
         """wrapper around atomic_writing that turns permission errors to 403"""
         with self.perm_to_403(os_path):
-            with atomic_writing(os_path, *args, **kwargs) as f:
+            with atomic_writing(os_path, *args, log=self.log, **kwargs) as f:
                 yield f
 
     @contextmanager
@@ -153,11 +155,7 @@ class FileManagerMixin(object):
 
         like shutil.copy2, but log errors in copystat
         """
-        shutil.copyfile(src, dest)
-        try:
-            shutil.copystat(src, dest)
-        except OSError:
-            self.log.debug("copystat on %s failed", dest, exc_info=True)
+        copy2_safe(src, dest, log=self.log)
 
     def _get_os_path(self, path):
         """Given an API path, return its file system path.
