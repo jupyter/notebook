@@ -222,6 +222,9 @@ class JSController(TestController):
         self.section = section
         self.xunit = xunit
         self.url = url
+        # run with a base URL that would be escaped,
+        # to test that we don't double-escape URLs
+        self.base_url = '/a@b/'
         self.slimer_failure = re.compile('^FAIL.*', flags=re.MULTILINE)
         js_test_dir = get_js_test_dir()
         includes = '--includes=' + os.path.join(js_test_dir,'util.js')
@@ -264,7 +267,7 @@ class JSController(TestController):
             self.server_port = 0
             self._init_server()
             if self.server_port:
-                self.cmd.append("--port=%i" % self.server_port)
+                self.cmd.append('--url=http://localhost:%i%s' % (self.server_port, self.base_url))
             else:
                 # don't launch tests if the server didn't start
                 self.cmd = [sys.executable, '-c', 'raise SystemExit(1)']
@@ -310,6 +313,7 @@ class JSController(TestController):
             '-m', 'notebook',
             '--no-browser',
             '--notebook-dir', self.nbdir.name,
+            '--NotebookApp.base_url=%s' % self.base_url,
         ]
         # ipc doesn't work on Windows, and darwin has crazy-long temp paths,
         # which run afoul of ipc's maximum path length.

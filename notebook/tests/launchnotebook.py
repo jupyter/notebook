@@ -39,11 +39,14 @@ class NotebookTestBase(TestCase):
 
     port = 12341
     config = None
+    # run with a base URL that would be escaped,
+    # to test that we don't double-escape URLs
+    url_prefix = '/a%40b/'
 
     @classmethod
     def wait_until_alive(cls):
         """Wait for the server to be alive"""
-        url = 'http://localhost:%i/api/contents' % cls.port
+        url = cls.base_url() + 'api/contents'
         for _ in range(int(MAX_WAITTIME/POLL_INTERVAL)):
             try:
                 requests.get(url)
@@ -86,6 +89,7 @@ class NotebookTestBase(TestCase):
             data_dir=cls.data_dir.name,
             runtime_dir=cls.runtime_dir.name,
             notebook_dir=cls.notebook_dir.name,
+            base_url=cls.url_prefix,
             config=cls.config,
         )
         
@@ -123,7 +127,7 @@ class NotebookTestBase(TestCase):
 
     @classmethod
     def base_url(cls):
-        return 'http://localhost:%i/' % cls.port
+        return 'http://localhost:%i%s' % (cls.port, cls.url_prefix)
 
 
 @contextmanager

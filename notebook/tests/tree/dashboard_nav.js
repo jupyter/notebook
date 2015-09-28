@@ -11,23 +11,24 @@ casper.get_list_items = function () {
     });
 };
 
-casper.test_items = function (baseUrl, visited) {
+casper.test_items = function (origin, prefix, visited) {
     visited = visited || {};
     casper.then(function () {
         var items = casper.get_list_items();
+        var tree_link = RegExp('^' + (prefix + 'tree/').replace(/\//g, '\\/'));
         casper.each(items, function (self, item) {
-            if (item.link.match(/^\/tree\//)) {
-                var followed_url = baseUrl+item.link;
+            if (item.link.match(tree_link)) {
+                var followed_url = item.link;
                 if (!visited[followed_url]) {
                     visited[followed_url] = true;
-                    casper.thenOpen(followed_url, function () {
+                    casper.thenOpen(origin + followed_url, function () {
                         this.waitFor(this.page_loaded);
                         casper.wait_for_dashboard();
                         // getCurrentUrl is with host, and url-decoded,
                         // but item.link is without host, and url-encoded
-                        var expected = baseUrl + decodeURIComponent(item.link);
+                        var expected = origin + decodeURIComponent(item.link);
                         this.test.assertEquals(this.getCurrentUrl(), expected, 'Testing dashboard link: ' + expected);
-                        casper.test_items(baseUrl, visited);
+                        casper.test_items(origin, prefix, visited);
                         this.back();
                     });
                 }
@@ -37,7 +38,10 @@ casper.test_items = function (baseUrl, visited) {
 };
 
 casper.dashboard_test(function () {
-    baseUrl = this.get_notebook_server();
-    casper.test_items(baseUrl);
+    var baseUrl = this.get_notebook_server();
+    m = /(https?:\/\/[^\/]+)(.*)/.exec(baseUrl);
+    origin = m[1];
+    prefix = m[2];
+    casper.test_items(origin, prefix);
 });
 

@@ -43,8 +43,8 @@ class MainKernelHandler(APIHandler):
 
         kernel_id = km.start_kernel(kernel_name=model['name'])
         model = km.kernel_model(kernel_id)
-        location = url_path_join(self.base_url, 'api', 'kernels', kernel_id)
-        self.set_header('Location', url_escape(location))
+        location = url_path_join(self.base_url, 'api', 'kernels', url_escape(kernel_id))
+        self.set_header('Location', location)
         self.set_status(201)
         self.finish(json.dumps(model))
 

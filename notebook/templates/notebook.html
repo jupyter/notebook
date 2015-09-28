@@ -26,11 +26,10 @@ window.mathjax_url = "{{mathjax_url}}";
 {% block params %}
 
 {{super()}}
-data-project="{{project}}"
-data-base-url="{{base_url}}"
-data-ws-url="{{ws_url}}"
-data-notebook-name="{{notebook_name}}"
-data-notebook-path="{{notebook_path}}"
+data-base-url="{{base_url | urlencode}}"
+data-ws-url="{{ws_url | urlencode}}"
+data-notebook-name="{{notebook_name | urlencode}}"
+data-notebook-path="{{notebook_path | urlencode}}"
 
 {% endblock %}
 

@@ -75,8 +75,9 @@ define([
             $('#new-file').click(function(e) {
                 var w = window.open('', IPython._target);
                 that.contents.new_untitled(that.notebook_path || '', {type: 'file', ext: '.txt'}).then(function(data) {
-                    var url = utils.url_join_encode(
-                        that.base_url, 'edit', data.path
+                    var url = utils.url_path_join(
+                        that.base_url, 'edit',
+                        utils.encode_uri_components(data.path)
                     );
                     w.location = url;
                 }).catch(function (e) {
@@ -298,7 +299,7 @@ define([
             try {
                 this.add_link(model, item);
             } catch(err) {
-                console.log('Error adding link: ' + err)
+                console.log('Error adding link: ' + err);
             }
         }
         // Trigger an event when we've finished drawing the notebook list.
@@ -550,10 +551,10 @@ define([
         item.find(".item_icon").addClass(icon).addClass('icon-fixed-width');
         var link = item.find("a.item_link")
             .attr('href',
-                utils.url_join_encode(
+                utils.url_path_join(
                     this.base_url,
                     uri_prefix,
-                    path
+                    utils.encode_uri_components(path)
                 )
             );
 
@@ -613,10 +614,10 @@ define([
 
         var session = this.sessions[path];
         if (session) {
-            var url = utils.url_join_encode(
+            var url = utils.url_path_join(
                 this.base_url,
                 'api/sessions',
-                session
+                encodeURIComponent(session)
             );
             $.ajax(url, settings);
         }

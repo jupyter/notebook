@@ -34,8 +34,7 @@ class NotebookHandler(IPythonHandler):
         if model['type'] != 'notebook':
             # not a notebook, redirect to files
             return FilesRedirectHandler.redirect_to_files(self, path)
-        name = url_escape(path.rsplit('/', 1)[-1])
-        path = url_escape(path)
+        name = path.rsplit('/', 1)[-1]
         self.write(self.render_template('notebook.html',
             notebook_path=path,
             notebook_name=name,

@@ -338,7 +338,7 @@ class APITest(NotebookTestBase):
     def _check_created(self, resp, path, type='notebook'):
         self.assertEqual(resp.status_code, 201)
         location_header = py3compat.str_to_unicode(resp.headers['Location'])
-        self.assertEqual(location_header, url_escape(url_path_join(u'/api/contents', path)))
+        self.assertEqual(location_header, url_path_join(self.url_prefix, u'api/contents', url_escape(path)))
         rjson = resp.json()
         self.assertEqual(rjson['name'], path.rsplit('/', 1)[-1])
         self.assertEqual(rjson['path'], path)

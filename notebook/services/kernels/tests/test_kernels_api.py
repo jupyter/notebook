@@ -63,29 +63,33 @@ class KernelAPITest(NotebookTestBase):
         # POST request
         r = self.kern_api._req('POST', '')
         kern1 = r.json()
-        self.assertEqual(r.headers['location'], '/api/kernels/' + kern1['id'])
+        self.assertEqual(r.headers['location'], url_path_join(self.url_prefix, 'api/kernels', kern1['id']))
         self.assertEqual(r.status_code, 201)
         self.assertIsInstance(kern1, dict)
 
-        self.assertEqual(r.headers['Content-Security-Policy'], (
-                            "frame-ancestors 'self'; "
-                            "report-uri /api/security/csp-report; "
-                            "default-src 'none'"
-        ))
+        report_uri = url_path_join(self.url_prefix, 'api/security/csp-report')
+        expected_csp = '; '.join([
+            "frame-ancestors 'self'",
+            'report-uri ' + report_uri,
+            "default-src 'none'"
+        ])
+        self.assertEqual(r.headers['Content-Security-Policy'], expected_csp)
 
     def test_main_kernel_handler(self):
         # POST request
         r = self.kern_api.start()
         kern1 = r.json()
-        self.assertEqual(r.headers['location'], '/api/kernels/' + kern1['id'])
+        self.assertEqual(r.headers['location'], url_path_join(self.url_prefix, 'api/kernels', kern1['id']))
         self.assertEqual(r.status_code, 201)
         self.assertIsInstance(kern1, dict)
 
-        self.assertEqual(r.headers['Content-Security-Policy'], (
-                            "frame-ancestors 'self'; "
-                            "report-uri /api/security/csp-report; "
-                            "default-src 'none'"
-        ))
+        report_uri = url_path_join(self.url_prefix, 'api/security/csp-report')
+        expected_csp = '; '.join([
+            "frame-ancestors 'self'",
+            'report-uri ' + report_uri,
+            "default-src 'none'"
+        ])
+        self.assertEqual(r.headers['Content-Security-Policy'], expected_csp)
 
         # GET request
         r = self.kern_api.list()
@@ -110,7 +114,7 @@ class KernelAPITest(NotebookTestBase):
 
         # Restart a kernel
         r = self.kern_api.restart(kern2['id'])
-        self.assertEqual(r.headers['Location'], '/api/kernels/'+kern2['id'])
+        self.assertEqual(r.headers['Location'], url_path_join(self.url_prefix, 'api/kernels', kern2['id']))
         rekern = r.json()
         self.assertEqual(rekern['id'], kern2['id'])
         self.assertEqual(rekern['name'], kern2['name'])

@@ -119,11 +119,11 @@ define([
 
     SaveWidget.prototype.update_address_bar = function (path) {
         var state = {path : path};
-        window.history.replaceState(state, "", utils.url_join_encode(
+        window.history.replaceState(state, "", utils.url_path_join(
             this.editor.base_url,
             "edit",
-            path)
-        );
+            utils.encode_uri_components(path)
+        ));
     };
 
     SaveWidget.prototype.update_last_modified = function (last_modified) {

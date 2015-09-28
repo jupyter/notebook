@@ -126,14 +126,17 @@ casper.notebook_test(function () {
     });
 
     // test start
-    var url;
+    var url, base_url;
     this.then(function () {
+        base_url = this.evaluate(function () {
+            return IPython.notebook.base_url;
+        });
         url = this.evaluate(function () {
             return IPython.notebook.kernel.start();
         });
     });
     this.then(function () {
-        this.test.assertEquals(url, "/api/kernels", "start url is correct");
+        this.test.assertEquals(url, base_url + "api/kernels", "start url is correct");
     });
     this.wait_for_kernel_ready();
     this.then(function () {
@@ -151,7 +154,7 @@ casper.notebook_test(function () {
         });
     });
     this.then(function () {
-        this.test.assertEquals(url, "/api/kernels?foo=bar", "start url with params is correct");
+        this.test.assertEquals(url, base_url + "api/kernels?foo=bar", "start url with params is correct");
     });
     this.wait_for_kernel_ready();
     this.then(function () {

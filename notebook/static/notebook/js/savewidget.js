@@ -142,10 +142,10 @@ define([
         var base_url = this.notebook.base_url;
         var path = this.notebook.notebook_path;
         var state = {path : path};
-        window.history.replaceState(state, "", utils.url_join_encode(
+        window.history.replaceState(state, "", utils.url_path_join(
             base_url,
             "notebooks",
-            path)
+            utils.encode_uri_components(path))
         );
     };
 

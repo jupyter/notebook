@@ -12,13 +12,14 @@ class TreeHandler(IPythonHandler):
     """Render the tree view, listing notebooks, etc."""
 
     def generate_breadcrumbs(self, path):
-        breadcrumbs = [(url_escape(url_path_join(self.base_url, 'tree')), '')]
-        comps = path.split('/')
-        ncomps = len(comps)
-        for i in range(ncomps):
-            if comps[i]:
-                link = url_escape(url_path_join(self.base_url, 'tree', *comps[0:i+1]))
-                breadcrumbs.append((link, comps[i]))
+        breadcrumbs = [(url_path_join(self.base_url, 'tree'), '')]
+        parts = path.split('/')
+        for i in range(len(parts)):
+            if parts[i]:
+                link = url_path_join(self.base_url, 'tree',
+                    url_escape(url_path_join(*parts[:i+1])),
+                )
+                breadcrumbs.append((link, parts[i]))
         return breadcrumbs
 
     def generate_page_title(self, path):
@@ -53,9 +54,9 @@ class TreeHandler(IPythonHandler):
             model = cm.get(path, content=False)
             # redirect to /api/notebooks if it's a notebook, otherwise /api/files
             service = 'notebooks' if model['type'] == 'notebook' else 'files'
-            url = url_escape(url_path_join(
-                self.base_url, service, path,
-            ))
+            url = url_path_join(
+                self.base_url, service, url_escape(path),
+            )
             self.log.debug("Redirecting %s to %s", self.request.path, url)
             self.redirect(url)
         else:
