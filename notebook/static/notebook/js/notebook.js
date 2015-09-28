@@ -1812,11 +1812,37 @@ define(function (require) {
                 'Are you sure you want to restart the current kernel and re-execute the whole notebook?  All variables and outputs will be lost.'
             ),
             buttons : {
-                "Continue running" : {},
                 "Restart & run all cells" : {
                     "class" : "btn-danger",
                     "click" : function () {
                         that.execute_all_cells();
+                    },
+                },
+            }
+        };
+        return this._restart_kernel(restart_options);
+    };
+
+    /**
+     * Prompt the user to restart the kernel and clear output.
+     * if options.confirm === false, no confirmation dialog is shown.
+     */
+    Notebook.prototype.restart_clear_output = function (options) {
+        var that = this;
+        var restart_options = {};
+        restart_options.confirm = (options || {}).confirm;
+        restart_options.dialog = {
+            notebook: that,
+            keyboard_manager: that.keyboard_manager,
+            title : "Restart kernel and clear all output?",
+            body : $("<p/>").text(
+                'Do you want to restart the current kernel and clear all output?  All variables and outputs will be lost.'
+            ),
+            buttons : {
+                "Restart & clear all outputs" : {
+                    "class" : "btn-danger",
+                    "click" : function (){
+                        that.clear_all_output();
                     },
                 },
             }
@@ -1833,24 +1859,11 @@ define(function (require) {
         var restart_options = {};
         restart_options.confirm = (options || {}).confirm;
         restart_options.dialog = {
-            title : "Restart kernel or continue running?",
+            title : "Restart kernel?",
             body : $("<p/>").text(
-                'Do you want to restart the current kernel?  You will lose all variables defined in it.'
+                'Do you want to restart the current kernel?  All variables will be lost.'
             ),
             buttons : {
-                "Continue running" : {},
-                "Restart & clear all outputs" : {
-                    "class" : "btn-danger",
-                    "click" : function (){
-                        that.clear_all_output();
-                    },
-                },
-                "Restart & run all cells" : {
-                    "class" : "btn-danger",
-                    "click" : function (){
-                        that.execute_all_cells();
-                    },
-                },
                 "Restart" : {
                     "class" : "btn-warning",
                     "click" : function () {},
@@ -1878,21 +1891,27 @@ define(function (require) {
         }
         
         if (options.confirm === false) {
+            var default_button = options.dialog.buttons[Object.keys(options.dialog.buttons)[0]];
+            promise.then(default_button.click);
             restart_and_resolve();
             return promise;
         }
         options.dialog.notebook = this;
         options.dialog.keyboard_manager = this.keyboard_manager;
+        // add 'Continue running' cancel button
+        var buttons = {
+            "Continue running": {},
+        };
+        // hook up button.click actions after restart promise resolves
         Object.keys(options.dialog.buttons).map(function (key) {
-            var button = options.dialog.buttons[key];
-            if (button.click) {
-                var click = button.click;
-                button.click = function () {
-                    promise.then(click);
-                    restart_and_resolve();
-                };
-            }
+            var button = buttons[key] = options.dialog.buttons[key];
+            var click = button.click;
+            button.click = function () {
+                promise.then(click);
+                restart_and_resolve();
+            };
         });
+        options.dialog.buttons = buttons;
         dialog.modal(options.dialog);
         return promise;
     };

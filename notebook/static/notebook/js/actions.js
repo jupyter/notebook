@@ -86,9 +86,14 @@ define(function(require){
         },
         'restart-run-all': {
             help: 'restart the kernel, then re-run the whole notebook',
-            help_index: 'be',
             handler: function (env) {
                 env.notebook.restart_run_all();
+            }
+        },
+        'restart-clear-output': {
+            help: 'restart the kernel and clear all output',
+            handler: function (env) {
+                env.notebook.restart_clear_output();
             }
         },
         'restart': {
@@ -102,6 +107,12 @@ define(function(require){
             help: 'restart the kernel, then re-run the whole notebook (no confirmation dialog)',
             handler: function (env) {
                 env.notebook.restart_run_all({confirm: false});
+            }
+        },
+        'restart-clear-output-no-confirm': {
+            help: 'restart the kernel and clear all output (no confirmation dialog)',
+            handler: function (env) {
+                env.notebook.restart_clear_output({confirm: false});
             }
         },
         'restart-no-confirm': {
