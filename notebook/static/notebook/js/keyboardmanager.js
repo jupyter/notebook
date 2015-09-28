@@ -33,16 +33,22 @@ define([
         this.pager = options.pager;
         this.quick_help = undefined;
         this.notebook = undefined;
+        this.notebooklist = undefined;
         this.last_mode = undefined;
         this.bind_events();
         this.env = {pager:this.pager};
         this.actions = options.actions;
-        this.command_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env );
-        this.command_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
-        this.command_shortcuts.add_shortcuts(this.get_default_command_shortcuts());
-        this.edit_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env);
-        this.edit_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
-        this.edit_shortcuts.add_shortcuts(this.get_default_edit_shortcuts());
+        if (this.view === 'tree') {
+          this.tree_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env);
+          this.tree_shortcuts.add_shortcuts(this.get_default_tree_shortcuts());
+        } else if (this.view === 'notebook') {
+          this.command_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env );
+          this.command_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
+          this.command_shortcuts.add_shortcuts(this.get_default_command_shortcuts());
+          this.edit_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env);
+          this.edit_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
+          this.edit_shortcuts.add_shortcuts(this.get_default_edit_shortcuts());
+        }
         Object.seal(this);
     };
 
@@ -60,6 +66,16 @@ define([
      * // e.g. 'shift' , 'shift-enter', 'cmd-t'
      *```
      */
+
+    KeyboardManager.prototype.get_default_tree_shortcuts = function() {
+        return {
+            'enter' : 'ipython.enter-row',
+            'j'     : 'ipython.select-next-row',
+            'k'     : 'ipython.select-previous-row'
+        };
+    };
+
+
     KeyboardManager.prototype.get_default_common_shortcuts = function() {
         return {
             'shift'       : 'ipython.ignore',
@@ -127,12 +143,26 @@ define([
 
     KeyboardManager.prototype.bind_events = function () {
         var that = this;
+        var notebook_view = window.document.getElementById("pager");
+        this.view = 'tree';
+
+        if (notebook_view){
+          //this test expects element with id="pager" to only exist in
+          //notebook view
+          this.view = 'notebook';
+        }
+
         $(document).keydown(function (event) {
             if(event._ipkmIgnore===true||(event.originalEvent||{})._ipkmIgnore===true){
                 return false;
             }
             return that.handle_keydown(event);
         });
+    };
+
+    KeyboardManager.prototype.set_notebooklist = function(notebooklist) {
+      this.notebooklist = notebooklist;
+      this.actions.extend_env({notebooklist:notebooklist});
     };
 
     KeyboardManager.prototype.set_notebook = function (notebook) {
@@ -155,19 +185,22 @@ define([
             // websocket connection with firefox
             event.preventDefault();
         }
-        
-        if (!this.enabled) {
-            if (event.which === keycodes.esc) {
-                this.notebook.command_mode();
-                return false;
-            }
-            return true;
-        }
-        
-        if (this.mode === 'edit') {
-            return this.edit_shortcuts.call_handler(event);
-        } else if (this.mode === 'command') {
-            return this.command_shortcuts.call_handler(event);
+
+        if (this.view === 'tree'){
+          this.tree_shortcuts.call_handler(event);
+        } else {
+          if (!this.enabled) {
+              if (event.which === keycodes.esc) {
+                  this.notebook.command_mode();
+                  return false;
+              }
+              return true;
+          }
+          if (this.mode === 'edit') {
+              return this.edit_shortcuts.call_handler(event);
+          } else if (this.mode === 'command') {
+              return this.command_shortcuts.call_handler(event);
+          }
         }
         return true;
     };

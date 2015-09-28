@@ -16,6 +16,8 @@ require([
     'tree/js/terminallist',
     'tree/js/newnotebook',
     'auth/js/loginwidget',
+    'tree/js/treeactions',
+    'notebook/js/keyboardmanager',
     // only loaded, not used:
     'jqueryui',
     'bootstrap',
@@ -34,13 +36,18 @@ require([
     kernellist,
     terminallist,
     newnotebook,
-    loginwidget){
+    loginwidget,
+    actions,
+    keyboardmanager){
     "use strict";
 
     IPython.NotebookList = notebooklist.NotebookList;
 
     page = new page.Page();
-    
+
+
+    //how to initialize actions with notebooklist instance
+
     var common_options = {
         base_url: utils.get_body_data("baseUrl"),
         notebook_path: utils.get_body_data("notebookPath"),
@@ -58,9 +65,20 @@ require([
         base_url: common_options.base_url,
         common_config: common_config
     });
+
+
+    var acts = new actions.init();
+
+    var keyboard_manager = new keyboardmanager.KeyboardManager({
+        pager: false,
+        events: events,
+        actions: acts});
+
     var notebook_list = new notebooklist.NotebookList('#notebook_list', $.extend({
         contents: contents,
-        session_list:  session_list}, 
+        events: events,
+        keyboard_manager: keyboard_manager,
+        session_list:  session_list},
         common_options));
     var kernel_list = new kernellist.KernelList('#running_list',  $.extend({
         session_list:  session_list}, 
@@ -79,6 +97,8 @@ require([
             common_options
         )
     );
+
+    keyboard_manager.set_notebooklist(notebook_list);
 
     var interval_id=0;
     // auto refresh every xx secondes, no need to be fast,
@@ -140,6 +160,7 @@ require([
     // For backwards compatability.
     IPython.page = page;
     IPython.notebook_list = notebook_list;
+    IPython.keyboard_manager = keyboard_manager;
     IPython.session_list = session_list;
     IPython.kernel_list = kernel_list;
     IPython.login_widget = login_widget;

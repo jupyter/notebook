@@ -20,6 +20,7 @@ define([
          *  options: dictionary
          *      Dictionary of keyword arguments.
          *          session_list: SessionList instance
+         *          keyboard_manager: KeyboardManager instance
          *          element_name: string
          *          base_url: string
          *          notebook_path: string
@@ -320,6 +321,27 @@ define([
         this._selection_changed();  
     };
 
+    NotebookList.prototype.get_selected_index = function(){
+      return parseInt($('.focus').index())-1;
+
+    };
+
+    NotebookList.prototype.get_length_siblings = function(selector){
+      return $(selector).length;
+    };
+
+    NotebookList.prototype.select_row = function(index){
+      $('.focus').attr("tabindex","-1").removeClass("focus");
+      $('.list_item[key="'+(index).toString()+'"').addClass("focus").attr("tabindex","0");
+      $('.focus').focus();
+      event.stopPropagation();
+    };
+
+    NotebookList.prototype.open = function(event){
+      $('.focus a')[0].click();
+      $('.focus input').attr('checked',false);
+      event.stopPropagation();
+    };
 
     /**
      * Creates a new item.
@@ -332,7 +354,9 @@ define([
     NotebookList.prototype.new_item = function (index, selectable) {
         var row = $('<div/>')
             .addClass("list_item")
-            .addClass("row");
+            .addClass("row")
+            .attr("tabindex", "-1")
+            .attr("key", index);
 
         var item = $("<div/>")
             .addClass("col-md-12")
