@@ -227,7 +227,8 @@ define([
          *          notebook: Notebook instance
          */
         options = options || {};
-        var config = utils.mergeopt(MarkdownCell, {});
+        var config = new configmod.ConfigSection('markdown',
+                utils.mergeopt(MarkdownCell, options.config, {}));
         this.class_config = new configmod.ConfigWithDefaults(options.config,
                                             {}, 'MarkdownCell');
         TextCell.apply(this, [$.extend({}, options, {config: config})]);
