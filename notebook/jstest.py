@@ -222,6 +222,8 @@ class JSController(TestController):
         self.section = section
         self.xunit = xunit
         self.url = url
+        # run with a base URL that would be escaped,
+        # to test that we don't double-escape URLs
         self.base_url = '/a@b/'
         self.slimer_failure = re.compile('^FAIL.*', flags=re.MULTILINE)
         js_test_dir = get_js_test_dir()

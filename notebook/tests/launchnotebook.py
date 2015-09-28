@@ -39,6 +39,8 @@ class NotebookTestBase(TestCase):
 
     port = 12341
     config = None
+    # run with a base URL that would be escaped,
+    # to test that we don't double-escape URLs
     url_prefix = '/a%40b/'
 
     @classmethod
