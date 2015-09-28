@@ -150,7 +150,7 @@ define(function(require){
   var snr = function(env, event) {
     var search  = $("<input/>")
       .addClass('form-control')
-      .attr('placeholder','Search');
+      .attr('placeholder','Find');
     var isRegExpButton = $('<button/>')
       .attr('type', 'button')
       .attr('id', 'isreg')
@@ -182,7 +182,7 @@ define(function(require){
     var body = $('<div/>')
       .attr('id', 'replace-preview');
     var form = $('<form/>')
-      .attr('id', 'search-and-replace')
+      .attr('id', 'find-and-replace')
       .append($('<div/>').addClass('form-group')
         .append(
           $('<div/>').addClass('input-group')
@@ -346,7 +346,7 @@ define(function(require){
 
     var mod = dialog.modal({
       show: false,
-      title: "Search and Replace",
+      title: "Find and Replace",
       body:form,
       keyboard_manager: env.notebook.keyboard_manager,
       buttons:{
@@ -371,16 +371,16 @@ define(function(require){
 
   var load = function(keyboard_manager){
     var action_all = {
-        help: 'search and replace',
+        help: 'find and replace',
         handler: function(env, event){
           snr(env, event);
         }
     };
 
-    var act_all = keyboard_manager.actions.register(action_all, 'search-and-replace-dialog', 'ipython');
+    var act_all = keyboard_manager.actions.register(action_all, 'find-and-replace-dialog', 'ipython');
 
     keyboard_manager.command_shortcuts.add_shortcuts({
-        'f': 'ipython.search-and-replace-dialog'
+        'f': 'ipython.find-and-replace-dialog'
     });
   };
 
