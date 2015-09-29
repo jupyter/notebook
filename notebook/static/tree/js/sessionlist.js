@@ -74,7 +74,9 @@ define([
             nb_path = data[i].notebook.path;
             this.sessions[nb_path] = {
                 id: data[i].id,
-                kernel_name: data[i].kernel.name
+                kernel: {
+                  display_name: data[i].kernel.display_name
+                }
             };
         }
         this.events.trigger('sessions_loaded.Dashboard', this.sessions);

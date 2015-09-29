@@ -48,7 +48,7 @@ define([
                 name: path,
                 path: path,
                 type: 'notebook',
-                kernel_name: session.kernel_name
+                kernel_display_name: session.kernel.display_name
             }, item);
         }
         $('#running_list_placeholder').toggle($.isEmptyObject(d));
@@ -63,7 +63,7 @@ define([
         var that = this;
         var kernel_name = $('<div/>')
             .addClass('kernel-name')
-            .text(model.kernel_name)
+            .text(model.kernel_display_name)
             .appendTo(running_indicator);
 
         var shutdown_button = $('<button/>')
