@@ -5,9 +5,10 @@ define([
     'base/js/utils',
     'base/js/security',
     'base/js/keyboard',
+    'services/config',
     'notebook/js/mathjaxutils',
     'components/marked/lib/marked',
-], function(utils, security, keyboard, mathjaxutils, marked) {
+], function(utils, security, keyboard, configmod, mathjaxutils, marked) {
     "use strict";
 
     /**
@@ -17,6 +18,7 @@ define([
      */
 
     var OutputArea = function (options) {
+        this.config = options.config;
         this.selector = options.selector;
         this.events = options.events;
         this.keyboard_manager = options.keyboard_manager;
@@ -35,9 +37,14 @@ define([
         this.create_elements();
         this.style();
         this.bind_events();
+        this.class_config = new configmod.ConfigWithDefaults(this.config,
+                                        OutputArea.config_defaults, 'OutputArea');
     };
 
-
+    OutputArea.config_defaults = {
+        stream_chunk_size: 8192, // chunk size for stream output
+    };
+    
     /**
      * Class prototypes
      **/
@@ -476,19 +483,38 @@ define([
             // have at least one output to consider
             var last = this.outputs[this.outputs.length-1];
             if (last.output_type == 'stream' && json.name == last.name){
-                // latest output was in the same stream,
-                // so append directly into its pre tag
-                // escape ANSI & HTML specials:
-                last.text = utils.fixCarriageReturn(last.text + json.text);
-                var pre = this.element.find('div.'+subclass).last().find('pre');
-                var html = utils.fixConsole(last.text);
-                html = utils.autoLinkUrls(html);
-                // The only user content injected with this HTML call is
-                // escaped by the fixConsole() method.
-                pre.html(html);
-                // return false signals that we merged this output with the previous one,
-                // and the new output shouldn't be recorded.
-                return false;
+                if (last.text.length > this.class_config.get_sync('stream_chunk_size')) {
+                    // don't keep extending long blocks
+                    var last_newline_idx = last.text.lastIndexOf('\n');
+                    // if the last stream output doesn't end on a newline,
+                    // split on last newline and take the tail with the new output
+                    if (last_newline_idx !== -1 && last_newline_idx !== last.text.length - 1) {
+                        // truncate last.text to its last newline,
+                        // and take the tail with the new output.
+                        var tail = last.text.slice(last_newline_idx + 1);
+                        last.text = last.text.slice(0, last_newline_idx + 1);
+                        // we changed last's content, so we have to re-render it
+                        text = json.text = tail + json.text;
+                        var pre = this.element.find('div.'+subclass).last().find('pre');
+                        var html = utils.fixConsole(last.text);
+                        html = utils.autoLinkUrls(html);
+                        pre.html(html);
+                    }
+                } else {
+                    // latest output was in the same stream,
+                    // so append to it instead of making a new output.
+                    // escape ANSI & HTML specials:
+                    last.text = utils.fixCarriageReturn(last.text + json.text);
+                    var pre = this.element.find('div.'+subclass).last().find('pre');
+                    var html = utils.fixConsole(last.text);
+                    html = utils.autoLinkUrls(html);
+                    // The only user content injected with this HTML call is
+                    // escaped by the fixConsole() method.
+                    pre.html(html);
+                    // return false signals that we merged this output with the previous one,
+                    // and the new output shouldn't be recorded.
+                    return false;
+                }
             }
         }
 

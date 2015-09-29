@@ -181,10 +181,12 @@ define([
         cell.append(input).append(output);
         this.element = cell;
         this.output_area = new outputarea.OutputArea({
-            selector: output, 
-            prompt_area: true, 
-            events: this.events, 
-            keyboard_manager: this.keyboard_manager});
+            config: this.config,
+            selector: output,
+            prompt_area: true,
+            events: this.events,
+            keyboard_manager: this.keyboard_manager,
+        });
         this.completer = new completer.Completer(this, this.events);
     };
 
