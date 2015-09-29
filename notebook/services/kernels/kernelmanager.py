@@ -103,8 +103,10 @@ class MappingKernelManager(MultiKernelManager):
         """Return a dictionary of kernel information described in the
         JSON standard model."""
         self._check_kernel_id(kernel_id)
+        kernel_spec = self._kernels[kernel_id].kernel_spec
         model = {"id":kernel_id,
-                 "name": self._kernels[kernel_id].kernel_name}
+                 "name": self._kernels[kernel_id].kernel_name,
+                 "display_name": kernel_spec.display_name}
         return model
 
     def list_kernels(self):

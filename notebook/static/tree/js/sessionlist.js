@@ -72,7 +72,12 @@ define([
         var nb_path;
         for (var i=0; i<len; i++) {
             nb_path = data[i].notebook.path;
-            this.sessions[nb_path] = data[i].id;
+            this.sessions[nb_path] = {
+                id: data[i].id,
+                kernel: {
+                  display_name: data[i].kernel.display_name
+                }
+            };
         }
         this.events.trigger('sessions_loaded.Dashboard', this.sessions);
     };

@@ -36,17 +36,19 @@ define([
     KernelList.prototype.sessions_loaded = function (d) {
         this.sessions = d;
         this.clear_list();
-        var item, path;
+        var item, path, session;
         for (path in d) {
             if (!d.hasOwnProperty(path)) {
                 // nothing is safe in javascript
                 continue;
             }
+            session = d[path];
             item = this.new_item(-1);
             this.add_link({
                 name: path,
                 path: path,
                 type: 'notebook',
+                kernel_display_name: session.kernel.display_name
             }, item);
         }
         $('#running_list_placeholder').toggle($.isEmptyObject(d));
@@ -59,6 +61,11 @@ define([
             .text('');
 
         var that = this;
+        var kernel_name = $('<div/>')
+            .addClass('kernel-name')
+            .text(model.kernel_display_name)
+            .appendTo(running_indicator);
+
         var shutdown_button = $('<button/>')
             .addClass('btn btn-warning btn-xs')
             .text('Shutdown')
