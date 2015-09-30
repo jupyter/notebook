@@ -23,6 +23,8 @@ define([
         notebooklist.NotebookList.call(this, selector, $.extend({
             element_name: 'running'},
             options));
+        this.kernelspecs = this.sessions = null;
+        this.events.on('kernelspecs_loaded.KernelSpec', $.proxy(this._kernelspecs_loaded, this));
     };
 
     KernelList.prototype = Object.create(notebooklist.NotebookList.prototype);
@@ -33,8 +35,19 @@ define([
          */
     };
     
+    KernelList.prototype._kernelspecs_loaded = function (event, kernelspecs) {
+        this.kernelspecs = kernelspecs;
+        if (this.sessions) {
+            // trigger delayed session load, since kernelspecs arrived later
+            this.sessions_loaded(this.sessions);
+        }
+    };
+    
     KernelList.prototype.sessions_loaded = function (d) {
         this.sessions = d;
+        if (!this.kernelspecs) {
+            return; // wait for kernelspecs before first load
+        }
         this.clear_list();
         var item, path, session;
         for (path in d) {
@@ -48,14 +61,14 @@ define([
                 name: path,
                 path: path,
                 type: 'notebook',
-                kernel_display_name: session.kernel.display_name
+                kernel_display_name: this.kernelspecs[session.kernel.name].spec.display_name
             }, item);
         }
         $('#running_list_placeholder').toggle($.isEmptyObject(d));
     };
 
     KernelList.prototype.add_link = function (model, item) {
-        notebooklist.NotebookList.prototype.add_link.apply(this, [model, item])
+        notebooklist.NotebookList.prototype.add_link.apply(this, [model, item]);
 
         var running_indicator = item.find(".item_buttons")
             .text('');

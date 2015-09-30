@@ -60,10 +60,10 @@ require([
     });
     var notebook_list = new notebooklist.NotebookList('#notebook_list', $.extend({
         contents: contents,
-        session_list:  session_list}, 
+        session_list:  session_list},
         common_options));
     var kernel_list = new kernellist.KernelList('#running_list',  $.extend({
-        session_list:  session_list}, 
+        session_list:  session_list},
         common_options));
     
     var terminal_list;
@@ -75,7 +75,7 @@ require([
 
     var new_buttons = new newnotebook.NewNotebookWidget("#new-buttons",
         $.extend(
-            {contents: contents},
+            {contents: contents, events: events},
             common_options
         )
     );
