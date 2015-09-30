@@ -27,6 +27,7 @@ define([
          */
         var that = this;
         this.session_list = options.session_list;
+        this.events = this.session_list.events;
         // allow code re-use by just changing element_name in kernellist.js
         this.element_name = options.element_name || 'notebook';
         this.selector = selector;

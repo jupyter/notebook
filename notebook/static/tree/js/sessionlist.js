@@ -75,7 +75,7 @@ define([
             this.sessions[nb_path] = {
                 id: data[i].id,
                 kernel: {
-                  display_name: data[i].kernel.display_name
+                  name: data[i].kernel.name
                 }
             };
         }

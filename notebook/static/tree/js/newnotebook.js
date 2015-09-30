@@ -14,6 +14,7 @@ define([
         this.base_url = options.base_url;
         this.notebook_path = options.notebook_path;
         this.contents = options.contents;
+        this.events = options.events;
         this.default_kernel = null;
         this.kernelspecs = {};
         if (this.selector !== undefined) {
@@ -69,6 +70,7 @@ define([
                 );
             menu.after(li);
         }
+        this.events.trigger('kernelspecs_loaded.KernelSpec', data.kernelspecs);
     };
     
     NewNotebookWidget.prototype.new_notebook = function (kernel_name) {
