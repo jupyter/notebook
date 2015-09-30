@@ -84,38 +84,38 @@ define(function(require){
                 env.notebook.execute_all_cells();
             }
         },
-        'restart-run-all': {
-            help: 'restart the kernel, then re-run the whole notebook',
+        'restart-run-all-dialog': {
+            help: 'restart the kernel, then re-run the whole notebook (with dialog)',
             handler: function (env) {
                 env.notebook.restart_run_all();
             }
         },
-        'restart-clear-output': {
-            help: 'restart the kernel and clear all output',
+        'restart-clear-output-dialog': {
+            help: 'restart the kernel and clear all output (with dialog)',
             handler: function (env) {
                 env.notebook.restart_clear_output();
             }
         },
-        'restart': {
-            help: 'restart the kernel',
+        'restart-dialog': {
+            help: 'restart the kernel (with dialog)',
             help_index: 'bf',
             handler: function (env) {
                 env.notebook.restart_kernel();
             },
         },
-        'restart-run-all-no-confirm': {
+        'restart-run-all': {
             help: 'restart the kernel, then re-run the whole notebook (no confirmation dialog)',
             handler: function (env) {
                 env.notebook.restart_run_all({confirm: false});
             }
         },
-        'restart-clear-output-no-confirm': {
+        'restart-clear-output': {
             help: 'restart the kernel and clear all output (no confirmation dialog)',
             handler: function (env) {
                 env.notebook.restart_clear_output({confirm: false});
             }
         },
-        'restart-no-confirm': {
+        'restart': {
             help: 'restart the kernel (no confirmation dialog)',
             handler: function (env) {
                 env.notebook.restart_kernel({confirm: false});
