@@ -6,8 +6,6 @@ FROM ubuntu:14.04
 
 MAINTAINER Project Jupyter <jupyter@googlegroups.com>
 
-ENV DEBIAN_FRONTEND noninteractive
-
 # Not essential, but wise to set the lang
 # Note: Users with other languages should set this in their derivative image
 ENV LANGUAGE en_US.UTF-8
@@ -15,27 +13,28 @@ ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
 # Python binary dependencies, developer tools
-RUN apt-get update && apt-get install -y -q \
-    build-essential \
-    curl \
-    language-pack-en \
-    make \
-    gcc \
-    zlib1g-dev \
-    git \
-    python \
-    python-dev \
-    python3-dev \
-    python-sphinx \
-    python3-sphinx \
-    libzmq3-dev \
-    sqlite3 \
-    libsqlite3-dev \
-    pandoc \
-    libcurl4-openssl-dev \
-    nodejs \
-    nodejs-legacy \
-    npm
+RUN apt-get update -qq \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+        build-essential \
+        ca-certificates \
+        curl \
+        git \
+        language-pack-en \
+        libcurl4-openssl-dev \
+        libsqlite3-dev \
+        libzmq3-dev \
+        nodejs \
+        nodejs-legacy \
+        npm \
+        pandoc \
+        python \
+        python-dev \
+        python3-dev \
+        python-sphinx \
+        python3-sphinx \
+        sqlite3 \
+        zlib1g-dev \
+ && rm -rf /var/lib/apt/lists/*
 
 # Install the recent pip release
 RUN curl -O https://bootstrap.pypa.io/get-pip.py \
