@@ -21,15 +21,14 @@ RUN dpkg-reconfigure locales
 # Python binary dependencies, developer tools
 RUN apt-get update && apt-get install -y -q \
     build-essential \
+    curl \
     make \
     gcc \
     zlib1g-dev \
     git \
     python \
     python-dev \
-    python-pip \
     python3-dev \
-    python3-pip \
     python-sphinx \
     python3-sphinx \
     libzmq3-dev \
@@ -41,8 +40,11 @@ RUN apt-get update && apt-get install -y -q \
     nodejs-legacy \
     npm
 
-RUN pip2 install --upgrade setuptools pip
-RUN pip3 install --upgrade setuptools pip
+# Install the recent pip release
+RUN curl -O https://bootstrap.pypa.io/get-pip.py \
+ && python2 get-pip.py \
+ && python3 get-pip.py \
+ && rm get-pip.py
 
 RUN pip2 install ipykernel
 RUN pip3 install ipykernel
