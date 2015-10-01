@@ -31,25 +31,21 @@ RUN apt-get update -qq \
         python3-dev \
         sqlite3 \
         zlib1g-dev \
- && rm -rf /var/lib/apt/lists/*
-
-# Install the recent pip release
-RUN curl -O https://bootstrap.pypa.io/get-pip.py \
+ && rm -rf /var/lib/apt/lists/* \
+ \
+ `# Install the recent pip release` \
+ && curl -O https://bootstrap.pypa.io/get-pip.py \
  && python2 get-pip.py \
  && python3 get-pip.py \
- && rm get-pip.py
+ && rm get-pip.py \
+ \
+ && pip2 --no-cache-dir install ipykernel \
+ && pip3 --no-cache-dir install ipykernel
 
-RUN pip2 --no-cache-dir install ipykernel
-RUN pip3 --no-cache-dir install ipykernel
-
-RUN mkdir -p /srv/
 ADD . /srv/notebook
-WORKDIR /srv/notebook/
 
-RUN pip3 install --pre -e .
-
-# install kernels
-RUN python2 -m ipykernel.kernelspec
-RUN python3 -m ipykernel.kernelspec
+RUN pip3 install --pre -e /srv/notebook \
+ && python2 -m ipykernel.kernelspec \
+ && python3 -m ipykernel.kernelspec
 
 EXPOSE 8888
