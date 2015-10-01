@@ -4,8 +4,7 @@ cache:
     directories:
         - ~/.cache/bower
 python:
-    - 3.4
-    - 3.3
+    - 3.5
     - 2.7
 sudo: false
 env:
@@ -28,6 +27,8 @@ script:
 matrix:
     include:
         - python: 3.3
+          env: GROUP=python
+        - python: 3.4
           env: GROUP=python
 
 after_success:
