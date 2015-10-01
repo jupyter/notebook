@@ -79,7 +79,7 @@ class KernelSpecHandler(APIHandler):
 
 # URL to handler mappings
 
-kernel_name_regex = r"(?P<kernel_name>\w+)"
+kernel_name_regex = r"(?P<kernel_name>[\w\.\-]+)"
 
 default_handlers = [
     (r"/api/kernelspecs", MainKernelSpecHandler),
