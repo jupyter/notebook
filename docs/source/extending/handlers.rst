@@ -41,7 +41,7 @@ double dash before the variable name, and put the Python array in
 double quotes. If your package is "mypackage" and module is
 "mymodule", this would look like
 ``jupyter notebook --NotebookApp.server_extensions="['mypackage.mymodule']"``
-[2].
+.
 Basically the string should be Python importable.
 
 Alternatively, you can have your extension loaded regardless of the
@@ -98,7 +98,8 @@ Notebook server. See the following example:
     route_pattern = url_path_join(web_app.settings['base_url'], '/hello')
     web_app.add_handlers(host_pattern, [(route_pattern, HelloWorldHandler)])
 
-Putting this together with the extension code, the example looks like:
+Putting this together with the extension code, the example looks like the 
+following:
 
 .. code:: python
 
@@ -109,18 +110,18 @@ Putting this together with the extension code, the example looks like:
         def get(self):
             self.finish('Hello, world!')
 
-        def load_jupyter_server_extension(nb_server_app):
-            """
-            Called when the extension is loaded.
-            
-            Args:
-                nb_server_app (NotebookWebApplication): handle to the Notebook webserver instance.
-            """
-            web_app = nb_server_app.web_app
-            host_pattern = '.*$'
-            route_pattern = url_path_join(web_app.settings['base_url'], '/hello')
-            web_app.add_handlers(host_pattern, [(route_pattern, HelloWorldHandler)])
+    def load_jupyter_server_extension(nb_server_app):
+        """
+        Called when the extension is loaded.
+        
+        Args:
+            nb_server_app (NotebookWebApplication): handle to the Notebook webserver instance.
+        """
+        web_app = nb_server_app.web_app
+        host_pattern = '.*$'
+        route_pattern = url_path_join(web_app.settings['base_url'], '/hello')
+        web_app.add_handlers(host_pattern, [(route_pattern, HelloWorldHandler)])
 
-References: 1. `Peter Parente's
-Mindtrove <http://mindtrove.info/#nb-server-exts>`__ 2. `Matthias
-Bussonnier's Jupyter Book <https://github.com/Carreau/jupyter-book>`__
+References:  
+1. `Peter Parente's
+Mindtrove <http://mindtrove.info/#nb-server-exts>`__ 
