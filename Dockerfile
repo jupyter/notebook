@@ -56,3 +56,5 @@ RUN pip3 install --pre -e .
 # install kernels
 RUN python2 -m ipykernel.kernelspec
 RUN python3 -m ipykernel.kernelspec
+
+EXPOSE 8888
