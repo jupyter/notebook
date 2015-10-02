@@ -23,8 +23,6 @@ RUN apt-get update -qq \
         libcurl4-openssl-dev \
         libsqlite3-dev \
         libzmq3-dev \
-        nodejs-legacy \
-        npm \
         pandoc \
         python \
         python-dev \
@@ -44,7 +42,16 @@ RUN apt-get update -qq \
 
 ADD . /srv/notebook
 
-RUN pip3 install --pre -e /srv/notebook \
+RUN BUILD_DEPS="nodejs-legacy npm" \
+ && apt-get update -qq \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends $BUILD_DEPS \
+ \
+ && pip3 install --no-cache-dir --pre -e /srv/notebook \
+ \
+ && apt-get purge -y --auto-remove \
+       -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
+ && rm -rf /var/lib/apt/lists/* \
+ \
  && python2 -m ipykernel.kernelspec \
  && python3 -m ipykernel.kernelspec
 
