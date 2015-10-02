@@ -10,6 +10,7 @@ define(function(require){
         Object.seal(this);
     };
 
+    var $ = require('jquery');
     var events =  require('base/js/events');
 
     /**
@@ -83,21 +84,41 @@ define(function(require){
                 env.notebook.execute_all_cells();
             }
         },
-        'restart-run-all': {
-            help: 'restart the kernel, then re-run the whole notebook',
-            help_index: 'be',
+        'restart-run-all-dialog': {
+            help: 'restart the kernel, then re-run the whole notebook (with dialog)',
             handler: function (env) {
-                var notebook = env.notebook;
-                notebook.restart_kernel().then(function() {
-                    notebook.execute_all_cells();
-                });
+                env.notebook.restart_run_all();
             }
         },
-        'restart': {
-            help: 'restart the kernel',
+        'restart-clear-output-dialog': {
+            help: 'restart the kernel and clear all output (with dialog)',
+            handler: function (env) {
+                env.notebook.restart_clear_output();
+            }
+        },
+        'restart-dialog': {
+            help: 'restart the kernel (with dialog)',
             help_index: 'bf',
             handler: function (env) {
                 env.notebook.restart_kernel();
+            },
+        },
+        'restart-run-all': {
+            help: 'restart the kernel, then re-run the whole notebook (no confirmation dialog)',
+            handler: function (env) {
+                env.notebook.restart_run_all({confirm: false});
+            }
+        },
+        'restart-clear-output': {
+            help: 'restart the kernel and clear all output (no confirmation dialog)',
+            handler: function (env) {
+                env.notebook.restart_clear_output({confirm: false});
+            }
+        },
+        'restart': {
+            help: 'restart the kernel (no confirmation dialog)',
+            handler: function (env) {
+                env.notebook.restart_kernel({confirm: false});
             },
         },
         'run-all-cells-above':{
@@ -507,7 +528,7 @@ define(function(require){
         'rename-notebook':{
             help: "Rename current notebook",
             handler : function (env, event) {
-                env.notebook.save_widget.rename_notebook({notebook: env.notebook})
+                env.notebook.save_widget.rename_notebook({notebook: env.notebook});
             }
         },
         'save-notebook':{

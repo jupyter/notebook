@@ -1456,7 +1456,7 @@ define(function (require) {
 
         // Check if trying to merge above on topmost cell or wrap around
         // when merging above, see #330
-        if (indices.filter(function(item) {return item < 0}).length > 0) {
+        if (indices.filter(function(item) {return item < 0;}).length > 0) {
             return;
         }
 
@@ -1480,7 +1480,7 @@ define(function (require) {
 
         // Update the contents of the target cell
         if (target instanceof codecell.CodeCell) {
-            target.set_text(contents.join('\n\n'))
+            target.set_text(contents.join('\n\n'));
         } else {
             var was_rendered = target.rendered;
             target.unrender(); // Must unrender before we set_text.
@@ -1797,10 +1797,86 @@ define(function (require) {
     };
     
     /**
-     * Prompt the user to restart the Jupyter kernel.
+     * Prompt the user to restart the kernel and re-run everything.
+     * if options.confirm === false, no confirmation dialog is shown.
      */
-    Notebook.prototype.restart_kernel = function () {
+    Notebook.prototype.restart_run_all = function (options) {
         var that = this;
+        var restart_options = {};
+        restart_options.confirm = (options || {}).confirm;
+        restart_options.dialog = {
+            notebook: that,
+            keyboard_manager: that.keyboard_manager,
+            title : "Restart kernel and re-run the whole notebook?",
+            body : $("<p/>").text(
+                'Are you sure you want to restart the current kernel and re-execute the whole notebook?  All variables and outputs will be lost.'
+            ),
+            buttons : {
+                "Restart & run all cells" : {
+                    "class" : "btn-danger",
+                    "click" : function () {
+                        that.execute_all_cells();
+                    },
+                },
+            }
+        };
+        return this._restart_kernel(restart_options);
+    };
+
+    /**
+     * Prompt the user to restart the kernel and clear output.
+     * if options.confirm === false, no confirmation dialog is shown.
+     */
+    Notebook.prototype.restart_clear_output = function (options) {
+        var that = this;
+        var restart_options = {};
+        restart_options.confirm = (options || {}).confirm;
+        restart_options.dialog = {
+            notebook: that,
+            keyboard_manager: that.keyboard_manager,
+            title : "Restart kernel and clear all output?",
+            body : $("<p/>").text(
+                'Do you want to restart the current kernel and clear all output?  All variables and outputs will be lost.'
+            ),
+            buttons : {
+                "Restart & clear all outputs" : {
+                    "class" : "btn-danger",
+                    "click" : function (){
+                        that.clear_all_output();
+                    },
+                },
+            }
+        };
+        return this._restart_kernel(restart_options);
+    };
+
+    /**
+     * Prompt the user to restart the kernel.
+     * if options.confirm === false, no confirmation dialog is shown.
+     */
+    Notebook.prototype.restart_kernel = function (options) {
+        var that = this;
+        var restart_options = {};
+        restart_options.confirm = (options || {}).confirm;
+        restart_options.dialog = {
+            title : "Restart kernel?",
+            body : $("<p/>").text(
+                'Do you want to restart the current kernel?  All variables will be lost.'
+            ),
+            buttons : {
+                "Restart" : {
+                    "class" : "btn-warning",
+                    "click" : function () {},
+                },
+            }
+        };
+        return this._restart_kernel(restart_options);
+    };
+    
+    // inner implementation of restart dialog & promise
+    Notebook.prototype._restart_kernel = function (options) {
+        var that = this;
+        options = options || {};
         var resolve_promise, reject_promise;
         var promise = new Promise(function (resolve, reject){
             resolve_promise = resolve;
@@ -1813,31 +1889,30 @@ define(function (require) {
                 that.events.one('kernel_ready.Kernel', resolve_promise);
             }, reject_promise);
         }
-    
-        dialog.modal({
-            notebook: that,
-            keyboard_manager: that.keyboard_manager,
-            title : "Restart kernel or continue running?",
-            body : $("<p/>").text(
-                'Do you want to restart the current kernel?  You will lose all variables defined in it.'
-            ),
-            buttons : {
-                "Continue running" : {},
-                "Clear all outputs & restart" : {
-                    "class" : "btn-danger",
-                    "click" : function(){
-                        that.clear_all_output();
-                        restart_and_resolve();
-                    },
-                },
-                "Restart" : {
-                    "class" : "btn-warning",
-                    "click" : function() {
-                        restart_and_resolve();
-                    }
-                },
-            }
+        
+        if (options.confirm === false) {
+            var default_button = options.dialog.buttons[Object.keys(options.dialog.buttons)[0]];
+            promise.then(default_button.click);
+            restart_and_resolve();
+            return promise;
+        }
+        options.dialog.notebook = this;
+        options.dialog.keyboard_manager = this.keyboard_manager;
+        // add 'Continue running' cancel button
+        var buttons = {
+            "Continue running": {},
+        };
+        // hook up button.click actions after restart promise resolves
+        Object.keys(options.dialog.buttons).map(function (key) {
+            var button = buttons[key] = options.dialog.buttons[key];
+            var click = button.click;
+            button.click = function () {
+                promise.then(click);
+                restart_and_resolve();
+            };
         });
+        options.dialog.buttons = buttons;
+        dialog.modal(options.dialog);
         return promise;
     };
     
