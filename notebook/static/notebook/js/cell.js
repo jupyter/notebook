@@ -608,26 +608,38 @@ define([
                         });
                         return;
                     }
-                    var open = modes[mode].open || "%%";
-                    var close = modes[mode].close || "%%end";
                     var magic_mode = mode;
                     mode = magic_mode.substr(6);
                     if(current_mode == magic_mode){
                         return;
                     }
                     utils.requireCodeMirrorMode(mode, function (spec) {
-                        // create on the fly a mode that switch between
-                        // plain/text and something else, otherwise `%%` is
-                        // source of some highlight issues.
+                        // Add an overlay mode to recognize the first line as "magic" instead
+                        // of the mode used for the rest of the cell.
                         CodeMirror.defineMode(magic_mode, function(config) {
-                            return CodeMirror.multiplexingMode(
-                                CodeMirror.getMode(config, 'text/plain'),
-                                // always set something on close
-                                {open: open, close: close,
-                                 mode: CodeMirror.getMode(config, spec),
-                                 delimStyle: "delimit"
+                            var magicOverlay = {
+                                startState: function() {
+                                    return {firstMatched : false, inMagicLine: false}
+                                },
+                                token: function(stream, state) {
+                                    if(!state.firstMatched) {
+                                        state.firstMatched = true;
+                                        if (stream.match("%%", false)) {
+                                            state.inMagicLine = true;
+                                        }
+                                    }
+                                    if (state.inMagicLine) {
+                                        stream.eat(function any(ch) { return true; });
+                                        if (stream.eol()) {
+                                            state.inMagicLine = false;
+                                        }
+                                        return "magic";
+                                    }
+                                    stream.skipToEnd();
+                                    return null;
                                 }
-                            );
+                            };
+                            return CodeMirror.overlayMode(CodeMirror.getMode(config, spec), magicOverlay);
                         });
                         that.code_mirror.setOption('mode', magic_mode);
                     });
