@@ -42,8 +42,8 @@ RUN curl -O https://bootstrap.pypa.io/get-pip.py \
  && python3 get-pip.py \
  && rm get-pip.py
 
-RUN pip2 install ipykernel
-RUN pip3 install ipykernel
+RUN pip2 --no-cache-dir install ipykernel
+RUN pip3 --no-cache-dir install ipykernel
 
 RUN mkdir -p /srv/
 ADD . /srv/notebook
