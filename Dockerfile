@@ -12,7 +12,7 @@ ENV LANGUAGE en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
-# Python binary dependencies, developer tools
+# Python binary and source dependencies
 RUN apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
         build-essential \
@@ -23,15 +23,12 @@ RUN apt-get update -qq \
         libcurl4-openssl-dev \
         libsqlite3-dev \
         libzmq3-dev \
-        nodejs \
         nodejs-legacy \
         npm \
         pandoc \
         python \
         python-dev \
         python3-dev \
-        python-sphinx \
-        python3-sphinx \
         sqlite3 \
         zlib1g-dev \
  && rm -rf /var/lib/apt/lists/*
