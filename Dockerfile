@@ -60,8 +60,8 @@ RUN ln -s /usr/src/jupyter-notebook/scripts/lxc-launcher.sh /launch.sh \
  && pip2 install --no-cache-dir mock nose requests testpath \
  && pip3 install --no-cache-dir nose requests testpath \
  && iptest2 && iptest3 \
- && pip2 uninstall --no-cache-dir -y funcsigs mock nose pbr requests six testpath \
- && pip3 uninstall --no-cache-dir -y nose requests testpath
+ && pip2 uninstall -y funcsigs mock nose pbr requests six testpath \
+ && pip3 uninstall -y nose requests testpath
 
 VOLUME /notebooks
 WORKDIR /notebooks
