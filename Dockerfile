@@ -57,6 +57,9 @@ RUN ln -s /usr/src/jupyter-notebook/scripts/lxc-launcher.sh /launch.sh \
  && python2 -m ipykernel.kernelspec \
  && python3 -m ipykernel.kernelspec
 
+VOLUME /notebooks
+WORKDIR /notebooks
+
 ENTRYPOINT /launch.sh
 
 EXPOSE 8888
