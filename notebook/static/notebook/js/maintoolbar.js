@@ -55,7 +55,6 @@ define([
             ],
             'run_int'],
          ['<add_celltype_list>'],
-         ['<add_celltoolbar_list>'],
          [['ipython.command-palette']]
         ];
         this.construct(grps);
@@ -105,57 +104,6 @@ define([
         });
         return sel;
 
-    };
-
-    MainToolBar.prototype._pseudo_actions.add_celltoolbar_list = function () {
-        var label = $('<span/>').addClass("navbar-text").text('Cell Toolbar:');
-        var select = $('<select/>')
-            .attr('id', 'ctb_select')
-            .addClass('form-control select-xs')
-            .append($('<option/>').attr('value', '').text('None'));
-        var that = this;
-        select.change(function() {
-                var val = $(this).val();
-                if (val ==='') {
-                    celltoolbar.CellToolbar.global_hide();
-                    delete that.notebook.metadata.celltoolbar;
-                } else {
-                    celltoolbar.CellToolbar.global_show();
-                    celltoolbar.CellToolbar.activate_preset(val, that.events);
-                    that.notebook.metadata.celltoolbar = val;
-                }
-                that.notebook.focus_cell();
-            });
-        this.notebook.keyboard_manager.register_events(select);
-        // Setup the currently registered presets.
-        var presets = celltoolbar.CellToolbar.list_presets();
-        for (var i=0; i<presets.length; i++) {
-            var name = presets[i];
-            select.append($('<option/>').attr('value', name).text(name));
-        }
-        // Setup future preset registrations.
-        this.events.on('preset_added.CellToolbar', function (event, data) {
-            var name = data.name;
-            select.append($('<option/>').attr('value', name).text(name));
-        });
-        this.events.on('unregistered_preset.CellToolbar', function (event, data) {
-            if (select.val() === data.name){
-                select.val('');
-                celltoolbar.CellToolbar.global_hide();
-                delete that.notebook.metadata.celltoolbar;
-            }
-            select.find("option[value='"+name+"']" ).remove();
-        });
-        // Update select value when a preset is activated.
-        this.events.on('preset_activated.CellToolbar', function (event, data) {
-            if (select.val() !== data.name){
-                select.val(data.name);
-            }
-        });
-
-        var wrapper = $('<div/>').addClass('btn-group');
-        wrapper.append(label).append(select);
-        return wrapper;
     };
 
     return {'MainToolBar': MainToolBar};
