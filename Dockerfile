@@ -28,6 +28,9 @@ RUN apt-get update -qq \
         python-dev \
         python3-dev \
         sqlite3 \
+        texlive-fonts-recommended \
+        texlive-latex-base \
+        texlive-latex-extra \
         zlib1g-dev \
  && rm -rf /var/lib/apt/lists/* \
  \
