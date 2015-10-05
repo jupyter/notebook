@@ -40,13 +40,13 @@ RUN apt-get update -qq \
  && pip2 --no-cache-dir install ipykernel \
  && pip3 --no-cache-dir install ipykernel
 
-ADD . /srv/notebook
+ADD . /usr/src/jupyter-notebook
 
 RUN BUILD_DEPS="nodejs-legacy npm" \
  && apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends $BUILD_DEPS \
  \
- && pip3 install --no-cache-dir --pre -e /srv/notebook \
+ && pip3 install --no-cache-dir --pre -e /usr/src/jupyter-notebook \
  \
  && apt-get purge -y --auto-remove \
        -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
