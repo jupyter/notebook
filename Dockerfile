@@ -42,7 +42,9 @@ RUN apt-get update -qq \
 
 ADD . /usr/src/jupyter-notebook
 
-RUN BUILD_DEPS="nodejs-legacy npm" \
+RUN ln -s /usr/src/jupyter-notebook/scripts/lxc-launcher.sh /launch.sh \
+ \
+ && BUILD_DEPS="nodejs-legacy npm" \
  && apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends $BUILD_DEPS \
  \
@@ -54,5 +56,7 @@ RUN BUILD_DEPS="nodejs-legacy npm" \
  \
  && python2 -m ipykernel.kernelspec \
  && python3 -m ipykernel.kernelspec
+
+ENTRYPOINT /launch.sh
 
 EXPOSE 8888
