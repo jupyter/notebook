@@ -181,7 +181,7 @@ define([
             var name_and_ext = utils.splitext(f.name);
             var file_ext = name_and_ext[1];
 
-           var reader = new FileReader();
+            var reader = new FileReader();
 
             // adapted from https://gist.github.com/jarrodhroberson/7651199
             var readBinary = function(reader, f) {
@@ -190,9 +190,12 @@ define([
                 var chunks = Math.ceil(f.size / chunkSize);
                 var currentChunk = 0;
 
+                console.log('***fetching', chunks);
+
                 reader.onload = function(e) {
                     if (currentChunk === chunks) {
-                        reader_onload(e)
+                        console.log('done!');
+                        reader_onload(e);
                     } else {
                         var start = currentChunk * chunkSize;
                         var end = ((start + chunkSize) >= f.size) ? f.size : start + chunkSize;
