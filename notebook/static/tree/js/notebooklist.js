@@ -181,21 +181,45 @@ define([
             var name_and_ext = utils.splitext(f.name);
             var file_ext = name_and_ext[1];
 
-            var reader = new FileReader();
-            if (file_ext === '.ipynb') {
-                reader.readAsText(f);
-            } else {
-                // read non-notebook files as binary
-                reader.readAsArrayBuffer(f);
+           var reader = new FileReader();
+
+            // adapted from https://gist.github.com/jarrodhroberson/7651199
+            var readBinary = function(reader, f) {
+                var blobSlice = Blob.prototype.slice;
+                var chunkSize = 2097152;
+                var chunks = Math.ceil(f.size / chunkSize);
+                var currentChunk = 0;
+
+                reader.onload = function(e) {
+                    if (currentChunk === chunks) {
+                        reader_onload(e)
+                    } else {
+                        var start = currentChunk * chunkSize;
+                        var end = ((start + chunkSize) >= f.size) ? f.size : start + chunkSize;
+                        reader.readAsArrayBuffer(blobSlice.call(f, start, end));
+                        currentChunk++;
+                    }
+                };
+                // start the file read
+                reader.readAsArrayBuffer(blobSlice.call(
+                    f, currentChunk + chunkSize, chunkSize));
             }
+
             var item = that.new_item(0, true);
             item.addClass('new-file');
             that.add_name_input(f.name, item, file_ext === '.ipynb' ? 'notebook' : 'file');
             // Store the list item in the reader so we can use it later
             // to know which item it belongs to.
             $(reader).data('item', item);
-            reader.onload = reader_onload;
+            //reader.onload = reader_onload;
             reader.onerror = reader_onerror;
+
+            if (file_ext === '.ipynb') {
+                reader.onload = reader_onload;
+                reader.readAsText(f);
+            } else {
+                readBinary(reader, f);
+            }
         }
         // Replace the file input form wth a clone of itself. This is required to
         // reset the form. Otherwise, if you upload a file, delete it and try to 
