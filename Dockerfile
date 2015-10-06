@@ -36,6 +36,12 @@ RUN apt-get update -qq && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Install Tini
+RUN curl -L https://github.com/krallin/tini/releases/download/v0.6.0/tini > tini && \
+    echo "d5ed732199c36a1189320e6c4859f0169e950692f451c03e7854243b95f4234b *tini" | sha256sum -c - && \
+    mv tini /usr/local/bin/tini && \
+    chmod +x /usr/local/bin/tini
+
 # Install the recent pip release
 RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
     python2 get-pip.py && \
@@ -51,9 +57,6 @@ RUN pip2 --no-cache-dir install ipykernel && \
 
 # Move notebook contents into place.
 ADD . /usr/src/jupyter-notebook
-
-# Link entrypoint script for easy access.
-RUN ln -s /usr/src/jupyter-notebook/scripts/lxc-launcher.sh /launch.sh
 
 # Install dependencies and run tests.
 RUN BUILD_DEPS="nodejs-legacy npm" && \
@@ -82,4 +85,5 @@ WORKDIR /notebooks
 
 EXPOSE 8888
 
-ENTRYPOINT /launch.sh
+ENTRYPOINT ["tini", "--"]
+CMD ["jupyter", "notebook", "--port", "8888", "--ip=*"]
