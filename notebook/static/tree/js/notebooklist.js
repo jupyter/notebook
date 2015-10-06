@@ -211,7 +211,6 @@ define([
             // Store the list item in the reader so we can use it later
             // to know which item it belongs to.
             $(reader).data('item', item);
-            //reader.onload = reader_onload;
             reader.onerror = reader_onerror;
 
             if (file_ext === '.ipynb') {
