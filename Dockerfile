@@ -41,7 +41,16 @@ RUN apt-get update -qq \
  && rm get-pip.py \
  \
  && pip2 --no-cache-dir install ipykernel \
- && pip3 --no-cache-dir install ipykernel
+ && pip3 --no-cache-dir install ipykernel \
+ \
+ && python2 -m ipykernel.kernelspec \
+ && python3 -m ipykernel.kernelspec \
+ \
+ && pip2 install --no-cache-dir mock nose requests testpath \
+ && pip3 install --no-cache-dir nose requests testpath \
+ && iptest2 && iptest3 \
+ && pip2 uninstall -y funcsigs mock nose pbr requests six testpath \
+ && pip3 uninstall -y nose requests testpath
 
 ADD . /usr/src/jupyter-notebook
 
@@ -55,16 +64,7 @@ RUN ln -s /usr/src/jupyter-notebook/scripts/lxc-launcher.sh /launch.sh \
  \
  && apt-get purge -y --auto-remove \
        -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
- && rm -rf /var/lib/apt/lists/* \
- \
- && python2 -m ipykernel.kernelspec \
- && python3 -m ipykernel.kernelspec \
- \
- && pip2 install --no-cache-dir mock nose requests testpath \
- && pip3 install --no-cache-dir nose requests testpath \
- && iptest2 && iptest3 \
- && pip2 uninstall -y funcsigs mock nose pbr requests six testpath \
- && pip3 uninstall -y nose requests testpath
+ && rm -rf /var/lib/apt/lists/*
 
 VOLUME /notebooks
 WORKDIR /notebooks
