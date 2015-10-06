@@ -4,6 +4,7 @@ div.output_wrapper {
     .vbox();
     // avoid scrolled output overlaying input in some strange circumstances
     z-index: 1;
+    overflow-x: auto;
 }
 
 /* class for the output area when it should be height-limited */
@@ -103,7 +104,6 @@ div.output_area pre {
    the prompt div. */
 div.output_subarea {
     // Don't let contents overflow page area.
-    overflow-x: auto;
     padding: @code_padding;
     .box-flex1();
     // appears to be needed for max-width in children to mean anything on Firefox:
