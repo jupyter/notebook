@@ -110,6 +110,11 @@ div.output_subarea {
     max-width: calc(~"100% - 14ex");
 }
 
+div.output_scroll div.output_subarea {
+    // if the output area is scrolling, we don't need scrollbars on the subarea
+    overflow-x: visible;
+}
+
 /* The rest of the output_* classes are for special styling of the different
    output types */
 
