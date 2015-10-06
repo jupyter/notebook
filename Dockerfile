@@ -6,55 +6,69 @@ FROM ubuntu:14.04
 
 MAINTAINER Project Jupyter <jupyter@googlegroups.com>
 
-ENV DEBIAN_FRONTEND noninteractive
-
 # Not essential, but wise to set the lang
 # Note: Users with other languages should set this in their derivative image
-RUN apt-get update && apt-get install -y language-pack-en
 ENV LANGUAGE en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
-RUN locale-gen en_US.UTF-8
-RUN dpkg-reconfigure locales
+# Python binary and source dependencies
+RUN apt-get update -qq \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+        build-essential \
+        ca-certificates \
+        curl \
+        git \
+        language-pack-en \
+        libcurl4-openssl-dev \
+        libsqlite3-dev \
+        libzmq3-dev \
+        pandoc \
+        python \
+        python-dev \
+        python3-dev \
+        sqlite3 \
+        texlive-fonts-recommended \
+        texlive-latex-base \
+        texlive-latex-extra \
+        zlib1g-dev \
+ && rm -rf /var/lib/apt/lists/* \
+ \
+ `# Install the recent pip release` \
+ && curl -O https://bootstrap.pypa.io/get-pip.py \
+ && python2 get-pip.py \
+ && python3 get-pip.py \
+ && rm get-pip.py \
+ \
+ && pip2 --no-cache-dir install ipykernel \
+ && pip3 --no-cache-dir install ipykernel
 
-# Python binary dependencies, developer tools
-RUN apt-get update && apt-get install -y -q \
-    build-essential \
-    make \
-    gcc \
-    zlib1g-dev \
-    git \
-    python \
-    python-dev \
-    python-pip \
-    python3-dev \
-    python3-pip \
-    python-sphinx \
-    python3-sphinx \
-    libzmq3-dev \
-    sqlite3 \
-    libsqlite3-dev \
-    pandoc \
-    libcurl4-openssl-dev \
-    nodejs \
-    nodejs-legacy \
-    npm
+ADD . /usr/src/jupyter-notebook
 
-RUN pip2 install --upgrade setuptools pip
-RUN pip3 install --upgrade setuptools pip
+RUN ln -s /usr/src/jupyter-notebook/scripts/lxc-launcher.sh /launch.sh \
+ \
+ && BUILD_DEPS="nodejs-legacy npm" \
+ && apt-get update -qq \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends $BUILD_DEPS \
+ \
+ && pip3 install --no-cache-dir --pre -e /usr/src/jupyter-notebook \
+ \
+ && apt-get purge -y --auto-remove \
+       -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
+ && rm -rf /var/lib/apt/lists/* \
+ \
+ && python2 -m ipykernel.kernelspec \
+ && python3 -m ipykernel.kernelspec \
+ \
+ && pip2 install --no-cache-dir mock nose requests testpath \
+ && pip3 install --no-cache-dir nose requests testpath \
+ && iptest2 && iptest3 \
+ && pip2 uninstall -y funcsigs mock nose pbr requests six testpath \
+ && pip3 uninstall -y nose requests testpath
 
-RUN pip2 install ipykernel
-RUN pip3 install ipykernel
+VOLUME /notebooks
+WORKDIR /notebooks
 
-RUN mkdir -p /srv/
-ADD . /srv/notebook
-WORKDIR /srv/notebook/
-
-RUN pip3 install --pre -e .
-
-# install kernels
-RUN python2 -m ipykernel.kernelspec
-RUN python3 -m ipykernel.kernelspec
+ENTRYPOINT /launch.sh
 
 EXPOSE 8888
