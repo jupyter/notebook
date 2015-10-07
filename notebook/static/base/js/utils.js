@@ -756,7 +756,9 @@ define([
          */
         return function(error) { 
             var wrapped_error = new WrappedError(message, error);
-            if (log) console.error(wrapped_error); 
+            if (log) {
+                console.error(message, " -- ", error);
+            }
             return Promise.reject(wrapped_error); 
         };
     };
