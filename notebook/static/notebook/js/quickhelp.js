@@ -30,7 +30,7 @@ define([
     var platform_specific;
 
     if (platform === 'MacOS') {
-        // Mac OS X specific
+        // Mac OS X (MacOS) specific
         cmd_ctrl = 'Cmd-';
         platform_specific = [
             { shortcut: "Cmd-Up",     help:"go to cell start"  },
@@ -66,10 +66,10 @@ define([
     ].concat( platform_specific );
     
     var mac_humanize_map = {
-        // all these are unicode, will probably display badly on anything except macs.
-        // these are the standard symbol that are used in MacOS native menus
-        // cf http://apple.stackexchange.com/questions/55727/
-        // for htmlentities and/or unicode value
+        // These are the standard MacOS native symbols for menus cf.
+        // http://apple.stackexchange.com/questions/55727/ for a map of HTML
+        // entities to their unicode values.  As these are unicode they will
+        // likely display poorly on all but MacOS.
         'cmd':'⌘',
         'shift':'⇧',
         'alt':'⌥',
@@ -127,7 +127,7 @@ define([
     
     function humanize_key(key){
         if (key.length === 1){
-            return key.toUpperCase();
+            return key;
         }
 
         key = humanize_map[key.toLowerCase()]||key;
@@ -137,15 +137,14 @@ define([
         }
     }
 
-    // return an **html** string of the keyboard shortcut
-    // for human eyes consumption.
-    // the sequence is a string, comma sepparated linkt of shortcut,
-    // where the shortcut is a list of dash-joined keys.
-    // Each shortcut will be wrapped in <kbd> tag, and joined by comma is in a
-    // sequence.
+    // Returns an **html** human readable string of the keyboard shortcut.  The
+    // sequence is a string, comma sepparated list of shortcuts, where the
+    // shortcut is a list of dash-joined keys.  Each shortcut will be wrapped in
+    // a <kbd> tag, and joined by a comma in sequence.
     //
-    // Depending on the platform each shortcut will be normalized, with or without dashes.
-    // and replace with the corresponding unicode symbol for modifier if necessary.
+    // Depending on the platform each shortcut will be normalized, with or
+    // without dashes, and replace the corresponding unicode symbol for modifier
+    // if necessary.
     function humanize_sequence(sequence){
         var joinchar = ',';
         var hum = _.map(sequence.replace(/meta/g, 'cmd').split(','), humanize_shortcut).join(joinchar);
