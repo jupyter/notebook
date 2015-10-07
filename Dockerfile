@@ -14,8 +14,8 @@ ENV LC_ALL en_US.UTF-8
 ENV PYTHONIOENCODING UTF-8
 
 # Python binary and source dependencies
-RUN apt-get update -qq \
- && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+RUN apt-get update -qq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
         build-essential \
         ca-certificates \
         curl \
@@ -32,44 +32,54 @@ RUN apt-get update -qq \
         texlive-fonts-recommended \
         texlive-latex-base \
         texlive-latex-extra \
-        zlib1g-dev \
- && rm -rf /var/lib/apt/lists/* \
- \
- `# Install the recent pip release` \
- && curl -O https://bootstrap.pypa.io/get-pip.py \
- && python2 get-pip.py \
- && python3 get-pip.py \
- && rm get-pip.py \
- \
- && pip2 --no-cache-dir install ipykernel \
- && pip3 --no-cache-dir install ipykernel \
- \
- && python2 -m ipykernel.kernelspec \
- && python3 -m ipykernel.kernelspec \
- \
- && pip2 install --no-cache-dir mock nose requests testpath \
- && pip3 install --no-cache-dir nose requests testpath \
- && iptest2 && iptest3 \
- && pip2 uninstall -y funcsigs mock nose pbr requests six testpath \
- && pip3 uninstall -y nose requests testpath
+        zlib1g-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
+# Install the recent pip release
+RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
+    python2 get-pip.py && \
+    python3 get-pip.py && \
+    rm get-pip.py
+
+# Install some dependencies.
+RUN pip2 --no-cache-dir install ipykernel && \
+    pip3 --no-cache-dir install ipykernel && \
+    \
+    python2 -m ipykernel.kernelspec && \
+    python3 -m ipykernel.kernelspec
+
+# Move notebook contents into place.
 ADD . /usr/src/jupyter-notebook
 
-RUN ln -s /usr/src/jupyter-notebook/scripts/lxc-launcher.sh /launch.sh \
- \
- && BUILD_DEPS="nodejs-legacy npm" \
- && apt-get update -qq \
- && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends $BUILD_DEPS \
- \
- && pip3 install --no-cache-dir --pre -e /usr/src/jupyter-notebook \
- \
- && apt-get purge -y --auto-remove \
-       -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
- && rm -rf /var/lib/apt/lists/*
+# Link entrypoint script for easy access.
+RUN ln -s /usr/src/jupyter-notebook/scripts/lxc-launcher.sh /launch.sh
+
+# Install dependencies and run tests.
+RUN BUILD_DEPS="nodejs-legacy npm" && \
+    apt-get update -qq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -yq $BUILD_DEPS && \
+    \
+    pip3 install --no-cache-dir --pre -e /usr/src/jupyter-notebook && \
+    \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -yq $BUILD_DEPS && \
+    apt-get purge -y --auto-remove \
+        -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS
+
+# Run tests.
+RUN pip2 install --no-cache-dir mock nose requests testpath && \
+    pip3 install --no-cache-dir nose requests testpath && \
+    \
+    iptest2 && iptest3 && \
+    \
+    pip2 uninstall -y funcsigs mock nose pbr requests six testpath && \
+    pip3 uninstall -y nose requests testpath
 
 VOLUME /notebooks
 WORKDIR /notebooks
 
-ENTRYPOINT /launch.sh
-
 EXPOSE 8888
+
+ENTRYPOINT /launch.sh
