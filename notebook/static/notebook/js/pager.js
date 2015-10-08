@@ -78,6 +78,11 @@ define([
                 // This allows the pager-contents div to use percentage sizing.
                 that.pager_element.height(that.pager_element.height());
                 that._resize();
+                
+                // Fixes: ipython/ipython#8853
+                // Horrible hack that forces firefox to recalculate the content 
+                // size so the scrollbars get rendered.
+                that.pager_element.html(that.pager_element.html());
             });
         });
 
