@@ -5,3 +5,7 @@ machine:
 dependencies:
   override:
     - docker info
+
+test:
+  override:
+    - docker build -t jupyter/notebook .
