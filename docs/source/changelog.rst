@@ -6,6 +6,11 @@ Jupyter notebook changelog
 A summary of changes in the Jupyter notebook.
 For more detailed information, see `GitHub <https://github.com/jupyter/notebook>`__.
 
+4.1.x
+-----
+
+- Properly handle reaping of zombie subprocesses.
+
 4.0.x
 -----
 
