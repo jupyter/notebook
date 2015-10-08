@@ -62,7 +62,10 @@ RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
     pip3 --no-cache-dir install requests[security]
 
 # Install some dependencies.
-RUN pip2 --no-cache-dir install ipykernel && \
+RUN pip2 --no-cache-dir install git+git://github.com/ipython/ipython.git@a58ab37122285adf8f79bd76ded718a777ae3a7c && \
+    pip3 --no-cache-dir install git+git://github.com/ipython/ipython.git@a58ab37122285adf8f79bd76ded718a777ae3a7c && \
+    \
+    pip2 --no-cache-dir install ipykernel && \
     pip3 --no-cache-dir install ipykernel && \
     \
     python2 -m ipykernel.kernelspec && \
@@ -82,10 +85,6 @@ RUN BUILD_DEPS="nodejs-legacy npm" && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get purge -y --auto-remove \
         -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS
-
-# Patch iPython to fix the unicode issue.
-RUN patch /usr/local/lib/python2.7/dist-packages/IPython/utils/tests/test_path.py /usr/src/jupyter-notebook/ipython-patch.patch
-RUN patch /usr/local/lib/python3.4/dist-packages/IPython/utils/tests/test_path.py /usr/src/jupyter-notebook/ipython-patch.patch
 
 # Run tests.
 RUN pip2 install --no-cache-dir mock nose requests testpath && \
