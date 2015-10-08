@@ -27,6 +27,10 @@ You can override it to mount a host path, e.g. the current working directory:
 
     $ docker run -d -p "8888:8888" -v "$(pwd):/notebooks" --name="myproject" jupyter/notebook
 
+On other platforms without `docker`, this can be started using `docker-machine`
+by replacing `localhost` with an IP from [`docker-machine ip <MACHINE>`](https://docs.docker.com/machine/reference/ip/).
+With the deprecated `boot2docker`, this IP will be `boot2docker ip`.
+
 ## Installation
 
 For a local installation, make sure you have [pip installed](https://pip.readthedocs.org/en/stable/installing/) and run:
