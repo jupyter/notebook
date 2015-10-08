@@ -11,6 +11,7 @@ MAINTAINER Project Jupyter <jupyter@googlegroups.com>
 ENV LANGUAGE en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
+ENV PYTHONIOENCODING UTF-8
 
 # Python binary and source dependencies
 RUN apt-get update -qq \
