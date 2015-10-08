@@ -6,7 +6,34 @@
 
 The Jupyter HTML notebook is a web-based notebook environment for interactive computing.
 
-Dev quickstart:
+## Usage
+
+### Local installation
+
+Launch with:
+
+    $ jupyter notebook
+
+### In a Docker container
+
+If you have a [Docker daemon running](https://docs.docker.com/installation/), e.g. reachable on `localhost`, start a container with:
+
+    $ docker run --rm -itP -v "$(pwd):/notebooks" jupyter/notebook
+
+In your browser open the URL `http://localhost:8888/`.
+All notebooks from your session will be saved in the current directory.
+
+On other platforms without `docker`, this can be started using `docker-machine`
+by replacing `localhost` with an IP from [`docker-machine ip <MACHINE>`](https://docs.docker.com/machine/reference/ip/).
+With the deprecated `boot2docker`, this IP will be `boot2docker ip`.
+
+## Installation
+
+For a local installation, make sure you have [pip installed](https://pip.readthedocs.org/en/stable/installing/) and run:
+
+    $ pip install notebook
+
+### Dev quickstart
 
 * ensure that you have node/npm installed (e.g. `brew install node` on OS X)
 * Clone this repo and cd into it
@@ -15,11 +42,7 @@ Dev quickstart:
 _NOTE_: For Debian/Ubuntu systems, if you're installing the system node you need
 to use the 'nodejs-legacy' package and not the 'node' package.
 
-Launch with:
-
-    jupyter notebook
-
-Example installation (tested on Ubuntu Trusty):
+### Ubuntu Trusty
 
 ```
 sudo apt-get install nodejs-legacy npm python-virtualenv python-dev
@@ -31,7 +54,8 @@ pip install --pre -e .
 jupyter notebook
 ```
 
-For FreeBSD:
+### FreeBSD
+
 ```
 cd /usr/ports/www/npm
 sudo make install    # (Be sure to select the "NODE" option)
