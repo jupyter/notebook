@@ -18,14 +18,10 @@ Launch with:
 
 If you have a [Docker daemon running](https://docs.docker.com/installation/), e.g. reachable on `localhost`, start a container with:
 
-    $ docker run -d -p "8888:8888" --name="myproject" jupyter/notebook
+    $ docker run --rm -itP -v "$(pwd):/notebooks" jupyter/notebook
 
 In your browser open the URL `http://localhost:8888/`.
-
-The image defines a [volume](https://docs.docker.com/userguide/dockervolumes/) for notebook files at `/notebooks`.
-You can override it to mount a host path, e.g. the current working directory:
-
-    $ docker run -d -p "8888:8888" -v "$(pwd):/notebooks" --name="myproject" jupyter/notebook
+All notebooks from your session will be saved in the current directory.
 
 On other platforms without `docker`, this can be started using `docker-machine`
 by replacing `localhost` with an IP from [`docker-machine ip <MACHINE>`](https://docs.docker.com/machine/reference/ip/).
