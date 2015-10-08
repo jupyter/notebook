@@ -18,7 +18,7 @@ Launch with:
 
 If you have a [Docker daemon running](https://docs.docker.com/installation/), e.g. reachable on `localhost`, start a container with:
 
-    $ docker run --rm -itP -v "$(pwd):/notebooks" jupyter/notebook
+    $ docker run --rm -it -p 8888:8888 -v "$(pwd):/notebooks" jupyter/notebook
 
 In your browser open the URL `http://localhost:8888/`.
 All notebooks from your session will be saved in the current directory.
