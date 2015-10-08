@@ -83,6 +83,10 @@ RUN BUILD_DEPS="nodejs-legacy npm" && \
     apt-get purge -y --auto-remove \
         -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS
 
+# Patch iPython to fix the unicode issue.
+RUN patch /usr/local/lib/python2.7/dist-packages/IPython/utils/tests/test_path.py /usr/src/jupyter-notebook/ipython-patch.patch
+RUN patch /usr/local/lib/python3.4/dist-packages/IPython/utils/tests/test_path.py /usr/src/jupyter-notebook/ipython-patch.patch
+
 # Run tests.
 RUN pip2 install --no-cache-dir mock nose requests testpath && \
     pip3 install --no-cache-dir nose requests testpath && \
