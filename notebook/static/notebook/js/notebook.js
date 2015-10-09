@@ -660,25 +660,25 @@ define(function (require) {
     /**
      * Programmatically select a cell.
      * 
-     * @param {integer||integer[]} [indicies] - A cell's index or list of indicies
+     * @param {integer||integer[]} [indices] - A cell's index or list of indices
      * @return {Notebook} This notebook
      */
-    Notebook.prototype.select = function(indicies) {
+    Notebook.prototype.select = function(indices) {
         
-        // Make sure indicies are an array
-        if (!$.isArray(indicies)) {
-            indicies = [indicies];
+        // Make sure indices are an array
+        if (!$.isArray(indices)) {
+            indices = [indices];
         }
         
-        // Remove invalid indicies.
-        var filteredIndicies = indicies.filter(this.is_valid_cell_index, this);
-        if (indicies.length === 0 || filteredIndicies.length > 0) {
+        // Remove invalid indices.
+        var filteredIndices = indices.filter(this.is_valid_cell_index, this);
+        if (indices.length === 0 || filteredIndices.length > 0) {
             
             // Check if the selection has changed.
-            var selectedIndicies = this.get_selected_indices() || [];
+            var selectedIndices = this.get_selected_indices() || [];
             var changed = 
-                $(filteredIndicies).not(selectedIndicies).length === 0 && 
-                $(selectedIndicies).not(filteredIndicies).length === 0;
+                $(filteredIndices).not(selectedIndices).length === 0 && 
+                $(selectedIndices).not(filteredIndices).length === 0;
         
             // Make sure we are in command mode.
             if (changed && this.mode !== 'command') {
@@ -692,7 +692,7 @@ define(function (require) {
             
             // Select new selection.
             var anchor = true;
-            filteredIndicies.forEach(function(index) {
+            filteredIndices.forEach(function(index) {
                 var cell = this._select(index);
                 cell.selection_anchor = anchor;
                 anchor = false;
