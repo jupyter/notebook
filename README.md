@@ -21,7 +21,8 @@ If you have a [Docker daemon running](https://docs.docker.com/installation/), e.
     $ docker run --rm -it -p 8888:8888 -v "$(pwd):/notebooks" jupyter/notebook
 
 In your browser open the URL `http://localhost:8888/`.
-All notebooks from your session will be saved in the current directory.
+All notebooks from your session will be saved in the current directory. In reality, they are save inside the container at `/notebook`.
+These are then synced to current working directory.
 
 On other platforms without `docker`, this can be started using `docker-machine`
 by replacing `localhost` with an IP from [`docker-machine ip <MACHINE>`](https://docs.docker.com/machine/reference/ip/).
