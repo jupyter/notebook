@@ -127,6 +127,8 @@ def find_package_data():
         pjoin(components, "font-awesome", "fonts", "*.*"),
         pjoin(components, "google-caja", "html-css-sanitizer-minified.js"),
         pjoin(components, "jquery", "jquery.min.js"),
+        pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.js"),
+        pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.css"),
         pjoin(components, "jquery-ui", "ui", "minified", "jquery-ui.min.js"),
         pjoin(components, "jquery-ui", "themes", "smoothness", "jquery-ui.min.css"),
         pjoin(components, "jquery-ui", "themes", "smoothness", "images", "*"),
