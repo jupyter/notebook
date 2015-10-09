@@ -69,7 +69,6 @@ define(function(require){
       body.append($('<p/>').addClass('bg-warning').text("Warning, too many matches ("+html.length+"+), some changes might not be shown or applied"));
     } else {
       body.append($('<p/>').addClass('bg-info').text(html.length+" match"+(html.length==1?'':'es')));
-
     }
     for(var rindex=0; rindex<html.length; rindex++){
       var pre = $('<pre/>')
@@ -135,7 +134,7 @@ define(function(require){
         res.push([match.index, match.index+match[0].length]);
         escape_hatch++;
         if(escape_hatch > 100){
-          console.warn("More than  100 matches, aborting");
+          console.warn("More than 100 matches, aborting");
           abort = true;
           break;
         }
@@ -156,7 +155,7 @@ define(function(require){
       .attr('id', 'isreg')
       .addClass("btn btn-default")
       .attr('data-toggle','button')
-      .attr('title', 'use regular expression (now you have N+1 problems)')
+      .attr('title', 'Use regex (JavaScript regex syntax)')
       .text('.*');
 
     var onlySelectedButton = $('<button/>')
@@ -166,14 +165,14 @@ define(function(require){
         .addClass("fa fa-check-square-o")
       )
       .attr('data-toggle','button')
-      .attr('title', 'replace only in selected cells');
+      .attr('title', 'Replace only in selected cells');
 
     var isCaseSensitiveButton = $('<button/>')
       .attr('type', 'button')
       .addClass("btn btn-default")
       .attr('data-toggle','button')
       .attr('tabindex', '0')
-      .attr('title', 'is search case sensitive')
+      .attr('title', 'Case sensitive')
       .text('a≠A');
 
     var repl = $("<input/>")
@@ -188,20 +187,19 @@ define(function(require){
           $('<div/>').addClass('input-group')
           .append(
             $('<div/>').addClass('input-group-btn')
-              .append(isCaseSensitiveButton)
-              .append(isRegExpButton)
+                .append(isCaseSensitiveButton)
+                .append(isRegExpButton)
+                .append(onlySelectedButton)
           )
           .append(search)
         )
       )
       .append($('<div/>').addClass('form-group')
         .append(
-          $('<div/>').addClass('input-group')
-          .append(repl)
-          .append(
-            $('<div/>').addClass('input-group-btn')
-              .append(onlySelectedButton)
-          )
+          $('<div/>')
+              .addClass('input-group')
+              .css('width', '100%')
+              .append(repl)
         )
       )
       .append(body);
