@@ -162,6 +162,7 @@ define([
 
         var reader_onload = function (event) {
             var item = $(event.target).data('item');
+            console.log('**hi', event.target.result.byteLength);
             that.add_file_data(event.target.result, item);
             that.add_upload_button(item);
         };
@@ -189,17 +190,21 @@ define([
                 var chunkSize = 2097152;
                 var chunks = Math.ceil(f.size / chunkSize);
                 var currentChunk = 0;
+                var data = [];
 
-                console.log('***fetching', chunks);
+                console.log('***fetching', chunks, f.size);
 
                 reader.onload = function(e) {
                     if (currentChunk === chunks) {
-                        console.log('done!');
+                        data.push(event.target.result);
+                        console.log('done!', data.length);
+                        event.target.result = data;
                         reader_onload(e);
                     } else {
                         var start = currentChunk * chunkSize;
                         var end = ((start + chunkSize) >= f.size) ? f.size : start + chunkSize;
                         reader.readAsArrayBuffer(blobSlice.call(f, start, end));
+                        data.push(event.target.result);
                         currentChunk++;
                     }
                 };
@@ -555,6 +560,7 @@ define([
     };
 
     NotebookList.prototype.add_link = function (model, item) {
+        console.log('***hi', model.path, model.name);
         var path = model.path,
             name = model.name;
         var running = (model.type === 'notebook' && this.sessions[path] !== undefined);
@@ -835,6 +841,7 @@ define([
                     var bytes = '';
                     var buf = new Uint8Array(filedata);
                     var nbytes = buf.byteLength;
+                    console.log('***nbytes', nbytes);
                     for (var i=0; i<nbytes; i++) {
                         bytes += String.fromCharCode(buf[i]);
                     }
