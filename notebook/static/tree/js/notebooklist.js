@@ -815,7 +815,7 @@ define([
                     filedata = btoa(bytes);
                     format = 'base64';
                 }
-                var model = {};
+                var model = { name: filename, path: path };
 
                 var name_and_ext = utils.splitext(filename);
                 var file_ext = name_and_ext[1];
