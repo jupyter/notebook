@@ -75,7 +75,7 @@ define(function(){
     jglobal('ClusterList','tree/js/clusterlist');
     jglobal('ClusterItem','tree/js/clusterlist');
 
-    Jupyter.version = "4.0.6.dev";
+    Jupyter.version = "4.0.6";
     Jupyter._target = '_blank';
     return Jupyter;
 });
