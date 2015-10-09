@@ -14,6 +14,13 @@ For more detailed information, see `GitHub <https://github.com/jupyter/notebook>
 4.0.x
 -----
 
+4.0.6
+*****
+
+- fix installation of mathjax support files
+- fix some double-escape regressions in 4.0.5
+- fix a couple of cases where errors could prevent opening a notebook
+
 4.0.5
 *****
 
