@@ -272,6 +272,16 @@ define([
     };
 
     var build_div = function (title, shortcuts) {
+        
+        // Remove ipython.ignore shortcuts.
+        shortcuts = shortcuts.filter(function(shortcut) {
+            if (shortcut.help === 'ignore') {
+                return false;
+            } else {
+                return true;
+            }
+        });
+        
         var i, half, n;
         var div = $('<div/>').append($(title));
         var sub_div = $('<div/>').addClass('container-fluid');
