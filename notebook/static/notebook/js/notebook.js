@@ -664,9 +664,6 @@ define(function (require) {
      * @return {Notebook} This notebook
      */
     Notebook.prototype.select = function(indicies) {
-        if (indicies === undefined) {
-            indicies = this.get_selected_indices();
-        }
         
         // Make sure indicies are an array
         if (!$.isArray(indicies)) {
@@ -674,32 +671,33 @@ define(function (require) {
         }
         
         // Remove invalid indicies.
-        indicies = indicies.filter(this.is_valid_cell_index, this);
+        var filteredIndicies = indicies.filter(this.is_valid_cell_index, this);
+        if (indicies.length === 0 || filteredIndicies.length > 0) {
+            
+            // Check if the selection has changed.
+            var selectedIndicies = this.get_selected_indices() || [];
+            var changed = 
+                $(filteredIndicies).not(selectedIndicies).length === 0 && 
+                $(selectedIndicies).not(filteredIndicies).length === 0;
         
-        // Check if the selection has changed.
-        var selectedIndicies = this.get_selected_indices();
-        var changed = 
-            $(indicies).not(selectedIndicies).length === 0 && 
-            $(selectedIndicies).not(indicies).length === 0;
-    
-        // Make sure we are in command mode.
-        if (changed && this.mode !== 'command') {
-            this.command_mode();
+            // Make sure we are in command mode.
+            if (changed && this.mode !== 'command') {
+                this.command_mode();
+            }
+            
+            // Unselect current selection.
+            this.get_selected_cells().forEach(function(cell) {
+                cell.unselect();
+            });
+            
+            // Select new selection.
+            var anchor = true;
+            filteredIndicies.forEach(function(index) {
+                var cell = this._select(index);
+                cell.selection_anchor = anchor;
+                anchor = false;
+            }, this);    
         }
-        
-        // Unselect current selection.
-        this.get_selected_cells().forEach(function(cell) {
-            cell.unselect();
-        });
-        
-        // Select new selection.
-        var anchor = true;
-        indicies.forEach(function(index) {
-            var cell = this._select(index);
-            cell.selection_anchor = anchor;
-            anchor = false;
-        }, this);
-        
         return this;
     };
 

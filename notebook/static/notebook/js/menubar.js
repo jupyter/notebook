@@ -61,7 +61,7 @@ define([
         this.element.find("li").click(function (event, ui) {
                 // The selected cell loses focus when the menu is entered, so we
                 // re-select it upon selection.
-                that.notebook.select();
+                that.notebook.select(that.notebook.get_selected_indices());
             }
         );
     };
