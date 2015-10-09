@@ -13,6 +13,15 @@ ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 ENV PYTHONIOENCODING UTF-8
 
+# Remove preinstalled copy of python that blocks are ability to install development python.
+RUN DEBIAN_FRONTEND=noninteractive apt-get remove -yq \
+        python3-minimal \
+        python3.4 \
+        python3.4-minimal \
+        libpython3-stdlib \
+        libpython3.4-stdlib \
+        libpython3.4-minimal
+
 # Python binary and source dependencies
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
