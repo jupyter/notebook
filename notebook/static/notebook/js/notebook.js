@@ -660,27 +660,46 @@ define(function (require) {
     /**
      * Programmatically select a cell.
      * 
-     * @param {integer} index - A cell's index
+     * @param {integer||integer[]} [indicies] - A cell's index or list of indicies
      * @return {Notebook} This notebook
      */
-    Notebook.prototype.select = function (index) {
-        if (this.is_valid_cell_index(index)) {
-            var sindex = this.get_selected_index();
-            if (sindex !== null && index !== sindex) {
-                // If we are about to select a different cell, make sure we are
-                // first in command mode.
-                if (this.mode !== 'command') {
-                    this.command_mode();
-                }
-            }
-            var current_selection = this.get_selected_cells();
-            for (var i=0; i<current_selection.length; i++) {
-                current_selection[i].unselect();
-            }
-
-            var cell = this._select(index);
-            cell.selection_anchor = true;
+    Notebook.prototype.select = function(indicies) {
+        if (indicies === undefined) {
+            indicies = this.get_selected_indices();
         }
+        
+        // Make sure indicies are an array
+        if (!$.isArray(indicies)) {
+            indicies = [indicies];
+        }
+        
+        // Remove invalid indicies.
+        indicies = indicies.filter(this.is_valid_cell_index, this);
+        
+        // Check if the selection has changed.
+        var selectedIndicies = this.get_selected_indices();
+        var changed = 
+            $(indicies).not(selectedIndicies).length === 0 && 
+            $(selectedIndicies).not(indicies).length === 0;
+    
+        // Make sure we are in command mode.
+        if (changed && this.mode !== 'command') {
+            this.command_mode();
+        }
+        
+        // Unselect current selection.
+        this.get_selected_cells().forEach(function(cell) {
+            cell.unselect();
+        });
+        
+        // Select new selection.
+        var anchor = true;
+        indicies.forEach(function(index) {
+            var cell = this._select(index);
+            cell.selection_anchor = anchor;
+            anchor = false;
+        }, this);
+        
         return this;
     };
 
