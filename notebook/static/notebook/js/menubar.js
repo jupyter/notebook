@@ -201,7 +201,7 @@ define([
         var id_actions_dict = {
             '#find_and_replace' : 'ipython.find-and-replace-dialog',
             '#save_checkpoint': 'ipython.save-notebook',
-            '#restart_kernel': 'ipython.restart-kernel-dialog',
+            '#restart_kernel': 'ipython.restart-dialog',
             '#restart_clear_output': 'ipython.restart-clear-output-dialog',
             '#restart_run_all': 'ipython.restart-run-all-dialog',
             '#int_kernel': 'ipython.interrupt-kernel',
