@@ -618,7 +618,7 @@ define([
             var url = utils.url_path_join(
                 this.base_url,
                 'api/sessions',
-                encodeURIComponent(session)
+                encodeURIComponent(session.id)
             );
             $.ajax(url, settings);
         }
