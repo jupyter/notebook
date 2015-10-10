@@ -83,6 +83,7 @@ RUN BUILD_DEPS="nodejs-legacy npm" && \
     \
     npm cache clean && \
     apt-get clean && \
+    rm -rf /root/.npm && \
     rm -rf /root/.cache && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get purge -y --auto-remove \
