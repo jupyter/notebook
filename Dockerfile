@@ -13,7 +13,7 @@ ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 ENV PYTHONIOENCODING UTF-8
 
-# Remove preinstalled copy of python that blocks are ability to install development python.
+# Remove preinstalled copy of python that blocks our ability to install development python.
 RUN DEBIAN_FRONTEND=noninteractive apt-get remove -yq \
         python3-minimal \
         python3.4 \
