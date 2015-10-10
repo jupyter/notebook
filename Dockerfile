@@ -81,6 +81,7 @@ RUN BUILD_DEPS="nodejs-legacy npm" && \
     \
     pip3 install --no-cache-dir --pre -e /usr/src/jupyter-notebook && \
     \
+    npm cache clean && \
     apt-get clean && \
     rm -rf /root/.cache && \
     rm -rf /var/lib/apt/lists/* && \
