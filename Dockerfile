@@ -80,7 +80,6 @@ RUN BUILD_DEPS="nodejs-legacy npm" && \
     \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -yq $BUILD_DEPS && \
     apt-get purge -y --auto-remove \
         -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS
 
