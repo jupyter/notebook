@@ -95,4 +95,4 @@ WORKDIR /notebooks
 EXPOSE 8888
 
 ENTRYPOINT ["tini", "--"]
-CMD ["jupyter", "notebook", "--port", "8888", "--ip=*"]
+CMD ["jupyter", "notebook", "--ip=*"]
