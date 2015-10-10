@@ -86,6 +86,7 @@ RUN BUILD_DEPS="nodejs-legacy npm" && \
     rm -rf /root/.npm && \
     rm -rf /root/.cache && \
     rm -rf /root/.config && \
+    rm -rf /root/.local && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get purge -y --auto-remove \
         -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS
