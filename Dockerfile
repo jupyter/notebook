@@ -59,14 +59,17 @@ RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
     python3 get-pip.py && \
     rm get-pip.py && \
     pip2 --no-cache-dir install requests[security] && \
-    pip3 --no-cache-dir install requests[security]
+    pip3 --no-cache-dir install requests[security] && \
+    rm get-pip.py && \
+    rm -rf /root/.cache
 
 # Install some dependencies.
 RUN pip2 --no-cache-dir install ipykernel && \
     pip3 --no-cache-dir install ipykernel && \
     \
     python2 -m ipykernel.kernelspec && \
-    python3 -m ipykernel.kernelspec
+    python3 -m ipykernel.kernelspec && \
+    rm -rf /root/.cache
 
 # Move notebook contents into place.
 ADD . /usr/src/jupyter-notebook
@@ -79,6 +82,7 @@ RUN BUILD_DEPS="nodejs-legacy npm" && \
     pip3 install --no-cache-dir --pre -e /usr/src/jupyter-notebook && \
     \
     apt-get clean && \
+    rm -rf /root/.cache && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get purge -y --auto-remove \
         -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS
@@ -90,7 +94,8 @@ RUN pip2 install --no-cache-dir mock nose requests testpath && \
     iptest2 && iptest3 && \
     \
     pip2 uninstall -y funcsigs mock nose pbr requests six testpath && \
-    pip3 uninstall -y nose requests testpath
+    pip3 uninstall -y nose requests testpath && \
+    rm -rf /root/.cache
 
 # Add a notebook profile.
 RUN mkdir -p -m 700 /root/.jupyter/ && \
