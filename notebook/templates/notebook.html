@@ -276,7 +276,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
 
                         {% for helplinks in sections %}
                             {% for link in helplinks %}
-                            <li><a rel="noreferrer" href="{{link[0]}}" target="{{'_blank' if link[2]}}" title="{{'Opens in a new window' if link[2]}}">
+                                <li><a rel="noreferrer" href="{{link[0]}}" target="{{'_blank' if link[2]}}" title="{{'Opens in a new window' if link[2]}}">
                                 {% if link[2] %}
                                     <i class="fa fa-external-link menu-icon pull-right"></i>
                                 {% endif %}
