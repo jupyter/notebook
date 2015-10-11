@@ -35,6 +35,7 @@ RUN apt-get update -qq && \
         libzmq3-dev \
         pandoc \
         python \
+        python3 \
         python-dev \
         python3-dev \
         sqlite3 \
