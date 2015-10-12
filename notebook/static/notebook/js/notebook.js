@@ -628,6 +628,73 @@ define(function (require) {
         });
         return result;
     };
+    
+    /**
+     * Toggles the marks on the cells
+     * @param  {Cell[]} [cells] - optionally specify what cells should be toggled
+     */
+    Notebook.prototype.toggle_marks = function(cells) {
+        cells = cells || this.get_cells();
+        cells.forEach(function(cell) { cell.marked = !cell.marked; });
+    };
+    
+    /**
+     * Mark all of the cells
+     * @param  {Cell[]} [cells] - optionally specify what cells should be marked
+     */
+    Notebook.prototype.mark_all = function(cells) {
+        cells = cells || this.get_cells();
+        cells.forEach(function(cell) { cell.mark(); });
+    };
+    
+    /**
+     * Unmark all of the cells
+     * @param  {Cell[]} [cells] - optionally specify what cells should be unmarked
+     */
+    Notebook.prototype.unmark_all = function(cells) {
+        this.get_marked_cells(cells).forEach(function(cell) { cell.unmark(); });
+    };
+    
+    /**
+     * Set the cells that should be marked, exclusively
+     * @param  {Cell[]} cells
+     */
+    Notebook.prototype.set_marked_cells = function(cells) {
+        this.unmark_all();
+        this.mark_all(cells);
+    };
+    
+    /**
+     * Gets the cells that are marked
+     * @param  {Cell[]} [cells] - optionally provide the cells to search through
+     * @return {Cell[]} marked cells
+     */
+    Notebook.prototype.get_marked_cells = function(cells) {
+        cells = cells || this.get_cells();
+        return cells.filter(function(cell) { return cell.marked; });
+    };
+    
+    /**
+     * Sets the cells that are marked by indices
+     * @param  {number[]} indices
+     * @param  {Cell[]} [cells] - optionally provide the cells to search through
+     */
+    Notebook.prototype.set_marked_indices = function(indices, cells) {
+        cells = cells || this.get_cells();
+        this.unmark_all(cells);
+        this.mark_all(cells.filter(function(cell, index) { return indices.indexOf(index) !== -1; }));
+    };
+    
+    /**
+     * Gets the indices of the cells that are marked
+     * @param  {Cell[]} [cells] - optionally provide the cells to search through
+     * @return {number[]} marked cell indices
+     */
+    Notebook.prototype.get_marked_indices = function(cells) {
+        cells = cells || this.get_cells();
+        var markedCells = this.get_marked_cells(cells);
+        return markedCells.map(function(cell) { return cells.indexOf(cell); });
+    };
 
     /**
      * Get an array of the cells in the currently selected range

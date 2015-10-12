@@ -169,6 +169,11 @@ define([
             if (!that.selected) {
                 that.events.trigger('select.Cell', {'cell':that});
             }
+                
+            // Ctrl-click should mark the c ell.
+            if (event.ctrlKey) {
+                that.marked = !that.marked;
+            }
         });
         that.element.focusin(function (event) {
             if (!that.selected) {
@@ -280,6 +285,45 @@ define([
         }
         return was_selected_cell;
     };
+    
+    /**
+     * Marks the cell
+     * @return {Cell} this
+     */
+    Cell.prototype.mark = function() {
+        if (!this.marked) {
+            this.element.addClass('marked');
+        }
+        return this;
+    };
+    
+    /**
+     * Unmarks the cell
+     * @return {Cell} this
+     */
+    Cell.prototype.unmark = function() {
+        if (this.marked) {
+            this.element.removeClass('marked');
+        }
+        return this;
+    };
+    
+    /**
+     * Whether or not the cell is marked.
+     * @return {boolean}
+     */
+    Object.defineProperty(Cell.prototype, 'marked', {
+        get: function() {
+            return this.element.hasClass('marked');
+        },
+        set: function(value) {
+            if (value) {
+                this.mark();
+            } else {
+                this.unmark();
+            }
+        }
+    });
 
     /**
      * should be overritten by subclass
