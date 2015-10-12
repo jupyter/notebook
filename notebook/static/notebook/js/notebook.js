@@ -401,7 +401,7 @@ define(function (require) {
         var st = sme.scrollTop();
         var t = sme.offset().top;
         var ct = cells[index].element.offset().top;
-        var scroll_value =  st + ct - (t + .01 * percent * h);
+        var scroll_value =  st + ct - (t + 0.01 * percent * h);
         this.scroll_manager.element.animate({scrollTop:scroll_value}, time);
         return scroll_value;
     };
@@ -633,7 +633,7 @@ define(function (require) {
      * Toggles the marks on the cells
      * @param  {Cell[]} [cells] - optionally specify what cells should be toggled
      */
-    Notebook.prototype.toggle_marks = function(cells) {
+    Notebook.prototype.toggle_cells_marked = function(cells) {
         cells = cells || this.get_cells();
         cells.forEach(function(cell) { cell.marked = !cell.marked; });
     };
@@ -642,7 +642,7 @@ define(function (require) {
      * Mark all of the cells
      * @param  {Cell[]} [cells] - optionally specify what cells should be marked
      */
-    Notebook.prototype.mark_all = function(cells) {
+    Notebook.prototype.mark_all_cells = function(cells) {
         cells = cells || this.get_cells();
         cells.forEach(function(cell) { cell.mark(); });
     };
@@ -651,7 +651,7 @@ define(function (require) {
      * Unmark all of the cells
      * @param  {Cell[]} [cells] - optionally specify what cells should be unmarked
      */
-    Notebook.prototype.unmark_all = function(cells) {
+    Notebook.prototype.unmark_all_cells = function(cells) {
         this.get_marked_cells(cells).forEach(function(cell) { cell.unmark(); });
     };
     
@@ -660,8 +660,8 @@ define(function (require) {
      * @param  {Cell[]} cells
      */
     Notebook.prototype.set_marked_cells = function(cells) {
-        this.unmark_all();
-        this.mark_all(cells);
+        this.unmark_all_cells();
+        this.mark_all_cells(cells);
     };
     
     /**
@@ -681,8 +681,8 @@ define(function (require) {
      */
     Notebook.prototype.set_marked_indices = function(indices, cells) {
         cells = cells || this.get_cells();
-        this.unmark_all(cells);
-        this.mark_all(cells.filter(function(cell, index) { return indices.indexOf(index) !== -1; }));
+        this.unmark_all_cells(cells);
+        this.mark_all_cells(cells.filter(function(cell, index) { return indices.indexOf(index) !== -1; }));
     };
     
     /**
@@ -694,6 +694,25 @@ define(function (require) {
         cells = cells || this.get_cells();
         var markedCells = this.get_marked_cells(cells);
         return markedCells.map(function(cell) { return cells.indexOf(cell); });
+    };
+    
+    /**
+     * Checks if the marked cells are contiguous
+     * @param  {Cell[]} [cells] - optionally provide the cells to search through
+     * @return {boolean}
+     */
+    Notebook.prototype.are_marks_contiguous = function(cells) {
+        // Get a numerically sorted list of the marked indices.
+        var markedIndices = this.get_marked_indices(cells).sort(
+            function(a,b) { return a-b; });
+
+        // Check for contiguousness
+        for (var i = 0; i < markedIndices.length - 1; i++) {
+            if (markedIndices[i+1] - markedIndices[i] !== 1) {
+                return false;
+            }
+        }
+        return true;
     };
 
     /**

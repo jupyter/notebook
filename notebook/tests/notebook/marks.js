@@ -22,7 +22,7 @@ casper.notebook_test(function () {
         }), 0, 'no cells are marked visibily');
         
         this.evaluate(function() {
-            Jupyter.notebook.mark_all();
+            Jupyter.notebook.mark_all_cells();
         });
         
         var cellCount = this.evaluate(function() { 
@@ -38,7 +38,7 @@ casper.notebook_test(function () {
         }), cellCount, 'marked cells are marked visibily');
         
         this.evaluate(function() {
-            Jupyter.notebook.unmark_all();
+            Jupyter.notebook.unmark_all_cells();
         });
         
         this.test.assertEquals(this.evaluate(function() { 
