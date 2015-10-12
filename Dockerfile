@@ -93,6 +93,9 @@ RUN pip2 install --no-cache-dir mock nose requests testpath && \
     pip2 uninstall -y funcsigs mock nose pbr requests six testpath && \
     pip3 uninstall -y nose requests testpath
 
+# Add a notebook profile.
+RUN jupyter notebook --generate-config
+
 VOLUME /notebooks
 WORKDIR /notebooks
 
