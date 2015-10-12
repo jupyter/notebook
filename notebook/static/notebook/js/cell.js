@@ -169,9 +169,10 @@ define([
             if (!that.selected) {
                 that.events.trigger('select.Cell', {'cell':that});
             }
-                
-            // Ctrl-click should mark the c ell.
-            if (event.ctrlKey) {
+            
+            // Cmdtrl-click should mark the cell.
+            var isMac = navigator.platform.slice(0, 3).toLowerCase() === 'mac';
+            if ((!isMac && event.ctrlKey) || (isMac && event.metaKey)) {
                 that.marked = !that.marked;
             }
         });

@@ -93,7 +93,7 @@ define([
             'enter' : 'ipython.enter-edit-mode',
             'space' : 'ipython.scroll-down',
             'down' : 'ipython.select-next-cell',
-            'cmdtrl-space' : 'ipython.toggle-marks',
+            'ctrl-space' : 'ipython.toggle-marks',
             'i,i' : 'ipython.interrupt-kernel',
             '0,0' : 'ipython.restart-kernel',
             'd,d' : 'ipython.delete-cell',
