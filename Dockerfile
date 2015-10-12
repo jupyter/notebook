@@ -92,10 +92,14 @@ RUN pip2 install --no-cache-dir mock nose requests testpath && \
     pip2 uninstall -y funcsigs mock nose pbr requests six testpath && \
     pip3 uninstall -y nose requests testpath
 
+# Add a notebook profile.
+RUN mkdir -p -m 700 /root/.jupyter/ && \
+    echo "c.NotebookApp.ip = '*'" >> /root/.jupyter/jupyter_notebook_config.py
+
 VOLUME /notebooks
 WORKDIR /notebooks
 
 EXPOSE 8888
 
 ENTRYPOINT ["tini", "--"]
-CMD ["jupyter", "notebook", "--ip=*"]
+CMD ["jupyter", "notebook"]
