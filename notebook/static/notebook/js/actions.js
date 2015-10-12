@@ -1,6 +1,20 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
+// How to pick action names:
+//
+// * First pick a noun and a verb for the action. For example, if the action is "restart kernel," the verb is
+//   "restart" and the noun is "kernel".
+// * Omit terms like "selected" and "active" by default, so "delete-cell", rather than "delete-selected-cell".
+//   Only provide a scope like "-all-" if it is other than the default "selected" or "active" scope.
+// * If an action has a secondary action, separate the secondary action with "-and-", so
+//   "restart-kernel-and-clear-output".
+// * Don't ever use before/after as they have a temporal connotation that is confusing when used in a spatial
+//   context.
+// * Use above/below or previous/next to indicate spacial and sequential relationships.
+// * For dialogs, use a verb that indicates what the dialog will accomplish, such as "confirm-restart-kernel".
+
+
 define(function(require){
     "use strict";
 
@@ -27,13 +41,12 @@ define(function(require){
      *
      *  action need to be registered with a **name** that can be use to refer to this action.
      *
-     *
      *  if `help` is not provided it will be derived by replacing any dash by space
      *  in the **name** of the action. It is advised to provide a prefix to action name to
      *  avoid conflict the prefix should be all lowercase and end with a dot `.`
      *  in the absence of a prefix the behavior of the action is undefined.
      *
-     *  All action provided by Jupyter are prefixed with `ipython.`.
+     *  All action provided by the Jupyter notebook are prefixed with `jupyter-notebook:`.
      *
      *  One can register extra actions or replace an existing action with another one is possible
      *  but is considered undefined behavior.
