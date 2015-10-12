@@ -195,12 +195,7 @@ define(function(require){
         )
       )
       .append($('<div/>').addClass('form-group')
-        .append(
-          $('<div/>')
-              .addClass('input-group')
-              .css('width', '100%')
-              .append(repl)
-        )
+        .append(repl)
       )
       .append(body);
 
