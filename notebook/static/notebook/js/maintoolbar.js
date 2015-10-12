@@ -32,30 +32,30 @@ define([
     MainToolBar.prototype._make = function () {
         var grps = [
           [
-            ['ipython.save-notebook'],
+            ['jupyter-notebook:save-notebook'],
             'save-notbook'
           ],
           [
-            ['ipython.insert-cell-after'],
+            ['jupyter-notebook:insert-cell-below'],
             'insert_above_below'],
           [
-            ['ipython.cut-selected-cell',
-             'ipython.copy-selected-cell',
-             'ipython.paste-cell-after'
+            ['jupyter-notebook:cut-cell',
+             'jupyter-notebook:copy-cell',
+             'jupyter-notebook:paste-cell-below'
             ] ,
             'cut_copy_paste'],
           [
-            ['ipython.move-selected-cell-up',
-             'ipython.move-selected-cell-down'
+            ['jupyter-notebook:move-cell-up',
+             'jupyter-notebook:move-cell-down'
             ],
             'move_up_down'],
-          [ ['ipython.run-select-next',
-             'ipython.interrupt-kernel',
-             'ipython.restart-kernel'
+          [ ['jupyter-notebook:run-cell-and-select-next',
+             'jupyter-notebook:interrupt-kernel',
+             'jupyter-notebook:confirm-restart-kernel'
             ],
             'run_int'],
          ['<add_celltype_list>'],
-         [['ipython.command-palette']]
+         [['jupyter-notebook:show-command-palette']]
         ];
         this.construct(grps);
     };

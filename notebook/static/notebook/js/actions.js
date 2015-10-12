@@ -40,22 +40,52 @@ define(function(require){
      *
      **/
     var _actions = {
-        'toggle-toolbar':{
-            help: 'hide/show the toolbar',
-            handler : function(env){
-                $('div#maintoolbar').toggle();
-                events.trigger('resize-header.Page');
+        'restart-kernel': {
+            help: 'restart the kernel (no confirmation dialog)',
+            handler: function (env) {
+                env.notebook.restart_kernel({confirm: false});
+            },
+        },
+        'confirm-restart-kernel':{
+            icon: 'fa-repeat',
+            help_index : 'hb',
+            help: 'restart the kernel (with dialog)',
+            handler : function (env) {
+                env.notebook.restart_kernel();
             }
         },
-        'toggle-header':{
-            help: 'hide/show the header',
-            handler : function(env){
-                $('#header-container').toggle();
-                $('.header-bar').toggle();
-                events.trigger('resize-header.Page');
+        'restart-kernel-and-run-all-cells': {
+            help: 'restart the kernel, then re-run the whole notebook (no confirmation dialog)',
+            handler: function (env) {
+                env.notebook.restart_run_all({confirm: false});
             }
         },
-        'run-select-next': {
+        'confirm-restart-kernel-and-run-all-cells': {
+            help: 'restart the kernel, then re-run the whole notebook (with dialog)',
+            handler: function (env) {
+                env.notebook.restart_run_all();
+            }
+        },
+        'restart-kernel-and-clear-output': {
+            help: 'restart the kernel and clear all output (no confirmation dialog)',
+            handler: function (env) {
+                env.notebook.restart_clear_output({confirm: false});
+            }
+        },
+        'confirm-restart-kernel-and-clear-output': {
+            help: 'restart the kernel and clear all output (with dialog)',
+            handler: function (env) {
+                env.notebook.restart_clear_output();
+            }
+        },
+        'interrupt-kernel':{
+            icon: 'fa-stop',
+            help_index : 'ha',
+            handler : function (env) {
+                env.notebook.kernel.interrupt();
+            }
+        },
+        'run-cell-and-select-next': {
             icon: 'fa-step-forward',
             help    : 'run cell, select below',
             help_index : 'ba',
@@ -63,14 +93,14 @@ define(function(require){
                 env.notebook.execute_cell_and_select_below();
             }
         },
-        'execute-in-place':{
+        'run-cell':{
             help    : 'run cell',
             help_index : 'bb',
             handler : function (env) {
                 env.notebook.execute_cell();
             }
         },
-        'execute-and-insert-after':{
+        'run-cell-and-insert-below':{
             help    : 'run cell, insert below',
             help_index : 'bc',
             handler : function (env) {
@@ -84,43 +114,6 @@ define(function(require){
                 env.notebook.execute_all_cells();
             }
         },
-        'restart-run-all-dialog': {
-            help: 'restart the kernel, then re-run the whole notebook (with dialog)',
-            handler: function (env) {
-                env.notebook.restart_run_all();
-            }
-        },
-        'restart-clear-output-dialog': {
-            help: 'restart the kernel and clear all output (with dialog)',
-            handler: function (env) {
-                env.notebook.restart_clear_output();
-            }
-        },
-        'restart-dialog': {
-            help: 'restart the kernel (with dialog)',
-            help_index: 'bf',
-            handler: function (env) {
-                env.notebook.restart_kernel();
-            },
-        },
-        'restart-run-all': {
-            help: 'restart the kernel, then re-run the whole notebook (no confirmation dialog)',
-            handler: function (env) {
-                env.notebook.restart_run_all({confirm: false});
-            }
-        },
-        'restart-clear-output': {
-            help: 'restart the kernel and clear all output (no confirmation dialog)',
-            handler: function (env) {
-                env.notebook.restart_clear_output({confirm: false});
-            }
-        },
-        'restart': {
-            help: 'restart the kernel (no confirmation dialog)',
-            handler: function (env) {
-                env.notebook.restart_kernel({confirm: false});
-            },
-        },
         'run-all-cells-above':{
             handler : function (env) {
                 env.notebook.execute_cells_above();
@@ -131,7 +124,7 @@ define(function(require){
                 env.notebook.execute_cells_below();
             }
         },
-        'go-to-command-mode': {
+        'enter-command-mode': {
             help    : 'command mode',
             help_index : 'aa',
             handler : function (env) {
@@ -187,7 +180,7 @@ define(function(require){
                 env.notebook.extend_marked(1);
             }
         },
-        'cut-selected-cell' : {
+        'cut-cell' : {
             icon: 'fa-cut',
             help_index : 'ee',
             handler : function (env) {
@@ -196,21 +189,21 @@ define(function(require){
                 env.notebook.select(index);
             }
         },
-        'copy-selected-cell' : {
+        'copy-cell' : {
             icon: 'fa-copy',
             help_index : 'ef',
             handler : function (env) {
                 env.notebook.copy_cell();
             }
         },
-        'paste-cell-before' : {
+        'paste-cell-above' : {
             help: 'paste cell above',
             help_index : 'eg',
             handler : function (env) {
                 env.notebook.paste_cell_above();
             }
         },
-        'paste-cell-after' : {
+        'paste-cell-below' : {
             help: 'paste cell below',
             icon: 'fa-paste',
             help_index : 'eh',
@@ -218,7 +211,7 @@ define(function(require){
                 env.notebook.paste_cell_below();
             }
         },
-        'insert-cell-before' : {
+        'insert-cell-above' : {
             help: 'insert cell above',
             help_index : 'ec',
             handler : function (env) {
@@ -227,7 +220,7 @@ define(function(require){
                 env.notebook.focus_cell();
             }
         },
-        'insert-cell-after' : {
+        'insert-cell-below' : {
             help: 'insert cell below',
             icon : 'fa-plus',
             help_index : 'ed',
@@ -237,110 +230,110 @@ define(function(require){
                 env.notebook.focus_cell();
             }
         },
-        'change-selected-cell-to-code-cell' : {
+        'change-cell-to-code' : {
             help    : 'to code',
             help_index : 'ca',
             handler : function (env) {
                 env.notebook.to_code();
             }
         },
-        'change-selected-cell-to-markdown-cell' : {
+        'change-cell-to-markdown' : {
             help    : 'to markdown',
             help_index : 'cb',
             handler : function (env) {
                 env.notebook.to_markdown();
             }
         },
-        'change-selected-cell-to-raw-cell' : {
+        'change-cell-to-raw' : {
             help    : 'to raw',
             help_index : 'cc',
             handler : function (env) {
                 env.notebook.to_raw();
             }
         },
-        'change-selected-cell-to-heading-1' : {
+        'change-cell-to-heading-1' : {
             help    : 'to heading 1',
             help_index : 'cd',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 1);
             }
         },
-        'change-selected-cell-to-heading-2' : {
+        'change-cell-to-heading-2' : {
             help    : 'to heading 2',
             help_index : 'ce',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 2);
             }
         },
-        'change-selected-cell-to-heading-3' : {
+        'change-cell-to-heading-3' : {
             help    : 'to heading 3',
             help_index : 'cf',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 3);
             }
         },
-        'change-selected-cell-to-heading-4' : {
+        'change-cell-to-heading-4' : {
             help    : 'to heading 4',
             help_index : 'cg',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 4);
             }
         },
-        'change-selected-cell-to-heading-5' : {
+        'change-cell-to-heading-5' : {
             help    : 'to heading 5',
             help_index : 'ch',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 5);
             }
         },
-        'change-selected-cell-to-heading-6' : {
+        'change-cell-to-heading-6' : {
             help    : 'to heading 6',
             help_index : 'ci',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 6);
             }
         },
-        'toggle-output-visibility-selected-cell' : {
+        'toggle-cell-output-visibility' : {
             help    : 'toggle output',
             help_index : 'gb',
             handler : function (env) {
                 env.notebook.toggle_output();
             }
         },
-        'toggle-output-scrolling-selected-cell' : {
+        'toggle-cell-output-scrolling' : {
             help    : 'toggle output scrolling',
             help_index : 'gc',
             handler : function (env) {
                 env.notebook.toggle_output_scroll();
             }
         },
-        'clear-output-selected-cell' : {
+        'clear-cell-output' : {
             handler : function (env) {
                 env.notebook.clear_output();
             }
         },
-        'move-selected-cell-down' : {
+        'move-cell-down' : {
             icon: 'fa-arrow-down',
             help_index : 'eb',
             handler : function (env) {
                 env.notebook.move_cell_down();
             }
         },
-        'move-selected-cell-up' : {
+        'move-cell-up' : {
             icon: 'fa-arrow-up',
             help_index : 'ea',
             handler : function (env) {
                 env.notebook.move_cell_up();
             }
         },
-        'toggle-line-number-selected-cell' : {
+        'toggle-cell-line-numbers' : {
             help    : 'toggle line numbers',
             help_index : 'ga',
             handler : function (env) {
                 env.notebook.cell_toggle_line_numbers();
             }
         },
-        'show-keyboard-shortcut-help-dialog' : {
+        'show-keyboard-shortcuts' : {
             help_index : 'ge',
             handler : function (env) {
                 env.quick_help.show_keyboard_shortcuts();
@@ -353,21 +346,7 @@ define(function(require){
                 env.notebook.delete_cell();
             }
         },
-        'interrupt-kernel':{
-            icon: 'fa-stop',
-            help_index : 'ha',
-            handler : function (env) {
-                env.notebook.kernel.interrupt();
-            }
-        },
-        'restart-kernel':{
-            icon: 'fa-repeat',
-            help_index : 'hb',
-            handler : function (env) {
-                env.notebook.restart_kernel();
-            }
-        },
-        'undo-last-cell-deletion' : {
+        'undo-cell-deletion' : {
             help_index : 'ei',
             handler : function (env) {
                 env.notebook.undelete_cell();
@@ -375,12 +354,12 @@ define(function(require){
         },
         // TODO reminder
         // open an issue, merge with above merge with last cell of notebook if at top. 
-        'merge-selected-cell-with-cell-before' : {
+        'merge-cell-with-previous-cell' : {
             handler : function (env) {
                 env.notebook.merge_cell_above();
             }
         },
-        'merge-selected-cell-with-cell-after' : {
+        'merge-cell-with-next-cell' : {
             help    : 'merge cell below',
             help_index : 'ek',
             handler : function (env) {
@@ -400,7 +379,7 @@ define(function(require){
                 env.pager.collapse();
             }
         },
-        'command-palette': {
+        'show-command-palette': {
             help_index : 'aa',
             help: 'open the command palette',
             icon: 'fa-keyboard-o',
@@ -417,6 +396,21 @@ define(function(require){
                 env.notebook.get_selected_cell().marked ^= true;
             }
         },
+        'toggle-toolbar':{
+            help: 'hide/show the toolbar',
+            handler : function(env){
+                $('div#maintoolbar').toggle();
+                events.trigger('resize-header.Page');
+            }
+        },
+        'toggle-header':{
+            help: 'hide/show the header',
+            handler : function(env){
+                $('#header-container').toggle();
+                $('.header-bar').toggle();
+                events.trigger('resize-header.Page');
+            }
+        }
     };
 
     /**
@@ -438,7 +432,7 @@ define(function(require){
                 return true;
             }
         },
-        'move-cursor-up-or-previous-cell':{
+        'move-cursor-up':{
             handler : function (env, event) {
                 var index = env.notebook.get_selected_index();
                 var cell = env.notebook.get_cell(index);
@@ -457,7 +451,7 @@ define(function(require){
                 return false;
             }
         },
-        'move-cursor-down-or-next-cell':{
+        'move-cursor-down':{
             handler : function (env, event) {
                 var index = env.notebook.get_selected_index();
                 var cell = env.notebook.get_cell(index);
@@ -474,7 +468,7 @@ define(function(require){
                 return false;
             }
         },
-        'scroll-down': {
+        'scroll-notebook-down': {
             handler: function(env, event) {
                 if(event){
                     event.preventDefault();
@@ -482,7 +476,7 @@ define(function(require){
                 return env.notebook.scroll_manager.scroll(1);
             },
         },
-        'scroll-up': {
+        'scroll-notebook-up': {
             handler: function(env, event) {
                 if(event){
                     event.preventDefault();
@@ -539,13 +533,13 @@ define(function(require){
         },
     };
 
-    // private stuff that prepend `.ipython` to actions names
+    // private stuff that prepend `jupyter-notebook:` to actions names
     // and uniformize/fill in missing pieces in of an action.
     var _prepare_handler = function(registry, subkey, source){
-        registry['ipython.'+subkey] = {};
-        registry['ipython.'+subkey].help = source[subkey].help||subkey.replace(/-/g,' ');
-        registry['ipython.'+subkey].help_index = source[subkey].help_index;
-        registry['ipython.'+subkey].icon = source[subkey].icon;
+        registry['jupyter-notebook:'+subkey] = {};
+        registry['jupyter-notebook:'+subkey].help = source[subkey].help||subkey.replace(/-/g,' ');
+        registry['jupyter-notebook:'+subkey].help_index = source[subkey].help_index;
+        registry['jupyter-notebook:'+subkey].icon = source[subkey].icon;
         return source[subkey].handler;
     };
 
@@ -556,11 +550,11 @@ define(function(require){
         for(k in _actions){
             if(_actions.hasOwnProperty(k)){
                 // Js closure are function level not block level need to wrap in a IIFE
-                // and append ipython to event name these things do intercept event so are wrapped
+                // and append jupyter-notebook: to event name these things do intercept event so are wrapped
                 // in a function that return false.
                 var handler = _prepare_handler(final_actions, k, _actions);
                 (function(key, handler){
-                    final_actions['ipython.'+key].handler = function(env, event){
+                    final_actions['jupyter-notebook:'+key].handler = function(env, event){
                         handler(env);
                         if(event){
                             event.preventDefault();
@@ -577,7 +571,7 @@ define(function(require){
             if(custom_ignore.hasOwnProperty(k)){
                 var handler = _prepare_handler(final_actions, k, custom_ignore);
                 (function(key, handler){
-                    final_actions['ipython.'+key].handler = function(env, event){
+                    final_actions['jupyter-notebook:'+key].handler = function(env, event){
                         return handler(env, event);
                     };
                 })(k, handler);
@@ -612,7 +606,7 @@ define(function(require){
             name = 'autogenerated-'+String(action.handler);
         }
         prefix = prefix || 'auto';
-        var full_name = prefix+'.'+name;
+        var full_name = prefix+':'+name;
         this._actions[full_name] = action;
         return full_name;
 
