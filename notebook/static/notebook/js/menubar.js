@@ -6,9 +6,10 @@ define([
     'base/js/namespace',
     'base/js/dialog',
     'base/js/utils',
-    'notebook/js/tour',
+    './celltoolbar',
+    './tour',
     'moment',
-], function($, IPython, dialog, utils, tour, moment) {
+], function($, IPython, dialog, utils, celltoolbar, tour, moment) {
     "use strict";
     
     var MenuBar = function (selector, options) {
@@ -191,6 +192,9 @@ define([
             that.notebook.session.delete(close_window, close_window);
         });
 
+        // View
+        this._add_celltoolbar_list();
+
         // Edit
         this.element.find('#edit_nb_metadata').click(function () {
             that.notebook.edit_metadata({
@@ -294,6 +298,50 @@ define([
             var langinfo = data.kernel.info_reply.language_info || {};
             that.update_nbconvert_script(langinfo);
             that.add_kernel_help_links(data.kernel.info_reply.help_links || []);
+        });
+    };
+    
+    MenuBar.prototype._add_celltoolbar_list = function () {
+        var that = this;
+        var submenu = $("#menu-cell-toolbar-submenu");
+        
+        function preset_added(event, data) {
+            var name = data.name;
+            submenu.append(
+                $("<li/>")
+                .attr('data-name', encodeURIComponent(name))
+                .append(
+                    $("<a/>")
+                    .attr('href', '#')
+                    .text(name)
+                    .click(function () {
+                        if (name ==='None') {
+                            celltoolbar.CellToolbar.global_hide();
+                            delete that.notebook.metadata.celltoolbar;
+                        } else {
+                            celltoolbar.CellToolbar.global_show();
+                            celltoolbar.CellToolbar.activate_preset(name, that.events);
+                            that.notebook.metadata.celltoolbar = name;
+                        }
+                        that.notebook.focus_cell();
+                    })
+                )
+            );
+        }
+        
+        // Setup the existing presets
+        var presets = celltoolbar.CellToolbar.list_presets();
+        preset_added(null, {name: "None"});
+        presets.map(function (name) {
+            preset_added(null, {name: name});
+        });
+
+        // Setup future preset registrations
+        this.events.on('preset_added.CellToolbar', preset_added);
+        
+        // Handle unregistered presets
+        this.events.on('unregistered_preset.CellToolbar', function (event, data) {
+            submenu.find("li[data-name='" + encodeURIComponent(data.name) + "']").remove();
         });
     };
 
