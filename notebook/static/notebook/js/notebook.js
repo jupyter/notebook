@@ -644,7 +644,7 @@ define(function (require) {
      */
     Notebook.prototype.mark_all_cells = function(cells) {
         cells = cells || this.get_cells();
-        cells.forEach(function(cell) { cell.mark(); });
+        cells.forEach(function(cell) { cell.marked = true; });
     };
     
     /**
@@ -652,7 +652,7 @@ define(function (require) {
      * @param  {Cell[]} [cells] - optionally specify what cells should be unmarked
      */
     Notebook.prototype.unmark_all_cells = function(cells) {
-        this.get_marked_cells(cells).forEach(function(cell) { cell.unmark(); });
+        this.get_marked_cells(cells).forEach(function(cell) { cell.marked = false; });
     };
     
     /**
@@ -701,7 +701,7 @@ define(function (require) {
      * @param  {Cell[]} [cells] - optionally provide the cells to search through
      * @return {boolean}
      */
-    Notebook.prototype.are_marks_contiguous = function(cells) {
+    Notebook.prototype.are_marked_cells_contiguous = function(cells) {
         // Get a numerically sorted list of the marked indices.
         var markedIndices = this.get_marked_indices(cells).sort(
             function(a,b) { return a-b; });
@@ -713,6 +713,19 @@ define(function (require) {
             }
         }
         return true;
+    };
+    
+    /**
+     * Checks if the marked cells specified by their indices are contiguous
+     * @param  {number[]} indices - the cell indices to search through
+     * @param  {Cell[]} [cells] - the cells to search through
+     * @return {boolean}
+     */
+    Notebook.prototype.are_marked_indices_contiguous = function(indices, cells) {
+        cells = cells || this.get_cells();
+        return this.are_marked_cells_contiguous(cells.filter(function(cell, index) {
+            return indices.indexOf(index) !== -1;
+        }));
     };
 
     /**

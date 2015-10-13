@@ -288,28 +288,6 @@ define([
     };
     
     /**
-     * Marks the cell
-     * @return {Cell} this
-     */
-    Cell.prototype.mark = function() {
-        if (!this.marked) {
-            this.element.addClass('marked');
-        }
-        return this;
-    };
-    
-    /**
-     * Unmarks the cell
-     * @return {Cell} this
-     */
-    Cell.prototype.unmark = function() {
-        if (this.marked) {
-            this.element.removeClass('marked');
-        }
-        return this;
-    };
-    
-    /**
      * Whether or not the cell is marked.
      * @return {boolean}
      */
@@ -318,10 +296,13 @@ define([
             return this.element.hasClass('marked');
         },
         set: function(value) {
-            if (value) {
-                this.mark();
-            } else {
-                this.unmark();
+            var isMarked = this.element.hasClass('marked');
+            if (isMarked !== value) {
+                if (value) {
+                    this.element.addClass('marked');
+                } else {
+                    this.element.removeClass('marked');
+                }
             }
         }
     });
