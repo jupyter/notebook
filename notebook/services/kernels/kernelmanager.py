@@ -9,7 +9,9 @@
 
 import os
 
-from tornado import web
+from tornado import gen, web
+from tornado.concurrent import Future
+from tornado.ioloop import IOLoop
 
 from jupyter_client.multikernelmanager import MultiKernelManager
 from traitlets import List, Unicode, TraitError
@@ -98,6 +100,47 @@ class MappingKernelManager(MultiKernelManager):
         """Shutdown a kernel by kernel_id"""
         self._check_kernel_id(kernel_id)
         super(MappingKernelManager, self).shutdown_kernel(kernel_id, now=now)
+
+    def restart_kernel(self, kernel_id):
+        """Restart a kernel by kernel_id"""
+        self._check_kernel_id(kernel_id)
+        super(MappingKernelManager, self).restart_kernel(kernel_id)
+        kernel = self.get_kernel(kernel_id)
+        # return a Future that will resolve when the kernel has successfully restarted
+        channel = kernel.connect_shell()
+        future = Future()
+        
+        def finish():
+            """Common cleanup when restart finishes/fails for any reason."""
+            if not channel.closed:
+                channel.close()
+            loop.remove_timeout(timeout)
+            kernel.remove_restart_callback(on_restart_failed, 'dead')
+        
+        def on_reply(msg):
+            self.log.debug("Kernel info reply received: %s", kernel_id)
+            finish()
+            if not future.done():
+                future.set_result(msg)
+            
+        def on_timeout():
+            self.log.warn("Timeout waiting for kernel_info_reply: %s", kernel_id)
+            finish()
+            if not future.done():
+                future.set_exception(gen.TimeoutError("Timeout waiting for restart"))
+        
+        def on_restart_failed():
+            self.log.warn("Restarting kernel failed: %s", kernel_id)
+            finish()
+            if not future.done():
+                future.set_exception(RuntimeError("Restart failed"))
+        
+        kernel.add_restart_callback(on_restart_failed, 'dead')
+        kernel.session.send(channel, "kernel_info_request")
+        channel.on_recv(on_reply)
+        loop = IOLoop.current()
+        timeout = loop.add_timeout(loop.time() + 30, on_timeout)
+        return future
 
     def kernel_model(self, kernel_id):
         """Return a dictionary of kernel information described in the
