@@ -117,6 +117,10 @@ class IPythonHandler(AuthenticatedHandler):
     
     Mostly property shortcuts to IPython-specific settings.
     """
+    _extra_scripts = []
+
+    def initialize(self, extra_scripts=None):
+        self._extra_scripts = extra_scripts or []
 
 
     @property
@@ -312,6 +316,7 @@ class IPythonHandler(AuthenticatedHandler):
             contents_js_source=self.contents_js_source,
             version_hash=self.version_hash,
             ignore_minified_js=self.ignore_minified_js,
+            extra_scripts=self._extra_scripts,
             **self.jinja_template_vars
         )
     
