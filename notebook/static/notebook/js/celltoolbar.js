@@ -354,7 +354,6 @@ define([
 
             var chkb = $('<input/>').attr('type', 'checkbox');
             var lbl = $('<label/>').append($('<span/>').text(name));
-            lbl.append(chkb);
             chkb.attr("checked", getter(cell));
 
             chkb.click(function(){
@@ -362,7 +361,7 @@ define([
                         setter(cell, !v);
                         chkb.attr("checked", !v);
             });
-            button_container.append($('<span/>').append(lbl));
+            button_container.append($('<span/>').append(lbl).append(chkb));
         };
     };
 
@@ -387,13 +386,12 @@ define([
 
             var text = $('<input/>').attr('type', 'text');
             var lbl = $('<label/>').append($('<span/>').text(name));
-            lbl.append(text);
             text.attr("value", getter(cell));
 
             text.keyup(function(){
                 setter(cell, text.val());
             });
-            button_container.append($('<span/>').append(lbl));
+            button_container.append($('<span/>').append(lbl).append(text));
             IPython.keyboard_manager.register_events(text);
         };
     };
