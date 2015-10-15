@@ -129,6 +129,9 @@
 {% endblock %}
 
 {% block script %}
+{% for script in extra_scripts %}
+  <script src="{{script}}" type="text/javascript" charset="utf-8"></script>
+{% endfor %}
 {% endblock %}
 
 </body>
