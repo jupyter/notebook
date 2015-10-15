@@ -46,7 +46,7 @@ define(function(require){
      *  avoid conflict the prefix should be all lowercase and end with a dot `.`
      *  in the absence of a prefix the behavior of the action is undefined.
      *
-     *  All action provided by the Jupyter notebook are prefixed with `jupyter-notebook:`.
+     *  All action provided by the Jupyter notebook are prefixed with `jp-notebook:`.
      *
      *  One can register extra actions or replace an existing action with another one is possible
      *  but is considered undefined behavior.
@@ -546,13 +546,13 @@ define(function(require){
         },
     };
 
-    // private stuff that prepend `jupyter-notebook:` to actions names
+    // private stuff that prepend `jp-notebook:` to actions names
     // and uniformize/fill in missing pieces in of an action.
     var _prepare_handler = function(registry, subkey, source){
-        registry['jupyter-notebook:'+subkey] = {};
-        registry['jupyter-notebook:'+subkey].help = source[subkey].help||subkey.replace(/-/g,' ');
-        registry['jupyter-notebook:'+subkey].help_index = source[subkey].help_index;
-        registry['jupyter-notebook:'+subkey].icon = source[subkey].icon;
+        registry['jp-notebook:'+subkey] = {};
+        registry['jp-notebook:'+subkey].help = source[subkey].help||subkey.replace(/-/g,' ');
+        registry['jp-notebook:'+subkey].help_index = source[subkey].help_index;
+        registry['jp-notebook:'+subkey].icon = source[subkey].icon;
         return source[subkey].handler;
     };
 
@@ -563,11 +563,11 @@ define(function(require){
         for(k in _actions){
             if(_actions.hasOwnProperty(k)){
                 // Js closure are function level not block level need to wrap in a IIFE
-                // and append jupyter-notebook: to event name these things do intercept event so are wrapped
+                // and append jp-notebook: to event name these things do intercept event so are wrapped
                 // in a function that return false.
                 var handler = _prepare_handler(final_actions, k, _actions);
                 (function(key, handler){
-                    final_actions['jupyter-notebook:'+key].handler = function(env, event){
+                    final_actions['jp-notebook:'+key].handler = function(env, event){
                         handler(env);
                         if(event){
                             event.preventDefault();
@@ -584,7 +584,7 @@ define(function(require){
             if(custom_ignore.hasOwnProperty(k)){
                 var handler = _prepare_handler(final_actions, k, custom_ignore);
                 (function(key, handler){
-                    final_actions['jupyter-notebook:'+key].handler = function(env, event){
+                    final_actions['jp-notebook:'+key].handler = function(env, event){
                         return handler(env, event);
                     };
                 })(k, handler);
