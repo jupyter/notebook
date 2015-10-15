@@ -293,7 +293,10 @@ define([
         },
         set: function(value) {
             var isMarked = this.element.hasClass('marked');
-            if (isMarked !== value) {
+            // Use a casting comparison.  Allows for the caller to assign 0 or
+            // 1 instead of a boolean value, which in return means the caller
+            // can do cell.marked ^= true to toggle the mark.
+            if (isMarked != value) {
                 if (value) {
                     this.element.addClass('marked');
                 } else {

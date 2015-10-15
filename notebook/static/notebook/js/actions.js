@@ -413,7 +413,8 @@ define(function(require){
             help: 'toggle marks',
             icon: 'fa-check',
             handler : function(env){
-                env.notebook.get_selected_cell.marked ^= true;
+                // Use bitwise logic to toggle the marked state.
+                env.notebook.get_selected_cell().marked ^= true;
             }
         },
     };
