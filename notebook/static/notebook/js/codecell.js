@@ -535,12 +535,12 @@ define([
     };
 
     /**
-     * handle cell level logic when the cursor moves away from a cell
+     * handle cell level logic when the cell is unselected
      * @method unselect
      * @return is the action being taken
      */
-    CodeCell.prototype.unselect = function (leave_selected) {
-        var cont = Cell.prototype.unselect.apply(this, [leave_selected]);
+    CodeCell.prototype.unselect = function() {
+        var cont = Cell.prototype.unselect.call(this);
         if (cont) {
             // When a code cell is unselected, make sure that the corresponding
             // tooltip and completer to that cell is closed.
