@@ -48,7 +48,7 @@ The notebook web application enables users to:
    attached to the code which generated them.
 -  See the results of computations with **rich media representations**,
    such as HTML, LaTeX, PNG, SVG, PDF, etc.
--  Create and use **interactive JavaScript wigets**, which bind
+-  Create and use **interactive JavaScript widgets**, which bind
    interactive user interface controls and visualizations to reactive
    kernel side computations.
 -  Author **narrative text** using the
