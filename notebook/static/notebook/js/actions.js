@@ -423,6 +423,14 @@ define(function(require){
                 env.notebook.show_command_palette();
             }
         },
+        'toggle-cell-marked': {
+            help_index : 'cj',
+            help: 'toggle marks',
+            icon: 'fa-check',
+            handler : function(env){
+                env.notebook.toggle_cells_marked(env.notebook.get_selected_cells());
+            }
+        },
     };
 
     /**

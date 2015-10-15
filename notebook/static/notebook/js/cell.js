@@ -169,6 +169,12 @@ define([
             if (!that.selected) {
                 that.events.trigger('select.Cell', {'cell':that});
             }
+            
+            // Cmdtrl-click should mark the cell.
+            var isMac = navigator.platform.slice(0, 3).toLowerCase() === 'mac';
+            if ((!isMac && event.ctrlKey) || (isMac && event.metaKey)) {
+                that.marked = !that.marked;
+            }
         });
         that.element.focusin(function (event) {
             if (!that.selected) {
@@ -280,6 +286,26 @@ define([
         }
         return was_selected_cell;
     };
+    
+    /**
+     * Whether or not the cell is marked.
+     * @return {boolean}
+     */
+    Object.defineProperty(Cell.prototype, 'marked', {
+        get: function() {
+            return this.element.hasClass('marked');
+        },
+        set: function(value) {
+            var isMarked = this.element.hasClass('marked');
+            if (isMarked !== value) {
+                if (value) {
+                    this.element.addClass('marked');
+                } else {
+                    this.element.removeClass('marked');
+                }
+            }
+        }
+    });
 
     /**
      * should be overritten by subclass
