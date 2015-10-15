@@ -114,7 +114,6 @@ class KernelAPITest(NotebookTestBase):
 
         # Restart a kernel
         r = self.kern_api.restart(kern2['id'])
-        self.assertEqual(r.headers['Location'], url_path_join(self.url_prefix, 'api/kernels', kern2['id']))
         rekern = r.json()
         self.assertEqual(rekern['id'], kern2['id'])
         self.assertEqual(rekern['name'], kern2['name'])
