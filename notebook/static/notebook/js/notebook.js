@@ -850,6 +850,37 @@ define(function (require) {
         }
     };
 
+    /**
+     * Reverse the direction of the selection (anchor becomes cursor and vice-versa)
+     */
+    Notebook.prototype.reverse_selection = function() {
+        var anchor_ix = this.get_selection_anchor();
+        var cursor_ix = this.get_selected_index();
+        if (anchor_ix != cursor_ix) {
+            var cursor = this.get_cell(cursor_ix);
+            var anchor = this.get_cell(anchor_ix);
+            cursor.selected = false;
+            cursor.selection_anchor = true;
+            anchor.selection_anchor = false;
+            this._select(anchor_ix);
+        }
+        return true;
+    };
+
+    /**
+     * Ensure the selection goes in the desired direction
+     *
+     * @param {string} direction - 'up' or 'down'
+     */
+    Notebook.prototype.force_selection_direction = function(direction) {
+        var cursor_ix = this.get_selected_index();
+        var anchor_ix = this.get_selection_anchor();
+        if ((cursor_ix > anchor_ix) === (direction === 'up')) {
+            this.reverse_selection();
+        }
+        return true;
+    };
+
 
     // Edit/Command mode
 
@@ -942,49 +973,58 @@ define(function (require) {
     // Cell movement
 
     /**
-     * Move given (or selected) cell up and select it.
+     * Move given (or selected) cell(s) up and select it.
      * 
      * @param {integer} [index] - cell index
      * @return {Notebook} This notebook
      */
     Notebook.prototype.move_cell_up = function (index) {
-        var i = this.index_or_selected(index);
-        if (this.is_valid_cell_index(i) && i > 0) {
-            var pivot = this.get_cell_element(i-1);
-            var tomove = this.get_cell_element(i);
-            if (pivot !== null && tomove !== null) {
-                tomove.detach();
-                pivot.before(tomove);
-                this.select(i-1);
-                var cell = this.get_selected_cell();
-                cell.focus_cell();
+        if (index === undefined) {
+            this.force_selection_direction('up');
+        }
+        else {
+            this._select(index);
+        }
+        var anchor_ix = this.get_selection_anchor();
+        var cursor_ix = this.get_selected_index();
+        if (this.is_valid_cell_index(cursor_ix) && cursor_ix > 0) {
+            var tomove_element = this.get_cell_element(cursor_ix-1);
+            var anchor_element = this.get_cell_element(anchor_ix);
+            if (anchor_element !== null && tomove_element !== null) {
+                tomove_element.detach();
+                anchor_element.after(tomove_element);
+                this.focus_cell();
             }
             this.set_dirty(true);
         }
         return this;
     };
 
-
     /**
-     * Move given (or selected) cell down and select it.
+     * Move given (or selected) cell(s) down and select it.
      * 
      * @param {integer} [index] - cell index
      * @return {Notebook} This notebook
      */
     Notebook.prototype.move_cell_down = function (index) {
-        var i = this.index_or_selected(index);
-        if (this.is_valid_cell_index(i) && this.is_valid_cell_index(i+1)) {
-            var pivot = this.get_cell_element(i+1);
-            var tomove = this.get_cell_element(i);
-            if (pivot !== null && tomove !== null) {
-                tomove.detach();
-                pivot.after(tomove);
-                this.select(i+1);
-                var cell = this.get_selected_cell();
-                cell.focus_cell();
-            }
+        if (index === undefined) {
+            this.force_selection_direction('down');
         }
-        this.set_dirty();
+        else {
+            this._select(index);
+        }
+        var anchor_ix = this.get_selection_anchor();
+        var cursor_ix = this.get_selected_index();
+        if (this.is_valid_cell_index(cursor_ix) && this.is_valid_cell_index(cursor_ix+1)) {
+            var tomove_element = this.get_cell_element(cursor_ix+1);
+            var anchor_element = this.get_cell_element(anchor_ix);
+            if (anchor_element !== null && tomove_element !== null) {
+                tomove_element.detach();
+                anchor_element.before(tomove_element);
+                this.focus_cell();
+            }
+            this.set_dirty(true);
+        }
         return this;
     };
 
@@ -1488,9 +1528,10 @@ define(function (require) {
     };
 
     /**
-     * Paste cells from the clipboard above the selected cell.
+     * Paste cells from the clipboard above the selected cell(s).
      */
     Notebook.prototype.paste_cell_above = function () {
+        this.force_selection_direction('up');
         if (this.clipboard !== null && this.paste_enabled) {
             var first_inserted = null;
             for (var i=0; i < this.clipboard.length; i++) {
@@ -1507,9 +1548,10 @@ define(function (require) {
     };
 
     /**
-     * Paste cells from the clipboard below the selected cell.
+     * Paste cells from the clipboard below the selected cell(s).
      */
     Notebook.prototype.paste_cell_below = function () {
+        this.force_selection_direction('down');
         if (this.clipboard !== null && this.paste_enabled) {
             var first_inserted = null;
             for (var i = this.clipboard.length-1; i >= 0; i--) {
