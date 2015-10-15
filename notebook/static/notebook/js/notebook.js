@@ -716,10 +716,21 @@ define(function (require) {
     /**
      * Extend the selected range
      *
-     * @param {string} direction - 'up' or 'down
+     * @param {string} [direction='down'] - 'up' or 'down
      */
     Notebook.prototype.extend_marked = function(direction) {
-        // TODO: Marked
+        
+        // Convert the direction to an index offset
+        var offset = direction === 'up' ? -1 : 1;
+        
+        // Mark currently selected cell
+        this.get_selected_cell().marked = true;
+        
+        // Select the cell in the offset direction.  Bound index between 0 and
+        // the number of cells -1.
+        var selectedIndex = Math.min(Math.max(this.get_selected_index() + offset, 0), this.ncells()-1);
+        this.select(selectedIndex);
+        this.get_selected_cell().marked = true;
     };
 
     // Cell selection.
