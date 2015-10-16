@@ -201,8 +201,9 @@ define([
             if (that.selected === false) {
                 this.events.trigger('select.Cell', {'cell':that});
             }
+
             var cont = that.unrender();
-            if (cont) {
+            if (cont && that.cell_type !== 'code') {
                 that.focus_editor();
             }
         });
