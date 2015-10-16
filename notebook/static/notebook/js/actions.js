@@ -177,14 +177,14 @@ define(function(require){
             help: 'extend marked above',
             help_index : 'dc',
             handler : function (env) {
-                env.notebook.extend_marked('up');
+                env.notebook.extend_marked(1);
             }
         },
         'extend-marked-next' : {
             help: 'extend marked below',
             help_index : 'dd',
             handler : function (env) {
-                env.notebook.extend_marked('down');
+                env.notebook.extend_marked(-1);
             }
         },
         'cut-selected-cell' : {

@@ -716,13 +716,10 @@ define(function (require) {
     /**
      * Extend the selected range
      *
-     * @param {string} [direction='down'] - 'up' or 'down
+     * @param {number} offset
      */
-    Notebook.prototype.extend_marked = function(direction) {
-        
-        // Convert the direction to an index offset
-        var offset = direction === 'up' ? -1 : 1;
-        
+    Notebook.prototype.extend_marked = function(offset) {
+                
         // Mark currently selected cell
         this.get_selected_cell().marked = true;
         
