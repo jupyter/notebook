@@ -613,21 +613,6 @@ define(function (require) {
         });
         return result;
     };
-
-    /**
-     * Get the index of the anchor cell for range selection
-     *
-     * @return {integer} The anchor cell's numeric index
-     */
-    Notebook.prototype.get_selection_anchor = function() {
-        var result = null;
-        this.get_cell_elements().filter(function (index) {
-            if ($(this).data("cell").selection_anchor === true) {
-                result = index;
-            }
-        });
-        return result;
-    };
     
     /**
      * Toggles the marks on the cells
@@ -729,29 +714,20 @@ define(function (require) {
     };
 
     /**
-     * Get an array of the cells in the currently selected range
+     * Extend the selected range
      *
-     * @return {Array} The selected cells
+     * @param {number} offset
      */
-    Notebook.prototype.get_selected_cells = function () {
-        return this.get_cells().filter(function(cell) {
-            return cell.in_selection;
-        });
-    };
-
-    /**
-     * Get the indices of the currently selected range of cells.
-     *
-     * @return {Array} The selected cells' numeric indices
-     */
-    Notebook.prototype.get_selected_indices = function () {
-        var result = [];
-        this.get_cell_elements().filter(function (index) {
-            if ($(this).data("cell").in_selection === true) {
-                result.push(index);
-            }
-        });
-        return result;
+    Notebook.prototype.extend_marked = function(offset) {
+                
+        // Mark currently selected cell
+        this.get_selected_cell().marked = true;
+        
+        // Select the cell in the offset direction.  Bound index between 0 and
+        // the number of cells -1.
+        var selectedIndex = Math.min(Math.max(this.get_selected_index() + offset, 0), this.ncells()-1);
+        this.select(selectedIndex);
+        this.get_selected_cell().marked = true;
     };
 
     // Cell selection.
@@ -771,25 +747,21 @@ define(function (require) {
                 if (this.mode !== 'command') {
                     this.command_mode();
                 }
+                this.get_cell(sindex).unselect();
             }
-            var current_selection = this.get_selected_cells();
-            for (var i=0; i<current_selection.length; i++) {
-                current_selection[i].unselect();
+            var cell = this.get_cell(index);
+            cell.select();
+            if (cell.cell_type === 'heading') {
+                this.events.trigger('selected_cell_type_changed.Notebook',
+                    {'cell_type':cell.cell_type,level:cell.level}
+                );
+            } else {
+                this.events.trigger('selected_cell_type_changed.Notebook',
+                    {'cell_type':cell.cell_type}
+                );
             }
-
-            var cell = this._select(index);
-            cell.selection_anchor = true;
         }
         return this;
-    };
-
-    Notebook.prototype._select = function(index) {
-        var cell = this.get_cell(index);
-        cell.select();
-        this.events.trigger('selected_cell_type_changed.Notebook',
-            {'cell_type':cell.cell_type}
-        );
-        return cell;
     };
 
     /**
@@ -812,42 +784,6 @@ define(function (require) {
         var index = this.get_selected_index();
         this.select(index-1);
         return this;
-    };
-
-    /**
-     * Extend the selected range
-     *
-     * @param {string} direction - 'up' or 'down
-     */
-    Notebook.prototype.extend_selection = function(direction) {
-        var anchor_ix = this.get_selection_anchor();
-        var cursor_ix = this.get_selected_index();
-        var range_direction = (cursor_ix > anchor_ix) ? 'down' : 'up';
-        var contracting = (cursor_ix !== anchor_ix) &&
-                            (direction !== range_direction);
-        var ix_delta = (direction === 'up') ? -1 : 1;
-        var new_ix = cursor_ix + ix_delta;
-        if (new_ix < 0 || new_ix >= this.ncells()) {
-            return false;
-        }
-        if (this.mode !== 'command') {
-            this.command_mode();
-        }
-        this.get_cell(cursor_ix).unselect(!contracting);
-        this._select(new_ix);
-        return true;
-    };
-
-    /**
-     * Clear selection of multiple cells (except the cell at the cursor)
-     */
-    Notebook.prototype.reset_selection = function() {
-        var current_selection = this.get_selected_cells();
-        for (var i=0; i<current_selection.length; i++) {
-            if (!current_selection[i].selected) {
-                current_selection[i].unselect();
-            }
-        }
     };
 
 
@@ -903,7 +839,6 @@ define(function (require) {
         if (cell && this.mode !== 'edit') {
             cell.edit_mode();
             this.mode = 'edit';
-            this.reset_selection();
             this.events.trigger('edit_mode.Notebook');
             this.keyboard_manager.edit_mode();
         }
@@ -1021,7 +956,11 @@ define(function (require) {
      */
     Notebook.prototype.delete_cells = function(indices) {
         if (indices === undefined) {
-            indices = this.get_selected_indices();
+            indices = this.get_marked_indices();
+            
+            if (indices.length === 0) {
+                indices = [this.get_selected_index()];
+            }
         }
 
         this.undelete_backup = [];
@@ -1454,7 +1393,11 @@ define(function (require) {
      * Copy cells.
      */
     Notebook.prototype.copy_cell = function () {
-        var cells = this.get_selected_cells();
+        var cells = this.get_marked_cells();
+        if (cells.length === 0) {
+            cells = [this.get_selected_cell()];
+        }
+        
         this.clipboard = [];
         var cell_json;
         for (var i=0; i < cells.length; i++) {
@@ -1600,8 +1543,8 @@ define(function (require) {
     /**
      * Merge the selected range of cells
      */
-    Notebook.prototype.merge_selected_cells = function() {
-        this.merge_cells(this.get_selected_indices());
+    Notebook.prototype.merge_marked_cells = function() {
+        this.merge_cells(this.get_marked_indices());
     };
 
     /**

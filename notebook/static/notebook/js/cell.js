@@ -55,8 +55,6 @@ define([
         
         this.placeholder = config.placeholder || '';
         this.selected = false;
-        this.in_selection = false;
-        this.selection_anchor = false;
         this.rendered = false;
         this.mode = 'command';
 
@@ -76,7 +74,7 @@ define([
         // backward compat.
         Object.defineProperty(this, 'cm_config', {
             get: function() {
-                console.warn("Warning: accessing Cell.cm_config directly is deprecated.")
+                console.warn("Warning: accessing Cell.cm_config directly is deprecated.");
                 return that._options.cm_config;
             },
         });
@@ -144,7 +142,7 @@ define([
          * Call after this.element exists to initialize the css classes
          * related to selected, rendered and mode.
          */
-        if (this.in_selection) {
+        if (this.selected) {
             this.element.addClass('selected');
         } else {
             this.element.addClass('unselected');
@@ -262,7 +260,6 @@ define([
             this.element.addClass('selected');
             this.element.removeClass('unselected');
             this.selected = true;
-            this.in_selection = true;
             return true;
         } else {
             return false;
@@ -270,21 +267,20 @@ define([
     };
 
     /**
-     * handle cell level logic when the cursor moves away from a cell
+     * handle cell level logic when the cell is unselected
      * @method unselect
      * @param {bool} leave_selected - true to move cursor away and extend selection
      * @return is the action being taken
      */
     Cell.prototype.unselect = function (leave_selected) {
-        var was_selected_cell = this.selected;
-        this.selected = false;
-        if ((!leave_selected) && this.in_selection) {
-            this.in_selection = false;
-            this.selection_anchor = false;
+        if (this.selected) {
             this.element.addClass('unselected');
             this.element.removeClass('selected');
+            this.selected = false;
+            return true;
+        } else {
+            return false;
         }
-        return was_selected_cell;
     };
     
     /**
@@ -297,7 +293,10 @@ define([
         },
         set: function(value) {
             var isMarked = this.element.hasClass('marked');
-            if (isMarked !== value) {
+            // Use a casting comparison.  Allows for the caller to assign 0 or
+            // 1 instead of a boolean value, which in return means the caller
+            // can do cell.marked ^= true to toggle the mark.
+            if (isMarked != value) {
                 if (value) {
                     this.element.addClass('marked');
                 } else {

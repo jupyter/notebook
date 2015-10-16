@@ -173,33 +173,18 @@ define(function(require){
                 }
             }
         },
-        'extend-selection-previous' : {
-            help: 'extend selection above',
+        'extend-marked-previous' : {
+            help: 'extend marked above',
             help_index : 'dc',
             handler : function (env) {
-                var index = env.notebook.get_selected_index();
-                if (index !== 0 && index !== null) {
-                    env.notebook.extend_selection('up');
-                    env.notebook.focus_cell();
-                }
+                env.notebook.extend_marked(1);
             }
         },
-        'extend-selection-next' : {
-            help: 'extend selection below',
+        'extend-marked-next' : {
+            help: 'extend marked below',
             help_index : 'dd',
             handler : function (env) {
-                var index = env.notebook.get_selected_index();
-                if (index !== (env.notebook.ncells()-1) && index !== null) {
-                    env.notebook.extend_selection('down');
-                    env.notebook.focus_cell();
-                }
-            }
-        },
-        'reset-selection': {
-            help: 'clear selected cells',
-            help_index: 'de',
-            handler: function(env) {
-                env.notebook.reset_selection();
+                env.notebook.extend_marked(-1);
             }
         },
         'cut-selected-cell' : {
@@ -402,11 +387,11 @@ define(function(require){
                 env.notebook.merge_cell_below();
             }
         },
-        'merge-selected-cells' : {
-            help : 'merge selected cells',
+        'merge-marked-cells' : {
+            help : 'merge marked cells',
             help_index: 'el',
             handler: function(env) {
-                env.notebook.merge_selected_cells();
+                env.notebook.merge_marked_cells();
             }
         },
         'close-pager' : {
@@ -428,7 +413,8 @@ define(function(require){
             help: 'toggle marks',
             icon: 'fa-check',
             handler : function(env){
-                env.notebook.toggle_cells_marked(env.notebook.get_selected_cells());
+                // Use bitwise logic to toggle the marked state.
+                env.notebook.get_selected_cell().marked ^= true;
             }
         },
     };
