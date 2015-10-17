@@ -199,10 +199,6 @@ define([
             if (that.selected === false) {
                 this.events.trigger('select.Cell', {'cell':that});
             }
-            var cont = that.unrender();
-            if (cont) {
-                that.focus_editor();
-            }
         });
     };
     
