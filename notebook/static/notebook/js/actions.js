@@ -409,6 +409,20 @@ define(function(require){
                 env.notebook.get_selected_cell().marked ^= true;
             }
         },
+        'unmark-all-cells': {
+            help_index : 'ck',
+            help : 'unmark all cells',
+            handler : function(env) {
+                env.notebook.unmark_all_cells();
+            }
+        },
+        'mark-all-cells': {
+            help_index : 'cl',
+            help : 'mark all cells',
+            handler : function(env) {
+                env.notebook.mark_all_cells();
+            }
+        },
         'toggle-toolbar':{
             help: 'hide/show the toolbar',
             handler : function(env){
