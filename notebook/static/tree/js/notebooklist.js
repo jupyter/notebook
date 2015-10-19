@@ -181,6 +181,16 @@ define([
             var name_and_ext = utils.splitext(f.name);
             var file_ext = name_and_ext[1];
 
+            // skip files over 15MB with a warning
+            if (f.size > 15728640) {
+                dialog.modal({
+                    title : 'Failed to upload file',
+                    body : "Failed to upload file (>15MB) '" + f.name + "'",
+                    buttons : {'OK' : { 'class' : 'btn-primary' }}
+                });
+                continue;
+            }
+
             var reader = new FileReader();
             if (file_ext === '.ipynb') {
                 reader.readAsText(f);
