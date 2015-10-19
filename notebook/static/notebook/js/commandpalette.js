@@ -10,7 +10,7 @@ define(function(require){
     /**
      * Humanize the action name to be consumed by user.
      * internaly the actions anem are of the form
-     * <namespace>.<description-with-dashes>
+     * <namespace>:<description-with-dashes>
      * we drop <namesapce> and replace dashes for space.
      */
     var humanize_action_id = function(str) {
@@ -126,9 +126,6 @@ define(function(require){
           var action_id = actions[i];
           var action = notebook.keyboard_manager.actions.get(action_id);
           var group = action_id.split(':')[0];
-          if (group === 'ipython') {
-            group = 'built-in';
-          }
 
           src[group] = src[group] || {
             data: [],
