@@ -72,16 +72,22 @@ class KernelActionHandler(APIHandler):
 
     @web.authenticated
     @json_errors
+    @gen.coroutine
     def post(self, kernel_id, action):
         km = self.kernel_manager
         if action == 'interrupt':
             km.interrupt_kernel(kernel_id)
             self.set_status(204)
         if action == 'restart':
-            km.restart_kernel(kernel_id)
-            model = km.kernel_model(kernel_id)
-            self.set_header('Location', '{0}api/kernels/{1}'.format(self.base_url, kernel_id))
-            self.write(json.dumps(model))
+
+            try:
+                yield gen.maybe_future(km.restart_kernel(kernel_id))
+            except Exception as e:
+                self.log.error("Exception restarting kernel", exc_info=True)
+                self.set_status(500)
+            else:
+                model = km.kernel_model(kernel_id)
+                self.write(json.dumps(model))
         self.finish()
 
 
