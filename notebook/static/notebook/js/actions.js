@@ -179,14 +179,14 @@ define(function(require){
                 }
             }
         },
-        'extend-marked-previous' : {
+        'extend-marked-cells-above' : {
             help: 'extend marked above',
             help_index : 'dc',
             handler : function (env) {
                 env.notebook.extend_marked(-1);
             }
         },
-        'extend-marked-next' : {
+        'extend-marked-cells-below' : {
             help: 'extend marked below',
             help_index : 'dd',
             handler : function (env) {
