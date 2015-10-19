@@ -3,6 +3,8 @@ div.code_cell {
     @media print {
         page-break-inside: avoid;
     }
+    
+    min-height: 40px;
 }
 
 /* any special styling for code cells that are currently running goes here */
@@ -12,6 +14,10 @@ div.code_cell.running {
 div.input {
     page-break-inside: avoid;
     .hbox();
+}
+
+div.code_cell.hide-input > div.input {
+    display: none;
 }
 
 @media (max-width: @screen-xs-min) {

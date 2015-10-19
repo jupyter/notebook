@@ -417,6 +417,34 @@ define(function(require){
                 env.notebook.get_selected_cell().marked ^= true;
             }
         },
+        'hide-code-cell-input': {
+            help_index : 'zz',
+            help: 'hide code cell input',
+            handler : function(env) {
+                env.notebook.hide_code_cell_input();
+            }
+        },
+        'show-code-cell-input': {
+            help_index : 'zz',
+            help: 'show code cell input',
+            handler : function(env) {
+                env.notebook.show_code_cell_input();
+            }
+        },
+        'hide-all-code-cell-inputs': {
+            help_index : 'zz',
+            help: 'hide code cell input',
+            handler : function(env) {
+                env.notebook.hide_all_code_cell_inputs();
+            }
+        },
+        'show-all-code-cell-inputs': {
+            help_index : 'zz',
+            help: 'show code cell input',
+            handler : function(env) {
+                env.notebook.show_all_code_cell_inputs();
+            }
+        }
     };
 
     /**

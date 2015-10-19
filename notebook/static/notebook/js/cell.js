@@ -303,6 +303,18 @@ define([
     });
 
     /**
+     * Whether or not the cells input is hidden.
+     * @return {boolean}
+     */
+    Object.defineProperty(Cell.prototype, 'hide_input', {
+        get: function() {
+            return false;
+        },
+        set: function(value) {
+        }
+    });
+
+    /**
      * should be overritten by subclass
      * @method execute
      */
