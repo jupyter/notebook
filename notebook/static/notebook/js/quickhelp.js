@@ -273,7 +273,7 @@ define([
 
     var build_div = function (title, shortcuts) {
         
-        // Remove ipython.ignore shortcuts.
+        // Remove jp-notebook:ignore shortcuts.
         shortcuts = shortcuts.filter(function(shortcut) {
             if (shortcut.help === 'ignore') {
                 return false;
