@@ -377,10 +377,10 @@ define(function(require){
         }
     };
 
-    var act_all = keyboard_manager.actions.register(action_all, 'find-and-replace', 'jp-notebook');
+    var act_all = keyboard_manager.actions.register(action_all, 'find-and-replace', 'jupyter-notebook');
 
     keyboard_manager.command_shortcuts.add_shortcuts({
-        'f': 'jp-notebook:find-and-replace'
+        'f': 'jupyter-notebook:find-and-replace'
     });
   };
 
