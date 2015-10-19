@@ -180,14 +180,14 @@ define(function(require){
             }
         },
         'extend-marked-cells-above' : {
-            help: 'extend marked above',
+            help: 'extend marked cells above',
             help_index : 'dc',
             handler : function (env) {
                 env.notebook.extend_marked(-1);
             }
         },
         'extend-marked-cells-below' : {
-            help: 'extend marked below',
+            help: 'extend marked cells below',
             help_index : 'dd',
             handler : function (env) {
                 env.notebook.extend_marked(1);
@@ -379,7 +379,7 @@ define(function(require){
                 env.notebook.merge_cell_below();
             }
         },
-        'merge-marked-cells' : {
+        'merge-cells' : {
             help : 'merge marked cells',
             help_index: 'el',
             handler: function(env) {
