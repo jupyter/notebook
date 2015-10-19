@@ -30,6 +30,10 @@ define([
                 }
             }
         }
+        // TODO(julienr): This is a ugly hack to work around the fact that
+        // by default caja doesn't seem to like base64 src for inline markdown
+        // images. Not sure if we should do that here
+        ATTRIBS['img::src'] = 0;
         return caja.sanitizeAttribs(tagName, attribs, opt_naiveUriRewriter, opt_nmTokenPolicy, opt_logger);
     };
     

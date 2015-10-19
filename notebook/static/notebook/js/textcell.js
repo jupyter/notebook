@@ -256,6 +256,50 @@ define([
         }
     };
 
+    /** @method bind_events **/
+    MarkdownCell.prototype.bind_events = function () {
+        TextCell.prototype.bind_events.apply(this);
+        var that = this;
+
+        // Inline images insertion. When a user drops an image in a markdown
+        // cell, we do the following :
+        // - We insert the base64-encoded image into the cell metadata
+        //   attachments directory, keyed by the filename.
+        // - We insert an img tag with a 'nbdata' src that refers to the
+        //   attachments entry.
+        //
+        // Prevent the default code_mirror 'drop' event handler (which inserts
+        // the file content) if this is a recognized media file
+        this.code_mirror.on("drop", function(cm, evt) {
+          var pos = that.code_mirror.getCursor();
+          var files = evt.dataTransfer.files;
+          for (var i = 0; i < files.length; ++i) {
+            var file = files[i];
+            var key = file.name;
+            // TODO: Do some wildcard mime matching (image/*)
+            if (file.type == "image/png") {
+              evt.stopPropagation();
+              evt.preventDefault();
+
+              var reader = new FileReader;
+              reader.onloadend = function() {
+                var img_md = '<img width="200px" height="200px" src="nbdata:' + key + '" />';
+                if (that.metadata.attachments === undefined) {
+                  that.metadata.attachments = {};
+                }
+                that.metadata.attachments[key] = {
+                  'data': reader.result,
+                  'mime': file.type
+                }
+                //var img_md = '<img height="200px" src="' + reader.result + '" />';
+                that.code_mirror.replaceRange(img_md, pos);
+              }
+              reader.readAsDataURL(file);
+            }
+          }
+        });
+    };
+
     /**
      * @method render
      */
@@ -290,6 +334,17 @@ define([
                 });
                 // links in markdown cells should open in new tabs
                 html.find("a[href]").not('[href^="#"]').attr("target", "_blank");
+                // replace nbdata:<key> by the corresponding entry in metadata
+                // attachments
+                html.find('img[src^="nbdata:"]').each(function (i, h) {
+                  h = $(h);
+                  var key = h.attr('src').replace(/^nbdata:/, '');
+                  if (that.metadata.attachments !== undefined &&
+                      key in that.metadata.attachments) {
+                    var att = that.metadata.attachments[key];
+                    h.attr('src', att['data']);
+                  }
+                });
                 that.set_rendered(html);
                 that.typeset();
                 that.events.trigger("rendered.MarkdownCell", {cell: that});
