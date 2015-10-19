@@ -2217,16 +2217,16 @@ define(function (require) {
         if (check_last_modified === undefined) {
             check_last_modified = true;
         }
+        
+        var error;
         if (!this._fully_loaded) {
-            this.events.trigger('notebook_save_failed.Notebook',
-                new Error("Load failed, save is disabled")
-            );
-            return;
+            error = new Error("Load failed, save is disabled");
+            this.events.trigger('notebook_save_failed.Notebook', error);
+            return Promise.reject(error);
         } else if (!this.writable) {
-            this.events.trigger('notebook_save_failed.Notebook',
-                new Error("Notebook is read-only")
-            );
-            return;
+            error = new Error("Notebook is read-only");
+            this.events.trigger('notebook_save_failed.Notebook', error);
+            return Promise.reject(error);
         }
 
         // Trigger an event before save, which allows listeners to modify
