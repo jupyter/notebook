@@ -439,6 +439,29 @@ define([
         this.output_area.toggle_scroll();
     };
 
+    /**
+     * Whether or not the cells input is hidden.
+     * @return {boolean}
+     */
+    Object.defineProperty(CodeCell.prototype, 'hide_input', {
+        get: function() {
+            return this.element.hasClass('hide-input');
+        },
+        set: function(value) {
+            var isHidden = this.element.hasClass('hide-input');
+            // Use a casting comparison.  Allows for the caller to assign 0 or
+            // 1 instead of a boolean value, which in return means the caller
+            // can do cell.hide_input ^= true to toggle the mark.
+            if (isHidden != value) {
+                if (value) {
+                    this.element.addClass('hide-input');
+                } else {
+                    this.element.removeClass('hide-input');
+                    this.refresh();
+                }
+            }
+        }
+    });
 
     CodeCell.input_prompt_classical = function (prompt_value, lines_number) {
         var ns;

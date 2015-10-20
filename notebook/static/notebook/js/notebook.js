@@ -1563,6 +1563,46 @@ define(function (require) {
         this.merge_cells([index, index+1], false);
     };
 
+    // Hiding of input
+    
+    /**
+     * Hide the input of the selected or marked cells
+     */
+    Notebook.prototype.hide_code_cell_input = function() {
+        var cells = this.get_marked_cells();
+        if (cells.length === 0) {
+            cells = [this.get_selected_cell()];
+        }
+        cells.forEach(function(cell) {cell.hide_input=true;});
+    };
+
+    /**
+     * Show the input of the selected or marked cells
+     */
+    Notebook.prototype.show_code_cell_input = function() {
+        var cells = this.get_marked_cells();
+        if (cells.length === 0) {
+            cells = [this.get_selected_cell()];
+        }
+        cells.forEach(function(cell) {cell.hide_input=false;});
+    };
+
+    /**
+     * Hide the input of the all cells
+     */
+    Notebook.prototype.hide_all_code_cell_inputs = function() {
+        var cells = this.get_cells();
+        cells.forEach(function(cell) {cell.hide_input=true;});
+    };
+
+    /**
+     * Show the input of all cells
+     */
+    Notebook.prototype.show_all_code_cell_inputs = function() {
+        var cells = this.get_cells();
+        cells.forEach(function(cell) {cell.hide_input=false;});
+    };
+
 
     // Cell collapsing and output clearing
 
