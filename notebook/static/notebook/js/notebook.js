@@ -26,6 +26,7 @@ define(function (require) {
     var default_celltoolbar = require('notebook/js/celltoolbarpresets/default');
     var rawcell_celltoolbar = require('notebook/js/celltoolbarpresets/rawcell');
     var slideshow_celltoolbar = require('notebook/js/celltoolbarpresets/slideshow');
+    var attachments_celltoolbar = require('notebook/js/celltoolbarpresets/attachments');
     var scrollmanager = require('notebook/js/scrollmanager');
     var commandpalette = require('notebook/js/commandpalette');
 
@@ -155,6 +156,7 @@ define(function (require) {
         default_celltoolbar.register(this);
         rawcell_celltoolbar.register(this);
         slideshow_celltoolbar.register(this);
+        attachments_celltoolbar.register(this);
 
         // prevent assign to miss-typed properties.
         Object.seal(this);

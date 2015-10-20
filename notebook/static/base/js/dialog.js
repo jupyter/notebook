@@ -207,11 +207,74 @@ define(function(require) {
 
         modal_obj.on('shown.bs.modal', function(){ editor.refresh(); });
     };
+
+    var edit_attachments = function (options) {
+        options.name = options.name || "Cell";
+        var error_div = $('<div/>').css('color', 'red');
+        var message =
+            "Manually edit the JSON below to manipulate attachments for this " + options.name + ".";
+
+        var textarea = $('<textarea/>')
+            .attr('rows', '13')
+            .attr('cols', '80')
+            .attr('name', 'attachments')
+            .text(JSON.stringify(options.attachments || {}, null, 2));
+
+        var dialogform = $('<div/>').attr('title', 'Edit attachments')
+            .append(
+                $('<form/>').append(
+                    $('<fieldset/>').append(
+                        $('<label/>')
+                        .attr('for','attachments')
+                        .text(message)
+                        )
+                        .append(error_div)
+                        .append($('<br/>'))
+                        .append(textarea)
+                    )
+            );
+        var editor = CodeMirror.fromTextArea(textarea[0], {
+            lineNumbers: true,
+            matchBrackets: true,
+            indentUnit: 2,
+            autoIndent: true,
+            mode: 'application/json',
+        });
+        var modal_obj = modal({
+            title: "Edit " + options.name + " Attachments",
+            body: dialogform,
+            buttons: {
+                OK: { class : "btn-primary",
+                    click: function() {
+                        /**
+                         * validate json and set it
+                         */
+                        var new_att;
+                        try {
+                            new_att = JSON.parse(editor.getValue());
+                        } catch(e) {
+                            console.log(e);
+                            error_div.text('WARNING: Could not save invalid JSON.');
+                            return false;
+                        }
+                        options.callback(new_att);
+                    }
+                },
+                Cancel: {}
+            },
+            notebook: options.notebook,
+            keyboard_manager: options.keyboard_manager,
+        });
+
+        modal_obj.on('shown.bs.modal', function(){ editor.refresh(); });
+    };
+
     
     var dialog = {
         modal : modal,
         kernel_modal : kernel_modal,
         edit_metadata : edit_metadata,
+        edit_attachments : edit_attachments
     };
 
     return dialog;
