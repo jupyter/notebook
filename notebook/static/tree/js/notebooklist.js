@@ -184,8 +184,8 @@ define([
             // skip files over 15MB with a warning
             if (f.size > 15728640) {
                 dialog.modal({
-                    title : 'Failed to upload file',
-                    body : "Failed to upload file (>15MB) '" + f.name + "'",
+                    title : 'Cannot upload file',
+                    body : "Cannot upload file (>15MB) '" + f.name + "'",
                     buttons : {'OK' : { 'class' : 'btn-primary' }}
                 });
                 continue;
