@@ -263,8 +263,8 @@ define([
 
         // Inline images insertion. When a user drops an image in a markdown
         // cell, we do the following :
-        // - We insert the base64-encoded image into the cell metadata
-        //   attachments directory, keyed by the filename.
+        // - We insert the base64-encoded image into the cell attachments
+        //   directory, keyed by the filename.
         // - We insert an img tag with a 'nbdata' src that refers to the
         //   attachments entry.
         //
@@ -284,14 +284,19 @@ define([
               var reader = new FileReader;
               reader.onloadend = function() {
                 var img_md = '<img width="200px" height="200px" src="nbdata:' + key + '" />';
-                if (that.metadata.attachments === undefined) {
-                  that.metadata.attachments = {};
+                if (that.attachments === undefined) {
+                  that.attachments = {};
                 }
-                that.metadata.attachments[key] = {
-                  'data': reader.result,
-                  'mime': file.type
+                that.attachments[key] = {};
+                // Strip the "data:image/png;base64," prefix from the data-url
+                // to turn it into a base64 encoded string
+                var d = utils.parse_b64_data_uri(reader.result);
+                if (file.type != d[0]) {
+                    // TODO(julienr): Not sure what we should do in this case
+                    console.log('File type (' + file.type + ') != data-uri ' +
+                                'type (' + d[0] + ')');
                 }
-                //var img_md = '<img height="200px" src="' + reader.result + '" />';
+                that.attachments[key][file.type] = [d[1]];
                 that.code_mirror.replaceRange(img_md, pos);
               }
               reader.readAsDataURL(file);
@@ -339,10 +344,12 @@ define([
                 html.find('img[src^="nbdata:"]').each(function (i, h) {
                   h = $(h);
                   var key = h.attr('src').replace(/^nbdata:/, '');
-                  if (that.metadata.attachments !== undefined &&
-                      key in that.metadata.attachments) {
-                    var att = that.metadata.attachments[key];
-                    h.attr('src', att['data']);
+
+                  if (that.attachments !== undefined &&
+                      key in that.attachments) {
+                    var att = that.attachments[key];
+                    var mime = Object.keys(att)[0];
+                    h.attr('src', 'data:' + mime + ';base64,' + att[mime][0]);
                   }
                 });
                 that.set_rendered(html);
