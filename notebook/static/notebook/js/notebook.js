@@ -1298,6 +1298,9 @@ define(function (require) {
                 }
                 //metadata
                 target_cell.metadata = source_cell.metadata;
+                // attachments (we transfer them so they aren't lost if the
+                // cell is turned back into markdown)
+                target_cell.attachments = source_cell.attachments;
 
                 target_cell.set_text(text);
                 // make this value the starting point, so that we can only undo
@@ -1346,6 +1349,8 @@ define(function (require) {
                 }
                 // metadata
                 target_cell.metadata = source_cell.metadata;
+                target_cell.attachments = source_cell.attachments;
+
                 // We must show the editor before setting its contents
                 target_cell.unrender();
                 target_cell.set_text(text);
@@ -1398,6 +1403,10 @@ define(function (require) {
                 }
                 //metadata
                 target_cell.metadata = source_cell.metadata;
+                // attachments (we transfer them so they aren't lost if the
+                // cell is turned back into markdown)
+                target_cell.attachments = source_cell.attachments;
+
                 // We must show the editor before setting its contents
                 target_cell.unrender();
                 target_cell.set_text(text);
