@@ -283,7 +283,8 @@ define([
 
               var reader = new FileReader;
               reader.onloadend = function() {
-                var img_md = '<img width="200px" height="200px" src="nbdata:' + key + '" />';
+                var img_md = '![' + key + '](attachment:' + key + ')';
+
                 if (that.attachments === undefined) {
                   that.attachments = {};
                 }
@@ -339,11 +340,11 @@ define([
                 });
                 // links in markdown cells should open in new tabs
                 html.find("a[href]").not('[href^="#"]').attr("target", "_blank");
-                // replace nbdata:<key> by the corresponding entry in metadata
-                // attachments
-                html.find('img[src^="nbdata:"]').each(function (i, h) {
+                // replace attachment:<key> by the corresponding entry
+                // in the cell's attachments
+                html.find('img[src^="attachment:"]').each(function (i, h) {
                   h = $(h);
-                  var key = h.attr('src').replace(/^nbdata:/, '');
+                  var key = h.attr('src').replace(/^attachment:/, '');
 
                   if (that.attachments !== undefined &&
                       key in that.attachments) {
