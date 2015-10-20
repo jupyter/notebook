@@ -256,53 +256,100 @@ define([
         }
     };
 
+    // TODO(julienr): Move to cell if the attachments is accepted as a cell
+    // attribute (not markdown specific)
+    MarkdownCell.prototype.add_attachment = function (key, mime_type, b64_data) {
+        /**
+         * Add a new attachment to this cell
+         */
+        if (this.attachments === undefined) {
+            this.attachments = {};
+        }
+        this.attachments[key] = {};
+        this.attachments[key][mime_type] = [b64_data];
+    };
+
+    MarkdownCell.prototype.insert_inline_image_from_blob = function(blob) {
+        /**
+         * Insert markup for an inline image at the current cursor position.
+         * This works as follow :
+         * - We insert the base64-encoded blob data into the cell attachments
+         *   dictionary, keyed by the filename.
+         * - We insert an img tag with a 'attachment:key' src that refers to
+         *   the attachments entry.
+         *
+         * Parameters:
+         *  file: Blob
+         *      The JS Blob object (e.g. from the DataTransferItem)
+         */
+        var that = this;
+        var pos = this.code_mirror.getCursor();
+        var reader = new FileReader;
+        // We can get either a named file (drag'n'drop) or a blob (copy/paste)
+        // We generate names for blobs
+        var key;
+        if (blob.name !== undefined) {
+            key = blob.name;
+        } else {
+            if (that.attachments === undefined) {
+                key = '_auto_0';
+            } else {
+                key = '_auto_' + Object.keys(that.attachments).length;
+            }
+        }
+
+        reader.onloadend = function() {
+            var d = utils.parse_b64_data_uri(reader.result);
+            if (blob.type != d[0]) {
+                // TODO(julienr): Not sure what we should do in this case
+                console.log('File type (' + blob.type + ') != data-uri ' +
+                            'type (' + d[0] + ')');
+            }
+            that.add_attachment(key, blob.type, d[1]);
+            var img_md = '![' + key + '](attachment:' + key + ')';
+            that.code_mirror.replaceRange(img_md, pos);
+        }
+        reader.readAsDataURL(blob);
+    };
+
     /** @method bind_events **/
     MarkdownCell.prototype.bind_events = function () {
         TextCell.prototype.bind_events.apply(this);
         var that = this;
 
-        // Inline images insertion. When a user drops an image in a markdown
-        // cell, we do the following :
-        // - We insert the base64-encoded image into the cell attachments
-        //   directory, keyed by the filename.
-        // - We insert an img tag with a 'nbdata' src that refers to the
-        //   attachments entry.
-        //
-        // Prevent the default code_mirror 'drop' event handler (which inserts
-        // the file content) if this is a recognized media file
-        this.code_mirror.on("drop", function(cm, evt) {
-          var pos = that.code_mirror.getCursor();
-          var files = evt.dataTransfer.files;
-          for (var i = 0; i < files.length; ++i) {
-            var file = files[i];
-            var key = file.name;
-            // TODO: Do some wildcard mime matching (image/*)
-            if (file.type == "image/png") {
-              evt.stopPropagation();
-              evt.preventDefault();
+        var attachment_regex = /^image\/.*$/;
 
-              var reader = new FileReader;
-              reader.onloadend = function() {
-                var img_md = '![' + key + '](attachment:' + key + ')';
-
-                if (that.attachments === undefined) {
-                  that.attachments = {};
+        // Event handlers to allow users to insert image using either
+        // drag'n'drop or copy/paste
+        var div = that.code_mirror.getWrapperElement();
+        $(div).on('paste', function(evt) {
+            var data = evt.originalEvent.clipboardData;
+            var items = data.items;
+            for (var i = 0; i < items.length; ++i) {
+                var item = items[i];
+                if (item.kind == 'file' && attachment_regex.test(item.type)) {
+                    // TODO(julienr): This does not stop code_mirror from pasting
+                    // the filename.
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                    that.insert_inline_image_from_blob(item.getAsFile());
                 }
-                that.attachments[key] = {};
-                // Strip the "data:image/png;base64," prefix from the data-url
-                // to turn it into a base64 encoded string
-                var d = utils.parse_b64_data_uri(reader.result);
-                if (file.type != d[0]) {
-                    // TODO(julienr): Not sure what we should do in this case
-                    console.log('File type (' + file.type + ') != data-uri ' +
-                                'type (' + d[0] + ')');
-                }
-                that.attachments[key][file.type] = [d[1]];
-                that.code_mirror.replaceRange(img_md, pos);
-              }
-              reader.readAsDataURL(file);
             }
-          }
+        });
+
+        this.code_mirror.on("drop", function(cm, evt) {
+            var files = evt.dataTransfer.files;
+            for (var i = 0; i < files.length; ++i) {
+                var file = files[i];
+                if (attachment_regex.test(file.type)) {
+                    // Prevent the default code_mirror 'drop' event handler
+                    // (which inserts the file content) if this is a
+                    // recognized media file
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                    that.insert_inline_image_from_blob(file);
+                }
+            }
         });
     };
 
