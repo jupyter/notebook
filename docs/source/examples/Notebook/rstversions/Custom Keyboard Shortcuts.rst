@@ -66,6 +66,6 @@ back to it's initial behavior:
 
     %%javascript
     
-    Jupyter.keyboard_manager.command_shortcuts.add_shortcut('r', 'ipython.change-selected-cell-to-raw-cell');
+    Jupyter.keyboard_manager.command_shortcuts.add_shortcut('r', 'ipython.change-cell-to-raw');
 
 `View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Custom%20Keyboard%20Shortcuts.ipynb>`__
