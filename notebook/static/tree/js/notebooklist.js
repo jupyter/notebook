@@ -181,11 +181,11 @@ define([
             var name_and_ext = utils.splitext(f.name);
             var file_ext = name_and_ext[1];
 
-            // skip files over 15MB with a warning
-            if (f.size > 15728640) {
+            // skip files over 25MB with a warning (same as Gmail)
+            if (f.size > 26214400) {
                 dialog.modal({
                     title : 'Cannot upload file',
-                    body : "Cannot upload file (>15MB) '" + f.name + "'",
+                    body : "Cannot upload file (>25MB) '" + f.name + "'",
                     buttons : {'OK' : { 'class' : 'btn-primary' }}
                 });
                 continue;
