@@ -5,7 +5,8 @@ define([
     'jquery',
     'base/js/utils',
     'base/js/dialog',
-], function($, utils, dialog) {
+    'base/js/events',
+], function($, utils, dialog, events) {
     "use strict";
     var platform = utils.platform;
 
@@ -164,37 +165,67 @@ define([
 
     QuickHelp.prototype.show_keyboard_shortcuts = function () {
         /**
-         * toggles display of keyboard shortcut dialog
+         * toggles display of keyboard shortcut dialog/side panel
          */
         var that = this;
         if ( this.force_rebuild ) {
-            this.shortcut_dialog.remove();
-            delete(this.shortcut_dialog);
+            this.shortcut_element.remove();
+            delete(this.shortcut_element);
             this.force_rebuild = false;
         }
-        if ( this.shortcut_dialog ){
-            // if dialog is already shown, close it
-            $(this.shortcut_dialog).modal("toggle");
-            return;
+        if (this.shortcut_element === undefined) {
+            this.shortcut_element = this.build_keyboard_shortcuts();
         }
-        var command_shortcuts = this.keyboard_manager.command_shortcuts.help();
-        var edit_shortcuts = this.keyboard_manager.edit_shortcuts.help();
-        var help, shortcut;
-        var i, half, n;
+
+        if (this.display_location === 'side_panel') {
+            if (this.shortcut_dialog !== undefined) this.shortcut_dialog.modal('hide');
+            if (this.shortcut_panel === undefined) this.shortcut_panel = this.build_side_panel();
+            this.shortcut_panel.find('.qh-panel-inner').append(this.shortcut_element);
+            slide_side_panel(undefined, true);
+        }
+        else {
+            if (this.shortcut_panel !== undefined) slide_side_panel(0);
+            if (this.shortcut_dialog === undefined) {
+                this.shortcut_dialog = dialog.modal({
+                    show: false,
+                    title : "Keyboard shortcuts",
+                    body : this.shortcut_element,
+                    destroy : false,
+                    buttons : {
+                        'Printable view' : {
+                            click: function() {
+                                that.display_location = 'side_panel';
+                                that.show_keyboard_shortcuts();
+                                slide_side_panel(100);
+                            }
+                        },
+                        'Dock to side' : {
+                            click: function() {
+                                that.display_location = 'side_panel';
+                                that.show_keyboard_shortcuts();
+                            }
+                        },
+                        Close : {}
+                    },
+                    notebook: this.notebook,
+                    keyboard_manager: this.keyboard_manager,
+                });
+                this.shortcut_dialog.addClass("modal_stretch");
+            }
+            else {
+                this.shortcut_dialog.find('.modal-body').append(this.shortcut_element);
+            }
+            this.shortcut_dialog.modal('toggle');
+        }
+
+        this.events.on('rebuild.QuickHelp', function() { that.force_rebuild = true;});
+    };
+
+    QuickHelp.prototype.build_keyboard_shortcuts = function () {
         var element = $('<div/>');
 
         // The documentation
-        var doc = $('<div/>').addClass('alert alert-info');
-        doc.append(
-            'The Jupyter Notebook has two different keyboard input modes. <b>Edit mode</b> '+
-            'allows you to type code/text into a cell and is indicated by a green cell '+
-            'border. <b>Command mode</b> binds the keyboard to notebook level actions '+
-            'and is indicated by a grey cell border.'
-        );
-        if (platform === 'MacOS') {
-            var key_div = this.build_key_names();
-            doc.append(key_div);
-        }
+        var doc = this.build_doc();
         element.append(doc);
 
         // Command mode
@@ -205,45 +236,45 @@ define([
         var edit_div = this.build_edit_help(cm_shortcuts);
         element.append(edit_div);
 
-        this.shortcut_dialog = dialog.modal({
-            title : "Keyboard shortcuts",
-            body : element,
-            destroy : false,
-            buttons : {
-                Close : {}
-            },
-            notebook: this.notebook,
-            keyboard_manager: this.keyboard_manager,
-        });
-        this.shortcut_dialog.addClass("modal_stretch");
-        
-        this.events.on('rebuild.QuickHelp', function() { that.force_rebuild = true;});
+        return element;
+    };
+
+    QuickHelp.prototype.build_doc = function () {
+        var doc = $('<div/>').addClass('alert alert-info alert-dismissable');
+        doc.append(
+            $('<button/>', {
+                type: "button",
+                class: "close",
+                'data-dismiss': "alert",
+                'aria-label': "Close"
+            }).append(
+                $('<span/>', {'aria-hidden': "true"}).html('&times;')
+            )
+        );
+        doc.append(
+            '<p>' +
+            'The Jupyter Notebook has two different keyboard input modes. <b>Edit mode</b> '+
+            'allows you to type code/text into a cell and is indicated by a green cell '+
+            'border. <b>Command mode</b> binds the keyboard to notebook level actions '+
+            'and is indicated by a grey cell border.' +
+            '</p>'
+        );
+        if (platform === 'MacOS') {
+            var key_div = this.build_key_names();
+            doc.append(key_div);
+        }
+        return doc;
     };
 
     QuickHelp.prototype.build_key_names = function () {
-       var key_names_mac =  [{ shortcut:"⌘", help:"Command" },
+        var key_names_mac =  [{ shortcut:"⌘", help:"Command" },
                     { shortcut:"⌃", help:"Control" },
                     { shortcut:"⌥", help:"Option" },
                     { shortcut:"⇧", help:"Shift" },
                     { shortcut:"↩", help:"Return" },
                     { shortcut:"␣", help:"Space" },
                     { shortcut:"⇥", help:"Tab" }];
-        var i, half, n;
-        var div = $('<div/>').append('MacOS modifier keys:');
-        var sub_div = $('<div/>').addClass('container-fluid');
-        var col1 = $('<div/>').addClass('col-md-6');
-        var col2 = $('<div/>').addClass('col-md-6');
-        n = key_names_mac.length;
-        half = ~~(n/2);
-        for (i=0; i<half; i++) { col1.append(
-                build_one(key_names_mac[i])
-                ); }
-        for (i=half; i<n; i++) { col2.append(
-                build_one(key_names_mac[i])
-                ); }
-        sub_div.append(col1).append(col2);
-        div.append(sub_div);
-        return div;
+        return build_div('<span>MacOS modifier keys:</span>', key_names_mac, false);
     };
 
 
@@ -259,6 +290,124 @@ define([
         return build_div('<h4>Edit Mode (press <kbd>Enter</kbd> to enable)</h4>', cm_shortcuts);
     };
 
+    QuickHelp.prototype.build_side_panel = function () {
+        var that = this;
+
+        var main_panel = $('#notebook_panel');
+
+        var side_panel = $('<div/>')
+            .addClass('qh-panel-outer')
+            .hide()
+            .insertAfter(main_panel);
+
+        var side_panel_splitbar = $('<div/>')
+            .addClass('qh-panel-splitbar')
+            .append(
+                $('<i/>').addClass('fa').text('|')
+            )
+            .appendTo(side_panel);
+
+        var side_panel_inner = $('<div/>')
+            .addClass('qh-panel-inner')
+            .append(
+                $('<div/>').addClass('modal-header hidden-print')
+                .append(
+                    $('<button/>').addClass('close').html('&times;')
+                        .click(function () { slide_side_panel(0, true); })
+                )
+                .append($('<h4/>').addClass("modal-title").text('Keyboard shortcuts'))
+            )
+            .append(
+                $('<div/>').addClass('btn-group qh-panel-btns hidden-print')
+                    .append(
+                        $('<a/>').addClass('btn btn-default')
+                            .append($('<i/>').addClass('fa fa-fw fa-external-link fa-flip-horizontal'))
+                            .append(' undock')
+                            .click(function () {
+                                that.display_location = undefined;
+                                that.show_keyboard_shortcuts();
+                            })
+                    )
+                    .append(
+                        $('<a/>').addClass('btn btn-default')
+                            .append($('<i/>').addClass('fa fa-fw fa-print'))
+                            .append(' view')
+                            .click(function () { slide_side_panel(100, true); })
+                    )
+            )
+            .appendTo(side_panel);
+
+        // bind events for resizing side panel
+        side_panel_splitbar.mousedown(function (md_evt) {
+            md_evt.preventDefault();
+            $(document).mousemove(function (mm_evt) {
+                mm_evt.preventDefault();
+                var pix_w = side_panel.offset().left + side_panel.outerWidth() - mm_evt.pageX;
+                var rel_w = 100 * pix_w / side_panel.parent().width();
+                slide_side_panel(rel_w, false);
+            });
+            return false;
+        });
+        $(document).mouseup(function (mu_evt) {
+            $(document).unbind('mousemove');
+        });
+
+        return side_panel;
+    };
+
+    var slide_side_panel = function (desired_width, animate) {
+
+        var panel_min_width = 5, panel_max_width = 95;
+
+        var main_panel = $('#notebook_panel');
+        var side_panel = $('.qh-panel-outer');
+
+        if (desired_width === undefined) {
+            desired_width = side_panel.is(':hidden') ? (side_panel.data('last_width') || 40) : 0;
+        }
+        if (desired_width > panel_min_width && desired_width < panel_max_width) {
+            side_panel.data('last_width',
+                desired_width > panel_min_width ?
+                    (desired_width < panel_max_width ? desired_width : panel_max_width) :
+                    panel_min_width
+            );
+        }
+
+        var anim_opts = {
+            duration : animate ? 400 : 0,
+            step : function (now, tween) {
+                main_panel.css('width', 100 - now + '%');
+            }
+        };
+
+        desired_width = desired_width >= panel_min_width ? desired_width : panel_min_width;
+
+        if (desired_width <= panel_min_width) {
+            anim_opts.complete = function () {
+                side_panel.hide();
+                main_panel.css({float: '', 'overflow-x': '', width: ''});
+            };
+        }
+        else {
+            main_panel.css({float: 'left', 'overflow-x': 'auto'});
+            side_panel.show();
+        }
+
+        if (desired_width < panel_max_width) {
+            side_panel.insertAfter(main_panel);
+            $('#site,#header').filter(':hidden').slideDown({
+                duration: anim_opts.duration,
+                complete: function() { events.trigger('resize-header.Page'); }
+            });
+        }
+        else {
+            side_panel.insertAfter($('#site'));
+            $('#site,#header').filter(':visible').slideUp(anim_opts.duration);
+        }
+
+        side_panel.animate({width: desired_width + '%'}, anim_opts);
+    };
+
     var build_one = function (s) {
         var help = s.help;
         var shortcut = '';
@@ -271,8 +420,9 @@ define([
 
     };
 
-    var build_div = function (title, shortcuts) {
-        
+    var build_div = function (title, shortcuts, make_panel) {
+        if (make_panel === undefined) make_panel = true;
+
         // Remove jupyter-notebook:ignore shortcuts.
         shortcuts = shortcuts.filter(function(shortcut) {
             if (shortcut.help === 'ignore') {
@@ -283,7 +433,9 @@ define([
         });
         
         var i, half, n;
-        var div = $('<div/>').append($(title));
+        var wrap = $('<div/>').toggleClass('panel panel-default', make_panel);
+        var head = $('<div/>').toggleClass('panel-heading', make_panel);
+        var div = $('<div/>').toggleClass('panel-body', make_panel);
         var sub_div = $('<div/>').addClass('container-fluid');
         var col1 = $('<div/>').addClass('col-md-6');
         var col2 = $('<div/>').addClass('col-md-6');
@@ -293,11 +445,15 @@ define([
         for (i=half; i<n; i++) { col2.append( build_one(shortcuts[i]) ); }
         sub_div.append(col1).append(col2);
         div.append(sub_div);
-        return div;
+        head.append($(title).toggleClass('panel-title', make_panel));
+        wrap.append(head).append(div);
+        return wrap;
     };
 
     return {'QuickHelp': QuickHelp,
-      humanize_shortcut: humanize_shortcut,
-      humanize_sequence: humanize_sequence
-  };
+        cm_shortcuts: cm_shortcuts,
+        humanize_map: humanize_map,
+        humanize_shortcut: humanize_shortcut,
+        humanize_sequence: humanize_sequence
+    };
 });
