@@ -46,6 +46,7 @@ define([
                 function(e, d) { that.sessions_loaded(d); });
         }
         this.selected = [];
+        this._max_upload_size_mb = 25;
     };
 
     NotebookList.prototype.style = function () {
@@ -181,11 +182,11 @@ define([
             var name_and_ext = utils.splitext(f.name);
             var file_ext = name_and_ext[1];
 
-            // skip files over 15MB with a warning
-            if (f.size > 15728640) {
+            // skip large files with a warning
+            if (f.size > this._max_upload_size_mb * 1024 * 1024) {
                 dialog.modal({
                     title : 'Cannot upload file',
-                    body : "Cannot upload file (>15MB) '" + f.name + "'",
+                    body : "Cannot upload file (>" + this._max_upload_size_mb + " MB) '" + f.name + "'",
                     buttons : {'OK' : { 'class' : 'btn-primary' }}
                 });
                 continue;
