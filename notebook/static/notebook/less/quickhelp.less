@@ -1,6 +1,10 @@
 .quickhelp {
     .hbox();
     line-height: 1.8em;
+
+    @media print {
+    	page-break-inside: avoid;
+    }
 }
 .shortcut_key {
     display: inline-block;
@@ -12,4 +16,67 @@
 .shortcut_descr {
     display: inline-block;
     .box-flex1();
+}
+
+@qh_side_panel_split_width: 8px;
+
+.qh-panel-outer {
+    position: relative;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+    background-color: @body-bg;
+
+	@media print {
+        /* print-previews don't like 100%-height elements in body */
+        height: auto;
+		/* see stackoverflow.com/questions/19948474 */
+		.col-md-6 {
+			float: left;
+			width: 50%;
+		}
+	}
+
+    .qh-panel-splitbar {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: @qh_side_panel_split_width;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-left: 1px solid;
+        border-right: 1px solid;
+        color: @navbar-default-color;
+        background-color: @navbar-default-bg;
+        border-color: @navbar-default-border;
+        cursor: col-resize;
+    }
+
+    .qh-panel-inner {
+        overflow: auto;
+        height: inherit;
+        margin-left: @qh_side_panel_split_width;
+
+        & > * {
+            padding: 0.5em;
+        }
+    }
+
+    /**
+     * Rules for the full-screen display of the panel, applied when the panel
+     * immediately follows the #site div
+     */
+    #site + & {
+        .qh-panel-inner {
+            margin-left: 0;
+        }
+
+        .qh-panel-splitbar,
+        .qh-panel-btns {
+            display: none;
+        }
+    }
 }
