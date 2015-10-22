@@ -80,6 +80,9 @@ define(function(require) {
                 .addClass("btn btn-default btn-sm")
                 .attr("data-dismiss", "modal")
                 .text(label);
+            if (btn_opts.id) {
+                button.attr('id', btn_opts.id);
+            }
             if (btn_opts.click) {
                 button.click($.proxy(btn_opts.click, dialog_content));
             }
@@ -269,12 +272,58 @@ define(function(require) {
         modal_obj.on('shown.bs.modal', function(){ editor.refresh(); });
     };
 
+    var insert_image = function (options) {
+        var message =
+            "Select a file to insert.";
+        var file_input = $('<input/>')
+            .attr('type', 'file')
+            .attr('accept', 'image/*')
+            .attr('name', 'file')
+            .on('change', function(file) {
+                var $btn = $(modal_obj).find('#btn_ok');
+                if (this.files.length > 0) {
+                    $btn.removeClass('disabled');
+                } else {
+                    $btn.addClass('disabled');
+                }
+            });
+        var dialogform = $('<div/>').attr('title', 'Edit attachments')
+            .append(
+                $('<form/>').append(
+                    $('<fieldset/>').append(
+                        $('<label/>')
+                        .attr('for','file')
+                        .text(message)
+                        )
+                        .append($('<br/>'))
+                        .append(file_input)
+                    )
+            );
+        var modal_obj = modal({
+            title: "Pick a file",
+            body: dialogform,
+            buttons: {
+                OK: {
+                    id : 'btn_ok',
+                    class : "btn-primary disabled",
+                    click: function() {
+                        options.callback(file_input[0].files[0]);
+                    }
+                },
+                Cancel: {}
+            },
+            notebook: options.notebook,
+            keyboard_manager: options.keyboard_manager,
+        });
+    };
+
     
     var dialog = {
         modal : modal,
         kernel_modal : kernel_modal,
         edit_metadata : edit_metadata,
-        edit_attachments : edit_attachments
+        edit_attachments : edit_attachments,
+        insert_image : insert_image
     };
 
     return dialog;

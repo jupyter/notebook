@@ -1673,6 +1673,46 @@ define(function (require) {
         this.merge_cells([index, index+1], false);
     };
 
+    // Image insertion
+
+    /**
+     * Shows a dialog letting the user pick an image from her computer and
+     * insert it into the edited markdown cell
+     */
+    Notebook.prototype.insert_image = function () {
+        var that = this;
+        var cell = this.get_selected_cell();
+        // The following should not happen as the menu item is greyed out
+        // when those conditions are not fullfilled (see MarkdownCell
+        // unselect/select/unrender handlers)
+        if (cell.cell_type != 'markdown') {
+            console.log('Error: insert_image called on non-markdown cell');
+            return;
+        }
+        if (cell.rendered) {
+            console.log('Error: insert_image called on rendered cell');
+            return;
+        }
+        dialog.insert_image({
+            callback: function(file) {
+                cell.edit_mode();
+                cell.insert_inline_image_from_blob(file);
+            },
+            notebook: this,
+            keyboard_manager: this.keyboard_manager
+        });
+    };
+
+    /**
+     * Enable/disable the "Insert image" menu item
+     */
+    Notebook.prototype.set_insert_image_enabled = function(enabled) {
+        if (enabled) {
+            $('#insert_image').removeClass('disabled');
+        } else {
+            $('#insert_image').addClass('disabled');
+        }
+    };
 
     // Cell collapsing and output clearing
 

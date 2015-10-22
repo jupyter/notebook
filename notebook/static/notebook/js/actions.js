@@ -153,6 +153,13 @@ define(function(require){
                 env.notebook.command_mode();
             }
         },
+        'insert-image': {
+            help      : 'insert image',
+            help_index : 'dz',
+            handler : function (env) {
+                env.notebook.insert_image();
+            }
+        },
         'split-cell-at-cursor': {
             help    : 'split cell',
             help_index : 'ea',

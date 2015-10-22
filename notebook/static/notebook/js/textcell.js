@@ -51,6 +51,7 @@ define([
         this.notebook = options.notebook;
         this.events = options.events;
         this.config = options.config;
+        this.notebook = options.notebook;
         
         // we cannot put this as a class key as it has handle to "this".
         var config = utils.mergeopt(TextCell, this.config);
@@ -255,6 +256,24 @@ define([
             this.render();
         }
     };
+
+    MarkdownCell.prototype.unselect = function () {
+        var cont = TextCell.prototype.unselect.apply(this);
+        this.notebook.set_insert_image_enabled(false);
+    };
+
+    MarkdownCell.prototype.select = function () {
+        var cont = TextCell.prototype.select.apply(this);
+        if (cont) {
+            this.notebook.set_insert_image_enabled(!this.rendered);
+        }
+    };
+
+    MarkdownCell.prototype.unrender = function () {
+        var cont = TextCell.prototype.unrender.apply(this);
+        this.notebook.set_insert_image_enabled(true);
+    };
+
 
     // TODO(julienr): Move to cell if the attachments is accepted as a cell
     // attribute (not markdown specific)
