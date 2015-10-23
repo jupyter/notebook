@@ -6,6 +6,12 @@ ul.typeahead-list i{
 ul.typeahead-list {
   max-height: 80vh;
   overflow:auto;
+
+    & > li > a {
+        /** Firefox bug **/
+        /* see https://github.com/jupyter/notebook/issues/559 */
+        white-space: normal;
+    }
 }
 
 .cmd-palette {
