@@ -776,7 +776,7 @@ define([
             .append(
                 $("<pre/>")
                 .addClass("raw_input_prompt")
-                .text(content.prompt)
+                .html(utils.fixConsole(content.prompt))
                 .append(
                     $("<input/>")
                     .addClass("raw_input")
