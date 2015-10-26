@@ -948,6 +948,15 @@ define(function (require) {
     };
 
 
+    Notebook.prototype.delete_marked_cells = function(indices) {
+        indices = this.get_marked_indices();
+        this._delete_cells(indices)
+    }
+
+    Notebook.prototype.delete_selected_cell = function(indices) {
+        indices = [this.get_selected_index()];
+        this._delete_cells(indices)
+    }
     /**
      * Delete cells from the notebook
      *
@@ -956,11 +965,15 @@ define(function (require) {
      */
     Notebook.prototype.delete_cells = function(indices) {
         if (indices === undefined) {
-            indices = this.get_marked_indices();
-            
-            if (indices.length === 0) {
-                indices = [this.get_selected_index()];
-            }
+            indices = [this.get_selected_index()];
+        }
+        this._delete_cells(indices)
+    }
+
+
+    Notebook.prototype._delete_cells = function(indices) {
+        if(indices === undefined){
+            throw new Error('need indices to delete cells')
         }
 
         this.undelete_backup = [];
@@ -1381,21 +1394,44 @@ define(function (require) {
         }
     };
 
+
     /**
      * Cut a cell.
      */
-    Notebook.prototype.cut_cell = function () {
-        this.copy_cell();
-        this.delete_cell();
+    Notebook.prototype.cut_marked_cells = function () {
+        this.copy_marked_cell();
+        this.delete_merked_cell();
+    }
+
+    Notebook.prototype.cut_selected_cell = function () {
+        this.copy_selected_cell();
+        this.delete_selected_cell();
     };
+
+    Notebook.prototype.cut_cell = Notebook.prototype.cut_selected_cell;
+
+   
+    /**
+     * Select
+     **/
+
+    Notebook.prototype.copy_selected_cell = function () {
+        var cells = [this.get_selected_cell()];
+        return this._copy_cells(cells)
+    }
+
+    Notebook.prototype.copy_marked_cell = function () {
+        var cells = this.get_marked_indices();
+        return this._copy_cells(cells)
+    }
+
 
     /**
      * Copy cells.
      */
-    Notebook.prototype.copy_cell = function () {
-        var cells = this.get_marked_cells();
+    Notebook.prototype._copy_cells = function (cells) {
         if (cells.length === 0) {
-            cells = [this.get_selected_cell()];
+            throw new Error('need to get a cell list')
         }
         
         this.clipboard = [];
@@ -1409,6 +1445,24 @@ define(function (require) {
         }
         this.enable_paste();
     };
+
+    Notebook.prototype.copy_marked_selected_cell = function (cells) {
+        var cells = this.get_marked_indices()
+        if (cells.length === 0) {
+             cells = [this.get_selected_cell()];
+        }
+        return this._copy_cells(cells)
+    }
+
+
+
+    // TODO: deprecate
+    Notebook.prototype.copy_cell =  Notebook.prototype.copy_marked_selected_cell
+
+    // TODO: deprecate
+    Notebook.prototype.copy_cells =  Notebook.prototype.copy_marked_selected_cell
+
+
 
     /**
      * Replace the selected cell with the cells in the clipboard.
