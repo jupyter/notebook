@@ -225,8 +225,19 @@ define([
         var element = $('<div/>');
 
         // The documentation
-        var doc = this.build_doc();
+        var doc = this.build_doc(
+            '<p/>' +
+            'The Jupyter Notebook has two different keyboard input modes. ' +
+            '<b>Edit mode</b> allows you to type code/text into a cell and is indicated by a green cell border. ' +
+            '<b>Command mode</b> binds the keyboard to notebook level actions and is indicated by a grey cell border.' +
+            '</p>'
+        );
         element.append(doc);
+        if (platform === 'MacOS') {
+            var key_div = this.build_key_names();
+            doc = this.build_doc(key_div);
+            element.append(doc);
+        }
 
         // Command mode
         var cmd_div = this.build_command_help();
@@ -239,7 +250,7 @@ define([
         return element;
     };
 
-    QuickHelp.prototype.build_doc = function () {
+    QuickHelp.prototype.build_doc = function (contents) {
         var doc = $('<div/>').addClass('alert alert-info alert-dismissable');
         doc.append(
             $('<button/>', {
@@ -251,18 +262,7 @@ define([
                 $('<span/>', {'aria-hidden': "true"}).html('&times;')
             )
         );
-        doc.append(
-            '<p>' +
-            'The Jupyter Notebook has two different keyboard input modes. <b>Edit mode</b> '+
-            'allows you to type code/text into a cell and is indicated by a green cell '+
-            'border. <b>Command mode</b> binds the keyboard to notebook level actions '+
-            'and is indicated by a grey cell border.' +
-            '</p>'
-        );
-        if (platform === 'MacOS') {
-            var key_div = this.build_key_names();
-            doc.append(key_div);
-        }
+        doc.append(contents);
         return doc;
     };
 
