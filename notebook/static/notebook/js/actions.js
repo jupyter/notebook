@@ -438,7 +438,7 @@ define(function(require){
                 events.trigger('resize-header.Page');
             }
         },
-        'escape': {
+        'close-pager-or-unmark-all-cells': {
             help : 'close the pager or unmark all cells',
             handler : function(env) {
                 // Collapse the page if it is open, otherwise unmark all.
