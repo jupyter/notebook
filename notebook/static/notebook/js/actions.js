@@ -202,7 +202,7 @@ define(function(require){
                 env.notebook.select(index);
             }
         },
-        'cut-marked-cell' : {
+        'cut-marked-cells' : {
             help_index : 'ee',
             handler : function (env) {
                 env.notebook.cut_marked_cells();
@@ -217,7 +217,7 @@ define(function(require){
                 env.notebook.copy_selected_cell();
             }
         },
-        'copy-marked-cell' : {
+        'copy-marked-cells' : {
             help: 'copy marked cells to clipboard',
             help_index : 'ef',
             handler : function (env) {
@@ -374,7 +374,7 @@ define(function(require){
                 env.notebook.delete_selected_cell();
             }
         },
-        'delete-marked-cell': {
+        'delete-marked-cells': {
             help: 'delete selected cell',
             help_index : 'ej',
             handler : function (env) {
