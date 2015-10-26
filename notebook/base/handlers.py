@@ -32,7 +32,7 @@ from ipython_genutils.path import filefind
 from ipython_genutils.py3compat import string_types
 
 import notebook
-from notebook.utils import is_hidden, url_path_join, url_escape
+from notebook.utils import is_hidden, url_path_join, url_is_absolute, url_escape
 from notebook.services.security import csp_report_uri
 
 #-----------------------------------------------------------------------------
@@ -155,7 +155,10 @@ class IPythonHandler(AuthenticatedHandler):
     
     @property
     def mathjax_url(self):
-        return self.settings.get('mathjax_url', '')
+        url = self.settings.get('mathjax_url', '')
+        if not url or url_is_absolute(url):
+            return url
+        return url_path_join(self.base_url, url)
     
     @property
     def base_url(self):
