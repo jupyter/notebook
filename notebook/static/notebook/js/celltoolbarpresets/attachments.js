@@ -15,6 +15,9 @@ define([
           attachments: cell.attachments,
           callback: function(attachments) {
             cell.attachments = attachments;
+            // Force cell refresh
+            cell.unrender();
+            cell.render();
           },
           name: 'cell',
           notebook: cell.notebook,

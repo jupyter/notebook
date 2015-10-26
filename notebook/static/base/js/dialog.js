@@ -212,55 +212,85 @@ define(function(require) {
     };
 
     var edit_attachments = function (options) {
-        options.name = options.name || "Cell";
-        var error_div = $('<div/>').css('color', 'red');
         var message =
-            "Manually edit the JSON below to manipulate attachments for this " + options.name + ".";
+            "Current cell attachments";
 
-        var textarea = $('<textarea/>')
-            .attr('rows', '13')
-            .attr('cols', '80')
-            .attr('name', 'attachments')
-            .text(JSON.stringify(options.attachments || {}, null, 2));
-
-        var dialogform = $('<div/>').attr('title', 'Edit attachments')
+        var attachments_list = $('<div>')
+            .addClass('list_container')
             .append(
-                $('<form/>').append(
-                    $('<fieldset/>').append(
-                        $('<label/>')
-                        .attr('for','attachments')
-                        .text(message)
-                        )
-                        .append(error_div)
-                        .append($('<br/>'))
-                        .append(textarea)
-                    )
+                $('<div>')
+                .addClass('row list_header')
+                .append(
+                    $('<div>')
+                    .text('Attachments')
+                )
             );
-        var editor = CodeMirror.fromTextArea(textarea[0], {
-            lineNumbers: true,
-            matchBrackets: true,
-            indentUnit: 2,
-            autoIndent: true,
-            mode: 'application/json',
-        });
+
+        var refresh_attachments_list = function() {
+            $(attachments_list).find('.att_row').remove();
+            for (var key in options.attachments) {
+                var mime = Object.keys(options.attachments[key])[0];
+                var delete_btn = $('<button>')
+                    .addClass('delete-button btn btn-default btn-xs btn-danger')
+                    .attr('title', 'Delete')
+                    .css('display', 'inline-block')
+                    .append(
+                        $('<i>')
+                        .addClass('fa fa-trash')
+                    );
+                // This ensures the current value of key is captured since
+                // javascript only has function scope
+                (function(){
+                    var del_key = key;
+                    delete_btn.click(function() {
+                        // TODO(julienr): Add confirmation dialog
+                        delete options.attachments[del_key];
+                        refresh_attachments_list();
+                        return false;
+                    });
+                })();
+                var row = $('<div>')
+                    .addClass('col-md-12 att_row')
+                    .append(
+                        $('<div>')
+                        .addClass('row')
+                        .append(
+                            $('<div>')
+                            .addClass('col-xs-4')
+                            .text(key)
+                        )
+                        .append(
+                            $('<div>')
+                            .addClass('col-xs-4 text-muted')
+                            .text(mime)
+                        )
+                        .append(
+                            $('<div>')
+                            .addClass('item-buttons pull-right')
+                            .append(delete_btn)
+                        )
+                    );
+
+                attachments_list.append($('<div>')
+                    .addClass('list_item row')
+                    .append(row)
+                );
+            }
+        };
+        refresh_attachments_list();
+
+        var dialogform = $('<div/>')
+            .attr('title', 'Edit attachments')
+            .append(message)
+            .append('<br />')
+            .append(attachments_list)
         var modal_obj = modal({
             title: "Edit " + options.name + " Attachments",
             body: dialogform,
             buttons: {
                 OK: { class : "btn-primary",
                     click: function() {
-                        /**
-                         * validate json and set it
-                         */
-                        var new_att;
-                        try {
-                            new_att = JSON.parse(editor.getValue());
-                        } catch(e) {
-                            console.log(e);
-                            error_div.text('WARNING: Could not save invalid JSON.');
-                            return false;
-                        }
-                        options.callback(new_att);
+                        options.callback(options.attachments);
                     }
                 },
                 Cancel: {}
@@ -268,8 +298,6 @@ define(function(require) {
             notebook: options.notebook,
             keyboard_manager: options.keyboard_manager,
         });
-
-        modal_obj.on('shown.bs.modal', function(){ editor.refresh(); });
     };
 
     var insert_image = function (options) {
