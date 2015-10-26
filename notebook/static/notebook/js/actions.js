@@ -203,7 +203,6 @@ define(function(require){
             }
         },
         'cut-marked-cell' : {
-            icon: 'fa-cut',
             help_index : 'ee',
             handler : function (env) {
                 env.notebook.cut_marked_cells();
@@ -222,7 +221,7 @@ define(function(require){
             help: 'copy marked cells to clipboard',
             help_index : 'ef',
             handler : function (env) {
-                env.notebook.copy_selected_cell();
+                env.notebook.copy_marked_cell();
             }
         },
         'paste-cell-above' : {

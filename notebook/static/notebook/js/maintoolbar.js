@@ -39,7 +39,7 @@ define([
             ['jupyter-notebook:insert-cell-below'],
             'insert_above_below'],
           [
-            ['jupyter-notebook:cut-cell',
+            ['jupyter-notebook:cut-selected-cell',
              'jupyter-notebook:copy-selected-cell',
              'jupyter-notebook:paste-cell-below'
             ] ,

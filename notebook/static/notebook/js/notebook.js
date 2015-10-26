@@ -950,6 +950,9 @@ define(function (require) {
 
     Notebook.prototype.delete_marked_cells = function(indices) {
         indices = this.get_marked_indices();
+        if(indices.length === 0){
+            return
+        }
         this._delete_cells(indices)
     }
 
@@ -1421,7 +1424,11 @@ define(function (require) {
     }
 
     Notebook.prototype.copy_marked_cell = function () {
-        var cells = this.get_marked_indices();
+        var cells = this.get_marked_cells();
+        if(cells.length === 0){
+            console.info(':-(')
+            return
+        }
         return this._copy_cells(cells)
     }
 
