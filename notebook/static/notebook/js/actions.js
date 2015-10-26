@@ -437,7 +437,18 @@ define(function(require){
                 $('.header-bar').toggle();
                 events.trigger('resize-header.Page');
             }
-        }
+        },
+        'escape': {
+            help : 'close the pager or unmark all cells',
+            handler : function(env) {
+                // Collapse the page if it is open, otherwise unmark all.
+                if (env.pager && env.pager.expanded) {
+                    env.pager.collapse();
+                } else {
+                    env.notebook.unmark_all_cells();
+                }
+            }
+        },
     };
 
     /**
