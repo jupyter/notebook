@@ -1459,10 +1459,6 @@ define(function (require) {
     // TODO: deprecate
     Notebook.prototype.copy_cell =  Notebook.prototype.copy_marked_selected_cell
 
-    // TODO: deprecate
-    Notebook.prototype.copy_cells =  Notebook.prototype.copy_marked_selected_cell
-
-
 
     /**
      * Replace the selected cell with the cells in the clipboard.
