@@ -954,12 +954,13 @@ define(function (require) {
             return;
         }
         this._delete_cells(indices);
-    }
+    };
 
     Notebook.prototype.delete_selected_cell = function(indices) {
         indices = [this.get_selected_index()];
         this._delete_cells(indices)
-    }
+    };
+
     /**
      * Delete cells from the notebook
      *
@@ -971,7 +972,7 @@ define(function (require) {
             indices = [this.get_selected_index()];
         }
         this._delete_cells(indices);
-    }
+    };
 
 
     Notebook.prototype._delete_cells = function(indices) {
@@ -1404,7 +1405,7 @@ define(function (require) {
     Notebook.prototype.cut_marked_cells = function () {
         this.copy_marked_cells();
         this.delete_marked_cells();
-    }
+    };
 
     Notebook.prototype.cut_selected_cell = function () {
         this.copy_selected_cell();
@@ -1421,7 +1422,7 @@ define(function (require) {
     Notebook.prototype.copy_selected_cell = function () {
         var cells = [this.get_selected_cell()];
         return this._copy_cells(cells);
-    }
+    };
 
     Notebook.prototype.copy_marked_cells = function () {
         var cells = this.get_marked_cells();
@@ -1429,7 +1430,7 @@ define(function (require) {
             return;
         }
         return this._copy_cells(cells);
-    }
+    };
 
 
     /**
@@ -1458,7 +1459,7 @@ define(function (require) {
              cells = [this.get_selected_cell()];
         }
         return this._copy_cells(cells);
-    }
+    };
 
 
 
