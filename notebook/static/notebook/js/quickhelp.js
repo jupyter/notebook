@@ -191,11 +191,13 @@ define([
             'border. <b>Command mode</b> binds the keyboard to notebook level actions '+
             'and is indicated by a grey cell border.'
         );
+        element.append(doc);
         if (platform === 'MacOS') {
+            doc = $('<div/>').addClass('alert alert-info');
             var key_div = this.build_key_names();
             doc.append(key_div);
+            element.append(doc);
         }
-        element.append(doc);
 
         // Command mode
         var cmd_div = this.build_command_help();
