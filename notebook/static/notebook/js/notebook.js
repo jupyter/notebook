@@ -1482,6 +1482,7 @@ define(function (require) {
             // Unrender the new cell so we can call set_text.
             new_cell.unrender();
             new_cell.set_text(texta);
+            new_cell.marked = cell.marked;
         }
     };
 
