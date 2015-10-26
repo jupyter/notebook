@@ -1043,7 +1043,7 @@ define(function (require) {
         if (index === undefined) {
             return this.delete_cells();
         } else {
-            return this.delete_cells([index]);
+            return this._delete_cells([index]);
         }
     };
 
@@ -1586,7 +1586,7 @@ define(function (require) {
         }
 
         // Delete the other cells
-        this.delete_cells(indices);
+        this._delete_cells(indices);
 
         this.select(this.find_cell_index(target));
     };
