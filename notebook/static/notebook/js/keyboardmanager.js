@@ -96,7 +96,7 @@ define([
             'i,i' : 'jupyter-notebook:interrupt-kernel',
             '0,0' : 'jupyter-notebook:confirm-restart-kernel',
             'd,d' : 'jupyter-notebook:delete-cell',
-            'esc': 'jupyter-notebook:close-pager',
+            'esc': 'jupyter-notebook:close-pager-or-unmark-all-cells',
             'up' : 'jupyter-notebook:select-previous-cell',
             'k' : 'jupyter-notebook:select-previous-cell',
             'j' : 'jupyter-notebook:select-next-cell',
