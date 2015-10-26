@@ -231,7 +231,7 @@ define([
                     { shortcut:"␣", help:"Space" },
                     { shortcut:"⇥", help:"Tab" }];
         var i, half, n;
-        var div = $('<div/>').append('MacOS modifier keys:');
+        var div = $('<div/>').append('Mac OS X modifier keys:');
         var sub_div = $('<div/>').addClass('container-fluid');
         var col1 = $('<div/>').addClass('col-md-6');
         var col2 = $('<div/>').addClass('col-md-6');
