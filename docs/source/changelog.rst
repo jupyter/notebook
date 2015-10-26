@@ -10,7 +10,7 @@ For more detailed information, see `GitHub <https://github.com/jupyter/notebook>
 -----
 
 - Properly handle reaping of zombie subprocesses.
-- Moved the cell toolbar selector into the view menu ![screencast](https://cloud.githubusercontent.com/assets/335567/10711889/59665a5a-7a3e-11e5-970f-86b89592880c.gif).
+- Moved the cell toolbar selector into the view menu `[screencast] <https://cloud.githubusercontent.com/assets/335567/10711889/59665a5a-7a3e-11e5-970f-86b89592880c.gif>`__.
 - Added the ability to mark cells and perform actions on those cells
 - Added the command palette
 - Added the search and replace dialog
