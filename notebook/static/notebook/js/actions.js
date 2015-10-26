@@ -221,7 +221,7 @@ define(function(require){
             help: 'copy marked cells to clipboard',
             help_index : 'ef',
             handler : function (env) {
-                env.notebook.copy_marked_cell();
+                env.notebook.copy_marked_cells();
             }
         },
         'paste-cell-above' : {

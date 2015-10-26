@@ -1402,8 +1402,8 @@ define(function (require) {
      * Cut a cell.
      */
     Notebook.prototype.cut_marked_cells = function () {
-        this.copy_marked_cell();
-        this.delete_marked_cell();
+        this.copy_marked_cells();
+        this.delete_marked_cells();
     }
 
     Notebook.prototype.cut_selected_cell = function () {
@@ -1423,7 +1423,7 @@ define(function (require) {
         return this._copy_cells(cells);
     }
 
-    Notebook.prototype.copy_marked_cell = function () {
+    Notebook.prototype.copy_marked_cells = function () {
         var cells = this.get_marked_cells();
         if(cells.length === 0){
             return;
