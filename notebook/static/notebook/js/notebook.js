@@ -1403,7 +1403,7 @@ define(function (require) {
      */
     Notebook.prototype.cut_marked_cells = function () {
         this.copy_marked_cell();
-        this.delete_merked_cell();
+        this.delete_marked_cell();
     }
 
     Notebook.prototype.cut_selected_cell = function () {
