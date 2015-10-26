@@ -951,9 +951,9 @@ define(function (require) {
     Notebook.prototype.delete_marked_cells = function(indices) {
         indices = this.get_marked_indices();
         if(indices.length === 0){
-            return
+            return;
         }
-        this._delete_cells(indices)
+        this._delete_cells(indices);
     }
 
     Notebook.prototype.delete_selected_cell = function(indices) {
@@ -970,13 +970,13 @@ define(function (require) {
         if (indices === undefined) {
             indices = [this.get_selected_index()];
         }
-        this._delete_cells(indices)
+        this._delete_cells(indices);
     }
 
 
     Notebook.prototype._delete_cells = function(indices) {
         if(indices === undefined){
-            throw new Error('need indices to delete cells')
+            throw new Error('need indices to delete cells');
         }
 
         this.undelete_backup = [];
@@ -1420,16 +1420,15 @@ define(function (require) {
 
     Notebook.prototype.copy_selected_cell = function () {
         var cells = [this.get_selected_cell()];
-        return this._copy_cells(cells)
+        return this._copy_cells(cells);
     }
 
     Notebook.prototype.copy_marked_cell = function () {
         var cells = this.get_marked_cells();
         if(cells.length === 0){
-            console.info(':-(')
-            return
+            return;
         }
-        return this._copy_cells(cells)
+        return this._copy_cells(cells);
     }
 
 
@@ -1454,17 +1453,17 @@ define(function (require) {
     };
 
     Notebook.prototype.copy_marked_selected_cell = function (cells) {
-        var cells = this.get_marked_indices()
+        var cells = this.get_marked_indices();
         if (cells.length === 0) {
              cells = [this.get_selected_cell()];
         }
-        return this._copy_cells(cells)
+        return this._copy_cells(cells);
     }
 
 
 
     // TODO: deprecate
-    Notebook.prototype.copy_cell =  Notebook.prototype.copy_marked_selected_cell
+    Notebook.prototype.copy_cell =  Notebook.prototype.copy_marked_selected_cell;
 
 
     /**
