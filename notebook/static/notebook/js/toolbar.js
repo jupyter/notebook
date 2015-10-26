@@ -118,6 +118,7 @@ define([
             // END IIFE
         }
         $(this.selector).append(btn_group);
+        return btn_group;
     };
 
     ToolBar.prototype.style = function () {
