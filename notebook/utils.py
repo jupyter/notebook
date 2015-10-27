@@ -13,9 +13,10 @@ import sys
 from distutils.version import LooseVersion
 
 try:
-    from urllib.parse import quote, unquote
+    from urllib.parse import quote, unquote, urlparse
 except ImportError:
     from urllib import quote, unquote
+    from urlparse import urlparse
 
 from ipython_genutils import py3compat
 
@@ -38,6 +39,10 @@ def url_path_join(*pieces):
     if final: result = result + '/'
     if result == '//': result = '/'
     return result
+
+def url_is_absolute(url):
+    """Determine whether a given URL is absolute"""
+    return urlparse(url).path.startswith("/")
 
 def path2url(path):
     """Convert a local file path to a URL"""

@@ -658,9 +658,7 @@ class NotebookApp(JupyterApp):
     def _mathjax_url_default(self):
         if not self.enable_mathjax:
             return u''
-        static_url_prefix = self.tornado_settings.get("static_url_prefix",
-                         url_path_join(self.base_url, "static")
-        )
+        static_url_prefix = self.tornado_settings.get("static_url_prefix", "static")
         return url_path_join(static_url_prefix, 'components', 'MathJax', 'MathJax.js')
     
     def _mathjax_url_changed(self, name, old, new):
