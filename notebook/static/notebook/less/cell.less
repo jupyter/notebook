@@ -22,7 +22,6 @@ div.cell {
     }
 
     .command_mode .jp-marking &.selected {
-        border-color: @marked_border_color;
 
         /* Don't border the cells when printing */
         @media print {
@@ -32,7 +31,8 @@ div.cell {
         ._marked_style(3px);
 
         &.marked {
-          ._marked_style(4px);
+          border-color: @marked_border_color;
+          ._marked_style(3px);
         }
 
 
@@ -42,12 +42,6 @@ div.cell {
     .command_mode  &.selected {
 
         ._marked_style(3px);
-
-        &.marked {
-          ._marked_style(4px);
-        }
-
-
 
     }
 
@@ -63,7 +57,7 @@ div.cell {
     }
     
     &.marked {
-        ._marked_style(4px);
+        ._marked_style(3px);
     }
 
     width: 100%;
