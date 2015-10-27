@@ -274,7 +274,7 @@ define([
                     { shortcut:"↩", help:"Return" },
                     { shortcut:"␣", help:"Space" },
                     { shortcut:"⇥", help:"Tab" }];
-        return build_div('<span>MacOS modifier keys:</span>', key_names_mac, false);
+        return build_div('<span>Mac OS X modifier keys:</span>', key_names_mac, false);
     };
 
 
