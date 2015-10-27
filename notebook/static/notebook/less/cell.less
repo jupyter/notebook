@@ -14,6 +14,16 @@ div.cell {
         }
     }
 
+    .command_mode .jp-marking &.selected {
+        border-color: @marked_border_color;
+
+        /* Don't border the cells when printing */
+        @media print {
+            border-color: transparent;
+        }
+    }
+
+
     .edit_mode &.selected {
         border-color: green;
 
