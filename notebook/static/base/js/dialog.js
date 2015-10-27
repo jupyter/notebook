@@ -212,72 +212,106 @@ define(function(require) {
     };
 
     var edit_attachments = function (options) {
-        var message =
-            "Current cell attachments";
+        // This shows the Edit Attachments dialog. This dialog allows the
+        // user to delete attachments. We show a list of attachments to
+        // the user and he can mark some of them for deletion. The deletion
+        // is applied when the 'Apply' button of this dialog is pressed.
+        var message;
+        var attachments_list;
+        if (Object.keys(options.attachments).length == 0) {
+            message = "There are no attachments for this cell.";
+            attachments_list = $('<div>');
+        } else {
+            message = "Current cell attachments";
 
-        var attachments_list = $('<div>')
-            .addClass('list_container')
-            .append(
-                $('<div>')
-                .addClass('row list_header')
+            attachments_list = $('<div>')
+                .addClass('list_container')
                 .append(
                     $('<div>')
-                    .text('Attachments')
-                )
-            );
-
-        var refresh_attachments_list = function() {
-            $(attachments_list).find('.att_row').remove();
-            for (var key in options.attachments) {
-                var mime = Object.keys(options.attachments[key])[0];
-                var delete_btn = $('<button>')
-                    .addClass('delete-button btn btn-default btn-xs btn-danger')
-                    .attr('title', 'Delete')
-                    .css('display', 'inline-block')
-                    .append(
-                        $('<i>')
-                        .addClass('fa fa-trash')
-                    );
-                // This ensures the current value of key is captured since
-                // javascript only has function scope
-                (function(){
-                    var del_key = key;
-                    delete_btn.click(function() {
-                        // TODO(julienr): Add confirmation dialog
-                        delete options.attachments[del_key];
-                        refresh_attachments_list();
-                        return false;
-                    });
-                })();
-                var row = $('<div>')
-                    .addClass('col-md-12 att_row')
+                    .addClass('row list_header')
                     .append(
                         $('<div>')
-                        .addClass('row')
-                        .append(
-                            $('<div>')
-                            .addClass('col-xs-4')
-                            .text(key)
-                        )
-                        .append(
-                            $('<div>')
-                            .addClass('col-xs-4 text-muted')
-                            .text(mime)
-                        )
-                        .append(
-                            $('<div>')
-                            .addClass('item-buttons pull-right')
-                            .append(delete_btn)
-                        )
-                    );
-
-                attachments_list.append($('<div>')
-                    .addClass('list_item row')
-                    .append(row)
+                        .text('Attachments')
+                    )
                 );
-            }
-        };
-        refresh_attachments_list();
+
+            // This is a set containing keys of attachments to be deleted when
+            // the Apply button is clicked
+            var to_delete = {};
+
+            var refresh_attachments_list = function() {
+                $(attachments_list).find('.row').remove();
+                for (var key in options.attachments) {
+                    var mime = Object.keys(options.attachments[key])[0];
+                    var deleted = key in to_delete;
+
+                    // This ensures the current value of key is captured since
+                    // javascript only has function scope
+                    var btn;
+                    // Trash/restore button
+                    (function(){
+                        var _key = key;
+                        btn = $('<button>')
+                            .addClass('btn btn-default btn-xs')
+                            .css('display', 'inline-block');
+                        if (deleted) {
+                            btn.attr('title', 'Restore')
+                               .append(
+                                   $('<i>')
+                                   .addClass('fa fa-plus')
+                               );
+                            btn.click(function() {
+                                delete to_delete[_key];
+                                refresh_attachments_list();
+                            });
+                        } else {
+                            btn.attr('title', 'Delete')
+                               .addClass('btn-danger')
+                               .append(
+                                   $('<i>')
+                                   .addClass('fa fa-trash')
+                               );
+                            btn.click(function() {
+                                to_delete[_key] = true;
+                                refresh_attachments_list();
+                            });
+                        }
+                        return btn;
+                    })();
+                    var row = $('<div>')
+                        .addClass('col-md-12 att_row')
+                        .append(
+                            $('<div>')
+                            .addClass('row')
+                            .append(
+                                $('<div>')
+                                .addClass('att-name col-xs-4')
+                                .text(key)
+                            )
+                            .append(
+                                $('<div>')
+                                .addClass('col-xs-4 text-muted')
+                                .text(mime)
+                            )
+                            .append(
+                                $('<div>')
+                                .addClass('item-buttons pull-right')
+                                .append(btn)
+                            )
+                        );
+                    if (deleted) {
+                        row.find('.att-name')
+                           .css('text-decoration', 'line-through');
+                    }
+
+                    attachments_list.append($('<div>')
+                        .addClass('list_item row')
+                        .append(row)
+                    );
+                }
+            };
+            refresh_attachments_list();
+        }
 
         var dialogform = $('<div/>')
             .attr('title', 'Edit attachments')
@@ -288,8 +322,11 @@ define(function(require) {
             title: "Edit " + options.name + " Attachments",
             body: dialogform,
             buttons: {
-                OK: { class : "btn-primary",
+                Apply: { class : "btn-primary",
                     click: function() {
+                        for (var key in to_delete) {
+                            delete options.attachments[key];
+                        }
                         options.callback(options.attachments);
                     }
                 },
