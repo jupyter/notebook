@@ -331,47 +331,6 @@ define([
         reader.readAsDataURL(blob);
     };
 
-    /** @method bind_events **/
-    MarkdownCell.prototype.bind_events = function () {
-        TextCell.prototype.bind_events.apply(this);
-        var that = this;
-
-        var attachment_regex = /^image\/.*$/;
-
-        // Event handlers to allow users to insert image using either
-        // drag'n'drop or copy/paste
-        var div = that.code_mirror.getWrapperElement();
-        $(div).on('paste', function(evt) {
-            var data = evt.originalEvent.clipboardData;
-            var items = data.items;
-            for (var i = 0; i < items.length; ++i) {
-                var item = items[i];
-                if (item.kind == 'file' && attachment_regex.test(item.type)) {
-                    // TODO(julienr): This does not stop code_mirror from pasting
-                    // the filename.
-                    evt.stopPropagation();
-                    evt.preventDefault();
-                    that.insert_inline_image_from_blob(item.getAsFile());
-                }
-            }
-        });
-
-        this.code_mirror.on("drop", function(cm, evt) {
-            var files = evt.dataTransfer.files;
-            for (var i = 0; i < files.length; ++i) {
-                var file = files[i];
-                if (attachment_regex.test(file.type)) {
-                    // Prevent the default code_mirror 'drop' event handler
-                    // (which inserts the file content) if this is a
-                    // recognized media file
-                    evt.stopPropagation();
-                    evt.preventDefault();
-                    that.insert_inline_image_from_blob(file);
-                }
-            }
-        });
-    };
-
     /**
      * @method render
      */
@@ -438,7 +397,55 @@ define([
                 that.focus_editor();
             }
         });
+
+        var attachment_regex = /^image\/.*$/;
+
+        // Event handlers to allow users to insert image using either
+        // drag'n'drop or copy/paste
+        var div = that.code_mirror.getWrapperElement();
+        $(div).on('paste', function(evt) {
+            var data = evt.originalEvent.clipboardData;
+            var items = data.items;
+            for (var i = 0; i < items.length; ++i) {
+                var item = items[i];
+                if (item.kind == 'file' && attachment_regex.test(item.type)) {
+                    // TODO(julienr): This does not stop code_mirror from pasting
+                    // the filename.
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                    that.insert_inline_image_from_blob(item.getAsFile());
+                }
+            }
+        });
+
+        // Allow drop event if the dragged file can be used as an attachment
+        this.code_mirror.on("dragstart", function(cm, evt) {
+            var files = evt.dataTransfer.files;
+            for (var i = 0; i < files.length; ++i) {
+                var file = files[i];
+                if (attachment_regex.test(file.type)) {
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        this.code_mirror.on("drop", function(cm, evt) {
+            var files = evt.dataTransfer.files;
+            for (var i = 0; i < files.length; ++i) {
+                var file = files[i];
+                if (attachment_regex.test(file.type)) {
+                    // Prevent the default code_mirror 'drop' event handler
+                    // (which inserts the file content) if this is a
+                    // recognized media file
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                    that.insert_inline_image_from_blob(file);
+                }
+            }
+        });
     };
+
 
     var RawCell = function (options) {
         /**
