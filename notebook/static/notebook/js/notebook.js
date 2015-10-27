@@ -186,6 +186,11 @@ define(function (require) {
     Notebook.prototype.bind_events = function () {
         var that = this;
 
+        this.events.on('cell:marking-changed', function(){
+            console.log('trigger');
+            that.update_marked_status();
+        });
+
         this.events.on('set_next_input.Notebook', function (event, data) {
             if (data.replace) {
                 data.cell.set_text(data.text);
@@ -621,6 +626,7 @@ define(function (require) {
     Notebook.prototype.toggle_cells_marked = function(cells) {
         cells = cells || this.get_cells();
         cells.forEach(function(cell) { cell.marked = !cell.marked; });
+        this.update_marked_status();
     };
     
     /**
@@ -630,6 +636,7 @@ define(function (require) {
     Notebook.prototype.mark_all_cells = function(cells) {
         cells = cells || this.get_cells();
         cells.forEach(function(cell) { cell.marked = true; });
+        this.update_marked_status();
     };
     
     /**
@@ -638,6 +645,7 @@ define(function (require) {
      */
     Notebook.prototype.unmark_all_cells = function(cells) {
         this.get_marked_cells(cells).forEach(function(cell) { cell.marked = false; });
+        this.update_marked_status();
     };
     
     /**
@@ -728,9 +736,18 @@ define(function (require) {
         var selectedIndex = Math.min(Math.max(this.get_selected_index() + offset, 0), this.ncells()-1);
         this.select(selectedIndex);
         this.get_selected_cell().marked = true;
-
         this.ensure_focused();
+        this.update_marked_status()
     };
+
+    Notebook.prototype.update_marked_status = function(){
+        var indicies = this.get_marked_indices();
+        if ( indicies.length === 0){
+            this.element.removeClass('jp-marking');
+        } else {
+            this.element.addClass('jp-marking');
+        }
+    }
 
     // Cell selection.
 
@@ -1020,6 +1037,7 @@ define(function (require) {
         this.set_dirty(true);
 
         return this;
+        this.update_marked_status();
     };
 
     /**
@@ -1063,6 +1081,7 @@ define(function (require) {
             this.undelete_index = null;
         }
         $('#undelete_cell').addClass('disabled');
+        this.update_marked_status();
     };
 
     /**
@@ -1486,6 +1505,7 @@ define(function (require) {
             new_cell.set_text(texta);
             new_cell.marked = cell.marked;
         }
+        this.update_marked_status();
     };
 
     /**
