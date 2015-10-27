@@ -95,6 +95,9 @@ define([
                 var action;
                 if(typeof(el) === 'string'){
                     action = that.actions.get(el);
+                    if(action === undefined){
+                        throw new Error('Action linked to ' + el + '  does not exists');
+                    }
                     action_name = el;
 
                 }

@@ -193,20 +193,35 @@ define(function(require){
                 env.notebook.extend_marked(1);
             }
         },
-        'cut-cell' : {
+        'cut-selected-cell' : {
             icon: 'fa-cut',
             help_index : 'ee',
             handler : function (env) {
                 var index = env.notebook.get_selected_index();
-                env.notebook.cut_cell();
+                env.notebook.cut_selected_cell();
                 env.notebook.select(index);
             }
         },
-        'copy-cell' : {
+        'cut-marked-cells' : {
+            help_index : 'ee',
+            handler : function (env) {
+                env.notebook.cut_marked_cells();
+            }
+        },
+
+        'copy-selected-cell' : {
+            help: 'copy selected cells to clipboard',
             icon: 'fa-copy',
             help_index : 'ef',
             handler : function (env) {
-                env.notebook.copy_cell();
+                env.notebook.copy_selected_cell();
+            }
+        },
+        'copy-marked-cells' : {
+            help: 'copy marked cells to clipboard',
+            help_index : 'ef',
+            handler : function (env) {
+                env.notebook.copy_marked_cells();
             }
         },
         'paste-cell-above' : {
@@ -352,11 +367,18 @@ define(function(require){
                 env.quick_help.show_keyboard_shortcuts();
             }
         },
-        'delete-cell': {
+        'delete-selected-cell': {
             help: 'delete selected cell',
             help_index : 'ej',
             handler : function (env) {
-                env.notebook.delete_cell();
+                env.notebook.delete_selected_cell();
+            }
+        },
+        'delete-marked-cells': {
+            help: 'delete selected cell',
+            help_index : 'ej',
+            handler : function (env) {
+                env.notebook.delete_marked_cells();
             }
         },
         'undo-cell-deletion' : {
