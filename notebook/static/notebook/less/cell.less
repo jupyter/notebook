@@ -1,3 +1,10 @@
+._marked_style(@n) {
+
+    border-left-color: @marked_border_color;
+    border-left-width: @n;
+    padding-left: 6px-@n;
+}
+
 div.cell {
     border: 1px solid transparent;
     .vbox();
@@ -21,6 +28,15 @@ div.cell {
         @media print {
             border-color: transparent;
         }
+
+        ._marked_style(3px);
+
+        &.marked {
+          ._marked_style(4px);
+        }
+
+
+
     }
 
 
@@ -34,9 +50,7 @@ div.cell {
     }
     
     &.marked {
-        border-left-color: @marked_border_color;
-        border-left-width: 3px;
-        padding-left: 3px;
+        ._marked_style(4px);
     }
 
     width: 100%;
