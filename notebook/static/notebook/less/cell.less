@@ -1,3 +1,10 @@
+._marked_style(@n) {
+
+    border-left-color: @marked_border_color;
+    border-left-width: @n;
+    padding-left: 6px-@n;
+}
+
 div.cell {
     border: 1px solid transparent;
     .vbox();
@@ -7,12 +14,38 @@ div.cell {
     border-style: solid;
 
     &.selected {
-        border-color: @border_color;
+        border-color: transparent;
         /* Don't border the cells when printing */
         @media print {
             border-color: transparent;
         }
     }
+
+    .command_mode .jp-marking &.selected {
+
+        /* Don't border the cells when printing */
+        @media print {
+            border-color: transparent;
+        }
+
+        ._marked_style(2px);
+
+        &.marked {
+          border-left-color: @marked_border_color;
+          ._marked_style(4px);
+        }
+
+
+
+    }
+
+    .command_mode  &.selected {
+
+        ._marked_style(2px);
+
+    }
+
+
 
     .edit_mode &.selected {
         border-color: green;
@@ -24,9 +57,7 @@ div.cell {
     }
     
     &.marked {
-        border-left-color: @marked_border_color;
-        border-left-width: 3px;
-        padding-left: 3px;
+        ._marked_style(3px);
     }
 
     width: 100%;
