@@ -1,6 +1,4 @@
 ._marked_style(@n) {
-
-    border-left-color: @marked_border_color;
     border-left-width: @n;
     padding-left: 6px-@n;
 }
@@ -13,57 +11,38 @@ div.cell {
     border-width: thin;
     border-style: solid;
 
+    &.marked {
+        ._marked_style(3px);
+        border-left-color: @marked_border_color_light;
+
+        /* Don't border the cells when printing */
+        @media print {
+            border-color: transparent;
+        }
+    }
+
     &.selected {
         border-color: @border_color;
-        /* Don't border the cells when printing */
-        @media print {
-            border-color: transparent;
-        }
-    }
-
-    .command_mode .jp-marking &.selected {
-        border-color: @marked_border_color;
-
-        /* Don't border the cells when printing */
-        @media print {
-            border-color: transparent;
-        }
-
-        ._marked_style(3px);
+        border-left-color: @marked_border_color;
+        ._marked_style(2px);
 
         &.marked {
           ._marked_style(4px);
         }
 
-
-
-    }
-
-    .command_mode  &.selected {
-
-        ._marked_style(3px);
-
-        &.marked {
-          ._marked_style(4px);
+        /* Don't border the cells when printing */
+        @media print {
+            border-color: transparent;
         }
-
-
-
     }
-
-
 
     .edit_mode &.selected {
-        border-color: green;
+        border-color: @edit_mode_border_color;
 
         /* Don't border the cells when printing */
         @media print {
             border-color: transparent;
         }
-    }
-    
-    &.marked {
-        ._marked_style(4px);
     }
 
     width: 100%;
