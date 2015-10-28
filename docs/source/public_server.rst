@@ -92,7 +92,7 @@ You can start the notebook to communicate via a secure protocol mode by setting
 the ``certfile`` option to your self-signed certificate, i.e. ``mycert.pem``,
 with the command::
 
-    $ jupyter notebook --certfile=mycert.pem
+    $ jupyter notebook --certfile=mycert.pem --keyfile mycert.key
 
 .. tip::
 
