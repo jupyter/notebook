@@ -719,16 +719,13 @@ define(function (require) {
      * @param {number} offset
      */
     Notebook.prototype.extend_marked = function(offset) {
-                
         // Mark currently selected cell
         this.get_selected_cell().marked = true;
-        
+
         // Select the cell in the offset direction.  Bound index between 0 and
         // the number of cells -1.
         var selectedIndex = Math.min(Math.max(this.get_selected_index() + offset, 0), this.ncells()-1);
         this.select(selectedIndex);
-        this.get_selected_cell().marked = true;
-
         this.ensure_focused();
     };
 
