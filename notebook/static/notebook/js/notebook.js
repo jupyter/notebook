@@ -1027,6 +1027,13 @@ define(function (require) {
             this.select(cursor_ix_after);
         }
 
+        // Check if the cells were after the cursor
+        for (var i=0; i < indices.length; i++) {
+            if (indices[i] > cursor_ix_before) {
+                this.undelete_below = true;
+            }
+        }
+
         // This will put all the deleted cells back in one location, rather than
         // where they came from. It will do until we have proper undo support.
         this.undelete_index = cursor_ix_after;
