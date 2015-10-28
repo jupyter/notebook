@@ -22,7 +22,7 @@ casper.notebook_test(function () {
         }
 
         that.validate_notebook_state(action, 'command', index);
-        assert_marked_cells(action, []);
+        assert_marked_cells(action, [index]);
     };
 
     var a = 'print("a")';
@@ -85,4 +85,34 @@ casper.notebook_test(function () {
         IPython.notebook.undelete_cell();
     });
     assert_cells("undo merge", [a, bc, cd, d], 2);
+
+    // Merge below
+    var abc = a + "\n\n" + bc;
+    this.select_cell(0);
+    this.trigger_keydown('esc');
+    this.evaluate(function () {
+        IPython.notebook.merge_cell_below();
+    });
+    assert_cells("merge cell below", [abc, cd, d], 0);
+
+    // Undo merge
+    this.evaluate(function () {
+        IPython.notebook.undelete_cell();
+    });
+    assert_cells("undo merge", [abc, bc, cd, d], 0);
+
+    // Merge above
+    var bccd = bc + "\n\n" + cd;
+    this.select_cell(2);
+    this.trigger_keydown('esc');
+    this.evaluate(function () {
+        IPython.notebook.merge_cell_above();
+    });
+    assert_cells("merge cell above", [abc, bccd, d], 1);
+
+    // Undo merge
+    this.evaluate(function () {
+        IPython.notebook.undelete_cell();
+    });
+    assert_cells("undo merge", [abc, bc, bccd, d], 2);
 });
