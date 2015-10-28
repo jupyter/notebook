@@ -1534,6 +1534,7 @@ define(function (require) {
         this.delete_cells(indices);
 
         this.select(this.find_cell_index(target));
+        this.unmark_all_cells();
     };
 
     /**
