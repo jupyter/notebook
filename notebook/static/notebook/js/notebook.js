@@ -656,7 +656,7 @@ define(function (require) {
      */
     Notebook.prototype.get_marked_cells = function(cells) {
         cells = cells || this.get_cells();
-        return cells.filter(function(cell) { return cell.marked; });
+        return cells.filter(function(cell) { return (cell.marked || cell.selected); });
     };
     
     /**
@@ -959,10 +959,6 @@ define(function (require) {
     Notebook.prototype.delete_cells = function(indices) {
         if (indices === undefined) {
             indices = this.get_marked_indices();
-            
-            if (indices.length === 0) {
-                indices = [this.get_selected_index()];
-            }
         }
 
         this.undelete_backup = [];
