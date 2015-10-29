@@ -13,10 +13,19 @@ casper.notebook_test(function () {
     index = this.append_cell(c);
 
     this.then(function () {
+        var selectedIndex = this.evaluate(function () {
+            Jupyter.notebook.select(0);
+            return Jupyter.notebook.get_selected_index();
+        });
+
         this.test.assertEquals(this.evaluate(function() { 
             return Jupyter.notebook.get_marked_cells().length; 
-        }), 0, 'no cells are marked programmatically');
-        
+        }), 1, 'only one cell is marked programmatically');
+
+        this.test.assertEquals(this.evaluate(function() {
+            return Jupyter.notebook.get_marked_indices()[0];
+        }), selectedIndex, 'marked cell is selected cell');
+
         this.test.assertEquals(this.evaluate(function() { 
             return $('.cell.marked').length; 
         }), 0, 'no cells are marked visibily');
@@ -43,14 +52,22 @@ casper.notebook_test(function () {
         
         this.test.assertEquals(this.evaluate(function() { 
             return Jupyter.notebook.get_marked_cells().length; 
-        }), 0, 'unmark_all');
-        
+        }), 1, 'unmark_all');
+
+        this.test.assertEquals(this.evaluate(function() {
+            return Jupyter.notebook.get_marked_indices()[0];
+        }), selectedIndex, 'marked cell is selected cell');
+
         this.evaluate(function() {
             Jupyter.notebook.set_marked_indices([1]);
         });
-        
-        this.test.assertEquals(this.evaluate(function() { 
-            return Jupyter.notebook.get_marked_indices()[0];
-        }), 1, 'get/set_marked_indices');
+
+        this.test.assertEquals(this.evaluate(function() {
+            return Jupyter.notebook.get_marked_cells().length;
+        }), 2, 'two cells are marked');
+
+        this.test.assertEquals(this.evaluate(function() {
+            return Jupyter.notebook.get_marked_indices();
+        }), [selectedIndex, 1], 'get/set_marked_indices');
     });
 });

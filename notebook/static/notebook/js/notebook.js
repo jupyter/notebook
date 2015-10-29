@@ -664,7 +664,7 @@ define(function (require) {
      */
     Notebook.prototype.get_marked_cells = function(cells) {
         cells = cells || this.get_cells();
-        return cells.filter(function(cell) { return cell.marked; });
+        return cells.filter(function(cell) { return (cell.marked || cell.selected); });
     };
     
     /**
@@ -727,16 +727,13 @@ define(function (require) {
      * @param {number} offset
      */
     Notebook.prototype.extend_marked = function(offset) {
-                
         // Mark currently selected cell
         this.get_selected_cell().marked = true;
-        
+
         // Select the cell in the offset direction.  Bound index between 0 and
         // the number of cells -1.
         var selectedIndex = Math.min(Math.max(this.get_selected_index() + offset, 0), this.ncells()-1);
         this.select(selectedIndex);
-        this.get_selected_cell().marked = true;
-
         this.ensure_focused();
     };
 
@@ -981,10 +978,6 @@ define(function (require) {
     Notebook.prototype.delete_cells = function(indices) {
         if (indices === undefined) {
             indices = this.get_marked_indices();
-            
-            if (indices.length === 0) {
-                indices = [this.get_selected_index()];
-            }
         }
 
         this.undelete_backup = [];
@@ -1563,6 +1556,7 @@ define(function (require) {
         this.delete_cells(indices);
 
         this.select(this.find_cell_index(target));
+        this.unmark_all_cells();
     };
 
     /**
