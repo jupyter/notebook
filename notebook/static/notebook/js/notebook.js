@@ -1987,9 +1987,6 @@ define(function (require) {
             return;
         }
 
-        this.command_mode();
-        this.set_dirty(true);
-
         var cell;
         for (var i = 0; i < indices.length; i++) {
             cell = this.get_cell(indices[i]);
@@ -1997,6 +1994,8 @@ define(function (require) {
         }
 
         this.select(indices[indices.length - 1]);
+        this.command_mode();
+        this.set_dirty(true);
     };
 
     /**
@@ -2112,6 +2111,7 @@ define(function (require) {
      * @param {integer} end - index of the last cell to execute (exclusive)
      */
     Notebook.prototype.execute_cell_range = function (start, end) {
+        this.command_mode();
         var indices = [];
         for (var i=start; i<end; i++) {
             indices.push(i);
