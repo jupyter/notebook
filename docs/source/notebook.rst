@@ -272,13 +272,12 @@ nbconvert.
 Heading cells
 ~~~~~~~~~~~~~
 
-You can provide a conceptual structure for your computational document as a
-whole using different levels of headings; there are 6 levels available, from
-level 1 (top level) down to level 6 (paragraph). These can be used later for
-constructing tables of contents, etc.  As with Markdown cells, a heading
-cell is replaced by a rich text rendering of the heading when the cell is
-executed.
-
+If you want to provide structure for your document, you can use markdown
+heading.  Markdown headings consists of 1 to 6 hash sign ``#`` followed by a
+space and the title of your section. Markdown heading will be converted to
+click able link for each section you can refer to, and will be use as hint for
+the export to other document format like PDF. We recommend using only 1 header
+without further text in markdown cells.
 
 Basic workflow
 --------------
@@ -404,11 +403,11 @@ You can generate a new notebook signing key with::
 Browser Compatibility
 ---------------------
 
-The Jupyter Notebook is officially supported on the following browsers:
+The Jupyter Notebook is officially supported the latest stable version the following browsers:
 
-* Chrome ≥ 13
-* Safari ≥ 5
-* Firefox ≥ 6
+* Chrome
+* Safari
+* Firefox
 
 The is mainly due to the notebook's usage of WebSockets and the flexible box model.
 
