@@ -2006,6 +2006,17 @@ define(function (require) {
     };
 
     /**
+     * Alias for execute_marked_cells, for backwards compatibility --
+     * previously, doing "Run Cell" would only ever run a single cell (hence
+     * `execute_cell`), but now it runs all marked cells, so that's the
+     * preferable function to use. But it is good to keep this function to avoid
+     * breaking existing extensions, etc.
+     */
+    Notebook.prototype.execute_cell = function () {
+        this.execute_marked_cells();
+    };
+
+    /**
      * Execute or render cell outputs and insert a new cell below.
      */
     Notebook.prototype.execute_cell_and_insert_below = function () {
