@@ -1992,10 +1992,11 @@ define(function (require) {
 
         var cell;
         for (var i = 0; i < indices.length; i++) {
-            this.select(indices[i]);
             cell = this.get_cell(indices[i]);
             cell.execute();
         }
+
+        this.select(indices[indices.length - 1]);
     };
 
     /**
