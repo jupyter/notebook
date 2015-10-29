@@ -551,6 +551,12 @@ define(function(require){
                 env.notebook.copy_notebook();
             }
         },
+        'trust-notebook':{
+            help: "Trust the current notebook",
+            handler : function (env, event) {
+                env.notebook.trust_notebook();
+            }
+        },
         'rename-notebook':{
             help: "Rename current notebook",
             handler : function (env, event) {
