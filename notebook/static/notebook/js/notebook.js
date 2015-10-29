@@ -728,6 +728,8 @@ define(function (require) {
         var selectedIndex = Math.min(Math.max(this.get_selected_index() + offset, 0), this.ncells()-1);
         this.select(selectedIndex);
         this.get_selected_cell().marked = true;
+
+        this.ensure_focused();
     };
 
     // Cell selection.
