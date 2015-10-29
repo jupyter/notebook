@@ -186,7 +186,7 @@ define(function (require) {
     Notebook.prototype.bind_events = function () {
         var that = this;
 
-        this.events.on('cell:marking-changed', function(){
+        this.events.on('marked_changed.Cell', function(){
             that.update_marked_status();
         });
 
