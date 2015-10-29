@@ -2001,7 +2001,7 @@ define(function (require) {
     /**
      * Execute or render cell outputs and go into command mode.
      */
-    Notebook.prototype.execute_cell = function () {
+    Notebook.prototype.execute_marked_cells = function () {
         this.execute_cells(this.get_marked_indices());
     };
 
