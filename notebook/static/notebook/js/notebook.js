@@ -1908,7 +1908,7 @@ define(function (require) {
             ),
             buttons : {
                 "Restart" : {
-                    "class" : "btn-warning",
+                    "class" : "btn-danger",
                     "click" : function () {},
                 },
             }
