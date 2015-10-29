@@ -299,7 +299,6 @@ define([
                     this.element.removeClass('marked');
                 }
             }
-            this.events.trigger('marked_changed.Cell', {cell:this, value:value});
         }
     });
 
