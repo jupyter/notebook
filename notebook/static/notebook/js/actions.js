@@ -563,6 +563,25 @@ define(function(require){
                 env.notebook.save_widget.rename_notebook({notebook: env.notebook});
             }
         },
+        'toggle-all-cells-output-visibility':{
+            help: "Toggle the hiddens state of all output areas",
+            handler : function (env, event) {
+                env.notebook.toggle_all_output();
+            }
+        },
+        'toggle-all-cells-output-scrolling':{
+            help: "Toggle the scrolling state of all output areas",
+            handler : function (env, event) {
+                env.notebook.toggle_all_output_scroll();
+            }
+        },
+
+        'clear-all-cells-output':{
+            help: "Clear the content of all the outputs",
+            handler : function (env, event) {
+                env.notebook.clear_all_output();
+            }
+        },
         'save-notebook':{
             help: "Save and Checkpoint",
             help_index : 'fb',
