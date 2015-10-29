@@ -273,11 +273,13 @@ Heading cells
 ~~~~~~~~~~~~~
 
 If you want to provide structure for your document, you can use markdown
-heading.  Markdown headings consists of 1 to 6 hash sign ``#`` followed by a
-space and the title of your section. Markdown heading will be converted to
-click able link for each section you can refer to, and will be use as hint for
-the export to other document format like PDF. We recommend using only 1 header
-without further text in markdown cells.
+headings. Markdown headings consist of 1 to 6 hash # signs ``#`` followed by a
+space and the title of your section. The markdown heading will be converted
+to a clickable link for a section of the notebook. It is also used as a hint
+when exporting to other document formats, like PDF.
+We recommend using only one markdown header in a cell and limit the cell's
+content to the header text. For flexibility of text format conversion, we
+suggest placing additional text in the next notebook cell.
 
 Basic workflow
 --------------
