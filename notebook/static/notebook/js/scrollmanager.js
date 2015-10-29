@@ -73,6 +73,12 @@ define(['jquery'], function($){
         return Math.min(i + 1, cell_count - 1);
     };
 
+    ScrollManager.prototype.is_cell_visible = function (cell) {
+        var cell_rect = cell.element[0].getBoundingClientRect();
+        var scroll_rect = this.element[0].getBoundingClientRect();
+        return ((cell_rect.top <= scroll_rect.bottom) && (cell_rect.bottom >= scroll_rect.top));
+    };
+
 
     var TargetScrollManager = function(notebook, options) {
         /**
