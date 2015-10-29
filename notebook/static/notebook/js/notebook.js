@@ -187,7 +187,6 @@ define(function (require) {
         var that = this;
 
         this.events.on('cell:marking-changed', function(){
-            console.log('trigger');
             that.update_marked_status();
         });
 
@@ -741,12 +740,7 @@ define(function (require) {
     };
 
     Notebook.prototype.update_marked_status = function(){
-        var indicies = this.get_marked_indices();
-        if ( indicies.length === 0){
-            this.element.removeClass('jp-marking');
-        } else {
-            this.element.addClass('jp-marking');
-        }
+        // doesn't do anything for now.
     }
 
     // Cell selection.
