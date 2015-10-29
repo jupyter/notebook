@@ -216,6 +216,15 @@ casper.wait_for_widget = function (widget_info) {
     });
 };
 
+casper.cell_has_outputs = function (cell_num) {
+    var result = casper.evaluate(function (c) {
+        var cell = IPython.notebook.get_cell(c);
+        return cell.output_area.outputs.length;
+    },
+    {c : cell_num});
+    return result > 0;
+};
+
 casper.get_output_cell = function (cell_num, out_num) {
     // return an output of a given cell
     out_num = out_num || 0;

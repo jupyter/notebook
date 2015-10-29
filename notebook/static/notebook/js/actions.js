@@ -107,10 +107,10 @@ define(function(require){
             }
         },
         'run-cell':{
-            help    : 'run cell',
+            help    : 'run marked cells',
             help_index : 'bb',
             handler : function (env) {
-                env.notebook.execute_cell();
+                env.notebook.execute_marked_cells();
             }
         },
         'run-cell-and-insert-below':{

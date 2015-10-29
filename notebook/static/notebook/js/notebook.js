@@ -1976,26 +1976,59 @@ define(function (require) {
         dialog.modal(options.dialog);
         return promise;
     };
-    
+
+    /**
+     * Execute cells corresponding to the given indices.
+     *
+     * @param {list} indices - indices of the cells to execute
+     */
+    Notebook.prototype.execute_cells = function (indices) {
+        if (indices.length === 0) {
+            return;
+        }
+
+        var cell;
+        for (var i = 0; i < indices.length; i++) {
+            cell = this.get_cell(indices[i]);
+            cell.execute();
+        }
+
+        this.select(indices[indices.length - 1]);
+        this.command_mode();
+        this.set_dirty(true);
+    };
+
     /**
      * Execute or render cell outputs and go into command mode.
      */
+    Notebook.prototype.execute_marked_cells = function () {
+        this.execute_cells(this.get_marked_indices());
+    };
+
+    /**
+     * Alias for execute_marked_cells, for backwards compatibility --
+     * previously, doing "Run Cell" would only ever run a single cell (hence
+     * `execute_cell`), but now it runs all marked cells, so that's the
+     * preferable function to use. But it is good to keep this function to avoid
+     * breaking existing extensions, etc.
+     */
     Notebook.prototype.execute_cell = function () {
-        // mode = shift, ctrl, alt
-        var cell = this.get_selected_cell();
-        
-        cell.execute();
-        this.command_mode();
-        this.set_dirty(true);
+        this.execute_marked_cells();
     };
 
     /**
      * Execute or render cell outputs and insert a new cell below.
      */
     Notebook.prototype.execute_cell_and_insert_below = function () {
+        // execute the marked cells, and don't insert anything
+        var indices = this.get_marked_indices();
+        if (indices.length > 1) {
+            this.execute_cells(indices);
+            return;
+        }
+
         var cell = this.get_selected_cell();
         var cell_index = this.find_cell_index(cell);
-        
         cell.execute();
 
         // If we are at the end always insert a new cell and return
@@ -2020,10 +2053,15 @@ define(function (require) {
      * Execute or render cell outputs and select the next cell.
      */
     Notebook.prototype.execute_cell_and_select_below = function () {
+        // execute the marked cells, and don't select anything
+        var indices = this.get_marked_indices();
+        if (indices.length > 1) {
+            this.execute_cells(indices);
+            return;
+        }
 
         var cell = this.get_selected_cell();
         var cell_index = this.find_cell_index(cell);
-        
         cell.execute();
 
         // If we are at the end always insert a new cell and return
@@ -2074,10 +2112,11 @@ define(function (require) {
      */
     Notebook.prototype.execute_cell_range = function (start, end) {
         this.command_mode();
+        var indices = [];
         for (var i=start; i<end; i++) {
-            this.select(i);
-            this.execute_cell();
+            indices.push(i);
         }
+        this.execute_cells(indices);
     };
 
     // Persistance and loading
