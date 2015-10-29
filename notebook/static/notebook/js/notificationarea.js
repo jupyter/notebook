@@ -352,7 +352,7 @@ define([
             if (num === 0) {
                 mcnw.hide();
             } else {
-                mcnw.set_message(num + " marked cells offscreen");
+                mcnw.info(num + " marked cells offscreen");
             }
         });
     };
