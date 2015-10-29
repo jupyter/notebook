@@ -1,14 +1,16 @@
+@_cell_padding_minus_border: @cell_padding - @cell_border_width;
+
 ._marked_style(@n) {
     border-left-width: @n;
-    padding-left: 6px-@n;
+    padding-left: @cell_padding - @n;
 }
 
 div.cell {
-    border: 1px solid transparent;
+    border: @cell_border_width solid transparent;
     .vbox();
     .corner-all();
     .border-box-sizing();
-    border-width: thin;
+    border-width: @cell_border_width;
     border-style: solid;
 
     &.marked {
@@ -46,7 +48,7 @@ div.cell {
     }
 
     width: 100%;
-    padding: 5px;
+    padding: @_cell_padding_minus_border;
     /* This acts as a spacer between cells, that is outside the border */
     margin: 0px;
     outline: none;
@@ -103,15 +105,15 @@ div.prompt:empty {
 
 div.unrecognized_cell {
     // from text_cell
-    padding: 5px 5px 5px 0px;
+    padding: 5px @_cell_padding_minus_border 5px 0px;
     .hbox();
     
     .inner_cell {
         .border-radius(@border-radius-base);
-        padding: 5px;
+        padding: @_cell_padding_minus_border;
         font-weight: bold;
         color: red;
-        border: 1px solid @light_border_color;
+        border: @cell_border_width solid @light_border_color;
         background: darken(@cell_background, 5%);
         // remove decoration from link
         a {
