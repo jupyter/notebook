@@ -186,6 +186,10 @@ define(function (require) {
     Notebook.prototype.bind_events = function () {
         var that = this;
 
+        this.events.on('marked_changed.Cell', function() {
+            that.update_marked_status();
+        });
+
         this.events.on('set_next_input.Notebook', function (event, data) {
             if (data.replace) {
                 data.cell.set_text(data.text);
@@ -291,6 +295,10 @@ define(function (require) {
         this.element.bind('expand_pager', function (event, extrap) {
             var time = (extrap !== undefined) ? ((extrap.duration !== undefined ) ? extrap.duration : 'fast') : 'fast';
             expand_time(time);
+        });
+
+        this.scroll_manager.element.scroll(function () {
+            that.update_marked_status();
         });
 
         // Firefox 22 broke $(window).on("beforeunload")
@@ -732,6 +740,19 @@ define(function (require) {
         this.ensure_focused();
     };
 
+    Notebook.prototype.update_marked_status = function() {
+        var marked_cells = this.get_marked_cells();
+        var num_offscreen = 0;
+        var i;
+        for (i = 0; i < marked_cells.length; i++) {
+            if (!this.scroll_manager.is_cell_visible(marked_cells[i])) {
+                num_offscreen += 1;
+            }
+        }
+
+        this.events.trigger('marked_offscreen.Cell', num_offscreen);
+    };
+
     // Cell selection.
 
     /**
@@ -753,6 +774,7 @@ define(function (require) {
             }
             var cell = this.get_cell(index);
             cell.select();
+            this.update_marked_status();
             if (cell.cell_type === 'heading') {
                 this.events.trigger('selected_cell_type_changed.Notebook',
                     {'cell_type':cell.cell_type,level:cell.level}
