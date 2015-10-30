@@ -406,14 +406,16 @@ define([
         $(div).on('paste', function(evt) {
             var data = evt.originalEvent.clipboardData;
             var items = data.items;
-            for (var i = 0; i < items.length; ++i) {
-                var item = items[i];
-                if (item.kind == 'file' && attachment_regex.test(item.type)) {
-                    // TODO(julienr): This does not stop code_mirror from pasting
-                    // the filename.
-                    evt.stopPropagation();
-                    evt.preventDefault();
-                    that.insert_inline_image_from_blob(item.getAsFile());
+            if (data.items !== undefined) {
+                for (var i = 0; i < items.length; ++i) {
+                    var item = items[i];
+                    if (item.kind == 'file' && attachment_regex.test(item.type)) {
+                        // TODO(julienr): This does not stop code_mirror from pasting
+                        // the filename.
+                        evt.stopPropagation();
+                        evt.preventDefault();
+                        that.insert_inline_image_from_blob(item.getAsFile());
+                    }
                 }
             }
         });
