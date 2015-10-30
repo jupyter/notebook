@@ -128,6 +128,7 @@ define(function (require) {
         this.clipboard = null;
         this.undelete_backup_stack = [];
         this.paste_enabled = false;
+        this.paste_attachments_enabled = false;
         this.writable = false;
         // It is important to start out in command mode to match the intial mode
         // of the KeyboardManager.
@@ -1673,7 +1674,7 @@ define(function (require) {
         this.merge_cells([index, index+1], false);
     };
 
-    // Image insertion
+    // Attachments handling
 
     /**
      * Shows a dialog letting the user pick an image from her computer and
@@ -1701,6 +1702,66 @@ define(function (require) {
             notebook: this,
             keyboard_manager: this.keyboard_manager
         });
+    };
+
+    /**
+     * Cut the attachments of a cell
+     */
+    Notebook.prototype.cut_cell_attachments = function() {
+        var cell = this.get_selected_cell();
+        this.clipboard_attachments = cell.attachments;
+        this.enable_attachments_paste();
+        cell.attachments = {};
+        cell.unrender();
+        cell.render();
+    };
+
+    /**
+     * Copy the attachments of a cell
+     */
+    Notebook.prototype.copy_cell_attachments = function() {
+        var cell = this.get_selected_cell();
+        // Do a deep copy of attachments to avoid subsequent modification
+        // to the cell to modify the clipboard
+        this.clipboard_attachments = $.extend(true, {}, cell.attachments);
+        this.enable_attachments_paste();
+        cell.unrender();
+        cell.render();
+    };
+
+    /**
+     * Paste the attachments in the clipboard into the currently selected
+     * cell
+     */
+    Notebook.prototype.paste_cell_attachments = function() {
+        if (this.clipboard_attachments !== null &&
+            this.paste_attachments_enabled) {
+            var cell = this.get_selected_cell();
+            $.extend(cell.attachments, this.clipboard_attachments);
+            cell.unrender();
+            cell.render();
+        }
+    };
+
+    /**
+     * Disable the "Paste Cell Attachments" menu item
+     */
+    Notebook.prototype.disable_attachments_paste = function () {
+        if (this.paste_attachments_enabled) {
+            $('#paste_cell_attachments').addClass('disabled');
+            this.paste_attachments_enabled = false;
+        }
+    };
+
+    /**
+     * Enable the "Paste Cell Attachments" menu item
+     */
+    Notebook.prototype.enable_attachments_paste = function () {
+        var that = this;
+        if (!this.paste_attachments_enabled) {
+            $('#paste_cell_attachments').removeClass('disabled');
+            this.paste_attachments_enabled = true;
+        }
     };
 
     /**
