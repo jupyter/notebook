@@ -158,14 +158,7 @@ define([
             that._nbconvert('script', true);
         });
 
-        this.element.find('#rename_notebook').click(function () {
-            that.save_widget.rename_notebook({notebook: that.notebook});
-        });
 
-
-        this.element.find('#trust_notebook').click(function () {
-            that.notebook.trust_notebook();
-        });
         this.events.on('trust_changed.Notebook', function (event, trusted) {
             if (trusted) {
                 that.element.find('#trust_notebook')
@@ -203,6 +196,8 @@ define([
         });
              
         var id_actions_dict = {
+            '#trust_notebook' : 'jupyter-notebook:trust-notebook',
+            '#rename_notebook' : 'jupyter-notebook:rename-notebook',
             '#find_and_replace' : 'jupyter-notebook:find-and-replace',
             '#save_checkpoint': 'jupyter-notebook:save-notebook',
             '#restart_kernel': 'jupyter-notebook:confirm-restart-kernel',
