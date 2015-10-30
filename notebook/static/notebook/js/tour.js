@@ -76,13 +76,21 @@ define([
                 title: "Back to Command Mode",
                 placement: 'bottom',
                 onShow: function(tour) { notebook.command_mode(); },
-                onHide: function(tour) { $('#help_menu').parent().children('a').click(); },
                 content: "Pressing <code>Esc</code> or clicking outside of the input text area takes you back to Command Mode."
             }, {
                 element: '#keyboard_shortcuts',
                 title: "Keyboard Shortcuts",
                 placement: 'bottom',
-                onHide: function(tour) { $('#help_menu').parent().children('a').click(); },
+                onShow: function(tour) {
+                    /** need to add `open` and `pulse` classes in 2 calls */
+                    $('#help_menu').parent().addClass('open');
+                    $('#help_menu').parent().addClass('pulse');
+                    $('#keyboard_shortcuts').addClass('pulse');
+                  },
+                onHide: function(tour) { 
+                    $('#help_menu').parent().removeClass('open pulse');
+                    $('#keyboard_shortcuts').removeClass('pulse');
+                  },
                 content: "You can click here to get a list of all of the keyboard shortcuts."
             }, {
                 element: "#kernel_indicator_icon",
@@ -146,7 +154,7 @@ define([
     };
 
     NotebookTour.prototype.command_icon_hack =  function() {
-        $('#modal_indicator').css('min-height', 20);
+        $('#modal_indicator').css('min-height', '18px');
     };
     
     NotebookTour.prototype.toggle_pause_play = function () { 
