@@ -297,9 +297,9 @@ define(function (require) {
             expand_time(time);
         });
 
-        this.scroll_manager.element.scroll(function () {
+        this.scroll_manager.onScroll(function () {
             that.update_marked_status();
-        });
+        }, 100);
 
         // Firefox 22 broke $(window).on("beforeunload")
         // I'm not sure why or how.
@@ -738,6 +738,7 @@ define(function (require) {
     };
 
     Notebook.prototype.update_marked_status = function() {
+        console.log("update marked status");
         var marked_cells = this.get_marked_cells();
         var num_offscreen = 0;
         var i;

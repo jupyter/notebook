@@ -13,6 +13,17 @@ define(['jquery'], function($){
         this.animation_speed = options.animation_speed || 250; //ms
     };
 
+    ScrollManager.prototype.onScroll = function (func, rate) {
+        /**
+         * Register a function to be called when the page is scrolled, throttled
+         * at a particular rate limit.
+         */
+         this.element.scroll(function () {
+             clearTimeout(func._timeout);
+             func._timeout = setTimeout(func, rate);
+         });
+    };
+
     ScrollManager.prototype.scroll = function (delta) {
         /**
          * Scroll the document.
