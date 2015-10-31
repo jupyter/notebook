@@ -42,6 +42,8 @@ For a local installation, make sure you have [pip installed](https://pip.readthe
 _NOTE_: For Debian/Ubuntu systems, if you're installing the system node you need
 to use the 'nodejs-legacy' package and not the 'node' package.
 
+For more detailed development install instructions (e.g. recompiling javascript and css, running tests), please see the [contributing guide](CONTRIBUTING.md).
+
 ### Ubuntu Trusty
 
 ```
