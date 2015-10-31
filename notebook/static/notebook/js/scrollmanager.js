@@ -18,6 +18,7 @@ define(['jquery'], function($){
          * Register a function to be called when the page is scrolled, throttled
          * at a particular rate limit.
          */
+         rate = rate || 100; // default rate limit
          this.element.scroll(function () {
              clearTimeout(func._timeout);
              func._timeout = setTimeout(func, rate);
