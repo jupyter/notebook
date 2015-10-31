@@ -738,7 +738,6 @@ define(function (require) {
     };
 
     Notebook.prototype.update_marked_status = function() {
-        console.log("update marked status");
         var marked_cells = this.get_marked_cells();
         var num_offscreen = 0;
         var i;
