@@ -111,7 +111,6 @@ define(function (require) {
         this.element = $(selector);
         this.element.scroll();
         this.element.data("notebook", this);
-        this.next_prompt_number = 1;
         this.session = null;
         this.kernel = null;
         this.kernel_busy = false;
