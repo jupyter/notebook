@@ -104,7 +104,6 @@ define([
             'shift-j': 'jupyter-notebook:extend-marked-cells-below',
             'shift-up': 'jupyter-notebook:extend-marked-cells-above',
             'shift-down': 'jupyter-notebook:extend-marked-cells-below',
-            'ctrl-space': 'jupyter-notebook:toggle-cell-marked',
             'x' : 'jupyter-notebook:cut-cell',
             'c' : 'jupyter-notebook:copy-cell',
             'v' : 'jupyter-notebook:paste-cell-below',
