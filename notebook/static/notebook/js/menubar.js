@@ -226,11 +226,11 @@ define([
             '#to_code': 'change-cell-to-code',
             '#to_markdown': 'change-cell-to-markdown',
             '#to_raw': 'change-cell-to-raw',
-            '#toggle_current_output': 'toggle-cell-output-visibility',
-            '#toggle_current_output_scroll': 'toggle-cell-output-scrolling',
+            '#toggle_current_output': 'toggle-cell-output-collapsed',
+            '#toggle_current_output_scroll': 'toggle-cell-output-scrolled',
             '#clear_current_output': 'clear-cell-output',
-            '#toggle_all_output': 'toggle-all-cells-output-visibility',
-            '#toggle_all_output_scroll': 'toggle-all-cells-output-scrolling',
+            '#toggle_all_output': 'toggle-all-cells-output-collapsed',
+            '#toggle_all_output_scroll': 'toggle-all-cells-output-scrolled',
             '#clear_all_output': 'clear-all-cells-output',
         };
 

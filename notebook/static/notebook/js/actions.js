@@ -306,14 +306,14 @@ define(function(require){
                 env.notebook.to_heading(undefined, 6);
             }
         },
-        'toggle-cell-output-visibility' : {
+        'toggle-cell-output-collapsed' : {
             help    : 'toggle output',
             help_index : 'gb',
             handler : function (env) {
                 env.notebook.toggle_output();
             }
         },
-        'toggle-cell-output-scrolling' : {
+        'toggle-cell-output-scrolled' : {
             help    : 'toggle output scrolling',
             help_index : 'gc',
             handler : function (env) {
@@ -563,13 +563,13 @@ define(function(require){
                 env.notebook.save_widget.rename_notebook({notebook: env.notebook});
             }
         },
-        'toggle-all-cells-output-visibility':{
+        'toggle-all-cells-output-collapsed':{
             help: "Toggle the hiddens state of all output areas",
             handler : function (env, event) {
                 env.notebook.toggle_all_output();
             }
         },
-        'toggle-all-cells-output-scrolling':{
+        'toggle-all-cells-output-scrolled':{
             help: "Toggle the scrolling state of all output areas",
             handler : function (env, event) {
                 env.notebook.toggle_all_output_scroll();
