@@ -38,14 +38,25 @@ def pkg_commit_hash(pkg_path):
     hash_str : str
        short form of hash
     """
-    # maybe we are in a repository
-    proc = subprocess.Popen('git rev-parse --short HEAD',
-                            stdout=subprocess.PIPE,
-                            stderr=subprocess.PIPE,
-                            cwd=pkg_path, shell=True)
-    repo_commit, _ = proc.communicate()
-    if repo_commit:
-        return 'repository', repo_commit.strip().decode('ascii')
+
+    # maybe we are in a repository, check for a .git folder
+    p = os.path
+    cur_path = None
+    par_path = pkg_path
+    while cur_path != par_path:
+        cur_path = par_path
+        if p.exists(p.join(cur_path, '.git')):
+            proc = subprocess.Popen('git rev-parse --short HEAD',
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                cwd=pkg_path, shell=True)
+            repo_commit, _ = proc.communicate()
+            if repo_commit:
+                return 'repository', repo_commit.strip().decode('ascii')
+            else:
+                return u'', u''
+        par_path = p.dirname(par_path)
+                
     return u'', u''
 
 
