@@ -118,7 +118,7 @@ define([
     // Cell level actions
     
     TextCell.prototype.select = function () {
-        var cont = Cell.prototype.select.apply(this);
+        var cont = Cell.prototype.select.apply(this, arguments);
         if (cont) {
             if (this.mode === 'edit') {
                 this.code_mirror.refresh();
