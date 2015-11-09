@@ -354,7 +354,7 @@ define(function(require) {
             });
         var dialogform = $('<div/>').attr('title', 'Edit attachments')
             .append(
-                $('<form/>').append(
+                $('<form id="insert-image-form" />').append(
                     $('<fieldset/>').append(
                         $('<label/>')
                         .attr('for','file')
