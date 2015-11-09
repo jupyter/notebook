@@ -62,7 +62,8 @@ class MappingKernelManager(MultiKernelManager):
         while not os.path.isdir(os_path) and os_path != self.root_dir:
             os_path = os.path.dirname(os_path)
         return os_path
-
+    
+    @gen.coroutine
     def start_kernel(self, kernel_id=None, path=None, **kwargs):
         """Start a kernel for a session and return its kernel_id.
 
@@ -82,8 +83,9 @@ class MappingKernelManager(MultiKernelManager):
         if kernel_id is None:
             if path is not None:
                 kwargs['cwd'] = self.cwd_for_path(path)
-            kernel_id = super(MappingKernelManager, self).start_kernel(
-                                            **kwargs)
+            kernel_id = yield gen.maybe_future(
+                super(MappingKernelManager, self).start_kernel(**kwargs)
+            )
             self.log.info("Kernel started: %s" % kernel_id)
             self.log.debug("Kernel args: %r" % kwargs)
             # register callback for failed auto-restart
@@ -94,12 +96,13 @@ class MappingKernelManager(MultiKernelManager):
         else:
             self._check_kernel_id(kernel_id)
             self.log.info("Using existing kernel: %s" % kernel_id)
-        return kernel_id
+        # py2-compat
+        raise gen.Return(kernel_id)
 
     def shutdown_kernel(self, kernel_id, now=False):
         """Shutdown a kernel by kernel_id"""
         self._check_kernel_id(kernel_id)
-        super(MappingKernelManager, self).shutdown_kernel(kernel_id, now=now)
+        return super(MappingKernelManager, self).shutdown_kernel(kernel_id, now=now)
 
     def restart_kernel(self, kernel_id):
         """Restart a kernel by kernel_id"""
