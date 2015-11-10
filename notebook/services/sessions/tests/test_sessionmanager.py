@@ -56,13 +56,10 @@ class TestSessionManager(TestCase):
     def create_session(self, **kwargs):
         return self.create_sessions(kwargs)[0]
     
-    def get_session(self, **kwargs):
-        return self.loop.run_sync(lambda : self.sm.get_session(**kwargs))
-    
     def test_get_session(self):
         sm = self.sm
         session_id = self.create_session(path='/path/to/test.ipynb', kernel_name='bar')['id']
-        model = self.get_session(session_id=session_id)
+        model = sm.get_session(session_id=session_id)
         expected = {'id':session_id,
                     'notebook':{'path': u'/path/to/test.ipynb'},
                     'kernel': {'id':u'A', 'name': 'bar'}}
@@ -140,7 +137,7 @@ class TestSessionManager(TestCase):
         session_id = self.create_session(path='/path/to/test.ipynb',
                                        kernel_name='julia')['id']
         sm.update_session(session_id, path='/path/to/new_name.ipynb')
-        model = self.loop.run_sync(lambda : sm.get_session(session_id=session_id))
+        model = sm.get_session(session_id=session_id)
         expected = {'id':session_id,
                     'notebook':{'path': u'/path/to/new_name.ipynb'},
                     'kernel':{'id':u'A', 'name':'julia'}}
