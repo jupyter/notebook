@@ -6,7 +6,7 @@
 import uuid
 import sqlite3
 
-from tornado import web
+from tornado import gen, web
 
 from traitlets.config.configurable import LoggingConfigurable
 from ipython_genutils.py3compat import unicode_type
@@ -56,17 +56,22 @@ class SessionManager(LoggingConfigurable):
     def new_session_id(self):
         "Create a uuid for a new session"
         return unicode_type(uuid.uuid4())
-
+    
+    @gen.coroutine
     def create_session(self, path=None, kernel_name=None):
         """Creates a session and returns its model"""
         session_id = self.new_session_id()
         # allow nbm to specify kernels cwd
         kernel_path = self.contents_manager.get_kernel_path(path=path)
-        kernel_id = self.kernel_manager.start_kernel(path=kernel_path,
-                                                     kernel_name=kernel_name)
-        return self.save_session(session_id, path=path,
-                                 kernel_id=kernel_id)
-
+        kernel_id = yield gen.maybe_future(
+            self.kernel_manager.start_kernel(path=kernel_path, kernel_name=kernel_name)
+        )
+        result = yield gen.maybe_future(
+            self.save_session(session_id, path=path, kernel_id=kernel_id)
+        )
+        # py2-compat
+        raise gen.Return(result)
+    
     def save_session(self, session_id, path=None, kernel_id=None):
         """Saves the items for the session with the given session_id
         
