@@ -203,7 +203,7 @@ toolbar (which will be "Code", initially), or via :ref:`keyboard shortcuts
 
 For more information on the different things you can do in a notebook,
 see the `collection of examples
-<http://nbviewer.ipython.org/github/ipython/ipython/blob/master/examples/Notebook/Index.ipynb>`_.
+<http://nbviewer.jupyter.org/github/jupyter/notebook/tree/master/docs/source/examples/Notebook/>`_.
 
 Code cells
 ~~~~~~~~~~
