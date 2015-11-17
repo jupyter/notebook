@@ -226,9 +226,12 @@ define([
             '#to_code': 'change-cell-to-code',
             '#to_markdown': 'change-cell-to-markdown',
             '#to_raw': 'change-cell-to-raw',
-            '#toggle_current_output': 'toggle-cell-output-visibility',
-            '#toggle_current_output_scroll': 'toggle-cell-output-scrolling',
+            '#toggle_current_output': 'toggle-cell-output-collapsed',
+            '#toggle_current_output_scroll': 'toggle-cell-output-scrolled',
             '#clear_current_output': 'clear-cell-output',
+            '#toggle_all_output': 'toggle-all-cells-output-collapsed',
+            '#toggle_all_output_scroll': 'toggle-all-cells-output-scrolled',
+            '#clear_all_output': 'clear-all-cells-output',
         };
 
         for(var idx in id_actions_dict){
@@ -247,16 +250,6 @@ define([
             })(that, id_act, idx);
         }
 
-        
-        this.element.find('#toggle_all_output').click(function () {
-            that.notebook.toggle_all_output();
-        });
-        this.element.find('#toggle_all_output_scroll').click(function () {
-            that.notebook.toggle_all_output_scroll();
-        });
-        this.element.find('#clear_all_output').click(function () {
-            that.notebook.clear_all_output();
-        });
         
         // Kernel
         this.element.find('#reconnect_kernel').click(function () {
