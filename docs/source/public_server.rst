@@ -72,8 +72,6 @@ You can then add the hashed password to your :file:`jupyter_notebook_config.py`.
 The default location for this file :file:`jupyter_notebook_config.py` is in
 your Jupyter folder in your home directory, ``~/.jupyter``, e.g.::
 
-    # Get notebook configuration and add hashed password
-    c = get_config()
     c.NotebookApp.password = u'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
 
 Using SSL for encrypted communication
@@ -92,7 +90,7 @@ You can start the notebook to communicate via a secure protocol mode by setting
 the ``certfile`` option to your self-signed certificate, i.e. ``mycert.pem``,
 with the command::
 
-    $ jupyter notebook --certfile=mycert.pem --keyfile mycert.key
+    $ jupyter notebook --certfile=mycert.pem --keyfile mykey.key
 
 .. tip::
 
@@ -100,7 +98,7 @@ with the command::
     the following command will create a certificate valid for 365 days with
     both the key and certificate data written to the same file::
 
-        $ openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mycert.key -out mycert.pem
+        $ openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mykey.key -out mycert.pem
 
 When starting the notebook server, your browser may warn that your self-signed
 certificate is insecure or unrecognized.  If you wish to have a fully
@@ -145,11 +143,9 @@ all fields commented out. The minimum set of configuration options that
 you should to uncomment and edit in :file:``jupyter_notebook_config.py`` is the
 following::
 
-     # Notebook configuration for public notebook server
-     c = get_config()
-
      # Set options for certfile, ip, password, and toggle off browser auto-opening
      c.NotebookApp.certfile = u'/absolute/path/to/your/certificate/mycert.pem'
+     c.NotebookApp.keyfile = u'/absolute/path/to/your/certificate/mykey.key'
      # Set ip to '*' to bind on all interfaces (ips) for the public server
      c.NotebookApp.ip = '*'
      c.NotebookApp.password = u'sha1:bcd259ccf...<your hashed password here>'
