@@ -83,7 +83,7 @@ from ipython_genutils import py3compat
 from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
 from notebook._sysinfo import get_sys_info
 
-from .utils import url_path_join, check_pid
+from .utils import url_path_join, check_pid, url_escape
 
 #-----------------------------------------------------------------------------
 # Module globals
@@ -1094,7 +1094,7 @@ class NotebookApp(JupyterApp):
                     self.exit(1)
 
                 relpath = os.path.relpath(self.file_to_run, self.notebook_dir)
-                uri = url_path_join('notebooks', *relpath.split(os.sep))
+                uri = url_escape(url_path_join('notebooks', *relpath.split(os.sep)))
             else:
                 uri = 'tree'
             if browser:
