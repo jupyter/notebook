@@ -308,12 +308,12 @@ define([
         }
     }
 
-    function ansispan(str) {
+    function _ansispan(str) {
         // ansispan function adapted from github.com/mmalecki/ansispan (MIT License)
         // regular ansi escapes (using the table above)
         var is_open = false;
         return str.replace(/\033\[(0?[01]|22|39)?([;\d]+)?m/g, function(match, prefix, pattern) {
-            if (!pattern) {
+            if (!pattern || prefix === '39') {
                 // [(01|22|39|)m close spans
                 if (is_open) {
                     is_open = false;
@@ -352,7 +352,7 @@ define([
         txt = txt.replace(ignored_re, "");
         
         // color ansi codes
-        txt = ansispan(txt);
+        txt = _ansispan(txt);
         return txt;
     }
 
@@ -864,6 +864,7 @@ define([
         reject: reject,
         typeset: typeset,
         time: time,
+        _ansispan:_ansispan
     };
 
     return utils;

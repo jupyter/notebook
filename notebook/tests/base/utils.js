@@ -7,6 +7,7 @@ casper.notebook_test(function () {
         "\033[0m[\033[31merror\033[0m] \033[0m\033[0m",
         "\033[0m[\033[31merror\033[0m] \033[0m\teven more text\033[0m",
         "\u001b[?25hBuilding wheels for collected packages: scipy",
+        "\x1b[38;5;28;01mtry\x1b[39;00m",
         "\033[0m[\033[31merror\033[0m] \033[0m\t\tand more more text\033[0m"].join("\n");
 
     var output = [
@@ -16,6 +17,7 @@ casper.notebook_test(function () {
         "[<span  class=\"ansired\">error</span>] ",
         "[<span  class=\"ansired\">error</span>] \teven more text",
         "Building wheels for collected packages: scipy",
+        '<span  style="color: rgb(0,102,0);" class="ansibold">try</span>',
         "[<span  class=\"ansired\">error</span>] \t\tand more more text"].join("\n");
 
     var result = this.evaluate(function (input) {
