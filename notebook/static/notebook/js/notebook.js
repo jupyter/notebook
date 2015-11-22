@@ -2850,14 +2850,14 @@ define(function (require) {
             title : "Revert notebook to checkpoint",
             body : body,
             buttons : {
+                Cancel: {},
                 Revert : {
                     class : "btn-danger",
                     click : function () {
                         that.restore_checkpoint(checkpoint.id);
                     }
-                },
-                Cancel : {}
                 }
+            }
         });
     };
     
