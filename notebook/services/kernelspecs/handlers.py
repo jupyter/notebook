@@ -53,7 +53,7 @@ class MainKernelSpecHandler(APIHandler):
         model = {}
         model['default'] = km.default_kernel_name
         model['kernelspecs'] = specs = {}
-        for kernel_name in ksm.find_kernel_specs():
+        for kernel_name in ksm.find_all_specs():
             try:
                 d = kernelspec_model(self, kernel_name)
             except Exception:
