@@ -162,7 +162,7 @@ define(function(require){
       .attr('type', 'button')
       .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
-      .attr('title', 'Find in selected cells');
+      .attr('title', 'Replace in selected cells');
 
     var isCaseSensitiveButton = $('<button/>')
       .attr('type', 'button')
@@ -173,7 +173,10 @@ define(function(require){
       .css('font-weight', 'bold')
       .text('Aa');
      
-    var search  = $("<input/>").addClass('form-control input-sm').attr('placeholder','Find');
+    var search  = $("<input/>")
+      .addClass('form-control input-sm')
+      .attr('placeholder','Find');
+
     var findFormGroup = $('<div/>').addClass('form-group');
     findFormGroup.append(
         $('<div/>').addClass('input-group')
@@ -186,7 +189,9 @@ define(function(require){
         .append(search)
     )
 
-    var replace = $("<input/>").addClass('form-control input-sm').attr('placeholder','Replace');
+    var replace = $("<input/>")
+      .addClass('form-control input-sm')
+      .attr('placeholder','Replace');
     var replaceFormGroup = $('<div/>').addClass('form-group');
     replaceFormGroup.append(replace);
 

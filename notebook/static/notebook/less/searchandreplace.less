@@ -1,6 +1,7 @@
 
 #find-and-replace {
-  #replace-preview .match, #replace-preview .insert{
+
+  #replace-preview .match, #replace-preview .insert {
     background-color:lightblue;
     border-color: darken(lightblue, 20%);
     border-style: solid;
@@ -10,22 +11,25 @@
     
   #replace-preview .replace {
     
-    & .match{
+    & .match {
       //display: none;
       background-color:salmon;
       text-decoration: line-through;
       border-color: darken(salmon, 20%);
     }
     
-    & .insert{
+    & .insert {
       background-color: green;
       background-color:lightGreen;
       border-color: darken(lightGreen, 20%);
     }
   }
 
-  & #replace-preview {
+  #replace-preview {
     max-height: 60vh;
     overflow: auto;
+    pre {
+        padding: 5px 10px;
+    }
   }
 }
