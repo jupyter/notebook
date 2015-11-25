@@ -157,7 +157,8 @@ define(function(require){
       .attr('title', 'Use regex (JavaScript regex syntax)')
       .text('.*');
 
-    var onlySelectedButton = $('<button><i class="fa fa-align-left"/></button>')
+      var onlySelectedButton = $('<button/>')
+      .append($('<i/>').addClass('fa fa-align-left'))
       .attr('type', 'button')
       .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
