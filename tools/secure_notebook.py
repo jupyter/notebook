@@ -35,11 +35,11 @@ def create_self_signed_cert(cert_dir, keyfile, certfiile):
         # create a self-signed cert
         cert = crypto.X509()
         cert.get_subject().C = "US"
-        cert.get_subject().ST = "Jupyter notebook self-signed certificat"
-        cert.get_subject().L = "Jupyter notebook self-signed certificat"
-        cert.get_subject().O = "Jupyter notebook self-signed certificat"
+        cert.get_subject().ST = "Jupyter notebook self-signed certificate"
+        cert.get_subject().L = "Jupyter notebook self-signed certificate"
+        cert.get_subject().O = "Jupyter notebook self-signed certificate"
         cert.get_subject().OU = "my organization"
-        cert.get_subject().CN = "Jupyter notebook self-signed certificat"
+        cert.get_subject().CN = "Jupyter notebook self-signed certificate"
         cert.set_serial_number(1000)
         cert.gmtime_adj_notBefore(0)
         cert.gmtime_adj_notAfter(365*24*60*60)
@@ -55,9 +55,9 @@ def create_self_signed_cert(cert_dir, keyfile, certfiile):
 
 if __name__ == '__main__':
     print("This guide you into securing your notebook server")
-    print("fist choose a password.")
+    print("first choose a password.")
     pw = passwd()
-    print("We will sore you password encrypted in the notebook configuration file: ")
+    print("We will store your password encrypted in the notebook configuration file: ")
     print(pw)
 
     loader = JSONFileConfigLoader('jupyter_notebook_config.json', jupyter_config_dir())
@@ -68,14 +68,14 @@ if __name__ == '__main__':
 
     config.NotebookApp.password = pw
 
-    with io.open(os.path.join(jupyter_config_dir(), 'jupyter_notebook_config.json'), 'w+') as f:
+    with io.open(os.path.join(jupyter_config_dir(), 'jupyter_notebook_config.json'), 'w') as f:
         f.write(six.u(json.dumps(config, indent=2)))
 
     print('... done')
     print()
 
-    print("Now let's generate self signed https certificats to secure your connexion.")
-    print("where should the certificate live ?")
+    print("Now let's generate self-signed certificates to secure your connexion.")
+    print("where should the certificate live?")
     location = input('path [~/.ssh]: ')
     if not location.strip():
         location = os.path.expanduser('~/.ssh')
@@ -94,7 +94,7 @@ if __name__ == '__main__':
     config.NotebookApp.certfile = fullcrt
     config.NotebookApp.keyfile = fullkey
 
-    with io.open(os.path.join(jupyter_config_dir(), 'jupyter_notebook_config.json'), 'w+') as f:
+    with io.open(os.path.join(jupyter_config_dir(), 'jupyter_notebook_config.json'), 'w') as f:
         f.write(six.u(json.dumps(config, indent=2)))
 
 
