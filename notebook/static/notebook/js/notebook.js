@@ -58,6 +58,8 @@ define(function (require) {
         this.ws_url = options.ws_url;
         this._session_starting = false;
         this.last_modified = null;
+        // debug 484
+        this._last_modified = 'init';
 
         //  Create default scroll manager.
         this.scroll_manager = new scrollmanager.ScrollManager(this);
@@ -2320,6 +2322,8 @@ define(function (require) {
                 function (data) {
                     var last_modified = new Date(data.last_modified);
                     if (last_modified > that.last_modified) {
+                        console.warn("Last saving was done on `"+that.last_modified+"`("+that._last_modified+"), "+
+                                    "while the current file seem to have been saved on `"+data.last_modified+"`")
                         dialog.modal({
                             notebook: that,
                             keyboard_manager: that.keyboard_manager,
@@ -2365,6 +2369,8 @@ define(function (require) {
     Notebook.prototype.save_notebook_success = function (start, data) {
         this.set_dirty(false);
         this.last_modified = new Date(data.last_modified);
+        // debug 484
+        this._last_modified = 'save-success:'+data.last_modified;
         if (data.message) {
             // save succeeded, but validation failed.
             var body = $("<div>");
@@ -2513,6 +2519,8 @@ define(function (require) {
                 that.notebook_name = json.name;
                 that.notebook_path = json.path;
                 that.last_modified = new Date(json.last_modified);
+                // debug 484
+                _that.last_modified = json.last_modified;
                 that.session.rename_notebook(json.path);
                 that.events.trigger('notebook_renamed.Notebook', json);
             }
@@ -2610,6 +2618,8 @@ define(function (require) {
         this.scroll_to_top();
         this.writable = data.writable || false;
         this.last_modified = new Date(data.last_modified);
+        // debug 484
+        this._last_modified = 'load-success:'+data.last_modified
         var nbmodel = data.content;
         var orig_nbformat = nbmodel.metadata.orig_nbformat;
         var orig_nbformat_minor = nbmodel.metadata.orig_nbformat_minor;
