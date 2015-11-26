@@ -655,6 +655,7 @@ define([
         var d = dialog.modal({
             title : "Rename "+ item_type,
             body : dialog_body,
+            default_button: "Cancel",
             buttons : {
                 Cancel: {},
                 Rename : {
@@ -708,6 +709,7 @@ define([
         dialog.modal({
             title : "Delete",
             body : message,
+            default_button: "Cancel",
             buttons : {
                 Cancel: {},
                 Delete : {
@@ -753,6 +755,7 @@ define([
         dialog.modal({
             title : "Duplicate",
             body : message,
+            default_button: "Cancel",
             buttons : {
                 Cancel: {},
                 Duplicate : {
@@ -874,6 +877,7 @@ define([
                     dialog.modal({
                         title : "Replace file",
                         body : 'There is already a file named ' + filename + ', do you want to replace it?',
+                        default_button: "Cancel",
                         buttons : {
                             Cancel : {
                                 click: function() { item.remove(); }

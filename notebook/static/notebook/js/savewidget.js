@@ -82,6 +82,7 @@ define([
             body: dialog_body,
             notebook: options.notebook,
             keyboard_manager: this.keyboard_manager,
+            default_button: "Cancel",
             buttons : {
                 "Cancel": {},
                 "Rename": {

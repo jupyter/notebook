@@ -2849,6 +2849,7 @@ define(function (require) {
             keyboard_manager: this.keyboard_manager,
             title : "Revert notebook to checkpoint",
             body : body,
+            default_button: "Cancel",
             buttons : {
                 Cancel: {},
                 Revert : {
