@@ -267,13 +267,13 @@ define([
             title : 'Kernel not found',
             body : body,
             buttons : {
-                'Continue without kernel' : {
+                'Continue Without Kernel' : {
                     class : 'btn-danger',
                     click : function () {
                         that.events.trigger('no_kernel.Kernel');
                     }
                 },
-                OK : {
+                'Set Kernel' : {
                     class : 'btn-primary',
                     click : function () {
                         that.set_kernel(select.val());
