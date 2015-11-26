@@ -1,12 +1,20 @@
 #!/usr/bin/env python
+"""
+script to automatically setup notebook over SSL.
+
+Generate cert and keyfiles (rsa 1024) in ~/.ssh/, ask for a password, and add
+the corresponding entries in the notbook json configuration file. 
+
+"""
+
+import six
 
 from notebook.auth import passwd
 from traitlets.config.loader import JSONFileConfigLoader, ConfigFileNotFound
-import six
 from jupyter_core.paths import jupyter_config_dir
 from traitlets.config import Config
 
-
+from contextlib import contextmanager
 
 from OpenSSL import crypto, SSL
 from socket import gethostname
@@ -19,13 +27,14 @@ import os
 import json
 
 
-def create_self_signed_cert(cert_dir, keyfile, certfiile):
+def create_self_signed_cert(cert_dir, keyfile, certfile):
     """
-    If datacard.crt and datacard.key don't exist in cert_dir, create a new
-    self-signed cert and keypair and write them into that directory.
+    Create a self-signed `keyfile` and `certfile` in `cert_dir`
+
+    Abort if one of the
     """
 
-    if not exists(join(cert_dir, certfiile)) \
+    if not exists(join(cert_dir, certfile)) \
             or not exists(join(cert_dir, keyfile)):
 
         # create a key pair
@@ -51,14 +60,17 @@ def create_self_signed_cert(cert_dir, keyfile, certfiile):
             f.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert).decode('utf8'))
         with io.open(join(cert_dir, keyfile), "wt") as f:
             f.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, k).decode('utf8'))
+    else :
+        raise FileExistsError('{} or {} already exist in {}. Aborting.'.format(keyfile, certfile, certdir))
 
 
-if __name__ == '__main__':
-    print("This guide you into securing your notebook server")
-    print("first choose a password.")
-    pw = passwd()
-    print("We will store your password encrypted in the notebook configuration file: ")
-    print(pw)
+
+@contextmanager
+def load_config():
+    """Conext manager that can be use to modify a config object
+
+    on exit of the context manager, the config will be written back to disk. 
+    """
 
     loader = JSONFileConfigLoader('jupyter_notebook_config.json', jupyter_config_dir())
     try:
@@ -66,16 +78,33 @@ if __name__ == '__main__':
     except ConfigFileNotFound:
         config = Config()
 
-    config.NotebookApp.password = pw
+    yield config
 
     with io.open(os.path.join(jupyter_config_dir(), 'jupyter_notebook_config.json'), 'w') as f:
         f.write(six.u(json.dumps(config, indent=2)))
 
-    print('... done')
-    print()
 
-    print("Now let's generate self-signed certificates to secure your connexion.")
+def set_password():
+    """Ask user for password, store it in notebook json configuration file"""
+
+    print("first choose a password.")
+    pw = passwd()
+    print("We will store your password encrypted in the notebook configuration file: ")
+    print(pw)
+
+    with load_config() as config:
+        config.NotebookApp.password = pw
+
+    print('... done\n')
+
+
+def set_certifs():
+    """
+    generate certificate to run notebook over ssl and set up the notebook config.
+    """
+    print("Let's generate self-signed certificates to secure your connexion.")
     print("where should the certificate live?")
+
     location = input('path [~/.ssh]: ')
     if not location.strip():
         location = os.path.expanduser('~/.ssh')
@@ -90,12 +119,14 @@ if __name__ == '__main__':
 
     fullkey = os.path.join(location, keyfile)
     fullcrt = os.path.join(location, certfile)
+    with load_config() as config:
+        config.NotebookApp.certfile = fullcrt
+        config.NotebookApp.keyfile = fullkey
 
-    config.NotebookApp.certfile = fullcrt
-    config.NotebookApp.keyfile = fullkey
-
-    with io.open(os.path.join(jupyter_config_dir(), 'jupyter_notebook_config.json'), 'w') as f:
-        f.write(six.u(json.dumps(config, indent=2)))
-
+    print('done.\n')
 
 
+if __name__ == '__main__':
+    print("This guide you into securing your notebook server.")
+    set_password()
+    set_certifs()
