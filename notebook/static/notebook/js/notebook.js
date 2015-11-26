@@ -2520,7 +2520,7 @@ define(function (require) {
                 that.notebook_path = json.path;
                 that.last_modified = new Date(json.last_modified);
                 // debug 484
-                _that.last_modified = json.last_modified;
+                that._last_modified = json.last_modified;
                 that.session.rename_notebook(json.path);
                 that.events.trigger('notebook_renamed.Notebook', json);
             }
