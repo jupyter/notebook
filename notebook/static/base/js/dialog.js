@@ -184,6 +184,7 @@ define(function(require) {
         var modal_obj = modal({
             title: "Edit " + options.name + " Metadata",
             body: dialogform,
+            default_button: "Cancel",
             buttons: {
                 Cancel: {},
                 Edit: { class : "btn-primary",
