@@ -104,7 +104,7 @@ def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
 
 
 @contextmanager
-def _simple_writing(path, text=True, encoding='utf-8', **kwargs):
+def _simple_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     """Context manager to write file without doing atomic writing
     ( for weird filesystem eg: nfs).
 
@@ -144,6 +144,8 @@ def _simple_writing(path, text=True, encoding='utf-8', **kwargs):
 
     # Flush to disk
     fileobj.flush()
+    if log:
+        log.debug( path + " saved using simple fs writing")
     os.fsync(fileobj.fileno())
     fileobj.close()
 
@@ -187,7 +189,7 @@ class FileManagerMixin(Configurable):
                 with atomic_writing(os_path, *args, log=self.log, **kwargs) as f:
                     yield f
             else:
-                with simple_writing(os_path, *args, log=self.log, **kwargs) as f:
+                with _simple_writing(os_path, *args, log=self.log, **kwargs) as f:
                     yield f
 
     @contextmanager
