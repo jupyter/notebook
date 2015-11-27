@@ -1881,7 +1881,7 @@ define(function (require) {
                 'Are you sure you want to restart the current kernel and re-execute the whole notebook?  All variables and outputs will be lost.'
             ),
             buttons : {
-                "Restart & run all cells" : {
+                "Restart and Run All Cells" : {
                     "class" : "btn-danger",
                     "click" : function () {
                         that.execute_all_cells();
@@ -1908,7 +1908,7 @@ define(function (require) {
                 'Do you want to restart the current kernel and clear all output?  All variables and outputs will be lost.'
             ),
             buttons : {
-                "Restart & clear all outputs" : {
+                "Restart and Clear All Outputs" : {
                     "class" : "btn-danger",
                     "click" : function (){
                         that.clear_all_output();
@@ -1969,7 +1969,7 @@ define(function (require) {
         options.dialog.keyboard_manager = this.keyboard_manager;
         // add 'Continue running' cancel button
         var buttons = {
-            "Continue running": {},
+            "Continue Running": {},
         };
         // hook up button.click actions after restart promise resolves
         Object.keys(options.dialog.buttons).map(function (key) {
