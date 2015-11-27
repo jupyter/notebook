@@ -50,7 +50,14 @@ define([
      */
     CodeMirror.commands.delSpaceToPrevTabStop = function(cm){
         var from = cm.getCursor(true), to = cm.getCursor(false), sel = !posEq(from, to);
-        if (!posEq(from, to)) { cm.replaceRange("", from, to); return; }
+         if (sel) { 
+            var ranges = cm.listSelections();
+            for (var i = ranges.length - 1; i >= 0; i--) {
+              var cur = ranges[i].head;
+              cm.replaceRange("", Pos(cur.line, cur.ch - 1), Pos(cur.line, cur.ch + 1));
+            }
+            return;
+        }
         var cur = cm.getCursor(), line = cm.getLine(cur.line);
         var tabsize = cm.getOption('tabSize');
         var chToPrevTabStop = cur.ch-(Math.ceil(cur.ch/tabsize)-1)*tabsize;
