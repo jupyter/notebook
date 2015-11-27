@@ -16,9 +16,10 @@ The structure of a front-end extension
 
 A front-end extension is a JavaScript file that defines an
 [AMD module](https://en.wikipedia.org/wiki/Asynchronous_module_definition)
-which exposes at least a function called `load_ipython_extension`, which takes
-no arguments. We will not get into the details of what each of these terms
-consists of yet, but here is the minimal code needed for a working extension:
+which exposes at least a function called ``load_ipython_extension``, which
+takes no arguments. We will not get into the details of what each of these
+terms consists of yet, but here is the minimal code needed for a working
+extension:
 
 .. code:: javascript
 
@@ -38,8 +39,8 @@ consists of yet, but here is the minimal code needed for a working extension:
 .. note::
     
     Although for historical reasons the function is called
-    `load_ipython_extension`, it does apply to the Jupyter notebook in general,
-    and will work regardless of the kernel in use.
+    ``load_ipython_extension``, it does apply to the Jupyter notebook in
+    general, and will work regardless of the kernel in use.
 
 If you are familiar with JavaScript, you can use this template to require any
 Jupyter module and modify its configuration, or do anything else in client-side
@@ -48,12 +49,12 @@ page initialisation for you to set up a listener for the various events that
 the page can trigger.
 
 You might want access to the current instances of the various Jupyter notebook
-components on the page, as opposed to the classes defined in the modules.
-The current instances are exposed by a module named `base/js/namespace`.
-If you plan
-on accessing instances on the page, you should ``require`` this module rather
-than accessing the global variable `Jupyter`, which will be removed in future.
-The following example demonstrates how to access the current notebook instance:
+components on the page, as opposed to the classes defined in the modules. The
+current instances are exposed by a module named ``base/js/namespace``. If you
+plan on accessing instances on the page, you should ``require`` this module
+rather than accessing the global variable ``Jupyter``, which will be removed in
+future. The following example demonstrates how to access the current notebook
+instance:
 
 .. code:: javascript
 
@@ -85,8 +86,8 @@ again this is an API which is not guaranteed to be stable. However, custom key
 bindings are frequently requested, and are helpful to increase accessibility,
 so in the following we show how to access them.
 
-Here is an example of an extension that will unbind the shortcut `0,0` in
-command mode, which normally restarts the kernel, and bind `0,0,0` in its
+Here is an example of an extension that will unbind the shortcut ``0,0`` in
+command mode, which normally restarts the kernel, and bind ``0,0,0`` in its
 place:
 
 .. code:: javascript
@@ -118,8 +119,8 @@ place:
     the situation.
 
 You can see that I have used the **action name**
-`jupyter-notebook:restart-kernel` to bind the new shortcut. There is no API yet
-to access the list of all available *actions*, though the following in the
+``jupyter-notebook:restart-kernel`` to bind the new shortcut. There is no API
+yet to access the list of all available *actions*, though the following in the
 JavaScript console of your browser on a notebook page should give you an idea
 of what is available:
 
