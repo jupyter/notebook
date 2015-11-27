@@ -14,8 +14,9 @@ The structure of a front-end extension
     to a lot of changes. Any extension written for the current notebook is
     almost guaranteed to break in the next release.
 
-A front-end extension is a JavaScript file that defines an
-[AMD module](https://en.wikipedia.org/wiki/Asynchronous_module_definition)
+.. _AMD module: https://en.wikipedia.org/wiki/Asynchronous_module_definition
+
+A front-end extension is a JavaScript file that defines an `AMD module`_
 which exposes at least a function called ``load_ipython_extension``, which
 takes no arguments. We will not get into the details of what each of these
 terms consists of yet, but here is the minimal code needed for a working
