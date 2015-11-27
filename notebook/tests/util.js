@@ -169,7 +169,11 @@ casper.wait_for_output = function (cell_num, out_num) {
         },
         function then() { },
         function timeout() {
-            this.echo("wait_for_output timed out!");
+            this.echo("wait_for_output timed out on cell "+cell_num+", waiting for "+out_num+"outputs .");
+            pn = this.evaluate(function get_prompt(c) {
+                return IPython.notebook.get_cell(c).input_prompt_number;
+            });
+            this.echo("cell prompt was :'"+pn+"'.")
         });
     });
 };
