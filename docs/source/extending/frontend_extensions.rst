@@ -22,16 +22,18 @@ consists of yet, but here is the minimal code needed for a working extension:
 
 .. code:: javascript
 
-    //file myext/main.js
+    // file my_extension/main.js
 
     define(function(){
 
         function load_ipython_extension(){
-            console.info('this is my first extension')
+            console.info('this is my first extension');
         }
 
-        return {load_ipython_extension: load_ipython_extension };
-    })
+        return {
+            load_ipython_extension: load_ipython_extension
+        };
+    });
 
 .. note::
     
@@ -55,17 +57,24 @@ The following example demonstrates how to access the current notebook instance:
 
 .. code:: javascript
 
-    //file myext/main.js
+    // file my_extension/main.js
 
-    define(['base/js/namespace'],function(Jupyter){
-
-        function load_ipython_extension(){
-            console.log('This is the current notebook application instance', Jupyter.notebook);
+    define([
+        'base/js/namespace'
+    ], function(
+        Jupyter
+    ) {
+        function load_ipython_extension() {
+            console.log(
+                'This is the current notebook application instance:',
+                Jupyter.notebook
+            );
         }
 
-        return {load_ipython_extension: load_ipython_extension };
-    })
-
+        return {
+            load_ipython_extension: load_ipython_extension
+        };
+    });
 
 
 Modifying key bindings
@@ -82,17 +91,23 @@ place:
 
 .. code:: javascript
 
-    //file myext/main.js
+    // file my_extension/main.js
 
-    define(['base/js/namespace'],function(Jupyter){
+    define([
+        'base/js/namespace'
+    ], function(
+        Jupyter
+    ) {
 
-        function load_ipython_extension(){
-            Jupyter.keyboard_manager.command_shortcuts.remove_shortcut('0,0')
-            Jupyter.keyboard_manager.command_shortcuts.add_shortcut('0,0,0', 'jupyter-notebook:restart-kernel')
+        function load_ipython_extension() {
+            Jupyter.keyboard_manager.command_shortcuts.remove_shortcut('0,0');
+            Jupyter.keyboard_manager.command_shortcuts.add_shortcut('0,0,0', 'jupyter-notebook:restart-kernel');
         }
 
-        return {load_ipython_extension: load_ipython_extension };
-    })
+        return {
+            load_ipython_extension: load_ipython_extension
+        };
+    });
 
 .. note::
     
@@ -110,7 +125,7 @@ of what is available:
 
 .. code:: javascript
 
-    Object.keys(IPython.actions._actions)
+    Object.keys(require('base/js/namespace').actions._actions);
 
 In this example, we changed the keyboard shortcut in the **command mode**; you
 can also customize keyboard shortcuts in **edit mode**.
@@ -127,11 +142,11 @@ Installing and enabling extensions
 
 You can install your nbextension with the command:
 
-    jupyter nbextension install path/to/myext/
+    jupyter nbextension install path/to/my_extension/
 
-Where myext is the directory containing the Javascript files. This will copy
-it to a Jupyter data directory (the exact location is platform dependent - see
-:ref:`jupyter_path`).
+Where my_extension is the directory containing the Javascript files.
+This will copy it to a Jupyter data directory (the exact location is platform
+dependent - see :ref:`jupyter_path`).
 
 For development, you can use the ``--symlink`` flag to symlink your extension
 rather than copying it, so there's no need to reinstall after changes.
@@ -139,8 +154,9 @@ rather than copying it, so there's no need to reinstall after changes.
 To use your extension, you'll also need to **enable** it, which tells the
 notebook interface to load it. You can do that with another command:
 
-    jupyter nbextension enable myext/main
+    jupyter nbextension enable my_extension/main
 
-The argument refers to the Javascript module containing your ``load_ipython_extension``
-function, which is ``myext/main.js`` in this example. There is a corresponding
-``disable`` command to stop using an extension without uninstalling it.
+The argument refers to the Javascript module containing your
+``load_ipython_extension`` function, which is ``my_extension/main.js`` in this
+example. There is a corresponding ``disable`` command to stop using an
+extension without uninstalling it.
