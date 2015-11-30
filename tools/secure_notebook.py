@@ -31,7 +31,7 @@ def create_self_signed_cert(cert_dir, keyfile, certfile):
     """
     Create a self-signed `keyfile` and `certfile` in `cert_dir`
 
-    Abort if one of the
+    Abort if one of the keyfile of certfile exist.
     """
 
     if not exists(join(cert_dir, certfile)) \
@@ -66,7 +66,7 @@ def create_self_signed_cert(cert_dir, keyfile, certfile):
 
 
 @contextmanager
-def load_config():
+def persist_config():
     """Conext manager that can be use to modify a config object
 
     on exit of the context manager, the config will be written back to disk. 
@@ -92,7 +92,7 @@ def set_password():
     print("We will store your password encrypted in the notebook configuration file: ")
     print(pw)
 
-    with load_config() as config:
+    with persist_config() as config:
         config.NotebookApp.password = pw
 
     print('... done\n')
@@ -119,7 +119,7 @@ def set_certifs():
 
     fullkey = os.path.join(location, keyfile)
     fullcrt = os.path.join(location, certfile)
-    with load_config() as config:
+    with persist_config() as config:
         config.NotebookApp.certfile = fullcrt
         config.NotebookApp.keyfile = fullkey
 
