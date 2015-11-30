@@ -58,6 +58,15 @@ from notebook import (
     DEFAULT_TEMPLATE_PATH_LIST,
     __version__,
 )
+from .auth import passwd
+from getpass import getpass
+
+# py23 compatibility
+try:
+    raw_input = raw_input
+except NameError:
+    raw_input = input
+
 from .base.handlers import Template404
 from .log import log_request
 from .services.kernels.kernelmanager import MappingKernelManager
@@ -570,6 +579,17 @@ class NotebookApp(JupyterApp):
                       """
     )
 
+    password_required = Bool(False, config=True,
+                      help="""Forces users to use a password for the Notebook server.
+                      This is useful in a multi user environment, for instance when
+                      everybody in the LAN can access each other's machine though ssh.
+
+                      In such a case, server the notebook server on localhost is not secure
+                      since any user can connect to the notebook server via ssh.
+
+                      """
+    )
+
     open_browser = Bool(True, config=True,
                         help="""Whether to open in a browser after starting.
                         The specific browser used is platform dependent and
@@ -917,7 +937,50 @@ class NotebookApp(JupyterApp):
         # ensure default_url starts with base_url
         if not self.default_url.startswith(self.base_url):
             self.default_url = url_path_join(self.base_url, self.default_url)
-        
+
+        if self.password_required and (not self.password):
+            self.log.critical("Notebook servers are configured to only be run with a password. Please provide a password")
+            done = False
+            while not done:
+                password = password1 = getpass("Provide password: ")
+                password_repeat = getpass("Repeat password:  ")
+                if password != password_repeat:
+                    print("Passwords do not match, try again")
+                elif len(password) < 4:
+                    print("Please provide at least 4 characters")
+                else:
+                    done = True
+
+            password_hash = passwd(password)
+            self.password = password_hash
+            configure_code = """c.NotebookApp.password = u%r""" % password_hash
+
+            give_store_hint = True
+
+            # This is copied from jupyter_core.application.Application.write_default_config
+            if self.config_file:
+                config_file = self.config_file
+            else:
+                config_file = os.path.join(self.config_dir, self.config_file_name + '.py')
+
+            if raw_input("Save password hash in %s? [y/n]" % config_file).lower() == "y":
+
+                if not os.path.exists(config_file):
+                    self.write_default_config()
+
+                if not os.path.exists(config_file):
+                    self.log.critical("Cannot find %s, while it should have been generated" % config_file)
+                else:
+                    with open(config_file, "a") as f:
+                        f.write("\n%s\n" % configure_code)
+                        give_store_hint = False
+            if give_store_hint:
+                print("Password hash is: %s, please put the following line in your IPython notebook configuration file: " % password_hash)
+                print(configure_code)
+                print("For instance in ipython_notebook_config.py by executing this on the command line:")
+                print("$ echo \"c = get_config();%s\" >> %s" % (configure_code, config_file))
+
+
         self.web_app = NotebookWebApplication(
             self, self.kernel_manager, self.contents_manager,
             self.session_manager, self.kernel_spec_manager,
