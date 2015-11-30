@@ -257,8 +257,8 @@ define([
     
     QuickHelp.prototype.build_edit_help = function (cm_shortcuts) {
         var edit_shortcuts = this.keyboard_manager.edit_shortcuts.help();
-        jQuery.merge(cm_shortcuts, edit_shortcuts);
-        return build_div('<h4>Edit Mode (press <kbd>Enter</kbd> to enable)</h4>', cm_shortcuts);
+        edit_shortcuts = jQuery.merge(jQuery.merge([], cm_shortcuts), edit_shortcuts);
+        return build_div('<h4>Edit Mode (press <kbd>Enter</kbd> to enable)</h4>', edit_shortcuts);
     };
 
     var build_one = function (s) {
