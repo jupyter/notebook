@@ -460,6 +460,19 @@ class TestContentsManager(TestCase):
         # Check that a 'get' on the deleted notebook raises and error
         self.assertRaises(HTTPError, cm.get, path)
 
+    def test_rename(self):
+        cm = self.contents_manager
+        # Create a new notebook
+        nb, name, path = self.new_notebook()
+
+        # Rename the notebook
+        cm.rename(path, "changed_path")
+
+        # Attempting to get the notebook under the old name raises an error
+        self.assertRaises(HTTPError, cm.get, path)
+        # Fetching the notebook under the new name is successful
+        assert isinstance(cm.get("changed_path"), dict)
+
     def test_delete_root(self):
         cm = self.contents_manager
         with self.assertRaises(HTTPError) as err:
