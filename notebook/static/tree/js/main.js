@@ -17,7 +17,7 @@ require([
     'tree/js/newnotebook',
     'auth/js/loginwidget',
     // only loaded, not used:
-    'jqueryui',
+    'jquery-ui',
     'bootstrap',
     'custom/custom',
 ], function(

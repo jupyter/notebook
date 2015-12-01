@@ -18,12 +18,17 @@ var rjs_config = {
     jquery: 'components/jquery/jquery.min',
     bootstrap: 'components/bootstrap/js/bootstrap.min',
     bootstraptour: 'components/bootstrap-tour/build/js/bootstrap-tour.min',
-    jqueryui: 'components/jquery-ui/ui/minified/jquery-ui.min',
+    "jquery-ui": 'components/jquery-ui/ui/minified/jquery-ui.min',
     moment: 'components/moment/moment',
     codemirror: 'components/codemirror',
     termjs: 'components/term.js/src/term',
     typeahead: 'components/jquery-typeahead/dist/jquery.typeahead',
     contents: 'empty:'
+  },
+  map: { // for backward compatibility
+    "*": {
+        "jqueryui": "jquery-ui",
+    }
   },
   shim: {
     typeahead: {
@@ -45,7 +50,7 @@ var rjs_config = {
       deps: ["bootstrap"],
       exports: "Tour"
     },
-    jqueryui: {
+    "jquery-ui": {
       deps: ["jquery"],
       exports: "$"
     }
