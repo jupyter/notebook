@@ -129,7 +129,7 @@ of what is available:
 
     Object.keys(require('base/js/namespace').actions._actions);
 
-In this example, we changed the keyboard shortcut in the **command mode**; you
+In this example, we changed a keyboard shortcut in **command mode**; you
 can also customize keyboard shortcuts in **edit mode**.
 However, most of the keyboard shortcuts in edit mode are handled by CodeMirror,
 which supports custom key bindings via a completely different API.
