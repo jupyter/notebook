@@ -134,10 +134,70 @@ can also customize keyboard shortcuts in **edit mode**.
 However, most of the keyboard shortcuts in edit mode are handled by CodeMirror,
 which supports custom key bindings via a completely different API.
 
-You can also define and register your own **actions** to be used, but the
-documentation for this has not been written yet. If you need to do it, please
-ask us, we can give you the necessary information, and we would appreciate if
-you could format them in a detailed way in place of this paragraph.
+
+Defining and registering your own actions
+-----------------------------------------
+
+As part of your front-end extension, you may wish to define actions, which can
+be attached to toolbar buttons, or called from the command palette. Here is an
+example of an extension that defines a (not very useful!) action to show an
+alert, and adds a toolabr button using the full action name:
+
+.. code:: javascript
+
+    // file my_extension/main.js
+
+    define([
+        'base/js/namespace'
+    ], function(
+        Jupyter
+    ) {
+        function load_ipython_extension() {
+
+            var handler = function () {
+                alert('this is an alert from my_extension!');
+            };
+
+            var action = {
+                icon: 'fa-comment-o', // a font-awesome class used on buttons, etc
+                help    : 'Show an alert',
+                help_index : 'zz',
+                handler : handler
+            };
+            var prefix = 'my_extension';
+            var action_name = 'show-alert';
+
+            var full_action_name = Jupyter.actions.register(action, name, prefix); // returns 'my_extension:show-alert'
+            Jupyter.toolbar.add_buttons_group([full_action_name]);
+        }
+
+        return {
+            load_ipython_extension: load_ipython_extension
+        };
+    });
+
+Every action needs a name, which, when joined with its prefix to make the full
+action name, should be unique. Built-in actions, like the
+``jupyter-notebook:restart-kernel`` we bound in the earlier
+`Modifying key bindings`_ example, use the prefix ``jupyter-notebook``. For
+actions defined in an extension, it makes sense to use the extension name as
+the prefix. For the action name, the following guidelines should be considered:
+
+.. adapted from notebook/static/notebook/js/actions.js
+* First pick a noun and a verb for the action. For example, if the action is
+  "restart kernel," the verb is "restart" and the noun is "kernel".
+* Omit terms like "selected" and "active" by default, so "delete-cell", rather
+  than "delete-selected-cell". Only provide a scope like "-all-" if it is other
+  than the default "selected" or "active" scope.
+* If an action has a secondary action, separate the secondary action with
+  "-and-", so "restart-kernel-and-clear-output".
+* Use above/below or previous/next to indicate spatial and sequential
+  relationships.
+* Don't ever use before/after as they have a temporal connotation that is
+  confusing when used in a spatial context.
+* For dialogs, use a verb that indicates what the dialog will accomplish, such
+  as "confirm-restart-kernel".
+
 
 Installing and enabling extensions
 ----------------------------------
