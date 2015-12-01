@@ -39,10 +39,16 @@ class SessionManager(LoggingConfigurable):
             self._connection = sqlite3.connect(':memory:')
             self._connection.row_factory = sqlite3.Row
         return self._connection
-        
+    
+    def close(self):
+        """Close the sqlite connection"""
+        if self._cursor is not None:
+            self._cursor.close()
+            self._cursor = None
+
     def __del__(self):
         """Close connection once SessionManager closes"""
-        self.cursor.close()
+        self.close()
 
     def session_exists(self, path):
         """Check to see if the session for a given notebook exists"""
