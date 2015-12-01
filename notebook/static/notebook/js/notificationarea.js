@@ -35,7 +35,7 @@ define([
      */
     NotebookNotificationArea.prototype.init_kernel_notification_widget = function () {
         var that = this;
-        var knw = this.new_notification_widget('kernel');
+        var knw = this.widget('kernel');
         var $kernel_ind_icon = $("#kernel_indicator_icon");
         var $modal_ind_icon = $("#modal_indicator");
         var $readonly_ind_icon = $('#readonly-indicator');
@@ -284,7 +284,7 @@ define([
      * @method init_notebook_notification_widget
      */
     NotebookNotificationArea.prototype.init_notebook_notification_widget = function () {
-        var nnw = this.new_notification_widget('notebook');
+        var nnw = this.widget('notebook');
 
         // Notebook events
         this.events.on('notebook_loading.Notebook', function () {
@@ -346,7 +346,7 @@ define([
      * @method init_marked_cells_notification_widget
      */
     NotebookNotificationArea.prototype.init_marked_cells_notification_widget = function () {
-        var mcnw = this.new_notification_widget('marked_cells');
+        var mcnw = this.widget('marked_cells');
 
         this.events.on('marked_offscreen.Cell', function (evt, num) {
             if (num === 0) {
