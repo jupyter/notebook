@@ -1,5 +1,5 @@
-Custom front-end extesions
-==========================
+Custom front-end extensions
+===========================
 
 This describes the basic steps to write a JavaScript extension for the Jupyter
 notebook front-end. This allows you to customize the behaviour of the various
