@@ -6,6 +6,7 @@ import os
 import sys
 import time
 from contextlib import contextmanager
+from itertools import combinations
 
 from nose import SkipTest
 from tornado.web import HTTPError
@@ -188,6 +189,41 @@ class TestFileContentsManager(TestCase):
 
 
 class TestContentsManager(TestCase):
+    @contextmanager
+    def assertRaisesHTTPError(self, status, msg=None):
+        msg = msg or "Should have raised HTTPError(%i)" % status
+        try:
+            yield
+        except HTTPError as e:
+            self.assertEqual(e.status_code, status)
+        else:
+            self.fail(msg)
+
+    def make_populated_dir(self, api_path):
+        cm = self.contents_manager
+
+        self.make_dir(api_path)
+
+        cm.new(path="/".join([api_path, "nb.ipynb"]))
+        cm.new(path="/".join([api_path, "file.txt"]))
+
+    def check_populated_dir_files(self, api_path):
+        dir_model = self.contents_manager.get(api_path)
+
+        self.assertEqual(dir_model['path'], api_path)
+        self.assertEqual(dir_model['type'], "directory")
+
+        for entry in dir_model['content']:
+            if entry['type'] == "directory":
+                continue
+            elif entry['type'] == "file":
+                self.assertEqual(entry['name'], "file.txt")
+                complete_path = "/".join([api_path, "file.txt"])
+                self.assertEqual(entry["path"], complete_path)
+            elif entry['type'] == "notebook":
+                self.assertEqual(entry['name'], "nb.ipynb")
+                complete_path = "/".join([api_path, "nb.ipynb"])
+                self.assertEqual(entry["path"], complete_path)
     
     def setUp(self):
         self._temp_dir = TemporaryDirectory()
@@ -472,6 +508,42 @@ class TestContentsManager(TestCase):
         self.assertRaises(HTTPError, cm.get, path)
         # Fetching the notebook under the new name is successful
         assert isinstance(cm.get("changed_path"), dict)
+
+        # Ported tests on nested directory renaming from pgcontents
+        all_dirs = ['foo', 'bar', 'foo/bar', 'foo/bar/foo', 'foo/bar/foo/bar']
+        unchanged_dirs = all_dirs[:2]
+        changed_dirs = all_dirs[2:]
+
+        for _dir in all_dirs:
+            self.make_populated_dir(_dir)
+            self.check_populated_dir_files(_dir)
+
+        # Renaming to an existing directory should fail
+        for src, dest in combinations(all_dirs, 2):
+            with self.assertRaisesHTTPError(409):
+                cm.rename(src, dest)
+
+        # Creating a notebook in a non_existant directory should fail
+        with self.assertRaisesHTTPError(404):
+            cm.new_untitled("foo/bar_diff", ext=".ipynb")
+
+        cm.rename("foo/bar", "foo/bar_diff")
+
+        # Assert that unchanged directories remain so
+        for unchanged in unchanged_dirs:
+            self.check_populated_dir_files(unchanged)
+
+        # Assert changed directories can no longer be accessed under old names
+        for changed_dirname in changed_dirs:
+            with self.assertRaisesHTTPError(404):
+                cm.get(changed_dirname)
+
+            new_dirname = changed_dirname.replace("foo/bar", "foo/bar_diff", 1)
+
+            self.check_populated_dir_files(new_dirname)
+
+        # Created a notebook in the renamed directory should work
+        cm.new_untitled("foo/bar_diff", ext=".ipynb")
 
     def test_delete_root(self):
         cm = self.contents_manager
