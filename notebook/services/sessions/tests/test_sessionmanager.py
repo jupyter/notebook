@@ -2,7 +2,8 @@
 
 from unittest import TestCase
 
-from tornado import web
+from tornado import gen, web
+from tornado.ioloop import IOLoop
 
 from ..sessionmanager import SessionManager
 from notebook.services.kernels.kernelmanager import MappingKernelManager
@@ -37,11 +38,27 @@ class TestSessionManager(TestCase):
             kernel_manager=DummyMKM(),
             contents_manager=ContentsManager(),
         )
-
+        self.loop = IOLoop()
+    
+    def tearDown(self):
+        self.loop.close(all_fds=True)
+    
+    def create_sessions(self, *kwarg_list):
+        @gen.coroutine
+        def co_add():
+            sessions = []
+            for kwargs in kwarg_list:
+                session = yield self.sm.create_session(**kwargs)
+                sessions.append(session)
+            raise gen.Return(sessions)
+        return self.loop.run_sync(co_add)
+    
+    def create_session(self, **kwargs):
+        return self.create_sessions(kwargs)[0]
+    
     def test_get_session(self):
         sm = self.sm
-        session_id = sm.create_session(path='/path/to/test.ipynb',
-                                       kernel_name='bar')['id']
+        session_id = self.create_session(path='/path/to/test.ipynb', kernel_name='bar')['id']
         model = sm.get_session(session_id=session_id)
         expected = {'id':session_id,
                     'notebook':{'path': u'/path/to/test.ipynb'},
@@ -51,13 +68,13 @@ class TestSessionManager(TestCase):
     def test_bad_get_session(self):
         # Should raise error if a bad key is passed to the database.
         sm = self.sm
-        session_id = sm.create_session(path='/path/to/test.ipynb',
+        session_id = self.create_session(path='/path/to/test.ipynb',
                                        kernel_name='foo')['id']
         self.assertRaises(TypeError, sm.get_session, bad_id=session_id) # Bad keyword
 
     def test_get_session_dead_kernel(self):
         sm = self.sm
-        session = sm.create_session(path='/path/to/1/test1.ipynb', kernel_name='python')
+        session = self.create_session(path='/path/to/1/test1.ipynb', kernel_name='python')
         # kill the kernel
         sm.kernel_manager.shutdown_kernel(session['kernel']['id'])
         with self.assertRaises(KeyError):
@@ -68,11 +85,12 @@ class TestSessionManager(TestCase):
 
     def test_list_sessions(self):
         sm = self.sm
-        sessions = [
-            sm.create_session(path='/path/to/1/test1.ipynb', kernel_name='python'),
-            sm.create_session(path='/path/to/2/test2.ipynb', kernel_name='python'),
-            sm.create_session(path='/path/to/3/test3.ipynb', kernel_name='python'),
-        ]
+        sessions = self.create_sessions(
+            dict(path='/path/to/1/test1.ipynb', kernel_name='python'),
+            dict(path='/path/to/2/test2.ipynb', kernel_name='python'),
+            dict(path='/path/to/3/test3.ipynb', kernel_name='python'),
+        )
+        
         sessions = sm.list_sessions()
         expected = [
             {
@@ -93,10 +111,10 @@ class TestSessionManager(TestCase):
 
     def test_list_sessions_dead_kernel(self):
         sm = self.sm
-        sessions = [
-            sm.create_session(path='/path/to/1/test1.ipynb', kernel_name='python'),
-            sm.create_session(path='/path/to/2/test2.ipynb', kernel_name='python'),
-        ]
+        sessions = self.create_sessions(
+            dict(path='/path/to/1/test1.ipynb', kernel_name='python'),
+            dict(path='/path/to/2/test2.ipynb', kernel_name='python'),
+        )
         # kill one of the kernels
         sm.kernel_manager.shutdown_kernel(sessions[0]['kernel']['id'])
         listed = sm.list_sessions()
@@ -116,7 +134,7 @@ class TestSessionManager(TestCase):
 
     def test_update_session(self):
         sm = self.sm
-        session_id = sm.create_session(path='/path/to/test.ipynb',
+        session_id = self.create_session(path='/path/to/test.ipynb',
                                        kernel_name='julia')['id']
         sm.update_session(session_id, path='/path/to/new_name.ipynb')
         model = sm.get_session(session_id=session_id)
@@ -128,17 +146,17 @@ class TestSessionManager(TestCase):
     def test_bad_update_session(self):
         # try to update a session with a bad keyword ~ raise error
         sm = self.sm
-        session_id = sm.create_session(path='/path/to/test.ipynb',
+        session_id = self.create_session(path='/path/to/test.ipynb',
                                        kernel_name='ir')['id']
         self.assertRaises(TypeError, sm.update_session, session_id=session_id, bad_kw='test.ipynb') # Bad keyword
 
     def test_delete_session(self):
         sm = self.sm
-        sessions = [
-            sm.create_session(path='/path/to/1/test1.ipynb', kernel_name='python'),
-            sm.create_session(path='/path/to/2/test2.ipynb', kernel_name='python'),
-            sm.create_session(path='/path/to/3/test3.ipynb', kernel_name='python'),
-        ]
+        sessions = self.create_sessions(
+            dict(path='/path/to/1/test1.ipynb', kernel_name='python'),
+            dict(path='/path/to/2/test2.ipynb', kernel_name='python'),
+            dict(path='/path/to/3/test3.ipynb', kernel_name='python'),
+        )
         sm.delete_session(sessions[1]['id'])
         new_sessions = sm.list_sessions()
         expected = [{
@@ -156,7 +174,7 @@ class TestSessionManager(TestCase):
     def test_bad_delete_session(self):
         # try to delete a session that doesn't exist ~ raise error
         sm = self.sm
-        sm.create_session(path='/path/to/test.ipynb', kernel_name='python')
+        self.create_session(path='/path/to/test.ipynb', kernel_name='python')
         self.assertRaises(TypeError, sm.delete_session, bad_kwarg='23424') # Bad keyword
         self.assertRaises(web.HTTPError, sm.delete_session, session_id='23424') # nonexistant
 

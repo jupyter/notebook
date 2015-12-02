@@ -19,6 +19,7 @@ except ImportError:
 
 from tornado.ioloop import IOLoop
 
+import jupyter_core.paths
 from ..notebookapp import NotebookApp
 from ipython_genutils.tempdir import TemporaryDirectory
 
@@ -51,9 +52,8 @@ class NotebookTestBase(TestCase):
             try:
                 requests.get(url)
             except Exception as e:
-                if cls.notebook.poll() is not None:
-                    raise RuntimeError("The notebook server exited with status %s" \
-                                        % cls.notebook.poll())
+                if not cls.notebook_thread.is_alive():
+                    raise RuntimeError("The notebook server failed to start")
                 time.sleep(POLL_INTERVAL)
             else:
                 return
@@ -77,31 +77,35 @@ class NotebookTestBase(TestCase):
             'JUPYTER_DATA_DIR' : data_dir.name
         })
         cls.env_patch.start()
+        cls.path_patch = patch.object(jupyter_core.paths, 'SYSTEM_JUPYTER_PATH', [])
+        cls.path_patch.start()
         cls.config_dir = TemporaryDirectory()
         cls.data_dir = data_dir
         cls.runtime_dir = TemporaryDirectory()
         cls.notebook_dir = TemporaryDirectory()
-        app = cls.notebook = NotebookApp(
-            port=cls.port,
-            port_retries=0,
-            open_browser=False,
-            config_dir=cls.config_dir.name,
-            data_dir=cls.data_dir.name,
-            runtime_dir=cls.runtime_dir.name,
-            notebook_dir=cls.notebook_dir.name,
-            base_url=cls.url_prefix,
-            config=cls.config,
-        )
         
-        # clear log handlers and propagate to root for nose to capture it
-        # needs to be redone after initialize, which reconfigures logging
-        app.log.propagate = True
-        app.log.handlers = []
-        app.initialize(argv=[])
-        app.log.propagate = True
-        app.log.handlers = []
         started = Event()
         def start_thread():
+            app = cls.notebook = NotebookApp(
+                port=cls.port,
+                port_retries=0,
+                open_browser=False,
+                config_dir=cls.config_dir.name,
+                data_dir=cls.data_dir.name,
+                runtime_dir=cls.runtime_dir.name,
+                notebook_dir=cls.notebook_dir.name,
+                base_url=cls.url_prefix,
+                config=cls.config,
+            )
+            # don't register signal handler during tests
+            app.init_signal = lambda : None
+            # clear log handlers and propagate to root for nose to capture it
+            # needs to be redone after initialize, which reconfigures logging
+            app.log.propagate = True
+            app.log.handlers = []
+            app.initialize(argv=[])
+            app.log.propagate = True
+            app.log.handlers = []
             loop = IOLoop.current()
             loop.add_callback(started.set)
             try:
@@ -109,6 +113,7 @@ class NotebookTestBase(TestCase):
             finally:
                 # set the event, so failure to start doesn't cause a hang
                 started.set()
+                app.session_manager.close()
         cls.notebook_thread = Thread(target=start_thread)
         cls.notebook_thread.start()
         started.wait()
@@ -118,12 +123,13 @@ class NotebookTestBase(TestCase):
     def teardown_class(cls):
         cls.notebook.stop()
         cls.wait_until_dead()
-        cls.env_patch.start()
         cls.home_dir.cleanup()
         cls.config_dir.cleanup()
         cls.data_dir.cleanup()
         cls.runtime_dir.cleanup()
         cls.notebook_dir.cleanup()
+        cls.env_patch.stop()
+        cls.path_patch.stop()
 
     @classmethod
     def base_url(cls):
