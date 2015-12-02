@@ -53,8 +53,9 @@ define([
          if (sel) { 
             var ranges = cm.listSelections();
             for (var i = ranges.length - 1; i >= 0; i--) {
-              var cur = ranges[i].head;
-              cm.replaceRange("", Pos(cur.line, cur.ch - 1), Pos(cur.line, cur.ch + 1));
+              var head = ranges[i].head;
+              var anchor = ranges[i].anchor;
+              cm.replaceRange("", Pos(head.line, head.ch), CodeMirror.Pos(anchor.line, anchor.ch));
             }
             return;
         }
