@@ -43,6 +43,7 @@ def log_request(handler):
         msg = msg + ' referer={referer}'
     if status >= 500 and status != 502:
         # log all headers if it caused an error
-        log_method(json.dumps(request.headers, indent=2))
+        headers = { k: request.headers[k] for k in request.headers }
+        log_method(json.dumps(headers, indent=2))
     log_method(msg.format(**ns))
 
