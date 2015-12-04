@@ -368,7 +368,7 @@ define([
          **/
         var action_name = this.actions.get_name(data);
         if (! action_name){
-          throw new Error('does not know how to deal with', data);
+          throw new Error('does not know how to deal with : ' + data);
         }
         shortcut = normalize_shortcut(shortcut);
         this.set_shortcut(shortcut, action_name);

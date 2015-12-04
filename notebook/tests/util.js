@@ -169,11 +169,11 @@ casper.wait_for_output = function (cell_num, out_num) {
         },
         function then() { },
         function timeout() {
-            this.echo("wait_for_output timed out on cell "+cell_num+", waiting for "+out_num+"outputs .");
+            this.echo("wait_for_output timed out on cell "+cell_num+", waiting for "+out_num+" outputs .");
             var pn = this.evaluate(function get_prompt(c) {
-                return IPython.notebook.get_cell(c).input_prompt_number;
+                return (IPython.notebook.get_cell(c)|| {'input_prompt_number':'no cell'}).input_prompt_number;
             });
-            this.echo("cell prompt was :'"+pn+"'.")
+            this.echo("cell prompt was :'"+pn+"'.");
         });
     });
 };
@@ -229,7 +229,8 @@ casper.cell_has_outputs = function (cell_num) {
     return result > 0;
 };
 
-casper.get_output_cell = function (cell_num, out_num) {
+casper.get_output_cell = function (cell_num, out_num, message) {
+    messsge  = message+': ' ||'no category :'
     // return an output of a given cell
     out_num = out_num || 0;
     var result = casper.evaluate(function (c, o) {
@@ -244,7 +245,7 @@ casper.get_output_cell = function (cell_num, out_num) {
         },
         {c : cell_num});
         this.test.assertTrue(false,
-            "Cell " + cell_num + " has no output #" + out_num + " (" + num_outputs + " total)"
+            message+"Cell " + cell_num + " has no output #" + out_num + " (" + num_outputs + " total)"
         );
     } else {
         return result;
@@ -394,14 +395,19 @@ casper.cell_element_function = function(index, selector, function_name, function
 casper.validate_notebook_state = function(message, mode, cell_index) {
     // Validate the entire dual mode state of the notebook.  Make sure no more than
     // one cell is selected, focused, in edit mode, etc...
-
     // General tests.
     this.test.assertEquals(this.get_keyboard_mode(), this.get_notebook_mode(),
         message + '; keyboard and notebook modes match');
     // Is the selected cell the only cell that is selected?
     if (cell_index!==undefined) {
         this.test.assert(this.is_only_cell_selected(cell_index),
-            message + '; cell ' + cell_index + ' is the only cell selected');
+            message + '; expecting cell ' + cell_index + ' to be the only cell selected. Got selected cell(s):'+
+            (function(){
+                return casper.evaluate(function(){
+                    return IPython.notebook.get_selected_cells_indices();
+                })
+            })()
+            );
     }
 
     // Mode specific tests.
@@ -433,11 +439,11 @@ casper.validate_notebook_state = function(message, mode, cell_index) {
     }
 };
 
-casper.select_cell = function(index) {
+casper.select_cell = function(index, moveanchor) {
     // Select a cell in the notebook.
-    this.evaluate(function (i) {
-        IPython.notebook.select(i);
-    }, {i: index});
+    this.evaluate(function (i, moveanchor) {
+        IPython.notebook.select(i, moveanchor);
+    }, {i: index, moveanchor: moveanchor});
 };
 
 casper.click_cell_editor = function(index) {
