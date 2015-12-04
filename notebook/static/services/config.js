@@ -93,7 +93,7 @@ function($, utils) {
     ConfigWithDefaults.prototype.get = function(key) {
         var that = this;
         return this.section.loaded.then(function() {
-            return this._class_data()[key] || this.defaults[key]
+            return that._class_data()[key] || that.defaults[key]
         });
     };
     
