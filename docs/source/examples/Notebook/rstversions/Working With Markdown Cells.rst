@@ -11,7 +11,7 @@ can be found here:
 http://daringfireball.net/projects/markdown/
 
 Markdown basics
-===============
+---------------
 
 You can make text *italic* or **bold**.
 
@@ -64,7 +64,7 @@ And shorthand for links:
 `Jupyter's website <http://jupyter.org>`__
 
 Headings
-========
+--------
 
 You can add headings by starting a line with one (or multiple) ``#``
 followed by a space, as in the following example:
@@ -82,7 +82,7 @@ Heading 2.2
 -----------
 
 Embedded code
-=============
+-------------
 
 You can embed code meant for illustration instead of execution in
 Python:
@@ -103,7 +103,7 @@ or other languages:
     }
 
 LaTeX equations
-===============
+---------------
 
 Courtesy of MathJax, you can include mathematical expressions both
 inline: :math:`e^{i\pi} + 1 = 0` and displayed:
@@ -124,7 +124,7 @@ Expressions on their own line are surrounded by ``$$``:
     $$e^x=\sum_{i=0}^\infty \frac{1}{i!}x^i$$
 
 Github flavored markdown (GFM)
-==============================
+------------------------------
 
 The Notebook webapp support Github flavored markdown meaning that you
 can use triple backticks for code blocks
@@ -170,7 +170,7 @@ A nice Html Table
 +--------+---------+
 
 General HTML
-============
+------------
 
 Because Markdown is a superset of HTML you can even add things like HTML
 tables:
@@ -268,7 +268,7 @@ row 2, cell 2
    </table>
 
 Local files
-===========
+-----------
 
 If you have local files in your Notebook directory, you can refer to
 these files in Markdown cells directly:
@@ -297,7 +297,7 @@ These do not embed the data into the notebook file, and require that the
 files exist when you are viewing the notebook.
 
 Security of local files
-=======================
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Note that this means that the Jupyter notebook server also acts as a
 generic file server for files inside the same tree as your notebooks.

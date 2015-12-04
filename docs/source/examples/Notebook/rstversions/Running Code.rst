@@ -11,7 +11,7 @@ single kernel. This notebook is associated with the IPython kernel,
 therefor runs Python code.
 
 Code cells allow you to enter and run code
-==========================================
+------------------------------------------
 
 Run a code cell using ``Shift-Enter`` or pressing the
 
@@ -39,7 +39,7 @@ There are two other keyboard shortcuts for running code:
 -  ``Ctrl-Enter`` run the current cell and enters command mode.
 
 Managing the Kernel
-===================
+-------------------
 
 Code is run in a separate process called the Kernel. The Kernel can be
 interrupted or restarted. Try running the following cell and then hit
@@ -75,7 +75,7 @@ segfault the Python interpreter:
     libc.time(-1)  # BOOM!!
 
 Cell menu
-=========
+---------
 
 The "Cell" menu has a number of menu items for running code in different
 ways. These includes:
@@ -87,7 +87,7 @@ ways. These includes:
 -  Run All Below
 
 Restarting the kernels
-======================
+----------------------
 
 The kernel maintains the state of a notebook's computations. You can
 reset this state by restarting the kernel. This is done by clicking on
@@ -104,7 +104,7 @@ the
 in the toolbar above.
 
 sys.stdout and sys.stderr
-=========================
+-------------------------
 
 The stdout and stderr streams are displayed as text in the output area.
 
@@ -118,7 +118,7 @@ The stdout and stderr streams are displayed as text in the output area.
     print('hi, stderr', file=sys.stderr)
 
 Output is asynchronous
-======================
+----------------------
 
 All output is displayed asynchronously as it is generated in the Kernel.
 If you execute the next cell, you will see the output one piece at a
@@ -132,7 +132,7 @@ time, not all at the end.
         time.sleep(0.5)
 
 Large outputs
-=============
+-------------
 
 To better handle large outputs, the output area can be collapsed. Run
 the following cell and then single- or double- click on the active area

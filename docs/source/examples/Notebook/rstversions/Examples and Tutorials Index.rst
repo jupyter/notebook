@@ -11,7 +11,7 @@ can download the original interactive notebook files using the links at
 the tops and bottoms of the pages.
 
 Tutorials
-=========
+---------
 
 -  `What is the Jupyter
    Notebook <What%20is%20the%20Jupyter%20Notebook.html>`__
@@ -24,7 +24,7 @@ Tutorials
    Extensions <JavaScript%20Notebook%20Extensions.html>`__
 
 Examples
-========
+--------
 
 -  `Importing Notebooks <Importing%20Notebooks.html>`__
 -  `Connecting with the Qt
