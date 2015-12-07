@@ -104,7 +104,11 @@ def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
 
 
 @contextmanager
+<<<<<<< HEAD
 def _simple_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
+=======
+def _simple_writing(path, text=True, encoding='utf-8', **kwargs):
+>>>>>>> master
     """Context manager to write file without doing atomic writing
     ( for weird filesystem eg: nfs).
 

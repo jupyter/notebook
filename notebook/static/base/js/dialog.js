@@ -75,6 +75,8 @@ define(function(require) {
         
         var footer = $("<div/>").addClass("modal-footer");
         
+        var default_button;
+        
         for (var label in options.buttons) {
             var btn_opts = options.buttons[label];
             var button = $("<button/>")
@@ -88,12 +90,18 @@ define(function(require) {
                 button.addClass(btn_opts.class);
             }
             footer.append(button);
+            if (options.default_button && label === options.default_button) {
+                default_button = button;
+            }
+        }
+        if (!options.default_button) {
+            default_button = footer.find("button").last();
         }
         dialog_content.append(footer);
         // hook up on-open event
-        modal.on("shown.bs.modal", function() {
-            setTimeout(function() {
-                footer.find("button").last().focus();
+        modal.on("shown.bs.modal", function () {
+            setTimeout(function () {
+                default_button.focus();
                 if (options.open) {
                     $.proxy(options.open, modal)();
                 }

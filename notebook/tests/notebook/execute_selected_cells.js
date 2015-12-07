@@ -3,16 +3,18 @@
 //
 casper.notebook_test(function () {
     var that = this;
-    var assert_outputs = function (expected) {
+    var assert_outputs = function (expected, msg_prefix) {
         var msg, i;
+        msg_prefix = "(assert_outputs) "+(msg_prefix || 'no prefix')+": ";
         for (i = 0; i < that.get_cells_length(); i++) {
             if (expected[i] === undefined) {
-                msg = 'cell ' + i + ' not executed';
+                msg = msg_prefix + 'cell ' + i + ' not executed';
                 that.test.assertFalse(that.cell_has_outputs(i), msg);
 
             } else {
-                msg = 'cell ' + i + ' executed';
-                that.test.assertEquals(that.get_output_cell(i).text, expected[i], msg);
+                msg = msg_prefix + 'cell ' + i + ' executed';
+                var out = that.get_output_cell(i, undefined, msg_prefix).text
+                that.test.assertEquals(out, expected[i], msg + 'out is: '+out);
             }
         }
     };
@@ -23,20 +25,24 @@ casper.notebook_test(function () {
         this.append_cell('print("c")');
         this.append_cell('print("d")');
         this.test.assertEquals(this.get_cells_length(), 4, "correct number of cells");
+    });
 
-        this.evaluate(function () {
-            IPython.notebook.unmark_all_cells();
-            IPython.notebook.set_marked_indices([1, 2]);
-        });
+    this.then(function () {
+        this.select_cell(1);
+        this.select_cell(2, false);
     });
 
     this.then(function () {
         this.evaluate(function () {
             IPython.notebook.clear_all_output();
         });
+    })
 
+    this.then(function(){
         this.select_cell(1);
-        this.validate_notebook_state('before execute', 'command', 1);
+        this.validate_notebook_state('before execute 1', 'command', 1);
+        this.select_cell(1);
+        this.select_cell(2, false);
         this.trigger_keydown('ctrl-enter');
     });
 
@@ -44,48 +50,29 @@ casper.notebook_test(function () {
     this.wait_for_output(2);
 
     this.then(function () {
-        assert_outputs([undefined, 'b\n', 'c\n', undefined]);
-        this.validate_notebook_state('run marked cells', 'command', 2);
+        assert_outputs([undefined, 'b\n', 'c\n', undefined], 'run selected 1');
+        this.validate_notebook_state('run selected cells 1', 'command', 2);
     });
 
-    // execute cells in place when there are marked cells
+
+    // execute and insert below when there are selected cells
     this.then(function () {
         this.evaluate(function () {
             IPython.notebook.clear_all_output();
         });
 
         this.select_cell(1);
-        this.validate_notebook_state('before execute', 'command', 1);
-        this.trigger_keydown('shift-enter');
-    });
-
-    this.wait_for_output(1);
-    this.wait_for_output(2);
-
-    this.then(function () {
-        assert_outputs([undefined, 'b\n', 'c\n', undefined]);
-        this.validate_notebook_state('run marked cells', 'command', 2);
-    });
-
-    // execute and insert below when there are marked cells
-    this.then(function () {
-        this.evaluate(function () {
-            IPython.notebook.clear_all_output();
-        });
-
-        this.select_cell(1);
-        this.validate_notebook_state('before execute', 'command', 1);
+        this.validate_notebook_state('before execute 2', 'command', 1);
         this.evaluate(function () {
             $("#run_cell_insert_below").click();
         });
     });
 
     this.wait_for_output(1);
-    this.wait_for_output(2);
 
     this.then(function () {
-        assert_outputs([undefined, 'b\n', 'c\n', undefined]);
-        this.validate_notebook_state('run marked cells', 'command', 2);
+        assert_outputs([undefined, 'b\n', undefined, undefined , undefined],'run selected cells 2');
+        this.validate_notebook_state('run selected cells 2', 'edit', 2);
     });
 
     // check that it doesn't affect run all above
@@ -95,7 +82,7 @@ casper.notebook_test(function () {
         });
 
         this.select_cell(1);
-        this.validate_notebook_state('before execute', 'command', 1);
+        this.validate_notebook_state('before execute 3', 'command', 1);
         this.evaluate(function () {
             $("#run_all_cells_above").click();
         });
@@ -104,7 +91,7 @@ casper.notebook_test(function () {
     this.wait_for_output(0);
 
     this.then(function () {
-        assert_outputs(['a\n', undefined, undefined, undefined]);
+        assert_outputs(['a\n', undefined, undefined, undefined],'run cells above');
         this.validate_notebook_state('run cells above', 'command', 0);
     });
 
@@ -115,7 +102,7 @@ casper.notebook_test(function () {
         });
 
         this.select_cell(1);
-        this.validate_notebook_state('before execute', 'command', 1);
+        this.validate_notebook_state('before execute 4', 'command', 1);
         this.evaluate(function () {
             $("#run_all_cells_below").click();
         });
@@ -126,8 +113,8 @@ casper.notebook_test(function () {
     this.wait_for_output(3);
 
     this.then(function () {
-        assert_outputs([undefined, 'b\n', 'c\n', 'd\n']);
-        this.validate_notebook_state('run cells below', 'command', 3);
+        assert_outputs([undefined, 'b\n', undefined, 'c\n', 'd\n'],'run cells below');
+        this.validate_notebook_state('run cells below', 'command', 4);
     });
 
     // check that it doesn't affect run all
@@ -137,7 +124,7 @@ casper.notebook_test(function () {
         });
 
         this.select_cell(1);
-        this.validate_notebook_state('before execute', 'command', 1);
+        this.validate_notebook_state('before execute 5', 'command', 1);
         this.evaluate(function () {
             $("#run_all_cells").click();
         });
@@ -149,7 +136,7 @@ casper.notebook_test(function () {
     this.wait_for_output(3);
 
     this.then(function () {
-        assert_outputs(['a\n', 'b\n', 'c\n', 'd\n']);
-        this.validate_notebook_state('run all cells', 'command', 3);
+        assert_outputs(['a\n', 'b\n', undefined, 'c\n', 'd\n'],'run all cells');
+        this.validate_notebook_state('run all cells', 'command', 4);
     });
 });

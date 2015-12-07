@@ -107,10 +107,10 @@ define(function(require){
             }
         },
         'run-cell':{
-            help    : 'run marked cells',
+            help    : 'run selected cells',
             help_index : 'bb',
             handler : function (env) {
-                env.notebook.execute_marked_cells();
+                env.notebook.execute_selected_cells();
             }
         },
         'run-cell-and-insert-below':{
@@ -163,7 +163,7 @@ define(function(require){
             handler : function (env) {
                 var index = env.notebook.get_selected_index();
                 if (index !== 0 && index !== null) {
-                    env.notebook.select_prev();
+                    env.notebook.select_prev(true);
                     env.notebook.focus_cell();
                 }
             }
@@ -174,23 +174,23 @@ define(function(require){
             handler : function (env) {
                 var index = env.notebook.get_selected_index();
                 if (index !== (env.notebook.ncells()-1) && index !== null) {
-                    env.notebook.select_next();
+                    env.notebook.select_next(true);
                     env.notebook.focus_cell();
                 }
             }
         },
-        'extend-marked-cells-above' : {
-            help: 'extend marked cells above',
+        'extend-selection-above' : {
+            help: 'extend selected cells above',
             help_index : 'dc',
             handler : function (env) {
-                env.notebook.extend_marked(-1);
+                env.notebook.extend_selection_by(-1)
             }
         },
-        'extend-marked-cells-below' : {
-            help: 'extend marked cells below',
+        'extend-selection-below' : {
+            help: 'extend selected cells below',
             help_index : 'dd',
             handler : function (env) {
-                env.notebook.extend_marked(1);
+                env.notebook.extend_selection_by(1)
             }
         },
         'cut-cell' : {
@@ -229,7 +229,7 @@ define(function(require){
             help_index : 'ec',
             handler : function (env) {
                 env.notebook.insert_cell_above();
-                env.notebook.select_prev();
+                env.notebook.select_prev(true);
                 env.notebook.focus_cell();
             }
         },
@@ -239,7 +239,7 @@ define(function(require){
             help_index : 'ed',
             handler : function (env) {
                 env.notebook.insert_cell_below();
-                env.notebook.select_next();
+                env.notebook.select_next(true);
                 env.notebook.focus_cell();
             }
         },
@@ -380,16 +380,10 @@ define(function(require){
             }
         },
         'merge-cells' : {
-            help : 'merge marked cells',
+            help : 'merge selected cells',
             help_index: 'el',
             handler: function(env) {
-                env.notebook.merge_marked_cells();
-            }
-        },
-        'close-pager' : {
-            help_index : 'gd',
-            handler : function (env) {
-                env.pager.collapse();
+                env.notebook.merge_selected_cells();
             }
         },
         'show-command-palette': {
@@ -398,29 +392,6 @@ define(function(require){
             icon: 'fa-keyboard-o',
             handler : function(env){
                 env.notebook.show_command_palette();
-            }
-        },
-        'toggle-cell-marked': {
-            help_index : 'cj',
-            help: 'toggle marks',
-            icon: 'fa-check',
-            handler : function(env){
-                // Use bitwise logic to toggle the marked state.
-                env.notebook.get_selected_cell().marked ^= true;
-            }
-        },
-        'unmark-all-cells': {
-            help_index : 'ck',
-            help : 'unmark all cells',
-            handler : function(env) {
-                env.notebook.unmark_all_cells();
-            }
-        },
-        'mark-all-cells': {
-            help_index : 'cl',
-            help : 'mark all cells',
-            handler : function(env) {
-                env.notebook.mark_all_cells();
             }
         },
         'toggle-toolbar':{
@@ -438,14 +409,12 @@ define(function(require){
                 events.trigger('resize-header.Page');
             }
         },
-        'close-pager-or-unmark-all-cells': {
-            help : 'close the pager or unmark all cells',
+        'close-pager': {
+            help : 'close the pager',
             handler : function(env) {
-                // Collapse the page if it is open, otherwise unmark all.
+                // Collapse the page if it is open
                 if (env.pager && env.pager.expanded) {
                     env.pager.collapse();
-                } else {
-                    env.notebook.unmark_all_cells();
                 }
             }
         },
@@ -481,7 +450,7 @@ define(function(require){
                         event.preventDefault();
                     }
                     env.notebook.command_mode();
-                    env.notebook.select_prev();
+                    env.notebook.select_prev(true);
                     env.notebook.edit_mode();
                     cm = env.notebook.get_selected_cell().code_mirror;
                     cm.setCursor(cm.lastLine(), 0);
@@ -498,7 +467,7 @@ define(function(require){
                         event.preventDefault();
                     }
                     env.notebook.command_mode();
-                    env.notebook.select_next();
+                    env.notebook.select_next(true);
                     env.notebook.edit_mode();
                     var cm = env.notebook.get_selected_cell().code_mirror;
                     cm.setCursor(0, 0);

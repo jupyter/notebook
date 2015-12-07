@@ -8,7 +8,7 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-
 
 import json
 
-from tornado import web
+from tornado import gen, web
 
 from ...base.handlers import APIHandler, json_errors
 from jupyter_client.jsonutil import date_default
@@ -20,20 +20,20 @@ class SessionRootHandler(APIHandler):
 
     @web.authenticated
     @json_errors
+    @gen.coroutine
     def get(self):
         # Return a list of running sessions
         sm = self.session_manager
-        sessions = sm.list_sessions()
+        sessions = yield gen.maybe_future(sm.list_sessions())
         self.finish(json.dumps(sessions, default=date_default))
 
     @web.authenticated
     @json_errors
+    @gen.coroutine
     def post(self):
         # Creates a new session
         #(unless a session already exists for the named nb)
         sm = self.session_manager
-        cm = self.contents_manager
-        km = self.kernel_manager
 
         model = self.get_json_body()
         if model is None:
@@ -49,11 +49,13 @@ class SessionRootHandler(APIHandler):
             kernel_name = None
 
         # Check to see if session exists
-        if sm.session_exists(path=path):
-            model = sm.get_session(path=path)
+        exists = yield gen.maybe_future(sm.session_exists(path=path))
+        if exists:
+            model = yield gen.maybe_future(sm.get_session(path=path))
         else:
             try:
-                model = sm.create_session(path=path, kernel_name=kernel_name)
+                model = yield gen.maybe_future(
+                    sm.create_session(path=path, kernel_name=kernel_name))
             except NoSuchKernel:
                 msg = ("The '%s' kernel is not available. Please pick another "
                        "suitable kernel instead, or install that kernel." % kernel_name)
@@ -73,14 +75,16 @@ class SessionHandler(APIHandler):
 
     @web.authenticated
     @json_errors
+    @gen.coroutine
     def get(self, session_id):
         # Returns the JSON model for a single session
         sm = self.session_manager
-        model = sm.get_session(session_id=session_id)
+        model = yield gen.maybe_future(sm.get_session(session_id=session_id))
         self.finish(json.dumps(model, default=date_default))
 
     @web.authenticated
     @json_errors
+    @gen.coroutine
     def patch(self, session_id):
         # Currently, this handler is strictly for renaming notebooks
         sm = self.session_manager
@@ -93,17 +97,18 @@ class SessionHandler(APIHandler):
             if 'path' in notebook:
                 changes['path'] = notebook['path']
 
-        sm.update_session(session_id, **changes)
-        model = sm.get_session(session_id=session_id)
+        yield gen.maybe_future(sm.update_session(session_id, **changes))
+        model = yield gen.maybe_future(sm.get_session(session_id=session_id))
         self.finish(json.dumps(model, default=date_default))
 
     @web.authenticated
     @json_errors
+    @gen.coroutine
     def delete(self, session_id):
         # Deletes the session with given session_id
         sm = self.session_manager
         try:
-            sm.delete_session(session_id)
+            yield gen.maybe_future(sm.delete_session(session_id))
         except KeyError:
             # the kernel was deleted but the session wasn't!
             raise web.HTTPError(410, "Kernel deleted before session")

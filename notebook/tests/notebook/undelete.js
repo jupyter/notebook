@@ -4,11 +4,11 @@
 casper.notebook_test(function () {
     var that = this;
 
-    var assert_marked_cells = function (action, indices) {
-        var marked = that.evaluate(function () {
-            return IPython.notebook.get_marked_indices();
+    var assert_selected_cells = function (action, indices) {
+        var  selected = that.evaluate(function () {
+            return IPython.notebook.get_selected_cells_indices();
         });
-        that.test.assertEquals(marked, indices, action + "; verify marked cells");
+        that.test.assertEquals( selected, indices, action + "; verify  selected cells");
     };
 
     var assert_cells = function (action, cells, index) {
@@ -22,7 +22,7 @@ casper.notebook_test(function () {
         }
 
         that.validate_notebook_state(action, 'command', index);
-        assert_marked_cells(action, [index]);
+        assert_selected_cells(action, [index]);
     };
 
     var a = 'print("a")';
@@ -59,7 +59,7 @@ casper.notebook_test(function () {
     this.select_cell(1);
     this.trigger_keydown('esc');
     this.trigger_keydown('shift-j');
-    assert_marked_cells("select cells 1-2", [1, 2]);
+    assert_selected_cells("select cells 1-2", [1, 2]);
     this.trigger_keydown('shift-m');
     this.trigger_keydown('esc');
     assert_cells("merge cells 1-2", [a, bc, d], 1);
@@ -75,7 +75,7 @@ casper.notebook_test(function () {
     this.select_cell(3);
     this.trigger_keydown('esc');
     this.trigger_keydown('shift-k');
-    assert_marked_cells("select cells 3-2", [2, 3]);
+    assert_selected_cells("select cells 3-2", [2, 3]);
     this.trigger_keydown('shift-m');
     this.trigger_keydown('esc');
     assert_cells("merge cells 3-2", [a, bc, cd], 2);

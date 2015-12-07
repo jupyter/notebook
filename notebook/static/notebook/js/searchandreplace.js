@@ -68,7 +68,7 @@ define(function(require){
     if(aborted){
       body.append($('<p/>').addClass('bg-warning').text("Warning, too many matches ("+html.length+"+), some changes might not be shown or applied"));
     } else {
-      body.append($('<p/>').addClass('bg-info').text(html.length+" match"+(html.length==1?'':'es')));
+      body.append($('<p/>').text(html.length+" match"+(html.length==1?'':'es')));
     }
     for(var rindex=0; rindex<html.length; rindex++){
       var pre = $('<pre/>')
@@ -147,58 +147,60 @@ define(function(require){
    * Search N' Replace action handler.
    **/
   var snr = function(env, event) {
-    var search  = $("<input/>")
-      .addClass('form-control')
-      .attr('placeholder','Find');
+      
     var isRegExpButton = $('<button/>')
       .attr('type', 'button')
       .attr('id', 'isreg')
-      .addClass("btn btn-default")
+      .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
+      .css('font-weight', 'bold')
       .attr('title', 'Use regex (JavaScript regex syntax)')
       .text('.*');
 
-    var onlySelectedButton = $('<button/>')
+      var onlySelectedButton = $('<button/>')
+      .append($('<i/>').addClass('fa fa-align-left'))
       .attr('type', 'button')
-      .addClass("btn btn-default")
-      .append($('<i/>')
-        .addClass("fa fa-check-square-o")
-      )
+      .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
-      .attr('title', 'Replace only in selected cells');
+      .attr('title', 'Replace in selected cells');
 
     var isCaseSensitiveButton = $('<button/>')
       .attr('type', 'button')
-      .addClass("btn btn-default")
+      .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
       .attr('tabindex', '0')
-      .attr('title', 'Case sensitive')
-      .text('a≠A');
+      .attr('title', 'Match case')
+      .css('font-weight', 'bold')
+      .text('Aa');
+     
+    var search  = $("<input/>")
+      .addClass('form-control input-sm')
+      .attr('placeholder','Find');
 
-    var repl = $("<input/>")
-      .addClass('form-control')
-      .attr('placeholder','Replace');
-    var body = $('<div/>')
-      .attr('id', 'replace-preview');
-    var form = $('<form/>')
-      .attr('id', 'find-and-replace')
-      .append($('<div/>').addClass('form-group')
+    var findFormGroup = $('<div/>').addClass('form-group');
+    findFormGroup.append(
+        $('<div/>').addClass('input-group')
         .append(
-          $('<div/>').addClass('input-group')
-          .append(
             $('<div/>').addClass('input-group-btn')
                 .append(isCaseSensitiveButton)
                 .append(isRegExpButton)
                 .append(onlySelectedButton)
-          )
-          .append(search)
         )
-      )
-      .append($('<div/>').addClass('form-group')
-        .append(repl)
-      )
-      .append(body);
+        .append(search)
+    )
 
+    var replace = $("<input/>")
+      .addClass('form-control input-sm')
+      .attr('placeholder','Replace');
+    var replaceFormGroup = $('<div/>').addClass('form-group');
+    replaceFormGroup.append(replace);
+
+    var body = $('<div/>').attr('id', 'replace-preview');
+     
+    var form = $('<form/>').attr('id', 'find-and-replace')
+    form.append(findFormGroup);
+    form.append(replaceFormGroup);
+    form.append(body);
 
     // return whether the search is case sensitive
     var isCaseSensitive = function(){
@@ -272,14 +274,14 @@ define(function(require){
       }
 
       // might want to warn if replace is empty
-      var replace = repl.val();
+      var replaceValue = replace.val();
       var lines = get_all_text(get_cells(env));
 
-      var _hb = compute_preview_model(sre, lines, isCaseSensitive(), RegExpOrNot, replace);
+      var _hb = compute_preview_model(sre, lines, isCaseSensitive(), RegExpOrNot, replaceValue);
       var html = _hb[0];
       var aborted = _hb[1];
 
-      build_preview(body, aborted, html, replace);
+      build_preview(body, aborted, html, replaceValue);
 
       // done on type return false not to submit form
       return false;
@@ -287,7 +289,7 @@ define(function(require){
 
     var onsubmit = function(event) {
       var sre = search.val();
-      var replace = repl.val();
+      var replaceValue = replace.val();
       if (!sre) {
         return false;
       }
@@ -300,7 +302,7 @@ define(function(require){
       for (var c = 0; c < cells.length; c++) {
         var cell = cells[c];
         var oldvalue = cell.code_mirror.getValue();
-        var newvalue = oldvalue.replace(reg , replace);
+        var newvalue = oldvalue.replace(reg , replaceValue);
         cell.code_mirror.setValue(newvalue);
         if (cell.cell_type === 'markdown') {
           cell.rendered = false;
@@ -322,19 +324,19 @@ define(function(require){
     });
 
     onlySelectedButton.click(function(){
-      repl.focus();
+      replace.focus();
       setTimeout(function(){onChange();}, 100);
     });
 
 
     search.keypress(function (e) {
       if (e.which == 13) {//enter
-        repl.focus();
+        replace.focus();
       }
     });
 
     search.on('input', onChange);
-    repl.on('input',  onChange);
+    replace.on('input',  onChange);
 
 
     var mod = dialog.modal({
@@ -352,7 +354,7 @@ define(function(require){
       }
     });
 
-    repl.keypress(function (e) {
+    replace.keypress(function (e) {
       if (e.which == 13) {//enter
         onsubmit();
         mod.modal('hide');

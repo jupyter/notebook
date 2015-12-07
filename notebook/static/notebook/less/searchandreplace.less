@@ -1,31 +1,37 @@
 
 #find-and-replace {
-  #replace-preview .match, #replace-preview .insert{
-    background-color:lightblue;
-    border-color: darken(lightblue, 20%);
+
+  #replace-preview .match, #replace-preview .insert {
+    background-color: #BBDEFB; // MD Blue 100
+    border-color: #90CAF9; // MD Blue 200
     border-style: solid;
     border-width: 1px;
-    border-radius: @border-radius-base
+    border-radius: 0px;
   }
     
   #replace-preview .replace {
     
-    & .match{
-      //display: none;
-      background-color:salmon;
-      text-decoration: line-through;
-      border-color: darken(salmon, 20%);
+    & .match {
+     // text-decoration: line-through;
+      background-color: #FFCDD2; // MD Red 100
+      border-color: #EF9A9A; // MD Red 200
+      border-radius: 0px;
+      
     }
     
-    & .insert{
-      background-color: green;
-      background-color:lightGreen;
-      border-color: darken(lightGreen, 20%);
+    & .insert {
+      background-color: #C8E6C9; // MD Green 100
+      border-color: #A5D6A7; // MD Green 200
+      border-radius: 0px;
+      
     }
   }
 
-  & #replace-preview {
+  #replace-preview {
     max-height: 60vh;
     overflow: auto;
+    pre {
+        padding: 5px 10px;
+    }
   }
 }

@@ -25,12 +25,15 @@ class MainKernelHandler(APIHandler):
 
     @web.authenticated
     @json_errors
+    @gen.coroutine
     def get(self):
         km = self.kernel_manager
-        self.finish(json.dumps(km.list_kernels()))
+        kernels = yield gen.maybe_future(km.list_kernels())
+        self.finish(json.dumps(kernels))
 
     @web.authenticated
     @json_errors
+    @gen.coroutine
     def post(self):
         km = self.kernel_manager
         model = self.get_json_body()
@@ -41,7 +44,7 @@ class MainKernelHandler(APIHandler):
         else:
             model.setdefault('name', km.default_kernel_name)
 
-        kernel_id = km.start_kernel(kernel_name=model['name'])
+        kernel_id = yield gen.maybe_future(km.start_kernel(kernel_name=model['name']))
         model = km.kernel_model(kernel_id)
         location = url_path_join(self.base_url, 'api', 'kernels', url_escape(kernel_id))
         self.set_header('Location', location)
@@ -61,9 +64,10 @@ class KernelHandler(APIHandler):
 
     @web.authenticated
     @json_errors
+    @gen.coroutine
     def delete(self, kernel_id):
         km = self.kernel_manager
-        km.shutdown_kernel(kernel_id)
+        yield gen.maybe_future(km.shutdown_kernel(kernel_id))
         self.set_status(204)
         self.finish()
 

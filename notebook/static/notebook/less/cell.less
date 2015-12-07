@@ -1,58 +1,64 @@
 @_cell_padding_minus_border: @cell_padding - @cell_border_width;
 
-._marked_style(@n) {
-    border-left-width: @n;
-    padding-left: @cell_padding - @n;
+._selected_style(@c1, @c2, @sep:0, @border_width:@cell_border_width) {
+    border-left-width: @border_width;
+    padding-left: @cell_padding - @border_width;
+    background: linear-gradient(to right, @c1 -40px,@c1 @sep,@c2 @sep,@c2 100%);
 }
 
+
 div.cell {
-    border: @cell_border_width solid transparent;
     .vbox();
     .corner-all();
     .border-box-sizing();
+    
     border-width: @cell_border_width;
     border-style: solid;
-
-    &.marked {
-        ._marked_style(3px);
-        border-left-color: @marked_border_color_light;
-
-        /* Don't border the cells when printing */
-        @media print {
-            border-color: transparent;
-        }
-    }
-
-    &.selected {
-        border-color: @border_color;
-        border-left-color: @marked_border_color;
-        ._marked_style(2px);
-
-        &.marked {
-          ._marked_style(4px);
-        }
-
-        /* Don't border the cells when printing */
-        @media print {
-            border-color: transparent;
-        }
-    }
-
-    .edit_mode &.selected {
-        border-color: @edit_mode_border_color;
-
-        /* Don't border the cells when printing */
-        @media print {
-            border-color: transparent;
-        }
-    }
+    border-color: transparent;
 
     width: 100%;
     padding: @_cell_padding_minus_border;
     /* This acts as a spacer between cells, that is outside the border */
     margin: 0px;
     outline: none;
+   
+    ._selected_style(transparent, transparent, @cell_border_width);
+
+    .jupyter-multi-select &.jupyter-soft-selected {
+        border-left-color: @selected_border_color_light;
+        border-left-color: @soft_select_color;
+        ._selected_style(@selected_border_color_light, @soft_select_color, 5px, 0px);
+        
+        @media print {
+            border-color: transparent;
+        }
+    }
+
+     &.selected {
+        border-color: @border_color;
+        ._selected_style(@selected_border_color, transparent, 5px, 0px);
+        
+        
+        @media print {
+            border-color: transparent;
+        }
+    }
+
+    .jupyter-multi-select &.selected.jupyter-soft-selected {
+        ._selected_style(@selected_border_color, @soft_select_color, 7px, 0);
+    }
+
+    .edit_mode &.selected {
+        border-color: @edit_mode_border_color;
+        ._selected_style(@edit_mode_border_color, transparent, 5px, 0px);
+
+        @media print {
+            border-color: transparent;
+        }
+    }
+
 }
+
 
 .prompt {
     /* This needs to be wide enough for 3 digit prompt numbers: In[100]: */
