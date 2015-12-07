@@ -1185,9 +1185,9 @@ define(function (require) {
         this.untocode_backup =[];
         
         for (var i=0; i <indices.length; i++){
-            this.to_code(indices[i])
+            this.to_code(indices[i]);
         }
-    }
+    };
     /**
      * Turn a cell into a code cell.
      * 

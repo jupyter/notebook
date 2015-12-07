@@ -243,7 +243,7 @@ define(function(require){
                 env.notebook.focus_cell();
             }
         },
-        'change-cell(s)-to-code' : {
+        'change-cell-to-code' : {
             help    : 'to code',
             help_index : 'ca',
             handler : function (env) {
