@@ -54,7 +54,7 @@ Import hooks typically take the form of two objects:
                 
 
 Notebook Loader
-===============
+---------------
 
 Here we have our Notebook Loader. It's actually quite simple - once we
 figure out the filename of the module, all it does is:
@@ -114,7 +114,7 @@ this step is unnecessary.
 
 
 The Module Finder
-=================
+-----------------
 
 The finder is a simple object that tells you whether a name can be
 imported, and returns the appropriate loader. All this one does is
@@ -152,7 +152,7 @@ Any extra logic is just for resolving paths within packages.
 
 
 Register the hook
-=================
+-----------------
 
 Now we register the ``NotebookFinder`` with ``sys.meta_path``
 
@@ -171,7 +171,7 @@ Let's look at what we have in the CWD:
 So I should be able to ``import nbimp.mynotebook``.
 
 Aside: displaying notebooks
-===========================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Here is some simple code to display the contents of a notebook with
 syntax highlighting, etc.
@@ -236,7 +236,7 @@ Even the function that contains IPython syntax works:
     mynotebook.has_ip_syntax()
 
 Notebooks in packages
-=====================
+---------------------
 
 We also have a notebook inside the ``nb`` package, so let's make sure
 that works as well.

@@ -23,7 +23,7 @@ effort - development of small extensions that customize the behavior of
 the web interface.
 
 Tampering with the Notebook application
-=======================================
+---------------------------------------
 
 The first tool that is available to you and that you should be aware of
 are browser "developers tool". The exact naming can change across
@@ -40,10 +40,10 @@ Those will be your best friends to debug and try different approaches
 for your extensions.
 
 Injecting JS
-============
+~~~~~~~~~~~~
 
 Using magics
-============
+^^^^^^^^^^^^
 
 The above tools can be tedious for editing edit long JavaScript files.
 Therefore we provide the ``%%javascript`` magic. This allows you to
@@ -68,7 +68,7 @@ replaced by a JavaScript dropdown menu to select the save interval.
     %autosave??
 
 custom.js
-=========
+^^^^^^^^^
 
 To inject Javascript we provide an entry point: ``custom.js`` that
 allows the user to execute and load other resources into the notebook.
@@ -80,29 +80,27 @@ in the behavior of the notebook.
 custom.js with others.
 
 Back to theory
-==============
+''''''''''''''
 
 .. code:: python
 
-    import os.path
-    profile_dir = '~/.jupyter'
-    profile_dir = os.path.expanduser(profile_dir)
-    profile_dir
+    from jupyter_core.paths import jupyter_config_dir
+    jupyter_dir = jupyter_config_dir()
+    jupyter_dir
 
 and custom js is in
 
 .. code:: python
 
     import os.path
-    custom_js_path = os.path.join(profile_dir,'custom','custom.js')
+    custom_js_path = os.path.join(jupyter_dir, 'custom', 'custom.js')
 
 .. code:: python
 
     #  my custom js
     if os.path.isfile(custom_js_path):
         with open(custom_js_path) as f:
-            for l in f: 
-                print(l)
+            print(f.read())
     else:
         print("You don't have a custom.js file")  
 
@@ -116,7 +114,7 @@ aggressive), *creating* a file in ``static/`` directory needs a **server
 restart**.
 
 Exercise :
-==========
+----------
 
 -  Create a ``custom.js`` in the right location with the following
    content:
@@ -133,7 +131,7 @@ custom.js <https://github.com/jupyter/notebook/blob/4.0.x/notebook/static/custom
 to see it's content and for more explanation.
 
 For the quick ones :
-====================
+~~~~~~~~~~~~~~~~~~~~
 
 We've seen above that you can change the autosave rate by using a magic.
 This is typically something I don't want to type every time, and that I
@@ -182,7 +180,7 @@ Create a dropdown element in the toolbar (DOM
     }
 
 A non-interactive example first
-===============================
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 I like my cython to be nicely highlighted
 
@@ -197,7 +195,7 @@ does not screw up the highlighting. ``reg``\ is a list or regular
 expression that will trigger the change of mode.
 
 Get more documentation
-======================
+^^^^^^^^^^^^^^^^^^^^^^
 
 Sadly, you will have to read the js source file (but there are lots of
 comments) and/or build the JavaScript documentation using yuidoc. If you
@@ -223,7 +221,7 @@ have ``node`` and ``yui-doc`` installed:
 and browse http://127.0.0.1:3000 to get documentation
 
 Some convenience methods
-========================
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 By browsing the documentation you will see that we have some convenience
 methods that allows us to avoid re-inventing the UI every time :
@@ -245,7 +243,7 @@ icons <http://fortawesome.github.io/Font-Awesome/icons/>`__ you can
 select from.
 
 Cell Metadata
-=============
+-------------
 
 The most requested feature is generally to be able to distinguish an
 individual cell in the notebook, or run a specific action with them. To
@@ -254,7 +252,7 @@ rely on ``CellToolbar``. This allows you to register a set of actions
 and graphical elements that will be attached to individual cells.
 
 Cell Toolbar
-============
+~~~~~~~~~~~~
 
 You can see some example of what can be done by toggling the
 ``Cell Toolbar`` selector in the toolbar on top of the notebook. It
@@ -268,7 +266,7 @@ this element wis registered with. Then we will need to register that
 function and give it a name.
 
 Register a callback
-===================
+^^^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
@@ -296,7 +294,7 @@ Register a callback
      CellToolbar.register_callback('tuto.foo', toggle);
 
 Registering a preset
-====================
+^^^^^^^^^^^^^^^^^^^^
 
 This function can now be part of many ``preset`` of the CellToolBar.
 
@@ -317,7 +315,7 @@ click the button, and that when saved on reloaded the metadata is still
 available.
 
 Exercise:
-=========
+^^^^^^^^^
 
 Try to wrap the all code in a file, put this file in
 ``{profile}/static/custom/<a-name>.js``, and add
@@ -368,7 +366,7 @@ plugin <https://github.com/ipython-contrib/IPython-notebook-extensions/blob/mast
     })
 
 For the quickest
-================
+^^^^^^^^^^^^^^^^
 
 Try to use `the
 following <https://github.com/ipython/ipython/blob/1.x/IPython/html/static/notebook/js/celltoolbar.js#L367>`__

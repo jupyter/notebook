@@ -38,10 +38,10 @@ Display
    \end{align}
 
 The Cauchy-Schwarz Inequality
-=============================
+-----------------------------
 
 Source
-------
+~~~~~~
 
 ::
 
@@ -50,7 +50,7 @@ Source
     \end{equation*}
 
 Display
--------
+~~~~~~~
 
 .. raw:: latex
 
@@ -59,10 +59,10 @@ Display
    \end{equation*}
 
 A Cross Product Formula
-=======================
+-----------------------
 
 Source
-------
+~~~~~~
 
 ::
 
@@ -75,7 +75,7 @@ Source
     \end{equation*}
 
 Display
--------
+~~~~~~~
 
 .. raw:: latex
 
@@ -88,10 +88,10 @@ Display
    \end{equation*}
 
 The probability of getting (k) heads when flipping (n) coins is
-===============================================================
+---------------------------------------------------------------
 
 Source
-------
+~~~~~~
 
 ::
 
@@ -100,7 +100,7 @@ Source
     \end{equation*}
 
 Display
--------
+~~~~~~~
 
 .. raw:: latex
 
@@ -109,10 +109,10 @@ Display
    \end{equation*}
 
 An Identity of Ramanujan
-========================
+------------------------
 
 Source
-------
+~~~~~~
 
 ::
 
@@ -123,7 +123,7 @@ Source
     \end{equation*}
 
 Display
--------
+~~~~~~~
 
 .. raw:: latex
 
@@ -134,10 +134,10 @@ Display
    \end{equation*}
 
 A Rogers-Ramanujan Identity
-===========================
+---------------------------
 
 Source
-------
+~~~~~~
 
 ::
 
@@ -148,7 +148,7 @@ Source
     \end{equation*}
 
 Display
--------
+~~~~~~~
 
 .. raw:: latex
 
@@ -159,10 +159,10 @@ Display
    \end{equation*}
 
 Maxwell's Equations
-===================
+-------------------
 
 Source
-------
+~~~~~~
 
 ::
 
@@ -173,7 +173,7 @@ Source
     \end{align}
 
 Display
--------
+~~~~~~~
 
 .. raw:: latex
 
@@ -190,20 +190,20 @@ Equation numbering and referencing will be available in a future version
 of the Jupyter notebook.
 
 Inline Typesetting (Mixing Markdown and TeX)
-============================================
+--------------------------------------------
 
 While display equations look good for a page of samples, the ability to
 mix math and *formatted* **text** in a paragraph is also important.
 
 Source
-------
+~~~~~~
 
 ::
 
     This expression $\sqrt{3x-1}+(1+x)^2$ is an example of a TeX inline equation in a [Markdown-formatted](http://daringfireball.net/projects/markdown/) sentence.  
 
 Display
--------
+~~~~~~~
 
 This expression :math:`\sqrt{3x-1}+(1+x)^2` is an example of a TeX
 inline equation in a

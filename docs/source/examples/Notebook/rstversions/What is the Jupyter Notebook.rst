@@ -5,7 +5,7 @@ What is the Jupyter Notebook?
 =============================
 
 Introduction
-============
+------------
 
 The Jupyter Notebook is an **interactive computing environment** that
 enables users to author notebook documents that include: - Live code -
@@ -19,7 +19,7 @@ systems (like git/\ `GitHub <http://github.com>`__) or
 `nbviewer.jupyter.org <http://nbviewer.jupyter.org>`__.
 
 Components
-==========
+~~~~~~~~~~
 
 The Jupyter Notebook combines three components:
 
@@ -38,7 +38,7 @@ The Jupyter Notebook combines three components:
    objects. Each notebook document has its own kernel.
 
 Notebook web application
-========================
+------------------------
 
 The notebook web application enables users to:
 
@@ -61,7 +61,7 @@ The notebook web application enables users to:
    `MathJax <http://www.mathjax.org/>`__.
 
 Kernels
-=======
+-------
 
 Through Jupyter's kernel and messaging architecture, the Notebook allows
 code to be run in a range of different programming languages. For each
@@ -90,7 +90,7 @@ Most users don't need to know about these details, but it helps to
 understand that "kernels run code."
 
 Notebook documents
-==================
+------------------
 
 Notebook documents contain the **inputs and outputs** of an interactive
 session as well as **narrative text** that accompanies the code but is

@@ -6,14 +6,39 @@ Jupyter notebook changelog
 A summary of changes in the Jupyter notebook.
 For more detailed information, see `GitHub <https://github.com/jupyter/notebook>`__.
 
-4.1.x
+4.1.0
 -----
 
+Numerous bugfixes, including:
+
 - Properly handle reaping of zombie subprocesses.
+- Cross-origin fixes
+- Fix double-escaping of base URL prefix
+- More graceful handling of invalid unicode filenames
+- ANSI color-processing fixes
+
+
+UI Changes:
+
 - Moved the cell toolbar selector into the view menu `[screencast] <https://cloud.githubusercontent.com/assets/335567/10711889/59665a5a-7a3e-11e5-970f-86b89592880c.gif>`__.
-- Added the ability to mark cells and perform actions on those cells
-- Added the command palette
-- Added the search and replace dialog
+- Add Restart & Run All to Kernel menu. Can be added as keyboard shortcut for action ``restart-kernel-and-run-all-cells``.
+- Added multiple-cell selection (``Shift-Up/Down`` to extend selection), and actions on multiple-cells, including cut/copy/paste and execute.
+
+  .. image:: /_static/images/multi-select-41.png
+  
+- Added a command palette for executing Jupyter actions by name
+
+  .. image:: /_static/images/command-palette-41.png
+  
+- Added the find and replace dialog (in the Edit menu or ``F`` in command-mode).
+
+  .. image:: /_static/images/find-replace-41.png
+
+Other improvements:
+
+- Custom KernelManager methods can be Tornado coroutines, allowing async operations.
+
+
 
 4.0.x
 -----

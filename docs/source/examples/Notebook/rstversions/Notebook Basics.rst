@@ -5,14 +5,14 @@ Notebook Basics
 ===============
 
 Running the Notebook Server
-===========================
+---------------------------
 
 The Jupyter notebook server is a custom web server that runs the
 notebook web application. Most of the time, users run the notebook
 server on their local computer using the command line interface.
 
 Starting the notebook server using the command line
-===================================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can start the notebook server from the command line (Terminal on
 Mac/Linux, CMD prompt on Windows) by running the following command:
@@ -34,7 +34,7 @@ server in the highest directory in your filesystem where notebooks can
 be found. Often this will be your home directory.
 
 Additional options
-==================
+~~~~~~~~~~~~~~~~~~
 
 By default, the notebook server starts on port 8888. If port 8888 is
 unavailable, the notebook server searchs the next available port.
@@ -59,7 +59,7 @@ can be displayed with the ``--help`` flag:
     jupyter notebook --help
 
 The Notebook dashboard
-======================
+----------------------
 
 When you first start the notebook server, your browser will open to the
 notebook dashboard. The dashboard serves as a home page for the
@@ -97,7 +97,7 @@ This view provides a convenient way to track notebooks that you start as
 you navigate the file system in a long running notebook server.
 
 Overview of the Notebook UI
-===========================
+---------------------------
 
 If you create a new notebook or open an existing one, you will be taken
 to the notebook user interface (UI). This UI allows you to run code and
@@ -112,7 +112,7 @@ The notebook has an interactive tour of these elements that can be
 started in the "Help:User Interface Tour" menu item.
 
 Modal editor
-============
+------------
 
 Starting with IPython 2.0, the Jupyter Notebook has a modal user
 interface. This means that the keyboard does different things depending
@@ -120,7 +120,7 @@ on which mode the Notebook is in. There are two modes: edit mode and
 command mode.
 
 Edit mode
-=========
+~~~~~~~~~
 
 Edit mode is indicated by a green cell border and a prompt showing in
 the editor area:
@@ -140,7 +140,7 @@ cell's editor area.
    </div>
 
 Command mode
-============
+~~~~~~~~~~~~
 
 Command mode is indicated by a grey cell border:
 
@@ -174,7 +174,7 @@ Enter command mode by pressing ``Esc`` or using the mouse to click
    </div>
 
 Mouse navigation
-================
+----------------
 
 All navigation and actions in the Notebook are available using the mouse
 through the menubar and toolbar, which are both above the main Notebook
@@ -237,7 +237,7 @@ button in the toolbar or the "Cell:Run" menu item. To unrender the
 selected cell, double click on the cell.
 
 Keyboard Navigation
-===================
+-------------------
 
 The modal user interface of the Jupyter Notebook has been optimized for
 efficient keyboard usage. This is made possible by having two different

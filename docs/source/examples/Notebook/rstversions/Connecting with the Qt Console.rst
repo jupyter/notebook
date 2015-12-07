@@ -5,7 +5,7 @@ Connecting to an existing IPython kernel using the Qt Console
 =============================================================
 
 The Frontend/Kernel Model
-=========================
+-------------------------
 
 The traditional IPython (``ipython``) consists of a single process that
 combines a terminal based UI with the process that runs the users code.
@@ -36,7 +36,7 @@ This Notebook describes how you would connect another Frontend to a
 Kernel that is associated with a Notebook.
 
 Manual connection
-=================
+-----------------
 
 To connect another Frontend to a Kernel manually, you first need to find
 out the connection information for the Kernel using the
@@ -50,7 +50,7 @@ You can see that this magic displays everything you need to connect to
 this Notebook's Kernel.
 
 Automatic connection using a new Qt Console
-===========================================
+-------------------------------------------
 
 You can also start a new Qt Console connected to your current Kernel by
 using the ``%qtconsole`` magic. This will detect the necessary
