@@ -243,11 +243,11 @@ define(function(require){
                 env.notebook.focus_cell();
             }
         },
-        'change-cell-to-code' : {
+        'change-cell(s)-to-code' : {
             help    : 'to code',
             help_index : 'ca',
             handler : function (env) {
-                env.notebook.to_code();
+                env.notebook.cells_to_code();
             }
         },
         'change-cell-to-markdown' : {
