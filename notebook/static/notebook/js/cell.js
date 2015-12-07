@@ -1,4 +1,3 @@
-// Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
 /**
@@ -21,7 +20,7 @@ define([
     "use strict";
     
     var overlayHack = CodeMirror.scrollbarModel.native.prototype.overlayHack;
-    
+
     CodeMirror.scrollbarModel.native.prototype.overlayHack = function () {
         overlayHack.apply(this, arguments);
         // Reverse `min-height: 18px` scrollbar hack on OS X
@@ -55,6 +54,7 @@ define([
         
         this.placeholder = config.placeholder || '';
         this.selected = false;
+        this.anchor = false;
         this.rendered = false;
         this.mode = 'command';
 
@@ -155,29 +155,28 @@ define([
     };
 
     /**
+     * trigger on focus and on click to bubble up to the notebook and
+     * potentially extend the selection if shift-click, contract the selection
+     * if just codemirror focus (so edit mode).
+     * We **might** be able to move that to notebook `handle_edit_mode`.
+     */
+    Cell.prototype._on_click = function(event){
+        if (!this.selected) {
+            this.events.trigger('select.Cell', {'cell':this, 'extendSelection':event.shiftKey});
+        }
+    }
+
+    /**
      * Subclasses can implement override bind_events.
-     * Be carefull to call the parent method when overwriting as it fires event.
-     * this will be triggerd after create_element in constructor.
+     * Be careful to call the parent method when overwriting as it fires event.
+     * this will be triggered after create_element in constructor.
      * @method bind_events
      */
     Cell.prototype.bind_events = function () {
         var that = this;
         // We trigger events so that Cell doesn't have to depend on Notebook.
         that.element.click(function (event) {
-            if (!that.selected) {
-                that.events.trigger('select.Cell', {'cell':that});
-            }
-            
-            // Cmdtrl-click should mark the cell.
-            var isMac = navigator.platform.slice(0, 3).toLowerCase() === 'mac';
-            if ((!isMac && event.ctrlKey) || (isMac && event.metaKey)) {
-                that.marked = !that.marked;
-            }
-        });
-        that.element.focusin(function (event) {
-            if (!that.selected) {
-                that.events.trigger('select.Cell', {'cell':that});
-            }
+            that._on_click(event)
         });
         if (this.code_mirror) {
             this.code_mirror.on("change", function(cm, change) {
@@ -186,6 +185,9 @@ define([
         }
         if (this.code_mirror) {
             this.code_mirror.on('focus', function(cm, change) {
+                if (!that.selected) {
+                    that.events.trigger('select.Cell', {'cell':that});
+                }
                 that.events.trigger('edit_mode.Cell', {cell: that});
             });
         }
@@ -239,7 +241,7 @@ define([
 
 
     /**
-     * Triger typsetting of math by mathjax on current cell element
+     * Triger typesetting of math by mathjax on current cell element
      * @method typeset
      */
     Cell.prototype.typeset = function () {
@@ -251,7 +253,13 @@ define([
      * @method select
      * @return is the action being taken
      */
-    Cell.prototype.select = function () {
+    Cell.prototype.select = function (moveanchor) {
+        // if anchor is true, set the move the anchor
+        moveanchor = (moveanchor === undefined)? true:moveanchor;
+        if(moveanchor){
+            this.anchor=true;
+        }
+
         if (!this.selected) {
             this.element.addClass('selected');
             this.element.removeClass('unselected');
@@ -265,10 +273,14 @@ define([
     /**
      * handle cell level logic when the cell is unselected
      * @method unselect
-     * @param {bool} leave_selected - true to move cursor away and extend selection
      * @return is the action being taken
      */
-    Cell.prototype.unselect = function (leave_selected) {
+    Cell.prototype.unselect = function (moveanchor) {
+        // if anchor is true, remove also the anchor
+        moveanchor = (moveanchor === undefined)? true:moveanchor;
+        if (moveanchor){
+            this.anchor = false
+        }
         if (this.selected) {
             this.element.addClass('unselected');
             this.element.removeClass('selected');
@@ -279,32 +291,9 @@ define([
         }
     };
     
-    /**
-     * Whether or not the cell is marked.
-     * @return {boolean}
-     */
-    Object.defineProperty(Cell.prototype, 'marked', {
-        get: function() {
-            return this.element.hasClass('marked');
-        },
-        set: function(value) {
-            var isMarked = this.element.hasClass('marked');
-            // Use a casting comparison.  Allows for the caller to assign 0 or
-            // 1 instead of a boolean value, which in return means the caller
-            // can do cell.marked ^= true to toggle the mark.
-            if (isMarked != value) {
-                if (value) {
-                    this.element.addClass('marked');
-                } else {
-                    this.element.removeClass('marked');
-                }
-                this.events.trigger('marked_changed.Cell', {cell: this, value: value});
-            }
-        }
-    });
 
     /**
-     * should be overritten by subclass
+     * should be overwritten by subclass
      * @method execute
      */
     Cell.prototype.execute = function () {
@@ -426,6 +415,7 @@ define([
      */
     Cell.prototype.focus_cell = function () {
         this.element.focus();
+        this._on_click({});
     };
 
     /**

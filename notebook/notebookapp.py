@@ -120,7 +120,7 @@ class DeprecationHandler(IPythonHandler):
     def get(self, url_path):
         self.set_header("Content-Type", 'text/javascript')
         self.finish("""
-            console.warn('`/static/widgets/js` is deprecated.  Use `/nbextensions/widgets/widgets/js` instead.');
+            console.warn('`/static/widgets/js` is deprecated.  Use `nbextensions/widgets/widgets/js` instead.');
             define(['%s'], function(x) { return x; });
         """ % url_path_join('nbextensions', 'widgets', 'widgets', url_path.rstrip('.js')))
         self.log.warn('Deprecated widget Javascript path /static/widgets/js/*.js was used')

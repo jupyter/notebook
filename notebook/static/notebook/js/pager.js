@@ -2,7 +2,7 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jqueryui',
+    'jquery-ui',
     'base/js/utils',
 ], function($, utils) {
     "use strict";

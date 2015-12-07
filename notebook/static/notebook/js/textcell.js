@@ -118,7 +118,7 @@ define([
     // Cell level actions
     
     TextCell.prototype.select = function () {
-        var cont = Cell.prototype.select.apply(this);
+        var cont = Cell.prototype.select.apply(this, arguments);
         if (cont) {
             if (this.mode === 'edit') {
                 this.code_mirror.refresh();
@@ -286,6 +286,9 @@ define([
                             .addClass('anchor-link')
                             .attr('href', '#' + hash)
                             .text('¶')
+                            .on('click',function(){
+                                setTimeout(function(){that.unrender(); that.render()}, 100)
+                            })
                     );
                 });
                 // links in markdown cells should open in new tabs

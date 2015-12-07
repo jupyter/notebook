@@ -50,7 +50,15 @@ define([
      */
     CodeMirror.commands.delSpaceToPrevTabStop = function(cm){
         var from = cm.getCursor(true), to = cm.getCursor(false), sel = !posEq(from, to);
-        if (!posEq(from, to)) { cm.replaceRange("", from, to); return; }
+         if (sel) { 
+            var ranges = cm.listSelections();
+            for (var i = ranges.length - 1; i >= 0; i--) {
+              var head = ranges[i].head;
+              var anchor = ranges[i].anchor;
+              cm.replaceRange("", Pos(head.line, head.ch), CodeMirror.Pos(anchor.line, anchor.ch));
+            }
+            return;
+        }
         var cur = cm.getCursor(), line = cm.getLine(cur.line);
         var tabsize = cm.getOption('tabSize');
         var chToPrevTabStop = cur.ch-(Math.ceil(cur.ch/tabsize)-1)*tabsize;
@@ -188,7 +196,7 @@ define([
 
     /** @method bind_events */
     CodeCell.prototype.bind_events = function () {
-        Cell.prototype.bind_events.apply(this);
+        Cell.prototype.bind_events.apply(this, arguments);
         var that = this;
 
         this.element.focusout(
@@ -393,7 +401,7 @@ define([
     // Basic cell manipulation.
 
     CodeCell.prototype.select = function () {
-        var cont = Cell.prototype.select.apply(this);
+        var cont = Cell.prototype.select.apply(this, arguments);
         if (cont) {
             this.code_mirror.refresh();
             this.auto_highlight();
@@ -402,7 +410,7 @@ define([
     };
 
     CodeCell.prototype.render = function () {
-        var cont = Cell.prototype.render.apply(this);
+        var cont = Cell.prototype.render.apply(this, arguments);
         // Always execute, even if we are already in the rendered state
         return cont;
     };
@@ -540,7 +548,7 @@ define([
      * @return is the action being taken
      */
     CodeCell.prototype.unselect = function() {
-        var cont = Cell.prototype.unselect.call(this);
+        var cont = Cell.prototype.unselect.apply(this, arguments);
         if (cont) {
             // When a code cell is unselected, make sure that the corresponding
             // tooltip and completer to that cell is closed.
