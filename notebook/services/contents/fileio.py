@@ -171,8 +171,10 @@ class FileManagerMixin(Configurable):
     log : logging.Logger
     """
 
-    use_atomic_writing = Bool(True, config=True, help="""flag to deactivate
-            atomic writing on slow (like networked) file system.""")
+    use_atomic_writing = Bool(True, config=True, help=
+    """By default notebooks are saved on disk on a temporary file and then if succefully written, it replaces the old ones.
+      This procedure, namely 'atomic_writing', causes some bugs on file system whitout operation order enforcement (like some networked fs).
+      If set to False, the new notebook is written directly on the old one which could fail (eg: full filesystem or quota )""")
 
     @contextmanager
     def open(self, os_path, *args, **kwargs):
@@ -183,7 +185,9 @@ class FileManagerMixin(Configurable):
 
     @contextmanager
     def atomic_writing(self, os_path, *args, **kwargs):
-        """wrapper around atomic_writing that turns permission errors to 403"""
+        """wrapper around atomic_writing that turns permission errors to 403.
+        Depending on flag 'use_atomic_writing', the wrapper perform an actual atomic writing or
+        simply writes the file (whatever an old exists or not)"""
         with self.perm_to_403(os_path):
             if self.use_atomic_writing:
                 with atomic_writing(os_path, *args, log=self.log, **kwargs) as f:

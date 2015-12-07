@@ -530,7 +530,10 @@ class TestContentsManager(TestCase):
         assert cm.notary.check_signature(nb)
 
 
-class TestContentsManagerNoAtomic(TestCase):
+class TestContentsManagerNoAtomic(TestContentsManager):
+    """
+    Make same test in no atomic case than in atomic case, using inheritance
+    """
 
     def setUp(self):
         self._temp_dir = TemporaryDirectory()
@@ -539,23 +542,3 @@ class TestContentsManagerNoAtomic(TestCase):
             root_dir = self.td,
         )
         self.contents_manager.use_atomic_writing = False
-
-    def tearDown(self):
-        self._temp_dir.cleanup()
-
-    def new_notebook_no_atomic(self):
-        """
-
-        """
-        cm = self.contents_manager
-        model = cm.new_untitled(type="notebook")
-        name = model['name']
-        path = model['path']
-
-        full_model = cm.get(path)
-        nb = full_model['content']
-        nb['metadata']['counter'] = int(1e6 * time.time())
-        self.add_code_cell(nb)
-
-        cm.save(full_model, path)
-        return nb, name, path
