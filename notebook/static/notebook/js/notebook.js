@@ -1182,7 +1182,6 @@ define(function (require) {
         if (indices === undefined){
             indices = this.get_selected_cells_indices();
         }
-        this.untocode_backup =[];
         
         for (var i=0; i <indices.length; i++){
             this.to_code(indices[i]);
