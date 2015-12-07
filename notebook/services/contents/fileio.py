@@ -142,11 +142,6 @@ def _simple_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
         fileobj.close()
         raise
 
-    # Flush to disk
-    fileobj.flush()
-    if log:
-        log.debug( path + " saved using simple fs writing")
-    os.fsync(fileobj.fileno())
     fileobj.close()
 
 
