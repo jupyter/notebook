@@ -16,15 +16,13 @@ from traitlets.config import Config
 
 from contextlib import contextmanager
 
-from OpenSSL import crypto, SSL
-from socket import gethostname
-from pprint import pprint
-from time import gmtime, mktime
+from OpenSSL import crypto
 from os.path import exists, join
 
 import io
 import os
 import json
+import traceback
 
 
 def create_self_signed_cert(cert_dir, keyfile, certfile):
@@ -34,9 +32,9 @@ def create_self_signed_cert(cert_dir, keyfile, certfile):
     Abort if one of the keyfile of certfile exist.
     """
 
-    if not exists(join(cert_dir, certfile)) \
-            or not exists(join(cert_dir, keyfile)):
-
+    if exists(join(cert_dir, certfile))  or exists(join(cert_dir, keyfile)):
+        raise FileExistsError('{} or {} already exist in {}. Aborting.'.format(keyfile, certfile, cert_dir))
+    else:
         # create a key pair
         k = crypto.PKey()
         k.generate_key(crypto.TYPE_RSA, 1024)
@@ -60,16 +58,15 @@ def create_self_signed_cert(cert_dir, keyfile, certfile):
             f.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert).decode('utf8'))
         with io.open(join(cert_dir, keyfile), "wt") as f:
             f.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, k).decode('utf8'))
-    else :
-        raise FileExistsError('{} or {} already exist in {}. Aborting.'.format(keyfile, certfile, certdir))
 
 
 
 @contextmanager
-def persist_config():
-    """Conext manager that can be use to modify a config object
+def persist_config(mode=0o600):
+    """Context manager that can be use to modify a config object
 
-    on exit of the context manager, the config will be written back to disk. 
+    On exit of the context manager, the config will be written back to disk, 
+    by defauld with 600 permissions.
     """
 
     loader = JSONFileConfigLoader('jupyter_notebook_config.json', jupyter_config_dir())
@@ -80,27 +77,34 @@ def persist_config():
 
     yield config
 
-    with io.open(os.path.join(jupyter_config_dir(), 'jupyter_notebook_config.json'), 'w') as f:
+    filepath = os.path.join(jupyter_config_dir(), 'jupyter_notebook_config.json')
+    with io.open(filepath, 'w') as f:
         f.write(six.u(json.dumps(config, indent=2)))
+    try:
+        os.chmod(filepath, mode)
+    except Exception:
+        traceback.print_exc()
+
+        print("Something went wrong changing file permissions")
 
 
 def set_password():
     """Ask user for password, store it in notebook json configuration file"""
 
-    print("first choose a password.")
-    pw = passwd()
+    print("First choose a password.")
+    hashedpw = passwd()
     print("We will store your password encrypted in the notebook configuration file: ")
-    print(pw)
+    print(hashedpw)
 
     with persist_config() as config:
-        config.NotebookApp.password = pw
+        config.NotebookApp.password = hashedpw
 
     print('... done\n')
 
 
 def set_certifs():
     """
-    generate certificate to run notebook over ssl and set up the notebook config.
+    Generate certificate to run notebook over ssl and set up the notebook config.
     """
     print("Let's generate self-signed certificates to secure your connexion.")
     print("where should the certificate live?")
@@ -127,6 +131,6 @@ def set_certifs():
 
 
 if __name__ == '__main__':
-    print("This guide you into securing your notebook server.")
+    print("This will guide you through the steps towards securing your notebook server.")
     set_password()
     set_certifs()
