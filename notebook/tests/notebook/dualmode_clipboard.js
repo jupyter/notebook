@@ -53,3 +53,40 @@ casper.notebook_test(function () {
         this.test.assertEquals(this.get_cells_length(), num_cells+3,  'Verify a the cell was added.');
     });
 });
+
+
+casper.notebook_test(function () {
+    this.append_cell('1');
+    this.append_cell('2');
+    this.append_cell('3');
+    this.append_cell('a');
+    this.append_cell('b');
+    this.append_cell('c');
+
+
+    this.then(function () {
+         // Copy/paste/cut
+        var num_cells = this.get_cells_length();
+        this.test.assertEquals(this.get_cell_text(1), '1', 'Verify that cell 1 is a');
+        this.select_cell(1);
+        this.select_cell(3, false);
+
+        this.trigger_keydown('c'); // Copy
+
+        this.select_cell(5)
+
+        this.evaluate(function () {
+            $("#past_cell_replace").click();
+        });
+
+        this.validate_notebook_state('x', 'command', 1);
+        var expected_state = ['','1','2','3', 'a', '1', '2', '3', 'c'];
+
+        for (var i=1; i<expected_state.length; i++){
+            this.test.assertEquals(this.get_cell_text(i), expected_state[i],
+                    'Verify that a cell ' + i +  ' has for content: '+ expected_state[i] + 'found : ' + this.get_cell_text(i)
+            );
+        }
+
+    });
+});

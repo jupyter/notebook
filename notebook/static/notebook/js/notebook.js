@@ -1383,7 +1383,7 @@ define(function (require) {
         if (this.clipboard !== null && this.paste_enabled) {
             var first_inserted = null;
             for (var i=0; i < this.clipboard.length; i++) {
-                var cell_data = this.clipboard;
+                var cell_data = this.clipboard[i];
                 var new_cell = this.insert_cell_above(cell_data.cell_type);
                 new_cell.fromJSON(cell_data);
                 if (first_inserted === null) {
