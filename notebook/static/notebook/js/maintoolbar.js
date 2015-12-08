@@ -108,7 +108,7 @@ define([
             var cell_type = $(this).val();
             switch (cell_type) {
             case 'code':
-                that.notebook.to_code();
+                that.notebook.cells_to_code();
                 break;
             case 'markdown':
                 that.notebook.to_markdown();

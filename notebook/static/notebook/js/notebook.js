@@ -1176,7 +1176,17 @@ define(function (require) {
         var len = this.ncells();
         return this.insert_cell_below(type,len-1);
     };
-
+    
+    
+    Notebook.prototype.cells_to_code = function (indices) {
+        if (indices === undefined){
+            indices = this.get_selected_cells_indices();
+        }
+        
+        for (var i=0; i <indices.length; i++){
+            this.to_code(indices[i]);
+        }
+    };
     /**
      * Turn a cell into a code cell.
      * 
