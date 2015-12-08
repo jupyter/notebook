@@ -307,22 +307,33 @@ define(function(require){
             }
         },
         'toggle-cell-output-collapsed' : {
-            help    : 'toggle output',
+            help    : 'toggle output of selected cells',
             help_index : 'gb',
             handler : function (env) {
-                env.notebook.toggle_output();
+                var indices = env.notebook.get_selected_cells_indices();
+                console.log(indices)
+                for(var i =0; i< indices.length; i++){
+                    env.notebook.toggle_output(indices[i]);
+                }
             }
         },
         'toggle-cell-output-scrolled' : {
-            help    : 'toggle output scrolling',
+            help    : 'toggle output scrolling of selected cells',
             help_index : 'gc',
             handler : function (env) {
-                env.notebook.toggle_output_scroll();
+                var indices = env.notebook.get_selected_cells_indices();
+                for(var i =0; i< indices.length; i++){
+                    env.notebook.toggle_output_scroll(indices[i]);
+                }
             }
         },
         'clear-cell-output' : {
+            help    : 'clear output of selected cells',
             handler : function (env) {
-                env.notebook.clear_output();
+                var indices = env.notebook.get_selected_cells_indices();
+                for(var i =0; i< indices.length; i++){
+                    env.notebook.clear_output(indices[i]);
+                }
             }
         },
         'move-cell-down' : {
