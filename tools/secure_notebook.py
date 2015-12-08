@@ -56,8 +56,11 @@ def create_self_signed_cert(cert_dir, keyfile, certfile):
 
         with io.open(join(cert_dir, certfile), "wt") as f:
             f.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert).decode('utf8'))
+        os.chmod(join(cert_dir, certfile), 0o600)
+        
         with io.open(join(cert_dir, keyfile), "wt") as f:
             f.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, k).decode('utf8'))
+        os.chmod(join(cert_dir, keyfile), 0o600)
 
 
 
