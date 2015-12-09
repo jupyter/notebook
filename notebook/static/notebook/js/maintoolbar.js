@@ -114,7 +114,7 @@ define([
                 that.notebook.to_markdown();
                 break;
             case 'raw':
-                that.notebook.to_raw();
+                that.notebook.cells_to_raw();
                 break;
             case 'heading':
                 that.notebook._warn_heading();

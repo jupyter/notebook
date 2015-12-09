@@ -261,7 +261,7 @@ define(function(require){
             help    : 'to raw',
             help_index : 'cc',
             handler : function (env) {
-                env.notebook.to_raw();
+                env.notebook.cells_to_raw();
             }
         },
         'change-cell-to-heading-1' : {
