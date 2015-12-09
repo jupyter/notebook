@@ -675,13 +675,13 @@ define(function (require) {
             } else {
                 cell.element.removeClass(_SOFT_SELECTION_CLASS);
             }
-        })
-    }
+        });
+    };
 
     Notebook.prototype._contract_selection = function(){
         var i = this.get_selected_index();
         this.select(i, true);
-    }
+    };
 
     /**
      * Programmatically select a cell.
@@ -1148,7 +1148,9 @@ define(function (require) {
      * @return {Cell|null} handle to created cell or null
      */
     Notebook.prototype.insert_cell_above = function (type, index) {
-        index = this.index_or_selected(index);
+        if (index === null || index === undefined) {            
+            index = Math.min(this.get_selected_index(index), this.get_anchor_index());
+        }
         return this.insert_cell_at_index(type, index);
     };
 
@@ -1161,7 +1163,9 @@ define(function (require) {
      * @return {Cell|null} handle to created cell or null
      */
     Notebook.prototype.insert_cell_below = function (type, index) {
-        index = this.index_or_selected(index);
+        if (index === null || index === undefined) {            
+            index = Math.max(this.get_selected_index(index), this.get_anchor_index());
+        }
         return this.insert_cell_at_index(type, index+1);
     };
 
