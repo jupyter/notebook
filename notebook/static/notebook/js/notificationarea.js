@@ -305,6 +305,9 @@ define([
         this.events.on('notebook_copy_failed.Notebook', function (evt, error) {
             nnw.warning(error.message || "Notebook copy failed");
         });
+        this.events.on('deprecated.Notebook', function (evt, message) {
+            nnw.warning(message, 2000);
+        });
         
         // Checkpoint events
         this.events.on('checkpoint_created.Notebook', function (evt, data) {
