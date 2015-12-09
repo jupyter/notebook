@@ -1176,6 +1176,21 @@ define(function (require) {
         var len = this.ncells();
         return this.insert_cell_below(type,len-1);
     };
+    
+    /**
+     * Turn one or more cells into code.
+     *
+     * @param {Array} indices - cell indices to convert
+     */
+    Notebook.prototype.cells_to_code = function (indices) {
+        if (indices === undefined){
+            indices = this.get_selected_cells_indices();
+        }
+        
+        for (var i=0; i <indices.length; i++){
+            this.to_code(indices[i]);
+        }
+    };
 
     /**
      * Turn a cell into a code cell.
@@ -1207,6 +1222,21 @@ define(function (require) {
             }
         }
     };
+
+    /**
+     * Turn one or more cells into Markdown.
+     *
+     * @param {Array} indices - cell indices to convert
+     */
+     Notebook.prototype.cells_to_markdown = function (indices) {
+        if (indices === undefined) {
+            indices = this.get_selected_cells_indices();
+        }
+
+        for(var i=0; i < indices.length; i++) {
+            this.to_markdown(indices[i]);
+        }
+     };
 
     /**
      * Turn a cell into a Markdown cell.
@@ -1244,6 +1274,21 @@ define(function (require) {
             }
         }
     };
+
+    /**
+     * Turn one or more cells into a raw text cell.
+     *
+     * @param {Array} indices - cell indices to convert
+     */
+     Notebook.prototype.cells_to_raw = function (indices) {
+        if (indices === undefined) {
+            indices = this.get_selected_cells_indices();
+        }
+
+        for(var i=0; i < indices.length; i++) {
+            this.to_raw(indices[i]);
+        }
+     };
 
     /**
      * Turn a cell into a raw text cell.

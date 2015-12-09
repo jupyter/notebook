@@ -247,21 +247,21 @@ define(function(require){
             help    : 'to code',
             help_index : 'ca',
             handler : function (env) {
-                env.notebook.to_code();
+                env.notebook.cells_to_code();
             }
         },
         'change-cell-to-markdown' : {
             help    : 'to markdown',
             help_index : 'cb',
             handler : function (env) {
-                env.notebook.to_markdown();
+                env.notebook.cells_to_markdown();
             }
         },
         'change-cell-to-raw' : {
             help    : 'to raw',
             help_index : 'cc',
             handler : function (env) {
-                env.notebook.to_raw();
+                env.notebook.cells_to_raw();
             }
         },
         'change-cell-to-heading-1' : {
