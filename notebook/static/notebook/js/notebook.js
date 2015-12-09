@@ -1177,7 +1177,11 @@ define(function (require) {
         return this.insert_cell_below(type,len-1);
     };
     
-    
+    /**
+     * Turn one or more cells into code.
+     *
+     * @param {Array} indices - cell indices to convert
+     */
     Notebook.prototype.cells_to_code = function (indices) {
         if (indices === undefined){
             indices = this.get_selected_cells_indices();
