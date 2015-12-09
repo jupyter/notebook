@@ -1191,6 +1191,7 @@ define(function (require) {
             this.to_code(indices[i]);
         }
     };
+
     /**
      * Turn a cell into a code cell.
      * 
@@ -1221,6 +1222,21 @@ define(function (require) {
             }
         }
     };
+
+    /**
+     * Turn one or more cells into Markdown.
+     *
+     * @param {Array} indices - cell indices to convert
+     */
+     Notebook.prototype.cells_to_markdown = function (indices) {
+        if (indices === undefined) {
+            indices = this.get_selected_cells_indices();
+        }
+
+        for(var i=0; i < indices.length; i++) {
+            this.to_markdown(indices[i]);
+        }
+     };
 
     /**
      * Turn a cell into a Markdown cell.

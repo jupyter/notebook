@@ -254,7 +254,7 @@ define(function(require){
             help    : 'to markdown',
             help_index : 'cb',
             handler : function (env) {
-                env.notebook.to_markdown();
+                env.notebook.cells_to_markdown();
             }
         },
         'change-cell-to-raw' : {

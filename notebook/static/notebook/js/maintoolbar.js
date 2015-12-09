@@ -111,7 +111,7 @@ define([
                 that.notebook.cells_to_code();
                 break;
             case 'markdown':
-                that.notebook.to_markdown();
+                that.notebook.cells_to_markdown();
                 break;
             case 'raw':
                 that.notebook.cells_to_raw();
