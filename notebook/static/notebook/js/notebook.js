@@ -1646,6 +1646,20 @@ define(function (require) {
     };
 
     /**
+     * Clear multiple selected CodeCells' output areas.
+     *
+     */
+    Notebook.prototype.clear_cells_outputs = function(indices) {
+        if (!indices) {
+           var indices = this.get_selected_cells_indices();
+        }
+
+        for (var i = 0; i < indices.length; i++){
+            this.clear_output(indices[i]);
+        }
+    }
+
+    /**
      * Clear each code cell's output area.
      */
     Notebook.prototype.clear_all_output = function () {
@@ -1699,6 +1713,21 @@ define(function (require) {
     };
 
     /**
+     * Toggle whether all selected cells' outputs are collapsed or expanded.
+     *
+     * @param {integer} indices - the indices of the cells to toggle
+     */
+    Notebook.prototype.toggle_cells_outputs = function(indices) {
+        if (!indices) {
+           var indices = this.get_selected_cells_indices();
+        }
+
+        for (var i = 0; i < indices.length; i++){
+            this.toggle_output(indices[i]);
+        }
+    }
+
+    /**
      * Toggle the output of all cells.
      */
     Notebook.prototype.toggle_all_output = function () {
@@ -1724,6 +1753,21 @@ define(function (require) {
             this.set_dirty(true);
         }
     };
+
+    /**
+     * Toggle a scrollbar for selected long cells' outputs.
+     *
+     * @param {integer} indices - the indices of the cells to toggle
+     */
+    Notebook.prototype.toggle_cells_outputs_scroll = function(indices) {
+        if (!indices) {
+            var indices = this.get_selected_cells_indices();
+        }
+
+        for (var i = 0; i < indices.length; i++){
+            this.toggle_output_scroll(indices[i]);
+        }
+    }
 
     /**
      * Toggle the scrolling of long output on all cells.

@@ -307,22 +307,23 @@ define(function(require){
             }
         },
         'toggle-cell-output-collapsed' : {
-            help    : 'toggle output',
+            help    : 'toggle output of selected cells',
             help_index : 'gb',
             handler : function (env) {
-                env.notebook.toggle_output();
+                env.notebook.toggle_cells_outputs();
             }
         },
         'toggle-cell-output-scrolled' : {
-            help    : 'toggle output scrolling',
+            help    : 'toggle output scrolling of selected cells',
             help_index : 'gc',
             handler : function (env) {
-                env.notebook.toggle_output_scroll();
+                env.notebook.toggle_cells_outputs_scroll();
             }
         },
         'clear-cell-output' : {
+            help    : 'clear output of selected cells',
             handler : function (env) {
-                env.notebook.clear_output();
+                env.notebook.clear_cells_outputs();
             }
         },
         'move-cell-down' : {
