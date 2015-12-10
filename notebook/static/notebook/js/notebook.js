@@ -1433,20 +1433,22 @@ define(function (require) {
      * Replace the selected cell with the cells in the clipboard.
      */
     Notebook.prototype.paste_cell_replace = function () {
-        if (this.clipboard !== null && this.paste_enabled) {
-            var first_inserted = null;
-            for (var i=0; i < this.clipboard.length; i++) {
-                var cell_data = this.clipboard;
-                var new_cell = this.insert_cell_above(cell_data.cell_type);
-                new_cell.fromJSON(cell_data);
-                if (first_inserted === null) {
-                    first_inserted = new_cell;
-                }
-            }
-            var old_selected = this.get_selected_index();
-            this.select(this.find_cell_index(first_inserted));
-            this.delete_cell(old_selected);
+
+        if (!(this.clipboard !== null && this.paste_enabled)) {
+            return
         }
+
+        var selected =  this.get_selected_cells_indices();
+        var insertion_index = selected[0];
+        this.delete_cells(selected);
+
+        for (var i=this.clipboard.length-1; i >= 0; i--) {
+            var cell_data = this.clipboard[i];
+            var new_cell = this.insert_cell_at_index(cell_data.cell_type, insertion_index);
+            new_cell.fromJSON(cell_data);
+        }
+
+        this.select(insertion_index+this.clipboard.length-1);
     };
 
     /**
@@ -1462,7 +1464,6 @@ define(function (require) {
                 if (first_inserted === null) {
                     first_inserted = new_cell;
                 }
-
             }
             first_inserted.focus_cell();
         }
