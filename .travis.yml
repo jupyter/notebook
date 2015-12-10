@@ -1,6 +1,5 @@
 # http://travis-ci.org/#!/ipython/ipython
 language: python
-group: edge
 cache:
     directories:
         - ~/.cache/bower
