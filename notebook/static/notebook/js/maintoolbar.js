@@ -89,6 +89,7 @@ define([
     // encountered when building a toolbar.
     MainToolBar.prototype._pseudo_actions.add_celltype_list = function () {
         var that = this;
+        var multiselect = $('<option/>').attr('value','multiselect').attr('disabled','').text('-');
         var sel = $('<select/>')
             .attr('id','cell_type')
             .addClass('form-control select-xs')
@@ -96,13 +97,19 @@ define([
             .append($('<option/>').attr('value','markdown').text('Markdown'))
             .append($('<option/>').attr('value','raw').text('Raw NBConvert'))
             .append($('<option/>').attr('value','heading').text('Heading'))
-            .append($('<option/>').attr('value','multiselect').text('-'));
+            .append(multiselect);
         this.notebook.keyboard_manager.register_events(sel);
         this.events.on('selected_cell_type_changed.Notebook', function (event, data) {
-            if (data.cell_type === 'heading') {
-                sel.val('Markdown');
+            if ( that.notebook.get_selected_cells_indices().length > 1) {
+                multiselect.show();
+                sel.val('multiselect');
+                multiselect.hide();
             } else {
-                sel.val(data.cell_type);
+                if (data.cell_type === 'heading') {
+                    sel.val('Markdown');
+                } else {
+                    sel.val(data.cell_type);
+                }
             }
         });
         sel.change(function () {

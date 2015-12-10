@@ -709,6 +709,7 @@ define(function (require) {
             }
             var cell = this.get_cell(index);
             cell.select(moveanchor);
+            this.update_soft_selection();
             if (cell.cell_type === 'heading') {
                 this.events.trigger('selected_cell_type_changed.Notebook',
                     {'cell_type':cell.cell_type,level:cell.level}
@@ -719,7 +720,6 @@ define(function (require) {
                 );
             }
         }
-        this.update_soft_selection();
         return this;
     };
 
