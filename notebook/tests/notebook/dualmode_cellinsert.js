@@ -60,18 +60,23 @@ casper.notebook_test(function () {
         this.test.assertEquals(this.get_cell(3).cell_type, 'code', 'a; inserts a code cell above code cell');
     });
     
-    this.thenEvaluate(function() {
-        IPython.notebook.class_config.set('default_cell_type', 'below');
-    });
-    
     this.then(function () {
-        this.select_cell(2);
-        this.trigger_keydown('r'); // switch it to markdown for the next test
-        this.test.assertEquals(this.get_cell(2).cell_type, 'raw', 'test cell is raw');
-        this.trigger_keydown('a'); // new cell above
-        this.test.assertEquals(this.get_cell(2).cell_type, 'raw', 'a; inserts a raw cell above raw cell');
-        this.trigger_keydown('y'); // switch it to code for the next test
-        this.trigger_keydown('b'); // new cell below
-        this.test.assertEquals(this.get_cell(3).cell_type, 'raw', 'b; inserts a raw cell below raw cell');
+        this.set_cell_text(1, 'cell1');
+        this.select_cell(1);
+        this.select_cell(2, false);
+        this.trigger_keydown('a');
+        this.test.assertEquals(this.get_cell_text(1), '', 'a; New cell 1 text is empty');
+        this.test.assertEquals(this.get_cell_text(2), 'cell1', 'a; Cell 2 text is old cell 1');
+        
+        this.set_cell_text(1, 'cell1');
+        this.set_cell_text(2, 'cell2');
+        this.set_cell_text(3, 'cell3');
+        this.select_cell(1);
+        this.select_cell(2, false);
+        this.trigger_keydown('b');
+        this.test.assertEquals(this.get_cell_text(1), 'cell1', 'b; Cell 1 remains');
+        this.test.assertEquals(this.get_cell_text(2), 'cell2', 'b; Cell 2 remains');
+        this.test.assertEquals(this.get_cell_text(3), '', 'b; Cell 3 is new');
+        this.test.assertEquals(this.get_cell_text(4), 'cell3', 'b; Cell 4 text is old cell 3');
     });
 });
