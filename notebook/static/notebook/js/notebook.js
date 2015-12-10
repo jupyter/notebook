@@ -846,6 +846,8 @@ define(function (require) {
      * @return {Notebook} This notebook
      */
     Notebook.prototype.move_cell_up = function (index) {
+        console.warn('Notebook.move_cell_up is deprecated as of v4.1 and will be removed in v5.0');
+        
         var i = this.index_or_selected(index);
         if (this.is_valid_cell_index(i) && i > 0) {
             var pivot = this.get_cell_element(i-1);
@@ -870,6 +872,8 @@ define(function (require) {
      * @return {Notebook} This notebook
      */
     Notebook.prototype.move_cell_down = function (index) {
+        console.warn('Notebook.move_cell_down is deprecated as of v4.1 and will be removed in v5.0');
+        
         var i = this.index_or_selected(index);
         if (this.is_valid_cell_index(i) && this.is_valid_cell_index(i+1)) {
             var pivot = this.get_cell_element(i+1);
