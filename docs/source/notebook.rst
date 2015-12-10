@@ -190,12 +190,12 @@ operations within the notebook, by clicking on an icon.
 .. note:: 
 
     As of notebook version 4.1, the user interface allows for multiple cells
-    selection.  The ``quick celltype selector`` present in menubar might
-    present inconsistencies when cells of multiple types are selected. This
-    inconsistency might also prevent user to change type of the cells in the
-    current selection using the ``quic celltype selector``. Though type of
+    to be selected.  The ``quick celltype selector``, found in the menubar, might
+    present inconsistencies when cells of multiple types are selected. Also, this
+    inconsistency may prevent the user from changing the types of the selected 
+    cells using the ``quick celltype selector``. However, the types of
     cells can still be changed using the ``command palette``,  Cell Type menu,
-    as well as keyboard shortcuts.
+    and the keyboard shortcuts.
 
 
 Structure of a notebook document
