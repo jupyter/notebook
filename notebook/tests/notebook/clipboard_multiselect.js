@@ -35,5 +35,7 @@ casper.notebook_test(function () {
             );
         }
 
+        this.validate_notebook_state('paste-replace', 'command', 8)
+
     });
 });

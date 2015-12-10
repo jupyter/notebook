@@ -1390,13 +1390,12 @@ define(function (require) {
         this.delete_cells(selected);
 
         for (var i=this.clipboard.length-1; i >= 0; i--) {
-            debugger;
             var cell_data = this.clipboard[i];
             var new_cell = this.insert_cell_at_index(cell_data.cell_type, insertion_index);
             new_cell.fromJSON(cell_data);
         }
 
-        this.select(insertion_index);
+        this.select(insertion_index+this.clipboard.length-1);
     };
 
     /**
