@@ -310,30 +310,20 @@ define(function(require){
             help    : 'toggle output of selected cells',
             help_index : 'gb',
             handler : function (env) {
-                var indices = env.notebook.get_selected_cells_indices();
-                console.log(indices)
-                for(var i =0; i< indices.length; i++){
-                    env.notebook.toggle_output(indices[i]);
-                }
+                env.notebook.toggle_cells_outputs();
             }
         },
         'toggle-cell-output-scrolled' : {
             help    : 'toggle output scrolling of selected cells',
             help_index : 'gc',
             handler : function (env) {
-                var indices = env.notebook.get_selected_cells_indices();
-                for(var i =0; i< indices.length; i++){
-                    env.notebook.toggle_output_scroll(indices[i]);
-                }
+                env.notebook.toggle_cells_outputs_scroll();
             }
         },
         'clear-cell-output' : {
             help    : 'clear output of selected cells',
             handler : function (env) {
-                var indices = env.notebook.get_selected_cells_indices();
-                for(var i =0; i< indices.length; i++){
-                    env.notebook.clear_output(indices[i]);
-                }
+                env.notebook.clear_cells_outputs();
             }
         },
         'move-cell-down' : {
