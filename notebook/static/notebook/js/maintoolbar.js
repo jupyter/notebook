@@ -95,7 +95,8 @@ define([
             .append($('<option/>').attr('value','code').text('Code'))
             .append($('<option/>').attr('value','markdown').text('Markdown'))
             .append($('<option/>').attr('value','raw').text('Raw NBConvert'))
-            .append($('<option/>').attr('value','heading').text('Heading'));
+            .append($('<option/>').attr('value','heading').text('Heading'))
+            .append($('<option/>').attr('value','multiselect').text('-'));
         this.notebook.keyboard_manager.register_events(sel);
         this.events.on('selected_cell_type_changed.Notebook', function (event, data) {
             if (data.cell_type === 'heading') {
@@ -120,6 +121,8 @@ define([
                 that.notebook._warn_heading();
                 that.notebook.to_heading();
                 sel.val('markdown');
+                break;
+            case 'multiselect':
                 break;
             default:
                 console.log("unrecognized cell type:", cell_type);
