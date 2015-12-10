@@ -148,11 +148,31 @@ casper.notebook_test(function () {
         this.select_cell(1, false);
         this.trigger_keydown('alt-enter');
 
-    })
+    });
+    
     this.wait_for_output(0);
     this.wait_for_output(1);
     this.then(function () {
         assert_outputs(['x\n', 'y\n', undefined, undefined,  'c\n', 'd\n'],'run selection and insert below');
         this.validate_notebook_state('run selection insert below', 'edit', 2);
+    });
+
+    this.then(function(){
+        this.set_cell_text(1, 'print("z")');
+        this.set_cell_text(2, 'print("a")');
+
+        this.select_cell(1);
+        this.select_cell(2, false);
+        this.evaluate(function () {
+            $("#run_cell_select_below").click();
+        });
+
+    });
+    
+    this.wait_for_output(1);
+    this.wait_for_output(2);
+    this.then(function () {
+        assert_outputs(['x\n', 'z\n', 'a\n', undefined, 'c\n', 'd\n'],'run selection and select below');
+        this.validate_notebook_state('run selection select below', 'command', 3);
     });
 });
