@@ -2058,14 +2058,15 @@ define(function (require) {
      */
     Notebook.prototype.execute_cell_and_insert_below = function () {
         var indices = this.get_selected_cells_indices();
+        var cell_index;
         if (indices.length > 1) {
             this.execute_cells(indices);
-            return;
+            cell_index = Math.max.apply(Math, indices);
+        } else {
+            var cell = this.get_selected_cell();
+            cell_index = this.find_cell_index(cell);
+            cell.execute();
         }
-
-        var cell = this.get_selected_cell();
-        var cell_index = this.find_cell_index(cell);
-        cell.execute();
 
         // If we are at the end always insert a new cell and return
         if (cell_index === (this.ncells()-1)) {

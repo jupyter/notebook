@@ -13,8 +13,8 @@ casper.notebook_test(function () {
 
             } else {
                 msg = msg_prefix + 'cell ' + i + ' executed';
-                var out = that.get_output_cell(i, undefined, msg_prefix).text
-                that.test.assertEquals(out, expected[i], msg + 'out is: '+out);
+                var out = (that.get_output_cell(i, undefined, msg_prefix)||{test:'<no cells>'}).text
+                that.test.assertEquals(out, expected[i], msg + ', out is: '+out);
             }
         }
     };
@@ -138,5 +138,21 @@ casper.notebook_test(function () {
     this.then(function () {
         assert_outputs(['a\n', 'b\n', undefined, 'c\n', 'd\n'],'run all cells');
         this.validate_notebook_state('run all cells', 'command', 4);
+    });
+
+    this.then(function(){
+        this.set_cell_text(0, 'print("x")');
+        this.set_cell_text(1, 'print("y")');
+
+        this.select_cell(0);
+        this.select_cell(1, false);
+        this.trigger_keydown('alt-enter');
+
+    })
+    this.wait_for_output(0);
+    this.wait_for_output(1);
+    this.then(function () {
+        assert_outputs(['x\n', 'y\n', undefined, undefined,  'c\n', 'd\n'],'run selection and insert below');
+        this.validate_notebook_state('run selection insert below', 'edit', 2);
     });
 });
