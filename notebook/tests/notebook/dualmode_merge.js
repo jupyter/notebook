@@ -185,14 +185,13 @@ casper.notebook_test(function () {
         // shift-m on single selection does nothing.
         this.trigger_keydown('shift-m');
         this.trigger_keydown('esc');
-        this.test.assertEquals(this.get_cells_length(), N-1 , 'Merge cell 4 with 5: There are now '+(N-1)+' cells');
+        this.test.assertEquals(this.get_cells_length(), N-2 , 'Merge cell 4 with 5: There are now '+(N-2)+' cells');
         this.test.assertEquals(this.get_cell_text(0), a, 'Merge cell 4 with 5: Cell 0 is unchanged');
         this.test.assertEquals(this.get_cell_text(1), b, 'Merge cell 4 with 5: Cell 1 is unchanged');
         this.test.assertEquals(this.get_cell_text(2), c, 'Merge cell 4 with 5: Cell 2 is unchanged');
         this.test.assertEquals(this.get_cell_text(3), d+'\n\n'+e, 'Merge cell 4 with 5: Cell 3  is unchanged');
-        this.test.assertEquals(this.get_cell_text(4), f, 'Merge cell 4 with 5: Cell 5 is unchanged');
-        this.test.assertEquals(this.get_cell_text(5), g, 'Merge cell 4 with 5: Cell 6 is unchanged');
-        this.validate_notebook_state('merge on single selection does nothing', 'command', 4);
+        this.test.assertEquals(this.get_cell_text(4), f+'\n\n'+g, 'Merge cell 4 with 5: Cell 4 and 5 are merged');
+        this.validate_notebook_state('merge on single cell merge with below', 'command', 4);
     });
 
 
