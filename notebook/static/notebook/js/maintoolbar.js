@@ -90,6 +90,7 @@ define([
     MainToolBar.prototype._pseudo_actions.add_celltype_list = function () {
         var that = this;
         var multiselect = $('<option/>').attr('value','multiselect').attr('disabled','').text('-');
+        multiselect.hide();
         var sel = $('<select/>')
             .attr('id','cell_type')
             .addClass('form-control select-xs')
@@ -101,9 +102,7 @@ define([
         this.notebook.keyboard_manager.register_events(sel);
         this.events.on('selected_cell_type_changed.Notebook', function (event, data) {
             if ( that.notebook.get_selected_cells_indices().length > 1) {
-                multiselect.show();
                 sel.val('multiselect');
-                multiselect.hide();
             } else {
                 if (data.cell_type === 'heading') {
                     sel.val('Markdown');
