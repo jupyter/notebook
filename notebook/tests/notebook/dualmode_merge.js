@@ -4,6 +4,11 @@ casper.notebook_test(function () {
     var a = 'ab\n\ncd';
     var b = 'print("b")';
     var c = 'print("c")';
+    var d = '"d"';
+    var e = '"e"';
+    var f = '"f"';
+    var g = '"g"';
+    var N = 7;
 
     var that = this;
     var cell_is_mergeable = function (index) {
@@ -51,6 +56,10 @@ casper.notebook_test(function () {
     this.then(function () {
         this.append_cell(b);
         this.append_cell(c);
+        this.append_cell(d);
+        this.append_cell(e);
+        this.append_cell(f);
+        this.append_cell(g);
     });
 
     this.thenEvaluate(function() {
@@ -75,23 +84,25 @@ casper.notebook_test(function () {
         IPython.notebook.merge_cell_above();
     });
     this.then(function() {
-        this.test.assertEquals(this.get_cells_length(), 3, 'Merge cell 0 above: There are still 3 cells');
+        this.test.assertEquals(this.get_cells_length(), N, 'Merge cell 0 above: There are still '+N+' cells');
         this.test.assertEquals(this.get_cell_text(0), a, 'Merge cell 0 above: Cell 0 is unchanged');
         this.test.assertEquals(this.get_cell_text(1), b, 'Merge cell 0 above: Cell 1 is unchanged');
         this.test.assertEquals(this.get_cell_text(2), c, 'Merge cell 0 above: Cell 2 is unchanged');
         this.validate_notebook_state('merge up', 'command', 0);
     });
 
-    // Try to merge cell 0 below with cell 1
+    // Try to merge cell 0 below with cell 1, should not work, as 1 is locked
     this.then(function () {
-        this.select_cell(0);
         this.trigger_keydown('esc');
+        this.select_cell(0);
+        this.select_cell(1,false);
         this.trigger_keydown('shift-m');
-        this.test.assertEquals(this.get_cells_length(), 3, 'Merge cell 0 down: There are still 3 cells');
+        this.trigger_keydown('esc');
+        this.test.assertEquals(this.get_cells_length(), N, 'Merge cell 0 down: There are still '+N+' cells');
         this.test.assertEquals(this.get_cell_text(0), a, 'Merge cell 0 down: Cell 0 is unchanged');
         this.test.assertEquals(this.get_cell_text(1), b, 'Merge cell 0 down: Cell 1 is unchanged');
         this.test.assertEquals(this.get_cell_text(2), c, 'Merge cell 0 down: Cell 2 is unchanged');
-        this.validate_notebook_state('shift-m', 'command', 0);
+        this.validate_notebook_state('merge 0 with 1', 'command', 1);
     });
 
     // Try to merge cell 1 above with cell 0
@@ -102,7 +113,7 @@ casper.notebook_test(function () {
         IPython.notebook.merge_cell_above();
     });
     this.then(function () {
-        this.test.assertEquals(this.get_cells_length(), 3, 'Merge cell 1 up: There are still 3 cells');
+        this.test.assertEquals(this.get_cells_length(), N, 'Merge cell 1 up: There are still '+N+' cells');
         this.test.assertEquals(this.get_cell_text(0), a, 'Merge cell 1 up: Cell 0 is unchanged');
         this.test.assertEquals(this.get_cell_text(1), b, 'Merge cell 1 up: Cell 1 is unchanged');
         this.test.assertEquals(this.get_cell_text(2), c, 'Merge cell 1 up: Cell 2 is unchanged');
@@ -115,26 +126,28 @@ casper.notebook_test(function () {
         this.trigger_keydown('enter');
         this.set_cell_editor_cursor(1, 0, 2);
         this.trigger_keydown('ctrl-shift-subtract'); // Split
-        this.test.assertEquals(this.get_cells_length(), 3, 'Split cell 1: There are still 3 cells');
+        this.test.assertEquals(this.get_cells_length(), N, 'Split cell 1: There are still '+N+' cells');
         this.test.assertEquals(this.get_cell_text(0), a, 'Split cell 1: Cell 0 is unchanged');
         this.test.assertEquals(this.get_cell_text(1), b, 'Split cell 1: Cell 1 is unchanged');
         this.test.assertEquals(this.get_cell_text(2), c, 'Split cell 1: Cell 2 is unchanged');
         this.validate_notebook_state('ctrl-shift-subtract', 'edit', 1); 
     });
 
-    // Try to merge cell 1 down
+    // Try to merge cell 1 down, should fail, as 1 is locked
     this.then(function () {
-        this.select_cell(1);
         this.trigger_keydown('esc');
+        this.select_cell(1);
+        this.select_cell(2, false); // extend selection
         this.trigger_keydown('shift-m');
-        this.test.assertEquals(this.get_cells_length(), 3, 'Merge cell 1 down: There are still 3 cells');
+        this.trigger_keydown('esc');
+        this.test.assertEquals(this.get_cells_length(), N, 'Merge cell 1 down: There are still '+N+' cells');
         this.test.assertEquals(this.get_cell_text(0), a, 'Merge cell 1 down: Cell 0 is unchanged');
         this.test.assertEquals(this.get_cell_text(1), b, 'Merge cell 1 down: Cell 1 is unchanged');
         this.test.assertEquals(this.get_cell_text(2), c, 'Merge cell 1 down: Cell 2 is unchanged');
-        this.validate_notebook_state('shift-m', 'command', 1);
+        this.validate_notebook_state('Merge 1 with 2', 'command', 2);
     });
 
-    // Try to merge cell 2 above with cell 1
+    // Try to merge cell 2 above with cell 1, should fail, 1 is locked
     this.then(function () {
         this.select_cell(2);
     });
@@ -142,10 +155,45 @@ casper.notebook_test(function () {
         IPython.notebook.merge_cell_above();
     });
     this.then(function () {
-        this.test.assertEquals(this.get_cells_length(), 3, 'Merge cell 2 up: There are still 3 cells');
+        this.test.assertEquals(this.get_cells_length(), N, 'Merge cell 2 up: There are still '+N+' cells');
         this.test.assertEquals(this.get_cell_text(0), a, 'Merge cell 2 up: Cell 0 is unchanged');
         this.test.assertEquals(this.get_cell_text(1), b, 'Merge cell 2 up: Cell 1 is unchanged');
         this.test.assertEquals(this.get_cell_text(2), c, 'Merge cell 2 up: Cell 2 is unchanged');
         this.validate_notebook_state('merge up', 'command', 2);
     });
+
+    this.then(function () {
+        this.trigger_keydown('esc');
+        this.select_cell(3);
+        this.select_cell(4, false); // extend selection
+        this.trigger_keydown('shift-m');
+        this.trigger_keydown('esc');
+        this.test.assertEquals(this.get_cells_length(), N-1 , 'Merge cell 3 with 4: There are now '+(N-1)+' cells');
+        this.test.assertEquals(this.get_cell_text(0), a, 'Merge cell 3 with 4: Cell 0 is unchanged');
+        this.test.assertEquals(this.get_cell_text(1), b, 'Merge cell 3 with 4: Cell 1 is unchanged');
+        this.test.assertEquals(this.get_cell_text(2), c, 'Merge cell 3 with 4: Cell 2 is unchanged');
+        this.test.assertEquals(this.get_cell_text(3), d+'\n\n'+e, 'Merge cell 3 with 4: Cell 3 is merged');
+        this.test.assertEquals(this.get_cell_text(4), f, 'Merge cell 3 with 4: Cell 5 is now cell 4');
+        this.test.assertEquals(this.get_cell_text(5), g, 'Merge cell 3 with 4: Cell 6 is now cell 5');
+        this.validate_notebook_state('actual merge', 'command', 3);
+    });
+
+
+    this.then(function () {
+        this.trigger_keydown('esc');
+        this.select_cell(4);
+        // shift-m on single selection does nothing.
+        this.trigger_keydown('shift-m');
+        this.trigger_keydown('esc');
+        this.test.assertEquals(this.get_cells_length(), N-1 , 'Merge cell 4 with 5: There are now '+(N-1)+' cells');
+        this.test.assertEquals(this.get_cell_text(0), a, 'Merge cell 4 with 5: Cell 0 is unchanged');
+        this.test.assertEquals(this.get_cell_text(1), b, 'Merge cell 4 with 5: Cell 1 is unchanged');
+        this.test.assertEquals(this.get_cell_text(2), c, 'Merge cell 4 with 5: Cell 2 is unchanged');
+        this.test.assertEquals(this.get_cell_text(3), d+'\n\n'+e, 'Merge cell 4 with 5: Cell 3  is unchanged');
+        this.test.assertEquals(this.get_cell_text(4), f, 'Merge cell 4 with 5: Cell 5 is unchanged');
+        this.test.assertEquals(this.get_cell_text(5), g, 'Merge cell 4 with 5: Cell 6 is unchanged');
+        this.validate_notebook_state('merge on single selection does nothing', 'command', 4);
+    });
+
+
 });
