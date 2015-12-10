@@ -5,27 +5,29 @@ casper.notebook_test(function () {
     this.append_cell('1');
     this.append_cell('2');
     this.append_cell('3');
-    this.append_cell('a');
-    this.append_cell('b');
-    this.append_cell('c');
+    this.append_cell('4');
+    this.append_cell('a5');
+    this.append_cell('b6');
+    this.append_cell('c7');
+    this.append_cell('d8');
+
 
 
     this.then(function () {
          // Copy/paste/cut
-        var num_cells = this.get_cells_length();
-        this.test.assertEquals(this.get_cell_text(1), '1', 'YOUUUUUU Verify that cell 1 is a');
         this.select_cell(1);
         this.select_cell(3, false);
 
         this.trigger_keydown('c'); // Copy
 
-        this.select_cell(5)
+        this.select_cell(6)
+        this.select_cell(7,false)
 
         this.evaluate(function () {
             $("#paste_cell_replace").click();
         });
 
-        var expected_state = ['','1','2','3', 'a', '1', '2', '3', 'c'];
+        var expected_state = ['', '1', '2', '3', '4', 'a5', '1' ,'2' ,'3', 'd8'];
 
         for (var i=1; i<expected_state.length; i++){
             this.test.assertEquals(this.get_cell_text(i), expected_state[i],
