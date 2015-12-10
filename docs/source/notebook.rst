@@ -187,6 +187,16 @@ operations within the notebook, by clicking on an icon.
 
 **code cell**: the default type of cell, read on for an explanation of cells
 
+.. note:: 
+
+    As of notebook version 4.1, the user interface allows for multiple cells
+    to be selected.  The ``quick celltype selector``, found in the menubar, might
+    present inconsistencies when cells of multiple types are selected. Also, this
+    inconsistency may prevent the user from changing the types of the selected 
+    cells using the ``quick celltype selector``. However, the types of
+    cells can still be changed using the ``command palette``,  Cell Type menu,
+    and the keyboard shortcuts.
+
 
 Structure of a notebook document
 --------------------------------
