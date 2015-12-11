@@ -47,7 +47,7 @@ class TestFileContentsManager(TestCase):
 
     def symlink(self, contents_manager, src, dst):
         """Make a symlink to src from dst
-        
+
         src and dst are api_paths
         """
         src_os_path = contents_manager._get_os_path(src)
@@ -107,7 +107,7 @@ class TestFileContentsManager(TestCase):
         self.assertNotEqual(cp_dir, cp_subdir)
         self.assertEqual(cp_dir, os.path.join(root, cpm.checkpoint_dir, cp_name))
         self.assertEqual(cp_subdir, os.path.join(root, subd, cpm.checkpoint_dir, cp_name))
-    
+
     @dec.skip_win32
     def test_bad_symlink(self):
         with TemporaryDirectory() as td:
@@ -121,7 +121,7 @@ class TestFileContentsManager(TestCase):
             self.symlink(cm, "target", '%s/%s' % (path, 'bad symlink'))
             model = cm.get(path)
             self.assertEqual(model['content'], [file_model])
-    
+
     @dec.skip_win32
     def test_good_symlink(self):
         with TemporaryDirectory() as td:
@@ -141,19 +141,19 @@ class TestFileContentsManager(TestCase):
                 sorted(dir_model['content'], key=lambda x: x['name']),
                 [symlink_model, file_model],
             )
-    
+
     def test_403(self):
         if hasattr(os, 'getuid'):
             if os.getuid() == 0:
                 raise SkipTest("Can't test permissions as root")
         if sys.platform.startswith('win'):
             raise SkipTest("Can't test permissions on Windows")
-        
+
         with TemporaryDirectory() as td:
             cm = FileContentsManager(root_dir=td)
             model = cm.new_untitled(type='file')
             os_path = cm._get_os_path(model['path'])
-        
+
             os.chmod(os_path, 0o400)
             try:
                 with cm.open(os_path, 'w') as f:
@@ -234,10 +234,10 @@ class TestContentsManager(TestCase):
 
     def tearDown(self):
         self._temp_dir.cleanup()
-    
+
     def make_dir(self, api_path):
         """make a subdirectory at api_path
-        
+
         override in subclasses if contents are not on the filesystem.
         """
         _make_dir(self.contents_manager, api_path)
@@ -283,7 +283,7 @@ class TestContentsManager(TestCase):
         self.assertEqual(model['name'], 'Untitled Folder')
         self.assertEqual(model['path'], 'Untitled Folder')
         sub_dir = model['path']
-        
+
         model = cm.new_untitled(path=sub_dir)
         assert isinstance(model, dict)
         self.assertIn('name', model)
@@ -613,3 +613,17 @@ class TestContentsManager(TestCase):
         cm.mark_trusted_cells(nb, path)
         cm.check_and_sign(nb, path)
         assert cm.notary.check_signature(nb)
+
+
+class TestContentsManagerNoAtomic(TestContentsManager):
+    """
+    Make same test in no atomic case than in atomic case, using inheritance
+    """
+
+    def setUp(self):
+        self._temp_dir = TemporaryDirectory()
+        self.td = self._temp_dir.name
+        self.contents_manager = FileContentsManager(
+            root_dir = self.td,
+        )
+        self.contents_manager.use_atomic_writing = False
