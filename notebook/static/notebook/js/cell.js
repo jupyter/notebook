@@ -160,11 +160,14 @@ define([
      * if just codemirror focus (so edit mode).
      * We **might** be able to move that to notebook `handle_edit_mode`.
      */
-    Cell.prototype._on_click = function(event){
+    Cell.prototype._on_click = function (event) {
         if (!this.selected) {
             this.events.trigger('select.Cell', {'cell':this, 'extendSelection':event.shiftKey});
+        } else {
+            // I'm already part of the selection; contract selection to just me
+            this.events.trigger('select.Cell', {'cell': this});
         }
-    }
+    };
 
     /**
      * Subclasses can implement override bind_events.
@@ -176,7 +179,7 @@ define([
         var that = this;
         // We trigger events so that Cell doesn't have to depend on Notebook.
         that.element.click(function (event) {
-            that._on_click(event)
+            that._on_click(event);
         });
         if (this.code_mirror) {
             this.code_mirror.on("change", function(cm, change) {
