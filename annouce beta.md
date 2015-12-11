@@ -3,73 +3,73 @@ Hello Jovyans,
 
 ### TL;DR:
 
-Please backup your files, then install notebook 4.1-beta with 
+Please backup your files, install the notebook 4.1-beta with 
 
 ```
 python -m pip install notebook --pre --upgrade
 ```
 
-And send us your feedback.
+and then send us feedback.
 
 ### Longer
 
-We are happy to start a beta of the latest version of the `notebook`. We are
-hopping to release the final version before 2016, so we seek your help to test
-the latest version, and complain rapidly of any critical bugs or
-incompatibility with 4.0 that would have sneaked into this version. 
+We are happy to release a beta of the latest version of the `notebook`. We are
+hoping to release the final version before the end of the year.   We seek your 
+help in testing the latest version of the notebook and reporting any bugs or 
+incompatibilities with version 4.0 that may have sneaked into this release. 
 
-Unlike other minor releases we have a few new features we would like you to
-test and give feedback on:
+Unlike other minor releases, we have added a few new features that we would like 
+you to test and give us feedback on:
 
-##### Multiselection:
+##### Multiselection
 
-`Shift-J`,`Shift-K` (as well as Shift-Up/Down) can allow you to select multiple
-cells. Most action you execute (run cell, copy, paste, delete) will apply to
-the **selection**. Please test that thoroughly. Not all the things will work,
-but we don't want you to lose data.
+`Shift-J`, `Shift-K` (as well as `Shift-Up`, `Shift-Down`) allows you to select
+multiple cells. Most actions you execute (run cell, copy, paste, delete, etc.) 
+will apply to all of the cells in the **selection**. Please test this feature 
+thoroughly. It may be that not everything will work as expected.
 
 ##### Find and Replace 
 
-Either in the *toolbar** of using the shortcut `f` in command mode. It supports
-Javascript regular expression and a **preview**.
+A new find and replace dialog has been added.  It is accessible either in the 
+*toolbar* or by using the shortcut `F` in command mode.  It supports Javascript 
+regular expressions and a **preview** of what will be replaced.
 
 ##### Command Palette
 
-Ctrl-Shift-P (Cmd-Shift-P on Mac) bring a command palette, to search through
-all commands (including these **not included** in the menus and toolbar. 
-Fuzzy-Matching is crude and can be improved, we know. Please test also. 
+`Ctrl-Shift-P` (`Cmd-Shift-P` on Mac) opens the command palette, which enables 
+you to search through all of the actions the notebook has defined, including 
+the ones **not visible** in the menus or toolbar.  It supports a crude form of
+fuzzy-matching which will be improved in later versions.
 
-##### Securing public server. 
+##### Securing public server
 
-If you are running your notebook locally, you should be using an SSL
-certificate and a password. We know have a script to help you set this up on
-unix machines. 
-
+If you are running your notebook locally, you use an SSL certificate and a 
+notebook password.  The notebook now comes shipped with a script to help you set 
+this up on unix machines. 
 
 ```bash
 $ python tools/secure_notebook.py
 ```
 
-##### Restart kernel and run all Menu.
+##### "Restart kernel and run all" menu item
 
-Often requested feedback (now available !)
+An often requested feature which is now included in the notebook.
 
 
 ### Install and test it.
 
-That should be about it for the package, with load oaf bugfixes, and other
-small improvement and configuration options. You can see the
-[changelog](http://jupyter-notebook.readthedocs.org/en/latest/changelog.html)
-here, we would appreciate any reminder of any thing we missed in this changelog
-or in the docs before the release of 4.1 to be sure everything goes smoothly. 
+This release also contains loads of bugfixes, other small improvements, and new 
+configuration options. You can see the [changelog](http://jupyter-notebook.readthedocs.org/en/latest/changelog.html) 
+here.  If we've missed anything in this announcement or the docs included with 
+the beta, please report it so we can make sure it's included prior to the 4.1 
+final release.
 
+Later, there will be a longer blog post for the formal announcement of 4.1, with 
+more details about the new features.  Feel free too report any **surprising**[1] 
+behaviors and we **always** welcome first impressions regarding the new features, 
+as well as feedback from long term users.
 
-We'll do a longer blog post for the annouce of 4.1 with more details on these
-feature later. I stay vague on purpose. Feel free too report any
-**surprising**[1] behavior, and we **always** welcome first impression on
-features, as well as feedback from users that have used it longer. 
-
-(Also you still have a few days to apply for the Postdocs positions at UC
+(Also you still have a few days to apply for the Postdoc positions at UC
 Berkeley)
 
 Enjoy this pre-release,
@@ -78,7 +78,4 @@ Cheers,
 -- 
 M
 
-[1]: We also accept bug report that just say "I love this new feature thank you".
-
-
-
+[1]: We also accept bug reports that say "I love this new feature, thank you".
