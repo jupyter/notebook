@@ -48,16 +48,26 @@ previous attempts.
 
 Run the following two commands to generate the universal ``wheel`` and the ``sdist``:
 
+Update version number in ``notebook/_version.py``.
+
+Run ``$ python setup.py jsversion``. It will modify (at least)
+``notebook/static/base/js/namespace.js`` to make the notebook version available
+from within JavaScript.
+
+Commit and tag the with the current version number:
+
+.. code::
+
+    git commit -am "release $VERSION"
+    git tag $VERSION
+
+
+You are now ready to build the ``sdist`` and ``wheel``:
+
 .. code::
 
     $ python setup.py sdist
     $ python setup.py bdist_wheel
-
-.. note::
-
-    The above command will modify (at least) the following file :
-    ``notebook/static/base/js/namespace.js`` to make the notebook version
-    available from javascript.
 
 
 You can now test the ``wheel`` and the ``sdist`` locally before uploading to PyPI.
