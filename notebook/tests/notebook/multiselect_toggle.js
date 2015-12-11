@@ -112,7 +112,7 @@ casper.notebook_test(function () {
           var last_index = Jupyter.notebook.get_cells().length
           Jupyter.notebook.select(last_index - 3);
           Jupyter.notebook.extend_selection_by(2);
-          var indices.it() = Jupyter.notebook.get_selected_cells_indices().entries();
+          var indices_it = Jupyter.notebook.get_selected_cells_indices().entries();
           Jupyter.notebook.move_selection_down();
           var result = Jupyter.notebook.get_selected_cells_indices();
           return result.every( function(i){return i === indices_it.next().value[1];})
