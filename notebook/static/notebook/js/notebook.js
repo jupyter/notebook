@@ -586,7 +586,7 @@ define(function (require) {
 
 
     Notebook.prototype.get_selected_cells = function () {
-        return this.get_cells().filter(function(cell, index){ return cell.selected || soft_selected(cell) || cell.anchor})
+        return this.get_cells().filter(function(cell, index){ return cell.selected || soft_selected(cell) || cell.anchor});
     };
 
     Notebook.prototype.get_selected_cells_indices = function () {
@@ -840,6 +840,53 @@ define(function (require) {
     // Cell movement
 
     /**
+     * Move the current selection up, keeping the same cells selected
+     * No op if the selection is at the beginning of the notebook
+     */
+    Notebook.prototype.move_selection_up = function(){
+        // actually will move the cell before the selection, after the selection
+        var indices = this.get_selected_cells_indices();
+        var first = indices[0];
+        var last = indices[indices.length-1];
+
+        var i1 = this.get_selected_index();
+        var i2 = this.get_anchor_index();
+
+        if(first===0){
+            return;
+        }
+        var tomove = this.get_cell_element(first-1);
+        var pivot = this.get_cell_element(last);
+        tomove.detach();
+        pivot.after(tomove);
+        this.select(i2-1);
+        this.select(i1-1, false);
+    };
+
+    /**
+     * Move the current selection down, keeping the same cells selected.
+     * No op if the selection is at the end of the notebook
+     */
+    Notebook.prototype.move_selection_down = function(){
+        // actually will move the cell after the selection, before the selection
+        var indices = this.get_selected_cells_indices();
+        var first = indices[0];
+        var last = indices[indices.length-1];
+        var i1 = this.get_selected_index();
+        var i2 = this.get_anchor_index();
+        if(!this.is_valid_cell_index(last+1)){
+            return;
+        }
+        var tomove = this.get_cell_element(last+1);
+        var pivot = this.get_cell_element(first);
+        tomove.detach();
+        pivot.before(tomove);
+        this.select(first);
+        this.select(i2+1);
+        this.select(i1+1, false);
+    };
+
+    /**
      * Move given (or selected) cell up and select it.
      * 
      * @param {integer} [index] - cell index
@@ -847,6 +894,11 @@ define(function (require) {
      */
     Notebook.prototype.move_cell_up = function (index) {
         console.warn('Notebook.move_cell_up is deprecated as of v4.1 and will be removed in v5.0');
+
+        if(index === undefined){
+            this.move_selection_up();
+            return this;
+        }
         
         var i = this.index_or_selected(index);
         if (this.is_valid_cell_index(i) && i > 0) {
@@ -873,6 +925,11 @@ define(function (require) {
      */
     Notebook.prototype.move_cell_down = function (index) {
         console.warn('Notebook.move_cell_down is deprecated as of v4.1 and will be removed in v5.0');
+
+        if(index === undefined){
+            this.move_selection_down();
+            return this;
+        }
         
         var i = this.index_or_selected(index);
         if (this.is_valid_cell_index(i) && this.is_valid_cell_index(i+1)) {
