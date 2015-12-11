@@ -51,7 +51,7 @@ Run the following two commands to generate the universal ``wheel`` and the ``sdi
 .. code::
 
     $ python setup.py sdist
-    $ python setup.py bdist_wheel --universal
+    $ python setup.py bdist_wheel
 
 .. note::
 
