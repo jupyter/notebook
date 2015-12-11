@@ -242,7 +242,7 @@ define(function(require){
 
     var get_cells = function(env){
       if(onlySelected()){
-        return env.notebook.get_marked_cells();
+        return env.notebook.get_selected_cells();
       } else {
         return env.notebook.get_cells();
       }
