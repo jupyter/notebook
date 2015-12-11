@@ -57,7 +57,7 @@ Run the following two commands to generate the universal ``wheel`` and the ``sdi
 
     The above command will modify (at least) the following file :
     ``notebook/static/base/js/namespace.js`` to make the notebook version
-    availlable from javascript.
+    available from javascript.
 
 
 You can now test the ``wheel`` and the ``sdist`` locally before uploading to PyPI.
