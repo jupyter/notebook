@@ -1854,7 +1854,7 @@ define(function (require) {
      * Toggle line numbers in the selected cell's input area.
      */
     Notebook.prototype.cell_toggle_line_numbers = function() {
-        this.get_selected_cell().toggle_line_numbers();
+        this.get_selected_cells().map(function(cell, i){cell.toggle_line_numbers()});
     };
 
 
