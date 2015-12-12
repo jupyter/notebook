@@ -109,12 +109,6 @@ compliant self-signed certificate that will not raise warnings, it is possible
 
 .. TODO: Find an additional resource that walks the user through this two-process step by step.
 
-Keep in mind that when you enable SSL support, you will need to access the
-notebook server over ``https://``, not over plain ``http://``.  The startup
-message from the server prints a reminder in the console, but it is easy to
-overlook this detail and think the server is for some reason non-responsive.
-**When using SSL, always access the notebook server with ``https://``.**
-
 .. _OWASP: https://www.owasp.org
 
 
@@ -154,9 +148,22 @@ following::
      # It is a good idea to set a known, fixed port for server access
      c.NotebookApp.port = 9999
 
-You can then start the notebook using the ``jupyter notebook`` command. You may
-access the public server by pointing your browser to ``https://your.host.com:9999``
-where ``your.host.com`` is your public server's domain.
+You can then start the notebook using the ``jupyter notebook`` command.
+
+.. important::
+
+    **Use 'https'.**
+    Keep in mind that when you enable SSL support, you must access the
+    notebook server over ``https://``, not over plain ``http://``.  The startup
+    message from the server prints a reminder in the console, but *it is easy
+    to overlook this detail and think the server is for some reason
+    non-responsive*.
+
+    **When using SSL, always access the notebook server with 'https://'.**
+
+You may now access the public server by pointing your browser to
+``https://your.host.com:9999`` where ``your.host.com`` is your public server's
+domain.
 
 Firewall Setup
 ~~~~~~~~~~~~~~
