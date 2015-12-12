@@ -625,6 +625,11 @@ define(function (require) {
         }
     };
 
+    /**
+     * Returns the index of the cell that the selection is currently anchored on.
+     *
+     * @return {integer} Index of first cell selected in selection
+     */
     Notebook.prototype.get_anchor_index = function () {
         var result = null;
         this.get_cell_elements().filter(function (index) {
