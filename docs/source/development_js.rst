@@ -1,10 +1,7 @@
-.. _development:
-
-Development
-===========
+.. _development_js:
 
 Installing Javascript machinery
--------------------------------
+===============================
 
 Running the Notebook from the source code on Github requires some Javascript
 tools to build/minify the CSS and Javascript components. We do these steps when
