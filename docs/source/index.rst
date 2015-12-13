@@ -45,3 +45,5 @@ The Jupyter notebook
 
    Jupyter mailing list at jupyter.googlegroups.com <https://jupyter.googlegroups.com>
    Jupyter website <https://jupyter.org>
+   Stack Overflow - Jupyter <https://stackoverflow.com/questions/tagged/jupyter>
+   Stack Overflow - Jupyter-notebook <https://stackoverflow.com/questions/tagged/jupyter-notebook>
