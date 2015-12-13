@@ -38,3 +38,10 @@ The Jupyter notebook
    :caption: About Jupyter Notebook
 
    changelog
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Questions? Suggestions?
+
+   Jupyter mailing list at jupyter.googlegroups.com <https://jupyter.googlegroups.com>
+   Jupyter website <https://jupyter.org>
