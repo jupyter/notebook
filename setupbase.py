@@ -65,6 +65,7 @@ name = 'notebook'
 version_ns = {}
 execfile(pjoin(repo_root, name, '_version.py'), version_ns)
 
+-version = version_ns['__version__']
 def normalized_version(version_info):
     """Normalize version string
     
