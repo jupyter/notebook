@@ -12,7 +12,7 @@ from traitlets.tests.utils import check_help_all_output
 from jupyter_core.application import NoStart
 from ipython_genutils.tempdir import TemporaryDirectory
 from traitlets import TraitError
-from notebook import notebookapp
+from notebook import notebookapp, __version__
 NotebookApp = notebookapp.NotebookApp
 
 from notebook._version import raise_on_bad_version
@@ -78,7 +78,7 @@ def test_generate_config():
         assert os.path.exists(os.path.join(td, 'jupyter_notebook_config.py'))
 
 
-
+#test if the version testin function works
 def test_pep440_version():
 
     for version in [
@@ -99,3 +99,6 @@ def test_pep440_version():
         ]:
 
         yield (raise_on_bad_version, version)
+
+def test_current_version():
+    raise_on_bad_verison(__version__)
