@@ -65,28 +65,8 @@ name = 'notebook'
 version_ns = {}
 execfile(pjoin(repo_root, name, '_version.py'), version_ns)
 
--version = version_ns['__version__']
-def normalized_version(version_info):
-    """Normalize version string
-    
-    Avoids prerelease uploads getting different versions from sdist and bdist,
-    due to setuptools normalization.
-    """
-    v = '.'.join(map(str, version_info[:3]))
-    if len(version_info) == 3:
-        return v
-    extra = version_info[3]
-    if extra.startswith(('a', 'b', 'rc')):
-        sep = ''
-    else:
-        sep = '.'
-    # pip ensures there's number on the end
-    if not extra[-1].isdigit():
-        extra += '0'
-    return v + sep + extra
-
 version = version_ns['__version__']
-pkg_version = normalized_version(version_ns['version_info'])
+
 
 #---------------------------------------------------------------------------
 # Find packages

@@ -49,7 +49,7 @@ from distutils.core import setup
 # Our own imports
 
 from setupbase import (
-    pkg_version,
+    version,
     find_packages,
     find_package_data,
     check_package_data_first,
@@ -75,7 +75,7 @@ languages, sharing, and interactive widgets.
 Read `the documentation <https://jupyter-notebook.readthedocs.org>`_
 for more information.
     """,
-    version         = pkg_version,
+    version         = version,
     scripts         = glob(pjoin('scripts', '*')),
     packages        = find_packages(),
     package_data     = find_package_data(),
