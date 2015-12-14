@@ -183,14 +183,22 @@ define(function(require){
             help: 'extend selected cells above',
             help_index : 'dc',
             handler : function (env) {
-                env.notebook.extend_selection_by(-1)
+                env.notebook.extend_selection_by(-1);
+                // scroll into view, 
+                // do not call notebook.focus_cell(), or 
+                // all the selection get thrown away
+                env.notebook.get_selected_cell().element.focus();
             }
         },
         'extend-selection-below' : {
             help: 'extend selected cells below',
             help_index : 'dd',
             handler : function (env) {
-                env.notebook.extend_selection_by(1)
+                env.notebook.extend_selection_by(1);
+                // scroll into view, 
+                // do not call notebook.focus_cell(), or 
+                // all the selection get thrown away
+                env.notebook.get_selected_cell().element.focus();
             }
         },
         'cut-cell' : {
