@@ -63,13 +63,26 @@ div.cell {
 .prompt {
     /* This needs to be wide enough for 3 digit prompt numbers: In[100]: */
     min-width: 14ex;
+
     /* This padding is tuned to match the padding on the CodeMirror editor. */
     padding: @code_padding;
     margin: 0px;
     font-family: @font-family-monospace;
     text-align: right;
-    /* This has to match that of the the CodeMirror class line-height below */	
+
+    /* This has to match that of the the CodeMirror class line-height below */
     line-height: @code_line_height;
+
+    /* Don't highlight prompt number selection */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    /* Use default cursor */
+    cursor: default;
 }
 
 @media (max-width: @screen-xs-min) {
