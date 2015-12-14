@@ -101,4 +101,4 @@ def test_pep440_version():
         yield (raise_on_bad_version, version)
 
 def test_current_version():
-    raise_on_bad_verison(__version__)
+    raise_on_bad_version(__version__)
