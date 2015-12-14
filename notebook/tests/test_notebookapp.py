@@ -15,6 +15,8 @@ from traitlets import TraitError
 from notebook import notebookapp
 NotebookApp = notebookapp.NotebookApp
 
+from notebook._version import raise_on_bad_version
+
 
 def test_help_output():
     """ipython notebook --help-all works"""
@@ -74,4 +76,26 @@ def test_generate_config():
         with nt.assert_raises(NoStart):
             app.start()
         assert os.path.exists(os.path.join(td, 'jupyter_notebook_config.py'))
-    
+
+
+
+def test_pep440_version():
+
+    for version in [
+        '4.1.0.b1',
+        '4.1.b1',
+        '4.2',
+        'X.y.z',
+        '1.2.3.dev1.post2',
+        ]:
+        def loc():
+            with nt.assert_raises(ValueError):
+                raise_on_bad_version(version)
+        yield loc
+
+    for version in [
+        '4.1.1',
+        '4.2.1b3',
+        ]:
+
+        yield (raise_on_bad_version, version)
