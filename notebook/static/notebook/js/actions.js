@@ -391,7 +391,7 @@ define(function(require){
             help : 'merge selected cells, or current cell with cell below if only one cell selected',
             help_index: 'el',
             handler: function(env) {
-                var l = env.notebook.get_selected_cells_indices().length
+                var l = env.notebook.get_selected_cells_indices().length;
                 if(l == 1){
                     env.notebook.merge_cell_below();
                 } else {
