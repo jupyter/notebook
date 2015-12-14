@@ -22,10 +22,10 @@ The Jupyter notebook
    extending/index
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Developer Documentation
 
-   development
+   development_js
 
 .. toctree::
    :maxdepth: 1
@@ -38,3 +38,12 @@ The Jupyter notebook
    :caption: About Jupyter Notebook
 
    changelog
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Questions? Suggestions?
+
+   Jupyter mailing list <https://groups.google.com/forum/#!forum/jupyter>
+   Jupyter website <https://jupyter.org>
+   Stack Overflow - Jupyter <https://stackoverflow.com/questions/tagged/jupyter>
+   Stack Overflow - Jupyter-notebook <https://stackoverflow.com/questions/tagged/jupyter-notebook>
