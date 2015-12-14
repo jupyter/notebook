@@ -25,7 +25,6 @@ define([
     NotebookNotificationArea.prototype.init_notification_widgets = function () {
         this.init_kernel_notification_widget();
         this.init_notebook_notification_widget();
-        this.init_marked_cells_notification_widget();
     };
 
     /**
@@ -217,7 +216,7 @@ define([
                         .css('padding', '1em')
                         .addClass('output_scroll');
                     msg.append(cm_elem);
-                    cm = CodeMirror(cm_elem.get(0), {
+                    cm = new CodeMirror(cm_elem.get(0), {
                         mode:  "python",
                         readOnly : true
                     });
@@ -337,23 +336,6 @@ define([
         });
         this.events.on('autosave_enabled.Notebook', function (evt, interval) {
             nnw.set_message("Saving every " + interval / 1000 + "s", 1000);
-        });
-    };
-
-    /**
-     * Initialize the notification widget for marked cells.
-     *
-     * @method init_marked_cells_notification_widget
-     */
-    NotebookNotificationArea.prototype.init_marked_cells_notification_widget = function () {
-        var mcnw = this.widget('marked_cells');
-
-        this.events.on('marked_offscreen.Cell', function (evt, num) {
-            if (num === 0) {
-                mcnw.hide();
-            } else {
-                mcnw.set_message(num + " marked cells offscreen", undefined, undefined, {class: 'info'});
-            }
         });
     };
 
