@@ -607,7 +607,7 @@ define(function (require) {
      * @return {Cell} The selected cell
      */
     Notebook.prototype.get_selected_cell = function () {
-        var index = this.get_selected_cells_indices();
+        var index = this.get_selected_index();
         return this.get_cell(index);
     };
 
@@ -711,7 +711,7 @@ define(function (require) {
                 this.get_cell(sindex).unselect(moveanchor);
             }
             if(moveanchor){
-                this.get_cell(this.get_anchor_index()).unselect(true);
+                this.get_cell(this.get_anchor_index()).unselect(moveanchor);
             }
             var cell = this.get_cell(index);
             cell.select(moveanchor);
