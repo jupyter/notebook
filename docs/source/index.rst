@@ -43,7 +43,7 @@ The Jupyter notebook
    :maxdepth: 1
    :caption: Questions? Suggestions?
 
-   Jupyter mailing list at jupyter.googlegroups.com <https://jupyter.googlegroups.com>
+   Jupyter mailing list <https://groups.google.com/forum/#!forum/jupyter>
    Jupyter website <https://jupyter.org>
    Stack Overflow - Jupyter <https://stackoverflow.com/questions/tagged/jupyter>
    Stack Overflow - Jupyter-notebook <https://stackoverflow.com/questions/tagged/jupyter-notebook>
