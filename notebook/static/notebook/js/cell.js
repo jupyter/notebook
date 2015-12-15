@@ -282,7 +282,7 @@ define([
         // if anchor is true, remove also the anchor
         moveanchor = (moveanchor === undefined)? true:moveanchor;
         if (moveanchor){
-            this.anchor = false
+            this.anchor = false;
         }
         if (this.selected) {
             this.element.addClass('unselected');
@@ -410,7 +410,7 @@ define([
         if(this.element !== document.activeElement && !this.code_mirror.hasFocus()){
             this.focus_cell();
         }
-    }
+    };
     
     /**
      * Focus the cell in the DOM sense
@@ -611,7 +611,7 @@ define([
                 // in a later version of Jupyter.
                 var re = regs[i];
                 if(typeof(re) === 'string'){
-                    re = new RegExp(re) 
+                    re = new RegExp(re);
                 }
                 if(first_line.match(re) !== null) {
                     if(current_mode == mode){
@@ -634,7 +634,7 @@ define([
                         CodeMirror.defineMode(magic_mode, function(config) {
                             var magicOverlay = {
                                 startState: function() {
-                                    return {firstMatched : false, inMagicLine: false}
+                                    return {firstMatched : false, inMagicLine: false};
                                 },
                                 token: function(stream, state) {
                                     if(!state.firstMatched) {

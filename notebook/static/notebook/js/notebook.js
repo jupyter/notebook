@@ -586,7 +586,7 @@ define(function (require) {
 
 
     Notebook.prototype.get_selected_cells = function () {
-        return this.get_cells().filter(function(cell, index){ return cell.selected || soft_selected(cell) || cell.anchor});
+        return this.get_cells().filter(function(cell, index){ return cell.selected || soft_selected(cell) || cell.anchor;});
     };
 
     Notebook.prototype.get_selected_cells_indices = function () {
@@ -718,7 +718,7 @@ define(function (require) {
             this.update_soft_selection();
             if (cell.cell_type === 'heading') {
                 this.events.trigger('selected_cell_type_changed.Notebook',
-                    {'cell_type':cell.cell_type,level:cell.level}
+                    {'cell_type':cell.cell_type, level:cell.level}
                 );
             } else {
                 this.events.trigger('selected_cell_type_changed.Notebook',
@@ -1043,7 +1043,7 @@ define(function (require) {
         }
 
         // Check if the cells were after the cursor
-        for (var i=0; i < indices.length; i++) {
+        for (i=0; i < indices.length; i++) {
             if (indices[i] > cursor_ix_before) {
                 this.undelete_below = true;
             }
@@ -1504,7 +1504,7 @@ define(function (require) {
     Notebook.prototype.paste_cell_replace = function () {
 
         if (!(this.clipboard !== null && this.paste_enabled)) {
-            return
+            return;
         }
 
         var selected =  this.get_selected_cells_indices();
@@ -1729,13 +1729,13 @@ define(function (require) {
      */
     Notebook.prototype.clear_cells_outputs = function(indices) {
         if (!indices) {
-           var indices = this.get_selected_cells_indices();
+           indices = this.get_selected_cells_indices();
         }
 
         for (var i = 0; i < indices.length; i++){
             this.clear_output(indices[i]);
         }
-    }
+    };
 
     /**
      * Clear each code cell's output area.
@@ -1797,13 +1797,13 @@ define(function (require) {
      */
     Notebook.prototype.toggle_cells_outputs = function(indices) {
         if (!indices) {
-           var indices = this.get_selected_cells_indices();
+            indices = this.get_selected_cells_indices();
         }
 
         for (var i = 0; i < indices.length; i++){
             this.toggle_output(indices[i]);
         }
-    }
+    };
 
     /**
      * Toggle the output of all cells.
@@ -1839,13 +1839,13 @@ define(function (require) {
      */
     Notebook.prototype.toggle_cells_outputs_scroll = function(indices) {
         if (!indices) {
-            var indices = this.get_selected_cells_indices();
+            indices = this.get_selected_cells_indices();
         }
 
         for (var i = 0; i < indices.length; i++){
             this.toggle_output_scroll(indices[i]);
         }
-    }
+    };
 
     /**
      * Toggle the scrolling of long output on all cells.
@@ -1866,7 +1866,7 @@ define(function (require) {
      * Toggle line numbers in the selected cell's input area.
      */
     Notebook.prototype.cell_toggle_line_numbers = function() {
-        this.get_selected_cells().map(function(cell, i){cell.toggle_line_numbers()});
+        this.get_selected_cells().map(function(cell, i){cell.toggle_line_numbers();});
     };
 
 
@@ -2430,7 +2430,7 @@ define(function (require) {
                     var last_modified = new Date(data.last_modified);
                     if (last_modified > that.last_modified) {
                         console.warn("Last saving was done on `"+that.last_modified+"`("+that._last_modified+"), "+
-                                    "while the current file seem to have been saved on `"+data.last_modified+"`")
+                                    "while the current file seem to have been saved on `"+data.last_modified+"`");
                         dialog.modal({
                             notebook: that,
                             keyboard_manager: that.keyboard_manager,
@@ -2726,7 +2726,7 @@ define(function (require) {
         this.writable = data.writable || false;
         this.last_modified = new Date(data.last_modified);
         // debug 484
-        this._last_modified = 'load-success:'+data.last_modified
+        this._last_modified = 'load-success:'+data.last_modified;
         var nbmodel = data.content;
         var orig_nbformat = nbmodel.metadata.orig_nbformat;
         var orig_nbformat_minor = nbmodel.metadata.orig_nbformat_minor;
