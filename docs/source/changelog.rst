@@ -28,15 +28,15 @@ UI changes:
     .. image:: /_static/images/cell-toolbar-41.png
 
 - Added *Restart & Run All* to the *Kernel* menu. Users can also bind it to a keyboard shortcut on action ``restart-kernel-and-run-all-cells``.
-- Added multiple-cell selection. Users press ``Shift-Up/Down`` or ``Shift-K/J`` to extend selection in command mode. Various actions such as cut/copy/paste, execute, cell type conversion, and so on now operate on all selected cells.
+- Added multiple-cell selection. Users press ``Shift-Up/Down`` or ``Shift-K/J`` to extend selection in command mode. Various actions such as cut/copy/paste, execute, and cell type conversions apply to all selected cells.
 
   .. image:: /_static/images/multi-select-41.png
   
-- Added a command palette for executing Jupyter actions by name. Users press ``Cmd/Ctrl-Shift-P`` or click the new command pallete icon on the toolbar.
+- Added a command palette for executing Jupyter actions by name. Users press ``Cmd/Ctrl-Shift-P`` or click the new command palette icon on the toolbar.
 
   .. image:: /_static/images/command-palette-41.png
   
-- Added a *Find and Replace* dialog to the *Edit*. Users can also press ``F`` in command mode to show the dialog.
+- Added a *Find and Replace* dialog to the *Edit* menu. Users can also press ``F`` in command mode to show the dialog.
 
   .. image:: /_static/images/find-replace-41.png
 
