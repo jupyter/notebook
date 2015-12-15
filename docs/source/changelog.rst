@@ -43,7 +43,7 @@ UI changes:
 Other improvements:
 
 - Custom KernelManager methods can be Tornado coroutines, allowing async operations.
-- No longer clear output when rewriting input with ``set_next_input(replace=True)``.
+- Make clearing output optional when rewriting input with ``set_next_input(replace=True)``.
 - Added support for TLS client authentication via ``--NotebookApp.client-ca``.
 - Added tags to ``jupyter/notebook`` releases on DockerHub. ``latest`` continues to track the master branch.
 
