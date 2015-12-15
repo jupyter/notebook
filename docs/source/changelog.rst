@@ -11,36 +11,42 @@ For more detailed information, see `GitHub <https://github.com/jupyter/notebook>
 4.1.0
 -----
 
-Numerous bugfixes, including:
+Bug fixes:
 
-- Properly handle reaping of zombie subprocesses.
-- Cross-origin fixes
-- Fix double-escaping of base URL prefix
-- More graceful handling of invalid unicode filenames
-- ANSI color-processing fixes
+- Properly reap zombie subprocesses
+- Fix cross-origin problems
+- Fix double-escaping of the base URL prefix
+- Handle invalid unicode filenames more gracefully
+- Fix ANSI color-processing
+- Send keepalive messages for web terminals
+- Fix bugs in the notebook tour
 
+UI changes:
 
-UI Changes:
+- Moved the cell toolbar selector into the *View* menu. Added a button that triggers a "hint" animation to the main toolbar so users can find the new location. (Click here to see a `screencast <https://cloud.githubusercontent.com/assets/335567/10711889/59665a5a-7a3e-11e5-970f-86b89592880c.gif>`__ )
 
-- Moved the cell toolbar selector into the view menu `[screencast] <https://cloud.githubusercontent.com/assets/335567/10711889/59665a5a-7a3e-11e5-970f-86b89592880c.gif>`__.
-- Add Restart & Run All to Kernel menu. Can be added as keyboard shortcut for action ``restart-kernel-and-run-all-cells``.
-- Added multiple-cell selection (``Shift-Up/Down`` to extend selection), and actions on multiple-cells, including cut/copy/paste and execute.
+    .. image:: /_static/images/cell-toolbar-41.png
+
+- Added *Restart & Run All* to the *Kernel* menu. Users can also bind it to a keyboard shortcut on action ``restart-kernel-and-run-all-cells``.
+- Added multiple-cell selection. Users press ``Shift-Up/Down`` or ``Shift-K/J`` to extend selection in command mode. Various actions such as cut/copy/paste, execute, cell type conversion, and so on now operate on all selected cells.
 
   .. image:: /_static/images/multi-select-41.png
-
-- Added a command palette for executing Jupyter actions by name
+  
+- Added a command palette for executing Jupyter actions by name. Users press ``Cmd/Ctrl-Shift-P`` or click the new command pallete icon on the toolbar.
 
   .. image:: /_static/images/command-palette-41.png
-
-- Added the find and replace dialog (in the Edit menu or ``F`` in command-mode).
+  
+- Added a *Find and Replace* dialog to the *Edit*. Users can also press ``F`` in command mode to show the dialog.
 
   .. image:: /_static/images/find-replace-41.png
 
 Other improvements:
 
 - Custom KernelManager methods can be Tornado coroutines, allowing async operations.
+- Added support for TLS client authentication via ``--NotebookApp.client-ca``.
+- Added tags to ``jupyter/notebook`` releases on DockerHub. ``latest`` continues to track the master branch.
 
-
+See the 4.1 milestone on GitHub for a complete list of `issues <https://github.com/jupyter/notebook/issues?page=3&q=milestone%3A4.1+is%3Aclosed+is%3Aissue&utf8=%E2%9C%93>`__ and `pull requests <https://github.com/jupyter/notebook/pulls?q=milestone%3A4.1+is%3Aclosed+is%3Apr>`__ handled.
 
 4.0.x
 -----
