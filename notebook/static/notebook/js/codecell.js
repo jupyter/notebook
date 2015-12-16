@@ -385,7 +385,12 @@ define([
      * @private
      */
     CodeCell.prototype._handle_set_next_input = function (payload) {
-        var data = {'cell': this, 'text': payload.text, replace: payload.replace};
+        var data = {
+            cell: this,
+            text: payload.text,
+            replace: payload.replace,
+            clear_output: payload.clear_output,
+        };
         this.events.trigger('set_next_input.Notebook', data);
     };
 
