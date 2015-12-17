@@ -37,6 +37,11 @@ h1,h2,h3,h4,h5,h6 {
 
 .text_cell.rendered .rendered_html {
     overflow-x: auto;
+    
+    // Content in the y direction should cause the rendered content to grow,
+    // the overflow-x: auto causes chrome to assume the same of y, so we need
+    // to tell it explicitly otherwise.
+    overflow-y: hidden;
 }
 
 .text_cell.unrendered .text_cell_render {
