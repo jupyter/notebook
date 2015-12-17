@@ -11,13 +11,14 @@ div.cell {
     .vbox();
     .corner-all();
     .border-box-sizing();
-    
+
     border-width: @cell_border_width;
     border-style: solid;
     border-color: transparent;
 
     width: 100%;
     padding: @_cell_padding_minus_border;
+
     /* This acts as a spacer between cells, that is outside the border */
     margin: 0px;
     outline: none;
@@ -45,10 +46,6 @@ div.cell {
         @media print {
             border-color: transparent;
         }
-    }
-
-    &.selected.jupyter-soft-selected {
-        ._selected_style(@selected_border_color, @soft_select_color, 7px, 0);
     }
 
     .edit_mode &.selected {
@@ -122,7 +119,7 @@ div.unrecognized_cell {
     // from text_cell
     padding: 5px @_cell_padding_minus_border 5px 0px;
     .hbox();
-    
+
     .inner_cell {
         .border-radius(@border-radius-base);
         padding: @_cell_padding_minus_border;
