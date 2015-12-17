@@ -21,30 +21,29 @@ div.cell {
     /* This acts as a spacer between cells, that is outside the border */
     margin: 0px;
     outline: none;
-   
+
     ._selected_style(transparent, transparent, @cell_border_width);
 
-    .jupyter-multi-select &.jupyter-soft-selected {
+    &.jupyter-soft-selected {
         border-left-color: @selected_border_color_light;
         border-left-color: @soft_select_color;
         ._selected_style(@selected_border_color_light, @soft_select_color, 5px, 0px);
-        
+
         @media print {
             border-color: transparent;
         }
     }
 
-     &.selected {
+    &.selected {
         border-color: @border_color;
         ._selected_style(@selected_border_color, transparent, 5px, 0px);
-        
-        
+
         @media print {
             border-color: transparent;
         }
     }
 
-    .jupyter-multi-select &.selected.jupyter-soft-selected {
+    &.selected.jupyter-soft-selected {
         ._selected_style(@selected_border_color, @soft_select_color, 7px, 0);
     }
 

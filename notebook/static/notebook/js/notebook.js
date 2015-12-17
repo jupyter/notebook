@@ -673,13 +673,8 @@ define(function (require) {
         var i2 = this.get_anchor_index();
         var low  = Math.min(i1, i2);
         var high = Math.max(i1, i2);
-        if (low !== high){
-            $('body').addClass('jupyter-multi-select');
-        } else {
-            $('body').removeClass('jupyter-multi-select');
-        }
         this.get_cells().map(function(cell, index, all){
-            if( low <= index && index <= high ){
+            if( low <= index && index <= high && low !== high){
                 cell.element.addClass(_SOFT_SELECTION_CLASS);
             } else {
                 cell.element.removeClass(_SOFT_SELECTION_CLASS);
