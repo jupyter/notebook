@@ -219,6 +219,8 @@ class NotebookWebApplication(web.Application):
             iopub_data_rate_limit=ipython_app.iopub_data_rate_limit,
             rate_limit_window=ipython_app.rate_limit_window,
 
+            nbextensions=ipython_app.nbextensions,
+            
             # authentication
             cookie_secret=ipython_app.cookie_secret,
             login_url=url_path_join(base_url,'/login'),
@@ -690,6 +692,9 @@ class NotebookApp(JupyterApp):
         else:
             path.append(os.path.join(get_ipython_dir(), 'nbextensions'))
         return path
+
+    nbextensions = List(Unicode(), config=True,
+        help="A list of nbextensions to enable.")
 
     websocket_url = Unicode("", config=True,
         help="""The base URL for websockets,
