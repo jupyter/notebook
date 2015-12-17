@@ -220,6 +220,8 @@ class NotebookWebApplication(web.Application):
             rate_limit_window=ipython_app.rate_limit_window,
 
             nbextensions=ipython_app.nbextensions,
+            nbextensions_tree=ipython_app.nbextensions_tree,
+            nbextensions_notebook=ipython_app.nbextensions_notebook,
             
             # authentication
             cookie_secret=ipython_app.cookie_secret,
@@ -693,8 +695,11 @@ class NotebookApp(JupyterApp):
             path.append(os.path.join(get_ipython_dir(), 'nbextensions'))
         return path
 
-    nbextensions = List(Unicode(), config=True,
-        help="A list of nbextensions to enable.")
+    nbextensions_tree = Dict(config=True,
+        help="A list of nbextensions to enable for the tree/dashboard page.")
+
+    nbextensions_notebook = Dict(config=True,
+        help="A list of nbextensions to enable for the notebook page.")
 
     websocket_url = Unicode("", config=True,
         help="""The base URL for websockets,

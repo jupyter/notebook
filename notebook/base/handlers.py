@@ -293,8 +293,12 @@ class IPythonHandler(AuthenticatedHandler):
     #---------------------------------------------------------------
     
     @property
-    def nbextensions(self):
-        return self.settings.get('nbextensions', [])
+    def nbextensions_tree(self):
+        return self.settings.get('nbextensions_tree', {})
+
+    @property
+    def nbextensions_notebook(self):
+        return self.settings.get('nbextensions_notebook', {})
     
     def get_template(self, name):
         """Return the jinja template object for a given name"""

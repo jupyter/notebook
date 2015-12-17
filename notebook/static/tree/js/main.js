@@ -32,10 +32,8 @@ require([
     "use strict";
     requirejs(['custom/custom'], function() {});
 
-    IPython.NotebookList = notebooklist.NotebookList;
+    // Setup all of the config related things
 
-    page = new page.Page();
-    
     var common_options = {
         base_url: utils.get_body_data("baseUrl"),
         notebook_path: utils.get_body_data("notebookPath"),
@@ -46,6 +44,12 @@ require([
     var common_config = new config.ConfigSection('common', common_options);
     common_config.load();
 
+    var nbextensions = $('body').data('nbextensions');
+
+    // Instantiate the main objects
+
+    page = new page.Page();
+
     var session_list = new sesssionlist.SesssionList($.extend({
         events: events},
         common_options));
@@ -53,6 +57,7 @@ require([
         base_url: common_options.base_url,
         common_config: common_config
     });
+    IPython.NotebookList = notebooklist.NotebookList;
     var notebook_list = new notebooklist.NotebookList('#notebook_list', $.extend({
         contents: contents,
         session_list:  session_list},
@@ -141,6 +146,10 @@ require([
     IPython.new_notebook_widget = new_buttons;
 
     events.trigger('app_initialized.DashboardApp');
+    
+    // Now actually load nbextensions
+    var active = utils.filter_extensions(nbextensions);
+    utils.load_extensions.apply(null, active);
     utils.load_extensions_from_config(cfg);
     utils.load_extensions_from_config(common_config);
     

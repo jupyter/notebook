@@ -3,6 +3,7 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
+import json
 from tornado import web
 from ..base.handlers import IPythonHandler, path_regex
 from ..utils import url_path_join, url_escape
@@ -37,6 +38,8 @@ class TreeHandler(IPythonHandler):
     def get(self, path=''):
         path = path.strip('/')
         cm = self.contents_manager
+        nbextensions = json.dumps(self.nbextensions_tree)
+        
         if cm.dir_exists(path=path):
             if cm.is_hidden(path):
                 self.log.info("Refusing to serve hidden directory, via 404 Error")
@@ -48,6 +51,7 @@ class TreeHandler(IPythonHandler):
                 notebook_path=path,
                 breadcrumbs=breadcrumbs,
                 terminals_available=self.settings['terminals_available'],
+                nbextensions=nbextensions
             ))
         elif cm.file_exists(path):
             # it's not a directory, we have redirecting to do
