@@ -855,6 +855,7 @@ define([
     }
 
     var utils = {
+        extensions_loaded: extensions_loaded,
         load_extension: load_extension,
         load_extensions: load_extensions,
         filter_extensions: filter_extensions,

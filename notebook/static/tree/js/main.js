@@ -44,8 +44,6 @@ require([
     var common_config = new config.ConfigSection('common', common_options);
     common_config.load();
 
-    var nbextensions = $('body').data('nbextensions');
-
     // Instantiate the main objects
 
     page = new page.Page();
@@ -148,8 +146,6 @@ require([
     events.trigger('app_initialized.DashboardApp');
     
     // Now actually load nbextensions
-    var active = utils.filter_extensions(nbextensions);
-    utils.load_extensions.apply(null, active);
     utils.load_extensions_from_config(cfg);
     utils.load_extensions_from_config(common_config);
     

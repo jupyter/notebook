@@ -4,7 +4,6 @@
 # Distributed under the terms of the Modified BSD License.
 
 import os
-import json
 from tornado import web
 HTTPError = web.HTTPError
 
@@ -22,7 +21,6 @@ class NotebookHandler(IPythonHandler):
         redirects to the '/files/' handler if the name is not given."""
         path = path.strip('/')
         cm = self.contents_manager
-        nbextensions = json.dumps(self.nbextensions_notebook)
         
         # will raise 404 on not found
         try:
@@ -42,7 +40,6 @@ class NotebookHandler(IPythonHandler):
             notebook_name=name,
             kill_kernel=False,
             mathjax_url=self.mathjax_url,
-            nbextensions=nbextensions
             )
         )
 

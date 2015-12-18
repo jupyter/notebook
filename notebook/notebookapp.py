@@ -695,12 +695,6 @@ class NotebookApp(JupyterApp):
             path.append(os.path.join(get_ipython_dir(), 'nbextensions'))
         return path
 
-    nbextensions_tree = Dict(config=True,
-        help="A list of nbextensions to enable for the tree/dashboard page.")
-
-    nbextensions_notebook = Dict(config=True,
-        help="A list of nbextensions to enable for the notebook page.")
-
     websocket_url = Unicode("", config=True,
         help="""The base URL for websockets,
         if it differs from the HTTP server (hint: it almost certainly doesn't).

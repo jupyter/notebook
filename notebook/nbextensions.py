@@ -23,22 +23,24 @@ except ImportError:
     from urllib import urlretrieve
 
 from jupyter_core.paths import (
-    jupyter_data_dir, jupyter_path, jupyter_config_dir, SYSTEM_JUPYTER_PATH,
-    ENV_JUPYTER_PATH, ENV_CONFIG_PATH, SYSTEM_CONFIG_PATH
+    jupyter_data_dir, jupyter_path, jupyter_config_dir, jupyter_config_path,
+    SYSTEM_JUPYTER_PATH, ENV_JUPYTER_PATH, ENV_CONFIG_PATH, SYSTEM_CONFIG_PATH
 )
 from ipython_genutils.path import ensure_dir_exists
 from ipython_genutils.py3compat import string_types, cast_unicode_py2, PY3
 from ipython_genutils.tempdir import TemporaryDirectory
 from ._version import __version__
 
-
-class ArgumentConflict(ValueError):
-    pass
+from traitlets.config.manager import BaseJSONConfigManager
 
 
 #------------------------------------------------------------------------------
 # Public API
 #------------------------------------------------------------------------------
+
+
+class ArgumentConflict(ValueError):
+    pass
 
 
 def check_nbextension(files, user=False, sys_prefix=False, prefix=None, nbextensions_dir=None):
@@ -310,8 +312,10 @@ class InstallNBExtensionApp(JupyterApp):
     
     overwrite = Bool(False, config=True, help="Force overwrite of existing files")
     symlink = Bool(False, config=True, help="Create symlinks instead of copying files")
+
     user = Bool(False, config=True, help="Whether to do a user install")
     sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
+
     prefix = Unicode('', config=True, help="Installation prefix")
     nbextensions_dir = Unicode('', config=True, help="Full path to nbextensions dir (probably use prefix or user)")
     destination = Unicode('', config=True, help="Destination for the copy or symlink")
@@ -362,85 +366,135 @@ class InstallNBExtensionApp(JupyterApp):
                 self.exit(1)
 
 
-class EnableNBExtensionApp(JupyterApp):
-    name = "jupyter nbextension enable"
+_toggle_flags = {
+    "debug" : ({
+        "ToggleNBExtensionApp" : {
+            "verbose" : 2,
+        }}, "Extra output"
+    ),
+    "user" : ({
+        "ToggleNBExtensionApp" : {
+            "user" : True,
+        }}, "Install to the user's Jupyter directory"
+    ),
+    "sys-prefix" : ({
+        "ToggleNBExtensionApp" : {
+            "sys_prefix" : True,
+        }}, "Use sys.prefix as the prefix for installing nbextensions"
+    ),
+    "python" : ({
+        "ToggleNBExtensionApp" : {
+            "python" : True,
+        }}, "Install from a Python package"
+    ),
+}
+
+class ToggleNBExtensionApp(JupyterApp):
+    name = "jupyter nbextension enable/disable"
     version = __version__
-    description = "Configure an nbextension to be automatically loaded"
+    description = "Enable/disable an nbextension using frontend configuration files."
 
     section = Unicode('notebook', config=True,
-          help=("Which config section to add the extension to. "
-                "'common' will affect all pages.")
+          help="""Which config section to add the extension to, 'common' will affect all pages."""
     )
 
-    aliases = {'section': 'EnableNBExtensionApp.section',
-              }
+    aliases = {'section': 'ToggleNBExtensionApp.section'}
+    flags = _toggle_flags
 
     python = Bool(False, config=True, help="Install from a Python package")
+    user = Bool(False, config=True, help="Whether to do a user install")
+    sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
+
+    _toggle_value = None
 
     def _config_file_name_default(self):
         return 'jupyter_notebook_config'
 
-    def enable_nbextension(self, name):
-        # Local import to avoid circular import issue on Py 2
-        from .services.config import ConfigManager
-        cm = ConfigManager(parent=self, config=self.config)
-        cm.update(self.section, {"load_extensions": {name: True}})
-
-    def start(self):
-        if not self.extra_args:
-            sys.exit('No extensions specified')
-        elif len(self.extra_args) > 1:
-            sys.exit('Please specify one extension at a time')
-
-        self.enable_nbextension(self.extra_args[0])
-
-
-class DisableNBExtensionApp(JupyterApp):
-    name = "jupyter nbextension disable"
-    version = __version__
-    description = "Remove the configuration to automatically load an extension"
-
-    section = Unicode('notebook', config=True,
-          help=("Which config section to remove the extension from. "
-                "This should match the one it was previously added to.")
-    )
-
-    aliases = {'section': 'DisableNBExtensionApp.section',
-              }
-
-    python = Bool(False, config=True, help="Install from a Python package")
-
-    def _config_file_name_default(self):
-        return 'jupyter_notebook_config'
-
-    def disable_nbextension(self, name):
-        # Local import to avoid circular import issue on Py 2
-        from .services.config import ConfigManager
-        cm = ConfigManager(parent=self, config=self.config)
-        if name not in cm.get(self.section).get('load_extensions', {}):
-            sys.exit('{} is not enabled in section {}'.format(name, self.section))
+    def _toggle_nbextension(self, section, require):
+        print('toggle', section, require)
+        config_dir = os.path.join(_get_config_dir(user=self.user, sys_prefix=self.sys_prefix), 'nbconfig')
+        print('config_dir', config_dir)
+        cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
+        if self._toggle_value is None and require not in cm.get(section).get('load_extensions', {}):
+            sys.exit('{} is not enabled in section {}'.format(require, section))
         # We're using a dict as a set - updating with None removes the key
-        cm.update(self.section, {"load_extensions": {name: None}})
+        cm.update(section, {"load_extensions": {require: self._toggle_value}})
+    
+    def toggle_nbextension_python(self, package):
+        m, nbexts = _get_nbextension_metadata(package)
+        for nbext in nbexts:
+            section = nbext['section']
+            require = nbext['require']
+            self._toggle_nbextension(section, require)
 
+    def toggle_nbextension(self, require):
+        self._toggle_nbextension(self.section, require)
+        
     def start(self):
+
         if not self.extra_args:
-            sys.exit('No extensions specified')
+            sys.exit('No extensions or packages specified')
         elif len(self.extra_args) > 1:
             sys.exit('Please specify one extension at a time')
+        if self.python:
+            self.toggle_nbextension_python(self.extra_args[0])
+        else:
+            self.toggle_nbextension(self.extra_args[0])
 
-        self.disable_nbextension(self.extra_args[0])
+
+class EnableNBExtensionApp(ToggleNBExtensionApp):
+
+    name = "jupyter nbextension enable"
+    description = "Enable an nbextension using frontend configuration files."
+    _toggle_value = True
+
+
+class DisableNBExtensionApp(ToggleNBExtensionApp):
+    
+    name = "jupyter nbextension disable"
+    description = "Disable an nbextension using frontend configuration files."
+    _toggle_value = None
+
+
+class ListNBExtensionsApp(JupyterApp):
+    name = "jupyter nbextension list"
+    version = __version__
+    description = "List all nbextensions known by the configuration system"
+    
+    def list_nbextensions(self):
+        config_dirs = [os.path.join(p, 'nbconfig') for p in jupyter_config_path()]
+        for config_dir in config_dirs:
+            print('config dir: {}'.format(config_dir))
+            cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
+            for section in ['notebook', 'tree']:
+                data = cm.get(section)
+                if 'load_extensions' in data:
+                    print('  section: {}'.format(section))
+                    print('    {}'.format(data))
+    
+    def start(self):
+        self.list_nbextensions()
+
+
+_examples = """
+jupyter nbextension list                            # list all configured nbextensions
+jupyter nbextension install --python <packagename>  # install an nbextension from a Python package
+jupyter nbextension enable --python <packagename>   # enable all nbextensions in a Python package
+jupyter nbextension disable --python <packagename>  # disable all nbextensions in a Python package
+"""
 
 class NBExtensionApp(JupyterApp):
+
     name = "jupyter nbextension"
     version = __version__
     description = "Work with Jupyter notebook extensions"
+    examples = _examples
 
     subcommands = dict(
-        install=(InstallNBExtensionApp,
-            """Install notebook extensions"""
-        ),
-        enable=(EnableNBExtensionApp, "Enable a notebook extension"),
-        disable=(DisableNBExtensionApp, "Disable a notebook extension"),
+        install=(InstallNBExtensionApp,"Install an nbextension"),
+        enable=(EnableNBExtensionApp, "Enable an nbextension"),
+        disable=(DisableNBExtensionApp, "Disable an nbextension"),
+        list=(ListNBExtensionsApp, "List nbextensions")
     )
 
     def start(self):

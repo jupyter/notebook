@@ -79,8 +79,6 @@ require([
     config_section.load();
     var common_config = new configmod.ConfigSection('common', common_options);
     common_config.load();
-    
-    var nbextensions = $('body').data('nbextensions');
 
     // Instantiate the main objects
     
@@ -188,8 +186,6 @@ require([
     });
     
     // Now actually load nbextensions
-    var active = utils.filter_extensions(nbextensions);
-    utils.load_extensions.apply(null, active);
     utils.load_extensions_from_config(config_section);
     utils.load_extensions_from_config(common_config);
     notebook.load_notebook(common_options.notebook_path);
