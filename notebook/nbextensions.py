@@ -6,6 +6,8 @@
 
 from __future__ import print_function
 
+import io
+import json
 import os
 import shutil
 import sys
@@ -20,63 +22,26 @@ except ImportError:
     from urlparse import urlparse
     from urllib import urlretrieve
 
-from jupyter_core.paths import jupyter_data_dir, jupyter_path, SYSTEM_JUPYTER_PATH
+from jupyter_core.paths import (
+    jupyter_data_dir, jupyter_path, jupyter_config_dir, SYSTEM_JUPYTER_PATH,
+    ENV_JUPYTER_PATH, ENV_CONFIG_PATH, SYSTEM_CONFIG_PATH
+)
 from ipython_genutils.path import ensure_dir_exists
-from ipython_genutils.py3compat import string_types, cast_unicode_py2
+from ipython_genutils.py3compat import string_types, cast_unicode_py2, PY3
 from ipython_genutils.tempdir import TemporaryDirectory
 from ._version import __version__
+
 
 class ArgumentConflict(ValueError):
     pass
 
 
-def _should_copy(src, dest, verbose=1):
-    """should a file be copied?"""
-    if not os.path.exists(dest):
-        return True
-    if os.stat(src).st_mtime - os.stat(dest).st_mtime > 1e-6:
-        # we add a fudge factor to work around a bug in python 2.x
-        # that was fixed in python 3.x: http://bugs.python.org/issue12904
-        if verbose >= 2:
-            print("%s is out of date" % dest)
-        return True
-    if verbose >= 2:
-        print("%s is up to date" % dest)
-    return False
+#------------------------------------------------------------------------------
+# Public API
+#------------------------------------------------------------------------------
 
 
-def _maybe_copy(src, dest, verbose=1):
-    """copy a file if it needs updating"""
-    if _should_copy(src, dest, verbose):
-        if verbose >= 1:
-            print("copying %s -> %s" % (src, dest))
-        shutil.copy2(src, dest)
-
-def _safe_is_tarfile(path):
-    """safe version of is_tarfile, return False on IOError"""
-    try:
-        return tarfile.is_tarfile(path)
-    except IOError:
-        return False
-
-
-def _get_nbext_dir(nbextensions_dir=None, user=False, prefix=None):
-    """Return the nbextension directory specified"""
-    if sum(map(bool, [user, prefix, nbextensions_dir])) > 1:
-        raise ArgumentConflict("Cannot specify more than one of user, prefix, or nbextensions_dir.")
-    if user:
-        nbext = pjoin(jupyter_data_dir(), u'nbextensions')
-    else:
-        if prefix:
-            nbext = pjoin(prefix, 'share', 'jupyter', 'nbextensions')
-        elif nbextensions_dir:
-            nbext = nbextensions_dir
-        else:
-            nbext = pjoin(SYSTEM_JUPYTER_PATH[0], 'nbextensions')
-    return nbext
-
-
-def check_nbextension(files, user=False, prefix=None, nbextensions_dir=None):
+def check_nbextension(files, user=False, sys_prefix=False, prefix=None, nbextensions_dir=None):
     """Check whether nbextension files have been installed
     
     Returns True if all files are found, False if any are missing.
@@ -95,7 +60,7 @@ def check_nbextension(files, user=False, prefix=None, nbextensions_dir=None):
     nbextensions_dir : str [optional]
         Specify absolute path of nbextensions directory explicitly.
     """
-    nbext = _get_nbext_dir(nbextensions_dir, user, prefix)
+    nbext = _get_nbextension_dir(user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir)
     # make sure nbextensions dir exists
     if not os.path.exists(nbext):
         return False
@@ -107,7 +72,9 @@ def check_nbextension(files, user=False, prefix=None, nbextensions_dir=None):
     return all(os.path.exists(pjoin(nbext, f)) for f in files)
 
 
-def install_nbextension(path, overwrite=False, symlink=False, user=False, prefix=None, nbextensions_dir=None, destination=None, verbose=1):
+def install_nbextension(path, overwrite=False, symlink=False,
+                        user=False, sys_prefix=False, prefix=None, nbextensions_dir=None,
+                        destination=None, verbose=1):
     """Install a Javascript extension for the notebook
     
     Stages files and/or directories into the nbextensions directory.
@@ -144,7 +111,7 @@ def install_nbextension(path, overwrite=False, symlink=False, user=False, prefix
         Set verbosity level. The default is 1, where file actions are printed.
         set verbose=2 for more output, or verbose=0 for silence.
     """
-    nbext = _get_nbext_dir(nbextensions_dir, user, prefix)
+    nbext = _get_nbextension_dir(user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir)
     # make sure nbextensions dir exists
     ensure_dir_exists(nbext)
     
@@ -219,8 +186,56 @@ def install_nbextension(path, overwrite=False, symlink=False, user=False, prefix
             src = path
             _maybe_copy(src, full_dest, verbose)
 
+
+def install_nbextension_python(package, overwrite=False, symlink=False,
+                        user=False, sys_prefix=False, prefix=None, nbextensions_dir=None,
+                        verbose=1):
+    """Install an nbextension bundled in a Python package."""
+    m, nbexts = _get_nbextension_metadata(package)
+    base_path = os.path.split(m.__file__)[0]
+    for nbext in nbexts:
+        src = os.path.join(base_path, nbext['src'])
+        dest = nbext['dest']
+        require = nbext['require']
+        print(src, dest, require)
+        install_nbextension(src, overwrite=overwrite, symlink=symlink,
+            user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir,
+            destination=dest, verbose=verbose
+            )
+
+
+def enable_nbextension_python(package, user=False, sys_prefix=False):
+    """Enable an nbextension associated with a Python package."""
+    data = _read_config_data(user=user, sys_prefix=sys_prefix)
+    module, nbexts = _get_nbextension_metadata(package)
+    for nbext in nbexts:
+        require = nbext['require']
+        section = nbext['section']
+        if section == 'notebook':
+            diff = {'NotebookApp': {'nbextensions_notebook': {require: True}}}
+        elif section == 'tree':
+            diff = {'NotebookApp': {'nbextensions_tree': {require: True}}}
+    _recursive_update(data, diff)
+    _write_config_data(data, user=user, sys_prefix=sys_prefix)
+    
+
+def disable_nbextension_python(package, user=False, sys_prefix=False):
+    """Disable an nbextension associated with a Python package."""
+    data = _read_config_data(user=user, sys_prefix=sys_prefix)
+    module, nbexts = _get_nbextension_metadata(package)
+    for nbext in nbexts:
+        require = nbext['require']
+        section = nbext['section']
+        if section == 'notebook':
+            diff = {'NotebookApp': {'nbextensions_notebook': {require: False}}}
+        elif section == 'tree':
+            diff = {'NotebookApp': {'nbextensions_tree': {require: False}}}
+    _recursive_update(data, diff)
+    _write_config_data(data, user=user, sys_prefix=sys_prefix)    
+
+
 #----------------------------------------------------------------------
-# install nbextension app
+# Applications
 #----------------------------------------------------------------------
 
 from traitlets import Bool, Enum, Unicode
@@ -250,7 +265,17 @@ flags = {
     "user" : ({
         "InstallNBExtensionApp" : {
             "user" : True,
-        }}, "Install to the user's IPython directory"
+        }}, "Install to the user's Jupyter directory"
+    ),
+    "sys-prefix" : ({
+        "InstallNBExtensionApp" : {
+            "sys_prefix" : True,
+        }}, "Use sys.prefix as the prefix for installing nbextensions"
+    ),
+    "python" : ({
+        "InstallNBExtensionApp" : {
+            "python" : True,
+        }}, "Install from a Python package"
     ),
 }
 flags['s'] = flags['symlink']
@@ -286,9 +311,11 @@ class InstallNBExtensionApp(JupyterApp):
     overwrite = Bool(False, config=True, help="Force overwrite of existing files")
     symlink = Bool(False, config=True, help="Create symlinks instead of copying files")
     user = Bool(False, config=True, help="Whether to do a user install")
+    sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
     prefix = Unicode('', config=True, help="Installation prefix")
     nbextensions_dir = Unicode('', config=True, help="Full path to nbextensions dir (probably use prefix or user)")
     destination = Unicode('', config=True, help="Destination for the copy or symlink")
+    python = Bool(False, config=True, help="Install from a Python package")
     verbose = Enum((0,1,2), default_value=1, config=True,
         help="Verbosity level"
     )
@@ -299,14 +326,25 @@ class InstallNBExtensionApp(JupyterApp):
     def install_extensions(self):
         if len(self.extra_args)>1:
             raise ValueError("only one nbextension allowed at a time.  Call multiple times to install multiple extensions.")
-        install_nbextension(self.extra_args[0],
-            overwrite=self.overwrite,
-            symlink=self.symlink,
-            verbose=self.verbose,
-            user=self.user,
-            prefix=self.prefix,
-            destination=self.destination,
-            nbextensions_dir=self.nbextensions_dir,
+        if self.python:
+            install_nbextension_python(self.extra_args[0],
+                overwrite=self.overwrite,
+                symlink=self.symlink,
+                verbose=self.verbose,
+                user=self.user,
+                sys_prefix=self.sys_prefix,
+                prefix=self.prefix,
+                nbextensions_dir=self.nbextensions_dir
+            )
+        else:
+            install_nbextension(self.extra_args[0],
+                overwrite=self.overwrite,
+                symlink=self.symlink,
+                verbose=self.verbose,
+                user=self.user,
+                prefix=self.prefix,
+                destination=self.destination,
+                nbextensions_dir=self.nbextensions_dir,
         )
     
     def start(self):
@@ -336,6 +374,8 @@ class EnableNBExtensionApp(JupyterApp):
 
     aliases = {'section': 'EnableNBExtensionApp.section',
               }
+
+    python = Bool(False, config=True, help="Install from a Python package")
 
     def _config_file_name_default(self):
         return 'jupyter_notebook_config'
@@ -367,6 +407,8 @@ class DisableNBExtensionApp(JupyterApp):
 
     aliases = {'section': 'DisableNBExtensionApp.section',
               }
+
+    python = Bool(False, config=True, help="Install from a Python package")
 
     def _config_file_name_default(self):
         return 'jupyter_notebook_config'
@@ -410,6 +452,122 @@ class NBExtensionApp(JupyterApp):
         sys.exit("Please supply at least one subcommand: %s" % subcmds)
 
 main = NBExtensionApp.launch_instance
+
+#------------------------------------------------------------------------------
+# Private API
+#------------------------------------------------------------------------------
+
+
+def _should_copy(src, dest, verbose=1):
+    """should a file be copied?"""
+    if not os.path.exists(dest):
+        return True
+    if os.stat(src).st_mtime - os.stat(dest).st_mtime > 1e-6:
+        # we add a fudge factor to work around a bug in python 2.x
+        # that was fixed in python 3.x: http://bugs.python.org/issue12904
+        if verbose >= 2:
+            print("%s is out of date" % dest)
+        return True
+    if verbose >= 2:
+        print("%s is up to date" % dest)
+    return False
+
+
+def _maybe_copy(src, dest, verbose=1):
+    """Copy a file if it needs updating."""
+    if _should_copy(src, dest, verbose):
+        if verbose >= 1:
+            print("copying %s -> %s" % (src, dest))
+        shutil.copy2(src, dest)
+
+
+def _safe_is_tarfile(path):
+    """Safe version of is_tarfile, return False on IOError."""
+    try:
+        return tarfile.is_tarfile(path)
+    except IOError:
+        return False
+
+
+def _get_nbextension_dir(user=False, sys_prefix=False, prefix=None, nbextensions_dir=None):
+    """Return the nbextension directory specified"""
+    if sum(map(bool, [user, prefix, nbextensions_dir, sys_prefix])) > 1:
+        raise ArgumentConflict("cannot specify more than one of user, prefix, or nbextensions_dir")
+    if user:
+        nbext = pjoin(jupyter_data_dir(), u'nbextensions')
+    elif sys_prefix:
+        nbext = pjoin(ENV_JUPYTER_PATH[0], u'nbextensions')
+    elif prefix:
+        nbext = pjoin(prefix, 'share', 'jupyter', 'nbextensions')
+    elif nbextensions_dir:
+        nbext = nbextensions_dir
+    else:
+        nbext = pjoin(SYSTEM_JUPYTER_PATH[0], 'nbextensions')
+    return nbext
+
+
+def _get_config_dir(user=False, sys_prefix=False):
+    if sum(map(bool, [user, sys_prefix])) > 1:
+        raise ArgumentConflict("cannot specify more than one of user or sys_prefix")
+    if user:
+        nbext = jupyter_config_dir()
+    elif sys_prefix:
+        nbext = ENV_CONFIG_PATH[0]
+    else:
+        nbext = SYSTEM_CONFIG_PATH[0]
+    return nbext
+
+
+def _get_nbextension_metadata(package):
+    m = __import__(package)
+    if not hasattr(m, '_jupyter_nbextension_paths'):
+        raise KeyError('the python package {} is not a valid nbextension'.format(package))
+    nbexts = m._jupyter_nbextension_paths()
+    return m, nbexts
+
+
+def _read_config_data(user=False, sys_prefix=False):
+    config_dir = _get_config_dir(user=user, sys_prefix=sys_prefix)
+    config_file = os.path.join(config_dir, 'jupyter_notebook_config.json')
+    # Read existing config data
+    if os.path.isfile(config_file):
+        with io.open(config_file, encoding='utf-8') as f:
+            return json.load(f)
+    else:
+        return {}
+
+
+def _write_config_data(data, user=False, sys_prefix=False):
+    config_dir = _get_config_dir(user=user, sys_prefix=sys_prefix)
+    config_file = os.path.join(config_dir, 'jupyter_notebook_config.json')
+    ensure_dir_exists(config_dir)
+    if PY3:
+        f = io.open(config_file, 'w', encoding='utf-8')
+    else:
+        f = open(config_file, 'wb')
+    with f:
+        json.dump(data, f, indent=2)
+        
+        
+def _recursive_update(target, new):
+    """Recursively update one dictionary using another.
+
+    None values will delete their keys.
+    """
+    for k, v in new.items():
+        if isinstance(v, dict):
+            if k not in target:
+                target[k] = {}
+            _recursive_update(target[k], v)
+            if not target[k]:
+                # Prune empty subdicts
+                del target[k]
+
+        elif v is None:
+            target.pop(k, None)
+
+        else:
+            target[k] = v
 
 if __name__ == '__main__':
     main()
