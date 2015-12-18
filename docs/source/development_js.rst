@@ -66,7 +66,7 @@ from within JavaScript.
 
 .. code::
 
-    $ python setup.py sdist
+    $ python setup.py sdist --formats=zip,gztar
     $ python setup.py bdist_wheel
 
 
