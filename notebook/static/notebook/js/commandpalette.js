@@ -122,7 +122,7 @@ define(function(require){
          */
         var onResult = function(node, query, result, resultCount) {
             if (resultCount == 1) {
-                window.requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
                     $('.typeahead-list > li:nth-child(2)').addClass('active');
                 });
             }
