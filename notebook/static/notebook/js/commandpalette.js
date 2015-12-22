@@ -117,6 +117,17 @@ define(function(require){
           mod.modal('hide');
         };
 
+        /* Whenever a result is rendered, if there is only one resulting
+         * element then automatically select that element.
+         */
+        var onResult = function(node, query, result, resultCount) {
+            if (resultCount == 1) {
+                requestAnimationFrame(function() {
+                    $('.typeahead-list > li:nth-child(2)').addClass('active');
+                });
+            }
+        };
+
         // generate structure needed for typeahead layout and ability to search
         var src = {};
 
@@ -164,7 +175,8 @@ define(function(require){
           source: src,
           callback: {
             onSubmit: onSubmit,
-            onClickAfter: onSubmit
+            onClickAfter: onSubmit,
+            onResult: onResult
           },
           debug: false,
         });
