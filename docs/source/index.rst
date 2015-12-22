@@ -3,7 +3,7 @@ The Jupyter notebook
 ====================
 
 .. sidebar:: What's New in Jupyter Notebook
-   :subtitle: :ref:`release-4.1` ** Release candidate 4.1.0rc1**
+   :subtitle: :ref:`release-4.1.x` ** Release candidate 4.1.0rc1**
 
    - Cell toolbar selector moved to View menu
    - Restart & Run All Cells added to Kernel menu
