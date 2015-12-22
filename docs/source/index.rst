@@ -2,6 +2,8 @@
 The Jupyter notebook
 ====================
 
+This is the **official** documentation for Jupyter notebook.
+
 .. sidebar:: What's New in Jupyter Notebook
    :subtitle: :ref:`release-4.1.x` ** Release candidate 4.1.0rc1**
 
@@ -60,3 +62,27 @@ The Jupyter notebook
    Jupyter website <https://jupyter.org>
    Stack Overflow - Jupyter <https://stackoverflow.com/questions/tagged/jupyter>
    Stack Overflow - Jupyter-notebook <https://stackoverflow.com/questions/tagged/jupyter-notebook>
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Jupyter Universe Documentation
+
+   Jupyter <https://jupyter.org>
+   Jupyter Notebook <https://jupyter.org>
+   IPython Notebook (legacy) <https://jupyter.org>
+   JupyterHub <https://jupyter.org>
+   nbconvert <https://jupyter.org>
+   nbformat <<https://jupyter.org>
+   nbgrader <https://jupyter.org>
+   nbviewer <https://jupyter.org>
+   tmpnb <https://jupyter.org>
+   docker-demo-images <https://jupyter.org>
+   IPython <https://jupyter.org>
+   IPython kernel <https://jupyter.org>
+   ipywidgets <https://jupyter.org>
+   traitlets <https://jupyter.org>
+
+
+
+
+
