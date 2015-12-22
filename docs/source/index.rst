@@ -3,13 +3,16 @@ The Jupyter notebook
 ====================
 
 .. sidebar:: What's New in Jupyter Notebook
-   :subtitle: :ref:`release-4.1.x` **Beta 4.1.0b**
+   :subtitle: :ref:`release-4.1.x` ** Release candidate 4.1.0rc1**
 
    - Cell toolbar selector moved to View menu
    - Restart & Run All Cells added to Kernel menu
    - Multiple-cell selection and actions including cut, copy, paste and execute
    - Command palette added for executing Jupyter actions
    - Find and replace added to Edit menu
+
+   To install release candidate:
+   ``python -m pip install notebook --pre --upgrade``
 
 .. toctree::
    :maxdepth: 1
@@ -35,6 +38,7 @@ The Jupyter notebook
    :caption: Developer Documentation
 
    development_js
+   development_faq
 
 .. toctree::
    :maxdepth: 1
