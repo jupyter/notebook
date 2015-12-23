@@ -101,6 +101,7 @@ class WebSocketMixin(object):
     ping_callback = None
     last_ping = 0
     last_pong = 0
+    stream = None
     
     @property
     def ping_interval(self):
