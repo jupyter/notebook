@@ -68,21 +68,26 @@ This is the **official** documentation for Jupyter notebook.
    :caption: Jupyter Universe Documentation
 
    Jupyter <https://jupyter.org>
-   Jupyter Notebook <https://jupyter.org>
-   IPython Notebook (legacy) <https://jupyter.org>
-   JupyterHub <https://jupyter.org>
-   nbconvert <https://jupyter.org>
-   nbformat <<https://jupyter.org>
-   nbgrader <https://jupyter.org>
-   nbviewer <https://jupyter.org>
-   tmpnb <https://jupyter.org>
+   Jupyter Notebook <https://jupyter-notebook.readthedocs.org/en/latest/>
    docker-demo-images <https://jupyter.org>
-   IPython <https://jupyter.org>
+   docker-spawner <https://github.com/jupyter/dockerspawner>
+   docker-stacks <https://github.com/jupyter/docker-stacks>
+   ipyparallel <https://ipyparallel.readthedocs.org/en/latest/>
+   IPython <https://jupyter.readthedocs.org/en/latest/>
    IPython kernel <https://jupyter.org>
+   IPython Notebook (legacy) <https://ipython.org/documentation.html>
+   IPython Notebook (redirect to Jupyter Notebook) <https://jupyter-notebook.readthedocs.org/en/latest/>
    ipywidgets <https://jupyter.org>
+   jupyter console <https://jupyter-console.readthedocs.org/en/latest/>
+   jupyter qtconsole <http://jupyter.org/qtconsole/stable/>
+   jupyter-drive <https://github.com/jupyter/jupyter-drive>
+   jupyter_client <https://jupyter-client.readthedocs.org/en/latest/>
+   jupyter_core <https://jupyter-core.readthedocs.org/en/latest/>
+   JupyterHub <https://github.com/jupyter/jupyterhub>
+   nbconvert <https://nbconvert.readthedocs.org/en/latest/>
+   nbformat <https://nbformat.readthedocs.org/en/latest/>
+   nbgrader <https://nbgrader.readthedocs.org/en/stable/>
+   nbviewer <https://github.com/jupyter/nbviewer>
+   tmpnb <https://github.com/jupyter/tmpnb>
+   tmpnb-deploy <https://github.com/jupyter/tmpnb-deploy>
    traitlets <https://jupyter.org>
-
-
-
-
-
