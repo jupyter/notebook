@@ -18,6 +18,16 @@
 define(function(require){
     "use strict";
 
+    var warn_bad_name = function(name){
+        if(name !== "" && !name.match(/:/)){
+            console.warn('You are trying to use an action/command name, where the separator between prefix and name is not `:`\n'+
+                         '"'+name+'"\n'+
+                         'You are likely to not use the API in a correct way. Typically use the following:\n'+
+                         '`var key = actions.register(<object>, "<name>", "<prefix>");` and reuse the `key` variable'+
+                         'instead of re-generating the key yourself.'
+                    );
+        }
+    };
 
     var ActionHandler = function (env) {
         this.env = env || {};
@@ -620,9 +630,9 @@ define(function(require){
 
         for(k in custom_ignore){
             // Js closure are function level not block level need to wrap in a IIFE
-            // same as above, but decide for themselves wether or not they intercept events.
+            // same as above, but decide for themselves whether or not they intercept events.
             if(custom_ignore.hasOwnProperty(k)){
-                var handler = _prepare_handler(final_actions, k, custom_ignore);
+                handler = _prepare_handler(final_actions, k, custom_ignore);
                 (function(key, handler){
                     final_actions['jupyter-notebook:'+key].handler = function(env, event){
                         return handler(env, event);
@@ -693,6 +703,7 @@ define(function(require){
          **/
 
         if(typeof(name_or_data) === 'string'){
+            warn_bad_name(name);
             if(this.exists(name_or_data)){
                 return name_or_data;
             } else {
@@ -704,6 +715,7 @@ define(function(require){
     };
 
     ActionHandler.prototype.get = function(name){
+        warn_bad_name(name);
         return this._actions[name];
     };
 
