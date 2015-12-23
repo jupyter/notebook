@@ -69,15 +69,15 @@ This is the **official** documentation for Jupyter notebook.
 
    Jupyter <https://jupyter.org>
    Jupyter Notebook <https://jupyter-notebook.readthedocs.org/en/latest/>
-   docker-demo-images <https://jupyter.org>
+   docker-demo-images <https://github.com/jupyter/docker-demo-images>
    docker-spawner <https://github.com/jupyter/dockerspawner>
    docker-stacks <https://github.com/jupyter/docker-stacks>
    ipyparallel <https://ipyparallel.readthedocs.org/en/latest/>
    IPython <https://jupyter.readthedocs.org/en/latest/>
-   IPython kernel <https://jupyter.org>
+   IPython kernel (ipykernel) <https://github.com/ipython/ipykernel>
    IPython Notebook (legacy) <https://ipython.org/documentation.html>
    IPython Notebook (redirect to Jupyter Notebook) <https://jupyter-notebook.readthedocs.org/en/latest/>
-   ipywidgets <https://jupyter.org>
+   ipywidgets <https://github.com/ipython/ipywidgets>
    jupyter console <https://jupyter-console.readthedocs.org/en/latest/>
    jupyter qtconsole <http://jupyter.org/qtconsole/stable/>
    jupyter-drive <https://github.com/jupyter/jupyter-drive>
@@ -90,4 +90,4 @@ This is the **official** documentation for Jupyter notebook.
    nbviewer <https://github.com/jupyter/nbviewer>
    tmpnb <https://github.com/jupyter/tmpnb>
    tmpnb-deploy <https://github.com/jupyter/tmpnb-deploy>
-   traitlets <https://jupyter.org>
+   traitlets <https://traitlets.readthedocs.org/en/stable/>
