@@ -23,6 +23,7 @@ import ssl
 import sys
 import threading
 import webbrowser
+import warnings
 
 
 from jinja2 import Environment, FileSystemLoader
@@ -825,10 +826,28 @@ class NotebookApp(JupyterApp):
             kernel_manager=self.kernel_manager,
             contents_manager=self.contents_manager,
         )
-        self.config_manager = self.config_manager_class(
-            parent=self,
-            log=self.log
-        )
+        if self.config_manager_class is ConfigManager:
+            # We know our ConfigManager ignore `config_dir`, 
+            # and will warn/raise a PendingDeprecation warning
+            # if given, so do not pass it (not to annoy user and show the
+            # warning on default install. .
+            self.config_manager = self.config_manager_class(
+                parent=self,
+                log=self.log,
+            )
+        else :
+            # In case it is a custom ConfigManager,  
+            # for potentially not breaking future backward 
+            # compatibility, will still pass it. 
+            if issubclass(self.config_manager_class, ConfigManager):
+                warnings.warn('Object `%s` will be passed a `config_dir` kwarg, which might be removed'
+                              'in future Notebook versions. Please make sure to handle this case.' % (self.config_manager_class),)
+            self.config_manager = self.config_manager_class(
+                parent=self,
+                log=self.log,
+                config_dir=os.path.join(self.config_dir, 'nbconfig'),
+            )
+
 
     def init_logging(self):
         # This prevents double log messages because tornado use a root logger that
