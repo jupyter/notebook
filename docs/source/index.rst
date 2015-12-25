@@ -30,10 +30,10 @@ This is the **official** documentation for Jupyter notebook.
    :caption: Configuration
 
    config
-   public_server
-   security
    frontend_config
    extending/index
+   security
+   public_server
 
 .. toctree::
    :maxdepth: 1
