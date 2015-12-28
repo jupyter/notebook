@@ -9,7 +9,7 @@ computing.
 
 ![Jupyter notebook example](docs/resources/running_code_med.png "Jupyter notebook example")
 
-## Jupyter notebook, the language-agnostic evolution of IPython notebook
+### Jupyter notebook, the language-agnostic evolution of IPython notebook
 Jupyter notebook is the language-agnostic HTML notebook application for
 Project Jupyter. In 2015, Jupyter notebook was released as part of
 The Big Split of the IPython codebase. IPython 3 was the last major monolithic
