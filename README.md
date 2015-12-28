@@ -7,6 +7,8 @@
 The Jupyter notebook is a web-based notebook environment for interactive
 computing.
 
+![Jupyter notebook example](docs/resources/running_code.png "Jupyter notebook example")
+
 ## Installation
 Detailed [user installation information](http://jupyter-notebook.readthedocs.org/en/latest)
 can be found on ReadTheDocs.
