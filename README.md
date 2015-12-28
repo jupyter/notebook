@@ -4,45 +4,61 @@
 [![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
 [![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](http://jupyter-notebook.readthedocs.org/en/latest/?badge=latest)
 
-The Jupyter HTML notebook is a web-based notebook environment for interactive computing.
+The Jupyter notebook is a web-based notebook environment for interactive
+computing.
 
-## Usage
+## Installation
+Detailed [user installation information](http://jupyter-notebook.readthedocs.org/en/latest)
+can be found on ReadTheDocs.
 
-### Local installation
+For a local installation, make sure you have
+[pip installed](https://pip.readthedocs.org/en/stable/installing/) and run:
+
+    $ pip install notebook
+
+## Usage - Running Jupyter notebook
+
+### Running in a local installation
 
 Launch with:
 
     $ jupyter notebook
 
-### In a Docker container
+### Running in a Docker container
 
-If you have a [Docker daemon running](https://docs.docker.com/installation/), e.g. reachable on `localhost`, start a container with:
+If you are using Linux and have a
+[Docker daemon running](https://docs.docker.com/installation/),
+e.g. reachable on `localhost`, start a container with:
 
     $ docker run --rm -it -p 8888:8888 -v "$(pwd):/notebooks" jupyter/notebook
 
-In your browser open the URL `http://localhost:8888/`.
+In your browser, open the URL `http://localhost:8888/`.
 All notebooks from your session will be saved in the current directory.
 
-On other platforms without `docker`, this can be started using `docker-machine`
-by replacing `localhost` with an IP from [`docker-machine ip <MACHINE>`](https://docs.docker.com/machine/reference/ip/).
-With the deprecated `boot2docker`, this IP will be `boot2docker ip`.
+On other platforms, such as Windows and OS X, that require using
+`docker-machine` with `docker`, a container can be started using
+`docker-machine`. In the browser, open the URL `http://ip:8888/` where `ip` is
+the IP address returned from the command:
+    $ [`docker-machine ip <MACHINE>`](https://docs.docker.com/machine/reference/ip/).
 
-## Installation
+Note: With the deprecated `boot2docker`, the command used `boot2docker ip` to
+determine the URL.
 
-For a local installation, make sure you have [pip installed](https://pip.readthedocs.org/en/stable/installing/) and run:
+## Development Installation Quickstart
+Detailed [Developer Documentation](http://jupyter-notebook.readthedocs.org/en/latest)
+is available on ReadTheDocs.
 
-    $ pip install notebook
-
-### Dev quickstart
-
-* ensure that you have node/npm installed (e.g. `brew install node` on OS X)
+* Ensure that you have node/npm installed (e.g. `brew install node` on OS X)
 * Clone this repo and cd into it
 * `pip install --pre -e .`
 
-_NOTE_: For Debian/Ubuntu systems, if you're installing the system node you need
-to use the 'nodejs-legacy' package and not the 'node' package.
+_NOTE_: For Debian/Ubuntu systems, if you're installing the system node you
+need to use the 'nodejs-legacy' package and not the 'node' package.
 
-For more detailed development install instructions (e.g. recompiling javascript and css, running tests), please see the [contributing guide](CONTRIBUTING.md).
+For more detailed development install instructions (e.g. recompiling javascript
+and css, running tests), see the
+[Developer Documentation](http://jupyter-notebook.readthedocs.org/en/latest)
+on ReadTheDocs and the [contributing guide](CONTRIBUTING.md).
 
 ### Ubuntu Trusty
 
