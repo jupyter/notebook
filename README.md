@@ -23,8 +23,10 @@ discrete repos.
 [![Jupyter Ascending blog post](http://blog.jupyter.org/2015/08/12/first-release-of-jupyter/)]
 
 ## Installation
-Detailed [Installation documentation](http://jupyter.readthedocs.org/en/latest/install.html)
-can be found on [ReadTheDocs](http://jupyter-notebook.readthedocs.org/en/latest).
+You can find the installation documentation for the
+[Jupyter platform, on ReadTheDocs](http://jupyter.readthedocs.org/en/latest/install.html).
+The documentation for advanced usage of Jupyter notebook can be found 
+[here](http://jupyter-notebook.readthedocs.org/en/latest).
 
 For a local installation, make sure you have
 [pip installed](https://pip.readthedocs.org/en/stable/installing/) and run:
