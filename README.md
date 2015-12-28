@@ -113,6 +113,7 @@ jupyter notebook
 ## Resources
 - [Project Jupyter website](https://jupyter.org)
 - [Online Demo at try.jupyter.org](https://try.jupyter.org)
-- [Documentation](http://jupyter-notebook.readthedocs.org/en/latest/)
+- [Documentation for Jupyter notebook](http://jupyter-notebook.readthedocs.org/en/latest/)
+- [Documentation for Project Jupyter](http://jupyter.readthedocs.org/en/latest/index.html) [PDF](https://media.readthedocs.org/pdf/jupyter/latest/jupyter.pdf)
 - [Issues](https://github.com/jupyter/notebook/issues)
 - [Technical support - Jupyter Google Group](https://groups.google.com/forum/#!forum/jupyter)
