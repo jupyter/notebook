@@ -62,9 +62,9 @@ For example,
     $ docker-machine ip myjupytermachine
     192.168.99.104
 
-    In browser, open http://192.168.99.104:8888
+In browser, open `http://192.168.99.104:8888`.
 
-Note: With the deprecated `boot2docker`, use the command `boot2docker ip` to
+NOTE: With the deprecated `boot2docker`, use the command `boot2docker ip` to
 determine the URL.
 
 ## Development Installation Quickstart
@@ -75,7 +75,7 @@ is available on ReadTheDocs.
 * Clone this repo and `cd` into it
 * `pip install --pre -e .`
 
-_NOTE_: For Debian/Ubuntu systems, if you're installing the system node you
+NOTE: For **Debian/Ubuntu** systems, if you're installing the system node you
 need to use the 'nodejs-legacy' package and not the 'node' package.
 
 For more detailed development install instructions (e.g. recompiling javascript
