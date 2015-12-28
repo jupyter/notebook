@@ -96,3 +96,10 @@ cd notebook
 pip install -r requirements.txt -e .
 jupyter notebook
 ```
+
+## Resources
+- [Project Jupyter website](https://jupyter.org)
+- [Online Demo at try.jupyter.org](https://try.jupyter.org)
+- [Documentation](http://jupyter-notebook.readthedocs.org/en/latest/)
+- [Issues](https://github.com/jupyter/notebook/issues)
+- [Technical support - Jupyter Google Group](https://groups.google.com/forum/#!forum/jupyter)
