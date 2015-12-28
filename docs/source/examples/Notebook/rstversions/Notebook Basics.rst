@@ -142,7 +142,7 @@ cell's editor area.
 Command mode
 ~~~~~~~~~~~~
 
-Command mode is indicated by a grey cell border:
+Command mode is indicated by a grey cell border with a blue left margin:
 
 When you are in command mode, you are able to edit the notebook as a
 whole, but not type into individual cells. Most importantly, in command
