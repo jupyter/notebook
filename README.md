@@ -53,9 +53,9 @@ All notebooks from your session will be saved in the current directory.
 On other platforms, such as Windows and OS X, that require using
 `docker-machine` with `docker`, a container can be started using
 `docker-machine`. In the browser, open the URL `http://ip:8888/` where `ip` is
-the IP address returned from the command:
+the IP address returned from the command [`docker-machine ip <MACHINE>`](https://docs.docker.com/machine/reference/ip/):
 
-    $ [`docker-machine ip <MACHINE>`](https://docs.docker.com/machine/reference/ip/).
+    $ docker-machine ip <MACHINE>
 
 Note: With the deprecated `boot2docker`, use the command `boot2docker ip` to
 determine the URL.
