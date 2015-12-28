@@ -12,14 +12,14 @@ computing.
 ### Jupyter notebook, the language-agnostic evolution of IPython notebook
 Jupyter notebook is the language-agnostic HTML notebook application for
 Project Jupyter. In 2015, Jupyter notebook was released as part of
-The Big Split of the IPython codebase. IPython 3 was the last major monolithic
+The Big Split™ of the IPython codebase. IPython 3 was the last major monolithic
 release containing both language-agnostic code, such as the *IPython notebook*,
 and language specific code, such as the *IPython kernel for Python*. As
 computing spans many languages, Project Jupyter will continue to develop the
 language-agnostic **Jupyter notebook** in this repo and with the help of the
 community develop language specific kernels which are found in their own
 discrete repos.
-[![The Big Split announcement](https://blog.jupyter.org/2015/04/15/the-big-split/)]
+[![The Big Split™ announcement](https://blog.jupyter.org/2015/04/15/the-big-split/)]
 [![Jupyter Ascending blog post](http://blog.jupyter.org/2015/08/12/first-release-of-jupyter/)]
 
 ## Installation
