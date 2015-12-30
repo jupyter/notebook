@@ -27,7 +27,10 @@ div.cell {
     &.jupyter-soft-selected {
         border-left-color: @selected_border_color_light;
         border-left-color: @soft_select_color;
-        ._selected_style(@selected_border_color_light, @soft_select_color, 5px, 0px);
+        border-left-width: @cell_border_width;
+        padding-left: @cell_padding - @cell_border_width;
+        background: @soft_select_color;
+
 
         @media print {
             border-color: transparent;
