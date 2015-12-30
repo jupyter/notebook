@@ -684,7 +684,7 @@ define([
                 img.addClass('unconfined');
             }
         });
-    };
+    }
     
     var set_width_height = function (img, md, mime) {
         /**
