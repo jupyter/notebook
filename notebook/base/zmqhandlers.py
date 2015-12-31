@@ -121,7 +121,7 @@ class WebSocketMixin(object):
             max(3 * self.ping_interval, WS_PING_INTERVAL)
         )
 
-    def check_origin(self, origin):
+    def check_origin(self, origin=None):
         """Check Origin == Host or Access-Control-Allow-Origin.
         
         Tornado >= 4 calls this method automatically, raising 403 if it returns False.
@@ -130,7 +130,9 @@ class WebSocketMixin(object):
             return True
 
         host = self.request.headers.get("Host")
-
+        if origin is None:
+            origin = self.get_origin()
+        
         # If no header is provided, assume we can't verify origin
         if origin is None:
             self.log.warn("Missing Origin header, rejecting WebSocket connection.")
