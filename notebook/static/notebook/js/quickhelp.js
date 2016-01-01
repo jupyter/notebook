@@ -229,7 +229,7 @@ define([
             '<p/>' +
             'The Jupyter Notebook has two different keyboard input modes. ' +
             '<b>Edit mode</b> allows you to type code/text into a cell and is indicated by a green cell border. ' +
-            '<b>Command mode</b> binds the keyboard to notebook level actions and is indicated by a grey cell border.' +
+            '<b>Command mode</b> binds the keyboard to notebook level actions and is indicated by a grey cell border with a blue left margin.' +
             '</p>'
         );
         element.append(doc);
