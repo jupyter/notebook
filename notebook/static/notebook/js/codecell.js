@@ -50,12 +50,12 @@ define([
      */
     CodeMirror.commands.delSpaceToPrevTabStop = function(cm){
         var from = cm.getCursor(true), to = cm.getCursor(false), sel = !posEq(from, to);
-         if (sel) { 
+         if (sel) {
             var ranges = cm.listSelections();
             for (var i = ranges.length - 1; i >= 0; i--) {
-              var head = ranges[i].head;
-              var anchor = ranges[i].anchor;
-              cm.replaceRange("", Pos(head.line, head.ch), CodeMirror.Pos(anchor.line, anchor.ch));
+                var head = ranges[i].head;
+                var anchor = ranges[i].anchor;
+                cm.replaceRange("", CodeMirror.Pos(head.line, head.ch), CodeMirror.Pos(anchor.line, anchor.ch));
             }
             return;
         }
