@@ -45,7 +45,8 @@ A post-save hook to make a script equivalent whenever the notebook is saved
 
     import io
     import os
-
+    from notebook.utils import to_api_path
+    
     _script_exporter = None
 
     def script_post_save(model, os_path, contents_manager, **kwargs):
