@@ -19,13 +19,13 @@ computing spans many languages, Project Jupyter will continue to develop the
 language-agnostic **Jupyter notebook** in this repo and with the help of the
 community develop language specific kernels which are found in their own
 discrete repos.
-[![The Big Split™ announcement](https://blog.jupyter.org/2015/04/15/the-big-split/)]
-[![Jupyter Ascending blog post](http://blog.jupyter.org/2015/08/12/first-release-of-jupyter/)]
+[[The Big Split™ announcement](https://blog.jupyter.org/2015/04/15/the-big-split/)]
+[[Jupyter Ascending blog post](http://blog.jupyter.org/2015/08/12/first-release-of-jupyter/)]
 
 ## Installation
 You can find the installation documentation for the
 [Jupyter platform, on ReadTheDocs](http://jupyter.readthedocs.org/en/latest/install.html).
-The documentation for advanced usage of Jupyter notebook can be found 
+The documentation for advanced usage of Jupyter notebook can be found
 [here](http://jupyter-notebook.readthedocs.org/en/latest).
 
 For a local installation, make sure you have
