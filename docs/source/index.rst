@@ -22,6 +22,7 @@ The Jupyter notebook
    Installation <https://jupyter.readthedocs.org/en/latest/install.html>
    Running the Notebook <https://jupyter.readthedocs.org/en/latest/running.html>
    Migrating from IPython <https://jupyter.readthedocs.org/en/latest/migrating.html>
+   ui_components
 
 .. toctree::
    :maxdepth: 2
