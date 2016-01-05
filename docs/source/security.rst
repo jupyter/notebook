@@ -16,7 +16,7 @@ The whole point of Jupyter is arbitrary code execution. We have no
 desire to limit what can be done with a notebook, which would negatively
 impact its utility.
 
-Unlike other programs, an Jupyter notebook document includes output.
+Unlike other programs, a Jupyter notebook document includes output.
 Unlike other documents, that output exists in a context that can execute
 code (via Javascript).
 
@@ -135,7 +135,7 @@ in an untrusted state. There are three basic approaches to this:
 -  re-run notebooks when you get them (not always viable)
 -  explicitly trust notebooks via ``jupyter trust`` or the notebook menu
    (annoying, but easy)
--  share a notebook secret, and use an Jupyter profile dedicated to the
+-  share a notebook secret, and use a Jupyter profile dedicated to the
    collaboration while working on the project.
 
 Multiple profiles or machines
