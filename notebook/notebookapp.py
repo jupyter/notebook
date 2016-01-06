@@ -77,7 +77,7 @@ from jupyter_client.session import Session
 from nbformat.sign import NotebookNotary
 from traitlets import (
     Dict, Unicode, Integer, List, Bool, Bytes, Instance,
-    TraitError, Type,
+    TraitError, Type, Float
 )
 from ipython_genutils import py3compat
 from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
@@ -187,7 +187,12 @@ class NotebookWebApplication(web.Application):
             },
             version_hash=version_hash,
             ignore_minified_js=ipython_app.ignore_minified_js,
-            
+
+            # rate limits
+            iopub_msg_rate_limit=ipython_app.iopub_msg_rate_limit,
+            iopub_data_rate_limit=ipython_app.iopub_data_rate_limit,
+            limit_poll_interval=ipython_app.limit_poll_interval,
+
             # authentication
             cookie_secret=ipython_app.cookie_secret,
             login_url=url_path_join(base_url,'/login'),
@@ -785,9 +790,20 @@ class NotebookApp(JupyterApp):
         help="Reraise exceptions encountered loading server extensions?",
     )
 
+    iopub_msg_rate_limit = Float(config=True, allow_none=True, help="""(msg/sec)
+        Maximum rate at which messages can be sent on iopub before they are
+        limitted.""")
+
+    iopub_data_rate_limit = Float(config=True, allow_none=True, help="""(bytes/sec)
+        Maximum rate at which messages can be sent on iopub before they are
+        limited.""")
+
+    limit_poll_interval = Float(1.0, config=True, help="""(sec) Interval in
+        which to check the message and data rate limits.""")
+
     def parse_command_line(self, argv=None):
         super(NotebookApp, self).parse_command_line(argv)
-        
+
         if self.extra_args:
             arg0 = self.extra_args[0]
             f = os.path.abspath(arg0)

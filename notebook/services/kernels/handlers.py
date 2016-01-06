@@ -8,6 +8,7 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-
 
 import json
 import logging
+import time
 from tornado import gen, web
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
@@ -96,14 +97,26 @@ class KernelActionHandler(APIHandler):
 
 
 class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
-    
+
     @property
     def kernel_info_timeout(self):
         return self.settings.get('kernel_info_timeout', 10)
-    
+
+    @property
+    def iopub_msg_rate_limit(self):
+        return self.settings.get('iopub_msg_rate_limit', None)
+
+    @property
+    def iopub_data_rate_limit(self):
+        return self.settings.get('iopub_data_rate_limit', None)
+
+    @property
+    def limit_poll_interval(self):
+        return self.settings.get('limit_poll_interval', 1.0)
+
     def __repr__(self):
         return "%s(%s)" % (self.__class__.__name__, getattr(self, 'kernel_id', 'uninitialized'))
-    
+
     def create_stream(self):
         km = self.kernel_manager
         identity = self.session.bsession
@@ -182,7 +195,14 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         self.kernel_id = None
         self.kernel_info_channel = None
         self._kernel_info_future = Future()
-    
+
+        # Rate limiting code
+        self._iopub_msg_count = 0
+        self._iopub_byte_count = 0
+        self._iopub_msgs_exceeded = False
+        self._iopub_bytes_exceeded = False
+        self._last_limit_check = time.time()
+
     @gen.coroutine
     def pre_get(self):
         # authenticate first
@@ -231,6 +251,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             # already closed, ignore the message
             self.log.debug("Received message on closed websocket %r", msg)
             return
+        length = len(msg)
         if isinstance(msg, bytes):
             msg = deserialize_binary_message(msg)
         else:
@@ -242,6 +263,55 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         if channel not in self.channels:
             self.log.warn("No such channel: %r", channel)
             return
+        if channel == 'iopub':
+            # Increment the bytes and message count
+            self._iopub_msg_count += 1
+            self._iopub_byte_count += length
+
+            # If the elapsed time is equal to or greater than the limiter
+            # interval, check the limits, set the limit flags, and reset the
+            # message and data counts.
+            elapsed_time = (time.time() - self._last_limit_check).seconds()
+            if elapsed_time >= self.limit_poll_interval:
+                self._last_limit_check = time.time()
+
+                msg_rate = self._iopub_msg_count / elapsed_time
+                data_rate = self._iopub_byte_count / elapsed_time
+
+                # Check the msg rate
+                if self.iopub_msg_rate_limit is not None and msg_rate > self.iopub_msg_rate_limit:
+                    if not self._iopub_msgs_exceeded:
+                        self._iopub_msgs_exceeded = True
+                        self.log.warn("""iopub message rate exceeded.  The
+                        notebook server will temporarily stop sending iopub
+                        messages to the client in order to avoid crashing it.
+                        To change this limit, set the config variable
+                        `--NotebookApp.iopub_msg_rate_limit`.""")
+                else:
+                    if self._iopub_msgs_exceeded:
+                        self._iopub_msgs_exceeded = False
+                        if not self._iopub_data_exceeded:
+                            self.log.warn("""iopub messages resumed""")
+
+                # Check the data rate
+                if self.iopub_data_rate_limit is not None and data_rate > self.iopub_data_rate_limit:
+                    if not self._iopub_data_exceeded:
+                        self._iopub_data_exceeded = True
+                        self.log.warn("""iopub data rate exceeded.  The
+                        notebook server will temporarily stop sending iopub
+                        messages to the client in order to avoid crashing it.
+                        To change this limit, set the config variable
+                        `--NotebookApp.iopub_data_rate_limit`.""")
+                else:
+                    if self._iopub_data_exceeded:
+                        self._iopub_data_exceeded = False
+                        if not self._iopub_msgs_exceeded:
+                            self.log.warn("""iopub messages resumed""")
+
+            # If either of the limit flags are set, do not send the message.
+            if self._iopub_msgs_exceeded or self._iopub_data_exceeded:
+                return
+
         stream = self.channels[channel]
         self.session.send(stream, msg)
 
