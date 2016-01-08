@@ -3,7 +3,9 @@ The Jupyter notebook
 ====================
 
 .. sidebar:: What's New in Jupyter Notebook
-   :subtitle: :ref:`release-4.1.x` ** Release candidate 4.1.0rc1**
+   :subtitle: Release :ref:`release-4.1.0`
+
+   `Release Announcement <https://blog.jupyter.org/2016/01/08/notebook-4-1-release/>`_
 
    - Cell toolbar selector moved to View menu
    - Restart & Run All Cells added to Kernel menu
@@ -11,8 +13,10 @@ The Jupyter notebook
    - Command palette added for executing Jupyter actions
    - Find and replace added to Edit menu
 
-   To install release candidate:
-   ``python -m pip install notebook --pre --upgrade``
+   To upgrade to the release:
+   ``pip install notebook --upgrade``
+   or
+   ``conda upgrade notebook``
 
 .. toctree::
    :maxdepth: 1
