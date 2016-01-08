@@ -129,6 +129,7 @@ define([
 
             // Bind events for action buttons.
             $('.rename-button').click($.proxy(this.rename_selected, this));
+            $('.move-button').click($.proxy(this.move_selected, this));
             $('.shutdown-button').click($.proxy(this.shutdown_selected, this));
             $('.duplicate-button').click($.proxy(this.duplicate_selected, this));
             $('.delete-button').click($.proxy(this.delete_selected, this));
@@ -550,6 +551,15 @@ define([
             $('.rename-button').css('display', 'none');
         }
 
+        // Move is only visible when one item is selected, and it is not a
+        // running notebook.
+        // TODO(nhdaly): Add support for moving multiple items at once.
+        if (selected.length === 1 && !has_running_notebook) {
+            $('.move-button').css('display', 'inline-block');
+        } else {
+            $('.move-button').css('display', 'none');
+        }
+
         // Shutdown is only visible when one or more notebooks running notebooks
         // are selected and no non-notebook items are selected.
         if (has_running_notebook && !(has_file || has_directory)) {
@@ -751,6 +761,73 @@ define([
                                 }
                             });
                             console.warn('Error durring renaming :', e);
+                        });
+                    }
+                },
+                Cancel : {}
+            },
+            open : function () {
+                // Upon ENTER, click the OK button.
+                input.keydown(function (event) {
+                    if (event.which === keyboard.keycodes.enter) {
+                        d.find('.btn-primary').first().click();
+                        return false;
+                    }
+                });
+                input.focus();
+                if (input.val().indexOf(".") > 0) {
+                    input[0].setSelectionRange(0,input.val().indexOf("."));
+                } else {
+                    input.select();
+                }
+            }
+        });
+    };
+
+    NotebookList.prototype.move_selected = function() {
+        // TODO(nhdaly): Support moving multiple items at once.
+        if (this.selected.length !== 1){
+            return;
+        }
+
+        var that = this;
+        var item_path = this.selected[0].path;
+        var item_name = this.selected[0].name;
+        var item_type = this.selected[0].type;
+
+        // Open a dialog to enter the new path, with current path as default.
+        var input = $('<input/>').attr('type','text').attr('size','25').addClass('form-control')
+            .val(utils.url_path_join('/', that.notebook_path));
+        var dialog_body = $('<div/>').append(
+            $("<p/>").addClass("rename-message")
+                .text('Enter new destination directory path for '+ item_type + ':')
+        ).append(
+            $("<br/>")
+        ).append(input);
+        var d = dialog.modal({
+            title : "Move "+ item_type,
+            body : dialog_body,
+            buttons : {
+                OK : {
+                    class: "btn-primary",
+                    click: function() {
+                      // Construct the new path using the user input and its name.
+                        var new_path = utils.url_path_join(input.val(), item_name)
+                        that.contents.rename(item_path, new_path).then(function() {
+                            that.load_list();
+                        }).catch(function(e) { 
+                            dialog.modal({
+                                title: "Move Failed",
+                                body: $('<div/>')
+                                    .text("An error occurred while moving \"" + item_name + "\" from \"" + item_path + "\" to \"" + new_path + "\".")
+                                    .append($('<div/>')
+                                        .addClass('alert alert-danger')
+                                        .text(e.message || e)),
+                                buttons: {
+                                    OK: {'class': 'btn-primary'}
+                                }
+                            });
+                            console.warn('Error durring moving :', e);
                         });
                     }
                 },
