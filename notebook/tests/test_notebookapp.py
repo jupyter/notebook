@@ -101,7 +101,7 @@ def test_pep440_version():
 
 
 
-pep440re = re.compile('^(\d+)\.(\d+)\.(\d+((a|b|rc)\d+)?)(\.post\d+)?(\.dev\d+)?$')
+pep440re = re.compile('^(\d+)\.(\d+)\.(\d+((a|b|rc)\d+)?)(\.post\d+)?(\.dev\d*)?$')
 
 def raise_on_bad_version(version):
     if not pep440re.match(version):
