@@ -6,7 +6,7 @@ Jupyter notebook changelog
 A summary of changes in the Jupyter notebook.
 For more detailed information, see `GitHub <https://github.com/jupyter/notebook>`__.
 
-.. _release-4.1.x:
+.. _release-4.1.0:
 
 4.1.0
 -----
@@ -31,11 +31,11 @@ UI changes:
 - Added multiple-cell selection. Users press ``Shift-Up/Down`` or ``Shift-K/J`` to extend selection in command mode. Various actions such as cut/copy/paste, execute, and cell type conversions apply to all selected cells.
 
   .. image:: /_static/images/multi-select-41.png
-  
+
 - Added a command palette for executing Jupyter actions by name. Users press ``Cmd/Ctrl-Shift-P`` or click the new command palette icon on the toolbar.
 
   .. image:: /_static/images/command-palette-41.png
-  
+
 - Added a *Find and Replace* dialog to the *Edit* menu. Users can also press ``F`` in command mode to show the dialog.
 
   .. image:: /_static/images/find-replace-41.png
