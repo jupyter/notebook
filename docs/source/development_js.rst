@@ -75,7 +75,7 @@ Make sure to use `twine <https://github.com/pypa/twine>`_ to upload the archives
 
     $ twine upload dist/*
 
-6. If all went well, change the ``notebook/_version.py`` back adding the `.dev` suffix.
+6. If all went well, change the ``notebook/_version.py`` back adding the ``.dev`` suffix.
 
-7. Push directly on master, not forgetting to push `--tags`.
+7. Push directly on master, not forgetting to push ``--tags``.
 
