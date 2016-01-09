@@ -17,7 +17,7 @@ from ..filecheckpoints import GenericFileCheckpoints
 from traitlets.config import Config
 from notebook.utils import url_path_join, url_escape, to_os_path
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
-from nbformat import read, write, from_dict
+from nbformat import write, from_dict
 from nbformat.v4 import (
     new_notebook, new_markdown_cell,
 )
