@@ -824,6 +824,12 @@ define([
             return time.milliseconds.h;
         }
     };
+
+    var format_datetime = function(date) {
+        return moment(date).format("YYYY-MM-D HH:mm");
+    }
+
+
     
     var utils = {
         load_extension: load_extension,
@@ -864,6 +870,7 @@ define([
         reject: reject,
         typeset: typeset,
         time: time,
+        format_datetime: format_datetime,
         _ansispan:_ansispan
     };
 
