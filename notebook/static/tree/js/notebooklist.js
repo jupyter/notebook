@@ -369,6 +369,10 @@ define([
         $("<span/>")
             .addClass("item_name")
             .appendTo(link);
+
+        $("<span/>")
+            .addClass("item_modified")
+            .appendTo(item);
         
         if (selectable === false) {
             checkbox.css('visibility', 'hidden');
@@ -541,11 +545,13 @@ define([
 
     NotebookList.prototype.add_link = function (model, item) {
         var path = model.path,
-            name = model.name;
+            name = model.name,
+            modified = model.last_modified;
         var running = (model.type === 'notebook' && this.sessions[path] !== undefined);
 
         item.data('name', name);
         item.data('path', path);
+        item.data('modified', modified);
         item.data('type', model.type);
         item.find(".item_name").text(name);
         var icon = NotebookList.icons[model.type];
@@ -577,6 +583,9 @@ define([
         if (model.type !== "directory") {
             link.attr('target',IPython._target);
         }
+
+        // Add in the date that the file was last modified
+        item.find(".item_modified").text(utils.format_datetime(modified));
     };
 
 
