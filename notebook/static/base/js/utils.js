@@ -829,8 +829,16 @@ define([
         return moment(date).format("YYYY-MM-D HH:mm");
     }
 
+    var datetime_sort_helper = function(a, b, order) {
+        if (moment(a).isBefore(moment(b))) {
+            return (order == 1) ? -1 : 1;
+        } else if (moment(a).isSame(moment(b))) {
+            return 0;
+        } else {
+            return (order == 1) ? 1 : -1;
+        }
+    }
 
-    
     var utils = {
         load_extension: load_extension,
         load_extensions: load_extensions,
@@ -871,6 +879,7 @@ define([
         typeset: typeset,
         time: time,
         format_datetime: format_datetime,
+        datetime_sort_helper: datetime_sort_helper,
         _ansispan:_ansispan
     };
 
