@@ -46,6 +46,7 @@ define([
                 function(e, d) { that.sessions_loaded(d); });
         }
         this.selected = [];
+        this.datetime_sorted = false;
         this._max_upload_size_mb = 25;
     };
 
@@ -148,7 +149,34 @@ define([
                     }
                 }
             });
+
+            $('#button-last-modified').click(function (e) {
+                // If the list is not currently sorted or is sorted in
+                // descending order, then sort it on ascending order
+                if (!that.datetime_sorted || that.datetime_sorted == 2) {
+                   that.sort_datetime(1);
+                   that.datetime_sorted = 1;`
+                } else {
+                    // Otherwise sort the list in descending order and set
+                    // the value of datetime_sorted appropriately
+                    that.sort_datetime(2);
+                    that.datetime_sorted = 2;
+                }
+            });
         }
+    };
+
+    NotebookList.prototype.sort_datetime = function(order) {
+        var sort_helper = function(parent, child, selector) {
+            var items = parent.children(child).sort(function(a, b) {
+                var first_date = $(selector, a).text();
+                var second_date = $(selector, b).text();
+                return utils.datetime_sort_helper(first_date, second_date, order);
+            });
+            parent.append(items);
+        };
+
+        sort_helper($('#notebook_list'), "div.list_item", 'span.item_modified');
     };
 
     NotebookList.prototype.handleFilesUpload =  function(event, dropOrForm) {
@@ -372,6 +400,7 @@ define([
 
         $("<span/>")
             .addClass("item_modified")
+            .addClass("pull-right")
             .appendTo(item);
         
         if (selectable === false) {
