@@ -826,7 +826,7 @@ define([
     };
 
     var format_datetime = function(date) {
-        return moment(date).format("YYYY-MM-D HH:mm");
+        return moment(date).format("YYYY-MM-DD HH:mm");
     }
 
     var datetime_sort_helper = function(a, b, order) {
