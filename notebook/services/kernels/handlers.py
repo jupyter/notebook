@@ -303,7 +303,6 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         
                 msg_rate = float(self._iopub_msg_count) / elapsed_time
                 data_rate = float(self._iopub_byte_count) / elapsed_time
-                self.log.warn('check msg/s{} & bytes/s{}'.format(msg_rate, data_rate))
                 self._iopub_msg_count = 0
                 self._iopub_byte_count = 0
                 
