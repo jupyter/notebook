@@ -790,15 +790,15 @@ class NotebookApp(JupyterApp):
         help="Reraise exceptions encountered loading server extensions?",
     )
 
-    iopub_msg_rate_limit = Float(config=True, allow_none=True, help="""(msg/sec)
-        Maximum rate at which messages can be sent on iopub before they are
-        limitted.""")
-
-    iopub_data_rate_limit = Float(config=True, allow_none=True, help="""(bytes/sec)
+    iopub_msg_rate_limit = Float(None, config=True, allow_none=True, help="""(msg/sec)
         Maximum rate at which messages can be sent on iopub before they are
         limited.""")
 
-    limit_poll_interval = Float(1.0, config=True, help="""(sec) Interval in
+    iopub_data_rate_limit = Float(None, config=True, allow_none=True, help="""(bytes/sec)
+        Maximum rate at which messages can be sent on iopub before they are
+        limited.""")
+
+    limit_poll_interval = Float(0.1, config=True, help="""(sec) Interval in
         which to check the message and data rate limits.""")
 
     def parse_command_line(self, argv=None):
