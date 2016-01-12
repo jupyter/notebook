@@ -51,7 +51,7 @@ help:
 clean:
 	rm -rf $(BUILDDIR)/*
 	rm -rf config.rst
-	rm -rf source/examples/Notebook/converted_source/*
+	rm -rf source/examples/Notebook/converted_source/*.md
 
 html: source/config.rst ipy2md
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
