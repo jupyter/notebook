@@ -155,7 +155,7 @@ define([
                 // descending order, then sort it on ascending order
                 if (!that.datetime_sorted || that.datetime_sorted == 2) {
                    that.sort_datetime(1);
-                   that.datetime_sorted = 1;`
+                   that.datetime_sorted = 1;
                 } else {
                     // Otherwise sort the list in descending order and set
                     // the value of datetime_sorted appropriately
