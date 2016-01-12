@@ -155,15 +155,15 @@ define([
                 // descending order, then sort it on ascending order
                 if (!that.datetime_sorted || that.datetime_sorted == 2) {
                    that.sort_datetime(1);
-                    $("#button-last-modified i").removeClass("fa-arrow-down");
-                    $("#button-last-modified i").addClass("fa-arrow-up");
+                    $("#button-last-modified i").removeClass("fa-arrow-up");
+                    $("#button-last-modified i").addClass("fa-arrow-down");
                    that.datetime_sorted = 1;
                 } else {
                     // Otherwise sort the list in descending order and set
                     // the value of datetime_sorted appropriately
                     that.sort_datetime(2);
-                    $("#button-last-modified i").removeClass("fa-arrow-up");
-                    $("#button-last-modified i").addClass("fa-arrow-down");
+                    $("#button-last-modified i").removeClass("fa-arrow-down");
+                    $("#button-last-modified i").addClass("fa-arrow-up");
                     that.datetime_sorted = 2;
                 }
             });
@@ -173,8 +173,8 @@ define([
     NotebookList.prototype.sort_datetime = function(order) {
         var sort_helper = function(parent, child, selector) {
             var items = parent.children(child).sort(function(a, b) {
-                var first_date = $(selector, a).text();
-                var second_date = $(selector, b).text();
+                var first_date = $(selector, a).attr("id");
+                var second_date = $(selector, b).attr("id");
                 return utils.datetime_sort_helper(first_date, second_date, order);
             });
             parent.append(items);
@@ -619,6 +619,7 @@ define([
 
         // Add in the date that the file was last modified
         item.find(".item_modified").text(utils.format_datetime(modified));
+        item.find(".item_modified").attr("id", modified);
     };
 
 

@@ -826,7 +826,8 @@ define([
     };
 
     var format_datetime = function(date) {
-        return moment(date).format("YYYY-MM-DD HH:mm");
+        var text = moment(date).fromNow();
+        return text === 'a few seconds ago' ? 'seconds ago' : text;
     }
 
     var datetime_sort_helper = function(a, b, order) {
