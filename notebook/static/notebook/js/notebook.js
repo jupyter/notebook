@@ -2518,8 +2518,9 @@ define(function (require) {
         if (this.autosave_interval) {
             // new save interval: higher of 10x save duration or parameter (default 30 seconds)
             var interval = Math.max(10 * duration, this.minimum_autosave_interval);
-            // round to 10 seconds, otherwise we will be setting a new interval too often
-            interval = 10000 * Math.round(interval / 10000);
+            // ceil to 10 seconds, otherwise we will be setting a new interval too often
+            // do not round or anything below 5000ms will desactivate saving.
+            interval = 10000 * Math.ceil(interval / 10000);
             // set new interval, if it's changed
             if (interval !== this.autosave_interval) {
                 this.set_autosave_interval(interval);
