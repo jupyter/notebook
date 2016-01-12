@@ -155,11 +155,15 @@ define([
                 // descending order, then sort it on ascending order
                 if (!that.datetime_sorted || that.datetime_sorted == 2) {
                    that.sort_datetime(1);
+                    $("#button-last-modified i").removeClass("fa-arrow-down");
+                    $("#button-last-modified i").addClass("fa-arrow-up");
                    that.datetime_sorted = 1;
                 } else {
                     // Otherwise sort the list in descending order and set
                     // the value of datetime_sorted appropriately
                     that.sort_datetime(2);
+                    $("#button-last-modified i").removeClass("fa-arrow-up");
+                    $("#button-last-modified i").addClass("fa-arrow-down");
                     that.datetime_sorted = 2;
                 }
             });
