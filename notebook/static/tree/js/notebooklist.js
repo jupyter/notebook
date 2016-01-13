@@ -46,7 +46,8 @@ define([
                 function(e, d) { that.sessions_loaded(d); });
         }
         this.selected = [];
-        this.datetime_sorted = false;
+        // 0 => default sort, 1 => ascending, 2 => descending
+        this.datetime_sorted = 0;
         this._max_upload_size_mb = 25;
     };
 
@@ -153,34 +154,37 @@ define([
             $('#button-last-modified').click(function (e) {
                 // If the list is not currently sorted or is sorted in
                 // descending order, then sort it on ascending order
-                if (!that.datetime_sorted || that.datetime_sorted == 2) {
+                if (that.datetime_sorted == 0) {
                    that.sort_datetime(1);
                     $("#button-last-modified i").removeClass("fa-arrow-up");
                     $("#button-last-modified i").addClass("fa-arrow-down");
                    that.datetime_sorted = 1;
-                } else {
+                } else if (that.datetime_sorted == 1) {
                     // Otherwise sort the list in descending order and set
                     // the value of datetime_sorted appropriately
                     that.sort_datetime(2);
                     $("#button-last-modified i").removeClass("fa-arrow-down");
                     $("#button-last-modified i").addClass("fa-arrow-up");
                     that.datetime_sorted = 2;
+                } else {
+                    $("#button-last-modified i").removeClass("fa-arrow-up");
+                    that.datetime_sorted = 0;
                 }
             });
         }
     };
 
     NotebookList.prototype.sort_datetime = function(order) {
-        var sort_helper = function(parent, child, selector) {
+        var datetime_sort_helper = function(parent, child, selector) {
             var items = parent.children(child).sort(function(a, b) {
-                var first_date = $(selector, a).attr("id");
-                var second_date = $(selector, b).attr("id");
+                var first_date = $(selector, a).attr("title");
+                var second_date = $(selector, b).attr("title");
                 return utils.datetime_sort_helper(first_date, second_date, order);
             });
             parent.append(items);
         };
 
-        sort_helper($('#notebook_list'), "div.list_item", 'span.item_modified');
+        datetime_sort_helper($('#notebook_list'), "div.list_item", 'span.item_modified');
     };
 
     NotebookList.prototype.handleFilesUpload =  function(event, dropOrForm) {
@@ -619,7 +623,7 @@ define([
 
         // Add in the date that the file was last modified
         item.find(".item_modified").text(utils.format_datetime(modified));
-        item.find(".item_modified").attr("id", modified);
+        item.find(".item_modified").attr("title", moment(modified).format("YYYY-MM-DD HH:mm"));
     };
 
 
