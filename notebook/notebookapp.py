@@ -123,7 +123,7 @@ class DeprecationHandler(IPythonHandler):
             console.warn('`/static/widgets/js` is deprecated.  Use `nbextensions/widgets/widgets/js` instead.');
             define(['%s'], function(x) { return x; });
         """ % url_path_join('nbextensions', 'widgets', 'widgets', url_path.rstrip('.js')))
-        self.log.warn('Deprecated widget Javascript path /static/widgets/js/*.js was used')
+        self.log.warning('Deprecated widget Javascript path /static/widgets/js/*.js was used')
 
 #-----------------------------------------------------------------------------
 # The Tornado web application
@@ -250,7 +250,7 @@ class NotebookWebApplication(web.Application):
                 }),
             )
         except:
-            app_log.warn('ipywidgets package not installed.  Widgets are unavailable.')
+            app_log.warning('ipywidgets package not installed.  Widgets are unavailable.')
         # END HARDCODED WIDGETS HACK
         
         handlers.append(
@@ -448,7 +448,7 @@ class NotebookApp(JupyterApp):
         try:
             s.bind(('localhost', 0))
         except socket.error as e:
-            self.log.warn("Cannot bind to localhost, using 127.0.0.1 as default ip\n%s", e)
+            self.log.warning("Cannot bind to localhost, using 127.0.0.1 as default ip\n%s", e)
             return '127.0.0.1'
         else:
             s.close()
@@ -508,7 +508,7 @@ class NotebookApp(JupyterApp):
         try:
             os.chmod(self.cookie_secret_file, 0o600)
         except OSError:
-            self.log.warn(
+            self.log.warning(
                 "Could not set permissions on %s",
                 self.cookie_secret_file
             )
@@ -544,7 +544,7 @@ class NotebookApp(JupyterApp):
         help="DEPRECATED, use tornado_settings"
     )
     def _webapp_settings_changed(self, name, old, new):
-        self.log.warn("\n    webapp_settings is deprecated, use tornado_settings.\n")
+        self.log.warning("\n    webapp_settings is deprecated, use tornado_settings.\n")
         self.tornado_settings = new
     
     tornado_settings = Dict(config=True,
@@ -592,7 +592,7 @@ class NotebookApp(JupyterApp):
     
     base_project_url = Unicode('/', config=True, help="""DEPRECATED use base_url""")
     def _base_project_url_changed(self, name, old, new):
-        self.log.warn("base_project_url is deprecated, use base_url")
+        self.log.warning("base_project_url is deprecated, use base_url")
         self.base_url = new
 
     extra_static_paths = List(Unicode(), config=True,
@@ -890,7 +890,7 @@ class NotebookApp(JupyterApp):
                     self.log.info('The port %i is already in use, trying another random port.' % port)
                     continue
                 elif e.errno in (errno.EACCES, getattr(errno, 'WSAEACCES', errno.EACCES)):
-                    self.log.warn("Permission to listen on port %i denied" % port)
+                    self.log.warning("Permission to listen on port %i denied" % port)
                     continue
                 else:
                     raise
@@ -923,7 +923,7 @@ class NotebookApp(JupyterApp):
             initialize(self.web_app, self.notebook_dir, self.connection_url)
             self.web_app.settings['terminals_available'] = True
         except ImportError as e:
-            log = self.log.debug if sys.platform == 'win32' else self.log.warn
+            log = self.log.debug if sys.platform == 'win32' else self.log.warning
             log("Terminals not available (error was %s)", e)
 
     def init_signal(self):
@@ -1009,7 +1009,7 @@ class NotebookApp(JupyterApp):
             except Exception:
                 if self.reraise_server_extension_failures:
                     raise
-                self.log.warn("Error loading server extension %s", modulename,
+                self.log.warning("Error loading server extension %s", modulename,
                               exc_info=True)
     
     @catch_config_error
@@ -1085,7 +1085,7 @@ class NotebookApp(JupyterApp):
             try:
                 browser = webbrowser.get(self.browser or None)
             except webbrowser.Error as e:
-                self.log.warn('No web browser found: %s.' % e)
+                self.log.warning('No web browser found: %s.' % e)
                 browser = None
             
             if self.file_to_run:
