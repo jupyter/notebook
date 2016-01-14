@@ -95,20 +95,23 @@ and open a web browser to the URL of the web application (by default,
 ``http://127.0.0.1:8888``).
 
 The landing page of the Jupyter notebook web application, the **dashboard**,
-shows the notebooks currently available in the notebook directory (by default,
-the directory from which the notebook server was started).
+shows the files and folders (subdirectories) in the notebook directory,  which by default is
+the directory from which the notebook server was started.
 
-You can create new notebooks from the dashboard with the ``New Notebook``
-button, or open existing ones by clicking on their name.  You can also drag
+You can create new text files, folders, terminals and notebooks from the dashboard with
+the dropdown menu attached to the ``New`` button.  You can also drag
 and drop ``.ipynb`` notebooks and standard ``.py`` Python source code files
-into the notebook list area.
+into the notebook list area, creating new entries on the dashboard (and corresponding
+new files in the server's file store).
 
 When starting a notebook server from the command line, you can also open a
 particular notebook directly, bypassing the dashboard, with ``jupyter notebook
 my_notebook.ipynb``. The ``.ipynb`` extension is assumed if no extension is
 given.
 
-When you are inside an open notebook, the `File | Open...` menu option will
+From the dashboard you can open existing notebooks in a new browser window by clicking on their name.
+Clicking on a directory will cause the dashboard to display its contents.
+When viewing an open notebook, the `File | Open...` menu option will
 open the dashboard in a new browser tab, to allow you to open another notebook
 from the notebook directory or to create a new notebook.
 
@@ -124,10 +127,13 @@ from the notebook directory or to create a new notebook.
 Creating a new notebook document
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A new notebook may be created at any time, either from the dashboard, or using
-the `File | New` menu option from within an active notebook. The new notebook
-is created within the same directory and will open in a new browser tab. It
-will also be reflected as a new entry in the notebook list on the dashboard.
+You can create a new notebook at any time, either from the dashboard (as detailed
+above) or using
+the `File | New Notebook` menu option from within an active notebook. You should
+select the programming language to use in the notebook from a submenu, whose
+contents will depend on which language kernels you have installed.
+The new notebook is created within the same directory and will open in a new browser tab.
+This will also create a new entry in the notebook list in the dashboard.
 
 
 Opening notebooks
@@ -150,7 +156,8 @@ This long string is the kernel's ID which is sufficient for getting the
 information necessary to connect to the kernel.  You can also request this
 connection data by running the ``%connect_info`` :ref:`magic
 <magics_explained>`. This will print the same ID information as well as the
-content of the JSON data structure it contains.
+content of the JSON data structure contained in the associated kernel file
+maintained by the server.
 
 You can then, for example, manually start a Qt console connected to the *same*
 kernel from the command line, by passing a portion of the ID::
@@ -175,14 +182,15 @@ cell**.
 **notebook name**: The name of the notebook document is displayed at the top
 of the page, next to the ``IP[y]: Notebook`` logo. This name reflects the name
 of the ``.ipynb`` notebook document file.  Clicking on the notebook name
-brings up a dialog which allows you to rename it. Thus, renaming a notebook
+brings up a dialog which allows you to rename the notebook, which also renames
+the file containing its code. Thus, renaming a notebook
 from "Untitled0" to "My first notebook" in the browser, renames the
 ``Untitled0.ipynb`` file to ``My first notebook.ipynb``.
 
-**menu bar**: The menu bar presents different options that may be used to
+**menu bar**: The menu bar presents different options that you can use to
 manipulate the way the notebook functions.
 
-**toolbar**: The tool bar gives a quick way of performing the most-used
+**toolbar**: The tool bar gives a quick way to perform the most-used
 operations within the notebook, by clicking on an icon.
 
 **code cell**: the default type of cell, read on for an explanation of cells
@@ -192,8 +200,9 @@ operations within the notebook, by clicking on an icon.
     As of notebook version 4.1, the user interface allows for multiple cells to
     be selected.  The ``quick celltype selector``, found in the menubar, will
     display a dash ``-`` when multiple cells are selected to indicate that the
-    type of the cells in the selection might not be unique. The quick selector
-    can still be used to change the type of the selection and will change the
+    type of the cells in the selection might not be unique.
+    In that case the quick selector
+    will change the type of the selection and will change the
     type of all the currently selected cells.
 
 
@@ -202,12 +211,14 @@ Structure of a notebook document
 
 The notebook consists of a sequence of cells.  A cell is a multi-line
 text input field, and its contents can be executed by using
-:kbd:`Shift-Enter`, or by clicking either the "Play" button the toolbar, or
-`Cell | Run` in the menu bar.  The execution behavior of a cell is determined
+:kbd:`Shift-Enter`, or by clicking either the "Run Cell" button (which lloks
+similar to an audio player button) in the toolbar, or by selecting
+`Run` from the `Cell` menu.  The execution behavior of a cell is determined
 the cell's type.  There are four types of cells: **code cells**, **markdown
-cells**, **raw cells** and **heading cells**.  Every cell starts off
-being a **code cell**, but its type can be changed by using a dropdown on the
-toolbar (which will be "Code", initially), or via :ref:`keyboard shortcuts
+cells**, **raw cells** and **heading cells**.
+
+You can change a cell's (which will be "Code", initially), using the cell type
+dropdown on the toolbar or with :ref:`keyboard shortcuts
 <keyboard-shortcuts>`.
 
 For more information on the different things you can do in a notebook,
@@ -221,12 +232,12 @@ highlighting and tab completion. By default, the language associated to a code
 cell is Python, but other languages, such as ``Julia`` and ``R``, can be
 handled using :ref:`cell magic commands <magics_explained>`.
 
-When a code cell is executed, code that it contains is sent to the kernel
-associated with the notebook.  The results that are returned from this
+When a code cell is executed, the code it contains is sent to the kernel
+associated with the notebook and executed.  The results returned from this
 computation  are then displayed in the notebook as the cell's *output*. The
-output is not limited to text, with many other possible forms of output are
+output is not limited to text: many other forms of output are
 also possible, including ``matplotlib`` figures and HTML tables (as used, for
-example, in the ``pandas`` data analysis package). This is known as IPython's
+example, in the ``pandas`` data analysis package). This is known as Jupyter's
 *rich display* capability.
 
 .. seealso::
@@ -236,20 +247,17 @@ example, in the ``pandas`` data analysis package). This is known as IPython's
 Markdown cells
 ~~~~~~~~~~~~~~
 You can document the computational process in a literate way, alternating
-descriptive text with code, using *rich text*. In IPython this is accomplished
-by marking up text with the Markdown language. The corresponding cells are
-called *Markdown cells*. The Markdown language provides a simple way to
-perform this text markup, that is, to specify which parts of the text should
-be emphasized (italics), bold, form lists, etc.
+descriptive text with code, using *rich text*. In notebooks this is accomplished
+by writing text in the Markdown language, which provides a simple way to
+to specify which parts of the text should be emphasized (italics), bold, form lists, etc.
+These cells are known as *Markdown cells*.
 
-
-When a Markdown cell is executed, the Markdown code is converted into
-the corresponding formatted rich text. Markdown allows arbitrary HTML code for
-formatting.
+Executing a Markdown cell displays it as the corresponding formatted rich text.
+Markdown allows you to include arbitrary HTML code for more detailed formatting.
 
 Within Markdown cells, you can also include *mathematics* in a straightforward
-way, using standard LaTeX notation: ``$...$`` for inline mathematics and
-``$$...$$`` for displayed mathematics. When the Markdown cell is executed,
+way, using standard LaTeX notation: ``$...$`` specifies inline mathematics and
+``$$...$$`` gives displayed mathematics. When the Markdown cell is executed,
 the LaTeX portions are automatically rendered in the HTML output as equations
 with high quality typography. This is made possible by MathJax_, which
 supports a `large subset <mathjax_tex>`_ of LaTeX functionality
@@ -257,53 +265,51 @@ supports a `large subset <mathjax_tex>`_ of LaTeX functionality
 .. _mathjax_tex: http://docs.mathjax.org/en/latest/tex.html
 
 Standard mathematics environments defined by LaTeX and AMS-LaTeX (the
-`amsmath` package) also work, such as
-``\begin{equation}...\end{equation}``, and ``\begin{align}...\end{align}``.
-New LaTeX macros may be defined using standard methods,
+`amsmath` package), such as begin{equation}...\end{equation}``, and ``\begin{align}...\end{align}``
+will also be correctly displayed.
+You can define new LaTeX macros using standard methods,
 such as ``\newcommand``, by placing them anywhere *between math delimiters* in
 a Markdown cell. These definitions are then available throughout the rest of
-the IPython session.
+the notebook session.
 
 .. seealso::
 
     `Markdown Cells`_ example notebook
 
+Headings
+~~~~~~~~
+
+To provide structure for your document, you can use markdown
+headings. Markdown headings consist of 1 to 6 hash marks (``#``) followed by a
+space and the title of your section. These headings will be converted
+to a clickable link for a section of the notebook. They are also used as hints
+when exporting to other document formats, like PDF.
+We recommend using only one markdown header per cell, and limiting the cell's
+content to the header text. For flexibility of text format conversion, we
+suggest placing additional text in subsequent Markdown cells.
+
 Raw cells
 ~~~~~~~~~
 
-*Raw* cells provide a place in which you can write *output* directly.
-Raw cells are not evaluated by the notebook.
-When passed through nbconvert_, raw cells arrive in the
-destination format unmodified. For example, this allows you to type full LaTeX
-into a raw cell, which will only be rendered by LaTeX after conversion by
-nbconvert.
-
-Heading cells
-~~~~~~~~~~~~~
-
-If you want to provide structure for your document, you can use markdown
-headings. Markdown headings consist of 1 to 6 hash # signs ``#`` followed by a
-space and the title of your section. The markdown heading will be converted
-to a clickable link for a section of the notebook. It is also used as a hint
-when exporting to other document formats, like PDF.
-We recommend using only one markdown header in a cell and limit the cell's
-content to the header text. For flexibility of text format conversion, we
-suggest placing additional text in the next notebook cell.
+*Raw* cells provide a place in which you can write content directly.
+Raw cells are not evaluated by the notebook when executed.
+When passed through nbconvert_ raw cells appear in the
+destination format unmodified. This allows you to type full LaTeX
+into a raw cell, which will only be rendered by LaTeX if processed after
+conversion by nbconvert, for example.
 
 Basic workflow
 --------------
 
 The normal workflow in a notebook is, then, quite similar to a standard
-IPython session, with the difference that you can edit cells in-place multiple
-times until you obtain the desired results, rather than having to
-rerun separate scripts with the ``%run`` magic command.
-
+IPython session, with the difference that you can edit cells in-place and
+execute them multiple times until you obtain the desired results.
 
 Typically, you will work on a computational problem in pieces, organizing
 related ideas into cells and moving forward once previous parts work
 correctly. This is much more convenient for interactive exploration than
 breaking up a computation into scripts that must be executed together, as was
-previously necessary, especially if parts of them take a long time to run.
+previously necessary, especially if parts of the code take a long time to run.
 
 At certain moments, it may be necessary to interrupt a calculation which is
 taking too long to complete. This may be done with the `Kernel | Interrupt`
@@ -314,8 +320,8 @@ shortcut.
 
 A notebook may be downloaded in either a ``.ipynb`` or ``.py`` file from the
 menu option `File | Download as`. Choosing the ``.py`` option downloads a
-Python ``.py`` script, in which all rich output has been removed and the
-content of markdown cells have been inserted as comments.
+Python ``.py`` script from which all rich output has been removed; the
+content of markdown cells is inserted as comments.
 
 .. seealso::
 
@@ -334,21 +340,17 @@ shortcuts are also available for the most common ones. The essential shortcuts
 to remember are the following:
 
 * :kbd:`Shift-Enter`:  run cell
-    Execute the current cell, show output (if any), and jump to the next cell
+    Execute the current cell, show output (if any), and move to the next cell
     below. If :kbd:`Shift-Enter` is invoked on the last cell, a new code
-    cell will also be created. Note that in the notebook, typing :kbd:`Enter`
+    cell will be created. Note that in the notebook, typing :kbd:`Enter`
     on its own *never* forces execution, but rather just inserts a new line in
     the current cell. :kbd:`Shift-Enter` is equivalent to clicking the
     ``Cell | Run`` menu item.
 
 * :kbd:`Ctrl-Enter`: run cell in-place
-    Execute the current cell as if it were in "terminal mode", where any
-    output is shown, but the cursor *remains* in the current cell. The cell's
-    entire contents are selected after execution, so you can just start typing
-    and only the new input will be in the cell. This is convenient for doing
-    quick experiments in place, or for querying things like filesystem
-    content, without needing to create additional cells that you may not want
-    to be saved in the notebook.
+    Execute the current cell and show any output, but keep the cursor in the current cell.
+    The cursor remains at the same position within the cell, and pressing :kbd:`Enter`
+    lets you continue editing the cell's content.
 
 * :kbd:`Alt-Enter`: run cell, insert below
     Executes the current cell, shows the output, and inserts a *new*
@@ -356,9 +358,14 @@ to remember are the following:
     is thus a shortcut for the sequence :kbd:`Shift-Enter`, :kbd:`Ctrl-m a`.
     (:kbd:`Ctrl-m a` adds a new cell above the current one.)
 
-* :kbd:`Esc` and :kbd:`Enter`: Command mode and edit mode
+* :kbd:`Esc` and :kbd:`Enter`: When the cursor is not displayed with the current
+    cell it is in *command mode*.
     In command mode, you can easily navigate around the notebook using keyboard
-    shortcuts. In edit mode, you can edit text in cells.
+    shortcuts.
+    When the cursor is displayed the cell is in *edit mode*, and you can modify it
+    content to edit text in cells.
+    In edit mode, :kbd:`Esc` forces the cell into command mode, and in command mode :kbd:`Enter`
+    forces it into edit mode (in edit mode, it simply inserts a newline).
 
 For the full list of available shortcuts, click :guilabel:`Help`,
 :guilabel:`Keyboard Shortcuts` in the notebook menus.
@@ -420,9 +427,8 @@ The Jupyter Notebook is officially supported the latest stable version the follo
 * Safari
 * Firefox
 
-The is mainly due to the notebook's usage of WebSockets and the flexible box model.
-
-The following browsers are unsupported:
+Principally due to the notebook's usage of WebSockets and the flexible box model,
+the following browsers are unsupported:
 
 * Safari < 5
 * Firefox < 6
