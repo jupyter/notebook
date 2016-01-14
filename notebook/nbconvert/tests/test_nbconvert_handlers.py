@@ -1,5 +1,4 @@
 # coding: utf-8
-import base64
 import io
 import json
 import os
@@ -16,6 +15,13 @@ from nbformat.v4 import (
 )
 
 from ipython_genutils.testing.decorators import onlyif_cmds_exist
+
+try: #PY3
+    from base64 import encodebytes
+except ImportError: #PY2
+    from base64 import encodestring as encodebytes
+
+
 
 
 class NbconvertAPI(object):
@@ -42,7 +48,7 @@ class NbconvertAPI(object):
     def list_formats(self):
         return self._req('GET', '')
 
-png_green_pixel = base64.encodestring(b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00'
+png_green_pixel = encodebytes(b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00'
 b'\x00\x00\x01\x00\x00x00\x01\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDAT'
 b'\x08\xd7c\x90\xfb\xcf\x00\x00\x02\\\x01\x1e.~d\x87\x00\x00\x00\x00IEND\xaeB`\x82'
 ).decode('ascii')

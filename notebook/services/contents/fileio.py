@@ -5,7 +5,6 @@ Utilities for file-based Contents/Checkpoints managers.
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-import base64
 from contextlib import contextmanager
 import errno
 import io
@@ -24,6 +23,12 @@ from ipython_genutils.py3compat import str_to_unicode
 
 from traitlets.config import Configurable
 from traitlets import Bool
+
+try: #PY3
+    from base64 import encodebytes, decodebytes
+except ImportError: #PY2
+    from base64 import encodestring as encodebytes, decodestring as decodebytes
+
 
 def copy2_safe(src, dst, log=None):
     """copy src to dst
@@ -281,7 +286,7 @@ class FileManagerMixin(Configurable):
                         "%s is not UTF-8 encoded" % os_path,
                         reason='bad format',
                     )
-        return base64.encodestring(bcontent).decode('ascii'), 'base64'
+        return encodebytes(bcontent).decode('ascii'), 'base64'
 
     def _save_file(self, os_path, content, format):
         """Save content of a generic file."""
@@ -295,7 +300,7 @@ class FileManagerMixin(Configurable):
                 bcontent = content.encode('utf8')
             else:
                 b64_bytes = content.encode('ascii')
-                bcontent = base64.decodestring(b64_bytes)
+                bcontent = decodebytes(b64_bytes)
         except Exception as e:
             raise HTTPError(
                 400, u'Encoding error saving %s: %s' % (os_path, e)
