@@ -46,8 +46,9 @@ define([
                 function(e, d) { that.sessions_loaded(d); });
         }
         this.selected = [];
-        // 0 => default sort, 1 => ascending, 2 => descending
+        // 0 => descending, 1 => ascending
         this.datetime_sorted = 0;
+        this.name_sorted = 0;
         this._max_upload_size_mb = 25;
     };
 
@@ -159,16 +160,31 @@ define([
                     $("#button-last-modified i").removeClass("fa-arrow-up");
                     $("#button-last-modified i").addClass("fa-arrow-down");
                    that.datetime_sorted = 1;
-                } else if (that.datetime_sorted == 1) {
+                } else {
                     // Otherwise sort the list in descending order and set
                     // the value of datetime_sorted appropriately
                     that.sort_datetime(2);
                     $("#button-last-modified i").removeClass("fa-arrow-down");
                     $("#button-last-modified i").addClass("fa-arrow-up");
-                    that.datetime_sorted = 2;
-                } else {
-                    $("#button-last-modified i").removeClass("fa-arrow-up");
                     that.datetime_sorted = 0;
+                }
+            });
+
+            $('#button-sort-name').click(function (e) {
+                // If the list is not currently sorted or is sorted in
+                // descending order, then sort it on ascending order
+                if (that.name_sorted == 0) {
+                   that.sort_name(1);
+                    $("#button-sort-name i").removeClass("fa-arrow-up");
+                    $("#button-sort-name i").addClass("fa-arrow-down");
+                   that.name_sorted = 1;
+                } else {
+                    // Otherwise sort the list in descending order and set
+                    // the value of datetime_sorted appropriately
+                    that.sort_name(2);
+                    $("#button-sort-name i").removeClass("fa-arrow-down");
+                    $("#button-sort-name i").addClass("fa-arrow-up");
+                    that.name_sorted = 0;
                 }
             });
         }
@@ -185,6 +201,27 @@ define([
         };
 
         datetime_sort_helper($('#notebook_list'), "div.list_item", 'span.item_modified');
+    };
+
+    NotebookList.prototype.sort_name = function(order) {
+        var name_sort_helper = function(parent, child, selector) {
+            var items = parent.children(child).sort(function(a, b) {
+                var first_name = $(selector, a).text();
+                var second_name = $(selector, b).text();
+                return (function(a, b, order) {
+                    if (a < b) {
+                        return (order == 1) ? -1 : 1;
+                    } else if (a == b) {
+                        return 0;
+                    } else {
+                        return (order == 1) ? 1 : -1;
+                    }
+                })(first_name, second_name, order);
+            });
+            parent.append(items);
+        };
+
+        name_sort_helper($('#notebook_list'), "div.list_item", 'span.item_name');
     };
 
     NotebookList.prototype.handleFilesUpload =  function(event, dropOrForm) {
