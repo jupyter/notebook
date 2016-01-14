@@ -211,7 +211,7 @@ Structure of a notebook document
 
 The notebook consists of a sequence of cells.  A cell is a multi-line
 text input field, and its contents can be executed by using
-:kbd:`Shift-Enter`, or by clicking either the "Run Cell" button (which lloks
+:kbd:`Shift-Enter`, or by clicking either the "Run Cell" button (which looks
 similar to an audio player button) in the toolbar, or by selecting
 `Run` from the `Cell` menu.  The execution behavior of a cell is determined
 the cell's type.  There are four types of cells: **code cells**, **markdown
