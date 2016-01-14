@@ -8,7 +8,6 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-
 
 import json
 import logging
-import time
 from tornado import gen, web
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
@@ -111,8 +110,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         return self.settings.get('iopub_data_rate_limit', None)
 
     @property
-    def limit_poll_interval(self):
-        return self.settings.get('limit_poll_interval', 1.0)
+    def limit_window(self):
+        return self.settings.get('limit_window', 1.0)
 
     def __repr__(self):
         return "%s(%s)" % (self.__class__.__name__, getattr(self, 'kernel_id', 'uninitialized'))
@@ -201,7 +200,11 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         self._iopub_byte_count = 0
         self._iopub_msgs_exceeded = False
         self._iopub_data_exceeded = False
-        self._last_limit_check = time.time()
+        # Queue of (time stamp, delta)
+        # Allows you to specify that the msg or byte counts should be adjusted
+        # by a delta amount at some point in the future.
+        self._queue_msg_count = []
+        self._queue_byte_count = []
 
     @gen.coroutine
     def pre_get(self):
@@ -280,63 +283,73 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         channel = getattr(stream, 'channel', None)
         if channel == 'iopub':
     
-            # If the elapsed time is double the check interval, reset the counts,
-            # lock flags, and reset the timer.
-            elapsed_time = (time.time() - self._last_limit_check)
-            if elapsed_time >= self.limit_poll_interval * 2.0:
-                self._iopub_msg_count = 0
-                self._iopub_byte_count = 0
-                if self._iopub_msgs_exceeded or self._iopub_data_exceeded:
-                    self._iopub_data_exceeded = False
-                    self._iopub_msgs_exceeded = False
-                    self.log.warn("iopub messages resumed")
-                
+            # Remove the counts queued for removal.
+            while len(self._queue_msg_count) > 0:
+                queued = self._queue_msg_count[0]
+                if (IOLoop.current().time() >= queued[0]):
+                    self._iopub_msg_count += queued[1]
+                    del self._queue_msg_count[0]
+                else:
+                    # This part of the queue hasn't be reached yet, so we can
+                    # abort the loop.
+                    break
+
+            while len(self._queue_byte_count) > 0:
+                queued = self._queue_byte_count[0]
+                if (IOLoop.current().time() >= queued[0]):
+                    self._iopub_byte_count += queued[1]
+                    del self._queue_byte_count[0]
+                else:
+                    # This part of the queue hasn't be reached yet, so we can
+                    # abort the loop.
+                    break
+                    
             # Increment the bytes and message count
             self._iopub_msg_count += 1
-            self._iopub_byte_count += sum([len(x) for x in msg_list])
+            byte_count = sum([len(x) for x in msg_list])
+            self._iopub_byte_count += byte_count
             
-            # If the elapsed time is equal to or greater than the limiter
-            # interval, check the limits, set the limit flags, and reset the
+            # Queue a removal of the byte and message count for a time in the 
+            # future, when we are no longer interested in it.
+            self._queue_msg_count.append((IOLoop.current().time() + self.limit_window, -1))
+            self._queue_byte_count.append((IOLoop.current().time() + self.limit_window, -byte_count))
+            
+            # Check the limits, set the limit flags, and reset the
             # message and data counts.
-            if elapsed_time >= self.limit_poll_interval:
-                self._last_limit_check = time.time()
-        
-                msg_rate = float(self._iopub_msg_count) / elapsed_time
-                data_rate = float(self._iopub_byte_count) / elapsed_time
-                self._iopub_msg_count = 0
-                self._iopub_byte_count = 0
-                
-                # Check the msg rate
-                if self.iopub_msg_rate_limit is not None and msg_rate > self.iopub_msg_rate_limit:
-                    if not self._iopub_msgs_exceeded:
-                        self._iopub_msgs_exceeded = True
-                        write_stderr("""iopub message rate exceeded.  The
-                        notebook server will temporarily stop sending iopub
-                        messages to the client in order to avoid crashing it.
-                        To change this limit, set the config variable
-                        `--NotebookApp.iopub_msg_rate_limit`.""")
-                        return
-                else:
-                    if self._iopub_msgs_exceeded:
-                        self._iopub_msgs_exceeded = False
-                        if not self._iopub_data_exceeded:
-                            self.log.warn("iopub messages resumed")
-        
-                # Check the data rate
-                if self.iopub_data_rate_limit is not None and data_rate > self.iopub_data_rate_limit:
+            msg_rate = float(self._iopub_msg_count) / self.limit_window
+            data_rate = float(self._iopub_byte_count) / self.limit_window
+            
+            # Check the msg rate
+            if self.iopub_msg_rate_limit is not None and msg_rate > self.iopub_msg_rate_limit and self.iopub_msg_rate_limit > 0:
+                if not self._iopub_msgs_exceeded:
+                    self._iopub_msgs_exceeded = True
+                    write_stderr("""iopub message rate exceeded.  The
+                    notebook server will temporarily stop sending iopub
+                    messages to the client in order to avoid crashing it.
+                    To change this limit, set the config variable
+                    `--NotebookApp.iopub_msg_rate_limit`.""")
+                    return
+            else:
+                if self._iopub_msgs_exceeded:
+                    self._iopub_msgs_exceeded = False
                     if not self._iopub_data_exceeded:
-                        self._iopub_data_exceeded = True
-                        write_stderr("""iopub data rate exceeded.  The
-                        notebook server will temporarily stop sending iopub
-                        messages to the client in order to avoid crashing it.
-                        To change this limit, set the config variable
-                        `--NotebookApp.iopub_data_rate_limit`.""")
-                        return
-                else:
-                    if self._iopub_data_exceeded:
-                        self._iopub_data_exceeded = False
-                        if not self._iopub_msgs_exceeded:
-                            self.log.warn("iopub messages resumed")
+                        self.log.warn("iopub messages resumed")
+    
+            # Check the data rate
+            if self.iopub_data_rate_limit is not None and data_rate > self.iopub_data_rate_limit and self.iopub_data_rate_limit > 0:
+                if not self._iopub_data_exceeded:
+                    self._iopub_data_exceeded = True
+                    write_stderr("""iopub data rate exceeded.  The
+                    notebook server will temporarily stop sending iopub
+                    messages to the client in order to avoid crashing it.
+                    To change this limit, set the config variable
+                    `--NotebookApp.iopub_data_rate_limit`.""")
+                    return
+            else:
+                if self._iopub_data_exceeded:
+                    self._iopub_data_exceeded = False
+                    if not self._iopub_msgs_exceeded:
+                        self.log.warn("iopub messages resumed")
         
             # If either of the limit flags are set, do not send the message.
             if self._iopub_msgs_exceeded or self._iopub_data_exceeded:

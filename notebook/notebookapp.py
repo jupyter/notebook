@@ -191,7 +191,7 @@ class NotebookWebApplication(web.Application):
             # rate limits
             iopub_msg_rate_limit=ipython_app.iopub_msg_rate_limit,
             iopub_data_rate_limit=ipython_app.iopub_data_rate_limit,
-            limit_poll_interval=ipython_app.limit_poll_interval,
+            limit_window=ipython_app.limit_window,
 
             # authentication
             cookie_secret=ipython_app.cookie_secret,
@@ -790,16 +790,16 @@ class NotebookApp(JupyterApp):
         help="Reraise exceptions encountered loading server extensions?",
     )
 
-    iopub_msg_rate_limit = Float(None, config=True, allow_none=True, help="""(msg/sec)
+    iopub_msg_rate_limit = Float(0, config=True, allow_none=True, help="""(msg/sec)
         Maximum rate at which messages can be sent on iopub before they are
         limited.""")
 
-    iopub_data_rate_limit = Float(None, config=True, allow_none=True, help="""(bytes/sec)
+    iopub_data_rate_limit = Float(0, config=True, allow_none=True, help="""(bytes/sec)
         Maximum rate at which messages can be sent on iopub before they are
         limited.""")
 
-    limit_poll_interval = Float(0.1, config=True, help="""(sec) Interval in
-        which to check the message and data rate limits.""")
+    limit_window = Float(0.1, config=True, help="""(sec) Time window used to 
+        check the message and data rate limits.""")
 
     def parse_command_line(self, argv=None):
         super(NotebookApp, self).parse_command_line(argv)
