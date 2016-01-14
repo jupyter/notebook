@@ -101,9 +101,15 @@ data-terminals-available="{{terminals_available}}"
                 {% endfor %}
                 </ul>
               </div>
-              <div id="last_modified" class="pull-right">
-                  <span class="btn btn-xs btn-default" id="button-last-modified">
+              <div id="last_modified" class="pull-right sort_button">
+                  <span class="btn btn-xs btn-default sort-action" id="button-last-modified">
                       Last Modified
+                      <i class="fa fa-arrow-up"></i>
+                  </span>
+              </div>
+              <div id="sort_name" class="pull-right sort_button">
+                  <span class="btn btn-xs btn-default sort-action" id="button-sort-name">
+                      Name
                       <i class="fa fa-arrow-up"></i>
                   </span>
               </div>
