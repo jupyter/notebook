@@ -798,7 +798,7 @@ class NotebookApp(JupyterApp):
         Maximum rate at which messages can be sent on iopub before they are
         limited.""")
 
-    limit_window = Float(0.1, config=True, help="""(sec) Time window used to 
+    limit_window = Float(1.0, config=True, help="""(sec) Time window used to 
         check the message and data rate limits.""")
 
     def parse_command_line(self, argv=None):
