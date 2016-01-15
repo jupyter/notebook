@@ -268,16 +268,17 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         self.session.send(stream, msg)
         
     def _on_zmq_reply(self, stream, msg_list):
+        idents, fed_msg_list = self.session.feed_identities(msg_list)
         
         def write_stderr(error_message):
-            parent = json.loads(msg_list[-3])
+            self.log.warn(error_message)
+            parent = json.loads(fed_msg_list[2])
             msg = self.session.msg("stream",
                 content={"text": error_message, "name": "stderr"},
                 parent=parent
             )
             msg['channel'] = 'iopub'
             self.write_message(json.dumps(msg, default=date_default))
-            self.log.warn(error_message)
             
         channel = getattr(stream, 'channel', None)
         if channel == 'iopub':
