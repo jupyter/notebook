@@ -70,7 +70,6 @@ define([
 
     TextCell.options_default = {
         cm_config : {
-            extraKeys: {"Tab": "indentMore","Shift-Tab" : "indentLess"},
             mode: 'htmlmixed',
             lineWrapping : true,
         }

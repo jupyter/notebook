@@ -114,9 +114,15 @@ define([
             readOnly: false,
             theme: "default",
             extraKeys: {
-                "Cmd-Right":"goLineRight",
-                "End":"goLineRight",
-                "Cmd-Left":"goLineLeft"
+                "Cmd-Right": "goLineRight",
+                "End": "goLineRight",
+                "Cmd-Left": "goLineLeft",
+                "Tab": "indentMore",
+                "Shift-Tab" : "indentLess",
+                "Cmd-Alt-[" : "indentAuto",
+                "Ctrl-Alt-[" : "indentAuto",
+                "Cmd-/" : "toggleComment",
+                "Ctrl-/" : "toggleComment",
             }
         }
     };
