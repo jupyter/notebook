@@ -159,13 +159,11 @@ define([
 
                 if (that.sort_state.sort_on == 0) {
                     that.sort_list(sort_on, 1);
-                    $(sort_on + " i").removeClass("fa-arrow-up")
-                                    .addClass("fa-arrow-down");
+                    $("#" + sort_on + " i").switchClass("fa-arrow-up", "fa-arrow-down");
                     that.sort_state.sort_on = 1;
                 } else {
                     that.sort_list(sort_on, 2);
-                    $(sort_on + " i").removeClass("fa-arrow-down")
-                                    .addClass("fa-arrow-up");
+                    $("#" + sort_on + " i").switchClass("fa-arrow-down", "fa-arrow-up");
                     that.sort_state.sort_on = 0;
                 }
             });
