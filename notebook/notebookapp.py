@@ -790,11 +790,11 @@ class NotebookApp(JupyterApp):
         help="Reraise exceptions encountered loading server extensions?",
     )
 
-    iopub_msg_rate_limit = Float(0, config=True, allow_none=True, help="""(msg/sec)
+    iopub_msg_rate_limit = Float(0, config=True, help="""(msg/sec)
         Maximum rate at which messages can be sent on iopub before they are
         limited.""")
 
-    iopub_data_rate_limit = Float(0, config=True, allow_none=True, help="""(bytes/sec)
+    iopub_data_rate_limit = Float(0, config=True, help="""(bytes/sec)
         Maximum rate at which messages can be sent on iopub before they are
         limited.""")
 
