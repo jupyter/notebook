@@ -269,7 +269,6 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         
     def _on_zmq_reply(self, stream, msg_list):
         idents, fed_msg_list = self.session.feed_identities(msg_list)
-        
         def write_stderr(error_message):
             self.log.warn(error_message)
             parent = json.loads(fed_msg_list[2])
@@ -281,7 +280,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             self.write_message(json.dumps(msg, default=date_default))
             
         channel = getattr(stream, 'channel', None)
-        if channel == 'iopub':
+        msg_type = json.loads(fed_msg_list[1])['msg_type']
+        if channel == 'iopub' and msg_type not in ['status', 'comm_info_reply', 'kernel_info_reply', 'execute_input']:
     
             # Remove the counts queued for removal.
             now = IOLoop.current().time()
