@@ -31,6 +31,9 @@ matrix:
           env: GROUP=python
         - python: 3.4
           env: GROUP=python
+    allow_failures:
+        - python: 3.5
+          env: GROUP=python
 
 after_success:
     - coveralls
