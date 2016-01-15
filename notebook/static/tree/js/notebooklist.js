@@ -47,8 +47,10 @@ define([
         }
         this.selected = [];
         // 0 => descending, 1 => ascending
-        this.datetime_sorted = 0;
-        this.name_sorted = 0;
+        this.sort_state = {
+            'last-modified': 0,
+            'sort-name': 0
+        };
         this._max_upload_size_mb = 25;
     };
 
@@ -152,41 +154,32 @@ define([
                 }
             });
 
-            $('#button-last-modified').click(function (e) {
-                // If the list is not currently sorted or is sorted in
-                // descending order, then sort it on ascending order
-                if (that.datetime_sorted == 0) {
-                   that.sort_datetime(1);
-                    $("#button-last-modified i").removeClass("fa-arrow-up");
-                    $("#button-last-modified i").addClass("fa-arrow-down");
-                   that.datetime_sorted = 1;
-                } else {
-                    // Otherwise sort the list in descending order and set
-                    // the value of datetime_sorted appropriately
-                    that.sort_datetime(2);
-                    $("#button-last-modified i").removeClass("fa-arrow-down");
-                    $("#button-last-modified i").addClass("fa-arrow-up");
-                    that.datetime_sorted = 0;
-                }
-            });
+            $('.sort-action').click(function(e) {
+                var sort_on = e.target.id;
 
-            $('#button-sort-name').click(function (e) {
-                // If the list is not currently sorted or is sorted in
-                // descending order, then sort it on ascending order
-                if (that.name_sorted == 0) {
-                   that.sort_name(1);
-                    $("#button-sort-name i").removeClass("fa-arrow-up");
-                    $("#button-sort-name i").addClass("fa-arrow-down");
-                   that.name_sorted = 1;
+                if (that.sort_state.sort_on == 0) {
+                    that.sort_list(sort_on, 1);
+                    $(sort_on + " i").removeClass("fa-arrow-up");
+                    $(sort_on + " i").addClass("fa-arrow-down");
+                    that.sort_state.sort_on = 1;
                 } else {
-                    // Otherwise sort the list in descending order and set
-                    // the value of datetime_sorted appropriately
-                    that.sort_name(2);
-                    $("#button-sort-name i").removeClass("fa-arrow-down");
-                    $("#button-sort-name i").addClass("fa-arrow-up");
-                    that.name_sorted = 0;
+                    that.sort_list(sort_on, 2);
+                    $(sort_on + " i").removeClass("fa-arrow-down");
+                    $(sort_on + " i").addClass("fa-arrow-up");
+                    that.sort_state.sort_on = 0;
                 }
             });
+        }
+    };
+
+    NotebookList.prototype.sort_list = function(id, order) {
+        var that = this;
+        if (id == 'last-modified') {
+            that.sort_datetime(order);
+        } else if (id == 'sort-name') {
+            that.sort_name(order);
+        } else {
+            console.log('id provided to sort_list function is invalid.');
         }
     };
 
