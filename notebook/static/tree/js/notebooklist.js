@@ -66,6 +66,8 @@ define([
     NotebookList.prototype.bind_events = function () {
         var that = this;
         $('#refresh_' + this.element_name + '_list').click(function () {
+            $("#sort-name i").switchClass("fa-arrow-down", "fa-arrow-up");
+            $("#last-modified i").switchClass("fa-arrow-down", "fa-arrow-up");
             that.load_sessions();
         });
         this.element.bind('dragover', function () {
