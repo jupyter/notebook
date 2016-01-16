@@ -46,6 +46,11 @@ define([
                 function(e, d) { that.sessions_loaded(d); });
         }
         this.selected = [];
+        // 0 => descending, 1 => ascending
+        this.sort_state = {
+            'last-modified': 0,
+            'sort-name': 0
+        };
         this._max_upload_size_mb = 25;
     };
 
@@ -61,6 +66,8 @@ define([
     NotebookList.prototype.bind_events = function () {
         var that = this;
         $('#refresh_' + this.element_name + '_list').click(function () {
+            $("#sort-name i").switchClass("fa-arrow-down", "fa-arrow-up");
+            $("#last-modified i").switchClass("fa-arrow-down", "fa-arrow-up");
             that.load_sessions();
         });
         this.element.bind('dragover', function () {
@@ -148,7 +155,66 @@ define([
                     }
                 }
             });
+
+            $('.sort-action').click(function(e) {
+                var sort_on = e.target.id;
+
+                if (that.sort_state.sort_on == 0) {
+                    that.sort_list(sort_on, 1);
+                    $("#" + sort_on + " i").switchClass("fa-arrow-up", "fa-arrow-down");
+                    that.sort_state.sort_on = 1;
+                } else {
+                    that.sort_list(sort_on, 2);
+                    $("#" + sort_on + " i").switchClass("fa-arrow-down", "fa-arrow-up");
+                    that.sort_state.sort_on = 0;
+                }
+            });
         }
+    };
+
+    NotebookList.prototype.sort_list = function(id, order) {
+        var that = this;
+        if (id == 'last-modified') {
+            that.sort_datetime(order);
+        } else if (id == 'sort-name') {
+            that.sort_name(order);
+        } else {
+            console.log('id provided to sort_list function is invalid.');
+        }
+    };
+
+    NotebookList.prototype.sort_datetime = function(order) {
+        var datetime_sort_helper = function(parent, child, selector) {
+            var items = parent.children(child).sort(function(a, b) {
+                var first_date = $(selector, a).attr("title");
+                var second_date = $(selector, b).attr("title");
+                return utils.datetime_sort_helper(first_date, second_date, order);
+            });
+            parent.append(items);
+        };
+
+        datetime_sort_helper($('#notebook_list'), "div.list_item", 'span.item_modified');
+    };
+
+    NotebookList.prototype.sort_name = function(order) {
+        var name_sort_helper = function(parent, child, selector) {
+            var items = parent.children(child).sort(function(a, b) {
+                var first_name = $(selector, a).text();
+                var second_name = $(selector, b).text();
+                return (function(a, b, order) {
+                    if (a < b) {
+                        return (order == 1) ? -1 : 1;
+                    } else if (a == b) {
+                        return 0;
+                    } else {
+                        return (order == 1) ? 1 : -1;
+                    }
+                })(first_name, second_name, order);
+            });
+            parent.append(items);
+        };
+
+        name_sort_helper($('#notebook_list'), "div.list_item", 'span.item_name');
     };
 
     NotebookList.prototype.handleFilesUpload =  function(event, dropOrForm) {
@@ -369,6 +435,11 @@ define([
         $("<span/>")
             .addClass("item_name")
             .appendTo(link);
+
+        $("<span/>")
+            .addClass("item_modified")
+            .addClass("pull-right")
+            .appendTo(item);
         
         if (selectable === false) {
             checkbox.css('visibility', 'hidden');
@@ -541,11 +612,13 @@ define([
 
     NotebookList.prototype.add_link = function (model, item) {
         var path = model.path,
-            name = model.name;
+            name = model.name,
+            modified = model.last_modified;
         var running = (model.type === 'notebook' && this.sessions[path] !== undefined);
 
         item.data('name', name);
         item.data('path', path);
+        item.data('modified', modified);
         item.data('type', model.type);
         item.find(".item_name").text(name);
         var icon = NotebookList.icons[model.type];
@@ -577,6 +650,10 @@ define([
         if (model.type !== "directory") {
             link.attr('target',IPython._target);
         }
+
+        // Add in the date that the file was last modified
+        item.find(".item_modified").text(utils.format_datetime(modified));
+        item.find(".item_modified").attr("title", moment(modified).format("YYYY-MM-DD HH:mm"));
     };
 
 

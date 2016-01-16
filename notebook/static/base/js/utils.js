@@ -824,7 +824,22 @@ define([
             return time.milliseconds.h;
         }
     };
-    
+
+    var format_datetime = function(date) {
+        var text = moment(date).fromNow();
+        return text === 'a few seconds ago' ? 'seconds ago' : text;
+    }
+
+    var datetime_sort_helper = function(a, b, order) {
+        if (moment(a).isBefore(moment(b))) {
+            return (order == 1) ? -1 : 1;
+        } else if (moment(a).isSame(moment(b))) {
+            return 0;
+        } else {
+            return (order == 1) ? 1 : -1;
+        }
+    }
+
     var utils = {
         load_extension: load_extension,
         load_extensions: load_extensions,
@@ -864,6 +879,8 @@ define([
         reject: reject,
         typeset: typeset,
         time: time,
+        format_datetime: format_datetime,
+        datetime_sort_helper: datetime_sort_helper,
         _ansispan:_ansispan
     };
 
