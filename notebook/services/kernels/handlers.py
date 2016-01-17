@@ -281,8 +281,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             
         channel = getattr(stream, 'channel', None)
         msg_type = json.loads(fed_msg_list[1])['msg_type']
-        if channel == 'iopub' and msg_type not in ['status', 'comm_info_reply', 'kernel_info_reply', 'execute_input']:
-    
+        if channel == 'iopub' and msg_type not in {'status', 'comm_open', 'execute_input'}:
+            
             # Remove the counts queued for removal.
             now = IOLoop.current().time()
             while len(self._iopub_window_byte_queue) > 0:
