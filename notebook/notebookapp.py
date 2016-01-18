@@ -191,7 +191,7 @@ class NotebookWebApplication(web.Application):
             # rate limits
             iopub_msg_rate_limit=ipython_app.iopub_msg_rate_limit,
             iopub_data_rate_limit=ipython_app.iopub_data_rate_limit,
-            limit_window=ipython_app.limit_window,
+            rate_limit_window=ipython_app.rate_limit_window,
 
             # authentication
             cookie_secret=ipython_app.cookie_secret,
@@ -798,7 +798,7 @@ class NotebookApp(JupyterApp):
         Maximum rate at which messages can be sent on iopub before they are
         limited.""")
 
-    limit_window = Float(1.0, config=True, help="""(sec) Time window used to 
+    rate_limit_window = Float(1.0, config=True, help="""(sec) Time window used to 
         check the message and data rate limits.""")
 
     def parse_command_line(self, argv=None):

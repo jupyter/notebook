@@ -110,8 +110,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         return self.settings.get('iopub_data_rate_limit', None)
 
     @property
-    def limit_window(self):
-        return self.settings.get('limit_window', 1.0)
+    def rate_limit_window(self):
+        return self.settings.get('rate_limit_window', 1.0)
 
     def __repr__(self):
         return "%s(%s)" % (self.__class__.__name__, getattr(self, 'kernel_id', 'uninitialized'))
@@ -303,12 +303,12 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             
             # Queue a removal of the byte and message count for a time in the 
             # future, when we are no longer interested in it.
-            self._iopub_window_byte_queue.append((now + self.limit_window, byte_count))
+            self._iopub_window_byte_queue.append((now + self.rate_limit_window, byte_count))
             
             # Check the limits, set the limit flags, and reset the
             # message and data counts.
-            msg_rate = float(self._iopub_window_msg_count) / self.limit_window
-            data_rate = float(self._iopub_window_byte_count) / self.limit_window
+            msg_rate = float(self._iopub_window_msg_count) / self.rate_limit_window
+            data_rate = float(self._iopub_window_byte_count) / self.rate_limit_window
             
             # Check the msg rate
             if self.iopub_msg_rate_limit is not None and msg_rate > self.iopub_msg_rate_limit and self.iopub_msg_rate_limit > 0:
