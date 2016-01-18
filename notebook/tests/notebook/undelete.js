@@ -47,12 +47,30 @@ casper.notebook_test(function () {
     this.trigger_keydown('esc');
     this.trigger_keydown('d', 'd');
     assert_cells("delete cell 1", [a, c, d], 1);
+    
+    // Delete cell 1 (2)
+    this.select_cell(1);
+    this.trigger_keydown('esc');
+    this.trigger_keydown('d', 'd');
+    assert_cells("delete cell 1 (2)", [a, d], 1);
+
+    // Undelete cell 2
+    this.evaluate(function () {
+        IPython.notebook.undelete_cell();
+    });
+    assert_cells("undelete cell 1 (2)", [a, c, d], 2);
 
     // Undelete cell 1
     this.evaluate(function () {
         IPython.notebook.undelete_cell();
     });
-    assert_cells("undelete cell 1", [a, b, c, d], 2);
+    assert_cells("undelete cell 1", [a, b, c, d], 3);
+
+    // Undelete cell (none)
+    this.evaluate(function () {
+        IPython.notebook.undelete_cell();
+    });
+    assert_cells("undelete cell (none)", [a, b, c, d], 3);
 
     // Merge cells 1-2
     var bc = b + "\n\n" + c;
