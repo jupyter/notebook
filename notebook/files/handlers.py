@@ -16,7 +16,11 @@ class FilesHandler(IPythonHandler):
     """serve files via ContentsManager"""
 
     @web.authenticated
-    def get(self, path):
+    def head(self, path):
+        self.get(path, include_body=False)
+
+    @web.authenticated
+    def get(self, path, include_body=True):
         cm = self.contents_manager
         if cm.is_hidden(path):
             self.log.info("Refusing to serve hidden file, via 404 Error")
@@ -28,7 +32,7 @@ class FilesHandler(IPythonHandler):
         else:
             name = path
         
-        model = cm.get(path, type='file')
+        model = cm.get(path, type='file', content=include_body)
         
         if self.get_argument("download", False):
             self.set_header('Content-Disposition','attachment; filename="%s"' % name)
@@ -45,15 +49,16 @@ class FilesHandler(IPythonHandler):
                     self.set_header('Content-Type', 'application/octet-stream')
                 else:
                     self.set_header('Content-Type', 'text/plain')
-        
-        if model['format'] == 'base64':
-            b64_bytes = model['content'].encode('ascii')
-            self.write(base64.decodestring(b64_bytes))
-        elif model['format'] == 'json':
-            self.write(json.dumps(model['content']))
-        else:
-            self.write(model['content'])
-        self.flush()
+
+        if include_body:
+            if model['format'] == 'base64':
+                b64_bytes = model['content'].encode('ascii')
+                self.write(base64.decodestring(b64_bytes))
+            elif model['format'] == 'json':
+                self.write(json.dumps(model['content']))
+            else:
+                self.write(model['content'])
+            self.flush()
 
 default_handlers = [
     (r"/files/(.*)", FilesHandler),
