@@ -843,11 +843,8 @@ define([
                     }
                 });
                 input.focus();
-                if (input.val().indexOf(".") > 0) {
-                    input[0].setSelectionRange(0,input.val().indexOf("."));
-                } else {
-                    input.select();
-                }
+                // Highlight the current path in the input box.
+                input.select();
             }
         });
     };
