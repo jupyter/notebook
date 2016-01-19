@@ -70,9 +70,9 @@ Furthermore, any  ``.ipynb`` notebook document available from a public
 URL can be shared via the `Jupyter Notebook Viewer <nbviewer>`_ (nbviewer_).
 This service loads the notebook document from the URL and renders it as a
 static web page.  The results may thus be shared with a colleague, or as a
-public blog post, without other users needing to install the Jupyter notebook 
+public blog post, without other users needing to install the Jupyter notebook
 themselves.  In effect, nbviewer_ is simply nbconvert_ as
-a web service, so you can do your own static conversions with nbconvert, 
+a web service, so you can do your own static conversions with nbconvert,
 without relying on nbviewer.
 
 
@@ -125,9 +125,12 @@ Creating a new notebook document
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A new notebook may be created at any time, either from the dashboard, or using
-the `File | New` menu option from within an active notebook. The new notebook
-is created within the same directory and will open in a new browser tab. It
-will also be reflected as a new entry in the notebook list on the dashboard.
+the :menuselection:`File --> New` menu option from within an active notebook.
+The new notebook is created within the same directory and will open in a new
+browser tab. It will also be reflected as a new entry in the notebook list on
+the dashboard.
+
+.. image:: _static/images/new-notebook.gif
 
 
 Opening notebooks
@@ -187,7 +190,7 @@ operations within the notebook, by clicking on an icon.
 
 **code cell**: the default type of cell, read on for an explanation of cells
 
-.. note:: 
+.. note::
 
     As of notebook version 4.1, the user interface allows for multiple cells to
     be selected.  The ``quick celltype selector``, found in the menubar, will
@@ -365,9 +368,9 @@ For the full list of available shortcuts, click :guilabel:`Help`,
 
 Plotting
 --------
-One major feature of the Jupyter notebook is the ability to display plots that 
-are the output of running code cells. The IPython kernel is designed to work 
-seamlessly with the matplotlib_ plotting library to provide this functionality.  
+One major feature of the Jupyter notebook is the ability to display plots that
+are the output of running code cells. The IPython kernel is designed to work
+seamlessly with the matplotlib_ plotting library to provide this functionality.
 Specific plotting library integration is a feature of the kernel.
 
 Installing kernels
