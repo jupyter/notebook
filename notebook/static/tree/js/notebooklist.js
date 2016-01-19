@@ -785,15 +785,16 @@ define([
     };
 
     NotebookList.prototype.move_selected = function() {
+        var that = this;
+
         // TODO(nhdaly): Support moving multiple items at once.
-        if (this.selected.length !== 1){
+        if (that.selected.length !== 1){
             return;
         }
 
-        var that = this;
-        var item_path = this.selected[0].path;
-        var item_name = this.selected[0].name;
-        var item_type = this.selected[0].type;
+        var item_path = that.selected[0].path;
+        var item_name = that.selected[0].name;
+        var item_type = that.selected[0].type;
 
         // Open a dialog to enter the new path, with current path as default.
         var input = $('<input/>').attr('type','text').attr('size','25').addClass('form-control')
@@ -808,6 +809,7 @@ define([
             title : "Move "+ item_type,
             body : dialog_body,
             buttons : {
+                Cancel : {},
                 OK : {
                     class: "btn-primary",
                     click: function() {
@@ -830,8 +832,7 @@ define([
                             console.warn('Error durring moving :', e);
                         });
                     }
-                },
-                Cancel : {}
+                }
             },
             open : function () {
                 // Upon ENTER, click the OK button.
