@@ -93,13 +93,11 @@ RUN BUILD_DEPS="nodejs-legacy npm" && \
         -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS
 
 # Run tests.
-RUN pip2 install --no-cache-dir mock nose requests testpath && \
-    pip3 install --no-cache-dir nose requests testpath && \
+RUN pip3 install --no-cache-dir notebook[test] && \
     \
-    iptest2 && iptest3 && \
+    nosetests notebook && \
     \
-    pip2 uninstall -y funcsigs mock nose pbr requests six testpath && \
-    pip3 uninstall -y nose requests testpath && \
+    pip3 uninstall -y nose requests && \
     rm -rf /root/.cache
 
 # Add a notebook profile.
