@@ -60,7 +60,6 @@ RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
     rm get-pip.py && \
     pip2 --no-cache-dir install requests[security] && \
     pip3 --no-cache-dir install requests[security] && \
-    rm get-pip.py && \
     rm -rf /root/.cache
 
 # Install some dependencies.
@@ -94,12 +93,7 @@ RUN BUILD_DEPS="nodejs-legacy npm" && \
         -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS
 
 # Run tests.
-RUN pip3 install --no-cache-dir notebook[test] && \
-    \
-    nosetests notebook && \
-    \
-    pip3 uninstall -y nose requests && \
-    rm -rf /root/.cache
+RUN pip3 install --no-cache-dir notebook[test] && nosetests notebook
 
 # Add a notebook profile.
 RUN mkdir -p -m 700 /root/.jupyter/ && \
