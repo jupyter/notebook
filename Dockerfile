@@ -79,7 +79,8 @@ RUN BUILD_DEPS="nodejs-legacy npm" && \
     apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -yq $BUILD_DEPS && \
     \
-    pip3 install --no-cache-dir --pre -e /usr/src/jupyter-notebook && \
+    pip3 install --no-cache-dir /usr/src/jupyter-notebook && \
+    pip3 install ipywidgets && \
     \
     npm cache clean && \
     apt-get clean && \
