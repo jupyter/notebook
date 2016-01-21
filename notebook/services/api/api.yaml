@@ -14,7 +14,7 @@ consumes:
   - application/json
 parameters:
   kernel:
-    name: kernel
+    name: kernel_id
     required: true
     in: path
     description: kernel uuid
@@ -38,6 +38,12 @@ parameters:
     required: true
     in: path
     description: Checkpoint id for a file
+    type: string
+  section_name:
+    name: section_name
+    required: true
+    in: path
+    description: Name of config section
     type: string
 
 paths:
@@ -301,6 +307,9 @@ paths:
   /contents/{path}/checkpoints/{checkpoint_id}:
     post:
       summary: Restore a file to a particular checkpointed state
+      parameters:
+        - $ref: "#/parameters/path"
+        - $ref: "#/parameters/checkpoint_id"
       tags:
         - contents
       responses:
@@ -319,6 +328,9 @@ paths:
                 description: Explanation of error reason
     delete:
       summary: Delete a checkpoint
+      parameters:
+        - $ref: "#/parameters/path"
+        - $ref: "#/parameters/checkpoint_id"
       tags:
         - contents
       responses:
@@ -530,6 +542,8 @@ paths:
   /config/{section_name}:
     get:
       summary: Get a configuration section by name
+      parameters:
+        - $ref: "#/parameters/section_name"
       tags:
         - config
       responses:
@@ -542,6 +556,7 @@ paths:
       tags:
         - config
       parameters:
+        - $ref: "#/parameters/section_name"
         - name: configuration
           in: body
           schema:
@@ -708,6 +723,3 @@ definitions:
         type: string
         description: Last modified timestamp
         format: dateTime
-  Config:
-    description: A configuration object.
-    type: object
