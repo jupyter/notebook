@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: Jupyter Notebook API
   description: Notebook API
-  version: "4"
+  version: "5"
   contact:
     name: Jupyter Project
     url: jupyter.org
@@ -33,6 +33,12 @@ parameters:
     in: path
     description: file path
     type: string
+  checkpoint_id:
+    name: checkpoint_id
+    required: true
+    in: path
+    description: Checkpoint id for a file
+    type: string
 
 paths:
   /contents/{path}:
@@ -40,7 +46,7 @@ paths:
       - $ref: '#/parameters/path'
     get:
       summary: Get contents of file or directory
-      description: A client can optionally specify a type and/or format argument via URL parameter. When given, the Contents service shall return a model in the requested type and/or format. If the request cannot be satisfied, e.g. type=text is requested, but the file is binary, then the request shall fail with 400 and have a JSON response containing a 'reason' field, with the value 'bad format' or 'bad type', depending on what was requested.
+      description: "A client can optionally specify a type and/or format argument via URL parameter. When given, the Contents service shall return a model in the requested type and/or format. If the request cannot be satisfied, e.g. type=text is requested, but the file is binary, then the request shall fail with 400 and have a JSON response containing a 'reason' field, with the value 'bad format' or 'bad type', depending on what was requested."
       tags:
         - contents
       parameters:
@@ -53,14 +59,14 @@ paths:
             - directory
         - name: format
           in: query
-          description: How file content should be returned ('text', 'base64')
+          description: "How file content should be returned ('text', 'base64')"
           type: string
           enum:
             - text
             - base64
         - name: content
           in: query
-          description: return content (0 for no content, 1 for return content)
+          description: "Return content (0 for no content, 1 for return content)"
           type: integer
       responses:
         404:
@@ -77,11 +83,8 @@ paths:
                 type: string
                 description: Explanation of error reason
         200:
-          description: Contents of file or directory.
+          description: Contents of file or directory
           headers:
-            Location:
-              description: Path for file
-              type: string
             Last-Modified:
               description: Last modified date for file
               type: string
@@ -90,6 +93,237 @@ paths:
             $ref: '#/definitions/Contents'
         500:
           description: Model key error
+    post:
+      summary: Create a new file in the specified path
+      description: "A POST to /api/contents/path creates a New untitled, empty file or directory. A POST to /api/contents/path with body {'copy_from': '/path/to/OtherNotebook.ipynb'} creates a new copy of OtherNotebook in path."
+      tags:
+        - contents
+      parameters:
+        - name: model
+          in: body
+          description: Path of file to copy
+          schema:
+            type: object
+            properties:
+              copy_from:
+                type: string
+              ext:
+                type: string
+              type:
+                type: string
+      responses:
+        201:
+          description: File created
+          headers:
+            Location:
+              description: URL for the new file
+              type: string
+              format: url
+          schema:
+            $ref: '#/definitions/Contents'
+        404:
+          description: No item found
+        400:
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Error condition
+              reason:
+                type: string
+                description: Explanation of error reason
+    patch:
+      summary: Rename a file or directory without re-uploading content
+      tags:
+        - contents
+      parameters:
+        - name: path
+          in: body
+          required: true
+          description: New path for file or directory.
+          schema:
+            type: object
+            properties:
+              path:
+                type: string
+                format: path
+                description: New path for file or directory
+      responses:
+        200:
+          description: Path updated
+          headers:
+            Location:
+              description: Updated URL for the file or directory
+              type: string
+              format: url
+          schema:
+            $ref: '#/definitions/Contents'
+        400:
+          description: No data provided
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Error condition
+              reason:
+                type: string
+                description: Explanation of error reason
+    put:
+      summary: Save or upload file.
+      description: "Saves the file in the location specified by name and path.  PUT is very similar to POST, but the requester specifies the name, whereas with POST, the server picks the name."
+      tags:
+        - contents
+      parameters:
+        - name: model
+          in: body
+          description: New path for file or directory
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The new filename if changed
+              path:
+                type: string
+                description: New path for file or directory
+              type:
+                type: string
+                description: Path dtype ('notebook', 'file', 'directory')
+              format:
+                type: string
+                description: File format ('json', 'text', 'base64')
+              content:
+                type: string
+                description: The actual body of the document excluding directory type
+      responses:
+        200:
+          description: File saved
+          headers:
+            Location:
+              description: Updated URL for the file or directory
+              type: string
+              format: url
+          schema:
+            $ref: '#/definitions/Contents'
+        201:
+          description: Path created
+          headers:
+            Location:
+              description: URL for the file or directory
+              type: string
+              format: url
+          schema:
+            $ref: '#/definitions/Contents'
+        400:
+          description: No data provided
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Error condition
+              reason:
+                type: string
+                description: Explanation of error reason
+    delete:
+      summary: Delete a file in the given path
+      tags:
+        - contents
+      responses:
+        204:
+          description: File deleted
+          headers:
+            Location:
+              description: URL for the removed file
+              type: string
+              format: url
+  /contents/{path}/checkpoints:
+    parameters:
+      - $ref: '#/parameters/path'
+    get:
+      summary: Get a list of checkpoints for a file
+      description: List checkpoints for a given file. There will typically be zero or one results.
+      tags:
+        - contents
+      responses:
+        404:
+          description: No item found
+        400:
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Error condition
+              reason:
+                type: string
+                description: Explanation of error reason
+        200:
+          description: List of checkpoints for a file
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Checkpoints'
+        500:
+          description: Model key error
+    post:
+      summary: Create a new checkpoint for a file
+      description: "Create a new checkpoint with the current state of a file. With the default FileContentsManager, only one checkpoint is supported, so creating new checkpoints clobbers existing ones."
+      tags:
+        - contents
+      responses:
+        201:
+          description: Checkpoint created
+          headers:
+            Location:
+              description: URL for the checkpoint
+              type: string
+              format: url
+          schema:
+            $ref: '#/definitions/Checkpoints'
+        404:
+          description: No item found
+        400:
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Error condition
+              reason:
+                type: string
+                description: Explanation of error reason
+  /contents/{path}/checkpoints/{checkpoint_id}:
+    post:
+      summary: Restore a file to a particular checkpointed state
+      tags:
+        - contents
+      responses:
+        204:
+          description: Checkpoint created
+        400:
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Error condition
+              reason:
+                type: string
+                description: Explanation of error reason
+    delete:
+      summary: Delete a checkpoint
+      tags:
+        - contents
+      responses:
+        204:
+          description: Checkpoint deleted
   /sessions/{session}:
     parameters:
       - $ref: '#/parameters/session'
@@ -103,7 +337,7 @@ paths:
           schema:
             $ref: '#/definitions/Session'
     patch:
-      summary: This can be used to rename the notebook, or move it to a new directory.
+      summary: "This can be used to rename the notebook, or move it to a new directory."
       tags:
         - sessions
       parameters:
@@ -135,7 +369,7 @@ paths:
         204:
           description: Session (and kernel) were deleted
         410:
-          description: Kernel was deleted before the session, and the session was *not* deleted (TODO - check to make sure session wasn't deleted)
+          description: "Kernel was deleted before the session, and the session was *not* deleted (TODO - check to make sure session wasn't deleted)"
   /sessions:
     get:
       summary: List available sessions
@@ -149,7 +383,7 @@ paths:
             items:
               $ref: '#/definitions/Session'
     post:
-      summary: Create a new session, or return an existing session if a session for the notebook path already exists
+      summary: "Create a new session, or return an existing session if a session for the notebook path already exists"
       tags:
         - sessions
       parameters:
@@ -171,7 +405,7 @@ paths:
                 properties:
                   name:
                     type: string
-                    description: Kernel spec name, defaults to default kernel spec
+                    description: "Kernel spec name, defaults to default kernel spec"
       responses:
         201:
           description: Session created or returned
@@ -221,12 +455,14 @@ paths:
       responses:
         201:
           description: Kernel started
+          schema:
+            $ref: '#/definitions/Kernel'
           headers:
             Location:
-              description: URL for kernel commands
+              description: Model for started kernel
               type: string
               format: url
-  /kernels/{kernel}:
+  /kernels/{kernel_id}:
     parameters:
       - $ref: '#/parameters/kernel'
     get:
@@ -245,7 +481,7 @@ paths:
       responses:
         204:
           description: Kernel deleted
-  /kernels/{kernel}/interrupt:
+  /kernels/{kernel_id}/interrupt:
     parameters:
       - $ref: '#/parameters/kernel'
     post:
@@ -255,7 +491,7 @@ paths:
       responses:
         204:
           description: Kernel interrupted
-  /kernels/{kernel}/restart:
+  /kernels/{kernel_id}/restart:
     parameters:
       - $ref: '#/parameters/kernel'
     post:
@@ -275,7 +511,7 @@ paths:
 
   /kernelspecs:
     get:
-      summary: List kernel specs
+      summary: Get kernel specs
       tags:
         - kernelspecs
       responses:
@@ -288,42 +524,33 @@ paths:
                 type: string
                 description: Default kernel name
               kernelspecs:
-                type: array
-                items:
+                type: object
+                additionalProperties:
                   $ref: '#/definitions/KernelSpec'
-  /kernelspecs/{kernel}:
-    parameters:
-      - $ref: '#/parameters/kernel'
+  /config/{section_name}:
     get:
-      summary: Kernel information
+      summary: Get a configuration section by name
       tags:
-        - kernelspecs
+        - config
       responses:
         200:
-          description: The contents of kernel.json
+          description: Configuration object
           schema:
-            $ref: '#/definitions/KernelSpec'
-        404:
-          description: Kernel spec not found
-  /kernelspecs/{kernel}/{filename}:
-    get:
-      summary: Retrieve a file from the kernel directory
+            type: object
+    patch:
+      summary: Update a configuration section by name
       tags:
-        - kernelspecs
+        - config
       parameters:
-        - name: kernel
-          in: path
-          description: Kernel uuid
-          type: string
-          required: true
-        - name: filename
-          in: path
-          description: filename
-          type: string
-          required: true
+        - name: configuration
+          in: body
+          schema:
+            type: object
       responses:
         200:
-          description: file
+          description: Configuration object
+          schema:
+            type: object
 
 definitions:
   KernelSpec:
@@ -362,12 +589,12 @@ definitions:
         description: The programming language which this kernel runs. This will be stored in notebook metadata.
       argv:
         type: array
-        description: A list of command line arguments used to start the kernel. The text `{connection_file}` in any argument will be replaced with the path to the connection file.
+        description: "A list of command line arguments used to start the kernel. The text `{connection_file}` in any argument will be replaced with the path to the connection file."
         items:
           type: string
       display_name:
         type: string
-        description: The kernel's name as it should be displayed in the UI. Unlike the kernel name used in the API, this can contain arbitrary unicode characters.
+        description: "The kernel's name as it should be displayed in the UI. Unlike the kernel name used in the API, this can contain arbitrary unicode characters."
       codemirror_mode:
         type: string
         description: Codemirror mode.  Can be a string *or* an valid Codemirror mode object.  This defaults to the string from the `language` property.
@@ -421,7 +648,7 @@ definitions:
       kernel:
         $ref: '#/definitions/Kernel'
   Contents:
-    description: A contents object.  The content and format keys may be null if content is not contained.  If type is 'file', then the mimetype will be null.
+    description: "A contents object.  The content and format keys may be null if content is not contained.  If type is 'file', then the mimetype will be null."
     type: object
     required:
       - type
@@ -436,7 +663,7 @@ definitions:
     properties:
       name:
         type: string
-        description: Name of file or directory, equivalent to the last part of the path
+        description: "Name of file or directory, equivalent to the last part of the path"
       path:
         type: string
         description: Full path for file or directory
@@ -460,11 +687,27 @@ definitions:
         format: dateTime
       mimetype:
         type: string
-        description: The mimetype of a file.  If content is not null, and type is 'file', this will contain the mimetype of the file, otherwise this will be null.
+        description: "The mimetype of a file.  If content is not null, and type is 'file', this will contain the mimetype of the file, otherwise this will be null."
       content:
         type: string
-        description: The content, if requested (otherwise null).  Will be an array if type is 'directory'
+        description: "The content, if requested (otherwise null).  Will be an array if type is 'directory'"
       format:
         type: string
         description: Format of content (one of null, 'text', 'base64', 'json')
-
+  Checkpoints:
+    description: A checkpoint object.
+    type: object
+    required:
+      - id
+      - last_modified
+    properties:
+      id:
+        type: string
+        description: Unique id for the checkpoint.
+      last_modified:
+        type: string
+        description: Last modified timestamp
+        format: dateTime
+  Config:
+    description: A configuration object.
+    type: object
