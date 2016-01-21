@@ -60,7 +60,6 @@ RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
     rm get-pip.py && \
     pip2 --no-cache-dir install requests[security] && \
     pip3 --no-cache-dir install requests[security] && \
-    rm get-pip.py && \
     rm -rf /root/.cache
 
 # Install some dependencies.
@@ -79,7 +78,8 @@ RUN BUILD_DEPS="nodejs-legacy npm" && \
     apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -yq $BUILD_DEPS && \
     \
-    pip3 install --no-cache-dir --pre -e /usr/src/jupyter-notebook && \
+    pip3 install --no-cache-dir /usr/src/jupyter-notebook && \
+    pip3 install ipywidgets && \
     \
     npm cache clean && \
     apt-get clean && \
@@ -93,14 +93,7 @@ RUN BUILD_DEPS="nodejs-legacy npm" && \
         -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS
 
 # Run tests.
-RUN pip2 install --no-cache-dir mock nose requests testpath && \
-    pip3 install --no-cache-dir nose requests testpath && \
-    \
-    iptest2 && iptest3 && \
-    \
-    pip2 uninstall -y funcsigs mock nose pbr requests six testpath && \
-    pip3 uninstall -y nose requests testpath && \
-    rm -rf /root/.cache
+RUN pip3 install --no-cache-dir notebook[test] && nosetests notebook
 
 # Add a notebook profile.
 RUN mkdir -p -m 700 /root/.jupyter/ && \
