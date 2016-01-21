@@ -269,9 +269,10 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         
     def _on_zmq_reply(self, stream, msg_list):
         idents, fed_msg_list = self.session.feed_identities(msg_list)
+        msg = self.session.deserialize(fed_msg_list)
+        parent = msg['parent_header']
         def write_stderr(error_message):
             self.log.warn(error_message)
-            parent = json.loads(fed_msg_list[2])
             msg = self.session.msg("stream",
                 content={"text": error_message, "name": "stderr"},
                 parent=parent
@@ -280,7 +281,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             self.write_message(json.dumps(msg, default=date_default))
             
         channel = getattr(stream, 'channel', None)
-        msg_type = json.loads(fed_msg_list[1])['msg_type']
+        msg_type = msg['header']['msg_type']
         if channel == 'iopub' and msg_type not in {'status', 'comm_open', 'execute_input'}:
             
             # Remove the counts queued for removal.
@@ -345,7 +346,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             # If either of the limit flags are set, do not send the message.
             if self._iopub_msgs_exceeded or self._iopub_data_exceeded:
                 return
-        super(ZMQChannelsHandler, self)._on_zmq_reply(stream, msg_list)
+        super(ZMQChannelsHandler, self)._on_zmq_reply(stream, msg)
 
 
     def on_close(self):
