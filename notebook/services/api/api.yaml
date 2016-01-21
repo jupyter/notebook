@@ -314,7 +314,7 @@ paths:
         - contents
       responses:
         204:
-          description: Checkpoint created
+          description: Checkpoint restored
         400:
           description: Bad request
           schema:
