@@ -1020,9 +1020,6 @@ define(function (require) {
             this.events.trigger('delete.Cell', {'cell': cell, 'index': indices[i]});
         }
 
-        // Flip the backup copy of cells back to first-to-last order
-        undelete_backup.cells.reverse();
-
         var new_ncells = this.ncells();
         // Always make sure we have at least one cell.
         if (new_ncells === 0) {
@@ -1079,21 +1076,16 @@ define(function (require) {
     Notebook.prototype.undelete_cell = function() {
         if (this.undelete_backup_stack.length > 0) {
             var undelete_backup = this.undelete_backup_stack.pop();
-            var i, cell_data, new_cell;
+            var i, cell_data, new_cell, insert;
             if (undelete_backup.below) {
-                for (i = undelete_backup.cells.length-1; i >= 0; i--) {
-                    cell_data = undelete_backup.cells[i];
-                    new_cell = this.insert_cell_below(cell_data.cell_type,
-                        undelete_backup.index);
-                    new_cell.fromJSON(cell_data);
-                }
+                insert = $.proxy(this.insert_cell_below, this);
             } else {
-                for (i=0; i < undelete_backup.cells.length; i++) {
-                    cell_data = undelete_backup.cells[i];
-                    new_cell = this.insert_cell_above(cell_data.cell_type,
-                        undelete_backup.index);
-                    new_cell.fromJSON(cell_data);
-                }
+                insert = $.proxy(this.insert_cell_above, this);
+            }
+            for (i=0; i < undelete_backup.cells.length; i++) {
+                cell_data = undelete_backup.cells[i];
+                new_cell = insert(cell_data.cell_type, undelete_backup.index);
+                new_cell.fromJSON(cell_data);
             }
 
             this.set_dirty(true);
