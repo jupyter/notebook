@@ -2578,23 +2578,32 @@ define(function (require) {
 
     /**
      * Make a copy of the current notebook.
+     * If the notebook has unsaved changes, it is saved first.
      */
     Notebook.prototype.copy_notebook = function () {
         var that = this;
         var base_url = this.base_url;
         var w = window.open('', IPython._target);
         var parent = utils.url_path_split(this.notebook_path)[0];
-        this.contents.copy(this.notebook_path, parent).then(
-            function (data) {
-                w.location = utils.url_path_join(
-                    base_url, 'notebooks', utils.encode_uri_components(data.path)
-                );
-            },
-            function(error) {
-                w.close();
-                that.events.trigger('notebook_copy_failed', error);
-            }
-        );
+        var p;
+        if (this.dirty) {
+            p = this.save_notebook();
+        } else {
+            p = Promise.resolve();
+        }
+        p.then(function () {
+            that.contents.copy(that.notebook_path, parent).then(
+                function (data) {
+                    w.location = utils.url_path_join(
+                        base_url, 'notebooks', utils.encode_uri_components(data.path)
+                    );
+                },
+                function(error) {
+                    w.close();
+                    that.events.trigger('notebook_copy_failed', error);
+                }
+            );
+        })
     };
     
     /**
