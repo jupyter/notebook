@@ -207,7 +207,7 @@ define([
 
     //Map from terminal commands to CSS classes
     var ansi_colormap = {
-        "01":"ansibold",
+        "1":"ansibold",
         
         "30":"ansiblack",
         "31":"ansired",
