@@ -2591,8 +2591,8 @@ define(function (require) {
         } else {
             p = Promise.resolve();
         }
-        p.then(function () {
-            that.contents.copy(that.notebook_path, parent).then(
+        return p.then(function () {
+            return that.contents.copy(that.notebook_path, parent).then(
                 function (data) {
                     w.location = utils.url_path_join(
                         base_url, 'notebooks', utils.encode_uri_components(data.path)
@@ -2603,7 +2603,7 @@ define(function (require) {
                     that.events.trigger('notebook_copy_failed', error);
                 }
             );
-        })
+        });
     };
     
     /**
