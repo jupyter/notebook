@@ -8,6 +8,7 @@ define(function (require) {
     "use strict";
     var IPython = require('base/js/namespace');
     var $ = require('jquery');
+    var _ = require('underscore');
     var utils = require('base/js/utils');
     var dialog = require('base/js/dialog');
     var cellmod = require('notebook/js/cell');
@@ -245,7 +246,7 @@ define(function (require) {
                 display_name: data.spec.display_name,
                 language: data.spec.language,
             };
-            if (!existing_spec || JSON.stringify(existing_spec) != JSON.stringify(that.metadata.kernelspec)) {
+            if (!existing_spec || !_.isEqual(existing_spec, that.metadata.kernelspec)) {
                 that.set_dirty(true);
             }
             // start session if the current session isn't already correct
@@ -263,7 +264,7 @@ define(function (require) {
             var existing_info = that.metadata.language_info;
             var langinfo = kinfo.language_info;
             that.metadata.language_info = langinfo;
-            if (!existing_info || JSON.stringify(existing_info) != JSON.stringify(langinfo)) {
+            if (!existing_info || !_.isEqual(existing_info, langinfo)) {
                 that.set_dirty(true);
             }
             // Mode 'null' should be plain, unhighlighted text.
