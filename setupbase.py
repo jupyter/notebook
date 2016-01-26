@@ -346,12 +346,7 @@ class Bower(Command):
         
         if self.should_run_npm():
             print("installing build dependencies with npm")
-            npm_progress = check_output(['npm','get','progress']).decode().strip()
-            if npm_progress not in {'true', 'false'}:
-                raise ValueError('npm progress setting should be either `true `of `false` but %s was found.' % npm_progress)
-            run(['npm','set','progress=false'])
-            run(['npm', 'install'], cwd=repo_root)
-            run(['npm','set','progress=%s'%npm_progress])
+            run(['npm', 'install','--progress=false'], cwd=repo_root)
             os.utime(self.node_modules, None)
         
         env = os.environ.copy()
