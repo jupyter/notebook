@@ -67,6 +67,8 @@ define(function (require) {
         this.last_modified = null;
         // debug 484
         this._last_modified = 'init';
+        // Firefox workaround
+        this._ff_beforeunload_fired = false;
 
         //  Create default scroll manager.
         this.scroll_manager = new scrollmanager.ScrollManager(this);
@@ -313,6 +315,17 @@ define(function (require) {
             var kill_kernel = false;
             if (kill_kernel) {
                 that.session.delete();
+            }
+            if ( utils.browser[0] === "Firefox") {
+                // Workaround ancient Firefox bug showing beforeunload twice: https://bugzilla.mozilla.org/show_bug.cgi?id=531199
+                if (that._ff_beforeunload_fired) {
+                    return; // don't show twice on FF
+                }
+                that._ff_beforeunload_fired = true;
+                // unset flag immediately after dialog is dismissed
+                setTimeout(function () {
+                    that._ff_beforeunload_fired = false;
+                }, 1);
             }
             // if we are autosaving, trigger an autosave on nav-away.
             // still warn, because if we don't the autosave may fail.
