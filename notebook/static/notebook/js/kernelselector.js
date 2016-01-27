@@ -6,7 +6,8 @@ define([
     'base/js/namespace',
     'base/js/dialog',
     'base/js/utils',
-], function($, IPython, dialog, utils) {
+    'require',
+], function($, IPython, dialog, utils, require) {
     "use strict";
     
     var KernelSelector = function(selector, notebook) {
