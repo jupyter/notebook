@@ -62,10 +62,7 @@ RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
     pip3 --no-cache-dir install requests[security]
 
 # Install some dependencies.
-RUN pip2 --no-cache-dir install git+git://github.com/ipython/ipython.git@a58ab37122285adf8f79bd76ded718a777ae3a7c && \
-    pip3 --no-cache-dir install git+git://github.com/ipython/ipython.git@a58ab37122285adf8f79bd76ded718a777ae3a7c && \
-    \
-    pip2 --no-cache-dir install ipykernel && \
+RUN pip2 --no-cache-dir install ipykernel && \
     pip3 --no-cache-dir install ipykernel && \
     \
     python2 -m ipykernel.kernelspec && \
