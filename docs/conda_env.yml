@@ -1,5 +1,6 @@
 name: notebook_docs
 dependencies:
+- sphinx>=1.3
 - sphinx_rtd_theme
 - jinja2
 - tornado
