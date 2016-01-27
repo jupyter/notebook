@@ -112,7 +112,7 @@ def is_hidden(abs_path, abs_root=''):
                 return True
         else:
             # use x-access, not actual listing, in case of slow/large listings
-            if not os.access(abs_path, os.X_OK):
+            if not os.access(abs_path, os.X_OK | os.R_OK):
                 return True
     
     # check UF_HIDDEN on any location up to root
