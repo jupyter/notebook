@@ -12,7 +12,7 @@ Notebook Dashboard
 When you launch ``jupyter notebook`` the first page that you encounter is the
 Notebook Dashboard.
 
-.. image:: /_static/images/jupyter-notebook-dashboard.png
+.. image:: docs/source/_static/images/jupyter-notebook-dashboard.png
 
 Notebook Editor
 ---------------
@@ -20,7 +20,7 @@ Notebook Editor
 Once you've selected a Notebook to edit, the Notebook will open in the Notebook
 Editor.
 
-.. image:: /_static/images/jupyter-notebook-default.png
+.. image:: docs/source/_static/images/jupyter-notebook-default.png
 
 Interactive User Interface Tour of the Notebook
 -----------------------------------------------
@@ -37,7 +37,7 @@ the cell's state. This state is indicated by a small pencil icon on the
 top right of the interface. When the cell is in command mode, there is no
 icon in that location.
 
-.. image:: /_static/images/jupyter-notebook-edit.png
+.. image:: docs/source/_static/images/jupyter-notebook-edit.png
 
 File Editor
 -----------
@@ -46,4 +46,4 @@ Now let's say that you've chosen to open a Markdown file instead of a Notebook
 file whilst in the Notebook Dashboard. If so, the file will be opened in the
 File Editor.
 
-.. image:: /_static/images/jupyter-file-editor.png
+.. image:: docs/source/_static/images/jupyter-file-editor.png
