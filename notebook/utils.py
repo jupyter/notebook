@@ -103,13 +103,17 @@ def is_hidden(abs_path, abs_root=''):
     
     # check that dirs can be listed
     if os.path.isdir(abs_path):
-        # use x-access, not actual listing, in case of slow/large listings
-        try:
+        if sys.platform == 'win32':
+            # can't trust os.access on Windows because it seems to always return True
+            try:
+                os.stat(abs_path)
+            except OSError:
+                # stat may fail on Windows junctions or non-user-readable dirs
+                return True
+        else:
+            # use x-access, not actual listing, in case of slow/large listings
             if not os.access(abs_path, os.X_OK):
                 return True
-        except OSError:
-            # may fail on Windows junctions or non-user-readable dirs
-            return True
     
     # check UF_HIDDEN on any location up to root
     path = abs_path
