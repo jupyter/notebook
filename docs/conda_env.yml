@@ -1,0 +1,8 @@
+name: notebook_docs
+dependencies:
+- sphinx_rtd_theme
+- jinja2
+- tornado
+- nbformat
+- jupyter_client
+- ipykernel
