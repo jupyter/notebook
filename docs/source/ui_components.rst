@@ -12,7 +12,7 @@ Notebook Dashboard
 When you launch ``jupyter notebook`` the first page that you encounter is the
 Notebook Dashboard.
 
-.. image:: /_static/images/jupyter-notebook-dashboard.png
+.. image:: https://github.com/IsakFalk/notebook/blob/master/docs/source/_static/images/jupyter-notebook-dashboard.png
 
 Notebook Editor
 ---------------
