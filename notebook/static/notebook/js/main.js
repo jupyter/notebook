@@ -55,8 +55,12 @@ require([
     "use strict";
 
     // BEGIN HARDCODED WIDGETS HACK
+    // Try to load the new extension
     utils.load_extension('widgets/extension').catch(function () {
-        console.warn('ipywidgets package not installed.  Widgets are not available.');
+    // Fallback to the ipywidgets extension
+        utils.load_extension('widgets/notebook/js/extension').catch(function () {
+            console.warn('ipywidgets package not installed.  Widgets are not available.');
+        });
     });
     // END HARDCODED WIDGETS HACK
 
