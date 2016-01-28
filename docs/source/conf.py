@@ -17,28 +17,14 @@ import sys
 import os
 import shlex
 
+import recommonmark.parser
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
-# DEBUG for RTD
-print("DEBUG:: sys.path")
-print("================")
-for item in sys.path:
-    print(item)
-
-print("os.path.abspath('..')")
-print("=====================")
-print(os.path.abspath('..'))
-
 # Insert absolute path into system path
 sys.path.insert(0, os.path.abspath('..'))
-
-# DEBUG for post insert on RTD
-print("DEBUG:: Post insert to sys.path")
-print("===============================")
-for item in sys.path:
-    print(item)
 
 # Check if docs are being built by ReadTheDocs
 # If so, generate a config.rst file and populate it with documentation about
@@ -65,16 +51,20 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.autosummary',
     'sphinx.ext.mathjax',
-    'IPython.sphinxext.ipython_console_highlighting',
+#    'IPython.sphinxext.ipython_console_highlighting',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
+source_parser = {
+    '.md': 'recommonmark.parser.CommonMarkParser',
+}
+
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 # source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = ['.rst', '.md']
 
 # The encoding of source files.
 #source_encoding = 'utf-8-sig'
@@ -148,7 +138,17 @@ todo_include_todos = False
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'sphinx_rtd_theme'
+#html_theme = 'sphinx_rtd_theme'
+
+# on_rtd is whether we are on readthedocs.org, this line of code grabbed from docs.readthedocs.org
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+
+if not on_rtd:  # only import and set the theme if we're building docs locally
+    import sphinx_rtd_theme
+    html_theme = 'sphinx_rtd_theme'
+    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+
+# otherwise, readthedocs.org uses their theme by default, so no need to specify it
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

@@ -46,10 +46,10 @@ The Jupyter notebook
    development_faq
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Community documentation
 
-   examples/Notebook/rstversions/Examples and Tutorials Index
+   examples/Notebook/index
 
 .. toctree::
    :maxdepth: 2

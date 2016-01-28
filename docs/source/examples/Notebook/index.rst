@@ -16,12 +16,12 @@ Tutorials
 .. toctree::
    :maxdepth: 1
 
-   What is the Jupyter Notebook
-   Notebook Basics
-   Running Code
-   Working With Markdown Cells
-   Custom Keyboard Shortcuts
-   JavaScript Notebook Extensions
+   converted_source/What is the Jupyter Notebook
+   converted_source/Notebook Basics
+   converted_source/Running Code
+   converted_source/Working With Markdown Cells
+   converted_source/Custom Keyboard Shortcuts
+   converted_source/JavaScript Notebook Extensions
 
 Examples
 --------
@@ -29,9 +29,9 @@ Examples
 .. toctree::
    :maxdepth: 1
 
-   Importing Notebooks
-   Connecting with the Qt Console
-   Typesetting Equations
+   converted_source/Importing Notebooks
+   converted_source/Connecting with the Qt Console
+   converted_source/Typesetting Equations
 
 
 `View the original notebook on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Examples%20and%20Tutorials%20Index.ipynb>`__
