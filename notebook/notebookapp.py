@@ -240,15 +240,15 @@ class NotebookWebApplication(web.Application):
         
         # BEGIN HARDCODED WIDGETS HACK
         try:
-            import ipywidgets
+            widgets = __import__('jupyter-js-widgets-nbextension')
             handlers.append(
                 (r"/nbextensions/widgets/(.*)", FileFindHandler, {
-                    'path': ipywidgets.find_static_assets(),
+                    'path': widgets.find_static_assets(),
                     'no_cache_paths': ['/'], # don't cache anything in nbextensions
                 }),
             )
         except:
-            app_log.warning('ipywidgets package not installed.  Widgets are unavailable.')
+            app_log.warning('jupyter-js-widgets-nbextension package not installed.  Widgets are unavailable.')
         # END HARDCODED WIDGETS HACK
         
         handlers.append(
