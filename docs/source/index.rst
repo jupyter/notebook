@@ -2,6 +2,8 @@
 The Jupyter notebook
 ====================
 
+This is the **official** documentation for Jupyter notebook.
+
 .. sidebar:: What's New in Jupyter Notebook
    :subtitle: Release :ref:`release-4.1.0`
 
@@ -33,10 +35,10 @@ The Jupyter notebook
    :caption: Configuration
 
    config
-   public_server
-   security
    frontend_config
    extending/index
+   security
+   public_server
 
 .. toctree::
    :maxdepth: 1
@@ -65,3 +67,32 @@ The Jupyter notebook
    Jupyter website <https://jupyter.org>
    Stack Overflow - Jupyter <https://stackoverflow.com/questions/tagged/jupyter>
    Stack Overflow - Jupyter-notebook <https://stackoverflow.com/questions/tagged/jupyter-notebook>
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Jupyter Universe Documentation
+
+   Jupyter <https://jupyter.org>
+   Jupyter Notebook <https://jupyter-notebook.readthedocs.org/en/latest/>
+   docker-demo-images <https://github.com/jupyter/docker-demo-images>
+   docker-spawner <https://github.com/jupyter/dockerspawner>
+   docker-stacks <https://github.com/jupyter/docker-stacks>
+   ipyparallel <https://ipyparallel.readthedocs.org/en/latest/>
+   IPython <https://jupyter.readthedocs.org/en/latest/>
+   IPython kernel (ipykernel) <https://github.com/ipython/ipykernel>
+   IPython Notebook (legacy) <https://ipython.org/documentation.html>
+   IPython Notebook (redirect to Jupyter Notebook) <https://jupyter-notebook.readthedocs.org/en/latest/>
+   ipywidgets <https://github.com/ipython/ipywidgets>
+   jupyter console <https://jupyter-console.readthedocs.org/en/latest/>
+   jupyter qtconsole <http://jupyter.org/qtconsole/stable/>
+   jupyter-drive <https://github.com/jupyter/jupyter-drive>
+   jupyter_client <https://jupyter-client.readthedocs.org/en/latest/>
+   jupyter_core <https://jupyter-core.readthedocs.org/en/latest/>
+   JupyterHub <https://github.com/jupyter/jupyterhub>
+   nbconvert <https://nbconvert.readthedocs.org/en/latest/>
+   nbformat <https://nbformat.readthedocs.org/en/latest/>
+   nbgrader <https://nbgrader.readthedocs.org/en/stable/>
+   nbviewer <https://github.com/jupyter/nbviewer>
+   tmpnb <https://github.com/jupyter/tmpnb>
+   tmpnb-deploy <https://github.com/jupyter/tmpnb-deploy>
+   traitlets <https://traitlets.readthedocs.org/en/stable/>
