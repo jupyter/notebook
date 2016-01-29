@@ -2,7 +2,7 @@
 # Another Docker container should inherit with `FROM jupyter/notebook`
 # to run actual services.
 
-FROM ubuntu:14.04
+FROM jupyter/ubuntu_14_04_locale_fix
 
 MAINTAINER Project Jupyter <jupyter@googlegroups.com>
 
