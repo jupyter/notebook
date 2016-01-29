@@ -2,6 +2,7 @@ jupyter
 sphinx_rtd_theme
 jinja2
 tornado
+setuptools>=1.6
 -e git+https://github.com/ipython/ipython_genutils.git#egg=ipython_genutils
 -e git+https://github.com/ipython/traitlets.git#egg=traitlets
 -e git+https://github.com/jupyter/jupyter_core.git#egg=jupyter_core
