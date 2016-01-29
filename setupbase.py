@@ -22,7 +22,7 @@ from distutils.cmd import Command
 from fnmatch import fnmatch
 from glob import glob
 from multiprocessing.pool import ThreadPool
-from subprocess import check_call
+from subprocess import check_call, check_output
 
 if sys.platform == 'win32':
     from subprocess import list2cmdline
@@ -346,7 +346,7 @@ class Bower(Command):
         
         if self.should_run_npm():
             print("installing build dependencies with npm")
-            run(['npm', 'install'], cwd=repo_root)
+            run(['npm', 'install','--progress=false'], cwd=repo_root)
             os.utime(self.node_modules, None)
         
         env = os.environ.copy()
