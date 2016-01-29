@@ -246,7 +246,7 @@ class NotebookWebApplication(web.Application):
             try:
                 widgets = __import__('ipywidgets')
             except:
-                app_log.warning('jupyter-js-widgets-nbextension package not installed.  Widgets are unavailable.')
+                app_log.warning('Widgets are unavailable. Please install jupyter-js-widgets-nbextension or ipywidgets 4.0')
         if widgets is not None:
             handlers.append(
                 (r"/nbextensions/widgets/(.*)", FileFindHandler, {
