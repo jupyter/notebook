@@ -27,12 +27,15 @@ print("================")
 for item in sys.path:
     print(item)
 
-print("os.path.abspath('..')")
-print("=====================")
-print(os.path.abspath('..'))
+# add repo root to sys.path
+# here = root/docs/source
+here = os.path.abspath(os.path.dirname(__file__))
+repo_root = os.path.dirname(os.path.dirname(here))
+sys.path.insert(0, repo_root)
 
-# Insert absolute path into system path
-sys.path.insert(0, os.path.abspath('..'))
+print("repo_root")
+print("=====================")
+print(repo_root)
 
 # DEBUG for post insert on RTD
 print("DEBUG:: Post insert to sys.path")
