@@ -6,7 +6,8 @@ define([
     'base/js/namespace',
     'base/js/dialog',
     'base/js/utils',
-], function($, IPython, dialog, utils) {
+    'require',
+], function($, IPython, dialog, utils, require) {
     "use strict";
     
     var KernelSelector = function(selector, notebook) {
@@ -147,6 +148,14 @@ define([
         
         // load kernel js
         if (ks.resources['kernel.js']) {
+
+            // Debug added for Notebook 4.2, please remove at some point in the
+            // future if the following does not append anymore when kernels
+            // have kernel.js
+            //
+            // > Uncaught (in promise) TypeError: require is not a function
+            // 
+            console.info('Dynamically requiring kernel.js, `require` is ', require);
             require([ks.resources['kernel.js']],
                 function (kernel_mod) {
                     if (kernel_mod && kernel_mod.onload) {
