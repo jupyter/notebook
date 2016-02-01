@@ -157,7 +157,7 @@ extras_require = {
     ':sys_platform != "win32"': ['terminado>=0.3.3'],
     'doc': ['Sphinx>=1.1'],
     'test:python_version == "2.7"': ['mock'],
-    'test': ['nose', 'requests'],
+    'test': ['nose', 'requests', 'testpath'],
 }
 
 if 'setuptools' in sys.modules:
