@@ -241,12 +241,12 @@ class NotebookWebApplication(web.Application):
         # BEGIN HARDCODED WIDGETS HACK
         widgets = None
         try:
-            widgets = __import__('jupyter-js-widgets-nbextension')
+            import widgetsnbextension as widgets
         except:
             try:
-                widgets = __import__('ipywidgets')
+                import ipywidgets as widgets
             except:
-                app_log.warning('Widgets are unavailable. Please install jupyter-js-widgets-nbextension or ipywidgets 4.0')
+                app_log.warning('Widgets are unavailable. Please install widgetsnbextension or ipywidgets 4.0')
         if widgets is not None:
             handlers.append(
                 (r"/nbextensions/widgets/(.*)", FileFindHandler, {
