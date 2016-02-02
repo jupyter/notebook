@@ -13,17 +13,15 @@ Building the Notebook from its GitHub source code requires some tools to
 create and minify JavaScript components and the CSS. These tools and the
 following steps are used when making a Notebook release.
 
-#. Install `Node.js <https://nodejs.org/>`_ and `npm`.
+#. Install `Node.js`_ and :program:`npm`.
 
-   - Using the installers on Node.js website:
-
+   - Using the installers on `Node.js`_ website:
      Select a pre-built installer
-     on the Node.js website. The installer will include `Node.js` and
-     Node's package manager, `npm`.
+     on the `Node.js`_ website. The installer will include Node.js and
+     Node's package manager, :program:`npm`.
 
    - Using system's package manager:
-
-     Install `node.js` and `npm` using the
+     Install Node.js and :program:`npm` using the
      system's package manager. For example, the command for Ubuntu or Debian
      is:
 
@@ -49,3 +47,6 @@ this, start the Notebook with the option
 the number of requests that the browser makes to the server; yet, allows
 testing JavaScript file modification without going through the time consuming
 compilation step that may take up to 30 seconds.
+
+
+.. _Node.js: https://nodejs.org
