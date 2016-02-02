@@ -43,6 +43,7 @@ The Jupyter notebook
    :caption: Developer Documentation
 
    development_js
+   contributor_release
    development_faq
 
 .. toctree::
