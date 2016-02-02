@@ -10,7 +10,7 @@ Installing JavaScript machinery
     tools.
 
 Building the Notebook from its GitHub source code requires some tools to
-create JavaScript components and minify the CSS. These tools and the
+create and minify JavaScript components and the CSS. These tools and the
 following steps are used when making a Notebook release.
 
 1. Install `Node.js <https://nodejs.org/>`_ and `npm`.
@@ -27,16 +27,21 @@ following steps are used when making a Notebook release.
 
          sudo apt-get install nodejs-legacy npm
 
-2. Build the JavaScript and CSS by running::
+2. Build the JavaScript and CSS by running:
 
-    python setup.py css js
+   .. code:: bash
 
-This will automatically fetch the remaining dependencies (bower, less) and
-install them in a subdirectory.
+       python setup.py css js
 
-For quick iteration on the Notebook's JavaScript you can deactivate the use of
-the bundled and minified JavaScript by using the option
-``--NotebookApp.ignore_minified_js=True``.  This might though highly increase the
-number of requests that the browser make to the server, but can allow to test
-JavaScript file modification without going through the compilation step that
-can take up to 30 sec.
+   This command will automatically fetch the remaining dependencies (bower,
+   less) and install them in a subdirectory.
+
+Prototyping tip
+---------------
+When doing prototyping which needs quick iteration of the Notebook's
+JavaScript, the bundled and minified JavaScript may be deactivated. To do
+this, start the Notebook with the option
+``--NotebookApp.ignore_minified_js=True``.  This may highly increase
+the number of requests that the browser makes to the server; yet, allows
+testing JavaScript file modification without going through the time consuming
+compilation step that may take up to 30 seconds.
