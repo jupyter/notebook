@@ -13,13 +13,17 @@ Building the Notebook from its GitHub source code requires some tools to
 create and minify JavaScript components and the CSS. These tools and the
 following steps are used when making a Notebook release.
 
-1. Install `Node.js <https://nodejs.org/>`_ and `npm`.
+#. Install `Node.js <https://nodejs.org/>`_ and `npm`.
 
-   - *Using the installers on Node.js website*: Select a pre-built installer
+   - Using the installers on Node.js website:
+
+     Select a pre-built installer
      on the Node.js website. The installer will include `Node.js` and
      Node's package manager, `npm`.
 
-   - *Using system's package manager*: Install `node.js` and `npm` using the 
+   - Using system's package manager:
+
+     Install `node.js` and `npm` using the
      system's package manager. For example, the command for Ubuntu or Debian
      is:
 
@@ -27,7 +31,7 @@ following steps are used when making a Notebook release.
 
          sudo apt-get install nodejs-legacy npm
 
-2. Build the JavaScript and CSS by running:
+#. Build the JavaScript and CSS by running:
 
    .. code:: bash
 
