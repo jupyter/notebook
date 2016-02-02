@@ -42,8 +42,9 @@ The Jupyter notebook
    :maxdepth: 1
    :caption: Developer Documentation
 
+   development_intro
    development_js
-   contributor_release
+   development_release
    development_faq
 
 .. toctree::
