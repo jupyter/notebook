@@ -8,10 +8,30 @@ development environment, how to contribute, and technical aspects of
 contributing.
 
 
+Notebook project developer guides
+---------------------------------
+These guides provide information about specific topics related to developing
+the Notebook.
+
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    development_js
    development_release
    development_faq
 
+
+Jupyter developer guides
+------------------------
+The Project Jupyter organization has more general documentation about
+contributing to Jupyter projects. Currently, this is available in the Jupyter
+documentation in the
+[Developer Documentation](https://jupyter.readthedocs.org/en/latest/#dev-docs)
+section.
+
+Some of the topics include:
+- Submitting a Bug
+- Submitting an Enhancement Proposal
+- Contributing to the Documentation
+- Git and Github Resources
+- Contributing to the Code
