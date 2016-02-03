@@ -43,6 +43,8 @@ Launch with:
 
 ### Running in a Docker container
 
+We publish a Docker image to Docker Hub whenever we merge new code into the master branch here.. If you want to try the latest and greatest that the notebook has to offer, see below. If you're looking for Docker images with stable notebook releases and other pre-installed goodies (e.g., matplotlib, pandas, R, Spark), see [jupyter/docker-stacks](https://github.com/jupyter/docker-stacks).
+
 If you are using **Linux** and have a
 [Docker daemon running](https://docs.docker.com/installation/),
 e.g. reachable on `localhost`, start a container with:
