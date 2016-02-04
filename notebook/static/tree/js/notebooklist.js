@@ -686,6 +686,8 @@ define([
                 that.shutdown_notebook(item.path);
             }
         });
+        // Deselect items after successful shutdown.
+        that.select('select-none');
     };
 
     NotebookList.prototype.shutdown_notebook = function(path) {
@@ -738,6 +740,8 @@ define([
                     click: function() {
                         that.contents.rename(item_path, utils.url_path_join(that.notebook_path, input.val())).then(function() {
                             that.load_list();
+                            // Deselect items after successful rename.
+                            that.select('select-none');
                         }).catch(function(e) { 
                             dialog.modal({
                                 title: "Rename Failed",
@@ -837,6 +841,8 @@ define([
                         that.selected.forEach(function(item) {
                             that.contents.copy(item.path, that.notebook_path).then(function () {
                                 that.load_list();
+                                // Deselect items after successful duplication.
+                                that.select('select-none');
                             }).catch(function(e) { 
                                 dialog.modal({
                                     title: "Duplicate Failed",
