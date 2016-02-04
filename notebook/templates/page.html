@@ -24,11 +24,7 @@
           {% endif %}
           baseUrl: '{{static_url("", include_version=False)}}',
           paths: {
-          {% if ignore_minified_js %}
-            'auth/js/main': 'auth/js/main',
-          {% else %}
-            'auth/js/main': 'auth/js/main.min',
-          {% endif %}
+            'auth/js/main': 'auth/js/built/main.min',
             custom : '{{ base_url }}custom',
             nbextensions : '{{ base_url }}nbextensions',
             widgets : '{{ base_url }}deprecatedwidgets',
