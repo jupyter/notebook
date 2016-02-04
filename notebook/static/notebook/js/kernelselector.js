@@ -2,12 +2,11 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'base/js/namespace',
     'base/js/dialog',
     'base/js/utils',
     'require',
-], function($, IPython, dialog, utils, require) {
+], function(IPython, dialog, utils, require) {
     "use strict";
     
     var KernelSelector = function(selector, notebook) {

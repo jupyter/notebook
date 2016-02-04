@@ -2,7 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
 
 require([
-    'jquery',
     'base/js/namespace',
     'base/js/dialog',
     'base/js/events',
@@ -16,12 +15,7 @@ require([
     'tree/js/terminallist',
     'tree/js/newnotebook',
     'auth/js/loginwidget',
-    // only loaded, not used:
-    'jquery-ui',
-    'bootstrap',
-    'custom/custom',
 ], function(
-    $,
     IPython,
     dialog,
     events,
@@ -36,6 +30,7 @@ require([
     newnotebook,
     loginwidget){
     "use strict";
+    requirejs(['custom/custom'], function() {});
 
     IPython.NotebookList = notebooklist.NotebookList;
 

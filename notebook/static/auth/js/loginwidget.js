@@ -3,8 +3,7 @@
 
 define([
     'base/js/utils',
-    'jquery',
-], function(utils, $){
+], function(utils){
     "use strict";
 
     var LoginWidget = function (selector, options) {

@@ -3,9 +3,8 @@
 
 define([
     'base/js/namespace',
-    'jquery',
     'base/js/events'
-], function(IPython, $, events) {
+], function(IPython, events) {
     "use strict";
 
     var CellToolbar = function (options) {

@@ -2,7 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
 
 require([
-    'jquery',
     'base/js/namespace',
     'base/js/utils',
     'base/js/page',
@@ -13,9 +12,7 @@ require([
     'edit/js/menubar',
     'edit/js/savewidget',
     'edit/js/notificationarea',
-    'custom/custom',
 ], function(
-    $,
     IPython,
     utils,
     page,
@@ -28,6 +25,8 @@ require([
     notificationarea
     ){
     "use strict";
+    requirejs(['custom/custom'], function() {});
+    
     page = new page.Page();
 
     var base_url = utils.get_body_data('baseUrl');

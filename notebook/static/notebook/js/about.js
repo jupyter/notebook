@@ -1,11 +1,10 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 require([
-    'jquery',
     'base/js/dialog',
     'underscore',
     'base/js/namespace'
-], function ($, dialog, _, IPython) {
+], function (dialog, _, IPython) {
     'use strict';
     $('#notebook_about').click(function () {
         // use underscore template to auto html escape

@@ -3,12 +3,11 @@
 
 define([
     'base/js/namespace',
-    'jquery',
     'base/js/utils',
     'base/js/dialog',
     'base/js/events',
     'base/js/keyboard',
-], function(IPython, $, utils, dialog, events, keyboard) {
+], function(IPython, utils, dialog, events, keyboard) {
     "use strict";
     
     var NotebookList = function (selector, options) {

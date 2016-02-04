@@ -2,14 +2,13 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'base/js/namespace',
     'base/js/dialog',
     'base/js/utils',
     './celltoolbar',
     './tour',
     'moment',
-], function($, IPython, dialog, utils, celltoolbar, tour, moment) {
+], function(IPython, dialog, utils, celltoolbar, tour, moment) {
     "use strict";
     
     var MenuBar = function (selector, options) {

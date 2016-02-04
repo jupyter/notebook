@@ -9,10 +9,9 @@
  */
 
 define([
-    'jquery',
     'base/js/utils',
     'base/js/keyboard',
-], function($, utils, keyboard) {
+], function(utils, keyboard) {
     "use strict";
     
     // Main keyboard manager for the notebook

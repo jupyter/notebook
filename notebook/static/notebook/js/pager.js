@@ -2,9 +2,8 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery-ui',
     'base/js/utils',
-], function($, utils) {
+], function(utils) {
     "use strict";
 
     var Pager = function (pager_selector, options) {

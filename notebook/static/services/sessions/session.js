@@ -2,10 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'base/js/utils',
     'services/kernels/kernel',
-], function($, utils, kernel) {
+], function(utils, kernel) {
     "use strict";
 
     /**

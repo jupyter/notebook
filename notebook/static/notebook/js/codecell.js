@@ -11,7 +11,6 @@
 
 define([
     'base/js/namespace',
-    'jquery',
     'base/js/utils',
     'base/js/keyboard',
     'services/config',
@@ -23,7 +22,6 @@ define([
     'codemirror/mode/python/python',
     'notebook/js/codemirror-ipython'
 ], function(IPython,
-    $,
     utils,
     keyboard,
     configmod,

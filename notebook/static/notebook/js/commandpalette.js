@@ -5,7 +5,6 @@ define(function(require){
     "use strict";
 
     var QH = require("notebook/js/quickhelp");
-    var $ = require("jquery");
 
     /**
      * Humanize the action name to be consumed by user.

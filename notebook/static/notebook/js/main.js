@@ -23,9 +23,7 @@ require([
     'codemirror/lib/codemirror',
     'notebook/js/about',
     'typeahead',
-    'notebook/js/searchandreplace',
-    // only loaded, not used, please keep sure this is loaded last
-    'custom/custom'
+    'notebook/js/searchandreplace'
 ], function(
     IPython, 
     $,
@@ -48,12 +46,12 @@ require([
     CodeMirror,
     about,
     typeahead,
-    searchandreplace,
-    // please keep sure that even if not used, this is loaded last
-    custom
+    searchandreplace
     ) {
     "use strict";
 
+    requirejs(['custom/custom'], function() {});
+    
     // BEGIN HARDCODED WIDGETS HACK
     // Try to load the new extension
     utils.load_extension('widgets/extension').catch(function () {

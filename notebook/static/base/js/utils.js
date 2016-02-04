@@ -2,12 +2,11 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'codemirror/lib/codemirror',
     'moment',
     // silently upgrades CodeMirror
     'codemirror/mode/meta',
-], function($, CodeMirror, moment){
+], function(CodeMirror, moment){
     "use strict";
     
     // keep track of which extensions have been loaded already

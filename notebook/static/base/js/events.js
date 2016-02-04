@@ -9,7 +9,7 @@
 //     events.on("event.Namespace", function () { do_stuff(); });
 // });
 
-define(['base/js/namespace', 'jquery'], function(IPython, $) {
+define(['base/js/namespace'], function(IPython) {
     "use strict";
 
     var Events = function () {};

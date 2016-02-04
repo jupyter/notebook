@@ -2,9 +2,8 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'base/js/notificationwidget',
-], function($, notificationwidget) {
+], function(notificationwidget) {
     "use strict";
 
     // store reference to the NotificationWidget class

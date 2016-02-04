@@ -16,6 +16,10 @@
     {% endblock %}
     <link rel="stylesheet" href="{{ base_url }}custom/custom.css" type="text/css" />
     <script src="{{static_url("components/es6-promise/promise.min.js")}}" type="text/javascript" charset="utf-8"></script>
+    <script src="{{static_url("components/jquery/jquery.min.js") }}" type="text/javascript" charset="utf-8"></script> <!-- window.$ -->
+    <script src="{{static_url("components/jquery-ui/ui/minified/jquery-ui.min.js") }}" type="text/javascript" charset="utf-8"></script> <!-- extends window.$ -->
+    <script src="{{static_url("components/bootstrap/js/bootstrap.min.js") }}" type="text/javascript" charset="utf-8"></script> <!-- extends window.$ -->
+    <script src="{{static_url("components/bootstrap-tour/build/js/bootstrap-tour.min.js") }}" type="text/javascript" charset="utf-8"></script> <!-- window.Tour -->
     <script src="{{static_url("components/requirejs/require.js") }}" type="text/javascript" charset="utf-8"></script>
     <script>
       require.config({

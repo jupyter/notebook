@@ -2,15 +2,12 @@
 // Distributed under the terms of the Modified BSD License.
 
 require([
-    'jquery',
     'termjs',
     'base/js/utils',
     'base/js/page',
     'services/config',
     'terminal/js/terminado',
-    'custom/custom',
 ], function(
-    $, 
     termjs,
     utils,
     page,
@@ -18,6 +15,7 @@ require([
     terminado
     ){
     "use strict";
+    requirejs(['custom/custom'], function() {});
     page = new page.Page();
 
     var common_config = new configmod.ConfigSection('common', 
