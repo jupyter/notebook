@@ -10,11 +10,19 @@
   },
   "scripts": {
     "bower": "bower install",
-    "build": "python setup.py js css"
+    "build:watch": "concurrent \"npm run build:css:watch\" \"npm run build:js:watch\"",
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "python setup.py css",
+    "build:css:watch": "echo Not implemented yet...",
+    "build:js": "webpack",
+    "build:js:watch": "npm run build:js -- --watch"
   },
   "devDependencies": {
     "bower": "*",
+    "concurrently": "^1.0.0",
     "less": "~2",
-    "requirejs": "^2.1.17"
+    "requirejs": "^2.1.17",
+    "underscore": "^1.8.3",
+    "webpack": "^1.12.13"
   }
 }

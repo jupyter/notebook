@@ -45,7 +45,7 @@ function buildConfig(appName) {
 module.exports = [
     'auth',
     'edit',
-    'notebook',
     'terminal',
-    'tree'
+    'tree',
+    'notebook'
 ].map(x => buildConfig(x));
