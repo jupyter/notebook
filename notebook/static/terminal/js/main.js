@@ -1,14 +1,13 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
+requirejs(['termjs'], function(termjs) {
 require([
-    'termjs',
     'base/js/utils',
     'base/js/page',
     'services/config',
     'terminal/js/terminado',
 ], function(
-    termjs,
     utils,
     page,
     configmod,
@@ -61,4 +60,5 @@ require([
     // Expose terminal for fiddling with in the browser
     window.terminal = terminal;
 
+});
 });

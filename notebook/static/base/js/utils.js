@@ -20,7 +20,7 @@ define([
     var load_extension = function (extension) {
         return new Promise(function(resolve, reject) {
             var ext_path = "nbextensions/" + extension;
-            require([ext_path], function(module) {
+            requirejs([ext_path], function(module) {
                 try {
                     if (extensions_loaded.indexOf(ext_path) < 0) {
                         console.log("Loading extension: " + extension);
@@ -622,7 +622,7 @@ define([
             CodeMirror.findModeByMIME(modename) ||
             {mode: modename, mime: modename};
 
-        require([
+        requirejs([
                 // might want to use CodeMirror.modeURL here
                 ['codemirror/mode', info.mode, info.mode].join('/'),
             ], function() {
@@ -709,7 +709,7 @@ define([
 
             // Try loading the view module using require.js
             if (module_name) {
-                require([module_name], function(module) {
+                requirejs([module_name], function(module) {
                     if (module[class_name] === undefined) {
                         reject(new Error('Class '+class_name+' not found in module '+module_name));
                     } else {

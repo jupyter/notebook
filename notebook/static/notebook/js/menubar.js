@@ -398,7 +398,7 @@ define([
                 .append($("<a>")
                     .attr('target', '_blank')
                     .attr('title', 'Opens in a new window')
-                    .attr('href', require.toUrl(link.url))
+                    .attr('href', requirejs.toUrl(link.url))
                     .append($("<i>")
                         .addClass("fa fa-external-link menu-icon pull-right")
                     )
