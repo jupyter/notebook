@@ -1,6 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
+requirejs(['contents'], function(contents_service) {
 require([
     'base/js/namespace',
     'base/js/dialog',
@@ -8,7 +9,6 @@ require([
     'base/js/page',
     'base/js/utils',
     'services/config',
-    'contents',
     'tree/js/notebooklist',
     'tree/js/sessionlist',
     'tree/js/kernellist',
@@ -22,7 +22,6 @@ require([
     page,
     utils,
     config,
-    contents_service,
     notebooklist,
     sesssionlist,
     kernellist,
@@ -169,4 +168,5 @@ require([
     if (window.location.hash) {
         $("#tabs").find("a[href=" + window.location.hash + "]").click();
     }
+});
 });

@@ -1,12 +1,12 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
+requirejs(['contents'], function(contents) {
 require([
     'base/js/namespace',
     'base/js/utils',
     'base/js/page',
     'base/js/events',
-    'contents',
     'services/config',
     'edit/js/editor',
     'edit/js/menubar',
@@ -17,7 +17,6 @@ require([
     utils,
     page,
     events,
-    contents,
     configmod,
     editmod,
     menubar,
@@ -93,4 +92,5 @@ require([
 
     // On document ready, resize codemirror.
     $(document).ready(_handle_resize);
+});
 });

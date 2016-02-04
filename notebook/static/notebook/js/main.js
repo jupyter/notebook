@@ -1,11 +1,11 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
+requirejs(['contents'], function(contents) {
 require([
     'base/js/namespace',
     'jquery',
     'notebook/js/notebook',
-    'contents',
     'services/config',
     'base/js/utils',
     'base/js/page',
@@ -22,13 +22,11 @@ require([
     'notebook/js/kernelselector',
     'codemirror/lib/codemirror',
     'notebook/js/about',
-    'typeahead',
     'notebook/js/searchandreplace'
 ], function(
     IPython, 
     $,
     notebook, 
-    contents,
     configmod,
     utils, 
     page, 
@@ -45,10 +43,12 @@ require([
     kernelselector,
     CodeMirror,
     about,
-    typeahead,
     searchandreplace
     ) {
     "use strict";
+
+    // Pull typeahead from the global jquery object
+    var typeahead = $.typeahead;
 
     requirejs(['custom/custom'], function() {});
     
@@ -183,4 +183,5 @@ require([
     utils.load_extensions_from_config(common_config);
     notebook.load_notebook(common_options.notebook_path);
 
+});
 });
