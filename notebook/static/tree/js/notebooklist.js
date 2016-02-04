@@ -775,6 +775,7 @@ define([
                     }
                 });
                 input.focus();
+                // Highlight the filename (up to the filetype suffix) in the input field.
                 if (input.val().indexOf(".") > 0) {
                     input[0].setSelectionRange(0,input.val().indexOf("."));
                 } else {
@@ -842,9 +843,8 @@ define([
                         return false;
                     }
                 });
+                // Put the cursor at the end of the input.
                 input.focus();
-                // Highlight the current path in the input box.
-                input.select();
             }
         });
     };
