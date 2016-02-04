@@ -835,6 +835,7 @@ define([
                     }
                 }
             },
+            // TODO: Consider adding fancier UI per Issue #941.
             open : function () {
                 // Upon ENTER, click the OK button.
                 input.keydown(function (event) {
