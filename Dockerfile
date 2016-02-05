@@ -93,7 +93,7 @@ RUN BUILD_DEPS="nodejs-legacy npm" && \
         -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS
 
 # Run tests.
-RUN pip3 install --no-cache-dir notebook[test] && nosetests notebook
+RUN pip3 install --no-cache-dir notebook[test] && nosetests -v notebook
 
 # Add a notebook profile.
 RUN mkdir -p -m 700 /root/.jupyter/ && \
