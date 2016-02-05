@@ -651,7 +651,7 @@ define([
         var toinsert = this.create_output_subarea(md, "output_svg", type);
 
         // Get the svg element from within the HTML.
-        var svg = $('<div />').html(svg_html).find('svg');
+        var svg = $('<svg \>').html(svg_html);
         var svg_area = $('<div />');
         var width = svg.attr('width');
         var height = svg.attr('height');
