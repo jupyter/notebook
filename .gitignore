@@ -9,6 +9,7 @@ docs/gh-pages
 notebook/static/components
 notebook/static/style/*.min.css*
 notebook/static/*/js/built/
+notebook/static/*/built/
 node_modules
 *.py[co]
 __pycache__

@@ -28,17 +28,16 @@ var commonConfig = {
     }
 };
 
-var commonOutputConfig = {
-    filename: 'main.min.js',
-    libraryTarget: 'amd'
-};
-
 function buildConfig(appName) {
+    if (typeof appName !== 'string') return appName;
     return _.extend({}, commonConfig, {
         entry: './notebook/static/' + appName + '/js/main.js',
-        output: _.extend({}, commonOutputConfig, {
+        output: {
+            filename: 'main.min.js',
             path: './notebook/static/' + appName + '/js/built',
-        }),
+            publicPath: "/static/" + appName + "/js/built/"
+        },
+        devtool: 'source-map'
     });
 }
 
@@ -47,5 +46,13 @@ module.exports = [
     'edit',
     'terminal',
     'tree',
-    'notebook'
+    'notebook',
+    _.extend({}, commonConfig, {
+        entry: './notebook/static/services/contents.js',
+        output: {
+            filename: 'contents.js',
+            path: './notebook/static/services/built',
+            libraryTarget: 'amd'
+        },
+    })
 ].map(x => buildConfig(x));

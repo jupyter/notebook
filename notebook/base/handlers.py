@@ -166,8 +166,8 @@ class IPythonHandler(AuthenticatedHandler):
     @property
     def contents_js_source(self):
         self.log.debug("Using contents: %s", self.settings.get('contents_js_source',
-            'services/contents'))
-        return self.settings.get('contents_js_source', 'services/contents')
+            'services/built/contents'))
+        return self.settings.get('contents_js_source', 'services/built/contents')
     
     #---------------------------------------------------------------
     # Manager objects
