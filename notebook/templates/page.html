@@ -82,8 +82,20 @@
               '*':{
                 'contents': '{{ contents_js_source }}',
               }
-          }
+          },
       });
+
+    // Log when requirejs calls are made.
+    var originalRequire = window['require'];
+    window['require'] = window['requirejs'] = function() {
+        console.info('require', arguments);
+        originalRequire.apply(this, arguments);
+    }
+    var originalDefine = window['define'];
+    window['define'] = function() {
+        console.info('define', arguments);
+        originalDefine.apply(this, arguments);
+    }
     </script>
 
     {% block meta %}
