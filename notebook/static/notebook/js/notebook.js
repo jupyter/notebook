@@ -126,9 +126,7 @@ define(function (require) {
         this.kernel = null;
         this.kernel_busy = false;
         this.clipboard = null;
-        this.undelete_backup = null;
-        this.undelete_index = null;
-        this.undelete_below = false;
+        this.undelete_backup_stack = [];
         this.paste_enabled = false;
         this.writable = false;
         // It is important to start out in command mode to match the intial mode
@@ -1007,7 +1005,11 @@ define(function (require) {
             indices = this.get_selected_cells_indices();
         }
 
-        this.undelete_backup = [];
+        var undelete_backup = {
+            cells: [],
+            below: false,
+            index: 0,
+        };
 
         var cursor_ix_before = this.get_selected_index();
         var deleting_before_cursor = 0;
@@ -1027,13 +1029,10 @@ define(function (require) {
         indices.sort(function(a, b) {return b-a;});
         for (i=0; i < indices.length; i++) {
             var cell = this.get_cell(indices[i]);
-            this.undelete_backup.push(cell.toJSON());
+            undelete_backup.cells.push(cell.toJSON());
             this.get_cell_element(indices[i]).remove();
             this.events.trigger('delete.Cell', {'cell': cell, 'index': indices[i]});
         }
-
-        // Flip the backup copy of cells back to first-to-last order
-        this.undelete_backup.reverse();
 
         var new_ncells = this.ncells();
         // Always make sure we have at least one cell.
@@ -1042,14 +1041,13 @@ define(function (require) {
             new_ncells = 1;
         }
 
-        this.undelete_below = false;
         var cursor_ix_after = this.get_selected_index();
         if (cursor_ix_after === null) {
             // Selected cell was deleted
             cursor_ix_after = cursor_ix_before - deleting_before_cursor;
             if (cursor_ix_after >= new_ncells) {
                 cursor_ix_after = new_ncells - 1;
-                this.undelete_below = true;
+                undelete_backup.below = true;
             }
             this.select(cursor_ix_after);
         }
@@ -1057,15 +1055,16 @@ define(function (require) {
         // Check if the cells were after the cursor
         for (i=0; i < indices.length; i++) {
             if (indices[i] > cursor_ix_before) {
-                this.undelete_below = true;
+                undelete_backup.below = true;
             }
         }
 
         // This will put all the deleted cells back in one location, rather than
         // where they came from. It will do until we have proper undo support.
-        this.undelete_index = cursor_ix_after;
+        undelete_backup.index = cursor_ix_after;
         $('#undelete_cell').removeClass('disabled');
 
+        this.undelete_backup_stack.push(undelete_backup);
         this.set_dirty(true);
 
         return this;
@@ -1089,29 +1088,25 @@ define(function (require) {
      * Restore the most recently deleted cells.
      */
     Notebook.prototype.undelete_cell = function() {
-        if (this.undelete_backup !== null && this.undelete_index !== null) {
-            var i, cell_data, new_cell;
-            if (this.undelete_below) {
-                for (i = this.undelete_backup.length-1; i >= 0; i--) {
-                    cell_data = this.undelete_backup[i];
-                    new_cell = this.insert_cell_below(cell_data.cell_type,
-                        this.undelete_index);
-                    new_cell.fromJSON(cell_data);
-                }
+        if (this.undelete_backup_stack.length > 0) {
+            var undelete_backup = this.undelete_backup_stack.pop();
+            var i, cell_data, new_cell, insert;
+            if (undelete_backup.below) {
+                insert = $.proxy(this.insert_cell_below, this);
             } else {
-                for (i=0; i < this.undelete_backup.length; i++) {
-                    cell_data = this.undelete_backup[i];
-                    new_cell = this.insert_cell_above(cell_data.cell_type,
-                        this.undelete_index);
-                    new_cell.fromJSON(cell_data);
-                }
+                insert = $.proxy(this.insert_cell_above, this);
+            }
+            for (i=0; i < undelete_backup.cells.length; i++) {
+                cell_data = undelete_backup.cells[i];
+                new_cell = insert(cell_data.cell_type, undelete_backup.index);
+                new_cell.fromJSON(cell_data);
             }
 
             this.set_dirty(true);
-            this.undelete_backup = null;
-            this.undelete_index = null;
         }
-        $('#undelete_cell').addClass('disabled');
+        if (this.undelete_backup_stack.length === 0) {
+            $('#undelete_cell').addClass('disabled');
+        }
     };
 
     /**
@@ -1216,11 +1211,13 @@ define(function (require) {
         } else {
             return false;
         }
-
-        if (this.undelete_index !== null && index <= this.undelete_index) {
-            this.undelete_index = this.undelete_index + 1;
-            this.set_dirty(true);
-        }
+        
+        this.undelete_backup_stack.map(function (undelete_backup) {
+            if (index < undelete_backup.index) {
+                undelete_backup.index += 1;
+            }
+        });
+        this.set_dirty(true);
         return true;
     };
 
@@ -1233,7 +1230,7 @@ define(function (require) {
      * @return {Cell|null} handle to created cell or null
      */
     Notebook.prototype.insert_cell_above = function (type, index) {
-        if (index === null || index === undefined) {            
+        if (index === null || index === undefined) {
             index = Math.min(this.get_selected_index(index), this.get_anchor_index());
         }
         return this.insert_cell_at_index(type, index);

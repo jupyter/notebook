@@ -446,6 +446,15 @@ casper.select_cell = function(index, moveanchor) {
     }, {i: index, moveanchor: moveanchor});
 };
 
+casper.select_cells = function(index, bound, moveanchor) {
+    // Select a block of cells in the notebook.
+    // like Python range, selects [index,bound)
+    this.evaluate(function (i, n, moveanchor) {
+        Jupyter.notebook.select(i, moveanchor);
+        Jupyter.notebook.extend_selection_by(n);
+    }, {i: index, n: (bound - index - 1), moveanchor: moveanchor});
+};
+
 casper.click_cell_editor = function(index) {
     // Emulate a click on a cell's editor.
     

@@ -42,17 +42,55 @@ casper.notebook_test(function () {
     this.trigger_keydown('esc');
     assert_cells("initial state", [a, b, c, d], 0);
 
-    // Delete cell 1
+    // Delete cells 1,2
+    this.select_cells(1,3);
+    this.trigger_keydown('esc');
+    this.trigger_keydown('d', 'd');
+    assert_cells("delete cells 1,2", [a, d], 1);
+    
+    // Delete cell 1 (3)
     this.select_cell(1);
     this.trigger_keydown('esc');
     this.trigger_keydown('d', 'd');
-    assert_cells("delete cell 1", [a, c, d], 1);
+    assert_cells("delete cell 1 (3)", [a], 0);
+
+    // Undelete cell 1 (3)
+    this.evaluate(function () {
+        IPython.notebook.undelete_cell();
+    });
+    assert_cells("undelete cell 1 (3)", [a, d], 0);
+    
+    this.select_cell(1); // select after undelete, to test cursor movement
 
     // Undelete cell 1
     this.evaluate(function () {
         IPython.notebook.undelete_cell();
     });
-    assert_cells("undelete cell 1", [a, b, c, d], 2);
+    assert_cells("undelete cell 1,2", [a, b, c, d], 3);
+
+    // Undelete cell (none)
+    this.evaluate(function () {
+        IPython.notebook.undelete_cell();
+    });
+    assert_cells("undelete cell (none)", [a, b, c, d], 3);
+    
+    this.select_cells(0,2);
+    this.trigger_keydown('esc');
+    this.trigger_keydown('d', 'd');
+    assert_cells("delete first two cells", [c, d], 0);
+    this.evaluate(function () {
+        IPython.notebook.undelete_cell();
+    });
+    assert_cells("undelete first two cells", [a, b, c, d], 2);
+
+    this.select_cells(2, 4);
+    this.trigger_keydown('esc');
+    this.trigger_keydown('d', 'd');
+    assert_cells("delete last two cells", [a, b], 1);
+    this.evaluate(function () {
+        IPython.notebook.undelete_cell();
+    });
+    assert_cells("undelete last two cells", [a, b, c, d], 1);
 
     // Merge cells 1-2
     var bc = b + "\n\n" + c;
