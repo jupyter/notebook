@@ -158,21 +158,30 @@ def find_package_data():
         mj('MathJax.js'),
         mj('config', 'TeX-AMS_HTML-full.js'),
         mj('config', 'Safe.js'),
-        mj('extensions', 'Safe.js'),
-        mj('jax', 'output', 'HTML-CSS', '*.js'),
     ])
-    for tree in [
+    
+    trees = []
+    mj_out = mj('jax', 'output')
+    for output in os.listdir(mj_out):
+        if output == 'SVG':
+            # strip SVG output
+            continue
+        path = pjoin(mj_out, output)
+        static_data.append(pjoin(path, '*.js'))
+        autoload = pjoin(path, 'autoload')
+        if os.path.isdir(autoload):
+            trees.append(autoload)
+    
+    for tree in trees + [
         mj('localization'), # limit to en?
         mj('fonts', 'HTML-CSS', 'STIX-Web', 'woff'),
-        mj('extensions', 'TeX'),
+        mj('extensions'),
         mj('jax', 'input', 'TeX'),
-        mj('jax', 'output', 'HTML-CSS', 'autoload'),
         mj('jax', 'output', 'HTML-CSS', 'fonts', 'STIX-Web'),
     ]:
         for parent, dirs, files in os.walk(tree):
             for f in files:
                 static_data.append(pjoin(parent, f))
-    
 
     os.chdir(os.path.join('tests',))
     js_tests = glob('*.js') + glob('*/*.js')
