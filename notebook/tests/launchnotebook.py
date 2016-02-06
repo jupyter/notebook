@@ -73,6 +73,7 @@ class NotebookTestBase(TestCase):
         data_dir = TemporaryDirectory()
         cls.env_patch = patch.dict('os.environ', {
             'HOME': cls.home_dir.name,
+            'PYTHONPATH': os.pathsep.join(sys.path),
             'IPYTHONDIR': pjoin(cls.home_dir.name, '.ipython'),
             'JUPYTER_DATA_DIR' : data_dir.name
         })
