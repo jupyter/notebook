@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{static_url("components/jquery-ui/themes/smoothness/jquery-ui.min.css") }}" type="text/css" />
     <link rel="stylesheet" href="{{static_url("components/jquery-typeahead/dist/jquery.typeahead.min.css") }}" type="text/css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     {% block stylesheet %}
     <link rel="stylesheet" href="{{ static_url("style/style.min.css") }}" type="text/css"/>
     {% endblock %}
@@ -36,14 +36,18 @@
             kernelspecs : '{{ base_url }}kernelspecs',
             underscore : 'components/underscore/underscore-min',
             backbone : 'components/backbone/backbone-min',
-            jquery: 'components/jquery/jquery.min',
-            bootstrap: 'components/bootstrap/js/bootstrap.min',
-            bootstraptour: 'components/bootstrap-tour/build/js/bootstrap-tour.min',
-            'jquery-ui': 'components/jquery-ui/ui/minified/jquery-ui.min',
             moment: 'components/moment/moment',
             codemirror: 'components/codemirror',
             termjs: 'components/term.js/src/term',
-            typeahead: 'components/jquery-typeahead/dist/jquery.typeahead'
+
+            // Anything jQuery related is loaded globally because it will
+            // pollute the global object regardless and we want to avoid one
+            // jQuery thinger from clompering another.
+            jquery: '//deprecated//',
+            bootstrap: '//deprecated//',
+            bootstraptour: '//deprecated//',
+            'jquery-ui': '//deprecated//',
+            typeahead: '//deprecated//'
           },
           map: { // for backward compatibility
             "*": {
@@ -118,7 +122,7 @@
   <div id="ipython_notebook" class="nav navbar-brand pull-left"><a href="{{default_url}}" title='dashboard'>{% block logo %}<img src='{{static_url("base/images/logo.png") }}' alt='Jupyter Notebook'/>{% endblock %}</a></div>
 
   {% block header_buttons %}
-  
+
   {% block login_widget %}
 
     <span id="login_widget">
