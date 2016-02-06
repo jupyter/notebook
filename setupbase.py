@@ -162,16 +162,18 @@ def find_package_data():
     
     trees = []
     mj_out = mj('jax', 'output')
-    for output in os.listdir(mj_out):
-        if output == 'SVG':
-            # strip SVG output
-            continue
-        path = pjoin(mj_out, output)
-        static_data.append(pjoin(path, '*.js'))
-        autoload = pjoin(path, 'autoload')
-        if os.path.isdir(autoload):
-            trees.append(autoload)
     
+    if os.path.exists(mj_out):
+        for output in os.listdir(mj_out):
+            if output == 'SVG':
+                # strip SVG output
+                continue
+            path = pjoin(mj_out, output)
+            static_data.append(pjoin(path, '*.js'))
+            autoload = pjoin(path, 'autoload')
+            if os.path.isdir(autoload):
+                trees.append(autoload)
+
     for tree in trees + [
         mj('localization'), # limit to en?
         mj('fonts', 'HTML-CSS', 'STIX-Web', 'woff'),
