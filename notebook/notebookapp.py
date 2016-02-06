@@ -19,11 +19,9 @@ import re
 import select
 import signal
 import socket
-import ssl
 import sys
 import threading
 import webbrowser
-
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -870,13 +868,17 @@ class NotebookApp(JupyterApp):
             ssl_options['keyfile'] = self.keyfile
         if self.client_ca:
             ssl_options['ca_certs'] = self.client_ca
-            ssl_options['cert_reqs'] = ssl.CERT_REQUIRED
         if not ssl_options:
             # None indicates no SSL config
             ssl_options = None
         else:
+            # SSL may be missing, so only import it if it's to be used
+            import ssl
             # Disable SSLv3, since its use is discouraged.
-            ssl_options['ssl_version']=ssl.PROTOCOL_TLSv1
+            ssl_options['ssl_version'] = ssl.PROTOCOL_TLSv1
+            if ssl_options.get('ca_certs', False):
+                ssl_options['cert_reqs'] = ssl.CERT_REQUIRED
+        
         self.login_handler_class.validate_security(self, ssl_options=ssl_options)
         self.http_server = httpserver.HTTPServer(self.web_app, ssl_options=ssl_options,
                                                  xheaders=self.trust_xheaders)
