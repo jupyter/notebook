@@ -112,9 +112,6 @@ define([
                 ), IPython._target);
         });
         this.element.find('#copy_notebook').click(function () {
-            if (that.notebook.dirty) {
-                that.notebook.save_notebook({async : false});
-            }
             that.notebook.copy_notebook();
             return false;
         });

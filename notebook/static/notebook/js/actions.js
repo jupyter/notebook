@@ -545,9 +545,6 @@ define(function(require){
         'duplicate-notebook':{
             help: "Create an open a copy of current notebook",
             handler : function (env, event) {
-                if (env.notebook.dirty) {
-                    env.notebook.save_notebook({async : false});
-                }
                 env.notebook.copy_notebook();
             }
         },
