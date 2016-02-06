@@ -2,7 +2,12 @@
 // Distributed under the terms of the Modified BSD License.
 
 
-var Jupyter = Jupyter || {};
+var Jupyter;
+if (typeof window !== 'undefined') {
+  Jupyter = window['Jupyter'] = window['Jupyter'] || {};
+} else {
+  Jupyter = Jupyter || {};
+}
 
 var jprop = function(name, loadedModule, modulePath){
     Object.defineProperty(Jupyter, name, {
@@ -31,47 +36,45 @@ define(function(){
 
     // expose modules
 
-    jprop('utils',require('base/js/utils'), 'base/js/utils');
+    if (!Jupyter.hasOwnProperty('utils')) jprop('utils',require('base/js/utils'), 'base/js/utils');
 
-    //Jupyter.load_extensions = Jupyter.utils.load_extensions;
-    //
-    jprop('security',require('base/js/security'), 'base/js/security');
-    jprop('keyboard',require('base/js/keyboard'), 'base/js/keyboard');
-    jprop('dialog',require('base/js/dialog'), 'base/js/dialog');
-    jprop('mathjaxutils',require('notebook/js/mathjaxutils'), 'notebook/js/mathjaxutils');
+    if (!Jupyter.hasOwnProperty('security')) jprop('security',require('base/js/security'), 'base/js/security');
+    if (!Jupyter.hasOwnProperty('keyboard')) jprop('keyboard',require('base/js/keyboard'), 'base/js/keyboard');
+    if (!Jupyter.hasOwnProperty('dialog')) jprop('dialog',require('base/js/dialog'), 'base/js/dialog');
+    if (!Jupyter.hasOwnProperty('mathjaxutils')) jprop('mathjaxutils',require('notebook/js/mathjaxutils'), 'notebook/js/mathjaxutils');
 
 
     //// exposed constructors
-    jglobal('CommManager',require('services/kernels/comm'), 'services/kernels/comm');
-    jglobal('Comm',require('services/kernels/comm'), 'services/kernels/comm');
+    if (!Jupyter.hasOwnProperty('CommManager')) jglobal('CommManager',require('services/kernels/comm'), 'services/kernels/comm');
+    if (!Jupyter.hasOwnProperty('Comm')) jglobal('Comm',require('services/kernels/comm'), 'services/kernels/comm');
 
-    jglobal('NotificationWidget',require('base/js/notificationwidget'), 'base/js/notificationwidget');
-    jglobal('Kernel',require('services/kernels/kernel'), 'services/kernels/kernel');
-    jglobal('Session',require('services/sessions/session'), 'services/sessions/session');
-    jglobal('LoginWidget',require('auth/js/loginwidget'), 'auth/js/loginwidget');
-    jglobal('Page',require('base/js/page'), 'base/js/page');
+    if (!Jupyter.hasOwnProperty('NotificationWidget')) jglobal('NotificationWidget',require('base/js/notificationwidget'), 'base/js/notificationwidget');
+    if (!Jupyter.hasOwnProperty('Kernel')) jglobal('Kernel',require('services/kernels/kernel'), 'services/kernels/kernel');
+    if (!Jupyter.hasOwnProperty('Session')) jglobal('Session',require('services/sessions/session'), 'services/sessions/session');
+    if (!Jupyter.hasOwnProperty('LoginWidget')) jglobal('LoginWidget',require('auth/js/loginwidget'), 'auth/js/loginwidget');
+    if (!Jupyter.hasOwnProperty('Page')) jglobal('Page',require('base/js/page'), 'base/js/page');
 
     // notebook
-    jglobal('TextCell',require('notebook/js/textcell'), 'notebook/js/textcell');
-    jglobal('OutputArea',require('notebook/js/outputarea'), 'notebook/js/outputarea');
-    jglobal('KeyboardManager',require('notebook/js/keyboardmanager'), 'notebook/js/keyboardmanager');
-    jglobal('Completer',require('notebook/js/completer'), 'notebook/js/completer');
-    jglobal('Notebook',require('notebook/js/notebook'), 'notebook/js/notebook');
-    jglobal('Tooltip',require('notebook/js/tooltip'), 'notebook/js/tooltip');
-    jglobal('Toolbar',require('notebook/js/toolbar'), 'notebook/js/toolbar');
-    jglobal('SaveWidget',require('notebook/js/savewidget'), 'notebook/js/savewidget');
-    jglobal('Pager',require('notebook/js/pager'), 'notebook/js/pager');
-    jglobal('QuickHelp',require('notebook/js/quickhelp'), 'notebook/js/quickhelp');
-    jglobal('MarkdownCell',require('notebook/js/textcell'), 'notebook/js/textcell');
-    jglobal('RawCell',require('notebook/js/textcell'), 'notebook/js/textcell');
-    jglobal('Cell',require('notebook/js/cell'), 'notebook/js/cell');
-    jglobal('MainToolBar',require('notebook/js/maintoolbar'), 'notebook/js/maintoolbar');
-    jglobal('NotebookNotificationArea',require('notebook/js/notificationarea'), 'notebook/js/notificationarea');
-    jglobal('NotebookTour',require('notebook/js/tour'), 'notebook/js/tour');
-    jglobal('MenuBar',require('notebook/js/menubar'), 'notebook/js/menubar');
+    if (!Jupyter.hasOwnProperty('TextCell')) jglobal('TextCell',require('notebook/js/textcell'), 'notebook/js/textcell');
+    if (!Jupyter.hasOwnProperty('OutputArea')) jglobal('OutputArea',require('notebook/js/outputarea'), 'notebook/js/outputarea');
+    if (!Jupyter.hasOwnProperty('KeyboardManager')) jglobal('KeyboardManager',require('notebook/js/keyboardmanager'), 'notebook/js/keyboardmanager');
+    if (!Jupyter.hasOwnProperty('Completer')) jglobal('Completer',require('notebook/js/completer'), 'notebook/js/completer');
+    if (!Jupyter.hasOwnProperty('Notebook')) jglobal('Notebook',require('notebook/js/notebook'), 'notebook/js/notebook');
+    if (!Jupyter.hasOwnProperty('Tooltip')) jglobal('Tooltip',require('notebook/js/tooltip'), 'notebook/js/tooltip');
+    if (!Jupyter.hasOwnProperty('Toolbar')) jglobal('Toolbar',require('notebook/js/toolbar'), 'notebook/js/toolbar');
+    if (!Jupyter.hasOwnProperty('SaveWidget')) jglobal('SaveWidget',require('notebook/js/savewidget'), 'notebook/js/savewidget');
+    if (!Jupyter.hasOwnProperty('Pager')) jglobal('Pager',require('notebook/js/pager'), 'notebook/js/pager');
+    if (!Jupyter.hasOwnProperty('QuickHelp')) jglobal('QuickHelp',require('notebook/js/quickhelp'), 'notebook/js/quickhelp');
+    if (!Jupyter.hasOwnProperty('MarkdownCell')) jglobal('MarkdownCell',require('notebook/js/textcell'), 'notebook/js/textcell');
+    if (!Jupyter.hasOwnProperty('RawCell')) jglobal('RawCell',require('notebook/js/textcell'), 'notebook/js/textcell');
+    if (!Jupyter.hasOwnProperty('Cell')) jglobal('Cell',require('notebook/js/cell'), 'notebook/js/cell');
+    if (!Jupyter.hasOwnProperty('MainToolBar')) jglobal('MainToolBar',require('notebook/js/maintoolbar'), 'notebook/js/maintoolbar');
+    if (!Jupyter.hasOwnProperty('NotebookNotificationArea')) jglobal('NotebookNotificationArea',require('notebook/js/notificationarea'), 'notebook/js/notificationarea');
+    if (!Jupyter.hasOwnProperty('NotebookTour')) jglobal('NotebookTour',require('notebook/js/tour'), 'notebook/js/tour');
+    if (!Jupyter.hasOwnProperty('MenuBar')) jglobal('MenuBar',require('notebook/js/menubar'), 'notebook/js/menubar');
 
     // tree
-    jglobal('SessionList',require('tree/js/sessionlist'), 'tree/js/sessionlist');
+    if (!Jupyter.hasOwnProperty('SessionList')) jglobal('SessionList',require('tree/js/sessionlist'), 'tree/js/sessionlist');
 
     Jupyter.version = "5.0.0.dev";
     Jupyter._target = '_blank';
