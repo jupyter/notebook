@@ -28,7 +28,10 @@ define([
                     webFont: "STIX-Web",
                     styles: {'.MathJax_Display': {"margin": 0}},
                     linebreaks: { automatic: true }
-                }
+                },
+                MathMenu: {
+                    showRenderer: false,
+                },
             });
             MathJax.Hub.Configured();
         } else if (window.mathjax_url !== "") {
