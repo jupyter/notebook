@@ -742,8 +742,10 @@ define([
         var d = dialog.modal({
             title : "Rename "+ item_type,
             body : dialog_body,
+            default_button: "Cancel",
             buttons : {
-                OK : {
+                Cancel: {},
+                Rename : {
                     class: "btn-primary",
                     click: function() {
                         that.contents.rename(item_path, utils.url_path_join(that.notebook_path, input.val())).then(function() {
@@ -763,8 +765,7 @@ define([
                             console.warn('Error durring renaming :', e);
                         });
                     }
-                },
-                Cancel : {}
+                }
             },
             open : function () {
                 // Upon ENTER, click the OK button.
@@ -861,7 +862,9 @@ define([
         dialog.modal({
             title : "Delete",
             body : message,
+            default_button: "Cancel",
             buttons : {
+                Cancel: {},
                 Delete : {
                     class: "btn-danger",
                     click: function() {
@@ -889,8 +892,7 @@ define([
                             });
                         });
                     }
-                },
-                Cancel : {}
+                }
             }
         });
     };
@@ -906,7 +908,9 @@ define([
         dialog.modal({
             title : "Duplicate",
             body : message,
+            default_button: "Cancel",
             buttons : {
+                Cancel: {},
                 Duplicate : {
                     class: "btn-primary",
                     click: function() {
@@ -929,8 +933,7 @@ define([
                             });
                         });
                     }
-                },
-                Cancel : {}
+                }
             }
         });
     };
@@ -1027,15 +1030,16 @@ define([
                     dialog.modal({
                         title : "Replace file",
                         body : 'There is already a file named ' + filename + ', do you want to replace it?',
+                        default_button: "Cancel",
                         buttons : {
+                            Cancel : {
+                                click: function() { item.remove(); }
+                            },
                             Overwrite : {
                                 class: "btn-danger",
                                 click: function () {
                                     that.contents.save(path, model).then(on_success);
                                 }
-                            },
-                            Cancel : {
-                                click: function() { item.remove(); }
                             }
                         }
                     });

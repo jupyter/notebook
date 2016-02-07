@@ -176,14 +176,15 @@ define([
                     body : msg,
                     keyboard_manager: that.keyboard_manager,
                     notebook: that.notebook,
+                    default_button: "Don't Restart",
                     buttons : {
-                        "Try restarting now": {
+                        "Don't Restart": {},
+                        "Try Restarting Now": {
                             class: "btn-danger",
                             click: function () {
                                 that.notebook.start_session();
                             }
-                        },
-                    "Don't restart": {}
+                        }
                     }
                 });
 

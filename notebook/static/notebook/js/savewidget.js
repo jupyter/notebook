@@ -82,8 +82,10 @@ define([
             body: dialog_body,
             notebook: options.notebook,
             keyboard_manager: this.keyboard_manager,
+            default_button: "Cancel",
             buttons : {
-                "OK": {
+                "Cancel": {},
+                "Rename": {
                     class: "btn-primary",
                     click: function () {
                         var new_name = d.find('input').val();
@@ -108,9 +110,8 @@ define([
                             return false;
                         }
                     }
-                },
-                "Cancel": {}
-                },
+                }
+            },
             open : function () {
                 /**
                  * Upon ENTER, click the OK button.

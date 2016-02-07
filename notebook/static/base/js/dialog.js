@@ -184,8 +184,10 @@ define(function(require) {
         var modal_obj = modal({
             title: "Edit " + options.name + " Metadata",
             body: dialogform,
+            default_button: "Cancel",
             buttons: {
-                OK: { class : "btn-primary",
+                Cancel: {},
+                Edit: { class : "btn-primary",
                     click: function() {
                         /**
                          * validate json and set it
@@ -200,8 +202,7 @@ define(function(require) {
                         }
                         options.callback(new_md);
                     }
-                },
-                Cancel: {}
+                }
             },
             notebook: options.notebook,
             keyboard_manager: options.keyboard_manager,
