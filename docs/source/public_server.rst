@@ -196,6 +196,36 @@ instructions about modifying ``jupyter_notebook_config.py``):
 
     c.NotebookApp.base_url = '/ipython/'
 
+
+Embedding the notebook in another website
+-----------------------------------------
+
+Sometimes you may want to embed the notebook somewhere on your website, e.g. in an IFrame.
+To do this, you may need to override the Content-Security-Policy to allow embedding.
+Assuming your website is at `https://mywebsite.example.com`,
+you can embed the notebook on your website with the following configuration setting in :file:`jupyter_notebook_config.py`:
+
+.. sourcecode:: python
+
+    c.NotebookApp.tornado_settings = {
+        'headers': {
+            'Content-Security-Policy': "frame-ancestors 'https://mywebsite.example.com' 'self' "
+        }
+    }
+
+When embedding the notebook in a website using an iframe,
+consider putting the notebook in single-tab mode.
+Since the notebook opens some links in new tabs by default,
+single-tab mode keeps the notebook from opening additional tabs.
+Adding the following to :file:`~/.jupyter/custom/custom.js` will enable single-tab mode:
+
+.. sourcecode:: javascript
+
+    define(['base/js/namespace'], function(Jupyter){
+        Jupyter._target = '_self';
+    });
+
+
 Known issues
 ------------
 
