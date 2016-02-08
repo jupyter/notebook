@@ -29,3 +29,14 @@ div#header, div#site {
 </header>
 
 {% endblock %}
+
+{% block script %}
+{{super()}}
+<script type='text/javascript'>
+require(['jquery'], function($) {
+  // scroll long tracebacks to the bottom
+  var tb = $(".traceback")[0];
+  tb.scrollTop = tb.scrollHeight;
+});
+</script>
+{% endblock script %}
