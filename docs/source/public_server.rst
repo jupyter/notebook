@@ -190,10 +190,11 @@ do so through modifying ``jupyter_notebook_config.py``. For example, if you
 prefer that the notebook dashboard be located with a sub-directory that
 contains other ipython files, e.g. ``http://localhost:8888/ipython/``,
 you can do so with configuration options like the following (see above for
-instructions about modifying ``jupyter_notebook_config.py``)::
+instructions about modifying ``jupyter_notebook_config.py``):
+
+.. sourcecode:: python
 
     c.NotebookApp.base_url = '/ipython/'
-    c.NotebookApp.webapp_settings = {'static_url_prefix':'/ipython/static/'}
 
 Known issues
 ------------
