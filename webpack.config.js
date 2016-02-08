@@ -61,5 +61,14 @@ module.exports = [
             path: './notebook/static/services/built',
             libraryTarget: 'amd'
         },
-    })
+    }),
+    _.extend({}, commonConfig, {
+        entry: './notebook/static/index.js',
+        output: {
+            filename: 'index.js',
+            path: './notebook/static/built',
+            libraryTarget: 'amd',
+            publicPath: "/static/built/"
+        },
+    }),
 ].map(x => buildConfig(x));
