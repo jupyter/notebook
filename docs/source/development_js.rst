@@ -29,22 +29,35 @@ following steps are used when making a Notebook release.
 
          sudo apt-get install nodejs-legacy npm
 
-#. Build the JavaScript and CSS by running:
+#. Install the notebook:
 
+   In the notebook repo, do a development install:
+   
+   .. code:: bash
+   
+       pip install -e .
+
+#. Rebuild JavaScript and CSS
+
+   There is a build step for the JavaScript and CSS in the notebook.
+   You will need to run this command whenever there are changes to JavaScript or LESS sources:
+  
    .. code:: bash
 
-       python setup.py css js
+       python setup.py js css
 
-   This command will automatically fetch the remaining dependencies (bower,
+   This command will automatically fetch any missing dependencies (bower,
    less) and install them in a subdirectory.
+
 
 Prototyping tip
 ---------------
+
 When doing prototyping which needs quick iteration of the Notebook's
 JavaScript, the bundled and minified JavaScript may be deactivated. To do
 this, start the Notebook with the option
-``--NotebookApp.ignore_minified_js=True``.  This may highly increase
-the number of requests that the browser makes to the server; yet, allows
+``--NotebookApp.ignore_minified_js=True``.  This increases
+the number of requests that the browser makes to the server, but it allows
 testing JavaScript file modification without going through the time consuming
 compilation step that may take up to 30 seconds.
 
