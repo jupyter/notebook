@@ -20,6 +20,7 @@ import signal
 import socket
 import sys
 import threading
+import warnings
 import webbrowser
 
 try: #PY3
@@ -174,6 +175,12 @@ class NotebookWebApplication(web.Application):
             # reset the cache on server restart
             version_hash = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 
+        if ipython_app.ignore_minified_js:
+            log.warn("""The `ignore_minified_js` flag is deprecated and no 
+                longer works.  Alternatively use `npm run build:watch` when
+                working on the notebook's Javascript and LESS""")
+            warnings.warn("The `ignore_minified_js` flag is deprecated and will be removed in Notebook 6.0", DeprecationWarning)
+
         settings = dict(
             # basics
             log_function=log_request,
@@ -189,6 +196,7 @@ class NotebookWebApplication(web.Application):
                 'no_cache_paths': [url_path_join(base_url, 'static', 'custom')],
             },
             version_hash=version_hash,
+            ignore_minified_js=ipython_app.ignore_minified_js,
             
             # rate limits
             iopub_msg_rate_limit=ipython_app.iopub_msg_rate_limit,
@@ -412,6 +420,11 @@ class NotebookApp(JupyterApp):
     def _log_format_default(self):
         """override default log format to include time"""
         return u"%(color)s[%(levelname)1.1s %(asctime)s.%(msecs).03d %(name)s]%(end_color)s %(message)s"
+
+    ignore_minified_js = Bool(False,
+            config=True,
+            help='Use minified JS file or not, mainly use during dev to avoid JS recompilation', 
+            )
 
     # file to be opened in the notebook server
     file_to_run = Unicode('', config=True)
