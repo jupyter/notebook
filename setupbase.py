@@ -118,7 +118,14 @@ def find_package_data():
     # for verification purposes, explicitly add main.min.js
     # so that installation will fail if they are missing
     for app in ['auth', 'edit', 'notebook', 'terminal', 'tree']:
-        static_data.append(pjoin('static', app, 'js', 'built', 'main.min.js'))
+        static_data.extend([
+            pjoin('static', app, 'js', 'built', '*main.min.js'),
+            pjoin('static', app, 'js', 'built', '*main.min.js.map'),
+        ])
+    static_data.extend([
+        pjoin('static', 'built', '*index.js'),
+        pjoin('static', 'built', '*index.js.map'),
+    ])
     
     components = pjoin("static", "components")
     # select the components we actually need to install
@@ -461,7 +468,7 @@ class CompileJS(Command):
         
     def build_main(self, name):
         """Build main.min.js"""
-        target = pjoin(static, name, 'js', 'build', 'main.min.js')
+        target = pjoin(static, name, 'js', 'built', 'main.min.js')
         
         if not self.should_run(name, target):
             log.info("%s up to date" % target)

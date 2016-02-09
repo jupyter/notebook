@@ -44,7 +44,7 @@ function buildConfig(appName) {
             path: './notebook/static/' + appName + '/js/built',
             publicPath: "/static/" + appName + "/js/built/"
         },
-        devtool: 'source-map'
+        devtool: 'source-map',
     });
 }
 
@@ -61,6 +61,7 @@ module.exports = [
             path: './notebook/static/services/built',
             libraryTarget: 'amd'
         },
+        devtool: 'source-map',
     }),
     _.extend({}, commonConfig, {
         entry: './notebook/static/index.js',
@@ -70,5 +71,6 @@ module.exports = [
             libraryTarget: 'amd',
             publicPath: "/static/built/"
         },
+        devtool: 'source-map',
     }),
 ].map(x => buildConfig(x));
