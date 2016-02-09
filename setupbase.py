@@ -118,7 +118,7 @@ def find_package_data():
     # for verification purposes, explicitly add main.min.js
     # so that installation will fail if they are missing
     for app in ['auth', 'edit', 'notebook', 'terminal', 'tree']:
-        static_data.append(pjoin('static', app, 'js', 'main.min.js'))
+        static_data.append(pjoin('static', app, 'js', 'built', 'main.min.js'))
     
     components = pjoin("static", "components")
     # select the components we actually need to install
@@ -427,11 +427,11 @@ class CompileJS(Command):
         self.force = bool(self.force)
 
     apps = ['notebook', 'tree', 'edit', 'terminal', 'auth']
-    targets = [ pjoin(static, app, 'js', 'main.min.js') for app in apps ]
+    targets = [ pjoin(static, app, 'js', 'built', 'main.min.js') for app in apps ]
     
     def sources(self, name):
         """Generator yielding .js sources that an application depends on"""
-        yield pjoin(static, name, 'js', 'main.js')
+        yield pjoin(static, name, 'js', 'built', 'main.js')
 
         for sec in [name, 'base', 'auth']:
             for f in glob(pjoin(static, sec, 'js', '*.js')):
@@ -461,13 +461,13 @@ class CompileJS(Command):
         
     def build_main(self, name):
         """Build main.min.js"""
-        target = pjoin(static, name, 'js', 'main.min.js')
+        target = pjoin(static, name, 'js', 'build', 'main.min.js')
         
         if not self.should_run(name, target):
             log.info("%s up to date" % target)
             return
         log.info("Rebuilding %s" % target)
-        run(['node', 'tools/build-main.js', name])
+        run(['npm', 'run', 'build'])
 
     def run(self):
         self.run_command('jsdeps')
