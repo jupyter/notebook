@@ -218,16 +218,23 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
                 self.stream.close()
 
     
-    def _reserialize_reply(self, msg_list, channel=None):
+    def _reserialize_reply(self, msg_or_list, channel=None):
         """Reserialize a reply message using JSON.
 
-        This takes the msg list from the ZMQ socket, deserializes it using
-        self.session and then serializes the result using JSON. This method
-        should be used by self._on_zmq_reply to build messages that can
+        msg_or_list can be an already-deserialized msg dict or the zmq buffer list.
+        If it is the zmq list, it will be deserialized with self.session.
+        
+        This takes the msg list from the ZMQ socket and serializes the result for the websocket.
+        This method should be used by self._on_zmq_reply to build messages that can
         be sent back to the browser.
+        
         """
-        idents, msg_list = self.session.feed_identities(msg_list)
-        msg = self.session.deserialize(msg_list)
+        if isinstance(msg_or_list, dict):
+            # already unpacked
+            msg = msg_or_list
+        else:
+            idents, msg_list = self.session.feed_identities(msg_or_list)
+            msg = self.session.deserialize(msg_list)
         if channel:
             msg['channel'] = channel
         if msg['buffers']:

@@ -96,14 +96,26 @@ class KernelActionHandler(APIHandler):
 
 
 class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
-    
+
     @property
     def kernel_info_timeout(self):
         return self.settings.get('kernel_info_timeout', 10)
-    
+
+    @property
+    def iopub_msg_rate_limit(self):
+        return self.settings.get('iopub_msg_rate_limit', None)
+
+    @property
+    def iopub_data_rate_limit(self):
+        return self.settings.get('iopub_data_rate_limit', None)
+
+    @property
+    def rate_limit_window(self):
+        return self.settings.get('rate_limit_window', 1.0)
+
     def __repr__(self):
         return "%s(%s)" % (self.__class__.__name__, getattr(self, 'kernel_id', 'uninitialized'))
-    
+
     def create_stream(self):
         km = self.kernel_manager
         identity = self.session.bsession
@@ -182,7 +194,17 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         self.kernel_id = None
         self.kernel_info_channel = None
         self._kernel_info_future = Future()
-    
+
+        # Rate limiting code
+        self._iopub_window_msg_count = 0
+        self._iopub_window_byte_count = 0
+        self._iopub_msgs_exceeded = False
+        self._iopub_data_exceeded = False
+        # Queue of (time stamp, byte count)
+        # Allows you to specify that the byte count should be lowered
+        # by a delta amount at some point in the future.
+        self._iopub_window_byte_queue = []
+
     @gen.coroutine
     def pre_get(self):
         # authenticate first
@@ -244,6 +266,88 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             return
         stream = self.channels[channel]
         self.session.send(stream, msg)
+        
+    def _on_zmq_reply(self, stream, msg_list):
+        idents, fed_msg_list = self.session.feed_identities(msg_list)
+        msg = self.session.deserialize(fed_msg_list)
+        parent = msg['parent_header']
+        def write_stderr(error_message):
+            self.log.warn(error_message)
+            msg = self.session.msg("stream",
+                content={"text": error_message, "name": "stderr"},
+                parent=parent
+            )
+            msg['channel'] = 'iopub'
+            self.write_message(json.dumps(msg, default=date_default))
+            
+        channel = getattr(stream, 'channel', None)
+        msg_type = msg['header']['msg_type']
+        if channel == 'iopub' and msg_type not in {'status', 'comm_open', 'execute_input'}:
+            
+            # Remove the counts queued for removal.
+            now = IOLoop.current().time()
+            while len(self._iopub_window_byte_queue) > 0:
+                queued = self._iopub_window_byte_queue[0]
+                if (now >= queued[0]):
+                    self._iopub_window_byte_count -= queued[1]
+                    self._iopub_window_msg_count -= 1
+                    del self._iopub_window_byte_queue[0]
+                else:
+                    # This part of the queue hasn't be reached yet, so we can
+                    # abort the loop.
+                    break
+                    
+            # Increment the bytes and message count
+            self._iopub_window_msg_count += 1
+            byte_count = sum([len(x) for x in msg_list])
+            self._iopub_window_byte_count += byte_count
+            
+            # Queue a removal of the byte and message count for a time in the 
+            # future, when we are no longer interested in it.
+            self._iopub_window_byte_queue.append((now + self.rate_limit_window, byte_count))
+            
+            # Check the limits, set the limit flags, and reset the
+            # message and data counts.
+            msg_rate = float(self._iopub_window_msg_count) / self.rate_limit_window
+            data_rate = float(self._iopub_window_byte_count) / self.rate_limit_window
+            
+            # Check the msg rate
+            if self.iopub_msg_rate_limit is not None and msg_rate > self.iopub_msg_rate_limit and self.iopub_msg_rate_limit > 0:
+                if not self._iopub_msgs_exceeded:
+                    self._iopub_msgs_exceeded = True
+                    write_stderr("""iopub message rate exceeded.  The
+                    notebook server will temporarily stop sending iopub
+                    messages to the client in order to avoid crashing it.
+                    To change this limit, set the config variable
+                    `--NotebookApp.iopub_msg_rate_limit`.""")
+                    return
+            else:
+                if self._iopub_msgs_exceeded:
+                    self._iopub_msgs_exceeded = False
+                    if not self._iopub_data_exceeded:
+                        self.log.warn("iopub messages resumed")
+    
+            # Check the data rate
+            if self.iopub_data_rate_limit is not None and data_rate > self.iopub_data_rate_limit and self.iopub_data_rate_limit > 0:
+                if not self._iopub_data_exceeded:
+                    self._iopub_data_exceeded = True
+                    write_stderr("""iopub data rate exceeded.  The
+                    notebook server will temporarily stop sending iopub
+                    messages to the client in order to avoid crashing it.
+                    To change this limit, set the config variable
+                    `--NotebookApp.iopub_data_rate_limit`.""")
+                    return
+            else:
+                if self._iopub_data_exceeded:
+                    self._iopub_data_exceeded = False
+                    if not self._iopub_msgs_exceeded:
+                        self.log.warn("iopub messages resumed")
+        
+            # If either of the limit flags are set, do not send the message.
+            if self._iopub_msgs_exceeded or self._iopub_data_exceeded:
+                return
+        super(ZMQChannelsHandler, self)._on_zmq_reply(stream, msg)
+
 
     def on_close(self):
         km = self.kernel_manager
