@@ -215,7 +215,8 @@ define([
         }
         // Deepcopy the attachments so copied cells don't share the same
         // objects
-        if (this.attachments !== undefined) {
+        if (this.attachments !== undefined
+            && Object.keys(this.attachments).length > 0) {
             data.attachments = JSON.parse(JSON.stringify(this.attachments));
         }
         return data;

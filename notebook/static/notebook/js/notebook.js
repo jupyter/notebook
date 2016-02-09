@@ -126,6 +126,7 @@ define(function (require) {
         this.kernel = null;
         this.kernel_busy = false;
         this.clipboard = null;
+        this.clipboard_attachments = null;
         this.undelete_backup_stack = [];
         this.paste_enabled = false;
         this.paste_attachments_enabled = false;
@@ -1709,11 +1710,13 @@ define(function (require) {
      */
     Notebook.prototype.cut_cell_attachments = function() {
         var cell = this.get_selected_cell();
-        this.clipboard_attachments = cell.attachments;
-        this.enable_attachments_paste();
-        cell.attachments = {};
-        cell.unrender();
-        cell.render();
+        if (cell.attachments !== undefined) {
+            this.clipboard_attachments = cell.attachments;
+            this.enable_attachments_paste();
+            delete cell.attachments;
+            cell.unrender();
+            cell.render();
+        }
     };
 
     /**
@@ -1721,12 +1724,13 @@ define(function (require) {
      */
     Notebook.prototype.copy_cell_attachments = function() {
         var cell = this.get_selected_cell();
-        // Do a deep copy of attachments to avoid subsequent modification
-        // to the cell to modify the clipboard
-        this.clipboard_attachments = $.extend(true, {}, cell.attachments);
-        this.enable_attachments_paste();
-        cell.unrender();
-        cell.render();
+        if (cell.attachments !== undefined) {
+          // Do a deep copy of attachments to avoid subsequent modification
+          // to the cell to modify the clipboard
+          console.log(cell.attachments);
+          this.clipboard_attachments = $.extend(true, {}, cell.attachments);
+          this.enable_attachments_paste();
+        }
     };
 
     /**
@@ -1737,6 +1741,9 @@ define(function (require) {
         if (this.clipboard_attachments !== null &&
             this.paste_attachments_enabled) {
             var cell = this.get_selected_cell();
+            if (cell.attachments === undefined) {
+              cell.attachments = {};
+            }
             $.extend(cell.attachments, this.clipboard_attachments);
             cell.unrender();
             cell.render();
