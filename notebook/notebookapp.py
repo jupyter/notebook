@@ -98,6 +98,15 @@ jupyter notebook                       # start the notebook
 jupyter notebook --certfile=mycert.pem # use SSL/TLS certificate
 """
 
+DEV_NOTE_NPM = """It looks like you're running the notebook from source.
+If you're working on the Javascript of the notebook, try running
+
+    npm run build:watch
+
+in another terminal window to have the notebook incrementally
+watch and build the Javascript for you, as you make changes.
+"""
+
 #-----------------------------------------------------------------------------
 # Helper functions
 #-----------------------------------------------------------------------------
@@ -139,6 +148,13 @@ class NotebookWebApplication(web.Application):
                  session_manager, kernel_spec_manager,
                  config_manager, log,
                  base_url, default_url, settings_overrides, jinja_env_options):
+
+        # If the user is running the notebook in a git directory, make the assumption
+        # that this is a dev install and suggest to the developer `npm run build:watch`.
+        base_dir = os.path.realpath(os.path.join(__file__, '..', '..'))
+        dev_mode = os.path.exists(os.path.join(base_dir, '.git'))
+        if dev_mode:
+            log.info(DEV_NOTE_NPM)
 
         settings = self.init_settings(
             ipython_app, kernel_manager, contents_manager,
@@ -423,7 +439,7 @@ class NotebookApp(JupyterApp):
 
     ignore_minified_js = Bool(False,
             config=True,
-            help='Use minified JS file or not, mainly use during dev to avoid JS recompilation', 
+            help='Deprecated: Use minified JS file or not, mainly use during dev to avoid JS recompilation', 
             )
 
     # file to be opened in the notebook server
