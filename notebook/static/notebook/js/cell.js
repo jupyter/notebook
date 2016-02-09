@@ -274,6 +274,9 @@ define([
             this.element.addClass('selected');
             this.element.removeClass('unselected');
             this.selected = true;
+            // disable 'insert image' menu item (specific cell types will enable
+            // it in their override select())
+            this.notebook.set_insert_image_enabled(false);
             return true;
         } else {
             return false;

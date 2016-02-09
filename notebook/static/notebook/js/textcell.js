@@ -257,11 +257,6 @@ define([
         }
     };
 
-    MarkdownCell.prototype.unselect = function () {
-        var cont = TextCell.prototype.unselect.apply(this);
-        this.notebook.set_insert_image_enabled(false);
-    };
-
     MarkdownCell.prototype.select = function () {
         var cont = TextCell.prototype.select.apply(this);
         if (cont) {
