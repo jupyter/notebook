@@ -799,10 +799,14 @@ define([
          *
          * Parameters
          */
-        var regex = /^data:(.+\/.+);base64,(.*)$/;
+        // For performance reasons, the non-greedy ? qualifiers are crucial so
+        // that the matcher stops early on big blobs. Without them, it will try
+        // to match the whole blob which can take ages
+        var regex = /^data:(.+?\/.+?);base64,/;
         var matches = uri.match(regex);
         var mime = matches[1];
-        var b64_data = matches[2];
+        // matches[0] contains the whole data-uri prefix
+        var b64_data = uri.slice(matches[0].length);
         return [mime, b64_data];
     };
     
