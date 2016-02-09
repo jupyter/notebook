@@ -3,10 +3,14 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-import os
 import mimetypes
 import json
-import base64
+
+try: #PY3
+    from base64 import decodebytes
+except ImportError: #PY2
+    from base64 import decodestring as decodebytes
+
 
 from tornado import web
 
@@ -53,7 +57,7 @@ class FilesHandler(IPythonHandler):
         if include_body:
             if model['format'] == 'base64':
                 b64_bytes = model['content'].encode('ascii')
-                self.write(base64.decodestring(b64_bytes))
+                self.write(decodebytes(b64_bytes))
             elif model['format'] == 'json':
                 self.write(json.dumps(model['content']))
             else:

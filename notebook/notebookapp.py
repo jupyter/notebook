@@ -6,7 +6,6 @@
 
 from __future__ import absolute_import, print_function
 
-import base64
 import datetime
 import errno
 import importlib
@@ -22,6 +21,12 @@ import socket
 import sys
 import threading
 import webbrowser
+
+try: #PY3
+    from base64 import encodebytes
+except ImportError: #PY2
+    from base64 import encodestring as encodebytes
+
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -504,7 +509,7 @@ class NotebookApp(JupyterApp):
             with io.open(self.cookie_secret_file, 'rb') as f:
                 return f.read()
         else:
-            secret = base64.encodestring(os.urandom(1024))
+            secret = encodebytes(os.urandom(1024))
             self._write_cookie_secret_file(secret)
             return secret
     

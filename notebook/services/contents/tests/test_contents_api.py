@@ -1,7 +1,6 @@
 # coding: utf-8
 """Test the contents webservice API."""
 
-import base64
 from contextlib import contextmanager
 import io
 import json
@@ -25,6 +24,12 @@ from nbformat.v4 import (
 from nbformat import v2
 from ipython_genutils import py3compat
 from ipython_genutils.tempdir import TemporaryDirectory
+
+try: #PY3
+    from base64 import encodebytes, decodebytes
+except ImportError: #PY2
+    from base64 import encodestring as encodebytes, decodestring as decodebytes
+
 
 def uniq_stable(elems):
     """uniq_stable(elems) -> list
@@ -320,7 +325,7 @@ class APITest(NotebookTestBase):
             self.assertEqual(model['format'], 'base64')
             self.assertEqual(model['type'], 'file')
             self.assertEqual(
-                base64.decodestring(model['content'].encode('ascii')),
+                decodebytes(model['content'].encode('ascii')),
                 self._blob_for_name(name),
             )
 
@@ -415,7 +420,7 @@ class APITest(NotebookTestBase):
 
     def test_upload_b64(self):
         body = b'\xFFblob'
-        b64body = base64.encodestring(body).decode('ascii')
+        b64body = encodebytes(body).decode('ascii')
         model = {
             'content' : b64body,
             'format'  : 'base64',
@@ -430,7 +435,7 @@ class APITest(NotebookTestBase):
         self.assertEqual(model['type'], 'file')
         self.assertEqual(model['path'], path)
         self.assertEqual(model['format'], 'base64')
-        decoded = base64.decodestring(model['content'].encode('ascii'))
+        decoded = decodebytes(model['content'].encode('ascii'))
         self.assertEqual(decoded, body)
 
     def test_upload_v2(self):
