@@ -23,7 +23,10 @@ env:
 before_install:
     - pip install --upgrade pip
     - pip install --upgrade setuptools wheel nose coverage codecov
-    - 'if [[ $GROUP == js* ]]; then npm install -g casperjs; fi'
+    - nvm install 5.3
+    - nvm use 5.3
+    - npm upgrade -g npm
+    - 'if [[ $GROUP == js* ]]; then  npm install -g casperjs; fi'
     - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
     
 install:
