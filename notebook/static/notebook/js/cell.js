@@ -70,7 +70,6 @@ define([
             }
         });
 
-        this.attachments = {};
 
         // backward compat.
         Object.defineProperty(this, 'cm_config', {
@@ -477,8 +476,6 @@ define([
         var data = {};
         // deepcopy the metadata so copied cells don't share the same object
         data.metadata = JSON.parse(JSON.stringify(this.metadata));
-        // same for attachments
-        data.attachments = JSON.parse(JSON.stringify(this.attachments));
         data.cell_type = this.cell_type;
         return data;
     };
@@ -490,9 +487,6 @@ define([
     Cell.prototype.fromJSON = function (data) {
         if (data.metadata !== undefined) {
             this.metadata = data.metadata;
-        }
-        if (data.attachments !== undefined) {
-            this.attachments = data.attachments;
         }
     };
 

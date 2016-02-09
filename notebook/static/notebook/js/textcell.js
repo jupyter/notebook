@@ -184,7 +184,12 @@ define([
      */
     TextCell.prototype.fromJSON = function (data) {
         Cell.prototype.fromJSON.apply(this, arguments);
+        console.log('data cell_type : ' + data.cell_type + ' this.cell_type : ' + this.cell_type);
         if (data.cell_type === this.cell_type) {
+            if (data.attachments !== undefined) {
+                this.attachments = data.attachments;
+            }
+
             if (data.source !== undefined) {
                 this.set_text(data.source);
                 // make this value the starting point, so that we can only undo
@@ -207,6 +212,11 @@ define([
         data.source = this.get_text();
         if (data.source == this.placeholder) {
             data.source = "";
+        }
+        // Deepcopy the attachments so copied cells don't share the same
+        // objects
+        if (this.attachments !== undefined) {
+            data.attachments = JSON.parse(JSON.stringify(this.attachments));
         }
         return data;
     };
