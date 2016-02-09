@@ -190,10 +190,41 @@ do so through modifying ``jupyter_notebook_config.py``. For example, if you
 prefer that the notebook dashboard be located with a sub-directory that
 contains other ipython files, e.g. ``http://localhost:8888/ipython/``,
 you can do so with configuration options like the following (see above for
-instructions about modifying ``jupyter_notebook_config.py``)::
+instructions about modifying ``jupyter_notebook_config.py``):
+
+.. sourcecode:: python
 
     c.NotebookApp.base_url = '/ipython/'
-    c.NotebookApp.webapp_settings = {'static_url_prefix':'/ipython/static/'}
+
+
+Embedding the notebook in another website
+-----------------------------------------
+
+Sometimes you may want to embed the notebook somewhere on your website, e.g. in an IFrame.
+To do this, you may need to override the Content-Security-Policy to allow embedding.
+Assuming your website is at `https://mywebsite.example.com`,
+you can embed the notebook on your website with the following configuration setting in :file:`jupyter_notebook_config.py`:
+
+.. sourcecode:: python
+
+    c.NotebookApp.tornado_settings = {
+        'headers': {
+            'Content-Security-Policy': "frame-ancestors 'https://mywebsite.example.com' 'self' "
+        }
+    }
+
+When embedding the notebook in a website using an iframe,
+consider putting the notebook in single-tab mode.
+Since the notebook opens some links in new tabs by default,
+single-tab mode keeps the notebook from opening additional tabs.
+Adding the following to :file:`~/.jupyter/custom/custom.js` will enable single-tab mode:
+
+.. sourcecode:: javascript
+
+    define(['base/js/namespace'], function(Jupyter){
+        Jupyter._target = '_self';
+    });
+
 
 Known issues
 ------------
