@@ -116,7 +116,8 @@ function($,
 
             if (ext_idx > 0) {
                 // CodeMirror.findModeByExtension wants extension without '.'
-                modeinfo = CodeMirror.findModeByExtension(model.name.slice(ext_idx + 1));
+                modeinfo = CodeMirror.findModeByExtension(
+                    model.name.slice(ext_idx + 1).toLowerCase());
             }
         }
         if (modeinfo) {
