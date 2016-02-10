@@ -26,10 +26,11 @@ Jupyter developer guides
 The Project Jupyter organization has more general documentation about
 contributing to Jupyter projects. Currently, this is available in the Jupyter
 documentation in the
-[Developer Documentation](https://jupyter.readthedocs.org/en/latest/#dev-docs)
+`Developer Documentation <https://jupyter.readthedocs.org/en/latest/#dev-docs>`_
 section.
 
 Some of the topics include:
+
 - Submitting a Bug
 - Submitting an Enhancement Proposal
 - Contributing to the Documentation
