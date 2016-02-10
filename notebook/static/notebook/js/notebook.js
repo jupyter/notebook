@@ -877,6 +877,7 @@ define(function (require) {
         tomove.detach();
         pivot.after(tomove);
 
+        this.get_cell(selected-1).focus_cell();
         this.select(anchored - 1);
         this.select(selected - 1, false);
     };
@@ -903,6 +904,7 @@ define(function (require) {
         tomove.detach();
         pivot.before(tomove);
 
+        this.get_cell(selected+1).focus_cell();
         this.select(first);
         this.select(anchored + 1);
         this.select(selected + 1, false);
