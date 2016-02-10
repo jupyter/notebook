@@ -23,7 +23,7 @@
     <script src="{{static_url("components/jquery-typeahead/dist/jquery.typeahead.js") }}" type="text/javascript" charset="utf-8"></script> <!-- extends window.$ -->
     <script src="{{static_url("components/requirejs/require.js") }}" type="text/javascript" charset="utf-8"></script>
     <script>
-      window['staticURL'] = {{static_url("", include_version=False)}};
+      window['staticURL'] = "{{static_url("", include_version=False)}}";
       require.config({
           {% if version_hash %}
           urlArgs: "v={{version_hash}}",
