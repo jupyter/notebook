@@ -1,5 +1,6 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
+__webpack_public_path__ = window['staticURL'] + 'tree/js/built/';
 
 requirejs(['contents'], function(contents_service) {
 require([
