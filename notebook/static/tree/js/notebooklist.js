@@ -7,9 +7,10 @@ define([
     'base/js/dialog',
     'base/js/events',
     'base/js/keyboard',
-], function(IPython, utils, dialog, events, keyboard) {
+    'moment'
+], function(IPython, utils, dialog, events, keyboard, moment) {
     "use strict";
-    
+
     var NotebookList = function (selector, options) {
         /**
          * Constructor
@@ -41,7 +42,7 @@ define([
         this.notebook_path = options.notebook_path || utils.get_body_data("notebookPath");
         this.contents = options.contents;
         if (this.session_list && this.session_list.events) {
-            this.session_list.events.on('sessions_loaded.Dashboard', 
+            this.session_list.events.on('sessions_loaded.Dashboard',
                 function(e, d) { that.sessions_loaded(d); });
         }
         this.selected = [];
@@ -276,7 +277,7 @@ define([
             reader.onerror = reader_onerror;
         }
         // Replace the file input form wth a clone of itself. This is required to
-        // reset the form. Otherwise, if you upload a file, delete it and try to 
+        // reset the form. Otherwise, if you upload a file, delete it and try to
         // upload it again, the changed event won't fire.
         var form = $('input.fileinput');
         form.replaceWith(form.clone(true));
@@ -294,7 +295,7 @@ define([
         if (remove_uploads) {
             this.element.children('.list_item').remove();
         } else {
-            this.element.children('.list_item:not(.new-file)').remove();  
+            this.element.children('.list_item:not(.new-file)').remove();
         }
     };
 
@@ -396,7 +397,7 @@ define([
                 }
             }
         });
-        this._selection_changed();  
+        this._selection_changed();
     };
 
 
@@ -441,7 +442,7 @@ define([
             .addClass("item_modified")
             .addClass("pull-right")
             .appendTo(item);
-        
+
         if (selectable === false) {
             checkbox.css('visibility', 'hidden');
         } else if (selectable === true) {
@@ -464,7 +465,7 @@ define([
             .text('Running')
             .css('visibility', 'hidden')
             .appendTo(buttons);
-        
+
         if (index === -1) {
             this.element.append(row);
         } else {
@@ -596,13 +597,13 @@ define([
         var total = 0;
         $('.list_item input[type=checkbox]').each(function(index, item) {
             var parent = $(item).parent().parent();
-            // If the item doesn't have an upload button and it's not the 
+            // If the item doesn't have an upload button and it's not the
             // breadcrumbs, it can be selected.  Breadcrumbs path == ''.
             if (parent.find('.upload_button').length === 0 && parent.data('path') !== '' && parent.data('path') !== utils.url_path_split(that.notebook_path)[0]) {
                 total++;
             }
         });
-        
+
         var select_all = $("#select-all");
         if (checked === 0) {
             select_all.prop('checked', false);
@@ -650,7 +651,7 @@ define([
             // send text/unidentified files to editor, others go to raw viewer
             uri_prefix = 'files';
         }
-        
+
         item.find(".item_icon").addClass(icon).addClass('icon-fixed-width');
         var link = item.find("a.item_link")
             .attr('href',
@@ -762,7 +763,7 @@ define([
                             that.load_list();
                             // Deselect items after successful rename.
                             that.select('select-none');
-                        }).catch(function(e) { 
+                        }).catch(function(e) {
                             dialog.modal({
                                 title: "Rename Failed",
                                 body: $('<div/>')
@@ -898,7 +899,7 @@ define([
                 Delete : {
                     class: "btn-danger",
                     click: function() {
-                        // Shutdown any/all selected notebooks before deleting 
+                        // Shutdown any/all selected notebooks before deleting
                         // the files.
                         that.shutdown_selected();
 
@@ -906,7 +907,7 @@ define([
                         that.selected.forEach(function(item) {
                             that.contents.delete(item.path).then(function() {
                                     that.notebook_deleted(item.path);
-                            }).catch(function(e) { 
+                            }).catch(function(e) {
                                 dialog.modal({
                                     title: "Delete Failed",
                                     body: $('<div/>')
@@ -949,7 +950,7 @@ define([
                                 that.load_list();
                                 // Deselect items after successful duplication.
                                 that.select('select-none');
-                            }).catch(function(e) { 
+                            }).catch(function(e) {
                                 dialog.modal({
                                     title: "Duplicate Failed",
                                     body: $('<div/>')
@@ -1052,12 +1053,12 @@ define([
                     that.add_link(model, item);
                     that.session_list.load_sessions();
                 };
-                
+
                 var exists = false;
                 $.each(that.element.find('.list_item:not(.new-file)'), function(k,v){
                     if ($(v).data('name') === filename) { exists = true; return false; }
                 });
-                
+
                 if (exists) {
                     dialog.modal({
                         title : "Replace file",
