@@ -69,6 +69,7 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.mathjax',
     'IPython.sphinxext.ipython_console_highlighting',
+    'sphinxcontrib.spelling',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -335,3 +336,6 @@ intersphinx_mapping = {
     'nbformat': ('http://nbformat.readthedocs.org/en/latest/', None),
     'jupyter': ('http://jupyter.readthedocs.org/en/latest/', None),
 }
+
+spelling_lang='en_US'
+spelling_word_list_filename='spelling_wordlist.txt'

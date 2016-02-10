@@ -3,7 +3,7 @@
 Developer FAQ
 =============
 
-1. How do I install a pre-release version such as a beta or release candidate?
+1. How do I install a prerelease version such as a beta or release candidate?
 
 .. code-block:: bash
 
