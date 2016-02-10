@@ -103,8 +103,8 @@ If you're working on the Javascript of the notebook, try running
 
     npm run build:watch
 
-in another terminal window to have the notebook incrementally
-watch and build the Javascript for you, as you make changes.
+in another terminal window to have the system incrementally
+watch and build the notebook's JavaScript for you, as you make changes.
 """
 
 #-----------------------------------------------------------------------------
