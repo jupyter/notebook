@@ -91,8 +91,8 @@ casper.notebook_test(function () {
             }, {guid: guid});
         });
 
-        that.then(function(guid) {
-            this.test.assertEquals(this.evaluate(function() {
+        that.then(function() {
+            this.test.assertEquals(this.evaluate(function(guid) {
                 return window[guid];
             }, {guid: guid}), true, name + ' can be loaded directly with requirejs');
         });
