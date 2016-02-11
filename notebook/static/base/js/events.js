@@ -9,16 +9,18 @@
 //     events.on("event.Namespace", function () { do_stuff(); });
 // });
 
-define(['base/js/namespace'], function(IPython) {
+define(['base/js/namespace'], function(Jupyter) {
     "use strict";
-
-    var Events = function () {};
     
-    var events = new Events();
+    // Events singleton
+    if (!window._Events) {
+        window._Events = function () {};
+        window._events = new window._Events();
+    }
     
     // Backwards compatability.
-    IPython.Events = Events;
-    IPython.events = events;
+    Jupyter.Events = window._Events;
+    Jupyter.events = window._events;
     
-    return $([events]);
+    return $([window._events]);
 });
