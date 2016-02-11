@@ -17,7 +17,7 @@ module.exports = {
     'base/js/events': require('./base/js/events.js'),
     'base/js/security': require('./base/js/security.js'),
     'base/js/page': require('./base/js/page.js'),
-    // 'auth/js/main': require('./auth/js/main.js'),
+    'auth/js/main': require('./auth/js/main.js'),
     'auth/js/logoutmain': require('./auth/js/logoutmain.js'),
     'auth/js/loginmain': require('./auth/js/loginmain.js'),
     'auth/js/loginwidget': require('./auth/js/loginwidget.js'),

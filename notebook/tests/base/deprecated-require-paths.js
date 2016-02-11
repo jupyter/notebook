@@ -26,7 +26,7 @@ casper.notebook_test(function () {
         'base/js/events',
         'base/js/security',
         'base/js/page',
-        // 'auth/js/main',
+        'auth/js/main',
         'auth/js/logoutmain',
         'auth/js/loginmain',
         'auth/js/loginwidget',
