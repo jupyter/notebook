@@ -249,7 +249,7 @@ class ContentsHandler(APIHandler):
     def delete(self, path=''):
         """delete a file in the given path"""
         cm = self.contents_manager
-        self.log.warn('delete %s', path)
+        self.log.warning('delete %s', path)
         yield gen.maybe_future(cm.delete(path))
         self.set_status(204)
         self.finish()
@@ -310,7 +310,7 @@ class NotebooksRedirectHandler(IPythonHandler):
     SUPPORTED_METHODS = ('GET', 'PUT', 'PATCH', 'POST', 'DELETE')
 
     def get(self, path):
-        self.log.warn("/api/notebooks is deprecated, use /api/contents")
+        self.log.warning("/api/notebooks is deprecated, use /api/contents")
         self.redirect(url_path_join(
             self.base_url,
             'api/contents',

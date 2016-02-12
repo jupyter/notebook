@@ -66,7 +66,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
     save_script = Bool(False, config=True, help='DEPRECATED, use post_save_hook. Will be removed in Notebook 5.0')
     def _save_script_changed(self):
-        self.log.warn("""
+        self.log.warning("""
         `--script` is deprecated and will be removed in notebook 5.0.
 
         You can trigger nbconvert via pre- or post-save hooks:
@@ -252,12 +252,12 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                 try:
                     os_path = os.path.join(os_dir, name)
                 except UnicodeDecodeError as e:
-                    self.log.warn(
+                    self.log.warning(
                         "failed to decode filename '%s': %s", name, e)
                     continue
                 # skip over broken symlinks in listing
                 if not os.path.exists(os_path):
-                    self.log.warn("%s doesn't exist", os_path)
+                    self.log.warning("%s doesn't exist", os_path)
                     continue
                 elif not os.path.isfile(os_path) and not os.path.isdir(os_path):
                     self.log.debug("%s not a regular file", os_path)
