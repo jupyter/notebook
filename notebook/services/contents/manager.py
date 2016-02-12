@@ -411,7 +411,7 @@ class ContentsManager(LoggingConfigurable):
         """
         model = self.get(path)
         nb = model['content']
-        self.log.warn("Trusting notebook %s", path)
+        self.log.warning("Trusting notebook %s", path)
         self.notary.mark_cells(nb, True)
         self.save(model, path)
 
@@ -430,7 +430,7 @@ class ContentsManager(LoggingConfigurable):
         if self.notary.check_cells(nb):
             self.notary.sign(nb)
         else:
-            self.log.warn("Saving untrusted notebook %s", path)
+            self.log.warning("Saving untrusted notebook %s", path)
 
     def mark_trusted_cells(self, nb, path=''):
         """Mark cells as trusted if the notebook signature matches.
@@ -446,7 +446,7 @@ class ContentsManager(LoggingConfigurable):
         """
         trusted = self.notary.check_signature(nb)
         if not trusted:
-            self.log.warn("Notebook %s is not trusted", path)
+            self.log.warning("Notebook %s is not trusted", path)
         self.notary.mark_cells(nb, trusted)
 
     def should_list(self, name):

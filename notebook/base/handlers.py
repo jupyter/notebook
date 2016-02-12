@@ -284,7 +284,7 @@ class IPythonHandler(AuthenticatedHandler):
             # No CORS headers deny the request
             allow = False
         if not allow:
-            self.log.warn("Blocking Cross Origin API request.  Origin: %s, Host: %s",
+            self.log.warning("Blocking Cross Origin API request.  Origin: %s, Host: %s",
                 origin, host,
             )
         return allow
@@ -460,7 +460,7 @@ def json_errors(method):
             self.set_header('Content-Type', 'application/json')
             status = e.status_code
             message = e.log_message
-            self.log.warn(message)
+            self.log.warning(message)
             self.set_status(e.status_code)
             reply = dict(message=message, reason=e.reason)
             self.finish(json.dumps(reply))
@@ -583,7 +583,7 @@ class FilesRedirectHandler(IPythonHandler):
             if not cm.file_exists(path=path) and 'files' in parts:
                 # redirect without files/ iff it would 404
                 # this preserves pre-2.0-style 'files/' links
-                self.log.warn("Deprecated files/ URL: %s", orig_path)
+                self.log.warning("Deprecated files/ URL: %s", orig_path)
                 parts.remove('files')
                 path = '/'.join(parts)
 

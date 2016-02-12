@@ -220,7 +220,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             """Don't wait forever for the kernel to reply"""
             if future.done():
                 return
-            self.log.warn("Timeout waiting for kernel_info reply from %s", self.kernel_id)
+            self.log.warning("Timeout waiting for kernel_info reply from %s", self.kernel_id)
             future.set_result({})
         loop = IOLoop.current()
         loop.add_timeout(loop.time() + self.kernel_info_timeout, give_up)
@@ -259,10 +259,10 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             msg = json.loads(msg)
         channel = msg.pop('channel', None)
         if channel is None:
-            self.log.warn("No channel specified, assuming shell: %s", msg)
+            self.log.warning("No channel specified, assuming shell: %s", msg)
             channel = 'shell'
         if channel not in self.channels:
-            self.log.warn("No such channel: %r", channel)
+            self.log.warning("No such channel: %r", channel)
             return
         stream = self.channels[channel]
         self.session.send(stream, msg)
@@ -272,7 +272,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         msg = self.session.deserialize(fed_msg_list)
         parent = msg['parent_header']
         def write_stderr(error_message):
-            self.log.warn(error_message)
+            self.log.warning(error_message)
             msg = self.session.msg("stream",
                 content={"text": error_message, "name": "stderr"},
                 parent=parent
@@ -325,7 +325,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                 if self._iopub_msgs_exceeded:
                     self._iopub_msgs_exceeded = False
                     if not self._iopub_data_exceeded:
-                        self.log.warn("iopub messages resumed")
+                        self.log.warning("iopub messages resumed")
     
             # Check the data rate
             if self.iopub_data_rate_limit is not None and data_rate > self.iopub_data_rate_limit and self.iopub_data_rate_limit > 0:
@@ -341,7 +341,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                 if self._iopub_data_exceeded:
                     self._iopub_data_exceeded = False
                     if not self._iopub_msgs_exceeded:
-                        self.log.warn("iopub messages resumed")
+                        self.log.warning("iopub messages resumed")
         
             # If either of the limit flags are set, do not send the message.
             if self._iopub_msgs_exceeded or self._iopub_data_exceeded:

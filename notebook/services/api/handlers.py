@@ -14,7 +14,7 @@ class APISpecHandler(web.StaticFileHandler, IPythonHandler):
 
     @web.authenticated
     def get(self):
-        self.log.warn("Serving api spec (experimental, incomplete)")
+        self.log.warning("Serving api spec (experimental, incomplete)")
         self.set_header('Content-Type', 'text/x-yaml')
         return web.StaticFileHandler.get(self, 'api.yaml')
 

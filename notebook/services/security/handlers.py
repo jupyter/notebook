@@ -15,7 +15,7 @@ class CSPReportHandler(APIHandler):
     def post(self):
         '''Log a content security policy violation report'''
         csp_report = self.get_json_body()
-        self.log.warn("Content security violation: %s",
+        self.log.warning("Content security violation: %s",
                       self.request.body.decode('utf8', 'replace'))
 
 default_handlers = [

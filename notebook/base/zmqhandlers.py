@@ -135,10 +135,10 @@ class WebSocketMixin(object):
         
         # If no header is provided, assume we can't verify origin
         if origin is None:
-            self.log.warn("Missing Origin header, rejecting WebSocket connection.")
+            self.log.warning("Missing Origin header, rejecting WebSocket connection.")
             return False
         if host is None:
-            self.log.warn("Missing Host header, rejecting WebSocket connection.")
+            self.log.warning("Missing Host header, rejecting WebSocket connection.")
             return False
         
         origin = origin.lower()
@@ -157,7 +157,7 @@ class WebSocketMixin(object):
             # No CORS headers deny the request
             allow = False
         if not allow:
-            self.log.warn("Blocking Cross Origin WebSocket Attempt.  Origin: %s, Host: %s",
+            self.log.warning("Blocking Cross Origin WebSocket Attempt.  Origin: %s, Host: %s",
                 origin, host,
             )
         return allow
@@ -192,7 +192,7 @@ class WebSocketMixin(object):
         since_last_pong = 1e3 * (now - self.last_pong)
         since_last_ping = 1e3 * (now - self.last_ping)
         if since_last_ping < 2*self.ping_interval and since_last_pong > self.ping_timeout:
-            self.log.warn("WebSocket ping timeout after %i ms.", since_last_pong)
+            self.log.warning("WebSocket ping timeout after %i ms.", since_last_pong)
             self.close()
             return
 
@@ -248,7 +248,7 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
         # Sometimes this gets triggered when the on_close method is scheduled in the
         # eventloop but hasn't been called.
         if self.stream.closed() or stream.closed():
-            self.log.warn("zmq message arrived on closed channel")
+            self.log.warning("zmq message arrived on closed channel")
             self.close()
             return
         channel = getattr(stream, 'channel', None)
@@ -277,13 +277,13 @@ class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
         """
         # authenticate the request before opening the websocket
         if self.get_current_user() is None:
-            self.log.warn("Couldn't authenticate WebSocket connection")
+            self.log.warning("Couldn't authenticate WebSocket connection")
             raise web.HTTPError(403)
         
         if self.get_argument('session_id', False):
             self.session.session = cast_unicode(self.get_argument('session_id'))
         else:
-            self.log.warn("No session ID specified")
+            self.log.warning("No session ID specified")
     
     @gen.coroutine
     def get(self, *args, **kwargs):

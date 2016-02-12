@@ -60,7 +60,7 @@ class SessionRootHandler(APIHandler):
                 msg = ("The '%s' kernel is not available. Please pick another "
                        "suitable kernel instead, or install that kernel." % kernel_name)
                 status_msg = '%s not found' % kernel_name
-                self.log.warn('Kernel not found: %s' % kernel_name)
+                self.log.warning('Kernel not found: %s' % kernel_name)
                 self.set_status(501)
                 self.finish(json.dumps(dict(message=msg, short_message=status_msg)))
                 return

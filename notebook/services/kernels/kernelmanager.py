@@ -51,7 +51,7 @@ class MappingKernelManager(MultiKernelManager):
 
     def _handle_kernel_died(self, kernel_id):
         """notice that a kernel died"""
-        self.log.warn("Kernel %s died, removing from map.", kernel_id)
+        self.log.warning("Kernel %s died, removing from map.", kernel_id)
         self.remove_kernel(kernel_id)
 
     def cwd_for_path(self, path):
@@ -127,13 +127,13 @@ class MappingKernelManager(MultiKernelManager):
                 future.set_result(msg)
             
         def on_timeout():
-            self.log.warn("Timeout waiting for kernel_info_reply: %s", kernel_id)
+            self.log.warning("Timeout waiting for kernel_info_reply: %s", kernel_id)
             finish()
             if not future.done():
                 future.set_exception(gen.TimeoutError("Timeout waiting for restart"))
         
         def on_restart_failed():
-            self.log.warn("Restarting kernel failed: %s", kernel_id)
+            self.log.warning("Restarting kernel failed: %s", kernel_id)
             finish()
             if not future.done():
                 future.set_exception(RuntimeError("Restart failed"))
