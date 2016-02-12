@@ -4,18 +4,8 @@ language: python
 cache:
     directories:
         - ~/.cache/bower
-        
-matrix:
-    include:
-        - python: 2.7
-          env: GROUP=python
-        - python: 3.3
-          env: GROUP=python
-        - python: 3.4
-          env: GROUP=python
-        - python: 3.5.1      # Set to 3.5.1 since travis does not install by default
-          env: GROUP=python
-    fast_finish: true
+python:
+    - 3.5.1  # Set to 3.5.1 since travis has not yet included as default for 3.5
     
 sudo: false
 
@@ -42,5 +32,15 @@ script:
     - 'if [[ $GROUP == js* ]]; then python -m notebook.jstest ${GROUP:3}; fi'
     - 'if [[ $GROUP == python ]]; then nosetests -v --with-coverage --cover-package=notebook notebook; fi'
 
+matrix:
+    include:
+        - python: 2.7
+          env: GROUP=python
+        - python: 3.3
+          env: GROUP=python
+        - python: 3.4
+          env: GROUP=python
+    fast_finish: true
+    
 after_success:
     - coveralls
