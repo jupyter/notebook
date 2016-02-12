@@ -114,7 +114,15 @@ define([
 
 
     // Cell level actions
-    
+
+    TextCell.prototype.add_attachment = function (key, mime_type, b64_data) {
+        /**
+         * Add a new attachment to this cell
+         */
+        this.attachments[key] = {};
+        this.attachments[key][mime_type] = [b64_data];
+    };
+
     TextCell.prototype.select = function () {
         var cont = Cell.prototype.select.apply(this, arguments);
         if (cont) {
@@ -215,8 +223,7 @@ define([
         }
         // Deepcopy the attachments so copied cells don't share the same
         // objects
-        if (this.attachments !== undefined
-            && Object.keys(this.attachments).length > 0) {
+        if (Object.keys(this.attachments).length > 0) {
             data.attachments = JSON.parse(JSON.stringify(this.attachments));
         }
         return data;
@@ -280,20 +287,6 @@ define([
         this.notebook.set_insert_image_enabled(true);
     };
 
-
-    // TODO(julienr): Move to cell if the attachments is accepted as a cell
-    // attribute (not markdown specific)
-    MarkdownCell.prototype.add_attachment = function (key, mime_type, b64_data) {
-        /**
-         * Add a new attachment to this cell
-         */
-        if (this.attachments === undefined) {
-            this.attachments = {};
-        }
-        this.attachments[key] = {};
-        this.attachments[key][mime_type] = [b64_data];
-    };
-
     MarkdownCell.prototype.insert_inline_image_from_blob = function(blob) {
         /**
          * Insert markup for an inline image at the current cursor position.
@@ -316,11 +309,7 @@ define([
         if (blob.name !== undefined) {
             key = blob.name;
         } else {
-            if (that.attachments === undefined) {
-                key = '_auto_0';
-            } else {
-                key = '_auto_' + Object.keys(that.attachments).length;
-            }
+            key = '_auto_' + Object.keys(that.attachments).length;
         }
 
         reader.onloadend = function() {
@@ -331,7 +320,7 @@ define([
                             'type (' + d[0] + ')');
             }
             that.add_attachment(key, blob.type, d[1]);
-            var img_md = '![' + key + '](attachment:' + key + ')';
+            var img_md = '![attachment:' + key + '](attachment:' + key + ')';
             that.code_mirror.replaceRange(img_md, pos);
         }
         reader.readAsDataURL(blob);
@@ -377,11 +366,12 @@ define([
                   h = $(h);
                   var key = h.attr('src').replace(/^attachment:/, '');
 
-                  if (that.attachments !== undefined &&
-                      key in that.attachments) {
+                  if (key in that.attachments) {
                     var att = that.attachments[key];
                     var mime = Object.keys(att)[0];
                     h.attr('src', 'data:' + mime + ';base64,' + att[mime][0]);
+                  } else {
+                    h.attr('src', '');
                   }
                 });
                 that.set_rendered(html);

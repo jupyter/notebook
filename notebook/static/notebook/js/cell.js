@@ -100,6 +100,12 @@ define([
         this.cell_type = this.cell_type || null;
         this.code_mirror = null;
 
+        // The nbformat only specifies attachments for textcell, but to avoid
+        // data loss when switching between cell types in the UI, all cells
+        // have an attachments property here. It is only saved to disk
+        // for textcell though (in toJSON)
+        this.attachments = {};
+
         this.create_element();
         if (this.element !== null) {
             this.element.data("cell", this);
