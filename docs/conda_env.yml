@@ -7,5 +7,6 @@ dependencies:
 - nbformat
 - jupyter_client
 - ipykernel
-- sphinxcontrib_spelling
-- pyenchant
+- pip:
+    - sphinxcontrib_spelling
+    - pyenchant
