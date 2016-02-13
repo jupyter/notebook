@@ -130,6 +130,7 @@ define([
             // Bind events for action buttons.
             $('.rename-button').click($.proxy(this.rename_selected, this));
             $('.move-button').click($.proxy(this.move_selected, this));
+            $('.download-button').click($.proxy(this.download_selected, this));
             $('.shutdown-button').click($.proxy(this.shutdown_selected, this));
             $('.duplicate-button').click($.proxy(this.duplicate_selected, this));
             $('.delete-button').click($.proxy(this.delete_selected, this));
@@ -560,6 +561,15 @@ define([
             $('.move-button').css('display', 'none');
         }
 
+        // Download is only visible when one item is selected, and it is not a
+        // running notebook or a directory
+        // TODO(nhdaly): Add support for download multiple items at once.
+        if (selected.length === 1 && !has_running_notebook && !has_directory) {
+            $('.download-button').css('display', 'inline-block');
+        } else {
+            $('.download-button').css('display', 'none');
+        }
+
         // Shutdown is only visible when one or more notebooks running notebooks
         // are selected and no non-notebook items are selected.
         if (has_running_notebook && !(has_file || has_directory)) {
@@ -853,6 +863,19 @@ define([
                 input.focus();
             }
         });
+    };
+
+    NotebookList.prototype.download_selected = function() {
+        var that = this;
+
+        // TODO(nhdaly): Support download multiple items at once.
+        if (that.selected.length !== 1){
+            return;
+        }
+
+        var item_path = that.selected[0].path;
+
+        window.open(utils.url_path_join('/files', item_path) + '?download=1');
     };
 
     NotebookList.prototype.delete_selected = function() {
