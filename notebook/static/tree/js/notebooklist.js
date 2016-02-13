@@ -814,9 +814,10 @@ define([
         var d = dialog.modal({
             title : "Move "+ item_type,
             body : dialog_body,
+            default_button: "Cancel",
             buttons : {
                 Cancel : {},
-                OK : {
+                Move : {
                     class: "btn-primary",
                     click: function() {
                       // Construct the new path using the user input and its name.
