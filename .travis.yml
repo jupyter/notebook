@@ -22,13 +22,12 @@ env:
     
 before_install:
     - pip install --upgrade pip
-    - pip install --upgrade setuptools wheel nose coverage
+    - pip install --upgrade setuptools wheel nose coverage codecov
     - 'if [[ $GROUP == js* ]]; then npm install -g casperjs; fi'
     - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
     
 install:
     - pip install -f travis-wheels/wheelhouse file://$PWD#egg=notebook[test]
-    - pip install coveralls
     
 script:
     - 'if [[ $GROUP == js* ]]; then python -m notebook.jstest ${GROUP:3}; fi'
@@ -40,7 +39,6 @@ matrix:
           env: GROUP=python
         - python: 3.4
           env: GROUP=python
-    fast_finish: true
     
 after_success:
-    - coveralls
+    - codecov
