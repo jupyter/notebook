@@ -574,7 +574,7 @@ definitions:
       name:
         type: string
         description: Unique name for kernel
-      spec:
+      KernelSpecFile:
         $ref: '#/definitions/KernelSpecFile'
         description: Kernel spec json file
       resources:
