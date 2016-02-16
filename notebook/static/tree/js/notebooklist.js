@@ -102,7 +102,7 @@ define([
                             OK: {'class': 'btn-primary'}
                         }
                     });
-                    console.warn('Error durring New file creation', e);
+                    console.warn('Error during New file creation', e);
                 });
                 that.load_sessions();
             });
@@ -122,7 +122,7 @@ define([
                             OK: {'class': 'btn-primary'}
                         }
                     });
-                    console.warn('Error durring New directory creation', e);
+                    console.warn('Error during New directory creation', e);
                 });
                 that.load_sessions();
             });
@@ -552,10 +552,9 @@ define([
             $('.rename-button').css('display', 'none');
         }
 
-        // Move is only visible when one item is selected, and it is not a
-        // running notebook.
-        // TODO(nhdaly): Add support for moving multiple items at once.
-        if (selected.length === 1 && !has_running_notebook) {
+        // Move is visible iff at least one item is selected, and none of them
+        // are a running notebook.
+        if (selected.length >= 1 && !has_running_notebook) {
             $('.move-button').css('display', 'inline-block');
         } else {
             $('.move-button').css('display', 'none');
@@ -776,7 +775,7 @@ define([
                                     OK: {'class': 'btn-primary'}
                                 }
                             });
-                            console.warn('Error durring renaming :', e);
+                            console.warn('Error during renaming :', e);
                         });
                     }
                 }
@@ -802,27 +801,24 @@ define([
 
     NotebookList.prototype.move_selected = function() {
         var that = this;
+        var num_items = that.selected.length;
 
-        // TODO(nhdaly): Support moving multiple items at once.
-        if (that.selected.length !== 1){
+        // Can move one or more selected items.
+        if (!(num_items >= 1)) {
             return;
         }
-
-        var item_path = that.selected[0].path;
-        var item_name = that.selected[0].name;
-        var item_type = that.selected[0].type;
 
         // Open a dialog to enter the new path, with current path as default.
         var input = $('<input/>').attr('type','text').attr('size','25').addClass('form-control')
             .val(utils.url_path_join('/', that.notebook_path));
         var dialog_body = $('<div/>').append(
             $("<p/>").addClass("rename-message")
-                .text('Enter new destination directory path for '+ item_type + ':')
+                .text('Enter new destination directory path for '+ num_items + ' items:')
         ).append(
             $("<br/>")
         ).append(input);
         var d = dialog.modal({
-            title : "Move "+ item_type,
+            title : "Move "+ num_items + " Items",
             body : dialog_body,
             default_button: "Cancel",
             buttons : {
@@ -830,24 +826,31 @@ define([
                 Move : {
                     class: "btn-primary",
                     click: function() {
-                      // Construct the new path using the user input and its name.
-                        var new_path = utils.url_path_join(input.val(), item_name)
-                        that.contents.rename(item_path, new_path).then(function() {
-                            that.load_list();
-                        }).catch(function(e) { 
-                            dialog.modal({
-                                title: "Move Failed",
-                                body: $('<div/>')
-                                    .text("An error occurred while moving \"" + item_name + "\" from \"" + item_path + "\" to \"" + new_path + "\".")
-                                    .append($('<div/>')
-                                        .addClass('alert alert-danger')
-                                        .text(e.message || e)),
-                                buttons: {
-                                    OK: {'class': 'btn-primary'}
-                                }
+                        // Move all the items.
+                        that.selected.forEach(function(item) {
+                            var item_path = item.path;
+                            var item_name = item.name;
+                            // Construct the new path using the user input and the item's name.
+                            var new_path = utils.url_path_join(input.val(), item_name);
+                            that.contents.rename(item_path, new_path).then(function() {
+                                // After each move finishes, reload the list.
+                                that.load_list();
+                            }).catch(function(e) { 
+                                // If any of the moves fails, show this dialog for that move.
+                                dialog.modal({
+                                    title: "Move Failed",
+                                    body: $('<div/>')
+                                        .text("An error occurred while moving \"" + item_name + "\" from \"" + item_path + "\" to \"" + new_path + "\".")
+                                        .append($('<div/>')
+                                            .addClass('alert alert-danger')
+                                            .text(e.message || e)),
+                                    buttons: {
+                                        OK: {'class': 'btn-primary'}
+                                    }
+                                });
+                                console.warn('Error during moving :', e);
                             });
-                            console.warn('Error durring moving :', e);
-                        });
+                        });  // End of forEach.
                     }
                 }
             },
@@ -916,7 +919,7 @@ define([
                                         OK: {'class': 'btn-primary'}
                                     }
                                 });
-                                console.warn('Error durring content deletion:', e);
+                                console.warn('Error during content deletion:', e);
                             });
                         });
                     }
@@ -959,7 +962,7 @@ define([
                                         OK: {'class': 'btn-primary'}
                                     }
                                 });
-                                console.warn('Error durring content duplication', e);
+                                console.warn('Error during content duplication', e);
                             });
                         });
                     }
@@ -1033,7 +1036,7 @@ define([
                                 }
                             }}
                         });
-                        console.warn('Error durring notebook uploading', e);
+                        console.warn('Error during notebook uploading', e);
                         return false;
                     }
                     content_type = 'application/json';
