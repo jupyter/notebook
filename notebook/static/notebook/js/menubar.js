@@ -246,7 +246,22 @@ define([
                 });
             })(that, id_act, idx);
         }
-
+        
+        this.element.find('#switch_keymap_to_vim').click(function (){
+          that.notebook.switch_keymap_to('vim');
+        }) 
+        
+        this.element.find('#switch_keymap_to_sublime').click(function (){
+          that.notebook.switch_keymap_to('sublime');
+        }) 
+        
+        this.element.find('#switch_keymap_to_emacs').click(function (){
+          that.notebook.switch_keymap_to('emacs');
+        }) 
+        
+        this.element.find('#switch_keymap_to_default').click(function (){
+          that.notebook.switch_keymap_to('default');
+        }) 
         
         // Kernel
         this.element.find('#reconnect_kernel').click(function () {

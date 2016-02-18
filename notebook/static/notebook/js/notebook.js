@@ -3037,6 +3037,34 @@ define(function (require) {
         this.events.trigger('checkpoint_deleted.Notebook');
         this.load_notebook(this.notebook_path);
     };
+    
+    /**
+    * Switch the keymap of all codemirror code cell into the state 
+    * specified by the argument. 
+    *
+    * @param {string} keymap in {'vim', 'sublime', 'default', 'emacs'}
+    */
+    Notebook.prototype.switch_keymap_to = function(keymap) {
+        var vimMode = true;
+        cells = this.get_cells();
+        if (keymap === "vim"){
+            vimMode = true;
+        } else if ( keymap === 'sublime' || keymap === 'default') {
+            vimMode = false;
+        } else {
+            warn('No valid keymap specified. Valid keymaps are {"vim", "sublime", "default"}');
+            return false;
+        }
+        for (var i = 1; i < cells.length; i++ ){
+            cell = cells[i]
+            if (cell.cell_type === "code"){
+                cell.update_codemirror_options({
+                    vimMode: false,
+                    keyMap: keymap
+                });
+            }
+        }
+    };
 
     return {'Notebook': Notebook};
 });
