@@ -43,6 +43,12 @@ define([
         this.edit_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env);
         this.edit_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
         this.edit_shortcuts.add_shortcuts(this.get_default_edit_shortcuts());
+        this.vim_command_shortcuts = new keyboard.ShortcutManager( undefined , options.events, this.actions, this.env );
+        this.vim_command_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
+        this.vim_command_shortcuts.add_shortcuts(this.get_default_vim_command_shortcuts());
+        this.vim_edit_shortcuts = new keyboard.ShortcutManager( undefined , options.events, this.actions, this.env );
+        this.vim_edit_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
+        this.vim_edit_shortcuts.add_shortcuts(this.get_default_vim_edit_shortcuts());
         Object.seal(this);
     };
 
@@ -82,6 +88,10 @@ define([
             'ctrl-shift-subtract' : 'jupyter-notebook:split-cell-at-cursor',
         };
     };
+    
+    KeyboardManager.prototype.get_default_vim_edit_shortcuts = function() {
+      return this.get_default_edit_shortcuts();
+    };
 
     KeyboardManager.prototype.get_default_command_shortcuts = function() {
         return {
@@ -96,7 +106,7 @@ define([
             'i,i' : 'jupyter-notebook:interrupt-kernel',
             '0,0' : 'jupyter-notebook:confirm-restart-kernel',
             'd,d' : 'jupyter-notebook:delete-cell',
-            //'esc': 'jupyter-notebook:close-pager',
+            'esc': 'jupyter-notebook:close-pager',
             'up' : 'jupyter-notebook:select-previous-cell',
             'k' : 'jupyter-notebook:select-previous-cell',
             'j' : 'jupyter-notebook:select-next-cell',
@@ -125,6 +135,21 @@ define([
             'z' : 'jupyter-notebook:undo-cell-deletion',
             'q' : 'jupyter-notebook:close-pager',
         };
+    };
+    
+    KeyboardManager.prototype.get_default_vim_command_shortcuts = function() {
+      var shortcut = this.get_default_command_shortcuts();
+      delete shortcut['down'];
+      shortcut['ctrl-down'] = 'jupyter-notebook:select-next-cell';
+      delete shortcut['up'];
+      shortcut['ctrl-up'] = 'jupyter-notebook:select-previous-cell';
+      delete shortcut['a'];
+      delete shortcut['j'];
+      delete shortcut['l'];
+      delete shortcut['m'];
+      delete shortcut['q'];
+      delete shortcut['esc'];// must be handled by code mirror
+      return shortcut;
     };
 
     KeyboardManager.prototype.bind_events = function () {
@@ -170,18 +195,30 @@ define([
             return this.edit_shortcuts.call_handler(event);
         } else if (this.mode === 'command') {
             return this.command_shortcuts.call_handler(event);
+        } else if (this.mode === 'vim-edit'){
+            return this.vim_edit_shortcuts.call_handler(event);
+        } else if (this.mode === 'vim-command'){
+            return this.vim_command_shortcuts.call_handler(event);
         }
         return true;
     };
 
     KeyboardManager.prototype.edit_mode = function () {
         this.last_mode = this.mode;
-        this.mode = 'edit';
+        if (this.last_mode === 'command' || this.last_mode === 'edit'){
+          this.mode = 'edit';
+        } else { // expected 'vim-edit' or 'vim-command'
+          this.mode = 'vim-edit';
+        }
     };
 
     KeyboardManager.prototype.command_mode = function () {
         this.last_mode = this.mode;
-        this.mode = 'command';
+        if (this.last_mode === 'command' || this.last_mode === 'edit'){
+          this.mode = 'command';
+        } else { //supposed this.last_mode === 'vim-command' || this.last_mode === 'vim-edit'
+          this.mode = 'vim-command';
+        }
     };
 
     KeyboardManager.prototype.enable = function () {

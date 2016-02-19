@@ -3050,8 +3050,10 @@ define(function (require) {
         var cell = cells[1];
         if (keymap === "vim"){
             vimMode = true;
+            this.keyboard_manager.mode = 'vim-command';
         } else if ( keymap === 'sublime' || keymap === 'default') {
             vimMode = false;
+            this.keyboard_manager.mode = 'command';
         } else {
             console.log('No valid keymap specified. Valid keymaps are in {"vim", "sublime", "default"}');
             return false;
