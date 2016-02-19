@@ -123,6 +123,44 @@ define([
         this.attachments[key][mime_type] = [b64_data];
     };
 
+    TextCell.prototype.remove_unused_attachments = function () {
+        // The general idea is to render the text, find attachment like when
+        // we substitute them in render() and mark used attachments by adding
+        // a temporary .used property to them.
+        if (Object.keys(this.attachments).length > 0) {
+            var that = this;
+            // To find unused attachments, rendering to HTML is easier than
+            // searching in the markdown source for the multiple ways you can
+            // reference an image in markdown (using []() or a HTML <img> tag)
+            var text = this.get_text();
+            marked(text, function (err, html) {
+                html = security.sanitize_html(html);
+                html = $($.parseHTML(html));
+                html.find('img[src^="attachment:"]').each(function (i, h) {
+                    h = $(h);
+                    var key = h.attr('src').replace(/^attachment:/, '');
+                    if (key in that.attachments) {
+                        that.attachments[key].used = true;
+                    }
+
+                    // This is to avoid having the browser do a GET request
+                    // on the invalid attachment: URL
+                    h.attr('src', '');
+                });
+            });
+
+            for (var key in this.attachments) {
+                if (this.attachments[key].used === undefined) {
+                    console.log('Dropping unused attachment ' + key);
+                    delete this.attachments[key];
+                } else {
+                    // Remove temporary property
+                    delete this.attachments[key].used;
+                }
+            }
+        }
+    }
+
     TextCell.prototype.select = function () {
         var cont = Cell.prototype.select.apply(this, arguments);
         if (cont) {
