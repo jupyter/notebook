@@ -21,7 +21,10 @@ define([
     'notebook/js/celltoolbar',
     'codemirror/lib/codemirror',
     'codemirror/mode/python/python',
-    'notebook/js/codemirror-ipython'
+    'notebook/js/codemirror-ipython',
+    'codemirror/keymap/emacs',
+    'codemirror/keymap/sublime',
+    'codemirror/keymap/vim'
 ], function(IPython,
     $,
     utils,
@@ -563,7 +566,7 @@ define([
 
     CodeCell.prototype._set_codemirror_options = function (options) {
         // update codemirror options from a dict
-        var codemirror = this.codemirror;
+        var codemirror = this.code_mirror;
         $.map(options, function (value, opt) {
             if (value === null) {
                 value = CodeMirror.defaults[opt];

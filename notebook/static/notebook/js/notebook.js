@@ -3046,20 +3046,21 @@ define(function (require) {
     */
     Notebook.prototype.switch_keymap_to = function(keymap) {
         var vimMode = true;
-        cells = this.get_cells();
+        var cells = this.get_cells();
+        var cell = cells[1];
         if (keymap === "vim"){
             vimMode = true;
         } else if ( keymap === 'sublime' || keymap === 'default') {
             vimMode = false;
         } else {
-            warn('No valid keymap specified. Valid keymaps are {"vim", "sublime", "default"}');
+            console.log('No valid keymap specified. Valid keymaps are in {"vim", "sublime", "default"}');
             return false;
         }
-        for (var i = 1; i < cells.length; i++ ){
+        for (var i = 1; i < cells.length -1; i++ ){
             cell = cells[i]
             if (cell.cell_type === "code"){
                 cell.update_codemirror_options({
-                    vimMode: false,
+                    vimMode: vimMode,
                     keyMap: keymap
                 });
             }
