@@ -450,7 +450,7 @@ class NotebookApp(JupyterApp):
         help="Set the Access-Control-Allow-Credentials: true header"
     )
     
-    allow_root = Bool(False, config=False, 
+    allow_root = Bool(False, config=True, 
         help="Whether to allow the user to run the notebook as root."
     )
 
