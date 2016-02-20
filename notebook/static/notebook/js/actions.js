@@ -686,7 +686,7 @@ define(function(require){
             data = {handler:data};
         }
         if(typeof(data.handler) !== 'function'){
-            throw('unknown datatype, cannot register');
+            throw new Error('unknown datatype, cannot register');
         }
         var _data = data;
         data = {};

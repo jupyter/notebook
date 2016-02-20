@@ -325,7 +325,7 @@ define([
             if(typeof(current_node) === 'string'){
                 delete tree[shortcut_array[0]];
             } else {
-                throw('try to delete non-leaf');
+                throw new Error('try to delete non-leaf');
             }
         } else {
             this._remove_leaf(shortcut_array.slice(1),  tree[shortcut_array[0]], allow_node);
