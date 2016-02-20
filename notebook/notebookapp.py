@@ -1113,8 +1113,8 @@ class NotebookApp(JupyterApp):
             if os.geteuid() == 0 and not self.allow_root:
                 self.log.critical("Running as root is forbidden. Use --allow-root to bypass.")
                 self.exit(1)
-        except OSError as e:
-            pass
+        except AttributeError as e:
+            pass #need to add Windows
 
         super(NotebookApp, self).start()
 
