@@ -1110,13 +1110,11 @@ class NotebookApp(JupyterApp):
         This method takes no arguments so all configuration and initialization
         must be done prior to calling this method."""
         try:
-            is_root = os.geteuid() == 0
+            if os.geteuid() == 0:
+                self.log.critical("Running as root is not recommended. Use --allow-root to bypass.")
+                self.exit(1)
         except AttributeError as e:
-            import ctypes
-            is_root = ctypes.windll.shell32.IsUserAnAdmin() == 1
-        if is_root and not self.allow_root:
-            self.log.critical("Running as root is forbidden. Use --allow-root to bypass.")
-            self.exit(1)
+            pass
 
         super(NotebookApp, self).start()
 
