@@ -113,6 +113,7 @@ define([
         'end':'End',
         'space':'Space',
         'backspace':'Backspace',
+        '-':'Minus'
         };
     
     var humanize_map;
@@ -123,7 +124,7 @@ define([
         humanize_map = default_humanize_map;
     }
 
-    var special_case = { pageup: "PageUp", pagedown: "Page Down", 'minus': '-' };
+    var special_case = { pageup: "PageUp", pagedown: "Page Down" };
     
     function humanize_key(key){
         if (key.length === 1){
