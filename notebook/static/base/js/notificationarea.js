@@ -52,7 +52,7 @@ define([
      */
     NotificationArea.prototype.get_widget = function (name) {
         if(this.widget_dict[name] === undefined) {
-            throw('no widgets with this name');
+            throw new Error('no widgets with this name');
         }
         return this.widget_dict[name];
     };
@@ -66,7 +66,7 @@ define([
      */
     NotificationArea.prototype.new_notification_widget = function (name) {
         if (this.widget_dict[name] !== undefined) {
-            throw('widget with that name already exists!');
+            throw new Error('widget with that name already exists!');
         }
 
         // create the element for the notification widget and add it
