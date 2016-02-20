@@ -79,6 +79,7 @@ RUN BUILD_DEPS="nodejs-legacy npm" && \
     DEBIAN_FRONTEND=noninteractive apt-get install -yq $BUILD_DEPS && \
     \
     pip3 install --no-cache-dir /usr/src/jupyter-notebook && \
+    pip2 install widgetsnbextension && \
     pip3 install widgetsnbextension && \
     \
     npm cache clean && \
