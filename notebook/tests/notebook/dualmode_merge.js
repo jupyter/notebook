@@ -41,7 +41,7 @@ casper.notebook_test(function () {
         this.set_cell_text(0, 'abcd');
         this.set_cell_editor_cursor(0, 0, 2);
         this.test.assertEquals(this.get_cell_text(0), 'abcd', 'Verify that cell 0 has the new contents.');
-        this.trigger_keydown('ctrl-shift-subtract'); // Split
+        this.trigger_keydown('ctrl-shift--'); // Split
         this.test.assertEquals(this.get_cell_text(0), 'ab', 'split; Verify that cell 0 has the first half.');
         this.test.assertEquals(this.get_cell_text(1), 'cd', 'split; Verify that cell 1 has the second half.');
         this.validate_notebook_state('split', 'edit', 1);
@@ -125,12 +125,12 @@ casper.notebook_test(function () {
         this.select_cell(1);
         this.trigger_keydown('enter');
         this.set_cell_editor_cursor(1, 0, 2);
-        this.trigger_keydown('ctrl-shift-subtract'); // Split
+        this.trigger_keydown('ctrl-shift--'); // Split
         this.test.assertEquals(this.get_cells_length(), N, 'Split cell 1: There are still '+N+' cells');
         this.test.assertEquals(this.get_cell_text(0), a, 'Split cell 1: Cell 0 is unchanged');
         this.test.assertEquals(this.get_cell_text(1), b, 'Split cell 1: Cell 1 is unchanged');
         this.test.assertEquals(this.get_cell_text(2), c, 'Split cell 1: Cell 2 is unchanged');
-        this.validate_notebook_state('ctrl-shift-subtract', 'edit', 1); 
+        this.validate_notebook_state('ctrl-shift--', 'edit', 1); 
     });
 
     // Try to merge cell 1 down, should fail, as 1 is locked
