@@ -346,6 +346,11 @@ flags['no-mathjax']=(
     """
 )
 
+flags['allow-root']=(
+    {'NotebookApp' : {'allow_root' : True}},
+    "Allow the notebook to be run from root user."
+)
+
 # Add notebook manager flags
 flags.update(boolean_flag('script', 'FileContentsManager.save_script',
                'DEPRECATED, IGNORED',
@@ -445,6 +450,10 @@ class NotebookApp(JupyterApp):
         help="Set the Access-Control-Allow-Credentials: true header"
     )
     
+    allow_root = Bool(False, config=True, 
+        help="Whether to allow the user to run the notebook as root."
+    )
+
     default_url = Unicode('/tree', config=True,
         help="The default URL to redirect to from `/`"
     )
@@ -1100,6 +1109,13 @@ class NotebookApp(JupyterApp):
         
         This method takes no arguments so all configuration and initialization
         must be done prior to calling this method."""
+        try:
+            if os.geteuid() == 0:
+                self.log.critical("Running as root is not recommended. Use --allow-root to bypass.")
+                self.exit(1)
+        except AttributeError as e:
+            pass
+
         super(NotebookApp, self).start()
 
         info = self.log.info
