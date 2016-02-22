@@ -104,7 +104,7 @@ define([
                 that.keyboard_manager.enable();
             }
         });
-        this.code_mirror.on('keydown', $.proxy(this.handle_keyevent,this))
+        this.code_mirror.on('keydown', $.proxy(this.handle_keyevent,this));
         // The tabindex=-1 makes this div focusable.
         var render_area = $('<div/>').addClass('text_cell_render rendered_html')
             .attr('tabindex','-1');
@@ -258,8 +258,24 @@ define([
         }
     };
 
+    MarkdownCell.prototype.execute = function () {
+        if (!this.trusted) {
+            console.log("Trusting Markdown cell", this);
+            this.trusted = true;
+        }
+        TextCell.prototype.execute.apply(this);
+    };
+
     /**
      * @method render
+     * 
+     * Renders markdown cell if it is trusted.
+     * If untrusted, run sanitizer to check for safe output;
+     *    if output is safe, trust markdown immediately,
+     *    otherwise abort render and wait for `.execute()`
+     *    to explicitly trust the cell before rendering.
+     * 
+     * call .execute() to explicitly trust and render markdown.
      */
     MarkdownCell.prototype.render = function () {
         var cont = TextCell.prototype.render.apply(this);
@@ -273,7 +289,28 @@ define([
             math = text_and_math[1];
             marked(text, function (err, html) {
                 html = mathjaxutils.replace_math(html, math);
-                html = security.sanitize_html(html);
+                
+                if (!that.trusted) {
+                    var sanitizations = [];
+                    var record_sanitization = function (msg, obj) {
+                        sanitizations.push([msg, obj]);
+                    };
+                    security.sanitize_html(html, false, record_sanitization);
+                
+                    // check for trust after sanitization
+                    if (sanitizations.length === 0) {
+                        // nothing to sanitize, consider me safe and proceed to render
+                        that.trusted = true;
+                    } else {
+                        // untrusted *and* there were sanitized elements; abort render
+                        console.warn(
+                            "Sanitized %d elements in untrusted markdown, not rendering.",
+                            sanitizations.length);
+                        that.unrender();
+                        return;
+                    }
+                }
+                
                 html = $($.parseHTML(html));
                 // add anchors to headings
                 html.find(":header").addBack(":header").each(function (i, h) {
@@ -286,7 +323,7 @@ define([
                             .attr('href', '#' + hash)
                             .text('¶')
                             .on('click',function(){
-                                setTimeout(function(){that.unrender(); that.render()}, 100)
+                                setTimeout(function(){that.unrender(); that.render();}, 100);
                             })
                     );
                 });
