@@ -125,6 +125,8 @@ def find_package_data():
     static_data.extend([
         pjoin('static', 'built', '*index.js'),
         pjoin('static', 'built', '*index.js.map'),
+        pjoin('static', 'services', 'built', '*contents.js'),
+        pjoin('static', 'services', 'built', '*contents.js.map'),
     ])
     
     components = pjoin("static", "components")
@@ -438,13 +440,14 @@ class CompileJS(Command):
     
     def sources(self, name):
         """Generator yielding .js sources that an application depends on"""
-        yield pjoin(static, name, 'js', 'built', 'main.js')
+        yield pjoin(static, name, 'js', 'built', 'main.min.js')
 
         for sec in [name, 'base', 'auth']:
             for f in glob(pjoin(static, sec, 'js', '*.js')):
                 if not f.endswith('.min.js'):
                     yield f
-        yield pjoin(static, 'services', 'config.js')
+        yield pjoin(static, 'services', 'built', 'config.js')
+        yield pjoin(static, 'built', 'index.js')
         if name == 'notebook':
             for f in glob(pjoin(static, 'services', '*', '*.js')):
                 yield f
