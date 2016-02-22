@@ -115,7 +115,7 @@ class NotebookTestBase(TestCase):
                 # set the event, so failure to start doesn't cause a hang
                 started.set()
                 app.session_manager.close()
-        cls.notebook_thread = Thread(target=start_thread)
+        cls.notebook_thread = Thread(target=start_thread, daemon=True)
         cls.notebook_thread.start()
         started.wait()
         cls.wait_until_alive()
