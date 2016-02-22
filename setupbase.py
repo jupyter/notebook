@@ -536,11 +536,11 @@ def css_js_prerelease(command, strict=False):
                     # die if strict or any targets didn't build
                     prefix = os.path.commonprefix([repo_root + os.sep] + missing)
                     missing = [ m[len(prefix):] for m in missing ]
-                    log.warning("rebuilding js and css failed. The following required files are missing: %s" % missing)
+                    log.warn("rebuilding js and css failed. The following required files are missing: %s" % missing)
                     raise e
                 else:
-                    log.warning("rebuilding js and css failed (not a problem)")
-                    log.warning(str(e))
+                    log.warn("rebuilding js and css failed (not a problem)")
+                    log.warn(str(e))
 
             # check again for missing targets, just in case:
             missing = [ t for t in targets if not os.path.exists(t) ]
