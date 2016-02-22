@@ -79,7 +79,7 @@ define([
         ) + "?download=" + download.toString();
         
         var w = window.open('', IPython._target);
-        if (this.notebook.dirty) {
+        if (this.notebook.dirty && this.notebook.writable) {
             this.notebook.save_notebook().then(function() {
                 w.location = url;
             });
@@ -122,7 +122,7 @@ define([
             var url = utils.url_path_join(
                 base_url, 'files', notebook_path
             ) + '?download=1';
-            if (that.notebook.dirty) {
+            if (that.notebook.dirty && that.notebook.writable) {
                 that.notebook.save_notebook().then(function() {
                     w.location = url;
                 });
