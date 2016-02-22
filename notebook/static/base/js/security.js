@@ -70,11 +70,13 @@ define([
         return h.html();
     };
     
-    var sanitize_html = function (html, allow_css) {
+    var sanitize_html = function (html, allow_css, hook) {
         /**
          * sanitize HTML
          * if allow_css is true (default: false), CSS is sanitized as well.
          * otherwise, CSS elements and attributes are simply removed.
+         *
+         * If specified, hook will be called with any sanitization events.
          */
         var html4 = caja.html4;
 
@@ -91,6 +93,9 @@ define([
         
         var record_messages = function (msg, opts) {
             console.log("HTML Sanitizer", msg, opts);
+            if (hook) {
+              hook(msg, opts);
+            }
         };
         
         var policy = function (tagName, attribs) {
