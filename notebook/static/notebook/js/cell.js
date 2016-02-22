@@ -473,6 +473,9 @@ define([
         var data = {};
         // deepcopy the metadata so copied cells don't share the same object
         data.metadata = JSON.parse(JSON.stringify(this.metadata));
+        if (this.trusted === true || this.trusted === false) {
+            data.metadata.trusted = this.trusted;
+        }
         data.cell_type = this.cell_type;
         return data;
     };
@@ -484,6 +487,7 @@ define([
     Cell.prototype.fromJSON = function (data) {
         if (data.metadata !== undefined) {
             this.metadata = data.metadata;
+            this.trusted = data.metadata.trusted;
         }
     };
 
