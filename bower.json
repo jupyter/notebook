@@ -8,7 +8,7 @@
     "codemirror": "~5.8",
     "es6-promise": "~1.0",
     "font-awesome": "components/font-awesome#~4.2.0",
-    "google-caja": "5669",
+    "google-caja": "6005",
     "jquery": "components/jquery#~2.0",
     "jquery-ui": "components/jqueryui#~1.10",
     "marked": "~0.3",
