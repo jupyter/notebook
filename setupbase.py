@@ -165,9 +165,6 @@ def find_package_data():
     
     if os.path.exists(mj_out):
         for output in os.listdir(mj_out):
-            if output == 'SVG':
-                # strip SVG output
-                continue
             path = pjoin(mj_out, output)
             static_data.append(pjoin(path, '*.js'))
             autoload = pjoin(path, 'autoload')
@@ -180,6 +177,7 @@ def find_package_data():
         mj('extensions'),
         mj('jax', 'input', 'TeX'),
         mj('jax', 'output', 'HTML-CSS', 'fonts', 'STIX-Web'),
+        mj('jax', 'output', 'SVG', 'fonts', 'STIX-Web'),
     ]:
         for parent, dirs, files in os.walk(tree):
             for f in files:

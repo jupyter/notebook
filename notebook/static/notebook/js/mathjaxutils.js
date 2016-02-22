@@ -30,11 +30,6 @@ define([
                     linebreaks: { automatic: true }
                 },
             });
-            MathJax.Hub.Register.StartupHook("MathMenu Ready", function () {
-              var renderers = MathJax.Menu.menu.Find("Math Settings").submenu.Find("Math Renderer").submenu;
-              // disable SVG output, which we don't ship
-              renderers.Find("SVG").disabled = true;
-            });
             MathJax.Hub.Configured();
         } else if (window.mathjax_url !== "") {
             // Don't have MathJax, but should. Show dialog.
