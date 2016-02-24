@@ -82,7 +82,7 @@ need to use the 'nodejs-legacy' package and not the 'node' package.
 
 For more detailed development install instructions (e.g. recompiling javascript
 and css, running tests), see the
-[Developer Documentation](http://jupyter.readthedocs.org/en/latest/contrib_guide_code.html)
+[Developer Documentation](https://jupyter-notebook.readthedocs.org/en/latest/development_js.html)
 on ReadTheDocs and the [contributing guide](CONTRIBUTING.md).
 
 ### Ubuntu Trusty
@@ -118,6 +118,12 @@ cd notebook
 pip install -r requirements.txt -e .
 jupyter notebook
 ```
+
+## Contributing
+
+If you are interested in contributing to the project, you can find information about the
+contribution process in the [Jupyter Contribution Guidelines]
+(http://jupyter.readthedocs.org/en/latest/contrib_guide_code.html).
 
 ## Resources
 - [Project Jupyter website](https://jupyter.org)
