@@ -82,7 +82,7 @@ need to use the 'nodejs-legacy' package and not the 'node' package.
 
 For more detailed development install instructions (e.g. recompiling javascript
 and css, running tests), see the
-[Developer Documentation](http://jupyter-notebook.readthedocs.org/en/latest)
+[Developer Documentation](http://jupyter.readthedocs.org/en/latest/contrib_guide_code.html)
 on ReadTheDocs and the [contributing guide](CONTRIBUTING.md).
 
 ### Ubuntu Trusty
