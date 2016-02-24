@@ -5,9 +5,6 @@ define(function(require) {
     "use strict";
 
     var CodeMirror = require('codemirror/lib/codemirror');
-    var $ = require('jquery');
-    // bootstrap is required for calling .modal(...) on elements
-    require('bootstrap');
 
     /**
      * A wrapper around bootstrap modal for easier use

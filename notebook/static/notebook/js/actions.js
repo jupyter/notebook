@@ -34,7 +34,6 @@ define(function(require){
         Object.seal(this);
     };
 
-    var $ = require('jquery');
     var events =  require('base/js/events');
 
     /**

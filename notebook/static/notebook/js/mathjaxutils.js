@@ -2,10 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'base/js/utils',
     'base/js/dialog',
-], function($, utils, dialog) {
+], function(utils, dialog) {
     "use strict";
 
     var init = function () {

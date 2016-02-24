@@ -7,7 +7,6 @@
 define(function (require) {
     "use strict";
     var IPython = require('base/js/namespace');
-    var $ = require('jquery');
     var _ = require('underscore');
     var utils = require('base/js/utils');
     var dialog = require('base/js/dialog');

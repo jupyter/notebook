@@ -2,11 +2,10 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'base/js/namespace',
     'base/js/utils',
     'base/js/dialog',
-], function ($, IPython, utils, dialog) {
+], function (IPython, utils, dialog) {
     "use strict";
     
     var NewNotebookWidget = function (selector, options) {

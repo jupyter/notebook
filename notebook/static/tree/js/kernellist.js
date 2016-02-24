@@ -3,9 +3,8 @@
 
 define([
     'base/js/namespace',
-    'jquery',
     'tree/js/notebooklist',
-], function(IPython, $, notebooklist) {
+], function(IPython, notebooklist) {
     "use strict";
 
     var KernelList = function (selector, options) {

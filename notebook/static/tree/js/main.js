@@ -1,34 +1,28 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
+__webpack_public_path__ = window['staticURL'] + 'tree/js/built/';
 
+requirejs(['contents'], function(contents_service) {
 require([
-    'jquery',
     'base/js/namespace',
     'base/js/dialog',
     'base/js/events',
     'base/js/page',
     'base/js/utils',
     'services/config',
-    'contents',
     'tree/js/notebooklist',
     'tree/js/sessionlist',
     'tree/js/kernellist',
     'tree/js/terminallist',
     'tree/js/newnotebook',
     'auth/js/loginwidget',
-    // only loaded, not used:
-    'jquery-ui',
-    'bootstrap',
-    'custom/custom',
 ], function(
-    $,
     IPython,
     dialog,
     events,
     page,
     utils,
     config,
-    contents_service,
     notebooklist,
     sesssionlist,
     kernellist,
@@ -36,6 +30,7 @@ require([
     newnotebook,
     loginwidget){
     "use strict";
+    requirejs(['custom/custom'], function() {});
 
     IPython.NotebookList = notebooklist.NotebookList;
 
@@ -174,4 +169,5 @@ require([
     if (window.location.hash) {
         $("#tabs").find("a[href=" + window.location.hash + "]").click();
     }
+});
 });

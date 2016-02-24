@@ -2,10 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'base/js/utils',
     ],
-function($, utils) {
+function(utils) {
     "use strict";
     var ConfigSection = function(section_name, options) {
         this.section_name = section_name;

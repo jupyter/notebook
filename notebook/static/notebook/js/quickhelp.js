@@ -2,10 +2,10 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'base/js/utils',
     'base/js/dialog',
-], function($, utils, dialog) {
+    'underscore'
+], function(utils, dialog, _) {
     "use strict";
     var platform = utils.platform;
 

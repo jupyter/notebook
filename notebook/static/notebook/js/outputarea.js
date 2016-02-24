@@ -2,13 +2,12 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery-ui',
     'base/js/utils',
     'base/js/security',
     'base/js/keyboard',
     'notebook/js/mathjaxutils',
     'components/marked/lib/marked',
-], function($, utils, security, keyboard, mathjaxutils, marked) {
+], function(utils, security, keyboard, mathjaxutils, marked) {
     "use strict";
 
     /**

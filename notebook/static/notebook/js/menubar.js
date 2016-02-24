@@ -2,14 +2,13 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'base/js/namespace',
     'base/js/dialog',
     'base/js/utils',
     './celltoolbar',
     './tour',
     'moment',
-], function($, IPython, dialog, utils, celltoolbar, tour, moment) {
+], function(IPython, dialog, utils, celltoolbar, tour, moment) {
     "use strict";
     
     var MenuBar = function (selector, options) {
@@ -399,7 +398,7 @@ define([
                 .append($("<a>")
                     .attr('target', '_blank')
                     .attr('title', 'Opens in a new window')
-                    .attr('href', require.toUrl(link.url))
+                    .attr('href', requirejs.toUrl(link.url))
                     .append($("<i>")
                         .addClass("fa fa-external-link menu-icon pull-right")
                     )

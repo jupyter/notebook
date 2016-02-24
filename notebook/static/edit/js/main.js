@@ -1,26 +1,23 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
+__webpack_public_path__ = window['staticURL'] + 'edit/js/built/';
 
+requirejs(['contents'], function(contents) {
 require([
-    'jquery',
     'base/js/namespace',
     'base/js/utils',
     'base/js/page',
     'base/js/events',
-    'contents',
     'services/config',
     'edit/js/editor',
     'edit/js/menubar',
     'edit/js/savewidget',
     'edit/js/notificationarea',
-    'custom/custom',
 ], function(
-    $,
     IPython,
     utils,
     page,
     events,
-    contents,
     configmod,
     editmod,
     menubar,
@@ -28,6 +25,8 @@ require([
     notificationarea
     ){
     "use strict";
+    requirejs(['custom/custom'], function() {});
+    
     page = new page.Page();
 
     var base_url = utils.get_body_data('baseUrl');
@@ -94,4 +93,5 @@ require([
 
     // On document ready, resize codemirror.
     $(document).ready(_handle_resize);
+});
 });

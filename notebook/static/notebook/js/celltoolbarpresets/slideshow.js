@@ -2,9 +2,8 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'notebook/js/celltoolbar',
-], function($, celltoolbar) {
+], function(celltoolbar) {
     "use strict";
 
 

@@ -54,12 +54,9 @@ Prototyping tip
 ---------------
 
 When doing prototyping which needs quick iteration of the Notebook's
-JavaScript, the bundled and minified JavaScript may be deactivated. To do
-this, start the Notebook with the option
-``--NotebookApp.ignore_minified_js=True``.  This increases
-the number of requests that the browser makes to the server, but it allows
-testing JavaScript file modification without going through the time consuming
-compilation step that may take up to 30 seconds.
+JavaScript, run `npm run build:watch` in the root of the repository.  
+This will cause WebPack to monitor the files you edit and recompile 
+them on the fly.
 
 
 .. _Node.js: https://nodejs.org

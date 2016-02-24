@@ -344,10 +344,6 @@ data-notebook-path="{{notebook_path | urlencode}}"
 
 <script src="{{ static_url("components/text-encoding/lib/encoding.js") }}" charset="utf-8"></script>
 
-{% if ignore_minified_js %}
-    <script src="{{ static_url("notebook/js/main.js") }}" type="text/javascript" charset="utf-8"></script>
-{% else %}
-    <script src="{{ static_url("notebook/js/main.min.js") }}" type="text/javascript" charset="utf-8"></script>
-{% endif %}
+<script src="{{ static_url("notebook/js/built/main.min.js") }}" type="text/javascript" charset="utf-8"></script>
 
 {% endblock %}

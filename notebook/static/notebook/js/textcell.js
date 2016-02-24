@@ -3,7 +3,6 @@
 
 define([
     'base/js/utils',
-    'jquery',
     'notebook/js/cell',
     'base/js/security',
     'services/config',
@@ -15,7 +14,6 @@ define([
     'notebook/js/codemirror-ipythongfm'
 ], function(
     utils,
-    $,
     cell,
     security,
     configmod,

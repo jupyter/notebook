@@ -20,6 +20,7 @@ import signal
 import socket
 import sys
 import threading
+import warnings
 import webbrowser
 
 try: #PY3
@@ -97,6 +98,15 @@ jupyter notebook                       # start the notebook
 jupyter notebook --certfile=mycert.pem # use SSL/TLS certificate
 """
 
+DEV_NOTE_NPM = """It looks like you're running the notebook from source.
+If you're working on the Javascript of the notebook, try running
+
+    npm run build:watch
+
+in another terminal window to have the system incrementally
+watch and build the notebook's JavaScript for you, as you make changes.
+"""
+
 #-----------------------------------------------------------------------------
 # Helper functions
 #-----------------------------------------------------------------------------
@@ -139,6 +149,13 @@ class NotebookWebApplication(web.Application):
                  config_manager, log,
                  base_url, default_url, settings_overrides, jinja_env_options):
 
+        # If the user is running the notebook in a git directory, make the assumption
+        # that this is a dev install and suggest to the developer `npm run build:watch`.
+        base_dir = os.path.realpath(os.path.join(__file__, '..', '..'))
+        dev_mode = os.path.exists(os.path.join(base_dir, '.git'))
+        if dev_mode:
+            log.info(DEV_NOTE_NPM)
+
         settings = self.init_settings(
             ipython_app, kernel_manager, contents_manager,
             session_manager, kernel_spec_manager, config_manager, log, base_url,
@@ -174,6 +191,12 @@ class NotebookWebApplication(web.Application):
             # reset the cache on server restart
             version_hash = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 
+        if ipython_app.ignore_minified_js:
+            log.warn("""The `ignore_minified_js` flag is deprecated and no 
+                longer works.  Alternatively use `npm run build:watch` when
+                working on the notebook's Javascript and LESS""")
+            warnings.warn("The `ignore_minified_js` flag is deprecated and will be removed in Notebook 6.0", DeprecationWarning)
+
         settings = dict(
             # basics
             log_function=log_request,
@@ -190,7 +213,7 @@ class NotebookWebApplication(web.Application):
             },
             version_hash=version_hash,
             ignore_minified_js=ipython_app.ignore_minified_js,
-
+            
             # rate limits
             iopub_msg_rate_limit=ipython_app.iopub_msg_rate_limit,
             iopub_data_rate_limit=ipython_app.iopub_data_rate_limit,
@@ -416,7 +439,7 @@ class NotebookApp(JupyterApp):
 
     ignore_minified_js = Bool(False,
             config=True,
-            help='Use minified JS file or not, mainly use during dev to avoid JS recompilation', 
+            help='Deprecated: Use minified JS file or not, mainly use during dev to avoid JS recompilation', 
             )
 
     # file to be opened in the notebook server

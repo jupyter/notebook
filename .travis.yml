@@ -7,7 +7,7 @@ cache:
 python:
     - 3.5.1  # Set to 3.5.1 since travis has not yet included as default for 3.5
     - 2.7
-    
+
 sudo: false
 
 env:
@@ -19,16 +19,19 @@ env:
     - GROUP=js/notebook
     - GROUP=js/services
     - GROUP=js/tree
-    
+
 before_install:
     - pip install --upgrade pip
     - pip install --upgrade setuptools wheel nose coverage codecov
-    - 'if [[ $GROUP == js* ]]; then npm install -g casperjs; fi'
+    - nvm install 5.6
+    - nvm use 5.6
+    - npm upgrade -g npm
+    - 'if [[ $GROUP == js* ]]; then  npm install -g casperjs; fi'
     - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
-    
+
 install:
     - pip install -f travis-wheels/wheelhouse file://$PWD#egg=notebook[test]
-    
+
 script:
     - 'if [[ $GROUP == js* ]]; then python -m notebook.jstest ${GROUP:3}; fi'
     - 'if [[ $GROUP == python ]]; then nosetests -v --with-coverage --cover-package=notebook notebook; fi'
@@ -39,6 +42,6 @@ matrix:
           env: GROUP=python
         - python: 3.4
           env: GROUP=python
-    
+
 after_success:
     - codecov
