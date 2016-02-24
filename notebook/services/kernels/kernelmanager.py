@@ -115,7 +115,7 @@ class MappingKernelManager(MultiKernelManager):
         
         def finish():
             """Common cleanup when restart finishes/fails for any reason."""
-            if not channel.closed:
+            if not channel.closed():
                 channel.close()
             loop.remove_timeout(timeout)
             kernel.remove_restart_callback(on_restart_failed, 'dead')
