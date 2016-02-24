@@ -212,6 +212,7 @@ define(function(require){
             }
         },
         'cut-cell' : {
+            help: 'cut selected cells',
             icon: 'fa-cut',
             help_index : 'ee',
             handler : function (env) {
@@ -221,6 +222,7 @@ define(function(require){
             }
         },
         'copy-cell' : {
+            help: 'copy selected cells',
             icon: 'fa-copy',
             help_index : 'ef',
             handler : function (env) {
@@ -228,14 +230,14 @@ define(function(require){
             }
         },
         'paste-cell-above' : {
-            help: 'paste cell above',
+            help: 'paste cells above',
             help_index : 'eg',
             handler : function (env) {
                 env.notebook.paste_cell_above();
             }
         },
         'paste-cell-below' : {
-            help: 'paste cell below',
+            help: 'paste cells below',
             icon: 'fa-paste',
             help_index : 'eh',
             handler : function (env) {
@@ -345,6 +347,7 @@ define(function(require){
             }
         },
         'move-cell-down' : {
+            help: 'move selected cells down',
             icon: 'fa-arrow-down',
             help_index : 'eb',
             handler : function (env) {
@@ -352,6 +355,7 @@ define(function(require){
             }
         },
         'move-cell-up' : {
+            help: 'move selected cells up',
             icon: 'fa-arrow-up',
             help_index : 'ea',
             handler : function (env) {
@@ -372,7 +376,7 @@ define(function(require){
             }
         },
         'delete-cell': {
-            help: 'delete selected cell',
+            help: 'delete selected cells',
             help_index : 'ej',
             handler : function (env) {
                 env.notebook.delete_cell();
