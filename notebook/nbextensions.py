@@ -491,6 +491,9 @@ class ListNBExtensionsApp(BaseNBExtensionApp):
     description = "List all nbextensions known by the configuration system"
     
     def list_nbextensions(self):
+        GREEN_CHECK = '\033[92m✔️\033[0m'
+        RED_EX = '\033[91m❌\033[0m'
+        
         config_dirs = [os.path.join(p, 'nbconfig') for p in jupyter_config_path()]
         for config_dir in config_dirs:
             self.log.info('config dir: {}'.format(config_dir))
@@ -498,8 +501,10 @@ class ListNBExtensionsApp(BaseNBExtensionApp):
             for section in ['notebook', 'tree']:
                 data = cm.get(section)
                 if 'load_extensions' in data:
-                    self.log.info('  section: {}'.format(section))
-                    self.log.info('    {}'.format(data))
+                    self.log.info('  {} section'.format(section))
+                    
+                    load_extensions = data['load_extensions']
+                    [self.log.info('   {1} {0}'.format(x, GREEN_CHECK if load_extensions[x] else RED_EX)) for x in load_extensions]
     
     def start(self):
         self.list_nbextensions()
