@@ -18,6 +18,9 @@ require([
     requirejs(['custom/custom'], function() {});
     page = new page.Page();
 
+    var config = new configmod.ConfigSection('terminal', 
+                                    {base_url: utils.get_body_data('baseUrl')});
+    config.load();
     var common_config = new configmod.ConfigSection('common', 
                                     {base_url: utils.get_body_data('baseUrl')});
     common_config.load();
@@ -49,6 +52,7 @@ require([
     
     page.show_site();
     
+    utils.load_extensions_from_config(config);
     utils.load_extensions_from_config(common_config);
     
     window.onresize = function() { 
