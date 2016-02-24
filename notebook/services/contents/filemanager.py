@@ -460,7 +460,9 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         old_os_path = self._get_os_path(old_path)
 
         # Should we proceed with the move?
-        if os.path.exists(new_os_path):
+        _, new_name = os.path.split(new_os_path)
+        old_dir, _ = os.path.split(old_os_path)
+        if new_name in os.listdir(old_dir):
             raise web.HTTPError(409, u'File already exists: %s' % new_path)
 
         # Move the file
