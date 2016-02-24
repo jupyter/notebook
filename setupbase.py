@@ -327,10 +327,10 @@ def run(cmd, *args, **kwargs):
 
 
 class JavascriptDependencies(Command):
-    description = "fetch static client-side components with npm and bower"
+    description = "Fetch Javascript dependencies with npm and bower"
     
     user_options = [
-        ('force', 'f', "force fetching of bower dependencies"),
+        ('force', 'f', "Force fetching of Javascript dependencies"),
     ]
     
     def initialize_options(self):
