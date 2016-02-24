@@ -293,16 +293,8 @@ def enable_nbextension_python(package, user=False, sys_prefix=False, log=None):
     for nbext in nbexts:
         require = nbext['require']
         section = nbext['section']
-        if section == 'common':
-            diff = {'NotebookApp': {'nbextensions_common': {require: True}}}
-        elif section == 'notebook':
-            diff = {'NotebookApp': {'nbextensions_notebook': {require: True}}}
-        elif section == 'tree':
-            diff = {'NotebookApp': {'nbextensions_tree': {require: True}}}
-        elif section == 'edit':
-            diff = {'NotebookApp': {'nbextensions_edit': {require: True}}}
-        elif section == 'terminal':
-            diff = {'NotebookApp': {'nbextensions_terminal': {require: True}}}
+        if section in ['common', 'notebook', 'tree', 'edit', 'terminal']:
+            diff = {'NotebookApp': {'nbextensions_' + section: {require: True}}}
     _recursive_update(data, diff)
     _write_config_data(data, user=user, sys_prefix=sys_prefix)
     
@@ -314,16 +306,8 @@ def disable_nbextension_python(package, user=False, sys_prefix=False):
     for nbext in nbexts:
         require = nbext['require']
         section = nbext['section']
-        if section == 'common':
-            diff = {'NotebookApp': {'nbextensions_common': {require: False}}}
-        elif section == 'notebook':
-            diff = {'NotebookApp': {'nbextensions_notebook': {require: False}}}
-        elif section == 'tree':
-            diff = {'NotebookApp': {'nbextensions_tree': {require: False}}}
-        elif section == 'edit':
-            diff = {'NotebookApp': {'nbextensions_edit': {require: False}}}
-        elif section == 'terminal':
-            diff = {'NotebookApp': {'nbextensions_terminal': {require: False}}}
+        if section in ['common', 'notebook', 'tree', 'edit', 'terminal']:
+            diff = {'NotebookApp': {'nbextensions_' + section: {require: False}}}
     _recursive_update(data, diff)
     _write_config_data(data, user=user, sys_prefix=sys_prefix)    
 
