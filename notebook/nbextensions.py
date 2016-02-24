@@ -6,8 +6,6 @@
 
 from __future__ import print_function
 
-import io
-import json
 import logging
 import os
 import shutil
@@ -630,25 +628,15 @@ def _get_nbextension_metadata(package):
 
 def _read_config_data(user=False, sys_prefix=False):
     config_dir = _get_config_dir(user=user, sys_prefix=sys_prefix)
-    config_file = os.path.join(config_dir, 'jupyter_notebook_config.json')
-    # Read existing config data
-    if os.path.isfile(config_file):
-        with io.open(config_file, encoding='utf-8') as f:
-            return json.load(f)
-    else:
-        return {}
+    config_man = BaseJSONConfigManager(config_dir=config_dir)
+    return config_man.get('jupyter_notebook_config')
 
 
 def _write_config_data(data, user=False, sys_prefix=False):
     config_dir = _get_config_dir(user=user, sys_prefix=sys_prefix)
-    config_file = os.path.join(config_dir, 'jupyter_notebook_config.json')
-    ensure_dir_exists(config_dir)
-    if PY3:
-        f = io.open(config_file, 'w', encoding='utf-8')
-    else:
-        f = open(config_file, 'wb')
-    with f:
-        json.dump(data, f, indent=2)
+    config_man = BaseJSONConfigManager(config_dir=config_dir)
+    config = config_man.get('jupyter_notebook_config')
+    config_man.update('jupyter_notebook_config', data)
         
         
 def _recursive_update(target, new):
