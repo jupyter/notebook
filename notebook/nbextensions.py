@@ -426,36 +426,26 @@ class InstallNBExtensionApp(BaseNBExtensionApp):
     def install_extensions(self):
         if len(self.extra_args)>1:
             raise ValueError("only one nbextension allowed at a time.  Call multiple times to install multiple extensions.")
-        if self.python:
-            install_nbextension_python(self.extra_args[0],
-                overwrite=self.overwrite,
-                symlink=self.symlink,
-                verbose=self.verbose,
-                user=self.user,
-                sys_prefix=self.sys_prefix,
-                prefix=self.prefix,
-                nbextensions_dir=self.nbextensions_dir
-            )
-        else:
-            install_nbextension(self.extra_args[0],
-                overwrite=self.overwrite,
-                symlink=self.symlink,
-                verbose=self.verbose,
-                user=self.user,
-                prefix=self.prefix,
-                destination=self.destination,
-                nbextensions_dir=self.nbextensions_dir,
+        install = install_nbextension_python if self.python else install_nbextension
+        install(self.extra_args[0],
+            overwrite=self.overwrite,
+            symlink=self.symlink,
+            verbose=self.verbose,
+            user=self.user,
+            sys_prefix=self.sys_prefix,
+            prefix=self.prefix,
+            nbextensions_dir=self.nbextensions_dir
         )
     
     def start(self):
         if not self.extra_args:
-            self.log.warn('Please specify an nbextension to install')
+            sys.exit('Please specify an nbextension to install')
         else:
             try:
                 self.install_extensions()
             except ArgumentConflict as e:
                 self.log.info(str(e), file=sys.stderr)
-                self.exit(1)
+                sys.exit(1)
 
 class UninstallNBExtensionApp(BaseNBExtensionApp):
     """Entry point for uninstalling notebook extensions"""
@@ -492,40 +482,36 @@ class UninstallNBExtensionApp(BaseNBExtensionApp):
         return 'jupyter_notebook_config'
     
     def uninstall_extensions(self):
+        kwargs = {
+            verbose: self.verbose,
+            user: self.user,
+            sys_prefix: self.sys_prefix,
+            prefix: self.prefix,
+            nbextensions_dir: self.nbextensions_dir,
+        }
+        
         if self.python:
             if len(self.extra_args)>1:
                 raise ValueError("only one nbextension allowed at a time.  Call multiple times to uninstall multiple extensions.")
             if len(self.extra_args)<1:
                 raise ValueError("not enough arguments")
-            uninstall_nbextension_python(self.extra_args[0],
-                verbose=self.verbose,
-                user=self.user,
-                sys_prefix=self.sys_prefix,
-                prefix=self.prefix,
-                nbextensions_dir=self.nbextensions_dir
-            )
+            uninstall_nbextension_python(self.extra_args[0], **kwargs)
         else:
             if len(self.extra_args)>2:
                 raise ValueError("only one nbextension allowed at a time.  Call multiple times to uninstall multiple extensions.")
             if len(self.extra_args)<2:
                 raise ValueError("not enough arguments")
-            uninstall_nbextension(self.extra_args[0], self.extra_args[1],
-                verbose=self.verbose,
-                user=self.user,
-                prefix=self.prefix,
-                destination=self.destination,
-                nbextensions_dir=self.nbextensions_dir,
-        )
+            uninstall_nbextension(self.extra_args[0], self.extra_args[1], **kwargs)
     
     def start(self):
         if not self.extra_args:
-            self.log.warn('Please specify an nbextension to uninstall')
+            sys.exit('Please specify an nbextension to uninstall')
         else:
             try:
                 self.uninstall_extensions()
             except ArgumentConflict as e:
                 self.log.info(str(e), file=sys.stderr)
-                self.exit(1)
+                sys.exit(1)
 
 
 _toggle_flags = {
@@ -577,8 +563,7 @@ class ToggleNBExtensionApp(BaseNBExtensionApp):
         config_dir = os.path.join(_get_config_dir(user=self.user, sys_prefix=self.sys_prefix), 'nbconfig')
         cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
         if self._toggle_value is None and require not in cm.get(section).get('load_extensions', {}):
-            self.log.warn('{} is not enabled in section {}'.format(require, section))
-            sys.exit(1)
+            sys.exit('{} is not enabled in section {}'.format(require, section))
         # We're using a dict as a set - updating with None removes the key
         cm.update(section, {"load_extensions": {require: self._toggle_value}})
     
@@ -595,11 +580,9 @@ class ToggleNBExtensionApp(BaseNBExtensionApp):
     def start(self):
 
         if not self.extra_args:
-            self.log.warn('Please specify an nbextension/package to enable or disable')
-            sys.exit(1)
+            sys.exit('Please specify an nbextension/package to enable or disable')
         elif len(self.extra_args) > 1:
-            self.log.warn('Please specify one nbextension/package at a time')
-            sys.exit(1)
+            sys.exit('Please specify one nbextension/package at a time')
         if self.python:
             self.toggle_nbextension_python(self.extra_args[0])
         else:
@@ -675,8 +658,7 @@ class NBExtensionApp(BaseNBExtensionApp):
         # The above should have called a subcommand and raised NoStart; if we
         # get here, it didn't, so we should self.log.info a message.
         subcmds = ", ".join(sorted(self.subcommands))
-        self.log.warn("Please supply at least one subcommand: %s" % subcmds)
-        sys.exit(1)
+        sys.exit("Please supply at least one subcommand: %s" % subcmds)
 
 main = NBExtensionApp.launch_instance
 
