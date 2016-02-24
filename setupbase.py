@@ -470,17 +470,27 @@ class JavascriptVersion(Command):
     
     def run(self):
         nsfile = pjoin(repo_root, "notebook", "static", "base", "js", "namespace.js")
+        lines = []
+        found = False
         with open(nsfile) as f:
-            lines = f.readlines()
-        with open(nsfile, 'w') as f:
-            found = False
-            for line in lines:
+            for line in f.readlines():
                 if line.strip().startswith("Jupyter.version"):
-                    line = '    Jupyter.version = "{0}";\n'.format(version)
                     found = True
+                    new_line = '    Jupyter.version = "{0}";\n'.format(version)
+                    if new_line == line:
+                        # no change, don't rewrite file
+                        return
+                    lines.append(new_line)
+                else:
+                    lines.append(line)
+
+        if not found:
+            raise RuntimeError("Didn't find Jupyter.version line in %s" % nsfile)
+        
+        print("Writing version=%s to %s" % (version, nsfile))
+        with open(nsfile, 'w') as f:
+            for line in lines:
                 f.write(line)
-            if not found:
-                raise RuntimeError("Didn't find Jupyter.version line in %s" % nsfile)
 
 
 def css_js_prerelease(command, strict=False):
