@@ -329,15 +329,11 @@ def run(cmd, *args, **kwargs):
 class JavascriptDependencies(Command):
     description = "Fetch Javascript dependencies with npm and bower"
     
-    user_options = [
-        ('force', 'f', "Force fetching of Javascript dependencies"),
-    ]
-    
     def initialize_options(self):
-        self.force = False
+        pass
     
     def finalize_options(self):
-        self.force = bool(self.force)
+        pass
     
     bower_dir = pjoin(static, 'components')
     node_modules = pjoin(repo_root, 'node_modules')
@@ -501,7 +497,7 @@ def css_js_prerelease(command, strict=False):
             jsdeps = self.distribution.get_command_obj('jsdeps')
             js = self.distribution.get_command_obj('js')
             css = self.distribution.get_command_obj('css')
-            jsdeps.force = js.force = strict
+            js.force = strict
 
             targets = [ jsdeps.bower_dir ]
             targets.extend(js.targets)
