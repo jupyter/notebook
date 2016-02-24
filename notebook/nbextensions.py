@@ -302,6 +302,11 @@ flags = {
     "py" : ({
         "InstallNBExtensionApp" : {
             "python" : True,
+        }}, "Install from a Python package (alias for --python)"
+    ),
+    "python" : ({
+        "InstallNBExtensionApp" : {
+            "python" : True,
         }}, "Install from a Python package"
     ),
 }
