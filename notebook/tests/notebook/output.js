@@ -95,4 +95,32 @@ casper.notebook_test(function () {
             text: "3\n"
         }]
     );
+    this.test_coalesced_output("test nested svg", [
+        'from IPython.display import SVG',
+        'nested_svg="""',
+        '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100" >',
+        '  <svg x="0">',
+        '    <rect x="10" y="10" height="80" width="80" style="fill: #0000ff"/>',
+        '  </svg>',
+        '  <svg x="100">',
+        '    <rect x="10" y="10" height="80" width="80" style="fill: #00cc00"/>',
+        '  </svg>',
+        '</svg>"""',
+        'SVG(nested_svg)'
+        ].join("\n"), [{
+            output_type: "execute_result",
+            data: { 
+            "text/plain" : "<IPython.core.display.SVG object>",
+            "image/svg+xml": [
+              '<svg height="200" width="100" xmlns="http://www.w3.org/2000/svg">',
+              '  <svg x="0">',
+              '    <rect height="80" style="fill: #0000ff" width="80" x="10" y="10"/>',
+              '  </svg>',
+              '  <svg x="100">',
+              '    <rect height="80" style="fill: #00cc00" width="80" x="10" y="10"/>',
+              '  </svg>',
+              '</svg>'].join("\n")
+            },
+        }]
+    );
 });
