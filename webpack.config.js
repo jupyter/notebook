@@ -6,7 +6,7 @@ var commonConfig = {
         root: [
             '.', /* allows npm packages to be loaded */
             './notebook/static'
-        ].map(x =>path.resolve(x)),
+        ].map(function(p) {return path.resolve(p);}),
         modulesDirectories: [
             "components", /* bower */
             "node_modules" /* npm */
@@ -71,4 +71,4 @@ module.exports = [
         },
         devtool: 'source-map',
     }),
-].map(x => buildConfig(x));
+].map(buildConfig);
