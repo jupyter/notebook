@@ -116,6 +116,7 @@ class NotebookTestBase(TestCase):
                 started.set()
                 app.session_manager.close()
         cls.notebook_thread = Thread(target=start_thread)
+        cls.notebook_thread.daemon = True
         cls.notebook_thread.start()
         started.wait()
         cls.wait_until_alive()
