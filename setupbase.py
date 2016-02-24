@@ -326,8 +326,8 @@ def run(cmd, *args, **kwargs):
     return check_call(cmd, *args, **kwargs)
 
 
-class Bower(Command):
-    description = "fetch static client-side components with bower"
+class JavascriptDependencies(Command):
+    description = "fetch static client-side components with npm and bower"
     
     user_options = [
         ('force', 'f', "force fetching of bower dependencies"),
@@ -342,45 +342,21 @@ class Bower(Command):
     bower_dir = pjoin(static, 'components')
     node_modules = pjoin(repo_root, 'node_modules')
     
-    def should_run(self):
-        if self.force:
-            return True
-        if not os.path.exists(self.bower_dir):
-            return True
-        return mtime(self.bower_dir) < mtime(pjoin(repo_root, 'bower.json'))
-
-    def should_run_npm(self):
-        if not which('npm'):
-            print("npm unavailable", file=sys.stderr)
-            return False
-        if not os.path.exists(self.node_modules):
-            return True
-        return mtime(self.node_modules) < mtime(pjoin(repo_root, 'package.json'))
-    
     def run(self):
-        if not self.should_run():
-            print("bower dependencies up to date")
-            return
-        
-        if self.should_run_npm():
-            print("installing build dependencies with npm")
-            run(['npm', 'install','--progress=false'], cwd=repo_root)
-            os.utime(self.node_modules, None)
-        
-        env = os.environ.copy()
-        env['PATH'] = npm_path
+        try:
+            run(['npm', 'install', '--progress=false'], cwd=repo_root)
+        except OSError as e:
+            print("Failed to run `npm install`: %s" % e, file=sys.stderr)
+            print("npm is required to build a development version of the notebook.", file=sys.stderr)
+            raise
         
         try:
-            run(
-                ['bower', 'install', '--allow-root', '--config.interactive=false'],
-                cwd=repo_root,
-                env=env
-            )
-        except OSError as e:
-            print("Failed to run bower: %s" % e, file=sys.stderr)
+            run(['npm', 'run', 'bower'], cwd=repo_root)
+        except Exception as e:
+            print("Failed to run `npm run bower`: %s" % e, file=sys.stderr)
             print("You can install js dependencies with `npm install`", file=sys.stderr)
             raise
-        os.utime(self.bower_dir, None)
+
         # update package data in case this created new files
         update_package_data(self.distribution)
 
@@ -444,56 +420,39 @@ class CompileJS(Command):
     def finalize_options(self):
         self.force = bool(self.force)
 
-    apps = ['notebook', 'tree', 'edit', 'terminal', 'auth']
-    targets = [ pjoin(static, app, 'js', 'built', 'main.min.js') for app in apps ]
+    target = pjoin(static, 'built', 'index.js')
+    targets = [target]
     
-    def sources(self, name):
+    def sources(self):
         """Generator yielding .js sources that an application depends on"""
-        yield pjoin(static, name, 'js', 'built', 'main.min.js')
-
-        for sec in [name, 'base', 'auth']:
-            for f in glob(pjoin(static, sec, 'js', '*.js')):
-                if not f.endswith('.min.js'):
-                    yield f
-        yield pjoin(static, 'services', 'built', 'config.js')
-        yield pjoin(static, 'built', 'index.js')
-        if name == 'notebook':
-            for f in glob(pjoin(static, 'services', '*', '*.js')):
-                yield f
-        for parent, dirs, files in os.walk(pjoin(static, 'components')):
-            if os.path.basename(parent) == 'MathJax':
+        yield pjoin(repo_root, 'package.json')
+        yield pjoin(repo_root, 'webpack.config.js')
+        for parent, dirs, files in os.walk(static):
+            if os.path.basename(parent) in {'MathJax', 'built'}:
                 # don't look in MathJax, since it takes forever to walk it
+                # also don't look at build targets as sources
                 dirs[:] = []
                 continue
             for f in files:
+                if not f.endswith('.js'):
+                    continue
                 yield pjoin(parent, f)
     
-    def should_run(self, name, target):
-        if self.force or not os.path.exists(target):
+    def should_run(self):
+        if self.force or not os.path.exists(self.target):
+            print("Missing %s" % self.target)
             return True
-        target_mtime = mtime(target)
-        for source in self.sources(name):
+        target_mtime = mtime(self.target)
+        for source in self.sources():
             if mtime(source) > target_mtime:
-                print(source, target)
+                print('%s > %s' % (source, self.target))
                 return True
         return False
-        
-    def build_main(self, name):
-        """Build main.min.js"""
-        target = pjoin(static, name, 'js', 'built', 'main.min.js')
-        
-        if not self.should_run(name, target):
-            log.info("%s up to date" % target)
-            return
-        log.info("Rebuilding %s" % target)
-        run(['npm', 'run', 'build'])
 
     def run(self):
         self.run_command('jsdeps')
-        env = os.environ.copy()
-        env['PATH'] = npm_path
-        pool = ThreadPool()
-        pool.map(self.build_main, self.apps)
+        if self.should_run():
+            run(['npm', 'run', 'build:js'])
         # update package data in case this created new files
         update_package_data(self.distribution)
 
