@@ -801,7 +801,8 @@ define([
 
     NotebookList.prototype.move_selected = function() {
         var that = this;
-        var num_items = that.selected.length;
+        var selected = that.selected.slice(); // Don't let that.selected change out from under us
+        var num_items = selected.length;
 
         // Can move one or more selected items.
         if (!(num_items >= 1)) {
@@ -827,7 +828,7 @@ define([
                     class: "btn-primary",
                     click: function() {
                         // Move all the items.
-                        that.selected.forEach(function(item) {
+                        selected.forEach(function(item) {
                             var item_path = item.path;
                             var item_name = item.name;
                             // Construct the new path using the user input and the item's name.
@@ -884,10 +885,11 @@ define([
 
     NotebookList.prototype.delete_selected = function() {
         var message;
-        if (this.selected.length === 1) {
-            message = 'Are you sure you want to permanently delete: ' + this.selected[0].name + '?';
+        var selected = this.selected.slice(); // Don't let that.selected change out from under us
+        if (selected.length === 1) {
+            message = 'Are you sure you want to permanently delete: ' + selected[0].name + '?';
         } else {
-            message = 'Are you sure you want to permanently delete the ' + this.selected.length + ' files/folders selected?';
+            message = 'Are you sure you want to permanently delete the ' + selected.length + ' files/folders selected?';
         }
         var that = this;
         dialog.modal({
@@ -904,7 +906,7 @@ define([
                         that.shutdown_selected();
 
                         // Delete selected.
-                        that.selected.forEach(function(item) {
+                        selected.forEach(function(item) {
                             that.contents.delete(item.path).then(function() {
                                     that.notebook_deleted(item.path);
                             }).catch(function(e) {
@@ -930,10 +932,11 @@ define([
 
     NotebookList.prototype.duplicate_selected = function() {
         var message;
-        if (this.selected.length === 1) {
-            message = 'Are you sure you want to duplicate: ' + this.selected[0].name + '?';
+        var selected = this.selected.slice(); // Don't let that.selected change out from under us
+        if (selected.length === 1) {
+            message = 'Are you sure you want to duplicate: ' + selected[0].name + '?';
         } else {
-            message = 'Are you sure you want to duplicate the ' + this.selected.length + ' files selected?';
+            message = 'Are you sure you want to duplicate the ' + selected.length + ' files selected?';
         }
         var that = this;
         dialog.modal({
@@ -945,7 +948,7 @@ define([
                 Duplicate : {
                     class: "btn-primary",
                     click: function() {
-                        that.selected.forEach(function(item) {
+                        selected.forEach(function(item) {
                             that.contents.copy(item.path, that.notebook_path).then(function () {
                                 that.load_list();
                                 // Deselect items after successful duplication.
