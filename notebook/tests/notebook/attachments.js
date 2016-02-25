@@ -69,5 +69,37 @@ casper.notebook_test(function () {
     //this.then(function() {
         //this.capture('test.png');
     //});
+
+    // Use the Edit->Copy/Paste Cell Attachments menu items
+    selector = '#copy_cell_attachments > a';
+    this.waitForSelector(selector);
+    this.thenClick(selector);
+
+    // append a new cell
+    this.append_cell('', 'markdown');
+    this.thenEvaluate(function() {
+        IPython.notebook.select_next();
+    });
+
+    // and paste the attachments into it
+    selector = '#paste_cell_attachments > a';
+    this.waitForSelector(selector);
+    this.thenClick(selector);
+    // Small delay so the paste has the time to complete
+    this.wait(500);
+
+    // check that the new cell has attachments
+    this.then(function() {
+        var cell = this.evaluate(function() {
+            return IPython.notebook.get_selected_cell();
+        });
+        var orig_cell = this.evaluate(function() {
+            return IPython.notebook.get_cell(0);
+        });
+        var clip = this.evaluate(function() { return IPython.notebook.clipboard_attachments; });
+        // Check that the two cells have the same attachments
+        this.test.assertEquals(cell.attachments, orig_cell.attachments,
+                               "both cells have the attachments");
+    });
 });
 

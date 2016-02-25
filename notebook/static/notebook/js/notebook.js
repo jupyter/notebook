@@ -1727,7 +1727,6 @@ define(function (require) {
         if (cell.attachments !== undefined) {
           // Do a deep copy of attachments to avoid subsequent modification
           // to the cell to modify the clipboard
-          console.log(cell.attachments);
           this.clipboard_attachments = $.extend(true, {}, cell.attachments);
           this.enable_attachments_paste();
         }
@@ -1744,7 +1743,8 @@ define(function (require) {
             if (cell.attachments === undefined) {
               cell.attachments = {};
             }
-            $.extend(cell.attachments, this.clipboard_attachments);
+            // Do a deep copy so we can paste multiple times
+            $.extend(true, cell.attachments, this.clipboard_attachments);
             cell.unrender();
             cell.render();
         }
