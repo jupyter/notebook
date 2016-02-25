@@ -156,7 +156,10 @@ def same_file(path, other_path):
     -----------
     same:   Boolean that is True if both path and other path are the same
     """
-    return os.stat(path).st_ino == os.stat(other_path).st_ino
+    path_stat = os.stat(path)
+    other_path_stat = os.stat(other_path)
+    return (path_stat.st_ino == other_path_stat.st_ino and 
+            path_stat.st_dev == other_path_stat.st_dev)
 
 def to_os_path(path, root=''):
     """Convert an API path to a filesystem path
