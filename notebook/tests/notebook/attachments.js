@@ -3,7 +3,7 @@
 //
 var fs = require('fs');
 casper.notebook_test(function () {
-    // Test the Edit->Insert Image menu to insert new attachments
+    // -- Test the Edit->Insert Image menu to insert new attachments
     "use strict";
     casper.test.info("Testing attachments insertion through the menuitem");
 
@@ -70,7 +70,7 @@ casper.notebook_test(function () {
         //this.capture('test.png');
     //});
 
-    // Use the Edit->Copy/Paste Cell Attachments menu items
+    // -- Use the Edit->Copy/Paste Cell Attachments menu items
     selector = '#copy_cell_attachments > a';
     this.waitForSelector(selector);
     this.thenClick(selector);
@@ -85,8 +85,6 @@ casper.notebook_test(function () {
     selector = '#paste_cell_attachments > a';
     this.waitForSelector(selector);
     this.thenClick(selector);
-    // Small delay so the paste has the time to complete
-    this.wait(500);
 
     // check that the new cell has attachments
     this.then(function() {
@@ -100,6 +98,26 @@ casper.notebook_test(function () {
         // Check that the two cells have the same attachments
         this.test.assertEquals(cell.attachments, orig_cell.attachments,
                                "both cells have the attachments");
+    });
+
+    // -- Save the notebook. This should cause garbage collection for the
+    // second cell (since we just pasted the attachments but there is no
+    // markdown referencing them)
+    this.thenEvaluate(function() {
+        IPython.notebook.save_checkpoint();
+    });
+
+    this.then(function() {
+        var cell0 = this.evaluate(function() {
+            return IPython.notebook.get_cell(0);
+        });
+        var cell1 = this.evaluate(function() {
+            return IPython.notebook.get_cell(1);
+        });
+        this.test.assert('black_square_22.png' in cell0.attachments,
+                         'cell0 has kept its attachments');
+        this.test.assertEquals(Object.keys(cell1.attachments).length, 0,
+                               'cell1 attachments have been garbage collected');
     });
 });
 
