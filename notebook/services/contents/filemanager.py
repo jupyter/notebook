@@ -25,6 +25,7 @@ from . import tz
 from notebook.utils import (
     is_hidden,
     to_api_path,
+    same_file,
 )
 
 _script_exporter = None
@@ -460,7 +461,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         old_os_path = self._get_os_path(old_path)
 
         # Should we proceed with the move?
-        if os.path.exists(new_os_path):
+        if os.path.exists(new_os_path) and not same_file(old_os_path, new_os_path):
             raise web.HTTPError(409, u'File already exists: %s' % new_path)
 
         # Move the file
