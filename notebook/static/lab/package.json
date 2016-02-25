@@ -7,8 +7,7 @@
   "typings": "lib/index.d.ts",
   "dependencies": {
     "jupyter-js-plugins": "^0.9.0",
-    "phosphide": "^0.9.0",
-    "phosphor-di": "^0.9.0"
+    "phosphide": "^0.9.0"
   },
   "devDependencies": {
     "css-loader": "^0.23.1",
