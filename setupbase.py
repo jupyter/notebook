@@ -502,7 +502,7 @@ class JavascriptVersion(Command):
                 f.write(line)
 
 
-def prerelease(command, strict=False):
+def css_js_prerelease(command, strict=False):
     """decorator for building minified js/css prior to another command"""
     class DecoratedCommand(command):
         def run(self):
@@ -510,14 +510,12 @@ def prerelease(command, strict=False):
             jsdeps = self.distribution.get_command_obj('jsdeps')
             js = self.distribution.get_command_obj('js')
             css = self.distribution.get_command_obj('css')
-            lab = self.distribution.get_command_obj('lab')
 
             js.force = strict
 
             targets = [ jsdeps.bower_dir ]
             targets.extend(js.targets)
             targets.extend(css.targets)
-            targets.extend(lab.targets)
             missing = [ t for t in targets if not os.path.exists(t) ]
 
             if not is_repo and not missing:
