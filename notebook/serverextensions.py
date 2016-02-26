@@ -17,7 +17,7 @@ from .nbextensions import (
 )
 
 from traitlets import Bool
-from traitlets.config.manager import BaseJSONConfigManager, recursive_update
+from traitlets.config.manager import BaseJSONConfigManager
 
 # ------------------------------------------------------------------------------
 # Public API

@@ -26,11 +26,11 @@ class ConfigManager(LoggingConfigurable):
             
     def set(self, section_name, data):
         """Set the config only to the user's config."""
-        self._write_config_manager.set(section_name, data)
+        self.write_config_manager.set(section_name, data)
 
     def update(self, section_name, new_data):
         """Update the config only to the user's config."""
-        self._write_config_manager.update(section_name, new_data)
+        self.write_config_manager.update(section_name, new_data)
 
     # Private API
 
