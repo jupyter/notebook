@@ -28,8 +28,10 @@ RUN apt-get update -qq && \
         build-essential \
         ca-certificates \
         curl \
+        gfortran \
         git \
         language-pack-en \
+        libatlas-base-dev \
         libcurl4-openssl-dev \
         libffi-dev \
         libsqlite3-dev \
