@@ -34,6 +34,10 @@ from traitlets.config.manager import BaseJSONConfigManager, recursive_update
 
 from tornado.log import LogFormatter
 
+# Constants for pretty print extension listing function.
+# Window doesn't support unicode characters in the commandline, so use T/F.
+GREEN_ENABLED = '\033[92m✔️\033[0m' if os.name != 'nt' else 'T'
+RED_DISABLED = '\033[91m❌\033[0m' if os.name != 'nt' else 'F'
 
 #------------------------------------------------------------------------------
 # Public API
@@ -214,9 +218,8 @@ def install_nbextension_python(package, overwrite=False, symlink=False,
 
 
 
-def uninstall_nbextension(dest, require, overwrite=False, symlink=False,
-                        user=False, sys_prefix=False, prefix=None, nbextensions_dir=None, 
-                        verbose=1, log=None):
+def uninstall_nbextension(dest, require, user=False, sys_prefix=False, prefix=None, 
+                          nbextensions_dir=None, verbose=1, log=None):
     """Uninstall a Javascript extension of the notebook
     
     Removes staged files and/or directories in the nbextensions directory and 
@@ -257,8 +260,8 @@ def uninstall_nbextension(dest, require, overwrite=False, symlink=False,
     
     # Look through all of the config sections making sure that the nbextension
     # doesn't exist.
-    config_dir = os.path.join(_get_config_dir(user=self.user, sys_prefix=self.sys_prefix), 'nbconfig')
-    cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
+    config_dir = os.path.join(_get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
+    cm = BaseJSONConfigManager(config_dir=config_dir)
     for section in ['common', 'notebook', 'tree', 'edit', 'terminal']:
         cm.update(section, {"load_extensions": {require: None}})
 
@@ -273,24 +276,30 @@ def uninstall_nbextension_python(package,
         dest = nbext['dest']
         require = nbext['require']
         log(dest, require)
-        uninstall_nbextension(dest, require, overwrite=overwrite, symlink=symlink,
-            user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir,
-            verbose=verbose, log=log
+        uninstall_nbextension(dest, require, user=user, sys_prefix=sys_prefix, 
+            prefix=prefix, nbextensions_dir=nbextensions_dir, verbose=verbose, 
+            log=log
             )
     
 
 def enable_nbextension_python(package, user=False, sys_prefix=False, log=None):
     """Enable an nbextension associated with a Python package."""
-    config_dir = os.path.join(_get_config_dir(user=self.user, sys_prefix=self.sys_prefix), 'nbconfig')
-    cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
-    cm.update(nbext['section'], {"load_extensions": {nbext['require']: True}})
+    m, nbexts = _get_nbextension_metadata(package)
+    base_path = os.path.split(m.__file__)[0]
+    for nbext in nbexts:
+        config_dir = os.path.join(_get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
+        cm = BaseJSONConfigManager(config_dir=config_dir)
+        cm.update(nbext['section'], {"load_extensions": {nbext['require']: True}})
     
 
 def disable_nbextension_python(package, user=False, sys_prefix=False):
     """Disable an nbextension associated with a Python package."""
-    config_dir = os.path.join(_get_config_dir(user=self.user, sys_prefix=self.sys_prefix), 'nbconfig')
-    cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
-    cm.update(nbext['section'], {"load_extensions": {nbext['require']: False}})
+    m, nbexts = _get_nbextension_metadata(package)
+    base_path = os.path.split(m.__file__)[0]
+    for nbext in nbexts:
+        config_dir = os.path.join(_get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
+        cm = BaseJSONConfigManager(config_dir=config_dir)
+        cm.update(nbext['section'], {"load_extensions": {nbext['require']: False}})
 
 
 #----------------------------------------------------------------------
@@ -349,15 +358,11 @@ flags = {
     "py" : ({
         "InstallNBExtensionApp" : {
             "python" : True,
-        }}, "Install from a Python package (alias for --python)"
-    ),
-    "python" : ({
-        "InstallNBExtensionApp" : {
-            "python" : True,
         }}, "Install from a Python package"
     ),
 }
 flags['s'] = flags['symlink']
+flags['python'] = flags['py']
 
 aliases = {
     "prefix" : "InstallNBExtensionApp.prefix",
@@ -428,6 +433,35 @@ class InstallNBExtensionApp(BaseNBExtensionApp):
                 self.log.info(str(e), file=sys.stderr)
                 sys.exit(1)
 
+_uninstall_flags = {
+    "debug" : ({
+        "UninstallNBExtensionApp" : {
+            "verbose" : 2,
+        }}, "Extra output"
+    ),
+    "quiet" : ({
+        "UninstallNBExtensionApp" : {
+            "verbose" : 0,
+        }}, "Minimal output"
+    ),
+    "user" : ({
+        "UninstallNBExtensionApp" : {
+            "user" : True,
+        }}, "Install to the user's Jupyter directory"
+    ),
+    "sys-prefix" : ({
+        "UninstallNBExtensionApp" : {
+            "sys_prefix" : True,
+        }}, "Use sys.prefix as the prefix for installing nbextensions"
+    ),
+    "py" : ({
+        "UninstallNBExtensionApp" : {
+            "python" : True,
+        }}, "Install from a Python package (alias for --python)"
+    ),
+}
+_uninstall_flags['python'] = _uninstall_flags['py']
+
 class UninstallNBExtensionApp(BaseNBExtensionApp):
     """Entry point for uninstalling notebook extensions"""
     version = __version__
@@ -445,8 +479,8 @@ class UninstallNBExtensionApp(BaseNBExtensionApp):
     jupyter nbextension uninstall dest/dir dest/dir/extensionjs
     jupyter nbextension uninstall --py extensionPyPackage
     """
-    aliases = aliases
-    flags = flags
+    aliases = {'section': 'ToggleNBExtensionApp.section'}
+    flags = _uninstall_flags
     
     user = Bool(False, config=True, help="Whether to do a user install")
     sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
@@ -464,11 +498,11 @@ class UninstallNBExtensionApp(BaseNBExtensionApp):
     
     def uninstall_extensions(self):
         kwargs = {
-            verbose: self.verbose,
-            user: self.user,
-            sys_prefix: self.sys_prefix,
-            prefix: self.prefix,
-            nbextensions_dir: self.nbextensions_dir,
+            'verbose': self.verbose,
+            'user': self.user,
+            'sys_prefix': self.sys_prefix,
+            'prefix': self.prefix,
+            'nbextensions_dir': self.nbextensions_dir,
         }
         
         if self.python:
@@ -517,6 +551,7 @@ _toggle_flags = {
         }}, "Install from a Python package"
     ),
 }
+_toggle_flags['python'] = _toggle_flags['py']
 
 class ToggleNBExtensionApp(BaseNBExtensionApp):
     
@@ -591,9 +626,6 @@ class ListNBExtensionsApp(BaseNBExtensionApp):
     description = "List all nbextensions known by the configuration system"
     
     def list_nbextensions(self):
-        GREEN_CHECK = '\033[92m✔️\033[0m'
-        RED_EX = '\033[91m❌\033[0m'
-        
         config_dirs = [os.path.join(p, 'nbconfig') for p in jupyter_config_path()]
         for config_dir in config_dirs:
             self.log.info('config dir: {}'.format(config_dir))
@@ -605,7 +637,7 @@ class ListNBExtensionsApp(BaseNBExtensionApp):
                     
                     load_extensions = data['load_extensions']
                     for x in load_extensions:
-                        self.log.info('   {1} {0}'.format(x, GREEN_CHECK if load_extensions[x] else RED_EX))
+                        self.log.info('   {1} {0}'.format(x, GREEN_ENABLED if load_extensions[x] else RED_DISABLED))
     
     def start(self):
         self.list_nbextensions()

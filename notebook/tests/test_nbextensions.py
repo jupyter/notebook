@@ -23,8 +23,12 @@ import ipython_genutils.testing.decorators as dec
 from ipython_genutils import py3compat
 from ipython_genutils.tempdir import TemporaryDirectory
 from notebook import nbextensions
-from notebook.nbextensions import install_nbextension, check_nbextension
+from notebook.nbextensions import (install_nbextension, check_nbextension,
+    install_nbextension_python, uninstall_nbextension_python,
+    enable_nbextension_python, disable_nbextension_python, _get_config_dir
+)
 
+from traitlets.config.manager import BaseJSONConfigManager
 
 def touch(file, mtime=None):
     """ensure a file exists, and set its modification time
@@ -343,3 +347,63 @@ class TestInstallNBExtension(TestCase):
         
             with self.assertRaises(ValueError):
                 install_nbextension(zsrc, destination='foo')
+    
+    def _inject_mock_extension(self, section='notebook'):
+        outer_file = __file__
+        class mock():
+            __file__ = outer_file
+            
+            @staticmethod
+            def _jupyter_nbextension_paths():
+                return [{
+                    'section': section,
+                    'src': 'mockextension',
+                    'dest': '_mockdestination',
+                    'require': '_mockdestination/index'
+                }]
+        
+        import sys
+        sys.modules['mockextension'] = mock
+        
+    def test_nbextensionpy_files(self):
+        self._inject_mock_extension()
+        install_nbextension_python('mockextension', verbose=2)
+        
+        assert check_nbextension('_mockdestination/index.js')
+        assert check_nbextension(['_mockdestination/index.js'])
+        
+    def test_nbextensionpy_user_files(self):
+        self._inject_mock_extension()
+        install_nbextension_python('mockextension', verbose=2, user=True)
+        
+        assert check_nbextension('_mockdestination/index.js', user=True)
+        assert check_nbextension(['_mockdestination/index.js'], user=True)
+        
+    def test_nbextensionpy_uninstall_files(self):
+        self._inject_mock_extension()
+        install_nbextension_python('mockextension', verbose=2, user=True)
+        uninstall_nbextension_python('mockextension', verbose=2, user=True)
+        
+        assert not check_nbextension('_mockdestination/index.js')
+        assert not check_nbextension(['_mockdestination/index.js'])
+        
+    def test_nbextensionpy_enable(self):
+        self._inject_mock_extension('notebook')
+        install_nbextension_python('mockextension')
+        enable_nbextension_python('mockextension', user=True)
+        
+        config_dir = os.path.join(_get_config_dir(user=True), 'nbconfig')
+        cm = BaseJSONConfigManager(config_dir=config_dir)
+        enabled = cm.get('notebook').get('load_extensions', {}).get('_mockdestination/index', False)
+        assert enabled
+        
+    def test_nbextensionpy_disable(self):
+        self._inject_mock_extension('notebook')
+        install_nbextension_python('mockextension')
+        enable_nbextension_python('mockextension', user=True)
+        disable_nbextension_python('mockextension', user=True)
+        
+        config_dir = os.path.join(_get_config_dir(user=True), 'nbconfig')
+        cm = BaseJSONConfigManager(config_dir=config_dir)
+        enabled = cm.get('notebook').get('load_extensions', {}).get('_mockdestination/index', False)
+        assert not enabled

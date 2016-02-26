@@ -13,7 +13,7 @@ from jupyter_core.paths import jupyter_config_path
 from ._version import __version__
 from .nbextensions import (
     BaseNBExtensionApp, ToggleNBExtensionApp, _get_config_dir, _read_config_data,
-    _write_config_data
+    _write_config_data, GREEN_ENABLED, RED_DISABLED
 )
 
 from traitlets.config.manager import BaseJSONConfigManager, recursive_update
@@ -131,9 +131,6 @@ class ListServerExtensionsApp(BaseNBExtensionApp):
     description = "List all server extensions known by the configuration system"
 
     def list_server_extensions(self):
-        GREEN_CHECK = '\033[92m✔️\033[0m'
-        RED_EX = '\033[91m❌\033[0m'
-        
         config_dirs = jupyter_config_path()
         for config_dir in config_dirs:
             self.log.info('config dir: {}'.format(config_dir))
@@ -144,7 +141,7 @@ class ListServerExtensionsApp(BaseNBExtensionApp):
                 .setdefault("nbserver_extensions", {})
             )
             for x in server_extensions:
-                self.log.info('    {1} {0}'.format(x, GREEN_CHECK if server_extensions[x] else RED_EX))
+                self.log.info('    {1} {0}'.format(x, GREEN_ENABLED if server_extensions[x] else RED_DISABLED))
 
     def start(self):
         self.list_server_extensions()
