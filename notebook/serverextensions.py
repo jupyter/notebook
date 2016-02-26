@@ -16,6 +16,7 @@ from .nbextensions import (
     _write_config_data, GREEN_ENABLED, RED_DISABLED
 )
 
+from traitlets import Bool
 from traitlets.config.manager import BaseJSONConfigManager, recursive_update
 
 # ------------------------------------------------------------------------------
@@ -27,77 +28,86 @@ class ArgumentConflict(ValueError):
     pass
 
 
-def enable_server_extension_python(package, user=False, sys_prefix=False):
-    """Enable a server extension associated with a Python package."""
-    data = _read_config_data(user=user, sys_prefix=sys_prefix)
+def toggle_serverextension_python(import_name, enabled=None, parent=None, user=False, sys_prefix=False):
+    """Toggle a server extension.
+    
+    Parameters
+    ----------
+    
+    import_name : str
+        Python import name of the extension
+    enabled : bool [default: None]
+        Toggle state for the extension.  Set to None to toggle, True to enable,
+        and False to disable the extension.
+    parent : Configurable [default: None]
+    user : bool [default: False]
+        Whether to install to the user's nbextensions directory.
+        Otherwise do a system-wide install (e.g. /usr/local/share/jupyter/nbextensions).
+    sys_prefix : bool [default: False]"""
+    config_dir = _get_config_dir(user=user, sys_prefix=sys_prefix)
+    cm = BaseJSONConfigManager(parent=parent, config_dir=config_dir)
+    cfg = cm.get("jupyter_notebook_config")
     server_extensions = (
-        data.setdefault("NotebookApp", {})
-        .setdefault("server_extensions", [])
+        cfg.setdefault("NotebookApp", {})
+        .setdefault("nbserver_extensions", {})
     )
-    module, server_exts = _get_server_extension_metadata(package)
-    for server_ext in server_exts:
-        require = server_ext['require']
-        if require not in server_extensions:
-            server_extensions.append(require)
-            diff = {'NotebookApp': {'server_extensions': server_extensions}}
-    recursive_update(data, diff)
-    _write_config_data(data, user=user, sys_prefix=sys_prefix)
+    if enabled:
+        server_extensions[import_name] = True
+    else:
+        if enabled is None:
+            if import_name not in server_extensions:
+                print("server extension not installed")
+            else:
+                server_extensions[import_name] = not server_extensions[import_name]
+        else:
+            server_extensions[import_name] = False
+    cm.update("jupyter_notebook_config", cfg)
 
-
-def disable_server_extension_python(package, user=False, sys_prefix=False):
-    """Disable a server extension associated with a Python package."""
-    data = _read_config_data(user=user, sys_prefix=sys_prefix)
-    server_extensions = (
-        data.setdefault("NotebookApp", {})
-        .setdefault("server_extensions", [])
-    )
-    module, server_exts = _get_server_extension_metadata(package)
-    for server_ext in server_exts:
-        require = server_ext['require']
-        if require in server_extensions:
-            server_extensions.remove(require)
-            diff = {'NotebookApp': {'server_extensions': server_extensions}}
-    recursive_update(data, diff)
-    _write_config_data(data, user=user, sys_prefix=sys_prefix)
 
 # ----------------------------------------------------------------------
 # Applications
 # ----------------------------------------------------------------------
 
 
+flags = {
+    "user" : ({
+        "ToggleServerExtensionApp" : {
+            "user" : True,
+        }}, "Install to the user's Jupyter directory"
+    ),
+    "sys-prefix" : ({
+        "ToggleServerExtensionApp" : {
+            "sys_prefix" : True,
+        }}, "Use sys.prefix as the prefix for installing nbextensions"
+    ),
+    "py" : ({
+        "ToggleServerExtensionApp" : {
+            "python" : True,
+        }}, "Install from a Python package"
+    ),
+}
+flags['python'] = flags['py']
+
 class ToggleServerExtensionApp(ToggleNBExtensionApp):
 
     name = "jupyter serverextension enable/disable"
     description = "Enable/disable a server extension using frontend configuration files."
+    
+    aliases = {}
+    flags = flags
 
-    def _toggle_server_extension(self, require):
-        config_dir = _get_config_dir(user=self.user, sys_prefix=self.sys_prefix)
-        cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
-        cfg = cm.get("jupyter_notebook_config")
-        server_extensions = (
-            cfg.setdefault("NotebookApp", {})
-            .setdefault("nbserver_extensions", {})
-        )
-        if self._toggle_value:
-            server_extensions[require] = True
-        else:
-            if self._toggle_value is None:
-                if require not in server_extensions:
-                    print("server extension not installed")
-                else:
-                    server_extensions[require] = not server_extensions[require]
-            else:
-                server_extensions[require] = False
-        cm.update("jupyter_notebook_config", cfg)
+    user = Bool(False, config=True, help="Whether to do a user install")
+    sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
+    python = Bool(False, config=True, help="Install from a Python package")
+
+    def toggle_server_extension(self, import_name):
+        toggle_serverextension_python(import_name, self._toggle_value, parent=self, user=self.user, sys_prefix=self.sys_prefix)
 
     def toggle_server_extension_python(self, package):
         m, server_exts = _get_server_extension_metadata(package)
         for server_ext in server_exts:
             require = server_ext['require']
             self._toggle_server_extension(require)
-
-    def toggle_server_extension(self, require):
-        self._toggle_server_extension(require)
 
     def start(self):
 
