@@ -257,16 +257,10 @@ def uninstall_nbextension(dest, require, overwrite=False, symlink=False,
     
     # Look through all of the config sections making sure that the nbextension
     # doesn't exist.
-    data = _read_config_data(user=user, sys_prefix=sys_prefix)
-    if 'NotebookApp' in data:
-        notebook_app = data['NotebookApp']
-        for section in ['nbextensions_common', 'nbextensions_notebook', 'nbextensions_tree', 'nbextensions_edit', 'nbextensions_terminal']:
-            if section in notebook_app:
-                section_data = notebook_app[section]
-                if require in section_data:
-                    section_data[require] = None
-    _write_config_data(data, user=user, sys_prefix=sys_prefix)
-
+    config_dir = os.path.join(_get_config_dir(user=self.user, sys_prefix=self.sys_prefix), 'nbconfig')
+    cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
+    for section in ['common', 'notebook', 'tree', 'edit', 'terminal']:
+        cm.update(section, {"load_extensions": {require: None}})
 
 def uninstall_nbextension_python(package,
                         user=False, sys_prefix=False, prefix=None, nbextensions_dir=None,
@@ -279,7 +273,7 @@ def uninstall_nbextension_python(package,
         dest = nbext['dest']
         require = nbext['require']
         log(dest, require)
-        install_nbextension(dest, require, overwrite=overwrite, symlink=symlink,
+        uninstall_nbextension(dest, require, overwrite=overwrite, symlink=symlink,
             user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir,
             verbose=verbose, log=log
             )
@@ -287,29 +281,16 @@ def uninstall_nbextension_python(package,
 
 def enable_nbextension_python(package, user=False, sys_prefix=False, log=None):
     """Enable an nbextension associated with a Python package."""
-    if log is None: log = print
-    data = _read_config_data(user=user, sys_prefix=sys_prefix)
-    module, nbexts = _get_nbextension_metadata(package)
-    for nbext in nbexts:
-        require = nbext['require']
-        section = nbext['section']
-        if section in ['common', 'notebook', 'tree', 'edit', 'terminal']:
-            diff = {'NotebookApp': {'nbextensions_' + section: {require: True}}}
-    recursive_update(data, diff)
-    _write_config_data(data, user=user, sys_prefix=sys_prefix)
+    config_dir = os.path.join(_get_config_dir(user=self.user, sys_prefix=self.sys_prefix), 'nbconfig')
+    cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
+    cm.update(nbext['section'], {"load_extensions": {nbext['require']: True}})
     
 
 def disable_nbextension_python(package, user=False, sys_prefix=False):
     """Disable an nbextension associated with a Python package."""
-    data = _read_config_data(user=user, sys_prefix=sys_prefix)
-    module, nbexts = _get_nbextension_metadata(package)
-    for nbext in nbexts:
-        require = nbext['require']
-        section = nbext['section']
-        if section in ['common', 'notebook', 'tree', 'edit', 'terminal']:
-            diff = {'NotebookApp': {'nbextensions_' + section: {require: False}}}
-    recursive_update(data, diff)
-    _write_config_data(data, user=user, sys_prefix=sys_prefix)    
+    config_dir = os.path.join(_get_config_dir(user=self.user, sys_prefix=self.sys_prefix), 'nbconfig')
+    cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
+    cm.update(nbext['section'], {"load_extensions": {nbext['require']: False}})
 
 
 #----------------------------------------------------------------------
@@ -717,7 +698,7 @@ def _get_nbextension_dir(user=False, sys_prefix=False, prefix=None, nbextensions
 
 
 def _get_config_dir(user=False, sys_prefix=False):
-    if sum(map(bool, [user, sys_prefix])) > 1:
+    if user and sys_prefix:
         raise ArgumentConflict("Cannot specify more than one of user or sys_prefix")
     if user:
         nbext = jupyter_config_dir()
