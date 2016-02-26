@@ -218,9 +218,6 @@ class NotebookWebApplication(web.Application):
             iopub_msg_rate_limit=ipython_app.iopub_msg_rate_limit,
             iopub_data_rate_limit=ipython_app.iopub_data_rate_limit,
             rate_limit_window=ipython_app.rate_limit_window,
-
-            # nbextensions
-            nbextensions=ipython_app.nbextensions,
             
             # authentication
             cookie_secret=ipython_app.cookie_secret,
