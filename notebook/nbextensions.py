@@ -36,8 +36,8 @@ from tornado.log import LogFormatter
 
 # Constants for pretty print extension listing function.
 # Window doesn't support unicode characters in the commandline, so use T/F.
-GREEN_ENABLED = '\033[92m✔️\033[0m' if os.name != 'nt' else 'T'
-RED_DISABLED = '\033[91m❌\033[0m' if os.name != 'nt' else 'F'
+GREEN_ENABLED = '\033[32m✔️\033[0m' if os.name != 'nt' else 'T'
+RED_DISABLED = '\033[31m❌\033[0m' if os.name != 'nt' else 'F'
 
 #------------------------------------------------------------------------------
 # Public API
