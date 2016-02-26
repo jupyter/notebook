@@ -13,10 +13,10 @@ from jupyter_core.paths import jupyter_config_path
 from ._version import __version__
 from .nbextensions import (
     BaseNBExtensionApp, ToggleNBExtensionApp, _get_config_dir, _read_config_data,
-    _write_config_data, _recursive_update
+    _write_config_data
 )
 
-from traitlets.config.manager import BaseJSONConfigManager
+from traitlets.config.manager import BaseJSONConfigManager, recursive_update
 
 # ------------------------------------------------------------------------------
 # Public API
@@ -40,7 +40,7 @@ def enable_server_extension_python(package, user=False, sys_prefix=False):
         if require not in server_extensions:
             server_extensions.append(require)
             diff = {'NotebookApp': {'server_extensions': server_extensions}}
-    _recursive_update(data, diff)
+    recursive_update(data, diff)
     _write_config_data(data, user=user, sys_prefix=sys_prefix)
 
 
@@ -57,7 +57,7 @@ def disable_server_extension_python(package, user=False, sys_prefix=False):
         if require in server_extensions:
             server_extensions.remove(require)
             diff = {'NotebookApp': {'server_extensions': server_extensions}}
-    _recursive_update(data, diff)
+    recursive_update(data, diff)
     _write_config_data(data, user=user, sys_prefix=sys_prefix)
 
 # ----------------------------------------------------------------------
@@ -102,15 +102,12 @@ class ToggleServerExtensionApp(ToggleNBExtensionApp):
     def start(self):
 
         if not self.extra_args:
-            self.log.warn('Please specify a server extension/package to enable or disable')
-            sys.exit(1)
-        elif len(self.extra_args) > 1:
-            self.log.warn('Please specify one server extension/package at a time')
-            sys.exit(1)
-        if self.python:
-            self.toggle_server_extension_python(self.extra_args[0])
-        else:
-            self.toggle_server_extension(self.extra_args[0])
+            sys.exit('Please specify a server extension/package to enable or disable')
+        for arg in self.extra_args:
+            if self.python:
+                self.toggle_server_extension_python(arg)
+            else:
+                self.toggle_server_extension(arg)
 
 
 class EnableServerExtensionApp(ToggleServerExtensionApp):
@@ -176,8 +173,7 @@ class ServerExtensionApp(BaseNBExtensionApp):
         # The above should have called a subcommand and raised NoStart; if we
         # get here, it didn't, so we should self.log.info a message.
         subcmds = ", ".join(sorted(self.subcommands))
-        self.log.warn("Please supply at least one subcommand: %s" % subcmds)
-        sys.exit(1)
+        sys.exit("Please supply at least one subcommand: %s" % subcmds)
 
 main = ServerExtensionApp.launch_instance
 

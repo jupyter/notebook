@@ -30,7 +30,7 @@ from ipython_genutils.py3compat import string_types, cast_unicode_py2, PY3
 from ipython_genutils.tempdir import TemporaryDirectory
 from ._version import __version__
 
-from traitlets.config.manager import BaseJSONConfigManager
+from traitlets.config.manager import BaseJSONConfigManager, recursive_update
 
 from tornado.log import LogFormatter
 
@@ -264,7 +264,7 @@ def uninstall_nbextension(dest, require, overwrite=False, symlink=False,
             if section in notebook_app:
                 section_data = notebook_app[section]
                 if require in section_data:
-                    del section_data[require]
+                    section_data[require] = None
     _write_config_data(data, user=user, sys_prefix=sys_prefix)
 
 
@@ -295,7 +295,7 @@ def enable_nbextension_python(package, user=False, sys_prefix=False, log=None):
         section = nbext['section']
         if section in ['common', 'notebook', 'tree', 'edit', 'terminal']:
             diff = {'NotebookApp': {'nbextensions_' + section: {require: True}}}
-    _recursive_update(data, diff)
+    recursive_update(data, diff)
     _write_config_data(data, user=user, sys_prefix=sys_prefix)
     
 
@@ -308,7 +308,7 @@ def disable_nbextension_python(package, user=False, sys_prefix=False):
         section = nbext['section']
         if section in ['common', 'notebook', 'tree', 'edit', 'terminal']:
             diff = {'NotebookApp': {'nbextensions_' + section: {require: False}}}
-    _recursive_update(data, diff)
+    recursive_update(data, diff)
     _write_config_data(data, user=user, sys_prefix=sys_prefix)    
 
 
@@ -745,29 +745,8 @@ def _read_config_data(user=False, sys_prefix=False):
 def _write_config_data(data, user=False, sys_prefix=False):
     config_dir = _get_config_dir(user=user, sys_prefix=sys_prefix)
     config_man = BaseJSONConfigManager(config_dir=config_dir)
-    config = config_man.get('jupyter_notebook_config')
     config_man.update('jupyter_notebook_config', data)
         
-        
-def _recursive_update(target, new):
-    """Recursively update one dictionary using another.
-
-    None values will delete their keys.
-    """
-    for k, v in new.items():
-        if isinstance(v, dict):
-            if k not in target:
-                target[k] = {}
-            _recursive_update(target[k], v)
-            if not target[k]:
-                # Prune empty subdicts
-                del target[k]
-
-        elif v is None:
-            target.pop(k, None)
-
-        else:
-            target[k] = v
 
 if __name__ == '__main__':
     main()
