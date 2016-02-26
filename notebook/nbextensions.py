@@ -604,7 +604,8 @@ class ListNBExtensionsApp(BaseNBExtensionApp):
                     self.log.info('  {} section'.format(section))
                     
                     load_extensions = data['load_extensions']
-                    [self.log.info('   {1} {0}'.format(x, GREEN_CHECK if load_extensions[x] else RED_EX)) for x in load_extensions]
+                    for x in load_extensions:
+                        self.log.info('   {1} {0}'.format(x, GREEN_CHECK if load_extensions[x] else RED_EX))
     
     def start(self):
         self.list_nbextensions()

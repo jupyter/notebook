@@ -76,18 +76,18 @@ class ToggleServerExtensionApp(ToggleNBExtensionApp):
         cfg = cm.get("jupyter_notebook_config")
         server_extensions = (
             cfg.setdefault("NotebookApp", {})
-            .setdefault("server_extensions", [])
+            .setdefault("nbserver_extensions", {})
         )
         if self._toggle_value:
-            if require not in server_extensions:
-                server_extensions.append(require)
+            server_extensions[require] = True
+        else:
+            if self._toggle_value is None:
+                if require not in server_extensions:
+                    print("server extension not installed")
+                else:
+                    server_extensions[require] = not server_extensions[require]
             else:
-                print("server extension already enabled")
-        elif self._toggle_value is None:
-            if require not in server_extensions:
-                print("server extension already disabled")
-            else:
-                server_extensions.remove(require)
+                server_extensions[require] = False
         cm.update("jupyter_notebook_config", cfg)
 
     def toggle_server_extension_python(self, package):
@@ -121,7 +121,7 @@ class DisableServerExtensionApp(ToggleServerExtensionApp):
 
     name = "jupyter serverextension disable"
     description = "Disable an serverextension using frontend configuration files."
-    _toggle_value = None
+    _toggle_value = False
 
 
 class ListServerExtensionsApp(BaseNBExtensionApp):
@@ -131,6 +131,9 @@ class ListServerExtensionsApp(BaseNBExtensionApp):
     description = "List all server extensions known by the configuration system"
 
     def list_server_extensions(self):
+        GREEN_CHECK = '\033[92m✔️\033[0m'
+        RED_EX = '\033[91m❌\033[0m'
+        
         config_dirs = jupyter_config_path()
         for config_dir in config_dirs:
             self.log.info('config dir: {}'.format(config_dir))
@@ -138,10 +141,10 @@ class ListServerExtensionsApp(BaseNBExtensionApp):
             data = cm.get("jupyter_notebook_config")
             server_extensions = (
                 data.setdefault("NotebookApp", {})
-                .setdefault("server_extensions", [])
+                .setdefault("nbserver_extensions", {})
             )
-            if server_extensions:
-                self.log.info('    {}'.format(server_extensions))
+            for x in server_extensions:
+                self.log.info('    {1} {0}'.format(x, GREEN_CHECK if server_extensions[x] else RED_EX))
 
     def start(self):
         self.list_server_extensions()
