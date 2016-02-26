@@ -101,6 +101,7 @@ def find_package_data():
     excludes = [
         pjoin('static', 'components'),
         pjoin('static', '*', 'less'),
+        pjoin('static', '*', 'node_modules')
     ]
 
     # walk notebook resources:
@@ -129,6 +130,9 @@ def find_package_data():
         pjoin('static', 'services', 'built', '*contents.js.map'),
     ])
     
+    # Add the Lab page contents
+    static_data.append(pjoin('static', 'lab', 'build', '*'))
+
     components = pjoin("static", "components")
     # select the components we actually need to install
     # (there are lots of resources we bundle for sdist-reasons that we don't actually use)
@@ -337,6 +341,7 @@ class JavascriptDependencies(Command):
     
     bower_dir = pjoin(static, 'components')
     node_modules = pjoin(repo_root, 'node_modules')
+    lab_dir = pjoin(repo_root, 'notebook', 'static', 'lab')
     
     def run(self):
         try:
@@ -350,6 +355,14 @@ class JavascriptDependencies(Command):
             run(['npm', 'run', 'bower'], cwd=repo_root)
         except Exception as e:
             print("Failed to run `npm run bower`: %s" % e, file=sys.stderr)
+            print("You can install js dependencies with `npm install`", file=sys.stderr)
+            raise
+
+        try:
+            run(['npm', 'install', '--progress=false'], cwd=self.lab_dir)
+            run(['npm', 'run', 'build'], cwd=self.lab_dir)
+        except Exception as e:
+            print("Failed to run `npm install`: %s" % e, file=sys.stderr)
             print("You can install js dependencies with `npm install`", file=sys.stderr)
             raise
 
@@ -497,6 +510,7 @@ def css_js_prerelease(command, strict=False):
             jsdeps = self.distribution.get_command_obj('jsdeps')
             js = self.distribution.get_command_obj('js')
             css = self.distribution.get_command_obj('css')
+
             js.force = strict
 
             targets = [ jsdeps.bower_dir ]

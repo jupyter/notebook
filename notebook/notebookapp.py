@@ -270,6 +270,7 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('services.nbconvert.handlers'))
         handlers.extend(load_handlers('services.kernelspecs.handlers'))
         handlers.extend(load_handlers('services.security.handlers'))
+        handlers.extend(load_handlers('lab.handlers'))
         
         # BEGIN HARDCODED WIDGETS HACK
         widgets = None
@@ -1228,4 +1229,3 @@ def list_running_servers(runtime_dir=None):
 #-----------------------------------------------------------------------------
 
 main = launch_new_instance = NotebookApp.launch_instance
-
