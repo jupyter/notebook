@@ -647,6 +647,7 @@ define([
         var uri_prefix = NotebookList.uri_prefixes[model.type];
         if (model.type === 'file' &&
             model.mimetype && model.mimetype.substr(0,5) !== 'text/'
+            && !model.mimetype.endsWith('javascript')
         ) {
             // send text/unidentified files to editor, others go to raw viewer
             uri_prefix = 'files';
