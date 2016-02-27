@@ -79,9 +79,9 @@ def check_nbextension(files, user=False, sys_prefix=False, prefix=None, nbextens
     return all(os.path.exists(pjoin(nbext, f)) for f in files)
 
 
-def install_nbextension(path, overwrite=False, symlink=False,
-                        user=False, sys_prefix=False, prefix=None, nbextensions_dir=None,
-                        destination=None, verbose=1, log=None):
+def nsion(path, overwrite=False, symlink=False,
+                        user=False, prefix=None, nbextensions_dir=None,
+                        destination=None, verbose=1, log=None, sys_prefix=False):
     """Install a Javascript extension for the notebook
     
     Stages files and/or directories into the nbextensions directory.
@@ -145,7 +145,7 @@ def install_nbextension(path, overwrite=False, symlink=False,
                 log("Downloading: %s -> %s" % (path, local_path))
             urlretrieve(path, local_path)
             # now install from the local copy
-            install_nbextension(local_path, overwrite=overwrite, symlink=symlink,
+            nsion(local_path, overwrite=overwrite, symlink=symlink,
                 nbextensions_dir=nbext, destination=destination, verbose=verbose,
                 log=log)
     elif path.endswith('.zip') or _safe_is_tarfile(path):
@@ -202,7 +202,9 @@ def install_nbextension(path, overwrite=False, symlink=False,
 def install_nbextension_python(package, overwrite=False, symlink=False,
                         user=False, sys_prefix=False, prefix=None, nbextensions_dir=None,
                         verbose=1, log=None):
-    """Install an nbextension bundled in a Python package."""
+    """Install an nbextension bundled in a Python package.
+    
+    See install_nbextension for parameter information."""
     if log is None: log = print
     m, nbexts = _get_nbextension_metadata(package)
     base_path = os.path.split(m.__file__)[0]
