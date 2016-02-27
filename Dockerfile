@@ -1,6 +1,9 @@
 # Installs Jupyter Notebook and IPython kernel from the current branch
 # Another Docker container should inherit with `FROM jupyter/notebook`
 # to run actual services.
+#
+# For opinionated stacks of ready-to-run Jupyter applications in Docker, 
+# check out docker-stacks <https://github.com/jupyter/docker-stacks>
 
 FROM jupyter/ubuntu_14_04_locale_fix
 
@@ -28,10 +31,8 @@ RUN apt-get update -qq && \
         build-essential \
         ca-certificates \
         curl \
-        gfortran \
         git \
         language-pack-en \
-        libatlas-base-dev \
         libcurl4-openssl-dev \
         libffi-dev \
         libsqlite3-dev \
