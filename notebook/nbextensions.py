@@ -35,9 +35,10 @@ from tornado.log import LogFormatter
 
 # Constants for pretty print extension listing function.
 # Window doesn't support unicode characters in the commandline, so use T/F.
-GREEN_ENABLED = '\033[32m✔️\033[0m' if os.name != 'nt' else 'T'
-RED_DISABLED = '\033[31m❌\033[0m' if os.name != 'nt' else 'F'
+GREEN_ENABLED = '\033[32mO\033[0m' if os.name != 'nt' else 'T'
+RED_DISABLED = '\033[31mX\033[0m' if os.name != 'nt' else 'F'
 
+DEPRECATED_ARGUMENT = object()
 #------------------------------------------------------------------------------
 # Public API
 #------------------------------------------------------------------------------
@@ -47,7 +48,7 @@ class ArgumentConflict(ValueError):
     pass
 
 
-def check_nbextension(files, user=False, sys_prefix=False, prefix=None, nbextensions_dir=None):
+def check_nbextension(files, user=False, prefix=None, nbextensions_dir=None, sys_prefix=False):
     """Check whether nbextension files have been installed
     
     Returns True if all files are found, False if any are missing.
@@ -80,7 +81,9 @@ def check_nbextension(files, user=False, sys_prefix=False, prefix=None, nbextens
 
 def install_nbextension(path, overwrite=False, symlink=False,
                         user=False, prefix=None, nbextensions_dir=None,
-                        destination=None, logger=None, sys_prefix=False):
+                        destination=None, verbose=DEPRECATED_ARGUMENT,
+                        logger=None, sys_prefix=False
+                        ):
     """Install a Javascript extension for the notebook
     
     Stages files and/or directories into the nbextensions directory.
@@ -116,6 +119,10 @@ def install_nbextension(path, overwrite=False, symlink=False,
     logger : Jupyter logger [optional]
         Logger instance to use
     """
+    if verbose != DEPRECATED_ARGUMENT:
+        import warnings
+        warnings.warn("`install_nbextension`'s `verbose` parameter is deprecated, will have no effects,  and will be remove in Notebook 5.0", DeprecationWarning)
+
     nbext = _get_nbextension_dir(user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir)
     # make sure nbextensions dir exists
     ensure_dir_exists(nbext)
@@ -204,7 +211,8 @@ def install_nbextension_python(package, overwrite=False, symlink=False,
         src = os.path.join(base_path, nbext['src'])
         dest = nbext['dest']
         require = nbext['require']
-        logger(src, dest, require)
+        if logger:
+            logger.info(src, dest, require)
         install_nbextension(src, overwrite=overwrite, symlink=symlink,
             user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir,
             destination=dest, logger=logger
@@ -266,7 +274,8 @@ def uninstall_nbextension_python(package,
     for nbext in nbexts:
         dest = nbext['dest']
         require = nbext['require']
-        logger.info("{} {}".format(dest, require))
+        if logger:
+            logger.info("{} {}".format(dest, require))
         uninstall_nbextension(dest, require, user=user, sys_prefix=sys_prefix, 
             prefix=prefix, nbextensions_dir=nbextensions_dir, logger=logger)
 
@@ -294,7 +303,7 @@ def disable_nbextension_python(package, user=False, sys_prefix=False):
 # Applications
 #----------------------------------------------------------------------
 
-from traitlets import Bool, Unicode
+from traitlets import Bool, Unicode, Any
 from jupyter_core.application import JupyterApp
 
 
@@ -316,14 +325,23 @@ _base_flags = {
     ),
 }
 _base_flags['python'] = _base_flags['py']
+
 class BaseNBExtensionApp(JupyterApp):
-    
+
     _log_formatter_cls = LogFormatter
     flags = _base_flags
+    version = __version__
     
     user = Bool(False, config=True, help="Whether to do a user install")
     sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
     python = Bool(False, config=True, help="Install from a Python package")
+
+    # Remove for 5.0...
+    verbose = Any(None, config=True, help="DEPRECATED: Verbosity level")
+
+    def _verbose_changed(self):
+        import warnings
+        warnings.warn("`verbose` traits of `{}` has been deprecated, has no effects and will be removed in notebook 5.0.".format(type(self).__name__), DeprecationWarning)
 
     def _log_format_default(self):
         return "%(color)s[%(name)s]%(end_color)s %(message)s"
@@ -354,7 +372,6 @@ aliases = {
 
 class InstallNBExtensionApp(BaseNBExtensionApp):
     """Entry point for installing notebook extensions"""
-    version = __version__
     description = """Install Jupyter notebook extensions
     
     Usage
