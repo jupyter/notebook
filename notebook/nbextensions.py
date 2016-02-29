@@ -38,6 +38,7 @@ from tornado.log import LogFormatter
 GREEN_ENABLED = '\033[32mO\033[0m' if os.name != 'nt' else 'T'
 RED_DISABLED = '\033[31mX\033[0m' if os.name != 'nt' else 'F'
 
+DEPRECATED_ARGUMENT = object()
 #------------------------------------------------------------------------------
 # Public API
 #------------------------------------------------------------------------------
@@ -80,7 +81,9 @@ def check_nbextension(files, user=False, prefix=None, nbextensions_dir=None, sys
 
 def install_nbextension(path, overwrite=False, symlink=False,
                         user=False, prefix=None, nbextensions_dir=None,
-                        destination=None, logger=None, sys_prefix=False):
+                        destination=None, verbose=DEPRECATED_ARGUMENT,
+                        logger=None, sys_prefix=False
+                        ):
     """Install a Javascript extension for the notebook
     
     Stages files and/or directories into the nbextensions directory.
@@ -116,6 +119,10 @@ def install_nbextension(path, overwrite=False, symlink=False,
     logger : Jupyter logger [optional]
         Logger instance to use
     """
+    if verbose != DEPRECATED_ARGUMENT:
+        import warnings
+        warnings.warn("`install_nbextension`'s `verbose` parameter is deprecated, will have no effects,  and will be remove in Notebook 5.0", DeprecationWarning)
+
     nbext = _get_nbextension_dir(user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir)
     # make sure nbextensions dir exists
     ensure_dir_exists(nbext)
@@ -294,7 +301,7 @@ def disable_nbextension_python(package, user=False, sys_prefix=False):
 # Applications
 #----------------------------------------------------------------------
 
-from traitlets import Bool, Unicode
+from traitlets import Bool, Unicode, Any
 from jupyter_core.application import JupyterApp
 
 
@@ -324,6 +331,12 @@ class BaseNBExtensionApp(JupyterApp):
     user = Bool(False, config=True, help="Whether to do a user install")
     sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
     python = Bool(False, config=True, help="Install from a Python package")
+
+    verbose = Any(None, config=True, help="DEPRECATED: Verbosity level")
+
+    def _verbose_changed(self):
+        import warnings
+        warnings.warn("`verbose` traits of `{}` has been deprecated, has no effects and will be removed in notebook 5.0.".format(type(self).__name__), DeprecationWarning)
 
     def _log_format_default(self):
         return "%(color)s[%(name)s]%(end_color)s %(message)s"
