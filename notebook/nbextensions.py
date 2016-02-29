@@ -211,7 +211,7 @@ def install_nbextension_python(package, overwrite=False, symlink=False,
         src = os.path.join(base_path, nbext['src'])
         dest = nbext['dest']
         require = nbext['require']
-        logger(src, dest, require)
+        logger.info(src, dest, require)
         install_nbextension(src, overwrite=overwrite, symlink=symlink,
             user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir,
             destination=dest, logger=logger
@@ -323,15 +323,18 @@ _base_flags = {
     ),
 }
 _base_flags['python'] = _base_flags['py']
+
 class BaseNBExtensionApp(JupyterApp):
-    
+
     _log_formatter_cls = LogFormatter
     flags = _base_flags
+    version = __version__
     
     user = Bool(False, config=True, help="Whether to do a user install")
     sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
     python = Bool(False, config=True, help="Install from a Python package")
 
+    # Remove for 5.0...
     verbose = Any(None, config=True, help="DEPRECATED: Verbosity level")
 
     def _verbose_changed(self):
@@ -367,7 +370,6 @@ aliases = {
 
 class InstallNBExtensionApp(BaseNBExtensionApp):
     """Entry point for installing notebook extensions"""
-    version = __version__
     description = """Install Jupyter notebook extensions
     
     Usage
