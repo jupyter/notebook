@@ -22,15 +22,15 @@ except ImportError:
     from urllib import urlretrieve
 
 from jupyter_core.paths import (
-    jupyter_data_dir, jupyter_path, jupyter_config_dir, jupyter_config_path,
+    jupyter_data_dir, jupyter_config_dir, jupyter_config_path,
     SYSTEM_JUPYTER_PATH, ENV_JUPYTER_PATH, ENV_CONFIG_PATH, SYSTEM_CONFIG_PATH
 )
 from ipython_genutils.path import ensure_dir_exists
-from ipython_genutils.py3compat import string_types, cast_unicode_py2, PY3
+from ipython_genutils.py3compat import string_types, cast_unicode_py2
 from ipython_genutils.tempdir import TemporaryDirectory
 from ._version import __version__
 
-from traitlets.config.manager import BaseJSONConfigManager, recursive_update
+from traitlets.config.manager import BaseJSONConfigManager
 
 from tornado.log import LogFormatter
 
@@ -206,7 +206,7 @@ def install_nbextension_python(package, overwrite=False, symlink=False,
         src = os.path.join(base_path, nbext['src'])
         dest = nbext['dest']
         require = nbext['require']
-        log(src, dest, require)
+        logger(src, dest, require)
         install_nbextension(src, overwrite=overwrite, symlink=symlink,
             user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir,
             destination=dest, logger=logger
@@ -265,7 +265,6 @@ def uninstall_nbextension_python(package,
                         logger=None):
     """Uninstall an nbextension bundled in a Python package."""
     m, nbexts = _get_nbextension_metadata(package)
-    base_path = os.path.split(m.__file__)[0]
     for nbext in nbexts:
         dest = nbext['dest']
         require = nbext['require']
@@ -277,7 +276,6 @@ def uninstall_nbextension_python(package,
 def enable_nbextension_python(package, user=False, sys_prefix=False):
     """Enable an nbextension associated with a Python package."""
     m, nbexts = _get_nbextension_metadata(package)
-    base_path = os.path.split(m.__file__)[0]
     for nbext in nbexts:
         config_dir = os.path.join(_get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
         cm = BaseJSONConfigManager(config_dir=config_dir)
@@ -287,7 +285,6 @@ def enable_nbextension_python(package, user=False, sys_prefix=False):
 def disable_nbextension_python(package, user=False, sys_prefix=False):
     """Disable an nbextension associated with a Python package."""
     m, nbexts = _get_nbextension_metadata(package)
-    base_path = os.path.split(m.__file__)[0]
     for nbext in nbexts:
         config_dir = os.path.join(_get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
         cm = BaseJSONConfigManager(config_dir=config_dir)
@@ -298,7 +295,7 @@ def disable_nbextension_python(package, user=False, sys_prefix=False):
 # Applications
 #----------------------------------------------------------------------
 
-from traitlets import Bool, Enum, Unicode
+from traitlets import Bool, Unicode
 from jupyter_core.application import JupyterApp
 
 
