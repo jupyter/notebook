@@ -6,7 +6,6 @@
 
 import glob
 import os
-import re
 import sys
 import tarfile
 import zipfile
@@ -51,7 +50,7 @@ class TestInstallNBExtension(TestCase):
 
     def setUp(self):
         self.tempdirs = []
-        src = self.src = self.tempdir()
+        self.src = self.tempdir()
         self.files = files = [
             pjoin(u'ƒile'),
             pjoin(u'∂ir', u'ƒile1'),
@@ -201,7 +200,7 @@ class TestInstallNBExtension(TestCase):
             install_nbextension(src)
             self.assert_installed(fname)
             dest = pjoin(self.system_nbext, fname)
-            old_mtime = os.stat(dest).st_mtime
+            os.stat(dest).st_mtime
             with open(src, 'w') as f:
                 f.write('overwrite')
             touch(src, mtime + 10)

@@ -12,8 +12,8 @@ import sys
 from jupyter_core.paths import jupyter_config_path
 from ._version import __version__
 from .nbextensions import (
-    BaseNBExtensionApp, ToggleNBExtensionApp, _get_config_dir, _read_config_data,
-    _write_config_data, GREEN_ENABLED, RED_DISABLED
+    BaseNBExtensionApp, ToggleNBExtensionApp, _get_config_dir,
+    GREEN_ENABLED, RED_DISABLED
 )
 
 from traitlets import Bool
