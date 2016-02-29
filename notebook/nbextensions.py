@@ -330,7 +330,9 @@ class BaseNBExtensionApp(JupyterApp):
         return "%(color)s[%(name)s]%(end_color)s %(message)s"
 
 
-flags = _base_flags.update({
+flags = {}
+flags.update(_base_flags)
+flags.update({
     "overwrite" : ({
         "InstallNBExtensionApp" : {
             "overwrite" : True,
@@ -342,6 +344,7 @@ flags = _base_flags.update({
         }}, "Create symlink instead of copying files"
     ),
 })
+
 flags['s'] = flags['symlink']
 
 aliases = {
