@@ -211,7 +211,8 @@ def install_nbextension_python(package, overwrite=False, symlink=False,
         src = os.path.join(base_path, nbext['src'])
         dest = nbext['dest']
         require = nbext['require']
-        logger.info(src, dest, require)
+        if logger:
+            logger.info(src, dest, require)
         install_nbextension(src, overwrite=overwrite, symlink=symlink,
             user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir,
             destination=dest, logger=logger
