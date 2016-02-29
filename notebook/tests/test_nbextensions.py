@@ -228,7 +228,7 @@ class TestInstallNBExtension(TestCase):
         stderr = StringIO()
         with patch.object(sys, 'stdout', stdout), \
              patch.object(sys, 'stderr', stderr):
-            install_nbextension(self.src, verbose=0)
+            install_nbextension(self.src, logger=None)
         self.assertEqual(stdout.getvalue(), '')
         self.assertEqual(stderr.getvalue(), '')
     
@@ -366,22 +366,22 @@ class TestInstallNBExtension(TestCase):
         
     def test_nbextensionpy_files(self):
         self._inject_mock_extension()
-        install_nbextension_python('mockextension', verbose=2)
+        install_nbextension_python('mockextension')
         
         assert check_nbextension('_mockdestination/index.js')
         assert check_nbextension(['_mockdestination/index.js'])
         
     def test_nbextensionpy_user_files(self):
         self._inject_mock_extension()
-        install_nbextension_python('mockextension', verbose=2, user=True)
+        install_nbextension_python('mockextension', user=True)
         
         assert check_nbextension('_mockdestination/index.js', user=True)
         assert check_nbextension(['_mockdestination/index.js'], user=True)
         
     def test_nbextensionpy_uninstall_files(self):
         self._inject_mock_extension()
-        install_nbextension_python('mockextension', verbose=2, user=True)
-        uninstall_nbextension_python('mockextension', verbose=2, user=True)
+        install_nbextension_python('mockextension', user=True)
+        uninstall_nbextension_python('mockextension', user=True)
         
         assert not check_nbextension('_mockdestination/index.js')
         assert not check_nbextension(['_mockdestination/index.js'])
