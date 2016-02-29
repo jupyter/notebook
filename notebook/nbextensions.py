@@ -274,7 +274,8 @@ def uninstall_nbextension_python(package,
     for nbext in nbexts:
         dest = nbext['dest']
         require = nbext['require']
-        logger.info("{} {}".format(dest, require))
+        if logger:
+            logger.info("{} {}".format(dest, require))
         uninstall_nbextension(dest, require, user=user, sys_prefix=sys_prefix, 
             prefix=prefix, nbextensions_dir=nbextensions_dir, logger=logger)
 
