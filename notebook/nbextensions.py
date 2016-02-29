@@ -47,7 +47,7 @@ class ArgumentConflict(ValueError):
     pass
 
 
-def check_nbextension(files, user=False, sys_prefix=False, prefix=None, nbextensions_dir=None):
+def check_nbextension(files, user=False, prefix=None, nbextensions_dir=None, sys_prefix=False):
     """Check whether nbextension files have been installed
     
     Returns True if all files are found, False if any are missing.
