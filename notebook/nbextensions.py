@@ -326,12 +326,6 @@ class BaseNBExtensionApp(JupyterApp):
     sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
     python = Bool(False, config=True, help="Install from a Python package")
 
-    def _log_level_default(self):
-        return logging.INFO
-
-    def _log_datefmt_default(self):
-        return "%Y-%m-%d %H:%M:%S"
-
     def _log_format_default(self):
         return "%(color)s[%(name)s]%(end_color)s %(message)s"
 
