@@ -842,7 +842,7 @@ define([
     var format_datetime = function(date) {
         var text = moment(date).fromNow();
         return text === 'a few seconds ago' ? 'seconds ago' : text;
-    }
+    };
 
     var datetime_sort_helper = function(a, b, order) {
         if (moment(a).isBefore(moment(b))) {
@@ -852,7 +852,7 @@ define([
         } else {
             return (order == 1) ? 1 : -1;
         }
-    }
+    };
 
     var utils = {
         load_extension: load_extension,

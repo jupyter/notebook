@@ -35,7 +35,8 @@ require([
     var ws_url = location.protocol.replace('http', 'ws') + "//" + location.host
                                     + base_url + ws_path;
     
-    var header = $("#header")[0]
+    var header = $("#header")[0];
+
     function calculate_size() {
         var height = $(window).height() - header.offsetHeight;
         var width = $('#terminado-container').width();

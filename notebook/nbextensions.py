@@ -6,7 +6,6 @@
 
 from __future__ import print_function
 
-import logging
 import os
 import shutil
 import sys
@@ -22,15 +21,15 @@ except ImportError:
     from urllib import urlretrieve
 
 from jupyter_core.paths import (
-    jupyter_data_dir, jupyter_path, jupyter_config_dir, jupyter_config_path,
+    jupyter_data_dir, jupyter_config_dir, jupyter_config_path,
     SYSTEM_JUPYTER_PATH, ENV_JUPYTER_PATH, ENV_CONFIG_PATH, SYSTEM_CONFIG_PATH
 )
 from ipython_genutils.path import ensure_dir_exists
-from ipython_genutils.py3compat import string_types, cast_unicode_py2, PY3
+from ipython_genutils.py3compat import string_types, cast_unicode_py2
 from ipython_genutils.tempdir import TemporaryDirectory
 from ._version import __version__
 
-from traitlets.config.manager import BaseJSONConfigManager, recursive_update
+from traitlets.config.manager import BaseJSONConfigManager
 
 from tornado.log import LogFormatter
 
@@ -186,7 +185,6 @@ def install_nbextension(path, overwrite=False, symlink=False,
                     os.makedirs(dest_dir)
                 for file in files:
                     src = pjoin(parent, file)
-                    # logger.info("%r, %r" % (dest_dir, file))
                     dest_file = pjoin(dest_dir, file)
                     _maybe_copy(src, dest_file, logger=logger)
         else:
@@ -206,7 +204,7 @@ def install_nbextension_python(package, overwrite=False, symlink=False,
         src = os.path.join(base_path, nbext['src'])
         dest = nbext['dest']
         require = nbext['require']
-        log(src, dest, require)
+        logger(src, dest, require)
         install_nbextension(src, overwrite=overwrite, symlink=symlink,
             user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir,
             destination=dest, logger=logger
@@ -265,40 +263,38 @@ def uninstall_nbextension_python(package,
                         logger=None):
     """Uninstall an nbextension bundled in a Python package."""
     m, nbexts = _get_nbextension_metadata(package)
-    base_path = os.path.split(m.__file__)[0]
     for nbext in nbexts:
         dest = nbext['dest']
         require = nbext['require']
         logger.info("{} {}".format(dest, require))
         uninstall_nbextension(dest, require, user=user, sys_prefix=sys_prefix, 
             prefix=prefix, nbextensions_dir=nbextensions_dir, logger=logger)
-    
+
+def _set_nbextension_state_python(state, package, user, sys_prefix):
+    """
+    Enable or disable a nbextension
+    """
+    m, nbexts = _get_nbextension_metadata(package)
+    config_dir = os.path.join(_get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
+    cm = BaseJSONConfigManager(config_dir=config_dir)
+    for nbext in nbexts:
+        cm.update(nbext['section'], {"load_extensions": {nbext['require']: state}})
 
 def enable_nbextension_python(package, user=False, sys_prefix=False):
     """Enable an nbextension associated with a Python package."""
-    m, nbexts = _get_nbextension_metadata(package)
-    base_path = os.path.split(m.__file__)[0]
-    for nbext in nbexts:
-        config_dir = os.path.join(_get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
-        cm = BaseJSONConfigManager(config_dir=config_dir)
-        cm.update(nbext['section'], {"load_extensions": {nbext['require']: True}})
+    _set_nbextension_state_python(True, package, user, sys_prefix)
     
 
 def disable_nbextension_python(package, user=False, sys_prefix=False):
     """Disable an nbextension associated with a Python package."""
-    m, nbexts = _get_nbextension_metadata(package)
-    base_path = os.path.split(m.__file__)[0]
-    for nbext in nbexts:
-        config_dir = os.path.join(_get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
-        cm = BaseJSONConfigManager(config_dir=config_dir)
-        cm.update(nbext['section'], {"load_extensions": {nbext['require']: False}})
+    _set_nbextension_state_python(False, package, user, sys_prefix)
 
 
 #----------------------------------------------------------------------
 # Applications
 #----------------------------------------------------------------------
 
-from traitlets import Bool, Enum, Unicode
+from traitlets import Bool, Unicode
 from jupyter_core.application import JupyterApp
 
 
@@ -329,17 +325,13 @@ class BaseNBExtensionApp(JupyterApp):
     sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
     python = Bool(False, config=True, help="Install from a Python package")
 
-    def _log_level_default(self):
-        return logging.INFO
-
-    def _log_datefmt_default(self):
-        return "%Y-%m-%d %H:%M:%S"
-
     def _log_format_default(self):
         return "%(color)s[%(name)s]%(end_color)s %(message)s"
 
 
-flags = _base_flags.update({
+flags = {}
+flags.update(_base_flags)
+flags.update({
     "overwrite" : ({
         "InstallNBExtensionApp" : {
             "overwrite" : True,
@@ -351,6 +343,7 @@ flags = _base_flags.update({
         }}, "Create symlink instead of copying files"
     ),
 })
+
 flags['s'] = flags['symlink']
 
 aliases = {
