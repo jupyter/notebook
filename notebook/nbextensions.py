@@ -186,7 +186,6 @@ def install_nbextension(path, overwrite=False, symlink=False,
                     os.makedirs(dest_dir)
                 for file in files:
                     src = pjoin(parent, file)
-                    # logger.info("%r, %r" % (dest_dir, file))
                     dest_file = pjoin(dest_dir, file)
                     _maybe_copy(src, dest_file, logger=logger)
         else:
@@ -271,24 +270,25 @@ def uninstall_nbextension_python(package,
         logger.info("{} {}".format(dest, require))
         uninstall_nbextension(dest, require, user=user, sys_prefix=sys_prefix, 
             prefix=prefix, nbextensions_dir=nbextensions_dir, logger=logger)
-    
+
+def _set_nbextension_state_python(state, package, user, sys_prefix):
+    """
+    Enable or disable a nbextension
+    """
+    m, nbexts = _get_nbextension_metadata(package)
+    config_dir = os.path.join(_get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
+    cm = BaseJSONConfigManager(config_dir=config_dir)
+    for nbext in nbexts:
+        cm.update(nbext['section'], {"load_extensions": {nbext['require']: state}})
 
 def enable_nbextension_python(package, user=False, sys_prefix=False):
     """Enable an nbextension associated with a Python package."""
-    m, nbexts = _get_nbextension_metadata(package)
-    for nbext in nbexts:
-        config_dir = os.path.join(_get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
-        cm = BaseJSONConfigManager(config_dir=config_dir)
-        cm.update(nbext['section'], {"load_extensions": {nbext['require']: True}})
+    _set_nbextension_state_python(True, package, user, sys_prefix)
     
 
 def disable_nbextension_python(package, user=False, sys_prefix=False):
     """Disable an nbextension associated with a Python package."""
-    m, nbexts = _get_nbextension_metadata(package)
-    for nbext in nbexts:
-        config_dir = os.path.join(_get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
-        cm = BaseJSONConfigManager(config_dir=config_dir)
-        cm.update(nbext['section'], {"load_extensions": {nbext['require']: False}})
+    _set_nbextension_state_python(False, package, user, sys_prefix)
 
 
 #----------------------------------------------------------------------
