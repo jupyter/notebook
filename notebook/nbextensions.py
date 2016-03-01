@@ -344,7 +344,7 @@ class BaseNBExtensionApp(JupyterApp):
         warnings.warn("`verbose` traits of `{}` has been deprecated, has no effects and will be removed in notebook 5.0.".format(type(self).__name__), DeprecationWarning)
 
     def _log_format_default(self):
-        return "%(color)s[%(name)s]%(end_color)s %(message)s"
+        return "%(message)s"
 
 
 flags = {}
