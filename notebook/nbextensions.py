@@ -35,8 +35,8 @@ from tornado.log import LogFormatter
 
 # Constants for pretty print extension listing function.
 # Window doesn't support coloring in the commandline
-GREEN_ENABLED = '\033[32m+\033[0m' if os.name != 'nt' else '+'
-RED_DISABLED = '\033[31m-\033[0m' if os.name != 'nt' else '-'
+GREEN_ENABLED = '\033[32m enabled \033[0m' if os.name != 'nt' else 'enabled '
+RED_DISABLED = '\033[31mdisabled\033[0m' if os.name != 'nt' else 'disabled'
 
 DEPRECATED_ARGUMENT = object()
 #------------------------------------------------------------------------------
