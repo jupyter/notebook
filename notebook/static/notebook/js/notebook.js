@@ -3050,12 +3050,12 @@ define(function (require) {
         var cell = cells[1];
         if (keymap === "vim"){
             vimMode = true;
-            this.keyboard_manager.mode = 'vim-command';
+            this.keyboard_manager.current_mode = 'vim-command';
         } else if ( keymap === 'sublime' || keymap === 'default') {
             vimMode = false;
-            this.keyboard_manager.mode = 'command';
+            this.keyboard_manager.current_mode = 'command';
         } else {
-            console.log('No valid keymap specified. Valid keymaps are in {"vim", "sublime", "default"}');
+            console.log('No valid keymap specified. Valid keymaps are in {"vim", "sublime", "default", "emacs"}');
             return false;
         }
         for (var i = 1; i < cells.length -1; i++ ){
