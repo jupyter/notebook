@@ -3051,8 +3051,10 @@ define(function (require) {
         if (keymap === "vim"){
             vimMode = true;
             this.keyboard_manager.current_mode = 'vim-command';
+			this.command_mode = Notebook.prototype.edit_mode;
         } else if ( keymap === 'sublime' || keymap === 'default') {
             vimMode = false;
+			this.command_mode = Notebook.prototype.command_mode;
             this.keyboard_manager.current_mode = 'command';
         } else {
             console.log('No valid keymap specified. Valid keymaps are in {"vim", "sublime", "default", "emacs"}');
