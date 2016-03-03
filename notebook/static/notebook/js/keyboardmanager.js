@@ -28,7 +28,6 @@ define([
          *    @param options.events {$(Events)} instance 
          *    @param options.pager: {Pager}  pager instance
          */
-        this.mode = 'command';
         this.enabled = true;
         this.pager = options.pager;
         this.quick_help = undefined;
@@ -49,6 +48,13 @@ define([
         this.vim_edit_shortcuts = new keyboard.ShortcutManager( undefined , options.events, this.actions, this.env );
         this.vim_edit_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
         this.vim_edit_shortcuts.add_shortcuts(this.get_default_vim_edit_shortcuts());
+        this.mode = {
+			"command": command_shortcuts,
+			"edit": edit_shortcuts,
+			"vim_command": vim_command_shortcuts,
+			"vim_edit": vim_edit_shortcuts
+		};
+		this.current_mode = "command";
         Object.seal(this);
     };
 
@@ -190,34 +196,26 @@ define([
             }
             return true;
         }
-        
-        if (this.mode === 'edit') {
-            return this.edit_shortcuts.call_handler(event);
-        } else if (this.mode === 'command') {
-            return this.command_shortcuts.call_handler(event);
-        } else if (this.mode === 'vim-edit'){
-            return this.vim_edit_shortcuts.call_handler(event);
-        } else if (this.mode === 'vim-command'){
-            return this.vim_command_shortcuts.call_handler(event);
-        }
+
+		this.mode[this.current_mode].call_handler(event);
         return true;
     };
 
     KeyboardManager.prototype.edit_mode = function () {
-        this.last_mode = this.mode;
+        this.last_mode = this.current_mode;
         if (this.last_mode === 'command' || this.last_mode === 'edit'){
-          this.mode = 'edit';
+          this.current_mode = 'edit';
         } else { // expected 'vim-edit' or 'vim-command'
-          this.mode = 'vim-edit';
+          this.current_mode = 'vim-edit';
         }
     };
 
     KeyboardManager.prototype.command_mode = function () {
         this.last_mode = this.mode;
         if (this.last_mode === 'command' || this.last_mode === 'edit'){
-          this.mode = 'command';
+          this.current_mode = 'command';
         } else { //supposed this.last_mode === 'vim-command' || this.last_mode === 'vim-edit'
-          this.mode = 'vim-command';
+          this.current_mode = 'vim-command';
         }
     };
 
