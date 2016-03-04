@@ -564,30 +564,6 @@ define([
         return cont;
     };
 
-    CodeCell.prototype._set_codemirror_options = function (options) {
-        // update codemirror options from a dict
-        var codemirror = this.code_mirror;
-        $.map(options, function (value, opt) {
-            if (value === null) {
-                value = CodeMirror.defaults[opt];
-            }
-            codemirror.setOption(opt, value);
-        });
-        var that = this;
-    };
-    
-    CodeCell.prototype.update_codemirror_options = function (options) {
-        /** update codemirror options locally and save changes in config */
-        var that = this;
-        this._set_codemirror_options(options);
-        return this.config.update({
-            Notebook: {
-                codemirror_options: options
-            }
-        }).then(
-            that.events.trigger('config_changed.Notebook', {config: that.config})
-        );
-    };
     // Backwards compatability.
     IPython.CodeCell = CodeCell;
 
