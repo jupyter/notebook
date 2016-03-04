@@ -498,7 +498,7 @@ casper.trigger_keydown = function() {
 casper.get_keyboard_mode = function() {
     // Get the mode of the keyboard manager.
     return this.evaluate(function() {
-        return IPython.keyboard_manager.mode;
+        return IPython.keyboard_manager.current_mode;
     }, {});
 };
 
