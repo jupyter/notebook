@@ -33,6 +33,7 @@ define([
         this.quick_help = undefined;
         this.notebook = undefined;
         this.last_mode = undefined;
+		this.current_mode = "command";
         this.bind_events();
         this.env = {pager:this.pager};
         this.actions = options.actions;
@@ -51,10 +52,9 @@ define([
         this.mode = {
 			"command": command_shortcuts,
 			"edit": edit_shortcuts,
-			"vim_command": vim_command_shortcuts,
-			"vim_edit": vim_edit_shortcuts
+			"vim-command": vim_command_shortcuts,
+			"vim-edit": vim_edit_shortcuts
 		};
-		this.current_mode = "command";
         Object.seal(this);
     };
 
@@ -95,10 +95,6 @@ define([
         };
     };
     
-    KeyboardManager.prototype.get_default_vim_edit_shortcuts = function() {
-      return this.get_default_edit_shortcuts();
-    };
-
     KeyboardManager.prototype.get_default_command_shortcuts = function() {
         return {
             'cmdtrl-shift-p': 'jupyter-notebook:show-command-palette',
@@ -142,19 +138,28 @@ define([
             'q' : 'jupyter-notebook:close-pager',
         };
     };
-    
+
+	KeyboardManager.prototype.get_default_common_vim_shortcuts = function() {
+        return {
+            'shift'       : 'jupyter-notebook:ignore',
+            'shift-enter' : 'jupyter-notebook:run-cell-and-edit-below',
+            'ctrl-enter'  : 'jupyter-notebook:run-cell',
+            'alt-enter'   : 'jupyter-notebook:run-cell-and-insert-below',
+            // cmd on mac, ctrl otherwise
+            'cmdtrl-s'    : 'jupyter-notebook:save-notebook',
+        };
+	};
+
+    KeyboardManager.prototype.get_default_vim_edit_shortcuts = function() {
+      var shortcut = this.get_default_common_vim_shortcuts();
+	  return shortcut;
+
+    };
+
     KeyboardManager.prototype.get_default_vim_command_shortcuts = function() {
-      var shortcut = this.get_default_command_shortcuts();
-      delete shortcut['down'];
+      var shortcut = this.get_default_common_vim_shortcuts();
       shortcut['ctrl-down'] = 'jupyter-notebook:select-next-cell';
-      delete shortcut['up'];
       shortcut['ctrl-up'] = 'jupyter-notebook:select-previous-cell';
-      delete shortcut['a'];
-      delete shortcut['j'];
-      delete shortcut['l'];
-      delete shortcut['m'];
-      delete shortcut['q'];
-      delete shortcut['esc'];// must be handled by code mirror
       return shortcut;
     };
 
@@ -196,7 +201,6 @@ define([
             }
             return true;
         }
-
 		this.mode[this.current_mode].call_handler(event);
         return true;
     };

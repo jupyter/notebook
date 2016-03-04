@@ -77,6 +77,8 @@ define(function (require) {
         // We need a better way to deal with circular instance references.
         this.keyboard_manager.notebook = this;
         this.save_widget.notebook = this;
+
+		this.dummy = undefined;
         
         mathjaxutils.init();
 
@@ -2206,6 +2208,39 @@ define(function (require) {
         this.focus_cell();
         this.set_dirty(true);
     };
+	/**
+	 * Execute cell and enter directly in edition mode in cell below.
+	 * Usefull for vim mode
+	 */
+
+	Notebook.prototype.execute_cell_and_edit_below = function () {
+		var indices = this.get_selected_cells_indices();
+		var cell_index;
+		if (indices.length > 1) {
+			this.execute_cells(indices);
+			cell_index = Math.max.apply(Math, indices);
+		} else {
+			var cell = this.get_selected_cell();
+			cell_index = this.find_cell_index(cell);
+			cell.execute();
+		}
+		
+        if (cell_index === (this.ncells()-1)) {
+            this.command_mode();
+            this.insert_cell_below();
+            this.select(cell_index+1);
+            this.edit_mode();
+            this.scroll_to_bottom();
+            this.set_dirty(true);
+            return;
+        }
+
+		this.command_mode();
+		this.select(cell_index+1);
+		this.focus_cell();
+		this.set_dirty(true);
+		this.edit_mode();
+	};
 
     /**
      * Execute all cells below the selected cell.
@@ -3051,16 +3086,14 @@ define(function (require) {
         if (keymap === "vim"){
             vimMode = true;
             this.keyboard_manager.current_mode = 'vim-command';
-			this.command_mode = Notebook.prototype.edit_mode;
         } else if ( keymap === 'sublime' || keymap === 'default') {
             vimMode = false;
-			this.command_mode = Notebook.prototype.command_mode;
             this.keyboard_manager.current_mode = 'command';
         } else {
             console.log('No valid keymap specified. Valid keymaps are in {"vim", "sublime", "default", "emacs"}');
             return false;
         }
-        for (var i = 1; i < cells.length -1; i++ ){
+        for (var i = 0; i <= cells.length -1; i++ ){
             cell = cells[i]
             if (cell.cell_type === "code"){
                 cell.update_codemirror_options({

@@ -130,6 +130,13 @@ define(function(require){
                 env.notebook.execute_cell_and_insert_below();
             }
         },
+		'run-cell-and-edit-below':{
+			help    : 'run cell, enter edition mode below',
+			help_index : 'be',
+			handler : function (env) {
+				env.notebook.execute_cell_and_edit_below();
+			}
+		},
         'run-all-cells': {
             help: 'run all cells',
             help_index: 'bd',

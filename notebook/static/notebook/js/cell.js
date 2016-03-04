@@ -226,7 +226,7 @@ define([
      * @return {Boolean} `true` if CodeMirror should ignore the event, `false` Otherwise
      */
     Cell.prototype.handle_codemirror_keyevent = function (editor, event) {
-        var shortcuts = this.keyboard_manager.edit_shortcuts;
+        var shortcuts = this.keyboard_manager.mode[this.keyboard_manager.current_mode];
 
         var cur = editor.getCursor();
         if((cur.line !== 0 || cur.ch !==0) && event.keyCode === 38){
