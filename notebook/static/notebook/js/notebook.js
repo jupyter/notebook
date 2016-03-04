@@ -3053,7 +3053,7 @@ define(function (require) {
         if (keymap === "vim"){
             vimMode = true;
             this.keyboard_manager.current_mode = 'vim-command';
-        } else if ( keymap === 'sublime' || keymap === 'default') {
+        } else if ( keymap === 'sublime' || keymap === 'default' || keymap === 'emacs') {
             vimMode = false;
             this.keyboard_manager.current_mode = 'command';
         } else {
@@ -3062,12 +3062,10 @@ define(function (require) {
         }
         for (var i = 0; i <= cells.length -1; i++ ){
             cell = cells[i]
-            if (cell.cell_type === "code"){
-                cell.update_codemirror_options({
+            cell.update_codemirror_options({
                     vimMode: vimMode,
                     keyMap: keymap
-                });
-            }
+            });
         }
     };
 
