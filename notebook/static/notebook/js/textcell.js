@@ -226,7 +226,8 @@ define([
          *          notebook: Notebook instance
          */
         options = options || {};
-        var config = utils.mergeopt(MarkdownCell, {});
+        var config = options.config || {};
+        config = utils.mergeopt(MarkdownCell, config);
         this.class_config = new configmod.ConfigWithDefaults(options.config,
                                             {}, 'MarkdownCell');
         TextCell.apply(this, [$.extend({}, options, {config: config})]);
@@ -326,7 +327,8 @@ define([
          *          notebook: Notebook instance
          */
         options = options || {};
-        var config = utils.mergeopt(RawCell, {});
+        var config = options.config || {}
+        config = utils.mergeopt(RawCell, config);
         TextCell.apply(this, [$.extend({}, options, {config: config})]);
 
         this.class_config = new configmod.ConfigWithDefaults(options.config,
