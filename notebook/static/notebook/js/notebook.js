@@ -2208,39 +2208,6 @@ define(function (require) {
         this.focus_cell();
         this.set_dirty(true);
     };
-	/**
-	 * Execute cell and enter directly in edition mode in cell below.
-	 * Usefull for vim mode
-	 */
-
-	Notebook.prototype.execute_cell_and_edit_below = function () {
-		var indices = this.get_selected_cells_indices();
-		var cell_index;
-		if (indices.length > 1) {
-			this.execute_cells(indices);
-			cell_index = Math.max.apply(Math, indices);
-		} else {
-			var cell = this.get_selected_cell();
-			cell_index = this.find_cell_index(cell);
-			cell.execute();
-		}
-		
-        if (cell_index === (this.ncells()-1)) {
-            this.command_mode();
-            this.insert_cell_below();
-            this.select(cell_index+1);
-            this.edit_mode();
-            this.scroll_to_bottom();
-            this.set_dirty(true);
-            return;
-        }
-
-		this.command_mode();
-		this.select(cell_index+1);
-		this.focus_cell();
-		this.set_dirty(true);
-		this.edit_mode();
-	};
 
     /**
      * Execute all cells below the selected cell.

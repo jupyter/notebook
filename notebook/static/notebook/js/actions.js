@@ -134,7 +134,8 @@ define(function(require){
 			help    : 'run cell, enter edition mode below',
 			help_index : 'be',
 			handler : function (env) {
-				env.notebook.execute_cell_and_edit_below();
+				env.notebook.execute_cell_and_select_below();
+				env.notebook.edit_mode();
 			}
 		},
         'run-all-cells': {

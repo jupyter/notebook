@@ -37,6 +37,8 @@ define([
         this.bind_events();
         this.env = {pager:this.pager};
         this.actions = options.actions;
+		
+		// default shorcuts in classic mode and vim mode
         var command_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env );
         command_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
         command_shortcuts.add_shortcuts(this.get_default_command_shortcuts());
@@ -44,11 +46,12 @@ define([
         edit_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
         edit_shortcuts.add_shortcuts(this.get_default_edit_shortcuts());
         var vim_command_shortcuts = new keyboard.ShortcutManager( undefined , options.events, this.actions, this.env );
-        vim_command_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
+        vim_command_shortcuts.add_shortcuts(this.get_default_common_vim_shortcuts());
         vim_command_shortcuts.add_shortcuts(this.get_default_vim_command_shortcuts());
         var vim_edit_shortcuts = new keyboard.ShortcutManager( undefined , options.events, this.actions, this.env );
-        vim_edit_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
+        vim_edit_shortcuts.add_shortcuts(this.get_default_common_vim_shortcuts());
         vim_edit_shortcuts.add_shortcuts(this.get_default_vim_edit_shortcuts());
+
         this.mode = {
 			"command": command_shortcuts,
 			"edit": edit_shortcuts,
@@ -151,16 +154,13 @@ define([
 	};
 
     KeyboardManager.prototype.get_default_vim_edit_shortcuts = function() {
-      var shortcut = this.get_default_common_vim_shortcuts();
-	  return shortcut;
-
+	  return {
+	  };
     };
 
     KeyboardManager.prototype.get_default_vim_command_shortcuts = function() {
-      var shortcut = this.get_default_common_vim_shortcuts();
-      shortcut['ctrl-down'] = 'jupyter-notebook:select-next-cell';
-      shortcut['ctrl-up'] = 'jupyter-notebook:select-previous-cell';
-      return shortcut;
+      return {
+	  };
     };
 
     KeyboardManager.prototype.bind_events = function () {
