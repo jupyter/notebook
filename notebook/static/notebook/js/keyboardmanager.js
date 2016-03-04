@@ -146,7 +146,7 @@ define([
         return {
             'shift'       : 'jupyter-notebook:ignore',
             'shift-enter' : 'jupyter-notebook:run-cell-and-edit-below',
-            'ctrl-enter'  : 'jupyter-notebook:run-cell',
+            'ctrl-enter'  : 'jupyter-notebook:run-cell-keeping-edit',
             'alt-enter'   : 'jupyter-notebook:run-cell-and-insert-below',
             // cmd on mac, ctrl otherwise
             'cmdtrl-s'    : 'jupyter-notebook:save-notebook',

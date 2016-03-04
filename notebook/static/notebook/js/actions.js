@@ -123,6 +123,14 @@ define(function(require){
                 env.notebook.execute_selected_cells();
             }
         },
+        'run-cell-keeping-edit':{
+            help    : 'run selected cells keeping edit mode',
+            help_index : 'bf',
+            handler : function (env) {
+                env.notebook.execute_selected_cells();
+                env.notebook.edit_mode();
+            }
+        },
         'run-cell-and-insert-below':{
             help    : 'run cell, insert below',
             help_index : 'bc',
@@ -130,14 +138,22 @@ define(function(require){
                 env.notebook.execute_cell_and_insert_below();
             }
         },
-		'run-cell-and-edit-below':{
-			help    : 'run cell, enter edition mode below',
-			help_index : 'be',
-			handler : function (env) {
-				env.notebook.execute_cell_and_select_below();
-				env.notebook.edit_mode();
-			}
-		},
+        'run-cell-and-insert-below-keeping-edit':{
+            help    : 'run cell, insert below, enter edit mode',
+            help_index : 'bg',
+            handler : function (env) {
+                env.notebook.execute_cell_and_insert_below();
+                env.notebook.edit_mode();
+            }
+        },
+        'run-cell-and-edit-below':{
+            help    : 'run cell, enter edition mode below',
+            help_index : 'be',
+            handler : function (env) {
+                env.notebook.execute_cell_and_select_below();
+                env.notebook.edit_mode();
+            }
+        },
         'run-all-cells': {
             help: 'run all cells',
             help_index: 'bd',
