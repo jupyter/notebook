@@ -68,6 +68,11 @@ def test_nb_dir_with_slash():
         app = NotebookApp(notebook_dir=td)
         nt.assert_false(app.notebook_dir.endswith("/"))
 
+def test_nb_dir_root():
+    root = os.path.abspath(os.sep) # gets the right value on Windows, Posix
+    app = NotebookApp(notebook_dir=root)
+    nt.assert_equal(app.notebook_dir, root)
+
 def test_generate_config():
     with TemporaryDirectory() as td:
         app = NotebookApp(config_dir=td)
