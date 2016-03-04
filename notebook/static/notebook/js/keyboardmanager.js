@@ -215,7 +215,7 @@ define([
     };
 
     KeyboardManager.prototype.command_mode = function () {
-        this.last_mode = this.mode;
+        this.last_mode = this.current_mode;
         if (this.last_mode === 'command' || this.last_mode === 'edit'){
           this.current_mode = 'command';
         } else { //supposed this.last_mode === 'vim-command' || this.last_mode === 'vim-edit'
