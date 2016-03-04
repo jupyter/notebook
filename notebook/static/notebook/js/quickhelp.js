@@ -177,8 +177,9 @@ define([
             $(this.shortcut_dialog).modal("toggle");
             return;
         }
-        var command_shortcuts = this.keyboard_manager.command_shortcuts.help();
-        var edit_shortcuts = this.keyboard_manager.edit_shortcuts.help();
+        // TODO show the shortcuts of the current edition mode
+        var command_shortcuts = this.keyboard_manager.mode["command"].help();
+        var edit_shortcuts = this.keyboard_manager.mode["edit"].help();
         var help, shortcut;
         var i, half, n;
         var element = $('<div/>');
@@ -248,15 +249,15 @@ define([
         return div;
     };
 
-
+    // TODO fix to adapt to edition mode
     QuickHelp.prototype.build_command_help = function () {
-        var command_shortcuts = this.keyboard_manager.command_shortcuts.help();
+        var command_shortcuts = this.keyboard_manager.mode["command"].help();
         return build_div('<h4>Command Mode (press <kbd>Esc</kbd> to enable)</h4>', command_shortcuts);
     };
 
     
     QuickHelp.prototype.build_edit_help = function (cm_shortcuts) {
-        var edit_shortcuts = this.keyboard_manager.edit_shortcuts.help();
+        var edit_shortcuts = this.keyboard_manager.mode["edit"].help();
         edit_shortcuts = jQuery.merge(jQuery.merge([], cm_shortcuts), edit_shortcuts);
         return build_div('<h4>Edit Mode (press <kbd>Enter</kbd> to enable)</h4>', edit_shortcuts);
     };

@@ -3049,7 +3049,7 @@ define(function (require) {
     Notebook.prototype.switch_keymap_to = function(keymap) {
         var vimMode = true;
         var cells = this.get_cells();
-        var cell = cells[1];
+        var cell = cells[0];
         if (keymap === "vim"){
             vimMode = true;
             this.keyboard_manager.current_mode = 'vim-command';
