@@ -121,7 +121,7 @@ def install_nbextension(path, overwrite=False, symlink=False,
     """
     if verbose != DEPRECATED_ARGUMENT:
         import warnings
-        warnings.warn("`install_nbextension`'s `verbose` parameter is deprecated, will have no effects,  and will be remove in Notebook 5.0", DeprecationWarning)
+        warnings.warn("`install_nbextension`'s `verbose` parameter is deprecated, it will have no effects and will be removed in Notebook 5.0", DeprecationWarning)
 
     nbext = _get_nbextension_dir(user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir)
     # make sure nbextensions dir exists
@@ -180,7 +180,7 @@ def install_nbextension(path, overwrite=False, symlink=False,
             path = os.path.abspath(path)
             if not os.path.exists(full_dest):
                 if logger:
-                    logger.info("Symlink: %s -> %s" % (full_dest, path))
+                    logger.info("Symlinking: %s -> %s" % (full_dest, path))
                 os.symlink(path, full_dest)
         elif os.path.isdir(path):
             path = pjoin(os.path.abspath(path), '') # end in path separator
