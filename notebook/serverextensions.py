@@ -12,7 +12,7 @@ import sys
 from jupyter_core.paths import jupyter_config_path
 from ._version import __version__
 from .nbextensions import (
-    BaseNBExtensionApp, ToggleNBExtensionApp, _get_config_dir,
+    BaseNBExtensionApp, _get_config_dir,
     GREEN_ENABLED, RED_DISABLED
 )
 
@@ -28,22 +28,29 @@ class ArgumentConflict(ValueError):
     pass
 
 
-def toggle_serverextension_python(import_name, enabled=None, parent=None, user=False, sys_prefix=False):
+def toggle_serverextension_python(import_name, enabled=None, parent=None,
+                                  user=False, sys_prefix=False):
     """Toggle a server extension.
-    
+
+    By default, toggles the extension in the system-wide Jupyter configuration
+    location (e.g. /usr/local/etc/jupyter).
+
     Parameters
     ----------
-    
+
     import_name : str
-        Python import name of the extension
+        Importable Python module (dotted-notation) exposing the magic-named
+        `load_jupyter_server_extension` function
     enabled : bool [default: None]
         Toggle state for the extension.  Set to None to toggle, True to enable,
         and False to disable the extension.
     parent : Configurable [default: None]
     user : bool [default: False]
-        Whether to install to the user's nbextensions directory.
-        Otherwise do a system-wide install (e.g. /usr/local/share/jupyter/nbextensions).
-    sys_prefix : bool [default: False]"""
+        Toggle in the user's configuration location (e.g. ~/.jupyter).
+    sys_prefix : bool [default: False]
+        Toggle in the current Python environment's configuration location
+        (e.g. ~/.envs/my-env/etc/jupyter).
+    """
     config_dir = _get_config_dir(user=user, sys_prefix=sys_prefix)
     cm = BaseJSONConfigManager(parent=parent, config_dir=config_dir)
     cfg = cm.get("jupyter_notebook_config")
@@ -78,7 +85,7 @@ flags = {
     "sys-prefix" : ({
         "ToggleServerExtensionApp" : {
             "sys_prefix" : True,
-        }}, "Use sys.prefix as the prefix for installing nbextensions"
+        }}, "Use sys.prefix as the prefix for installing server extensions"
     ),
     "py" : ({
         "ToggleServerExtensionApp" : {
@@ -88,7 +95,8 @@ flags = {
 }
 flags['python'] = flags['py']
 
-class ToggleServerExtensionApp(ToggleNBExtensionApp):
+
+class ToggleServerExtensionApp(BaseNBExtensionApp):
 
     name = "jupyter serverextension enable/disable"
     description = "Enable/disable a server extension using frontend configuration files."
@@ -107,7 +115,7 @@ class ToggleServerExtensionApp(ToggleNBExtensionApp):
         m, server_exts = _get_server_extension_metadata(package)
         for server_ext in server_exts:
             require = server_ext['require']
-            self._toggle_server_extension(require)
+            self.toggle_server_extension(require)
 
     def start(self):
 
@@ -158,9 +166,9 @@ class ListServerExtensionsApp(BaseNBExtensionApp):
 
 
 _examples = """
-jupyter serverextension list                            # list all configured nbextensions
-jupyter serverextension enable --py <packagename>   # enable all nbextensions in a Python package
-jupyter serverextension disable --py <packagename>  # disable all nbextensions in a Python package
+jupyter serverextension list                        # list all configured server extensions
+jupyter serverextension enable --py <packagename>   # enable all server extensions in a Python package
+jupyter serverextension disable --py <packagename>  # disable all server extensions in a Python package
 """
 
 
@@ -195,9 +203,8 @@ main = ServerExtensionApp.launch_instance
 def _get_server_extension_metadata(package):
     m = __import__(package)
     if not hasattr(m, '_jupyter_server_extension_paths'):
-        raise KeyError('The Python package {} is not a valid server extension'.format(package))
-    nbexts = m._jupyter_server_extension_paths()
-    return m, nbexts
+        raise KeyError('The Python package {} does not include any valid server extensions'.format(package))
+    return m, m._jupyter_server_extension_paths()
 
 if __name__ == '__main__':
     main()
