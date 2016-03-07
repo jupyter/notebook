@@ -108,14 +108,14 @@ class ToggleServerExtensionApp(BaseNBExtensionApp):
     sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
     python = Bool(False, config=True, help="Install from a Python package")
 
-    def _toggle_server_extension(self, import_name):
+    def toggle_server_extension(self, import_name):
         toggle_serverextension_python(import_name, self._toggle_value, parent=self, user=self.user, sys_prefix=self.sys_prefix)
 
     def toggle_server_extension_python(self, package):
         m, server_exts = _get_server_extension_metadata(package)
         for server_ext in server_exts:
             require = server_ext['require']
-            self._toggle_server_extension(require)
+            self.toggle_server_extension(require)
 
     def start(self):
 
