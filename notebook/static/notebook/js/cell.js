@@ -690,7 +690,6 @@ define([
             }
             codemirror.setOption(opt, value);
         });
-        var that = this;
     };
     
     Cell.prototype.update_codemirror_options = function (options) {
