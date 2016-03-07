@@ -114,8 +114,8 @@ class ToggleServerExtensionApp(BaseNBExtensionApp):
     def toggle_server_extension_python(self, package):
         m, server_exts = _get_server_extension_metadata(package)
         for server_ext in server_exts:
-            require = server_ext['require']
-            self.toggle_server_extension(require)
+            module = server_ext['module']
+            self.toggle_server_extension(module)
 
     def start(self):
 
