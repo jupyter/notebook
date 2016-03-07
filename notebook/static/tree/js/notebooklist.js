@@ -3,14 +3,14 @@
 
 define([
     'base/js/namespace',
-    'jquery',
     'base/js/utils',
     'base/js/dialog',
     'base/js/events',
     'base/js/keyboard',
-], function(IPython, $, utils, dialog, events, keyboard) {
+    'moment'
+], function(IPython, utils, dialog, events, keyboard, moment) {
     "use strict";
-    
+
     var NotebookList = function (selector, options) {
         /**
          * Constructor
@@ -42,7 +42,7 @@ define([
         this.notebook_path = options.notebook_path || utils.get_body_data("notebookPath");
         this.contents = options.contents;
         if (this.session_list && this.session_list.events) {
-            this.session_list.events.on('sessions_loaded.Dashboard', 
+            this.session_list.events.on('sessions_loaded.Dashboard',
                 function(e, d) { that.sessions_loaded(d); });
         }
         this.selected = [];
@@ -102,7 +102,7 @@ define([
                             OK: {'class': 'btn-primary'}
                         }
                     });
-                    console.warn('Error durring New file creation', e);
+                    console.warn('Error during New file creation', e);
                 });
                 that.load_sessions();
             });
@@ -122,7 +122,7 @@ define([
                             OK: {'class': 'btn-primary'}
                         }
                     });
-                    console.warn('Error durring New directory creation', e);
+                    console.warn('Error during New directory creation', e);
                 });
                 that.load_sessions();
             });
@@ -130,6 +130,7 @@ define([
             // Bind events for action buttons.
             $('.rename-button').click($.proxy(this.rename_selected, this));
             $('.move-button').click($.proxy(this.move_selected, this));
+            $('.download-button').click($.proxy(this.download_selected, this));
             $('.shutdown-button').click($.proxy(this.shutdown_selected, this));
             $('.duplicate-button').click($.proxy(this.duplicate_selected, this));
             $('.delete-button').click($.proxy(this.delete_selected, this));
@@ -276,7 +277,7 @@ define([
             reader.onerror = reader_onerror;
         }
         // Replace the file input form wth a clone of itself. This is required to
-        // reset the form. Otherwise, if you upload a file, delete it and try to 
+        // reset the form. Otherwise, if you upload a file, delete it and try to
         // upload it again, the changed event won't fire.
         var form = $('input.fileinput');
         form.replaceWith(form.clone(true));
@@ -294,7 +295,7 @@ define([
         if (remove_uploads) {
             this.element.children('.list_item').remove();
         } else {
-            this.element.children('.list_item:not(.new-file)').remove();  
+            this.element.children('.list_item:not(.new-file)').remove();
         }
     };
 
@@ -396,7 +397,7 @@ define([
                 }
             }
         });
-        this._selection_changed();  
+        this._selection_changed();
     };
 
 
@@ -441,7 +442,7 @@ define([
             .addClass("item_modified")
             .addClass("pull-right")
             .appendTo(item);
-        
+
         if (selectable === false) {
             checkbox.css('visibility', 'hidden');
         } else if (selectable === true) {
@@ -464,7 +465,7 @@ define([
             .text('Running')
             .css('visibility', 'hidden')
             .appendTo(buttons);
-        
+
         if (index === -1) {
             this.element.append(row);
         } else {
@@ -551,13 +552,21 @@ define([
             $('.rename-button').css('display', 'none');
         }
 
-        // Move is only visible when one item is selected, and it is not a
-        // running notebook.
-        // TODO(nhdaly): Add support for moving multiple items at once.
-        if (selected.length === 1 && !has_running_notebook) {
+        // Move is visible iff at least one item is selected, and none of them
+        // are a running notebook.
+        if (selected.length >= 1 && !has_running_notebook) {
             $('.move-button').css('display', 'inline-block');
         } else {
             $('.move-button').css('display', 'none');
+        }
+
+        // Download is only visible when one item is selected, and it is not a
+        // running notebook or a directory
+        // TODO(nhdaly): Add support for download multiple items at once.
+        if (selected.length === 1 && !has_running_notebook && !has_directory) {
+            $('.download-button').css('display', 'inline-block');
+        } else {
+            $('.download-button').css('display', 'none');
         }
 
         // Shutdown is only visible when one or more notebooks running notebooks
@@ -588,13 +597,13 @@ define([
         var total = 0;
         $('.list_item input[type=checkbox]').each(function(index, item) {
             var parent = $(item).parent().parent();
-            // If the item doesn't have an upload button and it's not the 
+            // If the item doesn't have an upload button and it's not the
             // breadcrumbs, it can be selected.  Breadcrumbs path == ''.
             if (parent.find('.upload_button').length === 0 && parent.data('path') !== '' && parent.data('path') !== utils.url_path_split(that.notebook_path)[0]) {
                 total++;
             }
         });
-        
+
         var select_all = $("#select-all");
         if (checked === 0) {
             select_all.prop('checked', false);
@@ -638,11 +647,12 @@ define([
         var uri_prefix = NotebookList.uri_prefixes[model.type];
         if (model.type === 'file' &&
             model.mimetype && model.mimetype.substr(0,5) !== 'text/'
+            && !model.mimetype.endsWith('javascript')
         ) {
             // send text/unidentified files to editor, others go to raw viewer
             uri_prefix = 'files';
         }
-        
+
         item.find(".item_icon").addClass(icon).addClass('icon-fixed-width');
         var link = item.find("a.item_link")
             .attr('href',
@@ -754,7 +764,7 @@ define([
                             that.load_list();
                             // Deselect items after successful rename.
                             that.select('select-none');
-                        }).catch(function(e) { 
+                        }).catch(function(e) {
                             dialog.modal({
                                 title: "Rename Failed",
                                 body: $('<div/>')
@@ -766,7 +776,7 @@ define([
                                     OK: {'class': 'btn-primary'}
                                 }
                             });
-                            console.warn('Error durring renaming :', e);
+                            console.warn('Error during renaming :', e);
                         });
                     }
                 }
@@ -792,27 +802,25 @@ define([
 
     NotebookList.prototype.move_selected = function() {
         var that = this;
+        var selected = that.selected.slice(); // Don't let that.selected change out from under us
+        var num_items = selected.length;
 
-        // TODO(nhdaly): Support moving multiple items at once.
-        if (that.selected.length !== 1){
+        // Can move one or more selected items.
+        if (!(num_items >= 1)) {
             return;
         }
-
-        var item_path = that.selected[0].path;
-        var item_name = that.selected[0].name;
-        var item_type = that.selected[0].type;
 
         // Open a dialog to enter the new path, with current path as default.
         var input = $('<input/>').attr('type','text').attr('size','25').addClass('form-control')
             .val(utils.url_path_join('/', that.notebook_path));
         var dialog_body = $('<div/>').append(
             $("<p/>").addClass("rename-message")
-                .text('Enter new destination directory path for '+ item_type + ':')
+                .text('Enter new destination directory path for '+ num_items + ' items:')
         ).append(
             $("<br/>")
         ).append(input);
         var d = dialog.modal({
-            title : "Move "+ item_type,
+            title : "Move "+ num_items + " Items",
             body : dialog_body,
             default_button: "Cancel",
             buttons : {
@@ -820,24 +828,31 @@ define([
                 Move : {
                     class: "btn-primary",
                     click: function() {
-                      // Construct the new path using the user input and its name.
-                        var new_path = utils.url_path_join(input.val(), item_name)
-                        that.contents.rename(item_path, new_path).then(function() {
-                            that.load_list();
-                        }).catch(function(e) { 
-                            dialog.modal({
-                                title: "Move Failed",
-                                body: $('<div/>')
-                                    .text("An error occurred while moving \"" + item_name + "\" from \"" + item_path + "\" to \"" + new_path + "\".")
-                                    .append($('<div/>')
-                                        .addClass('alert alert-danger')
-                                        .text(e.message || e)),
-                                buttons: {
-                                    OK: {'class': 'btn-primary'}
-                                }
+                        // Move all the items.
+                        selected.forEach(function(item) {
+                            var item_path = item.path;
+                            var item_name = item.name;
+                            // Construct the new path using the user input and the item's name.
+                            var new_path = utils.url_path_join(input.val(), item_name);
+                            that.contents.rename(item_path, new_path).then(function() {
+                                // After each move finishes, reload the list.
+                                that.load_list();
+                            }).catch(function(e) { 
+                                // If any of the moves fails, show this dialog for that move.
+                                dialog.modal({
+                                    title: "Move Failed",
+                                    body: $('<div/>')
+                                        .text("An error occurred while moving \"" + item_name + "\" from \"" + item_path + "\" to \"" + new_path + "\".")
+                                        .append($('<div/>')
+                                            .addClass('alert alert-danger')
+                                            .text(e.message || e)),
+                                    buttons: {
+                                        OK: {'class': 'btn-primary'}
+                                    }
+                                });
+                                console.warn('Error during moving :', e);
                             });
-                            console.warn('Error durring moving :', e);
-                        });
+                        });  // End of forEach.
                     }
                 }
             },
@@ -856,12 +871,26 @@ define([
         });
     };
 
+    NotebookList.prototype.download_selected = function() {
+        var that = this;
+
+        // TODO(nhdaly): Support download multiple items at once.
+        if (that.selected.length !== 1){
+            return;
+        }
+
+        var item_path = that.selected[0].path;
+
+        window.open(utils.url_path_join('/files', item_path) + '?download=1');
+    };
+
     NotebookList.prototype.delete_selected = function() {
         var message;
-        if (this.selected.length === 1) {
-            message = 'Are you sure you want to permanently delete: ' + this.selected[0].name + '?';
+        var selected = this.selected.slice(); // Don't let that.selected change out from under us
+        if (selected.length === 1) {
+            message = 'Are you sure you want to permanently delete: ' + selected[0].name + '?';
         } else {
-            message = 'Are you sure you want to permanently delete the ' + this.selected.length + ' files/folders selected?';
+            message = 'Are you sure you want to permanently delete the ' + selected.length + ' files/folders selected?';
         }
         var that = this;
         dialog.modal({
@@ -873,15 +902,15 @@ define([
                 Delete : {
                     class: "btn-danger",
                     click: function() {
-                        // Shutdown any/all selected notebooks before deleting 
+                        // Shutdown any/all selected notebooks before deleting
                         // the files.
                         that.shutdown_selected();
 
                         // Delete selected.
-                        that.selected.forEach(function(item) {
+                        selected.forEach(function(item) {
                             that.contents.delete(item.path).then(function() {
                                     that.notebook_deleted(item.path);
-                            }).catch(function(e) { 
+                            }).catch(function(e) {
                                 dialog.modal({
                                     title: "Delete Failed",
                                     body: $('<div/>')
@@ -893,7 +922,7 @@ define([
                                         OK: {'class': 'btn-primary'}
                                     }
                                 });
-                                console.warn('Error durring content deletion:', e);
+                                console.warn('Error during content deletion:', e);
                             });
                         });
                     }
@@ -904,10 +933,11 @@ define([
 
     NotebookList.prototype.duplicate_selected = function() {
         var message;
-        if (this.selected.length === 1) {
-            message = 'Are you sure you want to duplicate: ' + this.selected[0].name + '?';
+        var selected = this.selected.slice(); // Don't let that.selected change out from under us
+        if (selected.length === 1) {
+            message = 'Are you sure you want to duplicate: ' + selected[0].name + '?';
         } else {
-            message = 'Are you sure you want to duplicate the ' + this.selected.length + ' files selected?';
+            message = 'Are you sure you want to duplicate the ' + selected.length + ' files selected?';
         }
         var that = this;
         dialog.modal({
@@ -919,12 +949,12 @@ define([
                 Duplicate : {
                     class: "btn-primary",
                     click: function() {
-                        that.selected.forEach(function(item) {
+                        selected.forEach(function(item) {
                             that.contents.copy(item.path, that.notebook_path).then(function () {
                                 that.load_list();
                                 // Deselect items after successful duplication.
                                 that.select('select-none');
-                            }).catch(function(e) { 
+                            }).catch(function(e) {
                                 dialog.modal({
                                     title: "Duplicate Failed",
                                     body: $('<div/>')
@@ -936,7 +966,7 @@ define([
                                         OK: {'class': 'btn-primary'}
                                     }
                                 });
-                                console.warn('Error durring content duplication', e);
+                                console.warn('Error during content duplication', e);
                             });
                         });
                     }
@@ -1010,7 +1040,7 @@ define([
                                 }
                             }}
                         });
-                        console.warn('Error durring notebook uploading', e);
+                        console.warn('Error during notebook uploading', e);
                         return false;
                     }
                     content_type = 'application/json';
@@ -1027,12 +1057,12 @@ define([
                     that.add_link(model, item);
                     that.session_list.load_sessions();
                 };
-                
+
                 var exists = false;
                 $.each(that.element.find('.list_item:not(.new-file)'), function(k,v){
                     if ($(v).data('name') === filename) { exists = true; return false; }
                 });
-                
+
                 if (exists) {
                     dialog.modal({
                         title : "Replace file",

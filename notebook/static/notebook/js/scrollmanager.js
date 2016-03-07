@@ -1,6 +1,6 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-define(['jquery'], function($){
+define([], function() {
     "use strict";
 
     var ScrollManager = function(notebook, options) {

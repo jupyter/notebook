@@ -11,7 +11,6 @@
 
 define([
     'base/js/namespace',
-    'jquery',
     'base/js/utils',
     'base/js/keyboard',
     'services/config',
@@ -26,7 +25,6 @@ define([
     'codemirror/keymap/sublime',
     'codemirror/keymap/vim'
 ], function(IPython,
-    $,
     utils,
     keyboard,
     configmod,

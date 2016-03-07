@@ -55,7 +55,7 @@ from setupbase import (
     check_package_data_first,
     CompileCSS,
     CompileJS,
-    Bower,
+    JavascriptDependencies,
     JavascriptVersion,
     css_js_prerelease,
 )
@@ -119,7 +119,7 @@ setup_args['cmdclass'] = {
     'sdist' : css_js_prerelease(sdist, strict=True),
     'css' : CompileCSS,
     'js' : CompileJS,
-    'jsdeps' : Bower,
+    'jsdeps' : JavascriptDependencies,
     'jsversion' : JavascriptVersion,
 }
 
@@ -157,7 +157,7 @@ extras_require = {
     ':sys_platform != "win32"': ['terminado>=0.3.3'],
     'doc': ['Sphinx>=1.1'],
     'test:python_version == "2.7"': ['mock'],
-    'test': ['nose', 'requests'],
+    'test': ['nose', 'requests', 'nose_warnings_filters'],
 }
 
 if 'setuptools' in sys.modules:

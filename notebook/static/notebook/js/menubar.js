@@ -2,14 +2,13 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'base/js/namespace',
     'base/js/dialog',
     'base/js/utils',
     './celltoolbar',
     './tour',
     'moment',
-], function($, IPython, dialog, utils, celltoolbar, tour, moment) {
+], function(IPython, dialog, utils, celltoolbar, tour, moment) {
     "use strict";
     
     var MenuBar = function (selector, options) {
@@ -79,7 +78,7 @@ define([
         ) + "?download=" + download.toString();
         
         var w = window.open('', IPython._target);
-        if (this.notebook.dirty) {
+        if (this.notebook.dirty && this.notebook.writable) {
             this.notebook.save_notebook().then(function() {
                 w.location = url;
             });
@@ -122,7 +121,7 @@ define([
             var url = utils.url_path_join(
                 base_url, 'files', notebook_path
             ) + '?download=1';
-            if (that.notebook.dirty) {
+            if (that.notebook.dirty && that.notebook.writable) {
                 that.notebook.save_notebook().then(function() {
                     w.location = url;
                 });
@@ -414,7 +413,7 @@ define([
                 .append($("<a>")
                     .attr('target', '_blank')
                     .attr('title', 'Opens in a new window')
-                    .attr('href', require.toUrl(link.url))
+                    .attr('href', requirejs.toUrl(link.url))
                     .append($("<i>")
                         .addClass("fa fa-external-link menu-icon pull-right")
                     )

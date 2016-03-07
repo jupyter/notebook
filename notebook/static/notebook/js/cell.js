@@ -10,13 +10,12 @@
 
 
 define([
-    'jquery',
     'base/js/utils',
     'codemirror/lib/codemirror',
     'codemirror/addon/edit/matchbrackets',
     'codemirror/addon/edit/closebrackets',
     'codemirror/addon/comment/comment'
-], function($, utils, CodeMirror, cm_match, cm_closeb, cm_comment) {
+], function(utils, CodeMirror, cm_match, cm_closeb, cm_comment) {
     "use strict";
     
     var overlayHack = CodeMirror.scrollbarModel.native.prototype.overlayHack;

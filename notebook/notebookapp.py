@@ -20,6 +20,7 @@ import signal
 import socket
 import sys
 import threading
+import warnings
 import webbrowser
 
 try: #PY3
@@ -97,6 +98,15 @@ jupyter notebook                       # start the notebook
 jupyter notebook --certfile=mycert.pem # use SSL/TLS certificate
 """
 
+DEV_NOTE_NPM = """It looks like you're running the notebook from source.
+If you're working on the Javascript of the notebook, try running
+
+    npm run build:watch
+
+in another terminal window to have the system incrementally
+watch and build the notebook's JavaScript for you, as you make changes.
+"""
+
 #-----------------------------------------------------------------------------
 # Helper functions
 #-----------------------------------------------------------------------------
@@ -139,6 +149,13 @@ class NotebookWebApplication(web.Application):
                  config_manager, log,
                  base_url, default_url, settings_overrides, jinja_env_options):
 
+        # If the user is running the notebook in a git directory, make the assumption
+        # that this is a dev install and suggest to the developer `npm run build:watch`.
+        base_dir = os.path.realpath(os.path.join(__file__, '..', '..'))
+        dev_mode = os.path.exists(os.path.join(base_dir, '.git'))
+        if dev_mode:
+            log.info(DEV_NOTE_NPM)
+
         settings = self.init_settings(
             ipython_app, kernel_manager, contents_manager,
             session_manager, kernel_spec_manager, config_manager, log, base_url,
@@ -174,6 +191,12 @@ class NotebookWebApplication(web.Application):
             # reset the cache on server restart
             version_hash = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 
+        if ipython_app.ignore_minified_js:
+            log.warn("""The `ignore_minified_js` flag is deprecated and no 
+                longer works.  Alternatively use `npm run build:watch` when
+                working on the notebook's Javascript and LESS""")
+            warnings.warn("The `ignore_minified_js` flag is deprecated and will be removed in Notebook 6.0", DeprecationWarning)
+
         settings = dict(
             # basics
             log_function=log_request,
@@ -190,7 +213,7 @@ class NotebookWebApplication(web.Application):
             },
             version_hash=version_hash,
             ignore_minified_js=ipython_app.ignore_minified_js,
-
+            
             # rate limits
             iopub_msg_rate_limit=ipython_app.iopub_msg_rate_limit,
             iopub_data_rate_limit=ipython_app.iopub_data_rate_limit,
@@ -247,6 +270,7 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('services.nbconvert.handlers'))
         handlers.extend(load_handlers('services.kernelspecs.handlers'))
         handlers.extend(load_handlers('services.security.handlers'))
+        handlers.extend(load_handlers('lab.handlers'))
         
         # BEGIN HARDCODED WIDGETS HACK
         widgets = None
@@ -346,6 +370,11 @@ flags['no-mathjax']=(
     """
 )
 
+flags['allow-root']=(
+    {'NotebookApp' : {'allow_root' : True}},
+    "Allow the notebook to be run from root user."
+)
+
 # Add notebook manager flags
 flags.update(boolean_flag('script', 'FileContentsManager.save_script',
                'DEPRECATED, IGNORED',
@@ -411,7 +440,7 @@ class NotebookApp(JupyterApp):
 
     ignore_minified_js = Bool(False,
             config=True,
-            help='Use minified JS file or not, mainly use during dev to avoid JS recompilation', 
+            help='Deprecated: Use minified JS file or not, mainly use during dev to avoid JS recompilation', 
             )
 
     # file to be opened in the notebook server
@@ -445,6 +474,10 @@ class NotebookApp(JupyterApp):
         help="Set the Access-Control-Allow-Credentials: true header"
     )
     
+    allow_root = Bool(False, config=True, 
+        help="Whether to allow the user to run the notebook as root."
+    )
+
     default_url = Unicode('/tree', config=True,
         help="The default URL to redirect to from `/`"
     )
@@ -772,6 +805,11 @@ class NotebookApp(JupyterApp):
 
     def _notebook_dir_validate(self, value, trait):
         # Strip any trailing slashes
+        # *except* if it's root
+        _, path = os.path.splitdrive(value)
+        if path == os.sep:
+            return value
+
         value = value.rstrip(os.sep)
 
         if not os.path.isabs(value):
@@ -1100,6 +1138,17 @@ class NotebookApp(JupyterApp):
         
         This method takes no arguments so all configuration and initialization
         must be done prior to calling this method."""
+
+        if not self.allow_root:
+            # check if we are running as root, and abort if it's not allowed
+            try:
+                uid = os.geteuid()
+            except AttributeError:
+                uid = -1 # anything nonzero here, since we can't check UID assume non-root
+            if uid == 0:
+                self.log.critical("Running as root is not recommended. Use --allow-root to bypass.")
+                self.exit(1)
+
         super(NotebookApp, self).start()
 
         info = self.log.info
@@ -1185,4 +1234,3 @@ def list_running_servers(runtime_dir=None):
 #-----------------------------------------------------------------------------
 
 main = launch_new_instance = NotebookApp.launch_instance
-

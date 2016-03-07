@@ -1,23 +1,21 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
+__webpack_public_path__ = window['staticURL'] + 'terminal/js/built/';
 
+requirejs(['termjs'], function(termjs) {
 require([
-    'jquery',
-    'termjs',
     'base/js/utils',
     'base/js/page',
     'services/config',
     'terminal/js/terminado',
-    'custom/custom',
 ], function(
-    $, 
-    termjs,
     utils,
     page,
     configmod,
     terminado
     ){
     "use strict";
+    requirejs(['custom/custom'], function() {});
     page = new page.Page();
 
     var common_config = new configmod.ConfigSection('common', 
@@ -63,4 +61,5 @@ require([
     // Expose terminal for fiddling with in the browser
     window.terminal = terminal;
 
+});
 });

@@ -2,10 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'base/js/utils',
     'base/js/dialog',
-], function($, utils, dialog) {
+], function(utils, dialog) {
     "use strict";
 
     var init = function () {
@@ -28,9 +27,6 @@ define([
                     webFont: "STIX-Web",
                     styles: {'.MathJax_Display': {"margin": 0}},
                     linebreaks: { automatic: true }
-                },
-                MathMenu: {
-                    showRenderer: false,
                 },
             });
             MathJax.Hub.Configured();

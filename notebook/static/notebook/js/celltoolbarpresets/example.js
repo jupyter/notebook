@@ -9,9 +9,8 @@
 // $.getScript('/static/js/celltoolbarpresets/example.js');
 // ```
 define([
-    'jquery',
     'notebook/js/celltoolbar',
-], function($, celltoolbar) {
+], function(celltoolbar) {
     "use strict";
 
     var CellToolbar = celltoolbar.CellToolbar;

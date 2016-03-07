@@ -2,12 +2,11 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'base/js/utils',
     'base/js/dialog',
     'base/js/keyboard',
     'moment',
-], function($, utils, dialog, keyboard, moment) {
+], function(utils, dialog, keyboard, moment) {
     "use strict";
 
     var SaveWidget = function (selector, options) {

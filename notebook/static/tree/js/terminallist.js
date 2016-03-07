@@ -4,9 +4,8 @@
 define([
     'base/js/namespace',
     'base/js/utils',
-    'jquery',
     'tree/js/notebooklist',
-], function(IPython, utils, $, notebooklist) {
+], function(IPython, utils, notebooklist) {
     "use strict";
 
     var TerminalList = function (selector, options) {

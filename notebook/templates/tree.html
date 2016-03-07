@@ -15,6 +15,7 @@ data-terminals-available="{{terminals_available}}"
 {% block site %}
 
   <div id="ipython-main-app" class="container">
+    <div id="lab_link" class="pull-right" style="padding: 4px"><a href="{{ base_url }}lab" title='Try JupyterLab'><img src='{{static_url("base/images/jupyter_lab.png") }}' alt='Try JupyterLab' height="40px" width="200px"/></a></div>
     <div id="tab_content" class="tabbable">
       <ul id="tabs" class="nav nav-tabs">
         <li class="active"><a href="#notebooks" data-toggle="tab">Files</a></li>
@@ -32,6 +33,7 @@ data-terminals-available="{{terminals_available}}"
                   <button title="Duplicate selected" class="duplicate-button btn btn-default btn-xs">Duplicate</button>
                   <button title="Rename selected" class="rename-button btn btn-default btn-xs">Rename</button>
                   <button title="Move selected" class="move-button btn btn-default btn-xs">Move</button>
+                  <button title="Download selected" class="download-button btn btn-default btn-xs">Download</button>
                   <button title="Shutdown selected notebook(s)" class="shutdown-button btn btn-default btn-xs btn-warning">Shutdown</button>
                   <button title="Delete selected" class="delete-button btn btn-default btn-xs btn-danger"><i class="fa fa-trash"></i></button>
               </div>
@@ -172,7 +174,7 @@ data-terminals-available="{{terminals_available}}"
           See <a href="https://github.com/ipython/ipyparallel">IPython parallel</a> for installation details.
         </div>
       </div><!-- class:tab-content -->
-    </div><!-- id:tab_content --> 
+    </div><!-- id:tab_content -->
   </div><!-- ipython-main-app  -->
 
 {% endblock %}
@@ -180,9 +182,6 @@ data-terminals-available="{{terminals_available}}"
 {% block script %}
     {{super()}}
 
-{% if ignore_minified_js %}
-    <script src="{{ static_url("tree/js/main.js") }}" type="text/javascript" charset="utf-8"></script>
-{% else %}
-    <script src="{{ static_url("tree/js/main.min.js") }}" type="text/javascript" charset="utf-8"></script>
-{% endif %}
+
+<script src="{{ static_url("tree/js/built/main.min.js") }}" type="text/javascript" charset="utf-8"></script>
 {% endblock %}

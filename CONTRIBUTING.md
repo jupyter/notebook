@@ -16,13 +16,11 @@ To install the static dependencies, run:
 
 You can also pass a `-f` flag to this command to force Bower to run, if necessary.
 
-### Minified JavaScript
+### JavaScript
 
-To compile the minified JavaScript, run:
+To compile the JavaScript, run:
 
-    python setup.py js
-
-You can also run the notebook server without relying on the minified JavaScript by passing the `--NotebookApp.ignore_minified_js=True` flag when launching the notebook.
+    npm run build:js
 
 ### Compiling CSS
 

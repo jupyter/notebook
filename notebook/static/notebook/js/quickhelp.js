@@ -2,10 +2,10 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'base/js/utils',
     'base/js/dialog',
-], function($, utils, dialog) {
+    'underscore'
+], function(utils, dialog, _) {
     "use strict";
     var platform = utils.platform;
 
@@ -113,6 +113,7 @@ define([
         'end':'End',
         'space':'Space',
         'backspace':'Backspace',
+        '-':'Minus'
         };
     
     var humanize_map;
@@ -123,7 +124,7 @@ define([
         humanize_map = default_humanize_map;
     }
 
-    var special_case = { pageup: "PageUp", pagedown: "Page Down", 'minus': '-' };
+    var special_case = { pageup: "PageUp", pagedown: "Page Down" };
     
     function humanize_key(key){
         if (key.length === 1){

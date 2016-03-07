@@ -2,12 +2,11 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'base/js/utils',
     './comm',
     './serialize',
     'base/js/events'
-], function($, utils, comm, serialize, events) {
+], function(utils, comm, serialize, events) {
     "use strict";
 
     /**

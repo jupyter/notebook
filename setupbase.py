@@ -101,6 +101,7 @@ def find_package_data():
     excludes = [
         pjoin('static', 'components'),
         pjoin('static', '*', 'less'),
+        pjoin('static', '*', 'node_modules')
     ]
 
     # walk notebook resources:
@@ -118,8 +119,20 @@ def find_package_data():
     # for verification purposes, explicitly add main.min.js
     # so that installation will fail if they are missing
     for app in ['auth', 'edit', 'notebook', 'terminal', 'tree']:
-        static_data.append(pjoin('static', app, 'js', 'main.min.js'))
+        static_data.extend([
+            pjoin('static', app, 'js', 'built', '*main.min.js'),
+            pjoin('static', app, 'js', 'built', '*main.min.js.map'),
+        ])
+    static_data.extend([
+        pjoin('static', 'built', '*index.js'),
+        pjoin('static', 'built', '*index.js.map'),
+        pjoin('static', 'services', 'built', '*contents.js'),
+        pjoin('static', 'services', 'built', '*contents.js.map'),
+    ])
     
+    # Add the Lab page contents
+    static_data.append(pjoin('static', 'lab', 'build', '*'))
+
     components = pjoin("static", "components")
     # select the components we actually need to install
     # (there are lots of resources we bundle for sdist-reasons that we don't actually use)
@@ -158,21 +171,30 @@ def find_package_data():
         mj('MathJax.js'),
         mj('config', 'TeX-AMS_HTML-full.js'),
         mj('config', 'Safe.js'),
-        mj('extensions', 'Safe.js'),
-        mj('jax', 'output', 'HTML-CSS', '*.js'),
     ])
-    for tree in [
+    
+    trees = []
+    mj_out = mj('jax', 'output')
+    
+    if os.path.exists(mj_out):
+        for output in os.listdir(mj_out):
+            path = pjoin(mj_out, output)
+            static_data.append(pjoin(path, '*.js'))
+            autoload = pjoin(path, 'autoload')
+            if os.path.isdir(autoload):
+                trees.append(autoload)
+
+    for tree in trees + [
         mj('localization'), # limit to en?
         mj('fonts', 'HTML-CSS', 'STIX-Web', 'woff'),
-        mj('extensions', 'TeX'),
+        mj('extensions'),
         mj('jax', 'input', 'TeX'),
-        mj('jax', 'output', 'HTML-CSS', 'autoload'),
         mj('jax', 'output', 'HTML-CSS', 'fonts', 'STIX-Web'),
+        mj('jax', 'output', 'SVG', 'fonts', 'STIX-Web'),
     ]:
         for parent, dirs, files in os.walk(tree):
             for f in files:
                 static_data.append(pjoin(parent, f))
-    
 
     os.chdir(os.path.join('tests',))
     js_tests = glob('*.js') + glob('*/*.js')
@@ -308,61 +330,42 @@ def run(cmd, *args, **kwargs):
     return check_call(cmd, *args, **kwargs)
 
 
-class Bower(Command):
-    description = "fetch static client-side components with bower"
-    
-    user_options = [
-        ('force', 'f', "force fetching of bower dependencies"),
-    ]
+class JavascriptDependencies(Command):
+    description = "Fetch Javascript dependencies with npm and bower"
     
     def initialize_options(self):
-        self.force = False
+        pass
     
     def finalize_options(self):
-        self.force = bool(self.force)
+        pass
     
     bower_dir = pjoin(static, 'components')
     node_modules = pjoin(repo_root, 'node_modules')
-    
-    def should_run(self):
-        if self.force:
-            return True
-        if not os.path.exists(self.bower_dir):
-            return True
-        return mtime(self.bower_dir) < mtime(pjoin(repo_root, 'bower.json'))
-
-    def should_run_npm(self):
-        if not which('npm'):
-            print("npm unavailable", file=sys.stderr)
-            return False
-        if not os.path.exists(self.node_modules):
-            return True
-        return mtime(self.node_modules) < mtime(pjoin(repo_root, 'package.json'))
+    lab_dir = pjoin(repo_root, 'notebook', 'static', 'lab')
     
     def run(self):
-        if not self.should_run():
-            print("bower dependencies up to date")
-            return
-        
-        if self.should_run_npm():
-            print("installing build dependencies with npm")
-            run(['npm', 'install','--progress=false'], cwd=repo_root)
-            os.utime(self.node_modules, None)
-        
-        env = os.environ.copy()
-        env['PATH'] = npm_path
+        try:
+            run(['npm', 'install', '--progress=false'], cwd=repo_root)
+        except OSError as e:
+            print("Failed to run `npm install`: %s" % e, file=sys.stderr)
+            print("npm is required to build a development version of the notebook.", file=sys.stderr)
+            raise
         
         try:
-            run(
-                ['bower', 'install', '--allow-root', '--config.interactive=false'],
-                cwd=repo_root,
-                env=env
-            )
-        except OSError as e:
-            print("Failed to run bower: %s" % e, file=sys.stderr)
+            run(['npm', 'run', 'bower'], cwd=repo_root)
+        except Exception as e:
+            print("Failed to run `npm run bower`: %s" % e, file=sys.stderr)
             print("You can install js dependencies with `npm install`", file=sys.stderr)
             raise
-        os.utime(self.bower_dir, None)
+
+        try:
+            run(['npm', 'install', '--progress=false'], cwd=self.lab_dir)
+            run(['npm', 'run', 'build'], cwd=self.lab_dir)
+        except Exception as e:
+            print("Failed to run `npm install`: %s" % e, file=sys.stderr)
+            print("You can install js dependencies with `npm install`", file=sys.stderr)
+            raise
+
         # update package data in case this created new files
         update_package_data(self.distribution)
 
@@ -426,55 +429,39 @@ class CompileJS(Command):
     def finalize_options(self):
         self.force = bool(self.force)
 
-    apps = ['notebook', 'tree', 'edit', 'terminal', 'auth']
-    targets = [ pjoin(static, app, 'js', 'main.min.js') for app in apps ]
+    target = pjoin(static, 'built', 'index.js')
+    targets = [target]
     
-    def sources(self, name):
+    def sources(self):
         """Generator yielding .js sources that an application depends on"""
-        yield pjoin(static, name, 'js', 'main.js')
-
-        for sec in [name, 'base', 'auth']:
-            for f in glob(pjoin(static, sec, 'js', '*.js')):
-                if not f.endswith('.min.js'):
-                    yield f
-        yield pjoin(static, 'services', 'config.js')
-        if name == 'notebook':
-            for f in glob(pjoin(static, 'services', '*', '*.js')):
-                yield f
-        for parent, dirs, files in os.walk(pjoin(static, 'components')):
-            if os.path.basename(parent) == 'MathJax':
+        yield pjoin(repo_root, 'package.json')
+        yield pjoin(repo_root, 'webpack.config.js')
+        for parent, dirs, files in os.walk(static):
+            if os.path.basename(parent) in {'MathJax', 'built'}:
                 # don't look in MathJax, since it takes forever to walk it
+                # also don't look at build targets as sources
                 dirs[:] = []
                 continue
             for f in files:
+                if not f.endswith('.js'):
+                    continue
                 yield pjoin(parent, f)
     
-    def should_run(self, name, target):
-        if self.force or not os.path.exists(target):
+    def should_run(self):
+        if self.force or not os.path.exists(self.target):
+            print("Missing %s" % self.target)
             return True
-        target_mtime = mtime(target)
-        for source in self.sources(name):
+        target_mtime = mtime(self.target)
+        for source in self.sources():
             if mtime(source) > target_mtime:
-                print(source, target)
+                print('%s > %s' % (source, self.target))
                 return True
         return False
-        
-    def build_main(self, name):
-        """Build main.min.js"""
-        target = pjoin(static, name, 'js', 'main.min.js')
-        
-        if not self.should_run(name, target):
-            log.info("%s up to date" % target)
-            return
-        log.info("Rebuilding %s" % target)
-        run(['node', 'tools/build-main.js', name])
 
     def run(self):
         self.run_command('jsdeps')
-        env = os.environ.copy()
-        env['PATH'] = npm_path
-        pool = ThreadPool()
-        pool.map(self.build_main, self.apps)
+        if self.should_run():
+            run(['npm', 'run', 'build:js'])
         # update package data in case this created new files
         update_package_data(self.distribution)
 
@@ -492,17 +479,27 @@ class JavascriptVersion(Command):
     
     def run(self):
         nsfile = pjoin(repo_root, "notebook", "static", "base", "js", "namespace.js")
+        lines = []
+        found = False
         with open(nsfile) as f:
-            lines = f.readlines()
-        with open(nsfile, 'w') as f:
-            found = False
-            for line in lines:
+            for line in f.readlines():
                 if line.strip().startswith("Jupyter.version"):
-                    line = '    Jupyter.version = "{0}";\n'.format(version)
                     found = True
+                    new_line = '    Jupyter.version = "{0}";\n'.format(version)
+                    if new_line == line:
+                        # no change, don't rewrite file
+                        return
+                    lines.append(new_line)
+                else:
+                    lines.append(line)
+
+        if not found:
+            raise RuntimeError("Didn't find Jupyter.version line in %s" % nsfile)
+        
+        print("Writing version=%s to %s" % (version, nsfile))
+        with open(nsfile, 'w') as f:
+            for line in lines:
                 f.write(line)
-            if not found:
-                raise RuntimeError("Didn't find Jupyter.version line in %s" % nsfile)
 
 
 def css_js_prerelease(command, strict=False):
@@ -513,7 +510,8 @@ def css_js_prerelease(command, strict=False):
             jsdeps = self.distribution.get_command_obj('jsdeps')
             js = self.distribution.get_command_obj('js')
             css = self.distribution.get_command_obj('css')
-            jsdeps.force = js.force = strict
+
+            js.force = strict
 
             targets = [ jsdeps.bower_dir ]
             targets.extend(js.targets)
@@ -536,11 +534,11 @@ def css_js_prerelease(command, strict=False):
                     # die if strict or any targets didn't build
                     prefix = os.path.commonprefix([repo_root + os.sep] + missing)
                     missing = [ m[len(prefix):] for m in missing ]
-                    log.warning("rebuilding js and css failed. The following required files are missing: %s" % missing)
+                    log.warn("rebuilding js and css failed. The following required files are missing: %s" % missing)
                     raise e
                 else:
-                    log.warning("rebuilding js and css failed (not a problem)")
-                    log.warning(str(e))
+                    log.warn("rebuilding js and css failed (not a problem)")
+                    log.warn(str(e))
 
             # check again for missing targets, just in case:
             missing = [ t for t in targets if not os.path.exists(t) ]

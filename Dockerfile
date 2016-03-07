@@ -1,6 +1,9 @@
 # Installs Jupyter Notebook and IPython kernel from the current branch
 # Another Docker container should inherit with `FROM jupyter/notebook`
 # to run actual services.
+#
+# For opinionated stacks of ready-to-run Jupyter applications in Docker, 
+# check out docker-stacks <https://github.com/jupyter/docker-stacks>
 
 FROM jupyter/ubuntu_14_04_locale_fix
 
@@ -79,7 +82,8 @@ RUN BUILD_DEPS="nodejs-legacy npm" && \
     DEBIAN_FRONTEND=noninteractive apt-get install -yq $BUILD_DEPS && \
     \
     pip3 install --no-cache-dir /usr/src/jupyter-notebook && \
-    pip3 install widgetsnbextension && \
+    pip2 install --no-cache-dir widgetsnbextension && \
+    pip3 install --no-cache-dir widgetsnbextension && \
     \
     npm cache clean && \
     apt-get clean && \

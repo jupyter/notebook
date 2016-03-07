@@ -18,6 +18,7 @@ except ImportError:
     from mock import patch #py2
 
 from tornado.ioloop import IOLoop
+import zmq
 
 import jupyter_core.paths
 from ..notebookapp import NotebookApp
@@ -116,6 +117,7 @@ class NotebookTestBase(TestCase):
                 started.set()
                 app.session_manager.close()
         cls.notebook_thread = Thread(target=start_thread)
+        cls.notebook_thread.daemon = True
         cls.notebook_thread.start()
         started.wait()
         cls.wait_until_alive()
@@ -131,6 +133,16 @@ class NotebookTestBase(TestCase):
         cls.notebook_dir.cleanup()
         cls.env_patch.stop()
         cls.path_patch.stop()
+        # cleanup global zmq Context, to ensure we aren't leaving dangling sockets
+        def cleanup_zmq():
+            zmq.Context.instance().term()
+        t = Thread(target=cleanup_zmq)
+        t.daemon = True
+        t.start()
+        t.join(5) # give it a few seconds to clean up (this should be immediate)
+        # if term never returned, there's zmq stuff still open somewhere, so shout about it.
+        if t.is_alive():
+            raise RuntimeError("Failed to teardown zmq Context, open sockets likely left lying around.")
 
     @classmethod
     def base_url(cls):
