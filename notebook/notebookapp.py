@@ -939,47 +939,10 @@ class NotebookApp(JupyterApp):
             self.default_url = url_path_join(self.base_url, self.default_url)
 
         if self.password_required and (not self.password):
-            self.log.critical("Notebook servers are configured to only be run with a password. Please provide a password")
-            done = False
-            while not done:
-                password = password1 = getpass("Provide password: ")
-                password_repeat = getpass("Repeat password:  ")
-                if password != password_repeat:
-                    print("Passwords do not match, try again")
-                elif len(password) < 4:
-                    print("Please provide at least 4 characters")
-                else:
-                    done = True
-
-            password_hash = passwd(password)
-            self.password = password_hash
-            configure_code = """c.NotebookApp.password = u%r""" % password_hash
-
-            give_store_hint = True
-
-            # This is copied from jupyter_core.application.Application.write_default_config
-            if self.config_file:
-                config_file = self.config_file
-            else:
-                config_file = os.path.join(self.config_dir, self.config_file_name + '.py')
-
-            if raw_input("Save password hash in %s? [y/n]" % config_file).lower() == "y":
-
-                if not os.path.exists(config_file):
-                    self.write_default_config()
-
-                if not os.path.exists(config_file):
-                    self.log.critical("Cannot find %s, while it should have been generated" % config_file)
-                else:
-                    with open(config_file, "a") as f:
-                        f.write("\n%s\n" % configure_code)
-                        give_store_hint = False
-            if give_store_hint:
-                print("Password hash is: %s, please put the following line in your IPython notebook configuration file: " % password_hash)
-                print(configure_code)
-                print("For instance in ipython_notebook_config.py by executing this on the command line:")
-                print("$ echo \"c = get_config();%s\" >> %s" % (configure_code, config_file))
-
+            self.log.critical("Notebook servers are configured to only be run with a password.")
+            self.log.critical("Hint: run the following command to set a password")
+            self.log.critical("\t$ python -m notebook.auth password")
+            sys.exit(1)
 
         self.web_app = NotebookWebApplication(
             self, self.kernel_manager, self.contents_manager,
