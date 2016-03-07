@@ -3050,22 +3050,28 @@ define(function (require) {
         var vimMode = true;
         var cells = this.get_cells();
         var cell = cells[0];
+		var options = {};
+
         if (keymap === "vim"){
-            vimMode = true;
+            options["vimMode"] = true;
+			options["keyMap"] = keymap;
             this.keyboard_manager.current_mode = 'vim-command';
         } else if ( keymap === 'sublime' || keymap === 'default' || keymap === 'emacs') {
-            vimMode = false;
+            options["vimMode"] = false;
+			options["keyMap"] = keymap;
             this.keyboard_manager.current_mode = 'command';
         } else {
             console.log('No valid keymap specified. Valid keymaps are in {"vim", "sublime", "default", "emacs"}');
             return false;
         }
+		this.config.update({
+			"Notebook": {
+				"codemirror_options" : options
+			}
+		});
         for (var i = 0; i <= cells.length -1; i++ ){
             cell = cells[i]
-            cell.update_codemirror_options({
-                    vimMode: vimMode,
-                    keyMap: keymap
-            });
+            cell.update_codemirror_options(options);
         }
     };
 
