@@ -788,6 +788,27 @@ define([
             return MathJax.Hub.Queue(["Typeset", MathJax.Hub, this]);
         });
     };
+
+    var parse_b64_data_uri = function(uri) {
+        /**
+         * Parses a base64 encoded data-uri to extract mimetype and the
+         * base64 string.
+         *
+         * For example, given 'data:image/png;base64,iVBORw', it will return
+         * ["image/png", "iVBORw"]
+         *
+         * Parameters
+         */
+        // For performance reasons, the non-greedy ? qualifiers are crucial so
+        // that the matcher stops early on big blobs. Without them, it will try
+        // to match the whole blob which can take ages
+        var regex = /^data:(.+?\/.+?);base64,/;
+        var matches = uri.match(regex);
+        var mime = matches[1];
+        // matches[0] contains the whole data-uri prefix
+        var b64_data = uri.slice(matches[0].length);
+        return [mime, b64_data];
+    };
     
     var time = {};
     time.milliseconds = {};
@@ -877,6 +898,7 @@ define([
         resolve_promises_dict: resolve_promises_dict,
         reject: reject,
         typeset: typeset,
+        parse_b64_data_uri: parse_b64_data_uri,
         time: time,
         format_datetime: format_datetime,
         datetime_sort_helper: datetime_sort_helper,

@@ -26,6 +26,7 @@ define(function (require) {
     var default_celltoolbar = require('notebook/js/celltoolbarpresets/default');
     var rawcell_celltoolbar = require('notebook/js/celltoolbarpresets/rawcell');
     var slideshow_celltoolbar = require('notebook/js/celltoolbarpresets/slideshow');
+    var attachments_celltoolbar = require('notebook/js/celltoolbarpresets/attachments');
     var scrollmanager = require('notebook/js/scrollmanager');
     var commandpalette = require('notebook/js/commandpalette');
 
@@ -125,8 +126,10 @@ define(function (require) {
         this.kernel = null;
         this.kernel_busy = false;
         this.clipboard = null;
+        this.clipboard_attachments = null;
         this.undelete_backup_stack = [];
         this.paste_enabled = false;
+        this.paste_attachments_enabled = false;
         this.writable = false;
         // It is important to start out in command mode to match the intial mode
         // of the KeyboardManager.
@@ -142,7 +145,7 @@ define(function (require) {
         this.minimum_autosave_interval = 120000;
         this.notebook_name_blacklist_re = /[\/\\:]/;
         this.nbformat = 4; // Increment this when changing the nbformat
-        this.nbformat_minor = this.current_nbformat_minor = 0; // Increment this when changing the nbformat
+        this.nbformat_minor = this.current_nbformat_minor = 1; // Increment this when changing the nbformat
         this.codemirror_mode = 'text';
         this.create_elements();
         this.bind_events();
@@ -155,6 +158,7 @@ define(function (require) {
         default_celltoolbar.register(this);
         rawcell_celltoolbar.register(this);
         slideshow_celltoolbar.register(this);
+        attachments_celltoolbar.register(this);
 
         // prevent assign to miss-typed properties.
         Object.seal(this);
@@ -1296,6 +1300,9 @@ define(function (require) {
                 }
                 //metadata
                 target_cell.metadata = source_cell.metadata;
+                // attachments (we transfer them so they aren't lost if the
+                // cell is turned back into markdown)
+                target_cell.attachments = source_cell.attachments;
 
                 target_cell.set_text(text);
                 // make this value the starting point, so that we can only undo
@@ -1344,6 +1351,8 @@ define(function (require) {
                 }
                 // metadata
                 target_cell.metadata = source_cell.metadata;
+                target_cell.attachments = source_cell.attachments;
+
                 // We must show the editor before setting its contents
                 target_cell.unrender();
                 target_cell.set_text(text);
@@ -1396,6 +1405,10 @@ define(function (require) {
                 }
                 //metadata
                 target_cell.metadata = source_cell.metadata;
+                // attachments (we transfer them so they aren't lost if the
+                // cell is turned back into markdown)
+                target_cell.attachments = source_cell.attachments;
+
                 // We must show the editor before setting its contents
                 target_cell.unrender();
                 target_cell.set_text(text);
@@ -1662,6 +1675,112 @@ define(function (require) {
         this.merge_cells([index, index+1], false);
     };
 
+    // Attachments handling
+
+    /**
+     * Shows a dialog letting the user pick an image from her computer and
+     * insert it into the edited markdown cell
+     */
+    Notebook.prototype.insert_image = function () {
+        var that = this;
+        var cell = this.get_selected_cell();
+        // The following should not happen as the menu item is greyed out
+        // when those conditions are not fullfilled (see MarkdownCell
+        // unselect/select/unrender handlers)
+        if (cell.cell_type != 'markdown') {
+            console.log('Error: insert_image called on non-markdown cell');
+            return;
+        }
+        if (cell.rendered) {
+            console.log('Error: insert_image called on rendered cell');
+            return;
+        }
+        dialog.insert_image({
+            callback: function(file) {
+                cell.edit_mode();
+                cell.insert_inline_image_from_blob(file);
+            },
+            notebook: this,
+            keyboard_manager: this.keyboard_manager
+        });
+    };
+
+    /**
+     * Cut the attachments of a cell
+     */
+    Notebook.prototype.cut_cell_attachments = function() {
+        var cell = this.get_selected_cell();
+        if (cell.attachments !== undefined) {
+            this.clipboard_attachments = cell.attachments;
+            this.enable_attachments_paste();
+            delete cell.attachments;
+            cell.unrender();
+            cell.render();
+        }
+    };
+
+    /**
+     * Copy the attachments of a cell
+     */
+    Notebook.prototype.copy_cell_attachments = function() {
+        var cell = this.get_selected_cell();
+        if (cell.attachments !== undefined) {
+          // Do a deep copy of attachments to avoid subsequent modification
+          // to the cell to modify the clipboard
+          this.clipboard_attachments = $.extend(true, {}, cell.attachments);
+          this.enable_attachments_paste();
+        }
+    };
+
+    /**
+     * Paste the attachments in the clipboard into the currently selected
+     * cell
+     */
+    Notebook.prototype.paste_cell_attachments = function() {
+        if (this.clipboard_attachments !== null &&
+            this.paste_attachments_enabled) {
+            var cell = this.get_selected_cell();
+            if (cell.attachments === undefined) {
+              cell.attachments = {};
+            }
+            // Do a deep copy so we can paste multiple times
+            $.extend(true, cell.attachments, this.clipboard_attachments);
+            cell.unrender();
+            cell.render();
+        }
+    };
+
+    /**
+     * Disable the "Paste Cell Attachments" menu item
+     */
+    Notebook.prototype.disable_attachments_paste = function () {
+        if (this.paste_attachments_enabled) {
+            $('#paste_cell_attachments').addClass('disabled');
+            this.paste_attachments_enabled = false;
+        }
+    };
+
+    /**
+     * Enable the "Paste Cell Attachments" menu item
+     */
+    Notebook.prototype.enable_attachments_paste = function () {
+        var that = this;
+        if (!this.paste_attachments_enabled) {
+            $('#paste_cell_attachments').removeClass('disabled');
+            this.paste_attachments_enabled = true;
+        }
+    };
+
+    /**
+     * Enable/disable the "Insert image" menu item
+     */
+    Notebook.prototype.set_insert_image_enabled = function(enabled) {
+        if (enabled) {
+            $('#insert_image').removeClass('disabled');
+        } else {
+            $('#insert_image').addClass('disabled');
+        }
+    };
 
     // Cell collapsing and output clearing
 
@@ -2283,6 +2402,17 @@ define(function (require) {
     };
 
     /**
+     * Garbage collects unused attachments in all the cells
+     */
+    Notebook.prototype.remove_unused_attachments = function() {
+      var cells = this.get_cells();
+      for (var i = 0; i < cells.length; i++) {
+          var cell = cells[i];
+          cell.remove_unused_attachments();
+      }
+    }
+
+    /**
      * Load a notebook from JSON (.ipynb).
      * 
      * @param {object} data - JSON representation of a notebook
@@ -2395,10 +2525,16 @@ define(function (require) {
     /**
      * Save this notebook on the server. This becomes a notebook instance's
      * .save_notebook method *after* the entire notebook has been loaded.
+     *
+     * manual_save will be true if the save was manually trigered by the user
      */
-    Notebook.prototype.save_notebook = function (check_last_modified) {
+    Notebook.prototype.save_notebook = function (check_last_modified,
+                                                 manual_save) {
         if (check_last_modified === undefined) {
             check_last_modified = true;
+        }
+        if (manual_save === undefined) {
+            manual_save = false;
         }
         
         var error;
@@ -2415,6 +2551,13 @@ define(function (require) {
         // Trigger an event before save, which allows listeners to modify
         // the notebook as needed.
         this.events.trigger('before_save.Notebook');
+
+        // Garbage collect unused attachments. Only do this for manual save
+        // to avoid removing unused attachments while the user is editing if
+        // an autosave gets triggered in the midle of an edit
+        if (manual_save) {
+            this.remove_unused_attachments();
+        }
 
         // Create a JSON model to be sent to the server.
         var model = {
@@ -2599,7 +2742,7 @@ define(function (require) {
         var parent = utils.url_path_split(this.notebook_path)[0];
         var p;
         if (this.dirty) {
-            p = this.save_notebook();
+            p = this.save_notebook(true, true);
         } else {
             p = Promise.resolve();
         }
@@ -2869,7 +3012,7 @@ define(function (require) {
      */
     Notebook.prototype.save_checkpoint = function () {
         this._checkpoint_after_save = true;
-        this.save_notebook();
+        this.save_notebook(true, true);
     };
     
     /**

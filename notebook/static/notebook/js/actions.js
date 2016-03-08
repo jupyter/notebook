@@ -153,6 +153,34 @@ define(function(require){
                 env.notebook.command_mode();
             }
         },
+        'insert-image': {
+            help      : 'insert image',
+            help_index : 'dz',
+            handler : function (env) {
+                env.notebook.insert_image();
+            }
+        },
+        'cut-cell-attachments': {
+            help    : 'cut cell attachments',
+            help_index : 'dza',
+            handler: function (env) {
+                env.notebook.cut_cell_attachments();
+            }
+        },
+        'copy-cell-attachments': {
+            help    : 'copy cell attachments',
+            help_index: 'dzb',
+            handler: function (env) {
+                env.notebook.copy_cell_attachments();
+            }
+        },
+        'paste-cell-attachments': {
+            help    : 'paste cell attachments',
+            help_index: 'dzc',
+            handler: function (env) {
+                env.notebook.paste_cell_attachments();
+            }
+        },
         'split-cell-at-cursor': {
             help    : 'split cell',
             help_index : 'ea',
