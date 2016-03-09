@@ -58,6 +58,11 @@ define(function (require) {
         this.notebook_name = options.notebook_name;
         this.events = options.events;
         this.keyboard_manager = options.keyboard_manager;
+        // keyboard manager init
+        var _keyboard_mode = this.class_config.get_sync("keyboard");
+        if (_keyboard_mode){
+            this.keyboard_manager.current_mode = _keyboard_mode;
+        }
         this.contents = options.contents;
         this.save_widget = options.save_widget;
         this.tooltip = new tooltip.Tooltip(this.events);
@@ -3064,6 +3069,7 @@ define(function (require) {
             return false;
         }
         this.config.update({
+                "Notebook":{"keyboard": keymap},
                 "Cell": {"cm_config" : options}
         });
         for (var i = 0; i <= cells.length -1; i++ ){

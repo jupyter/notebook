@@ -153,6 +153,10 @@ define([
 
     KeyboardManager.prototype.get_default_vim_edit_shortcuts = function() {
 	  return {
+            'k'                  : 'jupyter-notebook:move-cursor-up',
+            'j'                : 'jupyter-notebook:move-cursor-down',
+            'up'                  : 'jupyter-notebook:move-cursor-up',
+            'down'                : 'jupyter-notebook:move-cursor-down',
 	  };
     };
 
