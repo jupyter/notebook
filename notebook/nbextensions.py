@@ -39,6 +39,12 @@ GREEN_ENABLED = '\033[32m enabled \033[0m' if os.name != 'nt' else 'enabled '
 RED_DISABLED = '\033[31mdisabled\033[0m' if os.name != 'nt' else 'disabled'
 
 DEPRECATED_ARGUMENT = object()
+
+NBCONFIG_SECTIONS = ['common', 'notebook', 'tree', 'edit', 'terminal']
+
+GREEN_OK = '\033[32m OK \033[0m' if os.name != 'nt' else 'enabled '
+RED_X = '\033[31m X \033[0m' if os.name != 'nt' else 'disabled'
+
 #------------------------------------------------------------------------------
 # Public API
 #------------------------------------------------------------------------------
@@ -123,6 +129,9 @@ def install_nbextension(path, overwrite=False, symlink=False,
         import warnings
         warnings.warn("`install_nbextension`'s `verbose` parameter is deprecated, it will have no effects and will be removed in Notebook 5.0", DeprecationWarning)
 
+    # the actual path to which we eventually installed
+    full_dest = None
+
     nbext = _get_nbextension_dir(user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir)
     # make sure nbextensions dir exists
     ensure_dir_exists(nbext)
@@ -147,7 +156,7 @@ def install_nbextension(path, overwrite=False, symlink=False,
                 logger.info("Downloading: %s -> %s" % (path, local_path))
             urlretrieve(path, local_path)
             # now install from the local copy
-            install_nbextension(local_path, overwrite=overwrite, symlink=symlink,
+            full_dest = install_nbextension(local_path, overwrite=overwrite, symlink=symlink,
                 nbextensions_dir=nbext, destination=destination, logger=logger)
     elif path.endswith('.zip') or _safe_is_tarfile(path):
         if symlink:
@@ -163,6 +172,8 @@ def install_nbextension(path, overwrite=False, symlink=False,
             archive = tarfile.open(path)
         archive.extractall(nbext)
         archive.close()
+        # TODO: what to do here
+        full_dest = None
     else:
         if not destination:
             destination = basename(path)
@@ -197,6 +208,8 @@ def install_nbextension(path, overwrite=False, symlink=False,
         else:
             src = path
             _maybe_copy(src, full_dest, logger=logger)
+    
+    return full_dest
 
 
 def install_nbextension_python(package, overwrite=False, symlink=False,
@@ -213,10 +226,12 @@ def install_nbextension_python(package, overwrite=False, symlink=False,
         require = nbext['require']
         if logger:
             logger.info("%s %s %s" % (src, dest, require))
-        install_nbextension(src, overwrite=overwrite, symlink=symlink,
+        full_dest = install_nbextension(
+            src, overwrite=overwrite, symlink=symlink,
             user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir,
             destination=dest, logger=logger
             )
+        validate_nbextension_python(nbext, full_dest, logger)
 
 
 
@@ -263,7 +278,7 @@ def uninstall_nbextension(dest, require, user=False, sys_prefix=False, prefix=No
     # doesn't exist.
     config_dir = os.path.join(_get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
     cm = BaseJSONConfigManager(config_dir=config_dir)
-    for section in ['common', 'notebook', 'tree', 'edit', 'terminal']:
+    for section in NBCONFIG_SECTIONS:
         cm.update(section, {"load_extensions": {require: None}})
 
 def uninstall_nbextension_python(package,
@@ -297,6 +312,48 @@ def enable_nbextension_python(package, user=False, sys_prefix=False):
 def disable_nbextension_python(package, user=False, sys_prefix=False):
     """Disable an nbextension associated with a Python package."""
     _set_nbextension_state_python(False, package, user, sys_prefix)
+
+
+def validate_nbextension_python(spec, full_dest, logger=None):
+    """Assess the health of a (to be) installed nbextension
+
+    Parameters
+    ----------
+
+    spec : dict
+        A single entry of _jupyter_nbextension_paths()
+    full_dest : str
+        The on-disk location of the installed nbextension
+    logger : Jupyter logger [optional]
+        Logger instance to use
+    """
+    infos = []
+    warnings = []
+
+    section = spec.get("section", None)
+    if section in NBCONFIG_SECTIONS:
+        infos.append("{} section: {}".format(GREEN_OK, section))
+    else:
+        warnings.append("{}  section: {}".format(RED_X, section))
+
+    require = spec.get("require", None)
+    if require is not None:
+        require_path = os.path.join(full_dest, "{}.js".format(require))
+        if os.path.exists(require_path):
+            infos.append("{} require: {}".format(GREEN_OK, require_path))
+        else:
+            warnings.append("{}  require: {}".format(RED_X, require_path))
+
+    if logger:
+        if warnings:
+            logger.warn("Validating: problems found:")
+            [logger.warn(warning) for warning in warnings]
+            [logger.info(info) for info in infos]
+            logger.warn("Full spec: {}".format(spec))
+        else:
+            logger.info("Validating: {}".format(GREEN_OK))
+
+    return infos, warnings
 
 
 #----------------------------------------------------------------------
@@ -554,7 +611,7 @@ class ListNBExtensionsApp(BaseNBExtensionApp):
         for config_dir in config_dirs:
             self.log.info('config dir: {}'.format(config_dir))
             cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
-            for section in ['common', 'notebook', 'tree', 'edit', 'terminal']:
+            for section in NBCONFIG_SECTIONS:
                 data = cm.get(section)
                 if 'load_extensions' in data:
                     self.log.info('  {} section'.format(section))
