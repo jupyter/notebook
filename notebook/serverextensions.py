@@ -6,30 +6,31 @@
 
 from __future__ import print_function
 
-
+import importlib
 import sys
+
 
 from jupyter_core.paths import jupyter_config_path
 from ._version import __version__
 from .nbextensions import (
     BaseNBExtensionApp, _get_config_dir,
-    GREEN_ENABLED, RED_DISABLED
+    GREEN_ENABLED, RED_DISABLED,
+    GREEN_OK, RED_X,
 )
 
 from traitlets import Bool
 from traitlets.config.manager import BaseJSONConfigManager
 
+
 # ------------------------------------------------------------------------------
 # Public API
 # ------------------------------------------------------------------------------
-
-
 class ArgumentConflict(ValueError):
     pass
 
 
 def toggle_serverextension_python(import_name, enabled=None, parent=None,
-                                  user=False, sys_prefix=False):
+                                  user=False, sys_prefix=False, logger=None):
     """Toggle a server extension.
 
     By default, toggles the extension in the system-wide Jupyter configuration
@@ -50,6 +51,8 @@ def toggle_serverextension_python(import_name, enabled=None, parent=None,
     sys_prefix : bool [default: False]
         Toggle in the current Python environment's configuration location
         (e.g. ~/.envs/my-env/etc/jupyter).
+    logger : Jupyter logger [optional]
+        Logger instance to use
     """
     config_dir = _get_config_dir(user=user, sys_prefix=sys_prefix)
     cm = BaseJSONConfigManager(parent=parent, config_dir=config_dir)
@@ -58,17 +61,69 @@ def toggle_serverextension_python(import_name, enabled=None, parent=None,
         cfg.setdefault("NotebookApp", {})
         .setdefault("nbserver_extensions", {})
     )
-    if enabled:
-        server_extensions[import_name] = True
-    else:
-        if enabled is None:
-            if import_name not in server_extensions:
-                print("server extension not installed")
-            else:
-                server_extensions[import_name] = not server_extensions[import_name]
+
+    old_enabled = server_extensions.get(import_name, None)
+    new_enabled = enabled if enabled is not None else not old_enabled
+
+    if logger:
+        if new_enabled:
+            logger.info("Enabling: %s" % (import_name))
         else:
-            server_extensions[import_name] = False
+            logger.info("Disabling: %s" % (import_name))
+
+    server_extensions[import_name] = new_enabled
+
+    if logger:
+        logger.info("- Writing config: {}".format(config_dir))
+
     cm.update("jupyter_notebook_config", cfg)
+
+    if new_enabled:
+        validate_serverextension(import_name, logger)
+
+
+def validate_serverextension(import_name, logger=None):
+    """Assess the health of an installed server extension
+
+    Parameters
+    ----------
+
+    import_name : str
+        Importable Python module (dotted-notation) exposing the magic-named
+        `load_jupyter_server_extension` function
+    logger : Jupyter logger [optional]
+        Logger instance to use
+    """
+
+    warnings = []
+    infos = []
+
+    func = None
+
+    if logger:
+        logger.info("    - Validating...")
+
+    try:
+        mod = importlib.import_module(import_name)
+        func = getattr(mod, 'load_jupyter_server_extension', None)
+    except Exception:
+        logger.warning("Error loading server extension %s", import_name)
+
+    import_msg = "     {} is {} importable?"
+    if func is not None:
+        infos.append(import_msg.format(GREEN_OK, import_name))
+    else:
+        warnings.append(import_msg.format(RED_X, import_name))
+
+    post_mortem = "      {} {} {}"
+    if logger:
+        if warnings:
+            [logger.info(info) for info in infos]
+            [logger.warn(warning) for warning in warnings]
+        else:
+            logger.info(post_mortem.format(import_name, "", GREEN_OK))
+
+    return not warnings
 
 
 # ----------------------------------------------------------------------
@@ -107,9 +162,11 @@ class ToggleServerExtensionApp(BaseNBExtensionApp):
     user = Bool(False, config=True, help="Whether to do a user install")
     sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
     python = Bool(False, config=True, help="Install from a Python package")
-
+    
     def toggle_server_extension(self, import_name):
-        toggle_serverextension_python(import_name, self._toggle_value, parent=self, user=self.user, sys_prefix=self.sys_prefix)
+        toggle_serverextension_python(
+            import_name, self._toggle_value, parent=self, user=self.user,
+            sys_prefix=self.sys_prefix, logger=self.log)
 
     def toggle_server_extension_python(self, package):
         m, server_exts = _get_server_extension_metadata(package)
@@ -118,7 +175,6 @@ class ToggleServerExtensionApp(BaseNBExtensionApp):
             self.toggle_server_extension(module)
 
     def start(self):
-
         if not self.extra_args:
             sys.exit('Please specify a server extension/package to enable or disable')
         for arg in self.extra_args:
@@ -158,8 +214,11 @@ class ListServerExtensionsApp(BaseNBExtensionApp):
                 data.setdefault("NotebookApp", {})
                 .setdefault("nbserver_extensions", {})
             )
-            for x in server_extensions:
-                self.log.info('    {1} {0}'.format(x, GREEN_ENABLED if server_extensions[x] else RED_DISABLED))
+            for import_name, enabled in server_extensions.items():
+                self.log.info('    {} {}'.format(
+                              import_name,
+                              GREEN_ENABLED if enabled else RED_DISABLED))
+                validate_serverextension(import_name, self.log)
 
     def start(self):
         self.list_server_extensions()

@@ -12,7 +12,7 @@ class TestInstallServerExtension(TestCase):
             @staticmethod
             def _jupyter_server_extension_paths():
                 return [{
-                    'require': '_mockdestination/index'
+                    'module': '_mockdestination/index'
                 }]
 
         import sys
