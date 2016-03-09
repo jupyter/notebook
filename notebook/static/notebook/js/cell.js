@@ -684,29 +684,15 @@ define([
         this.code_mirror.setOption('mode', default_mode);
     };
 
-
-    Cell.prototype._set_codemirror_options = function (options) {
-        // update codemirror options from a dict
-        var codemirror = this.code_mirror;
-        $.map(options, function (value, opt) {
-            if (value === null) {
-                value = CodeMirror.defaults[opt];
-            }
-            codemirror.setOption(opt, value);
-        });
-    };
-    
     Cell.prototype.update_codemirror_options = function (options) {
         /** update codemirror options locally and save changes in config */
         var that = this;
-        this._set_codemirror_options(options);
-        return this.config.update({
-            Notebook: {
-                codemirror_options: options
+        $.map(options , function (value, opt) {
+            if (value === null ){
+                value = CodeMirror.defaults[opt];
             }
-        }).then(
-            that.events.trigger('config_changed.Notebook', {config: that.config})
-        );
+            that.code_mirror.setOption(opt, value);
+        });
     };
 
     var UnrecognizedCell = function (options) {
