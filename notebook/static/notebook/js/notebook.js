@@ -77,7 +77,7 @@ define(function (require) {
         this.keyboard_manager.notebook = this;
         this.save_widget.notebook = this;
 
-		this.dummy = undefined;
+        this.dummy = undefined;
         
         mathjaxutils.init();
 
@@ -3049,25 +3049,23 @@ define(function (require) {
         var vimMode = true;
         var cells = this.get_cells();
         var cell = cells[0];
-		var options = {};
+        var options = {};
 
         if (keymap === "vim"){
             options["vimMode"] = true;
-			options["keyMap"] = keymap;
+            options["keyMap"] = keymap;
             this.keyboard_manager.current_mode = 'vim-command';
         } else if ( keymap === 'sublime' || keymap === 'default' || keymap === 'emacs') {
             options["vimMode"] = false;
-			options["keyMap"] = keymap;
+            options["keyMap"] = keymap;
             this.keyboard_manager.current_mode = 'command';
         } else {
             console.log('No valid keymap specified. Valid keymaps are in {"vim", "sublime", "default", "emacs"}');
             return false;
         }
-		this.config.update({
-			"Notebook": {
-				"codemirror_options" : options
-			}
-		});
+        this.config.update({
+                "Cell": {"cm_config" : options}
+        });
         for (var i = 0; i <= cells.length -1; i++ ){
             cell = cells[i]
             cell.update_codemirror_options(options);

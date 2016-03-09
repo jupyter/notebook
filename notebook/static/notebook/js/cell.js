@@ -14,8 +14,9 @@ define([
     'codemirror/lib/codemirror',
     'codemirror/addon/edit/matchbrackets',
     'codemirror/addon/edit/closebrackets',
-    'codemirror/addon/comment/comment'
-], function(utils, CodeMirror, cm_match, cm_closeb, cm_comment) {
+    'codemirror/addon/comment/comment',
+    'services/config'
+], function(utils, CodeMirror, cm_match, cm_closeb, cm_comment, configmod) {
     "use strict";
     
     var overlayHack = CodeMirror.scrollbarModel.native.prototype.overlayHack;
@@ -83,8 +84,11 @@ define([
 
 
         var _local_cm_config = {};
+        var _parent_class_config = new configmod.ConfigWithDefaults(this.config, Cell.options_default, 'Cell');
+        _local_cm_config = _parent_class_config.get_sync('cm_config');
+
         if(this.class_config){
-            _local_cm_config = this.class_config.get_sync('cm_config');
+            _local_cm_config = $.extend(_local_cm_config, this.class_config.get_sync('cm_config'));
         }
         config.cm_config = utils.mergeopt({}, config.cm_config, _local_cm_config);
         this.cell_id = utils.uuid();

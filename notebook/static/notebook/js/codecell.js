@@ -111,7 +111,7 @@ define([
         this.completer = null;
 
         Cell.apply(this,[{
-            config: $.extend({}, CodeCell.options_default, this.config), 
+            config: $.extend({}, CodeCell.options_default), 
             keyboard_manager: options.keyboard_manager, 
             events: this.events}]);
 
