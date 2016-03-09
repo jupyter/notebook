@@ -762,6 +762,11 @@ class NotebookApp(JupyterApp):
 
     def _notebook_dir_validate(self, value, trait):
         # Strip any trailing slashes
+        # *except* if it's root
+        _, path = os.path.splitdrive(value)
+        if path == os.sep:
+            return value
+
         value = value.rstrip(os.sep)
 
         if not os.path.isabs(value):
