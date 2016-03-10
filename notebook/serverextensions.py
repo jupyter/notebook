@@ -294,6 +294,15 @@ main = ServerExtensionApp.launch_instance
 def _get_server_extension_metadata(package):
     """Load server extension metadata from a package's magic-named path.
 
+    Returns a tuple of (
+        the package as loaded
+        a list of server extension specs: [
+            {
+                "module": "mockextension"
+            }
+        ]
+    )
+
     Parameters
     ----------
 
