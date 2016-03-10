@@ -65,7 +65,7 @@ def check_nbextension(files, user=False, prefix=None, nbextensions_dir=None, sys
     files : list(paths)
         a list of relative paths within nbextensions.
     user : bool [default: False]
-        Whether to check the user's .ipython/nbextensions directory.
+        Whether to check the user's .jupyter/nbextensions directory.
         Otherwise check a system-wide install (e.g. /usr/local/share/jupyter/nbextensions).
     prefix : str [optional]
         Specify install prefix, if it should differ from default (e.g. /usr/local).
@@ -322,7 +322,7 @@ def _set_nbextension_state(section, require, state,
     state : bool
         The state in which to leave the extension
     user : bool [default: False]
-        Whether to check the user's .ipython/nbextensions directory.
+        Whether to check the user's .jupyter/nbextensions directory.
         Otherwise check a system-wide install (e.g. /usr/local/share/jupyter/nbextensions).
     sys_prefix : bool [default: False]
         Install into the sys.prefix, i.e. environment
@@ -905,7 +905,20 @@ main = NBExtensionApp.launch_instance
 
 
 def _should_copy(src, dest, logger=None):
-    """Should a file be copied?"""
+    """Should a file be copied, if it doesn't exist, or is newer?
+
+    Returns whether the file needs to be updated.
+
+    Parameters
+    ----------
+
+    src : string
+        A path that should exist from which to copy a file
+    src : string
+        A path that might exist to which to copy a file
+    logger : Jupyter logger [optional]
+        Logger instance to use
+    """
     if not os.path.exists(dest):
         return True
     if os.stat(src).st_mtime - os.stat(dest).st_mtime > 1e-6:
@@ -920,7 +933,18 @@ def _should_copy(src, dest, logger=None):
 
 
 def _maybe_copy(src, dest, logger=None):
-    """Copy a file if it needs updating."""
+    """Copy a file if it needs updating.
+
+    Parameters
+    ----------
+
+    src : string
+        A path that should exist from which to copy a file
+    src : string
+        A path that might exist to which to copy a file
+    logger : Jupyter logger [optional]
+        Logger instance to use
+    """
     if _should_copy(src, dest, logger=logger):
         if logger:
             logger.info("Copying: %s -> %s" % (src, dest))
@@ -928,7 +952,16 @@ def _maybe_copy(src, dest, logger=None):
 
 
 def _safe_is_tarfile(path):
-    """Safe version of is_tarfile, return False on IOError."""
+    """Safe version of is_tarfile, return False on IOError.
+
+    Returns whether the file exists and is a tarfile.
+
+    Parameters
+    ----------
+
+    path : string
+        A path that might not exist and or be a tarfile
+    """
     try:
         return tarfile.is_tarfile(path)
     except IOError:
@@ -936,7 +969,20 @@ def _safe_is_tarfile(path):
 
 
 def _get_nbextension_dir(user=False, sys_prefix=False, prefix=None, nbextensions_dir=None):
-    """Return the nbextension directory specified"""
+    """Return the nbextension directory specified
+
+    Parameters
+    ----------
+
+    user : bool [default: False]
+        Get the user's .jupyter/nbextensions directory
+    sys_prefix : bool [default: False]
+        Get sys.prefix, i.e. ~/.envs/my-env/share/jupyter/nbextensions
+    prefix : str [optional]
+        Get custom prefix
+    nbextensions_dir : str [optional]
+        Get what you put in
+    """
     if sum(map(bool, [user, prefix, nbextensions_dir, sys_prefix])) > 1:
         raise ArgumentConflict("cannot specify more than one of user, sys_prefix, prefix, or nbextensions_dir")
     if user:
@@ -953,7 +999,10 @@ def _get_nbextension_dir(user=False, sys_prefix=False, prefix=None, nbextensions
 
 
 def _nbextension_dirs():
-    """The possible locations of nbextensions."""
+    """The possible locations of nbextensions.
+
+    Returns a list of known base extension locations
+    """
     return [
         pjoin(jupyter_data_dir(), u'nbextensions'),
         pjoin(ENV_JUPYTER_PATH[0], u'nbextensions'),
@@ -962,6 +1011,18 @@ def _nbextension_dirs():
 
 
 def _get_config_dir(user=False, sys_prefix=False):
+    """Get the location of config files for the current context
+
+    Returns the string to the enviornment
+
+    Parameters
+    ----------
+
+    user : bool [default: False]
+        Get the user's .jupyter config directory
+    sys_prefix : bool [default: False]
+        Get sys.prefix, i.e. ~/.envs/my-env/etc/jupyter
+    """
     if user and sys_prefix:
         raise ArgumentConflict("Cannot specify more than one of user or sys_prefix")
     if user:
@@ -974,6 +1035,22 @@ def _get_config_dir(user=False, sys_prefix=False):
 
 
 def _get_nbextension_metadata(package):
+    """Get the list of nbextension paths associated with a python package.
+
+    Returns a tuple of (the module,             [{
+        'section': 'notebook',
+        'src': 'mockextension',
+        'dest': '_mockdestination',
+        'require': '_mockdestination/index'
+    }])
+
+    Parameters
+    ----------
+
+    package : str
+        Importable Python package (no dotted-notation!) exposing the
+        magic-named `_jupyter_nbextension_paths` function
+    """
     m = __import__(package)
     if not hasattr(m, '_jupyter_nbextension_paths'):
         raise KeyError('The Python package {} is not a valid nbextension'.format(package))
@@ -982,17 +1059,39 @@ def _get_nbextension_metadata(package):
 
 
 def _read_config_data(user=False, sys_prefix=False):
+    """Get the config for the current context
+
+    Returns the string to the enviornment
+
+    Parameters
+    ----------
+
+    user : bool [default: False]
+        Get the user's .jupyter config directory
+    sys_prefix : bool [default: False]
+        Get sys.prefix, i.e. ~/.envs/my-env/etc/jupyter
+    """
     config_dir = _get_config_dir(user=user, sys_prefix=sys_prefix)
     config_man = BaseJSONConfigManager(config_dir=config_dir)
     return config_man.get('jupyter_notebook_config')
 
 
 def _write_config_data(data, user=False, sys_prefix=False):
+    """Update the config for the current context
+
+    Parameters
+    ----------
+    data : object
+        An object which can be accepted by ConfigManager.update
+    user : bool [default: False]
+        Get the user's .jupyter config directory
+    sys_prefix : bool [default: False]
+        Get sys.prefix, i.e. ~/.envs/my-env/etc/jupyter
+    """
     config_dir = _get_config_dir(user=user, sys_prefix=sys_prefix)
     config_man = BaseJSONConfigManager(config_dir=config_dir)
     config_man.update('jupyter_notebook_config', data)
-        
+
 
 if __name__ == '__main__':
     main()
-    
