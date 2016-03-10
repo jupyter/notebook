@@ -85,6 +85,8 @@ def toggle_serverextension_python(import_name, enabled=None, parent=None,
 def validate_serverextension(import_name, logger=None):
     """Assess the health of an installed server extension
 
+    Returns a list of validation warnings.
+
     Parameters
     ----------
 
@@ -123,7 +125,7 @@ def validate_serverextension(import_name, logger=None):
         else:
             logger.info(post_mortem.format(import_name, "", GREEN_OK))
 
-    return not warnings
+    return warnings
 
 
 # ----------------------------------------------------------------------

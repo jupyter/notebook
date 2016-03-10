@@ -215,14 +215,19 @@ def install_nbextension(path, overwrite=False, symlink=False,
 def install_nbextension_python(package, overwrite=False, symlink=False,
                         user=False, sys_prefix=False, prefix=None, nbextensions_dir=None, logger=None):
     """Install an nbextension bundled in a Python package.
-    
+
+    Returns a list of installed/updated directories.
+
     See install_nbextension for parameter information."""
     m, nbexts = _get_nbextension_metadata(package)
     base_path = os.path.split(m.__file__)[0]
+
+    full_dests = []
+
     for nbext in nbexts:
         src = os.path.join(base_path, nbext['src'])
         dest = nbext['dest']
-        require = nbext['require']
+
         if logger:
             logger.info("Installing %s -> %s" % (src, dest))
         full_dest = install_nbextension(
@@ -231,8 +236,9 @@ def install_nbextension_python(package, overwrite=False, symlink=False,
             destination=dest, logger=logger
             )
         validate_nbextension_python(nbext, full_dest, logger)
+        full_dests.append(full_dest)
 
-
+    return full_dests
 
 def uninstall_nbextension(dest, require, user=False, sys_prefix=False, prefix=None, 
                           nbextensions_dir=None, logger=None):
@@ -379,16 +385,26 @@ def validate_nbextension(require, logger=None):
     
     return warnings
 
+
 def validate_nbextension_python(spec, full_dest, logger=None):
     """Assess the health of an installed nbextension
+
+    Returns a list of warnings.
 
     Parameters
     ----------
 
     spec : dict
-        A single entry of _jupyter_nbextension_paths()
+        A single entry of _jupyter_nbextension_paths():
+            [{
+                'section': 'notebook',
+                'src': 'mockextension',
+                'dest': '_mockdestination',
+                'require': '_mockdestination/index'
+            }]
     full_dest : str
-        The on-disk location of the installed nbextension
+        The on-disk location of the installed nbextension: this should end
+        with `nbextensions/<dest>`
     logger : Jupyter logger [optional]
         Logger instance to use
     """
@@ -403,7 +419,9 @@ def validate_nbextension_python(spec, full_dest, logger=None):
 
     require = spec.get("require", None)
     if require is not None:
-        require_path = os.path.join(full_dest, "{}.js".format(require))
+        require_path = os.path.join(
+            full_dest[0:-len(spec["dest"])],
+            "{}.js".format(require))
         if os.path.exists(require_path):
             infos.append("  {} require: {}".format(GREEN_OK, require_path))
         else:
@@ -418,7 +436,7 @@ def validate_nbextension_python(spec, full_dest, logger=None):
         else:
             logger.info("- Validating: {}".format(GREEN_OK))
 
-    return infos, warnings
+    return warnings
 
 
 #----------------------------------------------------------------------
