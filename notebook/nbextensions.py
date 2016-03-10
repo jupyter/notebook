@@ -72,6 +72,8 @@ def check_nbextension(files, user=False, prefix=None, nbextensions_dir=None, sys
         Will check prefix/share/jupyter/nbextensions
     nbextensions_dir : str [optional]
         Specify absolute path of nbextensions directory explicitly.
+    sys_prefix : bool [default: False]
+        Install into the sys.prefix, i.e. environment
     """
     nbext = _get_nbextension_dir(user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir)
     # make sure nbextensions dir exists
@@ -240,6 +242,7 @@ def install_nbextension_python(package, overwrite=False, symlink=False,
 
     return full_dests
 
+
 def uninstall_nbextension(dest, require, user=False, sys_prefix=False, prefix=None, 
                           nbextensions_dir=None, logger=None):
     """Uninstall a Javascript extension of the notebook
@@ -290,7 +293,10 @@ def uninstall_nbextension(dest, require, user=False, sys_prefix=False, prefix=No
 def uninstall_nbextension_python(package,
                         user=False, sys_prefix=False, prefix=None, nbextensions_dir=None,
                         logger=None):
-    """Uninstall an nbextension bundled in a Python package."""
+    """Uninstall an nbextension bundled in a Python package.
+    
+    See parameters of `install_nbextension_python`
+    """
     m, nbexts = _get_nbextension_metadata(package)
     for nbext in nbexts:
         dest = nbext['dest']
@@ -301,8 +307,28 @@ def uninstall_nbextension_python(package,
             prefix=prefix, nbextensions_dir=nbextensions_dir, logger=logger)
 
 
-def _set_nbextension_state(section, require, state, user, sys_prefix, 
-                           logger=None):
+def _set_nbextension_state(section, require, state,
+                           user=False, sys_prefix=False, logger=None):
+    """Set whether the section's frontend should require the named nbextension
+
+    Returns True if the final state is the one requested.
+
+    Parameters
+    ----------
+    section : string
+        The section of the server to change, one of NBCONFIG_SECTIONS
+    require : string
+        An importable AMD module inside the nbextensions static path
+    state : bool
+        The state in which to leave the extension
+    user : bool [default: False]
+        Whether to check the user's .ipython/nbextensions directory.
+        Otherwise check a system-wide install (e.g. /usr/local/share/jupyter/nbextensions).
+    sys_prefix : bool [default: False]
+        Install into the sys.prefix, i.e. environment
+    logger : Jupyter logger [optional]
+        Logger instance to use
+    """
     config_dir = os.path.join(
         _get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
     cm = BaseJSONConfigManager(config_dir=config_dir)
@@ -313,12 +339,30 @@ def _set_nbextension_state(section, require, state, user, sys_prefix,
             require
         ))
     cm.update(section, {"load_extensions": {require: state}})
+    return cm.get(section).get(require) == state
 
 
 def _set_nbextension_state_python(state, package, user, sys_prefix,
                                   logger=None):
-    """
-    Enable or disable a nbextension
+    """Enable or disable some nbextensions stored in a python package
+
+    Returns a list of whether the state was achieved (i.e. changed, or was
+    already right)
+
+    Parameters
+    ----------
+
+    state : Bool
+        Whether the extensions should be enabled
+    package : str
+        Importable Python package (no dotted-notation!) exposing the
+        magic-named `_jupyter_nbextension_paths` function
+    user : bool [default: False]
+        Whether to enable in the user's nbextensions directory.
+    sys_prefix : bool [default: False]
+        Enable/disable in the sys.prefix, i.e. environment
+    logger : Jupyter logger [optional]
+        Logger instance to use
     """
     m, nbexts = _get_nbextension_metadata(package)
     return [_set_nbextension_state(section=nbext["section"],
@@ -329,14 +373,52 @@ def _set_nbextension_state_python(state, package, user, sys_prefix,
             for nbext in nbexts]
 
 
-def enable_nbextension(section, require, user, sys_prefix, logger=None):
+def enable_nbextension(section, require, user=False, sys_prefix=False,
+                       logger=None):
+    """Enable a named nbextension
+
+    Returns True if the final state is the one requested.
+
+    Parameters
+    ----------
+
+    section : string
+        The section of the server to change, one of NBCONFIG_SECTIONS
+    require : string
+        An importable AMD module inside the nbextensions static path
+    user : bool [default: False]
+        Whether to enable in the user's nbextensions directory.
+    sys_prefix : bool [default: False]
+        Whether to enable in the sys.prefix, i.e. environment
+    logger : Jupyter logger [optional]
+        Logger instance to use
+    """
     return _set_nbextension_state(section=section, require=require,
                                   state=True,
                                   user=user, sys_prefix=sys_prefix,
                                   logger=logger)
 
 
-def disable_nbextension(section, require, user, sys_prefix, logger=None):
+def disable_nbextension(section, require, user=False, sys_prefix=False,
+                        logger=None):
+    """Disable a named nbextension
+    
+    Returns True if the final state is the one requested.
+
+    Parameters
+    ----------
+
+    section : string
+        The section of the server to change, one of NBCONFIG_SECTIONS
+    require : string
+        An importable AMD module inside the nbextensions static path
+    user : bool [default: False]
+        Whether to enable in the user's nbextensions directory.
+    sys_prefix : bool [default: False]
+        Whether to enable in the sys.prefix, i.e. environment
+    logger : Jupyter logger [optional]
+        Logger instance to use
+    """
     return _set_nbextension_state(section=section, require=require,
                                   state=False,
                                   user=user, sys_prefix=sys_prefix,
@@ -345,19 +427,63 @@ def disable_nbextension(section, require, user, sys_prefix, logger=None):
 
 def enable_nbextension_python(package, user=False, sys_prefix=False,
                               logger=None):
-    """Enable an nbextension associated with a Python package."""
+    """Enable some nbextensions associated with a Python package.
+
+    Returns a list of whether the state was achieved (i.e. changed, or was
+    already right)
+
+    Parameters
+    ----------
+
+    package : str
+        Importable Python package (no dotted-notation!) exposing the
+        magic-named `_jupyter_nbextension_paths` function
+    user : bool [default: False]
+        Whether to enable in the user's nbextensions directory.
+    sys_prefix : bool [default: False]
+        Whether to enable in the sys.prefix, i.e. environment
+    logger : Jupyter logger [optional]
+        Logger instance to use
+    """
     return _set_nbextension_state_python(True, package, user, sys_prefix,
                                          logger=logger)
 
 
 def disable_nbextension_python(package, user=False, sys_prefix=False,
                                logger=None):
-    """Disable an nbextension associated with a Python package."""
+    """Disable some nbextensions associated with a Python package.
+    
+    Returns True if the final state is the one requested.
+
+    Parameters
+    ----------
+
+    package : str
+        Importable Python package (no dotted-notation!) exposing the
+        magic-named `_jupyter_nbextension_paths` function
+    user : bool [default: False]
+        Whether to enable in the user's nbextensions directory.
+    sys_prefix : bool [default: False]
+        Whether to enable in the sys.prefix, i.e. environment
+    logger : Jupyter logger [optional]
+        Logger instance to use
+    """
     return _set_nbextension_state_python(False, package, user, sys_prefix,
                                          logger=logger)
 
 
 def validate_nbextension(require, logger=None):
+    """Validate a named nbextension.
+
+    Looks across all of the nbextension directories.
+
+    Returns a list of warnings.
+
+    require : str
+        require.js path used to load the extension
+    logger : Jupyter logger [optional]
+        Logger instance to use
+    """
     warnings = []
     infos = []
 
@@ -467,7 +593,7 @@ _base_flags = {
 _base_flags['python'] = _base_flags['py']
 
 class BaseNBExtensionApp(JupyterApp):
-
+    """Base nbextension installer app"""
     _log_formatter_cls = LogFormatter
     flags = _base_flags
     version = __version__
@@ -480,10 +606,12 @@ class BaseNBExtensionApp(JupyterApp):
     verbose = Any(None, config=True, help="DEPRECATED: Verbosity level")
 
     def _verbose_changed(self):
+        """Warn about verbosity changes"""
         import warnings
         warnings.warn("`verbose` traits of `{}` has been deprecated, has no effects and will be removed in notebook 5.0.".format(type(self).__name__), DeprecationWarning)
 
     def _log_format_default(self):
+        """A default format for messages"""
         return "%(message)s"
 
 
@@ -539,9 +667,11 @@ class InstallNBExtensionApp(BaseNBExtensionApp):
     destination = Unicode('', config=True, help="Destination for the copy or symlink")
 
     def _config_file_name_default(self):
+        """The default config file name."""
         return 'jupyter_notebook_config'
     
     def install_extensions(self):
+        """Perform the installation of nbextension(s)"""
         if len(self.extra_args)>1:
             raise ValueError("only one nbextension allowed at a time.  Call multiple times to install multiple extensions.")
         
@@ -558,6 +688,7 @@ class InstallNBExtensionApp(BaseNBExtensionApp):
         )
     
     def start(self):
+        """Perform the App's function as configured"""
         if not self.extra_args:
             sys.exit('Please specify an nbextension to install')
         else:
@@ -592,9 +723,11 @@ class UninstallNBExtensionApp(BaseNBExtensionApp):
     destination = Unicode('', config=True, help="Destination for the copy or symlink")
     
     def _config_file_name_default(self):
+        """The default config file name."""
         return 'jupyter_notebook_config'
     
     def uninstall_extensions(self):
+        """Uninstall some nbextensions"""
         kwargs = {
             'user': self.user,
             'sys_prefix': self.sys_prefix,
@@ -625,7 +758,7 @@ class UninstallNBExtensionApp(BaseNBExtensionApp):
 
 
 class ToggleNBExtensionApp(BaseNBExtensionApp):
-    
+    """A base class for apps that enable/disable extensions"""
     name = "jupyter nbextension enable/disable"
     version = __version__
     description = "Enable/disable an nbextension using frontend configuration files."
@@ -639,9 +772,21 @@ class ToggleNBExtensionApp(BaseNBExtensionApp):
     _toggle_value = None
 
     def _config_file_name_default(self):
+        """The default config file name."""
         return 'jupyter_notebook_config'
     
     def toggle_nbextension_python(self, package):
+        """Toggle some extensions in an importable Python package.
+
+        Returns a list of booleans indicating whether the state was changed as
+        requested.
+
+        Parameters
+        ----------
+        package : str
+            Importable Python package (no dotted-notation!) exposing the
+            magic-named `_jupyter_nbextension_paths` function
+        """
         toggle = (enable_nbextension_python if self._toggle_value
                   else disable_nbextension_python)
         return toggle(package,
@@ -650,6 +795,15 @@ class ToggleNBExtensionApp(BaseNBExtensionApp):
                       logger=self.log)
 
     def toggle_nbextension(self, require):
+        """Toggle some a named nbextension by require-able AMD module.
+
+        Returns whether the state was changed as requested.
+
+        Parameters
+        ----------
+        require : str
+            require.js path used to load the nbextension
+        """
         toggle = (enable_nbextension if self._toggle_value
                   else disable_nbextension)
         return toggle(self.section, require,
@@ -668,26 +822,27 @@ class ToggleNBExtensionApp(BaseNBExtensionApp):
 
 
 class EnableNBExtensionApp(ToggleNBExtensionApp):
-
+    """An App that enables nbextensions"""
     name = "jupyter nbextension enable"
     description = "Enable an nbextension using frontend configuration files."
     _toggle_value = True
 
 
 class DisableNBExtensionApp(ToggleNBExtensionApp):
-    
+    """An App that disables nbextensions"""
     name = "jupyter nbextension disable"
     description = "Disable an nbextension using frontend configuration files."
     _toggle_value = None
 
 
 class ListNBExtensionsApp(BaseNBExtensionApp):
-    
+    """An App that lists and validates nbextensions"""
     name = "jupyter nbextension list"
     version = __version__
     description = "List all nbextensions known by the configuration system"
     
     def list_nbextensions(self):
+        """List all the nbextensions"""
         config_dirs = [os.path.join(p, 'nbconfig') for p in jupyter_config_path()]
         
         for config_dir in config_dirs:
@@ -706,6 +861,7 @@ class ListNBExtensionsApp(BaseNBExtensionApp):
                             validate_nbextension(require, logger=self.log)
     
     def start(self):
+        """Perform the App's functions as configured"""
         self.list_nbextensions()
 
 
@@ -718,7 +874,7 @@ jupyter nbextension uninstall --py <packagename>  # uninstall an nbextension in 
 """
 
 class NBExtensionApp(BaseNBExtensionApp):
-
+    """Base jupyter nbextension command entry point"""
     name = "jupyter nbextension"
     version = __version__
     description = "Work with Jupyter notebook extensions"
@@ -733,6 +889,7 @@ class NBExtensionApp(BaseNBExtensionApp):
     )
 
     def start(self):
+        """Perform the App's functions as configured"""
         super(NBExtensionApp, self).start()
 
         # The above should have called a subcommand and raised NoStart; if we
