@@ -152,7 +152,7 @@ flags['python'] = flags['py']
 
 
 class ToggleServerExtensionApp(BaseNBExtensionApp):
-
+    """A base class for enabling/disabling extensions"""
     name = "jupyter serverextension enable/disable"
     description = "Enable/disable a server extension using frontend configuration files."
     
@@ -164,17 +164,40 @@ class ToggleServerExtensionApp(BaseNBExtensionApp):
     python = Bool(False, config=True, help="Install from a Python package")
     
     def toggle_server_extension(self, import_name):
+        """Change the status of a named server extension.
+
+        Uses the value of `self._toggle_value`.
+
+        Parameters
+        ---------
+
+        import_name : str
+            Importable Python module (dotted-notation) exposing the magic-named
+            `load_jupyter_server_extension` function
+        """
         toggle_serverextension_python(
             import_name, self._toggle_value, parent=self, user=self.user,
             sys_prefix=self.sys_prefix, logger=self.log)
 
     def toggle_server_extension_python(self, package):
+        """Change the status of some server extensions in a Python package.
+
+        Uses the value of `self._toggle_value`.
+
+        Parameters
+        ---------
+
+        package : str
+            Importable Python package (no dotted-notation!) exposing the
+            magic-named `_jupyter_server_extension_paths` function
+        """
         m, server_exts = _get_server_extension_metadata(package)
         for server_ext in server_exts:
             module = server_ext['module']
             self.toggle_server_extension(module)
 
     def start(self):
+        """Perform the App's actions as configured"""
         if not self.extra_args:
             sys.exit('Please specify a server extension/package to enable or disable')
         for arg in self.extra_args:
@@ -185,26 +208,30 @@ class ToggleServerExtensionApp(BaseNBExtensionApp):
 
 
 class EnableServerExtensionApp(ToggleServerExtensionApp):
-
+    """An App that enables (and validates) Server Extensions"""
     name = "jupyter serverextension enable"
     description = "Enable a server extension using frontend configuration files."
     _toggle_value = True
 
 
 class DisableServerExtensionApp(ToggleServerExtensionApp):
-
+    """An App that disables Server Extensions"""
     name = "jupyter serverextension disable"
     description = "Disable an serverextension using frontend configuration files."
     _toggle_value = False
 
 
 class ListServerExtensionsApp(BaseNBExtensionApp):
-
+    """An App that lists (and validates) Server Extensions"""
     name = "jupyter serverextension list"
     version = __version__
     description = "List all server extensions known by the configuration system"
 
     def list_server_extensions(self):
+        """List all enabled and disabled server extensions, by config path
+
+        Enabled extensions are validated, potentially generating warnings.
+        """
         config_dirs = jupyter_config_path()
         for config_dir in config_dirs:
             self.log.info('config dir: {}'.format(config_dir))
@@ -221,6 +248,7 @@ class ListServerExtensionsApp(BaseNBExtensionApp):
                 validate_serverextension(import_name, self.log)
 
     def start(self):
+        """Perform the App's actions as configured"""
         self.list_server_extensions()
 
 
@@ -232,7 +260,7 @@ jupyter serverextension disable --py <packagename>  # disable all server extensi
 
 
 class ServerExtensionApp(BaseNBExtensionApp):
-
+    """Root level server extension app"""
     name = "jupyter serverextension"
     version = __version__
     description = "Work with Jupyter server extensions"
@@ -245,12 +273,14 @@ class ServerExtensionApp(BaseNBExtensionApp):
     )
 
     def start(self):
+        """Perform the App's actions as configured"""
         super(ServerExtensionApp, self).start()
 
         # The above should have called a subcommand and raised NoStart; if we
         # get here, it didn't, so we should self.log.info a message.
         subcmds = ", ".join(sorted(self.subcommands))
         sys.exit("Please supply at least one subcommand: %s" % subcmds)
+
 
 main = ServerExtensionApp.launch_instance
 
@@ -260,6 +290,15 @@ main = ServerExtensionApp.launch_instance
 
 
 def _get_server_extension_metadata(package):
+    """Load server extension metadata from a package's magic-named path.
+
+    Parameters
+    ----------
+
+    package : str
+        Importable Python package (no dotted-notation!) exposing the
+        magic-named `_jupyter_server_extension_paths` function
+    """
     m = __import__(package)
     if not hasattr(m, '_jupyter_server_extension_paths'):
         raise KeyError('The Python package {} does not include any valid server extensions'.format(package))
