@@ -71,6 +71,7 @@ define([
             }
         });
 
+
         // backward compat.
         Object.defineProperty(this, 'cm_config', {
             get: function() {
@@ -102,6 +103,12 @@ define([
         this.element = null;
         this.cell_type = this.cell_type || null;
         this.code_mirror = null;
+
+        // The nbformat only specifies attachments for textcell, but to avoid
+        // data loss when switching between cell types in the UI, all cells
+        // have an attachments property here. It is only saved to disk
+        // for textcell though (in toJSON)
+        this.attachments = {};
 
         this.create_element();
         if (this.element !== null) {
@@ -276,6 +283,9 @@ define([
             this.element.addClass('selected');
             this.element.removeClass('unselected');
             this.selected = true;
+            // disable 'insert image' menu item (specific cell types will enable
+            // it in their override select())
+            this.notebook.set_insert_image_enabled(false);
             return true;
         } else {
             return false;
@@ -342,6 +352,16 @@ define([
         } else {
             return false;
         }
+    };
+
+    /**
+     * Garbage collects unused attachments in this cell
+     * @method remove_unused_attachments
+     */
+    Cell.prototype.remove_unused_attachments = function () {
+        // Cell subclasses which support attachments should override this
+        // and keep them when needed
+        this.attachments = {};
     };
 
     /**
@@ -750,7 +770,12 @@ define([
         cell.append(inner_cell);
         this.element = cell;
     };
-    
+
+    UnrecognizedCell.prototype.remove_unused_attachments = function () {
+        // Do nothing to avoid removing attachments from a possible future
+        // attachment-supporting cell type
+    };
+
     UnrecognizedCell.prototype.bind_events = function () {
         Cell.prototype.bind_events.apply(this, arguments);
         var cell = this;

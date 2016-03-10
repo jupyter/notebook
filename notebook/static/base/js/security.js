@@ -30,6 +30,12 @@ define([
                 }
             }
         }
+        // Caja doesn't allow data uri for img::src, see
+        // https://github.com/google/caja/issues/1558
+        // This is not a security issue for browser post ie6 though, so we
+        // disable the check
+        // https://www.owasp.org/index.php/Script_in_IMG_tags
+        ATTRIBS['img::src'] = 0;
         return caja.sanitizeAttribs(tagName, attribs, opt_naiveUriRewriter, opt_nmTokenPolicy, opt_logger);
     };
     

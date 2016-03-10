@@ -228,6 +228,10 @@ define([
             '#toggle_all_output': 'toggle-all-cells-output-collapsed',
             '#toggle_all_output_scroll': 'toggle-all-cells-output-scrolled',
             '#clear_all_output': 'clear-all-cells-output',
+            '#cut_cell_attachments': 'cut-cell-attachments',
+            '#copy_cell_attachments': 'copy-cell-attachments',
+            '#paste_cell_attachments': 'paste-cell-attachments',
+            '#insert_image': 'insert-image',
         };
 
         for(var idx in id_actions_dict){
