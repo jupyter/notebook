@@ -30,6 +30,7 @@ from notebook.nbextensions import (install_nbextension, check_nbextension,
 
 from traitlets.config.manager import BaseJSONConfigManager
 
+
 def touch(file, mtime=None):
     """ensure a file exists, and set its modification time
     
@@ -229,7 +230,7 @@ class TestInstallNBExtension(TestCase):
         stderr = StringIO()
         with patch.object(sys, 'stdout', stdout), \
              patch.object(sys, 'stderr', stderr):
-            install_nbextension(self.src, logger=None)
+            install_nbextension(self.src)
         self.assertEqual(stdout.getvalue(), '')
         self.assertEqual(stderr.getvalue(), '')
     
@@ -435,5 +436,18 @@ class TestInstallNBExtension(TestCase):
         meta.update(require="bad-require")
 
         warnings = validate_nbextension_python(meta, paths[0])
+        self.assertNotEqual([], warnings, warnings)
 
+    def test_nbextension_validate(self):
+        # Break the metadata (correct file will still be copied)
+        self._inject_mock_extension('notebook')
+
+        install_nbextension_python('mockextension')
+        enable_nbextension_python('mockextension', user=True)
+
+        warnings = validate_nbextension("_mockdestination/index")
+        self.assertEqual([], warnings, warnings)
+
+    def test_nbextension_validate_bad(self):
+        warnings = validate_nbextension("this-doesn't-exist")
         self.assertNotEqual([], warnings, warnings)
