@@ -235,26 +235,44 @@ define([
      * @param {event} event - key press event which either should or should not be handled by CodeMirror
      * @return {Boolean} `true` if CodeMirror should ignore the event, `false` Otherwise
      */
-    Cell.prototype.handle_codemirror_keyevent = function (editor, event) {
+    Cell.prototype.handle_codemirror_keyevent = function (editor, event) 
+    {
         var shortcuts = this.keyboard_manager.mode[this.keyboard_manager.current_mode];
-
+        
+        // leave all event to codemirror but up/down when at beginning or end of
+        // a cell
         var cur = editor.getCursor();
-        if((cur.line !== 0 || cur.ch !==0) && event.keyCode === 38){
-            event._ipkmIgnore = true;
-        }
         var nLastLine = editor.lastLine();
-        if ((event.keyCode === 40) &&
-             ((cur.line !== nLastLine) ||
-               (cur.ch !== editor.getLineHandle(nLastLine).text.length))
-           ) {
-            event._ipkmIgnore = true;
+        if ( this.keyboard_manager.current_mode === "vim-edit" )
+        {
+            if ((event.keyCode === 38 || event.keyCode === 74) && (cur.line !== 0 || cur.ch !==0)) // (j or up) and not(lastline && lastchar)
+            {
+                event._ipkmIgnore = true;
+            } else if ((event.keyCode === 40 || event.keyCode === 75) &&
+                       ((cur.line !== nLastLine) ||
+                       ( editor.state.insertMode && cur.ch !== editor.getLineHandle(nLastLine).text.length ) ||
+                       ( cur.ch !== editor.getLineHandle(nLastLine).text.length - 1)))// cm vimmode in command mode only allow cursor at end -1
+            {
+                event._ipkmIgnore = true;
+            }
+        } else 
+        {
+            if((cur.line !== 0 || cur.ch !==0) && event.keyCode === 38)
+            {
+                event._ipkmIgnore = true;
+            }else if ((event.keyCode === 40) &&
+                 ((cur.line !== nLastLine) ||
+                   (cur.ch !== editor.getLineHandle(nLastLine).text.length)))
+            {
+                event._ipkmIgnore = true;
+            }
         }
         // if this is an edit_shortcuts shortcut, the global keyboard/shortcut
         // manager will handle it
-        if (shortcuts.handles(event)) {
+        if (shortcuts.handles(event)) 
+        {
             return true;
         }
-        
         return false;
     };
 
@@ -401,7 +419,11 @@ define([
     Cell.prototype.at_bottom = function () {
         var cm = this.code_mirror;
         var cursor = cm.getCursor();
-        if (cursor.line === (cm.lineCount()-1) && cursor.ch === cm.getLine(cursor.line).length) {
+        // In vim mode command mode, endline cursor is at a -1 offset 
+        if (cm.options.vimMode && !cm.state.insertMode && cursor.line === cm.lastLine() && cursor.ch === cm.getLine(cursor.line).length - 1){
+            return true
+        }
+        else if (cursor.line === cm.lastLine() && cursor.ch === cm.getLine(cursor.line).length) {
             return true;
         }
         return false;
