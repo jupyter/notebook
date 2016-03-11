@@ -11,7 +11,7 @@ import shutil
 import sys
 import tarfile
 import zipfile
-from os.path import basename, join as pjoin
+from os.path import basename, join as pjoin, normpath
 
 try:
     from urllib.parse import urlparse  # Py3
@@ -180,7 +180,7 @@ def install_nbextension(path, overwrite=False, symlink=False,
         if not destination:
             destination = basename(path)
         destination = cast_unicode_py2(destination)
-        full_dest = pjoin(nbext, destination)
+        full_dest = normpath(pjoin(nbext, destination))
         if overwrite and os.path.lexists(full_dest):
             if logger:
                 logger.info("Removing: %s" % full_dest)
