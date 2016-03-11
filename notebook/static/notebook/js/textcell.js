@@ -110,6 +110,7 @@ define([
         inner_cell.append(input_area).append(render_area);
         cell.append(inner_cell);
         this.element = cell;
+        this.inner_cell = inner_cell;
     };
 
 
@@ -282,6 +283,9 @@ define([
         TextCell.apply(this, [$.extend({}, options, {config: config})]);
 
         this.cell_type = 'markdown';
+
+        // Used to keep track of drag events
+        this.drag_counter = 0;
     };
 
     MarkdownCell.options_default = {
@@ -461,7 +465,26 @@ define([
             return true;
         });
 
+        // We want to display a visual indicator that the drop is possible.
+        // The dragleave event is fired when we hover a child element (which
+        // is often immediatly after we got the dragenter), so we keep track
+        // of the number of dragenter/dragleave we got, as discussed here :
+        // http://stackoverflow.com/q/7110353/116067
+        this.code_mirror.on("dragenter", function(cm, evt) {
+          that.drag_counter++;
+          that.inner_cell.addClass('droppable');
+          evt.preventDefault();
+        });
+
+        this.code_mirror.on("dragleave", function(cm, evt) {
+          that.drag_counter--;
+          if (that.drag_counter === 0) {
+            that.inner_cell.removeClass('droppable');
+          }
+        });
+
         this.code_mirror.on("drop", function(cm, evt) {
+          that.inner_cell.removeClass('droppable');
             var files = evt.dataTransfer.files;
             for (var i = 0; i < files.length; ++i) {
                 var file = files[i];
