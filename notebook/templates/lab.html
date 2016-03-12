@@ -81,6 +81,10 @@
     {% block meta %}
     {% endblock %}
 
+    {% if mathjax_url %}
+    <script type="text/javascript" src="{{mathjax_url}}?config=TeX-AMS_HTML-full,Safe&delayStartupUntil=configured" charset="utf-8"></script>
+    {% endif %}
+
 </head>
 
 <body class="{% block bodyclasses %}{% endblock %}" {% block params %}{% endblock %}>

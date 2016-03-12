@@ -15,7 +15,8 @@ class LabHandler(IPythonHandler):
     def get(self):
         self.write(self.render_template('lab.html',
             page_title='Jupyter Lab',
-            terminals_available=self.settings['terminals_available']))
+            terminals_available=self.settings['terminals_available'],
+            mathjax_url=self.mathjax_url))
 
 
 #-----------------------------------------------------------------------------
