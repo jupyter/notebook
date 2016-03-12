@@ -6,7 +6,7 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "dependencies": {
-    "jupyter-js-plugins": "^0.10.1",
+    "jupyter-js-plugins": "^0.11.0",
     "phosphide": "^0.9.0"
   },
   "devDependencies": {
