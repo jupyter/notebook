@@ -1,6 +1,6 @@
 .. _notebook_release:
 
-Making a notebook release
+Making a Notebook release
 =========================
 
 This document guides a contributor through creating a release of the Jupyter
@@ -8,11 +8,13 @@ notebook.
 
 Check installed tools
 ---------------------
-Review :ref:`development_js`. Make sure all the tools needed to generate the
+
+Review ``CONTRIBUTING.rst``. Make sure all the tools needed to generate the
 minified JavaScript and CSS files are properly installed.
 
 Clean the repository
 --------------------
+
 You can remove all non-tracked files with:
 
 .. code:: bash

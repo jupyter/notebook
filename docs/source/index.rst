@@ -40,12 +40,10 @@ The Jupyter notebook
 
 .. toctree::
    :maxdepth: 1
-   :caption: Developer Documentation
+   :caption: Contributor Documentation
 
-   development_intro
-   development_js
+   contributing
    development_release
-   development_faq
 
 .. toctree::
    :maxdepth: 1

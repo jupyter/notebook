@@ -155,9 +155,14 @@ install_requires = [
 ]
 extras_require = {
     ':sys_platform != "win32"': ['terminado>=0.3.3'],
-    'doc': ['Sphinx>=1.1'],
+    'doc': [
+        'Sphinx>=1.1',
+        'sphinx-rtd-theme',
+        'sphinxcontrib-spelling',
+        'pyenchant',
+    ],
     'test:python_version == "2.7"': ['mock'],
-    'test': ['nose', 'requests', 'nose_warnings_filters'],
+    'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters'],
 }
 
 if 'setuptools' in sys.modules:
