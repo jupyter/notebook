@@ -86,19 +86,46 @@ class SessionHandler(APIHandler):
     @json_errors
     @gen.coroutine
     def patch(self, session_id):
-        # Currently, this handler is strictly for renaming notebooks
+        """Patch updates sessions:
+
+        - notebook.path updates session to track renamed notebooks
+        - kernel.name starts a new kernel with a given kernelspec
+        """
         sm = self.session_manager
+        km = self.kernel_manager
         model = self.get_json_body()
         if model is None:
             raise web.HTTPError(400, "No JSON data provided")
+
+        # get the previous session model
+        before = yield gen.maybe_future(sm.get_session(session_id=session_id))
+
         changes = {}
         if 'notebook' in model:
             notebook = model['notebook']
             if 'path' in notebook:
                 changes['path'] = notebook['path']
+        if 'kernel' in model:
+            if 'name' in model['kernel']:
+                kernel_name = model['kernel']['name']
+                kernel_id = yield sm.start_kernel_for_session(
+                    session_id, kernel_name=kernel_name, path=before['notebook']['path'])
+                changes['kernel_id'] = kernel_id
+            if 'id' in model['kernel']:
+                kernel_id = model['kernel']['id']
+                if kernel_id not in km:
+                    raise web.HTTPError(400, "No such kernel: %s" % kernel_id)
+                changes['kernel_id'] = kernel_id
 
         yield gen.maybe_future(sm.update_session(session_id, **changes))
         model = yield gen.maybe_future(sm.get_session(session_id=session_id))
+
+        if model['kernel']['id'] != before['kernel']['id']:
+            # kernel_id changed because we got a new kernel
+            # shutdown the old one
+            yield gen.maybe_future(
+                km.shutdown_kernel(before['kernel']['id'])
+            )
         self.finish(json.dumps(model, default=date_default))
 
     @web.authenticated
