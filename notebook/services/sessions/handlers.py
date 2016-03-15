@@ -103,15 +103,15 @@ class SessionHandler(APIHandler):
         changes = {}
         if 'notebook' in model:
             notebook = model['notebook']
-            if 'path' in notebook:
+            if notebook.get('path') is not None:
                 changes['path'] = notebook['path']
         if 'kernel' in model:
-            if 'name' in model['kernel']:
+            if model['kernel'].get('name') is not None:
                 kernel_name = model['kernel']['name']
                 kernel_id = yield sm.start_kernel_for_session(
                     session_id, kernel_name=kernel_name, path=before['notebook']['path'])
                 changes['kernel_id'] = kernel_id
-            if 'id' in model['kernel']:
+            if model['kernel'].get('id') is not None:
                 kernel_id = model['kernel']['id']
                 if kernel_id not in km:
                     raise web.HTTPError(400, "No such kernel: %s" % kernel_id)
