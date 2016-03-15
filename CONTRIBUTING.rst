@@ -23,9 +23,9 @@ steps should get you going::
     cd notebook
     pip install -e . --user
 
-If you want this to be available for all users of your system (assuming you
-have the necessary rights) or if you are running the commands in a virtualenv,
-just drop the ``--user`` option.
+If you want the development environment to be available for all users of your
+system (assuming you have the necessary rights), just drop the ``--user``
+option.
 
 Installing the Dependencies
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -60,12 +60,14 @@ __ https://nodejs.org
 
 Or you can use your system's package manager ...
 
-If you use homebrew on Mac OS X::
+If you use Homebrew_ on Mac OS X::
 
     brew install node
 
-For Debian/Ubuntu systems, you need to use the ``nodejs-legacy`` package and
-not the ``node`` package::
+.. _Homebrew: http://brew.sh/
+
+For Debian/Ubuntu systems, you should use the ``nodejs-legacy`` package instead
+of the ``node`` package::
 
     sudo apt-get update
     sudo apt-get install nodejs-legacy npm
@@ -75,8 +77,8 @@ Rebuilding JavaScript and CSS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 There is a build step for the JavaScript and CSS in the notebook.
-You will need to run this command whenever there are changes to JavaScript or
-LESS sources::
+To make sure that you are working with up-to-date code, you will need to run
+this command whenever there are changes to JavaScript or LESS sources::
 
     python setup.py js css
 
