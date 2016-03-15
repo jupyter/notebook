@@ -15,18 +15,6 @@ __ http://jupyter.readthedocs.org/#contributor-documentation
 Setting Up a Development Environment
 ------------------------------------
 
-If you have already installed the dependencies mentioned below, the following
-steps should get you going::
-
-    pip install setuptools pip --upgrade --user
-    git clone https://github.com/jupyter/notebook
-    cd notebook
-    pip install -e . --user
-
-If you want the development environment to be available for all users of your
-system (assuming you have the necessary rights), just drop the ``--user``
-option.
-
 Installing the Dependencies
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -73,6 +61,22 @@ of the ``node`` package::
     sudo apt-get install nodejs-legacy npm
 
 
+Installing the Jupyter Notebook
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Once you have installed the dependencies mentioned above, use the following
+steps::
+
+    pip install setuptools pip --upgrade --user
+    git clone https://github.com/jupyter/notebook
+    cd notebook
+    pip install -e . --user
+
+If you want the development environment to be available for all users of your
+system (assuming you have the necessary rights), just drop the ``--user``
+option.
+
+
 Rebuilding JavaScript and CSS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -108,6 +112,21 @@ See ``git-hooks/README.md`` for more details.
 Running Tests
 -------------
 
+Python Tests
+^^^^^^^^^^^^
+
+Install dependencies::
+
+    pip install -e .[test] --user
+
+To run the Python tests, use::
+
+    nosetests
+
+If you want coverage statistics as well, you can run::
+
+    nosetests --with-coverage --cover-package=notebook notebook
+
 JavaScript Tests
 ^^^^^^^^^^^^^^^^
 
@@ -129,21 +148,6 @@ For example, to run all tests in ``notebook/tests/notebook``::
 or to run just ``notebook/tests/notebook/deletecell.js``::
 
     python -m notebook.jstest notebook/deletecell.js
-
-Python Tests
-^^^^^^^^^^^^
-
-Install dependencies::
-
-    pip install -e .[test] --user
-
-To run the Python tests, use::
-
-    nosetests
-
-If you want coverage statistics as well, you can run::
-
-    nosetests --with-coverage --cover-package=notebook notebook
 
 Building the Documentation
 --------------------------
