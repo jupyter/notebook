@@ -211,6 +211,13 @@ def install_nbextension(path, overwrite=False, symlink=False,
             src = path
             _maybe_copy(src, full_dest, logger=logger)
     
+    if logger:
+        logger.info(
+            "\nTo initialize this nbextension in the browser every time the"
+            " notebook (or other app) loads:\n\n"
+            "      jupyter nbextension enable\n"
+        )
+
     return full_dest
 
 
