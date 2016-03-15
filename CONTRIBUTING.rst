@@ -15,28 +15,12 @@ __ http://jupyter.readthedocs.org/#contributor-documentation
 Setting Up a Development Environment
 ------------------------------------
 
-Installing the Dependencies
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+For general installation instructions have a look at the `Project Jupyter Installation Guide`__.
 
-Python Development Libraries
-""""""""""""""""""""""""""""
+__ https://jupyter.readthedocs.org/en/latest/install.html
 
-On Debian/Ubuntu systems, you can get them with::
-
-    sudo apt-get update
-    sudo apt-get install python3-dev
-
-The development libraries might be needed for the installation of *PyZMQ*,
-*Tornado* and *Jinja2*.
-
-Alternatively -- if you prefer -- you can also install those packages directly
-with your package manager::
-
-    sudo apt-get update
-    sudo apt-get install python3-zmq python3-tornado python3-jinja2
-
-Node.js and npm
-"""""""""""""""
+Installing Node.js and npm
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Building the Notebook from its GitHub source code requires some tools to
 create and minify JavaScript components and the CSS.
