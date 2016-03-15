@@ -157,6 +157,13 @@ To build the HTML docs::
     cd docs
     make html
 
+After that, the generated HTML files will be available at
+``build/html/index.html``.
+
+You can automatically check if all hyperlinks are still valid::
+
+    make linkcheck
+
 Windows users can find ``make.bat`` in the ``docs`` folder.
 
 You should also have a look at the `Project Jupyter Documentation Guide`__.
