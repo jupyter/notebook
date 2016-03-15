@@ -58,6 +58,15 @@ from notebook import (
     DEFAULT_TEMPLATE_PATH_LIST,
     __version__,
 )
+from .auth import passwd
+from getpass import getpass
+
+# py23 compatibility
+try:
+    raw_input = raw_input
+except NameError:
+    raw_input = input
+
 from .base.handlers import Template404
 from .log import log_request
 from .services.kernels.kernelmanager import MappingKernelManager
@@ -570,6 +579,17 @@ class NotebookApp(JupyterApp):
                       """
     )
 
+    password_required = Bool(False, config=True,
+                      help="""Forces users to use a password for the Notebook server.
+                      This is useful in a multi user environment, for instance when
+                      everybody in the LAN can access each other's machine though ssh.
+
+                      In such a case, server the notebook server on localhost is not secure
+                      since any user can connect to the notebook server via ssh.
+
+                      """
+    )
+
     open_browser = Bool(True, config=True,
                         help="""Whether to open in a browser after starting.
                         The specific browser used is platform dependent and
@@ -917,7 +937,13 @@ class NotebookApp(JupyterApp):
         # ensure default_url starts with base_url
         if not self.default_url.startswith(self.base_url):
             self.default_url = url_path_join(self.base_url, self.default_url)
-        
+
+        if self.password_required and (not self.password):
+            self.log.critical("Notebook servers are configured to only be run with a password.")
+            self.log.critical("Hint: run the following command to set a password")
+            self.log.critical("\t$ python -m notebook.auth password")
+            sys.exit(1)
+
         self.web_app = NotebookWebApplication(
             self, self.kernel_manager, self.contents_manager,
             self.session_manager, self.kernel_spec_manager,
