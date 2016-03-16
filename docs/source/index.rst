@@ -36,8 +36,9 @@ The Jupyter notebook
    public_server
    security
    frontend_config
-   extending/index
-
+   examples/Notebook/rstversions/Distributing Jupyter Extensions as Python Packages.rst
+   extending/index.rst
+   
 .. toctree::
    :maxdepth: 1
    :caption: Developer Documentation
