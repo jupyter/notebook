@@ -210,7 +210,7 @@ def install_nbextension(path, overwrite=False, symlink=False,
         else:
             src = path
             _maybe_copy(src, full_dest, logger=logger)
-    
+
     return full_dest
 
 
@@ -339,6 +339,9 @@ def _set_nbextension_state(section, require, state,
             require
         ))
     cm.update(section, {"load_extensions": {require: state}})
+
+    validate_nbextension(require, logger=logger)
+
     return cm.get(section).get(require) == state
 
 
@@ -503,11 +506,11 @@ def validate_nbextension(require, logger=None):
     
     if logger:
         if warnings:
-            logger.warn("- Validating: problems found:")
+            logger.warn("      - Validating: problems found:")
             map(logger.warn, warnings)
             map(logger.info, infos)
         else:
-            logger.info("- Validating: {}".format(GREEN_OK))
+            logger.info("      - Validating: {}".format(GREEN_OK))
     
     return warnings
 
@@ -677,16 +680,27 @@ class InstallNBExtensionApp(BaseNBExtensionApp):
         
         install = install_nbextension_python if self.python else install_nbextension
         
-        install(self.extra_args[0],
-            overwrite=self.overwrite,
-            symlink=self.symlink,
-            user=self.user,
-            sys_prefix=self.sys_prefix,
-            prefix=self.prefix,
-            nbextensions_dir=self.nbextensions_dir,
-            logger=self.log
-        )
-    
+        full_dests = install(self.extra_args[0],
+                             overwrite=self.overwrite,
+                             symlink=self.symlink,
+                             user=self.user,
+                             sys_prefix=self.sys_prefix,
+                             prefix=self.prefix,
+                             nbextensions_dir=self.nbextensions_dir,
+                             logger=self.log)
+
+        if full_dests:
+            self.log.info(
+                "\nTo initialize this nbextension in the browser every time"
+                " the notebook (or other app) loads:\n\n"
+                "      jupyter nbextension enable {}{}{}{}\n".format(
+                    self.extra_args[0] if self.python else "<the entry point>",
+                    " --user" if self.user else "",
+                    " --py" if self.python else "",
+                    " --sys-prefix" if self.sys_prefix else ""
+                )
+            )
+
     def start(self):
         """Perform the App's function as configured"""
         if not self.extra_args:
@@ -845,16 +859,18 @@ class ListNBExtensionsApp(BaseNBExtensionApp):
         """List all the nbextensions"""
         config_dirs = [os.path.join(p, 'nbconfig') for p in jupyter_config_path()]
         
+        self.log.info("Known nbextensions:")
+        
         for config_dir in config_dirs:
-            self.log.info('config dir: {}'.format(config_dir))
+            self.log.info('  config dir: {}'.format(config_dir))
             cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
             for section in NBCONFIG_SECTIONS:
                 data = cm.get(section)
                 if 'load_extensions' in data:
-                    self.log.info('  {} section'.format(section))
+                    self.log.info('    {} section'.format(section))
                     
                     for require, enabled in data['load_extensions'].items():
-                        self.log.info('    {} {}'.format(
+                        self.log.info('      {} {}'.format(
                             require,
                             GREEN_ENABLED if enabled else RED_DISABLED))
                         if enabled:
