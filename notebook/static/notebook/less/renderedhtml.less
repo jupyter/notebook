@@ -25,15 +25,17 @@
     h5:first-child {margin-top: 1em;}
     h6:first-child {margin-top: 1em;}
 
-    ul {list-style:disc; margin: 0em 2em; padding-left: 0px;}
-    ul ul {list-style:square; margin: 0em 2em;}
-    ul ul ul {list-style:circle; margin: 0em 2em;}
-    ol {list-style:decimal; margin: 0em 2em; padding-left: 0px;}
-    ol ol {list-style:upper-alpha; margin: 0em 2em;}
-    ol ol ol {list-style:lower-alpha; margin: 0em 2em;}
-    ol ol ol ol {list-style:lower-roman; margin: 0em 2em;}
+    ul:not(.list-inline),
+    ol:not(.list-inline) {margin: 0em 2em; padding-left: 0px;}
+    ul {list-style:disc;}
+    ul ul {list-style:square;}
+    ul ul ul {list-style:circle;}
+    ol {list-style:decimal;}
+    ol ol {list-style:upper-alpha; }
+    ol ol ol {list-style:lower-alpha; }
+    ol ol ol ol {list-style:lower-roman; }
     /* any extras will just be numbers: */
-    ol ol ol ol ol {list-style:decimal; margin: 0em 2em;}
+    ol ol ol ol ol {list-style:decimal;}
     * + ul {margin-top: 1em;}
     * + ol {margin-top: 1em;}
 
