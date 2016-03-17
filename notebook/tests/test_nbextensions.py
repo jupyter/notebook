@@ -23,6 +23,7 @@ from ipython_genutils import py3compat
 from ipython_genutils.tempdir import TemporaryDirectory
 from notebook import nbextensions
 from notebook.nbextensions import (install_nbextension, check_nbextension,
+    enable_nbextension, disable_nbextension,
     install_nbextension_python, uninstall_nbextension_python,
     enable_nbextension_python, disable_nbextension_python, _get_config_dir,
     validate_nbextension, validate_nbextension_python
@@ -349,6 +350,29 @@ class TestInstallNBExtension(TestCase):
             with self.assertRaises(ValueError):
                 install_nbextension(zsrc, destination='foo')
 
+    def test_nbextension_enable(self):
+        with TemporaryDirectory() as d:
+            f = u'ƒ.js'
+            src = pjoin(d, f)
+            touch(src)
+            install_nbextension(src, user=True)
+            enable_nbextension(section='notebook', require=u'ƒ')
+        
+        config_dir = os.path.join(_get_config_dir(user=True), 'nbconfig')
+        cm = BaseJSONConfigManager(config_dir=config_dir)
+        enabled = cm.get('notebook').get('load_extensions', {}).get(u'ƒ', False)
+        assert enabled
+    
+    def test_nbextension_disable(self):
+        self.test_nbextension_enable()
+        disable_nbextension(section='notebook', require=u'ƒ')
+        
+        config_dir = os.path.join(_get_config_dir(user=True), 'nbconfig')
+        cm = BaseJSONConfigManager(config_dir=config_dir)
+        enabled = cm.get('notebook').get('load_extensions', {}).get(u'ƒ', False)
+        assert not enabled
+        
+
     def _mock_extension_spec_meta(self, section='notebook'):
         return {
             'section': section,
@@ -396,8 +420,8 @@ class TestInstallNBExtension(TestCase):
         
     def test_nbextensionpy_enable(self):
         self._inject_mock_extension('notebook')
-        install_nbextension_python('mockextension')
-        enable_nbextension_python('mockextension', user=True)
+        install_nbextension_python('mockextension', user=True)
+        enable_nbextension_python('mockextension')
         
         config_dir = os.path.join(_get_config_dir(user=True), 'nbconfig')
         cm = BaseJSONConfigManager(config_dir=config_dir)
@@ -406,8 +430,8 @@ class TestInstallNBExtension(TestCase):
         
     def test_nbextensionpy_disable(self):
         self._inject_mock_extension('notebook')
-        install_nbextension_python('mockextension')
-        enable_nbextension_python('mockextension', user=True)
+        install_nbextension_python('mockextension', user=True)
+        enable_nbextension_python('mockextension')
         disable_nbextension_python('mockextension', user=True)
         
         config_dir = os.path.join(_get_config_dir(user=True), 'nbconfig')
@@ -418,8 +442,8 @@ class TestInstallNBExtension(TestCase):
     def test_nbextensionpy_validate(self):
         self._inject_mock_extension('notebook')
 
-        paths = install_nbextension_python('mockextension')
-        enable_nbextension_python('mockextension', user=True)
+        paths = install_nbextension_python('mockextension', user=True)
+        enable_nbextension_python('mockextension')
 
         meta = self._mock_extension_spec_meta()
         warnings = validate_nbextension_python(meta, paths[0])
@@ -429,8 +453,9 @@ class TestInstallNBExtension(TestCase):
         # Break the metadata (correct file will still be copied)
         self._inject_mock_extension('notebook')
 
-        paths = install_nbextension_python('mockextension')
-        enable_nbextension_python('mockextension', user=True)
+        paths = install_nbextension_python('mockextension', user=True)
+
+        enable_nbextension_python('mockextension')
 
         meta = self._mock_extension_spec_meta()
         meta.update(require="bad-require")
@@ -442,8 +467,8 @@ class TestInstallNBExtension(TestCase):
         # Break the metadata (correct file will still be copied)
         self._inject_mock_extension('notebook')
 
-        install_nbextension_python('mockextension')
-        enable_nbextension_python('mockextension', user=True)
+        install_nbextension_python('mockextension', user=True)
+        enable_nbextension_python('mockextension')
 
         warnings = validate_nbextension("_mockdestination/index")
         self.assertEqual([], warnings, warnings)
