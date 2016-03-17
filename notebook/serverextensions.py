@@ -67,14 +67,14 @@ def toggle_serverextension_python(import_name, enabled=None, parent=None,
 
     if logger:
         if new_enabled:
-            logger.info("Enabling: %s" % (import_name))
+            logger.info(u"Enabling: %s" % (import_name))
         else:
-            logger.info("Disabling: %s" % (import_name))
+            logger.info(u"Disabling: %s" % (import_name))
 
     server_extensions[import_name] = new_enabled
 
     if logger:
-        logger.info("- Writing config: {}".format(config_dir))
+        logger.info(u"- Writing config: {}".format(config_dir))
 
     cm.update("jupyter_notebook_config", cfg)
 
@@ -111,13 +111,13 @@ def validate_serverextension(import_name, logger=None):
     except Exception:
         logger.warning("Error loading server extension %s", import_name)
 
-    import_msg = "     {} is {} importable?"
+    import_msg = u"     {} is {} importable?"
     if func is not None:
         infos.append(import_msg.format(GREEN_OK, import_name))
     else:
         warnings.append(import_msg.format(RED_X, import_name))
 
-    post_mortem = "      {} {} {}"
+    post_mortem = u"      {} {} {}"
     if logger:
         if warnings:
             [logger.info(info) for info in infos]
@@ -236,7 +236,7 @@ class ListServerExtensionsApp(BaseNBExtensionApp):
         """
         config_dirs = jupyter_config_path()
         for config_dir in config_dirs:
-            self.log.info('config dir: {}'.format(config_dir))
+            self.log.info(u'config dir: {}'.format(config_dir))
             cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
             data = cm.get("jupyter_notebook_config")
             server_extensions = (
@@ -244,7 +244,7 @@ class ListServerExtensionsApp(BaseNBExtensionApp):
                 .setdefault("nbserver_extensions", {})
             )
             for import_name, enabled in server_extensions.items():
-                self.log.info('    {} {}'.format(
+                self.log.info(u'    {} {}'.format(
                               import_name,
                               GREEN_ENABLED if enabled else RED_DISABLED))
                 validate_serverextension(import_name, self.log)
@@ -312,7 +312,7 @@ def _get_server_extension_metadata(package):
     """
     m = __import__(package)
     if not hasattr(m, '_jupyter_server_extension_paths'):
-        raise KeyError('The Python package {} does not include any valid server extensions'.format(package))
+        raise KeyError(u'The Python package {} does not include any valid server extensions'.format(package))
     return m, m._jupyter_server_extension_paths()
 
 if __name__ == '__main__':
