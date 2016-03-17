@@ -574,8 +574,11 @@ def validate_nbextension_python(spec, full_dest, logger=None):
 from traitlets import Bool, Unicode, Any
 from jupyter_core.application import JupyterApp
 
-
-_base_flags = {
+_base_flags = {}
+_base_flags.update(JupyterApp.flags)
+_base_flags.pop("y", None)
+_base_flags.pop("generate-config", None)
+_base_flags.update({
     "user" : ({
         "BaseNBExtensionApp" : {
             "user" : True,
@@ -591,7 +594,7 @@ _base_flags = {
             "python" : True,
         }}, "Install from a Python package"
     )
-}
+})
 _base_flags['python'] = _base_flags['py']
 
 class BaseNBExtensionApp(JupyterApp):

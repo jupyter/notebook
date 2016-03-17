@@ -13,7 +13,7 @@ import sys
 from jupyter_core.paths import jupyter_config_path
 from ._version import __version__
 from .nbextensions import (
-    BaseNBExtensionApp, _get_config_dir,
+    JupyterApp, BaseNBExtensionApp, _get_config_dir,
     GREEN_ENABLED, RED_DISABLED,
     GREEN_OK, RED_X,
 )
@@ -132,8 +132,11 @@ def validate_serverextension(import_name, logger=None):
 # Applications
 # ----------------------------------------------------------------------
 
-
-flags = {
+flags = {}
+flags.update(JupyterApp.flags)
+flags.pop("y", None)
+flags.pop("generate-config", None)
+flags.update({
     "user" : ({
         "ToggleServerExtensionApp" : {
             "user" : True,
@@ -149,7 +152,7 @@ flags = {
             "python" : True,
         }}, "Install from a Python package"
     ),
-}
+})
 flags['python'] = flags['py']
 
 
