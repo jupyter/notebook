@@ -492,12 +492,12 @@ def validate_nbextension(require, logger=None):
     js_exists = False
     for exts in _nbextension_dirs():
         # Does the Javascript entrypoint actually exist on disk?
-        js = "{}.js".format(os.path.join(exts, *require.split("/")))
+        js = u"{}.js".format(os.path.join(exts, *require.split("/")))
         js_exists = os.path.exists(js)
         if js_exists:
             break
 
-    require_tmpl = "- require? {} {}"
+    require_tmpl = u"        - require? {} {}"
     if js_exists:
         infos.append(require_tmpl.format(GREEN_OK, require))
     else:
@@ -505,11 +505,11 @@ def validate_nbextension(require, logger=None):
     
     if logger:
         if warnings:
-            logger.warn("      - Validating: problems found:")
+            logger.warn(u"      - Validating: problems found:")
             map(logger.warn, warnings)
             map(logger.info, infos)
         else:
-            logger.info("      - Validating: {}".format(GREEN_OK))
+            logger.info(u"      - Validating: {}".format(GREEN_OK))
     
     return warnings
 
@@ -541,28 +541,28 @@ def validate_nbextension_python(spec, full_dest, logger=None):
 
     section = spec.get("section", None)
     if section in NBCONFIG_SECTIONS:
-        infos.append("  {} section: {}".format(GREEN_OK, section))
+        infos.append(u"  {} section: {}".format(GREEN_OK, section))
     else:
-        warnings.append("  {}  section: {}".format(RED_X, section))
+        warnings.append(u"  {}  section: {}".format(RED_X, section))
 
     require = spec.get("require", None)
     if require is not None:
         require_path = os.path.join(
             full_dest[0:-len(spec["dest"])],
-            "{}.js".format(require))
+            u"{}.js".format(require))
         if os.path.exists(require_path):
-            infos.append("  {} require: {}".format(GREEN_OK, require_path))
+            infos.append(u"  {} require: {}".format(GREEN_OK, require_path))
         else:
-            warnings.append("  {}  require: {}".format(RED_X, require_path))
+            warnings.append(u"  {}  require: {}".format(RED_X, require_path))
 
     if logger:
         if warnings:
             logger.warn("- Validating: problems found:")
             [logger.warn(warning) for warning in warnings]
             [logger.info(info) for info in infos]
-            logger.warn("Full spec: {}".format(spec))
+            logger.warn(u"Full spec: {}".format(spec))
         else:
-            logger.info("- Validating: {}".format(GREEN_OK))
+            logger.info(u"- Validating: {}".format(GREEN_OK))
 
     return warnings
 
@@ -690,7 +690,7 @@ class InstallNBExtensionApp(BaseNBExtensionApp):
 
         if full_dests:
             self.log.info(
-                "\nTo initialize this nbextension in the browser every time"
+                u"\nTo initialize this nbextension in the browser every time"
                 " the notebook (or other app) loads:\n\n"
                 "      jupyter nbextension enable {}{}{}{}\n".format(
                     self.extra_args[0] if self.python else "<the entry point>",
@@ -862,15 +862,15 @@ class ListNBExtensionsApp(BaseNBExtensionApp):
         self.log.info("Known nbextensions:")
         
         for config_dir in config_dirs:
-            self.log.info('  config dir: {}'.format(config_dir))
+            self.log.info(u'  config dir: {}'.format(config_dir))
             cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
             for section in NBCONFIG_SECTIONS:
                 data = cm.get(section)
                 if 'load_extensions' in data:
-                    self.log.info('    {} section'.format(section))
+                    self.log.info(u'    {} section'.format(section))
                     
                     for require, enabled in data['load_extensions'].items():
-                        self.log.info('      {} {}'.format(
+                        self.log.info(u'      {} {}'.format(
                             require,
                             GREEN_ENABLED if enabled else RED_DISABLED))
                         if enabled:
