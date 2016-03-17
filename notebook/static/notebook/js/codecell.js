@@ -302,7 +302,7 @@ define([
      */
     CodeCell.prototype.execute = function (stop_on_error) {
         if (!this.kernel) {
-            console.log("Can't execute, kernel is not connected.");
+            console.log("Can't execute cell since kernel is not set.");
             return;
         }
 
