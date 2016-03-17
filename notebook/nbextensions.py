@@ -359,9 +359,9 @@ def _set_nbextension_state_python(state, package, user, sys_prefix,
     package : str
         Importable Python package (no dotted-notation!) exposing the
         magic-named `_jupyter_nbextension_paths` function
-    user : bool [default: False]
+    user : bool
         Whether to enable in the user's nbextensions directory.
-    sys_prefix : bool [default: False]
+    sys_prefix : bool
         Enable/disable in the sys.prefix, i.e. environment
     logger : Jupyter logger [optional]
         Logger instance to use
