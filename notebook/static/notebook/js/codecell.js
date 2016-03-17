@@ -301,24 +301,21 @@ define([
      * @method execute
      */
     CodeCell.prototype.execute = function (stop_on_error) {
-        if (!this.kernel || !this.kernel.is_connected()) {
-            console.log("Can't execute, kernel is not connected.");
+        if (!this.kernel) {
+            console.log("Can't execute cell since kernel is not set.");
             return;
         }
-
-        this.output_area.clear_output(false, true);
 
         if (stop_on_error === undefined) {
             stop_on_error = true;
         }
 
+        this.output_area.clear_output(false, true);
         var old_msg_id = this.last_msg_id;
-
         if (old_msg_id) {
             this.kernel.clear_callbacks_for_msg(old_msg_id);
-            if (old_msg_id) {
-                delete CodeCell.msg_cells[old_msg_id];
-            }
+            delete CodeCell.msg_cells[old_msg_id];
+            this.last_msg_id = null;
         }
         if (this.get_text().trim().length === 0) {
             // nothing to do
