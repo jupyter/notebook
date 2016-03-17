@@ -308,7 +308,7 @@ def uninstall_nbextension_python(package,
 
 
 def _set_nbextension_state(section, require, state,
-                           user=False, sys_prefix=False, logger=None):
+                           user=True, sys_prefix=False, logger=None):
     """Set whether the section's frontend should require the named nbextension
 
     Returns True if the final state is the one requested.
@@ -321,11 +321,10 @@ def _set_nbextension_state(section, require, state,
         An importable AMD module inside the nbextensions static path
     state : bool
         The state in which to leave the extension
-    user : bool [default: False]
-        Whether to check the user's .jupyter/nbextensions directory.
-        Otherwise check a system-wide install (e.g. /usr/local/share/jupyter/nbextensions).
+    user : bool [default: True]
+        Whether to update the user's .jupyter/nbextensions directory
     sys_prefix : bool [default: False]
-        Install into the sys.prefix, i.e. environment
+        Whether to update the sys.prefix, i.e. environment
     logger : Jupyter logger [optional]
         Logger instance to use
     """
@@ -360,9 +359,9 @@ def _set_nbextension_state_python(state, package, user, sys_prefix,
     package : str
         Importable Python package (no dotted-notation!) exposing the
         magic-named `_jupyter_nbextension_paths` function
-    user : bool [default: False]
+    user : bool
         Whether to enable in the user's nbextensions directory.
-    sys_prefix : bool [default: False]
+    sys_prefix : bool
         Enable/disable in the sys.prefix, i.e. environment
     logger : Jupyter logger [optional]
         Logger instance to use
@@ -376,7 +375,7 @@ def _set_nbextension_state_python(state, package, user, sys_prefix,
             for nbext in nbexts]
 
 
-def enable_nbextension(section, require, user=False, sys_prefix=False,
+def enable_nbextension(section, require, user=True, sys_prefix=False,
                        logger=None):
     """Enable a named nbextension
 
@@ -389,7 +388,7 @@ def enable_nbextension(section, require, user=False, sys_prefix=False,
         The section of the server to change, one of NBCONFIG_SECTIONS
     require : string
         An importable AMD module inside the nbextensions static path
-    user : bool [default: False]
+    user : bool [default: True]
         Whether to enable in the user's nbextensions directory.
     sys_prefix : bool [default: False]
         Whether to enable in the sys.prefix, i.e. environment
@@ -402,7 +401,7 @@ def enable_nbextension(section, require, user=False, sys_prefix=False,
                                   logger=logger)
 
 
-def disable_nbextension(section, require, user=False, sys_prefix=False,
+def disable_nbextension(section, require, user=True, sys_prefix=False,
                         logger=None):
     """Disable a named nbextension
     
@@ -415,7 +414,7 @@ def disable_nbextension(section, require, user=False, sys_prefix=False,
         The section of the server to change, one of NBCONFIG_SECTIONS
     require : string
         An importable AMD module inside the nbextensions static path
-    user : bool [default: False]
+    user : bool [default: True]
         Whether to enable in the user's nbextensions directory.
     sys_prefix : bool [default: False]
         Whether to enable in the sys.prefix, i.e. environment
@@ -428,7 +427,7 @@ def disable_nbextension(section, require, user=False, sys_prefix=False,
                                   logger=logger)
 
 
-def enable_nbextension_python(package, user=False, sys_prefix=False,
+def enable_nbextension_python(package, user=True, sys_prefix=False,
                               logger=None):
     """Enable some nbextensions associated with a Python package.
 
@@ -441,7 +440,7 @@ def enable_nbextension_python(package, user=False, sys_prefix=False,
     package : str
         Importable Python package (no dotted-notation!) exposing the
         magic-named `_jupyter_nbextension_paths` function
-    user : bool [default: False]
+    user : bool [default: True]
         Whether to enable in the user's nbextensions directory.
     sys_prefix : bool [default: False]
         Whether to enable in the sys.prefix, i.e. environment
@@ -452,7 +451,7 @@ def enable_nbextension_python(package, user=False, sys_prefix=False,
                                          logger=logger)
 
 
-def disable_nbextension_python(package, user=False, sys_prefix=False,
+def disable_nbextension_python(package, user=True, sys_prefix=False,
                                logger=None):
     """Disable some nbextensions associated with a Python package.
     
@@ -464,7 +463,7 @@ def disable_nbextension_python(package, user=False, sys_prefix=False,
     package : str
         Importable Python package (no dotted-notation!) exposing the
         magic-named `_jupyter_nbextension_paths` function
-    user : bool [default: False]
+    user : bool [default: True]
         Whether to enable in the user's nbextensions directory.
     sys_prefix : bool [default: False]
         Whether to enable in the sys.prefix, i.e. environment
@@ -780,6 +779,7 @@ class ToggleNBExtensionApp(BaseNBExtensionApp):
     section = Unicode('notebook', config=True,
           help="""Which config section to add the extension to, 'common' will affect all pages."""
     )
+    user = Bool(True, config=True, help="Whether to do a user configuration")
 
     aliases = {'section': 'ToggleNBExtensionApp.section'}
     

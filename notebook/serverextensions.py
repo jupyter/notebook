@@ -30,7 +30,7 @@ class ArgumentConflict(ValueError):
 
 
 def toggle_serverextension_python(import_name, enabled=None, parent=None,
-                                  user=False, sys_prefix=False, logger=None):
+                                  user=True, sys_prefix=False, logger=None):
     """Toggle a server extension.
 
     By default, toggles the extension in the system-wide Jupyter configuration
@@ -46,7 +46,7 @@ def toggle_serverextension_python(import_name, enabled=None, parent=None,
         Toggle state for the extension.  Set to None to toggle, True to enable,
         and False to disable the extension.
     parent : Configurable [default: None]
-    user : bool [default: False]
+    user : bool [default: True]
         Toggle in the user's configuration location (e.g. ~/.jupyter).
     sys_prefix : bool [default: False]
         Toggle in the current Python environment's configuration location
@@ -161,7 +161,7 @@ class ToggleServerExtensionApp(BaseNBExtensionApp):
     aliases = {}
     flags = flags
 
-    user = Bool(False, config=True, help="Whether to do a user install")
+    user = Bool(True, config=True, help="Whether to do a user install")
     sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
     python = Bool(False, config=True, help="Install from a Python package")
     
