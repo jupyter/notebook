@@ -40,6 +40,7 @@ class LoginHandler(IPythonHandler):
     def post(self):
         typed_password = self.get_argument('password', default=u'')
         cookie_options = self.settings.get('cookie_options', {})
+        cookie_options.setdefault('httponly', True)
         if self.login_available(self.settings):
             if passwd_check(self.hashed_password, typed_password):
                 # tornado <4.2 has a bug that considers secure==True as soon as
