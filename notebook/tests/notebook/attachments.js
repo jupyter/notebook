@@ -100,11 +100,59 @@ casper.notebook_test(function () {
                                "both cells have the attachments");
     });
 
+    var nbname = 'attachments_test.ipynb';
+    this.thenEvaluate(function(nbname) {
+        IPython.notebook.set_notebook_name(nbname);
+    }, {nbname:nbname});
+
     // -- Save the notebook. This should cause garbage collection for the
     // second cell (since we just pasted the attachments but there is no
     // markdown referencing them)
-    this.thenEvaluate(function() {
+    this.thenEvaluate(function(nbname) {
+        IPython._checkpoint_created = false;
+        require(['base/js/events'], function (events) {
+            events.on('checkpoint_created.Notebook', function (evt, data) {
+                IPython._checkpoint_created = true;
+            });
+        });
+
         IPython.notebook.save_checkpoint();
+    }, {nbname:nbname});
+
+    this.waitFor(function () {
+        return this.evaluate(function(){
+            return IPython._checkpoint_created;
+        });
+    });
+
+    this.then(function(){
+        this.open_dashboard();
+    });
+
+
+    this.then(function(){
+        var notebook_url = this.evaluate(function(nbname){
+            var escaped_name = encodeURIComponent(nbname);
+            var return_this_thing = null;
+            $("a.item_link").map(function (i,a) {
+                if (a.href.indexOf(escaped_name) >= 0) {
+                    return_this_thing = a.href;
+                    return;
+                }
+            });
+            return return_this_thing;
+        }, {nbname:nbname});
+        this.test.assertNotEquals(notebook_url, null, "Escaped URL in notebook list");
+        // open the notebook
+        this.open(notebook_url);
+    });
+
+    // wait for the notebook
+    this.waitFor(this.kernel_running);
+    this.waitFor(function() {
+        return this.evaluate(function () {
+            return IPython && IPython.notebook && true;
+        });
     });
 
     this.then(function() {
