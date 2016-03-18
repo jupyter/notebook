@@ -19,6 +19,7 @@ from .nbextensions import (
 )
 
 from traitlets import Bool
+from traitlets.utils.importstring import import_item
 from traitlets.config.manager import BaseJSONConfigManager
 
 
@@ -193,7 +194,7 @@ class ToggleServerExtensionApp(BaseNBExtensionApp):
         ---------
 
         package : str
-            Importable Python package (no dotted-notation!) exposing the
+            Importable Python module exposing the
             magic-named `_jupyter_server_extension_paths` function
         """
         m, server_exts = _get_server_extension_metadata(package)
@@ -294,8 +295,8 @@ main = ServerExtensionApp.launch_instance
 # ------------------------------------------------------------------------------
 
 
-def _get_server_extension_metadata(package):
-    """Load server extension metadata from a package's magic-named path.
+def _get_server_extension_metadata(module):
+    """Load server extension metadata from a module.
 
     Returns a tuple of (
         the package as loaded
@@ -309,13 +310,13 @@ def _get_server_extension_metadata(package):
     Parameters
     ----------
 
-    package : str
-        Importable Python package (no dotted-notation!) exposing the
+    module : str
+        Importable Python module exposing the
         magic-named `_jupyter_server_extension_paths` function
     """
-    m = __import__(package)
+    m = import_item(module)
     if not hasattr(m, '_jupyter_server_extension_paths'):
-        raise KeyError(u'The Python package {} does not include any valid server extensions'.format(package))
+        raise KeyError(u'The Python module {} does not include any valid server extensions'.format(module))
     return m, m._jupyter_server_extension_paths()
 
 if __name__ == '__main__':

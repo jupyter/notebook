@@ -30,6 +30,7 @@ from ipython_genutils.tempdir import TemporaryDirectory
 from ._version import __version__
 
 from traitlets.config.manager import BaseJSONConfigManager
+from traitlets.utils.importstring import import_item
 
 from tornado.log import LogFormatter
 
@@ -214,14 +215,14 @@ def install_nbextension(path, overwrite=False, symlink=False,
     return full_dest
 
 
-def install_nbextension_python(package, overwrite=False, symlink=False,
+def install_nbextension_python(module, overwrite=False, symlink=False,
                         user=False, sys_prefix=False, prefix=None, nbextensions_dir=None, logger=None):
     """Install an nbextension bundled in a Python package.
 
     Returns a list of installed/updated directories.
 
     See install_nbextension for parameter information."""
-    m, nbexts = _get_nbextension_metadata(package)
+    m, nbexts = _get_nbextension_metadata(module)
     base_path = os.path.split(m.__file__)[0]
 
     full_dests = []
@@ -290,14 +291,14 @@ def uninstall_nbextension(dest, require, user=False, sys_prefix=False, prefix=No
         cm.update(section, {"load_extensions": {require: None}})
 
 
-def uninstall_nbextension_python(package,
+def uninstall_nbextension_python(module,
                         user=False, sys_prefix=False, prefix=None, nbextensions_dir=None,
                         logger=None):
     """Uninstall an nbextension bundled in a Python package.
     
     See parameters of `install_nbextension_python`
     """
-    m, nbexts = _get_nbextension_metadata(package)
+    m, nbexts = _get_nbextension_metadata(module)
     for nbext in nbexts:
         dest = nbext['dest']
         require = nbext['require']
@@ -344,9 +345,9 @@ def _set_nbextension_state(section, require, state,
     return cm.get(section).get(require) == state
 
 
-def _set_nbextension_state_python(state, package, user, sys_prefix,
+def _set_nbextension_state_python(state, module, user, sys_prefix,
                                   logger=None):
-    """Enable or disable some nbextensions stored in a python package
+    """Enable or disable some nbextensions stored in a Python package
 
     Returns a list of whether the state was achieved (i.e. changed, or was
     already right)
@@ -356,8 +357,8 @@ def _set_nbextension_state_python(state, package, user, sys_prefix,
 
     state : Bool
         Whether the extensions should be enabled
-    package : str
-        Importable Python package (no dotted-notation!) exposing the
+    module : str
+        Importable Python module exposing the
         magic-named `_jupyter_nbextension_paths` function
     user : bool
         Whether to enable in the user's nbextensions directory.
@@ -366,7 +367,7 @@ def _set_nbextension_state_python(state, package, user, sys_prefix,
     logger : Jupyter logger [optional]
         Logger instance to use
     """
-    m, nbexts = _get_nbextension_metadata(package)
+    m, nbexts = _get_nbextension_metadata(module)
     return [_set_nbextension_state(section=nbext["section"],
                                    require=nbext["require"],
                                    state=state,
@@ -427,9 +428,9 @@ def disable_nbextension(section, require, user=True, sys_prefix=False,
                                   logger=logger)
 
 
-def enable_nbextension_python(package, user=True, sys_prefix=False,
+def enable_nbextension_python(module, user=True, sys_prefix=False,
                               logger=None):
-    """Enable some nbextensions associated with a Python package.
+    """Enable some nbextensions associated with a Python module.
 
     Returns a list of whether the state was achieved (i.e. changed, or was
     already right)
@@ -437,8 +438,8 @@ def enable_nbextension_python(package, user=True, sys_prefix=False,
     Parameters
     ----------
 
-    package : str
-        Importable Python package (no dotted-notation!) exposing the
+    module : str
+        Importable Python module exposing the
         magic-named `_jupyter_nbextension_paths` function
     user : bool [default: True]
         Whether to enable in the user's nbextensions directory.
@@ -447,21 +448,21 @@ def enable_nbextension_python(package, user=True, sys_prefix=False,
     logger : Jupyter logger [optional]
         Logger instance to use
     """
-    return _set_nbextension_state_python(True, package, user, sys_prefix,
+    return _set_nbextension_state_python(True, module, user, sys_prefix,
                                          logger=logger)
 
 
-def disable_nbextension_python(package, user=True, sys_prefix=False,
+def disable_nbextension_python(module, user=True, sys_prefix=False,
                                logger=None):
-    """Disable some nbextensions associated with a Python package.
+    """Disable some nbextensions associated with a Python module.
     
     Returns True if the final state is the one requested.
 
     Parameters
     ----------
 
-    package : str
-        Importable Python package (no dotted-notation!) exposing the
+    module : str
+        Importable Python module exposing the
         magic-named `_jupyter_nbextension_paths` function
     user : bool [default: True]
         Whether to enable in the user's nbextensions directory.
@@ -470,7 +471,7 @@ def disable_nbextension_python(package, user=True, sys_prefix=False,
     logger : Jupyter logger [optional]
         Logger instance to use
     """
-    return _set_nbextension_state_python(False, package, user, sys_prefix,
+    return _set_nbextension_state_python(False, module, user, sys_prefix,
                                          logger=logger)
 
 
@@ -792,21 +793,21 @@ class ToggleNBExtensionApp(BaseNBExtensionApp):
         """The default config file name."""
         return 'jupyter_notebook_config'
     
-    def toggle_nbextension_python(self, package):
-        """Toggle some extensions in an importable Python package.
+    def toggle_nbextension_python(self, module):
+        """Toggle some extensions in an importable Python module.
 
         Returns a list of booleans indicating whether the state was changed as
         requested.
 
         Parameters
         ----------
-        package : str
-            Importable Python package (no dotted-notation!) exposing the
+        module : str
+            Importable Python module exposing the
             magic-named `_jupyter_nbextension_paths` function
         """
         toggle = (enable_nbextension_python if self._toggle_value
                   else disable_nbextension_python)
-        return toggle(package,
+        return toggle(module,
                       user=self.user,
                       sys_prefix=self.sys_prefix,
                       logger=self.log)
@@ -1053,8 +1054,8 @@ def _get_config_dir(user=False, sys_prefix=False):
     return nbext
 
 
-def _get_nbextension_metadata(package):
-    """Get the list of nbextension paths associated with a python package.
+def _get_nbextension_metadata(module):
+    """Get the list of nbextension paths associated with a Python module.
 
     Returns a tuple of (the module,             [{
         'section': 'notebook',
@@ -1066,13 +1067,13 @@ def _get_nbextension_metadata(package):
     Parameters
     ----------
 
-    package : str
-        Importable Python package (no dotted-notation!) exposing the
+    module : str
+        Importable Python module exposing the
         magic-named `_jupyter_nbextension_paths` function
     """
-    m = __import__(package)
+    m = import_item(module)
     if not hasattr(m, '_jupyter_nbextension_paths'):
-        raise KeyError('The Python package {} is not a valid nbextension'.format(package))
+        raise KeyError('The Python module {} is not a valid nbextension'.format(module))
     nbexts = m._jupyter_nbextension_paths()
     return m, nbexts
 
