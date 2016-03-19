@@ -1,7 +1,12 @@
 Contributing to the Jupyter Notebook
 ====================================
 
-TODO: a welcoming sentence
+If you're reading this section, you're probably interested in contributing to
+Jupyter.  Welcome and thanks for your interest in contributing!
+
+Please take a look at the Contributor documentation, familiarize yourself with
+using the Jupyter Notebook, and introduce yourself on the mailing list and share
+what area of the project you are interested in working on.
 
 General Guidelines
 ------------------
