@@ -20,7 +20,8 @@ __ http://jupyter.readthedocs.org/#contributor-documentation
 Setting Up a Development Environment
 ------------------------------------
 
-For general installation instructions have a look at the `Project Jupyter Installation Guide`__.
+For general installation instructions have a look at the
+`Project Jupyter Installation Guide`__.
 
 __ https://jupyter.readthedocs.org/en/latest/install.html
 
@@ -29,25 +30,23 @@ Installing Node.js and npm
 
 Building the Notebook from its GitHub source code requires some tools to
 create and minify JavaScript components and the CSS.
+Namely, that's Node.js and Node's package manager, ``npm``.
 
-You can use the pre-built installer from the `Node.js website`__.
-The installer will include Node.js and Node's package manager, ``npm``.
+If you use ``conda``, you can get them with::
 
-__ https://nodejs.org
+    conda install -c javascript nodejs
 
-Or you can use your system's package manager ...
-
-If you use Homebrew_ on Mac OS X::
+If you use `Homebrew <http://brew.sh/>`_ on Mac OS X::
 
     brew install node
-
-.. _Homebrew: http://brew.sh/
 
 For Debian/Ubuntu systems, you should use the ``nodejs-legacy`` package instead
 of the ``node`` package::
 
     sudo apt-get update
     sudo apt-get install nodejs-legacy npm
+
+You can also use the installer from the `Node.js website <https://nodejs.org>`_.
 
 
 Installing the Jupyter Notebook
