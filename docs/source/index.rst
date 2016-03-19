@@ -44,6 +44,7 @@ The Jupyter notebook
 
    contributing
    development_release
+   development_faq
 
 .. toctree::
    :maxdepth: 1
