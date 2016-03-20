@@ -169,7 +169,7 @@ define(function(require){
           group: ["group", "{{group}} command group"],
           searchOnFocus: true,
           mustSelectItem: true,
-          template: '<i class="fa fa-icon {{icon}}"></i>{{display}}  <div class="pull-right {{mode_shortcut}}">{{shortcut}}</div>',
+          template: '<i class="fa fa-icon {{icon}}"></i>{{display}}  <div title={{key}} class="pull-right {{mode_shortcut}}">{{shortcut}}</div>',
           order: "asc",
           source: src,
           callback: {

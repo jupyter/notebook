@@ -78,7 +78,6 @@ define([
     raw_cell_preset.push('raw_cell.select');
 
     CellToolbar.register_preset('Raw Cell Format', raw_cell_preset, notebook);
-    console.log('Raw Cell Format toolbar preset loaded.');
   };
   return {'register': register};
 

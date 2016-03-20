@@ -164,6 +164,7 @@ define(function (require) {
         Object.seal(this);
     };
 
+
     Notebook.options_default = {
         // can be any cell type, or the special values of
         // 'above', 'below', or 'selected' to get the value from another cell.
@@ -2410,7 +2411,7 @@ define(function (require) {
           var cell = cells[i];
           cell.remove_unused_attachments();
       }
-    }
+    };
 
     /**
      * Load a notebook from JSON (.ipynb).

@@ -396,6 +396,11 @@ define([
          * Remove the binding of shortcut `sortcut` with its action.
          * throw an error if trying to remove a non-exiting shortcut
          **/
+        if(!shortcut){
+            console.warn('trying to remove empty shortcut');
+            return;
+
+        }
         shortcut = normalize_shortcut(shortcut);
         if( typeof(shortcut) === 'string'){
             shortcut = shortcut.split(',');
@@ -404,14 +409,15 @@ define([
          *  The shortcut error should be explicit here, because it will be
          *  seen by users.
          */
-        try
-        {
+        var that = this;
+        try {
           this._remove_leaf(shortcut, this._shortcuts);
           if (!suppress_help_update) {
             // update the keyboard shortcuts notebook help
             this.events.trigger('rebuild.QuickHelp');
           }
         } catch (ex) {
+          console.warn('shortbut', shortcut, '...',this._shortcuts);
           throw new Error('trying to remove a non-existent shortcut', shortcut);
         }
     };
