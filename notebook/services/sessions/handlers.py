@@ -42,10 +42,13 @@ class SessionRootHandler(APIHandler):
             path = model['notebook']['path']
         except KeyError:
             raise web.HTTPError(400, "Missing field in JSON data: notebook.path")
-        try:
-            kernel_name = model['kernel']['name']
-        except KeyError:
-            self.log.debug("No kernel name specified, using default kernel")
+
+        kernel = model.get('kernel', {})
+        kernel_name = kernel.get('name', None)
+        kernel_id = kernel.get('id', None)
+
+        if kernel_id is None and kernel_name is None:
+            self.log.debug("No kernel specified, using default kernel")
             kernel_name = None
 
         # Check to see if session exists
@@ -55,7 +58,8 @@ class SessionRootHandler(APIHandler):
         else:
             try:
                 model = yield gen.maybe_future(
-                    sm.create_session(path=path, kernel_name=kernel_name))
+                    sm.create_session(path=path, kernel_name=kernel_name,
+                                      kernel_id=kernel_id))
             except NoSuchKernel:
                 msg = ("The '%s' kernel is not available. Please pick another "
                        "suitable kernel instead, or install that kernel." % kernel_name)
