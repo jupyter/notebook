@@ -213,10 +213,19 @@ define([
     ];
     
     function _parseNumbers(text) {
-        var numbers = text.split(";");
-        numbers = numbers.map(text => text ? Number.parseInt(text) : 0);
-        if (numbers.some(Number.isNaN)) {
-            numbers = [];  // Ignored: Invalid color specification
+        var numbers = [];
+        var items = text.split(";");
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if (item === "") {
+                numbers.push(0);
+            } else if (item.search(/^\d+$/) !== -1) {
+                numbers.push(parseInt(item));
+            } else {
+                // Ignored: Invalid color specification
+                numbers.length = 0;
+                return;
+            }
         }
         return numbers;
     }
@@ -229,7 +238,7 @@ define([
             r = numbers.shift();
             g = numbers.shift();
             b = numbers.shift();
-            if ([r, g, b].some(c => c < 0 || 255 < c)) {
+            if ([r, g, b].some(function (c) { return c < 0 || 255 < c; })) {
                 throw new RangeError();
             }
         } else if (n === 5 && numbers.length >= 1) {
@@ -288,13 +297,13 @@ define([
                 if (typeof fg === "number") {
                     classes.push(_ANSI_COLORS[fg] + "-fg");
                 } else if (fg.length) {
-                    styles.push(`color: rgb(${fg})`);
+                    styles.push("color: rgb(" + fg + ")");
                 }
 
                 if (typeof bg === "number") {
                     classes.push(_ANSI_COLORS[bg] + "-bg");
                 } else if (bg.length) {
-                    styles.push(`background-color: rgb(${bg})`);
+                    styles.push("background-color: rgb(" + bg + ")");
                 }
 
                 if (bold) {
@@ -304,10 +313,10 @@ define([
                 if (classes.length || styles.length) {
                     out.push("<span");
                     if (classes.length) {
-                        out.push(` class="${classes.join(" ")}"`);
+                        out.push(' class="' + classes.join(" ") + '"');
                     }
                     if (styles.length) {
-                        out.push(` style="${styles.join("; ")}"`);
+                        out.push(' style="' + styles.join("; ") + '"');
                     }
                     out.push(">");
                     out.push(chunk);
