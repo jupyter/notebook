@@ -175,6 +175,8 @@ class TestSessionManager(TestCase):
         # try to delete a session that doesn't exist ~ raise error
         sm = self.sm
         self.create_session(path='/path/to/test.ipynb', kernel_name='python')
-        self.assertRaises(TypeError, sm.delete_session, bad_kwarg='23424') # Bad keyword
-        self.assertRaises(web.HTTPError, sm.delete_session, session_id='23424') # nonexistant
+        with self.assertRaises(TypeError):
+            self.loop.run_sync(lambda : sm.delete_session(bad_kwarg='23424')) # Bad keyword
+        with self.assertRaises(web.HTTPError):
+            self.loop.run_sync(lambda : sm.delete_session(session_id='23424')) # nonexistent
 
