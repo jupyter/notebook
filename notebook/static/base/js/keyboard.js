@@ -399,7 +399,6 @@ define([
         if(!shortcut){
             console.warn('trying to remove empty shortcut');
             return;
-
         }
         shortcut = normalize_shortcut(shortcut);
         if( typeof(shortcut) === 'string'){
@@ -417,7 +416,6 @@ define([
             this.events.trigger('rebuild.QuickHelp');
           }
         } catch (ex) {
-          console.warn('shortbut', shortcut, '...',this._shortcuts);
           throw new Error('trying to remove a non-existent shortcut', shortcut);
         }
     };
