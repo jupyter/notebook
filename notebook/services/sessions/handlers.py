@@ -58,7 +58,8 @@ class SessionRootHandler(APIHandler):
         else:
             try:
                 model = yield gen.maybe_future(
-                    sm.create_session(path=path, kernel_name=kernel_name))
+                    sm.create_session(path=path, kernel_name=kernel_name,
+                                      kernel_id=kernel_id))
             except NoSuchKernel:
                 msg = ("The '%s' kernel is not available. Please pick another "
                        "suitable kernel instead, or install that kernel." % kernel_name)

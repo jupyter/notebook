@@ -67,9 +67,8 @@ class SessionManager(LoggingConfigurable):
     def create_session(self, path=None, kernel_name=None, kernel_id=None):
         """Creates a session and returns its model"""
         session_id = self.new_session_id()
-        if kernel_id is not None:
-            if kernel_id not in self.kernel_manager:
-                raise web.HTTPError(400, "No such kernel: %s" % kernel_id)
+        if kernel_id is not None and kernel_id in self.kernel_manager:
+            pass
         else:
             kernel_id = yield self.start_kernel_for_session(session_id, path,
                                                             kernel_name)
