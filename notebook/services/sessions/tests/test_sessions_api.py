@@ -53,7 +53,8 @@ class SessionAPI(object):
         return self._req('PATCH', id, body)
 
     def modify_kernel_id(self, id, kernel_id):
-        body = json.dumps({'kernel': {'id': kernel_id}})
+        # Also send a dummy name to show that id takes precedence.
+        body = json.dumps({'kernel': {'id': kernel_id, 'name': 'foo'}})
         return self._req('PATCH', id, body)
 
     def delete(self, id):
