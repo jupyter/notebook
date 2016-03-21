@@ -39,9 +39,10 @@ class SessionAPI(object):
     def get(self, id):
         return self._req('GET', id)
 
-    def create(self, path, kernel_name='python'):
+    def create(self, path, kernel_name='python', kernel_id=None):
         body = json.dumps({'notebook': {'path':path},
-                           'kernel': {'name': kernel_name}})
+                           'kernel': {'name': kernel_name,
+                                      'id': kernel_id}})
         return self._req('POST', '', body)
 
     def modify_path(self, id, path):
@@ -101,6 +102,28 @@ class SessionAPITest(NotebookTestBase):
         newsession = resp.json()
         self.assertIn('id', newsession)
         self.assertEqual(newsession['notebook']['path'], 'foo/nb1.ipynb')
+        self.assertEqual(resp.headers['Location'], self.url_prefix + 'api/sessions/{0}'.format(newsession['id']))
+
+        sessions = self.sess_api.list().json()
+        self.assertEqual(sessions, [newsession])
+
+        # Retrieve it
+        sid = newsession['id']
+        got = self.sess_api.get(sid).json()
+        self.assertEqual(got, newsession)
+
+    def test_create_with_kernel_id(self):
+        # create a new kernel
+        r = requests.post(url_path_join(self.base_url(), 'api/kernels'))
+        r.raise_for_status()
+        kernel = r.json()
+
+        resp = self.sess_api.create('foo/nb1.ipynb', kernel_id=kernel['id'])
+        self.assertEqual(resp.status_code, 201)
+        newsession = resp.json()
+        self.assertIn('id', newsession)
+        self.assertEqual(newsession['notebook']['path'], 'foo/nb1.ipynb')
+        self.assertEqual(newsession['kernel']['id'], kernel['id'])
         self.assertEqual(resp.headers['Location'], self.url_prefix + 'api/sessions/{0}'.format(newsession['id']))
 
         sessions = self.sess_api.list().json()
