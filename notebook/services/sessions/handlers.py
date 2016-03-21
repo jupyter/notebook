@@ -44,10 +44,10 @@ class SessionRootHandler(APIHandler):
             raise web.HTTPError(400, "Missing field in JSON data: notebook.path")
 
         kernel = model.get('kernel', {})
-        kernel_name = kernel.get('name', None)
-        kernel_id = kernel.get('id', None)
+        kernel_name = kernel.get('name') or None
+        kernel_id = kernel.get('id') or None
 
-        if kernel_id is None and kernel_name is None:
+        if not kernel_id and not kernel_name:
             self.log.debug("No kernel specified, using default kernel")
             kernel_name = None
 
