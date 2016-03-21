@@ -325,10 +325,12 @@ def _set_nbextension_state(section, require, state,
     user : bool [default: True]
         Whether to update the user's .jupyter/nbextensions directory
     sys_prefix : bool [default: False]
-        Whether to update the sys.prefix, i.e. environment
+        Whether to update the sys.prefix, i.e. environment. Will override
+        `user`.
     logger : Jupyter logger [optional]
         Logger instance to use
     """
+    user = False if sys_prefix else user
     config_dir = os.path.join(
         _get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
     cm = BaseJSONConfigManager(config_dir=config_dir)
@@ -392,7 +394,8 @@ def enable_nbextension(section, require, user=True, sys_prefix=False,
     user : bool [default: True]
         Whether to enable in the user's nbextensions directory.
     sys_prefix : bool [default: False]
-        Whether to enable in the sys.prefix, i.e. environment
+        Whether to enable in the sys.prefix, i.e. environment. Will override
+        `user`
     logger : Jupyter logger [optional]
         Logger instance to use
     """
@@ -418,7 +421,8 @@ def disable_nbextension(section, require, user=True, sys_prefix=False,
     user : bool [default: True]
         Whether to enable in the user's nbextensions directory.
     sys_prefix : bool [default: False]
-        Whether to enable in the sys.prefix, i.e. environment
+        Whether to enable in the sys.prefix, i.e. environment. Will override
+        `user`.
     logger : Jupyter logger [optional]
         Logger instance to use
     """
@@ -444,7 +448,8 @@ def enable_nbextension_python(module, user=True, sys_prefix=False,
     user : bool [default: True]
         Whether to enable in the user's nbextensions directory.
     sys_prefix : bool [default: False]
-        Whether to enable in the sys.prefix, i.e. environment
+        Whether to enable in the sys.prefix, i.e. environment. Will override
+        `user`
     logger : Jupyter logger [optional]
         Logger instance to use
     """
@@ -1043,6 +1048,7 @@ def _get_config_dir(user=False, sys_prefix=False):
     sys_prefix : bool [default: False]
         Get sys.prefix, i.e. ~/.envs/my-env/etc/jupyter
     """
+    user = False if sys_prefix else user
     if user and sys_prefix:
         raise ArgumentConflict("Cannot specify more than one of user or sys_prefix")
     if user:
