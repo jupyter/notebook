@@ -288,7 +288,7 @@ define([
             }
             var chunk = str.substring(start, match.index);
             if (chunk) {
-                if (bold && 0 <= fg && fg < 8) {
+                if (bold && typeof fg === "number" && 0 <= fg && fg < 8) {
                     fg += 8;  // Bold text uses "intense" colors
                 }
                 var classes = [];
