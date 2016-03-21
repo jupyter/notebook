@@ -51,10 +51,11 @@ def toggle_serverextension_python(import_name, enabled=None, parent=None,
         Toggle in the user's configuration location (e.g. ~/.jupyter).
     sys_prefix : bool [default: False]
         Toggle in the current Python environment's configuration location
-        (e.g. ~/.envs/my-env/etc/jupyter).
+        (e.g. ~/.envs/my-env/etc/jupyter). Will override `user`.
     logger : Jupyter logger [optional]
         Logger instance to use
     """
+    user = False if sys_prefix else user
     config_dir = _get_config_dir(user=user, sys_prefix=sys_prefix)
     cm = BaseJSONConfigManager(parent=parent, config_dir=config_dir)
     cfg = cm.get("jupyter_notebook_config")
