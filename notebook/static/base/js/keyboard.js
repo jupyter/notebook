@@ -408,7 +408,6 @@ define([
          *  The shortcut error should be explicit here, because it will be
          *  seen by users.
          */
-        var that = this;
         try {
           this._remove_leaf(shortcut, this._shortcuts);
           if (!suppress_help_update) {

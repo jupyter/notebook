@@ -3,8 +3,8 @@ Customize keymaps
 
 .. note::
 
-    DEclarative Custom Keymaps is a provisional feature with unstable API which is not
-    guarantied to be keep in future versions odf the notebook, and can be
+    Declarative Custom Keymaps is a provisional feature with unstable API which is not
+    guaranteed to be kept in future versions of the notebook, and can be
     removed or changed without warnings. 
 
 The notebook shortcuts that are defined by jupyter both in edit mode an command

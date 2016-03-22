@@ -51,7 +51,7 @@ define([
             var edit_unbind;
 
             try {
-                edit_unbind = that.config.data.keys.edit.unbind;
+                edit_unbind = that.config.data.keys.edit.unbind||[];
             } catch (e) {
                 if (e instanceof TypeError) {
                     edit_unbind = [];
@@ -65,7 +65,7 @@ define([
             var command_unbind;
 
             try {
-                command_unbind = that.config.data.keys.command.unbind;
+                command_unbind = that.config.data.keys.command.unbind||[];
             } catch (e) {
                 if (e instanceof TypeError) {
                     command_unbind = [];
