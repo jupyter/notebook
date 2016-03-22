@@ -22,7 +22,7 @@
   },
   "scripts": {
     "clean": "rimraf build",
-    "build": "npm update && webpack --config webpack.conf.js",
+    "build": "npm update jupyter-js-plugins && webpack --config webpack.conf.js",
     "postinstall": "npm dedupe",
     "test": "echo 'no tests specified'"
   },
