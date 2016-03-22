@@ -42,6 +42,17 @@ def copy2_safe(src, dst, log=None):
         if log:
             log.debug("copystat on %s failed", dst, exc_info=True)
 
+def path_to_intermediate(path):
+    '''Name of the intermediate file used in atomic writes.
+
+    The .~ prefix will make Dropbox ignore the temporary file.'''
+    dirname, basename = os.path.split(path)
+    return os.path.join(dirname, '.~'+basename)
+
+def path_to_invalid(path):
+	'''Name of invalid file after a failed atomic write and subsequent read.'''
+    dirname, basename = os.path.split(path)
+    return os.path.join(dirname, '.invalid-'+basename)
 
 @contextmanager
 def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
@@ -73,9 +84,8 @@ def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     if os.path.islink(path):
         path = os.path.join(os.path.dirname(path), os.readlink(path))
 
-    dirname, basename = os.path.split(path)
-    # The .~ prefix will make Dropbox ignore the temporary file.
-    tmp_path = os.path.join(dirname, '.~'+basename)
+    tmp_path = path_to_intermediate(path)
+
     if os.path.isfile(path):
         copy2_safe(path, tmp_path, log=log)
 
@@ -249,10 +259,23 @@ class FileManagerMixin(Configurable):
             try:
                 return nbformat.read(f, as_version=as_version)
             except Exception as e:
+                e_orig = e
+
+            # If use_atomic_writing is enabled, we'll guess that it was also
+            # enabled when this notebook was written and look for a valid
+            # atomic intermediate.
+            tmp_path = path_to_intermediate(os_path)
+
+            if not self.use_atomic_writing or not os.path.exists(tmp_path):
                 raise HTTPError(
                     400,
-                    u"Unreadable Notebook: %s %r" % (os_path, e),
+                    u"Unreadable Notebook: %s %r" % (os_path, e_orig),
                 )
+
+            # Move the bad file aside, restore the intermediate, and try again.
+            copy2_safe(os_path, path_to_invalid(os_path))
+            os.rename(tmp_path, os_path)
+            return self._read_notebook(os_path, as_version)
 
     def _save_notebook(self, os_path, nb):
         """Save a notebook to an os_path."""
