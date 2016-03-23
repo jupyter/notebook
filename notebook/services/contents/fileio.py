@@ -50,9 +50,9 @@ def path_to_intermediate(path):
     return os.path.join(dirname, '.~'+basename)
 
 def path_to_invalid(path):
-	'''Name of invalid file after a failed atomic write and subsequent read.'''
+    '''Name of invalid file after a failed atomic write and subsequent read.'''
     dirname, basename = os.path.split(path)
-    return os.path.join(dirname, '.invalid-'+basename)
+    return os.path.join(dirname, basename+'.invalid')
 
 @contextmanager
 def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
@@ -273,7 +273,11 @@ class FileManagerMixin(Configurable):
                 )
 
             # Move the bad file aside, restore the intermediate, and try again.
-            copy2_safe(os_path, path_to_invalid(os_path))
+            invalid_file = path_to_invalid(os_path)
+            # Rename over existing file doesn't work on Windows
+            if os.name == 'nt' and os.path.exists(invalid_file):
+                os.remove(invalid_file)
+            os.rename(os_path, invalid_file)
             os.rename(tmp_path, os_path)
             return self._read_notebook(os_path, as_version)
 
