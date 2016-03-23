@@ -53,7 +53,7 @@ clean:
 	rm -rf $(BUILDDIR)/*
 	rm -rf config.rst
 
-html: source/config.rst ipynb2rst
+html: source/config.rst
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
@@ -61,10 +61,6 @@ html: source/config.rst ipynb2rst
 source/config.rst:
 	python3 autogen_config.py
 	@echo "Created docs for config options"
-
-ipynb2rst:
-	jupyter nbconvert --to rst source/examples/Notebook/*.ipynb --template=source/template --FilesWriter.build_directory=source/examples/Notebook/rstversions
-	@echo "Converted notebooks to rst"
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml
