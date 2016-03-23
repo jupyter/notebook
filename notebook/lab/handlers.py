@@ -25,6 +25,6 @@ class LabHandler(IPythonHandler):
 
 default_handlers = [
     (r"/lab", LabHandler),
-    (r"/lab/build/(.*)", AuthenticatedFileHandler,
+    (r"/lab/(.*)", AuthenticatedFileHandler,
         {'path': os.path.join(os.path.dirname(__file__), 'build')}),
     ]
