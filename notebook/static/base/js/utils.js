@@ -212,24 +212,6 @@ define([
         "ansi-white-intense",
     ];
     
-    function _parseNumbers(text) {
-        var numbers = [];
-        var items = text.split(";");
-        for (var i = 0; i < items.length; i++) {
-            var item = items[i];
-            if (item === "") {
-                numbers.push(0);
-            } else if (item.search(/^\d+$/) !== -1) {
-                numbers.push(parseInt(item));
-            } else {
-                // Ignored: Invalid color specification
-                numbers.length = 0;
-                return;
-            }
-        }
-        return numbers;
-    }
-
     function _getExtendedColors(numbers) {
         var r, g, b;
         var n = numbers.shift();
@@ -282,7 +264,19 @@ define([
         str += "\x1b[m";  // Ensure markup for trailing text
         while ((match = ansi_re.exec(str))) {
             if (match[2] === "m") {
-                numbers = _parseNumbers(match[1]);
+                var items = match[1].split(";");
+                for (var i = 0; i < items.length; i++) {
+                    var item = items[i];
+                    if (item === "") {
+                        numbers.push(0);
+                    } else if (item.search(/^\d+$/) !== -1) {
+                        numbers.push(parseInt(item));
+                    } else {
+                        // Ignored: Invalid color specification
+                        numbers.length = 0;
+                        break;
+                    }
+                }
             } else {
                 // Ignored: Not a color code
             }
