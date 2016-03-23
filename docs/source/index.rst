@@ -57,7 +57,6 @@ The Jupyter notebook
    examples/Notebook/Running Code
    examples/Notebook/Working With Markdown Cells
    examples/Notebook/Custom Keyboard Shortcuts
-   examples/Notebook/JavaScript Notebook Extensions
    examples/Notebook/Importing Notebooks
    examples/Notebook/Connecting with the Qt Console
    examples/Notebook/Typesetting Equations
