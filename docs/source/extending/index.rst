@@ -13,3 +13,4 @@ override the notebook's defaults with your own custom behavior.
     savehooks
     handlers
     frontend_extensions
+    keymaps

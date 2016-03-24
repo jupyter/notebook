@@ -42,6 +42,46 @@ define([
         this.edit_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env);
         this.edit_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
         this.edit_shortcuts.add_shortcuts(this.get_default_edit_shortcuts());
+
+
+        this.config = options.config;
+        var that = this;
+
+        this.config.loaded.then(function(){ 
+            var edit_unbind;
+
+            try {
+                edit_unbind = that.config.data.keys.edit.unbind||[];
+            } catch (e) {
+                if (e instanceof TypeError) {
+                    edit_unbind = [];
+                } else {
+                    throw e;
+                }
+            }
+
+            edit_unbind.forEach(function(u){that.edit_shortcuts.remove_shortcut(u);});
+
+            var command_unbind;
+
+            try {
+                command_unbind = that.config.data.keys.command.unbind||[];
+            } catch (e) {
+                if (e instanceof TypeError) {
+                    command_unbind = [];
+                } else {
+                    throw e;
+                }
+            }
+
+            command_unbind.forEach(function(u){that.command_shortcuts.remove_shortcut(u);});
+
+            that.command_shortcuts.add_shortcuts( ((that.config.data.keys||{}).command||{}).bind);
+            that.edit_shortcuts.add_shortcuts(    ((that.config.data.keys||{}).edit   ||{}).bind);
+
+            }
+        );
+
         Object.seal(this);
     };
 

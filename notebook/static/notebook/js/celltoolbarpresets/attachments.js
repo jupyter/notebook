@@ -43,8 +43,7 @@ define([
       attachments_preset.push('attachments.edit');
 
       CellToolbar.register_preset('Attachments', attachments_preset, notebook);
-      console.log('Attachments editing toolbar loaded.');
 
     };
-    return {'register' : register}
+    return {'register' : register};
 });

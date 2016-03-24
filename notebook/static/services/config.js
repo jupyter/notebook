@@ -81,7 +81,7 @@ function(utils) {
         if (this.classname) {
             return this.section.data[this.classname] || {};
         } else {
-            return this.section.data
+            return this.section.data;
         }
     };
     
@@ -92,7 +92,7 @@ function(utils) {
     ConfigWithDefaults.prototype.get = function(key) {
         var that = this;
         return this.section.loaded.then(function() {
-            return that._class_data()[key] || that.defaults[key]
+            return that._class_data()[key] || that.defaults[key];
         });
     };
     
