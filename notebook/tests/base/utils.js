@@ -8,17 +8,21 @@ casper.notebook_test(function () {
         "\033[0m[\033[31merror\033[0m] \033[0m\teven more text\033[0m",
         "\u001b[?25hBuilding wheels for collected packages: scipy",
         "\x1b[38;5;28;01mtry\x1b[39;00m",
-        "\033[0m[\033[31merror\033[0m] \033[0m\t\tand more more text\033[0m"].join("\n");
+        "\033[0m[\033[31merror\033[0m] \033[0m\t\tand more more text\033[0m",
+        "normal\x1b[43myellowbg\x1b[35mmagentafg\x1b[1mbold\x1b[49mdefaultbg\x1b[39mdefaultfg\x1b[22mnormal",
+    ].join("\n");
 
     var output = [
         "[info] text",
-        "[<span  class=\"ansiyellow\">warn</span>] \tmore text",
-        "[<span  class=\"ansiyellow\">warn</span>]   https://some/url/to/a/file.ext",
-        "[<span  class=\"ansired\">error</span>] ",
-        "[<span  class=\"ansired\">error</span>] \teven more text",
+        '[<span class="ansi-yellow-fg">warn</span>] \tmore text',
+        '[<span class="ansi-yellow-fg">warn</span>]   https://some/url/to/a/file.ext',
+        '[<span class="ansi-red-fg">error</span>] ',
+        '[<span class="ansi-red-fg">error</span>] \teven more text',
         "Building wheels for collected packages: scipy",
-        '<span  style="color: rgb(0,102,0);" class="ansibold">try</span>',
-        "[<span  class=\"ansired\">error</span>] \t\tand more more text"].join("\n");
+        '<span class="ansi-bold" style="color: rgb(0,135,0)">try</span>',
+        '[<span class="ansi-red-fg">error</span>] \t\tand more more text',
+        'normal<span class="ansi-yellow-bg">yellowbg</span><span class="ansi-magenta-fg ansi-yellow-bg">magentafg</span><span class="ansi-magenta-intense-fg ansi-yellow-bg ansi-bold">bold</span><span class="ansi-magenta-intense-fg ansi-bold">defaultbg</span><span class="ansi-bold">defaultfg</span>normal',
+    ].join("\n");
 
     var result = this.evaluate(function (input) {
         return IPython.utils.fixConsole(input);

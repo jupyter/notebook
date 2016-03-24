@@ -112,6 +112,11 @@ define([
         });
         
         // View
+
+        this.element.find('#toggle_header').click(function (){
+            $("#header-container").toggle();
+        });
+        
         this.element.find('#menu-line-numbers').click(function () {
             var current = editor.codemirror.getOption('lineNumbers');
             var value = Boolean(1-current);

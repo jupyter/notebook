@@ -659,9 +659,9 @@ define([
     var append_text = function (data, md, element) {
         var type = 'text/plain';
         var toinsert = this.create_output_subarea(md, "output_text", type);
+        data = utils.fixCarriageReturn(data);
         // escape ANSI & HTML specials in plaintext:
         data = utils.fixConsole(data);
-        data = utils.fixCarriageReturn(data);
         data = utils.autoLinkUrls(data);
         // The only user content injected with this HTML call is
         // escaped by the fixConsole() method.

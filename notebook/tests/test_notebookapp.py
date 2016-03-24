@@ -14,6 +14,7 @@ from jupyter_core.application import NoStart
 from ipython_genutils.tempdir import TemporaryDirectory
 from traitlets import TraitError
 from notebook import notebookapp, __version__
+from notebook import notebookapp
 NotebookApp = notebookapp.NotebookApp
 
 
@@ -80,7 +81,6 @@ def test_generate_config():
         with nt.assert_raises(NoStart):
             app.start()
         assert os.path.exists(os.path.join(td, 'jupyter_notebook_config.py'))
-
 
 #test if the version testin function works
 def test_pep440_version():

@@ -38,25 +38,63 @@ define([
         this.actions = options.actions;
 		
 		// default shorcuts in classic mode and vim mode
-        var command_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env );
-        command_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
-        command_shortcuts.add_shortcuts(this.get_default_command_shortcuts());
-        var edit_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env);
-        edit_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
-        edit_shortcuts.add_shortcuts(this.get_default_edit_shortcuts());
-        var vim_command_shortcuts = new keyboard.ShortcutManager( undefined , options.events, this.actions, this.env );
-        vim_command_shortcuts.add_shortcuts(this.get_default_common_vim_shortcuts());
-        vim_command_shortcuts.add_shortcuts(this.get_default_vim_command_shortcuts());
-        var vim_edit_shortcuts = new keyboard.ShortcutManager( undefined , options.events, this.actions, this.env );
-        vim_edit_shortcuts.add_shortcuts(this.get_default_common_vim_shortcuts());
-        vim_edit_shortcuts.add_shortcuts(this.get_default_vim_edit_shortcuts());
+        this.command_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env );
+        this.command_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
+        this.command_shortcuts.add_shortcuts(this.get_default_command_shortcuts());
+        this.edit_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env);
+        this.edit_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
+        this.edit_shortcuts.add_shortcuts(this.get_default_edit_shortcuts());
+        this.vim_command_shortcuts = new keyboard.ShortcutManager( undefined , options.events, this.actions, this.env );
+        this.vim_command_shortcuts.add_shortcuts(this.get_default_common_vim_shortcuts());
+        this.vim_command_shortcuts.add_shortcuts(this.get_default_vim_command_shortcuts());
+        this.vim_edit_shortcuts = new keyboard.ShortcutManager( undefined , options.events, this.actions, this.env );
+        this.vim_edit_shortcuts.add_shortcuts(this.get_default_common_vim_shortcuts());
+        this.vim_edit_shortcuts.add_shortcuts(this.get_default_vim_edit_shortcuts());
 
         this.mode = {
-			"command": command_shortcuts,
-			"edit": edit_shortcuts,
-			"vim-command": vim_command_shortcuts,
-			"vim-edit": vim_edit_shortcuts
+			"command": this.command_shortcuts,
+			"edit": this.edit_shortcuts,
+			"vim-command": this.vim_command_shortcuts,
+			"vim-edit": this.vim_edit_shortcuts
 		};
+
+        this.config = options.config;
+        var that = this;
+
+        this.config.loaded.then(function(){ 
+            var edit_unbind;
+
+            try {
+                edit_unbind = that.config.data.keys.edit.unbind||[];
+            } catch (e) {
+                if (e instanceof TypeError) {
+                    edit_unbind = [];
+                } else {
+                    throw e;
+                }
+            }
+
+            edit_unbind.forEach(function(u){that.edit_shortcuts.remove_shortcut(u);});
+
+            var command_unbind;
+
+            try {
+                command_unbind = that.config.data.keys.command.unbind||[];
+            } catch (e) {
+                if (e instanceof TypeError) {
+                    command_unbind = [];
+                } else {
+                    throw e;
+                }
+            }
+
+            command_unbind.forEach(function(u){that.command_shortcuts.remove_shortcut(u);});
+
+            that.command_shortcuts.add_shortcuts( ((that.config.data.keys||{}).command||{}).bind);
+            that.edit_shortcuts.add_shortcuts(    ((that.config.data.keys||{}).edit   ||{}).bind);
+
+            }
+        );
         Object.seal(this);
     };
 

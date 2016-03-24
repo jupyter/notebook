@@ -6,7 +6,7 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "dependencies": {
-    "jupyter-js-plugins": "^0.10.1",
+    "jupyter-js-plugins": "^0.11.5",
     "phosphide": "^0.9.0"
   },
   "devDependencies": {
@@ -22,7 +22,7 @@
   },
   "scripts": {
     "clean": "rimraf build",
-    "build": "webpack --config webpack.conf.js",
+    "build": "npm update jupyter-js-plugins && webpack --config webpack.conf.js",
     "postinstall": "npm dedupe",
     "test": "echo 'no tests specified'"
   },

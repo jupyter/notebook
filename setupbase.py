@@ -131,7 +131,7 @@ def find_package_data():
     ])
     
     # Add the Lab page contents
-    static_data.append(pjoin('static', 'lab', 'build', '*'))
+    static_data.append(pjoin('lab', 'build', '*'))
 
     components = pjoin("static", "components")
     # select the components we actually need to install
@@ -341,7 +341,7 @@ class JavascriptDependencies(Command):
     
     bower_dir = pjoin(static, 'components')
     node_modules = pjoin(repo_root, 'node_modules')
-    lab_dir = pjoin(repo_root, 'notebook', 'static', 'lab')
+    lab_dir = pjoin(repo_root, 'notebook', 'lab')
     
     def run(self):
         try:

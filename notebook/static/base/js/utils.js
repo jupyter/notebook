@@ -4,9 +4,10 @@
 define([
     'codemirror/lib/codemirror',
     'moment',
+    'underscore',
     // silently upgrades CodeMirror
     'codemirror/mode/meta',
-], function(CodeMirror, moment){
+], function(CodeMirror, moment, _){
     "use strict";
     
     // keep track of which extensions have been loaded already
@@ -192,165 +193,225 @@ define([
         return uuid;
     };
 
-
-    //Fix raw text to parse correctly in crazy XML
-    function xmlencode(string) {
-        return string.replace(/\&/g,'&'+'amp;')
-            .replace(/</g,'&'+'lt;')
-            .replace(/>/g,'&'+'gt;')
-            .replace(/\'/g,'&'+'apos;')
-            .replace(/\"/g,'&'+'quot;')
-            .replace(/`/g,'&'+'#96;');
-    }
-
-
-    //Map from terminal commands to CSS classes
-    var ansi_colormap = {
-        "01":"ansibold",
-        
-        "30":"ansiblack",
-        "31":"ansired",
-        "32":"ansigreen",
-        "33":"ansiyellow",
-        "34":"ansiblue",
-        "35":"ansipurple",
-        "36":"ansicyan",
-        "37":"ansigray",
-        
-        "40":"ansibgblack",
-        "41":"ansibgred",
-        "42":"ansibggreen",
-        "43":"ansibgyellow",
-        "44":"ansibgblue",
-        "45":"ansibgpurple",
-        "46":"ansibgcyan",
-        "47":"ansibggray"
-    };
+    var _ANSI_COLORS = [
+        "ansi-black",
+        "ansi-red",
+        "ansi-green",
+        "ansi-yellow",
+        "ansi-blue",
+        "ansi-magenta",
+        "ansi-cyan",
+        "ansi-white",
+        "ansi-black-intense",
+        "ansi-red-intense",
+        "ansi-green-intense",
+        "ansi-yellow-intense",
+        "ansi-blue-intense",
+        "ansi-magenta-intense",
+        "ansi-cyan-intense",
+        "ansi-white-intense",
+    ];
     
-    function _process_numbers(attrs, numbers) {
-        // process ansi escapes
+    function _getExtendedColors(numbers) {
+        var r, g, b;
         var n = numbers.shift();
-        if (ansi_colormap[n]) {
-            if ( ! attrs["class"] ) {
-                attrs["class"] = ansi_colormap[n];
+        if (n === 2 && numbers.length >= 3) {
+            // 24-bit RGB
+            r = numbers.shift();
+            g = numbers.shift();
+            b = numbers.shift();
+            if ([r, g, b].some(function (c) { return c < 0 || 255 < c; })) {
+                throw new RangeError("Invalid range for RGB colors");
+            }
+        } else if (n === 5 && numbers.length >= 1) {
+            // 256 colors
+            var idx = numbers.shift();
+            if (idx < 0) {
+                throw new RangeError("Color index must be >= 0");
+            } else if (idx < 16) {
+                // 16 default terminal colors
+                return idx;
+            } else if (idx < 232) {
+                // 6x6x6 color cube, see http://stackoverflow.com/a/27165165/500098
+                r = Math.floor((idx - 16) / 36);
+                r = r > 0 ? 55 + r * 40 : 0;
+                g = Math.floor(((idx - 16) % 36) / 6);
+                g = g > 0 ? 55 + g * 40 : 0;
+                b = (idx - 16) % 6;
+                b = b > 0 ? 55 + b * 40 : 0;
+            } else if (idx < 256) {
+                // grayscale, see http://stackoverflow.com/a/27165165/500098
+                r = g = b = (idx - 232) * 10 + 8;
             } else {
-                attrs["class"] += " " + ansi_colormap[n];
+                throw new RangeError("Color index must be < 256");
             }
-        } else if (n == "38" || n == "48") {
-            // VT100 256 color or 24 bit RGB
-            if (numbers.length < 2) {
-                console.log("Not enough fields for VT100 color", numbers);
-                return;
-            }
-            
-            var index_or_rgb = numbers.shift();
-            var r,g,b;
-            if (index_or_rgb == "5") {
-                // 256 color
-                var idx = parseInt(numbers.shift(), 10);
-                if (idx < 16) {
-                    // indexed ANSI
-                    // ignore bright / non-bright distinction
-                    idx = idx % 8;
-                    var ansiclass = ansi_colormap[n[0] + (idx % 8).toString()];
-                    if ( ! attrs["class"] ) {
-                        attrs["class"] = ansiclass;
-                    } else {
-                        attrs["class"] += " " + ansiclass;
-                    }
-                    return;
-                } else if (idx < 232) {
-                    // 216 color 6x6x6 RGB
-                    idx = idx - 16;
-                    b = idx % 6;
-                    g = Math.floor(idx / 6) % 6;
-                    r = Math.floor(idx / 36) % 6;
-                    // convert to rgb
-                    r = (r * 51);
-                    g = (g * 51);
-                    b = (b * 51);
-                } else {
-                    // grayscale
-                    idx = idx - 231;
-                    // it's 1-24 and should *not* include black or white,
-                    // so a 26 point scale
-                    r = g = b = Math.floor(idx * 256 / 26);
-                }
-            } else if (index_or_rgb == "2") {
-                // Simple 24 bit RGB
-                if (numbers.length > 3) {
-                    console.log("Not enough fields for RGB", numbers);
-                    return;
-                }
-                r = numbers.shift();
-                g = numbers.shift();
-                b = numbers.shift();
-            } else {
-                console.log("unrecognized control", numbers);
-                return;
-            }
-            if (r !== undefined) {
-                // apply the rgb color
-                var line;
-                if (n == "38") {
-                    line = "color: ";
-                } else {
-                    line = "background-color: ";
-                }
-                line = line + "rgb(" + r + "," + g + "," + b + ");";
-                if ( !attrs.style ) {
-                    attrs.style = line;
-                } else {
-                    attrs.style += " " + line;
-                }
-            }
+        } else {
+            throw new RangeError("Invalid extended color specification");
         }
+        return [r, g, b];
     }
 
     function _ansispan(str) {
-        // ansispan function adapted from github.com/mmalecki/ansispan (MIT License)
-        // regular ansi escapes (using the table above)
-        var is_open = false;
-        return str.replace(/\033\[(0?[01]|22|39)?([;\d]+)?m/g, function(match, prefix, pattern) {
-            if (!pattern || prefix === '39') {
-                // [(01|22|39|)m close spans
-                if (is_open) {
-                    is_open = false;
-                    return "</span>";
-                } else {
-                    return "";
+        var ansi_re = /\x1b\[(.*?)([@-~])/g;
+        var fg = [];
+        var bg = [];
+        var bold = false;
+        var match;
+        var out = [];
+        var numbers = [];
+        var start = 0;
+
+        str += "\x1b[m";  // Ensure markup for trailing text
+        while ((match = ansi_re.exec(str))) {
+            if (match[2] === "m") {
+                var items = match[1].split(";");
+                for (var i = 0; i < items.length; i++) {
+                    var item = items[i];
+                    if (item === "") {
+                        numbers.push(0);
+                    } else if (item.search(/^\d+$/) !== -1) {
+                        numbers.push(parseInt(item));
+                    } else {
+                        // Ignored: Invalid color specification
+                        numbers.length = 0;
+                        break;
+                    }
                 }
             } else {
-                is_open = true;
+                // Ignored: Not a color code
+            }
+            var chunk = str.substring(start, match.index);
+            if (chunk) {
+                if (bold && typeof fg === "number" && 0 <= fg && fg < 8) {
+                    fg += 8;  // Bold text uses "intense" colors
+                }
+                var classes = [];
+                var styles = [];
 
-                // consume sequence of color escapes
-                var numbers = pattern.match(/\d+/g);
-                var attrs = {};
-                while (numbers.length > 0) {
-                    _process_numbers(attrs, numbers);
+                if (typeof fg === "number") {
+                    classes.push(_ANSI_COLORS[fg] + "-fg");
+                } else if (fg.length) {
+                    styles.push("color: rgb(" + fg + ")");
                 }
 
-                var span = "<span ";
-                Object.keys(attrs).map(function (attr) {
-                    span = span + " " + attr + '="' + attrs[attr] + '"';
-                });
-                return span + ">";
+                if (typeof bg === "number") {
+                    classes.push(_ANSI_COLORS[bg] + "-bg");
+                } else if (bg.length) {
+                    styles.push("background-color: rgb(" + bg + ")");
+                }
+
+                if (bold) {
+                    classes.push("ansi-bold");
+                }
+
+                if (classes.length || styles.length) {
+                    out.push("<span");
+                    if (classes.length) {
+                        out.push(' class="' + classes.join(" ") + '"');
+                    }
+                    if (styles.length) {
+                        out.push(' style="' + styles.join("; ") + '"');
+                    }
+                    out.push(">");
+                    out.push(chunk);
+                    out.push("</span>");
+                } else {
+                    out.push(chunk);
+                }
             }
-        });
+            start = ansi_re.lastIndex;
+
+            while (numbers.length) {
+                var n = numbers.shift();
+                switch (n) {
+                    case 0:
+                        fg = bg = [];
+                        bold = false;
+                        break;
+                    case 1:
+                    case 5:
+                        bold = true;
+                        break;
+                    case 21:
+                    case 22:
+                        bold = false;
+                        break;
+                    case 30:
+                    case 31:
+                    case 32:
+                    case 33:
+                    case 34:
+                    case 35:
+                    case 36:
+                    case 37:
+                        fg = n - 30;
+                        break;
+                    case 38:
+                        try {
+                            fg = _getExtendedColors(numbers);
+                        } catch(e) {
+                            numbers.length = 0;
+                        }
+                        break;
+                    case 39:
+                        fg = [];
+                        break;
+                    case 40:
+                    case 41:
+                    case 42:
+                    case 43:
+                    case 44:
+                    case 45:
+                    case 46:
+                    case 47:
+                        bg = n - 40;
+                        break;
+                    case 48:
+                        try {
+                            bg = _getExtendedColors(numbers);
+                        } catch(e) {
+                            numbers.length = 0;
+                        }
+                        break;
+                    case 49:
+                        bg = [];
+                        break;
+		    case 90:
+		    case 91:
+		    case 92:
+		    case 93:
+		    case 94:
+		    case 95:
+		    case 96:
+		    case 97:
+			fg = n - 90 + 8;
+                        break;
+		    case 100:
+		    case 101:
+		    case 102:
+		    case 103:
+		    case 104:
+		    case 105:
+		    case 106:
+		    case 107:
+			bg = n - 100 + 8;
+                        break;
+                    default:
+                        // Unknown codes are ignored
+                }
+            }
+        }
+        return out.join("");
     }
 
-    // Transform ANSI color escape codes into HTML <span> tags with css
-    // classes listed in the above ansi_colormap object. The actual color used
-    // are set in the css file.
+    // Transform ANSI color escape codes into HTML <span> tags with CSS
+    // classes such as "ansi-green-intense-fg".
+    // The actual colors used are set in the CSS file.
+    // This is supposed to have the same behavior as nbconvert.filters.ansi2html()
     function fixConsole(txt) {
-        txt = xmlencode(txt);
+        txt = _.escape(txt);
 
-        // Strip all ANSI codes that are not color related.  Matches
-        // all ANSI codes that do not end with "m".
-        var ignored_re = /(?=(\033\[[?\d;=]*[a-ln-zA-Z]{1}))\1(?!m)/g;
-        txt = txt.replace(ignored_re, "");
-        
-        // color ansi codes
+        // color ansi codes (and remove non-color escape sequences)
         txt = _ansispan(txt);
         return txt;
     }

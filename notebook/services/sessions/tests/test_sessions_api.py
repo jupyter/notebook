@@ -39,13 +39,23 @@ class SessionAPI(object):
     def get(self, id):
         return self._req('GET', id)
 
-    def create(self, path, kernel_name='python'):
+    def create(self, path, kernel_name='python', kernel_id=None):
         body = json.dumps({'notebook': {'path':path},
-                           'kernel': {'name': kernel_name}})
+                           'kernel': {'name': kernel_name,
+                                      'id': kernel_id}})
         return self._req('POST', '', body)
 
-    def modify(self, id, path):
+    def modify_path(self, id, path):
         body = json.dumps({'notebook': {'path':path}})
+        return self._req('PATCH', id, body)
+
+    def modify_kernel_name(self, id, kernel_name):
+        body = json.dumps({'kernel': {'name': kernel_name}})
+        return self._req('PATCH', id, body)
+
+    def modify_kernel_id(self, id, kernel_id):
+        # Also send a dummy name to show that id takes precedence.
+        body = json.dumps({'kernel': {'id': kernel_id, 'name': 'foo'}})
         return self._req('PATCH', id, body)
 
     def delete(self, id):
@@ -102,6 +112,28 @@ class SessionAPITest(NotebookTestBase):
         got = self.sess_api.get(sid).json()
         self.assertEqual(got, newsession)
 
+    def test_create_with_kernel_id(self):
+        # create a new kernel
+        r = requests.post(url_path_join(self.base_url(), 'api/kernels'))
+        r.raise_for_status()
+        kernel = r.json()
+
+        resp = self.sess_api.create('foo/nb1.ipynb', kernel_id=kernel['id'])
+        self.assertEqual(resp.status_code, 201)
+        newsession = resp.json()
+        self.assertIn('id', newsession)
+        self.assertEqual(newsession['notebook']['path'], 'foo/nb1.ipynb')
+        self.assertEqual(newsession['kernel']['id'], kernel['id'])
+        self.assertEqual(resp.headers['Location'], self.url_prefix + 'api/sessions/{0}'.format(newsession['id']))
+
+        sessions = self.sess_api.list().json()
+        self.assertEqual(sessions, [newsession])
+
+        # Retrieve it
+        sid = newsession['id']
+        got = self.sess_api.get(sid).json()
+        self.assertEqual(got, newsession)
+
     def test_delete(self):
         newsession = self.sess_api.create('foo/nb1.ipynb').json()
         sid = newsession['id']
@@ -115,10 +147,47 @@ class SessionAPITest(NotebookTestBase):
         with assert_http_error(404):
             self.sess_api.get(sid)
 
-    def test_modify(self):
+    def test_modify_path(self):
         newsession = self.sess_api.create('foo/nb1.ipynb').json()
         sid = newsession['id']
 
-        changed = self.sess_api.modify(sid, 'nb2.ipynb').json()
+        changed = self.sess_api.modify_path(sid, 'nb2.ipynb').json()
         self.assertEqual(changed['id'], sid)
         self.assertEqual(changed['notebook']['path'], 'nb2.ipynb')
+
+    def test_modify_kernel_name(self):
+        before = self.sess_api.create('foo/nb1.ipynb').json()
+        sid = before['id']
+
+        after = self.sess_api.modify_kernel_name(sid, before['kernel']['name']).json()
+        self.assertEqual(after['id'], sid)
+        self.assertEqual(after['notebook'], before['notebook'])
+        self.assertNotEqual(after['kernel']['id'], before['kernel']['id'])
+
+        # check kernel list, to be sure previous kernel was cleaned up
+        r = requests.get(url_path_join(self.base_url(), 'api/kernels'))
+        r.raise_for_status()
+        kernel_list = r.json()
+        self.assertEqual(kernel_list, [after['kernel']])
+
+    def test_modify_kernel_id(self):
+        before = self.sess_api.create('foo/nb1.ipynb').json()
+        sid = before['id']
+
+        # create a new kernel
+        r = requests.post(url_path_join(self.base_url(), 'api/kernels'))
+        r.raise_for_status()
+        kernel = r.json()
+
+        # Attach our session to the existing kernel
+        after = self.sess_api.modify_kernel_id(sid, kernel['id']).json()
+        self.assertEqual(after['id'], sid)
+        self.assertEqual(after['notebook'], before['notebook'])
+        self.assertNotEqual(after['kernel']['id'], before['kernel']['id'])
+        self.assertEqual(after['kernel']['id'], kernel['id'])
+
+        # check kernel list, to be sure previous kernel was cleaned up
+        r = requests.get(url_path_join(self.base_url(), 'api/kernels'))
+        r.raise_for_status()
+        kernel_list = r.json()
+        self.assertEqual(kernel_list, [kernel])

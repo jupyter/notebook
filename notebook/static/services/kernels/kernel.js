@@ -62,6 +62,8 @@ define([
         this._autorestart_attempt = 0;
         this._reconnect_attempt = 0;
         this.reconnect_limit = 7;
+        
+        this._pending_messages = [];
     };
 
     /**
@@ -408,6 +410,15 @@ define([
          * @function _kernel_connected
          */
         this.events.trigger('kernel_connected.Kernel', {kernel: this});
+
+        // Send pending messages. We shift the message off the queue
+        // after the message is sent so that if there is an exception,
+        // the message is still pending.
+        while (this._pending_messages.length > 0) {
+          this.ws.send(this._pending_messages[0]);
+          this._pending_messages.shift();
+        }
+
         // get kernel info so we know what state the kernel is in
         var that = this;
         this.kernel_info(function (reply) {
@@ -601,18 +612,33 @@ define([
         return (this.ws === null);
     };
     
+    Kernel.prototype._send = function(msg) {
+      /**
+       * Send a message (if the kernel is connected) or queue the message for future delivery
+       *
+       * Pending messages will automatically be sent when a kernel becomes connected.
+       *
+       * @function _send
+       * @param msg
+       */
+      if (this.is_connected()) {
+            this.ws.send(msg);
+        } else {
+            this._pending_messages.push(msg);
+        }
+    }
+    
     Kernel.prototype.send_shell_message = function (msg_type, content, callbacks, metadata, buffers) {
         /**
          * Send a message on the Kernel's shell channel
          *
+         * If the kernel is not connected, the message will be buffered.
+         * 
          * @function send_shell_message
          */
-        if (!this.is_connected()) {
-            throw new Error("kernel is not connected");
-        }
         var msg = this._get_msg(msg_type, content, metadata, buffers);
         msg.channel = 'shell';
-        this.ws.send(serialize.serialize(msg));
+        this._send(serialize.serialize(msg));
         this.set_callbacks_for_msg(msg.header.msg_id, callbacks);
         return msg.header.msg_id;
     };
@@ -776,16 +802,13 @@ define([
      * @function send_input_reply
      */
     Kernel.prototype.send_input_reply = function (input) {
-        if (!this.is_connected()) {
-            throw new Error("kernel is not connected");
-        }
         var content = {
             value : input
         };
         this.events.trigger('input_reply.Kernel', {kernel: this, content: content});
         var msg = this._get_msg("input_reply", content);
         msg.channel = 'stdin';
-        this.ws.send(serialize.serialize(msg));
+        this._send(serialize.serialize(msg));
         return msg.header.msg_id;
     };
 

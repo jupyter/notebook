@@ -62,22 +62,33 @@ class SessionManager(LoggingConfigurable):
     def new_session_id(self):
         "Create a uuid for a new session"
         return unicode_type(uuid.uuid4())
-    
+
     @gen.coroutine
-    def create_session(self, path=None, kernel_name=None):
+    def create_session(self, path=None, kernel_name=None, kernel_id=None):
         """Creates a session and returns its model"""
         session_id = self.new_session_id()
-        # allow nbm to specify kernels cwd
-        kernel_path = self.contents_manager.get_kernel_path(path=path)
-        kernel_id = yield gen.maybe_future(
-            self.kernel_manager.start_kernel(path=kernel_path, kernel_name=kernel_name)
-        )
+        if kernel_id is not None and kernel_id in self.kernel_manager:
+            pass
+        else:
+            kernel_id = yield self.start_kernel_for_session(session_id, path,
+                                                            kernel_name)
         result = yield gen.maybe_future(
             self.save_session(session_id, path=path, kernel_id=kernel_id)
         )
         # py2-compat
         raise gen.Return(result)
-    
+
+    @gen.coroutine
+    def start_kernel_for_session(self, session_id, path, kernel_name):
+        """Start a new kernel for a given session."""
+        # allow contents manager to specify kernels cwd
+        kernel_path = self.contents_manager.get_kernel_path(path=path)
+        kernel_id = yield gen.maybe_future(
+            self.kernel_manager.start_kernel(path=kernel_path, kernel_name=kernel_name)
+        )
+        # py2-compat
+        raise gen.Return(kernel_id)
+
     def save_session(self, session_id, path=None, kernel_id=None):
         """Saves the items for the session with the given session_id
         
@@ -211,9 +222,9 @@ class SessionManager(LoggingConfigurable):
                 pass
         return result
 
+    @gen.coroutine
     def delete_session(self, session_id):
         """Deletes the row in the session database with given session_id"""
-        # Check that session exists before deleting
         session = self.get_session(session_id=session_id)
-        self.kernel_manager.shutdown_kernel(session['kernel']['id'])
+        yield gen.maybe_future(self.kernel_manager.shutdown_kernel(session['kernel']['id']))
         self.cursor.execute("DELETE FROM session WHERE session_id=?", (session_id,))

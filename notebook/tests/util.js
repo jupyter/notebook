@@ -694,17 +694,31 @@ casper.wait_for_dashboard = function () {
     casper.waitForSelector('.list_item');
 };
 
-casper.open_dashboard = function () {
+/**
+ * Open the dashboard page
+ * @param {bool} use_start - If true, will use casper.start(), otherwise
+ *      casper.open(). You should only set it to true if the dashboard
+ *      is the first URL to be opened in the test, because calling
+ *      casper.start() multiple times causes casper to skip subsequent then()
+ */
+casper.open_dashboard = function (use_start) {
+    if (use_start === undefined) {
+        use_start = false;
+    }
     // Start casper by opening the dashboard page.
     var baseUrl = this.get_notebook_server();
-    this.start(baseUrl);
+    if (use_start) {
+        this.start(baseUrl);
+    } else {
+        this.open(baseUrl);
+    }
     this.waitFor(this.page_loaded);
     this.wait_for_dashboard();
 };
 
 casper.dashboard_test = function (test) {
     // Open the dashboard page and run a test.
-    this.open_dashboard();
+    this.open_dashboard(true);
     this.then(test);
 
     this.then(function () {
