@@ -2,8 +2,6 @@
 // See https://github.com/webpack/css-loader/issues/144
 require('es6-promise').polyfill();
 
-var ContextReplacementPlugin = require("webpack/lib/ContextReplacementPlugin");
-
 module.exports = {
   entry: './index.js',
   output: {
@@ -20,6 +18,7 @@ module.exports = {
     loaders: [
       { test: /\.css$/, loader: 'style-loader!css-loader' },
       { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.html$/, loader: 'file'},
       // jquery-ui loads some images
       { test: /\.(jpg|png|gif)$/, loader: "file" },
       // required to load font-awesome
@@ -34,11 +33,5 @@ module.exports = {
       "base/js/namespace": "base/js/namespace",
       "notebook/js/outputarea": "notebook/js/outputarea",
       "services/kernels/comm": "services/kernels/comm"
-  },
-  plugins: [
-    new ContextReplacementPlugin(
-      /codemirror\/mode.*$/,
-      /codemirror\/mode.*\.js$/
-    )
-  ]
+  }
 }
