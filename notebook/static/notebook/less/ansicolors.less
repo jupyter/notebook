@@ -1,4 +1,28 @@
-/* CSS font colors for translated ANSI colors. */
+/* CSS font colors for translated ANSI escape sequences */
+
+.ansicolors(@name, @normal, @intense) {
+  .ansi-@{name}-fg { color: @normal; }
+  .ansi-@{name}-bg { background-color: @normal; }
+  .ansi-@{name}-intense-fg { color: @intense; }
+  .ansi-@{name}-intense-bg { background-color: @intense; }
+}
+
+/* The color values are a mix of
+   http://www.xcolors.net/dl/baskerville-ivorylight and
+   http://www.xcolors.net/dl/euphrasia */
+
+.ansicolors(black, #3E424D, #282C36);
+.ansicolors(red, #E75C58, #B22B31);
+.ansicolors(green, #00A250, #007427);
+.ansicolors(yellow, #DDB62B, #B27D12);
+.ansicolors(blue, #208FFB, #0065CA);
+.ansicolors(magenta, #D160C4, #A03196);
+.ansicolors(cyan, #60C6C8, #258F8F);
+.ansicolors(white, #C5C1B4, #A1A6B2);
+
+.ansi-bold { font-weight: bold; }
+
+/* The following styles are deprecated an will be removed in a future version */
 
 .ansibold {font-weight: bold;}
 
