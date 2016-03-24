@@ -588,12 +588,18 @@ _base_flags.update({
     "user" : ({
         "BaseNBExtensionApp" : {
             "user" : True,
-        }}, "Install to the user's Jupyter directory"
+        }}, "Apply the operation only for the given user"
+    ),
+    "system" : ({
+        "BaseNBExtensionApp" : {
+            "user" : False,
+            "sys_prefix": False,
+        }}, "Apply the operation system-wide"
     ),
     "sys-prefix" : ({
         "BaseNBExtensionApp" : {
             "sys_prefix" : True,
-        }}, "Use sys.prefix as the prefix for installing nbextensions"
+        }}, "Use sys.prefix as the prefix for installing nbextensions (for environments, packaging)"
     ),
     "py" : ({
         "BaseNBExtensionApp" : {
@@ -655,7 +661,7 @@ class InstallNBExtensionApp(BaseNBExtensionApp):
     
     Usage
     
-        jupyter nbextension install path/url
+        jupyter nbextension install path|url [--user|--sys-prefix]
     
     This copies a file or a folder into the Jupyter nbextensions directory.
     If a URL is given, it will be downloaded.
@@ -764,7 +770,7 @@ class UninstallNBExtensionApp(BaseNBExtensionApp):
         if len(self.extra_args)<arg_count:
             raise ValueError("not enough arguments")
         
-        if self.python:    
+        if self.python:
             uninstall_nbextension_python(self.extra_args[0], **kwargs)
         else:
             uninstall_nbextension(self.extra_args[0], self.extra_args[1], **kwargs)
@@ -783,12 +789,12 @@ class ToggleNBExtensionApp(BaseNBExtensionApp):
     """A base class for apps that enable/disable extensions"""
     name = "jupyter nbextension enable/disable"
     version = __version__
-    description = "Enable/disable an nbextension using frontend configuration files."
+    description = "Enable/disable an nbextension in configuration."
 
     section = Unicode('notebook', config=True,
           help="""Which config section to add the extension to, 'common' will affect all pages."""
     )
-    user = Bool(True, config=True, help="Whether to do a user configuration")
+    user = Bool(True, config=True, help="Apply the configuration only for the current user (default)")
 
     aliases = {'section': 'ToggleNBExtensionApp.section'}
     
@@ -847,14 +853,24 @@ class ToggleNBExtensionApp(BaseNBExtensionApp):
 class EnableNBExtensionApp(ToggleNBExtensionApp):
     """An App that enables nbextensions"""
     name = "jupyter nbextension enable"
-    description = "Enable an nbextension using frontend configuration files."
+    description = """
+    Enable an nbextension in frontend configuration.
+    
+    Usage
+        jupyter nbextension enable [--system|--sys-prefix]
+    """
     _toggle_value = True
 
 
 class DisableNBExtensionApp(ToggleNBExtensionApp):
     """An App that disables nbextensions"""
     name = "jupyter nbextension disable"
-    description = "Disable an nbextension using frontend configuration files."
+    description = """
+    Enable an nbextension in frontend configuration.
+    
+    Usage
+        jupyter nbextension disable [--system|--sys-prefix]
+    """
     _toggle_value = None
 
 
@@ -868,18 +884,24 @@ class ListNBExtensionsApp(BaseNBExtensionApp):
         """List all the nbextensions"""
         config_dirs = [os.path.join(p, 'nbconfig') for p in jupyter_config_path()]
         
-        self.log.info("Known nbextensions:")
+        print("Known nbextensions:")
         
         for config_dir in config_dirs:
-            self.log.info(u'  config dir: {}'.format(config_dir))
+            head = u'  config dir: {}'.format(config_dir)
+            head_shown = False
+
             cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
             for section in NBCONFIG_SECTIONS:
                 data = cm.get(section)
                 if 'load_extensions' in data:
-                    self.log.info(u'    {} section'.format(section))
+                    if not head_shown:
+                        # only show heading if there is an nbextension here
+                        print(head)
+                        head_shown = True
+                    print(u'    {} section'.format(section))
                     
                     for require, enabled in data['load_extensions'].items():
-                        self.log.info(u'      {} {}'.format(
+                        print(u'      {} {}'.format(
                             require,
                             GREEN_ENABLED if enabled else RED_DISABLED))
                         if enabled:

@@ -142,7 +142,13 @@ flags.update({
     "user" : ({
         "ToggleServerExtensionApp" : {
             "user" : True,
-        }}, "Install to the user's Jupyter directory"
+        }}, "Perform the operation for the current user"
+    ),
+    "system" : ({
+        "ToggleServerExtensionApp" : {
+            "user" : False,
+            "sys_prefix": False,
+        }}, "Perform the operation system-wide"
     ),
     "sys-prefix" : ({
         "ToggleServerExtensionApp" : {
@@ -217,14 +223,24 @@ class ToggleServerExtensionApp(BaseNBExtensionApp):
 class EnableServerExtensionApp(ToggleServerExtensionApp):
     """An App that enables (and validates) Server Extensions"""
     name = "jupyter serverextension enable"
-    description = "Enable a server extension using frontend configuration files."
+    description = """
+    Enable a serverextension in configuration.
+    
+    Usage
+        jupyter serverextension enable [--system|--sys-prefix]
+    """
     _toggle_value = True
 
 
 class DisableServerExtensionApp(ToggleServerExtensionApp):
     """An App that disables Server Extensions"""
     name = "jupyter serverextension disable"
-    description = "Disable an serverextension using frontend configuration files."
+    description = """
+    Disable a serverextension in configuration.
+    
+    Usage
+        jupyter serverextension disable [--system|--sys-prefix]
+    """
     _toggle_value = False
 
 
@@ -241,15 +257,16 @@ class ListServerExtensionsApp(BaseNBExtensionApp):
         """
         config_dirs = jupyter_config_path()
         for config_dir in config_dirs:
-            self.log.info(u'config dir: {}'.format(config_dir))
             cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
             data = cm.get("jupyter_notebook_config")
             server_extensions = (
                 data.setdefault("NotebookApp", {})
                 .setdefault("nbserver_extensions", {})
             )
+            if server_extensions:
+                print(u'config dir: {}'.format(config_dir))
             for import_name, enabled in server_extensions.items():
-                self.log.info(u'    {} {}'.format(
+                print(u'    {} {}'.format(
                               import_name,
                               GREEN_ENABLED if enabled else RED_DISABLED))
                 validate_serverextension(import_name, self.log)
