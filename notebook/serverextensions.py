@@ -142,7 +142,13 @@ flags.update({
     "user" : ({
         "ToggleServerExtensionApp" : {
             "user" : True,
-        }}, "Install to the user's Jupyter directory"
+        }}, "Perform the operation for the current user"
+    ),
+    "system" : ({
+        "ToggleServerExtensionApp" : {
+            "user" : False,
+            "sys_prefix": False,
+        }}, "Perform the operation system-wide"
     ),
     "sys-prefix" : ({
         "ToggleServerExtensionApp" : {
@@ -217,14 +223,24 @@ class ToggleServerExtensionApp(BaseNBExtensionApp):
 class EnableServerExtensionApp(ToggleServerExtensionApp):
     """An App that enables (and validates) Server Extensions"""
     name = "jupyter serverextension enable"
-    description = "Enable a server extension using frontend configuration files."
+    description = """
+    Enable a serverextension in configuration.
+    
+    Usage
+        jupyter serverextension enable [--system|--sys-prefix]
+    """
     _toggle_value = True
 
 
 class DisableServerExtensionApp(ToggleServerExtensionApp):
     """An App that disables Server Extensions"""
     name = "jupyter serverextension disable"
-    description = "Disable an serverextension using frontend configuration files."
+    description = """
+    Disable a serverextension in configuration.
+    
+    Usage
+        jupyter serverextension disable [--system|--sys-prefix]
+    """
     _toggle_value = False
 
 
