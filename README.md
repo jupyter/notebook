@@ -71,11 +71,11 @@ determine the URL.
 
 ## Development Installation
 
-See `CONTRIBUTING.rst` for how to set up a local development installation.
+See [`CONTRIBUTING.rst`](CONTRIBUTING.rst) for how to set up a local development installation.
 
 ## Contributing
 
-If you are interested in contributing to the project, see `CONTRIBUTING.rst`.
+If you are interested in contributing to the project, see [`CONTRIBUTING.rst`](CONTRIBUTING.rst).
 
 ## Resources
 - [Project Jupyter website](https://jupyter.org)
