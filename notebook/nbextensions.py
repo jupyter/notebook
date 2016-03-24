@@ -868,18 +868,24 @@ class ListNBExtensionsApp(BaseNBExtensionApp):
         """List all the nbextensions"""
         config_dirs = [os.path.join(p, 'nbconfig') for p in jupyter_config_path()]
         
-        self.log.info("Known nbextensions:")
+        print("Known nbextensions:")
         
         for config_dir in config_dirs:
-            self.log.info(u'  config dir: {}'.format(config_dir))
+            head = u'  config dir: {}'.format(config_dir)
+            head_shown = False
+
             cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
             for section in NBCONFIG_SECTIONS:
                 data = cm.get(section)
                 if 'load_extensions' in data:
-                    self.log.info(u'    {} section'.format(section))
+                    if not head_shown:
+                        # only show heading if there is an nbextension here
+                        print(head)
+                        head_shown = True
+                    print(u'    {} section'.format(section))
                     
                     for require, enabled in data['load_extensions'].items():
-                        self.log.info(u'      {} {}'.format(
+                        print(u'      {} {}'.format(
                             require,
                             GREEN_ENABLED if enabled else RED_DISABLED))
                         if enabled:

@@ -241,15 +241,16 @@ class ListServerExtensionsApp(BaseNBExtensionApp):
         """
         config_dirs = jupyter_config_path()
         for config_dir in config_dirs:
-            self.log.info(u'config dir: {}'.format(config_dir))
             cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
             data = cm.get("jupyter_notebook_config")
             server_extensions = (
                 data.setdefault("NotebookApp", {})
                 .setdefault("nbserver_extensions", {})
             )
+            if server_extensions:
+                print(u'config dir: {}'.format(config_dir))
             for import_name, enabled in server_extensions.items():
-                self.log.info(u'    {} {}'.format(
+                print(u'    {} {}'.format(
                               import_name,
                               GREEN_ENABLED if enabled else RED_DISABLED))
                 validate_serverextension(import_name, self.log)
