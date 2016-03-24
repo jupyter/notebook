@@ -137,14 +137,28 @@ or to run just ``notebook/tests/notebook/deletecell.js``::
 
     python -m notebook.jstest notebook/deletecell.js
 
+
 Building the Documentation
 --------------------------
 
-Install dependencies::
+To build the documentation you'll need `Sphinx <http://www.sphinx-doc.org/>`_
+and a few other packages.
 
-    pip install -e .[doc] --user
+To install (and activate) a `conda environment`_ named ``notebook_docs``
+containing all the necessary packages, use::
 
-To build the HTML docs::
+    conda env create -f docs/conda_env.yml
+    source activate notebook_docs  # Linux and OS X
+    activate notebook_docs         # Windows
+
+.. _conda environment:
+    http://conda.pydata.org/docs/using/envs.html#use-environment-from-file
+
+If you want to install the necessary packages with ``pip`` instead, use::
+
+    pip install -r docs/requirements.txt --user
+
+Once you have installed the required packages, you can build the docs with::
 
     cd docs
     make html
