@@ -51,7 +51,22 @@ The Jupyter notebook
    :maxdepth: 1
    :caption: Community documentation
 
-   examples/Notebook/rstversions/Examples and Tutorials Index
+   examples/Notebook/examples_index.rst
+   examples/Notebook/What is the Jupyter Notebook
+   examples/Notebook/Notebook Basics
+   examples/Notebook/Running Code
+   examples/Notebook/Working With Markdown Cells
+   examples/Notebook/Custom Keyboard Shortcuts
+   examples/Notebook/JavaScript Notebook Extensions
+   examples/Notebook/Importing Notebooks
+   examples/Notebook/Connecting with the Qt Console
+   examples/Notebook/Typesetting Equations
+
+.. toctree::
+    :hidden:
+
+    examples/Notebook/nbpackage/mynotebook.ipynb
+    examples/Notebook/nbpackage/nbs/other.ipynb
 
 .. toctree::
    :maxdepth: 2

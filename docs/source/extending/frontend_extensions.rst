@@ -38,7 +38,7 @@ extension:
     });
 
 .. note::
-    
+
     Although for historical reasons the function is called
     ``load_ipython_extension``, it does apply to the Jupyter notebook in
     general, and will work regardless of the kernel in use.
@@ -112,7 +112,7 @@ place:
     });
 
 .. note::
-    
+
     The standard keybindings might not work correctly on non-US keyboards.
     Unfortunately, this is a limitation of browser implementations and the
     status of keyboard event handling on the web in general. We appreciate your
@@ -184,6 +184,7 @@ actions defined in an extension, it makes sense to use the extension name as
 the prefix. For the action name, the following guidelines should be considered:
 
 .. adapted from notebook/static/notebook/js/actions.js
+
 * First pick a noun and a verb for the action. For example, if the action is
   "restart kernel," the verb is "restart" and the noun is "kernel".
 * Omit terms like "selected" and "active" by default, so "delete-cell", rather
