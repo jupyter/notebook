@@ -5,7 +5,7 @@
 
 import os
 from tornado import web
-from ..base.handlers import IPythonHandler, AuthenticatedFileHandler
+from ..base.handlers import IPythonHandler, FileFindHandler
 
 
 class LabHandler(IPythonHandler):
@@ -25,6 +25,6 @@ class LabHandler(IPythonHandler):
 
 default_handlers = [
     (r"/lab", LabHandler),
-    (r"/lab/(.*)", AuthenticatedFileHandler,
+    (r"/lab/(.*)", FileFindHandler,
         {'path': os.path.join(os.path.dirname(__file__), 'build')}),
     ]
