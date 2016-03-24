@@ -737,6 +737,27 @@ define([
         });
     };
 
+    Cell.prototype.switch_codemirror_mode = function (keymap) {
+        // because of handlers codemirror implementation we need to unalocate
+        // keyboard handler, then switch the mode and reallocate the jupyter
+        // handler. This way, the handler are treated by codemirror in the right
+        // order
+
+        var handler = this.code_mirror._handlers["keydown"][0];
+        this.code_mirror.off("keydown", handler);
+
+        var options = {};
+        if (keymap === "vim"){
+            options["vimMode"] = true;
+        } else {
+            options["vimMode"] = false;
+        }
+        options["keyMap"] = keymap;
+        this.update_codemirror_options(options);
+
+        this.code_mirror.on("keydown", handler);
+    };
+
     var UnrecognizedCell = function (options) {
         /** Constructor for unrecognized cells */
         Cell.apply(this, arguments);

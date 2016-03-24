@@ -3200,24 +3200,21 @@ define(function (require) {
         var options = {};
 
         if (keymap === "vim"){
-            options["vimMode"] = true;
-            options["keyMap"] = keymap;
             this.keyboard_manager.current_mode = 'vim-command';
         } else if ( keymap === 'sublime' || keymap === 'default' || keymap === 'emacs') {
-            options["vimMode"] = false;
-            options["keyMap"] = keymap;
             this.keyboard_manager.current_mode = 'command';
         } else {
             console.log('No valid keymap specified. Valid keymaps are in {"vim", "sublime", "default", "emacs"}');
             return false;
         }
+        //TODO remove this dirty config
         this.config.update({
                 "Notebook":{"keyboard": keymap},
                 "Cell": {"cm_config" : options}
         });
         for (var i = 0; i <= cells.length -1; i++ ){
             cell = cells[i]
-            cell.update_codemirror_options(options);
+            cell.switch_codemirror_mode(keymap);
         }
     };
 
