@@ -61,8 +61,8 @@ steps::
     pip install -e . --user
 
 If you want the development environment to be available for all users of your
-system (assuming you have the necessary rights), just drop the ``--user``
-option.
+system (assuming you have the necessary rights) or if you are installing in a
+virtual environment, just drop the ``--user`` option.
 
 
 Rebuilding JavaScript and CSS
@@ -147,16 +147,17 @@ and a few other packages.
 To install (and activate) a `conda environment`_ named ``notebook_docs``
 containing all the necessary packages, use::
 
-    conda env create -f docs/conda_env.yml
+    conda env create -f docs/environment.yml
     source activate notebook_docs  # Linux and OS X
     activate notebook_docs         # Windows
 
 .. _conda environment:
     http://conda.pydata.org/docs/using/envs.html#use-environment-from-file
 
-If you want to install the necessary packages with ``pip`` instead, use::
+If you want to install the necessary packages with ``pip`` instead, use
+(omitting --user if working in a virtual environment)::
 
-    pip install -r docs/requirements.txt --user
+    pip install -r docs/doc-requirements.txt --user
 
 Once you have installed the required packages, you can build the docs with::
 
@@ -164,7 +165,7 @@ Once you have installed the required packages, you can build the docs with::
     make html
 
 After that, the generated HTML files will be available at
-``build/html/index.html``.
+``build/html/index.html``. You may view the docs in your browser.
 
 You can automatically check if all hyperlinks are still valid::
 
