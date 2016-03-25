@@ -554,6 +554,10 @@ class NotebookApp(JupyterApp):
             help="Supply overrides for the tornado.web.Application that the "
                  "Jupyter notebook uses.")
     
+    cookie_options = Dict(config=True,
+        help="Extra keyword arguments to pass to `set_secure_cookie`."
+             " See tornado's set_secure_cookie docs for details."
+    )
     ssl_options = Dict(config=True,
             help="""Supply SSL options for the tornado HTTPServer.
             See the tornado docs for details.""")
@@ -871,6 +875,7 @@ class NotebookApp(JupyterApp):
         if self.allow_origin_pat:
             self.tornado_settings['allow_origin_pat'] = re.compile(self.allow_origin_pat)
         self.tornado_settings['allow_credentials'] = self.allow_credentials
+        self.tornado_settings['cookie_options'] = self.cookie_options
         # ensure default_url starts with base_url
         if not self.default_url.startswith(self.base_url):
             self.default_url = url_path_join(self.base_url, self.default_url)
