@@ -26,11 +26,11 @@
     "less": "~2",
     "requirejs": "^2.1.17",
     "underscore": "^1.8.3",
-    "webpack": "^1.12.13"
-  },
-  "dependencies": {
-    "moment": "^2.8.4",
+    "webpack": "^1.12.13",
     "react": "^0.14.7",
     "react-dom": "^0.14.7"
+  },
+  "dependencies": {
+    "moment": "^2.8.4"
   }
 }
