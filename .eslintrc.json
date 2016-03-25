@@ -7,6 +7,8 @@
         }
     },
     "rules": {
-        "semi": 2
+        "semi": 2,
+        "comma-dangle": 2,
+        "no-unreachable" : 2
     }
 }

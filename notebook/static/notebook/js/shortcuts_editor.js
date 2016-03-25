@@ -38,9 +38,11 @@ define(function(require){
 
     const KeyBinding = React.createClass({
       displayName: 'KeyBindings',
-      render: () => {
+      render: function(){
         return React.createElement('div',{style:{borderBottom: '1px solid gray'}},
-                this.props.shortcut? React.createElement('i', {className: "pull-right fa fa-times", alt: 'remove title'+this.props.shortcut}):undefined,
+                this.props.shortcut? 
+                    React.createElement('i', {className: "pull-right fa fa-times", alt: 'remove title'+this.props.shortcut}):
+                    React.createElement('i', {className: "pull-right fa fa-plus", alt: 'add-keyboard-shortcut'}),
                 this.props.shortcut? React.createElement('span', {className: 'pull-right'}, React.createElement('kbd', {}, this.props.shortcut)): undefined,
                 React.createElement('div', {}, this.props.display)
           );
@@ -49,6 +51,9 @@ define(function(require){
 
     const KeyBindingList = React.createClass({
       displayName: 'KeyBindingList',
+      getInitialState: function(){
+        return {data:[]};
+      },
       render: function() {
           const childrens = this.props.data.map(function(binding){
               return React.createElement(KeyBinding, binding, 'here');
@@ -58,29 +63,9 @@ define(function(require){
         }
     });
 
-
-    const ShortcutEditor = function(notebook) {
-
-        if(!notebook){
-          throw new Error("CommandPalette takes a notebook non-null mandatory arguement");
-        }
-
-        const b =  $('<div>');
-        const mod = dialog.modal({
-            notebook: notebook,
-            keyboard_manager: notebook.keyboard_manager,
-            title : "Edit Shortcuts",
-            body : b,
-            buttons : {
-                OK : {}
-            }
-        });
-        
-              // will be trigger when user select action
-              // generate structure needed for typeahead layout and ability to search
-        const src = {};
-
+    const get_shortcuts_data = function(notebook) {
         const actions = Object.keys(notebook.keyboard_manager.actions._actions);
+        const src = {};
 
         for (let i = 0; i < actions.length; i++) {
           const action_id = actions[i];
@@ -105,14 +90,36 @@ define(function(require){
             group: group,
             icon: action.icon,
             help: action.help,
-            key: action_id,
+            key: action_id
           });
         }
 
+        return src['jupyter-notebook'].data;
+    };
+
+
+    const ShortcutEditor = function(notebook) {
+
+        if(!notebook){
+          throw new Error("CommandPalette takes a notebook non-null mandatory arguement");
+        }
+
+        const b =  $('<div>');
+        const mod = dialog.modal({
+            notebook: notebook,
+            keyboard_manager: notebook.keyboard_manager,
+            title : "Edit Shortcuts",
+            body : b,
+            buttons : {
+                OK : {}
+            }
+        });
+        
+        const src = get_shortcuts_data(notebook);
 
         mod.modal('show');
         ReactDom.render(
-            React.createElement(KeyBindingList, {data:src['jupyter-notebook'].data}),
+            React.createElement(KeyBindingList, {data:src}),
             b.get(0)
         );
     };
