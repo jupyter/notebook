@@ -161,6 +161,14 @@ define([
         this.pager_element.find(".container").append($('<pre/>').html(utils.fixCarriageReturn(utils.fixConsole(text))));
     };
 
+    Pager.prototype.append = function (htm) {
+        /**
+         * The only user content injected with this HTML call is escaped by
+         * the fixConsole() method.
+         */
+        this.pager_element.find(".container").append(htm);
+    };
+
 
     Pager.prototype._resize = function() {
         /**
