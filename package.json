@@ -15,7 +15,7 @@
     "build:css": "python setup.py css",
     "build:css:watch": "echo Not implemented yet...",
     "build:js": "webpack",
-    "build:js:watch": "npm run build:js -- --watch"
+    "build:js:watch": "npm run build:js -- --watch --progress --color"
   },
   "devDependencies": {
     "babel-core": "^6.7.4",

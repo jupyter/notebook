@@ -24,27 +24,27 @@ define(function(require){
      * for the action. This allows us to tag UI in order to visually distinguish
      * wether an action have a keybinding or not.
      **/
-    const get_mode_for_action_id = function(name, notebook) {
-      let shortcut = notebook.keyboard_manager.command_shortcuts.get_action_shortcut(name);
-      if (shortcut) {
-        return 'command-shortcut';
-      }
-      shortcut = notebook.keyboard_manager.edit_shortcuts.get_action_shortcut(name);
-      if (shortcut) {
-        return 'edit-shortcut';
-      }
-      return 'no-shortcut';
-    };
 
     const KeyBinding = React.createClass({
       displayName: 'KeyBindings',
+      getInitialState: function() {
+        return {shrt:''};
+      },
+      handleShrtChange: function (element){
+        this.setState({shrt:element.target.value});
+      },
       render: function(){
-        return React.createElement('div',{style:{borderBottom: '1px solid gray'}},
+        const that = this;
+        return React.createElement('div',{style:{borderBottom: '1px solid gray', height: '30px'}},
                 this.props.shortcut? 
                     React.createElement('i', {className: "pull-right fa fa-times", alt: 'remove title'+this.props.shortcut}):
-                    React.createElement('i', {className: "pull-right fa fa-plus", alt: 'add-keyboard-shortcut'}),
+                    React.createElement('i', {className: "pull-right fa fa-plus", alt: 'add-keyboard-shortcut', onClick:()=>{
+                        that.props.onAddBindings(that.state.shrt, that.props.ckey);
+                    }}),
+                this.props.shortcut? undefined :
+                    React.createElement('input', {type:'text', placeholder:'add shortcut', className:'pull-right', value:this.state.shrt, onChange:this.handleShrtChange}),
                 this.props.shortcut? React.createElement('span', {className: 'pull-right'}, React.createElement('kbd', {}, this.props.shortcut)): undefined,
-                React.createElement('div', {}, this.props.display)
+                React.createElement('div', {title: '(' +this.props.ckey + ')' }, this.props.display )
           );
       }
     });
@@ -54,9 +54,15 @@ define(function(require){
       getInitialState: function(){
         return {data:[]};
       },
+      componentDidMount: function(){
+          this.setState({data:this.props.callback()});
+      },
       render: function() {
-          const childrens = this.props.data.map(function(binding){
-              return React.createElement(KeyBinding, binding, 'here');
+          const childrens = this.state.data.map((binding)=>{
+              return React.createElement(KeyBinding, Object.assign({}, binding, {onAddBindings:(shortcut, action)=>{
+                  this.props.bind(shortcut, action);
+                  this.setState({data:this.props.callback()});
+              }}));
           });
 
           return React.createElement('div',{}, childrens);
@@ -65,36 +71,27 @@ define(function(require){
 
     const get_shortcuts_data = function(notebook) {
         const actions = Object.keys(notebook.keyboard_manager.actions._actions);
-        const src = {};
+        const src = [];
 
         for (let i = 0; i < actions.length; i++) {
           const action_id = actions[i];
           const action = notebook.keyboard_manager.actions.get(action_id);
-          const group = action_id.split(':')[0];
 
-          src[group] = src[group] || {
-            data: [],
-            display: 'display'
-          };
-
-          let short = notebook.keyboard_manager.command_shortcuts.get_action_shortcut(action_id) ||
+          let shortcut = notebook.keyboard_manager.command_shortcuts.get_action_shortcut(action_id) ||
             notebook.keyboard_manager.edit_shortcuts.get_action_shortcut(action_id);
-          if (short) {
-            short = QH._humanize_sequence(short);
+          if (shortcut) {
+            shortcut = QH._humanize_sequence(shortcut);
           }
         
-          src[group].data.push({
+          src.push({
             display: humanize_action_id(action_id),
-            shortcut: short,
-            mode_shortcut: get_mode_for_action_id(action_id, notebook),
-            group: group,
-            icon: action.icon,
-            help: action.help,
-            key: action_id
+            shortcut: shortcut,
+            key:action_id, // react specific thing
+            ckey: action_id
           });
         }
 
-        return src['jupyter-notebook'].data;
+        return src;
     };
 
 
@@ -104,12 +101,12 @@ define(function(require){
           throw new Error("CommandPalette takes a notebook non-null mandatory arguement");
         }
 
-        const b =  $('<div>');
+        const body =  $('<div>');
         const mod = dialog.modal({
             notebook: notebook,
             keyboard_manager: notebook.keyboard_manager,
-            title : "Edit Shortcuts",
-            body : b,
+            title : "Edit Command mode Shortcuts",
+            body : body,
             buttons : {
                 OK : {}
             }
@@ -117,10 +114,15 @@ define(function(require){
         
         const src = get_shortcuts_data(notebook);
 
+        mod.addClass("modal_stretch");
+
         mod.modal('show');
         ReactDom.render(
-            React.createElement(KeyBindingList, {data:src}),
-            b.get(0)
+            React.createElement(KeyBindingList, {
+                callback:()=>{ return  get_shortcuts_data(notebook);},
+                bind: (shortcut, command)=>{return notebook.keyboard_manager.command_shortcuts.add_shortcut(shortcut, command);}
+              }),
+            body.get(0)
         );
     };
     return {'ShortcutEditor': ShortcutEditor};

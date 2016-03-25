@@ -10,7 +10,7 @@
 
 define([
     'base/js/utils',
-    'base/js/keyboard',
+    'base/js/keyboard'
 ], function(utils, keyboard) {
     "use strict";
     
@@ -106,7 +106,7 @@ define([
             'ctrl-enter'  : 'jupyter-notebook:run-cell',
             'alt-enter'   : 'jupyter-notebook:run-cell-and-insert-below',
             // cmd on mac, ctrl otherwise
-            'cmdtrl-s'    : 'jupyter-notebook:save-notebook',
+            'cmdtrl-s'    : 'jupyter-notebook:save-notebook'
         };
     };
 
@@ -117,7 +117,7 @@ define([
             'ctrl-m'              : 'jupyter-notebook:enter-command-mode',
             'up'                  : 'jupyter-notebook:move-cursor-up',
             'down'                : 'jupyter-notebook:move-cursor-down',
-            'ctrl-shift--'        : 'jupyter-notebook:split-cell-at-cursor',
+            'ctrl-shift--'        : 'jupyter-notebook:split-cell-at-cursor'
         };
     };
 
@@ -161,7 +161,7 @@ define([
             'l' : 'jupyter-notebook:toggle-cell-line-numbers',
             'h' : 'jupyter-notebook:show-keyboard-shortcuts',
             'z' : 'jupyter-notebook:undo-cell-deletion',
-            'q' : 'jupyter-notebook:close-pager',
+            'q' : 'jupyter-notebook:close-pager'
         };
     };
 
