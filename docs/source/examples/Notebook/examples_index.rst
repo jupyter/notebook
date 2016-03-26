@@ -1,5 +1,7 @@
+`View the original notebooks on nbviewer`__
 
-`View the original notebooks on nbviewer <http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Examples%20and%20Tutorials%20Index.ipynb>`__
+__ http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/
+   docs/source/examples/Notebook/
 
 ========
 Examples
