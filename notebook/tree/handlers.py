@@ -37,6 +37,7 @@ class TreeHandler(IPythonHandler):
     def get(self, path=''):
         path = path.strip('/')
         cm = self.contents_manager
+        
         if cm.dir_exists(path=path):
             if cm.is_hidden(path):
                 self.log.info("Refusing to serve hidden directory, via 404 Error")

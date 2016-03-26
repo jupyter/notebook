@@ -46,10 +46,26 @@ define([
      * @return {Promise} that resolves to a list of loaded module handles.
      */
     var load_extensions = function () {
+        console.log('load_extensions', arguments);
         return Promise.all(Array.prototype.map.call(arguments, load_extension)).catch(function(err) {
             console.error("Failed to load extension" + (err.requireModules.length>1?'s':'') + ":", err.requireModules, err);
         });
     };
+
+    /**
+     * Return a list of extensions that should be active
+     * The config for nbextensions comes in as a dict where keys are 
+     * nbextensions paths and the values are a bool indicating if it 
+     * should be active. This returns a list of nbextension paths
+     * where the value is true
+     */
+    function filter_extensions(nbext_config) {
+        var active = [];
+        Object.keys(nbext_config).forEach(function (nbext) {
+            if (nbext_config[nbext]) {active.push(nbext);}
+        });
+        return active;
+    }
 
     /**
      * Wait for a config section to load, and then load the extensions specified
@@ -58,9 +74,8 @@ define([
     function load_extensions_from_config(section) {
         section.loaded.then(function() {
             if (section.data.load_extensions) {
-                var nbextension_paths = Object.getOwnPropertyNames(
-                                            section.data.load_extensions);
-                load_extensions.apply(this, nbextension_paths);
+                var active = filter_extensions(section.data.load_extensions);
+                load_extensions.apply(this, active);
             }
         });
     }
@@ -909,7 +924,7 @@ define([
     var format_datetime = function(date) {
         var text = moment(date).fromNow();
         return text === 'a few seconds ago' ? 'seconds ago' : text;
-    }
+    };
 
     var datetime_sort_helper = function(a, b, order) {
         if (moment(a).isBefore(moment(b))) {
@@ -919,11 +934,12 @@ define([
         } else {
             return (order == 1) ? 1 : -1;
         }
-    }
+    };
 
     var utils = {
         load_extension: load_extension,
         load_extensions: load_extensions,
+        filter_extensions: filter_extensions,
         load_extensions_from_config: load_extensions_from_config,
         regex_split : regex_split,
         uuid : uuid,

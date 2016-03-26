@@ -66,6 +66,8 @@ require([
     // compat with old IPython, remove for IPython > 3.0
     window.CodeMirror = CodeMirror;
 
+    // Setup all of the config related things
+    
     var common_options = {
         ws_url : utils.get_body_data("wsUrl"),
         base_url : utils.get_body_data("baseUrl"),
@@ -77,6 +79,9 @@ require([
     config_section.load();
     var common_config = new configmod.ConfigSection('common', common_options);
     common_config.load();
+
+    // Instantiate the main objects
+    
     var page = new page.Page();
     var pager = new pager.Pager('div#pager', {
         events: events});
@@ -90,7 +95,7 @@ require([
     var save_widget = new savewidget.SaveWidget('span#save_widget', {
         events: events,
         keyboard_manager: keyboard_manager});
-    acts.extend_env({save_widget:save_widget})
+    acts.extend_env({save_widget:save_widget});
     var contents = new contentsModule.Contents({
           base_url: common_options.base_url,
           common_config: common_config
@@ -181,7 +186,8 @@ require([
       enumerable: true,
       configurable: false
     });
-
+    
+    // Now actually load nbextensions
     utils.load_extensions_from_config(config_section);
     utils.load_extensions_from_config(common_config);
     notebook.load_notebook(common_options.notebook_path);
