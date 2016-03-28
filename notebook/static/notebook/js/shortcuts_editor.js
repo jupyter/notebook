@@ -35,16 +35,17 @@ define(function(require){
       },
       render: function(){
         const that = this;
-        return React.createElement('div',{style:{borderBottom: '1px solid gray', height: '30px'}},
+        const av = this.props.available(this.state.shrt);
+        return React.createElement('div',{style:{borderBottom: '1px solid gray'}, className:'jupyter-keybindings'},
                 this.props.shortcut? 
                     React.createElement('i', {className: "pull-right fa fa-times", alt: 'remove title'+this.props.shortcut}):
                     React.createElement('i', {className: "pull-right fa fa-plus", alt: 'add-keyboard-shortcut', onClick:()=>{
-                        that.props.onAddBindings(that.state.shrt, that.props.ckey);
+                        av?that.props.onAddBindings(that.state.shrt, that.props.ckey):undefined;
                     }}),
                 this.props.shortcut? undefined :
-                    React.createElement('input', {type:'text', placeholder:'add shortcut', className:'pull-right', value:this.state.shrt, onChange:this.handleShrtChange}),
+                    React.createElement('input', {type:'text', placeholder:'add shortcut', className:'pull-right'+(av?'':' alert alert-danger'), value:this.state.shrt, onChange:this.handleShrtChange}),
                 this.props.shortcut? React.createElement('span', {className: 'pull-right'}, React.createElement('kbd', {}, this.props.shortcut)): undefined,
-                React.createElement('div', {title: '(' +this.props.ckey + ')' }, this.props.display )
+                React.createElement('div', {title: '(' +this.props.ckey + ')' , className:'jupyter-keybindings-text'}, this.props.display )
           );
       }
     });
@@ -62,7 +63,9 @@ define(function(require){
               return React.createElement(KeyBinding, Object.assign({}, binding, {onAddBindings:(shortcut, action)=>{
                   this.props.bind(shortcut, action);
                   this.setState({data:this.props.callback()});
-              }}));
+              },
+              available:this.props.available
+              }));
           });
 
           return React.createElement('div',{}, childrens);
@@ -120,7 +123,8 @@ define(function(require){
         ReactDom.render(
             React.createElement(KeyBindingList, {
                 callback:()=>{ return  get_shortcuts_data(notebook);},
-                bind: (shortcut, command)=>{return notebook.keyboard_manager.command_shortcuts.add_shortcut(shortcut, command);}
+                bind: (shortcut, command)=>{return notebook.keyboard_manager.command_shortcuts.add_shortcut(shortcut, command);},
+                available: (shrt) => { return notebook.keyboard_manager.command_shortcuts.is_available_shortcut(shrt);}
               }),
             body.get(0)
         );

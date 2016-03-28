@@ -10,7 +10,7 @@
 
 define([
     'base/js/utils',
-    'underscore',
+    'underscore'
 ], function(utils, _) {
     "use strict";
 
@@ -42,7 +42,7 @@ define([
         'backspace': 8, 'tab': 9, 'enter': 13, 'shift': 16, 'ctrl': 17, 'alt': 18,
         'meta': 91, 'capslock': 20, 'esc': 27, 'space': 32, 'pageup': 33, 'pagedown': 34,
         'end': 35, 'home': 36, 'left': 37, 'up': 38, 'right': 39, 'down': 40,
-        'insert': 45, 'delete': 46, 'numlock': 144,
+        'insert': 45, 'delete': 46, 'numlock': 144
     };
     
     // These apply to Firefox and Opera
@@ -334,6 +334,28 @@ define([
         }
     };
 
+    ShortcutManager.prototype.is_available_shortcut = function(shortcut){
+        const shortcut_array = shortcut.split(',');
+        return this._is_available_shortcut(shortcut_array, this._shortcuts);
+    };
+
+    ShortcutManager.prototype._is_available_shortcut = function(shortcut_array, tree){
+        console.info('testing for ', shortcut_array, '...');
+        var current_node = tree[shortcut_array[0]];
+        if(!shortcut_array[0]){
+            return false;
+        }
+        if(current_node === undefined){
+            return true;
+        } else {
+            if (typeof(current_node) == 'string'){
+                return false;
+            } else { // assume is a sub-shortcut tree
+                return this._is_available_shortcut(shortcut_array.slice(1), current_node);
+            }
+        }
+    };
+
     ShortcutManager.prototype._set_leaf = function(shortcut_array, action_name, tree){
         var current_node = tree[shortcut_array[0]];
         if(shortcut_array.length === 1){
@@ -470,7 +492,7 @@ define([
         normalize_key : normalize_key,
         normalize_shortcut : normalize_shortcut,
         shortcut_to_event : shortcut_to_event,
-        event_to_shortcut : event_to_shortcut,
+        event_to_shortcut : event_to_shortcut
     };
 
     return keyboard;
