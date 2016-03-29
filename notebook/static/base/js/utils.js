@@ -20,7 +20,7 @@ define([
      */
     var is_loaded = function(extension) {
         var ext_path = "nbextensions/" + extension;
-        return extensions_loaded.indexOf(ext_path) < 0;
+        return extensions_loaded.indexOf(ext_path) >= 0;
     };
 
     /**
@@ -32,7 +32,7 @@ define([
         return new Promise(function(resolve, reject) {
             var ext_path = "nbextensions/" + extension;
             requirejs([ext_path], function(module) {
-                if (is_loaded(extension)) {
+                if (!is_loaded(extension)) {
                     console.log("Loading extension: " + extension);
                     Promise.resolve(module.load_ipython_extension()).then(function() {
                         resolve(module);
