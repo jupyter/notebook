@@ -182,6 +182,7 @@ if 'setuptools' in sys.modules:
         'console_scripts': [
             'jupyter-notebook = notebook.notebookapp:main',
             'jupyter-nbextension = notebook.nbextensions:main',
+            'jupyter-serverextension = notebook.serverextensions:main',
         ]
     }
     setup_args.pop('scripts', None)

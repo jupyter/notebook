@@ -786,9 +786,18 @@ class NotebookApp(JupyterApp):
         self.config.FileContentsManager.root_dir = new
         self.config.MappingKernelManager.root_dir = new
 
+    # TODO: Remove me in notebook 5.0
     server_extensions = List(Unicode(), config=True,
-        help=("Python modules to load as notebook server extensions. "
-              "This is an experimental API, and may change in future releases.")
+        help=("DEPRECATED use the nbserver_extensions dict instead")
+    )
+    def _server_extensions_changed(self, name, old, new):
+        self.log.warning("server_extensions is deprecated, use nbserver_extensions")
+        self.server_extensions = new
+
+    nbserver_extensions = Dict({}, config=True,
+        help=("Dict of Python modules to load as notebook server extensions."
+              "Entry values can be used to enable and disable the loading of"
+              "the extensions.")
     )
 
     reraise_server_extension_failures = Bool(
@@ -1028,18 +1037,27 @@ class NotebookApp(JupyterApp):
         
         The extension API is experimental, and may change in future releases.
         """
+
+        # TODO: Remove me in notebook 5.0
         for modulename in self.server_extensions:
-            try:
-                mod = importlib.import_module(modulename)
-                func = getattr(mod, 'load_jupyter_server_extension', None)
-                if func is not None:
-                    func(self)
-            except Exception:
-                if self.reraise_server_extension_failures:
-                    raise
-                self.log.warn("Error loading server extension %s", modulename,
-                              exc_info=True)
-    
+            # Don't override disable state of the extension if it already exist
+            # in the new traitlet
+            if not modulename in self.nbserver_extensions:
+                self.nbserver_extensions[modulename] = True
+
+        for modulename in self.nbserver_extensions:
+            if self.nbserver_extensions[modulename]:
+                try:
+                    mod = importlib.import_module(modulename)
+                    func = getattr(mod, 'load_jupyter_server_extension', None)
+                    if func is not None:
+                        func(self)
+                except Exception:
+                    if self.reraise_server_extension_failures:
+                        raise
+                    self.log.warning("Error loading server extension %s", modulename,
+                                  exc_info=True)
+
     @catch_config_error
     def initialize(self, argv=None):
         super(NotebookApp, self).initialize(argv)

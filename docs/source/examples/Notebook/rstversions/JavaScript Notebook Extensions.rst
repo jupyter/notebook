@@ -318,7 +318,7 @@ Exercise:
 ^^^^^^^^^
 
 Try to wrap the all code in a file, put this file in
-``{profile}/static/custom/<a-name>.js``, and add
+``{jupyter_dir}/custom/<a-name>.js``, and add
 
 ::
 

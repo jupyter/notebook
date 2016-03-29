@@ -20,10 +20,12 @@ require([
     "use strict";
     page = new page.Page();
 
+    var config = new configmod.ConfigSection('terminal',
+                                     {base_url: utils.get_body_data('baseUrl')});
+    config.load();
     var common_config = new configmod.ConfigSection('common', 
                                     {base_url: utils.get_body_data('baseUrl')});
     common_config.load();
-
     // Test size: 25x80
     var termRowHeight = function(){ return 1.00 * $("#dummy-screen")[0].offsetHeight / 25;};
         // 1.02 here arrived at by trial and error to make the spacing look right
@@ -34,7 +36,7 @@ require([
     var ws_url = location.protocol.replace('http', 'ws') + "//" + location.host
                                     + base_url + ws_path;
     
-    var header = $("#header")[0]
+    var header = $("#header")[0];
     function calculate_size() {
         var height = $(window).height() - header.offsetHeight;
         var width = $('#terminado-container').width();
@@ -51,6 +53,7 @@ require([
     
     page.show_site();
     
+    utils.load_extensions_from_config(config);
     utils.load_extensions_from_config(common_config);
     
     window.onresize = function() { 
