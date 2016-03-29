@@ -448,6 +448,22 @@ define(function(require){
                 }
             }
         },
+        'cell-style-centered' : {
+            help: 'select cell style centered ',
+            icon: 'cell-style',
+            help_index : 'el',
+            handler : function (env) {
+                env.notebook.set_cell_style('center');
+            }
+         },
+        'cell-style-split' : {
+            help: 'select cell style split ',
+            icon: 'cell-style',
+            help_index : 'el',
+            handler : function (env) {
+                env.notebook.set_cell_style('left');
+            }
+        },
         'show-command-palette': {
             help_index : 'aa',
             help: 'open the command palette',

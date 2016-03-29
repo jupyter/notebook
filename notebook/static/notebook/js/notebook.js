@@ -61,10 +61,13 @@ define(function (require) {
         this.keyboard_manager = options.keyboard_manager;
         this.contents = options.contents;
         this.save_widget = options.save_widget;
+        this.cell_style="width:100%;";
+
         this.tooltip = new tooltip.Tooltip(this.events);
         this.ws_url = options.ws_url;
         this._session_starting = false;
         this.last_modified = null;
+        
         // debug 484
         this._last_modified = 'init';
         // Firefox workaround
@@ -170,14 +173,15 @@ define(function (require) {
         // 'above', 'below', or 'selected' to get the value from another cell.
         default_cell_type: 'code'
     };
-
+ 
     /**
      * Create an HTML and CSS representation of the notebook.
      */
     Notebook.prototype.create_elements = function () {
         var that = this;
         this.element.attr('tabindex','-1');
-        this.container = $("<div/>").addClass("container").attr("id", "notebook-container");
+        this.container = $("<div/>").addClass("container").attr({"id":"notebook-container"});
+   
         // We add this end_space div to the end of the notebook div to:
         // i) provide a margin between the last cell and the end of the notebook
         // ii) to prevent the div from scrolling up when the last cell is being
@@ -303,7 +307,7 @@ define(function (require) {
             var new_height = app_height - pager_height - splitter_height;
             that.element.animate({height : new_height + 'px'}, time);
         };
-
+   
         this.element.bind('expand_pager', function (event, extrap) {
             var time = (extrap !== undefined) ? ((extrap.duration !== undefined ) ? extrap.duration : 'fast') : 'fast';
             expand_time(time);
@@ -1115,6 +1119,13 @@ define(function (require) {
         }
     };
 
+    Notebook.prototype.set_cell_style = function(cell_style){
+        if (cell_style == "right")
+                {this.cell_style = "float:right; width:50%;";}
+        else if (cell_style == "left") 
+                {this.cell_style = "float:left; width:50%;";} 
+        else {this.cell_style ="width:100%;";}
+    }
     /**
      * Insert a cell so that after insertion the cell is at given index.
      *
@@ -1130,6 +1141,9 @@ define(function (require) {
      * @return {Cell|null} created cell or null
      */
     Notebook.prototype.insert_cell_at_index = function(type, index){
+
+        if (this.cell_style == "float:right; width:50%;"){this.cell_style = "float:left; width:50%;";}   
+        else if (this.cell_style == "float:left; width:50%;"){this.cell_style ="float:left; width:50%;"}
 
         var ncells = this.ncells();
         index = Math.min(index, ncells);
@@ -1158,7 +1172,8 @@ define(function (require) {
                 config: this.config, 
                 keyboard_manager: this.keyboard_manager, 
                 notebook: this,
-                tooltip: this.tooltip
+                tooltip: this.tooltip,
+                cell_style: this.cell_style
             };
             switch(type) {
             case 'code':
@@ -2403,9 +2418,19 @@ define(function (require) {
     };
 
     /**
-     Move the unused attachments garbage collection logic to TextCell.toJSON.
+     * Garbage collects unused attachments in all the cells
+     */
+    Notebook.prototype.remove_unused_attachments = function() {
+      var cells = this.get_cells();
+      for (var i = 0; i < cells.length; i++) {
+          var cell = cells[i];
+          cell.remove_unused_attachments();
+      }
+    };
+
+    /**
      * Load a notebook from JSON (.ipynb).
-     *
+     * 
      * @param {object} data - JSON representation of a notebook
      */
     Notebook.prototype.fromJSON = function (data) {
@@ -2468,7 +2493,7 @@ define(function (require) {
             if (cell.cell_type === 'code' && !cell.output_area.trusted) {
                 trusted = false;
             }
-            cell_array[i] = cell.toJSON(true);
+            cell_array[i] = cell.toJSON();
         }
         var data = {
             cells: cell_array,
@@ -2517,12 +2542,17 @@ define(function (require) {
      * Save this notebook on the server. This becomes a notebook instance's
      * .save_notebook method *after* the entire notebook has been loaded.
      *
+     * manual_save will be true if the save was manually trigered by the user
      */
-    Notebook.prototype.save_notebook = function (check_last_modified) {
+    Notebook.prototype.save_notebook = function (check_last_modified,
+                                                 manual_save) {
         if (check_last_modified === undefined) {
             check_last_modified = true;
         }
-
+        if (manual_save === undefined) {
+            manual_save = false;
+        }
+        
         var error;
         if (!this._fully_loaded) {
             error = new Error("Load failed, save is disabled");
@@ -2537,6 +2567,13 @@ define(function (require) {
         // Trigger an event before save, which allows listeners to modify
         // the notebook as needed.
         this.events.trigger('before_save.Notebook');
+
+        // Garbage collect unused attachments. Only do this for manual save
+        // to avoid removing unused attachments while the user is editing if
+        // an autosave gets triggered in the midle of an edit
+        if (manual_save) {
+            this.remove_unused_attachments();
+        }
 
         // Create a JSON model to be sent to the server.
         var model = {
@@ -2721,7 +2758,7 @@ define(function (require) {
         var parent = utils.url_path_split(this.notebook_path)[0];
         var p;
         if (this.dirty) {
-            p = this.save_notebook(true);
+            p = this.save_notebook(true, true);
         } else {
             p = Promise.resolve();
         }
@@ -2991,7 +3028,7 @@ define(function (require) {
      */
     Notebook.prototype.save_checkpoint = function () {
         this._checkpoint_after_save = true;
-        this.save_notebook(true);
+        this.save_notebook(true, true);
     };
     
     /**

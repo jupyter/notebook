@@ -48,6 +48,7 @@ define([
         options = options || {};
         this.keyboard_manager = options.keyboard_manager;
         this.events = options.events;
+        this.cell_style = options.cell_style
         var config = utils.mergeopt(Cell, options.config);
         // superclass default overwrite our default
         
@@ -348,6 +349,16 @@ define([
         } else {
             return false;
         }
+    };
+
+    /**
+     * Garbage collects unused attachments in this cell
+     * @method remove_unused_attachments
+     */
+    Cell.prototype.remove_unused_attachments = function () {
+        // Cell subclasses which support attachments should override this
+        // and keep them when needed
+        this.attachments = {};
     };
 
     /**
@@ -744,6 +755,11 @@ define([
         );
         cell.append(inner_cell);
         this.element = cell;
+    };
+
+    UnrecognizedCell.prototype.remove_unused_attachments = function () {
+        // Do nothing to avoid removing attachments from a possible future
+        // attachment-supporting cell type
     };
 
     UnrecognizedCell.prototype.bind_events = function () {
