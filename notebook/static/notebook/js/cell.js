@@ -48,6 +48,8 @@ define([
         options = options || {};
         this.keyboard_manager = options.keyboard_manager;
         this.events = options.events;
+        this.cell_style = options.cell_style;
+        
         var config = utils.mergeopt(Cell, options.config);
         // superclass default overwrite our default
         
@@ -56,6 +58,7 @@ define([
         this.anchor = false;
         this.rendered = false;
         this.mode = 'command';
+        
 
         // Metadata property
         var that = this;
@@ -81,6 +84,7 @@ define([
 
         // load this from metadata later ?
         this.user_highlight = 'auto';
+        
 
 
         var _local_cm_config = {};
@@ -179,6 +183,16 @@ define([
             // I'm already part of the selection; contract selection to just me
             this.events.trigger('select.Cell', {'cell': this});
         }
+    };
+
+    Cell.prototype.get_cell_style_html = function(cell_style){
+        if (cell_style == "right") 
+            {return "float:right; width:50%;";}
+        else if (cell_style == "left") 
+            {return "float:left; width:50%;";} 
+        else if (cell_style == "center")
+            {return "width:100%;";}
+        return cell_style
     };
 
     /**
@@ -351,6 +365,16 @@ define([
     };
 
     /**
+     * Garbage collects unused attachments in this cell
+     * @method remove_unused_attachments
+     */
+    Cell.prototype.remove_unused_attachments = function () {
+        // Cell subclasses which support attachments should override this
+        // and keep them when needed
+        this.attachments = {};
+    };
+
+    /**
      * Delegates keyboard shortcut handling to either Jupyter keyboard
      * manager when in command mode, or CodeMirror when in edit mode
      *
@@ -483,6 +507,7 @@ define([
         // deepcopy the metadata so copied cells don't share the same object
         data.metadata = JSON.parse(JSON.stringify(this.metadata));
         data.cell_type = this.cell_type;
+        data.cell_style = this.cell_style || "width=100%;";
         return data;
     };
 
@@ -744,6 +769,11 @@ define([
         );
         cell.append(inner_cell);
         this.element = cell;
+    };
+
+    UnrecognizedCell.prototype.remove_unused_attachments = function () {
+        // Do nothing to avoid removing attachments from a possible future
+        // attachment-supporting cell type
     };
 
     UnrecognizedCell.prototype.bind_events = function () {

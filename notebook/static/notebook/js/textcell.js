@@ -52,13 +52,15 @@ define([
         this.events = options.events;
         this.config = options.config;
         this.notebook = options.notebook;
+        this.cell_style = options.cell_style;
         
         // we cannot put this as a class key as it has handle to "this".
         var config = utils.mergeopt(TextCell, this.config);
         Cell.apply(this, [{
                     config: config, 
                     keyboard_manager: options.keyboard_manager, 
-                    events: this.events}]);
+                    events: this.events,
+                    cell_style:this.cell_style}]);
 
         this.cell_type = this.cell_type || 'text';
         mathjaxutils = mathjaxutils;
@@ -85,7 +87,9 @@ define([
         var that = this;
 
         var cell = $("<div>").addClass('cell text_cell');
-        cell.attr('tabindex','2');
+        var cell_style_html = Cell.prototype.get_cell_style_html.apply(this, [this.cell_style]);
+
+        cell.attr({'tabindex':'2', 'style':cell_style_html});
 
         var prompt = $('<div/>').addClass('prompt input_prompt');
         cell.append(prompt);
@@ -196,6 +200,9 @@ define([
             if (data.attachments !== undefined) {
                 this.attachments = data.attachments;
             }
+            if (data.cell_style !== undefined) {
+                this.cell_style = data.cell_style;}
+            else {this.cell_style =  'width=100%;';}
 
             if (data.source !== undefined) {
                 this.set_text(data.source);
@@ -226,6 +233,8 @@ define([
         if (data.source == this.placeholder) {
             data.source = "";
         }
+
+        data.cell_style = this.cell_style;
 
         // We deepcopy the attachments so copied cells don't share the same
         // objects
