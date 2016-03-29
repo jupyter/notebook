@@ -340,7 +340,6 @@ define([
     };
 
     ShortcutManager.prototype._is_available_shortcut = function(shortcut_array, tree){
-        console.info('testing for ', shortcut_array, '...');
         var current_node = tree[shortcut_array[0]];
         if(!shortcut_array[0]){
             return false;
@@ -437,7 +436,7 @@ define([
             this.events.trigger('rebuild.QuickHelp');
           }
         } catch (ex) {
-          throw new Error('trying to remove a non-existent shortcut', shortcut);
+          throw new Error('trying to remove a non-existent shortcut', shortcut, typeof shortcut);
         }
     };
 

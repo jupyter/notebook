@@ -36,12 +36,12 @@ define(function(require){
       render: function(){
         const that = this;
         const av = this.props.available(this.state.shrt);
+        const empty = this.state.shrt === '';
         return React.createElement('div',{style:{borderBottom: '1px solid gray'}, className:'jupyter-keybindings'},
                 this.props.shortcut? 
                     React.createElement('i', {className: "pull-right fa fa-times", alt: 'remove title'+this.props.shortcut,
                         onClick:()=>{
-                            console.log('will unbind ::', this.props.shortcuts, this.props);
-                            that.props.unbind(this.props.shortcut);
+                            that.props.unbind(this.props.rawshrt);
                         }}):
                     React.createElement('i', {className: "pull-right fa fa-plus", alt: 'add-keyboard-shortcut',
                         onClick:()=>{
@@ -49,8 +49,12 @@ define(function(require){
                         }
                     }),
                 this.props.shortcut? undefined :
-                    React.createElement('input', {type:'text', placeholder:'add shortcut', 
-                                                  className:'pull-right'+(av?'':' alert alert-danger'), value:this.state.shrt, onChange:this.handleShrtChange
+                    React.createElement('input', {
+                                                  type:'text', 
+                                           placeholder:'add shortcut', 
+                                             className:'pull-right'+((av||empty)?'':' alert alert-danger'),
+                                                 value:this.state.shrt,
+                                              onChange:this.handleShrtChange
                     }),
                 this.props.shortcut? React.createElement('span', {className: 'pull-right'}, React.createElement('kbd', {}, this.props.shortcut)): undefined,
                 React.createElement('div', {title: '(' +this.props.ckey + ')' , className:'jupyter-keybindings-text'}, this.props.display )
@@ -73,7 +77,10 @@ define(function(require){
                   this.setState({data:this.props.callback()});
               },
               available:this.props.available, 
-              unbind: this.props.unbind
+              unbind: (shortcut) => {
+                      this.props.unbind(shortcut);
+                      this.setState({data:this.props.callback()});
+                 }
               }));
           });
 
@@ -89,15 +96,17 @@ define(function(require){
           const action_id = actions[i];
           const action = notebook.keyboard_manager.actions.get(action_id);
 
-          let shortcut = notebook.keyboard_manager.command_shortcuts.get_action_shortcut(action_id) ||
-            notebook.keyboard_manager.edit_shortcuts.get_action_shortcut(action_id);
+          let shortcut = notebook.keyboard_manager.command_shortcuts.get_action_shortcut(action_id); //||
+            //notebook.keyboard_manager.edit_shortcuts.get_action_shortcut(action_id);
+          let hshortcut;
           if (shortcut) {
-            shortcut = QH._humanize_sequence(shortcut);
+            hshortcut = QH._humanize_sequence(shortcut);
           }
         
           src.push({
             display: humanize_action_id(action_id),
-            shortcut: shortcut,
+            shortcut: hshortcut,
+            rawshrt: shortcut,
             key:action_id, // react specific thing
             ckey: action_id
           });
