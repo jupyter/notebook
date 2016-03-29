@@ -34,9 +34,11 @@ define([
             requirejs([ext_path], function(module) {
                 if (!is_loaded(extension)) {
                     console.log("Loading extension: " + extension);
-                    Promise.resolve(module.load_ipython_extension()).then(function() {
-                        resolve(module);
-                    }).catch(reject);
+                    if (module.load_ipython_extension) {
+                        Promise.resolve(module.load_ipython_extension()).then(function() {
+                            resolve(module);
+                        }).catch(reject);
+                    }
                     extensions_loaded.push(ext_path);
                 } else {
                     console.log("Loaded extension already: " + extension);
@@ -55,9 +57,7 @@ define([
      */
     var load_extensions = function () {
         console.log('load_extensions', arguments);
-
-        var args = Array.prototype.splice.apply(arguments);
-        return Promise.all(args.map(load_extension)).catch(function(err) {
+        return Promise.all(Array.prototype.map.call(arguments, load_extension)).catch(function(err) {
             console.error("Failed to load extension" + (err.requireModules.length>1?'s':'') + ":", err.requireModules, err);
         });
     };
@@ -87,7 +87,7 @@ define([
                 var active = filter_extensions(section.data.load_extensions);
                 return load_extensions.apply(this, active);
             }
-        });
+        }).catch(utils.reject('Could not load nbextensions from ' + section.section_name + ' config file'));
     }
 
     //============================================================================
