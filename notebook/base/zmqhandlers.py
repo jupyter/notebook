@@ -296,4 +296,7 @@ class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
     def initialize(self):
         self.log.debug("Initializing websocket connection %s", self.request.path)
         self.session = Session(config=self.config)
-    
+
+    def get_compression_options(self):
+        # use deflate compress websocket
+        return {}
