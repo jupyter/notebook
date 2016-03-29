@@ -8,5 +8,5 @@ dependencies:
 - jupyter_client
 - ipykernel
 - pip:
-  - sphinx>=1.3.6
+  - sphinx<1.4
   - nbsphinx
