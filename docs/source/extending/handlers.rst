@@ -3,7 +3,7 @@ Custom request handlers
 
 The notebook webserver can be interacted with using a well `defined
 RESTful
-API <http://petstore.swagger.io/?url=https://raw.githubusercontent.com/jupyter/jupyter-js-services/master/rest_api.yaml>`__.
+API <http://petstore.swagger.io/?url=https://raw.githubusercontent.com/jupyter/notebook/master/notebook/services/api/api.yaml>`__.
 You can define custom RESTful API handlers in addition to the ones
 provided by the notebook. As described below, to define a custom handler
 you need to first write a notebook server extension. Then, in the
