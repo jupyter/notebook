@@ -27,22 +27,36 @@ define([
          *    @param options.events {$(Events)} instance 
          *    @param options.pager: {Pager}  pager instance
          */
-        this.mode = 'command';
         this.enabled = true;
         this.pager = options.pager;
         this.quick_help = undefined;
         this.notebook = undefined;
         this.last_mode = undefined;
+		this.current_mode = "command";
         this.bind_events();
         this.env = {pager:this.pager};
         this.actions = options.actions;
+		
+		// default shorcuts in classic mode and vim mode
         this.command_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env );
         this.command_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
         this.command_shortcuts.add_shortcuts(this.get_default_command_shortcuts());
         this.edit_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env);
         this.edit_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
         this.edit_shortcuts.add_shortcuts(this.get_default_edit_shortcuts());
+        this.vim_command_shortcuts = new keyboard.ShortcutManager( undefined , options.events, this.actions, this.env );
+        this.vim_command_shortcuts.add_shortcuts(this.get_default_common_vim_shortcuts());
+        this.vim_command_shortcuts.add_shortcuts(this.get_default_vim_command_shortcuts());
+        this.vim_edit_shortcuts = new keyboard.ShortcutManager( undefined , options.events, this.actions, this.env );
+        this.vim_edit_shortcuts.add_shortcuts(this.get_default_common_vim_shortcuts());
+        this.vim_edit_shortcuts.add_shortcuts(this.get_default_vim_edit_shortcuts());
 
+        this.mode = {
+			"command": this.command_shortcuts,
+			"edit": this.edit_shortcuts,
+			"vim-command": this.vim_command_shortcuts,
+			"vim-edit": this.vim_edit_shortcuts
+		};
 
         this.config = options.config;
         var that = this;
@@ -81,7 +95,6 @@ define([
 
             }
         );
-
         Object.seal(this);
     };
 
@@ -120,7 +133,7 @@ define([
             'ctrl-shift--'        : 'jupyter-notebook:split-cell-at-cursor',
         };
     };
-
+    
     KeyboardManager.prototype.get_default_command_shortcuts = function() {
         return {
             'cmdtrl-shift-p': 'jupyter-notebook:show-command-palette',
@@ -165,6 +178,31 @@ define([
         };
     };
 
+	KeyboardManager.prototype.get_default_common_vim_shortcuts = function() {
+        return {
+            'shift'       : 'jupyter-notebook:ignore',
+            'shift-enter' : 'jupyter-notebook:run-cell-and-edit-below',
+            'ctrl-enter'  : 'jupyter-notebook:run-cell-keeping-edit',
+            'alt-enter'   : 'jupyter-notebook:run-cell-and-insert-below',
+            // cmd on mac, ctrl otherwise
+            'cmdtrl-s'    : 'jupyter-notebook:save-notebook',
+        };
+	};
+
+    KeyboardManager.prototype.get_default_vim_edit_shortcuts = function() {
+	  return {
+            'k'                  : 'jupyter-notebook:move-cursor-up',
+            'j'                : 'jupyter-notebook:move-cursor-down',
+            'up'                  : 'jupyter-notebook:move-cursor-up',
+            'down'                : 'jupyter-notebook:move-cursor-down',
+	  };
+    };
+
+    KeyboardManager.prototype.get_default_vim_command_shortcuts = function() {
+      return {
+	  };
+    };
+
     KeyboardManager.prototype.bind_events = function () {
         var that = this;
         $(document).keydown(function (event) {
@@ -203,23 +241,26 @@ define([
             }
             return true;
         }
-        
-        if (this.mode === 'edit') {
-            return this.edit_shortcuts.call_handler(event);
-        } else if (this.mode === 'command') {
-            return this.command_shortcuts.call_handler(event);
-        }
+		this.mode[this.current_mode].call_handler(event);
         return true;
     };
 
     KeyboardManager.prototype.edit_mode = function () {
-        this.last_mode = this.mode;
-        this.mode = 'edit';
+        this.last_mode = this.current_mode;
+        if (this.last_mode === 'command' || this.last_mode === 'edit'){
+          this.current_mode = 'edit';
+        } else { // expected 'vim-edit' or 'vim-command'
+          this.current_mode = 'vim-edit';
+        }
     };
 
     KeyboardManager.prototype.command_mode = function () {
-        this.last_mode = this.mode;
-        this.mode = 'command';
+        this.last_mode = this.current_mode;
+        if (this.last_mode === 'command' || this.last_mode === 'edit'){
+          this.current_mode = 'command';
+        } else { //supposed this.last_mode === 'vim-command' || this.last_mode === 'vim-edit'
+          this.current_mode = 'vim-command';
+        }
     };
 
     KeyboardManager.prototype.enable = function () {

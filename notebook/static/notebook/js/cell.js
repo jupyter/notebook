@@ -14,8 +14,9 @@ define([
     'codemirror/lib/codemirror',
     'codemirror/addon/edit/matchbrackets',
     'codemirror/addon/edit/closebrackets',
-    'codemirror/addon/comment/comment'
-], function(utils, CodeMirror, cm_match, cm_closeb, cm_comment) {
+    'codemirror/addon/comment/comment',
+    'services/config'
+], function(utils, CodeMirror, cm_match, cm_closeb, cm_comment, configmod) {
     "use strict";
     
     var overlayHack = CodeMirror.scrollbarModel.native.prototype.overlayHack;
@@ -84,8 +85,11 @@ define([
 
 
         var _local_cm_config = {};
+        var _parent_class_config = new configmod.ConfigWithDefaults(this.config, Cell.options_default, 'Cell');
+        _local_cm_config = _parent_class_config.get_sync('cm_config');
+
         if(this.class_config){
-            _local_cm_config = this.class_config.get_sync('cm_config');
+            _local_cm_config = $.extend(_local_cm_config, this.class_config.get_sync('cm_config'));
         }
         config.cm_config = utils.mergeopt({}, config.cm_config, _local_cm_config);
         this.cell_id = utils.uuid();
@@ -231,26 +235,44 @@ define([
      * @param {event} event - key press event which either should or should not be handled by CodeMirror
      * @return {Boolean} `true` if CodeMirror should ignore the event, `false` Otherwise
      */
-    Cell.prototype.handle_codemirror_keyevent = function (editor, event) {
-        var shortcuts = this.keyboard_manager.edit_shortcuts;
-
+    Cell.prototype.handle_codemirror_keyevent = function (editor, event) 
+    {
+        var shortcuts = this.keyboard_manager.mode[this.keyboard_manager.current_mode];
+        
+        // leave all event to codemirror but up/down when at beginning or end of
+        // a cell
         var cur = editor.getCursor();
-        if((cur.line !== 0 || cur.ch !==0) && event.keyCode === 38){
-            event._ipkmIgnore = true;
-        }
         var nLastLine = editor.lastLine();
-        if ((event.keyCode === 40) &&
-             ((cur.line !== nLastLine) ||
-               (cur.ch !== editor.getLineHandle(nLastLine).text.length))
-           ) {
-            event._ipkmIgnore = true;
+        if ( this.keyboard_manager.current_mode === "vim-edit" )
+        {
+            if ((event.keyCode === 38 || event.keyCode === 74) && (cur.line !== 0 || cur.ch !==0)) // (j or up) and not(lastline && lastchar)
+            {
+                event._ipkmIgnore = true;
+            } else if ((event.keyCode === 40 || event.keyCode === 75) &&
+                       ((cur.line !== nLastLine) ||
+                       ( editor.state.insertMode && cur.ch !== editor.getLineHandle(nLastLine).text.length ) ||
+                       ( cur.ch !== editor.getLineHandle(nLastLine).text.length - 1)))// cm vimmode in command mode only allow cursor at end -1
+            {
+                event._ipkmIgnore = true;
+            }
+        } else 
+        {
+            if((cur.line !== 0 || cur.ch !==0) && event.keyCode === 38)
+            {
+                event._ipkmIgnore = true;
+            }else if ((event.keyCode === 40) &&
+                 ((cur.line !== nLastLine) ||
+                   (cur.ch !== editor.getLineHandle(nLastLine).text.length)))
+            {
+                event._ipkmIgnore = true;
+            }
         }
         // if this is an edit_shortcuts shortcut, the global keyboard/shortcut
         // manager will handle it
-        if (shortcuts.handles(event)) {
+        if (shortcuts.handles(event)) 
+        {
             return true;
         }
-        
         return false;
     };
 
@@ -397,7 +419,11 @@ define([
     Cell.prototype.at_bottom = function () {
         var cm = this.code_mirror;
         var cursor = cm.getCursor();
-        if (cursor.line === (cm.lineCount()-1) && cursor.ch === cm.getLine(cursor.line).length) {
+        // In vim mode command mode, endline cursor is at a -1 offset 
+        if (cm.options.vimMode && !cm.state.insertMode && cursor.line === cm.lastLine() && cursor.ch === cm.getLine(cursor.line).length - 1){
+            return true
+        }
+        else if (cursor.line === cm.lastLine() && cursor.ch === cm.getLine(cursor.line).length) {
             return true;
         }
         return false;
@@ -698,6 +724,38 @@ define([
             return;
         }
         this.code_mirror.setOption('mode', default_mode);
+    };
+
+    Cell.prototype.update_codemirror_options = function (options) {
+        /** update codemirror options locally and save changes in config */
+        var that = this;
+        $.map(options , function (value, opt) {
+            if (value === null ){
+                value = CodeMirror.defaults[opt];
+            }
+            that.code_mirror.setOption(opt, value);
+        });
+    };
+
+    Cell.prototype.switch_codemirror_mode = function (keymap) {
+        // because of handlers codemirror implementation we need to unalocate
+        // keyboard handler, then switch the mode and reallocate the jupyter
+        // handler. This way, the handler are treated by codemirror in the right
+        // order
+
+        var handler = this.code_mirror._handlers["keydown"][0];
+        this.code_mirror.off("keydown", handler);
+
+        var options = {};
+        if (keymap === "vim"){
+            options["vimMode"] = true;
+        } else {
+            options["vimMode"] = false;
+        }
+        options["keyMap"] = keymap;
+        this.update_codemirror_options(options);
+
+        this.code_mirror.on("keydown", handler);
     };
 
     var UnrecognizedCell = function (options) {

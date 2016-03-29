@@ -20,7 +20,10 @@ define([
     'notebook/js/celltoolbar',
     'codemirror/lib/codemirror',
     'codemirror/mode/python/python',
-    'notebook/js/codemirror-ipython'
+    'notebook/js/codemirror-ipython',
+    'codemirror/keymap/emacs',
+    'codemirror/keymap/sublime',
+    'codemirror/keymap/vim'
 ], function(IPython,
     utils,
     keyboard,

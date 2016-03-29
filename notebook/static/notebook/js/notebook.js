@@ -59,6 +59,13 @@ define(function (require) {
         this.notebook_name = options.notebook_name;
         this.events = options.events;
         this.keyboard_manager = options.keyboard_manager;
+        // keyboard manager init
+        var that = this;
+        this.class_config.get("keyboard").then(function (keyboard_mode){
+            if (keyboard_mode){
+                that.keyboard_manager.current_mode = keyboard_mode;
+            }
+        });
         this.contents = options.contents;
         this.save_widget = options.save_widget;
         this.tooltip = new tooltip.Tooltip(this.events);
@@ -77,6 +84,8 @@ define(function (require) {
         // We need a better way to deal with circular instance references.
         this.keyboard_manager.notebook = this;
         this.save_widget.notebook = this;
+
+        this.dummy = undefined;
         
         mathjaxutils.init();
 
@@ -163,7 +172,6 @@ define(function (require) {
         // prevent assign to miss-typed properties.
         Object.seal(this);
     };
-
 
     Notebook.options_default = {
         // can be any cell type, or the special values of
@@ -2411,7 +2419,7 @@ define(function (require) {
           var cell = cells[i];
           cell.remove_unused_attachments();
       }
-    };
+    }
 
     /**
      * Load a notebook from JSON (.ipynb).
@@ -3179,6 +3187,36 @@ define(function (require) {
     Notebook.prototype.delete_checkpoint_success = function () {
         this.events.trigger('checkpoint_deleted.Notebook');
         this.load_notebook(this.notebook_path);
+    };
+    
+    /**
+    * Switch the keymap of all codemirror code cell into the state 
+    * specified by the argument. 
+    *
+    * @param {string} keymap in {'vim', 'sublime', 'default', 'emacs'}
+    */
+    Notebook.prototype.switch_keymap_to = function(keymap) {
+        var vimMode = true;
+        var cells = this.get_cells();
+        var cell = cells[0];
+        var options = {};
+
+        if (keymap === "vim"){
+            this.keyboard_manager.current_mode = 'vim-command';
+        } else if ( keymap === 'sublime' || keymap === 'default' || keymap === 'emacs') {
+            this.keyboard_manager.current_mode = 'command';
+        } else {
+            console.log('No valid keymap specified. Valid keymaps are in {"vim", "sublime", "default", "emacs"}');
+            return false;
+        }
+        this.config.update({
+                "Notebook":{"keyboard": keymap},
+                "Cell": {"cm_config" : options}
+        });
+        for (var i = 0; i <= cells.length -1; i++ ){
+            cell = cells[i]
+            cell.switch_codemirror_mode(keymap);
+        }
     };
 
     return {'Notebook': Notebook};

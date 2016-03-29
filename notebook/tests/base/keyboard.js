@@ -74,7 +74,7 @@ casper.notebook_test(function () {
         })
         that.evaluate(function (obj) {
             for(var k in obj){
-                IPython.keyboard_manager.command_shortcuts.add_shortcut(k, function(){console.log(obj[k])});
+                IPython.keyboard_manager.mode["command"].add_shortcut(k, function(){console.log(obj[k])});
             }
         }, shortcuts_test);
 
