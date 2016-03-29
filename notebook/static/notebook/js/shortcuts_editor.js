@@ -11,9 +11,9 @@ define(function(require){
 
     /**
      * Humanize the action name to be consumed by user.
-     * internaly the actions anem are of the form
+     * internally the actions name are of the form
      * <namespace>:<description-with-dashes>
-     * we drop <namesapce> and replace dashes for space.
+     * we drop <namespace> and replace dashes for space.
      */
     const humanize_action_id = function(str) {
       return str.split(':')[1].replace(/-/g, ' ').replace(/_/g, '-');
@@ -22,7 +22,7 @@ define(function(require){
     /**
      * given an action id return 'command-shortcut', 'edit-shortcut' or 'no-shortcut'
      * for the action. This allows us to tag UI in order to visually distinguish
-     * wether an action have a keybinding or not.
+     * Wether an action have a keybinding or not.
      **/
 
     const KeyBinding = React.createClass({
@@ -45,18 +45,18 @@ define(function(require){
                         }}):
                     React.createElement('i', {className: "pull-right fa fa-plus", alt: 'add-keyboard-shortcut',
                         onClick:()=>{
-                            av?that.props.onAddBindings(that.state.shrt, that.props.ckey):undefined;
+                            av?that.props.onAddBindings(that.state.shrt, that.props.ckey):null;
                         }
                     }),
-                this.props.shortcut? undefined :
+                this.props.shortcut? null:
                     React.createElement('input', {
-                                                  type:'text', 
-                                           placeholder:'add shortcut', 
-                                             className:'pull-right'+((av||empty)?'':' alert alert-danger'),
-                                                 value:this.state.shrt,
-                                              onChange:this.handleShrtChange
+                                          type:'text', 
+                                   placeholder:'add shortcut', 
+                                     className:'pull-right'+((av||empty)?'':' alert alert-danger'),
+                                         value:this.state.shrt,
+                                      onChange:this.handleShrtChange
                     }),
-                this.props.shortcut? React.createElement('span', {className: 'pull-right'}, React.createElement('kbd', {}, this.props.shortcut)): undefined,
+                this.props.shortcut? React.createElement('span', {className: 'pull-right'}, React.createElement('kbd', {}, this.props.shortcut)): null,
                 React.createElement('div', {title: '(' +this.props.ckey + ')' , className:'jupyter-keybindings-text'}, this.props.display )
           );
       }
@@ -96,8 +96,7 @@ define(function(require){
           const action_id = actions[i];
           const action = notebook.keyboard_manager.actions.get(action_id);
 
-          let shortcut = notebook.keyboard_manager.command_shortcuts.get_action_shortcut(action_id); //||
-            //notebook.keyboard_manager.edit_shortcuts.get_action_shortcut(action_id);
+          let shortcut = notebook.keyboard_manager.command_shortcuts.get_action_shortcut(action_id);
           let hshortcut;
           if (shortcut) {
             hshortcut = QH._humanize_sequence(shortcut);
@@ -111,7 +110,6 @@ define(function(require){
             ckey: action_id
           });
         }
-
         return src;
     };
 
@@ -141,7 +139,7 @@ define(function(require){
         ReactDom.render(
             React.createElement(KeyBindingList, {
                 callback:()=>{ return  get_shortcuts_data(notebook);},
-                bind: (shortcut, command)=>{return notebook.keyboard_manager.command_shortcuts.add_shortcut(shortcut, command);},
+                bind: (shortcut, command) => {return notebook.keyboard_manager.command_shortcuts.add_shortcut(shortcut, command);},
                 unbind: (shortcut) => { return notebook.keyboard_manager.command_shortcuts.remove_shortcut(shortcut);},
                 available:  (shrt) => { return notebook.keyboard_manager.command_shortcuts.is_available_shortcut(shrt);}
               }),
