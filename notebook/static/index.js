@@ -55,6 +55,7 @@ module.exports = {
     'notebook/js/outputarea': require('./notebook/js/outputarea.js'),
     'notebook/js/celltoolbar': require('./notebook/js/celltoolbar.js'),
     'notebook/js/commandpalette': require('./notebook/js/commandpalette.js'),
+    'notebook/js/shortcuts_editor': require('./notebook/js/shortcuts_editor.js'),
     'tree/js/sessionlist': require('./tree/js/sessionlist.js'),
     // 'tree/js/main': require('./tree/js/main.js'),
     'tree/js/kernellist': require('./tree/js/kernellist.js'),
