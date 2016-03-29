@@ -351,16 +351,6 @@ define([
     };
 
     /**
-     * Garbage collects unused attachments in this cell
-     * @method remove_unused_attachments
-     */
-    Cell.prototype.remove_unused_attachments = function () {
-        // Cell subclasses which support attachments should override this
-        // and keep them when needed
-        this.attachments = {};
-    };
-
-    /**
      * Delegates keyboard shortcut handling to either Jupyter keyboard
      * manager when in command mode, or CodeMirror when in edit mode
      *
@@ -754,11 +744,6 @@ define([
         );
         cell.append(inner_cell);
         this.element = cell;
-    };
-
-    UnrecognizedCell.prototype.remove_unused_attachments = function () {
-        // Do nothing to avoid removing attachments from a possible future
-        // attachment-supporting cell type
     };
 
     UnrecognizedCell.prototype.bind_events = function () {

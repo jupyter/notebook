@@ -123,44 +123,6 @@ define([
         this.attachments[key][mime_type] = [b64_data];
     };
 
-    TextCell.prototype.remove_unused_attachments = function () {
-        // The general idea is to render the text, find attachment like when
-        // we substitute them in render() and mark used attachments by adding
-        // a temporary .used property to them.
-        if (Object.keys(this.attachments).length > 0) {
-            var that = this;
-            // To find unused attachments, rendering to HTML is easier than
-            // searching in the markdown source for the multiple ways you can
-            // reference an image in markdown (using []() or a HTML <img> tag)
-            var text = this.get_text();
-            marked(text, function (err, html) {
-                html = security.sanitize_html(html);
-                html = $($.parseHTML(html));
-                html.find('img[src^="attachment:"]').each(function (i, h) {
-                    h = $(h);
-                    var key = h.attr('src').replace(/^attachment:/, '');
-                    if (key in that.attachments) {
-                        that.attachments[key].used = true;
-                    }
-
-                    // This is to avoid having the browser do a GET request
-                    // on the invalid attachment: URL
-                    h.attr('src', '');
-                });
-            });
-
-            for (var key in this.attachments) {
-                if (this.attachments[key].used === undefined) {
-                    console.log('Dropping unused attachment ' + key);
-                    delete this.attachments[key];
-                } else {
-                    // Remove temporary property
-                    delete this.attachments[key].used;
-                }
-            }
-        }
-    }
-
     TextCell.prototype.select = function () {
         var cont = Cell.prototype.select.apply(this, arguments);
         if (cont) {
@@ -230,7 +192,6 @@ define([
      */
     TextCell.prototype.fromJSON = function (data) {
         Cell.prototype.fromJSON.apply(this, arguments);
-        console.log('data cell_type : ' + data.cell_type + ' this.cell_type : ' + this.cell_type);
         if (data.cell_type === this.cell_type) {
             if (data.attachments !== undefined) {
                 this.attachments = data.attachments;
@@ -251,18 +212,52 @@ define([
     };
 
     /** Generate JSON from cell
+     * @param {bool} gc_attachments - If true, will remove unused attachments
+     *               from the returned JSON
      * @return {object} cell data serialised to json
      */
-    TextCell.prototype.toJSON = function () {
+    TextCell.prototype.toJSON = function (gc_attachments) {
+        if (gc_attachments === undefined) {
+            gc_attachments = false;
+        }
+
         var data = Cell.prototype.toJSON.apply(this);
         data.source = this.get_text();
         if (data.source == this.placeholder) {
             data.source = "";
         }
-        // Deepcopy the attachments so copied cells don't share the same
+
+        // We deepcopy the attachments so copied cells don't share the same
         // objects
         if (Object.keys(this.attachments).length > 0) {
-            data.attachments = JSON.parse(JSON.stringify(this.attachments));
+            if (gc_attachments) {
+                // Garbage collect unused attachments : The general idea is to
+                // render the text, and find used attachments like when we
+                // substitute them in render()
+                data.attachments = {};
+                var that = this;
+                // To find attachments, rendering to HTML is easier than
+                // searching in the markdown source for the multiple ways you
+                // can reference an image in markdown (using []() or a
+                // HTML <img>)
+                var text = this.get_text();
+                marked(text, function (err, html) {
+                    html = security.sanitize_html(html);
+                    html = $($.parseHTML(html));
+                    html.find('img[src^="attachment:"]').each(function (i, h) {
+                        h = $(h);
+                        var key = h.attr('src').replace(/^attachment:/, '');
+                        if (key in that.attachments) {
+                            data.attachments[key] = JSON.parse(JSON.stringify(
+                                that.attachments[key]));
+                        }
+
+                        // This is to avoid having the browser do a GET request
+                        // on the invalid attachment: URL
+                        h.attr('src', '');
+                    });
+                });
+            }
         }
         return data;
     };

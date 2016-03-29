@@ -2403,19 +2403,9 @@ define(function (require) {
     };
 
     /**
-     * Garbage collects unused attachments in all the cells
-     */
-    Notebook.prototype.remove_unused_attachments = function() {
-      var cells = this.get_cells();
-      for (var i = 0; i < cells.length; i++) {
-          var cell = cells[i];
-          cell.remove_unused_attachments();
-      }
-    };
-
-    /**
+     Move the unused attachments garbage collection logic to TextCell.toJSON.
      * Load a notebook from JSON (.ipynb).
-     * 
+     *
      * @param {object} data - JSON representation of a notebook
      */
     Notebook.prototype.fromJSON = function (data) {
@@ -2478,7 +2468,7 @@ define(function (require) {
             if (cell.cell_type === 'code' && !cell.output_area.trusted) {
                 trusted = false;
             }
-            cell_array[i] = cell.toJSON();
+            cell_array[i] = cell.toJSON(true);
         }
         var data = {
             cells: cell_array,
@@ -2527,17 +2517,12 @@ define(function (require) {
      * Save this notebook on the server. This becomes a notebook instance's
      * .save_notebook method *after* the entire notebook has been loaded.
      *
-     * manual_save will be true if the save was manually trigered by the user
      */
-    Notebook.prototype.save_notebook = function (check_last_modified,
-                                                 manual_save) {
+    Notebook.prototype.save_notebook = function (check_last_modified) {
         if (check_last_modified === undefined) {
             check_last_modified = true;
         }
-        if (manual_save === undefined) {
-            manual_save = false;
-        }
-        
+
         var error;
         if (!this._fully_loaded) {
             error = new Error("Load failed, save is disabled");
@@ -2552,13 +2537,6 @@ define(function (require) {
         // Trigger an event before save, which allows listeners to modify
         // the notebook as needed.
         this.events.trigger('before_save.Notebook');
-
-        // Garbage collect unused attachments. Only do this for manual save
-        // to avoid removing unused attachments while the user is editing if
-        // an autosave gets triggered in the midle of an edit
-        if (manual_save) {
-            this.remove_unused_attachments();
-        }
 
         // Create a JSON model to be sent to the server.
         var model = {
@@ -2743,7 +2721,7 @@ define(function (require) {
         var parent = utils.url_path_split(this.notebook_path)[0];
         var p;
         if (this.dirty) {
-            p = this.save_notebook(true, true);
+            p = this.save_notebook(true);
         } else {
             p = Promise.resolve();
         }
@@ -3013,7 +2991,7 @@ define(function (require) {
      */
     Notebook.prototype.save_checkpoint = function () {
         this._checkpoint_after_save = true;
-        this.save_notebook(true, true);
+        this.save_notebook(true);
     };
     
     /**
