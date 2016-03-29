@@ -49,6 +49,7 @@ The Jupyter notebook
    :maxdepth: 1
    :caption: Community documentation
 
+   examples/Notebook/rstversions/Distributing Jupyter Extensions as Python Packages
    examples/Notebook/rstversions/Examples and Tutorials Index
 
 .. toctree::

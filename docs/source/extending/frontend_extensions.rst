@@ -38,7 +38,7 @@ extension:
     });
 
 .. note::
-    
+
     Although for historical reasons the function is called
     ``load_ipython_extension``, it does apply to the Jupyter notebook in
     general, and will work regardless of the kernel in use.
@@ -112,7 +112,7 @@ place:
     });
 
 .. note::
-    
+
     The standard keybindings might not work correctly on non-US keyboards.
     Unfortunately, this is a limitation of browser implementations and the
     status of keyboard event handling on the web in general. We appreciate your
@@ -184,6 +184,7 @@ actions defined in an extension, it makes sense to use the extension name as
 the prefix. For the action name, the following guidelines should be considered:
 
 .. adapted from notebook/static/notebook/js/actions.js
+
 * First pick a noun and a verb for the action. For example, if the action is
   "restart kernel," the verb is "restart" and the noun is "kernel".
 * Omit terms like "selected" and "active" by default, so "delete-cell", rather
@@ -202,10 +203,12 @@ the prefix. For the action name, the following guidelines should be considered:
 Installing and enabling extensions
 ----------------------------------
 
-You can install your nbextension with the command:
+You can install your nbextension with the command::
 
-    jupyter nbextension install path/to/my_extension/
+    jupyter nbextension install path/to/my_extension/ [--user|--sys-prefix]
 
+The default installation is system-wide. You can use ``--user`` to do a per-user installation,
+or ``--sys-prefix`` to install to Python's prefix (e.g. in a virtual or conda environment).
 Where my_extension is the directory containing the Javascript files.
 This will copy it to a Jupyter data directory (the exact location is platform
 dependent - see :ref:`jupyter_path`).
@@ -214,11 +217,15 @@ For development, you can use the ``--symlink`` flag to symlink your extension
 rather than copying it, so there's no need to reinstall after changes.
 
 To use your extension, you'll also need to **enable** it, which tells the
-notebook interface to load it. You can do that with another command:
+notebook interface to load it. You can do that with another command::
 
-    jupyter nbextension enable my_extension/main
+    jupyter nbextension enable my_extension/main [--sys-prefix]
 
 The argument refers to the Javascript module containing your
 ``load_ipython_extension`` function, which is ``my_extension/main.js`` in this
 example. There is a corresponding ``disable`` command to stop using an
 extension without uninstalling it.
+
+.. versionchanged:: 4.2
+
+    Added ``--sys-prefix`` argument
