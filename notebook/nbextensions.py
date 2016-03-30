@@ -513,9 +513,11 @@ def validate_nbextension(require, logger=None):
     
     if logger:
         if warnings:
-            logger.warn(u"      - Validating: problems found:")
-            map(logger.warn, warnings)
-            map(logger.info, infos)
+            logger.warning(u"      - Validating: problems found:")
+            for msg in warnings:
+                logger.warning(msg)
+            for msg in infos:
+                logger.info(msg)
         else:
             logger.info(u"      - Validating: {}".format(GREEN_OK))
     
@@ -565,10 +567,12 @@ def validate_nbextension_python(spec, full_dest, logger=None):
 
     if logger:
         if warnings:
-            logger.warn("- Validating: problems found:")
-            [logger.warn(warning) for warning in warnings]
-            [logger.info(info) for info in infos]
-            logger.warn(u"Full spec: {}".format(spec))
+            logger.warning("- Validating: problems found:")
+            for msg in warnings:
+                logger.warning(msg)
+            for msg in infos:
+                logger.info(msg)
+            logger.warning(u"Full spec: {}".format(spec))
         else:
             logger.info(u"- Validating: {}".format(GREEN_OK))
 
