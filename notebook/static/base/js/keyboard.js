@@ -377,6 +377,17 @@ define([
         }
     };
 
+    ShortcutManager.prototype.persist_shortcut = function(shortcut, data) {
+        //Jupyter.notebook.keyboard_manager.
+        //    config.update({keys:{command:{bind:{"T,T":"jupyter-notebook:restart-kernel-and-run-all-cells"}}}})
+    }
+
+    Shortcutmanager.prototype.persist_remove_shortcut = function(shortcut){
+        //
+        //
+    }
+
+
     ShortcutManager.prototype.add_shortcut = function (shortcut, data, suppress_help_update) {
         /**
          * Add a action to be handled by shortcut manager. 
