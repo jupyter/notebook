@@ -139,8 +139,12 @@ define(function(require){
         ReactDom.render(
             React.createElement(KeyBindingList, {
                 callback:()=>{ return  get_shortcuts_data(notebook);},
-                bind: (shortcut, command) => {return notebook.keyboard_manager.command_shortcuts.add_shortcut(shortcut, command);},
-                unbind: (shortcut) => { return notebook.keyboard_manager.command_shortcuts.remove_shortcut(shortcut);},
+                bind: (shortcut, command) => {
+                    return notebook.keyboard_manager.command_shortcuts.persist_shortcut(shortcut, command);
+                },
+                unbind: (shortcut) => { 
+                    return notebook.keyboard_manager.command_shortcuts.persist_remove_shortcut(shortcut);
+                },
                 available:  (shrt) => { return notebook.keyboard_manager.command_shortcuts.is_available_shortcut(shrt);}
               }),
             body.get(0)

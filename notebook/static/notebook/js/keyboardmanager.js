@@ -36,7 +36,7 @@ define([
         this.bind_events();
         this.env = {pager:this.pager};
         this.actions = options.actions;
-        this.command_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env );
+        this.command_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env, options.config, 'command');
         this.command_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
         this.command_shortcuts.add_shortcuts(this.get_default_command_shortcuts());
         this.edit_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env);

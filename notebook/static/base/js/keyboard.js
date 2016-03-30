@@ -168,12 +168,15 @@ define([
 
     // Shortcut manager class
 
-    var ShortcutManager = function (delay, events, actions, env) {
+    var ShortcutManager = function (delay, events, actions, env, config, mode='command') {
         /**
          * A class to deal with keyboard event and shortcut
          *
          * @class ShortcutManager
          * @constructor
+         *
+         * :config: configobjet on which to call `update(....)` to persist the config.
+         * :mode: mode of this shortcut manager where to persist config.
          */
         this._shortcuts = {};
         this.delay = delay || 800; // delay in milliseconds
@@ -182,6 +185,8 @@ define([
         this.actions.extend_env(env);
         this._queue = [];
         this._cleartimeout = null;
+        this._config = config;
+        this._mode = mode;
         Object.seal(this);
     };
 
@@ -356,7 +361,8 @@ define([
     };
 
     ShortcutManager.prototype._set_leaf = function(shortcut_array, action_name, tree){
-        var current_node = tree[shortcut_array[0]];
+        const current_node = tree[shortcut_array[0]];
+
         if(shortcut_array.length === 1){
             if(current_node !== undefined && typeof(current_node) !== 'string'){
                 console.warn('[warning], you are overriting a long shortcut with a shorter one');
@@ -378,13 +384,22 @@ define([
     };
 
     ShortcutManager.prototype.persist_shortcut = function(shortcut, data) {
-        //Jupyter.notebook.keyboard_manager.
-        //    config.update({keys:{command:{bind:{"T,T":"jupyter-notebook:restart-kernel-and-run-all-cells"}}}})
+        this.add_shortcut(shortcut, data);
+        const patch = {keys:{}};
+        const b = {bind:{}}
+        patch.keys[this._mode] = {bind:{}};
+        patch.keys[this._mode].bind[shortcut] = data;
+        this._config.update(patch);
     }
 
-    Shortcutmanager.prototype.persist_remove_shortcut = function(shortcut){
-        //
-        //
+    ShortcutManager.prototype.persist_remove_shortcut = function(shortcut){
+        this.remove_shortcut(shortcut);
+        const patch = {keys:{}};
+        const b = {bind:{}}
+        patch.keys[this._mode] = {bind:{}};
+        patch.keys[this._mode].bind[shortcut] = null;
+        this._config.update(patch);
+
     }
 
 
@@ -401,8 +416,8 @@ define([
         if (! action_name){
           throw new Error('does not know how to deal with : ' + data);
         }
-        shortcut = normalize_shortcut(shortcut);
-        this.set_shortcut(shortcut, action_name);
+        const _shortcut = normalize_shortcut(shortcut);
+        this.set_shortcut(_shortcut, action_name);
 
         if (!suppress_help_update) {
             // update the keyboard shortcuts notebook help
