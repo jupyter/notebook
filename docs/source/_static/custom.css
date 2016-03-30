@@ -1,9 +1,10 @@
 /* 24px margin from readthedocs theme */
-div.nblast {
-    margin-bottom: 19px !important;  /* padding has already 5px */
+div.nbinput.nblast,
+div.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
 }
 
-/* ... except between notebook cells! */
+/* ... except between code cells! */
 div.nblast + div.nbinput {
-    margin-top: -19px !important;
+    margin-top: -19px;
 }
