@@ -1,9 +1,18 @@
 from unittest import TestCase
 
 from traitlets.config.manager import BaseJSONConfigManager
+from traitlets.tests.utils import check_help_all_output
 
 from notebook.serverextensions import toggle_serverextension_python
 from notebook.nbextensions import _get_config_dir
+
+
+def test_help_output():
+    check_help_all_output('notebook.serverextensions')
+    check_help_all_output('notebook.serverextensions', ['enable'])
+    check_help_all_output('notebook.serverextensions', ['disable'])
+    check_help_all_output('notebook.serverextensions', ['install'])
+    check_help_all_output('notebook.serverextensions', ['uninstall'])
 
 
 class TestInstallServerExtension(TestCase):

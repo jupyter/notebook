@@ -11,6 +11,7 @@ import tarfile
 import zipfile
 from io import BytesIO, StringIO
 from os.path import basename, join as pjoin
+from traitlets.tests.utils import check_help_all_output
 from unittest import TestCase
 
 try:
@@ -43,6 +44,15 @@ def touch(file, mtime=None):
         atime = os.stat(file).st_atime
         os.utime(file, (atime, mtime))
     return os.stat(file).st_mtime
+
+
+def test_help_output():
+    check_help_all_output('notebook.nbextensions')
+    check_help_all_output('notebook.nbextensions', ['enable'])
+    check_help_all_output('notebook.nbextensions', ['disable'])
+    check_help_all_output('notebook.nbextensions', ['install'])
+    check_help_all_output('notebook.nbextensions', ['uninstall'])
+
 
 class TestInstallNBExtension(TestCase):
     
@@ -476,3 +486,4 @@ class TestInstallNBExtension(TestCase):
     def test_nbextension_validate_bad(self):
         warnings = validate_nbextension("this-doesn't-exist")
         self.assertNotEqual([], warnings, warnings)
+

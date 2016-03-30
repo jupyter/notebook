@@ -244,7 +244,7 @@ def install_nbextension_python(module, overwrite=False, symlink=False,
     return full_dests
 
 
-def uninstall_nbextension(dest, require, user=False, sys_prefix=False, prefix=None, 
+def uninstall_nbextension(dest, require=None, user=False, sys_prefix=False, prefix=None, 
                           nbextensions_dir=None, logger=None):
     """Uninstall a Javascript extension of the notebook
     
@@ -259,8 +259,9 @@ def uninstall_nbextension(dest, require, user=False, sys_prefix=False, prefix=No
         name the nbextension is installed to.  For example, if destination is 'foo', then
         the source file will be installed to 'nbextensions/foo', regardless of the source name.
         This cannot be specified if an archive is given as the source.
-    require : str
-        require.js path used to load the extension
+    require : str [optional]
+        require.js path used to load the extension.
+        If specified, frontend config loading extension will be removed.
     user : bool [default: False]
         Whether to install to the user's nbextensions directory.
         Otherwise do a system-wide install (e.g. /usr/local/share/jupyter/nbextensions).
@@ -287,8 +288,9 @@ def uninstall_nbextension(dest, require, user=False, sys_prefix=False, prefix=No
     # doesn't exist.
     config_dir = os.path.join(_get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
     cm = BaseJSONConfigManager(config_dir=config_dir)
-    for section in NBCONFIG_SECTIONS:
-        cm.update(section, {"load_extensions": {require: None}})
+    if require:
+        for section in NBCONFIG_SECTIONS:
+            cm.update(section, {"load_extensions": {require: None}})
 
 
 def uninstall_nbextension_python(module,
@@ -743,12 +745,16 @@ class UninstallNBExtensionApp(BaseNBExtensionApp):
     jupyter nbextension uninstall dest/dir dest/dir/extensionjs
     jupyter nbextension uninstall --py extensionPyPackage
     """
-    aliases = {'section': 'ToggleNBExtensionApp.section'}
     
+    aliases = {
+        "prefix" : "UninstallNBExtensionApp.prefix",
+        "nbextensions" : "UninstallNBExtensionApp.nbextensions_dir",
+        "require": "UninstallNBExtensionApp.require",
+    }
     
     prefix = Unicode('', config=True, help="Installation prefix")
     nbextensions_dir = Unicode('', config=True, help="Full path to nbextensions dir (probably use prefix or user)")
-    destination = Unicode('', config=True, help="Destination for the copy or symlink")
+    require = Unicode('', config=True, help="require.js module to load.")
     
     def _config_file_name_default(self):
         """The default config file name."""
@@ -764,16 +770,18 @@ class UninstallNBExtensionApp(BaseNBExtensionApp):
             'logger': self.log
         }
         
-        arg_count = 1 if self.python else 2
-        if len(self.extra_args)>arg_count:
+        arg_count = 1
+        if len(self.extra_args) > arg_count:
             raise ValueError("only one nbextension allowed at a time.  Call multiple times to uninstall multiple extensions.")
-        if len(self.extra_args)<arg_count:
+        if len(self.extra_args) < arg_count:
             raise ValueError("not enough arguments")
         
         if self.python:
             uninstall_nbextension_python(self.extra_args[0], **kwargs)
         else:
-            uninstall_nbextension(self.extra_args[0], self.extra_args[1], **kwargs)
+            if self.require:
+                kwargs['require'] = self.require
+            uninstall_nbextension(self.extra_args[0], **kwargs)
     
     def start(self):
         if not self.extra_args:
