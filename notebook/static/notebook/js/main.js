@@ -23,7 +23,8 @@ require([
     'notebook/js/kernelselector',
     'codemirror/lib/codemirror',
     'notebook/js/about',
-    'notebook/js/searchandreplace'
+    'notebook/js/searchandreplace',
+    'notebook/js/clipboard'
 ], function(
     IPython,
     $,
@@ -44,7 +45,8 @@ require([
     kernelselector,
     CodeMirror,
     about,
-    searchandreplace
+    searchandreplace,
+    clipboard
     ) {
     "use strict";
 
@@ -186,6 +188,8 @@ require([
       enumerable: true,
       configurable: false
     });
+
+    clipboard.setup_clipboard_events();
     
     // Now actually load nbextensions
     utils.load_extensions_from_config(config_section);
