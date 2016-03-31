@@ -60,4 +60,23 @@ casper.notebook_test(function () {
         var hashes = new Array(level + 1).join('#');
         this.test.assertEquals(level_text, hashes + ' ' + text, 'markdown set_heading_level ' + level);
     }
+
+    // Test markdown code blocks
+
+    var md_render = function (text) {
+        var cell = Jupyter.notebook.insert_cell_at_bottom('markdown');
+        cell.set_text(text);
+        cell.render();
+        return cell.get_rendered();
+    };
+
+    var codeblock = '```\nx = 1\n```'
+    var result = '<pre><code>x = 1\n</code></pre>'
+    output = this.evaluate(md_render, {text: codeblock});
+    this.test.assertEquals(output.trim(), result, 'Markdown code block no language');
+
+    codeblock = '```aaaa\nx = 1\n```'
+    result = '<pre><code>x = 1\n</code></pre>'
+    output = this.evaluate(md_render, {text: codeblock});
+    this.test.assertEquals(output.trim(), result, 'Markdown code block unknown language');
 });
