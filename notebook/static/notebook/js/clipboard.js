@@ -10,11 +10,14 @@ define([
 var jcbprefix = '<pre class="jupyter-nb-cells-json">';
 var jcbsuffix = '</pre>';
 
-function store_json(obj, clipboard) {
-  // Firefox ignores application/json mime type, so put it in HTML.
-  // Hooray, browsers
-  var s = jcbprefix + JSON.stringify(obj) + jcbsuffix;
-  clipboard.setData('text/html', s);
+function store_json(cells, clipboard) {
+  // Firefox ignores application/json mime type, so put it in HTML as well.
+  // We also copy a text version so you can paste cell sources into a text editor
+  var j = JSON.stringify(cells);
+  var t = cells.map(function(c) {return c.source;}).join('\n\n');
+  clipboard.setData('text/plain', t);
+  clipboard.setData('text/html', jcbprefix + j + jcbsuffix);
+  clipboard.setData('application/json', j);
 }
 
 function load_json(clipboard) {
