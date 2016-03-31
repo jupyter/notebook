@@ -14,6 +14,16 @@ define([
     var extensions_loaded = [];
 
     /**
+     * Whether or not an extension has been loaded
+     * @param  {string} extension - name of the extension
+     * @return {boolean}            true if loaded already
+     */
+    var is_loaded = function(extension) {
+        var ext_path = "nbextensions/" + extension;
+        return extensions_loaded.indexOf(ext_path) >= 0;
+    };
+
+    /**
      * Load a single extension.
      * @param  {string} extension - extension path.
      * @return {Promise} that resolves to an extension module handle
@@ -22,16 +32,16 @@ define([
         return new Promise(function(resolve, reject) {
             var ext_path = "nbextensions/" + extension;
             requirejs([ext_path], function(module) {
-                try {
-                    if (extensions_loaded.indexOf(ext_path) < 0) {
-                        console.log("Loading extension: " + extension);
-                        module.load_ipython_extension();
-                        extensions_loaded.push(ext_path);
+                if (!is_loaded(extension)) {
+                    console.log("Loading extension: " + extension);
+                    if (module.load_ipython_extension) {
+                        Promise.resolve(module.load_ipython_extension()).then(function() {
+                            resolve(module);
+                        }).catch(reject);
                     }
-                    else{
-                        console.log("Loaded extension already: " + extension);
-                    }
-                } finally {
+                    extensions_loaded.push(ext_path);
+                } else {
+                    console.log("Loaded extension already: " + extension);
                     resolve(module);
                 }
             }, function(err) {
@@ -54,8 +64,8 @@ define([
 
     /**
      * Return a list of extensions that should be active
-     * The config for nbextensions comes in as a dict where keys are 
-     * nbextensions paths and the values are a bool indicating if it 
+     * The config for nbextensions comes in as a dict where keys are
+     * nbextensions paths and the values are a bool indicating if it
      * should be active. This returns a list of nbextension paths
      * where the value is true
      */
@@ -72,12 +82,12 @@ define([
      * in a 'load_extensions' key inside it.
      */
     function load_extensions_from_config(section) {
-        section.loaded.then(function() {
+        return section.loaded.then(function() {
             if (section.data.load_extensions) {
                 var active = filter_extensions(section.data.load_extensions);
-                load_extensions.apply(this, active);
+                return load_extensions.apply(this, active);
             }
-        });
+        }).catch(utils.reject('Could not load nbextensions from ' + section.section_name + ' config file'));
     }
 
     //============================================================================
@@ -937,6 +947,7 @@ define([
     };
 
     var utils = {
+        is_loaded: is_loaded,
         load_extension: load_extension,
         load_extensions: load_extensions,
         filter_extensions: filter_extensions,
