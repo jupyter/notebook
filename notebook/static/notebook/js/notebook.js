@@ -249,7 +249,7 @@ define(function (require) {
             that.metadata.kernelspec = {
                 name: data.name,
                 display_name: data.spec.display_name,
-                language: data.spec.language,
+                language: data.spec.language
             };
             if (!existing_spec || ! _.isEqual(existing_spec, that.metadata.kernelspec)) {
                 that.set_dirty(true);

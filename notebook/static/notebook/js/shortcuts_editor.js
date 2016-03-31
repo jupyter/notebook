@@ -84,6 +84,13 @@ define(function(require){
               }));
           });
 
+          childrens.unshift(React.createElement('div', {className:'alert alert-info', key:'disclamer'}, 
+                "This dialog shoudl allow you to modify your keymap, and persist the changes."+
+                "This functionality is not feature complete, and will likely not function in all the cases."+
+                "You can define many type of shorctuts or sequence of keys. Here are various valid shortcuts sequences: a,a"+
+                "-- Shift-A,Shift-B  -- Shift-A,a -- "+
+                "Casing will have no effect, you need to explicitelty write the `Shift` modifier,"+
+                " `Cmd`, `Ctrl`, `Meta`, `Cmdtrl` are various valid modifier. Refer to developper docs for their signification depending on teh platform"));
           return React.createElement('div',{}, childrens);
         }
     });
@@ -140,10 +147,10 @@ define(function(require){
             React.createElement(KeyBindingList, {
                 callback:()=>{ return  get_shortcuts_data(notebook);},
                 bind: (shortcut, command) => {
-                    return notebook.keyboard_manager.command_shortcuts.persist_shortcut(shortcut, command);
+                    return notebook.keyboard_manager.command_shortcuts._persist_shortcut(shortcut, command);
                 },
                 unbind: (shortcut) => { 
-                    return notebook.keyboard_manager.command_shortcuts.persist_remove_shortcut(shortcut);
+                    return notebook.keyboard_manager.command_shortcuts._persist_remove_shortcut(shortcut);
                 },
                 available:  (shrt) => { return notebook.keyboard_manager.command_shortcuts.is_available_shortcut(shrt);}
               }),

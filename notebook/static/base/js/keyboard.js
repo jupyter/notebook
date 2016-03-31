@@ -179,6 +179,7 @@ define([
          * :mode: mode of this shortcut manager where to persist config.
          */
         this._shortcuts = {};
+        this._defaults_bindings = [];
         this.delay = delay || 800; // delay in milliseconds
         this.events = events;
         this.actions = actions;
@@ -383,7 +384,11 @@ define([
         }
     };
 
-    ShortcutManager.prototype.persist_shortcut = function(shortcut, data) {
+    ShortcutManager.prototype._persist_shortcut = function(shortcut, data) {
+        /**
+         * add a shortcut to this manager and persist it to the config file. 
+         **/ 
+        shortcut = shortcut.toLowerCase()
         this.add_shortcut(shortcut, data);
         const patch = {keys:{}};
         const b = {bind:{}}
@@ -392,14 +397,35 @@ define([
         this._config.update(patch);
     }
 
-    ShortcutManager.prototype.persist_remove_shortcut = function(shortcut){
+    ShortcutManager.prototype._persist_remove_shortcut = function(shortcut){
+        /**
+         * Remove a shortcut from this manager and persist its removal.
+         */
+
+        shortcut = shortcut.toLowerCase()
         this.remove_shortcut(shortcut);
         const patch = {keys:{}};
         const b = {bind:{}}
         patch.keys[this._mode] = {bind:{}};
         patch.keys[this._mode].bind[shortcut] = null;
         this._config.update(patch);
+        console.info(patch)
 
+        // if the shortcut we unbind is a default one, we add it to the list of
+        // things to unbind at startup
+
+        if(this._defaults_bindings.indexOf(shortcut) !== -1){
+            const cnf = (this._config.data.keys||{})[this._mode] 
+            const unbind_array = cnf.unbind||[];
+
+            // unless it's already there (like if we have remapped a default
+            // shortcut to another command, and unbind it)
+            if(unbind_array.indexOf(shortcut) !== -1){
+                unbind_array.concat(shortcut);
+                const unbind_patch = {keys:{unbind:unbind_array}};
+                this._config._update(unbind_patch) 
+            }
+        }
     }
 
 
@@ -437,6 +463,16 @@ define([
         // update the keyboard shortcuts notebook help
         this.events.trigger('rebuild.QuickHelp');
     };
+
+    ShortcutManager.prototype._add_default_shortcuts = function (data) {
+        /**
+         * same as add_shortcuts, but register them as "default" that if persistently unbound, with
+         * persist_remove_shortcut, need to be on the "unbind" list. 
+         **/
+        this._defaults_bindings = this._defaults_bindings.concat(Object.keys(data))
+        this.add_shortcuts(data);
+
+    }
 
     ShortcutManager.prototype.remove_shortcut = function (shortcut, suppress_help_update) {
         /**
