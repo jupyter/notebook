@@ -40,6 +40,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
     <span id="notebook_name" class="filename"></span>
     <span class="checkpoint_status"></span>
     <span class="autosave_status"></span>
+    <span class="trusted_indicator"></span>
 </span>
 
 <span id="kernel_logo_widget">
@@ -301,6 +302,9 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         <li title="About Jupyter Notebook"><a id="notebook_about" href="#">About</a></li>
                         {% endblock %}
                     </ul>
+                </li>
+                <li>
+                    <span class="trusted-indicator"></span>
                 </li>
               </ul>
             </div>
