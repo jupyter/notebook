@@ -113,7 +113,7 @@ define(function (require) {
                         }
                     }, function (err) {
                         console.log("No CodeMirror mode: " + lang);
-                        callback(err, code);
+                        callback(null, code);
                     });
                 }
             });

@@ -76,7 +76,7 @@ casper.notebook_test(function () {
     this.test.assertEquals(output.trim(), result, 'Markdown code block no language');
 
     codeblock = '```aaaa\nx = 1\n```'
-    result = '<pre><code>x = 1\n</code></pre>'
+    result = '<pre><code class="cm-s-ipython language-aaaa">x = 1\n</code></pre>'
     output = this.evaluate(md_render, {text: codeblock});
     this.test.assertEquals(output.trim(), result, 'Markdown code block unknown language');
 });
