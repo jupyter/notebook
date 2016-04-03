@@ -48,7 +48,7 @@ define([
         options = options || {};
         this.keyboard_manager = options.keyboard_manager;
         this.events = options.events;
-        this.cell_style = options.cell_style
+        
         var config = utils.mergeopt(Cell, options.config);
         // superclass default overwrite our default
         
@@ -82,6 +82,7 @@ define([
 
         // load this from metadata later ?
         this.user_highlight = 'auto';
+        this.metadata.cell_style = options.cell_style
 
 
         var _local_cm_config = {};
@@ -493,7 +494,6 @@ define([
         var data = {};
         // deepcopy the metadata so copied cells don't share the same object
         data.metadata = JSON.parse(JSON.stringify(this.metadata));
-        data.cell_type = this.cell_type;
         return data;
     };
 

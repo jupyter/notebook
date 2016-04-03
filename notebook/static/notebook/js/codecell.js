@@ -95,7 +95,7 @@ define([
         this.events = options.events;
         this.tooltip = options.tooltip;
         this.config = options.config;
-        this.cell_style = options.cell_style;
+        this.metadata.cell_style = options.cell_style;
         this.class_config = new configmod.ConfigWithDefaults(this.config,
                                         CodeCell.config_defaults, 'CodeCell');
 
@@ -112,7 +112,7 @@ define([
             config: $.extend({}, CodeCell.options_default), 
             keyboard_manager: options.keyboard_manager, 
             events: this.events,
-            cell_style:this.cell_style}]);
+            cell_style:this.metadata.cell_style}]);
 
         // Attributes we want to override in this subclass.
         this.cell_type = "code";
@@ -155,7 +155,7 @@ define([
         var that = this;
 
         var cell =  $('<div></div>').addClass('cell code_cell');
-        cell.attr({'tabindex':'2','style':this.cell_style});
+        cell.attr({'tabindex':'2','style':this.metadata.cell_style || 'width=100%;'});
 
         var input = $('<div></div>').addClass('input');
         this.input = input;
@@ -514,11 +514,15 @@ define([
                 this.code_mirror.clearHistory();
                 this.auto_highlight();
             }
+
             this.set_input_prompt(data.execution_count);
             this.output_area.trusted = data.metadata.trusted || false;
+            this.cell_style = data.medatadata.cell_style || 'width=100%;';
             this.output_area.fromJSON(data.outputs, data.metadata);
         }
     };
+
+
 
 
     CodeCell.prototype.toJSON = function () {
@@ -542,7 +546,7 @@ define([
         return data;
     };
 
-    /**
+    /** `
      * handle cell level logic when the cell is unselected
      * @method unselect
      * @return is the action being taken

@@ -52,7 +52,7 @@ define([
         this.events = options.events;
         this.config = options.config;
         this.notebook = options.notebook;
-        this.cell_style = options.cell_style
+        this.metadata.cell_style = options.cell_style
         
         // we cannot put this as a class key as it has handle to "this".
         var config = utils.mergeopt(TextCell, this.config);
@@ -60,7 +60,7 @@ define([
                     config: config, 
                     keyboard_manager: options.keyboard_manager, 
                     events: this.events,
-                    cell_style:this.cell_style}]);
+                    cell_style:this.metadata.cell_style}]);
 
         this.cell_type = this.cell_type || 'text';
         mathjaxutils = mathjaxutils;
@@ -87,7 +87,7 @@ define([
         var that = this;
 
         var cell = $("<div>").addClass('cell text_cell');
-        cell.attr({'tabindex':'2', 'style':this.cell_style});
+        cell.attr({'tabindex':'2', 'style':this.metadata.cell_style || 'width=100%'});
 
         var prompt = $('<div/>').addClass('prompt input_prompt');
         cell.append(prompt);
@@ -198,6 +198,7 @@ define([
             if (data.attachments !== undefined) {
                 this.attachments = data.attachments;
             }
+            this.cell_style = data.medatadata.cell_style || 'width=100%;';
 
             if (data.source !== undefined) {
                 this.set_text(data.source);
