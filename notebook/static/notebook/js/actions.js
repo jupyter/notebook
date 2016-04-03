@@ -461,7 +461,7 @@ define(function(require){
             icon: 'cell-style',
             help_index : 'el',
             handler : function (env) {
-                env.notebook.set_cell_style('left');
+                env.notebook.set_cell_style('right');
             }
         },
         'show-command-palette': {

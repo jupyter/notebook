@@ -61,7 +61,7 @@ define(function (require) {
         this.keyboard_manager = options.keyboard_manager;
         this.contents = options.contents;
         this.save_widget = options.save_widget;
-        this.cell_style="center";
+        this.cell_style = "center";
 
         this.tooltip = new tooltip.Tooltip(this.events);
         this.ws_url = options.ws_url;
@@ -1121,15 +1121,12 @@ define(function (require) {
 
     Notebook.prototype.set_cell_style = function(cell_style){     
         this.cell_style = cell_style
-    }
+    };
 
-    Notebook.prototype.get_cell_style = function(cell_style){
-        if (cell_style == "right")
-                {return "float:right; width:50%;";}
-        else if (cell_style == "left") 
-                {return "float:left; width:50%;";} 
-        else {return "width:100%;";}
-    }
+    Notebook.prototype.cycle_cell_style_side = function(cycle_style){     
+        if (this.cell_style == "right"){this.cell_style = "left";}   
+        else if (this.cell_style == "left"){this.cell_style ="right"}
+    };
 
     /**
      * Insert a cell so that after insertion the cell is at given index.
@@ -1147,8 +1144,6 @@ define(function (require) {
      */
     Notebook.prototype.insert_cell_at_index = function(type, index){
 
-        if (this.cell_style == "right"){this.cell_style = "left";}   
-        else if (this.cell_style == "left"){this.cell_style ="right"}
 
         var ncells = this.ncells();
         index = Math.min(index, ncells);
@@ -1178,7 +1173,7 @@ define(function (require) {
                 keyboard_manager: this.keyboard_manager, 
                 notebook: this,
                 tooltip: this.tooltip,
-                cell_style: this.get_cell_style(this.cell_style),
+                cell_style: this.cell_style,
             };
             switch(type) {
             case 'code':
@@ -1259,6 +1254,9 @@ define(function (require) {
         if (index === null || index === undefined) {
             index = Math.min(this.get_selected_index(index), this.get_anchor_index());
         }
+        
+        this.cycle_cell_style_side()
+
         return this.insert_cell_at_index(type, index);
     };
 
@@ -1274,6 +1272,9 @@ define(function (require) {
         if (index === null || index === undefined) {            
             index = Math.max(this.get_selected_index(index), this.get_anchor_index());
         }
+        
+        this.cycle_cell_style_side()
+
         return this.insert_cell_at_index(type, index+1);
     };
 
@@ -2467,6 +2468,7 @@ define(function (require) {
         var new_cell = null;
         for (i=0; i<ncells; i++) {
             cell_data = new_cells[i];
+            this.cell_style = cell_data.cell_style || 'center'
             new_cell = this.insert_cell_at_index(cell_data.cell_type, i);
             new_cell.fromJSON(cell_data);
             if (new_cell.cell_type === 'code' && !new_cell.output_area.trusted) {

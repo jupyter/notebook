@@ -95,7 +95,7 @@ define([
         this.events = options.events;
         this.tooltip = options.tooltip;
         this.config = options.config;
-        this.metadata.cell_style = options.cell_style;
+        this.cell_style = options.cell_style;
         this.class_config = new configmod.ConfigWithDefaults(this.config,
                                         CodeCell.config_defaults, 'CodeCell');
 
@@ -112,7 +112,7 @@ define([
             config: $.extend({}, CodeCell.options_default), 
             keyboard_manager: options.keyboard_manager, 
             events: this.events,
-            cell_style:this.metadata.cell_style}]);
+            cell_style:this.cell_style}]);
 
         // Attributes we want to override in this subclass.
         this.cell_type = "code";
@@ -148,14 +148,16 @@ define([
     CodeCell.msg_cells = {};
 
     CodeCell.prototype = Object.create(Cell.prototype);
-    
+
     /** @method create_element */
     CodeCell.prototype.create_element = function () {
         Cell.prototype.create_element.apply(this, arguments);
         var that = this;
 
         var cell =  $('<div></div>').addClass('cell code_cell');
-        cell.attr({'tabindex':'2','style':this.metadata.cell_style || 'width=100%;'});
+        var cell_style_html = Cell.prototype.get_cell_style_html.apply(this, [this.cell_style]);
+
+        cell.attr({'tabindex':'2', 'style':cell_style_html});
 
         var input = $('<div></div>').addClass('input');
         this.input = input;
@@ -514,10 +516,14 @@ define([
                 this.code_mirror.clearHistory();
                 this.auto_highlight();
             }
+            if (data.cell_style !== undefined){
+                this.cell_style = data.cell_style ;
+                }
+            else {this.cell_style = 'width=100%;';}
 
             this.set_input_prompt(data.execution_count);
             this.output_area.trusted = data.metadata.trusted || false;
-            this.cell_style = data.medatadata.cell_style || 'width=100%;';
+            
             this.output_area.fromJSON(data.outputs, data.metadata);
         }
     };
@@ -528,6 +534,7 @@ define([
     CodeCell.prototype.toJSON = function () {
         var data = Cell.prototype.toJSON.apply(this);
         data.source = this.get_text();
+
         // is finite protect against undefined and '*' value
         if (isFinite(this.input_prompt_number)) {
             data.execution_count = this.input_prompt_number;
@@ -536,6 +543,7 @@ define([
         }
         var outputs = this.output_area.toJSON();
         data.outputs = outputs;
+
         data.metadata.trusted = this.output_area.trusted;
         data.metadata.collapsed = this.output_area.collapsed;
         if (this.output_area.scroll_state === 'auto') {
@@ -543,6 +551,7 @@ define([
         } else {
             data.metadata.scrolled = this.output_area.scroll_state;
         }
+
         return data;
     };
 
