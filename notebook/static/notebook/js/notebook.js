@@ -1119,7 +1119,11 @@ define(function (require) {
         }
     };
 
-    Notebook.prototype.set_cell_style = function(cell_style){
+    Notebook.prototype.set_cell_style = function(cell_style){     
+        this.cell_style = cell_style
+    }
+
+    Notebook.prototype.get_cell_style = function(cell_style){
         if (cell_style == "right")
                 {return "float:right; width:50%;";}
         else if (cell_style == "left") 
@@ -1174,7 +1178,7 @@ define(function (require) {
                 keyboard_manager: this.keyboard_manager, 
                 notebook: this,
                 tooltip: this.tooltip,
-                cell_style: prototype.set_cell_style(this.cell_style)
+                cell_style: this.get_cell_style(this.cell_style),
             };
             switch(type) {
             case 'code':

@@ -52,7 +52,7 @@ define([
         this.events = options.events;
         this.config = options.config;
         this.notebook = options.notebook;
-        this.metadata.cell_style = options.cell_style
+        this.metadata.cell_style = options.cell_style;
         
         // we cannot put this as a class key as it has handle to "this".
         var config = utils.mergeopt(TextCell, this.config);

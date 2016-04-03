@@ -82,7 +82,7 @@ define([
 
         // load this from metadata later ?
         this.user_highlight = 'auto';
-        this.metadata.cell_style = options.cell_style
+        this.metadata.cell_style = options.cell_style;
 
 
         var _local_cm_config = {};
