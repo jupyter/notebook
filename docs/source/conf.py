@@ -118,7 +118,7 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_build']
+exclude_patterns = ['examples/Notebook/.ipynb_checkpoints']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -185,6 +185,10 @@ html_theme = 'sphinx_rtd_theme'
 #       _static directory. Do not remove or comment out html_static_path
 #       since it is needed to properly generate _static in the build directory
 html_static_path = ['_static']
+
+html_context = {
+    'css_files': ['_static/custom.css'],
+}
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
