@@ -32,6 +32,7 @@ The Jupyter notebook
    :maxdepth: 2
    :caption: Configuration
 
+   config_overview
    config
    public_server
    security
