@@ -186,10 +186,6 @@ html_theme = 'sphinx_rtd_theme'
 #       since it is needed to properly generate _static in the build directory
 html_static_path = ['_static']
 
-html_context = {
-    'css_files': ['_static/custom.css'],
-}
-
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
 # directly to the root of the documentation.
