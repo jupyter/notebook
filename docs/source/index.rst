@@ -32,13 +32,14 @@ The Jupyter notebook
    :maxdepth: 2
    :caption: Configuration
 
+   config_overview
    config
    public_server
    security
    frontend_config
    examples/Notebook/Distributing Jupyter Extensions as Python Packages
    extending/index.rst
-   
+
 .. toctree::
    :maxdepth: 1
    :caption: Contributor Documentation
