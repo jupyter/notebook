@@ -39,7 +39,7 @@ The Jupyter notebook
    frontend_config
    examples/Notebook/Distributing Jupyter Extensions as Python Packages
    extending/index.rst
-   
+
 .. toctree::
    :maxdepth: 1
    :caption: Contributor Documentation
