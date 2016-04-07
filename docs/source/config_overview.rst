@@ -43,7 +43,7 @@ front-end Notebook client (i.e. the familiar notebook interface).
 
 	          $ jupyter notebook --generate-config
 
-	      :ref:`Command line arguments for configuation <config>` settings are
+	      :ref:`Command line arguments for configuration <config>` settings are
 	      documented in the configuration file and the user documentation.
 
 	- :ref:`Running a Notebook server <working_remotely>`
