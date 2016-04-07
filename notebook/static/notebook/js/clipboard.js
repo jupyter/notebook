@@ -68,6 +68,19 @@ function paste(event) {
   event.preventDefault();
 }
 
+function paste_direct(event) {
+    // If the focus is in a text widget or something (kbmanager disabled),
+    // allow the default paste event.
+    // The paste dialog implementation (for Firefox) can't do this check,
+    // because the keyboard manager will be disabled for the dialog when we try
+    // to paste. In that case, the shortcut to trigger the dialog will be
+    // inactive anyway when a widget or something is focussed, so we don't
+    // need the explicit check.
+    if (Jupyter.keyboard_manager.enabled) {
+        paste(event);
+    }
+}
+
 function needs_text_box_for_paste_event() {
   // I know this is bad, but I don't know a better way to check this
   return navigator.userAgent.indexOf('Firefox') !== -1;
@@ -128,7 +141,7 @@ return {setup_clipboard_events: function() {
   if (needs_text_box_for_paste_event()) {
     setup_paste_dialog();
   } else {
-    document.addEventListener('paste', paste);
+    document.addEventListener('paste', paste_direct);
   }
 }};
 });
