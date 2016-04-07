@@ -65,6 +65,7 @@ define(function (require) {
         this.ws_url = options.ws_url;
         this._session_starting = false;
         this.last_modified = null;
+        this.line_numbers = false;
         // debug 484
         this._last_modified = 'init';
         // Firefox workaround
@@ -552,6 +553,17 @@ define(function (require) {
         }
         return result;
     };
+    
+    /**
+     * Toggles the display of line numbers in all cells.
+     */
+    Notebook.prototype.toggle_all_line_numbers = function () {
+        this.line_numbers = !this.line_numbers;
+        var display = this.line_numbers;
+        this.get_cells().map(function(c) {
+            c.code_mirror.setOption('lineNumbers', display);
+        })
+    }
 
     /**
      * Get the cell above a given cell.

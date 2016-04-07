@@ -159,6 +159,7 @@ define([
             'o' : 'jupyter-notebook:toggle-cell-output-collapsed',
             's' : 'jupyter-notebook:save-notebook',
             'l' : 'jupyter-notebook:toggle-cell-line-numbers',
+            'shift-l' : 'jupyter-notebook:toggle-all-line-numbers',
             'h' : 'jupyter-notebook:show-keyboard-shortcuts',
             'z' : 'jupyter-notebook:undo-cell-deletion',
             'q' : 'jupyter-notebook:close-pager',

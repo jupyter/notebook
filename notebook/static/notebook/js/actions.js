@@ -456,6 +456,14 @@ define(function(require){
                 env.notebook.show_command_palette();
             }
         },
+        'toggle-all-line-numbers': {
+            help : 'toggles line numbers in all cells',
+            icon: 'fa-list-ol',
+            handler: function(env) {
+                console.log('calling function');
+                env.notebook.toggle_all_line_numbers();
+            }
+        },
         'toggle-toolbar':{
             help: 'hide/show the toolbar',
             handler : function(env){
