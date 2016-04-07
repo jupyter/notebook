@@ -62,21 +62,44 @@ casper.notebook_test(function () {
     }
 
     // Test markdown code blocks
+    
 
-    var md_render = function (text) {
-        var cell = Jupyter.notebook.insert_cell_at_bottom('markdown');
-        cell.set_text(text);
-        cell.render();
-        return cell.get_rendered();
+    function md_render_test (codeblock, result, message) {
+        // make a cell and trigger render
+        casper.thenEvaluate(function (text) {
+            var cell = Jupyter.notebook.insert_cell_at_bottom('markdown');
+            cell.set_text(text);
+            // signal window._rendered when cell render completes
+            window._rendered = null;
+            cell.events.one("rendered.MarkdownCell", function (event, data) {
+                window._rendered = data.cell.get_rendered();
+            });
+            cell.render();
+        }, {text: codeblock});
+        // wait for render to complete
+        casper.waitFor(function () {
+            return casper.evaluate(function () {
+                return window._rendered;
+            });
+        });
+        // test after waiting
+        casper.then(function () {
+            // get rendered result
+            var output = casper.evaluate(function () {
+                var rendered = window._rendered;
+                delete window._rendered;
+                return rendered;
+            });
+            // perform test
+            this.test.assertEquals(output.trim(), result, message);
+        });
     };
 
     var codeblock = '```\nx = 1\n```'
     var result = '<pre><code>x = 1\n</code></pre>'
-    output = this.evaluate(md_render, {text: codeblock});
-    this.test.assertEquals(output.trim(), result, 'Markdown code block no language');
+    md_render_test(codeblock, result, 'Markdown code block no language');
 
     codeblock = '```aaaa\nx = 1\n```'
     result = '<pre><code class="cm-s-ipython language-aaaa">x = 1\n</code></pre>'
-    output = this.evaluate(md_render, {text: codeblock});
-    this.test.assertEquals(output.trim(), result, 'Markdown code block unknown language');
+    md_render_test(codeblock, result, 'Markdown code block unknown language');
 });
