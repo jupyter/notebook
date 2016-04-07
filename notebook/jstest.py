@@ -230,8 +230,6 @@ class JSController(TestController):
         includes = '--includes=' + os.path.join(js_test_dir,'util.js')
         test_cases = os.path.join(js_test_dir, self.section)
         self.cmd = ['casperjs', 'test', includes, test_cases, '--engine=%s' % self.engine]
-        # self.cmd = ['casperjs', 'test', includes, test_cases, '--engine=%s' % self.engine,
-        #             '--remote-debugger-port=9000']
 
     def setup(self):
         self.ipydir = TemporaryDirectory()
