@@ -114,15 +114,6 @@ def load_handlers(name):
     return mod.default_handlers
 
 
-class DeprecationHandler(IPythonHandler):
-    def get(self, url_path):
-        self.set_header("Content-Type", 'text/javascript')
-        self.finish("""
-            console.warn('`/static/widgets/js` is deprecated.  Use `nbextensions/widgets/widgets/js` instead.');
-            define(['%s'], function(x) { return x; });
-        """ % url_path_join('nbextensions', 'widgets', 'widgets', url_path.rstrip('.js')))
-        self.log.warn('Deprecated widget Javascript path /static/widgets/js/*.js was used')
-
 #-----------------------------------------------------------------------------
 # The Tornado web application
 #-----------------------------------------------------------------------------
@@ -225,7 +216,6 @@ class NotebookWebApplication(web.Application):
         
         # Order matters. The first handler to match the URL will handle the request.
         handlers = []
-        handlers.append((r'/deprecatedwidgets/(.*)', DeprecationHandler))
         handlers.extend(load_handlers('tree.handlers'))
         handlers.extend([(r"/login", settings['login_handler_class'])])
         handlers.extend([(r"/logout", settings['logout_handler_class'])])
@@ -244,16 +234,17 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('services.security.handlers'))
         
         # BEGIN HARDCODED WIDGETS HACK
+        # TODO: Remove on notebook 5.0
         try:
-            import ipywidgets
+            import ipywidgets as widgets
             handlers.append(
                 (r"/nbextensions/widgets/(.*)", FileFindHandler, {
-                    'path': ipywidgets.find_static_assets(),
+                    'path': widgets.find_static_assets(),
                     'no_cache_paths': ['/'], # don't cache anything in nbextensions
                 }),
             )
         except:
-            app_log.warn('ipywidgets package not installed.  Widgets are unavailable.')
+            app_log.warning('Widgets are unavailable. Please install widgetsnbextension or ipywidgets 4.0')
         # END HARDCODED WIDGETS HACK
         
         handlers.append(

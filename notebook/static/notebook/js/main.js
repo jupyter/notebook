@@ -54,12 +54,6 @@ require([
     ) {
     "use strict";
 
-    // BEGIN HARDCODED WIDGETS HACK
-    utils.load_extension('widgets/notebook/js/extension').catch(function () {
-        console.warn('ipywidgets package not installed.  Widgets are not available.');
-    });
-    // END HARDCODED WIDGETS HACK
-
     // compat with old IPython, remove for IPython > 3.0
     window.CodeMirror = CodeMirror;
 
@@ -177,8 +171,28 @@ require([
       configurable: false
     });
 
-    utils.load_extensions_from_config(config_section);
-    utils.load_extensions_from_config(common_config);
+    // Now actually load nbextensions from config
+    Promise.all([
+        utils.load_extensions_from_config(config_section),
+        utils.load_extensions_from_config(common_config),
+    ])
+    .catch(function(error) {
+        console.error('Could not load nbextensions from user config files', error);
+    })
+    // BEGIN HARDCODED WIDGETS HACK
+    .then(function() {
+        if (!utils.is_loaded('widgets/extension')) {
+            // Fallback to the ipywidgets extension
+            utils.load_extension('widgets/notebook/js/extension').catch(function () {
+                console.warn('Widgets are not available.  Please install widgetsnbextension or ipywidgets 4.0');
+            });
+        }
+    })
+    .catch(function(error) {
+        console.error('Could not load ipywidgets', error);
+    });
+    // END HARDCODED WIDGETS HACK
+
     notebook.load_notebook(common_options.notebook_path);
 
 });
