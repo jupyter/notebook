@@ -4,7 +4,12 @@
 # Distributed under the terms of the Modified BSD License.
 
 import uuid
-import sqlite3
+
+try:
+    import sqlite3
+except ImportError:
+    # fallback on pysqlite2 if Python was build without sqlite
+    from pysqlite2 import dbapi2 as sqlite3
 
 from tornado import gen, web
 
