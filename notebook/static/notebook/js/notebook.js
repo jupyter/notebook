@@ -113,7 +113,8 @@ define(function (require) {
                         }
                     }, function (err) {
                         console.log("No CodeMirror mode: " + lang);
-                        callback(err, code);
+                        console.log("Require CodeMirror mode error: " + err);
+                        callback(null, code);
                     });
                 }
             });
