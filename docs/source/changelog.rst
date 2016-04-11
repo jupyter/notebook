@@ -6,6 +6,32 @@ Jupyter notebook changelog
 A summary of changes in the Jupyter notebook.
 For more detailed information, see `GitHub <https://github.com/jupyter/notebook>`__.
 
+.. _release-4.2.0:
+
+4.2.0
+-----
+
+Release 4.2 adds a new API for enabling and installing extensions.
+Extensions can now be enabled at the system-level, rather than just per-user.
+An API is defined for installing directly from a Python package, as well.
+
+.. seealso::
+
+    :doc:`./examples/Notebook/Distributing Jupyter Extensions as Python Packages`
+
+
+Highlighted changes:
+
+- Upgrade MathJax to 2.6 to fix vertical-bar appearing on some equations.
+- Restore ability for notebook directory to be root (4.1 regression)
+- Large outputs are now throttled, reducing the ability of output floods to
+  kill the browser.
+- Fix the notebook ignoring cell executions while a kernel is starting by queueing the messages.
+- Fix handling of url prefixes (e.g. JupyterHub) in terminal and edit pages.
+- Support nested SVGs in output.
+
+And various other fixes and improvements.
+
 .. _release-4.1.0:
 
 4.1.0
