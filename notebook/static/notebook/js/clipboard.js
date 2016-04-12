@@ -68,17 +68,16 @@ function paste(event) {
   event.preventDefault();
 }
 
-function paste_direct(event) {
+function notebookOnlyEvent(callback) {
+    // Only call the callback to redirect the event if the notebook should be
+    // handling the events, at the descretion of the keyboard manager.
     // If the focus is in a text widget or something (kbmanager disabled),
-    // allow the default paste event.
-    // The paste dialog implementation (for Firefox) can't do this check,
-    // because the keyboard manager will be disabled for the dialog when we try
-    // to paste. In that case, the shortcut to trigger the dialog will be
-    // inactive anyway when a widget or something is focussed, so we don't
-    // need the explicit check.
-    if (Jupyter.keyboard_manager.enabled) {
-        paste(event);
-    }
+    // allow the default event.
+    return function() {
+        if (Jupyter.keyboard_manager.enabled) {
+            callback.apply(this, arguments);
+        }
+    };
 }
 
 function needs_text_box_for_paste_event() {
@@ -137,11 +136,11 @@ function setup_paste_dialog() {
 
 // Set clipboard event listeners on the document.
 return {setup_clipboard_events: function() {
-  document.addEventListener('copy', copy);
+  document.addEventListener('copy', notebookOnlyEvent(copy));
   if (needs_text_box_for_paste_event()) {
     setup_paste_dialog();
   } else {
-    document.addEventListener('paste', paste_direct);
+    document.addEventListener('paste', notebookOnlyEvent(paste));
   }
 }};
 });
