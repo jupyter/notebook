@@ -6,6 +6,12 @@ Jupyter notebook changelog
 A summary of changes in the Jupyter notebook.
 For more detailed information, see `GitHub <https://github.com/jupyter/notebook>`__.
 
+.. tip::
+
+     Use ``pip install notebook --upgrade`` or ``conda upgrade notebook`` to
+     upgrade to the latest release.
+
+
 .. _release-4.2.0:
 
 4.2.0
