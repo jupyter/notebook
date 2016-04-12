@@ -29,6 +29,7 @@ define(function (require) {
     var attachments_celltoolbar = require('notebook/js/celltoolbarpresets/attachments');
     var scrollmanager = require('notebook/js/scrollmanager');
     var commandpalette = require('notebook/js/commandpalette');
+    var shortcuts_editor = require('notebook/js/shortcuts_editor');
 
     var _SOFT_SELECTION_CLASS = 'jupyter-soft-selected';
 
@@ -249,7 +250,7 @@ define(function (require) {
             that.metadata.kernelspec = {
                 name: data.name,
                 display_name: data.spec.display_name,
-                language: data.spec.language,
+                language: data.spec.language
             };
             if (!existing_spec || ! _.isEqual(existing_spec, that.metadata.kernelspec)) {
                 that.set_dirty(true);
@@ -360,6 +361,10 @@ define(function (require) {
 
     Notebook.prototype.show_command_palette = function() {
         var x = new commandpalette.CommandPalette(this);
+    };
+
+    Notebook.prototype.show_shortcuts_editor = function() {
+        var x = new shortcuts_editor.ShortcutEditor(this);
     };
 
     /**

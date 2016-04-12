@@ -62,11 +62,17 @@ define(function(require){
      *
      **/
     var _actions = {
+        'edit-command-mode-keyboard-shortcuts': {
+            help: 'Open a dialog to edit the command mode keyboard shortcuts',
+            handler: function (env) {
+                env.notebook.show_shortcuts_editor();
+            }
+        },
         'restart-kernel': {
             help: 'restart the kernel (no confirmation dialog)',
             handler: function (env) {
                 env.notebook.restart_kernel({confirm: false});
-            },
+            }
         },
         'confirm-restart-kernel':{
             icon: 'fa-repeat',
@@ -479,7 +485,7 @@ define(function(require){
                     env.pager.collapse();
                 }
             }
-        },
+        }
     };
 
     /**
@@ -543,7 +549,7 @@ define(function(require){
                     event.preventDefault();
                 }
                 return env.notebook.scroll_manager.scroll(1);
-            },
+            }
         },
         'scroll-notebook-up': {
             handler: function(env, event) {
@@ -551,7 +557,7 @@ define(function(require){
                     event.preventDefault();
                 }
                 return env.notebook.scroll_manager.scroll(-1);
-            },
+            }
         },
         'scroll-cell-center': {
             help: "Scroll the current cell to the center",
@@ -621,7 +627,7 @@ define(function(require){
                 }
                 return false;
             }
-        },
+        }
     };
 
     // private stuff that prepend `jupyter-notebook:` to actions names

@@ -10,7 +10,7 @@
 
 define([
     'base/js/utils',
-    'base/js/keyboard',
+    'base/js/keyboard'
 ], function(utils, keyboard) {
     "use strict";
     
@@ -36,12 +36,12 @@ define([
         this.bind_events();
         this.env = {pager:this.pager};
         this.actions = options.actions;
-        this.command_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env );
-        this.command_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
-        this.command_shortcuts.add_shortcuts(this.get_default_command_shortcuts());
+        this.command_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env, options.config, 'command');
+        this.command_shortcuts._add_default_shortcuts(this.get_default_common_shortcuts());
+        this.command_shortcuts._add_default_shortcuts(this.get_default_command_shortcuts());
         this.edit_shortcuts = new keyboard.ShortcutManager(undefined, options.events, this.actions, this.env);
-        this.edit_shortcuts.add_shortcuts(this.get_default_common_shortcuts());
-        this.edit_shortcuts.add_shortcuts(this.get_default_edit_shortcuts());
+        this.edit_shortcuts._add_default_shortcuts(this.get_default_common_shortcuts());
+        this.edit_shortcuts._add_default_shortcuts(this.get_default_edit_shortcuts());
 
 
         this.config = options.config;
@@ -106,7 +106,7 @@ define([
             'ctrl-enter'  : 'jupyter-notebook:run-cell',
             'alt-enter'   : 'jupyter-notebook:run-cell-and-insert-below',
             // cmd on mac, ctrl otherwise
-            'cmdtrl-s'    : 'jupyter-notebook:save-notebook',
+            'cmdtrl-s'    : 'jupyter-notebook:save-notebook'
         };
     };
 
@@ -117,7 +117,7 @@ define([
             'ctrl-m'              : 'jupyter-notebook:enter-command-mode',
             'up'                  : 'jupyter-notebook:move-cursor-up',
             'down'                : 'jupyter-notebook:move-cursor-down',
-            'ctrl-shift--'        : 'jupyter-notebook:split-cell-at-cursor',
+            'ctrl-shift--'        : 'jupyter-notebook:split-cell-at-cursor'
         };
     };
 
@@ -161,7 +161,7 @@ define([
             'l' : 'jupyter-notebook:toggle-cell-line-numbers',
             'h' : 'jupyter-notebook:show-keyboard-shortcuts',
             'z' : 'jupyter-notebook:undo-cell-deletion',
-            'q' : 'jupyter-notebook:close-pager',
+            'q' : 'jupyter-notebook:close-pager'
         };
     };
 

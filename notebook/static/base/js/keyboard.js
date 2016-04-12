@@ -10,7 +10,7 @@
 
 define([
     'base/js/utils',
-    'underscore',
+    'underscore'
 ], function(utils, _) {
     "use strict";
 
@@ -42,7 +42,7 @@ define([
         'backspace': 8, 'tab': 9, 'enter': 13, 'shift': 16, 'ctrl': 17, 'alt': 18,
         'meta': 91, 'capslock': 20, 'esc': 27, 'space': 32, 'pageup': 33, 'pagedown': 34,
         'end': 35, 'home': 36, 'left': 37, 'up': 38, 'right': 39, 'down': 40,
-        'insert': 45, 'delete': 46, 'numlock': 144,
+        'insert': 45, 'delete': 46, 'numlock': 144
     };
     
     // These apply to Firefox and Opera
@@ -168,20 +168,26 @@ define([
 
     // Shortcut manager class
 
-    var ShortcutManager = function (delay, events, actions, env) {
+    var ShortcutManager = function (delay, events, actions, env, config, mode='command') {
         /**
          * A class to deal with keyboard event and shortcut
          *
          * @class ShortcutManager
          * @constructor
+         *
+         * :config: configobjet on which to call `update(....)` to persist the config.
+         * :mode: mode of this shortcut manager where to persist config.
          */
         this._shortcuts = {};
+        this._defaults_bindings = [];
         this.delay = delay || 800; // delay in milliseconds
         this.events = events;
         this.actions = actions;
         this.actions.extend_env(env);
         this._queue = [];
         this._cleartimeout = null;
+        this._config = config;
+        this._mode = mode;
         Object.seal(this);
     };
 
@@ -334,8 +340,30 @@ define([
         }
     };
 
-    ShortcutManager.prototype._set_leaf = function(shortcut_array, action_name, tree){
+    ShortcutManager.prototype.is_available_shortcut = function(shortcut){
+        const shortcut_array = shortcut.split(',');
+        return this._is_available_shortcut(shortcut_array, this._shortcuts);
+    };
+
+    ShortcutManager.prototype._is_available_shortcut = function(shortcut_array, tree){
         var current_node = tree[shortcut_array[0]];
+        if(!shortcut_array[0]){
+            return false;
+        }
+        if(current_node === undefined){
+            return true;
+        } else {
+            if (typeof(current_node) == 'string'){
+                return false;
+            } else { // assume is a sub-shortcut tree
+                return this._is_available_shortcut(shortcut_array.slice(1), current_node);
+            }
+        }
+    };
+
+    ShortcutManager.prototype._set_leaf = function(shortcut_array, action_name, tree){
+        const current_node = tree[shortcut_array[0]];
+
         if(shortcut_array.length === 1){
             if(current_node !== undefined && typeof(current_node) !== 'string'){
                 console.warn('[warning], you are overriting a long shortcut with a shorter one');
@@ -356,6 +384,51 @@ define([
         }
     };
 
+    ShortcutManager.prototype._persist_shortcut = function(shortcut, data) {
+        /**
+         * add a shortcut to this manager and persist it to the config file. 
+         **/ 
+        shortcut = shortcut.toLowerCase()
+        this.add_shortcut(shortcut, data);
+        const patch = {keys:{}};
+        const b = {bind:{}}
+        patch.keys[this._mode] = {bind:{}};
+        patch.keys[this._mode].bind[shortcut] = data;
+        this._config.update(patch);
+    }
+
+    ShortcutManager.prototype._persist_remove_shortcut = function(shortcut){
+        /**
+         * Remove a shortcut from this manager and persist its removal.
+         */
+
+        shortcut = shortcut.toLowerCase()
+        this.remove_shortcut(shortcut);
+        const patch = {keys:{}};
+        const b = {bind:{}}
+        patch.keys[this._mode] = {bind:{}};
+        patch.keys[this._mode].bind[shortcut] = null;
+        this._config.update(patch);
+        console.info(patch)
+
+        // if the shortcut we unbind is a default one, we add it to the list of
+        // things to unbind at startup
+
+        if(this._defaults_bindings.indexOf(shortcut) !== -1){
+            const cnf = (this._config.data.keys||{})[this._mode] 
+            const unbind_array = cnf.unbind||[];
+
+            // unless it's already there (like if we have remapped a default
+            // shortcut to another command, and unbind it)
+            if(unbind_array.indexOf(shortcut) !== -1){
+                unbind_array.concat(shortcut);
+                const unbind_patch = {keys:{unbind:unbind_array}};
+                this._config._update(unbind_patch) 
+            }
+        }
+    }
+
+
     ShortcutManager.prototype.add_shortcut = function (shortcut, data, suppress_help_update) {
         /**
          * Add a action to be handled by shortcut manager. 
@@ -369,8 +442,8 @@ define([
         if (! action_name){
           throw new Error('does not know how to deal with : ' + data);
         }
-        shortcut = normalize_shortcut(shortcut);
-        this.set_shortcut(shortcut, action_name);
+        const _shortcut = normalize_shortcut(shortcut);
+        this.set_shortcut(_shortcut, action_name);
 
         if (!suppress_help_update) {
             // update the keyboard shortcuts notebook help
@@ -390,6 +463,16 @@ define([
         // update the keyboard shortcuts notebook help
         this.events.trigger('rebuild.QuickHelp');
     };
+
+    ShortcutManager.prototype._add_default_shortcuts = function (data) {
+        /**
+         * same as add_shortcuts, but register them as "default" that if persistently unbound, with
+         * persist_remove_shortcut, need to be on the "unbind" list. 
+         **/
+        this._defaults_bindings = this._defaults_bindings.concat(Object.keys(data))
+        this.add_shortcuts(data);
+
+    }
 
     ShortcutManager.prototype.remove_shortcut = function (shortcut, suppress_help_update) {
         /**
@@ -415,7 +498,7 @@ define([
             this.events.trigger('rebuild.QuickHelp');
           }
         } catch (ex) {
-          throw new Error('trying to remove a non-existent shortcut', shortcut);
+          throw new Error('trying to remove a non-existent shortcut', shortcut, typeof shortcut);
         }
     };
 
@@ -470,7 +553,7 @@ define([
         normalize_key : normalize_key,
         normalize_shortcut : normalize_shortcut,
         shortcut_to_event : shortcut_to_event,
-        event_to_shortcut : event_to_shortcut,
+        event_to_shortcut : event_to_shortcut
     };
 
     return keyboard;
