@@ -2,6 +2,8 @@
 // Distributed under the terms of the Modified BSD License.
 'use strict';
 
+// Load CSS.
+require('font-awesome/css/font-awesome.min.css');
 require('jupyter-js-plugins/lib/default-theme/index.css');
 
 // ES6 Promise polyfill
