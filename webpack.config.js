@@ -14,6 +14,7 @@ var commonConfig = {
     },
     module: {
         loaders: [
+            { test: /\.js$/, exclude: /node_modules|\/notebook\/static\/component/, loader: "babel-loader"},
             { test: /\.css$/, loader: "style-loader!css-loader" },
             { test: /\.json$/, loader: "json-loader" },
             // jquery-ui loads some images

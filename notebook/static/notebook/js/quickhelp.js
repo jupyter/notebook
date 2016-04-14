@@ -153,13 +153,22 @@ define([
         return hum;
     }
 
-    function humanize_shortcut(shortcut){
+    function _humanize_sequence(sequence){
+        var joinchar = ',';
+        var hum = _.map(sequence.replace(/meta/g, 'cmd').split(','), _humanize_shortcut).join(joinchar);
+        return hum;
+    }
+
+    function _humanize_shortcut(shortcut){
         var joinchar = '-';
         if (platform === 'MacOS'){
             joinchar = '';
         }
-        var sh = _.map(shortcut.split('-'), humanize_key ).join(joinchar);
-        return '<kbd>'+sh+'</kbd>';
+        return _.map(shortcut.split('-'), humanize_key ).join(joinchar);
+    }
+
+    function humanize_shortcut(shortcut){
+        return '<kbd>'+_humanize_shortcut(shortcut)+'</kbd>';
     }
     
 
@@ -301,6 +310,7 @@ define([
 
     return {'QuickHelp': QuickHelp,
       humanize_shortcut: humanize_shortcut,
-      humanize_sequence: humanize_sequence
+      humanize_sequence: humanize_sequence,
+      _humanize_sequence: _humanize_sequence,
   };
 });

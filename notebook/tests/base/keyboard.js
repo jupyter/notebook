@@ -71,10 +71,10 @@ casper.notebook_test(function () {
         that.msgs = [];
         that.on('remote.message', function(msg) {
           that.msgs.push(msg);
-        })
+        });
         that.evaluate(function (obj) {
             for(var k in obj){
-                IPython.keyboard_manager.command_shortcuts.add_shortcut(k, function(){console.log(obj[k])});
+                IPython.keyboard_manager.command_shortcuts.add_shortcut(k, function(){console.log(obj[k]);});
             }
         }, shortcuts_test);
 
@@ -86,6 +86,6 @@ casper.notebook_test(function () {
         }
         this.test.assert(longer_first, 'no warning if registering shorter shortut');
         this.test.assert(longer_last , 'no warning if registering longer shortut');
-    })
+    });
 
 });
