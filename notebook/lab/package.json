@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "css-loader": "^0.23.1",
-    "es6-promise": "^3.0.2",
+    "es6-promise": "^3.1.2",
     "file-loader": "^0.8.5",
     "json-loader": "^0.5.4",
     "rimraf": "^2.5.0",
