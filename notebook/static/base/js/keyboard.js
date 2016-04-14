@@ -410,7 +410,6 @@ define([
         patch.keys[this._mode] = {bind:{}};
         patch.keys[this._mode].bind[shortcut] = null;
         this._config.update(patch);
-        console.info(patch);
 
         // if the shortcut we unbind is a default one, we add it to the list of
         // things to unbind at startup
