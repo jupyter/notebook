@@ -7,6 +7,7 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-
 # Distributed under the terms of the Modified BSD License.
 
 import json
+import os
 
 from tornado import gen, web
 
@@ -32,16 +33,24 @@ class SessionRootHandler(APIHandler):
     @gen.coroutine
     def post(self):
         # Creates a new session
-        #(unless a session already exists for the named nb)
+        #(unless a session already exists for the named session)
         sm = self.session_manager
 
         model = self.get_json_body()
         if model is None:
             raise web.HTTPError(400, "No JSON data provided")
+
         try:
-            path = model['notebook']['path']
+            name = model['name']
         except KeyError:
-            raise web.HTTPError(400, "Missing field in JSON data: notebook.path")
+            raise web.HTTPError(400, "Missing field in JSON data: name")
+
+        try:
+            directory = model['directory']
+        except KeyError:
+            raise web.HTTPError(400, "Missing field in JSON data: directory")
+
+        model_type = model.get('type', 'notebook')
 
         kernel = model.get('kernel', {})
         kernel_name = kernel.get('name') or None
@@ -52,6 +61,7 @@ class SessionRootHandler(APIHandler):
             kernel_name = None
 
         # Check to see if session exists
+        path = os.path.join(directory, name)
         exists = yield gen.maybe_future(sm.session_exists(path=path))
         if exists:
             model = yield gen.maybe_future(sm.get_session(path=path))
@@ -59,7 +69,8 @@ class SessionRootHandler(APIHandler):
             try:
                 model = yield gen.maybe_future(
                     sm.create_session(path=path, kernel_name=kernel_name,
-                                      kernel_id=kernel_id))
+                                      kernel_id=kernel_id,
+                                      type=model_type))
             except NoSuchKernel:
                 msg = ("The '%s' kernel is not available. Please pick another "
                        "suitable kernel instead, or install that kernel." % kernel_name)
@@ -105,10 +116,10 @@ class SessionHandler(APIHandler):
         before = yield gen.maybe_future(sm.get_session(session_id=session_id))
 
         changes = {}
-        if 'notebook' in model:
-            notebook = model['notebook']
-            if notebook.get('path') is not None:
-                changes['path'] = notebook['path']
+        if 'name' in model:
+            changes['name'] = model['name']
+        if 'type' in model:
+            changes['type'] = model['type']
         if 'kernel' in model:
             # Kernel id takes precedence over name.
             if model['kernel'].get('id') is not None:

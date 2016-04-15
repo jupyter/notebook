@@ -349,7 +349,7 @@ paths:
           schema:
             $ref: '#/definitions/Session'
     patch:
-      summary: "This can be used to rename the notebook, or move it to a new directory."
+      summary: "This can be used to rename the session."
       tags:
         - sessions
       parameters:
@@ -395,29 +395,14 @@ paths:
             items:
               $ref: '#/definitions/Session'
     post:
-      summary: "Create a new session, or return an existing session if a session for the notebook path already exists"
+      summary: "Create a new session, or return an existing session if a session of the same name already exists"
       tags:
         - sessions
       parameters:
         - name: session
           in: body
           schema:
-            type: object
-            properties:
-              notebook:
-                type: object
-                required:
-                  - path
-                properties:
-                  path:
-                    type: string
-                    description: path to notebook file
-              kernel:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: "Kernel spec name, defaults to default kernel spec"
+            $ref: '#definitions/Session'
       responses:
         201:
           description: Session created or returned
@@ -429,7 +414,7 @@ paths:
               type: string
               format: url
         501:
-          description: Kernel not available
+          description: Session not available
           schema:
             type: object
             description: error message
@@ -654,12 +639,19 @@ definitions:
       id:
         type: string
         format: uuid
-      notebook:
-        type: object
-        properties:
-          path:
-            type: string
-            description: path to notebook
+      name:
+        type: string
+        description: the name of file, notebook, or console
+      directory:
+        type: string
+        description: the directory of the session
+      type:
+        type: string;
+        description: session type
+        enum:
+          - notebook
+          - file
+          - console
       kernel:
         $ref: '#/definitions/Kernel'
   Contents:

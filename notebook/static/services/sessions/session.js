@@ -240,8 +240,12 @@ define([
      * @returns {Object} - the data model
      */
     Session.prototype._get_model = function () {
+        var path = this.notebook_model.path;
+        var parts = path.split('/');
         return {
-            notebook: this.notebook_model,
+            name: parts[parts.length -1],
+            directory: parts.slice(0, parts.length - 1).join('/'),
+            type: 'notebook',
             kernel: this.kernel_model
         };
     };
@@ -261,7 +265,8 @@ define([
             this.session_url = utils.url_path_join(this.session_service_url, this.id);
         }
         if (data && data.notebook) {
-            this.notebook_model.path = data.notebook.path;
+            var path = data.path + '/' + data.name;
+            this.notebook_model.path = path;
         }
         if (data && data.kernel) {
             this.kernel_model.name = data.kernel.name;
