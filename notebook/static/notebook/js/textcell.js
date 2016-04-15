@@ -367,6 +367,11 @@ define([
      * @method render
      */
     MarkdownCell.prototype.render = function () {
+        // We clear the dropzone here just in case the dragenter/leave
+        // logic of bind_events wasn't 100% successful.
+        this.drag_counter = 0;
+        this.inner_cell.removeClass('dropzone');
+
         var cont = TextCell.prototype.render.apply(this);
         if (cont) {
             var that = this;
@@ -465,26 +470,34 @@ define([
             return true;
         });
 
+
         // We want to display a visual indicator that the drop is possible.
         // The dragleave event is fired when we hover a child element (which
         // is often immediatly after we got the dragenter), so we keep track
         // of the number of dragenter/dragleave we got, as discussed here :
         // http://stackoverflow.com/q/7110353/116067
+        // This doesn't seem to be 100% reliable, so we clear the dropzone
+        // class when the cell is rendered as well
         this.code_mirror.on("dragenter", function(cm, evt) {
-          that.drag_counter++;
-          that.inner_cell.addClass('droppable');
-          evt.preventDefault();
+            that.drag_counter++;
+            that.inner_cell.addClass('dropzone');
+            // prevent default to allow drop
+            evt.stopPropagation();
+            evt.preventDefault();
         });
 
         this.code_mirror.on("dragleave", function(cm, evt) {
-          that.drag_counter--;
-          if (that.drag_counter === 0) {
-            that.inner_cell.removeClass('droppable');
-          }
+            that.drag_counter--;
+            if (that.drag_counter === 0) {
+                that.inner_cell.removeClass('dropzone');
+            }
+            evt.stopPropagation();
+            evt.preventDefault();
         });
 
         this.code_mirror.on("drop", function(cm, evt) {
-          that.inner_cell.removeClass('droppable');
+            that.drag_counter = 0;
+            that.inner_cell.removeClass('dropzone');
             var files = evt.dataTransfer.files;
             for (var i = 0; i < files.length; ++i) {
                 var file = files[i];
