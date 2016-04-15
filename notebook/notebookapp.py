@@ -1133,7 +1133,8 @@ class NotebookApp(JupyterApp):
                 relpath = os.path.relpath(self.file_to_run, self.notebook_dir)
                 uri = url_escape(url_path_join('notebooks', *relpath.split(os.sep)))
             else:
-                uri = self.default_url
+                # default_url contains base_url, but so does connection_url
+                uri = self.default_url[len(self.base_url):]
             if browser:
                 b = lambda : browser.open(url_path_join(self.connection_url, uri),
                                           new=2)
