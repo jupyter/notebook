@@ -639,12 +639,11 @@ definitions:
       id:
         type: string
         format: uuid
-      name:
+      path:
         type: string
-        description: the name of file, notebook, or console
-      directory:
-        type: string
-        description: the directory of the session
+        description: "The path to the session.  For console sessions, the path 
+         contains the cwd of the kernel and the name of the console session, 
+         which may be a uuid"
       type:
         type: string;
         description: session type

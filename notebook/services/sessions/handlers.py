@@ -41,16 +41,14 @@ class SessionRootHandler(APIHandler):
             raise web.HTTPError(400, "No JSON data provided")
 
         try:
-            name = model['name']
+            path = model['path']
         except KeyError:
-            raise web.HTTPError(400, "Missing field in JSON data: name")
+            raise web.HTTPError(400, "Missing field in JSON data: path")
 
         try:
-            directory = model['directory']
+            mtype = model['type']
         except KeyError:
-            raise web.HTTPError(400, "Missing field in JSON data: directory")
-
-        model_type = model.get('type', 'notebook')
+            raise web.HTTPError(400, "Missing field in JSON data: type")
 
         kernel = model.get('kernel', {})
         kernel_name = kernel.get('name') or None
@@ -60,8 +58,6 @@ class SessionRootHandler(APIHandler):
             self.log.debug("No kernel specified, using default kernel")
             kernel_name = None
 
-        # Check to see if session exists
-        path = os.path.join(directory, name)
         exists = yield gen.maybe_future(sm.session_exists(path=path))
         if exists:
             model = yield gen.maybe_future(sm.get_session(path=path))
@@ -70,7 +66,7 @@ class SessionRootHandler(APIHandler):
                 model = yield gen.maybe_future(
                     sm.create_session(path=path, kernel_name=kernel_name,
                                       kernel_id=kernel_id,
-                                      type=model_type))
+                                      type=mtype))
             except NoSuchKernel:
                 msg = ("The '%s' kernel is not available. Please pick another "
                        "suitable kernel instead, or install that kernel." % kernel_name)
@@ -103,7 +99,7 @@ class SessionHandler(APIHandler):
     def patch(self, session_id):
         """Patch updates sessions:
 
-        - notebook.path updates session to track renamed notebooks
+        - path updates session to track renamed paths
         - kernel.name starts a new kernel with a given kernelspec
         """
         sm = self.session_manager
@@ -116,8 +112,8 @@ class SessionHandler(APIHandler):
         before = yield gen.maybe_future(sm.get_session(session_id=session_id))
 
         changes = {}
-        if 'name' in model:
-            changes['name'] = model['name']
+        if 'path' in model:
+            changes['path'] = model['path']
         if 'type' in model:
             changes['type'] = model['type']
         if 'kernel' in model:
@@ -130,7 +126,8 @@ class SessionHandler(APIHandler):
             elif model['kernel'].get('name') is not None:
                 kernel_name = model['kernel']['name']
                 kernel_id = yield sm.start_kernel_for_session(
-                    session_id, kernel_name=kernel_name, path=before['notebook']['path'])
+                    session_id, kernel_name=kernel_name, path=before['path'],
+                    type=before['type'])
                 changes['kernel_id'] = kernel_id
 
         yield gen.maybe_future(sm.update_session(session_id, **changes))

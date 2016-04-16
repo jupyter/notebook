@@ -107,7 +107,7 @@ class SessionManager(LoggingConfigurable):
         session_id : str
             uuid for the session; this method must be given a session_id
         path : str
-            the path for the given notebook
+            the path for the given session
         kernel_id : str
             a uuid for the kernel associated with this session
         
@@ -207,8 +207,7 @@ class SessionManager(LoggingConfigurable):
 
         model = {
             'id': row['session_id'],
-            'name': os.path.basename(row['path']),
-            'directory': os.path.dirname(row['path']),
+            'path': row['path'],
             'type': row['type'],
             'kernel': self.kernel_manager.kernel_model(row['kernel_id'])
         }
