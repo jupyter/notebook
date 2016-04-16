@@ -46,8 +46,18 @@ class SessionAPI(object):
                                       'id': kernel_id}})
         return self._req('POST', '', body)
 
+    def create_deprecated(self, path):
+        body = json.dumps({'notebook': {'path': path},
+                           'kernel': {'name': 'python',
+                                      'id': 'foo'}})
+        return self._req('POST', '', body)
+
     def modify_path(self, id, path):
         body = json.dumps({'path': path})
+        return self._req('PATCH', id, body)
+
+    def modify_path_deprecated(self, id, path):
+        body = json.dumps({'notebook': {'path': path}})
         return self._req('PATCH', id, body)
 
     def modify_type(self, id, type):
@@ -132,6 +142,14 @@ class SessionAPITest(NotebookTestBase):
         self.assertEqual(newsession['path'], 'foo/abc123')
         self.assertEqual(newsession['type'], 'console')
 
+    def test_create_deprecated(self):
+        resp = self.sess_api.create_deprecated('foo/nb1.ipynb')
+        self.assertEqual(resp.status_code, 201)
+        newsession = resp.json()
+        self.assertEqual(newsession['path'], 'foo/nb1.ipynb')
+        self.assertEqual(newsession['type'], 'notebook')
+        self.assertEqual(newsession['notebook']['path'], 'foo/nb1.ipynb')
+
     def test_create_with_kernel_id(self):
         # create a new kernel
         r = requests.post(url_path_join(self.base_url(), 'api/kernels'))
@@ -174,6 +192,14 @@ class SessionAPITest(NotebookTestBase):
         changed = self.sess_api.modify_path(sid, 'nb2.ipynb').json()
         self.assertEqual(changed['id'], sid)
         self.assertEqual(changed['path'], 'nb2.ipynb')
+
+    def test_modify_path_deprecated(self):
+        newsession = self.sess_api.create('foo/nb1.ipynb').json()
+        sid = newsession['id']
+
+        changed = self.sess_api.modify_path_deprecated(sid, 'nb2.ipynb').json()
+        self.assertEqual(changed['id'], sid)
+        self.assertEqual(changed['notebook']['path'], 'nb2.ipynb')
 
     def test_modify_type(self):
         newsession = self.sess_api.create('foo/nb1.ipynb').json()

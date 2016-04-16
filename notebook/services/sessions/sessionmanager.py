@@ -209,6 +209,7 @@ class SessionManager(LoggingConfigurable):
             'id': row['session_id'],
             'path': row['path'],
             'type': row['type'],
+            'notebook': {'path': row['path']},  # provide deprecated API
             'kernel': self.kernel_manager.kernel_model(row['kernel_id'])
         }
         return model
