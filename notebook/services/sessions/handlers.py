@@ -40,11 +40,10 @@ class SessionRootHandler(APIHandler):
         if model is None:
             raise web.HTTPError(400, "No JSON data provided")
 
-        if model.get('notebook') is not None:
-            if model['notebook'].get('path') is not None:
-                self.log.warn('Sessions API changed, see updated swagger docs')
-                model['path'] = model['notebook']['path']
-                model['type'] = 'notebook'
+        if 'notebook' in model and 'path' in model['notebook']:
+            self.log.warn('Sessions API changed, see updated swagger docs')
+            model['path'] = model['notebook']['path']
+            model['type'] = 'notebook'
 
         try:
             path = model['path']
