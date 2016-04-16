@@ -117,11 +117,10 @@ class SessionHandler(APIHandler):
         before = yield gen.maybe_future(sm.get_session(session_id=session_id))
 
         changes = {}
-        if 'notebook' in model:
-            if 'path' in model['notebook']:
-                self.log.warn('Sessions API changed, see updated swagger docs')
-                model['path'] = model['notebook']['path']
-                model['type'] = 'notebook'
+        if 'notebook' in model and 'path' in model['notebook']:
+            self.log.warn('Sessions API changed, see updated swagger docs')
+            model['path'] = model['notebook']['path']
+            model['type'] = 'notebook'
         if 'path' in model:
             changes['path'] = model['path']
         if 'type' in model:
