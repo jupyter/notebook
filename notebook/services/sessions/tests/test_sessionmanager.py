@@ -63,6 +63,7 @@ class TestSessionManager(TestCase):
         model = sm.get_session(session_id=session_id)
         expected = {'id':session_id,
                     'path': u'/path/to/test.ipynb',
+                    'notebook': {'path': u'/path/to/test.ipynb'},
                     'type': 'notebook',
                     'kernel': {'id':u'A', 'name': 'bar'}}
         self.assertEqual(model, expected)
@@ -99,6 +100,7 @@ class TestSessionManager(TestCase):
                 'id':sessions[0]['id'],
                 'path': u'/path/to/1/test1.ipynb',
                 'type': 'notebook',
+                'notebook': {'path': u'/path/to/1/test1.ipynb'},
                 'kernel':{'id':u'A', 'name':'python'}
             }, {
                 'id':sessions[1]['id'],
@@ -128,6 +130,7 @@ class TestSessionManager(TestCase):
                 'id': sessions[1]['id'],
                 'path': u'/path/to/2/test2.ipynb',
                 'type': 'notebook',
+                'notebook': {'path': u'/path/to/2/test2.ipynb'},
                 'kernel': {
                     'id': u'B',
                     'name':'python',
@@ -145,6 +148,7 @@ class TestSessionManager(TestCase):
         expected = {'id':session_id,
                     'path': u'/path/to/new_name.ipynb',
                     'type': 'notebook',
+                    'notebook': {'path': u'/path/to/new_name.ipynb'},
                     'kernel':{'id':u'A', 'name':'julia'}}
         self.assertEqual(model, expected)
     
@@ -168,11 +172,13 @@ class TestSessionManager(TestCase):
                 'id': sessions[0]['id'],
                 'path': u'/path/to/1/test1.ipynb',
                 'type': 'notebook',
+                'notebook': {'path': u'/path/to/1/test1.ipynb'},
                 'kernel': {'id':u'A', 'name':'python'}
             }, {
                 'id': sessions[2]['id'],
                 'type': 'notebook',
                 'path': u'/path/to/3/test3.ipynb',
+                'notebook': {'path': u'/path/to/3/test3.ipynb'},
                 'kernel': {'id':u'C', 'name':'python'}
             }
         ]
