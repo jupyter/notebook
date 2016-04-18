@@ -217,7 +217,9 @@ def check_package_data(package_data):
         pkg_root = pjoin(*pkg.split('.'))
         for d in data:
             path = pjoin(pkg_root, d)
-            if '*' in path:
+            if 'lab/build' in path:  # Do not verify lab install yet
+                continue
+            elif '*' in path:
                 assert len(glob(path)) > 0, "No files match pattern %s" % path
             else:
                 assert os.path.exists(path), "Missing package data: %s" % path
