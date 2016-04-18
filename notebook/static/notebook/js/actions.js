@@ -62,6 +62,12 @@ define(function(require){
      *
      **/
     var _actions = {
+        'edit-command-mode-keyboard-shortcuts': {
+            help: 'Open a dialog to edit the command mode keyboard shortcuts',
+            handler: function (env) {
+                env.notebook.show_shortcuts_editor();
+            }
+        },
         'restart-kernel': {
             help: 'restart the kernel (no confirmation dialog)',
             handler: function (env) {

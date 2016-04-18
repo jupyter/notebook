@@ -21,7 +21,6 @@ from distutils import log
 from distutils.cmd import Command
 from fnmatch import fnmatch
 from glob import glob
-from multiprocessing.pool import ThreadPool
 from subprocess import check_call, check_output
 
 if sys.platform == 'win32':

@@ -2,6 +2,25 @@
 // Distributed under the terms of the Modified BSD License.
 __webpack_public_path__ = window['staticURL'] + 'tree/js/built/';
 
+// adapted from Mozilla Developer Network example at
+// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind
+// shim `bind` for testing under casper.js
+var bind = function bind(obj) {
+  var slice = [].slice;
+  var args = slice.call(arguments, 1),
+    self = this,
+    nop = function() {
+    },
+    bound = function() {
+      return self.apply(this instanceof nop ? this : (obj || {}), args.concat(slice.call(arguments)));
+    };
+  nop.prototype = this.prototype || {}; // Firefox cries sometimes if prototype is undefined
+  bound.prototype = new nop();
+  return bound;
+};
+Function.prototype.bind = Function.prototype.bind || bind ;
+
+
 requirejs(['contents'], function(contents_service) {
 require([
     'base/js/namespace',

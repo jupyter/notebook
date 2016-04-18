@@ -1,0 +1,13 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+    "rules": {
+        "semi": 1,
+        "no-cond-assign": 2,
+        "no-debugger": 2,
+        "comma-dangle": 1,
+        "no-unreachable" : 2
+    }
+}

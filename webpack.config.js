@@ -44,7 +44,7 @@ function buildConfig(appName) {
             filename: 'main.min.js',
             path: './notebook/static/' + appName + '/js/built'
         },
-        devtool: 'source-map',
+        devtool: 'eval-source-map',
     });
 }
 
@@ -61,7 +61,7 @@ module.exports = [
             path: './notebook/static/services/built',
             libraryTarget: 'amd'
         },
-        devtool: 'source-map',
+        devtool: 'eval-source-map',
     }),
     _.extend({}, commonConfig, {
         entry: './notebook/static/index.js',
@@ -70,6 +70,6 @@ module.exports = [
             path: './notebook/static/built',
             libraryTarget: 'amd'
         },
-        devtool: 'source-map',
+        devtool: 'eval-source-map',
     }),
 ].map(buildConfig);
