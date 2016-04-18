@@ -71,21 +71,25 @@ casper.notebook_test(function () {
         that.msgs = [];
         that.on('remote.message', function(msg) {
           that.msgs.push(msg);
-        })
+        });
         that.evaluate(function (obj) {
             for(var k in obj){
-                IPython.keyboard_manager.command_shortcuts.add_shortcut(k, function(){console.log(obj[k])});
+                if ({}.hasOwnProperty.call(obj, k)) {
+                    IPython.keyboard_manager.command_shortcuts.add_shortcut(k, function(){console.log(obj[k]);});
+                }
             }
         }, shortcuts_test);
 
         var longer_first = false;
         var longer_last = false;
         for(var m in that.msgs){
-            longer_first = longer_first||(that.msgs[m].match(/you are overriting/)!= null);
-            longer_last = longer_last  ||(that.msgs[m].match(/will be shadowed/) != null);
+            if ({}.hasOwnProperty.call(that.msgs, m)) {
+                longer_first = longer_first||(that.msgs[m].match(/you are overriting/)!= null);
+                longer_last = longer_last  ||(that.msgs[m].match(/will be shadowed/) != null);
+            }
         }
         this.test.assert(longer_first, 'no warning if registering shorter shortut');
         this.test.assert(longer_last , 'no warning if registering longer shortut');
-    })
+    });
 
 });
