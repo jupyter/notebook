@@ -336,13 +336,16 @@ def run(cmd, *args, **kwargs):
 
 def npm_install(cwd):
     """Run npm install in a directory and dedupe if necessary"""
+
     try:
         run(['npm', 'install', '--progress=false'], cwd=cwd)
     except OSError as e:
         print("Failed to run `npm install`: %s" % e, file=sys.stderr)
         print("npm is required to build a development version of the notebook.", file=sys.stderr)
         raise
-    version = check_output('npm --version', shell=True).decode('utf-8')
+
+    shell = (sys.platform == 'win32')
+    version = check_output('npm --version', shell=shell).decode('utf-8')
     if LooseVersion(version) < LooseVersion('3.0'):
         try:
             run(['npm', 'dedupe'], cwd=cwd)
