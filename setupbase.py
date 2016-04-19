@@ -345,7 +345,7 @@ def npm_install(cwd):
         raise
 
     shell = (sys.platform == 'win32')
-    version = check_output('npm --version', shell=shell).decode('utf-8')
+    version = check_output(['npm', '--version'], shell=shell).decode('utf-8')
     if LooseVersion(version) < LooseVersion('3.0'):
         try:
             run(['npm', 'dedupe'], cwd=cwd)
