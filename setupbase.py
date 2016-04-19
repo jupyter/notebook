@@ -349,6 +349,7 @@ def npm_install(cwd):
         except Exception as e:
             print("Failed to run `npm dedupe`: %s" % e, file=sys.stderr)
             print("Please install npm v3+ to build a development version of the notebook.")
+            raise
 
 
 class JavascriptDependencies(Command):
