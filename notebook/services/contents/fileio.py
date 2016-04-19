@@ -30,6 +30,16 @@ except ImportError: #PY2
     from base64 import encodestring as encodebytes, decodestring as decodebytes
 
 
+def replace_file(src, dst):
+    """ replace dst with src
+
+    switches between os.replace or os.rename based on python 2.7 or python 3
+    """
+    try:
+        os.replace(src, dst)
+    except:
+        os.rename(src, dst)
+
 def copy2_safe(src, dst, log=None):
     """copy src to dst
 
@@ -104,7 +114,7 @@ def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
         if os.name == 'nt' and os.path.exists(path):
             # Rename over existing file doesn't work on Windows
             os.remove(path)
-        os.rename(tmp_path, path)
+        replace_file(tmp_path, path)
         raise
 
     # Flush to disk
@@ -277,8 +287,8 @@ class FileManagerMixin(Configurable):
             # Rename over existing file doesn't work on Windows
             if os.name == 'nt' and os.path.exists(invalid_file):
                 os.remove(invalid_file)
-            os.rename(os_path, invalid_file)
-            os.rename(tmp_path, os_path)
+            replace_file(os_path, invalid_file)
+            replace_file(tmp_path, os_path)
             return self._read_notebook(os_path, as_version)
 
     def _save_notebook(self, os_path, nb):
