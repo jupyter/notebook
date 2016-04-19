@@ -217,7 +217,9 @@ def check_package_data(package_data):
         pkg_root = pjoin(*pkg.split('.'))
         for d in data:
             path = pjoin(pkg_root, d)
-            if '*' in path:
+            if 'lab/build' in path:  # Do not verify lab install yet
+                continue
+            elif '*' in path:
                 assert len(glob(path)) > 0, "No files match pattern %s" % path
             else:
                 assert os.path.exists(path), "Missing package data: %s" % path
@@ -363,9 +365,7 @@ class JavascriptDependencies(Command):
             run(['npm', 'install', '--progress=false'], cwd=self.lab_dir)
             run(['npm', 'run', 'build'], cwd=self.lab_dir)
         except Exception as e:
-            print("Failed to run `npm install`: %s" % e, file=sys.stderr)
-            print("You can install js dependencies with `npm install`", file=sys.stderr)
-            raise
+            print("Failed to install JupyterLab`: %s" % e, file=sys.stderr)
 
         # update package data in case this created new files
         update_package_data(self.distribution)
