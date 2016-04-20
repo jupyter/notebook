@@ -55,9 +55,10 @@ class SessionRootHandler(APIHandler):
         except KeyError:
             raise web.HTTPError(400, "Missing field in JSON data: type")
 
+        name = model.get('name', None)
         kernel = model.get('kernel', {})
-        kernel_name = kernel.get('name') or None
-        kernel_id = kernel.get('id') or None
+        kernel_name = kernel.get('name', None)
+        kernel_id = kernel.get('id', None)
 
         if not kernel_id and not kernel_name:
             self.log.debug("No kernel specified, using default kernel")
@@ -70,7 +71,7 @@ class SessionRootHandler(APIHandler):
             try:
                 model = yield gen.maybe_future(
                     sm.create_session(path=path, kernel_name=kernel_name,
-                                      kernel_id=kernel_id,
+                                      kernel_id=kernel_id, name=name,
                                       type=mtype))
             except NoSuchKernel:
                 msg = ("The '%s' kernel is not available. Please pick another "
@@ -123,6 +124,8 @@ class SessionHandler(APIHandler):
             model['type'] = 'notebook'
         if 'path' in model:
             changes['path'] = model['path']
+        if 'name' in model:
+            changes['name'] = model['name']
         if 'type' in model:
             changes['type'] = model['type']
         if 'kernel' in model:
@@ -135,8 +138,8 @@ class SessionHandler(APIHandler):
             elif model['kernel'].get('name') is not None:
                 kernel_name = model['kernel']['name']
                 kernel_id = yield sm.start_kernel_for_session(
-                    session_id, kernel_name=kernel_name, path=before['path'],
-                    type=before['type'])
+                    session_id, kernel_name=kernel_name, name=before['name'],
+                    path=before['path'], type=before['type'])
                 changes['kernel_id'] = kernel_id
 
         yield gen.maybe_future(sm.update_session(session_id, **changes))
