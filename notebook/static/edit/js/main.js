@@ -13,7 +13,6 @@ require([
     'edit/js/menubar',
     'edit/js/savewidget',
     'edit/js/notificationarea',
-    'custom/custom',
 ], function(
     $,
     IPython,
@@ -28,6 +27,14 @@ require([
     notificationarea
     ){
     "use strict";
+
+    try {
+        requirejs(['custom/custom'], function() {});
+    } catch(err) {
+        console.log("Error loading custom.js from edition service. Continuing and logging");
+        console.warn(err);
+    }
+    
     page = new page.Page();
 
     var base_url = utils.get_body_data('baseUrl');

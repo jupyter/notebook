@@ -19,7 +19,6 @@ require([
     // only loaded, not used:
     'jquery-ui',
     'bootstrap',
-    'custom/custom',
 ], function(
     $,
     IPython,
@@ -36,6 +35,13 @@ require([
     newnotebook,
     loginwidget){
     "use strict";
+
+    try{
+        requirejs(['custom/custom'], function() {});
+    } catch(err) {
+        console.log("Error loading custom.js from tree service. Continuing and logging");
+        console.warn(err);
+    }
 
     IPython.NotebookList = notebooklist.NotebookList;
 
