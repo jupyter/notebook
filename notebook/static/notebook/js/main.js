@@ -24,8 +24,6 @@ require([
     'notebook/js/about',
     'typeahead',
     'notebook/js/searchandreplace',
-    // only loaded, not used, please keep sure this is loaded last
-    'custom/custom'
 ], function(
     IPython, 
     $,
@@ -49,10 +47,15 @@ require([
     about,
     typeahead,
     searchandreplace,
-    // please keep sure that even if not used, this is loaded last
-    custom
     ) {
     "use strict";
+
+    try{
+        requirejs(['custom/custom'], function() {});
+    } catch(err) {
+        console.log("Error processing custom.js. Logging and continuing")
+        console.warn(err);
+    }
 
     // compat with old IPython, remove for IPython > 3.0
     window.CodeMirror = CodeMirror;
