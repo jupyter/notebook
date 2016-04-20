@@ -52,8 +52,8 @@ casper.notebook_test(function () {
         var new_session_info = this.evaluate(function () {
             return IPython._session_info;
         });
-        this.test.assertEquals(session_info.notebook.name, new_session_info.notebook.name, 'session: notebook name correct');
-        this.test.assertEquals(session_info.notebook.path, new_session_info.notebook.path, 'session: notebook path correct');
+        this.test.assertEquals(session_info.name, new_session_info.name, 'session: notebook name correct');
+        this.test.assertEquals(session_info.path, new_session_info.path, 'session: notebook path correct');
         this.test.assertEquals(session_info.kernel.name, new_session_info.kernel.name, 'session: kernel name correct');
         this.test.assertEquals(session_info.kernel.id, new_session_info.kernel.id, 'session: kernel id correct');
     });

@@ -243,6 +243,7 @@ define([
         return {
             path: this.notebook_model.path,
             type: 'notebook',
+            name: '',
             kernel: this.kernel_model
         };
     };
