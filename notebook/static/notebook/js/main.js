@@ -52,8 +52,13 @@ require([
 
     // Pull typeahead from the global jquery object
     var typeahead = $.typeahead;
-
-    requirejs(['custom/custom'], function() {});
+    
+    try{
+        requirejs(['custom/custom'], function() {});
+    } catch(err) {
+        console.warn("Error processing custom.js file. Logging the error and continuing")
+        console.log(err);
+    }
 
     // compat with old IPython, remove for IPython > 3.0
     window.CodeMirror = CodeMirror;
