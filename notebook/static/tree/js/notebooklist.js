@@ -219,6 +219,7 @@ define([
         name_sort_helper($('#notebook_list'), "div.list_item", 'span.item_name');
     };
 
+// zwt to do
     NotebookList.prototype.handleFilesUpload =  function(event, dropOrForm) {
         var that = this;
         var files;
@@ -837,7 +838,7 @@ define([
                             that.contents.rename(item_path, new_path).then(function() {
                                 // After each move finishes, reload the list.
                                 that.load_list();
-                            }).catch(function(e) { 
+                            }).catch(function(e) {
                                 // If any of the moves fails, show this dialog for that move.
                                 dialog.modal({
                                     title: "Move Failed",
