@@ -1,6 +1,12 @@
 var _ = require('underscore');
 var path = require('path');
+var sourcemaps = 'source-map'
 
+if(process.argv.indexOf('-w') !== -1 || process.argv.indexOf('-w') !== -1  ){
+  console.log('watch mode detected, will switch to cheep sourcemaps')
+  sourcemaps = 'eval-source-map';
+
+}
 var commonConfig = {
     resolve: {
         root: [
@@ -44,7 +50,7 @@ function buildConfig(appName) {
             filename: 'main.min.js',
             path: './notebook/static/' + appName + '/js/built'
         },
-        devtool: 'eval-source-map',
+        devtool: sourcemaps,
     });
 }
 
@@ -61,7 +67,7 @@ module.exports = [
             path: './notebook/static/services/built',
             libraryTarget: 'amd'
         },
-        devtool: 'eval-source-map',
+        devtool: sourcemaps,
     }),
     _.extend({}, commonConfig, {
         entry: './notebook/static/index.js',
@@ -70,6 +76,6 @@ module.exports = [
             path: './notebook/static/built',
             libraryTarget: 'amd'
         },
-        devtool: 'eval-source-map',
+        devtool: sourcemaps,
     }),
 ].map(buildConfig);
