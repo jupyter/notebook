@@ -92,7 +92,7 @@ class TestSessionManager(TestCase):
         sessions = self.create_sessions(
             dict(path='/path/to/1/test1.ipynb', kernel_name='python'),
             dict(path='/path/to/2/test2.py', type='file', kernel_name='python'),
-            dict(path='/path/to/3/', name='foo', type='console', kernel_name='python'),
+            dict(path='/path/to/3', name='foo', type='console', kernel_name='python'),
         )
         
         sessions = sm.list_sessions()
@@ -112,7 +112,7 @@ class TestSessionManager(TestCase):
                 'kernel':{'id':u'B', 'name':'python'}
             }, {
                 'id':sessions[2]['id'],
-                'path': u'/path/to/3/',
+                'path': u'/path/to/3',
                 'type': 'console',
                 'name': 'foo',
                 'kernel':{'id':u'C', 'name':'python'}
@@ -170,7 +170,7 @@ class TestSessionManager(TestCase):
         sessions = self.create_sessions(
             dict(path='/path/to/1/test1.ipynb', kernel_name='python'),
             dict(path='/path/to/2/test2.ipynb', kernel_name='python'),
-            dict(path='/path/to/3/test3.ipynb', kernel_name='python'),
+            dict(path='/path/to/3', name='foo', type='console', kernel_name='python'),
         )
         sm.delete_session(sessions[1]['id'])
         new_sessions = sm.list_sessions()
@@ -183,10 +183,9 @@ class TestSessionManager(TestCase):
                 'kernel': {'id':u'A', 'name':'python'}
             }, {
                 'id': sessions[2]['id'],
-                'type': 'notebook',
-                'path': u'/path/to/3/test3.ipynb',
-                'name': None,
-                'notebook': {'path': u'/path/to/3/test3.ipynb', 'name': None},
+                'type': 'console',
+                'path': u'/path/to/3',
+                'name': 'foo',
                 'kernel': {'id':u'C', 'name':'python'}
             }
         ]
