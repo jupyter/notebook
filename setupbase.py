@@ -19,6 +19,7 @@ import sys
 import pipes
 from distutils import log
 from distutils.cmd import Command
+from distutils.version import LooseVersion
 from fnmatch import fnmatch
 from glob import glob
 from multiprocessing.pool import ThreadPool
@@ -333,6 +334,27 @@ def run(cmd, *args, **kwargs):
     return check_call(cmd, *args, **kwargs)
 
 
+def npm_install(cwd):
+    """Run npm install in a directory and dedupe if necessary"""
+
+    try:
+        run(['npm', 'install', '--progress=false'], cwd=cwd)
+    except OSError as e:
+        print("Failed to run `npm install`: %s" % e, file=sys.stderr)
+        print("npm is required to build a development version of the notebook.", file=sys.stderr)
+        raise
+
+    shell = (sys.platform == 'win32')
+    version = check_output(['npm', '--version'], shell=shell).decode('utf-8')
+    if LooseVersion(version) < LooseVersion('3.0'):
+        try:
+            run(['npm', 'dedupe'], cwd=cwd)
+        except Exception as e:
+            print("Failed to run `npm dedupe`: %s" % e, file=sys.stderr)
+            print("Please install npm v3+ to build a development version of the notebook.")
+            raise
+
+
 class JavascriptDependencies(Command):
     description = "Fetch Javascript dependencies with npm and bower"
     
@@ -347,13 +369,8 @@ class JavascriptDependencies(Command):
     lab_dir = pjoin(repo_root, 'notebook', 'lab')
     
     def run(self):
-        try:
-            run(['npm', 'install', '--progress=false'], cwd=repo_root)
-        except OSError as e:
-            print("Failed to run `npm install`: %s" % e, file=sys.stderr)
-            print("npm is required to build a development version of the notebook.", file=sys.stderr)
-            raise
-        
+        npm_install(repo_root)
+
         try:
             run(['npm', 'run', 'bower'], cwd=repo_root)
         except Exception as e:
@@ -362,7 +379,7 @@ class JavascriptDependencies(Command):
             raise
 
         try:
-            run(['npm', 'install', '--progress=false'], cwd=self.lab_dir)
+            npm_install(self.lab_dir)
             run(['npm', 'run', 'build'], cwd=self.lab_dir)
         except Exception as e:
             print("Failed to install JupyterLab`: %s" % e, file=sys.stderr)
