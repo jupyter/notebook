@@ -56,8 +56,8 @@ require([
     try{
         requirejs(['custom/custom'], function() {});
     } catch(err) {
-        console.warn("Error processing custom.js file. Logging the error and continuing")
-        console.log(err);
+        console.log("Error processing custom.js. Logging and continuing")
+        console.warn(err);
     }
 
     // compat with old IPython, remove for IPython > 3.0
