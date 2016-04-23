@@ -25,7 +25,13 @@ require([
     notificationarea
     ){
     "use strict";
-    requirejs(['custom/custom'], function() {});
+
+    try {
+        requirejs(['custom/custom'], function() {});
+    } catch(err) {
+        console.log("Error loading custom.js from edition service. Continuing and logging");
+        console.warn(err);
+    }
     
     page = new page.Page();
 

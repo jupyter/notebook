@@ -30,7 +30,12 @@ require([
     newnotebook,
     loginwidget){
     "use strict";
-    requirejs(['custom/custom'], function() {});
+    try{
+        requirejs(['custom/custom'], function() {});
+    } catch(err) {
+        console.log("Error loading custom.js from tree service. Continuing and logging");
+        console.warn(err);
+    }
 
     // Setup all of the config related things
 
