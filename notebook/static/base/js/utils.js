@@ -946,6 +946,22 @@ define([
         }
     };
 
+    // Test if a drag'n'drop event contains a file (as opposed to an HTML
+    // element/text from the document)
+    var dnd_contain_file = function(event) {
+        // As per the HTML5 drag'n'drop spec, the dataTransfer.types should
+        // contain one "Files" type if a file is being dragged
+        // https://www.w3.org/TR/2011/WD-html5-20110113/dnd.html#dom-datatransfer-types
+        if (event.dataTransfer.types) {
+            for (var i = 0; i < event.dataTransfer.types.length; i++) {
+                if (event.dataTransfer.types[i] == "Files") {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+
     var utils = {
         is_loaded: is_loaded,
         load_extension: load_extension,
@@ -990,6 +1006,7 @@ define([
         time: time,
         format_datetime: format_datetime,
         datetime_sort_helper: datetime_sort_helper,
+        dnd_contain_file: dnd_contain_file,
         _ansispan:_ansispan
     };
 

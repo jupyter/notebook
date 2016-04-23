@@ -458,18 +458,14 @@ define([
             }
         });
 
-        // Allow drop event if the dragged file can be used as an attachment
-        this.code_mirror.on("dragstart", function(cm, evt) {
-            var files = evt.dataTransfer.files;
-            for (var i = 0; i < files.length; ++i) {
-                var file = files[i];
-                if (attachment_regex.test(file.type)) {
-                    return false;
-                }
+        // Allow drag event if the dragged file can be used as an attachment
+        // If we use this.code_mirror.on to register a "dragover" handler, we
+        // get an empty dataTransfer
+        this.code_mirror.on("dragover", function(cm, evt) {
+            if (utils.dnd_contain_file(evt)) {
+                evt.preventDefault();
             }
-            return true;
         });
-
 
         // We want to display a visual indicator that the drop is possible.
         // The dragleave event is fired when we hover a child element (which
@@ -479,25 +475,27 @@ define([
         // This doesn't seem to be 100% reliable, so we clear the dropzone
         // class when the cell is rendered as well
         this.code_mirror.on("dragenter", function(cm, evt) {
-            that.drag_counter++;
-            that.inner_cell.addClass('dropzone');
-            // prevent default to allow drop
-            evt.stopPropagation();
+            if (utils.dnd_contain_file(evt)) {
+                that.drag_counter++;
+                that.inner_cell.addClass('dropzone');
+            }
             evt.preventDefault();
+            evt.stopPropagation();
         });
 
         this.code_mirror.on("dragleave", function(cm, evt) {
             that.drag_counter--;
-            if (that.drag_counter === 0) {
+            if (that.drag_counter <= 0) {
                 that.inner_cell.removeClass('dropzone');
             }
-            evt.stopPropagation();
             evt.preventDefault();
+            evt.stopPropagation();
         });
 
         this.code_mirror.on("drop", function(cm, evt) {
             that.drag_counter = 0;
             that.inner_cell.removeClass('dropzone');
+
             var files = evt.dataTransfer.files;
             for (var i = 0; i < files.length; ++i) {
                 var file = files[i];
