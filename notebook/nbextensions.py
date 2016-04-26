@@ -701,6 +701,7 @@ class InstallNBExtensionApp(BaseNBExtensionApp):
         install = install_nbextension_python if self.python else install_nbextension
         
         full_dests = install(self.extra_args[0],
+                             destination=self.destination,
                              overwrite=self.overwrite,
                              symlink=self.symlink,
                              user=self.user,
