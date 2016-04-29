@@ -40,6 +40,7 @@ class NotebookHandler(IPythonHandler):
             notebook_name=name,
             kill_kernel=False,
             mathjax_url=self.mathjax_url,
+            mathjax_config=self.mathjax_config
             )
         )
 
