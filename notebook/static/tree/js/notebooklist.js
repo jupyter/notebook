@@ -52,7 +52,7 @@ define([
             'sort-name': 0
         };
         this._max_upload_size_mb = 25;
-        this.PERMITTED_MIMETYPES = [
+        this.EDIT_MIMETYPES = [
           'application/javascipt',
           'application/x-sh',
         ];
@@ -652,7 +652,7 @@ define([
         if (model.type === 'file' &&
             model.mimetype &&
             (model.mimetype.substr(0, 5) !== 'text/' ||
-            PERMITTED_MIMETYPES.indexOf(model.mimetype) < 0)) {
+            EDIT_MIMETYPES.indexOf(model.mimetype) < 0)) {
             // send text/unidentified files to editor, others go to raw viewer
             uri_prefix = 'files';
         }
