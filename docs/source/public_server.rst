@@ -104,12 +104,12 @@ with the command::
 When starting the notebook server, your browser may warn that your self-signed
 certificate is insecure or unrecognized.  If you wish to have a fully
 compliant self-signed certificate that will not raise warnings, it is possible
-(but rather involved) to create one, as explained in detail in this `tutorial`__.
+(but rather involved) to create one, as explained in detail in this `tutorial`_.
 Alternatively, you may use `Let's Encrypt`_ to acquire a free SSL certificate
 and follow the steps in :ref:`using-lets-encrypt` to set up a public server.
 
 .. _OWASP: https://www.owasp.org
-.. __tutorial: http://arstechnica.com/security/news/2009/12/how-to-get-set-with-a-secure-sertificate-for-free.ars
+.. _tutorial: http://arstechnica.com/security/news/2009/12/how-to-get-set-with-a-secure-sertificate-for-free.ars
 
 .. _notebook_public_server:
 
@@ -162,9 +162,11 @@ certificate with a few configuration changes. Here are the steps:
 1. Create a `Let's Encrypt certificate <https://letsencrypt.org/getting-started/>`_.
 2. Use :ref:`hashed-pw` to create one.
 3. If you don't already have config file for the notebook, create one
-   using the following command::
+   using the following command:
+   
+   .. code-block:: bash
 
-  $ jupyter notebook --generate-config
+       $ jupyter notebook --generate-config
 
 4. In the ``~/.jupyter`` directory, edit the notebook config file,
 ``jupyter_notebook_config.py``.  By default, the notebook config file has
