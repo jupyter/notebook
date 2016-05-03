@@ -55,7 +55,6 @@ define([
             'run_int'],
          ['<add_celltype_list>'],
          [['jupyter-notebook:show-command-palette']],
-         [['jupyter-notebook:toggle-all-line-numbers']],
          ['<add_celltoolbar_reminder>']
         ];
         this.construct(grps);

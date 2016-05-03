@@ -65,7 +65,6 @@ define(function (require) {
         this.ws_url = options.ws_url;
         this._session_starting = false;
         this.last_modified = null;
-        this.line_numbers = false;
         // debug 484
         this._last_modified = 'init';
         // Firefox workaround
@@ -161,9 +160,26 @@ define(function (require) {
         slideshow_celltoolbar.register(this);
         attachments_celltoolbar.register(this);
 
+        var that = this;
+
+        Object.defineProperty(this, 'line_numbers', {
+          get: function(){
+            var d = that.config.data||{}
+            var cmc =  (d['Cell']||{})['cm_config']||{}
+            return cmc['lineNumbers'] || false;
+          },
+          set: function(value){
+            this.get_cells().map(function(c) {
+              c.code_mirror.setOption('lineNumbers', value);
+            })
+            that.config.update({'Cell':{'cm_config':{'lineNumbers':value}}})
+          }
+          
+        })
         // prevent assign to miss-typed properties.
         Object.seal(this);
     };
+
 
 
     Notebook.options_default = {
@@ -559,10 +575,6 @@ define(function (require) {
      */
     Notebook.prototype.toggle_all_line_numbers = function () {
         this.line_numbers = !this.line_numbers;
-        var display = this.line_numbers;
-        this.get_cells().map(function(c) {
-            c.code_mirror.setOption('lineNumbers', display);
-        })
     }
 
     /**
