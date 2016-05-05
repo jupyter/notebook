@@ -22,7 +22,6 @@ from distutils.cmd import Command
 from distutils.version import LooseVersion
 from fnmatch import fnmatch
 from glob import glob
-from multiprocessing.pool import ThreadPool
 from subprocess import check_call, check_output
 
 if sys.platform == 'win32':

@@ -1,14 +1,14 @@
 casper.notebook_test(function () {
-    // Note, \033 is the octal notation of \u001b
+    // Note, \u001b is the unicode notation of octal \033 which is not officially in js
     var input = [
-        "\033[0m[\033[0minfo\033[0m] \033[0mtext\033[0m",
-        "\033[0m[\033[33mwarn\033[0m] \033[0m\tmore text\033[0m",
-        "\033[0m[\033[33mwarn\033[0m] \033[0m  https://some/url/to/a/file.ext\033[0m",
-        "\033[0m[\033[31merror\033[0m] \033[0m\033[0m",
-        "\033[0m[\033[31merror\033[0m] \033[0m\teven more text\033[0m",
+        "\u001b[0m[\u001b[0minfo\u001b[0m] \u001b[0mtext\u001b[0m",
+        "\u001b[0m[\u001b[33mwarn\u001b[0m] \u001b[0m\tmore text\u001b[0m",
+        "\u001b[0m[\u001b[33mwarn\u001b[0m] \u001b[0m  https://some/url/to/a/file.ext\u001b[0m",
+        "\u001b[0m[\u001b[31merror\u001b[0m] \u001b[0m\u001b[0m",
+        "\u001b[0m[\u001b[31merror\u001b[0m] \u001b[0m\teven more text\u001b[0m",
         "\u001b[?25hBuilding wheels for collected packages: scipy",
         "\x1b[38;5;28;01mtry\x1b[39;00m",
-        "\033[0m[\033[31merror\033[0m] \033[0m\t\tand more more text\033[0m",
+        "\u001b[0m[\u001b[31merror\u001b[0m] \u001b[0m\t\tand more more text\u001b[0m",
         "normal\x1b[43myellowbg\x1b[35mmagentafg\x1b[1mbold\x1b[49mdefaultbg\x1b[39mdefaultfg\x1b[22mnormal",
     ].join("\n");
 
