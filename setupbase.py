@@ -403,29 +403,17 @@ class CompileCSS(Command):
     def finalize_options(self):
         pass
 
-    sources = []
     targets = []
     for name in ('ipython', 'style'):
-        sources.append(pjoin(static, 'style', '%s.less' % name))
         targets.append(pjoin(static, 'style', '%s.min.css' % name))
 
     def run(self):
-        self.run_command('jsdeps')
-        env = os.environ.copy()
-        env['PATH'] = npm_path
-        
-        for src, dst in zip(self.sources, self.targets):
-            try:
-                run(['lessc',
-                    '--source-map',
-                    '--include-path=%s' % pipes.quote(static),
-                    src,
-                    dst,
-                ], cwd=repo_root, env=env)
-            except OSError as e:
-                print("Failed to build css: %s" % e, file=sys.stderr)
-                print("You can install js dependencies with `npm install`", file=sys.stderr)
-                raise
+        try:
+            run(['npm', 'run', 'build:css'])
+        except OSError as e:
+            print("Failed to run npm run build:css : %s" % e, file=sys.stderr)
+            print("You can install js dependencies with `npm install`", file=sys.stderr)
+            raise
         # update package data in case this created new files
         update_package_data(self.distribution)
 
