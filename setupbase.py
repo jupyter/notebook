@@ -530,8 +530,8 @@ def css_js_prerelease(command, strict=False):
                 return
 
             try:
-                self.distribution.run_command('css')
                 self.distribution.run_command('js')
+                self.distribution.run_command('css')
             except Exception as e:
                 # refresh missing
                 missing = [ t for t in targets if not os.path.exists(t) ]

@@ -12,7 +12,7 @@
     "lint": "eslint --quiet notebook/",
     "bower": "bower install --allow-root --config.interactive=false",
     "build:watch": "concurrent \"npm run build:css:watch\" \"npm run build:js:watch\"",
-    "build": "npm run build:css && npm run build:js",
+    "build": "npm run build:js && npm run build:css",
     "build:css": "concurrent 'npm run build:css:ipython' 'npm run build:css:style'",
     "build:css:ipython": "lessc --source-map --include-path=notebook/static notebook/static/style/ipython.less notebook/static/style/ipython.min.css",
     "build:css:style": "lessc --source-map --include-path=notebook/static notebook/static/style/style.less notebook/static/style/style.min.css",
