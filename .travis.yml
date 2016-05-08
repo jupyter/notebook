@@ -31,7 +31,6 @@ before_install:
     - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
 
 install:
-    - npm run build
     - pip install -f travis-wheels/wheelhouse file://$PWD#egg=notebook[test]
 
 script:
