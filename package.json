@@ -14,8 +14,8 @@
     "build:watch": "concurrent \"npm run build:css:watch\" \"npm run build:js:watch\"",
     "build": "npm run build:js && npm run build:css",
     "build:css": "concurrent 'npm run build:css:ipython' 'npm run build:css:style'",
-    "build:css:ipython": "lessc --source-map --include-path=notebook/static notebook/static/style/ipython.less notebook/static/style/ipython.min.css",
-    "build:css:style": "lessc --source-map --include-path=notebook/static notebook/static/style/style.less notebook/static/style/style.min.css",
+    "build:css:ipython": "lessc --include-path=notebook/static notebook/static/style/ipython.less notebook/static/style/ipython.min.css",
+    "build:css:style": "lessc --include-path=notebook/static notebook/static/style/style.less notebook/static/style/style.min.css",
     "build:css:watch": "echo Not implemented yet...",
     "build:js": "webpack",
     "build:js:watch": "npm run build:js -- --watch"
