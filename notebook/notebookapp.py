@@ -238,6 +238,7 @@ class NotebookWebApplication(web.Application):
             nbextensions_path=ipython_app.nbextensions_path,
             websocket_url=ipython_app.websocket_url,
             mathjax_url=ipython_app.mathjax_url,
+            mathjax_config=ipython_app.mathjax_config,
             config=ipython_app.config,
             config_dir=ipython_app.config_dir,
             jinja2_env=env,
@@ -727,6 +728,15 @@ class NotebookApp(JupyterApp):
             self.mathjax_url = u''
         else:
             self.log.info("Using MathJax: %s", new)
+
+    mathjax_config = Unicode("", config=True,
+        help="""The MathJax.js configuration file that is to be used."""
+    )
+    def _mathjax_config_default(self):
+        return 'TeX-AMS_HTML-full,Safe'
+
+    def _mathjax_config_changed(self, name, old, new):
+        self.log.info("Using MathJax configuration file: %s", new)
 
     contents_manager_class = Type(
         default_value=FileContentsManager,

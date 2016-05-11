@@ -160,6 +160,10 @@ class IPythonHandler(AuthenticatedHandler):
         return url_path_join(self.base_url, url)
     
     @property
+    def mathjax_config(self):
+        return self.settings.get('mathjax_config', 'TeX-AMS_HTML-full,Safe')
+
+    @property
     def base_url(self):
         return self.settings.get('base_url', '/')
 

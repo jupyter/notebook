@@ -17,7 +17,8 @@ class LabHandler(IPythonHandler):
         self.write(self.render_template('lab.html',
             page_title='Jupyter Lab',
             terminals_available=self.settings['terminals_available'],
-            mathjax_url=self.mathjax_url))
+            mathjax_url=self.mathjax_url,
+            mathjax_config=self.mathjax_config))
 
 #-----------------------------------------------------------------------------
 # URL to handler mappings
