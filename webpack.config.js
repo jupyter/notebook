@@ -18,11 +18,15 @@ var commonConfig = {
             "node_modules" /* npm */
         ]
     },
+    node: {
+      fs: "empty"
+    },
     module: {
         loaders: [
             { test: /\.js$/, exclude: /node_modules|\/notebook\/static\/component/, loader: "babel-loader"},
             { test: /\.css$/, loader: "style-loader!css-loader" },
             { test: /\.json$/, loader: "json-loader" },
+            { test: /\.html$/, loader: 'file'},
             // jquery-ui loads some images
             { test: /\.(jpg|png|gif)$/, loader: "file" },
             // required to load font-awesome
@@ -48,7 +52,8 @@ function buildConfig(appName) {
         entry: './notebook/static/' + appName + '/js/main.js',
         output: {
             filename: 'main.min.js',
-            path: './notebook/static/' + appName + '/js/built'
+            path: './notebook/static/' + appName + '/js/built',
+            publicPath: appName + "/"
         },
         devtool: sourcemaps,
     });
@@ -60,6 +65,7 @@ module.exports = [
     'terminal',
     'tree',
     'notebook',
+    'lab',
     _.extend({}, commonConfig, {
         entry: './notebook/static/services/contents.js',
         output: {

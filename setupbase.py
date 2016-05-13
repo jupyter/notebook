@@ -131,7 +131,7 @@ def find_package_data():
     ])
     
     # Add the Lab page contents
-    static_data.append(pjoin('lab', 'build', '*'))
+    static_data.append(pjoin('static', 'lab', 'js', 'built', '*'))
 
     components = pjoin("static", "components")
     # select the components we actually need to install
@@ -217,9 +217,7 @@ def check_package_data(package_data):
         pkg_root = pjoin(*pkg.split('.'))
         for d in data:
             path = pjoin(pkg_root, d)
-            if 'lab/build' in path:  # Do not verify lab install yet
-                continue
-            elif '*' in path:
+            if '*' in path:
                 assert len(glob(path)) > 0, "No files match pattern %s" % path
             else:
                 assert os.path.exists(path), "Missing package data: %s" % path
@@ -365,7 +363,6 @@ class JavascriptDependencies(Command):
     
     bower_dir = pjoin(static, 'components')
     node_modules = pjoin(repo_root, 'node_modules')
-    lab_dir = pjoin(repo_root, 'notebook', 'lab')
     
     def run(self):
         npm_install(repo_root)
@@ -376,12 +373,6 @@ class JavascriptDependencies(Command):
             print("Failed to run `npm run bower`: %s" % e, file=sys.stderr)
             print("You can install js dependencies with `npm install`", file=sys.stderr)
             raise
-
-        try:
-            npm_install(self.lab_dir)
-            run(['npm', 'run', 'build'], cwd=self.lab_dir)
-        except Exception as e:
-            print("Failed to install JupyterLab`: %s" % e, file=sys.stderr)
 
         # update package data in case this created new files
         update_package_data(self.distribution)

@@ -17,7 +17,7 @@
     "build:css:ipython": "lessc --include-path=notebook/static notebook/static/style/ipython.less notebook/static/style/ipython.min.css",
     "build:css:style": "lessc --include-path=notebook/static notebook/static/style/style.less notebook/static/style/style.min.css",
     "build:css:watch": "echo Not implemented yet...",
-    "build:js": "webpack",
+    "build:js": "npm update jupyter-js-plugins && webpack",
     "build:js:watch": "npm run build:js -- --watch"
   },
   "devDependencies": {
@@ -31,11 +31,22 @@
     "less": "~2",
     "requirejs": "^2.1.17",
     "underscore": "^1.8.3",
-    "webpack": "^1.12.13"
+    "webpack": "^1.12.13",
+    "css-loader": "^0.23.1",
+    "file-loader": "^0.8.5",
+    "json-loader": "^0.5.4",
+    "rimraf": "^2.5.0",
+    "style-loader": "^0.13.0",
+    "typescript": "^1.7.5",
+    "url-loader": "^0.5.7"
   },
   "dependencies": {
     "moment": "^2.8.4",
     "preact": "^4.5.1",
-    "preact-compat": "^1.7.0"
+    "preact-compat": "^1.7.0",
+    "es6-promise": "^3.1.2",
+    "font-awesome": "^4.6.1",
+    "jupyter-js-plugins": "^0.11.13",
+    "phosphide": "^0.9.4"
   }
 }
