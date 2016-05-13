@@ -608,6 +608,9 @@ class NotebookApp(JupyterApp):
             help="Supply overrides for the tornado.web.Application that the "
                  "Jupyter notebook uses.")
     
+    terminado_settings = Dict(config=True,
+            help='Supply overrides for terminado. Currently only supports "shell_command".')
+
     cookie_options = Dict(config=True,
         help="Extra keyword arguments to pass to `set_secure_cookie`."
              " See tornado's set_secure_cookie docs for details."
@@ -1024,7 +1027,7 @@ class NotebookApp(JupyterApp):
     def init_terminals(self):
         try:
             from .terminal import initialize
-            initialize(self.web_app, self.notebook_dir, self.connection_url)
+            initialize(self.web_app, self.notebook_dir, self.connection_url, self.terminado_settings)
             self.web_app.settings['terminals_available'] = True
         except ImportError as e:
             log = self.log.debug if sys.platform == 'win32' else self.log.warning
