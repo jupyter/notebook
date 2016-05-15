@@ -157,6 +157,7 @@ def find_package_data():
     static_data.extend([
         mj('MathJax.js'),
         mj('config', 'TeX-AMS_HTML-full.js'),
+        mj('config', 'MML_HTMLorMML-full.js'),
         mj('config', 'Safe.js'),
     ])
     
@@ -176,6 +177,7 @@ def find_package_data():
         mj('fonts', 'HTML-CSS', 'STIX-Web', 'woff'),
         mj('extensions'),
         mj('jax', 'input', 'TeX'),
+        mj('jax', 'input', 'MathML'),
         mj('jax', 'output', 'HTML-CSS', 'fonts', 'STIX-Web'),
         mj('jax', 'output', 'SVG', 'fonts', 'STIX-Web'),
     ]:

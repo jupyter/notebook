@@ -78,7 +78,12 @@ define(function (require) {
         this.keyboard_manager.notebook = this;
         this.save_widget.notebook = this;
         
-        mathjaxutils.init();
+        var notebook = this;
+        this.events.on('kernel_connected.Kernel', function () {
+            notebook.kernel.kernel_info(function (data) {
+                mathjaxutils.init(data);
+            });
+        });
 
         if (marked) {
             marked.setOptions({
