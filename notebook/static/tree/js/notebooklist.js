@@ -652,7 +652,7 @@ define([
         if (model.type === 'file' &&
             model.mimetype &&
             (model.mimetype.substr(0, 5) !== 'text/' ||
-            EDIT_MIMETYPES.indexOf(model.mimetype) < 0)) {
+            this.EDIT_MIMETYPES.indexOf(model.mimetype) < 0)) {
             // send text/unidentified files to editor, others go to raw viewer
             uri_prefix = 'files';
         }
@@ -841,7 +841,7 @@ define([
                             that.contents.rename(item_path, new_path).then(function() {
                                 // After each move finishes, reload the list.
                                 that.load_list();
-                            }).catch(function(e) { 
+                            }).catch(function(e) {
                                 // If any of the moves fails, show this dialog for that move.
                                 dialog.modal({
                                     title: "Move Failed",
