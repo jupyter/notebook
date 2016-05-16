@@ -10,7 +10,7 @@ define([
     'moment',
 ], function(IPython, dialog, utils, celltoolbar, tour, moment) {
     "use strict";
-    
+
     var MenuBar = function (selector, options) {
         /**
          * Constructor
@@ -76,7 +76,7 @@ define([
             format,
             notebook_path
         ) + "?download=" + download.toString();
-        
+
         var w = window.open('', IPython._target);
         if (this.notebook.dirty && this.notebook.writable) {
             this.notebook.save_notebook().then(function() {
@@ -88,7 +88,7 @@ define([
     };
 
     MenuBar.prototype._size_header = function() {
-        /** 
+        /**
          * Update header spacer size.
          */
         console.warn('`_size_header` is deprecated and will be removed in future versions.'+
@@ -101,7 +101,7 @@ define([
          *  File
          */
         var that = this;
-        
+
         this.element.find('#open_notebook').click(function () {
             var parent = utils.url_path_split(that.notebook.notebook_path)[0];
             window.open(
@@ -129,7 +129,7 @@ define([
                 w.location = url;
             }
         });
-        
+
         this.element.find('#print_preview').click(function () {
             that._nbconvert('html', false);
         });
@@ -190,7 +190,7 @@ define([
                 notebook: that.notebook,
                 keyboard_manager: that.notebook.keyboard_manager});
         });
-             
+
         var id_actions_dict = {
             '#trust_notebook' : 'trust-notebook',
             '#rename_notebook' : 'rename-notebook',
@@ -250,7 +250,7 @@ define([
             })(that, id_act, idx);
         }
 
-        
+
         // Kernel
         this.element.find('#reconnect_kernel').click(function () {
             that.notebook.kernel.reconnect();
@@ -266,33 +266,33 @@ define([
         this.element.find('#keyboard_shortcuts').click(function () {
             that.quick_help.show_keyboard_shortcuts();
         });
-        
+
         this.update_restore_checkpoint(null);
-        
+
         this.events.on('checkpoints_listed.Notebook', function (event, data) {
             that.update_restore_checkpoint(that.notebook.checkpoints);
         });
-        
+
         this.events.on('checkpoint_created.Notebook', function (event, data) {
             that.update_restore_checkpoint(that.notebook.checkpoints);
         });
-        
+
         this.events.on('notebook_loaded.Notebook', function() {
             var langinfo = that.notebook.metadata.language_info || {};
             that.update_nbconvert_script(langinfo);
         });
-        
+
         this.events.on('kernel_ready.Kernel', function(event, data) {
             var langinfo = data.kernel.info_reply.language_info || {};
             that.update_nbconvert_script(langinfo);
             that.add_kernel_help_links(data.kernel.info_reply.help_links || []);
         });
     };
-    
+
     MenuBar.prototype._add_celltoolbar_list = function () {
         var that = this;
         var submenu = $("#menu-cell-toolbar-submenu");
-        
+
         function preset_added(event, data) {
             var name = data.name;
             submenu.append(
@@ -316,7 +316,7 @@ define([
                 )
             );
         }
-        
+
         // Setup the existing presets
         var presets = celltoolbar.CellToolbar.list_presets();
         preset_added(null, {name: "None"});
@@ -326,7 +326,7 @@ define([
 
         // Setup future preset registrations
         this.events.on('preset_added.CellToolbar', preset_added);
-        
+
         // Handle unregistered presets
         this.events.on('unregistered_preset.CellToolbar', function (event, data) {
             submenu.find("li[data-name='" + encodeURIComponent(data.name) + "']").remove();
@@ -347,15 +347,19 @@ define([
             );
             return;
         }
-        
+
         var that = this;
         checkpoints.map(function (checkpoint) {
-            var d = new Date(checkpoint.last_modified);
+            // figure out the correct text to show for the comment
+            var message = checkpoint.message || (
+                moment(new Date(checkpoint.last_modified)).format("LLLL")
+            );
+            // add an element to the list
             ul.append(
                 $("<li/>").append(
                     $("<a/>")
                     .attr("href", "#")
-                    .text(moment(d).format("LLLL"))
+                    .text(message)
                     .click(function () {
                         that.notebook.restore_checkpoint_dialog(checkpoint);
                     })
@@ -363,13 +367,13 @@ define([
             );
         });
     };
-    
+
     MenuBar.prototype.update_nbconvert_script = function(langinfo) {
         /**
          * Set the 'Download as foo' menu option for the relevant language.
          */
         var el = this.element.find('#download_script');
-        
+
         // Set menu entry text to e.g. "Python (.py)"
         var langname = (langinfo.name || 'Script');
         langname = langname.charAt(0).toUpperCase()+langname.substr(1); // Capitalise
@@ -413,7 +417,7 @@ define([
             );
             cursor = cursor.next();
         });
-        
+
     };
 
     return {'MenuBar': MenuBar};
