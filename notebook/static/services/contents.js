@@ -11,7 +11,7 @@ define(function(require) {
         /**
          * Constructor
          *
-         * Preliminary documentation for the REST API is at 
+         * Preliminary documentation for the REST API is at
          * https://github.com/ipython/ipython/wiki/IPEP-27%3A-Contents-Service
          *
          * A contents handles passing file operations
@@ -36,7 +36,7 @@ define(function(require) {
         // directory.
         this.message = 'A directory must be empty before being deleted.';
     };
-    
+
     Contents.DirectoryNotEmptyError.prototype = Object.create(Error.prototype);
     Contents.DirectoryNotEmptyError.prototype.name =
         Contents.DIRECTORY_NOT_EMPTY_ERROR;
@@ -175,14 +175,14 @@ define(function(require) {
         var url = this.api_url(path);
         return utils.promising_ajax(url, settings);
     };
-    
+
     Contents.prototype.copy = function(from_file, to_dir) {
         /**
          * Copy a file into a given directory via POST
          * The server will select the name of the copied file
          */
         var url = this.api_url(to_dir);
-        
+
         var settings = {
             processData : false,
             type: "POST",
@@ -197,11 +197,12 @@ define(function(require) {
      * Checkpointing Functions
      */
 
-    Contents.prototype.create_checkpoint = function(path) {
+    Contents.prototype.create_checkpoint = function(path, message) {
         var url = this.api_url(path, 'checkpoints');
         var settings = {
             type : "POST",
-            contentType: false,  // no data
+            data: JSON.stringify({commit_message: message || null}),
+            contentType: 'application/json',
             dataType : "json",
         };
         return utils.promising_ajax(url, settings);

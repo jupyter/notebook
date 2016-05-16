@@ -22,7 +22,7 @@ class Checkpoints(LoggingConfigurable):
     delete_checkpoint(self, checkpoint_id, path)
     list_checkpoints(self, path)
     """
-    def create_checkpoint(self, contents_mgr, path):
+    def create_checkpoint(self, contents_mgr, path, *args, **kwds):
         """Create a checkpoint."""
         raise NotImplementedError("must be implemented in a subclass")
 
@@ -75,19 +75,23 @@ class GenericCheckpointsMixin(object):
     - rename_checkpoint(self, checkpoint_id, old_path, new_path)
     """
 
-    def create_checkpoint(self, contents_mgr, path):
+    def create_checkpoint(self, contents_mgr, path, *args, **kwds):
         model = contents_mgr.get(path, content=True)
         type = model['type']
         if type == 'notebook':
             return self.create_notebook_checkpoint(
                 model['content'],
                 path,
+                *args,
+                **kwds
             )
         elif type == 'file':
             return self.create_file_checkpoint(
                 model['content'],
                 model['format'],
                 path,
+                *args,
+                **kwds
             )
         else:
             raise HTTPError(500, u'Unexpected type %s' % type)

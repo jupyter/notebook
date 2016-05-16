@@ -119,7 +119,7 @@ class ContentsHandler(APIHandler):
         if content not in {'0', '1'}:
             raise web.HTTPError(400, u'Content %r is invalid' % content)
         content = int(content)
-        
+
         model = yield gen.maybe_future(self.contents_manager.get(
             path=path, type=type, format=format, content=content,
         ))
@@ -142,7 +142,7 @@ class ContentsHandler(APIHandler):
         model = yield gen.maybe_future(cm.update(model, path))
         validate_model(model, expect_content=False)
         self._finish_model(model)
-    
+
     @gen.coroutine
     def _copy(self, copy_from, copy_to=None):
         """Copy a file, optionally specifying a target directory."""
@@ -163,7 +163,7 @@ class ContentsHandler(APIHandler):
         self.set_status(201)
         validate_model(model, expect_content=False)
         self._finish_model(model)
-    
+
     @gen.coroutine
     def _new_untitled(self, path, type='', ext=''):
         """Create a new, empty untitled entity"""
@@ -172,7 +172,7 @@ class ContentsHandler(APIHandler):
         self.set_status(201)
         validate_model(model, expect_content=False)
         self._finish_model(model)
-    
+
     @gen.coroutine
     def _save(self, model, path):
         """Save an existing file."""
@@ -272,8 +272,12 @@ class CheckpointsHandler(APIHandler):
     @gen.coroutine
     def post(self, path=''):
         """post creates a new checkpoint"""
+        # grab the commit message from the posted data
+        commit_message = json.loads(self.request.body.decode('utf-8')).get('commit_message', None)
+
+        # print("CREATING NEW CHECKPOINT WITH MESSAGE: " + str(commit_message))
         cm = self.contents_manager
-        checkpoint = yield gen.maybe_future(cm.create_checkpoint(path))
+        checkpoint = yield gen.maybe_future(cm.create_checkpoint(path, commit_message=commit_message))
         data = json.dumps(checkpoint, default=date_default)
         location = url_path_join(self.base_url, 'api/contents',
             url_escape(path), 'checkpoints', url_escape(checkpoint['id']))
