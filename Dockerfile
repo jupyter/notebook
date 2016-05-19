@@ -1,6 +1,9 @@
 # Installs Jupyter Notebook and IPython kernel from the current branch
 # Another Docker container should inherit with `FROM jupyter/notebook`
 # to run actual services.
+#
+# For opinionated stacks of ready-to-run Jupyter applications in Docker,
+# check out docker-stacks <https://github.com/jupyter/docker-stacks>
 
 FROM ubuntu:14.04
 
@@ -105,4 +108,4 @@ WORKDIR /notebooks
 EXPOSE 8888
 
 ENTRYPOINT ["tini", "--"]
-CMD ["jupyter", "notebook"]
+CMD ["jupyter", "notebook", "--no-browser", "--allow-root"]
