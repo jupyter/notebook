@@ -2,7 +2,7 @@
 # Another Docker container should inherit with `FROM jupyter/notebook`
 # to run actual services.
 #
-# For opinionated stacks of ready-to-run Jupyter applications in Docker, 
+# For opinionated stacks of ready-to-run Jupyter applications in Docker,
 # check out docker-stacks <https://github.com/jupyter/docker-stacks>
 
 FROM jupyter/ubuntu_14_04_locale_fix
@@ -109,4 +109,4 @@ WORKDIR /notebooks
 EXPOSE 8888
 
 ENTRYPOINT ["tini", "--"]
-CMD ["jupyter", "notebook", "--no-browser"]
+CMD ["jupyter", "notebook", "--no-browser", "--allow-root"]
