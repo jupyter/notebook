@@ -34,7 +34,7 @@ class TimeoutError(Exception):
 
 class NotebookTestBase(TestCase):
     """A base class for tests that need a running notebook.
-    
+
     This create some empty config and runtime directories
     and then starts the notebook server with them.
     """
@@ -60,7 +60,7 @@ class NotebookTestBase(TestCase):
                 return
 
         raise TimeoutError("The notebook server didn't start up correctly.")
-    
+
     @classmethod
     def wait_until_dead(cls):
         """Wait for the server process to terminate after shutdown"""
@@ -85,7 +85,7 @@ class NotebookTestBase(TestCase):
         cls.data_dir = data_dir
         cls.runtime_dir = TemporaryDirectory()
         cls.notebook_dir = TemporaryDirectory()
-        
+
         started = Event()
         def start_thread():
             app = cls.notebook = NotebookApp(
@@ -98,6 +98,7 @@ class NotebookTestBase(TestCase):
                 notebook_dir=cls.notebook_dir.name,
                 base_url=cls.url_prefix,
                 config=cls.config,
+                allow_root=True,
             )
             # don't register signal handler during tests
             app.init_signal = lambda : None
