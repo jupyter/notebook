@@ -638,8 +638,8 @@ define([
          */
         var msg = this._get_msg(msg_type, content, metadata, buffers);
         msg.channel = 'shell';
-        this._send(serialize.serialize(msg));
         this.set_callbacks_for_msg(msg.header.msg_id, callbacks);
+        this._send(serialize.serialize(msg));
         return msg.header.msg_id;
     };
 
