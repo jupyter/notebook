@@ -338,7 +338,7 @@ define([
          * @function reconnect
          */
         if (this.is_connected()) {
-            return;
+            this.stop_channels();
         }
         this._reconnect_attempt = this._reconnect_attempt + 1;
         this.events.trigger('kernel_reconnecting.Kernel', {
