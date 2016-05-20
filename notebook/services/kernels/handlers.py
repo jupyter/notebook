@@ -16,7 +16,7 @@ from jupyter_client.jsonutil import date_default
 from ipython_genutils.py3compat import cast_unicode
 from notebook.utils import url_path_join, url_escape
 
-from ...base.handlers import IPythonHandler, APIHandler, json_errors
+from ...base.handlers import APIHandler, json_errors
 from ...base.zmqhandlers import AuthenticatedZMQStreamHandler, deserialize_binary_message
 
 from jupyter_client import protocol_version as client_protocol_version
@@ -96,6 +96,12 @@ class KernelActionHandler(APIHandler):
 
 
 class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
+    
+    # class-level registry of open sessions
+    # allows checking for conflict on session-id,
+    # which is used as a zmq identity and must be unique.
+    session_key = ''
+    _open_sessions = {}
 
     @property
     def kernel_info_timeout(self):
@@ -209,6 +215,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
     def pre_get(self):
         # authenticate first
         super(ZMQChannelsHandler, self).pre_get()
+        # check session collision:
+        self._register_session()
         # then request kernel info, waiting up to a certain time before giving up.
         # We don't want to wait forever, because browsers don't take it well when
         # servers never respond to websocket connection requests.
@@ -231,6 +239,13 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
     def get(self, kernel_id):
         self.kernel_id = cast_unicode(kernel_id, 'ascii')
         yield super(ZMQChannelsHandler, self).get(kernel_id=kernel_id)
+    
+    def _register_session(self):
+        """Ensure we aren't creating a duplicate session"""
+        self.session_key = '%s:%s' % (self.kernel_id, self.session.session)
+        if self.session_key in self._open_sessions:
+            raise web.HTTPError(400, "Session %s already open." % self.session_key)
+        self._open_sessions[self.session_key] = self
     
     def open(self, kernel_id):
         super(ZMQChannelsHandler, self).open()
@@ -350,6 +365,10 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
 
 
     def on_close(self):
+        self.log.debug("Websocket closed %s", self.session_key)
+        # unregister myself as an open session (only if it's really me)
+        if self._open_sessions.get(self.session_key) is self:
+            self._open_sessions.pop(self.session_key)
         km = self.kernel_manager
         if self.kernel_id in km:
             km.remove_restart_callback(
