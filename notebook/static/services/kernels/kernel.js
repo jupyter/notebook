@@ -534,8 +534,13 @@ define([
 
         this.events.trigger('kernel_disconnected.Kernel', {kernel: this});
         if (error) {
-            console.log('WebSocket connection failed: ', ws_url);
-            this.events.trigger('kernel_connection_failed.Kernel', {kernel: this, ws_url: ws_url, attempt: this._reconnect_attempt});
+            console.log('WebSocket connection failed: ', ws_url, error);
+            this.events.trigger('kernel_connection_failed.Kernel', {
+                kernel: this,
+                ws_url: ws_url,
+                attempt: this._reconnect_attempt,
+                error: error,
+            });
         }
         this._schedule_reconnect();
     };
