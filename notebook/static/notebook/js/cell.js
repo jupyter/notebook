@@ -498,48 +498,46 @@ define([
 
 
     /**
-     * can the cell be split into two cells (false if not deletable
-     * or if readonly)
+     * can the cell be split into two cells (false if not deletable)
      *
      * @method is_splittable
      **/
     Cell.prototype.is_splittable = function () {
-        return this.is_deletable() && !this.is_readonly();
+        return this.is_deletable();
     };
 
 
     /**
-     * can the cell be merged with other cells (false if not deletable
-     * or if readonly)
+     * can the cell be merged with other cells (false if not deletable)
      * @method is_mergeable
      **/
     Cell.prototype.is_mergeable = function () {
-        return this.is_deletable() && !this.is_readonly();
+        return this.is_deletable();
     };
 
     /**
-     * is the cell readonly? only true (readonly) if
-     * metadata.readonly is explicitly true -- everything else
-     * counts as false
+     * is the cell edtitable? only false (readonly) if
+     * metadata.editable is explicitly false -- everything else
+     * counts as true
      *
-     * @method is_readonly
+     * @method is_editable
      **/
-    Cell.prototype.is_readonly = function () {
-        if (this.metadata.readonly === true) {
-            return true;
+    Cell.prototype.is_editable = function () {
+        if (this.metadata.editable === false) {
+            return false;
         }
-        return false;
+        return true;
     };
 
     /**
      * is the cell deletable? only false (undeletable) if
-     * metadata.deletable is explicitly false -- everything else
-     * counts as true
+     * metadata.deletable is explicitly false or if the cell is not
+     * editable -- everything else counts as true
      *
      * @method is_deletable
      **/
     Cell.prototype.is_deletable = function () {
-        if (this.metadata.deletable === false) {
+        if (this.metadata.deletable === false || !this.is_editable()) {
             return false;
         }
         return true;

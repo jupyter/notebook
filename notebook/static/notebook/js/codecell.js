@@ -172,7 +172,7 @@ define([
                 that.keyboard_manager.enable();
             }
 
-            that.code_mirror.setOption('readOnly', that.is_readonly());
+            that.code_mirror.setOption('readOnly', !that.is_editable());
         });
         this.code_mirror.on('keydown', $.proxy(this.handle_keyevent,this));
         $(this.code_mirror.getInputField()).attr("spellcheck", "false");
