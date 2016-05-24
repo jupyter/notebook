@@ -498,20 +498,37 @@ define([
 
 
     /**
-     * can the cell be split into two cells (false if not deletable)
+     * can the cell be split into two cells (false if not deletable
+     * or if readonly)
+     *
      * @method is_splittable
      **/
     Cell.prototype.is_splittable = function () {
-        return this.is_deletable();
+        return this.is_deletable() && !this.is_readonly();
     };
 
 
     /**
-     * can the cell be merged with other cells (false if not deletable)
+     * can the cell be merged with other cells (false if not deletable
+     * or if readonly)
      * @method is_mergeable
      **/
     Cell.prototype.is_mergeable = function () {
-        return this.is_deletable();
+        return this.is_deletable() && !this.is_readonly();
+    };
+
+    /**
+     * is the cell readonly? only true (readonly) if
+     * metadata.readonly is explicitly true -- everything else
+     * counts as false
+     *
+     * @method is_readonly
+     **/
+    Cell.prototype.is_readonly = function () {
+        if (this.metadata.readonly === true) {
+            return true;
+        }
+        return false;
     };
 
     /**
