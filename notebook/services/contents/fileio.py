@@ -35,9 +35,12 @@ def replace_file(src, dst):
 
     switches between os.replace or os.rename based on python 2.7 or python 3
     """
-    try:
+    if hasattr(os, 'replace'): # PY3
         os.replace(src, dst)
-    except:
+    else:
+        if os.name == 'nt' and os.path.exists(dst):
+            # Rename over existing file doesn't work on Windows
+            os.remove(dst)
         os.rename(src, dst)
 
 def copy2_safe(src, dst, log=None):
@@ -111,9 +114,6 @@ def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     except:
         # Failed! Move the backup file back to the real path to avoid corruption
         fileobj.close()
-        if os.name == 'nt' and os.path.exists(path):
-            # Rename over existing file doesn't work on Windows
-            os.remove(path)
         replace_file(tmp_path, path)
         raise
 
@@ -284,9 +284,6 @@ class FileManagerMixin(Configurable):
 
             # Move the bad file aside, restore the intermediate, and try again.
             invalid_file = path_to_invalid(os_path)
-            # Rename over existing file doesn't work on Windows
-            if os.name == 'nt' and os.path.exists(invalid_file):
-                os.remove(invalid_file)
             replace_file(os_path, invalid_file)
             replace_file(tmp_path, os_path)
             return self._read_notebook(os_path, as_version)
