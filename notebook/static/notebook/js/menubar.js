@@ -355,7 +355,7 @@ define([
                 moment(new Date(checkpoint.last_modified)).format("LLLL")
             );
             // add an element to the list
-            ul.append(
+            ul.prepend(
                 $("<li/>").append(
                     $("<a/>")
                     .attr("href", "#")
