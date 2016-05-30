@@ -39,6 +39,15 @@ data-terminals-available="{{terminals_available}}"
             </div>
             <div class="col-sm-4 no-padding tree-buttons">
               <div class="pull-right">
+
+                <form id="fileupload" method="POST" enctype="multipart/form-data" class="btn-group">
+                
+                  <input title="Click to browse for a big file to upload." type="file" name="files[]" multiple>
+                  BigUpload
+                  
+                  
+                </form>
+
                 <form id='alternate_upload'  class='alternate_upload'>
                   <span id="notebook_list_info">
                   <span class="btn btn-xs btn-default btn-upload">
@@ -47,6 +56,7 @@ data-terminals-available="{{terminals_available}}"
                   </span>
                   </span>
                 </form>
+
                 <div id="new-buttons" class="btn-group">
                   <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown">
                   <span>New</span>
@@ -182,5 +192,13 @@ data-terminals-available="{{terminals_available}}"
     {{super()}}
 
 
-<script src="{{ static_url("tree/js/built/main.min.js") }}" type="text/javascript" charset="utf-8"></script>
+<!-- <script src="{{ static_url("bigupload/js/cache/jquery.min.js") }}"></script> -->
+<!-- <script src="{{ static_url("bigupload/js/vendor/jquery.ui.widget.js") }}"></script> -->
+<!-- <script src="{{ static_url("bigupload/js/jquery.iframe-transport.js") }}"></script>
+<script src="{{ static_url("bigupload/js/jquery.fileupload.js") }}"></script> -->
+
+<script src="{{ static_url("tree/js/main.js") }}" type="text/javascript" charset="utf-8"></script>
+
+
+<!-- <script src="{{ static_url("bigupload/js/cors/jquery.xdr-transport.js") }}"></script> -->
 {% endblock %}

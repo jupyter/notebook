@@ -335,7 +335,7 @@ define([
         // Remember what was selected before the refresh.
         var selected_before = this.selected;
 
-        list.content.sort(function(a, b) {
+        list.content.sort(function(a, b) {  
             if (type_order[a['type']] < type_order[b['type']]) {
                 return -1;
             }

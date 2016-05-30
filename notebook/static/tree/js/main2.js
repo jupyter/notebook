@@ -2,12 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
 __webpack_public_path__ = window['staticURL'] + 'tree/js/built/';
 
-require.config({
-    paths : {
-        'jquery.ui.widget' : 'bigupload/js/vendor/jquery.ui.widget'
-    }
-})
-
 requirejs(['contents'], function(contents_service) {
 require([
     'base/js/namespace',
@@ -22,7 +16,6 @@ require([
     'tree/js/terminallist',
     'tree/js/newnotebook',
     'auth/js/loginwidget',
-    'jquery.ui.widget',
     'bigupload/js/jquery.iframe-transport',
     'bigupload/js/jquery.fileupload',
     'bigupload/js/cors/jquery.xdr-transport'
@@ -89,20 +82,17 @@ require([
         )
     );
 
+
     // Setup big file upload
-    var path = notebook_list.notebook_path;
-    if (path != "") path = path + '/'
+    var path = notebook_list.notebook_path
     $('#fileupload').fileupload({
-        url: '/api/upload_handlers/' + path,
-        maxFileSize: 99999999999,
-        maxChunkSize: 2000000
+        url: '/api/upload_handlers/' + path
     })
     $('#fileupload').fileupload({
         done: function (e, data) {
-            notebook_list.session_list.load_sessions();
-            // $.each(data.result, function (index, file) {
-            //     $('<p/>').text(file.name + ' uploaded').appendTo($("body"));
-            // });
+            $.each(data.result, function (index, file) {
+                $('<p/>').text(file.name + ' uploaded').appendTo($("body"));
+            });
         }
     });
     $('#fileupload').fileupload('option', {
