@@ -5,3 +5,25 @@ mainly to be overridden in profile/static/custom/custom.css
 
 This will always be an empty file in IPython
 */
+
+/* Big file upload */
+.big_upload {
+  background-color: none;
+  display: inline;
+}
+.big_upload.form {
+  padding: 0;
+  margin: 0;
+}
+.big_upload input.fileinput {
+  text-align: center;
+  vertical-align: middle;
+  display: inline;
+  opacity: 0;
+  z-index: 2;
+  width: 12ex;
+  margin-right: -12ex;
+}
+.big_upload .btn-upload {
+  height: 22px;
+}

@@ -92,12 +92,12 @@ require([
     // Setup big file upload
     var path = notebook_list.notebook_path;
     if (path != "") path = path + '/'
-    $('#fileupload').fileupload({
+    $('#big_upload').fileupload({
         url: '/api/upload_handlers/' + path,
         maxFileSize: 99999999999,
         maxChunkSize: 2000000
     })
-    $('#fileupload').fileupload({
+    $('#big_upload').fileupload({
         done: function (e, data) {
             notebook_list.session_list.load_sessions();
             // $.each(data.result, function (index, file) {
@@ -105,7 +105,7 @@ require([
             // });
         }
     });
-    $('#fileupload').fileupload('option', {
+    $('#big_upload').fileupload('option', {
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
             console.log(progress + '%');
