@@ -230,7 +230,7 @@ define([
             files = data.files;
         }
 
-        var del_count = 0;
+        // var del_count = 0;
         for (var i = 0; i < files.length; i++) {
             var f = files[i];
 
@@ -239,8 +239,10 @@ define([
                 if ($(v).data('name') === f.name) { exists = true; return false; }
             });
             if (exists) {
-                data.files.splice(i - del_count, 1);
-                del_count ++;
+                data.files.splice(i, 1);
+                // del_count ++;
+                // console.log(data.files);
+                i --;
             }
 
             var name_and_ext = utils.splitext(f.name);
@@ -1144,129 +1146,50 @@ define([
 
     NotebookList.prototype.add_bigupload_button = function (item, data, exists) {
         var that = this;
-        // var upload_button = $('<button/>').text("Upload")
-        //     .addClass('btn btn-primary btn-xs upload_button')
-            // .click(function (e) {
-
-            //     var filename = item.find('.item_name > input').val();
-            //     var path = utils.url_path_join(that.notebook_path, filename);
-
-            //     // var filedata = item.data('filedata');
-            //     var format = 'text';
-            //     if (filename.length === 0 || filename[0] === '.') {
-            //         dialog.modal({
-            //             title : 'Invalid file name',
-            //             body : "File names must be at least one character and not start with a dot",
-            //             buttons : {'OK' : { 'class' : 'btn-primary' }}
-            //         });
-            //         return false;
-            //     }
-
-            //     $("big_upload").
-            //     if (filedata instanceof ArrayBuffer) {
-            //         // base64-encode binary file data
-            //         var bytes = '';
-            //         var buf = new Uint8Array(filedata);
-            //         var nbytes = buf.byteLength;
-            //         for (var i=0; i<nbytes; i++) {
-            //             bytes += String.fromCharCode(buf[i]);
-            //         }
-            //         filedata = btoa(bytes);
-            //         format = 'base64';
-            //     }
-            //     var model = { name: filename, path: path };
-
-            //     var name_and_ext = utils.splitext(filename);
-            //     var file_ext = name_and_ext[1];
-            //     var content_type;
-            //     if (file_ext === '.ipynb') {
-            //         model.type = 'notebook';
-            //         model.format = 'json';
-            //         try {
-            //             model.content = JSON.parse(filedata);
-            //         } catch (e) {
-            //             dialog.modal({
-            //                 title : 'Cannot upload invalid Notebook',
-            //                 body : "The error was: " + e,
-            //                 buttons : {'OK' : {
-            //                     'class' : 'btn-primary',
-            //                     click: function () {
-            //                         item.remove();
-            //                     }
-            //                 }}
-            //             });
-            //             console.warn('Error during notebook uploading', e);
-            //             return false;
-            //         }
-            //         content_type = 'application/json';
-            //     } else {
-            //         model.type = 'file';
-            //         model.format = format;
-            //         model.content = filedata;
-            //         content_type = 'application/octet-stream';
-            //     }
-            //     filedata = item.data('filedata');
-
-            //     var on_success = function () {
-            //         item.removeClass('new-file');
-            //         that.add_link(model, item);
-            //         that.session_list.load_sessions();
-            //     };
-
-            //     var exists = false;
-            //     $.each(that.element.find('.list_item:not(.new-file)'), function(k,v){
-            //         if ($(v).data('name') === filename) { exists = true; return false; }
-            //     });
-
-            //     if (exists) {
-            //         dialog.modal({
-            //             title : "Replace file",
-            //             body : 'There is already a file named ' + filename + ', do you want to replace it?',
-            //             default_button: "Cancel",
-            //             buttons : {
-            //                 Cancel : {
-            //                     click: function() { item.remove(); }
-            //                 },
-            //                 Overwrite : {
-            //                     class: "btn-danger",
-            //                     click: function () {
-            //                         that.contents.save(path, model).then(on_success);
-            //                     }
-            //                 }
-            //             }
-            //         });
-            //     } else {
-            //         that.contents.save(path, model).then(on_success);
-            //     }
-
-            //     return false;
-            // });
-        var cancel_button = $('<button/>').text("Cancel")
-            .addClass("btn btn-default btn-xs")
-            .click(function (e) {
-                item.remove();
-                return false;
-            });
+        // Now to avoid checked
+        var upload_button = $('<button/>').text("Upload")
+            .addClass('btn btn-primary btn-xs upload_button')
+            .css("display", "none");
+        
         var hide_button = $('<button/>').text("Hide")
             .addClass("btn btn-default btn-xs")
             .click(function (e) {
                 item.remove();
                 return false;
             });
-        var progress_bar = $('<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">\
-            <div class="progress-bar progress-bar-success" style="width:0%;"></div></div>');        
-        
-        data.context = progress_bar;
 
         if (exists) {
             var text_bar = $('<div class="text">File Exists!</div>');
             item.find(".item_buttons").empty()
+                .append(upload_button)
                 .append(text_bar)
                 .append(hide_button);
         }
         else {
+            var path = that.notebook_path;
+            if (path != "") path = path + '/'
+            path += data.files[0].name;
+
+            var cancel_button = $('<button/>').text("Cancel")
+                .addClass("btn btn-default btn-xs")
+                .click(function (e) {
+                    data.abort();
+                    that.contents.delete(path).then(function() {
+                        that.notebook_deleted(path);
+                    });
+                    item.remove();
+                    // that.load_sessions();
+                    return false;
+                });
+        
+            var progress_bar = $('<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">\
+                <div class="progress-bar progress-bar-success" style="width:0%;"></div></div>');        
+        
+            data.context = progress_bar;
+
             var text_bar = $('<div class="text"></div>');
             item.find(".item_buttons").empty()
+                .append(upload_button)
                 .append(text_bar)
                 .append(progress_bar)
                 // .append(upload_button)

@@ -99,10 +99,11 @@ require([
     })
     $('#big_upload').fileupload({
         add: function(e, data) {
-            notebook_list.handleBigUpload(data,'form');
+            notebook_list.handleBigUpload(data, 'form');
             if (e.isDefaultPrevented()) {
                 return false;
             }
+            if (data.files.length == 0) return;
             if (data.autoUpload || (data.autoUpload !== false &&
                     $(this).fileupload('option', 'autoUpload'))) {
                 data.process().done(function () {
@@ -139,7 +140,7 @@ require([
             var progress = Math.floor(data.loaded / data.total * 100);
             if (data.context) {
                 // console.log(getBitrate(data.bitrate));
-                if (progress >= 100)
+                if (data.loaded >= data.total)
                     data.context.siblings(".text").text("Done");
                 else
                     data.context.siblings(".text").text(getBitrate(data.bitrate));

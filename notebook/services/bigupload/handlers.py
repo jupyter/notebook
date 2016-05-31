@@ -65,7 +65,10 @@ class UploadHandlers(APIHandler):
         file['deleteType'] = 'DELETE'
         file['deleteUrl'] = file['url']
 
-        # append_file = content_range and os.path.exists(file_path) and (file['size'] > os.path.getsize(file_path))
+        if (os.path.isfile(file_path) and os.path.getsize(file_path) != content_range[1])\
+            or (not os.path.isfile(file_path) and content_range[1] > 0):
+            raise web.HTTPError(403)
+            return
         with open(file_path, "ab") as fout:
             fout.write(body)
         file['size'] = os.path.getsize(file_path)
