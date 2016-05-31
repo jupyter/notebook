@@ -26,6 +26,7 @@ import default_celltoolbar from 'notebook/js/celltoolbarpresets/default';
 import rawcell_celltoolbar from 'notebook/js/celltoolbarpresets/rawcell';
 import slideshow_celltoolbar from 'notebook/js/celltoolbarpresets/slideshow';
 import attachments_celltoolbar from 'notebook/js/celltoolbarpresets/attachments';
+import keep_summary_celltoolbar from 'notebook/js/celltoolbarpresets/keep_summary'
 import scrollmanager from 'notebook/js/scrollmanager';
 import commandpalette from 'notebook/js/commandpalette';
 import {ShortcutEditor} from 'notebook/js/shortcuteditor';
@@ -160,6 +161,7 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
         rawcell_celltoolbar.register(this);
         slideshow_celltoolbar.register(this);
         attachments_celltoolbar.register(this);
+        keep_summary_celltoolbar.register(this);
 
         // prevent assign to miss-typed properties.
         Object.seal(this);
@@ -2942,8 +2944,6 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
         if (this.metadata.celltoolbar) {
             celltoolbar.CellToolbar.global_show();
             celltoolbar.CellToolbar.activate_preset(this.metadata.celltoolbar);
-        } else {
-            celltoolbar.CellToolbar.global_hide();
         }
 
         if (!this.writable) {
