@@ -1,17 +1,28 @@
 # coding: utf-8
-from tornado import web
+
+import json
+
+from tornado import gen, web
+
+from notebook.utils import url_path_join, url_escape
+from jupyter_client.jsonutil import date_default
+
+from notebook.base.handlers import (
+    IPythonHandler, APIHandler, json_errors, path_regex,
+)
 import os
 import re
 from urllib.parse import urljoin
-from tornado import httputil
 
 
-class UploadHandlers(web.RequestHandler):
+class UploadHandlers(APIHandler):
 
+    @web.authenticated
     def get(self):
         self.write('bigupload')
         # raise web.HTTPError(404)
 
+    @web.authenticated
     def post(self, path):
         print(path)
         # ignore delete
@@ -37,12 +48,10 @@ class UploadHandlers(web.RequestHandler):
             files = self.handle_file_upload(path, file['filename'], file['body'], content_range)
         else:
             raise web.HTTPError(403)
-
         self.write(self.generate_response({'files': files}))
 
     def generate_response(self, content):
         self.set_header("Content-Type", "text/plain")
-        # self.set_header("Range", "0-" + str(content['files']['size']))
         return content
 
     def handle_file_upload(self, path, name, body, content_range):
