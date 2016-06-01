@@ -16,7 +16,7 @@ from jupyter_client.jsonutil import date_default
 from ipython_genutils.py3compat import cast_unicode
 from notebook.utils import url_path_join, url_escape
 
-from ...base.handlers import IPythonHandler, APIHandler, json_errors
+from ...base.handlers import APIHandler, json_errors
 from ...base.zmqhandlers import AuthenticatedZMQStreamHandler, deserialize_binary_message
 
 from jupyter_client import protocol_version as client_protocol_version
@@ -96,6 +96,11 @@ class KernelActionHandler(APIHandler):
 
 
 class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
+    
+    # class-level registry of open sessions
+    # allows checking for conflict on session-id,
+    # which is used as a zmq identity and must be unique.
+    _open_sessions = {}
 
     @property
     def kernel_info_timeout(self):
@@ -194,6 +199,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         self.kernel_id = None
         self.kernel_info_channel = None
         self._kernel_info_future = Future()
+        self._close_future = Future()
+        self.session_key = ''
 
         # Rate limiting code
         self._iopub_window_msg_count = 0
@@ -209,6 +216,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
     def pre_get(self):
         # authenticate first
         super(ZMQChannelsHandler, self).pre_get()
+        # check session collision:
+        yield self._register_session()
         # then request kernel info, waiting up to a certain time before giving up.
         # We don't want to wait forever, because browsers don't take it well when
         # servers never respond to websocket connection requests.
@@ -231,6 +240,21 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
     def get(self, kernel_id):
         self.kernel_id = cast_unicode(kernel_id, 'ascii')
         yield super(ZMQChannelsHandler, self).get(kernel_id=kernel_id)
+    
+    @gen.coroutine
+    def _register_session(self):
+        """Ensure we aren't creating a duplicate session.
+        
+        If a previous identical session is still open, close it to avoid collisions.
+        This is likely due to a client reconnecting from a lost network connection,
+        where the socket on our side has not been cleaned up yet.
+        """
+        self.session_key = '%s:%s' % (self.kernel_id, self.session.session)
+        stale_handler = self._open_sessions.get(self.session_key)
+        if stale_handler:
+            self.log.warning("Replacing stale connection: %s", self.session_key)
+            yield stale_handler.close()
+        self._open_sessions[self.session_key] = self
     
     def open(self, kernel_id):
         super(ZMQChannelsHandler, self).open()
@@ -348,8 +372,15 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                 return
         super(ZMQChannelsHandler, self)._on_zmq_reply(stream, msg)
 
+    def close(self):
+        super(ZMQChannelsHandler, self).close()
+        return self._close_future
 
     def on_close(self):
+        self.log.debug("Websocket closed %s", self.session_key)
+        # unregister myself as an open session (only if it's really me)
+        if self._open_sessions.get(self.session_key) is self:
+            self._open_sessions.pop(self.session_key)
         km = self.kernel_manager
         if self.kernel_id in km:
             km.remove_restart_callback(
@@ -370,6 +401,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                 socket.close()
         
         self.channels = {}
+        self._close_future.set_result(None)
 
     def _send_status_message(self, status):
         msg = self.session.msg("status",
