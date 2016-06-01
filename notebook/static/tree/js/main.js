@@ -2,12 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
 __webpack_public_path__ = window['staticURL'] + 'tree/js/built/';
 
-require.config({
-    paths : {
-        'jquery.ui.widget' : 'bigupload/js/vendor/jquery.ui.widget'
-    }
-})
-
 requirejs(['contents'], function(contents_service) {
 require([
     'base/js/namespace',
