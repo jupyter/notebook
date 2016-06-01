@@ -13,6 +13,7 @@ import importlib
 import io
 import json
 import logging
+import mimetypes
 import os
 import random
 import re
@@ -1052,6 +1053,13 @@ class NotebookApp(JupyterApp):
                     self.log.warning("Error loading server extension %s", modulename,
                                   exc_info=True)
 
+    def init_mime_overrides(self):
+        # On some Windows machines, an application has registered an incorrect
+        # mimetype for CSS in the registry. Tornado uses this when serving
+        # .css files, causing browsers to reject the stylesheet. We know the
+        # mimetype always needs to be text/css, so we override it here.
+        mimetypes.add_type('text/css', '.css')
+
     @catch_config_error
     def initialize(self, argv=None):
         super(NotebookApp, self).initialize(argv)
@@ -1064,6 +1072,7 @@ class NotebookApp(JupyterApp):
         self.init_terminals()
         self.init_signal()
         self.init_server_extensions()
+        self.init_mime_overrides()
 
     def cleanup_kernels(self):
         """Shutdown all kernels.
