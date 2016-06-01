@@ -89,7 +89,7 @@ require([
     $('#big_upload').fileupload({
         url: '/api/upload_handlers/' + path,
         maxFileSize: 99999999999,
-        maxChunkSize: 2000000
+        maxChunkSize: 5000000
     })
     $('#big_upload').fileupload({
         add: function(e, data) {
