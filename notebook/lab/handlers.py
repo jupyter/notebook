@@ -24,8 +24,10 @@ class LabHandler(IPythonHandler):
 # URL to handler mappings
 #-----------------------------------------------------------------------------
 
+parent = os.path.dirname(os.path.dirname(__file__))
+
 default_handlers = [
     (r"/lab", LabHandler),
     (r"/lab/(.*)", FileFindHandler,
-        {'path': os.path.join(os.path.dirname(__file__), 'build')}),
-    ]
+        {'path': os.path.join(parent, 'static', 'lab', 'js', 'built')}),
+]

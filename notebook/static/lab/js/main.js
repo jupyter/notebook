@@ -6,6 +6,8 @@
 require('font-awesome/css/font-awesome.min.css');
 require('jupyter-js-plugins/lib/default-theme/index.css');
 
+var fileHandler = require('jupyter-js-plugins/lib/filehandler/plugin');
+
 // ES6 Promise polyfill
 require('es6-promise').polyfill();
 
@@ -15,7 +17,7 @@ var app = new phosphide.Application({
   extensions: [
     require('phosphide/lib/extensions/commandpalette').commandPaletteExtension,
     require('jupyter-js-plugins/lib/terminal/plugin').terminalExtension,
-    require('jupyter-js-plugins/lib/filehandler/plugin').fileHandlerExtension,
+    fileHandler.fileHandlerExtension,
     require('jupyter-js-plugins/lib/filebrowser/plugin').fileBrowserExtension,
     require('jupyter-js-plugins/lib/imagehandler/plugin').imageHandlerExtension,
     require('jupyter-js-plugins/lib/help/plugin').helpHandlerExtension,
@@ -26,7 +28,7 @@ var app = new phosphide.Application({
     require('jupyter-js-plugins/lib/main/plugin').mainExtension,
   ],
   providers: [
-    require('jupyter-js-plugins/lib/filehandler/plugin').fileHandlerProvider,
+    fileHandler.fileHandlerProvider,
     require('jupyter-js-plugins/lib/services/plugin').servicesProvider,
     require('jupyter-js-plugins/lib/rendermime/plugin').renderMimeProvider
   ]
