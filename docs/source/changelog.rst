@@ -12,6 +12,21 @@ For more detailed information, see `GitHub <https://github.com/jupyter/notebook>
      upgrade to the latest release.
 
 
+.. _release-4.2.1:
+
+4.2.1
+-----
+
+4.2.1 is a small bugfix release on 4.2. Highlights:
+
+- Compatibility fixes for some versions of ipywidgets
+- Fix for ignored CSS on Windows
+- Fix specifying destination when installing nbextensions
+
+.. seealso::
+
+    4.2.1 `on GitHub <https://github.com/jupyter/notebook/milestones/4.2.1>`__.
+
 .. _release-4.2.0:
 
 4.2.0
