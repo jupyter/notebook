@@ -39,6 +39,14 @@ data-terminals-available="{{terminals_available}}"
             </div>
             <div class="col-sm-4 no-padding tree-buttons">
               <div class="pull-right">
+                <form id="big_upload" method="POST" enctype="multipart/form-data" class="big_upload">
+                  <span id="notebook_list_info">
+                  <span class="btn btn-xs btn-default btn-upload">
+                  <input title="Click to browse for a big file to upload." type="file" name="files[]" class="bigfileinput" multiple>
+                  Upload
+                  </span>
+                  </span>                  
+                </form>
                 <form id='alternate_upload'  class='alternate_upload'>
                   <span id="notebook_list_info">
                   <span class="btn btn-xs btn-default btn-upload">

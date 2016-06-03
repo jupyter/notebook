@@ -7,7 +7,8 @@ define([
     'base/js/dialog',
     'base/js/events',
     'base/js/keyboard',
-    'moment'
+    'moment',
+    'tree/js/fileupload'
 ], function(IPython, utils, dialog, events, keyboard, moment) {
     "use strict";
 
@@ -1099,6 +1100,176 @@ define([
         item.find(".item_buttons").empty()
             .append(upload_button)
             .append(cancel_button);
+    };
+
+
+    NotebookList.prototype.add_bigupload_button = function (item, data, exists) {
+        var that = this;
+        // Now to avoid checked
+        var upload_button = $('<button/>').text("Upload")
+            .addClass('btn btn-primary btn-xs upload_button')
+            .css("display", "none");
+        
+        var hide_button = $('<button/>').text("Hide")
+            .addClass("btn btn-default btn-xs")
+            .click(function (e) {
+                item.remove();
+                return false;
+            });
+
+        if (exists) {
+            var text_bar = $('<div class="text">File Exists!</div>');
+            item.find(".item_buttons").empty()
+                .append(upload_button)
+                .append(text_bar)
+                .append(hide_button);
+        }
+        else {
+            var path = that.notebook_path;
+            if (path != "") path = path + '/'
+            path += data.files[0].name;
+
+            var cancel_button = $('<button/>').text("Cancel")
+                .addClass("btn btn-default btn-xs")
+                .click(function (e) {
+                    data.abort();
+                    that.contents.delete(path).then(function() {
+                        that.notebook_deleted(path);
+                    });
+                    item.remove();
+                    // that.load_sessions();
+                    return false;
+                });
+        
+            var progress_bar = $('<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">\
+                <div class="progress-bar progress-bar-success" style="width:0%;"></div></div>');        
+        
+            data.context = progress_bar;
+
+            var text_bar = $('<div class="text"></div>');
+            item.find(".item_buttons").empty()
+                .append(upload_button)
+                .append(text_bar)
+                .append(progress_bar)
+                // .append(upload_button)
+                .append(cancel_button)
+                .append(hide_button);
+        }
+    };
+
+
+    NotebookList.prototype.handleBigUpload =    function(data, dropOrForm) {
+        var that = this;
+        var files;
+        if(dropOrForm === 'drop'){
+            files = data.files;
+        } else
+        {
+            files = data.files;
+        }
+
+        // var del_count = 0;
+        for (var i = 0; i < files.length; i++) {
+            var f = files[i];
+
+            var exists = false;
+            $.each(that.element.find('.list_item:not(.new-file)'), function(k,v){
+                if ($(v).data('name') === f.name) { exists = true; return false; }
+            });
+            if (exists) {
+                data.files.splice(i, 1);
+                // del_count ++;
+                // console.log(data.files);
+                i --;
+            }
+
+            var name_and_ext = utils.splitext(f.name);
+            var file_ext = name_and_ext[1];
+
+            var item = that.new_item(0, true);
+            item.addClass('new-file');
+            that.add_name_input(f.name, item, file_ext === '.ipynb' ? 'notebook' : 'file');
+            // Store the list item in the reader so we can use it later
+            // to know which item it belongs to.
+            that.add_bigupload_button(item, data, exists);
+        }
+        // Replace the file input form wth a clone of itself. This is required to
+        // reset the form. Otherwise, if you upload a file, delete it and try to
+        // upload it again, the changed event won't fire.
+        // var form = $('input.fileinput');
+        // form.replaceWith(form.clone(true));
+        return false;
+    };
+
+
+    NotebookList.prototype.setupBigUpload =     function() {
+        var that = this;
+        var path = that.notebook_path;
+
+        if (path != "") path = path + '/';
+
+        $('#big_upload').fileupload({
+            url: '/api/upload/' + path,
+            maxFileSize: 99999999999,
+            maxChunkSize: 5000000
+        })
+
+        $('#big_upload').fileupload({
+            add: function(e, data) {
+                that.handleBigUpload(data, 'form');
+                if (e.isDefaultPrevented()) {
+                    return false;
+                }
+                if (data.files.length == 0) return;
+                if (data.autoUpload || (data.autoUpload !== false &&
+                        $(this).fileupload('option', 'autoUpload'))) {
+                    data.process().done(function () {
+                        data.submit();
+                    });
+                }
+            },
+
+            done: function (e, data) {
+                that.session_list.load_sessions();
+            }
+        });
+
+        var getBitrate = function(bits) {
+            if (typeof bits !== 'number') {
+                return '';
+            }
+            bits = (bits / 8).toFixed(2);
+            if (bits >= 1000000000) {
+                return (bits / 1000000000).toFixed(2) + ' GB/s';
+            }
+            if (bits >= 1000000) {
+                return (bits / 1000000).toFixed(2) + ' MB/s';
+            }
+            if (bits >= 1000) {
+                return (bits / 1000).toFixed(2) + ' KB/s';
+            }
+            return bits.toFixed(2) + ' BYTES/s';
+        }
+
+        $('#big_upload').fileupload({
+            progress: function (e, data) {
+                if (e.isDefaultPrevented()) {
+                    return false;
+                }
+                var progress = Math.floor(data.loaded / data.total * 100);
+                if (data.context) {
+                    // console.log(getBitrate(data.bitrate));
+                    if (data.loaded >= data.total)
+                        data.context.siblings(".text").text("Done");
+                    else
+                        data.context.siblings(".text").text(getBitrate(data.bitrate));
+                    data.context.attr('aria-valuenow', progress)
+                        .children().first().css('width', progress + '%');
+                }
+            },
+        });
+
+        $("#alternate_upload").css("display", "none");
     };
 
     return {'NotebookList': NotebookList};

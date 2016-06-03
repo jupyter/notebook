@@ -178,6 +178,9 @@ require([
         notebook_list.handleFilesUpload(event,'form');
     });
     
+    // Setup big file upload
+    notebook_list.setupBigUpload(); 
+
     // set hash on tab click
     $("#tabs").find("a").click(function(e) {
         // Prevent the document from jumping when the active tab is changed to a 
