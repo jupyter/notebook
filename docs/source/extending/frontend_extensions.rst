@@ -229,3 +229,49 @@ extension without uninstalling it.
 .. versionchanged:: 4.2
 
     Added ``--sys-prefix`` argument
+
+
+Kernel Specific extensions
+--------------------------
+
+.. warning::
+
+  This feature serves as a stopgap for kernel developers who need specific
+  JavaScript injected onto the page. The availability and API are subject to
+  change at anytime.
+
+
+It is possible to load some JavaScript on the page on a per kernel basis. Be
+aware that doing so will make the browser page reload without warning as
+soon as the user switches the kernel without notice.
+
+If you, a kernel developer, need a particular piece of JavaScript to be loaded
+on a "per kernel" basis, such as:
+
+* if you are developing a CodeMirror mode for your language
+* if you need to enable some specific debugging options
+
+your ``kernelspecs`` are allowed to contain a ``kernel.js`` file that defines
+an AMD module. The AMD module should define an `onload` function that will be
+called when the kernelspec loads, such as:
+
+* when you load a notebook that uses your kernelspec
+* change the active kernelspec of a notebook to your kernelspec.
+
+Note that adding a `kernel.js` to your kernelspec will add an unexpected side
+effect to changing a kernel in the notebook. As it is impossible to "unload"
+JavaScript, any attempt to change the kernelspec again will save the current
+notebook and reload the page without confirmations.
+
+Here is an example of ``kernel.js``::
+
+.. code:: javascript
+
+    // kernel.js
+
+    define(function(){
+      return {onload: function(){
+        console.info('Kernel specific javascript loaded');
+        // do more things here, like define a codemirror mode,
+      }}
+    });

@@ -45,15 +45,13 @@ the question "Did the current user do this?"
 
 This signature is a digest of the notebooks contents plus a secret key,
 known only to the user. The secret key is a user-only readable file in
-the Jupyter profile's security directory. By default, this is::
+the Jupyter data directory. By default, this is::
 
-    ~/.jupyter/profile_default/security/notebook_secret
 
-.. note::
+    ~/.local/share/jupyter/notebook_secret # linux
+    ~/Library/Jupyter/notebook_secret # OS X
+    %APPDATA%/jupyter/notebook_secret # Windows
 
-    The notebook secret being stored in the profile means that
-    loading a notebook in another profile results in it being untrusted,
-    unless you copy or symlink the notebook secret to share it across profiles.
 
 When a notebook is opened by a user, the server computes a signature
 with the user's key, and compares it with the signature stored in the
@@ -135,20 +133,13 @@ in an untrusted state. There are three basic approaches to this:
 -  re-run notebooks when you get them (not always viable)
 -  explicitly trust notebooks via ``jupyter trust`` or the notebook menu
    (annoying, but easy)
--  share a notebook secret, and use a Jupyter profile dedicated to the
+-  share a notebook secret, and use configuration dedicated to the
    collaboration while working on the project.
 
-Multiple profiles or machines
-*****************************
-
-Since the notebook secret is stored in a profile directory by default,
-opening a notebook with a different profile or on a different machine
-will result in a different key, and thus be untrusted. The only current
-way to address this is by sharing the notebook secret. This can be
-facilitated by setting the configurable:
+When sharing a notebook secret across configurations, you can use
 
 .. sourcecode:: python
 
     c.NotebookApp.secret_file = "/path/to/notebook_secret"
 
-in each profile, and only sharing the secret once per machine.
+to specify a non-default path to the secret file.

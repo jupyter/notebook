@@ -231,10 +231,21 @@ define([
         }
         return dct;
     };
+
+
+    ShortcutManager.prototype.get_action_shortcuts = function(name){
+      var ftree = flatten_shorttree(this._shortcuts);
+      var res = [];
+      for (var sht in ftree ){
+        if(ftree[sht] === name){
+          res.push(sht);
+        }
+      }
+      return res;
+    };
     
     ShortcutManager.prototype.get_action_shortcut = function(name){
       var ftree = flatten_shorttree(this._shortcuts);
-      var res = {};
       for (var sht in ftree ){
         if(ftree[sht] === name){
           return sht;
@@ -405,25 +416,27 @@ define([
 
         shortcut = shortcut.toLowerCase();
         this.remove_shortcut(shortcut);
-        var patch = {keys:{}};
-        var b = {bind:{}};
+        const patch = {keys:{}};
+        const b = {bind:{}};
         patch.keys[this._mode] = {bind:{}};
         patch.keys[this._mode].bind[shortcut] = null;
         this._config.update(patch);
 
         // if the shortcut we unbind is a default one, we add it to the list of
         // things to unbind at startup
+        if( this._defaults_bindings.indexOf(shortcut) !== -1 ){
+            const cnf = (this._config.data.keys||{})[this._mode];
+            const unbind_array = cnf.unbind||[];
 
-        if(this._defaults_bindings.indexOf(shortcut) !== -1){
-            var cnf = (this._config.data.keys||{})[this._mode];
-            var unbind_array = cnf.unbind||[];
 
             // unless it's already there (like if we have remapped a default
-            // shortcut to another command, and unbind it)
-            if(unbind_array.indexOf(shortcut) !== -1){
-                unbind_array.concat(shortcut);
-                var unbind_patch = {keys:{unbind:unbind_array}};
-                this._config._update(unbind_patch);
+            // shortcut to another command): unbind it)
+            if(unbind_array.indexOf(shortcut) === -1){
+                const _parray = unbind_array.concat(shortcut);
+                const unbind_patch = {keys:{}};
+                unbind_patch.keys[this._mode] = {unbind:_parray}
+                console.warn('up:', unbind_patch);
+                this._config.update(unbind_patch);
             }
         }
     };

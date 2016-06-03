@@ -31,11 +31,11 @@ before_install:
     - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
 
 install:
-    - npm run build
     - pip install -f travis-wheels/wheelhouse file://$PWD#egg=notebook[test]
 
 script:
     - 'if [[ $GROUP == js* ]]; then travis_retry python -m notebook.jstest ${GROUP:3}; fi'
+    - 'if [[ $GROUP == "js/notebook" ]]; then npm run lint; fi'
     - 'if [[ $GROUP == python ]]; then nosetests -v --with-coverage --cover-package=notebook notebook; fi'
 
 matrix:

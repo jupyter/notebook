@@ -238,6 +238,7 @@ class NotebookWebApplication(web.Application):
             nbextensions_path=ipython_app.nbextensions_path,
             websocket_url=ipython_app.websocket_url,
             mathjax_url=ipython_app.mathjax_url,
+            mathjax_config=ipython_app.mathjax_config,
             config=ipython_app.config,
             config_dir=ipython_app.config_dir,
             jinja2_env=env,
@@ -269,7 +270,6 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('services.nbconvert.handlers'))
         handlers.extend(load_handlers('services.kernelspecs.handlers'))
         handlers.extend(load_handlers('services.security.handlers'))
-        handlers.extend(load_handlers('lab.handlers'))
         
         # BEGIN HARDCODED WIDGETS HACK
         # TODO: Remove on notebook 5.0
@@ -607,6 +607,9 @@ class NotebookApp(JupyterApp):
             help="Supply overrides for the tornado.web.Application that the "
                  "Jupyter notebook uses.")
     
+    terminado_settings = Dict(config=True,
+            help='Supply overrides for terminado. Currently only supports "shell_command".')
+
     cookie_options = Dict(config=True,
         help="Extra keyword arguments to pass to `set_secure_cookie`."
              " See tornado's set_secure_cookie docs for details."
@@ -727,6 +730,13 @@ class NotebookApp(JupyterApp):
             self.mathjax_url = u''
         else:
             self.log.info("Using MathJax: %s", new)
+
+    mathjax_config = Unicode("TeX-AMS_HTML-full,Safe", config=True,
+        help="""The MathJax.js configuration file that is to be used."""
+    )
+
+    def _mathjax_config_changed(self, name, old, new):
+        self.log.info("Using MathJax configuration file: %s", new)
 
     contents_manager_class = Type(
         default_value=FileContentsManager,
@@ -1016,7 +1026,7 @@ class NotebookApp(JupyterApp):
     def init_terminals(self):
         try:
             from .terminal import initialize
-            initialize(self.web_app, self.notebook_dir, self.connection_url)
+            initialize(self.web_app, self.notebook_dir, self.connection_url, self.terminado_settings)
             self.web_app.settings['terminals_available'] = True
         except ImportError as e:
             log = self.log.debug if sys.platform == 'win32' else self.log.warning

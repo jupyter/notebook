@@ -686,7 +686,8 @@ class InstallNBExtensionApp(BaseNBExtensionApp):
     symlink = Bool(False, config=True, help="Create symlinks instead of copying files")
 
     prefix = Unicode('', config=True, help="Installation prefix")
-    nbextensions_dir = Unicode('', config=True, help="Full path to nbextensions dir (probably use prefix or user)")
+    nbextensions_dir = Unicode('', config=True,
+           help="Full path to nbextensions dir (probably use prefix or user)")
     destination = Unicode('', config=True, help="Destination for the copy or symlink")
 
     def _config_file_name_default(self):
@@ -696,9 +697,15 @@ class InstallNBExtensionApp(BaseNBExtensionApp):
     def install_extensions(self):
         """Perform the installation of nbextension(s)"""
         if len(self.extra_args)>1:
-            raise ValueError("only one nbextension allowed at a time.  Call multiple times to install multiple extensions.")
-        
-        install = install_nbextension_python if self.python else install_nbextension
+            raise ValueError("Only one nbextension allowed at a time. "
+                         "Call multiple times to install multiple extensions.")
+
+        if self.python:
+            install = install_nbextension_python
+            kwargs = {}
+        else:
+            install = install_nbextension
+            kwargs = {'destination': self.destination}
         
         full_dests = install(self.extra_args[0],
                              overwrite=self.overwrite,
@@ -707,7 +714,9 @@ class InstallNBExtensionApp(BaseNBExtensionApp):
                              sys_prefix=self.sys_prefix,
                              prefix=self.prefix,
                              nbextensions_dir=self.nbextensions_dir,
-                             logger=self.log)
+                             logger=self.log,
+                             **kwargs
+                            )
 
         if full_dests:
             self.log.info(

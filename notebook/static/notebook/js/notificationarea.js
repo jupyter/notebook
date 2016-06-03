@@ -138,8 +138,7 @@ define([
             if (info.attempt === 1) {
 
                 var msg = "A connection to the notebook server could not be established." +
-                        " The notebook will continue trying to reconnect, but" +
-                        " until it does, you will NOT be able to run code. Check your" +
+                        " The notebook will continue trying to reconnect. Check your" +
                         " network connection or notebook server configuration.";
 
                 dialog.kernel_modal({

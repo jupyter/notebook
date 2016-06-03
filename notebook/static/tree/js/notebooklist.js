@@ -52,6 +52,10 @@ define([
             'sort-name': 0
         };
         this._max_upload_size_mb = 25;
+        this.EDIT_MIMETYPES = [
+          'application/javascipt',
+          'application/x-sh',
+        ];
     };
 
     NotebookList.prototype.style = function () {
@@ -646,9 +650,9 @@ define([
         }
         var uri_prefix = NotebookList.uri_prefixes[model.type];
         if (model.type === 'file' &&
-            model.mimetype && model.mimetype.substr(0,5) !== 'text/'
-            && !model.mimetype.endsWith('javascript')
-        ) {
+            model.mimetype &&
+            model.mimetype.substr(0, 5) !== 'text/' &&
+            this.EDIT_MIMETYPES.indexOf(model.mimetype) < 0) {
             // send text/unidentified files to editor, others go to raw viewer
             uri_prefix = 'files';
         }
