@@ -155,7 +155,10 @@ Defining the server extension
 
 This example shows that the server extension and its
 ``load_jupyter_server_extension`` function are defined in the
-``__init__.py`` file. #### ``my_module/__init__.py``
+``__init__.py`` file.
+
+``my_module/__init__.py``
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
