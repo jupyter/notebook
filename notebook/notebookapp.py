@@ -236,15 +236,18 @@ class NotebookWebApplication(web.Application):
         # BEGIN HARDCODED WIDGETS HACK
         # TODO: Remove on notebook 5.0
         try:
-            import ipywidgets as widgets
-            handlers.append(
-                (r"/nbextensions/widgets/(.*)", FileFindHandler, {
-                    'path': widgets.find_static_assets(),
-                    'no_cache_paths': ['/'], # don't cache anything in nbextensions
-                }),
-            )
+            import widgetsnbextension
         except:
-            app_log.warning('Widgets are unavailable. Please install widgetsnbextension or ipywidgets 4.0')
+            try:
+                import ipywidgets as widgets
+                handlers.append(
+                    (r"/nbextensions/widgets/(.*)", FileFindHandler, {
+                        'path': widgets.find_static_assets(),
+                        'no_cache_paths': ['/'], # don't cache anything in nbextensions
+                    }),
+                )
+            except:
+                app_log.warning('Widgets are unavailable. Please install widgetsnbextension or ipywidgets 4.0')
         # END HARDCODED WIDGETS HACK
         
         handlers.append(
