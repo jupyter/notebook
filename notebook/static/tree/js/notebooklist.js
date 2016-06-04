@@ -224,70 +224,70 @@ define([
         name_sort_helper($('#notebook_list'), "div.list_item", 'span.item_name');
     };
 
-    NotebookList.prototype.handleFilesUpload =  function(event, dropOrForm) {
-        var that = this;
-        var files;
-        if(dropOrForm === 'drop'){
-            files = event.originalEvent.dataTransfer.files;
-        } else
-        {
-            files = event.originalEvent.target.files;
-        }
+    // NotebookList.prototype.handleFilesUpload =  function(event, dropOrForm) {
+    //     var that = this;
+    //     var files;
+    //     if(dropOrForm === 'drop'){
+    //         files = event.originalEvent.dataTransfer.files;
+    //     } else
+    //     {
+    //         files = event.originalEvent.target.files;
+    //     }
 
-        var reader_onload = function (event) {
-            var item = $(event.target).data('item');
-            that.add_file_data(event.target.result, item);
-            that.add_upload_button(item);
-        };
-        var reader_onerror = function (event) {
-            var item = $(event.target).data('item');
-            var name = item.data('name');
-            item.remove();
-            dialog.modal({
-                title : 'Failed to read file',
-                body : "Failed to read file '" + name + "'",
-                buttons : {'OK' : { 'class' : 'btn-primary' }}
-            });
-        };
+    //     var reader_onload = function (event) {
+    //         var item = $(event.target).data('item');
+    //         that.add_file_data(event.target.result, item);
+    //         that.add_upload_button(item);
+    //     };
+    //     var reader_onerror = function (event) {
+    //         var item = $(event.target).data('item');
+    //         var name = item.data('name');
+    //         item.remove();
+    //         dialog.modal({
+    //             title : 'Failed to read file',
+    //             body : "Failed to read file '" + name + "'",
+    //             buttons : {'OK' : { 'class' : 'btn-primary' }}
+    //         });
+    //     };
 
-        for (var i = 0; i < files.length; i++) {
-            var f = files[i];
-            var name_and_ext = utils.splitext(f.name);
-            var file_ext = name_and_ext[1];
+    //     for (var i = 0; i < files.length; i++) {
+    //         var f = files[i];
+    //         var name_and_ext = utils.splitext(f.name);
+    //         var file_ext = name_and_ext[1];
 
-            // skip large files with a warning
-            if (f.size > this._max_upload_size_mb * 1024 * 1024) {
-                dialog.modal({
-                    title : 'Cannot upload file',
-                    body : "Cannot upload file (>" + this._max_upload_size_mb + " MB) '" + f.name + "'",
-                    buttons : {'OK' : { 'class' : 'btn-primary' }}
-                });
-                continue;
-            }
+    //         // skip large files with a warning
+    //         if (f.size > this._max_upload_size_mb * 1024 * 1024) {
+    //             dialog.modal({
+    //                 title : 'Cannot upload file',
+    //                 body : "Cannot upload file (>" + this._max_upload_size_mb + " MB) '" + f.name + "'",
+    //                 buttons : {'OK' : { 'class' : 'btn-primary' }}
+    //             });
+    //             continue;
+    //         }
 
-            var reader = new FileReader();
-            if (file_ext === '.ipynb') {
-                reader.readAsText(f);
-            } else {
-                // read non-notebook files as binary
-                reader.readAsArrayBuffer(f);
-            }
-            var item = that.new_item(0, true);
-            item.addClass('new-file');
-            that.add_name_input(f.name, item, file_ext === '.ipynb' ? 'notebook' : 'file');
-            // Store the list item in the reader so we can use it later
-            // to know which item it belongs to.
-            $(reader).data('item', item);
-            reader.onload = reader_onload;
-            reader.onerror = reader_onerror;
-        }
-        // Replace the file input form wth a clone of itself. This is required to
-        // reset the form. Otherwise, if you upload a file, delete it and try to
-        // upload it again, the changed event won't fire.
-        var form = $('input.fileinput');
-        form.replaceWith(form.clone(true));
-        return false;
-    };
+    //         var reader = new FileReader();
+    //         if (file_ext === '.ipynb') {
+    //             reader.readAsText(f);
+    //         } else {
+    //             // read non-notebook files as binary
+    //             reader.readAsArrayBuffer(f);
+    //         }
+    //         var item = that.new_item(0, true);
+    //         item.addClass('new-file');
+    //         that.add_name_input(f.name, item, file_ext === '.ipynb' ? 'notebook' : 'file');
+    //         // Store the list item in the reader so we can use it later
+    //         // to know which item it belongs to.
+    //         $(reader).data('item', item);
+    //         reader.onload = reader_onload;
+    //         reader.onerror = reader_onerror;
+    //     }
+    //     // Replace the file input form wth a clone of itself. This is required to
+    //     // reset the form. Otherwise, if you upload a file, delete it and try to
+    //     // upload it again, the changed event won't fire.
+    //     var form = $('input.fileinput');
+    //     form.replaceWith(form.clone(true));
+    //     return false;
+    // };
 
     NotebookList.prototype.clear_list = function (remove_uploads) {
         /**
@@ -699,9 +699,9 @@ define([
     };
 
 
-    NotebookList.prototype.add_file_data = function (data, item) {
-        item.data('filedata', data);
-    };
+    // NotebookList.prototype.add_file_data = function (data, item) {
+    //     item.data('filedata', data);
+    // };
 
 
     NotebookList.prototype.shutdown_selected = function() {
@@ -996,8 +996,116 @@ define([
     };
 
 
-    NotebookList.prototype.add_upload_button = function (item) {
+    // NotebookList.prototype.add_upload_button = function (item) {
+    //     var that = this;
+    //     var upload_button = $('<button/>').text("Upload")
+    //         .addClass('btn btn-primary btn-xs upload_button')
+    //         .click(function (e) {
+    //             var filename = item.find('.item_name > input').val();
+    //             var path = utils.url_path_join(that.notebook_path, filename);
+    //             var filedata = item.data('filedata');
+    //             var format = 'text';
+    //             if (filename.length === 0 || filename[0] === '.') {
+    //                 dialog.modal({
+    //                     title : 'Invalid file name',
+    //                     body : "File names must be at least one character and not start with a dot",
+    //                     buttons : {'OK' : { 'class' : 'btn-primary' }}
+    //                 });
+    //                 return false;
+    //             }
+    //             if (filedata instanceof ArrayBuffer) {
+    //                 // base64-encode binary file data
+    //                 var bytes = '';
+    //                 var buf = new Uint8Array(filedata);
+    //                 var nbytes = buf.byteLength;
+    //                 for (var i=0; i<nbytes; i++) {
+    //                     bytes += String.fromCharCode(buf[i]);
+    //                 }
+    //                 filedata = btoa(bytes);
+    //                 format = 'base64';
+    //             }
+    //             var model = { name: filename, path: path };
+
+    //             var name_and_ext = utils.splitext(filename);
+    //             var file_ext = name_and_ext[1];
+    //             var content_type;
+    //             if (file_ext === '.ipynb') {
+    //                 model.type = 'notebook';
+    //                 model.format = 'json';
+    //                 try {
+    //                     model.content = JSON.parse(filedata);
+    //                 } catch (e) {
+    //                     dialog.modal({
+    //                         title : 'Cannot upload invalid Notebook',
+    //                         body : "The error was: " + e,
+    //                         buttons : {'OK' : {
+    //                             'class' : 'btn-primary',
+    //                             click: function () {
+    //                                 item.remove();
+    //                             }
+    //                         }}
+    //                     });
+    //                     console.warn('Error during notebook uploading', e);
+    //                     return false;
+    //                 }
+    //                 content_type = 'application/json';
+    //             } else {
+    //                 model.type = 'file';
+    //                 model.format = format;
+    //                 model.content = filedata;
+    //                 content_type = 'application/octet-stream';
+    //             }
+    //             filedata = item.data('filedata');
+
+    //             var on_success = function () {
+    //                 item.removeClass('new-file');
+    //                 that.add_link(model, item);
+    //                 that.session_list.load_sessions();
+    //             };
+
+    //             var exists = false;
+    //             $.each(that.element.find('.list_item:not(.new-file)'), function(k,v){
+    //                 if ($(v).data('name') === filename) { exists = true; return false; }
+    //             });
+
+    //             if (exists) {
+    //                 dialog.modal({
+    //                     title : "Replace file",
+    //                     body : 'There is already a file named ' + filename + ', do you want to replace it?',
+    //                     default_button: "Cancel",
+    //                     buttons : {
+    //                         Cancel : {
+    //                             click: function() { item.remove(); }
+    //                         },
+    //                         Overwrite : {
+    //                             class: "btn-danger",
+    //                             click: function () {
+    //                                 that.contents.save(path, model).then(on_success);
+    //                             }
+    //                         }
+    //                     }
+    //                 });
+    //             } else {
+    //                 that.contents.save(path, model).then(on_success);
+    //             }
+
+    //             return false;
+    //         });
+    //     var cancel_button = $('<button/>').text("Cancel")
+    //         .addClass("btn btn-default btn-xs")
+    //         .click(function (e) {
+    //             item.remove();
+    //             return false;
+    //         });
+    //     item.find(".item_buttons").empty()
+    //         .append(upload_button)
+    //         .append(cancel_button);
+    // };
+
+
+    NotebookList.prototype.add_upload_button = function (item, data) {
         var that = this;
+
         var upload_button = $('<button/>').text("Upload")
             .addClass('btn btn-primary btn-xs upload_button')
             .click(function (e) {
@@ -1013,60 +1121,22 @@ define([
                     });
                     return false;
                 }
-                if (filedata instanceof ArrayBuffer) {
-                    // base64-encode binary file data
-                    var bytes = '';
-                    var buf = new Uint8Array(filedata);
-                    var nbytes = buf.byteLength;
-                    for (var i=0; i<nbytes; i++) {
-                        bytes += String.fromCharCode(buf[i]);
-                    }
-                    filedata = btoa(bytes);
-                    format = 'base64';
-                }
-                var model = { name: filename, path: path };
-
-                var name_and_ext = utils.splitext(filename);
-                var file_ext = name_and_ext[1];
-                var content_type;
-                if (file_ext === '.ipynb') {
-                    model.type = 'notebook';
-                    model.format = 'json';
-                    try {
-                        model.content = JSON.parse(filedata);
-                    } catch (e) {
-                        dialog.modal({
-                            title : 'Cannot upload invalid Notebook',
-                            body : "The error was: " + e,
-                            buttons : {'OK' : {
-                                'class' : 'btn-primary',
-                                click: function () {
-                                    item.remove();
-                                }
-                            }}
-                        });
-                        console.warn('Error during notebook uploading', e);
-                        return false;
-                    }
-                    content_type = 'application/json';
-                } else {
-                    model.type = 'file';
-                    model.format = format;
-                    model.content = filedata;
-                    content_type = 'application/octet-stream';
-                }
-                filedata = item.data('filedata');
-
-                var on_success = function () {
-                    item.removeClass('new-file');
-                    that.add_link(model, item);
-                    that.session_list.load_sessions();
-                };
 
                 var exists = false;
                 $.each(that.element.find('.list_item:not(.new-file)'), function(k,v){
                     if ($(v).data('name') === filename) { exists = true; return false; }
                 });
+
+                var start_upload = function() {
+                    e.preventDefault();
+                    var button = $(e.currentTarget);
+                    button.prop('disabled', true);
+                    if (data && data.submit && data.process) {
+                        data.process().done(function () {
+                            data.submit();
+                        });
+                    }
+                }
 
                 if (exists) {
                     dialog.modal({
@@ -1079,86 +1149,48 @@ define([
                             },
                             Overwrite : {
                                 class: "btn-danger",
-                                click: function () {
-                                    that.contents.save(path, model).then(on_success);
-                                }
+                                click: start_upload,
                             }
                         }
                     });
                 } else {
-                    that.contents.save(path, model).then(on_success);
+                    start_upload();
                 }
 
                 return false;
             });
+
+        var path = that.notebook_path;
+        if (path != "") path = path + '/'
+        path += data.files[0].name;
+
         var cancel_button = $('<button/>').text("Cancel")
             .addClass("btn btn-default btn-xs")
             .click(function (e) {
+                data.abort();
+                that.contents.delete(path).then(function() {
+                    that.notebook_deleted(path);
+                });
                 item.remove();
                 return false;
             });
+    
+        var progress_bar = $('<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">\
+            <div class="progress-bar progress-bar-success" style="width:0%;"></div></div>');        
+    
+        data.context = progress_bar;
+        data.item = item;
+
+        var text_bar = $('<div class="text"></div>');
         item.find(".item_buttons").empty()
+            .append(text_bar)
+            .append(progress_bar)
             .append(upload_button)
             .append(cancel_button);
     };
 
 
-    NotebookList.prototype.add_bigupload_button = function (item, data, exists) {
-        var that = this;
-        // Now to avoid checked
-        var upload_button = $('<button/>').text("Upload")
-            .addClass('btn btn-primary btn-xs upload_button')
-            .css("display", "none");
-        
-        var hide_button = $('<button/>').text("Hide")
-            .addClass("btn btn-default btn-xs")
-            .click(function (e) {
-                item.remove();
-                return false;
-            });
-
-        if (exists) {
-            var text_bar = $('<div class="text">File Exists!</div>');
-            item.find(".item_buttons").empty()
-                .append(upload_button)
-                .append(text_bar)
-                .append(hide_button);
-        }
-        else {
-            var path = that.notebook_path;
-            if (path != "") path = path + '/'
-            path += data.files[0].name;
-
-            var cancel_button = $('<button/>').text("Cancel")
-                .addClass("btn btn-default btn-xs")
-                .click(function (e) {
-                    data.abort();
-                    that.contents.delete(path).then(function() {
-                        that.notebook_deleted(path);
-                    });
-                    item.remove();
-                    // that.load_sessions();
-                    return false;
-                });
-        
-            var progress_bar = $('<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">\
-                <div class="progress-bar progress-bar-success" style="width:0%;"></div></div>');        
-        
-            data.context = progress_bar;
-
-            var text_bar = $('<div class="text"></div>');
-            item.find(".item_buttons").empty()
-                .append(upload_button)
-                .append(text_bar)
-                .append(progress_bar)
-                // .append(upload_button)
-                .append(cancel_button)
-                .append(hide_button);
-        }
-    };
-
-
-    NotebookList.prototype.handleBigUpload =    function(data, dropOrForm) {
+    NotebookList.prototype.handleFilesUpload =    function(data, dropOrForm) {
         var that = this;
         var files;
         if(dropOrForm === 'drop'){
@@ -1168,20 +1200,9 @@ define([
             files = data.files;
         }
 
-        // var del_count = 0;
+        if (!files.length) return false;
         for (var i = 0; i < files.length; i++) {
             var f = files[i];
-
-            var exists = false;
-            $.each(that.element.find('.list_item:not(.new-file)'), function(k,v){
-                if ($(v).data('name') === f.name) { exists = true; return false; }
-            });
-            if (exists) {
-                data.files.splice(i, 1);
-                // del_count ++;
-                // console.log(data.files);
-                i --;
-            }
 
             var name_and_ext = utils.splitext(f.name);
             var file_ext = name_and_ext[1];
@@ -1189,9 +1210,7 @@ define([
             var item = that.new_item(0, true);
             item.addClass('new-file');
             that.add_name_input(f.name, item, file_ext === '.ipynb' ? 'notebook' : 'file');
-            // Store the list item in the reader so we can use it later
-            // to know which item it belongs to.
-            that.add_bigupload_button(item, data, exists);
+            that.add_upload_button(item, data);
         }
         // Replace the file input form wth a clone of itself. This is required to
         // reset the form. Otherwise, if you upload a file, delete it and try to
@@ -1202,21 +1221,23 @@ define([
     };
 
 
-    NotebookList.prototype.setupBigUpload =     function() {
+    NotebookList.prototype.setupUpload =     function() {
         var that = this;
         var path = that.notebook_path;
 
         if (path != "") path = path + '/';
 
-        $('#big_upload').fileupload({
+        $('#alternate_upload').fileupload({
             url: '/api/upload/' + path,
             maxFileSize: 99999999999,
             maxChunkSize: 5000000
         })
 
-        $('#big_upload').fileupload({
+        $('#alternate_upload').fileupload({
+            autoUpload: false,
+
             add: function(e, data) {
-                that.handleBigUpload(data, 'form');
+                that.handleFilesUpload(data, 'form');
                 if (e.isDefaultPrevented()) {
                     return false;
                 }
@@ -1251,7 +1272,7 @@ define([
             return bits.toFixed(2) + ' BYTES/s';
         }
 
-        $('#big_upload').fileupload({
+        $('#alternate_upload').fileupload({
             progress: function (e, data) {
                 if (e.isDefaultPrevented()) {
                     return false;
@@ -1259,8 +1280,10 @@ define([
                 var progress = Math.floor(data.loaded / data.total * 100);
                 if (data.context) {
                     // console.log(getBitrate(data.bitrate));
-                    if (data.loaded >= data.total)
+                    if (data.loaded >= data.total) {
                         data.context.siblings(".text").text("Done");
+                        data.item.remove();
+                    }
                     else
                         data.context.siblings(".text").text(getBitrate(data.bitrate));
                     data.context.attr('aria-valuenow', progress)
@@ -1268,8 +1291,6 @@ define([
                 }
             },
         });
-
-        $("#alternate_upload").css("display", "none");
     };
 
     return {'NotebookList': NotebookList};

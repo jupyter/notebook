@@ -324,14 +324,15 @@ class NotebooksRedirectHandler(IPythonHandler):
 class UploadHandlers(APIHandler):
 
     @web.authenticated
+    @json_errors
+    @gen.coroutine
     def get(self):
-        self.write('upload')
-        # raise web.HTTPError(404)
+        raise web.HTTPError(404)
 
     @web.authenticated
+    @json_errors
+    @gen.coroutine
     def post(self, path):
-
-        # print(self.request)
         content_range = self.request.headers.get('Content-Range')
         if content_range:
             content_range = re.split('/| |-', content_range)
@@ -344,8 +345,8 @@ class UploadHandlers(APIHandler):
             else:
                 raise web.HTTPError(403)
         
-        if 'files[]' in self.request.files:
-            for file in self.request.files['files[]']:
+        if 'datafile' in self.request.files:
+            for file in self.request.files['datafile']:
                 files = self.handle_file_upload(path, file['filename'], file['body'], content_range)
         elif 'file' in self.request.files:
             file = self.request.files['file']
@@ -360,8 +361,7 @@ class UploadHandlers(APIHandler):
 
     def handle_file_upload(self, path, name, body, content_range):
         file = dict()
-        file_path = self.get_upload_path(path, name)
-        file_path = self.get_unique_name(file_path, content_range[1])
+        file_path = url_path_join(path, name)
         file['name'] = file_path
         file['size'] = content_range
         file['type'] = 'application/octet-stream'
@@ -370,36 +370,20 @@ class UploadHandlers(APIHandler):
         file['deleteUrl'] = file['url']
         self.log.info('upload %s', file_path);
 
-        if (os.path.isfile(file_path) and os.path.getsize(file_path) != content_range[1])\
+        if (not (content_range[1] == 0) and os.path.isfile(file_path) \
+            and os.path.getsize(file_path) != content_range[1]) \
             or (not os.path.isfile(file_path) and content_range[1] > 0):
             raise web.HTTPError(403)
             return
-        with open(file_path, "ab") as fout:
+        if content_range[1] <= 0:
+            mod = "wb"
+        else:
+            mod = "ab"
+        with open(file_path, mod) as fout:
             fout.write(body)
+
         file['size'] = os.path.getsize(file_path)
         return file
-
-    def get_upload_path(self, path, name):
-        return url_path_join(path, name)
-
-    def get_unique_name(self, name, size):
-        while os.path.exists(name) and (not os.path.isfile(name)):
-            name = self.upcount_name(name)
-        while os.path.isfile(name):
-            if os.path.getsize(name) == size:
-                break
-            name = self.upcount_name(name)
-        return name
-
-    def upcount_name(self, name):
-        split_name = list(os.path.splitext(name))
-        regex = '[(]([0-9]+)[)]$'
-        match = re.search(regex, split_name[0])
-        if match:
-            split_name[0], number = re.subn(regex, '(' + str(int(match.group(1)) + 1) + ')', split_name[0])
-        else:
-            split_name[0] += ' (1)'
-        return split_name[0] + split_name[1]
 
 
 #-----------------------------------------------------------------------------

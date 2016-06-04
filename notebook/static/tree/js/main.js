@@ -174,12 +174,12 @@ require([
     utils.load_extensions_from_config(common_config);
     
     // bound the upload method to the on change of the file select list
-    $("#alternate_upload").change(function (event){
-        notebook_list.handleFilesUpload(event,'form');
-    });
+    // $("#alternate_upload").change(function (event){
+    //     notebook_list.handleFilesUpload(event,'form');
+    // });
     
     // Setup big file upload
-    notebook_list.setupBigUpload(); 
+    notebook_list.setupUpload(); 
 
     // set hash on tab click
     $("#tabs").find("a").click(function(e) {
