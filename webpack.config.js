@@ -38,7 +38,9 @@ var commonConfig = {
       bootstrap: '$',
       bootstraptour: 'Tour',
       'jquery-ui': '$',
-      typeahead: '$.typeahead'
+      typeahead: '$.typeahead',
+      'codemirror/lib/codemirror': 'commonjs codemirror/lib/codemirror',
+      'codemirror/mode/meta': 'commonjs codemirror/mode/meta',
     }
 };
 
