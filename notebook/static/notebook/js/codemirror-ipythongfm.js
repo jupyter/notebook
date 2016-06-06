@@ -10,15 +10,9 @@
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object"){ // CommonJS
     mod(require("codemirror/lib/codemirror")
-        ,require("codemirror/addon/mode/multiplex")
-        ,require("codemirror/mode/gfm/gfm")
-        ,require("codemirror/mode/stex/stex")
         );
   } else if (typeof define == "function" && define.amd){ // AMD
     define(["codemirror/lib/codemirror"
-            ,"codemirror/addon/mode/multiplex"
-            ,"codemirror/mode/python/python"
-            ,"codemirror/mode/stex/stex"
             ], mod);
   } else {// Plain browser env
     mod(CodeMirror);
@@ -26,37 +20,40 @@
 })( function(CodeMirror){
     "use strict";
 
-    CodeMirror.defineMode("ipythongfm", function(config, parserConfig) {
+    requirejs(["codemirror/addon/mode/multiplex", "codemirror/mode/gfm/gfm", "codemirror/mode/stex/stex"], function () {
 
-        var gfm_mode = CodeMirror.getMode(config, "gfm");
-        var tex_mode = CodeMirror.getMode(config, "stex");
+        CodeMirror.defineMode("ipythongfm", function(config, parserConfig) {
 
-        return CodeMirror.multiplexingMode(
-            gfm_mode,
-            {
-                open: "$", close: "$",
-                mode: tex_mode,
-                delimStyle: "delimit"
-            },
-            {
-                // not sure this works as $$ is interpreted at (opening $, closing $, as defined just above)
-                open: "$$", close: "$$",
-                mode: tex_mode,
-                delimStyle: "delimit"
-            },
-            {
-                open: "\\(", close: "\\)",
-                mode: tex_mode,
-                delimStyle: "delimit"
-            },
-            {
-                open: "\\[", close: "\\]",
-                mode: tex_mode,
-                delimStyle: "delimit"
-            }
-            // .. more multiplexed styles can follow here
-        );
-    }, 'gfm');
+            var gfm_mode = CodeMirror.getMode(config, "gfm");
+            var tex_mode = CodeMirror.getMode(config, "stex");
 
-    CodeMirror.defineMIME("text/x-ipythongfm", "ipythongfm");
+            return CodeMirror.multiplexingMode(
+                gfm_mode,
+                {
+                    open: "$", close: "$",
+                    mode: tex_mode,
+                    delimStyle: "delimit"
+                },
+                {
+                    // not sure this works as $$ is interpreted at (opening $, closing $, as defined just above)
+                    open: "$$", close: "$$",
+                    mode: tex_mode,
+                    delimStyle: "delimit"
+                },
+                {
+                    open: "\\(", close: "\\)",
+                    mode: tex_mode,
+                    delimStyle: "delimit"
+                },
+                {
+                    open: "\\[", close: "\\]",
+                    mode: tex_mode,
+                    delimStyle: "delimit"
+                }
+                // .. more multiplexed styles can follow here
+            );
+        }, 'gfm');
+
+        CodeMirror.defineMIME("text/x-ipythongfm", "ipythongfm");
+    });
 })
