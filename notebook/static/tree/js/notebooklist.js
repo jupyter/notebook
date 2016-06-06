@@ -7,8 +7,7 @@ define([
     'base/js/dialog',
     'base/js/events',
     'base/js/keyboard',
-    'moment',
-    'tree/js/fileupload'
+    'moment'
 ], function(IPython, utils, dialog, events, keyboard, moment) {
     "use strict";
 
