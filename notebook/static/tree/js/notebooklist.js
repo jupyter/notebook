@@ -1060,9 +1060,11 @@ define([
             .addClass("btn btn-default btn-xs")
             .click(function (e) {
                 data.abort();
-                that.contents.delete(path).then(function() {
-                    that.notebook_deleted(path);
-                });
+                if (upload_button.prop('disabled') == true) {
+                    that.contents.delete(path).then(function() {
+                        that.notebook_deleted(path);
+                    });
+                }
                 item.remove();
                 return false;
             });
@@ -1170,9 +1172,9 @@ define([
                     if (data.loaded >= data.total) {
                         data.context.siblings(".text").text("Done");
                         data.item.remove();
-                    }
-                    else
+                    } else {
                         data.context.siblings(".text").text(getBitrate(data.bitrate));
+                    }
                     data.context.attr('aria-valuenow', progress)
                         .children().first().css('width', progress + '%');
                 }
