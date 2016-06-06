@@ -163,8 +163,6 @@ if 'setuptools' in sys.modules:
     # setup.py develop should check for submodules
     from setuptools.command.develop import develop
     setup_args['cmdclass']['develop'] = css_js_prerelease(develop)
-    if not PY3:
-        setup_args['setup_requires'] = ['ipython_genutils']
 
     try:
         from wheel.bdist_wheel import bdist_wheel
