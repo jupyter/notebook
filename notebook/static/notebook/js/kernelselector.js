@@ -131,6 +131,7 @@ define([
         $("#kernel_indicator").find('.kernel_indicator_name').text(ks.spec.display_name);
         if (ks.resources['logo-64x64']) {
             logo_img.attr("src", ks.resources['logo-64x64']);
+            logo_img.attr("title", ks.spec.display_name);
             logo_img.show();
         } else {
             logo_img.hide();
