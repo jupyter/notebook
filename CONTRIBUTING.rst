@@ -175,4 +175,4 @@ Windows users can find ``make.bat`` in the ``docs`` folder.
 
 You should also have a look at the `Project Jupyter Documentation Guide`__.
 
-__ https://jupyter.readthedocs.org/en/latest/contrib_guide_docs.html
+__ https://jupyter.readthedocs.io/en/latest/contrib_docs/index.html
