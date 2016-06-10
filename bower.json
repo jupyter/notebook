@@ -18,6 +18,7 @@
     "term.js": "chjj/term.js#~0.0.7",
     "text-encoding": "~0.1",
     "underscore": "components/underscore#~1.5",
-    "jquery-typeahead": "~2.0.0"
+    "jquery-typeahead": "~2.0.0",
+    "blueimp-file-upload": "blueimp/jQuery-File-Upload#^9.12.3"
   }
 }

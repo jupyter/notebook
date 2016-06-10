@@ -4,7 +4,7 @@
 define([
     'base/js/namespace',
     'base/js/utils',
-    'base/js/dialog',
+    'base/js/dialog'
 ], function (IPython, utils, dialog) {
     "use strict";
     
