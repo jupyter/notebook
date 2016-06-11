@@ -14,7 +14,7 @@ General Guidelines
 For general documentation about contributing to Jupyter projects, see the
 `Project Jupyter Contributor Documentation`__.
 
-__ http://jupyter.readthedocs.org/#contributor-documentation
+__ http://jupyter.readthedocs.io/en/latest/contributor/content-contributor.html
 
 
 Setting Up a Development Environment
