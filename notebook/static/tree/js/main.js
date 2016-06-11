@@ -21,7 +21,7 @@ var bind = function bind(obj) {
 Function.prototype.bind = Function.prototype.bind || bind ;
 
 
-requirejs(['contents'], function(contents_service) {
+requirejs(['contents', 'jquery.fileupload'], function(contents_service) {
 require([
     'base/js/namespace',
     'base/js/dialog',

@@ -8,7 +8,6 @@ define([
     'base/js/events',
     'base/js/keyboard',
     'moment',
-    'components/blueimp-file-upload/js/jquery.fileupload'
 ], function(IPython, utils, dialog, events, keyboard, moment) {
     "use strict";
 
