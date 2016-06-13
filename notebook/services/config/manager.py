@@ -7,7 +7,7 @@ import os.path
 
 from traitlets.config.manager import BaseJSONConfigManager, recursive_update
 from jupyter_core.paths import jupyter_config_dir, jupyter_config_path
-from traitlets import Unicode, Instance, List
+from traitlets import Unicode, Instance, List, observe, default
 from traitlets.config import LoggingConfigurable
 
 
@@ -35,16 +35,23 @@ class ConfigManager(LoggingConfigurable):
     # Private API
 
     read_config_path = List(Unicode())
-    def _read_config_path_default(self):
+
+    @default('read_config_path')
+    def _default_read_config_path(self):
         return [os.path.join(p, 'nbconfig') for p in jupyter_config_path()]
 
     write_config_dir = Unicode()
-    def _write_config_dir_default(self):
+
+    @default('write_config_dir')
+    def _default_write_config_dir(self):
         return os.path.join(jupyter_config_dir(), 'nbconfig')
 
     write_config_manager = Instance(BaseJSONConfigManager)
-    def _write_config_manager_default(self):
+
+    @default('write_config_manager')
+    def _default_write_config_manager(self):
         return BaseJSONConfigManager(config_dir=self.write_config_dir)
 
-    def _write_config_dir_changed(self, name, old, new):
+    @observe('write_config_dir')
+    def _update_write_config_dir(self, change):
         self.write_config_manager = BaseJSONConfigManager(config_dir=self.write_config_dir)
