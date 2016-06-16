@@ -255,6 +255,7 @@ define([
             var that = this;
             this.sel.click(function () {
                 that.pick();
+                that.editor.focus();
             });
             this._handle_keydown = function (cm, event) {
                 that.keydown(event);
