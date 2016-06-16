@@ -21,6 +21,8 @@
     <script src="{{static_url("components/bootstrap/js/bootstrap.min.js") }}" type="text/javascript" charset="utf-8"></script> <!-- extends window.$ -->
     <script src="{{static_url("components/bootstrap-tour/build/js/bootstrap-tour.min.js") }}" type="text/javascript" charset="utf-8"></script> <!-- window.Tour -->
     <script src="{{static_url("components/jquery-typeahead/dist/jquery.typeahead.min.js") }}" type="text/javascript" charset="utf-8"></script> <!-- extends window.$ -->
+    <script src="{{static_url("components/codemirror/lib/codemirror.js") }}" type="text/javascript" charset="utf-8"></script>
+    <script src="{{static_url("components/codemirror/mode/meta.js") }}" type="text/javascript" charset="utf-8"></script>
     <script src="{{static_url("components/requirejs/require.js") }}" type="text/javascript" charset="utf-8"></script>
     <script>
       window['staticURL'] = "{{static_url("", include_version=False)}}";
@@ -178,6 +180,19 @@
       define("jquery-ui", function () {
           return window.$;
       });
+
+      define("codemirror/lib/codemirror", function () {
+          return window.CodeMirror;
+      });
+
+      define("codemirror/mode/meta", function () {
+          return window.CodeMirror;
+      });
+
+      define("CodeMirror", function () {
+          return window.CodeMirror;
+      });
+
     </script>
 
     {% block meta %}
