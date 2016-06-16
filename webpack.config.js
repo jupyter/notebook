@@ -39,6 +39,7 @@ var commonConfig = {
       bootstraptour: 'Tour',
       'jquery-ui': '$',
       typeahead: '$.typeahead',
+      'codemirror': 'CodeMirror',
       'codemirror/lib/codemirror': 'CodeMirror',
       'codemirror/mode/meta': 'CodeMirror',
       // Account for relative paths from other CodeMirror files
