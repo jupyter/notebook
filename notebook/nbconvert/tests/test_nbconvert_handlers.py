@@ -58,8 +58,17 @@ class APITest(NotebookTestBase):
         nbdir = self.notebook_dir.name
         
         if not os.path.isdir(pjoin(nbdir, 'foo')):
-            os.mkdir(pjoin(nbdir, 'foo'))
-        
+            subdir = pjoin(nbdir, 'foo')
+
+            os.mkdir(subdir)
+
+            # Make sure that we clean this up when we're done.
+            # By using addCleanup this will happen correctly even if we fail
+            # later in setUp.
+            @self.addCleanup
+            def cleanup_dir():
+                shutil.rmtree(subdir, ignore_errors=True)
+
         nb = new_notebook()
         
         nb.cells.append(new_markdown_cell(u'Created by test ³'))
@@ -77,12 +86,6 @@ class APITest(NotebookTestBase):
 
         self.nbconvert_api = NbconvertAPI(self.base_url())
 
-    def tearDown(self):
-        nbdir = self.notebook_dir.name
-
-        for dname in ['foo']:
-            shutil.rmtree(pjoin(nbdir, dname), ignore_errors=True)
-    
     @onlyif_cmds_exist('pandoc')
     def test_from_file(self):
         r = self.nbconvert_api.from_file('html', 'foo', 'testnb.ipynb')
