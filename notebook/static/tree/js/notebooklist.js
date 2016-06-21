@@ -263,6 +263,16 @@ define([
                 });
                 continue;
             }
+            // skip non-notebook files
+            if (file_ext !== '.ipynb') {
+                // show them an error message
+                dialog.modal({
+                    title : 'Cannot upload non-notebook file',
+                    body : "Cannot upload non-notebook file '" + f.name + "'",
+                    buttons : {'OK' : { 'class' : 'btn-primary' }}
+                })
+                continue
+            }
 
             var reader = new FileReader();
             if (file_ext === '.ipynb') {
@@ -841,7 +851,7 @@ define([
                             that.contents.rename(item_path, new_path).then(function() {
                                 // After each move finishes, reload the list.
                                 that.load_list();
-                            }).catch(function(e) { 
+                            }).catch(function(e) {
                                 // If any of the moves fails, show this dialog for that move.
                                 dialog.modal({
                                     title: "Move Failed",
