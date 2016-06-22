@@ -119,8 +119,9 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             try:
                 self.log.debug("Running post-save hook on %s", os_path)
                 self.post_save_hook(os_path=os_path, model=model, contents_manager=self)
-            except Exception:
-                self.log.error("Post-save hook failed on %s", os_path, exc_info=True)
+            except Exception as e:
+                self.log.error("Post-save hook failed o-n %s", os_path, exc_info=True)
+                raise web.HTTPError(500, u'Unexpected error while running post hook save: %s' % e)
 
     @validate('root_dir') 
     def _validate_root_dir(self, proposal):
