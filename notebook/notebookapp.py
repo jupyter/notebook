@@ -260,6 +260,7 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('files.handlers'))
         handlers.extend(load_handlers('notebook.handlers'))
         handlers.extend(load_handlers('nbconvert.handlers'))
+        handlers.extend(load_handlers('bundler.handlers'))
         handlers.extend(load_handlers('kernelspecs.handlers'))
         handlers.extend(load_handlers('edit.handlers'))
         handlers.extend(load_handlers('services.api.handlers'))

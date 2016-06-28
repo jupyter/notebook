@@ -29,6 +29,7 @@ define([
          *          base_url : string
          *          notebook_path : string
          *          notebook_name : string
+         *          config: ConfigSection instance
          */
         options = options || {};
         this.base_url = options.base_url || utils.get_body_data("baseUrl");
@@ -40,6 +41,7 @@ define([
         this.save_widget = options.save_widget;
         this.quick_help = options.quick_help;
         this.actions = options.actions;
+        this.config = options.config;
 
         try {
             this.tour = new tour.Tour(this.notebook, this.events);
@@ -51,6 +53,7 @@ define([
         if (this.selector !== undefined) {
             this.element = $(selector);
             this.style();
+            this.add_bundler_items();
             this.bind_events();
         }
     };
@@ -66,6 +69,63 @@ define([
             }
         );
     };
+    
+    MenuBar.prototype.add_bundler_items = function() {
+        var that = this;
+        this.config.loaded.then(function() {
+            var bundlers = that.config.data.bundlers;
+            if(bundlers) {
+                // TODO: maybe sort by label
+                for(var bundler_id in bundlers) {
+                    var bundler = bundlers[bundler_id];
+                    var group = that.element.find('#'+bundler.group+'_menu')
+                    
+                    // Basic validation to ensure valid menu options
+                    if(!group.length) {
+                        console.warn('unknown group', bundler.group, 'for bundler ID', bundler_id, '; skipping');
+                        continue;
+                    } else if(!bundler.label) {
+                        console.warn('no label for bundler ID', bundler_id, '; skipping');
+                        continue;
+                    }
+                    
+                    // New menu item in the right submenu to trigger that._bundle
+                    group.parent().removeClass('hidden');
+                    var $li = $('<li>')
+                        .appendTo(group);
+                    $('<a>')
+                        .attr('href', '#')
+                        .text(bundler.label)
+                        .appendTo($li)
+                        .on('click', that._bundle.bind(that, bundler_id))
+                        .appendTo($li);
+                }
+            }
+        });
+    };
+
+    MenuBar.prototype._new_window = function(url) {
+        var w = window.open('', IPython._target);
+        if (this.notebook.dirty && this.notebook.writable) {
+            this.notebook.save_notebook().then(function() {
+                w.location = url;
+            });
+        } else {
+            w.location = url;
+        }
+    };
+    
+    MenuBar.prototype._bundle = function(bundler_id) {
+        // Read notebook path and base url here in case they change
+        var notebook_path = utils.encode_uri_components(this.notebook.notebook_path);
+        var url = utils.url_path_join(
+            this.base_url,
+            'bundle',
+            notebook_path
+        ) + '?bundler=' + utils.encode_uri_components(bundler_id);
+
+        this._new_window(url);
+    };
 
     MenuBar.prototype._nbconvert = function (format, download) {
         download = download || false;
@@ -77,14 +137,7 @@ define([
             notebook_path
         ) + "?download=" + download.toString();
         
-        var w = window.open('', IPython._target);
-        if (this.notebook.dirty && this.notebook.writable) {
-            this.notebook.save_notebook().then(function() {
-                w.location = url;
-            });
-        } else {
-            w.location = url;
-        }
+        this._new_window(url);
     };
 
     MenuBar.prototype._size_header = function() {
@@ -153,7 +206,6 @@ define([
         this.element.find('#download_script').click(function () {
             that._nbconvert('script', true);
         });
-
 
         this.events.on('trust_changed.Notebook', function (event, trusted) {
             if (trusted) {

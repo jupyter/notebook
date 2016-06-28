@@ -141,7 +141,8 @@ require([
         events: events,
         save_widget: save_widget,
         quick_help: quick_help,
-        actions: acts},
+        actions: acts,
+        config: config_section},
         common_options));
     var notification_area = new notificationarea.NotebookNotificationArea(
         '#notification_area', {
