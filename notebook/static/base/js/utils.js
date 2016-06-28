@@ -453,6 +453,22 @@ define([
         return txt;
     }
 
+    // Remove characters that are overridden by backspace characters
+    function fixBackspace(txt) {
+        var tmp = txt;
+        do {
+            txt = tmp;
+            // Cancel out anything-but-newline followed by backspace
+            tmp = txt.replace(/[^\n]\x08/gm, '');
+        } while (tmp.length < txt.length);
+        return txt;
+    }
+
+    // Remove characters overridden by backspace and carriage return
+    function fixOverwrittenChars(txt) {
+        return fixCarriageReturn(fixBackspace(txt));
+    }
+
     // Locate any URLs and convert them to a anchor tag
     function autoLinkUrls(txt) {
         return txt.replace(/(^|\s)(https?|ftp)(:[^'"<>\s]+)/gi,
@@ -972,6 +988,8 @@ define([
         uuid : uuid,
         fixConsole : fixConsole,
         fixCarriageReturn : fixCarriageReturn,
+        fixBackspace : fixBackspace,
+        fixOverwrittenChars: fixOverwrittenChars,
         autoLinkUrls : autoLinkUrls,
         points_to_pixels : points_to_pixels,
         get_body_data : get_body_data,

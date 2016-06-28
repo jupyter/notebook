@@ -504,7 +504,7 @@ define([
                     // latest output was in the same stream,
                     // so append to it instead of making a new output.
                     // escape ANSI & HTML specials:
-                    last.text = utils.fixCarriageReturn(last.text + json.text);
+                    last.text = utils.fixOverwrittenChars(last.text + json.text);
                     var pre = this.element.find('div.'+subclass).last().find('pre');
                     var html = utils.fixConsole(last.text);
                     html = utils.autoLinkUrls(html);
@@ -659,7 +659,7 @@ define([
     var append_text = function (data, md, element) {
         var type = 'text/plain';
         var toinsert = this.create_output_subarea(md, "output_text", type);
-        data = utils.fixCarriageReturn(data);
+        data = utils.fixOverwrittenChars(data);
         // escape ANSI & HTML specials in plaintext:
         data = utils.fixConsole(data);
         data = utils.autoLinkUrls(data);

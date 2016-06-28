@@ -157,7 +157,7 @@ define([
          * The only user content injected with this HTML call is escaped by
          * the fixConsole() method.
          */
-        this.pager_element.find(".container").append($('<pre/>').html(utils.fixConsole(utils.fixCarriageReturn(text))));
+        this.pager_element.find(".container").append($('<pre/>').html(utils.fixConsole(utils.fixOverwrittenChars(text))));
     };
 
     Pager.prototype.append = function (htm) {
