@@ -40,11 +40,12 @@ casper.notebook_test(function () {
         {input: "\b456", result: "\b456"}
     ];
 
+    var that = this;
     overwriting_test_cases.forEach(function(testcase){
-        var result = this.evaluate(function (input) {
+        var result = that.evaluate(function (input) {
             return IPython.utils.fixOverwrittenChars(input);
         }, testcase.input);
-        this.test.assertEquals(result, testcase.result, "Overwriting characters processed")
+        that.test.assertEquals(result, testcase.result, "Overwriting characters processed");
     });
 
     // Test load_extensions
