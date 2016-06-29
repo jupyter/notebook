@@ -132,7 +132,7 @@ def is_hidden(abs_path, abs_root=''):
     
     if sys.platform == 'win32':
         try:
-            attrs = ctypes.windll.kernel32.GetFileAttributesW(py3compat.cast_unicode(path))
+            attrs = ctypes.windll.kernel32.GetFileAttributesW(py3compat.cast_unicode(abs_path))
         except AttributeError:
             pass
         else:
