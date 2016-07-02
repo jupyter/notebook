@@ -75,21 +75,22 @@ define([
         this.config.loaded.then(function() {
             var bundlers = that.config.data.bundlers;
             if(bundlers) {
-                // TODO: maybe sort by label
-                for(var bundler_id in bundlers) {
+                // Stable sort the keys to ensure menu items don't hop around
+                var ids = Object.keys(bundlers).sort()
+                ids.forEach(function(bundler_id) {
                     var bundler = bundlers[bundler_id];
                     var group = that.element.find('#'+bundler.group+'_menu')
                     
-                    // Basic validation to ensure valid menu options
+                    // Validate menu item metadata
                     if(!group.length) {
                         console.warn('unknown group', bundler.group, 'for bundler ID', bundler_id, '; skipping');
-                        continue;
+                        return;
                     } else if(!bundler.label) {
                         console.warn('no label for bundler ID', bundler_id, '; skipping');
-                        continue;
+                        return;
                     }
                     
-                    // New menu item in the right submenu to trigger that._bundle
+                    // Insert menu item into correct group, click handler
                     group.parent().removeClass('hidden');
                     var $li = $('<li>')
                         .appendTo(group);
@@ -99,7 +100,7 @@ define([
                         .appendTo($li)
                         .on('click', that._bundle.bind(that, bundler_id))
                         .appendTo($li);
-                }
+                });
             }
         });
     };
