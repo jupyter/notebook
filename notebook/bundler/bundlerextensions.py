@@ -3,8 +3,8 @@
 import sys
 import os
 
-from .nbextensions import (BaseNBExtensionApp, _get_config_dir)    
-from ._version import __version__
+from ..nbextensions import (BaseNBExtensionApp, _get_config_dir)
+from .._version import __version__
 
 from traitlets.config.manager import BaseJSONConfigManager
 from traitlets.utils.importstring import import_item
