@@ -3,6 +3,7 @@
 import os
 import io
 import zipfile
+import notebook.bundler.tools as tools
 
 def _jupyter_bundlerextension_paths():
     """Metadata for notebook bundlerextension"""
@@ -39,7 +40,7 @@ def bundle(handler, model):
     handler.set_header('Content-Type', 'application/zip')
 
     # Get associated files
-    ref_filenames = handler.tools.get_file_references(abs_nb_path, 4)
+    ref_filenames = tools.get_file_references(abs_nb_path, 4)
 
     # Prepare the zip file
     zip_buffer = io.BytesIO()
