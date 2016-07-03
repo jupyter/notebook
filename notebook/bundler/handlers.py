@@ -1,3 +1,5 @@
+"""Tornado handler for bundling notebooks."""
+
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 import os
@@ -13,33 +15,45 @@ from ipython_genutils.importstring import import_item
 from tornado import web, gen
 
 class BundlerTools(object):
-    '''Set of common tools to aid bundler implementations.'''
+    """Set of common tools to aid bundler implementations."""
     def get_file_references(self, abs_nb_path, version):
-        '''
-        Gets a list of files referenced either in Markdown fenced code blocks
+        """Gets a list of files referenced either in Markdown fenced code blocks
         or in HTML comments from the notebook. Expands patterns expressed in 
         gitignore syntax (https://git-scm.com/docs/gitignore). Returns the 
         fully expanded list of filenames relative to the notebook dirname.
 
-        NOTE: Temporarily changes the current working directory when called.
-
-        :param abs_nb_path: Absolute path of the notebook on disk
-        :param version: Version of the notebook document format to use
-        :returns: List of filename strings relative to the notebook path
-        '''
+        Parameters
+        ----------
+        abs_nb_path: str
+            Absolute path of the notebook on disk
+        version: int
+            Version of the notebook document format to use
+        
+        Returns
+        -------
+        list
+            Filename strings relative to the notebook path
+        """
         ref_patterns = self.get_reference_patterns(abs_nb_path, version)
         expanded = self.expand_references(os.path.dirname(abs_nb_path), ref_patterns)
         return expanded
 
     def get_reference_patterns(self, abs_nb_path, version):
-        '''
-        Gets a list of reference patterns either in Markdown fenced code blocks
+        """Gets a list of reference patterns either in Markdown fenced code blocks
         or in HTML comments from the notebook.
 
-        :param abs_nb_path: Absolute path of the notebook on disk
-        :param version: Version of the notebook document format to use
-        :returns: List of pattern strings from the notebook
-        '''
+        Parameters
+        ----------
+        abs_nb_path: str
+            Absolute path of the notebook on disk
+        version: int
+            Version of the notebook document format to use
+        
+        Returns
+        -------
+        list
+            Pattern strings from the notebook
+        """
         notebook = nbformat.read(abs_nb_path, version)
         referenced_list = []
         for cell in notebook.cells:
@@ -67,8 +81,15 @@ class BundlerTools(object):
         !foo/bar
         -->
 
-        :param cell: Notebook cell object
-        :returns: List of strings
+        Parameters
+        ----------
+        cell: dict
+            Notebook cell object
+        
+        Returns
+        -------
+        list
+            Reference patterns found in the cell
         '''
         referenced = []
         # invisible after execution: unrendered HTML comment
@@ -98,16 +119,25 @@ class BundlerTools(object):
         return [ref for ref in referenced if ref.strip()]
 
     def expand_references(self, root_path, references):
-        '''
-        Expands a set of reference patterns by evaluating them against the
+        """Expands a set of reference patterns by evaluating them against the
         given root directory. Expansions are performed against patterns 
         expressed in the same manner as in gitignore 
         (https://git-scm.com/docs/gitignore).
+        
+        NOTE: Temporarily changes the current working directory when called.
 
-        :param root_path: Assumed root directory for the patterns
-        :param references: List of reference patterns
-        :returns: List of filename strings relative to the root path
-        '''
+        Parameters
+        ----------
+        root_path: str 
+            Assumed root directory for the patterns
+        references: list
+            Reference patterns from get_reference_patterns
+            
+        Returns
+        -------
+        list
+            Filename strings relative to the root path
+        """
         globbed = []
         negations = []
         must_walk = []
@@ -164,16 +194,20 @@ class BundlerTools(object):
         return set(globbed)
 
     def copy_filelist(self, src, dst, src_relative_filenames):
-        '''
-        Copies the given list of files, relative to src, into dst, creating
+        """Copies the given list of files, relative to src, into dst, creating
         directories along the way as needed and ignore existence errors.
         Skips any files that do not exist. Does not create empty directories
         from src in dst.
 
-        :param src: Root of the source directory
-        :param dst: Root of the destination directory
-        :param src_relative_filenames: List of filename relative to src
-        '''
+        Parameters
+        ----------
+        src: str 
+            Root of the source directory
+        dst: str 
+            Root of the destination directory
+        src_relative_filenames: list
+            Filenames relative to src
+        """
         for filename in src_relative_filenames:
             # Only consider the file if it exists in src
             if os.path.isfile(os.path.join(src, filename)):
@@ -192,16 +226,29 @@ class BundlerTools(object):
 
 class BundlerHandler(IPythonHandler):
     def initialize(self):
-        # Create common tools for bundler plugin to use
+        """Create common tools for bundler implementations to use."""
         self.tools = BundlerTools()
 
     def get_bundler(self, bundler_id):
-        '''
-        :param bundler_id: Unique ID within the notebook/jupyter_cms_bundlers
-        config section.
-        :returns: Dict of bundler metadata with keys label, group, module_name
-        :raises KeyError: If the bundler is not registered
-        '''
+        """
+        Get bundler metadata from config given a bundler ID.
+        
+        Parameters
+        ----------
+        bundler_id: str
+            Unique bundler ID within the notebook/bundlerextensions config section
+        
+        Returns
+        -------
+        dict
+            Bundler metadata with label, group, and module_name attributes
+        
+        
+        Raises
+        ------
+        KeyError
+            If the bundler ID is unknown
+        """
         cm = ConfigManager()
         return cm.get('notebook').get('bundlers', {})[bundler_id]
 
@@ -209,6 +256,13 @@ class BundlerHandler(IPythonHandler):
     @gen.coroutine
     def get(self, path):
         """Bundle the given notebook.
+        
+        Parameters
+        ----------
+        path: str
+            Path to the notebook (path parameter)
+        bundler: str
+            Bundler ID to use (query parameter)
         """
         bundler_id = self.get_query_argument('bundler')
         model = self.contents_manager.get(path=url2path(path))
