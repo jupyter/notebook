@@ -37,7 +37,7 @@ class BundlerHandler(IPythonHandler):
             If the bundler ID is unknown
         """
         cm = ConfigManager()
-        return cm.get('notebook').get('bundlers', {})[bundler_id]
+        return cm.get('notebook').get('bundlerextensions', {})[bundler_id]
 
     @web.authenticated
     @gen.coroutine

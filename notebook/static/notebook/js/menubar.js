@@ -73,7 +73,7 @@ define([
     MenuBar.prototype.add_bundler_items = function() {
         var that = this;
         this.config.loaded.then(function() {
-            var bundlers = that.config.data.bundlers;
+            var bundlers = that.config.data.bundlerextensions;
             if(bundlers) {
                 // Stable sort the keys to ensure menu items don't hop around
                 var ids = Object.keys(bundlers).sort()
