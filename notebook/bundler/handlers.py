@@ -57,7 +57,7 @@ class BundlerHandler(IPythonHandler):
         try:
             bundler = self.get_bundler(bundler_id)
         except KeyError:
-            raise web.HTTPError(404, 'Bundler %s not found' % bundler_id)
+            raise web.HTTPError(400, 'Bundler %s not enabled' % bundler_id)
         
         module_name = bundler['module_name']
         try:
