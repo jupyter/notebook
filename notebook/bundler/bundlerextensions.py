@@ -246,7 +246,7 @@ class ListBundlerExtensionApp(BaseNBExtensionApp):
         """List all the nbextensions"""
         config_dirs = [os.path.join(p, 'nbconfig') for p in jupyter_config_path()]
         
-        print("Known nbextensions:")
+        print("Known bundlerextensions:")
         
         for config_dir in config_dirs:
             head = u'  config dir: {}'.format(config_dir)
@@ -262,9 +262,14 @@ class ListBundlerExtensionApp(BaseNBExtensionApp):
                 
                 for bundler_id, info in data['bundlerextensions'].items():
                     label = info.get('label')
-                    print(u'    {} {}'.format(
-                        label if label is not None else bundler_id,
-                        GREEN_ENABLED if label else RED_DISABLED))
+                    module = info.get('module_name')
+                    if label is None or module is None:
+                        msg = u'    {} {}'.format(bundler_id, RED_DISABLED)
+                    else:
+                        msg = u'    "{}" from {} {}'.format(
+                            label, module, GREEN_ENABLED
+                        )
+                    print(msg)
     
     def start(self):
         """Perform the App's functions as configured"""
