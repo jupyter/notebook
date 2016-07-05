@@ -23,10 +23,10 @@ def bundle(handler, model):
     
     Parameters
     ----------
-    handler : tornado.web.Handler
+    handler : tornado.web.RequestHandler
         Handler that serviced the bundle request
     model : dict
-        Notebook model from a ContentManager
+        Notebook model from the configured ContentManager
     """
     abs_nb_path = os.path.join(handler.settings['contents_manager'].root_dir,
         model['path'])
