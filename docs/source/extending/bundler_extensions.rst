@@ -118,11 +118,12 @@ The output describes options for listing enabled bundlers, configuring bundlers 
 Example: IPython Notebook bundle (.zip)
 ---------------------------------------
 
-The `hello_bundler` example in this documentation is simplisitic in the name of brevity. For a more meaningful example, see the source in `notebook/bundler/zip_bundler.py`. It parses Markdown cells in the active notebook for gitignore-syntax file references, and bundles those files alongside the notebook in a zip download. You can enable it like so:
+The `hello_bundler` example in this documentation is simplisitic in the name of brevity. For more meaningful examples, see `notebook/bundler/zip_bundler.py` and `notebook/bundler/tarball_bundler.py`. You can enable them to try them like so:
 
 .. code:: bash
 
     jupyter bundlerextension enable --py notebook.bundler.zip_bundler --sys-prefix
+    jupyter bundlerextension enable --py notebook.bundler.tarball_bundler --sys-prefix
 
 .. _bundler-details:
 
