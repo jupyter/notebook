@@ -5,16 +5,16 @@ define([
     'components/google-caja/html-css-sanitizer-minified',
 ], function(sanitize) {
     "use strict";
-    
+
     var noop = function (x) { return x; };
-    
+
     var caja;
     if (window && window.html) {
         caja = window.html;
         caja.html4 = window.html4;
         caja.sanitizeStylesheet = window.sanitizeStylesheet;
     }
-    
+
     var sanitizeAttribs = function (tagName, attribs, opt_naiveUriRewriter, opt_nmTokenPolicy, opt_logger) {
         /**
          * add trusting data-attributes to the default sanitizeAttribs from caja
@@ -36,9 +36,10 @@ define([
         // disable the check
         // https://www.owasp.org/index.php/Script_in_IMG_tags
         ATTRIBS['img::src'] = 0;
+        ATTRIBS['iframe::src'] = 0;
         return caja.sanitizeAttribs(tagName, attribs, opt_naiveUriRewriter, opt_nmTokenPolicy, opt_logger);
     };
-    
+
     var sanitize_css = function (css, tagPolicy) {
         /**
          * sanitize CSS
@@ -57,7 +58,7 @@ define([
             noop
         );
     };
-    
+
     var sanitize_stylesheets = function (html, tagPolicy) {
         /**
          * sanitize just the css in style tags in a block of html
@@ -74,7 +75,7 @@ define([
         });
         return h.html();
     };
-    
+
     var sanitize_html = function (html, allow_css) {
         /**
          * sanitize HTML
@@ -93,12 +94,14 @@ define([
             html4.ELEMENTS.style |= html4.eflags.UNSAFE;
             html4.ATTRIBS.style = html4.atype.SCRIPT;
         }
-        
+
         var record_messages = function (msg, opts) {
             console.log("HTML Sanitizer", msg, opts);
         };
-        
+
         var policy = function (tagName, attribs) {
+            console.log("CHECKING", tagName, attribs)
+            console.log(html4.ELEMENTS[tagName] & html4.eflags.UNSAFE)
             if (!(html4.ELEMENTS[tagName] & html4.eflags.UNSAFE)) {
                 return {
                     'attribs': sanitizeAttribs(tagName, attribs,
@@ -111,17 +114,17 @@ define([
                 });
             }
         };
-        
+
         var sanitized = caja.sanitizeWithPolicy(html, policy);
-        
+
         if (allow_css) {
             // sanitize style tags as stylesheets
             sanitized = sanitize_stylesheets(result.sanitized, policy);
         }
-        
+
         return sanitized;
     };
-    
+
     var security = {
         caja: caja,
         sanitize_html: sanitize_html
