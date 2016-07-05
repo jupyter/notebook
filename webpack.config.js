@@ -18,6 +18,7 @@ var commonConfig = {
             "node_modules" /* npm */
         ]
     },
+    bail: true,
     module: {
         loaders: [
             { test: /\.js$/, exclude: /node_modules|\/notebook\/static\/component/, loader: "babel-loader"},
