@@ -647,6 +647,7 @@ define([
         var path = model.path,
             name = model.name,
             modified = model.last_modified;
+
         var running = (model.type === 'notebook' && this.sessions[path] !== undefined);
 
         item.data('name', name);
@@ -686,7 +687,7 @@ define([
         }
 
         // Add in the date that the file was last modified
-        item.find(".item_modified").text(utils.format_datetime(modified));
+        item.find(".item_modified").text(moment.utc(modified).fromNow());
         item.find(".item_modified").attr("title", moment(modified).format("YYYY-MM-DD HH:mm"));
     };
 
