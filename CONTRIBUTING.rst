@@ -141,11 +141,11 @@ or to run just ``notebook/tests/notebook/deletecell.js``::
 Building the Documentation
 --------------------------
 
-To build the documentation you'll need `Sphinx <http://www.sphinx-doc.org/>`_
+To build the documentation you'll need `Sphinx <http://www.sphinx-doc.org/>`_, `pandoc <http://pandoc.org/>`_
 and a few other packages.
 
 To install (and activate) a `conda environment`_ named ``notebook_docs``
-containing all the necessary packages, use::
+containing all the necessary packages (except pandoc), use::
 
     conda env create -f docs/environment.yml
     source activate notebook_docs  # Linux and OS X
