@@ -20,11 +20,6 @@ __ http://jupyter.readthedocs.io/en/latest/contributor/content-contributor.html
 Setting Up a Development Environment
 ------------------------------------
 
-For general installation instructions have a look at the
-`Project Jupyter Installation Guide`__.
-
-__ https://jupyter.readthedocs.org/en/latest/install.html
-
 Installing Node.js and npm
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
