@@ -13,7 +13,7 @@ from tornado.web import HTTPError
 
 from .checkpoints import Checkpoints
 from traitlets.config.configurable import LoggingConfigurable
-from nbformat import sign, validate, ValidationError
+from nbformat import sign, validate as validate_nb, ValidationError
 from nbformat.v4 import new_notebook
 from ipython_genutils.importstring import import_item
 from traitlets import (
@@ -299,9 +299,9 @@ class ContentsManager(LoggingConfigurable):
     def validate_notebook_model(self, model):
         """Add failed-validation message to model"""
         try:
-            validate(model['content'])
+            validate_nb(model['content'])
         except ValidationError as e:
-            model['message'] = u'Notebook Validation failed: {}:\n{}'.format(
+            model['message'] = u'Notebook validation failed: {}:\n{}'.format(
                 e.message, json.dumps(e.instance, indent=1, default=lambda obj: '<UNKNOWN>'),
             )
         return model
