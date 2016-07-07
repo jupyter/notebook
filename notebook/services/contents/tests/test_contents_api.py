@@ -292,6 +292,24 @@ class APITest(NotebookTestBase):
             self.assertIn('content', nb)
             self.assertEqual(nb['content'], None)
 
+    def test_get_nb_invalid(self):
+        nb = {
+            'nbformat': 4,
+            'metadata': {},
+            'cells': [{
+                'cell_type': 'wrong',
+                'metadata': {},
+            }],
+        }
+        path = u'å b/Validate tést.ipynb'
+        self.make_txt(path, py3compat.cast_unicode(json.dumps(nb)))
+        model = self.api.read(path).json()
+        self.assertEqual(model['path'], path)
+        self.assertEqual(model['type'], 'notebook')
+        self.assertIn('content', model)
+        self.assertIn('message', model)
+        self.assertIn("validation failed", model['message'].lower())
+
     def test_get_contents_no_such_file(self):
         # Name that doesn't exist - should be a 404
         with assert_http_error(404):
