@@ -3006,6 +3006,7 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
      * Add a checkpoint for this notebook.
      */
     Notebook.prototype.add_checkpoint = function (checkpoint) {
+        console.log("ADDING CHECKPOINT")
         var found = false;
         for (var i = 0; i < this.checkpoints.length; i++) {
             var existing = this.checkpoints[i];
@@ -3016,9 +3017,10 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
             }
         }
         if (!found) {
-            this.checkpoints.push(checkpoint);
+            // this.checkpoints.push(checkpoint);
+            this.checkpoints = [checkpoint].concat(this.checkpoints);
         }
-        this.last_checkpoint = this.checkpoints[this.checkpoints.length - 1];
+        this.last_checkpoint = this.checkpoints[0];
     };
 
     /**

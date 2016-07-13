@@ -347,7 +347,7 @@ define([
             );
             return;
         }
-
+        console.log(checkpoints)
         var that = this;
         checkpoints.map(function (checkpoint) {
             // figure out the correct text to show for the comment
@@ -355,7 +355,7 @@ define([
                 moment(new Date(checkpoint.last_modified)).format("LLLL")
             );
             // add an element to the list
-            ul.prepend(
+            ul.append(
                 $("<li/>").append(
                     $("<a/>")
                     .attr("href", "#")
