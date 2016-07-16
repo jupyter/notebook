@@ -59,6 +59,11 @@ If you want the development environment to be available for all users of your
 system (assuming you have the necessary rights) or if you are installing in a
 virtual environment, just drop the ``--user`` option.
 
+Once you have done this, you can launch the master branch of Jupyter notebook
+from any directory in your system with::
+
+    jupyter notebook
+
 
 Rebuilding JavaScript and CSS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
