@@ -232,6 +232,8 @@ define([
             '#copy_cell_attachments': 'copy-cell-attachments',
             '#paste_cell_attachments': 'paste-cell-attachments',
             '#insert_image': 'insert-image',
+            '#cell_style_centered':'cell-style-centered',
+            '#cell_style_split':'cell-style-split',
         };
 
         for(var idx in id_actions_dict){
