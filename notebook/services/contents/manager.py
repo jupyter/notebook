@@ -13,7 +13,7 @@ from tornado.web import HTTPError
 
 from .checkpoints import Checkpoints
 from traitlets.config.configurable import LoggingConfigurable
-from nbformat import sign, validate, ValidationError
+from nbformat import sign, validate as validate_nb, ValidationError
 from nbformat.v4 import new_notebook
 from ipython_genutils.importstring import import_item
 from traitlets import (
@@ -24,6 +24,8 @@ from traitlets import (
     TraitError,
     Type,
     Unicode,
+    validate,
+    default,
 )
 from ipython_genutils.py3compat import string_types
 
@@ -91,12 +93,15 @@ class ContentsManager(LoggingConfigurable):
         - contents_manager: this ContentsManager instance
         """
     )
-    def _pre_save_hook_changed(self, name, old, new):
-        if new and isinstance(new, string_types):
-            self.pre_save_hook = import_item(self.pre_save_hook)
-        elif new:
-            if not callable(new):
-                raise TraitError("pre_save_hook must be callable")
+
+    @validate('pre_save_hook')
+    def _validate_pre_save_hook(self, proposal):
+        value = proposal['value']
+        if isinstance(value, string_types):
+            value = import_item(self.pre_save_hook)
+        if not callable(value):
+            raise TraitError("pre_save_hook must be callable")
+        return value
 
     def run_pre_save_hook(self, model, path, **kwargs):
         """Run the pre-save hook if defined, and log errors"""
@@ -111,10 +116,12 @@ class ContentsManager(LoggingConfigurable):
     checkpoints = Instance(Checkpoints, config=True)
     checkpoints_kwargs = Dict(config=True)
 
-    def _checkpoints_default(self):
+    @default('checkpoints')
+    def _default_checkpoints(self):
         return self.checkpoints_class(**self.checkpoints_kwargs)
 
-    def _checkpoints_kwargs_default(self):
+    @default('checkpoints_kwargs')
+    def _default_checkpoints_kwargs(self):
         return dict(
             parent=self,
             log=self.log,
@@ -292,9 +299,9 @@ class ContentsManager(LoggingConfigurable):
     def validate_notebook_model(self, model):
         """Add failed-validation message to model"""
         try:
-            validate(model['content'])
+            validate_nb(model['content'])
         except ValidationError as e:
-            model['message'] = u'Notebook Validation failed: {}:\n{}'.format(
+            model['message'] = u'Notebook validation failed: {}:\n{}'.format(
                 e.message, json.dumps(e.instance, indent=1, default=lambda obj: '<UNKNOWN>'),
             )
         return model

@@ -152,7 +152,7 @@ define(function(require) {
         var error_div = $('<div/>').css('color', 'red');
         var message = 
             "Manually edit the JSON below to manipulate the metadata for this " + options.name + "." +
-            " We recommend putting custom metadata attributes in an appropriately named sub-structure," +
+            " We recommend putting custom metadata attributes in an appropriately named substructure," +
             " so they don't conflict with those of others.";
 
         var textarea = $('<textarea/>')

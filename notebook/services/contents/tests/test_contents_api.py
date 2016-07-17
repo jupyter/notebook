@@ -2,6 +2,7 @@
 """Test the contents webservice API."""
 
 from contextlib import contextmanager
+from functools import partial
 import io
 import json
 import os
@@ -195,31 +196,31 @@ class APITest(NotebookTestBase):
     
     def isdir(self, api_path):
         return os.path.isdir(self.to_os_path(api_path))
-    
-    def setUp(self):
 
+    def setUp(self):
         for d in (self.dirs + self.hidden_dirs):
             self.make_dir(d)
+            self.addCleanup(partial(self.delete_dir, d))
 
         for d, name in self.dirs_nbs:
             # create a notebook
             nb = new_notebook()
-            self.make_nb(u'{}/{}.ipynb'.format(d, name), nb)
-            
+            nbname = u'{}/{}.ipynb'.format(d, name)
+            self.make_nb(nbname, nb)
+            self.addCleanup(partial(self.delete_file, nbname))
+
             # create a text file
             txt = self._txt_for_name(name)
-            self.make_txt(u'{}/{}.txt'.format(d, name), txt)
-            
-            # create a binary file
+            txtname = u'{}/{}.txt'.format(d, name)
+            self.make_txt(txtname, txt)
+            self.addCleanup(partial(self.delete_file, txtname))
+
             blob = self._blob_for_name(name)
-            self.make_blob(u'{}/{}.blob'.format(d, name), blob)
+            blobname = u'{}/{}.blob'.format(d, name)
+            self.make_blob(blobname, blob)
+            self.addCleanup(partial(self.delete_file, blobname))
 
         self.api = API(self.base_url())
-
-    def tearDown(self):
-        for dname in (list(self.top_level_dirs) + self.hidden_dirs):
-            self.delete_dir(dname)
-        self.delete_file('inroot.ipynb')
 
     def test_list_notebooks(self):
         nbs = notebooks_only(self.api.list().json())
@@ -290,6 +291,24 @@ class APITest(NotebookTestBase):
             self.assertEqual(nb['type'], 'notebook')
             self.assertIn('content', nb)
             self.assertEqual(nb['content'], None)
+
+    def test_get_nb_invalid(self):
+        nb = {
+            'nbformat': 4,
+            'metadata': {},
+            'cells': [{
+                'cell_type': 'wrong',
+                'metadata': {},
+            }],
+        }
+        path = u'å b/Validate tést.ipynb'
+        self.make_txt(path, py3compat.cast_unicode(json.dumps(nb)))
+        model = self.api.read(path).json()
+        self.assertEqual(model['path'], path)
+        self.assertEqual(model['type'], 'notebook')
+        self.assertIn('content', model)
+        self.assertIn('message', model)
+        self.assertIn("validation failed", model['message'].lower())
 
     def test_get_contents_no_such_file(self):
         # Name that doesn't exist - should be a 404

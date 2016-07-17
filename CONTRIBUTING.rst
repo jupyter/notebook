@@ -14,16 +14,11 @@ General Guidelines
 For general documentation about contributing to Jupyter projects, see the
 `Project Jupyter Contributor Documentation`__.
 
-__ http://jupyter.readthedocs.org/#contributor-documentation
+__ http://jupyter.readthedocs.io/en/latest/contributor/content-contributor.html
 
 
 Setting Up a Development Environment
 ------------------------------------
-
-For general installation instructions have a look at the
-`Project Jupyter Installation Guide`__.
-
-__ https://jupyter.readthedocs.org/en/latest/install.html
 
 Installing Node.js and npm
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -141,11 +136,11 @@ or to run just ``notebook/tests/notebook/deletecell.js``::
 Building the Documentation
 --------------------------
 
-To build the documentation you'll need `Sphinx <http://www.sphinx-doc.org/>`_
+To build the documentation you'll need `Sphinx <http://www.sphinx-doc.org/>`_, `pandoc <http://pandoc.org/>`_
 and a few other packages.
 
 To install (and activate) a `conda environment`_ named ``notebook_docs``
-containing all the necessary packages, use::
+containing all the necessary packages (except pandoc), use::
 
     conda env create -f docs/environment.yml
     source activate notebook_docs  # Linux and OS X
@@ -175,4 +170,4 @@ Windows users can find ``make.bat`` in the ``docs`` folder.
 
 You should also have a look at the `Project Jupyter Documentation Guide`__.
 
-__ https://jupyter.readthedocs.org/en/latest/contrib_guide_docs.html
+__ https://jupyter.readthedocs.io/en/latest/contrib_docs/index.html

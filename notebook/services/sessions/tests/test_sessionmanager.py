@@ -1,5 +1,6 @@
 """Tests for the session manager."""
 
+from functools import partial
 from unittest import TestCase
 
 from tornado import gen, web
@@ -39,10 +40,8 @@ class TestSessionManager(TestCase):
             contents_manager=ContentsManager(),
         )
         self.loop = IOLoop()
-    
-    def tearDown(self):
-        self.loop.close(all_fds=True)
-    
+        self.addCleanup(partial(self.loop.close, all_fds=True))
+
     def create_sessions(self, *kwarg_list):
         @gen.coroutine
         def co_add():

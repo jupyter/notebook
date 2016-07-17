@@ -1,4 +1,5 @@
 casper.notebook_test(function () {
+    // Test fixConsole
     // Note, \u001b is the unicode notation of octal \033 which is not officially in js
     var input = [
         "\u001b[0m[\u001b[0minfo\u001b[0m] \u001b[0mtext\u001b[0m",
@@ -29,7 +30,25 @@ casper.notebook_test(function () {
     }, input);
 
     this.test.assertEquals(result, output, "IPython.utils.fixConsole() handles [0m correctly");
-    
+
+    // Test fixOverwrittenChars
+    var overwriting_test_cases = [
+        {input: "ABC\rDEF", result: "DEF"},
+        {input: "ABC\r\nDEF", result: "ABC\nDEF"},
+        {input: "123\b456", result: "12456"},
+        {input: "123\n\b456", result: "123\n\b456"},
+        {input: "\b456", result: "\b456"}
+    ];
+
+    var that = this;
+    overwriting_test_cases.forEach(function(testcase){
+        var result = that.evaluate(function (input) {
+            return IPython.utils.fixOverwrittenChars(input);
+        }, testcase.input);
+        that.test.assertEquals(result, testcase.result, "Overwriting characters processed");
+    });
+
+    // Test load_extensions
     this.thenEvaluate(function() {
         define('nbextensions/a', [], function() { window.a = true; });
         define('nbextensions/c', [], function() { window.c = true; });

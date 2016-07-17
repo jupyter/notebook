@@ -1,6 +1,7 @@
 """Test the sessions web service API."""
 
 import errno
+from functools import partial
 import io
 import os
 import json
@@ -65,33 +66,34 @@ class SessionAPITest(NotebookTestBase):
     """Test the sessions web service API"""
     def setUp(self):
         nbdir = self.notebook_dir.name
+        subdir = pjoin(nbdir, 'foo')
+
         try:
-            os.mkdir(pjoin(nbdir, 'foo'))
+            os.mkdir(subdir)
         except OSError as e:
             # Deleting the folder in an earlier test may have failed
             if e.errno != errno.EEXIST:
                 raise
+        self.addCleanup(partial(shutil.rmtree, subdir, ignore_errors=True))
 
-        with io.open(pjoin(nbdir, 'foo', 'nb1.ipynb'), 'w',
-                     encoding='utf-8') as f:
+        with io.open(pjoin(subdir, 'nb1.ipynb'), 'w', encoding='utf-8') as f:
             nb = new_notebook()
             write(nb, f, version=4)
 
         self.sess_api = SessionAPI(self.base_url())
 
-    def tearDown(self):
-        for session in self.sess_api.list().json():
-            self.sess_api.delete(session['id'])
-        # This is necessary in some situations on Windows: without it, it
-        # fails to delete the directory because something is still using it. I
-        # think there is a brief period after the kernel terminates where
-        # Windows still treats its working directory as in use. On my Windows
-        # VM, 0.01s is not long enough, but 0.1s appears to work reliably.
-        # -- TK, 15 December 2014
-        time.sleep(0.1)
+        @self.addCleanup
+        def cleanup_sessions():
+            for session in self.sess_api.list().json():
+                self.sess_api.delete(session['id'])
 
-        shutil.rmtree(pjoin(self.notebook_dir.name, 'foo'),
-                      ignore_errors=True)
+            # This is necessary in some situations on Windows: without it, it
+            # fails to delete the directory because something is still using
+            # it. I think there is a brief period after the kernel terminates
+            # where Windows still treats its working directory as in use. On my
+            # Windows VM, 0.01s is not long enough, but 0.1s appears to work
+            # reliably.  -- TK, 15 December 2014
+            time.sleep(0.1)
 
     def test_create(self):
         sessions = self.sess_api.list().json()

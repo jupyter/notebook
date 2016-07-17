@@ -18,6 +18,7 @@ var commonConfig = {
             "node_modules" /* npm */
         ]
     },
+    bail: true,
     module: {
         loaders: [
             { test: /\.js$/, exclude: /node_modules|\/notebook\/static\/component/, loader: "babel-loader"},
@@ -38,7 +39,13 @@ var commonConfig = {
       bootstrap: '$',
       bootstraptour: 'Tour',
       'jquery-ui': '$',
-      typeahead: '$.typeahead'
+      typeahead: '$.typeahead',
+      'codemirror': 'CodeMirror',
+      'codemirror/lib/codemirror': 'CodeMirror',
+      'codemirror/mode/meta': 'CodeMirror',
+      // Account for relative paths from other CodeMirror files
+      '../../lib/codemirror': 'CodeMirror',
+      '../lib/codemirror': 'CodeMirror' 
     }
 };
 

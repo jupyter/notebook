@@ -14,7 +14,7 @@ from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
 
 from jupyter_client.multikernelmanager import MultiKernelManager
-from traitlets import List, Unicode, TraitError
+from traitlets import List, Unicode, TraitError, default, validate
 
 from notebook.utils import to_os_path
 from ipython_genutils.py3compat import getcwd
@@ -23,27 +23,31 @@ from ipython_genutils.py3compat import getcwd
 class MappingKernelManager(MultiKernelManager):
     """A KernelManager that handles notebook mapping and HTTP error handling"""
 
-    def _kernel_manager_class_default(self):
+    @default('kernel_manager_class')
+    def _default_kernel_manager_class(self):
         return "jupyter_client.ioloop.IOLoopKernelManager"
 
     kernel_argv = List(Unicode())
 
     root_dir = Unicode(config=True)
 
-    def _root_dir_default(self):
+    @default('root_dir')
+    def _default_root_dir(self):
         try:
             return self.parent.notebook_dir
         except AttributeError:
             return getcwd()
 
-    def _root_dir_changed(self, name, old, new):
+    @validate('root_dir')
+    def _update_root_dir(self, proposal):
         """Do a bit of validation of the root dir."""
-        if not os.path.isabs(new):
+        value = proposal['value']
+        if not os.path.isabs(value):
             # If we receive a non-absolute path, make it absolute.
-            self.root_dir = os.path.abspath(new)
-            return
-        if not os.path.exists(new) or not os.path.isdir(new):
-            raise TraitError("kernel root dir %r is not a directory" % new)
+            value = os.path.abspath(value)
+        if not os.path.exists(value) or not os.path.isdir(value):
+            raise TraitError("kernel root dir %r is not a directory" % value)
+        return value
 
     #-------------------------------------------------------------------------
     # Methods for managing kernels and sessions
