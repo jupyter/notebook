@@ -223,71 +223,6 @@ define([
         name_sort_helper($('#notebook_list'), "div.list_item", 'span.item_name');
     };
 
-    // NotebookList.prototype.handleFilesUpload =  function(event, dropOrForm) {
-    //     var that = this;
-    //     var files;
-    //     if(dropOrForm === 'drop'){
-    //         files = event.originalEvent.dataTransfer.files;
-    //     } else
-    //     {
-    //         files = event.originalEvent.target.files;
-    //     }
-
-    //     var reader_onload = function (event) {
-    //         var item = $(event.target).data('item');
-    //         that.add_file_data(event.target.result, item);
-    //         that.add_upload_button(item);
-    //     };
-    //     var reader_onerror = function (event) {
-    //         var item = $(event.target).data('item');
-    //         var name = item.data('name');
-    //         item.remove();
-    //         dialog.modal({
-    //             title : 'Failed to read file',
-    //             body : "Failed to read file '" + name + "'",
-    //             buttons : {'OK' : { 'class' : 'btn-primary' }}
-    //         });
-    //     };
-
-    //     for (var i = 0; i < files.length; i++) {
-    //         var f = files[i];
-    //         var name_and_ext = utils.splitext(f.name);
-    //         var file_ext = name_and_ext[1];
-
-    //         // skip large files with a warning
-    //         if (f.size > this._max_upload_size_mb * 1024 * 1024) {
-    //             dialog.modal({
-    //                 title : 'Cannot upload file',
-    //                 body : "Cannot upload file (>" + this._max_upload_size_mb + " MB) '" + f.name + "'",
-    //                 buttons : {'OK' : { 'class' : 'btn-primary' }}
-    //             });
-    //             continue;
-    //         }
-
-    //         var reader = new FileReader();
-    //         if (file_ext === '.ipynb') {
-    //             reader.readAsText(f);
-    //         } else {
-    //             // read non-notebook files as binary
-    //             reader.readAsArrayBuffer(f);
-    //         }
-    //         var item = that.new_item(0, true);
-    //         item.addClass('new-file');
-    //         that.add_name_input(f.name, item, file_ext === '.ipynb' ? 'notebook' : 'file');
-    //         // Store the list item in the reader so we can use it later
-    //         // to know which item it belongs to.
-    //         $(reader).data('item', item);
-    //         reader.onload = reader_onload;
-    //         reader.onerror = reader_onerror;
-    //     }
-    //     // Replace the file input form wth a clone of itself. This is required to
-    //     // reset the form. Otherwise, if you upload a file, delete it and try to
-    //     // upload it again, the changed event won't fire.
-    //     var form = $('input.fileinput');
-    //     form.replaceWith(form.clone(true));
-    //     return false;
-    // };
-
     NotebookList.prototype.clear_list = function (remove_uploads) {
         /**
          * Clears the navigation tree.
@@ -841,7 +776,7 @@ define([
                             that.contents.rename(item_path, new_path).then(function() {
                                 // After each move finishes, reload the list.
                                 that.load_list();
-                            }).catch(function(e) { 
+                            }).catch(function(e) {
                                 // If any of the moves fails, show this dialog for that move.
                                 dialog.modal({
                                     title: "Move Failed",
@@ -1067,10 +1002,10 @@ define([
                 item.remove();
                 return false;
             });
-    
+
         var progress_bar = $('<div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">\
-            <div class="progress-bar progress-bar-success" style="width:0%;"></div></div>');        
-    
+            <div class="progress-bar progress-bar-success" style="width:0%;"></div></div>');
+
         data.context = progress_bar;
         data.item = item;
 
