@@ -8,7 +8,7 @@ import mimetypes
 import json
 import base64
 
-from tornado import web
+from tornado import web, escape
 
 from notebook.base.handlers import IPythonHandler
 
@@ -31,7 +31,7 @@ class FilesHandler(IPythonHandler):
         model = cm.get(path, type='file')
         
         if self.get_argument("download", False):
-            self.set_header('Content-Disposition','attachment; filename="%s"' % name)
+            self.set_header('Content-Disposition','attachment; filename="%s"' % escape.url_escape(name))
         
         # get mimetype from filename
         if name.endswith('.ipynb'):
