@@ -22,7 +22,7 @@ except ImportError:
 from jinja2 import TemplateNotFound
 from tornado import web
 
-from tornado import gen
+from tornado import gen, escape
 from tornado.log import app_log
 
 from notebook._sysinfo import get_sys_info
@@ -410,7 +410,7 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
         if os.path.splitext(path)[1] == '.ipynb':
             name = path.rsplit('/', 1)[-1]
             self.set_header('Content-Type', 'application/json')
-            self.set_header('Content-Disposition','attachment; filename="%s"' % name)
+            self.set_header('Content-Disposition','attachment; filename="%s"' % escape.url_escape(name))
         
         return web.StaticFileHandler.get(self, path)
     
