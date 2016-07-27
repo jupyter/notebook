@@ -5,3 +5,17 @@ mainly to be overridden in profile/static/custom/custom.css
 
 This will always be an empty file in IPython
 */
+
+#header-container {
+  display: none;
+}
+
+#menubar-container {
+  width: auto;
+  margin-left: 20px;
+}
+
+#notebook .container {
+  width: auto;
+  margin: 0 20px 20px 23px;
+}
