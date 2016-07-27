@@ -1,4 +1,6 @@
-define ([], function() {
+define ([
+    'termjs',
+], function(Terminal) {
     "use strict";
     function make_terminal(element, size, ws_url) {
         var ws = new WebSocket(ws_url);

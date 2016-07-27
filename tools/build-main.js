@@ -21,7 +21,7 @@ var rjs_config = {
     "jquery-ui": 'components/jquery-ui/ui/minified/jquery-ui.min',
     moment: 'components/moment/moment',
     codemirror: 'components/codemirror',
-    termjs: 'components/term.js/src/term',
+    termjs: 'components/xterm.js/src/xterm',
     typeahead: 'components/jquery-typeahead/dist/jquery.typeahead',
     contents: 'empty:'
   },
