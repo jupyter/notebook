@@ -40,6 +40,6 @@
     "moment": "^2.8.4",
     "preact": "^4.5.1",
     "preact-compat": "^1.7.0",
-    "xterm": "^0.33.0"
+    "xterm": "^1.0"
   }
 }
