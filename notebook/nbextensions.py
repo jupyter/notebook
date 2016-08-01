@@ -1131,7 +1131,8 @@ def _get_nbextension_metadata(module):
     """
     m = import_item(module)
     if not hasattr(m, '_jupyter_nbextension_paths'):
-        raise KeyError('The Python module {} is not a valid nbextension'.format(module))
+        raise KeyError('The Python module {} is not a valid nbextension, '
+                       'it is missing the `_jupyter_nbextension_paths()` method.'.format(module))
     nbexts = m._jupyter_nbextension_paths()
     return m, nbexts
 
