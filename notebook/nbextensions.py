@@ -1051,8 +1051,17 @@ def _get_nbextension_dir(user=False, sys_prefix=False, prefix=None, nbextensions
     nbextensions_dir : str [optional]
         Get what you put in
     """
-    if sum(map(bool, [user, prefix, nbextensions_dir, sys_prefix])) > 1:
-        raise ArgumentConflict("cannot specify more than one of user, sys_prefix, prefix, or nbextensions_dir")
+    conflicting = [
+        ('user', user),
+        ('prefix', prefix),
+        ('nbextensions_dir', nbextensions_dir),
+        ('sys_prefix', sys_prefix),
+    ]
+    conflicting_set = ['{}={!r}'.format(n, v) for n, v in conflicting if v]
+    if len(conflicting_set) > 1:
+        raise ArgumentConflict(
+            "cannot specify more than one of user, sys_prefix, prefix, or nbextensions_dir, but got: {}"
+            .format(', '.join(conflicting_set)))
     if user:
         nbext = pjoin(jupyter_data_dir(), u'nbextensions')
     elif sys_prefix:
