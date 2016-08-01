@@ -3,6 +3,10 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
+try:
+    from urllib.parse import urlparse # Py 3
+except ImportError:
+    from urlparse import urlparse # Py 2
 import uuid
 
 from tornado.escape import url_escape
@@ -23,13 +27,37 @@ class LoginHandler(IPythonHandler):
                 message=message,
         ))
 
+    def _redirect_safe(self, url, default=None):
+        """Redirect if url is on our PATH
+
+        Full-domain redirects are allowed if they pass our CORS origin checks.
+
+        Otherwise use default (self.base_url if unspecified).
+        """
+        if default is None:
+            default = self.base_url
+        if not url.startswith(self.base_url):
+            # require that next_url be absolute path within our path
+            allow = False
+            # OR pass our cross-origin check
+            if '://' in url:
+                # if full URL, run our cross-origin check:
+                parsed = urlparse(url.lower())
+                origin = '%s://%s' % (parsed.scheme, parsed.netloc)
+                if self.allow_origin:
+                    allow = self.allow_origin == origin
+                elif self.allow_origin_pat:
+                    allow = bool(self.allow_origin_pat.match(origin))
+            if not allow:
+                # not allowed, use default
+                self.log.warn("Not allowing login redirect to %r" % url)
+                url = default
+        self.redirect(url)
+
     def get(self):
         if self.current_user:
             next_url = self.get_argument('next', default=self.base_url)
-            if not next_url.startswith(self.base_url):
-                # require that next_url be absolute path within our path
-                next_url = self.base_url
-            self.redirect(next_url)
+            self._redirect_safe(next_url)
         else:
             self._render()
 
@@ -54,10 +82,7 @@ class LoginHandler(IPythonHandler):
                 return
 
         next_url = self.get_argument('next', default=self.base_url)
-        if not next_url.startswith(self.base_url):
-            # require that next_url be absolute path within our path
-            next_url = self.base_url
-        self.redirect(next_url)
+        self._redirect_safe(next_url)
 
     @classmethod
     def get_user(cls, handler):
