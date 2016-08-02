@@ -12,10 +12,29 @@ This will always be an empty file in IPython
 
 #menubar-container {
   width: auto;
-  margin-left: 20px;
 }
 
 #notebook .container {
   width: auto;
   margin: 0 20px 20px 23px;
+}
+
+#menubar .navbar,
+#maintoolbar {
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+#header {
+  position: fixed;
+  background-color: #fafafa !important;
+}
+
+.navbar-default {
+  background-color: transparent;
+  border: none;
+}
+
+.notebook_app {
+  background-color: white;
 }
