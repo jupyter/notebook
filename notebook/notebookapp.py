@@ -902,7 +902,8 @@ class NotebookApp(JupyterApp):
     nbserver_extensions = Dict({}, config=True,
         help=("Dict of Python modules to load as notebook server extensions."
               "Entry values can be used to enable and disable the loading of"
-              "the extensions.")
+              "the extensions. The extensions will be loaded in alphabetical "
+              "order.")
     )
 
     reraise_server_extension_failures = Bool(
@@ -1156,7 +1157,7 @@ class NotebookApp(JupyterApp):
             if not modulename in self.nbserver_extensions:
                 self.nbserver_extensions[modulename] = True
         
-        for modulename in self.nbserver_extensions:
+        for modulename in sorted(self.nbserver_extensions):
             if self.nbserver_extensions[modulename]:
                 try:
                     mod = importlib.import_module(modulename)
