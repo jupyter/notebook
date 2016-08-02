@@ -392,7 +392,7 @@ class APIHandler(IPythonHandler):
     def options(self, *args, **kwargs):
         self.set_header('Access-Control-Allow-Headers', 'accept, content-type')
         self.set_header('Access-Control-Allow-Methods',
-                        'GET, PUT, PATCH, DELETE, OPTIONS')
+                        'GET, PUT, POST, PATCH, DELETE, OPTIONS')
         self.finish()
 
 
