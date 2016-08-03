@@ -844,7 +844,7 @@ class NotebookApp(JupyterApp):
     @observe('pylab')
     def _update_pylab(self, change):
         """when --pylab is specified, display a warning and exit"""
-        if new != 'warn':
+        if change['new'] != 'warn':
             backend = ' %s' % change['new']
         else:
             backend = ''
