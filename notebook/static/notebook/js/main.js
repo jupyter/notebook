@@ -46,7 +46,7 @@ require([
     CodeMirror,
     about,
     typeahead,
-    searchandreplace,
+    searchandreplace
     ) {
     "use strict";
 
