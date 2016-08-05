@@ -351,9 +351,9 @@ define([
         // Notebook trust events
         this.events.on('trust_changed.Notebook', function (event, trusted) {
             if (trusted) {
-                tnw.info("Trusted");
+                tnw.set_message("Trusted");
             } else {
-                tnw.danger("Not Trusted", undefined, function() {
+                tnw.set_message("Not Trusted", undefined, function() {
                   that.notebook.trust_notebook();
                   return false;
                 });
