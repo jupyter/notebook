@@ -779,7 +779,7 @@ define([
          */
         var type = 'text/latex';
         var toinsert = this.create_output_subarea(md, "output_latex", type);
-        toinsert.append(latex);
+        toinsert.text(latex);
         element.append(toinsert);
         return toinsert;
     };
