@@ -528,7 +528,7 @@ class NotebookApp(JupyterApp):
     )
     
     client_ca = Unicode(u'', config=True,
-        help="""The full path to a certificate authority certifificate for SSL/TLS client authentication."""
+        help="""The full path to a certificate authority certificate for SSL/TLS client authentication."""
     )
     
     cookie_secret_file = Unicode(config=True,
