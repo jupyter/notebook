@@ -2073,7 +2073,7 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
         var success = $.proxy(this._session_started, this);
         var failure = $.proxy(this._session_start_failed, this);
 
-        if (this.session !== null) {
+        if (this.session && this.session.kernel) {
             this.session.restart(options, success, failure);
         } else {
             this.session = new session.Session(options);
