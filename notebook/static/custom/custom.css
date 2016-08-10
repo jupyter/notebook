@@ -16,7 +16,9 @@ This will always be an empty file in IPython
 
 #notebook .container {
   width: auto;
-  margin: 0 20px 20px 23px;
+  margin: 0 20px 20px;
+  padding: 0;
+  box-shadow: none;
 }
 
 #menubar .navbar,
@@ -28,6 +30,9 @@ This will always be an empty file in IPython
 #header {
   position: fixed;
   background-color: #fafafa !important;
+  border-bottom: 1px solid #dddddd;
+  margin-bottom: -1px;
+  box-shadow: none !important;
 }
 
 .navbar-default {
@@ -37,4 +42,44 @@ This will always be an empty file in IPython
 
 .notebook_app {
   background-color: white;
+}
+
+div.input_area {
+  background: #fafafa;
+  border-color: #dddddd;
+}
+
+div.cell.selected {
+  background: white;
+  dborder-color: #dddddd;
+  border-style: dashed;
+  padding-left: 5px;
+  border-left-width: 1px;
+}
+
+.edit_mode div.cell.selected {
+  border-style: solid;
+}
+
+div.cell.selected div.input_area {
+  background: white;
+}
+
+body > #header .header-bar {
+  height: 0;
+}
+
+.end_space {
+  display: none;
+}
+
+#kernel_indicator {
+  zposition: absolute;
+  zright: 0;
+  lzine-height: 50px;
+}
+
+#menus > .container-fluid > *:not(.navbar-collapse) {
+  position: relative;
+  top: 19px;
 }
