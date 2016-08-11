@@ -245,6 +245,7 @@ define([
         'text/html',
         'text/markdown',
         'text/latex',
+        'application/mathml+xml',
         'image/svg+xml',
         'image/png',
         'image/jpeg',
@@ -445,7 +446,8 @@ define([
         }
         this._safe_append(toinsert);
         // If we just output latex, typeset it.
-        if ((json.data['text/latex'] !== undefined) ||
+        if ((json.data['application/mathml+xml'] !== undefined) ||
+            (json.data['text/latex'] !== undefined) ||
             (json.data['text/html'] !== undefined) ||
             (json.data['text/markdown'] !== undefined)) {
             this.typeset();
@@ -558,7 +560,8 @@ define([
         if (this.append_mime_type(json, toinsert, handle_inserted)) {
             this._safe_append(toinsert);
             // If we just output latex, typeset it.
-            if ((json.data['text/latex'] !== undefined) ||
+            if ((json.data['application/mathml+xml'] !== undefined) ||
+                (json.data['text/latex'] !== undefined) ||
                 (json.data['text/html'] !== undefined) ||
                 (json.data['text/markdown'] !== undefined)) {
                 this.typeset();
@@ -570,6 +573,7 @@ define([
     OutputArea.safe_outputs = {
         'text/plain' : true,
         'text/latex' : true,
+        'application/mathml+xml' : true,
         'image/png' : true,
         'image/jpeg' : true
     };
@@ -783,6 +787,18 @@ define([
         element.append(toinsert);
         return toinsert;
     };
+    
+    var append_mathml = function (mathml, md, element) {
+        /**
+         * This method cannot do the typesetting because the mathml first has to
+         * be on the page.
+         */
+        var type = 'application/mathml+xml';
+        var toinsert = this.create_output_subarea(md, "output_mathml", type);
+        toinsert.text(mathml);
+        element.append(toinsert);
+        return toinsert;
+    };
 
 
     OutputArea.prototype.append_raw_input = function (msg) {
@@ -968,6 +984,7 @@ define([
         'text/html',
         'text/markdown',
         'text/latex',
+        'application/mathml+xml',
         'image/svg+xml',
         'image/png',
         'image/jpeg',
@@ -983,6 +1000,7 @@ define([
         "image/png" : append_png,
         "image/jpeg" : append_jpeg,
         "text/latex" : append_latex,
+        "application/mathml+xml" : append_mathml,
         "application/javascript" : append_javascript,
         "application/pdf" : append_pdf
     };
