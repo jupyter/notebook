@@ -119,9 +119,9 @@ class ContentsHandler(APIHandler):
         if content not in {'0', '1'}:
             raise web.HTTPError(400, u'Content %r is invalid' % content)
         content = int(content)
-        
+
         model = yield gen.maybe_future(self.contents_manager.get(
-            path=path, type=type, format=format, content=content,
+            path, type=type, format=format, content=content
         ))
         if model['type'] == 'directory' and content:
             # group listing by type, then by name (case-insensitive)
@@ -142,7 +142,7 @@ class ContentsHandler(APIHandler):
         model = yield gen.maybe_future(cm.update(model, path))
         validate_model(model, expect_content=False)
         self._finish_model(model)
-    
+
     @gen.coroutine
     def _copy(self, copy_from, copy_to=None):
         """Copy a file, optionally specifying a target directory."""
@@ -163,7 +163,7 @@ class ContentsHandler(APIHandler):
         self.set_status(201)
         validate_model(model, expect_content=False)
         self._finish_model(model)
-    
+
     @gen.coroutine
     def _new_untitled(self, path, type='', ext=''):
         """Create a new, empty untitled entity"""
@@ -172,7 +172,7 @@ class ContentsHandler(APIHandler):
         self.set_status(201)
         validate_model(model, expect_content=False)
         self._finish_model(model)
-    
+
     @gen.coroutine
     def _save(self, model, path):
         """Save an existing file."""
