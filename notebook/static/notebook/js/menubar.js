@@ -211,6 +211,7 @@ define([
             '#move_cell_down': 'move-cell-down',
             '#toggle_header': 'toggle-header',
             '#toggle_toolbar': 'toggle-toolbar',
+            '#toggle_line_numbers': 'toggle-all-line-numbers',
             '#insert_cell_above': 'insert-cell-above',
             '#insert_cell_below': 'insert-cell-below',
             '#run_cell': 'run-cell',
