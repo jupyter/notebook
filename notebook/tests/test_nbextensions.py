@@ -62,7 +62,15 @@ class TestInstallNBExtension(TestCase):
         return py3compat.cast_unicode(td.name)
 
     def setUp(self):
+        # Any TemporaryDirectory objects appended to this list will be cleaned
+        # up at the end of the test run.
         self.tempdirs = []
+
+        @self.addCleanup
+        def cleanup_tempdirs():
+            for d in self.tempdirs:
+                d.cleanup()
+
         self.src = self.tempdir()
         self.files = files = [
             pjoin(u'ƒile'),
@@ -75,20 +83,30 @@ class TestInstallNBExtension(TestCase):
             if not os.path.exists(parent):
                 os.makedirs(parent)
             touch(fullpath)
-        
-        self.data_dir = self.tempdir()
-        self.patch_data = patch.object(nbextensions,
-            'jupyter_data_dir', lambda : self.data_dir)
-        self.patch_data.start()
-        self.system_path = [self.tempdir()]
-        self.system_nbext = pjoin(self.system_path[0], 'nbextensions')
-        self.patch_system_data = patch.object(nbextensions,
-            'SYSTEM_JUPYTER_PATH', self.system_path)
-        self.patch_system_data.start()
-    
-    def tearDown(self):
-        self.patch_data.stop()
-        self.patch_system_data.stop()
+
+        self.test_dir = self.tempdir()
+        self.data_dir = os.path.join(self.test_dir, 'data')
+        self.config_dir = os.path.join(self.test_dir, 'config')
+        self.system_data_dir = os.path.join(self.test_dir, 'system_data')
+        self.system_path = [self.system_data_dir]
+        self.system_nbext = os.path.join(self.system_data_dir, 'nbextensions')
+
+        # Patch out os.environ so that tests are isolated from the real OS
+        # environment.
+        self.patch_env = patch.dict('os.environ', {
+            'JUPYTER_CONFIG_DIR': self.config_dir,
+            'JUPYTER_DATA_DIR': self.data_dir,
+        })
+        self.patch_env.start()
+        self.addCleanup(self.patch_env.stop)
+
+        # Patch out the system path os that we consistently use our own
+        # temporary directory instead.
+        self.patch_system_path = patch.object(
+            nbextensions, 'SYSTEM_JUPYTER_PATH', self.system_path
+        )
+        self.patch_system_path.start()
+        self.addCleanup(self.patch_system_path.stop)
 
     def assert_dir_exists(self, path):
         if not os.path.exists(path):
@@ -120,18 +138,20 @@ class TestInstallNBExtension(TestCase):
     def test_create_data_dir(self):
         """install_nbextension when data_dir doesn't exist"""
         with TemporaryDirectory() as td:
-            self.data_dir = pjoin(td, u'jupyter_data')
-            install_nbextension(self.src, user=True)
-            self.assert_dir_exists(self.data_dir)
-            for file in self.files:
-                self.assert_installed(
-                    pjoin(basename(self.src), file),
-                    user=True,
-                )
+            data_dir = os.path.join(td, self.data_dir)
+            with patch.dict('os.environ', {
+                'JUPYTER_DATA_DIR': data_dir,
+            }):
+                install_nbextension(self.src, user=True)
+                self.assert_dir_exists(data_dir)
+                for file in self.files:
+                    self.assert_installed(
+                        pjoin(basename(self.src), file),
+                        user=True,
+                    )
     
     def test_create_nbextensions_user(self):
         with TemporaryDirectory() as td:
-            self.data_dir = pjoin(td, u'jupyter_data')
             install_nbextension(self.src, user=True)
             self.assert_installed(
                 pjoin(basename(self.src), u'ƒile'),

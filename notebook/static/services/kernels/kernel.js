@@ -338,7 +338,7 @@ define([
          * @function reconnect
          */
         if (this.is_connected()) {
-            return;
+            this.stop_channels();
         }
         this._reconnect_attempt = this._reconnect_attempt + 1;
         this.events.trigger('kernel_reconnecting.Kernel', {
@@ -534,8 +534,13 @@ define([
 
         this.events.trigger('kernel_disconnected.Kernel', {kernel: this});
         if (error) {
-            console.log('WebSocket connection failed: ', ws_url);
-            this.events.trigger('kernel_connection_failed.Kernel', {kernel: this, ws_url: ws_url, attempt: this._reconnect_attempt});
+            console.log('WebSocket connection failed: ', ws_url, error);
+            this.events.trigger('kernel_connection_failed.Kernel', {
+                kernel: this,
+                ws_url: ws_url,
+                attempt: this._reconnect_attempt,
+                error: error,
+            });
         }
         this._schedule_reconnect();
     };
@@ -638,8 +643,8 @@ define([
          */
         var msg = this._get_msg(msg_type, content, metadata, buffers);
         msg.channel = 'shell';
-        this._send(serialize.serialize(msg));
         this.set_callbacks_for_msg(msg.header.msg_id, callbacks);
+        this._send(serialize.serialize(msg));
         return msg.header.msg_id;
     };
 

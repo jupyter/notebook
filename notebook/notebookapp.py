@@ -12,6 +12,7 @@ import importlib
 import io
 import json
 import logging
+import mimetypes
 import os
 import random
 import re
@@ -77,7 +78,7 @@ from .services.sessions.sessionmanager import SessionManager
 
 from .auth.login import LoginHandler
 from .auth.logout import LogoutHandler
-from .base.handlers import FileFindHandler, IPythonHandler
+from .base.handlers import FileFindHandler
 
 from traitlets.config import Config
 from traitlets.config.application import catch_config_error, boolean_flag
@@ -90,7 +91,7 @@ from jupyter_client.session import Session
 from nbformat.sign import NotebookNotary
 from traitlets import (
     Dict, Unicode, Integer, List, Bool, Bytes, Instance,
-    TraitError, Type, Float
+    TraitError, Type, Float, observe, default, validate
 )
 from ipython_genutils import py3compat
 from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
@@ -143,7 +144,7 @@ def load_handlers(name):
 
 class NotebookWebApplication(web.Application):
 
-    def __init__(self, ipython_app, kernel_manager, contents_manager,
+    def __init__(self, jupyter_app, kernel_manager, contents_manager,
                  session_manager, kernel_spec_manager,
                  config_manager, log,
                  base_url, default_url, settings_overrides, jinja_env_options):
@@ -156,14 +157,14 @@ class NotebookWebApplication(web.Application):
             log.info(DEV_NOTE_NPM)
 
         settings = self.init_settings(
-            ipython_app, kernel_manager, contents_manager,
+            jupyter_app, kernel_manager, contents_manager,
             session_manager, kernel_spec_manager, config_manager, log, base_url,
             default_url, settings_overrides, jinja_env_options)
         handlers = self.init_handlers(settings)
 
         super(NotebookWebApplication, self).__init__(handlers, **settings)
 
-    def init_settings(self, ipython_app, kernel_manager, contents_manager,
+    def init_settings(self, jupyter_app, kernel_manager, contents_manager,
                       session_manager, kernel_spec_manager,
                       config_manager,
                       log, base_url, default_url, settings_overrides,
@@ -171,7 +172,7 @@ class NotebookWebApplication(web.Application):
 
         _template_path = settings_overrides.get(
             "template_path",
-            ipython_app.template_file_path,
+            jupyter_app.template_file_path,
         )
         if isinstance(_template_path, py3compat.string_types):
             _template_path = (_template_path,)
@@ -190,7 +191,7 @@ class NotebookWebApplication(web.Application):
             # reset the cache on server restart
             version_hash = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 
-        if ipython_app.ignore_minified_js:
+        if jupyter_app.ignore_minified_js:
             log.warn("""The `ignore_minified_js` flag is deprecated and no 
                 longer works.  Alternatively use `npm run build:watch` when
                 working on the notebook's Javascript and LESS""")
@@ -202,8 +203,8 @@ class NotebookWebApplication(web.Application):
             base_url=base_url,
             default_url=default_url,
             template_path=template_path,
-            static_path=ipython_app.static_file_path,
-            static_custom_path=ipython_app.static_custom_path,
+            static_path=jupyter_app.static_file_path,
+            static_custom_path=jupyter_app.static_custom_path,
             static_handler_class = FileFindHandler,
             static_url_prefix = url_path_join(base_url,'/static/'),
             static_handler_args = {
@@ -211,19 +212,19 @@ class NotebookWebApplication(web.Application):
                 'no_cache_paths': [url_path_join(base_url, 'static', 'custom')],
             },
             version_hash=version_hash,
-            ignore_minified_js=ipython_app.ignore_minified_js,
+            ignore_minified_js=jupyter_app.ignore_minified_js,
             
             # rate limits
-            iopub_msg_rate_limit=ipython_app.iopub_msg_rate_limit,
-            iopub_data_rate_limit=ipython_app.iopub_data_rate_limit,
-            rate_limit_window=ipython_app.rate_limit_window,
+            iopub_msg_rate_limit=jupyter_app.iopub_msg_rate_limit,
+            iopub_data_rate_limit=jupyter_app.iopub_data_rate_limit,
+            rate_limit_window=jupyter_app.rate_limit_window,
             
             # authentication
-            cookie_secret=ipython_app.cookie_secret,
+            cookie_secret=jupyter_app.cookie_secret,
             login_url=url_path_join(base_url,'/login'),
-            login_handler_class=ipython_app.login_handler_class,
-            logout_handler_class=ipython_app.logout_handler_class,
-            password=ipython_app.password,
+            login_handler_class=jupyter_app.login_handler_class,
+            logout_handler_class=jupyter_app.logout_handler_class,
+            password=jupyter_app.password,
 
             # managers
             kernel_manager=kernel_manager,
@@ -233,12 +234,13 @@ class NotebookWebApplication(web.Application):
             config_manager=config_manager,
 
             # IPython stuff
-            jinja_template_vars=ipython_app.jinja_template_vars,
-            nbextensions_path=ipython_app.nbextensions_path,
-            websocket_url=ipython_app.websocket_url,
-            mathjax_url=ipython_app.mathjax_url,
-            config=ipython_app.config,
-            config_dir=ipython_app.config_dir,
+            jinja_template_vars=jupyter_app.jinja_template_vars,
+            nbextensions_path=jupyter_app.nbextensions_path,
+            websocket_url=jupyter_app.websocket_url,
+            mathjax_url=jupyter_app.mathjax_url,
+            mathjax_config=jupyter_app.mathjax_config,
+            config=jupyter_app.config,
+            config_dir=jupyter_app.config_dir,
             jinja2_env=env,
             terminals_available=False,  # Set later if terminals are available
         )
@@ -268,7 +270,6 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('services.nbconvert.handlers'))
         handlers.extend(load_handlers('services.kernelspecs.handlers'))
         handlers.extend(load_handlers('services.security.handlers'))
-        handlers.extend(load_handlers('lab.handlers'))
         
         # BEGIN HARDCODED WIDGETS HACK
         # TODO: Remove on notebook 5.0
@@ -425,14 +426,17 @@ class NotebookApp(JupyterApp):
 
     _log_formatter_cls = LogFormatter
 
-    def _log_level_default(self):
+    @default('log_level')
+    def _default_log_level(self):
         return logging.INFO
 
-    def _log_datefmt_default(self):
+    @default('log_datefmt')
+    def _default_log_datefmt(self):
         """Exclude date from default date format"""
         return "%H:%M:%S"
     
-    def _log_format_default(self):
+    @default('log_format')
+    def _default_log_format(self):
         """override default log format to include time"""
         return u"%(color)s[%(levelname)1.1s %(asctime)s.%(msecs).03d %(name)s]%(end_color)s %(message)s"
 
@@ -483,7 +487,9 @@ class NotebookApp(JupyterApp):
     ip = Unicode('localhost', config=True,
         help="The IP address the notebook server will listen on."
     )
-    def _ip_default(self):
+
+    @default('ip')
+    def _default_ip(self):
         """Return localhost if available, 127.0.0.1 otherwise.
         
         On some (horribly broken) systems, localhost cannot be bound.
@@ -498,12 +504,17 @@ class NotebookApp(JupyterApp):
             s.close()
             return 'localhost'
 
-    def _ip_changed(self, name, old, new):
-        if new == u'*': self.ip = u''
+    @validate('ip')
+    def _valdate_ip(self, proposal):
+        value = proposal['value']
+        if value == u'*':
+            value = u''
+        return value
 
     port = Integer(8888, config=True,
         help="The port the notebook server will listen on."
     )
+
     port_retries = Integer(50, config=True,
         help="The number of additional ports to try if the specified port is not available."
     )
@@ -517,13 +528,15 @@ class NotebookApp(JupyterApp):
     )
     
     client_ca = Unicode(u'', config=True,
-        help="""The full path to a certificate authority certifificate for SSL/TLS client authentication."""
+        help="""The full path to a certificate authority certificate for SSL/TLS client authentication."""
     )
     
     cookie_secret_file = Unicode(config=True,
         help="""The file where the cookie secret is stored."""
     )
-    def _cookie_secret_file_default(self):
+
+    @default('cookie_secret_file')
+    def _default_cookie_secret_file(self):
         return os.path.join(self.runtime_dir, 'notebook_cookie_secret')
     
     cookie_secret = Bytes(b'', config=True,
@@ -535,7 +548,9 @@ class NotebookApp(JupyterApp):
         cookie_secret stored in plaintext (you can read the value from a file).
         """
     )
-    def _cookie_secret_default(self):
+    
+    @default('cookie_secret')
+    def _default_cookie_secret(self):
         if os.path.exists(self.cookie_secret_file):
             with io.open(self.cookie_secret_file, 'rb') as f:
                 return f.read()
@@ -598,14 +613,19 @@ class NotebookApp(JupyterApp):
     webapp_settings = Dict(config=True,
         help="DEPRECATED, use tornado_settings"
     )
-    def _webapp_settings_changed(self, name, old, new):
+
+    @observe('webapp_settings') 
+    def _update_webapp_settings(self, change):
         self.log.warning("\n    webapp_settings is deprecated, use tornado_settings.\n")
-        self.tornado_settings = new
+        self.tornado_settings = change['new']
     
     tornado_settings = Dict(config=True,
             help="Supply overrides for the tornado.web.Application that the "
                  "Jupyter notebook uses.")
     
+    terminado_settings = Dict(config=True,
+            help='Supply overrides for terminado. Currently only supports "shell_command".')
+
     cookie_options = Dict(config=True,
         help="Extra keyword arguments to pass to `set_secure_cookie`."
              " See tornado's set_secure_cookie docs for details."
@@ -632,9 +652,11 @@ class NotebookApp(JupyterApp):
         When disabled, equations etc. will appear as their untransformed TeX source.
         """
     )
-    def _enable_mathjax_changed(self, name, old, new):
+
+    @observe('enable_mathjax')
+    def _update_enable_mathjax(self, change):
         """set mathjax url to empty if mathjax is disabled"""
-        if not new:
+        if not change['new']:
             self.mathjax_url = u''
 
     base_url = Unicode('/', config=True,
@@ -643,16 +665,22 @@ class NotebookApp(JupyterApp):
                                Leading and trailing slashes can be omitted,
                                and will automatically be added.
                                ''')
-    def _base_url_changed(self, name, old, new):
-        if not new.startswith('/'):
-            self.base_url = '/'+new
-        elif not new.endswith('/'):
-            self.base_url = new+'/'
+
+    @validate('base_url')
+    def _update_base_url(self, proposal):
+        value = proposal['value']
+        if not value.startswith('/'):
+            value = '/' + value
+        elif not value.endswith('/'):
+            value = value + '/'
+        return value
     
     base_project_url = Unicode('/', config=True, help="""DEPRECATED use base_url""")
-    def _base_project_url_changed(self, name, old, new):
+
+    @observe('base_project_url')
+    def _update_base_project_url(self, change):
         self.log.warning("base_project_url is deprecated, use base_url")
-        self.base_url = new
+        self.base_url = change['new']
 
     extra_static_paths = List(Unicode(), config=True,
         help="""Extra paths to search for serving static files.
@@ -669,7 +697,9 @@ class NotebookApp(JupyterApp):
     static_custom_path = List(Unicode(),
         help="""Path to search for custom.js, css"""
     )
-    def _static_custom_path_default(self):
+
+    @default('static_custom_path')
+    def _default_static_custom_path(self):
         return [
             os.path.join(d, 'custom') for d in (
                 self.config_dir,
@@ -711,21 +741,34 @@ class NotebookApp(JupyterApp):
         Should be in the form of an HTTP origin: ws[s]://hostname[:port]
         """
     )
+
     mathjax_url = Unicode("", config=True,
         help="""The url for MathJax.js."""
     )
-    def _mathjax_url_default(self):
+
+    @default('mathjax_url')
+    def _default_mathjax_url(self):
         if not self.enable_mathjax:
             return u''
         static_url_prefix = self.tornado_settings.get("static_url_prefix", "static")
         return url_path_join(static_url_prefix, 'components', 'MathJax', 'MathJax.js')
     
-    def _mathjax_url_changed(self, name, old, new):
+    @observe('mathjax_url')
+    def _update_mathjax_url(self, change):
+        new = change['new']
         if new and not self.enable_mathjax:
             # enable_mathjax=False overrides mathjax_url
             self.mathjax_url = u''
         else:
             self.log.info("Using MathJax: %s", new)
+
+    mathjax_config = Unicode("TeX-AMS_HTML-full,Safe", config=True,
+        help="""The MathJax.js configuration file that is to be used."""
+    )
+
+    @observe('mathjax_config')
+    def _update_mathjax_config(self, change):
+        self.log.info("Using MathJax configuration file: %s", change['new'])
 
     contents_manager_class = Type(
         default_value=FileContentsManager,
@@ -733,11 +776,13 @@ class NotebookApp(JupyterApp):
         config=True,
         help='The notebook manager class to use.'
     )
+
     kernel_manager_class = Type(
         default_value=MappingKernelManager,
         config=True,
         help='The kernel manager class to use.'
     )
+
     session_manager_class = Type(
         default_value=SessionManager,
         config=True,
@@ -785,7 +830,8 @@ class NotebookApp(JupyterApp):
 
     info_file = Unicode()
 
-    def _info_file_default(self):
+    @default('info_file')
+    def _default_info_file(self):
         info_file = "nbserver-%s.json" % os.getpid()
         return os.path.join(self.runtime_dir, info_file)
     
@@ -794,10 +840,12 @@ class NotebookApp(JupyterApp):
         DISABLED: use %pylab or %matplotlib in the notebook to enable matplotlib.
         """
     )
-    def _pylab_changed(self, name, old, new):
+
+    @observe('pylab')
+    def _update_pylab(self, change):
         """when --pylab is specified, display a warning and exit"""
-        if new != 'warn':
-            backend = ' %s' % new
+        if change['new'] != 'warn':
+            backend = ' %s' % change['new']
         else:
             backend = ''
         self.log.error("Support for specifying --pylab on the command line has been removed.")
@@ -810,21 +858,22 @@ class NotebookApp(JupyterApp):
         help="The directory to use for notebooks and kernels."
     )
 
-    def _notebook_dir_default(self):
+    @default('notebook_dir')
+    def _default_notebook_dir(self):
         if self.file_to_run:
             return os.path.dirname(os.path.abspath(self.file_to_run))
         else:
             return py3compat.getcwd()
 
-    def _notebook_dir_validate(self, value, trait):
+    @validate('notebook_dir')
+    def _notebook_dir_validate(self, proposal):
+        value = proposal['value']
         # Strip any trailing slashes
         # *except* if it's root
         _, path = os.path.splitdrive(value)
         if path == os.sep:
             return value
-
         value = value.rstrip(os.sep)
-
         if not os.path.isabs(value):
             # If we receive a non-absolute path, make it absolute.
             value = os.path.abspath(value)
@@ -832,9 +881,11 @@ class NotebookApp(JupyterApp):
             raise TraitError("No such notebook dir: %r" % value)
         return value
 
-    def _notebook_dir_changed(self, name, old, new):
+    @observe('notebook_dir')
+    def _update_notebook_dir(self, change):
         """Do a bit of validation of the notebook dir."""
         # setting App.notebook_dir implies setting notebook and kernel dirs as well
+        new = change['new']
         self.config.FileContentsManager.root_dir = new
         self.config.MappingKernelManager.root_dir = new
 
@@ -842,9 +893,11 @@ class NotebookApp(JupyterApp):
     server_extensions = List(Unicode(), config=True,
         help=("DEPRECATED use the nbserver_extensions dict instead")
     )
-    def _server_extensions_changed(self, name, old, new):
+    
+    @observe('server_extensions')
+    def _update_server_extensions(self, change):
         self.log.warning("server_extensions is deprecated, use nbserver_extensions")
-        self.server_extensions = new
+        self.server_extensions = change['new']
         
     nbserver_extensions = Dict({}, config=True,
         help=("Dict of Python modules to load as notebook server extensions."
@@ -967,10 +1020,10 @@ class NotebookApp(JupyterApp):
         else:
             # SSL may be missing, so only import it if it's to be used
             import ssl
-            # Disable SSLv3, since its use is discouraged.
-            ssl_options['ssl_version'] = ssl.PROTOCOL_TLSv1
+            # Disable SSLv3 by default, since its use is discouraged.
+            ssl_options.setdefault('ssl_version', ssl.PROTOCOL_TLSv1)
             if ssl_options.get('ca_certs', False):
-                ssl_options['cert_reqs'] = ssl.CERT_REQUIRED
+                ssl_options.setdefault('cert_reqs', ssl.CERT_REQUIRED)
         
         self.login_handler_class.validate_security(self, ssl_options=ssl_options)
         self.http_server = httpserver.HTTPServer(self.web_app, ssl_options=ssl_options,
@@ -1015,7 +1068,7 @@ class NotebookApp(JupyterApp):
     def init_terminals(self):
         try:
             from .terminal import initialize
-            initialize(self.web_app, self.notebook_dir, self.connection_url)
+            initialize(self.web_app, self.notebook_dir, self.connection_url, self.terminado_settings)
             self.web_app.settings['terminals_available'] = True
         except ImportError as e:
             log = self.log.debug if sys.platform == 'win32' else self.log.warning
@@ -1115,7 +1168,14 @@ class NotebookApp(JupyterApp):
                         raise
                     self.log.warning("Error loading server extension %s", modulename,
                                   exc_info=True)
-    
+
+    def init_mime_overrides(self):
+        # On some Windows machines, an application has registered an incorrect
+        # mimetype for CSS in the registry. Tornado uses this when serving
+        # .css files, causing browsers to reject the stylesheet. We know the
+        # mimetype always needs to be text/css, so we override it here.
+        mimetypes.add_type('text/css', '.css')
+
     @catch_config_error
     def initialize(self, argv=None):
         super(NotebookApp, self).initialize(argv)
@@ -1128,6 +1188,7 @@ class NotebookApp(JupyterApp):
         self.init_terminals()
         self.init_signal()
         self.init_server_extensions()
+        self.init_mime_overrides()
 
     def cleanup_kernels(self):
         """Shutdown all kernels.
@@ -1211,7 +1272,8 @@ class NotebookApp(JupyterApp):
                 relpath = os.path.relpath(self.file_to_run, self.notebook_dir)
                 uri = url_escape(url_path_join('notebooks', *relpath.split(os.sep)))
             else:
-                uri = self.default_url
+                # default_url contains base_url, but so does connection_url
+                uri = self.default_url[len(self.base_url):]
             if browser:
                 b = lambda : browser.open(url_path_join(self.connection_url, uri),
                                           new=2)

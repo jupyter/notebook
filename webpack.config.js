@@ -1,6 +1,12 @@
 var _ = require('underscore');
 var path = require('path');
+var sourcemaps = 'source-map'
 
+if(process.argv.indexOf('-w') !== -1 || process.argv.indexOf('-w') !== -1  ){
+  console.log('watch mode detected, will switch to cheep sourcemaps')
+  sourcemaps = 'eval-source-map';
+
+}
 var commonConfig = {
     resolve: {
         root: [
@@ -12,8 +18,10 @@ var commonConfig = {
             "node_modules" /* npm */
         ]
     },
+    bail: true,
     module: {
         loaders: [
+            { test: /\.js$/, exclude: /node_modules|\/notebook\/static\/component/, loader: "babel-loader"},
             { test: /\.css$/, loader: "style-loader!css-loader" },
             { test: /\.json$/, loader: "json-loader" },
             // jquery-ui loads some images
@@ -31,7 +39,13 @@ var commonConfig = {
       bootstrap: '$',
       bootstraptour: 'Tour',
       'jquery-ui': '$',
-      typeahead: '$.typeahead'
+      typeahead: '$.typeahead',
+      'codemirror': 'CodeMirror',
+      'codemirror/lib/codemirror': 'CodeMirror',
+      'codemirror/mode/meta': 'CodeMirror',
+      // Account for relative paths from other CodeMirror files
+      '../../lib/codemirror': 'CodeMirror',
+      '../lib/codemirror': 'CodeMirror' 
     }
 };
 
@@ -43,7 +57,7 @@ function buildConfig(appName) {
             filename: 'main.min.js',
             path: './notebook/static/' + appName + '/js/built'
         },
-        devtool: 'source-map',
+        devtool: sourcemaps,
     });
 }
 
@@ -60,7 +74,7 @@ module.exports = [
             path: './notebook/static/services/built',
             libraryTarget: 'amd'
         },
-        devtool: 'source-map',
+        devtool: sourcemaps,
     }),
     _.extend({}, commonConfig, {
         entry: './notebook/static/index.js',
@@ -69,6 +83,6 @@ module.exports = [
             path: './notebook/static/built',
             libraryTarget: 'amd'
         },
-        devtool: 'source-map',
+        devtool: sourcemaps,
     }),
 ].map(buildConfig);

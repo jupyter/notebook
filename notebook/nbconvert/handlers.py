@@ -7,7 +7,8 @@ import io
 import os
 import zipfile
 
-from tornado import web
+from tornado import web, escape
+from tornado.log import app_log
 
 from ..base.handlers import (
     IPythonHandler, FilesRedirectHandler,
@@ -38,7 +39,7 @@ def respond_zip(handler, name, output, resources):
     # Headers
     zip_filename = os.path.splitext(name)[0] + '.zip'
     handler.set_header('Content-Disposition',
-                       'attachment; filename="%s"' % zip_filename)
+                       'attachment; filename="%s"' % escape.url_escape(zip_filename))
     handler.set_header('Content-Type', 'application/zip')
 
     # Prepare the zip file
@@ -70,6 +71,7 @@ def get_exporter(format, **kwargs):
     try:
         return Exporter(**kwargs)
     except Exception as e:
+        app_log.exception("Could not construct Exporter: %s", Exporter)
         raise web.HTTPError(500, "Could not construct Exporter: %s" % e)
 
 class NbconvertFileHandler(IPythonHandler):
@@ -103,6 +105,7 @@ class NbconvertFileHandler(IPythonHandler):
                 }
             )
         except Exception as e:
+            self.log.exception("nbconvert failed: %s", e)
             raise web.HTTPError(500, "nbconvert failed: %s" % e)
 
         if respond_zip(self, name, output, resources):
@@ -112,7 +115,7 @@ class NbconvertFileHandler(IPythonHandler):
         if self.get_argument('download', 'false').lower() == 'true':
             filename = os.path.splitext(name)[0] + resources['output_extension']
             self.set_header('Content-Disposition',
-                               'attachment; filename="%s"' % filename)
+                               'attachment; filename="%s"' % escape.url_escape(filename))
 
         # MIME type
         if exporter.output_mimetype:

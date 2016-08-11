@@ -33,7 +33,9 @@ function load_json(clipboard) {
 }
 
 function copy(event) {
-  if (Jupyter.notebook.mode !== 'command') {
+  if ((Jupyter.notebook.mode !== 'command') ||
+        // window.getSelection checks if text is selected, e.g. in output
+        !window.getSelection().isCollapsed) {
     return;
   }
   var selecn = Jupyter.notebook.get_selected_cells().map(
@@ -64,6 +66,18 @@ function paste(event) {
     first_inserted.focus_cell();
   }
   event.preventDefault();
+}
+
+function notebookOnlyEvent(callback) {
+    // Only call the callback to redirect the event if the notebook should be
+    // handling the events, at the descretion of the keyboard manager.
+    // If the focus is in a text widget or something (kbmanager disabled),
+    // allow the default event.
+    return function() {
+        if (Jupyter.keyboard_manager.enabled) {
+            callback.apply(this, arguments);
+        }
+    };
 }
 
 function needs_text_box_for_paste_event() {
@@ -122,11 +136,11 @@ function setup_paste_dialog() {
 
 // Set clipboard event listeners on the document.
 return {setup_clipboard_events: function() {
-  document.addEventListener('copy', copy);
+  document.addEventListener('copy', notebookOnlyEvent(copy));
   if (needs_text_box_for_paste_event()) {
     setup_paste_dialog();
   } else {
-    document.addEventListener('paste', paste);
+    document.addEventListener('paste', notebookOnlyEvent(paste));
   }
 }};
 });

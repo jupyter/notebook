@@ -2,6 +2,25 @@
 // Distributed under the terms of the Modified BSD License.
 __webpack_public_path__ = window['staticURL'] + 'notebook/js/built/';
 
+// adapted from Mozilla Developer Network example at
+// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind
+// shim `bind` for testing under casper.js
+var bind = function bind(obj) {
+  var slice = [].slice;
+  var args = slice.call(arguments, 1),
+    self = this,
+    nop = function() {
+    },
+    bound = function() {
+      return self.apply(this instanceof nop ? this : (obj || {}), args.concat(slice.call(arguments)));
+    };
+  nop.prototype = this.prototype || {}; // Firefox cries sometimes if prototype is undefined
+  bound.prototype = new nop();
+  return bound;
+};
+Function.prototype.bind = Function.prototype.bind || bind ;
+
+
 requirejs(['contents'], function(contentsModule) {
 require([
     'base/js/namespace',
@@ -52,8 +71,13 @@ require([
 
     // Pull typeahead from the global jquery object
     var typeahead = $.typeahead;
-
-    requirejs(['custom/custom'], function() {});
+    
+    try{
+        requirejs(['custom/custom'], function() {});
+    } catch(err) {
+        console.log("Error processing custom.js. Logging and continuing")
+        console.warn(err);
+    }
 
     // compat with old IPython, remove for IPython > 3.0
     window.CodeMirror = CodeMirror;
@@ -192,7 +216,7 @@ require([
     })
     // BEGIN HARDCODED WIDGETS HACK
     .then(function() {
-        if (!utils.is_loaded('widgets/extension')) {
+        if (!utils.is_loaded('jupyter-js-widgets/extension')) {
             // Fallback to the ipywidgets extension
             utils.load_extension('widgets/notebook/js/extension').catch(function () {
                 console.warn('Widgets are not available.  Please install widgetsnbextension or ipywidgets 4.0');

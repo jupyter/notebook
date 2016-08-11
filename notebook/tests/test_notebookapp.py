@@ -77,7 +77,7 @@ def test_nb_dir_root():
 def test_generate_config():
     with TemporaryDirectory() as td:
         app = NotebookApp(config_dir=td)
-        app.initialize(['--generate-config'])
+        app.initialize(['--generate-config', '--allow-root'])
         with nt.assert_raises(NoStart):
             app.start()
         assert os.path.exists(os.path.join(td, 'jupyter_notebook_config.py'))

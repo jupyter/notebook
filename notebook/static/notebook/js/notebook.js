@@ -4,31 +4,31 @@
 /**
  * @module notebook
  */
-define(function (require) {
-    "use strict";
-    var IPython = require('base/js/namespace');
-    var _ = require('underscore');
-    var utils = require('base/js/utils');
-    var dialog = require('base/js/dialog');
-    var cellmod = require('notebook/js/cell');
-    var textcell = require('notebook/js/textcell');
-    var codecell = require('notebook/js/codecell');
-    var moment = require('moment');
-    var configmod = require('services/config');
-    var session = require('services/sessions/session');
-    var celltoolbar = require('notebook/js/celltoolbar');
-    var marked = require('components/marked/lib/marked');
-    var CodeMirror = require('codemirror/lib/codemirror');
-    var runMode = require('codemirror/addon/runmode/runmode');
-    var mathjaxutils = require('notebook/js/mathjaxutils');
-    var keyboard = require('base/js/keyboard');
-    var tooltip = require('notebook/js/tooltip');
-    var default_celltoolbar = require('notebook/js/celltoolbarpresets/default');
-    var rawcell_celltoolbar = require('notebook/js/celltoolbarpresets/rawcell');
-    var slideshow_celltoolbar = require('notebook/js/celltoolbarpresets/slideshow');
-    var attachments_celltoolbar = require('notebook/js/celltoolbarpresets/attachments');
-    var scrollmanager = require('notebook/js/scrollmanager');
-    var commandpalette = require('notebook/js/commandpalette');
+"use strict";
+import IPython from 'base/js/namespace';
+import _ from 'underscore';
+import utils from 'base/js/utils';
+import dialog from 'base/js/dialog';
+import cellmod from 'notebook/js/cell';
+import textcell from 'notebook/js/textcell';
+import codecell from 'notebook/js/codecell';
+import moment from 'moment';
+import configmod from 'services/config';
+import session from 'services/sessions/session';
+import celltoolbar from 'notebook/js/celltoolbar';
+import marked from 'components/marked/lib/marked';
+import CodeMirror from 'codemirror/lib/codemirror';
+import runMode from 'codemirror/addon/runmode/runmode';
+import mathjaxutils from 'notebook/js/mathjaxutils';
+import keyboard from 'base/js/keyboard';
+import tooltip from 'notebook/js/tooltip';
+import default_celltoolbar from 'notebook/js/celltoolbarpresets/default';
+import rawcell_celltoolbar from 'notebook/js/celltoolbarpresets/rawcell';
+import slideshow_celltoolbar from 'notebook/js/celltoolbarpresets/slideshow';
+import attachments_celltoolbar from 'notebook/js/celltoolbarpresets/attachments';
+import scrollmanager from 'notebook/js/scrollmanager';
+import commandpalette from 'notebook/js/commandpalette';
+import {ShortcutEditor} from 'notebook/js/shortcuteditor';
 
     var _SOFT_SELECTION_CLASS = 'jupyter-soft-selected';
 
@@ -50,7 +50,7 @@ define(function (require) {
      * @param {string}          options.notebook_path
      * @param {string}          options.notebook_name
      */
-    var Notebook = function (selector, options) {
+    export function Notebook(selector, options) {
         this.config = options.config;
         this.class_config = new configmod.ConfigWithDefaults(this.config, 
                                         Notebook.options_default, 'Notebook');
@@ -114,7 +114,8 @@ define(function (require) {
                         }
                     }, function (err) {
                         console.log("No CodeMirror mode: " + lang);
-                        callback(err, code);
+                        console.log("Require CodeMirror mode error: " + err);
+                        callback(null, code);
                     });
                 }
             });
@@ -360,6 +361,10 @@ define(function (require) {
 
     Notebook.prototype.show_command_palette = function() {
         var x = new commandpalette.CommandPalette(this);
+    };
+
+    Notebook.prototype.show_shortcuts_editor = function() {
+        new ShortcutEditor(this);
     };
 
     /**
@@ -3171,5 +3176,3 @@ define(function (require) {
         this.load_notebook(this.notebook_path);
     };
 
-    return {'Notebook': Notebook};
-});

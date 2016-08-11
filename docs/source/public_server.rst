@@ -43,6 +43,7 @@ using the following command::
 
   $ jupyter notebook --generate-config
 
+.. _hashed-pw:
 
 Preparing a hashed password
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -103,14 +104,12 @@ with the command::
 When starting the notebook server, your browser may warn that your self-signed
 certificate is insecure or unrecognized.  If you wish to have a fully
 compliant self-signed certificate that will not raise warnings, it is possible
-(but rather involved) to create one, as explained in detail in `this tutorial`__.
-
-.. __: http://arstechnica.com/security/news/2009/12/how-to-get-set-with-a-secure-sertificate-for-free.ars
-
-.. TODO: Find an additional resource that walks the user through this two-process step by step.
+(but rather involved) to create one, as explained in detail in this `tutorial`_.
+Alternatively, you may use `Let's Encrypt`_ to acquire a free SSL certificate
+and follow the steps in :ref:`using-lets-encrypt` to set up a public server.
 
 .. _OWASP: https://www.owasp.org
-
+.. _tutorial: http://arstechnica.com/security/news/2009/12/how-to-get-set-with-a-secure-sertificate-for-free.ars
 
 .. _notebook_public_server:
 
@@ -134,12 +133,50 @@ config file for the notebook using the following command line::
 In the ``~/.jupyter`` directory, edit the notebook config file,
 ``jupyter_notebook_config.py``.  By default, the notebook config file has
 all fields commented out. The minimum set of configuration options that
-you should to uncomment and edit in :file:``jupyter_notebook_config.py`` is the
+you should to uncomment and edit in :file:`jupyter_notebook_config.py` is the
 following::
 
      # Set options for certfile, ip, password, and toggle off browser auto-opening
      c.NotebookApp.certfile = u'/absolute/path/to/your/certificate/mycert.pem'
      c.NotebookApp.keyfile = u'/absolute/path/to/your/certificate/mykey.key'
+     # Set ip to '*' to bind on all interfaces (ips) for the public server
+     c.NotebookApp.ip = '*'
+     c.NotebookApp.password = u'sha1:bcd259ccf...<your hashed password here>'
+     c.NotebookApp.open_browser = False
+
+     # It is a good idea to set a known, fixed port for server access
+     c.NotebookApp.port = 9999
+
+You can then start the notebook using the ``jupyter notebook`` command.
+
+.. _using-lets-encrypt:
+
+Using Let's Encrypt
+~~~~~~~~~~~~~~~~~~~
+`Let's Encrypt`_ provides free SSL/TLS certificates. You can also set up a
+public server using a `Let's Encrypt`_ certificate.
+
+:ref:`notebook_public_server` will be similar when using a Let's Encrypt
+certificate with a few configuration changes. Here are the steps:
+
+1. Create a `Let's Encrypt certificate <https://letsencrypt.org/getting-started/>`_.
+2. Use :ref:`hashed-pw` to create one.
+3. If you don't already have config file for the notebook, create one
+   using the following command:
+   
+   .. code-block:: bash
+
+       $ jupyter notebook --generate-config
+
+4. In the ``~/.jupyter`` directory, edit the notebook config file,
+``jupyter_notebook_config.py``.  By default, the notebook config file has
+all fields commented out. The minimum set of configuration options that
+you should to uncomment and edit in :file:`jupyter_notebook_config.py` is the
+following::
+
+     # Set options for certfile, ip, password, and toggle off browser auto-opening
+     c.NotebookApp.certfile = u'/absolute/path/to/your/certificate/fullchain.pem'
+     c.NotebookApp.keyfile = u'/absolute/path/to/your/certificate/privkey.pem'
      # Set ip to '*' to bind on all interfaces (ips) for the public server
      c.NotebookApp.ip = '*'
      c.NotebookApp.password = u'sha1:bcd259ccf...<your hashed password here>'
@@ -165,13 +202,16 @@ You may now access the public server by pointing your browser to
 ``https://your.host.com:9999`` where ``your.host.com`` is your public server's
 domain.
 
+.. _`Let's Encrypt`: https://letsencrypt.org
+
+
 Firewall Setup
 ~~~~~~~~~~~~~~
 
 To function correctly, the firewall on the computer running the jupyter
 notebook server must be configured to allow connections from client
 machines on the access port ``c.NotebookApp.port`` set in
-:file:``jupyter_notebook_config.py`` port to allow connections to the
+:file:`jupyter_notebook_config.py` port to allow connections to the
 web interface.  The firewall must also allow connections from
 127.0.0.1 (localhost) on ports from 49152 to 65535.
 These ports are used by the server to communicate with the notebook kernels.

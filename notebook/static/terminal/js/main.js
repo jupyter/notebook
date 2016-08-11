@@ -1,8 +1,8 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 __webpack_public_path__ = window['staticURL'] + 'terminal/js/built/';
+require('xterm/src/xterm.css');
 
-requirejs(['termjs'], function(termjs) {
 require([
     'base/js/utils',
     'base/js/page',
@@ -66,5 +66,4 @@ require([
     // Expose terminal for fiddling with in the browser
     window.terminal = terminal;
 
-});
 });

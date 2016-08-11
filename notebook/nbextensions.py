@@ -686,7 +686,8 @@ class InstallNBExtensionApp(BaseNBExtensionApp):
     symlink = Bool(False, config=True, help="Create symlinks instead of copying files")
 
     prefix = Unicode('', config=True, help="Installation prefix")
-    nbextensions_dir = Unicode('', config=True, help="Full path to nbextensions dir (probably use prefix or user)")
+    nbextensions_dir = Unicode('', config=True,
+           help="Full path to nbextensions dir (probably use prefix or user)")
     destination = Unicode('', config=True, help="Destination for the copy or symlink")
 
     def _config_file_name_default(self):
@@ -696,9 +697,15 @@ class InstallNBExtensionApp(BaseNBExtensionApp):
     def install_extensions(self):
         """Perform the installation of nbextension(s)"""
         if len(self.extra_args)>1:
-            raise ValueError("only one nbextension allowed at a time.  Call multiple times to install multiple extensions.")
-        
-        install = install_nbextension_python if self.python else install_nbextension
+            raise ValueError("Only one nbextension allowed at a time. "
+                         "Call multiple times to install multiple extensions.")
+
+        if self.python:
+            install = install_nbextension_python
+            kwargs = {}
+        else:
+            install = install_nbextension
+            kwargs = {'destination': self.destination}
         
         full_dests = install(self.extra_args[0],
                              overwrite=self.overwrite,
@@ -707,7 +714,9 @@ class InstallNBExtensionApp(BaseNBExtensionApp):
                              sys_prefix=self.sys_prefix,
                              prefix=self.prefix,
                              nbextensions_dir=self.nbextensions_dir,
-                             logger=self.log)
+                             logger=self.log,
+                             **kwargs
+                            )
 
         if full_dests:
             self.log.info(
@@ -1042,8 +1051,17 @@ def _get_nbextension_dir(user=False, sys_prefix=False, prefix=None, nbextensions
     nbextensions_dir : str [optional]
         Get what you put in
     """
-    if sum(map(bool, [user, prefix, nbextensions_dir, sys_prefix])) > 1:
-        raise ArgumentConflict("cannot specify more than one of user, sys_prefix, prefix, or nbextensions_dir")
+    conflicting = [
+        ('user', user),
+        ('prefix', prefix),
+        ('nbextensions_dir', nbextensions_dir),
+        ('sys_prefix', sys_prefix),
+    ]
+    conflicting_set = ['{}={!r}'.format(n, v) for n, v in conflicting if v]
+    if len(conflicting_set) > 1:
+        raise ArgumentConflict(
+            "cannot specify more than one of user, sys_prefix, prefix, or nbextensions_dir, but got: {}"
+            .format(', '.join(conflicting_set)))
     if user:
         nbext = pjoin(jupyter_data_dir(), u'nbextensions')
     elif sys_prefix:
@@ -1113,7 +1131,8 @@ def _get_nbextension_metadata(module):
     """
     m = import_item(module)
     if not hasattr(m, '_jupyter_nbextension_paths'):
-        raise KeyError('The Python module {} is not a valid nbextension'.format(module))
+        raise KeyError('The Python module {} is not a valid nbextension, '
+                       'it is missing the `_jupyter_nbextension_paths()` method.'.format(module))
     nbexts = m._jupyter_nbextension_paths()
     return m, nbexts
 

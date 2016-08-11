@@ -453,6 +453,22 @@ define([
         return txt;
     }
 
+    // Remove characters that are overridden by backspace characters
+    function fixBackspace(txt) {
+        var tmp = txt;
+        do {
+            txt = tmp;
+            // Cancel out anything-but-newline followed by backspace
+            tmp = txt.replace(/[^\n]\x08/gm, '');
+        } while (tmp.length < txt.length);
+        return txt;
+    }
+
+    // Remove characters overridden by backspace and carriage return
+    function fixOverwrittenChars(txt) {
+        return fixCarriageReturn(fixBackspace(txt));
+    }
+
     // Locate any URLs and convert them to a anchor tag
     function autoLinkUrls(txt) {
         return txt.replace(/(^|\s)(https?|ftp)(:[^'"<>\s]+)/gi,
@@ -946,6 +962,22 @@ define([
         }
     };
 
+    // Test if a drag'n'drop event contains a file (as opposed to an HTML
+    // element/text from the document)
+    var dnd_contain_file = function(event) {
+        // As per the HTML5 drag'n'drop spec, the dataTransfer.types should
+        // contain one "Files" type if a file is being dragged
+        // https://www.w3.org/TR/2011/WD-html5-20110113/dnd.html#dom-datatransfer-types
+        if (event.dataTransfer.types) {
+            for (var i = 0; i < event.dataTransfer.types.length; i++) {
+                if (event.dataTransfer.types[i] == "Files") {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+
     var utils = {
         is_loaded: is_loaded,
         load_extension: load_extension,
@@ -956,6 +988,8 @@ define([
         uuid : uuid,
         fixConsole : fixConsole,
         fixCarriageReturn : fixCarriageReturn,
+        fixBackspace : fixBackspace,
+        fixOverwrittenChars: fixOverwrittenChars,
         autoLinkUrls : autoLinkUrls,
         points_to_pixels : points_to_pixels,
         get_body_data : get_body_data,
@@ -990,6 +1024,7 @@ define([
         time: time,
         format_datetime: format_datetime,
         datetime_sort_helper: datetime_sort_helper,
+        dnd_contain_file: dnd_contain_file,
         _ansispan:_ansispan
     };
 

@@ -24,6 +24,7 @@ define([
     NotebookNotificationArea.prototype.init_notification_widgets = function () {
         this.init_kernel_notification_widget();
         this.init_notebook_notification_widget();
+        this.init_trusted_notebook_notification_widget();
     };
 
     /**
@@ -138,8 +139,7 @@ define([
             if (info.attempt === 1) {
 
                 var msg = "A connection to the notebook server could not be established." +
-                        " The notebook will continue trying to reconnect, but" +
-                        " until it does, you will NOT be able to run code. Check your" +
+                        " The notebook will continue trying to reconnect. Check your" +
                         " network connection or notebook server configuration.";
 
                 dialog.kernel_modal({
@@ -336,6 +336,28 @@ define([
         });
         this.events.on('autosave_enabled.Notebook', function (evt, interval) {
             nnw.set_message("Saving every " + interval / 1000 + "s", 1000);
+        });
+    };
+
+    /**
+     * Initialize the notification widget for trusted notebook messages.
+     *
+     * @method init_trusted_notebook_notification_widget
+     */
+    NotebookNotificationArea.prototype.init_trusted_notebook_notification_widget = function () {
+        var that = this;
+        var tnw = this.widget('trusted');
+
+        // Notebook trust events
+        this.events.on('trust_changed.Notebook', function (event, trusted) {
+            if (trusted) {
+                tnw.set_message("Trusted");
+            } else {
+                tnw.set_message("Not Trusted", undefined, function() {
+                  that.notebook.trust_notebook();
+                  return false;
+                });
+            }
         });
     };
 

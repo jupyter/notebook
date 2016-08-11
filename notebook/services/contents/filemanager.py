@@ -17,9 +17,8 @@ from .filecheckpoints import FileCheckpoints
 from .fileio import FileManagerMixin
 from .manager import ContentsManager
 
-
 from ipython_genutils.importstring import import_item
-from traitlets import Any, Unicode, Bool, TraitError
+from traitlets import Any, Unicode, Bool, TraitError, observe, default, validate
 from ipython_genutils.py3compat import getcwd, string_types
 from . import tz
 from notebook.utils import (
@@ -59,14 +58,17 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
     root_dir = Unicode(config=True)
 
-    def _root_dir_default(self):
+    @default('root_dir')
+    def _default_root_dir(self):
         try:
             return self.parent.notebook_dir
         except AttributeError:
             return getcwd()
 
     save_script = Bool(False, config=True, help='DEPRECATED, use post_save_hook. Will be removed in Notebook 5.0')
-    def _save_script_changed(self):
+
+    @observe('save_script')
+    def _update_save_script(self):
         self.log.warning("""
         `--script` is deprecated and will be removed in notebook 5.0.
 
@@ -101,12 +103,15 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         - contents_manager: this ContentsManager instance
         """
     )
-    def _post_save_hook_changed(self, name, old, new):
-        if new and isinstance(new, string_types):
-            self.post_save_hook = import_item(self.post_save_hook)
-        elif new:
-            if not callable(new):
-                raise TraitError("post_save_hook must be callable")
+
+    @validate('post_save_hook')
+    def _validate_post_save_hook(self, proposal):
+        value = proposal['value']
+        if isinstance(value, string_types):
+            value = import_item(value)
+        if not callable(value):
+            raise TraitError("post_save_hook must be callable")
+        return value
 
     def run_post_save_hook(self, model, os_path):
         """Run the post-save hook if defined, and log errors"""
@@ -114,17 +119,20 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             try:
                 self.log.debug("Running post-save hook on %s", os_path)
                 self.post_save_hook(os_path=os_path, model=model, contents_manager=self)
-            except Exception:
-                self.log.error("Post-save hook failed on %s", os_path, exc_info=True)
+            except Exception as e:
+                self.log.error("Post-save hook failed o-n %s", os_path, exc_info=True)
+                raise web.HTTPError(500, u'Unexpected error while running post hook save: %s' % e)
 
-    def _root_dir_changed(self, name, old, new):
+    @validate('root_dir') 
+    def _validate_root_dir(self, proposal):
         """Do a bit of validation of the root_dir."""
-        if not os.path.isabs(new):
+        value = proposal['value']
+        if not os.path.isabs(value):
             # If we receive a non-absolute path, make it absolute.
-            self.root_dir = os.path.abspath(new)
-            return
-        if not os.path.isdir(new):
-            raise TraitError("%r is not a directory" % new)
+            value = os.path.abspath(value)
+        if not os.path.isdir(value):
+            raise TraitError("%r is not a directory" % value)
+        return value
 
     def _checkpoints_class_default(self):
         return FileCheckpoints

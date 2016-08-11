@@ -25,6 +25,8 @@ define([
     ipgfm
     ) {
     "use strict";
+    function encodeURIandParens(uri){return encodeURI(uri).replace('(','%28').replace(')','%29')}
+
     var Cell = cell.Cell;
 
     var TextCell = function (options) {
@@ -110,6 +112,7 @@ define([
         inner_cell.append(input_area).append(render_area);
         cell.append(inner_cell);
         this.element = cell;
+        this.inner_cell = inner_cell;
     };
 
 
@@ -244,9 +247,9 @@ define([
                 marked(text, function (err, html) {
                     html = security.sanitize_html(html);
                     html = $($.parseHTML(html));
-                    html.find('img[src^="attachment:"]').each(function (i, h) {
+                    html.find('img[src^="attachment://"]').each(function (i, h) {
                         h = $(h);
-                        var key = h.attr('src').replace(/^attachment:/, '');
+                        var key = h.attr('src').replace(/^attachment:\/\//, '');
                         if (key in that.attachments) {
                             data.attachments[key] = JSON.parse(JSON.stringify(
                                 that.attachments[key]));
@@ -282,6 +285,9 @@ define([
         TextCell.apply(this, [$.extend({}, options, {config: config})]);
 
         this.cell_type = 'markdown';
+
+        // Used to keep track of drag events
+        this.drag_counter = 0;
     };
 
     MarkdownCell.options_default = {
@@ -340,7 +346,7 @@ define([
         // We generate names for blobs
         var key;
         if (blob.name !== undefined) {
-            key = blob.name;
+            key = encodeURIandParens(blob.name);
         } else {
             key = '_auto_' + Object.keys(that.attachments).length;
         }
@@ -353,7 +359,7 @@ define([
                             'type (' + d[0] + ')');
             }
             that.add_attachment(key, blob.type, d[1]);
-            var img_md = '![attachment:' + key + '](attachment:' + key + ')';
+            var img_md = '![' + key + '](attachment://' + key + ')';
             that.code_mirror.replaceRange(img_md, pos);
         }
         reader.readAsDataURL(blob);
@@ -363,6 +369,11 @@ define([
      * @method render
      */
     MarkdownCell.prototype.render = function () {
+        // We clear the dropzone here just in case the dragenter/leave
+        // logic of bind_events wasn't 100% successful.
+        this.drag_counter = 0;
+        this.inner_cell.removeClass('dropzone');
+
         var cont = TextCell.prototype.render.apply(this);
         if (cont) {
             var that = this;
@@ -395,9 +406,9 @@ define([
                 html.find("a[href]").not('[href^="#"]').attr("target", "_blank");
                 // replace attachment:<key> by the corresponding entry
                 // in the cell's attachments
-                html.find('img[src^="attachment:"]').each(function (i, h) {
+                html.find('img[src^="attachment://"]').each(function (i, h) {
                   h = $(h);
-                  var key = h.attr('src').replace(/^attachment:/, '');
+                  var key = h.attr('src').replace(/^attachment:\/\//, '');
 
                   if (key in that.attachments) {
                     var att = that.attachments[key];
@@ -449,19 +460,44 @@ define([
             }
         });
 
-        // Allow drop event if the dragged file can be used as an attachment
-        this.code_mirror.on("dragstart", function(cm, evt) {
-            var files = evt.dataTransfer.files;
-            for (var i = 0; i < files.length; ++i) {
-                var file = files[i];
-                if (attachment_regex.test(file.type)) {
-                    return false;
-                }
+        // Allow drag event if the dragged file can be used as an attachment
+        // If we use this.code_mirror.on to register a "dragover" handler, we
+        // get an empty dataTransfer
+        this.code_mirror.on("dragover", function(cm, evt) {
+            if (utils.dnd_contain_file(evt)) {
+                evt.preventDefault();
             }
-            return true;
+        });
+
+        // We want to display a visual indicator that the drop is possible.
+        // The dragleave event is fired when we hover a child element (which
+        // is often immediatly after we got the dragenter), so we keep track
+        // of the number of dragenter/dragleave we got, as discussed here :
+        // http://stackoverflow.com/q/7110353/116067
+        // This doesn't seem to be 100% reliable, so we clear the dropzone
+        // class when the cell is rendered as well
+        this.code_mirror.on("dragenter", function(cm, evt) {
+            if (utils.dnd_contain_file(evt)) {
+                that.drag_counter++;
+                that.inner_cell.addClass('dropzone');
+            }
+            evt.preventDefault();
+            evt.stopPropagation();
+        });
+
+        this.code_mirror.on("dragleave", function(cm, evt) {
+            that.drag_counter--;
+            if (that.drag_counter <= 0) {
+                that.inner_cell.removeClass('dropzone');
+            }
+            evt.preventDefault();
+            evt.stopPropagation();
         });
 
         this.code_mirror.on("drop", function(cm, evt) {
+            that.drag_counter = 0;
+            that.inner_cell.removeClass('dropzone');
+
             var files = evt.dataTransfer.files;
             for (var i = 0; i < files.length; ++i) {
                 var file = files[i];

@@ -78,7 +78,7 @@ for more information.
     version         = version,
     scripts         = glob(pjoin('scripts', '*')),
     packages        = find_packages(),
-    package_data     = find_package_data(),
+    package_data    = find_package_data(),
     author          = 'Jupyter Development Team',
     author_email    = 'jupyter@googlegroups.com',
     url             = 'http://jupyter.org',
@@ -146,7 +146,7 @@ install_requires = [
     'jinja2',
     'tornado>=4',
     'ipython_genutils',
-    'traitlets',
+    'traitlets>=4.2.1',
     'jupyter_core',
     'jupyter_client',
     'nbformat',
@@ -163,8 +163,6 @@ if 'setuptools' in sys.modules:
     # setup.py develop should check for submodules
     from setuptools.command.develop import develop
     setup_args['cmdclass']['develop'] = css_js_prerelease(develop)
-    if not PY3:
-        setup_args['setup_requires'] = ['ipython_genutils']
 
     try:
         from wheel.bdist_wheel import bdist_wheel

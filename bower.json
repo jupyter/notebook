@@ -5,7 +5,7 @@
     "backbone": "components/backbone#~1.2",
     "bootstrap": "components/bootstrap#~3.3",
     "bootstrap-tour": "0.9.0",
-    "codemirror": "~5.8",
+    "codemirror": "~5.14",
     "es6-promise": "~1.0",
     "font-awesome": "components/font-awesome#~4.2.0",
     "google-caja": "5669",
@@ -15,7 +15,6 @@
     "MathJax": "components/MathJax#~2.6",
     "moment": "~2.8.4",
     "requirejs": "~2.1",
-    "term.js": "chjj/term.js#~0.0.7",
     "text-encoding": "~0.1",
     "underscore": "components/underscore#~1.5",
     "jquery-typeahead": "~2.0.0"

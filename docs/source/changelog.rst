@@ -6,6 +6,74 @@ Jupyter notebook changelog
 A summary of changes in the Jupyter notebook.
 For more detailed information, see `GitHub <https://github.com/jupyter/notebook>`__.
 
+.. tip::
+
+     Use ``pip install notebook --upgrade`` or ``conda upgrade notebook`` to
+     upgrade to the latest release.
+
+.. _release-4.2.2:
+
+4.2.2
+-----
+
+4.2.2 is a small bugfix release on 4.2, with an important security fix.
+All users are strongly encouraged to upgrade to 4.2.2.
+
+ Highlights:
+
+- **Security fix**: CVE-2016-6524, where untrusted latex output
+  could be added to the page in a way that could execute javascript.
+- Fix missing POST in OPTIONS responses.
+- Fix for downloading non-ascii filenames.
+- Avoid clobbering ssl_options, so that users can specify more detailed SSL configuration.
+- Fix inverted load order in nbconfig, so user config has highest priority.
+- Improved error messages here and there.
+
+.. seealso::
+
+    4.2.2 `on GitHub <https://github.com/jupyter/notebook/milestones/4.2.2>`__.
+
+.. _release-4.2.1:
+
+4.2.1
+-----
+
+4.2.1 is a small bugfix release on 4.2. Highlights:
+
+- Compatibility fixes for some versions of ipywidgets
+- Fix for ignored CSS on Windows
+- Fix specifying destination when installing nbextensions
+
+.. seealso::
+
+    4.2.1 `on GitHub <https://github.com/jupyter/notebook/milestones/4.2.1>`__.
+
+.. _release-4.2.0:
+
+4.2.0
+-----
+
+Release 4.2 adds a new API for enabling and installing extensions.
+Extensions can now be enabled at the system-level, rather than just per-user.
+An API is defined for installing directly from a Python package, as well.
+
+.. seealso::
+
+    :doc:`./examples/Notebook/Distributing Jupyter Extensions as Python Packages`
+
+
+Highlighted changes:
+
+- Upgrade MathJax to 2.6 to fix vertical-bar appearing on some equations.
+- Restore ability for notebook directory to be root (4.1 regression)
+- Large outputs are now throttled, reducing the ability of output floods to
+  kill the browser.
+- Fix the notebook ignoring cell executions while a kernel is starting by queueing the messages.
+- Fix handling of url prefixes (e.g. JupyterHub) in terminal and edit pages.
+- Support nested SVGs in output.
+
+And various other fixes and improvements.
+
 .. _release-4.1.0:
 
 4.1.0

@@ -2,22 +2,6 @@
 The Jupyter notebook
 ====================
 
-.. sidebar:: What's New in Jupyter Notebook
-   :subtitle: Release :ref:`release-4.1.0`
-
-   `Release Announcement <https://blog.jupyter.org/2016/01/08/notebook-4-1-release/>`_
-
-   - Cell toolbar selector moved to View menu
-   - Restart & Run All Cells added to Kernel menu
-   - Multiple-cell selection and actions including cut, copy, paste and execute
-   - Command palette added for executing Jupyter actions
-   - Find and replace added to Edit menu
-
-   To upgrade to the release:
-   ``pip install notebook --upgrade``
-   or
-   ``conda upgrade notebook``
-
 .. toctree::
    :maxdepth: 1
    :caption: User Documentation
@@ -32,13 +16,14 @@ The Jupyter notebook
    :maxdepth: 2
    :caption: Configuration
 
+   config_overview
    config
    public_server
    security
    frontend_config
    examples/Notebook/Distributing Jupyter Extensions as Python Packages
    extending/index.rst
-   
+
 .. toctree::
    :maxdepth: 1
    :caption: Contributor Documentation

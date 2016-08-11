@@ -26,7 +26,8 @@ before_install:
     - nvm install 5.6
     - nvm use 5.6
     - npm upgrade -g npm
-    - 'if [[ $GROUP == js* ]]; then  npm install -g casperjs; fi'
+    - npm install
+    - 'if [[ $GROUP == js* ]]; then  npm install -g casperjs@1.1.0-beta5; fi'
     - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
 
 install:
@@ -34,6 +35,7 @@ install:
 
 script:
     - 'if [[ $GROUP == js* ]]; then travis_retry python -m notebook.jstest ${GROUP:3}; fi'
+    - 'if [[ $GROUP == "js/notebook" ]]; then npm run lint; fi'
     - 'if [[ $GROUP == python ]]; then nosetests -v --with-coverage --cover-package=notebook notebook; fi'
 
 matrix:
