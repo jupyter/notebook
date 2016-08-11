@@ -528,7 +528,7 @@ class NotebookApp(JupyterApp):
     )
     
     client_ca = Unicode(u'', config=True,
-        help="""The full path to a certificate authority certifificate for SSL/TLS client authentication."""
+        help="""The full path to a certificate authority certificate for SSL/TLS client authentication."""
     )
     
     cookie_secret_file = Unicode(config=True,
@@ -762,7 +762,7 @@ class NotebookApp(JupyterApp):
         else:
             self.log.info("Using MathJax: %s", new)
 
-    mathjax_config = Unicode("TeX-AMS_HTML-full,Safe", config=True,
+    mathjax_config = Unicode("TeX-AMS-MML_HTMLorMML-full,Safe", config=True,
         help="""The MathJax.js configuration file that is to be used."""
     )
 
