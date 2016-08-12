@@ -586,7 +586,7 @@ define([
                 var value = json.data[type];
                 if (!this.trusted && !OutputArea.safe_outputs[type]) {
                     // not trusted, sanitize HTML
-                    if (type==='text/html' || type==='text/svg') {
+                    if (type==='text/html' || type==='text/svg' || type==='application/mathml+xml') {
                         value = security.sanitize_html(value);
                     } else {
                         // don't display if we don't know how to sanitize it
@@ -795,7 +795,7 @@ define([
          */
         var type = 'application/mathml+xml';
         var toinsert = this.create_output_subarea(md, "output_mathml", type);
-        toinsert.text(mathml);
+        toinsert.append(mathml);
         element.append(toinsert);
         return toinsert;
     };
