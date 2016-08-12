@@ -1,6 +1,6 @@
 var _ = require('underscore');
 var path = require('path');
-var sourcemaps = 'source-map'
+var sourcemaps = 'inline-source-map'
 
 if(process.argv.indexOf('-w') !== -1 || process.argv.indexOf('-w') !== -1  ){
   console.log('watch mode detected, will switch to cheep sourcemaps')
