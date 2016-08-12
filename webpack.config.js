@@ -55,7 +55,8 @@ function buildConfig(appName) {
         entry: './notebook/static/' + appName + '/js/main.js',
         output: {
             filename: 'main.min.js',
-            path: './notebook/static/' + appName + '/js/built'
+            path: './notebook/static/' + appName + '/js/built',
+            publicPath: '/'
         },
         devtool: sourcemaps,
     });
@@ -72,6 +73,7 @@ module.exports = [
         output: {
             filename: 'contents.js',
             path: './notebook/static/services/built',
+            publicPath: '/',
             libraryTarget: 'amd'
         },
         devtool: sourcemaps,
@@ -81,6 +83,7 @@ module.exports = [
         output: {
             filename: 'index.js',
             path: './notebook/static/built',
+            publicPath: '/',
             libraryTarget: 'amd'
         },
         devtool: sourcemaps,
