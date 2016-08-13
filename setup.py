@@ -180,6 +180,7 @@ if 'setuptools' in sys.modules:
             'jupyter-notebook = notebook.notebookapp:main',
             'jupyter-nbextension = notebook.nbextensions:main',
             'jupyter-serverextension = notebook.serverextensions:main',
+            'jupyter-bundlerextension = notebook.bundler.bundlerextensions:main',
         ]
     }
     setup_args.pop('scripts', None)
