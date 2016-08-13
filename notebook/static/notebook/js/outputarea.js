@@ -239,18 +239,30 @@ define([
         this.append_output(json);
     };
     
+    // Declare mime type as constants
+    const MIME_JAVASCRIPT = 'application/javascript';
+    const MIME_HTML = 'text/html';
+    const MIME_MARKDOWN = 'text/markdown';
+    const MIME_LATEX = 'text/latex';
+    const MIME_MATHML = 'application/mathml+xml';
+    const MIME_SVG = 'image/svg+xml';
+    const MIME_PNG = 'image/png';
+    const MIME_JPEG = 'image/jpeg';
+    const MIME_PDF = 'application/pdf';
+    const MIME_TEXT = 'text/plain';
+    
     
     OutputArea.output_types = [
-        'application/javascript',
-        'text/html',
-        'text/markdown',
-        'text/latex',
-        'application/mathml+xml',
-        'image/svg+xml',
-        'image/png',
-        'image/jpeg',
-        'application/pdf',
-        'text/plain'
+        MIME_JAVASCRIPT,
+        MIME_HTML,
+        MIME_MARKDOWN,
+        MIME_LATEX,
+        MIME_MATHML,
+        MIME_SVG,
+        MIME_PNG,
+        MIME_JPEG,
+        MIME_PDF,
+        MIME_TEXT
     ];
 
     OutputArea.prototype.validate_mimebundle = function (bundle) {
@@ -446,10 +458,10 @@ define([
         }
         this._safe_append(toinsert);
         // If we just output latex, typeset it.
-        if ((json.data['application/mathml+xml'] !== undefined) ||
-            (json.data['text/latex'] !== undefined) ||
-            (json.data['text/html'] !== undefined) ||
-            (json.data['text/markdown'] !== undefined)) {
+        if ((json.data[MIME_MATHML] !== undefined) ||
+            (json.data[MIME_LATEX] !== undefined) ||
+            (json.data[MIME_HTML] !== undefined) ||
+            (json.data[MIME_MARKDOWN] !== undefined)) {
             this.typeset();
         }
     };
@@ -465,7 +477,7 @@ define([
             }
             s = s + '\n';
             var toinsert = this.create_output_area();
-            var append_text = OutputArea.append_map['text/plain'];
+            var append_text = OutputArea.append_map[MIME_TEXT];
             if (append_text) {
                 append_text.apply(this, [s, {}, toinsert]).addClass('output_error');
             }
@@ -529,7 +541,7 @@ define([
 
         // If we got here, attach a new div
         var toinsert = this.create_output_area();
-        var append_text = OutputArea.append_map['text/plain'];
+        var append_text = OutputArea.append_map[MIME_TEXT];
         if (append_text) {
             append_text.apply(this, [text, {}, toinsert]).addClass("output_stream " + subclass);
         }
@@ -560,10 +572,10 @@ define([
         if (this.append_mime_type(json, toinsert, handle_inserted)) {
             this._safe_append(toinsert);
             // If we just output latex, typeset it.
-            if ((json.data['application/mathml+xml'] !== undefined) ||
-                (json.data['text/latex'] !== undefined) ||
-                (json.data['text/html'] !== undefined) ||
-                (json.data['text/markdown'] !== undefined)) {
+            if ((json.data[MIME_MATHML] !== undefined) ||
+                (json.data[MIME_LATEX] !== undefined) ||
+                (json.data[MIME_HTML] !== undefined) ||
+                (json.data[MIME_MARKDOWN] !== undefined)) {
                 this.typeset();
             }
         }
@@ -571,11 +583,11 @@ define([
 
 
     OutputArea.safe_outputs = {
-        'text/plain' : true,
-        'text/latex' : true,
-        'application/mathml+xml' : true,
-        'image/png' : true,
-        'image/jpeg' : true
+        [MIME_TEXT] : true,
+        [MIME_LATEX] : true,
+        [MIME_MATHML] : true,
+        [MIME_PNG] : true,
+        [MIME_JPEG] : true
     };
     
     OutputArea.prototype.append_mime_type = function (json, element, handle_inserted) {
@@ -586,7 +598,7 @@ define([
                 var value = json.data[type];
                 if (!this.trusted && !OutputArea.safe_outputs[type]) {
                     // not trusted, sanitize HTML
-                    if (type==='text/html' || type==='text/svg' || type==='application/mathml+xml') {
+                    if (type===MIME_HTML || type==='text/svg' || type===MIME_MATHML) {
                         value = security.sanitize_html(value);
                     } else {
                         // don't display if we don't know how to sanitize it
@@ -600,7 +612,7 @@ define([
                 // callback, if the mime type is something other we must call the 
                 // inserted callback only when the element is actually inserted
                 // into the DOM.  Use a timeout of 0 to do this.
-                if (['image/png', 'image/jpeg'].indexOf(type) < 0 && handle_inserted !== undefined) {
+                if ([MIME_PNG, MIME_JPEG].indexOf(type) < 0 && handle_inserted !== undefined) {
                     setTimeout(handle_inserted, 0);
                 }
                 this.events.trigger('output_appended.OutputArea', [type, value, md, toinsert]);
@@ -612,7 +624,7 @@ define([
 
 
     var append_html = function (html, md, element) {
-        var type = 'text/html';
+        var type = MIME_HTML;
         var toinsert = this.create_output_subarea(md, "output_html rendered_html", type);
         this.keyboard_manager.register_events(toinsert);
         toinsert.append(html);
@@ -623,7 +635,7 @@ define([
 
 
     var append_markdown = function(markdown, md, element) {
-        var type = 'text/markdown';
+        var type = MIME_MARKDOWN;
         var toinsert = this.create_output_subarea(md, "output_markdown rendered_html", type);
         var text_and_math = mathjaxutils.remove_math(markdown);
         var text = text_and_math[0];
@@ -642,7 +654,7 @@ define([
         /**
          * We just eval the JS code, element appears in the local scope.
          */
-        var type = 'application/javascript';
+        var type = MIME_JAVASCRIPT;
         var toinsert = this.create_output_subarea(md, "output_javascript rendered_html", type);
         this.keyboard_manager.register_events(toinsert);
         element.append(toinsert);
@@ -661,7 +673,7 @@ define([
 
 
     var append_text = function (data, md, element) {
-        var type = 'text/plain';
+        var type = MIME_TEXT;
         var toinsert = this.create_output_subarea(md, "output_text", type);
         data = utils.fixOverwrittenChars(data);
         // escape ANSI & HTML specials in plaintext:
@@ -676,7 +688,7 @@ define([
 
 
     var append_svg = function (svg_html, md, element) {
-        var type = 'image/svg+xml';
+        var type = MIME_SVG;
         var toinsert = this.create_output_subarea(md, "output_svg", type);
 
         // Get the svg element from within the HTML. 
@@ -730,7 +742,7 @@ define([
     };
     
     var append_png = function (png, md, element, handle_inserted) {
-        var type = 'image/png';
+        var type = MIME_PNG;
         var toinsert = this.create_output_subarea(md, "output_png", type);
         var img = $("<img/>");
         if (handle_inserted !== undefined) {
@@ -739,7 +751,7 @@ define([
             });
         }
         img[0].src = 'data:image/png;base64,'+ png;
-        set_width_height(img, md, 'image/png');
+        set_width_height(img, md, MIME_PNG);
         dblclick_to_reset_size(img);
         toinsert.append(img);
         element.append(toinsert);
@@ -748,7 +760,7 @@ define([
 
 
     var append_jpeg = function (jpeg, md, element, handle_inserted) {
-        var type = 'image/jpeg';
+        var type = MIME_JPEG;
         var toinsert = this.create_output_subarea(md, "output_jpeg", type);
         var img = $("<img/>");
         if (handle_inserted !== undefined) {
@@ -757,7 +769,7 @@ define([
             });
         }
         img[0].src = 'data:image/jpeg;base64,'+ jpeg;
-        set_width_height(img, md, 'image/jpeg');
+        set_width_height(img, md, MIME_JPEG);
         dblclick_to_reset_size(img);
         toinsert.append(img);
         element.append(toinsert);
@@ -766,7 +778,7 @@ define([
 
 
     var append_pdf = function (pdf, md, element) {
-        var type = 'application/pdf';
+        var type = MIME_PDF;
         var toinsert = this.create_output_subarea(md, "output_pdf", type);
         var a = $('<a/>').attr('href', 'data:application/pdf;base64,'+pdf);
         a.attr('target', '_blank');
@@ -781,7 +793,7 @@ define([
          * This method cannot do the typesetting because the latex first has to
          * be on the page.
          */
-        var type = 'text/latex';
+        var type = MIME_LATEX;
         var toinsert = this.create_output_subarea(md, "output_latex", type);
         toinsert.text(latex);
         element.append(toinsert);
@@ -793,7 +805,7 @@ define([
          * This method cannot do the typesetting because the mathml first has to
          * be on the page.
          */
-        var type = 'application/mathml+xml';
+        var type = MIME_MATHML;
         var toinsert = this.create_output_subarea(md, "output_mathml", type);
         toinsert.append(mathml);
         element.append(toinsert);
@@ -980,29 +992,29 @@ define([
 
 
     OutputArea.display_order = [
-        'application/javascript',
-        'text/html',
-        'text/markdown',
-        'text/latex',
-        'application/mathml+xml',
-        'image/svg+xml',
-        'image/png',
-        'image/jpeg',
-        'application/pdf',
-        'text/plain'
+        MIME_JAVASCRIPT,
+        MIME_HTML,
+        MIME_MARKDOWN,
+        MIME_LATEX,
+        MIME_MATHML,
+        MIME_SVG,
+        MIME_PNG,
+        MIME_JPEG,
+        MIME_PDF,
+        MIME_TEXT
     ];
 
     OutputArea.append_map = {
-        "text/plain" : append_text,
-        "text/html" : append_html,
-        "text/markdown": append_markdown,
-        "image/svg+xml" : append_svg,
-        "image/png" : append_png,
-        "image/jpeg" : append_jpeg,
-        "text/latex" : append_latex,
-        "application/mathml+xml" : append_mathml,
-        "application/javascript" : append_javascript,
-        "application/pdf" : append_pdf
+        [MIME_TEXT] : append_text,
+        [MIME_HTML] : append_html,
+        [MIME_MARKDOWN]: append_markdown,
+        [MIME_SVG] : append_svg,
+        [MIME_PNG] : append_png,
+        [MIME_JPEG] : append_jpeg,
+        [MIME_LATEX] : append_latex,
+        [MIME_MATHML] : append_mathml,
+        [MIME_JAVASCRIPT] : append_javascript,
+        [MIME_PDF] : append_pdf
     };
 
     return {'OutputArea': OutputArea};
