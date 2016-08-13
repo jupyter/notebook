@@ -17,9 +17,6 @@ define([
                     processEscapes: true,
                     processEnvironments: true
                 },
-                asciimath2jax: {
-                    delimiters: [['...','...']]
-                },
                 MathML: {
                     extensions: ['content-mathml.js']
                 },
