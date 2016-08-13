@@ -161,7 +161,7 @@ class IPythonHandler(AuthenticatedHandler):
     
     @property
     def mathjax_config(self):
-        return self.settings.get('mathjax_config', 'TeX-AMS-MML_HTMLorMML-full,Safe')
+        return self.settings.get('mathjax_config', 'TeX-MML-AM_HTMLorMML-full,Safe')
 
     @property
     def base_url(self):

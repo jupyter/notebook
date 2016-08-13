@@ -166,7 +166,7 @@ def find_package_data():
     mj = lambda *path: pjoin(components, 'MathJax', *path)
     static_data.extend([
         mj('MathJax.js'),
-        mj('config', 'TeX-AMS-MML_HTMLorMML-full.js'),
+        mj('config', 'TeX-MML-AM_HTMLorMML-full.js'),
         mj('config', 'Safe.js'),
     ])
     
