@@ -762,7 +762,7 @@ class NotebookApp(JupyterApp):
         else:
             self.log.info("Using MathJax: %s", new)
 
-    mathjax_config = Unicode("TeX-AMS-MML_HTMLorMML-full,Safe", config=True,
+    mathjax_config = Unicode("TeX-MML-AM_HTMLorMML-full,Safe", config=True,
         help="""The MathJax.js configuration file that is to be used."""
     )
 
