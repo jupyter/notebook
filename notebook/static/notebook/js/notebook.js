@@ -254,10 +254,8 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
             if (!existing_spec || ! _.isEqual(existing_spec, that.metadata.kernelspec)) {
                 that.set_dirty(true);
             }
-            // start session if the current session isn't already correct
-            if (!(that.session && that.session.kernel && that.session.kernel.name === data.name)) {
-                that.start_session(data.name);
-            }
+            // start a new session
+            that.start_session(data.name);
         });
 
         this.events.on('kernel_ready.Kernel', function(event, data) {
@@ -2073,7 +2071,7 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
         var success = $.proxy(this._session_started, this);
         var failure = $.proxy(this._session_start_failed, this);
 
-        if (this.session !== null) {
+        if (this.session && this.session.kernel) {
             this.session.restart(options, success, failure);
         } else {
             this.session = new session.Session(options);

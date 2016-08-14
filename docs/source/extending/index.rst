@@ -14,3 +14,4 @@ override the notebook's defaults with your own custom behavior.
     handlers
     frontend_extensions
     keymaps
+    bundler_extensions
