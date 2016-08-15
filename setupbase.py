@@ -121,13 +121,10 @@ def find_package_data():
     for app in ['auth', 'edit', 'notebook', 'terminal', 'tree']:
         static_data.extend([
             pjoin('static', app, 'js', 'built', '*main.min.js'),
-            pjoin('static', app, 'js', 'built', '*main.min.js.map'),
         ])
     static_data.extend([
         pjoin('static', 'built', '*index.js'),
-        pjoin('static', 'built', '*index.js.map'),
         pjoin('static', 'services', 'built', '*contents.js'),
-        pjoin('static', 'services', 'built', '*contents.js.map'),
     ])
 
     components = pjoin("static", "components")
