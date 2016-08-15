@@ -1,9 +1,9 @@
 var _ = require('underscore');
 var path = require('path');
-var sourcemaps = 'inline-source-map'
+var sourcemaps = 'inline-source-map';
 
 if(process.argv.indexOf('-w') !== -1 || process.argv.indexOf('-w') !== -1  ){
-  console.log('watch mode detected, will switch to cheep sourcemaps')
+  console.log('watch mode detected, will switch to cheep sourcemaps');
   sourcemaps = 'eval-source-map';
 
 }
@@ -55,8 +55,7 @@ function buildConfig(appName) {
         entry: './notebook/static/' + appName + '/js/main.js',
         output: {
             filename: 'main.min.js',
-            path: './notebook/static/' + appName + '/js/built',
-            publicPath: '/'
+            path: path.join(__dirname, 'notebook', 'static', appName, 'js', 'built')
         },
         devtool: sourcemaps,
     });
@@ -72,8 +71,7 @@ module.exports = [
         entry: './notebook/static/services/contents.js',
         output: {
             filename: 'contents.js',
-            path: './notebook/static/services/built',
-            publicPath: '/',
+            path: path.join(__dirname, 'notebook', 'static', 'services', 'built'),
             libraryTarget: 'amd'
         },
         devtool: sourcemaps,
@@ -82,8 +80,7 @@ module.exports = [
         entry: './notebook/static/index.js',
         output: {
             filename: 'index.js',
-            path: './notebook/static/built',
-            publicPath: '/',
+            path: path.join(__dirname, 'notebook', 'static', 'built'),
             libraryTarget: 'amd'
         },
         devtool: sourcemaps,
