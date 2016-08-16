@@ -108,7 +108,7 @@ define([
         this.completer = null;
 
         Cell.apply(this,[{
-            config: $.extend({}, CodeCell.options_default), 
+            config: options.config, 
             keyboard_manager: options.keyboard_manager, 
             events: this.events}]);
 
