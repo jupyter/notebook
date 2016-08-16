@@ -161,9 +161,26 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
         slideshow_celltoolbar.register(this);
         attachments_celltoolbar.register(this);
 
+        var that = this;
+
+        Object.defineProperty(this, 'line_numbers', {
+          get: function(){
+            var d = that.config.data||{}
+            var cmc =  (d['Cell']||{})['cm_config']||{}
+            return cmc['lineNumbers'] || false;
+          },
+          set: function(value){
+            this.get_cells().map(function(c) {
+              c.code_mirror.setOption('lineNumbers', value);
+            })
+            that.config.update({'Cell':{'cm_config':{'lineNumbers':value}}})
+          }
+          
+        })
         // prevent assign to miss-typed properties.
         Object.seal(this);
     };
+
 
 
     Notebook.options_default = {
@@ -555,6 +572,13 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
         }
         return result;
     };
+    
+    /**
+     * Toggles the display of line numbers in all cells.
+     */
+    Notebook.prototype.toggle_all_line_numbers = function () {
+        this.line_numbers = !this.line_numbers;
+    }
 
     /**
      * Get the cell above a given cell.

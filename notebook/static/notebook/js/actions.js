@@ -462,6 +462,25 @@ define(function(require){
                 env.notebook.show_command_palette();
             }
         },
+        'show-all-line-numbers': {
+            help : 'show line numbers in all cells, and persist the setting',
+            handler: function(env) {
+                env.notebook.line_numbers = true;
+            }
+        },
+        'hide-all-line-numbers': {
+            help : 'hide line numbers in all cells, and persist the setting',
+            handler: function(env) {
+                env.notebook.line_numbers = false;
+            }
+        },
+        'toggle-all-line-numbers': {
+            help : 'toggles line numbers in all cells, and persist the setting',
+            icon: 'fa-list-ol',
+            handler: function(env) {
+                env.notebook.line_numbers = !env.notebook.line_numbers;
+            }
+        },
         'toggle-toolbar':{
             help: 'hide/show the toolbar',
             handler : function(env){

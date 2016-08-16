@@ -263,6 +263,7 @@ define([
             '#move_cell_up': 'move-cell-up',
             '#move_cell_down': 'move-cell-down',
             '#toggle_header': 'toggle-header',
+            '#toggle_all_line_numbers': 'toggle-all-line-numbers',
             '#toggle_toolbar': 'toggle-toolbar',
             '#insert_cell_above': 'insert-cell-above',
             '#insert_cell_below': 'insert-cell-below',

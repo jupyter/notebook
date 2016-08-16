@@ -58,7 +58,7 @@ define([
         // we cannot put this as a class key as it has handle to "this".
         var config = utils.mergeopt(TextCell, this.config);
         Cell.apply(this, [{
-                    config: config, 
+                    config: options.config, 
                     keyboard_manager: options.keyboard_manager, 
                     events: this.events}]);
 
@@ -282,7 +282,7 @@ define([
         var config = utils.mergeopt(MarkdownCell, {});
         this.class_config = new configmod.ConfigWithDefaults(options.config,
                                             {}, 'MarkdownCell');
-        TextCell.apply(this, [$.extend({}, options, {config: config})]);
+        TextCell.apply(this, [$.extend({}, options, {config: options.config})]);
 
         this.cell_type = 'markdown';
 
@@ -528,7 +528,7 @@ define([
          */
         options = options || {};
         var config = utils.mergeopt(RawCell, {});
-        TextCell.apply(this, [$.extend({}, options, {config: config})]);
+        TextCell.apply(this, [$.extend({}, options, {config: options.config})]);
 
         this.class_config = new configmod.ConfigWithDefaults(options.config,
                                             RawCell.config_defaults, 'RawCell');
