@@ -198,6 +198,7 @@ def find_package_data():
     package_data = {
         'notebook' : ['templates/*'] + static_data,
         'notebook.tests' : js_tests,
+        'notebook.bundler.tests': ['resources/*', 'resources/*/*', 'resources/*/*/.*'],
     }
     
     return package_data
