@@ -92,7 +92,7 @@ function(utils) {
     ConfigWithDefaults.prototype.get = function(key) {
         var that = this;
         return this.section.loaded.then(function() {
-            return that._class_data()[key] || that.defaults[key];
+            return that.get_sync(key);
         });
     };
     
@@ -101,7 +101,8 @@ function(utils) {
      * instead of waiting for it to load.
      */
     ConfigWithDefaults.prototype.get_sync = function(key) {
-        return this._class_data()[key] || this.defaults[key];
+        var data = this._class_data();
+        return key in data ? data[key] : this.defaults[key];
     };
     
     /**
