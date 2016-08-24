@@ -244,7 +244,6 @@ define([
     const MIME_HTML = 'text/html';
     const MIME_MARKDOWN = 'text/markdown';
     const MIME_LATEX = 'text/latex';
-    const MIME_MATHML = 'application/mathml+xml';
     const MIME_SVG = 'image/svg+xml';
     const MIME_PNG = 'image/png';
     const MIME_JPEG = 'image/jpeg';
@@ -257,7 +256,6 @@ define([
         MIME_HTML,
         MIME_MARKDOWN,
         MIME_LATEX,
-        MIME_MATHML,
         MIME_SVG,
         MIME_PNG,
         MIME_JPEG,
@@ -458,8 +456,7 @@ define([
         }
         this._safe_append(toinsert);
         // If we just output latex, typeset it.
-        if ((json.data[MIME_MATHML] !== undefined) ||
-            (json.data[MIME_LATEX] !== undefined) ||
+        if ((json.data[MIME_LATEX] !== undefined) ||
             (json.data[MIME_HTML] !== undefined) ||
             (json.data[MIME_MARKDOWN] !== undefined)) {
             this.typeset();
@@ -572,8 +569,7 @@ define([
         if (this.append_mime_type(json, toinsert, handle_inserted)) {
             this._safe_append(toinsert);
             // If we just output latex, typeset it.
-            if ((json.data[MIME_MATHML] !== undefined) ||
-                (json.data[MIME_LATEX] !== undefined) ||
+            if ((json.data[MIME_LATEX] !== undefined) ||
                 (json.data[MIME_HTML] !== undefined) ||
                 (json.data[MIME_MARKDOWN] !== undefined)) {
                 this.typeset();
@@ -585,7 +581,6 @@ define([
     OutputArea.safe_outputs = {
         [MIME_TEXT] : true,
         [MIME_LATEX] : true,
-        [MIME_MATHML] : true,
         [MIME_PNG] : true,
         [MIME_JPEG] : true
     };
@@ -598,7 +593,7 @@ define([
                 var value = json.data[type];
                 if (!this.trusted && !OutputArea.safe_outputs[type]) {
                     // not trusted, sanitize HTML
-                    if (type===MIME_HTML || type==='text/svg' || type===MIME_MATHML) {
+                    if (type===MIME_HTML || type==='text/svg') {
                         value = security.sanitize_html(value);
                     } else {
                         // don't display if we don't know how to sanitize it
@@ -800,19 +795,6 @@ define([
         return toinsert;
     };
     
-    var append_mathml = function (mathml, md, element) {
-        /**
-         * This method cannot do the typesetting because the mathml first has to
-         * be on the page.
-         */
-        var type = MIME_MATHML;
-        var toinsert = this.create_output_subarea(md, "output_mathml", type);
-        toinsert.append(mathml);
-        element.append(toinsert);
-        return toinsert;
-    };
-
-
     OutputArea.prototype.append_raw_input = function (msg) {
         var that = this;
         this.expand();
@@ -996,7 +978,6 @@ define([
         MIME_HTML,
         MIME_MARKDOWN,
         MIME_LATEX,
-        MIME_MATHML,
         MIME_SVG,
         MIME_PNG,
         MIME_JPEG,
@@ -1012,7 +993,6 @@ define([
         [MIME_PNG] : append_png,
         [MIME_JPEG] : append_jpeg,
         [MIME_LATEX] : append_latex,
-        [MIME_MATHML] : append_mathml,
         [MIME_JAVASCRIPT] : append_javascript,
         [MIME_PDF] : append_pdf
     };
