@@ -16,12 +16,21 @@ serving HTTP requests.
 
 This document describes how you can
 :ref:`secure a notebook server <notebook_server_security>` and how to
-:ref:`run it on a public interface <notebook_public_server>`.
+:ref:`run it on a public interface <notebook_public_server>`. 
+
+.. important:: 
+
+    **This is not the multi-user server you are looking for**. This document describes how you can run a public server with a single user. This should only be done by someone who wants remote access to their personal machine. Even so, doing this requires a thorough understanding of the set-ups limitations and security implications. If you allow multiple users to access a notebook server as it is described in this document, their commands may collide, clobber and overwrite each other. 
+
+    If you want a multi-user server, the official solution is  JupyterHub_. To use JupyterHub, you need a Unix server (typically Linux) running somewhere that is accessible to your users on a network. This may run over the public internet, but doing so introduces additional of `security concerns <https://jupyterhub.readthedocs.io/en/latest/getting-started.html#security>`_. 
+
+
 
 .. _ZeroMQ: http://zeromq.org
 
 .. _Tornado: http://www.tornadoweb.org
 
+.. _JupyterHub: https://jupyterhub.readthedocs.io/en/latest/ 
 
 .. _notebook_server_security:
 
