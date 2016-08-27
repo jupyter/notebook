@@ -11,8 +11,8 @@ import glob
 
 def get_file_references(abs_nb_path, version):
     """Gets a list of files referenced either in Markdown fenced code blocks
-    or in HTML comments from the notebook. Expands patterns expressed in 
-    gitignore syntax (https://git-scm.com/docs/gitignore). Returns the 
+    or in HTML comments from the notebook. Expands patterns expressed in
+    gitignore syntax (https://git-scm.com/docs/gitignore). Returns the
     fully expanded list of filenames relative to the notebook dirname.
 
     Parameters
@@ -21,7 +21,7 @@ def get_file_references(abs_nb_path, version):
         Absolute path of the notebook on disk
     version: int
         Version of the notebook document format to use
-    
+
     Returns
     -------
     list
@@ -41,7 +41,7 @@ def get_reference_patterns(abs_nb_path, version):
         Absolute path of the notebook on disk
     version: int
         Version of the notebook document format to use
-    
+
     Returns
     -------
     list
@@ -66,7 +66,7 @@ def get_cell_reference_patterns(cell):
     !foo/bar
     ```
 
-    or 
+    or
 
     <!--associate:
     some.csv
@@ -78,7 +78,7 @@ def get_cell_reference_patterns(cell):
     ----------
     cell: dict
         Notebook cell object
-    
+
     Returns
     -------
     list
@@ -113,29 +113,41 @@ def get_cell_reference_patterns(cell):
 
 def expand_references(root_path, references):
     """Expands a set of reference patterns by evaluating them against the
-    given root directory. Expansions are performed against patterns 
-    expressed in the same manner as in gitignore 
+    given root directory. Expansions are performed against patterns
+    expressed in the same manner as in gitignore
     (https://git-scm.com/docs/gitignore).
-    
+
     NOTE: Temporarily changes the current working directory when called.
 
     Parameters
     ----------
-    root_path: str 
+    root_path: str
         Assumed root directory for the patterns
     references: list
-        Reference patterns from get_reference_patterns
-        
+        Reference patterns from get_reference_patterns expressed with
+        forward-slash directory separators
+
     Returns
     -------
     list
         Filename strings relative to the root path
     """
+    # Use normpath to convert to platform specific slashes, but be sure
+    # to retain a trailing slash which normpath pulls off
+    normalized_references = []
+    for ref in references:
+        normalized_ref = os.path.normpath(ref)
+        # un-normalized separator
+        if ref.endswith('/'):
+            normalized_ref += os.sep
+        normalized_references.append(normalized_ref)
+    references = normalized_references
+
     globbed = []
     negations = []
     must_walk = []
     for pattern in references:
-        if pattern and pattern.find('/') < 0:
+        if pattern and pattern.find(os.sep) < 0:
             # simple shell glob
             cwd = os.getcwd()
             os.chdir(root_path)
@@ -156,7 +168,7 @@ def expand_references(root_path, references):
         for root, _, filenames in os.walk(root_path):
             for filename in filenames:
                 joined = os.path.join(root[len(root_path) + 1:], filename)
-                if testpattern.endswith('/'):
+                if testpattern.endswith(os.sep):
                     if joined.startswith(testpattern):
                         if pattern_is_negation:
                             negations.append(joined)
@@ -194,9 +206,9 @@ def copy_filelist(src, dst, src_relative_filenames):
 
     Parameters
     ----------
-    src: str 
+    src: str
         Root of the source directory
-    dst: str 
+    dst: str
         Root of the destination directory
     src_relative_filenames: list
         Filenames relative to src
