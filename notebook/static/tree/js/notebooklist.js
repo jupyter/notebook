@@ -682,9 +682,9 @@ define([
 
         // directory nav doesn't open new tabs
         // files, notebooks do
-        if (model.type !== "directory") {
-            link.attr('target',IPython._target);
-        }
+        // if (model.type !== "directory") {
+        //     link.attr('target',IPython._target);
+        // }
 
         // Add in the date that the file was last modified
         item.find(".item_modified").text(moment.utc(modified).fromNow());
