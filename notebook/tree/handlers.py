@@ -37,7 +37,6 @@ class TreeHandler(IPythonHandler):
     def get(self, path=''):
         path = path.strip('/')
         cm = self.contents_manager
-        
         if cm.dir_exists(path=path):
             if cm.is_hidden(path):
                 self.log.info("Refusing to serve hidden directory, via 404 Error")
@@ -49,6 +48,7 @@ class TreeHandler(IPythonHandler):
                 notebook_path=path,
                 breadcrumbs=breadcrumbs,
                 terminals_available=self.settings['terminals_available'],
+                home_url = self.home_url,
             ))
         elif cm.file_exists(path):
             # it's not a directory, we have redirecting to do
