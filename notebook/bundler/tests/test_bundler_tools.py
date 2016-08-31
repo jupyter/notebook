@@ -84,12 +84,12 @@ b/
 
     def test_glob_dir(self):
         '''Should expand to single file in the resources/ subfolder.'''
-        self.assertIn('resources/empty.ipynb',
+        self.assertIn(os.path.join('resources', 'empty.ipynb'),
             tools.expand_references(HERE, ['resources/empty.ipynb']))
 
     def test_glob_subdir(self):
         '''Should expand to all files in the resources/ subfolder.'''
-        self.assertIn('resources/empty.ipynb',
+        self.assertIn(os.path.join('resources', 'empty.ipynb'),
             tools.expand_references(HERE, ['resources/']))
 
     def test_glob_splat(self):
@@ -101,24 +101,24 @@ b/
     def test_glob_splatsplat_in_middle(self):
         '''Should expand to test_file.txt deep under this test/ directory.'''
         globs = tools.expand_references(HERE, ['resources/**/test_file.txt'])
-        self.assertIn('resources/subdir/test_file.txt', globs, globs)
+        self.assertIn(os.path.join('resources', 'subdir', 'test_file.txt'), globs, globs)
 
     def test_glob_splatsplat_trailing(self):
-        '''Should expand to all descendants of this test/ directory.''' 
+        '''Should expand to all descendants of this test/ directory.'''
         globs = tools.expand_references(HERE, ['resources/**'])
-        self.assertIn('resources/empty.ipynb', globs, globs)
-        self.assertIn('resources/subdir/test_file.txt', globs, globs)
+        self.assertIn(os.path.join('resources', 'empty.ipynb'), globs, globs)
+        self.assertIn(os.path.join('resources', 'subdir', 'test_file.txt'), globs, globs)
 
     def test_glob_splatsplat_leading(self):
         '''Should expand to test_file.txt under any path.'''
         globs = tools.expand_references(HERE, ['**/test_file.txt'])
-        self.assertIn('resources/subdir/test_file.txt', globs, globs)
-        self.assertIn('resources/another_subdir/test_file.txt', globs, globs)
+        self.assertIn(os.path.join('resources', 'subdir', 'test_file.txt'), globs, globs)
+        self.assertIn(os.path.join('resources', 'another_subdir', 'test_file.txt'), globs, globs)
 
     def test_copy_filelist(self):
         '''Should copy select files from source to destination'''
         globs = tools.expand_references(HERE, ['**/test_file.txt'])
         tools.copy_filelist(HERE, self.tmp, globs)
-        self.assertTrue(os.path.isfile(os.path.join(self.tmp, 'resources/subdir/test_file.txt')))
-        self.assertTrue(os.path.isfile(os.path.join(self.tmp, 'resources/another_subdir/test_file.txt')))
-        self.assertFalse(os.path.isfile(os.path.join(self.tmp, 'resources/empty.ipynb')))
+        self.assertTrue(os.path.isfile(os.path.join(self.tmp, 'resources', 'subdir', 'test_file.txt')))
+        self.assertTrue(os.path.isfile(os.path.join(self.tmp, 'resources', 'another_subdir', 'test_file.txt')))
+        self.assertFalse(os.path.isfile(os.path.join(self.tmp, 'resources', 'empty.ipynb')))
