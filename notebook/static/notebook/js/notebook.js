@@ -2703,7 +2703,7 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
                 " Selecting trust will immediately reload this notebook in a trusted state."
             ).append(
                 " For more information, see the "
-            ).append($("<a>").attr("href", "http://ipython.org/ipython-doc/2/notebook/security.html")
+            ).append($("<a>").attr("href", "https://jupyter-notebook.readthedocs.io/en/latest/security.html")
                 .text("Jupyter security documentation")
             ).append(".")
         );
