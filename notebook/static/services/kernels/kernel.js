@@ -657,7 +657,7 @@ define([
          *
          * When calling this method, pass a callback function that expects one argument.
          * The callback will be passed the complete `kernel_info_reply` message documented
-         * [here](http://ipython.org/ipython-doc/dev/development/messaging.html#kernel-info)
+         * [here](https://jupyter-client.readthedocs.io/en/latest/messaging.html#kernel-info)
          */
         var callbacks;
         if (callback) {
@@ -675,7 +675,7 @@ define([
          *
          * When calling this method, pass a callback function that expects one argument.
          * The callback will be passed the complete `comm_info_reply` message documented
-         * [here](http://ipython.org/ipython-doc/dev/development/messaging.html#comm_info)
+         * [here](https://jupyter-client.readthedocs.io/en/latest/messaging.html#comm_info)
          */
         var callbacks;
         if (callback) {
@@ -693,7 +693,7 @@ define([
          *
          * When calling this method, pass a callback function that expects one argument.
          * The callback will be passed the complete `inspect_reply` message documented
-         * [here](http://ipython.org/ipython-doc/dev/development/messaging.html#object-information)
+         * [here](https://jupyter-client.readthedocs.io/en/latest/messaging.html#object-information)
          *
          * @function inspect
          * @param code {string}
@@ -784,7 +784,7 @@ define([
      * `complete_reply` message as its only argument when it arrives.
      *
      * `complete_reply` is documented
-     * [here](http://ipython.org/ipython-doc/dev/development/messaging.html#complete)
+     * [here](https://jupyter-client.readthedocs.io/en/latest/messaging.html#complete)
      *
      * @function complete
      * @param code {string}
