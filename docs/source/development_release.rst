@@ -50,7 +50,7 @@ Create the release
 
     .. code:: bash
 
-        python setup.py sdist --formats=zip,gztar
+        python setup.py sdist
         python setup.py bdist_wheel
 
 #.  You can now test the ``wheel`` and the ``sdist`` locally before uploading
