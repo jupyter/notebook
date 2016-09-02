@@ -8,7 +8,7 @@ require([
     'base/js/page',
     'services/config',
     'terminal/js/terminado',
-    'custom/custom',
+    'custom',
 ], function(
     $, 
     termjs,
