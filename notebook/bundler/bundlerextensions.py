@@ -3,8 +3,7 @@
 import sys
 import os
 
-from ..nbextensions import (BaseNBExtensionApp, _get_config_dir, 
-    GREEN_ENABLED, RED_DISABLED)
+from ..extensions import BaseExtensionApp, _get_config_dir, GREEN_ENABLED, RED_DISABLED
 from .._version import __version__
 
 from jupyter_core.paths import jupyter_config_path
@@ -170,7 +169,7 @@ def disable_bundler_python(module, user=True, sys_prefix=False, logger=None):
     return _set_bundler_state_python(False, module, user, sys_prefix,
                                      logger=logger)
 
-class ToggleBundlerExtensionApp(BaseNBExtensionApp):
+class ToggleBundlerExtensionApp(BaseExtensionApp):
     """A base class for apps that enable/disable bundlerextensions"""
     name = "jupyter bundlerextension enable/disable"
     version = __version__
@@ -236,7 +235,7 @@ class DisableBundlerExtensionApp(ToggleBundlerExtensionApp):
     _toggle_value = None
 
 
-class ListBundlerExtensionApp(BaseNBExtensionApp):
+class ListBundlerExtensionApp(BaseExtensionApp):
     """An App that lists and validates nbextensions"""
     name = "jupyter nbextension list"
     version = __version__
@@ -276,7 +275,7 @@ class ListBundlerExtensionApp(BaseNBExtensionApp):
         self.list_nbextensions()
 
 
-class BundlerExtensionApp(BaseNBExtensionApp):
+class BundlerExtensionApp(BaseExtensionApp):
     """Base jupyter bundlerextension command entry point"""
     name = "jupyter bundlerextension"
     version = __version__

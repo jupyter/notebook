@@ -9,15 +9,11 @@ from __future__ import print_function
 import importlib
 import sys
 
-
 from jupyter_core.paths import jupyter_config_path
 from ._version import __version__
-from .nbextensions import (
-    JupyterApp, BaseNBExtensionApp, _get_config_dir,
-    GREEN_ENABLED, RED_DISABLED,
-    GREEN_OK, RED_X,
+from .extensions import (
+    BaseExtensionApp, _get_config_dir, GREEN_ENABLED, RED_DISABLED, GREEN_OK, RED_X
 )
-
 from traitlets import Bool
 from traitlets.utils.importstring import import_item
 from traitlets.config.manager import BaseJSONConfigManager
@@ -26,9 +22,6 @@ from traitlets.config.manager import BaseJSONConfigManager
 # ------------------------------------------------------------------------------
 # Public API
 # ------------------------------------------------------------------------------
-class ArgumentConflict(ValueError):
-    pass
-
 
 def toggle_serverextension_python(import_name, enabled=None, parent=None,
                                   user=True, sys_prefix=False, logger=None):
@@ -135,7 +128,7 @@ def validate_serverextension(import_name, logger=None):
 # ----------------------------------------------------------------------
 
 flags = {}
-flags.update(JupyterApp.flags)
+flags.update(BaseExtensionApp.flags)
 flags.pop("y", None)
 flags.pop("generate-config", None)
 flags.update({
@@ -164,7 +157,7 @@ flags.update({
 flags['python'] = flags['py']
 
 
-class ToggleServerExtensionApp(BaseNBExtensionApp):
+class ToggleServerExtensionApp(BaseExtensionApp):
     """A base class for enabling/disabling extensions"""
     name = "jupyter serverextension enable/disable"
     description = "Enable/disable a server extension using frontend configuration files."
@@ -244,7 +237,7 @@ class DisableServerExtensionApp(ToggleServerExtensionApp):
     _toggle_value = False
 
 
-class ListServerExtensionsApp(BaseNBExtensionApp):
+class ListServerExtensionsApp(BaseExtensionApp):
     """An App that lists (and validates) Server Extensions"""
     name = "jupyter serverextension list"
     version = __version__
@@ -283,7 +276,7 @@ jupyter serverextension disable --py <packagename>  # disable all server extensi
 """
 
 
-class ServerExtensionApp(BaseNBExtensionApp):
+class ServerExtensionApp(BaseExtensionApp):
     """Root level server extension app"""
     name = "jupyter serverextension"
     version = __version__
