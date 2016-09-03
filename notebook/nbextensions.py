@@ -1049,40 +1049,6 @@ def _get_nbextension_metadata(module):
     return m, nbexts
 
 
-def _read_config_data(user=False, sys_prefix=False):
-    """Get the config for the current context
-
-    Returns the string to the enviornment
-
-    Parameters
-    ----------
-
-    user : bool [default: False]
-        Get the user's .jupyter config directory
-    sys_prefix : bool [default: False]
-        Get sys.prefix, i.e. ~/.envs/my-env/etc/jupyter
-    """
-    config_dir = _get_config_dir(user=user, sys_prefix=sys_prefix)
-    config_man = BaseJSONConfigManager(config_dir=config_dir)
-    return config_man.get('jupyter_notebook_config')
-
-
-def _write_config_data(data, user=False, sys_prefix=False):
-    """Update the config for the current context
-
-    Parameters
-    ----------
-    data : object
-        An object which can be accepted by ConfigManager.update
-    user : bool [default: False]
-        Get the user's .jupyter config directory
-    sys_prefix : bool [default: False]
-        Get sys.prefix, i.e. ~/.envs/my-env/etc/jupyter
-    """
-    config_dir = _get_config_dir(user=user, sys_prefix=sys_prefix)
-    config_man = BaseJSONConfigManager(config_dir=config_dir)
-    config_man.update('jupyter_notebook_config', data)
-
 
 if __name__ == '__main__':
     main()
