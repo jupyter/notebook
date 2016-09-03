@@ -744,7 +744,10 @@ class NotebookApp(JupyterApp):
     )
 
     mathjax_url = Unicode("", config=True,
-        help="""The url for MathJax.js."""
+        help="""A custom url for MathJax.js.
+        Should be in the form of a case-sensitive url to MathJax,
+        for example:  /static/components/MathJax/MathJax.js
+        """
     )
 
     @default('mathjax_url')
