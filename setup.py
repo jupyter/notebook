@@ -178,6 +178,7 @@ if 'setuptools' in sys.modules:
     setup_args['entry_points'] = {
         'console_scripts': [
             'jupyter-notebook = notebook.notebookapp:main',
+            'jupyter-server = notebook.serverapp:main',
             'jupyter-nbextension = notebook.nbextensions:main',
             'jupyter-serverextension = notebook.serverextensions:main',
             'jupyter-bundlerextension = notebook.bundler.bundlerextensions:main',
