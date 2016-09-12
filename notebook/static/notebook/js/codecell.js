@@ -96,7 +96,7 @@ define([
         this.tooltip = options.tooltip;
         this.config = options.config;
         this.class_config = new configmod.ConfigWithDefaults(this.config,
-                                        CodeCell.config_defaults, 'CodeCell');
+                                        CodeCell.options_default, 'CodeCell');
 
         // create all attributed in constructor function
         // even if null for V8 VM optimisation
@@ -140,8 +140,6 @@ define([
             'magic_text/x-cython' :{'reg':['^%%cython']},
         },
     };
-
-    CodeCell.config_defaults = CodeCell.options_default;
 
     CodeCell.msg_cells = {};
 

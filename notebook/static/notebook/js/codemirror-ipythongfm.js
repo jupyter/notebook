@@ -55,5 +55,16 @@
         }, 'gfm');
 
         CodeMirror.defineMIME("text/x-ipythongfm", "ipythongfm");
+
+        // async workaround:
+        // Cells may be loaded before this mode is defined.
+        // If that happens, trigger re-load of the mode:
+        if (Jupyter && Jupyter.notebook) {
+            Jupyter.notebook.get_cells().map(function (cell) {
+                if (cell.code_mirror && cell.code_mirror.getOption('mode') === 'ipythongfm') {
+                    cell.code_mirror.setOption('mode', 'ipythongfm');
+                }
+            });
+        }
     });
-})
+});

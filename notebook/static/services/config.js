@@ -102,7 +102,21 @@ function(utils) {
      */
     ConfigWithDefaults.prototype.get_sync = function(key) {
         var data = this._class_data();
-        return key in data ? data[key] : this.defaults[key];
+        if (key === undefined) {
+            // no key specified, return full config data
+            return $.extend(true, {}, this.defaults, data);
+        }
+
+        var value = data[key];
+        if (value !== undefined) {
+            if (typeof value == 'object') {
+                // merge with defaults if it's an object
+                return $.extend(true, {}, this.defaults[key], value);
+            } else {
+                return value;
+            }
+        }
+        return this.defaults[key];
     };
     
     /**

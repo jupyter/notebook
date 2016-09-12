@@ -56,7 +56,6 @@ define([
         this.notebook = options.notebook;
         
         // we cannot put this as a class key as it has handle to "this".
-        var config = utils.mergeopt(TextCell, this.config);
         Cell.apply(this, [{
                     config: options.config, 
                     keyboard_manager: options.keyboard_manager, 
@@ -279,9 +278,9 @@ define([
          *          notebook: Notebook instance
          */
         options = options || {};
-        var config = utils.mergeopt(MarkdownCell, {});
+        var config_default = utils.mergeopt(TextCell, MarkdownCell.options_default);
         this.class_config = new configmod.ConfigWithDefaults(options.config,
-                                            {}, 'MarkdownCell');
+                                            config_default, 'MarkdownCell');
         TextCell.apply(this, [$.extend({}, options, {config: options.config})]);
 
         this.cell_type = 'markdown';
@@ -527,24 +526,20 @@ define([
          *          notebook: Notebook instance
          */
         options = options || {};
-        var config = utils.mergeopt(RawCell, {});
-        TextCell.apply(this, [$.extend({}, options, {config: options.config})]);
-
+        var config_default = utils.mergeopt(TextCell, RawCell.options_default);
         this.class_config = new configmod.ConfigWithDefaults(options.config,
-                                            RawCell.config_defaults, 'RawCell');
+                                            config_default, 'RawCell');
+        TextCell.apply(this, [$.extend({}, options, {config: options.config})]);
         this.cell_type = 'raw';
     };
 
     RawCell.options_default = {
-        placeholder : "Write raw LaTeX or other formats here, for use with nbconvert. " +
-            "It will not be rendered in the notebook. " + 
-            "When passing through nbconvert, a Raw Cell's content is added to the output unmodified."
-    };
-    
-    RawCell.config_defaults =  {
         highlight_modes : {
             'diff'         :{'reg':[/^diff/]}
         },
+        placeholder : "Write raw LaTeX or other formats here, for use with nbconvert. " +
+            "It will not be rendered in the notebook. " +
+            "When passing through nbconvert, a Raw Cell's content is added to the output unmodified.",
     };
 
     RawCell.prototype = Object.create(TextCell.prototype);
