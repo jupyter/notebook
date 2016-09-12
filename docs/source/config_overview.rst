@@ -22,9 +22,9 @@ Jupyter applications, from the Notebook to JupyterHub to nbgrader, share a
 common configuration system. The process for creating a configuration file
 and editing settings is similar for all the Jupyter applications.
 
-    - `Configuring a Jupyter application <https://jupyter.readthedocs.org/en/latest/config.html#configuring-jupyter-applications>`_
-    - `Using Python to set up the configuration files <https://jupyter.readthedocs.org/en/latest/config.html#python-config-files>`_
-    - `Configuring a language kernel <http://jupyter.readthedocs.org/en/latest/install.html#installing-kernels>`_
+    - `Jupyter’s Common Configuration Approach <https://jupyter.readthedocs.io/en/latest/projects/config.html>`_
+    - `Common Directories and File Locations <https://jupyter.readthedocs.io/en/latest/projects/jupyter-directories.html>`_
+    - `Language kernels <https://jupyter.readthedocs.io/en/latest/projects/kernels.html>`_
     - `traitlets <https://traitlets.readthedocs.org/en/latest/config.html#module-traitlets.config>`_ provide a low-level
       architecture for configuration.
 
