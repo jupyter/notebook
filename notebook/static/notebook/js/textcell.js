@@ -279,9 +279,8 @@ define([
          *          notebook: Notebook instance
          */
         options = options || {};
-        var config = utils.mergeopt(MarkdownCell, {});
         this.class_config = new configmod.ConfigWithDefaults(options.config,
-                                            {}, 'MarkdownCell');
+                                            MarkdownCell.options_default, 'MarkdownCell');
         TextCell.apply(this, [$.extend({}, options, {config: options.config})]);
 
         this.cell_type = 'markdown';
@@ -527,24 +526,19 @@ define([
          *          notebook: Notebook instance
          */
         options = options || {};
-        var config = utils.mergeopt(RawCell, {});
-        TextCell.apply(this, [$.extend({}, options, {config: options.config})]);
-
         this.class_config = new configmod.ConfigWithDefaults(options.config,
-                                            RawCell.config_defaults, 'RawCell');
+                                            RawCell.options_default, 'RawCell');
+        TextCell.apply(this, [$.extend({}, options, {config: options.config})]);
         this.cell_type = 'raw';
     };
 
     RawCell.options_default = {
-        placeholder : "Write raw LaTeX or other formats here, for use with nbconvert. " +
-            "It will not be rendered in the notebook. " + 
-            "When passing through nbconvert, a Raw Cell's content is added to the output unmodified."
-    };
-    
-    RawCell.config_defaults =  {
         highlight_modes : {
             'diff'         :{'reg':[/^diff/]}
         },
+        placeholder : "Write raw LaTeX or other formats here, for use with nbconvert. " +
+            "It will not be rendered in the notebook. " +
+            "When passing through nbconvert, a Raw Cell's content is added to the output unmodified.",
     };
 
     RawCell.prototype = Object.create(TextCell.prototype);

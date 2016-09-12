@@ -2,17 +2,26 @@
 
 // Test
 casper.notebook_test(function () {
+    function get_cell_cm_mode(index) {
+        return casper.evaluate(function (index) {
+            return Jupyter.notebook.get_cell(index).code_mirror.getMode().name;
+        }, {index: index});
+    }
+
     this.then(function () {
         // Cell mode change
+        var that = this;
         var index = 0;
         this.select_cell(index);
         var a = 'hello\nmulti\nline';
         this.set_cell_text(index, a);
         this.trigger_keydown('esc','r');
         this.test.assertEquals(this.get_cell(index).cell_type, 'raw', 'r; cell is raw');
+        this.test.assertEquals(get_cell_cm_mode(index), 'null', 'raw cell codemirror mode is null');
         this.trigger_keydown('1');
         this.test.assertEquals(this.get_cell(index).cell_type, 'markdown', '1; cell is markdown');
         this.test.assertEquals(this.get_cell_text(index), '# ' + a, '1; markdown heading');
+        this.test.assertEquals(get_cell_cm_mode(index), 'ipythongfm', 'codemirror cell mode is ipythongfm');
         this.trigger_keydown('2');
         this.test.assertEquals(this.get_cell(index).cell_type, 'markdown', '2; cell is markdown');
         this.test.assertEquals(this.get_cell_text(index), '## ' + a, '2; markdown heading');
@@ -34,6 +43,7 @@ casper.notebook_test(function () {
         this.trigger_keydown('y');
         this.test.assertEquals(this.get_cell(index).cell_type, 'code', 'y; cell is code');
         this.test.assertEquals(this.get_cell_text(index), '###### ' + a, 'y; still has hashes');
+        this.test.assertEquals(get_cell_cm_mode(index), 'ipython', 'code cell mode is ipython');
         this.trigger_keydown('1');
         this.test.assertEquals(this.get_cell(index).cell_type, 'markdown', '1; cell is markdown');
         this.test.assertEquals(this.get_cell_text(index), '# ' + a, '1; markdown heading');

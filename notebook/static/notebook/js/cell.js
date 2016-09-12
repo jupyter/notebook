@@ -49,10 +49,9 @@ define([
         options = options || {};
         this.keyboard_manager = options.keyboard_manager;
         this.events = options.events;
-        var config = utils.mergeopt(Cell, options.config);
+        var config = options.config;
         // superclass default overwrite our default
         
-        this.placeholder = config.placeholder || '';
         this.selected = false;
         this.anchor = false;
         this.rendered = false;
@@ -83,19 +82,21 @@ define([
         // load this from metadata later ?
         this.user_highlight = 'auto';
 
-
-        var _local_cm_config = {};
-        if(this.class_config){
-            _local_cm_config = this.class_config.get_sync('cm_config');
+        // merge my class-specific config data with general cell-level config
+        var class_config_data = {};
+        if (this.class_config) {
+            class_config_data = this.class_config.get_sync();
         }
-        
-        var local = new configmod.ConfigWithDefaults(options.config,
-            {}, 'Cell');
-        var llcm = local.get_sync('cm_config');
 
-        config.cm_config = utils.mergeopt({}, config.cm_config, utils.mergeopt({}, llcm, _local_cm_config));
+        var cell_config = new configmod.ConfigWithDefaults(options.config,
+            Cell.options_default, 'Cell');
+        var cell_config_data = cell_config.get_sync();
+
+        // this._options is a merge of SomeCell and Cell config data:
+        this._options = utils.mergeopt({}, cell_config_data, class_config_data);
+        this.placeholder = this._options.placeholder || '';
+
         this.cell_id = utils.uuid();
-        this._options = config;
 
         // For JS VM engines optimization, attributes should be all set (even
         // to null) in the constructor, and if possible, if different subclass
