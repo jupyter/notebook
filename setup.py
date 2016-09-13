@@ -157,6 +157,7 @@ extras_require = {
     ':sys_platform != "win32"': ['terminado>=0.3.3'],
     'test:python_version == "2.7"': ['mock'],
     'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters'],
+    'test:sys_platform == "win32"': ['nose-exclude'],
 }
 
 if 'setuptools' in sys.modules:

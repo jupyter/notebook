@@ -23,4 +23,4 @@ install:
   - cmd: pip install .[test]
 
 test_script:
-  - nosetests -v notebook
+  - nosetests --exclude-dir notebook\terminal -v notebook
