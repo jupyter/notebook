@@ -24,7 +24,7 @@
                 }
             }
             pythonConf.name = 'python';
-            pythonConf.singleOperators = new RegExp("^[\\+\\-\\*/%&|\\^~<>!\\?]");
+            pythonConf.singleOperators = new RegExp("^[\\+\\-\\*/%&|@\\^~<>!\\?]");
             if (pythonConf.version === 3) {
                 pythonConf.identifiers = new RegExp("^[_A-Za-z\u00A1-\uFFFF][_A-Za-z0-9\u00A1-\uFFFF]*");
             } else if (pythonConf.version === 2) {
