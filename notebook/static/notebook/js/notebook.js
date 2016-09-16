@@ -164,19 +164,56 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
         var that = this;
 
         Object.defineProperty(this, 'line_numbers', {
-          get: function(){
-            var d = that.config.data||{}
-            var cmc =  (d['Cell']||{})['cm_config']||{}
-            return cmc['lineNumbers'] || false;
-          },
-          set: function(value){
-            this.get_cells().map(function(c) {
-              c.code_mirror.setOption('lineNumbers', value);
-            })
-            that.config.update({'Cell':{'cm_config':{'lineNumbers':value}}})
-          }
-          
-        })
+            get: function() {
+                var d = that.config.data || {};
+                var cmc =  (d['Cell'] || {}) ['cm_config'] || {};
+                return cmc['lineNumbers'] || false;
+            },
+            set: function(value) {
+                this.get_cells().map(function(c) {
+                    c.code_mirror.setOption('lineNumbers', value);
+                });
+                that.config.update({
+                    'Cell': {
+                        'cm_config': {
+                            'lineNumbers':value
+                        }
+                    }
+                });
+            }
+        });
+        
+        Object.defineProperty(this, 'header', {
+            get: function() {
+                var d = that.config.data || {};
+                return d['Header'] || true;
+            },
+            set: function(value) {
+                that.config.update({'Header': value});
+            }
+        });
+        
+        if (!this.header) {
+            $('#header-container').hide();
+            $('.header-bar').hide();
+            this.events.trigger('resize-header.Page');
+        }
+        
+        Object.defineProperty(this, 'toolbar', {
+            get: function() {
+                var d = that.config.data || {};
+                return d['Toolbar'] || true;
+            },
+            set: function(value) {
+                that.config.update({'Toolbar': value});
+            }
+        });
+        
+        if (!this.toolbar) {
+            $('div#maintoolbar').hide();
+            this.events.trigger('resize-header.Page');
+        }
+        
         // prevent assign to miss-typed properties.
         Object.seal(this);
     };
@@ -578,7 +615,7 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
      */
     Notebook.prototype.toggle_all_line_numbers = function () {
         this.line_numbers = !this.line_numbers;
-    }
+    };
 
     /**
      * Get the cell above a given cell.
@@ -3185,4 +3222,3 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
         this.events.trigger('checkpoint_deleted.Notebook');
         this.load_notebook(this.notebook_path);
     };
-

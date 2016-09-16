@@ -484,6 +484,7 @@ define(function(require){
         'toggle-toolbar':{
             help: 'hide/show the toolbar',
             handler : function(env){
+                env.notebook.toolbar = !env.notebook.toolbar;
                 $('div#maintoolbar').toggle();
                 events.trigger('resize-header.Page');
             }
@@ -491,6 +492,7 @@ define(function(require){
         'toggle-header':{
             help: 'hide/show the header',
             handler : function(env){
+                env.notebook.header = !env.notebook.header;
                 $('#header-container').toggle();
                 $('.header-bar').toggle();
                 events.trigger('resize-header.Page');
