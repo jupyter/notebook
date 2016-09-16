@@ -24,8 +24,13 @@ from . import tz
 from notebook.utils import (
     is_hidden,
     to_api_path,
-    same_file,
 )
+
+try:
+    from os.path import samefile
+except ImportError:
+    # windows + py2
+    from notebook.utils import samefile_simple as samefile
 
 _script_exporter = None
 
@@ -123,7 +128,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                 self.log.error("Post-save hook failed o-n %s", os_path, exc_info=True)
                 raise web.HTTPError(500, u'Unexpected error while running post hook save: %s' % e)
 
-    @validate('root_dir') 
+    @validate('root_dir')
     def _validate_root_dir(self, proposal):
         """Do a bit of validation of the root_dir."""
         value = proposal['value']
@@ -469,7 +474,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         old_os_path = self._get_os_path(old_path)
 
         # Should we proceed with the move?
-        if os.path.exists(new_os_path) and not same_file(old_os_path, new_os_path):
+        if os.path.exists(new_os_path) and not samefile(old_os_path, new_os_path):
             raise web.HTTPError(409, u'File already exists: %s' % new_path)
 
         # Move the file

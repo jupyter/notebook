@@ -1,0 +1,26 @@
+# miniconda bootstrap from conda-forge recipe
+matrix:
+  fast_finish: true
+
+environment:
+  CONDA_INSTALL_LOCN: "C:\\conda"
+  matrix:
+    - CONDA_PY: 35
+    - CONDA_PY: 27
+
+platform:
+  - x64
+
+build: off
+
+install:
+  - appveyor DownloadFile "https://raw.githubusercontent.com/pelson/Obvious-CI/master/bootstrap-obvious-ci-and-miniconda.py"
+  - cmd: python bootstrap-obvious-ci-and-miniconda.py %CONDA_INSTALL_LOCN% %platform% %CONDA_PY:~0,1% --without-obvci
+  - cmd: call %CONDA_INSTALL_LOCN%\Scripts\activate.bat
+  - cmd: conda config --set show_channel_urls true
+  - cmd: conda config --add channels conda-forge
+  - cmd: conda install -y pyzmq tornado jupyter_client nbformat nbconvert ipykernel pip nodejs nose
+  - cmd: pip install .[test]
+
+test_script:
+  - nosetests --exclude-dir notebook\terminal -v notebook

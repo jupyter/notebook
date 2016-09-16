@@ -21,6 +21,7 @@ from tornado.ioloop import IOLoop
 import zmq
 
 import jupyter_core.paths
+from traitlets.config import Config
 from ..notebookapp import NotebookApp
 from ipython_genutils.tempdir import TemporaryDirectory
 
@@ -85,6 +86,8 @@ class NotebookTestBase(TestCase):
         cls.data_dir = data_dir
         cls.runtime_dir = TemporaryDirectory()
         cls.notebook_dir = TemporaryDirectory()
+        config = cls.config or Config()
+        config.NotebookNotary.db_file = ':memory:'
 
         started = Event()
         def start_thread():
@@ -97,7 +100,7 @@ class NotebookTestBase(TestCase):
                 runtime_dir=cls.runtime_dir.name,
                 notebook_dir=cls.notebook_dir.name,
                 base_url=cls.url_prefix,
-                config=cls.config,
+                config=config,
                 allow_root=True,
             )
             # don't register signal handler during tests
