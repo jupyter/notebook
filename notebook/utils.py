@@ -141,11 +141,16 @@ def is_hidden(abs_path, abs_root=''):
 
     return False
 
-def same_file(path, other_path):
+def samefile_simple(path, other_path):
     """
-    Check if path and other_path are hard links to the same file. This is a
-    utility implementation of Python's os.path.samefile which is not available
-    with Python 2.x and Windows.
+    Fill in for os.path.samefile when it is unavailable (Windows+py2).
+
+    Do a case-insensitive string comparison in this case
+    plus comparing the full stat result (including times)
+    because Windows + py2 doesn't support the stat fields
+    needed for identifying if it's the same file (st_ino, st_dev).
+
+    Only to be used if os.path.samefile is not available.
 
     Parameters
     -----------
@@ -158,12 +163,13 @@ def same_file(path, other_path):
     """
     path_stat = os.stat(path)
     other_path_stat = os.stat(other_path)
-    return (path_stat.st_ino == other_path_stat.st_ino and 
-            path_stat.st_dev == other_path_stat.st_dev)
+    return (path.lower() == other_path.lower()
+        and path_stat == other_path_stat)
+
 
 def to_os_path(path, root=''):
     """Convert an API path to a filesystem path
-    
+
     If given, root will be prepended to the path.
     root must be a filesystem path already.
     """
