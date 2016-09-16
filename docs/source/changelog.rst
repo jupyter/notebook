@@ -11,6 +11,23 @@ For more detailed information, see `GitHub <https://github.com/jupyter/notebook>
      Use ``pip install notebook --upgrade`` or ``conda upgrade notebook`` to
      upgrade to the latest release.
 
+.. _release-4.2.3:
+
+4.2.3
+-----
+
+4.2.3 is a small bugfix release on 4.2.
+
+ Highlights:
+
+- Fix regression in 4.2.2 that delayed loading custom.js
+  until after ``notebook_loaded`` and ``app_initialized`` events have fired.
+- Fix some outdated docs and links.
+
+.. seealso::
+
+    4.2.3 `on GitHub <https://github.com/jupyter/notebook/milestones/4.2.3>`__.
+
 .. _release-4.2.2:
 
 4.2.2
