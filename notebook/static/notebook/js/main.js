@@ -24,6 +24,7 @@ require([
     'notebook/js/about',
     'typeahead',
     'notebook/js/searchandreplace',
+    'custom',
 ], function(
     IPython, 
     $,
@@ -50,13 +51,6 @@ require([
     ) {
     "use strict";
 
-    try{
-        requirejs(['custom/custom'], function() {});
-    } catch(err) {
-        console.log("Error processing custom.js. Logging and continuing")
-        console.warn(err);
-    }
-
     // compat with old IPython, remove for IPython > 3.0
     window.CodeMirror = CodeMirror;
 
@@ -82,7 +76,7 @@ require([
     var save_widget = new savewidget.SaveWidget('span#save_widget', {
         events: events, 
         keyboard_manager: keyboard_manager});
-    acts.extend_env({save_widget:save_widget})
+    acts.extend_env({save_widget:save_widget});
     var contents = new contents.Contents({
           base_url: common_options.base_url,
           common_config: common_config

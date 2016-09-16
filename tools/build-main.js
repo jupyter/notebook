@@ -23,7 +23,8 @@ var rjs_config = {
     codemirror: 'components/codemirror',
     termjs: 'components/term.js/src/term',
     typeahead: 'components/jquery-typeahead/dist/jquery.typeahead',
-    contents: 'empty:'
+    contents: 'empty:',
+    custom: 'empty:',
   },
   map: { // for backward compatibility
     "*": {
