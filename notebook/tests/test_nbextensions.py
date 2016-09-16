@@ -357,16 +357,17 @@ class TestInstallNBExtension(TestCase):
         link = os.readlink(dest)
         self.assertEqual(link, src)
 
+    @dec.skip_win32
     def test_install_symlink_bad(self):
         with self.assertRaises(ValueError):
             install_nbextension("http://example.com/foo.js", symlink=True)
-        
+
         with TemporaryDirectory() as d:
             zf = u'ƒ.zip'
             zsrc = pjoin(d, zf)
             with zipfile.ZipFile(zsrc, 'w') as z:
                 z.writestr("a.js", b"b();")
-        
+
             with self.assertRaises(ValueError):
                 install_nbextension(zsrc, symlink=True)
 
@@ -376,7 +377,7 @@ class TestInstallNBExtension(TestCase):
             zsrc = pjoin(d, zf)
             with zipfile.ZipFile(zsrc, 'w') as z:
                 z.writestr("a.js", b"b();")
-        
+
             with self.assertRaises(ValueError):
                 install_nbextension(zsrc, destination='foo')
 
