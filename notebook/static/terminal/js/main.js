@@ -9,6 +9,7 @@ require([
     'auth/js/loginwidget',
     'services/config',
     'terminal/js/terminado',
+    'custom',
 ], function(
     utils,
     page,
@@ -17,7 +18,6 @@ require([
     terminado
     ){
     "use strict";
-    requirejs(['custom/custom'], function() {});
     page = new page.Page();
 
     var common_options = {
