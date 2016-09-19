@@ -21,7 +21,7 @@ var bind = function bind(obj) {
 Function.prototype.bind = Function.prototype.bind || bind ;
 
 
-requirejs(['contents'], function(contents_service) {
+requirejs(['contents', 'jquery.fileupload'], function(contents_service) {
 require([
     'base/js/namespace',
     'base/js/dialog',
@@ -173,11 +173,9 @@ require([
     utils.load_extensions_from_config(cfg);
     utils.load_extensions_from_config(common_config);
     
-    // bound the upload method to the on change of the file select list
-    $("#alternate_upload").change(function (event){
-        notebook_list.handleFilesUpload(event,'form');
-    });
-    
+    // Setup big file upload
+    notebook_list.setupUpload(); 
+
     // set hash on tab click
     $("#tabs").find("a").click(function(e) {
         // Prevent the document from jumping when the active tab is changed to a 

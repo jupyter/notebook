@@ -52,7 +52,9 @@
             bootstraptour: 'base/js/tour',
             'jquery-ui': 'base/js/jquery',
             jqueryui: 'base/js/jquery',
-            typeahead: 'base/js/typeahead'
+            typeahead: 'base/js/typeahead',
+            "jquery.fileupload": "components/blueimp-file-upload/js/jquery.fileupload",
+            "jquery.ui.widget": "components/blueimp-file-upload/js/vendor/jquery.ui.widget",
           },
           map: { // for backward compatibility
             "*": {
@@ -160,6 +162,8 @@
           map: {
               '*':{
                 'contents': '{{ contents_js_source }}',
+                'jquery.fileupload': 'components/blueimp-file-upload/js/jquery.fileupload',
+                'jquery.ui.widget': 'components/blueimp-file-upload/js/vendor/jquery.ui.widget',
               }
           },
       });

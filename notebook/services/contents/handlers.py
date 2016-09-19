@@ -7,6 +7,7 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-27%3A-
 # Distributed under the terms of the Modified BSD License.
 
 import json
+import os, re
 
 from tornado import gen, web
 
@@ -320,6 +321,71 @@ class NotebooksRedirectHandler(IPythonHandler):
     put = patch = post = delete = get
 
 
+class UploadHandlers(APIHandler):
+
+    @web.authenticated
+    @json_errors
+    @gen.coroutine
+    def get(self):
+        raise web.HTTPError(404)
+
+    @web.authenticated
+    @json_errors
+    @gen.coroutine
+    def post(self, path):
+        content_range = self.request.headers.get('Content-Range')
+        if content_range:
+            content_range = re.split('/| |-', content_range)
+            for i in range(1, 4):
+                content_range[i] = int(content_range[i])
+        else:
+            content_length = self.request.headers.get('Content-Length')
+            if content_length:
+                content_range = ['byte', 0, int(content_length)-1, int(content_length)]
+            else:
+                raise web.HTTPError(403)
+        
+        if 'datafile' in self.request.files:
+            for file in self.request.files['datafile']:
+                files = self.handle_file_upload(path, file['filename'], file['body'], content_range)
+        elif 'file' in self.request.files:
+            file = self.request.files['file']
+            files = self.handle_file_upload(path, file['filename'], file['body'], content_range)
+        else:
+            raise web.HTTPError(403)
+        self.write(self.generate_response({'files': files}))
+
+    def generate_response(self, content):
+        self.set_header("Content-Type", "text/plain")
+        return content
+
+    def handle_file_upload(self, path, name, body, content_range):
+        file = dict()
+        file_path = url_path_join(path, name)
+        file['name'] = file_path
+        file['size'] = content_range
+        file['type'] = 'application/octet-stream'
+        file['url'] = url_path_join(self.request.host + '/', file_path)
+        file['deleteType'] = 'DELETE'
+        file['deleteUrl'] = file['url']
+        self.log.info('upload %s', file_path);
+
+        if (not (content_range[1] == 0) and os.path.isfile(file_path) \
+            and os.path.getsize(file_path) != content_range[1]) \
+            or (not os.path.isfile(file_path) and content_range[1] > 0):
+            raise web.HTTPError(403)
+            return
+        if content_range[1] <= 0:
+            mod = "wb"
+        else:
+            mod = "ab"
+        with open(file_path, mod) as fout:
+            fout.write(body)
+
+        file['size'] = os.path.getsize(file_path)
+        return file
+
+
 #-----------------------------------------------------------------------------
 # URL to handler mappings
 #-----------------------------------------------------------------------------
@@ -333,4 +399,5 @@ default_handlers = [
         ModifyCheckpointsHandler),
     (r"/api/contents%s" % path_regex, ContentsHandler),
     (r"/api/notebooks/?(.*)", NotebooksRedirectHandler),
+    (r"/api/upload/(.*)", UploadHandlers),
 ]
