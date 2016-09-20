@@ -185,34 +185,35 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
         
         Object.defineProperty(this, 'header', {
             get: function() {
-                var d = that.config.data || {};
-                return d['Header'] || true;
+                if (that.config.data.Header === undefined) return true;
+                return that.config.data.Header;
             },
             set: function(value) {
                 that.config.update({'Header': value});
             }
         });
-        
-        if (!this.header) {
-            $('#header-container').hide();
-            $('.header-bar').hide();
-            this.events.trigger('resize-header.Page');
-        }
-        
+                
         Object.defineProperty(this, 'toolbar', {
             get: function() {
-                var d = that.config.data || {};
-                return d['Toolbar'] || true;
+                if (that.config.data.Toolbar === undefined) return true;
+                return that.config.data.Toolbar;
             },
             set: function(value) {
                 that.config.update({'Toolbar': value});
             }
         });
         
-        if (!this.toolbar) {
-            $('div#maintoolbar').hide();
-            this.events.trigger('resize-header.Page');
-        }
+        this.config.loaded.then(function() { 
+          if (!that.header) {
+              $('#header-container').hide();
+              $('.header-bar').hide();
+              that.events.trigger('resize-header.Page');
+          }
+          if (!that.toolbar) {
+              $('div#maintoolbar').hide();
+              that.events.trigger('resize-header.Page');
+          }
+        });
         
         // prevent assign to miss-typed properties.
         Object.seal(this);
