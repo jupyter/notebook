@@ -185,46 +185,58 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
         
         Object.defineProperty(this, 'header', {
             get: function() {
-                if (that.config.data.Header === undefined) return true;
-                return that.config.data.Header;
+                return that.class_config.get_sync('Header');
             },
             set: function(value) {
-                that.config.update({'Header': value});
+                if (value === true) {
+                    $('#header-container').show();
+                    $('.header-bar').show();
+                } else if (value === false) {
+                    $('#header-container').hide();
+                    $('.header-bar').hide();
+                }
+                that.events.trigger('resize-header.Page');
+                that.class_config.set('Header', value);
             }
         });
                 
         Object.defineProperty(this, 'toolbar', {
             get: function() {
-                if (that.config.data.Toolbar === undefined) return true;
-                return that.config.data.Toolbar;
+                return that.class_config.get_sync('Toolbar');
             },
             set: function(value) {
-                that.config.update({'Toolbar': value});
+                if (value === true) {
+                    $('div#maintoolbar').show();
+                } else if (value === false) {
+                    $('div#maintoolbar').hide();
+                }
+                that.events.trigger('resize-header.Page');
+                that.class_config.set('Toolbar', value);
             }
         });
         
-        this.config.loaded.then(function() { 
-          if (!that.header) {
-              $('#header-container').hide();
-              $('.header-bar').hide();
-              that.events.trigger('resize-header.Page');
-          }
-          if (!that.toolbar) {
-              $('div#maintoolbar').hide();
-              that.events.trigger('resize-header.Page');
-          }
+        this.class_config.get('Header').then(function(header) {
+            if (header === false) {
+                that.header = false;
+            }
+        });
+        
+        this.class_config.get('Toolbar').then(function(toolbar) {
+            if (toolbar === false) {
+                that.toolbar = false;
+            }
         });
         
         // prevent assign to miss-typed properties.
         Object.seal(this);
     };
 
-
-
     Notebook.options_default = {
         // can be any cell type, or the special values of
         // 'above', 'below', or 'selected' to get the value from another cell.
-        default_cell_type: 'code'
+        default_cell_type: 'code',
+        Header: true,
+        Toolbar: true
     };
 
     /**

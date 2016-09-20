@@ -462,18 +462,6 @@ define(function(require){
                 env.notebook.show_command_palette();
             }
         },
-        'show-all-line-numbers': {
-            help : 'show line numbers in all cells, and persist the setting',
-            handler: function(env) {
-                env.notebook.line_numbers = true;
-            }
-        },
-        'hide-all-line-numbers': {
-            help : 'hide line numbers in all cells, and persist the setting',
-            handler: function(env) {
-                env.notebook.line_numbers = false;
-            }
-        },
         'toggle-all-line-numbers': {
             help : 'toggles line numbers in all cells, and persist the setting',
             icon: 'fa-list-ol',
@@ -481,21 +469,16 @@ define(function(require){
                 env.notebook.line_numbers = !env.notebook.line_numbers;
             }
         },
-        'toggle-toolbar':{
-            help: 'hide/show the toolbar',
-            handler : function(env){
-                env.notebook.toolbar = !env.notebook.toolbar;
-                $('div#maintoolbar').toggle();
-                events.trigger('resize-header.Page');
-            }
-        },
         'toggle-header':{
             help: 'hide/show the header',
             handler : function(env){
                 env.notebook.header = !env.notebook.header;
-                $('#header-container').toggle();
-                $('.header-bar').toggle();
-                events.trigger('resize-header.Page');
+            }
+        },
+        'toggle-toolbar':{
+            help: 'hide/show the toolbar',
+            handler : function(env){
+                env.notebook.toolbar = !env.notebook.toolbar;
             }
         },
         'close-pager': {
