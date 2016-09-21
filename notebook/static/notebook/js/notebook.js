@@ -170,9 +170,6 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
                 return cmc['lineNumbers'] || false;
             },
             set: function(value) {
-                this.get_cells().map(function(c) {
-                    c.code_mirror.setOption('lineNumbers', value);
-                });
                 that.config.update({
                     'Cell': {
                         'cm_config': {
@@ -188,14 +185,6 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
                 return that.class_config.get_sync('Header');
             },
             set: function(value) {
-                if (value === true) {
-                    $('#header-container').show();
-                    $('.header-bar').show();
-                } else if (value === false) {
-                    $('#header-container').hide();
-                    $('.header-bar').hide();
-                }
-                that.events.trigger('resize-header.Page');
                 that.class_config.set('Header', value);
             }
         });
@@ -205,26 +194,20 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
                 return that.class_config.get_sync('Toolbar');
             },
             set: function(value) {
-                if (value === true) {
-                    $('div#maintoolbar').show();
-                } else if (value === false) {
-                    $('div#maintoolbar').hide();
-                }
-                that.events.trigger('resize-header.Page');
                 that.class_config.set('Toolbar', value);
             }
         });
         
         this.class_config.get('Header').then(function(header) {
             if (header === false) {
-                that.header = false;
+                that.keyboard_manager.actions.call('jupyter-notebook:hide-header');
             }
         });
         
         this.class_config.get('Toolbar').then(function(toolbar) {
-            if (toolbar === false) {
-                that.toolbar = false;
-            }
+          if (toolbar === false) {
+              that.keyboard_manager.actions.call('jupyter-notebook:hide-toolbar');
+          }
         });
         
         // prevent assign to miss-typed properties.
