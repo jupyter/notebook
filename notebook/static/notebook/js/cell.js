@@ -479,11 +479,20 @@ define([
         if (data.metadata !== undefined) {
             this.metadata = data.metadata;
         }
+        // upgrade cell's editable metadata if not defined
+        if (this.metadata.editable === undefined) {
+          this.metadata.editable = this.is_editable();
+        }
+        // upgrade cell's deletable metadata if not defined
+        if (this.metadata.deletable === undefined) {
+          this.metadata.deletable = this.is_deletable();
+        }
     };
 
 
     /**
      * can the cell be split into two cells (false if not deletable)
+     *
      * @method is_splittable
      **/
     Cell.prototype.is_splittable = function () {
@@ -500,14 +509,28 @@ define([
     };
 
     /**
-     * is the cell deletable? only false (undeletable) if
-     * metadata.deletable is explicitly false -- everything else
+     * is the cell edtitable? only false (readonly) if
+     * metadata.editable is explicitly false -- everything else
      * counts as true
+     *
+     * @method is_editable
+     **/
+    Cell.prototype.is_editable = function () {
+        if (this.metadata.editable === false) {
+            return false;
+        }
+        return true;
+    };
+
+    /**
+     * is the cell deletable? only false (undeletable) if
+     * metadata.deletable is explicitly false or if the cell is not
+     * editable -- everything else counts as true
      *
      * @method is_deletable
      **/
     Cell.prototype.is_deletable = function () {
-        if (this.metadata.deletable === false) {
+        if (this.metadata.deletable === false || !this.is_editable()) {
             return false;
         }
         return true;
