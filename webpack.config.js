@@ -1,3 +1,6 @@
+// Support for Node 0.10
+// See https://github.com/webpack/css-loader/issues/144
+require('es6-promise').polyfill();
 var _ = require('underscore');
 var path = require('path');
 var sourcemaps = 'inline-source-map';
