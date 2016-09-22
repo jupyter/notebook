@@ -10,12 +10,12 @@ computing.
 ![Jupyter notebook example](docs/resources/running_code_med.png "Jupyter notebook example")
 
 ### Jupyter notebook, the language-agnostic evolution of IPython notebook
-Jupyter notebook is the language-agnostic HTML notebook application for
-Project Jupyter. In 2015, Jupyter notebook was released as part of
+Jupyter notebook is a language-agnostic HTML notebook application for
+Project Jupyter. In 2015, Jupyter notebook was released as a part of
 The Big Split™ of the IPython codebase. IPython 3 was the last major monolithic
 release containing both language-agnostic code, such as the *IPython notebook*,
 and language specific code, such as the *IPython kernel for Python*. As
-computing spans many languages, Project Jupyter will continue to develop the
+computing spans across many languages, Project Jupyter will continue to develop the
 language-agnostic **Jupyter notebook** in this repo and with the help of the
 community develop language specific kernels which are found in their own
 discrete repos.
