@@ -22,7 +22,7 @@ This document describes how you can
 
     **This is not the multi-user server you are looking for**. This document describes how you can run a public server with a single user. This should only be done by someone who wants remote access to their personal machine. Even so, doing this requires a thorough understanding of the set-ups limitations and security implications. If you allow multiple users to access a notebook server as it is described in this document, their commands may collide, clobber and overwrite each other. 
 
-    If you want a multi-user server, the official solution is  JupyterHub_. To use JupyterHub, you need a Unix server (typically Linux) running somewhere that is accessible to your users on a network. This may run over the public internet, but doing so introduces additional of `security concerns <https://jupyterhub.readthedocs.io/en/latest/getting-started.html#security>`_. 
+    If you want a multi-user server, the official solution is  JupyterHub_. To use JupyterHub, you need a Unix server (typically Linux) running somewhere that is accessible to your users on a network. This may run over the public internet, but doing so introduces additional `security concerns <https://jupyterhub.readthedocs.io/en/latest/getting-started.html#security>`_. 
 
 
 
@@ -142,7 +142,7 @@ config file for the notebook using the following command line::
 In the ``~/.jupyter`` directory, edit the notebook config file,
 ``jupyter_notebook_config.py``.  By default, the notebook config file has
 all fields commented out. The minimum set of configuration options that
-you should to uncomment and edit in :file:`jupyter_notebook_config.py` is the
+you should uncomment and edit in :file:`jupyter_notebook_config.py` is the
 following::
 
      # Set options for certfile, ip, password, and toggle off browser auto-opening
@@ -220,7 +220,7 @@ Firewall Setup
 To function correctly, the firewall on the computer running the jupyter
 notebook server must be configured to allow connections from client
 machines on the access port ``c.NotebookApp.port`` set in
-:file:`jupyter_notebook_config.py` port to allow connections to the
+:file:`jupyter_notebook_config.py` to allow connections to the
 web interface.  The firewall must also allow connections from
 127.0.0.1 (localhost) on ports from 49152 to 65535.
 These ports are used by the server to communicate with the notebook kernels.
