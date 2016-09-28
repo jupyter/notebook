@@ -4,6 +4,8 @@ require('es6-promise').polyfill();
 var _ = require('underscore');
 var path = require('path');
 var sourcemaps = 'inline-source-map';
+var webpack = require('webpack');
+
 
 if(process.argv.indexOf('-w') !== -1 || process.argv.indexOf('-w') !== -1  ){
   console.log('watch mode detected, will switch to cheep sourcemaps');
@@ -42,25 +44,28 @@ var commonConfig = {
       bootstrap: '$',
       bootstraptour: 'Tour',
       'jquery-ui': '$',
-      typeahead: '$.typeahead',
-      'codemirror': 'CodeMirror',
-      'codemirror/lib/codemirror': 'CodeMirror',
-      'codemirror/mode/meta': 'CodeMirror',
-      // Account for relative paths from other CodeMirror files
-      '../../lib/codemirror': 'CodeMirror',
-      '../lib/codemirror': 'CodeMirror' 
+      typeahead: '$.typeahead'
     }
 };
 
 function buildConfig(appName) {
     if (typeof appName !== 'string') return appName;
+    var outputPath = path.join(__dirname, 'notebook', 'static', appName, 'js', 'built')
     return _.extend({}, commonConfig, {
-        entry: './notebook/static/' + appName + '/js/main.js',
+        entry: {
+            vendor: ['./notebook/static/' + appName + '/js/main.js']
+        },
         output: {
-            filename: 'main.min.js',
-            path: path.join(__dirname, 'notebook', 'static', appName, 'js', 'built')
+            filename: 'vendor.min.js',
+            path: outputPath,
+            libraryTarget: 'var',
+            library: 'vendor'
         },
         devtool: sourcemaps,
+        plugins: [new webpack.DllPlugin({
+            name: 'vendor',
+            path: outputPath + '/vendor-manifest.json'
+        })]
     });
 }
 
@@ -71,18 +76,22 @@ module.exports = [
     'tree',
     'notebook',
     _.extend({}, commonConfig, {
-        entry: './notebook/static/services/contents.js',
+        entry: {
+            vendor: ['./notebook/static/services/contents.js'],
+        },
         output: {
-            filename: 'contents.js',
+            filename: 'vendor.js',
             path: path.join(__dirname, 'notebook', 'static', 'services', 'built'),
             libraryTarget: 'amd'
         },
         devtool: sourcemaps,
     }),
     _.extend({}, commonConfig, {
-        entry: './notebook/static/index.js',
+        entry: {
+            vendor: ['./notebook/static/index.js'],
+        },
         output: {
-            filename: 'index.js',
+            filename: 'vendor.js',
             path: path.join(__dirname, 'notebook', 'static', 'built'),
             libraryTarget: 'amd'
         },
