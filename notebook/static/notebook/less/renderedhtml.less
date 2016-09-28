@@ -59,20 +59,34 @@
     table {
         margin-left: auto;
         margin-right: auto;
-        border: 1px solid @rendered_html_border_color;
+        border: none;
         border-collapse: collapse;
+        border-spacing: 0;
+        color: @rendered_html_border_color;
+        font-size: 12px;
+        table-layout: fixed;
+    }
+    thead {
+        border-bottom: 1px solid @rendered_html_border_color;
+        vertical-align: bottom;
     }
     tr, th, td {
-        border: 1px solid @rendered_html_border_color;
-        border-collapse: collapse;
-        margin: 1em 2em;
-    }
-    td, th {
-        text-align: left;
+        text-align: right;
         vertical-align: middle;
-        padding: 4px;
+        padding: 0.5em 0.5em;
+        line-height: 1.0;
+        white-space: nowrap;
+        max-width: 100px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        border: none;
     }
-    th {font-weight: bold;}
+    th {
+        font-weight: bold;
+    }
+    tbody tr:nth-child(odd) {
+        background: #f5f5f5;
+    }
     * + table {margin-top: 1em;}
 
     p {text-align: left;}
