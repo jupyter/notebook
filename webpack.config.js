@@ -38,6 +38,7 @@ var commonConfig = {
         ]
     },
     externals: {
+      custom: 'custom',
       jquery: '$',
       bootstrap: '$',
       bootstraptour: 'Tour',
