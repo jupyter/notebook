@@ -615,10 +615,14 @@ _base_flags.update({
 })
 _base_flags['python'] = _base_flags['py']
 
+_base_aliases = {}
+_base_aliases.update(JupyterApp.aliases)
+
 class BaseNBExtensionApp(JupyterApp):
     """Base nbextension installer app"""
     _log_formatter_cls = LogFormatter
     flags = _base_flags
+    aliases = _base_aliases
     version = __version__
     
     user = Bool(False, config=True, help="Whether to do a user install")
@@ -655,11 +659,13 @@ flags.update({
 
 flags['s'] = flags['symlink']
 
-aliases = {
+aliases = {}
+aliases.update(_base_aliases)
+aliases.update({
     "prefix" : "InstallNBExtensionApp.prefix",
     "nbextensions" : "InstallNBExtensionApp.nbextensions_dir",
     "destination" : "InstallNBExtensionApp.destination",
-}
+})
 
 class InstallNBExtensionApp(BaseNBExtensionApp):
     """Entry point for installing notebook extensions"""
@@ -764,6 +770,7 @@ class UninstallNBExtensionApp(BaseNBExtensionApp):
         "nbextensions" : "UninstallNBExtensionApp.nbextensions_dir",
         "require": "UninstallNBExtensionApp.require",
     }
+    aliases.update(_base_aliases)
     
     prefix = Unicode('', config=True, help="Installation prefix")
     nbextensions_dir = Unicode('', config=True, help="Full path to nbextensions dir (probably use prefix or user)")
@@ -818,6 +825,7 @@ class ToggleNBExtensionApp(BaseNBExtensionApp):
     user = Bool(True, config=True, help="Apply the configuration only for the current user (default)")
 
     aliases = {'section': 'ToggleNBExtensionApp.section'}
+    aliases.update(_base_aliases)
     
     _toggle_value = None
 
