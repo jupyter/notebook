@@ -162,7 +162,6 @@ class ToggleServerExtensionApp(BaseExtensionApp):
     name = "jupyter serverextension enable/disable"
     description = "Enable/disable a server extension using frontend configuration files."
     
-    aliases = {}
     flags = flags
 
     user = Bool(True, config=True, help="Whether to do a user install")

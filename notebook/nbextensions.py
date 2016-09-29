@@ -571,7 +571,7 @@ def validate_nbextension_python(spec, full_dest, logger=None):
 
 from .extensions import (
     BaseExtensionApp, _get_config_dir, GREEN_ENABLED, RED_DISABLED, GREEN_OK, RED_X,
-    ArgumentConflict, _base_flags
+    ArgumentConflict, _base_aliases, _base_flags,
 )
 from traitlets import Bool, Unicode
 
@@ -592,11 +592,13 @@ flags.update({
 
 flags['s'] = flags['symlink']
 
-aliases = {
+aliases = {}
+aliases.update(_base_aliases)
+aliases.update({
     "prefix" : "InstallNBExtensionApp.prefix",
     "nbextensions" : "InstallNBExtensionApp.nbextensions_dir",
     "destination" : "InstallNBExtensionApp.destination",
-}
+})
 
 class InstallNBExtensionApp(BaseExtensionApp):
     """Entry point for installing notebook extensions"""
