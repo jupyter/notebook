@@ -1,6 +1,7 @@
 // Support for Node 0.10
 // See https://github.com/webpack/css-loader/issues/144
 require('es6-promise').polyfill();
+var webpack = require('webpack');
 var _ = require('underscore');
 var path = require('path');
 var sourcemaps = 'inline-source-map';
@@ -49,7 +50,12 @@ var commonConfig = {
       // Account for relative paths from other CodeMirror files
       '../../lib/codemirror': 'CodeMirror',
       '../lib/codemirror': 'CodeMirror' 
-    }
+    },
+    plugins: [
+      new webpack.ProvidePlugin({
+        'Promise': 'es6-promise',
+      })
+    ]
 };
 
 function buildConfig(appName) {
