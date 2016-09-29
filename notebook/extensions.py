@@ -45,11 +45,15 @@ _base_flags.update({
 })
 _base_flags['python'] = _base_flags['py']
 
+_base_aliases = {}
+_base_aliases.update(JupyterApp.aliases)
+
 
 class BaseExtensionApp(JupyterApp):
     """Base nbextension installer app"""
     _log_formatter_cls = LogFormatter
     flags = _base_flags
+    aliases = _base_aliases
     version = __version__
 
     user = Bool(False, config=True, help="Whether to do a user install")
