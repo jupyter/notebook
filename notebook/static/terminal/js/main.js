@@ -38,8 +38,12 @@ require([
 
     var base_url = utils.get_body_data('baseUrl');
     var ws_path = utils.get_body_data('wsPath');
-    var ws_url = location.protocol.replace('http', 'ws') + "//" + location.host
-                                    + base_url + ws_path;
+    var ws_url = utils.get_body_data('wsUrl');
+    if (!ws_url) {
+        // trailing 's' in https will become wss for secure web sockets
+        ws_url = location.protocol.replace('http', 'ws') + "//" + location.host;
+    }
+    ws_url = ws_url + base_url + ws_path;
     
     var header = $("#header")[0];
 
