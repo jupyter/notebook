@@ -207,11 +207,11 @@ You can install your nbextension with the command::
 
     jupyter nbextension install path/to/my_extension/ [--user|--sys-prefix]
 
-The default installation is system-wide. You can use ``--user`` to do a per-user installation,
-or ``--sys-prefix`` to install to Python's prefix (e.g. in a virtual or conda environment).
-Where my_extension is the directory containing the Javascript files.
-This will copy it to a Jupyter data directory (the exact location is platform
-dependent - see :ref:`jupyter_path`).
+The default installation is system-wide. You can use ``--user`` to do a
+per-user installation, or ``--sys-prefix`` to install to Python's prefix (e.g.
+in a virtual or conda environment). Where my_extension is the directory
+containing the Javascript files. This will copy it to a Jupyter data directory
+(the exact location is platform dependent - see :ref:`jupyter_path`).
 
 For development, you can use the ``--symlink`` flag to symlink your extension
 rather than copying it, so there's no need to reinstall after changes.
@@ -267,11 +267,12 @@ Here is an example of ``kernel.js``::
 
 .. code:: javascript
 
-    // kernel.js
-
     define(function(){
       return {onload: function(){
         console.info('Kernel specific javascript loaded');
-        // do more things here, like define a codemirror mode,
+
+        // do more things here, like define a codemirror mode
+
       }}
+
     });

@@ -3,9 +3,9 @@ Customize keymaps
 
 .. note::
 
-    Declarative Custom Keymaps is a provisional feature with unstable API which is not
-    guaranteed to be kept in future versions of the notebook, and can be
-    removed or changed without warnings. 
+    Declarative Custom Keymaps is a provisional feature with unstable API
+    which is not guaranteed to be kept in future versions of the notebook,
+    and can be removed or changed without warnings.
 
 The notebook shortcuts that are defined by jupyter both in edit mode an command
 mode are configurable in the frontend configuration file
@@ -14,15 +14,16 @@ suffer of several limitations, mainly that your Browser and OS might prevent
 certain shortcut to work correctly. If this is the case, there are
 unfortunately not much than can be done. The second issue can arise with
 keyboard that have a layout different than US English. Again even if we are
-aware of the issue, there is not much we can do about that. 
+aware of the issue, there is not much we can do about that.
 
 Shortcut are also limited by the underlying library that handle code and text
 edition: CodeMirror. If some Keyboard shortcuts are conflicting, the method
 describe below might not work to create new keyboard shortcuts, especially in
-the ``edit`` mode of the notebook. 
+the ``edit`` mode of the notebook.
 
 
-The 4 sections of interest in ``~/.jupyter/nbconfig/notebook.json`` are the following: 
+The 4 sections of interest in ``~/.jupyter/nbconfig/notebook.json`` are the
+following:
 
   - ``keys.command.unbind``
   - ``keys.edit.unbind``
@@ -31,7 +32,7 @@ The 4 sections of interest in ``~/.jupyter/nbconfig/notebook.json`` are the foll
 
 The first two section describe which default keyboard shortcut not to register
 at notebook startup time. These are mostly useful if you need to ``unbind`` a
-default keyboard shortcut before binding it to a new ``command``. 
+default keyboard shortcut before binding it to a new ``command``.
 
 These two first sections apply respectively to the ``command`` and ``edit``
 mode of the notebook. They take a list of shortcut to ``unbind``.
@@ -57,10 +58,11 @@ cursor (``Ctrl-Shift-Minus``)use the  following:
 
 
 The last two section describe which new keyboard shortcut to register
-at notebook startup time, and which actions they trigger. 
+at notebook startup time, and which actions they trigger.
 
-These two last sections apply respectively to the ``command`` and ``edit`` mode of the notebook. 
-They take a dictionary with shortcuts as ``keys`` and ``commands`` name as value.
+These two last sections apply respectively to the ``command`` and ``edit``
+mode of the notebook. They take a dictionary with shortcuts as ``keys`` and
+``commands`` name as value.
 
 For example, to bind the shortcut ``G,G,G`` (Press G three time in a row) in
 command mode, to the command that restart the kernel and run all cells, use the
@@ -85,4 +87,4 @@ following:
 
 
 The name of the available ``commands`` can be find by hovering the right end of
-a row in the command palette. 
+a row in the command palette.

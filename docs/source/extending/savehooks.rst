@@ -4,9 +4,9 @@ File save hooks
 You can configure functions that are run whenever a file is saved. There are
 two hooks available:
 
-* ``ContentsManager.pre_save_hook`` runs on the API path and model with content.
-  This can be used for things like stripping output that people don't like
-  adding to VCS noise.
+* ``ContentsManager.pre_save_hook`` runs on the API path and model with
+  content. This can be used for things like stripping output that people don't
+  like adding to VCS noise.
 * ``FileContentsManager.post_save_hook`` runs on the filesystem path and model
   without content. This could be used to commit changes after every save, for
   instance.
@@ -43,10 +43,12 @@ A pre-save hook for stripping output::
 A post-save hook to make a script equivalent whenever the notebook is saved
 (replacing the ``--script`` option in older versions of the notebook)::
 
+.. sourcecode:: python
+
     import io
     import os
     from notebook.utils import to_api_path
-    
+
     _script_exporter = None
 
     def script_post_save(model, os_path, contents_manager, **kwargs):
@@ -60,8 +62,10 @@ A post-save hook to make a script equivalent whenever the notebook is saved
             return
 
         global _script_exporter
+
         if _script_exporter is None:
             _script_exporter = ScriptExporter(parent=contents_manager)
+
         log = contents_manager.log
 
         base, ext = os.path.splitext(os_path)
@@ -69,9 +73,12 @@ A post-save hook to make a script equivalent whenever the notebook is saved
         script, resources = _script_exporter.from_filename(os_path)
         script_fname = base + resources.get('output_extension', '.txt')
         log.info("Saving script /%s", to_api_path(script_fname, contents_manager.root_dir))
+
         with io.open(script_fname, 'w', encoding='utf-8') as f:
             f.write(script)
+
     c.FileContentsManager.post_save_hook = script_post_save
+
 
 This could be a simple call to ``jupyter nbconvert --to script``, but spawning
 the subprocess every time is quite slow.
