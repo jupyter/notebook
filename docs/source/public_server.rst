@@ -16,13 +16,23 @@ serving HTTP requests.
 
 This document describes how you can
 :ref:`secure a notebook server <notebook_server_security>` and how to
-:ref:`run it on a public interface <notebook_public_server>`. 
+:ref:`run it on a public interface <notebook_public_server>`.
 
-.. important:: 
+.. important::
 
-    **This is not the multi-user server you are looking for**. This document describes how you can run a public server with a single user. This should only be done by someone who wants remote access to their personal machine. Even so, doing this requires a thorough understanding of the set-ups limitations and security implications. If you allow multiple users to access a notebook server as it is described in this document, their commands may collide, clobber and overwrite each other. 
+    **This is not the multi-user server you are looking for**. This document
+    describes how you can run a public server with a single user. This should
+    only be done by someone who wants remote access to their personal machine.
+    Even so, doing this requires a thorough understanding of the set-ups
+    limitations and security implications. If you allow multiple users to
+    access a notebook server as it is described in this document, their
+    commands may collide, clobber and overwrite each other.
 
-    If you want a multi-user server, the official solution is  JupyterHub_. To use JupyterHub, you need a Unix server (typically Linux) running somewhere that is accessible to your users on a network. This may run over the public internet, but doing so introduces additional `security concerns <https://jupyterhub.readthedocs.io/en/latest/getting-started.html#security>`_. 
+    If you want a multi-user server, the official solution is  JupyterHub_.
+    To use JupyterHub, you need a Unix server (typically Linux) running
+    somewhere that is accessible to your users on a network. This may run over
+    the public internet, but doing so introduces additional
+    `security concerns <https://jupyterhub.readthedocs.io/en/latest/getting-started.html#security>`_.
 
 
 
@@ -30,7 +40,7 @@ This document describes how you can
 
 .. _Tornado: http://www.tornadoweb.org
 
-.. _JupyterHub: https://jupyterhub.readthedocs.io/en/latest/ 
+.. _JupyterHub: https://jupyterhub.readthedocs.io/en/latest/
 
 .. _notebook_server_security:
 
@@ -78,16 +88,18 @@ You can prepare a hashed password using the function
 
 Adding hashed password to your notebook configuration file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-You can then add the hashed password to your :file:`jupyter_notebook_config.py`.
-The default location for this file :file:`jupyter_notebook_config.py` is in
-your Jupyter folder in your home directory, ``~/.jupyter``, e.g.::
+You can then add the hashed password to your
+:file:`jupyter_notebook_config.py`. The default location for this file
+:file:`jupyter_notebook_config.py` is in your Jupyter folder in your home
+directory, ``~/.jupyter``, e.g.::
 
     c.NotebookApp.password = u'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
 
 Using SSL for encrypted communication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-When using a password, it is a good idea to also use SSL with a web certificate,
-so that your hashed password is not sent unencrypted by your browser.
+When using a password, it is a good idea to also use SSL with a web
+certificate, so that your hashed password is not sent unencrypted by your
+browser.
 
 .. important::
    Web security is rapidly changing and evolving. We provide this document
@@ -113,9 +125,10 @@ with the command::
 When starting the notebook server, your browser may warn that your self-signed
 certificate is insecure or unrecognized.  If you wish to have a fully
 compliant self-signed certificate that will not raise warnings, it is possible
-(but rather involved) to create one, as explained in detail in this `tutorial`_.
-Alternatively, you may use `Let's Encrypt`_ to acquire a free SSL certificate
-and follow the steps in :ref:`using-lets-encrypt` to set up a public server.
+(but rather involved) to create one, as explained in detail in this
+`tutorial`_. Alternatively, you may use `Let's Encrypt`_ to acquire a free SSL
+certificate and follow the steps in :ref:`using-lets-encrypt` to set up a
+public server.
 
 .. _OWASP: https://www.owasp.org
 .. _tutorial: http://arstechnica.com/security/news/2009/12/how-to-get-set-with-a-secure-sertificate-for-free.ars
@@ -145,7 +158,8 @@ all fields commented out. The minimum set of configuration options that
 you should uncomment and edit in :file:`jupyter_notebook_config.py` is the
 following::
 
-     # Set options for certfile, ip, password, and toggle off browser auto-opening
+     # Set options for certfile, ip, password, and toggle off
+     # browser auto-opening
      c.NotebookApp.certfile = u'/absolute/path/to/your/certificate/mycert.pem'
      c.NotebookApp.keyfile = u'/absolute/path/to/your/certificate/mykey.key'
      # Set ip to '*' to bind on all interfaces (ips) for the public server
@@ -172,7 +186,7 @@ certificate with a few configuration changes. Here are the steps:
 2. Use :ref:`hashed-pw` to create one.
 3. If you don't already have config file for the notebook, create one
    using the following command:
-   
+
    .. code-block:: bash
 
        $ jupyter notebook --generate-config
@@ -183,7 +197,8 @@ all fields commented out. The minimum set of configuration options that
 you should to uncomment and edit in :file:`jupyter_notebook_config.py` is the
 following::
 
-     # Set options for certfile, ip, password, and toggle off browser auto-opening
+     # Set options for certfile, ip, password, and toggle off
+     # browser auto-opening
      c.NotebookApp.certfile = u'/absolute/path/to/your/certificate/fullchain.pem'
      c.NotebookApp.keyfile = u'/absolute/path/to/your/certificate/privkey.pem'
      # Set ip to '*' to bind on all interfaces (ips) for the public server
@@ -249,10 +264,12 @@ instructions about modifying ``jupyter_notebook_config.py``):
 Embedding the notebook in another website
 -----------------------------------------
 
-Sometimes you may want to embed the notebook somewhere on your website, e.g. in an IFrame.
-To do this, you may need to override the Content-Security-Policy to allow embedding.
-Assuming your website is at `https://mywebsite.example.com`,
-you can embed the notebook on your website with the following configuration setting in :file:`jupyter_notebook_config.py`:
+Sometimes you may want to embed the notebook somewhere on your website,
+e.g. in an IFrame. To do this, you may need to override the
+Content-Security-Policy to allow embedding. Assuming your website is at
+`https://mywebsite.example.com`, you can embed the notebook on your website
+with the following configuration setting in
+:file:`jupyter_notebook_config.py`:
 
 .. sourcecode:: python
 
@@ -266,7 +283,8 @@ When embedding the notebook in a website using an iframe,
 consider putting the notebook in single-tab mode.
 Since the notebook opens some links in new tabs by default,
 single-tab mode keeps the notebook from opening additional tabs.
-Adding the following to :file:`~/.jupyter/custom/custom.js` will enable single-tab mode:
+Adding the following to :file:`~/.jupyter/custom/custom.js` will enable
+single-tab mode:
 
 .. sourcecode:: javascript
 

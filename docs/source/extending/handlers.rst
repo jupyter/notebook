@@ -23,7 +23,7 @@ when the extension is loaded.
     def load_jupyter_server_extension(nb_server_app):
         """
         Called when the extension is loaded.
-        
+
         Args:
             nb_server_app (NotebookWebApplication): handle to the Notebook webserver instance.
         """
@@ -98,7 +98,7 @@ Notebook server. See the following example:
     route_pattern = url_path_join(web_app.settings['base_url'], '/hello')
     web_app.add_handlers(host_pattern, [(route_pattern, HelloWorldHandler)])
 
-Putting this together with the extension code, the example looks like the 
+Putting this together with the extension code, the example looks like the
 following:
 
 .. code:: python
@@ -113,7 +113,7 @@ following:
     def load_jupyter_server_extension(nb_server_app):
         """
         Called when the extension is loaded.
-        
+
         Args:
             nb_server_app (NotebookWebApplication): handle to the Notebook webserver instance.
         """
@@ -122,6 +122,6 @@ following:
         route_pattern = url_path_join(web_app.settings['base_url'], '/hello')
         web_app.add_handlers(host_pattern, [(route_pattern, HelloWorldHandler)])
 
-References:  
-1. `Peter Parente's
-Mindtrove <http://mindtrove.info/4-ways-to-extend-jupyter-notebook/#nb-server-exts>`__ 
+References:
+
+1. `Peter Parente's Mindtrove <http://mindtrove.info/4-ways-to-extend-jupyter-notebook/#nb-server-exts>`__

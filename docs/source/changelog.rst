@@ -4,7 +4,8 @@ Jupyter notebook changelog
 ==========================
 
 A summary of changes in the Jupyter notebook.
-For more detailed information, see `GitHub <https://github.com/jupyter/notebook>`__.
+For more detailed information, see
+`GitHub <https://github.com/jupyter/notebook>`__.
 
 .. tip::
 
@@ -42,7 +43,8 @@ All users are strongly encouraged to upgrade to 4.2.2.
   could be added to the page in a way that could execute javascript.
 - Fix missing POST in OPTIONS responses.
 - Fix for downloading non-ascii filenames.
-- Avoid clobbering ssl_options, so that users can specify more detailed SSL configuration.
+- Avoid clobbering ssl_options, so that users can specify more detailed SSL
+  configuration.
 - Fix inverted load order in nbconfig, so user config has highest priority.
 - Improved error messages here and there.
 
@@ -85,7 +87,8 @@ Highlighted changes:
 - Restore ability for notebook directory to be root (4.1 regression)
 - Large outputs are now throttled, reducing the ability of output floods to
   kill the browser.
-- Fix the notebook ignoring cell executions while a kernel is starting by queueing the messages.
+- Fix the notebook ignoring cell executions while a kernel is starting by
+  queueing the messages.
 - Fix handling of url prefixes (e.g. JupyterHub) in terminal and edit pages.
 - Support nested SVGs in output.
 
@@ -108,31 +111,43 @@ Bug fixes:
 
 UI changes:
 
-- Moved the cell toolbar selector into the *View* menu. Added a button that triggers a "hint" animation to the main toolbar so users can find the new location. (Click here to see a `screencast <https://cloud.githubusercontent.com/assets/335567/10711889/59665a5a-7a3e-11e5-970f-86b89592880c.gif>`__ )
+- Moved the cell toolbar selector into the *View* menu. Added a button that
+  triggers a "hint" animation to the main toolbar so users can find the new
+  location. (Click here to see a `screencast <https://cloud.githubusercontent.com/assets/335567/10711889/59665a5a-7a3e-11e5-970f-86b89592880c.gif>`__ )
 
     .. image:: /_static/images/cell-toolbar-41.png
 
-- Added *Restart & Run All* to the *Kernel* menu. Users can also bind it to a keyboard shortcut on action ``restart-kernel-and-run-all-cells``.
-- Added multiple-cell selection. Users press ``Shift-Up/Down`` or ``Shift-K/J`` to extend selection in command mode. Various actions such as cut/copy/paste, execute, and cell type conversions apply to all selected cells.
+- Added *Restart & Run All* to the *Kernel* menu. Users can also bind it to a
+  keyboard shortcut on action ``restart-kernel-and-run-all-cells``.
+- Added multiple-cell selection. Users press ``Shift-Up/Down`` or ``Shift-K/J``
+  to extend selection in command mode. Various actions such as cut/copy/paste,
+  execute, and cell type conversions apply to all selected cells.
 
   .. image:: /_static/images/multi-select-41.png
 
-- Added a command palette for executing Jupyter actions by name. Users press ``Cmd/Ctrl-Shift-P`` or click the new command palette icon on the toolbar.
+- Added a command palette for executing Jupyter actions by name. Users press
+  ``Cmd/Ctrl-Shift-P`` or click the new command palette icon on the toolbar.
 
   .. image:: /_static/images/command-palette-41.png
 
-- Added a *Find and Replace* dialog to the *Edit* menu. Users can also press ``F`` in command mode to show the dialog.
+- Added a *Find and Replace* dialog to the *Edit* menu. Users can also press
+  ``F`` in command mode to show the dialog.
 
   .. image:: /_static/images/find-replace-41.png
 
 Other improvements:
 
-- Custom KernelManager methods can be Tornado coroutines, allowing async operations.
-- Make clearing output optional when rewriting input with ``set_next_input(replace=True)``.
+- Custom KernelManager methods can be Tornado coroutines, allowing async
+  operations.
+- Make clearing output optional when rewriting input with
+  ``set_next_input(replace=True)``.
 - Added support for TLS client authentication via ``--NotebookApp.client-ca``.
-- Added tags to ``jupyter/notebook`` releases on DockerHub. ``latest`` continues to track the master branch.
+- Added tags to ``jupyter/notebook`` releases on DockerHub. ``latest``
+  continues to track the master branch.
 
-See the 4.1 milestone on GitHub for a complete list of `issues <https://github.com/jupyter/notebook/issues?page=3&q=milestone%3A4.1+is%3Aclosed+is%3Aissue&utf8=%E2%9C%93>`__ and `pull requests <https://github.com/jupyter/notebook/pulls?q=milestone%3A4.1+is%3Aclosed+is%3Apr>`__ handled.
+See the 4.1 milestone on GitHub for a complete list of
+`issues <https://github.com/jupyter/notebook/issues?page=3&q=milestone%3A4.1+is%3Aclosed+is%3Aissue&utf8=%E2%9C%93>`__
+and `pull requests <https://github.com/jupyter/notebook/pulls?q=milestone%3A4.1+is%3Aclosed+is%3Apr>`__ handled.
 
 4.0.x
 -----
