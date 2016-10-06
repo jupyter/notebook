@@ -241,7 +241,9 @@ define([
      */
     Session.prototype._get_model = function () {
         return {
-            notebook: this.notebook_model,
+            path: this.notebook_model.path,
+            type: 'notebook',
+            name: '',
             kernel: this.kernel_model
         };
     };
@@ -261,7 +263,7 @@ define([
             this.session_url = utils.url_path_join(this.session_service_url, this.id);
         }
         if (data && data.notebook) {
-            this.notebook_model.path = data.notebook.path;
+            this.notebook_model.path = data.path;
         }
         if (data && data.kernel) {
             this.kernel_model.name = data.kernel.name;

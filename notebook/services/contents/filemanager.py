@@ -491,6 +491,8 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
     def get_kernel_path(self, path, model=None):
         """Return the initial API path of  a kernel associated with a given notebook"""
+        if self.dir_exists(path):
+            return path
         if '/' in path:
             parent_dir = path.rsplit('/', 1)[0]
         else:

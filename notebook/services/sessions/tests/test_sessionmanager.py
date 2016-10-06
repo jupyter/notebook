@@ -47,6 +47,7 @@ class TestSessionManager(TestCase):
         def co_add():
             sessions = []
             for kwargs in kwarg_list:
+                kwargs.setdefault('type', 'notebook')
                 session = yield self.sm.create_session(**kwargs)
                 sessions.append(session)
             raise gen.Return(sessions)
@@ -60,7 +61,10 @@ class TestSessionManager(TestCase):
         session_id = self.create_session(path='/path/to/test.ipynb', kernel_name='bar')['id']
         model = sm.get_session(session_id=session_id)
         expected = {'id':session_id,
-                    'notebook':{'path': u'/path/to/test.ipynb'},
+                    'path': u'/path/to/test.ipynb',
+                    'notebook': {'path': u'/path/to/test.ipynb', 'name': None},
+                    'type': 'notebook',
+                    'name': None,
                     'kernel': {'id':u'A', 'name': 'bar'}}
         self.assertEqual(model, expected)
 
@@ -86,23 +90,30 @@ class TestSessionManager(TestCase):
         sm = self.sm
         sessions = self.create_sessions(
             dict(path='/path/to/1/test1.ipynb', kernel_name='python'),
-            dict(path='/path/to/2/test2.ipynb', kernel_name='python'),
-            dict(path='/path/to/3/test3.ipynb', kernel_name='python'),
+            dict(path='/path/to/2/test2.py', type='file', kernel_name='python'),
+            dict(path='/path/to/3', name='foo', type='console', kernel_name='python'),
         )
         
         sessions = sm.list_sessions()
         expected = [
             {
                 'id':sessions[0]['id'],
-                'notebook':{'path': u'/path/to/1/test1.ipynb'},
+                'path': u'/path/to/1/test1.ipynb',
+                'type': 'notebook',
+                'notebook': {'path': u'/path/to/1/test1.ipynb', 'name': None},
+                'name': None,
                 'kernel':{'id':u'A', 'name':'python'}
             }, {
                 'id':sessions[1]['id'],
-                'notebook': {'path': u'/path/to/2/test2.ipynb'},
+                'path': u'/path/to/2/test2.py',
+                'type': 'file',
+                'name': None,
                 'kernel':{'id':u'B', 'name':'python'}
             }, {
                 'id':sessions[2]['id'],
-                'notebook':{'path': u'/path/to/3/test3.ipynb'},
+                'path': u'/path/to/3',
+                'type': 'console',
+                'name': 'foo',
                 'kernel':{'id':u'C', 'name':'python'}
             }
         ]
@@ -120,9 +131,10 @@ class TestSessionManager(TestCase):
         expected = [
             {
                 'id': sessions[1]['id'],
-                'notebook': {
-                    'path': u'/path/to/2/test2.ipynb',
-                },
+                'path': u'/path/to/2/test2.ipynb',
+                'type': 'notebook',
+                'name': None,
+                'notebook': {'path': u'/path/to/2/test2.ipynb', 'name': None},
                 'kernel': {
                     'id': u'B',
                     'name':'python',
@@ -138,7 +150,10 @@ class TestSessionManager(TestCase):
         sm.update_session(session_id, path='/path/to/new_name.ipynb')
         model = sm.get_session(session_id=session_id)
         expected = {'id':session_id,
-                    'notebook':{'path': u'/path/to/new_name.ipynb'},
+                    'path': u'/path/to/new_name.ipynb',
+                    'type': 'notebook',
+                    'name': None,
+                    'notebook': {'path': u'/path/to/new_name.ipynb', 'name': None},
                     'kernel':{'id':u'A', 'name':'julia'}}
         self.assertEqual(model, expected)
     
@@ -154,17 +169,22 @@ class TestSessionManager(TestCase):
         sessions = self.create_sessions(
             dict(path='/path/to/1/test1.ipynb', kernel_name='python'),
             dict(path='/path/to/2/test2.ipynb', kernel_name='python'),
-            dict(path='/path/to/3/test3.ipynb', kernel_name='python'),
+            dict(path='/path/to/3', name='foo', type='console', kernel_name='python'),
         )
         sm.delete_session(sessions[1]['id'])
         new_sessions = sm.list_sessions()
         expected = [{
                 'id': sessions[0]['id'],
-                'notebook': {'path': u'/path/to/1/test1.ipynb'},
+                'path': u'/path/to/1/test1.ipynb',
+                'type': 'notebook',
+                'name': None,
+                'notebook': {'path': u'/path/to/1/test1.ipynb', 'name': None},
                 'kernel': {'id':u'A', 'name':'python'}
             }, {
                 'id': sessions[2]['id'],
-                'notebook': {'path': u'/path/to/3/test3.ipynb'},
+                'type': 'console',
+                'path': u'/path/to/3',
+                'name': 'foo',
                 'kernel': {'id':u'C', 'name':'python'}
             }
         ]
