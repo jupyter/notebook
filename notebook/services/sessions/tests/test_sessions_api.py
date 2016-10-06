@@ -39,14 +39,29 @@ class SessionAPI(object):
     def get(self, id):
         return self._req('GET', id)
 
-    def create(self, path, kernel_name='python', kernel_id=None):
-        body = json.dumps({'notebook': {'path':path},
+    def create(self, path, type='notebook', kernel_name='python', kernel_id=None):
+        body = json.dumps({'path': path,
+                           'type': type,
                            'kernel': {'name': kernel_name,
                                       'id': kernel_id}})
         return self._req('POST', '', body)
 
+    def create_deprecated(self, path):
+        body = json.dumps({'notebook': {'path': path},
+                           'kernel': {'name': 'python',
+                                      'id': 'foo'}})
+        return self._req('POST', '', body)
+
     def modify_path(self, id, path):
-        body = json.dumps({'notebook': {'path':path}})
+        body = json.dumps({'path': path})
+        return self._req('PATCH', id, body)
+
+    def modify_path_deprecated(self, id, path):
+        body = json.dumps({'notebook': {'path': path}})
+        return self._req('PATCH', id, body)
+
+    def modify_type(self, id, type):
+        body = json.dumps({'type': type})
         return self._req('PATCH', id, body)
 
     def modify_kernel_name(self, id, kernel_name):
@@ -101,7 +116,8 @@ class SessionAPITest(NotebookTestBase):
         self.assertEqual(resp.status_code, 201)
         newsession = resp.json()
         self.assertIn('id', newsession)
-        self.assertEqual(newsession['notebook']['path'], 'foo/nb1.ipynb')
+        self.assertEqual(newsession['path'], 'foo/nb1.ipynb')
+        self.assertEqual(newsession['type'], 'notebook')
         self.assertEqual(resp.headers['Location'], self.url_prefix + 'api/sessions/{0}'.format(newsession['id']))
 
         sessions = self.sess_api.list().json()
@@ -111,6 +127,28 @@ class SessionAPITest(NotebookTestBase):
         sid = newsession['id']
         got = self.sess_api.get(sid).json()
         self.assertEqual(got, newsession)
+
+    def test_create_file_session(self):
+        resp = self.sess_api.create('foo/nb1.py', type='file')
+        self.assertEqual(resp.status_code, 201)
+        newsession = resp.json()
+        self.assertEqual(newsession['path'], 'foo/nb1.py')
+        self.assertEqual(newsession['type'], 'file')
+
+    def test_create_console_session(self):
+        resp = self.sess_api.create('foo/abc123', type='console')
+        self.assertEqual(resp.status_code, 201)
+        newsession = resp.json()
+        self.assertEqual(newsession['path'], 'foo/abc123')
+        self.assertEqual(newsession['type'], 'console')
+
+    def test_create_deprecated(self):
+        resp = self.sess_api.create_deprecated('foo/nb1.ipynb')
+        self.assertEqual(resp.status_code, 201)
+        newsession = resp.json()
+        self.assertEqual(newsession['path'], 'foo/nb1.ipynb')
+        self.assertEqual(newsession['type'], 'notebook')
+        self.assertEqual(newsession['notebook']['path'], 'foo/nb1.ipynb')
 
     def test_create_with_kernel_id(self):
         # create a new kernel
@@ -122,7 +160,7 @@ class SessionAPITest(NotebookTestBase):
         self.assertEqual(resp.status_code, 201)
         newsession = resp.json()
         self.assertIn('id', newsession)
-        self.assertEqual(newsession['notebook']['path'], 'foo/nb1.ipynb')
+        self.assertEqual(newsession['path'], 'foo/nb1.ipynb')
         self.assertEqual(newsession['kernel']['id'], kernel['id'])
         self.assertEqual(resp.headers['Location'], self.url_prefix + 'api/sessions/{0}'.format(newsession['id']))
 
@@ -153,7 +191,23 @@ class SessionAPITest(NotebookTestBase):
 
         changed = self.sess_api.modify_path(sid, 'nb2.ipynb').json()
         self.assertEqual(changed['id'], sid)
+        self.assertEqual(changed['path'], 'nb2.ipynb')
+
+    def test_modify_path_deprecated(self):
+        newsession = self.sess_api.create('foo/nb1.ipynb').json()
+        sid = newsession['id']
+
+        changed = self.sess_api.modify_path_deprecated(sid, 'nb2.ipynb').json()
+        self.assertEqual(changed['id'], sid)
         self.assertEqual(changed['notebook']['path'], 'nb2.ipynb')
+
+    def test_modify_type(self):
+        newsession = self.sess_api.create('foo/nb1.ipynb').json()
+        sid = newsession['id']
+
+        changed = self.sess_api.modify_type(sid, 'console').json()
+        self.assertEqual(changed['id'], sid)
+        self.assertEqual(changed['type'], 'console')
 
     def test_modify_kernel_name(self):
         before = self.sess_api.create('foo/nb1.ipynb').json()
@@ -161,7 +215,8 @@ class SessionAPITest(NotebookTestBase):
 
         after = self.sess_api.modify_kernel_name(sid, before['kernel']['name']).json()
         self.assertEqual(after['id'], sid)
-        self.assertEqual(after['notebook'], before['notebook'])
+        self.assertEqual(after['path'], before['path'])
+        self.assertEqual(after['type'], before['type'])
         self.assertNotEqual(after['kernel']['id'], before['kernel']['id'])
 
         # check kernel list, to be sure previous kernel was cleaned up
@@ -182,7 +237,8 @@ class SessionAPITest(NotebookTestBase):
         # Attach our session to the existing kernel
         after = self.sess_api.modify_kernel_id(sid, kernel['id']).json()
         self.assertEqual(after['id'], sid)
-        self.assertEqual(after['notebook'], before['notebook'])
+        self.assertEqual(after['path'], before['path'])
+        self.assertEqual(after['type'], before['type'])
         self.assertNotEqual(after['kernel']['id'], before['kernel']['id'])
         self.assertEqual(after['kernel']['id'], kernel['id'])
 

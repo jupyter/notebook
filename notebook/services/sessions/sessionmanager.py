@@ -3,6 +3,7 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
+import os
 import uuid
 
 try:
@@ -26,7 +27,7 @@ class SessionManager(LoggingConfigurable):
     # Session database initialized below
     _cursor = None
     _connection = None
-    _columns = {'session_id', 'path', 'kernel_id'}
+    _columns = {'session_id', 'path', 'name', 'type', 'kernel_id'}
     
     @property
     def cursor(self):
@@ -34,7 +35,7 @@ class SessionManager(LoggingConfigurable):
         if self._cursor is None:
             self._cursor = self.connection.cursor()
             self._cursor.execute("""CREATE TABLE session 
-                (session_id, path, kernel_id)""")
+                (session_id, path, name, type, kernel_id)""")
         return self._cursor
 
     @property
@@ -56,7 +57,7 @@ class SessionManager(LoggingConfigurable):
         self.close()
 
     def session_exists(self, path):
-        """Check to see if the session for a given notebook exists"""
+        """Check to see if the session of a given name exists"""
         self.cursor.execute("SELECT * FROM session WHERE path=?", (path,))
         reply = self.cursor.fetchone()
         if reply is None:
@@ -69,22 +70,21 @@ class SessionManager(LoggingConfigurable):
         return unicode_type(uuid.uuid4())
 
     @gen.coroutine
-    def create_session(self, path=None, kernel_name=None, kernel_id=None):
+    def create_session(self, path=None, name=None, type=None, kernel_name=None, kernel_id=None):
         """Creates a session and returns its model"""
         session_id = self.new_session_id()
         if kernel_id is not None and kernel_id in self.kernel_manager:
             pass
         else:
-            kernel_id = yield self.start_kernel_for_session(session_id, path,
-                                                            kernel_name)
+            kernel_id = yield self.start_kernel_for_session(session_id, path, name, type, kernel_name)
         result = yield gen.maybe_future(
-            self.save_session(session_id, path=path, kernel_id=kernel_id)
+            self.save_session(session_id, path=path, name=name, type=type, kernel_id=kernel_id)
         )
         # py2-compat
         raise gen.Return(result)
 
     @gen.coroutine
-    def start_kernel_for_session(self, session_id, path, kernel_name):
+    def start_kernel_for_session(self, session_id, path, name, type, kernel_name):
         """Start a new kernel for a given session."""
         # allow contents manager to specify kernels cwd
         kernel_path = self.contents_manager.get_kernel_path(path=path)
@@ -94,7 +94,7 @@ class SessionManager(LoggingConfigurable):
         # py2-compat
         raise gen.Return(kernel_id)
 
-    def save_session(self, session_id, path=None, kernel_id=None):
+    def save_session(self, session_id, path=None, name=None, type=None, kernel_id=None):
         """Saves the items for the session with the given session_id
         
         Given a session_id (and any other of the arguments), this method
@@ -106,7 +106,11 @@ class SessionManager(LoggingConfigurable):
         session_id : str
             uuid for the session; this method must be given a session_id
         path : str
-            the path for the given notebook
+            the path for the given session
+        name: str
+            the name of the session
+        type: string
+            the type of the session
         kernel_id : str
             a uuid for the kernel associated with this session
         
@@ -115,8 +119,8 @@ class SessionManager(LoggingConfigurable):
         model : dict
             a dictionary of the session model
         """
-        self.cursor.execute("INSERT INTO session VALUES (?,?,?)",
-            (session_id, path, kernel_id)
+        self.cursor.execute("INSERT INTO session VALUES (?,?,?,?,?)",
+            (session_id, path, name, type, kernel_id)
         )
         return self.get_session(session_id=session_id)
 
@@ -130,7 +134,7 @@ class SessionManager(LoggingConfigurable):
         ----------
         **kwargs : keyword argument
             must be given one of the keywords and values from the session database
-            (i.e. session_id, path, kernel_id)
+            (i.e. session_id, path, name, type, kernel_id)
 
         Returns
         -------
@@ -206,11 +210,14 @@ class SessionManager(LoggingConfigurable):
 
         model = {
             'id': row['session_id'],
-            'notebook': {
-                'path': row['path']
-            },
+            'path': row['path'],
+            'name': row['name'],
+            'type': row['type'],
             'kernel': self.kernel_manager.kernel_model(row['kernel_id'])
         }
+        if row['type'] == 'notebook':
+            # Provide the deprecated API.
+            model['notebook'] = {'path': row['path'], 'name': row['name']}
         return model
 
     def list_sessions(self):
