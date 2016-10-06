@@ -462,38 +462,95 @@ define(function(require){
                 env.notebook.show_command_palette();
             }
         },
+        'toggle-all-line-numbers': {
+            help : 'toggles line numbers in all cells, and persist the setting',
+            icon: 'fa-list-ol',
+            handler: function(env) {
+                var value = !env.notebook.line_numbers;
+                env.notebook.get_cells().map(function(c) {
+                    c.code_mirror.setOption('lineNumbers', value);
+                });
+                env.notebook.line_numbers = value;
+            }
+        },
         'show-all-line-numbers': {
             help : 'show line numbers in all cells, and persist the setting',
             handler: function(env) {
+                env.notebook.get_cells().map(function(c) {
+                    c.code_mirror.setOption('lineNumbers', true);
+                });
                 env.notebook.line_numbers = true;
             }
         },
         'hide-all-line-numbers': {
             help : 'hide line numbers in all cells, and persist the setting',
             handler: function(env) {
+                env.notebook.get_cells().map(function(c) {
+                    c.code_mirror.setOption('lineNumbers', false);
+                });
                 env.notebook.line_numbers = false;
-            }
-        },
-        'toggle-all-line-numbers': {
-            help : 'toggles line numbers in all cells, and persist the setting',
-            icon: 'fa-list-ol',
-            handler: function(env) {
-                env.notebook.line_numbers = !env.notebook.line_numbers;
-            }
-        },
-        'toggle-toolbar':{
-            help: 'hide/show the toolbar',
-            handler : function(env){
-                $('div#maintoolbar').toggle();
-                events.trigger('resize-header.Page');
             }
         },
         'toggle-header':{
             help: 'hide/show the header',
-            handler : function(env){
-                $('#header-container').toggle();
-                $('.header-bar').toggle();
+            handler : function(env) {
+                var value = !env.notebook.header;
+                if (value === true) {
+                    $('#header-container').show();
+                    $('.header-bar').show();
+                } else if (value === false) {
+                    $('#header-container').hide();
+                    $('.header-bar').hide();
+                }
                 events.trigger('resize-header.Page');
+                env.notebook.header = value;
+            }
+        },
+        'show-header':{
+            help: 'show the header',
+            handler : function(env) {
+                $('#header-container').show();
+                $('.header-bar').show();
+                events.trigger('resize-header.Page');
+                env.notebook.header = true;
+            }
+        },
+        'hide-header':{
+            help: 'hide the header',
+            handler : function(env) {
+                $('#header-container').hide();
+                $('.header-bar').hide();
+                events.trigger('resize-header.Page');
+                env.notebook.header = false;
+            }
+        },
+        'toggle-toolbar':{
+            help: 'hide/show the toolbar',
+            handler : function(env) {
+                var value = !env.notebook.toolbar;
+                if (value === true) {
+                    $('div#maintoolbar').show();
+                } else if (value === false) {
+                    $('div#maintoolbar').hide();
+                }
+                events.trigger('resize-header.Page');
+                env.notebook.toolbar = value;
+            }
+        },
+        'show-toolbar':{
+            help: 'show the toolbar',
+            handler : function(env) {
+                $('div#maintoolbar').show();
+                events.trigger('resize-header.Page');
+                env.notebook.toolbar = true;
+            }
+        },
+        'hide-toolbar':{
+            help: 'hide the toolbar',
+            handler : function(env) {
+                $('div#maintoolbar').hide();
+                events.trigger('resize-header.Page');
+                env.notebook.toolbar = false;
             }
         },
         'close-pager': {
