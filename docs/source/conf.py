@@ -332,9 +332,9 @@ texinfo_documents = [
 
 intersphinx_mapping = {
     'ipython': ('http://ipython.org/ipython-doc/dev/', None),
-    'nbconvert': ('http://nbconvert.readthedocs.org/en/latest/', None),
-    'nbformat': ('http://nbformat.readthedocs.org/en/latest/', None),
-    'jupyter': ('http://jupyter.readthedocs.org/en/latest/', None),
+    'nbconvert': ('https://nbconvert.readthedocs.io/en/latest/', None),
+    'nbformat': ('https://nbformat.readthedocs.io/en/latest/', None),
+    'jupyter': ('https://jupyter.readthedocs.io/en/latest/', None),
 }
 
 spelling_lang='en_US'

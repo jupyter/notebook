@@ -7,9 +7,9 @@ The Jupyter notebook
    :caption: User Documentation
 
    notebook
-   Installation <https://jupyter.readthedocs.org/en/latest/install.html>
-   Running the Notebook <https://jupyter.readthedocs.org/en/latest/running.html>
-   Migrating from IPython <https://jupyter.readthedocs.org/en/latest/migrating.html>
+   Installation <https://jupyter.readthedocs.io/en/latest/install.html>
+   Running the Notebook <https://jupyter.readthedocs.io/en/latest/running.html>
+   Migrating from IPython <https://jupyter.readthedocs.io/en/latest/migrating.html>
    ui_components
 
 .. toctree::

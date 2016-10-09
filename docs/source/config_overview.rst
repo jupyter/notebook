@@ -25,7 +25,7 @@ and editing settings is similar for all the Jupyter applications.
     - `Jupyter’s Common Configuration Approach <https://jupyter.readthedocs.io/en/latest/projects/config.html>`_
     - `Common Directories and File Locations <https://jupyter.readthedocs.io/en/latest/projects/jupyter-directories.html>`_
     - `Language kernels <https://jupyter.readthedocs.io/en/latest/projects/kernels.html>`_
-    - `traitlets <https://traitlets.readthedocs.org/en/latest/config.html#module-traitlets.config>`_
+    - `traitlets <https://traitlets.readthedocs.io/en/latest/config.html#module-traitlets.config>`_
       provide a low-level architecture for configuration.
 
 .. _configure_nbserver:
@@ -47,7 +47,7 @@ front-end Notebook client (i.e. the familiar notebook interface).
         documented in the configuration file and the user documentation.
 
   - :ref:`Running a Notebook server <working_remotely>`
-  - Related: `Configuring a language kernel <http://jupyter.readthedocs.org/en/latest/install.html#installing-kernels>`_
+  - Related: `Configuring a language kernel <https://jupyter.readthedocs.io/en/latest/install.html#installing-kernels>`_
     to run in the Notebook server enables your server to run other languages, like R or Julia.
 
 .. _configure_nbclient:
@@ -65,8 +65,8 @@ Notebook front-end client
 
 Notebook extensions
 -------------------
-- `Distributing Jupyter Extensions as Python Packages <https://jupyter-notebook.readthedocs.org/en/latest/examples/Notebook/Distributing%20Jupyter%20Extensions%20as%20Python%20Packages.html#Distributing-Jupyter-Extensions-as-Python-Packages>`_
-- `Extending the Notebook <https://jupyter-notebook.readthedocs.org/en/latest/extending/index.html>`_
+- `Distributing Jupyter Extensions as Python Packages <https://jupyter-notebook.readthedocs.io/en/latest/examples/Notebook/Distributing%20Jupyter%20Extensions%20as%20Python%20Packages.html#Distributing-Jupyter-Extensions-as-Python-Packages>`_
+- `Extending the Notebook <https://jupyter-notebook.readthedocs.io/en/latest/extending/index.html>`_
 
 
 :ref:`Security in Jupyter notebooks:  <notebook_security>` Since security
