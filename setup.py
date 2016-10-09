@@ -72,7 +72,7 @@ share documents that contain live code, equations, visualizations, and
 explanatory text. The Notebook has support for multiple programming
 languages, sharing, and interactive widgets.
 
-Read `the documentation <https://jupyter-notebook.readthedocs.org>`_
+Read `the documentation <https://jupyter-notebook.readthedocs.io>`_
 for more information.
     """,
     version         = version,
