@@ -726,6 +726,7 @@ define([
          *      @param callbacks.iopub.output {function}
          *      @param callbacks.iopub.clear_output {function}
          *      @param callbacks.input {function}
+         *      @param callbacks.clear_on_done=true {Bolean}
          * @param {object} [options]
          *      @param [options.silent=false] {Boolean}
          *      @param [options.user_expressions=empty_dict] {Dict}
@@ -864,7 +865,7 @@ define([
         var callbacks = this._msg_callbacks[msg_id];
         if (callbacks !== undefined) {
             callbacks.shell_done = true;
-            if (callbacks.iopub_done) {
+            if (callbacks.clear_on_done && callbacks.iopub_done) {
                 this.clear_callbacks_for_msg(msg_id);
             }
         }
@@ -877,7 +878,7 @@ define([
         var callbacks = this._msg_callbacks[msg_id];
         if (callbacks !== undefined) {
             callbacks.iopub_done = true;
-            if (callbacks.shell_done) {
+            if (callbacks.clear_on_done && callbacks.shell_done) {
                 this.clear_callbacks_for_msg(msg_id);
             }
         }
@@ -900,8 +901,13 @@ define([
             cbcopy.shell = callbacks.shell;
             cbcopy.iopub = callbacks.iopub;
             cbcopy.input = callbacks.input;
+            cbcopy.clear_on_done = callbacks.clear_on_done;
             cbcopy.shell_done = (!callbacks.shell);
             cbcopy.iopub_done = (!callbacks.iopub);
+            if (callbacks.clear_on_done === undefined) {
+                // default to clear-on-done
+                cbcopy.clear_on_done = true;
+            }
         } else {
             this.last_msg_callbacks = {};
         }

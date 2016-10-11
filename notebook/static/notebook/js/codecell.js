@@ -340,6 +340,7 @@ define([
     CodeCell.prototype.get_callbacks = function () {
         var that = this;
         return {
+            clear_on_done: false,
             shell : {
                 reply : $.proxy(this._handle_execute_reply, this),
                 payload : {
@@ -357,7 +358,7 @@ define([
                     that.output_area.handle_clear_output.apply(that.output_area, arguments);
                 }, 
             },
-            input : $.proxy(this._handle_input_request, this)
+            input : $.proxy(this._handle_input_request, this),
         };
     };
     
