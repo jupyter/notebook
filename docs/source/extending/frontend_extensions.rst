@@ -61,7 +61,7 @@ instance:
 
     // file my_extension/main.js
 
-    define([
+    require([
         'base/js/namespace'
     ], function(
         Jupyter
@@ -95,7 +95,7 @@ place:
 
     // file my_extension/main.js
 
-    define([
+    require([
         'base/js/namespace'
     ], function(
         Jupyter
@@ -147,7 +147,7 @@ alert, and adds a toolabr button using the full action name:
 
     // file my_extension/main.js
 
-    define([
+    require([
         'base/js/namespace'
     ], function(
         Jupyter
