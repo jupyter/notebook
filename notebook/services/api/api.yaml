@@ -697,6 +697,18 @@ definitions:
       name:
         type: string
         description: kernel spec name
+      last_activity:
+        type: string
+        description: |
+          ISO 8601 timestamp for the last-seen activity on this kernel.
+          Use this in combination with execution_state == 'idle' to identify
+          which kernels have been idle since a given time.
+          Added in notebook server 5.0.
+      execution_state:
+        type: string
+        description: |
+          Current execution state of the kernel (typically 'idle' or 'busy', but may be other values, such as 'starting').
+          Added in notebook server 5.0.
   Session:
     description: A session
     type: object

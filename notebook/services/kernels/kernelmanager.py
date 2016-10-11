@@ -17,6 +17,7 @@ from jupyter_client.multikernelmanager import MultiKernelManager
 from traitlets import List, Unicode, TraitError, default, validate
 
 from notebook.utils import to_os_path
+from notebook.services.contents.tz import utcnow
 from ipython_genutils.py3compat import getcwd
 
 
@@ -90,6 +91,7 @@ class MappingKernelManager(MultiKernelManager):
             kernel_id = yield gen.maybe_future(
                 super(MappingKernelManager, self).start_kernel(**kwargs)
             )
+            self.start_watching_activity(kernel_id)
             self.log.info("Kernel started: %s" % kernel_id)
             self.log.debug("Kernel args: %r" % kwargs)
             # register callback for failed auto-restart
@@ -102,10 +104,11 @@ class MappingKernelManager(MultiKernelManager):
             self.log.info("Using existing kernel: %s" % kernel_id)
         # py2-compat
         raise gen.Return(kernel_id)
-
+    
     def shutdown_kernel(self, kernel_id, now=False):
         """Shutdown a kernel by kernel_id"""
         self._check_kernel_id(kernel_id)
+        self._kernels[kernel_id]._activity_stream.close()
         return super(MappingKernelManager, self).shutdown_kernel(kernel_id, now=now)
 
     def restart_kernel(self, kernel_id):
@@ -150,11 +153,19 @@ class MappingKernelManager(MultiKernelManager):
         return future
 
     def kernel_model(self, kernel_id):
-        """Return a dictionary of kernel information described in the
-        JSON standard model."""
+        """Return a JSON-safe dict representing a kernel
+
+        For use in representing kernels in the JSON APIs.
+        """
         self._check_kernel_id(kernel_id)
-        model = {"id":kernel_id,
-                 "name": self._kernels[kernel_id].kernel_name}
+        kernel = self._kernels[kernel_id]
+
+        model = {
+            "id":kernel_id,
+            "name": kernel.kernel_name,
+            "last_activity": kernel.last_activity,
+            "execution_state": kernel.execution_state,
+        }
         return model
 
     def list_kernels(self):
@@ -171,3 +182,31 @@ class MappingKernelManager(MultiKernelManager):
         """Check a that a kernel_id exists and raise 404 if not."""
         if kernel_id not in self:
             raise web.HTTPError(404, u'Kernel does not exist: %s' % kernel_id)
+
+    # monitoring activity:
+
+    def start_watching_activity(self, kernel_id):
+        """Start watching IOPub messages on a kernel for activity.
+        
+        - update last_activity on every message
+        - record execution_state from status messages
+        """
+        kernel = self._kernels[kernel_id]
+        # add busy/activity markers:
+        kernel.execution_state = 'starting'
+        kernel.last_activity = utcnow()
+        kernel._activity_stream = kernel.connect_iopub()
+
+        def record_activity(msg_list):
+            """Record an IOPub message arriving from a kernel"""
+            kernel.last_activity = utcnow()
+
+            idents, fed_msg_list = kernel.session.feed_identities(msg_list)
+            msg = kernel.session.deserialize(fed_msg_list)
+            msg_type = msg['header']['msg_type']
+            self.log.info("activity on %s: %s", kernel_id, msg_type)
+            if msg_type == 'status':
+                kernel.execution_state = msg['content']['execution_state']
+
+        kernel._activity_stream.on_recv(record_activity)
+
