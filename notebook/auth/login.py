@@ -69,7 +69,7 @@ class LoginHandler(IPythonHandler):
         typed_password = self.get_argument('password', default=u'')
         cookie_options = self.settings.get('cookie_options', {})
         cookie_options.setdefault('httponly', True)
-        if self.login_available(self.settings):
+        if self.get_login_available(self.settings):
             if passwd_check(self.hashed_password, typed_password):
                 # tornado <4.2 has a bug that considers secure==True as soon as
                 # 'secure' kwarg is passed to set_secure_cookie
@@ -129,6 +129,6 @@ class LoginHandler(IPythonHandler):
         return settings.get('password', u'')
 
     @classmethod
-    def login_available(cls, settings):
+    def get_login_available(cls, settings):
         """Whether this LoginHandler is needed - and therefore whether the login page should be displayed."""
         return bool(cls.password_from_settings(settings))

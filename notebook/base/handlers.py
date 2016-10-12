@@ -109,7 +109,7 @@ class AuthenticatedHandler(web.RequestHandler):
         """
         if self.login_handler is None:
             return False
-        return bool(self.login_handler.login_available(self.settings))
+        return bool(self.login_handler.get_login_available(self.settings))
 
 
 class IPythonHandler(AuthenticatedHandler):
