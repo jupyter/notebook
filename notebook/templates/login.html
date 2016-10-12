@@ -14,8 +14,9 @@
 <div id="ipython-main-app" class="container">
 
     {% if login_available %}
+    {# login_available means password-login is allowed. Show the form. #}
     <div class="row">
-    <div class="navbar col-sm-8 col-sm-offset2">
+    <div class="navbar col-sm-8">
       <div class="navbar-inner">
         <div class="container">
           <div class="center-nav">
@@ -29,6 +30,24 @@
       </div>
     </div>
     </div>
+    {% elif login_token_available %}
+      <div class="col-sm-6 col-sm-offset-3 text-left">
+      <p class="warning">
+        This notebook server has no password set,
+        but token-authentication is enabled.
+
+        You need to open the notebook server with its first-time login token in the URL,
+        or enable a password in order to gain access.
+        The command:
+      </p>
+      <pre>jupyter notebook list</pre>
+      <p>
+        will show you the URLs of running servers with their tokens,
+        which you can copy and paste into your browser.
+      </p>
+    </div>
+    {% else %}
+    <p>No login available, you shouldn't be seeing this page.</p>
     {% endif %}
     {% if message %}
       <div class="row">
@@ -39,8 +58,7 @@
       {% endfor %}
       </div>
     {% endif %}
-
-<div/>
+</div>
 
 {% endblock %}
 

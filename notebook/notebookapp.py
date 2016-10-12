@@ -6,6 +6,7 @@
 
 from __future__ import absolute_import, print_function
 
+import binascii
 import datetime
 import errno
 import importlib
@@ -52,6 +53,7 @@ if version_info < (4,0):
 
 from tornado import httpserver
 from tornado import web
+from tornado.httputil import url_concat
 from tornado.log import LogFormatter, app_log, access_log, gen_log
 
 from notebook import (
@@ -59,8 +61,6 @@ from notebook import (
     DEFAULT_TEMPLATE_PATH_LIST,
     __version__,
 )
-from .auth import passwd
-from getpass import getpass
 
 # py23 compatibility
 try:
@@ -68,7 +68,7 @@ try:
 except NameError:
     raw_input = input
 
-from .base.handlers import Template404
+from .base.handlers import Template404, RedirectWithParams
 from .log import log_request
 from .services.kernels.kernelmanager import MappingKernelManager
 from .services.config import ConfigManager
@@ -306,7 +306,7 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('base.handlers'))
         # set the URL that will be redirected from `/`
         handlers.append(
-            (r'/?', web.RedirectHandler, {
+            (r'/?', RedirectWithParams, {
                 'url' : settings['default_url'],
                 'permanent': False, # want 302, not 301
             })
@@ -343,7 +343,10 @@ class NbserverListApp(JupyterApp):
             if self.json:
                 print(json.dumps(serverinfo))
             else:
-                print(serverinfo['url'], "::", serverinfo['notebook_dir'])
+                url = serverinfo['url']
+                if serverinfo.get('login_token'):
+                    url = url + '?token=%s' % serverinfo['login_token']
+                print(url, "::", serverinfo['notebook_dir'])
 
 #-----------------------------------------------------------------------------
 # Aliases and Flags
@@ -572,6 +575,23 @@ class NotebookApp(JupyterApp):
                 "Could not set permissions on %s",
                 self.cookie_secret_file
             )
+
+    login_token = Unicode(
+        help="""Token used for authenticating first-time connections to the server.
+        
+        Only used when no password is enabled.
+        
+        Setting to an empty string disables authentication altogether, which is NOT RECOMMENDED.
+        """
+    ).tag(config=True)
+
+    @default('login_token')
+    def _login_token_default(self):
+        if self.password:
+            # no token if password is enabled
+            return u''
+        else:
+            return binascii.hexlify(os.urandom(24)).decode('ascii')
 
     password = Unicode(u'', config=True,
                       help="""Hashed password to use for web authentication.
@@ -994,6 +1014,7 @@ class NotebookApp(JupyterApp):
             self.tornado_settings['allow_origin_pat'] = re.compile(self.allow_origin_pat)
         self.tornado_settings['allow_credentials'] = self.allow_credentials
         self.tornado_settings['cookie_options'] = self.cookie_options
+        self.tornado_settings['login_token'] = self.login_token
         # ensure default_url starts with base_url
         if not self.default_url.startswith(self.base_url):
             self.default_url = url_path_join(self.base_url, self.default_url)
@@ -1058,7 +1079,8 @@ class NotebookApp(JupyterApp):
     @property
     def display_url(self):
         ip = self.ip if self.ip else '[all ip addresses on your system]'
-        return self._url(ip)
+        query = '?token=%s' % self.login_token if self.login_token else ''
+        return self._url(ip) + query
 
     @property
     def connection_url(self):
@@ -1216,14 +1238,16 @@ class NotebookApp(JupyterApp):
                 'port': self.port,
                 'secure': bool(self.certfile),
                 'base_url': self.base_url,
+                'login_token': self.login_token,
                 'notebook_dir': os.path.abspath(self.notebook_dir),
-                'pid': os.getpid()
+                'password': bool(self.password),
+                'pid': os.getpid(),
                }
 
     def write_server_info_file(self):
         """Write the result of server_info() to the JSON file info_file."""
         with open(self.info_file, 'w') as f:
-            json.dump(self.server_info(), f, indent=2)
+            json.dump(self.server_info(), f, indent=2, sort_keys=True)
 
     def remove_server_info_file(self):
         """Remove the nbserver-<pid>.json file created for this server.
@@ -1278,6 +1302,8 @@ class NotebookApp(JupyterApp):
             else:
                 # default_url contains base_url, but so does connection_url
                 uri = self.default_url[len(self.base_url):]
+            if self.login_token:
+                uri = url_concat(uri, {'token': self.login_token})
             if browser:
                 b = lambda : browser.open(url_path_join(self.connection_url, uri),
                                           new=2)
@@ -1294,8 +1320,8 @@ class NotebookApp(JupyterApp):
         except KeyboardInterrupt:
             info("Interrupted...")
         finally:
-            self.cleanup_kernels()
             self.remove_server_info_file()
+            self.cleanup_kernels()
     
     def stop(self):
         def _stop():

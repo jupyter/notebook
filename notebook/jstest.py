@@ -313,6 +313,7 @@ class JSController(TestController):
             '-m', 'notebook',
             '--no-browser',
             '--notebook-dir', self.nbdir.name,
+            '--NotebookApp.login_token=',
             '--NotebookApp.base_url=%s' % self.base_url,
         ]
         # ipc doesn't work on Windows, and darwin has crazy-long temp paths,

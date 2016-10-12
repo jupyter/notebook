@@ -67,15 +67,9 @@ class LoginHandler(IPythonHandler):
 
     def post(self):
         typed_password = self.get_argument('password', default=u'')
-        cookie_options = self.settings.get('cookie_options', {})
-        cookie_options.setdefault('httponly', True)
         if self.get_login_available(self.settings):
             if passwd_check(self.hashed_password, typed_password):
-                # tornado <4.2 has a bug that considers secure==True as soon as
-                # 'secure' kwarg is passed to set_secure_cookie
-                if self.settings.get('secure_cookie', self.request.protocol == 'https'):
-                    cookie_options.setdefault('secure', True)
-                self.set_secure_cookie(self.cookie_name, str(uuid.uuid4()), **cookie_options)
+                self.set_login_cookie(self, uuid.uuid4().hex)
             else:
                 self.set_status(401)
                 self._render(message={'error': 'Invalid password'})
@@ -83,6 +77,18 @@ class LoginHandler(IPythonHandler):
 
         next_url = self.get_argument('next', default=self.base_url)
         self._redirect_safe(next_url)
+
+    @classmethod
+    def set_login_cookie(cls, handler, user_id=None):
+        """Call this on handlers to set the login cookie for success"""
+        cookie_options = handler.settings.get('cookie_options', {})
+        cookie_options.setdefault('httponly', True)
+        # tornado <4.2 has a bug that considers secure==True as soon as
+        # 'secure' kwarg is passed to set_secure_cookie
+        if handler.settings.get('secure_cookie', handler.request.protocol == 'https'):
+            cookie_options.setdefault('secure', True)
+        handler.set_secure_cookie(handler.cookie_name, user_id, **cookie_options)
+        return user_id
 
     @classmethod
     def get_user(cls, handler):
@@ -94,14 +100,22 @@ class LoginHandler(IPythonHandler):
         # called on LoginHandler itself.
 
         user_id = handler.get_secure_cookie(handler.cookie_name)
-        # For now the user_id should not return empty, but it could, eventually.
-        if user_id == '':
-            user_id = 'anonymous'
-        if user_id is None:
+        if not user_id:
             # prevent extra Invalid cookie sig warnings:
             handler.clear_login_cookie()
-            if not handler.login_available:
-                user_id = 'anonymous'
+            login_token = handler.login_token
+            if not login_token and not handler.login_available:
+                # Completely insecure! No authentication at all.
+                # No need to warn here, though; validate_security will have already done that.
+                return 'anonymous'
+            if login_token:
+                # check login token
+                user_token = handler.get_argument('token', '')
+                if user_token == login_token:
+                    # token-authenticated, set the login cookie
+                    user_id = uuid.uuid4().hex
+                    handler.log.info("Accepting token-authenticated connection from %s", handler.request.remote_ip)
+                    cls.set_login_cookie(handler, user_id)
         return user_id
 
 
@@ -116,9 +130,14 @@ class LoginHandler(IPythonHandler):
             if ssl_options is None:
                 app.log.warning(warning + " and not using encryption. This "
                     "is not recommended.")
-            if not app.password:
+            if not app.password and not app.login_token:
                 app.log.warning(warning + " and not using authentication. "
                     "This is highly insecure and not recommended.")
+        else:
+            if not app.password and not app.login_token:
+                app.log.warning(
+                    "All authentication is disabled."
+                    "  Anyone who can connect to this sever will be able to run code.")
 
     @classmethod
     def password_from_settings(cls, settings):
