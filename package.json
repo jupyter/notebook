@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "es6-promise": "^3.3.1",
+    "escape-carriage": "^1.0.1",
     "moment": "^2.8.4",
     "preact": "^4.5.1",
     "preact-compat": "^1.7.0",

@@ -9,7 +9,7 @@ define([
     'codemirror/mode/meta',
 ], function(CodeMirror, moment, _){
     "use strict";
-    
+
     // keep track of which extensions have been loaded already
     var extensions_loaded = [];
 
@@ -236,7 +236,7 @@ define([
         "ansi-cyan-intense",
         "ansi-white-intense",
     ];
-    
+
     function _getExtendedColors(numbers) {
         var r, g, b;
         var n = numbers.shift();
@@ -441,17 +441,7 @@ define([
         return txt;
     }
 
-    // Remove chunks that should be overridden by the effect of
-    // carriage return characters
-    function fixCarriageReturn(txt) {
-        var tmp = txt;
-        do {
-            txt = tmp;
-            tmp = txt.replace(/\r+\n/gm, '\n'); // \r followed by \n --> newline
-            tmp = tmp.replace(/^.*\r+/gm, '');  // Other \r --> clear line
-        } while (tmp.length < txt.length);
-        return txt;
-    }
+    var fixCarriageReturn = require('escape-carriage');
 
     // Remove characters that are overridden by backspace characters
     function fixBackspace(txt) {
@@ -485,7 +475,7 @@ define([
         test.remove();
         return Math.floor(points*pixel_per_point);
     };
-    
+
     var always_new = function (constructor) {
         /**
          * wrapper around contructor to avoid requiring `var a = new constructor()`
@@ -518,13 +508,13 @@ define([
         url = url.replace(/\/\/+/, '/');
         return url;
     };
-    
+
     var url_path_split = function (path) {
         /**
          * Like os.path.split for URLs.
          * Always returns two strings, the directory path and the base filename
          */
-        
+
         var idx = path.lastIndexOf('/');
         if (idx === -1) {
             return ['', path];
@@ -532,7 +522,7 @@ define([
             return [ path.slice(0, idx), path.slice(idx + 1) ];
         }
     };
-    
+
     var parse_url = function (url) {
         /**
          * an `a` element with an href allows attr-access to the parsed segments of a URL
@@ -548,7 +538,7 @@ define([
         a.href = url;
         return a;
     };
-    
+
     var encode_uri_components = function (uri) {
         /**
          * encode just the components of a multi-segment uri,
@@ -556,7 +546,7 @@ define([
          */
         return uri.split('/').map(encodeURIComponent).join('/');
     };
-    
+
     var url_join_encode = function () {
         /**
          * join a sequence of url components with '/',
@@ -599,17 +589,17 @@ define([
             return val;
         return decodeURIComponent(val);
     };
-    
+
     var to_absolute_cursor_pos = function (cm, cursor) {
         console.warn('`utils.to_absolute_cursor_pos(cm, pos)` is deprecated. Use `cm.indexFromPos(cursor)`');
         return cm.indexFromPos(cusrsor);
     };
-    
+
     var from_absolute_cursor_pos = function (cm, cursor_pos) {
         console.warn('`utils.from_absolute_cursor_pos(cm, pos)` is deprecated. Use `cm.posFromIndex(index)`');
         return cm.posFromIndex(cursor_pos);
     };
-    
+
     // http://stackoverflow.com/questions/2400935/browser-detection-in-javascript
     var browser = (function() {
         if (typeof navigator === 'undefined') {
@@ -636,7 +626,7 @@ define([
         if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
         return OSName;
     })();
-    
+
     var get_url_param = function (name) {
         // get a URL parameter. I cannot believe we actually need this.
         // Based on http://stackoverflow.com/a/25359264/938949
@@ -645,7 +635,7 @@ define([
             return decodeURIComponent(match[1] || '');
         }
     };
-    
+
     var is_or_has = function (a, b) {
         /**
          * Is b a child of a or a itself?
@@ -669,13 +659,13 @@ define([
             return false;
         }
     };
-    
+
     var mergeopt = function(_class, options, overwrite){
         options = options || {};
         overwrite = overwrite || {};
         return $.extend(true, {}, _class.options_default, options, overwrite);
     };
-    
+
     var ajax_error_msg = function (jqXHR) {
         /**
          * Return a JSON error message if there is one,
@@ -700,7 +690,7 @@ define([
     };
 
     var requireCodeMirrorMode = function (mode, callback, errback) {
-        /** 
+        /**
          * find a predefined mode or detect from CM metadata then
          * require and callback with the resolveable mode string: mime or
          * custom name
@@ -734,10 +724,10 @@ define([
             }, errback
         );
     };
-    
+
     /** Error type for wrapped XHR errors. */
     var XHR_ERROR = 'XhrError';
-    
+
     /**
      * Wraps an AJAX error as an Error object.
      */
@@ -750,7 +740,7 @@ define([
         wrapped_error.xhr_error = error;
         return wrapped_error;
     };
-    
+
     var promising_ajax = function(url, settings) {
         /**
          * Like $.ajax, but returning an ES6 promise. success and error settings
@@ -803,8 +793,8 @@ define([
         /**
          * Tries to load a class
          *
-         * Tries to load a class from a module using require.js, if a module 
-         * is specified, otherwise tries to load a class from the global 
+         * Tries to load a class from a module using require.js, if a module
+         * is specified, otherwise tries to load a class from the global
          * registry, if the global registry is provided.
          */
         return new Promise(function(resolve, reject) {
@@ -850,17 +840,17 @@ define([
     var reject = function(message, log) {
         /**
          * Creates a wrappable Promise rejection function.
-         * 
+         *
          * Creates a function that returns a Promise.reject with a new WrappedError
-         * that has the provided message and wraps the original error that 
+         * that has the provided message and wraps the original error that
          * caused the promise to reject.
          */
-        return function(error) { 
+        return function(error) {
             var wrapped_error = new WrappedError(message, error);
             if (log) {
                 console.error(message, " -- ", error);
             }
-            return Promise.reject(wrapped_error); 
+            return Promise.reject(wrapped_error);
         };
     };
 
@@ -911,14 +901,14 @@ define([
         var b64_data = uri.slice(matches[0].length);
         return [mime, b64_data];
     };
-    
+
     var time = {};
     time.milliseconds = {};
     time.milliseconds.s = 1000;
     time.milliseconds.m = 60 * time.milliseconds.s;
     time.milliseconds.h = 60 * time.milliseconds.m;
     time.milliseconds.d = 24 * time.milliseconds.h;
-    
+
     time.thresholds = {
         // moment.js thresholds in milliseconds
         s: moment.relativeTimeThreshold('s') * time.milliseconds.s,
@@ -926,14 +916,14 @@ define([
         h: moment.relativeTimeThreshold('h') * time.milliseconds.h,
         d: moment.relativeTimeThreshold('d') * time.milliseconds.d,
     };
-    
+
     time.timeout_from_dt = function (dt) {
         /** compute a timeout based on dt
-        
+
         input and output both in milliseconds
-        
+
         use moment's relative time thresholds:
-        
+
         - 10 seconds if in 'seconds ago' territory
         - 1 minute if in 'minutes ago'
         - 1 hour otherwise
@@ -1029,4 +1019,4 @@ define([
     };
 
     return utils;
-}); 
+});
