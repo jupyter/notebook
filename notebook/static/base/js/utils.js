@@ -444,12 +444,13 @@ define([
     // Remove chunks that should be overridden by the effect of
     // carriage return characters
     function fixCarriageReturn(txt) {
-        var tmp = txt;
-        do {
-            txt = tmp;
-            tmp = txt.replace(/\r+\n/gm, '\n'); // \r followed by \n --> newline
-            tmp = tmp.replace(/^.*\r+/gm, '');  // Other \r --> clear line
-        } while (tmp.length < txt.length);
+        txt = txt.replace(/\r+\n/gm, '\n'); // \r followed by \n --> newline
+        while (txt.search(/\r/g) > -1) {
+            var base = txt.match(/^.*\r+/m)[0].replace(/\r/, '');
+            var insert = txt.match(/\r+.*$/m)[0].replace(/\r/, '');
+            insert = insert + base.slice(insert.length, base.length);
+            txt = txt.replace(/\r+.*$/m, '\r').replace(/^.*\r+/m, insert);
+        }
         return txt;
     }
 
