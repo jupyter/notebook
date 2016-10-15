@@ -254,15 +254,28 @@ define([
             $kernel_ind_icon.attr('class','kernel_idle_icon').attr('title','Kernel Idle');
             knw.info("Kernel ready", 500);
         });
+        
+        var change_favicon = function (src) {
+            var link = document.createElement('link'),
+                oldLink = document.getElementById('favicon');
+            link.id = 'favicon';
+            link.type = 'image/x-icon';
+            link.rel = 'shortcut icon';
+            link.href = src;
+            if (oldLink) document.head.removeChild(oldLink);
+            document.head.appendChild(link);
+        };
 
         this.events.on('kernel_idle.Kernel', function () {
             that.save_widget.update_document_title();
             $kernel_ind_icon.attr('class','kernel_idle_icon').attr('title','Kernel Idle');
+            change_favicon('/static/base/images/favicon.ico' + '?=' + Math.random());
         });
 
         this.events.on('kernel_busy.Kernel', function () {
             window.document.title='(Busy) '+window.document.title;
             $kernel_ind_icon.attr('class','kernel_busy_icon').attr('title','Kernel Busy');
+            change_favicon('/static/base/images/favicon-busy.ico' + '?=' + Math.random());
         });
 
         this.events.on('spec_match_found.Kernel', function (evt, data) {
