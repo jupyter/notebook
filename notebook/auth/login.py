@@ -98,7 +98,8 @@ class LoginHandler(IPythonHandler):
         """
         # Can't call this get_current_user because it will collide when
         # called on LoginHandler itself.
-
+        if getattr(handler, '_user_id', None):
+            return handler._user_id
         user_id = handler.get_secure_cookie(handler.cookie_name)
         if not user_id:
             # prevent extra Invalid cookie sig warnings:
@@ -111,11 +112,20 @@ class LoginHandler(IPythonHandler):
             if login_token:
                 # check login token
                 user_token = handler.get_argument('token', '')
+                one_time_token = handler.settings.get('one_time_token', None)
                 if user_token == login_token:
                     # token-authenticated, set the login cookie
-                    user_id = uuid.uuid4().hex
                     handler.log.info("Accepting token-authenticated connection from %s", handler.request.remote_ip)
+                    user_id = uuid.uuid4().hex
                     cls.set_login_cookie(handler, user_id)
+                if one_time_token and user_token == one_time_token:
+                    # one-time token-authenticated, only allow this token once
+                    handler.settings.pop('one_time_token', None)
+                    handler.log.info("Accepting one-time-token-authenticated connection from %s", handler.request.remote_ip)
+                    user_id = uuid.uuid4().hex
+                    cls.set_login_cookie(handler, user_id)
+        # cache value for future retrievals on the same request
+        handler._user_id = user_id
         return user_id
 
 

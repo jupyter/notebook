@@ -585,6 +585,13 @@ class NotebookApp(JupyterApp):
         """
     ).tag(config=True)
 
+    one_time_token = Unicode(
+        help="""One-time token used for opening a browser.
+
+        Once used, this token cannot be used again.
+        """
+    )
+
     @default('login_token')
     def _login_token_default(self):
         if self.password:
@@ -1015,6 +1022,10 @@ class NotebookApp(JupyterApp):
         self.tornado_settings['allow_credentials'] = self.allow_credentials
         self.tornado_settings['cookie_options'] = self.cookie_options
         self.tornado_settings['login_token'] = self.login_token
+        if (self.open_browser or self.file_to_run) and not self.password:
+            self.one_time_token = binascii.hexlify(os.urandom(24)).decode('ascii')
+            self.tornado_settings['one_time_token'] = self.one_time_token
+
         # ensure default_url starts with base_url
         if not self.default_url.startswith(self.base_url):
             self.default_url = url_path_join(self.base_url, self.default_url)
@@ -1302,8 +1313,8 @@ class NotebookApp(JupyterApp):
             else:
                 # default_url contains base_url, but so does connection_url
                 uri = self.default_url[len(self.base_url):]
-            if self.login_token:
-                uri = url_concat(uri, {'token': self.login_token})
+            if self.one_time_token:
+                uri = url_concat(uri, {'token': self.one_time_token})
             if browser:
                 b = lambda : browser.open(url_path_join(self.connection_url, uri),
                                           new=2)
@@ -1322,7 +1333,7 @@ class NotebookApp(JupyterApp):
         finally:
             self.remove_server_info_file()
             self.cleanup_kernels()
-    
+
     def stop(self):
         def _stop():
             self.http_server.stop()
