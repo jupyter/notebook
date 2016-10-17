@@ -70,6 +70,8 @@ class LoginHandler(IPythonHandler):
         if self.get_login_available(self.settings):
             if passwd_check(self.hashed_password, typed_password):
                 self.set_login_cookie(self, uuid.uuid4().hex)
+            elif self.login_token and self.login_token == typed_password:
+                self.set_login_cookie(self, uuid.uuid4().hex)
             else:
                 self.set_status(401)
                 self._render(message={'error': 'Invalid password'})
@@ -160,4 +162,4 @@ class LoginHandler(IPythonHandler):
     @classmethod
     def get_login_available(cls, settings):
         """Whether this LoginHandler is needed - and therefore whether the login page should be displayed."""
-        return bool(cls.password_from_settings(settings))
+        return bool(cls.password_from_settings(settings) or settings.get('login_token'))
