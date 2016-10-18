@@ -16,6 +16,16 @@ build: off
 install:
   - appveyor DownloadFile "https://raw.githubusercontent.com/pelson/Obvious-CI/master/bootstrap-obvious-ci-and-miniconda.py"
   - cmd: python bootstrap-obvious-ci-and-miniconda.py %CONDA_INSTALL_LOCN% %platform% %CONDA_PY:~0,1% --without-obvci
+
+  # Add a hack to switch to `conda` version `4.1.12` before activating.
+  # This is required to handle a long path activation issue.
+  # Verbatim from https://github.com/conda-forge/conda-smithy/pull/329
+  - cmd: set "OLDPATH=%PATH%"
+  - cmd: set "PATH=%CONDA_INSTALL_LOCN%\\Scripts;%CONDA_INSTALL_LOCN%\\Library\\bin;%PATH%"
+  - cmd: conda install --yes --quiet conda=4.1.12
+  - cmd: set "PATH=%OLDPATH%"
+  - cmd: set "OLDPATH="
+
   - cmd: call %CONDA_INSTALL_LOCN%\Scripts\activate.bat
   - cmd: conda config --set show_channel_urls true
   - cmd: conda config --add channels conda-forge
