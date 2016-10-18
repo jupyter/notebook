@@ -98,9 +98,14 @@ class AuthenticatedHandler(web.RequestHandler):
         return self.settings.get('login_handler_class', None)
 
     @property
-    def login_token(self):
+    def token(self):
         """Return the login token for this application, if any."""
-        return self.settings.get('login_token', None)
+        return self.settings.get('token', None)
+
+    @property
+    def one_time_token(self):
+        """Return the one-time-use token for this application, if any."""
+        return self.settings.get('one_time_token', None)
 
     @property
     def login_available(self):
@@ -316,7 +321,7 @@ class IPythonHandler(AuthenticatedHandler):
             ws_url=self.ws_url,
             logged_in=self.logged_in,
             login_available=self.login_available,
-            login_token_available=bool(self.login_token),
+            token_available=bool(self.token or self.one_time_token),
             static_url=self.static_url,
             sys_info=sys_info,
             contents_js_source=self.contents_js_source,

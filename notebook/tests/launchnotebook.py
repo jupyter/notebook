@@ -102,7 +102,7 @@ class NotebookTestBase(TestCase):
                 base_url=cls.url_prefix,
                 config=config,
                 allow_root=True,
-                login_token='',
+                token='',
             )
             # don't register signal handler during tests
             app.init_signal = lambda : None

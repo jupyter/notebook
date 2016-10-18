@@ -344,8 +344,8 @@ class NbserverListApp(JupyterApp):
                 print(json.dumps(serverinfo))
             else:
                 url = serverinfo['url']
-                if serverinfo.get('login_token'):
-                    url = url + '?token=%s' % serverinfo['login_token']
+                if serverinfo.get('token'):
+                    url = url + '?token=%s' % serverinfo['token']
                 print(url, "::", serverinfo['notebook_dir'])
 
 #-----------------------------------------------------------------------------
@@ -576,7 +576,7 @@ class NotebookApp(JupyterApp):
                 self.cookie_secret_file
             )
 
-    login_token = Unicode(
+    token = Unicode(
         help="""Token used for authenticating first-time connections to the server.
         
         Only used when no password is enabled.
@@ -592,8 +592,8 @@ class NotebookApp(JupyterApp):
         """
     )
 
-    @default('login_token')
-    def _login_token_default(self):
+    @default('token')
+    def _token_default(self):
         if self.password:
             # no token if password is enabled
             return u''
@@ -1021,7 +1021,7 @@ class NotebookApp(JupyterApp):
             self.tornado_settings['allow_origin_pat'] = re.compile(self.allow_origin_pat)
         self.tornado_settings['allow_credentials'] = self.allow_credentials
         self.tornado_settings['cookie_options'] = self.cookie_options
-        self.tornado_settings['login_token'] = self.login_token
+        self.tornado_settings['token'] = self.token
         if (self.open_browser or self.file_to_run) and not self.password:
             self.one_time_token = binascii.hexlify(os.urandom(24)).decode('ascii')
             self.tornado_settings['one_time_token'] = self.one_time_token
@@ -1090,7 +1090,7 @@ class NotebookApp(JupyterApp):
     @property
     def display_url(self):
         ip = self.ip if self.ip else '[all ip addresses on your system]'
-        query = '?token=%s' % self.login_token if self.login_token else ''
+        query = '?token=%s' % self.token if self.token else ''
         return self._url(ip) + query
 
     @property
@@ -1249,7 +1249,7 @@ class NotebookApp(JupyterApp):
                 'port': self.port,
                 'secure': bool(self.certfile),
                 'base_url': self.base_url,
-                'login_token': self.login_token,
+                'token': self.token,
                 'notebook_dir': os.path.abspath(self.notebook_dir),
                 'password': bool(self.password),
                 'pid': os.getpid(),

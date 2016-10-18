@@ -70,7 +70,7 @@ class LoginHandler(IPythonHandler):
         if self.get_login_available(self.settings):
             if passwd_check(self.hashed_password, typed_password):
                 self.set_login_cookie(self, uuid.uuid4().hex)
-            elif self.login_token and self.login_token == typed_password:
+            elif self.token and self.token == typed_password:
                 self.set_login_cookie(self, uuid.uuid4().hex)
             else:
                 self.set_status(401)
@@ -106,16 +106,16 @@ class LoginHandler(IPythonHandler):
         if not user_id:
             # prevent extra Invalid cookie sig warnings:
             handler.clear_login_cookie()
-            login_token = handler.login_token
-            if not login_token and not handler.login_available:
+            token = handler.token
+            if not token and not handler.login_available:
                 # Completely insecure! No authentication at all.
                 # No need to warn here, though; validate_security will have already done that.
                 return 'anonymous'
-            if login_token:
+            if token:
                 # check login token
                 user_token = handler.get_argument('token', '')
-                one_time_token = handler.settings.get('one_time_token', None)
-                if user_token == login_token:
+                one_time_token = handler.one_time_token
+                if user_token == token:
                     # token-authenticated, set the login cookie
                     handler.log.info("Accepting token-authenticated connection from %s", handler.request.remote_ip)
                     user_id = uuid.uuid4().hex
@@ -142,14 +142,14 @@ class LoginHandler(IPythonHandler):
             if ssl_options is None:
                 app.log.warning(warning + " and not using encryption. This "
                     "is not recommended.")
-            if not app.password and not app.login_token:
+            if not app.password and not app.token:
                 app.log.warning(warning + " and not using authentication. "
                     "This is highly insecure and not recommended.")
         else:
-            if not app.password and not app.login_token:
+            if not app.password and not app.token:
                 app.log.warning(
                     "All authentication is disabled."
-                    "  Anyone who can connect to this sever will be able to run code.")
+                    "  Anyone who can connect to this server will be able to run code.")
 
     @classmethod
     def password_from_settings(cls, settings):
@@ -162,4 +162,4 @@ class LoginHandler(IPythonHandler):
     @classmethod
     def get_login_available(cls, settings):
         """Whether this LoginHandler is needed - and therefore whether the login page should be displayed."""
-        return bool(cls.password_from_settings(settings) or settings.get('login_token'))
+        return bool(cls.password_from_settings(settings) or settings.get('token'))
