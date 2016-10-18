@@ -3,6 +3,8 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
+import re
+
 try:
     from urllib.parse import urlparse # Py 3
 except ImportError:
@@ -92,6 +94,26 @@ class LoginHandler(IPythonHandler):
         handler.set_secure_cookie(handler.cookie_name, user_id, **cookie_options)
         return user_id
 
+    auth_header_pat = re.compile('token\s+(.+)', re.IGNORECASE)
+
+    @classmethod
+    def get_user_token(cls, handler):
+        """Get the user token from a request
+
+        Default:
+
+        - in URL parameters: ?token=<token>
+        - in header: Authorization: token <token>
+        """
+
+        user_token = handler.get_argument('token', '')
+        if not user_token:
+            # get it from Authorization header
+            m = cls.auth_header_pat.match(handler.request.headers.get('Authorization', ''))
+            if m:
+                user_token = m.group(1)
+        return user_token
+
     @classmethod
     def get_user(cls, handler):
         """Called by handlers.get_current_user for identifying the current user.
@@ -112,8 +134,8 @@ class LoginHandler(IPythonHandler):
                 # No need to warn here, though; validate_security will have already done that.
                 return 'anonymous'
             if token:
-                # check login token
-                user_token = handler.get_argument('token', '')
+                # check login token from URL argument or Authorization header
+                user_token = cls.get_user_token(handler)
                 one_time_token = handler.one_time_token
                 if user_token == token:
                     # token-authenticated, set the login cookie
