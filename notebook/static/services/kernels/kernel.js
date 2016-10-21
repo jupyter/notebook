@@ -1067,7 +1067,7 @@ define([
         var callbacks = this.get_callbacks_for_msg(msg_id);
         if (msg.header.msg_type === 'display_data') {
             // display_data messages may re-route based on their display_id
-            var display_id = msg.content.display_id;
+            var display_id = (msg.content.transient || {}).display_id;
             if (display_id) {
                 // it has a display_id
                 var target_msg_id = this._display_id_targets[display_id];

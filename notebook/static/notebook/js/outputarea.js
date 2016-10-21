@@ -225,6 +225,7 @@ define([
         } else if (msg_type === "display_data") {
             json.data = content.data;
             json.metadata = content.metadata;
+            json.transient = content.transient;
         } else if (msg_type === "execute_result") {
             json.data = content.data;
             json.metadata = content.metadata;
@@ -237,7 +238,7 @@ define([
             console.log("unhandled output message", msg);
             return;
         }
-        this.append_output(json, msg);
+        this.append_output(json);
     };
     
     // Declare mime type as constants
@@ -334,8 +335,7 @@ define([
             that.element.trigger('resize');
         };
         if (json.output_type === 'display_data') {
-            var display_id = msg && msg.content.display_id;
-            record_output = this.append_display_data(json, handle_appended, display_id);
+            record_output = this.append_display_data(json, handle_appended);
         } else {
             handle_appended();
         }
@@ -570,10 +570,11 @@ define([
     };
 
 
-    OutputArea.prototype.append_display_data = function (json, handle_inserted, display_id) {
+    OutputArea.prototype.append_display_data = function (json, handle_inserted) {
         var toinsert = this.create_output_area();
         var record = true;
         var target;
+        var display_id = (json.transient || {}).display_id;
         if (display_id) {
             // it has a display_id;
             target = this._display_id_targets[display_id];
@@ -966,9 +967,20 @@ define([
         }
     };
 
-
+    /**
+     * Return for-saving version of outputs.
+     * Excludes transient values.
+     */
     OutputArea.prototype.toJSON = function () {
-        return this.outputs;
+        return this.outputs.map(function (out) {
+            var out2 = {};
+            Object.keys(out).map(function (key) {
+                if (key != 'transient') {
+                    out2[key] = out[key];
+                }
+            });
+            return out2;
+        });
     };
 
     /**
