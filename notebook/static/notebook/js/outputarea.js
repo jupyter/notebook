@@ -1,6 +1,6 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
+// jshint esnext: true
 define([
     'base/js/utils',
     'base/js/security',
@@ -34,6 +34,7 @@ define([
         } else {
             this.prompt_area = options.prompt_area;
         }
+        this._display_id_targets = {};
         this.create_elements();
         this.style();
         this.bind_events();
@@ -236,7 +237,7 @@ define([
             console.log("unhandled output message", msg);
             return;
         }
-        this.append_output(json);
+        this.append_output(json, msg);
     };
     
     // Declare mime type as constants
@@ -286,7 +287,7 @@ define([
         return bundle;
     };
     
-    OutputArea.prototype.append_output = function (json) {
+    OutputArea.prototype.append_output = function (json, msg) {
         this.expand();
         
         // Clear the output if clear is queued.
@@ -333,7 +334,8 @@ define([
             that.element.trigger('resize');
         };
         if (json.output_type === 'display_data') {
-            this.append_display_data(json, handle_appended);
+            var display_id = msg && msg.content.display_id;
+            record_output = this.append_display_data(json, handle_appended, display_id);
         } else {
             handle_appended();
         }
@@ -419,7 +421,7 @@ define([
             .append($('<div/>').text('See your browser Javascript console for more details.').addClass('js-error'));
     };
     
-    OutputArea.prototype._safe_append = function (toinsert) {
+    OutputArea.prototype._safe_append = function (toinsert, toreplace) {
         /**
          * safely append an item to the document
          * this is an object created by user code,
@@ -427,7 +429,11 @@ define([
          * under any circumstances.
          */
         try {
-            this.element.append(toinsert);
+            if (toreplace) {
+                toreplace.replaceWith(toinsert);
+            } else {
+                this.element.append(toinsert);
+            }
         } catch(err) {
             console.log(err);
             // Create an actual output_area and output_subarea, which creates
@@ -564,10 +570,30 @@ define([
     };
 
 
-    OutputArea.prototype.append_display_data = function (json, handle_inserted) {
+    OutputArea.prototype.append_display_data = function (json, handle_inserted, display_id) {
         var toinsert = this.create_output_area();
+        var record = true;
+        var target;
+        if (display_id) {
+            // it has a display_id;
+            target = this._display_id_targets[display_id];
+            if (target) {
+                // we've seen it before, update output data
+                this.outputs[target.index] = json;
+                record = false;
+            } else {
+                // not seen before, create and record new output area
+                target = this._display_id_targets[display_id] = {
+                    index: this.outputs.length,
+                    element: null
+                };
+            }
+        }
         if (this.append_mime_type(json, toinsert, handle_inserted)) {
-            this._safe_append(toinsert);
+            this._safe_append(toinsert, target && target.element);
+            if (target) {
+                target.element = toinsert;
+            }
             // If we just output latex, typeset it.
             if ((json.data[MIME_LATEX] !== undefined) ||
                 (json.data[MIME_HTML] !== undefined) ||
@@ -575,6 +601,7 @@ define([
                 this.typeset();
             }
         }
+        return record;
     };
 
 
@@ -859,7 +886,7 @@ define([
         // remove form container
         container.parent().remove();
         // replace with plaintext version in stdout
-        this.append_output(content, false);
+        this.append_output(content);
         this.events.trigger('send_input_reply.Kernel', value);
     };
 
@@ -905,6 +932,7 @@ define([
             this.element.trigger('changed');
             
             this.outputs = [];
+            this._display_id_targets = {};
             this.trusted = true;
             this.unscroll_area();
             return;

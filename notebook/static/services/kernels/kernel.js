@@ -41,6 +41,7 @@ define([
         this.username = "username";
         this.session_id = utils.uuid();
         this._msg_callbacks = {};
+        this._display_id_targets = {};
         this._msg_queue = Promise.resolve();
         this.info_reply = {}; // kernel_info_reply stored here after starting
 
@@ -631,7 +632,7 @@ define([
         } else {
             this._pending_messages.push(msg);
         }
-    }
+    };
     
     Kernel.prototype.send_shell_message = function (msg_type, content, callbacks, metadata, buffers) {
         /**
@@ -854,6 +855,14 @@ define([
      */
     Kernel.prototype.clear_callbacks_for_msg = function (msg_id) {
         if (this._msg_callbacks[msg_id] !== undefined ) {
+            var callbacks = this._msg_callbacks[msg_id];
+            var kernel = this;
+            // clear display_id:msg_id map for display_ids associated with this msg_id
+            callbacks.display_ids.map(function (display_id) {
+                if (kernel._display_id_targets[display_id]) {
+                    delete kernel._display_id_targets[display_id];
+                }
+            });
             delete this._msg_callbacks[msg_id];
         }
     };
@@ -904,6 +913,7 @@ define([
             cbcopy.clear_on_done = callbacks.clear_on_done;
             cbcopy.shell_done = (!callbacks.shell);
             cbcopy.iopub_done = (!callbacks.iopub);
+            cbcopy.display_ids = [];
             if (callbacks.clear_on_done === undefined) {
                 // default to clear-on-done
                 cbcopy.clear_on_done = true;
@@ -1053,7 +1063,28 @@ define([
      * @function _handle_output_message
      */
     Kernel.prototype._handle_output_message = function (msg) {
-        var callbacks = this.get_callbacks_for_msg(msg.parent_header.msg_id);
+        var msg_id = msg.parent_header.msg_id;
+        var callbacks = this.get_callbacks_for_msg(msg_id);
+        if (msg.header.msg_type === 'display_data') {
+            // display_data messages may re-route based on their display_id
+            var display_id = msg.content.display_id;
+            if (display_id) {
+                // it has a display_id
+                var target_msg_id = this._display_id_targets[display_id];
+                if (target_msg_id) {
+                    // we've seen it before, route to existing destination
+                    callbacks = this.get_callbacks_for_msg(target_msg_id);
+                } else {
+                    // new display_id, record it for future updating
+                    // in display_id_targets for future lookup
+                    this._display_id_targets[display_id] = msg_id;
+                    // and in callbacks for cleanup on clear_callbacks_for_msg
+                    callbacks.display_ids.push(display_id);
+                }
+            }
+        }
+
+
         if (!callbacks || !callbacks.iopub) {
             // The message came from another client. Let the UI decide what to
             // do with it.
