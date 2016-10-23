@@ -140,6 +140,6 @@ When sharing a notebook secret across configurations, you can use
 
 .. sourcecode:: python
 
-    c.NotebookApp.secret_file = "/path/to/notebook_secret"
+    c.NotebookNotary.data_dir = "/path/to/notebook_db"
 
-to specify a non-default path to the secret file.
+to specify a non-default path to the SQLite database (of notebook hashes, essentially). We are aware that SQLite doesn't work well on NFS and we are `working out better ways to do this <https://github.com/jupyter/notebook/issues/1782>`_.
