@@ -5,7 +5,7 @@ Security in Jupyter notebooks
 
 As Jupyter notebooks become more popular for sharing and collaboration,
 the potential for malicious people to attempt to exploit the notebook
-for their nefarious purposes increases. IPython 2.0 introduces a
+for their nefarious purposes increases. IPython 2.0 introduced a
 security model to prevent execution of untrusted code without explicit
 user input.
 
@@ -40,22 +40,19 @@ Our security model
 The details of trust
 --------------------
 
-Jupyter notebooks store a signature in metadata, which is used to answer
-the question "Did the current user do this?"
+When a notebook is executed and saved, a signature is computed from a
+digest of the notebook's contents plus a secret key. This is stored in a
+database, writable only by the current user. By default, this is located at::
 
-This signature is a digest of the notebooks contents plus a secret key,
-known only to the user. The secret key is a user-only readable file in
-the Jupyter data directory. By default, this is::
+    ~/.local/share/jupyter/nbsignatures.db  # Linux
+    ~/Library/Jupyter/nbsignatures.db       # OS X
+    %APPDATA%/jupyter/nbsignatures.db       # Windows
 
+Each signature represents a series of outputs which were produced by code the
+current user executed, and are therefore trusted.
 
-    ~/.local/share/jupyter/notebook_secret # linux
-    ~/Library/Jupyter/notebook_secret # OS X
-    %APPDATA%/jupyter/notebook_secret # Windows
-
-
-When a notebook is opened by a user, the server computes a signature
-with the user's key, and compares it with the signature stored in the
-notebook's metadata. If the signature matches, HTML and Javascript
+When you open a notebook, the server computes its signature, and checks if it's
+in the database. If a match is found, HTML and Javascript
 output in the notebook will be trusted at load, otherwise it will be
 untrusted.
 
@@ -71,7 +68,7 @@ been removed (either via ``Clear Output`` or re-execution), then the
 notebook will become trusted.
 
 While trust is updated per output, this is only for the duration of a
-single session. A notebook file on disk is either trusted or not in its
+single session. A newly loaded notebook file is either trusted or not in its
 entirety.
 
 Explicit trust
@@ -87,8 +84,8 @@ long time. Users can explicitly trust a notebook in two ways:
 
 -  After loading the untrusted notebook, with ``File / Trust Notebook``
 
-These two methods simply load the notebook, compute a new signature with
-the user's key, and then store the newly signed notebook.
+These two methods simply load the notebook, compute a new signature, and add
+that signature to the user's database.
 
 Reporting security issues
 -------------------------
@@ -103,9 +100,9 @@ you can use :download:`this PGP public key <ipython_security.asc>`.
 Affected use cases
 ------------------
 
-Some use cases that work in Jupyter 1.0 will become less convenient in
+Some use cases that work in Jupyter 1.0 became less convenient in
 2.0 as a result of the security changes. We do our best to minimize
-these annoyance, but security is always at odds with convenience.
+these annoyances, but security is always at odds with convenience.
 
 Javascript and CSS in Markdown cells
 ************************************
@@ -133,13 +130,15 @@ in an untrusted state. There are three basic approaches to this:
 -  re-run notebooks when you get them (not always viable)
 -  explicitly trust notebooks via ``jupyter trust`` or the notebook menu
    (annoying, but easy)
--  share a notebook secret, and use configuration dedicated to the
+-  share a notebook signatures database, and use configuration dedicated to the
    collaboration while working on the project.
 
-When sharing a notebook secret across configurations, you can use
+To share a signatures database among users, you can configure:
 
 .. sourcecode:: python
 
-    c.NotebookNotary.data_dir = "/path/to/notebook_db"
+    c.NotebookNotary.data_dir = "/path/to/signature_dir"
 
-to specify a non-default path to the SQLite database (of notebook hashes, essentially). We are aware that SQLite doesn't work well on NFS and we are `working out better ways to do this <https://github.com/jupyter/notebook/issues/1782>`_.
+to specify a non-default path to the SQLite database (of notebook hashes,
+essentially). We are aware that SQLite doesn't work well on NFS and we are
+`working out better ways to do this <https://github.com/jupyter/notebook/issues/1782>`_.
