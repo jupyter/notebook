@@ -41,6 +41,14 @@ require([
 
     page = new page.Page();
     
+    function isMirroringEnabled() {
+        return (new RegExp("^(ar|he)").test(navigator.language));
+    }
+    
+    if (isMirroringEnabled()) {
+    	 $("body").attr("dir","rtl");
+    }
+
     var common_options = {
         base_url: utils.get_body_data("baseUrl"),
         notebook_path: utils.get_body_data("notebookPath"),

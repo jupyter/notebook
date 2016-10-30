@@ -16,8 +16,17 @@
 // The left padding of the selector button's contents.
 @dashboard-selectorbtn-lpad: 7px;
 
+[dir="rtl"] #tabs li {
+    float: right;
+}
+
 ul#tabs {
     margin-bottom: @dashboard_tb_pad;
+    padding-right: 0px;
+}
+
+[dir="rtl"] ul#tabs {
+    margin-right:0px;
 }
 
 ul#tabs a {
@@ -46,6 +55,21 @@ ul.breadcrumb {
     .tree-buttons {
         padding-top: 1px;
     }
+}
+
+[dir="rtl"] .list_toolbar {
+    .tree-buttons {
+        float: left !important;
+    }
+    
+    .pull-right {
+        padding-top: 1px;
+        float: left !important;
+    }
+    
+    .pull-left {
+        float: right !important;
+    }    
 }
 
 .dynamic-buttons {
@@ -192,6 +216,10 @@ ul.breadcrumb {
     padding-right: 0px;
 }
 
+[dir="rtl"] #tree-selector a {
+    float: right;
+}
+
 #button-select-all {
     min-width: 50px;
 }
@@ -237,13 +265,16 @@ ul.breadcrumb {
 
 #notebook_toolbar .pull-right {
     padding-top: 0px;
-    margin-right: -1px;
+    margin-left: -1px;
 }
 
 ul#new-menu {
-    // align right instead of left
     left: auto;
     right: 0;
+}
+
+[dir="rtl"] #new-menu {
+    text-align: right;
 }
 
 .kernel-menu-icon {
@@ -305,6 +336,11 @@ ul#new-menu {
     }
 }
 
+[dir="rtl"] #running {
+    .col-sm-8 {
+        float: right !important;
+    }
+}
 .delete-button {
     display: none;
 }
