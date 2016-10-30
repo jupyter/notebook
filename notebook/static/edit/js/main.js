@@ -13,7 +13,7 @@ require([
     'edit/js/menubar',
     'edit/js/savewidget',
     'edit/js/notificationarea',
-    'custom/custom',
+    'custom',
 ], function(
     $,
     IPython,
@@ -28,6 +28,7 @@ require([
     notificationarea
     ){
     "use strict";
+
     page = new page.Page();
 
     var base_url = utils.get_body_data('baseUrl');

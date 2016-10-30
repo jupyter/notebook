@@ -471,7 +471,7 @@ class NotebookApp(JupyterApp):
     )
     
     client_ca = Unicode(u'', config=True,
-        help="""The full path to a certificate authority certifificate for SSL/TLS client authentication."""
+        help="""The full path to a certificate authority certificate for SSL/TLS client authentication."""
     )
     
     cookie_secret_file = Unicode(config=True,
@@ -904,10 +904,10 @@ class NotebookApp(JupyterApp):
         else:
             # SSL may be missing, so only import it if it's to be used
             import ssl
-            # Disable SSLv3, since its use is discouraged.
-            ssl_options['ssl_version'] = ssl.PROTOCOL_TLSv1
+            # Disable SSLv3 by default, since its use is discouraged.
+            ssl_options.setdefault('ssl_version', ssl.PROTOCOL_TLSv1)
             if ssl_options.get('ca_certs', False):
-                ssl_options['cert_reqs'] = ssl.CERT_REQUIRED
+                ssl_options.setdefault('cert_reqs', ssl.CERT_REQUIRED)
         
         self.login_handler_class.validate_security(self, ssl_options=ssl_options)
         self.http_server = httpserver.HTTPServer(self.web_app, ssl_options=ssl_options,

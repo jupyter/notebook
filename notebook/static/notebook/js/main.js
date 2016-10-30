@@ -24,8 +24,7 @@ require([
     'notebook/js/about',
     'typeahead',
     'notebook/js/searchandreplace',
-    // only loaded, not used, please keep sure this is loaded last
-    'custom/custom'
+    'custom',
 ], function(
     IPython, 
     $,
@@ -48,9 +47,7 @@ require([
     CodeMirror,
     about,
     typeahead,
-    searchandreplace,
-    // please keep sure that even if not used, this is loaded last
-    custom
+    searchandreplace
     ) {
     "use strict";
 
@@ -79,7 +76,7 @@ require([
     var save_widget = new savewidget.SaveWidget('span#save_widget', {
         events: events, 
         keyboard_manager: keyboard_manager});
-    acts.extend_env({save_widget:save_widget})
+    acts.extend_env({save_widget:save_widget});
     var contents = new contents.Contents({
           base_url: common_options.base_url,
           common_config: common_config

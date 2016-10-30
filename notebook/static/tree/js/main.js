@@ -19,7 +19,7 @@ require([
     // only loaded, not used:
     'jquery-ui',
     'bootstrap',
-    'custom/custom',
+    'custom',
 ], function(
     $,
     IPython,

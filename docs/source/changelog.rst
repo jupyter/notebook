@@ -11,6 +11,44 @@ For more detailed information, see `GitHub <https://github.com/jupyter/notebook>
      Use ``pip install notebook --upgrade`` or ``conda upgrade notebook`` to
      upgrade to the latest release.
 
+.. _release-4.2.3:
+
+4.2.3
+-----
+
+4.2.3 is a small bugfix release on 4.2.
+
+ Highlights:
+
+- Fix regression in 4.2.2 that delayed loading custom.js
+  until after ``notebook_loaded`` and ``app_initialized`` events have fired.
+- Fix some outdated docs and links.
+
+.. seealso::
+
+    4.2.3 `on GitHub <https://github.com/jupyter/notebook/milestones/4.2.3>`__.
+
+.. _release-4.2.2:
+
+4.2.2
+-----
+
+4.2.2 is a small bugfix release on 4.2, with an important security fix.
+All users are strongly encouraged to upgrade to 4.2.2.
+
+ Highlights:
+
+- **Security fix**: CVE-2016-6524, where untrusted latex output
+  could be added to the page in a way that could execute javascript.
+- Fix missing POST in OPTIONS responses.
+- Fix for downloading non-ascii filenames.
+- Avoid clobbering ssl_options, so that users can specify more detailed SSL configuration.
+- Fix inverted load order in nbconfig, so user config has highest priority.
+- Improved error messages here and there.
+
+.. seealso::
+
+    4.2.2 `on GitHub <https://github.com/jupyter/notebook/milestones/4.2.2>`__.
 
 .. _release-4.2.1:
 
