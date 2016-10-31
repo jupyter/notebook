@@ -4,9 +4,11 @@
 # Distributed under the terms of the Modified BSD License.
 
 
+import errno
 import io
 import os
 import shutil
+import stat
 import warnings
 import mimetypes
 import nbformat
@@ -22,7 +24,7 @@ from traitlets import Any, Unicode, Bool, TraitError, observe, default, validate
 from ipython_genutils.py3compat import getcwd, string_types
 from . import tz
 from notebook.utils import (
-    is_hidden,
+    is_hidden, is_file_hidden,
     to_api_path,
 )
 
@@ -269,14 +271,22 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                     self.log.warning(
                         "failed to decode filename '%s': %s", name, e)
                     continue
-                # skip over broken symlinks in listing
-                if not os.path.exists(os_path):
-                    self.log.warning("%s doesn't exist", os_path)
+
+                try:
+                    st = os.stat(os_path)
+                except OSError as e:
+                    # skip over broken symlinks in listing
+                    if e.errno == errno.ENOENT:
+                        self.log.warning("%s doesn't exist", os_path)
+                    else:
+                        self.log.warning("Error stat-ing %s: %s", (os_path, e))
                     continue
-                elif not os.path.isfile(os_path) and not os.path.isdir(os_path):
+
+                if not stat.S_ISREG(st.st_mode) and not stat.S_ISDIR(st.st_mode):
                     self.log.debug("%s not a regular file", os_path)
                     continue
-                if self.should_list(name) and not is_hidden(os_path, self.root_dir):
+
+                if self.should_list(name) and not is_file_hidden(os_path, stat_res=st):
                     contents.append(self.get(
                         path='%s/%s' % (path, name),
                         content=False)

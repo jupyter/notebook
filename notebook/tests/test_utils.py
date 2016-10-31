@@ -9,7 +9,7 @@ import os
 import nose.tools as nt
 
 from traitlets.tests.utils import check_help_all_output
-from notebook.utils import url_escape, url_unescape, is_hidden
+from notebook.utils import url_escape, url_unescape, is_hidden, is_file_hidden
 from ipython_genutils.py3compat import cast_unicode
 from ipython_genutils.tempdir import TemporaryDirectory
 from ipython_genutils.testing.decorators import skip_if_not_win32
@@ -60,13 +60,22 @@ def test_is_hidden():
         subdir1 = os.path.join(root, 'subdir')
         os.makedirs(subdir1)
         nt.assert_equal(is_hidden(subdir1, root), False)
+        nt.assert_equal(is_file_hidden(subdir1), False)
         subdir2 = os.path.join(root, '.subdir2')
         os.makedirs(subdir2)
         nt.assert_equal(is_hidden(subdir2, root), True)
+        nt.assert_equal(is_file_hidden(subdir2), True)
         subdir34 = os.path.join(root, 'subdir3', '.subdir4')
         os.makedirs(subdir34)
         nt.assert_equal(is_hidden(subdir34, root), True)
         nt.assert_equal(is_hidden(subdir34), True)
+
+        subdir56 = os.path.join(root, '.subdir5', 'subdir6')
+        os.makedirs(subdir56)
+        nt.assert_equal(is_hidden(subdir56, root), True)
+        nt.assert_equal(is_hidden(subdir56), True)
+        nt.assert_equal(is_file_hidden(subdir56), False)
+        nt.assert_equal(is_file_hidden(subdir56, os.stat(subdir56)), False)
 
 @skip_if_not_win32
 def test_is_hidden_win32():
@@ -78,4 +87,5 @@ def test_is_hidden_win32():
         r = ctypes.windll.kernel32.SetFileAttributesW(subdir1, 0x02)
         print(r)
         assert is_hidden(subdir1, root)
+        assert is_file_hidden(subdir1)
 

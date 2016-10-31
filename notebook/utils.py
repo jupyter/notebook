@@ -79,6 +79,89 @@ def url_unescape(path):
 
 _win32_FILE_ATTRIBUTE_HIDDEN = 0x02
 
+def is_file_hidden_win(abs_path, stat_res=None):
+    """Is a file hidden?
+
+    This only checks the file itself; it should be called in combination with
+    checking the directory containing the file.
+
+    Use is_hidden() instead to check the file and its parent directories.
+
+    Parameters
+    ----------
+    abs_path : unicode
+        The absolute path to check.
+    stat_res : os.stat_result, optional
+        Ignored on Windows, exists for compatibility with POSIX version of the
+        function.
+    """
+    if os.path.basename(abs_path).startswith('.'):
+        return True
+
+    # check that dirs can be listed
+    if os.path.isdir(abs_path):
+        # can't trust os.access on Windows because it seems to always return True
+        try:
+            os.stat(abs_path)
+        except OSError:
+            # stat may fail on Windows junctions or non-user-readable dirs
+            return True
+
+    try:
+        attrs = ctypes.windll.kernel32.GetFileAttributesW(
+            py3compat.cast_unicode(abs_path))
+    except AttributeError:
+        pass
+    else:
+        if attrs > 0 and attrs & _win32_FILE_ATTRIBUTE_HIDDEN:
+            return True
+
+    return False
+
+def is_file_hidden_posix(abs_path, stat_res=None):
+    """Is a file hidden?
+
+    This only checks the file itself; it should be called in combination with
+    checking the directory containing the file.
+
+    Use is_hidden() instead to check the file and its parent directories.
+
+    Parameters
+    ----------
+    abs_path : unicode
+        The absolute path to check.
+    stat_res : os.stat_result, optional
+        The result of calling stat() on abs_path. If not passed, this function
+        will call stat() internally.
+    """
+    if os.path.basename(abs_path).startswith('.'):
+        return True
+
+    if stat_res is None:
+        try:
+            stat_res = os.stat(abs_path)
+        except OSError as e:
+            if e.errno == errno.ENOENT:
+                return False
+            raise
+
+    # check that dirs can be listed
+    if stat.S_ISDIR(stat_res.st_mode):
+        # use x-access, not actual listing, in case of slow/large listings
+        if not os.access(abs_path, os.X_OK | os.R_OK):
+            return True
+
+    # check UF_HIDDEN
+    if getattr(stat_res, 'st_flags', 0) & UF_HIDDEN:
+        return True
+
+    return False
+
+if sys.platform == 'win32':
+    is_file_hidden = is_file_hidden_win
+else:
+    is_file_hidden = is_file_hidden_posix
+
 def is_hidden(abs_path, abs_root=''):
     """Is a file hidden or contained in a hidden directory?
     
@@ -95,28 +178,18 @@ def is_hidden(abs_path, abs_root=''):
         The absolute path of the root directory in which hidden directories
         should be checked for.
     """
+    if is_file_hidden(abs_path):
+        return True
+
     if not abs_root:
         abs_root = abs_path.split(os.sep, 1)[0] + os.sep
     inside_root = abs_path[len(abs_root):]
     if any(part.startswith('.') for part in inside_root.split(os.sep)):
         return True
-    
-    # check that dirs can be listed
-    if os.path.isdir(abs_path):
-        if sys.platform == 'win32':
-            # can't trust os.access on Windows because it seems to always return True
-            try:
-                os.stat(abs_path)
-            except OSError:
-                # stat may fail on Windows junctions or non-user-readable dirs
-                return True
-        else:
-            # use x-access, not actual listing, in case of slow/large listings
-            if not os.access(abs_path, os.X_OK | os.R_OK):
-                return True
-    
-    # check UF_HIDDEN on any location up to root
-    path = abs_path
+
+    # check UF_HIDDEN on any location up to root.
+    # is_file_hidden() already checked the file, so start from its parent dir
+    path = os.path.dirname(abs_path)
     while path and path.startswith(abs_root) and path != abs_root:
         if not os.path.exists(path):
             path = os.path.dirname(path)
@@ -129,15 +202,6 @@ def is_hidden(abs_path, abs_root=''):
         if getattr(st, 'st_flags', 0) & UF_HIDDEN:
             return True
         path = os.path.dirname(path)
-    
-    if sys.platform == 'win32':
-        try:
-            attrs = ctypes.windll.kernel32.GetFileAttributesW(py3compat.cast_unicode(abs_path))
-        except AttributeError:
-            pass
-        else:
-            if attrs > 0 and attrs & _win32_FILE_ATTRIBUTE_HIDDEN:
-                return True
 
     return False
 
