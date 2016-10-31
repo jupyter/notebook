@@ -35,7 +35,7 @@ class FilesHandler(IPythonHandler):
         
         # get mimetype from filename
         if name.endswith('.ipynb'):
-            self.set_header('Content-Type', 'application/json')
+            self.set_header('Content-Type', 'application/x-ipynb+json')
         else:
             cur_mime = mimetypes.guess_type(name)[0]
             if cur_mime is not None:
