@@ -62,6 +62,12 @@ define(function(require){
      *
      **/
     var _actions = {
+        'toggle-rtl-layout': {
+            help: 'Open a dialog to edit the command mode keyboard shortcuts',
+            handler: function () {
+              (document.body.getAttribute('dir')=='rtl') ? document.body.setAttribute('dir','ltr') : document.body.setAttribute('dir','rtl');
+            }
+        },
         'edit-command-mode-keyboard-shortcuts': {
             help: 'Open a dialog to edit the command mode keyboard shortcuts',
             handler: function (env) {
