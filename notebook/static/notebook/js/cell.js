@@ -501,14 +501,6 @@ define([
         if (data.metadata !== undefined) {
             this.metadata = data.metadata;
         }
-        // upgrade cell's editable metadata if not defined
-        if (this.metadata.editable === undefined) {
-          this.metadata.editable = this.is_editable();
-        }
-        // upgrade cell's deletable metadata if not defined
-        if (this.metadata.deletable === undefined) {
-          this.metadata.deletable = this.is_deletable();
-        }
     };
 
 
