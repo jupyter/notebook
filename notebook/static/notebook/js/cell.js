@@ -489,6 +489,15 @@ define([
         var data = {};
         // deepcopy the metadata so copied cells don't share the same object
         data.metadata = JSON.parse(JSON.stringify(this.metadata));
+        if (data.metadata.deletable) {
+            delete data.metadata.deletable;
+        }
+        if (data.metadata.editable) {
+            delete data.metadata.editable;
+        }
+        if (data.metadata.collapsed === false) {
+            delete data.metadata.collapsed;
+        }
         data.cell_type = this.cell_type;
         return data;
     };
