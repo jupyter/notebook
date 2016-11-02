@@ -535,7 +535,11 @@ define([
         var outputs = this.output_area.toJSON();
         data.outputs = outputs;
         data.metadata.trusted = this.output_area.trusted;
-        data.metadata.collapsed = this.output_area.collapsed;
+        if (this.output_area.collapsed) {
+            data.metadata.collapsed = this.output_area.collapsed;
+        } else {
+            delete data.metadata.collapsed;
+        }
         if (this.output_area.scroll_state === 'auto') {
             delete data.metadata.scrolled;
         } else {
