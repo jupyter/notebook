@@ -996,6 +996,15 @@ define([
         [MIME_JAVASCRIPT] : append_javascript,
         [MIME_PDF] : append_pdf
     };
+    
+    OutputArea.prototype.register_mime_type = function (mimetype, append, safe) {
+        if (mimetype && typeof(append) === 'function') {
+            OutputArea.output_types.push(mimetype);
+            if (safe) OutputArea.safe_outputs[mimetype] = true;
+            OutputArea.display_order.unshift(mimetype);
+            OutputArea.append_map[mimetype] = append;
+        }
+    };
 
     return {'OutputArea': OutputArea};
 });
