@@ -74,7 +74,7 @@ class ContentsManager(LoggingConfigurable):
         help="The base name used when creating untitled directories."
     )
 
-    pre_save_hook = Any(None, config=True,
+    pre_save_hook = Any(None, config=True, allow_none=True,
         help="""Python callable or importstring thereof
 
         To be called on a contents model prior to save.
