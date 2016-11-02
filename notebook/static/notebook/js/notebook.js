@@ -526,7 +526,8 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
      * @return {jQuery} A selector of all cell elements
      */
     Notebook.prototype.get_cell_elements = function () {
-        return this.container.find(".cell").not('.cell .cell');
+        var container = this.container || $('#notebook-container')
+        return container.find(".cell").not('.cell .cell');
     };
 
     /**
