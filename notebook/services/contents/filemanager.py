@@ -93,7 +93,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
         self.post_save_hook = _post_save_script
 
-    post_save_hook = Any(None, config=True,
+    post_save_hook = Any(None, config=True, allow_none=True,
         help="""Python callable or importstring thereof
 
         to be called on the path of a file just saved.
