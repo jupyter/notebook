@@ -11,6 +11,7 @@ The Jupyter notebook
    Running the Notebook <https://jupyter.readthedocs.org/en/latest/running.html>
    Migrating from IPython <https://jupyter.readthedocs.org/en/latest/migrating.html>
    ui_components
+   comms
 
 .. toctree::
    :maxdepth: 2
