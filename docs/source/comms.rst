@@ -7,8 +7,8 @@ update widget state.
 
 A comm consists of a pair of objects, in the kernel and the frontend, with an
 automatically assigned unique ID. When one side sends a message, a callback on
-the other side is triggered with that message data. Either side can open or
-close the comm.
+the other side is triggered with that message data. Either side, the frontend
+or kernel, can open or close the comm.
 
 .. seealso::
 
@@ -19,9 +19,9 @@ Opening a comm from the kernel
 ------------------------------
 
 First, the function to accept the comm must be available on the frontend. This
-can either be specified in a requirejs module, or registered in a registry, for
-example when an :doc:`extension <extending/frontend_extensions>` is loaded. The
-latter is what we'll show here:
+can either be specified in a `requirejs` module, or registered in a registry, for
+example when an :doc:`extension <extending/frontend_extensions>` is loaded.
+This example shows a frontend comm target registered in a registry:
 
 .. code-block:: javascript
 
@@ -36,9 +36,11 @@ latter is what we'll show here:
             comm.send({'foo': 0});
         });
 
-Now you can open it from the kernel::
+Now that the frontend comm is registered, you can open the comm from the kernel::
 
     from ipykernel.comm import Comm
+
+    # Use comm to send a message from the kernel
     my_comm = Comm(target_name='my_comm_target', data={'foo': 1})
     my_comm.send({'foo': 2})
 
@@ -48,8 +50,8 @@ Now you can open it from the kernel::
         # Use msg['content']['data'] for the data in the message
 
 
-This example is for IPython; its up to each kernel what API, if any, it offers
-for using comms.
+This example uses the IPython kernel; it's up to each language kernel what API,
+if any, it offers for using comms.
 
 Opening a comm from the frontend
 --------------------------------
@@ -75,10 +77,11 @@ containing Javascript to connect to it.
 
     get_ipython().kernel.comm_manager.register_target('my_comm_target', target_func)
 
-This example is for IPython again; this will be different in other kernels that
-support comms.
+This example uses the IPython kernel again; this example will be different in
+other kernels that support comms. Refer to the specific language kernel's
+documentation for comms support.
 
-And then open it from the frontend:
+And then open the comm from the frontend:
 
 .. code-block:: javascript
 
