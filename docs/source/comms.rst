@@ -7,10 +7,8 @@ update widget state.
 
 A comm consists of a pair of objects, in the kernel and the frontend, with an
 automatically assigned unique ID. When one side sends a message, a callback on
-the other side is triggered with that message data. For example, the kernel can
-send a message to the frontend which triggers a callback by the frontend to
-the kernel with the message data. Either side, the frontend or kernel, can
-open or close the comm.
+the other side is triggered with that message data. Either side, the frontend
+or kernel, can open or close the comm.
 
 .. seealso::
 
