@@ -869,8 +869,10 @@ define([
                     }
                     if (msg_ids.length === 1) {
                         delete kernel._display_id_targets[display_id];
+                    } else {
+                        msg_ids.splice(idx, 1);
+                        kernel._display_id_targets[display_id] = msg_ids;
                     }
-                    kernel._display_id_targets[display_id] = msg_ids.splice(idx, 1);
                 }
             });
             delete this._msg_callbacks[msg_id];
@@ -1076,14 +1078,14 @@ define([
         var that = this;
         var msg_id = msg.parent_header.msg_id;
         var callbacks = this.get_callbacks_for_msg(msg_id);
-        if (['display_data', 'update_display_data'].indexOf(msg.header.msg_type) >= 0) {
+        if (['display_data', 'update_display_data'].indexOf(msg.header.msg_type) > -1) {
             // display_data messages may re-route based on their display_id
             var display_id = (msg.content.transient || {}).display_id;
             if (display_id) {
                 // it has a display_id
                 var target_msg_ids = this._display_id_targets[display_id];
                 if (target_msg_ids) {
-                    // we've seen it before, route to existing destination
+                    // we've seen it before, update existing outputs with same id
                     target_msg_ids.map(function (target_msg_id) {
                         var callbacks = that.get_callbacks_for_msg(target_msg_id);
                         if (!callbacks) return;
@@ -1103,7 +1105,9 @@ define([
                 if (this._display_id_targets[display_id] === undefined) {
                     this._display_id_targets[display_id] = [];
                 }
-                this._display_id_targets[display_id].push(msg_id);
+                if (this._display_id_targets[display_id].indexOf(msg_id) === -1) {
+                    this._display_id_targets[display_id].push(msg_id);
+                }
                 // and in callbacks for cleanup on clear_callbacks_for_msg
                 callbacks.display_ids.push(display_id);
             }

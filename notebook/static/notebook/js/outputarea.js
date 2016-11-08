@@ -225,7 +225,13 @@ define([
             json.name = content.name;
             break;
         case "update_display_data":
+            // treat it like display_data
             json.output_type = "display_data";
+            json.transient = content.transient || {};
+            json.transient._is_update = true;
+            json.data = content.data;
+            json.metadata = content.metadata;
+            break;
         case "display_data":
             json.transient = content.transient;
             json.data = content.data;
@@ -578,36 +584,51 @@ define([
 
 
     OutputArea.prototype.append_display_data = function (json, handle_inserted) {
-        var toinsert = this.create_output_area();
-        var record = true;
-        var target;
+        var oa = this;
+        var update_targets;
         var display_id = (json.transient || {}).display_id;
+        var is_update = (json.transient || {})._is_update;
+        if (is_update) {
+            // consume _is_update marker
+            delete json.transient._is_update;
+        }
+        var record = !is_update;
         if (display_id) {
             // it has a display_id;
-            target = this._display_id_targets[display_id];
-            if (target) {
+            update_targets = this._display_id_targets[display_id];
+            if (update_targets) {
                 // we've seen it before, update output data
-                this.outputs[target.index] = json;
-                record = false;
+                update_targets.map(function (target) {
+                    oa.outputs[target.index] = json;
+                });
             } else {
                 // not seen before, create and record new output area
-                target = this._display_id_targets[display_id] = {
+                update_targets = this._display_id_targets[display_id] = [{
                     index: this.outputs.length,
-                    element: null
-                };
+                    element: null,
+                }];
             }
         }
-        if (this.append_mime_type(json, toinsert, handle_inserted)) {
-            this._safe_append(toinsert, target && target.element);
-            if (target) {
+        if (update_targets) {
+            // updating multiple 
+            update_targets.map(function (target) {
+                var toinsert = oa.create_output_area();
+                if (oa.append_mime_type(json, toinsert, handle_inserted)) {
+                    oa._safe_append(toinsert, target.element);
+                }
                 target.element = toinsert;
+            });
+        } else {
+            var toinsert = this.create_output_area();
+            if (oa.append_mime_type(json, toinsert, handle_inserted)) {
+                oa._safe_append(toinsert);
             }
-            // If we just output latex, typeset it.
-            if ((json.data[MIME_LATEX] !== undefined) ||
-                (json.data[MIME_HTML] !== undefined) ||
-                (json.data[MIME_MARKDOWN] !== undefined)) {
-                this.typeset();
-            }
+        }
+        // If we just output latex, typeset it.
+        if ((json.data[MIME_LATEX] !== undefined) ||
+            (json.data[MIME_HTML] !== undefined) ||
+            (json.data[MIME_MARKDOWN] !== undefined)) {
+            this.typeset();
         }
         return record;
     };
