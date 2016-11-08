@@ -219,23 +219,30 @@ define([
         var json = {};
         var msg_type = json.output_type = msg.header.msg_type;
         var content = msg.content;
-        if (msg_type === "stream") {
+        switch(msg_type) {
+        case "stream" :
             json.text = content.text;
             json.name = content.name;
-        } else if (msg_type === "display_data") {
+            break;
+        case "update_display_data":
+            json.output_type = "display_data";
+        case "display_data":
+            json.transient = content.transient;
             json.data = content.data;
             json.metadata = content.metadata;
-            json.transient = content.transient;
-        } else if (msg_type === "execute_result") {
+            break;
+        case "execute_result":
             json.data = content.data;
             json.metadata = content.metadata;
             json.execution_count = content.execution_count;
-        } else if (msg_type === "error") {
+            break;
+        case "error":
             json.ename = content.ename;
             json.evalue = content.evalue;
             json.traceback = content.traceback;
-        } else {
-            console.log("unhandled output message", msg);
+            break;
+        default:
+            console.error("unhandled output message", msg);
             return;
         }
         this.append_output(json);

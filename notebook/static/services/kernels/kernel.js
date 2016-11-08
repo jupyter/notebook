@@ -130,7 +130,7 @@ define([
      * @function init_iopub_handlers
      */
     Kernel.prototype.init_iopub_handlers = function () {
-        var output_msg_types = ['stream', 'display_data', 'execute_result', 'error'];
+        var output_msg_types = ['stream', 'display_data', 'execute_result', 'error', 'update_display_data'];
         this._iopub_handlers = {};
         this.register_iopub_handler('status', $.proxy(this._handle_status_message, this));
         this.register_iopub_handler('clear_output', $.proxy(this._handle_clear_output, this));
@@ -1065,7 +1065,7 @@ define([
     Kernel.prototype._handle_output_message = function (msg) {
         var msg_id = msg.parent_header.msg_id;
         var callbacks = this.get_callbacks_for_msg(msg_id);
-        if (msg.header.msg_type === 'display_data') {
+        if (['display_data', 'update_display_data'].indexOf(msg.header.msg_type) >= 0) {
             // display_data messages may re-route based on their display_id
             var display_id = (msg.content.transient || {}).display_id;
             if (display_id) {
@@ -1075,6 +1075,11 @@ define([
                     // we've seen it before, route to existing destination
                     callbacks = this.get_callbacks_for_msg(target_msg_id);
                 } else {
+                    if (msg.header.msg_type === 'update_display_data') {
+                        // update_display with no target, ignore
+                        console.log("Nothing to update for display_id: %s", display_id);
+                        return;
+                    }
                     // new display_id, record it for future updating
                     // in display_id_targets for future lookup
                     this._display_id_targets[display_id] = msg_id;
