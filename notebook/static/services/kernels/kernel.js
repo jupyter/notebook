@@ -300,6 +300,8 @@ define([
          */
         this.events.trigger('kernel_restarting.Kernel', {kernel: this});
         this.stop_channels();
+        this._msg_callbacks = {};
+        this._display_id_targets = {};
 
         var that = this;
         var on_success = function (data, status, xhr) {
@@ -451,7 +453,7 @@ define([
         var ws_host_url = this.ws_url + this.kernel_url;
 
         console.log("Starting WebSockets:", ws_host_url);
-        
+
         this.ws = new this.WebSocket([
                 that.ws_url,
                 utils.url_path_join(that.kernel_url, 'channels'),
@@ -859,8 +861,16 @@ define([
             var kernel = this;
             // clear display_id:msg_id map for display_ids associated with this msg_id
             callbacks.display_ids.map(function (display_id) {
-                if (kernel._display_id_targets[display_id]) {
-                    delete kernel._display_id_targets[display_id];
+                var msg_ids = kernel._display_id_targets[display_id];
+                if (msg_ids) {
+                    var idx = msg_ids.indexOf(msg_id);
+                    if (idx === -1) {
+                        return;
+                    }
+                    if (msg_ids.length === 1) {
+                        delete kernel._display_id_targets[display_id];
+                    }
+                    kernel._display_id_targets[display_id] = msg_ids.splice(idx, 1);
                 }
             });
             delete this._msg_callbacks[msg_id];
@@ -1063,6 +1073,7 @@ define([
      * @function _handle_output_message
      */
     Kernel.prototype._handle_output_message = function (msg) {
+        var that = this;
         var msg_id = msg.parent_header.msg_id;
         var callbacks = this.get_callbacks_for_msg(msg_id);
         if (['display_data', 'update_display_data'].indexOf(msg.header.msg_type) >= 0) {
@@ -1070,22 +1081,31 @@ define([
             var display_id = (msg.content.transient || {}).display_id;
             if (display_id) {
                 // it has a display_id
-                var target_msg_id = this._display_id_targets[display_id];
-                if (target_msg_id) {
+                var target_msg_ids = this._display_id_targets[display_id];
+                if (target_msg_ids) {
                     // we've seen it before, route to existing destination
-                    callbacks = this.get_callbacks_for_msg(target_msg_id);
-                } else {
-                    if (msg.header.msg_type === 'update_display_data') {
-                        // update_display with no target, ignore
-                        console.log("Nothing to update for display_id: %s", display_id);
-                        return;
-                    }
-                    // new display_id, record it for future updating
-                    // in display_id_targets for future lookup
-                    this._display_id_targets[display_id] = msg_id;
-                    // and in callbacks for cleanup on clear_callbacks_for_msg
-                    callbacks.display_ids.push(display_id);
+                    target_msg_ids.map(function (target_msg_id) {
+                        var callbacks = that.get_callbacks_for_msg(target_msg_id);
+                        if (!callbacks) return;
+                        var callback = callbacks.iopub.output;
+                        if (callback) {
+                            callback(msg);
+                        }
+                    });
                 }
+                // we're done here if it's update_display
+                if (msg.header.msg_type === 'update_display_data') {
+                    // it's an update, don't proceed to the normal display
+                    return;
+                }
+                // regular display_data with id, record it for future updating
+                // in display_id_targets for future lookup
+                if (this._display_id_targets[display_id] === undefined) {
+                    this._display_id_targets[display_id] = [];
+                }
+                this._display_id_targets[display_id].push(msg_id);
+                // and in callbacks for cleanup on clear_callbacks_for_msg
+                callbacks.display_ids.push(display_id);
             }
         }
 
