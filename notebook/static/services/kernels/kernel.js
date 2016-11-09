@@ -860,6 +860,7 @@ define([
             var callbacks = this._msg_callbacks[msg_id];
             var kernel = this;
             // clear display_id:msg_id map for display_ids associated with this msg_id
+            if (!callbacks) return;
             callbacks.display_ids.map(function (display_id) {
                 var msg_ids = kernel._display_id_targets[display_id];
                 if (msg_ids) {
@@ -1086,12 +1087,16 @@ define([
                 var target_msg_ids = this._display_id_targets[display_id];
                 if (target_msg_ids) {
                     // we've seen it before, update existing outputs with same id
+                    // by handling display_data as update_display_data
+                    var update_msg = $.extend(true, {}, msg);
+                    update_msg.header.msg_type = 'update_display_data';
+
                     target_msg_ids.map(function (target_msg_id) {
                         var callbacks = that.get_callbacks_for_msg(target_msg_id);
                         if (!callbacks) return;
                         var callback = callbacks.iopub.output;
                         if (callback) {
-                            callback(msg);
+                            callback(update_msg);
                         }
                     });
                 }
@@ -1109,7 +1114,9 @@ define([
                     this._display_id_targets[display_id].push(msg_id);
                 }
                 // and in callbacks for cleanup on clear_callbacks_for_msg
-                callbacks.display_ids.push(display_id);
+                if (callbacks && callbacks.display_ids.indexOf(display_id) === -1) {
+                    callbacks.display_ids.push(display_id);
+                }
             }
         }
 

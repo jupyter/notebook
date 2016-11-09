@@ -448,7 +448,7 @@ define([
                 this.element.append(toinsert);
             }
         } catch(err) {
-            console.log(err);
+            console.error(err);
             // Create an actual output_area and output_subarea, which creates
             // the prompt area and the proper indentation.
             var toinsert = this.create_output_area();
@@ -585,45 +585,40 @@ define([
 
     OutputArea.prototype.append_display_data = function (json, handle_inserted) {
         var oa = this;
-        var update_targets;
+        var targets;
         var display_id = (json.transient || {}).display_id;
         var is_update = (json.transient || {})._is_update;
-        if (is_update) {
-            // consume _is_update marker
-            delete json.transient._is_update;
-        }
         var record = !is_update;
         if (display_id) {
             // it has a display_id;
-            update_targets = this._display_id_targets[display_id];
-            if (update_targets) {
+            targets = this._display_id_targets[display_id];
+            if (targets) {
                 // we've seen it before, update output data
-                update_targets.map(function (target) {
+                targets.map(function (target) {
                     oa.outputs[target.index] = json;
                 });
             } else {
                 // not seen before, create and record new output area
-                update_targets = this._display_id_targets[display_id] = [{
-                    index: this.outputs.length,
-                    element: null,
-                }];
+                targets = this._display_id_targets[display_id] = [];
             }
-        }
-        if (update_targets) {
-            // updating multiple 
-            update_targets.map(function (target) {
-                var toinsert = oa.create_output_area();
-                if (oa.append_mime_type(json, toinsert, handle_inserted)) {
-                    oa._safe_append(toinsert, target.element);
-                }
-                target.element = toinsert;
-            });
         } else {
-            var toinsert = this.create_output_area();
-            if (oa.append_mime_type(json, toinsert, handle_inserted)) {
-                oa._safe_append(toinsert);
-            }
+            targets = [];
         }
+        if (record) {
+            // if it's a display and not an update, add a new output
+            targets.push({
+                index: this.outputs.length,
+                element: null,
+            });
+        }
+        // updating multiple 
+        targets.map(function (target) {
+            var toinsert = oa.create_output_area();
+            if (oa.append_mime_type(json, toinsert, handle_inserted)) {
+                oa._safe_append(toinsert, target.element);
+            }
+            target.element = toinsert;
+        });
         // If we just output latex, typeset it.
         if ((json.data[MIME_LATEX] !== undefined) ||
             (json.data[MIME_HTML] !== undefined) ||
