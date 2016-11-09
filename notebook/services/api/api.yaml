@@ -564,6 +564,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Terminal_ID'
+        403:
+          description: Forbidden to access
+        404:
+          description: Not found
 
     post:
       summary: Create a new terminal
@@ -571,9 +575,13 @@ paths:
         - terminals
       responses:
         200:
-          description: Response description
+          description: Succesfully created a new terminal
           schema:
             $ref: '#/definitions/Terminal_ID'
+        403:
+          description: Forbidden to access
+        404:
+          description: Not found
 
   /terminals/{terminal_id}:
     get:
@@ -584,9 +592,14 @@ paths:
         - $ref: '#/parameters/terminal_id'
       responses:
         200:
-          description: An object containing
+          description: Terminal session with given id
           schema:
             $ref: '#/definitions/Terminal_ID'
+        403:
+          description: Forbidden to access
+        404:
+          description: Not found
+
     delete:
       summary: Delete a terminal session corresponding to an id.
       tags:
@@ -594,10 +607,13 @@ paths:
       parameters:
         - $ref: '#/parameters/terminal_id'
       responses:
-        200:
-          description: Response description
-          schema:
-            type: Object
+        204:
+          description: Succesfully deleted terminal session
+        403:
+          description: Forbidden to access
+        404:
+          description: Not found
+
 
 
 
@@ -764,7 +780,7 @@ definitions:
     description: A Terminal_ID object
     type: object
     required:
-      -name
+      - name
     properties:
       name:
         type: string
