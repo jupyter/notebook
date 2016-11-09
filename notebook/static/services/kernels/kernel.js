@@ -41,7 +41,7 @@ define([
         this.username = "username";
         this.session_id = utils.uuid();
         this._msg_callbacks = {};
-        this._display_id_targets = {};
+        this._display_id_to_parent_ids = {};
         this._msg_queue = Promise.resolve();
         this.info_reply = {}; // kernel_info_reply stored here after starting
 
@@ -301,7 +301,7 @@ define([
         this.events.trigger('kernel_restarting.Kernel', {kernel: this});
         this.stop_channels();
         this._msg_callbacks = {};
-        this._display_id_targets = {};
+        this._display_id_to_parent_ids = {};
 
         var that = this;
         var on_success = function (data, status, xhr) {
@@ -862,17 +862,17 @@ define([
             // clear display_id:msg_id map for display_ids associated with this msg_id
             if (!callbacks) return;
             callbacks.display_ids.map(function (display_id) {
-                var msg_ids = kernel._display_id_targets[display_id];
+                var msg_ids = kernel._display_id_to_parent_ids[display_id];
                 if (msg_ids) {
                     var idx = msg_ids.indexOf(msg_id);
                     if (idx === -1) {
                         return;
                     }
                     if (msg_ids.length === 1) {
-                        delete kernel._display_id_targets[display_id];
+                        delete kernel._display_id_to_parent_ids[display_id];
                     } else {
                         msg_ids.splice(idx, 1);
-                        kernel._display_id_targets[display_id] = msg_ids;
+                        kernel._display_id_to_parent_ids[display_id] = msg_ids;
                     }
                 }
             });
@@ -1084,15 +1084,15 @@ define([
             var display_id = (msg.content.transient || {}).display_id;
             if (display_id) {
                 // it has a display_id
-                var target_msg_ids = this._display_id_targets[display_id];
-                if (target_msg_ids) {
-                    // we've seen it before, update existing outputs with same id
+                var parent_ids = this._display_id_to_parent_ids[display_id];
+                if (parent_ids) {
+                    // we've seen it before, update existing outputs with same display_id
                     // by handling display_data as update_display_data
                     var update_msg = $.extend(true, {}, msg);
                     update_msg.header.msg_type = 'update_display_data';
 
-                    target_msg_ids.map(function (target_msg_id) {
-                        var callbacks = that.get_callbacks_for_msg(target_msg_id);
+                    parent_ids.map(function (parent_id) {
+                        var callbacks = that.get_callbacks_for_msg(parent_id);
                         if (!callbacks) return;
                         var callback = callbacks.iopub.output;
                         if (callback) {
@@ -1106,12 +1106,12 @@ define([
                     return;
                 }
                 // regular display_data with id, record it for future updating
-                // in display_id_targets for future lookup
-                if (this._display_id_targets[display_id] === undefined) {
-                    this._display_id_targets[display_id] = [];
+                // in _display_id_to_parent_ids for future lookup
+                if (this._display_id_to_parent_ids[display_id] === undefined) {
+                    this._display_id_to_parent_ids[display_id] = [];
                 }
-                if (this._display_id_targets[display_id].indexOf(msg_id) === -1) {
-                    this._display_id_targets[display_id].push(msg_id);
+                if (this._display_id_to_parent_ids[display_id].indexOf(msg_id) === -1) {
+                    this._display_id_to_parent_ids[display_id].push(msg_id);
                 }
                 // and in callbacks for cleanup on clear_callbacks_for_msg
                 if (callbacks && callbacks.display_ids.indexOf(display_id) === -1) {
