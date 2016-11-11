@@ -1242,7 +1242,7 @@ def list_running_servers(runtime_dir=None):
             else:
                 # If the process has died, try to delete its info file
                 try:
-                    os.unlink(file)
+                    os.unlink(os.path.join(runtime_dir, file))
                 except OSError:
                     pass  # TODO: This should warn or log or something
 #-----------------------------------------------------------------------------
