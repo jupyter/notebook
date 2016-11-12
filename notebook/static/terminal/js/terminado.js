@@ -2,12 +2,9 @@ define (["xterm"], function(Terminal) {
     "use strict";
     function make_terminal(element, size, ws_url) {
         var ws = new WebSocket(ws_url);
-        Terminal.brokenBold = true;
         var term = new Terminal({
           cols: size.cols,
-          rows: size.rows,
-          screenKeys: false,
-          useStyle: false
+          rows: size.rows
         });
         ws.onopen = function(event) {
             ws.send(JSON.stringify(["set_size", size.rows, size.cols,
