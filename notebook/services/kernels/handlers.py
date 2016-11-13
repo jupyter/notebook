@@ -260,6 +260,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
     
     def open(self, kernel_id):
         super(ZMQChannelsHandler, self).open()
+        self.kernel_manager.notify_connect(kernel_id)
         try:
             self.create_stream()
         except web.HTTPError as e:
@@ -401,6 +402,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             self._open_sessions.pop(self.session_key)
         km = self.kernel_manager
         if self.kernel_id in km:
+            km.notify_disconnect(self.kernel_id)
             km.remove_restart_callback(
                 self.kernel_id, self.on_kernel_restarted,
             )

@@ -14,7 +14,7 @@ from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
 
 from jupyter_client.multikernelmanager import MultiKernelManager
-from traitlets import List, Unicode, TraitError, default, validate
+from traitlets import Dict, List, Unicode, TraitError, default, validate
 
 from notebook.utils import to_os_path
 from notebook.services.contents.tz import utcnow
@@ -31,6 +31,8 @@ class MappingKernelManager(MultiKernelManager):
     kernel_argv = List(Unicode())
 
     root_dir = Unicode(config=True)
+    
+    _kernel_connections = Dict()
 
     @default('root_dir')
     def _default_root_dir(self):
@@ -91,6 +93,7 @@ class MappingKernelManager(MultiKernelManager):
             kernel_id = yield gen.maybe_future(
                 super(MappingKernelManager, self).start_kernel(**kwargs)
             )
+            self._kernel_connections[kernel_id] = 0
             self.start_watching_activity(kernel_id)
             self.log.info("Kernel started: %s" % kernel_id)
             self.log.debug("Kernel args: %r" % kwargs)
@@ -109,6 +112,7 @@ class MappingKernelManager(MultiKernelManager):
         """Shutdown a kernel by kernel_id"""
         self._check_kernel_id(kernel_id)
         self._kernels[kernel_id]._activity_stream.close()
+        self._kernel_connections.pop(kernel_id, None)
         return super(MappingKernelManager, self).shutdown_kernel(kernel_id, now=now)
 
     def restart_kernel(self, kernel_id):
@@ -152,6 +156,16 @@ class MappingKernelManager(MultiKernelManager):
         timeout = loop.add_timeout(loop.time() + 30, on_timeout)
         return future
 
+    def notify_connect(self, kernel_id):
+        """Notice a new connection to a kernel"""
+        if kernel_id in self._kernel_connections:
+            self._kernel_connections[kernel_id] += 1
+
+    def notify_disconnect(self, kernel_id):
+        """Notice a disconnection from a kernel"""
+        if kernel_id in self._kernel_connections:
+            self._kernel_connections[kernel_id] -= 1
+
     def kernel_model(self, kernel_id):
         """Return a JSON-safe dict representing a kernel
 
@@ -165,6 +179,7 @@ class MappingKernelManager(MultiKernelManager):
             "name": kernel.kernel_name,
             "last_activity": kernel.last_activity,
             "execution_state": kernel.execution_state,
+            "connections": self._kernel_connections[kernel_id],
         }
         return model
 
@@ -204,7 +219,7 @@ class MappingKernelManager(MultiKernelManager):
             idents, fed_msg_list = kernel.session.feed_identities(msg_list)
             msg = kernel.session.deserialize(fed_msg_list)
             msg_type = msg['header']['msg_type']
-            self.log.info("activity on %s: %s", kernel_id, msg_type)
+            self.log.debug("activity on %s: %s", kernel_id, msg_type)
             if msg_type == 'status':
                 kernel.execution_state = msg['content']['execution_state']
 

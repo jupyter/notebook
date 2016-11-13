@@ -1,7 +1,10 @@
 """Test the kernels service API."""
 
 import json
+
 import requests
+from tornado.websocket import websocket_connect
+from tornado.ioloop import IOLoop
 
 from jupyter_client.kernelspec import NATIVE_KERNEL_NAME
 
@@ -44,6 +47,14 @@ class KernelAPI(object):
 
     def restart(self, id):
         return self._req('POST', url_path_join(id, 'restart'))
+
+    def websocket(self, id):
+        loop = IOLoop()
+        f = websocket_connect(url_path_join(
+            self.base_url.replace('http', 'ws', 1), 'api/kernels', id, 'channels'),
+            io_loop=loop)
+        return loop.run_sync(lambda : f)
+
 
 class KernelAPITest(NotebookTestBase):
     """Test the kernels web service API"""
@@ -144,3 +155,15 @@ class KernelAPITest(NotebookTestBase):
         bad_id = '111-111-111-111-111'
         with assert_http_error(404, 'Kernel does not exist: ' + bad_id):
             self.kern_api.shutdown(bad_id)
+
+    def test_connections(self):
+        kid = self.kern_api.start().json()['id']
+        model = self.kern_api.get(kid).json()
+        assert model['connections'] == 0
+
+        ws = self.kern_api.websocket(kid)
+        model = self.kern_api.get(kid).json()
+        assert model['connections'] == 1
+        ws.close()
+        model = self.kern_api.get(kid).json()
+        assert model['connections'] == 0
