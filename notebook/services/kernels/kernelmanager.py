@@ -17,7 +17,7 @@ from jupyter_client.multikernelmanager import MultiKernelManager
 from traitlets import Dict, List, Unicode, TraitError, default, validate
 
 from notebook.utils import to_os_path
-from notebook.services.contents.tz import utcnow
+from notebook.services.contents.tz import utcnow, isoformat
 from ipython_genutils.py3compat import getcwd
 
 
@@ -177,7 +177,7 @@ class MappingKernelManager(MultiKernelManager):
         model = {
             "id":kernel_id,
             "name": kernel.kernel_name,
-            "last_activity": kernel.last_activity,
+            "last_activity": isoformat(kernel.last_activity),
             "execution_state": kernel.execution_state,
             "connections": self._kernel_connections[kernel_id],
         }

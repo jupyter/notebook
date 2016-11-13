@@ -9,14 +9,14 @@ from tornado.ioloop import IOLoop
 from ..sessionmanager import SessionManager
 from notebook.services.kernels.kernelmanager import MappingKernelManager
 from notebook.services.contents.manager import ContentsManager
-from notebook.services.contents.tz import utcnow
+from notebook.services.contents.tz import utcnow, isoformat
 
 class DummyKernel(object):
     def __init__(self, kernel_name='python'):
         self.kernel_name = kernel_name
 
 dummy_date = utcnow()
-dummy_date_s = dummy_date.isoformat()
+dummy_date_s = isoformat(dummy_date)
 
 class DummyMKM(MappingKernelManager):
     """MappingKernelManager interface that doesn't start kernels, for testing"""
@@ -74,7 +74,7 @@ class TestSessionManager(TestCase):
                     'kernel': {
                         'id': 'A',
                         'name': 'bar',
-                        'last_activity': dummy_date,
+                        'last_activity': dummy_date_s,
                         'execution_state': 'idle',
                     }}
         self.assertEqual(model, expected)
@@ -116,7 +116,7 @@ class TestSessionManager(TestCase):
                 'kernel': {
                     'id': 'A',
                     'name':'python',
-                    'last_activity': dummy_date,
+                    'last_activity': dummy_date_s,
                     'execution_state': 'idle',
                 }
             }, {
@@ -127,7 +127,7 @@ class TestSessionManager(TestCase):
                 'kernel': {
                     'id': 'B',
                     'name':'python',
-                    'last_activity': dummy_date,
+                    'last_activity': dummy_date_s,
                     'execution_state': 'idle',
                 }
             }, {
@@ -138,7 +138,7 @@ class TestSessionManager(TestCase):
                 'kernel': {
                     'id': 'C',
                     'name':'python',
-                    'last_activity': dummy_date,
+                    'last_activity': dummy_date_s,
                     'execution_state': 'idle',
                 }
             }
@@ -164,7 +164,7 @@ class TestSessionManager(TestCase):
                 'kernel': {
                     'id': 'B',
                     'name':'python',
-                    'last_activity': dummy_date,
+                    'last_activity': dummy_date_s,
                     'execution_state': 'idle',
                 }
             }
@@ -185,7 +185,7 @@ class TestSessionManager(TestCase):
                     'kernel': {
                         'id': 'A',
                         'name':'julia',
-                        'last_activity': dummy_date,
+                        'last_activity': dummy_date_s,
                         'execution_state': 'idle',
                     }
         }
@@ -216,7 +216,7 @@ class TestSessionManager(TestCase):
                 'kernel': {
                     'id': 'A',
                     'name':'python',
-                    'last_activity': dummy_date,
+                    'last_activity': dummy_date_s,
                     'execution_state': 'idle',
                 }
             }, {
@@ -227,7 +227,7 @@ class TestSessionManager(TestCase):
                 'kernel': {
                     'id': 'C',
                     'name':'python',
-                    'last_activity': dummy_date,
+                    'last_activity': dummy_date_s,
                     'execution_state': 'idle',
                 }
             }

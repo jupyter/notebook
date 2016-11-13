@@ -5,22 +5,11 @@ Timezone utilities
 Just UTC-awareness right now
 """
 
-#-----------------------------------------------------------------------------
-#  Copyright (C) 2013 The IPython Development Team
-#
-#  Distributed under the terms of the BSD License.  The full license is in
-#  the file COPYING, distributed as part of this software.
-#-----------------------------------------------------------------------------
-
-#-----------------------------------------------------------------------------
-# Imports
-#-----------------------------------------------------------------------------
+# Copyright (c) Jupyter Development Team.
+# Distributed under the terms of the Modified BSD License.
 
 from datetime import tzinfo, timedelta, datetime
 
-#-----------------------------------------------------------------------------
-# Code
-#-----------------------------------------------------------------------------
 # constant for zero offset
 ZERO = timedelta(0)
 
@@ -44,3 +33,10 @@ def utc_aware(unaware):
 
 utcfromtimestamp = utc_aware(datetime.utcfromtimestamp)
 utcnow = utc_aware(datetime.utcnow)
+
+def isoformat(dt):
+    """Return iso-formatted timestamp
+    
+    Like .isoformat(), but uses Z for UTC instead of +00:00
+    """
+    return dt.isoformat().replace('+00:00', 'Z')
