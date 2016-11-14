@@ -12,7 +12,7 @@ pjoin = os.path.join
 import requests
 
 from jupyter_client.kernelspec import NATIVE_KERNEL_NAME
-from notebook.utils import url_path_join
+from notebook.utils import url_path_join, url_escape
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 
 # Copied from jupyter_client.tests.test_kernelspec so updating that doesn't
@@ -46,10 +46,16 @@ class KernelSpecAPI(object):
     def kernel_resource(self, name, path):
         return self._req('GET', url_path_join('kernelspecs', name, path))
 
+
 class APITest(NotebookTestBase):
     """Test the kernelspec web service API"""
     def setUp(self):
-        sample_kernel_dir = pjoin(self.data_dir.name, 'kernels', 'sample')
+        self.create_spec('sample')
+        self.create_spec('sample 2')
+        self.ks_api = KernelSpecAPI(self.base_url())
+
+    def create_spec(self, name):
+        sample_kernel_dir = pjoin(self.data_dir.name, 'kernels', name)
         try:
             os.makedirs(sample_kernel_dir)
         except OSError as e:
@@ -62,8 +68,6 @@ class APITest(NotebookTestBase):
         with io.open(pjoin(sample_kernel_dir, 'resource.txt'), 'w',
                      encoding='utf-8') as f:
             f.write(some_resource)
-
-        self.ks_api = KernelSpecAPI(self.base_url())
 
     def test_list_kernelspecs_bad(self):
         """Can list kernelspecs when one is invalid"""
@@ -112,6 +116,10 @@ class APITest(NotebookTestBase):
         self.assertIsInstance(model['spec'], dict)
         self.assertEqual(model['spec']['display_name'], 'Test kernel')
         self.assertIsInstance(model['resources'], dict)
+
+    def test_get_kernelspec_spaces(self):
+        model = self.ks_api.kernel_spec_info('sample%202').json()
+        self.assertEqual(model['name'].lower(), 'sample 2')
 
     def test_get_nonexistant_kernelspec(self):
         with assert_http_error(404):
