@@ -315,7 +315,7 @@ define([
     };
 
     MarkdownCell.prototype.select = function () {
-        var cont = TextCell.prototype.select.apply(this);
+        var cont = TextCell.prototype.select.apply(this, arguments);
         if (cont) {
             this.notebook.set_insert_image_enabled(!this.rendered);
         }
