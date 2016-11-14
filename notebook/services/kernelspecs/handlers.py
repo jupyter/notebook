@@ -69,6 +69,7 @@ class KernelSpecHandler(APIHandler):
     @web.authenticated
     @json_errors
     def get(self, kernel_name):
+        print('hello', kernel_name, url_unescape(kernel_name))
         try:
             model = kernelspec_model(self, url_unescape(kernel_name))
         except KeyError:
@@ -79,7 +80,7 @@ class KernelSpecHandler(APIHandler):
 
 # URL to handler mappings
 
-kernel_name_regex = r"(?P<kernel_name>[\w\.\-]+)"
+kernel_name_regex = r"(?P<kernel_name>[\w\.\-%]+)"
 
 default_handlers = [
     (r"/api/kernelspecs", MainKernelSpecHandler),

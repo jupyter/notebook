@@ -41,17 +41,21 @@ class KernelSpecAPI(object):
         return self._req('GET', 'api/kernelspecs')
 
     def kernel_spec_info(self, name):
-        name = url_escape(name)
         return self._req('GET', url_path_join('api/kernelspecs', name))
     
     def kernel_resource(self, name, path):
-        name = url_escape(name)
         return self._req('GET', url_path_join('kernelspecs', name, path))
+
 
 class APITest(NotebookTestBase):
     """Test the kernelspec web service API"""
     def setUp(self):
-        sample_kernel_dir = pjoin(self.data_dir.name, 'kernels', 'sample')
+        self.create_spec('sample')
+        self.create_spec('sample 2')
+        self.ks_api = KernelSpecAPI(self.base_url())
+
+    def create_spec(self, name):
+        sample_kernel_dir = pjoin(self.data_dir.name, 'kernels', name)
         try:
             os.makedirs(sample_kernel_dir)
         except OSError as e:
@@ -64,8 +68,6 @@ class APITest(NotebookTestBase):
         with io.open(pjoin(sample_kernel_dir, 'resource.txt'), 'w',
                      encoding='utf-8') as f:
             f.write(some_resource)
-
-        self.ks_api = KernelSpecAPI(self.base_url())
 
     def test_list_kernelspecs_bad(self):
         """Can list kernelspecs when one is invalid"""
@@ -116,7 +118,7 @@ class APITest(NotebookTestBase):
         self.assertIsInstance(model['resources'], dict)
 
     def test_get_kernelspec_spaces(self):
-        model = self.ks_api.kernel_spec_info('sample 2').json()
+        model = self.ks_api.kernel_spec_info('sample%202').json()
         self.assertEqual(model['name'].lower(), 'sample 2')
 
     def test_get_nonexistant_kernelspec(self):
