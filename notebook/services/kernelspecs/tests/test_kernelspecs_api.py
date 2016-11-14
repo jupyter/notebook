@@ -12,7 +12,7 @@ pjoin = os.path.join
 import requests
 
 from jupyter_client.kernelspec import NATIVE_KERNEL_NAME
-from notebook.utils import url_path_join
+from notebook.utils import url_path_join, url_escape
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 
 # Copied from jupyter_client.tests.test_kernelspec so updating that doesn't
@@ -41,9 +41,11 @@ class KernelSpecAPI(object):
         return self._req('GET', 'api/kernelspecs')
 
     def kernel_spec_info(self, name):
+        name = url_escape(name)
         return self._req('GET', url_path_join('api/kernelspecs', name))
     
     def kernel_resource(self, name, path):
+        name = url_escape(name)
         return self._req('GET', url_path_join('kernelspecs', name, path))
 
 class APITest(NotebookTestBase):
@@ -112,6 +114,10 @@ class APITest(NotebookTestBase):
         self.assertIsInstance(model['spec'], dict)
         self.assertEqual(model['spec']['display_name'], 'Test kernel')
         self.assertIsInstance(model['resources'], dict)
+
+    def test_get_kernelspec_spaces(self):
+        model = self.ks_api.kernel_spec_info('sample 2').json()
+        self.assertEqual(model['name'].lower(), 'sample 2')
 
     def test_get_nonexistant_kernelspec(self):
         with assert_http_error(404):

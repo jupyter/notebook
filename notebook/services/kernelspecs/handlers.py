@@ -14,7 +14,7 @@ pjoin = os.path.join
 from tornado import web
 
 from ...base.handlers import APIHandler, json_errors
-from ...utils import url_path_join
+from ...utils import url_path_join, url_unescape
 
 def kernelspec_model(handler, name):
     """Load a KernelSpec by name and return the REST API model"""
@@ -70,7 +70,7 @@ class KernelSpecHandler(APIHandler):
     @json_errors
     def get(self, kernel_name):
         try:
-            model = kernelspec_model(self, kernel_name)
+            model = kernelspec_model(self, url_unescape(kernel_name))
         except KeyError:
             raise web.HTTPError(404, u'Kernel spec %s not found' % kernel_name)
         self.set_header("Content-Type", 'application/json')
