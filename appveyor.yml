@@ -14,7 +14,7 @@ platform:
 build: off
 
 install:
-  - appveyor DownloadFile "https://raw.githubusercontent.com/pelson/Obvious-CI/master/bootstrap-obvious-ci-and-miniconda.py"
+  - appveyor DownloadFile "https://raw.githubusercontent.com/conda-forge/conda-smithy/master/bootstrap-obvious-ci-and-miniconda.py"
   - cmd: python bootstrap-obvious-ci-and-miniconda.py %CONDA_INSTALL_LOCN% %platform% %CONDA_PY:~0,1% --without-obvci
 
   # Add a hack to switch to `conda` version `4.1.12` before activating.
