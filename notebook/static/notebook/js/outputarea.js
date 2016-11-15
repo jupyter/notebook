@@ -258,7 +258,7 @@ define([
         }
         var data = bundle.data;
         $.map(OutputArea.output_types, function(key){
-            if (key !== 'application/json' &&
+            if ((key.indexOf('application/') === -1 || key.indexOf('json') === -1) &&
                 data[key] !== undefined &&
                 typeof data[key] !== 'string'
             ) {
