@@ -224,23 +224,13 @@ define([
             json.text = content.text;
             json.name = content.name;
             break;
+        case "execute_result":
+            json.execution_count = content.execution_count;
         case "update_display_data":
-            // treat it like display_data
-            json.output_type = "display_data";
-            json.transient = content.transient || {};
-            json.transient._is_update = true;
-            json.data = content.data;
-            json.metadata = content.metadata;
-            break;
         case "display_data":
             json.transient = content.transient;
             json.data = content.data;
             json.metadata = content.metadata;
-            break;
-        case "execute_result":
-            json.data = content.data;
-            json.metadata = content.metadata;
-            json.execution_count = content.execution_count;
             break;
         case "error":
             json.ename = content.ename;
@@ -301,7 +291,7 @@ define([
         return bundle;
     };
     
-    OutputArea.prototype.append_output = function (json, msg) {
+    OutputArea.prototype.append_output = function (json) {
         this.expand();
         
         // Clear the output if clear is queued.
@@ -313,6 +303,11 @@ define([
 
         var record_output = true;
         switch(json.output_type) {
+            case 'update_display_data':
+                record_output = false;
+                json = this.validate_mimebundle(json);
+                this.update_display_data(json);
+                return;
             case 'execute_result':
                 json = this.validate_mimebundle(json);
                 this.append_execute_result(json);
@@ -348,7 +343,7 @@ define([
             that.element.trigger('resize');
         };
         if (json.output_type === 'display_data') {
-            record_output = this.append_display_data(json, handle_appended);
+            this.append_display_data(json, handle_appended);
         } else {
             handle_appended();
         }
@@ -451,7 +446,7 @@ define([
             console.error(err);
             // Create an actual output_area and output_subarea, which creates
             // the prompt area and the proper indentation.
-            var toinsert = this.create_output_area();
+            toinsert = this.create_output_area();
             var subarea = $('<div/>').addClass('output_subarea');
             toinsert.append(subarea);
             this._append_javascript_error(err, subarea);
@@ -466,6 +461,7 @@ define([
     OutputArea.prototype.append_execute_result = function (json) {
         var n = json.execution_count || ' ';
         var toinsert = this.create_output_area();
+        this._record_display_id(json, toinsert);
         if (this.prompt_area) {
             toinsert.find('div.prompt').addClass('output_prompt').text('Out[' + n + ']:');
         }
@@ -583,49 +579,65 @@ define([
     };
 
 
-    OutputArea.prototype.append_display_data = function (json, handle_inserted) {
+    OutputArea.prototype.update_display_data = function (json, handle_inserted) {
         var oa = this;
         var targets;
         var display_id = (json.transient || {}).display_id;
-        var is_update = (json.transient || {})._is_update;
-        var record = !is_update;
-        if (display_id) {
-            // it has a display_id;
-            targets = this._display_id_targets[display_id];
-            if (targets) {
-                // we've seen it before, update output data
-                targets.map(function (target) {
-                    oa.outputs[target.index] = json;
-                });
-            } else {
-                // not seen before, create and record new output area
-                targets = this._display_id_targets[display_id] = [];
-            }
-        } else {
-            targets = [];
+        if (!display_id) {
+            console.warn("Handling update_display with no display_id", json);
+            return;
         }
-        if (record) {
-            // if it's a display and not an update, add a new output
-            targets.push({
-                index: this.outputs.length,
-                element: null,
-            });
+        targets = this._display_id_targets[display_id];
+        if (!targets) {
+            console.warn("No targets for display_id", display_id, json);
+            return;
         }
-        // updating multiple 
+        // we've seen it before, update output data
         targets.map(function (target) {
+            oa.outputs[target.index].data = json.data;
+            oa.outputs[target.index].metadata = json.metadata;
             var toinsert = oa.create_output_area();
             if (oa.append_mime_type(json, toinsert, handle_inserted)) {
                 oa._safe_append(toinsert, target.element);
             }
             target.element = toinsert;
         });
-        // If we just output latex, typeset it.
+
+        // If we just output something that could contain latex, typeset it.
         if ((json.data[MIME_LATEX] !== undefined) ||
             (json.data[MIME_HTML] !== undefined) ||
             (json.data[MIME_MARKDOWN] !== undefined)) {
             this.typeset();
         }
-        return record;
+    };
+
+    OutputArea.prototype._record_display_id = function (json, element) {
+        // record display_id of a display_data / execute_result
+        var display_id = (json.transient || {}).display_id;
+        if (!display_id) return;
+        // it has a display_id;
+        var targets = this._display_id_targets[display_id];
+        if (!targets) {
+            targets = this._display_id_targets[display_id] = [];
+        }
+        targets.push({
+            index: this.outputs.length,
+            element: element,
+        });
+    };
+    
+    OutputArea.prototype.append_display_data = function (json, handle_inserted) {
+        var toinsert = this.create_output_area();
+        this._record_display_id(json, toinsert);
+        if (this.append_mime_type(json, toinsert, handle_inserted)) {
+            this._safe_append(toinsert);
+            // If we just output latex, typeset it.
+            if ((json.data[MIME_LATEX] !== undefined) ||
+                (json.data[MIME_HTML] !== undefined) ||
+                (json.data[MIME_MARKDOWN] !== undefined)) {
+                this.typeset();
+            }
+        }
     };
 
 

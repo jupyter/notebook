@@ -1079,7 +1079,7 @@ define([
         var that = this;
         var msg_id = msg.parent_header.msg_id;
         var callbacks = this.get_callbacks_for_msg(msg_id);
-        if (['display_data', 'update_display_data'].indexOf(msg.header.msg_type) > -1) {
+        if (['display_data', 'update_display_data', 'execute_result'].indexOf(msg.header.msg_type) > -1) {
             // display_data messages may re-route based on their display_id
             var display_id = (msg.content.transient || {}).display_id;
             if (display_id) {
