@@ -20,9 +20,7 @@ except ImportError:
     from urlparse import urlparse # Py 2
 
 from jinja2 import TemplateNotFound
-from tornado import web
-
-from tornado import gen, escape
+from tornado import web, gen, escape
 from tornado.log import app_log
 
 from notebook._sysinfo import get_sys_info
@@ -100,6 +98,16 @@ class AuthenticatedHandler(web.RequestHandler):
         return self.settings.get('login_handler_class', None)
 
     @property
+    def token(self):
+        """Return the login token for this application, if any."""
+        return self.settings.get('token', None)
+
+    @property
+    def one_time_token(self):
+        """Return the one-time-use token for this application, if any."""
+        return self.settings.get('one_time_token', None)
+
+    @property
     def login_available(self):
         """May a user proceed to log in?
 
@@ -109,7 +117,7 @@ class AuthenticatedHandler(web.RequestHandler):
         """
         if self.login_handler is None:
             return False
-        return bool(self.login_handler.login_available(self.settings))
+        return bool(self.login_handler.get_login_available(self.settings))
 
 
 class IPythonHandler(AuthenticatedHandler):
@@ -313,6 +321,7 @@ class IPythonHandler(AuthenticatedHandler):
             ws_url=self.ws_url,
             logged_in=self.logged_in,
             login_available=self.login_available,
+            token_available=bool(self.token or self.one_time_token),
             static_url=self.static_url,
             sys_info=sys_info,
             contents_js_source=self.contents_js_source,
@@ -598,6 +607,17 @@ class FilesRedirectHandler(IPythonHandler):
     def get(self, path=''):
         return self.redirect_to_files(self, path)
 
+
+class RedirectWithParams(web.RequestHandler):
+    """Sam as web.RedirectHandler, but preserves URL parameters"""
+    def initialize(self, url, permanent=True):
+        self._url = url
+        self._permanent = permanent
+
+    def get(self):
+        sep = '&' if '?' in self._url else '?'
+        url = sep.join([self._url, self.request.query])
+        self.redirect(url, permanent=self._permanent)
 
 #-----------------------------------------------------------------------------
 # URL pattern fragments for re-use
