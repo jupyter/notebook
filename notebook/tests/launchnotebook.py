@@ -97,6 +97,7 @@ class NotebookTestBase(TestCase):
                 notebook_dir=cls.notebook_dir.name,
                 base_url=cls.url_prefix,
                 config=cls.config,
+                token='',
             )
             # don't register signal handler during tests
             app.init_signal = lambda : None
