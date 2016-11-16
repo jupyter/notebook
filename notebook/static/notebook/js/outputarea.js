@@ -1,6 +1,6 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-
+// jshint esnext: true
 define([
     'base/js/utils',
     'base/js/security',
@@ -34,6 +34,7 @@ define([
         } else {
             this.prompt_area = options.prompt_area;
         }
+        this._display_id_targets = {};
         this.create_elements();
         this.style();
         this.bind_events();
@@ -218,22 +219,26 @@ define([
         var json = {};
         var msg_type = json.output_type = msg.header.msg_type;
         var content = msg.content;
-        if (msg_type === "stream") {
+        switch(msg_type) {
+        case "stream" :
             json.text = content.text;
             json.name = content.name;
-        } else if (msg_type === "display_data") {
-            json.data = content.data;
-            json.metadata = content.metadata;
-        } else if (msg_type === "execute_result") {
-            json.data = content.data;
-            json.metadata = content.metadata;
+            break;
+        case "execute_result":
             json.execution_count = content.execution_count;
-        } else if (msg_type === "error") {
+        case "update_display_data":
+        case "display_data":
+            json.transient = content.transient;
+            json.data = content.data;
+            json.metadata = content.metadata;
+            break;
+        case "error":
             json.ename = content.ename;
             json.evalue = content.evalue;
             json.traceback = content.traceback;
-        } else {
-            console.log("unhandled output message", msg);
+            break;
+        default:
+            console.error("unhandled output message", msg);
             return;
         }
         this.append_output(json);
@@ -298,6 +303,11 @@ define([
 
         var record_output = true;
         switch(json.output_type) {
+            case 'update_display_data':
+                record_output = false;
+                json = this.validate_mimebundle(json);
+                this.update_display_data(json);
+                return;
             case 'execute_result':
                 json = this.validate_mimebundle(json);
                 this.append_execute_result(json);
@@ -419,7 +429,7 @@ define([
             .append($('<div/>').text('See your browser Javascript console for more details.').addClass('js-error'));
     };
     
-    OutputArea.prototype._safe_append = function (toinsert) {
+    OutputArea.prototype._safe_append = function (toinsert, toreplace) {
         /**
          * safely append an item to the document
          * this is an object created by user code,
@@ -427,12 +437,16 @@ define([
          * under any circumstances.
          */
         try {
-            this.element.append(toinsert);
+            if (toreplace) {
+                toreplace.replaceWith(toinsert);
+            } else {
+                this.element.append(toinsert);
+            }
         } catch(err) {
-            console.log(err);
+            console.error(err);
             // Create an actual output_area and output_subarea, which creates
             // the prompt area and the proper indentation.
-            var toinsert = this.create_output_area();
+            toinsert = this.create_output_area();
             var subarea = $('<div/>').addClass('output_subarea');
             toinsert.append(subarea);
             this._append_javascript_error(err, subarea);
@@ -447,6 +461,7 @@ define([
     OutputArea.prototype.append_execute_result = function (json) {
         var n = json.execution_count || ' ';
         var toinsert = this.create_output_area();
+        this._record_display_id(json, toinsert);
         if (this.prompt_area) {
             toinsert.find('div.prompt').addClass('output_prompt').text('Out[' + n + ']:');
         }
@@ -564,8 +579,56 @@ define([
     };
 
 
+    OutputArea.prototype.update_display_data = function (json, handle_inserted) {
+        var oa = this;
+        var targets;
+        var display_id = (json.transient || {}).display_id;
+        if (!display_id) {
+            console.warn("Handling update_display with no display_id", json);
+            return;
+        }
+        targets = this._display_id_targets[display_id];
+        if (!targets) {
+            console.warn("No targets for display_id", display_id, json);
+            return;
+        }
+        // we've seen it before, update output data
+        targets.map(function (target) {
+            oa.outputs[target.index].data = json.data;
+            oa.outputs[target.index].metadata = json.metadata;
+            var toinsert = oa.create_output_area();
+            if (oa.append_mime_type(json, toinsert, handle_inserted)) {
+                oa._safe_append(toinsert, target.element);
+            }
+            target.element = toinsert;
+        });
+
+        // If we just output something that could contain latex, typeset it.
+        if ((json.data[MIME_LATEX] !== undefined) ||
+            (json.data[MIME_HTML] !== undefined) ||
+            (json.data[MIME_MARKDOWN] !== undefined)) {
+            this.typeset();
+        }
+    };
+
+    OutputArea.prototype._record_display_id = function (json, element) {
+        // record display_id of a display_data / execute_result
+        var display_id = (json.transient || {}).display_id;
+        if (!display_id) return;
+        // it has a display_id;
+        var targets = this._display_id_targets[display_id];
+        if (!targets) {
+            targets = this._display_id_targets[display_id] = [];
+        }
+        targets.push({
+            index: this.outputs.length,
+            element: element,
+        });
+    };
+    
     OutputArea.prototype.append_display_data = function (json, handle_inserted) {
         var toinsert = this.create_output_area();
+        this._record_display_id(json, toinsert);
         if (this.append_mime_type(json, toinsert, handle_inserted)) {
             this._safe_append(toinsert);
             // If we just output latex, typeset it.
@@ -859,7 +922,7 @@ define([
         // remove form container
         container.parent().remove();
         // replace with plaintext version in stdout
-        this.append_output(content, false);
+        this.append_output(content);
         this.events.trigger('send_input_reply.Kernel', value);
     };
 
@@ -905,6 +968,7 @@ define([
             this.element.trigger('changed');
             
             this.outputs = [];
+            this._display_id_targets = {};
             this.trusted = true;
             this.unscroll_area();
             return;
@@ -938,9 +1002,20 @@ define([
         }
     };
 
-
+    /**
+     * Return for-saving version of outputs.
+     * Excludes transient values.
+     */
     OutputArea.prototype.toJSON = function () {
-        return this.outputs;
+        return this.outputs.map(function (out) {
+            var out2 = {};
+            Object.keys(out).map(function (key) {
+                if (key != 'transient') {
+                    out2[key] = out[key];
+                }
+            });
+            return out2;
+        });
     };
 
     /**
