@@ -13,21 +13,21 @@ from ...base.handlers import APIHandler, json_errors
 
 class ConfigHandler(APIHandler):
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     def get(self, section_name):
         self.set_header("Content-Type", 'application/json')
         self.finish(json.dumps(self.config_manager.get(section_name)))
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     def put(self, section_name):
         data = self.get_json_body()  # Will raise 400 if content is not valid JSON
         self.config_manager.set(section_name, data)
         self.set_status(204)
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     def patch(self, section_name):
         new_data = self.get_json_body()
         section = self.config_manager.update(section_name, new_data)

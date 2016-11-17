@@ -25,16 +25,16 @@ from jupyter_client import protocol_version as client_protocol_version
 
 class MainKernelHandler(APIHandler):
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     @gen.coroutine
     def get(self):
         km = self.kernel_manager
         kernels = yield gen.maybe_future(km.list_kernels())
         self.finish(json.dumps(kernels))
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     @gen.coroutine
     def post(self):
         km = self.kernel_manager
@@ -56,16 +56,16 @@ class MainKernelHandler(APIHandler):
 
 class KernelHandler(APIHandler):
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     def get(self, kernel_id):
         km = self.kernel_manager
         km._check_kernel_id(kernel_id)
         model = km.kernel_model(kernel_id)
         self.finish(json.dumps(model))
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     @gen.coroutine
     def delete(self, kernel_id):
         km = self.kernel_manager
@@ -76,8 +76,8 @@ class KernelHandler(APIHandler):
 
 class KernelActionHandler(APIHandler):
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     @gen.coroutine
     def post(self, kernel_id, action):
         km = self.kernel_manager

@@ -45,8 +45,8 @@ def kernelspec_model(handler, name):
 
 class MainKernelSpecHandler(APIHandler):
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     def get(self):
         ksm = self.kernel_spec_manager
         km = self.kernel_manager
@@ -66,8 +66,8 @@ class MainKernelSpecHandler(APIHandler):
 
 class KernelSpecHandler(APIHandler):
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     def get(self, kernel_name):
         print('hello', kernel_name, url_unescape(kernel_name))
         try:
