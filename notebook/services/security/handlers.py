@@ -10,8 +10,8 @@ from . import csp_report_uri
 
 class CSPReportHandler(APIHandler):
     '''Accepts a content security policy violation report'''
-    @web.authenticated
     @json_errors
+    @web.authenticated
     def post(self):
         '''Log a content security policy violation report'''
         csp_report = self.get_json_body()

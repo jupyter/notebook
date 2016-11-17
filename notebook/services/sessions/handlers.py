@@ -19,8 +19,8 @@ from jupyter_client.kernelspec import NoSuchKernel
 
 class SessionRootHandler(APIHandler):
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     @gen.coroutine
     def get(self):
         # Return a list of running sessions
@@ -28,8 +28,8 @@ class SessionRootHandler(APIHandler):
         sessions = yield gen.maybe_future(sm.list_sessions())
         self.finish(json.dumps(sessions, default=date_default))
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     @gen.coroutine
     def post(self):
         # Creates a new session
@@ -90,8 +90,8 @@ class SessionRootHandler(APIHandler):
 
 class SessionHandler(APIHandler):
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     @gen.coroutine
     def get(self, session_id):
         # Returns the JSON model for a single session
@@ -99,8 +99,8 @@ class SessionHandler(APIHandler):
         model = yield gen.maybe_future(sm.get_session(session_id=session_id))
         self.finish(json.dumps(model, default=date_default))
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     @gen.coroutine
     def patch(self, session_id):
         """Patch updates sessions:
@@ -153,8 +153,8 @@ class SessionHandler(APIHandler):
             )
         self.finish(json.dumps(model, default=date_default))
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     @gen.coroutine
     def delete(self, session_id):
         # Deletes the session with given session_id
