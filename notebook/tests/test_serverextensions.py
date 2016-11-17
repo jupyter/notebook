@@ -1,4 +1,5 @@
 import os
+import sys
 from unittest import TestCase
 try:
     from unittest.mock import patch
@@ -13,7 +14,16 @@ from traitlets.tests.utils import check_help_all_output
 
 from notebook.serverextensions import toggle_serverextension_python
 from notebook import nbextensions
+from notebook.notebookapp import NotebookApp
 from notebook.nbextensions import _get_config_dir
+
+if sys.version_info > (3,):
+    from types import SimpleNamespace
+else:
+    class SimpleNamespace(object):
+        pass
+
+from collections import OrderedDict
 
 
 def test_help_output():
@@ -87,3 +97,43 @@ class TestInstallServerExtension(TestCase):
 
         config = self._get_config()
         assert not config['mockextension']
+
+
+class TestOrderedServerExtension(TestCase):
+    """
+    Test that Server Extensions are loaded _in order_
+    """
+
+    def setUp(self):
+        mockextension1 = SimpleNamespace()
+        mockextension2 = SimpleNamespace()
+
+        def load_jupyter_server_extension(obj):
+            obj.mockI = True
+            obj.mock_shared = 'I'
+
+        mockextension1.load_jupyter_server_extension = load_jupyter_server_extension
+
+        def load_jupyter_server_extension(obj):
+            obj.mockII = True
+            obj.mock_shared = 'II'
+
+        mockextension2.load_jupyter_server_extension = load_jupyter_server_extension
+
+        sys.modules['mockextension2'] = mockextension2
+        sys.modules['mockextension1'] = mockextension1
+
+    def tearDown(self):
+        del sys.modules['mockextension2']
+        del sys.modules['mockextension1']
+
+
+    def test_load_ordered(self):
+        app = NotebookApp()
+        app.nbserver_extensions = OrderedDict([('mockextension2',True),('mockextension1',True)])
+
+        app.init_server_extensions()
+
+        assert app.mockII is True, "Mock II should have been loaded"
+        assert app.mockI is True, "Mock I should have been loaded"
+        assert app.mock_shared == 'II', "Mock II should be loaded after Mock I"
