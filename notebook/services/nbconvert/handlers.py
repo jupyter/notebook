@@ -6,8 +6,8 @@ from ...base.handlers import APIHandler, json_errors
 
 class NbconvertRootHandler(APIHandler):
 
-    @web.authenticated
     @json_errors
+    @web.authenticated
     def get(self):
         try:
             from nbconvert.exporters.export import exporter_map
