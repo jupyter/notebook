@@ -956,18 +956,18 @@ define([
     NotebookList.prototype.view_selected = function() {
         var that = this;
         that.selected.forEach(function(item) {
-            var item_path = item.path;
-            var w = window.open(utils.url_path_join('/files', item_path));
-	});
-    }
+            var item_path = utils.encode_uri_components(item.path);
+            var w = window.open(utils.url_path_join(that.base_url, '/files', utils.encode_uri_components(item_path)), IPython._target);
+      	});
+    };
 
     NotebookList.prototype.edit_selected = function() {
         var that = this;
         that.selected.forEach(function(item) {
-            var item_path = item.path;
-            var w = window.open(utils.url_path_join('/edit', item_path));
-	});
-    }
+            var item_path = utils.encode_uri_components(item.path);
+            var w = window.open(utils.url_path_join(that.base_url, '/edit', utils.encode_uri_components(item_path)), IPython._target);
+      	});
+    };
 
     NotebookList.prototype.duplicate_selected = function() {
         var message;
