@@ -1,6 +1,7 @@
 """Test the kernels service API."""
 
 import json
+import time
 
 import requests
 from tornado.websocket import websocket_connect
@@ -159,11 +160,18 @@ class KernelAPITest(NotebookTestBase):
     def test_connections(self):
         kid = self.kern_api.start().json()['id']
         model = self.kern_api.get(kid).json()
-        assert model['connections'] == 0
+        self.assertEqual(model['connections'], 0)
 
         ws = self.kern_api.websocket(kid)
         model = self.kern_api.get(kid).json()
-        assert model['connections'] == 1
+        self.assertEqual(model['connections'], 1)
         ws.close()
+        # give it some time to close on the other side:
+        for i in range(10):
+            model = self.kern_api.get(kid).json()
+            if model['connections'] > 0:
+                time.sleep(0.1)
+            else:
+                break
         model = self.kern_api.get(kid).json()
-        assert model['connections'] == 0
+        self.assertEqual(model['connections'], 0)
