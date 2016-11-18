@@ -17,7 +17,7 @@ from jupyter_client.multikernelmanager import MultiKernelManager
 from traitlets import Dict, List, Unicode, TraitError, default, validate
 
 from notebook.utils import to_os_path
-from notebook.services.contents.tz import utcnow, isoformat
+from notebook._tz import utcnow, isoformat
 from ipython_genutils.py3compat import getcwd
 
 

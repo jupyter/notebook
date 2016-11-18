@@ -22,7 +22,8 @@ from .manager import ContentsManager
 from ipython_genutils.importstring import import_item
 from traitlets import Any, Unicode, Bool, TraitError, observe, default, validate
 from ipython_genutils.py3compat import getcwd, string_types
-from . import tz
+
+from notebook import _tz as tz
 from notebook.utils import (
     is_hidden, is_file_hidden,
     to_api_path,

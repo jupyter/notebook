@@ -9,7 +9,7 @@ from tornado.ioloop import IOLoop
 from ..sessionmanager import SessionManager
 from notebook.services.kernels.kernelmanager import MappingKernelManager
 from notebook.services.contents.manager import ContentsManager
-from notebook.services.contents.tz import utcnow, isoformat
+from notebook._tz import utcnow, isoformat
 
 class DummyKernel(object):
     def __init__(self, kernel_name='python'):
