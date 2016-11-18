@@ -600,7 +600,9 @@ define([
         }
 
         // View is visible when an item is renderable or downloadable
-        if (selected.length > 0 && !has_directory) {
+        if (selected.length > 0 && !has_directory && selected.every(function(el) {
+            return el.path.match(/html?|jpe?g|png|gif|tiff?|svg|bmp|ico|pdf|doc|xls/);
+        })) {
             $('.view-button').css('display', 'inline-block');
         } else {
             $('.view-button').css('display', 'none');
@@ -965,7 +967,8 @@ define([
         var that = this;
         that.selected.forEach(function(item) {
             var item_path = utils.encode_uri_components(item.path);
-            var w = window.open(utils.url_path_join(that.base_url, '/edit', utils.encode_uri_components(item_path)), IPython._target);
+            var item_type = item_path.endsWith('.ipynb') ? 'notebooks' : 'edit';
+            var w = window.open(utils.url_path_join(that.base_url, item_type, utils.encode_uri_components(item_path)), IPython._target);
       	});
     };
 
