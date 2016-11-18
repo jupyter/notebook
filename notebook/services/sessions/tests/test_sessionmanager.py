@@ -30,6 +30,7 @@ class DummyMKM(MappingKernelManager):
     def start_kernel(self, kernel_id=None, path=None, kernel_name='python', **kwargs):
         kernel_id = kernel_id or self._new_id()
         k = self._kernels[kernel_id] = DummyKernel(kernel_name=kernel_name)
+        self._kernel_connections[kernel_id] = 0
         k.last_activity = dummy_date
         k.execution_state = 'idle'
         return kernel_id
@@ -74,6 +75,7 @@ class TestSessionManager(TestCase):
                     'kernel': {
                         'id': 'A',
                         'name': 'bar',
+                        'connections': 0,
                         'last_activity': dummy_date_s,
                         'execution_state': 'idle',
                     }}
@@ -116,6 +118,7 @@ class TestSessionManager(TestCase):
                 'kernel': {
                     'id': 'A',
                     'name':'python',
+                    'connections': 0,
                     'last_activity': dummy_date_s,
                     'execution_state': 'idle',
                 }
@@ -127,6 +130,7 @@ class TestSessionManager(TestCase):
                 'kernel': {
                     'id': 'B',
                     'name':'python',
+                    'connections': 0,
                     'last_activity': dummy_date_s,
                     'execution_state': 'idle',
                 }
@@ -138,6 +142,7 @@ class TestSessionManager(TestCase):
                 'kernel': {
                     'id': 'C',
                     'name':'python',
+                    'connections': 0,
                     'last_activity': dummy_date_s,
                     'execution_state': 'idle',
                 }
@@ -164,6 +169,7 @@ class TestSessionManager(TestCase):
                 'kernel': {
                     'id': 'B',
                     'name':'python',
+                    'connections': 0,
                     'last_activity': dummy_date_s,
                     'execution_state': 'idle',
                 }
@@ -185,6 +191,7 @@ class TestSessionManager(TestCase):
                     'kernel': {
                         'id': 'A',
                         'name':'julia',
+                        'connections': 0,
                         'last_activity': dummy_date_s,
                         'execution_state': 'idle',
                     }
@@ -216,6 +223,7 @@ class TestSessionManager(TestCase):
                 'kernel': {
                     'id': 'A',
                     'name':'python',
+                    'connections': 0,
                     'last_activity': dummy_date_s,
                     'execution_state': 'idle',
                 }
@@ -227,6 +235,7 @@ class TestSessionManager(TestCase):
                 'kernel': {
                     'id': 'C',
                     'name':'python',
+                    'connections': 0,
                     'last_activity': dummy_date_s,
                     'execution_state': 'idle',
                 }
