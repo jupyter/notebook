@@ -1640,6 +1640,17 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
             first_inserted.focus_cell();
         }
     };
+    
+    /**
+     * Re-render the output of a CodeCell.
+     */
+    Notebook.prototype.render_cell_output = function (code_cell) {
+        var cell_data = code_cell.toJSON();
+        var cell_index = this.find_cell_index(code_cell);
+        this.delete_cell(cell_index);
+        var new_cell = this.insert_cell_at_index(cell_data.cell_type, cell_index);
+        new_cell.fromJSON(cell_data);
+    };
 
     // Split/merge
 
