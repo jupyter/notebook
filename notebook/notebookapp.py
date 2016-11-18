@@ -97,6 +97,7 @@ from ipython_genutils import py3compat
 from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
 from notebook._sysinfo import get_sys_info
 
+from ._tz import utcnow
 from .utils import url_path_join, check_pid, url_escape
 
 #-----------------------------------------------------------------------------
@@ -198,6 +199,8 @@ class NotebookWebApplication(web.Application):
                 working on the notebook's Javascript and LESS""")
             warnings.warn("The `ignore_minified_js` flag is deprecated and will be removed in Notebook 6.0", DeprecationWarning)
 
+        now = utcnow()
+
         settings = dict(
             # basics
             log_function=log_request,
@@ -236,7 +239,8 @@ class NotebookWebApplication(web.Application):
             kernel_spec_manager=kernel_spec_manager,
             config_manager=config_manager,
 
-            # IPython stuff
+            # Jupyter stuff
+            started=now,
             jinja_template_vars=jupyter_app.jinja_template_vars,
             nbextensions_path=jupyter_app.nbextensions_path,
             websocket_url=jupyter_app.websocket_url,
