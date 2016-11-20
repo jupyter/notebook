@@ -36,7 +36,9 @@ This example shows a frontend comm target registered in a registry:
             comm.send({'foo': 0});
         });
 
-Now that the frontend comm is registered, you can open the comm from the kernel::
+Now that the frontend comm is registered, you can open the comm from the kernel:
+
+.. code-block:: python
 
     from ipykernel.comm import Comm
 
@@ -61,7 +63,7 @@ registered in the kernel. For instance, this may be done by code displaying
 output: it will register a target in the kernel, and then display output
 containing Javascript to connect to it.
 
-::
+.. code-block:: python
 
     def target_func(comm, msg):
         # comm is the kernel Comm instance
