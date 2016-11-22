@@ -1647,9 +1647,10 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
     Notebook.prototype.render_cell_output = function (code_cell) {
         var cell_data = code_cell.toJSON();
         var cell_index = this.find_cell_index(code_cell);
-        this.delete_cell(cell_index);
-        var new_cell = this.insert_cell_at_index(cell_data.cell_type, cell_index);
-        new_cell.fromJSON(cell_data);
+        var trusted = code_cell.output_area.trusted;
+        this.clear_output(cell_index);
+        code_cell.output_area.trusted = trusted;
+        code_cell.fromJSON(cell_data);
     };
 
     // Split/merge
