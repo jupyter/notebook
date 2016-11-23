@@ -69,7 +69,6 @@ class KernelSpecHandler(APIHandler):
     @json_errors
     @web.authenticated
     def get(self, kernel_name):
-        print('hello', kernel_name, url_unescape(kernel_name))
         try:
             model = kernelspec_model(self, url_unescape(kernel_name))
         except KeyError:
