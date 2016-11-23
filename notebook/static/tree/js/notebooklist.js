@@ -841,7 +841,7 @@ define([
                             that.contents.rename(item_path, new_path).then(function() {
                                 // After each move finishes, reload the list.
                                 that.load_list();
-                            }).catch(function(e) { 
+                            }).catch(function(e) {
                                 // If any of the moves fails, show this dialog for that move.
                                 dialog.modal({
                                     title: "Move Failed",
@@ -885,7 +885,7 @@ define([
 
         var item_path = that.selected[0].path;
 
-        window.open(utils.url_path_join('/files', item_path) + '?download=1');
+        window.open(utils.url_path_join(that.base_url, 'files', item_path) + '?download=1');
     };
 
     NotebookList.prototype.delete_selected = function() {
