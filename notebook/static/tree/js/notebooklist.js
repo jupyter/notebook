@@ -885,7 +885,7 @@ define([
 
         var item_path = that.selected[0].path;
 
-        window.open(utils.url_path_join(that.base_url, '/files', item_path) + '?download=1');
+        window.open(utils.url_path_join(that.base_url, 'files', item_path) + '?download=1');
     };
 
     NotebookList.prototype.delete_selected = function() {
