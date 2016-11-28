@@ -69,7 +69,7 @@ Preparing a hashed password
 You can prepare a hashed password using the function
 :func:`notebook.auth.security.passwd`:
 
-.. sourcecode:: ipython
+.. code-block:: ipython
 
     In [1]: from notebook.auth import passwd
     In [2]: passwd()
@@ -256,7 +256,7 @@ contains other ipython files, e.g. ``http://localhost:8888/ipython/``,
 you can do so with configuration options like the following (see above for
 instructions about modifying ``jupyter_notebook_config.py``):
 
-.. sourcecode:: python
+.. code-block:: python
 
     c.NotebookApp.base_url = '/ipython/'
 
@@ -271,7 +271,7 @@ Content-Security-Policy to allow embedding. Assuming your website is at
 with the following configuration setting in
 :file:`jupyter_notebook_config.py`:
 
-.. sourcecode:: python
+.. code-block:: python
 
     c.NotebookApp.tornado_settings = {
         'headers': {
@@ -286,7 +286,7 @@ single-tab mode keeps the notebook from opening additional tabs.
 Adding the following to :file:`~/.jupyter/custom/custom.js` will enable
 single-tab mode:
 
-.. sourcecode:: javascript
+.. code-block:: javascript
 
     define(['base/js/namespace'], function(Jupyter){
         Jupyter._target = '_self';
