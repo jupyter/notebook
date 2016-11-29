@@ -135,7 +135,7 @@ in an untrusted state. There are three basic approaches to this:
 
 To share a signatures database among users, you can configure:
 
-.. sourcecode:: python
+.. code-block:: python
 
     c.NotebookNotary.data_dir = "/path/to/signature_dir"
 

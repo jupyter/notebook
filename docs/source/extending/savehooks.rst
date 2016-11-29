@@ -41,9 +41,9 @@ A pre-save hook for stripping output::
     c.FileContentsManager.pre_save_hook = scrub_output_pre_save
 
 A post-save hook to make a script equivalent whenever the notebook is saved
-(replacing the ``--script`` option in older versions of the notebook)::
+(replacing the ``--script`` option in older versions of the notebook):
 
-.. sourcecode:: python
+.. code-block:: python
 
     import io
     import os

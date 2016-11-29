@@ -105,7 +105,7 @@ model. There are three model types: **notebook**, **file**, and **directory**.
 
 **Sample Models**
 
-.. sourcecode:: python
+.. code-block:: python
 
     # Notebook Model with Content
     {
