@@ -295,8 +295,8 @@ class IPythonHandler(AuthenticatedHandler):
             # No CORS headers deny the request
             allow = False
         if not allow:
-            self.log.warning("Blocking Cross Origin API request.  Origin: %s, Host: %s",
-                origin, host,
+            self.log.warning("Blocking Cross Origin API request for %s.  Origin: %s, Host: %s",
+                self.request.path, origin, host,
             )
         return allow
     
