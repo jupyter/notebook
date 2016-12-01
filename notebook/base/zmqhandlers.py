@@ -126,7 +126,9 @@ class WebSocketMixin(object):
         
         Tornado >= 4 calls this method automatically, raising 403 if it returns False.
         """
-        if self.allow_origin == '*':
+
+        if self.allow_origin == '*' or (
+            hasattr(self, 'skip_check_origin') and self.skip_check_origin()):
             return True
 
         host = self.request.headers.get("Host")

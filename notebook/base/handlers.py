@@ -79,6 +79,16 @@ class AuthenticatedHandler(web.RequestHandler):
             return 'anonymous'
         return self.login_handler.get_user(self)
 
+    def skip_check_origin(self):
+        """Ask my login_handler if I should skip the origin_check
+        
+        For example: in the default LoginHandler, if a request is token-authenticated,
+        origin checking should be skipped.
+        """
+        if self.login_handler is None or not hasattr(self.login_handler, 'should_check_origin'):
+            return False
+        return not self.login_handler.should_check_origin(self)
+
     @property
     def cookie_name(self):
         default_cookie_name = non_alphanum.sub('-', 'username-{}'.format(
@@ -267,8 +277,9 @@ class IPythonHandler(AuthenticatedHandler):
         Copied from WebSocket with changes:
 
         - allow unspecified host/origin (e.g. scripts)
+        - allow token-authenticated requests
         """
-        if self.allow_origin == '*':
+        if self.allow_origin == '*' or self.skip_check_origin():
             return True
 
         host = self.request.headers.get("Host")
