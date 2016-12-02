@@ -115,6 +115,18 @@ class LoginHandler(IPythonHandler):
         return user_token
 
     @classmethod
+    def should_check_origin(cls, handler):
+        """Should the Handler check for CORS origin validation?
+        
+        Origin check should be skipped for token-authenticated requests.
+        """
+        if getattr(handler, '_user_id', None) is None:
+            # ensure get_user has been called, so we know if we're token-authenticated
+            handler.get_current_user()
+        token_authenticated = getattr(handler, '_token_authenticated', False)
+        return not token_authenticated
+
+    @classmethod
     def get_user(cls, handler):
         """Called by handlers.get_current_user for identifying the current user.
 
@@ -137,17 +149,23 @@ class LoginHandler(IPythonHandler):
                 # check login token from URL argument or Authorization header
                 user_token = cls.get_user_token(handler)
                 one_time_token = handler.one_time_token
+                authenticated = False
                 if user_token == token:
                     # token-authenticated, set the login cookie
                     handler.log.info("Accepting token-authenticated connection from %s", handler.request.remote_ip)
-                    user_id = uuid.uuid4().hex
-                    cls.set_login_cookie(handler, user_id)
-                if one_time_token and user_token == one_time_token:
-                    # one-time token-authenticated, only allow this token once
+                    authenticated = True
+                elif one_time_token and user_token == one_time_token:
+                    # one-time-token-authenticated, only allow this token once
                     handler.settings.pop('one_time_token', None)
                     handler.log.info("Accepting one-time-token-authenticated connection from %s", handler.request.remote_ip)
+                    authenticated = True
+                if authenticated:
                     user_id = uuid.uuid4().hex
                     cls.set_login_cookie(handler, user_id)
+                    # Record that we've been authenticated with a token.
+                    # Used in should_check_origin above.
+                    handler._token_authenticated = True
+
         # cache value for future retrievals on the same request
         handler._user_id = user_id
         return user_id
