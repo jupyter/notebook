@@ -15,6 +15,6 @@
     "MathJax": "components/MathJax#~2.6",
     "requirejs": "~2.1",
     "text-encoding": "~0.1",
-    "underscore": "components/underscore#~1.5"
+    "underscore": "components/underscore#~1.8.3"
   }
 }
