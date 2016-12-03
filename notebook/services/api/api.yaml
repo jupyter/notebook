@@ -711,7 +711,7 @@ definitions:
         type: string
         description: name of the session
       type:
-        type: string;
+        type: string
         description: session type
       kernel:
         $ref: '#/definitions/Kernel'
