@@ -20,5 +20,16 @@ define(['base/js/namespace', 'jquery'], function(IPython, $) {
     IPython.Events = Events;
     IPython.events = events;
     
-    return $([events]);
+    var events = $([events]);
+
+    // catch and log errors in triggered events
+    events._original_trigger = events.trigger;
+    events.trigger = function (name, data) {
+        try {
+            this._original_trigger.apply(this, arguments);
+        } catch (e) {
+            console.error("Exception in event handler for " + name, e, arguments);
+        }
+    }
+    return events;
 });
