@@ -360,6 +360,7 @@ class IPythonHandler(AuthenticatedHandler):
         exc_info = kwargs.get('exc_info')
         message = ''
         status_message = responses.get(status_code, 'Unknown HTTP Error')
+        exception = '(unknown)'
         if exc_info:
             exception = exc_info[1]
             # get the custom message, if defined
