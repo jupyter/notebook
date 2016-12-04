@@ -45,6 +45,12 @@ parameters:
     in: path
     description: Name of config section
     type: string
+  terminal_id:
+    name: terminal_id
+    required: true
+    in: path
+    description: ID of terminal session
+    type: string
 
 paths:
   /contents/{path}:
@@ -543,6 +549,73 @@ paths:
           description: Configuration object
           schema:
             type: object
+            items:
+              $ref: '#/parameters/section_name'
+
+  /terminals:
+    get:
+      summary: Get available terminals
+      tags:
+        - terminals
+      responses:
+        200:
+          description: A list of all available terminal ids.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Terminal_ID'
+        403:
+          description: Forbidden to access
+        404:
+          description: Not found
+
+    post:
+      summary: Create a new terminal
+      tags:
+        - terminals
+      responses:
+        200:
+          description: Succesfully created a new terminal
+          schema:
+            $ref: '#/definitions/Terminal_ID'
+        403:
+          description: Forbidden to access
+        404:
+          description: Not found
+
+  /terminals/{terminal_id}:
+    get:
+      summary: Get a terminal session corresponding to an id.
+      tags:
+        - terminals
+      parameters:
+        - $ref: '#/parameters/terminal_id'
+      responses:
+        200:
+          description: Terminal session with given id
+          schema:
+            $ref: '#/definitions/Terminal_ID'
+        403:
+          description: Forbidden to access
+        404:
+          description: Not found
+
+    delete:
+      summary: Delete a terminal session corresponding to an id.
+      tags:
+        - terminals
+      parameters:
+        - $ref: '#/parameters/terminal_id'
+      responses:
+        204:
+          description: Succesfully deleted terminal session
+        403:
+          description: Forbidden to access
+        404:
+          description: Not found
+
+
+
 
 definitions:
   KernelSpec:
@@ -638,7 +711,7 @@ definitions:
         type: string
         description: name of the session
       type:
-        type: string;
+        type: string
         description: session type
       kernel:
         $ref: '#/definitions/Kernel'
@@ -703,3 +776,12 @@ definitions:
         type: string
         description: Last modified timestamp
         format: dateTime
+  Terminal_ID:
+    description: A Terminal_ID object
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        description: name of terminal ID
