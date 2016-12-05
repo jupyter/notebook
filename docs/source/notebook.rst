@@ -414,7 +414,8 @@ You can generate a new notebook signing key with::
 Browser Compatibility
 ---------------------
 
-The Jupyter Notebook is officially supported the latest stable version the following browsers:
+The Jupyter Notebook is officially supported by the latest stable versions of the
+following browsers:
 
 * Chrome
 * Safari
