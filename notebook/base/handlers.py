@@ -40,6 +40,12 @@ non_alphanum = re.compile(r'[^A-Za-z0-9]')
 
 sys_info = json.dumps(get_sys_info())
 
+def log():
+    if Application.initialized():
+        return Application.instance().log
+    else:
+        return app_log
+
 class AuthenticatedHandler(web.RequestHandler):
     """A RequestHandler with an authenticated user."""
     
@@ -152,10 +158,7 @@ class IPythonHandler(AuthenticatedHandler):
     @property
     def log(self):
         """use the IPython log by default, falling back on tornado's logger"""
-        if Application.initialized():
-            return Application.instance().log
-        else:
-            return app_log
+        return log()
 
     @property
     def jinja_template_vars(self):
@@ -547,6 +550,9 @@ class FileFindHandler(IPythonHandler, web.StaticFileHandler):
                 return ''
             
             cls._static_paths[path] = abspath
+            
+
+            log().debug("Path %s served from %s"%(path, abspath))
             return abspath
     
     def validate_absolute_path(self, root, absolute_path):
