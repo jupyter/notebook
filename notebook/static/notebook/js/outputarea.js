@@ -1072,7 +1072,11 @@ define([
         [MIME_PDF] : append_pdf
     };
     
-    OutputArea.prototype.register_mime_type = function (mimetype, append, safe) {
+    OutputArea.prototype.mime_types = function () {
+        return OutputArea.display_order;
+    };
+    
+    OutputArea.prototype.register_mime_type = function (mimetype, append, options) {
         if (mimetype && typeof(append) === 'function') {
             OutputArea.output_types.push(mimetype);
             if (safe) OutputArea.safe_outputs[mimetype] = true;
