@@ -1,13 +1,14 @@
-// Support for Node 0.10
+// Copyright (c) Jupyter Development Team.
+// Distributed under the terms of the Modified BSD License.
+
 // See https://github.com/webpack/css-loader/issues/144
-require('es6-promise').polyfill();
 var webpack = require('webpack');
 var _ = require('underscore');
 var path = require('path');
 var sourcemaps = 'inline-source-map';
 
 if(process.argv.indexOf('-w') !== -1 || process.argv.indexOf('-w') !== -1  ){
-  console.log('watch mode detected, will switch to cheep sourcemaps');
+  console.log('watch mode detected, will switch to cheap sourcemaps');
   sourcemaps = 'eval-source-map';
 
 }
@@ -49,19 +50,14 @@ var commonConfig = {
       'codemirror/mode/meta': 'CodeMirror',
       // Account for relative paths from other CodeMirror files
       '../../lib/codemirror': 'CodeMirror',
-      '../lib/codemirror': 'CodeMirror' 
+      '../lib/codemirror': 'CodeMirror'
     },
-    plugins: [
-      new webpack.ProvidePlugin({
-        'Promise': 'es6-promise',
-      })
-    ]
 };
 
 function buildConfig(appName) {
     if (typeof appName !== 'string') return appName;
     return _.extend({}, commonConfig, {
-        entry: './notebook/static/' + appName + '/js/main.js',
+        entry: ['es6-promise/auto','./notebook/static/' + appName + '/js/main.js'],
         output: {
             filename: 'main.min.js',
             path: path.join(__dirname, 'notebook', 'static', appName, 'js', 'built')
@@ -77,7 +73,7 @@ module.exports = [
     'tree',
     'notebook',
     _.extend({}, commonConfig, {
-        entry: './notebook/static/services/contents.js',
+        entry: ['es6-promise/auto', './notebook/static/services/contents.js'],
         output: {
             filename: 'contents.js',
             path: path.join(__dirname, 'notebook', 'static', 'services', 'built'),
@@ -86,7 +82,7 @@ module.exports = [
         devtool: sourcemaps,
     }),
     _.extend({}, commonConfig, {
-        entry: './notebook/static/index.js',
+        entry: ['es6-promise/auto', './notebook/static/index.js'],
         output: {
             filename: 'index.js',
             path: path.join(__dirname, 'notebook', 'static', 'built'),
