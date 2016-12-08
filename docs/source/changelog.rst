@@ -10,6 +10,59 @@ For more detailed information, see `GitHub <https://github.com/jupyter/notebook>
 
      Use ``pip install notebook --upgrade`` or ``conda upgrade notebook`` to
      upgrade to the latest release.
+     
+.. _release-4.3:
+
+4.3
+-----
+
+4.3 is a minor release with many bug fixes and improvements.
+
+Highlights:
+
+- API for creating mime-type based renderer extensions using :code:`OutputArea.register_mime_type` and :code:`Notebook.render_cell_output` methods. See `mimerender-cookiecutter <https://github.com/jupyterlab/mimerender-cookiecutter>`__ for reference implementations and cookiecutter.
+- Enable token authentication by default
+- Update security docs to reflect new signature system
+- Switched from term.js to xterm.js
+
+Bug fixes:
+
+- Ensure variable is set if exc_info is falsey
+- Catch and log handler exceptions in :code:`events.trigger`
+- Add debug log for static file paths
+- Don't check origin on token-authenticated requests 
+- Remove leftover print statement
+- Fix highlighting of Python code blocks
+- :code:`json_errors` should be outermost decorator on API handlers
+- Fix remove old nbserver info files
+- Fix notebook mime type on download links
+- Fix carriage symbol bahvior
+- Fix terminal styles
+- Update dead links in docs
+- If kernel is broken, start a new session
+- Include cross-origin check when allowing login URL redirects
+
+Other improvements:
+
+- Allow JSON output data with mime type "application/*+json"
+- Allow kernelspecs to have spaces in them for backward compat
+- Allow websocket connections from scripts
+- Allow :code:`None` for post_save_hook
+- Upgrade CodeMirror to 5.21
+- Upgrade xterm to 2.1.0
+- Docs for using comms
+- Set :code:`dirty` flag when output arrives
+- Set :code:`ws-url` data attribute when accessing a notebook terminal
+- Add base aliases for nbextensions
+- Include :code:`@` operator in CodeMirror IPython mode
+- Extend mathjax_url docstring
+- Load nbextension in predictable order
+- Improve the error messages for nbextensions
+- Include cross-origin check when allowing login URL redirects
+
+See the 4.3 milestone on GitHub for a complete list of
+`issues <https://github.com/jupyter/notebook/issues?utf8=%E2%9C%93&q=is%3Aissue%20milestone%3A4.3%20>`__
+and `pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A4.3%20>`__ involved in this release.
 
 .. _release-4.2.3:
 
