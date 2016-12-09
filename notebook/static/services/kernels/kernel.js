@@ -860,14 +860,26 @@ define([
      * Since output callbacks can be overridden, we first check the override stack.
      */
     Kernel.prototype.get_output_callbacks_for_msg = function (msg_id) {
+        return this.get_callbacks_for_msg(this.get_output_callback_id(msg_id));
+    };
+
+
+    /**
+     * Get the output callback id for a message
+     *
+     * Since output callbacks can be redirected, this may not be the same as
+     * the msg_id.
+     *
+     * @function get_output_callback_id
+     */
+    Kernel.prototype.get_output_callback_id = function (msg_id) {
         var callback_id = msg_id;
         var overrides = this._msg_callbacks_overrides[msg_id];
         if (overrides && overrides.length > 0) {
             callback_id = overrides[overrides.length-1];
         }
-        return this.get_callbacks_for_msg(callback_id);
-    };
-
+        return callback_id
+    }
 
     /**
      * Clear callbacks for a specific message.
