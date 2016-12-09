@@ -91,8 +91,8 @@ define([
             return false;
         }
         // line-height from http://stackoverflow.com/questions/1185151
-        var fontSize = this.element.css('font-size');
-        var lineHeight = Math.floor(parseInt(fontSize.replace('px','')) * 1.5);
+        var fontSize = this.element.css('font-size') || '14px';
+        var lineHeight = Math.floor((parseFloat(fontSize.replace('px','')) || 14) * 1.3);
         return (this.element.height() > threshold * lineHeight);
     };
 
@@ -103,10 +103,6 @@ define([
         this.prompt_overlay.click(function () { that.toggle_scroll(); });
 
         this.element.resize(function () {
-            // FIXME: Firefox on Linux misbehaves, so automatic scrolling is disabled
-            if ( utils.browser[0] === "Firefox" ) {
-                return;
-            }
             // maybe scroll output,
             // if it's grown large enough and hasn't already been scrolled.
             if (!that.scrolled && that._should_scroll()) {
