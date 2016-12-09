@@ -988,6 +988,7 @@ define([
         var callback_ids = this._msg_callbacks_overrides[msg_id];
         if (!callback_ids) {
             console.error("Popping callback overrides, but none registered", msg_id);
+            return;
         }
         return callback_ids.pop();
     }
