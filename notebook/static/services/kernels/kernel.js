@@ -41,6 +41,7 @@ define([
         this.username = "username";
         this.session_id = utils.uuid();
         this._msg_callbacks = {};
+        this._msg_callbacks_overrides = {};
         this._display_id_to_parent_ids = {};
         this._msg_queue = Promise.resolve();
         this.info_reply = {}; // kernel_info_reply stored here after starting
@@ -301,6 +302,7 @@ define([
         this.events.trigger('kernel_restarting.Kernel', {kernel: this});
         this.stop_channels();
         this._msg_callbacks = {};
+        this._msg_callbacks_overrides = {};
         this._display_id_to_parent_ids = {};
 
         var that = this;
@@ -851,6 +853,23 @@ define([
     };
 
     /**
+     * Get output callbacks for a specific message.
+     *
+     * @function get_output_callbacks_for_msg
+     *
+     * Since output callbacks can be overridden, we first check the override stack.
+     */
+    Kernel.prototype.get_output_callbacks_for_msg = function (msg_id) {
+        var callback_id = msg_id;
+        var overrides = this._msg_callbacks_overrides[msg_id];
+        if (overrides && overrides.length > 0) {
+            callback_id = overrides[overrides.length-1];
+        }
+        return this.get_callbacks_for_msg(callback_id);
+    };
+
+
+    /**
      * Clear callbacks for a specific message.
      *
      * @function clear_callbacks_for_msg
@@ -913,10 +932,16 @@ define([
      * 
      * }
      *
+     * If the third parameter is truthy, the callback is set as the last
+     * callback registered.
+     *
      * @function set_callbacks_for_msg
      */
-    Kernel.prototype.set_callbacks_for_msg = function (msg_id, callbacks) {
-        this.last_msg_id = msg_id;
+    Kernel.prototype.set_callbacks_for_msg = function (msg_id, callbacks, save) {
+        var remember = save || true;
+        if (remember) {
+            this.last_msg_id = msg_id;
+        }
         if (callbacks) {
             // shallow-copy mapping, because we will modify it at the top level
             var cbcopy = this._msg_callbacks[msg_id] = this.last_msg_callbacks = {};
@@ -931,11 +956,30 @@ define([
                 // default to clear-on-done
                 cbcopy.clear_on_done = true;
             }
-        } else {
+        } else if (remember) {
             this.last_msg_callbacks = {};
         }
     };
-    
+
+    /**
+     * Override output callbacks for a particular msg_id
+     */
+    Kernel.prototype.output_callback_overrides_push = function(msg_id, callback_id) {
+        var output_callbacks = this._msg_callbacks_overrides[msg_id];
+        if (output_callbacks === void 0) {
+            this._msg_callbacks_overrides[msg_id] = output_callbacks = [];
+        }
+        output_callbacks.push(callback_id);
+    }
+
+    Kernel.prototype.output_callback_overrides_pop = function(msg_id) {
+        var callback_ids = this._msg_callbacks_overrides[msg_id];
+        if (!callback_ids) {
+            console.error("Popping callback overrides, but none registered", msg_id);
+        }
+        return callback_ids.pop();
+    }
+
     Kernel.prototype._handle_ws_message = function (e) {
         var that = this;
         this._msg_queue = this._msg_queue.then(function() {
@@ -1060,7 +1104,7 @@ define([
      * @function _handle_clear_output
      */
     Kernel.prototype._handle_clear_output = function (msg) {
-        var callbacks = this.get_callbacks_for_msg(msg.parent_header.msg_id);
+        var callbacks = this.get_output_callbacks_for_msg(msg.parent_header.msg_id);
         if (!callbacks || !callbacks.iopub) {
             return;
         }
@@ -1078,7 +1122,7 @@ define([
     Kernel.prototype._handle_output_message = function (msg) {
         var that = this;
         var msg_id = msg.parent_header.msg_id;
-        var callbacks = this.get_callbacks_for_msg(msg_id);
+        var callbacks = this.get_output_callbacks_for_msg(msg_id);
         if (['display_data', 'update_display_data', 'execute_result'].indexOf(msg.header.msg_type) > -1) {
             // display_data messages may re-route based on their display_id
             var display_id = (msg.content.transient || {}).display_id;
@@ -1110,8 +1154,9 @@ define([
                 if (this._display_id_to_parent_ids[display_id] === undefined) {
                     this._display_id_to_parent_ids[display_id] = [];
                 }
-                if (this._display_id_to_parent_ids[display_id].indexOf(msg_id) === -1) {
-                    this._display_id_to_parent_ids[display_id].push(msg_id);
+                var callback_id = this.get_output_callback_id(msg_id);
+                if (this._display_id_to_parent_ids[display_id].indexOf(callback_id) === -1) {
+                    this._display_id_to_parent_ids[display_id].push(callback_id);
                 }
                 // and in callbacks for cleanup on clear_callbacks_for_msg
                 if (callbacks && callbacks.display_ids.indexOf(display_id) === -1) {
