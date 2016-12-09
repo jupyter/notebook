@@ -79,4 +79,89 @@ casper.notebook_test(function () {
         this.test.assertEquals(outputs2[2].data['text/plain'], '4', 'output[2][2]');
     });
 
+    this.then(function () {
+        this.echo("Test output callback overrides work with display ids");
+    });
+
+    this.thenEvaluate(function () {
+        Jupyter.notebook.insert_cell_at_index("code", 3);
+        var cell = Jupyter.notebook.get_cell(3);
+        cell.set_text([
+            "display_with_id(5, 'here')",
+            "display_with_id(6, 'here', update=True)",
+        ].join('\n'));
+        cell.execute();
+        var kernel = IPython.notebook.kernel;
+        var msg_id = cell.last_msg_id;
+        var callback_id = 'mycallbackid'
+        cell.iopub_messages = [];
+        var add_msg = function(msg) {
+            msg.content.output_type = msg.msg_type;
+            cell.iopub_messages.push(msg.content);
+        };
+        kernel.set_callbacks_for_msg(callback_id, {
+            iopub: {
+                output: add_msg,
+                clear_output: add_msg,
+            }
+        }, false);
+        kernel.output_callback_overrides_push(msg_id, callback_id);
+    });
+
+    this.wait_for_idle();
+
+    this.then(function () {
+        var returned = this.evaluate(function () {
+            var cell = IPython.notebook.get_cell(3);
+            return [cell.output_area.outputs, cell.iopub_messages];
+        });
+        var cell_results = returned[0];
+        var callback_results = returned[1];
+        this.test.assertEquals(cell_results.length, 0, "correct number of cell outputs");
+        this.test.assertEquals(callback_results.length, 2, "correct number of callback outputs");
+        this.test.assertEquals(callback_results[0].output_type, 'display_data', 'check output_type 0');
+        this.test.assertEquals(callback_results[0].transient.display_id, 'here', 'check display id 0');
+        this.test.assertEquals(callback_results[0].data['text/plain'], '5', 'value');
+        this.test.assertEquals(callback_results[1].output_type, 'update_display_data', 'check output_type 1');
+        this.test.assertEquals(callback_results[1].transient.display_id, 'here', 'display id 1');
+        this.test.assertEquals(callback_results[1].data['text/plain'], '6', 'value');
+    });
+
+    this.thenEvaluate(function () {
+        Jupyter.notebook.insert_cell_at_index("code", 4);
+        var cell = Jupyter.notebook.get_cell(4);
+        cell.set_text([
+            "display_with_id(7, 'here')",
+            "display_with_id(8, 'here', update=True)",
+        ].join('\n'));
+        cell.execute();
+    });
+
+    this.wait_for_idle();
+
+    this.then(function () {
+        var returned = JSON.parse(this.evaluate(function () {
+            var cell3 = Jupyter.notebook.get_cell(3);
+            var cell4 = Jupyter.notebook.get_cell(4);
+            return JSON.stringify([cell4.output_area.outputs, cell3.iopub_messages]);
+        }));
+        var cell_results = returned[0];
+        var callback_results = returned[1];
+        this.test.assertEquals(cell_results.length, 1, "correct number of cell outputs");
+        this.test.assertEquals(callback_results.length, 4, "correct number of callback outputs");
+        this.test.assertEquals(callback_results[0].output_type, 'display_data', 'check output_type 0');
+        this.test.assertEquals(callback_results[0].transient.display_id, 'here', 'check display id 0');
+        this.test.assertEquals(callback_results[0].data['text/plain'], '5', 'value');
+        this.test.assertEquals(callback_results[1].output_type, 'update_display_data', 'check output_type 1');
+        this.test.assertEquals(callback_results[1].transient.display_id, 'here', 'display id 1');
+        this.test.assertEquals(callback_results[1].data['text/plain'], '6', 'value');
+        this.test.assertEquals(callback_results[2].output_type, 'display_data', 'check output_type 2');
+        this.test.assertEquals(callback_results[2].transient.display_id, 'here', 'check display id 2');
+        this.test.assertEquals(callback_results[2].data['text/plain'], '7', 'value');
+        this.test.assertEquals(callback_results[3].output_type, 'update_display_data', 'check output_type 3');
+        this.test.assertEquals(callback_results[3].transient.display_id, 'here', 'display id 3');
+        this.test.assertEquals(callback_results[3].data['text/plain'], '8', 'value');
+    });
+
+
 });
