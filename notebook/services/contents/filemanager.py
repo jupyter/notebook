@@ -13,6 +13,7 @@ import warnings
 import mimetypes
 import nbformat
 
+from send2trash import send2trash
 from tornado import web
 
 from .filecheckpoints import FileCheckpoints
@@ -143,6 +144,11 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
     def _checkpoints_class_default(self):
         return FileCheckpoints
+
+    delete_to_trash = Bool(True, config=True,
+        help="""If True (default), deleting files will send them to the
+        platform's trash/recycle bin, where they can be recovered. If False,
+        deleting files really deletes them.""")
 
     def is_hidden(self, path):
         """Does the API style path correspond to a hidden directory or file?
@@ -463,6 +469,14 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                     raise web.HTTPError(400, u'Directory %s not empty' % os_path)
         elif not os.path.isfile(os_path):
             raise web.HTTPError(404, u'File does not exist: %s' % os_path)
+
+        if self.delete_to_trash:
+            self.log.debug("Sending %s to trash", os_path)
+            # Looking at the code in send2trash, I don't think the errors it
+            # raises let us distinguish permission errors from other errors in
+            # code. So for now, just let them all get logged as server errors.
+            send2trash(os_path)
+            return
 
         if os.path.isdir(os_path):
             self.log.debug("Removing directory %s", os_path)
