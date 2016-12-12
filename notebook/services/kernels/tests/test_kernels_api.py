@@ -61,7 +61,7 @@ class KernelAPITest(NotebookTestBase):
 
     def test_default_kernel(self):
         # POST request
-        r = self.kern_api._req('POST', '')
+        r = self.kern_api._req('POST', '', body='{}')
         kern1 = r.json()
         self.assertEqual(r.headers['location'], url_path_join(self.url_prefix, 'api/kernels', kern1['id']))
         self.assertEqual(r.status_code, 201)
