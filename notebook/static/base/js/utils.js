@@ -681,6 +681,12 @@ define([
         settings = _add_auth_header(settings);
         return $.ajax(url, settings);
     };
+    
+    var _get_cookie = function (name) {
+        // from tornado docs: http://www.tornadoweb.org/en/stable/guide/security.html
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
 
     var _add_auth_header = function (settings) {
         /**
@@ -691,7 +697,7 @@ define([
             settings.headers = {};
         }
         if (!settings.headers.Authorization) {
-            var xsrf_token = get_body_data('xsrfToken');
+            var xsrf_token = _get_cookie('_xsrf');
             if (xsrf_token) {
                 settings.headers['X-XSRFToken'] = xsrf_token;
             }
