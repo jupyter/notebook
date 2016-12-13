@@ -362,7 +362,7 @@ class IPythonHandler(AuthenticatedHandler):
             ignore_minified_js=self.ignore_minified_js,
             xsrf_form_html=self.xsrf_form_html,
             token=self.token,
-            xsrf_token=self.xsrf_token,
+            xsrf_token=self.xsrf_token.decode('utf8'),
             **self.jinja_template_vars
         )
     
