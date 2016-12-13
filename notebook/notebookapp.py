@@ -192,6 +192,7 @@ class NotebookWebApplication(web.Application):
             login_handler_class=ipython_app.login_handler_class,
             logout_handler_class=ipython_app.logout_handler_class,
             password=ipython_app.password,
+            xsrf_cookies=True,
 
             # managers
             kernel_manager=kernel_manager,
