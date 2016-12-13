@@ -97,7 +97,7 @@ class LoginHandler(IPythonHandler):
     auth_header_pat = re.compile('token\s+(.+)', re.IGNORECASE)
 
     @classmethod
-    def get_user_token(cls, handler):
+    def get_token(cls, handler):
         """Get the user token from a request
 
         Default:
@@ -120,11 +120,22 @@ class LoginHandler(IPythonHandler):
         
         Origin check should be skipped for token-authenticated requests.
         """
+        return not cls.is_token_authenticated(handler)
+    
+    @classmethod
+    def is_token_authenticated(cls, handler):
+        """Check if the handler has been authenticated by a token.
+        
+        This is used to signal certain things, such as:
+        
+        - permit access to REST API
+        - xsrf protection
+        - skip origin-checks for scripts
+        """
         if getattr(handler, '_user_id', None) is None:
             # ensure get_user has been called, so we know if we're token-authenticated
             handler.get_current_user()
-        token_authenticated = getattr(handler, '_token_authenticated', False)
-        return not token_authenticated
+        return getattr(handler, '_token_authenticated', False)
 
     @classmethod
     def get_user(cls, handler):
@@ -136,39 +147,50 @@ class LoginHandler(IPythonHandler):
         # called on LoginHandler itself.
         if getattr(handler, '_user_id', None):
             return handler._user_id
-        user_id = handler.get_secure_cookie(handler.cookie_name)
-        if not user_id:
+        user_id = cls.get_user_token(handler)
+        if user_id is None:
+            user_id = handler.get_secure_cookie(handler.cookie_name)
+        else:
+            cls.set_login_cookie(handler, user_id)
+            # Record that we've been authenticated with a token.
+            # Used in should_check_origin above.
+            handler._token_authenticated = True
+        if user_id is None:
             # prevent extra Invalid cookie sig warnings:
             handler.clear_login_cookie()
-            token = handler.token
-            if not token and not handler.login_available:
+            if not handler.login_available:
                 # Completely insecure! No authentication at all.
                 # No need to warn here, though; validate_security will have already done that.
-                return 'anonymous'
-            if token:
-                # check login token from URL argument or Authorization header
-                user_token = cls.get_user_token(handler)
-                one_time_token = handler.one_time_token
-                authenticated = False
-                if user_token == token:
-                    # token-authenticated, set the login cookie
-                    handler.log.info("Accepting token-authenticated connection from %s", handler.request.remote_ip)
-                    authenticated = True
-                elif one_time_token and user_token == one_time_token:
-                    # one-time-token-authenticated, only allow this token once
-                    handler.settings.pop('one_time_token', None)
-                    handler.log.info("Accepting one-time-token-authenticated connection from %s", handler.request.remote_ip)
-                    authenticated = True
-                if authenticated:
-                    user_id = uuid.uuid4().hex
-                    cls.set_login_cookie(handler, user_id)
-                    # Record that we've been authenticated with a token.
-                    # Used in should_check_origin above.
-                    handler._token_authenticated = True
+                user_id = 'anonymous'
 
         # cache value for future retrievals on the same request
         handler._user_id = user_id
         return user_id
+
+    @classmethod
+    def get_user_token(cls, handler):
+        """Identify the user based on a token in the URL or Authorization header"""
+        token = handler.token
+        if not token:
+            return
+        # check login token from URL argument or Authorization header
+        user_token = cls.get_token(handler)
+        one_time_token = handler.one_time_token
+        authenticated = False
+        if user_token == token:
+            # token-authenticated, set the login cookie
+            handler.log.debug("Accepting token-authenticated connection from %s", handler.request.remote_ip)
+            authenticated = True
+        elif one_time_token and user_token == one_time_token:
+            # one-time-token-authenticated, only allow this token once
+            handler.settings.pop('one_time_token', None)
+            handler.log.info("Accepting one-time-token-authenticated connection from %s", handler.request.remote_ip)
+            authenticated = True
+
+        if authenticated:
+            return uuid.uuid4().hex
+        else:
+            return None
 
 
     @classmethod

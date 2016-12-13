@@ -48,7 +48,7 @@ def log():
 
 class AuthenticatedHandler(web.RequestHandler):
     """A RequestHandler with an authenticated user."""
-    
+
     @property
     def content_security_policy(self):
         """The default Content-Security-Policy header
@@ -94,6 +94,13 @@ class AuthenticatedHandler(web.RequestHandler):
         if self.login_handler is None or not hasattr(self.login_handler, 'should_check_origin'):
             return False
         return not self.login_handler.should_check_origin(self)
+
+    @property
+    def token_authenticated(self):
+        """Have I been authenticated with a token?"""
+        if self.login_handler is None or not hasattr(self.login_handler, 'is_token_authenticated'):
+            return False
+        return self.login_handler.is_token_authenticated(self)
 
     @property
     def cookie_name(self):
@@ -314,7 +321,15 @@ class IPythonHandler(AuthenticatedHandler):
                 self.request.path, origin, host,
             )
         return allow
-    
+
+    def check_xsrf_cookie(self):
+        """Bypass xsrf checks when token-authenticated"""
+        if self.token_authenticated:
+            # Token-authenticated requests do not need additional XSRF-check
+            # Servers without authentication are vulnerable to XSRF
+            return
+        return super(IPythonHandler, self).check_xsrf_cookie()
+
     #---------------------------------------------------------------
     # template rendering
     #---------------------------------------------------------------
@@ -343,6 +358,8 @@ class IPythonHandler(AuthenticatedHandler):
             version_hash=self.version_hash,
             ignore_minified_js=self.ignore_minified_js,
             xsrf_form_html=self.xsrf_form_html,
+            token=self.token,
+            xsrf_token=self.xsrf_token,
             **self.jinja_template_vars
         )
     
@@ -405,15 +422,6 @@ class APIHandler(IPythonHandler):
         if not self.check_origin():
             raise web.HTTPError(404)
         return super(APIHandler, self).prepare()
-
-    def check_xsrf_cookie(self):
-        """Check non-empty body on POST for XSRF
-
-        instead of checking the cookie for forms.
-        """
-        if self.request.method.upper() == 'POST' and not self.request.body:
-            # Require non-empty POST body for XSRF
-            raise web.HTTPError(400, "POST requests must have a JSON body. If no content is needed, use '{}'.")
 
     @property
     def content_security_policy(self):
