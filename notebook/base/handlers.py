@@ -288,8 +288,12 @@ class IPythonHandler(AuthenticatedHandler):
         host = self.request.headers.get("Host")
         origin = self.request.headers.get("Origin")
 
-        # If no header is provided, assume it comes from a script/curl.
-        # We are only concerned with cross-site browser stuff here.
+        # If no header is provided, allow it.
+        # Origin can be None for:
+        # - same-origin (IE, Firefox)
+        # - Cross-site POST form (IE, Firefox)
+        # - Scripts
+        # The cross-site POST (XSRF) case is handled by tornado's xsrf_token
         if origin is None or host is None:
             return True
 
@@ -340,6 +344,8 @@ class IPythonHandler(AuthenticatedHandler):
             sys_info=sys_info,
             contents_js_source=self.contents_js_source,
             version_hash=self.version_hash,
+            ignore_minified_js=self.ignore_minified_js,
+            xsrf_form_html=self.xsrf_form_html,
             **self.jinja_template_vars
         )
     
@@ -402,6 +408,15 @@ class APIHandler(IPythonHandler):
         if not self.check_origin():
             raise web.HTTPError(404)
         return super(APIHandler, self).prepare()
+
+    def check_xsrf_cookie(self):
+        """Check non-empty body on POST for XSRF
+
+        instead of checking the cookie for forms.
+        """
+        if self.request.method.upper() == 'POST' and not self.request.body:
+            # Require non-empty POST body for XSRF
+            raise web.HTTPError(400, "POST requests must have a JSON body. If no content is needed, use '{}'.")
 
     @property
     def content_security_policy(self):

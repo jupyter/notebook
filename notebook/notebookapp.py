@@ -225,6 +225,7 @@ class NotebookWebApplication(web.Application):
             login_handler_class=jupyter_app.login_handler_class,
             logout_handler_class=jupyter_app.logout_handler_class,
             password=jupyter_app.password,
+            xsrf_cookies=True,
 
             # managers
             kernel_manager=kernel_manager,
