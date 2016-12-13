@@ -517,10 +517,11 @@ class NotebookApp(JupyterApp):
                 self.cookie_secret_file
             )
 
-    token = Unicode(config=True,
+    token = Unicode('<generated>', config=True,
         help="""Token used for authenticating first-time connections to the server.
 
-        Only used when no password is enabled.
+        When no password is enabled,
+        the default is to generate a new, random token.
 
         Setting to an empty string disables authentication altogether, which is NOT RECOMMENDED.
         """

@@ -14,14 +14,14 @@ For more detailed information, see `GitHub <https://github.com/jupyter/notebook>
 .. _release-4.3:
 
 4.3
------
+---
 
 4.3 is a minor release with many bug fixes and improvements.
 
 Highlights:
 
 - API for creating mime-type based renderer extensions using :code:`OutputArea.register_mime_type` and :code:`Notebook.render_cell_output` methods. See `mimerender-cookiecutter <https://github.com/jupyterlab/mimerender-cookiecutter>`__ for reference implementations and cookiecutter.
-- Enable token authentication by default
+- Enable token authentication by default. See :ref:`server_security` for more details.
 - Update security docs to reflect new signature system
 - Switched from term.js to xterm.js
 
@@ -30,7 +30,7 @@ Bug fixes:
 - Ensure variable is set if exc_info is falsey
 - Catch and log handler exceptions in :code:`events.trigger`
 - Add debug log for static file paths
-- Don't check origin on token-authenticated requests 
+- Don't check origin on token-authenticated requests
 - Remove leftover print statement
 - Fix highlighting of Python code blocks
 - :code:`json_errors` should be outermost decorator on API handlers
