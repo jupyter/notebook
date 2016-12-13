@@ -1,7 +1,77 @@
+
+.. _server_security:
+
+Security in the Jupyter notebook server
+=======================================
+
+Since access to the Jupyter notebook server means access to running arbitrary code,
+it is important to restrict access to the notebook server.
+For this reason, notebook 4.3 introduces token-based authentication that is **on by default**.
+
+.. note::
+
+    If you enable a password for your notebook server,
+    token authentication is not enabled by default,
+    and the behavior of the notebook server is unchanged from from versions earlier than 4.3.
+
+When token authentication is enabled, the notebook uses a token to authenticate requests.
+This token can be provided to login to the notebook server in three ways:
+
+- in the ``Authorization`` header, e.g.::
+
+    Authorization: token abcdef...
+
+- In a URL parameter, e.g.::
+
+    https://my-notebook/tree/?token=abcdef...
+
+- In the password field of the login form that will be shown to you if you are not logged in.
+
+When you start a notebook server with token authentication enabled (default),
+a token is generated to use for authentication.
+This token is logged to the terminal, so that you can copy/paste the URL into your browser::
+
+    [I 11:59:16.597 NotebookApp] The Jupyter Notebook is running at: http://localhost:8888/?token=c8de56fa4deed24899803e93c227592aef6538f93025fe01
+
+
+If the notebook server is going to open your browser automatically
+(the default, unless ``--no-browser`` has been passed),
+an *additional* token is generated for launching the browser.
+This additional token can be used only once,
+and is used to set a cookie for your browser once it connects.
+After your browser has made its first request with this one-time-token,
+the token is discarded and a cookie is set in your browser.
+
+At any later time, you can see the tokens and URLs for all of your running servers with :command:`jupyter notebook list`::
+
+    $ jupyter notebook list
+    Currently running servers:
+    http://localhost:8888/?token=abc... :: /home/you/notebooks
+    https://0.0.0.0:9999/?token=123... :: /tmp/public
+    http://localhost:8889/ :: /tmp/has-password
+
+For servers with token-authentication enabled, the URL in the above listing will include the token,
+so you can copy and paste that URL into your browser to login.
+If a server has no token (e.g. it has a password or has authentication disabled),
+the URL will not include the token argument.
+Once you have visited this URL,
+a cookie will be set in your browser and you won't need to use the token again,
+unless you switch browsers, clear your cookies, or start a notebook server on a new port.
+
+
+You can disable authentication altogether by setting the token and password to empty strings,
+but this is **NOT RECOMMENDED**, unless authentication or access restrictions are handled at a different layer in your web application:
+
+.. sourcecode:: python
+
+    c.NotebookApp.token = ''
+    c.NotebookApp.password = ''
+
+
 .. _notebook_security:
 
-Security in Jupyter notebooks
-=============================
+Security in notebook documents
+==============================
 
 As Jupyter notebooks become more popular for sharing and collaboration,
 the potential for malicious people to attempt to exploit the notebook

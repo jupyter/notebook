@@ -20,7 +20,7 @@
       <div class="navbar-inner">
         <div class="container">
           <div class="center-nav">
-            <p class="navbar-text nav">Password:</p>
+            <p class="navbar-text nav">Password or token:</p>
             <form action="{{base_url}}login?next={{next}}" method="post" class="navbar-form pull-left">
               <input type="password" name="password" id="password_input" class="form-control">
               <button type="submit" id="login_submit">Log in</button>
@@ -29,22 +29,6 @@
         </div>
       </div>
     </div>
-    </div>
-    {% elif login_token_available %}
-      <div class="col-sm-6 col-sm-offset-3 text-left">
-      <p class="warning">
-        This notebook server has no password set,
-        but token-authentication is enabled.
-
-        You need to open the notebook server with its first-time login token in the URL,
-        or enable a password in order to gain access.
-        The command:
-      </p>
-      <pre>jupyter notebook list</pre>
-      <p>
-        will show you the URLs of running servers with their tokens,
-        which you can copy and paste into your browser.
-      </p>
     </div>
     {% else %}
     <p>No login available, you shouldn't be seeing this page.</p>
@@ -58,6 +42,28 @@
       {% endfor %}
       </div>
     {% endif %}
+    {% block token_message %}
+    <div class="col-sm-6 col-sm-offset-3 text-left">
+      <p class="warning">
+        If this notebook server has no password set, token authentication is enabled.
+
+        You need to open the notebook server with its first-time login token in the URL,
+        or enable a password in order to gain access.
+        The command:
+      </p>
+      <pre>jupyter notebook list</pre>
+      <p>
+        will show you the URLs of running servers with their tokens,
+        which you can copy and paste into your browser. For example:
+      </p>
+      <pre>Currently running servers:
+http://localhost:8888/?token=c8de56fa... :: /Users/you/notebooks
+</pre>
+      <p>
+        Or you can paste just the token value into the password field on this page.
+      </p>
+    </div>
+    {% endblock token_message %}
 </div>
 
 {% endblock %}
