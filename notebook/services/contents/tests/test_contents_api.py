@@ -44,12 +44,12 @@ def dirs_only(dir_model):
 
 class API(object):
     """Wrapper for contents API calls."""
-    def __init__(self, base_url):
-        self.base_url = base_url
+    def __init__(self, request):
+        self.request = request
 
     def _req(self, verb, path, body=None, params=None):
-        response = requests.request(verb,
-                url_path_join(self.base_url, 'api/contents', path),
+        response = self.request(verb,
+                url_path_join('api/contents', path),
                 data=body, params=params,
         )
         response.raise_for_status()
@@ -209,7 +209,7 @@ class APITest(NotebookTestBase):
             blob = self._blob_for_name(name)
             self.make_blob(u'{}/{}.blob'.format(d, name), blob)
 
-        self.api = API(self.base_url())
+        self.api = API(self.request)
 
     def tearDown(self):
         for dname in (list(self.top_level_dirs) + self.hidden_dirs):
