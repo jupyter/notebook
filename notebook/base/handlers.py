@@ -324,7 +324,7 @@ class IPythonHandler(AuthenticatedHandler):
 
     def check_xsrf_cookie(self):
         """Bypass xsrf checks when token-authenticated"""
-        if self.token_authenticated:
+        if self.token_authenticated or self.settings.get('disable_check_xsrf', False):
             # Token-authenticated requests do not need additional XSRF-check
             # Servers without authentication are vulnerable to XSRF
             return
