@@ -34,7 +34,7 @@ data-file-path="{{file_path}}"
     <div id="menus" class="navbar navbar-default" role="navigation">
       <div class="container-fluid">
           <p  class="navbar-text indicator_area">
-          <span id="current-mode" >current mode</span>
+          <span id="current-mode" >{% trans %}current mode{% endtrans %}</span>
           </p>
         <button type="button" class="btn btn-default navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <i class="fa fa-bars"></i>
@@ -45,34 +45,34 @@ data-file-path="{{file_path}}"
         </ul>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">File</a>
+            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}File{% endtrans %}</a>
               <ul id="file-menu" class="dropdown-menu">
-                <li id="new-file"><a href="#">New</a></li>
-                <li id="save-file"><a href="#">Save</a></li>
-                <li id="rename-file"><a href="#">Rename</a></li>
-                <li id="download-file"><a href="#">Download</a></li>
+                <li id="new-file"><a href="#">{% trans %}New{% endtrans %}</a></li>
+                <li id="save-file"><a href="#">{% trans %}Save{% endtrans %}</a></li>
+                <li id="rename-file"><a href="#">{% trans %}Rename{% endtrans %}</a></li>
+                <li id="download-file"><a href="#">{% trans %}Download{% endtrans %}</a></li>
               </ul>
             </li>
-            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Edit</a>
+            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Edit{% endtrans %}</a>
               <ul id="edit-menu" class="dropdown-menu">
-                <li id="menu-find"><a href="#">Find</a></li>
-                <li id="menu-replace"><a href="#">Find &amp; Replace</a></li>
+                <li id="menu-find"><a href="#">{% trans %}Find{% endtrans %}</a></li>
+                <li id="menu-replace"><a href="#">{% trans %}Find &amp; Replace{% endtrans %}</a></li>
                 <li class="divider"></li>
-                <li class="dropdown-header">Key Map</li>
-                <li id="menu-keymap-default"><a href="#">Default<i class="fa"></i></a></li>
-                <li id="menu-keymap-sublime"><a href="#">Sublime Text<i class="fa"></i></a></li>
+                <li class="dropdown-header">{% trans %}Key Map{% endtrans %}</li>
+                <li id="menu-keymap-default"><a href="#">{% trans %}Default{% endtrans %}<i class="fa"></i></a></li>
+                <li id="menu-keymap-sublime"><a href="#">{% trans %}Sublime Text{% endtrans %}<i class="fa"></i></a></li>
                 <li id="menu-keymap-vim"><a href="#">Vim<i class="fa"></i></a></li>
                 <li id="menu-keymap-emacs"><a href="#">emacs<i class="fa"></i></a></li>
               </ul>
             </li>
-            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">View</a>
+            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}View{% endtrans %}</a>
               <ul id="view-menu" class="dropdown-menu">
-              <li id="toggle_header" title="Show/Hide the logo and notebook title (above menu bar)">
-              <a href="#">Toggle Header</a></li>
-              <li id="menu-line-numbers"><a href="#">Toggle Line Numbers</a></li>
+              <li id="toggle_header" title="{% trans %}Show/Hide the logo and notebook title (above menu bar){% endtrans %}">
+              <a href="#">{% trans %}Toggle Header{% endtrans %}</a></li>
+              <li id="menu-line-numbers"><a href="#">{% trans %}Toggle Line Numbers{% endtrans %}</a></li>
               </ul>
             </li>
-            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Language</a>
+            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Language{% endtrans %}</a>
               <ul id="mode-menu" class="dropdown-menu">
               </ul>
             </li>

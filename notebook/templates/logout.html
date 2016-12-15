@@ -21,9 +21,9 @@
     {% endif %}
 
     {% if not login_available %}
-    Proceed to the <a href="{{base_url}}">dashboard</a>.
+    {% trans %}Proceed to the <a href="{{base_url}}">dashboard{% endtrans %}</a>.
     {% else %}
-    Proceed to the <a href="{{base_url}}login">login page</a>.
+    {% trans %}Proceed to the <a href="{{base_url}}login">login page{% endtrans %}</a>.
     {% endif %}
 
 
