@@ -414,7 +414,7 @@ class APIHandler(IPythonHandler):
         return super(APIHandler, self).finish(*args, **kwargs)
 
     def options(self, *args, **kwargs):
-        self.set_header('Access-Control-Allow-Headers', 'accept, content-type')
+        self.set_header('Access-Control-Allow-Headers', 'accept, content-type, authorization')
         self.set_header('Access-Control-Allow-Methods',
                         'GET, PUT, POST, PATCH, DELETE, OPTIONS')
         self.finish()
