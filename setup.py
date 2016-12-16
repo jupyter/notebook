@@ -152,6 +152,7 @@ install_requires = [
     'nbformat',
     'nbconvert',
     'ipykernel', # bless IPython kernel for now
+    'certifi',
 ]
 extras_require = {
     ':sys_platform != "win32"': ['terminado>=0.3.3'],
