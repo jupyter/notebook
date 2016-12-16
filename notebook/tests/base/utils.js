@@ -26,6 +26,31 @@ casper.notebook_test(function () {
 
     this.test.assertEquals(result, output, "IPython.utils.fixConsole() handles [0m correctly");
     
+    var input = [
+      'hasrn\r\n',
+      'hasn\n',
+      '\n',
+      'abcdef\r',
+      'hello\n',
+      'ab3\r',
+      'x2\r\r',
+      '1\r',
+    ].join('');
+    
+    var output = [
+      'hasrn\n',
+      'hasn\n',
+      '\n',
+      'hellof\n',
+      '123\r'
+    ].join('');
+    
+    var result = this.evaluate(function (input) {
+      return IPython.utils.fixCarriageReturn(input);
+    }, input);
+
+    this.test.assertEquals(result, output, "IPython.utils.fixCarriageReturns works");
+    
     this.thenEvaluate(function() {
         define('nbextensions/a', [], function() { window.a = true; });
         define('nbextensions/c', [], function() { window.c = true; });
