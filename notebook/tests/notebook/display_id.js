@@ -43,6 +43,7 @@ casper.notebook_test(function () {
     });
 
     this.wait_for_output(1);
+    this.wait_for_idle()
 
     this.then(function () {
         var outputs = get_outputs(1);
@@ -64,6 +65,7 @@ casper.notebook_test(function () {
     });
 
     this.wait_for_output(2);
+    this.wait_for_idle();
 
     this.then(function () {
         var outputs1 = get_outputs(1);
@@ -108,6 +110,7 @@ casper.notebook_test(function () {
         kernel.output_callback_overrides_push(msg_id, callback_id);
     });
 
+    this.wait_for_output(3);
     this.wait_for_idle();
 
     this.then(function () {
@@ -137,6 +140,7 @@ casper.notebook_test(function () {
         cell.execute();
     });
 
+    this.wait_for_output(4);
     this.wait_for_idle();
 
     this.then(function () {
