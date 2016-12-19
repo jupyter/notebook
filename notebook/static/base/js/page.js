@@ -53,9 +53,19 @@ define([
         this._resize_site();
     };
 
-    Page.prototype._resize_site = function() {
-        // Update the site's size.
-        $('div#site').height($(window).height() - $('#header').height());
+
+
+    Page.prototype._resize_site = function(e) {
+        /**
+         * Update the site's size.
+         */
+
+        // In the case an event is passed in, only trigger if the event does
+        // *not* have a target DOM node (i.e., it is not bubbling up). See
+        // https://bugs.jquery.com/ticket/9841#comment:8
+        if (!(e && e.target && e.target.tagName)) {
+            $('div#site').height($(window).height() - $('#header').height());
+        }
     };
 
     return {'Page': Page};
