@@ -1321,7 +1321,15 @@ class NotebookApp(JupyterApp):
                 b = lambda : browser.open(url_path_join(self.connection_url, uri),
                                           new=2)
                 threading.Thread(target=b).start()
-        
+
+        if self.token:
+            self.log.critical('\n'.join([
+                '\n',
+                'Copy/paste this URL into your browser when you connect for the first time,',
+                'to login with a token:',
+                '    %s' % url_concat(self.connection_url, {'token': self.token}),
+            ]))
+
         self.io_loop = ioloop.IOLoop.current()
         if sys.platform.startswith('win'):
             # add no-op to wake every 5s
