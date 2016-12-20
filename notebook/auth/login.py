@@ -117,17 +117,21 @@ class LoginHandler(IPythonHandler):
     @classmethod
     def should_check_origin(cls, handler):
         """Should the Handler check for CORS origin validation?
-        
+
         Origin check should be skipped for token-authenticated requests.
+
+        Returns:
+        - True, if Handler must check for valid CORS origin.
+        - False, if Handler should skip origin check since requests are token-authenticated.
         """
         return not cls.is_token_authenticated(handler)
-    
+
     @classmethod
     def is_token_authenticated(cls, handler):
-        """Check if the handler has been authenticated by a token.
-        
-        This is used to signal certain things, such as:
-        
+        """Returns True if handler has been token authenticated. Otherwise, False.
+
+        Login with a token is used to signal certain things, such as:
+
         - permit access to REST API
         - xsrf protection
         - skip origin-checks for scripts
@@ -152,8 +156,8 @@ class LoginHandler(IPythonHandler):
             user_id = handler.get_secure_cookie(handler.cookie_name)
         else:
             cls.set_login_cookie(handler, user_id)
-            # Record that we've been authenticated with a token.
-            # Used in should_check_origin above.
+            # Record that the current request has been authenticated with a token.
+            # Used in is_token_authenticated above.
             handler._token_authenticated = True
         if user_id is None:
             # prevent extra Invalid cookie sig warnings:
@@ -169,7 +173,12 @@ class LoginHandler(IPythonHandler):
 
     @classmethod
     def get_user_token(cls, handler):
-        """Identify the user based on a token in the URL or Authorization header"""
+        """Identify the user based on a token in the URL or Authorization header
+        
+        Returns:
+        - uuid if authenticated
+        - None if not
+        """
         token = handler.token
         if not token:
             return
