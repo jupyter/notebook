@@ -593,13 +593,21 @@ class NotebookApp(JupyterApp):
         """
     )
 
+    _token_generated = True
+
     @default('token')
     def _token_default(self):
         if self.password:
             # no token if password is enabled
+            self._token_generated = False
             return u''
         else:
+            self._token_generated = True
             return binascii.hexlify(os.urandom(24)).decode('ascii')
+
+    @observe('token')
+    def _token_changed(self, change):
+        self._token_generated = False
 
     password = Unicode(u'', config=True,
                       help="""Hashed password to use for web authentication.
@@ -1092,8 +1100,12 @@ class NotebookApp(JupyterApp):
     @property
     def display_url(self):
         ip = self.ip if self.ip else '[all ip addresses on your system]'
-        query = '?token=%s' % self.token if self.token else ''
-        return self._url(ip) + query
+        url = self._url(ip)
+        if self.token:
+            # Don't log full token if it came from config
+            token = self.token if self._token_generated else '...'
+            url = url_concat(url, {'token': token})
+        return url
 
     @property
     def connection_url(self):
@@ -1322,7 +1334,9 @@ class NotebookApp(JupyterApp):
                                           new=2)
                 threading.Thread(target=b).start()
 
-        if self.token:
+        if self.token and self._token_generated:
+            # log full URL with generated token, so there's a copy/pasteable link
+            # with auth info.
             self.log.critical('\n'.join([
                 '\n',
                 'Copy/paste this URL into your browser when you connect for the first time,',
