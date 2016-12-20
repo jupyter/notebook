@@ -20,7 +20,7 @@
       <div class="navbar-inner">
         <div class="container">
           <div class="center-nav">
-            <p class="navbar-text nav">Password or token:</p>
+            <p class="navbar-text nav">Password{% if token_available %} or token{% endif %}:</p>
             <form action="{{base_url}}login?next={{next}}" method="post" class="navbar-form pull-left">
               <input type="password" name="password" id="password_input" class="form-control">
               <button type="submit" id="login_submit">Log in</button>
@@ -42,10 +42,11 @@
       {% endfor %}
       </div>
     {% endif %}
+    {% if token_available %}
     {% block token_message %}
     <div class="col-sm-6 col-sm-offset-3 text-left">
       <p class="warning">
-        If this notebook server has no password set, token authentication is enabled.
+        Token authentication is enabled.
 
         You need to open the notebook server with its first-time login token in the URL,
         or enable a password in order to gain access.
@@ -64,6 +65,7 @@ http://localhost:8888/?token=c8de56fa... :: /Users/you/notebooks
       </p>
     </div>
     {% endblock token_message %}
+    {% endif %}
 </div>
 
 {% endblock %}
