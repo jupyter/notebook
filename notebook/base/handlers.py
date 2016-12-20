@@ -295,7 +295,7 @@ class IPythonHandler(AuthenticatedHandler):
         host = self.request.headers.get("Host")
         origin = self.request.headers.get("Origin")
 
-        # If no header is provided, allow it.
+        # If no header is provided, let the request through.
         # Origin can be None for:
         # - same-origin (IE, Firefox)
         # - Cross-site POST form (IE, Firefox)
@@ -326,7 +326,7 @@ class IPythonHandler(AuthenticatedHandler):
         return allow
 
     def check_xsrf_cookie(self):
-        """Bypass xsrf checks when token-authenticated"""
+        """Bypass xsrf cookie checks when token-authenticated"""
         if self.token_authenticated or self.settings.get('disable_check_xsrf', False):
             # Token-authenticated requests do not need additional XSRF-check
             # Servers without authentication are vulnerable to XSRF

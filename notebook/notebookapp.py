@@ -638,7 +638,7 @@ class NotebookApp(JupyterApp):
         Jupyter notebook 4.3.1 introduces protection from cross-site request forgeries,
         requiring API requests to either:
 
-        - originate from the (validated with XSRF cookie and token), or
+        - originate from pages served by this server (validated with XSRF cookie and token), or
         - authenticate with a token
 
         Some anonymous compute resources still desire the ability to run code,
