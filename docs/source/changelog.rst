@@ -34,6 +34,7 @@ Bug fixes:
 - Make the font size more robust against fickle browsers
 - Ignore resize events that bubbled up and didn't come from window
 - Add Authorization to allowed CORS headers
+- Downgrade CodeMirror to 5.16 while we figure out issues in Safari
 
 Other improvements:
 
