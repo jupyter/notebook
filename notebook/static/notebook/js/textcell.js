@@ -247,9 +247,9 @@ define([
                 marked(text, function (err, html) {
                     html = security.sanitize_html(html);
                     html = $($.parseHTML(html));
-                    html.find('img[src^="attachment://"]').each(function (i, h) {
+                    html.find('img[src^="attachment:"]').each(function (i, h) {
                         h = $(h);
-                        var key = h.attr('src').replace(/^attachment:\/\//, '');
+                        var key = h.attr('src').replace(/^attachment:/, '');
                         if (key in that.attachments) {
                             data.attachments[key] = JSON.parse(JSON.stringify(
                                 that.attachments[key]));
@@ -359,7 +359,7 @@ define([
                             'type (' + d[0] + ')');
             }
             that.add_attachment(key, blob.type, d[1]);
-            var img_md = '![' + key + '](attachment://' + key + ')';
+            var img_md = '![' + key + '](attachment:' + key + ')';
             that.code_mirror.replaceRange(img_md, pos);
         }
         reader.readAsDataURL(blob);
@@ -406,9 +406,9 @@ define([
                 html.find("a[href]").not('[href^="#"]').attr("target", "_blank");
                 // replace attachment:<key> by the corresponding entry
                 // in the cell's attachments
-                html.find('img[src^="attachment://"]').each(function (i, h) {
+                html.find('img[src^="attachment:"]').each(function (i, h) {
                   h = $(h);
-                  var key = h.attr('src').replace(/^attachment:\/\//, '');
+                  var key = h.attr('src').replace(/^attachment:/, '');
 
                   if (key in that.attachments) {
                     var att = that.attachments[key];
