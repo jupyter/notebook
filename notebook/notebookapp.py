@@ -79,7 +79,7 @@ from jupyter_client.session import Session
 from nbformat.sign import NotebookNotary
 from traitlets import (
     Dict, Unicode, Integer, List, Bool, Bytes, Instance,
-    TraitError, Type, Float
+    TraitError, Type, Float, observe
 )
 from ipython_genutils import py3compat
 from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
@@ -533,13 +533,21 @@ class NotebookApp(JupyterApp):
         Once used, this token cannot be used again.
         """
     )
+    
+    _token_generated = True
 
     def _token_default(self):
         if self.password:
             # no token if password is enabled
+            self._token_generated = False
             return u''
         else:
+            self._token_generated = True
             return binascii.hexlify(os.urandom(24)).decode('ascii')
+            
+    @observe('token')
+    def _token_changed(self, change):
+        self._token_generated = False
 
     password = Unicode(u'', config=True,
                       help="""Hashed password to use for web authentication.
@@ -977,6 +985,12 @@ class NotebookApp(JupyterApp):
     @property
     def display_url(self):
         ip = self.ip if self.ip else '[all ip addresses on your system]'
+        url = self._url(ip)
+        if self.token:
+            # Don't log full token if it came from config
+            token = self.token if self._token_generated else '...'
+            url = url_concat(url, {'token': token})
+        return url
         query = '?token=%s' % self.token if self.token else ''
         return self._url(ip) + query
 
@@ -1195,7 +1209,17 @@ class NotebookApp(JupyterApp):
                 b = lambda : browser.open(url_path_join(self.connection_url, uri),
                                           new=2)
                 threading.Thread(target=b).start()
-        
+                
+        if self.token and self._token_generated:
+            # log full URL with generated token, so there's a copy/pasteable link
+            # with auth info.
+            self.log.critical('\n'.join([
+                '\n',
+                'Copy/paste this URL into your browser when you connect for the first time,',
+                'to login with a token:',
+                '    %s' % url_concat(self.connection_url, {'token': self.token}),
+             ]))
+
         self.io_loop = ioloop.IOLoop.current()
         if sys.platform.startswith('win'):
             # add no-op to wake every 5s
@@ -1251,4 +1275,3 @@ def list_running_servers(runtime_dir=None):
 #-----------------------------------------------------------------------------
 
 main = launch_new_instance = NotebookApp.launch_instance
-
