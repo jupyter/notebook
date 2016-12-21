@@ -63,7 +63,7 @@ define([
             error : utils.log_ajax_error,
         };
         var url = utils.url_path_join(this.base_url, 'api/sessions');
-        $.ajax(url, settings);
+        utils.ajax(url, settings);
     };
 
     SesssionList.prototype.sessions_loaded = function(data){

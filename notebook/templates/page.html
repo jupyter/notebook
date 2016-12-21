@@ -113,7 +113,13 @@
 
 </head>
 
-<body class="{% block bodyclasses %}{% endblock %}" {% block params %}{% endblock %}>
+<body class="{% block bodyclasses %}{% endblock %}"
+ {% block params %}
+  {% if logged_in and token %}
+    data-jupyter-api-token="{{token | urlencode}}"
+  {% endif %}
+ {% endblock params %}
+>
 
 <noscript>
     <div id='noscript'>

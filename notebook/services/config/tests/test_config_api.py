@@ -11,12 +11,12 @@ from notebook.tests.launchnotebook import NotebookTestBase
 
 class ConfigAPI(object):
     """Wrapper for notebook API calls."""
-    def __init__(self, base_url):
-        self.base_url = base_url
+    def __init__(self, request):
+        self.request = request
 
     def _req(self, verb, section, body=None):
-        response = requests.request(verb,
-                url_path_join(self.base_url, 'api/config', section),
+        response = self.request(verb,
+                url_path_join('api/config', section),
                 data=body,
         )
         response.raise_for_status()
@@ -34,7 +34,7 @@ class ConfigAPI(object):
 class APITest(NotebookTestBase):
     """Test the config web service API"""
     def setUp(self):
-        self.config_api = ConfigAPI(self.base_url())
+        self.config_api = ConfigAPI(self.request)
 
     def test_create_retrieve_config(self):
         sample = {'foo': 'bar', 'baz': 73}

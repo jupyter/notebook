@@ -77,7 +77,7 @@ define([
      * @param {function} [error] - functon executed on ajax error
      */
     Session.prototype.list = function (success, error) {
-        $.ajax(this.session_service_url, {
+        utils.ajax(this.session_service_url, {
             processData: false,
             cache: false,
             type: "GET",
@@ -118,7 +118,7 @@ define([
             }
         };
 
-        $.ajax(this.session_service_url, {
+        utils.ajax(this.session_service_url, {
             processData: false,
             cache: false,
             type: "POST",
@@ -140,7 +140,7 @@ define([
      * @param {function} [error] - functon executed on ajax error
      */
     Session.prototype.get_info = function (success, error) {
-        $.ajax(this.session_url, {
+        utils.ajax(this.session_url, {
             processData: false,
             cache: false,
             type: "GET",
@@ -166,7 +166,7 @@ define([
             this.notebook_model.path = path;
         }
 
-        $.ajax(this.session_url, {
+        utils.ajax(this.session_url, {
             processData: false,
             cache: false,
             type: "PATCH",
@@ -193,7 +193,7 @@ define([
             this.kernel._kernel_dead();
         }
 
-        $.ajax(this.session_url, {
+        utils.ajax(this.session_url, {
             processData: false,
             cache: false,
             type: "DELETE",

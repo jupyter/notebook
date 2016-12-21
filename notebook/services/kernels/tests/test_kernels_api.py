@@ -10,12 +10,12 @@ from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 
 class KernelAPI(object):
     """Wrapper for kernel REST API requests"""
-    def __init__(self, base_url):
-        self.base_url = base_url
+    def __init__(self, request):
+        self.request = request
 
     def _req(self, verb, path, body=None):
-        response = requests.request(verb,
-                url_path_join(self.base_url, 'api/kernels', path), data=body)
+        response = self.request(verb,
+                url_path_join('api/kernels', path), data=body)
 
         if 400 <= response.status_code < 600:
             try:
@@ -48,7 +48,7 @@ class KernelAPI(object):
 class KernelAPITest(NotebookTestBase):
     """Test the kernels web service API"""
     def setUp(self):
-        self.kern_api = KernelAPI(self.base_url())
+        self.kern_api = KernelAPI(self.request)
 
     def tearDown(self):
         for k in self.kern_api.list().json():

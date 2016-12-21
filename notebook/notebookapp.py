@@ -192,6 +192,8 @@ class NotebookWebApplication(web.Application):
             login_handler_class=ipython_app.login_handler_class,
             logout_handler_class=ipython_app.logout_handler_class,
             password=ipython_app.password,
+            xsrf_cookies=True,
+            disable_check_xsrf=ipython_app.disable_check_xsrf,
 
             # managers
             kernel_manager=kernel_manager,
@@ -557,6 +559,22 @@ class NotebookApp(JupyterApp):
 
                       The string should be of the form type:salt:hashed-password.
                       """
+    )
+
+    disable_check_xsrf = Bool(False, config=True,
+        help="""Disable cross-site-request-forgery protection
+
+        Jupyter notebook 4.3.1 introduces protection from cross-site request forgeries,
+        requiring API requests to either:
+
+        - originate from pages served by this server (validated with XSRF cookie and token), or
+        - authenticate with a token
+
+        Some anonymous compute resources still desire the ability to run code,
+        completely without authentication.
+        These services can disable all authentication and security checks,
+        with the full knowledge of what that implies.
+        """
     )
 
     open_browser = Bool(True, config=True,

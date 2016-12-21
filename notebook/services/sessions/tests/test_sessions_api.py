@@ -17,12 +17,12 @@ from nbformat import write
 
 class SessionAPI(object):
     """Wrapper for notebook API calls."""
-    def __init__(self, base_url):
-        self.base_url = base_url
+    def __init__(self, request):
+        self.request = request
 
     def _req(self, verb, path, body=None):
-        response = requests.request(verb,
-                url_path_join(self.base_url, 'api/sessions', path), data=body)
+        response = self.request(verb,
+                url_path_join('api/sessions', path), data=body)
 
         if 400 <= response.status_code < 600:
             try:
@@ -92,7 +92,7 @@ class SessionAPITest(NotebookTestBase):
             nb = new_notebook()
             write(nb, f, version=4)
 
-        self.sess_api = SessionAPI(self.base_url())
+        self.sess_api = SessionAPI(self.request)
 
     def tearDown(self):
         for session in self.sess_api.list().json():
@@ -152,7 +152,7 @@ class SessionAPITest(NotebookTestBase):
 
     def test_create_with_kernel_id(self):
         # create a new kernel
-        r = requests.post(url_path_join(self.base_url(), 'api/kernels'))
+        r = self.request('POST', 'api/kernels')
         r.raise_for_status()
         kernel = r.json()
 
@@ -220,7 +220,7 @@ class SessionAPITest(NotebookTestBase):
         self.assertNotEqual(after['kernel']['id'], before['kernel']['id'])
 
         # check kernel list, to be sure previous kernel was cleaned up
-        r = requests.get(url_path_join(self.base_url(), 'api/kernels'))
+        r = self.request('GET', 'api/kernels')
         r.raise_for_status()
         kernel_list = r.json()
         self.assertEqual(kernel_list, [after['kernel']])
@@ -230,7 +230,7 @@ class SessionAPITest(NotebookTestBase):
         sid = before['id']
 
         # create a new kernel
-        r = requests.post(url_path_join(self.base_url(), 'api/kernels'))
+        r = self.request('POST', 'api/kernels')
         r.raise_for_status()
         kernel = r.json()
 
@@ -243,7 +243,7 @@ class SessionAPITest(NotebookTestBase):
         self.assertEqual(after['kernel']['id'], kernel['id'])
 
         # check kernel list, to be sure previous kernel was cleaned up
-        r = requests.get(url_path_join(self.base_url(), 'api/kernels'))
+        r = self.request('GET', 'api/kernels')
         r.raise_for_status()
         kernel_list = r.json()
         self.assertEqual(kernel_list, [kernel])
