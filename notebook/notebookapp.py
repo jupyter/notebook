@@ -192,7 +192,7 @@ class NotebookWebApplication(web.Application):
             version_hash = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 
         if jupyter_app.ignore_minified_js:
-            log.warn("""The `ignore_minified_js` flag is deprecated and no 
+            log.warning("""The `ignore_minified_js` flag is deprecated and no 
                 longer works.  Alternatively use `npm run build:watch` when
                 working on the notebook's Javascript and LESS""")
             warnings.warn("The `ignore_minified_js` flag is deprecated and will be removed in Notebook 6.0", DeprecationWarning)
