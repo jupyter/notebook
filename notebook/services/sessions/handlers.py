@@ -41,7 +41,7 @@ class SessionRootHandler(APIHandler):
             raise web.HTTPError(400, "No JSON data provided")
 
         if 'notebook' in model and 'path' in model['notebook']:
-            self.log.warn('Sessions API changed, see updated swagger docs')
+            self.log.warning('Sessions API changed, see updated swagger docs')
             model['path'] = model['notebook']['path']
             model['type'] = 'notebook'
 
@@ -119,7 +119,7 @@ class SessionHandler(APIHandler):
 
         changes = {}
         if 'notebook' in model and 'path' in model['notebook']:
-            self.log.warn('Sessions API changed, see updated swagger docs')
+            self.log.warning('Sessions API changed, see updated swagger docs')
             model['path'] = model['notebook']['path']
             model['type'] = 'notebook'
         if 'path' in model:

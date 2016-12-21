@@ -52,7 +52,7 @@ class LoginHandler(IPythonHandler):
                     allow = bool(self.allow_origin_pat.match(origin))
             if not allow:
                 # not allowed, use default
-                self.log.warn("Not allowing login redirect to %r" % url)
+                self.log.warning("Not allowing login redirect to %r" % url)
                 url = default
         self.redirect(url)
 
