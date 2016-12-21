@@ -79,7 +79,7 @@ from jupyter_client.session import Session
 from nbformat.sign import NotebookNotary
 from traitlets import (
     Dict, Unicode, Integer, List, Bool, Bytes, Instance,
-    TraitError, Type, Float, observe
+    TraitError, Type, Float,
 )
 from ipython_genutils import py3compat
 from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
@@ -544,9 +544,8 @@ class NotebookApp(JupyterApp):
         else:
             self._token_generated = True
             return binascii.hexlify(os.urandom(24)).decode('ascii')
-            
-    @observe('token')
-    def _token_changed(self, change):
+
+    def _token_changed(self, name, old, new):
         self._token_generated = False
 
     password = Unicode(u'', config=True,
