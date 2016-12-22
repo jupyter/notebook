@@ -6,6 +6,7 @@
     "bootstrap": "components/bootstrap#~3.3",
     "bootstrap-tour": "0.9.0",
     "codemirror": "components/codemirror#~5.16",
+    "es6-promise": "~1.0",
     "font-awesome": "components/font-awesome#~4.2.0",
     "google-caja": "5669",
     "jquery": "components/jquery#~2.0",
@@ -13,8 +14,10 @@
     "jquery-ui": "components/jqueryui#~1.10",
     "marked": "~0.3",
     "MathJax": "components/MathJax#~2.6",
+    "moment": "~2.8.4",
     "requirejs": "~2.1",
     "text-encoding": "~0.1",
-    "underscore": "components/underscore#~1.8.3"
+    "underscore": "components/underscore#~1.8.3",
+    "xterm.js": "sourcelair/xterm.js#~2.1.0"
   }
 }

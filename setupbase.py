@@ -19,10 +19,10 @@ import sys
 import pipes
 from distutils import log
 from distutils.cmd import Command
-from distutils.version import LooseVersion
 from fnmatch import fnmatch
 from glob import glob
-from subprocess import check_call, check_output
+from multiprocessing.pool import ThreadPool
+from subprocess import check_call
 
 if sys.platform == 'win32':
     from subprocess import list2cmdline
@@ -119,14 +119,8 @@ def find_package_data():
     # for verification purposes, explicitly add main.min.js
     # so that installation will fail if they are missing
     for app in ['auth', 'edit', 'notebook', 'terminal', 'tree']:
-        static_data.extend([
-            pjoin('static', app, 'js', 'built', '*main.min.js'),
-        ])
-    static_data.extend([
-        pjoin('static', 'built', '*index.js'),
-        pjoin('static', 'services', 'built', '*contents.js'),
-    ])
-
+        static_data.append(pjoin('static', app, 'js', 'main.min.js'))
+    
     components = pjoin("static", "components")
     # select the components we actually need to install
     # (there are lots of resources we bundle for sdist-reasons that we don't actually use)
@@ -136,6 +130,7 @@ def find_package_data():
         pjoin(components, "bootstrap-tour", "build", "css", "bootstrap-tour.min.css"),
         pjoin(components, "bootstrap-tour", "build", "js", "bootstrap-tour.min.js"),
         pjoin(components, "font-awesome", "css", "*.css"),
+        pjoin(components, "es6-promise", "*.js"),
         pjoin(components, "font-awesome", "fonts", "*.*"),
         pjoin(components, "google-caja", "html-css-sanitizer-minified.js"),
         pjoin(components, "jquery", "jquery.min.js"),
@@ -147,6 +142,10 @@ def find_package_data():
         pjoin(components, "marked", "lib", "marked.js"),
         pjoin(components, "requirejs", "require.js"),
         pjoin(components, "underscore", "underscore-min.js"),
+        pjoin(components, "moment", "moment.js"),
+        pjoin(components, "moment", "min", "moment.min.js"),
+        pjoin(components, "xterm.js", "dist", "xterm.js"),
+        pjoin(components, "xterm.js", "dist", "xterm.css"),
         pjoin(components, "text-encoding", "lib", "encoding.js"),
     ])
 
@@ -322,49 +321,61 @@ def run(cmd, *args, **kwargs):
     return check_call(cmd, *args, **kwargs)
 
 
-def npm_install(cwd):
-    """Run npm install in a directory and dedupe if necessary"""
-
-    try:
-        run(['npm', 'install', '--progress=false'], cwd=cwd)
-    except OSError as e:
-        print("Failed to run `npm install`: %s" % e, file=sys.stderr)
-        print("npm is required to build a development version of the notebook.", file=sys.stderr)
-        raise
-
-    shell = (sys.platform == 'win32')
-    version = check_output(['npm', '--version'], shell=shell).decode('utf-8')
-    if LooseVersion(version) < LooseVersion('3.0'):
-        try:
-            run(['npm', 'dedupe'], cwd=cwd)
-        except Exception as e:
-            print("Failed to run `npm dedupe`: %s" % e, file=sys.stderr)
-            print("Please install npm v3+ to build a development version of the notebook.")
-            raise
-
-
-class JavascriptDependencies(Command):
-    description = "Fetch Javascript dependencies with npm and bower"
+class Bower(Command):
+    description = "fetch static client-side components with bower"
+    
+    user_options = [
+        ('force', 'f', "force fetching of bower dependencies"),
+    ]
     
     def initialize_options(self):
-        pass
+        self.force = False
     
     def finalize_options(self):
-        pass
+        self.force = bool(self.force)
     
     bower_dir = pjoin(static, 'components')
     node_modules = pjoin(repo_root, 'node_modules')
     
-    def run(self):
-        npm_install(repo_root)
+    def should_run(self):
+        if self.force:
+            return True
+        if not os.path.exists(self.bower_dir):
+            return True
+        return mtime(self.bower_dir) < mtime(pjoin(repo_root, 'bower.json'))
 
+    def should_run_npm(self):
+        if not which('npm'):
+            print("npm unavailable", file=sys.stderr)
+            return False
+        if not os.path.exists(self.node_modules):
+            return True
+        return mtime(self.node_modules) < mtime(pjoin(repo_root, 'package.json'))
+    
+    def run(self):
+        if not self.should_run():
+            print("bower dependencies up to date")
+            return
+        
+        if self.should_run_npm():
+            print("installing build dependencies with npm")
+            run(['npm', 'install'], cwd=repo_root)
+            os.utime(self.node_modules, None)
+        
+        env = os.environ.copy()
+        env['PATH'] = npm_path
+        
         try:
-            run(['npm', 'run', 'bower'], cwd=repo_root)
-        except Exception as e:
-            print("Failed to run `npm run bower`: %s" % e, file=sys.stderr)
+            run(
+                ['bower', 'install', '--allow-root', '--config.interactive=false'],
+                cwd=repo_root,
+                env=env
+            )
+        except OSError as e:
+            print("Failed to run bower: %s" % e, file=sys.stderr)
             print("You can install js dependencies with `npm install`", file=sys.stderr)
             raise
-
+        os.utime(self.bower_dir, None)
         # update package data in case this created new files
         update_package_data(self.distribution)
 
@@ -385,17 +396,29 @@ class CompileCSS(Command):
     def finalize_options(self):
         pass
 
+    sources = []
     targets = []
     for name in ('ipython', 'style'):
+        sources.append(pjoin(static, 'style', '%s.less' % name))
         targets.append(pjoin(static, 'style', '%s.min.css' % name))
 
     def run(self):
-        try:
-            run(['npm', 'run', 'build:css'])
-        except OSError as e:
-            print("Failed to run npm run build:css : %s" % e, file=sys.stderr)
-            print("You can install js dependencies with `npm install`", file=sys.stderr)
-            raise
+        self.run_command('jsdeps')
+        env = os.environ.copy()
+        env['PATH'] = npm_path
+        
+        for src, dst in zip(self.sources, self.targets):
+            try:
+                run(['lessc',
+                    '--source-map',
+                    '--include-path=%s' % pipes.quote(static),
+                    src,
+                    dst,
+                ], cwd=repo_root, env=env)
+            except OSError as e:
+                print("Failed to build css: %s" % e, file=sys.stderr)
+                print("You can install js dependencies with `npm install`", file=sys.stderr)
+                raise
         # update package data in case this created new files
         update_package_data(self.distribution)
 
@@ -416,39 +439,55 @@ class CompileJS(Command):
     def finalize_options(self):
         self.force = bool(self.force)
 
-    target = pjoin(static, 'built', 'index.js')
-    targets = [target]
+    apps = ['notebook', 'tree', 'edit', 'terminal', 'auth']
+    targets = [ pjoin(static, app, 'js', 'main.min.js') for app in apps ]
     
-    def sources(self):
+    def sources(self, name):
         """Generator yielding .js sources that an application depends on"""
-        yield pjoin(repo_root, 'package.json')
-        yield pjoin(repo_root, 'webpack.config.js')
-        for parent, dirs, files in os.walk(static):
-            if os.path.basename(parent) in {'MathJax', 'built'}:
+        yield pjoin(static, name, 'js', 'main.js')
+
+        for sec in [name, 'base', 'auth']:
+            for f in glob(pjoin(static, sec, 'js', '*.js')):
+                if not f.endswith('.min.js'):
+                    yield f
+        yield pjoin(static, 'services', 'config.js')
+        if name == 'notebook':
+            for f in glob(pjoin(static, 'services', '*', '*.js')):
+                yield f
+        for parent, dirs, files in os.walk(pjoin(static, 'components')):
+            if os.path.basename(parent) == 'MathJax':
                 # don't look in MathJax, since it takes forever to walk it
-                # also don't look at build targets as sources
                 dirs[:] = []
                 continue
             for f in files:
-                if not f.endswith('.js'):
-                    continue
                 yield pjoin(parent, f)
     
-    def should_run(self):
-        if self.force or not os.path.exists(self.target):
-            print("Missing %s" % self.target)
+    def should_run(self, name, target):
+        if self.force or not os.path.exists(target):
             return True
-        target_mtime = mtime(self.target)
-        for source in self.sources():
+        target_mtime = mtime(target)
+        for source in self.sources(name):
             if mtime(source) > target_mtime:
-                print('%s > %s' % (source, self.target))
+                print(source, target)
                 return True
         return False
+        
+    def build_main(self, name):
+        """Build main.min.js"""
+        target = pjoin(static, name, 'js', 'main.min.js')
+        
+        if not self.should_run(name, target):
+            log.info("%s up to date" % target)
+            return
+        log.info("Rebuilding %s" % target)
+        run(['node', 'tools/build-main.js', name])
 
     def run(self):
         self.run_command('jsdeps')
-        if self.should_run():
-            run(['npm', 'run', 'build:js'])
+        env = os.environ.copy()
+        env['PATH'] = npm_path
+        pool = ThreadPool()
+        pool.map(self.build_main, self.apps)
         # update package data in case this created new files
         update_package_data(self.distribution)
 
@@ -466,27 +505,17 @@ class JavascriptVersion(Command):
     
     def run(self):
         nsfile = pjoin(repo_root, "notebook", "static", "base", "js", "namespace.js")
-        lines = []
-        found = False
         with open(nsfile) as f:
-            for line in f.readlines():
-                if line.strip().startswith("Jupyter.version"):
-                    found = True
-                    new_line = '    Jupyter.version = "{0}";\n'.format(version)
-                    if new_line == line:
-                        # no change, don't rewrite file
-                        return
-                    lines.append(new_line)
-                else:
-                    lines.append(line)
-
-        if not found:
-            raise RuntimeError("Didn't find Jupyter.version line in %s" % nsfile)
-        
-        print("Writing version=%s to %s" % (version, nsfile))
+            lines = f.readlines()
         with open(nsfile, 'w') as f:
+            found = False
             for line in lines:
+                if line.strip().startswith("Jupyter.version"):
+                    line = '    Jupyter.version = "{0}";\n'.format(version)
+                    found = True
                 f.write(line)
+            if not found:
+                raise RuntimeError("Didn't find Jupyter.version line in %s" % nsfile)
 
 
 def css_js_prerelease(command, strict=False):
@@ -497,8 +526,7 @@ def css_js_prerelease(command, strict=False):
             jsdeps = self.distribution.get_command_obj('jsdeps')
             js = self.distribution.get_command_obj('js')
             css = self.distribution.get_command_obj('css')
-
-            js.force = strict
+            jsdeps.force = js.force = strict
 
             targets = [ jsdeps.bower_dir ]
             targets.extend(js.targets)
