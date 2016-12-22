@@ -1,11 +1,20 @@
 """
 Password generation for the Notebook.
 """
+
+from contextlib import contextmanager
 import getpass
 import hashlib
+import io
+import json
+import os
 import random
+import sys
+import traceback
 
-from ipython_genutils.py3compat import cast_bytes, str_to_bytes
+from ipython_genutils.py3compat import cast_bytes, str_to_bytes, cast_unicode
+from traitlets.config import Config, ConfigFileNotFound, JSONFileConfigLoader
+from jupyter_core.paths import jupyter_config_dir
 
 # Length of the salt in nr of hex chars, which implies salt_len * 4
 # bits of randomness.
@@ -99,3 +108,40 @@ def passwd_check(hashed_passphrase, passphrase):
     h.update(cast_bytes(passphrase, 'utf-8') + cast_bytes(salt, 'ascii'))
 
     return h.hexdigest() == pw_digest
+
+@contextmanager
+def persist_config(config_file=None, mode=0o600):
+    """Context manager that can be used to modify a config object
+
+    On exit of the context manager, the config will be written back to disk, 
+    by default with user-only (600) permissions.
+    """
+
+    if config_file is None:
+        config_file = os.path.join(jupyter_config_dir(), 'jupyter_notebook_config.json')
+
+    loader = JSONFileConfigLoader(os.path.basename(config_file), os.path.dirname(config_file))
+    try:
+        config = loader.load_config()
+    except ConfigFileNotFound:
+        config = Config()
+
+    yield config
+
+    with io.open(config_file, 'w', encoding='utf8') as f:
+        f.write(cast_unicode(json.dumps(config, indent=2)))
+
+    try:
+        os.chmod(config_file, mode)
+    except Exception:
+        print("Failed to set permissions on %s:" % config_file, file=sys.stderr)
+        traceback.print_exc(file=sys.stderr)
+
+
+def set_password(password=None, config_file=None):
+    """Ask user for password, store it in notebook json configuration file"""
+    
+    hashed_password = passwd(password)
+
+    with persist_config(config_file) as config:
+        config.NotebookApp.password = hashed_password
