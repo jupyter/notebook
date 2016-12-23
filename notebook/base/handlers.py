@@ -346,7 +346,7 @@ class IPythonHandler(AuthenticatedHandler):
     def get_json_body(self):
         """Return the body of the request as JSON data."""
         if not self.request.body:
-            return None
+            raise web.HTTPError(400, u'No JSON in body of request')
         # Do we need to call body.decode('utf-8') here?
         body = self.request.body.strip().decode(u'utf-8')
         try:

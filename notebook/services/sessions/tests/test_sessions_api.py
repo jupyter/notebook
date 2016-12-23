@@ -154,7 +154,7 @@ class SessionAPITest(NotebookTestBase):
 
     def test_create_with_kernel_id(self):
         # create a new kernel
-        r = requests.post(url_path_join(self.base_url(), 'api/kernels'))
+        r = requests.post(url_path_join(self.base_url(), 'api/kernels'), json={})
         r.raise_for_status()
         kernel = r.json()
 
@@ -232,7 +232,7 @@ class SessionAPITest(NotebookTestBase):
         sid = before['id']
 
         # create a new kernel
-        r = requests.post(url_path_join(self.base_url(), 'api/kernels'))
+        r = requests.post(url_path_join(self.base_url(), 'api/kernels'), json={})
         r.raise_for_status()
         kernel = r.json()
 
