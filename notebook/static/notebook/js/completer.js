@@ -2,11 +2,12 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/utils',
     'base/js/keyboard',
     'notebook/js/contexthint',
     'codemirror/lib/codemirror',
-], function(utils, keyboard, CodeMirror) {
+], function($, utils, keyboard, CodeMirror) {
     "use strict";
 
     // easier key mapping

@@ -1,15 +1,15 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-__webpack_public_path__ = window['staticURL'] + 'terminal/js/built/';
-require('xterm/src/xterm.css');
 
 require([
+    'jquery',
     'base/js/utils',
     'base/js/page',
     'auth/js/loginwidget',
     'services/config',
     'terminal/js/terminado',
 ], function(
+    $,
     utils,
     page,
     loginwidget,

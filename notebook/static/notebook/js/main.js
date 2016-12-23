@@ -1,6 +1,5 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-__webpack_public_path__ = window['staticURL'] + 'notebook/js/built/';
 
 // adapted from Mozilla Developer Network example at
 // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind
@@ -23,8 +22,8 @@ Function.prototype.bind = Function.prototype.bind || bind ;
 
 requirejs(['contents'], function(contentsModule) {
 require([
-    'base/js/namespace',
     'jquery',
+    'base/js/namespace',
     'notebook/js/notebook',
     'services/config',
     'base/js/utils',
@@ -45,8 +44,8 @@ require([
     'notebook/js/searchandreplace',
     'notebook/js/clipboard'
 ], function(
-    IPython,
     $,
+    IPython,
     notebook,
     configmod,
     utils,

@@ -9,9 +9,10 @@
  */
 
 define([
+    'jquery',
     'base/js/utils',
     'underscore',
-], function(utils, _) {
+], function($, utils, _) {
     "use strict";
 
 

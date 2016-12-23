@@ -2,8 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/utils',
-], function(utils){
+], function($, utils){
     "use strict";
 
     var LoginWidget = function (selector, options) {

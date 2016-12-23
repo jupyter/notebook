@@ -2,13 +2,14 @@
 // Distributed under the terms of the Modified BSD License.
 // jshint esnext: true
 define([
+    'jquery',
     'base/js/utils',
     'base/js/security',
     'base/js/keyboard',
     'services/config',
     'notebook/js/mathjaxutils',
     'components/marked/lib/marked',
-], function(utils, security, keyboard, configmod, mathjaxutils, marked) {
+], function($, utils, security, keyboard, configmod, mathjaxutils, marked) {
     "use strict";
 
     /**

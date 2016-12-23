@@ -5,30 +5,61 @@
  * @module notebook
  */
 "use strict";
-import IPython from 'base/js/namespace';
-import _ from 'underscore';
-import utils from 'base/js/utils';
-import dialog from 'base/js/dialog';
-import cellmod from 'notebook/js/cell';
-import textcell from 'notebook/js/textcell';
-import codecell from 'notebook/js/codecell';
-import moment from 'moment';
-import configmod from 'services/config';
-import session from 'services/sessions/session';
-import celltoolbar from 'notebook/js/celltoolbar';
-import marked from 'components/marked/lib/marked';
-import CodeMirror from 'codemirror/lib/codemirror';
-import runMode from 'codemirror/addon/runmode/runmode';
-import mathjaxutils from 'notebook/js/mathjaxutils';
-import keyboard from 'base/js/keyboard';
-import tooltip from 'notebook/js/tooltip';
-import default_celltoolbar from 'notebook/js/celltoolbarpresets/default';
-import rawcell_celltoolbar from 'notebook/js/celltoolbarpresets/rawcell';
-import slideshow_celltoolbar from 'notebook/js/celltoolbarpresets/slideshow';
-import attachments_celltoolbar from 'notebook/js/celltoolbarpresets/attachments';
-import scrollmanager from 'notebook/js/scrollmanager';
-import commandpalette from 'notebook/js/commandpalette';
-import {ShortcutEditor} from 'notebook/js/shortcuteditor';
+define([
+    'jquery',
+    'base/js/namespace',
+    'underscore',
+    'base/js/utils',
+    'base/js/dialog',
+    './cell',
+    './textcell',
+    './codecell',
+    'moment',
+    'services/config',
+    'services/sessions/session',
+    './celltoolbar',
+    'components/marked/lib/marked',
+    'codemirror/lib/codemirror',
+    'codemirror/addon/runmode/runmode',
+    './mathjaxutils',
+    'base/js/keyboard',
+    './tooltip',
+    './celltoolbarpresets/default',
+    './celltoolbarpresets/rawcell',
+    './celltoolbarpresets/slideshow',
+    './celltoolbarpresets/attachments',
+    './scrollmanager',
+    './commandpalette',
+    // FIXME: shortcut-editor uses preact,
+    // which doesn't boewr install
+    // 'notebook/js/shortcuteditor',
+], function (
+    $,
+    IPython,
+    _,
+    utils,
+    dialog,
+    cellmod,
+    textcell,
+    codecell,
+    moment,
+    configmod,
+    session,
+    celltoolbar,
+    marked,
+    CodeMirror,
+    runMode,
+    mathjaxutils,
+    keyboard,
+    tooltip,
+    default_celltoolbar,
+    rawcell_celltoolbar,
+    slideshow_celltoolbar,
+    attachments_celltoolbar,
+    scrollmanager,
+    commandpalette
+    // ShortcutEditor
+) {
 
     var _SOFT_SELECTION_CLASS = 'jupyter-soft-selected';
 
@@ -50,7 +81,7 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
      * @param {string}          options.notebook_path
      * @param {string}          options.notebook_name
      */
-    export function Notebook(selector, options) {
+    function Notebook(selector, options) {
         this.config = options.config;
         this.class_config = new configmod.ConfigWithDefaults(this.config, 
                                         Notebook.options_default, 'Notebook');
@@ -411,7 +442,8 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
     };
 
     Notebook.prototype.show_shortcuts_editor = function() {
-        new ShortcutEditor(this);
+        // FIXME: ShortcutEditor disabled for now
+        // new ShortcutEditor(this);
     };
 
     /**
@@ -3231,3 +3263,6 @@ import {ShortcutEditor} from 'notebook/js/shortcuteditor';
         this.events.trigger('checkpoint_deleted.Notebook');
         this.load_notebook(this.notebook_path);
     };
+
+    return {Notebook: Notebook};
+})

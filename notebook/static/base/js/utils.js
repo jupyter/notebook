@@ -2,12 +2,13 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'codemirror/lib/codemirror',
     'moment',
     'underscore',
     // silently upgrades CodeMirror
     'codemirror/mode/meta',
-], function(CodeMirror, moment, _){
+], function($, CodeMirror, moment, _){
     "use strict";
     
     // keep track of which extensions have been loaded already
@@ -603,7 +604,7 @@ define([
     
     var to_absolute_cursor_pos = function (cm, cursor) {
         console.warn('`utils.to_absolute_cursor_pos(cm, pos)` is deprecated. Use `cm.indexFromPos(cursor)`');
-        return cm.indexFromPos(cusrsor);
+        return cm.indexFromPos(cursor);
     };
     
     var from_absolute_cursor_pos = function (cm, cursor_pos) {

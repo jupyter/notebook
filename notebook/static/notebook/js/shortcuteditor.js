@@ -1,12 +1,23 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
+define([
+    'jquery',
+    "notebook/js/quickhelp",
+    "base/js/dialog",
+    "preact",
+    "preact-compat",
+    'components/marked/lib/marked',
+], function (
+    $,
+    QH,
+    dialog,
+    preact,
+    preact_compat,
+    marked
+) {
+    var createClass = preact_compat.createClass;
 
-import QH from "notebook/js/quickhelp";
-import dialog from "base/js/dialog";
-import {render} from "preact";
-import {createElement, createClass} from "preact-compat";
-import marked from 'components/marked/lib/marked';
 
 /**
  * Humanize the action name to be consumed by user.
@@ -14,7 +25,7 @@ import marked from 'components/marked/lib/marked';
  * <namespace>:<description-with-dashes>
  * we drop <namespace> and replace dashes for space.
  */
-const humanize_action_id = function(str) {
+var humanize_action_id = function(str) {
   return str.split(':')[1].replace(/-/g, ' ').replace(/_/g, '-');
 };
 
@@ -24,7 +35,7 @@ const humanize_action_id = function(str) {
  * Wether an action have a keybinding or not.
  **/
 
-const KeyBinding = createClass({
+var KeyBinding = createClass({
   displayName: 'KeyBindings',
   getInitialState: function() {
     return {shrt:''};
@@ -33,12 +44,12 @@ const KeyBinding = createClass({
     this.setState({shrt:element.target.value});
   },
   render: function(){
-    const that = this;
-    const available = this.props.available(this.state.shrt);
-    const empty = (this.state.shrt === '');
+    var that = this;
+    var available = this.props.available(this.state.shrt);
+    var empty = (this.state.shrt === '');
     return createElement('div', {className:'jupyter-keybindings'},
               createElement('i', {className: "pull-right fa fa-plus", alt: 'add-keyboard-shortcut',
-                  onClick:()=>{
+                  onClick: function () {
                       available?that.props.onAddBindings(that.state.shrt, that.props.ckey):null;
                       that.state.shrt='';
                   }
@@ -50,12 +61,12 @@ const KeyBinding = createClass({
                                      value:this.state.shrt,
                                   onChange:this.handleShrtChange
               }),
-              this.props.shortcuts?this.props.shortcuts.map((item, index) => {
+              this.props.shortcuts?this.props.shortcuts.map(function (item, index) {
                 return createElement('span', {className: 'pull-right'},
                   createElement('kbd', {}, [
                     item.h,
                     createElement('i', {className: "fa fa-times", alt: 'remove '+item.h,
-                      onClick:()=>{
+                      onClick:function () {
                         that.props.unbind(item.raw);
                       }
                     })
@@ -67,7 +78,7 @@ const KeyBinding = createClass({
   }
 });
 
-const KeyBindingList = createClass({
+var KeyBindingList = createClass({
   displayName: 'KeyBindingList',
   getInitialState: function(){
     return {data:[]};
@@ -76,13 +87,14 @@ const KeyBindingList = createClass({
       this.setState({data:this.props.callback()});
   },
   render: function() {
-      const childrens = this.state.data.map((binding)=>{
-          return createElement(KeyBinding, Object.assign({}, binding, {onAddBindings:(shortcut, action)=>{
+      var childrens = this.state.data.map(function (binding) {
+          return createElement(KeyBinding, Object.assign({}, binding, {
+          onAddBindings: function (shortcut, action) {
               this.props.bind(shortcut, action);
               this.setState({data:this.props.callback()});
           },
-          available:this.props.available, 
-          unbind: (shortcut) => {
+          available:this.props.available,
+          unbind: function (shortcut) {
                   this.props.unbind(shortcut);
                   this.setState({data:this.props.callback()});
              }
@@ -109,18 +121,18 @@ const KeyBindingList = createClass({
     }
 });
 
-const get_shortcuts_data = function(notebook) {
-    const actions = Object.keys(notebook.keyboard_manager.actions._actions);
-    const src = [];
+var get_shortcuts_data = function(notebook) {
+    var actions = Object.keys(notebook.keyboard_manager.actions._actions);
+    var src = [];
 
     for (let i = 0; i < actions.length; i++) {
-      const action_id = actions[i];
-      const action = notebook.keyboard_manager.actions.get(action_id);
+      var action_id = actions[i];
+      var action = notebook.keyboard_manager.actions.get(action_id);
 
       let shortcuts = notebook.keyboard_manager.command_shortcuts.get_action_shortcuts(action_id);
       let hshortcuts;
       if (shortcuts.length > 0) {
-        hshortcuts = shortcuts.map((raw)=>{
+        hshortcuts = shortcuts.map(function (raw) {
           return {h:QH._humanize_sequence(raw),raw:raw};}
         );
       }
@@ -135,14 +147,14 @@ const get_shortcuts_data = function(notebook) {
 };
 
 
-export const ShortcutEditor = function(notebook) {
+var ShortcutEditor = function(notebook) {
 
     if(!notebook){
       throw new Error("CommandPalette takes a notebook non-null mandatory arguement");
     }
 
-    const body =  $('<div>');
-    const mod = dialog.modal({
+    var body =  $('<div>');
+    var mod = dialog.modal({
         notebook: notebook,
         keyboard_manager: notebook.keyboard_manager,
         title : "Edit Command mode Shortcuts",
@@ -152,22 +164,24 @@ export const ShortcutEditor = function(notebook) {
         }
     });
     
-    const src = get_shortcuts_data(notebook);
+    var src = get_shortcuts_data(notebook);
 
     mod.addClass("modal_stretch");
 
     mod.modal('show');
     render(
         createElement(KeyBindingList, {
-            callback:()=>{ return  get_shortcuts_data(notebook);},
-            bind: (shortcut, command) => {
+            callback:function () { return  get_shortcuts_data(notebook);},
+            bind: function (shortcut, command) {
                 return notebook.keyboard_manager.command_shortcuts._persist_shortcut(shortcut, command);
             },
-            unbind: (shortcut) => { 
+            unbind: function (shortcut) {
                 return notebook.keyboard_manager.command_shortcuts._persist_remove_shortcut(shortcut);
             },
-            available:  (shrt) => { return notebook.keyboard_manager.command_shortcuts.is_available_shortcut(shrt);}
+            available: function (shrt) { return notebook.keyboard_manager.command_shortcuts.is_available_shortcut(shrt);}
           }),
         body.get(0)
     );
 };
+    return {ShortcutEditor};
+})

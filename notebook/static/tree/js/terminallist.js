@@ -2,10 +2,11 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/namespace',
     'base/js/utils',
     'tree/js/notebooklist',
-], function(IPython, utils, notebooklist) {
+], function($, IPython, utils, notebooklist) {
     "use strict";
 
     var TerminalList = function (selector, options) {

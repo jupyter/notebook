@@ -1,6 +1,5 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-__webpack_public_path__ = window['staticURL'] + 'tree/js/built/';
 
 // adapted from Mozilla Developer Network example at
 // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind
@@ -23,6 +22,7 @@ Function.prototype.bind = Function.prototype.bind || bind ;
 
 requirejs(['contents'], function(contents_service) {
 require([
+    'jquery',
     'base/js/namespace',
     'base/js/dialog',
     'base/js/events',
@@ -36,6 +36,7 @@ require([
     'tree/js/newnotebook',
     'auth/js/loginwidget',
 ], function(
+    $,
     IPython,
     dialog,
     events,

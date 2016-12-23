@@ -2,10 +2,11 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'require',
     './toolbar',
     './celltoolbar'
-], function(require, toolbar, celltoolbar) {
+], function($, require, toolbar, celltoolbar) {
     "use strict";
 
     var MainToolBar = function (selector, options) {

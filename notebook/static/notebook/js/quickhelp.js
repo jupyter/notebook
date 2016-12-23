@@ -2,10 +2,11 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/utils',
     'base/js/dialog',
     'underscore'
-], function(utils, dialog, _) {
+], function($, utils, dialog, _) {
     "use strict";
     var platform = utils.platform;
 
@@ -267,7 +268,7 @@ define([
     
     QuickHelp.prototype.build_edit_help = function (cm_shortcuts) {
         var edit_shortcuts = this.keyboard_manager.edit_shortcuts.help();
-        edit_shortcuts = jQuery.merge(jQuery.merge([], cm_shortcuts), edit_shortcuts);
+        edit_shortcuts = $.merge($.merge([], cm_shortcuts), edit_shortcuts);
         return build_div('<h4>Edit Mode (press <kbd>Enter</kbd> to enable)</h4>', edit_shortcuts);
     };
 

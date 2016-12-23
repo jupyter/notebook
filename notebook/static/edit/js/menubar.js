@@ -2,12 +2,13 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/namespace',
     'base/js/utils',
     'base/js/dialog',
     'codemirror/lib/codemirror',
     'codemirror/mode/meta',
-], function(IPython, utils, dialog, CodeMirror) {
+], function($, IPython, utils, dialog, CodeMirror) {
     "use strict";
     
     var MenuBar = function (selector, options) {

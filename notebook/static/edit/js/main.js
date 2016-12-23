@@ -1,9 +1,9 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-__webpack_public_path__ = window['staticURL'] + 'edit/js/built/';
 
 requirejs(['contents'], function(contents) {
 require([
+    'jquery',
     'base/js/namespace',
     'base/js/utils',
     'base/js/page',
@@ -14,6 +14,7 @@ require([
     'edit/js/savewidget',
     'edit/js/notificationarea',
 ], function(
+    $,
     IPython,
     utils,
     page,
