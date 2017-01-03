@@ -58,8 +58,20 @@ Once you have visited this URL,
 a cookie will be set in your browser and you won't need to use the token again,
 unless you switch browsers, clear your cookies, or start a notebook server on a new port.
 
+Alternatives to token authentication
+------------------------------------
 
-You can disable authentication altogether by setting the token and password to empty strings,
+If a generated token doesn't work well for you,
+you can set a password for your notebook.
+:command:`jupyter notebook password` will prompt you for a password,
+and store the hashed password in your :file:`jupyter_notebook_config.json`.
+
+.. versionadded:: 5.0
+
+    :command:`jupyter notebook password` command is added.
+
+
+It is possible disable authentication altogether by setting the token and password to empty strings,
 but this is **NOT RECOMMENDED**, unless authentication or access restrictions are handled at a different layer in your web application:
 
 .. sourcecode:: python
