@@ -226,7 +226,7 @@ class NotebookWebApplication(web.Application):
             logout_handler_class=jupyter_app.logout_handler_class,
             password=jupyter_app.password,
             xsrf_cookies=True,
-            disable_check_xsrf=ipython_app.disable_check_xsrf,
+            disable_check_xsrf=jupyter_app.disable_check_xsrf,
 
             # managers
             kernel_manager=kernel_manager,
@@ -631,6 +631,7 @@ class NotebookApp(JupyterApp):
                       since any user can connect to the notebook server via ssh.
 
                       """
+    )
 
     disable_check_xsrf = Bool(False, config=True,
         help="""Disable cross-site-request-forgery protection

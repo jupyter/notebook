@@ -3,11 +3,11 @@
 from __future__ import print_function
 
 from binascii import hexlify
-import os
-import time
-import requests
 from contextlib import contextmanager
+import os
+import sys
 from threading import Thread, Event
+import time
 from unittest import TestCase
 
 pjoin = os.path.join
@@ -17,6 +17,7 @@ try:
 except ImportError:
     from mock import patch #py2
 
+import requests
 from tornado.ioloop import IOLoop
 import zmq
 
