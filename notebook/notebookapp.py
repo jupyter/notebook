@@ -331,9 +331,11 @@ class NotebookPasswordApp(JupyterApp):
     and removes the need for token-based authentication.
     """
     
+    description = __doc__
+
     def _config_file_default(self):
         return os.path.join(self.config_dir, 'jupyter_notebook_config.json')
-    description = __doc__
+
     def start(self):
         from .auth.security import set_password
         set_password(config_file=self.config_file)

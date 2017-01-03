@@ -9,8 +9,8 @@ import io
 import json
 import os
 import random
-import sys
 import traceback
+import warnings
 
 from ipython_genutils.py3compat import cast_bytes, str_to_bytes, cast_unicode
 from traitlets.config import Config, ConfigFileNotFound, JSONFileConfigLoader
@@ -133,9 +133,10 @@ def persist_config(config_file=None, mode=0o600):
 
     try:
         os.chmod(config_file, mode)
-    except Exception:
-        print("Failed to set permissions on %s:" % config_file, file=sys.stderr)
-        traceback.print_exc(file=sys.stderr)
+    except Exception as e:
+        tb = traceback.format_exc()
+        warnings.warn("Failed to set permissions on %s:\n%s" % (config_file, tb),
+            RuntimeWarning)
 
 
 def set_password(password=None, config_file=None):
