@@ -2,21 +2,19 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
+    "jquery",
     "notebook/js/quickhelp",
     "base/js/dialog",
-    "preact",
-    "preact-compat",
     'components/marked/lib/marked',
 ], function (
     $,
     QH,
     dialog,
-    preact,
-    preact_compat,
     marked
 ) {
-    var createClass = preact_compat.createClass;
+    var render = preact.render;
+    var createClass = preactCompat.createClass;
+    var createElement = preactCompat.createElement;
 
 
 /**
@@ -50,7 +48,9 @@ var KeyBinding = createClass({
     return createElement('div', {className:'jupyter-keybindings'},
               createElement('i', {className: "pull-right fa fa-plus", alt: 'add-keyboard-shortcut',
                   onClick: function () {
-                      available?that.props.onAddBindings(that.state.shrt, that.props.ckey):null;
+                      if (available) {
+                          that.props.onAddBindings(that.state.shrt, that.props.ckey);
+                      }
                       that.state.shrt='';
                   }
               }),
@@ -58,10 +58,10 @@ var KeyBinding = createClass({
                                       type:'text', 
                                placeholder:'add shortcut', 
                                  className:'pull-right'+((available||empty)?'':' alert alert-danger'),
-                                     value:this.state.shrt,
-                                  onChange:this.handleShrtChange
+                                     value:that.state.shrt,
+                                  onChange:that.handleShrtChange
               }),
-              this.props.shortcuts?this.props.shortcuts.map(function (item, index) {
+              that.props.shortcuts ? that.props.shortcuts.map(function (item, index) {
                 return createElement('span', {className: 'pull-right'},
                   createElement('kbd', {}, [
                     item.h,
@@ -72,8 +72,9 @@ var KeyBinding = createClass({
                     })
                   ])
                 );
-              }):null,
-              createElement('div', {title: '(' +this.props.ckey + ')' , className:'jupyter-keybindings-text'}, this.props.display )
+              }): null,
+              createElement('div', {title: '(' + that.props.ckey + ')' ,
+                className:'jupyter-keybindings-text'}, that.props.display )
       );
   }
 });
@@ -87,16 +88,17 @@ var KeyBindingList = createClass({
       this.setState({data:this.props.callback()});
   },
   render: function() {
+      var that = this;
       var childrens = this.state.data.map(function (binding) {
           return createElement(KeyBinding, Object.assign({}, binding, {
           onAddBindings: function (shortcut, action) {
-              this.props.bind(shortcut, action);
-              this.setState({data:this.props.callback()});
+              that.props.bind(shortcut, action);
+              that.setState({data:that.props.callback()});
           },
-          available:this.props.available,
+          available: that.props.available,
           unbind: function (shortcut) {
-                  this.props.unbind(shortcut);
-                  this.setState({data:this.props.callback()});
+                  that.props.unbind(shortcut);
+                  that.setState({data:that.props.callback()});
              }
           }));
       });
@@ -125,12 +127,12 @@ var get_shortcuts_data = function(notebook) {
     var actions = Object.keys(notebook.keyboard_manager.actions._actions);
     var src = [];
 
-    for (let i = 0; i < actions.length; i++) {
+    for (var i = 0; i < actions.length; i++) {
       var action_id = actions[i];
       var action = notebook.keyboard_manager.actions.get(action_id);
 
-      let shortcuts = notebook.keyboard_manager.command_shortcuts.get_action_shortcuts(action_id);
-      let hshortcuts;
+      var shortcuts = notebook.keyboard_manager.command_shortcuts.get_action_shortcuts(action_id);
+      var hshortcuts = [];
       if (shortcuts.length > 0) {
         hshortcuts = shortcuts.map(function (raw) {
           return {h:QH._humanize_sequence(raw),raw:raw};}
@@ -150,7 +152,7 @@ var get_shortcuts_data = function(notebook) {
 var ShortcutEditor = function(notebook) {
 
     if(!notebook){
-      throw new Error("CommandPalette takes a notebook non-null mandatory arguement");
+      throw new Error("CommandPalette takes a notebook non-null mandatory argument");
     }
 
     var body =  $('<div>');
@@ -171,7 +173,7 @@ var ShortcutEditor = function(notebook) {
     mod.modal('show');
     render(
         createElement(KeyBindingList, {
-            callback:function () { return  get_shortcuts_data(notebook);},
+            callback: function () { return  get_shortcuts_data(notebook);},
             bind: function (shortcut, command) {
                 return notebook.keyboard_manager.command_shortcuts._persist_shortcut(shortcut, command);
             },
@@ -183,5 +185,5 @@ var ShortcutEditor = function(notebook) {
         body.get(0)
     );
 };
-    return {ShortcutEditor};
-})
+    return {ShortcutEditor: ShortcutEditor};
+});

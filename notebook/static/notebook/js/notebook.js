@@ -441,7 +441,6 @@ define([
     };
 
     Notebook.prototype.show_shortcuts_editor = function() {
-        // FIXME: ShortcutEditor disabled for now
         new ShortcutEditor(this);
     };
 
