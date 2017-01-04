@@ -30,9 +30,7 @@ define([
     './celltoolbarpresets/attachments',
     './scrollmanager',
     './commandpalette',
-    // FIXME: shortcut-editor uses preact,
-    // which doesn't boewr install
-    // 'notebook/js/shortcuteditor',
+    './shortcuteditor',
 ], function (
     $,
     IPython,
@@ -57,10 +55,11 @@ define([
     slideshow_celltoolbar,
     attachments_celltoolbar,
     scrollmanager,
-    commandpalette
-    // ShortcutEditor
+    commandpalette,
+    shortcuteditor
 ) {
 
+    var ShortcutEditor = shortcuteditor.ShortcutEditor;
     var _SOFT_SELECTION_CLASS = 'jupyter-soft-selected';
 
     function soft_selected(cell){
@@ -443,7 +442,7 @@ define([
 
     Notebook.prototype.show_shortcuts_editor = function() {
         // FIXME: ShortcutEditor disabled for now
-        // new ShortcutEditor(this);
+        new ShortcutEditor(this);
     };
 
     /**

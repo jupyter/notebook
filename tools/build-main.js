@@ -54,7 +54,7 @@ var rjs_config = {
     "jquery-ui": {
       deps: ["jquery"],
       exports: "$"
-    }
+    },
   },
 
   exclude: [

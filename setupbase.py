@@ -14,9 +14,10 @@ This includes:
 from __future__ import print_function
 
 import os
+import pipes
+import shutil
 import sys
 
-import pipes
 from distutils import log
 from distutils.cmd import Command
 from fnmatch import fnmatch
@@ -342,6 +343,15 @@ class Bower(Command):
             return True
         if not os.path.exists(self.bower_dir):
             return True
+        
+        # check npm packages
+        for pkg in ['preact', 'preact-compat', 'proptypes']:
+            npm_pkg = os.path.join(self.node_modules, pkg)
+            bower_pkg = os.path.join(self.bower_dir, pkg)
+            if not os.path.exists(npm_pkg) or not os.path.exists(bower_pkg):
+                return True
+            if mtime(bower_pkg) < mtime(npm_pkg):
+                return True
         return mtime(self.bower_dir) < mtime(pjoin(repo_root, 'bower.json'))
 
     def should_run_npm(self):
@@ -351,7 +361,17 @@ class Bower(Command):
         if not os.path.exists(self.node_modules):
             return True
         return mtime(self.node_modules) < mtime(pjoin(repo_root, 'package.json'))
-    
+
+    def npm_components(self):
+        """Stage npm frontend dependencies into components"""
+        for pkg in ['preact', 'preact-compat', 'proptypes']:
+            npm_pkg = os.path.join(self.node_modules, pkg)
+            bower_pkg = os.path.join(self.bower_dir, pkg)
+            log.info("Staging %s -> %s" % (npm_pkg, bower_pkg))
+            if os.path.exists(bower_pkg):
+                shutil.rmtree(bower_pkg)
+            shutil.copytree(npm_pkg, bower_pkg)
+
     def run(self):
         if not self.should_run():
             print("bower dependencies up to date")
@@ -375,6 +395,7 @@ class Bower(Command):
             print("Failed to run bower: %s" % e, file=sys.stderr)
             print("You can install js dependencies with `npm install`", file=sys.stderr)
             raise
+        self.npm_components()
         os.utime(self.bower_dir, None)
         # update package data in case this created new files
         update_package_data(self.distribution)
@@ -444,6 +465,7 @@ class CompileJS(Command):
     
     def sources(self, name):
         """Generator yielding .js sources that an application depends on"""
+        yield pjoin(repo_root, 'tools', 'build-main.js')
         yield pjoin(static, name, 'js', 'main.js')
 
         for sec in [name, 'base', 'auth']:
@@ -549,11 +571,11 @@ def css_js_prerelease(command, strict=False):
                     # die if strict or any targets didn't build
                     prefix = os.path.commonprefix([repo_root + os.sep] + missing)
                     missing = [ m[len(prefix):] for m in missing ]
-                    log.warning("rebuilding js and css failed. The following required files are missing: %s" % missing)
+                    log.warn("rebuilding js and css failed. The following required files are missing: %s" % missing)
                     raise e
                 else:
-                    log.warning("rebuilding js and css failed (not a problem)")
-                    log.warning(str(e))
+                    log.warn("rebuilding js and css failed (not a problem)")
+                    log.warn(str(e))
 
             # check again for missing targets, just in case:
             missing = [ t for t in targets if not os.path.exists(t) ]

@@ -16,5 +16,9 @@
     "bower": "*",
     "less": "~2",
     "requirejs": "^2.1.17"
+  },
+  "dependencies": {
+    "preact": "^7.1.0",
+    "preact-compat": "^3.9.4"
   }
 }
