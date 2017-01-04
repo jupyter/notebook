@@ -20,9 +20,9 @@ var bind = function bind(obj) {
 Function.prototype.bind = Function.prototype.bind || bind ;
 
 
-requirejs(['contents'], function(contentsModule) {
 require([
     'jquery',
+    'contents',
     'base/js/namespace',
     'notebook/js/notebook',
     'services/config',
@@ -45,6 +45,7 @@ require([
     'notebook/js/clipboard'
 ], function(
     $,
+    contents_service,
     IPython,
     notebook,
     configmod,
@@ -74,7 +75,7 @@ require([
     try{
         requirejs(['custom/custom'], function() {});
     } catch(err) {
-        console.log("Error processing custom.js. Logging and continuing")
+        console.log("Error processing custom.js. Logging and continuing");
         console.warn(err);
     }
 
@@ -112,7 +113,7 @@ require([
         events: events,
         keyboard_manager: keyboard_manager});
     acts.extend_env({save_widget:save_widget});
-    var contents = new contentsModule.Contents({
+    var contents = new contents_service.Contents({
           base_url: common_options.base_url,
           common_config: common_config
         });
@@ -230,5 +231,4 @@ require([
 
     notebook.load_notebook(common_options.notebook_path);
 
-});
 });

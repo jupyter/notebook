@@ -20,9 +20,9 @@ var bind = function bind(obj) {
 Function.prototype.bind = Function.prototype.bind || bind ;
 
 
-requirejs(['contents'], function(contents_service) {
 require([
     'jquery',
+    'contents',
     'base/js/namespace',
     'base/js/dialog',
     'base/js/events',
@@ -37,6 +37,7 @@ require([
     'auth/js/loginwidget',
 ], function(
     $,
+    contents_service,
     IPython,
     dialog,
     events,
@@ -199,5 +200,4 @@ require([
     if (window.location.hash) {
         $("#tabs").find("a[href=" + window.location.hash + "]").click();
     }
-});
 });
