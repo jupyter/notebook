@@ -734,7 +734,7 @@ define([
                 'api/sessions',
                 encodeURIComponent(session.id)
             );
-            $.ajax(url, settings);
+            utils.ajax(url, settings);
         }
     };
 

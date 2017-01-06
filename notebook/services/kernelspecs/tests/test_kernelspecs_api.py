@@ -26,12 +26,12 @@ some_resource = u"The very model of a modern major general"
 
 class KernelSpecAPI(object):
     """Wrapper for notebook API calls."""
-    def __init__(self, base_url):
-        self.base_url = base_url
+    def __init__(self, request):
+        self.request = request
 
     def _req(self, verb, path, body=None):
-        response = requests.request(verb,
-                url_path_join(self.base_url, path),
+        response = self.request(verb,
+                path,
                 data=body,
         )
         response.raise_for_status()
@@ -52,7 +52,7 @@ class APITest(NotebookTestBase):
     def setUp(self):
         self.create_spec('sample')
         self.create_spec('sample 2')
-        self.ks_api = KernelSpecAPI(self.base_url())
+        self.ks_api = KernelSpecAPI(self.request)
 
     def create_spec(self, name):
         sample_kernel_dir = pjoin(self.data_dir.name, 'kernels', name)
