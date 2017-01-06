@@ -29,7 +29,10 @@ before_install:
     - npm --version
     - npm upgrade -g npm
     - npm install
-    - 'if [[ $GROUP == js* ]]; then  npm install -g casperjs@1.1.0-beta5; fi'
+    - |
+      if [[ $GROUP == js* ]]; then 
+        npm install -g casperjs@1.1.3 phantomjs-prebuilt@2.1.7
+      fi
     - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
 
 install:
