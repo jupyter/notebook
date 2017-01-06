@@ -979,7 +979,7 @@ define([
      */
     Kernel.prototype.output_callback_overrides_push = function(msg_id, callback_id) {
         var output_callbacks = this._msg_callbacks_overrides[msg_id];
-        if (output_callbacks === void 0) {
+        if (!output_callbacks) {
             this._msg_callbacks_overrides[msg_id] = output_callbacks = [];
         }
         output_callbacks.push(callback_id);
