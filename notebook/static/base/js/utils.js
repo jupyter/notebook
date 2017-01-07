@@ -603,7 +603,7 @@ define([
     
     var to_absolute_cursor_pos = function (cm, cursor) {
         console.warn('`utils.to_absolute_cursor_pos(cm, pos)` is deprecated. Use `cm.indexFromPos(cursor)`');
-        return cm.indexFromPos(cusrsor);
+        return cm.indexFromPos(cursor);
     };
     
     var from_absolute_cursor_pos = function (cm, cursor_pos) {
@@ -752,6 +752,35 @@ define([
         return wrapped_error;
     };
     
+    var ajax = function (url, settings) {
+        // like $.ajax, but ensure Authorization header is set
+        settings = _add_auth_header(settings);
+        return $.ajax(url, settings);
+    };
+    
+    var _get_cookie = function (name) {
+        // from tornado docs: http://www.tornadoweb.org/en/stable/guide/security.html
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+
+    var _add_auth_header = function (settings) {
+        /**
+         * Adds auth header to jquery ajax settings
+         */
+        settings = settings || {};
+        if (!settings.headers) {
+            settings.headers = {};
+        }
+        if (!settings.headers.Authorization) {
+            var xsrf_token = _get_cookie('_xsrf');
+            if (xsrf_token) {
+                settings.headers['X-XSRFToken'] = xsrf_token;
+            }
+        }
+        return settings;
+    };
+
     var promising_ajax = function(url, settings) {
         /**
          * Like $.ajax, but returning an ES6 promise. success and error settings
@@ -766,7 +795,7 @@ define([
                 log_ajax_error(jqXHR, status, error);
                 reject(wrap_ajax_error(jqXHR, status, error));
             };
-            $.ajax(url, settings);
+            ajax(url, settings);
         });
     };
 
@@ -1030,10 +1059,11 @@ define([
         is_or_has : is_or_has,
         is_focused : is_focused,
         mergeopt: mergeopt,
-        ajax_error_msg : ajax_error_msg,
-        log_ajax_error : log_ajax_error,
         requireCodeMirrorMode : requireCodeMirrorMode,
         XHR_ERROR : XHR_ERROR,
+        ajax : ajax,
+        ajax_error_msg : ajax_error_msg,
+        log_ajax_error : log_ajax_error,
         wrap_ajax_error : wrap_ajax_error,
         promising_ajax : promising_ajax,
         WrappedError: WrappedError,

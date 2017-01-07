@@ -4,10 +4,8 @@
 # Distributed under the terms of the Modified BSD License.
 
 import io
-import requests
 from os.path import join as pjoin
 
-from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase
 from nbformat import write
 from nbformat.v4 import (
@@ -45,20 +43,20 @@ class BundleAPITest(NotebookTestBase):
 
     def test_missing_bundler_arg(self):
         """Should respond with 400 error about missing bundler arg"""
-        resp = requests.get(url_path_join(self.base_url(), 'bundle', 'fake.ipynb'))
+        resp = self.request('GET', 'bundle/fake.ipynb')
         self.assertEqual(resp.status_code, 400)
         self.assertIn('Missing argument bundler', resp.text)
 
     def test_notebook_not_found(self):
         """Shoudl respond with 404 error about missing notebook"""
-        resp = requests.get(url_path_join(self.base_url(), 'bundle', 'fake.ipynb'),
+        resp = self.request('GET', 'bundle/fake.ipynb',
             params={'bundler': 'fake_bundler'})
         self.assertEqual(resp.status_code, 404)
         self.assertIn('Not Found', resp.text)
 
     def test_bundler_not_enabled(self):
         """Should respond with 400 error about disabled bundler"""
-        resp = requests.get(url_path_join(self.base_url(), 'bundle', 'testnb.ipynb'),
+        resp = self.request('GET', 'bundle/testnb.ipynb',
             params={'bundler': 'fake_bundler'})
         self.assertEqual(resp.status_code, 400)
         self.assertIn('Bundler fake_bundler not enabled', resp.text)
@@ -67,7 +65,7 @@ class BundleAPITest(NotebookTestBase):
         """Should respond with 500 error about failure to load bundler module"""
         with patch('notebook.bundler.handlers.BundlerHandler.get_bundler') as mock:
             mock.return_value = {'module_name': 'fake_module'}
-            resp = requests.get(url_path_join(self.base_url(), 'bundle', 'testnb.ipynb'),
+            resp = self.request('GET', 'bundle/testnb.ipynb',
                 params={'bundler': 'fake_bundler'})
             mock.assert_called_with('fake_bundler')
         self.assertEqual(resp.status_code, 500)
@@ -77,7 +75,7 @@ class BundleAPITest(NotebookTestBase):
         """Should respond with 200 and output from test bundler stub"""
         with patch('notebook.bundler.handlers.BundlerHandler.get_bundler') as mock:
             mock.return_value = {'module_name': 'notebook.bundler.tests.test_bundler_api'}
-            resp = requests.get(url_path_join(self.base_url(), 'bundle', 'testnb.ipynb'),
+            resp = self.request('GET', 'bundle/testnb.ipynb',
                 params={'bundler': 'stub_bundler'})
             mock.assert_called_with('stub_bundler')
         self.assertEqual(resp.status_code, 200)

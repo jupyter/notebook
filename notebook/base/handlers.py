@@ -48,7 +48,7 @@ def log():
 
 class AuthenticatedHandler(web.RequestHandler):
     """A RequestHandler with an authenticated user."""
-    
+
     @property
     def content_security_policy(self):
         """The default Content-Security-Policy header
@@ -94,6 +94,13 @@ class AuthenticatedHandler(web.RequestHandler):
         if self.login_handler is None or not hasattr(self.login_handler, 'should_check_origin'):
             return False
         return not self.login_handler.should_check_origin(self)
+
+    @property
+    def token_authenticated(self):
+        """Have I been authenticated with a token?"""
+        if self.login_handler is None or not hasattr(self.login_handler, 'is_token_authenticated'):
+            return False
+        return self.login_handler.is_token_authenticated(self)
 
     @property
     def cookie_name(self):
@@ -288,8 +295,12 @@ class IPythonHandler(AuthenticatedHandler):
         host = self.request.headers.get("Host")
         origin = self.request.headers.get("Origin")
 
-        # If no header is provided, assume it comes from a script/curl.
-        # We are only concerned with cross-site browser stuff here.
+        # If no header is provided, let the request through.
+        # Origin can be None for:
+        # - same-origin (IE, Firefox)
+        # - Cross-site POST form (IE, Firefox)
+        # - Scripts
+        # The cross-site POST (XSRF) case is handled by tornado's xsrf_token
         if origin is None or host is None:
             return True
 
@@ -313,7 +324,15 @@ class IPythonHandler(AuthenticatedHandler):
                 self.request.path, origin, host,
             )
         return allow
-    
+
+    def check_xsrf_cookie(self):
+        """Bypass xsrf cookie checks when token-authenticated"""
+        if self.token_authenticated or self.settings.get('disable_check_xsrf', False):
+            # Token-authenticated requests do not need additional XSRF-check
+            # Servers without authentication are vulnerable to XSRF
+            return
+        return super(IPythonHandler, self).check_xsrf_cookie()
+
     #---------------------------------------------------------------
     # template rendering
     #---------------------------------------------------------------
@@ -340,6 +359,10 @@ class IPythonHandler(AuthenticatedHandler):
             sys_info=sys_info,
             contents_js_source=self.contents_js_source,
             version_hash=self.version_hash,
+            ignore_minified_js=self.ignore_minified_js,
+            xsrf_form_html=self.xsrf_form_html,
+            token=self.token,
+            xsrf_token=self.xsrf_token.decode('utf8'),
             **self.jinja_template_vars
         )
     

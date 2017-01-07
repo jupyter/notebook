@@ -2,12 +2,12 @@
 
 from __future__ import print_function
 
+from binascii import hexlify
+from contextlib import contextmanager
 import os
 import sys
-import time
-import requests
-from contextlib import contextmanager
 from threading import Thread, Event
+import time
 from unittest import TestCase
 
 pjoin = os.path.join
@@ -17,12 +17,14 @@ try:
 except ImportError:
     from mock import patch #py2
 
+import requests
 from tornado.ioloop import IOLoop
 import zmq
 
 import jupyter_core.paths
 from traitlets.config import Config
 from ..notebookapp import NotebookApp
+from ..utils import url_path_join
 from ipython_genutils.tempdir import TemporaryDirectory
 
 MAX_WAITTIME = 30   # seconds to wait for notebook server to start
@@ -68,6 +70,20 @@ class NotebookTestBase(TestCase):
         cls.notebook_thread.join(timeout=MAX_WAITTIME)
         if cls.notebook_thread.is_alive():
             raise TimeoutError("Undead notebook server")
+    
+    @classmethod
+    def request(self, verb, path, **kwargs):
+        """Send a request to my server
+        
+        with authentication and everything.
+        """
+        headers = kwargs.setdefault('headers', {})
+        # kwargs.setdefault('allow_redirects', False)
+        headers.setdefault('Authorization', 'token %s' % self.token)
+        response = requests.request(verb,
+            url_path_join(self.base_url(), path),
+            **kwargs)
+        return response
 
     @classmethod
     def setup_class(cls):
@@ -86,8 +102,11 @@ class NotebookTestBase(TestCase):
         cls.data_dir = data_dir
         cls.runtime_dir = TemporaryDirectory()
         cls.notebook_dir = TemporaryDirectory()
+
         config = cls.config or Config()
         config.NotebookNotary.db_file = ':memory:'
+
+        cls.token = hexlify(os.urandom(4)).decode('ascii')
 
         started = Event()
         def start_thread():
@@ -102,7 +121,7 @@ class NotebookTestBase(TestCase):
                 base_url=cls.url_prefix,
                 config=config,
                 allow_root=True,
-                token='',
+                token=cls.token,
             )
             # don't register signal handler during tests
             app.init_signal = lambda : None

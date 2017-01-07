@@ -152,7 +152,7 @@ define([
      * @param {function} [error] - functon executed on ajax error
      */
     Kernel.prototype.list = function (success, error) {
-        $.ajax(this.kernel_service_url, {
+        utils.ajax(this.kernel_service_url, {
             processData: false,
             cache: false,
             type: "GET",
@@ -194,7 +194,7 @@ define([
             }
         };
 
-        $.ajax(url, {
+        utils.ajax(url, {
             processData: false,
             cache: false,
             type: "POST",
@@ -218,7 +218,7 @@ define([
      * @param {function} [error] - functon executed on ajax error
      */
     Kernel.prototype.get_info = function (success, error) {
-        $.ajax(this.kernel_url, {
+        utils.ajax(this.kernel_url, {
             processData: false,
             cache: false,
             type: "GET",
@@ -244,7 +244,7 @@ define([
     Kernel.prototype.kill = function (success, error) {
         this.events.trigger('kernel_killed.Kernel', {kernel: this});
         this._kernel_dead();
-        $.ajax(this.kernel_url, {
+        utils.ajax(this.kernel_url, {
             processData: false,
             cache: false,
             type: "DELETE",
@@ -278,7 +278,7 @@ define([
         };
 
         var url = utils.url_path_join(this.kernel_url, 'interrupt');
-        $.ajax(url, {
+        utils.ajax(url, {
             processData: false,
             cache: false,
             type: "POST",
@@ -323,7 +323,7 @@ define([
         };
 
         var url = utils.url_path_join(this.kernel_url, 'restart');
-        $.ajax(url, {
+        utils.ajax(url, {
             processData: false,
             cache: false,
             type: "POST",
