@@ -67,10 +67,13 @@ class LoginHandler(IPythonHandler):
     def hashed_password(self):
         return self.password_from_settings(self.settings)
 
+    def self.passwd_check(self, a, b):
+        return passwd_check(a, b)
+    
     def post(self):
         typed_password = self.get_argument('password', default=u'')
         if self.get_login_available(self.settings):
-            if passwd_check(self.hashed_password, typed_password):
+            if self.passwd_check(self.hashed_password, typed_password):
                 self.set_login_cookie(self, uuid.uuid4().hex)
             elif self.token and self.token == typed_password:
                 self.set_login_cookie(self, uuid.uuid4().hex)
