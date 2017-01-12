@@ -55,6 +55,7 @@ define([
         this.EDIT_MIMETYPES = [
           'application/javascipt',
           'application/x-sh',
+          'application/vnd.groove-tool-template'
         ];
     };
 
