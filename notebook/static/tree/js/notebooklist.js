@@ -53,8 +53,9 @@ define([
         };
         this._max_upload_size_mb = 25;
         this.EDIT_MIMETYPES = [
-          'application/javascipt',
+          'application/javascript',
           'application/x-sh',
+          'application/vnd.groove-tool-template'
         ];
     };
 
