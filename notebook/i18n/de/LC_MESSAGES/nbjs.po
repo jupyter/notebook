@@ -1,0 +1,90 @@
+# Translations template for PROJECT.
+# Copyright (C) 2017 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2017-01-12 13:41-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Globalization Pipeline\n"
+
+msgid "Creating File Failed"
+msgstr "Das Erstellen von Akte scheiterte"
+
+msgid "An error occurred while creating a new file."
+msgstr "Ein Fehler trat auf, während er eine neue Akte erstellte."
+
+msgid "Error during New file creation"
+msgstr "Fehler während neuer Aktenschaffung"
+
+msgid "Creating Folder Failed"
+msgstr "Das Erstellen von Ordner scheiterte"
+
+msgid "An error occurred while creating a new folder."
+msgstr "Ein Fehler trat auf, während er einen neuen Ordner erstellte."
+
+msgid "Error during New directory creation"
+msgstr "Fehler während neuer Verzeichnisschaffung"
+
+msgid "id provided to sort_list function is invalid."
+msgstr "Sort_list Funktion gelieferte Kennung ist ungültig."
+
+msgid "Failed to read file"
+msgstr "Keine Akte gelesen"
+
+msgid "Server error: "
+msgstr "Serverfehler: "
+
+msgid "Notebook list empty."
+msgstr "Notizblocklistenleere."
+
+msgid "Error adding link: "
+msgstr "Fehler, der Verbindung hinzufügt: "
+
+msgid "Click here to rename, delete, etc."
+msgstr "Klick hier, umzubenennen, zu löschen, usw."
+
+msgid "Running"
+msgstr "Laufen"
+
+msgid "Enter a new file name:"
+msgstr "Geben Sie einen neuen Dateinamen ein:"
+
+msgid "Enter a new directory name:"
+msgstr "Geben Sie einen neuen Verzeichnisnamen ein:"
+
+msgid "Enter a new notebook name:"
+msgstr "Geben Sie einen neuen Notizblocknamen ein:"
+
+msgid "Enter a new name:"
+msgstr "Geben Sie einen neuen Namen ein:"
+
+msgid "Rename file"
+msgstr "Benennen Sie Akte um"
+
+msgid "Rename directory"
+msgstr "Benennen Sie Verzeichnis um"
+
+msgid "Rename notebook"
+msgstr "Benennen Sie Notizblock um"
+
+msgid "Rename"
+msgstr "Benennen Sie um"
+
+msgid "Cancel"
+msgstr "Abbruch"
+
+msgid "Rename Failed"
+msgstr "Benennen Sie um, gescheitert"
+
+msgid "Error during renaming :"
+msgstr "Fehler während des Umbenennens:"

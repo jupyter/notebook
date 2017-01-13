@@ -1,0 +1,116 @@
+# Translations template for PROJECT.
+# Copyright (C) 2017 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2017-01-12 13:25-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.3.4\n"
+
+#: notebook/static/tree/js/notebooklist.js:103
+msgid "Creating File Failed"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:105
+msgid "An error occurred while creating a new file."
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:113
+msgid "Error during New file creation"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:123
+msgid "Creating Folder Failed"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:125
+msgid "An error occurred while creating a new folder."
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:133
+msgid "Error during New directory creation"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:192
+msgid "id provided to sort_list function is invalid."
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:250
+msgid "Failed to read file"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:325
+msgid "Server error: "
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:360
+msgid "Notebook list empty."
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:390
+msgid "Error adding link: "
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:433
+msgid "Click here to rename, delete, etc."
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:473
+msgid "Running"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:758
+msgid "Enter a new file name:"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:759
+msgid "Enter a new directory name:"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:760
+msgid "Enter a new notebook name:"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:761
+msgid "Enter a new name:"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:766
+msgid "Rename file"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:767
+msgid "Rename directory"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:768
+msgid "Rename notebook"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:769
+msgid "Rename"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:781
+#: notebook/static/tree/js/notebooklist.js:849
+msgid "Cancel"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:793
+msgid "Rename Failed"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:803
+msgid "Error during renaming :"
+msgstr ""
+

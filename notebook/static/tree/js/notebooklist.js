@@ -34,6 +34,10 @@ define([
       return item_in(str, mimetype || '');
     };
 
+    var _ = function(text) {
+    	return utils.gettext(text);
+    }
+
     var NotebookList = function (selector, options) {
         /**
          * Constructor
@@ -120,9 +124,9 @@ define([
                 }).catch(function (e) {
                     w.close();
                     dialog.modal({
-                        title: 'Creating File Failed',
+                        title: _('Creating File Failed'),
                         body: $('<div/>')
-                            .text("An error occurred while creating a new file.")
+                            .text(_("An error occurred while creating a new file."))
                             .append($('<div/>')
                                 .addClass('alert alert-danger')
                                 .text(e.message || e)),
@@ -130,7 +134,7 @@ define([
                             OK: {'class': 'btn-primary'}
                         }
                     });
-                    console.warn('Error during New file creation', e);
+                    console.warn(_('Error during New file creation'), e);
                 });
                 that.load_sessions();
             });
@@ -140,9 +144,9 @@ define([
                     that.load_list();
                 }).catch(function (e) {
                     dialog.modal({
-                        title: 'Creating Folder Failed',
+                        title: _('Creating Folder Failed'),
                         body: $('<div/>')
-                            .text("An error occurred while creating a new folder.")
+                            .text(_("An error occurred while creating a new folder."))
                             .append($('<div/>')
                                 .addClass('alert alert-danger')
                                 .text(e.message || e)),
@@ -150,7 +154,7 @@ define([
                             OK: {'class': 'btn-primary'}
                         }
                     });
-                    console.warn('Error during New directory creation', e);
+                    console.warn(_('Error during New directory creation'), e);
                 });
                 that.load_sessions();
             });
@@ -211,7 +215,7 @@ define([
         } else if (id == 'sort-name') {
             that.sort_name(order);
         } else {
-            console.log('id provided to sort_list function is invalid.');
+            console.log(_('id provided to sort_list function is invalid.'));
         }
     };
 
@@ -269,8 +273,8 @@ define([
             var name = item.data('name');
             item.remove();
             dialog.modal({
-                title : 'Failed to read file',
-                body : "Failed to read file '" + name + "'",
+                title : _('Failed to read file'),
+                body : utils.Jed.sprintf("Failed to read file %s",name),
                 buttons : {'OK' : { 'class' : 'btn-primary' }}
             });
         };
@@ -351,7 +355,7 @@ define([
         this.contents.list_contents(that.notebook_path).then(
             $.proxy(this.draw_notebook_list, this),
             function(error) {
-                that.draw_notebook_list({content: []}, "Server error: " + error.message);
+                that.draw_notebook_list({content: []}, _("Server error: ") + error.message);
             }
         );
     };
@@ -386,7 +390,7 @@ define([
             }
             return 0;
         });
-        var message = error_msg || 'Notebook list empty.';
+        var message = error_msg || _('Notebook list empty.');
         var item = null;
         var model = null;
         var len = list.content.length;
@@ -416,7 +420,7 @@ define([
             try {
                 this.add_link(model, item);
             } catch(err) {
-                console.log('Error adding link: ' + err);
+                console.log(_('Error adding link: ') + err);
             }
         }
         // Trigger an event when we've finished drawing the notebook list.
@@ -454,12 +458,12 @@ define([
         var item = $("<div/>")
             .addClass("col-md-12")
             .appendTo(row);
-
+        
         var checkbox;
         if (selectable !== undefined) {
             checkbox = $('<input/>')
                 .attr('type', 'checkbox')
-                .attr('title', 'Click here to rename, delete, etc.')
+                .attr('title', _('Click here to rename, delete, etc.'))
                 .appendTo(item);
         }
 
@@ -499,7 +503,7 @@ define([
 
         $('<div/>')
             .addClass('running-indicator')
-            .text('Running')
+            .text(_('Running'))
             .css('visibility', 'hidden')
             .appendTo(buttons);
 
@@ -763,7 +767,7 @@ define([
         if (model.type !== "directory") {
             link.attr('target',IPython._target);
         }
-
+        
         // Add in the date that the file was last modified
         item.find(".item_modified").text(utils.format_datetime(model.last_modified));
         item.find(".item_modified").attr("title", moment(model.last_modified).format("YYYY-MM-DD HH:mm"));
@@ -838,14 +842,36 @@ define([
         var item_type = this.selected[0].type;
         var input = $('<input/>').attr('type','text').attr('size','25').addClass('form-control')
             .val(item_name);
+        var rename_msg = function (type) {
+        	switch(type) {
+        	case 'file': return _("Enter a new file name:");
+        	case 'directory': return _("Enter a new directory name:");
+        	case 'notebook': return _("Enter a new notebook name:");
+        	default: return _("Enter a new name:");
+        	}
+        }
+        var rename_title = function (type) {
+           	switch(type) {
+           	case 'file': return _("Rename file");
+           	case 'directory': return _("Rename directory");
+           	case 'notebook': return _("Rename notebook");
+           	default: return _("Rename");
+           	}
+        }
         var dialog_body = $('<div/>').append(
             $("<p/>").addClass("rename-message")
-                .text('Enter a new '+ item_type + ' name:')
+                .text(rename_msg(item_type))
         ).append(
             $("<br/>")
         ).append(input);
+        
+        // This statement is used simply so that message extraction
+        // will pick up the strings.  The actual setting of the text
+        // for the button is in dialog.js.
+        var button_labels = [ _("Cancel"), _("Rename"), _("OK")];
+
         var d = dialog.modal({
-            title : "Rename "+ item_type,
+            title : rename_title(item_type),
             body : dialog_body,
             default_button: "Cancel",
             buttons : {
@@ -859,7 +885,7 @@ define([
                             that.select('select-none');
                         }).catch(function(e) {
                             dialog.modal({
-                                title: "Rename Failed",
+                                title: _("Rename Failed"),
                                 body: $('<div/>')
                                     .text("An error occurred while renaming \"" + item_name + "\" to \"" + input.val() + "\".")
                                     .append($('<div/>')
@@ -869,7 +895,7 @@ define([
                                     OK: {'class': 'btn-primary'}
                                 }
                             });
-                            console.warn('Error during renaming :', e);
+                            console.warn(_('Error during renaming :'), e);
                         });
                     }
                 }

@@ -21,9 +21,9 @@
         <div class="container">
           <div class="center-nav">
           {% if token_available %}
-            <p class="navbar-text nav"><% trans %>Password or token:<% endtrans %></p>
+            <p class="navbar-text nav">{% trans %}Password or token:{% endtrans %}</p>
           {% else %}
-            <p class="navbar-text nav"><% trans %>Password:<% endtrans %></p>
+            <p class="navbar-text nav">{% trans %}Password:{% endtrans %}</p>
           {% endif %}
             <form action="{{base_url}}login?next={{next}}" method="post" class="navbar-form pull-left">
               {{ xsrf_form_html() | safe }}
@@ -36,7 +36,7 @@
     </div>
     </div>
     {% else %}
-    <p><% trans %>No login available, you shouldn't be seeing this page.<% endtrans %></p>
+    <p>{% trans %}No login available, you shouldn't be seeing this page.{% endtrans %}</p>
     {% endif %}
     {% if message %}
       <div class="row">

@@ -1,7 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define(function(require) {
+define(['base/js/utils'], function(utils) {
     "use strict";
 
     var CodeMirror = require('codemirror/lib/codemirror');
@@ -86,7 +86,7 @@ define(function(require) {
             var button = $("<button/>")
                 .addClass("btn btn-default btn-sm")
                 .attr("data-dismiss", "modal")
-                .text(label);
+                .text(utils.gettext(label));
             if (btn_opts.id) {
                 button.attr('id', btn_opts.id);
             }

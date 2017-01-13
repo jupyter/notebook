@@ -1,0 +1,811 @@
+# Translations template for PROJECT.
+# Copyright (C) 2016 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2016-12-26 14:50-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Globalization Pipeline\n"
+
+msgid "The Jupyter Notebook requires tornado >= 4.0"
+msgstr "ノートが竜巻を必要とするJupyter>=4.0"
+
+msgid "The Jupyter Notebook requires tornado >= 4.0, but you have < 1.1.0"
+msgstr "ノートが竜巻を必要とするJupyter>=4.0しかしあなたは持っています<1.1.0"
+
+msgid "The Jupyter Notebook requires tornado >= 4.0, but you have %s"
+msgstr "ノートが竜巻を必要とするJupyter>=4.0、しかしあなたが持っています%s"
+
+msgid ""
+"The `ignore_minified_js` flag is deprecated and will be removed in Notebook "
+msgstr "その`_minified_jsを無視して下さい`旗は、不賛成の意を表されて、そしてノート6.0で取り去られるでしょう"
+
+msgid ""
+"Widgets are unavailable. Please install widgetsnbextension or ipywidgets 4.0"
+msgstr "ウィジェットは入手できないです。どうぞwidgetsnbextensionあるいはipywidgets 4.0を取り付けて下さい"
+
+msgid "List currently running notebook servers."
+msgstr "現在走っているノート・サーバーをリストアップして下さい。"
+
+msgid "Produce machine-readable JSON output."
+msgstr "機械で読み取ることができるJSON産出を示して下さい。"
+
+msgid ""
+"If True, each line of output will be a JSON object with the details from the "
+"server info file."
+msgstr "真実なら、それぞれのラインの産出は、詳細がサーバー情報ファイルからのJSON物になるでしょう。"
+
+msgid "Currently running servers:"
+msgstr "現在走っているサーバー:"
+
+msgid "Don't open the notebook in a browser after startup."
+msgstr "行動開始の後でブラウザーでノートを開かないで下さい。"
+
+msgid ""
+"DISABLED: use %pylab or %matplotlib in the notebook to enable matplotlib."
+msgstr "身体障害者:ノートで%pylabまたは%matplotlibを使ってmatplotlibを可能にして下さい。"
+
+msgid "Allow the notebook to be run from root user."
+msgstr "ノートブックにルート・ユーザから実行してください。"
+
+msgid ""
+"Deprecated: Use minified JS file or not, mainly use during dev to avoid JS "
+msgstr "不賛成の意を表されました:使用minified JSファイルあるいはない、devの間に主として使ってJS再編集を避けて下さい"
+
+msgid "Set the Access-Control-Allow-Credentials: true header"
+msgstr "アクセス・コントロール--考慮します--信任状をセットして下さい:真実のヘッダー"
+
+msgid "Whether to allow the user to run the notebook as root."
+msgstr "ユーザーに根としてノートを走らせるかどうか。"
+
+msgid "The default URL to redirect to from `/`"
+msgstr "転送するべきデフォルトのURLへのから`/`"
+
+msgid "The IP address the notebook server will listen on."
+msgstr "ノートブック・サーバーが聴くだろうIPアドレスで。"
+
+msgid "Cannot bind to localhost, using 127.0.0.1 as default ip\n%s"
+msgstr "デフォルトとして127.0.0.1を使って、ローカルホストに縛ることができませんip\n%s"
+
+msgid "The port the notebook server will listen on."
+msgstr "港ノート・サーバーが聴くでしょうで。"
+
+msgid ""
+"The number of additional ports to try if the specified port is not available."
+msgstr "もし指定された港が利用できなければ試みる追加の港の数。"
+
+msgid "The full path to an SSL/TLS certificate file."
+msgstr "SSL/TLS証明書ファイルへの道。"
+
+msgid "The full path to a private key file for usage with SSL/TLS."
+msgstr "SSL/TLSをもつ使い方のための個人的な主要なファイルへの道。"
+
+msgid ""
+"The full path to a certificate authority certificate for SSL/TLS client "
+"authentication."
+msgstr "SSL/TLSクライアント認証のための証明書権力証明書への道。"
+
+msgid "The file where the cookie secret is stored."
+msgstr "クッキー秘密がしまっておかれるファイル。"
+
+msgid "Writing notebook server cookie secret to %s"
+msgstr "ノート・サーバー・クッキー秘密を書きますへの%s"
+
+msgid "Could not set permissions on %s"
+msgstr "許可をセットすることができませんでしたで%s"
+
+msgid ""
+"One-time token used for opening a browser.\n\n        Once used, this token "
+"cannot be used again.\n        "
+msgstr ""
+"browser.\n\nを開くことに使われる以前のコインは、一度使いました、このコインは、使われたagain.\nであることができません        "
+
+msgid "DEPRECATED, use tornado_settings"
+msgstr "DEPRECATED、竜巻_設定を使って下さい"
+
+msgid "\n    webapp_settings is deprecated, use tornado_settings.\n"
+msgstr "webapp_設定が不賛成の意を表される\n、使用tornado_settings.\n"
+
+msgid ""
+"Supply overrides for the tornado.web.Application that the Jupyter notebook "
+"uses."
+msgstr "Jupyterノートが使うtornado.web.Applicationのために手数料を満たして下さい。"
+
+msgid ""
+"Supply overrides for terminado. Currently only supports \"shell_command\"."
+msgstr "terminadoのための手数料を満たして下さい。単に\"shell_command\"を現在支えます。"
+
+msgid ""
+"Extra keyword arguments to pass to `set_secure_cookie`. See tornado's "
+"set_secure_cookie docs for details."
+msgstr "そこに交わされる余分のキーワード議論`セット--安全な--クッキー`。詳細に関して竜巻のセット--安全な--クッキー書類を参照して下さい。"
+
+msgid ""
+"Supply SSL options for the tornado HTTPServer.\n            See the tornado "
+"docs for details."
+msgstr "竜巻HTTPServer.\nの供給SSL選択は、詳細に関して竜巻書類を参照します。"
+
+msgid "Supply extra arguments that will be passed to Jinja environment."
+msgstr "Jinja環境に渡されるだろう余分の議論を満たして下さい。"
+
+msgid "Extra variables to supply to jinja templates when rendering."
+msgstr "jinjaテンプレートに満たすべき余分の変数するときに。"
+
+msgid "DEPRECATED use base_url"
+msgstr "DEPRECATED使用基礎の_url"
+
+msgid "base_project_url is deprecated, use base_url"
+msgstr "土台--突き出します--urlは、不賛成の意を表されます、基礎の_urlを使って下さい"
+
+msgid "Path to search for custom.js, css"
+msgstr "custom.js、cssのための検索への道"
+
+msgid ""
+"Extra paths to search for serving jinja templates.\n\n        Can be used to "
+"override templates from notebook.templates."
+msgstr ""
+"jinja templates.\n\nを供給するための検索への余分の道は、notebook.templatesからテンプレートに取って代わるために使用"
+"されることができます。"
+
+msgid "extra paths to look for Javascript notebook extensions"
+msgstr "Javascriptノート拡張のための見ることへの余分の道"
+
+msgid "Using MathJax: %s"
+msgstr "使っているMathJax:%s"
+
+msgid "The MathJax.js configuration file that is to be used."
+msgstr "使われることであるMathJax.js構成ファイル。"
+
+msgid "Using MathJax configuration file: %s"
+msgstr "使っているMathJax構成ファイル:%s"
+
+msgid "The notebook manager class to use."
+msgstr "使うべきノート支配人クラス。"
+
+msgid "The kernel manager class to use."
+msgstr "使うべき粒支配人クラス。"
+
+msgid "The session manager class to use."
+msgstr "使うべき開会支配人クラス。"
+
+msgid "The config manager class to use"
+msgstr "使うべきconfig支配人クラス"
+
+msgid "The login handler class to use."
+msgstr "使うべきログイン扱う人クラス。"
+
+msgid "The logout handler class to use."
+msgstr "使うべきログアウト扱う人クラス。"
+
+msgid ""
+"Whether to trust or not X-Scheme/X-Forwarded-Proto and X-Real-Ip/"
+"X-Forwarded-For headerssent by the upstream reverse proxy. Necessary if the "
+"proxy handles SSL"
+msgstr ""
+"信頼することであろうが，なかろうがX-転送された計画/X-Protoと上流に逆の代理によるheaderssentのためのX-本当の-Ip/X--転送しました"
+"--。必要な代理がSSLを取り扱うか"
+
+msgid ""
+"\n        DISABLED: use %pylab or %matplotlib in the notebook to enable "
+"matplotlib.\n        "
+msgstr "\n身体障害者:ノートで%pylabまたは%matplotlibを使ってmatplotlib.\nを可能にして下さい        "
+
+msgid "Support for specifying --pylab on the command line has been removed."
+msgstr "指定するための支持--コマンドラインのpylabは、取り去られました。"
+
+msgid "Please use `%pylab{0}` or `%matplotlib{0}` in the notebook itself."
+msgstr "どうぞ使って下さい`%pylab{0}`あるいは`%matplotlib{0}`ノートでそれ自身。"
+
+msgid "The directory to use for notebooks and kernels."
+msgstr "ノートと粒のために使うべきディレクトリー。"
+
+msgid "No such notebook dir: %r"
+msgstr "このようなノートdirなし:%r"
+
+msgid "DEPRECATED use the nbserver_extensions dict instead"
+msgstr "DEPRECATEDは、nbserver_拡張dictを代わりに使います"
+
+msgid "server_extensions is deprecated, use nbserver_extensions"
+msgstr "サーバー_拡張は不賛成の意を表されます、nbserver_拡張を使って下さい"
+
+msgid ""
+"Dict of Python modules to load as notebook server extensions.Entry values can "
+"be used to enable and disable the loading ofthe extensions. The extensions "
+"will be loaded in alphabetical order."
+msgstr ""
+"ノート・サーバーextensions.Entryが評価するので荷を積み込むニシキヘビ・モジュールのDictは、荷を積み込んでいるofthe拡張を可能にして"
+"無効にするために使用されることができます。拡張は、アルファベット順で積まれるでしょう。"
+
+msgid "Reraise exceptions encountered loading server extensions?"
+msgstr "Reraise例外は、サーバー拡張を積んで遭遇しました?"
+
+msgid ""
+"(msgs/sec)\n        Maximum rate at which messages can be sent on iopub before"
+" they are\n        limited."
+msgstr "(メッセージ/秒)そこでメッセージがiopubで送られることができる\n最大割合は、彼らare\nの前に制限しました。"
+
+msgid ""
+"(bytes/sec)\n        Maximum rate at which messages can be sent on iopub "
+"before they are\n        limited."
+msgstr "(バイト/秒)そこでメッセージがiopubで送られることができる\n最大割合は、彼らare\nの前に制限しました。"
+
+msgid ""
+"(sec) Time window used to \n        check the message and data rate limits."
+msgstr "度数料金とデータ転送速度が制限する\nチェックに使われたウィンドウを(秒)、計って下さい。"
+
+msgid "No such file or directory: %s"
+msgstr "このようなファイルあるいはディレクトリーなし:%s"
+
+msgid "Notebook servers are configured to only be run with a password."
+msgstr "ノート・サーバーは、パスワードで単に動かされると形成されます。"
+
+msgid "Hint: run the following command to set a password"
+msgstr "ヒント:以下の命令を行ってパスワードをセットして下さい"
+
+msgid "\t$ python -m notebook.auth password"
+msgstr "\t$ニシキヘビ-m notebook.authパスワード"
+
+msgid "The port %i is already in use, trying another port."
+msgstr "港%i別の港を試みて、すでに用いられています。"
+
+msgid "Permission to listen on port %i denied"
+msgstr "港で聴く許可%i否定されました"
+
+msgid ""
+"ERROR: the notebook server could not be started because no available port "
+"could be found."
+msgstr "間違い:ノート・サーバーは、どんな利用できる港も見つけられないかもしれないので始められることができませんでした。"
+
+msgid "[all ip addresses on your system]"
+msgstr "[あなたの制度のすべてのip住所]"
+
+msgid "Terminals not available (error was %s)"
+msgstr "利用できるのではない終点(間違いがありました%s)"
+
+msgid "y"
+msgstr "y"
+
+msgid "n"
+msgstr "n"
+
+msgid "Shutdown this notebook server (%s/[%s])? "
+msgstr "閉鎖このノート・サーバー(%s/[%s])? "
+
+msgid "Shutdown confirmed"
+msgstr "確認された閉鎖"
+
+msgid "No answer for 5s:"
+msgstr "5sの答えなし:"
+
+msgid "resuming operation..."
+msgstr "操作を再開すること..."
+
+msgid "received signal %s, stopping"
+msgstr "合図を受けました%s、詰め物"
+
+msgid "Error loading server extension %s"
+msgstr "サーバー拡張を積んでいる間違い%s"
+
+msgid "%d active kernels \n"
+msgstr "%d活動的な粒\n"
+
+msgid "The Jupyter Notebook is running at: %s"
+msgstr "以下でJupyterノートが走っています:%s"
+
+msgid "Running as root is not recommended. Use --allow-root to bypass."
+msgstr "根が推薦されないので走って。使用--根にバイパスを通させてください。"
+
+msgid ""
+"Use Control-C to stop this server and shut down all kernels (twice to skip "
+"confirmation)."
+msgstr "管理-Cを使ってこのサーバーをふさいで、そしてすべての粒(2度確認を跳び越すために)を閉めて下さい。"
+
+msgid "No web browser found: %s."
+msgstr "どんなウェブ・ブラウザーも見つけませんでした:%s."
+
+msgid "%s does not exist"
+msgstr "%s存在しません"
+
+msgid "Interrupted..."
+msgstr "邪魔をされました..."
+
+msgid "You are requesting a page that does not exist!"
+msgstr "あなたは、存在しないページを頼んでいます!"
+
+msgid "current mode"
+msgstr "現在の方法"
+
+msgid "File"
+msgstr "ファイル"
+
+msgid "New"
+msgstr "新しいです"
+
+msgid "Save"
+msgstr "セーブ"
+
+msgid "Rename"
+msgstr "新しい名前を付けて下さい"
+
+msgid "Download"
+msgstr "ダウンロード"
+
+msgid "Edit"
+msgstr "編集"
+
+msgid "Find"
+msgstr "発見"
+
+msgid "Find &amp; Replace"
+msgstr "&amp;が取り替える発見"
+
+msgid "Key Map"
+msgstr "主要な地図"
+
+msgid "Default"
+msgstr "デフォルト"
+
+msgid "Sublime Text"
+msgstr "崇高なテキスト"
+
+msgid "View"
+msgstr "眺め"
+
+msgid "Show/Hide the logo and notebook title (above menu bar)"
+msgstr "ロゴとノートが(上記のメニュー・バー)題を付けるショー/隠れ場所"
+
+msgid "Toggle Header"
+msgstr "トグル・ヘッダー"
+
+msgid "Toggle Line Numbers"
+msgstr "トグル行番号"
+
+msgid "Language"
+msgstr "言語"
+
+msgid "The error was:"
+msgstr "間違いは:"
+
+msgid "Password:"
+msgstr "パスワード:"
+
+msgid "No login available, you shouldn't be seeing this page."
+msgstr "利用できるどんなログイン、あなたは、このページを見ているべきではありません。"
+
+msgid "Proceed to the <a href=\"%(base_url)s\">dashboard"
+msgstr "そこに進みますその<ひとつのhref=\"%(base_url)s\">dashboard"
+
+msgid "Proceed to the <a href=\"%(base_url)slogin\">login page"
+msgstr "そこに進みますその<ひとつのhref=\"%(base_url)slogin\">loginページ"
+
+msgid "Menu"
+msgstr "メニュー"
+
+msgid "Kernel"
+msgstr "粒"
+
+msgid "This notebook is read-only"
+msgstr "このノートは読み出し専用です"
+
+msgid "New Notebook"
+msgstr "新しいノート"
+
+msgid "Opens a new window with the Dashboard view"
+msgstr "ダッシュボード眺めをもつ新しい窓を開きます"
+
+msgid "Open..."
+msgstr "開いて下さい..."
+
+msgid "Open a copy of this notebook's contents and start a new kernel"
+msgstr "このノートの内容のコピーを開いて、そして新鮮な粒を始めて下さい"
+
+msgid "Make a Copy..."
+msgstr "コピーをして下さい..."
+
+msgid "Rename..."
+msgstr "新しい名前を付けて下さい..."
+
+msgid "Save and Checkpoint"
+msgstr "セーブとチェック・ポイント"
+
+msgid "Revert to Checkpoint"
+msgstr "チェック・ポイントに戻って下さい"
+
+msgid "Print Preview"
+msgstr "印刷プレビュー"
+
+msgid "Download as"
+msgstr "...としてダウンロードします"
+
+msgid "Notebook (.ipynb)"
+msgstr "ノート(。ipynb)"
+
+msgid "Script"
+msgstr "台本"
+
+msgid "HTML (.html)"
+msgstr "HTML(.html)"
+
+msgid "Markdown (.md)"
+msgstr "値下げ(.md)"
+
+msgid "reST (.rst)"
+msgstr "reST(.rst)"
+
+msgid "PDF via LaTeX (.pdf)"
+msgstr "乳液(.pdf)経由のPDF"
+
+msgid "Deploy as"
+msgstr "...として配備します"
+
+msgid "Trust the output of this notebook"
+msgstr "このノートの産出を信頼して下さい"
+
+msgid "Trust Notebook"
+msgstr "信用ノート"
+
+msgid "Shutdown this notebook's kernel, and close this window"
+msgstr "閉鎖このノートの粒と近くにこの窓"
+
+msgid "Close and Halt"
+msgstr "終わりと停止"
+
+msgid "Cut Cells"
+msgstr "切り傷細胞"
+
+msgid "Copy Cells"
+msgstr "コピー個室"
+
+msgid "Paste Cells Above"
+msgstr "上記の糊個室"
+
+msgid "Paste Cells Below"
+msgstr "以下の糊個室"
+
+msgid "Paste Cells &amp; Replace"
+msgstr "&amp;が取り替える糊個室"
+
+msgid "Delete Cells"
+msgstr "個室を削除して下さい"
+
+msgid "Undo Delete Cells"
+msgstr "ほどけます個室を削除して下さい"
+
+msgid "Split Cell"
+msgstr "分け前個室"
+
+msgid "Merge Cell Above"
+msgstr "上記の個室を合併して下さい"
+
+msgid "Merge Cell Below"
+msgstr "以下の個室を合併して下さい"
+
+msgid "Move Cell Up"
+msgstr "個室を上へ移して下さい"
+
+msgid "Move Cell Down"
+msgstr "個室を下ろして下さい"
+
+msgid "Edit Notebook Metadata"
+msgstr "編集ノート・メタデータ"
+
+msgid "Find and Replace"
+msgstr "見つけて取り替えて下さい"
+
+msgid "Cut Cell Attachments"
+msgstr "切り傷細胞取り付け"
+
+msgid "Copy Cell Attachments"
+msgstr "コピー個室取り付け"
+
+msgid "Paste Cell Attachments"
+msgstr "糊個室取り付け"
+
+msgid "Insert Image"
+msgstr "イメージを挿入して下さい"
+
+msgid "Show/Hide the action icons (below menu bar)"
+msgstr "見えます/隠れます行動アイコン(メニュー・バーの下に)"
+
+msgid "Toggle Toolbar"
+msgstr "トグル・ツールバー"
+
+msgid "Show/Hide line numbers in cells"
+msgstr "回線がセルで番号をつけるショー/隠れ場所"
+
+msgid "Cell Toolbar"
+msgstr "個室ツールバー"
+
+msgid "Insert"
+msgstr "挿入して下さい"
+
+msgid "Insert an empty Code cell above the currently active cell"
+msgstr "現在活動的な個室の上に空のコード個室を挿入して下さい"
+
+msgid "Insert Cell Above"
+msgstr "上記の個室を挿入して下さい"
+
+msgid "Insert an empty Code cell below the currently active cell"
+msgstr "現在活動的な個室の下に空のコード個室を挿入して下さい"
+
+msgid "Insert Cell Below"
+msgstr "以下の個室を挿入して下さい"
+
+msgid "Cell"
+msgstr "個室"
+
+msgid "Run this cell, and move cursor to the next one"
+msgstr "この個室を走って下さい、そして、カーソルを次の1人へ移動して下さい"
+
+msgid "Run Cells"
+msgstr "走行個室"
+
+msgid "Run this cell, select below"
+msgstr "この個室を走って、以下を選んで下さい"
+
+msgid "Run Cells and Select Below"
+msgstr "個室を走って、そして以下を選んで下さい"
+
+msgid "Run this cell, insert below"
+msgstr "この個室を走って、以下を挿入して下さい"
+
+msgid "Run Cells and Insert Below"
+msgstr "個室を走って、そして以下を挿入して下さい"
+
+msgid "Run all cells in the notebook"
+msgstr "ノートの下痢すべて細胞"
+
+msgid "Run All"
+msgstr "走行すべて"
+
+msgid "Run all cells above (but not including) this cell"
+msgstr "この個室の上に(しかし含むことではなく)すべての個室を走って下さい"
+
+msgid "Run All Above"
+msgstr "上記の走行すべて"
+
+msgid "Run this cell and all cells below it"
+msgstr "それの下にこの個室とすべての個室を走って下さい"
+
+msgid "Run All Below"
+msgstr "以下の走行すべて"
+
+msgid ""
+"All cells in the notebook have a cell type. By default, new cells are created "
+"as 'Code' cells"
+msgstr "ノートのすべての個室は、個室タイプがあります。デフォルトまでに、新しい個室は、「コード」個室として作られます"
+
+msgid "Cell Type"
+msgstr "個室タイプ"
+
+msgid ""
+"Contents will be sent to the kernel for execution, and output will display in "
+"the footer of cell"
+msgstr "内容は、実行のための粒に送られるでしょう、そして、産出は、個室の歩行者で展示するでしょう"
+
+msgid "Contents will be rendered as HTML and serve as explanatory text"
+msgstr "内容は、解説のテキストとしてHTMLとサーブとしてされるでしょう"
+
+msgid "Markdown"
+msgstr "値下げ"
+
+msgid "Contents will pass through nbconvert unmodified"
+msgstr "内容がnbconvertを通るでしょう変更されていないです"
+
+msgid "Raw NBConvert"
+msgstr "すり傷NBConvert"
+
+msgid "Current Outputs"
+msgstr "現在の産出"
+
+msgid "Hide/Show the output of the current cell"
+msgstr "隠れます/見えます現在の個室の産出"
+
+msgid "Toggle"
+msgstr "トグル"
+
+msgid "Scroll the output of the current cell"
+msgstr "現在の個室の産出をスクロールして下さい"
+
+msgid "Toggle Scrolling"
+msgstr "スクロールしているトグル"
+
+msgid "Clear the output of the current cell"
+msgstr "現在の個室のはっきりした産出"
+
+msgid "Clear"
+msgstr "はっきりしました"
+
+msgid "All Output"
+msgstr "すべての産出"
+
+msgid "Hide/Show the output of all cells"
+msgstr "隠れます/見えますすべての個室の産出"
+
+msgid "Scroll the output of all cells"
+msgstr "すべての個室の産出をスクロールして下さい"
+
+msgid "Clear the output of all cells"
+msgstr "すべての個室のはっきりした産出"
+
+msgid "Send Keyboard Interrupt (CTRL-C) to the Kernel"
+msgstr "粒にキーボード割り込み(CTRL-Cである)を送って下さい"
+
+msgid "Interrupt"
+msgstr "割り込み"
+
+msgid "Restart the Kernel"
+msgstr "再スタート粒"
+
+msgid "Restart"
+msgstr "再スタート"
+
+msgid "Restart the Kernel and clear all output"
+msgstr "粒とはっきりしたすべての産出を再スタートさせて下さい"
+
+msgid "Restart &amp; Clear Output"
+msgstr "再スタート&amp;は産出をきれいにします"
+
+msgid "Restart the Kernel and re-run the notebook"
+msgstr "粒を再スタートさせて、そしてノートを再上映して下さい"
+
+msgid "Restart &amp; Run All"
+msgstr "再スタート&amp;走行すべて"
+
+msgid "Reconnect to the Kernel"
+msgstr "粒に再接続して下さい"
+
+msgid "Reconnect"
+msgstr "再接続して下さい"
+
+msgid "Change kernel"
+msgstr "変化粒"
+
+msgid "A quick tour of the notebook user interface"
+msgstr "ノートブック・ユーザー・インターフェースの速い旅行"
+
+msgid "User Interface Tour"
+msgstr "ユーザー・インターフェース旅行"
+
+msgid "Opens a tooltip with all keyboard shortcuts"
+msgstr "すべてのキーボード近道でtooltipを開きます"
+
+msgid "Keyboard Shortcuts"
+msgstr "キーボード近道"
+
+msgid "About Jupyter Notebook"
+msgstr "Jupyterノートについて"
+
+msgid "About"
+msgstr "について"
+
+msgid "Files"
+msgstr "ファイル"
+
+msgid "Running"
+msgstr "走ること"
+
+msgid "Clusters"
+msgstr "房"
+
+msgid "Select items to perform actions on them."
+msgstr "彼らで行動をする項目を選んで下さい。"
+
+msgid "Duplicate selected"
+msgstr "選ばれた写し"
+
+msgid "Duplicate"
+msgstr "写し"
+
+msgid "Rename selected"
+msgstr "新しい名前を付けます選ばれました"
+
+msgid "Move selected"
+msgstr "選ばれた行動"
+
+msgid "Move"
+msgstr "行動"
+
+msgid "Download selected"
+msgstr "選ばれたダウンロード"
+
+msgid "Shutdown selected notebook(s)"
+msgstr "閉鎖は、ノートを選びました"
+
+msgid "Shutdown"
+msgstr "閉鎖"
+
+msgid "Delete selected"
+msgstr "削除します選ばれました"
+
+msgid "Click to browse for a file to upload."
+msgstr "アップロードするべきファイルをクリックしてブラウズして下さい。"
+
+msgid "Upload"
+msgstr "アップロード"
+
+msgid "Text File"
+msgstr "テキスト・ファイル"
+
+msgid "Folder"
+msgstr "フォルダー"
+
+msgid "Terminal"
+msgstr "終点"
+
+msgid "Terminals Unavailable"
+msgstr "入手できない終点"
+
+msgid "Notebook:"
+msgstr "ノート:"
+
+msgid "Select All / None"
+msgstr "すべてを選んで下さい/何もない"
+
+msgid "Select..."
+msgstr "選んで下さい..."
+
+msgid "Select All Folders"
+msgstr "すべてのフォルダーを選んで下さい"
+
+msgid " Folders"
+msgstr " フォルダー"
+
+msgid "Select All Notebooks"
+msgstr "すべてのノートを選んで下さい"
+
+msgid " All Notebooks"
+msgstr " すべてのノート"
+
+msgid "Select Running Notebooks"
+msgstr "上等の走っているノート"
+
+msgid " Running"
+msgstr " 走ること"
+
+msgid "Select All Files"
+msgstr "すべてのファイルを選んで下さい"
+
+msgid " Files"
+msgstr " ファイル"
+
+msgid "Last Modified"
+msgstr "最終変更日"
+
+msgid "Name"
+msgstr "名前"
+
+msgid "Currently running Jupyter processes"
+msgstr "現在走っているJupyter過程"
+
+msgid "Refresh running list"
+msgstr "リストを走らせているリフレッシュ"
+
+msgid "There are no terminals running."
+msgstr "走っている終点はないです。"
+
+msgid "Terminals are unavailable."
+msgstr "終点は入手できないです。"
+
+msgid "Notebooks"
+msgstr "ノート"
+
+msgid "There are no notebooks running."
+msgstr "走っているノートはないです。"
+
+msgid ""
+"Clusters tab is now provided by IPython parallel.\n          See <a href=\""
+"https://github.com/ipython/ipyparallel\">IPython parallel</a> for installation"
+" details."
+msgstr ""
+"付け札がIPython parallel.\nによって今提供される房が見ます<ひとつのhref=\"https://github.com/ipython/"
+"ipyparallel\">IPythonは、取付け詳細については</a>平行します。"

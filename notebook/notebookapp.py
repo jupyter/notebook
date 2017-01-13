@@ -37,7 +37,7 @@ from jinja2 import Environment, FileSystemLoader
 
 # Set up message catalog access
 base_dir = os.path.realpath(os.path.join(__file__, '..', '..'))
-trans = gettext.translation('notebook', localedir=os.path.join(base_dir, 'locale'), fallback=True)
+trans = gettext.translation('notebook', localedir=os.path.join(base_dir, 'notebook/i18n'), fallback=True)
 trans.install()
 
 # Install the pyzmq ioloop. This has to be done before anything else from
@@ -150,22 +150,6 @@ class NotebookWebApplication(web.Application):
                  config_manager, log,
                  base_url, default_url, settings_overrides, jinja_env_options):
 
-        # If the user is running the notebook in a git directory, make the assumption
-        # that this is a dev install and suggest to the developer `npm run build:watch`.
-        base_dir = os.path.realpath(os.path.join(__file__, '..', '..'))
-        dev_mode = os.path.exists(os.path.join(base_dir, '.git'))
-
-
-        if dev_mode:
-            DEV_NOTE_NPM = _("""It looks like you're running the notebook from source.
-If you're working on the Javascript of the notebook, try running
-
-npm run build:watch
-
-in another terminal window to have the system incrementally
-watch and build the notebook's JavaScript for you, as you make changes.
-""")
-            log.info(DEV_NOTE_NPM)
 
         settings = self.init_settings(
             jupyter_app, kernel_manager, contents_manager,
@@ -195,6 +179,22 @@ watch and build the notebook's JavaScript for you, as you make changes.
         env = Environment(loader=FileSystemLoader(template_path), extensions=['jinja2.ext.i18n'], **jenv_opt)
         env.install_gettext_translations(trans, newstyle=False)
         sys_info = get_sys_info()
+
+        # If the user is running the notebook in a git directory, make the assumption
+        # that this is a dev install and suggest to the developer `npm run build:watch`.
+        base_dir = os.path.realpath(os.path.join(__file__, '..', '..'))
+        dev_mode = os.path.exists(os.path.join(base_dir, '.git'))
+        if dev_mode:
+            DEV_NOTE_NPM = _("""It looks like you're running the notebook from source.
+If you're working on the Javascript of the notebook, try running
+
+npm run build:watch
+
+in another terminal window to have the system incrementally
+watch and build the notebook's JavaScript for you, as you make changes.
+""")
+            log.info(DEV_NOTE_NPM)
+
         if sys_info['commit_source'] == 'repository':
             # don't cache (rely on 304) when working from master
             version_hash = ''
@@ -1367,21 +1367,16 @@ class NotebookApp(JupyterApp):
         The kernels will shutdown themselves when this process no longer exists,
         but explicit shutdown allows the KernelManagers to cleanup the connection files.
         """
-        self.log.info('Shutting down %d kernels',
-                      len(self.kernel_manager.list_kernel_ids()))
+        self.log.info(_('Shutting down %d kernels',
+                      len(self.kernel_manager.list_kernel_ids())))
         self.kernel_manager.shutdown_all()
 
     def notebook_info(self):
         "Return the current working directory and the server url information"
         info = self.contents_manager.info_string() + "\n"
-<<<<<<< HEAD
-        info += "%d active kernels \n" % len(self.kernel_manager._kernels)
-        # Format the info so that the URL fits on a single line in 80 char display
-        return info + "The Jupyter Notebook is running at:\n\r%s" % self.display_url
-=======
         info += _("%d active kernels \n") % len(self.kernel_manager._kernels)
-        return info + _("The Jupyter Notebook is running at: %s") % self.display_url
->>>>>>> WIP: Preliminary work for message extraction
+        # Format the info so that the URL fits on a single line in 80 char display
+        return info + _("The Jupyter Notebook is running at:\n\r%s") % self.display_url
 
     def server_info(self):
         """Return a JSONable dict of information about this server."""
