@@ -53,6 +53,7 @@ configuring the :attr:`NotebookApp.password` setting in
 
 Prerequisite: A notebook configuration file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Check to see if you have a notebook configuration file,
 :file:`jupyter_notebook_config.py`. The default location for this file
 is your Jupyter folder in your home directory, ``~/.jupyter``.
@@ -66,7 +67,20 @@ using the following command::
 
 Preparing a hashed password
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-You can prepare a hashed password using the function
+
+As of notebook version 5.0, you can enter and store a password for your
+notebook server with a single command.
+:command:`jupyter notebook password` will prompt you for your password
+and record the hashed password in your :file:`jupyter_notebook_config.json`.
+
+.. code-block:: bash
+
+    $ jupyter notebook password
+    Enter password:  ****
+    Verify password: ****
+    [NotebookPasswordApp] Wrote hashed password to /Users/you/.jupyter/jupyter_notebook_config.json
+
+You can prepare a hashed password manually, using the function
 :func:`notebook.auth.security.passwd`:
 
 .. code-block:: ipython

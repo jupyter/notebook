@@ -106,6 +106,7 @@ from .utils import url_path_join, check_pid, url_escape
 _examples = """
 jupyter notebook                       # start the notebook
 jupyter notebook --certfile=mycert.pem # use SSL/TLS certificate
+jupyter notebook password              # enter a password to protect the server
 """
 
 DEV_NOTE_NPM = """It looks like you're running the notebook from source.
@@ -325,6 +326,24 @@ class NotebookWebApplication(web.Application):
         return new_handlers
 
 
+class NotebookPasswordApp(JupyterApp):
+    """Set a password for the notebook server.
+
+    Setting a password secures the notebook server
+    and removes the need for token-based authentication.
+    """
+    
+    description = __doc__
+
+    def _config_file_default(self):
+        return os.path.join(self.config_dir, 'jupyter_notebook_config.json')
+
+    def start(self):
+        from .auth.security import set_password
+        set_password(config_file=self.config_file)
+        self.log.info("Wrote hashed password to %s" % self.config_file)
+
+
 class NbserverListApp(JupyterApp):
     version = __version__
     description="List currently running notebook servers."
@@ -428,6 +447,7 @@ class NotebookApp(JupyterApp):
     
     subcommands = dict(
         list=(NbserverListApp, NbserverListApp.description.splitlines()[0]),
+        password=(NotebookPasswordApp, NotebookPasswordApp.description.splitlines()[0]),
     )
 
     _log_formatter_cls = LogFormatter
