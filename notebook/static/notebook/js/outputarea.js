@@ -40,6 +40,8 @@ define([
         this.bind_events();
         this.class_config = new configmod.ConfigWithDefaults(this.config,
                                         OutputArea.config_defaults, 'OutputArea');
+
+        this.handle_appended = utils.throttle(this.handle_appended.bind(this));
     };
 
     OutputArea.config_defaults = {
@@ -290,11 +292,9 @@ define([
     OutputArea.prototype.append_output = function (json) {
         this.expand();
         
-        // Clear the output if clear is queued.
-        var needs_height_reset = false;
         if (this.clear_queued) {
             this.clear_output(false);
-            needs_height_reset = true;
+            this._needs_height_reset = true;
         }
 
         var record_output = true;
@@ -324,24 +324,11 @@ define([
                 this.append_unrecognized(json);
         }
 
-        // We must release the animation fixed height in a callback since Gecko
-        // (FireFox) doesn't render the image immediately as the data is 
-        // available.
-        var that = this;
-        var handle_appended = function ($el) {
-            /**
-             * Only reset the height to automatic if the height is currently
-             * fixed (done by wait=True flag on clear_output).
-             */
-            if (needs_height_reset) {
-                that.element.height('');
-            }
-            that.element.trigger('resize');
-        };
         if (json.output_type === 'display_data') {
-            this.append_display_data(json, handle_appended);
+            var that = this;
+            this.append_display_data(json, this.handle_appended);
         } else {
-            handle_appended();
+            this.handle_appended();
         }
         
         if (record_output) {
@@ -349,6 +336,14 @@ define([
         }
     };
 
+    OutputArea.prototype.handle_appended = function () {
+        if (this._needs_height_reset) {
+            this.element.height('');
+            this._needs_height_reset = false;
+        }
+
+        this.element.trigger('resize');
+    };
 
     OutputArea.prototype.create_output_area = function () {
         var oa = $("<div/>").addClass("output_area");
@@ -501,6 +496,7 @@ define([
             return false;
         }
         var subclass = "output_"+json.name;
+
         if (this.outputs.length > 0){
             // have at least one output to consider
             var last = this.outputs[this.outputs.length-1];

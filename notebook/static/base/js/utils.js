@@ -1008,7 +1008,27 @@ define([
         return false;
     };
 
+    var throttle = function(fn, time) {
+      var pending = null;
+
+      return function () {
+        if (pending) return;
+        pending = setTimeout(run, time);
+
+        return function () {
+          clearTimeout(pending);
+          pending = null;
+        }
+      }
+
+      function run () {
+        pending = null;
+        fn();
+      }
+    }
+
     var utils = {
+        throttle: throttle,
         is_loaded: is_loaded,
         load_extension: load_extension,
         load_extensions: load_extensions,
