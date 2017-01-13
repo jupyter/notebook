@@ -8,6 +8,17 @@ casper.get_notebook_server = function () {
     return casper.cli.get("url") || ('http://127.0.0.1:' + port);
 };
 
+// casper.thenClick doesn't seem to trigger click events properly
+casper.thenClick = function (selector) {
+    return this.thenEvaluate(function(selector) {
+        var el = $(selector);
+        if (el.length === 0) {
+            console.error("Missing element!", selector)
+        }
+        el.click();
+    }, {selector: selector})
+}
+
 casper.open_new_notebook = function () {
     // Create and open a new notebook.
     var baseUrl = this.get_notebook_server();
