@@ -88,15 +88,15 @@ casper.notebook_test(function () {
 
     // check that the new cell has attachments
     this.then(function() {
-        var cell = this.evaluate(function() {
-            return IPython.notebook.get_selected_cell();
+        var cell_attachments = this.evaluate(function() {
+            return IPython.notebook.get_selected_cell().attachments;
         });
-        var orig_cell = this.evaluate(function() {
-            return IPython.notebook.get_cell(0);
+        var orig_cell_attachments = this.evaluate(function() {
+            return IPython.notebook.get_cell(0).attachments;
         });
         var clip = this.evaluate(function() { return IPython.notebook.clipboard_attachments; });
         // Check that the two cells have the same attachments
-        this.test.assertEquals(cell.attachments, orig_cell.attachments,
+        this.test.assertEquals(cell_attachments, orig_cell_attachments,
                                "both cells have the attachments");
     });
 
