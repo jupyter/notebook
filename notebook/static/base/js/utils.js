@@ -35,7 +35,7 @@ define([
             requirejs([ext_path], function(module) {
                 if (!is_loaded(extension)) {
                     console.log("Loading extension: " + extension);
-                    if (module.load_ipython_extension) {
+                    if (module && module.load_ipython_extension) {
                         Promise.resolve(module.load_ipython_extension()).then(function() {
                             resolve(module);
                         }).catch(reject);
