@@ -67,7 +67,7 @@ class LoginHandler(IPythonHandler):
     def hashed_password(self):
         return self.password_from_settings(self.settings)
 
-    def self.passwd_check(self, a, b):
+    def passwd_check(self, a, b):
         return passwd_check(a, b)
     
     def post(self):
