@@ -30,6 +30,7 @@ define([
         this.id = null;
         this.name = name;
         this.ws = null;
+        this._stopping = false;
 
         this.kernel_service_url = kernel_service_url;
         this.kernel_url = null;
@@ -507,7 +508,7 @@ define([
         this.ws.onerror = ws_error;
         // switch from early-close to late-close message after 1s
         setTimeout(function() {
-            if (that.ws !== null) {
+            if (that.ws !== null && !that._stopping) {
                 that.ws.onclose = ws_closed_late;
             }
         }, 1000);
@@ -578,11 +579,14 @@ define([
          */
         var that = this;
         var close = function () {
+            that._stopping = false;
             if (that.ws && that.ws.readyState === WebSocket.CLOSED) {
                 that.ws = null;
             }
         };
         if (this.ws !== null) {
+            // flag to avoid races with on_close_late
+            this._stopping = true;
             if (this.ws.readyState === WebSocket.OPEN) {
                 this.ws.onclose = close;
                 this.ws.close();
