@@ -40,7 +40,6 @@ install:
 
 script:
     - 'if [[ $GROUP == js* ]]; then travis_retry python -m notebook.jstest ${GROUP:3}; fi'
-    - 'if [[ $GROUP == "js/notebook" ]]; then npm run lint; fi'
     - 'if [[ $GROUP == python ]]; then nosetests -v --with-coverage --cover-package=notebook notebook; fi'
 
 matrix:
