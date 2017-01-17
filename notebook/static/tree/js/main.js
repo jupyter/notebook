@@ -35,6 +35,8 @@ require([
     'tree/js/terminallist',
     'tree/js/newnotebook',
     'auth/js/loginwidget',
+    // only loaded, not used:
+    'custom',
 ], function(
     IPython,
     dialog,
@@ -49,13 +51,6 @@ require([
     newnotebook,
     loginwidget){
     "use strict";
-    try{
-        requirejs(['custom/custom'], function() {});
-    } catch(err) {
-        console.log("Error loading custom.js from tree service. Continuing and logging");
-        console.warn(err);
-    }
-
     // Setup all of the config related things
 
     var common_options = {

@@ -43,7 +43,8 @@ require([
     'codemirror/lib/codemirror',
     'notebook/js/about',
     'notebook/js/searchandreplace',
-    'notebook/js/clipboard'
+    'notebook/js/clipboard',
+    'custom',
 ], function(
     IPython,
     $,
@@ -71,13 +72,6 @@ require([
 
     // Pull typeahead from the global jquery object
     var typeahead = $.typeahead;
-    
-    try{
-        requirejs(['custom/custom'], function() {});
-    } catch(err) {
-        console.log("Error processing custom.js. Logging and continuing")
-        console.warn(err);
-    }
 
     // compat with old IPython, remove for IPython > 3.0
     window.CodeMirror = CodeMirror;
