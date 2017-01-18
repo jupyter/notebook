@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-12 13:41-0600\n"
+"POT-Creation-Date: 2017-01-16 15:58-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,8 +44,8 @@ msgstr "Keine Akte gelesen"
 msgid "Server error: "
 msgstr "Serverfehler: "
 
-msgid "Notebook list empty."
-msgstr "Notizblocklistenleere."
+msgid "The notebook list is empty."
+msgstr "Die Notizblockliste ist leer."
 
 msgid "Error adding link: "
 msgstr "Fehler, der Verbindung hinzufügt: "
@@ -78,13 +78,104 @@ msgid "Rename notebook"
 msgstr "Benennen Sie Notizblock um"
 
 msgid "Rename"
-msgstr "Benennen Sie um"
+msgstr "Umbenennen"
 
 msgid "Cancel"
 msgstr "Abbruch"
 
+msgid "OK"
+msgstr "OK"
+
+msgid "Move"
+msgstr "Bewegen"
+
+msgid "An error occurred while renaming \"%1$s\" to \"%2$s\"."
+msgstr "Ein Fehler trat auf vertreiben Sie sich umzubenennen \"%1$s\" zu \"%2$s\"."
+
 msgid "Rename Failed"
-msgstr "Benennen Sie um, gescheitert"
+msgstr "Umbenennung schlug fehl"
 
 msgid "Error during renaming :"
 msgstr "Fehler während des Umbenennens:"
+
+msgid "Enter a new destination directory path for this item:"
+msgid_plural "Enter a new destination directory path for these %d items:"
+msgstr[0] "Betreten Sie einen neuen Zielverzeichnispfad für diese Sache:"
+msgstr[1] "Betreten Sie einen neuen Zielverzeichnispfad für diese %d Sachen:"
+
+msgid "Move an Item"
+msgid_plural "Move %d Items"
+msgstr[0] "Bewegen Sie eine Sache"
+msgstr[1] "Bewegen Sie %d Sachen"
+
+msgid "An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\"."
+msgstr ""
+"Ein Fehler trat auf, während er sich bewegte \"%1$s\" von \"%2$s\" zu \"%3$s\"."
+
+msgid "Move Failed"
+msgstr "Bewegung schlug fehl"
+
+msgid "Error during moving :"
+msgstr "Fehler während des Sichbewegens:"
+
+msgid "Are you sure you want to permanently delete: \"%s\"?"
+msgid_plural ""
+"Are you sure you want to permanently delete the %d files or folders selected?"
+msgstr[0] "Sind Sie sicher, dass Sie permanent löschen wollen: \"%s\"?"
+msgstr[1] ""
+"Sind Sie sicher, dass Sie die %d Dateien oder Ordner permanent löschen wollen,"
+" die gewählt wurden?"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "An error occurred while deleting \"%s\"."
+msgstr "Ein Fehler trat auf vertreiben Sie sich zu löschen \"%s\"."
+
+msgid "Delete Failed"
+msgstr "Die Löschung ist fehlgeschlagen"
+
+msgid "Error during content deletion:"
+msgstr "Fehler während Inhaltslöschens:"
+
+msgid "Are you sure you want to duplicate: \"%s\"?"
+msgid_plural "Are you sure you want to duplicate the %d files selected?"
+msgstr[0] "Sind Sie sicher, dass Sie duplizieren wollen: \"%s\"?"
+msgstr[1] "Sind Sie sicher, dass Sie die gewählten %d Akten duplizieren wollen?"
+
+msgid "Duplicate"
+msgstr "Duplizieren"
+
+msgid "An error occurred while duplicating \"%s\"."
+msgstr "Ein Fehler trat auf, während er duplizierte "\%s\"."
+
+msgid "Duplicate Failed"
+msgstr "Duplizieren ist fehlgeschlagen"
+
+msgid "Error during content duplication"
+msgstr "Fehler während Inhaltsvervielfältigung"
+
+msgid "Upload"
+msgstr "Hochladen"
+
+msgid "Invalid file name"
+msgstr "Ungültiger Dateiname"
+
+msgid "File names must be at least one character and not start with a period"
+msgstr ""
+"Dateinamen müssen mindestens ein Charakter sein und beginnen nicht mit einem \".\""
+
+msgid "The error was: %s"
+msgstr "Der Fehler war: %s"
+
+msgid "Cannot upload invalid Notebook"
+msgstr "Kann keinen ungültigen Notizblock hochladen"
+
+msgid "Error during notebook uploading"
+msgstr "Fehler während Notizblocks, der hochlädt"
+
+msgid "There is already a file named \"%s\". Do you want to replace it?"
+msgstr "Es gibt schon eine benannte Akte \"%s\". Wollen Sie es ersetzen?"
+
+msgid "Replace file"
+msgstr "Ersetzen Sie Akte"

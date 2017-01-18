@@ -1,14 +1,14 @@
-# Translations template for PROJECT.
+# Translations template for Jupyter.
 # Copyright (C) 2017 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the Jupyter project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
+"Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-12 12:08-0600\n"
+"POT-Creation-Date: 2017-01-17 16:27-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,795 +17,655 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
 
-#: build/lib/notebook/templates/404.html:3 notebook/templates/404.html:3
+#: notebook/templates/404.html:3
 msgid "You are requesting a page that does not exist!"
 msgstr ""
 
-#: build/lib/notebook/templates/edit.html:35 notebook/templates/edit.html:35
-msgid "current mode"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:46
-#: build/lib/notebook/templates/notebook.html:76
-#: notebook/templates/edit.html:46 notebook/templates/notebook.html:76
-msgid "File"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:48
-#: build/lib/notebook/templates/tree.html:51 notebook/templates/edit.html:48
-#: notebook/templates/tree.html:51
-msgid "New"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:49 notebook/templates/edit.html:49
-msgid "Save"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:50
-#: build/lib/notebook/templates/tree.html:32 notebook/templates/edit.html:50
-#: notebook/templates/tree.html:32
-msgid "Rename"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:51
-#: build/lib/notebook/templates/tree.html:34 notebook/templates/edit.html:51
-#: notebook/templates/tree.html:34
-msgid "Download"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:54
-#: build/lib/notebook/templates/notebook.html:128
-#: notebook/templates/edit.html:54 notebook/templates/notebook.html:128
-msgid "Edit"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:56 notebook/templates/edit.html:56
-msgid "Find"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:57 notebook/templates/edit.html:57
-msgid "Find &amp; Replace"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:59 notebook/templates/edit.html:59
-msgid "Key Map"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:60 notebook/templates/edit.html:60
-msgid "Default"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:61 notebook/templates/edit.html:61
-msgid "Sublime Text"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:66
-#: build/lib/notebook/templates/notebook.html:156
-#: notebook/templates/edit.html:66 notebook/templates/notebook.html:156
-msgid "View"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:68
-#: build/lib/notebook/templates/notebook.html:159
-#: notebook/templates/edit.html:68 notebook/templates/notebook.html:159
-msgid "Show/Hide the logo and notebook title (above menu bar)"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:69
-#: build/lib/notebook/templates/notebook.html:160
-#: notebook/templates/edit.html:69 notebook/templates/notebook.html:160
-msgid "Toggle Header"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:70
-#: build/lib/notebook/templates/notebook.html:168
-#: notebook/templates/edit.html:70 notebook/templates/notebook.html:168
-msgid "Toggle Line Numbers"
-msgstr ""
-
-#: build/lib/notebook/templates/edit.html:73 notebook/templates/edit.html:73
-msgid "Language"
-msgstr ""
-
-#: build/lib/notebook/templates/error.html:23 notebook/templates/error.html:23
+#: notebook/templates/error.html:23
 msgid "The error was:"
 msgstr ""
 
-#: build/lib/notebook/templates/login.html:23 notebook/templates/login.html:23
+#: notebook/templates/login.html:23
 msgid "Password:"
 msgstr ""
 
-#: build/lib/notebook/templates/login.html:36 notebook/templates/login.html:36
+#: notebook/templates/login.html:36
 msgid ""
-"This notebook server has no password set,\n"
-"        but token-authentication is enabled.\n"
-"\n"
-"        You need to open the notebook server with its first-time login "
-"token in the URL,\n"
-"        or enable a password in order to gain access.\n"
-"        The command:\n"
-"      </p>\n"
-"      <pre>jupyter notebook list</pre>\n"
-"      <p>\n"
-"        will show you the URLs of running servers with their tokens,\n"
+"This notebook server has no password set, but token-authentication is "
+"enabled."
+msgstr ""
+
+#: notebook/templates/login.html:38
+msgid ""
+"You need to open the notebook server with its first-time login token in "
+"the URL,\n"
+"\t\tor enable a password in order to gain access."
+msgstr ""
+
+#: notebook/templates/login.html:40
+msgid ""
+"The command: %(cmd) will show you the URLs of running servers with their "
+"tokens,\n"
 "        which you can copy and paste into your browser."
 msgstr ""
 
-#: build/lib/notebook/templates/login.html:50 notebook/templates/login.html:50
+#: notebook/templates/login.html:45
 msgid "No login available, you shouldn't be seeing this page."
 msgstr ""
 
-#: build/lib/notebook/templates/logout.html:24
 #: notebook/templates/logout.html:24
 #, python-format
 msgid "Proceed to the <a href=\"%(base_url)s\">dashboard"
 msgstr ""
 
-#: build/lib/notebook/templates/logout.html:26
 #: notebook/templates/logout.html:26
 #, python-format
 msgid "Proceed to the <a href=\"%(base_url)slogin\">login page"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:60
 #: notebook/templates/notebook.html:60
 msgid "Menu"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:63
-#: build/lib/notebook/templates/notebook.html:251
 #: notebook/templates/notebook.html:63 notebook/templates/notebook.html:251
 msgid "Kernel"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:66
 #: notebook/templates/notebook.html:66
 msgid "This notebook is read-only"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:79
+#: notebook/templates/notebook.html:76
+msgid "File"
+msgstr ""
+
 #: notebook/templates/notebook.html:79
 msgid "New Notebook"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:83
 #: notebook/templates/notebook.html:83
 msgid "Opens a new window with the Dashboard view"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:84
 #: notebook/templates/notebook.html:84
 msgid "Open..."
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:88
 #: notebook/templates/notebook.html:88
 msgid "Open a copy of this notebook's contents and start a new kernel"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:89
 #: notebook/templates/notebook.html:89
 msgid "Make a Copy..."
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:90
 #: notebook/templates/notebook.html:90
 msgid "Rename..."
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:91
 #: notebook/templates/notebook.html:91
 msgid "Save and Checkpoint"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:94
 #: notebook/templates/notebook.html:94
 msgid "Revert to Checkpoint"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:104
 #: notebook/templates/notebook.html:104
 msgid "Print Preview"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:105
 #: notebook/templates/notebook.html:105
 msgid "Download as"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:107
 #: notebook/templates/notebook.html:107
 msgid "Notebook (.ipynb)"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:108
 #: notebook/templates/notebook.html:108
 msgid "Script"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:109
 #: notebook/templates/notebook.html:109
 msgid "HTML (.html)"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:110
 #: notebook/templates/notebook.html:110
 msgid "Markdown (.md)"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:111
 #: notebook/templates/notebook.html:111
 msgid "reST (.rst)"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:112
 #: notebook/templates/notebook.html:112
 msgid "PDF via LaTeX (.pdf)"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:115
 #: notebook/templates/notebook.html:115
 msgid "Deploy as"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:120
 #: notebook/templates/notebook.html:120
 msgid "Trust the output of this notebook"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:121
 #: notebook/templates/notebook.html:121
 msgid "Trust Notebook"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:124
 #: notebook/templates/notebook.html:124
 msgid "Shutdown this notebook's kernel, and close this window"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:125
 #: notebook/templates/notebook.html:125
 msgid "Close and Halt"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:130
+#: notebook/templates/notebook.html:128
+msgid "Edit"
+msgstr ""
+
 #: notebook/templates/notebook.html:130
 msgid "Cut Cells"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:131
 #: notebook/templates/notebook.html:131
 msgid "Copy Cells"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:132
 #: notebook/templates/notebook.html:132
 msgid "Paste Cells Above"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:133
 #: notebook/templates/notebook.html:133
 msgid "Paste Cells Below"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:134
 #: notebook/templates/notebook.html:134
 msgid "Paste Cells &amp; Replace"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:135
 #: notebook/templates/notebook.html:135
 msgid "Delete Cells"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:136
 #: notebook/templates/notebook.html:136
 msgid "Undo Delete Cells"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:138
 #: notebook/templates/notebook.html:138
 msgid "Split Cell"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:139
 #: notebook/templates/notebook.html:139
 msgid "Merge Cell Above"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:140
 #: notebook/templates/notebook.html:140
 msgid "Merge Cell Below"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:142
 #: notebook/templates/notebook.html:142
 msgid "Move Cell Up"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:143
 #: notebook/templates/notebook.html:143
 msgid "Move Cell Down"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:145
 #: notebook/templates/notebook.html:145
 msgid "Edit Notebook Metadata"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:147
 #: notebook/templates/notebook.html:147
 msgid "Find and Replace"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:149
 #: notebook/templates/notebook.html:149
 msgid "Cut Cell Attachments"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:150
 #: notebook/templates/notebook.html:150
 msgid "Copy Cell Attachments"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:151
 #: notebook/templates/notebook.html:151
 msgid "Paste Cell Attachments"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:153
 #: notebook/templates/notebook.html:153
 msgid "Insert Image"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:163
+#: notebook/templates/notebook.html:156
+msgid "View"
+msgstr ""
+
+#: notebook/templates/notebook.html:159
+msgid "Show/Hide the logo and notebook title (above menu bar)"
+msgstr ""
+
+#: notebook/templates/notebook.html:160
+msgid "Toggle Header"
+msgstr ""
+
 #: notebook/templates/notebook.html:163
 msgid "Show/Hide the action icons (below menu bar)"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:164
 #: notebook/templates/notebook.html:164
 msgid "Toggle Toolbar"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:167
 #: notebook/templates/notebook.html:167
 msgid "Show/Hide line numbers in cells"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:171
+#: notebook/templates/notebook.html:168
+msgid "Toggle Line Numbers"
+msgstr ""
+
 #: notebook/templates/notebook.html:171
 msgid "Cell Toolbar"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:176
 #: notebook/templates/notebook.html:176
 msgid "Insert"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:179
 #: notebook/templates/notebook.html:179
 msgid "Insert an empty Code cell above the currently active cell"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:180
 #: notebook/templates/notebook.html:180
 msgid "Insert Cell Above"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:182
 #: notebook/templates/notebook.html:182
 msgid "Insert an empty Code cell below the currently active cell"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:183
 #: notebook/templates/notebook.html:183
 msgid "Insert Cell Below"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:186
 #: notebook/templates/notebook.html:186
 msgid "Cell"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:188
 #: notebook/templates/notebook.html:188
 msgid "Run this cell, and move cursor to the next one"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:189
 #: notebook/templates/notebook.html:189
 msgid "Run Cells"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:190
 #: notebook/templates/notebook.html:190
 msgid "Run this cell, select below"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:191
 #: notebook/templates/notebook.html:191
 msgid "Run Cells and Select Below"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:192
 #: notebook/templates/notebook.html:192
 msgid "Run this cell, insert below"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:193
 #: notebook/templates/notebook.html:193
 msgid "Run Cells and Insert Below"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:194
 #: notebook/templates/notebook.html:194
 msgid "Run all cells in the notebook"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:195
 #: notebook/templates/notebook.html:195
 msgid "Run All"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:196
 #: notebook/templates/notebook.html:196
 msgid "Run all cells above (but not including) this cell"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:197
 #: notebook/templates/notebook.html:197
 msgid "Run All Above"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:198
 #: notebook/templates/notebook.html:198
 msgid "Run this cell and all cells below it"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:199
 #: notebook/templates/notebook.html:199
 msgid "Run All Below"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:202
 #: notebook/templates/notebook.html:202
 msgid ""
 "All cells in the notebook have a cell type. By default, new cells are "
 "created as 'Code' cells"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:203
 #: notebook/templates/notebook.html:203
 msgid "Cell Type"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:206
 #: notebook/templates/notebook.html:206
 msgid ""
 "Contents will be sent to the kernel for execution, and output will "
 "display in the footer of cell"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:209
 #: notebook/templates/notebook.html:209
 msgid "Contents will be rendered as HTML and serve as explanatory text"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:210
-#: notebook/templates/notebook.html:210
+#: notebook/templates/notebook.html:210 notebook/templates/notebook.html:290
 msgid "Markdown"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:212
 #: notebook/templates/notebook.html:212
 msgid "Contents will pass through nbconvert unmodified"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:213
 #: notebook/templates/notebook.html:213
 msgid "Raw NBConvert"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:217
 #: notebook/templates/notebook.html:217
 msgid "Current Outputs"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:220
 #: notebook/templates/notebook.html:220
 msgid "Hide/Show the output of the current cell"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:221
-#: build/lib/notebook/templates/notebook.html:237
 #: notebook/templates/notebook.html:221 notebook/templates/notebook.html:237
 msgid "Toggle"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:224
 #: notebook/templates/notebook.html:224
 msgid "Scroll the output of the current cell"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:225
-#: build/lib/notebook/templates/notebook.html:241
 #: notebook/templates/notebook.html:225 notebook/templates/notebook.html:241
 msgid "Toggle Scrolling"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:228
 #: notebook/templates/notebook.html:228
 msgid "Clear the output of the current cell"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:229
-#: build/lib/notebook/templates/notebook.html:245
 #: notebook/templates/notebook.html:229 notebook/templates/notebook.html:245
 msgid "Clear"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:233
 #: notebook/templates/notebook.html:233
 msgid "All Output"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:236
 #: notebook/templates/notebook.html:236
 msgid "Hide/Show the output of all cells"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:240
 #: notebook/templates/notebook.html:240
 msgid "Scroll the output of all cells"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:244
 #: notebook/templates/notebook.html:244
 msgid "Clear the output of all cells"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:254
 #: notebook/templates/notebook.html:254
 msgid "Send Keyboard Interrupt (CTRL-C) to the Kernel"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:255
 #: notebook/templates/notebook.html:255
 msgid "Interrupt"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:258
 #: notebook/templates/notebook.html:258
 msgid "Restart the Kernel"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:259
 #: notebook/templates/notebook.html:259
 msgid "Restart"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:262
 #: notebook/templates/notebook.html:262
 msgid "Restart the Kernel and clear all output"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:263
 #: notebook/templates/notebook.html:263
 msgid "Restart &amp; Clear Output"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:266
 #: notebook/templates/notebook.html:266
 msgid "Restart the Kernel and re-run the notebook"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:267
 #: notebook/templates/notebook.html:267
 msgid "Restart &amp; Run All"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:270
 #: notebook/templates/notebook.html:270
 msgid "Reconnect to the Kernel"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:271
 #: notebook/templates/notebook.html:271
 msgid "Reconnect"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:275
 #: notebook/templates/notebook.html:275
 msgid "Change kernel"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:283
 #: notebook/templates/notebook.html:283
 msgid "A quick tour of the notebook user interface"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:283
 #: notebook/templates/notebook.html:283
 msgid "User Interface Tour"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:284
 #: notebook/templates/notebook.html:284
 msgid "Opens a tooltip with all keyboard shortcuts"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:284
 #: notebook/templates/notebook.html:284
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:310
-#: notebook/templates/notebook.html:310
+#: notebook/templates/notebook.html:289
+msgid "Notebook Help"
+msgstr ""
+
+#: notebook/templates/notebook.html:295
+msgid "Opens in a new window"
+msgstr ""
+
+#: notebook/templates/notebook.html:311
 msgid "About Jupyter Notebook"
 msgstr ""
 
-#: build/lib/notebook/templates/notebook.html:310
-#: notebook/templates/notebook.html:310
+#: notebook/templates/notebook.html:311
 msgid "About"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:19 notebook/templates/tree.html:19
+#: notebook/templates/tree.html:19
 msgid "Files"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:20 notebook/templates/tree.html:20
+#: notebook/templates/tree.html:20
 msgid "Running"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:21 notebook/templates/tree.html:21
+#: notebook/templates/tree.html:21
 msgid "Clusters"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:28 notebook/templates/tree.html:28
+#: notebook/templates/tree.html:28
 msgid "Select items to perform actions on them."
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:31 notebook/templates/tree.html:31
+#: notebook/templates/tree.html:31
 msgid "Duplicate selected"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:31 notebook/templates/tree.html:31
+#: notebook/templates/tree.html:31
 msgid "Duplicate"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:32 notebook/templates/tree.html:32
+#: notebook/templates/tree.html:32
 msgid "Rename selected"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:33 notebook/templates/tree.html:33
+#: notebook/templates/tree.html:32
+msgid "Rename"
+msgstr ""
+
+#: notebook/templates/tree.html:33
 msgid "Move selected"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:33 notebook/templates/tree.html:33
+#: notebook/templates/tree.html:33
 msgid "Move"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:34 notebook/templates/tree.html:34
+#: notebook/templates/tree.html:34
 msgid "Download selected"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:35 notebook/templates/tree.html:35
+#: notebook/templates/tree.html:34
+msgid "Download"
+msgstr ""
+
+#: notebook/templates/tree.html:35
 msgid "Shutdown selected notebook(s)"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:35 notebook/templates/tree.html:35
+#: notebook/templates/tree.html:35
 msgid "Shutdown"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:36 notebook/templates/tree.html:36
+#: notebook/templates/tree.html:36
 msgid "Delete selected"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:44 notebook/templates/tree.html:44
+#: notebook/templates/tree.html:44
 msgid "Click to browse for a file to upload."
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:45 notebook/templates/tree.html:45
+#: notebook/templates/tree.html:45
 msgid "Upload"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:56 notebook/templates/tree.html:56
+#: notebook/templates/tree.html:51
+msgid "New"
+msgstr ""
+
+#: notebook/templates/tree.html:56
 msgid "Text File"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:59 notebook/templates/tree.html:59
+#: notebook/templates/tree.html:59
 msgid "Folder"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:63 notebook/templates/tree.html:63
+#: notebook/templates/tree.html:63
 msgid "Terminal"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:67 notebook/templates/tree.html:67
+#: notebook/templates/tree.html:67
 msgid "Terminals Unavailable"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:71 notebook/templates/tree.html:71
+#: notebook/templates/tree.html:71
 msgid "Notebook:"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:83 notebook/templates/tree.html:83
+#: notebook/templates/tree.html:83
 msgid "Select All / None"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:86 notebook/templates/tree.html:86
+#: notebook/templates/tree.html:86
 msgid "Select..."
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:91 notebook/templates/tree.html:91
+#: notebook/templates/tree.html:91
 msgid "Select All Folders"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:91 notebook/templates/tree.html:91
+#: notebook/templates/tree.html:91
 msgid " Folders"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:92 notebook/templates/tree.html:92
+#: notebook/templates/tree.html:92
 msgid "Select All Notebooks"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:92 notebook/templates/tree.html:92
+#: notebook/templates/tree.html:92
 msgid " All Notebooks"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:93 notebook/templates/tree.html:93
+#: notebook/templates/tree.html:93
 msgid "Select Running Notebooks"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:93 notebook/templates/tree.html:93
+#: notebook/templates/tree.html:93
 msgid " Running"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:94 notebook/templates/tree.html:94
+#: notebook/templates/tree.html:94
 msgid "Select All Files"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:94 notebook/templates/tree.html:94
+#: notebook/templates/tree.html:94
 msgid " Files"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:107 notebook/templates/tree.html:107
+#: notebook/templates/tree.html:107
 msgid "Last Modified"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:113 notebook/templates/tree.html:113
+#: notebook/templates/tree.html:113
 msgid "Name"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:123 notebook/templates/tree.html:123
+#: notebook/templates/tree.html:123
 msgid "Currently running Jupyter processes"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:127 notebook/templates/tree.html:127
+#: notebook/templates/tree.html:127
 msgid "Refresh running list"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:143 notebook/templates/tree.html:143
+#: notebook/templates/tree.html:143
 msgid "There are no terminals running."
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:145 notebook/templates/tree.html:145
+#: notebook/templates/tree.html:145
 msgid "Terminals are unavailable."
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:155 notebook/templates/tree.html:155
+#: notebook/templates/tree.html:155
 msgid "Notebooks"
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:162 notebook/templates/tree.html:162
+#: notebook/templates/tree.html:162
 msgid "There are no notebooks running."
 msgstr ""
 
-#: build/lib/notebook/templates/tree.html:171 notebook/templates/tree.html:171
+#: notebook/templates/tree.html:171
+msgid "Clusters tab is now provided by IPython parallel."
+msgstr ""
+
+#: notebook/templates/tree.html:172
 msgid ""
-"Clusters tab is now provided by IPython parallel.\n"
-"          See <a href=\"https://github.com/ipython/ipyparallel\">IPython "
-"parallel</a> for installation details."
+"See '<a href=\"https://github.com/ipython/ipyparallel\">IPython "
+"parallel</a>' for installation details."
 msgstr ""
 

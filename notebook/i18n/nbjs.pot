@@ -1,14 +1,14 @@
-# Translations template for PROJECT.
+# Translations template for Jupyter.
 # Copyright (C) 2017 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the Jupyter project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
+"Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-12 13:25-0600\n"
+"POT-Creation-Date: 2017-01-16 15:26-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,7 +54,7 @@ msgid "Server error: "
 msgstr ""
 
 #: notebook/static/tree/js/notebooklist.js:360
-msgid "Notebook list empty."
+msgid "The notebook list is empty."
 msgstr ""
 
 #: notebook/static/tree/js/notebooklist.js:390
@@ -98,19 +98,140 @@ msgid "Rename notebook"
 msgstr ""
 
 #: notebook/static/tree/js/notebooklist.js:769
+#: notebook/static/tree/js/notebooklist.js:782
 msgid "Rename"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:781
-#: notebook/static/tree/js/notebooklist.js:849
+#: notebook/static/tree/js/notebooklist.js:782
+#: notebook/static/tree/js/notebooklist.js:1131
 msgid "Cancel"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:793
+#: notebook/static/tree/js/notebooklist.js:782
+msgid "OK"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:782
+msgid "Move"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:798
+msgid "An error occurred while renaming \"%1$s\" to \"%2$s\"."
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:800
 msgid "Rename Failed"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:803
+#: notebook/static/tree/js/notebooklist.js:810
 msgid "Error during renaming :"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:849
+#, python-format
+msgid "Enter a new destination directory path for this item:"
+msgid_plural "Enter a new destination directory path for these %d items:"
+msgstr[0] ""
+msgstr[1] ""
+
+#: notebook/static/tree/js/notebooklist.js:855
+#, python-format
+msgid "Move an Item"
+msgid_plural "Move %d Items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: notebook/static/tree/js/notebooklist.js:874
+msgid "An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\"."
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:876
+msgid "Move Failed"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:886
+msgid "Error during moving :"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:922
+#, python-format
+msgid "Are you sure you want to permanently delete: \"%s\"?"
+msgid_plural "Are you sure you want to permanently delete the %d files or folders selected?"
+msgstr[0] ""
+msgstr[1] ""
+
+#: notebook/static/tree/js/notebooklist.js:933
+msgid "Delete"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:950
+#, python-format
+msgid "An error occurred while deleting \"%s\"."
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:952
+msgid "Delete Failed"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:962
+msgid "Error during content deletion:"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:973
+#, python-format
+msgid "Are you sure you want to duplicate: \"%s\"?"
+msgid_plural "Are you sure you want to duplicate the %d files selected?"
+msgstr[0] ""
+msgstr[1] ""
+
+#: notebook/static/tree/js/notebooklist.js:983
+msgid "Duplicate"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:997
+#, python-format
+msgid "An error occurred while duplicating \"%s\"."
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:999
+msgid "Duplicate Failed"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:1009
+msgid "Error during content duplication"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:1036
+msgid "Upload"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:1045
+msgid "Invalid file name"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:1046
+msgid "File names must be at least one character and not start with a period"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:1073
+#, python-format
+msgid "The error was: %s"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:1075
+msgid "Cannot upload invalid Notebook"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:1084
+msgid "Error during notebook uploading"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:1108
+#, python-format
+msgid "There is already a file named \"%s\". Do you want to replace it?"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:1110
+msgid "Replace file"
 msgstr ""
 

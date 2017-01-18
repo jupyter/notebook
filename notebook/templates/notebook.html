@@ -294,15 +294,16 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         {% set
                             sections = (
                                 (
-                                    ("http://nbviewer.ipython.org/github/ipython/ipython/blob/3.x/examples/Notebook/Index.ipynb", "{% trans %}Notebook Help{% endtrans %}", True),
-                                    ("https://help.github.com/articles/markdown-basics/","{% trans %}Markdown{% endtrans %}",True),
+                                    ("http://nbviewer.ipython.org/github/ipython/ipython/blob/3.x/examples/Notebook/Index.ipynb", _("Notebook Help"), True),
+                                    ("https://help.github.com/articles/markdown-basics/",_("Markdown"),True),
                                 ),
                             )
                         %}
 
+						{% set openmsg = _("Opens in a new window") %}
                         {% for helplinks in sections %}
                             {% for link in helplinks %}
-                                <li><a rel="noreferrer" href="{{link[0]}}" target="{{'_blank' if link[2]}}" title="{{'{% trans %}Opens in a new window{% endtrans %}' if link[2]}}">
+                                <li><a rel="noreferrer" href="{{link[0]}}" target="{{'_blank' if link[2]}}" title="{{openmsg if link[2]}}">
                                 {% if link[2] %}
                                     <i class="fa fa-external-link menu-icon pull-right"></i>
                                 {% endif %}

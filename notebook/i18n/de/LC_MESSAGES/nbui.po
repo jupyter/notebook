@@ -1,0 +1,526 @@
+# Translations template for PROJECT.
+# Copyright (C) 2017 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2017-01-17 20:50-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Globalization Pipeline\n"
+
+msgid "You are requesting a page that does not exist!"
+msgstr "Sie fordern eine Seite, die nicht existiert!"
+
+msgid "The error was:"
+msgstr "Der Fehler war:"
+
+msgid "Password:"
+msgstr "Kennwort:"
+
+msgid ""
+"This notebook server has no password set, but token-authentication is enabled."
+msgstr ""
+"Dieser Notizblockserver hat kein Kennwort gesetzt aber Gutscheinbestätigung "
+"ist aktiviert."
+
+msgid ""
+"You need to open the notebook server with its first-time login token in the "
+"URL,\n\t\tor enable a password in order to gain access."
+msgstr ""
+"Sie müssen den Notizblockserver mit seinem Erstanmeldungsgutschein in der URL "
+"öffnen, oder ermöglicht ein Kennwort, um Zugang zu erhalten."
+
+msgid ""
+"The command: %(cmd) will show you the URLs of running servers with their "
+"tokens,\n        which you can copy and paste into your browser."
+msgstr ""
+"Der Befehl: %(cmd) wird Ihnen die URL, Server mit ihren Gutscheinen "
+"auszuführen zeigen, die Sie in Ihren Browser kopieren und einkleben können."
+
+msgid "No login available, you shouldn't be seeing this page."
+msgstr "Keine erhältliche Anmeldung, Sie sollten diese Seite nicht sehen."
+
+msgid "Proceed to the <a href=\"%(base_url)s\">dashboard"
+msgstr "Gehen Sie zum Dashboard des <a href=\"%(base_url)s\">"
+
+msgid "Proceed to the <a href=\"%(base_url)slogin\">login page"
+msgstr "Gehen Sie zur Login-Seite des <a href=\"%(base_url)s\">"
+
+msgid "Menu"
+msgstr "Speisekarte"
+
+msgid "Kernel"
+msgstr "Kern"
+
+msgid "This notebook is read-only"
+msgstr "Dieser Notizblock ist schreibgeschützt"
+
+msgid "File"
+msgstr "Datei"
+
+msgid "New Notebook"
+msgstr "Neuer Notizblock"
+
+msgid "Opens a new window with the Dashboard view"
+msgstr "Öffnet ein neues Fenster mit der Armaturenbrettansicht"
+
+msgid "Open..."
+msgstr "Öffnen..."
+
+msgid "Open a copy of this notebook's contents and start a new kernel"
+msgstr ""
+"Öffnen Sie eine Kopie des Inhalts dieses Notizblocks und starten Sie einen "
+"neuen Kern"
+
+msgid "Make a Copy..."
+msgstr "Machen Sie eine Kopie"
+
+msgid "Rename..."
+msgstr "Umbennen..."
+
+msgid "Save and Checkpoint"
+msgstr "Sparen Sie und Kontrollpunkt"
+
+msgid "Revert to Checkpoint"
+msgstr "Kehren Sie zu Kontrollpunkt zurück"
+
+msgid "Print Preview"
+msgstr "Druckvorschau"
+
+msgid "Download as"
+msgstr "Laden Sie als herunter"
+
+msgid "Notebook (.ipynb)"
+msgstr "Notizblock (.ipynb )"
+
+msgid "Script"
+msgstr "Schrift"
+
+msgid "HTML (.html)"
+msgstr "HTML (.html )"
+
+msgid "Markdown (.md)"
+msgstr "Markdown (.md )"
+
+msgid "reST (.rst)"
+msgstr "reST (.rst )"
+
+msgid "PDF via LaTeX (.pdf)"
+msgstr "PDF über LaTeX (.pdf )"
+
+msgid "Deploy as"
+msgstr "Setzen Sie als ein"
+
+msgid "Trust the output of this notebook"
+msgstr "Vertrauen Sie der Ausgabe dieses Notizblocks"
+
+msgid "Trust Notebook"
+msgstr "Notizblock vertrauen"
+
+msgid "Shutdown this notebook's kernel, and close this window"
+msgstr ""
+"Legen Sie den Kern dieses Notizblocks still und schließen Sie dieses Fenster"
+
+msgid "Close and Halt"
+msgstr "Schließen Sie und halten Sie an"
+
+msgid "Edit"
+msgstr "Editieren"
+
+msgid "Cut Cells"
+msgstr "Schnittzellen"
+
+msgid "Copy Cells"
+msgstr "Kopierzellen"
+
+msgid "Paste Cells Above"
+msgstr "Kleben Sie Zellen oben ein"
+
+msgid "Paste Cells Below"
+msgstr "Kleben Sie Zellen unten ein"
+
+msgid "Paste Cells &amp; Replace"
+msgstr "Kleben Sie Zellen ein &amp; ersetzen Sie"
+
+msgid "Delete Cells"
+msgstr "Löschen Sie Zellen"
+
+msgid "Undo Delete Cells"
+msgstr "Machen Sie los löschen Sie Zellen"
+
+msgid "Split Cell"
+msgstr "Geteilte Zelle"
+
+msgid "Merge Cell Above"
+msgstr "Vereinen Sie Zelle oben"
+
+msgid "Merge Cell Below"
+msgstr "Vereinen Sie Zelle unten"
+
+msgid "Move Cell Up"
+msgstr "Bewegen Sie Zelle hinauf"
+
+msgid "Move Cell Down"
+msgstr "Bewegen Sie Zelle hinunter"
+
+msgid "Edit Notebook Metadata"
+msgstr "Editieren Notizblockmetadaten"
+
+msgid "Find and Replace"
+msgstr "Finden Sie und ersetzen Sie"
+
+msgid "Cut Cell Attachments"
+msgstr "Schnittzellenzubehör"
+
+msgid "Copy Cell Attachments"
+msgstr "Kopierzellenzubehör"
+
+msgid "Paste Cell Attachments"
+msgstr "Pastenzellenzubehör"
+
+msgid "Insert Image"
+msgstr "Einlagenbild"
+
+msgid "View"
+msgstr "Ansicht"
+
+msgid "Show/Hide the logo and notebook title (above menu bar)"
+msgstr ""
+"Zeigen Sie/ verstecken Sie den Emblem- und Notizblocktitel (oben genannten "
+"Speisekartenstrich )"
+
+msgid "Toggle Header"
+msgstr "Kippschalterüberschrift"
+
+msgid "Show/Hide the action icons (below menu bar)"
+msgstr ""
+"Zeigen Sie/ verstecken Sie die Tatikonen (unterhalb Speisekartenstrichs )"
+
+msgid "Toggle Toolbar"
+msgstr "Kippschalterwerkzeugbalken"
+
+msgid "Show/Hide line numbers in cells"
+msgstr "Vorstellungs-/ Hautzeilennummern in Zellen"
+
+msgid "Toggle Line Numbers"
+msgstr "Schalten Sie Zeilennummern um"
+
+msgid "Cell Toolbar"
+msgstr "Zellenwerkzeugbalken"
+
+msgid "Insert"
+msgstr "Einlage"
+
+msgid "Insert an empty Code cell above the currently active cell"
+msgstr "Führen Sie eine leere Kodezelle über der gegenwärtig aktiven Zelle ein"
+
+msgid "Insert Cell Above"
+msgstr "Führen Sie Zelle oben ein"
+
+msgid "Insert an empty Code cell below the currently active cell"
+msgstr ""
+"Führen Sie eine leere Kodezelle unterhalb der gegenwärtig aktiven Zelle ein"
+
+msgid "Insert Cell Below"
+msgstr "Führen Sie Zelle unten ein"
+
+msgid "Cell"
+msgstr "Zelle"
+
+msgid "Run this cell, and move cursor to the next one"
+msgstr "Führen Sie diese Zelle und bewegen Sie Cursor zur nächsten"
+
+msgid "Run Cells"
+msgstr "Durchlaufzellen"
+
+msgid "Run this cell, select below"
+msgstr "Führen Sie diese Zelle, ausgewählt unten"
+
+msgid "Run Cells and Select Below"
+msgstr "Führen Sie Zellen und wählen Sie unten"
+
+msgid "Run this cell, insert below"
+msgstr "Führen Sie diese Zelle, führen Sie unten ein"
+
+msgid "Run Cells and Insert Below"
+msgstr "Durchlaufzellen und -einlage unten"
+
+msgid "Run all cells in the notebook"
+msgstr "Führen Sie alle Zellen im Notizblock"
+
+msgid "Run All"
+msgstr "Führen Sie alle"
+
+msgid "Run all cells above (but not including) this cell"
+msgstr "Führen Sie alle Zellen oben (aber nicht einschließlich) dieser Zelle"
+
+msgid "Run All Above"
+msgstr "Führen Sie alle oben genannt"
+
+msgid "Run this cell and all cells below it"
+msgstr "Führen Sie diese Zelle und alle Zellen unterhalb"
+
+msgid "Run All Below"
+msgstr "Führen Sie alle unterhalb"
+
+msgid ""
+"All cells in the notebook have a cell type. By default, new cells are created "
+"as 'Code' cells"
+msgstr ""
+"Alle Zellen im Notizblock haben eine Zellensorte. Standardmäßig werden neue "
+"Zellen als 'Kode' Zellen geschaffen"
+
+msgid "Cell Type"
+msgstr "Zellensorte"
+
+msgid ""
+"Contents will be sent to the kernel for execution, and output will display in "
+"the footer of cell"
+msgstr ""
+"Inhalt wird an den Kern für Ausführung geschickt und Ausgabe wird in der "
+"Fußzeile von Zelle anzeigen"
+
+msgid "Contents will be rendered as HTML and serve as explanatory text"
+msgstr "Inhalt wird als HTML wiedergegeben und dient als erläuterndem Text"
+
+msgid "Markdown"
+msgstr "Markdown"
+
+msgid "Contents will pass through nbconvert unmodified"
+msgstr "Inhalt wird durch nbconvert durchgehen unverändert"
+
+msgid "Raw NBConvert"
+msgstr "Rohe NBConvert"
+
+msgid "Current Outputs"
+msgstr "Gegenwärtige Ausgaben"
+
+msgid "Hide/Show the output of the current cell"
+msgstr "Verstecken Sie/ zeigen Sie die Ausgabe der gegenwärtigen Zelle"
+
+msgid "Toggle"
+msgstr "Kippschalter"
+
+msgid "Scroll the output of the current cell"
+msgstr "Blättern Sie die Ausgabe der gegenwärtigen Zelle"
+
+msgid "Toggle Scrolling"
+msgstr "Kippschalterschieben"
+
+msgid "Clear the output of the current cell"
+msgstr "Räumen Sie die Ausgabe der gegenwärtigen Zelle"
+
+msgid "Clear"
+msgstr "Klaren Sie auf"
+
+msgid "All Output"
+msgstr "Alle Ausgabe"
+
+msgid "Hide/Show the output of all cells"
+msgstr "Verstecken Sie/ zeigen Sie die Ausgabe aller Zellen"
+
+msgid "Scroll the output of all cells"
+msgstr "Blättern Sie die Ausgabe aller Zellen"
+
+msgid "Clear the output of all cells"
+msgstr "Räumen Sie die Ausgabe aller Zellen"
+
+msgid "Send Keyboard Interrupt (CTRL-C) to the Kernel"
+msgstr "Schicken Sie Tastaturunterbrechung (CTRL C) an den Kern"
+
+msgid "Interrupt"
+msgstr "Unterbrechung"
+
+msgid "Restart the Kernel"
+msgstr "Starten Sie den Kern neu"
+
+msgid "Restart"
+msgstr "Wiederanlauf"
+
+msgid "Restart the Kernel and clear all output"
+msgstr "Starten Sie den Kern neu und räumen Sie alle Ausgabe"
+
+msgid "Restart &amp; Clear Output"
+msgstr "Starten Sie Ausgabe neu &amp; räumen Sie sie"
+
+msgid "Restart the Kernel and re-run the notebook"
+msgstr "Starten Sie den Kern neu und führen Sie den Notizblock wieder"
+
+msgid "Restart &amp; Run All"
+msgstr "Starten Sie alle neu &amp; führen Sie alle"
+
+msgid "Reconnect to the Kernel"
+msgstr "Verbinden Sie sich wieder zum Kern"
+
+msgid "Reconnect"
+msgstr "Verbindung wiederherstellen"
+
+msgid "Change kernel"
+msgstr "Umwandlungskern"
+
+msgid "A quick tour of the notebook user interface"
+msgstr "Eine schnelle Tour der Notizblockbenutzeroberfläche"
+
+msgid "User Interface Tour"
+msgstr "Benutzeroberflächentour"
+
+msgid "Opens a tooltip with all keyboard shortcuts"
+msgstr "Öffnet eine tooltip mit allen Tastaturabkürzungen"
+
+msgid "Keyboard Shortcuts"
+msgstr "Tastaturabkürzungen"
+
+msgid "Notebook Help"
+msgstr "Notizblockhilfe"
+
+msgid "Opens in a new window"
+msgstr "Geht in einem neuen Fenster auf"
+
+msgid "About Jupyter Notebook"
+msgstr "Über Jupyter Notizblock"
+
+msgid "About"
+msgstr "Über"
+
+msgid "Files"
+msgstr "Dateien"
+
+msgid "Running"
+msgstr "Läuft"
+
+msgid "Clusters"
+msgstr "Häufungen"
+
+msgid "Select items to perform actions on them."
+msgstr "Wählen Sie Sachen, um Taten auf ihnen auszuführen."
+
+msgid "Duplicate selected"
+msgstr "Duplizieren Sie die ausgewählten"
+
+msgid "Duplicate"
+msgstr "Duplizieren"
+
+msgid "Rename selected"
+msgstr "Umbenennen ausgewählt"
+
+msgid "Rename"
+msgstr "Umbenennen"
+
+msgid "Move selected"
+msgstr "Ausgewählt bewegen"
+
+msgid "Move"
+msgstr "Bewegen"
+
+msgid "Download selected"
+msgstr "Abladen wählte"
+
+msgid "Download"
+msgstr "Abladen"
+
+msgid "Shutdown selected notebook(s)"
+msgstr "Stilllegung wählte Notizblock (s)"
+
+msgid "Shutdown"
+msgstr "Stilllegung"
+
+msgid "Delete selected"
+msgstr "Löschen Sie, gewählt"
+
+msgid "Click to browse for a file to upload."
+msgstr "Klicken Sie, um zu sehen, damit eine Akte hochlädt."
+
+msgid "Upload"
+msgstr "Hochladen"
+
+msgid "New"
+msgstr "Neu"
+
+msgid "Text File"
+msgstr "Textdatei"
+
+msgid "Folder"
+msgstr "Ordner"
+
+msgid "Terminal"
+msgstr "Endstation"
+
+msgid "Terminals Unavailable"
+msgstr "Endstationen nicht verfügbar"
+
+msgid "Notebook:"
+msgstr "Notizblock:"
+
+msgid "Select All / None"
+msgstr "Wählen Sie alle/ keine"
+
+msgid "Select..."
+msgstr "Auswählen..."
+
+msgid "Select All Folders"
+msgstr "Wählen Sie alle Ordner"
+
+msgid " Folders"
+msgstr " Ordner"
+
+msgid "Select All Notebooks"
+msgstr "Wählen Sie alle Notizblöcke"
+
+msgid " All Notebooks"
+msgstr " Alle Notizblöcke"
+
+msgid "Select Running Notebooks"
+msgstr "Wählen Sie Laufnotizblöcke"
+
+msgid " Running"
+msgstr "Läuft"
+
+msgid "Select All Files"
+msgstr "Wählen Sie alle Dateien"
+
+msgid " Files"
+msgstr "Dateien"
+
+msgid "Last Modified"
+msgstr "Letzte Mal modifiziert"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Currently running Jupyter processes"
+msgstr "Jupyter gegenwärtig laufen lassen verarbeitet"
+
+msgid "Refresh running list"
+msgstr "Frischen Sie Laufliste auf"
+
+msgid "There are no terminals running."
+msgstr "Es gibt keine Endstationen, die laufen."
+
+msgid "Terminals are unavailable."
+msgstr "Endstationen sind nicht verfügbar."
+
+msgid "Notebooks"
+msgstr "Notizblöcke"
+
+msgid "There are no notebooks running."
+msgstr "Es gibt keine Notizblöcke, die laufen."
+
+msgid "Clusters tab is now provided by IPython parallel."
+msgstr "Gruppentabulator wird jetzt von IPython parallel geliefert."
+
+msgid ""
+"See '<a href=\"https://github.com/ipython/ipyparallel\">IPython parallel</a>' "
+"for installation details."
+msgstr ""
+"Siehe '<a href=\"https://github.com/ipython/ipyparallel\">IPython</a>' für "
+"Installationsdetails '<a href=\"https://github.com/ipython/ipyparallel\">"
+"gleichen.</a>'"

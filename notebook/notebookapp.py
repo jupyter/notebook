@@ -153,7 +153,7 @@ class NotebookWebApplication(web.Application):
 
         settings = self.init_settings(
             jupyter_app, kernel_manager, contents_manager,
-            session_manager, kernel_spec_manager, config_manager, log, trans,
+            session_manager, kernel_spec_manager, config_manager, log,
             base_url, default_url, settings_overrides, jinja_env_options)
         handlers = self.init_handlers(settings)
 
@@ -162,7 +162,7 @@ class NotebookWebApplication(web.Application):
     def init_settings(self, jupyter_app, kernel_manager, contents_manager,
                       session_manager, kernel_spec_manager,
                       config_manager,
-                      log, trans, base_url, default_url, settings_overrides,
+                      log, base_url, default_url, settings_overrides,
                       jinja_env_options=None):
 
         _template_path = settings_overrides.get(
@@ -177,13 +177,16 @@ class NotebookWebApplication(web.Application):
         jenv_opt.update(jinja_env_options if jinja_env_options else {})
 
         env = Environment(loader=FileSystemLoader(template_path), extensions=['jinja2.ext.i18n'], **jenv_opt)
-        env.install_gettext_translations(trans, newstyle=False)
         sys_info = get_sys_info()
 
         # If the user is running the notebook in a git directory, make the assumption
         # that this is a dev install and suggest to the developer `npm run build:watch`.
         base_dir = os.path.realpath(os.path.join(__file__, '..', '..'))
         dev_mode = os.path.exists(os.path.join(base_dir, '.git'))
+
+        nbui = gettext.translation('nbui', localedir=os.path.join(base_dir, 'notebook/i18n'), fallback=True)
+        env.install_gettext_translations(nbui, newstyle=False)
+
         if dev_mode:
             DEV_NOTE_NPM = _("""It looks like you're running the notebook from source.
 If you're working on the Javascript of the notebook, try running

@@ -1,0 +1,13 @@
+{
+	"domain": "nbjs",
+	"supported_languages": [
+   		"de"
+	],
+	"locale_data": {
+		"nbjs": {
+			"": {
+				"domain": "nbjs"
+         	}
+		}
+	}
+}

@@ -86,7 +86,7 @@ define(['base/js/utils'], function(utils) {
             var button = $("<button/>")
                 .addClass("btn btn-default btn-sm")
                 .attr("data-dismiss", "modal")
-                .text(utils.gettext(label));
+                .text(utils.i18n.translate(label).fetch());
             if (btn_opts.id) {
                 button.attr('id', btn_opts.id);
             }

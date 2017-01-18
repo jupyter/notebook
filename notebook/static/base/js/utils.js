@@ -16,31 +16,14 @@ define([
     var ui_lang = navigator.languages && navigator.languages[0] || // Chrome / Firefox
     navigator.language ||   // All browsers
     navigator.userLanguage; // IE <= 10
-    moment.locale(ui_lang);
 
-	var defaultData = {
- 		   "domain": "nbjs",
- 		   "locale_data": {
- 		      "nbjs": {
- 		         "": {
- 		            "domain": "nbjs",
- 		         },
- 		      }
- 		   }
- 		}
-
-	var nbjs;
-    var supported_languages = [ "de" ];
-    if (supported_languages.indexOf(ui_lang) >= 0) {
+	var nbjs = require("../../../i18n/nbjs.json");
+    if (nbjs.supported_languages.indexOf(ui_lang) >= 0) {
         nbjs = require("../../../i18n/"+ui_lang+"/LC_MESSAGES/nbjs.json");
-    } else {
-    	nbjs = defaultData;
+        moment.locale(ui_lang);
     }
+    
     var i18n = new Jed(nbjs);
-
-    function gettext (text) {
-    	return i18n.dgettext("nbjs", text);
-    }
     
     // keep track of which extensions have been loaded already
     var extensions_loaded = [];
@@ -1141,7 +1124,7 @@ define([
 
     var utils = {
         throttle: throttle,
-    	gettext: gettext,
+    	i18n: i18n,
         is_loaded: is_loaded,
         load_extension: load_extension,
         load_extensions: load_extensions,
