@@ -2,13 +2,14 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/namespace',
     'base/js/utils',
     'base/js/dialog',
     'base/js/events',
     'base/js/keyboard',
     'moment'
-], function(IPython, utils, dialog, events, keyboard, moment) {
+], function($, IPython, utils, dialog, events, keyboard, moment) {
     "use strict";
 
     var NotebookList = function (selector, options) {

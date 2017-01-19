@@ -9,7 +9,7 @@
 //     events.on("event.Namespace", function () { do_stuff(); });
 // });
 
-define(['base/js/namespace'], function(Jupyter) {
+define(['jquery', 'base/js/namespace'], function($, Jupyter) {
     "use strict";
     
     // Events singleton

@@ -1,14 +1,15 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-// jshint esnext: true
+
 define([
+    'jquery',
     'base/js/utils',
     'base/js/security',
     'base/js/keyboard',
     'services/config',
     'notebook/js/mathjaxutils',
     'components/marked/lib/marked',
-], function(utils, security, keyboard, configmod, mathjaxutils, marked) {
+], function($, utils, security, keyboard, configmod, mathjaxutils, marked) {
     "use strict";
 
     /**
@@ -243,15 +244,15 @@ define([
     };
     
     // Declare mime type as constants
-    const MIME_JAVASCRIPT = 'application/javascript';
-    const MIME_HTML = 'text/html';
-    const MIME_MARKDOWN = 'text/markdown';
-    const MIME_LATEX = 'text/latex';
-    const MIME_SVG = 'image/svg+xml';
-    const MIME_PNG = 'image/png';
-    const MIME_JPEG = 'image/jpeg';
-    const MIME_PDF = 'application/pdf';
-    const MIME_TEXT = 'text/plain';
+    var MIME_JAVASCRIPT = 'application/javascript';
+    var MIME_HTML = 'text/html';
+    var MIME_MARKDOWN = 'text/markdown';
+    var MIME_LATEX = 'text/latex';
+    var MIME_SVG = 'image/svg+xml';
+    var MIME_PNG = 'image/png';
+    var MIME_JPEG = 'image/jpeg';
+    var MIME_PDF = 'application/pdf';
+    var MIME_TEXT = 'text/plain';
     
     
     OutputArea.output_types = [
@@ -263,7 +264,7 @@ define([
         MIME_PNG,
         MIME_JPEG,
         MIME_PDF,
-        MIME_TEXT
+        MIME_TEXT,
     ];
 
     OutputArea.prototype.validate_mimebundle = function (bundle) {
@@ -632,14 +633,12 @@ define([
         }
     };
 
+    OutputArea.safe_outputs = {};
+    OutputArea.safe_outputs[MIME_TEXT] = true;
+    OutputArea.safe_outputs[MIME_LATEX] = true;
+    OutputArea.safe_outputs[MIME_PNG] = true;
+    OutputArea.safe_outputs[MIME_JPEG] = true;
 
-    OutputArea.safe_outputs = {
-        [MIME_TEXT] : true,
-        [MIME_LATEX] : true,
-        [MIME_PNG] : true,
-        [MIME_JPEG] : true
-    };
-    
     OutputArea.prototype.append_mime_type = function (json, element, handle_inserted) {
         for (var i=0; i < OutputArea.display_order.length; i++) {
             var type = OutputArea.display_order[i];
@@ -1052,17 +1051,16 @@ define([
         MIME_TEXT
     ];
 
-    OutputArea.append_map = {
-        [MIME_TEXT] : append_text,
-        [MIME_HTML] : append_html,
-        [MIME_MARKDOWN]: append_markdown,
-        [MIME_SVG] : append_svg,
-        [MIME_PNG] : append_png,
-        [MIME_JPEG] : append_jpeg,
-        [MIME_LATEX] : append_latex,
-        [MIME_JAVASCRIPT] : append_javascript,
-        [MIME_PDF] : append_pdf
-    };
+    OutputArea.append_map = {};
+    OutputArea.append_map[MIME_TEXT] = append_text;
+    OutputArea.append_map[MIME_HTML] = append_html;
+    OutputArea.append_map[MIME_MARKDOWN] = append_markdown;
+    OutputArea.append_map[MIME_SVG] = append_svg;
+    OutputArea.append_map[MIME_PNG] = append_png;
+    OutputArea.append_map[MIME_JPEG] = append_jpeg;
+    OutputArea.append_map[MIME_LATEX] = append_latex;
+    OutputArea.append_map[MIME_JAVASCRIPT] = append_javascript;
+    OutputArea.append_map[MIME_PDF] = append_pdf;
     
     OutputArea.prototype.mime_types = function () {
         return OutputArea.display_order;

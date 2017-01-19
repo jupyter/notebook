@@ -1,6 +1,5 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-__webpack_public_path__ = window['staticURL'] + 'notebook/js/built/';
 
 // adapted from Mozilla Developer Network example at
 // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind
@@ -21,10 +20,10 @@ var bind = function bind(obj) {
 Function.prototype.bind = Function.prototype.bind || bind ;
 
 
-requirejs(['contents'], function(contentsModule) {
 require([
-    'base/js/namespace',
     'jquery',
+    'contents',
+    'base/js/namespace',
     'notebook/js/notebook',
     'services/config',
     'base/js/utils',
@@ -45,8 +44,9 @@ require([
     'notebook/js/searchandreplace',
     'notebook/js/clipboard'
 ], function(
-    IPython,
     $,
+    contents_service,
+    IPython,
     notebook,
     configmod,
     utils,
@@ -75,7 +75,7 @@ require([
     try{
         requirejs(['custom/custom'], function() {});
     } catch(err) {
-        console.log("Error processing custom.js. Logging and continuing")
+        console.log("Error processing custom.js. Logging and continuing");
         console.warn(err);
     }
 
@@ -113,7 +113,7 @@ require([
         events: events,
         keyboard_manager: keyboard_manager});
     acts.extend_env({save_widget:save_widget});
-    var contents = new contentsModule.Contents({
+    var contents = new contents_service.Contents({
           base_url: common_options.base_url,
           common_config: common_config
         });
@@ -231,5 +231,4 @@ require([
 
     notebook.load_notebook(common_options.notebook_path);
 
-});
 });

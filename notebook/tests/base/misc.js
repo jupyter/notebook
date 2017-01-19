@@ -17,5 +17,29 @@ casper.notebook_test(function () {
         var result = this.get_output_cell(0);
         this.test.assertEquals(result.text.trim(), jsver, 'IPython.version in JS matches server-side.');
     });
+    
+    // verify that requirejs loads the same CodeCell prototype at runtime as build time
+    this.thenEvaluate(function () {
+        require(['notebook/js/codecell'], function (codecell) {
+            codecell.CodeCell.prototype.test = function () {
+                return 'ok';
+            }
+            window._waitForMe = true;
+        })
+    })
+
+    this.waitFor(function () {
+        return this.evaluate(function () {
+            return window._waitForMe;
+        });
+    })
+
+    this.then(function () {
+        var result = this.evaluate(function () {
+            var cell = Jupyter.notebook.get_cell(0);
+            return cell.test();
+        });
+        this.test.assertEquals(result, 'ok', "runtime-requirejs loads the same modules")
+    })
 
 });

@@ -2,12 +2,13 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'codemirror/lib/codemirror',
     'moment',
     'underscore',
     // silently upgrades CodeMirror
     'codemirror/mode/meta',
-], function(CodeMirror, moment, _){
+], function($, CodeMirror, moment, _){
     "use strict";
     
     // keep track of which extensions have been loaded already
@@ -34,7 +35,7 @@ define([
             requirejs([ext_path], function(module) {
                 if (!is_loaded(extension)) {
                     console.log("Loading extension: " + extension);
-                    if (module.load_ipython_extension) {
+                    if (module && module.load_ipython_extension) {
                         Promise.resolve(module.load_ipython_extension()).then(function() {
                             resolve(module);
                         }).catch(reject);

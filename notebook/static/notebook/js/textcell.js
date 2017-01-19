@@ -2,6 +2,7 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/utils',
     'notebook/js/cell',
     'base/js/security',
@@ -13,6 +14,7 @@ define([
     'codemirror/mode/gfm/gfm',
     'notebook/js/codemirror-ipythongfm'
 ], function(
+    $,
     utils,
     cell,
     security,

@@ -2,10 +2,11 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/namespace',
     'base/js/utils',
     'base/js/dialog'
-], function(Jupyter, utils, dialog) {
+], function($, Jupyter, utils, dialog) {
 
 var jcbprefix = '<pre class="jupyter-nb-cells-json">';
 var jcbsuffix = '</pre>';

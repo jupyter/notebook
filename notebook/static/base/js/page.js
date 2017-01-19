@@ -2,8 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/events',
-], function(events){
+], function($, events){
     "use strict";
 
     var Page = function () {

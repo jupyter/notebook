@@ -4,6 +4,8 @@
 define(function(require){
     "use strict";
 
+    var $ = require('jquery');
+    require('typeahead');
     var QH = require("notebook/js/quickhelp");
 
     /**

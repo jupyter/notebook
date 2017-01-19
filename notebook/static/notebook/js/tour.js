@@ -1,7 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define([], function() {
+define(['jquery', 'bootstraptour'], function($, Tour) {
     "use strict";
 
     var tour_style = "<div class='popover tour'>\n" +

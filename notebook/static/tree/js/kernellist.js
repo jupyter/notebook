@@ -2,9 +2,10 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/namespace',
     'tree/js/notebooklist',
-], function(IPython, notebooklist) {
+], function($, IPython, notebooklist) {
     "use strict";
 
     var KernelList = function (selector, options) {
