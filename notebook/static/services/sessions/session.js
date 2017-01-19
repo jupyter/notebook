@@ -62,6 +62,9 @@ define([
         this.events.on('kernel_dead.Kernel', function () {
             that.delete();
         });
+        this.events.on('kernel_failed_restart.Kernel', function () {
+            that.notebook.start_session();
+        });
     };
 
 
@@ -188,7 +191,7 @@ define([
      * @param {function} [error] - functon executed on ajax error
      */
     Session.prototype.delete = function (success, error) {
-        if (this.kernel) {
+        if (this.kernel && this.kernel.is_connected()) {
             this.events.trigger('kernel_killed.Session', {session: this, kernel: this.kernel});
             this.kernel._kernel_dead();
         }

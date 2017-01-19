@@ -317,8 +317,7 @@ define([
         };
 
         var on_error = function (xhr, status, err) {
-            that.events.trigger('kernel_dead.Kernel', {kernel: that});
-            that._kernel_dead();
+            that.events.trigger('kernel_failed_restart.Kernel', {kernel: that});
             if (error) {
                 error(xhr, status, err);
             }

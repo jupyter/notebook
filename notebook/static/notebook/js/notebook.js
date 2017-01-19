@@ -2262,6 +2262,28 @@ define([
      * Prompt the user to restart the kernel.
      * if options.confirm === false, no confirmation dialog is shown.
      */
+    Notebook.prototype.halt_kernel = function (options) {
+        var that = this;
+        var halt_options = {};
+        halt_options.confirm = (options || {}).confirm;
+        halt_options.dialog = {
+            title : "Halt kernel?",
+            body : $("<p/>").text(
+                'Do you want to halt the current kernel?  All variables will be lost.'
+            ),
+            buttons : {
+                "Halt" : {
+                    "class" : "btn-danger",
+                    "click" : function () {},
+                },
+            }
+        };
+        halt_options.kernel_action = function() {
+            that.session.delete();
+        };
+        return this._restart_kernel(halt_options);
+    };
+
     Notebook.prototype.restart_kernel = function (options) {
         var that = this;
         var restart_options = {};
@@ -2297,11 +2319,14 @@ define([
                 that.events.one('kernel_ready.Kernel', resolve_promise);
             }, reject_promise);
         }
-        
-        if (options.confirm === false) {
+
+        var do_kernel_action = options.kernel_action || restart_and_resolve;
+       
+        // no need to confirm if the kernel is not connected
+        if (options.confirm === false || !that.kernel.is_connected()) {
             var default_button = options.dialog.buttons[Object.keys(options.dialog.buttons)[0]];
             promise.then(default_button.click);
-            restart_and_resolve();
+            do_kernel_action();
             return promise;
         }
         options.dialog.notebook = this;
@@ -2316,7 +2341,7 @@ define([
             var click = button.click;
             button.click = function () {
                 promise.then(click);
-                restart_and_resolve();
+                do_kernel_action();
             };
         });
         options.dialog.buttons = buttons;
