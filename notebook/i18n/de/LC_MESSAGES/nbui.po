@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-17 20:50-0600\n"
+"POT-Creation-Date: 2017-01-18 16:34-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -390,6 +390,21 @@ msgstr "Über Jupyter Notizblock"
 
 msgid "About"
 msgstr "Über"
+
+msgid "Jupyter Notebook requires JavaScript."
+msgstr "Jupyter Notizblock erfordert JavaScript."
+
+msgid "Please enable it to proceed. "
+msgstr "Bitte ermöglichen Sie, dass es fortfährt. "
+
+msgid "dashboard"
+msgstr "Armaturenbrett"
+
+msgid "Logout"
+msgstr "Abmelden"
+
+msgid "Login"
+msgstr "Anmelden"
 
 msgid "Files"
 msgstr "Dateien"

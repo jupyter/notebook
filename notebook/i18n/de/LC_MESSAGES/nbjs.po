@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-16 15:58-0600\n"
+"POT-Creation-Date: 2017-01-18 22:44-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,298 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Globalization Pipeline\n"
+
+msgid "You are using Jupyter notebook."
+msgstr "Sie verwenden Jupyter Notizblock."
+
+msgid "Open a dialog to edit the command mode keyboard shortcuts"
+msgstr ""
+"Öffnen Sie einen Dialog, die Befehls-Modustastaturabkürzungen zu redigieren"
+
+msgid "restart the kernel (no confirmation dialog)"
+msgstr "Starten Sie den Kern (keinen Bestätigungsdialog) neu"
+
+msgid "restart the kernel (with dialog)"
+msgstr "Starten Sie den Kern (mit Dialog) neu"
+
+msgid ""
+"restart the kernel, then re-run the whole notebook (no confirmation dialog)"
+msgstr ""
+"Starten Sie den Kern neu, dann führen Sie wieder den ganzen Notizblock (keinen"
+" Bestätigungsdialog )"
+
+msgid "restart the kernel, then re-run the whole notebook (with dialog)"
+msgstr ""
+"Starten Sie den Kern neu, dann führen Sie den ganzen Notizblock wieder (mit "
+"Dialog )"
+
+msgid "restart the kernel and clear all output (no confirmation dialog)"
+msgstr ""
+"Starten Sie den Kern neu und räumen Sie alle Ausgabe (keinen "
+"Bestätigungsdialog )"
+
+msgid "restart the kernel and clear all output (with dialog)"
+msgstr "Starten Sie den Kern neu und räumen Sie alle Ausgabe (mit Dialog )"
+
+msgid "interrupt the kernel"
+msgstr "Unterbrechen Sie den Kern"
+
+msgid "run cell, select below"
+msgstr "Führen Sie Zelle, ausgewählt unten"
+
+msgid "run selected cells"
+msgstr "Durchlauf wählte Zellen"
+
+msgid "run cell, insert below"
+msgstr "Durchlaufzelle, Einlage unten"
+
+msgid "run all cells"
+msgstr "Führen Sie alle Zellen"
+
+msgid "run all cells above"
+msgstr "Führen Sie alle Zellen oben genannt"
+
+msgid "run all cells below"
+msgstr "Führen Sie alle Zellen unterhalb"
+
+msgid "command mode"
+msgstr "Befehlsmodus"
+
+msgid "insert image"
+msgstr "Einlagenbild"
+
+msgid "cut cell attachments"
+msgstr "Schnittzellenzubehör"
+
+msgid "copy cell attachments"
+msgstr "Kopierzellenzubehör"
+
+msgid "paste cell attachments"
+msgstr "Pastenzellenzubehör"
+
+msgid "split cell at cursor"
+msgstr "Teilen Sie Zelle an Cursor"
+
+msgid "enter edit mode"
+msgstr "Betreten Sie Editiermodus"
+
+msgid "select cell above"
+msgstr "Wählen Sie Zelle oben"
+
+msgid "select cell below"
+msgstr "Wählen Sie Zelle unten"
+
+msgid "extend selected cells above"
+msgstr "Erweitern Sie gewählte Zellen oben"
+
+msgid "extend selected cells below"
+msgstr "Erweitern Sie gewählte Zellen unten"
+
+msgid "cut selected cells"
+msgstr "Schnitt wählte Zellen"
+
+msgid "copy selected cells"
+msgstr "Kopie wählte Zellen"
+
+msgid "paste cells above"
+msgstr "Kleben Sie Zellen oben ein"
+
+msgid "paste cells below"
+msgstr "Kleben Sie Zellen unten ein"
+
+msgid "insert cell above"
+msgstr "Führen Sie Zelle oben ein"
+
+msgid "insert cell below"
+msgstr "Führen Sie Zelle unten ein"
+
+msgid "to code"
+msgstr "Um zu verschlüsseln"
+
+msgid "to markdown"
+msgstr "Zu Markdown"
+
+msgid "to raw"
+msgstr "Zu Abschürfung"
+
+msgid "to heading 1"
+msgstr "Dazu, 1 zu leiten"
+
+msgid "to heading 2"
+msgstr "Dazu, 2 zu leiten"
+
+msgid "to heading 3"
+msgstr "Dazu, 3 zu leiten"
+
+msgid "to heading 4"
+msgstr "Dazu, 4 zu leiten"
+
+msgid "to heading 5"
+msgstr "Dazu, 5 zu leiten"
+
+msgid "to heading 6"
+msgstr "Dazu, 6 zu leiten"
+
+msgid "toggle output of selected cells"
+msgstr "Schalten Sie Ausgabe gewählter Zellen um"
+
+msgid "toggle output scrolling of selected cells"
+msgstr "Schalten Sie Ausgabeschieben gewählter Zellen um"
+
+msgid "clear output of selected cells"
+msgstr "Räumen Sie Ausgabe gewählter Zellen"
+
+msgid "move selected cells down"
+msgstr "Bewegen Sie gewählte Zellen hinunter"
+
+msgid "move selected cells up"
+msgstr "Bewegen Sie gewählte Zellen hinauf"
+
+msgid "toggle line numbers"
+msgstr "Schalten Sie Zeilennummern um"
+
+msgid "show keyboard shortcuts"
+msgstr "Vorstellungs-Tastaturabkürzungen"
+
+msgid "delete selected cells"
+msgstr "Löschen Sie gewählte Zellen"
+
+msgid "undo cell deletion"
+msgstr "Machen Sie Zellenlöschen los"
+
+msgid "merge cell above"
+msgstr "Vereinen Sie Zelle oben"
+
+msgid "merge cell below"
+msgstr "Vereinen Sie Zelle unten"
+
+msgid "merge selected cells"
+msgstr "Vereinen Sie gewählte Zellen"
+
+msgid ""
+"merge selected cells, or current cell with cell below if only one cell is "
+msgstr ""
+"Vereinen Sie gewählte Zellen oder gegenwärtige Zelle mit Zelle unten, wenn nur"
+" eine Zelle gewählt wird"
+
+msgid "open the command palette"
+msgstr "Öffnen Sie die Befehlspalette"
+
+msgid "toggles line numbers in all cells, and persist the setting"
+msgstr ""
+"Schaltet Zeilennummern in allen Zellen um und bleiben Sie bestehen die "
+
+msgid "show line numbers in all cells, and persist the setting"
+msgstr ""
+"Zeigen Sie Zeilennummern in allen Zellen und bleiben Sie bestehen die "
+
+msgid "hide line numbers in all cells, and persist the setting"
+msgstr ""
+"Verstecken Sie Zeilennummern in allen Zellen und bleiben Sie bestehen die "
+
+msgid "hide/show the header"
+msgstr "Verstecken Sie/ zeigen Sie die Überschrift"
+
+msgid "show the header"
+msgstr "Zeigen Sie die Überschrift"
+
+msgid "hide the header"
+msgstr "Verstecken Sie die Überschrift"
+
+msgid "hide/show the toolbar"
+msgstr "Verstecken Sie/ zeigen Sie den Werkzeugbalken"
+
+msgid "show the toolbar"
+msgstr "Zeigen Sie den Werkzeugbalken"
+
+msgid "hide the toolbar"
+msgstr "Verstecken Sie den Werkzeugbalken"
+
+msgid "close the pager"
+msgstr "Schließen Sie den Pager"
+
+msgid "move the cursor up"
+msgstr "Bewegen Sie den Cursor hinauf"
+
+msgid "move the cursor down"
+msgstr "Bewegen Sie den Cursor hinunter"
+
+msgid "scroll the notebook down"
+msgstr "Blättern Sie den Notizblock vor"
+
+msgid "scroll the notebook up"
+msgstr "Blättern Sie den Notizblock zurück"
+
+msgid "Scroll the current cell to the center"
+msgstr "Blättern Sie die gegenwärtige Zelle zum Zentrum"
+
+msgid "Scroll the current cell to the top"
+msgstr "Blättern Sie die gegenwärtige Zelle zur Oberseite"
+
+msgid "Create and open a copy of the current notebook"
+msgstr "Schaffen Sie und öffnen Sie eine Kopie des gegenwärtigen Notizblocks"
+
+msgid "Trust the current notebook"
+msgstr "Vertrauen Sie dem gegenwärtigen Notizblock"
+
+msgid "Rename the current notebook"
+msgstr "Benennen Sie den gegenwärtigen Notizblock um"
+
+msgid "Toggle the hidden state of all output areas"
+msgstr "Schalten Sie den versteckten Zustand aller Ausgabebereiche um"
+
+msgid "Toggle the scrolling state of all output areas"
+msgstr "Schalten Sie den Schiebezustand aller Ausgabebereiche um"
+
+msgid "Clear the content of all the outputs"
+msgstr "Räumen Sie den Inhalt aller Ausgaben"
+
+msgid "Save and Checkpoint"
+msgstr "Sparen Sie und Kontrollpunkt"
+
+msgid "Autosave Failed!"
+msgstr "Automatisches Sichern scheiterte!"
+
+msgid "Cancel"
+msgstr "Abbruch"
+
+msgid "Rename"
+msgstr "Umbenennen"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Enter a new notebook name:"
+msgstr "Geben Sie einen neuen Notizblocknamen ein:"
+
+msgid "Rename Notebook"
+msgstr "Benennen Sie Notizblock um"
+
+msgid ""
+"Invalid notebook name. Notebook names must have 1 or more characters and can "
+"contain any characters except :/\\. Please enter a new notebook name:"
+msgstr ""
+"Ungültiger Notizblockname. Notizblocknamen müssen 1 oder mehr Charaktere haben"
+" und können Charaktere außer :/\ enthalten. Bitte geben Sie einen neuen "
+"Notizblocknamen ein:"
+
+msgid "Renaming..."
+msgstr "Umbenennen"
+
+msgid "Unknown error"
+msgstr "Unbekannter Fehler"
+
+msgid "no checkpoint"
+msgstr "Kein Kontrollpunkt"
+
+msgid "Last Checkpoint: %s"
+msgstr "Letzter Kontrollpunkt: %s"
+
+msgid "(unsaved changes)"
+msgstr "(nicht gespeicherte Änderungen)"
+
+msgid "(autosaved)"
+msgstr "(automatisch gespeichert)"
 
 msgid "Creating File Failed"
 msgstr "Das Erstellen von Akte scheiterte"
@@ -39,7 +331,7 @@ msgid "id provided to sort_list function is invalid."
 msgstr "Sort_list Funktion gelieferte Kennung ist ungültig."
 
 msgid "Failed to read file"
-msgstr "Keine Akte gelesen"
+msgstr "Keine Dateien gelesen"
 
 msgid "Server error: "
 msgstr "Serverfehler: "
@@ -54,7 +346,7 @@ msgid "Click here to rename, delete, etc."
 msgstr "Klick hier, umzubenennen, zu löschen, usw."
 
 msgid "Running"
-msgstr "Laufen"
+msgstr "Läuft"
 
 msgid "Enter a new file name:"
 msgstr "Geben Sie einen neuen Dateinamen ein:"
@@ -62,14 +354,11 @@ msgstr "Geben Sie einen neuen Dateinamen ein:"
 msgid "Enter a new directory name:"
 msgstr "Geben Sie einen neuen Verzeichnisnamen ein:"
 
-msgid "Enter a new notebook name:"
-msgstr "Geben Sie einen neuen Notizblocknamen ein:"
-
 msgid "Enter a new name:"
 msgstr "Geben Sie einen neuen Namen ein:"
 
 msgid "Rename file"
-msgstr "Benennen Sie Akte um"
+msgstr "Benennen Sie Datei um"
 
 msgid "Rename directory"
 msgstr "Benennen Sie Verzeichnis um"
@@ -77,40 +366,34 @@ msgstr "Benennen Sie Verzeichnis um"
 msgid "Rename notebook"
 msgstr "Benennen Sie Notizblock um"
 
-msgid "Rename"
-msgstr "Umbenennen"
-
-msgid "Cancel"
-msgstr "Abbruch"
-
-msgid "OK"
-msgstr "OK"
-
 msgid "Move"
 msgstr "Bewegen"
 
 msgid "An error occurred while renaming \"%1$s\" to \"%2$s\"."
-msgstr "Ein Fehler trat auf vertreiben Sie sich umzubenennen \"%1$s\" zu \"%2$s\"."
+msgstr ""
+"Ein Fehler trat auf vertreiben Sie sich umzubenennen \"%1$s\" zu \"%2$s\"."
 
 msgid "Rename Failed"
-msgstr "Umbenennung schlug fehl"
+msgstr "Umbenennen fehlgeschlagen"
 
 msgid "Error during renaming :"
 msgstr "Fehler während des Umbenennens:"
 
 msgid "Enter a new destination directory path for this item:"
-msgid_plural "Enter a new destination directory path for these %d items:"
-msgstr[0] "Betreten Sie einen neuen Zielverzeichnispfad für diese Sache:"
-msgstr[1] "Betreten Sie einen neuen Zielverzeichnispfad für diese %d Sachen:"
+msgstr "Betreten Sie einen neuen Zielverzeichnispfad für diese Sache:"
+
+msgid "Enter a new destination directory path for these %d items:"
+msgstr "Betreten Sie einen neuen Zielverzeichnispfad für diese %d Sachen:"
 
 msgid "Move an Item"
-msgid_plural "Move %d Items"
-msgstr[0] "Bewegen Sie eine Sache"
-msgstr[1] "Bewegen Sie %d Sachen"
+msgstr "Bewegen Sie eine Sache"
+
+msgid "Move %d Items"
+msgstr "Bewegen Sie %d Sachen"
 
 msgid "An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\"."
 msgstr ""
-"Ein Fehler trat auf, während er sich bewegte \"%1$s\" von \"%2$s\" zu \"%3$s\"."
+"Ein Fehler trat auf, während er sich bewegte \"%1$s\" von \"%2$s\" zu \"%3$s\""
 
 msgid "Move Failed"
 msgstr "Bewegung schlug fehl"
@@ -119,10 +402,11 @@ msgid "Error during moving :"
 msgstr "Fehler während des Sichbewegens:"
 
 msgid "Are you sure you want to permanently delete: \"%s\"?"
-msgid_plural ""
+msgstr "Sind Sie sicher, dass Sie permanent löschen wollen: \ "%s?""
+
+msgid ""
 "Are you sure you want to permanently delete the %d files or folders selected?"
-msgstr[0] "Sind Sie sicher, dass Sie permanent löschen wollen: \"%s\"?"
-msgstr[1] ""
+msgstr ""
 "Sind Sie sicher, dass Sie die %d Dateien oder Ordner permanent löschen wollen,"
 " die gewählt wurden?"
 
@@ -133,24 +417,25 @@ msgid "An error occurred while deleting \"%s\"."
 msgstr "Ein Fehler trat auf vertreiben Sie sich zu löschen \"%s\"."
 
 msgid "Delete Failed"
-msgstr "Die Löschung ist fehlgeschlagen"
+msgstr "Löschen fehlgeschlagen"
 
 msgid "Error during content deletion:"
 msgstr "Fehler während Inhaltslöschens:"
 
 msgid "Are you sure you want to duplicate: \"%s\"?"
-msgid_plural "Are you sure you want to duplicate the %d files selected?"
-msgstr[0] "Sind Sie sicher, dass Sie duplizieren wollen: \"%s\"?"
-msgstr[1] "Sind Sie sicher, dass Sie die gewählten %d Akten duplizieren wollen?"
+msgstr "Sind Sie sicher, dass Sie duplizieren wollen: \"%s\"?"
+
+msgid "Are you sure you want to duplicate the %d files selected?"
+msgstr "Sind Sie sicher, dass Sie die gewählten %d Akten duplizieren wollen?"
 
 msgid "Duplicate"
-msgstr "Duplizieren"
+msgstr "Doppel"
 
 msgid "An error occurred while duplicating \"%s\"."
-msgstr "Ein Fehler trat auf, während er duplizierte "\%s\"."
+msgstr "Ein Fehler trat auf, während er duplizierte \"%s\"."
 
 msgid "Duplicate Failed"
-msgstr "Duplizieren ist fehlgeschlagen"
+msgstr "Doppel scheiterte"
 
 msgid "Error during content duplication"
 msgstr "Fehler während Inhaltsvervielfältigung"
@@ -163,7 +448,7 @@ msgstr "Ungültiger Dateiname"
 
 msgid "File names must be at least one character and not start with a period"
 msgstr ""
-"Dateinamen müssen mindestens ein Charakter sein und beginnen nicht mit einem \".\""
+"Dateinamen müssen mindestens  ein Charakter sein und beginnen nicht mit einem "
 
 msgid "The error was: %s"
 msgstr "Der Fehler war: %s"
@@ -175,7 +460,7 @@ msgid "Error during notebook uploading"
 msgstr "Fehler während Notizblocks, der hochlädt"
 
 msgid "There is already a file named \"%s\". Do you want to replace it?"
-msgstr "Es gibt schon eine benannte Akte \"%s\". Wollen Sie es ersetzen?"
+msgstr "Es gibt schon eine benannte Datei \"%s.\" Wollen Sie es ersetzen?"
 
 msgid "Replace file"
-msgstr "Ersetzen Sie Akte"
+msgstr "Datei Ersetzen"

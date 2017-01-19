@@ -3,14 +3,20 @@
 require([
     'jquery',
     'base/js/dialog',
+    'base/js/utils',
     'underscore',
     'base/js/namespace'
-], function ($, dialog, _, IPython) {
+], function ($, dialog, utils, _, IPython) {
     'use strict';
+    var i18n = utils.i18n;
+    var gettext = function(text) {
+    	return i18n.gettext(text);
+    }    
     $('#notebook_about').click(function () {
         // use underscore template to auto html escape
         if (sys_info) {
-          var text = 'You are using Jupyter notebook.<br/><br/>';
+          var text = gettext('You are using Jupyter notebook.');
+          text = text + '<br/><br/>';
           text = text + 'The version of the notebook server is ';
           text = text + _.template('<b><%- version %></b>')({ version: sys_info.notebook_version });
           if (sys_info.commit_hash) {

@@ -15,8 +15,15 @@
 // * For dialogs, use a verb that indicates what the dialog will accomplish, such as "confirm-restart-kernel".
 
 
-define(function(require){
+define([
+    'base/js/utils',
+    ], function(utils){
     "use strict";
+
+    var i18n = utils.i18n;
+    var _ = function(text) {
+    	return i18n.gettext(text);
+    }    
 
     var warn_bad_name = function(name){
         if(name !== "" && !name.match(/:/)){
@@ -64,13 +71,13 @@ define(function(require){
      **/
     var _actions = {
         'toggle-rtl-layout': {
-            help: 'Open a dialog to edit the command mode keyboard shortcuts',
+            help: _('Open a dialog to edit the command mode keyboard shortcuts'),
             handler: function () {
               (document.body.getAttribute('dir')=='rtl') ? document.body.setAttribute('dir','ltr') : document.body.setAttribute('dir','rtl');
             }
         },
         'edit-command-mode-keyboard-shortcuts': {
-            help: 'Open a dialog to edit the command mode keyboard shortcuts',
+            help: _('Open a dialog to edit the command mode keyboard shortcuts'),
             handler: function (env) {
                 env.notebook.show_shortcuts_editor();
             }
@@ -90,7 +97,7 @@ define(function(require){
             }
         },
         'restart-kernel': {
-            help: 'restart the kernel (no confirmation dialog)',
+            help: _('restart the kernel (no confirmation dialog)'),
             handler: function (env) {
                 env.notebook.restart_kernel({confirm: false});
             },
@@ -98,37 +105,38 @@ define(function(require){
         'confirm-restart-kernel':{
             icon: 'fa-repeat',
             help_index : 'hb',
-            help: 'restart the kernel (with dialog)',
+            help: _('restart the kernel (with dialog)'),
             handler : function (env) {
                 env.notebook.restart_kernel();
             }
         },
         'restart-kernel-and-run-all-cells': {
-            help: 'restart the kernel, then re-run the whole notebook (no confirmation dialog)',
+            help: _('restart the kernel, then re-run the whole notebook (no confirmation dialog)'),
             handler: function (env) {
                 env.notebook.restart_run_all({confirm: false});
             }
         },
         'confirm-restart-kernel-and-run-all-cells': {
-            help: 'restart the kernel, then re-run the whole notebook (with dialog)',
+            help: _('restart the kernel, then re-run the whole notebook (with dialog)'),
             handler: function (env) {
                 env.notebook.restart_run_all();
             }
         },
         'restart-kernel-and-clear-output': {
-            help: 'restart the kernel and clear all output (no confirmation dialog)',
+            help: _('restart the kernel and clear all output (no confirmation dialog)'),
             handler: function (env) {
                 env.notebook.restart_clear_output({confirm: false});
             }
         },
         'confirm-restart-kernel-and-clear-output': {
-            help: 'restart the kernel and clear all output (with dialog)',
+            help: _('restart the kernel and clear all output (with dialog)'),
             handler: function (env) {
                 env.notebook.restart_clear_output();
             }
         },
         'interrupt-kernel':{
             icon: 'fa-stop',
+            help: _('interrupt the kernel'),
             help_index : 'ha',
             handler : function (env) {
                 env.notebook.kernel.interrupt();
@@ -136,93 +144,96 @@ define(function(require){
         },
         'run-cell-and-select-next': {
             icon: 'fa-step-forward',
-            help    : 'run cell, select below',
+            help: _('run cell, select below'),
             help_index : 'ba',
             handler : function (env) {
                 env.notebook.execute_cell_and_select_below();
             }
         },
         'run-cell':{
-            help    : 'run selected cells',
+            help    : _('run selected cells'),
             help_index : 'bb',
             handler : function (env) {
                 env.notebook.execute_selected_cells();
             }
         },
         'run-cell-and-insert-below':{
-            help    : 'run cell, insert below',
+            help    : _('run cell, insert below'),
             help_index : 'bc',
             handler : function (env) {
                 env.notebook.execute_cell_and_insert_below();
             }
         },
         'run-all-cells': {
-            help: 'run all cells',
+            help: _('run all cells'),
             help_index: 'bd',
             handler: function (env) {
                 env.notebook.execute_all_cells();
             }
         },
         'run-all-cells-above':{
+            help: _('run all cells above'),
             handler : function (env) {
                 env.notebook.execute_cells_above();
             }
         },
         'run-all-cells-below':{
+            help: _('run all cells below'),
             handler : function (env) {
                 env.notebook.execute_cells_below();
             }
         },
         'enter-command-mode': {
-            help    : 'command mode',
+            help    : _('command mode'),
             help_index : 'aa',
             handler : function (env) {
                 env.notebook.command_mode();
             }
         },
         'insert-image': {
-            help      : 'insert image',
+            help      : _('insert image'),
             help_index : 'dz',
             handler : function (env) {
                 env.notebook.insert_image();
             }
         },
         'cut-cell-attachments': {
-            help    : 'cut cell attachments',
+            help    : _('cut cell attachments'),
             help_index : 'dza',
             handler: function (env) {
                 env.notebook.cut_cell_attachments();
             }
         },
         'copy-cell-attachments': {
-            help    : 'copy cell attachments',
+            help    : _('copy cell attachments'),
             help_index: 'dzb',
             handler: function (env) {
                 env.notebook.copy_cell_attachments();
             }
         },
         'paste-cell-attachments': {
-            help    : 'paste cell attachments',
+            help    : _('paste cell attachments'),
             help_index: 'dzc',
             handler: function (env) {
                 env.notebook.paste_cell_attachments();
             }
         },
         'split-cell-at-cursor': {
-            help    : 'split cell',
+            help    : _('split cell at cursor'),
             help_index : 'ea',
             handler : function (env) {
                 env.notebook.split_cell();
             }
         },
         'enter-edit-mode' : {
+            help : _('enter edit mode'),
             help_index : 'aa',
             handler : function (env) {
                 env.notebook.edit_mode();
             }
         },
         'select-previous-cell' : {
-            help: 'select cell above',
+            help: _('select cell above'),
             help_index : 'da',
             handler : function (env) {
                 var index = env.notebook.get_selected_index();
@@ -233,7 +244,7 @@ define(function(require){
             }
         },
         'select-next-cell' : {
-            help: 'select cell below',
+            help: _('select cell below'),
             help_index : 'db',
             handler : function (env) {
                 var index = env.notebook.get_selected_index();
@@ -244,7 +255,7 @@ define(function(require){
             }
         },
         'extend-selection-above' : {
-            help: 'extend selected cells above',
+            help: _('extend selected cells above'),
             help_index : 'dc',
             handler : function (env) {
                 env.notebook.extend_selection_by(-1);
@@ -255,7 +266,7 @@ define(function(require){
             }
         },
         'extend-selection-below' : {
-            help: 'extend selected cells below',
+            help: _('extend selected cells below'),
             help_index : 'dd',
             handler : function (env) {
                 env.notebook.extend_selection_by(1);
@@ -266,7 +277,7 @@ define(function(require){
             }
         },
         'cut-cell' : {
-            help: 'cut selected cells',
+            help: _('cut selected cells'),
             icon: 'fa-cut',
             help_index : 'ee',
             handler : function (env) {
@@ -276,7 +287,7 @@ define(function(require){
             }
         },
         'copy-cell' : {
-            help: 'copy selected cells',
+            help: _('copy selected cells'),
             icon: 'fa-copy',
             help_index : 'ef',
             handler : function (env) {
@@ -290,14 +301,14 @@ define(function(require){
             }
         },
         'paste-cell-above' : {
-            help: 'paste cells above',
+            help: _('paste cells above'),
             help_index : 'eg',
             handler : function (env) {
                 env.notebook.paste_cell_above();
             }
         },
         'paste-cell-below' : {
-            help: 'paste cells below',
+            help: _('paste cells below'),
             icon: 'fa-paste',
             help_index : 'eh',
             handler : function (env) {
@@ -305,7 +316,7 @@ define(function(require){
             }
         },
         'insert-cell-above' : {
-            help: 'insert cell above',
+            help: _('insert cell above'),
             help_index : 'ec',
             handler : function (env) {
                 env.notebook.insert_cell_above();
@@ -314,7 +325,7 @@ define(function(require){
             }
         },
         'insert-cell-below' : {
-            help: 'insert cell below',
+            help: _('insert cell below'),
             icon : 'fa-plus',
             help_index : 'ed',
             handler : function (env) {
@@ -324,90 +335,90 @@ define(function(require){
             }
         },
         'change-cell-to-code' : {
-            help    : 'to code',
+            help    : _('to code'),
             help_index : 'ca',
             handler : function (env) {
                 env.notebook.cells_to_code();
             }
         },
         'change-cell-to-markdown' : {
-            help    : 'to markdown',
+            help    : _('to markdown'),
             help_index : 'cb',
             handler : function (env) {
                 env.notebook.cells_to_markdown();
             }
         },
         'change-cell-to-raw' : {
-            help    : 'to raw',
+            help    : _('to raw'),
             help_index : 'cc',
             handler : function (env) {
                 env.notebook.cells_to_raw();
             }
         },
         'change-cell-to-heading-1' : {
-            help    : 'to heading 1',
+            help    : _('to heading 1'),
             help_index : 'cd',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 1);
             }
         },
         'change-cell-to-heading-2' : {
-            help    : 'to heading 2',
+            help    : _('to heading 2'),
             help_index : 'ce',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 2);
             }
         },
         'change-cell-to-heading-3' : {
-            help    : 'to heading 3',
+            help    : _('to heading 3'),
             help_index : 'cf',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 3);
             }
         },
         'change-cell-to-heading-4' : {
-            help    : 'to heading 4',
+            help    : _('to heading 4'),
             help_index : 'cg',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 4);
             }
         },
         'change-cell-to-heading-5' : {
-            help    : 'to heading 5',
+            help    : _('to heading 5'),
             help_index : 'ch',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 5);
             }
         },
         'change-cell-to-heading-6' : {
-            help    : 'to heading 6',
+            help    : _('to heading 6'),
             help_index : 'ci',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 6);
             }
         },
         'toggle-cell-output-collapsed' : {
-            help    : 'toggle output of selected cells',
+            help    : _('toggle output of selected cells'),
             help_index : 'gb',
             handler : function (env) {
                 env.notebook.toggle_cells_outputs();
             }
         },
         'toggle-cell-output-scrolled' : {
-            help    : 'toggle output scrolling of selected cells',
+            help    : _('toggle output scrolling of selected cells'),
             help_index : 'gc',
             handler : function (env) {
                 env.notebook.toggle_cells_outputs_scroll();
             }
         },
         'clear-cell-output' : {
-            help    : 'clear output of selected cells',
+            help    : _('clear output of selected cells'),
             handler : function (env) {
                 env.notebook.clear_cells_outputs();
             }
         },
         'move-cell-down' : {
-            help: 'move selected cells down',
+            help: _('move selected cells down'),
             icon: 'fa-arrow-down',
             help_index : 'eb',
             handler : function (env) {
@@ -415,7 +426,7 @@ define(function(require){
             }
         },
         'move-cell-up' : {
-            help: 'move selected cells up',
+            help: _('move selected cells up'),
             icon: 'fa-arrow-up',
             help_index : 'ea',
             handler : function (env) {
@@ -423,26 +434,28 @@ define(function(require){
             }
         },
         'toggle-cell-line-numbers' : {
-            help    : 'toggle line numbers',
+            help    : _('toggle line numbers'),
             help_index : 'ga',
             handler : function (env) {
                 env.notebook.cell_toggle_line_numbers();
             }
         },
         'show-keyboard-shortcuts' : {
+            help    : _('show keyboard shortcuts'),
             help_index : 'ge',
             handler : function (env) {
                 env.quick_help.show_keyboard_shortcuts();
             }
         },
         'delete-cell': {
-            help: 'delete selected cells',
+            help: _('delete selected cells'),
             help_index : 'ej',
             handler : function (env) {
                 env.notebook.delete_cell();
             }
         },
         'undo-cell-deletion' : {
+            help: _('undo cell deletion'),
             help_index : 'ei',
             handler : function (env) {
                 env.notebook.undelete_cell();
@@ -451,26 +464,27 @@ define(function(require){
         // TODO reminder
         // open an issue, merge with above merge with last cell of notebook if at top.
         'merge-cell-with-previous-cell' : {
+            help    : _('merge cell above'),
             handler : function (env) {
                 env.notebook.merge_cell_above();
             }
         },
         'merge-cell-with-next-cell' : {
-            help    : 'merge cell below',
+            help    : _('merge cell below'),
             help_index : 'ek',
             handler : function (env) {
                 env.notebook.merge_cell_below();
             }
         },
         'merge-selected-cells' : {
-            help : 'merge selected cells',
+            help : _('merge selected cells'),
             help_index: 'el',
             handler: function(env) {
                 env.notebook.merge_selected_cells();
             }
         },
         'merge-cells' : {
-            help : 'merge selected cells, or current cell with cell below if only one cell selected',
+            help : _('merge selected cells, or current cell with cell below if only one cell is selected'),
             help_index: 'el',
             handler: function(env) {
                 var l = env.notebook.get_selected_cells_indices().length;
@@ -483,14 +497,14 @@ define(function(require){
         },
         'show-command-palette': {
             help_index : 'aa',
-            help: 'open the command palette',
+            help: _('open the command palette'),
             icon: 'fa-keyboard-o',
             handler : function(env){
                 env.notebook.show_command_palette();
             }
         },
         'toggle-all-line-numbers': {
-            help : 'toggles line numbers in all cells, and persist the setting',
+            help : _('toggles line numbers in all cells, and persist the setting'),
             icon: 'fa-list-ol',
             handler: function(env) {
                 var value = !env.notebook.line_numbers;
@@ -501,7 +515,7 @@ define(function(require){
             }
         },
         'show-all-line-numbers': {
-            help : 'show line numbers in all cells, and persist the setting',
+            help : _('show line numbers in all cells, and persist the setting'),
             handler: function(env) {
                 env.notebook.get_cells().map(function(c) {
                     c.code_mirror.setOption('lineNumbers', true);
@@ -510,7 +524,7 @@ define(function(require){
             }
         },
         'hide-all-line-numbers': {
-            help : 'hide line numbers in all cells, and persist the setting',
+            help : _('hide line numbers in all cells, and persist the setting'),
             handler: function(env) {
                 env.notebook.get_cells().map(function(c) {
                     c.code_mirror.setOption('lineNumbers', false);
@@ -519,7 +533,7 @@ define(function(require){
             }
         },
         'toggle-header':{
-            help: 'hide/show the header',
+            help: _('hide/show the header'),
             handler : function(env) {
                 var value = !env.notebook.header;
                 if (value === true) {
@@ -534,7 +548,7 @@ define(function(require){
             }
         },
         'show-header':{
-            help: 'show the header',
+            help: _('show the header'),
             handler : function(env) {
                 $('#header-container').show();
                 $('.header-bar').show();
@@ -543,7 +557,7 @@ define(function(require){
             }
         },
         'hide-header':{
-            help: 'hide the header',
+            help: _('hide the header'),
             handler : function(env) {
                 $('#header-container').hide();
                 $('.header-bar').hide();
@@ -573,7 +587,7 @@ define(function(require){
             }
         },
         'toggle-toolbar':{
-            help: 'hide/show the toolbar',
+            help: _('hide/show the toolbar'),
             handler : function(env) {
                 var value = !env.notebook.toolbar;
                 if (value === true) {
@@ -586,7 +600,7 @@ define(function(require){
             }
         },
         'show-toolbar':{
-            help: 'show the toolbar',
+            help: _('show the toolbar'),
             handler : function(env) {
                 $('div#maintoolbar').show();
                 events.trigger('resize-header.Page');
@@ -594,7 +608,7 @@ define(function(require){
             }
         },
         'hide-toolbar':{
-            help: 'hide the toolbar',
+            help: _('hide the toolbar'),
             handler : function(env) {
                 $('div#maintoolbar').hide();
                 events.trigger('resize-header.Page');
@@ -602,7 +616,7 @@ define(function(require){
             }
         },
         'close-pager': {
-            help : 'close the pager',
+            help : _('close the pager'),
             handler : function(env) {
                 // Collapse the page if it is open
                 if (env.pager && env.pager.expanded) {
@@ -632,6 +646,7 @@ define(function(require){
             }
         },
         'move-cursor-up':{
+            help: _("move the cursor up"),
             handler : function (env, event) {
                 var index = env.notebook.get_selected_index();
                 var cell = env.notebook.get_cell(index);
@@ -651,6 +666,7 @@ define(function(require){
             }
         },
         'move-cursor-down':{
+            help: _("move the cursor down"),
             handler : function (env, event) {
                 var index = env.notebook.get_selected_index();
                 var cell = env.notebook.get_cell(index);
@@ -668,6 +684,7 @@ define(function(require){
             }
         },
         'scroll-notebook-down': {
+            help: _("scroll the notebook down"),
             handler: function(env, event) {
                 if(event){
                     event.preventDefault();
@@ -676,6 +693,7 @@ define(function(require){
             },
         },
         'scroll-notebook-up': {
+            help: _("scroll the notebook up"),
             handler: function(env, event) {
                 if(event){
                     event.preventDefault();
@@ -684,7 +702,7 @@ define(function(require){
             },
         },
         'scroll-cell-center': {
-            help: "Scroll the current cell to the center",
+            help: _("Scroll the current cell to the center"),
             handler: function (env, event) {
                 if(event){
                     event.preventDefault();
@@ -694,7 +712,7 @@ define(function(require){
             }
         },
         'scroll-cell-top': {
-            help: "Scroll the current cell to the top",
+            help: _("Scroll the current cell to the top"),
             handler: function (env, event) {
                 if(event){
                     event.preventDefault();
@@ -704,44 +722,44 @@ define(function(require){
             }
         },
         'duplicate-notebook':{
-            help: "Create an open a copy of current notebook",
+            help: _("Create and open a copy of the current notebook"),
             handler : function (env, event) {
                 env.notebook.copy_notebook();
             }
         },
         'trust-notebook':{
-            help: "Trust the current notebook",
+            help: _("Trust the current notebook"),
             handler : function (env, event) {
                 env.notebook.trust_notebook();
             }
         },
         'rename-notebook':{
-            help: "Rename current notebook",
+            help: _("Rename the current notebook"),
             handler : function (env, event) {
                 env.notebook.save_widget.rename_notebook({notebook: env.notebook});
             }
         },
         'toggle-all-cells-output-collapsed':{
-            help: "Toggle the hiddens state of all output areas",
+            help: _("Toggle the hidden state of all output areas"),
             handler : function (env, event) {
                 env.notebook.toggle_all_output();
             }
         },
         'toggle-all-cells-output-scrolled':{
-            help: "Toggle the scrolling state of all output areas",
+            help: _("Toggle the scrolling state of all output areas"),
             handler : function (env, event) {
                 env.notebook.toggle_all_output_scroll();
             }
         },
 
         'clear-all-cells-output':{
-            help: "Clear the content of all the outputs",
+            help: _("Clear the content of all the outputs"),
             handler : function (env, event) {
                 env.notebook.clear_all_output();
             }
         },
         'save-notebook':{
-            help: "Save and Checkpoint",
+            help: _("Save and Checkpoint"),
             help_index : 'fb',
             icon: 'fa-save',
             handler : function (env, event) {
