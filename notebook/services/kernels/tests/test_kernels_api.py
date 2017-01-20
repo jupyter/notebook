@@ -3,9 +3,9 @@
 import json
 import time
 
-import requests
-from tornado.websocket import websocket_connect
+from tornado.httpclient import HTTPRequest
 from tornado.ioloop import IOLoop
+from tornado.websocket import websocket_connect
 
 from jupyter_client.kernelspec import NATIVE_KERNEL_NAME
 
@@ -14,8 +14,10 @@ from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 
 class KernelAPI(object):
     """Wrapper for kernel REST API requests"""
-    def __init__(self, request):
+    def __init__(self, request, base_url, headers):
         self.request = request
+        self.base_url = base_url
+        self.headers = headers
 
     def _req(self, verb, path, body=None):
         response = self.request(verb,
@@ -51,16 +53,21 @@ class KernelAPI(object):
 
     def websocket(self, id):
         loop = IOLoop()
-        f = websocket_connect(url_path_join(
-            self.base_url.replace('http', 'ws', 1), 'api/kernels', id, 'channels'),
-            io_loop=loop)
+        req = HTTPRequest(
+            url_path_join(self.base_url.replace('http', 'ws', 1), 'api/kernels', id, 'channels'),
+            headers=self.headers,
+        )
+        f = websocket_connect(req, io_loop=loop)
         return loop.run_sync(lambda : f)
 
 
 class KernelAPITest(NotebookTestBase):
     """Test the kernels web service API"""
     def setUp(self):
-        self.kern_api = KernelAPI(self.request)
+        self.kern_api = KernelAPI(self.request,
+                                  base_url=self.base_url(),
+                                  headers=self.auth_headers(),
+                                  )
 
     def tearDown(self):
         for k in self.kern_api.list().json():

@@ -72,16 +72,22 @@ class NotebookTestBase(TestCase):
             raise TimeoutError("Undead notebook server")
     
     @classmethod
-    def request(self, verb, path, **kwargs):
+    def auth_headers(cls):
+        headers = {}
+        if cls.token:
+            headers['Authorization'] = 'token %s' % cls.token
+        return headers
+
+    @classmethod
+    def request(cls, verb, path, **kwargs):
         """Send a request to my server
         
         with authentication and everything.
         """
         headers = kwargs.setdefault('headers', {})
-        # kwargs.setdefault('allow_redirects', False)
-        headers.setdefault('Authorization', 'token %s' % self.token)
+        headers.update(cls.auth_headers())
         response = requests.request(verb,
-            url_path_join(self.base_url(), path),
+            url_path_join(cls.base_url(), path),
             **kwargs)
         return response
 
