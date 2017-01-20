@@ -11,7 +11,7 @@ class KernelAPITest(NotebookTestBase):
     """Test the kernels web service API"""
     
     def _req(self, verb, path, **kwargs):
-        r = requests.request(verb, url_path_join(self.base_url(), 'api', path))
+        r = self.request(verb, url_path_join('api', path))
         r.raise_for_status()
         return r
     
