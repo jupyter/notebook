@@ -112,7 +112,7 @@ define([
         this.prompt_overlay.dblclick(function () { that.toggle_output(); });
         this.prompt_overlay.click(function () { that.toggle_scroll(); });
 
-        this.element.resize(function () {
+        this.element.on('resizeOutput', function () {
             // maybe scroll output,
             // if it's grown large enough and hasn't already been scrolled.
             if (!that.scrolled && that._should_scroll()) {
@@ -343,7 +343,7 @@ define([
             this._needs_height_reset = false;
         }
 
-        this.element.trigger('resize');
+        this.element.trigger('resizeOutput');
     };
 
     OutputArea.prototype.create_output_area = function () {
