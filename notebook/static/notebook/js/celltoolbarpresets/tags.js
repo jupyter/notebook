@@ -8,14 +8,24 @@ define([
 
     var CellToolbar = celltoolbar.CellToolbar;
 
-    var remove_tag = function(cell) {
-        return function(tag_name) {
+    var write_tag = function(cell, name, add) {
+        if (add) {
+            // Add to metadata
+            if (cell.metadata.tags === undefined) {
+                cell.metadata.tags = [];
+            } else if (cell.metadata.tags.indexOf(name) !== -1) {
+                // Tag already exists
+                return;
+            }
+            cell.metadata.tags.push(name);
+        } else {
+            // Remove from metadata
             if (!cell.metadata || !cell.metadata.tags) {
                 // No tags to remove
                 return;
             }
             // Remove tag from tags list
-            var index = cell.metadata.tags.indexOf(tag_name);
+            var index = cell.metadata.tags.indexOf(name);
             if (index !== -1) {
                 cell.metadata.tags.splice(index, 1);
             }
@@ -23,6 +33,13 @@ define([
             if (cell.metadata.tags.length === 0) {
                 delete cell.metadata.tags;
             }
+        }
+        cell.events.trigger('set_dirty.Notebook', {value: true});
+    }
+
+    var remove_tag = function(cell) {
+        return function(tag_name) {
+            return write_tag(cell, tag_name, false);
         };
     };
 
@@ -114,14 +131,8 @@ define([
         button_container.append(tag_container);
 
         add_tag_edit(div, cell, function(name) {
-            // Add to metadata
-            if (cell.metadata.tags === undefined) {
-                cell.metadata.tags = [];
-            } else if (cell.metadata.tags.indexOf(name) !== -1) {
-                // Tag already exists
-                return;
-            }
-            cell.metadata.tags.push(name);
+            // Write tag to metadata
+            write_tag(cell, name, true);
             // Make tag visual
             var tag = make_tag(name, on_remove);
             tag_container.append(tag);
