@@ -8,8 +8,9 @@
 .tag-container {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     flex-grow: 1;
+    overflow: hidden;
+    position: relative;
 }
 
 .tag-container > * {
@@ -22,6 +23,16 @@
 
 .tags-input {
     display: flex;
+}
+
+.cell-tag:last-child:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    /* Fade to background color of cell toolbar */
+    background: linear-gradient(to right, rgba(0,0,0,0), #EEE);
 }
 
 .tags-dialog-btn {
