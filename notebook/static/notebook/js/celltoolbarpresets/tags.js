@@ -130,12 +130,21 @@ define([
         }
         button_container.append(tag_container);
 
-        add_tag_edit(div, cell, function(name) {
-            // Write tag to metadata
-            write_tag(cell, name, true);
-            // Make tag visual
-            var tag = make_tag(name, on_remove);
-            tag_container.append(tag);
+        add_tag_edit(div, cell, function(input) {
+            // Split on whitespace:
+            var names = input.split(/\s/);
+            for (var i=0; i < names.length; ++i) {
+                var name = names[i];
+                if (name === '') {
+                    // Skip empty strings
+                    continue;
+                }
+                // Write tag to metadata
+                write_tag(cell, name, true);
+                // Make tag visual
+                var tag = make_tag(name, on_remove);
+                tag_container.append(tag);
+            }
         });
     };
 
