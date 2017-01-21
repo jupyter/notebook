@@ -78,15 +78,6 @@ casper.open_new_notebook = function () {
             });
         });
     });
-
-    // Because of the asynchronous nature of SlimerJS (Gecko), we need to make
-    // sure the notebook has actually been loaded into the IPython namespace
-    // before running any tests.
-    this.waitFor(function() {
-        return this.evaluate(function () {
-            return IPython.notebook;
-        });
-    });
 };
 
 casper.page_loaded = function() {
