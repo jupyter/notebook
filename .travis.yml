@@ -14,9 +14,9 @@ env:
   global:
     - PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
   matrix:
+    - GROUP=js/notebook
     - GROUP=python
     - GROUP=js/base
-    - GROUP=js/notebook
     - GROUP=js/services
     - GROUP=js/tree
 
