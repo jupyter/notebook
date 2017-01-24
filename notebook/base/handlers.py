@@ -30,6 +30,7 @@ from ipython_genutils.path import filefind
 from ipython_genutils.py3compat import string_types
 
 import notebook
+from notebook._tz import utcnow
 from notebook.utils import is_hidden, url_path_join, url_is_absolute, url_escape
 from notebook.services.security import csp_report_uri
 
@@ -432,8 +433,18 @@ class APIHandler(IPythonHandler):
                 "default-src 'none'",
             ])
         return csp
-    
+
+    # set _track_activity = False on API handlers that shouldn't track activity
+    _track_activity = True
+
+    def update_api_activity(self):
+        """Update last_activity of API requests"""
+        # record activity of authenticated requests
+        if self._track_activity and self.get_current_user():
+            self.settings['api_last_activity'] = utcnow()
+
     def finish(self, *args, **kwargs):
+        self.update_api_activity()
         self.set_header('Content-Type', 'application/json')
         return super(APIHandler, self).finish(*args, **kwargs)
 

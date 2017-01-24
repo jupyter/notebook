@@ -31,7 +31,7 @@ class MainKernelHandler(APIHandler):
     def get(self):
         km = self.kernel_manager
         kernels = yield gen.maybe_future(km.list_kernels())
-        self.finish(json.dumps(kernels))
+        self.finish(json.dumps(kernels, default=date_default))
 
     @json_errors
     @web.authenticated
@@ -51,7 +51,7 @@ class MainKernelHandler(APIHandler):
         location = url_path_join(self.base_url, 'api', 'kernels', url_escape(kernel_id))
         self.set_header('Location', location)
         self.set_status(201)
-        self.finish(json.dumps(model))
+        self.finish(json.dumps(model, default=date_default))
 
 
 class KernelHandler(APIHandler):
@@ -62,7 +62,7 @@ class KernelHandler(APIHandler):
         km = self.kernel_manager
         km._check_kernel_id(kernel_id)
         model = km.kernel_model(kernel_id)
-        self.finish(json.dumps(model))
+        self.finish(json.dumps(model, default=date_default))
 
     @json_errors
     @web.authenticated
@@ -93,7 +93,7 @@ class KernelActionHandler(APIHandler):
                 self.set_status(500)
             else:
                 model = km.kernel_model(kernel_id)
-                self.write(json.dumps(model))
+                self.write(json.dumps(model, default=date_default))
         self.finish()
 
 
@@ -260,6 +260,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
     
     def open(self, kernel_id):
         super(ZMQChannelsHandler, self).open()
+        self.kernel_manager.notify_connect(kernel_id)
         try:
             self.create_stream()
         except web.HTTPError as e:
@@ -401,6 +402,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             self._open_sessions.pop(self.session_key)
         km = self.kernel_manager
         if self.kernel_id in km:
+            km.notify_disconnect(self.kernel_id)
             km.remove_restart_callback(
                 self.kernel_id, self.on_kernel_restarted,
             )

@@ -617,7 +617,36 @@ paths:
 
 
 
+  /status:
+    get:
+      summary: Get the current status / activity of the server
+      responses:
+        200:
+          description: The current status of the server
+          $ref: '#/definitions/APIStatus'
 definitions:
+  APIStatus:
+    description: |
+      Notebook server API status.
+      Added in notebook 5.0.
+    properties:
+      started:
+        type: string
+        description: |
+          ISO8601 timestamp indicating when the notebook server started.
+      last_activity:
+        type: string
+        description: |
+          ISO8601 timestamp indicating the last activity on the server,
+          either on the REST API or kernel activity.
+      connections:
+        type: number
+        description: |
+          The total number of currently open connections to kernels.
+      kernels:
+        type: number
+        description: |
+          The total number of running kernels.
   KernelSpec:
     description: Kernel spec (contents of kernel.json)
     properties:
@@ -697,6 +726,23 @@ definitions:
       name:
         type: string
         description: kernel spec name
+      last_activity:
+        type: string
+        description: |
+          ISO 8601 timestamp for the last-seen activity on this kernel.
+          Use this in combination with execution_state == 'idle' to identify
+          which kernels have been idle since a given time.
+          Timestamps will be UTC, indicated 'Z' suffix.
+          Added in notebook server 5.0.
+      connections:
+        type: number
+        description: |
+          The number of active connections to this kernel.
+      execution_state:
+        type: string
+        description: |
+          Current execution state of the kernel (typically 'idle' or 'busy', but may be other values, such as 'starting').
+          Added in notebook server 5.0.
   Session:
     description: A session
     type: object

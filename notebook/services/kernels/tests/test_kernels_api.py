@@ -1,7 +1,11 @@
 """Test the kernels service API."""
 
 import json
-import requests
+import time
+
+from tornado.httpclient import HTTPRequest
+from tornado.ioloop import IOLoop
+from tornado.websocket import websocket_connect
 
 from jupyter_client.kernelspec import NATIVE_KERNEL_NAME
 
@@ -10,8 +14,10 @@ from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 
 class KernelAPI(object):
     """Wrapper for kernel REST API requests"""
-    def __init__(self, request):
+    def __init__(self, request, base_url, headers):
         self.request = request
+        self.base_url = base_url
+        self.headers = headers
 
     def _req(self, verb, path, body=None):
         response = self.request(verb,
@@ -45,10 +51,23 @@ class KernelAPI(object):
     def restart(self, id):
         return self._req('POST', url_path_join(id, 'restart'))
 
+    def websocket(self, id):
+        loop = IOLoop()
+        req = HTTPRequest(
+            url_path_join(self.base_url.replace('http', 'ws', 1), 'api/kernels', id, 'channels'),
+            headers=self.headers,
+        )
+        f = websocket_connect(req, io_loop=loop)
+        return loop.run_sync(lambda : f)
+
+
 class KernelAPITest(NotebookTestBase):
     """Test the kernels web service API"""
     def setUp(self):
-        self.kern_api = KernelAPI(self.request)
+        self.kern_api = KernelAPI(self.request,
+                                  base_url=self.base_url(),
+                                  headers=self.auth_headers(),
+                                  )
 
     def tearDown(self):
         for k in self.kern_api.list().json():
@@ -144,3 +163,22 @@ class KernelAPITest(NotebookTestBase):
         bad_id = '111-111-111-111-111'
         with assert_http_error(404, 'Kernel does not exist: ' + bad_id):
             self.kern_api.shutdown(bad_id)
+
+    def test_connections(self):
+        kid = self.kern_api.start().json()['id']
+        model = self.kern_api.get(kid).json()
+        self.assertEqual(model['connections'], 0)
+
+        ws = self.kern_api.websocket(kid)
+        model = self.kern_api.get(kid).json()
+        self.assertEqual(model['connections'], 1)
+        ws.close()
+        # give it some time to close on the other side:
+        for i in range(10):
+            model = self.kern_api.get(kid).json()
+            if model['connections'] > 0:
+                time.sleep(0.1)
+            else:
+                break
+        model = self.kern_api.get(kid).json()
+        self.assertEqual(model['connections'], 0)

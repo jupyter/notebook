@@ -11,6 +11,8 @@ from . import csp_report_uri
 class CSPReportHandler(APIHandler):
     '''Accepts a content security policy violation report'''
 
+    _track_activity = False
+
     def skip_origin_check(self):
         """Don't check origin when reporting origin-check violations!"""
         return True

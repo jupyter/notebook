@@ -12,10 +12,11 @@ from .checkpoints import (
 )
 from .fileio import FileManagerMixin
 
-from . import tz
 from ipython_genutils.path import ensure_dir_exists
 from ipython_genutils.py3compat import getcwd
 from traitlets import Unicode
+
+from notebook import _tz as tz
 
 
 class FileCheckpoints(FileManagerMixin, Checkpoints):
