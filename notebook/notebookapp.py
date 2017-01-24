@@ -1345,6 +1345,7 @@ class NotebookApp(JupyterApp):
         for line in self.notebook_info().split("\n"):
             info(line)
         info("Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).")
+        info("Welcome to Project Jupyter! Explore the various tools available and their corresponding documentation. If you are interested in contributing to the platform, please visit the community resources section at http://jupyter.org/community.html.")
 
         self.write_server_info_file()
 
