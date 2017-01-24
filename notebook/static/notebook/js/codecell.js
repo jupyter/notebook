@@ -334,10 +334,10 @@ define([
         CodeCell.msg_cells[this.last_msg_id] = this;
         this.render();
         this.events.trigger('execute.CodeCell', {cell: this});
+        var that = this;
         this.events.on('finished_iopub.Kernel', function (evt, data) {
             if (that.kernel.id === data.kernel.id && that.last_msg_id === data.msg_id) {
-		console.log('finished_execute.CodeCell', {cell: that});
-		this.events.trigger('finished_execute.CodeCell', {cell: that});
+		that.events.trigger('finished_execute.CodeCell', {cell: that});
 	    }
         });
     };
