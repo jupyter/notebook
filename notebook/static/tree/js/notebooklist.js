@@ -560,9 +560,9 @@ define([
             $('.rename-button').css('display', 'none');
         }
 
-        // Move is visible iff at least one item is selected, and none of them
+        // Move is visible if at least one item is selected, and none of them
         // are a running notebook.
-        if (selected.length >= 1 && !has_running_notebook) {
+        if (selected.length > 0 && !has_running_notebook) {
             $('.move-button').css('display', 'inline-block');
         } else {
             $('.move-button').css('display', 'none');
@@ -601,7 +601,7 @@ define([
 
         // View is visible when an item is renderable or downloadable
         if (selected.length > 0 && !has_directory && selected.every(function(el) {
-            return el.path.match(/html?|jpe?g|png|gif|tiff?|svg|bmp|ico|pdf|doc|xls/);
+            return el.path.match(/html?|json|jpe?g|png|gif|tiff?|svg|bmp|ico|pdf|doc|xls/);
         })) {
             $('.view-button').css('display', 'inline-block');
         } else {
@@ -905,7 +905,7 @@ define([
 
         var item_path = that.selected[0].path;
 
-        window.open(utils.url_path_join(that.base_url, 'files', item_path) + '?download=1');
+        window.open(utils.url_path_join(that.base_url, 'files', utils.encode_uri_components(item_path)) + '?download=1', IPython._target);
     };
 
     NotebookList.prototype.delete_selected = function() {
@@ -959,8 +959,9 @@ define([
         var that = this;
         that.selected.forEach(function(item) {
             var item_path = utils.encode_uri_components(item.path);
+            // Handle HTML files differently
             var item_type = item_path.endsWith('.html') ? 'view' : 'files';
-            var w = window.open(utils.url_path_join(that.base_url, item_type, utils.encode_uri_components(item_path)), IPython._target);
+            window.open(utils.url_path_join(that.base_url, item_type, utils.encode_uri_components(item_path)), IPython._target);
       	});
     };
 
@@ -968,8 +969,9 @@ define([
         var that = this;
         that.selected.forEach(function(item) {
             var item_path = utils.encode_uri_components(item.path);
+            // Handle ipynb files differently
             var item_type = item_path.endsWith('.ipynb') ? 'notebooks' : 'edit';
-            var w = window.open(utils.url_path_join(that.base_url, item_type, utils.encode_uri_components(item_path)), IPython._target);
+            window.open(utils.url_path_join(that.base_url, item_type, utils.encode_uri_components(item_path)), IPython._target);
       	});
     };
 
