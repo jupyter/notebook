@@ -43,7 +43,7 @@ require([
     config.load();
     var common_config = new configmod.ConfigSection('common', {base_url: base_url});
     common_config.load();
-    contents = new contents_service.Contents({
+    var contents = new contents_service.Contents({
         base_url: base_url,
         common_config: common_config
     });
