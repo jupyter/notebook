@@ -113,6 +113,16 @@ class FilesTest(NotebookTestBase):
         disposition = r.headers.get('Content-Disposition', '')
         self.assertIn('attachment', disposition)
         self.assertIn('filename="test.txt"', disposition)
+        
+    def test_view_html(self):
+        nbdir = self.notebook_dir.name
+        
+        html = '<div>Test test</div>'
+        with open(pjoin(nbdir, 'test.html'), 'w') as f:
+            f.write(html)
+        
+        r = self.request('GET', 'view/test.html')
+        self.assertEqual(r.status_code, 200)
 
     def test_old_files_redirect(self):
         """pre-2.0 'files/' prefixed links are properly redirected"""
@@ -145,4 +155,3 @@ class FilesTest(NotebookTestBase):
             r = self.request('GET', url)
             self.assertEqual(r.status_code, 200)
             self.assertEqual(r.text, prefix + '/f3')
-
