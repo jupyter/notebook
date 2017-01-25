@@ -959,7 +959,8 @@ define([
         var that = this;
         that.selected.forEach(function(item) {
             var item_path = utils.encode_uri_components(item.path);
-            var w = window.open(utils.url_path_join(that.base_url, '/files', utils.encode_uri_components(item_path)), IPython._target);
+            var item_type = item_path.endsWith('.html') ? 'view' : 'files';
+            var w = window.open(utils.url_path_join(that.base_url, item_type, utils.encode_uri_components(item_path)), IPython._target);
       	});
     };
 
