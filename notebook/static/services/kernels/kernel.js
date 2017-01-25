@@ -318,6 +318,7 @@ define([
 
         var on_error = function (xhr, status, err) {
             that.events.trigger('kernel_failed_restart.Kernel', {kernel: that});
+            that._kernel_dead();
             if (error) {
                 error(xhr, status, err);
             }

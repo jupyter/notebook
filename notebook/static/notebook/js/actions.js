@@ -76,7 +76,7 @@ define(function(require){
             }
         },
         'shutdown-kernel': {
-            help: 'Shutdownthe kernel (no confirmation dialog)',
+            help: 'Shutdown the kernel (no confirmation dialog)',
             handler: function (env) {
                 env.notebook.shutdown_kernel({confirm: false});
             }
