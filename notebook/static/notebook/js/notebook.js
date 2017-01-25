@@ -2262,26 +2262,26 @@ define([
      * Prompt the user to restart the kernel.
      * if options.confirm === false, no confirmation dialog is shown.
      */
-    Notebook.prototype.halt_kernel = function (options) {
+    Notebook.prototype.shutdown_kernel = function (options) {
         var that = this;
-        var halt_options = {};
-        halt_options.confirm = (options || {}).confirm;
-        halt_options.dialog = {
-            title : "Halt kernel?",
+        var shutdown_options = {};
+        shutdown_options.confirm = (options || {}).confirm;
+        shutdown_options.dialog = {
+            title : "Shutdown kernel?",
             body : $("<p/>").text(
-                'Do you want to halt the current kernel?  All variables will be lost.'
+                'Do you want to shutdown the current kernel?  All variables will be lost.'
             ),
             buttons : {
-                "Halt" : {
+                "Shutdown" : {
                     "class" : "btn-danger",
                     "click" : function () {},
                 },
             }
         };
-        halt_options.kernel_action = function() {
+        shutdown_options.kernel_action = function() {
             that.session.delete();
         };
-        return this._restart_kernel(halt_options);
+        return this._restart_kernel(shutdown_options);
     };
 
     Notebook.prototype.restart_kernel = function (options) {

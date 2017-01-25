@@ -75,18 +75,18 @@ define(function(require){
                 env.notebook.show_shortcuts_editor();
             }
         },
-        'halt-kernel': {
-            help: 'Halt the kernel (no confirmation dialog)',
+        'shutdown-kernel': {
+            help: 'Shutdownthe kernel (no confirmation dialog)',
             handler: function (env) {
-                env.notebook.halt_kernel({confirm: false});
+                env.notebook.shutdown_kernel({confirm: false});
             }
         },
-        'confirm-halt-kernel':{
+        'confirm-shutdown-kernel':{
             icon: 'fa-repeat',
             help_index : 'hb',
             help: 'Shutdown the kernel (with confirmation dialog)',
             handler : function (env) {
-                env.notebook.halt_kernel();
+                env.notebook.shutdown_kernel();
             }
         },
         'restart-kernel': {

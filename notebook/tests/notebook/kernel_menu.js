@@ -2,7 +2,7 @@
 casper.notebook_test(function () {
     var that = this;
 
-    var menuItems = ['#restart_kernel', '#restart_clear_output', '#restart_run_all', '#halt_kernel']
+    var menuItems = ['#restart_kernel', '#restart_clear_output', '#restart_run_all', '#shutdown_kernel']
     var cancelSelector = ".modal-footer button:first-of-type"
 
     menuItems.forEach( function(selector) {
@@ -15,11 +15,11 @@ casper.notebook_test(function () {
         });
     });
 
-    var haltSelector = menuItems.pop();
+    var shutdownSelector = menuItems.pop();
     var confirmSelector = ".modal-footer .btn-danger"
 
     menuItems.forEach( function(selector) {
-        that.thenClick(haltSelector);
+        that.thenClick(shutdownSelector);
         that.waitForSelector(confirmSelector);
         that.thenClick(confirmSelector);
 
@@ -36,7 +36,7 @@ casper.notebook_test(function () {
                 return IPython.notebook.kernel.is_connected() === true;
         })});
         that.then(function() {
-            that.test.assert(true, "no confirmation for " + selector + " after session halted")
+            that.test.assert(true, "no confirmation for " + selector + " after session shutdown")
         })
     });
 
