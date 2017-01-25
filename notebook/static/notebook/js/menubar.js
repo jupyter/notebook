@@ -250,6 +250,7 @@ define([
             '#rename_notebook' : 'rename-notebook',
             '#find_and_replace' : 'find-and-replace',
             '#save_checkpoint': 'save-notebook',
+            '#shutdown_kernel': 'confirm-shutdown-kernel',
             '#restart_kernel': 'confirm-restart-kernel',
             '#restart_clear_output': 'confirm-restart-kernel-and-clear-output',
             '#restart_run_all': 'confirm-restart-kernel-and-run-all-cells',
