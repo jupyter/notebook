@@ -940,6 +940,7 @@ define([
                 this.clear_callbacks_for_msg(msg_id);
             }
         }
+        this.events.trigger('finished_iopub.Kernel', {kernel: this, msg_id: msg_id});
     };
     
     /**
