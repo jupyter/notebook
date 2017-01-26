@@ -56,7 +56,7 @@ define(function(require) {
             $("<div/>")
                 .addClass("modal-header")
                 .mousedown(function() {
-                  $(".modal").draggable();
+                  $(".modal").draggable({handle: '.modal-header'});
                 })
                 .append($("<button>")
                     .attr("type", "button")
@@ -72,9 +72,6 @@ define(function(require) {
         ).append(
             $("<div/>")
                 .addClass("modal-body")
-                .mousedown(function() {
-                  $(".modal").draggable();
-                })
                 .append(
                     options.body || $("<p/>")
                 )
