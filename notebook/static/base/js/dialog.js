@@ -55,6 +55,9 @@ define(function(require) {
         dialog_content.append(
             $("<div/>")
                 .addClass("modal-header")
+                .mousedown(function() {
+                  $(".modal").draggable();
+                })
                 .append($("<button>")
                     .attr("type", "button")
                     .addClass("close")
@@ -67,9 +70,14 @@ define(function(require) {
                         .text(options.title || "")
                 )
         ).append(
-            $("<div/>").addClass("modal-body").append(
-                options.body || $("<p/>")
-            )
+            $("<div/>")
+                .addClass("modal-body")
+                .mousedown(function() {
+                  $(".modal").draggable();
+                })
+                .append(
+                    options.body || $("<p/>")
+                )
         );
         
         var footer = $("<div/>").addClass("modal-footer");
