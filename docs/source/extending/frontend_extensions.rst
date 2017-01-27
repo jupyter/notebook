@@ -167,7 +167,7 @@ alert, and adds a toolabr button using the full action name:
             var prefix = 'my_extension';
             var action_name = 'show-alert';
 
-            var full_action_name = Jupyter.actions.register(action, name, prefix); // returns 'my_extension:show-alert'
+            var full_action_name = Jupyter.actions.register(action, action_name, prefix); // returns 'my_extension:show-alert'
             Jupyter.toolbar.add_buttons_group([full_action_name]);
         }
 
@@ -263,7 +263,7 @@ effect to changing a kernel in the notebook. As it is impossible to "unload"
 JavaScript, any attempt to change the kernelspec again will save the current
 notebook and reload the page without confirmations.
 
-Here is an example of ``kernel.js``::
+Here is an example of ``kernel.js``:
 
 .. code:: javascript
 
