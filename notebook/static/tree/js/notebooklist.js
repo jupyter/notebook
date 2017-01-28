@@ -139,6 +139,8 @@ define([
             $('.download-button').click($.proxy(this.download_selected, this));
             $('.shutdown-button').click($.proxy(this.shutdown_selected, this));
             $('.duplicate-button').click($.proxy(this.duplicate_selected, this));
+            $('.view-button').click($.proxy(this.view_selected, this));
+            $('.edit-button').click($.proxy(this.edit_selected, this));
             $('.delete-button').click($.proxy(this.delete_selected, this));
 
             // Bind events for selection menu buttons.
@@ -597,6 +599,20 @@ define([
             $('.delete-button').css('display', 'none');
         }
 
+        // View is visible when an item is renderable or downloadable
+        if (selected.length > 0 && !has_directory) {
+            $('.view-button').css('display', 'inline-block');
+        } else {
+            $('.view-button').css('display', 'none');
+        }
+
+        // Edit is visible when an item is editable
+        if (selected.length > 0 && !has_directory) {
+            $('.edit-button').css('display', 'inline-block');
+        } else {
+            $('.edit-button').css('display', 'none');
+        }
+
         // If all of the items are selected, show the selector as checked.  If
         // some of the items are selected, show it as checked.  Otherwise,
         // uncheck it.
@@ -936,6 +952,22 @@ define([
             }
         });
     };
+
+    NotebookList.prototype.view_selected = function() {
+        var that = this;
+        that.selected.forEach(function(item) {
+            var item_path = item.path;
+            var w = window.open(utils.url_path_join('/files', item_path));
+	});
+    }
+
+    NotebookList.prototype.edit_selected = function() {
+        var that = this;
+        that.selected.forEach(function(item) {
+            var item_path = item.path;
+            var w = window.open(utils.url_path_join('/edit', item_path));
+	});
+    }
 
     NotebookList.prototype.duplicate_selected = function() {
         var message;
