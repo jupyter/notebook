@@ -266,6 +266,7 @@ class NotebookWebApplication(web.Application):
         handlers.extend([(r"/login", settings['login_handler_class'])])
         handlers.extend([(r"/logout", settings['logout_handler_class'])])
         handlers.extend(load_handlers('files.handlers'))
+        handlers.extend(load_handlers('view.handlers'))
         handlers.extend(load_handlers('notebook.handlers'))
         handlers.extend(load_handlers('nbconvert.handlers'))
         handlers.extend(load_handlers('bundler.handlers'))

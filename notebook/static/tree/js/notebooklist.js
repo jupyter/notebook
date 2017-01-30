@@ -139,6 +139,8 @@ define([
             $('.download-button').click($.proxy(this.download_selected, this));
             $('.shutdown-button').click($.proxy(this.shutdown_selected, this));
             $('.duplicate-button').click($.proxy(this.duplicate_selected, this));
+            $('.view-button').click($.proxy(this.view_selected, this));
+            $('.edit-button').click($.proxy(this.edit_selected, this));
             $('.delete-button').click($.proxy(this.delete_selected, this));
 
             // Bind events for selection menu buttons.
@@ -558,9 +560,9 @@ define([
             $('.rename-button').css('display', 'none');
         }
 
-        // Move is visible iff at least one item is selected, and none of them
+        // Move is visible if at least one item is selected, and none of them
         // are a running notebook.
-        if (selected.length >= 1 && !has_running_notebook) {
+        if (selected.length > 0 && !has_running_notebook) {
             $('.move-button').css('display', 'inline-block');
         } else {
             $('.move-button').css('display', 'none');
@@ -595,6 +597,22 @@ define([
             $('.delete-button').css('display', 'inline-block');
         } else {
             $('.delete-button').css('display', 'none');
+        }
+
+        // View is visible when an item is renderable or downloadable
+        if (selected.length > 0 && !has_directory && selected.every(function(el) {
+            return el.path.match(/html?|json|jpe?g|png|gif|tiff?|svg|bmp|ico|pdf|doc|xls/);
+        })) {
+            $('.view-button').css('display', 'inline-block');
+        } else {
+            $('.view-button').css('display', 'none');
+        }
+
+        // Edit is visible when an item is editable
+        if (selected.length > 0 && !has_directory) {
+            $('.edit-button').css('display', 'inline-block');
+        } else {
+            $('.edit-button').css('display', 'none');
         }
 
         // If all of the items are selected, show the selector as checked.  If
@@ -887,7 +905,7 @@ define([
 
         var item_path = that.selected[0].path;
 
-        window.open(utils.url_path_join(that.base_url, 'files', item_path) + '?download=1');
+        window.open(utils.url_path_join(that.base_url, 'files', utils.encode_uri_components(item_path)) + '?download=1', IPython._target);
     };
 
     NotebookList.prototype.delete_selected = function() {
@@ -935,6 +953,26 @@ define([
                 }
             }
         });
+    };
+
+    NotebookList.prototype.view_selected = function() {
+        var that = this;
+        that.selected.forEach(function(item) {
+            var item_path = utils.encode_uri_components(item.path);
+            // Handle HTML files differently
+            var item_type = item_path.endsWith('.html') ? 'view' : 'files';
+            window.open(utils.url_path_join(that.base_url, item_type, utils.encode_uri_components(item_path)), IPython._target);
+      	});
+    };
+
+    NotebookList.prototype.edit_selected = function() {
+        var that = this;
+        that.selected.forEach(function(item) {
+            var item_path = utils.encode_uri_components(item.path);
+            // Handle ipynb files differently
+            var item_type = item_path.endsWith('.ipynb') ? 'notebooks' : 'edit';
+            window.open(utils.url_path_join(that.base_url, item_type, utils.encode_uri_components(item_path)), IPython._target);
+      	});
     };
 
     NotebookList.prototype.duplicate_selected = function() {
