@@ -203,6 +203,7 @@ define([
         });
         if (this.code_mirror) {
             this.code_mirror.on("change", function(cm, change) {
+                that.events.trigger("change.Cell", {cell: that, change: change});
                 that.events.trigger("set_dirty.Notebook", {value: true});
             });
         }
