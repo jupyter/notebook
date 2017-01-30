@@ -5,9 +5,14 @@ define([
     'jquery',
     'require',
     './toolbar',
-    './celltoolbar'
-], function($, require, toolbar, celltoolbar) {
+    './celltoolbar',
+    'base/js/utils'
+], function($, require, toolbar, celltoolbar, utils) {
     "use strict";
+
+    var _ = function(text) {
+    	return utils.i18n.gettext(text);
+    }    
 
     var MainToolBar = function (selector, options) {
         /**
@@ -72,10 +77,10 @@ define([
         var sel = $('<select/>')
             .attr('id','cell_type')
             .addClass('form-control select-xs')
-            .append($('<option/>').attr('value','code').text('Code'))
-            .append($('<option/>').attr('value','markdown').text('Markdown'))
-            .append($('<option/>').attr('value','raw').text('Raw NBConvert'))
-            .append($('<option/>').attr('value','heading').text('Heading'))
+            .append($('<option/>').attr('value','code').text(_('Code')))
+            .append($('<option/>').attr('value','markdown').text(_('Markdown')))
+            .append($('<option/>').attr('value','raw').text(_('Raw NBConvert')))
+            .append($('<option/>').attr('value','heading').text(_('Heading')))
             .append(multiselect);
         this.notebook.keyboard_manager.register_events(sel);
         this.events.on('selected_cell_type_changed.Notebook', function (event, data) {
@@ -111,7 +116,7 @@ define([
             case 'multiselect':
                 break;
             default:
-                console.log("unrecognized cell type:", cell_type);
+                console.log(_("unrecognized cell type:"), cell_type);
             }
             that.notebook.focus_cell();
         });

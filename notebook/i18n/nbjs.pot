@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-18 22:37-0600\n"
+"POT-Creation-Date: 2017-01-26 11:57-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,42 @@ msgstr ""
 
 #: notebook/static/notebook/js/about.js:17
 msgid "You are using Jupyter notebook."
+msgstr ""
+
+#: notebook/static/notebook/js/about.js:19
+msgid "The version of the notebook server is: "
+msgstr ""
+
+#: notebook/static/notebook/js/about.js:25
+msgid "The server is running on this version of Python:"
+msgstr ""
+
+#: notebook/static/notebook/js/about.js:28
+msgid "Waiting for kernel to be available..."
+msgstr ""
+
+#: notebook/static/notebook/js/about.js:30
+msgid "Server Information:"
+msgstr ""
+
+#: notebook/static/notebook/js/about.js:32
+msgid "Current Kernel Information:"
+msgstr ""
+
+#: notebook/static/notebook/js/about.js:35
+msgid "Could not access sys_info variable for version information."
+msgstr ""
+
+#: notebook/static/notebook/js/about.js:37
+msgid "Cannot find sys_info!"
+msgstr ""
+
+#: notebook/static/notebook/js/about.js:41
+msgid "About Jupyter Notebook"
+msgstr ""
+
+#: notebook/static/notebook/js/about.js:50
+msgid "unable to contact kernel"
 msgstr ""
 
 #: notebook/static/notebook/js/actions.js:73
@@ -332,6 +368,111 @@ msgstr ""
 
 #: notebook/static/notebook/js/actions.js:720
 msgid "Save and Checkpoint"
+msgstr ""
+
+#: notebook/static/notebook/js/cell.js:82
+msgid "Warning: accessing Cell.cm_config directly is deprecated."
+msgstr ""
+
+#: notebook/static/notebook/js/cell.js:765
+#, python-format
+msgid "Unrecognized cell type: %s"
+msgstr ""
+
+#: notebook/static/notebook/js/cell.js:779
+msgid "Unrecognized cell type"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbar.js:300
+#, python-format
+msgid "Error in cell toolbar callback %s"
+msgstr ""
+
+#: notebook/static/notebook/js/clipboard.js:56
+#, python-format
+msgid "Clipboard types: %s"
+msgstr ""
+
+#: notebook/static/notebook/js/clipboard.js:99
+msgid "Dialog for paste from system clipboard"
+msgstr ""
+
+#: notebook/static/notebook/js/clipboard.js:112
+msgid "Ctrl-V"
+msgstr ""
+
+#: notebook/static/notebook/js/clipboard.js:114
+msgid "Cmd-V"
+msgstr ""
+
+#: notebook/static/notebook/js/clipboard.js:116
+#, python-format
+msgid "Press %s again to paste"
+msgstr ""
+
+#: notebook/static/notebook/js/clipboard.js:119
+msgid "Why is this needed? "
+msgstr ""
+
+#: notebook/static/notebook/js/clipboard.js:121
+msgid "We can't get paste events in this browser without a text box. "
+msgstr ""
+
+#: notebook/static/notebook/js/clipboard.js:122
+msgid "There's an invisible text box focused in this dialog."
+msgstr ""
+
+#: notebook/static/notebook/js/clipboard.js:128
+#, python-format
+msgid "%s to paste"
+msgstr ""
+
+#: notebook/static/notebook/js/codecell.js:310
+msgid "Can't execute cell since kernel is not set."
+msgstr ""
+
+#: notebook/static/notebook/js/maintoolbar.js:73
+msgid "show new celltoolbar selector location"
+msgstr ""
+
+#: notebook/static/notebook/js/maintoolbar.js:73
+msgid "CellToolbar"
+msgstr ""
+
+#: notebook/static/notebook/js/maintoolbar.js:100
+msgid "Code"
+msgstr ""
+
+#: notebook/static/notebook/js/maintoolbar.js:101
+msgid "Markdown"
+msgstr ""
+
+#: notebook/static/notebook/js/maintoolbar.js:102
+msgid "Raw NBConvert"
+msgstr ""
+
+#: notebook/static/notebook/js/maintoolbar.js:103
+msgid "Heading"
+msgstr ""
+
+#: notebook/static/notebook/js/maintoolbar.js:139
+msgid "unrecognized cell type:"
+msgstr ""
+
+#: notebook/static/notebook/js/menubar.js:219
+msgid "Trusted Notebook"
+msgstr ""
+
+#: notebook/static/notebook/js/menubar.js:225
+msgid "Trust Notebook"
+msgstr ""
+
+#: notebook/static/notebook/js/menubar.js:403
+msgid "No checkpoints"
+msgstr ""
+
+#: notebook/static/notebook/js/menubar.js:462
+msgid "Opens in a new window"
 msgstr ""
 
 #: notebook/static/notebook/js/savewidget.js:52

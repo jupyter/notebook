@@ -1,14 +1,14 @@
-# Translations template for Jupyter.
+# Translations template for PROJECT.
 # Copyright (C) 2017 ORGANIZATION
-# This file is distributed under the same license as the Jupyter project.
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Jupyter VERSION\n"
+"Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-18 16:29-0600\n"
+"POT-Creation-Date: 2017-01-29 16:45-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -461,6 +461,10 @@ msgstr ""
 
 #: notebook/templates/notebook.html:275
 msgid "Change kernel"
+msgstr ""
+
+#: notebook/templates/notebook.html:280
+msgid "Help"
 msgstr ""
 
 #: notebook/templates/notebook.html:283

@@ -7,6 +7,11 @@ define([
     'base/js/utils',
     'base/js/dialog'
 ], function($, Jupyter, utils, dialog) {
+	
+var i18n = utils.i18n;
+var _ = function(text) {
+	return utils.i18n.gettext(text);
+}    
 
 var jcbprefix = '<pre class="jupyter-nb-cells-json">';
 var jcbsuffix = '</pre>';
@@ -49,7 +54,7 @@ function paste(event) {
   if (Jupyter.notebook.mode !== 'command') {
     return;
   }
-  console.log('Clipboard types: ' + event.clipboardData.types);
+  console.log(i18n.sprintf(_('Clipboard types: %s'),event.clipboardData.types));
   cells = load_json(event.clipboardData);
   // console.log(cells);
   // Does this JSON look like cells?
@@ -92,7 +97,7 @@ function setup_paste_dialog() {
   // second Ctrl-V
   var action = {
       icon: 'fa-clipboard', // a font-awesome class used on buttons, etc
-      help    : 'Dialog for paste from system clipboard',
+      help    : _('Dialog for paste from system clipboard'),
       help_index : 'zz',
       handler : function () {
         var entry_box = $('<input type="text"/>');
@@ -105,20 +110,23 @@ function setup_paste_dialog() {
           document.removeEventListener('paste', paste_close_dlg);
         }
         document.addEventListener('paste', paste_close_dlg);
-        var cmdtrl = 'Ctrl';
+        var cmdtrl = _('Ctrl-V');
         if (utils.platform === 'MacOS') {
-            cmdtrl = 'Cmd';
+            cmdtrl = _('Cmd-V');
         }
-        var dialog_body = $("<div/>").append("<p>Press "+cmdtrl+"-V again to paste")
+        var dialog_body = $("<div/>").append("<p>").append(i18n.sprintf(_("Press %s again to paste"),cmdtrl))
             .append("<br/>")
-            .append("<p><b>Why is this needed?</b> We can't get paste events in this browser without a text box. "+
-                     "There's an invisible text box focused in this dialog.")
+            .append("<p><b>")
+            .append(_("Why is this needed? "))
+            .append("</b>")
+            .append(_("We can't get paste events in this browser without a text box. "))
+            .append(_("There's an invisible text box focused in this dialog."))
             .append($("<form/>").append(entry_box));
 
         var paste_dlg = dialog.modal({
             notebook: Jupyter.notebook,
             keyboard_manager: Jupyter.keyboard_manager,
-            title : cmdtrl+"-V to paste",
+            title : i18n.sprintf(_("%s to paste"),cmdtrl),
             body : dialog_body,
             open: function() {
                 entry_box.focus();

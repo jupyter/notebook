@@ -19,6 +19,11 @@ define([
     'services/config',
 ], function($, utils, CodeMirror, cm_match, cm_closeb, cm_comment, configmod) {
     "use strict";
+
+    var i18n = utils.i18n;
+    var _ = function(text) {
+    	return utils.i18n.gettext(text);
+    }    
     
     var overlayHack = CodeMirror.scrollbarModel.native.prototype.overlayHack;
 
@@ -75,7 +80,7 @@ define([
         // backward compat.
         Object.defineProperty(this, 'cm_config', {
             get: function() {
-                console.warn("Warning: accessing Cell.cm_config directly is deprecated.");
+                console.warn(_("Warning: accessing Cell.cm_config directly is deprecated."));
                 return that._options.cm_config;
             },
         });
@@ -759,7 +764,7 @@ define([
         } else {
             data.metadata = this.metadata;
         }
-        this.element.find('.inner_cell').find("a").text("Unrecognized cell type: " + data.cell_type);
+        this.element.find('.inner_cell').find("a").text(i18n.sprintf(_("Unrecognized cell type: %s"), data.cell_type));
     };
     
     UnrecognizedCell.prototype.create_element = function () {
@@ -773,7 +778,7 @@ define([
         inner_cell.append(
             $("<a>")
                 .attr("href", "#")
-                .text("Unrecognized cell type")
+                .text(_("Unrecognized cell type"))
         );
         cell.append(inner_cell);
         this.element = cell;

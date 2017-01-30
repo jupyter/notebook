@@ -11,6 +11,10 @@ define([
     'moment',
 ], function($, IPython, dialog, utils, celltoolbar, tour, moment) {
     "use strict";
+
+    var _ = function(text) {
+    	return utils.i18n.gettext(text);
+    }    
     
     var MenuBar = function (selector, options) {
         /**
@@ -216,13 +220,13 @@ define([
             if (trusted) {
                 that.element.find('#trust_notebook')
                     .addClass("disabled").off('click')
-                    .find("a").text("Trusted Notebook");
+                    .find("a").text(_("Trusted Notebook"));
             } else {
                 that.element.find('#trust_notebook')
                     .removeClass("disabled").on('click', function () {
                         that.notebook.trust_notebook();
                     })
-                    .find("a").text("Trust Notebook");
+                    .find("a").text(_("Trust Notebook"));
             }
         });
 
@@ -402,7 +406,7 @@ define([
                 .addClass("disabled")
                 .append(
                     $("<a/>")
-                    .text("No checkpoints")
+                    .text(_("No checkpoints"))
                 )
             );
             return;
@@ -461,7 +465,7 @@ define([
             cursor.after($("<li>")
                 .append($("<a>")
                     .attr('target', '_blank')
-                    .attr('title', 'Opens in a new window')
+                    .attr('title', _('Opens in a new window'))
                     .attr('href', requirejs.toUrl(link.url))
                     .append($("<i>")
                         .addClass("fa fa-external-link menu-icon pull-right")

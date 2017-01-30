@@ -37,6 +37,11 @@ define([
     cmip
     ) {
     "use strict";
+
+    var i18n = utils.i18n;
+    var _ = function(text) {
+    	return utils.i18n.gettext(text);
+    }    
     
     var Cell = cell.Cell;
 
@@ -305,7 +310,7 @@ define([
      */
     CodeCell.prototype.execute = function (stop_on_error) {
         if (!this.kernel) {
-            console.log("Can't execute cell since kernel is not set.");
+            console.log(_("Can't execute cell since kernel is not set."));
             return;
         }
 

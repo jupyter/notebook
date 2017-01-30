@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-18 22:44-0600\n"
+"POT-Creation-Date: 2017-01-26 11:59-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,34 @@ msgstr ""
 
 msgid "You are using Jupyter notebook."
 msgstr "Sie verwenden Jupyter Notizblock."
+
+msgid "The version of the notebook server is: "
+msgstr "Die Version des Notizblockservers ist: "
+
+msgid "The server is running on this version of Python:"
+msgstr "Der Server läuft auf dieser Version von Python:"
+
+msgid "Waiting for kernel to be available..."
+msgstr "Zu warten darauf, dass Kern zur Verfügung steht"
+
+msgid "Server Information:"
+msgstr "Serverinformationen:"
+
+msgid "Current Kernel Information:"
+msgstr "Gegenwärtige Kerninformationen:"
+
+msgid "Could not access sys_info variable for version information."
+msgstr ""
+"Konnte nicht auf sys_info Variable zwecks Versionsinformationen zugreifen."
+
+msgid "Cannot find sys_info!"
+msgstr "Kann sys_info nicht finden!"
+
+msgid "About Jupyter Notebook"
+msgstr "Über Jupyter Notizblock"
+
+msgid "unable to contact kernel"
+msgstr "Außer Stande, sich an Kern zu wenden"
 
 msgid "Open a dialog to edit the command mode keyboard shortcuts"
 msgstr ""
@@ -265,6 +293,83 @@ msgstr "Räumen Sie den Inhalt aller Ausgaben"
 msgid "Save and Checkpoint"
 msgstr "Sparen Sie und Kontrollpunkt"
 
+msgid "Warning: accessing Cell.cm_config directly is deprecated."
+msgstr "Warnung: Auf Cell.cm_config direkt zugreifen wird missbilligt."
+
+msgid "Unrecognized cell type: %s"
+msgstr "Unerkannte Zellensorte: %s"
+
+msgid "Unrecognized cell type"
+msgstr "Unerkannte Zellensorte"
+
+msgid "Error in cell toolbar callback %s"
+msgstr "Fehler in Zellenwerkzeugbalkenrückruf %s"
+
+msgid "Clipboard types: %s"
+msgstr "Klemmbrettsorten: %s"
+
+msgid "Dialog for paste from system clipboard"
+msgstr "Dialog für Paste von Systemklemmbrett"
+
+msgid "Ctrl-V"
+msgstr "Ctrl V"
+
+msgid "Cmd-V"
+msgstr "Cmd V"
+
+msgid "Press %s again to paste"
+msgstr "Drücken Sie %s wieder, um einzukleben"
+
+msgid "Why is this needed? "
+msgstr "Warum wird dies gebraucht? "
+
+msgid "We can't get paste events in this browser without a text box. "
+msgstr ""
+"Wir können Pastenereignisse in diesem Browser nicht ohne ein Textfeld bekommen"
+". "
+
+msgid "There's an invisible text box focused in this dialog."
+msgstr "Es gibt ein in diesem Dialog gerichtetes unsichtbares Textfeld."
+
+msgid "%s to paste"
+msgstr "%s einzukleben"
+
+msgid "Can't execute cell since kernel is not set."
+msgstr "Kann keine Zelle ausführen, seit Kern nicht gesetzt wird."
+
+msgid "show new celltoolbar selector location"
+msgstr "Zeigen Sie neuen Wählstandort die Zellenwerkzeugbalken"
+
+msgid "CellToolbar"
+msgstr "CellToolbar"
+
+msgid "Code"
+msgstr "Kode"
+
+msgid "Markdown"
+msgstr "Markdown"
+
+msgid "Raw NBConvert"
+msgstr "Rohe NBConvert"
+
+msgid "Heading"
+msgstr "Überschrift"
+
+msgid "unrecognized cell type:"
+msgstr "Unerkannte Zellensorte:"
+
+msgid "Trusted Notebook"
+msgstr "Bewährter Notizblock"
+
+msgid "Trust Notebook"
+msgstr "Vertrauensnotizblock"
+
+msgid "No checkpoints"
+msgstr "Keine Kontrollpunkte"
+
+msgid "Opens in a new window"
+msgstr "Geht in einem neuen Fenster auf"
+
 msgid "Autosave Failed!"
 msgstr "Automatisches Sichern scheiterte!"
 
@@ -380,16 +485,14 @@ msgid "Error during renaming :"
 msgstr "Fehler während des Umbenennens:"
 
 msgid "Enter a new destination directory path for this item:"
-msgstr "Betreten Sie einen neuen Zielverzeichnispfad für diese Sache:"
-
-msgid "Enter a new destination directory path for these %d items:"
-msgstr "Betreten Sie einen neuen Zielverzeichnispfad für diese %d Sachen:"
+msgid_plural "Enter a new destination directory path for these %d items:"
+msgstr[0] "Betreten Sie einen neuen Zielverzeichnispfad für diese Sache:"
+msgstr[1] "Betreten Sie einen neuen Zielverzeichnispfad für diese %d Sachen:"
 
 msgid "Move an Item"
-msgstr "Bewegen Sie eine Sache"
-
-msgid "Move %d Items"
-msgstr "Bewegen Sie %d Sachen"
+msgid_plural "Move %d Items"
+msgstr[0] "Bewegen Sie eine Sache"
+msgstr[1] "Bewegen Sie %d Sachen"
 
 msgid "An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\"."
 msgstr ""
@@ -402,11 +505,10 @@ msgid "Error during moving :"
 msgstr "Fehler während des Sichbewegens:"
 
 msgid "Are you sure you want to permanently delete: \"%s\"?"
-msgstr "Sind Sie sicher, dass Sie permanent löschen wollen: \ "%s?""
-
-msgid ""
+msgid_plural ""
 "Are you sure you want to permanently delete the %d files or folders selected?"
-msgstr ""
+msgstr[0] "Sind Sie sicher, dass Sie permanent löschen wollen: \"%s\"?"
+msgstr[1] ""
 "Sind Sie sicher, dass Sie die %d Dateien oder Ordner permanent löschen wollen,"
 " die gewählt wurden?"
 
@@ -423,19 +525,18 @@ msgid "Error during content deletion:"
 msgstr "Fehler während Inhaltslöschens:"
 
 msgid "Are you sure you want to duplicate: \"%s\"?"
-msgstr "Sind Sie sicher, dass Sie duplizieren wollen: \"%s\"?"
-
-msgid "Are you sure you want to duplicate the %d files selected?"
-msgstr "Sind Sie sicher, dass Sie die gewählten %d Akten duplizieren wollen?"
+msgid_plural "Are you sure you want to duplicate the %d files selected?"
+msgstr[0] "Sind Sie sicher, dass Sie \"%s\" duplizieren wollen?"
+msgstr[1] "Sind Sie sicher, dass Sie die gewählten %d Dateien duplizieren wollen?"
 
 msgid "Duplicate"
-msgstr "Doppel"
+msgstr "Duplizieren"
 
 msgid "An error occurred while duplicating \"%s\"."
 msgstr "Ein Fehler trat auf, während er duplizierte \"%s\"."
 
 msgid "Duplicate Failed"
-msgstr "Doppel scheiterte"
+msgstr "Duplizierung is fehlgeschlagen"
 
 msgid "Error during content duplication"
 msgstr "Fehler während Inhaltsvervielfältigung"
@@ -448,7 +549,7 @@ msgstr "Ungültiger Dateiname"
 
 msgid "File names must be at least one character and not start with a period"
 msgstr ""
-"Dateinamen müssen mindestens  ein Charakter sein und beginnen nicht mit einem "
+"Dateinamen müssen mindestens ein Charakter sein und beginnen nicht mit einem Punkt."
 
 msgid "The error was: %s"
 msgstr "Der Fehler war: %s"
@@ -460,7 +561,7 @@ msgid "Error during notebook uploading"
 msgstr "Fehler während Notizblocks, der hochlädt"
 
 msgid "There is already a file named \"%s\". Do you want to replace it?"
-msgstr "Es gibt schon eine benannte Datei \"%s.\" Wollen Sie es ersetzen?"
+msgstr "Es gibt schon eine benannte Datei \"%s\". Wollen Sie es ersetzen?"
 
 msgid "Replace file"
 msgstr "Datei Ersetzen"
