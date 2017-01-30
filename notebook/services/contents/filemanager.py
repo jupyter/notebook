@@ -19,9 +19,8 @@ from .filecheckpoints import FileCheckpoints
 from .fileio import FileManagerMixin
 from .manager import ContentsManager
 
-from ipython_genutils.importstring import import_item
-from traitlets import Any, Unicode, Bool, TraitError, observe, default, validate
-from ipython_genutils.py3compat import getcwd, string_types
+from traitlets import Unicode, Bool, TraitError, observe, default, validate
+from ipython_genutils.py3compat import getcwd
 
 from notebook import _tz as tz
 from notebook.utils import (
@@ -93,43 +92,6 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         """)
 
         self.post_save_hook = _post_save_script
-
-    post_save_hook = Any(None, config=True, allow_none=True,
-        help="""Python callable or importstring thereof
-
-        to be called on the path of a file just saved.
-
-        This can be used to process the file on disk,
-        such as converting the notebook to a script or HTML via nbconvert.
-
-        It will be called as (all arguments passed by keyword)::
-
-            hook(os_path=os_path, model=model, contents_manager=instance)
-
-        - path: the filesystem path to the file just written
-        - model: the model representing the file
-        - contents_manager: this ContentsManager instance
-        """
-    )
-
-    @validate('post_save_hook')
-    def _validate_post_save_hook(self, proposal):
-        value = proposal['value']
-        if isinstance(value, string_types):
-            value = import_item(value)
-        if not callable(value):
-            raise TraitError("post_save_hook must be callable")
-        return value
-
-    def run_post_save_hook(self, model, os_path):
-        """Run the post-save hook if defined, and log errors"""
-        if self.post_save_hook:
-            try:
-                self.log.debug("Running post-save hook on %s", os_path)
-                self.post_save_hook(os_path=os_path, model=model, contents_manager=self)
-            except Exception as e:
-                self.log.error("Post-save hook failed o-n %s", os_path, exc_info=True)
-                raise web.HTTPError(500, u'Unexpected error while running post hook save: %s' % e)
 
     @validate('root_dir')
     def _validate_root_dir(self, proposal):
