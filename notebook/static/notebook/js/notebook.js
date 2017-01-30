@@ -28,6 +28,7 @@ define([
     './celltoolbarpresets/rawcell',
     './celltoolbarpresets/slideshow',
     './celltoolbarpresets/attachments',
+    './celltoolbarpresets/tags',
     './scrollmanager',
     './commandpalette',
     './shortcuteditor',
@@ -54,6 +55,7 @@ define([
     rawcell_celltoolbar,
     slideshow_celltoolbar,
     attachments_celltoolbar,
+    tags_celltoolbar,
     scrollmanager,
     commandpalette,
     shortcuteditor
@@ -190,6 +192,7 @@ define([
         rawcell_celltoolbar.register(this);
         slideshow_celltoolbar.register(this);
         attachments_celltoolbar.register(this);
+        tags_celltoolbar.register(this);
 
         var that = this;
 
