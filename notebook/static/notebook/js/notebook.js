@@ -185,6 +185,7 @@ define([
         this.kernel_selector = null;
         this.dirty = null;
         this.trusted = null;
+        this._changed_on_disk_dialog = null;
         this._fully_loaded = false;
 
         // Trigger cell toolbar registration.
@@ -2694,7 +2695,14 @@ define([
                     if (last_modified > that.last_modified) {
                         console.warn("Last saving was done on `"+that.last_modified+"`("+that._last_modified+"), "+
                                     "while the current file seem to have been saved on `"+data.last_modified+"`");
-                        dialog.modal({
+                        if (that._changed_on_disk_dialog !== null) {
+                            // update save callback on the confirmation button
+                            that._changed_on_disk_dialog.find('.save-confirm-btn').click(_save);
+                            // redisplay existing dialog
+                            that._changed_on_disk_dialog.modal('show');
+                        } else {
+                          // create new dialog
+                          that._changed_on_disk_dialog = dialog.modal({
                             notebook: that,
                             keyboard_manager: that.keyboard_manager,
                             title: "Notebook changed",
@@ -2710,13 +2718,14 @@ define([
                                 },
                                 Cancel: {},
                                 Overwrite: {
-                                    class: 'btn-danger',
+                                    class: 'btn-danger save-confirm-btn',
                                     click: function () {
                                         _save();
                                     }
                                 },
                             }
-                        });
+                          });
+                        }
                     } else {
                         return _save();
                     }
