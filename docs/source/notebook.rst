@@ -327,8 +327,6 @@ content of markdown cells have been inserted as comments.
 
     `Notebook Basics`_ example notebook
 
-    :ref:`a warning about doing "roundtrip" conversions <note_about_roundtrip>`.
-
 .. _keyboard-shortcuts:
 
 Keyboard shortcuts
