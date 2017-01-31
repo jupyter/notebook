@@ -13,6 +13,20 @@ For more detailed information, see
      upgrade to the latest release.
 
 
+.. _release-4.3.2:
+
+4.3.2
+-----
+
+4.3.2 is a patch release with a bug fix for CodeMirror and improved handling of the "editable" cell metadata field.
+
+- Monkey-patch for CodeMirror that resolves `#2037 <https://github.com/jupyter/notebook/issues/2037>`__ without breaking `#1967 <https://github.com/jupyter/notebook/issues/1967>`__
+- Read-only (``"editable": false``) cells can be executed but cannot be split, merged, or deleted
+
+See the 4.3.2 milestone on GitHub for a complete list of
+`issues <https://github.com/jupyter/notebook/issues?utf8=%E2%9C%93&q=is%3Aissue%20milestone%3A4.3.2>`__
+and `pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A4.3.2>`__ involved in this release.
+
 .. _release-4.3.1:
 
 4.3.1
