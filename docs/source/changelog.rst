@@ -12,6 +12,66 @@ For more detailed information, see
      Use ``pip install notebook --upgrade`` or ``conda upgrade notebook`` to
      upgrade to the latest release.
 
+.. we push for pip 9+ or it will break for Python 2 users when IPython 6 get out.
+Upgrade to version 9+ of pip before upgrading ``notebook`` is strongly recommended.
+
+.. tip::
+
+    Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
+    ``pip --version``.
+
+
+.. _release-5.0.0:
+
+Notebook version 5.0
+====================
+
+This is the first major release of the Notebook Application and Server after
+the version 4.0 created by the "Big Split" of IPython into IPython and Jupyter.
+
+We encourage users to start trying JupyterLab in preparation for a future
+transition.
+
+The Notebook Web Application and Server have seen more than 200 pull requests
+merged since the 4.x series. This only covers a small subset of the new
+features available on this new version; bugfixes are omitted.
+
+- Dashboard/tree can now be ordered by ``last-modified`` and ``name``,
+  (:ghpull:`943`)
+
+- Keyboard shortcuts for command mode are now editable from within the UI, see
+  the ``Help > Edit Keyboard Shortcuts``  Menu item and follow instructions.
+  (:ghpull:`1347`)
+
+
+- Markdown cells now supports attachments. Simply drag and drop an image from
+  your desktop to a markdown cell to add it. Unlike relative links that you
+  enter manually, attachments are embedded in the notebook itself. A
+  non-referenced attachment will be automatically scrubbed from the notebook on
+  save. :ghpull:`621`
+
+
+- Undoing cell deletion now supports undeleting multiple cells. Cell may not be
+  in the same order as before their deletion depending on the actions you did
+  on the meantime, but this should should help minimize the impact of
+  accidental code deletion.
+
+- Dashboard now has ``edit`` and ``view`` buttons.
+
+- The Dashboard/Tree view now supports moving multiple files at once.
+  :ghpull:`1088`
+
+- Notebook refuses to run as root user (unless forced to) :ghpull:`1115`
+
+- Keyboard shortcuts are now declarative (:ghpull:`1234`)
+
+- Toggling line numbers can now affect all cells (:ghpull:`1312`)
+
+- Add more visible ``Trusted`` and ``Untrusted`` notifications :ghpull:`1658`
+
+We remind readers that upgrading ``notebook`` only affect part of the user
+interface. Upgrading kernels and libraries may also provide new features,
+better stability and integration with the notebook interface.
 
 .. _release-4.3.2:
 
