@@ -115,8 +115,11 @@ var KeyBindingList = createClass({
             "\n\nYou can combine the two: `Ctrl-x,Meta-c,Meta-b,u,t,t,e,r,f,l,y`.\n"+
             "Casing will have no effects: (e.g: `;` and `:` are the same on english keyboards)."+
             " You need to explicitelty write the `Shift` modifier.\n"+
-            "Valid modifiers are `Cmd`, `Ctrl`, `Alt` ,`Meta`, `Cmdtrl`. Refer to developper docs "+
-            "for their signification depending on the platform."
+            "Valid modifiers are `Cmd`, `Ctrl`, `Alt` ,`Meta`, `Cmdtrl`. Refer to developer docs "+
+            "for the corresponding keys depending on the platform."+
+            "You can hover on the name/description of a command to see its exact internal name and "+
+            "differentiate from actions defined in various plugins. Changing the "+
+            "keybindings of edit mode is not yet possible."
             )}
       }));
       return createElement('div',{}, childrens);

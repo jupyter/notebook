@@ -288,6 +288,7 @@ define([
             '#copy_cell_attachments': 'copy-cell-attachments',
             '#paste_cell_attachments': 'paste-cell-attachments',
             '#insert_image': 'insert-image',
+            '#edit_keyboard_shortcuts' : 'edit-command-mode-keyboard-shortcuts',
         };
 
         for(var idx in id_actions_dict){

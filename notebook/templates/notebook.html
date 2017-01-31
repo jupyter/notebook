@@ -285,7 +285,8 @@ data-notebook-path="{{notebook_path | urlencode}}"
                     <ul  id="help_menu" class="dropdown-menu">
                         {% block help %}
                         <li id="notebook_tour" title="A quick tour of the notebook user interface"><a href="#">User Interface Tour</a></li>
-                        <li id="keyboard_shortcuts" title="Opens a tooltip with all keyboard shortcuts"><a href="#">Keyboard Shortcuts</a></li>
+                        <li id="keyboard_shortcuts" title="Opens a dialog which shows all keyboard shortcuts"><a href="#">Keyboard Shortcuts</a></li>
+                        <li id="edit_keyboard_shortcuts" title="Opens a dialog allowing you to edit Keyboard shortcuts"><a href="#">Edit Keyboard Shortcuts</a></li>
                         <li class="divider"></li>
                         {% set
                             sections = (
