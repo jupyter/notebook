@@ -270,7 +270,7 @@ the IPython session.
 
 .. seealso::
 
-    `Markdown Cells`_ example notebook
+    `Working with Markdown Cells`_ example notebook
 
 Raw cells
 ~~~~~~~~~
