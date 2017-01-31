@@ -15,6 +15,7 @@ from __future__ import print_function
 
 import os
 import sys
+import shutil
 
 import pipes
 from distutils import log
@@ -349,16 +350,6 @@ class Bower(Command):
             return True
         return mtime(self.node_modules) < mtime(pjoin(repo_root, 'package.json'))
 
-    def npm_components(self):
-        """Stage npm frontend dependencies into components"""
-        for pkg in ['preact', 'preact-compat', 'proptypes']:
-            npm_pkg = os.path.join(self.node_modules, pkg)
-            bower_pkg = os.path.join(self.bower_dir, pkg)
-            log.info("Staging %s -> %s" % (npm_pkg, bower_pkg))
-            if os.path.exists(bower_pkg):
-                shutil.rmtree(bower_pkg)
-            shutil.copytree(npm_pkg, bower_pkg)
-
     def patch_codemirror(self):
         """Patch CodeMirror until https://github.com/codemirror/CodeMirror/issues/4454 is resolved"""
         
@@ -393,7 +384,6 @@ class Bower(Command):
             raise
 
         self.patch_codemirror()
-        self.npm_components()
         os.utime(self.bower_dir, None)
         # update package data in case this created new files
         update_package_data(self.distribution)
