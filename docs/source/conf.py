@@ -331,7 +331,7 @@ texinfo_documents = [
 #texinfo_no_detailmenu = False
 
 intersphinx_mapping = {
-    'ipython': ('http://ipython.org/ipython-doc/dev/', None),
+    'ipython': ('https://ipython.readthedocs.io/en/stable/', None),
     'nbconvert': ('https://nbconvert.readthedocs.io/en/latest/', None),
     'nbformat': ('https://nbformat.readthedocs.io/en/latest/', None),
     'jupyter': ('https://jupyter.readthedocs.io/en/latest/', None),
