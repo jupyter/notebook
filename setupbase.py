@@ -15,6 +15,7 @@ from __future__ import print_function
 
 import os
 import sys
+import shutil
 
 import pipes
 from distutils import log
@@ -348,7 +349,16 @@ class Bower(Command):
         if not os.path.exists(self.node_modules):
             return True
         return mtime(self.node_modules) < mtime(pjoin(repo_root, 'package.json'))
-    
+
+    def patch_codemirror(self):
+        """Patch CodeMirror until https://github.com/codemirror/CodeMirror/issues/4454 is resolved"""
+        
+        try:
+            shutil.copyfile('tools/patches/codemirror.js', 'notebook/static/components/codemirror/lib/codemirror.js')
+        except OSError as e:
+            print("Failed to patch codemirror.js: %s" % e, file=sys.stderr)
+            raise
+            
     def run(self):
         if not self.should_run():
             print("bower dependencies up to date")
@@ -372,6 +382,8 @@ class Bower(Command):
             print("Failed to run bower: %s" % e, file=sys.stderr)
             print("You can install js dependencies with `npm install`", file=sys.stderr)
             raise
+
+        self.patch_codemirror()
         os.utime(self.bower_dir, None)
         # update package data in case this created new files
         update_package_data(self.distribution)
