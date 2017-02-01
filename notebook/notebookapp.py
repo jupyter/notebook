@@ -1238,8 +1238,12 @@ class NotebookApp(JupyterApp):
         # This enables merging on keys, which we want for extension enabling,.
         # Regular config loading only merges at the class level,
         # so each level (use > env > system) clobbers the previous.
-        manager = ConfigManager(read_config_path=jupyter_config_path())
-        section = manager.get('jupyter_notebook_config')
+        config_path = jupyter_config_path()
+        if self.config_dir not in config_path:
+            # add self.config_dir to the front, if set manually
+            config_path.insert(0, self.config_dir)
+        manager = ConfigManager(read_config_path=config_path)
+        section = manager.get(self.config_file_name)
         extensions = section.get('NotebookApp', {}).get('nbserver_extensions', {})
 
         for modulename, enabled in self.nbserver_extensions.items():
