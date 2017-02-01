@@ -270,7 +270,7 @@ the IPython session.
 
 .. seealso::
 
-    `Markdown Cells`_ example notebook
+    `Working with Markdown Cells`_ example notebook
 
 Raw cells
 ~~~~~~~~~
@@ -326,8 +326,6 @@ content of markdown cells have been inserted as comments.
     `Running Code in the Jupyter Notebook`_ example notebook
 
     `Notebook Basics`_ example notebook
-
-    :ref:`a warning about doing "roundtrip" conversions <note_about_roundtrip>`.
 
 .. _keyboard-shortcuts:
 
