@@ -136,34 +136,38 @@ the dashboard.
 
 Opening notebooks
 ~~~~~~~~~~~~~~~~~
-An open notebook has **exactly one** interactive session connected to an
-:ref:`IPython kernel <ipythonzmq>`, which will execute code sent by the user
+An open notebook has **exactly one** interactive session connected to a
+kernel, which will execute code sent by the user
 and communicate back results.  This kernel remains active if the web browser
 window is closed, and reopening the same notebook from the dashboard will
 reconnect the web application to the same kernel. In the dashboard, notebooks
 with an active kernel have a ``Shutdown`` button next to them, whereas
 notebooks without an active kernel have a ``Delete`` button in its place.
 
-Other clients may connect to the same underlying IPython kernel.
-The notebook server always prints to the terminal the full details of
-how to connect to each kernel, with messages such as the following::
+Other clients may connect to the same kernel.
+When each kernel is started, the notebook server prints to the terminal a
+message like this::
 
     [NotebookApp] Kernel started: 87f7d2c0-13e3-43df-8bb8-1bd37aaf3373
 
 This long string is the kernel's ID which is sufficient for getting the
-information necessary to connect to the kernel.  You can also request this
+information necessary to connect to the kernel. If the notebook uses the IPython
+kernel, you can also see this
 connection data by running the ``%connect_info`` :ref:`magic
-<magics_explained>`. This will print the same ID information as well as the
-content of the JSON data structure it contains.
+<magics_explained>`, which will print the same ID information along with other
+details.
 
 You can then, for example, manually start a Qt console connected to the *same*
 kernel from the command line, by passing a portion of the ID::
 
-    $ ipython qtconsole --existing 87f7d2c0
+    $ jupyter qtconsole --existing 87f7d2c0
 
 Without an ID, ``--existing`` will  connect to the most recently
-started kernel. This can also be done by running the ``%qtconsole``
-:ref:`magic <magics_explained>` in the notebook.
+started kernel.
+
+With the IPython kernel, you can also run the ``%qtconsole``
+:ref:`magic <magics_explained>` in the notebook to open a Qt console connected
+to the same kernel.
 
 .. seealso::
 
