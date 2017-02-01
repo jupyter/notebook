@@ -1,3 +1,4 @@
+import imp
 import os
 import sys
 from unittest import TestCase
@@ -11,9 +12,10 @@ from ipython_genutils import py3compat
 
 from traitlets.config.manager import BaseJSONConfigManager
 from traitlets.tests.utils import check_help_all_output
+from jupyter_core import paths
 
 from notebook.serverextensions import toggle_serverextension_python
-from notebook import nbextensions
+from notebook import nbextensions, serverextensions, extensions
 from notebook.notebookapp import NotebookApp
 from notebook.nbextensions import _get_config_dir
 
@@ -33,8 +35,24 @@ def test_help_output():
     check_help_all_output('notebook.serverextensions', ['install'])
     check_help_all_output('notebook.serverextensions', ['uninstall'])
 
+outer_file = __file__
 
-class TestInstallServerExtension(TestCase):
+class MockExtensionModule(object):
+    __file__ = outer_file
+
+    @staticmethod
+    def _jupyter_server_extension_paths():
+        return [{
+            'module': '_mockdestination/index'
+        }]
+
+    loaded = False
+    
+    def load_jupyter_server_extension(self, app):
+        self.loaded = True
+
+
+class MockEnvTestCase(TestCase):
     
     def tempdir(self):
         td = TemporaryDirectory()
@@ -43,40 +61,55 @@ class TestInstallServerExtension(TestCase):
 
     def setUp(self):
         self.tempdirs = []
+        self._mock_extensions = []
 
         self.test_dir = self.tempdir()
         self.data_dir = os.path.join(self.test_dir, 'data')
         self.config_dir = os.path.join(self.test_dir, 'config')
         self.system_data_dir = os.path.join(self.test_dir, 'system_data')
+        self.system_config_dir = os.path.join(self.test_dir, 'system_config')
         self.system_path = [self.system_data_dir]
+        self.system_config_path = [self.system_config_dir]
         
-        self.patch_env = patch.dict('os.environ', {
+        self.patches = []
+        p = patch.dict('os.environ', {
             'JUPYTER_CONFIG_DIR': self.config_dir,
             'JUPYTER_DATA_DIR': self.data_dir,
         })
-        self.patch_env.start()
-        self.patch_system_path = patch.object(nbextensions,
-            'SYSTEM_JUPYTER_PATH', self.system_path)
-        self.patch_system_path.start()
+        self.patches.append(p)
+        for mod in (paths, nbextensions):
+            p = patch.object(mod,
+                'SYSTEM_JUPYTER_PATH', self.system_path)
+            self.patches.append(p)
+            p = patch.object(mod,
+                'ENV_JUPYTER_PATH', [])
+            self.patches.append(p)
+        for mod in (paths, extensions):
+            p = patch.object(mod,
+                'SYSTEM_CONFIG_PATH', self.system_config_path)
+            self.patches.append(p)
+            p = patch.object(mod,
+                'ENV_CONFIG_PATH', [])
+            self.patches.append(p)
+        for p in self.patches:
+            p.start()
+            self.addCleanup(p.stop)
+        # verify our patches
+        self.assertEqual(paths.jupyter_config_path(), [self.config_dir] + self.system_config_path)
+        self.assertEqual(extensions._get_config_dir(user=False), self.system_config_dir)
+        self.assertEqual(paths.jupyter_path(), [self.data_dir] + self.system_path)
     
     def tearDown(self):
-        self.patch_env.stop()
-        self.patch_system_path.stop()
+        for modulename in self._mock_extensions:
+            sys.modules.pop(modulename)
 
-    def _inject_mock_extension(self):
-        outer_file = __file__
+    def _inject_mock_extension(self, modulename='mockextension'):
 
-        class mock():
-            __file__ = outer_file
+        sys.modules[modulename] = ext = MockExtensionModule()
+        self._mock_extensions.append(modulename)
+        return ext
 
-            @staticmethod
-            def _jupyter_server_extension_paths():
-                return [{
-                    'module': '_mockdestination/index'
-                }]
-
-        import sys
-        sys.modules['mockextension'] = mock
+class TestInstallServerExtension(MockEnvTestCase):
 
     def _get_config(self, user=True):
         cm = BaseJSONConfigManager(config_dir=_get_config_dir(user))
@@ -98,13 +131,37 @@ class TestInstallServerExtension(TestCase):
         config = self._get_config()
         assert not config['mockextension']
 
+    def test_merge_config(self):
+        # enabled at sys level
+        mock_sys = self._inject_mock_extension('mockext_sys')
+        # enabled at sys, disabled at user
+        mock_both = self._inject_mock_extension('mockext_both')
+        # enabled at user
+        mock_user = self._inject_mock_extension('mockext_user')
+        # enabled at Python
+        mock_py = self._inject_mock_extension('mockext_py')
 
-class TestOrderedServerExtension(TestCase):
+        toggle_serverextension_python('mockext_sys', enabled=True, user=False)
+        toggle_serverextension_python('mockext_user', enabled=True, user=True)
+        toggle_serverextension_python('mockext_both', enabled=True, user=False)
+        toggle_serverextension_python('mockext_both', enabled=False, user=True)
+
+        app = NotebookApp(nbserver_extensions={'mockext_py': True})
+        app.init_server_extensions()
+
+        assert mock_user.loaded
+        assert mock_sys.loaded
+        assert mock_py.loaded
+        assert not mock_both.loaded
+
+
+class TestOrderedServerExtension(MockEnvTestCase):
     """
     Test that Server Extensions are loaded _in order_
     """
 
     def setUp(self):
+        super(TestOrderedServerExtension, self).setUp()
         mockextension1 = SimpleNamespace()
         mockextension2 = SimpleNamespace()
 
@@ -124,6 +181,7 @@ class TestOrderedServerExtension(TestCase):
         sys.modules['mockextension1'] = mockextension1
 
     def tearDown(self):
+        super(TestOrderedServerExtension, self).tearDown()
         del sys.modules['mockextension2']
         del sys.modules['mockextension1']
 
