@@ -28,7 +28,7 @@ class BundleAPITest(NotebookTestBase):
         """Make a test notebook. Borrowed from nbconvert test. Assumes the class
         teardown will clean it up in the end."""
         super(BundleAPITest, cls).setup_class()
-        nbdir = cls.notebook_dir.name
+        nbdir = cls.notebook_dir
 
         nb = new_notebook()
 

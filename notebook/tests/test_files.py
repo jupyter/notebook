@@ -32,7 +32,7 @@ class FilesTest(NotebookTestBase):
         ]
         dirs = not_hidden + hidden
         
-        nbdir = self.notebook_dir.name
+        nbdir = self.notebook_dir
         for d in dirs:
             path = pjoin(nbdir, d.replace('/', os.sep))
             if not os.path.exists(path):
@@ -59,7 +59,7 @@ class FilesTest(NotebookTestBase):
     def test_contents_manager(self):
         "make sure ContentsManager returns right files (ipynb, bin, txt)."
 
-        nbdir = self.notebook_dir.name
+        nbdir = self.notebook_dir
 
         nb = new_notebook(
             cells=[
@@ -99,7 +99,7 @@ class FilesTest(NotebookTestBase):
         self.assertEqual(r.text, 'foobar')
     
     def test_download(self):
-        nbdir = self.notebook_dir.name
+        nbdir = self.notebook_dir
         
         text = 'hello'
         with open(pjoin(nbdir, 'test.txt'), 'w') as f:
@@ -115,7 +115,7 @@ class FilesTest(NotebookTestBase):
         self.assertIn('filename="test.txt"', disposition)
         
     def test_view_html(self):
-        nbdir = self.notebook_dir.name
+        nbdir = self.notebook_dir
         
         html = '<div>Test test</div>'
         with open(pjoin(nbdir, 'test.html'), 'w') as f:
@@ -126,7 +126,7 @@ class FilesTest(NotebookTestBase):
 
     def test_old_files_redirect(self):
         """pre-2.0 'files/' prefixed links are properly redirected"""
-        nbdir = self.notebook_dir.name
+        nbdir = self.notebook_dir
         
         os.mkdir(pjoin(nbdir, 'files'))
         os.makedirs(pjoin(nbdir, 'sub', 'files'))

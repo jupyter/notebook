@@ -11,7 +11,7 @@ from notebook.tests.launchnotebook import NotebookTestBase
 
 class TreeTest(NotebookTestBase):
     def setUp(self):
-        nbdir = self.notebook_dir.name
+        nbdir = self.notebook_dir
         d = os.path.join(nbdir, 'foo')
         os.mkdir(d)
 

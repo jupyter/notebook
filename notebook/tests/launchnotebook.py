@@ -108,6 +108,7 @@ class NotebookTestBase(TestCase):
         data_dir = cls.data_dir = tmp('data')
         config_dir = cls.config_dir = tmp('config')
         runtime_dir = cls.runtime_dir = tmp('runtime')
+        cls.notebook_dir = tmp('notebooks')
         cls.env_patch = patch.dict('os.environ', {
             'HOME': cls.home_dir,
             'PYTHONPATH': os.pathsep.join(sys.path),
@@ -126,7 +127,6 @@ class NotebookTestBase(TestCase):
             ENV_CONFIG_PATH=[tmp('env', 'etc', 'jupyter')],
         )
         cls.path_patch.start()
-        cls.notebook_dir = TemporaryDirectory()
 
         config = cls.config or Config()
         config.NotebookNotary.db_file = ':memory:'
@@ -142,7 +142,7 @@ class NotebookTestBase(TestCase):
                 config_dir=cls.config_dir,
                 data_dir=cls.data_dir,
                 runtime_dir=cls.runtime_dir,
-                notebook_dir=cls.notebook_dir.name,
+                notebook_dir=cls.notebook_dir,
                 base_url=cls.url_prefix,
                 config=config,
                 allow_root=True,
@@ -176,7 +176,6 @@ class NotebookTestBase(TestCase):
         cls.notebook.stop()
         cls.wait_until_dead()
         cls.tmp_dir.cleanup()
-        cls.notebook_dir.cleanup()
         cls.env_patch.stop()
         cls.path_patch.stop()
         # cleanup global zmq Context, to ensure we aren't leaving dangling sockets
