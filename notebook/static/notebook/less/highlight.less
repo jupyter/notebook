@@ -27,6 +27,9 @@ Adapted from GitHub theme
 
 .highlight-string{
   color: #BA2121;
+  /* isolate strings unicode direction from surrounding text */
+  unicode-bidi: isolate;
+  unicode-bidi: -webkit-isolate;
 }
 
 .highlight-comment{
