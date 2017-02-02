@@ -21,8 +21,8 @@ except ImportError:
     from urllib import urlretrieve
 
 from jupyter_core.paths import (
-    jupyter_data_dir, jupyter_config_dir, jupyter_config_path,
-    SYSTEM_JUPYTER_PATH, ENV_JUPYTER_PATH, ENV_CONFIG_PATH, SYSTEM_CONFIG_PATH
+    jupyter_data_dir, jupyter_config_path, jupyter_path,
+    SYSTEM_JUPYTER_PATH, ENV_JUPYTER_PATH,
 )
 from ipython_genutils.path import ensure_dir_exists
 from ipython_genutils.py3compat import string_types, cast_unicode_py2
@@ -484,7 +484,7 @@ def validate_nbextension(require, logger=None):
     infos = []
 
     js_exists = False
-    for exts in _nbextension_dirs():
+    for exts in jupyter_path('nbextensions'):
         # Does the Javascript entrypoint actually exist on disk?
         js = u"{}.js".format(os.path.join(exts, *require.split("/")))
         js_exists = os.path.exists(js)
@@ -1012,18 +1012,6 @@ def _get_nbextension_dir(user=False, sys_prefix=False, prefix=None, nbextensions
     else:
         nbext = pjoin(SYSTEM_JUPYTER_PATH[0], 'nbextensions')
     return nbext
-
-
-def _nbextension_dirs():
-    """The possible locations of nbextensions.
-
-    Returns a list of known base extension locations
-    """
-    return [
-        pjoin(jupyter_data_dir(), u'nbextensions'),
-        pjoin(ENV_JUPYTER_PATH[0], u'nbextensions'),
-        pjoin(SYSTEM_JUPYTER_PATH[0], 'nbextensions')
-    ]
 
 
 def _get_nbextension_metadata(module):

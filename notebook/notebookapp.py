@@ -86,6 +86,7 @@ from traitlets.config.application import catch_config_error, boolean_flag
 from jupyter_core.application import (
     JupyterApp, base_flags, base_aliases,
 )
+from jupyter_core.paths import jupyter_config_path
 from jupyter_client import KernelManager
 from jupyter_client.kernelspec import KernelSpecManager, NoSuchKernel, NATIVE_KERNEL_NAME
 from jupyter_client.session import Session
@@ -1232,9 +1233,28 @@ class NotebookApp(JupyterApp):
             # in the new traitlet
             if not modulename in self.nbserver_extensions:
                 self.nbserver_extensions[modulename] = True
-        
-        for modulename in sorted(self.nbserver_extensions):
-            if self.nbserver_extensions[modulename]:
+
+        # Load server extensions with ConfigManager.
+        # This enables merging on keys, which we want for extension enabling.
+        # Regular config loading only merges at the class level,
+        # so each level (user > env > system) clobbers the previous.
+        config_path = jupyter_config_path()
+        if self.config_dir not in config_path:
+            # add self.config_dir to the front, if set manually
+            config_path.insert(0, self.config_dir)
+        manager = ConfigManager(read_config_path=config_path)
+        section = manager.get(self.config_file_name)
+        extensions = section.get('NotebookApp', {}).get('nbserver_extensions', {})
+
+        for modulename, enabled in self.nbserver_extensions.items():
+            if modulename not in extensions:
+                # not present in `extensions` means it comes from Python config,
+                # so we need to add it.
+                # Otherwise, trust ConfigManager to have loaded it.
+                extensions[modulename] = enabled
+
+        for modulename, enabled in sorted(extensions.items()):
+            if enabled:
                 try:
                     mod = importlib.import_module(modulename)
                     func = getattr(mod, 'load_jupyter_server_extension', None)
