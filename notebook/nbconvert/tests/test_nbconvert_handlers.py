@@ -55,7 +55,7 @@ b'\x08\xd7c\x90\xfb\xcf\x00\x00\x02\\\x01\x1e.~d\x87\x00\x00\x00\x00IEND\xaeB`\x
 
 class APITest(NotebookTestBase):
     def setUp(self):
-        nbdir = self.notebook_dir.name
+        nbdir = self.notebook_dir
         
         if not os.path.isdir(pjoin(nbdir, 'foo')):
             subdir = pjoin(nbdir, 'foo')

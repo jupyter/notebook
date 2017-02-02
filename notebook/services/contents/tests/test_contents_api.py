@@ -152,7 +152,7 @@ class APITest(NotebookTestBase):
         return u'%s text file' % name
     
     def to_os_path(self, api_path):
-        return to_os_path(api_path, root=self.notebook_dir.name)
+        return to_os_path(api_path, root=self.notebook_dir)
     
     def make_dir(self, api_path):
         """Create a directory at api_path"""

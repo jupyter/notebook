@@ -4,6 +4,7 @@ from __future__ import print_function
 
 from binascii import hexlify
 from contextlib import contextmanager
+import errno
 import os
 import sys
 from threading import Thread, Event
@@ -90,24 +91,42 @@ class NotebookTestBase(TestCase):
             url_path_join(cls.base_url(), path),
             **kwargs)
         return response
-
+    
     @classmethod
     def setup_class(cls):
-        cls.home_dir = TemporaryDirectory()
-        data_dir = TemporaryDirectory()
+        cls.tmp_dir = TemporaryDirectory()
+        def tmp(*parts):
+            path = os.path.join(cls.tmp_dir.name, *parts)
+            try:
+                os.makedirs(path)
+            except OSError as e:
+                if e.errno != errno.EEXIST:
+                    raise
+            return path
+        
+        cls.home_dir = tmp('home')
+        data_dir = cls.data_dir = tmp('data')
+        config_dir = cls.config_dir = tmp('config')
+        runtime_dir = cls.runtime_dir = tmp('runtime')
+        cls.notebook_dir = tmp('notebooks')
         cls.env_patch = patch.dict('os.environ', {
-            'HOME': cls.home_dir.name,
+            'HOME': cls.home_dir,
             'PYTHONPATH': os.pathsep.join(sys.path),
-            'IPYTHONDIR': pjoin(cls.home_dir.name, '.ipython'),
-            'JUPYTER_DATA_DIR' : data_dir.name
+            'IPYTHONDIR': pjoin(cls.home_dir, '.ipython'),
+            'JUPYTER_NO_CONFIG': '1', # needed in the future
+            'JUPYTER_CONFIG_DIR' : config_dir,
+            'JUPYTER_DATA_DIR' : data_dir,
+            'JUPYTER_RUNTIME_DIR': runtime_dir,
         })
         cls.env_patch.start()
-        cls.path_patch = patch.object(jupyter_core.paths, 'SYSTEM_JUPYTER_PATH', [])
+        cls.path_patch = patch.multiple(
+            jupyter_core.paths,
+            SYSTEM_JUPYTER_PATH=[tmp('share', 'jupyter')],
+            ENV_JUPYTER_PATH=[tmp('env', 'share', 'jupyter')],
+            SYSTEM_CONFIG_PATH=[tmp('etc', 'jupyter')],
+            ENV_CONFIG_PATH=[tmp('env', 'etc', 'jupyter')],
+        )
         cls.path_patch.start()
-        cls.config_dir = TemporaryDirectory()
-        cls.data_dir = data_dir
-        cls.runtime_dir = TemporaryDirectory()
-        cls.notebook_dir = TemporaryDirectory()
 
         config = cls.config or Config()
         config.NotebookNotary.db_file = ':memory:'
@@ -120,10 +139,10 @@ class NotebookTestBase(TestCase):
                 port=cls.port,
                 port_retries=0,
                 open_browser=False,
-                config_dir=cls.config_dir.name,
-                data_dir=cls.data_dir.name,
-                runtime_dir=cls.runtime_dir.name,
-                notebook_dir=cls.notebook_dir.name,
+                config_dir=cls.config_dir,
+                data_dir=cls.data_dir,
+                runtime_dir=cls.runtime_dir,
+                notebook_dir=cls.notebook_dir,
                 base_url=cls.url_prefix,
                 config=config,
                 allow_root=True,
@@ -156,11 +175,7 @@ class NotebookTestBase(TestCase):
     def teardown_class(cls):
         cls.notebook.stop()
         cls.wait_until_dead()
-        cls.home_dir.cleanup()
-        cls.config_dir.cleanup()
-        cls.data_dir.cleanup()
-        cls.runtime_dir.cleanup()
-        cls.notebook_dir.cleanup()
+        cls.tmp_dir.cleanup()
         cls.env_patch.stop()
         cls.path_patch.stop()
         # cleanup global zmq Context, to ensure we aren't leaving dangling sockets

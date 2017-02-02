@@ -80,7 +80,7 @@ class SessionAPI(object):
 class SessionAPITest(NotebookTestBase):
     """Test the sessions web service API"""
     def setUp(self):
-        nbdir = self.notebook_dir.name
+        nbdir = self.notebook_dir
         subdir = pjoin(nbdir, 'foo')
 
         try:
