@@ -1235,9 +1235,9 @@ class NotebookApp(JupyterApp):
                 self.nbserver_extensions[modulename] = True
 
         # Load server extensions with ConfigManager.
-        # This enables merging on keys, which we want for extension enabling,.
+        # This enables merging on keys, which we want for extension enabling.
         # Regular config loading only merges at the class level,
-        # so each level (use > env > system) clobbers the previous.
+        # so each level (user > env > system) clobbers the previous.
         config_path = jupyter_config_path()
         if self.config_dir not in config_path:
             # add self.config_dir to the front, if set manually
