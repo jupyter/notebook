@@ -164,6 +164,7 @@ define([
             'h' : 'jupyter-notebook:show-keyboard-shortcuts',
             'z' : 'jupyter-notebook:undo-cell-deletion',
             'q' : 'jupyter-notebook:close-pager',
+            'p' : 'jupyter-notebook:show-command-palette',
         };
     };
 
