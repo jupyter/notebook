@@ -29,6 +29,11 @@ define([
     "use strict";
     function encodeURIandParens(uri){return encodeURI(uri).replace('(','%28').replace(')','%29')}
 
+    var i18n = utils.i18n;
+    var _ = function(text) {
+    	return i18n.gettext(text);
+    }    
+
     var Cell = cell.Cell;
 
     var TextCell = function (options) {
@@ -546,9 +551,9 @@ define([
         highlight_modes : {
             'diff'         :{'reg':[/^diff/]}
         },
-        placeholder : "Write raw LaTeX or other formats here, for use with nbconvert. " +
-            "It will not be rendered in the notebook. " +
-            "When passing through nbconvert, a Raw Cell's content is added to the output unmodified.",
+        placeholder : _("Write raw LaTeX or other formats here, for use with nbconvert. " +
+            "It will not be rendered in the notebook.") + " " +
+            _("When passing through nbconvert, a Raw Cell's content is added to the output unmodified."),
     };
 
     RawCell.prototype = Object.create(TextCell.prototype);

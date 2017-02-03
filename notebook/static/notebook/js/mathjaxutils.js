@@ -8,6 +8,11 @@ define([
 ], function($, utils, dialog) {
     "use strict";
 
+    var i18n = utils.i18n;
+    var _ = function(text) {
+    	return i18n.gettext(text);
+    }    
+
     var init = function () {
         if (window.MathJax) {
             // MathJax loaded
@@ -35,11 +40,15 @@ define([
             });
             MathJax.Hub.Configured();
         } else if (window.mathjax_url !== "") {
+            // This statement is used simply so that message extraction
+            // will pick up the strings.  The actual setting of the text
+            // for the button is in dialog.js.
+            var button_labels = [ _("OK") ];
             // Don't have MathJax, but should. Show dialog.
             dialog.modal({
-                title : "Failed to retrieve MathJax from '" + window.mathjax_url + "'",
+                title : i18n.sprintf(_("Failed to retrieve MathJax from '%s'",window.mathjax_url)),
                 body : $("<p/>").addClass('dialog').text(
-                        "Math/LaTeX rendering will be disabled."
+                        _("Math/LaTeX rendering will be disabled.")
                     ),
                 buttons : {
                     OK : {class: "btn-danger"}

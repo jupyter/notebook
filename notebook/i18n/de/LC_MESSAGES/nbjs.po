@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-26 11:59-0600\n"
+"POT-Creation-Date: 2017-02-03 16:30-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,15 +48,36 @@ msgstr "Über Jupyter Notizblock"
 msgid "unable to contact kernel"
 msgstr "Außer Stande, sich an Kern zu wenden"
 
+msgid "toggle rtl layout"
+msgstr "Schalten Sie rtl Layout um"
+
+msgid ""
+"Toggle the screen directionality between left-to-right and right-to-left"
+msgstr ""
+"Schalten Sie den Bildschirm directionality dazwischen von links nach rechts "
+"und von rechts nach links um"
+
+msgid "edit command mode keyboard shortcuts"
+msgstr "Editierbefehls-Modustastaturabkürzungen"
+
 msgid "Open a dialog to edit the command mode keyboard shortcuts"
 msgstr ""
 "Öffnen Sie einen Dialog, die Befehls-Modustastaturabkürzungen zu redigieren"
 
+msgid "restart kernel"
+msgstr "Kern wiederanlaufen"
+
 msgid "restart the kernel (no confirmation dialog)"
 msgstr "Starten Sie den Kern (keinen Bestätigungsdialog) neu"
 
+msgid "confirm restart kernel"
+msgstr "Bestätigen Sie Wiederanlaufskern"
+
 msgid "restart the kernel (with dialog)"
 msgstr "Starten Sie den Kern (mit Dialog) neu"
+
+msgid "restart kernel and run all cells"
+msgstr "Starten Sie Kern neu und führen Sie alle Zellen"
 
 msgid ""
 "restart the kernel, then re-run the whole notebook (no confirmation dialog)"
@@ -64,15 +85,24 @@ msgstr ""
 "Starten Sie den Kern neu, dann führen Sie wieder den ganzen Notizblock (keinen"
 " Bestätigungsdialog )"
 
+msgid "confirm restart kernel and run all cells"
+msgstr "Bestätigen Sie Wiederanlaufskern und führen Sie alle Zellen"
+
 msgid "restart the kernel, then re-run the whole notebook (with dialog)"
 msgstr ""
 "Starten Sie den Kern neu, dann führen Sie den ganzen Notizblock wieder (mit "
-"Dialog )"
+"Dialog)"
+
+msgid "restart kernel and clear output"
+msgstr "Starten Sie Kern neu und räumen Sie Ausgabe"
 
 msgid "restart the kernel and clear all output (no confirmation dialog)"
 msgstr ""
 "Starten Sie den Kern neu und räumen Sie alle Ausgabe (keinen "
-"Bestätigungsdialog )"
+"Bestätigungsdialog)"
+
+msgid "confirm restart kernel and clear output"
+msgstr "Bestätigen Sie Wiederanlaufskern und räumen Sie Ausgabe"
 
 msgid "restart the kernel and clear all output (with dialog)"
 msgstr "Starten Sie den Kern neu und räumen Sie alle Ausgabe (mit Dialog )"
@@ -80,14 +110,17 @@ msgstr "Starten Sie den Kern neu und räumen Sie alle Ausgabe (mit Dialog )"
 msgid "interrupt the kernel"
 msgstr "Unterbrechen Sie den Kern"
 
+msgid "run cell and select next"
+msgstr "Führen Sie Zelle und wählen Sie danach"
+
 msgid "run cell, select below"
 msgstr "Führen Sie Zelle, ausgewählt unten"
 
 msgid "run selected cells"
 msgstr "Durchlauf wählte Zellen"
 
-msgid "run cell, insert below"
-msgstr "Durchlaufzelle, Einlage unten"
+msgid "run cell and insert below"
+msgstr "Durchlaufzelle und -einlage unten"
 
 msgid "run all cells"
 msgstr "Führen Sie alle Zellen"
@@ -98,8 +131,8 @@ msgstr "Führen Sie alle Zellen oben genannt"
 msgid "run all cells below"
 msgstr "Führen Sie alle Zellen unterhalb"
 
-msgid "command mode"
-msgstr "Befehlsmodus"
+msgid "enter command mode"
+msgstr "Betreten Sie Befehlsmodus"
 
 msgid "insert image"
 msgstr "Einlagenbild"
@@ -119,14 +152,26 @@ msgstr "Teilen Sie Zelle an Cursor"
 msgid "enter edit mode"
 msgstr "Betreten Sie Editiermodus"
 
+msgid "select previous cell"
+msgstr "Wählen Sie vorherige Zelle"
+
 msgid "select cell above"
 msgstr "Wählen Sie Zelle oben"
+
+msgid "select next cell"
+msgstr "Wählen Sie nächste Zelle"
 
 msgid "select cell below"
 msgstr "Wählen Sie Zelle unten"
 
+msgid "extend selection above"
+msgstr "Erweitern Sie Auswahl oben"
+
 msgid "extend selected cells above"
 msgstr "Erweitern Sie gewählte Zellen oben"
+
+msgid "extend selection below"
+msgstr "Erweitern Sie Auswahl unten"
 
 msgid "extend selected cells below"
 msgstr "Erweitern Sie gewählte Zellen unten"
@@ -149,44 +194,59 @@ msgstr "Führen Sie Zelle oben ein"
 msgid "insert cell below"
 msgstr "Führen Sie Zelle unten ein"
 
-msgid "to code"
-msgstr "Um zu verschlüsseln"
+msgid "change cell to code"
+msgstr "Zelle zu Kode ändern"
 
-msgid "to markdown"
-msgstr "Zu Markdown"
+msgid "change cell to markdown"
+msgstr "Zelle zu Markdown ändern"
 
-msgid "to raw"
-msgstr "Zu Abschürfung"
+msgid "change cell to raw"
+msgstr "Zelle zu Roh ändern"
 
-msgid "to heading 1"
-msgstr "Dazu, 1 zu leiten"
+msgid "change cell to heading 1"
+msgstr "Zelle zu Überschrift 1 ändern"
 
-msgid "to heading 2"
-msgstr "Dazu, 2 zu leiten"
+msgid "change cell to heading 2"
+msgstr "Zelle zu Überschrift 2 ändern"
 
-msgid "to heading 3"
-msgstr "Dazu, 3 zu leiten"
+msgid "change cell to heading 3"
+msgstr "Zelle zu Überschrift 3 ändern"
 
-msgid "to heading 4"
-msgstr "Dazu, 4 zu leiten"
+msgid "change cell to heading 4"
+msgstr "Zelle zu Überschrift 4 ändern"
 
-msgid "to heading 5"
-msgstr "Dazu, 5 zu leiten"
+msgid "change cell to heading 5"
+msgstr "Zelle zu Überschrift 5 ändern"
 
-msgid "to heading 6"
-msgstr "Dazu, 6 zu leiten"
+msgid "change cell to heading 6"
+msgstr "Zelle zu Überschrift 6 ändern"
+
+msgid "toggle cell output"
+msgstr "Kippschalterzellenausgabe"
 
 msgid "toggle output of selected cells"
 msgstr "Schalten Sie Ausgabe gewählter Zellen um"
 
+msgid "toggle cell scrolling"
+msgstr "Kippschalterzellenschieben"
+
 msgid "toggle output scrolling of selected cells"
 msgstr "Schalten Sie Ausgabeschieben gewählter Zellen um"
+
+msgid "clear cell output"
+msgstr "Klare Zelle gab aus"
 
 msgid "clear output of selected cells"
 msgstr "Räumen Sie Ausgabe gewählter Zellen"
 
+msgid "move cells down"
+msgstr "Bewegen Sie Zellen hinunter"
+
 msgid "move selected cells down"
 msgstr "Bewegen Sie gewählte Zellen hinunter"
+
+msgid "move cells up"
+msgstr "Bewegen Sie Zellen hinauf"
 
 msgid "move selected cells up"
 msgstr "Bewegen Sie gewählte Zellen hinauf"
@@ -197,14 +257,23 @@ msgstr "Schalten Sie Zeilennummern um"
 msgid "show keyboard shortcuts"
 msgstr "Vorstellungs-Tastaturabkürzungen"
 
+msgid "delete cells"
+msgstr "Löschen Sie Zellen"
+
 msgid "delete selected cells"
 msgstr "Löschen Sie gewählte Zellen"
 
 msgid "undo cell deletion"
 msgstr "Machen Sie Zellenlöschen los"
 
+msgid "merge cell with previous cell"
+msgstr "Vereinen Sie Zelle mit vorheriger Zelle"
+
 msgid "merge cell above"
 msgstr "Vereinen Sie Zelle oben"
+
+msgid "merge cell with next cell"
+msgstr "Vereinen Sie Zelle mit nächster Zelle"
 
 msgid "merge cell below"
 msgstr "Vereinen Sie Zelle unten"
@@ -212,29 +281,48 @@ msgstr "Vereinen Sie Zelle unten"
 msgid "merge selected cells"
 msgstr "Vereinen Sie gewählte Zellen"
 
+msgid "merge cells"
+msgstr "Vereinen Sie Zellen"
+
 msgid ""
 "merge selected cells, or current cell with cell below if only one cell is "
 msgstr ""
 "Vereinen Sie gewählte Zellen oder gegenwärtige Zelle mit Zelle unten, wenn nur"
 " eine Zelle gewählt wird"
 
+msgid "show command pallette"
+msgstr "Vorstellungsbefehls Pallette"
+
 msgid "open the command palette"
 msgstr "Öffnen Sie die Befehlspalette"
+
+msgid "toggle all line numbers"
+msgstr "Schalten Sie alle Zeilennummern um"
 
 msgid "toggles line numbers in all cells, and persist the setting"
 msgstr ""
 "Schaltet Zeilennummern in allen Zellen um und bleiben Sie bestehen die "
 
+msgid "show all line numbers"
+msgstr "Zeigen Sie alle Zeilennummern"
+
 msgid "show line numbers in all cells, and persist the setting"
 msgstr ""
 "Zeigen Sie Zeilennummern in allen Zellen und bleiben Sie bestehen die "
+
+msgid "hide all line numbers"
+msgstr "alle Zeilennummern verstecken"
 
 msgid "hide line numbers in all cells, and persist the setting"
 msgstr ""
 "Verstecken Sie Zeilennummern in allen Zellen und bleiben Sie bestehen die "
 
-msgid "hide/show the header"
-msgstr "Verstecken Sie/ zeigen Sie die Überschrift"
+msgid "toggle header"
+msgstr "Kippschalterüberschrift"
+
+msgid "switch between showing and hiding the header"
+msgstr ""
+"Schalten Sie dazwischen um, die Überschrift zu zeigen und zu verstecken"
 
 msgid "show the header"
 msgstr "Zeigen Sie die Überschrift"
@@ -242,8 +330,12 @@ msgstr "Zeigen Sie die Überschrift"
 msgid "hide the header"
 msgstr "Verstecken Sie die Überschrift"
 
-msgid "hide/show the toolbar"
-msgstr "Verstecken Sie/ zeigen Sie den Werkzeugbalken"
+msgid "toggle toolbar"
+msgstr "Kippschalterwerkzeugbalken"
+
+msgid "switch between showing and hiding the toolbar"
+msgstr ""
+"Schalten Sie dazwischen um, den Werkzeugbalken zu zeigen und zu verstecken"
 
 msgid "show the toolbar"
 msgstr "Zeigen Sie den Werkzeugbalken"
@@ -252,46 +344,76 @@ msgid "hide the toolbar"
 msgstr "Verstecken Sie den Werkzeugbalken"
 
 msgid "close the pager"
-msgstr "Schließen Sie den Pager"
+msgstr "Den Pager Schließen"
 
-msgid "move the cursor up"
-msgstr "Bewegen Sie den Cursor hinauf"
+msgid "ignore"
+msgstr "Ignorieren"
 
-msgid "move the cursor down"
-msgstr "Bewegen Sie den Cursor hinunter"
+msgid "move cursor up"
+msgstr "Bewegen Sie Cursor hinauf"
 
-msgid "scroll the notebook down"
-msgstr "Blättern Sie den Notizblock vor"
+msgid "move cursor down"
+msgstr "Bewegen Sie Cursor hinunter"
 
-msgid "scroll the notebook up"
-msgstr "Blättern Sie den Notizblock zurück"
+msgid "scroll notebook down"
+msgstr "Blättern Sie Notizblock vor"
+
+msgid "scroll notebook up"
+msgstr "Blättern Sie Notizblock zurück"
+
+msgid "scroll cell center"
+msgstr "Listenzellenzentrum"
 
 msgid "Scroll the current cell to the center"
 msgstr "Blättern Sie die gegenwärtige Zelle zum Zentrum"
 
+msgid "scroll cell top"
+msgstr "Listenzellenoberseite"
+
 msgid "Scroll the current cell to the top"
 msgstr "Blättern Sie die gegenwärtige Zelle zur Oberseite"
+
+msgid "duplicate notebook"
+msgstr "Doppelter Notizblock"
 
 msgid "Create and open a copy of the current notebook"
 msgstr "Schaffen Sie und öffnen Sie eine Kopie des gegenwärtigen Notizblocks"
 
+msgid "trust notebook"
+msgstr "Vertrauensnotizblock"
+
 msgid "Trust the current notebook"
 msgstr "Vertrauen Sie dem gegenwärtigen Notizblock"
+
+msgid "rename notebook"
+msgstr "Benennen Sie Notizblock um"
 
 msgid "Rename the current notebook"
 msgstr "Benennen Sie den gegenwärtigen Notizblock um"
 
+msgid "toggle all cells output collapsed"
+msgstr "Schalten Sie alle, ausgegebenen zusammengeklappt, Zellen um"
+
 msgid "Toggle the hidden state of all output areas"
 msgstr "Schalten Sie den versteckten Zustand aller Ausgabebereiche um"
+
+msgid "toggle all cells output scrolled"
+msgstr "Schalten Sie alle, ausgegebenen geblättert, Zellen um"
 
 msgid "Toggle the scrolling state of all output areas"
 msgstr "Schalten Sie den Schiebezustand aller Ausgabebereiche um"
 
+msgid "clear all cells output"
+msgstr "Klar, dass alle Zellen ausgaben"
+
 msgid "Clear the content of all the outputs"
 msgstr "Räumen Sie den Inhalt aller Ausgaben"
 
+msgid "save notebook"
+msgstr "Notizblock speichern"
+
 msgid "Save and Checkpoint"
-msgstr "Sparen Sie und Kontrollpunkt"
+msgstr "Speichern und Kontrollpunkten"
 
 msgid "Warning: accessing Cell.cm_config directly is deprecated."
 msgstr "Warnung: Auf Cell.cm_config direkt zugreifen wird missbilligt."
@@ -312,7 +434,7 @@ msgid "Dialog for paste from system clipboard"
 msgstr "Dialog für Paste von Systemklemmbrett"
 
 msgid "Ctrl-V"
-msgstr "Ctrl V"
+msgstr "Strg-V"
 
 msgid "Cmd-V"
 msgstr "Cmd V"
@@ -337,11 +459,35 @@ msgstr "%s einzukleben"
 msgid "Can't execute cell since kernel is not set."
 msgstr "Kann keine Zelle ausführen, seit Kern nicht gesetzt wird."
 
+msgid "In [%s]:"
+msgstr "In [%s:]"
+
+msgid "Could not find a kernel matching %s. Please select a kernel:"
+msgstr "Konnte keinem Kern passende %s finden. Bitte wählen Sie einen Kern:"
+
+msgid "Continue Without Kernel"
+msgstr "Machen Sie ohne Kern weiter"
+
+msgid "Set Kernel"
+msgstr "Kern einstellen"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Kernel not found"
+msgstr "Kern nicht gefunden"
+
+msgid "Creating Notebook Failed"
+msgstr "Das Schaffen von Notizblock scheiterte"
+
+msgid "The error was: %s"
+msgstr "Der Fehler war: %s"
+
 msgid "show new celltoolbar selector location"
 msgstr "Zeigen Sie neuen Wählstandort die Zellenwerkzeugbalken"
 
 msgid "CellToolbar"
-msgstr "CellToolbar"
+msgstr "Zellenwerkzeugbalken"
 
 msgid "Code"
 msgstr "Kode"
@@ -358,6 +504,12 @@ msgstr "Überschrift"
 msgid "unrecognized cell type:"
 msgstr "Unerkannte Zellensorte:"
 
+msgid "Failed to retrieve MathJax from '%s'"
+msgstr "MathJax nicht aus '%s' zurückgeholt"
+
+msgid "Math/LaTeX rendering will be disabled."
+msgstr "Mathematik-/ LaTeX Wiedergabe wird behindert sein."
+
 msgid "Trusted Notebook"
 msgstr "Bewährter Notizblock"
 
@@ -370,17 +522,564 @@ msgstr "Keine Kontrollpunkte"
 msgid "Opens in a new window"
 msgstr "Geht in einem neuen Fenster auf"
 
-msgid "Autosave Failed!"
-msgstr "Automatisches Sichern scheiterte!"
+msgid "Autosave in progress, latest changes may be lost."
+msgstr ""
+"Automatisches Sichern im Gange kann es sein, dass letzte Änderungen verloren "
+"sind."
+
+msgid "Unsaved changes will be lost."
+msgstr "Unsaved Änderungen werden verloren sein."
+
+msgid "The Kernel is busy, outputs may be lost."
+msgstr "Der Kern ist beschäftigt, es kann sein, dass Ausgaben verloren sind."
+
+msgid "This notebook is version %1$s, but we only fully support up to %2$s."
+msgstr ""
+"Dieser Notizblock ist Version %1$s aber unser nur vollständig Unterstützung "
+"oben bis zu %2$s."
+
+msgid ""
+"You can still work with this notebook, but cell and output types introduced in"
+" later notebook versions will not be available."
+msgstr ""
+"Sie können immer noch mit diesem Notizblock arbeiten aber Zelle und "
+"Ausgabearten, die in späteren Notizblockversionen eingeführt wurden, werden "
+"nicht zur Verfügung stehen."
+
+msgid "Restart and Run All Cells"
+msgstr "Starten Sie alle Zellen neu und führen Sie sie"
+
+msgid "Restart and Clear All Outputs"
+msgstr "Starten Sie alle Ausgaben neu und räumen Sie sie"
+
+msgid "Restart"
+msgstr "Wiederanlaufen"
+
+msgid "Continue Running"
+msgstr "Weiter laufen"
+
+msgid "Reload"
+msgstr "Laden Sie neu"
 
 msgid "Cancel"
 msgstr "Abbruch"
 
+msgid "Overwrite"
+msgstr "Überschreiben"
+
+msgid "Trust"
+msgstr "Vertrauen"
+
+msgid "Revert"
+msgstr "Kehren Sie zurück"
+
+msgid "Newer Notebook"
+msgstr "Neuerer Notizblock"
+
+msgid "Use markdown headings"
+msgstr "Verwendungs Markdown Überschriften"
+
+msgid ""
+"Jupyter no longer uses special heading cells. Instead, write your headings in "
+"Markdown cells using # characters:"
+msgstr ""
+"Jupyter verwendet keine speziellen Überschriftzellen mehr. Stattdessen "
+"schreiben Sie Ihre Überschriften in Markdown Zellen mit Hilfe von # "
+"Charakteren:"
+
+msgid "## This is a level 2 heading"
+msgstr "## dies ist eine Überschrift Stufe 2"
+
+msgid "Restart kernel and re-run the whole notebook?"
+msgstr "Starten Sie Kern neu und führen Sie den ganzen Notizblock wieder?"
+
+msgid ""
+"Are you sure you want to restart the current kernel and re-execute the whole "
+"notebook?  All variables and outputs will be lost."
+msgstr ""
+"Sind Sie sicher, dass Sie den gegenwärtigen Kern neu starten und den ganzen "
+"Notizblock wiederausführen wollen?  Alle Variablen und Ausgaben werden "
+"verloren sein."
+
+msgid "Restart kernel and clear all output?"
+msgstr "Starten Sie Kern neu und räumen Sie alle Ausgabe?"
+
+msgid ""
+"Do you want to restart the current kernel and clear all output?  All variables"
+" and outputs will be lost."
+msgstr ""
+"Wollen Sie den gegenwärtigen Kern neu starten und alle Ausgabe räumen?  Alle "
+"Variablen und Ausgaben werden verloren sein."
+
+msgid "Restart kernel?"
+msgstr "Wiederanlaufskern?"
+
+msgid "Do you want to restart the current kernel?  All variables will be lost."
+msgstr ""
+"Wollen Sie den gegenwärtigen Kern neu starten?  Alle Variablen werden verloren"
+" sein."
+
+msgid "Notebook changed"
+msgstr "Notizblock änderte sich"
+
+msgid ""
+"The notebook file has changed on disk since the last time we opened or saved "
+"it."
+msgstr ""
+"Die Notizblockakte hat sich seit dem letzten Mal auf Platte geändert, wir es "
+"öffneten oder sicherten."
+
+msgid ""
+"Do you want to overwrite the file on disk with the version open here, or load "
+"the version on disk (reload the page) ?"
+msgstr ""
+"Wollen Sie die Akte über Platte mit dem Versionsfreien hier überschreiben oder"
+" die Version auf Platte laden (die Seite neu laden?)"
+
+msgid "Notebook validation failed"
+msgstr "Notizblockbestätigung scheiterte"
+
+msgid ""
+"The save operation succeeded, but the notebook does not appear to be valid. "
+"The validation error was:"
+msgstr ""
+"Die Sicherungsoperation hatte Erfolg aber scheinbar ist der Notizblock nicht "
+"gültig. Der Bestätigungsfehler war:"
+
+msgid ""
+"A trusted Jupyter notebook may execute hidden malicious code when you open it."
+msgstr ""
+"Ein bewährter Jupyter Notizblock kann versteckten arglistigen Kode ausführen, "
+"wenn Sie ihn öffnen."
+
+msgid ""
+"Selecting trust will immediately reload this notebook in a trusted state."
+msgstr ""
+"Die Wahl des Vertrauens wird diesen Notizblock in einem bewährten Staat neu "
+"sofort laden."
+
+msgid " For more information, see the Jupyter security documentation: "
+msgstr ""
+" Weitere Informationen entnehmen Sie der Jupyter Sicherheitsdokumentation: "
+
+msgid "here"
+msgstr "Hier"
+
+msgid "Trust this notebook?"
+msgstr "Vertrauen Sie diesem Notizblock?"
+
+msgid "Notebook failed to load"
+msgstr "Notizblock lud nicht"
+
+msgid "The error was: "
+msgstr "Der Fehler war: "
+
+msgid "See the error console for details."
+msgstr "Sehen Sie die Fehlerkonsole für Details."
+
+msgid "The notebook also failed validation:"
+msgstr "Der Notizblock fiel auch durch Bestätigung:"
+
+msgid ""
+"An invalid notebook may not function properly. The validation error was:"
+msgstr ""
+"Ein ungültiger Notizblock kann nicht richtig funktionieren. Der "
+"Bestätigungsfehler war:"
+
+msgid ""
+"This notebook has been converted from an older notebook format to the current "
+"notebook format v(%s)."
+msgstr ""
+"Dieser Notizblock ist aus einem älteren Notizblockformat in die gegenwärtige "
+"Notizblockformat V (%s) umgewandelt worden."
+
+msgid ""
+"This notebook has been converted from a newer notebook format to the current "
+"notebook format v(%s)."
+msgstr ""
+"Dieser Notizblock ist aus einem neueren Notizblockformat in die gegenwärtige "
+"Notizblockformat V (%s) umgewandelt worden."
+
+msgid ""
+"The next time you save this notebook, the current notebook format will be used"
+msgstr ""
+"Das nächste Mal, wenn Sie diesen Notizblock sichern, wird das gegenwärtige "
+"Notizblockformat verwendet."
+
+msgid "Older versions of Jupyter may not be able to read the new format."
+msgstr ""
+"Ältere Versionen von Jupyter können nicht in der Lage sein, das neue Format zu"
+" lesen."
+
+msgid "Some features of the original notebook may not be available."
+msgstr ""
+"Einige Bestandteile des ursprünglichen Notizblocks können nicht zur Verfügung "
+"stehen."
+
+msgid "To preserve the original version, close the notebook without saving it."
+msgstr ""
+"Um die ursprüngliche Version zu erhalten, schließen Sie den Notizblock, ohne "
+"es zu sichern."
+
+msgid "Notebook converted"
+msgstr "Notizblock wandelte um"
+
+msgid "(No name)"
+msgstr "(Keine Name)"
+
+msgid ""
+"An unknown error occurred while loading this notebook. This version can load "
+"notebook formats %s or earlier. See the server log for details."
+msgstr ""
+"Ein unbekannter Fehler trat auf, während er diesen Notizblock lud. Diese "
+"Version kann Notizblockformate %s laden oder früher. Sehen Sie das "
+"Serverprotokoll für Details."
+
+msgid "Error loading notebook"
+msgstr "Fehlerladungsnotizblock"
+
+msgid "Are you sure you want to revert the notebook to the latest checkpoint?"
+msgstr ""
+"Sind Sie sicher, dass Sie zurückkehren wollen, der Notizblock zum letzten "
+"Kontrollpunkt?"
+
+msgid "This cannot be undone."
+msgstr "Dies kann nicht ungetan sein."
+
+msgid "The checkpoint was last updated at:"
+msgstr "Der Kontrollpunkt wurde das letzte Mal aktualisiert an:"
+
+msgid "Revert notebook to checkpoint"
+msgstr "Kehren Sie zurück Notizblock zu Kontrollpunkt"
+
+msgid "Edit Mode"
+msgstr "Editiermodus"
+
+msgid "Command Mode"
+msgstr "Befehlsmodus"
+
+msgid "Kernel Created"
+msgstr "Kern geschaffen"
+
+msgid "Connecting to kernel"
+msgstr "Sich mit Kern verbinden"
+
+msgid "Not Connected"
+msgstr "Nicht verbunden"
+
+msgid "click to reconnect"
+msgstr "Klicken Sie, um sich wieder zu verbinden"
+
+msgid "Restarting kernel"
+msgstr "Kern neu starten"
+
+msgid "Kernel Restarting"
+msgstr "Kern, der neu startet"
+
+msgid "The kernel appears to have died. It will restart automatically."
+msgstr "Scheinbar ist der Kern gestorben. Es wird automatisch neu starten."
+
+msgid "Dead kernel"
+msgstr "Toter Kern"
+
+msgid "Kernel Dead"
+msgstr "Kern ist tot"
+
+msgid "Interrupting kernel"
+msgstr "Kern unterbrechen"
+
+msgid "No Connection to Kernel"
+msgstr "Keine Verbindung zu Kern"
+
+msgid ""
+"A connection to the notebook server could not be established. The notebook "
+"will continue trying to reconnect. Check your network connection or notebook "
+"server configuration."
+msgstr ""
+"Eine Verbindung zum Notizblockserver konnte nicht eingeführt werden. Der "
+"Notizblock wird weiter versuchen, sich wieder zu verbinden. Überprüfen Sie "
+"Ihre Netzverbindung oder Notizblockserverkonfiguration."
+
+msgid "Connection failed"
+msgstr "Verbindung scheiterte"
+
+msgid "No kernel"
+msgstr "Kein Kern"
+
+msgid "Kernel is not running"
+msgstr "Kern läuft nicht"
+
+msgid "Don't Restart"
+msgstr "Starten Sie nicht neu"
+
+msgid "Try Restarting Now"
+msgstr "Versuchen Sie, jetzt neu zu starten"
+
+msgid ""
+"The kernel has died, and the automatic restart has failed. It is possible the "
+"kernel cannot be restarted."
+msgstr ""
+"Der Kern ist gestorben und der automatische Wiederanlauf ist fehlgeschlagen. "
+"Es ist möglich der Kern nicht neu gestartet werden kann."
+
+msgid ""
+"If you are not able to restart the kernel, you will still be able to save the "
+"notebook, but running code will no longer work until the notebook is reopened."
+msgstr ""
+"Wenn Sie nicht in der Lage sind, den Kern neu zu starten, werden Sie immer "
+"noch in der Lage sein, den Notizblock zu sichern, aber das Erstellen von Kode "
+"wird nicht mehr funktionieren, bis der Notizblock wiedereröffnet wird."
+
+msgid "No Kernel"
+msgstr "Kein Kern"
+
+msgid "Failed to start the kernel"
+msgstr "Den Kern nicht gestartet"
+
+msgid "Kernel Busy"
+msgstr "Kern beschäftigt"
+
+msgid "Kernel starting, please wait..."
+msgstr "Kern startet,  bitte warten Sie"
+
+msgid "Kernel Idle"
+msgstr "Kernleerlauf"
+
+msgid "Kernel ready"
+msgstr "Kernbereit"
+
+msgid "Using kernel: "
+msgstr "Kern verwenden: "
+
+msgid "Only candidate for language: %1$s was %2$s."
+msgstr "Nur Kandidat für Sprache: %1$s war %2$s."
+
+msgid "Loading notebook"
+msgstr "Notizblock laden"
+
+msgid "Notebook loaded"
+msgstr "Notizblock lud"
+
+msgid "Saving notebook"
+msgstr "Notizblock sichern"
+
+msgid "Notebook saved"
+msgstr "Notizblock ist gesparen"
+
+msgid "Notebook save failed"
+msgstr "Durch Notizblock spart, gefallen"
+
+msgid "Notebook copy failed"
+msgstr "Notizblockkopie scheiterte"
+
+msgid "Checkpoint created"
+msgstr "Kontrollpunkt geschaffen"
+
+msgid "Checkpoint failed"
+msgstr "Kontrollpunkt scheiterte"
+
+msgid "Checkpoint deleted"
+msgstr "Kontrollpunkt gelöscht"
+
+msgid "Checkpoint delete failed"
+msgstr "Löschen des Wiederherstellungspunkts ist fehlgeschlagen"
+
+msgid "Restoring to checkpoint..."
+msgstr "In Kontrollpunkt wiederherstellen"
+
+msgid "Checkpoint restore failed"
+msgstr "Kontrollpunktwiederherstellung scheiterte"
+
+msgid "Autosave disabled"
+msgstr "Automatisches Sichern unfähig gemacht"
+
+msgid "Saving every %d sec."
+msgstr "Wird jede %d sek. gespeichert"
+
+msgid "Trusted"
+msgstr "Vertraut"
+
+msgid "Not Trusted"
+msgstr "Nicht vertraut"
+
+msgid "click to expand output"
+msgstr "Klicken Sie, um Ausgabe auszudehnen"
+
+msgid "click to expand output; double click to hide output"
+msgstr ""
+"Klicken Sie, um Ausgabe auszudehnen; klicken Sie doppelt, um Ausgabe zu "
+
+msgid "click to unscroll output; double click to hide"
+msgstr ""
+"Klicken Sie zu unscroll Ausgabe; klicken Sie doppelt, um sich zu verstecken"
+
+msgid "click to scroll output; double click to hide"
+msgstr ""
+"Klicken Sie, um Ausgabe zu blättern; klicken Sie doppelt, um sich zu "
+
+msgid "Javascript error adding output!"
+msgstr "Javascript Fehler, der hinzufügte, gab aus!"
+
+msgid "See your browser Javascript console for more details."
+msgstr "Sehen Sie Ihren Browser Javascript für weitere Details trösten."
+
+msgid "Out[%d]:"
+msgstr "Aus [%d:]"
+
+msgid "Unrecognized output: %s"
+msgstr "Unerkannte Ausgabe: %s"
+
+msgid "Open the pager in an external window"
+msgstr "Öffnen Sie den Pager in einem externen Fenster"
+
+msgid "Close the pager"
+msgstr "Den Pager Schließen"
+
+msgid "Jupyter Pager"
+msgstr "Jupyter Pager"
+
+msgid "go to cell start"
+msgstr "zu Zellenanfang gehen"
+
+msgid "go to cell end"
+msgstr "zu Zellenende gehen"
+
+msgid "go one word left"
+msgstr "Ein Wort nach links gehen"
+
+msgid "go one word right"
+msgstr "Ein Wort nach rechts gehen"
+
+msgid "delete word before"
+msgstr "Löschen Sie vorher Wort"
+
+msgid "delete word after"
+msgstr "Löschen Sie nachher Wort"
+
+msgid "code completion or indent"
+msgstr "Kodefertigstellung oder -delle"
+
+msgid "tooltip"
+msgstr "tooltip"
+
+msgid "indent"
+msgstr "Delle"
+
+msgid "dedent"
+msgstr "dedent"
+
+msgid "select all"
+msgstr "Wählen Sie alle"
+
+msgid "undo"
+msgstr "Machen Sie los"
+
+msgid "redo"
+msgstr "Wiederholen Sie"
+
+msgid "Shift"
+msgstr "Umschalt"
+
+msgid "Alt"
+msgstr "Alt"
+
+msgid "Up"
+msgstr "Aufwärts"
+
+msgid "Down"
+msgstr "Abwärts"
+
+msgid "Left"
+msgstr "Links"
+
+msgid "Right"
+msgstr "Rechts"
+
+msgid "Tab"
+msgstr "Tabulator"
+
+msgid "Caps Lock"
+msgstr "⇩"
+
+msgid "Esc"
+msgstr "Esc"
+
+msgid "Ctrl"
+msgstr "Strg"
+
+msgid "Enter"
+msgstr "Eingabe"
+
+msgid "Page Up"
+msgstr "Bild auf"
+
+msgid "Page Down"
+msgstr "Bild ab"
+
+msgid "Home"
+msgstr "Pos1"
+
+msgid "End"
+msgstr "Ende"
+
+msgid "Space"
+msgstr "Leerzeichen"
+
+msgid "Backspace"
+msgstr "Rücksetzung"
+
+msgid "Minus"
+msgstr "Minus"
+
+msgid "PageUp"
+msgstr "Bild auf"
+
+msgid "The Jupyter Notebook has two different keyboard input modes."
+msgstr "Der Jupyter Notizblock hat zwei verschiedene Tastaturzufuhrmodi."
+
+msgid ""
+"<b>Edit mode</b> allows you to type code or text into a cell and is indicated "
+"by a green cell border."
+msgstr ""
+"<b>Editiermodus</b> erlaubt Ihnen, Kode oder Text in eine Zelle zu schreiben, "
+"und wird von einer grünen Zellengrenze angezeigt."
+
+msgid ""
+"<b>Command mode</b> binds the keyboard to notebook level commands and is "
+"indicated by a grey cell border with a blue left margin."
+msgstr ""
+"<b>Befehlsmodus</b> bindet die Tastatur an notizblockebene Befehle und wird "
+"von einer grauen Zellengrenze mit einem blauen linken Rand angezeigt."
+
+msgid "Close"
+msgstr "Schließen"
+
+msgid "Keyboard shortcuts"
+msgstr "Tastaturabkürzungen"
+
+msgid "Command"
+msgstr "Befehl"
+
+msgid "Control"
+msgstr "Steuerung"
+
+msgid "Option"
+msgstr "Option"
+
+msgid "Return"
+msgstr "Rückkehr"
+
+msgid "Command Mode (press %s to enable)"
+msgstr "Befehlsmodus (drücken Sie %s, die ermöglicht werden soll )"
+
+msgid "Edit Mode (press %s to enable)"
+msgstr "Editiermodus (drücken Sie %s, die ermöglicht werden soll )"
+
+msgid "Autosave Failed!"
+msgstr "Automatisches Sichern scheiterte!"
+
 msgid "Rename"
 msgstr "Umbenennen"
-
-msgid "OK"
-msgstr "OK"
 
 msgid "Enter a new notebook name:"
 msgstr "Geben Sie einen neuen Notizblocknamen ein:"
@@ -413,6 +1112,197 @@ msgstr "(nicht gespeicherte Änderungen)"
 
 msgid "(autosaved)"
 msgstr "(automatisch gespeichert)"
+
+msgid ""
+"Warning: too many matches (%d). Some changes might not be shown or applied."
+msgstr ""
+"Warnung: Zu viele Übereinstimmungen (%d.) Einige Umwandlungen durften nicht "
+"gezeigt oder angewandt werden."
+
+msgid "%d match"
+msgid_plural "%d matches"
+msgstr[0] "%d Übereinstimmung"
+msgstr[1] "%d Übereinstimmungen"
+
+msgid "More than 100 matches, aborting"
+msgstr "Mehr als 100 passt und bricht ab"
+
+msgid "Use regex (JavaScript regex syntax)"
+msgstr "Verwenden Sie regex (JavaScript regex Syntax )"
+
+msgid "Replace in selected cells"
+msgstr "Ersetzen Sie in gewählten Zellen"
+
+msgid "Match case"
+msgstr "Übereinstimmungskasten"
+
+msgid "Find"
+msgstr "Finden"
+
+msgid "Replace"
+msgstr "Ersetzen"
+
+msgid "No matches, invalid or empty regular expression"
+msgstr ""
+"Keine Übereinstimmungen, keiner Invalide oder keiner leerer regelmäßiger "
+
+msgid "Replace All"
+msgstr "Alle ersetzen"
+
+msgid "Find and Replace"
+msgstr "Finden und ersetzen"
+
+msgid "find and replace"
+msgstr "finden und ersetzen"
+
+msgid ""
+"Write raw LaTeX or other formats here, for use with nbconvert. It will not be "
+"rendered in the notebook."
+msgstr ""
+"Schreiben Sie rohe LaTeX oder andere Formate hier zu Gebrauch mit nbconvert. "
+"Es wird nicht im Notizblock wiedergegeben."
+
+msgid ""
+"When passing through nbconvert, a Raw Cell's content is added to the output "
+"unmodified."
+msgstr ""
+"Wenn der Inhalt einer rohen Zelle durch nbconvert durchgeht, wird er der "
+"Ausgabe hinzugefügt unverändert."
+
+msgid "Grow the tooltip vertically (press shift-tab twice)"
+msgstr ""
+"Vergrößern Sie die tooltip senkrecht (drücken Sie zweimal Änderungstabulator )"
+
+msgid "show the current docstring in pager (press shift-tab 4 times)"
+msgstr ""
+"Zeigen Sie die gegenwärtige docstring in Pager (drücken Sie 4mal "
+"Änderungstabulator )"
+
+msgid "Open in Pager"
+msgstr "In Pager öffnen"
+
+msgid "Tooltip will linger for 10 seconds while you type"
+msgstr "Tooltip wird 10 Sekunden bleiben, während Sie schreiben"
+
+msgid "Welcome to the Notebook Tour"
+msgstr "Willkommen bei der Notizblocktour"
+
+msgid "You can use the left and right arrow keys to go backwards and forwards."
+msgstr ""
+"Sie können die linken und richtigen Pfeilschlüssel verwenden, um rückwärts und"
+" vorwärts zu gehen."
+
+msgid "Filename"
+msgstr "Dateiname"
+
+msgid "Click here to change the filename for this notebook."
+msgstr "Klicken Sie hier, um den Dateinamen für diesen Notizblock zu ändern."
+
+msgid "Notebook Menubar"
+msgstr "Notizblock Menubar"
+
+msgid ""
+"The menubar has menus for actions on the notebook, its cells, and the kernel "
+"it communicates with."
+msgstr ""
+"Die menubar hat Speisekarten für Taten auf dem Notizblock, seinen Zellen und "
+"dem Kern, mit dem es kommuniziert."
+
+msgid "Notebook Toolbar"
+msgstr "Notizblockwerkzeugbalken"
+
+msgid ""
+"The toolbar has buttons for the most common actions. Hover your mouse over "
+"each button for more information."
+msgstr ""
+"Der Werkzeugbalken hat Knöpfe für die allgemeinsten Taten. Schweben Sie Ihre "
+"Maus über jedem Knopf zwecks weiterer Informationen."
+
+msgid "Mode Indicator"
+msgstr "Modusindikator"
+
+msgid ""
+"The Notebook has two modes: Edit Mode and Command Mode. In this area, an "
+"indicator can appear to tell you which mode you are in."
+msgstr ""
+"Der Notizblock hat zwei Modi: Editiermodus und Befehlsmodus. Scheinbar kann "
+"ein Indikator in diesem Bereich Ihnen sagen, in welchem Modus Sie sind."
+
+msgid ""
+"Right now you are in Command Mode, and many keyboard shortcuts are available. "
+"In this mode, no icon is displayed in the indicator area."
+msgstr ""
+"In diesem Augenblick sind Sie in Befehlsmodus und viele Tastaturabkürzungen "
+"stehen zur Verfügung. In diesem Modus wird keine Ikone im Indikatorenbereich "
+"angezeigt."
+
+msgid ""
+"Pressing <code>Enter</code> or clicking in the input text area of the cell "
+"switches to Edit Mode."
+msgstr ""
+"Drücken  <code>Enter</code> Oder im Zufuhrtextbereich der Zellenschalter zu "
+"Editiermodus zu klicken."
+
+msgid ""
+"Notice that the border around the currently active cell changed color. Typing "
+"will insert text into the currently active cell."
+msgstr ""
+"Bemerken Sie, dass die Grenze um die gegenwärtig aktive Zelle herum Farbe "
+"änderte. Schreiben wird Text in die gegenwärtig aktive Zelle einfügen."
+
+msgid "Back to Command Mode"
+msgstr "Zurück zum Befehlsmodus"
+
+msgid ""
+"Pressing <code>Esc</code> or clicking outside of the input text area takes you"
+" back to Command Mode."
+msgstr ""
+"Drücken  <code>Esc</code> Oder Außerhalb des Zufuhrtextbereichs klicken nimmt "
+"Sie zurück zu Befehlsmodus."
+
+msgid "Keyboard Shortcuts"
+msgstr "Tastaturabkürzungen"
+
+msgid "You can click here to get a list of all of the keyboard shortcuts."
+msgstr ""
+"Sie können hier klicken, um eine Liste aller Tastaturabkürzungen zu bekommen."
+
+msgid "Kernel Indicator"
+msgstr "Kernindikator"
+
+msgid ""
+"This is the Kernel indicator. It looks like this when the Kernel is idle."
+msgstr "Dies ist der Kernindikator. Es sieht so aus, wenn der Kern müßig ist."
+
+msgid "The Kernel indicator looks like this when the Kernel is busy."
+msgstr "Der Kernindikator sieht so aus, wenn der Kern beschäftigt ist."
+
+msgid "Interrupting the Kernel"
+msgstr "Den Kern unterbrechen"
+
+msgid "To cancel a computation in progress, you can click here."
+msgstr "Um eine Berechnung im Gange abzubrechen, können Sie hier klicken."
+
+msgid "Notification Area"
+msgstr "Benachrichtigungsbereich"
+
+msgid ""
+"Messages in response to user actions (Save, Interrupt, etc.) appear here."
+msgstr ""
+"Nachrichten als Antwort auf Benutzertaten (Sparen, Unterbrechen, usw.) "
+"erscheint hier."
+
+msgid "End of Tour"
+msgstr "Ende von Tour"
+
+msgid "This concludes the Jupyter Notebook User Interface Tour."
+msgstr "Dies schließt die Jupyter Notizblock-Benutzeroberflächentour."
+
+msgid "tour started"
+msgstr "Tour begann"
+
+msgid "let's start the tour"
+msgstr "Lassen Sie uns die Tour starten"
 
 msgid "Creating File Failed"
 msgstr "Das Erstellen von Akte scheiterte"
@@ -451,7 +1341,7 @@ msgid "Click here to rename, delete, etc."
 msgstr "Klick hier, umzubenennen, zu löschen, usw."
 
 msgid "Running"
-msgstr "Läuft"
+msgstr "ausführt"
 
 msgid "Enter a new file name:"
 msgstr "Geben Sie einen neuen Dateinamen ein:"
@@ -485,14 +1375,15 @@ msgid "Error during renaming :"
 msgstr "Fehler während des Umbenennens:"
 
 msgid "Enter a new destination directory path for this item:"
-msgid_plural "Enter a new destination directory path for these %d items:"
-msgstr[0] "Betreten Sie einen neuen Zielverzeichnispfad für diese Sache:"
-msgstr[1] "Betreten Sie einen neuen Zielverzeichnispfad für diese %d Sachen:"
+msgstr "Betreten Sie einen neuen Zielverzeichnispfad für diese Sache:"
+
+msgid "Enter a new destination directory path for these %d items:"
+msgstr "Betreten Sie einen neuen Zielverzeichnispfad für diese %d Sachen:"
 
 msgid "Move an Item"
 msgid_plural "Move %d Items"
-msgstr[0] "Bewegen Sie eine Sache"
-msgstr[1] "Bewegen Sie %d Sachen"
+msgstr[0] "Eine Sache bewegen"
+msgstr[1] "%d Sachen bewegen"
 
 msgid "An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\"."
 msgstr ""
@@ -549,10 +1440,7 @@ msgstr "Ungültiger Dateiname"
 
 msgid "File names must be at least one character and not start with a period"
 msgstr ""
-"Dateinamen müssen mindestens ein Charakter sein und beginnen nicht mit einem Punkt."
-
-msgid "The error was: %s"
-msgstr "Der Fehler war: %s"
+"Dateinamen müssen mindestens ein Charakter sein und beginnen nicht mit einem Punkt"
 
 msgid "Cannot upload invalid Notebook"
 msgstr "Kann keinen ungültigen Notizblock hochladen"

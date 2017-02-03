@@ -8,6 +8,11 @@ define([
     'base/js/utils'
 ], function($, IPython, dialog, utils) {
     "use strict";
+
+    var i18n = utils.i18n;
+    var _ = function(text) {
+    	return i18n.gettext(text);
+    }    
     
     var KernelSelector = function(selector, notebook) {
         var that = this;
@@ -265,15 +270,19 @@ define([
             );
         });
         
+        var no_kernel_msg = i18n.sprintf(_("Could not find a kernel matching %s. Please select a kernel:"),
+        		(data.selected.display_name || data.selected.name))
         var body = $("<form>").addClass("form-inline").append(
-            $("<span>").text(
-                "I couldn't find a kernel matching " + (data.selected.display_name || data.selected.name) + "." +
-                " Please select a kernel:"
-            )
+            $("<span>").text(no_kernel_msg)
         ).append(select);
+
+        // This statement is used simply so that message extraction
+        // will pick up the strings.  The actual setting of the text
+        // for the button is in dialog.js.
+        var button_labels = [ _("Continue Without Kernel"), _("Set Kernel"), _("OK") ];
         
         dialog.modal({
-            title : 'Kernel not found',
+            title : _('Kernel not found'),
             body : body,
             buttons : {
                 'Continue Without Kernel' : {
@@ -311,8 +320,8 @@ define([
             function(error) {
                 w.close();
                 dialog.modal({
-                    title : 'Creating Notebook Failed',
-                    body : "The error was: " + error.message,
+                    title : _('Creating Notebook Failed'),
+                    body : i18n.sprintf(_("The error was: %s"), error.message),
                     buttons : {'OK' : {'class' : 'btn-primary'}}
                 });
             }

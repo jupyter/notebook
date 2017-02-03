@@ -40,7 +40,7 @@ define([
 
     var i18n = utils.i18n;
     var _ = function(text) {
-    	return utils.i18n.gettext(text);
+    	return i18n.gettext(text);
     }    
     
     var Cell = cell.Cell;
@@ -481,7 +481,7 @@ define([
         } else {
             ns = encodeURIComponent(prompt_value);
         }
-        return '<bdi>In</bdi>&nbsp;[' + ns + ']:';
+        return '<bdi>'+_('In')+'</bdi>&nbsp;[' + ns + ']:';
     };
 
     CodeCell.input_prompt_continuation = function (prompt_value, lines_number) {

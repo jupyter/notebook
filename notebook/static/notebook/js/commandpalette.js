@@ -151,7 +151,7 @@ define(function(require){
           }
 
           src[group].data.push({
-            display: humanize_action_id(action_id),
+            display: action.cmd || humanize_action_id(action_id),
             shortcut: short,
             mode_shortcut: get_mode_for_action_id(action_id, notebook),
             group: group,

@@ -12,6 +12,11 @@ define([
 ], function($, utils, security, keyboard, configmod, mathjaxutils, marked) {
     "use strict";
 
+    var i18n = utils.i18n;
+    var _ = function(text) {
+    	return i18n.gettext(text);
+    }    
+
     /**
      * @class OutputArea
      *
@@ -82,11 +87,11 @@ define([
         this.element.addClass('output');
         
         this.collapse_button.addClass("btn btn-default output_collapsed");
-        this.collapse_button.attr('title', 'click to expand output');
+        this.collapse_button.attr('title', _('click to expand output'));
         this.collapse_button.text('. . .');
         
         this.prompt_overlay.addClass('out_prompt_overlay prompt');
-        this.prompt_overlay.attr('title', 'click to expand output; double click to hide output');
+        this.prompt_overlay.attr('title', _('click to expand output; double click to hide output'));
         
         this.expand();
     };
@@ -174,14 +179,14 @@ define([
 
     OutputArea.prototype.scroll_area = function () {
         this.element.addClass('output_scroll');
-        this.prompt_overlay.attr('title', 'click to unscroll output; double click to hide');
+        this.prompt_overlay.attr('title', _('click to unscroll output; double click to hide'));
         this.scrolled = true;
     };
 
 
     OutputArea.prototype.unscroll_area = function () {
         this.element.removeClass('output_scroll');
-        this.prompt_overlay.attr('title', 'click to scroll output; double click to hide');
+        this.prompt_overlay.attr('title', _('click to scroll output; double click to hide'));
         this.scrolled = false;
     };
 
@@ -429,12 +434,12 @@ define([
         /**
          * display a message when a javascript error occurs in display output
          */
-        var msg = "Javascript error adding output!";
+        var msg = _("Javascript error adding output!");
         if ( element === undefined ) return;
         element
             .append($('<div/>').text(msg).addClass('js-error'))
             .append($('<div/>').text(err.toString()).addClass('js-error'))
-            .append($('<div/>').text('See your browser Javascript console for more details.').addClass('js-error'));
+            .append($('<div/>').text(_('See your browser Javascript console for more details.')).addClass('js-error'));
     };
     
     OutputArea.prototype._safe_append = function (toinsert, toreplace) {
@@ -475,9 +480,7 @@ define([
                     .addClass('output_prompt')
                     .empty()
                     .append(
-                      $('<bdi>').text('Out')
-                    ).append(
-                      '[' + n + ']:'
+                      $('<bdi>').text(i18n.sprintf(_('Out[%d]:'),n))
                     );
         }
         var inserted = this.append_mime_type(json, toinsert);
@@ -586,7 +589,7 @@ define([
         subarea.append(
             $("<a>")
                 .attr("href", "#")
-                .text("Unrecognized output: " + json.output_type)
+                .text(i18n.sprintf(_("Unrecognized output: %s"),json.output_type))
                 .click(function () {
                     that.events.trigger('unrecognized_output.OutputArea', {output: json});
                 })

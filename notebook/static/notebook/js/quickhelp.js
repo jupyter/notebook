@@ -8,6 +8,10 @@ define([
     'underscore'
 ], function($, utils, dialog, _) {
     "use strict";
+
+    var gettext = function(text) {
+    	return utils.i18n.gettext(text);
+    }    
     var platform = utils.platform;
 
     var QuickHelp = function (options) {
@@ -34,36 +38,36 @@ define([
         // Mac OS X specific
         cmd_ctrl = 'Cmd-';
         platform_specific = [
-            { shortcut: "Cmd-Up",     help:"go to cell start"  },
-            { shortcut: "Cmd-Down",   help:"go to cell end"  },
-            { shortcut: "Alt-Left",   help:"go one word left"  },
-            { shortcut: "Alt-Right",  help:"go one word right"  },
-            { shortcut: "Alt-Backspace",      help:"delete word before"  },
-            { shortcut: "Alt-Delete",         help:"delete word after"  },
+            { shortcut: "Cmd-Up",     help:gettext("go to cell start")  },
+            { shortcut: "Cmd-Down",   help:gettext("go to cell end")  },
+            { shortcut: "Alt-Left",   help:gettext("go one word left")  },
+            { shortcut: "Alt-Right",  help:gettext("go one word right")  },
+            { shortcut: "Alt-Backspace",      help:gettext("delete word before")  },
+            { shortcut: "Alt-Delete",         help:gettext("delete word after")  },
         ];
     } else {
         // PC specific
         platform_specific = [
-            { shortcut: "Ctrl-Home",  help:"go to cell start"  },
-            { shortcut: "Ctrl-Up",     help:"go to cell start"  },
-            { shortcut: "Ctrl-End",   help:"go to cell end"  },
-            { shortcut: "Ctrl-Down",  help:"go to cell end"  },
-            { shortcut: "Ctrl-Left",  help:"go one word left"  },
-            { shortcut: "Ctrl-Right", help:"go one word right"  },
-            { shortcut: "Ctrl-Backspace", help:"delete word before"  },
-            { shortcut: "Ctrl-Delete",    help:"delete word after"  },
+            { shortcut: "Ctrl-Home",  help:gettext("go to cell start")  },
+            { shortcut: "Ctrl-Up",    help:gettext("go to cell start")  },
+            { shortcut: "Ctrl-End",   help:gettext("go to cell end")  },
+            { shortcut: "Ctrl-Down",  help:gettext("go to cell end")  },
+            { shortcut: "Ctrl-Left",  help:gettext("go one word left")  },
+            { shortcut: "Ctrl-Right", help:gettext("go one word right")  },
+            { shortcut: "Ctrl-Backspace", help:gettext("delete word before")  },
+            { shortcut: "Ctrl-Delete",    help:gettext("delete word after")  },
         ];
     }
 
     var cm_shortcuts = [
-        { shortcut:"Tab",   help:"code completion or indent" },
-        { shortcut:"Shift-Tab",   help:"tooltip" },
-        { shortcut: cmd_ctrl + "]",   help:"indent"  },
-        { shortcut: cmd_ctrl + "[",   help:"dedent"  },
-        { shortcut: cmd_ctrl + "a",   help:"select all"  },
-        { shortcut: cmd_ctrl + "z",   help:"undo"  },
-        { shortcut: cmd_ctrl + "Shift-z",   help:"redo"  },
-        { shortcut: cmd_ctrl + "y",   help:"redo"  },
+        { shortcut:"Tab",   help:gettext("code completion or indent") },
+        { shortcut:"Shift-Tab",   help:gettext("tooltip") },
+        { shortcut: cmd_ctrl + "]",   help:gettext("indent")  },
+        { shortcut: cmd_ctrl + "[",   help:gettext("dedent")  },
+        { shortcut: cmd_ctrl + "a",   help:gettext("select all")  },
+        { shortcut: cmd_ctrl + "z",   help:gettext("undo")  },
+        { shortcut: cmd_ctrl + "Shift-z",   help:gettext("redo")  },
+        { shortcut: cmd_ctrl + "y",   help:gettext("redo")  },
     ].concat( platform_specific );
     
     var mac_humanize_map = {
@@ -97,24 +101,24 @@ define([
     };
 
     var default_humanize_map = {
-        'shift':'Shift',
-        'alt':'Alt',
-        'up':'Up',
-        'down':'Down',
-        'left':'Left',
-        'right':'Right',
-        'tab':'Tab',
-        'capslock':'Caps Lock',
-        'esc':'Esc',
-        'ctrl':'Ctrl',
-        'enter':'Enter',
-        'pageup':'Page Up',
-        'pagedown':'Page Down',
-        'home':'Home',
-        'end':'End',
-        'space':'Space',
-        'backspace':'Backspace',
-        '-':'Minus'
+        'shift':gettext('Shift'),
+        'alt':gettext('Alt'),
+        'up':gettext('Up'),
+        'down':gettext('Down'),
+        'left':gettext('Left'),
+        'right':gettext('Right'),
+        'tab':gettext('Tab'),
+        'capslock':gettext('Caps Lock'),
+        'esc':gettext('Esc'),
+        'ctrl':gettext('Ctrl'),
+        'enter':gettext('Enter'),
+        'pageup':gettext('Page Up'),
+        'pagedown':gettext('Page Down'),
+        'home':gettext('Home'),
+        'end':gettext('End'),
+        'space':gettext('Space'),
+        'backspace':gettext('Backspace'),
+        '-':gettext('Minus')
         };
     
     var humanize_map;
@@ -125,7 +129,7 @@ define([
         humanize_map = default_humanize_map;
     }
 
-    var special_case = { pageup: "PageUp", pagedown: "Page Down" };
+    var special_case = { pageup: gettext("PageUp"), pagedown: gettext("Page Down") };
     
     function humanize_key(key){
         if (key.length === 1){
@@ -192,11 +196,11 @@ define([
 
         // The documentation
         var doc = $('<div/>').addClass('alert alert-info');
-        doc.append(
-            'The Jupyter Notebook has two different keyboard input modes. <b>Edit mode</b> '+
-            'allows you to type code/text into a cell and is indicated by a green cell '+
-            'border. <b>Command mode</b> binds the keyboard to notebook level commands '+
-            'and is indicated by a grey cell border with a blue left margin.'
+        doc.append(gettext('The Jupyter Notebook has two different keyboard input modes.'))
+           .append(' ')
+           .append(gettext('<b>Edit mode</b> allows you to type code or text into a cell and is indicated by a green cell border.'))
+           .append(' ')
+           .append(gettext('<b>Command mode</b> binds the keyboard to notebook level commands and is indicated by a grey cell border with a blue left margin.')
         );
         element.append(doc);
         if (platform === 'MacOS') {
@@ -214,8 +218,13 @@ define([
         var edit_div = this.build_edit_help(cm_shortcuts);
         element.append(edit_div);
 
+        // This statement is used simply so that message extraction
+        // will pick up the strings.  The actual setting of the text
+        // for the button is in dialog.js.
+        var button_labels = [ gettext("Close") ];
+
         this.shortcut_dialog = dialog.modal({
-            title : "Keyboard shortcuts",
+            title : gettext("Keyboard shortcuts"),
             body : element,
             destroy : false,
             buttons : {
@@ -230,13 +239,13 @@ define([
     };
 
     QuickHelp.prototype.build_key_names = function () {
-       var key_names_mac =  [{ shortcut:"⌘", help:"Command" },
-                    { shortcut:"⌃", help:"Control" },
-                    { shortcut:"⌥", help:"Option" },
-                    { shortcut:"⇧", help:"Shift" },
-                    { shortcut:"↩", help:"Return" },
-                    { shortcut:"␣", help:"Space" },
-                    { shortcut:"⇥", help:"Tab" }];
+       var key_names_mac =  [{ shortcut:"⌘", help:gettext("Command") },
+                    { shortcut:"⌃", help:gettext("Control") },
+                    { shortcut:"⌥", help:gettext("Option") },
+                    { shortcut:"⇧", help:gettext("Shift") },
+                    { shortcut:"↩", help:gettext("Return") },
+                    { shortcut:"␣", help:gettext("Space") },
+                    { shortcut:"⇥", help:gettext("Tab") }];
         var i, half, n;
         var div = $('<div/>').append('Mac OS X modifier keys:');
         var sub_div = $('<div/>').addClass('container-fluid');
@@ -259,12 +268,13 @@ define([
     QuickHelp.prototype.build_command_help = function () {
         var that = this;
         var command_shortcuts = this.keyboard_manager.command_shortcuts.help();
-        var div = build_div('<h4>Command Mode (press <kbd>Esc</kbd> to enable)</h4>', command_shortcuts);
+        var cmdkey = '<kbd>'+gettext('Esc')+'</kbd>';
+        var div = build_div('<h4>'+utils.i18n.sprintf(gettext('Command Mode (press %s to enable)'),cmdkey)+'</h4>', command_shortcuts);
         var edit_button = $('<button/>')
-            .text("Edit Shortcuts")
+            .text(gettext("Edit Shortcuts"))
             .addClass('btn btn-xs btn-default pull-right')
             .attr('href', '#')
-            .attr('title', 'edit command-mode keyboard shortcuts')
+            .attr('title', gettext('edit command-mode keyboard shortcuts'))
             .click(function () {
                 // close this dialog
                 $(that.shortcut_dialog).modal("toggle");
@@ -279,8 +289,10 @@ define([
     
     QuickHelp.prototype.build_edit_help = function (cm_shortcuts) {
         var edit_shortcuts = this.keyboard_manager.edit_shortcuts.help();
+        var enterkey = '<kbd>'+gettext('Enter')+'</kbd>';
         edit_shortcuts = $.merge($.merge([], cm_shortcuts), edit_shortcuts);
-        return build_div('<h4>Edit Mode (press <kbd>Enter</kbd> to enable)</h4>', edit_shortcuts);
+        return build_div('<h4>'+utils.i18n.sprintf(gettext('Edit Mode (press %s to enable)'),enterkey)+'</h4>', edit_shortcuts);
+        edit_shortcuts = jQuery.merge(jQuery.merge([], cm_shortcuts), edit_shortcuts);
     };
 
     var build_one = function (s) {

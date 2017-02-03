@@ -1,8 +1,15 @@
-define(function(require){
+define([
+    'base/js/dialog',
+    'base/js/utils'
+], function(dialog,utils){
   "use strict";
 
   var $ = require('jquery');
   var dialog = require('base/js/dialog');
+  var i18n = utils.i18n;
+  var _ = function(text) {
+  	return i18n.gettext(text);
+  }    
 
   /**
    * escape a Regular expression to act as  a pure search string.
@@ -67,9 +74,11 @@ define(function(require){
   var build_preview = function(body, aborted, html, replace){
     body.empty();
     if(aborted){
-      body.append($('<p/>').addClass('bg-warning').text("Warning, too many matches ("+html.length+"+), some changes might not be shown or applied"));
+      var warnmsg = i18n.sprintf(_("Warning: too many matches (%d). Some changes might not be shown or applied."),html.length);
+      body.append($('<p/>').addClass('bg-warning').text(warnmsg));
     } else {
-      body.append($('<p/>').text(html.length+" match"+(html.length==1?'':'es')));
+      var matchmsg = i18n.sprintf(i18n.ngettext("%d match","%d matches",html.length),html.length);
+      body.append($('<p/>').text(matchmsg));
     }
     for(var rindex=0; rindex<html.length; rindex++){
       var pre = $('<pre/>')
@@ -135,7 +144,7 @@ define(function(require){
         res.push([match.index, match.index+match[0].length]);
         escape_hatch++;
         if(escape_hatch > 100){
-          console.warn("More than 100 matches, aborting");
+          console.warn(_("More than 100 matches, aborting"));
           abort = true;
           break;
         }
@@ -155,7 +164,7 @@ define(function(require){
       .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
       .css('font-weight', 'bold')
-      .attr('title', 'Use regex (JavaScript regex syntax)')
+      .attr('title', _('Use regex (JavaScript regex syntax)'))
       .text('.*');
 
       var allCellsButton = $('<button/>')
@@ -163,20 +172,24 @@ define(function(require){
       .attr('type', 'button')
       .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
+<<<<<<< 3ad457ea43a078948fd2daa05e23e71dc559b4c5
       .attr('title', 'Replace in all cells');
+=======
+      .attr('title', _('Replace in selected cells'));
+>>>>>>> WIP: Almost there, finished most of the UI elements
 
     var isCaseSensitiveButton = $('<button/>')
       .attr('type', 'button')
       .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
       .attr('tabindex', '0')
-      .attr('title', 'Match case')
+      .attr('title', _('Match case'))
       .css('font-weight', 'bold')
       .text('Aa');
      
     var search  = $("<input/>")
       .addClass('form-control input-sm')
-      .attr('placeholder','Find');
+      .attr('placeholder',_('Find'));
 
     var findFormGroup = $('<div/>').addClass('form-group');
     findFormGroup.append(
@@ -192,7 +205,7 @@ define(function(require){
 
     var replace = $("<input/>")
       .addClass('form-control input-sm')
-      .attr('placeholder','Replace');
+      .attr('placeholder',_('Replace'));
     var replaceFormGroup = $('<div/>').addClass('form-group');
     replaceFormGroup.append(replace);
 
@@ -238,7 +251,7 @@ define(function(require){
 
     var onError = function(body){
       body.empty();
-      body.append($('<p/>').text('No matches, invalid or empty regular expression'));
+      body.append($('<p/>').text(_('No matches, invalid or empty regular expression')));
     };
 
     var get_cells = function(env){
@@ -339,10 +352,14 @@ define(function(require){
     search.on('input', onChange);
     replace.on('input',  onChange);
 
+    // This statement is used simply so that message extraction
+    // will pick up the strings.  The actual setting of the text
+    // for the button is in dialog.js.
+    var button_labels = [ _("Replace All")];
 
     var mod = dialog.modal({
       show: false,
-      title: "Find and Replace",
+      title: _("Find and Replace"),
       body:form,
       keyboard_manager: env.notebook.keyboard_manager,
       buttons:{
@@ -367,7 +384,8 @@ define(function(require){
 
   var load = function(keyboard_manager){
     var action_all = {
-        help: 'find and replace',
+        cmd: _('find and replace'),
+        help: _('find and replace'),
         handler: function(env, event){
           snr(env, event);
         }

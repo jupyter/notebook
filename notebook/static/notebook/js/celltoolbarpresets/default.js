@@ -4,8 +4,13 @@
 define([
     'notebook/js/celltoolbar',
     'base/js/dialog',
-], function(celltoolbar, dialog) {
+    'base/js/utils'
+], function(celltoolbar, dialog, utils) {
     "use strict";
+
+    var _ = function(text) {
+    	return utils.i18n.gettext(text);
+    }    
 
     var CellToolbar = celltoolbar.CellToolbar;
 
@@ -15,7 +20,7 @@ define([
             callback: function (md) {
                 cell.metadata = md;
             },
-            name: 'Cell',
+            name: _('Cell'),
             notebook: this.notebook,
             keyboard_manager: this.keyboard_manager
         });
@@ -25,7 +30,7 @@ define([
         var button_container = $(div);
         var button = $('<button/>')
             .addClass("btn btn-default btn-xs")
-            .text("Edit Metadata")
+            .text(_("Edit Metadata"))
             .click( function () {
                 raw_edit(cell);
                 return false;
@@ -43,7 +48,7 @@ define([
         var example_preset = [];
         example_preset.push('default.rawedit');
 
-        CellToolbar.register_preset('Edit Metadata', example_preset, notebook);
+        CellToolbar.register_preset(_('Edit Metadata'), example_preset, notebook);
     };
     return {'register': register};
 });

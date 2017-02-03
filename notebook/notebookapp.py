@@ -1261,7 +1261,7 @@ class NotebookApp(JupyterApp):
         This doesn't work on Windows.
         """
         info = self.log.info
-        info('interrupted')
+        info(_('interrupted'))
         print(self.notebook_info())
         yes = _('y')
         no = _('n')
