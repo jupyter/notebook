@@ -158,12 +158,12 @@ define(function(require){
       .attr('title', 'Use regex (JavaScript regex syntax)')
       .text('.*');
 
-      var onlySelectedButton = $('<button/>')
+      var allCellsButton = $('<button/>')
       .append($('<i/>').addClass('fa fa-align-left'))
       .attr('type', 'button')
       .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
-      .attr('title', 'Replace in selected cells');
+      .attr('title', 'Replace in all cells');
 
     var isCaseSensitiveButton = $('<button/>')
       .attr('type', 'button')
@@ -185,7 +185,7 @@ define(function(require){
             $('<div/>').addClass('input-group-btn')
                 .append(isCaseSensitiveButton)
                 .append(isRegExpButton)
-                .append(onlySelectedButton)
+                .append(allCellsButton)
         )
         .append(search)
     )
@@ -216,8 +216,8 @@ define(function(require){
       return value;
     };
 
-    var onlySelected = function(){
-      return (onlySelectedButton.attr('aria-pressed') == 'true');
+    var allCells = function(){
+      return (allCellsButton.attr('aria-pressed') == 'true');
     };
 
 
@@ -242,10 +242,10 @@ define(function(require){
     };
 
     var get_cells = function(env){
-      if(onlySelected()){
-        return env.notebook.get_selected_cells();
-      } else {
+      if(allCells()){
         return env.notebook.get_cells();
+      } else {
+        return env.notebook.get_selected_cells();
       }
     };
 
@@ -324,7 +324,7 @@ define(function(require){
       setTimeout(function(){onChange();}, 100);
     });
 
-    onlySelectedButton.click(function(){
+    allCellsButton.click(function(){
       replace.focus();
       setTimeout(function(){onChange();}, 100);
     });
