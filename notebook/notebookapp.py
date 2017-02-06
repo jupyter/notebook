@@ -224,6 +224,11 @@ class NotebookWebApplication(web.Application):
             iopub_msg_rate_limit=jupyter_app.iopub_msg_rate_limit,
             iopub_data_rate_limit=jupyter_app.iopub_data_rate_limit,
             rate_limit_window=jupyter_app.rate_limit_window,
+
+            # maximum request sizes - support saving larger notebooks
+            # tornado defaults are 100 MiB, we increase it to 0.5 GiB
+            max_body_size = 512 * 1024 * 1024,
+            max_buffer_size = 512 * 1024 * 1024,
             
             # authentication
             cookie_secret=jupyter_app.cookie_secret,
