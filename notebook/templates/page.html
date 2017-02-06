@@ -162,7 +162,6 @@ dir="ltr">
       return;
     }
     var search_parameters = window.location.search.slice(1).split('&');
-    var found = false;
     for (var i = 0; i < search_parameters.length; i++) {
       if (search_parameters[i].split('=')[0] === 'token') {
         // remote token from search parameters
