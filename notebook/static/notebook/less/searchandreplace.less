@@ -8,7 +8,16 @@
     border-width: 1px;
     border-radius: 0px;
   }
-    
+
+
+  [dir="ltr"] & .input-group-btn + .form-control {
+    border-left: none;
+  }
+
+  [dir="rtl"] & .input-group-btn + .form-control {
+     border-right: none;
+  }
+
   #replace-preview .replace {
     
     & .match {
