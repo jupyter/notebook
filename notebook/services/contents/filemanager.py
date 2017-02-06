@@ -503,7 +503,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             raise web.HTTPError(500, u'Unknown error renaming file: %s %s' % (old_path, e))
 
     def info_string(self):
-        return "Serving notebooks from local directory: %s" % self.root_dir
+        return _("Serving notebooks from local directory: %s") % self.root_dir
 
     def get_kernel_path(self, path, model=None):
         """Return the initial API path of  a kernel associated with a given notebook"""

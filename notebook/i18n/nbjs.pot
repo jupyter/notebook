@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-02-03 15:28-0600\n"
+"POT-Creation-Date: 2017-02-04 15:32-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -646,7 +646,8 @@ msgstr ""
 #: notebook/static/notebook/js/notebook.js:437
 #: notebook/static/notebook/js/notificationarea.js:171
 #: notebook/static/notebook/js/savewidget.js:74
-#: notebook/static/tree/js/notebooklist.js:782
+#: notebook/static/tree/js/newnotebook.js:100
+#: notebook/static/tree/js/notebooklist.js:784
 msgid "OK"
 msgstr ""
 
@@ -655,11 +656,12 @@ msgid "Kernel not found"
 msgstr ""
 
 #: notebook/static/notebook/js/kernelselector.js:322
+#: notebook/static/tree/js/newnotebook.js:102
 msgid "Creating Notebook Failed"
 msgstr ""
 
 #: notebook/static/notebook/js/kernelselector.js:323
-#: notebook/static/tree/js/notebooklist.js:1074
+#: notebook/static/tree/js/notebooklist.js:1076
 #, python-format
 msgid "The error was: %s"
 msgstr ""
@@ -676,6 +678,7 @@ msgstr ""
 msgid "Code"
 msgstr ""
 
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:24
 #: notebook/static/notebook/js/maintoolbar.js:101
 msgid "Markdown"
 msgstr ""
@@ -759,8 +762,8 @@ msgstr ""
 
 #: notebook/static/notebook/js/notebook.js:443
 #: notebook/static/notebook/js/savewidget.js:74
-#: notebook/static/tree/js/notebooklist.js:782
-#: notebook/static/tree/js/notebooklist.js:1132
+#: notebook/static/tree/js/notebooklist.js:784
+#: notebook/static/tree/js/notebooklist.js:1134
 msgid "Cancel"
 msgstr ""
 
@@ -1370,13 +1373,13 @@ msgid "Autosave Failed!"
 msgstr ""
 
 #: notebook/static/notebook/js/savewidget.js:74
-#: notebook/static/tree/js/notebooklist.js:769
-#: notebook/static/tree/js/notebooklist.js:782
+#: notebook/static/tree/js/notebooklist.js:771
+#: notebook/static/tree/js/notebooklist.js:784
 msgid "Rename"
 msgstr ""
 
 #: notebook/static/notebook/js/savewidget.js:81
-#: notebook/static/tree/js/notebooklist.js:760
+#: notebook/static/tree/js/notebooklist.js:762
 msgid "Enter a new notebook name:"
 msgstr ""
 
@@ -1603,16 +1606,110 @@ msgstr ""
 msgid "let's start the tour"
 msgstr ""
 
+#: notebook/static/notebook/js/celltoolbarpresets/attachments.js:36
+msgid "Edit Attachments"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/attachments.js:50
+msgid "Attachments"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/default.js:23
+msgid "Cell"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/default.js:33
+#: notebook/static/notebook/js/celltoolbarpresets/default.js:51
+msgid "Edit Metadata"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:20
+msgid "None"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:21
+msgid "LaTeX"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:22
+msgid "reST"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:23
+msgid "HTML"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:25
+msgid "Python"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:26
+msgid "Custom"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:36
+msgid "Set the MIME type of the raw cell:"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:44
+msgid "Raw Cell MIME Type"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:78
+msgid "Raw NBConvert Format"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:85
+msgid "Raw Cell Format"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:19
+msgid "Slide"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:20
+msgid "Sub-Slide"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:21
+msgid "Fragment"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:22
+msgid "Skip"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:23
+msgid "Notes"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:39
+msgid "Slide Type"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:45
+msgid "Slideshow"
+msgstr ""
+
+#: notebook/static/tree/js/kernellist.js:89
+msgid "Shutdown"
+msgstr ""
+
+#: notebook/static/tree/js/newnotebook.js:73
+#, python-format
+msgid "Create a new notebook with %s"
+msgstr ""
+
+#: notebook/static/tree/js/newnotebook.js:104
+msgid "An error occurred while creating a new notebook."
+msgstr ""
+
 #: notebook/static/tree/js/notebooklist.js:103
 msgid "Creating File Failed"
 msgstr ""
 
 #: notebook/static/tree/js/notebooklist.js:105
 msgid "An error occurred while creating a new file."
-msgstr ""
-
-#: notebook/static/tree/js/notebooklist.js:113
-msgid "Error during New file creation"
 msgstr ""
 
 #: notebook/static/tree/js/notebooklist.js:123
@@ -1623,178 +1720,159 @@ msgstr ""
 msgid "An error occurred while creating a new folder."
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:133
-msgid "Error during New directory creation"
-msgstr ""
-
-#: notebook/static/tree/js/notebooklist.js:192
-msgid "id provided to sort_list function is invalid."
-msgstr ""
-
 #: notebook/static/tree/js/notebooklist.js:250
 msgid "Failed to read file"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:325
+#: notebook/static/tree/js/notebooklist.js:251
+#, python-format
+msgid "Failed to read file %s"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:263
+msgid "Cannot upload file (>%1$d MB) '%2$s'"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:266
+msgid "Cannot upload file"
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:327
 msgid "Server error: "
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:360
+#: notebook/static/tree/js/notebooklist.js:362
 msgid "The notebook list is empty."
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:390
-msgid "Error adding link: "
-msgstr ""
-
-#: notebook/static/tree/js/notebooklist.js:433
+#: notebook/static/tree/js/notebooklist.js:435
 msgid "Click here to rename, delete, etc."
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:473
+#: notebook/static/tree/js/notebooklist.js:475
 msgid "Running"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:758
+#: notebook/static/tree/js/notebooklist.js:760
 msgid "Enter a new file name:"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:759
+#: notebook/static/tree/js/notebooklist.js:761
 msgid "Enter a new directory name:"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:761
+#: notebook/static/tree/js/notebooklist.js:763
 msgid "Enter a new name:"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:766
+#: notebook/static/tree/js/notebooklist.js:768
 msgid "Rename file"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:767
+#: notebook/static/tree/js/notebooklist.js:769
 msgid "Rename directory"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:768
+#: notebook/static/tree/js/notebooklist.js:770
 msgid "Rename notebook"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:782
+#: notebook/static/tree/js/notebooklist.js:784
 msgid "Move"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:798
+#: notebook/static/tree/js/notebooklist.js:800
 msgid "An error occurred while renaming \"%1$s\" to \"%2$s\"."
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:801
+#: notebook/static/tree/js/notebooklist.js:803
 msgid "Rename Failed"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:811
-msgid "Error during renaming :"
-msgstr ""
-
-#: notebook/static/tree/js/notebooklist.js:850
+#: notebook/static/tree/js/notebooklist.js:852
 #, python-format
 msgid "Enter a new destination directory path for this item:"
 msgid_plural "Enter a new destination directory path for these %d items:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: notebook/static/tree/js/notebooklist.js:856
+#: notebook/static/tree/js/notebooklist.js:858
 #, python-format
 msgid "Move an Item"
 msgid_plural "Move %d Items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: notebook/static/tree/js/notebooklist.js:875
+#: notebook/static/tree/js/notebooklist.js:877
 msgid "An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\"."
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:877
+#: notebook/static/tree/js/notebooklist.js:879
 msgid "Move Failed"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:887
-msgid "Error during moving :"
-msgstr ""
-
-#: notebook/static/tree/js/notebooklist.js:923
+#: notebook/static/tree/js/notebooklist.js:925
 #, python-format
 msgid "Are you sure you want to permanently delete: \"%s\"?"
 msgid_plural "Are you sure you want to permanently delete the %d files or folders selected?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: notebook/static/tree/js/notebooklist.js:934
+#: notebook/static/tree/js/notebooklist.js:936
 msgid "Delete"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:951
+#: notebook/static/tree/js/notebooklist.js:953
 #, python-format
 msgid "An error occurred while deleting \"%s\"."
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:953
+#: notebook/static/tree/js/notebooklist.js:955
 msgid "Delete Failed"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:963
-msgid "Error during content deletion:"
-msgstr ""
-
-#: notebook/static/tree/js/notebooklist.js:974
+#: notebook/static/tree/js/notebooklist.js:976
 #, python-format
 msgid "Are you sure you want to duplicate: \"%s\"?"
 msgid_plural "Are you sure you want to duplicate the %d files selected?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: notebook/static/tree/js/notebooklist.js:984
+#: notebook/static/tree/js/notebooklist.js:986
 msgid "Duplicate"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:998
+#: notebook/static/tree/js/notebooklist.js:1000
 #, python-format
 msgid "An error occurred while duplicating \"%s\"."
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:1000
+#: notebook/static/tree/js/notebooklist.js:1002
 msgid "Duplicate Failed"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:1010
-msgid "Error during content duplication"
-msgstr ""
-
-#: notebook/static/tree/js/notebooklist.js:1037
+#: notebook/static/tree/js/notebooklist.js:1039
 msgid "Upload"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:1046
+#: notebook/static/tree/js/notebooklist.js:1048
 msgid "Invalid file name"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:1047
+#: notebook/static/tree/js/notebooklist.js:1049
 msgid "File names must be at least one character and not start with a period"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:1076
+#: notebook/static/tree/js/notebooklist.js:1078
 msgid "Cannot upload invalid Notebook"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:1085
-msgid "Error during notebook uploading"
-msgstr ""
-
-#: notebook/static/tree/js/notebooklist.js:1109
+#: notebook/static/tree/js/notebooklist.js:1111
 #, python-format
 msgid "There is already a file named \"%s\". Do you want to replace it?"
 msgstr ""
 
-#: notebook/static/tree/js/notebooklist.js:1111
+#: notebook/static/tree/js/notebooklist.js:1113
 msgid "Replace file"
 msgstr ""
 

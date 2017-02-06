@@ -188,14 +188,13 @@ class NotebookWebApplication(web.Application):
         env.install_gettext_translations(nbui, newstyle=False)
 
         if dev_mode:
-            DEV_NOTE_NPM = _("""It looks like you're running the notebook from source.
-If you're working on the Javascript of the notebook, try running
+            DEV_NOTE_NPM = """It looks like you're running the notebook from source.
+    If you're working on the Javascript of the notebook, try running
 
-npm run build:watch
+    %s
 
-in another terminal window to have the system incrementally
-watch and build the notebook's JavaScript for you, as you make changes.
-""")
+    in another terminal window to have the system incrementally
+    watch and build the notebook's JavaScript for you, as you make changes.""" % 'npm run build:watch'
             log.info(DEV_NOTE_NPM)
 
         if sys_info['commit_source'] == 'repository':
@@ -206,9 +205,8 @@ watch and build the notebook's JavaScript for you, as you make changes.
             version_hash = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 
         if jupyter_app.ignore_minified_js:
-            log.warning(_("""The `ignore_minified_js` flag is deprecated and no 
-                longer works.  Alternatively use `npm run build:watch` when
-                working on the notebook's Javascript and LESS"""))
+            log.warning(_("""The `ignore_minified_js` flag is deprecated and no longer works."""))
+            log.warning(_("""Alternatively use `%s` when working on the notebook's Javascript and LESS""") % 'npm run build:watch')
             warnings.warn(_("The `ignore_minified_js` flag is deprecated and will be removed in Notebook 6.0"), DeprecationWarning)
 
         now = utcnow()
@@ -425,14 +423,14 @@ flags['pylab']=(
 )
 flags['no-mathjax']=(
     {'NotebookApp' : {'enable_mathjax' : False}},
-    _("""Disable MathJax
+    """Disable MathJax
     
     MathJax is the javascript library Jupyter uses to render math/LaTeX. It is
     very large, so you may want to disable it if you have a slow internet
     connection, or for offline use of the notebook.
     
     When disabled, equations etc. will appear as their untransformed TeX source.
-    """)
+    """
 )
 
 flags['allow-root']=(
@@ -468,12 +466,9 @@ class NotebookApp(JupyterApp):
 
     name = 'jupyter-notebook'
     version = __version__
-    description = _("""
-        The Jupyter HTML Notebook.
-        
-        This launches a Tornado based HTML Notebook Server that serves up an
-        HTML5/Javascript Notebook client.
-    """)
+    description = _("""The Jupyter HTML Notebook.
+    
+    This launches a Tornado based HTML Notebook Server that serves up an HTML5/Javascript Notebook client.""")
     examples = _examples
     aliases = aliases
     flags = flags
@@ -519,16 +514,16 @@ class NotebookApp(JupyterApp):
     # Network related information
     
     allow_origin = Unicode('', config=True,
-        help=_("""Set the Access-Control-Allow-Origin header
+        help="""Set the Access-Control-Allow-Origin header
         
         Use '*' to allow any origin to access your server.
         
         Takes precedence over allow_origin_pat.
-        """)
+        """
     )
     
     allow_origin_pat = Unicode('', config=True,
-        help=_("""Use a regular expression for the Access-Control-Allow-Origin header
+        help="""Use a regular expression for the Access-Control-Allow-Origin header
         
         Requests from an origin matching the expression will get replies with:
         
@@ -537,7 +532,7 @@ class NotebookApp(JupyterApp):
         where `origin` is the origin of the request.
         
         Ignored if allow_origin is set.
-        """)
+        """
     )
     
     allow_credentials = Bool(False, config=True,
@@ -608,13 +603,13 @@ class NotebookApp(JupyterApp):
         return os.path.join(self.runtime_dir, 'notebook_cookie_secret')
     
     cookie_secret = Bytes(b'', config=True,
-        help=_("""The random bytes used to secure cookies.
+        help="""The random bytes used to secure cookies.
         By default this is a new random number every time you start the Notebook.
         Set it to a value in a config file to enable logins to persist across server sessions.
         
         Note: Cookie secrets should be kept private, do not share config files with
         cookie_secret stored in plaintext (you can read the value from a file).
-        """)
+        """
     )
     
     @default('cookie_secret')
@@ -647,7 +642,7 @@ class NotebookApp(JupyterApp):
         the default is to generate a new, random token.
 
         Setting to an empty string disables authentication altogether, which is NOT RECOMMENDED.
-        """)
+        """
     ).tag(config=True)
 
     one_time_token = Unicode(
@@ -674,25 +669,25 @@ class NotebookApp(JupyterApp):
         self._token_generated = False
 
     password = Unicode(u'', config=True,
-                      help=_("""Hashed password to use for web authentication.
+                      help="""Hashed password to use for web authentication.
 
                       To generate, type in a python/IPython shell:
 
                         from notebook.auth import passwd; passwd()
 
                       The string should be of the form type:salt:hashed-password.
-                      """)
+                      """
     )
 
     password_required = Bool(False, config=True,
-                      help=_("""Forces users to use a password for the Notebook server.
+                      help="""Forces users to use a password for the Notebook server.
                       This is useful in a multi user environment, for instance when
                       everybody in the LAN can access each other's machine though ssh.
 
                       In such a case, server the notebook server on localhost is not secure
                       since any user can connect to the notebook server via ssh.
 
-                      """)
+                      """
     )
 
     disable_check_xsrf = Bool(False, config=True,
@@ -712,15 +707,15 @@ class NotebookApp(JupyterApp):
     )
 
     open_browser = Bool(True, config=True,
-                        help=_("""Whether to open in a browser after starting.
+                        help="""Whether to open in a browser after starting.
                         The specific browser used is platform dependent and
                         determined by the python standard library `webbrowser`
                         module, unless it is overridden using the --browser
                         (NotebookApp.browser) configuration option.
-                        """))
+                        """)
 
     browser = Unicode(u'', config=True,
-                      help=_("""Specify what command to use to invoke a web
+                      help="""Specify what command to use to invoke a web
                       browser when opening the notebook. If not specified, the
                       default browser will be determined by the `webbrowser`
                       standard library module, which allows setting of the
@@ -782,14 +777,14 @@ class NotebookApp(JupyterApp):
     )
     
     enable_mathjax = Bool(True, config=True,
-        help=_("""Whether to enable MathJax for typesetting math/TeX
+        help="""Whether to enable MathJax for typesetting math/TeX
 
         MathJax is the javascript library Jupyter uses to render math/LaTeX. It is
         very large, so you may want to disable it if you have a slow internet
         connection, or for offline use of the notebook.
 
         When disabled, equations etc. will appear as their untransformed TeX source.
-        """)
+        """
     )
 
     @observe('enable_mathjax')
@@ -799,11 +794,11 @@ class NotebookApp(JupyterApp):
             self.mathjax_url = u''
 
     base_url = Unicode('/', config=True,
-                               help=_('''The base URL for the notebook server.
+                               help='''The base URL for the notebook server.
 
                                Leading and trailing slashes can be omitted,
                                and will automatically be added.
-                               '''))
+                               ''')
 
     @validate('base_url')
     def _update_base_url(self, proposal):
@@ -822,10 +817,10 @@ class NotebookApp(JupyterApp):
         self.base_url = change['new']
 
     extra_static_paths = List(Unicode(), config=True,
-        help=_("""Extra paths to search for serving static files.
+        help="""Extra paths to search for serving static files.
         
         This allows adding javascript/css to be available from the notebook server machine,
-        or overriding individual files in the IPython""")
+        or overriding individual files in the IPython"""
     )
     
     @property
@@ -874,18 +869,18 @@ class NotebookApp(JupyterApp):
         return path
 
     websocket_url = Unicode("", config=True,
-        help=_("""The base URL for websockets,
+        help="""The base URL for websockets,
         if it differs from the HTTP server (hint: it almost certainly doesn't).
         
         Should be in the form of an HTTP origin: ws[s]://hostname[:port]
-        """)
+        """
     )
 
     mathjax_url = Unicode("", config=True,
-        help=_("""A custom url for MathJax.js.
+        help="""A custom url for MathJax.js.
         Should be in the form of a case-sensitive url to MathJax,
         for example:  /static/components/MathJax/MathJax.js
-        """)
+        """
     )
 
     @default('mathjax_url')
@@ -942,13 +937,13 @@ class NotebookApp(JupyterApp):
     kernel_spec_manager_class = Type(
         default_value=KernelSpecManager,
         config=True,
-        help=_("""
+        help="""
         The kernel spec manager class to use. Should be a subclass
         of `jupyter_client.kernelspec.KernelSpecManager`.
 
         The Api of KernelSpecManager is provisional and might change
         without warning between this version of Jupyter and the next stable one.
-        """)
+        """
     )
 
     login_handler_class = Type(

@@ -1,14 +1,14 @@
-# Translations template for PROJECT.
+# Translations template for Jupyter.
 # Copyright (C) 2017 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the Jupyter project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
+"Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-29 16:45-0600\n"
+"POT-Creation-Date: 2017-02-04 22:21-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,23 +29,23 @@ msgstr ""
 msgid "Password:"
 msgstr ""
 
+#: notebook/templates/login.html:26
+msgid "Log in"
+msgstr ""
+
 #: notebook/templates/login.html:36
-msgid ""
-"This notebook server has no password set, but token-authentication is "
-"enabled."
+msgid "This notebook server has no password set, but token-authentication is enabled."
 msgstr ""
 
 #: notebook/templates/login.html:38
 msgid ""
-"You need to open the notebook server with its first-time login token in "
-"the URL,\n"
+"You need to open the notebook server with its first-time login token in the URL,\n"
 "\t\tor enable a password in order to gain access."
 msgstr ""
 
 #: notebook/templates/login.html:40
 msgid ""
-"The command: %(cmd) will show you the URLs of running servers with their "
-"tokens,\n"
+"The command: %(cmd) will show you the URLs of running servers with their tokens,\n"
 "        which you can copy and paste into your browser."
 msgstr ""
 
@@ -344,9 +344,7 @@ msgid "Run All Below"
 msgstr ""
 
 #: notebook/templates/notebook.html:202
-msgid ""
-"All cells in the notebook have a cell type. By default, new cells are "
-"created as 'Code' cells"
+msgid "All cells in the notebook have a cell type. By default, new cells are created as 'Code' cells"
 msgstr ""
 
 #: notebook/templates/notebook.html:203
@@ -354,9 +352,7 @@ msgid "Cell Type"
 msgstr ""
 
 #: notebook/templates/notebook.html:206
-msgid ""
-"Contents will be sent to the kernel for execution, and output will "
-"display in the footer of cell"
+msgid "Contents will be sent to the kernel for execution, and output will display in the footer of cell"
 msgstr ""
 
 #: notebook/templates/notebook.html:209
@@ -688,8 +684,6 @@ msgid "Clusters tab is now provided by IPython parallel."
 msgstr ""
 
 #: notebook/templates/tree.html:172
-msgid ""
-"See '<a href=\"https://github.com/ipython/ipyparallel\">IPython "
-"parallel</a>' for installation details."
+msgid "See '<a href=\"https://github.com/ipython/ipyparallel\">IPython parallel</a>' for installation details."
 msgstr ""
 

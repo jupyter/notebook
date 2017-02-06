@@ -3,19 +3,20 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-01-29 16:47-0600\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2017-02-04 23:03-0600\n"
+"PO-Revision-Date: 2017-02-04 23:20-0600\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Globalization Pipeline\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"X-Generator: Poedit 1.8.11\n"
 
 msgid "You are requesting a page that does not exist!"
 msgstr "Sie fordern eine Seite, die nicht existiert!"
@@ -26,6 +27,9 @@ msgstr "Der Fehler war:"
 msgid "Password:"
 msgstr "Kennwort:"
 
+msgid "Log in"
+msgstr "Anmelden"
+
 msgid ""
 "This notebook server has no password set, but token-authentication is enabled."
 msgstr ""
@@ -34,14 +38,16 @@ msgstr ""
 
 msgid ""
 "You need to open the notebook server with its first-time login token in the "
-"URL,\n\t\tor enable a password in order to gain access."
+"URL,\n"
+"\t\tor enable a password in order to gain access."
 msgstr ""
 "Sie müssen den Notizblockserver mit seinem Erstanmeldungsgutschein in der URL "
 "öffnen, oder ermöglicht ein Kennwort, um Zugang zu erhalten."
 
 msgid ""
 "The command: %(cmd) will show you the URLs of running servers with their "
-"tokens,\n        which you can copy and paste into your browser."
+"tokens,\n"
+"        which you can copy and paste into your browser."
 msgstr ""
 "Der Befehl: %(cmd) wird Ihnen die URL, Server mit ihren Gutscheinen "
 "auszuführen zeigen, die Sie in Ihren Browser kopieren und einkleben können."
@@ -82,7 +88,7 @@ msgstr ""
 "neuen Kern"
 
 msgid "Make a Copy..."
-msgstr "Machen Sie eine Kopie"
+msgstr "Eine Kopie machen..."
 
 msgid "Rename..."
 msgstr "Umbennen..."
@@ -97,7 +103,7 @@ msgid "Print Preview"
 msgstr "Druckvorschau"
 
 msgid "Download as"
-msgstr "Laden Sie als herunter"
+msgstr "Abladen als"
 
 msgid "Notebook (.ipynb)"
 msgstr "Notizblock (.ipynb )"
@@ -118,7 +124,7 @@ msgid "PDF via LaTeX (.pdf)"
 msgstr "PDF über LaTeX (.pdf )"
 
 msgid "Deploy as"
-msgstr "Setzen Sie als ein"
+msgstr "Einetzen als"
 
 msgid "Trust the output of this notebook"
 msgstr "Vertrauen Sie der Ausgabe dieses Notizblocks"
@@ -131,28 +137,28 @@ msgstr ""
 "Legen Sie den Kern dieses Notizblocks still und schließen Sie dieses Fenster"
 
 msgid "Close and Halt"
-msgstr "Schließen Sie und halten Sie an"
+msgstr "Schließen und anhalten"
 
 msgid "Edit"
 msgstr "Editieren"
 
 msgid "Cut Cells"
-msgstr "Schnittzellen"
+msgstr "Zellen schneiden"
 
 msgid "Copy Cells"
-msgstr "Kopierzellen"
+msgstr "Zellen Kopieren"
 
 msgid "Paste Cells Above"
-msgstr "Kleben Sie Zellen oben ein"
+msgstr "einfügen Zelle nach oben"
 
 msgid "Paste Cells Below"
-msgstr "Kleben Sie Zellen unten ein"
+msgstr "einfügen Zelle nach unten"
 
 msgid "Paste Cells &amp; Replace"
 msgstr "Kleben Sie Zellen ein &amp; ersetzen Sie"
 
 msgid "Delete Cells"
-msgstr "Löschen Sie Zellen"
+msgstr "Zellen löschen"
 
 msgid "Undo Delete Cells"
 msgstr "Machen Sie los löschen Sie Zellen"
@@ -167,25 +173,25 @@ msgid "Merge Cell Below"
 msgstr "Vereinen Sie Zelle unten"
 
 msgid "Move Cell Up"
-msgstr "Bewegen Sie Zelle hinauf"
+msgstr "bewegen Zelle nach oben"
 
 msgid "Move Cell Down"
-msgstr "Bewegen Sie Zelle hinunter"
+msgstr "bewegen Zelle nach unten"
 
 msgid "Edit Notebook Metadata"
 msgstr "Editieren Notizblockmetadaten"
 
 msgid "Find and Replace"
-msgstr "Finden Sie und ersetzen Sie"
+msgstr "Finden und ersetzen"
 
 msgid "Cut Cell Attachments"
-msgstr "Schnittzellenzubehör"
+msgstr "Zell-Anhänge schneiden"
 
 msgid "Copy Cell Attachments"
-msgstr "Kopierzellenzubehör"
+msgstr "Zell-Anhänge kopieren"
 
 msgid "Paste Cell Attachments"
-msgstr "Pastenzellenzubehör"
+msgstr "Zellen-Anhänge einfügen"
 
 msgid "Insert Image"
 msgstr "Einlagenbild"
@@ -199,7 +205,7 @@ msgstr ""
 "Speisekartenstrich )"
 
 msgid "Toggle Header"
-msgstr "Kippschalterüberschrift"
+msgstr "überschrift umschalten"
 
 msgid "Show/Hide the action icons (below menu bar)"
 msgstr ""
@@ -212,7 +218,7 @@ msgid "Show/Hide line numbers in cells"
 msgstr "Vorstellungs-/ Hautzeilennummern in Zellen"
 
 msgid "Toggle Line Numbers"
-msgstr "Schalten Sie Zeilennummern um"
+msgstr "Zeilennummern umschalten"
 
 msgid "Cell Toolbar"
 msgstr "Zellenwerkzeugbalken"
@@ -308,7 +314,7 @@ msgid "Hide/Show the output of the current cell"
 msgstr "Verstecken Sie/ zeigen Sie die Ausgabe der gegenwärtigen Zelle"
 
 msgid "Toggle"
-msgstr "Kippschalter"
+msgstr "Umschalten"
 
 msgid "Scroll the output of the current cell"
 msgstr "Blättern Sie die Ausgabe der gegenwärtigen Zelle"
@@ -317,10 +323,10 @@ msgid "Toggle Scrolling"
 msgstr "Kippschalterschieben"
 
 msgid "Clear the output of the current cell"
-msgstr "Räumen Sie die Ausgabe der gegenwärtigen Zelle"
+msgstr "Die Ausgabe der gegenwärtigen Zelle räumen"
 
 msgid "Clear"
-msgstr "Klaren Sie auf"
+msgstr "Räumen"
 
 msgid "All Output"
 msgstr "Alle Ausgabe"
@@ -332,7 +338,7 @@ msgid "Scroll the output of all cells"
 msgstr "Blättern Sie die Ausgabe aller Zellen"
 
 msgid "Clear the output of all cells"
-msgstr "Räumen Sie die Ausgabe aller Zellen"
+msgstr "Die Ausgabe aller Zellen räumen"
 
 msgid "Send Keyboard Interrupt (CTRL-C) to the Kernel"
 msgstr "Schicken Sie Tastaturunterbrechung (CTRL C) an den Kern"
@@ -365,7 +371,7 @@ msgid "Reconnect"
 msgstr "Verbindung wiederherstellen"
 
 msgid "Change kernel"
-msgstr "Umwandlungskern"
+msgstr "Kern ändern"
 
 msgid "Help"
 msgstr "Hilfe"
@@ -413,7 +419,7 @@ msgid "Files"
 msgstr "Dateien"
 
 msgid "Running"
-msgstr "Läuft"
+msgstr "Laufen"
 
 msgid "Clusters"
 msgstr "Häufungen"
@@ -422,7 +428,7 @@ msgid "Select items to perform actions on them."
 msgstr "Wählen Sie Sachen, um Taten auf ihnen auszuführen."
 
 msgid "Duplicate selected"
-msgstr "Duplizieren Sie die ausgewählten"
+msgstr "Ausgewählt duplizieren"
 
 msgid "Duplicate"
 msgstr "Duplizieren"
@@ -440,22 +446,22 @@ msgid "Move"
 msgstr "Bewegen"
 
 msgid "Download selected"
-msgstr "Abladen wählte"
+msgstr "Ausgewählt abladen"
 
 msgid "Download"
 msgstr "Abladen"
 
 msgid "Shutdown selected notebook(s)"
-msgstr "Stilllegung wählte Notizblock (s)"
+msgstr "Stilllegung wählte Notizblock(en)"
 
 msgid "Shutdown"
 msgstr "Stilllegung"
 
 msgid "Delete selected"
-msgstr "Löschen Sie, gewählt"
+msgstr "Ausgewählt löschen"
 
 msgid "Click to browse for a file to upload."
-msgstr "Klicken Sie, um zu sehen, damit eine Akte hochlädt."
+msgstr "Klicken Sie, um zu sehen, damit eine Datei hochlädt."
 
 msgid "Upload"
 msgstr "Hochladen"
@@ -500,7 +506,7 @@ msgid "Select Running Notebooks"
 msgstr "Wählen Sie Laufnotizblöcke"
 
 msgid " Running"
-msgstr "Läuft"
+msgstr "führt aus"
 
 msgid "Select All Files"
 msgstr "Wählen Sie alle Dateien"
@@ -540,5 +546,5 @@ msgid ""
 "for installation details."
 msgstr ""
 "Siehe '<a href=\"https://github.com/ipython/ipyparallel\">IPython</a>' für "
-"Installationsdetails '<a href=\"https://github.com/ipython/ipyparallel\">"
-"gleichen.</a>'"
+"Installationsdetails '<a href=\"https://github.com/ipython/ipyparallel"
+"\">gleichen.</a>'"

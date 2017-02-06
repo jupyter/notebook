@@ -1375,10 +1375,9 @@ msgid "Error during renaming :"
 msgstr "Fehler während des Umbenennens:"
 
 msgid "Enter a new destination directory path for this item:"
-msgstr "Betreten Sie einen neuen Zielverzeichnispfad für diese Sache:"
-
-msgid "Enter a new destination directory path for these %d items:"
-msgstr "Betreten Sie einen neuen Zielverzeichnispfad für diese %d Sachen:"
+msgid_plural "Enter a new destination directory path for these %d items:"
+msgstr[0] "Betreten Sie einen neuen Zielverzeichnispfad für diese Sache:"
+msgstr[1] "Betreten Sie einen neuen Zielverzeichnispfad für diese %d Sachen:"
 
 msgid "Move an Item"
 msgid_plural "Move %d Items"

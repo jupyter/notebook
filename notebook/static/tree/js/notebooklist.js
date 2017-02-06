@@ -135,7 +135,7 @@ define([
                             OK: {'class': 'btn-primary'}
                         }
                     });
-                    console.warn(_('Error during New file creation'), e);
+                    console.warn('Error during New file creation', e);
                 });
                 that.load_sessions();
             });
@@ -155,7 +155,7 @@ define([
                             OK: {'class': 'btn-primary'}
                         }
                     });
-                    console.warn(_('Error during New directory creation'), e);
+                    console.warn('Error during New directory creation', e);
                 });
                 that.load_sessions();
             });
@@ -216,7 +216,7 @@ define([
         } else if (id == 'sort-name') {
             that.sort_name(order);
         } else {
-            console.log(_('id provided to sort_list function is invalid.'));
+            console.log('id provided to sort_list function is invalid.');
         }
     };
 
@@ -275,7 +275,7 @@ define([
             item.remove();
             dialog.modal({
                 title : _('Failed to read file'),
-                body : utils.Jed.sprintf("Failed to read file %s",name),
+                body : i18n.sprintf(_("Failed to read file %s"),name),
                 buttons : {'OK' : { 'class' : 'btn-primary' }}
             });
         };
@@ -286,9 +286,11 @@ define([
             var file_ext = name_and_ext[1];
 
             if (f.size > this._max_upload_size_mb * 1024 * 1024) {
+            	var body_msg = i18n.sprintf(_("The file size is %d MB. Do you still want to upload it?"),
+            			Math.round(f.size / (1024 * 1024)));
                 dialog.modal({
-                    title : 'Large file size warning',
-                    body : "The file size is " + Math.round(f.size / (1024 * 1024)) + "MB. Do you still want to upload it?",
+                    title : _('Large file size warning'),
+                    body : body_msg,
                     buttons : {
                         Cancel: {},
                         Ok: {
@@ -421,7 +423,7 @@ define([
             try {
                 this.add_link(model, item);
             } catch(err) {
-                console.log(_('Error adding link: ') + err);
+                console.log('Error adding link: ' + err);
             }
         }
         // Trigger an event when we've finished drawing the notebook list.
@@ -886,7 +888,7 @@ define([
                             that.select('select-none');
                         }).catch(function(e) {
                         	var template = _("An error occurred while renaming \"%1$s\" to \"%2$s\".");
-                        	var failmsg = i18n.sprintf(failmsg,item_name,input.val());
+                        	var failmsg = i18n.sprintf(template,item_name,input.val());
                             dialog.modal({
                                 title: _("Rename Failed"),
                                 body: $('<div/>')
@@ -898,7 +900,7 @@ define([
                                     OK: {'class': 'btn-primary'}
                                 }
                             });
-                            console.warn(_('Error during renaming :'), e);
+                            console.warn('Error during renaming :', e);
                         });
                     }
                 }
@@ -981,7 +983,7 @@ define([
                                         OK: {'class': 'btn-primary'}
                                     }
                                 });
-                                console.warn(_('Error during moving :'), e);
+                                console.warn('Error during moving :', e);
                             });
                         });  // End of forEach.
                     }
@@ -1057,7 +1059,7 @@ define([
                                         OK: {'class': 'btn-primary'}
                                     }
                                 });
-                                console.warn(_('Error during content deletion:'), e);
+                                console.warn('Error during content deletion:', e);
                             });
                         });
                     }
@@ -1121,7 +1123,7 @@ define([
                                         OK: {'class': 'btn-primary'}
                                     }
                                 });
-                                console.warn(_('Error during content duplication'), e);
+                                console.warn('Error during content duplication', e);
                             });
                         });
                     }
@@ -1378,7 +1380,7 @@ define([
                                 }
                             }}
                         });
-                        console.warn(_('Error during notebook uploading'), e);
+                        console.warn('Error during notebook uploading', e);
                         return false;
                     }
                     content_type = 'application/json';
