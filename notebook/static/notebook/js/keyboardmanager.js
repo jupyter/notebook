@@ -114,6 +114,7 @@ define([
     KeyboardManager.prototype.get_default_edit_shortcuts = function() {
         return {
             'cmdtrl-shift-p'      : 'jupyter-notebook:show-command-palette',
+            'cmdtrl-shift-f'      : 'jupyter-notebook:show-command-palette',
             'esc'                 : 'jupyter-notebook:enter-command-mode',
             'ctrl-m'              : 'jupyter-notebook:enter-command-mode',
             'up'                  : 'jupyter-notebook:move-cursor-up',
@@ -125,6 +126,7 @@ define([
     KeyboardManager.prototype.get_default_command_shortcuts = function() {
         return {
             'cmdtrl-shift-p': 'jupyter-notebook:show-command-palette',
+            'cmdtrl-shift-f': 'jupyter-notebook:show-command-palette',
             'shift-space': 'jupyter-notebook:scroll-notebook-up',
             'shift-v' : 'jupyter-notebook:paste-cell-above',
             'shift-m' : 'jupyter-notebook:merge-cells',
