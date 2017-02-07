@@ -41,6 +41,7 @@ Cell tags
 There is a new cell toolbar for adding *cell tags* (:ghpull:`2048`):
 
 .. image:: /_static/images/cell-tags-toolbar.png
+   :align: center
 
 Cell tags are a lightweight way to customise the behaviour of tools working with
 notebooks; we're working on building support for them into tools like `nbconvert
@@ -56,6 +57,7 @@ Table style
 The default styling for tables in the notebook has been updated (:ghpull:`1776`):
 
 .. image:: /_static/images/table-style-change.png
+   :align: center
 
 Customise keyboard shortcuts
 ****************************
@@ -64,6 +66,7 @@ You can now edit keyboard shortcuts for command mode within the UI
 (:ghpull:`1347`):
 
 .. image:: /_static/images/shortcut-editor.png
+   :align: center
 
 See the ``Help > Edit Keyboard Shortcuts`` menu item and follow the instructions.
 
