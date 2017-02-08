@@ -30,6 +30,8 @@ for item in sys.path:
 # add repo root to sys.path
 # here = root/docs/source
 here = os.path.abspath(os.path.dirname(__file__))
+sphinxext = os.path.join(os.path.dirname(here), 'sphinxext')
+sys.path.insert(0, sphinxext)
 repo_root = os.path.dirname(os.path.dirname(here))
 sys.path.insert(0, repo_root)
 
@@ -70,6 +72,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'IPython.sphinxext.ipython_console_highlighting',
     'nbsphinx',
+    'github',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -90,6 +93,9 @@ master_doc = 'index'
 project = 'Jupyter Notebook'
 copyright = '2015, Jupyter Team, https://jupyter.org'
 author = 'The Jupyter Team'
+
+# ghissue config
+github_project_url = "https://github.com/jupyter/notebook"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
