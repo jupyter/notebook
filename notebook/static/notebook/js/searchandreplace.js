@@ -159,7 +159,7 @@ define(function(require){
       .text('.*');
 
       var allCellsButton = $('<button/>')
-      .append($('<i/>').addClass('fa fa-align-left'))
+      .append($('<i/>').addClass('fa fa-arrows-v'))
       .attr('type', 'button')
       .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
