@@ -125,7 +125,7 @@ define([
          * Add a new attachment to this cell
          */
         this.attachments[key] = {};
-        this.attachments[key][mime_type] = [b64_data];
+        this.attachments[key][mime_type] = b64_data;
     };
 
     TextCell.prototype.select = function () {
@@ -208,7 +208,7 @@ define([
                 // to this state, instead of a blank cell
                 this.code_mirror.clearHistory();
                 // TODO: This HTML needs to be treated as potentially dangerous
-                // user input and should be handled before set_rendered.         
+                // user input and should be handled before set_rendered.
                 this.set_rendered(data.rendered || '');
                 this.rendered = false;
                 this.render();
@@ -235,11 +235,11 @@ define([
         // We deepcopy the attachments so copied cells don't share the same
         // objects
         if (Object.keys(this.attachments).length > 0) {
+            data.attachments = {};
             if (gc_attachments) {
                 // Garbage collect unused attachments : The general idea is to
                 // render the text, and find used attachments like when we
                 // substitute them in render()
-                data.attachments = {};
                 var that = this;
                 // To find attachments, rendering to HTML is easier than
                 // searching in the markdown source for the multiple ways you
@@ -252,7 +252,7 @@ define([
                     html.find('img[src^="attachment:"]').each(function (i, h) {
                         h = $(h);
                         var key = h.attr('src').replace(/^attachment:/, '');
-                        if (key in that.attachments) {
+                        if (that.attachments.hasOwnProperty(key)) {
                             data.attachments[key] = JSON.parse(JSON.stringify(
                                 that.attachments[key]));
                         }
@@ -262,6 +262,10 @@ define([
                         h.attr('src', '');
                     });
                 });
+            }
+            if (data.attachments.length === 0) {
+                // omit attachments dict if no attachments
+                delete data.attachments;
             }
         }
         return data;
@@ -343,7 +347,7 @@ define([
          */
         var that = this;
         var pos = this.code_mirror.getCursor();
-        var reader = new FileReader;
+        var reader = new FileReader();
         // We can get either a named file (drag'n'drop) or a blob (copy/paste)
         // We generate names for blobs
         var key;
@@ -412,10 +416,10 @@ define([
                   h = $(h);
                   var key = h.attr('src').replace(/^attachment:/, '');
 
-                  if (key in that.attachments) {
+                  if (that.attachments.hasOwnProperty(key)) {
                     var att = that.attachments[key];
                     var mime = Object.keys(att)[0];
-                    h.attr('src', 'data:' + mime + ';base64,' + att[mime][0]);
+                    h.attr('src', 'data:' + mime + ';base64,' + att[mime]);
                   } else {
                     h.attr('src', '');
                   }
