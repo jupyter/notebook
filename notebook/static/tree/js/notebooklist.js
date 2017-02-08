@@ -72,8 +72,8 @@ define([
     NotebookList.prototype.bind_events = function () {
         var that = this;
         $('#refresh_' + this.element_name + '_list').click(function () {
-            $("#sort-name i").switchClass("fa-arrow-down", "fa-arrow-up");
-            $("#last-modified i").switchClass("fa-arrow-down", "fa-arrow-up");
+            $("#sort-name i").removeClass("fa-arrow-down").addClass("fa-arrow-up");
+            $("#last-modified i").removeClass("fa-arrow-down").addClass("fa-arrow-up");
             that.load_sessions();
         });
         this.element.bind('dragover', function () {
@@ -171,11 +171,11 @@ define([
 
                 if (that.sort_state.sort_on == 0) {
                     that.sort_list(sort_on, 1);
-                    $("#" + sort_on + " i").switchClass("fa-arrow-up", "fa-arrow-down");
+                    $("#" + sort_on + " i").removeClass("fa-arrow-up").addClass("fa-arrow-down");
                     that.sort_state.sort_on = 1;
                 } else {
                     that.sort_list(sort_on, 2);
-                    $("#" + sort_on + " i").switchClass("fa-arrow-down", "fa-arrow-up");
+                    $("#" + sort_on + " i").removeClass("fa-arrow-down").addClass("fa-arrow-up");
                     that.sort_state.sort_on = 0;
                 }
             });
