@@ -235,12 +235,12 @@ define([
         // We deepcopy the attachments so copied cells don't share the same
         // objects
         if (Object.keys(this.attachments).length > 0) {
-            data.attachments = {};
             if (gc_attachments) {
                 // Garbage collect unused attachments : The general idea is to
                 // render the text, and find used attachments like when we
                 // substitute them in render()
                 var that = this;
+                data.attachments = {};
                 // To find attachments, rendering to HTML is easier than
                 // searching in the markdown source for the multiple ways you
                 // can reference an image in markdown (using []() or a
@@ -262,10 +262,12 @@ define([
                         h.attr('src', '');
                     });
                 });
-            }
-            if (data.attachments.length === 0) {
-                // omit attachments dict if no attachments
-                delete data.attachments;
+                if (data.attachments.length === 0) {
+                    // omit attachments dict if no attachments
+                    delete data.attachments;
+                }
+            } else {
+                data.attachments = JSON.parse(JSON.stringify(this.attachments));
             }
         }
         return data;
