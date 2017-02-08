@@ -129,12 +129,9 @@ define([
         }
 
         this.comms[content.comm_id] = this.comms[content.comm_id].then(function(comm) {
-            try {
-                comm.handle_msg(msg);
-            } catch (e) {
-                console.log("Exception handling comm msg: ", e, e.stack, msg);
-            }
-            return comm;
+            return (Promise.resolve(comm.handle_msg(msg))
+                .catch(utils.reject('Exception handling comm message'))
+                .then(function() {return comm;}));
         });
         return this.comms[content.comm_id];
     };
@@ -194,7 +191,7 @@ define([
         var callback = this['_' + key + '_callback'];
         if (callback) {
             try {
-                callback(msg);
+                return callback(msg);
             } catch (e) {
                 console.log("Exception in Comm callback", e, e.stack, msg);
             }
@@ -202,7 +199,7 @@ define([
     };
     
     Comm.prototype.handle_msg = function (msg) {
-        this._callback('msg', msg);
+        return this._callback('msg', msg);
     };
     
     Comm.prototype.handle_close = function (msg) {
