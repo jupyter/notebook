@@ -176,7 +176,9 @@ class ContentsHandler(APIHandler):
     @gen.coroutine
     def _save(self, model, path):
         """Save an existing file."""
-        self.log.info(u"Saving file at %s", path)
+        chunk = model.get("chunk", None) 
+        if not chunk or chunk == -1:  # Avoid tedious log information
+            self.log.info(u"Saving file at %s", path)  
         model = yield gen.maybe_future(self.contents_manager.save(model, path))
         validate_model(model, expect_content=False)
         self._finish_model(model)

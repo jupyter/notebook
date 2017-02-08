@@ -75,6 +75,7 @@ from .services.kernels.kernelmanager import MappingKernelManager
 from .services.config import ConfigManager
 from .services.contents.manager import ContentsManager
 from .services.contents.filemanager import FileContentsManager
+from .services.contents.largefilemanager import LargeFileManager
 from .services.sessions.sessionmanager import SessionManager
 
 from .auth.login import LoginHandler
@@ -843,7 +844,7 @@ class NotebookApp(JupyterApp):
         self.log.info("Using MathJax configuration file: %s", change['new'])
 
     contents_manager_class = Type(
-        default_value=FileContentsManager,
+        default_value=LargeFileManager,
         klass=ContentsManager,
         config=True,
         help='The notebook manager class to use.'
