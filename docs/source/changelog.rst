@@ -21,98 +21,111 @@ Upgrade to version 9+ of pip before upgrading ``notebook`` is strongly recommend
     ``pip --version``.
 
 
-.. _release-5.0.0:
+.. .. _release-5.0.0:
+.. 
+.. Notebook version 5.0
+.. --------------------
+.. 
+.. This is the first major release of the Jupyter Notebook since version 4.0 was
+.. created by the "Big Split" of IPython and Jupyter.
+.. 
+.. We encourage users to start trying JupyterLab in preparation for a future
+.. transition.
+.. 
+.. We have merged more than 200 pull requests since the 4.x series. Some of the
+.. major user-facing changes are described here.
+.. 
+.. Cell tags
+.. *********
+.. 
+.. There is a new cell toolbar for adding *cell tags* (:ghpull:`2048`):
+.. 
+.. .. image:: /_static/images/cell-tags-toolbar.png
+..    :align: center
+.. 
+.. Cell tags are a lightweight way to customise the behaviour of tools working with
+.. notebooks; we're working on building support for them into tools like `nbconvert
+.. <http://nbconvert.readthedocs.io/en/latest/>`__ and `nbval
+.. <https://github.com/computationalmodelling/nbval>`__.
+.. 
+.. The UI for editing cell tags is basic for now; we hope to improve it in future
+.. releases.
+.. 
+.. Table style
+.. ***********
+.. 
+.. The default styling for tables in the notebook has been updated (:ghpull:`1776`):
+.. 
+.. .. image:: /_static/images/table-style-change.png
+..    :align: center
+.. 
+.. Customise keyboard shortcuts
+.. ****************************
+.. 
+.. You can now edit keyboard shortcuts for command mode within the UI
+.. (:ghpull:`1347`):
+.. 
+.. .. image:: /_static/images/shortcut-editor.png
+..    :align: center
+.. 
+.. See the ``Help > Edit Keyboard Shortcuts`` menu item and follow the instructions.
+.. 
+.. Other additions
+.. ***************
+.. 
+.. - You can copy and paste cells between notebooks, using :kbd:`Ctrl-C` and
+..   :kbd:`Ctrl-V` (:kbd:`Cmd-C` and :kbd:`Cmd-V` on Mac).
+.. 
+.. - It's easier to configure a password for the notebook with the new
+..   ``jupyter notebook password`` command (:ghpull:`2007`).
+.. 
+.. - The file list can now be ordered by *last modified* or by *name*
+..   (:ghpull:`943`).
+.. 
+.. - Markdown cells now support attachments. Simply drag and drop an image from
+..   your desktop to a markdown cell to add it. Unlike relative links that you
+..   enter manually, attachments are embedded in the notebook itself. An
+..   unreferenced attachment will be automatically scrubbed from the notebook on
+..   save (:ghpull:`621`).
+.. 
+.. - Undoing cell deletion now supports undeleting multiple cells. Cells may not be
+..   in the same order as before their deletion, depending on the actions you did
+..   on the meantime, but this should should help reduce the impact of
+..   accidentally deleting code.
+.. 
+.. - The file browser now has *Edit* and *View* buttons.
+.. 
+.. - The file browser now supports moving multiple files at once
+..   (:ghpull:`1088`).
+.. 
+.. - The Notebook will refuse to run as root unless the ``--allow-root`` flag is
+..   given (:ghpull:`1115`).
+.. 
+.. - Keyboard shortcuts are now declarative (:ghpull:`1234`).
+.. 
+.. - Toggling line numbers can now affect all cells (:ghpull:`1312`).
+.. 
+.. - Add more visible *Trusted* and *Untrusted* notifications (:ghpull:`1658`).
+.. 
+.. - The tab icon in the browser now changes to indicate when the kernel is busy
+..   (:ghpull:`1837`).
+.. 
+.. Remember that upgrading ``notebook`` only affects the user
+.. interface. Upgrading kernels and libraries may also provide new features,
+.. better stability and integration with the notebook interface.
 
-Notebook version 5.0
---------------------
+.. _release-4.4.0:
 
-This is the first major release of the Jupyter Notebook since version 4.0 was
-created by the "Big Split" of IPython and Jupyter.
+4.4.0
+-----
 
-We encourage users to start trying JupyterLab in preparation for a future
-transition.
+- Allow override of output callbacks to redirect output messages
+  - Allow override of output callbacks to redirect output messages. This is used to implement the ipywidgets Output widget, for example.
+  - Fix an async bug in message handling by allowing comm message handlers to return a promise which halts message processing until the promise resolves.
 
-We have merged more than 200 pull requests since the 4.x series. Some of the
-major user-facing changes are described here.
-
-Cell tags
-*********
-
-There is a new cell toolbar for adding *cell tags* (:ghpull:`2048`):
-
-.. image:: /_static/images/cell-tags-toolbar.png
-   :align: center
-
-Cell tags are a lightweight way to customise the behaviour of tools working with
-notebooks; we're working on building support for them into tools like `nbconvert
-<http://nbconvert.readthedocs.io/en/latest/>`__ and `nbval
-<https://github.com/computationalmodelling/nbval>`__.
-
-The UI for editing cell tags is basic for now; we hope to improve it in future
-releases.
-
-Table style
-***********
-
-The default styling for tables in the notebook has been updated (:ghpull:`1776`):
-
-.. image:: /_static/images/table-style-change.png
-   :align: center
-
-Customise keyboard shortcuts
-****************************
-
-You can now edit keyboard shortcuts for command mode within the UI
-(:ghpull:`1347`):
-
-.. image:: /_static/images/shortcut-editor.png
-   :align: center
-
-See the ``Help > Edit Keyboard Shortcuts`` menu item and follow the instructions.
-
-Other additions
-***************
-
-- You can copy and paste cells between notebooks, using :kbd:`Ctrl-C` and
-  :kbd:`Ctrl-V` (:kbd:`Cmd-C` and :kbd:`Cmd-V` on Mac).
-
-- It's easier to configure a password for the notebook with the new
-  ``jupyter notebook password`` command (:ghpull:`2007`).
-
-- The file list can now be ordered by *last modified* or by *name*
-  (:ghpull:`943`).
-
-- Markdown cells now support attachments. Simply drag and drop an image from
-  your desktop to a markdown cell to add it. Unlike relative links that you
-  enter manually, attachments are embedded in the notebook itself. An
-  unreferenced attachment will be automatically scrubbed from the notebook on
-  save (:ghpull:`621`).
-
-- Undoing cell deletion now supports undeleting multiple cells. Cells may not be
-  in the same order as before their deletion, depending on the actions you did
-  on the meantime, but this should should help reduce the impact of
-  accidentally deleting code.
-
-- The file browser now has *Edit* and *View* buttons.
-
-- The file browser now supports moving multiple files at once
-  (:ghpull:`1088`).
-
-- The Notebook will refuse to run as root unless the ``--allow-root`` flag is
-  given (:ghpull:`1115`).
-
-- Keyboard shortcuts are now declarative (:ghpull:`1234`).
-
-- Toggling line numbers can now affect all cells (:ghpull:`1312`).
-
-- Add more visible *Trusted* and *Untrusted* notifications (:ghpull:`1658`).
-
-- The tab icon in the browser now changes to indicate when the kernel is busy
-  (:ghpull:`1837`).
-
-Remember that upgrading ``notebook`` only affects the user
-interface. Upgrading kernels and libraries may also provide new features,
-better stability and integration with the notebook interface.
+See the 4.4 milestone on GitHub for a complete list of
+`issues <https://github.com/jupyter/notebook/issues?utf8=%E2%9C%93&q=is%3Aissue%20milestone%3A4.4>`__
+and `pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A4.4>`__ involved in this release.
 
 .. _release-4.3.2:
 
