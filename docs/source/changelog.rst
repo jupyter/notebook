@@ -12,6 +12,18 @@ For more detailed information, see `GitHub <https://github.com/jupyter/notebook>
      upgrade to the latest release.
 
 
+.. _release-4.4.0:
+
+4.4.0
+-----
+
+- Allow override of output callbacks to redirect output messages. This is used to implement the ipywidgets Output widget, for example.
+- Fix an async bug in message handling by allowing comm message handlers to return a promise which halts message processing until the promise resolves.
+
+See the 4.4 milestone on GitHub for a complete list of
+`issues <https://github.com/jupyter/notebook/issues?utf8=%E2%9C%93&q=is%3Aissue%20milestone%3A4.4>`__
+and `pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A4.4>`__ involved in this release.
+
 .. _release-4.3.2:
 
 4.3.2
