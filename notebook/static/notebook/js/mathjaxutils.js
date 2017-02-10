@@ -8,10 +8,11 @@ define([
 ], function($, utils, dialog) {
     "use strict";
 
-    var init = function () {
+    var init = function (kernel_info_data) {
         if (window.MathJax) {
             // MathJax loaded
-            MathJax.Hub.Config({
+            var mathjax_config = {
+                config: ['TeX-AMS_HTML-full.js', 'Safe.js'],
                 tex2jax: {
                     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
                     displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
@@ -29,7 +30,38 @@ define([
                     styles: {'.MathJax_Display': {"margin": 0}},
                     linebreaks: { automatic: true }
                 },
-            });
+            };
+            if (kernel_info_data && kernel_info_data.content && kernel_info_data.content.mathjax) {
+                // allow Kernel to load extensions like mml2jax.js by letting
+                // MathJax's Ajax loader know the path to the MathJax files
+                MathJax.Ajax.config.root = "/static/components/MathJax";
+
+				function mergeable(x) {
+					return typeof(x) == 'object' && !Array.isArray(x);
+				}
+
+                function merge(into, from) {
+                    for (var key in from) {
+                        if (from.hasOwnProperty(key)) {
+                            if (into.hasOwnProperty(key) &&
+                                mergeable(into[key]) && mergeable(from[key])) {
+                                merge(into[key], from[key]);
+                            } else {
+                                into[key] = from[key];
+                            }
+                         }
+                     }
+                }
+
+                if (kernel_info_data.content.mathjax.options) { // e.g. processSectionDelay
+                    merge(MathJax.Hub, kernel_info_data.content.mathjax.options);
+                }
+
+                if (kernel_info_data.content.mathjax.config) {
+                    merge(mathjax_config, kernel_info_data.content.mathjax.config);
+                }
+            }
+            MathJax.Hub.Config(mathjax_config);
             MathJax.Hub.Configured();
         } else if (window.mathjax_url !== "") {
             // Don't have MathJax, but should. Show dialog.
