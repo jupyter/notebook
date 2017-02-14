@@ -282,6 +282,8 @@ define([
         var fg = [];
         var bg = [];
         var bold = false;
+        var underline = false;
+        var inverse = false;
         var match;
         var out = [];
         var numbers = [];
@@ -330,6 +332,14 @@ define([
                     classes.push("ansi-bold");
                 }
 
+                if (underline) {
+                    classes.push("ansi-underline");
+                }
+
+                if (inverse) {
+                    classes.push("ansi-inverse");
+                }
+
                 if (classes.length || styles.length) {
                     out.push("<span");
                     if (classes.length) {
@@ -353,10 +363,18 @@ define([
                     case 0:
                         fg = bg = [];
                         bold = false;
+                        underline = false;
+                        inverse = false;
                         break;
                     case 1:
                     case 5:
                         bold = true;
+                        break;
+                    case 4:
+                        underline = true;
+                        break;
+                    case 7:
+                        inverse = true;
                         break;
                     case 21:
                     case 22:
