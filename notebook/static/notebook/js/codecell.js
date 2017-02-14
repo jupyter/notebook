@@ -506,6 +506,7 @@ define([
     CodeCell.prototype.clear_output = function (wait) {
         this.output_area.clear_output(wait);
         this.set_input_prompt();
+        this.events.trigger('clear_output.CodeCell', {cell: this});
     };
 
 
