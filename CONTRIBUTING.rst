@@ -72,25 +72,28 @@ There is a build step for the JavaScript and CSS in the notebook.
 To make sure that you are working with up-to-date code, you will need to run
 this command whenever there are changes to JavaScript or LESS sources::
 
-    python setup.py js css
+    npm run build
 
-Prototyping Tip
+**IMPORTANT:** Don't forget to run ``npm run build`` after switching branches. 
+When switching between branches of different versions (e.g. ``4.x`` and 
+``master``), run ``pip install -e .``. If you have tried the above and still 
+find that the notebook is not reflecting the current source code, try cleaning
+the repo with ``git clean -xfd`` and reinstalling with ``pip install -e .``.
+
+Development Tip
 """""""""""""""
 
-When doing prototyping which needs quick iteration of the Notebook's
-JavaScript, run this in the root of the repository::
+When doing development, you can use this command to automatically rebuild 
+JavaScript and LESS sources as they are modified::
 
     npm run build:watch
-
-This will cause WebPack to monitor the files you edit and recompile them on the
-fly.
 
 Git Hooks
 """""""""
 
-If you want to automatically update dependencies, recompile the JavaScript, and
-recompile the CSS after checking out a new commit, you can install
-post-checkout and post-merge hooks which will do it for you::
+If you want to automatically update dependencies and recompile JavaScript and
+CSS after checking out a new commit, you can install post-checkout and 
+post-merge hooks which will do it for you::
 
     git-hooks/install-hooks.sh
 
