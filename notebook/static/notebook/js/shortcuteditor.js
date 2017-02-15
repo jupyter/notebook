@@ -45,14 +45,18 @@ var KeyBinding = createClass({
     var that = this;
     var available = this.props.available(this.state.shrt);
     var empty = (this.state.shrt === '');
-    return createElement('div', {className:'jupyter-keybindings'},
+    var binding_setter = function(){
+      if (available) { 
+        that.props.onAddBindings(that.state.shrt, that.props.ckey);
+      }
+      that.state.shrt='';
+      return false;
+    };
+    return createElement('form', {className:'jupyter-keybindings',
+            onSubmit: binding_setter
+        },
               createElement('i', {className: "pull-right fa fa-plus", alt: 'add-keyboard-shortcut',
-                  onClick: function () {
-                      if (available) {
-                          that.props.onAddBindings(that.state.shrt, that.props.ckey);
-                      }
-                      that.state.shrt='';
-                  }
+                  onClick: binding_setter
               }),
               createElement('input', {
                                       type:'text', 
