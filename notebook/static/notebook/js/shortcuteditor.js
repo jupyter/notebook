@@ -110,14 +110,33 @@ var KeyBindingList = createClass({
             {__html: 
             marked(
             
-            "This dialog allows you to modify the keymap of the command mode, and persist the changes. "+
-            "You can define many type of shorctuts and sequences of keys. "+
-            "\n\n"+
-            " - Use dashes `-` to represent keys that should be pressed with modifiers, "+
-            "for example `Shift-a`, or `Ctrl-;`. \n"+
-            " - Separate by commas if the keys need to be pressed in sequence: `h,a,l,t`.\n"+
-            "\n\nYou can combine the two: `Ctrl-x,Meta-c,Meta-b,u,t,t,e,r,f,l,y`.\n"+
-            "Casing will have no effects: (e.g: `;` and `:` are the same on english keyboards)."+
+            "This dialog allows you to modify the keyboard shortcuts available in command mode. "+ 
+            "Any changes will be persisted between sessions and across environments. "+
+            "You can define two kinds of shorctuts key combinations and key sequences.\n"+
+            "\n"+
+            " - **Key Combinations**:\n"+
+            "   - Use hyphens `-` to represent keys that should be pressed at the same time.\n"+
+            "   - This is designed for use with *modifier* keys: `Cmd`, `Ctrl`, `Alt` ,`Meta`, "+
+            "`Cmdtrl`, and `Shift`.\n"+
+            "   - At most, one non-modifier key can exist in a key combination.\n"+
+            "   - Multiple non-modifier key can exist in a key combination.\n"+
+            "   - Modifier keys need to precede the non-modifier key in a combination.\n"+
+            "   - *Valid Examples*: `Shift-a`, `Ctrl-;`, or `Ctrl-Shift-a`. \n"+
+            "   - *Invalid Example*s: `a-b` and `a-Ctrl-Shift`. \n"+
+            " - **Key Sequences**:\n"+
+            "   - Use commas `,` to represent keys that should be pressed in sequence.\n"+
+            "   - The order in which keys must be pressed exactly matches the left-to-right order of "+
+            "the characters in the sequence, with no interruptions.\n"+
+            "     - E.g., `h,a,l,t` would be triggered by typing <kbd>h</kbd> <kbd>a</kbd> "+
+            "<kbd>l</kbd> <kbd>t</kbd> but not <kbd>h</kbd> <kbd>a</kbd> <kbd>a</kbd> <kbd>l</kbd> "+
+            "<kbd>t</kbd> or <kbd>a</kbd>  <kbd>h</kbd> <kbd>l</kbd> <kbd>t</kbd>.\n"+
+            "   - Sequences can include the same key multiple times (e.g., `d,d`).\n"+
+            "   - You cannot include a sequence that is a 'prefix' of another sequence.\n"+
+            "     - E.g., `d,d,d` cannot be used a tthe same time as `d,d`).\n"+ 
+            "   - Key combinations are unique elements that can be used in a sequence.\n"+ 
+            "     - E.g., `Ctrl-d,d` and `d,d` can exist at the same time and are both valid key sequences.\n"+
+            "\n"+
+            "The case of elements will have no effects: (e.g: `;` and `:` are the same on english keyboards)."+
             " You need to explicitelty write the `Shift` modifier.\n"+
             "Valid modifiers are `Cmd`, `Ctrl`, `Alt` ,`Meta`, `Cmdtrl`. Refer to developer docs "+
             "for the corresponding keys depending on the platform."+
