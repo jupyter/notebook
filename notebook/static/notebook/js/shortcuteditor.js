@@ -112,12 +112,12 @@ var KeyBindingList = createClass({
             
             "This dialog allows you to modify the keyboard shortcuts available in command mode. "+ 
             "Any changes will be persisted between sessions and across environments. "+
-            "You can define two kinds of shorctuts **key combinations** and **key sequences**.\n"+
+            "You can define two kinds of shorctuts: **key combinations** and **key sequences**.\n"+
             "\n"+
             " - **Key Combinations**:\n"+
             "   - Use hyphens `-` to represent keys that should be pressed at the same time.\n"+
             "   - This is designed for use with *modifier* keys: `Cmd`, `Ctrl`, `Alt` ,`Meta`, "+
-            "`Cmdtrl`, and `Shift`.\n"+
+            "`Cmdtrl`, and `Shift`.\n"+ 
             "   - At most, one non-modifier key can exist in a key combination.\n"+
             "   - Multiple non-modifier key can exist in a key combination.\n"+
             "   - Modifier keys need to precede the non-modifier key in a combination.\n"+
@@ -132,22 +132,25 @@ var KeyBindingList = createClass({
             "<kbd>t</kbd> or <kbd>a</kbd>  <kbd>h</kbd> <kbd>l</kbd> <kbd>t</kbd>.\n"+
             "   - Sequences can include the same key multiple times (e.g., `d,d`).\n"+
             "   - You cannot include a sequence that is a 'prefix' of another sequence.\n"+
-            "     - E.g., `d,d,d` cannot be used a tthe same time as `d,d`).\n"+ 
+            "     - E.g., `d,d,d` cannot be used a the same time as `d,d`).\n"+ 
             "   - Key combinations are unique elements that can be used in a sequence.\n"+ 
             "     - E.g., `Ctrl-d,d` and `d,d` can exist at the same time and are both valid key sequences.\n"+
             "\n"+
-            "**Additional notes:**\n"+
+            "**Additional notes**:\n"+
+            "\n"+
             "The case in which elements are written does not change the binding's meaning. "+
             "E.g., `Ctrl-D` and `cTrl-d` are the same key binding. "+
             "Thus, `Shift` needs to be explicitly included if it is part of the key binding. "+
             "So, for example, if you set a command to be activated by `Shift-D,D`, the second `d` "+
             "cannot be pressed at the same time as the `Shift` modifier key.\n"+
+            "\n"+
             "Valid modifiers are specified by writing out their names explicitly: "+
             "e.g., `Shift`, `Cmd`, `Ctrl`, `Alt` ,`Meta`, `Cmdtrl`. You cannot use the symbol equivalents "+
             "(e.g., `⇧`, `⌘`, `⌃`, `⌥`); refer to developer docs for the corresponding keys "+
             "(the mapping of which depends on the platform you are using)."+
             "You can hover on the name/description of a command to see its exact internal name and "+
             "differentiate from actions defined in various plugins. \n"+
+            "\n"+
             "Changing the keybindings of edit mode is not currently available."
             )}
       }));
