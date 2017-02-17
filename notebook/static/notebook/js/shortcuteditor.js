@@ -106,10 +106,19 @@ var KeyBindingList = createClass({
              }
           }));
       });
-      children.unshift(createElement('div', {className:'well', key:'disclamer', dangerouslySetInnerHTML:
+      children.unshift(createElement('div', {className:'well', key:'disclamer', id:'short-key-binding-intro', dangerouslySetInnerHTML:
             {__html: 
             marked(
-            
+
+            "Here you can modify the keyboard shortcuts available in "+
+            "command mode. Your changes will be stored for later sessions. "+
+            "See more [**details of defining keyboard shortcuts**](#long-key-binding-intro) below."
+            )}
+      }));
+      children.push(createElement('div', {className:'well', key:'disclamer', id:'long-key-binding-intro', dangerouslySetInnerHTML:
+            {__html: 
+            marked(
+
             "This dialog allows you to modify the keyboard shortcuts available in command mode. "+ 
             "Any changes will be persisted between sessions and across environments. "+
             "You can define two kinds of shorctuts: **key combinations** and **key sequences**.\n"+
