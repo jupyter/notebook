@@ -127,6 +127,7 @@ var KeyBindingList = createClass({
             "   - Use hyphens `-` to represent keys that should be pressed at the same time.\n"+
             "   - This is designed for use with *modifier* keys: `Cmd`, `Ctrl`, `Alt` ,`Meta`, "+
             "`Cmdtrl`, and `Shift`.\n"+ 
+            "       - `Cmdtrl` acts like `Cmd` on OS X/MacOS and `Ctrl` on Windows/Linux.\n"+
             "   - At most, one non-modifier key can exist in a key combination.\n"+
             "   - Multiple non-modifier key can exist in a key combination.\n"+
             "   - Modifier keys need to precede the non-modifier key in a combination.\n"+
