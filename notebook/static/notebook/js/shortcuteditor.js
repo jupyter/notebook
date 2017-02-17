@@ -141,8 +141,8 @@ var KeyBindingList = createClass({
             "<kbd>l</kbd> <kbd>t</kbd> but not <kbd>h</kbd> <kbd>a</kbd> <kbd>a</kbd> <kbd>l</kbd> "+
             "<kbd>t</kbd> or <kbd>a</kbd>  <kbd>h</kbd> <kbd>l</kbd> <kbd>t</kbd>.\n"+
             "   - Sequences can include the same key multiple times (e.g., `d,d`).\n"+
-            "   - You cannot include a sequence that is a 'prefix' of another sequence.\n"+
-            "     - E.g., `d,d,d` cannot be used a the same time as `d,d`).\n"+ 
+            "   - You cannot include any pairs of sequences where one is a 'prefix' the other.\n"+
+            "     - E.g., `d,d,d` cannot be used a the same time as `d,d`.\n"+ 
             "   - Key combinations are unique elements that can be used in a sequence.\n"+ 
             "     - E.g., `Ctrl-d,d` and `d,d` can exist at the same time and are both valid key sequences.\n"+
             "\n"+
