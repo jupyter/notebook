@@ -93,7 +93,7 @@ var KeyBindingList = createClass({
   },
   render: function() {
       var that = this;
-      var childrens = this.state.data.map(function (binding) {
+      var children = this.state.data.map(function (binding) {
           return createElement(KeyBinding, Object.assign({}, binding, {
           onAddBindings: function (shortcut, action) {
               that.props.bind(shortcut, action);
@@ -106,27 +106,65 @@ var KeyBindingList = createClass({
              }
           }));
       });
-      childrens.unshift(createElement('div', {className:'well', key:'disclamer', dangerouslySetInnerHTML:
+      children.unshift(createElement('div', {className:'well', key:'disclamer', id:'short-key-binding-intro', dangerouslySetInnerHTML:
             {__html: 
             marked(
-            
-            "This dialog allows you to modify the keymap of the command mode, and persist the changes. "+
-            "You can define many type of shorctuts and sequences of keys. "+
-            "\n\n"+
-            " - Use dashes `-` to represent keys that should be pressed with modifiers, "+
-            "for example `Shift-a`, or `Ctrl-;`. \n"+
-            " - Separate by commas if the keys need to be pressed in sequence: `h,a,l,t`.\n"+
-            "\n\nYou can combine the two: `Ctrl-x,Meta-c,Meta-b,u,t,t,e,r,f,l,y`.\n"+
-            "Casing will have no effects: (e.g: `;` and `:` are the same on english keyboards)."+
-            " You need to explicitelty write the `Shift` modifier.\n"+
-            "Valid modifiers are `Cmd`, `Ctrl`, `Alt` ,`Meta`, `Cmdtrl`. Refer to developer docs "+
-            "for the corresponding keys depending on the platform."+
-            "You can hover on the name/description of a command to see its exact internal name and "+
-            "differentiate from actions defined in various plugins. Changing the "+
-            "keybindings of edit mode is not yet possible."
+
+            "Here you can modify the keyboard shortcuts available in "+
+            "command mode. Your changes will be stored for later sessions. "+
+            "See more [**details of defining keyboard shortcuts**](#long-key-binding-intro) below."
             )}
       }));
-      return createElement('div',{}, childrens);
+      children.push(createElement('div', {className:'well', key:'disclamer', id:'long-key-binding-intro', dangerouslySetInnerHTML:
+            {__html: 
+            marked(
+
+            "This dialog allows you to modify the keyboard shortcuts available in command mode. "+ 
+            "Any changes will be persisted between sessions and across environments. "+
+            "You can define two kinds of shorctuts: **key combinations** and **key sequences**.\n"+
+            "\n"+
+            " - **Key Combinations**:\n"+
+            "   - Use hyphens `-` to represent keys that should be pressed at the same time.\n"+
+            "   - This is designed for use with *modifier* keys: `Cmd`, `Ctrl`, `Alt` ,`Meta`, "+
+            "`Cmdtrl`, and `Shift`.\n"+ 
+            "       - `Cmdtrl` acts like `Cmd` on OS X/MacOS and `Ctrl` on Windows/Linux.\n"+
+            "   - At most, one non-modifier key can exist in a key combination.\n"+
+            "   - Multiple non-modifier key can exist in a key combination.\n"+
+            "   - Modifier keys need to precede the non-modifier key in a combination.\n"+
+            "   - *Valid Examples*: `Shift-a`, `Ctrl-;`, or `Ctrl-Shift-a`. \n"+
+            "   - *Invalid Example*s: `a-b` and `a-Ctrl-Shift`. \n"+
+            " - **Key Sequences**:\n"+
+            "   - Use commas `,` to represent keys that should be pressed in sequence.\n"+
+            "   - The order in which keys must be pressed exactly matches the left-to-right order of "+
+            "the characters in the sequence, with no interruptions.\n"+
+            "     - E.g., `h,a,l,t` would be triggered by typing <kbd>h</kbd> <kbd>a</kbd> "+
+            "<kbd>l</kbd> <kbd>t</kbd> but not <kbd>h</kbd> <kbd>a</kbd> <kbd>a</kbd> <kbd>l</kbd> "+
+            "<kbd>t</kbd> or <kbd>a</kbd>  <kbd>h</kbd> <kbd>l</kbd> <kbd>t</kbd>.\n"+
+            "   - Sequences can include the same key multiple times (e.g., `d,d`).\n"+
+            "   - You cannot include any pairs of sequences where one is a 'prefix' the other.\n"+
+            "     - E.g., `d,d,d` cannot be used a the same time as `d,d`.\n"+ 
+            "   - Key combinations are unique elements that can be used in a sequence.\n"+ 
+            "     - E.g., `Ctrl-d,d` and `d,d` can exist at the same time and are both valid key sequences.\n"+
+            "\n"+
+            "**Additional notes**:\n"+
+            "\n"+
+            "The case in which elements are written does not change the binding's meaning. "+
+            "E.g., `Ctrl-D` and `cTrl-d` are the same key binding. "+
+            "Thus, `Shift` needs to be explicitly included if it is part of the key binding. "+
+            "So, for example, if you set a command to be activated by `Shift-D,D`, the second `d` "+
+            "cannot be pressed at the same time as the `Shift` modifier key.\n"+
+            "\n"+
+            "Valid modifiers are specified by writing out their names explicitly: "+
+            "e.g., `Shift`, `Cmd`, `Ctrl`, `Alt` ,`Meta`, `Cmdtrl`. You cannot use the symbol equivalents "+
+            "(e.g., `⇧`, `⌘`, `⌃`, `⌥`); refer to developer docs for the corresponding keys "+
+            "(the mapping of which depends on the platform you are using)."+
+            "You can hover on the name/description of a command to see its exact internal name and "+
+            "differentiate from actions defined in various plugins. \n"+
+            "\n"+
+            "Changing the keybindings of edit mode is not currently available."
+            )}
+      }));
+      return createElement('div',{}, children);
     }
 });
 
