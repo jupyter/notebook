@@ -35,6 +35,29 @@
     background: linear-gradient(to right, rgba(0,0,0,0), #EEE);
 }
 
-.tags-dialog-btn {
-    margin-right: 4px;
+.tags-input > * {
+    margin-left: 4px;
+}
+
+.cell-tag,
+.tags-input input,
+.tags-input button {
+    .form-control();
+    .input-sm();
+    // undo some of the sizing caused by the above mixins
+    width: inherit;
+    font-size: inherit;
+    height: 22px;
+    padding: 0px;
+
+    display: inline-block;
+}
+
+.cell-tag,
+.tags-input button {
+    padding: 0px 4px;
+}
+
+.cell-tag {
+    background-color: #fff;
 }
