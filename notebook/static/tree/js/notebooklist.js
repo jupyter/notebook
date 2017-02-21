@@ -1024,7 +1024,7 @@ define([
          * Remove the deleted notebook.
          */
         var that = this;
-        $( ":data(path)" ).each(function() {
+        $(".list_item").each(function() {
             var element = $(this);
             if (element.data("path") === path) {
                 element.remove();
