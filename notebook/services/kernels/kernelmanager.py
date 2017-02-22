@@ -264,6 +264,10 @@ class MappingKernelManager(MultiKernelManager):
         if not self._initialized_culler and self.cull_kernels_after_minutes > 0:
             if self._culler_callback is None:
                 loop = IOLoop.current()
+                if self.kernel_culling_interval_seconds <= 0: #handle case where user set invalid value
+                    self.log.warn("Invalid value for 'kernel_culling_interval_seconds' detected (%s) - using default value (%s).",
+                        self.kernel_culling_interval_seconds, self.kernel_culling_interval_seconds_default)
+                    self.kernel_culling_interval_seconds = self.kernel_culling_interval_seconds_default
                 self._culler_callback = PeriodicCallback(
                     self.cull_kernels, 1000*self.kernel_culling_interval_seconds, loop)
                 self.log.info("Culling kernels with idle durations > %s minutes at %s second intervals ...",
