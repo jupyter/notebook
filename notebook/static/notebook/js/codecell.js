@@ -465,7 +465,7 @@ define([
         } else {
             ns = encodeURIComponent(prompt_value);
         }
-        return 'In&nbsp;[' + ns + ']:';
+        return '<bdi>In</bdi>&nbsp;[' + ns + ']:';
     };
 
     CodeCell.input_prompt_continuation = function (prompt_value, lines_number) {

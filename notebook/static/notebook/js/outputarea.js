@@ -455,7 +455,14 @@ define([
         var toinsert = this.create_output_area();
         this._record_display_id(json, toinsert);
         if (this.prompt_area) {
-            toinsert.find('div.prompt').addClass('output_prompt').text('Out[' + n + ']:');
+            toinsert.find('div.prompt')
+                    .addClass('output_prompt')
+                    .empty()
+                    .append(
+                      $('<bdi>').text('Out')
+                    ).append(
+                      '[' + n + ']:'
+                    );
         }
         var inserted = this.append_mime_type(json, toinsert);
         if (inserted) {
