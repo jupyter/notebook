@@ -58,25 +58,14 @@ class MappingKernelManager(MultiKernelManager):
             raise TraitError("kernel root dir %r is not a directory" % value)
         return value
 
-    cull_kernels_after_minutes_env = 'CULL_KERNELS_AFTER_MINUTES'
-    cull_kernels_after_minutes_default = 0
-    cull_kernels_after_minutes = Integer(cull_kernels_after_minutes_default, config=True,
-        help="""Duration (minutes) in which a kernel must remain idle before it can be culled. Culling is disabled (0) by default."""
+    cull_idle_timeout = Integer(0, config=True,
+        help="""Timeout (in seconds) after which a kernel is considered idle and ready to be culled."""
     )
 
-    @default('cull_kernels_after_minutes')
-    def cull_kernels_after_minutes_value(self):
-        return int(os.getenv(self.cull_kernels_after_minutes_env, self.cull_kernels_after_minutes_default))
-
-    kernel_culling_interval_seconds_env = 'KERNEL_CULLING_INTERVAL_SECONDS'
-    kernel_culling_interval_seconds_default = 300 # 5 minutes
-    kernel_culling_interval_seconds = Integer(kernel_culling_interval_seconds_default, config=True,
-        help="""The interval (seconds) in which kernels are culled if exceeding the idle duration."""
+    cull_interval_default = 300 # 5 minutes
+    cull_interval = Integer(cull_interval_default, config=True,
+        help="""The interval (in seconds) on which to check for idle kernels exceeding the cull timeout value."""
     )
-
-    @default('kernel_culling_interval_seconds')
-    def kernel_culling_interval_seconds_value(self):
-        return int(os.getenv(self.kernel_culling_interval_seconds_env, self.kernel_culling_interval_seconds_default))
 
     #-------------------------------------------------------------------------
     # Methods for managing kernels and sessions
@@ -257,41 +246,39 @@ class MappingKernelManager(MultiKernelManager):
         kernel._activity_stream.on_recv(record_activity)
 
     def initialize_culler(self):
-        """Start idle culler if 'cull_kernels_after_minutes' is greater than zero.
+        """Start idle culler if 'cull_idle_timeout' is greater than zero.
 
         Regardless of that value, set flag that we've been here.
         """
-        if not self._initialized_culler and self.cull_kernels_after_minutes > 0:
+        if not self._initialized_culler and self.cull_idle_timeout > 0:
             if self._culler_callback is None:
                 loop = IOLoop.current()
-                if self.kernel_culling_interval_seconds <= 0: #handle case where user set invalid value
-                    self.log.warn("Invalid value for 'kernel_culling_interval_seconds' detected (%s) - using default value (%s).",
-                        self.kernel_culling_interval_seconds, self.kernel_culling_interval_seconds_default)
-                    self.kernel_culling_interval_seconds = self.kernel_culling_interval_seconds_default
+                if self.cull_interval <= 0: #handle case where user set invalid value
+                    self.log.warning("Invalid value for 'cull_interval' detected (%s) - using default value (%s).",
+                        self.cull_interval, self.cull_interval_default)
+                    self.cull_interval = self.cull_interval_default
                 self._culler_callback = PeriodicCallback(
-                    self.cull_kernels, 1000*self.kernel_culling_interval_seconds, loop)
-                self.log.info("Culling kernels with idle durations > %s minutes at %s second intervals ...",
-                    self.cull_kernels_after_minutes, self.kernel_culling_interval_seconds)
+                    self.cull_kernels, 1000*self.cull_interval, loop)
+                self.log.info("Culling kernels with idle durations > %s seconds at %s second intervals ...",
+                    self.cull_idle_timeout, self.cull_interval)
                 self._culler_callback.start()
 
         self._initialized_culler = True
 
     def cull_kernels(self):
-        self.log.debug("Polling every %s seconds for kernels idle > %s minutes...",
-            self.kernel_culling_interval_seconds, self.cull_kernels_after_minutes)
-        for kId, kernel in self._kernels.items():
-            self.cull_kernel(kId, kernel)
+        self.log.debug("Polling every %s seconds for kernels idle > %s seconds...",
+            self.cull_interval, self.cull_idle_timeout)
+        for kernel_id in list(self._kernels):
+            self.cull_kernel_if_idle(kernel_id)
 
-    def cull_kernel(self, kId, kernel):
-        activity = kernel.last_activity
-        name = kernel.kernel_name
-        self.log.debug("kId=%s, name=%s, last_activity=%s", kId, name, activity)
-        if activity is not None:
-            dtNow = utcnow()
-            #dtActivity = datetime.strptime(activity,'%Y-%m-%dT%H:%M:%S.%f')
-            dtIdle = dtNow - activity
-            if dtIdle > timedelta(minutes=self.cull_kernels_after_minutes): # can be culled
-                idleDuration = int(dtIdle.total_seconds()/60.0)
-                self.log.warn("Culling kernel '%s' (%s) due to %s minutes of inactivity.", name, kId, idleDuration)
-                self.shutdown_kernel(kId)
+    def cull_kernel_if_idle(self, kernel_id):
+        kernel = self._kernels[kernel_id]
+        self.log.debug("kernel_id=%s, kernel_name=%s, last_activity=%s", kernel_id, kernel.kernel_name, kernel.last_activity)
+        if kernel.last_activity is not None:
+            dt_now = utcnow()
+            dt_idle = dt_now - kernel.last_activity
+            if dt_idle > timedelta(seconds=self.cull_idle_timeout): # exceeds timeout, can be culled
+                idle_duration = int(dt_idle.total_seconds())
+                self.log.warning("Culling kernel '%s' (%s) due to %s seconds of inactivity.", kernel.kernel_name, kernel_id, idle_duration)
+                self.shutdown_kernel(kernel_id)
 
