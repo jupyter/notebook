@@ -59,7 +59,7 @@ define([
 
     // MATHSPLIT contains the pattern for math delimiters and special symbols
     // needed for searching for math in the text input.
-    var MATHSPLIT = /(\$\$?|\\(?:begin|end)\{[a-z]*\*?\}|\\[\\{}$]|[{}]|(?:\n\s*)+|@@\d+@@)/i;
+    var MATHSPLIT = /(\$\$?|\\(?:begin|end)\{[a-z]*\*?\}|\\[{}$]|[{}]|(?:\n\s*)+|@@\d+@@|\\\\(?:\(|\)))/i;
 
     //  The math is in blocks i through j, so
     //    collect it into one block and clear the others.
@@ -178,6 +178,11 @@ define([
                     end = block;
                     braces = 0;
                 }
+                else if (block === "\\\\\(") {
+                	start = i;
+                	end = "\\\\\)";
+                	braces = 0;
+                }
                 else if (block.substr(1, 5) === "begin") {
                     start = i;
                     end = "\\end" + block.substr(6);
@@ -200,7 +205,9 @@ define([
     //
     var replace_math = function (text, math) {
         text = text.replace(/@@(\d+)@@/g, function (match, n) {
-            return math[n];
+            return math[n]
+            	.replace("\\\\\(", "\\\(")
+            	.replace("\\\\\)", "\\\)");
         });
         return text;
     };
