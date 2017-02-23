@@ -13,7 +13,7 @@ define([
         return a.filter(function(n) {
             return b.indexOf(n) === -1;
         });
-    }
+    };
 
     var write_tag = function(cell, name, add) {
         if (add) {
@@ -43,12 +43,12 @@ define([
         }
         cell.events.trigger('set_dirty.Notebook', {value: true});
         return true;
-    }
+    };
 
     var preprocess_input = function(input) {
         // Split on whitespace:
         return input.split(/\s/);
-    }
+    };
 
     var add_tag = function(cell, tag_container, on_remove) {
         return function(name) {
@@ -111,9 +111,9 @@ define([
             .addClass('cell-tag')
             .text(name);
 
-        var remove_button = $('<a/>')
+        var remove_button = $('<i/>')
             .addClass('remove-tag-btn')
-            .text('X')
+            .addClass('fa fa-times')
             .click( function(ev) {
                 if (ev.button === 0) {
                     on_remove(name);
@@ -148,7 +148,7 @@ define([
             }
         });
         var input_container = $('<span/>')
-            .addClass('tags-input')
+            .addClass('tags-input');
         add_dialog_button(input_container, cell, on_add, on_remove);
         button_container.append(input_container
                 .append(text)
