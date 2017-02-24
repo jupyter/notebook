@@ -32,7 +32,7 @@ when the extension is loaded.
 To get the notebook server to load your custom extension, you'll need to
 add it to the list of extensions to be loaded. You can do this using the
 config system. ``NotebookApp.nbserver_extensions`` is a config variable
-which is an dictionary of strings, each a Python module to be imported, mapping
+which is a dictionary of strings, each a Python module to be imported, mapping
 to ``True`` to enable or ``False`` to disable each extension.
 Because this variable is notebook config, you can set it two different
 ways, using config files or via the command line.
