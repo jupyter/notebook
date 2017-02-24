@@ -58,8 +58,11 @@ class MappingKernelManager(MultiKernelManager):
             raise TraitError("kernel root dir %r is not a directory" % value)
         return value
 
+    cull_idle_timeout_minimum = 300 # 5 minutes
     cull_idle_timeout = Integer(0, config=True,
-        help="""Timeout (in seconds) after which a kernel is considered idle and ready to be culled."""
+        help="""Timeout (in seconds) after which a kernel is considered idle and ready to be culled.  Values of 0 or
+        lower disable culling. The minimum timeout is 300 seconds (5 minutes). Positive values less than the minimum value
+        will be set to the minimum."""
     )
 
     cull_interval_default = 300 # 5 minutes
@@ -252,6 +255,10 @@ class MappingKernelManager(MultiKernelManager):
         """
         if not self._initialized_culler and self.cull_idle_timeout > 0:
             if self._culler_callback is None:
+                if self.cull_idle_timeout < self.cull_idle_timeout_minimum:
+                    self.log.warning("'cull_idle_timeout' (%s) is less than the minimum value (%s) and has been set to the minimum.",
+                        self.cull_idle_timeout, self.cull_idle_timeout_minimum)
+                    self.cull_idle_timeout = self.cull_idle_timeout_minimum
                 loop = IOLoop.current()
                 if self.cull_interval <= 0: #handle case where user set invalid value
                     self.log.warning("Invalid value for 'cull_interval' detected (%s) - using default value (%s).",
@@ -268,8 +275,13 @@ class MappingKernelManager(MultiKernelManager):
     def cull_kernels(self):
         self.log.debug("Polling every %s seconds for kernels idle > %s seconds...",
             self.cull_interval, self.cull_idle_timeout)
+        """Create a separate list of kernels to avoid conflicting updates while iterating"""
         for kernel_id in list(self._kernels):
-            self.cull_kernel_if_idle(kernel_id)
+            try:
+                self.cull_kernel_if_idle(kernel_id)
+            except Exception as e:
+                self.log.exception("The following exception was encountered while checking the idle duration of kernel %s: %s",
+                    kernel_id, e)
 
     def cull_kernel_if_idle(self, kernel_id):
         kernel = self._kernels[kernel_id]
