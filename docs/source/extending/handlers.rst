@@ -31,33 +31,33 @@ when the extension is loaded.
 
 To get the notebook server to load your custom extension, you'll need to
 add it to the list of extensions to be loaded. You can do this using the
-config system. ``NotebookApp.server_extensions`` is a config variable
-which is an array of strings, each a Python module to be imported.
+config system. ``NotebookApp.nbserver_extensions`` is a config variable
+which is an dictionary of strings, each a Python module to be imported, mapping
+to ``True`` to enable or ``False`` to disable each extension.
 Because this variable is notebook config, you can set it two different
 ways, using config files or via the command line.
 
 For example, to get your extension to load via the command line add a
-double dash before the variable name, and put the Python array in
+double dash before the variable name, and put the Python dictionary in
 double quotes. If your package is "mypackage" and module is
 "mymodule", this would look like
-``jupyter notebook --NotebookApp.server_extensions="['mypackage.mymodule']"``
+``jupyter notebook --NotebookApp.nbserver_extensions="{'mypackage.mymodule':True}"``
 .
 Basically the string should be Python importable.
 
 Alternatively, you can have your extension loaded regardless of the
 command line args by setting the variable in the Jupyter config file.
 The default location of the Jupyter config file is
-``~/.jupyter/profile_default/jupyter_notebook_config.py``. Then, inside
+``~/.jupyter/jupyter_notebook_config.py`` (see :doc:`/config_overview`). Inside
 the config file, you can use Python to set the variable. For example,
-the following config does the same as the previous command line example
-[1].
+the following config does the same as the previous command line example.
 
 .. code:: python
 
     c = get_config()
-    c.NotebookApp.server_extensions = [
-        'mypackage.mymodule'
-    ]
+    c.NotebookApp.nbserver_extensions = {
+        'mypackage.mymodule': True,
+    }
 
 Before continuing, it's a good idea to verify that your extension is
 being loaded. Use a print statement to print something unique. Launch
