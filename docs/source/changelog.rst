@@ -110,6 +110,10 @@ Other additions
 - The tab icon in the browser now changes to indicate when the kernel is busy
   (:ghpull:`1837`).
 
+- Load server extensions with ConfigManager so that merge happens recursively,
+  unlike normal config values, to make it load more consistently with frontend 
+  extensions(:ghpull:`2108`).
+
 Remember that upgrading ``notebook`` only affects the user
 interface. Upgrading kernels and libraries may also provide new features,
 better stability and integration with the notebook interface.
