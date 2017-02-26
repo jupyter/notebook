@@ -609,7 +609,9 @@ define([
         }
 
         // Edit is visible when an item is editable
-        if (selected.length > 0 && !has_directory) {
+        if (selected.length > 0 && !has_directory && !selected.find(function(el) {
+            return el.path.match(/ipynb||jpe?g|png|gif|tiff?|bmp|ico|pdf|doc|xls/);
+        })) {
             $('.edit-button').css('display', 'inline-block');
         } else {
             $('.edit-button').css('display', 'none');
