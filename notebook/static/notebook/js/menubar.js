@@ -383,7 +383,7 @@ define([
         
         // Setup the existing presets
         var presets = celltoolbar.CellToolbar.list_presets();
-        preset_added(null, {name: "None"});
+        preset_added(null, {name: _("None")});
         presets.map(function (name) {
             preset_added(null, {name: name});
         });

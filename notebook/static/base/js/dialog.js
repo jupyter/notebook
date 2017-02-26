@@ -4,6 +4,10 @@
 define(['base/js/utils'], function(utils) {
     "use strict";
 
+    var _ = function(text) {
+    	return utils.i18n.gettext(text);
+    }    
+
     var CodeMirror = require('codemirror/lib/codemirror');
     var bs = require('bootstrap');
     var $ = require('jquery');
@@ -157,18 +161,27 @@ define(['base/js/utils'], function(utils) {
     var edit_metadata = function (options) {
         options.name = options.name || "Cell";
         var error_div = $('<div/>').css('color', 'red');
-        var message = 
-            "Manually edit the JSON below to manipulate the metadata for this " + options.name + "." +
-            " We recommend putting custom metadata attributes in an appropriately named substructure," +
-            " so they don't conflict with those of others.";
+        var message_cell = 
+            _("Manually edit the JSON below to manipulate the metadata for this cell.");
+        var message_notebook = 
+            _("Manually edit the JSON below to manipulate the metadata for this notebook.");
+        var message_end = 
+            _(" We recommend putting custom metadata attributes in an appropriately named substructure," +
+            " so they don't conflict with those of others.");
 
+        var message;
+        if (options.name === 'Notebook') {
+        	message = message_notebook + message_end;
+        } else {
+        	message = message_cell + message_end;
+        }
         var textarea = $('<textarea/>')
             .attr('rows', '13')
             .attr('cols', '80')
             .attr('name', 'metadata')
             .text(JSON.stringify(options.md || {}, null, 2));
         
-        var dialogform = $('<div/>').attr('title', 'Edit the metadata')
+        var dialogform = $('<div/>').attr('title', _('Edit the metadata'))
             .append(
                 $('<form/>').append(
                     $('<fieldset/>').append(
@@ -188,8 +201,17 @@ define(['base/js/utils'], function(utils) {
             autoIndent: true,
             mode: 'application/json',
         });
+        var title_msg;
+        if (options.name === "Notebook") {
+        	title_msg = _("Edit Notebook Metadata");
+        } else {
+        	title_msg = _("Edit Cell Metadata");
+        }
+        // This statement is used simply so that message extraction
+        // will pick up the strings.
+        var button_labels = [ _("Cancel"), _("Edit"), _("OK"), _("Apply")];
         var modal_obj = modal({
-            title: "Edit " + options.name + " Metadata",
+            title: title_msg,
             body: dialogform,
             default_button: "Cancel",
             buttons: {
@@ -204,7 +226,7 @@ define(['base/js/utils'], function(utils) {
                             new_md = JSON.parse(editor.getValue());
                         } catch(e) {
                             console.log(e);
-                            error_div.text('WARNING: Could not save invalid JSON.');
+                            error_div.text(_('WARNING: Could not save invalid JSON.'));
                             return false;
                         }
                         options.callback(new_md);
@@ -226,10 +248,10 @@ define(['base/js/utils'], function(utils) {
         var message;
         var attachments_list;
         if (Object.keys(options.attachments).length == 0) {
-            message = "There are no attachments for this cell.";
+            message = _("There are no attachments for this cell.");
             attachments_list = $('<div>');
         } else {
-            message = "Current cell attachments";
+            message = _("Current cell attachments");
 
             attachments_list = $('<div>')
                 .addClass('list_container')
@@ -238,7 +260,7 @@ define(['base/js/utils'], function(utils) {
                     .addClass('row list_header')
                     .append(
                         $('<div>')
-                        .text('Attachments')
+                        .text(_('Attachments'))
                     )
                 );
 
@@ -262,7 +284,7 @@ define(['base/js/utils'], function(utils) {
                             .addClass('btn btn-default btn-xs')
                             .css('display', 'inline-block');
                         if (deleted) {
-                            btn.attr('title', 'Restore')
+                            btn.attr('title', _('Restore'))
                                .append(
                                    $('<i>')
                                    .addClass('fa fa-plus')
@@ -272,7 +294,7 @@ define(['base/js/utils'], function(utils) {
                                 refresh_attachments_list();
                             });
                         } else {
-                            btn.attr('title', 'Delete')
+                            btn.attr('title', _('Delete'))
                                .addClass('btn-danger')
                                .append(
                                    $('<i>')
@@ -321,12 +343,18 @@ define(['base/js/utils'], function(utils) {
         }
 
         var dialogform = $('<div/>')
-            .attr('title', 'Edit attachments')
+            .attr('title', _('Edit attachments'))
             .append(message)
             .append('<br />')
-            .append(attachments_list)
+            .append(attachments_list);
+        var title_msg;
+        if ( options.name === "Notebook" ) {
+        	title_msg = _("Edit Notebook Attachments");
+        } else {
+        	title_msg = _("Edit Cell Attachments");
+        }
         var modal_obj = modal({
-            title: "Edit " + options.name + " Attachments",
+            title: title_msg,
             body: dialogform,
             buttons: {
                 Apply: { class : "btn-primary",
@@ -346,7 +374,7 @@ define(['base/js/utils'], function(utils) {
 
     var insert_image = function (options) {
         var message =
-            "Select a file to insert.";
+            _("Select a file to insert.");
         var file_input = $('<input/>')
             .attr('type', 'file')
             .attr('accept', 'image/*')
@@ -359,7 +387,7 @@ define(['base/js/utils'], function(utils) {
                     $btn.addClass('disabled');
                 }
             });
-        var dialogform = $('<div/>').attr('title', 'Edit attachments')
+        var dialogform = $('<div/>').attr('title', _('Edit attachments'))
             .append(
                 $('<form id="insert-image-form" />').append(
                     $('<fieldset/>').append(
@@ -372,7 +400,7 @@ define(['base/js/utils'], function(utils) {
                     )
             );
         var modal_obj = modal({
-            title: "Pick a file",
+            title: _("Select a file"),
             body: dialogform,
             buttons: {
                 OK: {

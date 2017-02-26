@@ -120,7 +120,5 @@ of languages in the UI ( never a good thing ).
 
 2. We will need to decide if console messages should be translatable, and enable them if desired.
 
-3. Cell Toolbar presets aren't showing up as translated. I'm looking into this.
-
 Any questions or comments please let me know @JCEmmons on github (emmo@us.ibm.com)
 

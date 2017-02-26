@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-02-04 15:32-0600\n"
+"POT-Creation-Date: 2017-02-26 00:05-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,103 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+
+#: notebook/static/base/js/dialog.js:158
+msgid "Manually edit the JSON below to manipulate the metadata for this cell."
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:160
+msgid "Manually edit the JSON below to manipulate the metadata for this notebook."
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:162
+msgid " We recommend putting custom metadata attributes in an appropriately named substructure, so they don't conflict with those of others."
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:177
+msgid "Edit the metadata"
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:199
+msgid "Edit Notebook Metadata"
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:201
+msgid "Edit Cell Metadata"
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:205
+#: notebook/static/notebook/js/notebook.js:443
+#: notebook/static/notebook/js/savewidget.js:74
+#: notebook/static/tree/js/notebooklist.js:784
+#: notebook/static/tree/js/notebooklist.js:1134
+msgid "Cancel"
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:205
+msgid "Edit"
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:205
+#: notebook/static/notebook/js/kernelselector.js:281
+#: notebook/static/notebook/js/mathjaxutils.js:45
+#: notebook/static/notebook/js/notebook.js:437
+#: notebook/static/notebook/js/notificationarea.js:171
+#: notebook/static/notebook/js/savewidget.js:74
+#: notebook/static/tree/js/newnotebook.js:100
+#: notebook/static/tree/js/notebooklist.js:784
+msgid "OK"
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:205
+msgid "Apply"
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:222
+msgid "WARNING: Could not save invalid JSON."
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:244
+msgid "There are no attachments for this cell."
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:247
+msgid "Current cell attachments"
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:256
+#: notebook/static/notebook/js/celltoolbarpresets/attachments.js:50
+msgid "Attachments"
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:280
+msgid "Restore"
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:290
+#: notebook/static/tree/js/notebooklist.js:936
+msgid "Delete"
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:339 notebook/static/base/js/dialog.js:383
+msgid "Edit attachments"
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:345
+msgid "Edit Notebook Attachments"
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:347
+msgid "Edit Cell Attachments"
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:370
+msgid "Select a file to insert."
+msgstr ""
+
+#: notebook/static/base/js/dialog.js:396
+msgid "Select a file"
+msgstr ""
 
 #: notebook/static/notebook/js/about.js:17
 msgid "You are using Jupyter notebook."
@@ -641,16 +738,6 @@ msgstr ""
 msgid "Set Kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/kernelselector.js:281
-#: notebook/static/notebook/js/mathjaxutils.js:45
-#: notebook/static/notebook/js/notebook.js:437
-#: notebook/static/notebook/js/notificationarea.js:171
-#: notebook/static/notebook/js/savewidget.js:74
-#: notebook/static/tree/js/newnotebook.js:100
-#: notebook/static/tree/js/notebooklist.js:784
-msgid "OK"
-msgstr ""
-
 #: notebook/static/notebook/js/kernelselector.js:284
 msgid "Kernel not found"
 msgstr ""
@@ -712,6 +799,11 @@ msgstr ""
 msgid "Trust Notebook"
 msgstr ""
 
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:20
+#: notebook/static/notebook/js/menubar.js:380
+msgid "None"
+msgstr ""
+
 #: notebook/static/notebook/js/menubar.js:403
 msgid "No checkpoints"
 msgstr ""
@@ -758,13 +850,6 @@ msgstr ""
 
 #: notebook/static/notebook/js/notebook.js:442
 msgid "Reload"
-msgstr ""
-
-#: notebook/static/notebook/js/notebook.js:443
-#: notebook/static/notebook/js/savewidget.js:74
-#: notebook/static/tree/js/notebooklist.js:784
-#: notebook/static/tree/js/notebooklist.js:1134
-msgid "Cancel"
 msgstr ""
 
 #: notebook/static/notebook/js/notebook.js:444
@@ -1610,10 +1695,6 @@ msgstr ""
 msgid "Edit Attachments"
 msgstr ""
 
-#: notebook/static/notebook/js/celltoolbarpresets/attachments.js:50
-msgid "Attachments"
-msgstr ""
-
 #: notebook/static/notebook/js/celltoolbarpresets/default.js:23
 msgid "Cell"
 msgstr ""
@@ -1621,10 +1702,6 @@ msgstr ""
 #: notebook/static/notebook/js/celltoolbarpresets/default.js:33
 #: notebook/static/notebook/js/celltoolbarpresets/default.js:51
 msgid "Edit Metadata"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:20
-msgid "None"
 msgstr ""
 
 #: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:21
@@ -1817,10 +1894,6 @@ msgid "Are you sure you want to permanently delete: \"%s\"?"
 msgid_plural "Are you sure you want to permanently delete the %d files or folders selected?"
 msgstr[0] ""
 msgstr[1] ""
-
-#: notebook/static/tree/js/notebooklist.js:936
-msgid "Delete"
-msgstr ""
 
 #: notebook/static/tree/js/notebooklist.js:953
 #, python-format
