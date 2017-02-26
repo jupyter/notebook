@@ -601,7 +601,7 @@ define([
 
         // View is visible when an item is renderable or downloadable
         if (selected.length > 0 && !has_directory && selected.every(function(el) {
-            return el.path.match(/html?|json|jpe?g|png|gif|tiff?|svg|bmp|ico|pdf|doc|xls/);
+            return el.path.match(/html?/);
         })) {
             $('.view-button').css('display', 'inline-block');
         } else {
