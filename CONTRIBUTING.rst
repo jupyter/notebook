@@ -124,7 +124,7 @@ JavaScript Tests
 To run the JavaScript tests, you will need to have PhantomJS and CasperJS
 installed::
 
-    npm install -g casperjs phantomjs@1.9.18
+    npm install -g casperjs phantomjs-prebuilt
 
 Then, to run the JavaScript tests::
 
