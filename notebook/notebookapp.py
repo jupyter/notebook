@@ -255,6 +255,7 @@ class NotebookWebApplication(web.Application):
             mathjax_config=jupyter_app.mathjax_config,
             config=jupyter_app.config,
             config_dir=jupyter_app.config_dir,
+            server_root_dir=jupyter_app.notebook_dir,
             jinja2_env=env,
             terminals_available=False,  # Set later if terminals are available
         )

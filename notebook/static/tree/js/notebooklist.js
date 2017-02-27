@@ -842,7 +842,15 @@ define([
                 .text('Enter new destination directory path for '+ num_items + ' items:')
         ).append(
             $("<br/>")
-        ).append(input);
+        ).append(
+            $("<table/>").append(
+                $("<tr/>").append(
+                    $("<td/>").text(utils.get_body_data('serverRoot'))
+                ).append(
+                    $("<td/>").append(input)
+                )
+            ).css('width', '100%')
+        );
         var d = dialog.modal({
             title : "Move "+ num_items + " Items",
             body : dialog_body,
