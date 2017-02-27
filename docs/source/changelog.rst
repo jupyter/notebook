@@ -111,8 +111,16 @@ Other additions
   (:ghpull:`1837`).
 
 - Load server extensions with ConfigManager so that merge happens recursively,
-  unlike normal config values, to make it load more consistently with frontend 
+  unlike normal config values, to make it load more consistently with frontend
   extensions(:ghpull:`2108`).
+
+- The notebook server now supports the `bundler API
+  <http://jupyter-notebook.readthedocs.io/en/latest/extending/bundler_extensions.html>`__
+  from the `jupyter_cms incubator project
+  <https://github.com/jupyter-incubator/contentmanagement>`__ (:ghpull:`1579`).
+
+- The notebook server now provides information about kernel activity in
+  its kernel resource API (:ghpull:`1827`).
 
 Remember that upgrading ``notebook`` only affects the user
 interface. Upgrading kernels and libraries may also provide new features,
