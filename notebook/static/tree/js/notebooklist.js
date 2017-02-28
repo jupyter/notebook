@@ -12,6 +12,26 @@ define([
 ], function($, IPython, utils, dialog, events, keyboard, moment) {
     "use strict";
 
+    var extension = function(path){
+      /**
+       *  return the last pat after the dot in a filepath
+       *  or the filepath itself if no dots present.
+       *  Empty string if the filepath ends with a dot.
+       **/
+      var parts = path.split('.');
+      return parts[parts.length-1];
+    };
+
+    var extension_in = function(extension, extensionslist){
+      var res =  extensionslist.indexOf(extension) != -1;
+      return res;
+
+    };
+
+    var filepath_of_extension = function(filepath, extensionslist){
+      return extension_in(extension(filepath), extensionslist);
+    };
+
     var NotebookList = function (selector, options) {
         /**
          * Constructor
@@ -515,6 +535,21 @@ define([
         this._selection_changed();
     };
 
+    NotebookList.ipynb_extensions = ['ipynb'];
+    NotebookList.non_editable_extensions = 'jpeg jpeg png zip gif tif tiff bmp ico pdf doc xls xlsx'.split(' ');
+    NotebookList.editable_extensions = 'txt py cson json yaml html'.split(' ');
+
+    NotebookList.prototype._is_editable = function(filepath){
+      return filepath_of_extension(filepath, NotebookList.editable_extensions);
+    };
+
+    NotebookList.prototype._is_not_editable = function(filepath){
+      return filepath_of_extension(filepath, NotebookList.non_editable_extensions);
+    };
+
+    NotebookList.prototype._is_notebook = function(filepath){
+      return filepath_of_extension(filepath, NotebookList.ipynb_extensions)
+    };
 
     /**
      * Handles when any row selector checkbox is toggled.
@@ -523,6 +558,7 @@ define([
         // Use a JQuery selector to find each row with a checked checkbox.  If
         // we decide to add more checkboxes in the future, this code will need
         // to be changed to distinguish which checkbox is the row selector.
+        var that = this;
         var selected = [];
         var has_running_notebook = false;
         var has_directory = false;
@@ -599,17 +635,34 @@ define([
             $('.delete-button').css('display', 'none');
         }
 
-        // View is visible when an item is renderable or downloadable
-        if (selected.length > 0 && !has_directory && selected.every(function(el) {
-            return el.path.match(/html?|json|jpe?g|png|gif|tiff?|svg|bmp|ico|pdf|doc|xls/);
+        // View is visible in the following case:
+        //
+        //   - the item is editable
+        //   - it is not a notebook
+        //
+        // If it's not editable or unknown, the default action should be view
+        // already so no need to show the button.
+        // That should include things like, html, py, txt, json....
+        if (selected.length == 1 && !has_directory && selected.every(function(el) {
+            return that._is_editable(el.path) && ! that._is_notebook(el.path);
         })) {
             $('.view-button').css('display', 'inline-block');
         } else {
             $('.view-button').css('display', 'none');
         }
 
-        // Edit is visible when an item is editable
-        if (selected.length > 0 && !has_directory) {
+        // Edit is visible when an item is unknown, that is to say:
+        //    - not in the editable list
+        //    - not in the known non-editable list.
+        //    - not a notebook.
+        // Indeed if it's editable the default action is already to edit.
+        // And non editable files should not show edit button.
+        // for unknown we'll assume users know what they are doing.
+        if (selected.length == 1 && !has_directory && selected.find(function(el) {
+            return !that._is_editable(el.path)
+                && !that._is_not_editable(el.path)
+                && !that._is_notebook(el.path);
+        })) {
             $('.edit-button').css('display', 'inline-block');
         } else {
             $('.edit-button').css('display', 'none');
@@ -669,12 +722,10 @@ define([
             icon = 'running_' + icon;
         }
         var uri_prefix = NotebookList.uri_prefixes[model.type];
-        if (model.type === 'file' &&
-            model.mimetype &&
-            model.mimetype.substr(0, 5) !== 'text/' &&
-            this.EDIT_MIMETYPES.indexOf(model.mimetype) < 0) {
-            // send text/unidentified files to editor, others go to raw viewer
-            uri_prefix = 'files';
+        if (model.type === 'file'
+            && !this._is_editable(path))
+        {
+            uri_prefix = 'view';
         }
 
         item.find(".item_icon").addClass(icon).addClass('icon-fixed-width');
