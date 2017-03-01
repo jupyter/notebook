@@ -259,6 +259,7 @@ define([
 
         var reader_onload = function (event) {
             var item = $(event.target).data('item');
+            console.log('**hi', event.target.result.byteLength);
             that.add_file_data(event.target.result, item);
             that.add_upload_button(item);
         };
@@ -289,20 +290,50 @@ define([
             }
 
             var reader = new FileReader();
-            if (file_ext === '.ipynb') {
-                reader.readAsText(f);
-            } else {
-                // read non-notebook files as binary
-                reader.readAsArrayBuffer(f);
+
+            // adapted from https://gist.github.com/jarrodhroberson/7651199
+            var readBinary = function(reader, f) {
+                var blobSlice = Blob.prototype.slice;
+                var chunkSize = 2097152;
+                var chunks = Math.ceil(f.size / chunkSize);
+                var currentChunk = 0;
+                var data = [];
+
+                console.log('***fetching', chunks, f.size);
+
+                reader.onload = function(e) {
+                    if (currentChunk === chunks) {
+                        data.push(event.target.result);
+                        console.log('done!', data.length);
+                        event.target.result = data;
+                        reader_onload(e);
+                    } else {
+                        var start = currentChunk * chunkSize;
+                        var end = ((start + chunkSize) >= f.size) ? f.size : start + chunkSize;
+                        reader.readAsArrayBuffer(blobSlice.call(f, start, end));
+                        data.push(event.target.result);
+                        currentChunk++;
+                    }
+                };
+                // start the file read
+                reader.readAsArrayBuffer(blobSlice.call(
+                    f, currentChunk + chunkSize, chunkSize));
             }
+
             var item = that.new_item(0, true);
             item.addClass('new-file');
             that.add_name_input(f.name, item, file_ext === '.ipynb' ? 'notebook' : 'file');
             // Store the list item in the reader so we can use it later
             // to know which item it belongs to.
             $(reader).data('item', item);
-            reader.onload = reader_onload;
             reader.onerror = reader_onerror;
+
+            if (file_ext === '.ipynb') {
+                reader.onload = reader_onload;
+                reader.readAsText(f);
+            } else {
+                readBinary(reader, f);
+            }
         }
         // Replace the file input form wth a clone of itself. This is required to
         // reset the form. Otherwise, if you upload a file, delete it and try to
@@ -707,6 +738,7 @@ define([
     };
 
     NotebookList.prototype.add_link = function (model, item) {
+        console.log('***hi', model.path, model.name);
         var path = model.path,
             name = model.name,
             modified = model.last_modified;
@@ -1108,6 +1140,7 @@ define([
                     var bytes = '';
                     var buf = new Uint8Array(filedata);
                     var nbytes = buf.byteLength;
+                    console.log('***nbytes', nbytes);
                     for (var i=0; i<nbytes; i++) {
                         bytes += String.fromCharCode(buf[i]);
                     }

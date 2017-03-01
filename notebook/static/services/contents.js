@@ -43,10 +43,12 @@ define(function(require) {
 
 
     Contents.prototype.api_url = function() {
+        console.log("****arguments", arguments);
         var url_parts = [
             this.base_url, 'api/contents',
             utils.url_join_encode.apply(null, arguments),
         ];
+        console.log('***url_parts', url_parts);
         return utils.url_path_join.apply(null, url_parts);
     };
 
@@ -172,6 +174,7 @@ define(function(require) {
             data : JSON.stringify(model),
             contentType: 'application/json',
         };
+        console.log(JSON.stringify(model).length);
         var url = this.api_url(path);
         return utils.promising_ajax(url, settings);
     };
