@@ -55,8 +55,6 @@ define([
     // Other minor modifications are also due to StackExchange and are used with
     // permission.
 
-    var inline = "$"; // the inline math delimiter
-
     // MATHSPLIT contains the pattern for math delimiters and special symbols
     // needed for searching for math in the text input.
     var MATHSPLIT = /(\$\$?|\\(?:begin|end)\{[a-z]*\*?\}|\\[{}$]|[{}]|(?:\n\s*)+|@@\d+@@|\\\\(?:\(|\)|\[|\]))/i;
@@ -173,7 +171,7 @@ define([
                 //  Look for math start delimiters and when
                 //    found, set up the end delimiter.
                 //
-                if (block === inline || block === "$$") {
+                if (block === "$" || block === "$$") {
                     start = i;
                     end = block;
                     braces = 0;
