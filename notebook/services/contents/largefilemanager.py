@@ -23,13 +23,10 @@ class LargeFileManager(FileContentsManager):
 
             os_path = self._get_os_path(path)
 
-            # First chunk
-            if chunk == 1:
-                self.log.debug("Saving %s", os_path)
-                self.run_pre_save_hook(model=model, path=path)
             try:
-                # First chunk
                 if chunk == 1:
+                    self.log.debug("Saving %s", os_path)
+                    self.run_pre_save_hook(model=model, path=path)
                     super(LargeFileManager, self)._save_file(os_path, model['content'], model.get('format'))
                 else:
                     self._save_large_file(os_path, model['content'], model.get('format'))

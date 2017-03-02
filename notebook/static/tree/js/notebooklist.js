@@ -278,27 +278,38 @@ define([
             var name_and_ext = utils.splitext(f.name);
             var file_ext = name_and_ext[1];
 
-            // replace the error message to the new upload function
             if (f.size > this._max_upload_size_mb * 1024 * 1024) {
-                that.add_large_file_upload_button(f);
-                continue;
+                dialog.modal({
+                    title : 'Large file size warning',
+                    body : "The file size is " + Math.round(f.size / (1024 * 1024)) + "MB. Do you still want to upload it?",
+                    buttons : {
+                        Cancel: {},
+                        Ok: {
+                            class: "btn-primary",
+                            click: function() {
+                                that.add_large_file_upload_button(f);
+                            }
+                        }
+                    }
+                });
             }
-
-            var reader = new FileReader();
-            if (file_ext === '.ipynb') {
-                reader.readAsText(f);
-            } else {
-                // read non-notebook files as binary
-                reader.readAsArrayBuffer(f);
+            else{
+                var reader = new FileReader();
+                if (file_ext === '.ipynb') {
+                    reader.readAsText(f);
+                } else {
+                    // read non-notebook files as binary
+                    reader.readAsArrayBuffer(f);
+                }
+                var item = that.new_item(0, true);
+                item.addClass('new-file');
+                that.add_name_input(f.name, item, file_ext === '.ipynb' ? 'notebook' : 'file');
+                // Store the list item in the reader so we can use it later
+                // to know which item it belongs to.
+                $(reader).data('item', item);
+                reader.onload = reader_onload;
+                reader.onerror = reader_onerror;
             }
-            var item = that.new_item(0, true);
-            item.addClass('new-file');
-            that.add_name_input(f.name, item, file_ext === '.ipynb' ? 'notebook' : 'file');
-            // Store the list item in the reader so we can use it later
-            // to know which item it belongs to.
-            $(reader).data('item', item);
-            reader.onload = reader_onload;
-            reader.onerror = reader_onerror;
         }
         // Replace the file input form wth a clone of itself. This is required to
         // reset the form. Otherwise, if you upload a file, delete it and try to
@@ -1209,9 +1220,7 @@ define([
 
                             model.chunk = chunk;
                             model.content = filedata;
-                            // TODO(yuazhang): Why refresh filedata?
-                            filedata = item.data('filedata');
-
+                            
                             var on_success = function (event) {
                                 if (offset < f.size) {
                                     // of to the next chunk
