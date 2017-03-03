@@ -46,8 +46,8 @@ define([
     };
 
     var preprocess_input = function(input) {
-        // Split on whitespace:
-        return input.split(/\s/);
+        // Split on whitespace + commas:
+        return input.split(/[,\s]+/)
     };
 
     var add_tag = function(cell, tag_container, on_remove) {
