@@ -278,31 +278,38 @@ define([
             var name_and_ext = utils.splitext(f.name);
             var file_ext = name_and_ext[1];
 
-            // skip large files with a warning
             if (f.size > this._max_upload_size_mb * 1024 * 1024) {
                 dialog.modal({
-                    title : 'Cannot upload file',
-                    body : "Cannot upload file (>" + this._max_upload_size_mb + " MB) '" + f.name + "'",
-                    buttons : {'OK' : { 'class' : 'btn-primary' }}
+                    title : 'Large file size warning',
+                    body : "The file size is " + Math.round(f.size / (1024 * 1024)) + "MB. Do you still want to upload it?",
+                    buttons : {
+                        Cancel: {},
+                        Ok: {
+                            class: "btn-primary",
+                            click: function() {
+                                that.add_large_file_upload_button(f);
+                            }
+                        }
+                    }
                 });
-                continue;
             }
-
-            var reader = new FileReader();
-            if (file_ext === '.ipynb') {
-                reader.readAsText(f);
-            } else {
-                // read non-notebook files as binary
-                reader.readAsArrayBuffer(f);
+            else{
+                var reader = new FileReader();
+                if (file_ext === '.ipynb') {
+                    reader.readAsText(f);
+                } else {
+                    // read non-notebook files as binary
+                    reader.readAsArrayBuffer(f);
+                }
+                var item = that.new_item(0, true);
+                item.addClass('new-file');
+                that.add_name_input(f.name, item, file_ext === '.ipynb' ? 'notebook' : 'file');
+                // Store the list item in the reader so we can use it later
+                // to know which item it belongs to.
+                $(reader).data('item', item);
+                reader.onload = reader_onload;
+                reader.onerror = reader_onerror;
             }
-            var item = that.new_item(0, true);
-            item.addClass('new-file');
-            that.add_name_input(f.name, item, file_ext === '.ipynb' ? 'notebook' : 'file');
-            // Store the list item in the reader so we can use it later
-            // to know which item it belongs to.
-            $(reader).data('item', item);
-            reader.onload = reader_onload;
-            reader.onerror = reader_onerror;
         }
         // Replace the file input form wth a clone of itself. This is required to
         // reset the form. Otherwise, if you upload a file, delete it and try to
@@ -1085,6 +1092,188 @@ define([
         });
     };
 
+    // Add a new class for large file upload
+    NotebookList.prototype.add_large_file_upload_button = function (file) {
+        var that = this;
+        var item = that.new_item(0, true);
+        item.addClass('new-file');
+        that.add_name_input(file.name, item, 'file');
+        var cancel_button = $('<button/>').text("Cancel")
+            .addClass("btn btn-default btn-xs")
+            .click(function (e) {
+                item.remove();
+                return false;
+            });
+
+        var upload_button = $('<button/>').text("Upload")
+            .addClass('btn btn-primary btn-xs upload_button')
+            .click(function (e) {
+                var filename = item.find('.item_name > input').val();
+                var path = utils.url_path_join(that.notebook_path, filename);
+                var format = 'text';
+                if (filename.length === 0 || filename[0] === '.') {
+                    dialog.modal({
+                        title : 'Invalid file name',
+                        body : "File names must be at least one character and not start with a dot",
+                        buttons : {'OK' : { 'class' : 'btn-primary' }}
+                    });
+                    return false;
+                }
+                
+                var check_exist = function () {
+                    var exists = false;
+                    $.each(that.element.find('.list_item:not(.new-file)'), function(k,v){
+                    if ($(v).data('name') === filename) { exists = true; return false; }
+                    });
+                    return exists
+                }
+                var exists = check_exist();
+                
+                var add_uploading_button = function (f, item) {
+                    // change buttons, add a progress bar
+                    var uploading_button = item.find('.upload_button').text("Uploading");
+                    var progress_bar = $('<span/>')
+                        .addClass('progress-bar')
+                        .css('top', '0')
+                        .css('left', '0')
+                        .css('width', '0')
+                        .css('height', '3px')
+                        .css('border-radius', '0 0 0 0')
+                        .css('display', 'inline-block')
+                        .css('position', 'absolute');
+
+                    var parse_large_file = function (f, item) {
+                        // codes inspired by http://stackoverflow.com/a/28318964
+                        var chunk_size = 1024 * 1024;
+                        var offset = 0;
+                        var chunk = 0;
+                        var chunk_reader = null;
+                        var upload_file = null;
+                        
+                        var large_reader_onload = function (event) {
+                            if (event.target.error == null) {
+                                offset += chunk_size;
+                                if (offset >= f.size) {
+                                    chunk = -1;
+                                } else {
+                                    chunk += 1;
+                                }
+                                // callback for handling reading: reader_onload in add_upload_button
+                                var item = $(event.target).data('item');
+                                that.add_file_data(event.target.result, item);
+                                upload_file(item, chunk);  // Do the upload
+                            } else {
+                                console.log("Read error: " + event.target.error);
+                                return;
+                            }
+                        };
+                        var on_error = function (event) {
+                            var item = $(event.target).data('item');
+                            var name = item.data('name');
+                            item.remove();
+                            var _exists = check_exist();
+                            if (_exists) {
+                                that.contents.delete(path);
+                            }
+                            dialog.modal({
+                                title : 'Failed to read file',
+                                body : "Failed to read file '" + name + "'",
+                                buttons : {'OK' : { 'class' : 'btn-primary' }}
+                            });
+                        }
+
+                        chunk_reader = function (_offset, _f) {
+                            var reader = new FileReader();
+                            var blob = _f.slice(_offset, chunk_size + _offset);
+                            // Load everything as ArrayBuffer
+                            reader.readAsArrayBuffer(blob);
+                            // Store the list item in the reader so we can use it later
+                            // to know which item it belongs to.
+                            $(reader).data('item', item);
+                            reader.onload = large_reader_onload;
+                            reader.onerror = on_error;
+                        };
+
+                        // These codes to upload file in original class
+                        var upload_file = function(item, chunk) {
+                            var filedata = item.data('filedata');
+                            if (filedata instanceof ArrayBuffer) {
+                                // base64-encode binary file data
+                                var bytes = '';
+                                var buf = new Uint8Array(filedata);
+                                var nbytes = buf.byteLength;
+                                for (var i=0; i<nbytes; i++) {
+                                    bytes += String.fromCharCode(buf[i]);
+                                }
+                                filedata = btoa(bytes);
+                                format = 'base64';
+                            }
+                            var model = { name: filename, path: path };
+
+                            var name_and_ext = utils.splitext(filename);
+                            var file_ext = name_and_ext[1];
+                            var content_type;
+                            // Treat everything as generic file
+                            model.type = 'file';
+                            model.format = format;
+                            content_type = 'application/octet-stream';
+
+                            model.chunk = chunk;
+                            model.content = filedata;
+                            
+                            var on_success = function (event) {
+                                if (offset < f.size) {
+                                    // of to the next chunk
+                                    chunk_reader(offset, f);
+                                    // change progress bar and progress button
+                                    var progress = offset / f.size * 100;
+                                    progress = progress > 100 ? 100 : progress;
+                                    uploading_button.text(progress.toFixed(0)+'%');
+                                    progress_bar.css('width', progress+'%')
+                                        .attr('aria-valuenow', progress.toString());
+                                } else {
+                                    item.removeClass('new-file');
+                                    that.add_link(model, item);
+                                    that.session_list.load_sessions();
+                                }
+                            };
+                            that.contents.save(path, model).then(on_success, on_error);
+                        }
+
+                        // now let's start the read with the first block
+                        chunk_reader(offset, f);
+                    };
+                    item.find('.item_buttons')
+                        .append(progress_bar);
+                    parse_large_file(f, item);
+                };
+                if (exists) {
+                    dialog.modal({
+                        title : "Replace file",
+                        body : 'There is already a file named ' + filename + ', do you want to replace it?',
+                        default_button: "Cancel",
+                        buttons : {
+                            Overwrite : {
+                                class: "btn-danger",
+                                click: function () {
+                                    add_uploading_button(file, item);
+                                }
+                            },
+                            Cancel : {
+                                click: function() { item.remove(); }
+                            }
+                        }
+                    });
+                } else {
+                    add_uploading_button(file, item);
+                }
+
+                return false;
+            });
+        item.find(".item_buttons").empty()
+            .append(upload_button)
+            .append(cancel_button);
+    }
 
     NotebookList.prototype.add_upload_button = function (item) {
         var that = this;
