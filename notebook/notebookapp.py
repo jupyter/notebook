@@ -526,6 +526,13 @@ class NotebookApp(JupyterApp):
             s.close()
             return 'localhost'
 
+    @validate('ip')
+    def _valdate_ip(self, proposal):
+        value = proposal['value']
+        if value == u'*':
+            value = u''
+        return value
+
     port = Integer(8888, config=True,
         help="The port the notebook server will listen on."
     )
