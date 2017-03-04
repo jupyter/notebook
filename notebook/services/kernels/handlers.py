@@ -8,6 +8,7 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-
 
 import json
 import logging
+import logging.config
 from textwrap import dedent
 
 from tornado import gen, web
@@ -119,6 +120,13 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
     @property
     def rate_limit_window(self):
         return self.settings.get('rate_limit_window', 1.0)
+
+    @property
+    def kernel_logger(self):
+        logger_conf = self.settings.get('kernel_logger', None)
+        if logger_conf:
+            logging.config.fileConfig(logger_conf, disable_existing_loggers=False)
+            return logging.getLogger('kernel_logger')
 
     def __repr__(self):
         return "%s(%s)" % (self.__class__.__name__, getattr(self, 'kernel_id', 'uninitialized'))
@@ -293,7 +301,10 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             return
         stream = self.channels[channel]
         self.session.send(stream, msg)
-        
+
+        if self.kernel_logger and msg['content'].get('code', None):
+            self.kernel_logger.info(msg['content']['code'].replace('\n', '\\n'))
+
     def _on_zmq_reply(self, stream, msg_list):
         idents, fed_msg_list = self.session.feed_identities(msg_list)
         msg = self.session.deserialize(fed_msg_list)

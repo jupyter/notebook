@@ -257,6 +257,7 @@ class NotebookWebApplication(web.Application):
             config_dir=jupyter_app.config_dir,
             jinja2_env=env,
             terminals_available=False,  # Set later if terminals are available
+            kernel_logger=jupyter_app.kernel_logger,
         )
 
         # allow custom overrides for the tornado web app.
@@ -411,6 +412,7 @@ aliases.update({
     'notebook-dir': 'NotebookApp.notebook_dir',
     'browser': 'NotebookApp.browser',
     'pylab': 'NotebookApp.pylab',
+    'kernel-logger': 'NotebookApp.kernel_logger'
 })
 
 #-----------------------------------------------------------------------------
@@ -523,13 +525,6 @@ class NotebookApp(JupyterApp):
         else:
             s.close()
             return 'localhost'
-
-    @validate('ip')
-    def _valdate_ip(self, proposal):
-        value = proposal['value']
-        if value == u'*':
-            value = u''
-        return value
 
     port = Integer(8888, config=True,
         help="The port the notebook server will listen on."
@@ -678,7 +673,32 @@ class NotebookApp(JupyterApp):
                       standard library module, which allows setting of the
                       BROWSER environment variable to override it.
                       """)
-    
+
+    kernel_logger = Unicode(u'', config=True,
+                            help="""The full path to a logging configuration file with a logger named
+                            kernel_logger. Allows the user to log all code messages to the kernel independent
+                            of the kernel type.
+                            """)
+
+    @validate('kernel_logger')
+    def _validate_kernel_logger(self, proposal):
+        import logging.config
+        from ConfigParser import NoSectionError
+
+        value = proposal['value']
+        try:
+            logging.config.fileConfig(value, disable_existing_loggers=False)
+            k_logger = logging.getLogger('kernel_logger')
+            if k_logger.handlers:
+                return value
+            else:
+                raise TraitError("Logging configuration file passed to --kernel-logger must have"
+                                 "a logger named kernel_logger.")
+        except (AttributeError, NoSectionError):
+            raise TraitError("Logging configuration file {} is not valid. Ensure that it has a kernel_logger specified"
+                             .format(value))
+
+
     webapp_settings = Dict(config=True,
         help="DEPRECATED, use tornado_settings"
     )
@@ -721,6 +741,7 @@ class NotebookApp(JupyterApp):
         When disabled, equations etc. will appear as their untransformed TeX source.
         """
     )
+
 
     @observe('enable_mathjax')
     def _update_enable_mathjax(self, change):
