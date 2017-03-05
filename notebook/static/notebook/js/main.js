@@ -42,7 +42,8 @@ require([
     'codemirror/lib/codemirror',
     'notebook/js/about',
     'notebook/js/searchandreplace',
-    'notebook/js/clipboard'
+    'notebook/js/clipboard',
+    'bidi/bidi'
 ], function(
     $,
     contents_service,
@@ -65,7 +66,8 @@ require([
     CodeMirror,
     about,
     searchandreplace,
-    clipboard
+    clipboard,
+    bidi
     ) {
     "use strict";
 
@@ -74,6 +76,9 @@ require([
     
     try{
         requirejs(['custom/custom'], function() {});
+        bidi.loadLocale(bidi.uiLang());
+        bidi.setNumericShaping("national");
+        bidi.isMirroringEnabled();
     } catch(err) {
         console.log("Error processing custom.js. Logging and continuing");
         console.warn(err);

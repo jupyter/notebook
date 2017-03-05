@@ -13,6 +13,7 @@ require([
     'edit/js/menubar',
     'edit/js/savewidget',
     'edit/js/notificationarea',
+    'bidi/bidi',
 ], function(
     $,
     contents_service,
@@ -24,12 +25,16 @@ require([
     editmod,
     menubar,
     savewidget,
-    notificationarea
+    notificationarea,
+    bidi
     ){
     "use strict";
 
     try {
         requirejs(['custom/custom'], function() {});
+        bidi.loadLocale(bidi.uiLang());
+        bidi.setNumericShaping("national");
+        bidi.isMirroringEnabled();
     } catch(err) {
         console.log("Error loading custom.js from edition service. Continuing and logging");
         console.warn(err);
