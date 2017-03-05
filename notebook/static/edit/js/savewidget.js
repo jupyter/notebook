@@ -7,9 +7,10 @@ define([
     'base/js/dialog',
     'base/js/keyboard',
     'moment',
-], function($, utils, dialog, keyboard, moment) {
+    'bidi/bidi',
+], function($, utils, dialog, keyboard, moment ,bidi) {
     "use strict";
-
+    bidi.loadLocale(bidi.uiLang());
     var SaveWidget = function (selector, options) {
         this.editor = undefined;
         this.selector = selector;
@@ -108,6 +109,7 @@ define([
 
 
     SaveWidget.prototype.update_filename = function (filename) {
+    	filename = bidi.applyBidi(filename , bidi.flags.NS);
         this.element.find('span.filename').text(filename);
     };
 

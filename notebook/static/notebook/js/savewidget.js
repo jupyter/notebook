@@ -7,7 +7,8 @@ define([
     'base/js/dialog',
     'base/js/keyboard',
     'moment',
-], function($, utils, dialog, keyboard, moment) {
+    'bidi/bidi',
+], function($, utils, dialog, keyboard, moment ,bidi) {
     "use strict";
 
     var SaveWidget = function (selector, options) {
@@ -130,6 +131,7 @@ define([
 
     SaveWidget.prototype.update_notebook_name = function () {
         var nbname = this.notebook.get_notebook_name();
+        nbname = bidi.applyBidi(nbname , bidi.flags.NS);
         this.element.find('span.filename').text(nbname);
     };
 

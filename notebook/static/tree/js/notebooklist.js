@@ -8,8 +8,9 @@ define([
     'base/js/dialog',
     'base/js/events',
     'base/js/keyboard',
-    'moment'
-], function($, IPython, utils, dialog, events, keyboard, moment) {
+    'moment',
+    'bidi/bidi',
+], function($, IPython, utils, dialog, events, keyboard, moment , bidi) {
     "use strict";
 
     var NotebookList = function (selector, options) {
@@ -643,6 +644,7 @@ define([
             select_all.data('indeterminate', true);
         }
         // Update total counter
+        checked = bidi.applyBidi(checked , bidi.flags.NS);
         $('#counter-select-all').html(checked===0 ? '&nbsp;' : checked);
 
         // If at aleast on item is selected, hide the selection instructions.
@@ -658,7 +660,8 @@ define([
             name = model.name,
             modified = model.last_modified;
         var running = (model.type === 'notebook' && this.sessions[path] !== undefined);
-
+        
+        name = bidi.applyBidi(name , bidi.flags.NS);
         item.data('name', name);
         item.data('path', path);
         item.data('modified', modified);
@@ -697,6 +700,11 @@ define([
 
         // Add in the date that the file was last modified
         item.find(".item_modified").text(utils.format_datetime(modified));
+        if (bidi.getcalendarType()==="hijri"){
+        	require(['moment-hijri'],function (moment_hijri){
+        		item.find(".item_modified").attr("title", moment_hijri(modified).format("iYYYY-iMM-iDD HH:mm"));
+        	});
+        }
         item.find(".item_modified").attr("title", moment(modified).format("YYYY-MM-DD HH:mm"));
     };
 
