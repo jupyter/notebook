@@ -20,6 +20,7 @@ var rjs_config = {
     bootstraptour: 'components/bootstrap-tour/build/js/bootstrap-tour.min',
     "jquery-ui": 'components/jquery-ui/ui/minified/jquery-ui.min',
     moment: 'components/moment/moment',
+    "moment-hijri": 'components/moment-hijri/moment-hijri',
     codemirror: 'components/codemirror',
     xterm: 'components/xterm.js/dist/xterm',
     typeahead: 'components/jquery-typeahead/dist/jquery.typeahead',
