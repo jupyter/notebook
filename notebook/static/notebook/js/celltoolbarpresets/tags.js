@@ -46,8 +46,8 @@ define([
     };
 
     var preprocess_input = function(input) {
-        // Split on whitespace:
-        return input.split(/\s/);
+        // Split on whitespace + commas:
+        return input.split(/[,\s]+/)
     };
 
     var add_tag = function(cell, tag_container, on_remove) {
@@ -114,11 +114,9 @@ define([
         var remove_button = $('<i/>')
             .addClass('remove-tag-btn')
             .addClass('fa fa-times')
-            .click( function(ev) {
-                if (ev.button === 0) {
-                    on_remove(name);
-                    return false;
-                }
+            .click(function () {
+                on_remove(name);
+                return false;
             });
         tag_UI.append(remove_button);
         return tag_UI;
