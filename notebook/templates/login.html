@@ -45,16 +45,20 @@
     {% endif %}
     {% if token_available %}
     {% block token_message %}
-    <div class="col-sm-6 col-sm-offset-3 text-left">
-      <p class="warning">
-        Token authentication is enabled.
-
-        You need to open the notebook server with its first-time login token in the URL,
-        or enable a password in order to gain access.
-        The command:
-      </p>
-      <pre>jupyter notebook list</pre>
+    <div class="col-sm-6 col-sm-offset-3 text-left rendered_html">
+      <h3>
+        No password configured yet: Token authentication is enabled.
+      </h3>
       <p>
+        No password have been configured yet, you need to open the notebook
+        server with its first-time login token in the URL. Theis requirement
+        will be lifted once you <b>enable a password</b> in order to gain
+        access.
+      </p>
+        
+      <p>
+        The command:
+        <pre>jupyter notebook list</pre>
         will show you the URLs of running servers with their tokens,
         which you can copy and paste into your browser. For example:
       </p>
@@ -62,11 +66,23 @@
 http://localhost:8888/?token=c8de56fa... :: /Users/you/notebooks
 </pre>
       <p>
-        Or you can paste just the token value into the password field on this page.
+        Or you can paste just the token value into the password field on this
+        page.
       </p>
       <p>
         Cookies are required for authenticated access to notebooks.
       </p>
+      <p>
+
+        Authentication using tokens is enabled for your security as no password
+        has been set yet.
+        <b><a
+         href='http://jupyter-notebook.readthedocs.io/en/stable/public_server.html'>
+                See the documentation on how to enable password
+        </a></b>
+        and lift random token authentication.
+
+      <p/>
     </div>
     {% endblock token_message %}
     {% endif %}
