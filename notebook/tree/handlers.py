@@ -4,6 +4,7 @@
 # Distributed under the terms of the Modified BSD License.
 
 from tornado import web
+import os
 from ..base.handlers import IPythonHandler, path_regex
 from ..utils import url_path_join, url_escape
 
@@ -49,7 +50,7 @@ class TreeHandler(IPythonHandler):
                 notebook_path=path,
                 breadcrumbs=breadcrumbs,
                 terminals_available=self.settings['terminals_available'],
-                server_root=self.settings['server_root_dir'],
+                server_root=os.path.basename(os.path.normpath(self.settings['server_root_dir'])),
             ))
         elif cm.file_exists(path):
             # it's not a directory, we have redirecting to do
