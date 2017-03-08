@@ -47,15 +47,15 @@
     {% block token_message %}
     <div class="col-sm-6 col-sm-offset-3 text-left rendered_html">
       <h3>
-        No password configured yet: Token authentication is enabled.
+        Token authentication is enabled
       </h3>
       <p>
-        No password have been configured yet, you need to open the notebook
-        server with its first-time login token in the URL. Theis requirement
-        will be lifted once you <b>enable a password</b> in order to gain
-        access.
+        If no password has been configured, you need to open the notebook
+        server with its login token in the URL, or paste it above.
+        This requirement will be lifted if you
+        <b><a href='https://jupyter-notebook.readthedocs.io/en/stable/public_server.html'>
+            enable a password</a></b>.
       </p>
-        
       <p>
         The command:
         <pre>jupyter notebook list</pre>
@@ -66,23 +66,22 @@
 http://localhost:8888/?token=c8de56fa... :: /Users/you/notebooks
 </pre>
       <p>
-        Or you can paste just the token value into the password field on this
+        or you can paste just the token value into the password field on this
         page.
+      </p>
+      <p>
+        See
+        <b><a
+         href='https://jupyter-notebook.readthedocs.io/en/stable/public_server.html'>
+                the documentation on how to enable a password</a>
+        </b>
+        in place of token authentication,
+        if you would like to avoid dealing with random tokens.
       </p>
       <p>
         Cookies are required for authenticated access to notebooks.
       </p>
-      <p>
 
-        Authentication using tokens is enabled for your security as no password
-        has been set yet.
-        <b><a
-         href='http://jupyter-notebook.readthedocs.io/en/stable/public_server.html'>
-                See the documentation on how to enable password
-        </a></b>
-        and lift random token authentication.
-
-      <p/>
     </div>
     {% endblock token_message %}
     {% endif %}
