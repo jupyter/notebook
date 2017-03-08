@@ -128,9 +128,29 @@ casper.notebook_test(function () {
         };
       });
     };
-    var input_string_1 = 'x\\\\(a_{0}+ b_{T}\\\\)y\\\\(a_{0}+  b_{T}\\\\)z';
-    var expected_result_1 = ['x@@0@@y@@1@@z',['\\\\(a_{0}+ b_{T}\\\\)','\\\\(a_{0}+  b_{T}\\\\)']];
-    var message_1 = "multiple inline with underscores";
+    var input_string_1 = 'x \\\\(a_{0}+ b_{T}\\\\) y \\\\(a_{0}+  b_{T}\\\\) z';
+    var expected_result_1 = ['x @@0@@ y @@1@@ z', ['\\\\(a_{0}+ b_{T}\\\\)','\\\\(a_{0}+  b_{T}\\\\)']];
+    var message_1 = "multiple inline(LaTeX style) with underscores";
+    
+    var input_string_2 = 'x \\\\[a_{0}+ b_{T}\\\\] y \\\\[a_{0}+  b_{T}\\\\] z';
+    var expected_result_2 = ['x @@0@@ y @@1@@ z', ['\\\\[a_{0}+ b_{T}\\\\]','\\\\[a_{0}+  b_{T}\\\\]']];
+    var message_2 = "multiple equation (LaTeX style) with underscores";
+
+    var input_string_3 = 'x $a_{0}+ b_{T}$ y $a_{0}+  b_{T}$ z';
+    var expected_result_3 = ['x @@0@@ y @@1@@ z',['$a_{0}+ b_{T}$','$a_{0}+  b_{T}$']];
+    var message_3 = "multiple inline(TeX style) with underscores";
+    
+    var input_string_4 = 'x $$a_{0}+ b_{T}$$ y $$a_{0}+  b_{T}$$ z';
+    var expected_result_4 = ['x @@0@@ y @@1@@ z', ['$$a_{0}+ b_{T}$$','$$a_{0}+  b_{T}$$']];
+    var message_4 = "multiple equation(TeX style) with underscores";
+
+    var input_string_5 = 'x \\begin{equation}a_{0}+ b_{T}\\end{equation} y \\begin{equation}a_{0}+  b_{T}\\end{equation} z';
+    var expected_result_5 = ['x @@0@@ y @@1@@ z',['\\begin{equation}a_{0}+ b_{T}\\end{equation}','\\begin{equation}a_{0}+  b_{T}\\end{equation}']];
+    var message_5 = "multiple equations with underscores";
 
     mathjax_render_test(input_string_1, expected_result_1, message_1);
+    mathjax_render_test(input_string_2, expected_result_2, message_2);
+    mathjax_render_test(input_string_3, expected_result_3, message_3);
+    mathjax_render_test(input_string_4, expected_result_4, message_4);
+    mathjax_render_test(input_string_5, expected_result_5, message_5);
 });
