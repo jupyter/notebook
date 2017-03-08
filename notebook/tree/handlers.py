@@ -50,7 +50,7 @@ class TreeHandler(IPythonHandler):
                 notebook_path=path,
                 breadcrumbs=breadcrumbs,
                 terminals_available=self.settings['terminals_available'],
-                server_root=os.path.basename(os.path.normpath(self.settings['server_root_dir'])),
+                server_root=self.settings['server_root_dir'],
             ))
         elif cm.file_exists(path):
             # it's not a directory, we have redirecting to do

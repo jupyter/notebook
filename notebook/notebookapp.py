@@ -202,6 +202,12 @@ class NotebookWebApplication(web.Application):
             warnings.warn("The `ignore_minified_js` flag is deprecated and will be removed in Notebook 6.0", DeprecationWarning)
 
         now = utcnow()
+        
+        root_dir = contents_manager.root_dir
+        home = os.path.expanduser('~')
+        if root_dir.startswith(home + os.path.sep):
+            # collapse $HOME to ~
+            root_dir = '~' + root_dir[len(home):]
 
         settings = dict(
             # basics
@@ -255,7 +261,7 @@ class NotebookWebApplication(web.Application):
             mathjax_config=jupyter_app.mathjax_config,
             config=jupyter_app.config,
             config_dir=jupyter_app.config_dir,
-            server_root_dir=contents_manager.root_dir,
+            server_root_dir=root_dir,
             jinja2_env=env,
             terminals_available=False,  # Set later if terminals are available
         )
