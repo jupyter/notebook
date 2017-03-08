@@ -678,11 +678,18 @@ class NotebookApp(JupyterApp):
                       standard library module, which allows setting of the
                       BROWSER environment variable to override it.
                       """)
-    new_browser_window = Bool(False, config=True,
-                              help="""Whether to open the notebook in a new
-                              browser window. The default is to use a new tab.
-                              """)
-    
+
+    webbrowser_open_new = Integer(2, config=True,
+        help="""Specify Where to open the notebook on startup. This is the
+        `new` argument passed to the standard library method `webbrowser.open`.
+        The behaviour is not guaranteed, but depends on browser support. Valid
+        values are:
+            2 opens a new tab,
+            1 opens a new window,
+            0 opens in an existing window.
+        See the `webbrowser.open` documentation for details.
+        """)
+
     webapp_settings = Dict(config=True,
         help="DEPRECATED, use tornado_settings"
     )
@@ -1391,7 +1398,7 @@ class NotebookApp(JupyterApp):
                 uri = url_concat(uri, {'token': self.one_time_token})
             if browser:
                 b = lambda : browser.open(url_path_join(self.connection_url, uri),
-                                          new=1 if self.new_browser_window else 2)
+                                          new=self.webbrowser_open_new)
                 threading.Thread(target=b).start()
 
         if self.token and self._token_generated:
