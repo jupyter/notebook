@@ -843,13 +843,12 @@ define([
         ).append(
             $("<br/>")
         ).append(
-            $("<table/>").append(
-                $("<tr/>").append(
-                    $("<td/>").text(utils.get_body_data('serverRoot'))
-                ).append(
-                    $("<td/>").append(input)
-                )
-            ).css('width', '100%')
+            $("<div/>").append(
+                // $("<i/>").addClass("fa fa-folder").addClass("server-root")
+                $("<span/>").text(utils.get_body_data("serverRoot")).addClass("server-root")
+            ).append(
+              input.addClass("path-input")
+            ).addClass("move-path")
         );
         var d = dialog.modal({
             title : "Move "+ num_items + " Items",
