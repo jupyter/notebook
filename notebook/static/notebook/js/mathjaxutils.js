@@ -59,7 +59,7 @@ define([
 
     // MATHSPLIT contains the pattern for math delimiters and special symbols
     // needed for searching for math in the text input.
-    var MATHSPLIT = /(\$\$?|\\(?:begin|end)\{[a-z]*\*?\}|\\[\\{}$]|[{}]|(?:\n\s*)+|@@\d+@@)/i;
+    var MATHSPLIT = /(\$\$?|\\[\[\(\)\]]|\\(?:begin|end)\{[a-z]*\*?\}|\\[\\{}$]|[{}]|(?:\n\s*)+|@@\d+@@)/i
 
     //  The math is in blocks i through j, so
     //    collect it into one block and clear the others.
@@ -96,10 +96,12 @@ define([
     //
     var remove_math = function (text) {
         var math = []; // stores math strings for later
+        var math_delimiters = { "\\[": "\\]", "\\(": "\\)", "$$": "$$", "$": "$" };
         var start;
         var end;
         var last;
         var braces;
+
 
         // Except for extreme edge cases, this should catch precisely those pieces of the markdown
         // source that will later be turned into code spans. While MathJax will not TeXify code spans,
@@ -173,9 +175,9 @@ define([
                 //  Look for math start delimiters and when
                 //    found, set up the end delimiter.
                 //
-                if (block === inline || block === "$$") {
+                if (block in math_delimiters) {
                     start = i;
-                    end = block;
+                    end = math_delimiters[block];
                     braces = 0;
                 }
                 else if (block.substr(1, 5) === "begin") {
