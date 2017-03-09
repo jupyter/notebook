@@ -900,7 +900,14 @@ define([
                 .text('Enter new destination directory path for '+ num_items + ' items:')
         ).append(
             $("<br/>")
-        ).append(input);
+        ).append(
+            $("<div/>").append(
+                // $("<i/>").addClass("fa fa-folder").addClass("server-root")
+                $("<span/>").text(utils.get_body_data("serverRoot")).addClass("server-root")
+            ).append(
+              input.addClass("path-input")
+            ).addClass("move-path")
+        );
         var d = dialog.modal({
             title : "Move "+ num_items + " Items",
             body : dialog_body,

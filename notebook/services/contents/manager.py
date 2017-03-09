@@ -50,6 +50,8 @@ class ContentsManager(LoggingConfigurable):
       indicating the root path.
 
     """
+    
+    root_dir = Unicode('/', config=True)
 
     notary = Instance(sign.NotebookNotary)
     def _notary_default(self):
