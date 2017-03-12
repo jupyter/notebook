@@ -73,7 +73,7 @@ b/
         self.assertEqual(len(references), 2, str(references))
 
     def test_get_cell_reference_patterns_precode_backticks(self):
-        '''Should find three references in a fenced code block.''' 
+        '''Should find three references in a fenced code block.'''
         cell = {'cell_type': 'markdown', 'source': '''```c
 a
 b/

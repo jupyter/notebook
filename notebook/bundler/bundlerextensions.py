@@ -18,14 +18,14 @@ BUNDLER_SUBSECTION = "bundlerextensions"
 
 def _get_bundler_metadata(module):
     """Gets the list of bundlers associated with a Python package.
-    
+
     Returns a tuple of (the module, [{
         'name': 'unique name of the bundler',
         'label': 'file menu item label for the bundler',
         'module_name': 'dotted package/module name containing the bundler',
         'group': 'download or deploy parent menu item'
     }])
-    
+
     Parameters
     ----------
 
@@ -43,9 +43,9 @@ def _get_bundler_metadata(module):
 def _set_bundler_state(name, label, module_name, group, state,
                        user=True, sys_prefix=False, logger=None):
     """Set whether a bundler is enabled or disabled.
-    
+
     Returns True if the final state is the one requested.
-    
+
     Parameters
     ----------
     name : string
@@ -70,14 +70,14 @@ def _set_bundler_state(name, label, module_name, group, state,
     config_dir = os.path.join(
         _get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
     cm = BaseJSONConfigManager(config_dir=config_dir)
-    
+
     if logger:
         logger.info("{} {} bundler {}...".format(
             "Enabling" if state else "Disabling",
             name,
             module_name
         ))
-    
+
     if state:
         cm.update(BUNDLER_SECTION, {
             BUNDLER_SUBSECTION: {
@@ -98,13 +98,13 @@ def _set_bundler_state(name, label, module_name, group, state,
     return (cm.get(BUNDLER_SECTION)
               .get(BUNDLER_SUBSECTION, {})
               .get(name) is not None) == state
-    
+
 
 def _set_bundler_state_python(state, module, user, sys_prefix, logger=None):
     """Enables or disables bundlers defined in a Python package.
-    
+
     Returns a list of whether the state was achieved for each bundler.
-    
+
     Parameters
     ----------
     state : Bool
@@ -132,9 +132,9 @@ def _set_bundler_state_python(state, module, user, sys_prefix, logger=None):
 
 def enable_bundler_python(module, user=True, sys_prefix=False, logger=None):
     """Enables bundlers defined in a Python package.
-    
+
     Returns whether each bundle defined in the packaged was enabled or not.
-    
+
     Parameters
     ----------
     module : str
@@ -150,13 +150,13 @@ def enable_bundler_python(module, user=True, sys_prefix=False, logger=None):
     """
     return _set_bundler_state_python(True, module, user, sys_prefix,
                                      logger=logger)
-    
+
 
 def disable_bundler_python(module, user=True, sys_prefix=False, logger=None):
     """Disables bundlers defined in a Python package.
-    
+
     Returns whether each bundle defined in the packaged was enabled or not.
-    
+
     Parameters
     ----------
     module : str
@@ -181,13 +181,13 @@ class ToggleBundlerExtensionApp(BaseExtensionApp):
     description = "Enable/disable a bundlerextension in configuration."
 
     user = Bool(True, config=True, help="Apply the configuration only for the current user (default)")
-    
+
     _toggle_value = None
-    
+
     def _config_file_name_default(self):
         """The default config file name."""
         return 'jupyter_notebook_config'
-    
+
     def toggle_bundler_python(self, module):
         """Toggle some extensions in an importable Python module.
 
@@ -215,7 +215,7 @@ class ToggleBundlerExtensionApp(BaseExtensionApp):
         if self.python:
             self.toggle_bundler_python(self.extra_args[0])
         else:
-            raise NotImplementedError('Cannot install bundlers from non-Python packages')            
+            raise NotImplementedError('Cannot install bundlers from non-Python packages')
 
 
 class EnableBundlerExtensionApp(ToggleBundlerExtensionApp):
@@ -223,19 +223,19 @@ class EnableBundlerExtensionApp(ToggleBundlerExtensionApp):
     name = "jupyter bundlerextension enable"
     description = """
     Enable a bundlerextension in frontend configuration.
-    
+
     Usage
         jupyter bundlerextension enable [--system|--sys-prefix]
     """
     _toggle_value = True
-    
+
 
 class DisableBundlerExtensionApp(ToggleBundlerExtensionApp):
     """An App that disables bundlerextensions"""
     name = "jupyter bundlerextension disable"
     description = """
     Disable a bundlerextension in frontend configuration.
-    
+
     Usage
         jupyter bundlerextension disable [--system|--sys-prefix]
     """
@@ -247,13 +247,13 @@ class ListBundlerExtensionApp(BaseExtensionApp):
     name = "jupyter nbextension list"
     version = __version__
     description = "List all nbextensions known by the configuration system"
-    
+
     def list_nbextensions(self):
         """List all the nbextensions"""
         config_dirs = [os.path.join(p, 'nbconfig') for p in jupyter_config_path()]
-        
+
         print("Known bundlerextensions:")
-        
+
         for config_dir in config_dirs:
             head = u'  config dir: {}'.format(config_dir)
             head_shown = False
@@ -265,7 +265,7 @@ class ListBundlerExtensionApp(BaseExtensionApp):
                     # only show heading if there is an nbextension here
                     print(head)
                     head_shown = True
-                
+
                 for bundler_id, info in data['bundlerextensions'].items():
                     label = info.get('label')
                     module = info.get('module_name')
@@ -276,7 +276,7 @@ class ListBundlerExtensionApp(BaseExtensionApp):
                             label, module, GREEN_ENABLED
                         )
                     print(msg)
-    
+
     def start(self):
         """Perform the App's functions as configured"""
         self.list_nbextensions()

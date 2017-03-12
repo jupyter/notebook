@@ -224,7 +224,7 @@ class TestContentsManager(TestCase):
                 self.assertEqual(entry['name'], "nb.ipynb")
                 complete_path = "/".join([api_path, "nb.ipynb"])
                 self.assertEqual(entry["path"], complete_path)
-    
+
     def setUp(self):
         self._temp_dir = TemporaryDirectory()
         self.td = self._temp_dir.name

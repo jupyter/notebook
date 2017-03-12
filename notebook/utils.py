@@ -61,11 +61,11 @@ def url2path(url):
     pieces = [unquote(p) for p in url.split('/')]
     path = os.path.join(*pieces)
     return path
-    
+
 
 def url_escape(path):
     """Escape special characters in a URL path
-    
+
     Turns '/foo bar/' into '/foo%20bar/'
     """
     parts = py3compat.unicode_to_str(path, encoding='utf8').split('/')
@@ -74,7 +74,7 @@ def url_escape(path):
 
 def url_unescape(path):
     """Unescape special characters in a URL path
-    
+
     Turns '/foo%20bar/' into '/foo bar/'
     """
     return u'/'.join([
@@ -174,12 +174,12 @@ else:
 
 def is_hidden(abs_path, abs_root=''):
     """Is a file hidden or contained in a hidden directory?
-    
+
     This will start with the rightmost path element and work backwards to the
     given root to see if a path is hidden or in a hidden directory. Hidden is
-    determined by either name starting with '.' or the UF_HIDDEN flag as 
+    determined by either name starting with '.' or the UF_HIDDEN flag as
     reported by stat.
-    
+
     Parameters
     ----------
     abs_path : unicode
@@ -256,7 +256,7 @@ def to_os_path(path, root=''):
 
 def to_api_path(os_path, root=''):
     """Convert a filesystem path to an API path
-    
+
     If given, root will be removed from the path.
     root must be a filesystem path already.
     """

@@ -99,7 +99,7 @@ def find_package_data():
     """
     # This is not enough for these things to appear in an sdist.
     # We need to muck with the MANIFEST to get this to work
-    
+
     # exclude components and less from the walk;
     # we will build the components separately
     excludes = [
@@ -119,12 +119,12 @@ def find_package_data():
             continue
         for f in files:
             static_data.append(pjoin(parent, f))
-    
+
     # for verification purposes, explicitly add main.min.js
     # so that installation will fail if they are missing
     for app in ['auth', 'edit', 'notebook', 'terminal', 'tree']:
         static_data.append(pjoin('static', app, 'js', 'main.min.js'))
-    
+
     components = pjoin("static", "components")
     # select the components we actually need to install
     # (there are lots of resources we bundle for sdist-reasons that we don't actually use)
@@ -169,10 +169,10 @@ def find_package_data():
         mj('config', 'TeX-AMS-MML_HTMLorMML-full.js'),
         mj('config', 'Safe.js'),
     ])
-    
+
     trees = []
     mj_out = mj('jax', 'output')
-    
+
     if os.path.exists(mj_out):
         for output in os.listdir(mj_out):
             path = pjoin(mj_out, output)
@@ -204,7 +204,7 @@ def find_package_data():
         'notebook.bundler.tests': ['resources/*', 'resources/*/*', 'resources/*/*/.*'],
         'notebook.services.api': ['api.yaml'],
     }
-    
+
     return package_data
 
 
@@ -223,7 +223,7 @@ def check_package_data(package_data):
 
 def check_package_data_first(command):
     """decorator for checking package_data before running a given command
-    
+
     Probably only needs to wrap build_py
     """
     class DecoratedCommand(command):
@@ -334,26 +334,26 @@ def run(cmd, *args, **kwargs):
 
 class Bower(Command):
     description = "fetch static client-side components with bower"
-    
+
     user_options = [
         ('force', 'f', "force fetching of bower dependencies"),
     ]
-    
+
     def initialize_options(self):
         self.force = False
-    
+
     def finalize_options(self):
         self.force = bool(self.force)
-    
+
     bower_dir = pjoin(static, 'components')
     node_modules = pjoin(repo_root, 'node_modules')
-    
+
     def should_run(self):
         if self.force:
             return True
         if not os.path.exists(self.bower_dir):
             return True
-        
+
         # check npm packages
         for pkg in ['preact', 'preact-compat', 'proptypes']:
             npm_pkg = os.path.join(self.node_modules, pkg)
@@ -384,26 +384,26 @@ class Bower(Command):
 
     def patch_codemirror(self):
         """Patch CodeMirror until https://github.com/codemirror/CodeMirror/issues/4454 is resolved"""
-        
+
         try:
             shutil.copyfile('tools/patches/codemirror.js', 'notebook/static/components/codemirror/lib/codemirror.js')
         except OSError as e:
             print("Failed to patch codemirror.js: %s" % e, file=sys.stderr)
             raise
-            
+
     def run(self):
         if not self.should_run():
             print("bower dependencies up to date")
             return
-        
+
         if self.should_run_npm():
             print("installing build dependencies with npm")
             run(['npm', 'install'], cwd=repo_root)
             os.utime(self.node_modules, None)
-        
+
         env = os.environ.copy()
         env['PATH'] = npm_path
-        
+
         try:
             run(
                 ['bower', 'install', '--allow-root', '--config.interactive=false'],
@@ -423,9 +423,9 @@ class Bower(Command):
 
 class CompileCSS(Command):
     """Recompile Notebook CSS
-    
+
     Regenerate the compiled CSS from LESS sources.
-    
+
     Requires various dev dependencies, such as require and lessc.
     """
     description = "Recompile Notebook CSS"
@@ -447,7 +447,7 @@ class CompileCSS(Command):
         self.run_command('jsdeps')
         env = os.environ.copy()
         env['PATH'] = npm_path
-        
+
         for src, dst in zip(self.sources, self.targets):
             try:
                 run(['lessc',
@@ -466,7 +466,7 @@ class CompileCSS(Command):
 
 class CompileJS(Command):
     """Rebuild Notebook Javascript main.min.js files
-    
+
     Calls require via build-main.js
     """
     description = "Rebuild Notebook Javascript main.min.js files"
@@ -482,7 +482,7 @@ class CompileJS(Command):
 
     apps = ['notebook', 'tree', 'edit', 'terminal', 'auth']
     targets = [pjoin(static, app, 'js', 'main.min.js') for app in apps]
-    
+
     def sources(self, name):
         """Generator yielding .js sources that an application depends on"""
         yield pjoin(repo_root, 'tools', 'build-main.js')
@@ -503,7 +503,7 @@ class CompileJS(Command):
                 continue
             for f in files:
                 yield pjoin(parent, f)
-    
+
     def should_run(self, name, target):
         if self.force or not os.path.exists(target):
             return True
@@ -513,11 +513,11 @@ class CompileJS(Command):
                 print(source, target)
                 return True
         return False
-        
+
     def build_main(self, name):
         """Build main.min.js"""
         target = pjoin(static, name, 'js', 'main.min.js')
-        
+
         if not self.should_run(name, target):
             log.info("%s up to date" % target)
             return
@@ -538,13 +538,13 @@ class JavascriptVersion(Command):
     """write the javascript version to notebook javascript"""
     description = "Write Jupyter version to javascript"
     user_options = []
-    
+
     def initialize_options(self):
         pass
-    
+
     def finalize_options(self):
         pass
-    
+
     def run(self):
         nsfile = pjoin(repo_root, "notebook", "static", "base", "js", "namespace.js")
         with open(nsfile) as f:

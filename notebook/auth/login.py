@@ -70,7 +70,7 @@ class LoginHandler(IPythonHandler):
 
     def passwd_check(self, a, b):
         return passwd_check(a, b)
-    
+
     def post(self):
         typed_password = self.get_argument('password', default=u'')
         if self.get_login_available(self.settings):
@@ -178,7 +178,7 @@ class LoginHandler(IPythonHandler):
     @classmethod
     def get_user_token(cls, handler):
         """Identify the user based on a token in the URL or Authorization header
-        
+
         Returns:
         - uuid if authenticated
         - None if not

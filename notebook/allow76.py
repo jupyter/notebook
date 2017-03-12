@@ -23,10 +23,10 @@ from tornado.websocket import WebSocketHandler, WebSocketProtocol13
 
 class AllowDraftWebSocketHandler(WebSocketHandler):
     """Restore Draft76 support for tornado 4
-    
+
     Remove when we can run tests without phantomjs + qt4
     """
-    
+
     # get is unmodified except between the BEGIN/END PATCH lines
     @tornado.web.asynchronous
     def get(self, *args, **kwargs):
@@ -83,12 +83,12 @@ class AllowDraftWebSocketHandler(WebSocketHandler):
                     "HTTP/1.1 426 Upgrade Required\r\n"
                     "Sec-WebSocket-Version: 8\r\n\r\n"))
                 self.stream.close()
-    
+
     # 3.2 methods removed in 4.0:
     def allow_draft76(self):
         """Using this class allows draft76 connections by default"""
         return True
-    
+
     def get_websocket_scheme(self):
         """Return the url scheme used for this request, either "ws" or "wss".
         This is normally decided by HTTPServer, but applications
@@ -98,7 +98,7 @@ class AllowDraftWebSocketHandler(WebSocketHandler):
         Note that this is only used by the draft76 protocol.
         """
         return "wss" if self.request.protocol == "https" else "ws"
-    
+
 
 # No modifications from tornado-3.2.2 below this line
 
@@ -309,4 +309,3 @@ class WebSocketProtocol76(WebSocketProtocol):
         elif self._waiting is None:
             self._waiting = self.stream.io_loop.add_timeout(
                 time.time() + 5, self._abort)
-

@@ -3,7 +3,7 @@
 script to automatically setup notebook over SSL.
 
 Generate cert and keyfiles (rsa 1024) in ~/.ssh/, ask for a password, and add
-the corresponding entries in the notbook json configuration file. 
+the corresponding entries in the notbook json configuration file.
 
 """
 
@@ -57,7 +57,7 @@ def create_self_signed_cert(cert_dir, keyfile, certfile):
         with io.open(join(cert_dir, certfile), "wt") as f:
             f.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert).decode('utf8'))
         os.chmod(join(cert_dir, certfile), 0o600)
-        
+
         with io.open(join(cert_dir, keyfile), "wt") as f:
             f.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, k).decode('utf8'))
         os.chmod(join(cert_dir, keyfile), 0o600)
@@ -67,7 +67,7 @@ def create_self_signed_cert(cert_dir, keyfile, certfile):
 def persist_config(mode=0o600):
     """Context manager that can be use to modify a config object
 
-    On exit of the context manager, the config will be written back to disk, 
+    On exit of the context manager, the config will be written back to disk,
     by default with 600 permissions.
     """
 

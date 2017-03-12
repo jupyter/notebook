@@ -41,7 +41,7 @@ utcnow = utc_aware(datetime.utcnow)
 
 def isoformat(dt):
     """Return iso-formatted timestamp
-    
+
     Like .isoformat(), but uses Z for UTC instead of +00:00
     """
     return dt.isoformat().replace('+00:00', 'Z')

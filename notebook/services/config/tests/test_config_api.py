@@ -68,4 +68,3 @@ class APITest(NotebookTestBase):
         r = self.config_api.get('nonexistant')
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.json(), {})
-

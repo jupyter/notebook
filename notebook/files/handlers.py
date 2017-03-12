@@ -30,18 +30,18 @@ class FilesHandler(IPythonHandler):
         if cm.is_hidden(path):
             self.log.info("Refusing to serve hidden file, via 404 Error")
             raise web.HTTPError(404)
-        
+
         path = path.strip('/')
         if '/' in path:
             _, name = path.rsplit('/', 1)
         else:
             name = path
-        
+
         model = cm.get(path, type='file', content=include_body)
-        
+
         if self.get_argument("download", False):
             self.set_header('Content-Disposition', 'attachment; filename="%s"' % escape.url_escape(name))
-        
+
         # get mimetype from filename
         if name.endswith('.ipynb'):
             self.set_header('Content-Type', 'application/x-ipynb+json')

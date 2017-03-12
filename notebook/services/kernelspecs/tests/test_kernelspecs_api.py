@@ -43,7 +43,7 @@ class KernelSpecAPI(object):
 
     def kernel_spec_info(self, name):
         return self._req('GET', url_path_join('api/kernelspecs', name))
-    
+
     def kernel_resource(self, name, path):
         return self._req('GET', url_path_join('kernelspecs', name, path))
 
@@ -63,10 +63,10 @@ class APITest(NotebookTestBase):
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
-        
+
         with open(pjoin(sample_kernel_dir, 'kernel.json'), 'w') as f:
             json.dump(sample_kernel_json, f)
-        
+
         with io.open(pjoin(sample_kernel_dir, 'resource.txt'), 'w',
                      encoding='utf-8') as f:
             f.write(some_resource)
@@ -79,10 +79,10 @@ class APITest(NotebookTestBase):
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
-        
+
         with open(pjoin(bad_kernel_dir, 'kernel.json'), 'w') as f:
             f.write("garbage")
-        
+
         model = self.ks_api.list().json()
         assert isinstance(model, dict)
         self.assertEqual(model['default'], NATIVE_KERNEL_NAME)
@@ -90,9 +90,9 @@ class APITest(NotebookTestBase):
         assert isinstance(specs, dict)
         # 2: the sample kernelspec created in setUp, and the native Python kernel
         self.assertGreaterEqual(len(specs), 2)
-        
+
         shutil.rmtree(bad_kernel_dir)
-    
+
     def test_list_kernelspecs(self):
         model = self.ks_api.list().json()
         assert isinstance(model, dict)
@@ -126,14 +126,14 @@ class APITest(NotebookTestBase):
     def test_get_nonexistant_kernelspec(self):
         with assert_http_error(404):
             self.ks_api.kernel_spec_info('nonexistant')
-    
+
     def test_get_kernel_resource_file(self):
         res = self.ks_api.kernel_resource('sAmple', 'resource.txt')
         self.assertEqual(res.text, some_resource)
-    
+
     def test_get_nonexistant_resource(self):
         with assert_http_error(404):
             self.ks_api.kernel_resource('nonexistant', 'resource.txt')
-        
+
         with assert_http_error(404):
             self.ks_api.kernel_resource('sample', 'nonexistant.txt')

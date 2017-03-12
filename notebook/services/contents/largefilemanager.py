@@ -14,7 +14,7 @@ class LargeFileManager(FileContentsManager):
         chunk = model.get('chunk', None)
         if chunk is not None:
             path = path.strip('/')
-            
+
             if 'type' not in model:
                 raise web.HTTPError(400, u'No file type provided')
             if model['type'] != 'file':

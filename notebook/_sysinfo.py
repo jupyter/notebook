@@ -57,7 +57,7 @@ def pkg_commit_hash(pkg_path):
             else:
                 return u'', u''
         par_path = p.dirname(par_path)
-                
+
     return u'', u''
 
 
@@ -94,4 +94,3 @@ def get_sys_info():
     p = os.path
     path = p.realpath(p.dirname(p.abspath(p.join(notebook.__file__))))
     return pkg_info(path)
-

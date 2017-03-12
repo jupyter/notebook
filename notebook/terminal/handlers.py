@@ -22,7 +22,7 @@ class TermSocket(WebSocketMixin, IPythonHandler, terminado.TermSocket):
 
     def origin_check(self):
         """Terminado adds redundant origin_check
-        
+
         Tornado already calls check_origin, so don't do anything here.
         """
         return True
@@ -31,4 +31,3 @@ class TermSocket(WebSocketMixin, IPythonHandler, terminado.TermSocket):
         if not self.get_current_user():
             raise web.HTTPError(403)
         return super(TermSocket, self).get(*args, **kwargs)
-    

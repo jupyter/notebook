@@ -57,7 +57,7 @@ b'\x08\xd7c\x90\xfb\xcf\x00\x00\x02\\\x01\x1e.~d\x87\x00\x00\x00\x00IEND\xaeB`\x
 class APITest(NotebookTestBase):
     def setUp(self):
         nbdir = self.notebook_dir
-        
+
         if not os.path.isdir(pjoin(nbdir, 'foo')):
             subdir = pjoin(nbdir, 'foo')
 
@@ -71,7 +71,7 @@ class APITest(NotebookTestBase):
                 shutil.rmtree(subdir, ignore_errors=True)
 
         nb = new_notebook()
-        
+
         nb.cells.append(new_markdown_cell(u'Created by test ³'))
         cc1 = new_code_cell(source=u'print(2*6)')
         cc1.outputs.append(new_output(output_type="stream", text=u'12'))
@@ -80,7 +80,7 @@ class APITest(NotebookTestBase):
             execution_count=1,
         ))
         nb.cells.append(cc1)
-        
+
         with io.open(pjoin(nbdir, 'foo', 'testnb.ipynb'), 'w',
                      encoding='utf-8') as f:
             write(nb, f, version=4)
@@ -120,13 +120,13 @@ class APITest(NotebookTestBase):
     @onlyif_cmds_exist('pandoc')
     def test_from_post(self):
         nbmodel = self.request('GET', 'api/contents/foo/testnb.ipynb').json()
-        
+
         r = self.nbconvert_api.from_post(format='html', nbmodel=nbmodel)
         self.assertEqual(r.status_code, 200)
         self.assertIn(u'text/html', r.headers['Content-Type'])
         self.assertIn(u'Created by test', r.text)
         self.assertIn(u'print', r.text)
-        
+
         r = self.nbconvert_api.from_post(format='python', nbmodel=nbmodel)
         self.assertIn(u'text/x-python', r.headers['Content-Type'])
         self.assertIn(u'print(2*6)', r.text)

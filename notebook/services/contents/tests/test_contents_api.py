@@ -154,10 +154,10 @@ class APITest(NotebookTestBase):
     @staticmethod
     def _txt_for_name(name):
         return u'%s text file' % name
-    
+
     def to_os_path(self, api_path):
         return to_os_path(api_path, root=self.notebook_dir)
-    
+
     def make_dir(self, api_path):
         """Create a directory at api_path"""
         os_path = self.to_os_path(api_path)
@@ -171,17 +171,17 @@ class APITest(NotebookTestBase):
         os_path = self.to_os_path(api_path)
         with io.open(os_path, 'w', encoding='utf-8') as f:
             f.write(txt)
-    
+
     def make_blob(self, api_path, blob):
         """Make a binary file at a given api_path"""
         os_path = self.to_os_path(api_path)
         with io.open(os_path, 'wb') as f:
             f.write(blob)
-    
+
     def make_nb(self, api_path, nb):
         """Make a notebook file at a given api_path"""
         os_path = self.to_os_path(api_path)
-        
+
         with io.open(os_path, 'w', encoding='utf-8') as f:
             write(nb, f, version=4)
 
@@ -194,10 +194,10 @@ class APITest(NotebookTestBase):
         """Delete a file at the given path if it exists."""
         if self.isfile(api_path):
             os.unlink(self.to_os_path(api_path))
-    
+
     def isfile(self, api_path):
         return os.path.isfile(self.to_os_path(api_path))
-    
+
     def isdir(self, api_path):
         return os.path.isdir(self.to_os_path(api_path))
 
@@ -477,21 +477,21 @@ class APITest(NotebookTestBase):
     def test_copy(self):
         resp = self.api.copy(u'å b/ç d.ipynb', u'å b')
         self._check_created(resp, u'å b/ç d-Copy1.ipynb')
-        
+
         resp = self.api.copy(u'å b/ç d.ipynb', u'å b')
         self._check_created(resp, u'å b/ç d-Copy2.ipynb')
-    
+
     def test_copy_copy(self):
         resp = self.api.copy(u'å b/ç d.ipynb', u'å b')
         self._check_created(resp, u'å b/ç d-Copy1.ipynb')
-        
+
         resp = self.api.copy(u'å b/ç d-Copy1.ipynb', u'å b')
         self._check_created(resp, u'å b/ç d-Copy2.ipynb')
-    
+
     def test_copy_path(self):
         resp = self.api.copy(u'foo/a.ipynb', u'å b')
         self._check_created(resp, u'å b/a.ipynb')
-        
+
         resp = self.api.copy(u'foo/a.ipynb', u'å b')
         self._check_created(resp, u'å b/a-Copy1.ipynb')
 
@@ -718,5 +718,3 @@ class GenericFileCheckpointsAPITest(APITest):
             self.notebook.contents_manager.checkpoints,
             GenericFileCheckpoints,
         )
-
-

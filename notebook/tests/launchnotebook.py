@@ -74,7 +74,7 @@ class NotebookTestBase(TestCase):
         cls.notebook_thread.join(timeout=MAX_WAITTIME)
         if cls.notebook_thread.is_alive():
             raise TimeoutError("Undead notebook server")
-    
+
     @classmethod
     def auth_headers(cls):
         headers = {}
@@ -85,7 +85,7 @@ class NotebookTestBase(TestCase):
     @classmethod
     def request(cls, verb, path, **kwargs):
         """Send a request to my server
-        
+
         with authentication and everything.
         """
         headers = kwargs.setdefault('headers', {})
@@ -94,7 +94,7 @@ class NotebookTestBase(TestCase):
             url_path_join(cls.base_url(), path),
             **kwargs)
         return response
-    
+
     @classmethod
     def setup_class(cls):
         cls.tmp_dir = TemporaryDirectory()
@@ -107,7 +107,7 @@ class NotebookTestBase(TestCase):
                 if e.errno != errno.EEXIST:
                     raise
             return path
-        
+
         cls.home_dir = tmp('home')
         data_dir = cls.data_dir = tmp('data')
         config_dir = cls.config_dir = tmp('config')

@@ -178,4 +178,3 @@ default_handlers = [
     (r"/api/sessions/%s" % _session_id_regex, SessionHandler),
     (r"/api/sessions",  SessionRootHandler)
 ]
-

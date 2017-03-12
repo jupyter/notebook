@@ -17,11 +17,11 @@ class NotebookHandler(IPythonHandler):
 
     @web.authenticated
     def get(self, path):
-        """get renders the notebook template if a name is given, or 
+        """get renders the notebook template if a name is given, or
         redirects to the '/files/' handler if the name is not given."""
         path = path.strip('/')
         cm = self.contents_manager
-        
+
         # will raise 404 on not found
         try:
             model = cm.get(path, content=False)
@@ -53,4 +53,3 @@ class NotebookHandler(IPythonHandler):
 default_handlers = [
     (r"/notebooks%s" % path_regex, NotebookHandler),
 ]
-

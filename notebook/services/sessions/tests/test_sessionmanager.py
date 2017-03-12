@@ -30,7 +30,7 @@ class DummyMKM(MappingKernelManager):
 
     def _new_id(self):
         return next(self.id_letters)
-    
+
     def start_kernel(self, kernel_id=None, path=None, kernel_name='python', **kwargs):
         kernel_id = kernel_id or self._new_id()
         k = self._kernels[kernel_id] = DummyKernel(kernel_name=kernel_name)
@@ -44,7 +44,7 @@ class DummyMKM(MappingKernelManager):
 
 
 class TestSessionManager(TestCase):
-    
+
     def setUp(self):
         self.sm = SessionManager(
             kernel_manager=DummyMKM(),
@@ -63,10 +63,10 @@ class TestSessionManager(TestCase):
                 sessions.append(session)
             raise gen.Return(sessions)
         return self.loop.run_sync(co_add)
-    
+
     def create_session(self, **kwargs):
         return self.create_sessions(kwargs)[0]
-    
+
     def test_get_session(self):
         sm = self.sm
         session_id = self.create_session(path='/path/to/test.ipynb', kernel_name='bar')['id']
@@ -110,7 +110,7 @@ class TestSessionManager(TestCase):
             dict(path='/path/to/2/test2.py', type='file', kernel_name='python'),
             dict(path='/path/to/3', name='foo', type='console', kernel_name='python'),
         )
-        
+
         sessions = sm.list_sessions()
         expected = [
             {
@@ -201,7 +201,7 @@ class TestSessionManager(TestCase):
                     }
         }
         self.assertEqual(model, expected)
-    
+
     def test_bad_update_session(self):
         # try to update a session with a bad keyword ~ raise error
         sm = self.sm
@@ -255,4 +255,3 @@ class TestSessionManager(TestCase):
             self.loop.run_sync(lambda: sm.delete_session(bad_kwarg='23424')) # Bad keyword
         with self.assertRaises(web.HTTPError):
             self.loop.run_sync(lambda: sm.delete_session(session_id='23424')) # nonexistent
-
