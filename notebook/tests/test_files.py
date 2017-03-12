@@ -12,8 +12,8 @@ import json
 
 from nbformat import write
 from nbformat.v4 import (new_notebook,
-                              new_markdown_cell, new_code_cell,
-                              new_output)
+                         new_markdown_cell, new_code_cell,
+                         new_output)
 
 from notebook.utils import url_path_join
 from .launchnotebook import NotebookTestBase

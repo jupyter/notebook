@@ -13,7 +13,7 @@ def _jupyter_bundlerextension_paths():
             'label': 'IPython Notebook bundle (.zip)',
             'module_name': 'notebook.bundler.zip_bundler',
             'group': 'download'
-    }]
+            }]
 
 
 def bundle(handler, model):
@@ -31,7 +31,7 @@ def bundle(handler, model):
         Notebook model from the configured ContentManager
     """
     abs_nb_path = os.path.join(handler.settings['contents_manager'].root_dir,
-        model['path'])
+                               model['path'])
     notebook_filename = model['name']
     notebook_name = os.path.splitext(notebook_filename)[0]
 

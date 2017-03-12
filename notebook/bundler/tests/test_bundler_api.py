@@ -15,7 +15,7 @@ from nbformat.v4 import (
 try:
     from unittest.mock import patch
 except ImportError:
-    from mock import patch # py3
+    from mock import patch  # py3
 
 
 def bundle(handler, model):
@@ -52,14 +52,14 @@ class BundleAPITest(NotebookTestBase):
     def test_notebook_not_found(self):
         """Shoudl respond with 404 error about missing notebook"""
         resp = self.request('GET', 'bundle/fake.ipynb',
-            params={'bundler': 'fake_bundler'})
+                            params={'bundler': 'fake_bundler'})
         self.assertEqual(resp.status_code, 404)
         self.assertIn('Not Found', resp.text)
 
     def test_bundler_not_enabled(self):
         """Should respond with 400 error about disabled bundler"""
         resp = self.request('GET', 'bundle/testnb.ipynb',
-            params={'bundler': 'fake_bundler'})
+                            params={'bundler': 'fake_bundler'})
         self.assertEqual(resp.status_code, 400)
         self.assertIn('Bundler fake_bundler not enabled', resp.text)
 
@@ -68,7 +68,7 @@ class BundleAPITest(NotebookTestBase):
         with patch('notebook.bundler.handlers.BundlerHandler.get_bundler') as mock:
             mock.return_value = {'module_name': 'fake_module'}
             resp = self.request('GET', 'bundle/testnb.ipynb',
-                params={'bundler': 'fake_bundler'})
+                                params={'bundler': 'fake_bundler'})
             mock.assert_called_with('fake_bundler')
         self.assertEqual(resp.status_code, 500)
         self.assertIn('Could not import bundler fake_bundler', resp.text)
@@ -78,7 +78,7 @@ class BundleAPITest(NotebookTestBase):
         with patch('notebook.bundler.handlers.BundlerHandler.get_bundler') as mock:
             mock.return_value = {'module_name': 'notebook.bundler.tests.test_bundler_api'}
             resp = self.request('GET', 'bundle/testnb.ipynb',
-                params={'bundler': 'stub_bundler'})
+                                params={'bundler': 'stub_bundler'})
             mock.assert_called_with('stub_bundler')
         self.assertEqual(resp.status_code, 200)
         self.assertIn('testnb.ipynb', resp.text)

@@ -26,9 +26,9 @@ import threading
 import warnings
 import webbrowser
 
-try: #PY3
+try:  # PY3
     from base64 import encodebytes
-except ImportError: #PY2
+except ImportError:  # PY2
     from base64 import encodestring as encodebytes
 
 
@@ -301,13 +301,13 @@ class NotebookWebApplication(web.Application):
         handlers.append(
             (r"/nbextensions/(.*)", FileFindHandler, {
                 'path': settings['nbextensions_path'],
-                'no_cache_paths': ['/'], # don't cache anything in nbextensions
+                'no_cache_paths': ['/'],  # don't cache anything in nbextensions
             }),
         )
         handlers.append(
             (r"/custom/(.*)", FileFindHandler, {
                 'path': settings['static_custom_path'],
-                'no_cache_paths': ['/'], # don't cache anything in custom
+                'no_cache_paths': ['/'],  # don't cache anything in custom
             })
         )
         # register base handlers last
@@ -316,7 +316,7 @@ class NotebookWebApplication(web.Application):
         handlers.append(
             (r'/?', RedirectWithParams, {
                 'url': settings['default_url'],
-                'permanent': False, # want 302, not 301
+                'permanent': False,  # want 302, not 301
             })
         )
 
@@ -359,8 +359,8 @@ class NbserverListApp(JupyterApp):
     )
 
     json = Bool(False, config=True,
-          help="If True, each line of output will be a JSON object with the "
-                  "details from the server info file.")
+                help="If True, each line of output will be a JSON object with the "
+                "details from the server info file.")
 
     def start(self):
         if not self.json:
@@ -407,8 +407,8 @@ flags['allow-root'] = (
 
 # Add notebook manager flags
 flags.update(boolean_flag('script', 'FileContentsManager.save_script',
-               'DEPRECATED, IGNORED',
-               'DEPRECATED, IGNORED'))
+                          'DEPRECATED, IGNORED',
+                          'DEPRECATED, IGNORED'))
 
 aliases = dict(base_aliases)
 
@@ -474,9 +474,9 @@ class NotebookApp(JupyterApp):
         return u"%(color)s[%(levelname)1.1s %(asctime)s.%(msecs).03d %(name)s]%(end_color)s %(message)s"
 
     ignore_minified_js = Bool(False,
-            config=True,
-            help='Deprecated: Use minified JS file or not, mainly use during dev to avoid JS recompilation',
-            )
+                              config=True,
+                              help='Deprecated: Use minified JS file or not, mainly use during dev to avoid JS recompilation',
+                              )
 
     # file to be opened in the notebook server
     file_to_run = Unicode('', config=True)
@@ -484,16 +484,16 @@ class NotebookApp(JupyterApp):
     # Network related information
 
     allow_origin = Unicode('', config=True,
-        help="""Set the Access-Control-Allow-Origin header
+                           help="""Set the Access-Control-Allow-Origin header
 
         Use '*' to allow any origin to access your server.
 
         Takes precedence over allow_origin_pat.
         """
-    )
+                           )
 
     allow_origin_pat = Unicode('', config=True,
-        help="""Use a regular expression for the Access-Control-Allow-Origin header
+                               help="""Use a regular expression for the Access-Control-Allow-Origin header
 
         Requests from an origin matching the expression will get replies with:
 
@@ -503,23 +503,23 @@ class NotebookApp(JupyterApp):
 
         Ignored if allow_origin is set.
         """
-    )
+                               )
 
     allow_credentials = Bool(False, config=True,
-        help="Set the Access-Control-Allow-Credentials: true header"
-    )
+                             help="Set the Access-Control-Allow-Credentials: true header"
+                             )
 
     allow_root = Bool(False, config=True,
-        help="Whether to allow the user to run the notebook as root."
-    )
+                      help="Whether to allow the user to run the notebook as root."
+                      )
 
     default_url = Unicode('/tree', config=True,
-        help="The default URL to redirect to from `/`"
-    )
+                          help="The default URL to redirect to from `/`"
+                          )
 
     ip = Unicode('localhost', config=True,
-        help="The IP address the notebook server will listen on."
-    )
+                 help="The IP address the notebook server will listen on."
+                 )
 
     @default('ip')
     def _default_ip(self):
@@ -545,42 +545,42 @@ class NotebookApp(JupyterApp):
         return value
 
     port = Integer(8888, config=True,
-        help="The port the notebook server will listen on."
-    )
+                   help="The port the notebook server will listen on."
+                   )
 
     port_retries = Integer(50, config=True,
-        help="The number of additional ports to try if the specified port is not available."
-    )
+                           help="The number of additional ports to try if the specified port is not available."
+                           )
 
     certfile = Unicode(u'', config=True,
-        help="""The full path to an SSL/TLS certificate file."""
-    )
+                       help="""The full path to an SSL/TLS certificate file."""
+                       )
 
     keyfile = Unicode(u'', config=True,
-        help="""The full path to a private key file for usage with SSL/TLS."""
-    )
+                      help="""The full path to a private key file for usage with SSL/TLS."""
+                      )
 
     client_ca = Unicode(u'', config=True,
-        help="""The full path to a certificate authority certificate for SSL/TLS client authentication."""
-    )
+                        help="""The full path to a certificate authority certificate for SSL/TLS client authentication."""
+                        )
 
     cookie_secret_file = Unicode(config=True,
-        help="""The file where the cookie secret is stored."""
-    )
+                                 help="""The file where the cookie secret is stored."""
+                                 )
 
     @default('cookie_secret_file')
     def _default_cookie_secret_file(self):
         return os.path.join(self.runtime_dir, 'notebook_cookie_secret')
 
     cookie_secret = Bytes(b'', config=True,
-        help="""The random bytes used to secure cookies.
+                          help="""The random bytes used to secure cookies.
         By default this is a new random number every time you start the Notebook.
         Set it to a value in a config file to enable logins to persist across server sessions.
 
         Note: Cookie secrets should be kept private, do not share config files with
         cookie_secret stored in plaintext (you can read the value from a file).
         """
-    )
+                          )
 
     @default('cookie_secret')
     def _default_cookie_secret(self):
@@ -606,14 +606,14 @@ class NotebookApp(JupyterApp):
             )
 
     token = Unicode('<generated>',
-        help="""Token used for authenticating first-time connections to the server.
+                    help="""Token used for authenticating first-time connections to the server.
 
         When no password is enabled,
         the default is to generate a new, random token.
 
         Setting to an empty string disables authentication altogether, which is NOT RECOMMENDED.
         """
-    ).tag(config=True)
+                    ).tag(config=True)
 
     one_time_token = Unicode(
         help="""One-time token used for opening a browser.
@@ -639,7 +639,7 @@ class NotebookApp(JupyterApp):
         self._token_generated = False
 
     password = Unicode(u'', config=True,
-                      help="""Hashed password to use for web authentication.
+                       help="""Hashed password to use for web authentication.
 
                       To generate, type in a python/IPython shell:
 
@@ -647,10 +647,10 @@ class NotebookApp(JupyterApp):
 
                       The string should be of the form type:salt:hashed-password.
                       """
-    )
+                       )
 
     password_required = Bool(False, config=True,
-                      help="""Forces users to use a password for the Notebook server.
+                             help="""Forces users to use a password for the Notebook server.
                       This is useful in a multi user environment, for instance when
                       everybody in the LAN can access each other's machine though ssh.
 
@@ -658,10 +658,10 @@ class NotebookApp(JupyterApp):
                       since any user can connect to the notebook server via ssh.
 
                       """
-    )
+                             )
 
     disable_check_xsrf = Bool(False, config=True,
-        help="""Disable cross-site-request-forgery protection
+                              help="""Disable cross-site-request-forgery protection
 
         Jupyter notebook 4.3.1 introduces protection from cross-site request forgeries,
         requiring API requests to either:
@@ -674,7 +674,7 @@ class NotebookApp(JupyterApp):
         These services can disable all authentication and security checks,
         with the full knowledge of what that implies.
         """
-    )
+                              )
 
     open_browser = Bool(True, config=True,
                         help="""Whether to open in a browser after starting.
@@ -693,8 +693,8 @@ class NotebookApp(JupyterApp):
                       """)
 
     webapp_settings = Dict(config=True,
-        help="DEPRECATED, use tornado_settings"
-    )
+                           help="DEPRECATED, use tornado_settings"
+                           )
 
     @observe('webapp_settings')
     def _update_webapp_settings(self, change):
@@ -702,22 +702,22 @@ class NotebookApp(JupyterApp):
         self.tornado_settings = change['new']
 
     tornado_settings = Dict(config=True,
-            help="Supply overrides for the tornado.web.Application that the "
-                 "Jupyter notebook uses.")
+                            help="Supply overrides for the tornado.web.Application that the "
+                            "Jupyter notebook uses.")
 
     terminado_settings = Dict(config=True,
-            help='Supply overrides for terminado. Currently only supports "shell_command".')
+                              help='Supply overrides for terminado. Currently only supports "shell_command".')
 
     cookie_options = Dict(config=True,
-        help="Extra keyword arguments to pass to `set_secure_cookie`."
-             " See tornado's set_secure_cookie docs for details."
-    )
+                          help="Extra keyword arguments to pass to `set_secure_cookie`."
+                          " See tornado's set_secure_cookie docs for details."
+                          )
     ssl_options = Dict(config=True,
-            help="""Supply SSL options for the tornado HTTPServer.
+                       help="""Supply SSL options for the tornado HTTPServer.
             See the tornado docs for details.""")
 
     jinja_environment_options = Dict(config=True,
-            help="Supply extra arguments that will be passed to Jinja environment.")
+                                     help="Supply extra arguments that will be passed to Jinja environment.")
 
     jinja_template_vars = Dict(
         config=True,
@@ -725,7 +725,7 @@ class NotebookApp(JupyterApp):
     )
 
     enable_mathjax = Bool(True, config=True,
-        help="""Whether to enable MathJax for typesetting math/TeX
+                          help="""Whether to enable MathJax for typesetting math/TeX
 
         MathJax is the javascript library Jupyter uses to render math/LaTeX. It is
         very large, so you may want to disable it if you have a slow internet
@@ -733,7 +733,7 @@ class NotebookApp(JupyterApp):
 
         When disabled, equations etc. will appear as their untransformed TeX source.
         """
-    )
+                          )
 
     @observe('enable_mathjax')
     def _update_enable_mathjax(self, change):
@@ -742,7 +742,7 @@ class NotebookApp(JupyterApp):
             self.mathjax_url = u''
 
     base_url = Unicode('/', config=True,
-                               help='''The base URL for the notebook server.
+                       help='''The base URL for the notebook server.
 
                                Leading and trailing slashes can be omitted,
                                and will automatically be added.
@@ -765,11 +765,11 @@ class NotebookApp(JupyterApp):
         self.base_url = change['new']
 
     extra_static_paths = List(Unicode(), config=True,
-        help="""Extra paths to search for serving static files.
+                              help="""Extra paths to search for serving static files.
 
         This allows adding javascript/css to be available from the notebook server machine,
         or overriding individual files in the IPython"""
-    )
+                              )
 
     @property
     def static_file_path(self):
@@ -777,8 +777,8 @@ class NotebookApp(JupyterApp):
         return self.extra_static_paths + [DEFAULT_STATIC_FILES_PATH]
 
     static_custom_path = List(Unicode(),
-        help="""Path to search for custom.js, css"""
-    )
+                              help="""Path to search for custom.js, css"""
+                              )
 
     @default('static_custom_path')
     def _default_static_custom_path(self):
@@ -789,10 +789,10 @@ class NotebookApp(JupyterApp):
         ]
 
     extra_template_paths = List(Unicode(), config=True,
-        help="""Extra paths to search for serving jinja templates.
+                                help="""Extra paths to search for serving jinja templates.
 
         Can be used to override templates from notebook.templates."""
-    )
+                                )
 
     @property
     def template_file_path(self):
@@ -800,8 +800,8 @@ class NotebookApp(JupyterApp):
         return self.extra_template_paths + DEFAULT_TEMPLATE_PATH_LIST
 
     extra_nbextensions_path = List(Unicode(), config=True,
-        help="""extra paths to look for Javascript notebook extensions"""
-    )
+                                   help="""extra paths to look for Javascript notebook extensions"""
+                                   )
 
     @property
     def nbextensions_path(self):
@@ -817,19 +817,19 @@ class NotebookApp(JupyterApp):
         return path
 
     websocket_url = Unicode("", config=True,
-        help="""The base URL for websockets,
+                            help="""The base URL for websockets,
         if it differs from the HTTP server (hint: it almost certainly doesn't).
 
         Should be in the form of an HTTP origin: ws[s]://hostname[:port]
         """
-    )
+                            )
 
     mathjax_url = Unicode("", config=True,
-        help="""A custom url for MathJax.js.
+                          help="""A custom url for MathJax.js.
         Should be in the form of a case-sensitive url to MathJax,
         for example:  /static/components/MathJax/MathJax.js
         """
-    )
+                          )
 
     @default('mathjax_url')
     def _default_mathjax_url(self):
@@ -848,8 +848,8 @@ class NotebookApp(JupyterApp):
             self.log.info("Using MathJax: %s", new)
 
     mathjax_config = Unicode("TeX-AMS-MML_HTMLorMML-full,Safe", config=True,
-        help="""The MathJax.js configuration file that is to be used."""
-    )
+                             help="""The MathJax.js configuration file that is to be used."""
+                             )
 
     @observe('mathjax_config')
     def _update_mathjax_config(self, change):
@@ -909,9 +909,9 @@ class NotebookApp(JupyterApp):
     )
 
     trust_xheaders = Bool(False, config=True,
-        help=("Whether to trust or not X-Scheme/X-Forwarded-Proto and X-Real-Ip/X-Forwarded-For headers"
-              "sent by the upstream reverse proxy. Necessary if the proxy handles SSL")
-    )
+                          help=("Whether to trust or not X-Scheme/X-Forwarded-Proto and X-Real-Ip/X-Forwarded-For headers"
+                                "sent by the upstream reverse proxy. Necessary if the proxy handles SSL")
+                          )
 
     info_file = Unicode()
 
@@ -921,10 +921,10 @@ class NotebookApp(JupyterApp):
         return os.path.join(self.runtime_dir, info_file)
 
     pylab = Unicode('disabled', config=True,
-        help="""
+                    help="""
         DISABLED: use %pylab or %matplotlib in the notebook to enable matplotlib.
         """
-    )
+                    )
 
     @observe('pylab')
     def _update_pylab(self, change):
@@ -940,8 +940,8 @@ class NotebookApp(JupyterApp):
         self.exit(1)
 
     notebook_dir = Unicode(config=True,
-        help="The directory to use for notebooks and kernels."
-    )
+                           help="The directory to use for notebooks and kernels."
+                           )
 
     @default('notebook_dir')
     def _default_notebook_dir(self):
@@ -976,8 +976,8 @@ class NotebookApp(JupyterApp):
 
     # TODO: Remove me in notebook 5.0
     server_extensions = List(Unicode(), config=True,
-        help=("DEPRECATED use the nbserver_extensions dict instead")
-    )
+                             help=("DEPRECATED use the nbserver_extensions dict instead")
+                             )
 
     @observe('server_extensions')
     def _update_server_extensions(self, change):
@@ -985,11 +985,11 @@ class NotebookApp(JupyterApp):
         self.server_extensions = change['new']
 
     nbserver_extensions = Dict({}, config=True,
-        help=("Dict of Python modules to load as notebook server extensions."
-              "Entry values can be used to enable and disable the loading of"
-              "the extensions. The extensions will be loaded in alphabetical "
-              "order.")
-    )
+                               help=("Dict of Python modules to load as notebook server extensions."
+                                     "Entry values can be used to enable and disable the loading of"
+                                     "the extensions. The extensions will be loaded in alphabetical "
+                                     "order.")
+                               )
 
     reraise_server_extension_failures = Bool(
         False,
@@ -1282,7 +1282,7 @@ class NotebookApp(JupyterApp):
                     if self.reraise_server_extension_failures:
                         raise
                     self.log.warning("Error loading server extension %s", modulename,
-                                  exc_info=True)
+                                     exc_info=True)
 
     def init_mime_overrides(self):
         # On some Windows machines, an application has registered an incorrect
@@ -1331,7 +1331,7 @@ class NotebookApp(JupyterApp):
                 'notebook_dir': os.path.abspath(self.notebook_dir),
                 'password': bool(self.password),
                 'pid': os.getpid(),
-               }
+                }
 
     def write_server_info_file(self):
         """Write the result of server_info() to the JSON file info_file."""
@@ -1360,7 +1360,7 @@ class NotebookApp(JupyterApp):
             try:
                 uid = os.geteuid()
             except AttributeError:
-                uid = -1 # anything nonzero here, since we can't check UID assume non-root
+                uid = -1  # anything nonzero here, since we can't check UID assume non-root
             if uid == 0:
                 self.log.critical("Running as root is not recommended. Use --allow-root to bypass.")
                 self.exit(1)
@@ -1400,7 +1400,7 @@ class NotebookApp(JupyterApp):
                 uri = url_concat(uri, {'token': self.one_time_token})
             if browser:
                 b = lambda: browser.open(url_path_join(self.connection_url, uri),
-                                          new=2)
+                                         new=2)
                 threading.Thread(target=b).start()
 
         if self.token and self._token_generated:

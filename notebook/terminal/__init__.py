@@ -26,7 +26,7 @@ def initialize(webapp, notebook_dir, connection_url, settings):
     handlers = [
         (ujoin(base_url, r"/terminals/(\w+)"), TerminalHandler),
         (ujoin(base_url, r"/terminals/websocket/(\w+)"), TermSocket,
-             {'term_manager': terminal_manager}),
+         {'term_manager': terminal_manager}),
         (ujoin(base_url, r"/api/terminals"), api_handlers.TerminalRootHandler),
         (ujoin(base_url, r"/api/terminals/(\w+)"), api_handlers.TerminalHandler),
     ]

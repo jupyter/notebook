@@ -120,8 +120,8 @@ class SessionManager(LoggingConfigurable):
             a dictionary of the session model
         """
         self.cursor.execute("INSERT INTO session VALUES (?,?,?,?,?)",
-            (session_id, path, name, type, kernel_id)
-        )
+                            (session_id, path, name, type, kernel_id)
+                            )
         return self.get_session(session_id=session_id)
 
     def get_session(self, **kwargs):

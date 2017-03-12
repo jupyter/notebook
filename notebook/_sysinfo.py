@@ -48,9 +48,9 @@ def pkg_commit_hash(pkg_path):
         cur_path = par_path
         if p.exists(p.join(cur_path, '.git')):
             proc = subprocess.Popen('git rev-parse --short HEAD',
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE,
-                                cwd=pkg_path, shell=True)
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.PIPE,
+                                    cwd=pkg_path, shell=True)
             repo_commit, _ = proc.communicate()
             if repo_commit:
                 return 'repository', repo_commit.strip().decode('ascii')

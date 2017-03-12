@@ -26,7 +26,7 @@ from threading import Thread, Lock, Event
 try:
     from unittest.mock import patch
 except ImportError:
-    from mock import patch # py3
+    from mock import patch  # py3
 
 from jupyter_core.paths import jupyter_runtime_dir
 from ipython_genutils.py3compat import bytes_to_str, which
@@ -151,7 +151,7 @@ class TestController(object):
         stdout = c.writefd if capture_output else None
         stderr = subprocess.STDOUT if capture_output else None
         self.process = subprocess.Popen(self.cmd, stdout=stdout,
-                stderr=stderr, env=env)
+                                        stderr=stderr, env=env)
 
     def wait(self):
         self.process.wait()
@@ -180,7 +180,7 @@ class TestController(object):
         try:
             print('Cleaning up stale PID: %d' % subp.pid)
             subp.kill()
-        except: # (OSError, WindowsError) ?
+        except:  # (OSError, WindowsError) ?
             # This is just a best effort, if we fail or the process was
             # really gone, ignore it.
             pass
@@ -316,12 +316,12 @@ class JSController(TestController):
     def _init_server(self):
         "Start the notebook server in a separate process"
         self.server_command = command = [sys.executable,
-            '-m', 'notebook',
-            '--no-browser',
-            '--notebook-dir', self.nbdir.name,
-            '--NotebookApp.token=',
-            '--NotebookApp.base_url=%s' % self.base_url,
-        ]
+                                         '-m', 'notebook',
+                                         '--no-browser',
+                                         '--notebook-dir', self.nbdir.name,
+                                         '--NotebookApp.token=',
+                                         '--NotebookApp.base_url=%s' % self.base_url,
+                                         ]
         # ipc doesn't work on Windows, and darwin has crazy-long temp paths,
         # which run afoul of ipc's maximum path length.
         if sys.platform.startswith('linux'):
@@ -333,16 +333,16 @@ class JSController(TestController):
         if self.engine == 'phantomjs':
             env['IPYTHON_ALLOW_DRAFT_WEBSOCKETS_FOR_PHANTOMJS'] = '1'
         self.server = subprocess.Popen(command,
-            stdout=c.writefd,
-            stderr=subprocess.STDOUT,
-            cwd=self.nbdir.name,
-            env=env,
-        )
+                                       stdout=c.writefd,
+                                       stderr=subprocess.STDOUT,
+                                       cwd=self.nbdir.name,
+                                       env=env,
+                                       )
         with patch.dict('os.environ', {'HOME': self.home.name}):
             runtime_dir = jupyter_runtime_dir()
         self.server_info_file = os.path.join(runtime_dir,
-            'nbserver-%i.json' % self.server.pid
-        )
+                                             'nbserver-%i.json' % self.server.pid
+                                             )
         self._wait_for_server()
 
     def _wait_for_server(self):
@@ -361,8 +361,8 @@ class JSController(TestController):
                     return
             time.sleep(0.1)
         print("Notebook server-info file never arrived: %s" % self.server_info_file,
-            file=sys.stderr
-        )
+              file=sys.stderr
+              )
 
     def _failed_to_start(self):
         """Notebook server exited prematurely"""
@@ -391,8 +391,8 @@ class JSController(TestController):
                 # server didn't terminate, kill it
                 try:
                     print("Failed to terminate notebook server, killing it.",
-                        file=sys.stderr
-                    )
+                          file=sys.stderr
+                          )
                     self.server.kill()
                 except OSError:
                     # already dead
@@ -402,8 +402,8 @@ class JSController(TestController):
                 popen_wait(self.server, NOTEBOOK_SHUTDOWN_TIMEOUT)
             except TimeoutExpired:
                 print("Notebook server still running (%s)" % self.server_info_file,
-                    file=sys.stderr
-                )
+                      file=sys.stderr
+                      )
 
             self.stream_capturer.halt()
         TestController.cleanup(self)
@@ -592,7 +592,7 @@ def run_jstestall(options):
         # see the actual errors and individual summary
         failed_sections = [c.section for c in failed]
         print('ERROR - {} out of {} test groups failed ({}).'.format(nfail,
-                                  nrunners, ', '.join(failed_sections)), took)
+                                                                     nrunners, ', '.join(failed_sections)), took)
         print()
         print('You may wish to rerun these, with:')
         print('  python -m notebook.jstest', *failed_sections)
@@ -605,19 +605,19 @@ def run_jstestall(options):
 
 argparser = argparse.ArgumentParser(description='Run Jupyter Notebook Javascript tests')
 argparser.add_argument('testgroups', nargs='*',
-                    help='Run specified groups of tests. If omitted, run '
-                    'all tests.')
+                       help='Run specified groups of tests. If omitted, run '
+                       'all tests.')
 argparser.add_argument('--slimerjs', action='store_true',
-                    help="Use slimerjs if it's installed instead of phantomjs for casperjs tests.")
+                       help="Use slimerjs if it's installed instead of phantomjs for casperjs tests.")
 argparser.add_argument('--url', help="URL to use for the JS tests.")
 argparser.add_argument('-j', '--fast', nargs='?', const=None, default=1, type=int,
-                    help='Run test sections in parallel. This starts as many '
-                    'processes as you have cores, or you can specify a number.')
+                       help='Run test sections in parallel. This starts as many '
+                       'processes as you have cores, or you can specify a number.')
 argparser.add_argument('--xunit', action='store_true',
-                    help='Produce Xunit XML results')
+                       help='Produce Xunit XML results')
 argparser.add_argument('--subproc-streams', default='capture',
-                    help="What to do with stdout/stderr from subprocesses. "
-                    "'capture' (default), 'show' and 'discard' are the options.")
+                       help="What to do with stdout/stderr from subprocesses. "
+                       "'capture' (default), 'show' and 'discard' are the options.")
 
 
 def default_options():

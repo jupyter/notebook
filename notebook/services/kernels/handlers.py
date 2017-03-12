@@ -303,9 +303,9 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         def write_stderr(error_message):
             self.log.warning(error_message)
             msg = self.session.msg("stream",
-                content={"text": error_message + '\n', "name": "stderr"},
-                parent=parent
-            )
+                                   content={"text": error_message + '\n', "name": "stderr"},
+                                   parent=parent
+                                   )
             msg['channel'] = 'iopub'
             self.write_message(json.dumps(msg, default=date_default))
 
@@ -427,8 +427,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
 
     def _send_status_message(self, status):
         msg = self.session.msg("status",
-            {'execution_state': status}
-        )
+                               {'execution_state': status}
+                               )
         msg['channel'] = 'iopub'
         self.write_message(json.dumps(msg, default=date_default))
 

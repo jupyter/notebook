@@ -36,7 +36,7 @@ def test_url_escape():
 
     path = url_escape('/ !@$#%^&* / test %^ notebook @#$ name.ipynb')
     nt.assert_equal(path,
-        '/%20%21%40%24%23%25%5E%26%2A%20/%20test%20%25%5E%20notebook%20%40%23%24%20name.ipynb')
+                    '/%20%21%40%24%23%25%5E%26%2A%20/%20test%20%25%5E%20notebook%20%40%23%24%20name.ipynb')
 
 
 def test_url_unescape():

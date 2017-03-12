@@ -6,9 +6,9 @@
 import re
 
 try:
-    from urllib.parse import urlparse # Py 3
+    from urllib.parse import urlparse  # Py 3
 except ImportError:
-    from urlparse import urlparse # Py 2
+    from urlparse import urlparse  # Py 2
 import uuid
 
 from tornado.escape import url_escape
@@ -26,9 +26,9 @@ class LoginHandler(IPythonHandler):
 
     def _render(self, message=None):
         self.write(self.render_template('login.html',
-                next=url_escape(self.get_argument('next', default=self.base_url)),
-                message=message,
-        ))
+                                        next=url_escape(self.get_argument('next', default=self.base_url)),
+                                        message=message,
+                                        ))
 
     def _redirect_safe(self, url, default=None):
         """Redirect if url is on our PATH
@@ -215,10 +215,10 @@ class LoginHandler(IPythonHandler):
             warning = "WARNING: The notebook server is listening on all IP addresses"
             if ssl_options is None:
                 app.log.warning(warning + " and not using encryption. This "
-                    "is not recommended.")
+                                "is not recommended.")
             if not app.password and not app.token:
                 app.log.warning(warning + " and not using authentication. "
-                    "This is highly insecure and not recommended.")
+                                "This is highly insecure and not recommended.")
         else:
             if not app.password and not app.token:
                 app.log.warning(

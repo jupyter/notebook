@@ -242,7 +242,7 @@ def samefile_simple(path, other_path):
     path_stat = os.stat(path)
     other_path_stat = os.stat(other_path)
     return (path.lower() == other_path.lower()
-        and path_stat == other_path_stat)
+            and path_stat == other_path_stat)
 
 
 def to_os_path(path, root=''):
@@ -252,7 +252,7 @@ def to_os_path(path, root=''):
     root must be a filesystem path already.
     """
     parts = path.strip('/').split('/')
-    parts = [p for p in parts if p != ''] # remove duplicate splits
+    parts = [p for p in parts if p != '']  # remove duplicate splits
     path = os.path.join(root, *parts)
     return path
 
@@ -266,7 +266,7 @@ def to_api_path(os_path, root=''):
     if os_path.startswith(root):
         os_path = os_path[len(root):]
     parts = os_path.strip(os.path.sep).split(os.path.sep)
-    parts = [p for p in parts if p != ''] # remove duplicate splits
+    parts = [p for p in parts if p != '']  # remove duplicate splits
     path = '/'.join(parts)
     return path
 

@@ -66,19 +66,19 @@ class ContentsManager(LoggingConfigurable):
     """)
 
     untitled_notebook = Unicode("Untitled", config=True,
-        help="The base name used when creating untitled notebooks."
-    )
+                                help="The base name used when creating untitled notebooks."
+                                )
 
     untitled_file = Unicode("untitled", config=True,
-        help="The base name used when creating untitled files."
-    )
+                            help="The base name used when creating untitled files."
+                            )
 
     untitled_directory = Unicode("Untitled Folder", config=True,
-        help="The base name used when creating untitled directories."
-    )
+                                 help="The base name used when creating untitled directories."
+                                 )
 
     pre_save_hook = Any(None, config=True, allow_none=True,
-        help="""Python callable or importstring thereof
+                        help="""Python callable or importstring thereof
 
         To be called on a contents model prior to save.
 
@@ -95,7 +95,7 @@ class ContentsManager(LoggingConfigurable):
         - path: the API path of the save destination
         - contents_manager: this ContentsManager instance
         """
-    )
+                        )
 
     @validate('pre_save_hook')
     def _validate_pre_save_hook(self, proposal):
@@ -294,7 +294,7 @@ class ContentsManager(LoggingConfigurable):
             else:
                 insert_i = ''
             name = u'{basename}{insert}{ext}'.format(basename=basename,
-                insert=insert_i, ext=ext)
+                                                     insert=insert_i, ext=ext)
             if not self.exists(u'{}/{}'.format(path, name)):
                 break
         return name

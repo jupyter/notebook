@@ -278,7 +278,7 @@ class CheckpointsHandler(APIHandler):
         checkpoint = yield gen.maybe_future(cm.create_checkpoint(path))
         data = json.dumps(checkpoint, default=date_default)
         location = url_path_join(self.base_url, 'api/contents',
-            url_escape(path), 'checkpoints', url_escape(checkpoint['id']))
+                                 url_escape(path), 'checkpoints', url_escape(checkpoint['id']))
         self.set_header('Location', location)
         self.set_status(201)
         self.finish(data)

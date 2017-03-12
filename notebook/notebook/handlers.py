@@ -36,13 +36,13 @@ class NotebookHandler(IPythonHandler):
             return FilesRedirectHandler.redirect_to_files(self, path)
         name = path.rsplit('/', 1)[-1]
         self.write(self.render_template('notebook.html',
-            notebook_path=path,
-            notebook_name=name,
-            kill_kernel=False,
-            mathjax_url=self.mathjax_url,
-            mathjax_config=self.mathjax_config
-            )
-        )
+                                        notebook_path=path,
+                                        notebook_name=name,
+                                        kill_kernel=False,
+                                        mathjax_url=self.mathjax_url,
+                                        mathjax_config=self.mathjax_config
+                                        )
+                   )
 
 
 #-----------------------------------------------------------------------------

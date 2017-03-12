@@ -150,7 +150,7 @@ install_requires = [
     'jupyter_client',
     'nbformat',
     'nbconvert',
-    'ipykernel', # bless IPython kernel for now
+    'ipykernel',  # bless IPython kernel for now
 ]
 extras_require = {
     ':sys_platform != "win32"': ['terminado>=0.3.3'],

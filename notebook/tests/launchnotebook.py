@@ -16,7 +16,7 @@ pjoin = os.path.join
 try:
     from unittest.mock import patch
 except ImportError:
-    from mock import patch #py2
+    from mock import patch  # py2
 
 import requests
 from tornado.ioloop import IOLoop
@@ -29,7 +29,7 @@ from ..utils import url_path_join
 from ipython_genutils.tempdir import TemporaryDirectory
 
 MAX_WAITTIME = 30   # seconds to wait for notebook server to start
-POLL_INTERVAL = 0.1 # time between attempts
+POLL_INTERVAL = 0.1  # time between attempts
 
 # TimeoutError is a builtin on Python 3. This can be removed when we stop
 # supporting Python 2.
@@ -91,8 +91,8 @@ class NotebookTestBase(TestCase):
         headers = kwargs.setdefault('headers', {})
         headers.update(cls.auth_headers())
         response = requests.request(verb,
-            url_path_join(cls.base_url(), path),
-            **kwargs)
+                                    url_path_join(cls.base_url(), path),
+                                    **kwargs)
         return response
 
     @classmethod
@@ -117,7 +117,7 @@ class NotebookTestBase(TestCase):
             'HOME': cls.home_dir,
             'PYTHONPATH': os.pathsep.join(sys.path),
             'IPYTHONDIR': pjoin(cls.home_dir, '.ipython'),
-            'JUPYTER_NO_CONFIG': '1', # needed in the future
+            'JUPYTER_NO_CONFIG': '1',  # needed in the future
             'JUPYTER_CONFIG_DIR': config_dir,
             'JUPYTER_DATA_DIR': data_dir,
             'JUPYTER_RUNTIME_DIR': runtime_dir,
@@ -190,7 +190,7 @@ class NotebookTestBase(TestCase):
         t = Thread(target=cleanup_zmq)
         t.daemon = True
         t.start()
-        t.join(5) # give it a few seconds to clean up (this should be immediate)
+        t.join(5)  # give it a few seconds to clean up (this should be immediate)
         # if term never returned, there's zmq stuff still open somewhere, so shout about it.
         if t.is_alive():
             raise RuntimeError("Failed to teardown zmq Context, open sockets likely left lying around.")
@@ -207,7 +207,7 @@ def assert_http_error(status, msg=None):
     except requests.HTTPError as e:
         real_status = e.response.status_code
         assert real_status == status, \
-                    "Expected status %d, got %d" % (status, real_status)
+            "Expected status %d, got %d" % (status, real_status)
         if msg:
             assert msg in str(e), e
     else:

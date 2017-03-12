@@ -6,9 +6,9 @@
 import mimetypes
 import json
 
-try: #PY3
+try:  # PY3
     from base64 import decodebytes
-except ImportError: #PY2
+except ImportError:  # PY2
     from base64 import decodestring as decodebytes
 
 

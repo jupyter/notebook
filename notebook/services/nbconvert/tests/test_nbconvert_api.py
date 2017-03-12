@@ -12,9 +12,9 @@ class NbconvertAPI(object):
 
     def _req(self, verb, path, body=None, params=None):
         response = self.request(verb,
-                url_path_join('api/nbconvert', path),
-                data=body, params=params,
-        )
+                                url_path_join('api/nbconvert', path),
+                                data=body, params=params,
+                                )
         response.raise_for_status()
         return response
 

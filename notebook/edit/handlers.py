@@ -19,11 +19,11 @@ class EditorHandler(IPythonHandler):
 
         basename = path.rsplit('/', 1)[-1]
         self.write(self.render_template('edit.html',
-            file_path=url_escape(path),
-            basename=basename,
-            page_title=basename + " (editing)",
-            )
-        )
+                                        file_path=url_escape(path),
+                                        basename=basename,
+                                        page_title=basename + " (editing)",
+                                        )
+                   )
 
 
 default_handlers = [

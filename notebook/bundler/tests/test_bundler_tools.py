@@ -86,12 +86,12 @@ b/
     def test_glob_dir(self):
         '''Should expand to single file in the resources/ subfolder.'''
         self.assertIn(os.path.join('resources', 'empty.ipynb'),
-            tools.expand_references(HERE, ['resources/empty.ipynb']))
+                      tools.expand_references(HERE, ['resources/empty.ipynb']))
 
     def test_glob_subdir(self):
         '''Should expand to all files in the resources/ subfolder.'''
         self.assertIn(os.path.join('resources', 'empty.ipynb'),
-            tools.expand_references(HERE, ['resources/']))
+                      tools.expand_references(HERE, ['resources/']))
 
     def test_glob_splat(self):
         '''Should expand to all contents under this test/ directory.'''

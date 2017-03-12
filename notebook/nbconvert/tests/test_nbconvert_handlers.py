@@ -16,9 +16,9 @@ from nbformat.v4 import (
 
 from ipython_genutils.testing.decorators import onlyif_cmds_exist
 
-try: #PY3
+try:  # PY3
     from base64 import encodebytes
-except ImportError: #PY2
+except ImportError:  # PY2
     from base64 import encodestring as encodebytes
 
 
@@ -30,9 +30,9 @@ class NbconvertAPI(object):
 
     def _req(self, verb, path, body=None, params=None):
         response = self.request(verb,
-                url_path_join('nbconvert', path),
-                data=body, params=params,
-        )
+                                url_path_join('nbconvert', path),
+                                data=body, params=params,
+                                )
         response.raise_for_status()
         return response
 
@@ -49,9 +49,9 @@ class NbconvertAPI(object):
 
 
 png_green_pixel = encodebytes(b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00'
-b'\x00\x00\x01\x00\x00x00\x01\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDAT'
-b'\x08\xd7c\x90\xfb\xcf\x00\x00\x02\\\x01\x1e.~d\x87\x00\x00\x00\x00IEND\xaeB`\x82'
-).decode('ascii')
+                              b'\x00\x00\x01\x00\x00x00\x01\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDAT'
+                              b'\x08\xd7c\x90\xfb\xcf\x00\x00\x02\\\x01\x1e.~d\x87\x00\x00\x00\x00IEND\xaeB`\x82'
+                              ).decode('ascii')
 
 
 class APITest(NotebookTestBase):
@@ -76,9 +76,9 @@ class APITest(NotebookTestBase):
         cc1 = new_code_cell(source=u'print(2*6)')
         cc1.outputs.append(new_output(output_type="stream", text=u'12'))
         cc1.outputs.append(new_output(output_type="execute_result",
-            data={'image/png': png_green_pixel},
-            execution_count=1,
-        ))
+                                      data={'image/png': png_green_pixel},
+                                      execution_count=1,
+                                      ))
         nb.cells.append(cc1)
 
         with io.open(pjoin(nbdir, 'foo', 'testnb.ipynb'), 'w',

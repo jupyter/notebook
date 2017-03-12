@@ -137,7 +137,7 @@ def persist_config(config_file=None, mode=0o600):
     except Exception as e:
         tb = traceback.format_exc()
         warnings.warn("Failed to set permissions on %s:\n%s" % (config_file, tb),
-            RuntimeWarning)
+                      RuntimeWarning)
 
 
 def set_password(password=None, config_file=None):

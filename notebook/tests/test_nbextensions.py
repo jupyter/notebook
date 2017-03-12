@@ -17,18 +17,18 @@ from unittest import TestCase
 try:
     from unittest.mock import patch
 except ImportError:
-    from mock import patch # py2
+    from mock import patch  # py2
 
 import ipython_genutils.testing.decorators as dec
 from ipython_genutils import py3compat
 from ipython_genutils.tempdir import TemporaryDirectory
 from notebook import nbextensions
 from notebook.nbextensions import (install_nbextension, check_nbextension,
-    enable_nbextension, disable_nbextension,
-    install_nbextension_python, uninstall_nbextension_python,
-    enable_nbextension_python, disable_nbextension_python, _get_config_dir,
-    validate_nbextension, validate_nbextension_python
-)
+                                   enable_nbextension, disable_nbextension,
+                                   install_nbextension_python, uninstall_nbextension_python,
+                                   enable_nbextension_python, disable_nbextension_python, _get_config_dir,
+                                   validate_nbextension, validate_nbextension_python
+                                   )
 
 from traitlets.config.manager import BaseJSONConfigManager
 
@@ -268,7 +268,7 @@ class TestInstallNBExtension(TestCase):
         stdout = StringIO()
         stderr = StringIO()
         with patch.object(sys, 'stdout', stdout), \
-             patch.object(sys, 'stderr', stderr):
+                patch.object(sys, 'stderr', stderr):
             install_nbextension(self.src)
         self.assertEqual(stdout.getvalue(), '')
         self.assertEqual(stderr.getvalue(), '')

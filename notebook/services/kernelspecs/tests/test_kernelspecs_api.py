@@ -19,7 +19,7 @@ from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 # break these tests
 sample_kernel_json = {'argv': ['cat', '{connection_file}'],
                       'display_name': 'Test kernel',
-                     }
+                      }
 
 some_resource = u"The very model of a modern major general"
 
@@ -32,9 +32,9 @@ class KernelSpecAPI(object):
 
     def _req(self, verb, path, body=None):
         response = self.request(verb,
-                path,
-                data=body,
-        )
+                                path,
+                                data=body,
+                                )
         response.raise_for_status()
         return response
 

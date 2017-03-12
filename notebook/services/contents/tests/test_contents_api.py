@@ -26,9 +26,9 @@ from nbformat import v2
 from ipython_genutils import py3compat
 from ipython_genutils.tempdir import TemporaryDirectory
 
-try: #PY3
+try:  # PY3
     from base64 import encodebytes, decodebytes
-except ImportError: #PY2
+except ImportError:  # PY2
     from base64 import encodestring as encodebytes, decodestring as decodebytes
 
 
@@ -58,9 +58,9 @@ class API(object):
 
     def _req(self, verb, path, body=None, params=None):
         response = self.request(verb,
-                url_path_join('api/contents', path),
-                data=body, params=params,
-        )
+                                url_path_join('api/contents', path),
+                                data=body, params=params,
+                                )
         response.raise_for_status()
         return response
 
@@ -140,7 +140,7 @@ class APITest(NotebookTestBase):
                 ('ordering', 'b'),
                 ('ordering', 'C'),
                 (u'å b', u'ç d'),
-               ]
+                ]
     hidden_dirs = ['.hidden', '__pycache__']
 
     # Don't include root dir.

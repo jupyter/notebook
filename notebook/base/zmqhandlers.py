@@ -11,9 +11,9 @@ import warnings
 import sys
 
 try:
-    from urllib.parse import urlparse # Py 3
+    from urllib.parse import urlparse  # Py 3
 except ImportError:
-    from urlparse import urlparse # Py 2
+    from urlparse import urlparse  # Py 2
 
 import tornado
 from tornado import gen, ioloop, web
@@ -120,8 +120,8 @@ class WebSocketMixin(object):
         Default is max of 3 pings or 30 seconds.
         """
         return self.settings.get('ws_ping_timeout',
-            max(3 * self.ping_interval, WS_PING_INTERVAL)
-        )
+                                 max(3 * self.ping_interval, WS_PING_INTERVAL)
+                                 )
 
     def check_origin(self, origin=None):
         """Check Origin == Host or Access-Control-Allow-Origin.
@@ -158,8 +158,8 @@ class WebSocketMixin(object):
             allow = False
         if not allow:
             self.log.warning("Blocking Cross Origin WebSocket Attempt.  Origin: %s, Host: %s",
-                origin, host,
-            )
+                             origin, host,
+                             )
         return allow
 
     def clear_cookie(self, *args, **kwargs):

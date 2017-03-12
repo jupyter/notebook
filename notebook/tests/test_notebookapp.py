@@ -11,7 +11,7 @@ from tempfile import NamedTemporaryFile
 try:
     from unittest.mock import patch
 except ImportError:
-    from mock import patch # py2
+    from mock import patch  # py2
 
 import nose.tools as nt
 
@@ -85,7 +85,7 @@ def test_nb_dir_with_slash():
 
 
 def test_nb_dir_root():
-    root = os.path.abspath(os.sep) # gets the right value on Windows, Posix
+    root = os.path.abspath(os.sep)  # gets the right value on Windows, Posix
     app = NotebookApp(notebook_dir=root)
     nt.assert_equal(app.notebook_dir, root)
 

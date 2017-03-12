@@ -182,7 +182,7 @@ def find_package_data():
                 trees.append(autoload)
 
     for tree in trees + [
-        mj('localization'), # limit to en?
+        mj('localization'),  # limit to en?
         mj('fonts', 'HTML-CSS', 'STIX-Web', 'woff'),
         mj('extensions'),
         mj('jax', 'input', 'TeX'),
@@ -451,11 +451,11 @@ class CompileCSS(Command):
         for src, dst in zip(self.sources, self.targets):
             try:
                 run(['lessc',
-                    '--source-map',
-                    '--include-path=%s' % pipes.quote(static),
-                    src,
-                    dst,
-                ], cwd=repo_root, env=env)
+                     '--source-map',
+                     '--include-path=%s' % pipes.quote(static),
+                     src,
+                     dst,
+                     ], cwd=repo_root, env=env)
             except OSError as e:
                 print("Failed to build css: %s" % e, file=sys.stderr)
                 print("You can install js dependencies with `npm install`", file=sys.stderr)

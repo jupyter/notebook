@@ -89,8 +89,8 @@ class TestSessionManager(TestCase):
         # Should raise error if a bad key is passed to the database.
         sm = self.sm
         session_id = self.create_session(path='/path/to/test.ipynb',
-                                       kernel_name='foo')['id']
-        self.assertRaises(TypeError, sm.get_session, bad_id=session_id) # Bad keyword
+                                         kernel_name='foo')['id']
+        self.assertRaises(TypeError, sm.get_session, bad_id=session_id)  # Bad keyword
 
     def test_get_session_dead_kernel(self):
         sm = self.sm
@@ -184,7 +184,7 @@ class TestSessionManager(TestCase):
     def test_update_session(self):
         sm = self.sm
         session_id = self.create_session(path='/path/to/test.ipynb',
-                                       kernel_name='julia')['id']
+                                         kernel_name='julia')['id']
         sm.update_session(session_id, path='/path/to/new_name.ipynb')
         model = sm.get_session(session_id=session_id)
         expected = {'id': session_id,
@@ -199,15 +199,15 @@ class TestSessionManager(TestCase):
                         'last_activity': dummy_date_s,
                         'execution_state': 'idle',
                     }
-        }
+                    }
         self.assertEqual(model, expected)
 
     def test_bad_update_session(self):
         # try to update a session with a bad keyword ~ raise error
         sm = self.sm
         session_id = self.create_session(path='/path/to/test.ipynb',
-                                       kernel_name='ir')['id']
-        self.assertRaises(TypeError, sm.update_session, session_id=session_id, bad_kw='test.ipynb') # Bad keyword
+                                         kernel_name='ir')['id']
+        self.assertRaises(TypeError, sm.update_session, session_id=session_id, bad_kw='test.ipynb')  # Bad keyword
 
     def test_delete_session(self):
         sm = self.sm
@@ -252,6 +252,6 @@ class TestSessionManager(TestCase):
         sm = self.sm
         self.create_session(path='/path/to/test.ipynb', kernel_name='python')
         with self.assertRaises(TypeError):
-            self.loop.run_sync(lambda: sm.delete_session(bad_kwarg='23424')) # Bad keyword
+            self.loop.run_sync(lambda: sm.delete_session(bad_kwarg='23424'))  # Bad keyword
         with self.assertRaises(web.HTTPError):
-            self.loop.run_sync(lambda: sm.delete_session(session_id='23424')) # nonexistent
+            self.loop.run_sync(lambda: sm.delete_session(session_id='23424'))  # nonexistent

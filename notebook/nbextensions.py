@@ -146,7 +146,7 @@ def install_nbextension(path, overwrite=False, symlink=False,
             urlretrieve(path, local_path)
             # now install from the local copy
             full_dest = install_nbextension(local_path, overwrite=overwrite, symlink=symlink,
-                nbextensions_dir=nbext, destination=destination, logger=logger)
+                                            nbextensions_dir=nbext, destination=destination, logger=logger)
     elif path.endswith('.zip') or _safe_is_tarfile(path):
         if symlink:
             raise ValueError("Cannot symlink from archives")
@@ -183,7 +183,7 @@ def install_nbextension(path, overwrite=False, symlink=False,
                     logger.info("Symlinking: %s -> %s" % (full_dest, path))
                 os.symlink(path, full_dest)
         elif os.path.isdir(path):
-            path = pjoin(os.path.abspath(path), '') # end in path separator
+            path = pjoin(os.path.abspath(path), '')  # end in path separator
             for parent, dirs, files in os.walk(path):
                 dest_dir = pjoin(full_dest, parent[len(path):])
                 if not os.path.exists(dest_dir):
@@ -202,7 +202,7 @@ def install_nbextension(path, overwrite=False, symlink=False,
 
 
 def install_nbextension_python(module, overwrite=False, symlink=False,
-                        user=False, sys_prefix=False, prefix=None, nbextensions_dir=None, logger=None):
+                               user=False, sys_prefix=False, prefix=None, nbextensions_dir=None, logger=None):
     """Install an nbextension bundled in a Python package.
 
     Returns a list of installed/updated directories.
@@ -280,8 +280,8 @@ def uninstall_nbextension(dest, require=None, user=False, sys_prefix=False, pref
 
 
 def uninstall_nbextension_python(module,
-                        user=False, sys_prefix=False, prefix=None, nbextensions_dir=None,
-                        logger=None):
+                                 user=False, sys_prefix=False, prefix=None, nbextensions_dir=None,
+                                 logger=None):
     """Uninstall an nbextension bundled in a Python package.
 
     See parameters of `install_nbextension_python`
@@ -293,7 +293,7 @@ def uninstall_nbextension_python(module,
         if logger:
             logger.info("Uninstalling {} {}".format(dest, require))
         uninstall_nbextension(dest, require, user=user, sys_prefix=sys_prefix,
-            prefix=prefix, nbextensions_dir=nbextensions_dir, logger=logger)
+                              prefix=prefix, nbextensions_dir=nbextensions_dir, logger=logger)
 
 
 def _set_nbextension_state(section, require, state,
@@ -627,7 +627,7 @@ class InstallNBExtensionApp(BaseExtensionApp):
 
     prefix = Unicode('', config=True, help="Installation prefix")
     nbextensions_dir = Unicode('', config=True,
-           help="Full path to nbextensions dir (probably use prefix or user)")
+                               help="Full path to nbextensions dir (probably use prefix or user)")
     destination = Unicode('', config=True, help="Destination for the copy or symlink")
 
     def _config_file_name_default(self):
@@ -638,7 +638,7 @@ class InstallNBExtensionApp(BaseExtensionApp):
         """Perform the installation of nbextension(s)"""
         if len(self.extra_args) > 1:
             raise ValueError("Only one nbextension allowed at a time. "
-                         "Call multiple times to install multiple extensions.")
+                             "Call multiple times to install multiple extensions.")
 
         if self.python:
             install = install_nbextension_python
@@ -656,7 +656,7 @@ class InstallNBExtensionApp(BaseExtensionApp):
                              nbextensions_dir=self.nbextensions_dir,
                              logger=self.log,
                              **kwargs
-                            )
+                             )
 
         if full_dests:
             self.log.info(
@@ -753,8 +753,8 @@ class ToggleNBExtensionApp(BaseExtensionApp):
     description = "Enable/disable an nbextension in configuration."
 
     section = Unicode('notebook', config=True,
-          help="""Which config section to add the extension to, 'common' will affect all pages."""
-    )
+                      help="""Which config section to add the extension to, 'common' will affect all pages."""
+                      )
     user = Bool(True, config=True, help="Apply the configuration only for the current user (default)")
 
     aliases = {'section': 'ToggleNBExtensionApp.section'}

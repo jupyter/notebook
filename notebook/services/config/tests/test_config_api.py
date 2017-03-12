@@ -17,9 +17,9 @@ class ConfigAPI(object):
 
     def _req(self, verb, section, body=None):
         response = self.request(verb,
-                url_path_join('api/config', section),
-                data=body,
-        )
+                                url_path_join('api/config', section),
+                                data=body,
+                                )
         response.raise_for_status()
         return response
 
@@ -58,7 +58,7 @@ class APITest(NotebookTestBase):
                                                'wib': [1, 2, 3],
                                                'sub': {'a': 8, 'b': None, 'd': 9},
                                                'sub2': {'c': None}  # should delete sub2
-                                              })
+                                               })
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.json(), {'baz': 75, 'wib': [1, 2, 3],
                                     'sub': {'a': 8, 'd': 9}})

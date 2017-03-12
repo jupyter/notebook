@@ -15,7 +15,7 @@ class TerminalHandler(IPythonHandler):
     @web.authenticated
     def get(self, term_name):
         self.write(self.render_template('terminal.html',
-                   ws_path="terminals/websocket/%s" % term_name))
+                                        ws_path="terminals/websocket/%s" % term_name))
 
 
 class TermSocket(WebSocketMixin, IPythonHandler, terminado.TermSocket):

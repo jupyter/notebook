@@ -24,9 +24,9 @@ from ipython_genutils.py3compat import str_to_unicode
 from traitlets.config import Configurable
 from traitlets import Bool
 
-try: #PY3
+try:  # PY3
     from base64 import encodebytes, decodebytes
-except ImportError: #PY2
+except ImportError:  # PY2
     from base64 import encodestring as encodebytes, decodestring as decodebytes
 
 
@@ -35,7 +35,7 @@ def replace_file(src, dst):
 
     switches between os.replace or os.rename based on python 2.7 or python 3
     """
-    if hasattr(os, 'replace'): # PY3
+    if hasattr(os, 'replace'):  # PY3
         os.replace(src, dst)
     else:
         if os.name == 'nt' and os.path.exists(dst):

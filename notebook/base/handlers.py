@@ -15,9 +15,9 @@ try:
 except ImportError:
     from httplib import responses
 try:
-    from urllib.parse import urlparse # Py 3
+    from urllib.parse import urlparse  # Py 3
 except ImportError:
-    from urlparse import urlparse # Py 2
+    from urlparse import urlparse  # Py 2
 
 from jinja2 import TemplateNotFound
 from tornado import web, gen, escape
@@ -209,7 +209,7 @@ class IPythonHandler(AuthenticatedHandler):
     @property
     def contents_js_source(self):
         self.log.debug("Using contents: %s", self.settings.get('contents_js_source',
-            'services/contents'))
+                                                               'services/contents'))
         return self.settings.get('contents_js_source', 'services/contents')
 
     #---------------------------------------------------------------
@@ -324,8 +324,8 @@ class IPythonHandler(AuthenticatedHandler):
             allow = False
         if not allow:
             self.log.warning("Blocking Cross Origin API request for %s.  Origin: %s, Host: %s",
-                self.request.path, origin, host,
-            )
+                             self.request.path, origin, host,
+                             )
         return allow
 
     def check_xsrf_cookie(self):

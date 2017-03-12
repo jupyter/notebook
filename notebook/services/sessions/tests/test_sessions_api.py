@@ -25,7 +25,7 @@ class SessionAPI(object):
 
     def _req(self, verb, path, body=None):
         response = self.request(verb,
-                url_path_join('api/sessions', path), data=body)
+                                url_path_join('api/sessions', path), data=body)
 
         if 400 <= response.status_code < 600:
             try:

@@ -5,7 +5,7 @@ from unittest import TestCase
 try:
     from unittest.mock import patch
 except ImportError:
-    from mock import patch # py2
+    from mock import patch  # py2
 
 from ipython_genutils.tempdir import TemporaryDirectory
 from ipython_genutils import py3compat
@@ -81,17 +81,17 @@ class MockEnvTestCase(TestCase):
         self.patches.append(p)
         for mod in (paths, nbextensions):
             p = patch.object(mod,
-                'SYSTEM_JUPYTER_PATH', self.system_path)
+                             'SYSTEM_JUPYTER_PATH', self.system_path)
             self.patches.append(p)
             p = patch.object(mod,
-                'ENV_JUPYTER_PATH', [])
+                             'ENV_JUPYTER_PATH', [])
             self.patches.append(p)
         for mod in (paths, extensions):
             p = patch.object(mod,
-                'SYSTEM_CONFIG_PATH', self.system_config_path)
+                             'SYSTEM_CONFIG_PATH', self.system_config_path)
             self.patches.append(p)
             p = patch.object(mod,
-                'ENV_CONFIG_PATH', [])
+                             'ENV_CONFIG_PATH', [])
             self.patches.append(p)
         for p in self.patches:
             p.start()

@@ -10,7 +10,7 @@ import unittest
 try:
     from unittest.mock import patch
 except ImportError:
-    from mock import patch # py2
+    from mock import patch  # py2
 
 from ipython_genutils.tempdir import TemporaryDirectory
 from ipython_genutils import py3compat
@@ -20,7 +20,7 @@ from traitlets.tests.utils import check_help_all_output
 
 import notebook.nbextensions as nbextensions
 from ..bundlerextensions import (_get_config_dir, enable_bundler_python,
-    disable_bundler_python)
+                                 disable_bundler_python)
 
 
 def test_help_output():
@@ -49,7 +49,7 @@ class TestBundlerExtensionCLI(unittest.TestCase):
         })
         self.patch_env.start()
         self.patch_system_path = patch.object(nbextensions,
-            'SYSTEM_JUPYTER_PATH', self.system_path)
+                                              'SYSTEM_JUPYTER_PATH', self.system_path)
         self.patch_system_path.start()
 
     def tearDown(self):

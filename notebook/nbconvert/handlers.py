@@ -103,7 +103,7 @@ class NbconvertFileHandler(IPythonHandler):
                     "metadata": {
                         "name": name[:name.rfind('.')],
                         "modified_date": (model['last_modified']
-                            .strftime(text.date_format))
+                                          .strftime(text.date_format))
                     },
                     "config_dir": self.application.settings['config_dir'],
                 }
@@ -119,7 +119,7 @@ class NbconvertFileHandler(IPythonHandler):
         if self.get_argument('download', 'false').lower() == 'true':
             filename = os.path.splitext(name)[0] + resources['output_extension']
             self.set_header('Content-Disposition',
-                               'attachment; filename="%s"' % escape.url_escape(filename))
+                            'attachment; filename="%s"' % escape.url_escape(filename))
 
         # MIME type
         if exporter.output_mimetype:
@@ -169,5 +169,5 @@ _format_regex = r"(?P<format>\w+)"
 default_handlers = [
     (r"/nbconvert/%s" % _format_regex, NbconvertPostHandler),
     (r"/nbconvert/%s%s" % (_format_regex, path_regex),
-         NbconvertFileHandler),
+     NbconvertFileHandler),
 ]
