@@ -49,7 +49,7 @@ try:
     version_info = tornado.version_info
 except AttributeError:
     raise ImportError(msg + ", but you have < 1.1.0")
-if version_info < (4,0):
+if version_info < (4, 0):
     raise ImportError(msg + ", but you have %s" % tornado.version)
 
 from tornado import httpserver
@@ -218,9 +218,9 @@ class NotebookWebApplication(web.Application):
             template_path=template_path,
             static_path=jupyter_app.static_file_path,
             static_custom_path=jupyter_app.static_custom_path,
-            static_handler_class = FileFindHandler,
-            static_url_prefix = url_path_join(base_url,'/static/'),
-            static_handler_args = {
+            static_handler_class=FileFindHandler,
+            static_url_prefix=url_path_join(base_url, '/static/'),
+            static_handler_args={
                 # don't cache custom.js
                 'no_cache_paths': [url_path_join(base_url, 'static', 'custom')],
             },
@@ -234,12 +234,12 @@ class NotebookWebApplication(web.Application):
 
             # maximum request sizes - support saving larger notebooks
             # tornado defaults are 100 MiB, we increase it to 0.5 GiB
-            max_body_size = 512 * 1024 * 1024,
-            max_buffer_size = 512 * 1024 * 1024,
+            max_body_size=512 * 1024 * 1024,
+            max_buffer_size=512 * 1024 * 1024,
             
             # authentication
             cookie_secret=jupyter_app.cookie_secret,
-            login_url=url_path_join(base_url,'/login'),
+            login_url=url_path_join(base_url, '/login'),
             login_handler_class=jupyter_app.login_handler_class,
             logout_handler_class=jupyter_app.logout_handler_class,
             password=jupyter_app.password,
@@ -312,7 +312,7 @@ class NotebookWebApplication(web.Application):
         # set the URL that will be redirected from `/`
         handlers.append(
             (r'/?', RedirectWithParams, {
-                'url' : settings['default_url'],
+                'url': settings['default_url'],
                 'permanent': False, # want 302, not 301
             })
         )
@@ -348,7 +348,7 @@ class NotebookPasswordApp(JupyterApp):
 
 class NbserverListApp(JupyterApp):
     version = __version__
-    description="List currently running notebook servers."
+    description = "List currently running notebook servers."
     
     flags = dict(
         json=({'NbserverListApp': {'json': True}},
@@ -376,16 +376,16 @@ class NbserverListApp(JupyterApp):
 #-----------------------------------------------------------------------------
 
 flags = dict(base_flags)
-flags['no-browser']=(
-    {'NotebookApp' : {'open_browser' : False}},
+flags['no-browser'] = (
+    {'NotebookApp': {'open_browser': False}},
     "Don't open the notebook in a browser after startup."
 )
-flags['pylab']=(
-    {'NotebookApp' : {'pylab' : 'warn'}},
+flags['pylab'] = (
+    {'NotebookApp': {'pylab': 'warn'}},
     "DISABLED: use %pylab or %matplotlib in the notebook to enable matplotlib."
 )
-flags['no-mathjax']=(
-    {'NotebookApp' : {'enable_mathjax' : False}},
+flags['no-mathjax'] = (
+    {'NotebookApp': {'enable_mathjax': False}},
     """Disable MathJax
     
     MathJax is the javascript library Jupyter uses to render math/LaTeX. It is
@@ -396,8 +396,8 @@ flags['no-mathjax']=(
     """
 )
 
-flags['allow-root']=(
-    {'NotebookApp' : {'allow_root' : True}},
+flags['allow-root'] = (
+    {'NotebookApp': {'allow_root': True}},
     "Allow the notebook to be run from root user."
 )
 
@@ -871,7 +871,7 @@ class NotebookApp(JupyterApp):
 
     config_manager_class = Type(
         default_value=ConfigManager,
-        config = True,
+        config=True,
         help='The config manager class to use'
     )
 
@@ -1203,7 +1203,7 @@ class NotebookApp(JupyterApp):
         print(self.notebook_info())
         sys.stdout.write("Shutdown this notebook server (y/[n])? ")
         sys.stdout.flush()
-        r,w,x = select.select([sys.stdin], [], [], 5)
+        r, w, x = select.select([sys.stdin], [], [], 5)
         if r:
             line = sys.stdin.readline()
             if line.lower().startswith('y') and 'n' not in line.lower():
@@ -1394,7 +1394,7 @@ class NotebookApp(JupyterApp):
             if self.one_time_token:
                 uri = url_concat(uri, {'token': self.one_time_token})
             if browser:
-                b = lambda : browser.open(url_path_join(self.connection_url, uri),
+                b = lambda: browser.open(url_path_join(self.connection_url, uri),
                                           new=2)
                 threading.Thread(target=b).start()
 
@@ -1412,7 +1412,7 @@ class NotebookApp(JupyterApp):
         if sys.platform.startswith('win'):
             # add no-op to wake every 5s
             # to handle signals that may be ignored by the inner loop
-            pc = ioloop.PeriodicCallback(lambda : None, 5000)
+            pc = ioloop.PeriodicCallback(lambda: None, 5000)
             pc.start()
         try:
             self.io_loop.start()

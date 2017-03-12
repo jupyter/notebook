@@ -22,7 +22,7 @@ name = "notebook"
 import sys
 
 v = sys.version_info
-if v[:2] < (2,7) or (v[0] >= 3 and v[:2] < (3,3)):
+if v[:2] < (2, 7) or (v[0] >= 3 and v[:2] < (3, 3)):
     error = "ERROR: %s requires Python version 2.7 or 3.3 or above." % name
     print(error, file=sys.stderr)
     sys.exit(1)
@@ -64,9 +64,9 @@ isfile = os.path.isfile
 pjoin = os.path.join
 
 setup_args = dict(
-    name            = name,
-    description     = "A web-based notebook environment for interactive computing",
-    long_description = """
+    name=name,
+    description="A web-based notebook environment for interactive computing",
+    long_description="""
 The Jupyter Notebook is a web application that allows you to create and
 share documents that contain live code, equations, visualizations, and
 explanatory text. The Notebook has support for multiple programming
@@ -75,17 +75,17 @@ languages, sharing, and interactive widgets.
 Read `the documentation <https://jupyter-notebook.readthedocs.io>`_
 for more information.
     """,
-    version         = version,
-    scripts         = glob(pjoin('scripts', '*')),
-    packages        = find_packages(),
-    package_data    = find_package_data(),
-    author          = 'Jupyter Development Team',
-    author_email    = 'jupyter@googlegroups.com',
-    url             = 'http://jupyter.org',
-    license         = 'BSD',
-    platforms       = "Linux, Mac OS X, Windows",
-    keywords        = ['Interactive', 'Interpreter', 'Shell', 'Web'],
-    classifiers     = [
+    version=version,
+    scripts=glob(pjoin('scripts', '*')),
+    packages=find_packages(),
+    package_data=find_package_data(),
+    author='Jupyter Development Team',
+    author_email='jupyter@googlegroups.com',
+    url='http://jupyter.org',
+    license='BSD',
+    platforms="Linux, Mac OS X, Windows",
+    keywords=['Interactive', 'Interpreter', 'Shell', 'Web'],
+    classifiers=[
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
         'Intended Audience :: Science/Research',
@@ -116,11 +116,11 @@ from distutils.command.sdist import sdist
 setup_args['cmdclass'] = {
     'build_py': css_js_prerelease(
             check_package_data_first(build_py)),
-    'sdist' : css_js_prerelease(sdist, strict=True),
-    'css' : CompileCSS,
-    'js' : CompileJS,
-    'jsdeps' : Bower,
-    'jsversion' : JavascriptVersion,
+    'sdist': css_js_prerelease(sdist, strict=True),
+    'css': CompileCSS,
+    'js': CompileJS,
+    'jsdeps': Bower,
+    'jsversion': JavascriptVersion,
 }
 
 

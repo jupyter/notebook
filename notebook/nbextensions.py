@@ -578,14 +578,14 @@ from traitlets import Bool, Unicode
 flags = {}
 flags.update(_base_flags)
 flags.update({
-    "overwrite" : ({
-        "InstallNBExtensionApp" : {
-            "overwrite" : True,
+    "overwrite": ({
+        "InstallNBExtensionApp": {
+            "overwrite": True,
         }}, "Force overwrite of existing files"
     ),
-    "symlink" : ({
-        "InstallNBExtensionApp" : {
-            "symlink" : True,
+    "symlink": ({
+        "InstallNBExtensionApp": {
+            "symlink": True,
         }}, "Create symlink instead of copying files"
     ),
 })
@@ -595,9 +595,9 @@ flags['s'] = flags['symlink']
 aliases = {}
 aliases.update(_base_aliases)
 aliases.update({
-    "prefix" : "InstallNBExtensionApp.prefix",
-    "nbextensions" : "InstallNBExtensionApp.nbextensions_dir",
-    "destination" : "InstallNBExtensionApp.destination",
+    "prefix": "InstallNBExtensionApp.prefix",
+    "nbextensions": "InstallNBExtensionApp.nbextensions_dir",
+    "destination": "InstallNBExtensionApp.destination",
 })
 
 class InstallNBExtensionApp(BaseExtensionApp):
@@ -635,7 +635,7 @@ class InstallNBExtensionApp(BaseExtensionApp):
     
     def install_extensions(self):
         """Perform the installation of nbextension(s)"""
-        if len(self.extra_args)>1:
+        if len(self.extra_args) > 1:
             raise ValueError("Only one nbextension allowed at a time. "
                          "Call multiple times to install multiple extensions.")
 
@@ -699,8 +699,8 @@ class UninstallNBExtensionApp(BaseExtensionApp):
     """
     
     aliases = {
-        "prefix" : "UninstallNBExtensionApp.prefix",
-        "nbextensions" : "UninstallNBExtensionApp.nbextensions_dir",
+        "prefix": "UninstallNBExtensionApp.prefix",
+        "nbextensions": "UninstallNBExtensionApp.nbextensions_dir",
         "require": "UninstallNBExtensionApp.require",
     }
     
@@ -888,7 +888,7 @@ class NBExtensionApp(BaseExtensionApp):
     examples = _examples
 
     subcommands = dict(
-        install=(InstallNBExtensionApp,"Install an nbextension"),
+        install=(InstallNBExtensionApp, "Install an nbextension"),
         enable=(EnableNBExtensionApp, "Enable an nbextension"),
         disable=(DisableNBExtensionApp, "Disable an nbextension"),
         uninstall=(UninstallNBExtensionApp, "Uninstall an nbextension"),

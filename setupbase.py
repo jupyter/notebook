@@ -78,7 +78,7 @@ def find_packages():
     Find all of the packages.
     """
     packages = []
-    for dir,subdirs,files in os.walk(name):
+    for dir, subdirs, files in os.walk(name):
         package = dir.replace(os.path.sep, '.')
         if '__init__.py' not in files:
             # not a package
@@ -196,8 +196,8 @@ def find_package_data():
     os.chdir(cwd)
 
     package_data = {
-        'notebook' : ['templates/*'] + static_data,
-        'notebook.tests' : js_tests,
+        'notebook': ['templates/*'] + static_data,
+        'notebook.tests': js_tests,
         'notebook.bundler.tests': ['resources/*', 'resources/*/*', 'resources/*/*/.*'],
         'notebook.services.api': ['api.yaml'],
     }
@@ -475,7 +475,7 @@ class CompileJS(Command):
         self.force = bool(self.force)
 
     apps = ['notebook', 'tree', 'edit', 'terminal', 'auth']
-    targets = [ pjoin(static, app, 'js', 'main.min.js') for app in apps ]
+    targets = [pjoin(static, app, 'js', 'main.min.js') for app in apps]
     
     def sources(self, name):
         """Generator yielding .js sources that an application depends on"""
@@ -564,10 +564,10 @@ def css_js_prerelease(command, strict=False):
             css = self.distribution.get_command_obj('css')
             jsdeps.force = js.force = strict
 
-            targets = [ jsdeps.bower_dir ]
+            targets = [jsdeps.bower_dir]
             targets.extend(js.targets)
             targets.extend(css.targets)
-            missing = [ t for t in targets if not os.path.exists(t) ]
+            missing = [t for t in targets if not os.path.exists(t)]
 
             if not is_repo and not missing:
                 # If we're an sdist, we aren't a repo and everything should be present.
@@ -580,11 +580,11 @@ def css_js_prerelease(command, strict=False):
                 self.distribution.run_command('css')
             except Exception as e:
                 # refresh missing
-                missing = [ t for t in targets if not os.path.exists(t) ]
+                missing = [t for t in targets if not os.path.exists(t)]
                 if strict or missing:
                     # die if strict or any targets didn't build
                     prefix = os.path.commonprefix([repo_root + os.sep] + missing)
-                    missing = [ m[len(prefix):] for m in missing ]
+                    missing = [m[len(prefix):] for m in missing]
                     log.warn("rebuilding js and css failed. The following required files are missing: %s" % missing)
                     raise e
                 else:
@@ -592,11 +592,11 @@ def css_js_prerelease(command, strict=False):
                     log.warn(str(e))
 
             # check again for missing targets, just in case:
-            missing = [ t for t in targets if not os.path.exists(t) ]
+            missing = [t for t in targets if not os.path.exists(t)]
             if missing:
                 # command succeeded, but targets still missing (?!)
                 prefix = os.path.commonprefix([repo_root + os.sep] + missing)
-                missing = [ m[len(prefix):] for m in missing ]
+                missing = [m[len(prefix):] for m in missing]
                 raise ValueError("The following required files are missing: %s" % missing)
 
             command.run(self)

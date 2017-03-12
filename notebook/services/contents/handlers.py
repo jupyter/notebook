@@ -22,9 +22,9 @@ def sort_key(model):
     """key function for case-insensitive sort by name and type"""
     iname = model['name'].lower()
     type_key = {
-        'directory' : '0',
-        'notebook'  : '1',
-        'file'      : '2',
+        'directory': '0',
+        'notebook': '1',
+        'file': '2',
     }.get(model['type'], '9')
     return u'%s%s' % (type_key, iname)
 

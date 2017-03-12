@@ -42,10 +42,10 @@ def uniq_stable(elems):
     return [x for x in elems if x not in seen and not seen.add(x)]
 
 def notebooks_only(dir_model):
-    return [nb for nb in dir_model['content'] if nb['type']=='notebook']
+    return [nb for nb in dir_model['content'] if nb['type'] == 'notebook']
 
 def dirs_only(dir_model):
-    return [x for x in dir_model['content'] if x['type']=='directory']
+    return [x for x in dir_model['content'] if x['type'] == 'directory']
 
 
 class API(object):
@@ -84,7 +84,7 @@ class API(object):
         return self._req('POST', path, json.dumps({'type': 'directory'}))
 
     def copy(self, copy_from, path='/'):
-        body = json.dumps({'copy_from':copy_from})
+        body = json.dumps({'copy_from': copy_from})
         return self._req('POST', path, body)
 
     def create(self, path='/'):
@@ -97,7 +97,7 @@ class API(object):
         return self._req('PUT', path, json.dumps({'type': 'directory'}))
 
     def copy_put(self, copy_from, path='/'):
-        body = json.dumps({'copy_from':copy_from})
+        body = json.dumps({'copy_from': copy_from})
         return self._req('PUT', path, body)
 
     def save(self, path, body):
@@ -140,7 +140,7 @@ class APITest(NotebookTestBase):
     hidden_dirs = ['.hidden', '__pycache__']
 
     # Don't include root dir.
-    dirs = uniq_stable([py3compat.cast_unicode(d) for (d,n) in dirs_nbs[1:]])
+    dirs = uniq_stable([py3compat.cast_unicode(d) for (d, n) in dirs_nbs[1:]])
     top_level_dirs = {normalize('NFC', d.split('/')[0]) for d in dirs}
 
     @staticmethod
@@ -243,9 +243,9 @@ class APITest(NotebookTestBase):
 
         nbs = notebooks_only(self.api.list('foo').json())
         self.assertEqual(len(nbs), 4)
-        nbnames = { normalize('NFC', n['name']) for n in nbs }
-        expected = [ u'a.ipynb', u'b.ipynb', u'name with spaces.ipynb', u'unicodé.ipynb']
-        expected = { normalize('NFC', name) for name in expected }
+        nbnames = {normalize('NFC', n['name']) for n in nbs}
+        expected = [u'a.ipynb', u'b.ipynb', u'name with spaces.ipynb', u'unicodé.ipynb']
+        expected = {normalize('NFC', name) for name in expected}
         self.assertEqual(nbnames, expected)
 
         nbs = notebooks_only(self.api.list('ordering').json())
@@ -423,9 +423,9 @@ class APITest(NotebookTestBase):
     def test_upload_txt(self):
         body = u'ünicode téxt'
         model = {
-            'content' : body,
-            'format'  : 'text',
-            'type'    : 'file',
+            'content': body,
+            'format': 'text',
+            'type': 'file',
         }
         path = u'å b/Upload tést.txt'
         resp = self.api.upload(path, body=json.dumps(model))
@@ -441,9 +441,9 @@ class APITest(NotebookTestBase):
         body = b'\xFFblob'
         b64body = encodebytes(body).decode('ascii')
         model = {
-            'content' : b64body,
-            'format'  : 'base64',
-            'type'    : 'file',
+            'content': b64body,
+            'format': 'base64',
+            'type': 'file',
         }
         path = u'å b/Upload tést.blob'
         resp = self.api.upload(path, body=json.dumps(model))
@@ -603,7 +603,7 @@ class APITest(NotebookTestBase):
         hcell = new_markdown_cell('Created by test')
         nb.cells.append(hcell)
         # Save
-        nbmodel= {'content': nb, 'type': 'notebook'}
+        nbmodel = {'content': nb, 'type': 'notebook'}
         resp = self.api.save('foo/a.ipynb', body=json.dumps(nbmodel))
 
         # List checkpoints

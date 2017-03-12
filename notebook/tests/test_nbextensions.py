@@ -189,12 +189,12 @@ class TestInstallNBExtension(TestCase):
 
     def test_destination_file(self):
         file = self.files[0]
-        install_nbextension(pjoin(self.src, file), destination = u'ƒiledest')
+        install_nbextension(pjoin(self.src, file), destination=u'ƒiledest')
         self.assert_installed(u'ƒiledest')
 
     def test_destination_dir(self):
         d = u'∂ir'
-        install_nbextension(pjoin(self.src, d), destination = u'ƒiledest2')
+        install_nbextension(pjoin(self.src, d), destination=u'ƒiledest2')
         self.assert_installed(pjoin(u'ƒiledest2', u'∂ir2', u'ƒile2'))
     
     def test_install_nbextension(self):
@@ -288,7 +288,7 @@ class TestInstallNBExtension(TestCase):
             info.size = len(buf)
             f.addfile(info, BytesIO(buf))
         
-        for i,ext in enumerate((".tar.gz", ".tgz", ".tar.bz2")):
+        for i, ext in enumerate((".tar.gz", ".tgz", ".tar.bz2")):
             path = pjoin(self.src, "myjsext" + ext)
             with tarfile.open(path, 'w') as f:
                 _add_file(f, "b%i.js" % i, b"b();")
@@ -308,7 +308,7 @@ class TestInstallNBExtension(TestCase):
             install_nbextension("https://example.com/path/to/another/bar.js")
             self.assert_installed("bar.js")
             install_nbextension("https://example.com/path/to/another/bar.js", 
-                                destination = 'foobar.js')
+                                destination='foobar.js')
             self.assert_installed("foobar.js")
         finally:
             nbextensions.urlretrieve = save_urlretrieve

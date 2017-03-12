@@ -188,7 +188,7 @@ class TestOrderedServerExtension(MockEnvTestCase):
 
     def test_load_ordered(self):
         app = NotebookApp()
-        app.nbserver_extensions = OrderedDict([('mockextension2',True),('mockextension1',True)])
+        app.nbserver_extensions = OrderedDict([('mockextension2', True), ('mockextension1', True)])
 
         app.init_server_extensions()
 

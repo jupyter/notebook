@@ -67,7 +67,7 @@ class TestSessionManager(TestCase):
         sm = self.sm
         session_id = self.create_session(path='/path/to/test.ipynb', kernel_name='bar')['id']
         model = sm.get_session(session_id=session_id)
-        expected = {'id':session_id,
+        expected = {'id': session_id,
                     'path': u'/path/to/test.ipynb',
                     'notebook': {'path': u'/path/to/test.ipynb', 'name': None},
                     'type': 'notebook',
@@ -110,38 +110,38 @@ class TestSessionManager(TestCase):
         sessions = sm.list_sessions()
         expected = [
             {
-                'id':sessions[0]['id'],
+                'id': sessions[0]['id'],
                 'path': u'/path/to/1/test1.ipynb',
                 'type': 'notebook',
                 'notebook': {'path': u'/path/to/1/test1.ipynb', 'name': None},
                 'name': None,
                 'kernel': {
                     'id': 'A',
-                    'name':'python',
+                    'name': 'python',
                     'connections': 0,
                     'last_activity': dummy_date_s,
                     'execution_state': 'idle',
                 }
             }, {
-                'id':sessions[1]['id'],
+                'id': sessions[1]['id'],
                 'path': u'/path/to/2/test2.py',
                 'type': 'file',
                 'name': None,
                 'kernel': {
                     'id': 'B',
-                    'name':'python',
+                    'name': 'python',
                     'connections': 0,
                     'last_activity': dummy_date_s,
                     'execution_state': 'idle',
                 }
             }, {
-                'id':sessions[2]['id'],
+                'id': sessions[2]['id'],
                 'path': u'/path/to/3',
                 'type': 'console',
                 'name': 'foo',
                 'kernel': {
                     'id': 'C',
-                    'name':'python',
+                    'name': 'python',
                     'connections': 0,
                     'last_activity': dummy_date_s,
                     'execution_state': 'idle',
@@ -168,7 +168,7 @@ class TestSessionManager(TestCase):
                 'notebook': {'path': u'/path/to/2/test2.ipynb', 'name': None},
                 'kernel': {
                     'id': 'B',
-                    'name':'python',
+                    'name': 'python',
                     'connections': 0,
                     'last_activity': dummy_date_s,
                     'execution_state': 'idle',
@@ -183,14 +183,14 @@ class TestSessionManager(TestCase):
                                        kernel_name='julia')['id']
         sm.update_session(session_id, path='/path/to/new_name.ipynb')
         model = sm.get_session(session_id=session_id)
-        expected = {'id':session_id,
+        expected = {'id': session_id,
                     'path': u'/path/to/new_name.ipynb',
                     'type': 'notebook',
                     'name': None,
                     'notebook': {'path': u'/path/to/new_name.ipynb', 'name': None},
                     'kernel': {
                         'id': 'A',
-                        'name':'julia',
+                        'name': 'julia',
                         'connections': 0,
                         'last_activity': dummy_date_s,
                         'execution_state': 'idle',
@@ -222,7 +222,7 @@ class TestSessionManager(TestCase):
                 'notebook': {'path': u'/path/to/1/test1.ipynb', 'name': None},
                 'kernel': {
                     'id': 'A',
-                    'name':'python',
+                    'name': 'python',
                     'connections': 0,
                     'last_activity': dummy_date_s,
                     'execution_state': 'idle',
@@ -234,7 +234,7 @@ class TestSessionManager(TestCase):
                 'name': 'foo',
                 'kernel': {
                     'id': 'C',
-                    'name':'python',
+                    'name': 'python',
                     'connections': 0,
                     'last_activity': dummy_date_s,
                     'execution_state': 'idle',
@@ -248,7 +248,7 @@ class TestSessionManager(TestCase):
         sm = self.sm
         self.create_session(path='/path/to/test.ipynb', kernel_name='python')
         with self.assertRaises(TypeError):
-            self.loop.run_sync(lambda : sm.delete_session(bad_kwarg='23424')) # Bad keyword
+            self.loop.run_sync(lambda: sm.delete_session(bad_kwarg='23424')) # Bad keyword
         with self.assertRaises(web.HTTPError):
-            self.loop.run_sync(lambda : sm.delete_session(session_id='23424')) # nonexistent
+            self.loop.run_sync(lambda: sm.delete_session(session_id='23424')) # nonexistent
 

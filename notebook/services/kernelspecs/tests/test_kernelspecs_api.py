@@ -17,8 +17,8 @@ from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 
 # Copied from jupyter_client.tests.test_kernelspec so updating that doesn't
 # break these tests
-sample_kernel_json = {'argv':['cat', '{connection_file}'],
-                      'display_name':'Test kernel',
+sample_kernel_json = {'argv': ['cat', '{connection_file}'],
+                      'display_name': 'Test kernel',
                      }
 
 some_resource = u"The very model of a modern major general"

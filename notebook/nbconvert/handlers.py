@@ -137,7 +137,7 @@ class NbconvertPostHandler(IPythonHandler):
         
         try:
             output, resources = exporter.from_notebook_node(nbnode, resources={
-                "metadata": {"name": name[:name.rfind('.')],},
+                "metadata": {"name": name[:name.rfind('.')], },
                 "config_dir": self.application.settings['config_dir'],
             })
         except Exception as e:

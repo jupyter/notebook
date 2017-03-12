@@ -21,25 +21,25 @@ _base_flags.update(JupyterApp.flags)
 _base_flags.pop("y", None)
 _base_flags.pop("generate-config", None)
 _base_flags.update({
-    "user" : ({
-        "BaseExtensionApp" : {
-            "user" : True,
+    "user": ({
+        "BaseExtensionApp": {
+            "user": True,
         }}, "Apply the operation only for the given user"
     ),
-    "system" : ({
-        "BaseExtensionApp" : {
-            "user" : False,
+    "system": ({
+        "BaseExtensionApp": {
+            "user": False,
             "sys_prefix": False,
         }}, "Apply the operation system-wide"
     ),
-    "sys-prefix" : ({
-        "BaseExtensionApp" : {
-            "sys_prefix" : True,
+    "sys-prefix": ({
+        "BaseExtensionApp": {
+            "sys_prefix": True,
         }}, "Use sys.prefix as the prefix for installing nbextensions (for environments, packaging)"
     ),
-    "py" : ({
-        "BaseExtensionApp" : {
-            "python" : True,
+    "py": ({
+        "BaseExtensionApp": {
+            "python": True,
         }}, "Install from a Python package"
     )
 })

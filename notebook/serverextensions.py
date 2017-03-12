@@ -132,25 +132,25 @@ flags.update(BaseExtensionApp.flags)
 flags.pop("y", None)
 flags.pop("generate-config", None)
 flags.update({
-    "user" : ({
-        "ToggleServerExtensionApp" : {
-            "user" : True,
+    "user": ({
+        "ToggleServerExtensionApp": {
+            "user": True,
         }}, "Perform the operation for the current user"
     ),
-    "system" : ({
-        "ToggleServerExtensionApp" : {
-            "user" : False,
+    "system": ({
+        "ToggleServerExtensionApp": {
+            "user": False,
             "sys_prefix": False,
         }}, "Perform the operation system-wide"
     ),
-    "sys-prefix" : ({
-        "ToggleServerExtensionApp" : {
-            "sys_prefix" : True,
+    "sys-prefix": ({
+        "ToggleServerExtensionApp": {
+            "sys_prefix": True,
         }}, "Use sys.prefix as the prefix for installing server extensions"
     ),
-    "py" : ({
-        "ToggleServerExtensionApp" : {
-            "python" : True,
+    "py": ({
+        "ToggleServerExtensionApp": {
+            "python": True,
         }}, "Install from a Python package"
     ),
 })

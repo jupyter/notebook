@@ -213,7 +213,7 @@ def all_js_groups():
 class JSController(TestController):
     """Run CasperJS tests """
     
-    requirements =  ['casperjs']
+    requirements = ['casperjs']
 
     def __init__(self, section, xunit=True, engine='phantomjs', url=None):
         """Create new test runner."""
@@ -227,7 +227,7 @@ class JSController(TestController):
         self.base_url = '/a@b/'
         self.slimer_failure = re.compile('^FAIL.*', flags=re.MULTILINE)
         js_test_dir = get_js_test_dir()
-        includes = '--includes=' + os.path.join(js_test_dir,'util.js')
+        includes = '--includes=' + os.path.join(js_test_dir, 'util.js')
         test_cases = os.path.join(js_test_dir, self.section)
         self.cmd = ['casperjs', 'test', includes, test_cases, '--engine=%s' % self.engine]
 
@@ -273,7 +273,7 @@ class JSController(TestController):
                 self.cmd = [sys.executable, '-c', 'raise SystemExit(1)']
 
     def add_xunit(self):
-        xunit_file = os.path.abspath(self.section.replace('/','.') + '.xunit.xml')
+        xunit_file = os.path.abspath(self.section.replace('/', '.') + '.xunit.xml')
         self.cmd.append('--xunit=%s' % xunit_file)
 
     def launch(self, buffer_output):
@@ -327,8 +327,8 @@ class JSController(TestController):
         if self.engine == 'phantomjs':
             env['IPYTHON_ALLOW_DRAFT_WEBSOCKETS_FOR_PHANTOMJS'] = '1'
         self.server = subprocess.Popen(command,
-            stdout = c.writefd,
-            stderr = subprocess.STDOUT,
+            stdout=c.writefd,
+            stderr=subprocess.STDOUT,
             cwd=self.nbdir.name,
             env=env,
         )
@@ -459,12 +459,12 @@ def report():
     def _add(name, value):
         out.append((name, value))
 
-    _add('Python version', inf['sys_version'].replace('\n',''))
+    _add('Python version', inf['sys_version'].replace('\n', ''))
     _add('sys.executable', inf['sys_executable'])
     _add('Platform', inf['platform'])
 
-    width = max(len(n) for (n,v) in out)
-    out = ["{:<{width}}: {}\n".format(n, v, width=width) for (n,v) in out]
+    width = max(len(n) for (n, v) in out)
+    out = ["{:<{width}}: {}\n".format(n, v, width=width) for (n, v) in out]
 
     avail = []
     not_avail = []

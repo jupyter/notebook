@@ -46,7 +46,7 @@ def url_is_absolute(url):
 
 def path2url(path):
     """Convert a local file path to a URL"""
-    pieces = [ quote(p) for p in path.split(os.sep) ]
+    pieces = [quote(p) for p in path.split(os.sep)]
     # preserve trailing /
     if pieces[-1] == '':
         pieces[-1] = '/'
@@ -55,7 +55,7 @@ def path2url(path):
 
 def url2path(url):
     """Convert a URL to a local file path"""
-    pieces = [ unquote(p) for p in url.split('/') ]
+    pieces = [unquote(p) for p in url.split('/')]
     path = os.path.join(*pieces)
     return path
     
@@ -275,7 +275,7 @@ def _check_pid_win32(pid):
     import ctypes
     # OpenProcess returns 0 if no such process (of ours) exists
     # positive int otherwise
-    return bool(ctypes.windll.kernel32.OpenProcess(1,0,pid))
+    return bool(ctypes.windll.kernel32.OpenProcess(1, 0, pid))
 
 def _check_pid_posix(pid):
     """Copy of IPython.utils.process.check_pid"""

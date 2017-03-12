@@ -203,7 +203,7 @@ class WebSocketMixin(object):
 
 class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
     
-    if tornado.version_info < (4,1):
+    if tornado.version_info < (4, 1):
         """Backport send_error from tornado 4.1 to 4.0"""
         def send_error(self, *args, **kwargs):
             if self.stream is None:

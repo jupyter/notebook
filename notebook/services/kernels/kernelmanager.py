@@ -99,7 +99,7 @@ class MappingKernelManager(MultiKernelManager):
             self.log.debug("Kernel args: %r" % kwargs)
             # register callback for failed auto-restart
             self.add_restart_callback(kernel_id,
-                lambda : self._handle_kernel_died(kernel_id),
+                lambda: self._handle_kernel_died(kernel_id),
                 'dead',
             )
         else:
@@ -175,7 +175,7 @@ class MappingKernelManager(MultiKernelManager):
         kernel = self._kernels[kernel_id]
 
         model = {
-            "id":kernel_id,
+            "id": kernel_id,
             "name": kernel.kernel_name,
             "last_activity": isoformat(kernel.last_activity),
             "execution_state": kernel.execution_state,

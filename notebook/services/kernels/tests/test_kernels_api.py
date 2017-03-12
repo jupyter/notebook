@@ -58,7 +58,7 @@ class KernelAPI(object):
             headers=self.headers,
         )
         f = websocket_connect(req, io_loop=loop)
-        return loop.run_sync(lambda : f)
+        return loop.run_sync(lambda: f)
 
 
 class KernelAPITest(NotebookTestBase):

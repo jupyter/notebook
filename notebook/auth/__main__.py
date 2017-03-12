@@ -7,7 +7,7 @@ import sys
 
 def set_password(args):
 	password = args.password
-	while not password  :
+	while not password:
 		password1 = getpass("" if args.quiet else "Provide password: ")
 		password_repeat = getpass("" if args.quiet else "Repeat password:  ")
 		if password1 != password_repeat:

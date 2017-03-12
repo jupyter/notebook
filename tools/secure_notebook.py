@@ -32,7 +32,7 @@ def create_self_signed_cert(cert_dir, keyfile, certfile):
     Abort if one of the keyfile of certfile exist.
     """
 
-    if exists(join(cert_dir, certfile))  or exists(join(cert_dir, keyfile)):
+    if exists(join(cert_dir, certfile)) or exists(join(cert_dir, keyfile)):
         raise FileExistsError('{} or {} already exist in {}. Aborting.'.format(keyfile, certfile, cert_dir))
     else:
         # create a key pair

@@ -343,5 +343,5 @@ intersphinx_mapping = {
     'jupyter': ('https://jupyter.readthedocs.io/en/latest/', None),
 }
 
-spelling_lang='en_US'
-spelling_word_list_filename='spelling_wordlist.txt'
+spelling_lang = 'en_US'
+spelling_word_list_filename = 'spelling_wordlist.txt'

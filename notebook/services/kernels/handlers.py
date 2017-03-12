@@ -161,7 +161,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         
         enabling msg spec adaptation, if necessary
         """
-        idents,msg = self.session.feed_identities(msg)
+        idents, msg = self.session.feed_identities(msg)
         try:
             msg = self.session.deserialize(msg)
         except:

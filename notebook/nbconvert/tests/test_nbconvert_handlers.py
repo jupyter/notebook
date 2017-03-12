@@ -39,7 +39,7 @@ class NbconvertAPI(object):
 
     def from_file(self, format, path, name, download=False):
         return self._req('GET', url_path_join(format, path, name),
-                         params={'download':download})
+                         params={'download': download})
 
     def from_post(self, format, nbmodel):
         body = json.dumps(nbmodel)
@@ -75,7 +75,7 @@ class APITest(NotebookTestBase):
         cc1 = new_code_cell(source=u'print(2*6)')
         cc1.outputs.append(new_output(output_type="stream", text=u'12'))
         cc1.outputs.append(new_output(output_type="execute_result",
-            data={'image/png' : png_green_pixel},
+            data={'image/png': png_green_pixel},
             execution_count=1,
         ))
         nb.cells.append(cc1)

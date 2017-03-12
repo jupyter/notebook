@@ -69,7 +69,7 @@ class AuthenticatedHandler(web.RequestHandler):
             headers["Content-Security-Policy"] = self.content_security_policy
 
         # Allow for overriding headers
-        for header_name,value in headers.items() :
+        for header_name, value in headers.items():
             try:
                 self.set_header(header_name, value)
             except Exception as e:
@@ -469,7 +469,7 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
         if os.path.splitext(path)[1] == '.ipynb':
             name = path.rsplit('/', 1)[-1]
             self.set_header('Content-Type', 'application/json')
-            self.set_header('Content-Disposition','attachment; filename="%s"' % escape.url_escape(name))
+            self.set_header('Content-Disposition', 'attachment; filename="%s"' % escape.url_escape(name))
         
         return web.StaticFileHandler.get(self, path)
     
@@ -588,7 +588,7 @@ class FileFindHandler(IPythonHandler, web.StaticFileHandler):
             cls._static_paths[path] = abspath
             
 
-            log().debug("Path %s served from %s"%(path, abspath))
+            log().debug("Path %s served from %s" % (path, abspath))
             return abspath
     
     def validate_absolute_path(self, root, absolute_path):
@@ -608,7 +608,7 @@ class APIVersionHandler(APIHandler):
     @json_errors
     def get(self):
         # not authenticated, so give as few info as possible
-        self.finish(json.dumps({"version":notebook.__version__}))
+        self.finish(json.dumps({"version": notebook.__version__}))
 
 
 class TrailingSlashHandler(web.RequestHandler):

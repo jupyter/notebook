@@ -114,8 +114,8 @@ class NotebookTestBase(TestCase):
             'PYTHONPATH': os.pathsep.join(sys.path),
             'IPYTHONDIR': pjoin(cls.home_dir, '.ipython'),
             'JUPYTER_NO_CONFIG': '1', # needed in the future
-            'JUPYTER_CONFIG_DIR' : config_dir,
-            'JUPYTER_DATA_DIR' : data_dir,
+            'JUPYTER_CONFIG_DIR': config_dir,
+            'JUPYTER_DATA_DIR': data_dir,
             'JUPYTER_RUNTIME_DIR': runtime_dir,
         })
         cls.env_patch.start()
@@ -149,7 +149,7 @@ class NotebookTestBase(TestCase):
                 token=cls.token,
             )
             # don't register signal handler during tests
-            app.init_signal = lambda : None
+            app.init_signal = lambda: None
             # clear log handlers and propagate to root for nose to capture it
             # needs to be redone after initialize, which reconfigures logging
             app.log.propagate = True

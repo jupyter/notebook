@@ -82,7 +82,7 @@ def _set_bundler_state(name, label, module_name, group, state,
                 name: {
                     "label": label,
                     "module_name": module_name,
-                    "group" : group
+                    "group": group
                 }
             }
         })
