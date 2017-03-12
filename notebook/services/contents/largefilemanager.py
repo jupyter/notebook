@@ -3,7 +3,8 @@ from contextlib import contextmanager
 from tornado import web
 import nbformat
 import base64
-import os, io
+import os
+import io
 
 
 class LargeFileManager(FileContentsManager):
