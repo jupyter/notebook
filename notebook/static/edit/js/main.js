@@ -35,7 +35,7 @@ require([
         console.warn(err);
     }
     
-    page = new page.Page();
+    page = new page.Page('div#header', 'div#site');
 
     var base_url = utils.get_body_data('baseUrl');
     var file_path = utils.get_body_data('filePath');
