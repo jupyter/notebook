@@ -19,7 +19,8 @@ umask = 0
 
 
 def test_atomic_writing():
-    class CustomExc(Exception): pass
+    class CustomExc(Exception):
+        pass
 
     with TemporaryDirectory() as td:
         f1 = os.path.join(td, 'penguin')
