@@ -73,7 +73,7 @@ class API(object):
             params['type'] = type
         if format is not None:
             params['format'] = format
-        if content == False:
+        if not content:
             params['content'] = '0'
         return self._req('GET', path, params=params)
 

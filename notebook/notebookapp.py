@@ -1248,7 +1248,7 @@ class NotebookApp(JupyterApp):
         for modulename in self.server_extensions:
             # Don't override disable state of the extension if it already exist
             # in the new traitlet
-            if not modulename in self.nbserver_extensions:
+            if modulename not in self.nbserver_extensions:
                 self.nbserver_extensions[modulename] = True
 
         # Load server extensions with ConfigManager.
