@@ -4,8 +4,6 @@ import getpass
 import logging
 import os
 import re
-from subprocess import Popen, PIPE, STDOUT
-import sys
 from tempfile import NamedTemporaryFile
 
 try:

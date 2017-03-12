@@ -3,14 +3,12 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-import os
 from tornado import web
 HTTPError = web.HTTPError
 
 from ..base.handlers import (
     IPythonHandler, FilesRedirectHandler, path_regex,
 )
-from ..utils import url_escape
 
 
 class NotebookHandler(IPythonHandler):

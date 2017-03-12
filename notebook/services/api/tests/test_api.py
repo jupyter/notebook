@@ -1,7 +1,5 @@
 """Test the basic /api endpoints"""
 
-import requests
-
 from notebook._tz import isoformat
 from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase

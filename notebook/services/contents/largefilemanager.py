@@ -1,7 +1,5 @@
 from notebook.services.contents.filemanager import FileContentsManager
-from contextlib import contextmanager
 from tornado import web
-import nbformat
 import base64
 import os
 import io

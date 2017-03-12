@@ -11,8 +11,6 @@ from unicodedata import normalize
 
 pjoin = os.path.join
 
-import requests
-
 from ..filecheckpoints import GenericFileCheckpoints
 
 from traitlets.config import Config

@@ -9,10 +9,8 @@ import shutil
 
 pjoin = os.path.join
 
-import requests
-
 from jupyter_client.kernelspec import NATIVE_KERNEL_NAME
-from notebook.utils import url_path_join, url_escape
+from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 
 # Copied from jupyter_client.tests.test_kernelspec so updating that doesn't

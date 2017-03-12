@@ -5,8 +5,6 @@ import os
 from os.path import join as pjoin
 import shutil
 
-import requests
-
 from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 from nbformat import write

@@ -4,7 +4,6 @@
 # Distributed under the terms of the Modified BSD License.
 
 from tornado import web
-import os
 from ..base.handlers import IPythonHandler, path_regex
 from ..utils import url_path_join, url_escape
 

@@ -5,7 +5,6 @@ from functools import partial
 import io
 import os
 import json
-import requests
 import shutil
 import time
 

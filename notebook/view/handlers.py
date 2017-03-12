@@ -6,7 +6,7 @@
 
 from tornado import web
 from ..base.handlers import IPythonHandler, path_regex
-from ..utils import url_escape, url_path_join
+from ..utils import url_path_join
 
 
 class ViewHandler(IPythonHandler):

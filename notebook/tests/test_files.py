@@ -3,11 +3,9 @@
 
 import io
 import os
-from unicodedata import normalize
 
 pjoin = os.path.join
 
-import requests
 import json
 
 from nbformat import write

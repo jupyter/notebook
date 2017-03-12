@@ -10,7 +10,6 @@ from __future__ import absolute_import
 
 import os
 import platform
-import pprint
 import sys
 import subprocess
 
