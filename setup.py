@@ -97,7 +97,6 @@ for more information.
 )
 
 
-
 #---------------------------------------------------------------------------
 # Find all the packages, package data, and data_files
 #---------------------------------------------------------------------------
@@ -122,7 +121,6 @@ setup_args['cmdclass'] = {
     'jsdeps': Bower,
     'jsversion': JavascriptVersion,
 }
-
 
 
 #---------------------------------------------------------------------------
@@ -195,6 +193,7 @@ setup_args.update(setuptools_extra_args)
 
 def main():
     setup(**setup_args)
+
 
 if __name__ == '__main__':
     main()

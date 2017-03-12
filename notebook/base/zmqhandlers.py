@@ -85,6 +85,7 @@ def deserialize_binary_message(bmsg):
     msg['buffers'] = bufs[1:]
     return msg
 
+
 # ping interval for keeping websockets alive (30 seconds)
 WS_PING_INTERVAL = 30000
 
@@ -217,7 +218,6 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
                 # we can close the connection more gracefully.
                 self.stream.close()
 
-    
     def _reserialize_reply(self, msg_or_list, channel=None):
         """Reserialize a reply message using JSON.
 

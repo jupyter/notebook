@@ -35,6 +35,7 @@ def test_help_output():
     check_help_all_output('notebook.serverextensions', ['install'])
     check_help_all_output('notebook.serverextensions', ['uninstall'])
 
+
 outer_file = __file__
 
 
@@ -186,7 +187,6 @@ class TestOrderedServerExtension(MockEnvTestCase):
         super(TestOrderedServerExtension, self).tearDown()
         del sys.modules['mockextension2']
         del sys.modules['mockextension1']
-
 
     def test_load_ordered(self):
         app = NotebookApp()

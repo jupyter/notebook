@@ -25,6 +25,7 @@ class CSPReportHandler(APIHandler):
         self.log.warning("Content security violation: %s",
                       self.request.body.decode('utf8', 'replace'))
 
+
 default_handlers = [
     (csp_report_uri, CSPReportHandler)
 ]

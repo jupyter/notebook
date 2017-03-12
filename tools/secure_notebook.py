@@ -63,7 +63,6 @@ def create_self_signed_cert(cert_dir, keyfile, certfile):
         os.chmod(join(cert_dir, keyfile), 0o600)
 
 
-
 @contextmanager
 def persist_config(mode=0o600):
     """Context manager that can be use to modify a config object

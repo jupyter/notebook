@@ -23,6 +23,7 @@ class tzUTC(tzinfo):
     def dst(self, d):
         return ZERO
 
+
 UTC = tzUTC()
 
 
@@ -32,6 +33,7 @@ def utc_aware(unaware):
         dt = unaware(*args, **kwargs)
         return dt.replace(tzinfo=UTC)
     return utc_method
+
 
 utcfromtimestamp = utc_aware(datetime.utcfromtimestamp)
 utcnow = utc_aware(datetime.utcnow)

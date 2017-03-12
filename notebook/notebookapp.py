@@ -378,6 +378,7 @@ class NbserverListApp(JupyterApp):
 # Aliases and Flags
 #-----------------------------------------------------------------------------
 
+
 flags = dict(base_flags)
 flags['no-browser'] = (
     {'NotebookApp': {'open_browser': False}},
@@ -1465,5 +1466,6 @@ def list_running_servers(runtime_dir=None):
 #-----------------------------------------------------------------------------
 # Main entry point
 #-----------------------------------------------------------------------------
+
 
 main = launch_new_instance = NotebookApp.launch_instance

@@ -464,6 +464,7 @@ def report():
     """Return a string with a summary report of test-related variables."""
     inf = get_sys_info()
     out = []
+
     def _add(name, value):
         out.append((name, value))
 
@@ -600,6 +601,7 @@ def run_jstestall(options):
     if failed:
         # Ensure that our exit code indicates failure
         sys.exit(1)
+
 
 argparser = argparse.ArgumentParser(description='Run Jupyter Notebook Javascript tests')
 argparser.add_argument('testgroups', nargs='*',

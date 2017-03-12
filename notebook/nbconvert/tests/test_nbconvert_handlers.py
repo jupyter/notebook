@@ -22,8 +22,6 @@ except ImportError: #PY2
     from base64 import encodestring as encodebytes
 
 
-
-
 class NbconvertAPI(object):
     """Wrapper for nbconvert API calls."""
 
@@ -48,6 +46,7 @@ class NbconvertAPI(object):
 
     def list_formats(self):
         return self._req('GET', '')
+
 
 png_green_pixel = encodebytes(b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00'
 b'\x00\x00\x01\x00\x00x00\x01\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDAT'

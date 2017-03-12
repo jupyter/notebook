@@ -131,7 +131,6 @@ def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
         os.remove(tmp_path)
 
 
-
 @contextmanager
 def _simple_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     """Context manager to write file without doing atomic writing
@@ -172,8 +171,6 @@ def _simple_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
         raise
 
     fileobj.close()
-
-
 
 
 class FileManagerMixin(Configurable):

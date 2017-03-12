@@ -21,6 +21,7 @@ class NbconvertRootHandler(APIHandler):
 
         self.finish(json.dumps(res))
 
+
 default_handlers = [
     (r"/api/nbconvert", NbconvertRootHandler),
 ]

@@ -57,7 +57,6 @@ class AllowDraftWebSocketHandler(WebSocketHandler):
         else:
             origin = self.request.headers.get("Sec-Websocket-Origin", None)
 
-
         # If there was an origin header, check to make sure it matches
         # according to check_origin. When the origin is None, we assume it
         # did not come from a browser and that it can be passed on.

@@ -46,6 +46,7 @@ def oscmd(s):
     print(">", s)
     os.system(s)
 
+
 # Py3 compatibility hacks, without assuming IPython itself is installed with
 # the full py3compat machinery.
 
@@ -238,6 +239,7 @@ def update_package_data(distribution):
     distribution.package_data = find_package_data()
     # re-init build_py options which load package_data
     build_py.finalize_options()
+
 
 #---------------------------------------------------------------------------
 # Notebook related

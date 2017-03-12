@@ -98,6 +98,7 @@ class NotebookTestBase(TestCase):
     @classmethod
     def setup_class(cls):
         cls.tmp_dir = TemporaryDirectory()
+
         def tmp(*parts):
             path = os.path.join(cls.tmp_dir.name, *parts)
             try:
@@ -137,6 +138,7 @@ class NotebookTestBase(TestCase):
         cls.token = hexlify(os.urandom(4)).decode('ascii')
 
         started = Event()
+
         def start_thread():
             app = cls.notebook = NotebookApp(
                 port=cls.port,
@@ -182,6 +184,7 @@ class NotebookTestBase(TestCase):
         cls.env_patch.stop()
         cls.path_patch.stop()
         # cleanup global zmq Context, to ensure we aren't leaving dangling sockets
+
         def cleanup_zmq():
             zmq.Context.instance().term()
         t = Thread(target=cleanup_zmq)

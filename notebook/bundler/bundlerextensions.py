@@ -308,6 +308,7 @@ jupyter bundlerextension disable --py <packagename>    # disable all bundlers in
         subcmds = ", ".join(sorted(self.subcommands))
         sys.exit("Please supply at least one subcommand: %s" % subcmds)
 
+
 main = BundlerExtensionApp.launch_instance
 
 if __name__ == '__main__':

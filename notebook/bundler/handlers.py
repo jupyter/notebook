@@ -76,6 +76,7 @@ class BundlerHandler(IPythonHandler):
         # finish the request
         yield gen.maybe_future(bundler_mod.bundle(self, model))
 
+
 _bundler_id_regex = r'(?P<bundler_id>[A-Za-z0-9_]+)'
 
 default_handlers = [

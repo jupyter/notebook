@@ -17,6 +17,7 @@ from ._version import __version__
 class ArgumentConflict(ValueError):
     pass
 
+
 _base_flags = {}
 _base_flags.update(JupyterApp.flags)
 _base_flags.pop("y", None)
@@ -97,6 +98,7 @@ def _get_config_dir(user=False, sys_prefix=False):
     else:
         nbext = SYSTEM_CONFIG_PATH[0]
     return nbext
+
 
 # Constants for pretty print extension listing function.
 # Window doesn't support coloring in the commandline

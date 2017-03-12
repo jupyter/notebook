@@ -33,6 +33,7 @@ def test_help_output():
 def test_server_info_file():
     td = TemporaryDirectory()
     nbapp = NotebookApp(runtime_dir=td.name, log=logging.getLogger())
+
     def get_servers():
         return list(notebookapp.list_running_servers(nbapp.runtime_dir))
     nbapp.initialize(argv=[])
@@ -120,7 +121,6 @@ def test_pep440_version():
         ]:
 
         yield (raise_on_bad_version, version)
-
 
 
 pep440re = re.compile('^(\d+)\.(\d+)\.(\d+((a|b|rc)\d+)?)(\.post\d+)?(\.dev\d*)?$')

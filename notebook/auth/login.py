@@ -205,7 +205,6 @@ class LoginHandler(IPythonHandler):
         else:
             return None
 
-
     @classmethod
     def validate_security(cls, app, ssl_options=None):
         """Check the notebook application's security.

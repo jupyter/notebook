@@ -65,6 +65,7 @@ class FilesHandler(IPythonHandler):
                 self.write(model['content'])
             self.flush()
 
+
 default_handlers = [
     (r"/files/(.*)", FilesHandler),
 ]

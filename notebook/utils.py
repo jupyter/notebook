@@ -82,6 +82,7 @@ def url_unescape(path):
         for p in py3compat.unicode_to_str(path, encoding='utf8').split('/')
     ])
 
+
 _win32_FILE_ATTRIBUTE_HIDDEN = 0x02
 
 
@@ -163,6 +164,7 @@ def is_file_hidden_posix(abs_path, stat_res=None):
         return True
 
     return False
+
 
 if sys.platform == 'win32':
     is_file_hidden = is_file_hidden_win
@@ -301,6 +303,7 @@ def _check_pid_posix(pid):
         raise
     else:
         return True
+
 
 if sys.platform == 'win32':
     check_pid = _check_pid_win32

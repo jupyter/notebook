@@ -906,6 +906,7 @@ class NBExtensionApp(BaseExtensionApp):
         subcmds = ", ".join(sorted(self.subcommands))
         sys.exit("Please supply at least one subcommand: %s" % subcmds)
 
+
 main = NBExtensionApp.launch_instance
 
 #------------------------------------------------------------------------------
@@ -1039,7 +1040,6 @@ def _get_nbextension_metadata(module):
                        'it is missing the `_jupyter_nbextension_paths()` method.'.format(module))
     nbexts = m._jupyter_nbextension_paths()
     return m, nbexts
-
 
 
 if __name__ == '__main__':

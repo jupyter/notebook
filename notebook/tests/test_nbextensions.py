@@ -411,7 +411,6 @@ class TestInstallNBExtension(TestCase):
         enabled = cm.get('notebook').get('load_extensions', {}).get(u'ƒ', False)
         assert not enabled
         
-
     def _mock_extension_spec_meta(self, section='notebook'):
         return {
             'section': section,

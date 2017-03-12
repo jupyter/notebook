@@ -299,6 +299,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         idents, fed_msg_list = self.session.feed_identities(msg_list)
         msg = self.session.deserialize(fed_msg_list)
         parent = msg['parent_header']
+
         def write_stderr(error_message):
             self.log.warning(error_message)
             msg = self.session.msg("stream",

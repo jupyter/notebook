@@ -541,10 +541,10 @@ def json_errors(method):
     return wrapper
 
 
-
 #-----------------------------------------------------------------------------
 # File handler
 #-----------------------------------------------------------------------------
+
 
 # to minimize subclass changes:
 HTTPError = web.HTTPError
@@ -591,7 +591,6 @@ class FileFindHandler(IPythonHandler, web.StaticFileHandler):
             
             cls._static_paths[path] = abspath
             
-
             log().debug("Path %s served from %s" % (path, abspath))
             return abspath
     
@@ -678,6 +677,7 @@ class RedirectWithParams(web.RequestHandler):
 #-----------------------------------------------------------------------------
 # URL pattern fragments for re-use
 #-----------------------------------------------------------------------------
+
 
 # path matches any number of `/foo[/bar...]` or just `/` or ''
 path_regex = r"(?P<path>(?:(?:/[^/]+)+|/?))"

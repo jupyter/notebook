@@ -16,6 +16,7 @@ class DummyKernel(object):
     def __init__(self, kernel_name='python'):
         self.kernel_name = kernel_name
 
+
 dummy_date = utcnow()
 dummy_date_s = isoformat(dummy_date)
 

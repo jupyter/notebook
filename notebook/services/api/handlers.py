@@ -52,6 +52,7 @@ class APIStatusHandler(APIHandler):
         }
         self.finish(json.dumps(model, sort_keys=True))
 
+
 default_handlers = [
     (r"/api/spec.yaml", APISpecHandler),
     (r"/api/status", APIStatusHandler),

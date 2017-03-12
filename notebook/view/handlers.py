@@ -23,6 +23,7 @@ class ViewHandler(IPythonHandler):
             self.render_template('view.html', file_url=file_url, page_title=basename)
         )
 
+
 default_handlers = [
     (r"/view%s" % path_regex, ViewHandler),
 ]

@@ -25,6 +25,7 @@ class EditorHandler(IPythonHandler):
             )
         )
 
+
 default_handlers = [
     (r"/edit%s" % path_regex, EditorHandler),
 ]

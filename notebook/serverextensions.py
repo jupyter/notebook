@@ -329,5 +329,6 @@ def _get_server_extension_metadata(module):
         raise KeyError(u'The Python module {} does not include any valid server extensions'.format(module))
     return m, m._jupyter_server_extension_paths()
 
+
 if __name__ == '__main__':
     main()
