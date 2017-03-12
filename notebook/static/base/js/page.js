@@ -49,7 +49,7 @@ define([
          * The header and site divs start out hidden to prevent FLOUC.
          * Main scripts should call this method after styling everything.
          */
-         this.header_div_element.css('display','block');
+        this.header_div_element.css('display','block');
     };
 
     Page.prototype.show_site = function () {
