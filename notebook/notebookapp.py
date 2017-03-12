@@ -1399,8 +1399,9 @@ class NotebookApp(JupyterApp):
             if self.one_time_token:
                 uri = url_concat(uri, {'token': self.one_time_token})
             if browser:
-                b = lambda: browser.open(url_path_join(self.connection_url, uri),
-                                         new=2)
+                def b():
+                    return browser.open(url_path_join(self.connection_url, uri),
+                                        new=2)
                 threading.Thread(target=b).start()
 
         if self.token and self._token_generated:

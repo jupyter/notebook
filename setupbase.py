@@ -163,7 +163,9 @@ def find_package_data():
                 static_data.append(pjoin(parent, f))
 
     # Trim mathjax
-    mj = lambda *path: pjoin(components, 'MathJax', *path)
+    def mj(*path):
+        return pjoin(components, 'MathJax', *path)
+
     static_data.extend([
         mj('MathJax.js'),
         mj('config', 'TeX-AMS-MML_HTMLorMML-full.js'),
