@@ -109,7 +109,7 @@ def test_pep440_version():
         '4.2',
         'X.y.z',
         '1.2.3.dev1.post2',
-        ]:
+    ]:
         def loc():
             with nt.assert_raises(ValueError):
                 raise_on_bad_version(version)
@@ -118,7 +118,7 @@ def test_pep440_version():
     for version in [
         '4.1.1',
         '4.2.1b3',
-        ]:
+    ]:
 
         yield (raise_on_bad_version, version)
 

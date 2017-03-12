@@ -71,7 +71,7 @@ class FilesTest(NotebookTestBase):
         )
 
         with io.open(pjoin(nbdir, 'testnb.ipynb'), 'w',
-            encoding='utf-8') as f:
+                     encoding='utf-8') as f:
             write(nb, f, version=4)
 
         with io.open(pjoin(nbdir, 'test.bin'), 'wb') as f:

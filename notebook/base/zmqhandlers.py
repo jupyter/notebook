@@ -130,7 +130,7 @@ class WebSocketMixin(object):
         """
 
         if self.allow_origin == '*' or (
-            hasattr(self, 'skip_check_origin') and self.skip_check_origin()):
+             hasattr(self, 'skip_check_origin') and self.skip_check_origin()):
             return True
 
         host = self.request.headers.get("Host")
