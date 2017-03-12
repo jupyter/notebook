@@ -33,8 +33,11 @@ POLL_INTERVAL = 0.1 # time between attempts
 
 # TimeoutError is a builtin on Python 3. This can be removed when we stop
 # supporting Python 2.
+
+
 class TimeoutError(Exception):
     pass
+
 
 class NotebookTestBase(TestCase):
     """A base class for tests that need a running notebook.

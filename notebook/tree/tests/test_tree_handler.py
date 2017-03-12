@@ -9,6 +9,7 @@ import requests
 
 from notebook.tests.launchnotebook import NotebookTestBase
 
+
 class TreeTest(NotebookTestBase):
     def setUp(self):
         nbdir = self.notebook_dir

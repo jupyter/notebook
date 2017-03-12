@@ -38,6 +38,7 @@ def test_url_escape():
     nt.assert_equal(path,
         '/%20%21%40%24%23%25%5E%26%2A%20/%20test%20%25%5E%20notebook%20%40%23%24%20name.ipynb')
 
+
 def test_url_unescape():
 
     # decodes a url string to a plain string
@@ -54,6 +55,7 @@ def test_url_unescape():
     path = url_unescape(
         '/%20%21%40%24%23%25%5E%26%2A%20/%20test%20%25%5E%20notebook%20%40%23%24%20name.ipynb')
     nt.assert_equal(path, '/ !@$#%^&* / test %^ notebook @#$ name.ipynb')
+
 
 def test_is_hidden():
     with TemporaryDirectory() as root:
@@ -76,6 +78,7 @@ def test_is_hidden():
         nt.assert_equal(is_hidden(subdir56), True)
         nt.assert_equal(is_file_hidden(subdir56), False)
         nt.assert_equal(is_file_hidden(subdir56, os.stat(subdir56)), False)
+
 
 @skip_if_not_win32
 def test_is_hidden_win32():

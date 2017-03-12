@@ -3,8 +3,10 @@ import requests
 from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase
 
+
 class NbconvertAPI(object):
     """Wrapper for nbconvert API calls."""
+
     def __init__(self, request):
         self.request = request
 
@@ -18,6 +20,7 @@ class NbconvertAPI(object):
 
     def list_formats(self):
         return self._req('GET', '')
+
 
 class APITest(NotebookTestBase):
     def setUp(self):

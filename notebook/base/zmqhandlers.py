@@ -25,6 +25,7 @@ from ipython_genutils.py3compat import cast_unicode
 
 from .handlers import IPythonHandler
 
+
 def serialize_binary_message(msg):
     """serialize a message as a binary blob
 
@@ -205,6 +206,7 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
     
     if tornado.version_info < (4, 1):
         """Backport send_error from tornado 4.1 to 4.0"""
+
         def send_error(self, *args, **kwargs):
             if self.stream is None:
                 super(WebSocketHandler, self).send_error(*args, **kwargs)

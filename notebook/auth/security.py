@@ -109,6 +109,7 @@ def passwd_check(hashed_passphrase, passphrase):
 
     return h.hexdigest() == pw_digest
 
+
 @contextmanager
 def persist_config(config_file=None, mode=0o600):
     """Context manager that can be used to modify a config object

@@ -40,9 +40,11 @@ def url_path_join(*pieces):
     if result == '//': result = '/'
     return result
 
+
 def url_is_absolute(url):
     """Determine whether a given URL is absolute"""
     return urlparse(url).path.startswith("/")
+
 
 def path2url(path):
     """Convert a local file path to a URL"""
@@ -53,12 +55,14 @@ def path2url(path):
     url = url_path_join(*pieces)
     return url
 
+
 def url2path(url):
     """Convert a URL to a local file path"""
     pieces = [unquote(p) for p in url.split('/')]
     path = os.path.join(*pieces)
     return path
     
+
 def url_escape(path):
     """Escape special characters in a URL path
     
@@ -66,6 +70,7 @@ def url_escape(path):
     """
     parts = py3compat.unicode_to_str(path, encoding='utf8').split('/')
     return u'/'.join([quote(p) for p in parts])
+
 
 def url_unescape(path):
     """Unescape special characters in a URL path
@@ -78,6 +83,7 @@ def url_unescape(path):
     ])
 
 _win32_FILE_ATTRIBUTE_HIDDEN = 0x02
+
 
 def is_file_hidden_win(abs_path, stat_res=None):
     """Is a file hidden?
@@ -117,6 +123,7 @@ def is_file_hidden_win(abs_path, stat_res=None):
             return True
 
     return False
+
 
 def is_file_hidden_posix(abs_path, stat_res=None):
     """Is a file hidden?
@@ -162,6 +169,7 @@ if sys.platform == 'win32':
 else:
     is_file_hidden = is_file_hidden_posix
 
+
 def is_hidden(abs_path, abs_root=''):
     """Is a file hidden or contained in a hidden directory?
     
@@ -205,6 +213,7 @@ def is_hidden(abs_path, abs_root=''):
 
     return False
 
+
 def samefile_simple(path, other_path):
     """
     Fill in for os.path.samefile when it is unavailable (Windows+py2).
@@ -242,6 +251,7 @@ def to_os_path(path, root=''):
     path = os.path.join(root, *parts)
     return path
 
+
 def to_api_path(os_path, root=''):
     """Convert a filesystem path to an API path
     
@@ -276,6 +286,7 @@ def _check_pid_win32(pid):
     # OpenProcess returns 0 if no such process (of ours) exists
     # positive int otherwise
     return bool(ctypes.windll.kernel32.OpenProcess(1, 0, pid))
+
 
 def _check_pid_posix(pid):
     """Copy of IPython.utils.process.check_pid"""

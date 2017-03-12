@@ -23,6 +23,7 @@ from ...base.zmqhandlers import AuthenticatedZMQStreamHandler, deserialize_binar
 
 from jupyter_client import protocol_version as client_protocol_version
 
+
 class MainKernelHandler(APIHandler):
 
     @json_errors

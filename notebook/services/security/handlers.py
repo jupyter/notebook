@@ -8,6 +8,7 @@ from tornado import web
 from ...base.handlers import APIHandler, json_errors
 from . import csp_report_uri
 
+
 class CSPReportHandler(APIHandler):
     '''Accepts a content security policy violation report'''
 

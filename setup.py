@@ -192,6 +192,7 @@ if 'setuptools' in sys.modules:
 
 setup_args.update(setuptools_extra_args)
 
+
 def main():
     setup(**setup_args)
 

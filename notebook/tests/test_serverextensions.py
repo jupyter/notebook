@@ -37,6 +37,7 @@ def test_help_output():
 
 outer_file = __file__
 
+
 class MockExtensionModule(object):
     __file__ = outer_file
 
@@ -108,6 +109,7 @@ class MockEnvTestCase(TestCase):
         sys.modules[modulename] = ext = MockExtensionModule()
         self._mock_extensions.append(modulename)
         return ext
+
 
 class TestInstallServerExtension(MockEnvTestCase):
 

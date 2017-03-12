@@ -20,6 +20,7 @@ from tornado.util import bytes_type, unicode_type
 
 from tornado.websocket import WebSocketHandler, WebSocketProtocol13
 
+
 class AllowDraftWebSocketHandler(WebSocketHandler):
     """Restore Draft76 support for tornado 4
     
@@ -100,12 +101,12 @@ class AllowDraftWebSocketHandler(WebSocketHandler):
         return "wss" if self.request.protocol == "https" else "ws"
     
 
-
 # No modifications from tornado-3.2.2 below this line
 
 class WebSocketProtocol(object):
     """Base class for WebSocket protocol versions.
     """
+
     def __init__(self, handler):
         self.handler = handler
         self.request = handler.request
@@ -149,6 +150,7 @@ class WebSocketProtocol76(WebSocketProtocol):
     specified in
     http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-76
     """
+
     def __init__(self, handler):
         WebSocketProtocol.__init__(self, handler)
         self.challenge = None

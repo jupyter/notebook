@@ -17,9 +17,11 @@ try:
 except ImportError:
     from mock import patch # py3
     
+
 def bundle(handler, model):
     """Bundler test stub. Echo the notebook path."""
     handler.finish(model['path'])
+
 
 class BundleAPITest(NotebookTestBase):
     """Test the bundlers web service API"""

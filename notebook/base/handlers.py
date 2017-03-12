@@ -41,11 +41,13 @@ non_alphanum = re.compile(r'[^A-Za-z0-9]')
 
 sys_info = json.dumps(get_sys_info())
 
+
 def log():
     if Application.initialized():
         return Application.instance().log
     else:
         return app_log
+
 
 class AuthenticatedHandler(web.RequestHandler):
     """A RequestHandler with an authenticated user."""
@@ -457,6 +459,7 @@ class APIHandler(IPythonHandler):
 
 class Template404(IPythonHandler):
     """Render our 404 template"""
+
     def prepare(self):
         raise web.HTTPError(404)
 
@@ -545,6 +548,7 @@ def json_errors(method):
 
 # to minimize subclass changes:
 HTTPError = web.HTTPError
+
 
 class FileFindHandler(IPythonHandler, web.StaticFileHandler):
     """subclass of StaticFileHandler for serving files from a search path"""
@@ -661,6 +665,7 @@ class FilesRedirectHandler(IPythonHandler):
 
 class RedirectWithParams(web.RequestHandler):
     """Sam as web.RedirectHandler, but preserves URL parameters"""
+
     def initialize(self, url, permanent=True):
         self._url = url
         self._permanent = permanent

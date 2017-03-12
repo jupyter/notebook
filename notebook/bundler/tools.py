@@ -9,6 +9,7 @@ import nbformat
 import fnmatch
 import glob
 
+
 def get_file_references(abs_nb_path, version):
     """Gets a list of files referenced either in Markdown fenced code blocks
     or in HTML comments from the notebook. Expands patterns expressed in
@@ -30,6 +31,7 @@ def get_file_references(abs_nb_path, version):
     ref_patterns = get_reference_patterns(abs_nb_path, version)
     expanded = expand_references(os.path.dirname(abs_nb_path), ref_patterns)
     return expanded
+
 
 def get_reference_patterns(abs_nb_path, version):
     """Gets a list of reference patterns either in Markdown fenced code blocks
@@ -54,6 +56,7 @@ def get_reference_patterns(abs_nb_path, version):
         if references:
             referenced_list = referenced_list + references
     return referenced_list
+
 
 def get_cell_reference_patterns(cell):
     '''
@@ -110,6 +113,7 @@ def get_cell_reference_patterns(cell):
 
     # Clean out blank references
     return [ref for ref in referenced if ref.strip()]
+
 
 def expand_references(root_path, references):
     """Expands a set of reference patterns by evaluating them against the
@@ -197,6 +201,7 @@ def expand_references(root_path, references):
         except ValueError as err:
             pass
     return set(globbed)
+
 
 def copy_filelist(src, dst, src_relative_filenames):
     """Copies the given list of files, relative to src, into dst, creating

@@ -600,6 +600,7 @@ aliases.update({
     "destination": "InstallNBExtensionApp.destination",
 })
 
+
 class InstallNBExtensionApp(BaseExtensionApp):
     """Entry point for installing notebook extensions"""
     description = """Install Jupyter notebook extensions
@@ -879,6 +880,7 @@ jupyter nbextension enable --py <packagename>     # enable all nbextensions in a
 jupyter nbextension disable --py <packagename>    # disable all nbextensions in a Python package
 jupyter nbextension uninstall --py <packagename>  # uninstall an nbextension in a Python package
 """
+
 
 class NBExtensionApp(BaseExtensionApp):
     """Base jupyter nbextension command entry point"""

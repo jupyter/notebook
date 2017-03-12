@@ -5,6 +5,7 @@ from jupyter_core.paths import jupyter_config_dir
 import argparse
 import sys
 
+
 def set_password(args):
 	password = args.password
 	while not password:
@@ -26,6 +27,7 @@ def set_password(args):
 	})
 	if not args.quiet:
 		print("password stored in config dir: %s" % jupyter_config_dir())
+
 
 def main(argv):
 	parser = argparse.ArgumentParser(argv[0])

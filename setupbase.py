@@ -41,6 +41,7 @@ pjoin = os.path.join
 repo_root = os.path.dirname(os.path.abspath(__file__))
 is_repo = os.path.isdir(pjoin(repo_root, '.git'))
 
+
 def oscmd(s):
     print(">", s)
     os.system(s)
@@ -89,6 +90,7 @@ def find_packages():
 #---------------------------------------------------------------------------
 # Find package data
 #---------------------------------------------------------------------------
+
 
 def find_package_data():
     """
@@ -229,6 +231,7 @@ def check_package_data_first(command):
             command.run(self)
     return DecoratedCommand
 
+
 def update_package_data(distribution):
     """update package_data to catch changes during setup"""
     build_py = distribution.get_command_obj('build_py')
@@ -313,6 +316,7 @@ npm_path = os.pathsep.join([
     pjoin(repo_root, 'node_modules', '.bin'),
     os.environ.get("PATH", os.defpath),
 ])
+
 
 def mtime(path):
     """shorthand for mtime"""

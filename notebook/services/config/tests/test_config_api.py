@@ -11,6 +11,7 @@ from notebook.tests.launchnotebook import NotebookTestBase
 
 class ConfigAPI(object):
     """Wrapper for notebook API calls."""
+
     def __init__(self, request):
         self.request = request
 
@@ -31,8 +32,10 @@ class ConfigAPI(object):
     def modify(self, section, values):
         return self._req('PATCH', section, json.dumps(values))
 
+
 class APITest(NotebookTestBase):
     """Test the config web service API"""
+
     def setUp(self):
         self.config_api = ConfigAPI(self.request)
 

@@ -16,6 +16,7 @@ from tornado import web
 from ...base.handlers import APIHandler, json_errors
 from ...utils import url_path_join, url_unescape
 
+
 def kernelspec_model(handler, name):
     """Load a KernelSpec by name and return the REST API model"""
     ksm = handler.kernel_spec_manager
@@ -42,6 +43,7 @@ def kernelspec_model(handler, name):
             fname
         )
     return d
+
 
 class MainKernelSpecHandler(APIHandler):
 

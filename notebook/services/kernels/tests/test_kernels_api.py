@@ -12,8 +12,10 @@ from jupyter_client.kernelspec import NATIVE_KERNEL_NAME
 from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 
+
 class KernelAPI(object):
     """Wrapper for kernel REST API requests"""
+
     def __init__(self, request, base_url, headers):
         self.request = request
         self.base_url = base_url
@@ -63,6 +65,7 @@ class KernelAPI(object):
 
 class KernelAPITest(NotebookTestBase):
     """Test the kernels web service API"""
+
     def setUp(self):
         self.kern_api = KernelAPI(self.request,
                                   base_url=self.base_url(),

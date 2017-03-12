@@ -18,6 +18,7 @@ from ipython_genutils import py3compat, encoding
 
 import notebook
 
+
 def pkg_commit_hash(pkg_path):
     """Get short form of commit hash given directory `pkg_path`
 
@@ -86,6 +87,7 @@ def pkg_info(pkg_path):
         os_name=os.name,
         default_encoding=encoding.DEFAULT_ENCODING,
         )
+
 
 def get_sys_info():
     """Return useful information about the system as a dict."""

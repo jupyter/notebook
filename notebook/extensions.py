@@ -13,6 +13,7 @@ from jupyter_core.paths import (
 )
 from ._version import __version__
 
+
 class ArgumentConflict(ValueError):
     pass
 
@@ -71,6 +72,7 @@ class BaseExtensionApp(JupyterApp):
     def _log_format_default(self):
         """A default format for messages"""
         return "%(message)s"
+
 
 def _get_config_dir(user=False, sys_prefix=False):
     """Get the location of config files for the current context

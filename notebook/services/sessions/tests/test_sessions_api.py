@@ -16,8 +16,10 @@ from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 from nbformat.v4 import new_notebook
 from nbformat import write
 
+
 class SessionAPI(object):
     """Wrapper for notebook API calls."""
+
     def __init__(self, request):
         self.request = request
 
@@ -77,8 +79,10 @@ class SessionAPI(object):
     def delete(self, id):
         return self._req('DELETE', id)
 
+
 class SessionAPITest(NotebookTestBase):
     """Test the sessions web service API"""
+
     def setUp(self):
         nbdir = self.notebook_dir
         subdir = pjoin(nbdir, 'foo')

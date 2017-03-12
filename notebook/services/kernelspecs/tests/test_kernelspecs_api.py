@@ -26,6 +26,7 @@ some_resource = u"The very model of a modern major general"
 
 class KernelSpecAPI(object):
     """Wrapper for notebook API calls."""
+
     def __init__(self, request):
         self.request = request
 
@@ -49,6 +50,7 @@ class KernelSpecAPI(object):
 
 class APITest(NotebookTestBase):
     """Test the kernelspec web service API"""
+
     def setUp(self):
         self.create_spec('sample')
         self.create_spec('sample 2')

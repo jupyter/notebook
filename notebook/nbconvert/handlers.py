@@ -19,11 +19,13 @@ from nbformat import from_dict
 from ipython_genutils.py3compat import cast_bytes
 from ipython_genutils import text
 
+
 def find_resource_files(output_files_dir):
     files = []
     for dirpath, dirnames, filenames in os.walk(output_files_dir):
         files.extend([os.path.join(dirpath, f) for f in filenames])
     return files
+
 
 def respond_zip(handler, name, output, resources):
     """Zip up the output and resource files and respond with the zip file.
@@ -54,6 +56,7 @@ def respond_zip(handler, name, output, resources):
     handler.finish(buffer.getvalue())
     return True
 
+
 def get_exporter(format, **kwargs):
     """get an exporter, raising appropriate errors"""
     # if this fails, will raise 500
@@ -73,6 +76,7 @@ def get_exporter(format, **kwargs):
     except Exception as e:
         app_log.exception("Could not construct Exporter: %s", Exporter)
         raise web.HTTPError(500, "Could not construct Exporter: %s" % e)
+
 
 class NbconvertFileHandler(IPythonHandler):
 
@@ -123,6 +127,7 @@ class NbconvertFileHandler(IPythonHandler):
                             '%s; charset=utf-8' % exporter.output_mimetype)
 
         self.finish(output)
+
 
 class NbconvertPostHandler(IPythonHandler):
     SUPPORTED_METHODS = ('POST',)

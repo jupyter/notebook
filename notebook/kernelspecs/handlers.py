@@ -2,6 +2,7 @@ from tornado import web
 from ..base.handlers import IPythonHandler
 from ..services.kernelspecs.handlers import kernel_name_regex
 
+
 class KernelSpecResourceHandler(web.StaticFileHandler, IPythonHandler):
     SUPPORTED_METHODS = ('GET', 'HEAD')
 

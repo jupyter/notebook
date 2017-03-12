@@ -15,6 +15,7 @@ from traitlets import Bool
 BUNDLER_SECTION = "notebook"
 BUNDLER_SUBSECTION = "bundlerextensions"
 
+
 def _get_bundler_metadata(module):
     """Gets the list of bundlers associated with a Python package.
     
@@ -37,6 +38,7 @@ def _get_bundler_metadata(module):
         raise KeyError('The Python module {} does not contain a valid bundlerextension'.format(module))
     bundlers = m._jupyter_bundlerextension_paths()
     return m, bundlers
+
 
 def _set_bundler_state(name, label, module_name, group, state,
                        user=True, sys_prefix=False, logger=None):
@@ -127,6 +129,7 @@ def _set_bundler_state_python(state, module, user, sys_prefix, logger=None):
                                logger=logger)
             for bundler in bundlers]
 
+
 def enable_bundler_python(module, user=True, sys_prefix=False, logger=None):
     """Enables bundlers defined in a Python package.
     
@@ -148,6 +151,7 @@ def enable_bundler_python(module, user=True, sys_prefix=False, logger=None):
     return _set_bundler_state_python(True, module, user, sys_prefix,
                                      logger=logger)
     
+
 def disable_bundler_python(module, user=True, sys_prefix=False, logger=None):
     """Disables bundlers defined in a Python package.
     
@@ -168,6 +172,7 @@ def disable_bundler_python(module, user=True, sys_prefix=False, logger=None):
     """
     return _set_bundler_state_python(False, module, user, sys_prefix,
                                      logger=logger)
+
 
 class ToggleBundlerExtensionApp(BaseExtensionApp):
     """A base class for apps that enable/disable bundlerextensions"""
@@ -212,6 +217,7 @@ class ToggleBundlerExtensionApp(BaseExtensionApp):
         else:
             raise NotImplementedError('Cannot install bundlers from non-Python packages')            
 
+
 class EnableBundlerExtensionApp(ToggleBundlerExtensionApp):
     """An App that enables bundlerextensions"""
     name = "jupyter bundlerextension enable"
@@ -223,6 +229,7 @@ class EnableBundlerExtensionApp(ToggleBundlerExtensionApp):
     """
     _toggle_value = True
     
+
 class DisableBundlerExtensionApp(ToggleBundlerExtensionApp):
     """An App that disables bundlerextensions"""
     name = "jupyter bundlerextension disable"

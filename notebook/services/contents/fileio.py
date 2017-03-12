@@ -43,6 +43,7 @@ def replace_file(src, dst):
             os.remove(dst)
         os.rename(src, dst)
 
+
 def copy2_safe(src, dst, log=None):
     """copy src to dst
 
@@ -55,6 +56,7 @@ def copy2_safe(src, dst, log=None):
         if log:
             log.debug("copystat on %s failed", dst, exc_info=True)
 
+
 def path_to_intermediate(path):
     '''Name of the intermediate file used in atomic writes.
 
@@ -62,10 +64,12 @@ def path_to_intermediate(path):
     dirname, basename = os.path.split(path)
     return os.path.join(dirname, '.~'+basename)
 
+
 def path_to_invalid(path):
     '''Name of invalid file after a failed atomic write and subsequent read.'''
     dirname, basename = os.path.split(path)
     return os.path.join(dirname, basename+'.invalid')
+
 
 @contextmanager
 def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):

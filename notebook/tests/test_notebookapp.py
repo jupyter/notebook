@@ -29,6 +29,7 @@ def test_help_output():
     """ipython notebook --help-all works"""
     check_help_all_output('notebook')
 
+
 def test_server_info_file():
     td = TemporaryDirectory()
     nbapp = NotebookApp(runtime_dir=td.name, log=logging.getLogger())
@@ -46,10 +47,12 @@ def test_server_info_file():
     # The ENOENT error should be silenced.
     nbapp.remove_server_info_file()
 
+
 def test_nb_dir():
     with TemporaryDirectory() as td:
         app = NotebookApp(notebook_dir=td)
         nt.assert_equal(app.notebook_dir, td)
+
 
 def test_no_create_nb_dir():
     with TemporaryDirectory() as td:
@@ -58,6 +61,7 @@ def test_no_create_nb_dir():
         with nt.assert_raises(TraitError):
             app.notebook_dir = nbdir
 
+
 def test_missing_nb_dir():
     with TemporaryDirectory() as td:
         nbdir = os.path.join(td, 'notebook', 'dir', 'is', 'missing')
@@ -65,21 +69,25 @@ def test_missing_nb_dir():
         with nt.assert_raises(TraitError):
             app.notebook_dir = nbdir
 
+
 def test_invalid_nb_dir():
     with NamedTemporaryFile() as tf:
         app = NotebookApp()
         with nt.assert_raises(TraitError):
             app.notebook_dir = tf
 
+
 def test_nb_dir_with_slash():
     with TemporaryDirectory(suffix="_slash" + os.sep) as td:
         app = NotebookApp(notebook_dir=td)
         nt.assert_false(app.notebook_dir.endswith(os.sep))
 
+
 def test_nb_dir_root():
     root = os.path.abspath(os.sep) # gets the right value on Windows, Posix
     app = NotebookApp(notebook_dir=root)
     nt.assert_equal(app.notebook_dir, root)
+
 
 def test_generate_config():
     with TemporaryDirectory() as td:
@@ -90,6 +98,8 @@ def test_generate_config():
         assert os.path.exists(os.path.join(td, 'jupyter_notebook_config.py'))
 
 #test if the version testin function works
+
+
 def test_pep440_version():
 
     for version in [
@@ -115,6 +125,7 @@ def test_pep440_version():
 
 pep440re = re.compile('^(\d+)\.(\d+)\.(\d+((a|b|rc)\d+)?)(\.post\d+)?(\.dev\d*)?$')
 
+
 def raise_on_bad_version(version):
     if not pep440re.match(version):
         raise ValueError("Versions String does apparently not match Pep 440 specification, "
@@ -124,6 +135,7 @@ def raise_on_bad_version(version):
 
 def test_current_version():
     raise_on_bad_version(__version__)
+
 
 def test_notebook_password():
     password = 'secret'

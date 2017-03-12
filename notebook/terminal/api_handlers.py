@@ -3,6 +3,7 @@ from tornado import web, gen
 from ..base.handlers import APIHandler, json_errors
 from ..utils import url_path_join
 
+
 class TerminalRootHandler(APIHandler):
     @json_errors
     @web.authenticated

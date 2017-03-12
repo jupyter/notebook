@@ -16,6 +16,7 @@ from tornado import web, escape
 
 from notebook.base.handlers import IPythonHandler
 
+
 class FilesHandler(IPythonHandler):
     """serve files via ContentsManager"""
 

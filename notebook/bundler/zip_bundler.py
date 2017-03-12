@@ -5,6 +5,7 @@ import io
 import zipfile
 import notebook.bundler.tools as tools
 
+
 def _jupyter_bundlerextension_paths():
     """Metadata for notebook bundlerextension"""
     return [{
@@ -13,6 +14,7 @@ def _jupyter_bundlerextension_paths():
             'module_name': 'notebook.bundler.zip_bundler',
             'group': 'download'
     }]
+
 
 def bundle(handler, model):
     """Create a zip file containing the original notebook and files referenced

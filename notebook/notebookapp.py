@@ -126,6 +126,7 @@ watch and build the notebook's JavaScript for you, as you make changes.
 # Helper functions
 #-----------------------------------------------------------------------------
 
+
 def random_ports(port, n):
     """Generate a list of n random ports near the given port.
 
@@ -137,6 +138,7 @@ def random_ports(port, n):
     for i in range(n-5):
         yield max(1, port + random.randint(-2*n, 2*n))
 
+
 def load_handlers(name):
     """Load the (URL pattern, handler) tuples for each component."""
     name = 'notebook.' + name
@@ -146,6 +148,7 @@ def load_handlers(name):
 #-----------------------------------------------------------------------------
 # The Tornado web application
 #-----------------------------------------------------------------------------
+
 
 class NotebookWebApplication(web.Application):
 
@@ -424,6 +427,7 @@ aliases.update({
 #-----------------------------------------------------------------------------
 # NotebookApp
 #-----------------------------------------------------------------------------
+
 
 class NotebookApp(JupyterApp):
 

@@ -11,6 +11,7 @@ from notebook.services.kernels.kernelmanager import MappingKernelManager
 from notebook.services.contents.manager import ContentsManager
 from notebook._tz import utcnow, isoformat
 
+
 class DummyKernel(object):
     def __init__(self, kernel_name='python'):
         self.kernel_name = kernel_name
@@ -18,8 +19,10 @@ class DummyKernel(object):
 dummy_date = utcnow()
 dummy_date_s = isoformat(dummy_date)
 
+
 class DummyMKM(MappingKernelManager):
     """MappingKernelManager interface that doesn't start kernels, for testing"""
+
     def __init__(self, *args, **kwargs):
         super(DummyMKM, self).__init__(*args, **kwargs)
         self.id_letters = iter(u'ABCDEFGHIJK')

@@ -13,6 +13,7 @@ from datetime import tzinfo, timedelta, datetime
 # constant for zero offset
 ZERO = timedelta(0)
 
+
 class tzUTC(tzinfo):
     """tzinfo object for UTC (zero offset)"""
 
@@ -24,6 +25,7 @@ class tzUTC(tzinfo):
 
 UTC = tzUTC()
 
+
 def utc_aware(unaware):
     """decorator for adding UTC tzinfo to datetime's utcfoo methods"""
     def utc_method(*args, **kwargs):
@@ -33,6 +35,7 @@ def utc_aware(unaware):
 
 utcfromtimestamp = utc_aware(datetime.utcfromtimestamp)
 utcnow = utc_aware(datetime.utcnow)
+
 
 def isoformat(dt):
     """Return iso-formatted timestamp

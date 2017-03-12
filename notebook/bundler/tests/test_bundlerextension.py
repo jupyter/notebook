@@ -22,13 +22,16 @@ import notebook.nbextensions as nbextensions
 from ..bundlerextensions import (_get_config_dir, enable_bundler_python, 
     disable_bundler_python)
 
+
 def test_help_output():
     check_help_all_output('notebook.bundler.bundlerextensions')
     check_help_all_output('notebook.bundler.bundlerextensions', ['enable'])
     check_help_all_output('notebook.bundler.bundlerextensions', ['disable'])
 
+
 class TestBundlerExtensionCLI(unittest.TestCase):
     """Tests the bundlerextension CLI against the example zip_bundler."""
+
     def setUp(self):
         """Build an isolated config environment."""
         td = TemporaryDirectory()

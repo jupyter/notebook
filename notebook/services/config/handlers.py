@@ -11,6 +11,7 @@ from tornado import web
 from ipython_genutils.py3compat import PY3
 from ...base.handlers import APIHandler, json_errors
 
+
 class ConfigHandler(APIHandler):
 
     @json_errors

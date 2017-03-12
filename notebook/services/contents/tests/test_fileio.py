@@ -17,6 +17,7 @@ from ipython_genutils.tempdir import TemporaryDirectory
 
 umask = 0
 
+
 def test_atomic_writing():
     class CustomExc(Exception): pass
 
@@ -66,13 +67,16 @@ def test_atomic_writing():
             with stdlib_io.open(f1, 'r') as f:
                 nt.assert_equal(f.read(), u'written from symlink')
 
+
 def _save_umask():
     global umask
     umask = os.umask(0)
     os.umask(umask)
 
+
 def _restore_umask():
     os.umask(umask)
+
 
 @skip_win32
 @nt.with_setup(_save_umask, _restore_umask)

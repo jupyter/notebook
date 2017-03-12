@@ -8,6 +8,7 @@
 import json
 from tornado.log import access_log
 
+
 def log_request(handler):
     """log a bit more information about each request than tornado's default
     

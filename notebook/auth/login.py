@@ -23,6 +23,7 @@ class LoginHandler(IPythonHandler):
 
     authenticates with a hashed password from the configuration.
     """
+
     def _render(self, message=None):
         self.write(self.render_template('login.html',
                 next=url_escape(self.get_argument('next', default=self.base_url)),

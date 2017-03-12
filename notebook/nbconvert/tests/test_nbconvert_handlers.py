@@ -26,6 +26,7 @@ except ImportError: #PY2
 
 class NbconvertAPI(object):
     """Wrapper for nbconvert API calls."""
+
     def __init__(self, request):
         self.request = request
 
@@ -52,6 +53,7 @@ png_green_pixel = encodebytes(b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00'
 b'\x00\x00\x01\x00\x00x00\x01\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDAT'
 b'\x08\xd7c\x90\xfb\xcf\x00\x00\x02\\\x01\x1e.~d\x87\x00\x00\x00\x00IEND\xaeB`\x82'
 ).decode('ascii')
+
 
 class APITest(NotebookTestBase):
     def setUp(self):

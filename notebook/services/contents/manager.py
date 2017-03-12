@@ -54,6 +54,7 @@ class ContentsManager(LoggingConfigurable):
     root_dir = Unicode('/', config=True)
 
     notary = Instance(sign.NotebookNotary)
+
     def _notary_default(self):
         return sign.NotebookNotary(parent=self)
 

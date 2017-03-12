@@ -36,11 +36,13 @@ from ipython_genutils.tempdir import TemporaryDirectory
 try:
     # Python >= 3.3
     from subprocess import TimeoutExpired
+
     def popen_wait(p, timeout):
         return p.wait(timeout)
 except ImportError:
     class TimeoutExpired(Exception):
         pass
+
     def popen_wait(p, timeout):
         """backport of Popen.wait from Python 3"""
         for i in range(int(10 * timeout)):
@@ -57,9 +59,11 @@ have['casperjs'] = bool(which('casperjs'))
 have['phantomjs'] = bool(which('phantomjs'))
 have['slimerjs'] = bool(which('slimerjs'))
 
+
 class StreamCapturer(Thread):
     daemon = True  # Don't hang if main thread crashes
     started = False
+
     def __init__(self, echo=False):
         super(StreamCapturer, self).__init__()
         self.echo = echo
@@ -204,11 +208,13 @@ def get_js_test_dir():
     import notebook.tests as t
     return os.path.join(os.path.dirname(t.__file__), '')
 
+
 def all_js_groups():
     import glob
     test_dir = get_js_test_dir()
     all_subdirs = glob.glob(test_dir + '[!_]*/')
     return [os.path.relpath(x, test_dir) for x in all_subdirs]
+
 
 class JSController(TestController):
     """Run CasperJS tests """
@@ -418,6 +424,7 @@ def prepare_controllers(options):
     not_run = [c for c in controllers if not c.will_run]
     return to_run, not_run
 
+
 def do_run(controller, buffer_output=True):
     """Setup and run a test controller.
     
@@ -451,6 +458,7 @@ def do_run(controller, buffer_output=True):
         return controller, -signal.SIGINT
     finally:
         controller.cleanup()
+
 
 def report():
     """Return a string with a summary report of test-related variables."""
@@ -486,6 +494,7 @@ def report():
         out.append('   ' + ' '.join(not_avail)+'\n')
 
     return ''.join(out)
+
 
 def run_jstestall(options):
     """Run the entire Javascript test suite.
@@ -608,6 +617,7 @@ argparser.add_argument('--subproc-streams', default='capture',
                     help="What to do with stdout/stderr from subprocesses. "
                     "'capture' (default), 'show' and 'discard' are the options.")
 
+
 def default_options():
     """Get an argparse Namespace object with the default arguments, to pass to
     :func:`run_iptestall`.
@@ -615,6 +625,7 @@ def default_options():
     options = argparser.parse_args([])
     options.extra_args = []
     return options
+
 
 def main():
     try:

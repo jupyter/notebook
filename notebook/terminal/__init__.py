@@ -12,6 +12,7 @@ from notebook.utils import url_path_join as ujoin
 from .handlers import TerminalHandler, TermSocket
 from . import api_handlers
 
+
 def initialize(webapp, notebook_dir, connection_url, settings):
     shell = settings.get('shell_command', [os.environ.get('SHELL') or 'sh'])
     terminal_manager = webapp.settings['terminal_manager'] = NamedTermManager(

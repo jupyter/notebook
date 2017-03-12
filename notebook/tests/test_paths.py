@@ -15,6 +15,7 @@ except AttributeError: # py2
 # build regexps that tornado uses:
 path_pat = re.compile('^' + '/x%s' % path_regex + '$')
 
+
 def test_path_regex():
     for path in (
         '/x',
@@ -25,6 +26,7 @@ def test_path_regex():
         '/x/foo/bar.txt',
     ):
         assert_regex(path, path_pat)
+
 
 def test_path_regex_bad():
     for path in (

@@ -41,8 +41,10 @@ def uniq_stable(elems):
     seen = set()
     return [x for x in elems if x not in seen and not seen.add(x)]
 
+
 def notebooks_only(dir_model):
     return [nb for nb in dir_model['content'] if nb['type'] == 'notebook']
+
 
 def dirs_only(dir_model):
     return [x for x in dir_model['content'] if x['type'] == 'directory']
@@ -50,6 +52,7 @@ def dirs_only(dir_model):
 
 class API(object):
     """Wrapper for contents API calls."""
+
     def __init__(self, request):
         self.request = request
 
@@ -121,6 +124,7 @@ class API(object):
 
     def delete_checkpoint(self, path, checkpoint_id):
         return self._req('DELETE', url_path_join(path, 'checkpoints', checkpoint_id))
+
 
 class APITest(NotebookTestBase):
     """Test the kernels web service API"""

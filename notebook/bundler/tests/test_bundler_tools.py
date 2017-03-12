@@ -11,6 +11,7 @@ import notebook.bundler.tools as tools
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 
+
 class TestBundlerTools(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp()

@@ -8,6 +8,7 @@ from tornado import web
 from ..base.handlers import IPythonHandler, path_regex
 from ..utils import url_escape
 
+
 class EditorHandler(IPythonHandler):
     """Render the text editor interface."""
     @web.authenticated
