@@ -20,10 +20,6 @@ env:
     - GROUP=js/services
     - GROUP=js/tree
 
-addons:
-    apt_packages:
-        - pandoc
-
 before_install:
     - pip install --upgrade pip
     - pip install --upgrade setuptools wheel nose coverage codecov
@@ -41,6 +37,8 @@ before_install:
 
 install:
     - pip install -f travis-wheels/wheelhouse file://$PWD#egg=notebook[test]
+    - wget https://github.com/jgm/pandoc/releases/download/1.19.1/pandoc-1.19.1-1-amd64.deb && sudo dpkg -i pandoc-1.19.1-1-amd64.deb
+
 
 script:
     - 'if [[ $GROUP == js* ]]; then travis_retry python -m notebook.jstest ${GROUP:3}; fi'
