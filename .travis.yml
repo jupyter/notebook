@@ -20,6 +20,10 @@ env:
     - GROUP=js/services
     - GROUP=js/tree
 
+addons:
+    apt_packages:
+        - pandoc
+
 before_install:
     - pip install --upgrade pip
     - pip install --upgrade setuptools wheel nose coverage codecov
