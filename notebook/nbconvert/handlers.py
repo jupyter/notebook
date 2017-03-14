@@ -15,6 +15,7 @@ from ..base.handlers import (
     path_regex,
 )
 from nbformat import from_dict
+from traitlets.config import Config
 
 from ipython_genutils.py3compat import cast_bytes
 from ipython_genutils import text
@@ -75,13 +76,10 @@ def get_exporter(format, **kwargs):
 
 class NbconvertFileHandler(IPythonHandler):
 
-    SUPPORTED_METHODS = ('GET',)
-
-    @web.authenticated
-    def get(self, format, path):
-
-        exporter = get_exporter(format, config=self.config, log=self.log)
-
+    def call_nbconvert(self, format, path, config = None):
+        
+        exporter = get_exporter(format, config=config, log=self.log)
+        
         path = path.strip('/')
         # If the notebook relates to a real file (default contents manager),
         # give its path to nbconvert.
@@ -139,6 +137,22 @@ class NbconvertFileHandler(IPythonHandler):
                             '%s; charset=utf-8' % exporter.output_mimetype)
 
         self.finish(output)
+
+    @web.authenticated
+    def get(self, format, path):
+        
+        self.call_nbconvert(format, path, config=self.config)
+    
+    @web.authenticated
+    def post(self, format, path):
+
+        c = Config(self.config)
+        c.merge(self.get_json_body())
+
+        self.call_nbconvert(format, path, config=c)
+
+       
+
 
 class NbconvertPostHandler(IPythonHandler):
     SUPPORTED_METHODS = ('POST',)
