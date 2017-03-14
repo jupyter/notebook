@@ -324,16 +324,16 @@ define([
                 console.log("unrecognized output type: " + json.output_type);
                 this.append_unrecognized(json);
         }
+        
+        if (record_output) {
+            this.outputs.push(json);
+        }
 
         if (json.output_type === 'display_data') {
             var that = this;
             this.append_display_data(json, this.handle_appended);
         } else {
             this.handle_appended();
-        }
-        
-        if (record_output) {
-            this.outputs.push(json);
         }
     };
 
