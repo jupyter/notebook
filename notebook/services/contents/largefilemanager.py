@@ -57,7 +57,7 @@ class LargeFileManager(FileContentsManager):
                 bcontent = content.encode('utf8')
             else:
                 b64_bytes = content.encode('ascii')
-                bcontent = base64.decodestring(b64_bytes)
+                bcontent = base64.b64decode(b64_bytes)
         except Exception as e:
             raise web.HTTPError(
                 400, u'Encoding error saving %s: %s' % (os_path, e)
