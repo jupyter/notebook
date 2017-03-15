@@ -621,7 +621,9 @@ define([
             targets = this._display_id_targets[display_id] = [];
         }
         targets.push({
-            index: this.outputs.length,
+            // output has been appended when this is called,
+            // so use the index of the last item.
+            index: this.outputs.length - 1,
             element: element,
         });
     };
