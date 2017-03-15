@@ -336,7 +336,10 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
 
             # Increment the bytes and message count
             self._iopub_window_msg_count += 1
-            byte_count = sum([len(x) for x in msg_list])
+            if msg_type == 'stream':
+                byte_count = sum([len(x) for x in msg_list])
+            else:
+                byte_count = 0
             self._iopub_window_byte_count += byte_count
             
             # Queue a removal of the byte and message count for a time in the 
