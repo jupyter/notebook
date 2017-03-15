@@ -110,7 +110,12 @@ casper.notebook_test(function () {
         kernel.output_callback_overrides_push(msg_id, callback_id);
     });
 
-    this.wait_for_output(3);
+    this.waitFor(function () {
+        return this.evaluate(function () {
+            var cell = IPython.notebook.get_cell(3);
+            return cell.iopub_messages.length >= 2;
+        });
+    });
     this.wait_for_idle();
 
     this.then(function () {
