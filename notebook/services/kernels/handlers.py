@@ -360,7 +360,12 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                     The notebook server will temporarily stop sending output
                     to the client in order to avoid crashing it.
                     To change this limit, set the config variable
-                    `--NotebookApp.iopub_msg_rate_limit`."""))
+                    `--NotebookApp.iopub_msg_rate_limit`.
+                    
+                    Current values:
+                    NotebookApp.iopub_msg_rate_limit={} (msgs/sec)
+                    NotebookApp.rate_limit_window={} (secs)
+                    """.format(self.iopub_msg_rate_limit, self.rate_limit_window)))
             else:
                 # resume once we've got some headroom below the limit
                 if self._iopub_msgs_exceeded and msg_rate < (0.8 * self.iopub_msg_rate_limit):
@@ -377,7 +382,12 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                     The notebook server will temporarily stop sending output
                     to the client in order to avoid crashing it.
                     To change this limit, set the config variable
-                    `--NotebookApp.iopub_data_rate_limit`."""))
+                    `--NotebookApp.iopub_data_rate_limit`.
+                    
+                    Current values:
+                    NotebookApp.iopub_data_rate_limit={} (bytes/sec)
+                    NotebookApp.rate_limit_window={} (secs)
+                    """.format(self.iopub_data_rate_limit, self.rate_limit_window)))
             else:
                 # resume once we've got some headroom below the limit
                 if self._iopub_data_exceeded and data_rate < (0.8 * self.iopub_data_rate_limit):
