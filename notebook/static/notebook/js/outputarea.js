@@ -969,6 +969,7 @@ define([
 
             // Notify others of changes.
             this.element.trigger('changed');
+            this.element.trigger('cleared');
             
             this.outputs = [];
             this._display_id_targets = {};
