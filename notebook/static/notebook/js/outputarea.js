@@ -331,10 +331,15 @@ define([
         } else {
             this.handle_appended();
         }
-        
+
         if (record_output) {
             this.outputs.push(json);
         }
+
+        this.events.trigger('output_added.OutputArea', {
+            output: json,
+            output_area: this,
+        });
     };
 
     OutputArea.prototype.handle_appended = function () {
