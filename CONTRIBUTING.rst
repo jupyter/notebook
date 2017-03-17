@@ -48,14 +48,13 @@ Installing the Jupyter Notebook
 Once you have installed the dependencies mentioned above, use the following
 steps::
 
-    pip install setuptools pip --upgrade --user
+    pip install --upgrade setuptools pip
     git clone https://github.com/jupyter/notebook
     cd notebook
-    pip install -e . --user
+    pip install -e .
 
-If you want the development environment to be available for all users of your
-system (assuming you have the necessary rights) or if you are installing in a
-virtual environment, just drop the ``--user`` option.
+If you are using a system-wide Python installation and you only want to install the notebook for you,
+you can add ``--user`` to the install commands.
 
 Once you have done this, you can launch the master branch of Jupyter notebook
 from any directory in your system with::
@@ -106,7 +105,7 @@ Python Tests
 
 Install dependencies::
 
-    pip install -e .[test] --user
+    pip install -e .[test]
 
 To run the Python tests, use::
 
@@ -155,10 +154,9 @@ containing all the necessary packages (except pandoc), use::
 .. _conda environment:
     http://conda.pydata.org/docs/using/envs.html#use-environment-from-file
 
-If you want to install the necessary packages with ``pip`` instead, use
-(omitting --user if working in a virtual environment)::
+If you want to install the necessary packages with ``pip`` instead::
 
-    pip install -r docs/doc-requirements.txt --user
+    pip install -r docs/doc-requirements.txt
 
 Once you have installed the required packages, you can build the docs with::
 
