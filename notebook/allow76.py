@@ -20,12 +20,13 @@ from tornado.util import bytes_type, unicode_type
 
 from tornado.websocket import WebSocketHandler, WebSocketProtocol13
 
+
 class AllowDraftWebSocketHandler(WebSocketHandler):
     """Restore Draft76 support for tornado 4
-    
+
     Remove when we can run tests without phantomjs + qt4
     """
-    
+
     # get is unmodified except between the BEGIN/END PATCH lines
     @tornado.web.asynchronous
     def get(self, *args, **kwargs):
@@ -56,7 +57,6 @@ class AllowDraftWebSocketHandler(WebSocketHandler):
         else:
             origin = self.request.headers.get("Sec-Websocket-Origin", None)
 
-
         # If there was an origin header, check to make sure it matches
         # according to check_origin. When the origin is None, we assume it
         # did not come from a browser and that it can be passed on.
@@ -83,12 +83,12 @@ class AllowDraftWebSocketHandler(WebSocketHandler):
                     "HTTP/1.1 426 Upgrade Required\r\n"
                     "Sec-WebSocket-Version: 8\r\n\r\n"))
                 self.stream.close()
-    
+
     # 3.2 methods removed in 4.0:
     def allow_draft76(self):
         """Using this class allows draft76 connections by default"""
         return True
-    
+
     def get_websocket_scheme(self):
         """Return the url scheme used for this request, either "ws" or "wss".
         This is normally decided by HTTPServer, but applications
@@ -98,7 +98,6 @@ class AllowDraftWebSocketHandler(WebSocketHandler):
         Note that this is only used by the draft76 protocol.
         """
         return "wss" if self.request.protocol == "https" else "ws"
-    
 
 
 # No modifications from tornado-3.2.2 below this line
@@ -106,6 +105,7 @@ class AllowDraftWebSocketHandler(WebSocketHandler):
 class WebSocketProtocol(object):
     """Base class for WebSocket protocol versions.
     """
+
     def __init__(self, handler):
         self.handler = handler
         self.request = handler.request
@@ -149,6 +149,7 @@ class WebSocketProtocol76(WebSocketProtocol):
     specified in
     http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-76
     """
+
     def __init__(self, handler):
         WebSocketProtocol.__init__(self, handler)
         self.challenge = None
@@ -308,4 +309,3 @@ class WebSocketProtocol76(WebSocketProtocol):
         elif self._waiting is None:
             self._waiting = self.stream.io_loop.add_timeout(
                 time.time() + 5, self._abort)
-

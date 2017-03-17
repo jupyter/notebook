@@ -1,11 +1,10 @@
-import imp
 import os
 import sys
 from unittest import TestCase
 try:
     from unittest.mock import patch
 except ImportError:
-    from mock import patch # py2
+    from mock import patch  # py2
 
 from ipython_genutils.tempdir import TemporaryDirectory
 from ipython_genutils import py3compat
@@ -35,7 +34,9 @@ def test_help_output():
     check_help_all_output('notebook.serverextensions', ['install'])
     check_help_all_output('notebook.serverextensions', ['uninstall'])
 
+
 outer_file = __file__
+
 
 class MockExtensionModule(object):
     __file__ = outer_file
@@ -47,13 +48,13 @@ class MockExtensionModule(object):
         }]
 
     loaded = False
-    
+
     def load_jupyter_server_extension(self, app):
         self.loaded = True
 
 
 class MockEnvTestCase(TestCase):
-    
+
     def tempdir(self):
         td = TemporaryDirectory()
         self.tempdirs.append(td)
@@ -70,7 +71,7 @@ class MockEnvTestCase(TestCase):
         self.system_config_dir = os.path.join(self.test_dir, 'system_config')
         self.system_path = [self.system_data_dir]
         self.system_config_path = [self.system_config_dir]
-        
+
         self.patches = []
         p = patch.dict('os.environ', {
             'JUPYTER_CONFIG_DIR': self.config_dir,
@@ -79,17 +80,17 @@ class MockEnvTestCase(TestCase):
         self.patches.append(p)
         for mod in (paths, nbextensions):
             p = patch.object(mod,
-                'SYSTEM_JUPYTER_PATH', self.system_path)
+                             'SYSTEM_JUPYTER_PATH', self.system_path)
             self.patches.append(p)
             p = patch.object(mod,
-                'ENV_JUPYTER_PATH', [])
+                             'ENV_JUPYTER_PATH', [])
             self.patches.append(p)
         for mod in (paths, extensions):
             p = patch.object(mod,
-                'SYSTEM_CONFIG_PATH', self.system_config_path)
+                             'SYSTEM_CONFIG_PATH', self.system_config_path)
             self.patches.append(p)
             p = patch.object(mod,
-                'ENV_CONFIG_PATH', [])
+                             'ENV_CONFIG_PATH', [])
             self.patches.append(p)
         for p in self.patches:
             p.start()
@@ -98,7 +99,7 @@ class MockEnvTestCase(TestCase):
         self.assertEqual(paths.jupyter_config_path(), [self.config_dir] + self.system_config_path)
         self.assertEqual(extensions._get_config_dir(user=False), self.system_config_dir)
         self.assertEqual(paths.jupyter_path(), [self.data_dir] + self.system_path)
-    
+
     def tearDown(self):
         for modulename in self._mock_extensions:
             sys.modules.pop(modulename)
@@ -108,6 +109,7 @@ class MockEnvTestCase(TestCase):
         sys.modules[modulename] = ext = MockExtensionModule()
         self._mock_extensions.append(modulename)
         return ext
+
 
 class TestInstallServerExtension(MockEnvTestCase):
 
@@ -185,10 +187,9 @@ class TestOrderedServerExtension(MockEnvTestCase):
         del sys.modules['mockextension2']
         del sys.modules['mockextension1']
 
-
     def test_load_ordered(self):
         app = NotebookApp()
-        app.nbserver_extensions = OrderedDict([('mockextension2',True),('mockextension1',True)])
+        app.nbserver_extensions = OrderedDict([('mockextension2', True), ('mockextension1', True)])
 
         app.init_server_extensions()
 

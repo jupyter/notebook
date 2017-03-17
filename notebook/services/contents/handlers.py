@@ -22,9 +22,9 @@ def sort_key(model):
     """key function for case-insensitive sort by name and type"""
     iname = model['name'].lower()
     type_key = {
-        'directory' : '0',
-        'notebook'  : '1',
-        'file'      : '2',
+        'directory': '0',
+        'notebook': '1',
+        'file': '2',
     }.get(model['type'], '9')
     return u'%s%s' % (type_key, iname)
 
@@ -119,7 +119,7 @@ class ContentsHandler(APIHandler):
         if content not in {'0', '1'}:
             raise web.HTTPError(400, u'Content %r is invalid' % content)
         content = int(content)
-        
+
         model = yield gen.maybe_future(self.contents_manager.get(
             path=path, type=type, format=format, content=content,
         ))
@@ -142,7 +142,7 @@ class ContentsHandler(APIHandler):
         model = yield gen.maybe_future(cm.update(model, path))
         validate_model(model, expect_content=False)
         self._finish_model(model)
-    
+
     @gen.coroutine
     def _copy(self, copy_from, copy_to=None):
         """Copy a file, optionally specifying a target directory."""
@@ -163,7 +163,7 @@ class ContentsHandler(APIHandler):
         self.set_status(201)
         validate_model(model, expect_content=False)
         self._finish_model(model)
-    
+
     @gen.coroutine
     def _new_untitled(self, path, type='', ext=''):
         """Create a new, empty untitled entity"""
@@ -172,13 +172,13 @@ class ContentsHandler(APIHandler):
         self.set_status(201)
         validate_model(model, expect_content=False)
         self._finish_model(model)
-    
+
     @gen.coroutine
     def _save(self, model, path):
         """Save an existing file."""
-        chunk = model.get("chunk", None) 
+        chunk = model.get("chunk", None)
         if not chunk or chunk == -1:  # Avoid tedious log information
-            self.log.info(u"Saving file at %s", path)  
+            self.log.info(u"Saving file at %s", path)
         model = yield gen.maybe_future(self.contents_manager.save(model, path))
         validate_model(model, expect_content=False)
         self._finish_model(model)
@@ -278,7 +278,7 @@ class CheckpointsHandler(APIHandler):
         checkpoint = yield gen.maybe_future(cm.create_checkpoint(path))
         data = json.dumps(checkpoint, default=date_default)
         location = url_path_join(self.base_url, 'api/contents',
-            url_escape(path), 'checkpoints', url_escape(checkpoint['id']))
+                                 url_escape(path), 'checkpoints', url_escape(checkpoint['id']))
         self.set_header('Location', location)
         self.set_status(201)
         self.finish(data)

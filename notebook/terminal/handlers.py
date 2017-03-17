@@ -15,14 +15,14 @@ class TerminalHandler(IPythonHandler):
     @web.authenticated
     def get(self, term_name):
         self.write(self.render_template('terminal.html',
-                   ws_path="terminals/websocket/%s" % term_name))
+                                        ws_path="terminals/websocket/%s" % term_name))
 
 
 class TermSocket(WebSocketMixin, IPythonHandler, terminado.TermSocket):
 
     def origin_check(self):
         """Terminado adds redundant origin_check
-        
+
         Tornado already calls check_origin, so don't do anything here.
         """
         return True
@@ -31,4 +31,3 @@ class TermSocket(WebSocketMixin, IPythonHandler, terminado.TermSocket):
         if not self.get_current_user():
             raise web.HTTPError(403)
         return super(TermSocket, self).get(*args, **kwargs)
-    

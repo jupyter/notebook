@@ -5,9 +5,8 @@ from notebook.utils import url_path_join
 from nbformat import write
 from nbformat.v4 import new_notebook
 
-import requests
-
 from notebook.tests.launchnotebook import NotebookTestBase
+
 
 class TreeTest(NotebookTestBase):
     def setUp(self):

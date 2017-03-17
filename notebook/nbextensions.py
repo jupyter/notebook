@@ -43,7 +43,7 @@ NBCONFIG_SECTIONS = ['common', 'notebook', 'tree', 'edit', 'terminal']
 
 def check_nbextension(files, user=False, prefix=None, nbextensions_dir=None, sys_prefix=False):
     """Check whether nbextension files have been installed
-    
+
     Returns True if all files are found, False if any are missing.
 
     Parameters
@@ -66,11 +66,11 @@ def check_nbextension(files, user=False, prefix=None, nbextensions_dir=None, sys
     # make sure nbextensions dir exists
     if not os.path.exists(nbext):
         return False
-    
+
     if isinstance(files, string_types):
         # one file given, turn it into a list
         files = [files]
-    
+
     return all(os.path.exists(pjoin(nbext, f)) for f in files)
 
 
@@ -80,14 +80,14 @@ def install_nbextension(path, overwrite=False, symlink=False,
                         logger=None, sys_prefix=False
                         ):
     """Install a Javascript extension for the notebook
-    
+
     Stages files and/or directories into the nbextensions directory.
     By default, this compares modification time, and only stages files that need updating.
     If `overwrite` is specified, matching files are purged before proceeding.
-    
+
     Parameters
     ----------
-    
+
     path : path to file, directory, zip or tarball archive, or URL to install
         By default, the file will be installed with its base name, so '/path/to/foo'
         will install to 'nbextensions/foo'. See the destination argument below to change this.
@@ -124,14 +124,14 @@ def install_nbextension(path, overwrite=False, symlink=False,
     nbext = _get_nbextension_dir(user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir)
     # make sure nbextensions dir exists
     ensure_dir_exists(nbext)
-    
+
     # forcing symlink parameter to False if os.symlink does not exist (e.g., on Windows machines running python 2)
     if not hasattr(os, 'symlink'):
         symlink = False
-    
+
     if isinstance(path, (list, tuple)):
         raise TypeError("path must be a string pointing to a single extension to install; call this function multiple times to install multiple extensions")
-    
+
     path = cast_unicode_py2(path)
 
     if path.startswith(('https://', 'http://')):
@@ -146,7 +146,7 @@ def install_nbextension(path, overwrite=False, symlink=False,
             urlretrieve(path, local_path)
             # now install from the local copy
             full_dest = install_nbextension(local_path, overwrite=overwrite, symlink=symlink,
-                nbextensions_dir=nbext, destination=destination, logger=logger)
+                                            nbextensions_dir=nbext, destination=destination, logger=logger)
     elif path.endswith('.zip') or _safe_is_tarfile(path):
         if symlink:
             raise ValueError("Cannot symlink from archives")
@@ -183,7 +183,7 @@ def install_nbextension(path, overwrite=False, symlink=False,
                     logger.info("Symlinking: %s -> %s" % (full_dest, path))
                 os.symlink(path, full_dest)
         elif os.path.isdir(path):
-            path = pjoin(os.path.abspath(path), '') # end in path separator
+            path = pjoin(os.path.abspath(path), '')  # end in path separator
             for parent, dirs, files in os.walk(path):
                 dest_dir = pjoin(full_dest, parent[len(path):])
                 if not os.path.exists(dest_dir):
@@ -202,7 +202,7 @@ def install_nbextension(path, overwrite=False, symlink=False,
 
 
 def install_nbextension_python(module, overwrite=False, symlink=False,
-                        user=False, sys_prefix=False, prefix=None, nbextensions_dir=None, logger=None):
+                               user=False, sys_prefix=False, prefix=None, nbextensions_dir=None, logger=None):
     """Install an nbextension bundled in a Python package.
 
     Returns a list of installed/updated directories.
@@ -230,16 +230,16 @@ def install_nbextension_python(module, overwrite=False, symlink=False,
     return full_dests
 
 
-def uninstall_nbextension(dest, require=None, user=False, sys_prefix=False, prefix=None, 
+def uninstall_nbextension(dest, require=None, user=False, sys_prefix=False, prefix=None,
                           nbextensions_dir=None, logger=None):
     """Uninstall a Javascript extension of the notebook
-    
-    Removes staged files and/or directories in the nbextensions directory and 
+
+    Removes staged files and/or directories in the nbextensions directory and
     removes the extension from the frontend config.
-    
+
     Parameters
     ----------
-    
+
     dest : str
         path to file, directory, zip or tarball archive, or URL to install
         name the nbextension is installed to.  For example, if destination is 'foo', then
@@ -269,7 +269,7 @@ def uninstall_nbextension(dest, require=None, user=False, sys_prefix=False, pref
             shutil.rmtree(full_dest)
         else:
             os.remove(full_dest)
-    
+
     # Look through all of the config sections making sure that the nbextension
     # doesn't exist.
     config_dir = os.path.join(_get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
@@ -280,10 +280,10 @@ def uninstall_nbextension(dest, require=None, user=False, sys_prefix=False, pref
 
 
 def uninstall_nbextension_python(module,
-                        user=False, sys_prefix=False, prefix=None, nbextensions_dir=None,
-                        logger=None):
+                                 user=False, sys_prefix=False, prefix=None, nbextensions_dir=None,
+                                 logger=None):
     """Uninstall an nbextension bundled in a Python package.
-    
+
     See parameters of `install_nbextension_python`
     """
     m, nbexts = _get_nbextension_metadata(module)
@@ -292,8 +292,8 @@ def uninstall_nbextension_python(module,
         require = nbext['require']
         if logger:
             logger.info("Uninstalling {} {}".format(dest, require))
-        uninstall_nbextension(dest, require, user=user, sys_prefix=sys_prefix, 
-            prefix=prefix, nbextensions_dir=nbextensions_dir, logger=logger)
+        uninstall_nbextension(dest, require, user=user, sys_prefix=sys_prefix,
+                              prefix=prefix, nbextensions_dir=nbextensions_dir, logger=logger)
 
 
 def _set_nbextension_state(section, require, state,
@@ -396,7 +396,7 @@ def enable_nbextension(section, require, user=True, sys_prefix=False,
 def disable_nbextension(section, require, user=True, sys_prefix=False,
                         logger=None):
     """Disable a named nbextension
-    
+
     Returns True if the final state is the one requested.
 
     Parameters
@@ -448,7 +448,7 @@ def enable_nbextension_python(module, user=True, sys_prefix=False,
 def disable_nbextension_python(module, user=True, sys_prefix=False,
                                logger=None):
     """Disable some nbextensions associated with a Python module.
-    
+
     Returns True if the final state is the one requested.
 
     Parameters
@@ -496,7 +496,7 @@ def validate_nbextension(require, logger=None):
         infos.append(require_tmpl.format(GREEN_OK, require))
     else:
         warnings.append(require_tmpl.format(RED_X, require))
-    
+
     if logger:
         if warnings:
             logger.warning(u"      - Validating: problems found:")
@@ -506,7 +506,7 @@ def validate_nbextension(require, logger=None):
                 logger.info(msg)
         else:
             logger.info(u"      - Validating: {}".format(GREEN_OK))
-    
+
     return warnings
 
 
@@ -578,14 +578,14 @@ from traitlets import Bool, Unicode
 flags = {}
 flags.update(_base_flags)
 flags.update({
-    "overwrite" : ({
-        "InstallNBExtensionApp" : {
-            "overwrite" : True,
+    "overwrite": ({
+        "InstallNBExtensionApp": {
+            "overwrite": True,
         }}, "Force overwrite of existing files"
     ),
-    "symlink" : ({
-        "InstallNBExtensionApp" : {
-            "symlink" : True,
+    "symlink": ({
+        "InstallNBExtensionApp": {
+            "symlink": True,
         }}, "Create symlink instead of copying files"
     ),
 })
@@ -595,49 +595,50 @@ flags['s'] = flags['symlink']
 aliases = {}
 aliases.update(_base_aliases)
 aliases.update({
-    "prefix" : "InstallNBExtensionApp.prefix",
-    "nbextensions" : "InstallNBExtensionApp.nbextensions_dir",
-    "destination" : "InstallNBExtensionApp.destination",
+    "prefix": "InstallNBExtensionApp.prefix",
+    "nbextensions": "InstallNBExtensionApp.nbextensions_dir",
+    "destination": "InstallNBExtensionApp.destination",
 })
+
 
 class InstallNBExtensionApp(BaseExtensionApp):
     """Entry point for installing notebook extensions"""
     description = """Install Jupyter notebook extensions
-    
+
     Usage
-    
+
         jupyter nbextension install path|url [--user|--sys-prefix]
-    
+
     This copies a file or a folder into the Jupyter nbextensions directory.
     If a URL is given, it will be downloaded.
     If an archive is given, it will be extracted into nbextensions.
     If the requested files are already up to date, no action is taken
     unless --overwrite is specified.
     """
-    
+
     examples = """
     jupyter nbextension install /path/to/myextension
     """
     aliases = aliases
     flags = flags
-    
+
     overwrite = Bool(False, config=True, help="Force overwrite of existing files")
     symlink = Bool(False, config=True, help="Create symlinks instead of copying files")
 
     prefix = Unicode('', config=True, help="Installation prefix")
     nbextensions_dir = Unicode('', config=True,
-           help="Full path to nbextensions dir (probably use prefix or user)")
+                               help="Full path to nbextensions dir (probably use prefix or user)")
     destination = Unicode('', config=True, help="Destination for the copy or symlink")
 
     def _config_file_name_default(self):
         """The default config file name."""
         return 'jupyter_notebook_config'
-    
+
     def install_extensions(self):
         """Perform the installation of nbextension(s)"""
-        if len(self.extra_args)>1:
+        if len(self.extra_args) > 1:
             raise ValueError("Only one nbextension allowed at a time. "
-                         "Call multiple times to install multiple extensions.")
+                             "Call multiple times to install multiple extensions.")
 
         if self.python:
             install = install_nbextension_python
@@ -645,7 +646,7 @@ class InstallNBExtensionApp(BaseExtensionApp):
         else:
             install = install_nbextension
             kwargs = {'destination': self.destination}
-        
+
         full_dests = install(self.extra_args[0],
                              overwrite=self.overwrite,
                              symlink=self.symlink,
@@ -655,7 +656,7 @@ class InstallNBExtensionApp(BaseExtensionApp):
                              nbextensions_dir=self.nbextensions_dir,
                              logger=self.log,
                              **kwargs
-                            )
+                             )
 
         if full_dests:
             self.log.info(
@@ -684,34 +685,34 @@ class UninstallNBExtensionApp(BaseExtensionApp):
     """Entry point for uninstalling notebook extensions"""
     version = __version__
     description = """Uninstall Jupyter notebook extensions
-    
+
     Usage
-    
+
         jupyter nbextension uninstall path/url path/url/entrypoint
         jupyter nbextension uninstall --py pythonPackageName
-    
+
     This uninstalls an nbextension.
     """
-    
+
     examples = """
     jupyter nbextension uninstall dest/dir dest/dir/extensionjs
     jupyter nbextension uninstall --py extensionPyPackage
     """
-    
+
     aliases = {
-        "prefix" : "UninstallNBExtensionApp.prefix",
-        "nbextensions" : "UninstallNBExtensionApp.nbextensions_dir",
+        "prefix": "UninstallNBExtensionApp.prefix",
+        "nbextensions": "UninstallNBExtensionApp.nbextensions_dir",
         "require": "UninstallNBExtensionApp.require",
     }
-    
+
     prefix = Unicode('', config=True, help="Installation prefix")
     nbextensions_dir = Unicode('', config=True, help="Full path to nbextensions dir (probably use prefix or user)")
     require = Unicode('', config=True, help="require.js module to load.")
-    
+
     def _config_file_name_default(self):
         """The default config file name."""
         return 'jupyter_notebook_config'
-    
+
     def uninstall_extensions(self):
         """Uninstall some nbextensions"""
         kwargs = {
@@ -721,20 +722,20 @@ class UninstallNBExtensionApp(BaseExtensionApp):
             'nbextensions_dir': self.nbextensions_dir,
             'logger': self.log
         }
-        
+
         arg_count = 1
         if len(self.extra_args) > arg_count:
             raise ValueError("only one nbextension allowed at a time.  Call multiple times to uninstall multiple extensions.")
         if len(self.extra_args) < arg_count:
             raise ValueError("not enough arguments")
-        
+
         if self.python:
             uninstall_nbextension_python(self.extra_args[0], **kwargs)
         else:
             if self.require:
                 kwargs['require'] = self.require
             uninstall_nbextension(self.extra_args[0], **kwargs)
-    
+
     def start(self):
         if not self.extra_args:
             sys.exit('Please specify an nbextension to uninstall')
@@ -752,18 +753,18 @@ class ToggleNBExtensionApp(BaseExtensionApp):
     description = "Enable/disable an nbextension in configuration."
 
     section = Unicode('notebook', config=True,
-          help="""Which config section to add the extension to, 'common' will affect all pages."""
-    )
+                      help="""Which config section to add the extension to, 'common' will affect all pages."""
+                      )
     user = Bool(True, config=True, help="Apply the configuration only for the current user (default)")
 
     aliases = {'section': 'ToggleNBExtensionApp.section'}
-    
+
     _toggle_value = None
 
     def _config_file_name_default(self):
         """The default config file name."""
         return 'jupyter_notebook_config'
-    
+
     def toggle_nbextension_python(self, module):
         """Toggle some extensions in an importable Python module.
 
@@ -798,7 +799,7 @@ class ToggleNBExtensionApp(BaseExtensionApp):
         return toggle(self.section, require,
                       user=self.user, sys_prefix=self.sys_prefix,
                       logger=self.log)
-        
+
     def start(self):
         if not self.extra_args:
             sys.exit('Please specify an nbextension/package to enable or disable')
@@ -815,7 +816,7 @@ class EnableNBExtensionApp(ToggleNBExtensionApp):
     name = "jupyter nbextension enable"
     description = """
     Enable an nbextension in frontend configuration.
-    
+
     Usage
         jupyter nbextension enable [--system|--sys-prefix]
     """
@@ -827,7 +828,7 @@ class DisableNBExtensionApp(ToggleNBExtensionApp):
     name = "jupyter nbextension disable"
     description = """
     Enable an nbextension in frontend configuration.
-    
+
     Usage
         jupyter nbextension disable [--system|--sys-prefix]
     """
@@ -839,13 +840,13 @@ class ListNBExtensionsApp(BaseExtensionApp):
     name = "jupyter nbextension list"
     version = __version__
     description = "List all nbextensions known by the configuration system"
-    
+
     def list_nbextensions(self):
         """List all the nbextensions"""
         config_dirs = [os.path.join(p, 'nbconfig') for p in jupyter_config_path()]
-        
+
         print("Known nbextensions:")
-        
+
         for config_dir in config_dirs:
             head = u'  config dir: {}'.format(config_dir)
             head_shown = False
@@ -859,14 +860,14 @@ class ListNBExtensionsApp(BaseExtensionApp):
                         print(head)
                         head_shown = True
                     print(u'    {} section'.format(section))
-                    
+
                     for require, enabled in data['load_extensions'].items():
                         print(u'      {} {}'.format(
                             require,
                             GREEN_ENABLED if enabled else RED_DISABLED))
                         if enabled:
                             validate_nbextension(require, logger=self.log)
-    
+
     def start(self):
         """Perform the App's functions as configured"""
         self.list_nbextensions()
@@ -880,6 +881,7 @@ jupyter nbextension disable --py <packagename>    # disable all nbextensions in 
 jupyter nbextension uninstall --py <packagename>  # uninstall an nbextension in a Python package
 """
 
+
 class NBExtensionApp(BaseExtensionApp):
     """Base jupyter nbextension command entry point"""
     name = "jupyter nbextension"
@@ -888,7 +890,7 @@ class NBExtensionApp(BaseExtensionApp):
     examples = _examples
 
     subcommands = dict(
-        install=(InstallNBExtensionApp,"Install an nbextension"),
+        install=(InstallNBExtensionApp, "Install an nbextension"),
         enable=(EnableNBExtensionApp, "Enable an nbextension"),
         disable=(DisableNBExtensionApp, "Disable an nbextension"),
         uninstall=(UninstallNBExtensionApp, "Uninstall an nbextension"),
@@ -903,6 +905,7 @@ class NBExtensionApp(BaseExtensionApp):
         # get here, it didn't, so we should self.log.info a message.
         subcmds = ", ".join(sorted(self.subcommands))
         sys.exit("Please supply at least one subcommand: %s" % subcmds)
+
 
 main = NBExtensionApp.launch_instance
 
@@ -1037,7 +1040,6 @@ def _get_nbextension_metadata(module):
                        'it is missing the `_jupyter_nbextension_paths()` method.'.format(module))
     nbexts = m._jupyter_nbextension_paths()
     return m, nbexts
-
 
 
 if __name__ == '__main__':

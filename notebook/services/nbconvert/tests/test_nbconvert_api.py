@@ -1,23 +1,24 @@
-import requests
-
 from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase
 
+
 class NbconvertAPI(object):
     """Wrapper for nbconvert API calls."""
+
     def __init__(self, request):
         self.request = request
 
     def _req(self, verb, path, body=None, params=None):
         response = self.request(verb,
-                url_path_join('api/nbconvert', path),
-                data=body, params=params,
-        )
+                                url_path_join('api/nbconvert', path),
+                                data=body, params=params,
+                                )
         response.raise_for_status()
         return response
 
     def list_formats(self):
         return self._req('GET', '')
+
 
 class APITest(NotebookTestBase):
     def setUp(self):

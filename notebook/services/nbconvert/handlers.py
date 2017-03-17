@@ -4,6 +4,7 @@ from tornado import web
 
 from ...base.handlers import APIHandler, json_errors
 
+
 class NbconvertRootHandler(APIHandler):
 
     @json_errors
@@ -19,6 +20,7 @@ class NbconvertRootHandler(APIHandler):
             info['output_mimetype'] = exporter.output_mimetype
 
         self.finish(json.dumps(res))
+
 
 default_handlers = [
     (r"/api/nbconvert", NbconvertRootHandler),

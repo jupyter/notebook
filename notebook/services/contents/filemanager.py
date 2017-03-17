@@ -95,7 +95,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         self.post_save_hook = _post_save_script
 
     post_save_hook = Any(None, config=True, allow_none=True,
-        help="""Python callable or importstring thereof
+                         help="""Python callable or importstring thereof
 
         to be called on the path of a file just saved.
 
@@ -110,7 +110,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         - model: the model representing the file
         - contents_manager: this ContentsManager instance
         """
-    )
+                         )
 
     @validate('post_save_hook')
     def _validate_post_save_hook(self, proposal):
@@ -256,8 +256,8 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             raise web.HTTPError(404, four_o_four)
         elif is_hidden(os_path, self.root_dir):
             self.log.info("Refusing to serve hidden directory %r, via 404 Error",
-                os_path
-            )
+                          os_path
+                          )
             raise web.HTTPError(404, four_o_four)
 
         model = self._base_model(path)
@@ -377,14 +377,14 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         if os.path.isdir(os_path):
             if type not in (None, 'directory'):
                 raise web.HTTPError(400,
-                                u'%s is a directory, not a %s' % (path, type), reason='bad type')
+                                    u'%s is a directory, not a %s' % (path, type), reason='bad type')
             model = self._dir_model(path, content=content)
         elif type == 'notebook' or (type is None and path.endswith('.ipynb')):
             model = self._notebook_model(path, content=content)
         else:
             if type == 'directory':
                 raise web.HTTPError(400,
-                                u'%s is not a directory' % path, reason='bad type')
+                                    u'%s is not a directory' % path, reason='bad type')
             model = self._file_model(path, content=content, format=format)
         return model
 

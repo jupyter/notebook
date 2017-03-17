@@ -24,9 +24,9 @@ from ipython_genutils.py3compat import str_to_unicode
 from traitlets.config import Configurable
 from traitlets import Bool
 
-try: #PY3
+try:  # PY3
     from base64 import encodebytes, decodebytes
-except ImportError: #PY2
+except ImportError:  # PY2
     from base64 import encodestring as encodebytes, decodestring as decodebytes
 
 
@@ -35,13 +35,14 @@ def replace_file(src, dst):
 
     switches between os.replace or os.rename based on python 2.7 or python 3
     """
-    if hasattr(os, 'replace'): # PY3
+    if hasattr(os, 'replace'):  # PY3
         os.replace(src, dst)
     else:
         if os.name == 'nt' and os.path.exists(dst):
             # Rename over existing file doesn't work on Windows
             os.remove(dst)
         os.rename(src, dst)
+
 
 def copy2_safe(src, dst, log=None):
     """copy src to dst
@@ -55,6 +56,7 @@ def copy2_safe(src, dst, log=None):
         if log:
             log.debug("copystat on %s failed", dst, exc_info=True)
 
+
 def path_to_intermediate(path):
     '''Name of the intermediate file used in atomic writes.
 
@@ -62,10 +64,12 @@ def path_to_intermediate(path):
     dirname, basename = os.path.split(path)
     return os.path.join(dirname, '.~'+basename)
 
+
 def path_to_invalid(path):
     '''Name of invalid file after a failed atomic write and subsequent read.'''
     dirname, basename = os.path.split(path)
     return os.path.join(dirname, basename+'.invalid')
+
 
 @contextmanager
 def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
@@ -127,7 +131,6 @@ def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
         os.remove(tmp_path)
 
 
-
 @contextmanager
 def _simple_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     """Context manager to write file without doing atomic writing
@@ -170,8 +173,6 @@ def _simple_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     fileobj.close()
 
 
-
-
 class FileManagerMixin(Configurable):
     """
     Mixin for ContentsAPI classes that interact with the filesystem.
@@ -191,8 +192,7 @@ class FileManagerMixin(Configurable):
     log : logging.Logger
     """
 
-    use_atomic_writing = Bool(True, config=True, help=
-    """By default notebooks are saved on disk on a temporary file and then if succefully written, it replaces the old ones.
+    use_atomic_writing = Bool(True, config=True, help="""By default notebooks are saved on disk on a temporary file and then if succefully written, it replaces the old ones.
       This procedure, namely 'atomic_writing', causes some bugs on file system whitout operation order enforcement (like some networked fs).
       If set to False, the new notebook is written directly on the old one which could fail (eg: full filesystem or quota )""")
 

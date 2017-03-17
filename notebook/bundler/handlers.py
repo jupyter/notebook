@@ -15,22 +15,22 @@ class BundlerHandler(IPythonHandler):
         """Make tools module available on the handler instance for compatibility
         with existing bundler API and ease of reference."""
         self.tools = tools
-    
+
     def get_bundler(self, bundler_id):
         """
         Get bundler metadata from config given a bundler ID.
-        
+
         Parameters
         ----------
         bundler_id: str
             Unique bundler ID within the notebook/bundlerextensions config section
-        
+
         Returns
         -------
         dict
             Bundler metadata with label, group, and module_name attributes
-        
-        
+
+
         Raises
         ------
         KeyError
@@ -43,7 +43,7 @@ class BundlerHandler(IPythonHandler):
     @gen.coroutine
     def get(self, path):
         """Bundle the given notebook.
-        
+
         Parameters
         ----------
         path: str
@@ -58,7 +58,7 @@ class BundlerHandler(IPythonHandler):
             bundler = self.get_bundler(bundler_id)
         except KeyError:
             raise web.HTTPError(400, 'Bundler %s not enabled' % bundler_id)
-        
+
         module_name = bundler['module_name']
         try:
             # no-op in python3, decode error in python2
@@ -66,7 +66,7 @@ class BundlerHandler(IPythonHandler):
         except UnicodeEncodeError:
             # Encode unicode as utf-8 in python2 else import_item fails
             module_name = module_name.encode('utf-8')
-        
+
         try:
             bundler_mod = import_item(module_name)
         except ImportError:
@@ -75,6 +75,7 @@ class BundlerHandler(IPythonHandler):
         # Let the bundler respond in any way it sees fit and assume it will
         # finish the request
         yield gen.maybe_future(bundler_mod.bundle(self, model))
+
 
 _bundler_id_regex = r'(?P<bundler_id>[A-Za-z0-9_]+)'
 

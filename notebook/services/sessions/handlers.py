@@ -7,7 +7,6 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-
 # Distributed under the terms of the Modified BSD License.
 
 import json
-import os
 
 from tornado import gen, web
 
@@ -178,4 +177,3 @@ default_handlers = [
     (r"/api/sessions/%s" % _session_id_regex, SessionHandler),
     (r"/api/sessions",  SessionRootHandler)
 ]
-

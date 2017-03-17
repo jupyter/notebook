@@ -12,8 +12,10 @@ from jupyter_client.kernelspec import NATIVE_KERNEL_NAME
 from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 
+
 class KernelAPI(object):
     """Wrapper for kernel REST API requests"""
+
     def __init__(self, request, base_url, headers):
         self.request = request
         self.base_url = base_url
@@ -21,7 +23,7 @@ class KernelAPI(object):
 
     def _req(self, verb, path, body=None):
         response = self.request(verb,
-                url_path_join('api/kernels', path), data=body)
+                                url_path_join('api/kernels', path), data=body)
 
         if 400 <= response.status_code < 600:
             try:
@@ -58,11 +60,12 @@ class KernelAPI(object):
             headers=self.headers,
         )
         f = websocket_connect(req, io_loop=loop)
-        return loop.run_sync(lambda : f)
+        return loop.run_sync(lambda: f)
 
 
 class KernelAPITest(NotebookTestBase):
     """Test the kernels web service API"""
+
     def setUp(self):
         self.kern_api = KernelAPI(self.request,
                                   base_url=self.base_url(),

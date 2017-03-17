@@ -6,7 +6,8 @@
 
 from tornado import web
 from ..base.handlers import IPythonHandler, path_regex
-from ..utils import url_escape, url_path_join
+from ..utils import url_path_join
+
 
 class ViewHandler(IPythonHandler):
     """Render HTML files within an iframe."""
@@ -21,6 +22,7 @@ class ViewHandler(IPythonHandler):
         self.write(
             self.render_template('view.html', file_url=file_url, page_title=basename)
         )
+
 
 default_handlers = [
     (r"/view%s" % path_regex, ViewHandler),
