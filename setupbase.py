@@ -14,6 +14,7 @@ This includes:
 from __future__ import print_function
 
 import os
+import re
 import pipes
 import shutil
 import sys
@@ -68,6 +69,11 @@ execfile(pjoin(repo_root, name, '_version.py'), version_ns)
 
 version = version_ns['__version__']
 
+
+# vendored from pep440 package, we allow `.dev` suffix without trailing number.
+loose_pep440re = re.compile(r'^([1-9]\d*!)?(0|[1-9]\d*)(\.(0|[1-9]\d*))*((a|b|rc)(0|[1-9]\d*))?(\.post(0|[1-9]\d*))?(\.dev(0|[1-9]\d*)?)?$')
+if not loose_pep440re.match(version):
+    raise ValueError('Invalid version number `%s`, please follow pep440 convention or pip will get confused about which package is more recent.' % version)
 
 #---------------------------------------------------------------------------
 # Find packages
