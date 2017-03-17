@@ -24,22 +24,20 @@ Installing Node.js and npm
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Building the Notebook from its GitHub source code requires some tools to
-create and minify JavaScript components and the CSS.
-Namely, that's Node.js and Node's package manager, ``npm``.
+create and minify JavaScript components and the CSS,
+specifically Node.js and Node's package manager, ``npm``.
+It should be node version ≥ 6.0.
 
 If you use ``conda``, you can get them with::
 
-    conda install -c javascript nodejs
+    conda install -c conda-forge nodejs
 
 If you use `Homebrew <http://brew.sh/>`_ on Mac OS X::
 
     brew install node
 
-For Debian/Ubuntu systems, you should use the ``nodejs-legacy`` package instead
-of the ``node`` package::
-
-    sudo apt-get update
-    sudo apt-get install nodejs-legacy npm
+Installation on Linux may vary, but be aware that the `nodejs` or `npm` packages
+included in the system package repository may be too old to work properly.
 
 You can also use the installer from the `Node.js website <https://nodejs.org>`_.
 
