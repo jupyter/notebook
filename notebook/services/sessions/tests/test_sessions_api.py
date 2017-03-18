@@ -5,7 +5,6 @@ from functools import partial
 import io
 import os
 import json
-import requests
 import shutil
 import time
 
@@ -16,14 +15,16 @@ from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 from nbformat.v4 import new_notebook
 from nbformat import write
 
+
 class SessionAPI(object):
     """Wrapper for notebook API calls."""
+
     def __init__(self, request):
         self.request = request
 
     def _req(self, verb, path, body=None):
         response = self.request(verb,
-                url_path_join('api/sessions', path), data=body)
+                                url_path_join('api/sessions', path), data=body)
 
         if 400 <= response.status_code < 600:
             try:
@@ -77,8 +78,10 @@ class SessionAPI(object):
     def delete(self, id):
         return self._req('DELETE', id)
 
+
 class SessionAPITest(NotebookTestBase):
     """Test the sessions web service API"""
+
     def setUp(self):
         nbdir = self.notebook_dir
         subdir = pjoin(nbdir, 'foo')
@@ -226,7 +229,7 @@ class SessionAPITest(NotebookTestBase):
         r.raise_for_status()
         kernel_list = r.json()
         after['kernel'].pop('last_activity')
-        [ k.pop('last_activity') for k in kernel_list ]
+        [k.pop('last_activity') for k in kernel_list]
         self.assertEqual(kernel_list, [after['kernel']])
 
     def test_modify_kernel_id(self):
@@ -252,5 +255,5 @@ class SessionAPITest(NotebookTestBase):
         kernel_list = r.json()
 
         kernel.pop('last_activity')
-        [ k.pop('last_activity') for k in kernel_list ]
+        [k.pop('last_activity') for k in kernel_list]
         self.assertEqual(kernel_list, [kernel])

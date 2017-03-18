@@ -3,13 +3,11 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 import json
-import os
-import io
-import errno
 from tornado import web
 
 from ipython_genutils.py3compat import PY3
 from ...base.handlers import APIHandler, json_errors
+
 
 class ConfigHandler(APIHandler):
 

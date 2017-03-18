@@ -5,6 +5,7 @@ import io
 import zipfile
 import notebook.bundler.tools as tools
 
+
 def _jupyter_bundlerextension_paths():
     """Metadata for notebook bundlerextension"""
     return [{
@@ -12,15 +13,16 @@ def _jupyter_bundlerextension_paths():
             'label': 'IPython Notebook bundle (.zip)',
             'module_name': 'notebook.bundler.zip_bundler',
             'group': 'download'
-    }]
+            }]
+
 
 def bundle(handler, model):
     """Create a zip file containing the original notebook and files referenced
     from it. Retain the referenced files in paths relative to the notebook.
-    Return the zip as a file download. 
-    
+    Return the zip as a file download.
+
     Assumes the notebook and other files are all on local disk.
-    
+
     Parameters
     ----------
     handler : tornado.web.RequestHandler
@@ -29,9 +31,9 @@ def bundle(handler, model):
         Notebook model from the configured ContentManager
     """
     abs_nb_path = os.path.join(handler.settings['contents_manager'].root_dir,
-        model['path'])
+                               model['path'])
     notebook_filename = model['name']
-    notebook_name = os.path.splitext(notebook_filename)[0] 
+    notebook_name = os.path.splitext(notebook_filename)[0]
 
     # Headers
     zip_filename = os.path.splitext(notebook_name)[0] + '.zip'
@@ -51,7 +53,7 @@ def bundle(handler, model):
     for nb_relative_filename in ref_filenames:
         # Build absolute path to file on disk
         abs_fn = os.path.join(notebook_dir, nb_relative_filename)
-        # Store file under path relative to notebook 
+        # Store file under path relative to notebook
         zipf.write(abs_fn, nb_relative_filename)
 
     zipf.close()

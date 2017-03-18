@@ -20,6 +20,7 @@ Authors
 from docutils import nodes, utils
 from docutils.parsers.rst.roles import set_classes
 
+
 def make_link_node(rawtext, app, type, slug, options):
     """Create a link to a github resource.
 
@@ -47,6 +48,7 @@ def make_link_node(rawtext, app, type, slug, options):
     node = nodes.reference(rawtext, prefix + utils.unescape(slug), refuri=ref,
                            **options)
     return node
+
 
 def ghissue_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     """Link to a GitHub issue.
@@ -89,6 +91,7 @@ def ghissue_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     node = make_link_node(rawtext, app, category, str(issue_num), options)
     return [node], []
 
+
 def ghuser_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     """Link to a GitHub user.
 
@@ -109,6 +112,7 @@ def ghuser_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     ref = 'https://www.github.com/' + text
     node = nodes.reference(rawtext, text, refuri=ref, **options)
     return [node], []
+
 
 def ghcommit_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     """Link to a GitHub commit.

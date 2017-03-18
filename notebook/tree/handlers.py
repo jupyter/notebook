@@ -4,7 +4,6 @@
 # Distributed under the terms of the Modified BSD License.
 
 from tornado import web
-import os
 from ..base.handlers import IPythonHandler, path_regex
 from ..utils import url_path_join, url_escape
 
@@ -18,8 +17,8 @@ class TreeHandler(IPythonHandler):
         for i in range(len(parts)):
             if parts[i]:
                 link = url_path_join(self.base_url, 'tree',
-                    url_escape(url_path_join(*parts[:i+1])),
-                )
+                                     url_escape(url_path_join(*parts[:i+1])),
+                                     )
                 breadcrumbs.append((link, parts[i]))
         return breadcrumbs
 
@@ -38,7 +37,7 @@ class TreeHandler(IPythonHandler):
     def get(self, path=''):
         path = path.strip('/')
         cm = self.contents_manager
-        
+
         if cm.dir_exists(path=path):
             if cm.is_hidden(path):
                 self.log.info("Refusing to serve hidden directory, via 404 Error")
@@ -46,12 +45,12 @@ class TreeHandler(IPythonHandler):
             breadcrumbs = self.generate_breadcrumbs(path)
             page_title = self.generate_page_title(path)
             self.write(self.render_template('tree.html',
-                page_title=page_title,
-                notebook_path=path,
-                breadcrumbs=breadcrumbs,
-                terminals_available=self.settings['terminals_available'],
-                server_root=self.settings['server_root_dir'],
-            ))
+                                            page_title=page_title,
+                                            notebook_path=path,
+                                            breadcrumbs=breadcrumbs,
+                                            terminals_available=self.settings['terminals_available'],
+                                            server_root=self.settings['server_root_dir'],
+                                            ))
         elif cm.file_exists(path):
             # it's not a directory, we have redirecting to do
             model = cm.get(path, content=False)

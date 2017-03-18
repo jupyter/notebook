@@ -76,7 +76,7 @@ class TestFileContentsManager(TestCase):
             root = td
             fm = FileContentsManager(root_dir=root)
             path = fm._get_os_path('/path/to/notebook/test.ipynb')
-            rel_path_list =  '/path/to/notebook/test.ipynb'.split('/')
+            rel_path_list = '/path/to/notebook/test.ipynb'.split('/')
             fs_path = os.path.join(fm.root_dir, *rel_path_list)
             self.assertEqual(path, fs_path)
 
@@ -224,7 +224,7 @@ class TestContentsManager(TestCase):
                 self.assertEqual(entry['name'], "nb.ipynb")
                 complete_path = "/".join([api_path, "nb.ipynb"])
                 self.assertEqual(entry["path"], complete_path)
-    
+
     def setUp(self):
         self._temp_dir = TemporaryDirectory()
         self.td = self._temp_dir.name
@@ -624,6 +624,6 @@ class TestContentsManagerNoAtomic(TestContentsManager):
         self._temp_dir = TemporaryDirectory()
         self.td = self._temp_dir.name
         self.contents_manager = FileContentsManager(
-            root_dir = self.td,
+            root_dir=self.td,
         )
         self.contents_manager.use_atomic_writing = False

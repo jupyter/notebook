@@ -10,17 +10,19 @@ from ..base.zmqhandlers import (
     deserialize_binary_message,
 )
 
+
 def test_serialize_binary():
     s = Session()
     msg = s.msg('data_pub', content={'a': 'b'})
-    msg['buffers'] = [ memoryview(os.urandom(3)) for i in range(3) ]
+    msg['buffers'] = [memoryview(os.urandom(3)) for i in range(3)]
     bmsg = serialize_binary_message(msg)
     nt.assert_is_instance(bmsg, bytes)
+
 
 def test_deserialize_binary():
     s = Session()
     msg = s.msg('data_pub', content={'a': 'b'})
-    msg['buffers'] = [ memoryview(os.urandom(2)) for i in range(3) ]
+    msg['buffers'] = [memoryview(os.urandom(2)) for i in range(3)]
     bmsg = serialize_binary_message(msg)
     msg2 = deserialize_binary_message(bmsg)
     nt.assert_equal(msg2, msg)

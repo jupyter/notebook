@@ -31,7 +31,7 @@ class MappingKernelManager(MultiKernelManager):
     kernel_argv = List(Unicode())
 
     root_dir = Unicode(config=True)
-    
+
     _kernel_connections = Dict()
 
     @default('root_dir')
@@ -69,7 +69,7 @@ class MappingKernelManager(MultiKernelManager):
         while not os.path.isdir(os_path) and os_path != self.root_dir:
             os_path = os.path.dirname(os_path)
         return os_path
-    
+
     @gen.coroutine
     def start_kernel(self, kernel_id=None, path=None, **kwargs):
         """Start a kernel for a session and return its kernel_id.
@@ -99,15 +99,15 @@ class MappingKernelManager(MultiKernelManager):
             self.log.debug("Kernel args: %r" % kwargs)
             # register callback for failed auto-restart
             self.add_restart_callback(kernel_id,
-                lambda : self._handle_kernel_died(kernel_id),
-                'dead',
-            )
+                                      lambda: self._handle_kernel_died(kernel_id),
+                                      'dead',
+                                      )
         else:
             self._check_kernel_id(kernel_id)
             self.log.info("Using existing kernel: %s" % kernel_id)
         # py2-compat
         raise gen.Return(kernel_id)
-    
+
     def shutdown_kernel(self, kernel_id, now=False):
         """Shutdown a kernel by kernel_id"""
         self._check_kernel_id(kernel_id)
@@ -123,32 +123,32 @@ class MappingKernelManager(MultiKernelManager):
         # return a Future that will resolve when the kernel has successfully restarted
         channel = kernel.connect_shell()
         future = Future()
-        
+
         def finish():
             """Common cleanup when restart finishes/fails for any reason."""
             if not channel.closed():
                 channel.close()
             loop.remove_timeout(timeout)
             kernel.remove_restart_callback(on_restart_failed, 'dead')
-        
+
         def on_reply(msg):
             self.log.debug("Kernel info reply received: %s", kernel_id)
             finish()
             if not future.done():
                 future.set_result(msg)
-            
+
         def on_timeout():
             self.log.warning("Timeout waiting for kernel_info_reply: %s", kernel_id)
             finish()
             if not future.done():
                 future.set_exception(gen.TimeoutError("Timeout waiting for restart"))
-        
+
         def on_restart_failed():
             self.log.warning("Restarting kernel failed: %s", kernel_id)
             finish()
             if not future.done():
                 future.set_exception(RuntimeError("Restart failed"))
-        
+
         kernel.add_restart_callback(on_restart_failed, 'dead')
         kernel.session.send(channel, "kernel_info_request")
         channel.on_recv(on_reply)
@@ -175,7 +175,7 @@ class MappingKernelManager(MultiKernelManager):
         kernel = self._kernels[kernel_id]
 
         model = {
-            "id":kernel_id,
+            "id": kernel_id,
             "name": kernel.kernel_name,
             "last_activity": isoformat(kernel.last_activity),
             "execution_state": kernel.execution_state,
@@ -202,7 +202,7 @@ class MappingKernelManager(MultiKernelManager):
 
     def start_watching_activity(self, kernel_id):
         """Start watching IOPub messages on a kernel for activity.
-        
+
         - update last_activity on every message
         - record execution_state from status messages
         """
@@ -224,4 +224,3 @@ class MappingKernelManager(MultiKernelManager):
                 kernel.execution_state = msg['content']['execution_state']
 
         kernel._activity_stream.on_recv(record_activity)
-

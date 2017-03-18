@@ -8,6 +8,7 @@ from tornado import web
 from ..base.handlers import IPythonHandler, path_regex
 from ..utils import url_escape
 
+
 class EditorHandler(IPythonHandler):
     """Render the text editor interface."""
     @web.authenticated
@@ -18,11 +19,12 @@ class EditorHandler(IPythonHandler):
 
         basename = path.rsplit('/', 1)[-1]
         self.write(self.render_template('edit.html',
-            file_path=url_escape(path),
-            basename=basename,
-            page_title=basename + " (editing)",
-            )
-        )
+                                        file_path=url_escape(path),
+                                        basename=basename,
+                                        page_title=basename + " (editing)",
+                                        )
+                   )
+
 
 default_handlers = [
     (r"/edit%s" % path_regex, EditorHandler),

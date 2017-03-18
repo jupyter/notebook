@@ -22,6 +22,7 @@ class Checkpoints(LoggingConfigurable):
     delete_checkpoint(self, checkpoint_id, path)
     list_checkpoints(self, path)
     """
+
     def create_checkpoint(self, contents_mgr, path):
         """Create a checkpoint."""
         raise NotImplementedError("must be implemented in a subclass")

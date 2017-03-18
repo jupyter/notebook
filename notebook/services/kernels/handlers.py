@@ -23,6 +23,7 @@ from ...base.zmqhandlers import AuthenticatedZMQStreamHandler, deserialize_binar
 
 from jupyter_client import protocol_version as client_protocol_version
 
+
 class MainKernelHandler(APIHandler):
 
     @json_errors
@@ -98,7 +99,7 @@ class KernelActionHandler(APIHandler):
 
 
 class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
-    
+
     # class-level registry of open sessions
     # allows checking for conflict on session-id,
     # which is used as a zmq identity and must be unique.
@@ -132,7 +133,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             stream.channel = channel
         km.add_restart_callback(self.kernel_id, self.on_kernel_restarted)
         km.add_restart_callback(self.kernel_id, self.on_restart_failed, 'dead')
-    
+
     def request_kernel_info(self):
         """send a request for kernel_info"""
         km = self.kernel_manager
@@ -155,13 +156,13 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                 self.log.debug("Waiting for pending kernel_info request")
             future.add_done_callback(lambda f: self._finish_kernel_info(f.result()))
         return self._kernel_info_future
-    
+
     def _handle_kernel_info_reply(self, msg):
         """process the kernel_info_reply
-        
+
         enabling msg spec adaptation, if necessary
         """
-        idents,msg = self.session.feed_identities(msg)
+        idents, msg = self.session.feed_identities(msg)
         try:
             msg = self.session.deserialize(msg)
         except:
@@ -175,15 +176,15 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                 self.log.error("Kernel info request failed, assuming current %s", info)
                 info = {}
             self._finish_kernel_info(info)
-        
+
         # close the kernel_info channel, we don't need it anymore
         if self.kernel_info_channel:
             self.kernel_info_channel.close()
         self.kernel_info_channel = None
-    
+
     def _finish_kernel_info(self, info):
         """Finish handling kernel_info reply
-        
+
         Set up protocol adaptation, if needed,
         and signal that connection can continue.
         """
@@ -193,7 +194,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             self.log.info("Adapting to protocol v%s for kernel %s", protocol_version, self.kernel_id)
         if not self._kernel_info_future.done():
             self._kernel_info_future.set_result(info)
-    
+
     def initialize(self):
         super(ZMQChannelsHandler, self).initialize()
         self.zmq_stream = None
@@ -226,7 +227,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         kernel = self.kernel_manager.get_kernel(self.kernel_id)
         self.session.key = kernel.session.key
         future = self.request_kernel_info()
-        
+
         def give_up():
             """Don't wait forever for the kernel to reply"""
             if future.done():
@@ -237,16 +238,16 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         loop.add_timeout(loop.time() + self.kernel_info_timeout, give_up)
         # actually wait for it
         yield future
-    
+
     @gen.coroutine
     def get(self, kernel_id):
         self.kernel_id = cast_unicode(kernel_id, 'ascii')
         yield super(ZMQChannelsHandler, self).get(kernel_id=kernel_id)
-    
+
     @gen.coroutine
     def _register_session(self):
         """Ensure we aren't creating a duplicate session.
-        
+
         If a previous identical session is still open, close it to avoid collisions.
         This is likely due to a client reconnecting from a lost network connection,
         where the socket on our side has not been cleaned up yet.
@@ -257,7 +258,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             self.log.warning("Replacing stale connection: %s", self.session_key)
             yield stale_handler.close()
         self._open_sessions[self.session_key] = self
-    
+
     def open(self, kernel_id):
         super(ZMQChannelsHandler, self).open()
         self.kernel_manager.notify_connect(kernel_id)
@@ -293,20 +294,21 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             return
         stream = self.channels[channel]
         self.session.send(stream, msg)
-        
+
     def _on_zmq_reply(self, stream, msg_list):
         idents, fed_msg_list = self.session.feed_identities(msg_list)
         msg = self.session.deserialize(fed_msg_list)
         parent = msg['parent_header']
+
         def write_stderr(error_message):
             self.log.warning(error_message)
             msg = self.session.msg("stream",
-                content={"text": error_message + '\n', "name": "stderr"},
-                parent=parent
-            )
+                                   content={"text": error_message + '\n', "name": "stderr"},
+                                   parent=parent
+                                   )
             msg['channel'] = 'iopub'
             self.write_message(json.dumps(msg, default=date_default))
-            
+
         channel = getattr(stream, 'channel', None)
         msg_type = msg['header']['msg_type']
 
@@ -320,7 +322,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             self._iopub_data_exceeded = False
 
         if channel == 'iopub' and msg_type not in {'status', 'comm_open', 'execute_input'}:
-            
+
             # Remove the counts queued for removal.
             now = IOLoop.current().time()
             while len(self._iopub_window_byte_queue) > 0:
@@ -338,16 +340,16 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             self._iopub_window_msg_count += 1
             byte_count = sum([len(x) for x in msg_list])
             self._iopub_window_byte_count += byte_count
-            
-            # Queue a removal of the byte and message count for a time in the 
+
+            # Queue a removal of the byte and message count for a time in the
             # future, when we are no longer interested in it.
             self._iopub_window_byte_queue.append((now + self.rate_limit_window, byte_count))
-            
+
             # Check the limits, set the limit flags, and reset the
             # message and data counts.
             msg_rate = float(self._iopub_window_msg_count) / self.rate_limit_window
             data_rate = float(self._iopub_window_byte_count) / self.rate_limit_window
-            
+
             # Check the msg rate
             if self.iopub_msg_rate_limit > 0 and msg_rate > self.iopub_msg_rate_limit:
                 if not self._iopub_msgs_exceeded:
@@ -381,7 +383,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                     self._iopub_data_exceeded = False
                     if not self._iopub_msgs_exceeded:
                         self.log.warning("iopub messages resumed")
-        
+
             # If either of the limit flags are set, do not send the message.
             if self._iopub_msgs_exceeded or self._iopub_data_exceeded:
                 # we didn't send it, remove the current message from the calculus
@@ -419,14 +421,14 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                 socket = stream.socket
                 stream.close()
                 socket.close()
-        
+
         self.channels = {}
         self._close_future.set_result(None)
 
     def _send_status_message(self, status):
         msg = self.session.msg("status",
-            {'execution_state': status}
-        )
+                               {'execution_state': status}
+                               )
         msg['channel'] = 'iopub'
         self.write_message(json.dumps(msg, default=date_default))
 

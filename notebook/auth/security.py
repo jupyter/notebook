@@ -109,11 +109,12 @@ def passwd_check(hashed_passphrase, passphrase):
 
     return h.hexdigest() == pw_digest
 
+
 @contextmanager
 def persist_config(config_file=None, mode=0o600):
     """Context manager that can be used to modify a config object
 
-    On exit of the context manager, the config will be written back to disk, 
+    On exit of the context manager, the config will be written back to disk,
     by default with user-only (600) permissions.
     """
 
@@ -136,12 +137,12 @@ def persist_config(config_file=None, mode=0o600):
     except Exception as e:
         tb = traceback.format_exc()
         warnings.warn("Failed to set permissions on %s:\n%s" % (config_file, tb),
-            RuntimeWarning)
+                      RuntimeWarning)
 
 
 def set_password(password=None, config_file=None):
     """Ask user for password, store it in notebook json configuration file"""
-    
+
     hashed_password = passwd(password)
 
     with persist_config(config_file) as config:

@@ -132,25 +132,25 @@ flags.update(BaseExtensionApp.flags)
 flags.pop("y", None)
 flags.pop("generate-config", None)
 flags.update({
-    "user" : ({
-        "ToggleServerExtensionApp" : {
-            "user" : True,
+    "user": ({
+        "ToggleServerExtensionApp": {
+            "user": True,
         }}, "Perform the operation for the current user"
     ),
-    "system" : ({
-        "ToggleServerExtensionApp" : {
-            "user" : False,
+    "system": ({
+        "ToggleServerExtensionApp": {
+            "user": False,
             "sys_prefix": False,
         }}, "Perform the operation system-wide"
     ),
-    "sys-prefix" : ({
-        "ToggleServerExtensionApp" : {
-            "sys_prefix" : True,
+    "sys-prefix": ({
+        "ToggleServerExtensionApp": {
+            "sys_prefix": True,
         }}, "Use sys.prefix as the prefix for installing server extensions"
     ),
-    "py" : ({
-        "ToggleServerExtensionApp" : {
-            "python" : True,
+    "py": ({
+        "ToggleServerExtensionApp": {
+            "python": True,
         }}, "Install from a Python package"
     ),
 })
@@ -161,13 +161,13 @@ class ToggleServerExtensionApp(BaseExtensionApp):
     """A base class for enabling/disabling extensions"""
     name = "jupyter serverextension enable/disable"
     description = "Enable/disable a server extension using frontend configuration files."
-    
+
     flags = flags
 
     user = Bool(True, config=True, help="Whether to do a user install")
     sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
     python = Bool(False, config=True, help="Install from a Python package")
-    
+
     def toggle_server_extension(self, import_name):
         """Change the status of a named server extension.
 
@@ -217,7 +217,7 @@ class EnableServerExtensionApp(ToggleServerExtensionApp):
     name = "jupyter serverextension enable"
     description = """
     Enable a serverextension in configuration.
-    
+
     Usage
         jupyter serverextension enable [--system|--sys-prefix]
     """
@@ -229,7 +229,7 @@ class DisableServerExtensionApp(ToggleServerExtensionApp):
     name = "jupyter serverextension disable"
     description = """
     Disable a serverextension in configuration.
-    
+
     Usage
         jupyter serverextension disable [--system|--sys-prefix]
     """
@@ -328,6 +328,7 @@ def _get_server_extension_metadata(module):
     if not hasattr(m, '_jupyter_server_extension_paths'):
         raise KeyError(u'The Python module {} does not include any valid server extensions'.format(module))
     return m, m._jupyter_server_extension_paths()
+
 
 if __name__ == '__main__':
     main()

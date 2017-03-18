@@ -10,13 +10,13 @@ from __future__ import absolute_import
 
 import os
 import platform
-import pprint
 import sys
 import subprocess
 
 from ipython_genutils import py3compat, encoding
 
 import notebook
+
 
 def pkg_commit_hash(pkg_path):
     """Get short form of commit hash given directory `pkg_path`
@@ -47,16 +47,16 @@ def pkg_commit_hash(pkg_path):
         cur_path = par_path
         if p.exists(p.join(cur_path, '.git')):
             proc = subprocess.Popen('git rev-parse --short HEAD',
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE,
-                                cwd=pkg_path, shell=True)
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.PIPE,
+                                    cwd=pkg_path, shell=True)
             repo_commit, _ = proc.communicate()
             if repo_commit:
                 return 'repository', repo_commit.strip().decode('ascii')
             else:
                 return u'', u''
         par_path = p.dirname(par_path)
-                
+
     return u'', u''
 
 
@@ -87,9 +87,9 @@ def pkg_info(pkg_path):
         default_encoding=encoding.DEFAULT_ENCODING,
         )
 
+
 def get_sys_info():
     """Return useful information about the system as a dict."""
     p = os.path
     path = p.realpath(p.dirname(p.abspath(p.join(notebook.__file__))))
     return pkg_info(path)
-

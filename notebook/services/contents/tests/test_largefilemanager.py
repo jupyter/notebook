@@ -72,7 +72,7 @@ class TestLargeFileManager(TestCase):
             cm.save(model, model['path'])
         except web.HTTPError as e:
             self.assertEqual("HTTP 400: Bad Request (Must specify format of file contents as 'text' or 'base64')",
-            				 str(e))
+                             str(e))
 
         # Save model for different chunks
         model = {'name': 'test', 'path': 'test', 'type': 'file',

@@ -11,6 +11,7 @@ import notebook.bundler.tools as tools
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 
+
 class TestBundlerTools(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
@@ -20,16 +21,16 @@ class TestBundlerTools(unittest.TestCase):
 
     def test_get_no_cell_references(self):
         '''Should find no references in a regular HTML comment.'''
-        no_references = tools.get_cell_reference_patterns({'source':'''!<--
+        no_references = tools.get_cell_reference_patterns({'source': '''!<--
 a
 b
 c
--->''', 'cell_type':'markdown'})
+-->''', 'cell_type': 'markdown'})
         self.assertEqual(len(no_references), 0)
 
     def test_get_cell_reference_patterns_comment_multiline(self):
         '''Should find two references and ignore a comment within an HTML comment.'''
-        cell = {'cell_type':'markdown', 'source':'''<!--associate:
+        cell = {'cell_type': 'markdown', 'source': '''<!--associate:
 a
 b/
 #comment
@@ -40,7 +41,7 @@ b/
 
     def test_get_cell_reference_patterns_comment_trailing_filename(self):
         '''Should find three references within an HTML comment.'''
-        cell = {'cell_type':'markdown', 'source':'''<!--associate:c
+        cell = {'cell_type': 'markdown', 'source': '''<!--associate:c
 a
 b/
 #comment
@@ -52,17 +53,17 @@ b/
     def test_get_cell_reference_patterns_precode(self):
         '''Should find no references in a fenced code block in a *code* cell.'''
         self.assertTrue(tools.get_cell_reference_patterns)
-        no_references = tools.get_cell_reference_patterns({'source':'''```
+        no_references = tools.get_cell_reference_patterns({'source': '''```
 foo
 bar
 baz
 ```
-''', 'cell_type':'code'})
+''', 'cell_type': 'code'})
         self.assertEqual(len(no_references), 0)
 
     def test_get_cell_reference_patterns_precode_mdcomment(self):
         '''Should find two references and ignore a comment in a fenced code block.'''
-        cell = {'cell_type':'markdown', 'source':'''```
+        cell = {'cell_type': 'markdown', 'source': '''```
 a
 b/
 #comment
@@ -72,8 +73,8 @@ b/
         self.assertEqual(len(references), 2, str(references))
 
     def test_get_cell_reference_patterns_precode_backticks(self):
-        '''Should find three references in a fenced code block.''' 
-        cell = {'cell_type':'markdown', 'source':'''```c
+        '''Should find three references in a fenced code block.'''
+        cell = {'cell_type': 'markdown', 'source': '''```c
 a
 b/
 #comment
@@ -85,12 +86,12 @@ b/
     def test_glob_dir(self):
         '''Should expand to single file in the resources/ subfolder.'''
         self.assertIn(os.path.join('resources', 'empty.ipynb'),
-            tools.expand_references(HERE, ['resources/empty.ipynb']))
+                      tools.expand_references(HERE, ['resources/empty.ipynb']))
 
     def test_glob_subdir(self):
         '''Should expand to all files in the resources/ subfolder.'''
         self.assertIn(os.path.join('resources', 'empty.ipynb'),
-            tools.expand_references(HERE, ['resources/']))
+                      tools.expand_references(HERE, ['resources/']))
 
     def test_glob_splat(self):
         '''Should expand to all contents under this test/ directory.'''

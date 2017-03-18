@@ -13,6 +13,7 @@ from notebook._tz import utcfromtimestamp, isoformat
 
 import os
 
+
 class APISpecHandler(web.StaticFileHandler, IPythonHandler):
 
     def initialize(self):
@@ -23,6 +24,7 @@ class APISpecHandler(web.StaticFileHandler, IPythonHandler):
         self.log.warning("Serving api spec (experimental, incomplete)")
         self.set_header('Content-Type', 'text/x-yaml')
         return web.StaticFileHandler.get(self, 'api.yaml')
+
 
 class APIStatusHandler(APIHandler):
 
@@ -49,6 +51,7 @@ class APIStatusHandler(APIHandler):
             'connections': total_connections,
         }
         self.finish(json.dumps(model, sort_keys=True))
+
 
 default_handlers = [
     (r"/api/spec.yaml", APISpecHandler),

@@ -9,31 +9,30 @@ import shutil
 
 pjoin = os.path.join
 
-import requests
-
 from jupyter_client.kernelspec import NATIVE_KERNEL_NAME
-from notebook.utils import url_path_join, url_escape
+from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 
 # Copied from jupyter_client.tests.test_kernelspec so updating that doesn't
 # break these tests
-sample_kernel_json = {'argv':['cat', '{connection_file}'],
-                      'display_name':'Test kernel',
-                     }
+sample_kernel_json = {'argv': ['cat', '{connection_file}'],
+                      'display_name': 'Test kernel',
+                      }
 
 some_resource = u"The very model of a modern major general"
 
 
 class KernelSpecAPI(object):
     """Wrapper for notebook API calls."""
+
     def __init__(self, request):
         self.request = request
 
     def _req(self, verb, path, body=None):
         response = self.request(verb,
-                path,
-                data=body,
-        )
+                                path,
+                                data=body,
+                                )
         response.raise_for_status()
         return response
 
@@ -42,13 +41,14 @@ class KernelSpecAPI(object):
 
     def kernel_spec_info(self, name):
         return self._req('GET', url_path_join('api/kernelspecs', name))
-    
+
     def kernel_resource(self, name, path):
         return self._req('GET', url_path_join('kernelspecs', name, path))
 
 
 class APITest(NotebookTestBase):
     """Test the kernelspec web service API"""
+
     def setUp(self):
         self.create_spec('sample')
         self.create_spec('sample 2')
@@ -61,10 +61,10 @@ class APITest(NotebookTestBase):
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
-        
+
         with open(pjoin(sample_kernel_dir, 'kernel.json'), 'w') as f:
             json.dump(sample_kernel_json, f)
-        
+
         with io.open(pjoin(sample_kernel_dir, 'resource.txt'), 'w',
                      encoding='utf-8') as f:
             f.write(some_resource)
@@ -77,10 +77,10 @@ class APITest(NotebookTestBase):
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
-        
+
         with open(pjoin(bad_kernel_dir, 'kernel.json'), 'w') as f:
             f.write("garbage")
-        
+
         model = self.ks_api.list().json()
         assert isinstance(model, dict)
         self.assertEqual(model['default'], NATIVE_KERNEL_NAME)
@@ -88,9 +88,9 @@ class APITest(NotebookTestBase):
         assert isinstance(specs, dict)
         # 2: the sample kernelspec created in setUp, and the native Python kernel
         self.assertGreaterEqual(len(specs), 2)
-        
+
         shutil.rmtree(bad_kernel_dir)
-    
+
     def test_list_kernelspecs(self):
         model = self.ks_api.list().json()
         assert isinstance(model, dict)
@@ -124,14 +124,14 @@ class APITest(NotebookTestBase):
     def test_get_nonexistant_kernelspec(self):
         with assert_http_error(404):
             self.ks_api.kernel_spec_info('nonexistant')
-    
+
     def test_get_kernel_resource_file(self):
         res = self.ks_api.kernel_resource('sAmple', 'resource.txt')
         self.assertEqual(res.text, some_resource)
-    
+
     def test_get_nonexistant_resource(self):
         with assert_http_error(404):
             self.ks_api.kernel_resource('nonexistant', 'resource.txt')
-        
+
         with assert_http_error(404):
             self.ks_api.kernel_resource('sample', 'nonexistant.txt')

@@ -142,6 +142,7 @@ class GenericFileCheckpoints(GenericCheckpointsMixin, FileCheckpoints):
     Local filesystem Checkpoints that works with any conforming
     ContentsManager.
     """
+
     def create_file_checkpoint(self, content, format, path):
         """Create a checkpoint from the current content of a file."""
         path = path.strip('/')

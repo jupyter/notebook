@@ -17,14 +17,16 @@ from ipython_genutils.tempdir import TemporaryDirectory
 
 umask = 0
 
+
 def test_atomic_writing():
-    class CustomExc(Exception): pass
+    class CustomExc(Exception):
+        pass
 
     with TemporaryDirectory() as td:
         f1 = os.path.join(td, 'penguin')
         with stdlib_io.open(f1, 'w') as f:
             f.write(u'Before')
-        
+
         if os.name != 'nt':
             os.chmod(f1, 0o701)
             orig_mode = stat.S_IMODE(os.stat(f1).st_mode)
@@ -62,17 +64,20 @@ def test_atomic_writing():
             # Check that writing over a file preserves a symlink
             with atomic_writing(f2) as f:
                 f.write(u'written from symlink')
-            
+
             with stdlib_io.open(f1, 'r') as f:
                 nt.assert_equal(f.read(), u'written from symlink')
+
 
 def _save_umask():
     global umask
     umask = os.umask(0)
     os.umask(umask)
 
+
 def _restore_umask():
     os.umask(umask)
+
 
 @skip_win32
 @nt.with_setup(_save_umask, _restore_umask)
@@ -96,32 +101,32 @@ def test_atomic_writing_umask():
 def test_atomic_writing_newlines():
     with TemporaryDirectory() as td:
         path = os.path.join(td, 'testfile')
-        
+
         lf = u'a\nb\nc\n'
         plat = lf.replace(u'\n', os.linesep)
         crlf = lf.replace(u'\n', u'\r\n')
-        
+
         # test default
         with stdlib_io.open(path, 'w') as f:
             f.write(lf)
         with stdlib_io.open(path, 'r', newline='') as f:
             read = f.read()
         nt.assert_equal(read, plat)
-        
+
         # test newline=LF
         with stdlib_io.open(path, 'w', newline='\n') as f:
             f.write(lf)
         with stdlib_io.open(path, 'r', newline='') as f:
             read = f.read()
         nt.assert_equal(read, lf)
-        
+
         # test newline=CRLF
         with atomic_writing(path, newline='\r\n') as f:
             f.write(lf)
         with stdlib_io.open(path, 'r', newline='') as f:
             read = f.read()
         nt.assert_equal(read, crlf)
-        
+
         # test newline=no convert
         text = u'crlf\r\ncr\rlf\n'
         with atomic_writing(path, newline='') as f:
