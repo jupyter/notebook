@@ -76,9 +76,8 @@ require([
     
     try{
         requirejs(['custom/custom'], function() {});
-        bidi.loadLocale(bidi.uiLang());
-        bidi.setNumericShaping("national");
-        bidi.isMirroringEnabled();
+        bidi.loadLocale();
+        bidi.setUserPreferences("hijri", "national");
     } catch(err) {
         console.log("Error processing custom.js. Logging and continuing");
         console.warn(err);

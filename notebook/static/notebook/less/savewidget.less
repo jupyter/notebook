@@ -17,6 +17,17 @@ span.save_widget {
     }
 }
 
+[dir="rtl"] span.save_widget.pull-left {
+    .pull-right();
+}
+
+[dir="rtl"] span.save_widget {
+    span.filename {
+        margin-left : 0;
+        margin-right : @padding-large-horizontal;
+    }
+}
+
 span.checkpoint_status, span.autosave_status {
     font-size: small;
 }

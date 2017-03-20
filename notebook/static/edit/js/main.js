@@ -32,9 +32,8 @@ require([
 
     try {
         requirejs(['custom/custom'], function() {});
-        bidi.loadLocale(bidi.uiLang());
-        bidi.setNumericShaping("national");
-        bidi.isMirroringEnabled();
+        bidi.loadLocale();
+        bidi.setUserPreferences("hijri", "contextual");
     } catch(err) {
         console.log("Error loading custom.js from edition service. Continuing and logging");
         console.warn(err);

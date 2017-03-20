@@ -8,9 +8,9 @@ define([
     'base/js/keyboard',
     'moment',
     'bidi/bidi',
-], function($, utils, dialog, keyboard, moment ,bidi) {
+], function($, utils, dialog, keyboard, moment, bidi) {
     "use strict";
-    bidi.loadLocale(bidi.uiLang());
+    //bidi.loadLocale();
     var SaveWidget = function (selector, options) {
         this.editor = undefined;
         this.selector = selector;
@@ -149,19 +149,41 @@ define([
             el.text('').attr('title', 'never saved');
             return;
         }
-        var chkd = moment(this._last_modified);
-        var long_date = chkd.format('llll');
-        var human_date;
-        var tdelta = Math.ceil(new Date() - this._last_modified);
-        if (tdelta < utils.time.milliseconds.d){
-            // less than 24 hours old, use relative date
-            human_date = chkd.fromNow();
-        } else {
-            // otherwise show calendar
-            // <Today | yesterday|...> at hh,mm,ss
-            human_date = chkd.calendar();
-        }
-        el.text(human_date).attr('title', long_date);
+        var date = this._last_modified;
+       /* if(bidi.getCalendarType() ==="hijri"){
+        	require(['moment-hijri'],function (moment_hijri){
+        		var chkd = moment_hijri(date);
+        		var long_date = chkd.format('iYYYY-iMM-iDD HH:mm');
+        	    var human_date;
+                var tdelta = Math.ceil(new Date() - date);
+                if (tdelta < utils.time.milliseconds.d){
+                  // less than 24 hours old, use relative date
+                    human_date = chkd.fromNow();
+                } else {
+                  // otherwise show calendar
+                  // <Today | yesterday|...> at hh,mm,ss
+                   human_date = chkd.calendar();
+               }
+               el.text(human_date).attr('title', long_date);
+        
+            });
+        } else {*/
+             var chkd = moment(this._last_modified);
+             var long_date = chkd.format('llll');
+          
+          var human_date;
+          var tdelta = Math.ceil(new Date() - this._last_modified);
+          if (tdelta < utils.time.milliseconds.d){
+              // less than 24 hours old, use relative date
+              human_date = chkd.fromNow();
+          } else {
+              // otherwise show calendar
+              // <Today | yesterday|...> at hh,mm,ss
+              human_date = chkd.calendar();
+          }
+          el.text(human_date).attr('title', long_date);
+       // }
+        	
     };
     
     SaveWidget.prototype._schedule_render_last_modified = function () {

@@ -55,17 +55,16 @@ require([
     "use strict";
     try{
         requirejs(['custom/custom'], function() {});
-        bidi.loadLocale(bidi.uiLang());
-        bidi.setNumericShaping("national");
-        bidi.setCalendarType("hijri");
-        bidi.isMirroringEnabled();
+        bidi.loadLocale();
+        bidi.setUserPreferences("hijri", "national" );
     } catch(err) {
         console.log("Error loading custom.js from tree service. Continuing and logging");
         console.warn(err);
     }
+    
     console.log('Welcome to Project Jupyter! Explore the various tools available and their corresponding documentation. If you are interested in contributing to the platform, please visit the community resources section at http://jupyter.org/community.html.');
-    
-    
+
+
     // Setup all of the config related things
 
     var common_options = {

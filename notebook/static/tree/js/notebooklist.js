@@ -10,7 +10,7 @@ define([
     'base/js/keyboard',
     'moment',
     'bidi/bidi',
-], function($, IPython, utils, dialog, events, keyboard, moment , bidi) {
+], function($, IPython, utils, dialog, events, keyboard, moment, bidi) {
     "use strict";
 
     var NotebookList = function (selector, options) {
@@ -700,12 +700,12 @@ define([
 
         // Add in the date that the file was last modified
         item.find(".item_modified").text(utils.format_datetime(modified));
-        if (bidi.getcalendarType()==="hijri"){
-        	require(['moment-hijri'],function (moment_hijri){
+        if (true/*bidi.getCalendarType()==="hijri"*/){ require(['moment-hijri'],function (moment_hijri){
         		item.find(".item_modified").attr("title", moment_hijri(modified).format("iYYYY-iMM-iDD HH:mm"));
         	});
-        }
-        item.find(".item_modified").attr("title", moment(modified).format("YYYY-MM-DD HH:mm"));
+        }else{
+        	item.find(".item_modified").attr("title", moment(modified).format("YYYY-MM-DD HH:mm"));
+        }  
     };
 
 

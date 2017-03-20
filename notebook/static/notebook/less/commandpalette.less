@@ -3,6 +3,11 @@ ul.typeahead-list i{
     width: 18px;
 }
 
+[dir="rtl"] ul.typeahead-list i {
+    margin-left: 0;
+    margin-right: -10px;
+}
+
 ul.typeahead-list {
   max-height: 80vh;
   overflow:auto;
@@ -12,6 +17,14 @@ ul.typeahead-list {
         /* see https://github.com/jupyter/notebook/issues/559 */
         white-space: normal;
     }
+}
+
+ul.typeahead-list & > li > a.pull-right {
+    .pull-left();
+}
+
+[dir="rtl"] .typeahead-list {
+    text-align : right;
 }
 
 .cmd-palette {
@@ -33,6 +46,14 @@ ul.typeahead-list {
     color: transparent;
 }
 
+[dir="rtl"] .no-shortcut.pull-right{
+    .pull-left();
+}
+
+[dir="rtl"] .command-shortcut.pull-right{
+    .pull-left();
+}
+
 .command-shortcut:before{
     content:"(command mode)";
     padding-right:3px;
@@ -43,4 +64,8 @@ ul.typeahead-list {
     content:"(edit)";
     padding-right:3px;
     color:@gray-light;
+}
+
+[dir="rtl"] .edit-shortcut.pull-right {
+    float: left !important;
 }

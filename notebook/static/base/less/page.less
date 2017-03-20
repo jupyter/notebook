@@ -62,7 +62,14 @@ body > #header {
     }
 }
 
+[dir="rtl"] #ipython_notebook {
+    margin-right: 10px;
+    margin-left: 0;
+}
 
+[dir="rtl"] #ipython_notebook.pull-left {
+     .pull-right();
+}
 
 #noscript {
      width: auto;
@@ -101,6 +108,10 @@ input.ui-button {
 
 span#login_widget {
     float: right;
+}
+
+[dir="rtl"] span#login_widget {
+    float: left;
 }
 
 span#login_widget > .button,

@@ -3,6 +3,10 @@
     z-index: 10;
 }
 
+[dir="rtl"] #notification_area {
+    .pull-left();
+}
+
 .indicator_area {
     .pull-right();
     color: @navbar-default-link-color;
@@ -12,6 +16,10 @@
     z-index: 10;
     text-align: center;
     width: auto;
+}
+
+[dir="rtl"] .indicator_area {
+    .pull-left();
 }
 
 #kernel_indicator {
@@ -25,10 +33,20 @@
     }
 }
 
+[dir="rtl"] #kernel_indicator {
+    .pull-left();
+    border-left: 0;
+    border-right : 1px solid;
+}
+
 #modal_indicator {
     .pull-right();
     .indicator_area();
 }
+
+[dir="rtl"] #modal_indicator {
+    .pull-left();
+} 
 
 #readonly-indicator {
     .pull-right();
