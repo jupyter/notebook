@@ -147,8 +147,8 @@ def find_package_data():
         pjoin(components, "jquery-ui", "themes", "smoothness", "jquery-ui.min.css"),
         pjoin(components, "jquery-ui", "themes", "smoothness", "images", "*"),
         pjoin(components, "marked", "lib", "marked.js"),
-        pjoin(components, "preact", "dist", "preact.min.js"),
-        pjoin(components, "preact-compat", "dist", "preact-compat.min.js"),
+        pjoin(components, "preact", "index.js"),
+        pjoin(components, "preact-compat", "index.js"),
         pjoin(components, "proptypes", "index.js"),
         pjoin(components, "requirejs", "require.js"),
         pjoin(components, "underscore", "underscore-min.js"),
@@ -354,14 +354,6 @@ class Bower(Command):
         if not os.path.exists(self.bower_dir):
             return True
         
-        # check npm packages
-        for pkg in ['preact', 'preact-compat', 'proptypes']:
-            npm_pkg = os.path.join(self.node_modules, pkg)
-            bower_pkg = os.path.join(self.bower_dir, pkg)
-            if not os.path.exists(npm_pkg) or not os.path.exists(bower_pkg):
-                return True
-            if mtime(bower_pkg) < mtime(npm_pkg):
-                return True
         return mtime(self.bower_dir) < mtime(pjoin(repo_root, 'bower.json'))
 
     def should_run_npm(self):
@@ -371,16 +363,6 @@ class Bower(Command):
         if not os.path.exists(self.node_modules):
             return True
         return mtime(self.node_modules) < mtime(pjoin(repo_root, 'package.json'))
-
-    def npm_components(self):
-        """Stage npm frontend dependencies into components"""
-        for pkg in ['preact', 'preact-compat', 'proptypes']:
-            npm_pkg = os.path.join(self.node_modules, pkg)
-            bower_pkg = os.path.join(self.bower_dir, pkg)
-            log.info("Staging %s -> %s" % (npm_pkg, bower_pkg))
-            if os.path.exists(bower_pkg):
-                shutil.rmtree(bower_pkg)
-            shutil.copytree(npm_pkg, bower_pkg)
 
     def patch_codemirror(self):
         """Patch CodeMirror until https://github.com/codemirror/CodeMirror/issues/4454 is resolved"""
@@ -415,7 +397,7 @@ class Bower(Command):
             print("You can install js dependencies with `npm install`", file=sys.stderr)
             raise
         self.patch_codemirror()
-        self.npm_components()
+        # self.npm_components()
         os.utime(self.bower_dir, None)
         # update package data in case this created new files
         update_package_data(self.distribution)
