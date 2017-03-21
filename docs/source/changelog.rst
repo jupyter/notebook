@@ -46,7 +46,8 @@ There is a new cell toolbar for adding *cell tags* (:ghpull:`2048`):
 Cell tags are a lightweight way to customise the behaviour of tools working with
 notebooks; we're working on building support for them into tools like `nbconvert
 <http://nbconvert.readthedocs.io/en/latest/>`__ and `nbval
-<https://github.com/computationalmodelling/nbval>`__.
+<https://github.com/computationalmodelling/nbval>`__. To start using tags,
+select *Tags* in the *View*, *Cell Toolbar* menu in a notebook.
 
 The UI for editing cell tags is basic for now; we hope to improve it in future
 releases.
