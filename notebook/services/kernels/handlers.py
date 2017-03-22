@@ -336,10 +336,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
 
             # Increment the bytes and message count
             self._iopub_window_msg_count += 1
-            if msg_type == 'stream':
-                byte_count = sum([len(x) for x in msg_list])
-            else:
-                byte_count = 0
+            byte_count = sum([len(x) for x in msg_list])
             self._iopub_window_byte_count += byte_count
             
             # Queue a removal of the byte and message count for a time in the 
@@ -360,12 +357,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                     The notebook server will temporarily stop sending output
                     to the client in order to avoid crashing it.
                     To change this limit, set the config variable
-                    `--NotebookApp.iopub_msg_rate_limit`.
-                    
-                    Current values:
-                    NotebookApp.iopub_msg_rate_limit={} (msgs/sec)
-                    NotebookApp.rate_limit_window={} (secs)
-                    """.format(self.iopub_msg_rate_limit, self.rate_limit_window)))
+                    `--NotebookApp.iopub_msg_rate_limit`."""))
             else:
                 # resume once we've got some headroom below the limit
                 if self._iopub_msgs_exceeded and msg_rate < (0.8 * self.iopub_msg_rate_limit):
@@ -382,12 +374,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                     The notebook server will temporarily stop sending output
                     to the client in order to avoid crashing it.
                     To change this limit, set the config variable
-                    `--NotebookApp.iopub_data_rate_limit`.
-                    
-                    Current values:
-                    NotebookApp.iopub_data_rate_limit={} (bytes/sec)
-                    NotebookApp.rate_limit_window={} (secs)
-                    """.format(self.iopub_data_rate_limit, self.rate_limit_window)))
+                    `--NotebookApp.iopub_data_rate_limit`."""))
             else:
                 # resume once we've got some headroom below the limit
                 if self._iopub_data_exceeded and data_rate < (0.8 * self.iopub_data_rate_limit):
