@@ -204,6 +204,10 @@ define([
         this.element.find('#download_pdf').click(function () {
             that._nbconvert('pdf', true);
         });
+        
+        this.element.find('#download_latex').click(function () {
+            that._nbconvert('latex', true);
+        });
 
         this.element.find('#download_script').click(function () {
             that._nbconvert('script', true);
