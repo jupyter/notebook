@@ -15,6 +15,7 @@ from ..base.handlers import (
     path_regex,
 )
 from nbformat import from_dict
+import nbformat
 from traitlets.config import Config
 
 from ipython_genutils.py3compat import cast_bytes
@@ -76,8 +77,10 @@ def get_exporter(format, **kwargs):
 
 class NbconvertFileHandler(IPythonHandler):
 
-    def call_nbconvert(self, format, path, config = None):
+    def call_nbconvert(self, format, path, config=None, content=None):
         
+
+
         exporter = get_exporter(format, config=config, log=self.log)
         
         path = path.strip('/')
@@ -94,8 +97,11 @@ class NbconvertFileHandler(IPythonHandler):
         if model['type'] != 'notebook':
             # not a notebook, redirect to files
             return FilesRedirectHandler.redirect_to_files(self, path)
-
-        nb = model['content']
+        
+        if content is None:
+            nb = model['content']
+        else:
+            nb = nbformat.reads(content, as_version=4)
 
         self.set_header('Last-Modified', model['last_modified'])
 
@@ -136,7 +142,7 @@ class NbconvertFileHandler(IPythonHandler):
             self.set_header('Content-Type',
                             '%s; charset=utf-8' % exporter.output_mimetype)
 
-        self.finish(output)
+        self.finish(output + model['name']) 
 
     @web.authenticated
     def get(self, format, path):
@@ -147,9 +153,10 @@ class NbconvertFileHandler(IPythonHandler):
     def post(self, format, path):
 
         c = Config(self.config)
-        c.merge(self.get_json_body())
-
-        self.call_nbconvert(format, path, config=c)
+        json_upload = self.get_json_body()
+        c.merge(json_upload["config"])
+        nb_content = json_upload["notebook"]
+        self.call_nbconvert(format, path, config=c, content=nb_content)
 
        
 
