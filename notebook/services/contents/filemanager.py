@@ -142,6 +142,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             raise TraitError("%r is not a directory" % value)
         return value
 
+    @default('checkpoints_class')
     def _checkpoints_class_default(self):
         return FileCheckpoints
 
