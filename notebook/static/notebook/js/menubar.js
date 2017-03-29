@@ -172,16 +172,15 @@ define([
         this.element.find('#download_ipynb').click(function () {
             var base_url = that.notebook.base_url;
             var notebook_path = utils.encode_uri_components(that.notebook.notebook_path);
-            var w = window.open('');
             var url = utils.url_path_join(
                 base_url, 'files', notebook_path
             ) + '?download=1';
             if (that.notebook.dirty && that.notebook.writable) {
                 that.notebook.save_notebook().then(function() {
-                    w.location = url;
+                    that._new_window(url);
                 });
             } else {
-                w.location = url;
+                that._new_window(url);
             }
         });
         
