@@ -1697,11 +1697,16 @@ define([
         if (cell.is_splittable()) {
             var texta = cell.get_pre_cursor();
             var textb = cell.get_post_cursor();
+            // current cell becomes the second one
+            // so we don't need to worry about selection
             cell.set_text(textb);
+            // create new cell with same type
             var new_cell = this.insert_cell_above(cell.cell_type);
             // Unrender the new cell so we can call set_text.
             new_cell.unrender();
             new_cell.set_text(texta);
+            // duplicate metadata
+            new_cell.metadata = JSON.parse(JSON.stringify(cell.metadata));
         }
     };
 
