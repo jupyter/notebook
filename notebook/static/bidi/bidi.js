@@ -3,8 +3,7 @@
 
 define([
     'bidi/numericshaping',
-    'bidi/nationalcalendar',
-], function (numericshaping ,nationalcalendar){
+], function (numericshaping){
     "use strict";
     var shaperType="";
     var textDir="";
@@ -13,17 +12,11 @@ define([
     	return calendarType;
     };*/
     
-    var _setUserPreferences = function (calendartype, shapertype) {
-    	nationalcalendar.setType(calendartype);
+    var _setUserPreferences = function (shapertype) {
     	shaperType = shapertype;
     	textDir = "rtl";
     };
-    
-    var _flags= {
-    	NS: 1,
-    	CALENDAR : 2
-    };
-    
+
     var _uiLang= function (){
     	return navigator.language.toLowerCase();
     };
@@ -35,6 +28,7 @@ define([
     		}
     		requirejs(['components/moment/locale/'+_uiLang()], function (){});
     	}catch (err) {
+    		return moment.locale();
     		console.log("Error loading the required locale");
             console.warn(err);
     	}
@@ -44,22 +38,14 @@ define([
     	return (new RegExp("^(ar|he)").test(_uiLang()));
     };
     
-    var _applyBidi = function (value , flag) {
-        if(flag & _flags.NS == _flags.NS) {
-    		value = numericshaping.shapeNumerals(value, shaperType, textDir);
-    		//return value;
-        }
-        else if(flag & _flags.CALENDAR == _flags.CALENDAR) {
-        	value = nationalcalendar.formatDate(value);
-        	console.log(value.long_date  + " "+ value.human_date);
-        }
+    var _applyNumericShaping = function (value) {
+    	value = numericshaping.shapeNumerals(value, shaperType, textDir);
         return value;
     };
     
     var bidi = {
     	setUserPreferences : _setUserPreferences,
-    	flags : _flags,
-    	applyBidi : _applyBidi,
+    	applyNumericShaping : _applyNumericShaping,
     	isMirroringEnabled : _isMirroringEnabled,
     	loadLocale : _loadLocale,
     };

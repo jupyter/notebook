@@ -131,7 +131,7 @@ define([
 
     SaveWidget.prototype.update_notebook_name = function () {
         var nbname = this.notebook.get_notebook_name();
-        nbname = bidi.applyBidi(nbname , bidi.flags.NS);
+        nbname = bidi.applyNumericShaping(nbname);
         this.element.find('span.filename').text(nbname);
     };
 
@@ -177,33 +177,7 @@ define([
             el.text('').attr('title', 'no checkpoint');
             return;
         }
-        var date = this._checkpoint_date;
-       /* if(bidi.getCalendarType() ==="hijri"){
-        	require(['moment-hijri'] ,function (moment){
-        		var chkd = moment(date);
-                var long_date = chkd.format('iYYYY-iMM-iDD HH:mm');
-                var human_date;
-                var tdelta = Math.ceil(new Date() - date);
-                if (tdelta < utils.time.milliseconds.d){
-                    // less than 24 hours old, use relative date
-                    human_date = chkd.fromNow();
-                } else {
-                    // otherwise show calendar 
-                    // <Today | yesterday|...> at hh,mm,ss
-                    human_date = chkd.calendar();
-                }
-                el.text('Last Checkpoint: ' + human_date).attr('title', long_date);
-        	});
-        }
-        else{*/
-        	var d = bidi.applyBidi(this._checkpoint_date , bidi.flags.CALENDAR);
-        	      	
-            var long_date = d.long_date;
-            var human_date =d.human_date;
-            el.text('Last Checkpoint: ' + human_date).attr('title', long_date);
-
-//        }
-        /*var chkd = moment(this._checkpoint_date);
+        var chkd = moment(this._checkpoint_date);
         var long_date = chkd.format('llll');
         var human_date;
         var tdelta = Math.ceil(new Date() - this._checkpoint_date);
@@ -211,11 +185,12 @@ define([
             // less than 24 hours old, use relative date
             human_date = chkd.fromNow();
         } else {
-            // otherwise show calendar 
+            // otherwise show calendar
             // <Today | yesterday|...> at hh,mm,ss
             human_date = chkd.calendar();
         }
-        el.text('Last Checkpoint: ' + human_date).attr('title', long_date);*/
+        el.text('Last Checkpoint: ' + human_date).attr('title', long_date);
+
     };
 
     

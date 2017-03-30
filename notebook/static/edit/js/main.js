@@ -33,7 +33,7 @@ require([
     try {
         requirejs(['custom/custom'], function() {});
         bidi.loadLocale();
-        bidi.setUserPreferences("hijri", "contextual");
+        bidi.setUserPreferences("contextual");
     } catch(err) {
         console.log("Error loading custom.js from edition service. Continuing and logging");
         console.warn(err);
