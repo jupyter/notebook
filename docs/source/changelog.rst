@@ -12,8 +12,8 @@ For more detailed information, see
      Use ``pip install notebook --upgrade`` or ``conda upgrade notebook`` to
      upgrade to the latest release.
 
-.. we push for pip 9+ or it will break for Python 2 users when IPython 6 get out.
-Upgrade to version 9+ of pip before upgrading ``notebook`` is strongly recommended.
+.. we push for pip 9+ or it will break for Python 2 users when IPython 6 is out.
+We strongly recommend that you upgrade to version 9+ of pip before upgrading ``notebook``.
 
 .. tip::
 
@@ -32,8 +32,16 @@ created by the "Big Split" of IPython and Jupyter.
 We encourage users to start trying JupyterLab in preparation for a future
 transition.
 
-We have merged more than 200 pull requests since the 4.x series. Some of the
+We have merged more than 300 pull requests since 4.0. Some of the
 major user-facing changes are described here.
+
+File sorting in the dashboard
+*****************************
+
+Files in the dashboard may now be sorted by last modified date or name (:ghpull:`943`):
+
+.. image:: /_static/images/dashboard-sort.png
+   :align: center 
 
 Cell tags
 *********
@@ -47,7 +55,7 @@ Cell tags are a lightweight way to customise the behaviour of tools working with
 notebooks; we're working on building support for them into tools like `nbconvert
 <http://nbconvert.readthedocs.io/en/latest/>`__ and `nbval
 <https://github.com/computationalmodelling/nbval>`__. To start using tags,
-select *Tags* in the *View*, *Cell Toolbar* menu in a notebook.
+select ``Tags`` in the ``View > Cell Toolbar`` menu in a notebook.
 
 The UI for editing cell tags is basic for now; we hope to improve it in future
 releases.
@@ -55,15 +63,22 @@ releases.
 Table style
 ***********
 
-The default styling for tables in the notebook has been updated (:ghpull:`1776`):
+The default styling for tables in the notebook has been updated (:ghpull:`1776`).
 
-.. image:: /_static/images/table-style-change.png
+Before:
+
+.. image:: /_static/images/table-style-before.png
    :align: center
+   
+After:
+
+.. image:: /_static/images/table-style-after.png
+  :align: center
 
 Customise keyboard shortcuts
 ****************************
 
-You can now edit keyboard shortcuts for command mode within the UI
+You can now edit keyboard shortcuts for *Command Mode* within the UI
 (:ghpull:`1347`):
 
 .. image:: /_static/images/shortcut-editor.png
@@ -108,8 +123,11 @@ Other additions
 
 - Add more visible *Trusted* and *Untrusted* notifications (:ghpull:`1658`).
 
-- The tab icon in the browser now changes to indicate when the kernel is busy
+- The favicon (browser shortcut icon) now changes to indicate when the kernel is busy
   (:ghpull:`1837`).
+  
+- Header and toolbar visibility is now persisted in nbconfig and across sessions
+  (:ghpull:`1769`).
 
 - Load server extensions with ConfigManager so that merge happens recursively,
   unlike normal config values, to make it load more consistently with frontend
