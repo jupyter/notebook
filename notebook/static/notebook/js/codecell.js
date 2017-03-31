@@ -335,11 +335,13 @@ define([
         this.render();
         this.events.trigger('execute.CodeCell', {cell: this});
         var that = this;
-        this.events.on('finished_iopub.Kernel', function (evt, data) {
+        function handleFinished(evt, data) {
             if (that.kernel.id === data.kernel.id && that.last_msg_id === data.msg_id) {
-		that.events.trigger('finished_execute.CodeCell', {cell: that});
-	    }
-        });
+            		that.events.trigger('finished_execute.CodeCell', {cell: that});
+                that.events.off('finished_iopub.Kernel', handleFinished);
+      	    }
+        }
+        this.events.on('finished_iopub.Kernel', handleFinished);
     };
     
     /**
