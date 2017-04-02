@@ -700,7 +700,7 @@ define([
 
         // Add in the date that the file was last modified
         item.find(".item_modified").text(utils.format_datetime(modified));
-        item.find(".item_modified").attr("title", moment(modified).format("YYYY-MM-DD HH:mm"));  
+        item.find(".item_modified").attr("title", moment(modified).format("YYYY-MM-DD HH:mm"));
     };
 
 
