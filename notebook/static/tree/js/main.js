@@ -56,7 +56,7 @@ require([
     try{
         requirejs(['custom/custom'], function() {});
         bidi.loadLocale();
-        bidi.setUserPreferences("contextual" );
+        bidi.setUserPreferences(/*"contextual"*/); //waiting for user input here
     } catch(err) {
         console.log("Error loading custom.js from tree service. Continuing and logging");
         console.warn(err);

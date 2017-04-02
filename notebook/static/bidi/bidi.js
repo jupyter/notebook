@@ -8,44 +8,54 @@ define([
     var shaperType="";
     var textDir="";
     
-   /* var _getCalendarType = function (){
-    	return calendarType;
-    };*/
-    
-    var _setUserPreferences = function (shapertype) {
+    var _setUserPreferences = function (shapertype /*, textdir*/) {  //for future work in case of BTD Support we need to set the textDir also.  
     	shaperType = shapertype;
-    	textDir = "rtl";
+    	if (_uiLang() == 'ar'||'he'){
+    		textDir = "rtl";
+    	}else {
+    	    textDir = "ltr";
+    	}
     };
 
     var _uiLang= function (){
     	return navigator.language.toLowerCase();
     };
-    
-    var _loadLocale = function () {
-    	try{
-    		if(_isMirroringEnabled()){
-    			$("body").attr("dir","rtl");
-    		}
-    		requirejs(['components/moment/locale/'+_uiLang()], function (){});
-    	}catch (err) {
-    		return moment.locale();
-    		console.log("Error loading the required locale");
-            console.warn(err);
-    	}
+
+	var _loadLocale = function () {
+		if(_isMirroringEnabled()){
+			$("body").attr("dir","rtl");
+		}
+		requirejs(['components/moment/locale/'+_uiLang()], function (err){
+			console.warn("Error loading the required locale");
+			console.warn(err);
+	    });
     };
     
     var _isMirroringEnabled= function() {
     	return (new RegExp("^(ar|he)").test(_uiLang()));
     };
+
+    /**
+     * NS :  for digit Shaping.
+     * BTD : for future work in case of Base Text Direction Addition.
+     */  
+    /*var _flags= {
+        NS: 1,
+    	BTD : 2
+    };*/
     
-    var _applyNumericShaping = function (value) {
+    /**
+     * @param value : the string to apply the bidi-support on it.
+     * @param flag :indicates the type of bidi-support (Numeric-shaping ,Base-text-dir ).
+     */
+    var _applyBidi = function (value /*, flag*/) {
     	value = numericshaping.shapeNumerals(value, shaperType, textDir);
         return value;
     };
     
     var bidi = {
     	setUserPreferences : _setUserPreferences,
-    	applyNumericShaping : _applyNumericShaping,
+    	applyBidi : _applyBidi,
     	isMirroringEnabled : _isMirroringEnabled,
     	loadLocale : _loadLocale,
     };

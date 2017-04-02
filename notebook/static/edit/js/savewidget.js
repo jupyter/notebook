@@ -10,7 +10,7 @@ define([
     'bidi/bidi',
 ], function($, utils, dialog, keyboard, moment, bidi) {
     "use strict";
-    //bidi.loadLocale();
+    bidi.loadLocale();
     var SaveWidget = function (selector, options) {
         this.editor = undefined;
         this.selector = selector;
@@ -109,7 +109,7 @@ define([
 
 
     SaveWidget.prototype.update_filename = function (filename) {
-    	filename = bidi.applyNumericShaping(filename);
+    	filename = bidi.applyBidi(filename);
         this.element.find('span.filename').text(filename);
     };
 

@@ -644,7 +644,7 @@ define([
             select_all.data('indeterminate', true);
         }
         // Update total counter
-        checked = bidi.applyNumericShaping(checked);
+        checked = bidi.applyBidi(checked);
         $('#counter-select-all').html(checked===0 ? '&nbsp;' : checked);
 
         // If at aleast on item is selected, hide the selection instructions.
@@ -661,7 +661,7 @@ define([
             modified = model.last_modified;
         var running = (model.type === 'notebook' && this.sessions[path] !== undefined);
         
-        name = bidi.applyNumericShaping(name);
+        name = bidi.applyBidi(name);
         item.data('name', name);
         item.data('path', path);
         item.data('modified', modified);

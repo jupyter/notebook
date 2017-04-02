@@ -77,8 +77,7 @@ require([
     try{
         requirejs(['custom/custom'], function() {});
         bidi.loadLocale();
-        //bidi.setUserPreferences("hijri", "national");
-        bidi.setUserPreferences("contextual");
+        bidi.setUserPreferences(/*"contextual"*/); //waiting for user input here
     } catch(err) {
         console.log("Error processing custom.js. Logging and continuing");
         console.warn(err);
