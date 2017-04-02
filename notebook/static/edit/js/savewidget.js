@@ -148,7 +148,7 @@ define([
         if (!this._last_modified) {
             el.text('').attr('title', 'never saved');
             return;
-	}
+	 }
         var chkd = moment(this._last_modified);
         var long_date = chkd.format('llll');
         var human_date;
