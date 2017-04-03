@@ -77,9 +77,8 @@ def get_exporter(format, **kwargs):
 
 class NbconvertFileHandler(IPythonHandler):
 
-    def call_nbconvert(self, format, path, config=None, content=None):
+    def call_nbconvert(self, format, path, config=None, content=None, post=False):
         
-
 
         exporter = get_exporter(format, config=config, log=self.log)
         
@@ -156,7 +155,7 @@ class NbconvertFileHandler(IPythonHandler):
         json_upload = self.get_json_body()
         c.merge(json_upload["config"])
         nb_content = json_upload["notebook"]
-        self.call_nbconvert(format, path, config=c, content=nb_content)
+        self.call_nbconvert(format, path, config=c, content=nb_content, post=True)
 
        
 

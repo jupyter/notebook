@@ -129,6 +129,74 @@ define([
 
         this._new_window(url);
     };
+    
+    MenuBar.prototype._nbconvert_upload_conf = function (format, download) {
+      
+      var body =  $('<div>');
+      var notebook_path = utils.encode_uri_components(this.notebook.notebook_path);
+
+      var create_json = function(notebook, config){
+        var json_to_pass = {
+          notebook: notebook.toJSON(),
+          config: config
+        };
+        return json_to_pass;
+      };
+
+      var url = utils.url_path_join(
+          this.base_url,
+          'nbconvert',
+          format,
+          notebook_path
+      ) + "?download=" + download.toString();
+      
+      var form  = $('<form>');
+      var fileinput = $('<input>').attr('type', 'file');
+      
+      form.append(fileinput);
+      body.append(form);
+
+      var that = this;
+
+      var handle_nbconvert_post = function (){
+        var filereader = new FileReader();
+        filereader.readAsText(fileinput[0].files[0]);
+        filereader.onEvent('loaded', function(){
+            var my_config_data = filereader.result;
+            var json_content = create_json(that.notebook, my_config_data);
+            var p = $.post(url, json_content, create_new_dl_window, "json");
+            p.onReady(function(){
+              body.empty().append('<p>').text('conversion in progress')
+            });
+          });
+
+        // $.post(url, json_content, create_new_dl_window,"json"); 
+        // get the data from FIleReader and make it json. 
+        return true // close the dialog
+        // return false to keep it open.
+      };
+
+      
+      var create_new_dl_window = function(){
+        return;
+      };
+
+      var mod = dialog.modal({
+        notebook: notebook,
+        title : "Edit Command mode Shortcuts",
+        body : body,
+        buttons : {
+          my_end_dialog : {
+                     click: handle_nbconvert_post,
+                     class: 'foo'
+                  }
+          }
+      });
+
+      mod.modal('show');
+      
+    };
+
 
     MenuBar.prototype._nbconvert = function (format, download) {
         download = download || false;
@@ -191,6 +259,10 @@ define([
 
         this.element.find('#download_menu li').click(function (ev) {
             that._nbconvert(ev.target.parentElement.getAttribute('id').substring(9), true);
+        });
+
+        this.element.find('#custom_download').click(function(){
+            that._nbconvert_upload_conf('html',true);
         });
 
         this.events.on('trust_changed.Notebook', function (event, trusted) {
