@@ -5,6 +5,7 @@
 
 import io
 import os
+import json
 import zipfile
 
 from tornado import web, escape
@@ -81,7 +82,7 @@ class NbconvertFileHandler(IPythonHandler):
         
 
         exporter = get_exporter(format, config=config, log=self.log)
-        
+        print(format)
         path = path.strip('/')
         # If the notebook relates to a real file (default contents manager),
         # give its path to nbconvert.
@@ -141,7 +142,7 @@ class NbconvertFileHandler(IPythonHandler):
             self.set_header('Content-Type',
                             '%s; charset=utf-8' % exporter.output_mimetype)
 
-        self.finish(output + model['name']) 
+        self.finish(output) 
 
     @web.authenticated
     def get(self, format, path):
@@ -153,8 +154,10 @@ class NbconvertFileHandler(IPythonHandler):
 
         c = Config(self.config)
         json_upload = self.get_json_body()
-        c.merge(json_upload["config"])
-        nb_content = json_upload["notebook"]
+        print("json_upload is {}".format(json_upload))
+        print("config is {}".format(json.loads(json_upload["config"])))
+        c.merge(json.loads(json_upload["config"]))
+        nb_content = json.dumps(json_upload["notebook"])
         self.call_nbconvert(format, path, config=c, content=nb_content, post=True)
 
        

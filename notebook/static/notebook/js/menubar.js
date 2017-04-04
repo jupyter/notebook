@@ -130,7 +130,7 @@ define([
         this._new_window(url);
     };
     
-    MenuBar.prototype._nbconvert_upload_conf = function (format, download) {
+    MenuBar.prototype._nbconvert_upload_conf = function (download) {
       
       var body =  $('<div>');
       var notebook_path = utils.encode_uri_components(this.notebook.notebook_path);
@@ -143,49 +143,107 @@ define([
         return json_to_pass;
       };
 
-      var url = utils.url_path_join(
-          this.base_url,
-          'nbconvert',
-          format,
-          notebook_path
-      ) + "?download=" + download.toString();
       
       var form  = $('<form>');
       var fileinput = $('<input>').attr('type', 'file');
+      var fileformat = $('<select>');
+      fileformat.append(
+        $('<option>html</option>')
+          .attr('value','html')
+      );
+      fileformat.append(
+        $('<option>markdown</option>')
+          .attr('value','markdown')
+      );
+      fileformat.append(
+        $('<option>rst</option>')
+          .attr('value','rst')
+      );
+      fileformat.append(
+        $('<option>pdf</option>')
+          .attr('value','pdf')
+      );
+      fileformat.append(
+        $('<option>latex</option>')
+          .attr('value','latex')
+      );
+      fileformat.append(
+        $('<option>script</option>')
+          .attr('value','script')
+      );
       
+      form.append(fileformat);
       form.append(fileinput);
       body.append(form);
+      
+      var notebook_path = utils.encode_uri_components(this.notebook.notebook_path);
+      var url = utils.url_path_join(
+          this.base_url,
+          'nbconvert',
+          fileformat.val(),
+          notebook_path
+      ) + "?download=" + download.toString();
 
       var that = this;
 
-      var handle_nbconvert_post = function (){
+      var handle_nbconvert_post = function(){
         var filereader = new FileReader();
+        filereader.onload = function(){
+          var my_config_data = filereader.result;
+          console.info(my_config_data);
+          that['json_content'] = create_json(that.notebook, my_config_data);
+            // var that.json_content = create_json(that.notebook, my_config_data);
+            // var submit_form = $('<form>')
+              // .attr('action',url)
+              // .attr('method','post')
+              // .attr('target','_blank');
+          on_done();
+        };
         filereader.readAsText(fileinput[0].files[0]);
-        filereader.onEvent('loaded', function(){
-            var my_config_data = filereader.result;
-            var json_content = create_json(that.notebook, my_config_data);
-            var p = $.post(url, json_content, create_new_dl_window, "json");
-            p.onReady(function(){
-              body.empty().append('<p>').text('conversion in progress')
-            });
+        // there
+      };
+      var on_done = function(){
+          var create_new_dl_window = function(){
+            console.log("I ran successfully")
+            body.empty().append('<p>').text('conversion in progress')
+            // var win = window.open('',IPython._target);
+            // win.location=url;
+            that._new_window(url);
+
+            return true;
+          };
+          console.info("this is inside on done", that.json_content);
+          var p = utils.ajax(url, {
+            method: "POST",
+            data: JSON.stringify(that.json_content),
+            processData: false,
+            success: create_new_dl_window
+          })
+          .fail(function(){
+            console.warn('somethign wrong');
           });
-
-        // $.post(url, json_content, create_new_dl_window,"json"); 
-        // get the data from FIleReader and make it json. 
-        return true // close the dialog
-        // return false to keep it open.
-      };
-
-      
-      var create_new_dl_window = function(){
-        return;
-      };
-
+          //p.onReady(function(){
+          //  body.empty().append('<p>').text('conversion in progress')
+          //});
+          // $.post(url, json_content, create_new_dl_window,"json"); 
+          // get the data from FileReader and make it json. 
+          return true // close the dialog
+          // return false to keep it open.
+        };
+      // 1. look at using a form of some kind, browser navigation to do a post request, target new page
+      // open new page straight into the results of post request, form has target url
+      // 2. don't serve content as response, given token back which the front end can make a get request
+      // have it in a dictionary with content that are values of dictionary
+      // 3. see if browsers open a new window with a dataurl, open it from content that js has in memory
+      // 3b. having some other way to initiate a download or a new tab from content js has in memory
       var mod = dialog.modal({
-        notebook: notebook,
-        title : "Edit Command mode Shortcuts",
+        notebook: this.notebook,
+        title : "Upload nbconvert config",
         body : body,
         buttons : {
+          cancel : {
+            click: function(){return true;}
+          },
           my_end_dialog : {
                      click: handle_nbconvert_post,
                      class: 'foo'
@@ -262,7 +320,7 @@ define([
         });
 
         this.element.find('#custom_download').click(function(){
-            that._nbconvert_upload_conf('html',true);
+            that._nbconvert_upload_conf(true);
         });
 
         this.events.on('trust_changed.Notebook', function (event, trusted) {
