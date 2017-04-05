@@ -99,7 +99,7 @@ require([
 
     // Instantiate the main objects
     
-    var page = new page.Page();
+    var page = new page.Page('div#header', 'div#site');
     var pager = new pager.Pager('div#pager', {
         events: events});
     var acts = new actions.init();

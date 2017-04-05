@@ -75,7 +75,7 @@ require([
 
     // Instantiate the main objects
 
-    page = new page.Page();
+    page = new page.Page('div#header', 'div#site');
 
     var session_list = new sesssionlist.SesssionList($.extend({
         events: events},

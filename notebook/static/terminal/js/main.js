@@ -18,7 +18,7 @@ require([
     ){
     "use strict";
     requirejs(['custom/custom'], function() {});
-    page = new page.Page();
+    page = new page.Page('div#header', 'div#site');
 
     var common_options = {
         base_url : utils.get_body_data("baseUrl"),

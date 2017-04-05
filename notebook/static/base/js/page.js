@@ -7,7 +7,17 @@ define([
 ], function($, events){
     "use strict";
 
-    var Page = function () {
+    var Page = function (header_div_selector, site_div_selector) {
+        /**
+        * Constructor
+        *
+        * Parameters
+        * header_div_selector: string
+        * site_div_selector: string
+        */
+        this.header_div_element = $(header_div_selector);
+        this.site_div_element = $(site_div_selector);
+
         this.bind_events();
     };
 
@@ -38,18 +48,16 @@ define([
         /**
          * The header and site divs start out hidden to prevent FLOUC.
          * Main scripts should call this method after styling everything.
-         * TODO: selector are hardcoded, pass as constructor argument
          */
-        $('div#header').css('display','block');
+        this.header_div_element.css('display','block');
     };
 
     Page.prototype.show_site = function () {
         /**
          * The header and site divs start out hidden to prevent FLOUC.
          * Main scripts should call this method after styling everything.
-         * TODO: selector are hardcoded, pass as constructor argument
          */
-        $('div#site').css('display', 'block');
+        this.site_div_element.css('display', 'block');
         this._resize_site();
     };
 
