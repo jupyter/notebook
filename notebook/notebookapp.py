@@ -1008,7 +1008,7 @@ class NotebookApp(JupyterApp):
         limited.""")
 
     iopub_data_rate_limit = Float(1000000, config=True, help="""(bytes/sec)
-        Maximum rate at which messages can be sent on iopub before they are
+        Maximum rate at which stream output can be sent on iopub before they are
         limited.""")
 
     rate_limit_window = Float(3, config=True, help="""(sec) Time window used to 
