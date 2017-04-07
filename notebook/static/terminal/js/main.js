@@ -36,7 +36,7 @@ require([
         // 1.02 here arrived at by trial and error to make the spacing look right
     var termColWidth =  function() { return 1.02 * $("#dummy-screen-rows")[0].offsetWidth / 80;};
 
-    var base_url = utils.get_body_data('baseUrl');
+    var base_url = utils.get_body_data('baseUrl').replace(/\/?$/, '/');
     var ws_path = utils.get_body_data('wsPath');
     var ws_url = utils.get_body_data('wsUrl');
     if (!ws_url) {
