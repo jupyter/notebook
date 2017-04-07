@@ -1,5 +1,5 @@
 include COPYING.md
-include CONTRIBUTING.md
+include CONTRIBUTING.rst
 include README.md
 include package.json
 include bower.json
