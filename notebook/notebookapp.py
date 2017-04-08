@@ -353,14 +353,6 @@ class NbserverStopApp(JupyterApp):
     kill_cmd='kill'
     kill_signal='-3'
 
-    flags = dict(
-        json=({'NbserverStopApp': {'json': True}},
-              "Produce machine-readable JSON output."),
-    )
-
-    json = Bool(True, config=True,
-        help="If True, each line of output will be a JSON object with the "
-                  "details from the server info fpyile.")
 
     port = Integer(8888, config=True,
         help="Port of the server to be killed. Default 8888")
