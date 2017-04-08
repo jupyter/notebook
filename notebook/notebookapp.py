@@ -16,7 +16,6 @@ import json
 import logging
 import mimetypes
 import os
-import subprocess
 import random
 import re
 import select
@@ -366,8 +365,7 @@ class NbserverStopApp(JupyterApp):
 
     def start(self):
         server=next((server for server in list_running_servers(self.runtime_dir) if server.get('port')==self.port),None)
-        if server:
-            subprocess.Popen([self.kill_cmd,self.kill_signal,str(server.get('pid'))],stdout=subprocess.PIPE).communicate()
+        if server: os.kill(str(server.get('pid')), signal.SIGQUIT)
         else:
             ports=[s.get('port') for s in list_running_servers(self.runtime_dir)]
             if ports:
