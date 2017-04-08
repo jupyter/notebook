@@ -759,7 +759,7 @@ class NotebookApp(JupyterApp):
         value = proposal['value']
         if not value.startswith('/'):
             value = '/' + value
-        elif not value.endswith('/'):
+        if not value.endswith('/'):
             value = value + '/'
         return value
     
