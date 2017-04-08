@@ -374,7 +374,7 @@ class NbserverStopApp(JupyterApp):
                 for port in ports: print("\t* {}".format(port))
             else:
                 print("There are currently no running servers")
-
+                self.exit(1)
 
 class NbserverListApp(JupyterApp):
     version = __version__
