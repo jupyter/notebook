@@ -349,19 +349,14 @@ class NotebookPasswordApp(JupyterApp):
 class NbserverStopApp(JupyterApp):
     version = __version__
     description="Stop currently running notebook server for a given port"
-    kill_cmd='kill'
-    kill_signal='-3'
-
 
     port = Integer(8888, config=True,
         help="Port of the server to be killed. Default 8888")
-
 
     def parse_command_line(self, argv=None):
         super(NbserverStopApp, self).parse_command_line(argv)
         if self.extra_args:
             self.port=int(self.extra_args[0])
-
 
     def start(self):
         server=next((server for server in list_running_servers(self.runtime_dir) if server.get('port')==self.port),None)
