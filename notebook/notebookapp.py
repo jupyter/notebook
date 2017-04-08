@@ -16,6 +16,7 @@ import json
 import logging
 import mimetypes
 import os
+import subprocess
 import random
 import re
 import select
@@ -346,6 +347,45 @@ class NotebookPasswordApp(JupyterApp):
         self.log.info("Wrote hashed password to %s" % self.config_file)
 
 
+class NbserverStopApp(JupyterApp):
+    version = __version__
+    description="Stop currently running notebook server for a given port"
+    kill_cmd='kill'
+    kill_signal='-3'
+
+    flags = dict(
+        json=({'NbserverStopApp': {'json': True}},
+              "Produce machine-readable JSON output."),
+    )
+
+    json = Bool(True, config=True,
+        help="If True, each line of output will be a JSON object with the "
+                  "details from the server info fpyile.")
+
+    port = Integer(8888, config=True,
+        help="Port of the server to be killed. Default 8888")
+
+
+    def parse_command_line(self, argv=None):
+        super(NbserverStopApp, self).parse_command_line(argv)
+        if self.extra_args:
+            self.port=int(self.extra_args[0])
+
+
+    def start(self):
+        server=next((server for server in list_running_servers(self.runtime_dir) if server.get('port')==self.port),None)
+        if server:
+            subprocess.Popen([self.kill_cmd,self.kill_signal,str(server.get('pid'))],stdout=subprocess.PIPE).communicate()
+        else:
+            ports=[s.get('port') for s in list_running_servers(self.runtime_dir)]
+            if ports:
+                print("There is currently no server running on port {}.".format(self.port))
+                print("Ports currently in use:")
+                for port in ports: print("\t* {}".format(port))
+            else:
+                print("There are currently no running servers")
+
+
 class NbserverListApp(JupyterApp):
     version = __version__
     description="List currently running notebook servers."
@@ -449,6 +489,7 @@ class NotebookApp(JupyterApp):
     
     subcommands = dict(
         list=(NbserverListApp, NbserverListApp.description.splitlines()[0]),
+        stop=(NbserverStopApp, NbserverStopApp.description.splitlines()[0]),
         password=(NotebookPasswordApp, NotebookPasswordApp.description.splitlines()[0]),
     )
 
