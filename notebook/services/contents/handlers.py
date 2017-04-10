@@ -18,17 +18,6 @@ from notebook.base.handlers import (
 )
 
 
-def sort_key(model):
-    """key function for case-insensitive sort by name and type"""
-    iname = model['name'].lower()
-    type_key = {
-        'directory' : '0',
-        'notebook'  : '1',
-        'file'      : '2',
-    }.get(model['type'], '9')
-    return u'%s%s' % (type_key, iname)
-
-
 def validate_model(model, expect_content):
     """
     Validate a model returned by a ContentsManager method.
@@ -123,10 +112,6 @@ class ContentsHandler(APIHandler):
         model = yield gen.maybe_future(self.contents_manager.get(
             path=path, type=type, format=format, content=content,
         ))
-        if model['type'] == 'directory' and content:
-            # group listing by type, then by name (case-insensitive)
-            # FIXME: sorting should be done in the frontends
-            model['content'].sort(key=sort_key)
         validate_model(model, expect_content=content)
         self._finish_model(model, location=False)
 
