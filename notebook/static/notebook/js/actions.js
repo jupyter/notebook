@@ -248,8 +248,8 @@ define(function(require){
             help_index : 'dc',
             handler : function (env) {
                 env.notebook.extend_selection_by(-1);
-                // scroll into view, 
-                // do not call notebook.focus_cell(), or 
+                // scroll into view,
+                // do not call notebook.focus_cell(), or
                 // all the selection get thrown away
                 env.notebook.get_selected_cell().element.focus();
             }
@@ -259,8 +259,8 @@ define(function(require){
             help_index : 'dd',
             handler : function (env) {
                 env.notebook.extend_selection_by(1);
-                // scroll into view, 
-                // do not call notebook.focus_cell(), or 
+                // scroll into view,
+                // do not call notebook.focus_cell(), or
                 // all the selection get thrown away
                 env.notebook.get_selected_cell().element.focus();
             }
@@ -443,7 +443,7 @@ define(function(require){
             }
         },
         // TODO reminder
-        // open an issue, merge with above merge with last cell of notebook if at top. 
+        // open an issue, merge with above merge with last cell of notebook if at top.
         'merge-cell-with-previous-cell' : {
             handler : function (env) {
                 env.notebook.merge_cell_above();
@@ -543,6 +543,27 @@ define(function(require){
                 $('.header-bar').hide();
                 events.trigger('resize-header.Page');
                 env.notebook.header = false;
+            }
+        },
+        'toggle-menubar':{
+            help: 'hide/show the menu bar',
+            handler : function(env) {
+                $('#menubar-container').toggle();
+                events.trigger('resize-header.Page');
+            }
+        },
+        'show-menubar':{
+            help: 'show the menu bar',
+            handler : function(env) {
+                $('#menubar-container').show();
+                events.trigger('resize-header.Page');
+            }
+        },
+        'hide-menubar':{
+            help: 'hide the menu bar',
+            handler : function(env) {
+                $('#menubar-container').hide();
+                events.trigger('resize-header.Page');
             }
         },
         'toggle-toolbar':{
