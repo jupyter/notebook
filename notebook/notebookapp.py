@@ -360,7 +360,7 @@ class NbserverStopApp(JupyterApp):
 
     def start(self):
         server=next((server for server in list_running_servers(self.runtime_dir) if server.get('port')==self.port),None)
-        if server: os.kill(server.get('pid'), signal.SIGQUIT)
+        if server: os.kill(server.get('pid'), signal.SIGTERM)
         else:
             ports=[s.get('port') for s in list_running_servers(self.runtime_dir)]
             if ports:
