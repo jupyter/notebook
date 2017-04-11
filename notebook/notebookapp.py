@@ -359,7 +359,8 @@ class NbserverStopApp(JupyterApp):
             self.port=int(self.extra_args[0])
 
     def start(self):
-        server=next((server for server in list_running_servers(self.runtime_dir) if server.get('port')==self.port),None)
+        servers=list_running_servers(self.runtime_dir)
+        server=next((server for server in servers if server.get('port')==self.port),None)
         if server: os.kill(server.get('pid'), signal.SIGTERM)
         else:
             ports=[s.get('port') for s in list_running_servers(self.runtime_dir)]
@@ -369,7 +370,7 @@ class NbserverStopApp(JupyterApp):
                 for port in ports: print("\t* {}".format(port))
             else:
                 print("There are currently no running servers")
-                self.exit(1)
+            self.exit(1)
 
 
 class NbserverListApp(JupyterApp):
