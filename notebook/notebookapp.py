@@ -359,17 +359,18 @@ class NbserverStopApp(JupyterApp):
             self.port=int(self.extra_args[0])
 
     def start(self):
-        servers=list_running_servers(self.runtime_dir)
-        server=next((server for server in servers if server.get('port')==self.port),None)
-        if server: os.kill(server.get('pid'), signal.SIGTERM)
+        servers = list(list_running_servers(self.runtime_dir))
+        if not servers:
+            self.exit("There are no running servers")
+        for server in servers:
+            if server['port'] == self.port:
+                self.log.debug("Shutting down notebook server with PID: %i", server['pid'])
+                os.kill(server['pid'], signal.SIGTERM)
         else:
-            ports=[s.get('port') for s in list_running_servers(self.runtime_dir)]
-            if ports:
-                print("There is currently no server running on port {}.".format(self.port))
-                print("Ports currently in use:")
-                for port in ports: print("\t* {}".format(port))
-            else:
-                print("There are currently no running servers")
+            print("There is currently no server running on port {}".format(self.port), file=sys.stderr)
+            print("Ports currently in use:", file=sys.stderr)
+            for server in servers:
+                print("  - {}".format(server['port']), file=sys.stderr)
             self.exit(1)
 
 
