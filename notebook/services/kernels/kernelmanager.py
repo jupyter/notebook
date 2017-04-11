@@ -13,6 +13,7 @@ from tornado import gen, web
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop, PeriodicCallback
 
+from jupyter_client.session import Session
 from jupyter_client.multikernelmanager import MultiKernelManager
 from traitlets import Dict, List, Unicode, TraitError, Integer, default, validate
 
@@ -234,13 +235,17 @@ class MappingKernelManager(MultiKernelManager):
         kernel.execution_state = 'starting'
         kernel.last_activity = utcnow()
         kernel._activity_stream = kernel.connect_iopub()
+        session = Session(
+            config=kernel.session.config,
+            key=kernel.session.key,
+        )
 
         def record_activity(msg_list):
             """Record an IOPub message arriving from a kernel"""
             kernel.last_activity = utcnow()
 
-            idents, fed_msg_list = kernel.session.feed_identities(msg_list)
-            msg = kernel.session.deserialize(fed_msg_list)
+            idents, fed_msg_list = session.feed_identities(msg_list)
+            msg = session.deserialize(fed_msg_list)
             msg_type = msg['header']['msg_type']
             self.log.debug("activity on %s: %s", kernel_id, msg_type)
             if msg_type == 'status':
