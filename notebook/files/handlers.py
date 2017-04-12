@@ -52,7 +52,7 @@ class FilesHandler(IPythonHandler):
                 if model['format'] == 'base64':
                     self.set_header('Content-Type', 'application/octet-stream')
                 else:
-                    self.set_header('Content-Type', 'text/plain')
+                    self.set_header('Content-Type', 'text/plain; charset=UTF-8')
 
         if include_body:
             if model['format'] == 'base64':
