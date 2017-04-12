@@ -1,7 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define([
+define('notebook/js/menubar',[
     'jquery',
     'base/js/namespace',
     'base/js/dialog',
@@ -145,15 +145,18 @@ define([
 
       
       var form  = $('<form>');
-      var fileinput = $('<input>').attr('type', 'file');
+      var fileinput = $('<input>')
+        .attr('type', 'file')
+        .attr('tabindex', '1');
       var fileformat = $('<select>');
-      fileformat.append(
-        $('<option>html</option>')
-          .attr('value','html')
-      );
       fileformat.append(
         $('<option>markdown</option>')
           .attr('value','markdown')
+      );
+      fileformat.append(
+        $('<option/>')
+          .attr('value','html')
+          .text('html')
       );
       fileformat.append(
         $('<option>rst</option>')
@@ -177,20 +180,15 @@ define([
       body.append(form);
       
       var notebook_path = utils.encode_uri_components(this.notebook.notebook_path);
-      var url = utils.url_path_join(
-          this.base_url,
-          'nbconvert',
-          fileformat.val(),
-          notebook_path
-      ) + "?download=" + download.toString();
 
       var that = this;
 
       var handle_nbconvert_post = function(){
         var filereader = new FileReader();
+        console.info("this is being hit ");
         filereader.onload = function(){
           var my_config_data = filereader.result;
-          console.info(my_config_data);
+          console.info("this is my config data: ", my_config_data);
           that['json_content'] = create_json(that.notebook, my_config_data);
             // var that.json_content = create_json(that.notebook, my_config_data);
             // var submit_form = $('<form>')
@@ -199,10 +197,24 @@ define([
               // .attr('target','_blank');
           on_done();
         };
-        filereader.readAsText(fileinput[0].files[0]);
+        if (fileinput[0].files.length>0){
+          filereader.readAsText(fileinput[0].files[0]);
+        }
+        else{
+          that['json_content']=create_json(that.notebook, '{}')
+          console.log("calling on_done from else with empty config");
+          debugger;
+          on_done();
+        }
         // there
       };
       var on_done = function(){
+          var url = utils.url_path_join(
+              that.base_url,
+              'nbconvert',
+              fileformat.val(),
+              notebook_path
+          ) + "?download=" + download.toString();
           var create_new_dl_window = function(){
             console.log("I ran successfully")
             body.empty().append('<p>').text('conversion in progress')
@@ -212,15 +224,44 @@ define([
 
             return true;
           };
+          var my_func = function(result){console.info("hi m and matthias!",typeof(result))}//, result)}
           console.info("this is inside on done", that.json_content);
-          var p = utils.ajax(url, {
+
+          // var xhr = new XMLHttpRequest();
+          // xhr.open('POST', '/my/image/name.png', true);
+          // xhr.responseType = 'blob';
+//
+          // xhr.onload = function(e) {
+            // if (this.status == 200) {
+              // // get binary data as a response
+              // var blob = this.response;
+            // }
+          // };
+          var data = JSON.stringify(that.json_content);
+          console.log(data) 
+          // xhr.send();
+          utils.ajax(url, {
             method: "POST",
-            data: JSON.stringify(that.json_content),
+            data: data,
             processData: false,
-            success: create_new_dl_window
+            responseType: "blob"
+            //create_new_dl_window
           })
           .fail(function(){
-            console.warn('somethign wrong');
+            console.warn('something wrong');
+          })
+          .done(function(data,textstatus,jqXHR){
+            var content_disposition = jqXHR.getResponseHeader('Content-Disposition');
+            var filename = content_disposition.match(/filename="(.+)"/)[1];
+            saveData(data,filename);
+            // var hidden_anchor = $("<a/>");
+            // hidden_anchor.attr('href','data:text/plain;charset=utf-8,' + window.URL.createObjectURL(data))
+              // .attr('download', filename);
+            // hidden_anchor.hide();
+            // console.log(hidden_anchor);
+            // $(document.body).append(hidden_anchor);
+            // hidden_anchor.click();
+            // hidden_anchor.remove();
           });
           //p.onReady(function(){
           //  body.empty().append('<p>').text('conversion in progress')
@@ -230,6 +271,24 @@ define([
           return true // close the dialog
           // return false to keep it open.
         };
+        var saveData = (function () {
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style = "display: none";
+            return function (data, fileName) {
+                // var json = JSON.stringify(data),
+                var blob = new Blob([data], {type: "octet/stream"}),
+                    url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = fileName;
+                a.click();
+                window.URL.revokeObjectURL(url);
+            };
+        }());
+
+      // var data = { x: 42, s: "hello, world", d: new Date() },
+          // fileName = "my-download.json";
+
       // 1. look at using a form of some kind, browser navigation to do a post request, target new page
       // open new page straight into the results of post request, form has target url
       // 2. don't serve content as response, given token back which the front end can make a get request
@@ -239,14 +298,14 @@ define([
       var mod = dialog.modal({
         notebook: this.notebook,
         title : "Upload nbconvert config",
+        open : function(){fileinput.focus();},
         body : body,
         buttons : {
           cancel : {
             click: function(){return true;}
           },
           my_end_dialog : {
-                     click: handle_nbconvert_post,
-                     class: 'foo'
+                     click: handle_nbconvert_post
                   }
           }
       });
@@ -578,3 +637,4 @@ define([
 
     return {'MenuBar': MenuBar};
 });
+

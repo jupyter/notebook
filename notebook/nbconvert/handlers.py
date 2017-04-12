@@ -7,6 +7,7 @@ import io
 import os
 import json
 import zipfile
+import tarfile
 
 from tornado import web, escape
 from tornado.log import app_log
@@ -38,20 +39,41 @@ def respond_zip(handler, name, output, resources):
     output_files = resources.get('outputs', None)
     if not output_files:
         return False
+    
+    buffer = io.BytesIO()
 
     # Headers
     zip_filename = os.path.splitext(name)[0] + '.zip'
     handler.set_attachment_header(zip_filename)
     handler.set_header('Content-Type', 'application/zip')
-
-    # Prepare the zip file
-    buffer = io.BytesIO()
     zipf = zipfile.ZipFile(buffer, mode='w', compression=zipfile.ZIP_DEFLATED)
     output_filename = os.path.splitext(name)[0] + resources['output_extension']
     zipf.writestr(output_filename, cast_bytes(output, 'utf-8'))
     for filename, data in output_files.items():
         zipf.writestr(os.path.basename(filename), data)
     zipf.close()
+
+    #  tar_filename = os.path.splitext(name)[0] + '.tar'
+    #  handler.set_header('Content-Disposition',
+                       #  'attachment; filename="%s"' % escape.url_escape(tar_filename))
+    #  handler.set_header('Content-Type', 'application/zip')
+
+
+    # Prepare the zip file
+    #  output_filename = os.path.splitext(name)[0] + resources['output_extension']
+    #  with tarfile.open(fileobj=buffer, mode='w') as tarf:
+        #  main_file_data = cast_bytes(output, 'utf-8')
+        #  main_file_tarinfo = tarfile.TarInfo()
+        #  main_file_tarinfo.name = output_filename
+        #  main_file_tarinfo.size = len(main_file_data)
+        #  tarf.addfile(main_file_tarinfo, fileobj = io.BytesIO(main_file_data))
+        #  for filename, data in output_files.items():
+            #  extra_file = tarfile.TarInfo()
+            #  extra_file.name = filename
+            #  extra_file.size = len(data)
+            #  extra_file.gettarinfo(arcname = os.path.basename(filename))
+            #  tarf.addfile(extra_file, fileobj = io.BytesIO(data))
+
 
     handler.finish(buffer.getvalue())
     return True
@@ -82,7 +104,6 @@ class NbconvertFileHandler(IPythonHandler):
         
 
         exporter = get_exporter(format, config=config, log=self.log)
-        print(format)
         path = path.strip('/')
         # If the notebook relates to a real file (default contents manager),
         # give its path to nbconvert.
@@ -151,12 +172,10 @@ class NbconvertFileHandler(IPythonHandler):
     
     @web.authenticated
     def post(self, format, path):
-
         c = Config(self.config)
         json_upload = self.get_json_body()
-        print("json_upload is {}".format(json_upload))
-        print("config is {}".format(json.loads(json_upload["config"])))
-        c.merge(json.loads(json_upload["config"]))
+        json_config = json.loads(json_upload.get("config",{}))
+        c.merge(json_config)
         nb_content = json.dumps(json_upload["notebook"])
         self.call_nbconvert(format, path, config=c, content=nb_content, post=True)
 
