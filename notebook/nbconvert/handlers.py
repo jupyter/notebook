@@ -47,7 +47,7 @@ def respond_zip(handler, name, output, resources):
     
     # create zip file 
     buffer = io.BytesIO()
-    with zipfile.ZipFile(buffer, mode='w', compression=zipfile.ZIP_STORED) as zipf:
+    with zipfile.ZipFile(buffer, mode='w', compression=zipfile.ZIP_DEFLATED) as zipf:
         output_filename = os.path.splitext(name)[0] + resources['output_extension']
         zipf.writestr(output_filename, cast_bytes(output, 'utf-8'))
         # add external resources
