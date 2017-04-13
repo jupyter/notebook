@@ -207,46 +207,83 @@ define('notebook/js/menubar',[
         }
       };
       var on_done = function(){
-        var url = utils.url_path_join(
-            that.base_url,
-            'nbconvert',
-            fileformat.val(),
-            notebook_path
-        ) + "?download=" + download.toString();
-          
-        var xsrf_token = utils._get_cookie('_xsrf');
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', url, true);
-        xhr.responseType = 'blob';
-        xhr.withCredentials = true;
-        xhr.setRequestHeader('X-XSRFToken', xsrf_token);
-        xhr.onreadystatechange = function(){
-          if(xhr.readyState === 4){
-            var blob = xhr.response;
-            var content_disposition = xhr.getResponseHeader('Content-Disposition');
-            var filename = content_disposition.match(/filename="(.+)"/)[1];
-            saveData(blob, filename);
+          var url = utils.url_path_join(
+              that.base_url,
+              'nbconvert',
+              fileformat.val(),
+              notebook_path
+          ) + "?download=" + download.toString();
+          var create_new_dl_window = function(){
+            console.log("I ran successfully")
+            body.empty().append('<p>').text('conversion in progress')
+            // var win = window.open('',IPython._target);
+            // win.location=url;
+            that._new_window(url);
+
+            return true;
+          };
+          var my_func = function(result){console.info("hi m and matthias!",typeof(result))}//, result)}
+          console.info("this is inside on done", that.json_content);
+
+          var xsrf_token = utils._get_cookie('_xsrf');
+          console.log(xsrf_token)
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', url, true);
+          xhr.responseType = 'blob';
+          xhr.withCredentials = true;
+          xhr.setRequestHeader('X-XSRFToken', xsrf_token);
+          // xhr.onload = function(e) {
+            // if (this.status == 200) {
+              // // get binary data as a response
+              // var blob = this.response;
+            // }
+          // };
+          xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4){
+              var blob = xhr.response;
+              var content_disposition = xhr.getResponseHeader('Content-Disposition');
+              var filename = content_disposition.match(/filename="(.+)"/)[1];
+              saveData(blob, filename);
+            }
           }
-        }
-        var data = JSON.stringify(that.json_content);
-        xhr.send(data);
-        return true // close the dialog
-        // return false to keep it open.
-      };
-      var saveData = (function () {
-        var a = document.createElement("a");
-        document.body.appendChild(a);
-        a.style = "display: none";
-        return function (data, fileName) {
-          var blob = new Blob([data], {type: "octet/stream"}),
-              url = window.URL.createObjectURL(blob);
-          a.href = url;
-          a.download = fileName;
-          a.click();
-          window.URL.revokeObjectURL(url);
-          a.remove();
+          var data = JSON.stringify(that.json_content);
+          xhr.send(data);
+          // utils.ajax(url, {
+            // method: "POST",
+            // data: data,
+            // processData: false,
+            // responseType: "blob"
+            // //create_new_dl_window
+          // })
+          // .fail(function(){
+            // console.warn('something wrong');
+          // })
+          // .done(function(data,textstatus,jqXHR){
+            // var content_disposition = jqXHR.getResponseHeader('Content-Disposition');
+            // var filename = content_disposition.match(/filename="(.+)"/)[1];
+            // saveData(data,filename);
+          // });
+          //p.onReady(function(){
+          //  body.empty().append('<p>').text('conversion in progress')
+          //});
+          // $.post(url, json_content, create_new_dl_window,"json"); 
+          // get the data from FileReader and make it json. 
+          return true // close the dialog
+          // return false to keep it open.
         };
-      }());
+        var saveData = (function () {
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style = "display: none";
+            return function (data, fileName) {
+                var blob = new Blob([data], {type: "octet/stream"}),//this works for tar
+                    url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = fileName;
+                a.click();
+                window.URL.revokeObjectURL(url);
+            };
+        }());
 
       var mod = dialog.modal({
         notebook: this.notebook,
