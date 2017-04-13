@@ -185,10 +185,8 @@ define('notebook/js/menubar',[
 
       var handle_nbconvert_post = function(){
         var filereader = new FileReader();
-        console.info("this is being hit ");
         filereader.onload = function(){
           var my_config_data = filereader.result;
-          console.info("this is my config data: ", my_config_data);
           that['json_content'] = create_json(that.notebook, my_config_data);
           on_done();
         };
@@ -208,9 +206,6 @@ define('notebook/js/menubar',[
             notebook_path
         ) + "?download=" + download.toString();
           
-        var my_func = function(result){console.info("hi m and matthias!",typeof(result))};
-        console.info("this is inside on done", that.json_content);
-
         var xsrf_token = utils._get_cookie('_xsrf');
         var xhr = new XMLHttpRequest();
         xhr.open('POST', url, true);
@@ -253,7 +248,7 @@ define('notebook/js/menubar',[
           cancel : {
             click: function(){return true;}
           },
-          my_end_dialog : {click: handle_nbconvert_post}
+          download : {click: handle_nbconvert_post}
         }
       });
 
