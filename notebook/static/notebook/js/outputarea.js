@@ -348,7 +348,7 @@ define([
             this._needs_height_reset = false;
         }
 
-        this.element.trigger('resizeOutput');
+        this.element.trigger('resizeOutput', {output_area: this});
     };
 
     OutputArea.prototype.create_output_area = function () {
@@ -451,7 +451,7 @@ define([
         }
 
         // Notify others of changes.
-        this.element.trigger('changed');
+        this.element.trigger('changed', {output_area: this});
     };
 
 
@@ -965,11 +965,12 @@ define([
             // Remove load event handlers from img tags because we don't want
             // them to fire if the image is never added to the page.
             this.element.find('img').off('load');
+            this.element.trigger('clearing', {output_area: this});
             this.element.html("");
 
             // Notify others of changes.
-            this.element.trigger('changed');
-            this.element.trigger('cleared');
+            this.element.trigger('changed', {output_area: this});
+            this.element.trigger('cleared', {output_area: this});
             
             this.outputs = [];
             this._display_id_targets = {};
