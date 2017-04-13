@@ -227,42 +227,44 @@ define('notebook/js/menubar',[
           var my_func = function(result){console.info("hi m and matthias!",typeof(result))}//, result)}
           console.info("this is inside on done", that.json_content);
 
-          // var xhr = new XMLHttpRequest();
-          // xhr.open('POST', '/my/image/name.png', true);
-          // xhr.responseType = 'blob';
-//
+          var xsrf_token = utils._get_cookie('_xsrf');
+          console.log(xsrf_token)
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', url, true);
+          xhr.responseType = 'blob';
+          xhr.withCredentials = true;
+          xhr.setRequestHeader('X-XSRFToken', xsrf_token);
           // xhr.onload = function(e) {
             // if (this.status == 200) {
               // // get binary data as a response
               // var blob = this.response;
             // }
           // };
+          xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4){
+              var blob = xhr.response;
+              var content_disposition = xhr.getResponseHeader('Content-Disposition');
+              var filename = content_disposition.match(/filename="(.+)"/)[1];
+              saveData(blob, filename);
+            }
+          }
           var data = JSON.stringify(that.json_content);
-          console.log(data) 
-          // xhr.send();
-          utils.ajax(url, {
-            method: "POST",
-            data: data,
-            processData: false,
-            responseType: "blob"
-            //create_new_dl_window
-          })
-          .fail(function(){
-            console.warn('something wrong');
-          })
-          .done(function(data,textstatus,jqXHR){
-            var content_disposition = jqXHR.getResponseHeader('Content-Disposition');
-            var filename = content_disposition.match(/filename="(.+)"/)[1];
-            saveData(data,filename);
-            // var hidden_anchor = $("<a/>");
-            // hidden_anchor.attr('href','data:text/plain;charset=utf-8,' + window.URL.createObjectURL(data))
-              // .attr('download', filename);
-            // hidden_anchor.hide();
-            // console.log(hidden_anchor);
-            // $(document.body).append(hidden_anchor);
-            // hidden_anchor.click();
-            // hidden_anchor.remove();
-          });
+          xhr.send(data);
+          // utils.ajax(url, {
+            // method: "POST",
+            // data: data,
+            // processData: false,
+            // responseType: "blob"
+            // //create_new_dl_window
+          // })
+          // .fail(function(){
+            // console.warn('something wrong');
+          // })
+          // .done(function(data,textstatus,jqXHR){
+            // var content_disposition = jqXHR.getResponseHeader('Content-Disposition');
+            // var filename = content_disposition.match(/filename="(.+)"/)[1];
+            // saveData(data,filename);
+          // });
           //p.onReady(function(){
           //  body.empty().append('<p>').text('conversion in progress')
           //});
@@ -276,8 +278,7 @@ define('notebook/js/menubar',[
             document.body.appendChild(a);
             a.style = "display: none";
             return function (data, fileName) {
-                // var json = JSON.stringify(data),
-                var blob = new Blob([data], {type: "octet/stream"}),
+                var blob = new Blob([data], {type: "octet/stream"}),//this works for tar
                     url = window.URL.createObjectURL(blob);
                 a.href = url;
                 a.download = fileName;

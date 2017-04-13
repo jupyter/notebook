@@ -99,7 +99,7 @@ def get_exporter(format, **kwargs):
 class NbconvertFileHandler(IPythonHandler):
 
     def call_nbconvert(self, format, path, config=None, content=None, post=False):
-        
+
 
         exporter = get_exporter(format, config=config, log=self.log)
         path = path.strip('/')
@@ -116,7 +116,7 @@ class NbconvertFileHandler(IPythonHandler):
         if model['type'] != 'notebook':
             # not a notebook, redirect to files
             return FilesRedirectHandler.redirect_to_files(self, path)
-        
+
         if content is None:
             nb = model['content']
         else:
@@ -162,13 +162,13 @@ class NbconvertFileHandler(IPythonHandler):
             self.set_header('Content-Type',
                             '%s; charset=utf-8' % exporter.output_mimetype)
 
-        self.finish(output) 
+        self.finish(output)
 
     @web.authenticated
     def get(self, format, path):
-        
+
         self.call_nbconvert(format, path, config=self.config)
-    
+
     @web.authenticated
     def post(self, format, path):
         c = Config(self.config)
@@ -178,7 +178,7 @@ class NbconvertFileHandler(IPythonHandler):
         nb_content = json.dumps(json_upload["notebook"])
         self.call_nbconvert(format, path, config=c, content=nb_content, post=True)
 
-       
+
 
 
 class NbconvertPostHandler(IPythonHandler):
