@@ -43,36 +43,34 @@ def respond_zip(handler, name, output, resources):
     buffer = io.BytesIO()
 
     # Headers
-    zip_filename = os.path.splitext(name)[0] + '.zip'
-    handler.set_attachment_header(zip_filename)
-    handler.set_header('Content-Type', 'application/zip')
-    zipf = zipfile.ZipFile(buffer, mode='w', compression=zipfile.ZIP_DEFLATED)
-    output_filename = os.path.splitext(name)[0] + resources['output_extension']
-    zipf.writestr(output_filename, cast_bytes(output, 'utf-8'))
-    for filename, data in output_files.items():
-        zipf.writestr(os.path.basename(filename), data)
-    zipf.close()
-
-    #  tar_filename = os.path.splitext(name)[0] + '.tar'
+    #  zip_filename = os.path.splitext(name)[0] + '.zip'
     #  handler.set_header('Content-Disposition',
-                       #  'attachment; filename="%s"' % escape.url_escape(tar_filename))
+                       #  'attachment; filename="%s"' % escape.url_escape(zip_filename))
     #  handler.set_header('Content-Type', 'application/zip')
-
-
-    # Prepare the zip file
+    #  zipf = zipfile.ZipFile(buffer, mode='w', compression=zipfile.ZIP_STORED)
     #  output_filename = os.path.splitext(name)[0] + resources['output_extension']
-    #  with tarfile.open(fileobj=buffer, mode='w') as tarf:
-        #  main_file_data = cast_bytes(output, 'utf-8')
-        #  main_file_tarinfo = tarfile.TarInfo()
-        #  main_file_tarinfo.name = output_filename
-        #  main_file_tarinfo.size = len(main_file_data)
-        #  tarf.addfile(main_file_tarinfo, fileobj = io.BytesIO(main_file_data))
-        #  for filename, data in output_files.items():
-            #  extra_file = tarfile.TarInfo()
-            #  extra_file.name = filename
-            #  extra_file.size = len(data)
-            #  extra_file.gettarinfo(arcname = os.path.basename(filename))
-            #  tarf.addfile(extra_file, fileobj = io.BytesIO(data))
+    #  zipf.writestr(output_filename, cast_bytes(output, 'utf-8'))
+    #  for filename, data in output_files.items():
+        #  zipf.writestr(filename, data)
+    #  zipf.close()
+
+    tar_filename = os.path.splitext(name)[0] + '.tar'
+    handler.set_header('Content-Disposition',
+                       'attachment; filename="%s"' % escape.url_escape(tar_filename))
+    handler.set_header('Content-Type', 'application/tar')
+
+    output_filename = os.path.splitext(name)[0] + resources['output_extension']
+    with tarfile.open(fileobj=buffer, mode='w') as tarf:
+        main_file_data = cast_bytes(output, 'utf-8')
+        main_file_tarinfo = tarfile.TarInfo()
+        main_file_tarinfo.name = output_filename
+        main_file_tarinfo.size = len(main_file_data)
+        tarf.addfile(main_file_tarinfo, fileobj = io.BytesIO(main_file_data))
+        for filename, data in output_files.items():
+            extra_file = tarfile.TarInfo()
+            extra_file.name = filename
+            extra_file.size = len(data)
+            tarf.addfile(extra_file, fileobj = io.BytesIO(data))
 
 
     handler.finish(buffer.getvalue())
@@ -135,7 +133,8 @@ class NbconvertFileHandler(IPythonHandler):
                 "name": nb_title,
                 "modified_date": mod_date
             },
-            "config_dir": self.application.settings['config_dir']
+            "config_dir": self.application.settings['config_dir'],
+            "output_files_dir": nb_title+"_files",
         }
 
         if ext_resources_dir:
