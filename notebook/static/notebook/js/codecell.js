@@ -313,7 +313,7 @@ define([
             stop_on_error = true;
         }
 
-        this.output_area.clear_output(false, true);
+        this.clear_output(false, true);
         var old_msg_id = this.last_msg_id;
         if (old_msg_id) {
             this.kernel.clear_callbacks_for_msg(old_msg_id);
@@ -509,10 +509,10 @@ define([
     };
 
 
-    CodeCell.prototype.clear_output = function (wait) {
-        this.output_area.clear_output(wait);
-        this.set_input_prompt();
+    CodeCell.prototype.clear_output = function (wait, ignore_queue) {
         this.events.trigger('clear_output.CodeCell', {cell: this});
+        this.output_area.clear_output(wait, ignore_queue);
+        this.set_input_prompt();
     };
 
 
