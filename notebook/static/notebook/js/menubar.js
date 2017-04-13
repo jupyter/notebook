@@ -190,11 +190,6 @@ define('notebook/js/menubar',[
           var my_config_data = filereader.result;
           console.info("this is my config data: ", my_config_data);
           that['json_content'] = create_json(that.notebook, my_config_data);
-            // var that.json_content = create_json(that.notebook, my_config_data);
-            // var submit_form = $('<form>')
-              // .attr('action',url)
-              // .attr('method','post')
-              // .attr('target','_blank');
           on_done();
         };
         if (fileinput[0].files.length>0){
@@ -202,100 +197,53 @@ define('notebook/js/menubar',[
         }
         else{
           that['json_content']=create_json(that.notebook, '{}')
-          console.log("calling on_done from else with empty config");
-          debugger;
           on_done();
         }
-        // there
       };
       var on_done = function(){
-          var url = utils.url_path_join(
-              that.base_url,
-              'nbconvert',
-              fileformat.val(),
-              notebook_path
-          ) + "?download=" + download.toString();
-          var create_new_dl_window = function(){
-            console.log("I ran successfully")
-            body.empty().append('<p>').text('conversion in progress')
-            // var win = window.open('',IPython._target);
-            // win.location=url;
-            that._new_window(url);
+        var url = utils.url_path_join(
+            that.base_url,
+            'nbconvert',
+            fileformat.val(),
+            notebook_path
+        ) + "?download=" + download.toString();
+          
+        var my_func = function(result){console.info("hi m and matthias!",typeof(result))};
+        console.info("this is inside on done", that.json_content);
 
-            return true;
-          };
-          var my_func = function(result){console.info("hi m and matthias!",typeof(result))}//, result)}
-          console.info("this is inside on done", that.json_content);
-
-          var xsrf_token = utils._get_cookie('_xsrf');
-          console.log(xsrf_token)
-          var xhr = new XMLHttpRequest();
-          xhr.open('POST', url, true);
-          xhr.responseType = 'blob';
-          xhr.withCredentials = true;
-          xhr.setRequestHeader('X-XSRFToken', xsrf_token);
-          // xhr.onload = function(e) {
-            // if (this.status == 200) {
-              // // get binary data as a response
-              // var blob = this.response;
-            // }
-          // };
-          xhr.onreadystatechange = function(){
-            if(xhr.readyState === 4){
-              var blob = xhr.response;
-              var content_disposition = xhr.getResponseHeader('Content-Disposition');
-              var filename = content_disposition.match(/filename="(.+)"/)[1];
-              saveData(blob, filename);
-            }
+        var xsrf_token = utils._get_cookie('_xsrf');
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url, true);
+        xhr.responseType = 'blob';
+        xhr.withCredentials = true;
+        xhr.setRequestHeader('X-XSRFToken', xsrf_token);
+        xhr.onreadystatechange = function(){
+          if(xhr.readyState === 4){
+            var blob = xhr.response;
+            var content_disposition = xhr.getResponseHeader('Content-Disposition');
+            var filename = content_disposition.match(/filename="(.+)"/)[1];
+            saveData(blob, filename);
           }
-          var data = JSON.stringify(that.json_content);
-          xhr.send(data);
-          // utils.ajax(url, {
-            // method: "POST",
-            // data: data,
-            // processData: false,
-            // responseType: "blob"
-            // //create_new_dl_window
-          // })
-          // .fail(function(){
-            // console.warn('something wrong');
-          // })
-          // .done(function(data,textstatus,jqXHR){
-            // var content_disposition = jqXHR.getResponseHeader('Content-Disposition');
-            // var filename = content_disposition.match(/filename="(.+)"/)[1];
-            // saveData(data,filename);
-          // });
-          //p.onReady(function(){
-          //  body.empty().append('<p>').text('conversion in progress')
-          //});
-          // $.post(url, json_content, create_new_dl_window,"json"); 
-          // get the data from FileReader and make it json. 
-          return true // close the dialog
-          // return false to keep it open.
+        }
+        var data = JSON.stringify(that.json_content);
+        xhr.send(data);
+        return true // close the dialog
+        // return false to keep it open.
+      };
+      var saveData = (function () {
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        return function (data, fileName) {
+          var blob = new Blob([data], {type: "octet/stream"}),
+              url = window.URL.createObjectURL(blob);
+          a.href = url;
+          a.download = fileName;
+          a.click();
+          window.URL.revokeObjectURL(url);
         };
-        var saveData = (function () {
-            var a = document.createElement("a");
-            document.body.appendChild(a);
-            a.style = "display: none";
-            return function (data, fileName) {
-                var blob = new Blob([data], {type: "octet/stream"}),//this works for tar
-                    url = window.URL.createObjectURL(blob);
-                a.href = url;
-                a.download = fileName;
-                a.click();
-                window.URL.revokeObjectURL(url);
-            };
-        }());
+      }());
 
-      // var data = { x: 42, s: "hello, world", d: new Date() },
-          // fileName = "my-download.json";
-
-      // 1. look at using a form of some kind, browser navigation to do a post request, target new page
-      // open new page straight into the results of post request, form has target url
-      // 2. don't serve content as response, given token back which the front end can make a get request
-      // have it in a dictionary with content that are values of dictionary
-      // 3. see if browsers open a new window with a dataurl, open it from content that js has in memory
-      // 3b. having some other way to initiate a download or a new tab from content js has in memory
       var mod = dialog.modal({
         notebook: this.notebook,
         title : "Upload nbconvert config",
@@ -305,10 +253,8 @@ define('notebook/js/menubar',[
           cancel : {
             click: function(){return true;}
           },
-          my_end_dialog : {
-                     click: handle_nbconvert_post
-                  }
-          }
+          my_end_dialog : {click: handle_nbconvert_post}
+        }
       });
 
       mod.modal('show');
