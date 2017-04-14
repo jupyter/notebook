@@ -1,0 +1,1368 @@
+{
+   "domain": "nbjs",
+   "locale_data": {
+      "nbjs": {
+         "": {
+            "domain": "nbjs"
+         },
+         "Manually edit the JSON below to manipulate the metadata for this cell.": [
+            "Manuell redigieren Sie die JSON unten, um die Metadaten für diese Zelle zu manipulieren."
+         ],
+         "Manually edit the JSON below to manipulate the metadata for this notebook.": [
+            "Manuell redigieren Sie die JSON unten, um die Metadaten für diesen Notizblock zu manipulieren."
+         ],
+         " We recommend putting custom metadata attributes in an appropriately named substructure, so they don't conflict with those of others.": [
+            " Wir empfehlen, kundenspezifische Metadateneigenschaften in einen passend benannten Unterbau zu bringen, so dass sie nicht mit jenen von anderen widersprechen."
+         ],
+         "Edit the metadata": [
+            "Editieren Sie die Metadaten"
+         ],
+         "Edit Notebook Metadata": [
+            "Notizblockmetadaten editieren"
+         ],
+         "Edit Cell Metadata": [
+            "Zellenmetadaten editieren"
+         ],
+         "Cancel": [
+            "Abbruch"
+         ],
+         "Edit": [
+            "Editieren"
+         ],
+         "OK": [
+            "OK"
+         ],
+         "Apply": [
+            "Aktualisieren"
+         ],
+         "WARNING: Could not save invalid JSON.": [
+            "Warnung: Konnte ungültige JSON nicht speichern."
+         ],
+         "There are no attachments for this cell.": [
+            "Es gibt keine Anhänge für diese Zelle."
+         ],
+         "Current cell attachments": [
+            "Aktuelle Zelle Anhänge"
+         ],
+         "Attachments": [
+            "Anhänge"
+         ],
+         "Restore": [
+            "Wiederherstellen"
+         ],
+         "Delete": [
+            "Löschen"
+         ],
+         "Edit attachments": [
+            "Anhänge editieren"
+         ],
+         "Edit Notebook Attachments": [
+            "Notizblock-Anhänge editieren"
+         ],
+         "Edit Cell Attachments": [
+            "Zelle Anhänge editieren"
+         ],
+         "Select a file to insert.": [
+            "Wählen Sie eine Datei, um einzuführen."
+         ],
+         "Select a file": [
+            "Wählen Sie eine Datei"
+         ],
+         "You are using Jupyter notebook.": [
+            "Sie verwenden Jupyter Notizblock."
+         ],
+         "The version of the notebook server is: ": [
+            "Die Version des Notizblockservers ist: "
+         ],
+         "The server is running on this version of Python:": [
+            "Der Server führt auf dieser Version von Python aus:"
+         ],
+         "Waiting for kernel to be available...": [
+            "Zu warten darauf, dass Kern zur Verfügung steht"
+         ],
+         "Server Information:": [
+            "Serverinformationen:"
+         ],
+         "Current Kernel Information:": [
+            "Aktuelle Kerninformationen:"
+         ],
+         "Could not access sys_info variable for version information.": [
+            "Konnte nicht auf sys_info Variable zwecks Versionsinformationen zugreifen."
+         ],
+         "Cannot find sys_info!": [
+            "Kann sys_info nicht finden!"
+         ],
+         "About Jupyter Notebook": [
+            "Über Jupyter Notizblock"
+         ],
+         "unable to contact kernel": [
+            "Außer Stande, sich an Kern zu wenden"
+         ],
+         "toggle rtl layout": [
+            "rtl Layout umschalten"
+         ],
+         "Toggle the screen directionality between left-to-right and right-to-left": [
+            "Bildschirmrichtung dazwischen von links nach rechts und von rechts nach links "
+         ],
+         "edit command mode keyboard shortcuts": [
+            "Befehlsmodus-tastaturabkürzungen editieren"
+         ],
+         "Open a dialog to edit the command mode keyboard shortcuts": [
+            "Einen Dialog Öffnen, die Befehls-Modustastaturabkürzungen zu redigieren"
+         ],
+         "restart kernel": [
+            "Kern neu starten"
+         ],
+         "restart the kernel (no confirmation dialog)": [
+            "Kern neu starten (keinen Bestätigungsdialog)"
+         ],
+         "confirm restart kernel": [
+            "Kern neu starten (mit Bestätigung)"
+         ],
+         "restart the kernel (with dialog)": [
+            "Kern neu starten (mit Dialog)"
+         ],
+         "restart kernel and run all cells": [
+            "Kern neu starten und alle Zellen ausführen"
+         ],
+         "restart the kernel, then re-run the whole notebook (no confirmation dialog)": [
+            "Kern neu starten, dann den Notizblock wird wieder ausgeführt (keinen Bestätigungsdialog )"
+         ],
+         "confirm restart kernel and run all cells": [
+            "Kern neu starten (mit Bestätigung) und alle Zellen ausführen"
+         ],
+         "restart the kernel, then re-run the whole notebook (with dialog)": [
+            "Kern neu starten, dann den Notizblock wird wieder ausgeführt (mit Bestätigungsdialog)"
+         ],
+         "restart kernel and clear output": [
+            "Kern neu starten und Ausgabe löschen?"
+         ],
+         "restart the kernel and clear all output (no confirmation dialog)": [
+            "Kern neu starten und alle Ausgabe löschen (keinen Bestätigungsdialog)"
+         ],
+         "confirm restart kernel and clear output": [
+            "Kern neu starten (mit Bestätigung) und Ausgabe löschen"
+         ],
+         "restart the kernel and clear all output (with dialog)": [
+            "Kern neu starten und alle Ausgabe löschen (mit Bestätigungsdialog)"
+         ],
+         "interrupt the kernel": [
+            "den Kern unterbrechen"
+         ],
+         "run cell and select next": [
+            "Zelle ausführen und nächste Zelle wählen"
+         ],
+         "run cell, select below": [
+            "Zelle ausführen, unten wählen"
+         ],
+         "run selected cells": [
+            "Gewählte Zellen ausführen"
+         ],
+         "run cell and insert below": [
+            "Zelle ausführen und unten einfügen"
+         ],
+         "run all cells": [
+            "Alle Zellen ausführen"
+         ],
+         "run all cells above": [
+            "Alle Zellen oben ausführen"
+         ],
+         "run all cells below": [
+            "Alle Zellen unten ausführen"
+         ],
+         "enter command mode": [
+            "zum Befehlsmodus gehen"
+         ],
+         "insert image": [
+            "Bild einfügen"
+         ],
+         "cut cell attachments": [
+            "Zelle Anhänge ausschneiden"
+         ],
+         "copy cell attachments": [
+            "Zelle-Anhänge kopieren"
+         ],
+         "paste cell attachments": [
+            "Zelle-Anhänge einfügen"
+         ],
+         "split cell at cursor": [
+            "Zelle an Cursor teilen"
+         ],
+         "enter edit mode": [
+            "zum Editiermodus gehen"
+         ],
+         "select previous cell": [
+            "Vorherige Zelle wählen"
+         ],
+         "select cell above": [
+            "Zelle oben wählen"
+         ],
+         "select next cell": [
+            "Nächste Zelle wählen"
+         ],
+         "select cell below": [
+            "Zelle unten wählen"
+         ],
+         "extend selection above": [
+            "Auswahl oben erweitern"
+         ],
+         "extend selected cells above": [
+            "Gewählte Zellen oben erweitern"
+         ],
+         "extend selection below": [
+            "Auswahl unten erweitern"
+         ],
+         "extend selected cells below": [
+            "Gewählte Zellen unten erweitern"
+         ],
+         "cut selected cells": [
+            "Gewählte Zellen ausschneiden"
+         ],
+         "copy selected cells": [
+            "gewählte Zellen kopieren"
+         ],
+         "paste cells above": [
+            "Zellen oben einfügen"
+         ],
+         "paste cells below": [
+            "Zellen unten einfügen"
+         ],
+         "insert cell above": [
+            "Zelle oben einführen"
+         ],
+         "insert cell below": [
+            "Zelle unten einführen"
+         ],
+         "change cell to code": [
+            "Zelle zu Kode ändern"
+         ],
+         "change cell to markdown": [
+            "Zelle zu Markdown ändern"
+         ],
+         "change cell to raw": [
+            "Zelle zu Roh ändern"
+         ],
+         "change cell to heading 1": [
+            "Zelle zu Überschrift 1 ändern"
+         ],
+         "change cell to heading 2": [
+            "Zelle zu Überschrift 2 ändern"
+         ],
+         "change cell to heading 3": [
+            "Zelle zu Überschrift 3 ändern"
+         ],
+         "change cell to heading 4": [
+            "Zelle zu Überschrift 4 ändern"
+         ],
+         "change cell to heading 5": [
+            "Zelle zu Überschrift 5 ändern"
+         ],
+         "change cell to heading 6": [
+            "Zelle zu Überschrift 6 ändern"
+         ],
+         "toggle cell output": [
+            "Zellenausgabe umschalten"
+         ],
+         "toggle output of selected cells": [
+            "Ausgabe gewählter Zellen umschalten"
+         ],
+         "toggle cell scrolling": [
+            "Zellen-Scrollen umschalten"
+         ],
+         "toggle output scrolling of selected cells": [
+            "Zellen-Scrollen der Ausgabe gewählter Zellen umschalten"
+         ],
+         "clear cell output": [
+            "Zelle Ausgabe löschen"
+         ],
+         "clear output of selected cells": [
+            "Ausgabe gewählter Zellen löschen"
+         ],
+         "move cells down": [
+            "Zellen hinunter bewegen"
+         ],
+         "move selected cells down": [
+            "Gewählte Zellen hinunter bewegen"
+         ],
+         "move cells up": [
+            "Zellen hinauf bewegen"
+         ],
+         "move selected cells up": [
+            "Gewählte Zellen hinauf bewegen"
+         ],
+         "toggle line numbers": [
+            "Zeilennummern umschalten"
+         ],
+         "show keyboard shortcuts": [
+            "Tastaturabkürzungen zeigen"
+         ],
+         "delete cells": [
+            "Zellen löschen"
+         ],
+         "delete selected cells": [
+            "Gewählte Zellen löschen"
+         ],
+         "undo cell deletion": [
+            "Zellenlöschen los machen"
+         ],
+         "merge cell with previous cell": [
+            "Zelle mit vorheriger Zelle vereinen"
+         ],
+         "merge cell above": [
+            "Zelle oben vereinen"
+         ],
+         "merge cell with next cell": [
+            "Zelle mit nächster Zelle vereinen"
+         ],
+         "merge cell below": [
+            "Zelle unten vereinen"
+         ],
+         "merge selected cells": [
+            "Gewählte Zellen vereinen"
+         ],
+         "merge cells": [
+            "Zellen vereinen"
+         ],
+         "merge selected cells, or current cell with cell below if only one cell is selected": [
+            "Gewählte Zellen vereinen, oder gegenwärtige Zelle mit Zelle unten, wenn nur eine Zelle gewählt wird"
+         ],
+         "show command pallette": [
+            "Befehlspallette zeigen"
+         ],
+         "open the command palette": [
+            "Öffnen Sie die Befehlspalette"
+         ],
+         "toggle all line numbers": [
+            "Alle Zeilennummern umschalten"
+         ],
+         "toggles line numbers in all cells, and persist the setting": [
+            "Zeilennummern in allen Zellen umschalten, und die Einstellung fortsetzen"
+         ],
+         "show all line numbers": [
+            "Alle Zeilennummern zeigen"
+         ],
+         "show line numbers in all cells, and persist the setting": [
+            "Zeilennummern in allen Zellen zeigen, und die Einstellung fortsetzen"
+         ],
+         "hide all line numbers": [
+            "alle Zeilennummern verstecken"
+         ],
+         "hide line numbers in all cells, and persist the setting": [
+            "Zeilennummern in allen Zellen verstecken, und die Einstellung fortsetzen"
+         ],
+         "toggle header": [
+            "Überschrift umschalten"
+         ],
+         "switch between showing and hiding the header": [
+            "Dazwischen umschalten, die Überschrift zu zeigen und zu verstecken"
+         ],
+         "show the header": [
+            "Überschrift zeigen"
+         ],
+         "hide the header": [
+            "Verstecken Sie die Überschrift"
+         ],
+         "toggle toolbar": [
+            "Werkzeugbalken umschalten"
+         ],
+         "switch between showing and hiding the toolbar": [
+            "Dazwischen umschalten, den Werkzeugbalken zu zeigen und zu verstecken"
+         ],
+         "show the toolbar": [
+            "Werkzeugbalken zeigen"
+         ],
+         "hide the toolbar": [
+            "Verstecken Sie den Werkzeugbalken"
+         ],
+         "close the pager": [
+            "Den Pager Schließen"
+         ],
+         "ignore": [
+            "Ignorieren"
+         ],
+         "move cursor up": [
+            "Cursor hinauf bewegen"
+         ],
+         "move cursor down": [
+            "Cursor hinunter bewegen"
+         ],
+         "scroll notebook down": [
+            "Notizblock unten blättern"
+         ],
+         "scroll notebook up": [
+            "Notizblock oben blättern"
+         ],
+         "scroll cell center": [
+            "Zelle zum zentrum blättern"
+         ],
+         "Scroll the current cell to the center": [
+            "Gegenwärtige Zelle zum Zentrum blättern"
+         ],
+         "scroll cell top": [
+            "Zelle zur Oberseite blättern"
+         ],
+         "Scroll the current cell to the top": [
+            "Gegenwärtige Zelle zur Oberseite blättern"
+         ],
+         "duplicate notebook": [
+            "Notizblock duplizieren"
+         ],
+         "Create and open a copy of the current notebook": [
+            "Schaffen Sie und öffnen Sie eine Kopie des gegenwärtigen Notizblocks"
+         ],
+         "trust notebook": [
+            "Notizblock vertrauen"
+         ],
+         "Trust the current notebook": [
+            "Dem gegenwärtigen Notizblock vertrauen"
+         ],
+         "rename notebook": [
+            "Notizblock umbenennen"
+         ],
+         "Rename the current notebook": [
+            "Den aktuellen Notizblock umbenennen"
+         ],
+         "toggle all cells output collapsed": [
+            "Umschalten ob die Ausgabe alle Zellen zusammengeklappt ist"
+         ],
+         "Toggle the hidden state of all output areas": [
+            "Den versteckten Zustand aller Ausgabebereiche umschalten"
+         ],
+         "toggle all cells output scrolled": [
+            "Zellen-Scrollen alle Zellen umschalten"
+         ],
+         "Toggle the scrolling state of all output areas": [
+            "Schiebezustand aller Ausgabebereiche umschalten"
+         ],
+         "clear all cells output": [
+            "Ausgabe aller Zellen löschen"
+         ],
+         "Clear the content of all the outputs": [
+            "Den Inhalt aller Ausgaben löschen"
+         ],
+         "save notebook": [
+            "Notizblock speichern"
+         ],
+         "Save and Checkpoint": [
+            "Speichern und Kontrollpunkten"
+         ],
+         "Warning: accessing Cell.cm_config directly is deprecated.": [
+            "Warnung: Auf Cell.cm_config direkt zugreifen wird missbilligt."
+         ],
+         "Unrecognized cell type: %s": [
+            "Unerkannte Zellensorte: %s"
+         ],
+         "Unrecognized cell type": [
+            "Unerkannte Zellensorte"
+         ],
+         "Error in cell toolbar callback %s": [
+            "Fehler in Zellenwerkzeugbalkenrückruf %s"
+         ],
+         "Clipboard types: %s": [
+            "Klemmbrettsorten: %s"
+         ],
+         "Dialog for paste from system clipboard": [
+            "Dialog für Paste von Systemklemmbrett"
+         ],
+         "Ctrl-V": [
+            "Strg-V"
+         ],
+         "Cmd-V": [
+            "Cmd V"
+         ],
+         "Press %s again to paste": [
+            "Drücken Sie %s wieder, um einzufügen"
+         ],
+         "Why is this needed? ": [
+            "Warum wird dies gebraucht? "
+         ],
+         "We can't get paste events in this browser without a text box. ": [
+            "Wir können Einfügenereignisse in diesem Browser nicht ohne ein Textfeld bekommen."
+         ],
+         "There's an invisible text box focused in this dialog.": [
+            "Es gibt ein in diesem Dialog gerichtetes unsichtbares Textfeld."
+         ],
+         "%s to paste": [
+            "%s einzukleben"
+         ],
+         "Can't execute cell since kernel is not set.": [
+            "Kann keine Zelle ausführen, seit Kern nicht gesetzt wird."
+         ],
+         "In [%s]:": [
+            "In [%s:]"
+         ],
+         "Could not find a kernel matching %s. Please select a kernel:": [
+            "Konnte keinem Kern passende %s finden. Bitte wählen Sie einen Kern:"
+         ],
+         "Continue Without Kernel": [
+            "Ohne Kern weiter machen"
+         ],
+         "Set Kernel": [
+            "Kern einstellen"
+         ],
+         "Kernel not found": [
+            "Kern nicht gefunden"
+         ],
+         "Creating Notebook Failed": [
+            "Erstellung eines Notizblocks fehlgeschlagen"
+         ],
+         "The error was: %s": [
+            "Der Fehler war: %s"
+         ],
+         "show new celltoolbar selector location": [
+            "Neuen Wählstandort die Zellenwerkzeugbalken zeigen"
+         ],
+         "CellToolbar": [
+            "Zellenwerkzeugbalken"
+         ],
+         "Code": [
+            "Kode"
+         ],
+         "Markdown": [
+            "Markdown"
+         ],
+         "Raw NBConvert": [
+            "Rohe NBConvert"
+         ],
+         "Heading": [
+            "Überschrift"
+         ],
+         "unrecognized cell type:": [
+            "Unerkannte Zellensorte:"
+         ],
+         "Failed to retrieve MathJax from '%s'": [
+            "MathJax nicht aus '%s' zurückgeholt"
+         ],
+         "Math/LaTeX rendering will be disabled.": [
+            "Mathematik-/ LaTeX Wiedergabe wird behindert sein."
+         ],
+         "Trusted Notebook": [
+            "Vertrauter Notizblock"
+         ],
+         "Trust Notebook": [
+            "Notizblock vertrauen"
+         ],
+         "None": [
+            "Keine"
+         ],
+         "No checkpoints": [
+            "Keine Kontrollpunkte"
+         ],
+         "Opens in a new window": [
+            "Geht in einem neuen Fenster auf"
+         ],
+         "Autosave in progress, latest changes may be lost.": [
+            "Automatisches Sichern im Gange kann es sein, dass letzte Änderungen verloren sind."
+         ],
+         "Unsaved changes will be lost.": [
+            "Nicht gespeicherte Änderungen werden verloren sein."
+         ],
+         "The Kernel is busy, outputs may be lost.": [
+            "Der Kern ist beschäftigt, es kann sein, dass Ausgaben verloren sind."
+         ],
+         "This notebook is version %1$s, but we only fully support up to %2$s.": [
+            "Dieser Notizblock ist Version %1$s aber unser nur vollständig Unterstützung oben bis zu %2$s."
+         ],
+         "You can still work with this notebook, but cell and output types introduced in later notebook versions will not be available.": [
+            "Sie können immer noch mit diesem Notizblock arbeiten aber Zelle und Ausgabearten, die in späteren Notizblockversionen eingeführt wurden, werden nicht zur Verfügung stehen."
+         ],
+         "Restart and Run All Cells": [
+            "Neu starten, und alle Zellen ausführen"
+         ],
+         "Restart and Clear All Outputs": [
+            "Neu Starten,  und alle Ausgaben löschen"
+         ],
+         "Restart": [
+            "Neu starten"
+         ],
+         "Continue Running": [
+            "Weiter laufen"
+         ],
+         "Reload": [
+            "neu laden"
+         ],
+         "Overwrite": [
+            "Überschreiben"
+         ],
+         "Trust": [
+            "Vertrauen"
+         ],
+         "Revert": [
+            "Zurückkehren"
+         ],
+         "Newer Notebook": [
+            "Neuerer Notizblock"
+         ],
+         "Use markdown headings": [
+            "Markdown Überschriften benutzen"
+         ],
+         "Jupyter no longer uses special heading cells. Instead, write your headings in Markdown cells using # characters:": [
+            "Jupyter verwendet keine speziellen Überschriftzellen mehr. Stattdessen schreiben Sie Ihre Überschriften in Markdown Zellen mit Hilfe von # Charakteren:"
+         ],
+         "## This is a level 2 heading": [
+            "## dies ist eine Überschrift Stufe 2"
+         ],
+         "Restart kernel and re-run the whole notebook?": [
+            "Kern neu starten und den ganzen Notizblock noch einmal ausführen?"
+         ],
+         "Are you sure you want to restart the current kernel and re-execute the whole notebook?  All variables and outputs will be lost.": [
+            "Sind Sie sicher, dass Sie den gegenwärtigen Kern neu starten und den ganzen Notizblock wiederausführen wollen?  Alle Variablen und Ausgaben werden verloren sein."
+         ],
+         "Restart kernel and clear all output?": [
+            "Kern neu starten und alle Ausgabe löschen?"
+         ],
+         "Do you want to restart the current kernel and clear all output?  All variables and outputs will be lost.": [
+            "Wollen Sie den gegenwärtigen Kern neu starten und alle Ausgabe löschen?  Alle Variablen und Ausgaben werden verloren sein."
+         ],
+         "Restart kernel?": [
+            "Kern neu starten"
+         ],
+         "Do you want to restart the current kernel?  All variables will be lost.": [
+            "Wollen Sie den gegenwärtigen Kern neu starten?  Alle Variablen werden verloren sein."
+         ],
+         "Notebook changed": [
+            "Notizblock wurde geändert"
+         ],
+         "The notebook file has changed on disk since the last time we opened or saved it.": [
+            "Die Notizblockakte hat sich seit dem letzten Mal auf Platte geändert, wir es öffneten oder speichern."
+         ],
+         "Do you want to overwrite the file on disk with the version open here, or load the version on disk (reload the page) ?": [
+            "Wollen Sie die Akte über Platte mit dem Versionsfreien hier überschreiben oder die Version auf Platte laden (die Seite neu laden?)"
+         ],
+         "Notebook validation failed": [
+            "Bestätigung des Notizblocks fehlgeschlagen"
+         ],
+         "The save operation succeeded, but the notebook does not appear to be valid. The validation error was:": [
+            "Die Speicherungsoperation hatte Erfolg aber scheinbar ist der Notizblock nicht gültig. Der Bestätigungsfehler war:"
+         ],
+         "A trusted Jupyter notebook may execute hidden malicious code when you open it.": [
+            "Ein bewährter Jupyter Notizblock kann versteckten arglistigen Kode ausführen, wenn Sie ihn öffnen."
+         ],
+         "Selecting trust will immediately reload this notebook in a trusted state.": [
+            "Die Wahl des Vertrauens wird diesen Notizblock in einem vertraut Staat neu sofort laden."
+         ],
+         " For more information, see the Jupyter security documentation: ": [
+            "Weitere Informationen finden Sie in der Jupyter Sicherheitsdokumentation:"
+         ],
+         "here": [
+            "Hier"
+         ],
+         "Trust this notebook?": [
+            "Diesem Notizblock vertrauen?"
+         ],
+         "Notebook failed to load": [
+            "Notizblock wurde nicht geladen"
+         ],
+         "The error was: ": [
+            "Der Fehler war: "
+         ],
+         "See the error console for details.": [
+            "Sehen Sie die Fehlerkonsole für Details."
+         ],
+         "The notebook also failed validation:": [
+            "Der Notizblock fiel auch durch Bestätigung:"
+         ],
+         "An invalid notebook may not function properly. The validation error was:": [
+            "Ein ungültiger Notizblock kann nicht richtig funktionieren. Der Bestätigungsfehler war:"
+         ],
+         "This notebook has been converted from an older notebook format to the current notebook format v(%s).": [
+            "Dieser Notizblock ist aus einem älteren Notizblockformat in die gegenwärtige Notizblockformat V (%s) umgewandelt worden."
+         ],
+         "This notebook has been converted from a newer notebook format to the current notebook format v(%s).": [
+            "Dieser Notizblock ist aus einem neueren Notizblockformat in die gegenwärtige Notizblockformat V (%s) umgewandelt worden."
+         ],
+         "The next time you save this notebook, the current notebook format will be used": [
+            "Das nächste Mal, wenn Sie diesen Notizblock sichern, wird das gegenwärtige Notizblockformat verwendet."
+         ],
+         "Older versions of Jupyter may not be able to read the new format.": [
+            "Ältere Versionen von Jupyter können nicht in der Lage sein, das neue Format zu lesen."
+         ],
+         "Some features of the original notebook may not be available.": [
+            "Einige Bestandteile des ursprünglichen Notizblocks können nicht zur Verfügung stehen."
+         ],
+         "To preserve the original version, close the notebook without saving it.": [
+            "Um die ursprüngliche Version zu erhalten, schließen Sie den Notizblock, ohne es zu speichern."
+         ],
+         "Notebook converted": [
+            "Notizblock wurde umgewandelt"
+         ],
+         "(No name)": [
+            "(Keine Name)"
+         ],
+         "An unknown error occurred while loading this notebook. This version can load notebook formats %s or earlier. See the server log for details.": [
+            "Ein unbekannter Fehler trat auf, während er diesen Notizblock lud. Diese Version kann Notizblockformate %s laden oder früher. Sehen Sie das Serverprotokoll für Details."
+         ],
+         "Error loading notebook": [
+            "Fehlerladungsnotizblock"
+         ],
+         "Are you sure you want to revert the notebook to the latest checkpoint?": [
+            "Sind Sie sicher, dass Sie zurückkehren wollen, der Notizblock zum letzten Kontrollpunkt?"
+         ],
+         "This cannot be undone.": [
+            "Dies kann nicht ungetan sein."
+         ],
+         "The checkpoint was last updated at:": [
+            "Der Kontrollpunkt wurde das letzte Mal aktualisiert an:"
+         ],
+         "Revert notebook to checkpoint": [
+            "Notizblock zu Kontrollpunkt zurückkehren"
+         ],
+         "Edit Mode": [
+            "Editiermodus"
+         ],
+         "Command Mode": [
+            "Befehlsmodus"
+         ],
+         "Kernel Created": [
+            "Kern geschaffen"
+         ],
+         "Connecting to kernel": [
+            "Sich mit Kern verbinden"
+         ],
+         "Not Connected": [
+            "Nicht verbunden"
+         ],
+         "click to reconnect": [
+            "Klicken Sie, um sich wieder zu verbinden"
+         ],
+         "Restarting kernel": [
+            "Kern startet neu"
+         ],
+         "Kernel Restarting": [
+            "Kern startet neu"
+         ],
+         "The kernel appears to have died. It will restart automatically.": [
+            "Scheinbar ist der Kern gestorben. Es wird automatisch neu starten."
+         ],
+         "Dead kernel": [
+            "Toter Kern"
+         ],
+         "Kernel Dead": [
+            "Kern ist tot"
+         ],
+         "Interrupting kernel": [
+            "Kern unterbrechen"
+         ],
+         "No Connection to Kernel": [
+            "Keine Verbindung zu Kern"
+         ],
+         "A connection to the notebook server could not be established. The notebook will continue trying to reconnect. Check your network connection or notebook server configuration.": [
+            "Eine Verbindung zum Notizblockserver konnte nicht eingeführt werden. Der Notizblock wird weiter versuchen, sich wieder zu verbinden. Überprüfen Sie Ihre Netzverbindung oder Notizblockserverkonfiguration."
+         ],
+         "Connection failed": [
+            "Verbindung scheiterte"
+         ],
+         "No kernel": [
+            "Kein Kern"
+         ],
+         "Kernel is not running": [
+            "Kern läuft nicht"
+         ],
+         "Don't Restart": [
+            "Nicht neu Starten"
+         ],
+         "Try Restarting Now": [
+            "Versuchen Sie, jetzt neu zu starten"
+         ],
+         "The kernel has died, and the automatic restart has failed. It is possible the kernel cannot be restarted.": [
+            "Der Kern ist gestorben und der automatische Wiederanlauf ist fehlgeschlagen. Es ist möglich der Kern nicht neu gestartet werden kann."
+         ],
+         "If you are not able to restart the kernel, you will still be able to save the notebook, but running code will no longer work until the notebook is reopened.": [
+            "Wenn Sie nicht in der Lage sind, den Kern neu zu starten, werden Sie immer noch in der Lage sein, den Notizblock zu speichern, aber das Erstellen von Kode wird nicht mehr funktionieren, bis der Notizblock wiedereröffnet wird."
+         ],
+         "No Kernel": [
+            "Kein Kern"
+         ],
+         "Failed to start the kernel": [
+            "Der Kern konnte nicht gestartet werden"
+         ],
+         "Kernel Busy": [
+            "Kern beschäftigt"
+         ],
+         "Kernel starting, please wait...": [
+            "Kern startet,  bitte warten Sie"
+         ],
+         "Kernel Idle": [
+            "Kern ist untätig"
+         ],
+         "Kernel ready": [
+            "Kernbereit"
+         ],
+         "Using kernel: ": [
+            "Kern verwenden: "
+         ],
+         "Only candidate for language: %1$s was %2$s.": [
+            "Nur Kandidat für Sprache: %1$s war %2$s."
+         ],
+         "Loading notebook": [
+            "Notizblock laden"
+         ],
+         "Notebook loaded": [
+            "Notizblock wurde geladen"
+         ],
+         "Saving notebook": [
+            "Notizblock wird gespeichert"
+         ],
+         "Notebook saved": [
+            "Notizblock ist gesparen"
+         ],
+         "Notebook save failed": [
+            "Speichern der Notizblock fehlgeschlagen"
+         ],
+         "Notebook copy failed": [
+            "Notizblockkopie fehlgeschlagen"
+         ],
+         "Checkpoint created": [
+            "Kontrollpunkt geschaffen"
+         ],
+         "Checkpoint failed": [
+            "Kontrollpunkt scheiterte"
+         ],
+         "Checkpoint deleted": [
+            "Kontrollpunkt gelöscht"
+         ],
+         "Checkpoint delete failed": [
+            "Löschen des Kontrollpunktes ist fehlgeschlagen"
+         ],
+         "Restoring to checkpoint...": [
+            "Wiederherstellung zum Kontrollpunkt"
+         ],
+         "Checkpoint restore failed": [
+            "Kontrollpunktwiederherstellung scheiterte"
+         ],
+         "Autosave disabled": [
+            "Automatisches Sichern unfähig gemacht"
+         ],
+         "Saving every %d sec.": [
+            "Wird jede %d sek. gespeichert"
+         ],
+         "Trusted": [
+            "Vertraut"
+         ],
+         "Not Trusted": [
+            "Nicht vertraut"
+         ],
+         "click to expand output": [
+            "Klicken Sie, um Ausgabe auszudehnen"
+         ],
+         "click to expand output; double click to hide output": [
+            "Klicken Sie, um Ausgabe auszudehnen; klicken Sie doppelt, um Ausgabe zu "
+         ],
+         "click to unscroll output; double click to hide": [
+            "Klicken Sie zu unscroll Ausgabe; klicken Sie doppelt, um sich zu verstecken"
+         ],
+         "click to scroll output; double click to hide": [
+            "Klicken Sie, um Ausgabe zu blättern; klicken Sie doppelt, um sich zu "
+         ],
+         "Javascript error adding output!": [
+            "Javascript Fehler, der hinzufügte, gab aus!"
+         ],
+         "See your browser Javascript console for more details.": [
+            "Sehen Sie Ihren Browser Javascriptkonsole für weitere Details."
+         ],
+         "Out[%d]:": [
+            "Aus [%d:]"
+         ],
+         "Unrecognized output: %s": [
+            "Unerkannte Ausgabe: %s"
+         ],
+         "Open the pager in an external window": [
+            "Öffnen Sie den Pager in einem externen Fenster"
+         ],
+         "Close the pager": [
+            "Den Pager Schließen"
+         ],
+         "Jupyter Pager": [
+            "Jupyter Pager"
+         ],
+         "go to cell start": [
+            "zu Zellenanfang gehen"
+         ],
+         "go to cell end": [
+            "zu Zellenende gehen"
+         ],
+         "go one word left": [
+            "Ein Wort nach links gehen"
+         ],
+         "go one word right": [
+            "Ein Wort nach rechts gehen"
+         ],
+         "delete word before": [
+            "vorheriges Wort löschen"
+         ],
+         "delete word after": [
+            "nächstes Wort löschen"
+         ],
+         "code completion or indent": [
+            "Kodefertigstellung oder -delle"
+         ],
+         "tooltip": [
+            "tooltip"
+         ],
+         "indent": [
+            "Delle"
+         ],
+         "dedent": [
+            "dedent"
+         ],
+         "select all": [
+            "Alle wählen"
+         ],
+         "undo": [
+            "los machen"
+         ],
+         "redo": [
+            "wiederholen"
+         ],
+         "Shift": [
+            "Umschalt"
+         ],
+         "Alt": [
+            "Alt"
+         ],
+         "Up": [
+            "aufwärts"
+         ],
+         "Down": [
+            "Abwärts"
+         ],
+         "Left": [
+            "Links"
+         ],
+         "Right": [
+            "Recht"
+         ],
+         "Tab": [
+            "Tab"
+         ],
+         "Caps Lock": [
+            "Feststell"
+         ],
+         "Esc": [
+            "Esc"
+         ],
+         "Ctrl": [
+            "Strg"
+         ],
+         "Enter": [
+            "Eingabe"
+         ],
+         "Page Up": [
+            "Bild auf"
+         ],
+         "Page Down": [
+            "Bild ab"
+         ],
+         "Home": [
+            "Pos1"
+         ],
+         "End": [
+            "Ende"
+         ],
+         "Space": [
+            "Leertaste"
+         ],
+         "Backspace": [
+            "Rücksetzung"
+         ],
+         "Minus": [
+            "Minus"
+         ],
+         "PageUp": [
+            "Bild auf"
+         ],
+         "The Jupyter Notebook has two different keyboard input modes.": [
+            "Der Jupyter Notizblock hat zwei verschiedene Tastaturzufuhrmodi."
+         ],
+         "<b>Edit mode</b> allows you to type code or text into a cell and is indicated by a green cell border.": [
+            "<b>Editiermodus</b> erlaubt Ihnen, Kode oder Text in eine Zelle zu schreiben, und wird von einer grünen Zellengrenze angezeigt."
+         ],
+         "<b>Command mode</b> binds the keyboard to notebook level commands and is indicated by a grey cell border with a blue left margin.": [
+            "<b>Befehlsmodus</b> bindet die Tastatur an notizblockebene Befehle und wird von einer grauen Zellengrenze mit einem blauen linken Rand angezeigt."
+         ],
+         "Close": [
+            "Schließen"
+         ],
+         "Keyboard shortcuts": [
+            "Tastaturabkürzungen"
+         ],
+         "Command": [
+            "Befehl"
+         ],
+         "Control": [
+            "Strg"
+         ],
+         "Option": [
+            "Option"
+         ],
+         "Return": [
+            "Eingabe"
+         ],
+         "Command Mode (press %s to enable)": [
+            "Befehlsmodus (drücken Sie %s, die ermöglicht werden soll)"
+         ],
+         "Edit Mode (press %s to enable)": [
+            "Editiermodus (drücken Sie %s, die ermöglicht werden soll )"
+         ],
+         "Autosave Failed!": [
+            "Automatisches Sichern scheiterte!"
+         ],
+         "Rename": [
+            "Umbenennen"
+         ],
+         "Enter a new notebook name:": [
+            "Geben Sie einen neuen Notizblocknamen ein:"
+         ],
+         "Rename Notebook": [
+            "Notizblock umbenennen"
+         ],
+         "Invalid notebook name. Notebook names must have 1 or more characters and can contain any characters except :/\\. Please enter a new notebook name:": [
+            "Ungültiger Notizblockname. Notizblocknamen müssen 1 oder mehr Charaktere haben und können Charaktere außer :/ enthalten. Bitte geben Sie einen neuen Notizblocknamen ein:"
+         ],
+         "Renaming...": [
+            "Umbenennen"
+         ],
+         "Unknown error": [
+            "Unbekannter Fehler"
+         ],
+         "no checkpoint": [
+            "Kein Kontrollpunkt"
+         ],
+         "Last Checkpoint: %s": [
+            "Letzter Kontrollpunkt: %s"
+         ],
+         "(unsaved changes)": [
+            "(nicht gespeicherte Änderungen)"
+         ],
+         "(autosaved)": [
+            "(automatisch gespeichert)"
+         ],
+         "Warning: too many matches (%d). Some changes might not be shown or applied.": [
+            "Warnung: Zu viele Übereinstimmungen (%d.) Einige Umwandlungen durften nicht gezeigt oder angewandt werden."
+         ],
+         "%d match": [
+            "%d Übereinstimmung",
+            "%d Übereinstimmungen"
+         ],
+         "More than 100 matches, aborting": [
+            "Mehr als 100 Übereinstimmungen, Abbruchs jetzt"
+         ],
+         "Use regex (JavaScript regex syntax)": [
+            "Regex (JavaScript regex Syntax ) benutzen"
+         ],
+         "Replace in selected cells": [
+            "In gewählten Zellen ersetzen"
+         ],
+         "Match case": [
+            "Groß- oder Kleinschreibung übereinstimmen"
+         ],
+         "Find": [
+            "Finden"
+         ],
+         "Replace": [
+            "Ersetzen"
+         ],
+         "No matches, invalid or empty regular expression": [
+            "Keine Übereinstimmungen, ungültiger oder leerer regelmäßiger Ausdruck"
+         ],
+         "Replace All": [
+            "Alle ersetzen"
+         ],
+         "Find and Replace": [
+            "Finden und ersetzen"
+         ],
+         "find and replace": [
+            "finden und ersetzen"
+         ],
+         "Write raw LaTeX or other formats here, for use with nbconvert. It will not be rendered in the notebook.": [
+            "Schreiben Sie rohe LaTeX oder andere Formate hier zu Gebrauch mit nbconvert. Es wird nicht im Notizblock wiedergegeben."
+         ],
+         "When passing through nbconvert, a Raw Cell's content is added to the output unmodified.": [
+            "Wenn der Inhalt einer rohen Zelle durch nbconvert durchgeht, wird er der Ausgabe hinzugefügt unverändert."
+         ],
+         "Grow the tooltip vertically (press shift-tab twice)": [
+            "Vergrößern Sie die tooltip senkrecht (drücken Sie zweimal Umschalt-Tab)"
+         ],
+         "show the current docstring in pager (press shift-tab 4 times)": [
+            "Die gegenwärtige docstring in Pager zeigen (drücken Sie viermal Umschalt-Tab )"
+         ],
+         "Open in Pager": [
+            "In Pager öffnen"
+         ],
+         "Tooltip will linger for 10 seconds while you type": [
+            "Tooltip wird 10 Sekunden bleiben, während Sie schreiben"
+         ],
+         "Welcome to the Notebook Tour": [
+            "Willkommen bei der Notizblocktour"
+         ],
+         "You can use the left and right arrow keys to go backwards and forwards.": [
+            "Sie können die linken und richtigen Pfeilschlüssel verwenden, um rückwärts und vorwärts zu gehen."
+         ],
+         "Filename": [
+            "Dateiname"
+         ],
+         "Click here to change the filename for this notebook.": [
+            "Klicken Sie hier, um den Dateinamen für diesen Notizblock zu ändern."
+         ],
+         "Notebook Menubar": [
+            "Notizblock Menubar"
+         ],
+         "The menubar has menus for actions on the notebook, its cells, and the kernel it communicates with.": [
+            "Die menubar hat Speisekarten für Taten auf dem Notizblock, seinen Zellen und dem Kern, mit dem es kommuniziert."
+         ],
+         "Notebook Toolbar": [
+            "Notizblockwerkzeugbalken"
+         ],
+         "The toolbar has buttons for the most common actions. Hover your mouse over each button for more information.": [
+            "Der Werkzeugbalken hat Knöpfe für die allgemeinsten Taten. Schweben Sie Ihre Maus über jedem Knopf zwecks weiterer Informationen."
+         ],
+         "Mode Indicator": [
+            "Modusindikator"
+         ],
+         "The Notebook has two modes: Edit Mode and Command Mode. In this area, an indicator can appear to tell you which mode you are in.": [
+            "Der Notizblock hat zwei Modi: Editiermodus und Befehlsmodus. Scheinbar kann ein Indikator in diesem Bereich Ihnen sagen, in welchem Modus Sie sind."
+         ],
+         "Right now you are in Command Mode, and many keyboard shortcuts are available. In this mode, no icon is displayed in the indicator area.": [
+            "Jetzt sind Sie in Befehlsmodus und viele Tastaturabkürzungen stehen zur Verfügung. In diesem Modus wird keine Ikone im Indikatorenbereich angezeigt."
+         ],
+         "Pressing <code>Enter</code> or clicking in the input text area of the cell switches to Edit Mode.": [
+            "Drücken  <code>Enter</code> Oder im Zufuhrtextbereich der Zellenschalter zu Editiermodus zu klicken."
+         ],
+         "Notice that the border around the currently active cell changed color. Typing will insert text into the currently active cell.": [
+            "Bemerken Sie, dass die Grenze um die gegenwärtig aktive Zelle herum Farbe änderte. Schreiben wird Text in die gegenwärtig aktive Zelle einfügen."
+         ],
+         "Back to Command Mode": [
+            "Zurück zum Befehlsmodus"
+         ],
+         "Pressing <code>Esc</code> or clicking outside of the input text area takes you back to Command Mode.": [
+            "Drücken  <code>Esc</code> Oder Außerhalb des Zufuhrtextbereichs klicken nimmt Sie zurück zu Befehlsmodus."
+         ],
+         "Keyboard Shortcuts": [
+            "Tastaturabkürzungen"
+         ],
+         "You can click here to get a list of all of the keyboard shortcuts.": [
+            "Sie können hier klicken, um eine Liste aller Tastaturabkürzungen zu bekommen."
+         ],
+         "Kernel Indicator": [
+            "Kernindikator"
+         ],
+         "This is the Kernel indicator. It looks like this when the Kernel is idle.": [
+            "Dies ist der Kernindikator. Es sieht so aus, wenn der Kern müßig ist."
+         ],
+         "The Kernel indicator looks like this when the Kernel is busy.": [
+            "Der Kernindikator sieht so aus, wenn der Kern beschäftigt ist."
+         ],
+         "Interrupting the Kernel": [
+            "Den Kern unterbrechen"
+         ],
+         "To cancel a computation in progress, you can click here.": [
+            "Um eine Berechnung im Gange abzubrechen, können Sie hier klicken."
+         ],
+         "Notification Area": [
+            "Benachrichtigungsbereich"
+         ],
+         "Messages in response to user actions (Save, Interrupt, etc.) appear here.": [
+            "Nachrichten als Antwort auf Benutzertaten (Spiechern, Unterbrechen, usw.) erscheint hier."
+         ],
+         "End of Tour": [
+            "Ende von Tour"
+         ],
+         "This concludes the Jupyter Notebook User Interface Tour.": [
+            "Dies schließt die Jupyter Notizblock-Benutzeroberflächentour."
+         ],
+         "tour started": [
+            "Tour begann"
+         ],
+         "let's start the tour": [
+            "Lassen Sie uns die Tour starten"
+         ],
+         "Edit Attachments": [
+            "Anhänge editieren"
+         ],
+         "Cell": [
+            "Zelle"
+         ],
+         "Edit Metadata": [
+            "Metadaten editieren"
+         ],
+         "LaTeX": [
+            "LaTeX"
+         ],
+         "reST": [
+            "reST"
+         ],
+         "HTML": [
+            "HTML"
+         ],
+         "Python": [
+            "Python"
+         ],
+         "Custom": [
+            "Sitte"
+         ],
+         "Set the MIME type of the raw cell:": [
+            "Setzen Sie die MIME Art der rohen Zelle:"
+         ],
+         "Raw Cell MIME Type": [
+            "Rohe Zellen MIME Sorte"
+         ],
+         "Raw NBConvert Format": [
+            "Rohes NBConvert Format"
+         ],
+         "Raw Cell Format": [
+            "Rohes Zellenformat"
+         ],
+         "Slide": [
+            "Dia"
+         ],
+         "Sub-Slide": [
+            "Unterdiapositiv"
+         ],
+         "Fragment": [
+            "Fragment"
+         ],
+         "Skip": [
+            "Auslassen"
+         ],
+         "Notes": [
+            "Notizen"
+         ],
+         "Slide Type": [
+            "Diapositivsorte"
+         ],
+         "Slideshow": [
+            "Diashow"
+         ],
+         "Shutdown": [
+            "Abschalten"
+         ],
+         "Create a new notebook with %s": [
+            "Schaffen Sie einen neuen Notizblock mit %s"
+         ],
+         "An error occurred while creating a new notebook.": [
+            "Ein Fehler trat auf, während er einen neuen Notizblock schuf."
+         ],
+         "Creating File Failed": [
+            "Erstellung einer Datei fehlgeschlagen"
+         ],
+         "An error occurred while creating a new file.": [
+            "Ein Fehler trat auf, während er eine neue Datei erstellte."
+         ],
+         "Creating Folder Failed": [
+            "Erstellung eines Ordners fehlgeschlagen"
+         ],
+         "An error occurred while creating a new folder.": [
+            "Ein Fehler trat auf, während er einen neuen Ordner erstellte."
+         ],
+         "Failed to read file": [
+            "Fehler beim Lesen der Datei"
+         ],
+         "Failed to read file %s": [
+            "Fehler beim Lesen der Datei %s"
+         ],
+         "Cannot upload file (>%1$d MB) '%2$s'": [
+            "Datei (>%1$d MB) '%2$s' kann nicht hochgeladen werden"
+         ],
+         "Cannot upload file": [
+            "Datei kann nicht hochgeladen werden"
+         ],
+         "Server error: ": [
+            "Serverfehler: "
+         ],
+         "The notebook list is empty.": [
+            "Die Notizblockliste ist leer."
+         ],
+         "Click here to rename, delete, etc.": [
+            "Klicken Sie hier, umzubenennen, zu löschen, usw."
+         ],
+         "Running": [
+            "führt aus"
+         ],
+         "Enter a new file name:": [
+            "Geben Sie einen neuen Dateinamen ein:"
+         ],
+         "Enter a new directory name:": [
+            "Geben Sie einen neuen Verzeichnisnamen ein:"
+         ],
+         "Enter a new name:": [
+            "Geben Sie einen neuen Namen ein:"
+         ],
+         "Rename file": [
+            "Datei umbenennen"
+         ],
+         "Rename directory": [
+            "Verzeichnis umbenennen"
+         ],
+         "Rename notebook": [
+            "Notizblock umbenennen"
+         ],
+         "Move": [
+            "Bewegen"
+         ],
+         "An error occurred while renaming \"%1$s\" to \"%2$s\".": [
+            "Ein Fehler trat auf vertreiben Sie sich umzubenennen \"%1$s\" zu \"%2$s\"."
+         ],
+         "Rename Failed": [
+            "Umbenennen fehlgeschlagen"
+         ],
+         "Enter a new destination directory path for this item:": [
+            "Betreten Sie einen neuen Zielverzeichnispfad für diese Sache:",
+            "Betreten Sie einen neuen Zielverzeichnispfad für diese %d Sachen:"
+         ],
+         "Move an Item": [
+            null
+         ],
+         "Move %d Items": [
+            "Eine Sache bewegen",
+            "%d Sachen bewegen"
+         ],
+         "An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\".": [
+            "Ein Fehler trat auf, während er sich bewegte \"%1$s\" von \"%2$s\" zu \"%3$s\""
+         ],
+         "Move Failed": [
+            "Bewegung fehlgeschlagen"
+         ],
+         "Are you sure you want to permanently delete: \"%s\"?": [
+            "Sind Sie sicher, dass Sie permanent löschen wollen: \"%s\"?",
+            "Sind Sie sicher, dass Sie die %d Dateien oder Ordner permanent löschen wollen, die gewählt wurden?"
+         ],
+         "An error occurred while deleting \"%s\".": [
+            "Ein Fehler trat auf vertreiben Sie sich zu löschen \"%s\"."
+         ],
+         "Delete Failed": [
+            "Löschen fehlgeschlagen"
+         ],
+         "Are you sure you want to duplicate: \"%s\"?": [
+            "Sind Sie sicher, dass Sie \"%s\" duplizieren wollen?",
+            "Sind Sie sicher, dass Sie die gewählten %d Dateien duplizieren wollen?"
+         ],
+         "Duplicate": [
+            "Duplizieren"
+         ],
+         "An error occurred while duplicating \"%s\".": [
+            "Ein Fehler trat auf, während er duplizierte \"%s\"."
+         ],
+         "Duplicate Failed": [
+            "Duplizierung fehlgeschlagen"
+         ],
+         "Upload": [
+            "Hochladen"
+         ],
+         "Invalid file name": [
+            "Ungültiger Dateiname"
+         ],
+         "File names must be at least one character and not start with a period": [
+            "Dateinamen müssen mindestens ein Charakter sein und beginnen nicht mit einem Punkt"
+         ],
+         "Cannot upload invalid Notebook": [
+            "Ungültigen Notizblock kann nicht hochladen werden"
+         ],
+         "There is already a file named \"%s\". Do you want to replace it?": [
+            "Es gibt schon eine benannte Datei \"%s\". Wollen Sie es ersetzen?"
+         ],
+         "Replace file": [
+            "Datei Ersetzen"
+         ]
+      }
+   }
+}
