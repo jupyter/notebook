@@ -5,14 +5,10 @@ define([
     'jquery',
     'base/js/namespace',
     'base/js/dialog',
-    'base/js/utils'
-], function($, IPython, dialog, utils) {
+    'base/js/utils',
+    'base/js/i18n'
+], function($, IPython, dialog, utils, i18n) {
     "use strict";
-
-    var i18n = utils.i18n;
-    var _ = function(text) {
-    	return i18n.gettext(text);
-    }    
     
     var KernelSelector = function(selector, notebook) {
         var that = this;
@@ -270,7 +266,7 @@ define([
             );
         });
         
-        var no_kernel_msg = i18n.sprintf(_("Could not find a kernel matching %s. Please select a kernel:"),
+        var no_kernel_msg = i18n.sprintf(i18n._("Could not find a kernel matching %s. Please select a kernel:"),
         		(data.selected.display_name || data.selected.name))
         var body = $("<form>").addClass("form-inline").append(
             $("<span>").text(no_kernel_msg)
@@ -279,10 +275,10 @@ define([
         // This statement is used simply so that message extraction
         // will pick up the strings.  The actual setting of the text
         // for the button is in dialog.js.
-        var button_labels = [ _("Continue Without Kernel"), _("Set Kernel"), _("OK") ];
+        var button_labels = [ i18n._("Continue Without Kernel"), i18n._("Set Kernel"), i18n._("OK") ];
         
         dialog.modal({
-            title : _('Kernel not found'),
+            title : i18n._('Kernel not found'),
             body : body,
             buttons : {
                 'Continue Without Kernel' : {
@@ -320,8 +316,8 @@ define([
             function(error) {
                 w.close();
                 dialog.modal({
-                    title : _('Creating Notebook Failed'),
-                    body : i18n.sprintf(_("The error was: %s"), error.message),
+                    title : i18n._('Creating Notebook Failed'),
+                    body : i18n.sprintf(i18n._("The error was: %s"), error.message),
                     buttons : {'OK' : {'class' : 'btn-primary'}}
                 });
             }

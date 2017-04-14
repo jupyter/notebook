@@ -1,15 +1,9 @@
 define([
+	'jquery',
     'base/js/dialog',
-    'base/js/utils'
-], function(dialog,utils){
+    'base/js/i18n'
+], function($, dialog, i18n){
   "use strict";
-
-  var $ = require('jquery');
-  var dialog = require('base/js/dialog');
-  var i18n = utils.i18n;
-  var _ = function(text) {
-  	return i18n.gettext(text);
-  }    
 
   /**
    * escape a Regular expression to act as  a pure search string.
@@ -74,7 +68,7 @@ define([
   var build_preview = function(body, aborted, html, replace){
     body.empty();
     if(aborted){
-      var warnmsg = i18n.sprintf(_("Warning: too many matches (%d). Some changes might not be shown or applied."),html.length);
+      var warnmsg = i18n.sprintf(i18n._("Warning: too many matches (%d). Some changes might not be shown or applied."),html.length);
       body.append($('<p/>').addClass('bg-warning').text(warnmsg));
     } else {
       var matchmsg = i18n.sprintf(i18n.ngettext("%d match","%d matches",html.length),html.length);
@@ -144,7 +138,7 @@ define([
         res.push([match.index, match.index+match[0].length]);
         escape_hatch++;
         if(escape_hatch > 100){
-          console.warn(_("More than 100 matches, aborting"));
+          console.warn(i18n._("More than 100 matches, aborting"));
           abort = true;
           break;
         }
@@ -164,7 +158,7 @@ define([
       .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
       .css('font-weight', 'bold')
-      .attr('title', _('Use regex (JavaScript regex syntax)'))
+      .attr('title', i18n._('Use regex (JavaScript regex syntax)'))
       .text('.*');
 
       var allCellsButton = $('<button/>')
@@ -172,24 +166,20 @@ define([
       .attr('type', 'button')
       .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
-<<<<<<< 3ad457ea43a078948fd2daa05e23e71dc559b4c5
-      .attr('title', 'Replace in all cells');
-=======
-      .attr('title', _('Replace in selected cells'));
->>>>>>> WIP: Almost there, finished most of the UI elements
+      .attr('title', i18n._('Replace in selected cells'));
 
     var isCaseSensitiveButton = $('<button/>')
       .attr('type', 'button')
       .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
       .attr('tabindex', '0')
-      .attr('title', _('Match case'))
+      .attr('title', i18n._('Match case'))
       .css('font-weight', 'bold')
       .text('Aa');
      
     var search  = $("<input/>")
       .addClass('form-control input-sm')
-      .attr('placeholder',_('Find'));
+      .attr('placeholder',i18n._('Find'));
 
     var findFormGroup = $('<div/>').addClass('form-group');
     findFormGroup.append(
@@ -205,7 +195,7 @@ define([
 
     var replace = $("<input/>")
       .addClass('form-control input-sm')
-      .attr('placeholder',_('Replace'));
+      .attr('placeholder',i18n._('Replace'));
     var replaceFormGroup = $('<div/>').addClass('form-group');
     replaceFormGroup.append(replace);
 
@@ -251,7 +241,7 @@ define([
 
     var onError = function(body){
       body.empty();
-      body.append($('<p/>').text(_('No matches, invalid or empty regular expression')));
+      body.append($('<p/>').text(i18n._('No matches, invalid or empty regular expression')));
     };
 
     var get_cells = function(env){
@@ -355,11 +345,11 @@ define([
     // This statement is used simply so that message extraction
     // will pick up the strings.  The actual setting of the text
     // for the button is in dialog.js.
-    var button_labels = [ _("Replace All")];
+    var button_labels = [ i18n._("Replace All")];
 
     var mod = dialog.modal({
       show: false,
-      title: _("Find and Replace"),
+      title: i18n._("Find and Replace"),
       body:form,
       keyboard_manager: env.notebook.keyboard_manager,
       buttons:{
@@ -384,8 +374,8 @@ define([
 
   var load = function(keyboard_manager){
     var action_all = {
-        cmd: _('find and replace'),
-        help: _('find and replace'),
+        cmd: i18n._('find and replace'),
+        help: i18n._('find and replace'),
         handler: function(env, event){
           snr(env, event);
         }

@@ -642,12 +642,11 @@ class NotebookApp(JupyterApp):
         the default is to generate a new, random token.
 
         Setting to an empty string disables authentication altogether, which is NOT RECOMMENDED.
-        """
+        """)
     ).tag(config=True)
 
     one_time_token = Unicode(
         help=_("""One-time token used for opening a browser.
-
         Once used, this token cannot be used again.
         """)
     )

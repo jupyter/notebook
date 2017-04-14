@@ -140,6 +140,7 @@ def find_package_data():
         pjoin(components, "es6-promise", "*.js"),
         pjoin(components, "font-awesome", "fonts", "*.*"),
         pjoin(components, "google-caja", "html-css-sanitizer-minified.js"),
+        pjoin(components, "jed", "jed.js"),
         pjoin(components, "jquery", "jquery.min.js"),
         pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.js"),
         pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.css"),

@@ -1,12 +1,8 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define(['jquery', 'bootstraptour', 'base/js/utils'], function($, Tour, utils) {
+define(['jquery', 'bootstraptour', 'base/js/i18n'], function($, Tour, i18n) {
     "use strict";
-
-    var _ = function(text) {
-    	return utils.i18n.gettext(text);
-    }    
 
     var tour_style = "<div class='popover tour'>\n" +
         "<div class='arrow'></div>\n" +
@@ -28,59 +24,59 @@ define(['jquery', 'bootstraptour', 'base/js/utils'], function($, Tour, utils) {
         this.events = events;
         this.tour_steps = [
             { 
-                title: _("Welcome to the Notebook Tour"),
+                title: i18n._("Welcome to the Notebook Tour"),
                 placement: 'bottom',
                 orphan: true,
-                content: _("You can use the left and right arrow keys to go backwards and forwards.")
+                content: i18n._("You can use the left and right arrow keys to go backwards and forwards.")
             }, {
                 element: "#notebook_name",
-                title: _("Filename"),
+                title: i18n._("Filename"),
                 placement: 'bottom',
-                content: _("Click here to change the filename for this notebook.")
+                content: i18n._("Click here to change the filename for this notebook.")
             }, {
                 element: $("#menus").parent(),
                 placement: 'bottom',
-                title: _("Notebook Menubar"),
-                content: _("The menubar has menus for actions on the notebook, its cells, and the kernel it communicates with.")
+                title: i18n._("Notebook Menubar"),
+                content: i18n._("The menubar has menus for actions on the notebook, its cells, and the kernel it communicates with.")
             }, {
                 element: "#maintoolbar",
                 placement: 'bottom',
-                title: _("Notebook Toolbar"),
-                content: _("The toolbar has buttons for the most common actions. Hover your mouse over each button for more information.")
+                title: i18n._("Notebook Toolbar"),
+                content: i18n._("The toolbar has buttons for the most common actions. Hover your mouse over each button for more information.")
             }, {
                 element: "#modal_indicator",
-                title: _("Mode Indicator"),
+                title: i18n._("Mode Indicator"),
                 placement: 'bottom',
-                content: _("The Notebook has two modes: Edit Mode and Command Mode. In this area, an indicator can appear to tell you which mode you are in."),
+                content: i18n._("The Notebook has two modes: Edit Mode and Command Mode. In this area, an indicator can appear to tell you which mode you are in."),
                 onShow: function(tour) { that.command_icon_hack(); }
             }, {
                 element: "#modal_indicator",
-                title: _("Command Mode"),
+                title: i18n._("Command Mode"),
                 placement: 'bottom',
                 onShow: function(tour) { notebook.command_mode(); that.command_icon_hack(); },
                 onNext: function(tour) { that.edit_mode(); },
-                content: _("Right now you are in Command Mode, and many keyboard shortcuts are available. In this mode, no icon is displayed in the indicator area.")
+                content: i18n._("Right now you are in Command Mode, and many keyboard shortcuts are available. In this mode, no icon is displayed in the indicator area.")
             }, {
                 element: "#modal_indicator",
-                title: _("Edit Mode"),
+                title: i18n._("Edit Mode"),
                 placement: 'bottom',
                 onShow: function(tour) { that.edit_mode(); },
-                content: _("Pressing <code>Enter</code> or clicking in the input text area of the cell switches to Edit Mode.")
+                content: i18n._("Pressing <code>Enter</code> or clicking in the input text area of the cell switches to Edit Mode.")
             }, {
                 element: '.selected',
-                title: _("Edit Mode"),
+                title: i18n._("Edit Mode"),
                 placement: 'bottom',
                 onShow: function(tour) { that.edit_mode(); },
-                content: _("Notice that the border around the currently active cell changed color. Typing will insert text into the currently active cell.")
+                content: i18n._("Notice that the border around the currently active cell changed color. Typing will insert text into the currently active cell.")
             }, {
                 element: '.selected',
-                title: _("Back to Command Mode"),
+                title: i18n._("Back to Command Mode"),
                 placement: 'bottom',
                 onShow: function(tour) { notebook.command_mode(); },
-                content: _("Pressing <code>Esc</code> or clicking outside of the input text area takes you back to Command Mode.")
+                content: i18n._("Pressing <code>Esc</code> or clicking outside of the input text area takes you back to Command Mode.")
             }, {
                 element: '#keyboard_shortcuts',
-                title: _("Keyboard Shortcuts"),
+                title: i18n._("Keyboard Shortcuts"),
                 placement: 'bottom',
                 onShow: function(tour) {
                     /** need to add `open` and `pulse` classes in 2 calls */
@@ -92,36 +88,36 @@ define(['jquery', 'bootstraptour', 'base/js/utils'], function($, Tour, utils) {
                     $('#help_menu').parent().removeClass('open pulse');
                     $('#keyboard_shortcuts').removeClass('pulse');
                   },
-                content: _("You can click here to get a list of all of the keyboard shortcuts.")
+                content: i18n._("You can click here to get a list of all of the keyboard shortcuts.")
             }, {
                 element: "#kernel_indicator_icon",
-                title: _("Kernel Indicator"),
+                title: i18n._("Kernel Indicator"),
                 placement: 'bottom',
                 onShow: function(tour) { events.trigger('kernel_idle.Kernel');},
-                content: _("This is the Kernel indicator. It looks like this when the Kernel is idle.")
+                content: i18n._("This is the Kernel indicator. It looks like this when the Kernel is idle.")
             }, {
                 element: "#kernel_indicator_icon",
-                title: _("Kernel Indicator"),
+                title: i18n._("Kernel Indicator"),
                 placement: 'bottom',
                 onShow: function(tour) { events.trigger('kernel_busy.Kernel'); },
-                content: _("The Kernel indicator looks like this when the Kernel is busy.")
+                content: i18n._("The Kernel indicator looks like this when the Kernel is busy.")
             }, {
                 element: ".fa-stop",
                 placement: 'bottom',
-                title: _("Interrupting the Kernel"),
+                title: i18n._("Interrupting the Kernel"),
                 onHide: function(tour) { events.trigger('kernel_idle.Kernel'); },
-                content: _("To cancel a computation in progress, you can click here.")
+                content: i18n._("To cancel a computation in progress, you can click here.")
             }, {
                 element: "#notification_kernel",
                 placement: 'bottom',
                 onShow: function(tour) { $('.fa-stop').click(); },
-                title: _("Notification Area"),
-                content: _("Messages in response to user actions (Save, Interrupt, etc.) appear here.")
+                title: i18n._("Notification Area"),
+                content: i18n._("Messages in response to user actions (Save, Interrupt, etc.) appear here.")
             }, {
-                title: _("End of Tour"),
+                title: i18n._("End of Tour"),
                 placement: 'bottom',
                 orphan: true,
-                content: _("This concludes the Jupyter Notebook User Interface Tour.")
+                content: i18n._("This concludes the Jupyter Notebook User Interface Tour.")
             }
         ];
 
@@ -131,7 +127,7 @@ define(['jquery', 'bootstraptour', 'base/js/utils'], function($, Tour, utils) {
             reflex: true, // click on element to continue tour
             animation: false,
             duration: this.step_duration,
-            onStart: function() { console.log(_('tour started')); },
+            onStart: function() { console.log(i18n._('tour started')); },
             // TODO: remove the onPause/onResume logic once pi's patch has been
             // merged upstream to make this work via data-resume-class and 
             // data-resume-text attributes.
@@ -145,7 +141,7 @@ define(['jquery', 'bootstraptour', 'base/js/utils'], function($, Tour, utils) {
     };
 
     NotebookTour.prototype.start = function () {
-        console.log(_("let's start the tour"));
+        console.log(i18n._("let's start the tour"));
         this.tour.init();
         this.tour.start();
         if (this.tour.ended())

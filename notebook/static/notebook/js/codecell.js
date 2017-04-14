@@ -12,7 +12,7 @@
 define([
     'jquery',
     'base/js/namespace',
-    'base/js/utils',
+    'base/js/i18n',
     'base/js/keyboard',
     'services/config',
     'notebook/js/cell',
@@ -25,7 +25,7 @@ define([
 ], function(
     $,
     IPython,
-    utils,
+    i18n,
     keyboard,
     configmod,
     cell,
@@ -37,11 +37,6 @@ define([
     cmip
     ) {
     "use strict";
-
-    var i18n = utils.i18n;
-    var _ = function(text) {
-    	return i18n.gettext(text);
-    }    
     
     var Cell = cell.Cell;
 
@@ -310,7 +305,7 @@ define([
      */
     CodeCell.prototype.execute = function (stop_on_error) {
         if (!this.kernel) {
-            console.log(_("Can't execute cell since kernel is not set."));
+            console.log(i18n._("Can't execute cell since kernel is not set."));
             return;
         }
 
@@ -481,7 +476,7 @@ define([
         } else {
             ns = encodeURIComponent(prompt_value);
         }
-        return '<bdi>'+_('In')+'</bdi>&nbsp;[' + ns + ']:';
+        return '<bdi>'+i18n._('In')+'</bdi>&nbsp;[' + ns + ']:';
     };
 
     CodeCell.input_prompt_continuation = function (prompt_value, lines_number) {

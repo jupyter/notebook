@@ -1,15 +1,12 @@
 define([
     'jquery',
-    'base/js/utils',
+    'base/js/i18n',
     'base/js/dialog',
     'base/js/notificationarea',
     'moment'
-], function($, utils, dialog, notificationarea, moment) {
+], function($, i18n, dialog, notificationarea, moment) {
     "use strict";
-    var i18n = utils.i18n;
-    var _ = function(text) {
-    	return i18n.gettext(text);
-    }    
+
     var NotificationArea = notificationarea.NotificationArea;
     
     var NotebookNotificationArea = function(selector, options) {
@@ -76,36 +73,36 @@ define([
             that.save_widget.update_document_title();
             $body.addClass('edit_mode');
             $body.removeClass('command_mode');
-            $modal_ind_icon.attr('title',_('Edit Mode'));
+            $modal_ind_icon.attr('title',i18n._('Edit Mode'));
         });
 
         this.events.on('command_mode.Notebook', function () {
             that.save_widget.update_document_title();
             $body.removeClass('edit_mode');
             $body.addClass('command_mode');
-            $modal_ind_icon.attr('title',_('Command Mode'));
+            $modal_ind_icon.attr('title',i18n._('Command Mode'));
         });
 
         // Implicitly start off in Command mode, switching to Edit mode will trigger event
-        $modal_ind_icon.addClass('modal_indicator').attr('title',_('Command Mode'));
+        $modal_ind_icon.addClass('modal_indicator').attr('title',i18n._('Command Mode'));
         $body.addClass('command_mode');
 
         // Kernel events
 
         // this can be either kernel_created.Kernel or kernel_created.Session
         this.events.on('kernel_created.Kernel kernel_created.Session', function () {
-            knw.info(_("Kernel Created"), 500);
+            knw.info(i18n._("Kernel Created"), 500);
         });
 
         this.events.on('kernel_reconnecting.Kernel', function () {
-            knw.warning(_("Connecting to kernel"));
+            knw.warning(i18n._("Connecting to kernel"));
         });
 
         this.events.on('kernel_connection_dead.Kernel', function (evt, info) {
-            knw.danger(_("Not Connected"), undefined, function () {
+            knw.danger(i18n._("Not Connected"), undefined, function () {
                 // schedule reconnect a short time in the future, don't reconnect immediately
                 setTimeout($.proxy(info.kernel.reconnect, info.kernel), 500);
-            }, {title: _('click to reconnect')});
+            }, {title: i18n._('click to reconnect')});
         });
 
         this.events.on('kernel_connected.Kernel', function () {
@@ -114,7 +111,7 @@ define([
 
         this.events.on('kernel_restarting.Kernel', function () {
             that.save_widget.update_document_title();
-            knw.set_message(_("Restarting kernel"), 2000);
+            knw.set_message(i18n._("Restarting kernel"), 2000);
         });
 
         this.events.on('kernel_autorestarting.Kernel', function (evt, info) {
@@ -128,8 +125,8 @@ define([
                 dialog.kernel_modal({
                     notebook: that.notebook,
                     keyboard_manager: that.keyboard_manager,
-                    title: _("Kernel Restarting"),
-                    body: _("The kernel appears to have died. It will restart automatically."),
+                    title: i18n._("Kernel Restarting"),
+                    body: i18n._("The kernel appears to have died. It will restart automatically."),
                     buttons: {
                         OK : {
                             class : "btn-primary"
@@ -139,18 +136,18 @@ define([
             }
 
             that.save_widget.update_document_title();
-            knw.danger(_("Dead kernel"));
-            $kernel_ind_icon.attr('class','kernel_dead_icon').attr('title',_('Kernel Dead'));
+            knw.danger(i18n._("Dead kernel"));
+            $kernel_ind_icon.attr('class','kernel_dead_icon').attr('title',i18n._('Kernel Dead'));
         });
 
         this.events.on('kernel_interrupting.Kernel', function () {
-            knw.set_message(_("Interrupting kernel"), 2000);
+            knw.set_message(i18n._("Interrupting kernel"), 2000);
         });
 
         this.events.on('kernel_disconnected.Kernel', function () {
             $kernel_ind_icon
                 .attr('class', 'kernel_disconnected_icon')
-                .attr('title', _('No Connection to Kernel'));
+                .attr('title', i18n._('No Connection to Kernel'));
         });
 
         this.events.on('kernel_connection_failed.Kernel', function (evt, info) {
@@ -160,12 +157,12 @@ define([
             // with messages
             if (info.attempt === 1) {
 
-                var msg = _("A connection to the notebook server could not be established." +
+                var msg = i18n._("A connection to the notebook server could not be established." +
                         " The notebook will continue trying to reconnect. Check your" +
                         " network connection or notebook server configuration.");
 
                 dialog.kernel_modal({
-                    title: _("Connection failed"),
+                    title: i18n._("Connection failed"),
                     body: msg,
                     keyboard_manager: that.keyboard_manager,
                     notebook: that.notebook,
@@ -178,26 +175,26 @@ define([
 
         this.events.on('kernel_killed.Kernel kernel_killed.Session', function () {
             that.save_widget.update_document_title();
-            knw.warning(_("No kernel"));
-            $kernel_ind_icon.attr('class','kernel_busy_icon').attr('title',_('Kernel is not running'));
+            knw.warning(i18n._("No kernel"));
+            $kernel_ind_icon.attr('class','kernel_busy_icon').attr('title',i18n._('Kernel is not running'));
         });
 
         this.events.on('kernel_dead.Kernel', function () {
         // This statement is used simply so that message extraction
         // will pick up the strings.  The actual setting of the text
         // for the button is in dialog.js.
-        var button_labels = [ _("Don't Restart"), _("Try Restarting Now"), _("OK")];
+        var button_labels = [ i18n._("Don't Restart"), i18n._("Try Restarting Now"), i18n._("OK")];
 
             var showMsg = function () {
 
-                var msg = _('The kernel has died, and the automatic restart has failed.' +
+                var msg = i18n._('The kernel has died, and the automatic restart has failed.' +
                         ' It is possible the kernel cannot be restarted.') + ' ' +
-                        _('If you are not able to restart the kernel, you will still be able to save' +
+                        i18n._('If you are not able to restart the kernel, you will still be able to save' +
                         ' the notebook, but running code will no longer work until the notebook' +
                         ' is reopened.');
 
                 dialog.kernel_modal({
-                    title: _("Dead kernel"),
+                    title: i18n._("Dead kernel"),
                     body : msg,
                     keyboard_manager: that.keyboard_manager,
                     notebook: that.notebook,
@@ -217,14 +214,14 @@ define([
             };
 
             that.save_widget.update_document_title();
-            knw.danger(_("Dead kernel"), undefined, showMsg);
-            $kernel_ind_icon.attr('class','kernel_dead_icon').attr('title',_('Kernel Dead'));
+            knw.danger(i18n._("Dead kernel"), undefined, showMsg);
+            $kernel_ind_icon.attr('class','kernel_dead_icon').attr('title',i18n._('Kernel Dead'));
 
             showMsg();
         });
         
         this.events.on("no_kernel.Kernel", function (evt, data) {
-            $("#kernel_indicator").find('.kernel_indicator_name').text(_("No Kernel"));
+            $("#kernel_indicator").find('.kernel_indicator_name').text(i18n._("No Kernel"));
         });
 
         this.events.on('kernel_dead.Session', function (evt, info) {
@@ -251,7 +248,7 @@ define([
                 }
 
                 dialog.kernel_modal({
-                    title: _("Failed to start the kernel"),
+                    title: i18n._("Failed to start the kernel"),
                     body : msg,
                     keyboard_manager: that.keyboard_manager,
                     notebook: that.notebook,
@@ -265,39 +262,39 @@ define([
             };
 
             that.save_widget.update_document_title();
-            $kernel_ind_icon.attr('class','kernel_dead_icon').attr('title',_('Kernel Dead'));
+            $kernel_ind_icon.attr('class','kernel_dead_icon').attr('title',i18n._('Kernel Dead'));
             knw.danger(short, undefined, showMsg);
         });
         
         this.events.on('kernel_starting.Kernel kernel_created.Session', function () {
             // window.document.title='(Starting) '+window.document.title;
-            $kernel_ind_icon.attr('class','kernel_busy_icon').attr('title',_('Kernel Busy'));
+            $kernel_ind_icon.attr('class','kernel_busy_icon').attr('title',i18n._('Kernel Busy'));
             knw.set_message(_("Kernel starting, please wait..."));
             set_busy_favicon(true);
         });
 
         this.events.on('kernel_ready.Kernel', function () {
             // that.save_widget.update_document_title();
-            $kernel_ind_icon.attr('class','kernel_idle_icon').attr('title',_('Kernel Idle'));
-            knw.info(_("Kernel ready"), 500);
+            $kernel_ind_icon.attr('class','kernel_idle_icon').attr('title',i18n._('Kernel Idle'));
+            knw.info(i18n._("Kernel ready"), 500);
             set_busy_favicon(false);
         });
 
         this.events.on('kernel_idle.Kernel', function () {
             // that.save_widget.update_document_title();
-            $kernel_ind_icon.attr('class','kernel_idle_icon').attr('title',_('Kernel Idle'));
+            $kernel_ind_icon.attr('class','kernel_idle_icon').attr('title',i18n._('Kernel Idle'));
             set_busy_favicon(false);
         });
 
         this.events.on('kernel_busy.Kernel', function () {
             // window.document.title='(Busy) '+window.document.title;
-            $kernel_ind_icon.attr('class','kernel_busy_icon').attr('title',_('Kernel Busy'));
+            $kernel_ind_icon.attr('class','kernel_busy_icon').attr('title',i18n._('Kernel Busy'));
             set_busy_favicon(true);
         });
 
         this.events.on('spec_match_found.Kernel', function (evt, data) {
-            that.widget('kernelspec').info(_("Using kernel: ") + data.found.spec.display_name, 3000, undefined, {
-                title: i18n.sprintf(_("Only candidate for language: %1$s was %2$s."),
+            that.widget('kernelspec').info(i18n._("Using kernel: ") + data.found.spec.display_name, 3000, undefined, {
+                title: i18n.sprintf(i18n._("Only candidate for language: %1$s was %2$s."),
                 		data.selected.language, data.found.spec.display_name)
             });
         });
@@ -305,7 +302,7 @@ define([
         
         // Start the kernel indicator in the busy state, and send a kernel_info request.
         // When the kernel_info reply arrives, the kernel is idle.
-        $kernel_ind_icon.attr('class','kernel_busy_icon').attr('title',_('Kernel Busy'));
+        $kernel_ind_icon.attr('class','kernel_busy_icon').attr('title',i18n._('Kernel Busy'));
     };
 
     /**
@@ -318,27 +315,27 @@ define([
 
         // Notebook events
         this.events.on('notebook_loading.Notebook', function () {
-            nnw.set_message(_("Loading notebook"),500);
+            nnw.set_message(i18n._("Loading notebook"),500);
         });
         this.events.on('notebook_loaded.Notebook', function () {
-            nnw.set_message(_("Notebook loaded"),500);
+            nnw.set_message(i18n._("Notebook loaded"),500);
         });
         this.events.on('notebook_saving.Notebook', function () {
-            nnw.set_message(_("Saving notebook"),500);
+            nnw.set_message(i18n._("Saving notebook"),500);
         });
         this.events.on('notebook_saved.Notebook', function () {
-            nnw.set_message(_("Notebook saved"),2000);
+            nnw.set_message(i18n._("Notebook saved"),2000);
         });
         this.events.on('notebook_save_failed.Notebook', function (evt, error) {
-            nnw.warning(error.message || _("Notebook save failed"));
+            nnw.warning(error.message || i18n._("Notebook save failed"));
         });
         this.events.on('notebook_copy_failed.Notebook', function (evt, error) {
-            nnw.warning(error.message || _("Notebook copy failed"));
+            nnw.warning(error.message || i18n._("Notebook copy failed"));
         });
         
         // Checkpoint events
         this.events.on('checkpoint_created.Notebook', function (evt, data) {
-            var msg = _("Checkpoint created");
+            var msg = i18n._("Checkpoint created");
             if (data.last_modified) {
                 var d = new Date(data.last_modified);
                 msg = msg + ": " + moment(d).format("HH:mm:ss");
@@ -346,27 +343,27 @@ define([
             nnw.set_message(msg, 2000);
         });
         this.events.on('checkpoint_failed.Notebook', function () {
-            nnw.warning(_("Checkpoint failed"));
+            nnw.warning(i18n._("Checkpoint failed"));
         });
         this.events.on('checkpoint_deleted.Notebook', function () {
-            nnw.set_message(_("Checkpoint deleted"), 500);
+            nnw.set_message(i18n._("Checkpoint deleted"), 500);
         });
         this.events.on('checkpoint_delete_failed.Notebook', function () {
-            nnw.warning(_("Checkpoint delete failed"));
+            nnw.warning(i18n._("Checkpoint delete failed"));
         });
         this.events.on('checkpoint_restoring.Notebook', function () {
-            nnw.set_message(_("Restoring to checkpoint..."), 500);
+            nnw.set_message(i18n._("Restoring to checkpoint..."), 500);
         });
         this.events.on('checkpoint_restore_failed.Notebook', function () {
-            nnw.warning(_("Checkpoint restore failed"));
+            nnw.warning(i18n._("Checkpoint restore failed"));
         });
 
         // Autosave events
         this.events.on('autosave_disabled.Notebook', function () {
-            nnw.set_message(_("Autosave disabled"), 2000);
+            nnw.set_message(i18n._("Autosave disabled"), 2000);
         });
         this.events.on('autosave_enabled.Notebook', function (evt, interval) {
-            nnw.set_message(i18n.sprintf(_("Saving every %d sec."), interval / 1000) , 1000);
+            nnw.set_message(i18n.sprintf(i18n._("Saving every %d sec."), interval / 1000) , 1000);
         });
     };
 
@@ -382,9 +379,9 @@ define([
         // Notebook trust events
         this.events.on('trust_changed.Notebook', function (event, trusted) {
             if (trusted) {
-                tnw.set_message(_("Trusted"));
+                tnw.set_message(i18n._("Trusted"));
             } else {
-                tnw.set_message(_("Not Trusted"), undefined, function() {
+                tnw.set_message(i18n._("Not Trusted"), undefined, function() {
                   that.notebook.trust_notebook();
                   return false;
                 });

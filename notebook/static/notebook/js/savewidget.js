@@ -4,16 +4,12 @@
 define([
     'jquery',
     'base/js/utils',
+    'base/js/i18n',
     'base/js/dialog',
     'base/js/keyboard',
     'moment',
-], function($, utils, dialog, keyboard, moment) {
+], function($, utils, i18n, dialog, keyboard, moment) {
     "use strict";
-
-    var i18n = utils.i18n;
-    var _ = function(text) {
-    	return i18n.gettext(text);
-    }    
 
     var SaveWidget = function (selector, options) {
         /**
@@ -50,7 +46,7 @@ define([
             that.update_address_bar();
         });
         this.events.on('notebook_save_failed.Notebook', function () {
-            that.set_save_status(_('Autosave Failed!'));
+            that.set_save_status(i18n._('Autosave Failed!'));
         });
         this.events.on('notebook_read_only.Notebook', function () {
             that.set_save_status('(read only)');
@@ -72,14 +68,14 @@ define([
     // This statement is used simply so that message extraction
     // will pick up the strings.  The actual setting of the text
     // for the button is in dialog.js.
-    var button_labels = [ _("Cancel"), _("Rename"), _("OK")];
+    var button_labels = [ i18n._("Cancel"), i18n._("Rename"), i18n._("OK")];
 
     SaveWidget.prototype.rename_notebook = function (options) {
         options = options || {};
         var that = this;
         var dialog_body = $('<div/>').append(
             $("<p/>").addClass("rename-message")
-                .text(_('Enter a new notebook name:'))
+                .text(i18n._('Enter a new notebook name:'))
         ).append(
             $("<br/>")
         ).append(
@@ -87,7 +83,7 @@ define([
             .val(options.notebook.get_notebook_name())
         );
         var d = dialog.modal({
-            title: _("Rename Notebook"),
+            title: i18n._("Rename Notebook"),
             body: dialog_body,
             notebook: options.notebook,
             keyboard_manager: this.keyboard_manager,
@@ -99,18 +95,18 @@ define([
                     click: function () {
                         var new_name = d.find('input').val();
                         if (!options.notebook.test_notebook_name(new_name)) {
-                            d.find('.rename-message').text(_(
+                            d.find('.rename-message').text(i18n._(
                                 "Invalid notebook name. Notebook names must have 1 or more characters and can contain any characters except :/\\. Please enter a new notebook name:")
                             );
                             return false;
                         } else {
-                            d.find('.rename-message').text(_("Renaming..."));
+                            d.find('.rename-message').text(i18n._("Renaming..."));
                             d.find('input[type="text"]').prop('disabled', true);
                             that.notebook.rename(new_name).then(
                                 function () {
                                     d.modal('hide');
                                 }, function (error) {
-                                    d.find('.rename-message').text(error.message || _('Unknown error'));
+                                    d.find('.rename-message').text(error.message || i18n._('Unknown error'));
                                     d.find('input[type="text"]').prop('disabled', false).focus().select();
                                 }
                             );
@@ -179,7 +175,7 @@ define([
         this._schedule_render_checkpoint();
         var el = this.element.find('span.checkpoint_status');
         if (!this._checkpoint_date) {
-            el.text('').attr('title', _('no checkpoint'));
+            el.text('').attr('title', i18n._('no checkpoint'));
             return;
         }
         var chkd = moment(this._checkpoint_date);
@@ -194,7 +190,7 @@ define([
             // <Today | yesterday|...> at hh,mm,ss
             human_date = chkd.calendar();
         }
-        el.text(i18n.sprintf(_('Last Checkpoint: %s'),human_date)).attr('title', long_date);
+        el.text(i18n.sprintf(i18n._('Last Checkpoint: %s'),human_date)).attr('title', long_date);
     };
 
     
@@ -218,9 +214,9 @@ define([
 
     SaveWidget.prototype.set_autosaved = function (dirty) {
         if (dirty) {
-            this.set_save_status(_("(unsaved changes)"));
+            this.set_save_status(i18n._("(unsaved changes)"));
         } else {
-            this.set_save_status(_("(autosaved)"));
+            this.set_save_status(i18n._("(autosaved)"));
         }
     };
 

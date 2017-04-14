@@ -1,16 +1,12 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define(['base/js/utils'], function(utils) {
+define(['jquery',
+    'codemirror/lib/codemirror',
+    'bootstrap',
+	'base/js/i18n'],
+	function($, CodeMirror, bs, i18n) {
     "use strict";
-
-    var _ = function(text) {
-    	return utils.i18n.gettext(text);
-    }    
-
-    var CodeMirror = require('codemirror/lib/codemirror');
-    var bs = require('bootstrap');
-    var $ = require('jquery');
 
     /**
      * A wrapper around bootstrap modal for easier use
@@ -90,7 +86,7 @@ define(['base/js/utils'], function(utils) {
             var button = $("<button/>")
                 .addClass("btn btn-default btn-sm")
                 .attr("data-dismiss", "modal")
-                .text(utils.i18n.translate(label).fetch());
+                .text(i18n.translate(label).fetch());
             if (btn_opts.id) {
                 button.attr('id', btn_opts.id);
             }
@@ -162,11 +158,11 @@ define(['base/js/utils'], function(utils) {
         options.name = options.name || "Cell";
         var error_div = $('<div/>').css('color', 'red');
         var message_cell = 
-            _("Manually edit the JSON below to manipulate the metadata for this cell.");
+            i18n._("Manually edit the JSON below to manipulate the metadata for this cell.");
         var message_notebook = 
-            _("Manually edit the JSON below to manipulate the metadata for this notebook.");
+            i18n._("Manually edit the JSON below to manipulate the metadata for this notebook.");
         var message_end = 
-            _(" We recommend putting custom metadata attributes in an appropriately named substructure," +
+            i18n._(" We recommend putting custom metadata attributes in an appropriately named substructure," +
             " so they don't conflict with those of others.");
 
         var message;
@@ -181,7 +177,7 @@ define(['base/js/utils'], function(utils) {
             .attr('name', 'metadata')
             .text(JSON.stringify(options.md || {}, null, 2));
         
-        var dialogform = $('<div/>').attr('title', _('Edit the metadata'))
+        var dialogform = $('<div/>').attr('title', i18n._('Edit the metadata'))
             .append(
                 $('<form/>').append(
                     $('<fieldset/>').append(
@@ -203,13 +199,13 @@ define(['base/js/utils'], function(utils) {
         });
         var title_msg;
         if (options.name === "Notebook") {
-        	title_msg = _("Edit Notebook Metadata");
+        	title_msg = i18n._("Edit Notebook Metadata");
         } else {
-        	title_msg = _("Edit Cell Metadata");
+        	title_msg = i18n._("Edit Cell Metadata");
         }
         // This statement is used simply so that message extraction
         // will pick up the strings.
-        var button_labels = [ _("Cancel"), _("Edit"), _("OK"), _("Apply")];
+        var button_labels = [ i18n._("Cancel"), i18n._("Edit"), i18n._("OK"), i18n._("Apply")];
         var modal_obj = modal({
             title: title_msg,
             body: dialogform,
@@ -226,7 +222,7 @@ define(['base/js/utils'], function(utils) {
                             new_md = JSON.parse(editor.getValue());
                         } catch(e) {
                             console.log(e);
-                            error_div.text(_('WARNING: Could not save invalid JSON.'));
+                            error_div.text(i18n._('WARNING: Could not save invalid JSON.'));
                             return false;
                         }
                         options.callback(new_md);

@@ -5,14 +5,9 @@ define([
     'jquery',
     'base/js/namespace',
     'base/js/events',
-    'base/js/utils'
-], function($, IPython, events, utils) {
+    'base/js/i18n'
+], function($, IPython, events, i18n) {
     "use strict";
-
-    var i18n = utils.i18n;
-    var _ = function(text) {
-    	return utils.i18n.gettext(text);
-    }    
 
     var CellToolbar = function (options) {
         /**
@@ -298,7 +293,7 @@ define([
                 callback(local_div, this.cell, this);
                 this.ui_controls_list.push(key);
             } catch (e) {
-                console.log(i18n.sprintf(_("Error in cell toolbar callback %s"), key), e);
+                console.log(i18n.sprintf(i18n._("Error in cell toolbar callback %s"), key), e);
                 continue;
             }
             // only append if callback succeeded.

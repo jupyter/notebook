@@ -5,25 +5,11 @@ define([
     'jquery',
     'codemirror/lib/codemirror',
     'moment',
-    'jed',
     'underscore',    
     // silently upgrades CodeMirror
     'codemirror/mode/meta',
-], function($, CodeMirror, moment, Jed, _){
-    "use strict";
-
-    // Setup language related stuff
-    var ui_lang = navigator.languages && navigator.languages[0] || // Chrome / Firefox
-    navigator.language ||   // All browsers
-    navigator.userLanguage; // IE <= 10
-
-	var nbjs = require("../../../i18n/nbjs.json");
-    if (nbjs.supported_languages.indexOf(ui_lang) >= 0) {
-        nbjs = require("../../../i18n/"+ui_lang+"/LC_MESSAGES/nbjs.json");
-        moment.locale(ui_lang);
-    }
-    
-    var i18n = new Jed(nbjs);
+], function($, CodeMirror, moment, _){
+    "use strict";    
     
     // keep track of which extensions have been loaded already
     var extensions_loaded = [];
@@ -1124,7 +1110,6 @@ define([
 
     var utils = {
         throttle: throttle,
-    	i18n: i18n,
         is_loaded: is_loaded,
         load_extension: load_extension,
         load_extensions: load_extensions,

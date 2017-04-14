@@ -4,13 +4,9 @@
 define([
     'jquery',
     'base/js/utils',
-], function($, utils) {
+    'base/js/i18n'
+], function($, utils, i18n) {
     "use strict";
-
-    var i18n = utils.i18n;
-    var _ = function(text) {
-    	return i18n.gettext(text);
-    }    
 
     // tooltip constructor
     var Tooltip = function (events) {
@@ -42,15 +38,15 @@ define([
         // build the buttons menu on the upper right
         // expand the tooltip to see more
         var expandlink = $('<a/>').attr('href', "#").addClass("ui-corner-all") //rounded corner
-        .attr('role', "button").attr('id', 'expanbutton').attr('title', _('Grow the tooltip vertically (press shift-tab twice)')).click(function () {
+        .attr('role', "button").attr('id', 'expanbutton').attr('title', i18n._('Grow the tooltip vertically (press shift-tab twice)')).click(function () {
             that.expand();
             event.preventDefault();
         }).append(
         $('<span/>').text('Expand').addClass('ui-icon').addClass('ui-icon-plus'));
 
         // open in pager
-        var morelink = $('<a/>').attr('href', "#").attr('role', "button").addClass('ui-button').attr('title', _('show the current docstring in pager (press shift-tab 4 times)'));
-        var morespan = $('<span/>').text(_('Open in Pager')).addClass('ui-icon').addClass('ui-icon-arrowstop-l-n');
+        var morelink = $('<a/>').attr('href', "#").attr('role', "button").addClass('ui-button').attr('title', i18n._('show the current docstring in pager (press shift-tab 4 times)'));
+        var morespan = $('<span/>').text(i18n._('Open in Pager')).addClass('ui-icon').addClass('ui-icon-arrowstop-l-n');
         morelink.append(morespan);
         morelink.click(function () {
             that.showInPager(that._old_cell);
@@ -59,7 +55,7 @@ define([
 
         // close the tooltip
         var closelink = $('<a/>').attr('href', "#").attr('role', "button").addClass('ui-button');
-        var closespan = $('<span/>').text(_('Close')).addClass('ui-icon').addClass('ui-icon-close');
+        var closespan = $('<span/>').text(i18n._('Close')).addClass('ui-icon').addClass('ui-icon-close');
         closelink.append(closespan);
         closelink.click(function () {
             that.remove_and_cancel_tooltip(true);
@@ -69,8 +65,8 @@ define([
         this._clocklink = $('<a/>').attr('href', "#");
         this._clocklink.attr('role', "button");
         this._clocklink.addClass('ui-button');
-        this._clocklink.attr('title', _('Tooltip will linger for 10 seconds while you type'));
-        var clockspan = $('<span/>').text(_('Close'));
+        this._clocklink.attr('title', i18n._('Tooltip will linger for 10 seconds while you type'));
+        var clockspan = $('<span/>').text(i18n._('Close'));
         clockspan.addClass('ui-icon');
         clockspan.addClass('ui-icon-clock');
         this._clocklink.append(clockspan);

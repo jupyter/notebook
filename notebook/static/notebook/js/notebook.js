@@ -10,6 +10,7 @@ define([
     'base/js/namespace',
     'underscore',
     'base/js/utils',
+    'base/js/i18n',
     'base/js/dialog',
     './cell',
     './textcell',
@@ -37,6 +38,7 @@ define([
     IPython,
     _,
     utils,
+    i18n,
     dialog,
     cellmod,
     textcell,
@@ -62,11 +64,6 @@ define([
 ) {
 
     var ShortcutEditor = shortcuteditor.ShortcutEditor;
-
-    var i18n = utils.i18n;
-    var gettext = function(text) {
-        return i18n.gettext(text);
-    }    
 
     var _SOFT_SELECTION_CLASS = 'jupyter-soft-selected';
 
@@ -431,14 +428,14 @@ define([
                             that.save_notebook();
                         }
                     }, 1000);
-                    return gettext("Autosave in progress, latest changes may be lost.");
+                    return i18n._("Autosave in progress, latest changes may be lost.");
                 } else {
-                    return gettext("Unsaved changes will be lost.");
+                    return i18n._("Unsaved changes will be lost.");
                 }
             }
             // if the kernel is busy, prompt the user if he’s sure
             if (that.kernel_busy) {
-                return gettext("The Kernel is busy, outputs may be lost.");
+                return i18n._("The Kernel is busy, outputs may be lost.");
             }
             // IE treats null as a string.  Instead just return which will avoid the dialog.
             return;
@@ -461,29 +458,29 @@ define([
         var v = 'v' + this.nbformat + '.';
         var orig_vs = v + this.nbformat_minor;
         var this_vs = v + this.current_nbformat_minor;
-        var msg = i18n.sprintf(gettext("This notebook is version %1$s, but we only fully support up to %2$s."),
+        var msg = i18n.sprintf(i18n._("This notebook is version %1$s, but we only fully support up to %2$s."),
         		orig_vs,this_vs) + " " +
-        		gettext("You can still work with this notebook, but cell and output types introduced in later notebook versions will not be available.");
+        		i18n._("You can still work with this notebook, but cell and output types introduced in later notebook versions will not be available.");
 
         // This statement is used simply so that message extraction
         // will pick up the strings.  The actual setting of the text
         // for the button is in dialog.js.
         var button_labels = [ 
-        	gettext("OK"),
-        	gettext("Restart and Run All Cells"),
-        	gettext("Restart and Clear All Outputs"),
-        	gettext("Restart"),
-        	gettext("Continue Running"),
-        	gettext("Reload"),
-        	gettext("Cancel"),
-        	gettext("Overwrite"),
-        	gettext("Trust"),
-        	gettext("Revert")];
+        	i18n._("OK"),
+        	i18n._("Restart and Run All Cells"),
+        	i18n._("Restart and Clear All Outputs"),
+        	i18n._("Restart"),
+        	i18n._("Continue Running"),
+        	i18n._("Reload"),
+        	i18n._("Cancel"),
+        	i18n._("Overwrite"),
+        	i18n._("Trust"),
+        	i18n._("Revert")];
         
         dialog.modal({
             notebook: this,
             keyboard_manager: this.keyboard_manager,
-            title : gettext("Newer Notebook"),
+            title : i18n._("Newer Notebook"),
             body : msg,
             buttons : {
                 OK : {
@@ -1548,12 +1545,12 @@ define([
         dialog.modal({
             notebook: this,
             keyboard_manager: this.keyboard_manager,
-            title : gettext("Use markdown headings"),
+            title : i18n._("Use markdown headings"),
             body : $("<p/>").text(
-                gettext('Jupyter no longer uses special heading cells. ' + 
+                i18n._('Jupyter no longer uses special heading cells. ' + 
                 'Instead, write your headings in Markdown cells using # characters:')
             ).append($('<pre/>').text(
-                gettext('## This is a level 2 heading')
+                i18n._('## This is a level 2 heading')
             )),
             buttons : {
                 "OK" : {}
@@ -2248,9 +2245,9 @@ define([
         restart_options.dialog = {
             notebook: that,
             keyboard_manager: that.keyboard_manager,
-            title : gettext("Restart kernel and re-run the whole notebook?"),
+            title : i18n._("Restart kernel and re-run the whole notebook?"),
             body : $("<p/>").text(
-                gettext('Are you sure you want to restart the current kernel and re-execute the whole notebook?  All variables and outputs will be lost.')
+                i18n._('Are you sure you want to restart the current kernel and re-execute the whole notebook?  All variables and outputs will be lost.')
             ),
             buttons : {
                 "Restart and Run All Cells" : {
@@ -2275,9 +2272,9 @@ define([
         restart_options.dialog = {
             notebook: that,
             keyboard_manager: that.keyboard_manager,
-            title : gettext("Restart kernel and clear all output?"),
+            title : i18n._("Restart kernel and clear all output?"),
             body : $("<p/>").text(
-                gettext('Do you want to restart the current kernel and clear all output?  All variables and outputs will be lost.')
+                i18n._('Do you want to restart the current kernel and clear all output?  All variables and outputs will be lost.')
             ),
             buttons : {
                 "Restart and Clear All Outputs" : {
@@ -2322,9 +2319,9 @@ define([
         var restart_options = {};
         restart_options.confirm = (options || {}).confirm;
         restart_options.dialog = {
-            title : gettext("Restart kernel?"),
+            title : i18n._("Restart kernel?"),
             body : $("<p/>").text(
-                gettext('Do you want to restart the current kernel?  All variables will be lost.')
+                i18n._('Do you want to restart the current kernel?  All variables will be lost.')
             ),
             buttons : {
                 "Restart" : {
@@ -2734,9 +2731,9 @@ define([
                           that._changed_on_disk_dialog = dialog.modal({
                             notebook: that,
                             keyboard_manager: that.keyboard_manager,
-                            title: gettext("Notebook changed"),
-                            body: gettext("The notebook file has changed on disk since the last time we opened or saved it.") + " " +
-                                  gettext("Do you want to overwrite the file on disk with the version open here, or load "+
+                            title: i18n._("Notebook changed"),
+                            body: i18n._("The notebook file has changed on disk since the last time we opened or saved it.") + " " +
+                                  i18n._("Do you want to overwrite the file on disk with the version open here, or load "+
                                   "the version on disk (reload the page) ?"),
                             buttons: {
                                 Reload: {
@@ -2782,10 +2779,10 @@ define([
         if (data.message) {
             // save succeeded, but validation failed.
             var body = $("<div>");
-            var title = gettext("Notebook validation failed");
+            var title = i18n._("Notebook validation failed");
 
             body.append($("<p>").text(
-                gettext("The save operation succeeded," +
+                i18n._("The save operation succeeded," +
                 " but the notebook does not appear to be valid." +
                 " The validation error was:")
             )).append($("<div>").addClass("validation-error").append(
@@ -2836,13 +2833,13 @@ define([
      */
     Notebook.prototype.trust_notebook = function () {
         var body = $("<div>").append($("<p>")
-            .text(gettext("A trusted Jupyter notebook may execute hidden malicious code when you open it."))
+            .text(i18n._("A trusted Jupyter notebook may execute hidden malicious code when you open it."))
             .append(
-                gettext("Selecting trust will immediately reload this notebook in a trusted state.")
+                i18n._("Selecting trust will immediately reload this notebook in a trusted state.")
             ).append(
-                gettext(" For more information, see the Jupyter security documentation: ")
+                i18n._(" For more information, see the Jupyter security documentation: ")
             ).append($("<a>").attr("href", "https://jupyter-notebook.readthedocs.io/en/latest/security.html")
-                .text(gettext("here"))
+                .text(i18n._("here"))
             )
         );
 
@@ -2850,7 +2847,7 @@ define([
         dialog.modal({
             notebook: this,
             keyboard_manager: this.keyboard_manager,
-            title: gettext("Trust this notebook?"),
+            title: i18n._("Trust this notebook?"),
             body: body,
 
             buttons: {
@@ -2983,23 +2980,23 @@ define([
             var body = $("<div>");
             var title;
             if (failed) {
-                title = gettext("Notebook failed to load");
+                title = i18n._("Notebook failed to load");
                 body.append($("<p>").text(
-                    gettext("The error was: ")
+                    i18n._("The error was: ")
                 )).append($("<div>").addClass("js-error").text(
                     failed.toString()
                 )).append($("<p>").text(
-                    gettext("See the error console for details.")
+                    i18n._("See the error console for details.")
                 ));
             } else {
-                title = gettext("Notebook validation failed");
+                title = i18n._("Notebook validation failed");
             }
 
             if (data.message) {
                 if (failed) {
-                    msg = gettext("The notebook also failed validation:");
+                    msg = i18n._("The notebook also failed validation:");
                 } else {
-                    msg = gettext("An invalid notebook may not function properly." +
+                    msg = i18n._("An invalid notebook may not function properly." +
                     " The validation error was:");
                 }
                 body.append($("<p>").text(
@@ -3038,9 +3035,9 @@ define([
         var orig_nbformat = nbmodel.metadata.orig_nbformat;
         var orig_nbformat_minor = nbmodel.metadata.orig_nbformat_minor;
         if (orig_nbformat !== undefined && nbmodel.nbformat !== orig_nbformat) {
-            var oldmsg = gettext("This notebook has been converted from an older notebook format" +
+            var oldmsg = i18n._("This notebook has been converted from an older notebook format" +
     		" to the current notebook format v(%s).");
-            var newmsg = gettext("This notebook has been converted from a newer notebook format" +
+            var newmsg = i18n._("This notebook has been converted from a newer notebook format" +
     		" to the current notebook format v(%s).");
             if (nbmodel.nbformat > orig_nbformat) {
                 msg = i18n.sprintf(oldmsg,nbmodel.nbformat);
@@ -3048,22 +3045,22 @@ define([
                 msg = i18n.sprintf(newmsg,nbmodel.nbformat);
             }
             msg += " ";
-            msg += gettext("The next time you save this notebook, the " +
+            msg += i18n._("The next time you save this notebook, the " +
             "current notebook format will be used.");
             
             msg += " ";
             if (nbmodel.nbformat > orig_nbformat) {
-                msg += gettext("Older versions of Jupyter may not be able to read the new format.");
+                msg += i18n._("Older versions of Jupyter may not be able to read the new format.");
             } else {
-                msg += gettext("Some features of the original notebook may not be available.");
+                msg += i18n._("Some features of the original notebook may not be available.");
             }
             msg += " ";
-            msg += gettext("To preserve the original version, close the " +
+            msg += i18n._("To preserve the original version, close the " +
                 "notebook without saving it.");
             dialog.modal({
                 notebook: this,
                 keyboard_manager: this.keyboard_manager,
-                title : gettext("Notebook converted"),
+                title : i18n._("Notebook converted"),
                 body : msg,
                 buttons : {
                     OK : {
@@ -3085,7 +3082,7 @@ define([
                 // compat with IJulia, IHaskell, and other early kernels
                 // adopters that where setting a language metadata.
                 this.kernel_selector.set_kernel({
-                    name: gettext("(No name)"),
+                    name: i18n._("(No name)"),
                     language: this.metadata.language
                   });
                 // this should be stored in kspec now, delete it.
@@ -3133,7 +3130,7 @@ define([
         var msg;
         if (error.name === utils.XHR_ERROR && error.xhr.status === 500) {
             utils.log_ajax_error(error.xhr, error.xhr_status, error.xhr_error);
-            msg = i18n.sprintf(gettext("An unknown error occurred while loading this notebook. " +
+            msg = i18n.sprintf(i18n._("An unknown error occurred while loading this notebook. " +
             "This version can load notebook formats %s or earlier. See the server log for details.",
             "v" + this.nbformat));
         } else {
@@ -3144,7 +3141,7 @@ define([
         dialog.modal({
             notebook: this,
             keyboard_manager: this.keyboard_manager,
-            title: gettext("Error loading notebook"),
+            title: i18n._("Error loading notebook"),
             body : msg,
             buttons : {
                 "OK": {}
@@ -3245,13 +3242,13 @@ define([
         }
         var body = $('<div/>').append(
             $('<p/>').addClass("p-space").text(
-                gettext("Are you sure you want to revert the notebook to " +
+                i18n._("Are you sure you want to revert the notebook to " +
                 "the latest checkpoint?")
             ).append(
-                $("<strong/>").text(" "+gettext("This cannot be undone."))
+                $("<strong/>").text(" "+i18n._("This cannot be undone."))
             )
         ).append(
-            $('<p/>').addClass("p-space").text(gettext("The checkpoint was last updated at:"))
+            $('<p/>').addClass("p-space").text(i18n._("The checkpoint was last updated at:"))
         ).append(
             $('<p/>').addClass("p-space").text(
                 moment(checkpoint.last_modified).format('LLLL') +
@@ -3262,7 +3259,7 @@ define([
         dialog.modal({
             notebook: this,
             keyboard_manager: this.keyboard_manager,
-            title : gettext("Revert notebook to checkpoint"),
+            title : i18n._("Revert notebook to checkpoint"),
             body : body,
             default_button: "Cancel",
             buttons : {

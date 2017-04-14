@@ -5,25 +5,21 @@ define([
     'notebook/js/celltoolbar',
     'base/js/dialog',
     'base/js/keyboard',
-    'base/js/utils'
-], function(celltoolbar, dialog, keyboard, utils) {
+    'base/js/i18n'
+], function(celltoolbar, dialog, keyboard, i18n) {
     "use strict";
-
-  var _ = function(text) {
-  	return utils.i18n.gettext(text);
-  }    
 
   var CellToolbar = celltoolbar.CellToolbar;
   var raw_cell_preset = [];
 
   var select_type = CellToolbar.utils.select_ui_generator([
-    [_("None"), "-"],
-    [_("LaTeX"), "text/latex"],
-    [_("reST"), "text/restructuredtext"],
-    [_("HTML"), "text/html"],
-    [_("Markdown"), "text/markdown"],
-    [_("Python"), "text/x-python"],
-    [_("Custom"), "dialog"],
+    [i18n._("None"), "-"],
+    [i18n._("LaTeX"), "text/latex"],
+    [i18n._("reST"), "text/restructuredtext"],
+    [i18n._("HTML"), "text/html"],
+    [i18n._("Markdown"), "text/markdown"],
+    [i18n._("Python"), "text/x-python"],
+    [i18n._("Custom"), "dialog"],
 
     ],
       // setter
@@ -33,7 +29,7 @@ define([
         } else if (value === 'dialog'){
             var dialog = $('<div/>').append(
                 $("<p/>")
-                    .text(_("Set the MIME type of the raw cell:"))
+                    .text(i18n._("Set the MIME type of the raw cell:"))
             ).append(
                 $("<br/>")
             ).append(
@@ -41,7 +37,7 @@ define([
                 .val(cell.metadata.raw_mimetype || "-")
             );
             dialog.modal({
-                title: _("Raw Cell MIME Type"),
+                title: i18n._("Raw Cell MIME Type"),
                 body: dialog,
                 buttons : {
                     "Cancel": {},
@@ -75,14 +71,14 @@ define([
         return cell.metadata.raw_mimetype || "";
       },
       // name
-      _("Raw NBConvert Format")
+      i18n._("Raw NBConvert Format")
   );
 
   var register = function (notebook) {
     CellToolbar.register_callback('raw_cell.select', select_type, ['raw']);
     raw_cell_preset.push('raw_cell.select');
 
-    CellToolbar.register_preset(_('Raw Cell Format'), raw_cell_preset, notebook);
+    CellToolbar.register_preset(i18n._('Raw Cell Format'), raw_cell_preset, notebook);
   };
   return {'register': register};
 

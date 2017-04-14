@@ -5,8 +5,9 @@ define([
     'jquery',
     'base/js/namespace',
     'base/js/utils',
+    'base/js/i18n',
     'tree/js/notebooklist',
-], function($, IPython, utils, notebooklist) {
+], function($, IPython, utils, i18n, notebooklist) {
     "use strict";
 
     var TerminalList = function (selector, options) {
@@ -101,7 +102,7 @@ define([
     
     TerminalList.prototype.add_shutdown_button = function(name, item) {
         var that = this;
-        var shutdown_button = $("<button/>").text("Shutdown").addClass("btn btn-xs btn-warning").
+        var shutdown_button = $("<button/>").text(i18n._("Shutdown")).addClass("btn btn-xs btn-warning").
             click(function (e) {
                 var settings = {
                     processData : false,
