@@ -38,22 +38,22 @@ def respond_zip(handler, name, output, resources):
     output_files = resources.get('outputs', None)
     if not output_files:
         return False
-    
+
     # Headers
     zip_filename = os.path.splitext(name)[0] + '.zip'
     handler.set_header('Content-Disposition',
                        'attachment; filename="%s"' % escape.url_escape(zip_filename))
     handler.set_header('Content-Type', 'application/zip')
-    
-    # create zip file 
+
+    # create zip file
     buffer = io.BytesIO()
-    with zipfile.ZipFile(buffer, mode='w', compression=zipfile.ZIP_DEFLATED) as zipf:
+    with zipfile.ZipFile(buffer, mode='w', compression=zipfile.ZIP_STORED) as zipf:
         output_filename = os.path.splitext(name)[0] + resources['output_extension']
         zipf.writestr(output_filename, cast_bytes(output, 'utf-8'))
         # add external resources
         for filename, data in output_files.items():
             zipf.writestr(filename, data)
-    
+
     handler.finish(buffer.getvalue())
     return True
 
