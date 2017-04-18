@@ -151,38 +151,40 @@ define('notebook/js/menubar',[
 
       var fileformat = $('<select>');
       
-      var exporter_options = {
+      var export_opts = {
         markdown: {
-          display_text:'markdown'
+          display_text:'markdown',
           exporter_name:'markdown' 
           },
-        markdown: {
-          display_text:'html'
+        html: {
+          display_text:'html',
           exporter_name:'html' 
           },
-        markdown: {
-          display_text:'rst'
+        rst: {
+          display_text:'rst',
           exporter_name:'rst' 
           },
-        markdown: {
-          display_text:'PDF'
+        pdf: {
+          display_text:'PDF',
           exporter_name:'pdf' 
           },
-        markdown: {
-          display_text:'LaTeX'
+        latex: {
+          display_text:'LaTeX',
           exporter_name:'latex' 
           },
-        markdown: {
-          display_text:'script'
+        script: {
+          display_text:'script',
           exporter_name:'script' 
           }
       };
-      for(option in exporter_options){
+
+      for(var x in export_opts){
         fileformat.append(
           $('<option/>') 
-            .attr('value',option.exporter_name)
-            .text(option.display_text)
+            .attr('value', export_opts[x]['exporter_name'])
+            .text(export_opts[x]['display_text'])
         );
+        debugger;
       };
       
       form.append(fileformat);
