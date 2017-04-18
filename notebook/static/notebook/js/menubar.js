@@ -148,32 +148,42 @@ define('notebook/js/menubar',[
       var fileinput = $('<input>')
         .attr('type', 'file')
         .attr('tabindex', '1');
+
       var fileformat = $('<select>');
-      fileformat.append(
-        $('<option>markdown</option>')
-          .attr('value','markdown')
-      );
-      fileformat.append(
-        $('<option/>')
-          .attr('value','html')
-          .text('html')
-      );
-      fileformat.append(
-        $('<option>rst</option>')
-          .attr('value','rst')
-      );
-      fileformat.append(
-        $('<option>pdf</option>')
-          .attr('value','pdf')
-      );
-      fileformat.append(
-        $('<option>latex</option>')
-          .attr('value','latex')
-      );
-      fileformat.append(
-        $('<option>script</option>')
-          .attr('value','script')
-      );
+      
+      var exporter_options = {
+        markdown: {
+          display_text:'markdown'
+          exporter_name:'markdown' 
+          },
+        markdown: {
+          display_text:'html'
+          exporter_name:'html' 
+          },
+        markdown: {
+          display_text:'rst'
+          exporter_name:'rst' 
+          },
+        markdown: {
+          display_text:'PDF'
+          exporter_name:'pdf' 
+          },
+        markdown: {
+          display_text:'LaTeX'
+          exporter_name:'latex' 
+          },
+        markdown: {
+          display_text:'script'
+          exporter_name:'script' 
+          }
+      };
+      for(option in exporter_options){
+        fileformat.append(
+          $('<option/>') 
+            .attr('value',option.exporter_name)
+            .text(option.display_text)
+        );
+      };
       
       form.append(fileformat);
       form.append(fileinput);
