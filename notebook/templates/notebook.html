@@ -86,7 +86,6 @@ data-notebook-path="{{notebook_path | urlencode}}"
                             <a href="#">{% trans %}Open...{% endtrans %}</a></li>
                         <!-- <hr/> -->
                         <li class="divider"></li>
-                        <li id="custom_download"><a href="#">Custom Download</a></li>
                         <li id="copy_notebook"
                             title="{% trans %}Open a copy of this notebook's contents and start a new kernel{% endtrans %}">
                             <a href="#">{% trans %}Make a Copy...{% endtrans %}</a></li>
@@ -105,8 +104,8 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         </li>
                         <li class="divider"></li>
                         <li id="print_preview"><a href="#">{% trans %}Print Preview{% endtrans %}</a></li>
+                        <li id="custom_download"><a href="#">{% trans %}Custom Download {% endtrans %}</a></li>
                         <li class="dropdown-submenu"><a href="#">{% trans %}Download as{% endtrans %}</a>
-                            <ul id="download_menu" class="dropdown-menu">
                                 <li id="download_ipynb"><a href="#">Notebook (.ipynb)</a></li>
                                 <li id="download_script"><a href="#">Script</a></li>
                                 <li id="download_html"><a href="#">HTML (.html)</a></li>
