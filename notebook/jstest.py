@@ -324,8 +324,6 @@ class JSController(TestController):
         c.start()
         env = os.environ.copy()
         env.update(self.env)
-        if self.engine == 'phantomjs':
-            env['IPYTHON_ALLOW_DRAFT_WEBSOCKETS_FOR_PHANTOMJS'] = '1'
         self.server = subprocess.Popen(command,
             stdout = c.writefd,
             stderr = subprocess.STDOUT,
