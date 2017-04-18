@@ -32,6 +32,8 @@ function(
         this.base_url = options.base_url;
         this.file_path = options.file_path;
         this.config = options.config;
+        this.file_extension_modes = options.file_extension_modes || {};
+
         this.codemirror = new CodeMirror($(this.selector)[0]);
         this.codemirror.on('changes', function(cm, changes){
             that._clean_state();
@@ -54,6 +56,14 @@ function(
             );
             that._set_codemirror_options(cmopts);
             that.events.trigger('config_changed.Editor', {config: that.config});
+            if (cfg.file_extension_modes) {
+                // check for file extension in user preferences
+                var modename = cfg.file_extension_modes[that._get_file_extension()];
+                if (modename) {
+                    var modeinfo = CodeMirror.findModeByName(modename);
+                    that.set_codemirror_mode(modeinfo);
+                }
+            }
             that._clean_state();
         });
         this.clean_sel = $('<div/>');
@@ -99,7 +109,7 @@ function(
             }
         );
     };
-
+    
     Editor.prototype._set_mode_for_model = function (model) {
         /** Set the CodeMirror mode based on the file model */
 
@@ -107,19 +117,27 @@ function(
         // first by mime-type, then by file extension
 
         var modeinfo;
-        // mimetype is unset on file rename
-        if (model.mimetype) {
-            modeinfo = CodeMirror.findModeByMIME(model.mimetype);
-        }
-        if (!modeinfo || modeinfo.mode === "null") {
-            // find by mime failed, use find by ext
-            var ext_idx = model.name.lastIndexOf('.');
-
-            if (ext_idx > 0) {
-                // CodeMirror.findModeByExtension wants extension without '.'
-                modeinfo = CodeMirror.findModeByExtension(
-                    model.name.slice(ext_idx + 1).toLowerCase());
+        var ext = this._get_file_extension();
+        if (ext) {
+            // check if a mode has been remembered for this extension
+            var modename = this.file_extension_modes[ext];
+            if (modename) {
+                modeinfo = CodeMirror.findModeByName(modename);
             }
+        }
+        // prioritize CodeMirror's filename identification
+        if (!modeinfo || modeinfo.mode === "null") {
+            modeinfo = CodeMirror.findModeByFileName(model.name);
+            // codemirror's filename identification is case-sensitive.
+            // try once more with lowercase extension
+            if (!modeinfo && ext) {
+                // CodeMirror wants lowercase ext without leading '.'
+                modeinfo = CodeMirror.findModeByExtension(ext.slice(1).toLowerCase());
+            }
+        }
+        if (model.mimetype && (!modeinfo || modeinfo.mode === "null")) {
+            // mimetype is not set on file rename
+            modeinfo = CodeMirror.findModeByMIME(model.mimetype);
         }
         if (modeinfo) {
             this.set_codemirror_mode(modeinfo);
@@ -134,9 +152,39 @@ function(
             that.events.trigger("mode_changed.Editor", modeinfo);
         });
     };
-    
+
+    Editor.prototype.save_codemirror_mode = function (modeinfo) {
+        /** save the selected codemirror mode for the current extension in config */
+        var update_mode_map = {};
+        var ext = this._get_file_extension();
+        // no extension, nothing to save
+        // TODO: allow remembering no-extension things like Makefile?
+        if (!ext) return;
+
+        update_mode_map[ext] = modeinfo.name;
+        return this.config.update({
+            Editor: {
+                file_extension_modes: update_mode_map,
+            }
+        })
+    };
+
     Editor.prototype.get_filename = function () {
         return utils.url_path_split(this.file_path)[1];
+    };
+
+    Editor.prototype._get_file_extension = function () {
+        /** return file extension *including* . 
+        
+        Returns undefined if no extension is found.
+        */
+        var filename = this.get_filename();
+        var ext_idx = filename.lastIndexOf('.');
+        if (ext_idx < 0) {
+            return;
+        } else {
+            return filename.slice(ext_idx);
+        }
     };
 
     Editor.prototype.rename = function (new_name) {
@@ -203,7 +251,7 @@ function(
         });
         var that = this;
     };
-    
+
     Editor.prototype.update_codemirror_options = function (options) {
         /** update codemirror options locally and save changes in config */
         var that = this;
