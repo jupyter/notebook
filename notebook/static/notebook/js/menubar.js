@@ -184,15 +184,12 @@ define('notebook/js/menubar',[
             .attr('value', export_opts[x]['exporter_name'])
             .text(export_opts[x]['display_text'])
         );
-        debugger;
       };
       
       form.append(fileformat);
       form.append(fileinput);
       body.append(form);
       
-      var notebook_path = utils.encode_uri_components(this.notebook.notebook_path);
-
       var that = this;
 
       var handle_nbconvert_post = function(){
@@ -204,8 +201,7 @@ define('notebook/js/menubar',[
         };
         if (fileinput[0].files.length>0){
           filereader.readAsText(fileinput[0].files[0]);
-        }
-        else{
+        } else{
           that['json_content']=create_json(that.notebook, '{}')
           on_done();
         }
@@ -248,6 +244,7 @@ define('notebook/js/menubar',[
           a.download = fileName;
           a.click();
           window.URL.revokeObjectURL(url);
+          a.remove();
         };
       }());
 
