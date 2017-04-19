@@ -366,6 +366,7 @@ class NbserverStopApp(JupyterApp):
             if server['port'] == self.port:
                 self.log.debug("Shutting down notebook server with PID: %i", server['pid'])
                 os.kill(server['pid'], signal.SIGTERM)
+                return
         else:
             print("There is currently no server running on port {}".format(self.port), file=sys.stderr)
             print("Ports currently in use:", file=sys.stderr)
