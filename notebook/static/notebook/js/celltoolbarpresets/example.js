@@ -1,13 +1,6 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-// Example Use for the CellToolbar library
-// add the following to your custom.js to load
-// Celltoolbar UI for slideshow
-
-// ```
-// $.getScript('/static/js/celltoolbarpresets/example.js');
-// ```
 define([
     'notebook/js/celltoolbar',
 ], function(celltoolbar) {
