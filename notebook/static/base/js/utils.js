@@ -777,6 +777,7 @@ define([
             // called with single argument: $.ajax({url: '...'})
             settings = url;
             url = settings.url;
+            delete settings.url;
         }
         settings = _add_auth_header(settings);
         return $.ajax(url, settings);
