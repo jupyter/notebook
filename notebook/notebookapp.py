@@ -1388,6 +1388,8 @@ class NotebookApp(JupyterApp):
         This method takes no arguments so all configuration and initialization
         must be done prior to calling this method."""
 
+        super(NotebookApp, self).start()
+
         if not self.allow_root:
             # check if we are running as root, and abort if it's not allowed
             try:
@@ -1397,8 +1399,6 @@ class NotebookApp(JupyterApp):
             if uid == 0:
                 self.log.critical("Running as root is not recommended. Use --allow-root to bypass.")
                 self.exit(1)
-
-        super(NotebookApp, self).start()
 
         info = self.log.info
         for line in self.notebook_info().split("\n"):
