@@ -61,7 +61,9 @@ function(
                 var modename = cfg.file_extension_modes[that._get_file_extension()];
                 if (modename) {
                     var modeinfo = CodeMirror.findModeByName(modename);
-                    that.set_codemirror_mode(modeinfo);
+                    if (modeinfo) {
+                        that.set_codemirror_mode(modeinfo);
+                    }
                 }
             }
             that._clean_state();
