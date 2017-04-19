@@ -39,6 +39,7 @@ from jinja2 import Environment, FileSystemLoader
 base_dir = os.path.realpath(os.path.join(__file__, '..', '..'))
 trans = gettext.translation('notebook', localedir=os.path.join(base_dir, 'notebook/i18n'), fallback=True)
 trans.install()
+_ = trans.gettext
 
 # Install the pyzmq ioloop. This has to be done before anything else from
 # tornado is imported.
@@ -1014,7 +1015,7 @@ class NotebookApp(JupyterApp):
             # If we receive a non-absolute path, make it absolute.
             value = os.path.abspath(value)
         if not os.path.isdir(value):
-            raise TraitError(_("No such notebook dir: %r") % value)
+            raise TraitError(trans.gettext("No such notebook dir: '%r'") % value)
         return value
 
     @observe('notebook_dir')
