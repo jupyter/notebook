@@ -772,7 +772,13 @@ define([
     };
     
     var ajax = function (url, settings) {
-        // like $.ajax, but ensure Authorization header is set
+        // like $.ajax, but ensure XSRF or Authorization header is set
+        if (typeof url === "object") {
+            // called with single argument: $.ajax({url: '...'})
+            settings = url;
+            url = settings.url;
+            delete settings.url;
+        }
         settings = _add_auth_header(settings);
         return $.ajax(url, settings);
     };
