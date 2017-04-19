@@ -79,9 +79,13 @@ def get_exporter(format, **kwargs):
 
 class NbconvertFileHandler(IPythonHandler):
 
+<<<<<<< HEAD
     def call_nbconvert(self, format, path, config=None, content=None, post=False):
 
 
+=======
+    def call_nbconvert(self, format, path, config=None, content=None):
+>>>>>>> removing post argument from API
         exporter = get_exporter(format, config=config, log=self.log)
         path = path.strip('/')
         # If the notebook relates to a real file (default contents manager),
@@ -157,7 +161,7 @@ class NbconvertFileHandler(IPythonHandler):
         json_config = json.loads(json_upload.get("config",{}))
         c.merge(json_config)
         nb_content = json.dumps(json_upload["notebook"])
-        self.call_nbconvert(format, path, config=c, content=nb_content, post=True)
+        self.call_nbconvert(format, path, config=c, content=nb_content)
 
 
 class NbconvertPostHandler(IPythonHandler):
