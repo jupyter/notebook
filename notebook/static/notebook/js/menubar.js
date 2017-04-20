@@ -192,7 +192,7 @@ define('notebook/js/menubar',[
       
       var that = this;
 
-      var handle_nbconvert_post = function(){
+      var trigger_nbconvert_post = function(){
         var filereader = new FileReader();
         filereader.onload = function(){
           var my_config_data = filereader.result;
@@ -257,7 +257,7 @@ define('notebook/js/menubar',[
           cancel : {
             click: function(){return true;}
           },
-          download : {click: handle_nbconvert_post}
+          download : {click: trigger_nbconvert_post}
         }
       });
 
