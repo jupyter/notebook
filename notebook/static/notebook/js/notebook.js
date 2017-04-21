@@ -1571,7 +1571,7 @@ define([
                     'jupyter-notebook:paste-cell-replace');});
             $('#paste_cell_above').removeClass('disabled')
                 .on('click', function () {that.keyboard_manager.actions.call(
-                    'jupyter-notebook:paste_cell_above');});
+                    'jupyter-notebook:paste-cell-above');});
             $('#paste_cell_below').removeClass('disabled')
                 .on('click', function () {that.keyboard_manager.actions.call(
                     'jupyter-notebook:paste-cell-below');});
