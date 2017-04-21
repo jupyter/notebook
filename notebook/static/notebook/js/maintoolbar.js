@@ -49,7 +49,8 @@ define([
              'jupyter-notebook:move-cell-down'
             ],
             'move_up_down'],
-          [ ['jupyter-notebook:run-cell-and-select-next',
+          [ [new toolbar.Button('jupyter-notebook:run-cell-and-select-next',
+                {label: 'Run'}),
              'jupyter-notebook:interrupt-kernel',
              'jupyter-notebook:confirm-restart-kernel'
             ],
