@@ -283,6 +283,12 @@ define(function(require){
                 env.notebook.copy_cell();
             }
         },
+        'paste-cell-replace' : {
+            help: 'paste cells replace',
+            handler : function (env) {
+                env.notebook.paste_cell_replace();
+            }
+        },
         'paste-cell-above' : {
             help: 'paste cells above',
             help_index : 'eg',

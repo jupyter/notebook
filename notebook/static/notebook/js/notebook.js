@@ -1567,11 +1567,14 @@ define([
         var that = this;
         if (!this.paste_enabled) {
             $('#paste_cell_replace').removeClass('disabled')
-                .on('click', function () {that.paste_cell_replace();});
+                .on('click', function () {that.keyboard_manager.actions.call(
+                    'jupyter-notebook:paste-cell-replace');});
             $('#paste_cell_above').removeClass('disabled')
-                .on('click', function () {that.paste_cell_above();});
+                .on('click', function () {that.keyboard_manager.actions.call(
+                    'jupyter-notebook:paste-cell-above');});
             $('#paste_cell_below').removeClass('disabled')
-                .on('click', function () {that.paste_cell_below();});
+                .on('click', function () {that.keyboard_manager.actions.call(
+                    'jupyter-notebook:paste-cell-below');});
             this.paste_enabled = true;
         }
     };
