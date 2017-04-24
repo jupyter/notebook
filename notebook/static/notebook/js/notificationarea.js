@@ -250,7 +250,7 @@ define([
             link.id = 'favicon';
             link.type = 'image/x-icon';
             link.rel = 'shortcut icon';
-            link.href = src;
+            link.href = utils.url_path_join(utils.get_body_data('baseUrl'), src);
             if (oldLink) document.head.removeChild(oldLink);
             document.head.appendChild(link);
         };

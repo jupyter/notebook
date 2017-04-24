@@ -140,7 +140,7 @@ define([
         .append(
                 $('<link>')
                 .attr('rel',"stylesheet")
-                .attr('href',"/static/css/notebook.css")
+                .attr('href', utils.url_path_join(utils.get_body_data('baseUrl'), "static/style/style.min.css"))
                 .attr('type',"text/css")
         )
         .append(
