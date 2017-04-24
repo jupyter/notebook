@@ -267,7 +267,7 @@ define([
         var that = this;
         var command_shortcuts = this.keyboard_manager.command_shortcuts.help();
         var cmdkey = '<kbd>'+i18n._('Esc')+'</kbd>';
-        var div = build_div('<h4>'+utils.i18n.sprintf(i18n._('Command Mode (press %s to enable)'),cmdkey)+'</h4>', command_shortcuts);
+        var div = build_div('<h4>'+i18n.sprintf(i18n._('Command Mode (press %s to enable)'),cmdkey)+'</h4>', command_shortcuts);
         var edit_button = $('<button/>')
             .text(i18n._("Edit Shortcuts"))
             .addClass('btn btn-xs btn-default pull-right')
@@ -289,7 +289,7 @@ define([
         var edit_shortcuts = this.keyboard_manager.edit_shortcuts.help();
         var enterkey = '<kbd>'+i18n._('Enter')+'</kbd>';
         edit_shortcuts = $.merge($.merge([], cm_shortcuts), edit_shortcuts);
-        return build_div('<h4>'+utils.i18n.sprintf(i18n._('Edit Mode (press %s to enable)'),enterkey)+'</h4>', edit_shortcuts);
+        return build_div('<h4>'+i18n.sprintf(i18n._('Edit Mode (press %s to enable)'),enterkey)+'</h4>', edit_shortcuts);
     };
 
     var build_one = function (s) {
