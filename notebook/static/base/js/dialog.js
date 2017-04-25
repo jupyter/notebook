@@ -244,10 +244,10 @@ define(['jquery',
         var message;
         var attachments_list;
         if (Object.keys(options.attachments).length == 0) {
-            message = _("There are no attachments for this cell.");
+            message = i18n._("There are no attachments for this cell.");
             attachments_list = $('<div>');
         } else {
-            message = _("Current cell attachments");
+            message = i18n._("Current cell attachments");
 
             attachments_list = $('<div>')
                 .addClass('list_container')
@@ -256,7 +256,7 @@ define(['jquery',
                     .addClass('row list_header')
                     .append(
                         $('<div>')
-                        .text(_('Attachments'))
+                        .text(i18n._('Attachments'))
                     )
                 );
 
@@ -280,7 +280,7 @@ define(['jquery',
                             .addClass('btn btn-default btn-xs')
                             .css('display', 'inline-block');
                         if (deleted) {
-                            btn.attr('title', _('Restore'))
+                            btn.attr('title', i18n._('Restore'))
                                .append(
                                    $('<i>')
                                    .addClass('fa fa-plus')
@@ -290,7 +290,7 @@ define(['jquery',
                                 refresh_attachments_list();
                             });
                         } else {
-                            btn.attr('title', _('Delete'))
+                            btn.attr('title', i18n._('Delete'))
                                .addClass('btn-danger')
                                .append(
                                    $('<i>')
@@ -339,15 +339,15 @@ define(['jquery',
         }
 
         var dialogform = $('<div/>')
-            .attr('title', _('Edit attachments'))
+            .attr('title', i18n._('Edit attachments'))
             .append(message)
             .append('<br />')
             .append(attachments_list);
         var title_msg;
         if ( options.name === "Notebook" ) {
-        	title_msg = _("Edit Notebook Attachments");
+        	title_msg = i18n._("Edit Notebook Attachments");
         } else {
-        	title_msg = _("Edit Cell Attachments");
+        	title_msg = i18n._("Edit Cell Attachments");
         }
         var modal_obj = modal({
             title: title_msg,
@@ -370,7 +370,7 @@ define(['jquery',
 
     var insert_image = function (options) {
         var message =
-            _("Select a file to insert.");
+            i18n._("Select a file to insert.");
         var file_input = $('<input/>')
             .attr('type', 'file')
             .attr('accept', 'image/*')
@@ -383,7 +383,7 @@ define(['jquery',
                     $btn.addClass('disabled');
                 }
             });
-        var dialogform = $('<div/>').attr('title', _('Edit attachments'))
+        var dialogform = $('<div/>').attr('title', i18n._('Edit attachments'))
             .append(
                 $('<form id="insert-image-form" />').append(
                     $('<fieldset/>').append(
@@ -396,7 +396,7 @@ define(['jquery',
                     )
             );
         var modal_obj = modal({
-            title: _("Select a file"),
+            title: i18n._("Select a file"),
             body: dialogform,
             buttons: {
                 OK: {

@@ -1,10 +1,11 @@
 define([
     'jquery',
+    'base/js/utils',
     'base/js/i18n',
     'base/js/dialog',
     'base/js/notificationarea',
     'moment'
-], function($, i18n, dialog, notificationarea, moment) {
+], function($, utils, i18n, dialog, notificationarea, moment) {
     "use strict";
 
     var NotificationArea = notificationarea.NotificationArea;

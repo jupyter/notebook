@@ -12,6 +12,7 @@
 define([
     'jquery',
     'base/js/namespace',
+    'base/js/utils',
     'base/js/i18n',
     'base/js/keyboard',
     'services/config',
@@ -25,6 +26,7 @@ define([
 ], function(
     $,
     IPython,
+    utils,
     i18n,
     keyboard,
     configmod,

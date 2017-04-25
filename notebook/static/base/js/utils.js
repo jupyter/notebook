@@ -5,11 +5,11 @@ define([
     'jquery',
     'codemirror/lib/codemirror',
     'moment',
-    'underscore',    
+    'underscore',
     // silently upgrades CodeMirror
     'codemirror/mode/meta',
 ], function($, CodeMirror, moment, _){
-    "use strict";    
+    "use strict";
     
     // keep track of which extensions have been loaded already
     var extensions_loaded = [];
