@@ -82,19 +82,15 @@ define(['jquery'], function($) {
         if( group_id !== undefined ) {
             btn_group.attr('id',group_id);
         }
-        for(var i=0; i < list.length; i++) {
-
-            // IIFE because javascript don't have loop scope so
-            // action_name would otherwise be the same on all iteration
-            // of the loop
-            (function(i,list){
-                var el = list[i];
+        list.forEach(function(el) {
                 var action_name;
                 var action;
                 if(typeof(el) === 'string'){
                     action = that.actions.get(el);
                     action_name = el;
-
+                } else if (el.action) {
+                    action = that.actions.get(el.action);
+                    action_name = el.action
                 }
                 var button  = $('<button/>')
                     .addClass('btn btn-default')
@@ -102,6 +98,10 @@ define(['jquery'], function($) {
                     .append(
                         $("<i/>").addClass(el.icon||(action||{icon:'fa-exclamation-triangle'}).icon).addClass('fa')
                     );
+                if (el.label) {
+                    var label = $('<span/>').text(el.label).addClass('toolbar-btn-label');
+                    button.append(label);
+                }
                 var id = el.id;
                 if( id !== undefined ){
                     button.attr('id',id);
@@ -112,9 +112,7 @@ define(['jquery'], function($) {
                 };
                 button.click(fun);
                 btn_group.append(button);
-            })(i,list);
-            // END IIFE
-        }
+        });
         $(this.selector).append(btn_group);
         return btn_group;
     };
@@ -131,5 +129,20 @@ define(['jquery'], function($) {
         this.element.toggle();
     };
 
-    return {'ToolBar': ToolBar};
+    /**
+     * A simple class to hold information defining one toolbar button.
+     * @class ToolBar
+     * @constructor
+     * @param action {String} name of a Jupyter action taken when pressed
+     * @param options.label {String} short label to display on the button
+     */
+    var Button = function(action, options) {
+        this.action = action;
+        this.label = (options||{}).label;
+    };
+
+    return {
+        'ToolBar': ToolBar,
+        'Button': Button
+    };
 });
