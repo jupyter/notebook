@@ -46,13 +46,15 @@ class FilesHandler(IPythonHandler):
             self.set_header('Content-Type', 'application/x-ipynb+json')
         else:
             cur_mime = mimetypes.guess_type(name)[0]
-            if cur_mime is not None:
+            if cur_mime == 'text/plain':
+                self.set_header('Content-Type', 'text/plain; charset=UTF-8')
+            elif cur_mime is not None:
                 self.set_header('Content-Type', cur_mime)
             else:
                 if model['format'] == 'base64':
                     self.set_header('Content-Type', 'application/octet-stream')
                 else:
-                    self.set_header('Content-Type', 'text/plain')
+                    self.set_header('Content-Type', 'text/plain; charset=UTF-8')
 
         if include_body:
             if model['format'] == 'base64':
