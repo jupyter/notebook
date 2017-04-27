@@ -1,5 +1,7 @@
 span.save_widget {
     margin-top: 6px;
+    max-width: 100%;
+    display: flex;
     
     span.filename {
         height: 1em;
@@ -8,6 +10,9 @@ span.save_widget {
         margin-left: @padding-large-horizontal;
         border: none;
         font-size: 146.5%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
         &:hover{
             // ensure body is lighter on dark palette, 
             // and vice versa
@@ -19,14 +24,17 @@ span.save_widget {
 
 span.checkpoint_status, span.autosave_status {
     font-size: small;
+    white-space: nowrap;
+    padding: 0 5px;
 }
 
 @media (max-width: @screen-xs-max) {
     span.save_widget {
         font-size: small;
+        padding: 0 0 0 5px;
     }
     span.checkpoint_status, span.autosave_status {
-      display: none;
+        display: none;
     }
 }
 
@@ -38,6 +46,3 @@ span.checkpoint_status, span.autosave_status {
         font-size: x-small;
     }
 }
-
-
-
