@@ -543,8 +543,9 @@ define([
     };
 
     NotebookList.ipynb_extensions = ['ipynb'];
-    NotebookList.non_editable_extensions = 'jpeg jpeg png zip gif tif tiff bmp ico pdf doc xls xlsx'.split(' ');
-    NotebookList.editable_extensions = 'txt py cson json yaml html'.split(' ');
+    NotebookList.not_safe = ['html', 'svg'];
+    NotebookList.non_editable_extensions = ['jpeg', 'jpeg', 'png', 'zip', 'gif', 'tif', 'tiff', 'bmp', 'ico', 'pdf', 'doc', 'xls', 'xlsx'];
+    NotebookList.editable_extensions = ['txt', 'py', 'cson', 'json', 'yaml', 'html'];
 
     NotebookList.prototype._is_editable = function(filepath){
       return filepath_of_extension(filepath, NotebookList.editable_extensions);
@@ -556,6 +557,10 @@ define([
 
     NotebookList.prototype._is_notebook = function(filepath){
       return filepath_of_extension(filepath, NotebookList.ipynb_extensions)
+    };
+    
+    NotebookList.prototype._is_not_safe = function(filepath){
+      return filepath_of_extension(filepath, NotebookList.not_safe)
     };
 
     /**
@@ -731,6 +736,11 @@ define([
         var uri_prefix = NotebookList.uri_prefixes[model.type];
         if (model.type === 'file'
             && !this._is_editable(path))
+        {
+            uri_prefix = 'files';
+        }
+        if (model.type === 'file'
+            && this._is_not_safe(path))
         {
             uri_prefix = 'view';
         }
