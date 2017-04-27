@@ -12,7 +12,7 @@ For this reason, notebook 4.3 introduces token-based authentication that is **on
 
     If you enable a password for your notebook server,
     token authentication is not enabled by default,
-    and the behavior of the notebook server is unchanged from from versions earlier than 4.3.
+    and the behavior of the notebook server is unchanged from versions earlier than 4.3.
 
 When token authentication is enabled, the notebook uses a token to authenticate requests.
 This token can be provided to login to the notebook server in three ways:
