@@ -40,6 +40,23 @@ define([
         var $modal_ind_icon = $("#modal_indicator");
         var $readonly_ind_icon = $('#readonly-indicator');
         var $body = $('body');
+        var interval = 0;
+        
+        var set_busy_favicon = function(on) {
+            if (on && !interval) {
+                var i = 0;
+                var icons = ['favicon-busy-1.ico', 'favicon-busy-3.ico', 'favicon-busy-3.ico'];
+                interval = setInterval(function() {
+                    var icon = icons[i % 3];
+                    utils.change_favicon('/static/base/images/' + icon);
+                    i += 1;
+                }, 300);
+            } else {
+                clearInterval(interval);
+                utils.change_favicon('/static/base/images/favicon-notebook.ico');
+                interval = 0;
+            }
+        };
 
         // Listen for the notebook loaded event.  Set readonly indicator.
         this.events.on('notebook_loaded.Notebook', function() {
@@ -244,41 +261,30 @@ define([
             knw.danger(short, undefined, showMsg);
         });
         
-        var change_favicon = function (src) {
-            var link = document.createElement('link'),
-                oldLink = document.getElementById('favicon');
-            link.id = 'favicon';
-            link.type = 'image/x-icon';
-            link.rel = 'shortcut icon';
-            link.href = utils.url_path_join(utils.get_body_data('baseUrl'), src);
-            if (oldLink) document.head.removeChild(oldLink);
-            document.head.appendChild(link);
-        };
-
         this.events.on('kernel_starting.Kernel kernel_created.Session', function () {
             // window.document.title='(Starting) '+window.document.title;
             $kernel_ind_icon.attr('class','kernel_busy_icon').attr('title','Kernel Busy');
             knw.set_message("Kernel starting, please wait...");
-            change_favicon('/static/base/images/favicon-busy.ico');
+            set_busy_favicon(true);
         });
 
         this.events.on('kernel_ready.Kernel', function () {
             // that.save_widget.update_document_title();
             $kernel_ind_icon.attr('class','kernel_idle_icon').attr('title','Kernel Idle');
             knw.info("Kernel ready", 500);
-            change_favicon('/static/base/images/favicon.ico');
+            set_busy_favicon(false);
         });
 
         this.events.on('kernel_idle.Kernel', function () {
             // that.save_widget.update_document_title();
             $kernel_ind_icon.attr('class','kernel_idle_icon').attr('title','Kernel Idle');
-            change_favicon('/static/base/images/favicon.ico');
+            set_busy_favicon(false);
         });
 
         this.events.on('kernel_busy.Kernel', function () {
             // window.document.title='(Busy) '+window.document.title;
             $kernel_ind_icon.attr('class','kernel_busy_icon').attr('title','Kernel Busy');
-            change_favicon('/static/base/images/favicon-busy.ico');
+            set_busy_favicon(true);
         });
 
         this.events.on('spec_match_found.Kernel', function (evt, data) {

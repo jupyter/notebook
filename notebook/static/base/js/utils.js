@@ -1051,6 +1051,17 @@ define([
         fn();
       }
     }
+    
+    var change_favicon = function (src) {
+        var link = document.createElement('link'),
+            oldLink = document.getElementById('favicon');
+        link.id = 'favicon';
+        link.type = 'image/x-icon';
+        link.rel = 'shortcut icon';
+        link.href = utils.url_path_join(utils.get_body_data('baseUrl'), src);
+        if (oldLink) document.head.removeChild(oldLink);
+        document.head.appendChild(link);
+    };
 
     var utils = {
         throttle: throttle,
@@ -1101,7 +1112,8 @@ define([
         format_datetime: format_datetime,
         datetime_sort_helper: datetime_sort_helper,
         dnd_contain_file: dnd_contain_file,
-        _ansispan:_ansispan
+        _ansispan:_ansispan,
+        change_favicon: change_favicon
     };
 
     return utils;
