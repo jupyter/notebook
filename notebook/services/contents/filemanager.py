@@ -281,7 +281,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                     if e.errno == errno.ENOENT:
                         self.log.warning("%s doesn't exist", os_path)
                     else:
-                        self.log.warning("Error stat-ing %s: %s", (os_path, e))
+                        self.log.warning("Error stat-ing %s: %s", os_path, e)
                     continue
 
                 if not stat.S_ISREG(st.st_mode) and not stat.S_ISDIR(st.st_mode):
