@@ -39,7 +39,12 @@ from notebook.services.security import csp_report_uri
 #-----------------------------------------------------------------------------
 non_alphanum = re.compile(r'[^A-Za-z0-9]')
 
-sys_info = json.dumps(get_sys_info())
+_sys_info_cache = None
+def json_sys_info():
+    global _sys_info_cache
+    if _sys_info_cache is None:
+        _sys_info_cache = json.dumps(get_sys_info())
+    return _sys_info_cache
 
 def log():
     if Application.initialized():
@@ -357,7 +362,7 @@ class IPythonHandler(AuthenticatedHandler):
             login_available=self.login_available,
             token_available=bool(self.token or self.one_time_token),
             static_url=self.static_url,
-            sys_info=sys_info,
+            sys_info=json_sys_info(),
             contents_js_source=self.contents_js_source,
             version_hash=self.version_hash,
             ignore_minified_js=self.ignore_minified_js,
