@@ -543,9 +543,9 @@ define([
     };
 
     NotebookList.ipynb_extensions = ['ipynb'];
-    NotebookList.not_safe = ['html', 'svg'];
     NotebookList.non_editable_extensions = ['jpeg', 'jpeg', 'png', 'zip', 'gif', 'tif', 'tiff', 'bmp', 'ico', 'pdf', 'doc', 'xls', 'xlsx'];
     NotebookList.editable_extensions = ['txt', 'py', 'cson', 'json', 'yaml', 'html'];
+    NotebookList.viewable_extensions = ['htm', 'html'];
 
     NotebookList.prototype._is_editable = function(filepath){
       return filepath_of_extension(filepath, NotebookList.editable_extensions);
@@ -559,8 +559,8 @@ define([
       return filepath_of_extension(filepath, NotebookList.ipynb_extensions)
     };
     
-    NotebookList.prototype._is_not_safe = function(filepath){
-      return filepath_of_extension(filepath, NotebookList.not_safe)
+    NotebookList.prototype._is_viewable = function(filepath){
+      return filepath_of_extension(filepath, NotebookList.viewable_extensions)
     };
 
     /**
@@ -740,7 +740,7 @@ define([
             uri_prefix = 'files';
         }
         if (model.type === 'file'
-            && this._is_not_safe(path))
+            && this._is_viewable(path))
         {
             uri_prefix = 'view';
         }
