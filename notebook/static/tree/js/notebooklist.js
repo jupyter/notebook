@@ -544,7 +544,8 @@ define([
 
     NotebookList.ipynb_extensions = ['ipynb'];
     NotebookList.non_editable_extensions = ['jpeg', 'jpeg', 'png', 'zip', 'gif', 'tif', 'tiff', 'bmp', 'ico', 'pdf', 'doc', 'xls', 'xlsx'];
-    NotebookList.editable_extensions = ['txt', 'py', 'cson', 'json', 'yaml', 'html'];
+    // List of text file extensions from https://github.com/sindresorhus/text-extensions/blob/master/text-extensions.json
+    NotebookList.editable_extensions = ['applescript', 'asp', 'aspx', 'atom', 'bashrc', 'bat', 'bbcolors', 'bib', 'bowerrc', 'c', 'cc', 'cfc', 'cfg', 'cfm', 'cmd', 'cnf', 'coffee', 'conf', 'cpp', 'cson', 'css', 'csslintrc', 'csv', 'curlrc', 'cxx', 'diff', 'eco', 'editorconfig', 'ejs', 'emacs', 'eml', 'erb', 'erl', 'eslintignore', 'eslintrc', 'gemrc', 'gitattributes', 'gitconfig', 'gitignore', 'go', 'gvimrc', 'h', 'haml', 'hbs', 'hgignore', 'hpp', 'htaccess', 'htm', 'html', 'iced', 'ini', 'ino', 'irbrc', 'itermcolors', 'jade', 'js', 'jscsrc', 'jshintignore', 'jshintrc', 'json', 'jsonld', 'jsx', 'less', 'log', 'ls', 'm', 'markdown', 'md', 'mdown', 'mdwn', 'mht', 'mhtml', 'mkd', 'mkdn', 'mkdown', 'nfo', 'npmignore', 'npmrc', 'nvmrc', 'patch', 'pbxproj', 'pch', 'php', 'phtml', 'pl', 'pm', 'properties', 'py', 'rb', 'rdoc', 'rdoc_options', 'ron', 'rss', 'rst', 'rtf', 'rvmrc', 'sass', 'scala', 'scss', 'seestyle', 'sh', 'sls', 'sql', 'sss', 'strings', 'styl', 'stylus', 'sub', 'sublime-build', 'sublime-commands', 'sublime-completions', 'sublime-keymap', 'sublime-macro', 'sublime-menu', 'sublime-project', 'sublime-settings', 'sublime-workspace', 'svg', 'terminal', 'tex', 'text', 'textile', 'tmLanguage', 'tmTheme', 'tsv', 'txt', 'vbs', 'vim', 'viminfo', 'vimrc', 'webapp', 'xht', 'xhtml', 'xml', 'xsl', 'yaml', 'yml', 'zsh', 'zshrc'];
     NotebookList.viewable_extensions = ['htm', 'html'];
 
     NotebookList.prototype._is_editable = function(filepath){
