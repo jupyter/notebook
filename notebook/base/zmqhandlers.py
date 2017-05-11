@@ -296,5 +296,4 @@ class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
         self.session = Session(config=self.config)
 
     def get_compression_options(self):
-        # use deflate compress websocket
-        return {}
+        return self.settings.get('websocket_compression_options', None)
