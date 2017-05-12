@@ -7,7 +7,7 @@
     "bootstrap-tour": "0.9.0",
     "codemirror": "components/codemirror#~5.22.2",
     "es6-promise": "~1.0",
-    "font-awesome": "components/font-awesome#~4.2.0",
+    "font-awesome": "components/font-awesome#~4.7.0",
     "google-caja": "5669",
     "jquery": "components/jquery#~2.0",
     "jquery-typeahead": "~2.0.0",
