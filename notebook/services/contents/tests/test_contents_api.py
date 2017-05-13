@@ -249,8 +249,8 @@ class APITest(NotebookTestBase):
         self.assertEqual(nbnames, expected)
 
         nbs = notebooks_only(self.api.list('ordering').json())
-        nbnames = [n['name'] for n in nbs]
-        expected = ['A.ipynb', 'b.ipynb', 'C.ipynb']
+        nbnames = {n['name'] for n in nbs}
+        expected = {'A.ipynb', 'b.ipynb', 'C.ipynb'}
         self.assertEqual(nbnames, expected)
 
     def test_list_dirs(self):
