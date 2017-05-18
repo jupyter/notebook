@@ -76,7 +76,7 @@ class MappingKernelManager(MultiKernelManager):
         Only effective if cull_interval is not 0."""
     )
 
-    cull_busy = Bool(True, config=True,
+    cull_busy = Bool(False, config=True,
         help="""Whether to consider culling kernels which are busy.
         Only effective if cull_interval is not 0."""
     )
