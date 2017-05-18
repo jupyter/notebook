@@ -165,7 +165,7 @@ define(function(require){
 
         input.typeahead({
           emptyTemplate: function(query) {
-            return $('<div>').text("Nao results found for").append(
+            return $('<div>').text("No results found for").append(
                 $('<pre>').text(query)
             );
           },
