@@ -1017,6 +1017,36 @@ define([
         }
     };
 
+
+    // javascript stores text as utf16 and string indices use "code units",
+    // which stores high-codepoint characters as "surrogate pairs",
+    // which occupy two indices in the javascript string.
+    // We need to translate cursor_pos in the protocol (in characters)
+    // to js offset (with surrogate pairs taking two spots).
+    function js_idx_to_char_idx (js_idx, text) {
+        var char_idx = js_idx;
+        for (var i = 0; i < text.length && i < js_idx; i++) {
+            var char_code = text.charCodeAt(i);
+            // check for the first half of a surrogate pair
+            if (char_code >= 0xD800 && char_code < 0xDC00) {
+                char_idx -= 1;
+            }
+        }
+        return char_idx;
+    }
+
+    function char_idx_to_js_idx (char_idx, text) {
+        var js_idx = char_idx;
+        for (var i = 0; i < text.length && i < js_idx; i++) {
+            var char_code = text.charCodeAt(i);
+            // check for the first half of a surrogate pair
+            if (char_code >= 0xD800 && char_code < 0xDC00) {
+                js_idx += 1;
+            }
+        }
+        return js_idx;
+    }
+
     // Test if a drag'n'drop event contains a file (as opposed to an HTML
     // element/text from the document)
     var dnd_contain_file = function(event) {
@@ -1112,6 +1142,8 @@ define([
         format_datetime: format_datetime,
         datetime_sort_helper: datetime_sort_helper,
         dnd_contain_file: dnd_contain_file,
+        js_idx_to_char_idx: js_idx_to_char_idx,
+        char_idx_to_js_idx: char_idx_to_js_idx,
         _ansispan:_ansispan,
         change_favicon: change_favicon
     };
