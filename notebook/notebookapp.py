@@ -1353,7 +1353,8 @@ class NotebookApp(JupyterApp):
         "Return the current working directory and the server url information"
         info = self.contents_manager.info_string() + "\n"
         info += "%d active kernels \n" % len(self.kernel_manager._kernels)
-        return info + "The Jupyter Notebook is running at: %s" % self.display_url
+        # Format the info so that the URL fits on a single line in 80 char display
+        return info + "The Jupyter Notebook is running at:\n\r%s" % self.display_url
 
     def server_info(self):
         """Return a JSONable dict of information about this server."""
