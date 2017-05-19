@@ -201,8 +201,8 @@ define([
         this.cancel_pending();
         var editor = cell.code_mirror;
         var cursor = editor.getCursor();
-        var cursor_pos = editor.indexFromPos(cursor);
         var text = cell.get_text();
+        var cursor_pos = utils.js_idx_to_char_idx(editor.indexFromPos(cursor), text);
 
         this._hide_if_no_docstring = hide_if_no_docstring;
 
