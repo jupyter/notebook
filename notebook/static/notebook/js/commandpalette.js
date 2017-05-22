@@ -165,8 +165,8 @@ define(function(require){
 
         input.typeahead({
           emptyTemplate: function(query) {
-            return $('<div>').text("No results found for").append(
-                $('<pre>').text(query)
+            return $('<div>').text("No results found for ").append(
+                $('<code>').text(query)
             );
           },
           maxItem: 1e3,
