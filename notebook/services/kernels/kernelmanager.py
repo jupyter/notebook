@@ -73,12 +73,12 @@ class MappingKernelManager(MultiKernelManager):
 
     cull_connected = Bool(True, config=True,
         help="""Whether to consider culling kernels which have one or more connections.
-        Only effective if cull_interval is not 0."""
+        Only effective if cull_idle_timeout is not 0."""
     )
 
     cull_busy = Bool(False, config=True,
         help="""Whether to consider culling kernels which are busy.
-        Only effective if cull_interval is not 0."""
+        Only effective if cull_idle_timeout is not 0."""
     )
 
     #-------------------------------------------------------------------------
