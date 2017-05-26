@@ -71,7 +71,7 @@ class MappingKernelManager(MultiKernelManager):
         help="""The interval (in seconds) on which to check for idle kernels exceeding the cull timeout value."""
     )
 
-    cull_connected = Bool(True, config=True,
+    cull_connected = Bool(False, config=True,
         help="""Whether to consider culling kernels which have one or more connections.
         Only effective if cull_idle_timeout is not 0."""
     )
