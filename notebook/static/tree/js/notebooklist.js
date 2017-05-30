@@ -1037,7 +1037,7 @@ define([
             var item_path = utils.encode_uri_components(item.path);
             // Handle HTML files differently
             var item_type = item_path.endsWith('.html') ? 'view' : 'files';
-            window.open(utils.url_path_join(that.base_url, item_type, utils.encode_uri_components(item_path)), IPython._target);
+            window.open(utils.url_path_join(that.base_url, item_type, item_path), IPython._target);
       	});
     };
 
@@ -1047,7 +1047,7 @@ define([
             var item_path = utils.encode_uri_components(item.path);
             // Handle ipynb files differently
             var item_type = item_path.endsWith('.ipynb') ? 'notebooks' : 'edit';
-            window.open(utils.url_path_join(that.base_url, item_type, utils.encode_uri_components(item_path)), IPython._target);
+            window.open(utils.url_path_join(that.base_url, item_type, item_path), IPython._target);
       	});
     };
 
