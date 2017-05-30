@@ -543,17 +543,14 @@ define([
     };
 
     NotebookList.ipynb_extensions = ['ipynb'];
-    NotebookList.non_editable_extensions = ['jpeg', 'jpeg', 'png', 'zip', 'gif', 'tif', 'tiff', 'bmp', 'ico', 'pdf', 'doc', 'xls', 'xlsx'];
-    // List of text file extensions from https://github.com/sindresorhus/text-extensions/blob/master/text-extensions.json
-    NotebookList.editable_extensions = ['applescript', 'asp', 'aspx', 'atom', 'bashrc', 'bat', 'bbcolors', 'bib', 'bowerrc', 'c', 'cc', 'cfc', 'cfg', 'cfm', 'cmd', 'cnf', 'coffee', 'conf', 'cpp', 'cson', 'css', 'csslintrc', 'csv', 'curlrc', 'cxx', 'diff', 'eco', 'editorconfig', 'ejs', 'emacs', 'eml', 'erb', 'erl', 'eslintignore', 'eslintrc', 'gemrc', 'gitattributes', 'gitconfig', 'gitignore', 'go', 'gvimrc', 'h', 'haml', 'hbs', 'hgignore', 'hpp', 'htaccess', 'htm', 'html', 'iced', 'ini', 'ino', 'irbrc', 'itermcolors', 'jade', 'js', 'jscsrc', 'jshintignore', 'jshintrc', 'json', 'jsonld', 'jsx', 'less', 'log', 'ls', 'm', 'markdown', 'md', 'mdown', 'mdwn', 'mht', 'mhtml', 'mkd', 'mkdn', 'mkdown', 'nfo', 'npmignore', 'npmrc', 'nvmrc', 'patch', 'pbxproj', 'pch', 'php', 'phtml', 'pl', 'pm', 'properties', 'py', 'rb', 'rdoc', 'rdoc_options', 'ron', 'rss', 'rst', 'rtf', 'rvmrc', 'sass', 'scala', 'scss', 'seestyle', 'sh', 'sls', 'sql', 'sss', 'strings', 'styl', 'stylus', 'sub', 'sublime-build', 'sublime-commands', 'sublime-completions', 'sublime-keymap', 'sublime-macro', 'sublime-menu', 'sublime-project', 'sublime-settings', 'sublime-workspace', 'svg', 'terminal', 'tex', 'text', 'textile', 'tmLanguage', 'tmTheme', 'tsv', 'txt', 'vbs', 'vim', 'viminfo', 'vimrc', 'webapp', 'xht', 'xhtml', 'xml', 'xsl', 'yaml', 'yml', 'zsh', 'zshrc'];
+    // List of text file extensions from
+    // https://github.com/sindresorhus/text-extensions/blob/master/text-extensions.json
+    var editable_extensions = ['applescript', 'asp', 'aspx', 'atom', 'bashrc', 'bat', 'bbcolors', 'bib', 'bowerrc', 'c', 'cc', 'cfc', 'cfg', 'cfm', 'cmd', 'cnf', 'coffee', 'conf', 'cpp', 'cson', 'css', 'csslintrc', 'csv', 'curlrc', 'cxx', 'diff', 'eco', 'editorconfig', 'ejs', 'emacs', 'eml', 'erb', 'erl', 'eslintignore', 'eslintrc', 'gemrc', 'gitattributes', 'gitconfig', 'gitignore', 'go', 'gvimrc', 'h', 'haml', 'hbs', 'hgignore', 'hpp', 'htaccess', 'htm', 'html', 'iced', 'ini', 'ino', 'irbrc', 'itermcolors', 'jade', 'js', 'jscsrc', 'jshintignore', 'jshintrc', 'json', 'jsonld', 'jsx', 'less', 'log', 'ls', 'm', 'markdown', 'md', 'mdown', 'mdwn', 'mht', 'mhtml', 'mkd', 'mkdn', 'mkdown', 'nfo', 'npmignore', 'npmrc', 'nvmrc', 'patch', 'pbxproj', 'pch', 'php', 'phtml', 'pl', 'pm', 'properties', 'py', 'rb', 'rdoc', 'rdoc_options', 'ron', 'rss', 'rst', 'rtf', 'rvmrc', 'sass', 'scala', 'scss', 'seestyle', 'sh', 'sls', 'sql', 'sss', 'strings', 'styl', 'stylus', 'sub', 'sublime-build', 'sublime-commands', 'sublime-completions', 'sublime-keymap', 'sublime-macro', 'sublime-menu', 'sublime-project', 'sublime-settings', 'sublime-workspace', 'svg', 'terminal', 'tex', 'text', 'textile', 'tmLanguage', 'tmTheme', 'tsv', 'txt', 'vbs', 'vim', 'viminfo', 'vimrc', 'webapp', 'xht', 'xhtml', 'xml', 'xsl', 'yaml', 'yml', 'zsh', 'zshrc'];
+    NotebookList.editable_extensions = editable_extensions.concat(['geojson', 'plotly', 'plotly.json', 'vg', 'vg.json', 'vl', 'vl.json']);
     NotebookList.viewable_extensions = ['htm', 'html'];
 
     NotebookList.prototype._is_editable = function(filepath){
       return filepath_of_extension(filepath, NotebookList.editable_extensions);
-    };
-
-    NotebookList.prototype._is_not_editable = function(filepath){
-      return filepath_of_extension(filepath, NotebookList.non_editable_extensions);
     };
 
     NotebookList.prototype._is_notebook = function(filepath){
@@ -657,7 +654,7 @@ define([
         // already so no need to show the button.
         // That should include things like, html, py, txt, json....
         if (selected.length == 1 && !has_directory && selected.every(function(el) {
-            return that._is_editable(el.path) && ! that._is_notebook(el.path);
+            return !that._is_notebook(el.path);
         })) {
             $('.view-button').css('display', 'inline-block');
         } else {
@@ -672,9 +669,7 @@ define([
         // And non editable files should not show edit button.
         // for unknown we'll assume users know what they are doing.
         if (selected.length == 1 && !has_directory && selected.find(function(el) {
-            return !that._is_editable(el.path)
-                && !that._is_not_editable(el.path)
-                && !that._is_notebook(el.path);
+            return that._is_editable(el.path);
         })) {
             $('.edit-button').css('display', 'inline-block');
         } else {
