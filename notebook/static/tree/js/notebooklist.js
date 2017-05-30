@@ -653,7 +653,7 @@ define([
         // If it's not editable or unknown, the default action should be view
         // already so no need to show the button.
         // That should include things like, html, py, txt, json....
-        if (selected.length == 1 && !has_directory && selected.every(function(el) {
+        if (selected.length >= 1 && !has_directory && selected.every(function(el) {
             return !that._is_notebook(el.path);
         })) {
             $('.view-button').css('display', 'inline-block');
@@ -668,7 +668,7 @@ define([
         // Indeed if it's editable the default action is already to edit.
         // And non editable files should not show edit button.
         // for unknown we'll assume users know what they are doing.
-        if (selected.length == 1 && !has_directory && selected.find(function(el) {
+        if (selected.length >= 1 && !has_directory && selected.every(function(el) {
             return that._is_editable(el.path);
         })) {
             $('.edit-button').css('display', 'inline-block');
