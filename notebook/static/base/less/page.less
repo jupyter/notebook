@@ -27,6 +27,10 @@ body > #header {
     z-index: 100;
 
     #header-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 5px;
         padding-bottom: 5px;
         padding-top: 5px;
         .border-box-sizing();
@@ -57,9 +61,6 @@ body > #header {
     padding-left: 0px;
     padding-top: (@navbar-height - @logo_height) / 2;
     padding-bottom: (@navbar-height - @logo_height) / 2;
-    @media (max-width: @screen-sm-max){
-        margin-left: 10px;
-    }
 }
 
 
@@ -99,8 +100,12 @@ input.ui-button {
     padding: 0.3em 0.9em;
 }
 
+span#kernel_logo_widget {
+    margin: 0 10px;
+}
+
 span#login_widget {
-    float: right;
+    
 }
 
 span#login_widget > .button,

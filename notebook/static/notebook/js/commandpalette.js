@@ -164,7 +164,11 @@ define(function(require){
         // now src is the right structure for typeahead
 
         input.typeahead({
-          emptyTemplate: "No results found for <pre>{{query}}</pre>",
+          emptyTemplate: function(query) {
+            return $('<div>').text("No results found for ").append(
+                $('<code>').text(query)
+            );
+          },
           maxItem: 1e3,
           minLength: 0,
           hint: true,

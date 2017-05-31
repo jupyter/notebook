@@ -93,7 +93,7 @@ from jupyter_client.kernelspec import KernelSpecManager, NoSuchKernel, NATIVE_KE
 from jupyter_client.session import Session
 from nbformat.sign import NotebookNotary
 from traitlets import (
-    Dict, Unicode, Integer, List, Bool, Bytes, Instance,
+    Any, Dict, Unicode, Integer, List, Bool, Bytes, Instance,
     TraitError, Type, Float, observe, default, validate
 )
 from ipython_genutils import py3compat
@@ -294,6 +294,7 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('services.nbconvert.handlers'))
         handlers.extend(load_handlers('services.kernelspecs.handlers'))
         handlers.extend(load_handlers('services.security.handlers'))
+        handlers.extend(load_handlers('services.shutdown'))
         
         handlers.append(
             (r"/nbextensions/(.*)", FileFindHandler, {
@@ -740,7 +741,18 @@ class NotebookApp(JupyterApp):
     tornado_settings = Dict(config=True,
             help="Supply overrides for the tornado.web.Application that the "
                  "Jupyter notebook uses.")
-    
+
+    websocket_compression_options = Any(None, config=True,
+        help="""
+        Set the tornado compression options for websocket connections.
+
+        This value will be returned from :meth:`WebSocketHandler.get_compression_options`.
+        None (default) will disable compression.
+        A dict (even an empty one) will enable compression.
+
+        See the tornado docs for WebSocketHandler.get_compression_options for details.
+        """
+    )
     terminado_settings = Dict(config=True,
             help='Supply overrides for terminado. Currently only supports "shell_command".')
 
@@ -1107,6 +1119,7 @@ class NotebookApp(JupyterApp):
     def init_webapp(self):
         """initialize tornado webapp and httpserver"""
         self.tornado_settings['allow_origin'] = self.allow_origin
+        self.tornado_settings['websocket_compression_options'] = self.websocket_compression_options
         if self.allow_origin_pat:
             self.tornado_settings['allow_origin_pat'] = re.compile(self.allow_origin_pat)
         self.tornado_settings['allow_credentials'] = self.allow_credentials
@@ -1206,7 +1219,7 @@ class NotebookApp(JupyterApp):
             log("Terminals not available (error was %s)", e)
 
     def init_signal(self):
-        if not sys.platform.startswith('win') and sys.stdin.isatty():
+        if not sys.platform.startswith('win') and sys.stdin and sys.stdin.isatty():
             signal.signal(signal.SIGINT, self._handle_sigint)
         signal.signal(signal.SIGTERM, self._signal_stop)
         if hasattr(signal, 'SIGUSR1'):
@@ -1353,7 +1366,8 @@ class NotebookApp(JupyterApp):
         "Return the current working directory and the server url information"
         info = self.contents_manager.info_string() + "\n"
         info += "%d active kernels \n" % len(self.kernel_manager._kernels)
-        return info + "The Jupyter Notebook is running at: %s" % self.display_url
+        # Format the info so that the URL fits on a single line in 80 char display
+        return info + "The Jupyter Notebook is running at:\n\r%s" % self.display_url
 
     def server_info(self):
         """Return a JSONable dict of information about this server."""

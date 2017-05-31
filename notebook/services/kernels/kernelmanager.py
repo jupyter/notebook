@@ -15,7 +15,7 @@ from tornado.ioloop import IOLoop, PeriodicCallback
 
 from jupyter_client.session import Session
 from jupyter_client.multikernelmanager import MultiKernelManager
-from traitlets import Dict, List, Unicode, TraitError, Integer, default, validate
+from traitlets import Bool, Dict, List, Unicode, TraitError, Integer, default, validate
 
 from notebook.utils import to_os_path
 from notebook._tz import utcnow, isoformat
@@ -69,6 +69,16 @@ class MappingKernelManager(MultiKernelManager):
     cull_interval_default = 300 # 5 minutes
     cull_interval = Integer(cull_interval_default, config=True,
         help="""The interval (in seconds) on which to check for idle kernels exceeding the cull timeout value."""
+    )
+
+    cull_connected = Bool(False, config=True,
+        help="""Whether to consider culling kernels which have one or more connections.
+        Only effective if cull_idle_timeout is not 0."""
+    )
+
+    cull_busy = Bool(False, config=True,
+        help="""Whether to consider culling kernels which are busy.
+        Only effective if cull_idle_timeout is not 0."""
     )
 
     #-------------------------------------------------------------------------
@@ -273,6 +283,10 @@ class MappingKernelManager(MultiKernelManager):
                     self.cull_kernels, 1000*self.cull_interval, loop)
                 self.log.info("Culling kernels with idle durations > %s seconds at %s second intervals ...",
                     self.cull_idle_timeout, self.cull_interval)
+                if self.cull_busy:
+                    self.log.info("Culling kernels even if busy")
+                if self.cull_connected:
+                    self.log.info("Culling kernels even with connected clients")
                 self._culler_callback.start()
 
         self._initialized_culler = True
@@ -294,8 +308,15 @@ class MappingKernelManager(MultiKernelManager):
         if kernel.last_activity is not None:
             dt_now = utcnow()
             dt_idle = dt_now - kernel.last_activity
-            if dt_idle > timedelta(seconds=self.cull_idle_timeout): # exceeds timeout, can be culled
+            # Compute idle properties
+            is_idle_time = dt_idle > timedelta(seconds=self.cull_idle_timeout)
+            is_idle_execute = self.cull_busy or (kernel.execution_state != 'busy')
+            connections = self._kernel_connections.get(kernel_id, 0)
+            is_idle_connected = self.cull_connected or not connections
+            # Cull the kernel if all three criteria are met
+            if (is_idle_time and is_idle_execute and is_idle_connected):
                 idle_duration = int(dt_idle.total_seconds())
-                self.log.warning("Culling kernel '%s' (%s) due to %s seconds of inactivity.", kernel.kernel_name, kernel_id, idle_duration)
+                self.log.warning("Culling '%s' kernel '%s' (%s) with %d connections due to %s seconds of inactivity.",
+                                 kernel.execution_state, kernel.kernel_name, kernel_id, connections, idle_duration)
                 self.shutdown_kernel(kernel_id)
 

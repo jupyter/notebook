@@ -79,6 +79,11 @@ define([
                     class: "btn-primary",
                     click: function () {
                         var new_name = d.find('input').val();
+                        if (!new_name) {
+                            // Reset the message
+                            d.find('.rename-message').text("Enter a new filename:");
+                            return false;
+                        }
                         d.find('.rename-message').text("Renaming...");
                         d.find('input[type="text"]').prop('disabled', true);
                         that.editor.rename(new_name).then(

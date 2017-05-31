@@ -120,6 +120,9 @@ dir="ltr">
   <div id="header-container" class="container">
   <div id="ipython_notebook" class="nav navbar-brand pull-left"><a href="{{default_url}}" title='dashboard'>{% block logo %}<img src='{{static_url("base/images/logo.png") }}' alt='Jupyter Notebook'/>{% endblock %}</a></div>
 
+  {% block headercontainer %}
+  {% endblock %}
+  
   {% block header_buttons %}
   
   {% block login_widget %}
@@ -135,9 +138,7 @@ dir="ltr">
   {% endblock %}
 
   {% endblock header_buttons %}
-
-  {% block headercontainer %}
-  {% endblock %}
+  
   </div>
   <div class="header-bar"></div>
 
