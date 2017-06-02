@@ -547,15 +547,12 @@ define([
         var outputs = this.output_area.toJSON();
         data.outputs = outputs;
         data.metadata.trusted = this.output_area.trusted;
-        if (this.output_area.collapsed) {
-            data.metadata.collapsed = this.output_area.collapsed;
-        } else {
+
+        if (data.metadata.collapsed !== undefined) {
             delete data.metadata.collapsed;
         }
-        if (this.output_area.scroll_state === 'auto') {
+        if (data.metadata.scrolled !== undefined) {
             delete data.metadata.scrolled;
-        } else {
-            data.metadata.scrolled = this.output_area.scroll_state;
         }
         return data;
     };
