@@ -135,8 +135,8 @@ define([
                 "Shift-Tab" : "indentLess",
                 // "Cmd-Alt-[" : "indentAuto",
                 // "Ctrl-Alt-[" : "indentAuto",
-                // "Cmd-/" : "toggleComment",
-                // "Ctrl-/" : "toggleComment",
+                "Cmd-/" : "toggleComment",
+                "Ctrl-/" : "toggleComment",
             }
         }
     };
