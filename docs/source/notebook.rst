@@ -142,7 +142,7 @@ and communicate back results.  This kernel remains active if the web browser
 window is closed, and reopening the same notebook from the dashboard will
 reconnect the web application to the same kernel. In the dashboard, notebooks
 with an active kernel have a ``Shutdown`` button next to them, whereas
-notebooks without an active kernel have a ``Delete`` button in its place.
+notebooks without an inactive kernel have a ``Delete`` button in its place.
 
 Other clients may connect to the same kernel.
 When each kernel is started, the notebook server prints to the terminal a
