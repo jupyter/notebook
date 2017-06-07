@@ -133,8 +133,8 @@ define([
                 "Cmd-Left": "goLineLeft",
                 "Tab": "indentMore",
                 "Shift-Tab" : "indentLess",
-                "Cmd-Alt-[" : "indentAuto",
-                "Ctrl-Alt-[" : "indentAuto",
+                // "Cmd-Alt-[" : "indentAuto",
+                // "Ctrl-Alt-[" : "indentAuto",
                 "Cmd-/" : "toggleComment",
                 "Ctrl-/" : "toggleComment",
             }
