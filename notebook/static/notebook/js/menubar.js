@@ -347,6 +347,9 @@ define([
             that.update_nbconvert_script(langinfo);
             that.add_kernel_help_links(data.kernel.info_reply.help_links || []);
         });
+        this.events.on('trust_changed.Notebook', function (event, trusted) {
+            that.set_trusted_indicator(trusted);
+        });
     };
     
     MenuBar.prototype._add_celltoolbar_list = function () {
@@ -475,6 +478,18 @@ define([
         });
         
     };
+
+    MenuBar.prototype.set_trusted_indicator = function (trusted) {
+        // TODO
+        var el = this.element.find('span.trusted-indicator');
+        if (trusted) {
+            el.text('Notebook is trusted.').removeClass("untrusted").addClass("trusted");
+        }
+        else {
+            el.text('Notebook is untrusted.').removeClass("trusted").addClass("untrusted");
+        }
+    };
+
 
     return {'MenuBar': MenuBar};
 });
