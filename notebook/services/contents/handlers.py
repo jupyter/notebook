@@ -52,11 +52,7 @@ def validate_model(model, expect_content):
                 u"Keys unexpectedly None: {keys}".format(keys=errors),
             )
     else:
-        errors = {
-            key: model[key]
-            for key in maybe_none_keys
-            if model[key] is not None
-        }
+        errors = {key: model[key] for key in maybe_none_keys if model[key] is not None}
         if errors:
             raise web.HTTPError(
                 500,
