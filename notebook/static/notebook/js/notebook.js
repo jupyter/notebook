@@ -785,7 +785,7 @@ define([
         var low  = Math.min(i1, i2);
         var high = Math.max(i1, i2);
         this.get_cells().map(function(cell, index, all){
-            if( low <= index && index <= high && low !== high){
+            if( low <= index && index <= high ){
                 cell.element.addClass(_SOFT_SELECTION_CLASS);
             } else {
                 cell.element.removeClass(_SOFT_SELECTION_CLASS);
