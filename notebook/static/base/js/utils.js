@@ -1053,6 +1053,12 @@ define([
         return js_idx;
     }
 
+    if ('𝐚'.length === 1) {
+        // If javascript fixes string indices of non-BMP characters,
+        // don't keep shifting offsets to compensate for surrogate pairs
+        char_idx_to_js_idx = js_idx_to_char_idx = function (idx, text) { return idx; };
+    }
+
     // Test if a drag'n'drop event contains a file (as opposed to an HTML
     // element/text from the document)
     var dnd_contain_file = function(event) {
