@@ -1025,11 +1025,14 @@ define([
     // to js offset (with surrogate pairs taking two spots).
     function js_idx_to_char_idx (js_idx, text) {
         var char_idx = js_idx;
-        for (var i = 0; i < text.length && i < js_idx; i++) {
+        for (var i = 0; i + 1 < text.length && i < js_idx; i++) {
             var char_code = text.charCodeAt(i);
-            // check for the first half of a surrogate pair
-            if (char_code >= 0xD800 && char_code < 0xDC00) {
-                char_idx -= 1;
+            // check for surrogate pair
+            if (char_code >= 0xD800 && char_code <= 0xDBFF) {
+                var next_char_code = text.charCodeAt(i+1);
+                if (next_char_code >= 0xDC00 && next_char_code <= 0xDFFF) {
+                    char_idx -= 1;
+                }
             }
         }
         return char_idx;
@@ -1037,11 +1040,14 @@ define([
 
     function char_idx_to_js_idx (char_idx, text) {
         var js_idx = char_idx;
-        for (var i = 0; i < text.length && i < js_idx; i++) {
+        for (var i = 0; i + 1 < text.length && i < js_idx; i++) {
             var char_code = text.charCodeAt(i);
-            // check for the first half of a surrogate pair
-            if (char_code >= 0xD800 && char_code < 0xDC00) {
-                js_idx += 1;
+            // check for surrogate pair
+            if (char_code >= 0xD800 && char_code <= 0xDBFF) {
+                var next_char_code = text.charCodeAt(i+1);
+                if (next_char_code >= 0xDC00 && next_char_code <= 0xDFFF) {
+                    js_idx += 1;
+                }
             }
         }
         return js_idx;
