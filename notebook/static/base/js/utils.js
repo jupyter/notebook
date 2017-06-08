@@ -1031,7 +1031,8 @@ define([
             if (char_code >= 0xD800 && char_code <= 0xDBFF) {
                 var next_char_code = text.charCodeAt(i+1);
                 if (next_char_code >= 0xDC00 && next_char_code <= 0xDFFF) {
-                    char_idx -= 1;
+                    char_idx--;
+                    i++;
                 }
             }
         }
@@ -1046,7 +1047,8 @@ define([
             if (char_code >= 0xD800 && char_code <= 0xDBFF) {
                 var next_char_code = text.charCodeAt(i+1);
                 if (next_char_code >= 0xDC00 && next_char_code <= 0xDFFF) {
-                    js_idx += 1;
+                    js_idx++;
+                    i++;
                 }
             }
         }
