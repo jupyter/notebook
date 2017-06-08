@@ -314,8 +314,6 @@ define([
                     this.metadata.tags !== undefined) {
                 if (this.metadata.tags.indexOf('raises-exception') !== -1) {
                     stop_on_error = false;
-                } else if (this.metadata.tags.indexOf('nbval-raises-exception') !== -1) {
-                    stop_on_error = false;
                 } else {
                     stop_on_error = true;
                 }
