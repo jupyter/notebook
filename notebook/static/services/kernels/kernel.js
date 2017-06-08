@@ -80,7 +80,7 @@ define([
                 username : this.username,
                 session : this.session_id,
                 msg_type : msg_type,
-                version : "5.0"
+                version : "5.2",
             },
             metadata : metadata || {},
             content : content,
