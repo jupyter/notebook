@@ -1413,8 +1413,7 @@ class NotebookApp(JupyterApp):
             except AttributeError:
                 uid = -1 # anything nonzero here, since we can't check UID assume non-root
             if uid == 0:
-                self.log.critical("Running as root is not recommended. Use --allow-root to bypass.")
-                self.exit(1)
+                self.log.critical("Running as root is not recommended. Use --allow-root to suppress this warning.")
 
         info = self.log.info
         for line in self.notebook_info().split("\n"):
