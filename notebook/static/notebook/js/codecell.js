@@ -310,7 +310,16 @@ define([
         }
 
         if (stop_on_error === undefined) {
-            stop_on_error = true;
+            if (this.metadata !== undefined && 
+                    this.metadata.tags !== undefined) {
+                if (this.metadata.tags.indexOf('raises-exception') !== -1) {
+                    stop_on_error = false;
+                } else {
+                    stop_on_error = true;
+                }
+            } else {
+               stop_on_error = true;
+            }
         }
 
         this.clear_output(false, true);
