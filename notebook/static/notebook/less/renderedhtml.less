@@ -44,11 +44,17 @@
         background-color: @rendered_html_border_color;
     }
 
-    pre {margin: 1em 2em;}
+    pre {
+        margin: 1em 2em;
+        background-color: @body-bg;
+    }
+
+    code {background-color: #eff0f1;}
+
+    pre code {background-color: @body-bg;}
 
     pre, code {
         border:             0;
-        background-color:   @body-bg;
         color:              @text-color;
         font-size:          100%;
         padding:            0px;
