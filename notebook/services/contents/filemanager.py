@@ -9,6 +9,7 @@ import io
 import os
 import shutil
 import stat
+import sys
 import warnings
 import mimetypes
 import nbformat
@@ -18,6 +19,7 @@ from tornado import web
 from .filecheckpoints import FileCheckpoints
 from .fileio import FileManagerMixin
 from .manager import ContentsManager
+from ...utils import f_stat, WINDOWS_CONTAINER, exists
 
 from ipython_genutils.importstring import import_item
 from traitlets import Any, Unicode, Bool, TraitError, observe, default, validate
@@ -220,12 +222,12 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         """
         path = path.strip('/')
         os_path = self._get_os_path(path=path)
-        return os.path.exists(os_path)
+        return exists(os_path)
 
     def _base_model(self, path):
         """Build the common base of a contents model"""
         os_path = self._get_os_path(path)
-        info = os.stat(os_path)
+        info = f_stat(os_path)
         last_modified = tz.utcfromtimestamp(info.st_mtime)
         created = tz.utcfromtimestamp(info.st_ctime)
         # Create the base model.
@@ -275,7 +277,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                     continue
 
                 try:
-                    st = os.stat(os_path)
+                    st = f_stat(os_path)
                 except OSError as e:
                     # skip over broken symlinks in listing
                     if e.errno == errno.ENOENT:
@@ -284,7 +286,9 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                         self.log.warning("Error stat-ing %s: %s", os_path, e)
                     continue
 
-                if not stat.S_ISREG(st.st_mode) and not stat.S_ISDIR(st.st_mode):
+                if (not WINDOWS_CONTAINER
+                        and not stat.S_ISREG(st.st_mode)
+                        and not stat.S_ISDIR(st.st_mode)):
                     self.log.debug("%s not a regular file", os_path)
                     continue
 

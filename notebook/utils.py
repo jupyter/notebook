@@ -24,6 +24,24 @@ from ipython_genutils import py3compat
 # It is used by BSD to indicate hidden files.
 UF_HIDDEN = getattr(stat, 'UF_HIDDEN', 32768)
 
+# Replace `os.stat` which can't stat a host mapped volume from inside a Windows Container.
+WINDOWS_CONTAINER = sys.platform == 'win32' and os.environ.get('USERNAME') == 'ContainerAdministrator'
+if WINDOWS_CONTAINER:
+    f_stat = os.lstat
+else:
+    f_stat = os.stat
+
+
+def exists(path):
+    """Replacement for `os.path.exists` which works for host mapped volumes
+    on Windows containers
+    """
+    try:
+        f_stat(path)
+    except OSError:
+        return False
+    return True
+
 
 def url_path_join(*pieces):
     """Join components of url into a relative url
@@ -58,10 +76,10 @@ def url2path(url):
     pieces = [ unquote(p) for p in url.split('/') ]
     path = os.path.join(*pieces)
     return path
-    
+
 def url_escape(path):
     """Escape special characters in a URL path
-    
+
     Turns '/foo bar/' into '/foo%20bar/'
     """
     parts = py3compat.unicode_to_str(path, encoding='utf8').split('/')
@@ -69,7 +87,7 @@ def url_escape(path):
 
 def url_unescape(path):
     """Unescape special characters in a URL path
-    
+
     Turns '/foo%20bar/' into '/foo bar/'
     """
     return u'/'.join([
@@ -77,7 +95,6 @@ def url_unescape(path):
         for p in py3compat.unicode_to_str(path, encoding='utf8').split('/')
     ])
 
-_win32_FILE_ATTRIBUTE_HIDDEN = 0x02
 
 def is_file_hidden_win(abs_path, stat_res=None):
     """Is a file hidden?
@@ -98,22 +115,15 @@ def is_file_hidden_win(abs_path, stat_res=None):
     if os.path.basename(abs_path).startswith('.'):
         return True
 
-    # check that dirs can be listed
-    if os.path.isdir(abs_path):
-        # can't trust os.access on Windows because it seems to always return True
-        try:
-            os.stat(abs_path)
-        except OSError:
-            # stat may fail on Windows junctions or non-user-readable dirs
-            return True
-
+    win32_FILE_ATTRIBUTE_HIDDEN = 0x02
     try:
         attrs = ctypes.windll.kernel32.GetFileAttributesW(
-            py3compat.cast_unicode(abs_path))
+            py3compat.cast_unicode(abs_path)
+        )
     except AttributeError:
         pass
     else:
-        if attrs > 0 and attrs & _win32_FILE_ATTRIBUTE_HIDDEN:
+        if attrs > 0 and attrs & win32_FILE_ATTRIBUTE_HIDDEN:
             return True
 
     return False
@@ -164,12 +174,12 @@ else:
 
 def is_hidden(abs_path, abs_root=''):
     """Is a file hidden or contained in a hidden directory?
-    
+
     This will start with the rightmost path element and work backwards to the
     given root to see if a path is hidden or in a hidden directory. Hidden is
-    determined by either name starting with '.' or the UF_HIDDEN flag as 
+    determined by either name starting with '.' or the UF_HIDDEN flag as
     reported by stat.
-    
+
     Parameters
     ----------
     abs_path : unicode
@@ -191,12 +201,12 @@ def is_hidden(abs_path, abs_root=''):
     # is_file_hidden() already checked the file, so start from its parent dir
     path = os.path.dirname(abs_path)
     while path and path.startswith(abs_root) and path != abs_root:
-        if not os.path.exists(path):
+        if not exists(path):
             path = os.path.dirname(path)
             continue
         try:
             # may fail on Windows junctions
-            st = os.stat(path)
+            st = f_stat(path)
         except OSError:
             return True
         if getattr(st, 'st_flags', 0) & UF_HIDDEN:
@@ -244,7 +254,7 @@ def to_os_path(path, root=''):
 
 def to_api_path(os_path, root=''):
     """Convert a filesystem path to an API path
-    
+
     If given, root will be removed from the path.
     root must be a filesystem path already.
     """
