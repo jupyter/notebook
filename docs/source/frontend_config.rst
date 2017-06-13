@@ -61,7 +61,7 @@ four spaces. Enter the following code snippet in your JavaScript console::
     var config = cell.config;
     var patch = {
           CodeCell:{
-            cm_config:{indentUnit: null} # only change here.
+            cm_config:{indentUnit: null} // only change here.
           }
         }
     config.update(patch)
