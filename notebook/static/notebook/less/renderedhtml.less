@@ -44,14 +44,23 @@
         background-color: @rendered_html_border_color;
     }
 
-    pre {margin: 1em 2em;}
+    pre {
+        margin: 1em 2em;
+        padding: 0px;
+        background-color: @body-bg;
+    }
+
+    code {
+        background-color: #eff0f1;
+        padding: 1px 5px;
+    }
+
+    pre code {background-color: @body-bg;}
 
     pre, code {
         border:             0;
-        background-color:   @body-bg;
         color:              @text-color;
         font-size:          100%;
-        padding:            0px;
     }
 
     blockquote {margin: 1em 2em;}
