@@ -689,5 +689,6 @@ path_regex = r"(?P<path>(?:(?:/[^/]+)+|/?))"
 
 default_handlers = [
     (r".*/", TrailingSlashHandler),
-    (r"api", APIVersionHandler)
+    (r"api", APIVersionHandler),
+    (r'/(robots\.txt|favicon\.ico)', web.StaticFileHandler),
 ]
