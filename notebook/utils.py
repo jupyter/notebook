@@ -24,20 +24,13 @@ from ipython_genutils import py3compat
 # It is used by BSD to indicate hidden files.
 UF_HIDDEN = getattr(stat, 'UF_HIDDEN', 32768)
 
-# Replace `os.stat` which can't stat a host mapped volume from inside a Windows Container.
-WINDOWS_CONTAINER = sys.platform == 'win32' and os.environ.get('USERNAME') == 'ContainerAdministrator'
-if WINDOWS_CONTAINER:
-    f_stat = os.lstat
-else:
-    f_stat = os.stat
-
 
 def exists(path):
     """Replacement for `os.path.exists` which works for host mapped volumes
     on Windows containers
     """
     try:
-        f_stat(path)
+        os.lstat(path)
     except OSError:
         return False
     return True
@@ -206,7 +199,7 @@ def is_hidden(abs_path, abs_root=''):
             continue
         try:
             # may fail on Windows junctions
-            st = f_stat(path)
+            st = os.lstat(path)
         except OSError:
             return True
         if getattr(st, 'st_flags', 0) & UF_HIDDEN:
