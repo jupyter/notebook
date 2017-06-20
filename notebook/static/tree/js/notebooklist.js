@@ -737,6 +737,10 @@ define([
         {
             uri_prefix = 'view';
         }
+        if (model.type === 'file' && this._is_editable(model))
+        {
+            uri_prefix = 'edit';
+        }
         if (model.type === 'file' && this._is_notebook(model))
         {
             uri_prefix = 'notebooks';
