@@ -54,7 +54,18 @@ define([
      **/
 
     OutputArea.prototype.create_elements = function () {
-        this.element = $("<div/>");
+        var element = this.element = $("<div/>");
+        // wrap element in safe trigger,
+        // so that errors (e.g. in widget extensions) are logged instead of
+        // breaking everything.
+        this.element._original_trigger = this.element.trigger;
+        this.element.trigger = function (name, data) {
+            try {
+                this._original_trigger.apply(this, arguments);
+            } catch (e) {
+                console.error("Exception in event handler for " + name, e, arguments);
+            }
+        }
         this.collapse_button = $("<div/>");
         this.prompt_overlay = $("<div/>");
         this.wrapper.append(this.prompt_overlay);
