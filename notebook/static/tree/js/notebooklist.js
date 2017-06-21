@@ -22,14 +22,16 @@ define([
       return parts[parts.length-1];
     };
 
-    var extension_in = function(extension, extensionslist){
-      var res =  extensionslist.indexOf(extension) != -1;
-      return res;
-
+    var item_in = function(item, list) {
+      return list.indexOf(item) != -1;
     };
 
-    var filepath_of_extension = function(filepath, extensionslist){
-      return extension_in(extension(filepath), extensionslist);
+    var includes_extension = function(filepath, extensionslist) {
+      return item_in(extension(filepath), extensionslist);
+    };
+    
+    var includes_mimetype = function(str, mimetype) {
+      return item_in(str, mimetype || '');
     };
 
     var NotebookList = function (selector, options) {
@@ -543,19 +545,24 @@ define([
     };
 
     NotebookList.ipynb_extensions = ['ipynb'];
-    NotebookList.non_editable_extensions = 'jpeg jpeg png zip gif tif tiff bmp ico pdf doc xls xlsx'.split(' ');
-    NotebookList.editable_extensions = 'txt py cson json yaml html'.split(' ');
+    // List of text file extensions from
+    // https://github.com/sindresorhus/text-extensions/blob/master/text-extensions.json
+    var editable_extensions = ['applescript', 'asp', 'aspx', 'atom', 'bashrc', 'bat', 'bbcolors', 'bib', 'bowerrc', 'c', 'cc', 'cfc', 'cfg', 'cfm', 'cmd', 'cnf', 'coffee', 'conf', 'cpp', 'cson', 'css', 'csslintrc', 'csv', 'curlrc', 'cxx', 'diff', 'eco', 'editorconfig', 'ejs', 'emacs', 'eml', 'erb', 'erl', 'eslintignore', 'eslintrc', 'gemrc', 'gitattributes', 'gitconfig', 'gitignore', 'go', 'gvimrc', 'h', 'haml', 'hbs', 'hgignore', 'hpp', 'htaccess', 'htm', 'html', 'iced', 'ini', 'ino', 'irbrc', 'itermcolors', 'jade', 'js', 'jscsrc', 'jshintignore', 'jshintrc', 'json', 'jsonld', 'jsx', 'less', 'log', 'ls', 'm', 'markdown', 'md', 'mdown', 'mdwn', 'mht', 'mhtml', 'mkd', 'mkdn', 'mkdown', 'nfo', 'npmignore', 'npmrc', 'nvmrc', 'patch', 'pbxproj', 'pch', 'php', 'phtml', 'pl', 'pm', 'properties', 'py', 'rb', 'rdoc', 'rdoc_options', 'ron', 'rss', 'rst', 'rtf', 'rvmrc', 'sass', 'scala', 'scss', 'seestyle', 'sh', 'sls', 'sql', 'sss', 'strings', 'styl', 'stylus', 'sub', 'sublime-build', 'sublime-commands', 'sublime-completions', 'sublime-keymap', 'sublime-macro', 'sublime-menu', 'sublime-project', 'sublime-settings', 'sublime-workspace', 'svg', 'terminal', 'tex', 'text', 'textile', 'tmLanguage', 'tmTheme', 'tsv', 'txt', 'vbs', 'vim', 'viminfo', 'vimrc', 'webapp', 'xht', 'xhtml', 'xml', 'xsl', 'yaml', 'yml', 'zsh', 'zshrc'];
+    NotebookList.editable_extensions = editable_extensions.concat(['ipynb', 'geojson', 'plotly', 'plotly.json', 'vg', 'vg.json', 'vl', 'vl.json']);
+    NotebookList.viewable_extensions = ['htm', 'html', 'xhtml', 'mht', 'mhtml'];
 
-    NotebookList.prototype._is_editable = function(filepath){
-      return filepath_of_extension(filepath, NotebookList.editable_extensions);
+    NotebookList.prototype._is_notebook = function(model) {
+      return includes_extension(model.path, NotebookList.ipynb_extensions);
     };
-
-    NotebookList.prototype._is_not_editable = function(filepath){
-      return filepath_of_extension(filepath, NotebookList.non_editable_extensions);
+    
+    NotebookList.prototype._is_editable = function(model) {
+      return (includes_mimetype('text/', model.mimetype) || includes_mimetype('application/', model.mimetype)) 
+        || includes_extension(model.path, NotebookList.editable_extensions);
     };
-
-    NotebookList.prototype._is_notebook = function(filepath){
-      return filepath_of_extension(filepath, NotebookList.ipynb_extensions)
+    
+    NotebookList.prototype._is_viewable = function(model) {
+      return model.mimetype === 'text/html' 
+        || includes_extension(model.path, NotebookList.viewable_extensions);
     };
 
     /**
@@ -650,9 +657,7 @@ define([
         // If it's not editable or unknown, the default action should be view
         // already so no need to show the button.
         // That should include things like, html, py, txt, json....
-        if (selected.length == 1 && !has_directory && selected.every(function(el) {
-            return that._is_editable(el.path) && ! that._is_notebook(el.path);
-        })) {
+        if (selected.length >= 1 && !has_directory) {
             $('.view-button').css('display', 'inline-block');
         } else {
             $('.view-button').css('display', 'none');
@@ -665,10 +670,8 @@ define([
         // Indeed if it's editable the default action is already to edit.
         // And non editable files should not show edit button.
         // for unknown we'll assume users know what they are doing.
-        if (selected.length == 1 && !has_directory && selected.find(function(el) {
-            return !that._is_editable(el.path)
-                && !that._is_not_editable(el.path)
-                && !that._is_notebook(el.path);
+        if (selected.length >= 1 && !has_directory && selected.every(function(el) {
+            return that._is_editable(el);
         })) {
             $('.edit-button').css('display', 'inline-block');
         } else {
@@ -714,25 +717,33 @@ define([
     };
 
     NotebookList.prototype.add_link = function (model, item) {
-        var path = model.path,
-            name = model.name,
-            modified = model.last_modified;
-        var running = (model.type === 'notebook' && this.sessions[path] !== undefined);
+        var running = (model.type === 'notebook' && this.sessions[model.path] !== undefined);
 
-        item.data('name', name);
-        item.data('path', path);
-        item.data('modified', modified);
+        item.data('name', model.name);
+        item.data('path', model.path);
+        item.data('modified', model.modified);
         item.data('type', model.type);
-        item.find(".item_name").text(name);
+        item.find(".item_name").text(model.name);
         var icon = NotebookList.icons[model.type];
         if (running) {
             icon = 'running_' + icon;
         }
         var uri_prefix = NotebookList.uri_prefixes[model.type];
-        if (model.type === 'file'
-            && !this._is_editable(path))
+        if (model.type === 'file' && !this._is_editable(model))
+        {
+            uri_prefix = 'files';
+        }
+        if (model.type === 'file' && this._is_viewable(model))
         {
             uri_prefix = 'view';
+        }
+        if (model.type === 'file' && this._is_editable(model))
+        {
+            uri_prefix = 'edit';
+        }
+        if (model.type === 'file' && this._is_notebook(model))
+        {
+            uri_prefix = 'notebooks';
         }
 
         item.find(".item_icon").addClass(icon).addClass('icon-fixed-width');
@@ -741,7 +752,7 @@ define([
                 utils.url_path_join(
                     this.base_url,
                     uri_prefix,
-                    utils.encode_uri_components(path)
+                    utils.encode_uri_components(model.path)
                 )
             );
 
@@ -754,8 +765,8 @@ define([
         }
 
         // Add in the date that the file was last modified
-        item.find(".item_modified").text(utils.format_datetime(modified));
-        item.find(".item_modified").attr("title", moment(modified).format("YYYY-MM-DD HH:mm"));
+        item.find(".item_modified").text(utils.format_datetime(model.modified));
+        item.find(".item_modified").attr("title", moment(model.modified).format("YYYY-MM-DD HH:mm"));
     };
 
 
@@ -1024,8 +1035,7 @@ define([
         var that = this;
         that.selected.forEach(function(item) {
             var item_path = utils.encode_uri_components(item.path);
-            // Handle HTML files differently
-            var item_type = item_path.endsWith('.html') ? 'view' : 'files';
+            var item_type = that._is_notebook(item) ? 'notebooks' : that._is_viewable(item) ? 'view' : 'files';
             window.open(utils.url_path_join(that.base_url, item_type, item_path), IPython._target);
       	});
     };
@@ -1034,9 +1044,7 @@ define([
         var that = this;
         that.selected.forEach(function(item) {
             var item_path = utils.encode_uri_components(item.path);
-            // Handle ipynb files differently
-            var item_type = item_path.endsWith('.ipynb') ? 'notebooks' : 'edit';
-            window.open(utils.url_path_join(that.base_url, item_type, utils.encode_uri_components(item_path)), IPython._target);
+            window.open(utils.url_path_join(that.base_url, 'edit', item_path), IPython._target);
       	});
     };
 
