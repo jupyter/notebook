@@ -2,7 +2,7 @@
 
 {% block title %}{{page_title}}{% endblock %}
 
-{% block favicon %}<link rel="shortcut icon" type="image/x-icon" href="{{static_url("base/images/favicon-terminal.ico") }}">{% endblock %}
+{% block favicon %}<link id="favicon" rel="shortcut icon" type="image/x-icon" href="{{static_url("base/images/favicon-terminal.ico") }}">{% endblock %}
 
 {% block bodyclasses %}terminal-app {{super()}}{% endblock %}
 
