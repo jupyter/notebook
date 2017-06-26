@@ -86,7 +86,7 @@ define(['jquery',
             var button = $("<button/>")
                 .addClass("btn btn-default btn-sm")
                 .attr("data-dismiss", "modal")
-                .text(i18n.translate(label).fetch());
+                .text(i18n.msg.translate(label).fetch());
             if (btn_opts.id) {
                 button.attr('id', btn_opts.id);
             }
@@ -158,11 +158,11 @@ define(['jquery',
         options.name = options.name || "Cell";
         var error_div = $('<div/>').css('color', 'red');
         var message_cell = 
-            i18n._("Manually edit the JSON below to manipulate the metadata for this cell.");
+            i18n.msg._("Manually edit the JSON below to manipulate the metadata for this cell.");
         var message_notebook = 
-            i18n._("Manually edit the JSON below to manipulate the metadata for this notebook.");
+            i18n.msg._("Manually edit the JSON below to manipulate the metadata for this notebook.");
         var message_end = 
-            i18n._(" We recommend putting custom metadata attributes in an appropriately named substructure," +
+            i18n.msg._(" We recommend putting custom metadata attributes in an appropriately named substructure," +
             " so they don't conflict with those of others.");
 
         var message;
@@ -177,7 +177,7 @@ define(['jquery',
             .attr('name', 'metadata')
             .text(JSON.stringify(options.md || {}, null, 2));
         
-        var dialogform = $('<div/>').attr('title', i18n._('Edit the metadata'))
+        var dialogform = $('<div/>').attr('title', i18n.msg._('Edit the metadata'))
             .append(
                 $('<form/>').append(
                     $('<fieldset/>').append(
@@ -199,13 +199,13 @@ define(['jquery',
         });
         var title_msg;
         if (options.name === "Notebook") {
-        	title_msg = i18n._("Edit Notebook Metadata");
+        	title_msg = i18n.msg._("Edit Notebook Metadata");
         } else {
-        	title_msg = i18n._("Edit Cell Metadata");
+        	title_msg = i18n.msg._("Edit Cell Metadata");
         }
         // This statement is used simply so that message extraction
         // will pick up the strings.
-        var button_labels = [ i18n._("Cancel"), i18n._("Edit"), i18n._("OK"), i18n._("Apply")];
+        var button_labels = [ i18n.msg._("Cancel"), i18n.msg._("Edit"), i18n.msg._("OK"), i18n.msg._("Apply")];
         var modal_obj = modal({
             title: title_msg,
             body: dialogform,
@@ -222,7 +222,7 @@ define(['jquery',
                             new_md = JSON.parse(editor.getValue());
                         } catch(e) {
                             console.log(e);
-                            error_div.text(i18n._('WARNING: Could not save invalid JSON.'));
+                            error_div.text(i18n.msg._('WARNING: Could not save invalid JSON.'));
                             return false;
                         }
                         options.callback(new_md);
@@ -244,10 +244,10 @@ define(['jquery',
         var message;
         var attachments_list;
         if (Object.keys(options.attachments).length == 0) {
-            message = i18n._("There are no attachments for this cell.");
+            message = i18n.msg._("There are no attachments for this cell.");
             attachments_list = $('<div>');
         } else {
-            message = i18n._("Current cell attachments");
+            message = i18n.msg._("Current cell attachments");
 
             attachments_list = $('<div>')
                 .addClass('list_container')
@@ -256,7 +256,7 @@ define(['jquery',
                     .addClass('row list_header')
                     .append(
                         $('<div>')
-                        .text(i18n._('Attachments'))
+                        .text(i18n.msg._('Attachments'))
                     )
                 );
 
@@ -280,7 +280,7 @@ define(['jquery',
                             .addClass('btn btn-default btn-xs')
                             .css('display', 'inline-block');
                         if (deleted) {
-                            btn.attr('title', i18n._('Restore'))
+                            btn.attr('title', i18n.msg._('Restore'))
                                .append(
                                    $('<i>')
                                    .addClass('fa fa-plus')
@@ -290,7 +290,7 @@ define(['jquery',
                                 refresh_attachments_list();
                             });
                         } else {
-                            btn.attr('title', i18n._('Delete'))
+                            btn.attr('title', i18n.msg._('Delete'))
                                .addClass('btn-danger')
                                .append(
                                    $('<i>')
@@ -339,15 +339,15 @@ define(['jquery',
         }
 
         var dialogform = $('<div/>')
-            .attr('title', i18n._('Edit attachments'))
+            .attr('title', i18n.msg._('Edit attachments'))
             .append(message)
             .append('<br />')
             .append(attachments_list);
         var title_msg;
         if ( options.name === "Notebook" ) {
-        	title_msg = i18n._("Edit Notebook Attachments");
+        	title_msg = i18n.msg._("Edit Notebook Attachments");
         } else {
-        	title_msg = i18n._("Edit Cell Attachments");
+        	title_msg = i18n.msg._("Edit Cell Attachments");
         }
         var modal_obj = modal({
             title: title_msg,
@@ -370,7 +370,7 @@ define(['jquery',
 
     var insert_image = function (options) {
         var message =
-            i18n._("Select a file to insert.");
+            i18n.msg._("Select a file to insert.");
         var file_input = $('<input/>')
             .attr('type', 'file')
             .attr('accept', 'image/*')
@@ -383,7 +383,7 @@ define(['jquery',
                     $btn.addClass('disabled');
                 }
             });
-        var dialogform = $('<div/>').attr('title', i18n._('Edit attachments'))
+        var dialogform = $('<div/>').attr('title', i18n.msg._('Edit attachments'))
             .append(
                 $('<form id="insert-image-form" />').append(
                     $('<fieldset/>').append(
@@ -396,7 +396,7 @@ define(['jquery',
                     )
             );
         var modal_obj = modal({
-            title: i18n._("Select a file"),
+            title: i18n.msg._("Select a file"),
             body: dialogform,
             buttons: {
                 OK: {

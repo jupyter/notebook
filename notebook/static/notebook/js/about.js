@@ -11,31 +11,31 @@ require([
     $('#notebook_about').click(function () {
         // use underscore template to auto html escape
         if (sys_info) {
-          var text = i18n._('You are using Jupyter notebook.');
+          var text = i18n.msg._('You are using Jupyter notebook.');
           text = text + '<br/><br/>';
-          text = text + i18n._('The version of the notebook server is: ');
+          text = text + i18n.msg._('The version of the notebook server is: ');
           text = text + _.template('<b><%- version %></b>')({ version: sys_info.notebook_version });
           if (sys_info.commit_hash) {
               text = text + _.template('-<%- hash %>')({ hash: sys_info.commit_hash });
           }
          text = text + '<br/>';
-         text = text + i18n._('The server is running on this version of Python:');
+         text = text + i18n.msg._('The server is running on this version of Python:');
           text = text + _.template('<br/><pre>Python <%- pyver %></pre>')({ 
             pyver: sys_info.sys_version });
-          var kinfo = $('<div/>').attr('id', '#about-kinfo').text(i18n._('Waiting for kernel to be available...'));
+          var kinfo = $('<div/>').attr('id', '#about-kinfo').text(i18n.msg._('Waiting for kernel to be available...'));
           var body = $('<div/>');
-          body.append($('<h4/>').text(i18n._('Server Information:')));
+          body.append($('<h4/>').text(i18n.msg._('Server Information:')));
           body.append($('<p/>').html(text));
-          body.append($('<h4/>').text(i18n._('Current Kernel Information:')));
+          body.append($('<h4/>').text(i18n.msg._('Current Kernel Information:')));
           body.append(kinfo);
         } else {
-          var text = i18n._('Could not access sys_info variable for version information.');
+          var text = i18n.msg._('Could not access sys_info variable for version information.');
           var body = $('<div/>');
-          body.append($('<h4/>').text(i18n._('Cannot find sys_info!')));
+          body.append($('<h4/>').text(i18n.msg._('Cannot find sys_info!')));
           body.append($('<p/>').html(text));
         }
         dialog.modal({
-            title: i18n._('About Jupyter Notebook'),
+            title: i18n.msg._('About Jupyter Notebook'),
             body: body,
             buttons: { 'OK': {} }
         });
@@ -44,7 +44,7 @@ require([
                 kinfo.html($('<pre/>').text(data.content.banner));
             });
         } catch (e) {
-            kinfo.html($('<p/>').text(i18n._('unable to contact kernel')));
+            kinfo.html($('<p/>').text(i18n.msg._('unable to contact kernel')));
         }
     });
 });

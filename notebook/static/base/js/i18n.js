@@ -7,8 +7,8 @@ define([
     'jed',
     'moment',
     'json!../../../i18n/nbjs.json',
-    'json!../../../i18n/de/LC_MESSAGES/nbjs.json',
-	], function(Jed, moment, nbjs, nbjs_de) {
+    'base/js/i18nload',
+	], function(Jed, moment, nbjs, i18nload) {
     "use strict";
         
     // Setup language related stuff
@@ -16,17 +16,36 @@ define([
     navigator.language ||   // All browsers
     navigator.userLanguage; // IE <= 10
 
-    // If we do a real implementation with multiple languages, we will
-    // have to figure out how to load the proper JSON dynamically,
-    // probably writing a plugin to do it.
-    // Since there's just one right now, it's not a big deal to load it
-    // via define([]);
-
-    var i18n = new Jed(nbjs);
-    if (nbjs.supported_languages.indexOf(ui_lang) >= 0) {
-		moment.locale(ui_lang);
-		i18n = new Jed(nbjs_de);
+    var init = function() {
+    	var msg_promise;
+    	if (nbjs.supported_languages.indexOf(ui_lang) >= 0) {
+    		moment.locale(ui_lang);
+    		msg_promise = new Promise( function (resolve, reject) {
+    			require([i18nload.id+"!"+ui_lang], function (data) {
+    				var newi18n = new Jed(data);
+    				newi18n._ = newi18n.gettext;
+    				resolve(newi18n);
+    			}, function (error) {
+    	            console.log("Error loading translations for language: "+ui_lang);
+    	            var newi18n = new Jed(nbjs);
+    	            newi18n._ = newi18n.gettext;
+    	            resolve(newi18n);
+    			});
+    	   });
+    	} else {
+    		msg_promise = new Promise( function (resolve, reject) {
+			    var newi18n = new Jed(nbjs);
+				newi18n._ = newi18n.gettext;
+				resolve(newi18n);
+    		});
+    	}
+    	return msg_promise;
     }
+    var i18n = new Jed(nbjs);
+    init().then(function (msg) {
+    	i18n.msg = msg;
+    	i18n.msg._ = i18n.msg.gettext;
+    });
     
     i18n._ = i18n.gettext;
     
