@@ -130,7 +130,7 @@ define([
         var text = $('<input/>').attr('type', 'text');
         var button = $('<button />')
             .addClass('btn btn-default btn-xs')
-            .text(i18n._('Add tag'))
+            .text(i18n.msg._('Add tag'))
             .click(function() {
                 var tags = preprocess_input(text[0].value);
                 for (var i=0; i < tags.length; ++i) {
@@ -160,7 +160,7 @@ define([
         var tag_list = cell.metadata.tags || [];
 
         var message =
-            i18n._("Edit the list of tags below. All whitespace " +
+            i18n.msg._("Edit the list of tags below. All whitespace " +
             "is treated as tag separators.");
 
         var textarea = $('<textarea/>')
@@ -169,7 +169,7 @@ define([
             .attr('name', 'tags')
             .text(tag_list.join('\n'));
 
-        var dialogform = $('<div/>').attr('title', i18n._('Edit the tags'))
+        var dialogform = $('<div/>').attr('title', i18n.msg._('Edit the tags'))
             .append(
                 $('<form/>').append(
                     $('<fieldset/>').append(
@@ -183,7 +183,7 @@ define([
             );
 
         var modal_obj = dialog.modal({
-            title: i18n._("Edit Tags"),
+            title: i18n.msg._("Edit Tags"),
             body: dialogform,
             default_button: "Cancel",
             buttons: {

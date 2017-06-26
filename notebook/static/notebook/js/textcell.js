@@ -548,9 +548,9 @@ define([
         highlight_modes : {
             'diff'         :{'reg':[/^diff/]}
         },
-        placeholder : i18n._("Write raw LaTeX or other formats here, for use with nbconvert. " +
+        placeholder : i18n.msg._("Write raw LaTeX or other formats here, for use with nbconvert. " +
             "It will not be rendered in the notebook.") + " " +
-            i18n._("When passing through nbconvert, a Raw Cell's content is added to the output unmodified."),
+            i18n.msg._("When passing through nbconvert, a Raw Cell's content is added to the output unmodified."),
     };
 
     RawCell.prototype = Object.create(TextCell.prototype);

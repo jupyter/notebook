@@ -293,7 +293,7 @@ define([
                 callback(local_div, this.cell, this);
                 this.ui_controls_list.push(key);
             } catch (e) {
-                console.log(i18n.sprintf(i18n._("Error in cell toolbar callback %s"), key), e);
+                console.log(i18n.msg.sprintf(i18n.msg._("Error in cell toolbar callback %s"), key), e);
                 continue;
             }
             // only append if callback succeeded.

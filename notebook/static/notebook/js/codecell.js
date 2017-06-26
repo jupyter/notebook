@@ -307,7 +307,7 @@ define([
      */
     CodeCell.prototype.execute = function (stop_on_error) {
         if (!this.kernel) {
-            console.log(i18n._("Can't execute cell since kernel is not set."));
+            console.log(i18n.msg._("Can't execute cell since kernel is not set."));
             return;
         }
 
@@ -478,7 +478,7 @@ define([
         } else {
             ns = encodeURIComponent(prompt_value);
         }
-        return '<bdi>'+i18n._('In')+'</bdi>&nbsp;[' + ns + ']:';
+        return '<bdi>'+i18n.msg._('In')+'</bdi>&nbsp;[' + ns + ']:';
     };
 
     CodeCell.input_prompt_continuation = function (prompt_value, lines_number) {

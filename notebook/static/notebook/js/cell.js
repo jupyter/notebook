@@ -76,7 +76,7 @@ define([
         // backward compat.
         Object.defineProperty(this, 'cm_config', {
             get: function() {
-                console.warn(i18n._("Warning: accessing Cell.cm_config directly is deprecated."));
+                console.warn(i18n.msg._("Warning: accessing Cell.cm_config directly is deprecated."));
                 return that._options.cm_config;
             },
         });
@@ -760,7 +760,7 @@ define([
         } else {
             data.metadata = this.metadata;
         }
-        this.element.find('.inner_cell').find("a").text(i18n.sprintf(i18n._("Unrecognized cell type: %s"), data.cell_type));
+        this.element.find('.inner_cell').find("a").text(i18n.msg.sprintf(i18n.msg._("Unrecognized cell type: %s"), data.cell_type));
     };
     
     UnrecognizedCell.prototype.create_element = function () {
@@ -774,7 +774,7 @@ define([
         inner_cell.append(
             $("<a>")
                 .attr("href", "#")
-                .text(i18n._("Unrecognized cell type"))
+                .text(i18n.msg._("Unrecognized cell type"))
         );
         cell.append(inner_cell);
         this.element = cell;

@@ -217,13 +217,13 @@ define([
             if (trusted) {
                 that.element.find('#trust_notebook')
                     .addClass("disabled").off('click')
-                    .find("a").text(i18n._("Trusted Notebook"));
+                    .find("a").text(i18n.msg._("Trusted Notebook"));
             } else {
                 that.element.find('#trust_notebook')
                     .removeClass("disabled").on('click', function () {
                         that.notebook.trust_notebook();
                     })
-                    .find("a").text(i18n._("Trust Notebook"));
+                    .find("a").text(i18n.msg._("Trust Notebook"));
             }
         });
 
@@ -380,7 +380,7 @@ define([
         
         // Setup the existing presets
         var presets = celltoolbar.CellToolbar.list_presets();
-        preset_added(null, {name: i18n._("None")});
+        preset_added(null, {name: i18n.msg._("None")});
         presets.map(function (name) {
             preset_added(null, {name: name});
         });
@@ -403,7 +403,7 @@ define([
                 .addClass("disabled")
                 .append(
                     $("<a/>")
-                    .text(i18n._("No checkpoints"))
+                    .text(i18n.msg._("No checkpoints"))
                 )
             );
             return;
@@ -462,7 +462,7 @@ define([
             cursor.after($("<li>")
                 .append($("<a>")
                     .attr('target', '_blank')
-                    .attr('title', i18n._('Opens in a new window'))
+                    .attr('title', i18n.msg._('Opens in a new window'))
                     .attr('href', requirejs.toUrl(link.url))
                     .append($("<i>")
                         .addClass("fa fa-external-link menu-icon pull-right")

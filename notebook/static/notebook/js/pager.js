@@ -33,7 +33,7 @@ define([
         var that = this;
         this.pager_button_area.append(
             $('<a>').attr('role', "button")
-                    .attr('title',i18n._("Open the pager in an external window"))
+                    .attr('title',i18n.msg._("Open the pager in an external window"))
                     .addClass('ui-button')
                     .click(function(){that.detach();})
                     .append(
@@ -42,7 +42,7 @@ define([
         );
         this.pager_button_area.append(
             $('<a>').attr('role', "button")
-                    .attr('title',i18n._("Close the pager"))
+                    .attr('title',i18n.msg._("Close the pager"))
                     .addClass('ui-button')
                     .click(function(){that.collapse();})
                     .append(
@@ -145,7 +145,7 @@ define([
                 .attr('type',"text/css")
         )
         .append(
-                $('<title>').text(i18n._("Jupyter Pager"))
+                $('<title>').text(i18n.msg._("Jupyter Pager"))
         );
         var pager_body = $(w.document.body);
         pager_body.css('overflow','scroll');

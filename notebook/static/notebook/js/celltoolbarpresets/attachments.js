@@ -29,7 +29,7 @@ define([
         var button_container = $(div);
         var button = $('<button />')
             .addClass('btn btn-default btn-xs')
-            .text(i18n._('Edit Attachments'))
+            .text(i18n.msg._('Edit Attachments'))
             .click( function() {
               edit_attachments_dialog(cell);
               return false;
@@ -43,7 +43,7 @@ define([
       var attachments_preset = [];
       attachments_preset.push('attachments.edit');
 
-      CellToolbar.register_preset(i18n._('Attachments'), attachments_preset, notebook);
+      CellToolbar.register_preset(i18n.msg._('Attachments'), attachments_preset, notebook);
 
     };
     return {'register' : register};

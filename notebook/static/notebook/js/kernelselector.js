@@ -266,7 +266,7 @@ define([
             );
         });
         
-        var no_kernel_msg = i18n.sprintf(i18n._("Could not find a kernel matching %s. Please select a kernel:"),
+        var no_kernel_msg = i18n.msg.sprintf(i18n.msg._("Could not find a kernel matching %s. Please select a kernel:"),
         		(data.selected.display_name || data.selected.name))
         var body = $("<form>").addClass("form-inline").append(
             $("<span>").text(no_kernel_msg)
@@ -275,10 +275,10 @@ define([
         // This statement is used simply so that message extraction
         // will pick up the strings.  The actual setting of the text
         // for the button is in dialog.js.
-        var button_labels = [ i18n._("Continue Without Kernel"), i18n._("Set Kernel"), i18n._("OK") ];
+        var button_labels = [ i18n.msg._("Continue Without Kernel"), i18n.msg._("Set Kernel"), i18n.msg._("OK") ];
         
         dialog.modal({
-            title : i18n._('Kernel not found'),
+            title : i18n.msg._('Kernel not found'),
             body : body,
             buttons : {
                 'Continue Without Kernel' : {
@@ -316,8 +316,8 @@ define([
             function(error) {
                 w.close();
                 dialog.modal({
-                    title : i18n._('Creating Notebook Failed'),
-                    body : i18n.sprintf(i18n._("The error was: %s"), error.message),
+                    title : i18n.msg._('Creating Notebook Failed'),
+                    body : i18n.msg.sprintf(i18n.msg._("The error was: %s"), error.message),
                     buttons : {'OK' : {'class' : 'btn-primary'}}
                 });
             }

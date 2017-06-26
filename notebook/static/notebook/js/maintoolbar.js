@@ -51,7 +51,7 @@ define([
             ],
             'move_up_down'],
           [ [new toolbar.Button('jupyter-notebook:run-cell-and-select-next',
-                {label: 'Run'}),
+                {label: i18n.msg._('Run')}),
              'jupyter-notebook:interrupt-kernel',
              'jupyter-notebook:confirm-restart-kernel'
             ],
@@ -73,10 +73,10 @@ define([
         var sel = $('<select/>')
             .attr('id','cell_type')
             .addClass('form-control select-xs')
-            .append($('<option/>').attr('value','code').text(_('Code')))
-            .append($('<option/>').attr('value','markdown').text(_('Markdown')))
-            .append($('<option/>').attr('value','raw').text(_('Raw NBConvert')))
-            .append($('<option/>').attr('value','heading').text(_('Heading')))
+            .append($('<option/>').attr('value','code').text(i18n.msg._('Code')))
+            .append($('<option/>').attr('value','markdown').text(i18n.msg._('Markdown')))
+            .append($('<option/>').attr('value','raw').text(i18n.msg._('Raw NBConvert')))
+            .append($('<option/>').attr('value','heading').text(i18n.msg._('Heading')))
             .append(multiselect);
         this.notebook.keyboard_manager.register_events(sel);
         this.events.on('selected_cell_type_changed.Notebook', function (event, data) {
@@ -112,7 +112,7 @@ define([
             case 'multiselect':
                 break;
             default:
-                console.log(_("unrecognized cell type:"), cell_type);
+                console.log(i18n.msg._("unrecognized cell type:"), cell_type);
             }
             that.notebook.focus_cell();
         });

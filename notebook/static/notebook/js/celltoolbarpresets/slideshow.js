@@ -12,11 +12,11 @@ define([
 
     var select_type = CellToolbar.utils.select_ui_generator([
             ["-"            ,"-"            ],
-            [i18n._("Slide")        ,"slide"        ],
-            [i18n._("Sub-Slide")    ,"subslide"     ],
-            [i18n._("Fragment")     ,"fragment"     ],
-            [i18n._("Skip")         ,"skip"         ],
-            [i18n._("Notes")        ,"notes"        ],
+            [i18n.msg._("Slide")        ,"slide"        ],
+            [i18n.msg._("Sub-Slide")    ,"subslide"     ],
+            [i18n.msg._("Fragment")     ,"fragment"     ],
+            [i18n.msg._("Skip")         ,"skip"         ],
+            [i18n.msg._("Notes")        ,"notes"        ],
             ],
             // setter
             function(cell, value){
@@ -32,13 +32,13 @@ define([
                 // return the value
                 return (ns === undefined)? undefined: ns.slide_type;
                 },
-            i18n._("Slide Type"));
+            i18n.msg._("Slide Type"));
 
     var register = function (notebook) {
         CellToolbar.register_callback('slideshow.select',select_type);
         slideshow_preset.push('slideshow.select');
 
-        CellToolbar.register_preset(i18n._('Slideshow'),slideshow_preset, notebook);
+        CellToolbar.register_preset(i18n.msg._('Slideshow'),slideshow_preset, notebook);
     };
     return {'register': register};
 });

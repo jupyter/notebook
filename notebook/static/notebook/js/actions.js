@@ -66,15 +66,15 @@ define([
      **/
     var _actions = {
         'toggle-rtl-layout': {
-        	cmd: i18n._('toggle rtl layout'),
-            help: i18n._('Toggle the screen directionality between left-to-right and right-to-left'),
+        	cmd: i18n.msg._('toggle rtl layout'),
+            help: i18n.msg._('Toggle the screen directionality between left-to-right and right-to-left'),
             handler: function () {
               (document.body.getAttribute('dir')=='rtl') ? document.body.setAttribute('dir','ltr') : document.body.setAttribute('dir','rtl');
             }
         },
         'edit-command-mode-keyboard-shortcuts': {
-        	cmd: i18n._('edit command mode keyboard shortcuts'),
-            help: i18n._('Open a dialog to edit the command mode keyboard shortcuts'),
+        	cmd: i18n.msg._('edit command mode keyboard shortcuts'),
+            help: i18n.msg._('Open a dialog to edit the command mode keyboard shortcuts'),
             handler: function (env) {
                 env.notebook.show_shortcuts_editor();
             }
@@ -94,8 +94,8 @@ define([
             }
         },
         'restart-kernel': {
-        	cmd: i18n._('restart kernel'),
-        	help: i18n._('restart the kernel (no confirmation dialog)'),
+        	cmd: i18n.msg._('restart kernel'),
+        	help: i18n.msg._('restart the kernel (no confirmation dialog)'),
             handler: function (env) {
                 env.notebook.restart_kernel({confirm: false});
             },
@@ -103,155 +103,155 @@ define([
         'confirm-restart-kernel':{
             icon: 'fa-repeat',
             help_index : 'hb',
-        	cmd: i18n._('confirm restart kernel'),
-            help: i18n._('restart the kernel (with dialog)'),
+        	cmd: i18n.msg._('confirm restart kernel'),
+            help: i18n.msg._('restart the kernel (with dialog)'),
             handler : function (env) {
                 env.notebook.restart_kernel();
             }
         },
         'restart-kernel-and-run-all-cells': {
-        	cmd: i18n._('restart kernel and run all cells'),
-            help: i18n._('restart the kernel, then re-run the whole notebook (no confirmation dialog)'),
+        	cmd: i18n.msg._('restart kernel and run all cells'),
+            help: i18n.msg._('restart the kernel, then re-run the whole notebook (no confirmation dialog)'),
             handler: function (env) {
                 env.notebook.restart_run_all({confirm: false});
             }
         },
         'confirm-restart-kernel-and-run-all-cells': {
-        	cmd: i18n._('confirm restart kernel and run all cells'),
-            help: i18n._('restart the kernel, then re-run the whole notebook (with dialog)'),
+        	cmd: i18n.msg._('confirm restart kernel and run all cells'),
+            help: i18n.msg._('restart the kernel, then re-run the whole notebook (with dialog)'),
             handler: function (env) {
                 env.notebook.restart_run_all();
             }
         },
         'restart-kernel-and-clear-output': {
-        	cmd: i18n._('restart kernel and clear output'),
-            help: i18n._('restart the kernel and clear all output (no confirmation dialog)'),
+        	cmd: i18n.msg._('restart kernel and clear output'),
+            help: i18n.msg._('restart the kernel and clear all output (no confirmation dialog)'),
             handler: function (env) {
                 env.notebook.restart_clear_output({confirm: false});
             }
         },
         'confirm-restart-kernel-and-clear-output': {
-        	cmd: i18n._('confirm restart kernel and clear output'),
-            help: i18n._('restart the kernel and clear all output (with dialog)'),
+        	cmd: i18n.msg._('confirm restart kernel and clear output'),
+            help: i18n.msg._('restart the kernel and clear all output (with dialog)'),
             handler: function (env) {
                 env.notebook.restart_clear_output();
             }
         },
         'interrupt-kernel':{
             icon: 'fa-stop',
-            cmd: i18n._('interrupt the kernel'),
-            help: i18n._('interrupt the kernel'),
+            cmd: i18n.msg._('interrupt the kernel'),
+            help: i18n.msg._('interrupt the kernel'),
             help_index : 'ha',
             handler : function (env) {
                 env.notebook.kernel.interrupt();
             }
         },
         'run-cell-and-select-next': {
-            cmd: i18n._('run cell and select next'),
+            cmd: i18n.msg._('run cell and select next'),
             icon: 'fa-step-forward',
-            help: i18n._('run cell, select below'),
+            help: i18n.msg._('run cell, select below'),
             help_index : 'ba',
             handler : function (env) {
                 env.notebook.execute_cell_and_select_below();
             }
         },
         'run-cell':{
-            cmd: i18n._('run selected cells'),
-            help    : i18n._('run selected cells'),
+            cmd: i18n.msg._('run selected cells'),
+            help    : i18n.msg._('run selected cells'),
             help_index : 'bb',
             handler : function (env) {
                 env.notebook.execute_selected_cells();
             }
         },
         'run-cell-and-insert-below':{
-            cmd: i18n._('run cell and insert below'),
-            help    : i18n._('run cell and insert below'),
+            cmd: i18n.msg._('run cell and insert below'),
+            help    : i18n.msg._('run cell and insert below'),
             help_index : 'bc',
             handler : function (env) {
                 env.notebook.execute_cell_and_insert_below();
             }
         },
         'run-all-cells': {
-            cmd: i18n._('run all cells'),
-            help: i18n._('run all cells'),
+            cmd: i18n.msg._('run all cells'),
+            help: i18n.msg._('run all cells'),
             help_index: 'bd',
             handler: function (env) {
                 env.notebook.execute_all_cells();
             }
         },
         'run-all-cells-above':{
-            cmd: i18n._('run all cells above'),
-            help: i18n._('run all cells above'),
+            cmd: i18n.msg._('run all cells above'),
+            help: i18n.msg._('run all cells above'),
             handler : function (env) {
                 env.notebook.execute_cells_above();
             }
         },
         'run-all-cells-below':{
-            cmd: i18n._('run all cells below'),
-            help: i18n._('run all cells below'),
+            cmd: i18n.msg._('run all cells below'),
+            help: i18n.msg._('run all cells below'),
             handler : function (env) {
                 env.notebook.execute_cells_below();
             }
         },
         'enter-command-mode': {
-            cmd: i18n._('enter command mode'),
-            help    : i18n._('enter command mode'),
+            cmd: i18n.msg._('enter command mode'),
+            help    : i18n.msg._('enter command mode'),
             help_index : 'aa',
             handler : function (env) {
                 env.notebook.command_mode();
             }
         },
         'insert-image': {
-            cmd: i18n._('insert image'),
-            help      : i18n._('insert image'),
+            cmd: i18n.msg._('insert image'),
+            help      : i18n.msg._('insert image'),
             help_index : 'dz',
             handler : function (env) {
                 env.notebook.insert_image();
             }
         },
         'cut-cell-attachments': {
-            cmd: i18n._('cut cell attachments'),
-            help    : i18n._('cut cell attachments'),
+            cmd: i18n.msg._('cut cell attachments'),
+            help    : i18n.msg._('cut cell attachments'),
             help_index : 'dza',
             handler: function (env) {
                 env.notebook.cut_cell_attachments();
             }
         },
         'copy-cell-attachments': {
-            cmd: i18n._('copy cell attachments'),
-            help    : i18n._('copy cell attachments'),
+            cmd: i18n.msg._('copy cell attachments'),
+            help    : i18n.msg._('copy cell attachments'),
             help_index: 'dzb',
             handler: function (env) {
                 env.notebook.copy_cell_attachments();
             }
         },
         'paste-cell-attachments': {
-            cmd: i18n._('paste cell attachments'),
-            help    : i18n._('paste cell attachments'),
+            cmd: i18n.msg._('paste cell attachments'),
+            help    : i18n.msg._('paste cell attachments'),
             help_index: 'dzc',
             handler: function (env) {
                 env.notebook.paste_cell_attachments();
             }
         },
         'split-cell-at-cursor': {
-            cmd: i18n._('split cell at cursor'),
-            help    : i18n._('split cell at cursor'),
+            cmd: i18n.msg._('split cell at cursor'),
+            help    : i18n.msg._('split cell at cursor'),
             help_index : 'ea',
             handler : function (env) {
                 env.notebook.split_cell();
             }
         },
         'enter-edit-mode' : {
-            cmd: i18n._('enter edit mode'),
-            help : i18n._('enter edit mode'),
+            cmd: i18n.msg._('enter edit mode'),
+            help : i18n.msg._('enter edit mode'),
             help_index : 'aa',
             handler : function (env) {
                 env.notebook.edit_mode();
             }
         },
         'select-previous-cell' : {
-        	cmd: i18n._('select previous cell'),
-            help: i18n._('select cell above'),
+        	cmd: i18n.msg._('select previous cell'),
+            help: i18n.msg._('select cell above'),
             help_index : 'da',
             handler : function (env) {
                 var index = env.notebook.get_selected_index();
@@ -262,8 +262,8 @@ define([
             }
         },
         'select-next-cell' : {
-        	cmd: i18n._('select next cell'),
-            help: i18n._('select cell below'),
+        	cmd: i18n.msg._('select next cell'),
+            help: i18n.msg._('select cell below'),
             help_index : 'db',
             handler : function (env) {
                 var index = env.notebook.get_selected_index();
@@ -274,8 +274,8 @@ define([
             }
         },
         'extend-selection-above' : {
-        	cmd: i18n._('extend selection above'),
-            help: i18n._('extend selected cells above'),
+        	cmd: i18n.msg._('extend selection above'),
+            help: i18n.msg._('extend selected cells above'),
             help_index : 'dc',
             handler : function (env) {
                 env.notebook.extend_selection_by(-1);
@@ -286,8 +286,8 @@ define([
             }
         },
         'extend-selection-below' : {
-        	cmd: i18n._('extend selection below'),
-            help: i18n._('extend selected cells below'),
+        	cmd: i18n.msg._('extend selection below'),
+            help: i18n.msg._('extend selected cells below'),
             help_index : 'dd',
             handler : function (env) {
                 env.notebook.extend_selection_by(1);
@@ -298,8 +298,8 @@ define([
             }
         },
         'cut-cell' : {
-            cmd: i18n._('cut selected cells'),
-            help: i18n._('cut selected cells'),
+            cmd: i18n.msg._('cut selected cells'),
+            help: i18n.msg._('cut selected cells'),
             icon: 'fa-cut',
             help_index : 'ee',
             handler : function (env) {
@@ -309,8 +309,8 @@ define([
             }
         },
         'copy-cell' : {
-            cmd: i18n._('copy selected cells'),
-            help: i18n._('copy selected cells'),
+            cmd: i18n.msg._('copy selected cells'),
+            help: i18n.msg._('copy selected cells'),
             icon: 'fa-copy',
             help_index : 'ef',
             handler : function (env) {
@@ -324,16 +324,16 @@ define([
             }
         },
         'paste-cell-above' : {
-            cmd: i18n._('paste cells above'),
-            help: i18n._('paste cells above'),
+            cmd: i18n.msg._('paste cells above'),
+            help: i18n.msg._('paste cells above'),
             help_index : 'eg',
             handler : function (env) {
                 env.notebook.paste_cell_above();
             }
         },
         'paste-cell-below' : {
-            cmd: i18n._('paste cells below'),
-            help: i18n._('paste cells below'),
+            cmd: i18n.msg._('paste cells below'),
+            help: i18n.msg._('paste cells below'),
             icon: 'fa-paste',
             help_index : 'eh',
             handler : function (env) {
@@ -341,8 +341,8 @@ define([
             }
         },
         'insert-cell-above' : {
-            cmd: i18n._('insert cell above'),
-            help: i18n._('insert cell above'),
+            cmd: i18n.msg._('insert cell above'),
+            help: i18n.msg._('insert cell above'),
             help_index : 'ec',
             handler : function (env) {
                 env.notebook.insert_cell_above();
@@ -351,8 +351,8 @@ define([
             }
         },
         'insert-cell-below' : {
-            cmd: i18n._('insert cell below'),
-            help: i18n._('insert cell below'),
+            cmd: i18n.msg._('insert cell below'),
+            help: i18n.msg._('insert cell below'),
             icon : 'fa-plus',
             help_index : 'ed',
             handler : function (env) {
@@ -362,103 +362,103 @@ define([
             }
         },
         'change-cell-to-code' : {
-            cmd: i18n._('change cell to code'),
-            help    : i18n._('change cell to code'),
+            cmd: i18n.msg._('change cell to code'),
+            help    : i18n.msg._('change cell to code'),
             help_index : 'ca',
             handler : function (env) {
                 env.notebook.cells_to_code();
             }
         },
         'change-cell-to-markdown' : {
-            cmd: i18n._('change cell to markdown'),
-            help    : i18n._('change cell to markdown'),
+            cmd: i18n.msg._('change cell to markdown'),
+            help    : i18n.msg._('change cell to markdown'),
             help_index : 'cb',
             handler : function (env) {
                 env.notebook.cells_to_markdown();
             }
         },
         'change-cell-to-raw' : {
-            cmd: i18n._('change cell to raw'),
-            help    : i18n._('change cell to raw'),
+            cmd: i18n.msg._('change cell to raw'),
+            help    : i18n.msg._('change cell to raw'),
             help_index : 'cc',
             handler : function (env) {
                 env.notebook.cells_to_raw();
             }
         },
         'change-cell-to-heading-1' : {
-            cmd: i18n._('change cell to heading 1'),
-            help    : i18n._('change cell to heading 1'),
+            cmd: i18n.msg._('change cell to heading 1'),
+            help    : i18n.msg._('change cell to heading 1'),
             help_index : 'cd',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 1);
             }
         },
         'change-cell-to-heading-2' : {
-            cmd: i18n._('change cell to heading 2'),
-            help    : i18n._('change cell to heading 2'),
+            cmd: i18n.msg._('change cell to heading 2'),
+            help    : i18n.msg._('change cell to heading 2'),
             help_index : 'ce',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 2);
             }
         },
         'change-cell-to-heading-3' : {
-            cmd: i18n._('change cell to heading 3'),
-            help    : i18n._('change cell to heading 3'),
+            cmd: i18n.msg._('change cell to heading 3'),
+            help    : i18n.msg._('change cell to heading 3'),
             help_index : 'cf',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 3);
             }
         },
         'change-cell-to-heading-4' : {
-            cmd: i18n._('change cell to heading 4'),
-            help    : i18n._('change cell to heading 4'),
+            cmd: i18n.msg._('change cell to heading 4'),
+            help    : i18n.msg._('change cell to heading 4'),
             help_index : 'cg',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 4);
             }
         },
         'change-cell-to-heading-5' : {
-            cmd: i18n._('change cell to heading 5'),
-            help    : i18n._('change cell to heading 5'),
+            cmd: i18n.msg._('change cell to heading 5'),
+            help    : i18n.msg._('change cell to heading 5'),
             help_index : 'ch',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 5);
             }
         },
         'change-cell-to-heading-6' : {
-            cmd: i18n._('change cell to heading 6'),
-            help    : i18n._('change cell to heading 6'),
+            cmd: i18n.msg._('change cell to heading 6'),
+            help    : i18n.msg._('change cell to heading 6'),
             help_index : 'ci',
             handler : function (env) {
                 env.notebook.to_heading(undefined, 6);
             }
         },
         'toggle-cell-output-collapsed' : {
-        	cmd: i18n._('toggle cell output'),
-            help    : i18n._('toggle output of selected cells'),
+        	cmd: i18n.msg._('toggle cell output'),
+            help    : i18n.msg._('toggle output of selected cells'),
             help_index : 'gb',
             handler : function (env) {
                 env.notebook.toggle_cells_outputs();
             }
         },
         'toggle-cell-output-scrolled' : {
-        	cmd: i18n._('toggle cell scrolling'),
-            help    : i18n._('toggle output scrolling of selected cells'),
+        	cmd: i18n.msg._('toggle cell scrolling'),
+            help    : i18n.msg._('toggle output scrolling of selected cells'),
             help_index : 'gc',
             handler : function (env) {
                 env.notebook.toggle_cells_outputs_scroll();
             }
         },
         'clear-cell-output' : {
-        	cmd: i18n._('clear cell output'),
-            help    : i18n._('clear output of selected cells'),
+        	cmd: i18n.msg._('clear cell output'),
+            help    : i18n.msg._('clear output of selected cells'),
             handler : function (env) {
                 env.notebook.clear_cells_outputs();
             }
         },
         'move-cell-down' : {
-        	cmd: i18n._('move cells down'),
-            help: i18n._('move selected cells down'),
+        	cmd: i18n.msg._('move cells down'),
+            help: i18n.msg._('move selected cells down'),
             icon: 'fa-arrow-down',
             help_index : 'eb',
             handler : function (env) {
@@ -466,8 +466,8 @@ define([
             }
         },
         'move-cell-up' : {
-        	cmd: i18n._('move cells up'),
-            help: i18n._('move selected cells up'),
+        	cmd: i18n.msg._('move cells up'),
+            help: i18n.msg._('move selected cells up'),
             icon: 'fa-arrow-up',
             help_index : 'ea',
             handler : function (env) {
@@ -475,32 +475,32 @@ define([
             }
         },
         'toggle-cell-line-numbers' : {
-            cmd: i18n._('toggle line numbers'),
-            help    : i18n._('toggle line numbers'),
+            cmd: i18n.msg._('toggle line numbers'),
+            help    : i18n.msg._('toggle line numbers'),
             help_index : 'ga',
             handler : function (env) {
                 env.notebook.cell_toggle_line_numbers();
             }
         },
         'show-keyboard-shortcuts' : {
-            cmd: i18n._('show keyboard shortcuts'),
-            help    : i18n._('show keyboard shortcuts'),
+            cmd: i18n.msg._('show keyboard shortcuts'),
+            help    : i18n.msg._('show keyboard shortcuts'),
             help_index : 'ge',
             handler : function (env) {
                 env.quick_help.show_keyboard_shortcuts();
             }
         },
         'delete-cell': {
-            cmd: i18n._('delete cells'),
-            help: i18n._('delete selected cells'),
+            cmd: i18n.msg._('delete cells'),
+            help: i18n.msg._('delete selected cells'),
             help_index : 'ej',
             handler : function (env) {
                 env.notebook.delete_cell();
             }
         },
         'undo-cell-deletion' : {
-            cmd: i18n._('undo cell deletion'),
-            help: i18n._('undo cell deletion'),
+            cmd: i18n.msg._('undo cell deletion'),
+            help: i18n.msg._('undo cell deletion'),
             help_index : 'ei',
             handler : function (env) {
                 env.notebook.undelete_cell();
@@ -509,31 +509,31 @@ define([
         // TODO reminder
         // open an issue, merge with above merge with last cell of notebook if at top.
         'merge-cell-with-previous-cell' : {
-            cmd: i18n._('merge cell with previous cell'),
-            help    : i18n._('merge cell above'),
+            cmd: i18n.msg._('merge cell with previous cell'),
+            help    : i18n.msg._('merge cell above'),
             handler : function (env) {
                 env.notebook.merge_cell_above();
             }
         },
         'merge-cell-with-next-cell' : {
-            cmd: i18n._('merge cell with next cell'),
-            help    : i18n._('merge cell below'),
+            cmd: i18n.msg._('merge cell with next cell'),
+            help    : i18n.msg._('merge cell below'),
             help_index : 'ek',
             handler : function (env) {
                 env.notebook.merge_cell_below();
             }
         },
         'merge-selected-cells' : {
-            cmd: i18n._('merge selected cells'),
-            help : i18n._('merge selected cells'),
+            cmd: i18n.msg._('merge selected cells'),
+            help : i18n.msg._('merge selected cells'),
             help_index: 'el',
             handler: function(env) {
                 env.notebook.merge_selected_cells();
             }
         },
         'merge-cells' : {
-            cmd: i18n._('merge cells'),
-            help : i18n._('merge selected cells, or current cell with cell below if only one cell is selected'),
+            cmd: i18n.msg._('merge cells'),
+            help : i18n.msg._('merge selected cells, or current cell with cell below if only one cell is selected'),
             help_index: 'el',
             handler: function(env) {
                 var l = env.notebook.get_selected_cells_indices().length;
@@ -546,16 +546,16 @@ define([
         },
         'show-command-palette': {
             help_index : 'aa',
-            cmd: i18n._('show command pallette'),
-            help: i18n._('open the command palette'),
+            cmd: i18n.msg._('show command pallette'),
+            help: i18n.msg._('open the command palette'),
             icon: 'fa-keyboard-o',
             handler : function(env){
                 env.notebook.show_command_palette();
             }
         },
         'toggle-all-line-numbers': {
-            cmd: i18n._('toggle all line numbers'),
-            help : i18n._('toggles line numbers in all cells, and persist the setting'),
+            cmd: i18n.msg._('toggle all line numbers'),
+            help : i18n.msg._('toggles line numbers in all cells, and persist the setting'),
             icon: 'fa-list-ol',
             handler: function(env) {
                 var value = !env.notebook.line_numbers;
@@ -566,8 +566,8 @@ define([
             }
         },
         'show-all-line-numbers': {
-            cmd: i18n._('show all line numbers'),
-            help : i18n._('show line numbers in all cells, and persist the setting'),
+            cmd: i18n.msg._('show all line numbers'),
+            help : i18n.msg._('show line numbers in all cells, and persist the setting'),
             handler: function(env) {
                 env.notebook.get_cells().map(function(c) {
                     c.code_mirror.setOption('lineNumbers', true);
@@ -576,8 +576,8 @@ define([
             }
         },
         'hide-all-line-numbers': {
-            cmd: i18n._('hide all line numbers'),
-            help : i18n._('hide line numbers in all cells, and persist the setting'),
+            cmd: i18n.msg._('hide all line numbers'),
+            help : i18n.msg._('hide line numbers in all cells, and persist the setting'),
             handler: function(env) {
                 env.notebook.get_cells().map(function(c) {
                     c.code_mirror.setOption('lineNumbers', false);
@@ -586,8 +586,8 @@ define([
             }
         },
         'toggle-header':{
-            cmd: i18n._('toggle header'),
-            help: i18n._('switch between showing and hiding the header'),
+            cmd: i18n.msg._('toggle header'),
+            help: i18n.msg._('switch between showing and hiding the header'),
             handler : function(env) {
                 var value = !env.notebook.header;
                 if (value === true) {
@@ -602,8 +602,8 @@ define([
             }
         },
         'show-header':{
-            cmd: i18n._('show the header'),
-            help: i18n._('show the header'),
+            cmd: i18n.msg._('show the header'),
+            help: i18n.msg._('show the header'),
             handler : function(env) {
                 $('#header-container').show();
                 $('.header-bar').show();
@@ -612,8 +612,8 @@ define([
             }
         },
         'hide-header':{
-            cmd: i18n._('hide the header'),
-            help: i18n._('hide the header'),
+            cmd: i18n.msg._('hide the header'),
+            help: i18n.msg._('hide the header'),
             handler : function(env) {
                 $('#header-container').hide();
                 $('.header-bar').hide();
@@ -643,8 +643,8 @@ define([
             }
         },
         'toggle-toolbar':{
-            cmd: i18n._('toggle toolbar'),
-            help: i18n._('switch between showing and hiding the toolbar'),
+            cmd: i18n.msg._('toggle toolbar'),
+            help: i18n.msg._('switch between showing and hiding the toolbar'),
             handler : function(env) {
                 var value = !env.notebook.toolbar;
                 if (value === true) {
@@ -657,8 +657,8 @@ define([
             }
         },
         'show-toolbar':{
-            cmd: i18n._('show the toolbar'),
-            help: i18n._('show the toolbar'),
+            cmd: i18n.msg._('show the toolbar'),
+            help: i18n.msg._('show the toolbar'),
             handler : function(env) {
                 $('div#maintoolbar').show();
                 events.trigger('resize-header.Page');
@@ -666,8 +666,8 @@ define([
             }
         },
         'hide-toolbar':{
-            cmd: i18n._('hide the toolbar'),
-            help: i18n._('hide the toolbar'),
+            cmd: i18n.msg._('hide the toolbar'),
+            help: i18n.msg._('hide the toolbar'),
             handler : function(env) {
                 $('div#maintoolbar').hide();
                 events.trigger('resize-header.Page');
@@ -675,8 +675,8 @@ define([
             }
         },
         'close-pager': {
-            cmd: i18n._('close the pager'),
-            help : i18n._('close the pager'),
+            cmd: i18n.msg._('close the pager'),
+            help : i18n.msg._('close the pager'),
             handler : function(env) {
                 // Collapse the page if it is open
                 if (env.pager && env.pager.expanded) {
@@ -701,14 +701,14 @@ define([
      **/
     var custom_ignore = {
         'ignore':{
-            cmd: i18n._('ignore'),
+            cmd: i18n.msg._('ignore'),
             handler : function () {
                 return true;
             }
         },
         'move-cursor-up':{
-            cmd: i18n._('move cursor up'),
-            help: i18n._("move cursor up"),
+            cmd: i18n.msg._('move cursor up'),
+            help: i18n.msg._("move cursor up"),
             handler : function (env, event) {
                 var index = env.notebook.get_selected_index();
                 var cell = env.notebook.get_cell(index);
@@ -728,8 +728,8 @@ define([
             }
         },
         'move-cursor-down':{
-            cmd: i18n._('move cursor down'),
-            help: i18n._("move cursor down"),
+            cmd: i18n.msg._('move cursor down'),
+            help: i18n.msg._("move cursor down"),
             handler : function (env, event) {
                 var index = env.notebook.get_selected_index();
                 var cell = env.notebook.get_cell(index);
@@ -747,8 +747,8 @@ define([
             }
         },
         'scroll-notebook-down': {
-            cmd: i18n._('scroll notebook down'),
-            help: i18n._("scroll notebook down"),
+            cmd: i18n.msg._('scroll notebook down'),
+            help: i18n.msg._("scroll notebook down"),
             handler: function(env, event) {
                 if(event){
                     event.preventDefault();
@@ -757,8 +757,8 @@ define([
             },
         },
         'scroll-notebook-up': {
-            cmd: i18n._('scroll notebook up'),
-            help: i18n._("scroll notebook up"),
+            cmd: i18n.msg._('scroll notebook up'),
+            help: i18n.msg._("scroll notebook up"),
             handler: function(env, event) {
                 if(event){
                     event.preventDefault();
@@ -767,8 +767,8 @@ define([
             },
         },
         'scroll-cell-center': {
-            cmd: i18n._('scroll cell center'),
-            help: i18n._("Scroll the current cell to the center"),
+            cmd: i18n.msg._('scroll cell center'),
+            help: i18n.msg._("Scroll the current cell to the center"),
             handler: function (env, event) {
                 if(event){
                     event.preventDefault();
@@ -778,8 +778,8 @@ define([
             }
         },
         'scroll-cell-top': {
-            cmd: i18n._('scroll cell top'),
-            help: i18n._("Scroll the current cell to the top"),
+            cmd: i18n.msg._('scroll cell top'),
+            help: i18n.msg._("Scroll the current cell to the top"),
             handler: function (env, event) {
                 if(event){
                     event.preventDefault();
@@ -789,50 +789,50 @@ define([
             }
         },
         'duplicate-notebook':{
-            cmd: i18n._('duplicate notebook'),
-            help: i18n._("Create and open a copy of the current notebook"),
+            cmd: i18n.msg._('duplicate notebook'),
+            help: i18n.msg._("Create and open a copy of the current notebook"),
             handler : function (env, event) {
                 env.notebook.copy_notebook();
             }
         },
         'trust-notebook':{
-            cmd: i18n._('trust notebook'),
-            help: i18n._("Trust the current notebook"),
+            cmd: i18n.msg._('trust notebook'),
+            help: i18n.msg._("Trust the current notebook"),
             handler : function (env, event) {
                 env.notebook.trust_notebook();
             }
         },
         'rename-notebook':{
-            cmd: i18n._('rename notebook'),
-            help: i18n._("Rename the current notebook"),
+            cmd: i18n.msg._('rename notebook'),
+            help: i18n.msg._("Rename the current notebook"),
             handler : function (env, event) {
                 env.notebook.save_widget.rename_notebook({notebook: env.notebook});
             }
         },
         'toggle-all-cells-output-collapsed':{
-            cmd: i18n._('toggle all cells output collapsed'),
-            help: i18n._("Toggle the hidden state of all output areas"),
+            cmd: i18n.msg._('toggle all cells output collapsed'),
+            help: i18n.msg._("Toggle the hidden state of all output areas"),
             handler : function (env, event) {
                 env.notebook.toggle_all_output();
             }
         },
         'toggle-all-cells-output-scrolled':{
-            cmd: i18n._('toggle all cells output scrolled'),
-            help: i18n._("Toggle the scrolling state of all output areas"),
+            cmd: i18n.msg._('toggle all cells output scrolled'),
+            help: i18n.msg._("Toggle the scrolling state of all output areas"),
             handler : function (env, event) {
                 env.notebook.toggle_all_output_scroll();
             }
         },
 
         'clear-all-cells-output':{
-            cmd: i18n._('clear all cells output'),
-            help: i18n._("Clear the content of all the outputs"),
+            cmd: i18n.msg._('clear all cells output'),
+            help: i18n.msg._("Clear the content of all the outputs"),
             handler : function (env, event) {
                 env.notebook.clear_all_output();
             }
         },
         'save-notebook':{
-            cmd: i18n._('save notebook'),
+            cmd: i18n.msg._('save notebook'),
             help: i18n.msg._("Save and Checkpoint"),
             help_index : 'fb',
             icon: 'fa-save',

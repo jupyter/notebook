@@ -16,7 +16,7 @@ define([
             callback: function (md) {
                 cell.metadata = md;
             },
-            name: i18n._('Cell'),
+            name: i18n.msg._('Cell'),
             notebook: this.notebook,
             keyboard_manager: this.keyboard_manager
         });
@@ -26,7 +26,7 @@ define([
         var button_container = $(div);
         var button = $('<button/>')
             .addClass("btn btn-default btn-xs")
-            .text(i18n._("Edit Metadata"))
+            .text(i18n.msg._("Edit Metadata"))
             .click( function () {
                 raw_edit(cell);
                 return false;
@@ -44,7 +44,7 @@ define([
         var example_preset = [];
         example_preset.push('default.rawedit');
 
-        CellToolbar.register_preset(i18n._('Edit Metadata'), example_preset, notebook);
+        CellToolbar.register_preset(i18n.msg._('Edit Metadata'), example_preset, notebook);
     };
     return {'register': register};
 });
