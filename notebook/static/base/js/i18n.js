@@ -48,6 +48,7 @@ define([
     });
     
     i18n._ = i18n.gettext;
+    i18n.msg = i18n; // Just a place holder until the init promise resolves.
     
     return i18n;
 });

@@ -833,7 +833,7 @@ define([
         },
         'save-notebook':{
             cmd: i18n._('save notebook'),
-            help: i18n._("Save and Checkpoint"),
+            help: i18n.msg._("Save and Checkpoint"),
             help_index : 'fb',
             icon: 'fa-save',
             handler : function (env, event) {

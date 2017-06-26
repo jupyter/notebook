@@ -1,7 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define(['jquery'], function($) {
+define(['jquery','base/js/i18n'], function($, i18n) {
     "use strict";
 
     /**
@@ -94,7 +94,7 @@ define(['jquery'], function($) {
                 }
                 var button  = $('<button/>')
                     .addClass('btn btn-default')
-                    .attr("title", el.label||action.help)
+                    .attr("title", el.label||i18n.msg._(action.help))
                     .append(
                         $("<i/>").addClass(el.icon||(action||{icon:'fa-exclamation-triangle'}).icon).addClass('fa')
                     );
