@@ -5,23 +5,19 @@ yet be considered ready for production use.  I have tried to focus on the public
 interfaces in the notebook for the first cut, while leaving much of the console messages
 behind, as their usefulness in a translated environment is questionable at best.
 
-This version contains a set of German translations that was done with a machine translation
-service, with some additional hand edits. I will state up front that I am not a native
-speaker, nor am I a professional translator, so there are likely to be errors in the
-grammar and choice of words.
-
-### Using the prototype German version
+### Using a prototype translated version
 
 In order to use this preliminary version, you need to do things after installing the
 notebook as normal:
 
-1. Set the LANG environment variable in your shell to "de_DE" or just "de".  If you're
+1. Set the LANG environment variable in your shell to "xx_XX" or just "xx".  
+where "xx" is the language code you're wanting to run in. If you're
 running on Windows, I've found the easiest way to do this is to use Windows PowerShell,
 and run the command:
 
-`${Env:LANG} = "de_DE"` 
+`${Env:LANG} = "xx_XX"` 
 
-2. Set the preferred language for web pages in your browser to German (de). At the moment,
+2. Set the preferred language for web pages in your browser to YourLanguage (xx). At the moment,
 it has to be first in the list.
 
 3. Run the `jupyter notebook` command to start the notebook.
@@ -119,6 +115,8 @@ communicate this back to Jinja2.  So far, I haven't yet figured out how to do th
 of languages in the UI ( never a good thing ).
 
 2. We will need to decide if console messages should be translatable, and enable them if desired.
+3. The keyboard shorcut editor was implemented after the i18n work was completed, so that portion
+does not have translation support at this time.
 
 Any questions or comments please let me know @JCEmmons on github (emmo@us.ibm.com)
 

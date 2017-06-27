@@ -7,7 +7,8 @@ define([
 	 // These are only here so that the optimizer knows which ones we MIGHT load.
 	 // We will actually only load the ones we need. There should be one entry
 	 // here for each language you want to support.
-	 "json!base/../../i18n/de/LC_MESSAGES/nbjs.json"
+	 // For example, for German....
+	 // "json!base/../../i18n/de/LC_MESSAGES/nbjs.json"
     ], function (require, module) {
 	return {
 		id: module.id,

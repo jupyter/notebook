@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-04-13 20:59-0500\n"
+"POT-Creation-Date: 2017-06-27 14:04-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,2446 +18,1910 @@ msgstr ""
 "Generated-By: Babel 2.3.4\n"
 
 #: notebook/static/base/js/dialog.js:161
-#: notebook/static/tree/js/main.min.js:22435
 msgid "Manually edit the JSON below to manipulate the metadata for this cell."
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:163
-#: notebook/static/tree/js/main.min.js:22437
 msgid "Manually edit the JSON below to manipulate the metadata for this notebook."
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:165
-#: notebook/static/tree/js/main.min.js:22439
 msgid " We recommend putting custom metadata attributes in an appropriately named substructure, so they don't conflict with those of others."
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:180
-#: notebook/static/tree/js/main.min.js:22454
 msgid "Edit the metadata"
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:202
-#: notebook/static/tree/js/main.min.js:22476
 msgid "Edit Notebook Metadata"
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:204
-#: notebook/static/tree/js/main.min.js:22478
 msgid "Edit Cell Metadata"
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:208
-#: notebook/static/notebook/js/main.min.js:39620
-#: notebook/static/notebook/js/main.min.js:44463
-#: notebook/static/notebook/js/notebook.js:478
-#: notebook/static/notebook/js/savewidget.js:75
-#: notebook/static/tree/js/main.min.js:22482
-#: notebook/static/tree/js/main.min.js:25726
-#: notebook/static/tree/js/main.min.js:26285
-#: notebook/static/tree/js/notebooklist.js:863
-#: notebook/static/tree/js/notebooklist.js:1422
+#: notebook/static/notebook/js/notebook.js:475
+#: notebook/static/notebook/js/savewidget.js:71
+#: notebook/static/tree/js/notebooklist.js:859
+#: notebook/static/tree/js/notebooklist.js:1418
 msgid "Cancel"
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:208
-#: notebook/static/tree/js/main.min.js:22482
 msgid "Edit"
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:208
-#: notebook/static/notebook/js/kernelselector.js:282
-#: notebook/static/notebook/js/main.min.js:25687
-#: notebook/static/notebook/js/main.min.js:39614
-#: notebook/static/notebook/js/main.min.js:44169
-#: notebook/static/notebook/js/main.min.js:44463
-#: notebook/static/notebook/js/main.min.js:46159
-#: notebook/static/notebook/js/mathjaxutils.js:46
-#: notebook/static/notebook/js/notebook.js:472
-#: notebook/static/notebook/js/notificationarea.js:172
-#: notebook/static/notebook/js/savewidget.js:75
-#: notebook/static/tree/js/main.min.js:22482
-#: notebook/static/tree/js/main.min.js:25726
-#: notebook/static/tree/js/main.min.js:26714
-#: notebook/static/tree/js/newnotebook.js:100
-#: notebook/static/tree/js/notebooklist.js:863
+#: notebook/static/notebook/js/kernelselector.js:278
+#: notebook/static/notebook/js/mathjaxutils.js:42
+#: notebook/static/notebook/js/notebook.js:469
+#: notebook/static/notebook/js/notificationarea.js:187
+#: notebook/static/notebook/js/savewidget.js:71
+#: notebook/static/tree/js/newnotebook.js:97
+#: notebook/static/tree/js/notebooklist.js:859
 msgid "OK"
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:208
-#: notebook/static/tree/js/main.min.js:22482
 msgid "Apply"
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:225
-#: notebook/static/tree/js/main.min.js:22499
 msgid "WARNING: Could not save invalid JSON."
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:247
-#: notebook/static/tree/js/main.min.js:22521
 msgid "There are no attachments for this cell."
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:250
-#: notebook/static/tree/js/main.min.js:22524
 msgid "Current cell attachments"
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:259
-#: notebook/static/notebook/js/celltoolbarpresets/attachments.js:50
-#: notebook/static/notebook/js/main.min.js:35864
-#: notebook/static/tree/js/main.min.js:22533
+#: notebook/static/notebook/js/celltoolbarpresets/attachments.js:46
 msgid "Attachments"
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:283
-#: notebook/static/tree/js/main.min.js:22557
 msgid "Restore"
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:293
-#: notebook/static/tree/js/main.min.js:22567
-#: notebook/static/tree/js/main.min.js:25885
-#: notebook/static/tree/js/notebooklist.js:1022
+#: notebook/static/tree/js/notebooklist.js:1018
 msgid "Delete"
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:342 notebook/static/base/js/dialog.js:386
-#: notebook/static/tree/js/main.min.js:22616
-#: notebook/static/tree/js/main.min.js:22660
 msgid "Edit attachments"
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:348
-#: notebook/static/tree/js/main.min.js:22622
 msgid "Edit Notebook Attachments"
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:350
-#: notebook/static/tree/js/main.min.js:22624
 msgid "Edit Cell Attachments"
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:373
-#: notebook/static/tree/js/main.min.js:22647
 msgid "Select a file to insert."
 msgstr ""
 
 #: notebook/static/base/js/dialog.js:399
-#: notebook/static/tree/js/main.min.js:22673
 msgid "Select a file"
 msgstr ""
 
-#: notebook/static/notebook/js/about.js:18
-#: notebook/static/notebook/js/main.min.js:46252
+#: notebook/static/notebook/js/about.js:14
 msgid "You are using Jupyter notebook."
 msgstr ""
 
-#: notebook/static/notebook/js/about.js:20
-#: notebook/static/notebook/js/main.min.js:46254
+#: notebook/static/notebook/js/about.js:16
 msgid "The version of the notebook server is: "
 msgstr ""
 
-#: notebook/static/notebook/js/about.js:26
-#: notebook/static/notebook/js/main.min.js:46260
+#: notebook/static/notebook/js/about.js:22
 msgid "The server is running on this version of Python:"
 msgstr ""
 
-#: notebook/static/notebook/js/about.js:29
-#: notebook/static/notebook/js/main.min.js:46263
+#: notebook/static/notebook/js/about.js:25
 msgid "Waiting for kernel to be available..."
 msgstr ""
 
-#: notebook/static/notebook/js/about.js:31
-#: notebook/static/notebook/js/main.min.js:46265
+#: notebook/static/notebook/js/about.js:27
 msgid "Server Information:"
 msgstr ""
 
-#: notebook/static/notebook/js/about.js:33
-#: notebook/static/notebook/js/main.min.js:46267
+#: notebook/static/notebook/js/about.js:29
 msgid "Current Kernel Information:"
 msgstr ""
 
-#: notebook/static/notebook/js/about.js:36
-#: notebook/static/notebook/js/main.min.js:46270
+#: notebook/static/notebook/js/about.js:32
 msgid "Could not access sys_info variable for version information."
 msgstr ""
 
-#: notebook/static/notebook/js/about.js:38
-#: notebook/static/notebook/js/main.min.js:46272
+#: notebook/static/notebook/js/about.js:34
 msgid "Cannot find sys_info!"
 msgstr ""
 
-#: notebook/static/notebook/js/about.js:42
-#: notebook/static/notebook/js/main.min.js:46276
+#: notebook/static/notebook/js/about.js:38
 msgid "About Jupyter Notebook"
 msgstr ""
 
-#: notebook/static/notebook/js/about.js:51
-#: notebook/static/notebook/js/main.min.js:46285
+#: notebook/static/notebook/js/about.js:47
 msgid "unable to contact kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:74
-#: notebook/static/notebook/js/main.min.js:44692
+#: notebook/static/notebook/js/actions.js:69
 msgid "toggle rtl layout"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:75
-#: notebook/static/notebook/js/main.min.js:44693
+#: notebook/static/notebook/js/actions.js:70
 msgid "Toggle the screen directionality between left-to-right and right-to-left"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:81
-#: notebook/static/notebook/js/main.min.js:44699
+#: notebook/static/notebook/js/actions.js:76
 msgid "edit command mode keyboard shortcuts"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:82
-#: notebook/static/notebook/js/main.min.js:44700
+#: notebook/static/notebook/js/actions.js:77
 msgid "Open a dialog to edit the command mode keyboard shortcuts"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:102
-#: notebook/static/notebook/js/main.min.js:44720
+#: notebook/static/notebook/js/actions.js:97
 msgid "restart kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:103
-#: notebook/static/notebook/js/main.min.js:44721
+#: notebook/static/notebook/js/actions.js:98
 msgid "restart the kernel (no confirmation dialog)"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:111
-#: notebook/static/notebook/js/main.min.js:44729
+#: notebook/static/notebook/js/actions.js:106
 msgid "confirm restart kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:112
-#: notebook/static/notebook/js/main.min.js:44730
+#: notebook/static/notebook/js/actions.js:107
 msgid "restart the kernel (with dialog)"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:118
-#: notebook/static/notebook/js/main.min.js:44736
+#: notebook/static/notebook/js/actions.js:113
 msgid "restart kernel and run all cells"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:119
-#: notebook/static/notebook/js/main.min.js:44737
+#: notebook/static/notebook/js/actions.js:114
 msgid "restart the kernel, then re-run the whole notebook (no confirmation dialog)"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:125
-#: notebook/static/notebook/js/main.min.js:44743
+#: notebook/static/notebook/js/actions.js:120
 msgid "confirm restart kernel and run all cells"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:126
-#: notebook/static/notebook/js/main.min.js:44744
+#: notebook/static/notebook/js/actions.js:121
 msgid "restart the kernel, then re-run the whole notebook (with dialog)"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:132
-#: notebook/static/notebook/js/main.min.js:44750
+#: notebook/static/notebook/js/actions.js:127
 msgid "restart kernel and clear output"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:133
-#: notebook/static/notebook/js/main.min.js:44751
+#: notebook/static/notebook/js/actions.js:128
 msgid "restart the kernel and clear all output (no confirmation dialog)"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:139
-#: notebook/static/notebook/js/main.min.js:44757
+#: notebook/static/notebook/js/actions.js:134
 msgid "confirm restart kernel and clear output"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:140
-#: notebook/static/notebook/js/main.min.js:44758
+#: notebook/static/notebook/js/actions.js:135
 msgid "restart the kernel and clear all output (with dialog)"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:147
-#: notebook/static/notebook/js/actions.js:148
-#: notebook/static/notebook/js/main.min.js:44765
-#: notebook/static/notebook/js/main.min.js:44766
+#: notebook/static/notebook/js/actions.js:142
+#: notebook/static/notebook/js/actions.js:143
 msgid "interrupt the kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:155
-#: notebook/static/notebook/js/main.min.js:44773
+#: notebook/static/notebook/js/actions.js:150
 msgid "run cell and select next"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:157
-#: notebook/static/notebook/js/main.min.js:44775
+#: notebook/static/notebook/js/actions.js:152
 msgid "run cell, select below"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:164
-#: notebook/static/notebook/js/actions.js:165
-#: notebook/static/notebook/js/main.min.js:44782
-#: notebook/static/notebook/js/main.min.js:44783
+#: notebook/static/notebook/js/actions.js:159
+#: notebook/static/notebook/js/actions.js:160
 msgid "run selected cells"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:172
-#: notebook/static/notebook/js/actions.js:173
-#: notebook/static/notebook/js/main.min.js:44790
-#: notebook/static/notebook/js/main.min.js:44791
+#: notebook/static/notebook/js/actions.js:167
+#: notebook/static/notebook/js/actions.js:168
 msgid "run cell and insert below"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:180
-#: notebook/static/notebook/js/actions.js:181
-#: notebook/static/notebook/js/main.min.js:44798
-#: notebook/static/notebook/js/main.min.js:44799
+#: notebook/static/notebook/js/actions.js:175
+#: notebook/static/notebook/js/actions.js:176
 msgid "run all cells"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:188
-#: notebook/static/notebook/js/actions.js:189
-#: notebook/static/notebook/js/main.min.js:44806
-#: notebook/static/notebook/js/main.min.js:44807
+#: notebook/static/notebook/js/actions.js:183
+#: notebook/static/notebook/js/actions.js:184
 msgid "run all cells above"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:195
-#: notebook/static/notebook/js/actions.js:196
-#: notebook/static/notebook/js/main.min.js:44813
-#: notebook/static/notebook/js/main.min.js:44814
+#: notebook/static/notebook/js/actions.js:190
+#: notebook/static/notebook/js/actions.js:191
 msgid "run all cells below"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:202
-#: notebook/static/notebook/js/actions.js:203
-#: notebook/static/notebook/js/main.min.js:44820
-#: notebook/static/notebook/js/main.min.js:44821
+#: notebook/static/notebook/js/actions.js:197
+#: notebook/static/notebook/js/actions.js:198
 msgid "enter command mode"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:210
-#: notebook/static/notebook/js/actions.js:211
-#: notebook/static/notebook/js/main.min.js:44828
-#: notebook/static/notebook/js/main.min.js:44829
+#: notebook/static/notebook/js/actions.js:205
+#: notebook/static/notebook/js/actions.js:206
 msgid "insert image"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:218
-#: notebook/static/notebook/js/actions.js:219
-#: notebook/static/notebook/js/main.min.js:44836
-#: notebook/static/notebook/js/main.min.js:44837
+#: notebook/static/notebook/js/actions.js:213
+#: notebook/static/notebook/js/actions.js:214
 msgid "cut cell attachments"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:226
-#: notebook/static/notebook/js/actions.js:227
-#: notebook/static/notebook/js/main.min.js:44844
-#: notebook/static/notebook/js/main.min.js:44845
+#: notebook/static/notebook/js/actions.js:221
+#: notebook/static/notebook/js/actions.js:222
 msgid "copy cell attachments"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:234
-#: notebook/static/notebook/js/actions.js:235
-#: notebook/static/notebook/js/main.min.js:44852
-#: notebook/static/notebook/js/main.min.js:44853
+#: notebook/static/notebook/js/actions.js:229
+#: notebook/static/notebook/js/actions.js:230
 msgid "paste cell attachments"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:242
-#: notebook/static/notebook/js/actions.js:243
-#: notebook/static/notebook/js/main.min.js:44860
-#: notebook/static/notebook/js/main.min.js:44861
+#: notebook/static/notebook/js/actions.js:237
+#: notebook/static/notebook/js/actions.js:238
 msgid "split cell at cursor"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:250
-#: notebook/static/notebook/js/actions.js:251
-#: notebook/static/notebook/js/main.min.js:44868
-#: notebook/static/notebook/js/main.min.js:44869
+#: notebook/static/notebook/js/actions.js:245
+#: notebook/static/notebook/js/actions.js:246
 msgid "enter edit mode"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:258
-#: notebook/static/notebook/js/main.min.js:44876
+#: notebook/static/notebook/js/actions.js:253
 msgid "select previous cell"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:259
-#: notebook/static/notebook/js/main.min.js:44877
+#: notebook/static/notebook/js/actions.js:254
 msgid "select cell above"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:270
-#: notebook/static/notebook/js/main.min.js:44888
+#: notebook/static/notebook/js/actions.js:265
 msgid "select next cell"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:271
-#: notebook/static/notebook/js/main.min.js:44889
+#: notebook/static/notebook/js/actions.js:266
 msgid "select cell below"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:282
-#: notebook/static/notebook/js/main.min.js:44900
+#: notebook/static/notebook/js/actions.js:277
 msgid "extend selection above"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:283
-#: notebook/static/notebook/js/main.min.js:44901
+#: notebook/static/notebook/js/actions.js:278
 msgid "extend selected cells above"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:294
-#: notebook/static/notebook/js/main.min.js:44912
+#: notebook/static/notebook/js/actions.js:289
 msgid "extend selection below"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:295
-#: notebook/static/notebook/js/main.min.js:44913
+#: notebook/static/notebook/js/actions.js:290
 msgid "extend selected cells below"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:306
-#: notebook/static/notebook/js/actions.js:307
-#: notebook/static/notebook/js/main.min.js:44924
-#: notebook/static/notebook/js/main.min.js:44925
+#: notebook/static/notebook/js/actions.js:301
+#: notebook/static/notebook/js/actions.js:302
 msgid "cut selected cells"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:317
-#: notebook/static/notebook/js/actions.js:318
-#: notebook/static/notebook/js/main.min.js:44935
-#: notebook/static/notebook/js/main.min.js:44936
+#: notebook/static/notebook/js/actions.js:312
+#: notebook/static/notebook/js/actions.js:313
 msgid "copy selected cells"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:326
 #: notebook/static/notebook/js/actions.js:327
-#: notebook/static/notebook/js/main.min.js:44944
-#: notebook/static/notebook/js/main.min.js:44945
+#: notebook/static/notebook/js/actions.js:328
 msgid "paste cells above"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:334
 #: notebook/static/notebook/js/actions.js:335
-#: notebook/static/notebook/js/main.min.js:44952
-#: notebook/static/notebook/js/main.min.js:44953
+#: notebook/static/notebook/js/actions.js:336
 msgid "paste cells below"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:343
 #: notebook/static/notebook/js/actions.js:344
-#: notebook/static/notebook/js/main.min.js:44961
-#: notebook/static/notebook/js/main.min.js:44962
+#: notebook/static/notebook/js/actions.js:345
 msgid "insert cell above"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:353
 #: notebook/static/notebook/js/actions.js:354
-#: notebook/static/notebook/js/main.min.js:44971
-#: notebook/static/notebook/js/main.min.js:44972
+#: notebook/static/notebook/js/actions.js:355
 msgid "insert cell below"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:364
 #: notebook/static/notebook/js/actions.js:365
-#: notebook/static/notebook/js/main.min.js:44982
-#: notebook/static/notebook/js/main.min.js:44983
+#: notebook/static/notebook/js/actions.js:366
 msgid "change cell to code"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:372
 #: notebook/static/notebook/js/actions.js:373
-#: notebook/static/notebook/js/main.min.js:44990
-#: notebook/static/notebook/js/main.min.js:44991
+#: notebook/static/notebook/js/actions.js:374
 msgid "change cell to markdown"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:380
 #: notebook/static/notebook/js/actions.js:381
-#: notebook/static/notebook/js/main.min.js:44998
-#: notebook/static/notebook/js/main.min.js:44999
+#: notebook/static/notebook/js/actions.js:382
 msgid "change cell to raw"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:388
 #: notebook/static/notebook/js/actions.js:389
-#: notebook/static/notebook/js/main.min.js:45006
-#: notebook/static/notebook/js/main.min.js:45007
+#: notebook/static/notebook/js/actions.js:390
 msgid "change cell to heading 1"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:396
 #: notebook/static/notebook/js/actions.js:397
-#: notebook/static/notebook/js/main.min.js:45014
-#: notebook/static/notebook/js/main.min.js:45015
+#: notebook/static/notebook/js/actions.js:398
 msgid "change cell to heading 2"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:404
 #: notebook/static/notebook/js/actions.js:405
-#: notebook/static/notebook/js/main.min.js:45022
-#: notebook/static/notebook/js/main.min.js:45023
+#: notebook/static/notebook/js/actions.js:406
 msgid "change cell to heading 3"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:412
 #: notebook/static/notebook/js/actions.js:413
-#: notebook/static/notebook/js/main.min.js:45030
-#: notebook/static/notebook/js/main.min.js:45031
+#: notebook/static/notebook/js/actions.js:414
 msgid "change cell to heading 4"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:420
 #: notebook/static/notebook/js/actions.js:421
-#: notebook/static/notebook/js/main.min.js:45038
-#: notebook/static/notebook/js/main.min.js:45039
+#: notebook/static/notebook/js/actions.js:422
 msgid "change cell to heading 5"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:428
 #: notebook/static/notebook/js/actions.js:429
-#: notebook/static/notebook/js/main.min.js:45046
-#: notebook/static/notebook/js/main.min.js:45047
+#: notebook/static/notebook/js/actions.js:430
 msgid "change cell to heading 6"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:436
-#: notebook/static/notebook/js/main.min.js:45054
+#: notebook/static/notebook/js/actions.js:437
 msgid "toggle cell output"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:437
-#: notebook/static/notebook/js/main.min.js:45055
+#: notebook/static/notebook/js/actions.js:438
 msgid "toggle output of selected cells"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:444
-#: notebook/static/notebook/js/main.min.js:45062
+#: notebook/static/notebook/js/actions.js:445
 msgid "toggle cell scrolling"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:445
-#: notebook/static/notebook/js/main.min.js:45063
+#: notebook/static/notebook/js/actions.js:446
 msgid "toggle output scrolling of selected cells"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:452
-#: notebook/static/notebook/js/main.min.js:45070
+#: notebook/static/notebook/js/actions.js:453
 msgid "clear cell output"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:453
-#: notebook/static/notebook/js/main.min.js:45071
+#: notebook/static/notebook/js/actions.js:454
 msgid "clear output of selected cells"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:459
-#: notebook/static/notebook/js/main.min.js:45077
+#: notebook/static/notebook/js/actions.js:460
 msgid "move cells down"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:460
-#: notebook/static/notebook/js/main.min.js:45078
+#: notebook/static/notebook/js/actions.js:461
 msgid "move selected cells down"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:468
-#: notebook/static/notebook/js/main.min.js:45086
+#: notebook/static/notebook/js/actions.js:469
 msgid "move cells up"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:469
-#: notebook/static/notebook/js/main.min.js:45087
+#: notebook/static/notebook/js/actions.js:470
 msgid "move selected cells up"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:477
 #: notebook/static/notebook/js/actions.js:478
-#: notebook/static/notebook/js/main.min.js:45095
-#: notebook/static/notebook/js/main.min.js:45096
+#: notebook/static/notebook/js/actions.js:479
 msgid "toggle line numbers"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:485
 #: notebook/static/notebook/js/actions.js:486
-#: notebook/static/notebook/js/main.min.js:45103
-#: notebook/static/notebook/js/main.min.js:45104
+#: notebook/static/notebook/js/actions.js:487
 msgid "show keyboard shortcuts"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:493
-#: notebook/static/notebook/js/main.min.js:45111
+#: notebook/static/notebook/js/actions.js:494
 msgid "delete cells"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:494
-#: notebook/static/notebook/js/main.min.js:45112
+#: notebook/static/notebook/js/actions.js:495
 msgid "delete selected cells"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:501
 #: notebook/static/notebook/js/actions.js:502
-#: notebook/static/notebook/js/main.min.js:45119
-#: notebook/static/notebook/js/main.min.js:45120
+#: notebook/static/notebook/js/actions.js:503
 msgid "undo cell deletion"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:511
-#: notebook/static/notebook/js/main.min.js:45129
+#: notebook/static/notebook/js/actions.js:512
 msgid "merge cell with previous cell"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:512
-#: notebook/static/notebook/js/main.min.js:45130
+#: notebook/static/notebook/js/actions.js:513
 msgid "merge cell above"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:518
-#: notebook/static/notebook/js/main.min.js:45136
+#: notebook/static/notebook/js/actions.js:519
 msgid "merge cell with next cell"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:519
-#: notebook/static/notebook/js/main.min.js:45137
+#: notebook/static/notebook/js/actions.js:520
 msgid "merge cell below"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:526
 #: notebook/static/notebook/js/actions.js:527
-#: notebook/static/notebook/js/main.min.js:45144
-#: notebook/static/notebook/js/main.min.js:45145
+#: notebook/static/notebook/js/actions.js:528
 msgid "merge selected cells"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:534
-#: notebook/static/notebook/js/main.min.js:45152
+#: notebook/static/notebook/js/actions.js:535
 msgid "merge cells"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:535
-#: notebook/static/notebook/js/main.min.js:45153
+#: notebook/static/notebook/js/actions.js:536
 msgid "merge selected cells, or current cell with cell below if only one cell is selected"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:548
-#: notebook/static/notebook/js/main.min.js:45166
+#: notebook/static/notebook/js/actions.js:549
 msgid "show command pallette"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:549
-#: notebook/static/notebook/js/main.min.js:45167
+#: notebook/static/notebook/js/actions.js:550
 msgid "open the command palette"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:556
-#: notebook/static/notebook/js/main.min.js:45174
+#: notebook/static/notebook/js/actions.js:557
 msgid "toggle all line numbers"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:557
-#: notebook/static/notebook/js/main.min.js:45175
+#: notebook/static/notebook/js/actions.js:558
 msgid "toggles line numbers in all cells, and persist the setting"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:568
-#: notebook/static/notebook/js/main.min.js:45186
+#: notebook/static/notebook/js/actions.js:569
 msgid "show all line numbers"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:569
-#: notebook/static/notebook/js/main.min.js:45187
+#: notebook/static/notebook/js/actions.js:570
 msgid "show line numbers in all cells, and persist the setting"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:578
-#: notebook/static/notebook/js/main.min.js:45196
+#: notebook/static/notebook/js/actions.js:579
 msgid "hide all line numbers"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:579
-#: notebook/static/notebook/js/main.min.js:45197
+#: notebook/static/notebook/js/actions.js:580
 msgid "hide line numbers in all cells, and persist the setting"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:588
-#: notebook/static/notebook/js/main.min.js:45206
+#: notebook/static/notebook/js/actions.js:589
 msgid "toggle header"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:589
-#: notebook/static/notebook/js/main.min.js:45207
+#: notebook/static/notebook/js/actions.js:590
 msgid "switch between showing and hiding the header"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:604
 #: notebook/static/notebook/js/actions.js:605
-#: notebook/static/notebook/js/main.min.js:45222
-#: notebook/static/notebook/js/main.min.js:45223
+#: notebook/static/notebook/js/actions.js:606
 msgid "show the header"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:614
 #: notebook/static/notebook/js/actions.js:615
-#: notebook/static/notebook/js/main.min.js:45232
-#: notebook/static/notebook/js/main.min.js:45233
+#: notebook/static/notebook/js/actions.js:616
 msgid "hide the header"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:645
-#: notebook/static/notebook/js/main.min.js:45263
+#: notebook/static/notebook/js/actions.js:646
 msgid "toggle toolbar"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:646
-#: notebook/static/notebook/js/main.min.js:45264
+#: notebook/static/notebook/js/actions.js:647
 msgid "switch between showing and hiding the toolbar"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:659
 #: notebook/static/notebook/js/actions.js:660
-#: notebook/static/notebook/js/main.min.js:45277
-#: notebook/static/notebook/js/main.min.js:45278
+#: notebook/static/notebook/js/actions.js:661
 msgid "show the toolbar"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:668
 #: notebook/static/notebook/js/actions.js:669
-#: notebook/static/notebook/js/main.min.js:45286
-#: notebook/static/notebook/js/main.min.js:45287
+#: notebook/static/notebook/js/actions.js:670
 msgid "hide the toolbar"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:677
 #: notebook/static/notebook/js/actions.js:678
-#: notebook/static/notebook/js/main.min.js:45295
-#: notebook/static/notebook/js/main.min.js:45296
+#: notebook/static/notebook/js/actions.js:679
 msgid "close the pager"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:703
-#: notebook/static/notebook/js/main.min.js:45321
+#: notebook/static/notebook/js/actions.js:704
 msgid "ignore"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:709
 #: notebook/static/notebook/js/actions.js:710
-#: notebook/static/notebook/js/main.min.js:45327
-#: notebook/static/notebook/js/main.min.js:45328
+#: notebook/static/notebook/js/actions.js:711
 msgid "move cursor up"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:730
 #: notebook/static/notebook/js/actions.js:731
-#: notebook/static/notebook/js/main.min.js:45348
-#: notebook/static/notebook/js/main.min.js:45349
+#: notebook/static/notebook/js/actions.js:732
 msgid "move cursor down"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:749
 #: notebook/static/notebook/js/actions.js:750
-#: notebook/static/notebook/js/main.min.js:45367
-#: notebook/static/notebook/js/main.min.js:45368
+#: notebook/static/notebook/js/actions.js:751
 msgid "scroll notebook down"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:759
 #: notebook/static/notebook/js/actions.js:760
-#: notebook/static/notebook/js/main.min.js:45377
-#: notebook/static/notebook/js/main.min.js:45378
+#: notebook/static/notebook/js/actions.js:761
 msgid "scroll notebook up"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:769
-#: notebook/static/notebook/js/main.min.js:45387
+#: notebook/static/notebook/js/actions.js:770
 msgid "scroll cell center"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:770
-#: notebook/static/notebook/js/main.min.js:45388
+#: notebook/static/notebook/js/actions.js:771
 msgid "Scroll the current cell to the center"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:780
-#: notebook/static/notebook/js/main.min.js:45398
+#: notebook/static/notebook/js/actions.js:781
 msgid "scroll cell top"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:781
-#: notebook/static/notebook/js/main.min.js:45399
+#: notebook/static/notebook/js/actions.js:782
 msgid "Scroll the current cell to the top"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:791
-#: notebook/static/notebook/js/main.min.js:45409
+#: notebook/static/notebook/js/actions.js:792
 msgid "duplicate notebook"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:792
-#: notebook/static/notebook/js/main.min.js:45410
+#: notebook/static/notebook/js/actions.js:793
 msgid "Create and open a copy of the current notebook"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:798
-#: notebook/static/notebook/js/main.min.js:45416
+#: notebook/static/notebook/js/actions.js:799
 msgid "trust notebook"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:799
-#: notebook/static/notebook/js/main.min.js:45417
+#: notebook/static/notebook/js/actions.js:800
 msgid "Trust the current notebook"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:805
-#: notebook/static/notebook/js/main.min.js:45423
+#: notebook/static/notebook/js/actions.js:806
 msgid "rename notebook"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:806
-#: notebook/static/notebook/js/main.min.js:45424
+#: notebook/static/notebook/js/actions.js:807
 msgid "Rename the current notebook"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:812
-#: notebook/static/notebook/js/main.min.js:45430
+#: notebook/static/notebook/js/actions.js:813
 msgid "toggle all cells output collapsed"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:813
-#: notebook/static/notebook/js/main.min.js:45431
+#: notebook/static/notebook/js/actions.js:814
 msgid "Toggle the hidden state of all output areas"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:819
-#: notebook/static/notebook/js/main.min.js:45437
+#: notebook/static/notebook/js/actions.js:820
 msgid "toggle all cells output scrolled"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:820
-#: notebook/static/notebook/js/main.min.js:45438
+#: notebook/static/notebook/js/actions.js:821
 msgid "Toggle the scrolling state of all output areas"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:827
-#: notebook/static/notebook/js/main.min.js:45445
+#: notebook/static/notebook/js/actions.js:828
 msgid "clear all cells output"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:828
-#: notebook/static/notebook/js/main.min.js:45446
+#: notebook/static/notebook/js/actions.js:829
 msgid "Clear the content of all the outputs"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:834
-#: notebook/static/notebook/js/main.min.js:45452
+#: notebook/static/notebook/js/actions.js:835
 msgid "save notebook"
 msgstr ""
 
-#: notebook/static/notebook/js/actions.js:835
-#: notebook/static/notebook/js/main.min.js:45453
+#: notebook/static/notebook/js/actions.js:836
 msgid "Save and Checkpoint"
 msgstr ""
 
-#: notebook/static/notebook/js/cell.js:83
-#: notebook/static/notebook/js/main.min.js:24785
+#: notebook/static/notebook/js/cell.js:79
 msgid "Warning: accessing Cell.cm_config directly is deprecated."
 msgstr ""
 
-#: notebook/static/notebook/js/cell.js:767
-#: notebook/static/notebook/js/main.min.js:25469
+#: notebook/static/notebook/js/cell.js:763
 #, python-format
 msgid "Unrecognized cell type: %s"
 msgstr ""
 
-#: notebook/static/notebook/js/cell.js:781
-#: notebook/static/notebook/js/main.min.js:25483
+#: notebook/static/notebook/js/cell.js:777
 msgid "Unrecognized cell type"
 msgstr ""
 
-#: notebook/static/notebook/js/celltoolbar.js:301
-#: notebook/static/notebook/js/main.min.js:26226
+#: notebook/static/notebook/js/celltoolbar.js:296
 #, python-format
 msgid "Error in cell toolbar callback %s"
 msgstr ""
 
-#: notebook/static/notebook/js/clipboard.js:57
-#: notebook/static/notebook/js/main.min.js:46747
+#: notebook/static/notebook/js/clipboard.js:53
 #, python-format
 msgid "Clipboard types: %s"
 msgstr ""
 
-#: notebook/static/notebook/js/clipboard.js:100
-#: notebook/static/notebook/js/main.min.js:46790
+#: notebook/static/notebook/js/clipboard.js:96
 msgid "Dialog for paste from system clipboard"
 msgstr ""
 
-#: notebook/static/notebook/js/clipboard.js:113
-#: notebook/static/notebook/js/main.min.js:46803
+#: notebook/static/notebook/js/clipboard.js:109
 msgid "Ctrl-V"
 msgstr ""
 
-#: notebook/static/notebook/js/clipboard.js:115
-#: notebook/static/notebook/js/main.min.js:46805
+#: notebook/static/notebook/js/clipboard.js:111
 msgid "Cmd-V"
 msgstr ""
 
-#: notebook/static/notebook/js/clipboard.js:117
-#: notebook/static/notebook/js/main.min.js:46807
+#: notebook/static/notebook/js/clipboard.js:113
 #, python-format
 msgid "Press %s again to paste"
 msgstr ""
 
-#: notebook/static/notebook/js/clipboard.js:120
-#: notebook/static/notebook/js/main.min.js:46810
+#: notebook/static/notebook/js/clipboard.js:116
 msgid "Why is this needed? "
 msgstr ""
 
-#: notebook/static/notebook/js/clipboard.js:122
-#: notebook/static/notebook/js/main.min.js:46812
+#: notebook/static/notebook/js/clipboard.js:118
 msgid "We can't get paste events in this browser without a text box. "
 msgstr ""
 
-#: notebook/static/notebook/js/clipboard.js:123
-#: notebook/static/notebook/js/main.min.js:46813
+#: notebook/static/notebook/js/clipboard.js:119
 msgid "There's an invisible text box focused in this dialog."
 msgstr ""
 
-#: notebook/static/notebook/js/clipboard.js:129
-#: notebook/static/notebook/js/main.min.js:46819
+#: notebook/static/notebook/js/clipboard.js:125
 #, python-format
 msgid "%s to paste"
 msgstr ""
 
-#: notebook/static/notebook/js/codecell.js:313
-#: notebook/static/notebook/js/main.min.js:33023
+#: notebook/static/notebook/js/codecell.js:310
 msgid "Can't execute cell since kernel is not set."
 msgstr ""
 
-#: notebook/static/notebook/js/codecell.js:475
-#: notebook/static/notebook/js/main.min.js:33185
+#: notebook/static/notebook/js/codecell.js:472
 msgid "In"
 msgstr ""
 
-#: notebook/static/notebook/js/kernelselector.js:273
-#: notebook/static/notebook/js/main.min.js:46150
+#: notebook/static/notebook/js/kernelselector.js:269
 #, python-format
 msgid "Could not find a kernel matching %s. Please select a kernel:"
 msgstr ""
 
-#: notebook/static/notebook/js/kernelselector.js:282
-#: notebook/static/notebook/js/main.min.js:46159
+#: notebook/static/notebook/js/kernelselector.js:278
 msgid "Continue Without Kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/kernelselector.js:282
-#: notebook/static/notebook/js/main.min.js:46159
+#: notebook/static/notebook/js/kernelselector.js:278
 msgid "Set Kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/kernelselector.js:285
-#: notebook/static/notebook/js/main.min.js:46162
+#: notebook/static/notebook/js/kernelselector.js:281
 msgid "Kernel not found"
 msgstr ""
 
-#: notebook/static/notebook/js/kernelselector.js:323
-#: notebook/static/notebook/js/main.min.js:46200
-#: notebook/static/tree/js/main.min.js:26716
-#: notebook/static/tree/js/newnotebook.js:102
+#: notebook/static/notebook/js/kernelselector.js:319
+#: notebook/static/tree/js/newnotebook.js:99
 msgid "Creating Notebook Failed"
 msgstr ""
 
-#: notebook/static/notebook/js/kernelselector.js:324
-#: notebook/static/notebook/js/main.min.js:46201
-#: notebook/static/tree/js/main.min.js:26227
-#: notebook/static/tree/js/notebooklist.js:1364
+#: notebook/static/notebook/js/kernelselector.js:320
+#: notebook/static/tree/js/notebooklist.js:1360
 #, python-format
 msgid "The error was: %s"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:25690
-#: notebook/static/notebook/js/mathjaxutils.js:49
+#: notebook/static/notebook/js/maintoolbar.js:54
+msgid "Run"
+msgstr ""
+
+#: notebook/static/notebook/js/maintoolbar.js:76
+msgid "Code"
+msgstr ""
+
+#: notebook/static/notebook/js/maintoolbar.js:77
+msgid "Markdown"
+msgstr ""
+
+#: notebook/static/notebook/js/maintoolbar.js:78
+msgid "Raw NBConvert"
+msgstr ""
+
+#: notebook/static/notebook/js/maintoolbar.js:79
+msgid "Heading"
+msgstr ""
+
+#: notebook/static/notebook/js/maintoolbar.js:115
+msgid "unrecognized cell type:"
+msgstr ""
+
+#: notebook/static/notebook/js/mathjaxutils.js:45
 #, python-format
 msgid "Failed to retrieve MathJax from '%s'"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:25692
-#: notebook/static/notebook/js/mathjaxutils.js:51
+#: notebook/static/notebook/js/mathjaxutils.js:47
 msgid "Math/LaTeX rendering will be disabled."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:30451
-#: notebook/static/notebook/js/textcell.js:554
-msgid "Write raw LaTeX or other formats here, for use with nbconvert. It will not be rendered in the notebook."
+#: notebook/static/notebook/js/menubar.js:220
+msgid "Trusted Notebook"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:30453
-#: notebook/static/notebook/js/textcell.js:556
-msgid "When passing through nbconvert, a Raw Cell's content is added to the output unmodified."
+#: notebook/static/notebook/js/menubar.js:226
+msgid "Trust Notebook"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:31144
-#: notebook/static/notebook/js/outputarea.js:79
-msgid "click to expand output"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:31148
-#: notebook/static/notebook/js/outputarea.js:83
-msgid "click to expand output; double click to hide output"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:31236
-#: notebook/static/notebook/js/outputarea.js:171
-msgid "click to unscroll output; double click to hide"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:31243
-#: notebook/static/notebook/js/outputarea.js:178
-msgid "click to scroll output; double click to hide"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:31491
-#: notebook/static/notebook/js/outputarea.js:426
-msgid "Javascript error adding output!"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:31496
-#: notebook/static/notebook/js/outputarea.js:431
-msgid "See your browser Javascript console for more details."
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:31537
-#: notebook/static/notebook/js/outputarea.js:472
-#, python-format
-msgid "Out[%d]:"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:31646
-#: notebook/static/notebook/js/outputarea.js:581
-#, python-format
-msgid "Unrecognized output: %s"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:35336
-#: notebook/static/notebook/js/tooltip.js:45
-msgid "Grow the tooltip vertically (press shift-tab twice)"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:35343
-#: notebook/static/notebook/js/tooltip.js:52
-msgid "show the current docstring in pager (press shift-tab 4 times)"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:35344
-#: notebook/static/notebook/js/tooltip.js:53
-msgid "Open in Pager"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:35353
-#: notebook/static/notebook/js/main.min.js:35364
-#: notebook/static/notebook/js/main.min.js:38602
-#: notebook/static/notebook/js/quickhelp.js:224
-#: notebook/static/notebook/js/tooltip.js:62
-#: notebook/static/notebook/js/tooltip.js:73
-msgid "Close"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:35363
-#: notebook/static/notebook/js/tooltip.js:72
-msgid "Tooltip will linger for 10 seconds while you type"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/default.js:23
-#: notebook/static/notebook/js/main.min.js:35643
-msgid "Cell"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/default.js:33
-#: notebook/static/notebook/js/celltoolbarpresets/default.js:51
-#: notebook/static/notebook/js/main.min.js:35653
-#: notebook/static/notebook/js/main.min.js:35671
-msgid "Edit Metadata"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:20
-#: notebook/static/notebook/js/main.min.js:35695
-#: notebook/static/notebook/js/main.min.js:43645
-#: notebook/static/notebook/js/menubar.js:386
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:16
+#: notebook/static/notebook/js/menubar.js:383
 msgid "None"
 msgstr ""
 
-#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:21
-#: notebook/static/notebook/js/main.min.js:35696
-msgid "LaTeX"
+#: notebook/static/notebook/js/menubar.js:406
+msgid "No checkpoints"
 msgstr ""
 
-#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:22
-#: notebook/static/notebook/js/main.min.js:35697
-msgid "reST"
+#: notebook/static/notebook/js/menubar.js:465
+msgid "Opens in a new window"
 msgstr ""
 
-#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:23
-#: notebook/static/notebook/js/main.min.js:35698
-msgid "HTML"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:24
-#: notebook/static/notebook/js/main.min.js:35699
-#: notebook/static/notebook/js/main.min.js:42805
-#: notebook/static/notebook/js/maintoolbar.js:80
-msgid "Markdown"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:25
-#: notebook/static/notebook/js/main.min.js:35700
-msgid "Python"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:26
-#: notebook/static/notebook/js/main.min.js:35701
-msgid "Custom"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:36
-#: notebook/static/notebook/js/main.min.js:35711
-msgid "Set the MIME type of the raw cell:"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:44
-#: notebook/static/notebook/js/main.min.js:35719
-msgid "Raw Cell MIME Type"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:78
-#: notebook/static/notebook/js/main.min.js:35753
-msgid "Raw NBConvert Format"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:85
-#: notebook/static/notebook/js/main.min.js:35760
-msgid "Raw Cell Format"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:19
-#: notebook/static/notebook/js/main.min.js:35784
-msgid "Slide"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:20
-#: notebook/static/notebook/js/main.min.js:35785
-msgid "Sub-Slide"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:21
-#: notebook/static/notebook/js/main.min.js:35786
-msgid "Fragment"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:22
-#: notebook/static/notebook/js/main.min.js:35787
-msgid "Skip"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:23
-#: notebook/static/notebook/js/main.min.js:35788
-msgid "Notes"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:39
-#: notebook/static/notebook/js/main.min.js:35804
-msgid "Slide Type"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:45
-#: notebook/static/notebook/js/main.min.js:35810
-msgid "Slideshow"
-msgstr ""
-
-#: notebook/static/notebook/js/celltoolbarpresets/attachments.js:36
-#: notebook/static/notebook/js/main.min.js:35850
-msgid "Edit Attachments"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38419
-#: notebook/static/notebook/js/main.min.js:38429
-#: notebook/static/notebook/js/main.min.js:38430
-#: notebook/static/notebook/js/quickhelp.js:41
-#: notebook/static/notebook/js/quickhelp.js:51
-#: notebook/static/notebook/js/quickhelp.js:52
-msgid "go to cell start"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38420
-#: notebook/static/notebook/js/main.min.js:38431
-#: notebook/static/notebook/js/main.min.js:38432
-#: notebook/static/notebook/js/quickhelp.js:42
-#: notebook/static/notebook/js/quickhelp.js:53
-#: notebook/static/notebook/js/quickhelp.js:54
-msgid "go to cell end"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38421
-#: notebook/static/notebook/js/main.min.js:38433
-#: notebook/static/notebook/js/quickhelp.js:43
-#: notebook/static/notebook/js/quickhelp.js:55
-msgid "go one word left"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38422
-#: notebook/static/notebook/js/main.min.js:38434
-#: notebook/static/notebook/js/quickhelp.js:44
-#: notebook/static/notebook/js/quickhelp.js:56
-msgid "go one word right"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38423
-#: notebook/static/notebook/js/main.min.js:38435
-#: notebook/static/notebook/js/quickhelp.js:45
-#: notebook/static/notebook/js/quickhelp.js:57
-msgid "delete word before"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38424
-#: notebook/static/notebook/js/main.min.js:38436
-#: notebook/static/notebook/js/quickhelp.js:46
-#: notebook/static/notebook/js/quickhelp.js:58
-msgid "delete word after"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38441
-#: notebook/static/notebook/js/quickhelp.js:63
-msgid "code completion or indent"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38442
-#: notebook/static/notebook/js/quickhelp.js:64
-msgid "tooltip"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38443
-#: notebook/static/notebook/js/quickhelp.js:65
-msgid "indent"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38444
-#: notebook/static/notebook/js/quickhelp.js:66
-msgid "dedent"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38445
-#: notebook/static/notebook/js/quickhelp.js:67
-msgid "select all"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38446
-#: notebook/static/notebook/js/quickhelp.js:68
-msgid "undo"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38447
-#: notebook/static/notebook/js/main.min.js:38448
-#: notebook/static/notebook/js/quickhelp.js:69
-#: notebook/static/notebook/js/quickhelp.js:70
-msgid "redo"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38482
-#: notebook/static/notebook/js/main.min.js:38623
-#: notebook/static/notebook/js/quickhelp.js:104
-#: notebook/static/notebook/js/quickhelp.js:245
-msgid "Shift"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38483
-#: notebook/static/notebook/js/quickhelp.js:105
-msgid "Alt"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38484
-#: notebook/static/notebook/js/quickhelp.js:106
-msgid "Up"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38485
-#: notebook/static/notebook/js/quickhelp.js:107
-msgid "Down"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38486
-#: notebook/static/notebook/js/quickhelp.js:108
-msgid "Left"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38487
-#: notebook/static/notebook/js/quickhelp.js:109
-msgid "Right"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38488
-#: notebook/static/notebook/js/main.min.js:38626
-#: notebook/static/notebook/js/quickhelp.js:110
-#: notebook/static/notebook/js/quickhelp.js:248
-msgid "Tab"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38489
-#: notebook/static/notebook/js/quickhelp.js:111
-msgid "Caps Lock"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38490
-#: notebook/static/notebook/js/main.min.js:38649
-#: notebook/static/notebook/js/quickhelp.js:112
-#: notebook/static/notebook/js/quickhelp.js:271
-msgid "Esc"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38491
-#: notebook/static/notebook/js/quickhelp.js:113
-msgid "Ctrl"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38492
-#: notebook/static/notebook/js/main.min.js:38670
-#: notebook/static/notebook/js/quickhelp.js:114
-#: notebook/static/notebook/js/quickhelp.js:292
-msgid "Enter"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38493
-#: notebook/static/notebook/js/quickhelp.js:115
-msgid "Page Up"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38494
-#: notebook/static/notebook/js/main.min.js:38510
-#: notebook/static/notebook/js/quickhelp.js:116
-#: notebook/static/notebook/js/quickhelp.js:132
-msgid "Page Down"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38495
-#: notebook/static/notebook/js/quickhelp.js:117
-msgid "Home"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38496
-#: notebook/static/notebook/js/quickhelp.js:118
-msgid "End"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38497
-#: notebook/static/notebook/js/main.min.js:38625
-#: notebook/static/notebook/js/quickhelp.js:119
-#: notebook/static/notebook/js/quickhelp.js:247
-msgid "Space"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38498
-#: notebook/static/notebook/js/quickhelp.js:120
-msgid "Backspace"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38499
-#: notebook/static/notebook/js/quickhelp.js:121
-msgid "Minus"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38510
-#: notebook/static/notebook/js/quickhelp.js:132
-msgid "PageUp"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38577
-#: notebook/static/notebook/js/quickhelp.js:199
-msgid "The Jupyter Notebook has two different keyboard input modes."
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38579
-#: notebook/static/notebook/js/quickhelp.js:201
-msgid "<b>Edit mode</b> allows you to type code or text into a cell and is indicated by a green cell border."
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38581
-#: notebook/static/notebook/js/quickhelp.js:203
-msgid "<b>Command mode</b> binds the keyboard to notebook level commands and is indicated by a grey cell border with a blue left margin."
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38605
-#: notebook/static/notebook/js/quickhelp.js:227
-msgid "Keyboard shortcuts"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38620
-#: notebook/static/notebook/js/quickhelp.js:242
-msgid "Command"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38621
-#: notebook/static/notebook/js/quickhelp.js:243
-msgid "Control"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38622
-#: notebook/static/notebook/js/quickhelp.js:244
-msgid "Option"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38624
-#: notebook/static/notebook/js/quickhelp.js:246
-msgid "Return"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38650
-#: notebook/static/notebook/js/quickhelp.js:272
-#, python-format
-msgid "Command Mode (press %s to enable)"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38652
-#: notebook/static/notebook/js/quickhelp.js:274
-msgid "Edit Shortcuts"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38655
-#: notebook/static/notebook/js/quickhelp.js:277
-msgid "edit command-mode keyboard shortcuts"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:38672
-#: notebook/static/notebook/js/quickhelp.js:294
-#, python-format
-msgid "Edit Mode (press %s to enable)"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:39576
-#: notebook/static/notebook/js/notebook.js:434
+#: notebook/static/notebook/js/notebook.js:431
 msgid "Autosave in progress, latest changes may be lost."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:39578
-#: notebook/static/notebook/js/notebook.js:436
+#: notebook/static/notebook/js/notebook.js:433
 msgid "Unsaved changes will be lost."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:39583
-#: notebook/static/notebook/js/notebook.js:441
+#: notebook/static/notebook/js/notebook.js:438
 msgid "The Kernel is busy, outputs may be lost."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:39606
-#: notebook/static/notebook/js/notebook.js:464
+#: notebook/static/notebook/js/notebook.js:461
 msgid "This notebook is version %1$s, but we only fully support up to %2$s."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:39608
-#: notebook/static/notebook/js/notebook.js:466
+#: notebook/static/notebook/js/notebook.js:463
 msgid "You can still work with this notebook, but cell and output types introduced in later notebook versions will not be available."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:39615
-#: notebook/static/notebook/js/notebook.js:473
+#: notebook/static/notebook/js/notebook.js:470
 msgid "Restart and Run All Cells"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:39616
-#: notebook/static/notebook/js/notebook.js:474
+#: notebook/static/notebook/js/notebook.js:471
 msgid "Restart and Clear All Outputs"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:39617
-#: notebook/static/notebook/js/notebook.js:475
+#: notebook/static/notebook/js/notebook.js:472
 msgid "Restart"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:39618
-#: notebook/static/notebook/js/notebook.js:476
+#: notebook/static/notebook/js/notebook.js:473
 msgid "Continue Running"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:39619
-#: notebook/static/notebook/js/notebook.js:477
+#: notebook/static/notebook/js/notebook.js:474
 msgid "Reload"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:39621
-#: notebook/static/notebook/js/notebook.js:479
+#: notebook/static/notebook/js/notebook.js:476
 msgid "Overwrite"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:39622
-#: notebook/static/notebook/js/notebook.js:480
+#: notebook/static/notebook/js/notebook.js:477
 msgid "Trust"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:39623
-#: notebook/static/notebook/js/notebook.js:481
+#: notebook/static/notebook/js/notebook.js:478
 msgid "Revert"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:39628
-#: notebook/static/notebook/js/notebook.js:486
+#: notebook/static/notebook/js/notebook.js:483
 msgid "Newer Notebook"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:40693
-#: notebook/static/notebook/js/notebook.js:1551
+#: notebook/static/notebook/js/notebook.js:1548
 msgid "Use markdown headings"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:40695
-#: notebook/static/notebook/js/notebook.js:1553
+#: notebook/static/notebook/js/notebook.js:1550
 msgid "Jupyter no longer uses special heading cells. Instead, write your headings in Markdown cells using # characters:"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:40698
-#: notebook/static/notebook/js/notebook.js:1556
+#: notebook/static/notebook/js/notebook.js:1553
 msgid "## This is a level 2 heading"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:41390
 #: notebook/static/notebook/js/notebook.js:2248
 msgid "Restart kernel and re-run the whole notebook?"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:41392
 #: notebook/static/notebook/js/notebook.js:2250
 msgid "Are you sure you want to restart the current kernel and re-execute the whole notebook?  All variables and outputs will be lost."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:41417
 #: notebook/static/notebook/js/notebook.js:2275
 msgid "Restart kernel and clear all output?"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:41419
 #: notebook/static/notebook/js/notebook.js:2277
 msgid "Do you want to restart the current kernel and clear all output?  All variables and outputs will be lost."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:41464
 #: notebook/static/notebook/js/notebook.js:2322
 msgid "Restart kernel?"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:41466
 #: notebook/static/notebook/js/notebook.js:2324
 msgid "Do you want to restart the current kernel?  All variables will be lost."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:41876
 #: notebook/static/notebook/js/notebook.js:2734
 msgid "Notebook changed"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:41877
 #: notebook/static/notebook/js/notebook.js:2735
-msgid "The notebook file has changed on disk since the last time we opened or saved it."
+msgid "The notebook file has changed on disk since the last time we opened or saved it. Do you want to overwrite the file on disk with the version open here, or load the version on disk (reload the page) ?"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:41878
-#: notebook/static/notebook/js/notebook.js:2736
-msgid "Do you want to overwrite the file on disk with the version open here, or load the version on disk (reload the page) ?"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:41924
-#: notebook/static/notebook/js/main.min.js:42134
 #: notebook/static/notebook/js/notebook.js:2782
-#: notebook/static/notebook/js/notebook.js:2992
+#: notebook/static/notebook/js/notebook.js:2990
 msgid "Notebook validation failed"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:41927
 #: notebook/static/notebook/js/notebook.js:2785
 msgid "The save operation succeeded, but the notebook does not appear to be valid. The validation error was:"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:41978
 #: notebook/static/notebook/js/notebook.js:2836
-msgid "A trusted Jupyter notebook may execute hidden malicious code when you open it."
+msgid "A trusted Jupyter notebook may execute hidden malicious code when you open it. Selecting trust will immediately reload this notebook in a trusted state. For more information, see the Jupyter security documentation: "
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:41980
-#: notebook/static/notebook/js/notebook.js:2838
-msgid "Selecting trust will immediately reload this notebook in a trusted state."
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:41982
 #: notebook/static/notebook/js/notebook.js:2840
-msgid " For more information, see the Jupyter security documentation: "
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:41984
-#: notebook/static/notebook/js/notebook.js:2842
 msgid "here"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:41992
-#: notebook/static/notebook/js/notebook.js:2850
+#: notebook/static/notebook/js/notebook.js:2848
 msgid "Trust this notebook?"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42125
-#: notebook/static/notebook/js/notebook.js:2983
+#: notebook/static/notebook/js/notebook.js:2981
 msgid "Notebook failed to load"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42127
-#: notebook/static/notebook/js/notebook.js:2985
+#: notebook/static/notebook/js/notebook.js:2983
 msgid "The error was: "
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42131
-#: notebook/static/notebook/js/notebook.js:2989
+#: notebook/static/notebook/js/notebook.js:2987
 msgid "See the error console for details."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42139
-#: notebook/static/notebook/js/notebook.js:2997
+#: notebook/static/notebook/js/notebook.js:2995
 msgid "The notebook also failed validation:"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42141
-#: notebook/static/notebook/js/notebook.js:2999
+#: notebook/static/notebook/js/notebook.js:2997
 msgid "An invalid notebook may not function properly. The validation error was:"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42180
-#: notebook/static/notebook/js/notebook.js:3038
+#: notebook/static/notebook/js/notebook.js:3036
 #, python-format
 msgid "This notebook has been converted from an older notebook format to the current notebook format v(%s)."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42182
-#: notebook/static/notebook/js/notebook.js:3040
+#: notebook/static/notebook/js/notebook.js:3038
 #, python-format
 msgid "This notebook has been converted from a newer notebook format to the current notebook format v(%s)."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42190
-#: notebook/static/notebook/js/notebook.js:3048
+#: notebook/static/notebook/js/notebook.js:3046
 msgid "The next time you save this notebook, the current notebook format will be used."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42195
-#: notebook/static/notebook/js/notebook.js:3053
+#: notebook/static/notebook/js/notebook.js:3051
 msgid "Older versions of Jupyter may not be able to read the new format."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42197
-#: notebook/static/notebook/js/notebook.js:3055
+#: notebook/static/notebook/js/notebook.js:3053
 msgid "Some features of the original notebook may not be available."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42200
-#: notebook/static/notebook/js/notebook.js:3058
+#: notebook/static/notebook/js/notebook.js:3056
 msgid "To preserve the original version, close the notebook without saving it."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42205
-#: notebook/static/notebook/js/notebook.js:3063
+#: notebook/static/notebook/js/notebook.js:3061
 msgid "Notebook converted"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42227
-#: notebook/static/notebook/js/notebook.js:3085
+#: notebook/static/notebook/js/notebook.js:3083
 msgid "(No name)"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42275
-#: notebook/static/notebook/js/notebook.js:3133
+#: notebook/static/notebook/js/notebook.js:3131
 #, python-format
 msgid "An unknown error occurred while loading this notebook. This version can load notebook formats %s or earlier. See the server log for details."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42286
-#: notebook/static/notebook/js/notebook.js:3144
+#: notebook/static/notebook/js/notebook.js:3142
 msgid "Error loading notebook"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42387
-#: notebook/static/notebook/js/notebook.js:3245
+#: notebook/static/notebook/js/notebook.js:3243
 msgid "Are you sure you want to revert the notebook to the latest checkpoint?"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42390
-#: notebook/static/notebook/js/notebook.js:3248
+#: notebook/static/notebook/js/notebook.js:3246
 msgid "This cannot be undone."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42393
-#: notebook/static/notebook/js/notebook.js:3251
+#: notebook/static/notebook/js/notebook.js:3249
 msgid "The checkpoint was last updated at:"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42404
-#: notebook/static/notebook/js/notebook.js:3262
+#: notebook/static/notebook/js/notebook.js:3260
 msgid "Revert notebook to checkpoint"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:42804
-#: notebook/static/notebook/js/maintoolbar.js:79
-msgid "Code"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:42806
-#: notebook/static/notebook/js/maintoolbar.js:81
-msgid "Raw NBConvert"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:42807
-#: notebook/static/notebook/js/maintoolbar.js:82
-msgid "Heading"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:42843
-#: notebook/static/notebook/js/maintoolbar.js:118
-msgid "unrecognized cell type:"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:42907
-#: notebook/static/notebook/js/pager.js:40
-msgid "Open the pager in an external window"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:42916
-#: notebook/static/notebook/js/pager.js:49
-msgid "Close the pager"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:43019
-#: notebook/static/notebook/js/pager.js:152
-msgid "Jupyter Pager"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:43482
-#: notebook/static/notebook/js/menubar.js:223
-msgid "Trusted Notebook"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:43488
-#: notebook/static/notebook/js/menubar.js:229
-msgid "Trust Notebook"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:43668
-#: notebook/static/notebook/js/menubar.js:409
-msgid "No checkpoints"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:43727
-#: notebook/static/notebook/js/menubar.js:468
-msgid "Opens in a new window"
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:44059
-#: notebook/static/notebook/js/notificationarea.js:62
-#: notebook/static/notebook/js/tour.js:65
-#: notebook/static/notebook/js/tour.js:71
+#: notebook/static/notebook/js/notificationarea.js:77
+#: notebook/static/notebook/js/tour.js:61
+#: notebook/static/notebook/js/tour.js:67
 msgid "Edit Mode"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44066
-#: notebook/static/notebook/js/main.min.js:44070
-#: notebook/static/notebook/js/notificationarea.js:69
-#: notebook/static/notebook/js/notificationarea.js:73
-#: notebook/static/notebook/js/tour.js:58
+#: notebook/static/notebook/js/notificationarea.js:84
+#: notebook/static/notebook/js/notificationarea.js:88
+#: notebook/static/notebook/js/tour.js:54
 msgid "Command Mode"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44077
-#: notebook/static/notebook/js/notificationarea.js:80
+#: notebook/static/notebook/js/notificationarea.js:95
 msgid "Kernel Created"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44081
-#: notebook/static/notebook/js/notificationarea.js:84
+#: notebook/static/notebook/js/notificationarea.js:99
 msgid "Connecting to kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44085
-#: notebook/static/notebook/js/notificationarea.js:88
+#: notebook/static/notebook/js/notificationarea.js:103
 msgid "Not Connected"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44088
-#: notebook/static/notebook/js/notificationarea.js:91
+#: notebook/static/notebook/js/notificationarea.js:106
 msgid "click to reconnect"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44097
-#: notebook/static/notebook/js/notificationarea.js:100
+#: notebook/static/notebook/js/notificationarea.js:115
 msgid "Restarting kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44111
-#: notebook/static/notebook/js/notificationarea.js:114
+#: notebook/static/notebook/js/notificationarea.js:129
 msgid "Kernel Restarting"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44112
-#: notebook/static/notebook/js/notificationarea.js:115
+#: notebook/static/notebook/js/notificationarea.js:130
 msgid "The kernel appears to have died. It will restart automatically."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44122
-#: notebook/static/notebook/js/main.min.js:44180
-#: notebook/static/notebook/js/main.min.js:44200
-#: notebook/static/notebook/js/notificationarea.js:125
-#: notebook/static/notebook/js/notificationarea.js:183
-#: notebook/static/notebook/js/notificationarea.js:203
+#: notebook/static/notebook/js/notificationarea.js:140
+#: notebook/static/notebook/js/notificationarea.js:198
+#: notebook/static/notebook/js/notificationarea.js:218
 msgid "Dead kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44123
-#: notebook/static/notebook/js/main.min.js:44201
-#: notebook/static/notebook/js/main.min.js:44248
-#: notebook/static/notebook/js/notificationarea.js:126
-#: notebook/static/notebook/js/notificationarea.js:204
-#: notebook/static/notebook/js/notificationarea.js:251
+#: notebook/static/notebook/js/notificationarea.js:141
+#: notebook/static/notebook/js/notificationarea.js:219
+#: notebook/static/notebook/js/notificationarea.js:266
 msgid "Kernel Dead"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44127
-#: notebook/static/notebook/js/notificationarea.js:130
+#: notebook/static/notebook/js/notificationarea.js:145
 msgid "Interrupting kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44133
-#: notebook/static/notebook/js/notificationarea.js:136
+#: notebook/static/notebook/js/notificationarea.js:151
 msgid "No Connection to Kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44143
-#: notebook/static/notebook/js/notificationarea.js:146
+#: notebook/static/notebook/js/notificationarea.js:161
 msgid "A connection to the notebook server could not be established. The notebook will continue trying to reconnect. Check your network connection or notebook server configuration."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44148
-#: notebook/static/notebook/js/notificationarea.js:151
+#: notebook/static/notebook/js/notificationarea.js:166
 msgid "Connection failed"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44161
-#: notebook/static/notebook/js/notificationarea.js:164
+#: notebook/static/notebook/js/notificationarea.js:179
 msgid "No kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44162
-#: notebook/static/notebook/js/notificationarea.js:165
+#: notebook/static/notebook/js/notificationarea.js:180
 msgid "Kernel is not running"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44169
-#: notebook/static/notebook/js/notificationarea.js:172
+#: notebook/static/notebook/js/notificationarea.js:187
 msgid "Don't Restart"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44169
-#: notebook/static/notebook/js/notificationarea.js:172
+#: notebook/static/notebook/js/notificationarea.js:187
 msgid "Try Restarting Now"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44173
-#: notebook/static/notebook/js/notificationarea.js:176
-msgid "The kernel has died, and the automatic restart has failed. It is possible the kernel cannot be restarted."
+#: notebook/static/notebook/js/notificationarea.js:191
+msgid "The kernel has died, and the automatic restart has failed. It is possible the kernel cannot be restarted. If you are not able to restart the kernel, you will still be able to save the notebook, but running code will no longer work until the notebook is reopened."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44175
-#: notebook/static/notebook/js/notificationarea.js:178
-msgid "If you are not able to restart the kernel, you will still be able to save the notebook, but running code will no longer work until the notebook is reopened."
-msgstr ""
-
-#: notebook/static/notebook/js/main.min.js:44207
-#: notebook/static/notebook/js/notificationarea.js:210
+#: notebook/static/notebook/js/notificationarea.js:225
 msgid "No Kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44234
-#: notebook/static/notebook/js/notificationarea.js:237
+#: notebook/static/notebook/js/notificationarea.js:252
 msgid "Failed to start the kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44265
-#: notebook/static/notebook/js/main.min.js:44285
-#: notebook/static/notebook/js/main.min.js:44299
-#: notebook/static/notebook/js/notificationarea.js:268
-#: notebook/static/notebook/js/notificationarea.js:288
-#: notebook/static/notebook/js/notificationarea.js:302
+#: notebook/static/notebook/js/notificationarea.js:272
+#: notebook/static/notebook/js/notificationarea.js:292
+#: notebook/static/notebook/js/notificationarea.js:306
 msgid "Kernel Busy"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44266
-#: notebook/static/notebook/js/notificationarea.js:269
+#: notebook/static/notebook/js/notificationarea.js:273
 msgid "Kernel starting, please wait..."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44272
-#: notebook/static/notebook/js/main.min.js:44279
-#: notebook/static/notebook/js/notificationarea.js:275
-#: notebook/static/notebook/js/notificationarea.js:282
+#: notebook/static/notebook/js/notificationarea.js:279
+#: notebook/static/notebook/js/notificationarea.js:286
 msgid "Kernel Idle"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44273
-#: notebook/static/notebook/js/notificationarea.js:276
+#: notebook/static/notebook/js/notificationarea.js:280
 msgid "Kernel ready"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44290
-#: notebook/static/notebook/js/notificationarea.js:293
+#: notebook/static/notebook/js/notificationarea.js:297
 msgid "Using kernel: "
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44291
-#: notebook/static/notebook/js/notificationarea.js:294
+#: notebook/static/notebook/js/notificationarea.js:298
 msgid "Only candidate for language: %1$s was %2$s."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44312
-#: notebook/static/notebook/js/notificationarea.js:315
+#: notebook/static/notebook/js/notificationarea.js:319
 msgid "Loading notebook"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44315
-#: notebook/static/notebook/js/notificationarea.js:318
+#: notebook/static/notebook/js/notificationarea.js:322
 msgid "Notebook loaded"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44318
-#: notebook/static/notebook/js/notificationarea.js:321
+#: notebook/static/notebook/js/notificationarea.js:325
 msgid "Saving notebook"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44321
-#: notebook/static/notebook/js/notificationarea.js:324
+#: notebook/static/notebook/js/notificationarea.js:328
 msgid "Notebook saved"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44324
-#: notebook/static/notebook/js/notificationarea.js:327
+#: notebook/static/notebook/js/notificationarea.js:331
 msgid "Notebook save failed"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44327
-#: notebook/static/notebook/js/notificationarea.js:330
+#: notebook/static/notebook/js/notificationarea.js:334
 msgid "Notebook copy failed"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44332
-#: notebook/static/notebook/js/notificationarea.js:335
+#: notebook/static/notebook/js/notificationarea.js:339
 msgid "Checkpoint created"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44340
-#: notebook/static/notebook/js/notificationarea.js:343
+#: notebook/static/notebook/js/notificationarea.js:347
 msgid "Checkpoint failed"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44343
-#: notebook/static/notebook/js/notificationarea.js:346
+#: notebook/static/notebook/js/notificationarea.js:350
 msgid "Checkpoint deleted"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44346
-#: notebook/static/notebook/js/notificationarea.js:349
+#: notebook/static/notebook/js/notificationarea.js:353
 msgid "Checkpoint delete failed"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44349
-#: notebook/static/notebook/js/notificationarea.js:352
+#: notebook/static/notebook/js/notificationarea.js:356
 msgid "Restoring to checkpoint..."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44352
-#: notebook/static/notebook/js/notificationarea.js:355
+#: notebook/static/notebook/js/notificationarea.js:359
 msgid "Checkpoint restore failed"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44357
-#: notebook/static/notebook/js/notificationarea.js:360
+#: notebook/static/notebook/js/notificationarea.js:364
 msgid "Autosave disabled"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44360
-#: notebook/static/notebook/js/notificationarea.js:363
+#: notebook/static/notebook/js/notificationarea.js:367
 #, python-format
 msgid "Saving every %d sec."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44376
-#: notebook/static/notebook/js/notificationarea.js:379
+#: notebook/static/notebook/js/notificationarea.js:383
 msgid "Trusted"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44378
-#: notebook/static/notebook/js/notificationarea.js:381
+#: notebook/static/notebook/js/notificationarea.js:385
 msgid "Not Trusted"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44441
-#: notebook/static/notebook/js/savewidget.js:53
+#: notebook/static/notebook/js/outputarea.js:75
+msgid "click to expand output"
+msgstr ""
+
+#: notebook/static/notebook/js/outputarea.js:79
+msgid "click to expand output; double click to hide output"
+msgstr ""
+
+#: notebook/static/notebook/js/outputarea.js:167
+msgid "click to unscroll output; double click to hide"
+msgstr ""
+
+#: notebook/static/notebook/js/outputarea.js:174
+msgid "click to scroll output; double click to hide"
+msgstr ""
+
+#: notebook/static/notebook/js/outputarea.js:422
+msgid "Javascript error adding output!"
+msgstr ""
+
+#: notebook/static/notebook/js/outputarea.js:427
+msgid "See your browser Javascript console for more details."
+msgstr ""
+
+#: notebook/static/notebook/js/outputarea.js:468
+#, python-format
+msgid "Out[%d]:"
+msgstr ""
+
+#: notebook/static/notebook/js/outputarea.js:577
+#, python-format
+msgid "Unrecognized output: %s"
+msgstr ""
+
+#: notebook/static/notebook/js/pager.js:36
+msgid "Open the pager in an external window"
+msgstr ""
+
+#: notebook/static/notebook/js/pager.js:45
+msgid "Close the pager"
+msgstr ""
+
+#: notebook/static/notebook/js/pager.js:148
+msgid "Jupyter Pager"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:39
+#: notebook/static/notebook/js/quickhelp.js:49
+#: notebook/static/notebook/js/quickhelp.js:50
+msgid "go to cell start"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:40
+#: notebook/static/notebook/js/quickhelp.js:51
+#: notebook/static/notebook/js/quickhelp.js:52
+msgid "go to cell end"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:41
+#: notebook/static/notebook/js/quickhelp.js:53
+msgid "go one word left"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:42
+#: notebook/static/notebook/js/quickhelp.js:54
+msgid "go one word right"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:43
+#: notebook/static/notebook/js/quickhelp.js:55
+msgid "delete word before"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:44
+#: notebook/static/notebook/js/quickhelp.js:56
+msgid "delete word after"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:61
+msgid "code completion or indent"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:62
+msgid "tooltip"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:63
+msgid "indent"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:64
+msgid "dedent"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:65
+msgid "select all"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:66
+msgid "undo"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:67
+#: notebook/static/notebook/js/quickhelp.js:68
+msgid "redo"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:102
+#: notebook/static/notebook/js/quickhelp.js:243
+msgid "Shift"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:103
+msgid "Alt"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:104
+msgid "Up"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:105
+msgid "Down"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:106
+msgid "Left"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:107
+msgid "Right"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:108
+#: notebook/static/notebook/js/quickhelp.js:246
+msgid "Tab"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:109
+msgid "Caps Lock"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:110
+#: notebook/static/notebook/js/quickhelp.js:269
+msgid "Esc"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:111
+msgid "Ctrl"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:112
+#: notebook/static/notebook/js/quickhelp.js:290
+msgid "Enter"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:113
+msgid "Page Up"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:114
+#: notebook/static/notebook/js/quickhelp.js:130
+msgid "Page Down"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:115
+msgid "Home"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:116
+msgid "End"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:117
+#: notebook/static/notebook/js/quickhelp.js:245
+msgid "Space"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:118
+msgid "Backspace"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:119
+msgid "Minus"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:130
+msgid "PageUp"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:197
+msgid "The Jupyter Notebook has two different keyboard input modes."
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:199
+msgid "<b>Edit mode</b> allows you to type code or text into a cell and is indicated by a green cell border."
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:201
+msgid "<b>Command mode</b> binds the keyboard to notebook level commands and is indicated by a grey cell border with a blue left margin."
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:222
+#: notebook/static/notebook/js/tooltip.js:58
+#: notebook/static/notebook/js/tooltip.js:69
+msgid "Close"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:225
+msgid "Keyboard shortcuts"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:240
+msgid "Command"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:241
+msgid "Control"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:242
+msgid "Option"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:244
+msgid "Return"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:270
+#, python-format
+msgid "Command Mode (press %s to enable)"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:272
+msgid "Edit Shortcuts"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:275
+msgid "edit command-mode keyboard shortcuts"
+msgstr ""
+
+#: notebook/static/notebook/js/quickhelp.js:292
+#, python-format
+msgid "Edit Mode (press %s to enable)"
+msgstr ""
+
+#: notebook/static/notebook/js/savewidget.js:49
 msgid "Autosave Failed!"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44463
-#: notebook/static/notebook/js/savewidget.js:75
-#: notebook/static/tree/js/main.min.js:25713
-#: notebook/static/tree/js/main.min.js:25726
-#: notebook/static/tree/js/notebooklist.js:850
-#: notebook/static/tree/js/notebooklist.js:863
+#: notebook/static/notebook/js/savewidget.js:71
+#: notebook/static/tree/js/notebooklist.js:846
+#: notebook/static/tree/js/notebooklist.js:859
 msgid "Rename"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44470
-#: notebook/static/notebook/js/savewidget.js:82
-#: notebook/static/tree/js/main.min.js:25704
-#: notebook/static/tree/js/notebooklist.js:841
+#: notebook/static/notebook/js/savewidget.js:78
+#: notebook/static/tree/js/notebooklist.js:837
 msgid "Enter a new notebook name:"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44478
-#: notebook/static/notebook/js/savewidget.js:90
+#: notebook/static/notebook/js/savewidget.js:86
 msgid "Rename Notebook"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44490
-#: notebook/static/notebook/js/savewidget.js:102
+#: notebook/static/notebook/js/savewidget.js:98
 msgid "Invalid notebook name. Notebook names must have 1 or more characters and can contain any characters except :/\\. Please enter a new notebook name:"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44495
-#: notebook/static/notebook/js/savewidget.js:107
+#: notebook/static/notebook/js/savewidget.js:103
 msgid "Renaming..."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44501
-#: notebook/static/notebook/js/savewidget.js:113
+#: notebook/static/notebook/js/savewidget.js:109
 msgid "Unknown error"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44570
-#: notebook/static/notebook/js/savewidget.js:182
+#: notebook/static/notebook/js/savewidget.js:178
 msgid "no checkpoint"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44585
-#: notebook/static/notebook/js/savewidget.js:197
+#: notebook/static/notebook/js/savewidget.js:193
 #, python-format
 msgid "Last Checkpoint: %s"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44609
-#: notebook/static/notebook/js/savewidget.js:221
+#: notebook/static/notebook/js/savewidget.js:217
 msgid "(unsaved changes)"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:44611
-#: notebook/static/notebook/js/savewidget.js:223
+#: notebook/static/notebook/js/savewidget.js:219
 msgid "(autosaved)"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:46367
-#: notebook/static/notebook/js/searchandreplace.js:76
+#: notebook/static/notebook/js/searchandreplace.js:74
 #, python-format
 msgid "Warning: too many matches (%d). Some changes might not be shown or applied."
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:46370
-#: notebook/static/notebook/js/searchandreplace.js:79
+#: notebook/static/notebook/js/searchandreplace.js:77
 #, python-format
 msgid "%d match"
 msgid_plural "%d matches"
 msgstr[0] ""
 msgstr[1] ""
 
-#: notebook/static/notebook/js/main.min.js:46437
-#: notebook/static/notebook/js/searchandreplace.js:146
+#: notebook/static/notebook/js/searchandreplace.js:145
 msgid "More than 100 matches, aborting"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:46457
 #: notebook/static/notebook/js/searchandreplace.js:166
 msgid "Use regex (JavaScript regex syntax)"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:46465
 #: notebook/static/notebook/js/searchandreplace.js:174
 msgid "Replace in selected cells"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:46472
 #: notebook/static/notebook/js/searchandreplace.js:181
 msgid "Match case"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:46478
 #: notebook/static/notebook/js/searchandreplace.js:187
 msgid "Find"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:46494
 #: notebook/static/notebook/js/searchandreplace.js:203
 msgid "Replace"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:46540
-#: notebook/static/notebook/js/searchandreplace.js:249
+#: notebook/static/notebook/js/searchandreplace.js:255
 msgid "No matches, invalid or empty regular expression"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:46644
-#: notebook/static/notebook/js/searchandreplace.js:353
+#: notebook/static/notebook/js/searchandreplace.js:370
 msgid "Replace All"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:46648
-#: notebook/static/notebook/js/searchandreplace.js:357
+#: notebook/static/notebook/js/searchandreplace.js:374
 msgid "Find and Replace"
 msgstr ""
 
-#: notebook/static/notebook/js/main.min.js:46673
-#: notebook/static/notebook/js/main.min.js:46674
-#: notebook/static/notebook/js/searchandreplace.js:382
-#: notebook/static/notebook/js/searchandreplace.js:383
+#: notebook/static/notebook/js/searchandreplace.js:400
+#: notebook/static/notebook/js/searchandreplace.js:401
 msgid "find and replace"
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:31
+#: notebook/static/notebook/js/textcell.js:551
+msgid "Write raw LaTeX or other formats here, for use with nbconvert. It will not be rendered in the notebook. When passing through nbconvert, a Raw Cell's content is added to the output unmodified."
+msgstr ""
+
+#: notebook/static/notebook/js/tooltip.js:41
+msgid "Grow the tooltip vertically (press shift-tab twice)"
+msgstr ""
+
+#: notebook/static/notebook/js/tooltip.js:48
+msgid "show the current docstring in pager (press shift-tab 4 times)"
+msgstr ""
+
+#: notebook/static/notebook/js/tooltip.js:49
+msgid "Open in Pager"
+msgstr ""
+
+#: notebook/static/notebook/js/tooltip.js:68
+msgid "Tooltip will linger for 10 seconds while you type"
+msgstr ""
+
+#: notebook/static/notebook/js/tour.js:27
 msgid "Welcome to the Notebook Tour"
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:34
+#: notebook/static/notebook/js/tour.js:30
 msgid "You can use the left and right arrow keys to go backwards and forwards."
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:37
+#: notebook/static/notebook/js/tour.js:33
 msgid "Filename"
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:39
+#: notebook/static/notebook/js/tour.js:35
 msgid "Click here to change the filename for this notebook."
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:43
+#: notebook/static/notebook/js/tour.js:39
 msgid "Notebook Menubar"
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:44
+#: notebook/static/notebook/js/tour.js:40
 msgid "The menubar has menus for actions on the notebook, its cells, and the kernel it communicates with."
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:48
+#: notebook/static/notebook/js/tour.js:44
 msgid "Notebook Toolbar"
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:49
+#: notebook/static/notebook/js/tour.js:45
 msgid "The toolbar has buttons for the most common actions. Hover your mouse over each button for more information."
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:52
+#: notebook/static/notebook/js/tour.js:48
 msgid "Mode Indicator"
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:54
+#: notebook/static/notebook/js/tour.js:50
 msgid "The Notebook has two modes: Edit Mode and Command Mode. In this area, an indicator can appear to tell you which mode you are in."
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:62
+#: notebook/static/notebook/js/tour.js:58
 msgid "Right now you are in Command Mode, and many keyboard shortcuts are available. In this mode, no icon is displayed in the indicator area."
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:68
+#: notebook/static/notebook/js/tour.js:64
 msgid "Pressing <code>Enter</code> or clicking in the input text area of the cell switches to Edit Mode."
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:74
+#: notebook/static/notebook/js/tour.js:70
 msgid "Notice that the border around the currently active cell changed color. Typing will insert text into the currently active cell."
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:77
+#: notebook/static/notebook/js/tour.js:73
 msgid "Back to Command Mode"
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:80
+#: notebook/static/notebook/js/tour.js:76
 msgid "Pressing <code>Esc</code> or clicking outside of the input text area takes you back to Command Mode."
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:83
+#: notebook/static/notebook/js/tour.js:79
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:95
+#: notebook/static/notebook/js/tour.js:91
 msgid "You can click here to get a list of all of the keyboard shortcuts."
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:98
-#: notebook/static/notebook/js/tour.js:104
+#: notebook/static/notebook/js/tour.js:94
+#: notebook/static/notebook/js/tour.js:100
 msgid "Kernel Indicator"
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:101
+#: notebook/static/notebook/js/tour.js:97
 msgid "This is the Kernel indicator. It looks like this when the Kernel is idle."
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:107
+#: notebook/static/notebook/js/tour.js:103
 msgid "The Kernel indicator looks like this when the Kernel is busy."
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:111
+#: notebook/static/notebook/js/tour.js:107
 msgid "Interrupting the Kernel"
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:113
+#: notebook/static/notebook/js/tour.js:109
 msgid "To cancel a computation in progress, you can click here."
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:118
+#: notebook/static/notebook/js/tour.js:114
 msgid "Notification Area"
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:119
+#: notebook/static/notebook/js/tour.js:115
 msgid "Messages in response to user actions (Save, Interrupt, etc.) appear here."
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:121
+#: notebook/static/notebook/js/tour.js:117
 msgid "End of Tour"
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:124
+#: notebook/static/notebook/js/tour.js:120
 msgid "This concludes the Jupyter Notebook User Interface Tour."
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:134
-msgid "tour started"
+#: notebook/static/notebook/js/celltoolbarpresets/attachments.js:32
+msgid "Edit Attachments"
 msgstr ""
 
-#: notebook/static/notebook/js/tour.js:148
-msgid "let's start the tour"
+#: notebook/static/notebook/js/celltoolbarpresets/default.js:19
+msgid "Cell"
 msgstr ""
 
-#: notebook/static/tree/js/kernellist.js:91
-#: notebook/static/tree/js/main.min.js:26476
+#: notebook/static/notebook/js/celltoolbarpresets/default.js:29
+#: notebook/static/notebook/js/celltoolbarpresets/default.js:47
+msgid "Edit Metadata"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:22
+msgid "Custom"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:32
+msgid "Set the MIME type of the raw cell:"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:40
+msgid "Raw Cell MIME Type"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:74
+msgid "Raw NBConvert Format"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:81
+msgid "Raw Cell Format"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:15
+msgid "Slide"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:16
+msgid "Sub-Slide"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:17
+msgid "Fragment"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:18
+msgid "Skip"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:19
+msgid "Notes"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:35
+msgid "Slide Type"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:41
+msgid "Slideshow"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/tags.js:133
+msgid "Add tag"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/tags.js:163
+msgid "Edit the list of tags below. All whitespace is treated as tag separators."
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/tags.js:172
+msgid "Edit the tags"
+msgstr ""
+
+#: notebook/static/notebook/js/celltoolbarpresets/tags.js:186
+msgid "Edit Tags"
+msgstr ""
+
+#: notebook/static/tree/js/kernellist.js:86
+#: notebook/static/tree/js/terminallist.js:105
 msgid "Shutdown"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:24989
-#: notebook/static/tree/js/notebooklist.js:126
+#: notebook/static/tree/js/newnotebook.js:70
+#, python-format
+msgid "Create a new notebook with %s"
+msgstr ""
+
+#: notebook/static/tree/js/newnotebook.js:101
+msgid "An error occurred while creating a new notebook."
+msgstr ""
+
+#: notebook/static/tree/js/notebooklist.js:122
 msgid "Creating File Failed"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:24991
-#: notebook/static/tree/js/notebooklist.js:128
+#: notebook/static/tree/js/notebooklist.js:124
 msgid "An error occurred while creating a new file."
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25009
-#: notebook/static/tree/js/notebooklist.js:146
+#: notebook/static/tree/js/notebooklist.js:142
 msgid "Creating Folder Failed"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25011
-#: notebook/static/tree/js/notebooklist.js:148
+#: notebook/static/tree/js/notebooklist.js:144
 msgid "An error occurred while creating a new folder."
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25138
-#: notebook/static/tree/js/notebooklist.js:275
+#: notebook/static/tree/js/notebooklist.js:271
 msgid "Failed to read file"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25139
-#: notebook/static/tree/js/notebooklist.js:276
+#: notebook/static/tree/js/notebooklist.js:272
 #, python-format
 msgid "Failed to read file %s"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25150
-#: notebook/static/tree/js/notebooklist.js:287
+#: notebook/static/tree/js/notebooklist.js:283
 #, python-format
 msgid "The file size is %d MB. Do you still want to upload it?"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25153
-#: notebook/static/tree/js/notebooklist.js:290
+#: notebook/static/tree/js/notebooklist.js:286
 msgid "Large file size warning"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25222
-#: notebook/static/tree/js/notebooklist.js:359
+#: notebook/static/tree/js/notebooklist.js:355
 msgid "Server error: "
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25257
-#: notebook/static/tree/js/notebooklist.js:394
+#: notebook/static/tree/js/notebooklist.js:390
 msgid "The notebook list is empty."
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25330
-#: notebook/static/tree/js/notebooklist.js:467
+#: notebook/static/tree/js/notebooklist.js:463
 msgid "Click here to rename, delete, etc."
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25370
-#: notebook/static/tree/js/notebooklist.js:507
+#: notebook/static/tree/js/notebooklist.js:503
 msgid "Running"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25702
-#: notebook/static/tree/js/notebooklist.js:839
+#: notebook/static/tree/js/notebooklist.js:835
 msgid "Enter a new file name:"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25703
-#: notebook/static/tree/js/notebooklist.js:840
+#: notebook/static/tree/js/notebooklist.js:836
 msgid "Enter a new directory name:"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25705
-#: notebook/static/tree/js/notebooklist.js:842
+#: notebook/static/tree/js/notebooklist.js:838
 msgid "Enter a new name:"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25710
-#: notebook/static/tree/js/notebooklist.js:847
+#: notebook/static/tree/js/notebooklist.js:843
 msgid "Rename file"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25711
-#: notebook/static/tree/js/notebooklist.js:848
+#: notebook/static/tree/js/notebooklist.js:844
 msgid "Rename directory"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25712
-#: notebook/static/tree/js/notebooklist.js:849
+#: notebook/static/tree/js/notebooklist.js:845
 msgid "Rename notebook"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25726
-#: notebook/static/tree/js/notebooklist.js:863
+#: notebook/static/tree/js/notebooklist.js:859
 msgid "Move"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25742
-#: notebook/static/tree/js/notebooklist.js:879
+#: notebook/static/tree/js/notebooklist.js:875
 msgid "An error occurred while renaming \"%1$s\" to \"%2$s\"."
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25745
-#: notebook/static/tree/js/notebooklist.js:882
+#: notebook/static/tree/js/notebooklist.js:878
 msgid "Rename Failed"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25794
-#: notebook/static/tree/js/notebooklist.js:931
+#: notebook/static/tree/js/notebooklist.js:927
 #, python-format
 msgid "Enter a new destination directory path for this item:"
 msgid_plural "Enter a new destination directory path for these %d items:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: notebook/static/tree/js/main.min.js:25807
-#: notebook/static/tree/js/notebooklist.js:944
+#: notebook/static/tree/js/notebooklist.js:940
 #, python-format
 msgid "Move an Item"
 msgid_plural "Move %d Items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: notebook/static/tree/js/main.min.js:25826
-#: notebook/static/tree/js/notebooklist.js:963
+#: notebook/static/tree/js/notebooklist.js:959
 msgid "An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\"."
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25828
-#: notebook/static/tree/js/notebooklist.js:965
+#: notebook/static/tree/js/notebooklist.js:961
 msgid "Move Failed"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25874
-#: notebook/static/tree/js/notebooklist.js:1011
+#: notebook/static/tree/js/notebooklist.js:1007
 #, python-format
 msgid "Are you sure you want to permanently delete: \"%s\"?"
 msgid_plural "Are you sure you want to permanently delete the %d files or folders selected?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: notebook/static/tree/js/main.min.js:25902
-#: notebook/static/tree/js/notebooklist.js:1039
+#: notebook/static/tree/js/notebooklist.js:1035
 #, python-format
 msgid "An error occurred while deleting \"%s\"."
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25904
-#: notebook/static/tree/js/notebooklist.js:1041
+#: notebook/static/tree/js/notebooklist.js:1037
 msgid "Delete Failed"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25945
-#: notebook/static/tree/js/notebooklist.js:1082
+#: notebook/static/tree/js/notebooklist.js:1078
 #, python-format
 msgid "Are you sure you want to duplicate: \"%s\"?"
 msgid_plural "Are you sure you want to duplicate the %d files selected?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: notebook/static/tree/js/main.min.js:25955
-#: notebook/static/tree/js/notebooklist.js:1092
+#: notebook/static/tree/js/notebooklist.js:1088
 msgid "Duplicate"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25969
-#: notebook/static/tree/js/notebooklist.js:1106
+#: notebook/static/tree/js/notebooklist.js:1102
 #, python-format
 msgid "An error occurred while duplicating \"%s\"."
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:25971
-#: notebook/static/tree/js/notebooklist.js:1108
+#: notebook/static/tree/js/notebooklist.js:1104
 msgid "Duplicate Failed"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:26190
-#: notebook/static/tree/js/notebooklist.js:1327
+#: notebook/static/tree/js/notebooklist.js:1323
 msgid "Upload"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:26199
-#: notebook/static/tree/js/notebooklist.js:1336
+#: notebook/static/tree/js/notebooklist.js:1332
 msgid "Invalid file name"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:26200
-#: notebook/static/tree/js/notebooklist.js:1337
+#: notebook/static/tree/js/notebooklist.js:1333
 msgid "File names must be at least one character and not start with a period"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:26229
-#: notebook/static/tree/js/notebooklist.js:1366
+#: notebook/static/tree/js/notebooklist.js:1362
 msgid "Cannot upload invalid Notebook"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:26262
-#: notebook/static/tree/js/notebooklist.js:1399
+#: notebook/static/tree/js/notebooklist.js:1395
 #, python-format
 msgid "There is already a file named \"%s\". Do you want to replace it?"
 msgstr ""
 
-#: notebook/static/tree/js/main.min.js:26264
-#: notebook/static/tree/js/notebooklist.js:1401
+#: notebook/static/tree/js/notebooklist.js:1397
 msgid "Replace file"
-msgstr ""
-
-#: notebook/static/tree/js/main.min.js:26687
-#: notebook/static/tree/js/newnotebook.js:73
-#, python-format
-msgid "Create a new notebook with %s"
-msgstr ""
-
-#: notebook/static/tree/js/main.min.js:26718
-#: notebook/static/tree/js/newnotebook.js:104
-msgid "An error occurred while creating a new notebook."
 msgstr ""
 
