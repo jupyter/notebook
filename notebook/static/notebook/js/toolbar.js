@@ -99,7 +99,7 @@ define(['jquery','base/js/i18n'], function($, i18n) {
                         $("<i/>").addClass(el.icon||(action||{icon:'fa-exclamation-triangle'}).icon).addClass('fa')
                     );
                 if (el.label) {
-                    var label = $('<span/>').text(el.label).addClass('toolbar-btn-label');
+                    var label = $('<span/>').text(i18n.msg._(el.label)).addClass('toolbar-btn-label');
                     button.append(label);
                 }
                 var id = el.id;

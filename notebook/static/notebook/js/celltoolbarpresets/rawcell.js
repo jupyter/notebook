@@ -14,11 +14,11 @@ define([
 
   var select_type = CellToolbar.utils.select_ui_generator([
     [i18n.msg._("None"), "-"],
-    [i18n.msg._("LaTeX"), "text/latex"],
-    [i18n.msg._("reST"), "text/restructuredtext"],
-    [i18n.msg._("HTML"), "text/html"],
-    [i18n.msg._("Markdown"), "text/markdown"],
-    [i18n.msg._("Python"), "text/x-python"],
+    ["LaTeX", "text/latex"],
+    ["reST", "text/restructuredtext"],
+    ["HTML", "text/html"],
+    ["Markdown", "text/markdown"],
+    ["Python", "text/x-python"],
     [i18n.msg._("Custom"), "dialog"],
 
     ],

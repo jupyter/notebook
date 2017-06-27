@@ -2732,9 +2732,9 @@ define([
                             notebook: that,
                             keyboard_manager: that.keyboard_manager,
                             title: i18n.msg._("Notebook changed"),
-                            body: i18n.msg._("The notebook file has changed on disk since the last time we opened or saved it.") + " " +
-                                  i18n.msg._("Do you want to overwrite the file on disk with the version open here, or load "+
-                                  "the version on disk (reload the page) ?"),
+                            body: i18n.msg._("The notebook file has changed on disk since the last time we opened or saved it. "
+                                  + "Do you want to overwrite the file on disk with the version open here, or load "
+                                  + "the version on disk (reload the page) ?"),
                             buttons: {
                                 Reload: {
                                     class: 'btn-warning',
@@ -2833,12 +2833,10 @@ define([
      */
     Notebook.prototype.trust_notebook = function () {
         var body = $("<div>").append($("<p>")
-            .text(i18n.msg._("A trusted Jupyter notebook may execute hidden malicious code when you open it."))
-            .append(
-                i18n.msg._("Selecting trust will immediately reload this notebook in a trusted state.")
-            ).append(
-                i18n.msg._(" For more information, see the Jupyter security documentation: ")
-            ).append($("<a>").attr("href", "https://jupyter-notebook.readthedocs.io/en/latest/security.html")
+            .text(i18n.msg._("A trusted Jupyter notebook may execute hidden malicious code when you open it. " +
+            		"Selecting trust will immediately reload this notebook in a trusted state. " +
+            		"For more information, see the Jupyter security documentation: "))
+            .append($("<a>").attr("href", "https://jupyter-notebook.readthedocs.io/en/latest/security.html")
                 .text(i18n.msg._("here"))
             )
         );

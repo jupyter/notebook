@@ -189,8 +189,8 @@ define([
             var showMsg = function () {
 
                 var msg = i18n.msg._('The kernel has died, and the automatic restart has failed.' +
-                        ' It is possible the kernel cannot be restarted.') + ' ' +
-                        i18n.msg._('If you are not able to restart the kernel, you will still be able to save' +
+                        ' It is possible the kernel cannot be restarted. ' +
+                        'If you are not able to restart the kernel, you will still be able to save' +
                         ' the notebook, but running code will no longer work until the notebook' +
                         ' is reopened.');
 
@@ -270,7 +270,7 @@ define([
         this.events.on('kernel_starting.Kernel kernel_created.Session', function () {
             // window.document.title='(Starting) '+window.document.title;
             $kernel_ind_icon.attr('class','kernel_busy_icon').attr('title',i18n.msg._('Kernel Busy'));
-            knw.set_message(_("Kernel starting, please wait..."));
+            knw.set_message(i18n.msg._("Kernel starting, please wait..."));
             set_busy_favicon(true);
         });
 

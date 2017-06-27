@@ -127,7 +127,7 @@ define(['jquery', 'bootstraptour', 'base/js/i18n'], function($, Tour, i18n) {
             reflex: true, // click on element to continue tour
             animation: false,
             duration: this.step_duration,
-            onStart: function() { console.log(i18n.msg._('tour started')); },
+            onStart: function() { console.log('tour started'); },
             // TODO: remove the onPause/onResume logic once pi's patch has been
             // merged upstream to make this work via data-resume-class and 
             // data-resume-text attributes.
@@ -141,7 +141,7 @@ define(['jquery', 'bootstraptour', 'base/js/i18n'], function($, Tour, i18n) {
     };
 
     NotebookTour.prototype.start = function () {
-        console.log(i18n.msg._("let's start the tour"));
+        console.log("let's start the tour");
         this.tour.init();
         this.tour.start();
         if (this.tour.ended())
