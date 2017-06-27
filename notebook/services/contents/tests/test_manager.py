@@ -108,7 +108,7 @@ class TestFileContentsManager(TestCase):
         self.assertEqual(cp_dir, os.path.join(root, cpm.checkpoint_dir, cp_name))
         self.assertEqual(cp_subdir, os.path.join(root, subd, cpm.checkpoint_dir, cp_name))
 
-    @dec.skip_win32
+    @dec.skipif(sys.platform == 'win32' and sys.version_info[0] < 3)
     def test_bad_symlink(self):
         with TemporaryDirectory() as td:
             cm = FileContentsManager(root_dir=td)
@@ -120,9 +120,16 @@ class TestFileContentsManager(TestCase):
             # create a broken symlink
             self.symlink(cm, "target", '%s/%s' % (path, 'bad symlink'))
             model = cm.get(path)
-            self.assertEqual(model['content'], [file_model])
 
-    @dec.skip_win32
+            contents = {
+                content['name']: content for content in model['content']
+            }
+            self.assertTrue('untitled.txt' in contents)
+            self.assertEqual(contents['untitled.txt'], file_model)
+            # broken symlinks should still be shown in the contents manager
+            self.assertTrue('bad symlink' in contents)
+
+    @dec.skipif(sys.platform == 'win32' and sys.version_info[0] < 3)
     def test_good_symlink(self):
         with TemporaryDirectory() as td:
             cm = FileContentsManager(root_dir=td)
@@ -224,7 +231,7 @@ class TestContentsManager(TestCase):
                 self.assertEqual(entry['name'], "nb.ipynb")
                 complete_path = "/".join([api_path, "nb.ipynb"])
                 self.assertEqual(entry["path"], complete_path)
-    
+
     def setUp(self):
         self._temp_dir = TemporaryDirectory()
         self.td = self._temp_dir.name

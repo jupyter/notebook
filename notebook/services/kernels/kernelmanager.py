@@ -17,7 +17,7 @@ from jupyter_client.session import Session
 from jupyter_client.multikernelmanager import MultiKernelManager
 from traitlets import Bool, Dict, List, Unicode, TraitError, Integer, default, validate
 
-from notebook.utils import to_os_path
+from notebook.utils import to_os_path, exists
 from notebook._tz import utcnow, isoformat
 from ipython_genutils.py3compat import getcwd
 
@@ -55,7 +55,7 @@ class MappingKernelManager(MultiKernelManager):
         if not os.path.isabs(value):
             # If we receive a non-absolute path, make it absolute.
             value = os.path.abspath(value)
-        if not os.path.exists(value) or not os.path.isdir(value):
+        if not exists(value) or not os.path.isdir(value):
             raise TraitError("kernel root dir %r is not a directory" % value)
         return value
 
