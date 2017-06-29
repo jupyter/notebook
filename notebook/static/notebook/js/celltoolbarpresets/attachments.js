@@ -18,7 +18,7 @@ define([
             cell.unrender();
             cell.render();
           },
-          name: 'cell',
+          name: 'Cell',
           notebook: cell.notebook,
           keyboard_manager: cell.keyboard_manager
         });
