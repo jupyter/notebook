@@ -1359,7 +1359,8 @@ class NotebookApp(JupyterApp):
         The kernels will shutdown themselves when this process no longer exists,
         but explicit shutdown allows the KernelManagers to cleanup the connection files.
         """
-        self.log.info('Shutting down kernels')
+        self.log.info('Shutting down %d kernels',
+                      len(self.kernel_manager.list_kernel_ids()))
         self.kernel_manager.shutdown_all()
 
     def notebook_info(self):
