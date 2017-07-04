@@ -721,7 +721,7 @@ define([
 
         item.data('name', model.name);
         item.data('path', model.path);
-        item.data('modified', model.modified);
+        item.data('modified', model.last_modified);
         item.data('type', model.type);
         item.find(".item_name").text(model.name);
         var icon = NotebookList.icons[model.type];
@@ -765,8 +765,8 @@ define([
         }
 
         // Add in the date that the file was last modified
-        item.find(".item_modified").text(utils.format_datetime(model.modified));
-        item.find(".item_modified").attr("title", moment(model.modified).format("YYYY-MM-DD HH:mm"));
+        item.find(".item_modified").text(utils.format_datetime(model.last_modified));
+        item.find(".item_modified").attr("title", moment(model.last_modified).format("YYYY-MM-DD HH:mm"));
     };
 
 
