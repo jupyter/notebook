@@ -34,6 +34,37 @@ define([
       return item_in(str, mimetype || '');
     };
 
+    function name_sorter(ascending) {
+        return (function(a, b) {
+            if (type_order[a['type']] < type_order[b['type']]) {
+                return -1;
+            }
+            if (type_order[a['type']] > type_order[b['type']]) {
+                return 1;
+            }
+            if (a['name'].toLowerCase() < b['name'].toLowerCase()) {
+                return (ascending) ? -1 : 1;
+            }
+            if (a['name'].toLowerCase() > b['name'].toLowerCase()) {
+                return (ascending) ? 1 : -1;
+            }
+            return 0;
+        });
+    };
+
+    function modified_sorter(ascending) {
+        var order = ascending ? 1 : 0;
+        return (function(a, b) {
+            return utils.datetime_sort_helper(a.last_modified, b.last_modified,
+                                              order)
+        });
+    }
+
+    var sort_functions = {
+        'sort-name': name_sorter,
+        'last-modified': modified_sorter
+    };
+
     var NotebookList = function (selector, options) {
         /**
          * Constructor
@@ -69,10 +100,11 @@ define([
                 function(e, d) { that.sessions_loaded(d); });
         }
         this.selected = [];
+        this.sort_function = name_sorter(1);
         // 0 => descending, 1 => ascending
         this.sort_state = {
             'last-modified': 0,
-            'sort-name': 0
+            'sort-name': 1
         };
         this._max_upload_size_mb = 25;
         this.EDIT_MIMETYPES = [
@@ -94,8 +126,6 @@ define([
     NotebookList.prototype.bind_events = function () {
         var that = this;
         $('#refresh_' + this.element_name + '_list').click(function () {
-            $("#sort-name i").removeClass("fa-arrow-down").addClass("fa-arrow-up");
-            $("#last-modified i").removeClass("fa-arrow-down").addClass("fa-arrow-up");
             that.load_sessions();
         });
         this.element.bind('dragover', function () {
@@ -191,62 +221,29 @@ define([
             $('.sort-action').click(function(e) {
                 var sort_on = e.target.id;
 
-                if (that.sort_state.sort_on == 0) {
+                // Clear sort indications in UI
+                $(".sort-action i").removeClass("fa-arrow-up").removeClass("fa-arrow-down")
+
+                if (that.sort_state[sort_on] == 0) {
                     that.sort_list(sort_on, 1);
-                    $("#" + sort_on + " i").removeClass("fa-arrow-up").addClass("fa-arrow-down");
-                    that.sort_state.sort_on = 1;
+                    $("#" + sort_on + " i").addClass("fa-arrow-down");
+                    that.sort_state[sort_on] = 1;
                 } else {
-                    that.sort_list(sort_on, 2);
-                    $("#" + sort_on + " i").removeClass("fa-arrow-down").addClass("fa-arrow-up");
-                    that.sort_state.sort_on = 0;
+                    that.sort_list(sort_on, 0);
+                    $("#" + sort_on + " i").addClass("fa-arrow-up");
+                    that.sort_state[sort_on] = 0;
                 }
             });
         }
     };
 
     NotebookList.prototype.sort_list = function(id, order) {
-        var that = this;
-        if (id == 'last-modified') {
-            that.sort_datetime(order);
-        } else if (id == 'sort-name') {
-            that.sort_name(order);
+        if (sort_functions.hasOwnProperty(id)) {
+            this.sort_function = sort_functions[id](order);
+            this.draw_notebook_list(this.model_list, this.error_msg);
         } else {
-            console.log('id provided to sort_list function is invalid.');
+            console.error("No such sort id: '" + id + "'")
         }
-    };
-
-    NotebookList.prototype.sort_datetime = function(order) {
-        var datetime_sort_helper = function(parent, child, selector) {
-            var items = parent.children(child).sort(function(a, b) {
-                var first_date = $(selector, a).attr("title");
-                var second_date = $(selector, b).attr("title");
-                return utils.datetime_sort_helper(first_date, second_date, order);
-            });
-            parent.append(items);
-        };
-
-        datetime_sort_helper($('#notebook_list'), "div.list_item", 'span.item_modified');
-    };
-
-    NotebookList.prototype.sort_name = function(order) {
-        var name_sort_helper = function(parent, child, selector) {
-            var items = parent.children(child).sort(function(a, b) {
-                var first_name = $(selector, a).text();
-                var second_name = $(selector, b).text();
-                return (function(a, b, order) {
-                    if (a < b) {
-                        return (order == 1) ? -1 : 1;
-                    } else if (a == b) {
-                        return 0;
-                    } else {
-                        return (order == 1) ? 1 : -1;
-                    }
-                })(first_name, second_name, order);
-            });
-            parent.append(items);
-        };
-
-        name_sort_helper($('#notebook_list'), "div.list_item", 'span.item_name');
     };
 
     NotebookList.prototype.handleFilesUpload =  function(event, dropOrForm) {
@@ -371,21 +368,11 @@ define([
         // Remember what was selected before the refresh.
         var selected_before = this.selected;
 
-        list.content.sort(function(a, b) {
-            if (type_order[a['type']] < type_order[b['type']]) {
-                return -1;
-            }
-            if (type_order[a['type']] > type_order[b['type']]) {
-                return 1;
-            }
-            if (a['name'].toLowerCase() < b['name'].toLowerCase()) {
-                return -1;
-            }
-            if (a['name'].toLowerCase() > b['name'].toLowerCase()) {
-                return 1;
-            }
-            return 0;
-        });
+        // Store the data to be redrawn by sorting
+        this.model_list = list;
+        this.error_msg = error_msg;
+
+        list.content.sort(this.sort_function);
         var message = error_msg || 'Notebook list empty.';
         var item = null;
         var model = null;
