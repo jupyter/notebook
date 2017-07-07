@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-06-27 14:00-0500\n"
+"POT-Creation-Date: 2017-07-07 13:43-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -423,16 +423,17 @@ msgstr ""
 msgid "Error loading server extension %s"
 msgstr ""
 
-#: notebook/notebookapp.py:1368
-msgid "Shutting down kernels"
+#: notebook/notebookapp.py:1369
+#, python-format
+msgid "Shutting down %d kernels"
 msgstr ""
 
-#: notebook/notebookapp.py:1374
+#: notebook/notebookapp.py:1375
 #, python-format
 msgid "%d active kernels \n"
 msgstr ""
 
-#: notebook/notebookapp.py:1376
+#: notebook/notebookapp.py:1377
 #, python-format
 msgid ""
 "The Jupyter Notebook is running at:\n"
@@ -440,33 +441,33 @@ msgid ""
 "%s"
 msgstr ""
 
-#: notebook/notebookapp.py:1422
+#: notebook/notebookapp.py:1423
 msgid "Running as root is not recommended. Use --allow-root to bypass."
 msgstr ""
 
-#: notebook/notebookapp.py:1428
+#: notebook/notebookapp.py:1429
 msgid "Use Control-C to stop this server and shut down all kernels (twice to skip confirmation)."
 msgstr ""
 
-#: notebook/notebookapp.py:1430
+#: notebook/notebookapp.py:1431
 msgid "Welcome to Project Jupyter! Explore the various tools available and their corresponding documentation. If you are interested in contributing to the platform, please visit the communityresources section at http://jupyter.org/community.html."
 msgstr ""
 
-#: notebook/notebookapp.py:1441
+#: notebook/notebookapp.py:1442
 #, python-format
 msgid "No web browser found: %s."
 msgstr ""
 
-#: notebook/notebookapp.py:1446
+#: notebook/notebookapp.py:1447
 #, python-format
 msgid "%s does not exist"
 msgstr ""
 
-#: notebook/notebookapp.py:1480
+#: notebook/notebookapp.py:1481
 msgid "Interrupted..."
 msgstr ""
 
-#: notebook/services/contents/filemanager.py:502
+#: notebook/services/contents/filemanager.py:506
 #, python-format
 msgid "Serving notebooks from local directory: %s"
 msgstr ""
