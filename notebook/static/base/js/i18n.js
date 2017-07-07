@@ -41,14 +41,14 @@ define([
     	}
     	return msg_promise;
     }
-    var i18n = new Jed(nbjs);
+    var i18n = new Jed(nbjs);   
+    i18n._ = i18n.gettext;
+    i18n.msg = i18n; // Just a place holder until the init promise resolves.
+    
     init().then(function (msg) {
     	i18n.msg = msg;
     	i18n.msg._ = i18n.msg.gettext;
     });
-    
-    i18n._ = i18n.gettext;
-    i18n.msg = i18n; // Just a place holder until the init promise resolves.
     
     return i18n;
 });

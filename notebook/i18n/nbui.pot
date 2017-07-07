@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-06-27 14:01-0500\n"
+"POT-Creation-Date: 2017-07-07 12:48-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,76 @@ msgstr ""
 
 #: notebook/templates/404.html:3
 msgid "You are requesting a page that does not exist!"
+msgstr ""
+
+#: notebook/templates/edit.html:37
+msgid "current mode"
+msgstr ""
+
+#: notebook/templates/edit.html:48 notebook/templates/notebook.html:78
+msgid "File"
+msgstr ""
+
+#: notebook/templates/edit.html:50 notebook/templates/tree.html:57
+msgid "New"
+msgstr ""
+
+#: notebook/templates/edit.html:51
+msgid "Save"
+msgstr ""
+
+#: notebook/templates/edit.html:52 notebook/templates/tree.html:36
+msgid "Rename"
+msgstr ""
+
+#: notebook/templates/edit.html:53 notebook/templates/tree.html:38
+msgid "Download"
+msgstr ""
+
+#: notebook/templates/edit.html:56 notebook/templates/notebook.html:131
+#: notebook/templates/tree.html:41
+msgid "Edit"
+msgstr ""
+
+#: notebook/templates/edit.html:58
+msgid "Find"
+msgstr ""
+
+#: notebook/templates/edit.html:59
+msgid "Find &amp; Replace"
+msgstr ""
+
+#: notebook/templates/edit.html:61
+msgid "Key Map"
+msgstr ""
+
+#: notebook/templates/edit.html:62
+msgid "Default"
+msgstr ""
+
+#: notebook/templates/edit.html:63
+msgid "Sublime Text"
+msgstr ""
+
+#: notebook/templates/edit.html:68 notebook/templates/notebook.html:159
+#: notebook/templates/tree.html:40
+msgid "View"
+msgstr ""
+
+#: notebook/templates/edit.html:70 notebook/templates/notebook.html:162
+msgid "Show/Hide the logo and notebook title (above menu bar)"
+msgstr ""
+
+#: notebook/templates/edit.html:71 notebook/templates/notebook.html:163
+msgid "Toggle Header"
+msgstr ""
+
+#: notebook/templates/edit.html:72 notebook/templates/notebook.html:171
+msgid "Toggle Line Numbers"
+msgstr ""
+
+#: notebook/templates/edit.html:75
+msgid "Language"
 msgstr ""
 
 #: notebook/templates/error.html:23
@@ -61,10 +131,6 @@ msgstr ""
 
 #: notebook/templates/notebook.html:68
 msgid "This notebook is read-only"
-msgstr ""
-
-#: notebook/templates/notebook.html:78
-msgid "File"
 msgstr ""
 
 #: notebook/templates/notebook.html:81
@@ -155,10 +221,6 @@ msgstr ""
 msgid "Close and Halt"
 msgstr ""
 
-#: notebook/templates/notebook.html:131 notebook/templates/tree.html:38
-msgid "Edit"
-msgstr ""
-
 #: notebook/templates/notebook.html:133
 msgid "Cut Cells"
 msgstr ""
@@ -231,18 +293,6 @@ msgstr ""
 msgid "Insert Image"
 msgstr ""
 
-#: notebook/templates/notebook.html:159 notebook/templates/tree.html:37
-msgid "View"
-msgstr ""
-
-#: notebook/templates/notebook.html:162
-msgid "Show/Hide the logo and notebook title (above menu bar)"
-msgstr ""
-
-#: notebook/templates/notebook.html:163
-msgid "Toggle Header"
-msgstr ""
-
 #: notebook/templates/notebook.html:166
 msgid "Show/Hide the action icons (below menu bar)"
 msgstr ""
@@ -253,10 +303,6 @@ msgstr ""
 
 #: notebook/templates/notebook.html:170
 msgid "Show/Hide line numbers in cells"
-msgstr ""
-
-#: notebook/templates/notebook.html:171
-msgid "Toggle Line Numbers"
 msgstr ""
 
 #: notebook/templates/notebook.html:174
@@ -515,183 +561,171 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: notebook/templates/tree.html:20
+#: notebook/templates/tree.html:23
 msgid "Files"
 msgstr ""
 
-#: notebook/templates/tree.html:21
+#: notebook/templates/tree.html:24
 msgid "Running"
 msgstr ""
 
-#: notebook/templates/tree.html:22
+#: notebook/templates/tree.html:25
 msgid "Clusters"
 msgstr ""
 
-#: notebook/templates/tree.html:29
+#: notebook/templates/tree.html:32
 msgid "Select items to perform actions on them."
 msgstr ""
 
-#: notebook/templates/tree.html:32
+#: notebook/templates/tree.html:35
 msgid "Duplicate selected"
 msgstr ""
 
-#: notebook/templates/tree.html:32
+#: notebook/templates/tree.html:35
 msgid "Duplicate"
 msgstr ""
 
-#: notebook/templates/tree.html:33
+#: notebook/templates/tree.html:36
 msgid "Rename selected"
 msgstr ""
 
-#: notebook/templates/tree.html:33
-msgid "Rename"
-msgstr ""
-
-#: notebook/templates/tree.html:34
+#: notebook/templates/tree.html:37
 msgid "Move selected"
 msgstr ""
 
-#: notebook/templates/tree.html:34
+#: notebook/templates/tree.html:37
 msgid "Move"
 msgstr ""
 
-#: notebook/templates/tree.html:35
+#: notebook/templates/tree.html:38
 msgid "Download selected"
 msgstr ""
 
-#: notebook/templates/tree.html:35
-msgid "Download"
-msgstr ""
-
-#: notebook/templates/tree.html:36
+#: notebook/templates/tree.html:39
 msgid "Shutdown selected notebook(s)"
 msgstr ""
 
-#: notebook/templates/tree.html:36
+#: notebook/templates/tree.html:39
 msgid "Shutdown"
 msgstr ""
 
-#: notebook/templates/tree.html:37
+#: notebook/templates/tree.html:40
 msgid "View selected"
 msgstr ""
 
-#: notebook/templates/tree.html:38
+#: notebook/templates/tree.html:41
 msgid "Edit selected"
 msgstr ""
 
-#: notebook/templates/tree.html:39
+#: notebook/templates/tree.html:42
 msgid "Delete selected"
 msgstr ""
 
-#: notebook/templates/tree.html:47
+#: notebook/templates/tree.html:50
 msgid "Click to browse for a file to upload."
 msgstr ""
 
-#: notebook/templates/tree.html:48
+#: notebook/templates/tree.html:51
 msgid "Upload"
 msgstr ""
 
-#: notebook/templates/tree.html:54
-msgid "New"
-msgstr ""
-
-#: notebook/templates/tree.html:62
+#: notebook/templates/tree.html:65
 msgid "Text File"
 msgstr ""
 
-#: notebook/templates/tree.html:65
+#: notebook/templates/tree.html:68
 msgid "Folder"
 msgstr ""
 
-#: notebook/templates/tree.html:69
+#: notebook/templates/tree.html:72
 msgid "Terminal"
 msgstr ""
 
-#: notebook/templates/tree.html:73
+#: notebook/templates/tree.html:76
 msgid "Terminals Unavailable"
 msgstr ""
 
-#: notebook/templates/tree.html:79
+#: notebook/templates/tree.html:82
 msgid "Refresh notebook list"
 msgstr ""
 
-#: notebook/templates/tree.html:87
+#: notebook/templates/tree.html:90
 msgid "Select All / None"
 msgstr ""
 
-#: notebook/templates/tree.html:90
+#: notebook/templates/tree.html:93
 msgid "Select..."
 msgstr ""
 
-#: notebook/templates/tree.html:95
+#: notebook/templates/tree.html:98
 msgid "Select All Folders"
 msgstr ""
 
-#: notebook/templates/tree.html:95
+#: notebook/templates/tree.html:98
 msgid " Folders"
 msgstr ""
 
-#: notebook/templates/tree.html:96
+#: notebook/templates/tree.html:99
 msgid "Select All Notebooks"
 msgstr ""
 
-#: notebook/templates/tree.html:96
+#: notebook/templates/tree.html:99
 msgid " All Notebooks"
 msgstr ""
 
-#: notebook/templates/tree.html:97
+#: notebook/templates/tree.html:100
 msgid "Select Running Notebooks"
 msgstr ""
 
-#: notebook/templates/tree.html:97
+#: notebook/templates/tree.html:100
 msgid " Running"
 msgstr ""
 
-#: notebook/templates/tree.html:98
+#: notebook/templates/tree.html:101
 msgid "Select All Files"
 msgstr ""
 
-#: notebook/templates/tree.html:98
+#: notebook/templates/tree.html:101
 msgid " Files"
 msgstr ""
 
-#: notebook/templates/tree.html:111
+#: notebook/templates/tree.html:114
 msgid "Last Modified"
 msgstr ""
 
-#: notebook/templates/tree.html:117
+#: notebook/templates/tree.html:120
 msgid "Name"
 msgstr ""
 
-#: notebook/templates/tree.html:127
+#: notebook/templates/tree.html:130
 msgid "Currently running Jupyter processes"
 msgstr ""
 
-#: notebook/templates/tree.html:131
+#: notebook/templates/tree.html:134
 msgid "Refresh running list"
 msgstr ""
 
-#: notebook/templates/tree.html:147
+#: notebook/templates/tree.html:150
 msgid "There are no terminals running."
 msgstr ""
 
-#: notebook/templates/tree.html:149
+#: notebook/templates/tree.html:152
 msgid "Terminals are unavailable."
 msgstr ""
 
-#: notebook/templates/tree.html:159
+#: notebook/templates/tree.html:162
 msgid "Notebooks"
 msgstr ""
 
-#: notebook/templates/tree.html:166
+#: notebook/templates/tree.html:169
 msgid "There are no notebooks running."
 msgstr ""
 
-#: notebook/templates/tree.html:175
+#: notebook/templates/tree.html:178
 msgid "Clusters tab is now provided by IPython parallel."
 msgstr ""
 
-#: notebook/templates/tree.html:176
+#: notebook/templates/tree.html:179
 msgid "See '<a href=\"https://github.com/ipython/ipyparallel\">IPython parallel</a>' for installation details."
 msgstr ""
 

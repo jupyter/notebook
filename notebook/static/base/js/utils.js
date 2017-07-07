@@ -237,7 +237,6 @@ define([
         "ansi-cyan-intense",
         "ansi-white-intense",
     ];
-
     
     function _getExtendedColors(numbers) {
         var r, g, b;
