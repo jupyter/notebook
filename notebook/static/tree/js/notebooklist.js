@@ -102,10 +102,8 @@ define([
         this.selected = [];
         this.sort_function = name_sorter(1);
         // 0 => descending, 1 => ascending
-        this.sort_state = {
-            'last-modified': 0,
-            'sort-name': 1
-        };
+        this.sort_id = 'sort-name';
+        this.sort_direction = 1;
         this._max_upload_size_mb = 25;
         this.EDIT_MIMETYPES = [
           'application/javascript',
@@ -224,15 +222,16 @@ define([
                 // Clear sort indications in UI
                 $(".sort-action i").removeClass("fa-arrow-up").removeClass("fa-arrow-down")
 
-                if (that.sort_state[sort_on] == 0) {
-                    that.sort_list(sort_on, 1);
-                    $("#" + sort_on + " i").addClass("fa-arrow-down");
-                    that.sort_state[sort_on] = 1;
-                } else {
+                if ((that.sort_id === sort_on) && (that.sort_direction === 1)) {
                     that.sort_list(sort_on, 0);
                     $("#" + sort_on + " i").addClass("fa-arrow-up");
-                    that.sort_state[sort_on] = 0;
+                    that.sort_direction = 0;
+                } else {
+                    that.sort_list(sort_on, 1);
+                    $("#" + sort_on + " i").addClass("fa-arrow-down");
+                    that.sort_direction = 1;
                 }
+                that.sort_id = sort_on;
             });
         }
     };
