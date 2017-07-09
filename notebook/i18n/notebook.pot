@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-07-07 13:43-0500\n"
+"POT-Creation-Date: 2017-07-08 21:52-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -430,10 +430,12 @@ msgstr ""
 
 #: notebook/notebookapp.py:1375
 #, python-format
-msgid "%d active kernels \n"
-msgstr ""
+msgid "%d active kernel"
+msgid_plural "%d active kernels"
+msgstr[0] ""
+msgstr[1] ""
 
-#: notebook/notebookapp.py:1377
+#: notebook/notebookapp.py:1379
 #, python-format
 msgid ""
 "The Jupyter Notebook is running at:\n"
@@ -441,29 +443,29 @@ msgid ""
 "%s"
 msgstr ""
 
-#: notebook/notebookapp.py:1423
+#: notebook/notebookapp.py:1426
 msgid "Running as root is not recommended. Use --allow-root to bypass."
 msgstr ""
 
-#: notebook/notebookapp.py:1429
+#: notebook/notebookapp.py:1432
 msgid "Use Control-C to stop this server and shut down all kernels (twice to skip confirmation)."
 msgstr ""
 
-#: notebook/notebookapp.py:1431
+#: notebook/notebookapp.py:1434
 msgid "Welcome to Project Jupyter! Explore the various tools available and their corresponding documentation. If you are interested in contributing to the platform, please visit the communityresources section at http://jupyter.org/community.html."
 msgstr ""
 
-#: notebook/notebookapp.py:1442
+#: notebook/notebookapp.py:1445
 #, python-format
 msgid "No web browser found: %s."
 msgstr ""
 
-#: notebook/notebookapp.py:1447
+#: notebook/notebookapp.py:1450
 #, python-format
 msgid "%s does not exist"
 msgstr ""
 
-#: notebook/notebookapp.py:1481
+#: notebook/notebookapp.py:1484
 msgid "Interrupted..."
 msgstr ""
 
