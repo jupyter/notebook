@@ -21,6 +21,6 @@
     "requirejs": "~2.1",
     "text-encoding": "~0.1",
     "underscore": "components/underscore#~1.8.3",
-    "xterm.js": "sourcelair/xterm.js#~2.8.0"
+    "xterm.js": "sourcelair/xterm.js#~2.8.1"
   }
 }
