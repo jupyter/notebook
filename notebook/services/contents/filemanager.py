@@ -3,7 +3,7 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-
+from datetime import datetime
 import errno
 import io
 import os
@@ -228,8 +228,19 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         """Build the common base of a contents model"""
         os_path = self._get_os_path(path)
         info = os.lstat(os_path)
-        last_modified = tz.utcfromtimestamp(info.st_mtime)
-        created = tz.utcfromtimestamp(info.st_ctime)
+        try:
+            last_modified = tz.utcfromtimestamp(info.st_mtime)
+        except ValueError:
+            # Files can rarely have an invalid timestamp
+            # https://github.com/jupyter/notebook/issues/2539
+            # Use the Unix epoch as a fallback so we don't crash.
+            last_modified = datetime(1970, 1, 1, 0, 0, tzinfo=tz.UTC)
+
+        try:
+            created = tz.utcfromtimestamp(info.st_ctime)
+        except ValueError:  # See above
+            created = datetime(1970, 1, 1, 0, 0, tzinfo=tz.UTC)
+
         # Create the base model.
         model = {}
         model['name'] = path.rsplit('/', 1)[-1]
