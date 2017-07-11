@@ -1260,7 +1260,7 @@ class NotebookApp(JupyterApp):
         print(self.notebook_info())
         yes = _('y')
         no = _('n')
-        sys.stdout.write(_("Shutdown this notebook server (%s/[%s])? "), yes, no)
+        sys.stdout.write(_("Shutdown this notebook server (%s/[%s])? ") % (yes, no))
         sys.stdout.flush()
         r,w,x = select.select([sys.stdin], [], [], 5)
         if r:
@@ -1365,18 +1365,20 @@ class NotebookApp(JupyterApp):
         The kernels will shutdown themselves when this process no longer exists,
         but explicit shutdown allows the KernelManagers to cleanup the connection files.
         """
-        self.log.info(_('Shutting down %d kernels',
-                      len(self.kernel_manager.list_kernel_ids())))
+        n_kernels = len(self.kernel_manager.list_kernel_ids())
+        kernel_msg = trans.ngettext('Shutting down %d kernel', 'Shutting down %d kernels', n_kernels)
+        self.log.info(kernel_msg % n_kernels)
         self.kernel_manager.shutdown_all()
 
     def notebook_info(self):
         "Return the current working directory and the server url information"
         info = self.contents_manager.info_string() + "\n"
-        kernel_msg = gettext.ngettext("%d active kernel","%d active kernels",len(self.kernel_manager._kernels))
-        info += kernel_msg % len(self.kernel_manager._kernels)
+        n_kernels = len(self.kernel_manager.list_kernel_ids())
+        kernel_msg = trans.ngettext("%d active kernel", "%d active kernels", n_kernels)
+        info += kernel_msg % n_kernels
         info += "\n"
         # Format the info so that the URL fits on a single line in 80 char display
-        info += _("The Jupyter Notebook is running at:\n\r%s") % self.display_url
+        info += _("The Jupyter Notebook is running at:\n%s") % self.display_url
         return info
 
     def server_info(self):
