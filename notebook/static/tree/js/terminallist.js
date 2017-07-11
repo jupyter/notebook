@@ -43,7 +43,7 @@ define([
     };
 
     TerminalList.prototype.new_terminal = function () {
-        var w = window.open(undefined, IPython._target);
+        var w = window.open('#', IPython._target);
         var base_url = this.base_url;
         var settings = {
             type : "POST",
