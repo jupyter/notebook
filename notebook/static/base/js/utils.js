@@ -615,7 +615,7 @@ define([
          * until we are building an actual request
          */
         var val = $('body').data(key);
-        if (!val)
+        if (typeof val === 'undefined')
             return val;
         return decodeURIComponent(val);
     };
