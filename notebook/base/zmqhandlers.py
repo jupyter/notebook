@@ -87,14 +87,6 @@ def deserialize_binary_message(bmsg):
 # ping interval for keeping websockets alive (30 seconds)
 WS_PING_INTERVAL = 30000
 
-if os.environ.get('IPYTHON_ALLOW_DRAFT_WEBSOCKETS_FOR_PHANTOMJS', False):
-    warnings.warn("""Allowing draft76 websocket connections!
-    This should only be done for testing with phantomjs!""")
-    from notebook import allow76
-    WebSocketHandler = allow76.AllowDraftWebSocketHandler
-    # draft 76 doesn't support ping
-    WS_PING_INTERVAL = 0
-
 
 class WebSocketMixin(object):
     """Mixin for common websocket options"""
