@@ -459,23 +459,23 @@ define([
         var orig_vs = v + this.nbformat_minor;
         var this_vs = v + this.current_nbformat_minor;
         var msg = i18n.msg.sprintf(i18n.msg._("This notebook is version %1$s, but we only fully support up to %2$s."),
-        		orig_vs,this_vs) + " " +
-        		i18n.msg._("You can still work with this notebook, but cell and output types introduced in later notebook versions will not be available.");
+                orig_vs,this_vs) + " " +
+                i18n.msg._("You can still work with this notebook, but cell and output types introduced in later notebook versions will not be available.");
 
         // This statement is used simply so that message extraction
         // will pick up the strings.  The actual setting of the text
         // for the button is in dialog.js.
         var button_labels = [ 
-        	i18n.msg._("OK"),
-        	i18n.msg._("Restart and Run All Cells"),
-        	i18n.msg._("Restart and Clear All Outputs"),
-        	i18n.msg._("Restart"),
-        	i18n.msg._("Continue Running"),
-        	i18n.msg._("Reload"),
-        	i18n.msg._("Cancel"),
-        	i18n.msg._("Overwrite"),
-        	i18n.msg._("Trust"),
-        	i18n.msg._("Revert")];
+            i18n.msg._("OK"),
+            i18n.msg._("Restart and Run All Cells"),
+            i18n.msg._("Restart and Clear All Outputs"),
+            i18n.msg._("Restart"),
+            i18n.msg._("Continue Running"),
+            i18n.msg._("Reload"),
+            i18n.msg._("Cancel"),
+            i18n.msg._("Overwrite"),
+            i18n.msg._("Trust"),
+            i18n.msg._("Revert")];
         
         dialog.modal({
             notebook: this,
@@ -2834,8 +2834,8 @@ define([
     Notebook.prototype.trust_notebook = function () {
         var body = $("<div>").append($("<p>")
             .text(i18n.msg._("A trusted Jupyter notebook may execute hidden malicious code when you open it. " +
-            		"Selecting trust will immediately reload this notebook in a trusted state. " +
-            		"For more information, see the Jupyter security documentation: "))
+                    "Selecting trust will immediately reload this notebook in a trusted state. " +
+                    "For more information, see the Jupyter security documentation: "))
             .append($("<a>").attr("href", "https://jupyter-notebook.readthedocs.io/en/latest/security.html")
                 .text(i18n.msg._("here"))
             )
@@ -3034,9 +3034,9 @@ define([
         var orig_nbformat_minor = nbmodel.metadata.orig_nbformat_minor;
         if (orig_nbformat !== undefined && nbmodel.nbformat !== orig_nbformat) {
             var oldmsg = i18n.msg._("This notebook has been converted from an older notebook format" +
-    		" to the current notebook format v(%s).");
+            " to the current notebook format v(%s).");
             var newmsg = i18n.msg._("This notebook has been converted from a newer notebook format" +
-    		" to the current notebook format v(%s).");
+            " to the current notebook format v(%s).");
             if (nbmodel.nbformat > orig_nbformat) {
                 msg = i18n.msg.sprintf(oldmsg,nbmodel.nbformat);
             } else {

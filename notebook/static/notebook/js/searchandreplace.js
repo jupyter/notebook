@@ -1,5 +1,5 @@
 define([
-	'jquery',
+    'jquery',
     'base/js/dialog',
     'base/js/i18n'
 ], function($, dialog, i18n){

@@ -296,7 +296,7 @@ define([
         this.events.on('spec_match_found.Kernel', function (evt, data) {
             that.widget('kernelspec').info(i18n.msg._("Using kernel: ") + data.found.spec.display_name, 3000, undefined, {
                 title: i18n.msg.sprintf(i18n.msg._("Only candidate for language: %1$s was %2$s."),
-                		data.selected.language, data.found.spec.display_name)
+                        data.selected.language, data.found.spec.display_name)
             });
         });
 

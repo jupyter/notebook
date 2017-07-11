@@ -2,10 +2,10 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-	'jquery',
-	'typeahead',
-	'base/js/i18n',
-	'notebook/js/quickhelp'
+    'jquery',
+    'typeahead',
+    'base/js/i18n',
+    'notebook/js/quickhelp'
 ],function($, typeahead, i18n, QH){
     "use strict";
 
@@ -153,9 +153,9 @@ define([
 
           var display_text;
           if (action.cmd) {
-        	  display_text = i18n.msg._(action.cmd);
+              display_text = i18n.msg._(action.cmd);
           } else {
-        	  display_text = humanize_action_id(action_id);
+              display_text = humanize_action_id(action_id);
           }
           
           src[group].data.push({

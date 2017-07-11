@@ -207,11 +207,11 @@ define([
     //    and clear the math array (no need to keep it around).
     //
     var replace_math = function (text, math) {
-    	//
-    	//  Replaces a math placeholder with its corresponding group.
-    	//  The math delimiters "\\(", "\\[", "\\)" and "\\]" are replaced
-    	//  removing one backslash in order to be interpreted correctly by MathJax.
-    	//
+        //
+        //  Replaces a math placeholder with its corresponding group.
+        //  The math delimiters "\\(", "\\[", "\\)" and "\\]" are replaced
+        //  removing one backslash in order to be interpreted correctly by MathJax.
+        //
         var math_group_process = function (match, n) {
             var math_group = math[n];
 

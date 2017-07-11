@@ -267,7 +267,7 @@ define([
         });
         
         var no_kernel_msg = i18n.msg.sprintf(i18n.msg._("Could not find a kernel matching %s. Please select a kernel:"),
-        		(data.selected.display_name || data.selected.name))
+                (data.selected.display_name || data.selected.name))
         var body = $("<form>").addClass("form-inline").append(
             $("<span>").text(no_kernel_msg)
         ).append(select);

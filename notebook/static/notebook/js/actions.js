@@ -66,14 +66,14 @@ define([
      **/
     var _actions = {
         'toggle-rtl-layout': {
-        	cmd: i18n.msg._('toggle rtl layout'),
+            cmd: i18n.msg._('toggle rtl layout'),
             help: i18n.msg._('Toggle the screen directionality between left-to-right and right-to-left'),
             handler: function () {
               (document.body.getAttribute('dir')=='rtl') ? document.body.setAttribute('dir','ltr') : document.body.setAttribute('dir','rtl');
             }
         },
         'edit-command-mode-keyboard-shortcuts': {
-        	cmd: i18n.msg._('edit command mode keyboard shortcuts'),
+            cmd: i18n.msg._('edit command mode keyboard shortcuts'),
             help: i18n.msg._('Open a dialog to edit the command mode keyboard shortcuts'),
             handler: function (env) {
                 env.notebook.show_shortcuts_editor();
@@ -94,8 +94,8 @@ define([
             }
         },
         'restart-kernel': {
-        	cmd: i18n.msg._('restart kernel'),
-        	help: i18n.msg._('restart the kernel (no confirmation dialog)'),
+            cmd: i18n.msg._('restart kernel'),
+            help: i18n.msg._('restart the kernel (no confirmation dialog)'),
             handler: function (env) {
                 env.notebook.restart_kernel({confirm: false});
             },
@@ -103,35 +103,35 @@ define([
         'confirm-restart-kernel':{
             icon: 'fa-repeat',
             help_index : 'hb',
-        	cmd: i18n.msg._('confirm restart kernel'),
+            cmd: i18n.msg._('confirm restart kernel'),
             help: i18n.msg._('restart the kernel (with dialog)'),
             handler : function (env) {
                 env.notebook.restart_kernel();
             }
         },
         'restart-kernel-and-run-all-cells': {
-        	cmd: i18n.msg._('restart kernel and run all cells'),
+            cmd: i18n.msg._('restart kernel and run all cells'),
             help: i18n.msg._('restart the kernel, then re-run the whole notebook (no confirmation dialog)'),
             handler: function (env) {
                 env.notebook.restart_run_all({confirm: false});
             }
         },
         'confirm-restart-kernel-and-run-all-cells': {
-        	cmd: i18n.msg._('confirm restart kernel and run all cells'),
+            cmd: i18n.msg._('confirm restart kernel and run all cells'),
             help: i18n.msg._('restart the kernel, then re-run the whole notebook (with dialog)'),
             handler: function (env) {
                 env.notebook.restart_run_all();
             }
         },
         'restart-kernel-and-clear-output': {
-        	cmd: i18n.msg._('restart kernel and clear output'),
+            cmd: i18n.msg._('restart kernel and clear output'),
             help: i18n.msg._('restart the kernel and clear all output (no confirmation dialog)'),
             handler: function (env) {
                 env.notebook.restart_clear_output({confirm: false});
             }
         },
         'confirm-restart-kernel-and-clear-output': {
-        	cmd: i18n.msg._('confirm restart kernel and clear output'),
+            cmd: i18n.msg._('confirm restart kernel and clear output'),
             help: i18n.msg._('restart the kernel and clear all output (with dialog)'),
             handler: function (env) {
                 env.notebook.restart_clear_output();
@@ -250,7 +250,7 @@ define([
             }
         },
         'select-previous-cell' : {
-        	cmd: i18n.msg._('select previous cell'),
+            cmd: i18n.msg._('select previous cell'),
             help: i18n.msg._('select cell above'),
             help_index : 'da',
             handler : function (env) {
@@ -262,7 +262,7 @@ define([
             }
         },
         'select-next-cell' : {
-        	cmd: i18n.msg._('select next cell'),
+            cmd: i18n.msg._('select next cell'),
             help: i18n.msg._('select cell below'),
             help_index : 'db',
             handler : function (env) {
@@ -274,7 +274,7 @@ define([
             }
         },
         'extend-selection-above' : {
-        	cmd: i18n.msg._('extend selection above'),
+            cmd: i18n.msg._('extend selection above'),
             help: i18n.msg._('extend selected cells above'),
             help_index : 'dc',
             handler : function (env) {
@@ -286,7 +286,7 @@ define([
             }
         },
         'extend-selection-below' : {
-        	cmd: i18n.msg._('extend selection below'),
+            cmd: i18n.msg._('extend selection below'),
             help: i18n.msg._('extend selected cells below'),
             help_index : 'dd',
             handler : function (env) {
@@ -434,7 +434,7 @@ define([
             }
         },
         'toggle-cell-output-collapsed' : {
-        	cmd: i18n.msg._('toggle cell output'),
+            cmd: i18n.msg._('toggle cell output'),
             help    : i18n.msg._('toggle output of selected cells'),
             help_index : 'gb',
             handler : function (env) {
@@ -442,7 +442,7 @@ define([
             }
         },
         'toggle-cell-output-scrolled' : {
-        	cmd: i18n.msg._('toggle cell scrolling'),
+            cmd: i18n.msg._('toggle cell scrolling'),
             help    : i18n.msg._('toggle output scrolling of selected cells'),
             help_index : 'gc',
             handler : function (env) {
@@ -450,14 +450,14 @@ define([
             }
         },
         'clear-cell-output' : {
-        	cmd: i18n.msg._('clear cell output'),
+            cmd: i18n.msg._('clear cell output'),
             help    : i18n.msg._('clear output of selected cells'),
             handler : function (env) {
                 env.notebook.clear_cells_outputs();
             }
         },
         'move-cell-down' : {
-        	cmd: i18n.msg._('move cells down'),
+            cmd: i18n.msg._('move cells down'),
             help: i18n.msg._('move selected cells down'),
             icon: 'fa-arrow-down',
             help_index : 'eb',
@@ -466,7 +466,7 @@ define([
             }
         },
         'move-cell-up' : {
-        	cmd: i18n.msg._('move cells up'),
+            cmd: i18n.msg._('move cells up'),
             help: i18n.msg._('move selected cells up'),
             icon: 'fa-arrow-up',
             help_index : 'ea',

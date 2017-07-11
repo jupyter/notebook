@@ -8,7 +8,7 @@ define([
     'base/js/i18n',
     'base/js/dialog'
 ], function($, Jupyter, utils, i18n, dialog) {
-	
+
 var jcbprefix = '<pre class="jupyter-nb-cells-json">';
 var jcbsuffix = '</pre>';
 
