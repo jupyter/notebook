@@ -4,6 +4,7 @@
 define([
     'jquery',
     'base/js/utils',
+    'base/js/i18n',
     'base/js/dialog',
 ], function($, utils, dialog) {
     "use strict";
@@ -35,11 +36,15 @@ define([
             });
             MathJax.Hub.Configured();
         } else if (window.mathjax_url !== "") {
+            // This statement is used simply so that message extraction
+            // will pick up the strings.  The actual setting of the text
+            // for the button is in dialog.js.
+            var button_labels = [ i18n.msg._("OK") ];
             // Don't have MathJax, but should. Show dialog.
             dialog.modal({
-                title : "Failed to retrieve MathJax from '" + window.mathjax_url + "'",
+                title : i18n.msg.sprintf(i18n.msg._("Failed to retrieve MathJax from '%s'",window.mathjax_url)),
                 body : $("<p/>").addClass('dialog').text(
-                        "Math/LaTeX rendering will be disabled."
+                        i18n.msg._("Math/LaTeX rendering will be disabled.")
                     ),
                 buttons : {
                     OK : {class: "btn-danger"}
@@ -202,11 +207,11 @@ define([
     //    and clear the math array (no need to keep it around).
     //
     var replace_math = function (text, math) {
-    	//
-    	//  Replaces a math placeholder with its corresponding group.
-    	//  The math delimiters "\\(", "\\[", "\\)" and "\\]" are replaced
-    	//  removing one backslash in order to be interpreted correctly by MathJax.
-    	//
+        //
+        //  Replaces a math placeholder with its corresponding group.
+        //  The math delimiters "\\(", "\\[", "\\)" and "\\]" are replaced
+        //  removing one backslash in order to be interpreted correctly by MathJax.
+        //
         var math_group_process = function (match, n) {
             var math_group = math[n];
 

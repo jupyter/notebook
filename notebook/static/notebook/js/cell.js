@@ -12,12 +12,13 @@
 define([
     'jquery',
     'base/js/utils',
+    'base/js/i18n',
     'codemirror/lib/codemirror',
     'codemirror/addon/edit/matchbrackets',
     'codemirror/addon/edit/closebrackets',
     'codemirror/addon/comment/comment',
     'services/config',
-], function($, utils, CodeMirror, cm_match, cm_closeb, cm_comment, configmod) {
+], function($, utils, i18n, CodeMirror, cm_match, cm_closeb, cm_comment, configmod) {
     "use strict";
     
     var overlayHack = CodeMirror.scrollbarModel.native.prototype.overlayHack;
@@ -75,7 +76,7 @@ define([
         // backward compat.
         Object.defineProperty(this, 'cm_config', {
             get: function() {
-                console.warn("Warning: accessing Cell.cm_config directly is deprecated.");
+                console.warn(i18n.msg._("Warning: accessing Cell.cm_config directly is deprecated."));
                 return that._options.cm_config;
             },
         });
@@ -759,7 +760,7 @@ define([
         } else {
             data.metadata = this.metadata;
         }
-        this.element.find('.inner_cell').find("a").text("Unrecognized cell type: " + data.cell_type);
+        this.element.find('.inner_cell').find("a").text(i18n.msg.sprintf(i18n.msg._("Unrecognized cell type: %s"), data.cell_type));
     };
     
     UnrecognizedCell.prototype.create_element = function () {
@@ -773,7 +774,7 @@ define([
         inner_cell.append(
             $("<a>")
                 .attr("href", "#")
-                .text("Unrecognized cell type")
+                .text(i18n.msg._("Unrecognized cell type"))
         );
         cell.append(inner_cell);
         this.element = cell;

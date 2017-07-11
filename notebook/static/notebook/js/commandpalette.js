@@ -1,12 +1,13 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define(function(require){
+define([
+    'jquery',
+    'typeahead',
+    'base/js/i18n',
+    'notebook/js/quickhelp'
+],function($, typeahead, i18n, QH){
     "use strict";
-
-    var $ = require('jquery');
-    require('typeahead');
-    var QH = require("notebook/js/quickhelp");
 
     /**
      * Humanize the action name to be consumed by user.
@@ -150,13 +151,20 @@ define(function(require){
             short = QH.humanize_sequence(short);
           }
 
+          var display_text;
+          if (action.cmd) {
+              display_text = i18n.msg._(action.cmd);
+          } else {
+              display_text = humanize_action_id(action_id);
+          }
+          
           src[group].data.push({
-            display: humanize_action_id(action_id),
+            display: display_text,
             shortcut: short,
             mode_shortcut: get_mode_for_action_id(action_id, notebook),
             group: group,
             icon: action.icon,
-            help: action.help,
+            help: i18n.msg._(action.help),
             key: action_id,
           });
         }

@@ -6,12 +6,13 @@ define([
     'base/js/namespace',
     'base/js/dialog',
     'base/js/utils',
+    'base/js/i18n',
     './celltoolbar',
     './tour',
     'moment',
-], function($, IPython, dialog, utils, celltoolbar, tour, moment) {
+], function($, IPython, dialog, utils, i18n, celltoolbar, tour, moment) {
     "use strict";
-    
+
     var MenuBar = function (selector, options) {
         /**
          * Constructor
@@ -216,13 +217,13 @@ define([
             if (trusted) {
                 that.element.find('#trust_notebook')
                     .addClass("disabled").off('click')
-                    .find("a").text("Trusted Notebook");
+                    .find("a").text(i18n.msg._("Trusted Notebook"));
             } else {
                 that.element.find('#trust_notebook')
                     .removeClass("disabled").on('click', function () {
                         that.notebook.trust_notebook();
                     })
-                    .find("a").text("Trust Notebook");
+                    .find("a").text(i18n.msg._("Trust Notebook"));
             }
         });
 
@@ -379,7 +380,7 @@ define([
         
         // Setup the existing presets
         var presets = celltoolbar.CellToolbar.list_presets();
-        preset_added(null, {name: "None"});
+        preset_added(null, {name: i18n.msg._("None")});
         presets.map(function (name) {
             preset_added(null, {name: name});
         });
@@ -402,7 +403,7 @@ define([
                 .addClass("disabled")
                 .append(
                     $("<a/>")
-                    .text("No checkpoints")
+                    .text(i18n.msg._("No checkpoints"))
                 )
             );
             return;
@@ -461,7 +462,7 @@ define([
             cursor.after($("<li>")
                 .append($("<a>")
                     .attr('target', '_blank')
-                    .attr('title', 'Opens in a new window')
+                    .attr('title', i18n.msg._('Opens in a new window'))
                     .attr('href', requirejs.toUrl(link.url))
                     .append($("<i>")
                         .addClass("fa fa-external-link menu-icon pull-right")

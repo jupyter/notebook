@@ -4,7 +4,8 @@
 define([
     'notebook/js/celltoolbar',
     'base/js/dialog',
-], function(celltoolbar, dialog) {
+    'base/js/i18n'
+], function(celltoolbar, dialog, i18n) {
     "use strict";
 
     var CellToolbar = celltoolbar.CellToolbar;
@@ -129,7 +130,7 @@ define([
         var text = $('<input/>').attr('type', 'text');
         var button = $('<button />')
             .addClass('btn btn-default btn-xs')
-            .text('Add tag')
+            .text(i18n.msg._('Add tag'))
             .click(function() {
                 var tags = preprocess_input(text[0].value);
                 for (var i=0; i < tags.length; ++i) {
@@ -159,8 +160,8 @@ define([
         var tag_list = cell.metadata.tags || [];
 
         var message =
-            "Edit the list of tags below. All whitespace " +
-            "is treated as tag separators.";
+            i18n.msg._("Edit the list of tags below. All whitespace " +
+            "is treated as tag separators.");
 
         var textarea = $('<textarea/>')
             .attr('rows', '13')
@@ -168,7 +169,7 @@ define([
             .attr('name', 'tags')
             .text(tag_list.join('\n'));
 
-        var dialogform = $('<div/>').attr('title', 'Edit the tags')
+        var dialogform = $('<div/>').attr('title', i18n.msg._('Edit the tags'))
             .append(
                 $('<form/>').append(
                     $('<fieldset/>').append(
@@ -182,7 +183,7 @@ define([
             );
 
         var modal_obj = dialog.modal({
-            title: "Edit Tags",
+            title: i18n.msg._("Edit Tags"),
             body: dialogform,
             default_button: "Cancel",
             buttons: {

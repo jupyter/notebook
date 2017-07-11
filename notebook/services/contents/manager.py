@@ -4,6 +4,7 @@
 # Distributed under the terms of the Modified BSD License.
 
 from fnmatch import fnmatch
+import gettext
 import itertools
 import json
 import os
@@ -64,7 +65,7 @@ class ContentsManager(LoggingConfigurable):
         Glob patterns to hide in file and directory listings.
     """)
 
-    untitled_notebook = Unicode("Untitled", config=True,
+    untitled_notebook = Unicode(_("Untitled"), config=True,
         help="The base name used when creating untitled notebooks."
     )
 

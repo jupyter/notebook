@@ -5,11 +5,12 @@ define([
     'jquery',
     'base/js/namespace',
     'base/js/utils',
+    'base/js/i18n',
     'base/js/dialog',
     'base/js/events',
     'base/js/keyboard',
     'moment'
-], function($, IPython, utils, dialog, events, keyboard, moment) {
+], function($, IPython, utils, i18n, dialog, events, keyboard, moment) {
     "use strict";
 
     var extension = function(path){
@@ -148,9 +149,9 @@ define([
                 }).catch(function (e) {
                     w.close();
                     dialog.modal({
-                        title: 'Creating File Failed',
+                        title: i18n.msg._('Creating File Failed'),
                         body: $('<div/>')
-                            .text("An error occurred while creating a new file.")
+                            .text(i18n.msg._("An error occurred while creating a new file."))
                             .append($('<div/>')
                                 .addClass('alert alert-danger')
                                 .text(e.message || e)),
@@ -168,9 +169,9 @@ define([
                     that.load_list();
                 }).catch(function (e) {
                     dialog.modal({
-                        title: 'Creating Folder Failed',
+                        title: i18n.msg._('Creating Folder Failed'),
                         body: $('<div/>')
-                            .text("An error occurred while creating a new folder.")
+                            .text(i18n.msg._("An error occurred while creating a new folder."))
                             .append($('<div/>')
                                 .addClass('alert alert-danger')
                                 .text(e.message || e)),
@@ -265,8 +266,8 @@ define([
             var name = item.data('name');
             item.remove();
             dialog.modal({
-                title : 'Failed to read file',
-                body : "Failed to read file '" + name + "'",
+                title : i18n.msg._('Failed to read file'),
+                body : i18n.msg.sprintf(i18n.msg._("Failed to read file %s"),name),
                 buttons : {'OK' : { 'class' : 'btn-primary' }}
             });
         };
@@ -277,9 +278,11 @@ define([
             var file_ext = name_and_ext[1];
 
             if (f.size > this._max_upload_size_mb * 1024 * 1024) {
+            	var body_msg = i18n.msg.sprintf(i18n.msg._("The file size is %d MB. Do you still want to upload it?"),
+            			Math.round(f.size / (1024 * 1024)));
                 dialog.modal({
-                    title : 'Large file size warning',
-                    body : "The file size is " + Math.round(f.size / (1024 * 1024)) + "MB. Do you still want to upload it?",
+                    title : i18n.msg._('Large file size warning'),
+                    body : body_msg,
                     buttons : {
                         Cancel: {},
                         Ok: {
@@ -347,7 +350,7 @@ define([
         this.contents.list_contents(that.notebook_path).then(
             $.proxy(this.draw_notebook_list, this),
             function(error) {
-                that.draw_notebook_list({content: []}, "Server error: " + error.message);
+                that.draw_notebook_list({content: []}, i18n.msg._("Server error: ") + error.message);
             }
         );
     };
@@ -372,7 +375,7 @@ define([
         this.error_msg = error_msg;
 
         list.content.sort(this.sort_function);
-        var message = error_msg || 'Notebook list empty.';
+        var message = error_msg || i18n.msg._('The notebook list is empty.');
         var item = null;
         var model = null;
         var len = list.content.length;
@@ -440,12 +443,12 @@ define([
         var item = $("<div/>")
             .addClass("col-md-12")
             .appendTo(row);
-
+        
         var checkbox;
         if (selectable !== undefined) {
             checkbox = $('<input/>')
                 .attr('type', 'checkbox')
-                .attr('title', 'Click here to rename, delete, etc.')
+                .attr('title', i18n.msg._('Click here to rename, delete, etc.'))
                 .appendTo(item);
         }
 
@@ -485,7 +488,7 @@ define([
 
         $('<div/>')
             .addClass('running-indicator')
-            .text('Running')
+            .text(i18n.msg._('Running'))
             .css('visibility', 'hidden')
             .appendTo(buttons);
 
@@ -749,7 +752,7 @@ define([
         if (model.type !== "directory") {
             link.attr('target',IPython._target);
         }
-
+        
         // Add in the date that the file was last modified
         item.find(".item_modified").text(utils.format_datetime(model.last_modified));
         item.find(".item_modified").attr("title", moment(model.last_modified).format("YYYY-MM-DD HH:mm"));
@@ -824,14 +827,36 @@ define([
         var item_type = this.selected[0].type;
         var input = $('<input/>').attr('type','text').attr('size','25').addClass('form-control')
             .val(item_name);
+        var rename_msg = function (type) {
+        	switch(type) {
+        	case 'file': return i18n.msg._("Enter a new file name:");
+        	case 'directory': return i18n.msg._("Enter a new directory name:");
+        	case 'notebook': return i18n.msg._("Enter a new notebook name:");
+        	default: return i18n.msg._("Enter a new name:");
+        	}
+        }
+        var rename_title = function (type) {
+           	switch(type) {
+           	case 'file': return i18n.msg._("Rename file");
+           	case 'directory': return i18n.msg._("Rename directory");
+           	case 'notebook': return i18n.msg._("Rename notebook");
+           	default: return i18n.msg._("Rename");
+           	}
+        }
         var dialog_body = $('<div/>').append(
             $("<p/>").addClass("rename-message")
-                .text('Enter a new '+ item_type + ' name:')
+                .text(rename_msg(item_type))
         ).append(
             $("<br/>")
         ).append(input);
+        
+        // This statement is used simply so that message extraction
+        // will pick up the strings.  The actual setting of the text
+        // for the button is in dialog.js.
+        var button_labels = [ i18n.msg._("Cancel"), i18n.msg._("Rename"), i18n.msg._("OK"), i18n.msg._("Move")];
+
         var d = dialog.modal({
-            title : "Rename "+ item_type,
+            title : rename_title(item_type),
             body : dialog_body,
             default_button: "Cancel",
             buttons : {
@@ -844,10 +869,12 @@ define([
                             // Deselect items after successful rename.
                             that.select('select-none');
                         }).catch(function(e) {
+                        	var template = i18n.msg._("An error occurred while renaming \"%1$s\" to \"%2$s\".");
+                        	var failmsg = i18n.msg.sprintf(template,item_name,input.val());
                             dialog.modal({
-                                title: "Rename Failed",
+                                title: i18n.msg._("Rename Failed"),
                                 body: $('<div/>')
-                                    .text("An error occurred while renaming \"" + item_name + "\" to \"" + input.val() + "\".")
+                                    .text(failmsg)
                                     .append($('<div/>')
                                         .addClass('alert alert-danger')
                                         .text(e.message || e)),
@@ -894,7 +921,8 @@ define([
             .val(utils.url_path_join('/', that.notebook_path));
         var dialog_body = $('<div/>').append(
             $("<p/>").addClass("rename-message")
-                .text('Enter new destination directory path for '+ num_items + ' items:')
+                .text(i18n.msg.sprintf(i18n.msg.ngettext("Enter a new destination directory path for this item:",
+                					"Enter a new destination directory path for these %d items:", num_items),num_items))
         ).append(
             $("<br/>")
         ).append(
@@ -906,7 +934,7 @@ define([
             ).addClass("move-path")
         );
         var d = dialog.modal({
-            title : "Move "+ num_items + " Items",
+            title : i18n.msg.sprintf(i18n.msg.ngettext("Move an Item","Move %d Items",num_items),num_items),
             body : dialog_body,
             default_button: "Cancel",
             buttons : {
@@ -925,10 +953,11 @@ define([
                                 that.load_list();
                             }).catch(function(e) {
                                 // If any of the moves fails, show this dialog for that move.
+                            	var failmsg = i18n.msg._("An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\".");
                                 dialog.modal({
-                                    title: "Move Failed",
+                                    title: i18n.msg._("Move Failed"),
                                     body: $('<div/>')
-                                        .text("An error occurred while moving \"" + item_name + "\" from \"" + item_path + "\" to \"" + new_path + "\".")
+                                        .text(i18n.msg.sprintf(failmsg,item_name,item_path,new_path))
                                         .append($('<div/>')
                                             .addClass('alert alert-danger')
                                             .text(e.message || e)),
@@ -971,17 +1000,20 @@ define([
     };
 
     NotebookList.prototype.delete_selected = function() {
-        var message;
         var selected = this.selected.slice(); // Don't let that.selected change out from under us
+        var template = i18n.msg.ngettext("Are you sure you want to permanently delete: \"%s\"?",
+        						"Are you sure you want to permanently delete the %d files or folders selected?",
+        						selected.length);
+        var delete_msg;
         if (selected.length === 1) {
-            message = 'Are you sure you want to permanently delete: ' + selected[0].name + '?';
+            delete_msg = i18n.msg.sprintf(template, selected[0].name);
         } else {
-            message = 'Are you sure you want to permanently delete the ' + selected.length + ' files/folders selected?';
+            delete_msg = i18n.msg.sprintf(template, selected.length);
         }
         var that = this;
         dialog.modal({
-            title : "Delete",
-            body : message,
+            title : i18n.msg._("Delete"),
+            body : delete_msg,
             default_button: "Cancel",
             buttons : {
                 Cancel: {},
@@ -997,10 +1029,11 @@ define([
                             that.contents.delete(item.path).then(function() {
                                     that.notebook_deleted(item.path);
                             }).catch(function(e) {
+                            	var failmsg = i18n.msg._("An error occurred while deleting \"%s\".");
                                 dialog.modal({
-                                    title: "Delete Failed",
+                                    title: i18n.msg._("Delete Failed"),
                                     body: $('<div/>')
-                                        .text("An error occurred while deleting \"" + item.path + "\".")
+                                        .text(i18n.msg.sprintf(failmsg, item.path))
                                         .append($('<div/>')
                                             .addClass('alert alert-danger')
                                             .text(e.message || e)),
@@ -1035,17 +1068,19 @@ define([
     };
 
     NotebookList.prototype.duplicate_selected = function() {
-        var message;
         var selected = this.selected.slice(); // Don't let that.selected change out from under us
+    	var template = i18n.msg.ngettext("Are you sure you want to duplicate: \"%s\"?",
+				"Are you sure you want to duplicate the %d files selected?",selected.length);
+    	var dup_msg;
         if (selected.length === 1) {
-            message = 'Are you sure you want to duplicate: ' + selected[0].name + '?';
+            dup_msg = i18n.msg.sprintf(template,selected[0].name);
         } else {
-            message = 'Are you sure you want to duplicate the ' + selected.length + ' files selected?';
+            dup_msg = i18n.msg.sprintf(template,selected.length);
         }
         var that = this;
         dialog.modal({
-            title : "Duplicate",
-            body : message,
+            title : i18n.msg._("Duplicate"),
+            body : dup_msg,
             default_button: "Cancel",
             buttons : {
                 Cancel: {},
@@ -1058,10 +1093,11 @@ define([
                                 // Deselect items after successful duplication.
                                 that.select('select-none');
                             }).catch(function(e) {
+                            	var failmsg = i18n.msg._("An error occurred while duplicating \"%s\".");
                                 dialog.modal({
-                                    title: "Duplicate Failed",
+                                    title: i18n.msg._("Duplicate Failed"),
                                     body: $('<div/>')
-                                        .text("An error occurred while duplicating \"" + item.path + "\".")
+                                        .text(i18n.msg.sprintf(failmsg,item.path))
                                         .append($('<div/>')
                                             .addClass('alert alert-danger')
                                             .text(e.message || e)),
@@ -1278,7 +1314,7 @@ define([
 
     NotebookList.prototype.add_upload_button = function (item) {
         var that = this;
-        var upload_button = $('<button/>').text("Upload")
+        var upload_button = $('<button/>').text(i18n.msg._("Upload"))
             .addClass('btn btn-primary btn-xs upload_button')
             .click(function (e) {
                 var filename = item.find('.item_name > input').val();
@@ -1287,8 +1323,8 @@ define([
                 var format = 'text';
                 if (filename.length === 0 || filename[0] === '.') {
                     dialog.modal({
-                        title : 'Invalid file name',
-                        body : "File names must be at least one character and not start with a dot",
+                        title : i18n.msg._('Invalid file name'),
+                        body : i18n.msg._("File names must be at least one character and not start with a period"),
                         buttons : {'OK' : { 'class' : 'btn-primary' }}
                     });
                     return false;
@@ -1315,9 +1351,10 @@ define([
                     try {
                         model.content = JSON.parse(filedata);
                     } catch (e) {
+                    	var failbody = i18n.msg._("The error was: %s");
                         dialog.modal({
-                            title : 'Cannot upload invalid Notebook',
-                            body : "The error was: " + e,
+                            title : i18n.msg._('Cannot upload invalid Notebook'),
+                            body : i18n.msg.sprintf(failbody,e),
                             buttons : {'OK' : {
                                 'class' : 'btn-primary',
                                 click: function () {
@@ -1349,9 +1386,10 @@ define([
                 });
 
                 if (exists) {
+                	var body = i18n.msg._("There is already a file named \"%s\". Do you want to replace it?");
                     dialog.modal({
-                        title : "Replace file",
-                        body : 'There is already a file named ' + filename + ', do you want to replace it?',
+                        title : i18n.msg._("Replace file"),
+                        body : i18n.msg.sprintf(body,filename),
                         default_button: "Cancel",
                         buttons : {
                             Cancel : {
@@ -1371,7 +1409,7 @@ define([
 
                 return false;
             });
-        var cancel_button = $('<button/>').text("Cancel")
+        var cancel_button = $('<button/>').text(i18n.msg._("Cancel"))
             .addClass("btn btn-default btn-xs")
             .click(function (e) {
                 item.remove();

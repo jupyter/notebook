@@ -3,20 +3,20 @@
 
 define([
     'notebook/js/celltoolbar',
-], function(celltoolbar) {
+    'base/js/i18n'
+], function(celltoolbar, i18n) {
     "use strict";
-
 
     var CellToolbar = celltoolbar.CellToolbar;
     var slideshow_preset = [];
 
     var select_type = CellToolbar.utils.select_ui_generator([
             ["-"            ,"-"            ],
-            ["Slide"        ,"slide"        ],
-            ["Sub-Slide"    ,"subslide"     ],
-            ["Fragment"     ,"fragment"     ],
-            ["Skip"         ,"skip"         ],
-            ["Notes"        ,"notes"        ],
+            [i18n.msg._("Slide")        ,"slide"        ],
+            [i18n.msg._("Sub-Slide")    ,"subslide"     ],
+            [i18n.msg._("Fragment")     ,"fragment"     ],
+            [i18n.msg._("Skip")         ,"skip"         ],
+            [i18n.msg._("Notes")        ,"notes"        ],
             ],
             // setter
             function(cell, value){
@@ -32,13 +32,13 @@ define([
                 // return the value
                 return (ns === undefined)? undefined: ns.slide_type;
                 },
-            "Slide Type");
+            i18n.msg._("Slide Type"));
 
     var register = function (notebook) {
         CellToolbar.register_callback('slideshow.select',select_type);
         slideshow_preset.push('slideshow.select');
 
-        CellToolbar.register_preset('Slideshow',slideshow_preset, notebook);
+        CellToolbar.register_preset(i18n.msg._('Slideshow'),slideshow_preset, notebook);
     };
     return {'register': register};
 });

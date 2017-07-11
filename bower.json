@@ -9,6 +9,7 @@
     "es6-promise": "~1.0",
     "font-awesome": "components/font-awesome#~4.7.0",
     "google-caja": "5669",
+    "jed": "~1.1.1",
     "jquery": "components/jquery#~2.0",
     "jquery-typeahead": "~2.0.0",
     "jquery-ui": "components/jqueryui#~1.10",
@@ -19,6 +20,8 @@
     "preact-compat": "https://unpkg.com/preact-compat@^3.14.3/dist/preact-compat.min.js",
     "proptypes": "https://unpkg.com/proptypes@^0.14.4/index.js",
     "requirejs": "~2.1",
+    "requirejs-text": "~2.0.15",
+    "requirejs-plugins": "~1.0.3",
     "text-encoding": "~0.1",
     "underscore": "components/underscore#~1.8.3",
     "xterm.js": "sourcelair/xterm.js#~2.8.1"

@@ -20,26 +20,26 @@ data-server-root="{{server_root}}"
   <div id="ipython-main-app" class="container">
     <div id="tab_content" class="tabbable">
       <ul id="tabs" class="nav nav-tabs">
-        <li class="active"><a href="#notebooks" data-toggle="tab">Files</a></li>
-        <li><a href="#running" data-toggle="tab">Running</a></li>
-        <li><a href="#clusters" data-toggle="tab" class="clusters_tab_link" >Clusters</a></li>
+        <li class="active"><a href="#notebooks" data-toggle="tab">{% trans %}Files{% endtrans %}</a></li>
+        <li><a href="#running" data-toggle="tab">{% trans %}Running{% endtrans %}</a></li>
+        <li><a href="#clusters" data-toggle="tab" class="clusters_tab_link" >{% trans %}Clusters{% endtrans %}</a></li>
       </ul>
       <div class="tab-content">
         <div id="notebooks" class="tab-pane active">
           <div id="notebook_toolbar" class="row">
             <div class="col-sm-8 no-padding">
               <div class="dynamic-instructions">
-                Select items to perform actions on them.
+                {% trans %}Select items to perform actions on them.{% endtrans %}
               </div>
               <div class="dynamic-buttons">
-                  <button title="Duplicate selected" class="duplicate-button btn btn-default btn-xs">Duplicate</button>
-                  <button title="Rename selected" class="rename-button btn btn-default btn-xs">Rename</button>
-                  <button title="Move selected" class="move-button btn btn-default btn-xs">Move</button>
-                  <button title="Download selected" class="download-button btn btn-default btn-xs">Download</button>
-                  <button title="Shutdown selected notebook(s)" class="shutdown-button btn btn-default btn-xs btn-warning">Shutdown</button>
-                  <button title="View selected" class="view-button btn btn-default btn-xs">View</button>
-                  <button title="Edit selected" class="edit-button btn btn-default btn-xs">Edit</button>
-                  <button title="Delete selected" class="delete-button btn btn-default btn-xs btn-danger"><i class="fa fa-trash"></i></button>
+                  <button title="{% trans %}Duplicate selected{% endtrans %}" class="duplicate-button btn btn-default btn-xs">{% trans %}Duplicate{% endtrans %}</button>
+                  <button title="{% trans %}Rename selected{% endtrans %}" class="rename-button btn btn-default btn-xs">{% trans %}Rename{% endtrans %}</button>
+                  <button title="{% trans %}Move selected{% endtrans %}" class="move-button btn btn-default btn-xs">{% trans %}Move{% endtrans %}</button>
+                  <button title="{% trans %}Download selected{% endtrans %}" class="download-button btn btn-default btn-xs">{% trans %}Download{% endtrans %}</button>
+                  <button title="{% trans %}Shutdown selected notebook(s){% endtrans %}" class="shutdown-button btn btn-default btn-xs btn-warning">{% trans %}Shutdown{% endtrans %}</button>
+                  <button title="{% trans %}View selected{% endtrans %}" class="view-button btn btn-default btn-xs">{% trans %}View{% endtrans %}</button>
+                  <button title="{% trans %}Edit selected{% endtrans %}" class="edit-button btn btn-default btn-xs">{% trans %}Edit{% endtrans %}</button>
+                  <button title="{% trans %}Delete selected{% endtrans %}" class="delete-button btn btn-default btn-xs btn-danger"><i class="fa fa-trash"></i></button>
               </div>
             </div>
             <div class="col-sm-4 no-padding tree-buttons">
@@ -47,14 +47,14 @@ data-server-root="{{server_root}}"
                 <form id='alternate_upload'  class='alternate_upload'>
                   <span id="notebook_list_info">
                   <span class="btn btn-xs btn-default btn-upload">
-                  <input  title="Click to browse for a file to upload." type="file" name="datafile" class="fileinput" multiple='multiple'>
-                  Upload
+                  <input  title="{% trans %}Click to browse for a file to upload.{% endtrans %}" type="file" name="datafile" class="fileinput" multiple='multiple'>
+                  {% trans %}Upload{% endtrans %}
                   </span>
                   </span>
                 </form>
                 <div id="new-buttons" class="btn-group">
                   <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown">
-                  <span>New</span>
+                  <span>{% trans %}New{% endtrans %}</span>
                   <span class="caret"></span>
                   </button>
                   <ul id="new-menu" class="dropdown-menu">
@@ -62,24 +62,24 @@ data-server-root="{{server_root}}"
                     <li role="presentation" class="divider"></li>
                     <li role="presentation" class="dropdown-header" >Other:</li>
                     <li role="presentation" id="new-file">
-                      <a role="menuitem" tabindex="-1" href="#">Text File</a>
+                      <a role="menuitem" tabindex="-1" href="#">{% trans %}Text File{% endtrans %}</a>
                     </li>
                     <li role="presentation" id="new-folder">
-                      <a role="menuitem" tabindex="-1" href="#">Folder</a>
+                      <a role="menuitem" tabindex="-1" href="#">{% trans %}Folder{% endtrans %}</a>
                     </li>
                     {% if terminals_available %}
                     <li role="presentation" id="new-terminal">
-                      <a role="menuitem" tabindex="-1" href="#">Terminal</a>
+                      <a role="menuitem" tabindex="-1" href="#">{% trans %}Terminal{% endtrans %}</a>
                     </li>
                     {% else %}
                     <li role="presentation" id="new-terminal-disabled" class="disabled">
-                      <a role="menuitem" tabindex="-1" href="#">Terminals Unavailable</a>
+                      <a role="menuitem" tabindex="-1" href="#">{% trans %}Terminals Unavailable{% endtrans %}</a>
                     </li>
                     {% endif %}
                   </ul>
                 </div>
                 <div class="btn-group">
-                    <button id="refresh_notebook_list" title="Refresh notebook list" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></button>
+                    <button id="refresh_notebook_list" title="{% trans %}Refresh notebook list{% endtrans %}" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></button>
                 </div>
               </div>
             </div>
@@ -87,18 +87,18 @@ data-server-root="{{server_root}}"
           <div id="notebook_list">
             <div id="notebook_list_header" class="row list_header">
               <div class="btn-group dropdown" id="tree-selector">
-                <button title="Select All / None" type="button" class="btn btn-default btn-xs" id="button-select-all">
+                <button title="{% trans %}Select All / None{% endtrans %}" type="button" class="btn btn-default btn-xs" id="button-select-all">
                   <input type="checkbox" class="pull-left tree-selector" id="select-all"><span id="counter-select-all">&nbsp;</span></input>
                 </button>
-                <button title="Select..." class="btn btn-default btn-xs dropdown-toggle" type="button" id="tree-selector-btn" data-toggle="dropdown" aria-expanded="true">
+                <button title="{% trans %}Select...{% endtrans %}" class="btn btn-default btn-xs dropdown-toggle" type="button" id="tree-selector-btn" data-toggle="dropdown" aria-expanded="true">
                   <span class="caret"></span>
                   <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul id='selector-menu' class="dropdown-menu" role="menu" aria-labelledby="tree-selector-btn">
-                  <li role="presentation"><a id="select-folders" role="menuitem" tabindex="-1" href="#" title="Select All Folders"><i class="menu_icon folder_icon icon-fixed-width"></i> Folders</a></li>
-                  <li role="presentation"><a id="select-notebooks" role="menuitem" tabindex="-1" href="#" title="Select All Notebooks"><i class="menu_icon notebook_icon icon-fixed-width"></i> All Notebooks</a></li>
-                  <li role="presentation"><a id="select-running-notebooks" role="menuitem" tabindex="-1" href="#" title="Select Running Notebooks"><i class="menu_icon running_notebook_icon icon-fixed-width"></i> Running</a></li>
-                  <li role="presentation"><a id="select-files" role="menuitem" tabindex="-1" href="#" title="Select All Files"><i class="menu_icon file_icon icon-fixed-width"></i> Files</a></li>
+                  <li role="presentation"><a id="select-folders" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select All Folders{% endtrans %}"><i class="menu_icon folder_icon icon-fixed-width"></i>{% trans %} Folders{% endtrans %}</a></li>
+                  <li role="presentation"><a id="select-notebooks" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select All Notebooks{% endtrans %}"><i class="menu_icon notebook_icon icon-fixed-width"></i>{% trans %} All Notebooks{% endtrans %}</a></li>
+                  <li role="presentation"><a id="select-running-notebooks" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select Running Notebooks{% endtrans %}"><i class="menu_icon running_notebook_icon icon-fixed-width"></i>{% trans %} Running{% endtrans %}</a></li>
+                  <li role="presentation"><a id="select-files" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select All Files{% endtrans %}"><i class="menu_icon file_icon icon-fixed-width"></i>{% trans %} Files{% endtrans %}</a></li>
                 </ul>
               </div>
               <div id="project_name">
@@ -111,13 +111,13 @@ data-server-root="{{server_root}}"
               </div>
               <div id="last_modified" class="pull-right sort_button">
                   <span class="btn btn-xs btn-default sort-action" id="last-modified">
-                      Last Modified
+                      {% trans %}Last Modified{% endtrans %}
                       <i class="fa"></i>
                   </span>
               </div>
               <div id="sort_name" class="pull-right sort_button">
                   <span class="btn btn-xs btn-default sort-action" id="sort-name">
-                      Name
+                      {% trans %}Name{% endtrans %}
                       <i class="fa fa-arrow-down"></i>
                   </span>
               </div>
@@ -127,11 +127,11 @@ data-server-root="{{server_root}}"
         <div id="running" class="tab-pane">
           <div id="running_toolbar" class="row">
             <div class="col-sm-8 no-padding">
-              <span id="running_list_info">Currently running Jupyter processes</span>
+              <span id="running_list_info">{% trans %}Currently running Jupyter processes{% endtrans %}</span>
             </div>
             <div class="col-sm-4 no-padding tree-buttons">
               <span id="running_buttons" class="pull-right">
-              <button id="refresh_running_list" title="Refresh running list" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></button>
+              <button id="refresh_running_list" title="{% trans %}Refresh running list{% endtrans %}" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></button>
               </span>
             </div>
           </div>
@@ -147,9 +147,9 @@ data-server-root="{{server_root}}"
                   <div id="terminal_list">
                     <div id="terminal_list_header" class="row list_placeholder">
                     {% if terminals_available %}
-                      <div> There are no terminals running. </div>
+                      <div> {% trans %}There are no terminals running.{% endtrans %} </div>
                     {% else %}
-                      <div> Terminals are unavailable. </div>
+                      <div> {% trans %}Terminals are unavailable.{% endtrans %} </div>
                     {% endif %}
                     </div>
                   </div>
@@ -159,14 +159,14 @@ data-server-root="{{server_root}}"
             <div class="panel panel-default">
               <div class="panel-heading">
                 <a data-toggle="collapse" data-target="#collapseTwo" href="#">
-                  Notebooks
+                  {% trans %}Notebooks{% endtrans %}
                 </a>
               </div>
               <div id="collapseTwo" class=" collapse in">
                 <div class="panel-body">
                   <div id="running_list">
                     <div id="running_list_placeholder" class="row list_placeholder">
-                      <div> There are no notebooks running. </div>
+                      <div> {% trans %}There are no notebooks running.{% endtrans %} </div>
                     </div>
                   </div>
                 </div>
@@ -175,8 +175,8 @@ data-server-root="{{server_root}}"
           </div>
         </div>
         <div id="clusters" class="tab-pane">
-          Clusters tab is now provided by IPython parallel.
-          See <a href="https://github.com/ipython/ipyparallel">IPython parallel</a> for installation details.
+          {% trans %}Clusters tab is now provided by IPython parallel.{% endtrans %}
+          {% trans %}See '<a href="https://github.com/ipython/ipyparallel">IPython parallel</a>' for installation details.{% endtrans %}
         </div>
       </div><!-- class:tab-content -->
     </div><!-- id:tab_content -->
