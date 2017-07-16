@@ -28,6 +28,7 @@ from notebook.utils import (
     is_hidden, is_file_hidden,
     to_api_path,
 )
+from notebook.base.handlers import AuthenticatedFileHandler
 
 try:
     from os.path import samefile
@@ -145,6 +146,10 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
     @default('checkpoints_class')
     def _checkpoints_class_default(self):
         return FileCheckpoints
+
+    @default('files_handler_class')
+    def _files_handler_class_default(self):
+        return AuthenticatedFileHandler
 
     def is_hidden(self, path):
         """Does the API style path correspond to a hidden directory or file?
