@@ -903,7 +903,7 @@ msgid "Notebook changed"
 msgstr ""
 
 #: notebook/static/notebook/js/notebook.js:2735
-msgid "The notebook file has changed on disk since the last time we opened or saved it. Do you want to overwrite the file on disk with the version open here, or load the version on disk (reload the page) ?"
+msgid "The notebook file has changed on disk since the last time we opened or saved it. Do you want to overwrite the file on disk with the version open here, or load the version on disk (reload the page)?"
 msgstr ""
 
 #: notebook/static/notebook/js/notebook.js:2782
