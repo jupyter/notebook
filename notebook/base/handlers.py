@@ -472,11 +472,7 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
 
     @web.authenticated
     def get(self, path):
-        if os.path.splitext(path)[1] == '.ipynb':
-            name = path.rsplit('/', 1)[-1]
-            self.set_header('Content-Type', 'application/json')
-            self.set_header('Content-Disposition','attachment; filename="%s"' % escape.url_escape(name))
-        elif self.get_argument("download", False):
+        if os.path.splitext(path)[1] == '.ipynb' or self.get_argument("download", False):
             name = path.rsplit('/', 1)[-1]
             self.set_header('Content-Disposition','attachment; filename="%s"' % escape.url_escape(name))
 
