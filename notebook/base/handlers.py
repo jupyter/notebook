@@ -5,6 +5,7 @@
 
 import functools
 import json
+import mimetypes
 import os
 import re
 import sys
@@ -481,6 +482,17 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
 
         return web.StaticFileHandler.get(self, path)
     
+    def get_content_type(self):
+        _, name = self.absolute_path.rsplit('/', 1)
+        if name.endswith('.ipynb'):
+            return 'application/x-ipynb+json'
+        else:
+            cur_mime = mimetypes.guess_type(name)[0]
+            if cur_mime == 'text/plain':
+                return 'text/plain; charset=UTF-8'
+            else:
+                return super(AuthenticatedFileHandler, self).get_content_type()
+
     def set_headers(self):
         super(AuthenticatedFileHandler, self).set_headers()
         # disable browser caching, rely on 304 replies for savings
