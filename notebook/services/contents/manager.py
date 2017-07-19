@@ -29,6 +29,7 @@ from traitlets import (
     default,
 )
 from ipython_genutils.py3compat import string_types
+from notebook.base.handlers import IPythonHandler
 
 copy_pat = re.compile(r'\-Copy\d*\.')
 
@@ -129,6 +130,8 @@ class ContentsManager(LoggingConfigurable):
             parent=self,
             log=self.log,
         )
+
+    files_handler_class = Type(IPythonHandler, allow_none=True, config=True)
 
     # ContentsManager API part 1: methods that must be
     # implemented in subclasses.

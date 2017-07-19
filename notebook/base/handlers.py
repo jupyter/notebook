@@ -5,6 +5,7 @@
 
 import functools
 import json
+import mimetypes
 import os
 import re
 import sys
@@ -471,13 +472,27 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
 
     @web.authenticated
     def get(self, path):
-        if os.path.splitext(path)[1] == '.ipynb':
+        if os.path.splitext(path)[1] == '.ipynb' or self.get_argument("download", False):
             name = path.rsplit('/', 1)[-1]
-            self.set_header('Content-Type', 'application/json')
             self.set_header('Content-Disposition','attachment; filename="%s"' % escape.url_escape(name))
-        
+
         return web.StaticFileHandler.get(self, path)
     
+    def get_content_type(self):
+        path = self.absolute_path.strip('/')
+        if '/' in path:
+            _, name = path.rsplit('/', 1)
+        else:
+            name = path
+        if name.endswith('.ipynb'):
+            return 'application/x-ipynb+json'
+        else:
+            cur_mime = mimetypes.guess_type(name)[0]
+            if cur_mime == 'text/plain':
+                return 'text/plain; charset=UTF-8'
+            else:
+                return super(AuthenticatedFileHandler, self).get_content_type()
+
     def set_headers(self):
         super(AuthenticatedFileHandler, self).set_headers()
         # disable browser caching, rely on 304 replies for savings
