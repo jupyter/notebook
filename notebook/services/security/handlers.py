@@ -17,6 +17,10 @@ class CSPReportHandler(APIHandler):
         """Don't check origin when reporting origin-check violations!"""
         return True
 
+    def check_xsrf_cookie(self):
+        # don't check XSRF for CSP reports
+        return
+
     @json_errors
     @web.authenticated
     def post(self):
