@@ -479,7 +479,11 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
         return web.StaticFileHandler.get(self, path)
     
     def get_content_type(self):
-        _, name = self.absolute_path.rsplit('/', 1)
+        path = self.absolute_path.strip('/')
+        if '/' in path:
+            _, name = path.rsplit('/', 1)
+        else:
+            name = path
         if name.endswith('.ipynb'):
             return 'application/x-ipynb+json'
         else:
