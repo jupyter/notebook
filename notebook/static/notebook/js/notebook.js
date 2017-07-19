@@ -2734,7 +2734,7 @@ define([
                             title: i18n.msg._("Notebook changed"),
                             body: i18n.msg._("The notebook file has changed on disk since the last time we opened or saved it. "
                                   + "Do you want to overwrite the file on disk with the version open here, or load "
-                                  + "the version on disk (reload the page) ?"),
+                                  + "the version on disk (reload the page)?"),
                             buttons: {
                                 Reload: {
                                     class: 'btn-warning',
