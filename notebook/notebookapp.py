@@ -682,7 +682,7 @@ class NotebookApp(JupyterApp):
     password_required = Bool(False, config=True,
                       help="""Forces users to use a password for the Notebook server.
                       This is useful in a multi user environment, for instance when
-                      everybody in the LAN can access each other's machine though ssh.
+                      everybody in the LAN can access each other's machine through ssh.
 
                       In such a case, server the notebook server on localhost is not secure
                       since any user can connect to the notebook server via ssh.
