@@ -64,7 +64,7 @@ class AuthenticatedHandler(web.RequestHandler):
         return '; '.join([
             "frame-ancestors 'self'",
             # Make sure the report-uri is relative to the base_url
-            "report-uri " + url_path_join(self.base_url, csp_report_uri),
+            "report-uri " + self.settings.get('csp_report_uri', url_path_join(self.base_url, csp_report_uri)),
         ])
 
     def set_default_headers(self):
