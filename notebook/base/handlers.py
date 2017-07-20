@@ -62,6 +62,10 @@ class AuthenticatedHandler(web.RequestHandler):
         
         Can be overridden by defining Content-Security-Policy in settings['headers']
         """
+        if 'Content-Security-Policy' in self.settings.get('headers', {}):
+            # user-specified, don't override
+            return self.settings['headers']['Content-Security-Policy']
+
         return '; '.join([
             "frame-ancestors 'self'",
             # Make sure the report-uri is relative to the base_url
@@ -72,9 +76,8 @@ class AuthenticatedHandler(web.RequestHandler):
         headers = {}
         headers.update(self.settings.get('headers', {}))
 
-        if "Content-Security-Policy" not in headers:
-            headers["Content-Security-Policy"] = self.content_security_policy
-        
+        headers["Content-Security-Policy"] = self.content_security_policy
+
         # Allow for overriding headers
         for header_name, value in headers.items():
             try:
