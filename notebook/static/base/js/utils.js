@@ -942,7 +942,10 @@ define([
         }
         return $el.map(function(){
             // MathJax takes a DOM node: $.map makes `this` the context
-            return MathJax.Hub.Queue(["Typeset", MathJax.Hub, this]);
+            return MathJax.Hub.Queue(
+                ["Typeset", MathJax.Hub, this],
+                ["resetEquationNumbers",MathJax.InputJax.TeX]
+            );
         });
     };
 
