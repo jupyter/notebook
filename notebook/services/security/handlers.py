@@ -13,7 +13,7 @@ class CSPReportHandler(APIHandler):
 
     _track_activity = False
 
-    def skip_origin_check(self):
+    def skip_check_origin(self):
         """Don't check origin when reporting origin-check violations!"""
         return True
 
