@@ -42,21 +42,12 @@ define([
         var $modal_ind_icon = $("#modal_indicator");
         var $readonly_ind_icon = $('#readonly-indicator');
         var $body = $('body');
-        var interval = 0;
         
         var set_busy_favicon = function(on) {
-            if (on && !interval) {
-                var i = 0;
-                var icons = ['favicon-busy-1.ico', 'favicon-busy-3.ico', 'favicon-busy-3.ico'];
-                interval = setInterval(function() {
-                    var icon = icons[i % 3];
-                    utils.change_favicon('/static/base/images/' + icon);
-                    i += 1;
-                }, 300);
+            if (on) {
+                utils.change_favicon('/static/base/images/favicon-busy-1.ico');
             } else {
-                clearInterval(interval);
                 utils.change_favicon('/static/base/images/favicon-notebook.ico');
-                interval = 0;
             }
         };
 
