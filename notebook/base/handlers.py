@@ -65,17 +65,18 @@ class AuthenticatedHandler(web.RequestHandler):
         return '; '.join([
             "frame-ancestors 'self'",
             # Make sure the report-uri is relative to the base_url
-            "report-uri " + url_path_join(self.base_url, csp_report_uri),
+            "report-uri " + self.settings.get('csp_report_uri', url_path_join(self.base_url, csp_report_uri)),
         ])
 
     def set_default_headers(self):
-        headers = self.settings.get('headers', {})
+        headers = {}
+        headers.update(self.settings.get('headers', {}))
 
         if "Content-Security-Policy" not in headers:
             headers["Content-Security-Policy"] = self.content_security_policy
-
+        
         # Allow for overriding headers
-        for header_name,value in headers.items() :
+        for header_name, value in headers.items():
             try:
                 self.set_header(header_name, value)
             except Exception as e:
