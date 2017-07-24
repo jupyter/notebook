@@ -77,7 +77,6 @@ define([
 
     OutputArea.prototype.style = function () {
         this.collapse_button.hide();
-        this.prompt_overlay.hide();
         
         this.wrapper.addClass('output_wrapper');
         this.element.addClass('output');
