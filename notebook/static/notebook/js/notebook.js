@@ -1782,6 +1782,9 @@ define([
 
         // Delete the other cells
         this.delete_cells(indices);
+        
+        // Reset the target cell's undo history
+        target.code_mirror.clearHistory();
 
         this.select(this.find_cell_index(target));
     };
