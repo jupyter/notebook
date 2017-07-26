@@ -289,7 +289,7 @@ with the following configuration setting in
 
     c.NotebookApp.tornado_settings = {
         'headers': {
-            'Content-Security-Policy': "frame-ancestors 'https://mywebsite.example.com' 'self' "
+            'Content-Security-Policy': "frame-ancestors https://mywebsite.example.com 'self' "
         }
     }
 
