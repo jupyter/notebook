@@ -42,6 +42,11 @@ define([
             { shortcut: "Alt-Right",  help:i18n.msg._("go one word right")  },
             { shortcut: "Alt-Backspace",      help:i18n.msg._("delete word before")  },
             { shortcut: "Alt-Delete",         help:i18n.msg._("delete word after")  },
+            { shortcut: "Ctrl-k",   help:i18n.msg._("emacs-style line kill")  },
+            { shortcut: "Cmd-Backspace",   help:i18n.msg._("delete line left of cursor")  },
+            { shortcut: "Cmd-Delete",   help:i18n.msg._("delete line right of cursor")  },
+            { shortcut: cmd_ctrl + "Shift-z",   help:i18n.msg._("redo")  },
+            { shortcut: "Shift-Cmd-u",   help:i18n.msg._("redo selection")  }
         ];
     } else {
         // PC specific
@@ -54,6 +59,8 @@ define([
             { shortcut: "Ctrl-Right", help:i18n.msg._("go one word right")  },
             { shortcut: "Ctrl-Backspace", help:i18n.msg._("delete word before")  },
             { shortcut: "Ctrl-Delete",    help:i18n.msg._("delete word after")  },
+            { shortcut: cmd_ctrl + "y",   help:i18n.msg._("redo")  },
+            { shortcut: "Alt-u",   help:i18n.msg._("redo selection")  }
         ];
     }
 
@@ -64,8 +71,11 @@ define([
         { shortcut: cmd_ctrl + "[",   help:i18n.msg._("dedent")  },
         { shortcut: cmd_ctrl + "a",   help:i18n.msg._("select all")  },
         { shortcut: cmd_ctrl + "z",   help:i18n.msg._("undo")  },
-        { shortcut: cmd_ctrl + "Shift-z",   help:i18n.msg._("redo")  },
-        { shortcut: cmd_ctrl + "y",   help:i18n.msg._("redo")  },
+        { shortcut: cmd_ctrl + "/",   help:i18n.msg._("comment")  },
+        { shortcut: "esc",   help:i18n.msg._("single selection")  },
+        { shortcut: cmd_ctrl + "d",   help:i18n.msg._("delete whole line")  },
+        { shortcut: cmd_ctrl + "u",   help:i18n.msg._("undo selection")  },
+        { shortcut: "Insert",   help:i18n.msg._("toggle overwrite flag")  }
     ].concat( platform_specific );
     
     var mac_humanize_map = {
