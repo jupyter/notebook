@@ -42,11 +42,19 @@ define([
         var $modal_ind_icon = $("#modal_indicator");
         var $readonly_ind_icon = $('#readonly-indicator');
         var $body = $('body');
+        var busy_favicon_timer = -1;
         
         var set_busy_favicon = function(on) {
             if (on) {
-                utils.change_favicon('/static/base/images/favicon-busy-1.ico');
+                // Only show the busy icon if execution lasts > 1s
+                // This is to avoid rapidly switching icons and making lots of
+                // HTTP requests.
+                clearTimeout(busy_favicon_timer);
+                busy_favicon_timer = setTimeout(function() {
+                    utils.change_favicon('/static/base/images/favicon-busy-1.ico');
+                }, 1000);
             } else {
+                clearTimeout(busy_favicon_timer);
                 utils.change_favicon('/static/base/images/favicon-notebook.ico');
             }
         };
