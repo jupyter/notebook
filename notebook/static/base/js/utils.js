@@ -1103,7 +1103,7 @@ define([
         link.type = 'image/x-icon';
         link.rel = 'shortcut icon';
         link.href = utils.url_path_join(utils.get_body_data('baseUrl'), src);
-        if (link.href === oldLink.href) {
+        if (oldLink && (link.href === oldLink.href)) {
             // This favicon is already set, don't modify the DOM.
             return;
         }
