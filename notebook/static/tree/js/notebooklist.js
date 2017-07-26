@@ -545,7 +545,7 @@ define([
     };
     
     NotebookList.prototype._is_editable = function(model) {
-      return (includes_mimetype('text/', model.mimetype) || includes_mimetype('application/', model.mimetype)) 
+      return includes_mimetype('text/', model.mimetype)
         || includes_extension(model.path, NotebookList.editable_extensions);
     };
     
