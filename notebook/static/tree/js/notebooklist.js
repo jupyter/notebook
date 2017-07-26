@@ -30,9 +30,11 @@ define([
     var includes_extension = function(filepath, extensionslist) {
       return item_in(extension(filepath), extensionslist);
     };
-    
-    var includes_mimetype = function(str, mimetype) {
-      return item_in(str, mimetype || '');
+
+    var json_or_xml_container_mimetype = function(mimetype) {
+      // Match */*+json or */*+xml
+      return (mimetype.substring(mimetype.length - 5) == '+json'
+              || mimetype.substring(mimetype.length - 4) == '+xml');
     };
 
     function name_sorter(ascending) {
@@ -545,7 +547,12 @@ define([
     };
     
     NotebookList.prototype._is_editable = function(model) {
-      return includes_mimetype('text/', model.mimetype)
+      // Editable: any text/ mimetype, specific mimetypes defined as editable,
+      // +json and +xml mimetypes, specific extensions listed as editable.
+      return model.mimetype &&
+          (model.mimetype.indexOf('text/') === 0
+           || item_in(model.mimetype, this.EDIT_MIMETYPES)
+           || json_or_xml_container_mimetype(model.mimetype))
         || includes_extension(model.path, NotebookList.editable_extensions);
     };
     
