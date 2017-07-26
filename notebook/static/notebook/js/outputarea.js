@@ -966,7 +966,8 @@ define([
             // Fix the output div's height if the clear_output is waiting for
             // new output (it is being used in an animation).
             if (!ignore_clear_queue && this.clear_queued) {
-                var height = this.element.height();
+                // this.element.height() rounds the height, so we get the exact value
+                var height = this.element[0].getBoundingClientRect().height;
                 this.element.height(height);
                 this.clear_queued = false;
             }
