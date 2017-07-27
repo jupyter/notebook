@@ -42,11 +42,11 @@ define([
             { shortcut: "Alt-Right",  help:i18n.msg._("go one word right")  },
             { shortcut: "Alt-Backspace",      help:i18n.msg._("delete word before")  },
             { shortcut: "Alt-Delete",         help:i18n.msg._("delete word after")  },
+            { shortcut: "Cmd-Shift-z",   help:i18n.msg._("redo")  },
+            { shortcut: "Shift-Cmd-u",   help:i18n.msg._("redo selection")  },
             { shortcut: "Ctrl-k",   help:i18n.msg._("emacs-style line kill")  },
             { shortcut: "Cmd-Backspace",   help:i18n.msg._("delete line left of cursor")  },
             { shortcut: "Cmd-Delete",   help:i18n.msg._("delete line right of cursor")  },
-            { shortcut: cmd_ctrl + "Shift-z",   help:i18n.msg._("redo")  },
-            { shortcut: "Shift-Cmd-u",   help:i18n.msg._("redo selection")  }
         ];
     } else {
         // PC specific
@@ -59,7 +59,7 @@ define([
             { shortcut: "Ctrl-Right", help:i18n.msg._("go one word right")  },
             { shortcut: "Ctrl-Backspace", help:i18n.msg._("delete word before")  },
             { shortcut: "Ctrl-Delete",    help:i18n.msg._("delete word after")  },
-            { shortcut: cmd_ctrl + "y",   help:i18n.msg._("redo")  },
+            { shortcut: "Ctrl-y",   help:i18n.msg._("redo")  },
             { shortcut: "Alt-u",   help:i18n.msg._("redo selection")  }
         ];
     }
