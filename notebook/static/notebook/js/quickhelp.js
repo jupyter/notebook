@@ -43,7 +43,7 @@ define([
             { shortcut: "Alt-Backspace", help:i18n.msg._("delete word before") },
             { shortcut: "Alt-Delete", help:i18n.msg._("delete word after") },
             { shortcut: "Cmd-Shift-z", help:i18n.msg._("redo") },
-            { shortcut: "Shift-Cmd-u", help:i18n.msg._("redo selection") },
+            { shortcut: "Cmd-Shift-u", help:i18n.msg._("redo selection") },
             { shortcut: "Ctrl-k", help:i18n.msg._("emacs-style line kill") },
             { shortcut: "Cmd-Backspace", help:i18n.msg._("delete line left of cursor") },
             { shortcut: "Cmd-Delete", help:i18n.msg._("delete line right of cursor") }
