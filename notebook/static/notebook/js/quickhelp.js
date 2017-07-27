@@ -72,7 +72,6 @@ define([
         { shortcut: cmd_ctrl + "a",   help:i18n.msg._("select all")  },
         { shortcut: cmd_ctrl + "z",   help:i18n.msg._("undo")  },
         { shortcut: cmd_ctrl + "/",   help:i18n.msg._("comment")  },
-        { shortcut: "esc",   help:i18n.msg._("single selection")  },
         { shortcut: cmd_ctrl + "d",   help:i18n.msg._("delete whole line")  },
         { shortcut: cmd_ctrl + "u",   help:i18n.msg._("undo selection")  },
         { shortcut: "Insert",   help:i18n.msg._("toggle overwrite flag")  }
