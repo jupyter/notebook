@@ -36,36 +36,45 @@ define([
         // Mac OS X specific
         cmd_ctrl = 'Cmd-';
         platform_specific = [
-            { shortcut: "Cmd-Up",     help:i18n.msg._("go to cell start")  },
-            { shortcut: "Cmd-Down",   help:i18n.msg._("go to cell end")  },
-            { shortcut: "Alt-Left",   help:i18n.msg._("go one word left")  },
-            { shortcut: "Alt-Right",  help:i18n.msg._("go one word right")  },
-            { shortcut: "Alt-Backspace",      help:i18n.msg._("delete word before")  },
-            { shortcut: "Alt-Delete",         help:i18n.msg._("delete word after")  },
+            { shortcut: "Cmd-Up", help:i18n.msg._("go to cell start") },
+            { shortcut: "Cmd-Down", help:i18n.msg._("go to cell end") },
+            { shortcut: "Alt-Left", help:i18n.msg._("go one word left") },
+            { shortcut: "Alt-Right", help:i18n.msg._("go one word right") },
+            { shortcut: "Alt-Backspace", help:i18n.msg._("delete word before") },
+            { shortcut: "Alt-Delete", help:i18n.msg._("delete word after") },
+            { shortcut: "Cmd-Shift-z", help:i18n.msg._("redo") },
+            { shortcut: "Cmd-Shift-u", help:i18n.msg._("redo selection") },
+            { shortcut: "Ctrl-k", help:i18n.msg._("emacs-style line kill") },
+            { shortcut: "Cmd-Backspace", help:i18n.msg._("delete line left of cursor") },
+            { shortcut: "Cmd-Delete", help:i18n.msg._("delete line right of cursor") }
         ];
     } else {
         // PC specific
         platform_specific = [
-            { shortcut: "Ctrl-Home",  help:i18n.msg._("go to cell start")  },
-            { shortcut: "Ctrl-Up",    help:i18n.msg._("go to cell start")  },
-            { shortcut: "Ctrl-End",   help:i18n.msg._("go to cell end")  },
-            { shortcut: "Ctrl-Down",  help:i18n.msg._("go to cell end")  },
-            { shortcut: "Ctrl-Left",  help:i18n.msg._("go one word left")  },
-            { shortcut: "Ctrl-Right", help:i18n.msg._("go one word right")  },
-            { shortcut: "Ctrl-Backspace", help:i18n.msg._("delete word before")  },
-            { shortcut: "Ctrl-Delete",    help:i18n.msg._("delete word after")  },
+            { shortcut: "Ctrl-Home", help:i18n.msg._("go to cell start") },
+            { shortcut: "Ctrl-Up", help:i18n.msg._("go to cell start") },
+            { shortcut: "Ctrl-End", help:i18n.msg._("go to cell end") },
+            { shortcut: "Ctrl-Down", help:i18n.msg._("go to cell end") },
+            { shortcut: "Ctrl-Left", help:i18n.msg._("go one word left") },
+            { shortcut: "Ctrl-Right", help:i18n.msg._("go one word right") },
+            { shortcut: "Ctrl-Backspace", help:i18n.msg._("delete word before")},
+            { shortcut: "Ctrl-Delete", help:i18n.msg._("delete word after")},
+            { shortcut: "Ctrl-y", help:i18n.msg._("redo")},
+            { shortcut: "Alt-u", help:i18n.msg._("redo selection") }
         ];
     }
 
     var cm_shortcuts = [
-        { shortcut:"Tab",   help:i18n.msg._("code completion or indent") },
-        { shortcut:"Shift-Tab",   help:i18n.msg._("tooltip") },
-        { shortcut: cmd_ctrl + "]",   help:i18n.msg._("indent")  },
-        { shortcut: cmd_ctrl + "[",   help:i18n.msg._("dedent")  },
-        { shortcut: cmd_ctrl + "a",   help:i18n.msg._("select all")  },
-        { shortcut: cmd_ctrl + "z",   help:i18n.msg._("undo")  },
-        { shortcut: cmd_ctrl + "Shift-z",   help:i18n.msg._("redo")  },
-        { shortcut: cmd_ctrl + "y",   help:i18n.msg._("redo")  },
+        { shortcut:"Tab", help:i18n.msg._("code completion or indent") },
+        { shortcut:"Shift-Tab", help:i18n.msg._("tooltip") },
+        { shortcut: cmd_ctrl + "]", help:i18n.msg._("indent") },
+        { shortcut: cmd_ctrl + "[", help:i18n.msg._("dedent") },
+        { shortcut: cmd_ctrl + "a", help:i18n.msg._("select all") },
+        { shortcut: cmd_ctrl + "z", help:i18n.msg._("undo") },
+        { shortcut: cmd_ctrl + "/", help:i18n.msg._("comment") },
+        { shortcut: cmd_ctrl + "d", help:i18n.msg._("delete whole line") },
+        { shortcut: cmd_ctrl + "u", help:i18n.msg._("undo selection") },
+        { shortcut: "Insert", help:i18n.msg._("toggle overwrite flag") }
     ].concat( platform_specific );
     
     var mac_humanize_map = {
