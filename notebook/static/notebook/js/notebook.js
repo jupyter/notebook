@@ -87,6 +87,7 @@ define([
      */
     function Notebook(selector, options) {
         this.config = options.config;
+        this.config.loaded.then(this.validate_config.bind(this))
         this.class_config = new configmod.ConfigWithDefaults(this.config, 
                                         Notebook.options_default, 'Notebook');
         this.base_url = options.base_url;
@@ -257,6 +258,15 @@ define([
         default_cell_type: 'code',
         Header: true,
         Toolbar: true
+    };
+
+    Notebook.prototype.validate_config = function() {
+        var code_cell = this.config.data['CodeCell'] || {};
+        var cm_keymap = (code_cell['cm_config'] || {})['keyMap'];
+        if (cm_keymap && CodeMirror.keyMap[cm_keymap] === undefined) {
+            console.warn('CodeMirror keymap not found, ignoring: ' + cm_keymap);
+            delete code_cell.cm_config.keyMap;
+        }
     };
 
     /**
