@@ -4,12 +4,13 @@
 define([
     'jquery',
     'base/js/utils',
+    'base/js/i18n',
     'base/js/security',
     'base/js/keyboard',
     'services/config',
     'notebook/js/mathjaxutils',
     'components/marked/lib/marked',
-], function($, utils, security, keyboard, configmod, mathjaxutils, marked) {
+], function($, utils, i18n, security, keyboard, configmod, mathjaxutils, marked) {
     "use strict";
 
     /**
@@ -54,7 +55,18 @@ define([
      **/
 
     OutputArea.prototype.create_elements = function () {
-        this.element = $("<div/>");
+        var element = this.element = $("<div/>");
+        // wrap element in safe trigger,
+        // so that errors (e.g. in widget extensions) are logged instead of
+        // breaking everything.
+        this.element._original_trigger = this.element.trigger;
+        this.element.trigger = function (name, data) {
+            try {
+                this._original_trigger.apply(this, arguments);
+            } catch (e) {
+                console.error("Exception in event handler for " + name, e, arguments);
+            }
+        }
         this.collapse_button = $("<div/>");
         this.prompt_overlay = $("<div/>");
         this.wrapper.append(this.prompt_overlay);
@@ -71,13 +83,13 @@ define([
         this.element.addClass('output');
         
         this.collapse_button.addClass("btn btn-default output_collapsed");
-        this.collapse_button.attr('title', 'click to expand output');
+        this.collapse_button.attr('title', i18n.msg._('click to expand output'));
         this.collapse_button.text('. . .');
         
         this.prompt_overlay.addClass('out_prompt_overlay prompt');
-        this.prompt_overlay.attr('title', 'click to expand output; double click to hide output');
+        this.prompt_overlay.attr('title', i18n.msg._('click to expand output; double click to hide output'));
         
-        this.collapse();
+        this.expand();
     };
 
     /**
@@ -163,14 +175,14 @@ define([
 
     OutputArea.prototype.scroll_area = function () {
         this.element.addClass('output_scroll');
-        this.prompt_overlay.attr('title', 'click to unscroll output; double click to hide');
+        this.prompt_overlay.attr('title', i18n.msg._('click to unscroll output; double click to hide'));
         this.scrolled = true;
     };
 
 
     OutputArea.prototype.unscroll_area = function () {
         this.element.removeClass('output_scroll');
-        this.prompt_overlay.attr('title', 'click to scroll output; double click to hide');
+        this.prompt_overlay.attr('title', i18n.msg._('click to scroll output; double click to hide'));
         this.scrolled = false;
     };
 
@@ -331,10 +343,15 @@ define([
         } else {
             this.handle_appended();
         }
-        
+
         if (record_output) {
             this.outputs.push(json);
         }
+
+        this.events.trigger('output_added.OutputArea', {
+            output: json,
+            output_area: this,
+        });
     };
 
     OutputArea.prototype.handle_appended = function () {
@@ -343,7 +360,7 @@ define([
             this._needs_height_reset = false;
         }
 
-        this.element.trigger('resizeOutput');
+        this.element.trigger('resizeOutput', {output_area: this});
     };
 
     OutputArea.prototype.create_output_area = function () {
@@ -413,12 +430,12 @@ define([
         /**
          * display a message when a javascript error occurs in display output
          */
-        var msg = "Javascript error adding output!";
+        var msg = i18n.msg._("Javascript error adding output!");
         if ( element === undefined ) return;
         element
             .append($('<div/>').text(msg).addClass('js-error'))
             .append($('<div/>').text(err.toString()).addClass('js-error'))
-            .append($('<div/>').text('See your browser Javascript console for more details.').addClass('js-error'));
+            .append($('<div/>').text(i18n.msg._('See your browser Javascript console for more details.')).addClass('js-error'));
     };
     
     OutputArea.prototype._safe_append = function (toinsert, toreplace) {
@@ -446,7 +463,7 @@ define([
         }
 
         // Notify others of changes.
-        this.element.trigger('changed');
+        this.element.trigger('changed', {output_area: this});
     };
 
 
@@ -455,7 +472,12 @@ define([
         var toinsert = this.create_output_area();
         this._record_display_id(json, toinsert);
         if (this.prompt_area) {
-            toinsert.find('div.prompt').addClass('output_prompt').text('Out[' + n + ']:');
+            toinsert.find('div.prompt')
+                    .addClass('output_prompt')
+                    .empty()
+                    .append(
+                      $('<bdi>').text(i18n.msg.sprintf(i18n.msg._('Out[%d]:'),n))
+                    );
         }
         var inserted = this.append_mime_type(json, toinsert);
         if (inserted) {
@@ -563,7 +585,7 @@ define([
         subarea.append(
             $("<a>")
                 .attr("href", "#")
-                .text("Unrecognized output: " + json.output_type)
+                .text(i18n.msg.sprintf(i18n.msg._("Unrecognized output: %s"),json.output_type))
                 .click(function () {
                     that.events.trigger('unrecognized_output.OutputArea', {output: json});
                 })
@@ -930,7 +952,7 @@ define([
     };
 
 
-    OutputArea.prototype.clear_output = function(wait, ignore_que) {
+    OutputArea.prototype.clear_output = function(wait, ignore_clear_queue) {
         if (wait) {
 
             // If a clear is queued, clear before adding another to the queue.
@@ -943,8 +965,9 @@ define([
 
             // Fix the output div's height if the clear_output is waiting for
             // new output (it is being used in an animation).
-            if (!ignore_que && this.clear_queued) {
-                var height = this.element.height();
+            if (!ignore_clear_queue && this.clear_queued) {
+                // this.element.height() rounds the height, so we get the exact value
+                var height = this.element[0].getBoundingClientRect().height;
                 this.element.height(height);
                 this.clear_queued = false;
             }
@@ -953,15 +976,18 @@ define([
             // Remove load event handlers from img tags because we don't want
             // them to fire if the image is never added to the page.
             this.element.find('img').off('load');
+            this.element.trigger('clearing', {output_area: this});
             this.element.html("");
 
             // Notify others of changes.
-            this.element.trigger('changed');
+            this.element.trigger('changed', {output_area: this});
+            this.element.trigger('cleared', {output_area: this});
             
             this.outputs = [];
             this._display_id_targets = {};
             this.trusted = true;
             this.unscroll_area();
+            this.expand();
             return;
         }
     };

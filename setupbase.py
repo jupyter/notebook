@@ -14,6 +14,7 @@ This includes:
 from __future__ import print_function
 
 import os
+import re
 import pipes
 import shutil
 import sys
@@ -68,6 +69,11 @@ execfile(pjoin(repo_root, name, '_version.py'), version_ns)
 
 version = version_ns['__version__']
 
+
+# vendored from pep440 package, we allow `.dev` suffix without trailing number.
+loose_pep440re = re.compile(r'^([1-9]\d*!)?(0|[1-9]\d*)(\.(0|[1-9]\d*))*((a|b|rc)(0|[1-9]\d*))?(\.post(0|[1-9]\d*))?(\.dev(0|[1-9]\d*)?)?$')
+if not loose_pep440re.match(version):
+    raise ValueError('Invalid version number `%s`, please follow pep440 convention or pip will get confused about which package is more recent.' % version)
 
 #---------------------------------------------------------------------------
 # Find packages
@@ -134,6 +140,7 @@ def find_package_data():
         pjoin(components, "es6-promise", "*.js"),
         pjoin(components, "font-awesome", "fonts", "*.*"),
         pjoin(components, "google-caja", "html-css-sanitizer-minified.js"),
+        pjoin(components, "jed", "jed.js"),
         pjoin(components, "jquery", "jquery.min.js"),
         pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.js"),
         pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.css"),
@@ -141,13 +148,15 @@ def find_package_data():
         pjoin(components, "jquery-ui", "themes", "smoothness", "jquery-ui.min.css"),
         pjoin(components, "jquery-ui", "themes", "smoothness", "images", "*"),
         pjoin(components, "marked", "lib", "marked.js"),
-        pjoin(components, "preact", "dist", "preact.min.js"),
-        pjoin(components, "preact-compat", "dist", "preact-compat.min.js"),
+        pjoin(components, "preact", "index.js"),
+        pjoin(components, "preact-compat", "index.js"),
         pjoin(components, "proptypes", "index.js"),
         pjoin(components, "requirejs", "require.js"),
+        pjoin(components, "requirejs-plugins", "src", "json.js"),
+        pjoin(components, "requirejs-text", "text.js"),
         pjoin(components, "underscore", "underscore-min.js"),
         pjoin(components, "moment", "moment.js"),
-        pjoin(components, "moment", "min", "moment.min.js"),
+        pjoin(components, "moment", "min", "*.js"),
         pjoin(components, "xterm.js", "dist", "xterm.js"),
         pjoin(components, "xterm.js", "dist", "xterm.css"),
         pjoin(components, "text-encoding", "lib", "encoding.js"),
@@ -348,14 +357,6 @@ class Bower(Command):
         if not os.path.exists(self.bower_dir):
             return True
         
-        # check npm packages
-        for pkg in ['preact', 'preact-compat', 'proptypes']:
-            npm_pkg = os.path.join(self.node_modules, pkg)
-            bower_pkg = os.path.join(self.bower_dir, pkg)
-            if not os.path.exists(npm_pkg) or not os.path.exists(bower_pkg):
-                return True
-            if mtime(bower_pkg) < mtime(npm_pkg):
-                return True
         return mtime(self.bower_dir) < mtime(pjoin(repo_root, 'bower.json'))
 
     def should_run_npm(self):
@@ -366,25 +367,6 @@ class Bower(Command):
             return True
         return mtime(self.node_modules) < mtime(pjoin(repo_root, 'package.json'))
 
-    def npm_components(self):
-        """Stage npm frontend dependencies into components"""
-        for pkg in ['preact', 'preact-compat', 'proptypes']:
-            npm_pkg = os.path.join(self.node_modules, pkg)
-            bower_pkg = os.path.join(self.bower_dir, pkg)
-            log.info("Staging %s -> %s" % (npm_pkg, bower_pkg))
-            if os.path.exists(bower_pkg):
-                shutil.rmtree(bower_pkg)
-            shutil.copytree(npm_pkg, bower_pkg)
-
-    def patch_codemirror(self):
-        """Patch CodeMirror until https://github.com/codemirror/CodeMirror/issues/4454 is resolved"""
-        
-        try:
-            shutil.copyfile('tools/patches/codemirror.js', 'notebook/static/components/codemirror/lib/codemirror.js')
-        except OSError as e:
-            print("Failed to patch codemirror.js: %s" % e, file=sys.stderr)
-            raise
-            
     def run(self):
         if not self.should_run():
             print("bower dependencies up to date")
@@ -408,8 +390,7 @@ class Bower(Command):
             print("Failed to run bower: %s" % e, file=sys.stderr)
             print("You can install js dependencies with `npm install`", file=sys.stderr)
             raise
-        self.patch_codemirror()
-        self.npm_components()
+        # self.npm_components()
         os.utime(self.bower_dir, None)
         # update package data in case this created new files
         update_package_data(self.distribution)

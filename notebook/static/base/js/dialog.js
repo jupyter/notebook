@@ -1,12 +1,12 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define(function(require) {
+define(['jquery',
+    'codemirror/lib/codemirror',
+    'bootstrap',
+	'base/js/i18n'],
+	function($, CodeMirror, bs, i18n) {
     "use strict";
-
-    var CodeMirror = require('codemirror/lib/codemirror');
-    var bs = require('bootstrap');
-    var $ = require('jquery');
 
     /**
      * A wrapper around bootstrap modal for easier use
@@ -86,7 +86,7 @@ define(function(require) {
             var button = $("<button/>")
                 .addClass("btn btn-default btn-sm")
                 .attr("data-dismiss", "modal")
-                .text(label);
+                .text(i18n.msg.translate(label).fetch());
             if (btn_opts.id) {
                 button.attr('id', btn_opts.id);
             }
@@ -157,18 +157,27 @@ define(function(require) {
     var edit_metadata = function (options) {
         options.name = options.name || "Cell";
         var error_div = $('<div/>').css('color', 'red');
-        var message = 
-            "Manually edit the JSON below to manipulate the metadata for this " + options.name + "." +
-            " We recommend putting custom metadata attributes in an appropriately named substructure," +
-            " so they don't conflict with those of others.";
+        var message_cell = 
+            i18n.msg._("Manually edit the JSON below to manipulate the metadata for this cell.");
+        var message_notebook = 
+            i18n.msg._("Manually edit the JSON below to manipulate the metadata for this notebook.");
+        var message_end = 
+            i18n.msg._(" We recommend putting custom metadata attributes in an appropriately named substructure," +
+            " so they don't conflict with those of others.");
 
+        var message;
+        if (options.name === 'Notebook') {
+        	message = message_notebook + message_end;
+        } else {
+        	message = message_cell + message_end;
+        }
         var textarea = $('<textarea/>')
             .attr('rows', '13')
             .attr('cols', '80')
             .attr('name', 'metadata')
             .text(JSON.stringify(options.md || {}, null, 2));
         
-        var dialogform = $('<div/>').attr('title', 'Edit the metadata')
+        var dialogform = $('<div/>').attr('title', i18n.msg._('Edit the metadata'))
             .append(
                 $('<form/>').append(
                     $('<fieldset/>').append(
@@ -188,8 +197,17 @@ define(function(require) {
             autoIndent: true,
             mode: 'application/json',
         });
+        var title_msg;
+        if (options.name === "Notebook") {
+        	title_msg = i18n.msg._("Edit Notebook Metadata");
+        } else {
+        	title_msg = i18n.msg._("Edit Cell Metadata");
+        }
+        // This statement is used simply so that message extraction
+        // will pick up the strings.
+        var button_labels = [ i18n.msg._("Cancel"), i18n.msg._("Edit"), i18n.msg._("OK"), i18n.msg._("Apply")];
         var modal_obj = modal({
-            title: "Edit " + options.name + " Metadata",
+            title: title_msg,
             body: dialogform,
             default_button: "Cancel",
             buttons: {
@@ -204,7 +222,7 @@ define(function(require) {
                             new_md = JSON.parse(editor.getValue());
                         } catch(e) {
                             console.log(e);
-                            error_div.text('WARNING: Could not save invalid JSON.');
+                            error_div.text(i18n.msg._('WARNING: Could not save invalid JSON.'));
                             return false;
                         }
                         options.callback(new_md);
@@ -226,10 +244,10 @@ define(function(require) {
         var message;
         var attachments_list;
         if (Object.keys(options.attachments).length == 0) {
-            message = "There are no attachments for this cell.";
+            message = i18n.msg._("There are no attachments for this cell.");
             attachments_list = $('<div>');
         } else {
-            message = "Current cell attachments";
+            message = i18n.msg._("Current cell attachments");
 
             attachments_list = $('<div>')
                 .addClass('list_container')
@@ -238,7 +256,7 @@ define(function(require) {
                     .addClass('row list_header')
                     .append(
                         $('<div>')
-                        .text('Attachments')
+                        .text(i18n.msg._('Attachments'))
                     )
                 );
 
@@ -262,7 +280,7 @@ define(function(require) {
                             .addClass('btn btn-default btn-xs')
                             .css('display', 'inline-block');
                         if (deleted) {
-                            btn.attr('title', 'Restore')
+                            btn.attr('title', i18n.msg._('Restore'))
                                .append(
                                    $('<i>')
                                    .addClass('fa fa-plus')
@@ -272,7 +290,7 @@ define(function(require) {
                                 refresh_attachments_list();
                             });
                         } else {
-                            btn.attr('title', 'Delete')
+                            btn.attr('title', i18n.msg._('Delete'))
                                .addClass('btn-danger')
                                .append(
                                    $('<i>')
@@ -321,12 +339,18 @@ define(function(require) {
         }
 
         var dialogform = $('<div/>')
-            .attr('title', 'Edit attachments')
+            .attr('title', i18n.msg._('Edit attachments'))
             .append(message)
             .append('<br />')
-            .append(attachments_list)
+            .append(attachments_list);
+        var title_msg;
+        if ( options.name === "Notebook" ) {
+        	title_msg = i18n.msg._("Edit Notebook Attachments");
+        } else {
+        	title_msg = i18n.msg._("Edit Cell Attachments");
+        }
         var modal_obj = modal({
-            title: "Edit " + options.name + " Attachments",
+            title: title_msg,
             body: dialogform,
             buttons: {
                 Apply: { class : "btn-primary",
@@ -346,7 +370,7 @@ define(function(require) {
 
     var insert_image = function (options) {
         var message =
-            "Select a file to insert.";
+            i18n.msg._("Select a file to insert.");
         var file_input = $('<input/>')
             .attr('type', 'file')
             .attr('accept', 'image/*')
@@ -359,7 +383,7 @@ define(function(require) {
                     $btn.addClass('disabled');
                 }
             });
-        var dialogform = $('<div/>').attr('title', 'Edit attachments')
+        var dialogform = $('<div/>').attr('title', i18n.msg._('Edit attachments'))
             .append(
                 $('<form id="insert-image-form" />').append(
                     $('<fieldset/>').append(
@@ -372,7 +396,7 @@ define(function(require) {
                     )
             );
         var modal_obj = modal({
-            title: "Pick a file",
+            title: i18n.msg._("Select a file"),
             body: dialogform,
             buttons: {
                 OK: {

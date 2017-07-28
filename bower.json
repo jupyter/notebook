@@ -5,19 +5,25 @@
     "backbone": "components/backbone#~1.2",
     "bootstrap": "components/bootstrap#~3.3",
     "bootstrap-tour": "0.9.0",
-    "codemirror": "components/codemirror#~5.22.2",
+    "codemirror": "components/codemirror#~5.27",
     "es6-promise": "~1.0",
-    "font-awesome": "components/font-awesome#~4.2.0",
+    "font-awesome": "components/font-awesome#~4.7.0",
     "google-caja": "5669",
+    "jed": "~1.1.1",
     "jquery": "components/jquery#~2.0",
     "jquery-typeahead": "~2.0.0",
     "jquery-ui": "components/jqueryui#~1.10",
     "marked": "~0.3",
     "MathJax": "components/MathJax#~2.6",
     "moment": "~2.8.4",
+    "preact": "https://unpkg.com/preact@^7.2.0/dist/preact.min.js",
+    "preact-compat": "https://unpkg.com/preact-compat@^3.14.3/dist/preact-compat.min.js",
+    "proptypes": "https://unpkg.com/proptypes@^0.14.4/index.js",
     "requirejs": "~2.1",
+    "requirejs-text": "~2.0.15",
+    "requirejs-plugins": "~1.0.3",
     "text-encoding": "~0.1",
     "underscore": "components/underscore#~1.8.3",
-    "xterm.js": "sourcelair/xterm.js#~2.3.2"
+    "xterm.js": "sourcelair/xterm.js#~2.8.1"
   }
 }

@@ -5,8 +5,9 @@ define([
     'jquery',
     'base/js/namespace',
     'base/js/utils',
+    'base/js/i18n',
     'base/js/dialog',
-], function ($, IPython, utils, dialog) {
+], function ($, IPython, utils, i18n, dialog) {
     "use strict";
     
     var NewNotebookWidget = function (selector, options) {
@@ -66,7 +67,7 @@ define([
                         .attr('href', '#')
                         .click($.proxy(this.new_notebook, this, ks.name))
                         .text(ks.spec.display_name)
-                        .attr('title', 'Create a new notebook with ' + ks.spec.display_name)
+                        .attr('title', i18n.sprintf(i18n._('Create a new notebook with %s'), ks.spec.display_name))
                 );
             menu.after(li);
         }
@@ -90,10 +91,14 @@ define([
                 w.location = url;
         }).catch(function (e) {
             w.close();
+            // This statement is used simply so that message extraction
+            // will pick up the strings.  The actual setting of the text
+            // for the button is in dialog.js.
+            var button_labels = [ i18n._("OK")];
             dialog.modal({
-                title : 'Creating Notebook Failed',
+                title : i18n._('Creating Notebook Failed'),
                 body : $('<div/>')
-                    .text("An error occurred while creating a new notebook.")
+                    .text(i18n._("An error occurred while creating a new notebook."))
                     .append($('<div/>')
                         .addClass('alert alert-danger')
                         .text(e.message || e)),

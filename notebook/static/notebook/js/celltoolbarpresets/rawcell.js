@@ -5,20 +5,21 @@ define([
     'notebook/js/celltoolbar',
     'base/js/dialog',
     'base/js/keyboard',
-], function(celltoolbar, dialog, keyboard) {
+    'base/js/i18n'
+], function(celltoolbar, dialog, keyboard, i18n) {
     "use strict";
 
   var CellToolbar = celltoolbar.CellToolbar;
   var raw_cell_preset = [];
 
   var select_type = CellToolbar.utils.select_ui_generator([
-    ["None", "-"],
+    [i18n.msg._("None"), "-"],
     ["LaTeX", "text/latex"],
     ["reST", "text/restructuredtext"],
     ["HTML", "text/html"],
     ["Markdown", "text/markdown"],
     ["Python", "text/x-python"],
-    ["Custom", "dialog"],
+    [i18n.msg._("Custom"), "dialog"],
 
     ],
       // setter
@@ -28,7 +29,7 @@ define([
         } else if (value === 'dialog'){
             var dialog = $('<div/>').append(
                 $("<p/>")
-                    .text("Set the MIME type of the raw cell:")
+                    .text(i18n.msg._("Set the MIME type of the raw cell:"))
             ).append(
                 $("<br/>")
             ).append(
@@ -36,7 +37,7 @@ define([
                 .val(cell.metadata.raw_mimetype || "-")
             );
             dialog.modal({
-                title: "Raw Cell MIME Type",
+                title: i18n.msg._("Raw Cell MIME Type"),
                 body: dialog,
                 buttons : {
                     "Cancel": {},
@@ -70,14 +71,14 @@ define([
         return cell.metadata.raw_mimetype || "";
       },
       // name
-      "Raw NBConvert Format"
+      i18n.msg._("Raw NBConvert Format")
   );
 
   var register = function (notebook) {
     CellToolbar.register_callback('raw_cell.select', select_type, ['raw']);
     raw_cell_preset.push('raw_cell.select');
 
-    CellToolbar.register_preset('Raw Cell Format', raw_cell_preset, notebook);
+    CellToolbar.register_preset(i18n.msg._('Raw Cell Format'), raw_cell_preset, notebook);
   };
   return {'register': register};
 

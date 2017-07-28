@@ -5,6 +5,7 @@
 
 import functools
 import json
+import mimetypes
 import os
 import re
 import sys
@@ -39,7 +40,12 @@ from notebook.services.security import csp_report_uri
 #-----------------------------------------------------------------------------
 non_alphanum = re.compile(r'[^A-Za-z0-9]')
 
-sys_info = json.dumps(get_sys_info())
+_sys_info_cache = None
+def json_sys_info():
+    global _sys_info_cache
+    if _sys_info_cache is None:
+        _sys_info_cache = json.dumps(get_sys_info())
+    return _sys_info_cache
 
 def log():
     if Application.initialized():
@@ -56,20 +62,24 @@ class AuthenticatedHandler(web.RequestHandler):
         
         Can be overridden by defining Content-Security-Policy in settings['headers']
         """
+        if 'Content-Security-Policy' in self.settings.get('headers', {}):
+            # user-specified, don't override
+            return self.settings['headers']['Content-Security-Policy']
+
         return '; '.join([
             "frame-ancestors 'self'",
             # Make sure the report-uri is relative to the base_url
-            "report-uri " + url_path_join(self.base_url, csp_report_uri),
+            "report-uri " + self.settings.get('csp_report_uri', url_path_join(self.base_url, csp_report_uri)),
         ])
 
     def set_default_headers(self):
-        headers = self.settings.get('headers', {})
+        headers = {}
+        headers.update(self.settings.get('headers', {}))
 
-        if "Content-Security-Policy" not in headers:
-            headers["Content-Security-Policy"] = self.content_security_policy
+        headers["Content-Security-Policy"] = self.content_security_policy
 
         # Allow for overriding headers
-        for header_name,value in headers.items() :
+        for header_name, value in headers.items():
             try:
                 self.set_header(header_name, value)
             except Exception as e:
@@ -357,7 +367,7 @@ class IPythonHandler(AuthenticatedHandler):
             login_available=self.login_available,
             token_available=bool(self.token or self.one_time_token),
             static_url=self.static_url,
-            sys_info=sys_info,
+            sys_info=json_sys_info(),
             contents_js_source=self.contents_js_source,
             version_hash=self.version_hash,
             ignore_minified_js=self.ignore_minified_js,
@@ -466,13 +476,27 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
 
     @web.authenticated
     def get(self, path):
-        if os.path.splitext(path)[1] == '.ipynb':
+        if os.path.splitext(path)[1] == '.ipynb' or self.get_argument("download", False):
             name = path.rsplit('/', 1)[-1]
-            self.set_header('Content-Type', 'application/json')
             self.set_header('Content-Disposition','attachment; filename="%s"' % escape.url_escape(name))
-        
+
         return web.StaticFileHandler.get(self, path)
     
+    def get_content_type(self):
+        path = self.absolute_path.strip('/')
+        if '/' in path:
+            _, name = path.rsplit('/', 1)
+        else:
+            name = path
+        if name.endswith('.ipynb'):
+            return 'application/x-ipynb+json'
+        else:
+            cur_mime = mimetypes.guess_type(name)[0]
+            if cur_mime == 'text/plain':
+                return 'text/plain; charset=UTF-8'
+            else:
+                return super(AuthenticatedFileHandler, self).get_content_type()
+
     def set_headers(self):
         super(AuthenticatedFileHandler, self).set_headers()
         # disable browser caching, rely on 304 replies for savings
@@ -684,5 +708,6 @@ path_regex = r"(?P<path>(?:(?:/[^/]+)+|/?))"
 
 default_handlers = [
     (r".*/", TrailingSlashHandler),
-    (r"api", APIVersionHandler)
+    (r"api", APIVersionHandler),
+    (r'/(robots\.txt|favicon\.ico)', web.StaticFileHandler),
 ]

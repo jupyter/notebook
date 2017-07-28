@@ -33,14 +33,15 @@
 
         return CodeMirror.multiplexingMode(
             gfm_mode,
+            // By defining the $$ delimiter before the $ delimiter we don't run
+            // into the problem that $$ is interpreted as two consecutive $.
             {
-                open: "$", close: "$",
+                open: "$$", close: "$$",
                 mode: tex_mode,
                 delimStyle: "delimit"
             },
             {
-                // not sure this works as $$ is interpreted at (opening $, closing $, as defined just above)
-                open: "$$", close: "$$",
+                open: "$", close: "$",
                 mode: tex_mode,
                 delimStyle: "delimit"
             },

@@ -5,9 +5,10 @@ define([
     'jquery',
     'base/js/namespace',
     'tree/js/notebooklist',
-], function($, IPython, notebooklist) {
+    'base/js/i18n'
+], function($, IPython, notebooklist, i18n) {
     "use strict";
-
+    
     var KernelList = function (selector, options) {
         /**
          * Constructor
@@ -82,7 +83,7 @@ define([
 
         var shutdown_button = $('<button/>')
             .addClass('btn btn-warning btn-xs')
-            .text('Shutdown')
+            .text(i18n._('Shutdown'))
             .click(function() {
                 var path = $(this).parent().parent().parent().data('path');
                 that.shutdown_notebook(path);

@@ -4,7 +4,8 @@
 define([
     'notebook/js/celltoolbar',
     'base/js/dialog',
-], function(celltoolbar, dialog) {
+    'base/js/i18n'
+], function(celltoolbar, dialog, i18n) {
     "use strict";
 
     var CellToolbar = celltoolbar.CellToolbar;
@@ -13,7 +14,7 @@ define([
         return a.filter(function(n) {
             return b.indexOf(n) === -1;
         });
-    }
+    };
 
     var write_tag = function(cell, name, add) {
         if (add) {
@@ -43,12 +44,12 @@ define([
         }
         cell.events.trigger('set_dirty.Notebook', {value: true});
         return true;
-    }
+    };
 
     var preprocess_input = function(input) {
-        // Split on whitespace:
-        return input.split(/\s/);
-    }
+        // Split on whitespace + commas:
+        return input.split(/[,\s]+/)
+    };
 
     var add_tag = function(cell, tag_container, on_remove) {
         return function(name) {
@@ -111,14 +112,12 @@ define([
             .addClass('cell-tag')
             .text(name);
 
-        var remove_button = $('<a/>')
+        var remove_button = $('<i/>')
             .addClass('remove-tag-btn')
-            .text('X')
-            .click( function(ev) {
-                if (ev.button === 0) {
-                    on_remove(name);
-                    return false;
-                }
+            .addClass('fa fa-times')
+            .click(function () {
+                on_remove(name);
+                return false;
             });
         tag_UI.append(remove_button);
         return tag_UI;
@@ -131,7 +130,7 @@ define([
         var text = $('<input/>').attr('type', 'text');
         var button = $('<button />')
             .addClass('btn btn-default btn-xs')
-            .text('Add tag')
+            .text(i18n.msg._('Add tag'))
             .click(function() {
                 var tags = preprocess_input(text[0].value);
                 for (var i=0; i < tags.length; ++i) {
@@ -148,7 +147,7 @@ define([
             }
         });
         var input_container = $('<span/>')
-            .addClass('tags-input')
+            .addClass('tags-input');
         add_dialog_button(input_container, cell, on_add, on_remove);
         button_container.append(input_container
                 .append(text)
@@ -161,8 +160,8 @@ define([
         var tag_list = cell.metadata.tags || [];
 
         var message =
-            "Edit the list of tags below. All whitespace " +
-            "is treated as tag separators.";
+            i18n.msg._("Edit the list of tags below. All whitespace " +
+            "is treated as tag separators.");
 
         var textarea = $('<textarea/>')
             .attr('rows', '13')
@@ -170,7 +169,7 @@ define([
             .attr('name', 'tags')
             .text(tag_list.join('\n'));
 
-        var dialogform = $('<div/>').attr('title', 'Edit the tags')
+        var dialogform = $('<div/>').attr('title', i18n.msg._('Edit the tags'))
             .append(
                 $('<form/>').append(
                     $('<fieldset/>').append(
@@ -184,7 +183,7 @@ define([
             );
 
         var modal_obj = dialog.modal({
-            title: "Edit Tags",
+            title: i18n.msg._("Edit Tags"),
             body: dialogform,
             default_button: "Cancel",
             buttons: {

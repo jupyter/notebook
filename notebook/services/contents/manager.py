@@ -4,6 +4,7 @@
 # Distributed under the terms of the Modified BSD License.
 
 from fnmatch import fnmatch
+import gettext
 import itertools
 import json
 import os
@@ -28,6 +29,7 @@ from traitlets import (
     default,
 )
 from ipython_genutils.py3compat import string_types
+from notebook.base.handlers import IPythonHandler
 
 copy_pat = re.compile(r'\-Copy\d*\.')
 
@@ -50,6 +52,8 @@ class ContentsManager(LoggingConfigurable):
       indicating the root path.
 
     """
+    
+    root_dir = Unicode('/', config=True)
 
     notary = Instance(sign.NotebookNotary)
     def _notary_default(self):
@@ -62,7 +66,7 @@ class ContentsManager(LoggingConfigurable):
         Glob patterns to hide in file and directory listings.
     """)
 
-    untitled_notebook = Unicode("Untitled", config=True,
+    untitled_notebook = Unicode(_("Untitled"), config=True,
         help="The base name used when creating untitled notebooks."
     )
 
@@ -126,6 +130,8 @@ class ContentsManager(LoggingConfigurable):
             parent=self,
             log=self.log,
         )
+
+    files_handler_class = Type(IPythonHandler, allow_none=True, config=True)
 
     # ContentsManager API part 1: methods that must be
     # implemented in subclasses.

@@ -208,15 +208,14 @@ operations within the notebook, by clicking on an icon.
 Structure of a notebook document
 --------------------------------
 
-The notebook consists of a sequence of cells.  A cell is a multiline
-text input field, and its contents can be executed by using
-:kbd:`Shift-Enter`, or by clicking either the "Play" button the toolbar, or
-`Cell | Run` in the menu bar.  The execution behavior of a cell is determined
-the cell's type.  There are four types of cells: **code cells**, **markdown
-cells**, **raw cells** and **heading cells**.  Every cell starts off
-being a **code cell**, but its type can be changed by using a drop-down on the
-toolbar (which will be "Code", initially), or via :ref:`keyboard shortcuts
-<keyboard-shortcuts>`.
+The notebook consists of a sequence of cells.  A cell is a multiline text input
+field, and its contents can be executed by using :kbd:`Shift-Enter`, or by
+clicking either the "Play" button the toolbar, or `Cell | Run` in the menu bar.
+The execution behavior of a cell is determined the cell's type.  There are four
+types of cells: **code cells**, **markdown cells**, and **raw cells**.  Every
+cell starts off being a **code cell**, but its type can be changed by using a
+drop-down on the toolbar (which will be "Code", initially), or via
+:ref:`keyboard shortcuts <keyboard-shortcuts>`.
 
 For more information on the different things you can do in a notebook,
 see the `collection of examples
@@ -250,6 +249,11 @@ called *Markdown cells*. The Markdown language provides a simple way to
 perform this text markup, that is, to specify which parts of the text should
 be emphasized (italics), bold, form lists, etc.
 
+If you want to provide structure for your document, you can use markdown
+headings. Markdown headings consist of 1 to 6 hash # signs ``#`` followed by a
+space and the title of your section. The markdown heading will be converted
+to a clickable link for a section of the notebook. It is also used as a hint
+when exporting to other document formats, like PDF.
 
 When a Markdown cell is executed, the Markdown code is converted into
 the corresponding formatted rich text. Markdown allows arbitrary HTML code for
@@ -286,17 +290,6 @@ destination format unmodified. For example, this allows you to type full LaTeX
 into a raw cell, which will only be rendered by LaTeX after conversion by
 nbconvert.
 
-Heading cells
-~~~~~~~~~~~~~
-
-If you want to provide structure for your document, you can use markdown
-headings. Markdown headings consist of 1 to 6 hash # signs ``#`` followed by a
-space and the title of your section. The markdown heading will be converted
-to a clickable link for a section of the notebook. It is also used as a hint
-when exporting to other document formats, like PDF.
-We recommend using only one markdown header in a cell and limit the cell's
-content to the header text. For flexibility of text format conversion, we
-suggest placing additional text in the next notebook cell.
 
 Basic workflow
 --------------

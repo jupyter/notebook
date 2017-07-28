@@ -95,7 +95,7 @@ class FilesTest(NotebookTestBase):
 
         r = self.request('GET', 'files/test.txt')
         self.assertEqual(r.status_code, 200)
-        self.assertEqual(r.headers['content-type'], 'text/plain')
+        self.assertEqual(r.headers['content-type'], 'text/plain; charset=UTF-8')
         self.assertEqual(r.text, 'foobar')
     
     def test_download(self):

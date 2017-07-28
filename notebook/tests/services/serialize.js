@@ -4,10 +4,6 @@
 //
 
 casper.notebook_test(function () {
-    if (!this.slimerjs) {
-        console.log("Can't test binary websockets on phantomjs.");
-        return;
-    }
     // create EchoBuffers target on js-side.
     // it just captures and echos comm messages.
     this.then(function () {

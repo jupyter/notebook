@@ -69,7 +69,7 @@ def persist_config(mode=0o600):
     """Context manager that can be use to modify a config object
 
     On exit of the context manager, the config will be written back to disk, 
-    by defauld with 600 permissions.
+    by default with 600 permissions.
     """
 
     loader = JSONFileConfigLoader('jupyter_notebook_config.json', jupyter_config_dir())

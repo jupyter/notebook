@@ -4,6 +4,7 @@
 define([
     'jquery',
     'base/js/utils',
+    'base/js/i18n',
     'notebook/js/cell',
     'base/js/security',
     'services/config',
@@ -16,6 +17,7 @@ define([
 ], function(
     $,
     utils,
+    i18n,
     cell,
     security,
     configmod,
@@ -546,9 +548,9 @@ define([
         highlight_modes : {
             'diff'         :{'reg':[/^diff/]}
         },
-        placeholder : "Write raw LaTeX or other formats here, for use with nbconvert. " +
+        placeholder : i18n.msg._("Write raw LaTeX or other formats here, for use with nbconvert. " +
             "It will not be rendered in the notebook. " +
-            "When passing through nbconvert, a Raw Cell's content is added to the output unmodified.",
+            "When passing through nbconvert, a Raw Cell's content is added to the output unmodified."),
     };
 
     RawCell.prototype = Object.create(TextCell.prototype);

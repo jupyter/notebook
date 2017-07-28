@@ -282,6 +282,8 @@ define([
         var fg = [];
         var bg = [];
         var bold = false;
+        var underline = false;
+        var inverse = false;
         var match;
         var out = [];
         var numbers = [];
@@ -330,6 +332,14 @@ define([
                     classes.push("ansi-bold");
                 }
 
+                if (underline) {
+                    classes.push("ansi-underline");
+                }
+
+                if (inverse) {
+                    classes.push("ansi-inverse");
+                }
+
                 if (classes.length || styles.length) {
                     out.push("<span");
                     if (classes.length) {
@@ -353,10 +363,18 @@ define([
                     case 0:
                         fg = bg = [];
                         bold = false;
+                        underline = false;
+                        inverse = false;
                         break;
                     case 1:
                     case 5:
                         bold = true;
+                        break;
+                    case 4:
+                        underline = true;
+                        break;
+                    case 7:
+                        inverse = true;
                         break;
                     case 21:
                     case 22:
@@ -597,7 +615,7 @@ define([
          * until we are building an actual request
          */
         var val = $('body').data(key);
-        if (!val)
+        if (typeof val === 'undefined')
             return val;
         return decodeURIComponent(val);
     };
@@ -754,7 +772,13 @@ define([
     };
     
     var ajax = function (url, settings) {
-        // like $.ajax, but ensure Authorization header is set
+        // like $.ajax, but ensure XSRF or Authorization header is set
+        if (typeof url === "object") {
+            // called with single argument: $.ajax({url: '...'})
+            settings = url;
+            url = settings.url;
+            delete settings.url;
+        }
         settings = _add_auth_header(settings);
         return $.ajax(url, settings);
     };
@@ -918,7 +942,10 @@ define([
         }
         return $el.map(function(){
             // MathJax takes a DOM node: $.map makes `this` the context
-            return MathJax.Hub.Queue(["Typeset", MathJax.Hub, this]);
+            return MathJax.Hub.Queue(
+                ["Typeset", MathJax.Hub, this],
+                ["resetEquationNumbers",MathJax.InputJax.TeX]
+            );
         });
     };
 
@@ -993,6 +1020,50 @@ define([
         }
     };
 
+
+    // javascript stores text as utf16 and string indices use "code units",
+    // which stores high-codepoint characters as "surrogate pairs",
+    // which occupy two indices in the javascript string.
+    // We need to translate cursor_pos in the protocol (in characters)
+    // to js offset (with surrogate pairs taking two spots).
+    function js_idx_to_char_idx (js_idx, text) {
+        var char_idx = js_idx;
+        for (var i = 0; i + 1 < text.length && i < js_idx; i++) {
+            var char_code = text.charCodeAt(i);
+            // check for surrogate pair
+            if (char_code >= 0xD800 && char_code <= 0xDBFF) {
+                var next_char_code = text.charCodeAt(i+1);
+                if (next_char_code >= 0xDC00 && next_char_code <= 0xDFFF) {
+                    char_idx--;
+                    i++;
+                }
+            }
+        }
+        return char_idx;
+    }
+
+    function char_idx_to_js_idx (char_idx, text) {
+        var js_idx = char_idx;
+        for (var i = 0; i + 1 < text.length && i < js_idx; i++) {
+            var char_code = text.charCodeAt(i);
+            // check for surrogate pair
+            if (char_code >= 0xD800 && char_code <= 0xDBFF) {
+                var next_char_code = text.charCodeAt(i+1);
+                if (next_char_code >= 0xDC00 && next_char_code <= 0xDFFF) {
+                    js_idx++;
+                    i++;
+                }
+            }
+        }
+        return js_idx;
+    }
+
+    if ('𝐚'.length === 1) {
+        // If javascript fixes string indices of non-BMP characters,
+        // don't keep shifting offsets to compensate for surrogate pairs
+        char_idx_to_js_idx = js_idx_to_char_idx = function (idx, text) { return idx; };
+    }
+
     // Test if a drag'n'drop event contains a file (as opposed to an HTML
     // element/text from the document)
     var dnd_contain_file = function(event) {
@@ -1027,6 +1098,21 @@ define([
         fn();
       }
     }
+    
+    var change_favicon = function (src) {
+        var link = document.createElement('link'),
+            oldLink = document.getElementById('favicon');
+        link.id = 'favicon';
+        link.type = 'image/x-icon';
+        link.rel = 'shortcut icon';
+        link.href = utils.url_path_join(utils.get_body_data('baseUrl'), src);
+        if (oldLink && (link.href === oldLink.href)) {
+            // This favicon is already set, don't modify the DOM.
+            return;
+        }
+        if (oldLink) document.head.removeChild(oldLink);
+        document.head.appendChild(link);
+    };
 
     var utils = {
         throttle: throttle,
@@ -1077,7 +1163,10 @@ define([
         format_datetime: format_datetime,
         datetime_sort_helper: datetime_sort_helper,
         dnd_contain_file: dnd_contain_file,
-        _ansispan:_ansispan
+        js_idx_to_char_idx: js_idx_to_char_idx,
+        char_idx_to_js_idx: char_idx_to_js_idx,
+        _ansispan:_ansispan,
+        change_favicon: change_favicon
     };
 
     return utils;
