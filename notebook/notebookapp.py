@@ -398,12 +398,12 @@ class NbserverListApp(JupyterApp):
                   "details from the server info file."))
 
     def start(self):
-        if not self.json:
-            print(_("Currently running servers:"))
-        for serverinfo in list_running_servers(self.runtime_dir):
-            if self.json:
-                print(json.dumps(serverinfo))
-            else:
+        serverinfo_list = list(list_running_servers(self.runtime_dir))
+        if self.json:
+            print(json.dumps(serverinfo_list))
+        else:
+            print("Currently running servers:")
+            for serverinfo in serverinfo_list:
                 url = serverinfo['url']
                 if serverinfo.get('token'):
                     url = url + '?token=%s' % serverinfo['token']
