@@ -58,12 +58,12 @@ def get_exporter(format, **kwargs):
     """get an exporter, raising appropriate errors"""
     # if this fails, will raise 500
     try:
-        from nbconvert.exporters.export import exporter_map
+        from nbconvert.exporters.base import get_exporter
     except ImportError as e:
         raise web.HTTPError(500, "Could not import nbconvert: %s" % e)
     
     try:
-        Exporter = exporter_map[format]
+        Exporter = get_exporter(format)
     except KeyError:
         # should this be 400?
         raise web.HTTPError(404, u"No exporter for format: %s" % format)
