@@ -1,5 +1,12 @@
 {% extends "page.html" %}
 
+{# This template is rendered in response to an authenticated request, so the
+   user is technically logged in. But when the user sees it, the cookie is
+   cleared by the Javascript, so we should render this as if the user was logged
+   out, without e.g. authentication tokens.
+#}
+{% set logged_in = False %}
+
 {% block stylesheet %}
 {{super()}}
 <link rel="stylesheet" href="{{ static_url("auth/css/override.css") }}" type="text/css" />
@@ -21,9 +28,9 @@
     {% endif %}
 
     {% if not login_available %}
-    Proceed to the <a href="{{base_url}}">dashboard</a>.
+    {% trans %}Proceed to the <a href="{{base_url}}">dashboard{% endtrans %}</a>.
     {% else %}
-    Proceed to the <a href="{{base_url}}login">login page</a>.
+    {% trans %}Proceed to the <a href="{{base_url}}login">login page{% endtrans %}</a>.
     {% endif %}
 
 

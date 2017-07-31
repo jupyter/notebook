@@ -1,9 +1,15 @@
 @_cell_padding_minus_border: @cell_padding - @cell_border_width;
 
-._selected_style(@c1, @c2, @sep:0, @border_width:@cell_border_width) {
-    border-left-width: @border_width;
-    padding-left: @cell_padding - @border_width;
-    background: linear-gradient(to right, @c1 -40px,@c1 @sep,@c2 @sep,@c2 100%);
+._selected_style(@border_color) {
+    position: absolute;
+    display: block;
+    top: -1 * @cell_border_width;
+    left: -1 * @cell_border_width;
+    width: @cell_left_border_width;
+    // height: 100% + (2 * @cell_border_width);
+    height: calc(~"100% + "(2 * @cell_border_width));
+    content: '';
+    background: @border_color;
 }
 
 
@@ -21,39 +27,45 @@ div.cell {
     /* This acts as a spacer between cells, that is outside the border */
     margin: 0px;
     outline: none;
+    
+    position: relative;
+    overflow: visible;
 
-    ._selected_style(transparent, transparent, @cell_border_width);
+    &:before {
+        ._selected_style(transparent);
+    }
 
     &.jupyter-soft-selected {
-        border-left-color: @selected_border_color_light;
         border-left-color: @soft_select_color;
         border-left-width: @cell_border_width;
         padding-left: @cell_padding - @cell_border_width;
         border-right-color: @soft_select_color;
         border-right-width: @cell_border_width;
         background: @soft_select_color;
-
+    
         @media print {
             border-color: transparent;
         }
     }
 
-    &.selected {
+    &.selected, &.selected.jupyter-soft-selected {
         border-color: @border_color;
-        ._selected_style(@selected_border_color, transparent, 5px, 0px);
+        
+        &:before {
+            ._selected_style(@selected_border_color);
+        }
 
         @media print {
             border-color: transparent;
         }
-    }
-
-    &.selected.jupyter-soft-selected {
-        ._selected_style(@selected_border_color, @soft_select_color, 7px, 0);
     }
 
     .edit_mode &.selected {
         border-color: @edit_mode_border_color;
-        ._selected_style(@edit_mode_border_color, transparent, 5px, 0px);
+        
+        &:before {
+            ._selected_style(@edit_mode_border_color);
+        }
 
         @media print {
             border-color: transparent;

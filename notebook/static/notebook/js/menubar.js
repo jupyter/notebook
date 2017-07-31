@@ -2,15 +2,17 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/namespace',
     'base/js/dialog',
     'base/js/utils',
+    'base/js/i18n',
     './celltoolbar',
     './tour',
     'moment',
-], function(IPython, dialog, utils, celltoolbar, tour, moment) {
+], function($, IPython, dialog, utils, i18n, celltoolbar, tour, moment) {
     "use strict";
-    
+
     var MenuBar = function (selector, options) {
         /**
          * Constructor
@@ -171,16 +173,15 @@ define([
         this.element.find('#download_ipynb').click(function () {
             var base_url = that.notebook.base_url;
             var notebook_path = utils.encode_uri_components(that.notebook.notebook_path);
-            var w = window.open('');
             var url = utils.url_path_join(
                 base_url, 'files', notebook_path
             ) + '?download=1';
             if (that.notebook.dirty && that.notebook.writable) {
                 that.notebook.save_notebook().then(function() {
-                    w.location = url;
+                    that._new_window(url);
                 });
             } else {
-                w.location = url;
+                that._new_window(url);
             }
         });
         
@@ -203,6 +204,10 @@ define([
         this.element.find('#download_pdf').click(function () {
             that._nbconvert('pdf', true);
         });
+        
+        this.element.find('#download_latex').click(function () {
+            that._nbconvert('latex', true);
+        });
 
         this.element.find('#download_script').click(function () {
             that._nbconvert('script', true);
@@ -212,13 +217,13 @@ define([
             if (trusted) {
                 that.element.find('#trust_notebook')
                     .addClass("disabled").off('click')
-                    .find("a").text("Trusted Notebook");
+                    .find("a").text(i18n.msg._("Trusted Notebook"));
             } else {
                 that.element.find('#trust_notebook')
                     .removeClass("disabled").on('click', function () {
                         that.notebook.trust_notebook();
                     })
-                    .find("a").text("Trust Notebook");
+                    .find("a").text(i18n.msg._("Trust Notebook"));
             }
         });
 
@@ -249,6 +254,7 @@ define([
             '#rename_notebook' : 'rename-notebook',
             '#find_and_replace' : 'find-and-replace',
             '#save_checkpoint': 'save-notebook',
+            '#shutdown_kernel': 'confirm-shutdown-kernel',
             '#restart_kernel': 'confirm-restart-kernel',
             '#restart_clear_output': 'confirm-restart-kernel-and-clear-output',
             '#restart_run_all': 'confirm-restart-kernel-and-run-all-cells',
@@ -286,6 +292,7 @@ define([
             '#copy_cell_attachments': 'copy-cell-attachments',
             '#paste_cell_attachments': 'paste-cell-attachments',
             '#insert_image': 'insert-image',
+            '#edit_keyboard_shortcuts' : 'edit-command-mode-keyboard-shortcuts',
         };
 
         for(var idx in id_actions_dict){
@@ -373,7 +380,7 @@ define([
         
         // Setup the existing presets
         var presets = celltoolbar.CellToolbar.list_presets();
-        preset_added(null, {name: "None"});
+        preset_added(null, {name: i18n.msg._("None")});
         presets.map(function (name) {
             preset_added(null, {name: name});
         });
@@ -396,7 +403,7 @@ define([
                 .addClass("disabled")
                 .append(
                     $("<a/>")
-                    .text("No checkpoints")
+                    .text(i18n.msg._("No checkpoints"))
                 )
             );
             return;
@@ -455,7 +462,7 @@ define([
             cursor.after($("<li>")
                 .append($("<a>")
                     .attr('target', '_blank')
-                    .attr('title', 'Opens in a new window')
+                    .attr('title', i18n.msg._('Opens in a new window'))
                     .attr('href', requirejs.toUrl(link.url))
                     .append($("<i>")
                         .addClass("fa fa-external-link menu-icon pull-right")

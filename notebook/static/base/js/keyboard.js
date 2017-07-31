@@ -9,9 +9,10 @@
  */
 
 define([
+    'jquery',
     'base/js/utils',
     'underscore',
-], function(utils, _) {
+], function($, utils, _) {
     "use strict";
 
 
@@ -416,8 +417,8 @@ define([
 
         shortcut = shortcut.toLowerCase();
         this.remove_shortcut(shortcut);
-        const patch = {keys:{}};
-        const b = {bind:{}};
+        var patch = {keys: {}};
+        var b = {bind: {}};
         patch.keys[this._mode] = {bind:{}};
         patch.keys[this._mode].bind[shortcut] = null;
         this._config.update(patch);
@@ -425,16 +426,16 @@ define([
         // if the shortcut we unbind is a default one, we add it to the list of
         // things to unbind at startup
         if( this._defaults_bindings.indexOf(shortcut) !== -1 ){
-            const cnf = (this._config.data.keys||{})[this._mode];
-            const unbind_array = cnf.unbind||[];
+            var cnf = (this._config.data.keys || {})[this._mode];
+            var unbind_array = cnf.unbind || [];
 
 
             // unless it's already there (like if we have remapped a default
             // shortcut to another command): unbind it)
             if(unbind_array.indexOf(shortcut) === -1){
-                const _parray = unbind_array.concat(shortcut);
-                const unbind_patch = {keys:{}};
-                unbind_patch.keys[this._mode] = {unbind:_parray}
+                var _parray = unbind_array.concat(shortcut);
+                var unbind_patch = {keys:{}};
+                unbind_patch.keys[this._mode] = {unbind:_parray};
                 console.warn('up:', unbind_patch);
                 this._config.update(unbind_patch);
             }

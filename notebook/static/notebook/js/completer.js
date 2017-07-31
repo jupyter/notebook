@@ -2,11 +2,12 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/utils',
     'base/js/keyboard',
     'notebook/js/contexthint',
     'codemirror/lib/codemirror',
-], function(utils, keyboard, CodeMirror) {
+], function($, utils, keyboard, CodeMirror) {
     "use strict";
 
     // easier key mapping
@@ -152,6 +153,8 @@ define([
         // one kernel completion came back, finish_completing will be called with the results
         // we fork here and directly call finish completing if kernel is busy
         var cursor_pos = this.editor.indexFromPos(cur);
+        var text = this.editor.getValue();
+        cursor_pos = utils.js_idx_to_char_idx(cursor_pos, text);
         if (this.skip_kernel_completion) {
             this.finish_completing({ content: {
                 matches: [],
@@ -159,7 +162,7 @@ define([
                 cursor_end: cursor_pos,
             }});
         } else {
-            this.cell.kernel.complete(this.editor.getValue(), cursor_pos,
+            this.cell.kernel.complete(text, cursor_pos,
                 $.proxy(this.finish_completing, this)
             );
         }
@@ -174,6 +177,7 @@ define([
         var start = content.cursor_start;
         var end = content.cursor_end;
         var matches = content.matches;
+        console.log(content);
 
         var cur = this.editor.getCursor();
         if (end === null) {
@@ -186,7 +190,13 @@ define([
             } else if (start < 0) {
                 start = end + start;
             }
+        } else {
+            // handle surrogate pairs
+            var text = this.editor.getValue();
+            end = utils.char_idx_to_js_idx(end, text);
+            start = utils.char_idx_to_js_idx(start, text);
         }
+
         var results = CodeMirror.contextHint(this.editor);
         var filtered_results = [];
         //remove results from context completion

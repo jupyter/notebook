@@ -178,6 +178,14 @@ class TestInstallNBExtension(TestCase):
         install_nbextension(pjoin(self.src, d))
         self.assert_installed(self.files[-1])
     
+    def test_single_dir_trailing_slash(self):
+        d = u'∂ir/'
+        install_nbextension(pjoin(self.src, d))
+        self.assert_installed(self.files[-1])
+        if os.name == 'nt':
+            d = u'∂ir\\'
+            install_nbextension(pjoin(self.src, d))
+            self.assert_installed(self.files[-1])
 
     def test_destination_file(self):
         file = self.files[0]

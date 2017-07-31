@@ -11,18 +11,218 @@ For more detailed information, see
 
      Use ``pip install notebook --upgrade`` or ``conda upgrade notebook`` to
      upgrade to the latest release.
-     
+
+.. we push for pip 9+ or it will break for Python 2 users when IPython 6 is out.
+We strongly recommend that you upgrade to version 9+ of pip before upgrading ``notebook``.
+
+.. tip::
+
+    Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
+    ``pip --version``.
+
+
+.. _release-5.0.0:
+
+Notebook version 5.0
+--------------------
+
+This is the first major release of the Jupyter Notebook since version 4.0 was
+created by the "Big Split" of IPython and Jupyter.
+
+We encourage users to start trying JupyterLab in preparation for a future
+transition.
+
+We have merged more than 300 pull requests since 4.0. Some of the
+major user-facing changes are described here.
+
+File sorting in the dashboard
+*****************************
+
+Files in the dashboard may now be sorted by last modified date or name (:ghpull:`943`):
+
+.. image:: /_static/images/dashboard-sort.png
+   :align: center 
+
+Cell tags
+*********
+
+There is a new cell toolbar for adding *cell tags* (:ghpull:`2048`):
+
+.. image:: /_static/images/cell-tags-toolbar.png
+   :align: center
+
+Cell tags are a lightweight way to customise the behaviour of tools working with
+notebooks; we're working on building support for them into tools like `nbconvert
+<http://nbconvert.readthedocs.io/en/latest/>`__ and `nbval
+<https://github.com/computationalmodelling/nbval>`__. To start using tags,
+select ``Tags`` in the ``View > Cell Toolbar`` menu in a notebook.
+
+The UI for editing cell tags is basic for now; we hope to improve it in future
+releases.
+
+Table style
+***********
+
+The default styling for tables in the notebook has been updated (:ghpull:`1776`).
+
+Before:
+
+.. image:: /_static/images/table-style-before.png
+   :align: center
+   
+After:
+
+.. image:: /_static/images/table-style-after.png
+  :align: center
+
+Customise keyboard shortcuts
+****************************
+
+You can now edit keyboard shortcuts for *Command Mode* within the UI
+(:ghpull:`1347`):
+
+.. image:: /_static/images/shortcut-editor.png
+   :align: center
+
+See the ``Help > Edit Keyboard Shortcuts`` menu item and follow the instructions.
+
+Other additions
+***************
+
+- You can copy and paste cells between notebooks, using :kbd:`Ctrl-C` and
+  :kbd:`Ctrl-V` (:kbd:`Cmd-C` and :kbd:`Cmd-V` on Mac).
+
+- It's easier to configure a password for the notebook with the new
+  ``jupyter notebook password`` command (:ghpull:`2007`).
+
+- The file list can now be ordered by *last modified* or by *name*
+  (:ghpull:`943`).
+
+- Markdown cells now support attachments. Simply drag and drop an image from
+  your desktop to a markdown cell to add it. Unlike relative links that you
+  enter manually, attachments are embedded in the notebook itself. An
+  unreferenced attachment will be automatically scrubbed from the notebook on
+  save (:ghpull:`621`).
+
+- Undoing cell deletion now supports undeleting multiple cells. Cells may not be
+  in the same order as before their deletion, depending on the actions you did
+  on the meantime, but this should should help reduce the impact of
+  accidentally deleting code.
+
+- The file browser now has *Edit* and *View* buttons.
+
+- The file browser now supports moving multiple files at once
+  (:ghpull:`1088`).
+
+- The Notebook will refuse to run as root unless the ``--allow-root`` flag is
+  given (:ghpull:`1115`).
+
+- Keyboard shortcuts are now declarative (:ghpull:`1234`).
+
+- Toggling line numbers can now affect all cells (:ghpull:`1312`).
+
+- Add more visible *Trusted* and *Untrusted* notifications (:ghpull:`1658`).
+
+- The favicon (browser shortcut icon) now changes to indicate when the kernel is busy
+  (:ghpull:`1837`).
+  
+- Header and toolbar visibility is now persisted in nbconfig and across sessions
+  (:ghpull:`1769`).
+
+- Load server extensions with ConfigManager so that merge happens recursively,
+  unlike normal config values, to make it load more consistently with frontend
+  extensions(:ghpull:`2108`).
+
+- The notebook server now supports the `bundler API
+  <http://jupyter-notebook.readthedocs.io/en/latest/extending/bundler_extensions.html>`__
+  from the `jupyter_cms incubator project
+  <https://github.com/jupyter-incubator/contentmanagement>`__ (:ghpull:`1579`).
+
+- The notebook server now provides information about kernel activity in
+  its kernel resource API (:ghpull:`1827`).
+
+Remember that upgrading ``notebook`` only affects the user
+interface. Upgrading kernels and libraries may also provide new features,
+better stability and integration with the notebook interface.
+
+.. _release-4.4.0:
+
+4.4.0
+-----
+
+- Allow override of output callbacks to redirect output messages. This is used to implement the ipywidgets Output widget, for example.
+- Fix an async bug in message handling by allowing comm message handlers to return a promise which halts message processing until the promise resolves.
+
+See the 4.4 milestone on GitHub for a complete list of
+`issues <https://github.com/jupyter/notebook/issues?utf8=%E2%9C%93&q=is%3Aissue%20milestone%3A4.4>`__
+and `pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A4.4>`__ involved in this release.
+
+.. _release-4.3.2:
+
+4.3.2
+-----
+
+4.3.2 is a patch release with a bug fix for CodeMirror and improved handling of the "editable" cell metadata field.
+
+- Monkey-patch for CodeMirror that resolves `#2037 <https://github.com/jupyter/notebook/issues/2037>`__ without breaking `#1967 <https://github.com/jupyter/notebook/issues/1967>`__
+- Read-only (``"editable": false``) cells can be executed but cannot be split, merged, or deleted
+
+See the 4.3.2 milestone on GitHub for a complete list of
+`issues <https://github.com/jupyter/notebook/issues?utf8=%E2%9C%93&q=is%3Aissue%20milestone%3A4.3.2>`__
+and `pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A4.3.2>`__ involved in this release.
+
+.. _release-4.3.1:
+
+4.3.1
+-----
+
+4.3.1 is a patch release with a security patch, a couple bug fixes, and improvements to the newly-released token authentication.
+
+**Security fix**:
+
+- CVE-2016-9971. Fix CSRF vulnerability,
+  where malicious forms could create untitled files and start kernels
+  (no remote execution or modification of existing files)
+  for users of certain browsers (Firefox, Internet Explorer / Edge).
+  All previous notebook releases are affected.
+
+Bug fixes:
+
+- Fix carriage return handling
+- Make the font size more robust against fickle browsers
+- Ignore resize events that bubbled up and didn't come from window
+- Add Authorization to allowed CORS headers
+- Downgrade CodeMirror to 5.16 while we figure out issues in Safari
+
+Other improvements:
+
+- Better docs for token-based authentication
+- Further highlight token info in log output when autogenerated
+
+See the 4.3.1 milestone on GitHub for a complete list of
+`issues <https://github.com/jupyter/notebook/issues?utf8=%E2%9C%93&q=is%3Aissue%20milestone%3A4.3.1>`__
+and `pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A4.3.1>`__ involved in this release.
+
 .. _release-4.3:
 
-4.3
+4.3.0
 -----
 
 4.3 is a minor release with many bug fixes and improvements.
+The biggest user-facing change is the addition of token authentication,
+which is enabled by default.
+A token is generated and used when your browser is opened automatically,
+so you shouldn't have to enter anything in the default circumstances.
+If you see a login page
+(e.g. by switching browsers, or launching on a new port with ``--no-browser``),
+you get a login URL with the token from the command ``jupyter notebook list``,
+which you can paste into your browser.
+
 
 Highlights:
 
 - API for creating mime-type based renderer extensions using :code:`OutputArea.register_mime_type` and :code:`Notebook.render_cell_output` methods. See `mimerender-cookiecutter <https://github.com/jupyterlab/mimerender-cookiecutter>`__ for reference implementations and cookiecutter.
-- Enable token authentication by default
+- Enable token authentication by default. See :ref:`server_security` for more details.
 - Update security docs to reflect new signature system
 - Switched from term.js to xterm.js
 
@@ -31,7 +231,7 @@ Bug fixes:
 - Ensure variable is set if exc_info is falsey
 - Catch and log handler exceptions in :code:`events.trigger`
 - Add debug log for static file paths
-- Don't check origin on token-authenticated requests 
+- Don't check origin on token-authenticated requests
 - Remove leftover print statement
 - Fix highlighting of Python code blocks
 - :code:`json_errors` should be outermost decorator on API handlers
@@ -45,7 +245,7 @@ Bug fixes:
 
 Other improvements:
 
-- Allow JSON output data with mime type "application/*+json"
+- Allow JSON output data with mime type ``application/*+json``
 - Allow kernelspecs to have spaces in them for backward compat
 - Allow websocket connections from scripts
 - Allow :code:`None` for post_save_hook
@@ -64,6 +264,7 @@ Other improvements:
 See the 4.3 milestone on GitHub for a complete list of
 `issues <https://github.com/jupyter/notebook/issues?utf8=%E2%9C%93&q=is%3Aissue%20milestone%3A4.3%20>`__
 and `pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A4.3%20>`__ involved in this release.
+
 
 .. _release-4.2.3:
 

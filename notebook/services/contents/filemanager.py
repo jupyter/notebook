@@ -3,12 +3,13 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-
+from datetime import datetime
 import errno
 import io
 import os
 import shutil
 import stat
+import sys
 import warnings
 import mimetypes
 import nbformat
@@ -19,15 +20,18 @@ from tornado import web
 from .filecheckpoints import FileCheckpoints
 from .fileio import FileManagerMixin
 from .manager import ContentsManager
+from ...utils import exists
 
 from ipython_genutils.importstring import import_item
 from traitlets import Any, Unicode, Bool, TraitError, observe, default, validate
 from ipython_genutils.py3compat import getcwd, string_types
-from . import tz
+
+from notebook import _tz as tz
 from notebook.utils import (
     is_hidden, is_file_hidden,
     to_api_path,
 )
+from notebook.base.handlers import AuthenticatedFileHandler
 
 try:
     from os.path import samefile
@@ -142,6 +146,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             raise TraitError("%r is not a directory" % value)
         return value
 
+    @default('checkpoints_class')
     def _checkpoints_class_default(self):
         return FileCheckpoints
 
@@ -149,6 +154,10 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         help="""If True (default), deleting files will send them to the
         platform's trash/recycle bin, where they can be recovered. If False,
         deleting files really deletes them.""")
+
+    @default('files_handler_class')
+    def _files_handler_class_default(self):
+        return AuthenticatedFileHandler
 
     def is_hidden(self, path):
         """Does the API style path correspond to a hidden directory or file?
@@ -224,14 +233,25 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         """
         path = path.strip('/')
         os_path = self._get_os_path(path=path)
-        return os.path.exists(os_path)
+        return exists(os_path)
 
     def _base_model(self, path):
         """Build the common base of a contents model"""
         os_path = self._get_os_path(path)
-        info = os.stat(os_path)
-        last_modified = tz.utcfromtimestamp(info.st_mtime)
-        created = tz.utcfromtimestamp(info.st_ctime)
+        info = os.lstat(os_path)
+        try:
+            last_modified = tz.utcfromtimestamp(info.st_mtime)
+        except ValueError:
+            # Files can rarely have an invalid timestamp
+            # https://github.com/jupyter/notebook/issues/2539
+            # Use the Unix epoch as a fallback so we don't crash.
+            last_modified = datetime(1970, 1, 1, 0, 0, tzinfo=tz.UTC)
+
+        try:
+            created = tz.utcfromtimestamp(info.st_ctime)
+        except ValueError:  # See above
+            created = datetime(1970, 1, 1, 0, 0, tzinfo=tz.UTC)
+
         # Create the base model.
         model = {}
         model['name'] = path.rsplit('/', 1)[-1]
@@ -279,16 +299,18 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                     continue
 
                 try:
-                    st = os.stat(os_path)
+                    st = os.lstat(os_path)
                 except OSError as e:
                     # skip over broken symlinks in listing
                     if e.errno == errno.ENOENT:
                         self.log.warning("%s doesn't exist", os_path)
                     else:
-                        self.log.warning("Error stat-ing %s: %s", (os_path, e))
+                        self.log.warning("Error stat-ing %s: %s", os_path, e)
                     continue
 
-                if not stat.S_ISREG(st.st_mode) and not stat.S_ISDIR(st.st_mode):
+                if (not stat.S_ISLNK(st.st_mode)
+                        and not stat.S_ISREG(st.st_mode)
+                        and not stat.S_ISDIR(st.st_mode)):
                     self.log.debug("%s not a regular file", os_path)
                     continue
 
@@ -511,7 +533,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             raise web.HTTPError(500, u'Unknown error renaming file: %s %s' % (old_path, e))
 
     def info_string(self):
-        return "Serving notebooks from local directory: %s" % self.root_dir
+        return _("Serving notebooks from local directory: %s") % self.root_dir
 
     def get_kernel_path(self, path, model=None):
         """Return the initial API path of  a kernel associated with a given notebook"""

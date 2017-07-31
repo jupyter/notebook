@@ -2,8 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/utils',
-], function(utils) {
+], function($, utils) {
     "use strict";
 
     var SesssionList = function (options) {
@@ -62,7 +63,7 @@ define([
             error : utils.log_ajax_error,
         };
         var url = utils.url_path_join(this.base_url, 'api/sessions');
-        $.ajax(url, settings);
+        utils.ajax(url, settings);
     };
 
     SesssionList.prototype.sessions_loaded = function(data){
@@ -70,13 +71,18 @@ define([
         var len = data.length;
         var nb_path;
         for (var i=0; i<len; i++) {
-            nb_path = data[i].notebook.path;
-            this.sessions[nb_path] = {
-                id: data[i].id,
-                kernel: {
-                  name: data[i].kernel.name
-                }
-            };
+            // The classic notebook only knows about sessions for notebooks,
+            // but the server now knows about more general sessions for
+            // things like consoles.
+            if (data[i].type === 'notebook') {
+                nb_path = data[i].notebook.path;
+                this.sessions[nb_path] = {
+                    id: data[i].id,
+                    kernel: {
+                    name: data[i].kernel.name
+                    }
+                };
+            }
         }
         this.events.trigger('sessions_loaded.Dashboard', this.sessions);
     };

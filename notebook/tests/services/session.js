@@ -121,6 +121,9 @@ casper.notebook_test(function () {
         }
     );
 
+    this.thenEvaluate( function() {IPython.notebook.session.start()});
+    this.wait_for_kernel_ready();
+
     // check for events when restarting the session
     this.event_test(
         'restart_session',
@@ -163,6 +166,9 @@ casper.notebook_test(function () {
         // restarting the kernel 5 times!
         20000
     );
+
+    this.thenEvaluate( function() {IPython.notebook.session.start()});
+    this.wait_for_kernel_ready();
 
     // check for events when starting a nonexistant kernel
     this.event_test(

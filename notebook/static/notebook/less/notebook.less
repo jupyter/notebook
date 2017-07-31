@@ -101,7 +101,7 @@ kbd {
 }
 
 .jupyter-keybindings {
-    padding: 0px;
+    padding: 1px;
     line-height: 24px;
     border-bottom: 1px solid gray;
 }
@@ -114,4 +114,14 @@ kbd {
 
 .jupyter-keybindings i {
     padding: 6px;
+}
+
+.well code {
+    background-color: lighten(@cell_background, 5%);
+    border-color: @border_color;
+    border-width: @border_width;
+    border-style: solid;
+    padding: 2px;
+    padding-top: 1px;
+    padding-bottom: 1px;
 }

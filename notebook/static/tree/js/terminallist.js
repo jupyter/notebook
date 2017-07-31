@@ -2,10 +2,12 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/namespace',
     'base/js/utils',
+    'base/js/i18n',
     'tree/js/notebooklist',
-], function(IPython, utils, notebooklist) {
+], function($, IPython, utils, i18n, notebooklist) {
     "use strict";
 
     var TerminalList = function (selector, options) {
@@ -41,7 +43,7 @@ define([
     };
 
     TerminalList.prototype.new_terminal = function () {
-        var w = window.open(undefined, IPython._target);
+        var w = window.open('#', IPython._target);
         var base_url = this.base_url;
         var settings = {
             type : "POST",
@@ -60,12 +62,12 @@ define([
             this.base_url,
             'api/terminals'
         );
-        $.ajax(url, settings);
+        utils.ajax(url, settings);
     };
     
     TerminalList.prototype.load_terminals = function() {
         var url = utils.url_path_join(this.base_url, 'api/terminals');
-        $.ajax(url, {
+        utils.ajax(url, {
             type: "GET",
             cache: false,
             dataType: "json",
@@ -100,7 +102,7 @@ define([
     
     TerminalList.prototype.add_shutdown_button = function(name, item) {
         var that = this;
-        var shutdown_button = $("<button/>").text("Shutdown").addClass("btn btn-xs btn-warning").
+        var shutdown_button = $("<button/>").text(i18n._("Shutdown")).addClass("btn btn-xs btn-warning").
             click(function (e) {
                 var settings = {
                     processData : false,
@@ -113,7 +115,7 @@ define([
                 };
                 var url = utils.url_path_join(that.base_url, 'api/terminals',
                     utils.encode_uri_components(name));
-                $.ajax(url, settings);
+                utils.ajax(url, settings);
                 return false;
             });
         item.find(".item_buttons").text("").append(shutdown_button);

@@ -63,16 +63,6 @@
  *        });
  *    });
  *
- * __Example 3:__
- *
- *  Use `jQuery.getScript(url [, success(script, textStatus, jqXHR)] );`
- *  to load custom script into the notebook.
- *
- *    // to load the metadata ui extension example.
- *    $.getScript('/static/notebook/js/celltoolbarpresets/example.js');
- *    // or
- *    // to load the metadata ui extension to control slideshow mode / reveal js for nbconvert
- *    $.getScript('/static/notebook/js/celltoolbarpresets/slideshow.js');
  *
  *
  * @module IPython

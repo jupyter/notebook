@@ -24,22 +24,20 @@ Installing Node.js and npm
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Building the Notebook from its GitHub source code requires some tools to
-create and minify JavaScript components and the CSS.
-Namely, that's Node.js and Node's package manager, ``npm``.
+create and minify JavaScript components and the CSS,
+specifically Node.js and Node's package manager, ``npm``.
+It should be node version ≥ 6.0.
 
 If you use ``conda``, you can get them with::
 
-    conda install -c javascript nodejs
+    conda install -c conda-forge nodejs
 
 If you use `Homebrew <http://brew.sh/>`_ on Mac OS X::
 
     brew install node
 
-For Debian/Ubuntu systems, you should use the ``nodejs-legacy`` package instead
-of the ``node`` package::
-
-    sudo apt-get update
-    sudo apt-get install nodejs-legacy npm
+Installation on Linux may vary, but be aware that the `nodejs` or `npm` packages
+included in the system package repository may be too old to work properly.
 
 You can also use the installer from the `Node.js website <https://nodejs.org>`_.
 
@@ -50,14 +48,13 @@ Installing the Jupyter Notebook
 Once you have installed the dependencies mentioned above, use the following
 steps::
 
-    pip install setuptools pip --upgrade --user
+    pip install --upgrade setuptools pip
     git clone https://github.com/jupyter/notebook
     cd notebook
-    pip install -e . --user
+    pip install -e .
 
-If you want the development environment to be available for all users of your
-system (assuming you have the necessary rights) or if you are installing in a
-virtual environment, just drop the ``--user`` option.
+If you are using a system-wide Python installation and you only want to install the notebook for you,
+you can add ``--user`` to the install commands.
 
 Once you have done this, you can launch the master branch of Jupyter notebook
 from any directory in your system with::
@@ -72,25 +69,28 @@ There is a build step for the JavaScript and CSS in the notebook.
 To make sure that you are working with up-to-date code, you will need to run
 this command whenever there are changes to JavaScript or LESS sources::
 
-    python setup.py js css
+    npm run build
 
-Prototyping Tip
+**IMPORTANT:** Don't forget to run ``npm run build`` after switching branches. 
+When switching between branches of different versions (e.g. ``4.x`` and 
+``master``), run ``pip install -e .``. If you have tried the above and still 
+find that the notebook is not reflecting the current source code, try cleaning
+the repo with ``git clean -xfd`` and reinstalling with ``pip install -e .``.
+
+Development Tip
 """""""""""""""
 
-When doing prototyping which needs quick iteration of the Notebook's
-JavaScript, run this in the root of the repository::
+When doing development, you can use this command to automatically rebuild 
+JavaScript and LESS sources as they are modified::
 
     npm run build:watch
-
-This will cause WebPack to monitor the files you edit and recompile them on the
-fly.
 
 Git Hooks
 """""""""
 
-If you want to automatically update dependencies, recompile the JavaScript, and
-recompile the CSS after checking out a new commit, you can install
-post-checkout and post-merge hooks which will do it for you::
+If you want to automatically update dependencies and recompile JavaScript and
+CSS after checking out a new commit, you can install post-checkout and 
+post-merge hooks which will do it for you::
 
     git-hooks/install-hooks.sh
 
@@ -105,7 +105,7 @@ Python Tests
 
 Install dependencies::
 
-    pip install -e .[test] --user
+    pip install -e .[test]
 
 To run the Python tests, use::
 
@@ -121,7 +121,7 @@ JavaScript Tests
 To run the JavaScript tests, you will need to have PhantomJS and CasperJS
 installed::
 
-    npm install -g casperjs phantomjs@1.9.18
+    npm install -g casperjs phantomjs-prebuilt
 
 Then, to run the JavaScript tests::
 
@@ -154,10 +154,9 @@ containing all the necessary packages (except pandoc), use::
 .. _conda environment:
     http://conda.pydata.org/docs/using/envs.html#use-environment-from-file
 
-If you want to install the necessary packages with ``pip`` instead, use
-(omitting --user if working in a virtual environment)::
+If you want to install the necessary packages with ``pip`` instead::
 
-    pip install -r docs/doc-requirements.txt --user
+    pip install -r docs/doc-requirements.txt
 
 Once you have installed the required packages, you can build the docs with::
 

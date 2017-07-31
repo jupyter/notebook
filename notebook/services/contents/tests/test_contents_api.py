@@ -50,12 +50,12 @@ def dirs_only(dir_model):
 
 class API(object):
     """Wrapper for contents API calls."""
-    def __init__(self, base_url):
-        self.base_url = base_url
+    def __init__(self, request):
+        self.request = request
 
     def _req(self, verb, path, body=None, params=None):
-        response = requests.request(verb,
-                url_path_join(self.base_url, 'api/contents', path),
+        response = self.request(verb,
+                url_path_join('api/contents', path),
                 data=body, params=params,
         )
         response.raise_for_status()
@@ -152,7 +152,7 @@ class APITest(NotebookTestBase):
         return u'%s text file' % name
     
     def to_os_path(self, api_path):
-        return to_os_path(api_path, root=self.notebook_dir.name)
+        return to_os_path(api_path, root=self.notebook_dir)
     
     def make_dir(self, api_path):
         """Create a directory at api_path"""
@@ -220,7 +220,7 @@ class APITest(NotebookTestBase):
             self.make_blob(blobname, blob)
             self.addCleanup(partial(self.delete_file, blobname))
 
-        self.api = API(self.base_url())
+        self.api = API(self.request)
 
     def test_list_notebooks(self):
         nbs = notebooks_only(self.api.list().json())
@@ -249,8 +249,8 @@ class APITest(NotebookTestBase):
         self.assertEqual(nbnames, expected)
 
         nbs = notebooks_only(self.api.list('ordering').json())
-        nbnames = [n['name'] for n in nbs]
-        expected = ['A.ipynb', 'b.ipynb', 'C.ipynb']
+        nbnames = {n['name'] for n in nbs}
+        expected = {'A.ipynb', 'b.ipynb', 'C.ipynb'}
         self.assertEqual(nbnames, expected)
 
     def test_list_dirs(self):

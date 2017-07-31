@@ -1,15 +1,15 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-__webpack_public_path__ = window['staticURL'] + 'terminal/js/built/';
-require('xterm/src/xterm.css');
 
 require([
+    'jquery',
     'base/js/utils',
     'base/js/page',
     'auth/js/loginwidget',
     'services/config',
     'terminal/js/terminado',
 ], function(
+    $,
     utils,
     page,
     loginwidget,
@@ -18,7 +18,7 @@ require([
     ){
     "use strict";
     requirejs(['custom/custom'], function() {});
-    page = new page.Page();
+    page = new page.Page('div#header', 'div#site');
 
     var common_options = {
         base_url : utils.get_body_data("baseUrl"),
@@ -36,7 +36,7 @@ require([
         // 1.02 here arrived at by trial and error to make the spacing look right
     var termColWidth =  function() { return 1.02 * $("#dummy-screen-rows")[0].offsetWidth / 80;};
 
-    var base_url = utils.get_body_data('baseUrl');
+    var base_url = utils.get_body_data('baseUrl').replace(/\/?$/, '/');
     var ws_path = utils.get_body_data('wsPath');
     var ws_url = utils.get_body_data('wsUrl');
     if (!ws_url) {

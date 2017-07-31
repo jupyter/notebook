@@ -2,8 +2,11 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/utils',
-], function(utils) {
+    'base/js/i18n',
+    'jquery-ui'
+], function($, utils, i18n) {
     "use strict";
 
     var Pager = function (pager_selector, options) {
@@ -30,7 +33,7 @@ define([
         var that = this;
         this.pager_button_area.append(
             $('<a>').attr('role', "button")
-                    .attr('title',"Open the pager in an external window")
+                    .attr('title',i18n.msg._("Open the pager in an external window"))
                     .addClass('ui-button')
                     .click(function(){that.detach();})
                     .append(
@@ -39,7 +42,7 @@ define([
         );
         this.pager_button_area.append(
             $('<a>').attr('role', "button")
-                    .attr('title',"Close the pager")
+                    .attr('title',i18n.msg._("Close the pager"))
                     .addClass('ui-button')
                     .click(function(){that.collapse();})
                     .append(
@@ -138,11 +141,11 @@ define([
         .append(
                 $('<link>')
                 .attr('rel',"stylesheet")
-                .attr('href',"/static/css/notebook.css")
+                .attr('href', utils.url_path_join(utils.get_body_data('baseUrl'), "static/style/style.min.css"))
                 .attr('type',"text/css")
         )
         .append(
-                $('<title>').text("Jupyter Pager")
+                $('<title>').text(i18n.msg._("Jupyter Pager"))
         );
         var pager_body = $(w.document.body);
         pager_body.css('overflow','scroll');

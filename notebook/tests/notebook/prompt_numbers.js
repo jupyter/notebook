@@ -21,16 +21,16 @@ casper.notebook_test(function () {
         var a = 'print("a")';
         var index = this.append_cell(a);
 
-        this.test.assertEquals(get_prompt(index), "In&nbsp;[&nbsp;]:", "prompt number is &nbsp; by default");
+        this.test.assertEquals(get_prompt(index), "<bdi>In</bdi>&nbsp;[&nbsp;]:", "prompt number is &nbsp; by default");
         set_prompt(index, 2);
-        this.test.assertEquals(get_prompt(index), "In&nbsp;[2]:", "prompt number is 2");
+        this.test.assertEquals(get_prompt(index), "<bdi>In</bdi>&nbsp;[2]:", "prompt number is 2");
         set_prompt(index, 0);
-        this.test.assertEquals(get_prompt(index), "In&nbsp;[0]:", "prompt number is 0");
+        this.test.assertEquals(get_prompt(index), "<bdi>In</bdi>&nbsp;[0]:", "prompt number is 0");
         set_prompt(index, "*");
-        this.test.assertEquals(get_prompt(index), "In&nbsp;[*]:", "prompt number is *");
+        this.test.assertEquals(get_prompt(index), "<bdi>In</bdi>&nbsp;[*]:", "prompt number is *");
         set_prompt(index, undefined);
-        this.test.assertEquals(get_prompt(index), "In&nbsp;[&nbsp;]:", "prompt number is &nbsp;");
+        this.test.assertEquals(get_prompt(index), "<bdi>In</bdi>&nbsp;[&nbsp;]:", "prompt number is &nbsp;");
         set_prompt(index, null);
-        this.test.assertEquals(get_prompt(index), "In&nbsp;[&nbsp;]:", "prompt number is &nbsp;");
+        this.test.assertEquals(get_prompt(index), "<bdi>In</bdi>&nbsp;[&nbsp;]:", "prompt number is &nbsp;");
     });
 });

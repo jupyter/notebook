@@ -1,10 +1,18 @@
 """Test NotebookApp"""
 
-
+import getpass
 import logging
 import os
 import re
+import signal
+from subprocess import Popen, PIPE, STDOUT
+import sys
 from tempfile import NamedTemporaryFile
+
+try:
+    from unittest.mock import patch
+except ImportError:
+    from mock import patch # py2
 
 import nose.tools as nt
 
@@ -14,7 +22,7 @@ from jupyter_core.application import NoStart
 from ipython_genutils.tempdir import TemporaryDirectory
 from traitlets import TraitError
 from notebook import notebookapp, __version__
-from notebook import notebookapp
+from notebook.auth.security import passwd_check
 NotebookApp = notebookapp.NotebookApp
 
 
@@ -117,3 +125,52 @@ def raise_on_bad_version(version):
 
 def test_current_version():
     raise_on_bad_version(__version__)
+
+def test_notebook_password():
+    password = 'secret'
+    with TemporaryDirectory() as td:
+        with patch.dict('os.environ', {
+            'JUPYTER_CONFIG_DIR': td,
+        }), patch.object(getpass, 'getpass', return_value=password):
+            app = notebookapp.NotebookPasswordApp(log_level=logging.ERROR)
+            app.initialize([])
+            app.start()
+            nb = NotebookApp()
+            nb.load_config_file()
+            nt.assert_not_equal(nb.password, '')
+            passwd_check(nb.password, password)
+
+
+def test_notebook_stop():
+    def list_running_servers(runtime_dir):
+        for port in range(100, 110):
+            yield {
+                'pid': 1000 + port,
+                'port': port,
+                'base_url': '/',
+                'hostname': 'localhost',
+                'notebook_dir': '/',
+                'secure': False,
+                'token': '',
+                'password': False,
+                'url': 'http://localhost:%i' % port,
+            }
+
+    mock_servers = patch('notebook.notebookapp.list_running_servers', list_running_servers)
+
+    # test stop with a match
+    with mock_servers, patch('os.kill') as os_kill:
+        app = notebookapp.NbserverStopApp()
+        app.initialize(['105'])
+        app.start()
+    nt.assert_equal(os_kill.call_count, 1)
+    nt.assert_equal(os_kill.call_args, ((1105, signal.SIGTERM),))
+
+    # test no match
+    with mock_servers, patch('os.kill') as os_kill:
+        app = notebookapp.NbserverStopApp()
+        app.initialize(['999'])
+        with nt.assert_raises(SystemExit) as exc:
+            app.start()
+        nt.assert_equal(exc.exception.code, 1)
+    nt.assert_equal(os_kill.call_count, 0)

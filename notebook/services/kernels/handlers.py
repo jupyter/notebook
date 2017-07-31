@@ -31,7 +31,7 @@ class MainKernelHandler(APIHandler):
     def get(self):
         km = self.kernel_manager
         kernels = yield gen.maybe_future(km.list_kernels())
-        self.finish(json.dumps(kernels))
+        self.finish(json.dumps(kernels, default=date_default))
 
     @json_errors
     @web.authenticated
@@ -51,7 +51,7 @@ class MainKernelHandler(APIHandler):
         location = url_path_join(self.base_url, 'api', 'kernels', url_escape(kernel_id))
         self.set_header('Location', location)
         self.set_status(201)
-        self.finish(json.dumps(model))
+        self.finish(json.dumps(model, default=date_default))
 
 
 class KernelHandler(APIHandler):
@@ -62,7 +62,7 @@ class KernelHandler(APIHandler):
         km = self.kernel_manager
         km._check_kernel_id(kernel_id)
         model = km.kernel_model(kernel_id)
-        self.finish(json.dumps(model))
+        self.finish(json.dumps(model, default=date_default))
 
     @json_errors
     @web.authenticated
@@ -93,7 +93,7 @@ class KernelActionHandler(APIHandler):
                 self.set_status(500)
             else:
                 model = km.kernel_model(kernel_id)
-                self.write(json.dumps(model))
+                self.write(json.dumps(model, default=date_default))
         self.finish()
 
 
@@ -260,6 +260,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
     
     def open(self, kernel_id):
         super(ZMQChannelsHandler, self).open()
+        self.kernel_manager.notify_connect(kernel_id)
         try:
             self.create_stream()
         except web.HTTPError as e:
@@ -335,7 +336,10 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
 
             # Increment the bytes and message count
             self._iopub_window_msg_count += 1
-            byte_count = sum([len(x) for x in msg_list])
+            if msg_type == 'stream':
+                byte_count = sum([len(x) for x in msg_list])
+            else:
+                byte_count = 0
             self._iopub_window_byte_count += byte_count
             
             # Queue a removal of the byte and message count for a time in the 
@@ -356,7 +360,12 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                     The notebook server will temporarily stop sending output
                     to the client in order to avoid crashing it.
                     To change this limit, set the config variable
-                    `--NotebookApp.iopub_msg_rate_limit`."""))
+                    `--NotebookApp.iopub_msg_rate_limit`.
+                    
+                    Current values:
+                    NotebookApp.iopub_msg_rate_limit={} (msgs/sec)
+                    NotebookApp.rate_limit_window={} (secs)
+                    """.format(self.iopub_msg_rate_limit, self.rate_limit_window)))
             else:
                 # resume once we've got some headroom below the limit
                 if self._iopub_msgs_exceeded and msg_rate < (0.8 * self.iopub_msg_rate_limit):
@@ -373,7 +382,12 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                     The notebook server will temporarily stop sending output
                     to the client in order to avoid crashing it.
                     To change this limit, set the config variable
-                    `--NotebookApp.iopub_data_rate_limit`."""))
+                    `--NotebookApp.iopub_data_rate_limit`.
+                    
+                    Current values:
+                    NotebookApp.iopub_data_rate_limit={} (bytes/sec)
+                    NotebookApp.rate_limit_window={} (secs)
+                    """.format(self.iopub_data_rate_limit, self.rate_limit_window)))
             else:
                 # resume once we've got some headroom below the limit
                 if self._iopub_data_exceeded and data_rate < (0.8 * self.iopub_data_rate_limit):
@@ -401,6 +415,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             self._open_sessions.pop(self.session_key)
         km = self.kernel_manager
         if self.kernel_id in km:
+            km.notify_disconnect(self.kernel_id)
             km.remove_restart_callback(
                 self.kernel_id, self.on_kernel_restarted,
             )

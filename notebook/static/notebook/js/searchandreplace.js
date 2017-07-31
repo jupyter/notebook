@@ -1,7 +1,9 @@
-define(function(require){
+define([
+    'jquery',
+    'base/js/dialog',
+    'base/js/i18n'
+], function($, dialog, i18n){
   "use strict";
-
-  var dialog = require('base/js/dialog');
 
   /**
    * escape a Regular expression to act as  a pure search string.
@@ -66,9 +68,11 @@ define(function(require){
   var build_preview = function(body, aborted, html, replace){
     body.empty();
     if(aborted){
-      body.append($('<p/>').addClass('bg-warning').text("Warning, too many matches ("+html.length+"+), some changes might not be shown or applied"));
+      var warnmsg = i18n.msg.sprintf(i18n.msg._("Warning: too many matches (%d). Some changes might not be shown or applied."),html.length);
+      body.append($('<p/>').addClass('bg-warning').text(warnmsg));
     } else {
-      body.append($('<p/>').text(html.length+" match"+(html.length==1?'':'es')));
+      var matchmsg = i18n.msg.sprintf(i18n.msg.ngettext("%d match","%d matches",html.length),html.length);
+      body.append($('<p/>').text(matchmsg));
     }
     for(var rindex=0; rindex<html.length; rindex++){
       var pre = $('<pre/>')
@@ -134,7 +138,7 @@ define(function(require){
         res.push([match.index, match.index+match[0].length]);
         escape_hatch++;
         if(escape_hatch > 100){
-          console.warn("More than 100 matches, aborting");
+          console.warn(i18n.msg._("More than 100 matches, aborting"));
           abort = true;
           break;
         }
@@ -154,28 +158,28 @@ define(function(require){
       .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
       .css('font-weight', 'bold')
-      .attr('title', 'Use regex (JavaScript regex syntax)')
+      .attr('title', i18n.msg._('Use regex (JavaScript regex syntax)'))
       .text('.*');
 
-      var onlySelectedButton = $('<button/>')
-      .append($('<i/>').addClass('fa fa-align-left'))
+      var allCellsButton = $('<button/>')
+      .append($('<i/>').addClass('fa fa-arrows-v'))
       .attr('type', 'button')
       .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
-      .attr('title', 'Replace in selected cells');
+      .attr('title', i18n.msg._('Replace in selected cells'));
 
     var isCaseSensitiveButton = $('<button/>')
       .attr('type', 'button')
       .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
       .attr('tabindex', '0')
-      .attr('title', 'Match case')
+      .attr('title', i18n.msg._('Match case'))
       .css('font-weight', 'bold')
       .text('Aa');
      
     var search  = $("<input/>")
       .addClass('form-control input-sm')
-      .attr('placeholder','Find');
+      .attr('placeholder',i18n.msg._('Find'));
 
     var findFormGroup = $('<div/>').addClass('form-group');
     findFormGroup.append(
@@ -184,14 +188,14 @@ define(function(require){
             $('<div/>').addClass('input-group-btn')
                 .append(isCaseSensitiveButton)
                 .append(isRegExpButton)
-                .append(onlySelectedButton)
+                .append(allCellsButton)
         )
         .append(search)
     )
 
     var replace = $("<input/>")
       .addClass('form-control input-sm')
-      .attr('placeholder','Replace');
+      .attr('placeholder',i18n.msg._('Replace'));
     var replaceFormGroup = $('<div/>').addClass('form-group');
     replaceFormGroup.append(replace);
 
@@ -215,8 +219,8 @@ define(function(require){
       return value;
     };
 
-    var onlySelected = function(){
-      return (onlySelectedButton.attr('aria-pressed') == 'true');
+    var allCells = function(){
+      return (allCellsButton.attr('aria-pressed') == 'true');
     };
 
 
@@ -237,14 +241,14 @@ define(function(require){
 
     var onError = function(body){
       body.empty();
-      body.append($('<p/>').text('No matches, invalid or empty regular expression'));
+      body.append($('<p/>').text(i18n.msg._('No matches, invalid or empty regular expression')));
     };
 
     var get_cells = function(env){
-      if(onlySelected()){
-        return env.notebook.get_selected_cells();
-      } else {
+      if(allCells()){
         return env.notebook.get_cells();
+      } else {
+        return env.notebook.get_selected_cells();
       }
     };
 
@@ -323,7 +327,7 @@ define(function(require){
       setTimeout(function(){onChange();}, 100);
     });
 
-    onlySelectedButton.click(function(){
+    allCellsButton.click(function(){
       replace.focus();
       setTimeout(function(){onChange();}, 100);
     });
@@ -338,10 +342,14 @@ define(function(require){
     search.on('input', onChange);
     replace.on('input',  onChange);
 
+    // This statement is used simply so that message extraction
+    // will pick up the strings.  The actual setting of the text
+    // for the button is in dialog.js.
+    var button_labels = [ i18n.msg._("Replace All")];
 
     var mod = dialog.modal({
       show: false,
-      title: "Find and Replace",
+      title: i18n.msg._("Find and Replace"),
       body:form,
       keyboard_manager: env.notebook.keyboard_manager,
       buttons:{
@@ -366,7 +374,8 @@ define(function(require){
 
   var load = function(keyboard_manager){
     var action_all = {
-        help: 'find and replace',
+        cmd: i18n.msg._('find and replace'),
+        help: i18n.msg._('find and replace'),
         handler: function(env, event){
           snr(env, event);
         }

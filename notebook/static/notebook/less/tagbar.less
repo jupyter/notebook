@@ -1,0 +1,72 @@
+
+
+.tags_button_container {
+    width: 100%;
+    display: flex;
+}
+
+.tag-container {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.tag-container > * {
+    margin: 0 4px;
+}
+
+.remove-tag-btn {
+    margin-left: 4px;
+}
+
+.tags-input {
+    display: flex;
+}
+
+.cell-tag:last-child:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    /* Fade to background color of cell toolbar */
+    background: linear-gradient(to right, rgba(0,0,0,0), #EEE);
+}
+
+.tags-input > * {
+    margin-left: 4px;
+}
+
+.cell-tag,
+.tags-input input,
+.tags-input button {
+    .form-control();
+    .input-sm();
+    // undo some of the sizing caused by the above mixins
+    box-shadow: none;
+    width: inherit;
+    font-size: inherit;
+    height: 22px;
+    line-height: 22px;
+    padding: 0px 4px;
+
+    display: inline-block;
+}
+
+.cell-tag,
+.tags-input button {
+    padding: 0px 4px;
+}
+
+.cell-tag {
+    background-color: #fff;
+    white-space: nowrap;
+}
+
+.tags-input input[type=text]:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: #ccc;
+}

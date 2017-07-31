@@ -2,10 +2,12 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'require',
     './toolbar',
-    './celltoolbar'
-], function(require, toolbar, celltoolbar) {
+    './celltoolbar',
+    'base/js/i18n'
+], function($, require, toolbar, celltoolbar, i18n) {
     "use strict";
 
     var MainToolBar = function (selector, options) {
@@ -48,41 +50,20 @@ define([
              'jupyter-notebook:move-cell-down'
             ],
             'move_up_down'],
-          [ ['jupyter-notebook:run-cell-and-select-next',
+          [ [new toolbar.Button('jupyter-notebook:run-cell-and-select-next',
+                {label: i18n.msg._('Run')}),
              'jupyter-notebook:interrupt-kernel',
              'jupyter-notebook:confirm-restart-kernel'
             ],
             'run_int'],
          ['<add_celltype_list>'],
-         [['jupyter-notebook:show-command-palette']],
-         ['<add_celltoolbar_reminder>']
+         [['jupyter-notebook:show-command-palette']]
         ];
         this.construct(grps);
     };
    
     MainToolBar.prototype._pseudo_actions = {};
 
-
-    // reminder of where the celltoolbar new menu is, remove for 5.0
-    MainToolBar.prototype._pseudo_actions.add_celltoolbar_reminder = function () {
-        var _b = $('<button/>').attr('title','show new celltoolbar selector location').addClass('btn btn-default').text('CellToolbar')
-        var btn = $('<div/>').addClass('btn-group').append(_b)
-
-        _b.on('click', function(){
-            setTimeout(function(){$('#view_menu').parent().addClass('pulse')},0) 
-            setTimeout(function(){$('#view_menu').parent().addClass('open')},1000) 
-            setTimeout(function(){$('#menu-cell-toolbar').children('a').addClass('pulse')},2000)
-            setTimeout(function(){$('#menu-cell-toolbar').children('ul').css('display','block')},3000)
-            setTimeout(function(){$('#menu-cell-toolbar').children('ul').css('display','')},5400)
-            setTimeout(function(){$('#menu-cell-toolbar').children('a').removeClass('pulse')},5600)
-            setTimeout(function(){$('#view_menu').parent().removeClass('open')},5800)
-            setTimeout(function(){$('#view_menu').parent().removeClass('pulse')},6000)
-        })
-
-        return btn;
-    };
-
-    
     // add a cell type drop down to the maintoolbar.
     // triggered when the pseudo action `<add_celltype_list>` is
     // encountered when building a toolbar.
@@ -92,10 +73,10 @@ define([
         var sel = $('<select/>')
             .attr('id','cell_type')
             .addClass('form-control select-xs')
-            .append($('<option/>').attr('value','code').text('Code'))
-            .append($('<option/>').attr('value','markdown').text('Markdown'))
-            .append($('<option/>').attr('value','raw').text('Raw NBConvert'))
-            .append($('<option/>').attr('value','heading').text('Heading'))
+            .append($('<option/>').attr('value','code').text(i18n.msg._('Code')))
+            .append($('<option/>').attr('value','markdown').text(i18n.msg._('Markdown')))
+            .append($('<option/>').attr('value','raw').text(i18n.msg._('Raw NBConvert')))
+            .append($('<option/>').attr('value','heading').text(i18n.msg._('Heading')))
             .append(multiselect);
         this.notebook.keyboard_manager.register_events(sel);
         this.events.on('selected_cell_type_changed.Notebook', function (event, data) {
@@ -131,7 +112,7 @@ define([
             case 'multiselect':
                 break;
             default:
-                console.log("unrecognized cell type:", cell_type);
+                console.log(i18n.msg._("unrecognized cell type:"), cell_type);
             }
             that.notebook.focus_cell();
         });

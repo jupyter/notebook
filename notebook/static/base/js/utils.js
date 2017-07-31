@@ -2,12 +2,13 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'codemirror/lib/codemirror',
     'moment',
     'underscore',
     // silently upgrades CodeMirror
     'codemirror/mode/meta',
-], function(CodeMirror, moment, _){
+], function($, CodeMirror, moment, _){
     "use strict";
     
     // keep track of which extensions have been loaded already
@@ -34,7 +35,7 @@ define([
             requirejs([ext_path], function(module) {
                 if (!is_loaded(extension)) {
                     console.log("Loading extension: " + extension);
-                    if (module.load_ipython_extension) {
+                    if (module && module.load_ipython_extension) {
                         Promise.resolve(module.load_ipython_extension()).then(function() {
                             resolve(module);
                         }).catch(reject);
@@ -281,6 +282,8 @@ define([
         var fg = [];
         var bg = [];
         var bold = false;
+        var underline = false;
+        var inverse = false;
         var match;
         var out = [];
         var numbers = [];
@@ -329,6 +332,14 @@ define([
                     classes.push("ansi-bold");
                 }
 
+                if (underline) {
+                    classes.push("ansi-underline");
+                }
+
+                if (inverse) {
+                    classes.push("ansi-inverse");
+                }
+
                 if (classes.length || styles.length) {
                     out.push("<span");
                     if (classes.length) {
@@ -352,10 +363,18 @@ define([
                     case 0:
                         fg = bg = [];
                         bold = false;
+                        underline = false;
+                        inverse = false;
                         break;
                     case 1:
                     case 5:
                         bold = true;
+                        break;
+                    case 4:
+                        underline = true;
+                        break;
+                    case 7:
+                        inverse = true;
                         break;
                     case 21:
                     case 22:
@@ -445,11 +464,11 @@ define([
     // carriage return characters
     function fixCarriageReturn(txt) {
         txt = txt.replace(/\r+\n/gm, '\n'); // \r followed by \n --> newline
-        while (txt.search(/\r/g) > -1) {
-            var base = txt.match(/^.*\r+/m)[0].replace(/\r/, '');
-            var insert = txt.match(/\r+.*$/m)[0].replace(/\r/, '');
+        while (txt.search(/\r[^$]/g) > -1) {
+            var base = txt.match(/^(.*)\r+/m)[1];
+            var insert = txt.match(/\r+(.*)$/m)[1];
             insert = insert + base.slice(insert.length, base.length);
-            txt = txt.replace(/\r+.*$/m, '\r').replace(/^.*\r+/m, insert);
+            txt = txt.replace(/\r+.*$/m, '\r').replace(/^.*\r/m, insert);
         }
         return txt;
     }
@@ -596,14 +615,14 @@ define([
          * until we are building an actual request
          */
         var val = $('body').data(key);
-        if (!val)
+        if (typeof val === 'undefined')
             return val;
         return decodeURIComponent(val);
     };
     
     var to_absolute_cursor_pos = function (cm, cursor) {
         console.warn('`utils.to_absolute_cursor_pos(cm, pos)` is deprecated. Use `cm.indexFromPos(cursor)`');
-        return cm.indexFromPos(cusrsor);
+        return cm.indexFromPos(cursor);
     };
     
     var from_absolute_cursor_pos = function (cm, cursor_pos) {
@@ -752,6 +771,41 @@ define([
         return wrapped_error;
     };
     
+    var ajax = function (url, settings) {
+        // like $.ajax, but ensure XSRF or Authorization header is set
+        if (typeof url === "object") {
+            // called with single argument: $.ajax({url: '...'})
+            settings = url;
+            url = settings.url;
+            delete settings.url;
+        }
+        settings = _add_auth_header(settings);
+        return $.ajax(url, settings);
+    };
+    
+    var _get_cookie = function (name) {
+        // from tornado docs: http://www.tornadoweb.org/en/stable/guide/security.html
+        var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+        return r ? r[1] : undefined;
+    }
+
+    var _add_auth_header = function (settings) {
+        /**
+         * Adds auth header to jquery ajax settings
+         */
+        settings = settings || {};
+        if (!settings.headers) {
+            settings.headers = {};
+        }
+        if (!settings.headers.Authorization) {
+            var xsrf_token = _get_cookie('_xsrf');
+            if (xsrf_token) {
+                settings.headers['X-XSRFToken'] = xsrf_token;
+            }
+        }
+        return settings;
+    };
+
     var promising_ajax = function(url, settings) {
         /**
          * Like $.ajax, but returning an ES6 promise. success and error settings
@@ -766,7 +820,7 @@ define([
                 log_ajax_error(jqXHR, status, error);
                 reject(wrap_ajax_error(jqXHR, status, error));
             };
-            $.ajax(url, settings);
+            ajax(url, settings);
         });
     };
 
@@ -888,7 +942,10 @@ define([
         }
         return $el.map(function(){
             // MathJax takes a DOM node: $.map makes `this` the context
-            return MathJax.Hub.Queue(["Typeset", MathJax.Hub, this]);
+            return MathJax.Hub.Queue(
+                ["Typeset", MathJax.Hub, this],
+                ["resetEquationNumbers",MathJax.InputJax.TeX]
+            );
         });
     };
 
@@ -963,6 +1020,50 @@ define([
         }
     };
 
+
+    // javascript stores text as utf16 and string indices use "code units",
+    // which stores high-codepoint characters as "surrogate pairs",
+    // which occupy two indices in the javascript string.
+    // We need to translate cursor_pos in the protocol (in characters)
+    // to js offset (with surrogate pairs taking two spots).
+    function js_idx_to_char_idx (js_idx, text) {
+        var char_idx = js_idx;
+        for (var i = 0; i + 1 < text.length && i < js_idx; i++) {
+            var char_code = text.charCodeAt(i);
+            // check for surrogate pair
+            if (char_code >= 0xD800 && char_code <= 0xDBFF) {
+                var next_char_code = text.charCodeAt(i+1);
+                if (next_char_code >= 0xDC00 && next_char_code <= 0xDFFF) {
+                    char_idx--;
+                    i++;
+                }
+            }
+        }
+        return char_idx;
+    }
+
+    function char_idx_to_js_idx (char_idx, text) {
+        var js_idx = char_idx;
+        for (var i = 0; i + 1 < text.length && i < js_idx; i++) {
+            var char_code = text.charCodeAt(i);
+            // check for surrogate pair
+            if (char_code >= 0xD800 && char_code <= 0xDBFF) {
+                var next_char_code = text.charCodeAt(i+1);
+                if (next_char_code >= 0xDC00 && next_char_code <= 0xDFFF) {
+                    js_idx++;
+                    i++;
+                }
+            }
+        }
+        return js_idx;
+    }
+
+    if ('𝐚'.length === 1) {
+        // If javascript fixes string indices of non-BMP characters,
+        // don't keep shifting offsets to compensate for surrogate pairs
+        char_idx_to_js_idx = js_idx_to_char_idx = function (idx, text) { return idx; };
+    }
+
     // Test if a drag'n'drop event contains a file (as opposed to an HTML
     // element/text from the document)
     var dnd_contain_file = function(event) {
@@ -979,7 +1080,42 @@ define([
         return false;
     };
 
+    var throttle = function(fn, time) {
+      var pending = null;
+
+      return function () {
+        if (pending) return;
+        pending = setTimeout(run, time);
+
+        return function () {
+          clearTimeout(pending);
+          pending = null;
+        }
+      }
+
+      function run () {
+        pending = null;
+        fn();
+      }
+    }
+    
+    var change_favicon = function (src) {
+        var link = document.createElement('link'),
+            oldLink = document.getElementById('favicon');
+        link.id = 'favicon';
+        link.type = 'image/x-icon';
+        link.rel = 'shortcut icon';
+        link.href = utils.url_path_join(utils.get_body_data('baseUrl'), src);
+        if (oldLink && (link.href === oldLink.href)) {
+            // This favicon is already set, don't modify the DOM.
+            return;
+        }
+        if (oldLink) document.head.removeChild(oldLink);
+        document.head.appendChild(link);
+    };
+
     var utils = {
+        throttle: throttle,
         is_loaded: is_loaded,
         load_extension: load_extension,
         load_extensions: load_extensions,
@@ -1010,10 +1146,11 @@ define([
         is_or_has : is_or_has,
         is_focused : is_focused,
         mergeopt: mergeopt,
-        ajax_error_msg : ajax_error_msg,
-        log_ajax_error : log_ajax_error,
         requireCodeMirrorMode : requireCodeMirrorMode,
         XHR_ERROR : XHR_ERROR,
+        ajax : ajax,
+        ajax_error_msg : ajax_error_msg,
+        log_ajax_error : log_ajax_error,
         wrap_ajax_error : wrap_ajax_error,
         promising_ajax : promising_ajax,
         WrappedError: WrappedError,
@@ -1026,7 +1163,10 @@ define([
         format_datetime: format_datetime,
         datetime_sort_helper: datetime_sort_helper,
         dnd_contain_file: dnd_contain_file,
-        _ansispan:_ansispan
+        js_idx_to_char_idx: js_idx_to_char_idx,
+        char_idx_to_js_idx: char_idx_to_js_idx,
+        _ansispan:_ansispan,
+        change_favicon: change_favicon
     };
 
     return utils;

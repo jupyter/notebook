@@ -2,11 +2,12 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/utils',
     './comm',
     './serialize',
     'base/js/events'
-], function(utils, comm, serialize, events) {
+], function($, utils, comm, serialize, events) {
     "use strict";
 
     /**
@@ -29,6 +30,7 @@ define([
         this.id = null;
         this.name = name;
         this.ws = null;
+        this._stopping = false;
 
         this.kernel_service_url = kernel_service_url;
         this.kernel_url = null;
@@ -78,7 +80,7 @@ define([
                 username : this.username,
                 session : this.session_id,
                 msg_type : msg_type,
-                version : "5.0"
+                version : "5.2",
             },
             metadata : metadata || {},
             content : content,
@@ -152,7 +154,7 @@ define([
      * @param {function} [error] - functon executed on ajax error
      */
     Kernel.prototype.list = function (success, error) {
-        $.ajax(this.kernel_service_url, {
+        utils.ajax(this.kernel_service_url, {
             processData: false,
             cache: false,
             type: "GET",
@@ -194,7 +196,7 @@ define([
             }
         };
 
-        $.ajax(url, {
+        utils.ajax(url, {
             processData: false,
             cache: false,
             type: "POST",
@@ -218,7 +220,7 @@ define([
      * @param {function} [error] - functon executed on ajax error
      */
     Kernel.prototype.get_info = function (success, error) {
-        $.ajax(this.kernel_url, {
+        utils.ajax(this.kernel_url, {
             processData: false,
             cache: false,
             type: "GET",
@@ -244,7 +246,7 @@ define([
     Kernel.prototype.kill = function (success, error) {
         this.events.trigger('kernel_killed.Kernel', {kernel: this});
         this._kernel_dead();
-        $.ajax(this.kernel_url, {
+        utils.ajax(this.kernel_url, {
             processData: false,
             cache: false,
             type: "DELETE",
@@ -278,7 +280,7 @@ define([
         };
 
         var url = utils.url_path_join(this.kernel_url, 'interrupt');
-        $.ajax(url, {
+        utils.ajax(url, {
             processData: false,
             cache: false,
             type: "POST",
@@ -315,7 +317,7 @@ define([
         };
 
         var on_error = function (xhr, status, err) {
-            that.events.trigger('kernel_dead.Kernel', {kernel: that});
+            that.events.trigger('kernel_failed_restart.Kernel', {kernel: that});
             that._kernel_dead();
             if (error) {
                 error(xhr, status, err);
@@ -323,7 +325,7 @@ define([
         };
 
         var url = utils.url_path_join(this.kernel_url, 'restart');
-        $.ajax(url, {
+        utils.ajax(url, {
             processData: false,
             cache: false,
             type: "POST",
@@ -506,7 +508,7 @@ define([
         this.ws.onerror = ws_error;
         // switch from early-close to late-close message after 1s
         setTimeout(function() {
-            if (that.ws !== null) {
+            if (that.ws !== null && !that._stopping) {
                 that.ws.onclose = ws_closed_late;
             }
         }, 1000);
@@ -577,11 +579,14 @@ define([
          */
         var that = this;
         var close = function () {
+            that._stopping = false;
             if (that.ws && that.ws.readyState === WebSocket.CLOSED) {
                 that.ws = null;
             }
         };
         if (this.ws !== null) {
+            // flag to avoid races with on_close_late
+            this._stopping = true;
             if (this.ws.readyState === WebSocket.OPEN) {
                 this.ws.onclose = close;
                 this.ws.close();
@@ -935,6 +940,7 @@ define([
                 this.clear_callbacks_for_msg(msg_id);
             }
         }
+        this.events.trigger('finished_iopub.Kernel', {kernel: this, msg_id: msg_id});
     };
     
     /**
@@ -978,7 +984,7 @@ define([
      */
     Kernel.prototype.output_callback_overrides_push = function(msg_id, callback_id) {
         var output_callbacks = this._msg_callbacks_overrides[msg_id];
-        if (output_callbacks === void 0) {
+        if (!output_callbacks) {
             this._msg_callbacks_overrides[msg_id] = output_callbacks = [];
         }
         output_callbacks.push(callback_id);

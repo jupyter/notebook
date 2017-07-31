@@ -33,3 +33,6 @@ src
 Read the Docs
 config.rst
 
+/.project
+/.pydevproject
+

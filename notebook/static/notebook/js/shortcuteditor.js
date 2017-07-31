@@ -1,12 +1,21 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
+define([
+    "jquery",
+    "notebook/js/quickhelp",
+    "base/js/dialog",
+    "components/marked/lib/marked"
+], function (
+    $,
+    QH,
+    dialog,
+    marked
+) {
+    var render = preact.render;
+    var createClass = preactCompat.createClass;
+    var createElement = preactCompat.createElement;
 
-import QH from "notebook/js/quickhelp";
-import dialog from "base/js/dialog";
-import {render} from "preact";
-import {createElement, createClass} from "preact-compat";
-import marked from 'components/marked/lib/marked';
 
 /**
  * Humanize the action name to be consumed by user.
@@ -14,7 +23,7 @@ import marked from 'components/marked/lib/marked';
  * <namespace>:<description-with-dashes>
  * we drop <namespace> and replace dashes for space.
  */
-const humanize_action_id = function(str) {
+var humanize_action_id = function(str) {
   return str.split(':')[1].replace(/-/g, ' ').replace(/_/g, '-');
 };
 
@@ -24,7 +33,7 @@ const humanize_action_id = function(str) {
  * Wether an action have a keybinding or not.
  **/
 
-const KeyBinding = createClass({
+var KeyBinding = createClass({
   displayName: 'KeyBindings',
   getInitialState: function() {
     return {shrt:''};
@@ -33,41 +42,48 @@ const KeyBinding = createClass({
     this.setState({shrt:element.target.value});
   },
   render: function(){
-    const that = this;
-    const available = this.props.available(this.state.shrt);
-    const empty = (this.state.shrt === '');
-    return createElement('div', {className:'jupyter-keybindings'},
+    var that = this;
+    var available = this.props.available(this.state.shrt);
+    var empty = (this.state.shrt === '');
+    var binding_setter = function(){
+      if (available) { 
+        that.props.onAddBindings(that.state.shrt, that.props.ckey);
+      }
+      that.state.shrt='';
+      return false;
+    };
+    return createElement('form', {className:'jupyter-keybindings',
+            onSubmit: binding_setter
+        },
               createElement('i', {className: "pull-right fa fa-plus", alt: 'add-keyboard-shortcut',
-                  onClick:()=>{
-                      available?that.props.onAddBindings(that.state.shrt, that.props.ckey):null;
-                      that.state.shrt='';
-                  }
+                  onClick: binding_setter
               }),
               createElement('input', {
                                       type:'text', 
                                placeholder:'add shortcut', 
                                  className:'pull-right'+((available||empty)?'':' alert alert-danger'),
-                                     value:this.state.shrt,
-                                  onChange:this.handleShrtChange
+                                     value:that.state.shrt,
+                                  onChange:that.handleShrtChange
               }),
-              this.props.shortcuts?this.props.shortcuts.map((item, index) => {
+              that.props.shortcuts ? that.props.shortcuts.map(function (item, index) {
                 return createElement('span', {className: 'pull-right'},
                   createElement('kbd', {}, [
                     item.h,
                     createElement('i', {className: "fa fa-times", alt: 'remove '+item.h,
-                      onClick:()=>{
+                      onClick:function () {
                         that.props.unbind(item.raw);
                       }
                     })
                   ])
                 );
-              }):null,
-              createElement('div', {title: '(' +this.props.ckey + ')' , className:'jupyter-keybindings-text'}, this.props.display )
+              }): null,
+              createElement('div', {title: '(' + that.props.ckey + ')' ,
+                className:'jupyter-keybindings-text'}, that.props.display )
       );
   }
 });
 
-const KeyBindingList = createClass({
+var KeyBindingList = createClass({
   displayName: 'KeyBindingList',
   getInitialState: function(){
     return {data:[]};
@@ -76,51 +92,94 @@ const KeyBindingList = createClass({
       this.setState({data:this.props.callback()});
   },
   render: function() {
-      const childrens = this.state.data.map((binding)=>{
-          return createElement(KeyBinding, Object.assign({}, binding, {onAddBindings:(shortcut, action)=>{
-              this.props.bind(shortcut, action);
-              this.setState({data:this.props.callback()});
+      var that = this;
+      var children = this.state.data.map(function (binding) {
+          return createElement(KeyBinding, Object.assign({}, binding, {
+          onAddBindings: function (shortcut, action) {
+              that.props.bind(shortcut, action);
+              that.setState({data:that.props.callback()});
           },
-          available:this.props.available, 
-          unbind: (shortcut) => {
-                  this.props.unbind(shortcut);
-                  this.setState({data:this.props.callback()});
+          available: that.props.available,
+          unbind: function (shortcut) {
+                  that.props.unbind(shortcut);
+                  that.setState({data:that.props.callback()});
              }
           }));
       });
-      childrens.unshift(createElement('div', {className:'well', key:'disclamer', dangerouslySetInnerHTML:
+      children.unshift(createElement('div', {className:'well', key:'disclamer', id:'short-key-binding-intro', dangerouslySetInnerHTML:
             {__html: 
             marked(
-            
-            "This dialog allows you to modify the keymap of the command mode, and persist the changes. "+
-            "You can define many type of shorctuts and sequences of keys. "+
-            "\n\n"+
-            " - Use dashes `-` to represent keys that should be pressed with modifiers, "+
-            "for example `Shift-a`, or `Ctrl-;`. \n"+
-            " - Separate by commas if the keys need to be pressed in sequence: `h,a,l,t`.\n"+
-            "\n\nYou can combine the two: `Ctrl-x,Meta-c,Meta-b,u,t,t,e,r,f,l,y`.\n"+
-            "Casing will have no effects: (e.g: `;` and `:` are the same on english keyboards)."+
-            " You need to explicitelty write the `Shift` modifier.\n"+
-            "Valid modifiers are `Cmd`, `Ctrl`, `Alt` ,`Meta`, `Cmdtrl`. Refer to developper docs "+
-            "for their signification depending on the platform."
+
+            "Here you can modify the keyboard shortcuts available in "+
+            "command mode. Your changes will be stored for later sessions. "+
+            "See more [**details of defining keyboard shortcuts**](#long-key-binding-intro) below."
             )}
       }));
-      return createElement('div',{}, childrens);
+      children.push(createElement('div', {className:'well', key:'disclamer', id:'long-key-binding-intro', dangerouslySetInnerHTML:
+            {__html: 
+            marked(
+
+            "This dialog allows you to modify the keyboard shortcuts available in command mode. "+ 
+            "Any changes will be persisted between sessions and across environments. "+
+            "You can define two kinds of shorctuts: **key combinations** and **key sequences**.\n"+
+            "\n"+
+            " - **Key Combinations**:\n"+
+            "   - Use hyphens `-` to represent keys that should be pressed at the same time.\n"+
+            "   - This is designed for use with *modifier* keys: `Cmd`, `Ctrl`, `Alt` ,`Meta`, "+
+            "`Cmdtrl`, and `Shift`.\n"+ 
+            "       - `Cmdtrl` acts like `Cmd` on OS X/MacOS and `Ctrl` on Windows/Linux.\n"+
+            "   - At most, one non-modifier key can exist in a key combination.\n"+
+            "   - Multiple non-modifier key can exist in a key combination.\n"+
+            "   - Modifier keys need to precede the non-modifier key in a combination.\n"+
+            "   - *Valid Examples*: `Shift-a`, `Ctrl-;`, or `Ctrl-Shift-a`. \n"+
+            "   - *Invalid Example*s: `a-b` and `a-Ctrl-Shift`. \n"+
+            " - **Key Sequences**:\n"+
+            "   - Use commas `,` to represent keys that should be pressed in sequence.\n"+
+            "   - The order in which keys must be pressed exactly matches the left-to-right order of "+
+            "the characters in the sequence, with no interruptions.\n"+
+            "     - E.g., `h,a,l,t` would be triggered by typing <kbd>h</kbd> <kbd>a</kbd> "+
+            "<kbd>l</kbd> <kbd>t</kbd> but not <kbd>h</kbd> <kbd>a</kbd> <kbd>a</kbd> <kbd>l</kbd> "+
+            "<kbd>t</kbd> or <kbd>a</kbd>  <kbd>h</kbd> <kbd>l</kbd> <kbd>t</kbd>.\n"+
+            "   - Sequences can include the same key multiple times (e.g., `d,d`).\n"+
+            "   - You cannot include any pairs of sequences where one is a 'prefix' the other.\n"+
+            "     - E.g., `d,d,d` cannot be used a the same time as `d,d`.\n"+ 
+            "   - Key combinations are unique elements that can be used in a sequence.\n"+ 
+            "     - E.g., `Ctrl-d,d` and `d,d` can exist at the same time and are both valid key sequences.\n"+
+            "\n"+
+            "**Additional notes**:\n"+
+            "\n"+
+            "The case in which elements are written does not change the binding's meaning. "+
+            "E.g., `Ctrl-D` and `cTrl-d` are the same key binding. "+
+            "Thus, `Shift` needs to be explicitly included if it is part of the key binding. "+
+            "So, for example, if you set a command to be activated by `Shift-D,D`, the second `d` "+
+            "cannot be pressed at the same time as the `Shift` modifier key.\n"+
+            "\n"+
+            "Valid modifiers are specified by writing out their names explicitly: "+
+            "e.g., `Shift`, `Cmd`, `Ctrl`, `Alt` ,`Meta`, `Cmdtrl`. You cannot use the symbol equivalents "+
+            "(e.g., `⇧`, `⌘`, `⌃`, `⌥`); refer to developer docs for the corresponding keys "+
+            "(the mapping of which depends on the platform you are using)."+
+            "You can hover on the name/description of a command to see its exact internal name and "+
+            "differentiate from actions defined in various plugins. \n"+
+            "\n"+
+            "Changing the keybindings of edit mode is not currently available."
+            )}
+      }));
+      return createElement('div',{}, children);
     }
 });
 
-const get_shortcuts_data = function(notebook) {
-    const actions = Object.keys(notebook.keyboard_manager.actions._actions);
-    const src = [];
+var get_shortcuts_data = function(notebook) {
+    var actions = Object.keys(notebook.keyboard_manager.actions._actions);
+    var src = [];
 
-    for (let i = 0; i < actions.length; i++) {
-      const action_id = actions[i];
-      const action = notebook.keyboard_manager.actions.get(action_id);
+    for (var i = 0; i < actions.length; i++) {
+      var action_id = actions[i];
+      var action = notebook.keyboard_manager.actions.get(action_id);
 
-      let shortcuts = notebook.keyboard_manager.command_shortcuts.get_action_shortcuts(action_id);
-      let hshortcuts;
+      var shortcuts = notebook.keyboard_manager.command_shortcuts.get_action_shortcuts(action_id);
+      var hshortcuts = [];
       if (shortcuts.length > 0) {
-        hshortcuts = shortcuts.map((raw)=>{
+        hshortcuts = shortcuts.map(function (raw) {
           return {h:QH._humanize_sequence(raw),raw:raw};}
         );
       }
@@ -135,14 +194,14 @@ const get_shortcuts_data = function(notebook) {
 };
 
 
-export const ShortcutEditor = function(notebook) {
+var ShortcutEditor = function(notebook) {
 
     if(!notebook){
-      throw new Error("CommandPalette takes a notebook non-null mandatory arguement");
+      throw new Error("CommandPalette takes a notebook non-null mandatory argument");
     }
 
-    const body =  $('<div>');
-    const mod = dialog.modal({
+    var body =  $('<div>');
+    var mod = dialog.modal({
         notebook: notebook,
         keyboard_manager: notebook.keyboard_manager,
         title : "Edit Command mode Shortcuts",
@@ -152,22 +211,24 @@ export const ShortcutEditor = function(notebook) {
         }
     });
     
-    const src = get_shortcuts_data(notebook);
+    var src = get_shortcuts_data(notebook);
 
     mod.addClass("modal_stretch");
 
     mod.modal('show');
     render(
         createElement(KeyBindingList, {
-            callback:()=>{ return  get_shortcuts_data(notebook);},
-            bind: (shortcut, command) => {
+            callback: function () { return  get_shortcuts_data(notebook);},
+            bind: function (shortcut, command) {
                 return notebook.keyboard_manager.command_shortcuts._persist_shortcut(shortcut, command);
             },
-            unbind: (shortcut) => { 
+            unbind: function (shortcut) {
                 return notebook.keyboard_manager.command_shortcuts._persist_remove_shortcut(shortcut);
             },
-            available:  (shrt) => { return notebook.keyboard_manager.command_shortcuts.is_available_shortcut(shrt);}
+            available: function (shrt) { return notebook.keyboard_manager.command_shortcuts.is_available_shortcut(shrt);}
           }),
         body.get(0)
     );
 };
+    return {ShortcutEditor: ShortcutEditor};
+});

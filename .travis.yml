@@ -8,15 +8,15 @@ python:
     - 3.5.1  # Set to 3.5.1 since travis has not yet included as default for 3.5
     - 2.7
 
-sudo: false
+sudo: required
 
 env:
   global:
     - PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
   matrix:
+    - GROUP=js/notebook
     - GROUP=python
     - GROUP=js/base
-    - GROUP=js/notebook
     - GROUP=js/services
     - GROUP=js/tree
 
@@ -29,15 +29,19 @@ before_install:
     - npm --version
     - npm upgrade -g npm
     - npm install
-    - 'if [[ $GROUP == js* ]]; then  npm install -g casperjs@1.1.0-beta5; fi'
+    - |
+      if [[ $GROUP == js* ]]; then 
+        npm install -g casperjs@1.1.3 phantomjs-prebuilt@2.1.7
+      fi
     - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
 
 install:
     - pip install -f travis-wheels/wheelhouse file://$PWD#egg=notebook[test]
+    - wget https://github.com/jgm/pandoc/releases/download/1.19.1/pandoc-1.19.1-1-amd64.deb && sudo dpkg -i pandoc-1.19.1-1-amd64.deb
+
 
 script:
     - 'if [[ $GROUP == js* ]]; then travis_retry python -m notebook.jstest ${GROUP:3}; fi'
-    - 'if [[ $GROUP == "js/notebook" ]]; then npm run lint; fi'
     - 'if [[ $GROUP == python ]]; then nosetests -v --with-coverage --cover-package=notebook notebook; fi'
 
 matrix:

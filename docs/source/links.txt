@@ -19,10 +19,10 @@
 .. Main Jupyter notebook links
 
 .. _Notebook Basics: notebook_p2_
-.. _notebook_p2: https://nbviewer.jupyter.org/urls/raw.github.com/ipython/ipython/3.x/examples/Notebook/Notebook%20Basics.ipynb
+.. _notebook_p2: https://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Notebook%20Basics.ipynb
 
 .. _Running Code in the Jupyter Notebook: notebook_p1_
-.. _notebook_p1: https://nbviewer.jupyter.org/urls/raw.github.com/ipython/ipython/3.x/examples/Notebook/Running%20Code.ipynb
+.. _notebook_p1: https://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Running%20Code.ipynb
 
 .. Other python projects
 .. _matplotlib: http://matplotlib.org
@@ -33,7 +33,9 @@
 .. _Markdown: http://daringfireball.net/projects/markdown/syntax
 
 .. _Rich Output: notebook_p5_
-.. _notebook_p5: https://nbviewer.jupyter.org/urls/raw.github.com/ipython/ipython/3.x/examples/IPython%20Kernel/Rich%20Output.ipynb
+.. _notebook_p5: https://nbviewer.jupyter.org/github/ipython/ipython/blob/master/examples/IPython%20Kernel/Rich%20Output.ipynb
 
 .. _Plotting with Matplotlib: notebook_p3_
-.. _notebook_p3: https://nbviewer.jupyter.org/urls/raw.github.com/ipython/ipython/3.x/examples/IPython%20Kernel/Plotting%20in%20the%20Notebook.ipynb
+.. _notebook_p3: https://nbviewer.jupyter.org/github/ipython/ipython/blob/master/examples/IPython%20Kernel/Plotting%20in%20the%20Notebook.ipynb
+
+.. _Working with Markdown Cells: https://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Working%20With%20Markdown%20Cells.ipynb

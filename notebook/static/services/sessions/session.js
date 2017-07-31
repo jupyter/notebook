@@ -2,9 +2,10 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/utils',
     'services/kernels/kernel',
-], function(utils, kernel) {
+], function($, utils, kernel) {
     "use strict";
 
     /**
@@ -61,6 +62,9 @@ define([
         this.events.on('kernel_dead.Kernel', function () {
             that.delete();
         });
+        this.events.on('kernel_failed_restart.Kernel', function () {
+            that.notebook.start_session();
+        });
     };
 
 
@@ -76,7 +80,7 @@ define([
      * @param {function} [error] - functon executed on ajax error
      */
     Session.prototype.list = function (success, error) {
-        $.ajax(this.session_service_url, {
+        utils.ajax(this.session_service_url, {
             processData: false,
             cache: false,
             type: "GET",
@@ -117,7 +121,7 @@ define([
             }
         };
 
-        $.ajax(this.session_service_url, {
+        utils.ajax(this.session_service_url, {
             processData: false,
             cache: false,
             type: "POST",
@@ -139,7 +143,7 @@ define([
      * @param {function} [error] - functon executed on ajax error
      */
     Session.prototype.get_info = function (success, error) {
-        $.ajax(this.session_url, {
+        utils.ajax(this.session_url, {
             processData: false,
             cache: false,
             type: "GET",
@@ -165,7 +169,7 @@ define([
             this.notebook_model.path = path;
         }
 
-        $.ajax(this.session_url, {
+        utils.ajax(this.session_url, {
             processData: false,
             cache: false,
             type: "PATCH",
@@ -187,12 +191,12 @@ define([
      * @param {function} [error] - functon executed on ajax error
      */
     Session.prototype.delete = function (success, error) {
-        if (this.kernel) {
+        if (this.kernel && this.kernel.is_connected()) {
             this.events.trigger('kernel_killed.Session', {session: this, kernel: this.kernel});
             this.kernel._kernel_dead();
         }
 
-        $.ajax(this.session_url, {
+        utils.ajax(this.session_url, {
             processData: false,
             cache: false,
             type: "DELETE",

@@ -2,12 +2,13 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/namespace',
     'base/js/utils',
     'base/js/dialog',
     'codemirror/lib/codemirror',
     'codemirror/mode/meta',
-], function(IPython, utils, dialog, CodeMirror) {
+], function($, IPython, utils, dialog, CodeMirror) {
     "use strict";
     
     var MenuBar = function (selector, options) {
@@ -145,6 +146,8 @@ define([
         function make_set_mode(info) {
             return function () {
                 editor.set_codemirror_mode(info);
+                // save codemirror mode for extension when explicitly selected
+                editor.save_codemirror_mode(info);
             };
         }
         for (var i = 0; i < CodeMirror.modeInfo.length; i++) {

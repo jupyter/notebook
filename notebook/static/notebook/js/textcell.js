@@ -2,7 +2,9 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
+    'jquery',
     'base/js/utils',
+    'base/js/i18n',
     'notebook/js/cell',
     'base/js/security',
     'services/config',
@@ -13,7 +15,9 @@ define([
     'codemirror/mode/gfm/gfm',
     'notebook/js/codemirror-ipythongfm'
 ], function(
+    $,
     utils,
+    i18n,
     cell,
     security,
     configmod,
@@ -123,7 +127,7 @@ define([
          * Add a new attachment to this cell
          */
         this.attachments[key] = {};
-        this.attachments[key][mime_type] = [b64_data];
+        this.attachments[key][mime_type] = b64_data;
     };
 
     TextCell.prototype.select = function () {
@@ -206,7 +210,7 @@ define([
                 // to this state, instead of a blank cell
                 this.code_mirror.clearHistory();
                 // TODO: This HTML needs to be treated as potentially dangerous
-                // user input and should be handled before set_rendered.         
+                // user input and should be handled before set_rendered.
                 this.set_rendered(data.rendered || '');
                 this.rendered = false;
                 this.render();
@@ -237,8 +241,8 @@ define([
                 // Garbage collect unused attachments : The general idea is to
                 // render the text, and find used attachments like when we
                 // substitute them in render()
-                data.attachments = {};
                 var that = this;
+                data.attachments = {};
                 // To find attachments, rendering to HTML is easier than
                 // searching in the markdown source for the multiple ways you
                 // can reference an image in markdown (using []() or a
@@ -247,10 +251,10 @@ define([
                 marked(text, function (err, html) {
                     html = security.sanitize_html(html);
                     html = $($.parseHTML(html));
-                    html.find('img[src^="attachment://"]').each(function (i, h) {
+                    html.find('img[src^="attachment:"]').each(function (i, h) {
                         h = $(h);
-                        var key = h.attr('src').replace(/^attachment:\/\//, '');
-                        if (key in that.attachments) {
+                        var key = h.attr('src').replace(/^attachment:/, '');
+                        if (that.attachments.hasOwnProperty(key)) {
                             data.attachments[key] = JSON.parse(JSON.stringify(
                                 that.attachments[key]));
                         }
@@ -260,6 +264,12 @@ define([
                         h.attr('src', '');
                     });
                 });
+                if (data.attachments.length === 0) {
+                    // omit attachments dict if no attachments
+                    delete data.attachments;
+                }
+            } else {
+                data.attachments = JSON.parse(JSON.stringify(this.attachments));
             }
         }
         return data;
@@ -341,7 +351,7 @@ define([
          */
         var that = this;
         var pos = this.code_mirror.getCursor();
-        var reader = new FileReader;
+        var reader = new FileReader();
         // We can get either a named file (drag'n'drop) or a blob (copy/paste)
         // We generate names for blobs
         var key;
@@ -359,7 +369,7 @@ define([
                             'type (' + d[0] + ')');
             }
             that.add_attachment(key, blob.type, d[1]);
-            var img_md = '![' + key + '](attachment://' + key + ')';
+            var img_md = '![' + key + '](attachment:' + key + ')';
             that.code_mirror.replaceRange(img_md, pos);
         }
         reader.readAsDataURL(blob);
@@ -406,14 +416,14 @@ define([
                 html.find("a[href]").not('[href^="#"]').attr("target", "_blank");
                 // replace attachment:<key> by the corresponding entry
                 // in the cell's attachments
-                html.find('img[src^="attachment://"]').each(function (i, h) {
+                html.find('img[src^="attachment:"]').each(function (i, h) {
                   h = $(h);
-                  var key = h.attr('src').replace(/^attachment:\/\//, '');
+                  var key = h.attr('src').replace(/^attachment:/, '');
 
-                  if (key in that.attachments) {
+                  if (that.attachments.hasOwnProperty(key)) {
                     var att = that.attachments[key];
                     var mime = Object.keys(att)[0];
-                    h.attr('src', 'data:' + mime + ';base64,' + att[mime][0]);
+                    h.attr('src', 'data:' + mime + ';base64,' + att[mime]);
                   } else {
                     h.attr('src', '');
                   }
@@ -538,9 +548,9 @@ define([
         highlight_modes : {
             'diff'         :{'reg':[/^diff/]}
         },
-        placeholder : "Write raw LaTeX or other formats here, for use with nbconvert. " +
+        placeholder : i18n.msg._("Write raw LaTeX or other formats here, for use with nbconvert. " +
             "It will not be rendered in the notebook. " +
-            "When passing through nbconvert, a Raw Cell's content is added to the output unmodified.",
+            "When passing through nbconvert, a Raw Cell's content is added to the output unmodified."),
     };
 
     RawCell.prototype = Object.create(TextCell.prototype);
