@@ -10,8 +10,7 @@ define([
     'base/js/events',
     'base/js/keyboard',
     'moment',
-    'bidi/bidi',
-    'moment'
+    'bidi/bidi'
 ], function($, IPython, utils, i18n, dialog, events, keyboard, moment, bidi) {
     "use strict";
 
@@ -717,11 +716,11 @@ define([
 
     NotebookList.prototype.add_link = function (model, item) {
         var running = (model.type === 'notebook' && this.sessions[model.path] !== undefined);
-        item.data('name', bidi.applyBidi(model.name));
+        item.data('name',model.name);
         item.data('path', model.path);
         item.data('modified', model.last_modified);
         item.data('type', model.type);
-        item.find(".item_name").text(model.name);
+        item.find(".item_name").text(bidi.applyBidi(model.name));
         var icon = NotebookList.icons[model.type];
         if (running) {
             icon = 'running_' + icon;
