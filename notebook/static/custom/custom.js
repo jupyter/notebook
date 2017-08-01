@@ -20,9 +20,10 @@
  * Instances are created after the loading of this file and might need to be accessed using events:
  *     define([
  *        'base/js/namespace',
- *        'base/js/events'
- *     ], function(IPython, events) {
- *         events.on("app_initialized.NotebookApp", function () {
+ *        'base/js/promises'
+ *     ], function(IPython, promises) {
+ *         promises.app_initialized.then(function (appName) {
+ *             if (appName !== 'NotebookApp') return;
  *             IPython.keyboard_manager....
  *         });
  *     });
@@ -34,9 +35,10 @@
  *
  *    define([
  *        'base/js/namespace',
- *        'base/js/events'
- *    ], function(IPython, events) {
- *        events.on('app_initialized.NotebookApp', function(){
+ *        'base/js/promises'
+ *    ], function(IPython, promises) {
+ *        promises.app_initialized.then(function (appName) {
+ *            if (appName !== 'NotebookApp') return;
  *            IPython.toolbar.add_buttons_group([
  *                {
  *                    'label'   : 'run qtconsole',
