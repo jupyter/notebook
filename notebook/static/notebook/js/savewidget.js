@@ -192,6 +192,7 @@ define([
             // <Today | yesterday|...> at hh,mm,ss
             human_date = chkd.calendar();
         }
+        
         el.text(i18n.msg.sprintf(i18n.msg._('Last Checkpoint: %s'),human_date)).attr('title', long_date);
     };
 
