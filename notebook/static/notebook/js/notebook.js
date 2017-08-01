@@ -2876,10 +2876,24 @@ define([
                                 cell.output_area.trusted = true;
                             }
                         }
-                        nb.events.on('notebook_saved.Notebook', function () {
-                            window.location.reload();
+                        // If its write only and dirty, save before 
+                        // trusting
+                        var pr;
+                        if(nb.writable && nb.dirty) {
+                            pr = nb.save_notebook();
+                        }
+                        else {
+                            pr = Promise.resolve();
+                        }
+                        return pr.then(function() {                            
+                            nb.contents.trust(nb.notebook_path)
+                            .then(function(res) {
+                                nb.events.trigger("trust_changed.Notebook", true);
+                                window.location.reload();
+                            }, function(err) {
+                                console.log(err);
+                            });
                         });
-                        nb.save_notebook();
                     }
                 }
             }

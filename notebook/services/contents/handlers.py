@@ -307,6 +307,17 @@ class NotebooksRedirectHandler(IPythonHandler):
     put = patch = post = delete = get
 
 
+class TrustNotebooksHandler(IPythonHandler):
+    """ Handles trust/signing of notebooks """
+
+    @json_errors
+    @web.authenticated
+    @gen.coroutine
+    def post(self,path=''):
+        cm = self.contents_manager
+        yield gen.maybe_future(cm.trust_notebook(path))
+        self.set_status(201)
+        self.finish()
 #-----------------------------------------------------------------------------
 # URL to handler mappings
 #-----------------------------------------------------------------------------
@@ -318,6 +329,7 @@ default_handlers = [
     (r"/api/contents%s/checkpoints" % path_regex, CheckpointsHandler),
     (r"/api/contents%s/checkpoints/%s" % (path_regex, _checkpoint_id_regex),
         ModifyCheckpointsHandler),
+    (r"/api/contents%s/trust" % path_regex, TrustNotebooksHandler),
     (r"/api/contents%s" % path_regex, ContentsHandler),
     (r"/api/notebooks/?(.*)", NotebooksRedirectHandler),
 ]

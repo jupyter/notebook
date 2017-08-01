@@ -426,7 +426,7 @@ class ContentsManager(LoggingConfigurable):
         nb = model['content']
         self.log.warning("Trusting notebook %s", path)
         self.notary.mark_cells(nb, True)
-        self.save(model, path)
+        self.check_and_sign(nb, path)
 
     def check_and_sign(self, nb, path=''):
         """Check for trusted cells, and sign the notebook.
@@ -443,7 +443,7 @@ class ContentsManager(LoggingConfigurable):
         if self.notary.check_cells(nb):
             self.notary.sign(nb)
         else:
-            self.log.warning("Saving untrusted notebook %s", path)
+            self.log.warning("Notebook %s is not trusted", path)
 
     def mark_trusted_cells(self, nb, path=''):
         """Mark cells as trusted if the notebook signature matches.
