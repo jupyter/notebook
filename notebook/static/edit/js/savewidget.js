@@ -10,7 +10,7 @@ define([
     'bidi/bidi',
 ], function($, utils, dialog, keyboard, moment, bidi) {
     "use strict";
-    bidi.loadLocale();
+    
     var SaveWidget = function (selector, options) {
         this.editor = undefined;
         this.selector = selector;
