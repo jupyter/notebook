@@ -5,18 +5,10 @@ define([
     'bidi/numericshaping',
 ], function (numericshaping){
     "use strict";
+    
     var shaperType="";
     var textDir="";
     
-    var _setUserPreferences = function (shapertype /*, textdir*/) {  //for future work in case of BTD Support we need to set the textDir also.  
-    	shaperType = shapertype;
-    	if (_uiLang() == 'ar'||'he'){
-    		textDir = "rtl";
-    	}else {
-    	    textDir = "ltr";
-    	}
-    };
-
     var _uiLang= function (){
     	return navigator.language.toLowerCase();
     };
@@ -29,6 +21,7 @@ define([
 			console.warn("Error loading the required locale");
 			console.warn(err);
 	    });
+		shaperType= _uiLang()=='ar'? "national" : "defaultNumeral";
     };
     
     var _isMirroringEnabled= function() {
@@ -49,12 +42,11 @@ define([
      * @param flag :indicates the type of bidi-support (Numeric-shaping ,Base-text-dir ).
      */
     var _applyBidi = function (value /*, flag*/) {
-    	value = numericshaping.shapeNumerals(value, shaperType, textDir);
+    	value = numericshaping.shapeNumerals(value, shaperType);
         return value;
     };
     
     var bidi = {
-    	setUserPreferences : _setUserPreferences,
     	applyBidi : _applyBidi,
     	isMirroringEnabled : _isMirroringEnabled,
     	loadLocale : _loadLocale,
