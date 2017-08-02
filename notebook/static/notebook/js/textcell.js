@@ -400,7 +400,6 @@ define([
               return start_tag + content + end_tag;
             };
             marked(text, { renderer: renderer }, function (err, html) {
-            // marked(text, function (err, html) {
                 html = mathjaxutils.replace_math(html, math);
                 html = security.sanitize_html(html);
                 html = $($.parseHTML(html));
