@@ -713,7 +713,15 @@ define([
         var text_and_math = mathjaxutils.remove_math(markdown);
         var text = text_and_math[0];
         var math = text_and_math[1];
-        marked(text, function (err, html) {
+        // Prevent marked from returning inline styles for table cells
+        var renderer = new marked.Renderer();
+        renderer.tablecell = function (content, flags) {
+          var type = flags.header ? 'th' : 'td';
+          var start_tag = '<' + type + '>';
+          var end_tag = '</' + type + '>\n';
+          return start_tag + content + end_tag;
+        };
+        marked(text, { renderer: renderer }, function (err, html) {
             html = mathjaxutils.replace_math(html, math);
             toinsert.append(html);
         });
