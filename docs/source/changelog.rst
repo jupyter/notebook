@@ -29,7 +29,7 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
 - Preliminary i18n implementation (:ghpull:`2140`).
 - Expose URL with auth token in notebook UI (:ghpull:`2666`).
 - Fix search background style (:ghpull:`2387`).
-- List running notebooks with ``--allow-root`` (:ghpull:`2421`).
+- List running notebooks without requiring ``--allow-root`` (:ghpull:`2421`).
 - Allow session of type other than notebook (:ghpull:`2559`).
 - Fix search background style (:ghpull:`2387`).
 - Fix some Markdown styling issues (:ghpull:`2571`), (:ghpull:`2691`) and (:ghpull:`2534`).
@@ -37,9 +37,9 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
 - Add session-specific favicons (notebook, terminal, file) (:ghpull:`2452`).
 - Add /api/shutdown handler (:ghpull:`2507`).
 - Include metadata when copying a cell (:ghpull:`2349`).
-- Stop notebooks from command line (:ghpull:`2388`).
+- Stop notebook server from command line (:ghpull:`2388`).
 - Improve "View" and "Edit" file handling in dashboard (:ghpull:`2449`) and (:ghpull:`2402`).
-- Load custom.js before ``app_initialized.NotebookApp`` is triggered (:ghpull:`2710`).
+- Provide a Promise implementation for ``app_initialized.NotebookApp`` event  (:ghpull:`2710`).
 - Fix disabled collapse/expand output button (:ghpull:`2681`).
 - Cull idle kernels using ``--MappingKernelManager.cull_idle_timeout`` (:ghpull:`2215`).
 
