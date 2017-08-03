@@ -39,7 +39,7 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
 - Include metadata when copying a cell (:ghpull:`2349`).
 - Stop notebook server from command line (:ghpull:`2388`).
 - Improve "View" and "Edit" file handling in dashboard (:ghpull:`2449`) and (:ghpull:`2402`).
-- Provide a Promise implementation for ``app_initialized.NotebookApp`` event  (:ghpull:`2710`).
+- Provide a promise to replace use of the ``app_initialized.NotebookApp`` event (:ghpull:`2710`).
 - Fix disabled collapse/expand output button (:ghpull:`2681`).
 - Cull idle kernels using ``--MappingKernelManager.cull_idle_timeout`` (:ghpull:`2215`).
 
