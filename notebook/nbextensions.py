@@ -844,6 +844,13 @@ class DisableNBExtensionApp(ToggleNBExtensionApp):
     """
     _toggle_value = None
 
+    flags = _base_flags.copy()
+    flags['all'] = ({
+        "DisableNbExtensionApp" : {
+            "all_config_locations" : True,
+        }}, "Go through all config locations to disable loading an extension"
+    )
+
     all_config_locations = Bool(False, config=True,
         help="Go through all config locations to disable loading an extension",
     )
