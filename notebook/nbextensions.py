@@ -850,13 +850,20 @@ class DisableNBExtensionApp(JupyterApp):
         jupyter nbextension disable [--system|--sys-prefix]
     """
     version = __version__
-    flags = {"py" : ({
-        "DisableNBExtensionApp" : {
-            "python" : True,
-        }}, "Disable an extension from a Python package name")
+    flags = {
+        "py" : ({"DisableNBExtensionApp" : {"python" : True}},
+            "Disable an extension from a Python package name"),
+        "user": ({"DisableNBExtensionApp" : {"user": True}},
+            "Explicitly disable in user config"),
+        "sys-prefix": ({"DisableNBExtensionApp": {"sys_prefix": True}},
+            "Explicitly disable in sys.prefix config")
     }
     flags['python'] = flags['py']
-    aliases = {'section': 'ToggleNBExtensionApp.section'}
+    aliases = {'section': 'DisableNBExtensionApp.section'}
+
+    user = Bool(False, config=True, help="Explicitly disable in user config")
+    sys_prefix = Bool(False, config=True,
+                      help="Explicitly disable in sys.prefix config")
 
     python = Bool(False, config=True, help="Install from a Python package")
 
@@ -866,6 +873,16 @@ class DisableNBExtensionApp(JupyterApp):
 
     def start(self):
         name = self.extra_args[0]
+
+        disable_func = disable_nbextension_python if self.python \
+                       else disable_nbextension
+        if self.user:
+            return disable_func(self.section, name, user=True, logger=self.log)
+        if self.sys_prefix:
+            return disable_func(self.section, name, sys_prefix=True,
+                                logger=self.log)
+
+        # Default behaviour: find and remove config enabling an extension.
         if self.python:
             _, nbexts = _get_nbextension_metadata(name)
             changed = False
