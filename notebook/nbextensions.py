@@ -770,7 +770,7 @@ class UninstallNBExtensionApp(BaseExtensionApp):
             _, nbexts = _get_nbextension_metadata(name)
             changed = False
             for nbext in nbexts:
-                if _find_uninstall_nbextension(nbext, logger=self.log):
+                if _find_uninstall_nbextension(nbext['dest'], logger=self.log):
                     changed = True
 
         else:
@@ -798,88 +798,54 @@ class UninstallNBExtensionApp(BaseExtensionApp):
             self.find_uninstall_extension()
 
 
-class ToggleNBExtensionApp(BaseExtensionApp):
-    """A base class for apps that enable/disable extensions"""
-    name = "jupyter nbextension enable/disable"
+class EnableNBExtensionApp(BaseExtensionApp):
+    """An App that enables nbextensions"""
+    name = "jupyter nbextension enable"
+    description = """
+    Enable an nbextension in frontend configuration.
+
+    Usage
+        jupyter nbextension enable [--system|--sys-prefix]
+    """
     version = __version__
-    description = "Enable/disable an nbextension in configuration."
 
     section = Unicode('notebook', config=True,
           help="""Which config section to add the extension to, 'common' will affect all pages."""
     )
-    user = Bool(True, config=True, help="Apply the configuration only for the current user (default)")
+    user = Bool(True, config=True,
+        help="Enable the extension for the current user (default)"
+    )
 
-    aliases = {'section': 'ToggleNBExtensionApp.section'}
-    
-    _toggle_value = None
+    aliases = {'section': 'EnableNBExtensionApp.section'}
+    flags = BaseExtensionApp.flags.copy()
+    flags['user'] = ({'EnableNBExtensionApp': {'user': True}},
+         "Enable the extension for the current user (default)")
 
     def _config_file_name_default(self):
         """The default config file name."""
         return 'jupyter_notebook_config'
-    
-    def toggle_nbextension_python(self, module):
-        """Toggle some extensions in an importable Python module.
-
-        Returns a list of booleans indicating whether the state was changed as
-        requested.
-
-        Parameters
-        ----------
-        module : str
-            Importable Python module exposing the
-            magic-named `_jupyter_nbextension_paths` function
-        """
-        toggle = (enable_nbextension_python if self._toggle_value
-                  else disable_nbextension_python)
-        return toggle(module,
-                      user=self.user,
-                      sys_prefix=self.sys_prefix,
-                      logger=self.log)
-
-    def toggle_nbextension(self, require):
-        """Toggle some a named nbextension by require-able AMD module.
-
-        Returns whether the state was changed as requested.
-
-        Parameters
-        ----------
-        require : str
-            require.js path used to load the nbextension
-        """
-        toggle = (enable_nbextension if self._toggle_value
-                  else disable_nbextension)
-        return toggle(self.section, require,
-                      user=self.user, sys_prefix=self.sys_prefix,
-                      logger=self.log)
         
     def start(self):
         if not self.extra_args:
             sys.exit('Please specify an nbextension/package to enable or disable')
         elif len(self.extra_args) > 1:
             sys.exit('Please specify one nbextension/package at a time')
+        name = self.extra_args[0]
+
         if self.python:
-            self.toggle_nbextension_python(self.extra_args[0])
+            enable_nbextension_python(name, user=self.user,
+                                  sys_prefix=self.sys_prefix, logger=self.log)
         else:
-            self.toggle_nbextension(self.extra_args[0])
+            enable_nbextension(self.section, name,
+                               user=self.user, sys_prefix=self.sys_prefix,
+                               logger=self.log)
 
 
-class EnableNBExtensionApp(ToggleNBExtensionApp):
-    """An App that enables nbextensions"""
-    name = "jupyter nbextension enable"
-    description = """
-    Enable an nbextension in frontend configuration.
-    
-    Usage
-        jupyter nbextension enable [--system|--sys-prefix]
-    """
-    _toggle_value = True
-
-
-class DisableNBExtensionApp(JupyterApp):
+class DisableNBExtensionApp(BaseExtensionApp):
     """An App that disables nbextensions"""
     name = "jupyter nbextension disable"
     description = """
-    Enable an nbextension in frontend configuration.
+    Disable an nbextension in frontend configuration.
     
     Usage
         jupyter nbextension disable [--system|--sys-prefix]
@@ -900,13 +866,38 @@ class DisableNBExtensionApp(JupyterApp):
     sys_prefix = Bool(False, config=True,
                       help="Explicitly disable in sys.prefix config")
 
-    python = Bool(False, config=True, help="Install from a Python package")
+    python = Bool(False, config=True,
+                  help="Locate the extension to disable from a Python package")
 
     section = Unicode('notebook', config=True,
-                      help="""Which config section to disable the extension in."""
-                      )
+                      help="Which config section to disable the extension in.")
+
+    def _config_file_name_default(self):
+        """The default config file name."""
+        return 'jupyter_notebook_config'
+
+    def find_disable_extension(self, name):
+        """Default behaviour: find and remove config enabling an extension."""
+        if self.python:
+            _, nbexts = _get_nbextension_metadata(name)
+            changed = False
+            for nbext in nbexts:
+                if _find_disable_nbextension(nbext['section'], nbext['require'],
+                                             logger=self.log):
+                    changed = True
+
+        else:
+            changed = _find_disable_nbextension(self.section, name,
+                                                logger=self.log)
+
+        if not changed:
+            print("No config found enabling", name)
 
     def start(self):
+        if not self.extra_args:
+            sys.exit('Please specify an nbextension/package to disable')
+        elif len(self.extra_args) > 1:
+            sys.exit('Please specify one nbextension/package at a time')
         name = self.extra_args[0]
 
         disable_func = disable_nbextension_python if self.python \
@@ -917,21 +908,7 @@ class DisableNBExtensionApp(JupyterApp):
             return disable_func(self.section, name, sys_prefix=True,
                                 logger=self.log)
 
-        # Default behaviour: find and remove config enabling an extension.
-        if self.python:
-            _, nbexts = _get_nbextension_metadata(name)
-            changed = False
-            for nbext in nbexts:
-                if _find_disable_nbextension(self.section, nbext,
-                                             logger=self.log):
-                    changed = True
-
-        else:
-            changed = _find_disable_nbextension(self.section, name,
-                                                logger=self.log)
-
-        if not changed:
-            print("No config found enabling", name)
+        self.find_disable_extension(name)
 
     _log_formatter_cls = LogFormatter
 
