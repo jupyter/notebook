@@ -20,6 +20,7 @@ except ImportError:
     from urlparse import urlparse
     from urllib import urlretrieve
 
+from jupyter_core.application import JupyterApp
 from jupyter_core.paths import (
     jupyter_data_dir, jupyter_config_path, jupyter_path,
     SYSTEM_JUPYTER_PATH, ENV_JUPYTER_PATH,
@@ -29,6 +30,7 @@ from ipython_genutils.py3compat import string_types, cast_unicode_py2
 from ipython_genutils.tempdir import TemporaryDirectory
 from ._version import __version__
 
+from tornado.log import LogFormatter
 from traitlets.config.manager import BaseJSONConfigManager
 from traitlets.utils.importstring import import_item
 
@@ -418,6 +420,22 @@ def disable_nbextension(section, require, user=True, sys_prefix=False,
                                   state=False,
                                   user=user, sys_prefix=sys_prefix,
                                   logger=logger)
+
+def _find_disable_nbextension(section, require, logger=None):
+    """Disable an nbextension from the first config location where it is enabled.
+
+    Returns True if it changed any config, False otherwise.
+    """
+    for config_dir in jupyter_config_path():
+        cm = BaseJSONConfigManager(config_dir=os.path.join(config_dir, 'nbconfig'))
+        d = cm.get(section)
+        if d.get('load_extensions', {}).get(require, None):
+            if logger:
+                logger.info("Disabling %s extension in %s", require, config_dir)
+            cm.update(section, {'load_extensions': {require: None}})
+            return True
+
+    return False
 
 
 def enable_nbextension_python(module, user=True, sys_prefix=False,
@@ -822,7 +840,7 @@ class EnableNBExtensionApp(ToggleNBExtensionApp):
     _toggle_value = True
 
 
-class DisableNBExtensionApp(ToggleNBExtensionApp):
+class DisableNBExtensionApp(JupyterApp):
     """An App that disables nbextensions"""
     name = "jupyter nbextension disable"
     description = """
@@ -831,7 +849,43 @@ class DisableNBExtensionApp(ToggleNBExtensionApp):
     Usage
         jupyter nbextension disable [--system|--sys-prefix]
     """
-    _toggle_value = None
+    version = __version__
+    flags = {"py" : ({
+        "DisableNBExtensionApp" : {
+            "python" : True,
+        }}, "Disable an extension from a Python package name")
+    }
+    flags['python'] = flags['py']
+    aliases = {'section': 'ToggleNBExtensionApp.section'}
+
+    python = Bool(False, config=True, help="Install from a Python package")
+
+    section = Unicode('notebook', config=True,
+                      help="""Which config section to disable the extension in."""
+                      )
+
+    def start(self):
+        name = self.extra_args[0]
+        if self.python:
+            _, nbexts = _get_nbextension_metadata(name)
+            changed = False
+            for nbext in nbexts:
+                if _find_disable_nbextension(self.section, nbext,
+                                             logger=self.log):
+                    changed = True
+
+        else:
+            changed = _find_disable_nbextension(self.section, name,
+                                                logger=self.log)
+
+        if not changed:
+            print("No config found enabling", name)
+
+    _log_formatter_cls = LogFormatter
+
+    def _log_format_default(self):
+        """A default format for messages"""
+        return "%(message)s"
 
 
 class ListNBExtensionsApp(BaseExtensionApp):
