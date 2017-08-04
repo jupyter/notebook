@@ -203,6 +203,8 @@ class ToggleServerExtensionApp(BaseExtensionApp):
 
     def start(self):
         """Perform the App's actions as configured"""
+        super(ToggleServerExtensionApp, self).start()
+        
         if not self.extra_args:
             sys.exit('Please specify a server extension/package to enable or disable')
         for arg in self.extra_args:
@@ -265,6 +267,8 @@ class ListServerExtensionsApp(BaseExtensionApp):
 
     def start(self):
         """Perform the App's actions as configured"""
+        super(ListServerExtensionsApp, self).start()
+        
         self.list_server_extensions()
 
 

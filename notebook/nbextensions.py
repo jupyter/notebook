@@ -671,6 +671,8 @@ class InstallNBExtensionApp(BaseExtensionApp):
 
     def start(self):
         """Perform the App's function as configured"""
+        super(InstallNBExtensionApp, self).start()
+        
         if not self.extra_args:
             sys.exit('Please specify an nbextension to install')
         else:
@@ -736,6 +738,8 @@ class UninstallNBExtensionApp(BaseExtensionApp):
             uninstall_nbextension(self.extra_args[0], **kwargs)
     
     def start(self):
+        super(UninstallNBExtensionApp, self).start()
+        
         if not self.extra_args:
             sys.exit('Please specify an nbextension to uninstall')
         else:
@@ -800,6 +804,8 @@ class ToggleNBExtensionApp(BaseExtensionApp):
                       logger=self.log)
         
     def start(self):
+        super(ToggleNBExtensionApp, self).start()
+
         if not self.extra_args:
             sys.exit('Please specify an nbextension/package to enable or disable')
         elif len(self.extra_args) > 1:
@@ -869,6 +875,8 @@ class ListNBExtensionsApp(BaseExtensionApp):
     
     def start(self):
         """Perform the App's functions as configured"""
+        super(ListNBExtensionsApp, self).start()
+        
         self.list_nbextensions()
 
 

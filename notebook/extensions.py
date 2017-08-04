@@ -58,6 +58,7 @@ class BaseExtensionApp(JupyterApp):
 
     user = Bool(False, config=True, help="Whether to do a user install")
     sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
+    all = Bool(False, config=True, help="Whether to do both a user and sys.prefix install")
     python = Bool(False, config=True, help="Install from a Python package")
 
     # Remove for 5.0...
@@ -71,6 +72,11 @@ class BaseExtensionApp(JupyterApp):
     def _log_format_default(self):
         """A default format for messages"""
         return "%(message)s"
+        
+    def start(self):
+        if self.all:
+            self.user = True
+            self.sys_prefix = True
 
 def _get_config_dir(user=False, sys_prefix=False):
     """Get the location of config files for the current context
