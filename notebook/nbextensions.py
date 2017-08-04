@@ -243,10 +243,7 @@ def uninstall_nbextension(dest, require=None, user=False, sys_prefix=False, pref
     ----------
     
     dest : str
-        path to file, directory, zip or tarball archive, or URL to install
-        name the nbextension is installed to.  For example, if destination is 'foo', then
-        the source file will be installed to 'nbextensions/foo', regardless of the source name.
-        This cannot be specified if an archive is given as the source.
+        Name of the installed nbextension file or folder.
     require : str [optional]
         require.js path used to load the extension.
         If specified, frontend config loading extension will be removed.
@@ -279,6 +276,25 @@ def uninstall_nbextension(dest, require=None, user=False, sys_prefix=False, pref
     if require:
         for section in NBCONFIG_SECTIONS:
             cm.update(section, {"load_extensions": {require: None}})
+
+def _find_uninstall_nbextension(filename, logger=None):
+    """Remove nbextension files from the first location they are found.
+
+    Returns True if files were removed, False otherwise.
+    """
+    filename = cast_unicode_py2(filename)
+    for nbext in jupyter_path('nbextensions'):
+        path = pjoin(nbext, filename)
+        if os.path.lexists(path):
+            if logger:
+                logger.info("Removing: %s" % path)
+            if os.path.isdir(path) and not os.path.islink(path):
+                shutil.rmtree(path)
+            else:
+                os.remove(path)
+            return True
+
+    return False
 
 
 def uninstall_nbextension_python(module,
@@ -730,8 +746,8 @@ class UninstallNBExtensionApp(BaseExtensionApp):
         """The default config file name."""
         return 'jupyter_notebook_config'
     
-    def uninstall_extensions(self):
-        """Uninstall some nbextensions"""
+    def uninstall_extension(self):
+        """Uninstall an nbextension from a specific location"""
         kwargs = {
             'user': self.user,
             'sys_prefix': self.sys_prefix,
@@ -739,28 +755,47 @@ class UninstallNBExtensionApp(BaseExtensionApp):
             'nbextensions_dir': self.nbextensions_dir,
             'logger': self.log
         }
-        
-        arg_count = 1
-        if len(self.extra_args) > arg_count:
-            raise ValueError("only one nbextension allowed at a time.  Call multiple times to uninstall multiple extensions.")
-        if len(self.extra_args) < arg_count:
-            raise ValueError("not enough arguments")
-        
+
         if self.python:
             uninstall_nbextension_python(self.extra_args[0], **kwargs)
         else:
             if self.require:
                 kwargs['require'] = self.require
             uninstall_nbextension(self.extra_args[0], **kwargs)
+
+    def find_uninstall_extension(self):
+        """Uninstall an nbextension from an unspecified location"""
+        name = self.extra_args[0]
+        if self.python:
+            _, nbexts = _get_nbextension_metadata(name)
+            changed = False
+            for nbext in nbexts:
+                if _find_uninstall_nbextension(nbext, logger=self.log):
+                    changed = True
+
+        else:
+            changed = _find_uninstall_nbextension(name, logger=self.log)
+
+        if not changed:
+            print("No installed extension %r found." % name)
+
+        if self.require:
+            for section in NBCONFIG_SECTIONS:
+                _find_disable_nbextension(section, self.require, logger=self.log)
     
     def start(self):
         if not self.extra_args:
             sys.exit('Please specify an nbextension to uninstall')
-        else:
+        elif len(self.extra_args) > 1:
+            sys.exit("Only one nbextension allowed at a time. "
+                     "Call multiple times to uninstall multiple extensions.")
+        elif self.user or self.sys_prefix or self.prefix or self.nbextensions_dir:
             try:
-                self.uninstall_extensions()
+                self.uninstall_extension()
             except ArgumentConflict as e:
                 sys.exit(str(e))
+        else:
+            self.find_uninstall_extension()
 
 
 class ToggleNBExtensionApp(BaseExtensionApp):
