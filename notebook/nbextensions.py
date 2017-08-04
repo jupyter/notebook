@@ -297,7 +297,8 @@ def uninstall_nbextension_python(module,
 
 
 def _set_nbextension_state(section, require, state,
-                           user=True, sys_prefix=False, logger=None):
+                           user=True, sys_prefix=False, logger=None,
+                           config_dir=None):
     """Set whether the section's frontend should require the named nbextension
 
     Returns True if the final state is the one requested.
@@ -317,10 +318,14 @@ def _set_nbextension_state(section, require, state,
         `user`.
     logger : Jupyter logger [optional]
         Logger instance to use
+    config_dir : string
+        Specify a Jupyter config directory. Overrides user and sys_prefix if set.
     """
-    user = False if sys_prefix else user
-    config_dir = os.path.join(
-        _get_config_dir(user=user, sys_prefix=sys_prefix), 'nbconfig')
+    if config_dir is None:
+        user = False if sys_prefix else user
+        config_dir = _get_config_dir(user=user, sys_prefix=sys_prefix)
+
+    config_dir = os.path.join(config_dir, 'nbconfig')
     cm = BaseJSONConfigManager(config_dir=config_dir)
     if logger:
         logger.info("{} {} extension {}...".format(
@@ -336,7 +341,7 @@ def _set_nbextension_state(section, require, state,
 
 
 def _set_nbextension_state_python(state, module, user, sys_prefix,
-                                  logger=None):
+                                  logger=None, config_dir=None):
     """Enable or disable some nbextensions stored in a Python package
 
     Returns a list of whether the state was achieved (i.e. changed, or was
@@ -356,13 +361,15 @@ def _set_nbextension_state_python(state, module, user, sys_prefix,
         Enable/disable in the sys.prefix, i.e. environment
     logger : Jupyter logger [optional]
         Logger instance to use
+    config_dir : string
+        Specify a Jupyter config directory. Overrides user and sys_prefix if set.
     """
     m, nbexts = _get_nbextension_metadata(module)
     return [_set_nbextension_state(section=nbext["section"],
                                    require=nbext["require"],
                                    state=state,
                                    user=user, sys_prefix=sys_prefix,
-                                   logger=logger)
+                                   logger=logger, config_dir=config_dir)
             for nbext in nbexts]
 
 
@@ -394,7 +401,7 @@ def enable_nbextension(section, require, user=True, sys_prefix=False,
 
 
 def disable_nbextension(section, require, user=True, sys_prefix=False,
-                        logger=None):
+                        logger=None, config_dir=None):
     """Disable a named nbextension
     
     Returns True if the final state is the one requested.
@@ -413,11 +420,13 @@ def disable_nbextension(section, require, user=True, sys_prefix=False,
         `user`.
     logger : Jupyter logger [optional]
         Logger instance to use
+    config_dir : string
+        Specify a Jupyter config directory. Overrides user and sys_prefix if set.
     """
     return _set_nbextension_state(section=section, require=require,
                                   state=False,
                                   user=user, sys_prefix=sys_prefix,
-                                  logger=logger)
+                                  logger=logger, config_dir=config_dir)
 
 
 def enable_nbextension_python(module, user=True, sys_prefix=False,
@@ -446,7 +455,7 @@ def enable_nbextension_python(module, user=True, sys_prefix=False,
 
 
 def disable_nbextension_python(module, user=True, sys_prefix=False,
-                               logger=None):
+                               logger=None, config_dir=None):
     """Disable some nbextensions associated with a Python module.
     
     Returns True if the final state is the one requested.
@@ -463,9 +472,11 @@ def disable_nbextension_python(module, user=True, sys_prefix=False,
         Whether to enable in the sys.prefix, i.e. environment
     logger : Jupyter logger [optional]
         Logger instance to use
+    config_dir : string
+        Specify a Jupyter config directory. Overrides user and sys_prefix if set.
     """
     return _set_nbextension_state_python(False, module, user, sys_prefix,
-                                         logger=logger)
+                                         logger=logger, config_dir=config_dir)
 
 
 def validate_nbextension(require, logger=None):
@@ -832,6 +843,35 @@ class DisableNBExtensionApp(ToggleNBExtensionApp):
         jupyter nbextension disable [--system|--sys-prefix]
     """
     _toggle_value = None
+
+    flags = _base_flags.copy()
+    flags['all'] = ({
+        "DisableNbExtensionApp" : {
+            "all_config_locations" : True,
+        }}, "Go through all config locations to disable loading an extension"
+    )
+
+    all_config_locations = Bool(False, config=True,
+        help="Go through all config locations to disable loading an extension",
+    )
+
+    def toggle_nbextension_python(self, module):
+        if self.all_config_locations:
+            for config_dir in jupyter_config_path():
+                disable_nbextension_python(self.section, module,
+                                    config_dir=config_dir, logger=self.log)
+            return
+
+        return super(DisableNBExtensionApp, self).toggle_nbextension_python(module)
+
+    def toggle_nbextension(self, require):
+        if self.all_config_locations:
+            for config_dir in jupyter_config_path():
+                disable_nbextension(self.section, require,
+                                    config_dir=config_dir, logger=self.log)
+            return
+
+        return super(DisableNBExtensionApp, self).toggle_nbextension(require)
 
 
 class ListNBExtensionsApp(BaseExtensionApp):
