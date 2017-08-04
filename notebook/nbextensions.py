@@ -805,7 +805,7 @@ class EnableNBExtensionApp(BaseExtensionApp):
     Enable an nbextension in frontend configuration.
 
     Usage
-        jupyter nbextension enable [--system|--sys-prefix]
+        jupyter nbextension enable [--system|--sys-prefix] myext
     """
     version = __version__
 
@@ -848,7 +848,7 @@ class DisableNBExtensionApp(BaseExtensionApp):
     Disable an nbextension in frontend configuration.
     
     Usage
-        jupyter nbextension disable [--system|--sys-prefix]
+        jupyter nbextension disable [--user|--sys-prefix] myext
     """
     version = __version__
     flags = {
