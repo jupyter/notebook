@@ -21,10 +21,36 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
     ``pip --version``.
 
 
+.. _release-5.1.0:
+
+5.1.0
+-----
+
+- Preliminary i18n implementation (:ghpull:`2140`).
+- Expose URL with auth token in notebook UI (:ghpull:`2666`).
+- Fix search background style (:ghpull:`2387`).
+- List running notebooks without requiring ``--allow-root`` (:ghpull:`2421`).
+- Allow session of type other than notebook (:ghpull:`2559`).
+- Fix search background style (:ghpull:`2387`).
+- Fix some Markdown styling issues (:ghpull:`2571`), (:ghpull:`2691`) and (:ghpull:`2534`).
+- Remove keymaps that conflict with non-English keyboards (:ghpull:`2535`).
+- Add session-specific favicons (notebook, terminal, file) (:ghpull:`2452`).
+- Add /api/shutdown handler (:ghpull:`2507`).
+- Include metadata when copying a cell (:ghpull:`2349`).
+- Stop notebook server from command line (:ghpull:`2388`).
+- Improve "View" and "Edit" file handling in dashboard (:ghpull:`2449`) and (:ghpull:`2402`).
+- Provide a promise to replace use of the ``app_initialized.NotebookApp`` event (:ghpull:`2710`).
+- Fix disabled collapse/expand output button (:ghpull:`2681`).
+- Cull idle kernels using ``--MappingKernelManager.cull_idle_timeout`` (:ghpull:`2215`).
+
+See the 5.1 milestone on GitHub for a complete list of
+`issues <https://github.com/jupyter/notebook/issues?utf8=%E2%9C%93&q=is%3Aissue%20milestone%3A5.1>`__
+and `pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A5.1>`__ involved in this release.
+
 .. _release-5.0.0:
 
-Notebook version 5.0
---------------------
+5.0.0
+-----
 
 This is the first major release of the Jupyter Notebook since version 4.0 was
 created by the "Big Split" of IPython and Jupyter.
