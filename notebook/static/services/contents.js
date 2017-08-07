@@ -161,6 +161,16 @@ define(function(require) {
         return utils.promising_ajax(url, settings);
     };
 
+    Contents.prototype.trust = function(path) {
+        var settings = {
+            processData : false,
+            type : "POST",
+            contentType: 'application/json',
+        };
+        var url = this.api_url(path, "trust");
+        return utils.promising_ajax(url, settings);
+    }
+
     Contents.prototype.save = function(path, model) {
         /**
          * We do the call with settings so we can set cache to false.
