@@ -147,13 +147,13 @@ define([
     };
     
     // methods for sending messages
-    Comm.prototype.open = function (data, callbacks, metadata) {
+    Comm.prototype.open = function (data, callbacks, metadata, buffers) {
         var content = {
             comm_id : this.comm_id,
             target_name : this.target_name,
             data : data || {},
         };
-        return this.kernel.send_shell_message("comm_open", content, callbacks, metadata);
+        return this.kernel.send_shell_message("comm_open", content, callbacks, metadata, buffers);
     };
     
     Comm.prototype.send = function (data, callbacks, metadata, buffers) {
@@ -163,13 +163,13 @@ define([
         };
         return this.kernel.send_shell_message("comm_msg", content, callbacks, metadata, buffers);
     };
-    
-    Comm.prototype.close = function (data, callbacks, metadata) {
+
+    Comm.prototype.close = function (data, callbacks, metadata, buffers) {
         var content = {
             comm_id : this.comm_id,
             data : data || {},
         };
-        return this.kernel.send_shell_message("comm_close", content, callbacks, metadata);
+        return this.kernel.send_shell_message("comm_close", content, callbacks, metadata, buffers);
     };
     
     // methods for registering callbacks for incoming messages
