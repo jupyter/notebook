@@ -30,8 +30,8 @@ define([
             kernel.register_iopub_handler(msg_type, $.proxy(this[msg_type], this));
         }
     };
-    
-    CommManager.prototype.new_comm = function (target_name, data, callbacks, metadata, comm_id) {
+
+    CommManager.prototype.new_comm = function (target_name, data, callbacks, metadata, comm_id, buffers) {
         /**
          * Create a new Comm, register it, and open its Kernel-side counterpart
          * Mimics the auto-registration in `Comm.__init__` in the Jupyter Comm.
@@ -40,7 +40,7 @@ define([
          */
         var comm = new Comm(target_name, comm_id);
         this.register_comm(comm);
-        comm.open(data, callbacks, metadata);
+        comm.open(data, callbacks, metadata, buffers);
         return comm;
     };
     
