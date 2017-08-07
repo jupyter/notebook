@@ -910,7 +910,7 @@ class DisableNBExtensionApp(ToggleNBExtensionApp):
     """An App that disables nbextensions"""
     name = "jupyter nbextension disable"
     description = """
-    Enable an nbextension in frontend configuration.
+    Disable an nbextension in frontend configuration.
     
     Usage
         jupyter nbextension disable [--system|--sys-prefix]
