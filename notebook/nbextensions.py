@@ -737,6 +737,10 @@ class UninstallNBExtensionApp(BaseExtensionApp):
     e.g.::
 
         jupyter nbextension uninstall myext --require myext/main
+
+    If you use the --py or --python flag, the name should be a Python module.
+    It will uninstall nbextensions listed in that module, but not the module
+    itself (which you should uninstall using a package manager such as pip).
     """
     
     examples = """
