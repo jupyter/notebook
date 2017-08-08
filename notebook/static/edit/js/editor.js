@@ -150,8 +150,10 @@ function(
         /** set the codemirror mode from a modeinfo struct */
         var that = this;
         utils.requireCodeMirrorMode(modeinfo, function () {
-            that.codemirror.setOption('mode', modeinfo.mode);
+            that.codemirror.setOption('mode', modeinfo.mime);
             that.events.trigger("mode_changed.Editor", modeinfo);
+        }, function(err) {
+            console.log('Error getting CodeMirror mode: ' + err);
         });
     };
 
