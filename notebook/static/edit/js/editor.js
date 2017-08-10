@@ -78,10 +78,11 @@ function(
         extraKeys: {
             "Tab" :  "indentMore",
         },
+        keyMap: 'sublime',
         indentUnit: 4,
         theme: "ipython",
         lineNumbers: true,
-        lineWrapping: true,
+        lineWrapping: true
     };
     
     Editor.prototype.load = function() {
@@ -170,7 +171,7 @@ function(
             Editor: {
                 file_extension_modes: update_mode_map,
             }
-        })
+        });
     };
 
     Editor.prototype.get_filename = function () {
