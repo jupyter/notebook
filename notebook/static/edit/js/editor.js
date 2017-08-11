@@ -76,7 +76,15 @@ function(
     // default CodeMirror options
     Editor.default_codemirror_options = {
         extraKeys: {
-            "Tab" :  "indentMore",
+            "Cmd-Right": "goLineRight",
+            "End": "goLineRight",
+            "Cmd-Left": "goLineLeft",
+            "Tab": "indentMore",
+            "Shift-Tab" : "indentLess",
+            // "Cmd-Alt-[" : "indentAuto",
+            // "Ctrl-Alt-[" : "indentAuto",
+            "Cmd-/" : "toggleComment",
+            "Ctrl-/" : "toggleComment",
         },
         indentUnit: 4,
         theme: "ipython",
