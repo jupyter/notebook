@@ -78,7 +78,6 @@ function(
         extraKeys: {
             "Tab" :  "indentMore",
         },
-        keyMap: 'sublime',
         indentUnit: 4,
         theme: "ipython",
         lineNumbers: true,
