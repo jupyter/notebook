@@ -99,7 +99,8 @@ class NbconvertFileHandler(IPythonHandler):
                     "metadata": {
                         "name": name[:name.rfind('.')],
                         "modified_date": (model['last_modified']
-                            .strftime(text.date_format))
+                            .strftime(text.date_format)),
+                        "path" : path
                     },
                     "config_dir": self.application.settings['config_dir'],
                 }
