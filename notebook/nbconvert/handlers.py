@@ -39,7 +39,7 @@ def respond_zip(handler, name, output, resources):
     # Headers
     zip_filename = os.path.splitext(name)[0] + '.zip'
     handler.set_header('Content-Disposition',
-                       'attachment; filename="%s"' % escape.url_escape(zip_filename))
+                       'attachment; filename="%s"' % zip_filename)
     handler.set_header('Content-Type', 'application/zip')
 
     # Prepare the zip file
@@ -115,7 +115,7 @@ class NbconvertFileHandler(IPythonHandler):
         if self.get_argument('download', 'false').lower() == 'true':
             filename = os.path.splitext(name)[0] + resources['output_extension']
             self.set_header('Content-Disposition',
-                               'attachment; filename="%s"' % escape.url_escape(filename))
+                               'attachment; filename="%s"' % filename)
 
         # MIME type
         if exporter.output_mimetype:
