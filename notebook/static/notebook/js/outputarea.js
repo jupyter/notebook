@@ -466,21 +466,13 @@ define([
         // Notify others of changes.
         this.element.trigger('changed', {output_area: this});
     };
+    
+    OutputArea.prototype._core_insert = function(json, toinsert, type){
+        toinsert.find('.output_subarea').remove()
 
 
-    OutputArea.prototype.append_execute_result = function (json) {
-        var n = json.execution_count || ' ';
-        var toinsert = this.create_output_area();
-        this._record_display_id(json, toinsert);
-        if (this.prompt_area) {
-            toinsert.find('div.prompt')
-                    .addClass('output_prompt')
-                    .empty()
-                    .append(
-                      $('<bdi>').text(i18n.msg.sprintf(i18n.msg._('Out[%d]:'),n))
-                    );
-        }
         var inserted = this.append_mime_type(json, toinsert);
+        //debugger;
         if (inserted) {
             inserted.addClass('output_result');
         }
@@ -491,6 +483,58 @@ define([
             (json.data[MIME_MARKDOWN] !== undefined)) {
             this.typeset();
         }
+
+    }
+
+
+    OutputArea.prototype.append_execute_result = function (json) {
+        var n = json.execution_count || ' ';
+        var toinsert = this.create_output_area();
+        var sel = $('<select/>');
+        sel.attr('style', 'position:absolute; top:10px; right:10px;');
+        var keys = Object.keys(json.data);
+        var opt = $('<option>').attr('val', 'Auto').attr('selected', 'true').text('Auto');
+        sel.append(opt);
+        for (var i=0; i< keys.length; i++){
+          var k= keys[i];
+          var opt = $('<option>').attr('val', k).text(k);
+          sel.append(opt);
+        }
+        
+        if (keys.length > 1){
+          toinsert.append(sel);
+        }
+        this._record_display_id(json, toinsert);
+      
+        if (this.prompt_area) {
+            toinsert.find('div.prompt')
+                    .addClass('output_prompt')
+                    .empty()
+                    .append(
+                      $('<bdi>').text(i18n.msg.sprintf(i18n.msg._('Out[%d]:'),n))
+                    );
+        }
+        this._core_insert(json, toinsert, 'Auto');
+        var that = this;
+        sel.on('change', function(){
+          var v = sel.val()
+          var jcopy;
+          if (v!= 'Auto'){
+            var data = {};
+            data[v] = json.data[v];
+          
+            jcopy = {
+              metadata:json.metadata,
+              output_type:json.output_type,
+              data:data
+            };
+          } else {
+            jcopy = json;
+          }
+
+          that._core_insert(jcopy, toinsert, sel.val());
+        
+        });
     };
 
 
