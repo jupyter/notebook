@@ -279,6 +279,20 @@ class IPythonHandler(AuthenticatedHandler):
         if self.allow_credentials:
             self.set_header("Access-Control-Allow-Credentials", 'true')
     
+    def set_attachment_header(self, filename):
+        """Set Content-Disposition: attachment header
+
+        As a method to ensure handling of filename encoding
+        """
+        escaped_filename = url_escape(filename)
+        self.set_header('Content-Disposition',
+            'attachment;'
+            " filename*=utf-8''{utf8}"
+            .format(
+                utf8=escaped_filename,
+            )
+        )
+
     def get_origin(self):
         # Handle WebSocket Origin naming convention differences
         # The difference between version 8 and 13 is that in 8 the
@@ -478,7 +492,7 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
     def get(self, path):
         if os.path.splitext(path)[1] == '.ipynb' or self.get_argument("download", False):
             name = path.rsplit('/', 1)[-1]
-            self.set_header('Content-Disposition','attachment; filename="%s"' % name)
+            self.set_attachment_header(name)
 
         return web.StaticFileHandler.get(self, path)
     

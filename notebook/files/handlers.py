@@ -46,7 +46,7 @@ class FilesHandler(IPythonHandler):
         model = cm.get(path, type='file', content=include_body)
         
         if self.get_argument("download", False):
-            self.set_header('Content-Disposition','attachment; filename="%s"' % name)
+            self.set_attachment_header(name)
         
         # get mimetype from filename
         if name.endswith('.ipynb'):

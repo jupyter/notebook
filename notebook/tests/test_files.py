@@ -112,7 +112,7 @@ class FilesTest(NotebookTestBase):
         r = self.request('GET', 'files/test.txt?download=1')
         disposition = r.headers.get('Content-Disposition', '')
         self.assertIn('attachment', disposition)
-        self.assertIn('filename="test.txt"', disposition)
+        self.assertIn("filename*=utf-8''test.txt", disposition)
         
     def test_view_html(self):
         nbdir = self.notebook_dir
