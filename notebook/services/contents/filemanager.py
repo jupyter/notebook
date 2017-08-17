@@ -235,15 +235,18 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         info = os.lstat(os_path)
         try:
             last_modified = tz.utcfromtimestamp(info.st_mtime)
-        except ValueError:
+        except (ValueError, OSError):
             # Files can rarely have an invalid timestamp
             # https://github.com/jupyter/notebook/issues/2539
+            # https://github.com/jupyter/notebook/issues/2757
             # Use the Unix epoch as a fallback so we don't crash.
+            self.log.warning('Invalid mtime %s for %s', info.st_mtime, os_path)
             last_modified = datetime(1970, 1, 1, 0, 0, tzinfo=tz.UTC)
 
         try:
             created = tz.utcfromtimestamp(info.st_ctime)
-        except ValueError:  # See above
+        except (ValueError, OSError):  # See above
+            self.log.warning('Invalid ctime %s for %s', info.st_ctime, os_path)
             created = datetime(1970, 1, 1, 0, 0, tzinfo=tz.UTC)
 
         # Create the base model.
