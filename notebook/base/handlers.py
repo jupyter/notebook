@@ -478,7 +478,7 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
     def get(self, path):
         if os.path.splitext(path)[1] == '.ipynb' or self.get_argument("download", False):
             name = path.rsplit('/', 1)[-1]
-            self.set_header('Content-Disposition','attachment; filename="%s"' % escape.url_escape(name))
+            self.set_header('Content-Disposition','attachment; filename="%s"' % name)
 
         return web.StaticFileHandler.get(self, path)
     
