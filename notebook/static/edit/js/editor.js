@@ -4,11 +4,13 @@
 define([
     'jquery',
     'base/js/utils',
+    'base/js/i18n',
+    'base/js/dialog',
     'codemirror/lib/codemirror',
     'codemirror/mode/meta',
     'codemirror/addon/comment/comment',
-    'codemirror/addon/dialog/dialog',
     'codemirror/addon/edit/closebrackets',
+    'codemirror/addon/dialog/dialog',
     'codemirror/addon/edit/matchbrackets',
     'codemirror/addon/search/searchcursor',
     'codemirror/addon/search/search',
@@ -19,6 +21,8 @@ define([
 function(
     $,
     utils,
+    i18n,
+    dialog,
     CodeMirror
 ) {
     "use strict";
@@ -33,6 +37,8 @@ function(
         this.file_path = options.file_path;
         this.config = options.config;
         this.file_extension_modes = options.file_extension_modes || {};
+        this.last_modified = null;
+        this._changed_on_disk_dialog = null;
 
         this.codemirror = new CodeMirror($(this.selector)[0]);
         this.codemirror.on('changes', function(cm, changes){
@@ -100,6 +106,7 @@ function(
                 that.generation = cm.changeGeneration();
                 that.events.trigger("file_loaded.Editor", model);
                 that._clean_state();
+                that.last_modified = new Date(model.last_modified);
             }).catch(
             function(error) {
                 that.events.trigger("file_load_failed.Editor", error);
@@ -198,6 +205,7 @@ function(
         var new_path = utils.url_path_join(parent, new_name);
         return this.contents.rename(this.file_path, new_path).then(
             function (model) {
+                that.last_modified = new Date(model.last_modified);
                 that.file_path = model.path;
                 that.events.trigger('file_renamed.Editor', model);
                 that._set_mode_for_model(model);
@@ -206,12 +214,18 @@ function(
         );
     };
     
-    Editor.prototype.save = function () {
+    Editor.prototype.save = function (check_last_modified) {
         /** save the file */
         if (!this.save_enabled) {
             console.log("Not saving, save disabled");
             return;
         }
+
+        // used to check for last modified saves
+        if (check_last_modified === undefined) {
+            check_last_modified = true;
+        }
+
         var model = {
             path: this.file_path,
             type: 'file',
@@ -219,13 +233,77 @@ function(
             content: this.codemirror.getValue(),
         };
         var that = this;
+
         // record change generation for isClean
+        // (I don't know what this implies for the editor)
         this.generation = this.codemirror.changeGeneration();
-        that.events.trigger("file_saving.Editor");
-        return this.contents.save(this.file_path, model).then(function(data) {
-            that.events.trigger("file_saved.Editor", data);
-            that._clean_state();
-        });
+
+        var _save = function () {
+            // What does this event do? Does this always need to happen,
+            // even if the file can't be saved? What is dependent on it?
+            that.events.trigger("file_saving.Editor");
+            return that.contents.save(that.file_path, model).then(function(data) {
+                that.events.trigger("file_saved.Editor", data);
+                that.last_modified = new Date(data.last_modified);
+                that._clean_state();
+            });
+        }
+
+        // check data after
+        if (check_last_modified) {
+            return this.contents.get(that.file_path, {content: false}).then(
+                function (data) {
+                    var last_modified = new Date(data.last_modified);
+                    // We want to check last_modified (disk) > that.last_modified (our last save)
+                    // In some cases the filesystem reports an inconsistent time,
+                    // so we allow 0.5 seconds difference before complaining.
+                    console.log(that.last_modified);
+                    if ((last_modified.getTime() - that.last_modified.getTime()) > 500) {  // 500 ms
+                        console.warn("Last saving was done on `"+that.last_modified+"`("+that._last_modified+"), "+
+                                     "while the current file seem to have been saved on `"+data.last_modified+"`");
+                        if (that._changed_on_disk_dialog !== null) {
+                            console.log("Showing the modal");
+                            // update save callback on the confirmation button
+                            that._changed_on_disk_dialog.find('.save-confirm-btn').click(_save);
+                            // redisplay existing dialog
+                            that._changed_on_disk_dialog.modal('show');
+                        } else {
+                            // create new dialog
+                            that._changed_on_disk_dialog = dialog.modal({
+                                keyboard_manager: that.keyboard_manager,
+                                title: i18n.msg._("File changed"),
+                                body: i18n.msg._("The file has changed on disk since the last time we opened or saved it. "
+                                        + "Do you want to overwrite the file on disk with the version open here, or load "
+                                        + "the version on disk (reload the page)?"),
+                                buttons: {
+                                    Reload: {
+                                        class: 'btn-warning',
+                                        click: function() {
+                                            window.location.reload();
+                                        }
+                                    },
+                                    Cancel: {},
+                                    Overwrite: {
+                                        class: 'btn-danger save-confirm-btn',
+                                        click: function () {
+                                            _save();
+                                        }
+                                    },
+                                }
+                            });
+                        }
+                    } else {
+                        return _save();
+                    }
+            }, function (error) {
+                console.log(error);
+                // maybe it has been deleted or renamed? Go ahead and save.
+                // (need to test this)
+                return _save();
+            })
+        } else {
+            return _save();
+        }
     };
 
     Editor.prototype._clean_state = function(){
