@@ -9,8 +9,8 @@ define([
     'codemirror/lib/codemirror',
     'codemirror/mode/meta',
     'codemirror/addon/comment/comment',
-    'codemirror/addon/edit/closebrackets',
     'codemirror/addon/dialog/dialog',
+    'codemirror/addon/edit/closebrackets',
     'codemirror/addon/edit/matchbrackets',
     'codemirror/addon/search/searchcursor',
     'codemirror/addon/search/search',
@@ -205,9 +205,9 @@ function(
         var new_path = utils.url_path_join(parent, new_name);
         return this.contents.rename(this.file_path, new_path).then(
             function (model) {
-                that.last_modified = new Date(model.last_modified);
                 that.file_path = model.path;
                 that.events.trigger('file_renamed.Editor', model);
+                that.last_modified = new Date(model.last_modified);
                 that._set_mode_for_model(model);
                 that._clean_state();
             }
