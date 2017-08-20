@@ -42,6 +42,7 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
 - Provide a promise to replace use of the ``app_initialized.NotebookApp`` event (:ghpull:`2710`).
 - Fix disabled collapse/expand output button (:ghpull:`2681`).
 - Cull idle kernels using ``--MappingKernelManager.cull_idle_timeout`` (:ghpull:`2215`).
+- Allow read-only notebooks to be trusted (:ghpull:`2718`).
 
 See the 5.1 milestone on GitHub for a complete list of
 `issues <https://github.com/jupyter/notebook/issues?utf8=%E2%9C%93&q=is%3Aissue%20milestone%3A5.1>`__
