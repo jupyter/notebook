@@ -194,6 +194,7 @@ def find_package_data():
         mj('jax', 'input', 'TeX'),
         mj('jax', 'output', 'HTML-CSS', 'fonts', 'STIX-Web'),
         mj('jax', 'output', 'SVG', 'fonts', 'STIX-Web'),
+        mj('jax', 'element', 'mml'),
     ]:
         for parent, dirs, files in os.walk(tree):
             for f in files:
