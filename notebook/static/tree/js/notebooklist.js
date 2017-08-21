@@ -1176,6 +1176,7 @@ define([
                 var add_uploading_button = function (f, item) {
                     // change buttons, add a progress bar
                     var uploading_button = item.find('.upload_button').text("Uploading");
+                    uploading_button.off('click');  // Prevent double upload
                     var progress_bar = $('<span/>')
                         .addClass('progress-bar')
                         .css('top', '0')
