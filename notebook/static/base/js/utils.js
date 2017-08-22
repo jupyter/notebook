@@ -940,12 +940,16 @@ define([
         if(!window.MathJax){
             return;
         }
-        return $el.map(function(){
+        $el.map(function(){
             // MathJax takes a DOM node: $.map makes `this` the context
-            return MathJax.Hub.Queue(
-                ["Typeset", MathJax.Hub, this],
-                ["resetEquationNumbers",MathJax.InputJax.TeX]
-            );
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, this]);
+            try {
+                MathJax.Hub.Queue(
+                    ["resetEquationNumbers", MathJax.InputJax.TeX]
+                );
+            } catch (e) {
+                console.error("Error queueing resetEquationNumbers:", e);
+            }
         });
     };
 
