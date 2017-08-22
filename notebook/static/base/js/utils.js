@@ -945,7 +945,8 @@ define([
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, this]);
             try {
                 MathJax.Hub.Queue(
-                    ["resetEquationNumbers", MathJax.InputJax.TeX]
+                    ["Require", MathJax.Ajax, "[MathJax]/extensions/TeX/AMSmath.js"],
+                    function() { MathJax.InputJax.TeX.resetEquationNumbers(); }
                 );
             } catch (e) {
                 console.error("Error queueing resetEquationNumbers:", e);
