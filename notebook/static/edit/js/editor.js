@@ -198,6 +198,11 @@ function(
         }
     };
 
+    /**
+     * Rename the file.
+     * @param  {string} new_name
+     * @return {Promise} promise that resolves when the file is renamed.
+     */
     Editor.prototype.rename = function (new_name) {
         /** rename the file */
         var that = this;
@@ -214,6 +219,13 @@ function(
         );
     };
     
+
+    /**
+     * Save this file on the server.
+     *
+     * @param {boolean} check_last_modified - checks if file has been modified on disk
+     * @return {Promise} - promise that resolves when the notebook is saved.
+     */
     Editor.prototype.save = function (check_last_modified) {
         /** save the file */
         if (!this.save_enabled) {
@@ -249,22 +261,28 @@ function(
             });
         }
 
-        // check data after
+        /* 
+         * Gets the current working file, and checks if the file has been modified on disk. If so, it
+         * creates & opens a modal that issues the user a warning and prompts them to overwrite the file.
+         * 
+         * If it can't get the working file, it builds a new file and saves.
+         */ 
         if (check_last_modified) {
             return this.contents.get(that.file_path, {content: false}).then(
-                function (data) {
+                function check_if_modified(data) {
                     var last_modified = new Date(data.last_modified);
                     // We want to check last_modified (disk) > that.last_modified (our last save)
                     // In some cases the filesystem reports an inconsistent time,
                     // so we allow 0.5 seconds difference before complaining.
-                    console.log(that.last_modified);
                     if ((last_modified.getTime() - that.last_modified.getTime()) > 500) {  // 500 ms
                         console.warn("Last saving was done on `"+that.last_modified+"`("+that._last_modified+"), "+
                                      "while the current file seem to have been saved on `"+data.last_modified+"`");
                         if (that._changed_on_disk_dialog !== null) {
-                            console.log("Showing the modal");
-                            // update save callback on the confirmation button
+                            // since the modal's event bindings are removed when destroyed,
+                            // we reinstate save & reload callbacks on the confirmation & reload buttons
                             that._changed_on_disk_dialog.find('.save-confirm-btn').click(_save);
+                            that._changed_on_disk_dialog.find('.btn-warning').click(function () {window.location.reload()});
+                            
                             // redisplay existing dialog
                             that._changed_on_disk_dialog.modal('show');
                         } else {
@@ -278,7 +296,7 @@ function(
                                 buttons: {
                                     Reload: {
                                         class: 'btn-warning',
-                                        click: function() {
+                                        click: function () {
                                             window.location.reload();
                                         }
                                     },
@@ -298,7 +316,6 @@ function(
             }, function (error) {
                 console.log(error);
                 // maybe it has been deleted or renamed? Go ahead and save.
-                // (need to test this)
                 return _save();
             })
         } else {
