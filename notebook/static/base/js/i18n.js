@@ -15,7 +15,7 @@ define([
     var ui_lang = navigator.languages && navigator.languages[0] || // Chrome / Firefox
     navigator.language ||   // All browsers
     navigator.userLanguage; // IE <= 10
-
+    console.log(ui_lang);
     var init = function() {
     	var msg_promise;
     	if (nbjs.supported_languages.indexOf(ui_lang) >= 0) {

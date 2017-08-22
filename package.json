@@ -18,6 +18,5 @@
     "less": "~2",
     "requirejs": "^2.1.17"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
