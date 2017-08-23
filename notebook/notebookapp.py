@@ -35,11 +35,7 @@ except ImportError: #PY2
 
 from jinja2 import Environment, FileSystemLoader
 
-# Set up message catalog access
-base_dir = os.path.realpath(os.path.join(__file__, '..', '..'))
-trans = gettext.translation('notebook', localedir=os.path.join(base_dir, 'notebook/i18n'), fallback=True)
-trans.install()
-_ = trans.gettext
+from notebook.transutils import trans, _
 
 # Install the pyzmq ioloop. This has to be done before anything else from
 # tornado is imported.
