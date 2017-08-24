@@ -129,7 +129,7 @@ var KeyBindingList = createClass({
             "`Cmdtrl`, and `Shift`.\n"+ 
             "       - `Cmdtrl` acts like `Cmd` on OS X/MacOS and `Ctrl` on Windows/Linux.\n"+
             "   - At most, one non-modifier key can exist in a key combination.\n"+
-            "   - Multiple non-modifier key can exist in a key combination.\n"+
+            "   - Multiple modifier keys can exist in a key combination.\n"+
             "   - Modifier keys need to precede the non-modifier key in a combination.\n"+
             "   - *Valid Examples*: `Shift-a`, `Ctrl-;`, or `Ctrl-Shift-a`. \n"+
             "   - *Invalid Example*s: `a-b` and `a-Ctrl-Shift`. \n"+
