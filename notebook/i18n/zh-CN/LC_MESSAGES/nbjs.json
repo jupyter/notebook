@@ -1,0 +1,1371 @@
+{
+   "domain": "nbjs",
+   "locale_data": {
+      "nbjs": {
+         "": {
+            "domain": "nbjs"
+         },
+         "Manually edit the JSON below to manipulate the metadata for this cell.": [
+            "手动编辑下面的JSON代码来修改块元数据."
+         ],
+         "Manually edit the JSON below to manipulate the metadata for this notebook.": [
+            "手动编辑下面的JSON代码来修改界面元数据."
+         ],
+         " We recommend putting custom metadata attributes in an appropriately named substructure, so they don't conflict with those of others.": [
+            "我们建议将自定义的元数据属性放入适当的子结构中，这样就不会与其他的子结构发生冲突."
+         ],
+         "Edit the metadata": [
+            "编辑元数据"
+         ],
+         "Edit Notebook Metadata": [
+            "编辑界面元数据"
+         ],
+         "Edit Cell Metadata": [
+            "编辑块元数据"
+         ],
+         "Cancel": [
+            "取消"
+         ],
+         "Edit": [
+            "编辑"
+         ],
+         "OK": [
+            "确定"
+         ],
+         "Apply": [
+            "应用"
+         ],
+         "WARNING: Could not save invalid JSON.": [
+            "警告: 不能保存无效的JSON."
+         ],
+         "There are no attachments for this cell.": [
+            "这个块没有附件."
+         ],
+         "Current cell attachments": [
+            "当前块附件"
+         ],
+         "Attachments": [
+            "附件"
+         ],
+         "Restore": [
+            "重新保存"
+         ],
+         "Delete": [
+            "删除"
+         ],
+         "Edit attachments": [
+            "编辑附件"
+         ],
+         "Edit Notebook Attachments": [
+            "编辑代码附件"
+         ],
+         "Edit Cell Attachments": [
+            "编辑块附件"
+         ],
+         "Select a file to insert.": [
+            "选择文件插入"
+         ],
+         "Select a file": [
+            "选择文件"
+         ],
+         "You are using Jupyter notebook.": [
+            "你正在运行notebook."
+         ],
+         "The version of the notebook server is: ": [
+            "该notebook 服务的版本是："
+         ],
+         "The server is running on this version of Python:": [
+            "该服务运行中使用的python版本为:"
+         ],
+         "Waiting for kernel to be available...": [
+            "等待服务可用..."
+         ],
+         "Server Information:": [
+            "服务信息:"
+         ],
+         "Current Kernel Information:": [
+            "当前服务信息:"
+         ],
+         "Could not access sys_info variable for version information.": [
+            "无法为版本信息访问sysinfo变量."
+         ],
+         "Cannot find sys_info!": [
+            "找不到sys_info!"
+         ],
+         "About Jupyter Notebook": [
+            "关于 Jupyter Notebook"
+         ],
+         "unable to contact kernel": [
+            "不能连接到服务"
+         ],
+         "toggle rtl layout": [
+            "切换trl布局"
+         ],
+         "Toggle the screen directionality between left-to-right and right-to-left": [
+            "切换左右至右至左之间的屏幕方向"
+         ],
+         "edit command mode keyboard shortcuts": [
+            "编辑命令模式快捷键"
+         ],
+         "Open a dialog to edit the command mode keyboard shortcuts": [
+            "打开窗口来编辑快捷键"
+         ],
+         "restart kernel": [
+            "重启服务"
+         ],
+         "restart the kernel (no confirmation dialog)": [
+            "重启服务(没有确认窗口)"
+         ],
+         "confirm restart kernel": [
+            "确定重启服务"
+         ],
+         "restart the kernel (with dialog)": [
+            "重启服务(带窗口)"
+         ],
+         "restart kernel and run all cells": [
+            "重启服务并且运行所有代码块"
+         ],
+         "restart the kernel, then re-run the whole notebook (no confirmation dialog)": [
+            "重启服务, 然后重新运行整个代码(不含确认窗口)"
+         ],
+         "confirm restart kernel and run all cells": [
+            "确认重启服务并且运行所有代码块"
+         ],
+         "restart the kernel, then re-run the whole notebook (with dialog)": [
+            "重启服务, 然后重新运行整个代码(含窗口)"
+         ],
+         "restart kernel and clear output": [
+            "重启服务并且清空输入"
+         ],
+         "restart the kernel and clear all output (no confirmation dialog)": [
+            "重启服务并且清空所有输出(不含确认窗口)"
+         ],
+         "confirm restart kernel and clear output": [
+            "确认重启服务并且清空输出"
+         ],
+         "restart the kernel and clear all output (with dialog)": [
+            "重启服务并且清空所有输出(含窗口)"
+         ],
+         "interrupt the kernel": [
+            "中断服务"
+         ],
+         "run cell and select next": [
+            "运行代码块并且选择下一个代码块"
+         ],
+         "run cell, select below": [
+            "运行代码块, 选择下面的代码块"
+         ],
+         "run selected cells": [
+            "运行选中的代码块"
+         ],
+         "run cell and insert below": [
+            "运行代码块并且插入下面"
+         ],
+         "run all cells": [
+            "运行所有的代码块"
+         ],
+         "run all cells above": [
+            "运行上面所有的代码块"
+         ],
+         "run all cells below": [
+            "运行下面所有的代码块"
+         ],
+         "enter command mode": [
+            "进入命令行模式"
+         ],
+         "insert image": [
+            "插入图片"
+         ],
+         "cut cell attachments": [
+            "剪切代码块"
+         ],
+         "copy cell attachments": [
+            "复制代码块"
+         ],
+         "paste cell attachments": [
+            "粘贴代码块"
+         ],
+         "split cell at cursor": [
+            "在鼠标出分割代码块"
+         ],
+         "enter edit mode": [
+            "进入编辑模式"
+         ],
+         "select previous cell": [
+            "选择上一个代码块"
+         ],
+         "select cell above": [
+            "选择上面的代码块"
+         ],
+         "select next cell": [
+            "选择下一个代码块"
+         ],
+         "select cell below": [
+            "选择下面的代码块"
+         ],
+         "extend selection above": [
+            "扩展上面的代码块"
+         ],
+         "extend selected cells above": [
+            "扩展上面选择的代码块"
+         ],
+         "extend selection below": [
+            "扩展下面的代码块"
+         ],
+         "extend selected cells below": [
+            "扩展下面选择的代码块"
+         ],
+         "cut selected cells": [
+            "剪切选择的代码块"
+         ],
+         "copy selected cells": [
+            "复制选择的代码块"
+         ],
+         "paste cells above": [
+            "粘贴到上面"
+         ],
+         "paste cells below": [
+            "粘贴到下面"
+         ],
+         "insert cell above": [
+            "在上面插入代码块"
+         ],
+         "insert cell below": [
+            "在下面插入代码块"
+         ],
+         "change cell to code": [
+            "把代码块变成代码"
+         ],
+         "change cell to markdown": [
+            "把代码块变成标签"
+         ],
+         "change cell to raw": [
+            "清除代码块格式"
+         ],
+         "change cell to heading 1": [
+            "把代码块变成heading 1"
+         ],
+         "change cell to heading 2": [
+            "把代码块变成heading 2"
+         ],
+         "change cell to heading 3": [
+            "把代码块变成heading 3"
+         ],
+         "change cell to heading 4": [
+            "把代码块变成heading 4"
+         ],
+         "change cell to heading 5": [
+            "把代码块变成heading 5"
+         ],
+         "change cell to heading 6": [
+            "把代码块变成heading 6"
+         ],
+         "toggle cell output": [
+            "切换单元输出"
+         ],
+         "toggle output of selected cells": [
+            "选择单元格的输出"
+         ],
+         "toggle cell scrolling": [
+            "切换单元滚动"
+         ],
+         "toggle output scrolling of selected cells": [
+            "切换选定单元的输出滚动"
+         ],
+         "clear cell output": [
+            "清空所有单元格输出"
+         ],
+         "clear output of selected cells": [
+            "清空已选择单元格的输出"
+         ],
+         "move cells down": [
+            "下移"
+         ],
+         "move selected cells down": [
+            "下移选中单元格"
+         ],
+         "move cells up": [
+            "上移"
+         ],
+         "move selected cells up": [
+            "上移选中单元格"
+         ],
+         "toggle line numbers": [
+            "切换行号"
+         ],
+         "show keyboard shortcuts": [
+            "显示快捷键"
+         ],
+         "delete cells": [
+            "删除单元格"
+         ],
+         "delete selected cells": [
+            "删除选中单元格"
+         ],
+         "undo cell deletion": [
+            "撤销删除"
+         ],
+         "merge cell with previous cell": [
+            "合并上一个单元格"
+         ],
+         "merge cell above": [
+            "合并上面的单元格"
+         ],
+         "merge cell with next cell": [
+            "合并下一个单元格"
+         ],
+         "merge cell below": [
+            "合并下面的单元格"
+         ],
+         "merge selected cells": [
+            "合并选中的单元格"
+         ],
+         "merge cells": [
+            "合并单元格"
+         ],
+         "merge selected cells, or current cell with cell below if only one cell is selected": [
+            "合并选中单元格, 如果只有一个单元格被选中"
+         ],
+         "show command pallette": [
+            "显示命令配置"
+         ],
+         "open the command palette": [
+            "打开命令配置"
+         ],
+         "toggle all line numbers": [
+            "切换所有行号"
+         ],
+         "toggles line numbers in all cells, and persist the setting": [
+            "在所有单元格中切换行号，并保持设置"
+         ],
+         "show all line numbers": [
+            "显示行号"
+         ],
+         "show line numbers in all cells, and persist the setting": [
+            "在所有单元格中显示行号，并保持设置"
+         ],
+         "hide all line numbers": [
+            "隐藏行号"
+         ],
+         "hide line numbers in all cells, and persist the setting": [
+            "隐藏行号并保持设置"
+         ],
+         "toggle header": [
+            "切换标题"
+         ],
+         "switch between showing and hiding the header": [
+            "显示和隐藏标题之间的切换"
+         ],
+         "show the header": [
+            "显示标题"
+         ],
+         "hide the header": [
+            "隐藏标题"
+         ],
+         "toggle toolbar": [
+            "切换工具栏"
+         ],
+         "switch between showing and hiding the toolbar": [
+            "选择显示/隐藏工具栏"
+         ],
+         "show the toolbar": [
+            "显示工具栏"
+         ],
+         "hide the toolbar": [
+            "隐藏工具栏"
+         ],
+         "close the pager": [
+            "关闭页面"
+         ],
+         "ignore": [
+            "忽略"
+         ],
+         "move cursor up": [
+            "光标上移"
+         ],
+         "move cursor down": [
+            "光标下移"
+         ],
+         "scroll notebook down": [
+            "向下滚动"
+         ],
+         "scroll notebook up": [
+            "向上滚动"
+         ],
+         "scroll cell center": [
+            "滚动到单元格中间"
+         ],
+         "Scroll the current cell to the center": [
+            "把当前单元格滚动到中间"
+         ],
+         "scroll cell top": [
+            "滚动到单元格开始处"
+         ],
+         "Scroll the current cell to the top": [
+            "将当前单元格滚动到顶部"
+         ],
+         "duplicate notebook": [
+            "复制代码"
+         ],
+         "Create and open a copy of the current notebook": [
+            "创建并打开当前代码的一个副本"
+         ],
+         "trust notebook": [
+            "信任代码"
+         ],
+         "Trust the current notebook": [
+            "信任当前代码"
+         ],
+         "rename notebook": [
+            "重命名"
+         ],
+         "Rename the current notebook": [
+            "重命名"
+         ],
+         "toggle all cells output collapsed": [
+            "切换所有单元格的输出"
+         ],
+         "Toggle the hidden state of all output areas": [
+            "切换所有输出区域的隐藏状态"
+         ],
+         "toggle all cells output scrolled": [
+            "切换所有单元格的输出"
+         ],
+         "Toggle the scrolling state of all output areas": [
+            "切换所有输出区域的滚动状态"
+         ],
+         "clear all cells output": [
+            "清空所有单元格输出"
+         ],
+         "Clear the content of all the outputs": [
+            "清空所有的输出内容"
+         ],
+         "save notebook": [
+            "保存代码"
+         ],
+         "Save and Checkpoint": [
+            "保存并检查"
+         ],
+         "Warning: accessing Cell.cm_config directly is deprecated.": [
+            "警告: 访问Cell.cm_config已经被弃用了."
+         ],
+         "Unrecognized cell type: %s": [
+            "未知的单元格类型: %s"
+         ],
+         "Unrecognized cell type": [
+            "未知的单元格类型"
+         ],
+         "Error in cell toolbar callback %s": [
+            "工具栏调用 %s 出现错误"
+         ],
+         "Clipboard types: %s": [
+            "剪贴板类型: %s"
+         ],
+         "Dialog for paste from system clipboard": [
+            "从系统剪切板粘贴"
+         ],
+         "Ctrl-V": [
+            ""
+         ],
+         "Cmd-V": [
+            ""
+         ],
+         "Press %s again to paste": [
+            "再按一次 %s 粘贴"
+         ],
+         "Why is this needed? ": [
+            "这个为啥需要?"
+         ],
+         "We can't get paste events in this browser without a text box. ": [
+            "在浏览器里没有文本框我们不能粘贴. "
+         ],
+         "There's an invisible text box focused in this dialog.": [
+            "在这个对话框中有一个不可见的文本框."
+         ],
+         "%s to paste": [
+            "%s 来粘贴"
+         ],
+         "Can't execute cell since kernel is not set.": [
+            "只要服务没有设置就不能执行单元格代码."
+         ],
+         "In": [
+            ""
+         ],
+         "Could not find a kernel matching %s. Please select a kernel:": [
+            "找不到服务匹配 %s. 请选择一个服务:"
+         ],
+         "Continue Without Kernel": [
+            "继续运行没有服务"
+         ],
+         "Set Kernel": [
+            "设置服务"
+         ],
+         "Kernel not found": [
+            "服务没找到"
+         ],
+         "Creating Notebook Failed": [
+            "创建代码失败"
+         ],
+         "The error was: %s": [
+            "错误; %s"
+         ],
+         "Run": [
+            "运行"
+         ],
+         "Code": [
+            "代码"
+         ],
+         "Markdown": [
+            "标记"
+         ],
+         "Raw NBConvert": [
+            "原生 NBConvert"
+         ],
+         "Heading": [
+            "标题"
+         ],
+         "unrecognized cell type:": [
+            "未识别的单元格类型:"
+         ],
+         "Failed to retrieve MathJax from '%s'": [
+            "从 '%s' 中未能检索 MathJax"
+         ],
+         "Math/LaTeX rendering will be disabled.": [
+            "Math/LaTeX 渲染 将会失效."
+         ],
+         "Trusted Notebook": [
+            "可信的笔记"
+         ],
+         "Trust Notebook": [
+            "信任笔记"
+         ],
+         "None": [
+            ""
+         ],
+         "No checkpoints": [
+            "没有检查点"
+         ],
+         "Opens in a new window": [
+            "在新窗口打开"
+         ],
+         "Autosave in progress, latest changes may be lost.": [
+            "自动保存, 最新的改变有可能被丢弃."
+         ],
+         "Unsaved changes will be lost.": [
+            "未保存的修改将会丢失."
+         ],
+         "The Kernel is busy, outputs may be lost.": [
+            "服务正忙, 输出也许会丢失."
+         ],
+         "This notebook is version %1$s, but we only fully support up to %2$s.": [
+            "本程序版本 %1$s, 但是我们只是支持到 %2$s."
+         ],
+         "You can still work with this notebook, but cell and output types introduced in later notebook versions will not be available.": [
+            "您仍然可以使用本程序, 但是在以后的版本中引入的单元和输出类型将不可用."
+         ],
+         "Restart and Run All Cells": [
+            "重启并运行所有代码块"
+         ],
+         "Restart and Clear All Outputs": [
+            "重启并清空所有输出"
+         ],
+         "Restart": [
+            "重启"
+         ],
+         "Continue Running": [
+            "继续运行"
+         ],
+         "Reload": [
+            "重载"
+         ],
+         "Overwrite": [
+            "重写"
+         ],
+         "Trust": [
+            "信任"
+         ],
+         "Revert": [
+            "恢复"
+         ],
+         "Newer Notebook": [
+            "新笔记"
+         ],
+         "Use markdown headings": [
+            "使用标签 headings"
+         ],
+         "Jupyter no longer uses special heading cells. Instead, write your headings in Markdown cells using # characters:": [
+            "Jupyter不再使用特殊的标题单元格. 相反, 在Markdown单元中使用字符来写标题:"
+         ],
+         "## This is a level 2 heading": [
+            "## 这是一个 2 heading"
+         ],
+         "Restart kernel and re-run the whole notebook?": [
+            "重新启动内核并重新运行整个笔记本?"
+         ],
+         "Are you sure you want to restart the current kernel and re-execute the whole notebook?  All variables and outputs will be lost.": [
+            "您确定要重新启动当前的内核并重新执行整个笔记本吗? 所有的变量和输出都将丢失."
+         ],
+         "Restart kernel and clear all output?": [
+            "重启服务并且清空输出?"
+         ],
+         "Do you want to restart the current kernel and clear all output?  All variables and outputs will be lost.": [
+            "您是否希望重新启动当前的内核并清除所有输出? 所有的变量和输出都将丢失."
+         ],
+         "Restart kernel?": [
+            "重启服务?"
+         ],
+         "Do you want to restart the current kernel?  All variables will be lost.": [
+            "如果重启服务, 所有变量都会丢弃."
+         ],
+         "Notebook changed": [
+            "笔记改变了"
+         ],
+         "The notebook file has changed on disk since the last time we opened or saved it. Do you want to overwrite the file on disk with the version open here, or load the version on disk (reload the page)?": [
+            "自从上次我们打开或保存它以来, 笔记本文件已经在磁盘上发生了变化. 您是否希望在磁盘上使用打开的版本, 或在磁盘上的版本(重新加载页面)上覆盖该文件?"
+         ],
+         "Notebook validation failed": [
+            "Notebook 失效"
+         ],
+         "The save operation succeeded, but the notebook does not appear to be valid. The validation error was:": [
+            "保存操作成功了, 但是这个笔记本看起来并不有效. 验证错误:"
+         ],
+         "A trusted Jupyter notebook may execute hidden malicious code when you open it. Selecting trust will immediately reload this notebook in a trusted state. For more information, see the Jupyter security documentation: ": [
+            "当你打开它时, 一个可信任的Jupyter笔记本可能会执行隐藏的恶意代码. 选择信任将立即在一个可信的状态中重新加载这个笔记本. 要了解更多信息, 请参阅Jupyter安全文档:"
+         ],
+         "here": [
+            "这里"
+         ],
+         "Trust this notebook?": [
+            "信任这个代码?"
+         ],
+         "Notebook failed to load": [
+            "代码加载失败"
+         ],
+         "The error was: ": [
+            "错误: "
+         ],
+         "See the error console for details.": [
+            "有关详细信息, 请参阅错误控制台."
+         ],
+         "The notebook also failed validation:": [
+            "代码失败了:"
+         ],
+         "An invalid notebook may not function properly. The validation error was:": [
+            "无效的笔记本可能不能正常工作. 验证错误:"
+         ],
+         "This notebook has been converted from an older notebook format to the current notebook format v(%s).": [
+            "本笔记本已从较旧的笔记本格式转换为当前的笔记本格式 v(%s)."
+         ],
+         "This notebook has been converted from a newer notebook format to the current notebook format v(%s).": [
+            "这个笔记本已经从一种新的笔记本格式转换为当前的笔记本格式 v(%s)."
+         ],
+         "The next time you save this notebook, the current notebook format will be used.": [
+            "下次你保存这个笔记本时, 当前的笔记本格式将会被使用."
+         ],
+         "Older versions of Jupyter may not be able to read the new format.": [
+            "旧版本的Jupyter可能无法读取新格式."
+         ],
+         "Some features of the original notebook may not be available.": [
+            "原始笔记本的一些特性可能无法使用."
+         ],
+         "To preserve the original version, close the notebook without saving it.": [
+            "为了保存原始版本, 关闭笔记本而不保存它."
+         ],
+         "Notebook converted": [
+            "代码被修改了"
+         ],
+         "(No name)": [
+            "(没有名字)"
+         ],
+         "An unknown error occurred while loading this notebook. This version can load notebook formats %s or earlier. See the server log for details.": [
+            "加载本笔记本时出现了一个未知的错误. 这个版本可以加载%s或更早的笔记本. 有关详细信息, 请参阅服务器日志."
+         ],
+         "Error loading notebook": [
+            "加载代码出错"
+         ],
+         "Are you sure you want to revert the notebook to the latest checkpoint?": [
+            "确定撤销操作?"
+         ],
+         "This cannot be undone.": [
+            "该操作不能被执行."
+         ],
+         "The checkpoint was last updated at:": [
+            "这个代码最后更新时间:"
+         ],
+         "Revert notebook to checkpoint": [
+            "恢复代码"
+         ],
+         "Edit Mode": [
+            "编辑模式"
+         ],
+         "Command Mode": [
+            "命令 模式"
+         ],
+         "Kernel Created": [
+            "服务创建"
+         ],
+         "Connecting to kernel": [
+            "正在连接服务"
+         ],
+         "Not Connected": [
+            "木有连接成功"
+         ],
+         "click to reconnect": [
+            "点击重连"
+         ],
+         "Restarting kernel": [
+            "重启服务"
+         ],
+         "Kernel Restarting": [
+            "服务正重启"
+         ],
+         "The kernel appears to have died. It will restart automatically.": [
+            "服务似乎挂掉了,但是会立刻重启的."
+         ],
+         "Dead kernel": [
+            "挂掉的服务"
+         ],
+         "Kernel Dead": [
+            "服务挂掉"
+         ],
+         "Interrupting kernel": [
+            "正在中断服务"
+         ],
+         "No Connection to Kernel": [
+            "没有到服务的连接"
+         ],
+         "A connection to the notebook server could not be established. The notebook will continue trying to reconnect. Check your network connection or notebook server configuration.": [
+            "到后台服务的连接没能建立, 我们会继续尝试重连, 请检出网络连接...还有服务配置."
+         ],
+         "Connection failed": [
+            "连接失败"
+         ],
+         "No kernel": [
+            "没有服务"
+         ],
+         "Kernel is not running": [
+            "服务没有运行"
+         ],
+         "Don't Restart": [
+            "不要重启"
+         ],
+         "Try Restarting Now": [
+            "现在尝试重启"
+         ],
+         "The kernel has died, and the automatic restart has failed. It is possible the kernel cannot be restarted. If you are not able to restart the kernel, you will still be able to save the notebook, but running code will no longer work until the notebook is reopened.": [
+            "内核已经死亡，自动重启也失败了。有可能内核不能重新启动。如果您不能重新启动内核，您仍然能够保存笔记本，但是运行代码将不再工作，直到笔记本重新打开. "
+         ],
+         "No Kernel": [
+            "没有服务"
+         ],
+         "Failed to start the kernel": [
+            "启动服务失败"
+         ],
+         "Kernel Busy": [
+            "服务正忙"
+         ],
+         "Kernel starting, please wait...": [
+            "服务正在启动,请等待..."
+         ],
+         "Kernel Idle": [
+            "服务空闲"
+         ],
+         "Kernel ready": [
+            "服务准备好了"
+         ],
+         "Using kernel: ": [
+            "使用服务:"
+         ],
+         "Only candidate for language: %1$s was %2$s.": [
+            "只支持语言: %1$s - %2$s."
+         ],
+         "Loading notebook": [
+            "加载服务"
+         ],
+         "Notebook loaded": [
+            "程序已加载"
+         ],
+         "Saving notebook": [
+            "保存代码"
+         ],
+         "Notebook saved": [
+            "代码已保存"
+         ],
+         "Notebook save failed": [
+            "代码保存失败"
+         ],
+         "Notebook copy failed": [
+            "代码复制失败"
+         ],
+         "Checkpoint created": [
+            "checkpoint已创建"
+         ],
+         "Checkpoint failed": [
+            "Checkpoint 失败"
+         ],
+         "Checkpoint deleted": [
+            "checkpoint已删除"
+         ],
+         "Checkpoint delete failed": [
+            "checkpoint删除失败"
+         ],
+         "Restoring to checkpoint...": [
+            "重新保存checkpoint..."
+         ],
+         "Checkpoint restore failed": [
+            "checkpoint 重新保存失败"
+         ],
+         "Autosave disabled": [
+            "自动保存失败"
+         ],
+         "Saving every %d sec.": [
+            "每隔 %s 秒保存一次."
+         ],
+         "Trusted": [
+            "可信的"
+         ],
+         "Not Trusted": [
+            "不可信"
+         ],
+         "click to expand output": [
+            "点击展开内容"
+         ],
+         "click to expand output; double click to hide output": [
+            "点击展开输出; 双击隐藏"
+         ],
+         "click to unscroll output; double click to hide": [
+            "单击显示输出; 双击隐藏"
+         ],
+         "click to scroll output; double click to hide": [
+            "点击滚动输出;双击隐藏"
+         ],
+         "Javascript error adding output!": [
+            "Javascript添加输出错误!"
+         ],
+         "See your browser Javascript console for more details.": [
+            "更多细节请参见您的浏览器Javascript控制台。"
+         ],
+         "Out[%d]:": [
+            "输出[%d]:"
+         ],
+         "Unrecognized output: %s": [
+            "未识别的输出: %s"
+         ],
+         "Open the pager in an external window": [
+            "在内部窗口打开页面"
+         ],
+         "Close the pager": [
+            "关闭页面"
+         ],
+         "Jupyter Pager": [
+            "Jupyter 页面"
+         ],
+         "go to cell start": [
+            "跳到单元格起始处"
+         ],
+         "go to cell end": [
+            "跳到单元格最后"
+         ],
+         "go one word left": [
+            "跳到单词左边"
+         ],
+         "go one word right": [
+            "跳到单词右边"
+         ],
+         "delete word before": [
+            "删除前面的单词"
+         ],
+         "delete word after": [
+            "删除后面的单词"
+         ],
+         "redo": [
+            "重做"
+         ],
+         "redo selection": [
+            "重新选择"
+         ],
+         "emacs-style line kill": [
+            ""
+         ],
+         "delete line left of cursor": [
+            "删除光标左边线"
+         ],
+         "delete line right of cursor": [
+            ""
+         ],
+         "code completion or indent": [
+            "代码完成或缩进"
+         ],
+         "tooltip": [
+            "工具提示"
+         ],
+         "indent": [
+            "缩进"
+         ],
+         "dedent": [
+            "取消缩进"
+         ],
+         "select all": [
+            "全选"
+         ],
+         "undo": [
+            "撤销"
+         ],
+         "comment": [
+            "评论"
+         ],
+         "delete whole line": [
+            "删除整行"
+         ],
+         "undo selection": [
+            "撤销选择"
+         ],
+         "toggle overwrite flag": [
+            "切换 重写标志"
+         ],
+         "Shift": [
+            ""
+         ],
+         "Alt": [
+            ""
+         ],
+         "Up": [
+            ""
+         ],
+         "Down": [
+            ""
+         ],
+         "Left": [
+            ""
+         ],
+         "Right": [
+            ""
+         ],
+         "Tab": [
+            ""
+         ],
+         "Caps Lock": [
+            ""
+         ],
+         "Esc": [
+            ""
+         ],
+         "Ctrl": [
+            ""
+         ],
+         "Enter": [
+            ""
+         ],
+         "Page Up": [
+            ""
+         ],
+         "Page Down": [
+            ""
+         ],
+         "Home": [
+            ""
+         ],
+         "End": [
+            ""
+         ],
+         "Space": [
+            ""
+         ],
+         "Backspace": [
+            ""
+         ],
+         "Minus": [
+            ""
+         ],
+         "PageUp": [
+            ""
+         ],
+         "The Jupyter Notebook has two different keyboard input modes.": [
+            "Jupyter笔记本有两种不同的键盘输入模式."
+         ],
+         "<b>Edit mode</b> allows you to type code or text into a cell and is indicated by a green cell border.": [
+            "<b>编辑模式</b>允许您将代码或文本输入到一个单元格中，并通过一个绿色的单元格来表示"
+         ],
+         "<b>Command mode</b> binds the keyboard to notebook level commands and is indicated by a grey cell border with a blue left margin.": [
+            "<b>命令模式</b>将键盘与笔记本级命令绑定在一起，并通过一个灰色的单元格边界显示，该边框为蓝色的左边框。"
+         ],
+         "Close": [
+            "关闭"
+         ],
+         "Keyboard shortcuts": [
+            "快捷键"
+         ],
+         "Command": [
+            ""
+         ],
+         "Control": [
+            ""
+         ],
+         "Option": [
+            "选项"
+         ],
+         "Return": [
+            "返回"
+         ],
+         "Command Mode (press %s to enable)": [
+            "命令行模式(按 %s 生效)"
+         ],
+         "Edit Shortcuts": [
+            "编辑快捷键"
+         ],
+         "edit command-mode keyboard shortcuts": [
+            "编辑命令行快捷键"
+         ],
+         "Edit Mode (press %s to enable)": [
+            "编辑模式(按 %s 生效)"
+         ],
+         "Autosave Failed!": [
+            "自动保存失败!"
+         ],
+         "Rename": [
+            "重命名"
+         ],
+         "Enter a new notebook name:": [
+            "请输入代码名称:"
+         ],
+         "Rename Notebook": [
+            "重命名"
+         ],
+         "Invalid notebook name. Notebook names must have 1 or more characters and can contain any characters except :/\\. Please enter a new notebook name:": [
+            "无效的文件名. 代码名不能为空 并且不能包含\".\" 请输入一个新的文件名:"
+         ],
+         "Renaming...": [
+            "正在重命名..."
+         ],
+         "Unknown error": [
+            "未知错误"
+         ],
+         "no checkpoint": [
+            "没有检查点"
+         ],
+         "Last Checkpoint: %s": [
+            "最后检查: %s "
+         ],
+         "(unsaved changes)": [
+            "(未保存改变)"
+         ],
+         "(autosaved)": [
+            "(自动保存)"
+         ],
+         "Warning: too many matches (%d). Some changes might not be shown or applied.": [
+            "警告:太多的匹配(%d). 有些更改可能不会被显示或应用."
+         ],
+         "%d match": [
+            "%d 匹配",
+            "%d 匹配"
+         ],
+         "More than 100 matches, aborting": [
+            "超过100个匹配, 中止"
+         ],
+         "Use regex (JavaScript regex syntax)": [
+            ""
+         ],
+         "Replace in selected cells": [
+            "在选中单元格中替换"
+         ],
+         "Match case": [
+            "匹配"
+         ],
+         "Find": [
+            "查找"
+         ],
+         "Replace": [
+            "替换"
+         ],
+         "No matches, invalid or empty regular expression": [
+            "没匹配到, 无效或空的正则表达式"
+         ],
+         "Replace All": [
+            "替换所有"
+         ],
+         "Find and Replace": [
+            "查找并且替换"
+         ],
+         "find and replace": [
+            "查找并且替换"
+         ],
+         "Write raw LaTeX or other formats here, for use with nbconvert. It will not be rendered in the notebook. When passing through nbconvert, a Raw Cell's content is added to the output unmodified.": [
+            ""
+         ],
+         "Grow the tooltip vertically (press shift-tab twice)": [
+            ""
+         ],
+         "show the current docstring in pager (press shift-tab 4 times)": [
+            ""
+         ],
+         "Open in Pager": [
+            ""
+         ],
+         "Tooltip will linger for 10 seconds while you type": [
+            ""
+         ],
+         "Welcome to the Notebook Tour": [
+            "欢迎使用Notebook"
+         ],
+         "You can use the left and right arrow keys to go backwards and forwards.": [
+            "你可以使用左右箭头键来前后移动"
+         ],
+         "Filename": [
+            "文件名"
+         ],
+         "Click here to change the filename for this notebook.": [
+            "点击改变代码文件名"
+         ],
+         "Notebook Menubar": [
+            "菜单栏"
+         ],
+         "The menubar has menus for actions on the notebook, its cells, and the kernel it communicates with.": [
+            "菜单栏操作界面, 它的单元格和它与之通信的内核上进行操作. "
+         ],
+         "Notebook Toolbar": [
+            "代码工具栏"
+         ],
+         "The toolbar has buttons for the most common actions. Hover your mouse over each button for more information.": [
+            "工具栏有最常见操作的按钮。将鼠标悬停在每个按钮上以获得更多信息。"
+         ],
+         "Mode Indicator": [
+            "模式指示器"
+         ],
+         "The Notebook has two modes: Edit Mode and Command Mode. In this area, an indicator can appear to tell you which mode you are in.": [
+            "该笔记本有两种模式:编辑模式和命令模式. 在这个区域, 一个指示器可以显示你在哪个模式. "
+         ],
+         "Right now you are in Command Mode, and many keyboard shortcuts are available. In this mode, no icon is displayed in the indicator area.": [
+            "现在你处于命令模式, 许多快捷键都可以使用. 在该模式下, 指示区域中没有显示图标."
+         ],
+         "Pressing <code>Enter</code> or clicking in the input text area of the cell switches to Edit Mode.": [
+            "按下<code>Enter</code>, 或者点击输入文本区域, 将你返回到命令模式. "
+         ],
+         "Notice that the border around the currently active cell changed color. Typing will insert text into the currently active cell.": [
+            "请注意, 当前活动单元周围的边框改变了颜色. 键入将在当前活动单元中插入文本."
+         ],
+         "Back to Command Mode": [
+            "转到命令模式"
+         ],
+         "Pressing <code>Esc</code> or clicking outside of the input text area takes you back to Command Mode.": [
+            "按下<code>Esc</code>, 或者点击输入文本区域, 将你返回到命令模式. "
+         ],
+         "Keyboard Shortcuts": [
+            "快捷键"
+         ],
+         "You can click here to get a list of all of the keyboard shortcuts.": [
+            "点击获得所有快捷键"
+         ],
+         "Kernel Indicator": [
+            "内核指示器"
+         ],
+         "This is the Kernel indicator. It looks like this when the Kernel is idle.": [
+            "这是内核指示器。当内核空闲时，它看起来就像这样。"
+         ],
+         "The Kernel indicator looks like this when the Kernel is busy.": [
+            "内核指示器在内核繁忙时看起来是这样的。"
+         ],
+         "Interrupting the Kernel": [
+            "内核中断"
+         ],
+         "To cancel a computation in progress, you can click here.": [
+            "要取消正在进行的计算，您可以点击这里。"
+         ],
+         "Notification Area": [
+            "任务栏通知区"
+         ],
+         "Messages in response to user actions (Save, Interrupt, etc.) appear here.": [
+            "响应用户操作(保存, 中断等)的消息出现在这里."
+         ],
+         "End of Tour": [
+            "结束"
+         ],
+         "This concludes the Jupyter Notebook User Interface Tour.": [
+            "这就结束了Jupyter笔记本用户界面之旅。"
+         ],
+         "Edit Attachments": [
+            ""
+         ],
+         "Cell": [
+            ""
+         ],
+         "Edit Metadata": [
+            ""
+         ],
+         "Custom": [
+            ""
+         ],
+         "Set the MIME type of the raw cell:": [
+            ""
+         ],
+         "Raw Cell MIME Type": [
+            ""
+         ],
+         "Raw NBConvert Format": [
+            ""
+         ],
+         "Raw Cell Format": [
+            ""
+         ],
+         "Slide": [
+            ""
+         ],
+         "Sub-Slide": [
+            ""
+         ],
+         "Fragment": [
+            ""
+         ],
+         "Skip": [
+            ""
+         ],
+         "Notes": [
+            ""
+         ],
+         "Slide Type": [
+            ""
+         ],
+         "Slideshow": [
+            ""
+         ],
+         "Add tag": [
+            ""
+         ],
+         "Edit the list of tags below. All whitespace is treated as tag separators.": [
+            ""
+         ],
+         "Edit the tags": [
+            ""
+         ],
+         "Edit Tags": [
+            ""
+         ],
+         "Shutdown": [
+            "关闭"
+         ],
+         "Create a new notebook with %s": [
+            ""
+         ],
+         "An error occurred while creating a new notebook.": [
+            ""
+         ],
+         "Creating File Failed": [
+            "创建文件失败"
+         ],
+         "An error occurred while creating a new file.": [
+            "创建新文件的时候出现了一个错误"
+         ],
+         "Creating Folder Failed": [
+            "创建文件夹失败"
+         ],
+         "An error occurred while creating a new folder.": [
+            "创建新文件夹的时候出现了一个错误."
+         ],
+         "Failed to read file": [
+            "读取文件失败"
+         ],
+         "Failed to read file %s": [
+            "读取代码文件 %s 失败了."
+         ],
+         "The file size is %d MB. Do you still want to upload it?": [
+            "文件大小为 %d MB, 还想上传么?"
+         ],
+         "Large file size warning": [
+            "请注意文件大小..."
+         ],
+         "Server error: ": [
+            "服务出现错误:"
+         ],
+         "The notebook list is empty.": [
+            "代码列表为空, 请添加代码."
+         ],
+         "Click here to rename, delete, etc.": [
+            "点击进行操作."
+         ],
+         "Running": [
+            "运行"
+         ],
+         "Enter a new file name:": [
+            "请输入一个新的文件名:"
+         ],
+         "Enter a new directory name:": [
+            "请输入一个新的路径:"
+         ],
+         "Enter a new name:": [
+            "请输入新名字:"
+         ],
+         "Rename file": [
+            "文件重命名"
+         ],
+         "Rename directory": [
+            "重命名路径"
+         ],
+         "Rename notebook": [
+            "重命名"
+         ],
+         "Move": [
+            "移动"
+         ],
+         "An error occurred while renaming \"%1$s\" to \"%2$s\".": [
+            "当把 \"%1$s\" 重命名为 \"%2$s\" 时出现错误."
+         ],
+         "Rename Failed": [
+            "重命名失败"
+         ],
+         "Enter a new destination directory path for this item:": [
+            "为代码选择一个新的路径:",
+            "为选中的 %d 代码选择一个新的路径:"
+         ],
+         "Move an Item": [
+            "移动一个代码文件",
+            "移动 %d 个代码文件"
+         ],
+         "An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\".": [
+            "当把 \"%1$s\" 从 \"%2$s\" 移动到 \"%3$s\" 时出现错误."
+         ],
+         "Move Failed": [
+            "移动失败"
+         ],
+         "Are you sure you want to permanently delete: \"%s\"?": [
+            "删除不可恢复: \"%s\", 确定删除?",
+            "删除不可恢复: 选择 %d 文件, 确定删除?"
+         ],
+         "An error occurred while deleting \"%s\".": [
+            "当删除 \"%s\" 时, 出现错误."
+         ],
+         "Delete Failed": [
+            "删除失败"
+         ],
+         "Are you sure you want to duplicate: \"%s\"?": [
+            "确定复制: \"%s\"?",
+            "确定复制: 已选择 %d 文件?"
+         ],
+         "Duplicate": [
+            "复制"
+         ],
+         "An error occurred while duplicating \"%s\".": [
+            "当复制\"%s\" 时出现错误."
+         ],
+         "Duplicate Failed": [
+            "复制失败"
+         ],
+         "Upload": [
+            "上传"
+         ],
+         "Invalid file name": [
+            "无效的文件名"
+         ],
+         "File names must be at least one character and not start with a period": [
+            "文件名不能为空...并且不能以句号开始,除下划线以外的符号都不能开头..."
+         ],
+         "Cannot upload invalid Notebook": [
+            "无法上传无效的Notebook"
+         ],
+         "There is already a file named \"%s\". Do you want to replace it?": [
+            "文件名已经存在 \"%s\", 需要替换现有文件?"
+         ],
+         "Replace file": [
+            "替换文件"
+         ]
+      }
+   }
+}
