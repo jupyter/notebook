@@ -19,6 +19,7 @@ env:
     - GROUP=js/base
     - GROUP=js/services
     - GROUP=js/tree
+    - GROUP=docs
 
 before_install:
     - pip install --upgrade pip
@@ -30,10 +31,14 @@ before_install:
     - npm upgrade -g npm
     - npm install
     - |
-      if [[ $GROUP == js* ]]; then 
+      if [[ $GROUP == js* ]]; then
         npm install -g casperjs@1.1.3 phantomjs-prebuilt@2.1.7
       fi
     - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
+    - |
+      if [[ $GROUP == docs ]]; then
+        pip install -r docs/doc-requirements.txt
+      fi
 
 install:
     - pip install -f travis-wheels/wheelhouse file://$PWD#egg=notebook[test]
@@ -43,6 +48,7 @@ install:
 script:
     - 'if [[ $GROUP == js* ]]; then travis_retry python -m notebook.jstest ${GROUP:3}; fi'
     - 'if [[ $GROUP == python ]]; then nosetests -v --with-coverage --cover-package=notebook notebook; fi'
+    - 'if [[ $GROUP == docs ]]; then make -C docs/ html; fi'
 
 matrix:
     include:
@@ -50,6 +56,9 @@ matrix:
           env: GROUP=python
         - python: 3.4
           env: GROUP=python
+    exclude:
+        - python: 2.7
+          env: GROUP=docs
 
 after_success:
     - codecov
