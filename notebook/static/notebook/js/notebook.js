@@ -3001,7 +3001,7 @@ define([
             this.fromJSON(data);
         } catch (e) {
             failed = e;
-            console.log("Notebook failed to load from JSON:", e);
+            console.error("Notebook failed to load from JSON:", e);
         }
         if (failed || data.message) {
             // *either* fromJSON failed or validation failed

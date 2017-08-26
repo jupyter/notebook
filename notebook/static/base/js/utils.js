@@ -940,12 +940,17 @@ define([
         if(!window.MathJax){
             return;
         }
-        return $el.map(function(){
+        $el.map(function(){
             // MathJax takes a DOM node: $.map makes `this` the context
-            return MathJax.Hub.Queue(
-                ["Typeset", MathJax.Hub, this],
-                ["resetEquationNumbers",MathJax.InputJax.TeX]
-            );
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, this]);
+            try {
+                MathJax.Hub.Queue(
+                    ["Require", MathJax.Ajax, "[MathJax]/extensions/TeX/AMSmath.js"],
+                    function() { MathJax.InputJax.TeX.resetEquationNumbers(); }
+                );
+            } catch (e) {
+                console.error("Error queueing resetEquationNumbers:", e);
+            }
         });
     };
 
