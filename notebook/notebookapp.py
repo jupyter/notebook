@@ -1279,7 +1279,7 @@ class NotebookApp(JupyterApp):
                 self.log.critical(_("Shutdown confirmed"))
                 # schedule stop on the main thread,
                 # since this might be called from a signal handler
-                self.io_loop.add_callback(self.io_loop.stop)
+                self.io_loop.add_callback_from_signal(self.io_loop.stop)
                 return
         else:
             print(_("No answer for 5s:"), end=' ')
@@ -1288,7 +1288,7 @@ class NotebookApp(JupyterApp):
         # set it back to original SIGINT handler
         # use IOLoop.add_callback because signal.signal must be called
         # from main thread
-        self.io_loop.add_callback(self._restore_sigint_handler)
+        self.io_loop.add_callback_from_signal(self._restore_sigint_handler)
     
     def _signal_stop(self, sig, frame):
         self.log.critical(_("received signal %s, stopping"), sig)
