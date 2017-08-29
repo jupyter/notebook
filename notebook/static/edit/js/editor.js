@@ -246,15 +246,11 @@ function(
         };
         var that = this;
 
-        // record change generation for isClean
-        // (I don't know what this implies for the editor)
-        this.generation = this.codemirror.changeGeneration();
-
         var _save = function () {
-            // What does this event do? Does this always need to happen,
-            // even if the file can't be saved? What is dependent on it?
             that.events.trigger("file_saving.Editor");
             return that.contents.save(that.file_path, model).then(function(data) {
+                // record change generation for isClean
+                this.generation = this.codemirror.changeGeneration();
                 that.events.trigger("file_saved.Editor", data);
                 that.last_modified = new Date(data.last_modified);
                 that._clean_state();
@@ -278,8 +274,8 @@ function(
                         console.warn("Last saving was done on `"+that.last_modified+"`("+that._last_modified+"), "+
                                      "while the current file seem to have been saved on `"+data.last_modified+"`");
                         if (that._changed_on_disk_dialog !== null) {
-                            // since the modal's event bindings are removed when destroyed,
-                            // we reinstate save & reload callbacks on the confirmation & reload buttons
+                            // since the modal's event bindings are removed when destroyed, we reinstate
+                            // save & reload callbacks on the confirmation & reload buttons
                             that._changed_on_disk_dialog.find('.save-confirm-btn').click(_save);
                             that._changed_on_disk_dialog.find('.btn-warning').click(function () {window.location.reload()});
                             

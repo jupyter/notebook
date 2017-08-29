@@ -734,6 +734,103 @@ casper.dashboard_test = function (test) {
     });
 };
 
+/**
+ * Editor Tests
+ * 
+ * The functions below are utilities for setting up an editor and tearing it down
+ * after the test is over.
+ */
+caspser.open_new_file = function () {
+    // load up the jupyter notebook server (it's like running `jupyter notebook` in the shell)
+    var baseUrl = this.get_notebook_server();
+
+    // go to the base url, wait for it to load, then make a new file
+    this.start(baseUrl);
+    this.waitFor(this.page_loaded);
+    this.waitForSelector('#new-file a');
+    this.thenClick('#new-file a');
+
+    // when the popup loads, go into that popup and wait until the main text box is loaded
+    this.withPopup(0, function () {this.waitForSelector('.CodeMirror-sizer');});
+
+    // now let's open the window where the file editor is displayed & load
+    this.then(function () {
+        this.open(this.popups[0].url);
+    });
+    this.waitFor(this.page_loaded);
+
+    // Hook the log and error methods of the console, forcing them to
+    // serialize their arguments before printing.  This allows the
+    // Objects to cross into the phantom/slimer regime for display.
+    this.thenEvaluate(function(){
+        var serialize_arguments = function(f, context) {
+            return function() {
+                var pretty_arguments = [];
+                for (var i = 0; i < arguments.length; i++) {
+                    var value = arguments[i];
+                    if (value instanceof Object) {
+                        var name = value.name || 'Object';
+                        // Print a JSON string representation of the object.
+                        // If we don't do this, [Object object] gets printed
+                        // by casper, which is useless.  The long regular
+                        // expression reduces the verbosity of the JSON.
+                        pretty_arguments.push(name + ' {' + JSON.stringify(value, null, '  ')
+                            .replace(/(\s+)?({)?(\s+)?(}(\s+)?,?)?(\s+)?(\s+)?\n/g, '\n')
+                            .replace(/\n(\s+)?\n/g, '\n'));
+                    } else {
+                        pretty_arguments.push(value);
+                    }
+                }
+                f.apply(context, pretty_arguments);
+            };
+        };
+        console.log = serialize_arguments(console.log, console);
+        console.error = serialize_arguments(console.error, console);
+    });
+
+    console.log('Editor loaded.')
+
+}
+
+casper.editor_test = function(test) {
+    // Wrap a notebook test to reduce boilerplate.
+    this.open_new_file();
+
+    // Echo whether or not we are running this test using SlimerJS
+    if (this.evaluate(function(){
+        return typeof InstallTrigger !== 'undefined';   // Firefox 1.0+
+    })) { 
+        console.log('This test is running in SlimerJS.'); 
+        this.slimerjs = true;
+    }
+    
+    // Make sure to remove the onbeforeunload callback.  This callback is 
+    // responsible for the "Are you sure you want to quit?" type messages.
+    // PhantomJS ignores these prompts, SlimerJS does not which causes hangs.
+    this.then(function(){
+        this.evaluate(function(){
+            window.onbeforeunload = function(){};
+        });
+    });
+
+    this.then(test);
+    
+    // This is required to clean up the page we just finished with. If we don't call this
+    // casperjs will leak file descriptors of all the open WebSockets in that page. We
+    // have to set this.page=null so that next time casper.start runs, it will create a
+    // new page from scratch.
+    this.then(function () {
+        this.page.close();
+        this.page = null;
+    });
+    
+    // Run the browser automation.
+    this.run(function() {
+        this.test.done();
+    });
+};
+
+
 // note that this will only work for UNIQUE events -- if you want to
 // listen for the same event twice, this will not work!
 casper.event_test = function (name, events, action, timeout) {
