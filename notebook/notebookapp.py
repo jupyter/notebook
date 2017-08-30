@@ -1144,6 +1144,7 @@ class NotebookApp(JupyterApp):
         self.tornado_settings['allow_credentials'] = self.allow_credentials
         self.tornado_settings['cookie_options'] = self.cookie_options
         self.tornado_settings['token'] = self.token
+        self.tornado_settings['allow_hidden'] = self.allow_hidden
         if (self.open_browser or self.file_to_run) and not self.password:
             self.one_time_token = binascii.hexlify(os.urandom(24)).decode('ascii')
             self.tornado_settings['one_time_token'] = self.one_time_token
