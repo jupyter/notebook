@@ -146,6 +146,7 @@ class NotebookTestBase(TestCase):
                 base_url=cls.url_prefix,
                 config=config,
                 allow_root=True,
+                allow_hidden=True,
                 token=cls.token,
             )
             # don't register signal handler during tests
