@@ -216,4 +216,4 @@ ContentsManager.
 
 .. _NBFormat: https://nbformat.readthedocs.io/en/latest/index.html
 .. _PGContents: https://github.com/quantopian/pgcontents
-.. _PostgreSQL: http://www.postgresql.org/
+.. _PostgreSQL: https://www.postgresql.org/
