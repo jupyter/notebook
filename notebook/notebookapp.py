@@ -1515,9 +1515,9 @@ def list_running_servers(runtime_dir=None):
     if not os.path.isdir(runtime_dir):
         return
 
-    for file in os.listdir(runtime_dir):
-        if file.startswith('nbserver-'):
-            with io.open(os.path.join(runtime_dir, file), encoding='utf-8') as f:
+    for file_name in os.listdir(runtime_dir):
+        if file_name.startswith('nbserver-'):
+            with io.open(os.path.join(runtime_dir, file_name), encoding='utf-8') as f:
                 info = json.load(f)
 
             # Simple check whether that process is really still running
@@ -1527,7 +1527,7 @@ def list_running_servers(runtime_dir=None):
             else:
                 # If the process has died, try to delete its info file
                 try:
-                    os.unlink(os.path.join(runtime_dir, file))
+                    os.unlink(os.path.join(runtime_dir, file_name))
                 except OSError:
                     pass  # TODO: This should warn or log or something
 #-----------------------------------------------------------------------------

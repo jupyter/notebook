@@ -33,17 +33,17 @@ from notebook.nbextensions import (install_nbextension, check_nbextension,
 from traitlets.config.manager import BaseJSONConfigManager
 
 
-def touch(file, mtime=None):
+def touch(file_name, mtime=None):
     """ensure a file exists, and set its modification time
     
     returns the modification time of the file
     """
-    open(file, 'a').close()
+    open(file_name, 'a').close()
     # set explicit mtime
     if mtime:
-        atime = os.stat(file).st_atime
-        os.utime(file, (atime, mtime))
-    return os.stat(file).st_mtime
+        atime = os.stat(file_name).st_atime
+        os.utime(file_name, (atime, mtime))
+    return os.stat(file_name).st_mtime
 
 
 def test_help_output():
@@ -77,8 +77,8 @@ class TestInstallNBExtension(TestCase):
             pjoin(u'∂ir', u'ƒile1'),
             pjoin(u'∂ir', u'∂ir2', u'ƒile2'),
         ]
-        for file in files:
-            fullpath = os.path.join(self.src, file)
+        for file_name in files:
+            fullpath = os.path.join(self.src, file_name)
             parent = os.path.dirname(fullpath)
             if not os.path.exists(parent):
                 os.makedirs(parent)
@@ -144,9 +144,9 @@ class TestInstallNBExtension(TestCase):
             }):
                 install_nbextension(self.src, user=True)
                 self.assert_dir_exists(data_dir)
-                for file in self.files:
+                for file_name in self.files:
                     self.assert_installed(
-                        pjoin(basename(self.src), file),
+                        pjoin(basename(self.src), file_name),
                         user=True,
                     )
     
@@ -169,9 +169,9 @@ class TestInstallNBExtension(TestCase):
                 )
     
     def test_single_file(self):
-        file = self.files[0]
-        install_nbextension(pjoin(self.src, file))
-        self.assert_installed(file)
+        file_name = self.files[0]
+        install_nbextension(pjoin(self.src, file_name))
+        self.assert_installed(file_name)
     
     def test_single_dir(self):
         d = u'∂ir'
@@ -188,8 +188,8 @@ class TestInstallNBExtension(TestCase):
             self.assert_installed(self.files[-1])
 
     def test_destination_file(self):
-        file = self.files[0]
-        install_nbextension(pjoin(self.src, file), destination = u'ƒiledest')
+        file_name = self.files[0]
+        install_nbextension(pjoin(self.src, file_name), destination = u'ƒiledest')
         self.assert_installed(u'ƒiledest')
 
     def test_destination_dir(self):
