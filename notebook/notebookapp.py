@@ -1292,7 +1292,7 @@ class NotebookApp(JupyterApp):
     
     def _signal_stop(self, sig, frame):
         self.log.critical(_("received signal %s, stopping"), sig)
-        self.io_loop.add_callback(self.io_loop.stop)
+        self.io_loop.add_callback_from_signal(self.io_loop.stop)
 
     def _signal_info(self, sig, frame):
         print(self.notebook_info())
