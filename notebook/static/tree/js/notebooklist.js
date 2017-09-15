@@ -9,8 +9,9 @@ define([
     'base/js/dialog',
     'base/js/events',
     'base/js/keyboard',
-    'moment'
-], function($, IPython, utils, i18n, dialog, events, keyboard, moment) {
+    'moment',
+    'bidi/bidi'
+], function($, IPython, utils, i18n, dialog, events, keyboard, moment, bidi) {
     "use strict";
 
     var extension = function(path){
@@ -702,6 +703,7 @@ define([
             select_all.data('indeterminate', true);
         }
         // Update total counter
+        checked = bidi.applyBidi(checked);
         $('#counter-select-all').html(checked===0 ? '&nbsp;' : checked);
 
         // If at aleast on item is selected, hide the selection instructions.
@@ -714,12 +716,11 @@ define([
 
     NotebookList.prototype.add_link = function (model, item) {
         var running = (model.type === 'notebook' && this.sessions[model.path] !== undefined);
-
-        item.data('name', model.name);
+        item.data('name',model.name);
         item.data('path', model.path);
         item.data('modified', model.last_modified);
         item.data('type', model.type);
-        item.find(".item_name").text(model.name);
+        item.find(".item_name").text(bidi.applyBidi(model.name));
         var icon = NotebookList.icons[model.type];
         if (running) {
             icon = 'running_' + icon;

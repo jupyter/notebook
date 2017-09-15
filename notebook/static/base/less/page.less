@@ -63,6 +63,15 @@ body > #header {
     padding-bottom: (@navbar-height - @logo_height) / 2;
 }
 
+[dir="rtl"] #ipython_notebook {
+    margin-right: 10px;
+    margin-left: 0;
+}
+
+[dir="rtl"] #ipython_notebook.pull-left {
+     .pull-right();
+}
+
 .flex-spacer {
     flex: 1;
 }
@@ -107,7 +116,11 @@ span#kernel_logo_widget {
 }
 
 span#login_widget {
-    
+    float: right;
+}
+
+[dir="rtl"] span#login_widget {
+    float: left;
 }
 
 span#login_widget > .button,
