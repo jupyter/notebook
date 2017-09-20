@@ -87,7 +87,7 @@ class NbconvertFileHandler(IPythonHandler):
         # If the notebook relates to a real file (default contents manager),
         # give its path to nbconvert.
         if hasattr(self.contents_manager, '_get_os_path'):
-            os_path = self.contents_manager._get_os_path()
+            os_path = self.contents_manager._get_os_path(path)
         else:
             os_path = ''
 
