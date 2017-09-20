@@ -125,7 +125,7 @@ define([
         });
         
         this.events.on("config_changed.Editor", function () {
-            var keyMap = editor.codemirror.getOption('keyMap') || "default";
+            var keyMap = editor.codemirror.getOption('keyMap') || 'default';
             that.element.find(".selected-keymap").removeClass("selected-keymap");
             that.element.find("#menu-keymap-" + keyMap).addClass("selected-keymap");
         });
