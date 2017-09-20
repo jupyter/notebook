@@ -5,7 +5,7 @@ cache:
     directories:
         - $HOME/.cache/bower
 python:
-    - 3.5.1  # Set to 3.5.1 since travis has not yet included as default for 3.5
+    - 3.6
     - 2.7
 
 sudo: required
@@ -59,9 +59,9 @@ script:
 
 matrix:
     include:
-        - python: 3.3
-          env: GROUP=python
         - python: 3.4
+          env: GROUP=python
+        - python: 3.5
           env: GROUP=python
     exclude:
         - python: 2.7
