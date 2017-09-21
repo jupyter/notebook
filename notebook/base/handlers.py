@@ -10,6 +10,8 @@ import os
 import re
 import sys
 import traceback
+import types
+import warnings
 try:
     # py3
     from http.client import responses
@@ -450,6 +452,24 @@ class APIHandler(IPythonHandler):
             raise web.HTTPError(404)
         return super(APIHandler, self).prepare()
 
+    def write_error(self, status_code, **kwargs):
+        """APIHandler errors are JSON, not human pages"""
+        self.set_header('Content-Type', 'application/json')
+        message = responses.get(status_code, 'Unknown HTTP Error')
+        reply = {
+            'message': message,
+        }
+        exc_info = kwargs.get('exc_info')
+        if exc_info:
+            e = exc_info[1]
+            if isinstance(e, HTTPError):
+                reply['message'] = e.log_message or message
+            else:
+                reply['message'] = 'Unhandled error'
+                reply['traceback'] = ''.join(traceback.format_exception(*exc_info))
+        self.log.warning(reply['message'])
+        self.finish(json.dumps(reply))
+
     def get_current_user(self):
         """Raise 403 on API handlers instead of redirecting to human login page"""
         # preserve _user_cache so we don't raise more than once
@@ -557,32 +577,14 @@ def json_errors(method):
     2. Create and return a JSON body with a message field describing
        the error in a human readable form.
     """
+    warnings.warn('@json_errors is deprecated. Use APIHandler',
+        DeprecationWarning,
+        stacklevel=2,
+    )
     @functools.wraps(method)
-    @gen.coroutine
     def wrapper(self, *args, **kwargs):
-        try:
-            result = yield gen.maybe_future(method(self, *args, **kwargs))
-        except web.HTTPError as e:
-            self.set_header('Content-Type', 'application/json')
-            status = e.status_code
-            message = e.log_message
-            self.log.warning(message)
-            self.set_status(e.status_code)
-            reply = dict(message=message, reason=e.reason)
-            self.finish(json.dumps(reply))
-        except Exception:
-            self.set_header('Content-Type', 'application/json')
-            self.log.error("Unhandled error in API request", exc_info=True)
-            status = 500
-            message = "Unknown server error"
-            t, value, tb = sys.exc_info()
-            self.set_status(status)
-            tb_text = ''.join(traceback.format_exception(t, value, tb))
-            reply = dict(message=message, reason=None, traceback=tb_text)
-            self.finish(json.dumps(reply))
-        else:
-            # FIXME: can use regular return in generators in py3
-            raise gen.Return(result)
+        self.write_error = types.MethodType(APIHandler.write_error, self)
+        return method(self, *args, **kwargs)
     return wrapper
 
 
