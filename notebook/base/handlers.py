@@ -450,6 +450,16 @@ class APIHandler(IPythonHandler):
             raise web.HTTPError(404)
         return super(APIHandler, self).prepare()
 
+    def get_current_user(self):
+        """Raise 403 on API handlers instead of redirecting to human login page"""
+        # preserve _user_cache so we don't raise more than once
+        if hasattr(self, '_user_cache'):
+            return self._user_cache
+        self._user_cache = user = super(APIHandler, self).get_current_user()
+        if user is None:
+            raise web.HTTPError(403)
+        return user
+
     @property
     def content_security_policy(self):
         csp = '; '.join([
