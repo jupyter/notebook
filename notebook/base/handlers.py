@@ -577,7 +577,7 @@ def json_errors(method):
     2. Create and return a JSON body with a message field describing
        the error in a human readable form.
     """
-    warnings.warn('@json_errors is deprecated. Use APIHandler',
+    warnings.warn('@json_errors is deprecated in notebook 5.2.0. Subclass APIHandler instead.',
         DeprecationWarning,
         stacklevel=2,
     )
