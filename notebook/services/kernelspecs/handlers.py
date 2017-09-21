@@ -13,7 +13,7 @@ pjoin = os.path.join
 
 from tornado import web
 
-from ...base.handlers import APIHandler, json_errors
+from ...base.handlers import APIHandler
 from ...utils import url_path_join, url_unescape
 
 def kernelspec_model(handler, name):
@@ -45,7 +45,6 @@ def kernelspec_model(handler, name):
 
 class MainKernelSpecHandler(APIHandler):
 
-    @json_errors
     @web.authenticated
     def get(self):
         ksm = self.kernel_spec_manager
@@ -66,7 +65,6 @@ class MainKernelSpecHandler(APIHandler):
 
 class KernelSpecHandler(APIHandler):
 
-    @json_errors
     @web.authenticated
     def get(self, kernel_name):
         try:

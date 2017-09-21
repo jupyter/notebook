@@ -18,14 +18,13 @@ from jupyter_client.jsonutil import date_default
 from ipython_genutils.py3compat import cast_unicode
 from notebook.utils import url_path_join, url_escape
 
-from ...base.handlers import APIHandler, json_errors
+from ...base.handlers import APIHandler
 from ...base.zmqhandlers import AuthenticatedZMQStreamHandler, deserialize_binary_message
 
 from jupyter_client import protocol_version as client_protocol_version
 
 class MainKernelHandler(APIHandler):
 
-    @json_errors
     @web.authenticated
     @gen.coroutine
     def get(self):
@@ -33,7 +32,6 @@ class MainKernelHandler(APIHandler):
         kernels = yield gen.maybe_future(km.list_kernels())
         self.finish(json.dumps(kernels, default=date_default))
 
-    @json_errors
     @web.authenticated
     @gen.coroutine
     def post(self):
@@ -56,7 +54,6 @@ class MainKernelHandler(APIHandler):
 
 class KernelHandler(APIHandler):
 
-    @json_errors
     @web.authenticated
     def get(self, kernel_id):
         km = self.kernel_manager
@@ -64,7 +61,6 @@ class KernelHandler(APIHandler):
         model = km.kernel_model(kernel_id)
         self.finish(json.dumps(model, default=date_default))
 
-    @json_errors
     @web.authenticated
     @gen.coroutine
     def delete(self, kernel_id):
@@ -76,7 +72,6 @@ class KernelHandler(APIHandler):
 
 class KernelActionHandler(APIHandler):
 
-    @json_errors
     @web.authenticated
     @gen.coroutine
     def post(self, kernel_id, action):

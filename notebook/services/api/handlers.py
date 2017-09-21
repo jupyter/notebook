@@ -8,7 +8,7 @@ import json
 
 from tornado import gen, web
 
-from ...base.handlers import IPythonHandler, APIHandler, json_errors
+from ...base.handlers import IPythonHandler, APIHandler
 from notebook._tz import utcfromtimestamp, isoformat
 
 import os
@@ -28,7 +28,6 @@ class APIStatusHandler(APIHandler):
 
     _track_activity = False
 
-    @json_errors
     @web.authenticated
     @gen.coroutine
     def get(self):

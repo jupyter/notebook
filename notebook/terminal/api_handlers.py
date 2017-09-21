@@ -1,17 +1,15 @@
 import json
 from tornado import web, gen
-from ..base.handlers import APIHandler, json_errors
+from ..base.handlers import APIHandler
 from ..utils import url_path_join
 
 class TerminalRootHandler(APIHandler):
-    @json_errors
     @web.authenticated
     def get(self):
         tm = self.terminal_manager
         terms = [{'name': name} for name in tm.terminals]
         self.finish(json.dumps(terms))
 
-    @json_errors
     @web.authenticated
     def post(self):
         """POST /terminals creates a new terminal and redirects to it"""
@@ -22,7 +20,6 @@ class TerminalRootHandler(APIHandler):
 class TerminalHandler(APIHandler):
     SUPPORTED_METHODS = ('GET', 'DELETE')
 
-    @json_errors
     @web.authenticated
     def get(self, name):
         tm = self.terminal_manager
@@ -31,7 +28,6 @@ class TerminalHandler(APIHandler):
         else:
             raise web.HTTPError(404, "Terminal not found: %r" % name)
 
-    @json_errors
     @web.authenticated
     @gen.coroutine
     def delete(self, name):

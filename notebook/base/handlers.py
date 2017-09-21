@@ -655,7 +655,6 @@ class FileFindHandler(IPythonHandler, web.StaticFileHandler):
 
 class APIVersionHandler(APIHandler):
 
-    @json_errors
     def get(self):
         # not authenticated, so give as few info as possible
         self.finish(json.dumps({"version":notebook.__version__}))
