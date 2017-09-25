@@ -2910,7 +2910,7 @@ define([
         var w = window.open('', IPython._target);
         var parent = utils.url_path_split(this.notebook_path)[0];
         var p;
-        if (this.dirty) {
+        if (this.dirty && this.writable) {
             p = this.save_notebook(true);
         } else {
             p = Promise.resolve();
