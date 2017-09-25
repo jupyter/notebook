@@ -5,7 +5,7 @@
 
 from tornado import web
 
-from ...base.handlers import APIHandler, json_errors
+from ...base.handlers import APIHandler
 from . import csp_report_uri
 
 class CSPReportHandler(APIHandler):
@@ -21,7 +21,6 @@ class CSPReportHandler(APIHandler):
         # don't check XSRF for CSP reports
         return
 
-    @json_errors
     @web.authenticated
     def post(self):
         '''Log a content security policy violation report'''
