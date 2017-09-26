@@ -26,7 +26,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-define([], function() {
+define(function() {
   "use strict";
   // Since apparently this is global rather than part of the UMD loading
   var preact = window.preact;
