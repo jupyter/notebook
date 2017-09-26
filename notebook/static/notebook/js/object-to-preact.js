@@ -93,8 +93,16 @@ define(function() {
       } else if (typeof item === "string") {
         result.push(item);
       } else if (typeof item === "object") {
-        const keyedItem = item;
-        item.key = i;
+        const keyedItem = {
+          tagName: item.tagName,
+          attributes: item.attributes,
+          children: item.children
+        };
+        if (item.attributes && item.attributes.key) {
+          keyedItem.key = item.attributes.key;
+        } else {
+          keyedItem.key = i;
+        }
         result.push(objectToPreactElement(keyedItem));
       } else {
         console.warn("invalid vdom data passed", item);

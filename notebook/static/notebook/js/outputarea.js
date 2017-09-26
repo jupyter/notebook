@@ -3,7 +3,6 @@
 
 define([
     'jquery',
-    'underscore',
     'base/js/utils',
     'base/js/i18n',
     'base/js/security',
@@ -12,7 +11,7 @@ define([
     'notebook/js/mathjaxutils',
     'notebook/js/object-to-preact',
     'components/marked/lib/marked',
-], function($, _, utils, i18n, security, keyboard, configmod, mathjaxutils, otp, marked) {
+], function($, utils, i18n, security, keyboard, configmod, mathjaxutils, otp, marked) {
     "use strict";
 
     /**
@@ -714,7 +713,7 @@ define([
         );
 
         element.append(toinsert);
-        preact.render(otp.objectToPreactElement(_.clone(vdom)), toinsert[0]);
+        preact.render(otp.objectToPreactElement(vdom), toinsert[0]);
 
         return toinsert;
      };
