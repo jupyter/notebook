@@ -93,6 +93,9 @@ class KernelActionHandler(APIHandler):
 
 
 class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
+    '''There is one ZMQChannelsHandler per running kernel and it oversees all
+    the sessions.
+    '''
     
     # class-level registry of open sessions
     # allows checking for conflict on session-id,
@@ -198,6 +201,10 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         self._kernel_info_future = Future()
         self._close_future = Future()
         self.session_key = ''
+        
+        # TODO: the buffer should likely be a memory bounded queue, we're starting with a list to keep it simple
+        # TODO: Min suggested this should exist on the `Kernel` as well, not in this ZMQChannelsHandler
+        self.message_buffer = []
 
         # Rate limiting code
         self._iopub_window_msg_count = 0
@@ -257,6 +264,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         super(ZMQChannelsHandler, self).open()
         self.kernel_manager.notify_connect(kernel_id)
         try:
+            # TODO: if this is a reconnection, we'll replay messages
             self.create_stream()
         except web.HTTPError as e:
             self.log.error("Error opening stream: %s", e)
@@ -404,6 +412,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         return self._close_future
 
     def on_close(self):
+        # TODO: Start buffering messages
+        
         self.log.debug("Websocket closed %s", self.session_key)
         # unregister myself as an open session (only if it's really me)
         if self._open_sessions.get(self.session_key) is self:
