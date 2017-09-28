@@ -1,6 +1,7 @@
 {
 	"domain": "nbjs",
 	"supported_languages": [
+		"zh-CN"
 	],
 	"locale_data": {
 		"nbjs": {
