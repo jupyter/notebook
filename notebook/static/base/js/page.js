@@ -15,8 +15,8 @@ define([
         * header_div_selector: string
         * site_div_selector: string
         */
-        this.header_div_element = $(header_div_selector);
-        this.site_div_element = $(site_div_selector);
+        this.header_div_element = $(header_div_selector || 'div#header');
+        this.site_div_element = $(site_div_selector || 'div#site');
 
         this.bind_events();
     };
