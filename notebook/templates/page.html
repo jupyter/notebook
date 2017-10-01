@@ -16,9 +16,6 @@
     {% endblock %}
     <link rel="stylesheet" href="{{ base_url }}custom/custom.css" type="text/css" />
     <script src="{{static_url("components/es6-promise/promise.min.js")}}" type="text/javascript" charset="utf-8"></script>
-    <script src="{{static_url('components/preact/index.js')}}" type="text/javascript"></script>
-    <script src="{{static_url('components/proptypes/index.js')}}" type="text/javascript"></script>
-    <script src="{{static_url('components/preact-compat/index.js')}}" type="text/javascript"></script>
     <script src="{{static_url('components/requirejs/require.js') }}" type="text/javascript" charset="utf-8"></script>
     <script>
       require.config({
@@ -41,6 +38,8 @@
             bootstraptour: 'components/bootstrap-tour/build/js/bootstrap-tour.min',
             'jquery-ui': 'components/jquery-ui/ui/minified/jquery-ui.min',
             moment: 'components/moment/min/moment-with-locales',
+            react: 'components/react/react.production.min',
+            "react-dom": 'components/react/react-dom.production.min',
             codemirror: 'components/codemirror',
             termjs: 'components/xterm.js/dist/xterm',
             typeahead: 'components/jquery-typeahead/dist/jquery.typeahead.min',
@@ -166,29 +165,30 @@ dir="ltr">
 {% endblock %}
 
 <script type='text/javascript'>
-  function _remove_token_from_url() {
-    if (window.location.search.length <= 1) {
+function _remove_token_from_url() {
+  if (window.location.search.length <= 1) {
+    return;
+  }
+  var search_parameters = window.location.search.slice(1).split("&");
+  for (var i = 0; i < search_parameters.length; i++) {
+    if (search_parameters[i].split("=")[0] === "token") {
+      // remote token from search parameters
+      search_parameters.splice(i, 1);
+      var new_search = "";
+      if (search_parameters.length) {
+        new_search = "?" + search_parameters.join("&");
+      }
+      var new_url =
+        window.location.origin +
+        window.location.pathname +
+        new_search +
+        window.location.hash;
+      window.history.replaceState({}, "", new_url);
       return;
     }
-    var search_parameters = window.location.search.slice(1).split('&');
-    for (var i = 0; i < search_parameters.length; i++) {
-      if (search_parameters[i].split('=')[0] === 'token') {
-        // remote token from search parameters
-        search_parameters.splice(i, 1);
-        var new_search = '';
-        if (search_parameters.length) {
-          new_search = '?' + search_parameters.join('&');
-        }
-        var new_url = window.location.origin + 
-                      window.location.pathname + 
-                      new_search + 
-                      window.location.hash;
-        window.history.replaceState({}, "", new_url);
-        return;
-      }
-    }
   }
-  _remove_token_from_url();
+}
+_remove_token_from_url();
 </script>
 </body>
 
