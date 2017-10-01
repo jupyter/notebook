@@ -26,6 +26,8 @@ var rjs_config = {
     codemirror: 'components/codemirror',
     xterm: 'components/xterm.js/dist/xterm',
     typeahead: 'components/jquery-typeahead/dist/jquery.typeahead',
+    react: 'components/react/react.production.min',
+    "react-dom": 'components/react/react-dom.production.min',
     contents: 'empty:',
     custom: 'empty:',
   },
