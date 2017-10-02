@@ -6,6 +6,7 @@ docs/man/*.gz
 docs/source/api/generated
 docs/source/config.rst
 docs/gh-pages
+notebook/i18n/*/*.mo
 notebook/static/components
 notebook/static/style/*.min.css*
 notebook/static/*/js/built/
