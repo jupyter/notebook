@@ -15,8 +15,10 @@
   },
   "devDependencies": {
     "bower": "*",
+    "chalk": "^2.1.0",
     "less": "~2",
-    "requirejs": "^2.1.17"
-  },
-  "dependencies": {}
+    "requirejs": "^2.1.17",
+    "puppeteer": "^0.11.0",
+    "spawn-rx": "^2.0.11"
+  }
 }
