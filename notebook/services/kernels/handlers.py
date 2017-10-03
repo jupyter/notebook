@@ -201,10 +201,6 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         self._kernel_info_future = Future()
         self._close_future = Future()
         self.session_key = ''
-        
-        # TODO: the buffer should likely be a memory bounded queue, we're starting with a list to keep it simple
-        # TODO: Min suggested this should exist on the `Kernel` as well, not in this ZMQChannelsHandler
-        self.message_buffer = []
 
         # Rate limiting code
         self._iopub_window_msg_count = 0
@@ -259,12 +255,15 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             self.log.warning("Replacing stale connection: %s", self.session_key)
             yield stale_handler.close()
         self._open_sessions[self.session_key] = self
-    
+
     def open(self, kernel_id):
         super(ZMQChannelsHandler, self).open()
         self.kernel_manager.notify_connect(kernel_id)
+
+        # on new connections, flush the message buffer
+        replay_buffer = self.kernel_manager.stop_buffering(kernel_id, self.session_key)
+
         try:
-            # TODO: if this is a reconnection, we'll replay messages
             self.create_stream()
         except web.HTTPError as e:
             self.log.error("Error opening stream: %s", e)
@@ -274,9 +273,16 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                 if not stream.closed():
                     stream.close()
             self.close()
-        else:
-            for channel, stream in self.channels.items():
-                stream.on_recv_stream(self._on_zmq_reply)
+            return
+
+        if replay_buffer:
+            self.log.info("Replaying %s buffered messages", len(replay_buffer))
+            for channel, msg_list in replay_buffer:
+                stream = self.channels[channel]
+                self._on_zmq_reply(stream, msg_list)
+
+        for channel, stream in self.channels.items():
+            stream.on_recv_stream(self._on_zmq_reply)
 
     def on_message(self, msg):
         if not self.channels:
@@ -296,7 +302,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             return
         stream = self.channels[channel]
         self.session.send(stream, msg)
-        
+
     def _on_zmq_reply(self, stream, msg_list):
         idents, fed_msg_list = self.session.feed_identities(msg_list)
         msg = self.session.deserialize(fed_msg_list)
@@ -309,7 +315,6 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             )
             msg['channel'] = 'iopub'
             self.write_message(json.dumps(msg, default=date_default))
-            
         channel = getattr(stream, 'channel', None)
         msg_type = msg['header']['msg_type']
 
@@ -412,12 +417,11 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         return self._close_future
 
     def on_close(self):
-        # TODO: Start buffering messages
-        
         self.log.debug("Websocket closed %s", self.session_key)
         # unregister myself as an open session (only if it's really me)
         if self._open_sessions.get(self.session_key) is self:
             self._open_sessions.pop(self.session_key)
+
         km = self.kernel_manager
         if self.kernel_id in km:
             km.notify_disconnect(self.kernel_id)
@@ -427,6 +431,13 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             km.remove_restart_callback(
                 self.kernel_id, self.on_restart_failed, 'dead',
             )
+
+            # start buffering instead of closing if this was the last connection
+            if km._kernel_connections[self.kernel_id] == 0:
+                km.start_buffering(self.kernel_id, self.session_key, self.channels)
+                self._close_future.set_result(None)
+                return
+
         # This method can be called twice, once by self.kernel_died and once
         # from the WebSocket close event. If the WebSocket connection is
         # closed before the ZMQ streams are setup, they could be None.
