@@ -261,25 +261,28 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         self.kernel_manager.notify_connect(kernel_id)
 
         # on new connections, flush the message buffer
-        replay_buffer = self.kernel_manager.stop_buffering(kernel_id, self.session_key)
-
-        try:
-            self.create_stream()
-        except web.HTTPError as e:
-            self.log.error("Error opening stream: %s", e)
-            # WebSockets don't response to traditional error codes so we
-            # close the connection.
-            for channel, stream in self.channels.items():
-                if not stream.closed():
-                    stream.close()
-            self.close()
-            return
-
-        if replay_buffer:
-            self.log.info("Replaying %s buffered messages", len(replay_buffer))
-            for channel, msg_list in replay_buffer:
-                stream = self.channels[channel]
-                self._on_zmq_reply(stream, msg_list)
+        buffer_info = self.kernel_manager.get_buffer(kernel_id, self.session_key)
+        if buffer_info and buffer_info['session_key'] == self.session_key:
+            self.log.info("Restoring connection for %s", self.session_key)
+            self.channels = buffer_info['channels']
+            replay_buffer = buffer_info['buffer']
+            if replay_buffer:
+                self.log.info("Replaying %s buffered messages", len(replay_buffer))
+                for channel, msg_list in replay_buffer:
+                    stream = self.channels[channel]
+                    self._on_zmq_reply(stream, msg_list)
+        else:
+            try:
+                self.create_stream()
+            except web.HTTPError as e:
+                self.log.error("Error opening stream: %s", e)
+                # WebSockets don't response to traditional error codes so we
+                # close the connection.
+                for channel, stream in self.channels.items():
+                    if not stream.closed():
+                        stream.close()
+                self.close()
+                return
 
         for channel, stream in self.channels.items():
             stream.on_recv_stream(self._on_zmq_reply)

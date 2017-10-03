@@ -182,11 +182,9 @@ class MappingKernelManager(MultiKernelManager):
         for channel, stream in channels.items():
             stream.on_recv(partial(buffer_msg, channel))
 
-    def stop_buffering(self, kernel_id, session_key=None):
-        """Stop buffering kernel messages
-
-        if session_key matches the current buffered session for the kernel,
-        the buffer will be returned. Otherwise, an empty list will be returned.
+    
+    def get_buffer(self, kernel_id, session_key):
+        """Get the buffer for a given kernel
 
         Parameters
         ----------
@@ -196,6 +194,27 @@ class MappingKernelManager(MultiKernelManager):
             The session_key, if any, that should get the buffer.
             If the session_key matches the current buffered session_key,
             the buffer will be returned.
+        """
+        self.log.debug("Getting buffer for %s", kernel_id)
+        if kernel_id not in self._kernel_buffers:
+            return
+
+        buffer_info = self._kernel_buffers[kernel_id]
+        if buffer_info['session_key'] == session_key:
+            # remove buffer
+            self._kernel_buffers.pop(kernel_id)
+            # only return buffer_info if it's a match
+            return buffer_info
+        else:
+            self.stop_buffering(kernel_id)
+
+    def stop_buffering(self, kernel_id):
+        """Stop buffering kernel messages
+
+        Parameters
+        ----------
+        kernel_id : str
+            The id of the kernel to stop buffering.
         """
         self.log.debug("Clearing buffer for %s", kernel_id)
         self._check_kernel_id(kernel_id)
@@ -211,13 +230,9 @@ class MappingKernelManager(MultiKernelManager):
                 stream.close()
 
         msg_buffer = buffer_info['buffer']
-        if msg_buffer and buffer_info['session_key'] != session_key:
+        if msg_buffer:
             self.log.info("Discarding %s buffered messages for %s",
                 len(msg_buffer), buffer_info['session_key'])
-            msg_buffer = []
-
-        # return previous buffer if it matched the session key
-        return msg_buffer
 
     def shutdown_kernel(self, kernel_id, now=False):
         """Shutdown a kernel by kernel_id"""
