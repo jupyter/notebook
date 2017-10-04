@@ -41,8 +41,7 @@ def respond_zip(handler, name, output, resources):
 
     # Headers
     zip_filename = os.path.splitext(name)[0] + '.zip'
-    handler.set_header('Content-Disposition',
-                       'attachment; filename="%s"' % escape.url_escape(zip_filename))
+    handler.set_attachment_header(zip_filename)
     handler.set_header('Content-Type', 'application/zip')
 
     # create zip file

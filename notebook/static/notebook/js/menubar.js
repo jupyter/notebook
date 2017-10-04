@@ -129,13 +129,14 @@ define('notebook/js/menubar',[
 
         this._new_window(url);
     };
-    
-    MenuBar.prototype._nbconvert_upload_conf = function (download) {
-      
-      var body =  $('<div>');
-      var notebook_path = utils.encode_uri_components(this.notebook.notebook_path);
 
-      var create_json = function(notebook, config){
+    MenuBar.prototype._nbconvert_upload_conf = function(download) {
+      var body = $("<div>");
+      var notebook_path = utils.encode_uri_components(
+        this.notebook.notebook_path
+      );
+
+      var create_json = function(notebook, config) {
         var json_to_pass = {
           notebook: notebook.toJSON(),
           config: config
@@ -143,163 +144,176 @@ define('notebook/js/menubar',[
         return json_to_pass;
       };
 
-      
-      var form  = $('<form>');
-      var fileinput = $('<input>')
-        .attr('type', 'file')
-        .attr('tabindex', '1');
+      var form = $("<form>");
+      var fileinput = $("<input>")
+        .attr("type", "file")
+        .attr("tabindex", "1");
 
-      var fileformat = $('<select>');
-      
+      var fileformat = $("<select>");
+
       var export_opts = {
         markdown: {
-          display_text:'markdown',
-          exporter_name:'markdown' 
-          },
+          display_text: "markdown",
+          exporter_name: "markdown"
+        },
         html: {
-          display_text:'html',
-          exporter_name:'html' 
-          },
+          display_text: "html",
+          exporter_name: "html"
+        },
         rst: {
-          display_text:'rst',
-          exporter_name:'rst' 
-          },
+          display_text: "rst",
+          exporter_name: "rst"
+        },
         pdf: {
-          display_text:'PDF',
-          exporter_name:'pdf' 
-          },
+          display_text: "PDF",
+          exporter_name: "pdf"
+        },
         latex: {
-          display_text:'LaTeX',
-          exporter_name:'latex' 
-          },
+          display_text: "LaTeX",
+          exporter_name: "latex"
+        },
         script: {
-          display_text:'script',
-          exporter_name:'script' 
-          }
+          display_text: "script",
+          exporter_name: "script"
+        }
       };
 
-      for(var x in export_opts){
+      for (var x in export_opts) {
         fileformat.append(
-          $('<option/>') 
-            .attr('value', export_opts[x]['exporter_name'])
-            .text(export_opts[x]['display_text'])
+          $("<option/>")
+            .attr("value", export_opts[x]["exporter_name"])
+            .text(export_opts[x]["display_text"])
         );
-      };
-      
+      }
+
       form.append(fileformat);
       form.append(fileinput);
       body.append(form);
       
       var that = this;
 
-      var trigger_nbconvert_post = function(){
+      var trigger_nbconvert_post = function() {
         var filereader = new FileReader();
-        filereader.onload = function(){
+        filereader.onload = function() {
           var my_config_data = filereader.result;
-          that['json_content'] = create_json(that.notebook, my_config_data);
+          that["json_content"] = create_json(that.notebook, my_config_data);
           on_done();
         };
-        if (fileinput[0].files.length>0){
+        if (fileinput[0].files.length > 0) {
           filereader.readAsText(fileinput[0].files[0]);
-        } else{
-          that['json_content']=create_json(that.notebook, '{}')
+        } else {
+          that["json_content"] = create_json(that.notebook, "{}");
           on_done();
         }
       };
-      var on_done = function(){
-          var url = utils.url_path_join(
-              that.base_url,
-              'nbconvert',
-              fileformat.val(),
-              notebook_path
-          ) + "?download=" + download.toString();
-          var create_new_dl_window = function(){
-            console.log("I ran successfully")
-            body.empty().append('<p>').text('conversion in progress')
-            // var win = window.open('',IPython._target);
-            // win.location=url;
-            that._new_window(url);
+      var on_done = function() {
+        var url =
+          utils.url_path_join(
+            that.base_url,
+            "nbconvert",
+            fileformat.val(),
+            notebook_path
+          ) +
+          "?download=" +
+          download.toString();
+        var create_new_dl_window = function() {
+          console.log("I ran successfully");
+          body
+            .empty()
+            .append("<p>")
+            .text("conversion in progress");
+          // var win = window.open('',IPython._target);
+          // win.location=url;
+          that._new_window(url);
 
-            return true;
-          };
-          var my_func = function(result){console.info("hi m and matthias!",typeof(result))}//, result)}
-          console.info("this is inside on done", that.json_content);
-
-          var xsrf_token = utils._get_cookie('_xsrf');
-          console.log(xsrf_token)
-          var xhr = new XMLHttpRequest();
-          xhr.open('POST', url, true);
-          xhr.responseType = 'blob';
-          xhr.withCredentials = true;
-          xhr.setRequestHeader('X-XSRFToken', xsrf_token);
-          // xhr.onload = function(e) {
-            // if (this.status == 200) {
-              // // get binary data as a response
-              // var blob = this.response;
-            // }
-          // };
-          xhr.onreadystatechange = function(){
-            if(xhr.readyState === 4){
-              var blob = xhr.response;
-              var content_disposition = xhr.getResponseHeader('Content-Disposition');
-              var filename = content_disposition.match(/filename="(.+)"/)[1];
-              saveData(blob, filename);
-            }
-          }
-          var data = JSON.stringify(that.json_content);
-          xhr.send(data);
-          // utils.ajax(url, {
-            // method: "POST",
-            // data: data,
-            // processData: false,
-            // responseType: "blob"
-            // //create_new_dl_window
-          // })
-          // .fail(function(){
-            // console.warn('something wrong');
-          // })
-          // .done(function(data,textstatus,jqXHR){
-            // var content_disposition = jqXHR.getResponseHeader('Content-Disposition');
-            // var filename = content_disposition.match(/filename="(.+)"/)[1];
-            // saveData(data,filename);
-          // });
-          //p.onReady(function(){
-          //  body.empty().append('<p>').text('conversion in progress')
-          //});
-          // $.post(url, json_content, create_new_dl_window,"json"); 
-          // get the data from FileReader and make it json. 
-          return true // close the dialog
-          // return false to keep it open.
+          return true;
         };
-        var saveData = (function () {
-            var a = document.createElement("a");
-            document.body.appendChild(a);
-            a.style = "display: none";
-            return function (data, fileName) {
-                var blob = new Blob([data], {type: "octet/stream"}),//this works for tar
-                    url = window.URL.createObjectURL(blob);
-                a.href = url;
-                a.download = fileName;
-                a.click();
-                window.URL.revokeObjectURL(url);
-            };
-        }());
+        var my_func = function(result) {
+          console.info("hi m and matthias!", typeof result);
+        }; //, result)}
+        console.info("this is inside on done", that.json_content);
+
+        var xsrf_token = utils._get_cookie("_xsrf");
+        console.log(xsrf_token);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.responseType = "blob";
+        xhr.withCredentials = true;
+        xhr.setRequestHeader("X-XSRFToken", xsrf_token);
+        console.log(xhr);
+        // xhr.onload = function(e) {
+        // if (this.status == 200) {
+        // // get binary data as a response
+        // var blob = this.response;
+        // }
+        // };
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            var blob = xhr.response;
+            var content_disposition = xhr.getResponseHeader(
+              "Content-Disposition"
+            );
+            var filename = content_disposition.match(/filename\*=utf-8''(.+)/)[1];
+            saveData(blob, filename);
+          }
+        };
+        var data = JSON.stringify(that.json_content);
+        xhr.send(data);
+        // utils.ajax(url, {
+        // method: "POST",
+        // data: data,
+        // processData: false,
+        // responseType: "blob"
+        // //create_new_dl_window
+        // })
+        // .fail(function(){
+        // console.warn('something wrong');
+        // })
+        // .done(function(data,textstatus,jqXHR){
+        // var content_disposition = jqXHR.getResponseHeader('Content-Disposition');
+        // var filename = content_disposition.match(/filename="(.+)"/)[1];
+        // saveData(data,filename);
+        // });
+        //p.onReady(function(){
+        //  body.empty().append('<p>').text('conversion in progress')
+        //});
+        // $.post(url, json_content, create_new_dl_window,"json");
+        // get the data from FileReader and make it json.
+        return true; // close the dialog
+        // return false to keep it open.
+      };
+      var saveData = (function() {
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        return function(data, fileName) {
+          var blob = new Blob([data], { type: "octet/stream" }), //this works for tar
+            url = window.URL.createObjectURL(blob);
+          a.href = url;
+          a.download = fileName;
+          a.click();
+          window.URL.revokeObjectURL(url);
+        };
+      })();
 
       var mod = dialog.modal({
         notebook: this.notebook,
-        title : "Upload nbconvert config",
-        open : function(){fileinput.focus();},
-        body : body,
-        buttons : {
-          cancel : {
-            click: function(){return true;}
+        title: "Upload nbconvert config",
+        open: function() {
+          fileinput.focus();
+        },
+        body: body,
+        buttons: {
+          cancel: {
+            click: function() {
+              return true;
+            }
           },
-          download : {click: trigger_nbconvert_post}
+          download: { click: trigger_nbconvert_post }
         }
       });
 
-      mod.modal('show');
-      
+      mod.modal("show");
     };
 
 

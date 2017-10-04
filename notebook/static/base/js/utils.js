@@ -1185,7 +1185,7 @@ define([
         js_idx_to_char_idx: js_idx_to_char_idx,
         char_idx_to_js_idx: char_idx_to_js_idx,
         _ansispan:_ansispan,
-        change_favicon: change_favicon
+        change_favicon: change_favicon,
         _get_cookie:_get_cookie
     };
 
