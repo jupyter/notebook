@@ -128,8 +128,6 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             meth = getattr(km, 'connect_' + channel)
             self.channels[channel] = stream = meth(self.kernel_id, identity=identity)
             stream.channel = channel
-        km.add_restart_callback(self.kernel_id, self.on_kernel_restarted)
-        km.add_restart_callback(self.kernel_id, self.on_restart_failed, 'dead')
     
     def request_kernel_info(self):
         """send a request for kernel_info"""
@@ -258,10 +256,11 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
 
     def open(self, kernel_id):
         super(ZMQChannelsHandler, self).open()
-        self.kernel_manager.notify_connect(kernel_id)
+        km = self.kernel_manager
+        km.notify_connect(kernel_id)
 
         # on new connections, flush the message buffer
-        buffer_info = self.kernel_manager.get_buffer(kernel_id, self.session_key)
+        buffer_info = km.get_buffer(kernel_id, self.session_key)
         if buffer_info and buffer_info['session_key'] == self.session_key:
             self.log.info("Restoring connection for %s", self.session_key)
             self.channels = buffer_info['channels']
@@ -283,6 +282,9 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                         stream.close()
                 self.close()
                 return
+
+        km.add_restart_callback(self.kernel_id, self.on_kernel_restarted)
+        km.add_restart_callback(self.kernel_id, self.on_restart_failed, 'dead')
 
         for channel, stream in self.channels.items():
             stream.on_recv_stream(self._on_zmq_reply)
