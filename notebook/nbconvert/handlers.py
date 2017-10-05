@@ -83,6 +83,13 @@ class NbconvertFileHandler(IPythonHandler):
         exporter = get_exporter(format, config=self.config, log=self.log)
         
         path = path.strip('/')
+        # If the notebook relates to a real file (default contents manager),
+        # give its path to nbconvert.
+        if hasattr(self.contents_manager, '_get_os_path'):
+            os_path = self.contents_manager._get_os_path(path)
+        else:
+            os_path = ''
+
         model = self.contents_manager.get(path=path)
         name = model['name']
         if model['type'] != 'notebook':
@@ -98,7 +105,8 @@ class NbconvertFileHandler(IPythonHandler):
                     "metadata": {
                         "name": name[:name.rfind('.')],
                         "modified_date": (model['last_modified']
-                            .strftime(text.date_format))
+                            .strftime(text.date_format)),
+                        "path" : os_path
                     },
                     "config_dir": self.application.settings['config_dir'],
                 }
