@@ -194,30 +194,31 @@ define('notebook/js/menubar',[
       form.append(fileformat);
       form.append(fileinput);
       body.append(form);
-      
-      var that = this;
 
-      var trigger_nbconvert_post = function() {
+      var that = this;
+      that["format"] = fileformat.val()
+      // really would like to have fileformat accessible inside the filereader.onload but it seems to be out of scope
+
+      var trigger_nbconvert_post = () => {
         var filereader = new FileReader();
-        filereader.onload = function() {
+        filereader.onload = () => {
           var my_config_data = filereader.result;
-          that["json_content"] = create_json(that.notebook, my_config_data);
+          that["json_content"] = build_json_for_post(that.notebook, my_config_data, that.format);
           on_done();
         };
         if (fileinput[0].files.length > 0) {
           filereader.readAsText(fileinput[0].files[0]);
         } else {
-          that["json_content"] = create_json(that.notebook, "{}");
+          that["json_content"] = build_json_for_post(that.notebook, "{}", that.format);
           on_done();
         }
       };
-      var on_done = function() {
+
+      var on_done = () => {
         var url =
           utils.url_path_join(
             that.base_url,
-            "nbconvert",
-            fileformat.val(),
-            notebook_path
+            "nbconvert-service",
           ) +
           "?download=" +
           download.toString();
