@@ -138,19 +138,73 @@ class NbconvertFileHandler(IPythonHandler):
 
         self.finish(output)
 
-    @web.authenticated
-    def get(self, format, path):
 
-        self.call_nbconvert(format, path, config=self.config)
+class NbconvertServiceHandler(IPythonHandler):
 
     @web.authenticated
-    def post(self, format, path):
+    def post(self):
+
+        json_content = self.get_json_body()
+
         c = Config(self.config)
-        json_upload = self.get_json_body()
-        json_config = json.loads(json_upload.get("config",{}))
-        c.merge(json_config)
-        nb_content = json.dumps(json_upload["notebook"])
-        self.call_nbconvert(format, path, config=c, content=nb_content)
+
+        # config needs to be dict
+        config = json.loads(json_content.get("config",{}))
+        c.merge(config)
+
+        # We're adhering to the content model laid out by the notebook data model
+        # descriptor:
+        # http://jupyter-notebook.readthedocs.io/en/latest/extending/contents.html#data-model
+        # validate notebook before converting
+        nb_contents = json_content["notebook_contents"]
+        try:
+            nbformat.validate(nb_contents["content"])
+        except nbformat.ValidationError as e:
+            self.log.exception("notebook content was not a valid notebook: %s", e)
+            raise web.HTTPError(500, "notebook content was not a valid notebook: %s" % e)
+
+        nb = nbformat.from_dict(nb_contents["content"])
+        nb_name = nb_contents["name"]
+        last_mod = nb_contents.get("modified_date","")
+
+        output_format= json_content["output_format"]
+        exporter = get_exporter(output_format, config=c, log=self.log)
+
+        metadata = {}
+        metadata['name'] = nb_name[:nb_name.rfind('.')]
+        if last_mod:
+            metadata['modified_date'] = last_mod.strftime(text.date_format)
+
+        resources_dict= {
+            "config_dir": self.application.settings['config_dir'],
+            "output_files_dir": nb_name[:nb_name.rfind('.')]+"_files",
+            "metadata": metadata
+        }
+
+        try:
+            output, resources = exporter.from_notebook_node(
+                nb,
+                resources=resources_dict
+            )
+        except Exception as e:
+            self.log.exception("nbconvert failed: %s", e)
+            raise web.HTTPError(500, "nbconvert failed: %s" % e)
+
+
+        if respond_zip(self, nb_name, output, resources):
+            return
+
+        # Force download if requested
+        if self.get_argument('download', 'false').lower() == 'true':
+            output_filename = os.path.splitext(nb_name)[0] + resources['output_extension']
+            self.set_attachment_header(output_filename)
+
+        # MIME type
+        if exporter.output_mimetype:
+            self.set_header('Content-Type',
+                            '%s; charset=utf-8' % exporter.output_mimetype)
+
+        self.finish(output)
 
 
 class NbconvertPostHandler(IPythonHandler):
@@ -194,4 +248,5 @@ default_handlers = [
     (r"/nbconvert/%s" % _format_regex, NbconvertPostHandler),
     (r"/nbconvert/%s%s" % (_format_regex, path_regex),
          NbconvertFileHandler),
+    (r"/nbconvert-service", NbconvertServiceHandler),
 ]
