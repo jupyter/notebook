@@ -61,10 +61,14 @@ def test_is_hidden():
         os.makedirs(subdir1)
         nt.assert_equal(is_hidden(subdir1, root), False)
         nt.assert_equal(is_file_hidden(subdir1), False)
+
         subdir2 = os.path.join(root, '.subdir2')
         os.makedirs(subdir2)
         nt.assert_equal(is_hidden(subdir2, root), True)
-        nt.assert_equal(is_file_hidden(subdir2), True)
+        nt.assert_equal(is_file_hidden(subdir2), True)#
+        # root dir is always visible
+        nt.assert_equal(is_hidden(subdir2, subdir2), False)
+
         subdir34 = os.path.join(root, 'subdir3', '.subdir4')
         os.makedirs(subdir34)
         nt.assert_equal(is_hidden(subdir34, root), True)
