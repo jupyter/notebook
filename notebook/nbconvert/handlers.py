@@ -79,8 +79,9 @@ def get_exporter(format, **kwargs):
 
 class NbconvertFileHandler(IPythonHandler):
 
-    def call_nbconvert(self, format, path, config=None, content=None):
-        exporter = get_exporter(format, config=config, log=self.log)
+    @web.authenticated
+    def get(self, format, path):
+        exporter = get_exporter(format, log=self.log)
         path = path.strip('/')
         # If the notebook relates to a real file (default contents manager),
         # give its path to nbconvert.
@@ -91,18 +92,12 @@ class NbconvertFileHandler(IPythonHandler):
             ext_resources_dir = None
 
         model = self.contents_manager.get(path=path)
+        nb = model['content']
         name = model['name']
+        self.set_header('Last-Modified', model['last_modified'])
         if model['type'] != 'notebook':
             # not a notebook, redirect to files
             return FilesRedirectHandler.redirect_to_files(self, path)
-
-        if content is None:
-            nb = model['content']
-        else:
-            nb = nbformat.reads(content, as_version=4)
-
-        self.set_header('Last-Modified', model['last_modified'])
-
         # create resources dictionary
         mod_date = model['last_modified'].strftime(text.date_format)
         nb_title = os.path.splitext(name)[0]
