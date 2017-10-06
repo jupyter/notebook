@@ -136,10 +136,15 @@ define('notebook/js/menubar',[
         this.notebook.notebook_path
       );
 
-      var create_json = function(notebook, config) {
-        var json_to_pass = {
-          notebook: notebook.toJSON(),
-          config: config
+      const build_json_for_post = function(notebook, config, format) {
+        const json_to_pass = {
+          notebook_contents: {
+            content: notebook.toJSON(),
+            name: notebook.notebook_name,
+            last_modified: notebook.last_modified,
+        },
+          output_format: format,
+          config: config,
         };
         return json_to_pass;
       };
