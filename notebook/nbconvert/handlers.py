@@ -78,10 +78,11 @@ def get_exporter(format, **kwargs):
         raise web.HTTPError(500, "Could not construct Exporter: %s" % e)
 
 class NbconvertFileHandler(IPythonHandler):
+    SUPPORTED_METHODS = ('GET',)
 
     @web.authenticated
     def get(self, format, path):
-        exporter = get_exporter(format, log=self.log)
+        exporter = get_exporter(format, config=self.config, log=self.log)
         path = path.strip('/')
         # If the notebook relates to a real file (default contents manager),
         # give its path to nbconvert.
@@ -140,6 +141,7 @@ class NbconvertFileHandler(IPythonHandler):
 
 
 class NbconvertServiceHandler(IPythonHandler):
+    SUPPORTED_METHODS = ('POST',)
 
     @web.authenticated
     def post(self):
