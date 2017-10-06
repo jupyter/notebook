@@ -253,18 +253,21 @@ define('notebook/js/menubar',[
         return true; // close the dialog
         // return false to keep it open.
       };
-      var saveData = (function() {
+      var saveData = (() => {
         var a = document.createElement("a");
         document.body.appendChild(a);
         a.style = "display: none";
-        return function(data, fileName) {
-          var blob = new Blob([data], { type: "octet/stream" }), //this works for tar
-            url = window.URL.createObjectURL(blob);
-          a.href = url;
-          a.download = fileName;
-          a.click();
-          window.URL.revokeObjectURL(url);
-        };
+        return (
+          (data, fileName) => {
+            var blob = new Blob([data], { type: "octet/stream" }),
+              url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+          }
+        )
       })();
 
       var mod = dialog.modal({
