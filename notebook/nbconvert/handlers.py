@@ -45,23 +45,16 @@ def respond_zip(handler, name, output, resources):
     handler.set_header('Content-Type', 'application/zip')
 
     # create zip file
-    buffer = io.BytesIO()
-    with zipfile.ZipFile(buffer, mode='w', compression=zipfile.ZIP_STORED) as zipf:
+    buff = io.BytesIO()
+    with zipfile.ZipFile(buff, mode='w', compression=zipfile.ZIP_STORED) as zipf:
         output_filename = os.path.splitext(name)[0] + resources['output_extension']
         zipf.writestr(output_filename, cast_bytes(output, 'utf-8'))
         for filename, data in output_files.items():
             zipf.writestr(filename, data)
 
-    buffer.seek(0)
-    with open('buffer_write.zip', 'wb') as f:
-        f.write(buffer.read())
-    buffer.seek(0)
-
-    with open('buffer_write_2.zip', 'wb') as f:
-        f.write(buffer.read())
-    buffer.seek(0)
-
-    handler.finish(buffer.getvalue())
+    # pass zip file back
+    buff.seek(0)
+    handler.finish(buff.getvalue())
     return True
 
 def get_exporter(format, **kwargs):
