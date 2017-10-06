@@ -7,6 +7,8 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
+from collections import defaultdict
+from functools import partial
 import os
 
 from tornado import gen, web
@@ -15,13 +17,13 @@ from tornado.ioloop import IOLoop, PeriodicCallback
 
 from jupyter_client.session import Session
 from jupyter_client.multikernelmanager import MultiKernelManager
-from traitlets import Bool, Dict, List, Unicode, TraitError, Integer, default, validate
+from traitlets import Any, Bool, Dict, List, Unicode, TraitError, Integer, default, validate
 
 from notebook.utils import to_os_path, exists
 from notebook._tz import utcnow, isoformat
 from ipython_genutils.py3compat import getcwd
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 
 class MappingKernelManager(MultiKernelManager):
@@ -80,6 +82,11 @@ class MappingKernelManager(MultiKernelManager):
         help="""Whether to consider culling kernels which are busy.
         Only effective if cull_idle_timeout is not 0."""
     )
+
+    _kernel_buffers = Any()
+    @default('_kernel_buffers')
+    def _default_kernel_buffers(self):
+        return defaultdict(lambda: {'buffer': [], 'session_key': '', 'channels': {}})
 
     #-------------------------------------------------------------------------
     # Methods for managing kernels and sessions
@@ -142,10 +149,97 @@ class MappingKernelManager(MultiKernelManager):
         # py2-compat
         raise gen.Return(kernel_id)
     
+    def start_buffering(self, kernel_id, session_key, channels):
+        """Start buffering messages for a kernel
+
+        Parameters
+        ----------
+        kernel_id : str
+            The id of the kernel to stop buffering.
+        session_key: str
+            The session_key, if any, that should get the buffer.
+            If the session_key matches the current buffered session_key,
+            the buffer will be returned.
+        channels: dict({'channel': ZMQStream})
+            The zmq channels whose messages should be buffered.
+        """
+        self.log.info("Starting buffering for %s", session_key)
+        self._check_kernel_id(kernel_id)
+        # clear previous buffering state
+        self.stop_buffering(kernel_id)
+        buffer_info = self._kernel_buffers[kernel_id]
+        # record the session key because only one session can buffer
+        buffer_info['session_key'] = session_key
+        # TODO: the buffer should likely be a memory bounded queue, we're starting with a list to keep it simple
+        buffer_info['buffer'] = []
+        buffer_info['channels'] = channels
+
+        # forward any future messages to the internal buffer
+        def buffer_msg(channel, msg_parts):
+            self.log.debug("Buffering msg on %s:%s", kernel_id, channel)
+            buffer_info['buffer'].append((channel, msg_parts))
+
+        for channel, stream in channels.items():
+            stream.on_recv(partial(buffer_msg, channel))
+
+    
+    def get_buffer(self, kernel_id, session_key):
+        """Get the buffer for a given kernel
+
+        Parameters
+        ----------
+        kernel_id : str
+            The id of the kernel to stop buffering.
+        session_key: str, optional
+            The session_key, if any, that should get the buffer.
+            If the session_key matches the current buffered session_key,
+            the buffer will be returned.
+        """
+        self.log.debug("Getting buffer for %s", kernel_id)
+        if kernel_id not in self._kernel_buffers:
+            return
+
+        buffer_info = self._kernel_buffers[kernel_id]
+        if buffer_info['session_key'] == session_key:
+            # remove buffer
+            self._kernel_buffers.pop(kernel_id)
+            # only return buffer_info if it's a match
+            return buffer_info
+        else:
+            self.stop_buffering(kernel_id)
+
+    def stop_buffering(self, kernel_id):
+        """Stop buffering kernel messages
+
+        Parameters
+        ----------
+        kernel_id : str
+            The id of the kernel to stop buffering.
+        """
+        self.log.debug("Clearing buffer for %s", kernel_id)
+        self._check_kernel_id(kernel_id)
+
+        if kernel_id not in self._kernel_buffers:
+            return
+        buffer_info = self._kernel_buffers.pop(kernel_id)
+        # close buffering streams
+        for stream in buffer_info['channels'].values():
+            if not stream.closed():
+                stream.on_recv(None)
+                stream.socket.close()
+                stream.close()
+
+        msg_buffer = buffer_info['buffer']
+        if msg_buffer:
+            self.log.info("Discarding %s buffered messages for %s",
+                len(msg_buffer), buffer_info['session_key'])
+
     def shutdown_kernel(self, kernel_id, now=False):
         """Shutdown a kernel by kernel_id"""
         self._check_kernel_id(kernel_id)
-        self._kernels[kernel_id]._activity_stream.close()
+        kernel = self._kernels[kernel_id]
+        kernel._activity_stream.close()
+        self.stop_buffering(kernel_id)
         self._kernel_connections.pop(kernel_id, None)
         return super(MappingKernelManager, self).shutdown_kernel(kernel_id, now=now)
 
@@ -256,6 +350,7 @@ class MappingKernelManager(MultiKernelManager):
 
             idents, fed_msg_list = session.feed_identities(msg_list)
             msg = session.deserialize(fed_msg_list)
+
             msg_type = msg['header']['msg_type']
             self.log.debug("activity on %s: %s", kernel_id, msg_type)
             if msg_type == 'status':

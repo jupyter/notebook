@@ -93,6 +93,9 @@ class KernelActionHandler(APIHandler):
 
 
 class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
+    '''There is one ZMQChannelsHandler per running kernel and it oversees all
+    the sessions.
+    '''
     
     # class-level registry of open sessions
     # allows checking for conflict on session-id,
@@ -125,8 +128,6 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             meth = getattr(km, 'connect_' + channel)
             self.channels[channel] = stream = meth(self.kernel_id, identity=identity)
             stream.channel = channel
-        km.add_restart_callback(self.kernel_id, self.on_kernel_restarted)
-        km.add_restart_callback(self.kernel_id, self.on_restart_failed, 'dead')
     
     def request_kernel_info(self):
         """send a request for kernel_info"""
@@ -252,23 +253,41 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             self.log.warning("Replacing stale connection: %s", self.session_key)
             yield stale_handler.close()
         self._open_sessions[self.session_key] = self
-    
+
     def open(self, kernel_id):
         super(ZMQChannelsHandler, self).open()
-        self.kernel_manager.notify_connect(kernel_id)
-        try:
-            self.create_stream()
-        except web.HTTPError as e:
-            self.log.error("Error opening stream: %s", e)
-            # WebSockets don't response to traditional error codes so we
-            # close the connection.
-            for channel, stream in self.channels.items():
-                if not stream.closed():
-                    stream.close()
-            self.close()
+        km = self.kernel_manager
+        km.notify_connect(kernel_id)
+
+        # on new connections, flush the message buffer
+        buffer_info = km.get_buffer(kernel_id, self.session_key)
+        if buffer_info and buffer_info['session_key'] == self.session_key:
+            self.log.info("Restoring connection for %s", self.session_key)
+            self.channels = buffer_info['channels']
+            replay_buffer = buffer_info['buffer']
+            if replay_buffer:
+                self.log.info("Replaying %s buffered messages", len(replay_buffer))
+                for channel, msg_list in replay_buffer:
+                    stream = self.channels[channel]
+                    self._on_zmq_reply(stream, msg_list)
         else:
-            for channel, stream in self.channels.items():
-                stream.on_recv_stream(self._on_zmq_reply)
+            try:
+                self.create_stream()
+            except web.HTTPError as e:
+                self.log.error("Error opening stream: %s", e)
+                # WebSockets don't response to traditional error codes so we
+                # close the connection.
+                for channel, stream in self.channels.items():
+                    if not stream.closed():
+                        stream.close()
+                self.close()
+                return
+
+        km.add_restart_callback(self.kernel_id, self.on_kernel_restarted)
+        km.add_restart_callback(self.kernel_id, self.on_restart_failed, 'dead')
+
+        for channel, stream in self.channels.items():
+            stream.on_recv_stream(self._on_zmq_reply)
 
     def on_message(self, msg):
         if not self.channels:
@@ -288,7 +307,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             return
         stream = self.channels[channel]
         self.session.send(stream, msg)
-        
+
     def _on_zmq_reply(self, stream, msg_list):
         idents, fed_msg_list = self.session.feed_identities(msg_list)
         msg = self.session.deserialize(fed_msg_list)
@@ -301,7 +320,6 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             )
             msg['channel'] = 'iopub'
             self.write_message(json.dumps(msg, default=date_default))
-            
         channel = getattr(stream, 'channel', None)
         msg_type = msg['header']['msg_type']
 
@@ -408,6 +426,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         # unregister myself as an open session (only if it's really me)
         if self._open_sessions.get(self.session_key) is self:
             self._open_sessions.pop(self.session_key)
+
         km = self.kernel_manager
         if self.kernel_id in km:
             km.notify_disconnect(self.kernel_id)
@@ -417,6 +436,13 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             km.remove_restart_callback(
                 self.kernel_id, self.on_restart_failed, 'dead',
             )
+
+            # start buffering instead of closing if this was the last connection
+            if km._kernel_connections[self.kernel_id] == 0:
+                km.start_buffering(self.kernel_id, self.session_key, self.channels)
+                self._close_future.set_result(None)
+                return
+
         # This method can be called twice, once by self.kernel_died and once
         # from the WebSocket close event. If the WebSocket connection is
         # closed before the ZMQ streams are setup, they could be None.

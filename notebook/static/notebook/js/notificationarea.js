@@ -107,6 +107,11 @@ define([
 
         this.events.on('kernel_connected.Kernel', function () {
             knw.info("Connected", 500);
+            // trigger busy in the status to clear broken-link state immediately
+            // a kernel_ready event will come when the kernel becomes responsive.
+            $kernel_ind_icon
+                .attr('class', 'kernel_busy_icon')
+                .attr('title', i18n.msg._('Kernel Connected'));
         });
 
         this.events.on('kernel_restarting.Kernel', function () {
@@ -161,7 +166,7 @@ define([
                         " The notebook will continue trying to reconnect. Check your" +
                         " network connection or notebook server configuration.");
 
-                dialog.kernel_modal({
+                var the_dialog = dialog.kernel_modal({
                     title: i18n.msg._("Connection failed"),
                     body: msg,
                     keyboard_manager: that.keyboard_manager,
@@ -169,6 +174,16 @@ define([
                     buttons : {
                         "OK": {}
                     }
+                });
+
+                // hide the dialog on reconnect if it's still visible
+                var dismiss = function () {
+                    the_dialog.modal('hide');
+                }
+                that.events.on("kernel_connected.Kernel", dismiss);
+                the_dialog.on("hidden.bs.modal", function () {
+                    // clear handler on dismiss
+                    that.events.off("kernel_connected.Kernel", dismiss);
                 });
             }
         });
