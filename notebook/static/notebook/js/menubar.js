@@ -196,20 +196,21 @@ define('notebook/js/menubar',[
       body.append(form);
 
       var that = this;
-      that["format"] = fileformat.val()
-      // really would like to have fileformat accessible inside the filereader.onload but it seems to be out of scope
+      var get_export_format = function() {
+        return fileformat.val();
+      }
 
       var trigger_nbconvert_post = function() {
         var filereader = new FileReader();
         filereader.onload = function() {
           var my_config_data = filereader.result;
-          that["json_content"] = build_json_for_post(that.notebook, my_config_data, that.format);
+          that["json_content"] = build_json_for_post(that.notebook, my_config_data, get_export_format());
           on_done();
         };
         if (fileinput[0].files.length > 0) {
           filereader.readAsText(fileinput[0].files[0]);
         } else {
-          that["json_content"] = build_json_for_post(that.notebook, "{}", that.format);
+          that["json_content"] = build_json_for_post(that.notebook, "{}", get_export_format());
           on_done();
         }
       };
