@@ -199,9 +199,9 @@ define('notebook/js/menubar',[
       that["format"] = fileformat.val()
       // really would like to have fileformat accessible inside the filereader.onload but it seems to be out of scope
 
-      var trigger_nbconvert_post = () => {
+      var trigger_nbconvert_post = function() {
         var filereader = new FileReader();
-        filereader.onload = () => {
+        filereader.onload = function() {
           var my_config_data = filereader.result;
           that["json_content"] = build_json_for_post(that.notebook, my_config_data, that.format);
           on_done();
@@ -214,7 +214,7 @@ define('notebook/js/menubar',[
         }
       };
 
-      var on_done = () => {
+      var on_done = function() {
         var url =
           utils.url_path_join(
             that.base_url,
@@ -253,12 +253,12 @@ define('notebook/js/menubar',[
         return true; // close the dialog
         // return false to keep it open.
       };
-      var saveData = (() => {
+      var saveData = (function() {
         var a = document.createElement("a");
         document.body.appendChild(a);
         a.style = "display: none";
         return (
-          (data, fileName) => {
+          function(data, fileName) {
             var blob = new Blob([data], { type: "octet/stream" }),
               url = window.URL.createObjectURL(blob);
             a.href = url;
