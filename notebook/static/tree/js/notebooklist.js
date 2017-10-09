@@ -541,7 +541,6 @@ define([
     };
 
     NotebookList.ipynb_extensions = ['ipynb'];
-    NotebookList.viewable_extensions = ['htm', 'html', 'xhtml', 'mht', 'mhtml'];
 
     NotebookList.prototype._is_notebook = function(model) {
       return includes_extension(model.path, NotebookList.ipynb_extensions);
@@ -557,8 +556,15 @@ define([
     };
     
     NotebookList.prototype._is_viewable = function(model) {
+      var html_types = ['htm', 'html', 'xhtml', 'xml', 'mht', 'mhtml'];
+      var media_extension = ['3gp', 'avi', 'mov', 'mp4', 'm4v', 'm4a', 'mp3', 'mkv', 'ogv', 'ogm', 'ogg', 'oga', 'webm', 'wav'];
+      var image_type = ['bmp', 'gif', 'jpg', 'jpeg', 'png', 'webp'];
+      var archive_type = ['zip', 'rar'];
+      var other_type = ['txt', 'pdf', 'ico'];
+      var office_types = ['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'];
+      var viewable_extensions = [].concat(html_types, media_extension, image_type, archive_type, other_type, office_types);
       return model.mimetype === 'text/html' 
-        || includes_extension(model.path, NotebookList.viewable_extensions);
+        || includes_extension(model.path, viewable_extensions);
     };
 
     /**
