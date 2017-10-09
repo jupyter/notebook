@@ -286,8 +286,11 @@ define([
                 // close this dialog
                 $(that.shortcut_dialog).modal("toggle");
                 // and open the next one
-                that.keyboard_manager.actions.call(
-                    'jupyter-notebook:edit-command-mode-keyboard-shortcuts');
+                $(that.shortcut_dialog).on('hidden.bs.modal', function (e) {
+                    that.keyboard_manager.actions.call(
+                        'jupyter-notebook:edit-command-mode-keyboard-shortcuts'
+                    );
+                });
             });
         div.find('h4').append(edit_button);
         return div;
