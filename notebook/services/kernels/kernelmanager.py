@@ -61,10 +61,10 @@ class MappingKernelManager(MultiKernelManager):
             raise TraitError("kernel root dir %r is not a directory" % value)
         return value
 
-    cull_idle_timeout_minimum = 300 # 5 minutes
+    cull_idle_timeout_minimum = 1
     cull_idle_timeout = Integer(0, config=True,
         help="""Timeout (in seconds) after which a kernel is considered idle and ready to be culled.  Values of 0 or
-        lower disable culling. The minimum timeout is 300 seconds (5 minutes). Positive values less than the minimum value
+        lower disable culling. The minimum timeout is 1 second. Positive values less than the minimum value
         will be set to the minimum."""
     )
 
