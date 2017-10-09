@@ -537,10 +537,6 @@ define([
     };
 
     NotebookList.ipynb_extensions = ['ipynb'];
-    // List of text file extensions from
-    // https://github.com/sindresorhus/text-extensions/blob/master/text-extensions.json
-    var editable_extensions = ['applescript', 'asp', 'aspx', 'atom', 'bashrc', 'bat', 'bbcolors', 'bib', 'bowerrc', 'c', 'cc', 'cfc', 'cfg', 'cfm', 'cmd', 'cnf', 'coffee', 'conf', 'cpp', 'cson', 'css', 'csslintrc', 'csv', 'curlrc', 'cxx', 'diff', 'eco', 'editorconfig', 'ejs', 'emacs', 'eml', 'erb', 'erl', 'eslintignore', 'eslintrc', 'gemrc', 'gitattributes', 'gitconfig', 'gitignore', 'go', 'gvimrc', 'h', 'haml', 'hbs', 'hgignore', 'hpp', 'htaccess', 'htm', 'html', 'iced', 'ini', 'ino', 'irbrc', 'itermcolors', 'jade', 'js', 'jscsrc', 'jshintignore', 'jshintrc', 'json', 'jsonld', 'jsx', 'less', 'log', 'ls', 'm', 'markdown', 'md', 'mdown', 'mdwn', 'mht', 'mhtml', 'mkd', 'mkdn', 'mkdown', 'nfo', 'npmignore', 'npmrc', 'nvmrc', 'patch', 'pbxproj', 'pch', 'php', 'phtml', 'pl', 'pm', 'properties', 'py', 'rb', 'rdoc', 'rdoc_options', 'ron', 'rss', 'rst', 'rtf', 'rvmrc', 'sass', 'scala', 'scss', 'seestyle', 'sh', 'sls', 'sql', 'sss', 'strings', 'styl', 'stylus', 'sub', 'sublime-build', 'sublime-commands', 'sublime-completions', 'sublime-keymap', 'sublime-macro', 'sublime-menu', 'sublime-project', 'sublime-settings', 'sublime-workspace', 'svg', 'terminal', 'tex', 'text', 'textile', 'tmLanguage', 'tmTheme', 'tsv', 'txt', 'vbs', 'vim', 'viminfo', 'vimrc', 'webapp', 'xht', 'xhtml', 'xml', 'xsl', 'yaml', 'yml', 'zsh', 'zshrc'];
-    NotebookList.editable_extensions = editable_extensions.concat(['ipynb', 'geojson', 'plotly', 'plotly.json', 'vg', 'vg.json', 'vl', 'vl.json']);
     NotebookList.viewable_extensions = ['htm', 'html', 'xhtml', 'mht', 'mhtml'];
 
     NotebookList.prototype._is_notebook = function(model) {
@@ -548,13 +544,12 @@ define([
     };
     
     NotebookList.prototype._is_editable = function(model) {
-      // Editable: any text/ mimetype, specific mimetypes defined as editable,
-      // +json and +xml mimetypes, specific extensions listed as editable.
-      return model.mimetype &&
-          (model.mimetype.indexOf('text/') === 0
-           || item_in(model.mimetype, this.EDIT_MIMETYPES)
-           || json_or_xml_container_mimetype(model.mimetype))
-        || includes_extension(model.path, NotebookList.editable_extensions);
+      // Allow any file to be "edited"
+      // Non-text files will display the following error:
+      //   Error: [FILE] is not UTF-8 encoded
+      //   Saving is disabled.
+      //   See Console for more details.
+      return true;
     };
     
     NotebookList.prototype._is_viewable = function(model) {
