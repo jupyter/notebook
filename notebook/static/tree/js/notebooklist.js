@@ -721,17 +721,9 @@ define([
             icon = 'running_' + icon;
         }
         var uri_prefix = NotebookList.uri_prefixes[model.type];
-        if (model.type === 'file' && !this._is_editable(model))
-        {
-            uri_prefix = 'files';
-        }
         if (model.type === 'file' && this._is_viewable(model))
         {
             uri_prefix = 'view';
-        }
-        if (model.type === 'file' && this._is_editable(model))
-        {
-            uri_prefix = 'edit';
         }
         if (model.type === 'file' && this._is_notebook(model))
         {
