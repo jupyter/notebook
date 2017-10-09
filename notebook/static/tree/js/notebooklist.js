@@ -540,10 +540,9 @@ define([
         this._selection_changed();
     };
 
-    NotebookList.ipynb_extensions = ['ipynb'];
-
     NotebookList.prototype._is_notebook = function(model) {
-      return includes_extension(model.path, NotebookList.ipynb_extensions);
+      var ipynb_extensions = ['ipynb'];
+      return includes_extension(model.path, ipynb_extensions);
     };
     
     NotebookList.prototype._is_editable = function(model) {
