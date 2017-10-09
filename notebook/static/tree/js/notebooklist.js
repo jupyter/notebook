@@ -25,7 +25,11 @@ define([
     };
 
     var item_in = function(item, list) {
-      return list.indexOf(item) != -1;
+      // Normalize list and item to lowercase
+      var normalized_list = list.map(function(_item) {
+        return _item.toLowerCase();
+      });
+      return normalized_list.indexOf(item.toLowerCase()) != -1;
     };
 
     var includes_extension = function(filepath, extensionslist) {
