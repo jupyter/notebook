@@ -10,8 +10,9 @@ import json
 import os
 import re
 
-from tornado.web import HTTPError
+from tornado.web import HTTPError, RequestHandler
 
+from ...files.handlers import FilesHandler
 from .checkpoints import Checkpoints
 from traitlets.config.configurable import LoggingConfigurable
 from nbformat import sign, validate as validate_nb, ValidationError
@@ -131,7 +132,40 @@ class ContentsManager(LoggingConfigurable):
             log=self.log,
         )
 
-    files_handler_class = Type(IPythonHandler, allow_none=True, config=True)
+    files_handler_class = Type(
+        FilesHandler, klass=RequestHandler, allow_none=True, config=True,
+        help="""handler class to use when serving raw file requests.
+
+        Default is a fallback that talks to the ContentsManager API,
+        which may be inefficient, especially for large files.
+
+        Local files-based ContentsManagers can use a StaticFileHandler subclass,
+        which will be much more efficient.
+
+        Access to these files should be Authenticated.
+        """
+    )
+
+    files_handler_params = Dict(
+        config=True,
+        help="""Extra parameters to pass to files_handler_class.
+
+        For example, StaticFileHandlers generally expect a `path` argument
+        specifying the root directory from which to serve files.
+        """
+    )
+
+    def get_extra_handlers(self):
+        """Return additional handlers
+
+        Default: self.files_handler_class on /files/.*
+        """
+        handlers = []
+        if self.files_handler_class:
+            handlers.append(
+                (r"/files/(.*)", self.files_handler_class, self.files_handler_params)
+            )
+        return handlers
 
     # ContentsManager API part 1: methods that must be
     # implemented in subclasses.
