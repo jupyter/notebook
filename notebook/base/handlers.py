@@ -104,6 +104,9 @@ class AuthenticatedHandler(web.RequestHandler):
         For example: in the default LoginHandler, if a request is token-authenticated,
         origin checking should be skipped.
         """
+        if self.request.method == 'OPTIONS':
+            # no origin-check on options requests, which are used to check origins!
+            return True
         if self.login_handler is None or not hasattr(self.login_handler, 'should_check_origin'):
             return False
         return not self.login_handler.should_check_origin(self)
@@ -476,9 +479,15 @@ class APIHandler(IPythonHandler):
         if hasattr(self, '_user_cache'):
             return self._user_cache
         self._user_cache = user = super(APIHandler, self).get_current_user()
-        if user is None:
-            raise web.HTTPError(403)
         return user
+
+    def get_login_url(self):
+        # if get_login_url is invoked in an API handler,
+        # that means @web.authenticated is trying to trigger a redirect.
+        # instead of redirecting, raise 403 instead.
+        if not self.current_user:
+            raise web.HTTPError(403)
+        return super(APIHandler, self).get_login_url()
 
     @property
     def content_security_policy(self):
@@ -494,7 +503,7 @@ class APIHandler(IPythonHandler):
     def update_api_activity(self):
         """Update last_activity of API requests"""
         # record activity of authenticated requests
-        if self._track_activity and self.get_current_user():
+        if self._track_activity and getattr(self, '_user_cache', None):
             self.settings['api_last_activity'] = utcnow()
 
     def finish(self, *args, **kwargs):
@@ -507,7 +516,6 @@ class APIHandler(IPythonHandler):
                         'accept, content-type, authorization, x-xsrftoken')
         self.set_header('Access-Control-Allow-Methods',
                         'GET, PUT, POST, PATCH, DELETE, OPTIONS')
-        self.finish()
 
 
 class Template404(IPythonHandler):
