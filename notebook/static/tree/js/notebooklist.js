@@ -558,10 +558,8 @@ define([
       var html_types = ['htm', 'html', 'xhtml', 'xml', 'mht', 'mhtml'];
       var media_extension = ['3gp', 'avi', 'mov', 'mp4', 'm4v', 'm4a', 'mp3', 'mkv', 'ogv', 'ogm', 'ogg', 'oga', 'webm', 'wav'];
       var image_type = ['bmp', 'gif', 'jpg', 'jpeg', 'png', 'webp'];
-      var archive_type = ['zip', 'rar'];
-      var other_type = ['txt', 'pdf', 'ico'];
-      var office_types = ['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'];
-      var viewable_extensions = [].concat(html_types, media_extension, image_type, archive_type, other_type, office_types);
+      var other_type = ['ico'];
+      var viewable_extensions = [].concat(html_types, media_extension, image_type, other_type);
       return model.mimetype === 'text/html' 
         || includes_extension(model.path, viewable_extensions);
     };
