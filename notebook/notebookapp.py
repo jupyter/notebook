@@ -662,6 +662,9 @@ class NotebookApp(JupyterApp):
 
     @default('token')
     def _token_default(self):
+        if os.getenv('JUPYTER_TOKEN'):
+            self._token_generated = False
+            return os.getenv('JUPYTER_TOKEN')
         if self.password:
             # no token if password is enabled
             self._token_generated = False
