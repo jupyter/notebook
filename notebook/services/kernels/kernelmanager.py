@@ -65,7 +65,8 @@ class MappingKernelManager(MultiKernelManager):
     cull_idle_timeout = Integer(0, config=True,
         help="""Timeout (in seconds) after which a kernel is considered idle and ready to be culled.  Values of 0 or
         lower disable culling. The minimum timeout is 1 second. Positive values less than the minimum value
-        will be set to the minimum."""
+        will be set to the minimum. Very short timeouts may result in kernels being culled for users with poor
+        network connections."""
     )
 
     cull_interval_default = 300 # 5 minutes
