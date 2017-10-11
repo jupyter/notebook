@@ -153,6 +153,10 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
     def _files_handler_class_default(self):
         return AuthenticatedFileHandler
 
+    @default('files_handler_params')
+    def _files_handler_params_default(self):
+        return {'path': self.root_dir}
+
     def is_hidden(self, path):
         """Does the API style path correspond to a hidden directory or file?
 

@@ -277,7 +277,7 @@ class NotebookWebApplication(web.Application):
 
     def init_handlers(self, settings):
         """Load the (URL pattern, handler) tuples for each component."""
-        
+
         # Order matters. The first handler to match the URL will handle the request.
         handlers = []
         handlers.extend(load_handlers('tree.handlers'))
@@ -299,7 +299,8 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('services.kernelspecs.handlers'))
         handlers.extend(load_handlers('services.security.handlers'))
         handlers.extend(load_handlers('services.shutdown'))
-        
+        handlers.extend(settings['contents_manager'].get_extra_handlers())
+
         handlers.append(
             (r"/nbextensions/(.*)", FileFindHandler, {
                 'path': settings['nbextensions_path'],
