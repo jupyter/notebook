@@ -530,11 +530,17 @@ class APIHandler(IPythonHandler):
         # if authorization header is requested,
         # that means the request is token-authenticated.
         # avoid browser-side rejection of the preflight request.
-        # only allow this exception if allow_origin has not been specified.
+        # only allow this exception if allow_origin has not been specified
+        # and notebook authentication is enabled.
+        # If the token is not valid, the 'real' request will still be rejected.
         requested_headers = self.request.headers.get('Access-Control-Request-Headers', '').split(',')
         if requested_headers and any(
             h.strip().lower() == 'authorization'
             for h in requested_headers
+        ) and (
+            # FIXME: it would be even better to check specifically for token-auth,
+            # but there is currently no API for this.
+            self.login_available
         ) and (
             self.allow_origin
             or self.allow_origin_pat
