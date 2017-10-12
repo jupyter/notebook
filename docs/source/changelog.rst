@@ -21,6 +21,29 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
     ``pip --version``.
 
 
+.. _release-5.2.0:
+
+5.2.0
+-----
+
+- Make all files in the dashboard editable by default and provide a whitelist of viewable file extensions (:ghpull:`2911`).
+- Ensure that the root directory is not hidden (:ghpull:`2907`).
+- Fix CodeMirror styling issue (:ghpull:`2880`).
+- Update error handling on ``APIHandlers`` (:ghpull:`2853`).
+- Upgrade xterm.js to 2.9.2 (:ghpull:`2849`).
+- Add Chinese translations (depends on upcoming UI implementation) (:ghpull:`2804`).
+- Allow for simpler customization of ``output_prompt`` in custom.js (:ghpull:`2774`).
+- Use RFC5987 encoding for filenames (:ghpull:`2767`).
+- Add path to the resources metadata (:ghpull:`2753`).
+- Make ``extraKeys`` consistent between notebook and editor views (:ghpull:`2745`).
+- Add RTL (right-to-left) support (:ghpull:`2357`).
+
+Special thanks to `samarsultan <https://github.com/samarsultan>`__ and the Arabic Competence and Globalization Center Team at IBM Egypt for adding RTL (right-to-left) support to the notebook!
+
+See the 5.2 milestone on GitHub for a complete list of
+`issues <https://github.com/jupyter/notebook/issues?utf8=%E2%9C%93&q=is%3Aissue%20milestone%3A5.2>`__
+and `pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A5.2>`__ involved in this release.
+
 .. _release-5.1.0:
 
 5.1.0
