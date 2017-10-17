@@ -250,5 +250,5 @@ default_handlers = [
     (r"/nbconvert/%s" % _format_regex, NbconvertPostHandler),
     (r"/nbconvert/%s%s" % (_format_regex, path_regex),
          NbconvertFileHandler),
-    (r"/nbconvert-service", NbconvertServiceHandler),
+    (r"/nbconvert", NbconvertServiceHandler),
 ]

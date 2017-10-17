@@ -71,7 +71,7 @@ define('notebook/js/menubar',[
             }
         );
     };
-    
+
     MenuBar.prototype.add_bundler_items = function() {
         var that = this;
         this.config.loaded.then(function() {
@@ -82,7 +82,7 @@ define('notebook/js/menubar',[
                 ids.forEach(function(bundler_id) {
                     var bundler = bundlers[bundler_id];
                     var group = that.element.find('#'+bundler.group+'_menu')
-                    
+
                     // Validate menu item metadata
                     if(!group.length) {
                         console.warn('unknown group', bundler.group, 'for bundler ID', bundler_id, '; skipping');
@@ -91,7 +91,7 @@ define('notebook/js/menubar',[
                         console.warn('no label for bundler ID', bundler_id, '; skipping');
                         return;
                     }
-                    
+
                     // Insert menu item into correct group, click handler
                     group.parent().removeClass('hidden');
                     var $li = $('<li>')
@@ -117,7 +117,7 @@ define('notebook/js/menubar',[
             w.location = url;
         }
     };
-    
+
     MenuBar.prototype._bundle = function(bundler_id) {
         // Read notebook path and base url here in case they change
         var notebook_path = utils.encode_uri_components(this.notebook.notebook_path);
@@ -219,20 +219,10 @@ define('notebook/js/menubar',[
         var url =
           utils.url_path_join(
             that.base_url,
-            "nbconvert-service",
+            "nbconvert",
           ) +
           "?download=" +
           download.toString();
-        var create_new_dl_window = function() {
-          body
-            .empty()
-            .append("<p>")
-            .text("conversion in progress");
-          that._new_window(url);
-
-          return true;
-        };
-
         var xsrf_token = utils._get_cookie("_xsrf");
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
@@ -301,12 +291,12 @@ define('notebook/js/menubar',[
             format,
             notebook_path
         ) + "?download=" + download.toString();
-        
+
         this._new_window(url);
     };
 
     MenuBar.prototype._size_header = function() {
-        /** 
+        /**
          * Update header spacer size.
          */
         console.warn('`_size_header` is deprecated and will be removed in future versions.'+
@@ -319,7 +309,7 @@ define('notebook/js/menubar',[
          *  File
          */
         var that = this;
-        
+
         this.element.find('#open_notebook').click(function () {
             var parent = utils.url_path_split(that.notebook.notebook_path)[0];
             window.open(
@@ -346,7 +336,7 @@ define('notebook/js/menubar',[
                 that._new_window(url);
             }
         });
-        
+
         this.element.find('#print_preview').click(function () {
             that._nbconvert('html', false);
         });
@@ -446,7 +436,7 @@ define('notebook/js/menubar',[
             })(that, id_act, idx);
         }
 
-        
+
         // Kernel
         this.element.find('#reconnect_kernel').click(function () {
             that.notebook.kernel.reconnect();
@@ -462,33 +452,33 @@ define('notebook/js/menubar',[
         this.element.find('#keyboard_shortcuts').click(function () {
             that.quick_help.show_keyboard_shortcuts();
         });
-        
+
         this.update_restore_checkpoint(null);
-        
+
         this.events.on('checkpoints_listed.Notebook', function (event, data) {
             that.update_restore_checkpoint(that.notebook.checkpoints);
         });
-        
+
         this.events.on('checkpoint_created.Notebook', function (event, data) {
             that.update_restore_checkpoint(that.notebook.checkpoints);
         });
-        
+
         this.events.on('notebook_loaded.Notebook', function() {
             var langinfo = that.notebook.metadata.language_info || {};
             that.update_nbconvert_script(langinfo);
         });
-        
+
         this.events.on('kernel_ready.Kernel', function(event, data) {
             var langinfo = data.kernel.info_reply.language_info || {};
             that.update_nbconvert_script(langinfo);
             that.add_kernel_help_links(data.kernel.info_reply.help_links || []);
         });
     };
-    
+
     MenuBar.prototype._add_celltoolbar_list = function () {
         var that = this;
         var submenu = $("#menu-cell-toolbar-submenu");
-        
+
         function preset_added(event, data) {
             var name = data.name;
             submenu.append(
@@ -512,7 +502,7 @@ define('notebook/js/menubar',[
                 )
             );
         }
-        
+
         // Setup the existing presets
         var presets = celltoolbar.CellToolbar.list_presets();
         preset_added(null, {name: i18n.msg._("None")});
@@ -522,7 +512,7 @@ define('notebook/js/menubar',[
 
         // Setup future preset registrations
         this.events.on('preset_added.CellToolbar', preset_added);
-        
+
         // Handle unregistered presets
         this.events.on('unregistered_preset.CellToolbar', function (event, data) {
             submenu.find("li[data-name='" + encodeURIComponent(data.name) + "']").remove();
@@ -543,7 +533,7 @@ define('notebook/js/menubar',[
             );
             return;
         }
-        
+
         var that = this;
         checkpoints.map(function (checkpoint) {
             var d = new Date(checkpoint.last_modified);
@@ -559,13 +549,13 @@ define('notebook/js/menubar',[
             );
         });
     };
-    
+
     MenuBar.prototype.update_nbconvert_script = function(langinfo) {
         /**
          * Set the 'Download as foo' menu option for the relevant language.
          */
         var el = this.element.find('#download_script');
-        
+
         // Set menu entry text to e.g. "Python (.py)"
         var langname = (langinfo.name || 'Script');
         langname = langname.charAt(0).toUpperCase()+langname.substr(1); // Capitalise
@@ -609,9 +599,8 @@ define('notebook/js/menubar',[
             );
             cursor = cursor.next();
         });
-        
+
     };
 
     return {'MenuBar': MenuBar};
 });
-
