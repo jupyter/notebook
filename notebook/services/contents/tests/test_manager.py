@@ -300,6 +300,12 @@ class TestContentsManager(TestCase):
         self.assertEqual(model['name'], 'untitled')
         self.assertEqual(model['path'], '%s/untitled' % sub_dir)
 
+        # Test with a compound extension
+        model = cm.new_untitled(path=sub_dir, ext='.foo.bar')
+        self.assertEqual(model['name'], 'untitled.foo.bar')
+        model = cm.new_untitled(path=sub_dir, ext='.foo.bar')
+        self.assertEqual(model['name'], 'untitled1.foo.bar')
+
     def test_modified_date(self):
 
         cm = self.contents_manager

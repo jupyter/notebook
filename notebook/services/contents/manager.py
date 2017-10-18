@@ -4,7 +4,6 @@
 # Distributed under the terms of the Modified BSD License.
 
 from fnmatch import fnmatch
-import gettext
 import itertools
 import json
 import os
@@ -31,6 +30,7 @@ from traitlets import (
 )
 from ipython_genutils.py3compat import string_types
 from notebook.base.handlers import IPythonHandler
+
 
 copy_pat = re.compile(r'\-Copy\d*\.')
 
@@ -317,22 +317,31 @@ class ContentsManager(LoggingConfigurable):
             The name of a file, including extension
         path : unicode
             The API path of the target's directory
+        insert: unicode
+            The characters to insert after the base filename
 
         Returns
         -------
         name : unicode
             A filename that is unique, based on the input filename.
         """
-        path = path.strip('/')
-        basename, ext = os.path.splitext(filename)
+        # Extract the full suffix from the filename (e.g. .tar.gz)
+        dirname = os.path.dirname(filename)
+        basename = os.path.basename(filename)
+        parts = basename.split('.')
+        basename = os.path.join(dirname, parts[0])
+        suffix = '.' + '.'.join(parts[1:])
+        if suffix == '.':
+            suffix = ''
+
         for i in itertools.count():
             if i:
                 insert_i = '{}{}'.format(insert, i)
             else:
                 insert_i = ''
-            name = u'{basename}{insert}{ext}'.format(basename=basename,
-                insert=insert_i, ext=ext)
-            if not self.exists(u'{}/{}'.format(path, name)):
+            name = u'{basename}{insert}{suffix}'.format(basename=basename,
+                insert=insert_i, suffix=suffix)
+            if not self.exists(os.path.join(path, name)):
                 break
         return name
 
