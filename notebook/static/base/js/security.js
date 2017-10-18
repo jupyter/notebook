@@ -37,6 +37,7 @@ define([
         // disable the check
         // https://www.owasp.org/index.php/Script_in_IMG_tags
         ATTRIBS['img::src'] = 0;
+        ATTRIBS['a::knowl'] = 0;
         return caja.sanitizeAttribs(tagName, attribs, opt_naiveUriRewriter, opt_nmTokenPolicy, opt_logger);
     };
     
