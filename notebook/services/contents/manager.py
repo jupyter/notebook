@@ -67,7 +67,7 @@ class ContentsManager(LoggingConfigurable):
         Glob patterns to hide in file and directory listings.
     """)
 
-    untitled_notebook = Unicode(_("Untitled"), config=True,
+    untitled_notebook = Unicode("Untitled", config=True,
         help="The base name used when creating untitled notebooks."
     )
 
