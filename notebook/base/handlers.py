@@ -461,6 +461,8 @@ class APIHandler(IPythonHandler):
         message = responses.get(status_code, 'Unknown HTTP Error')
         reply = {
             'message': message,
+            # some clients expect 'reason' to exist and equate to status_code text
+            'reason': message,
         }
         exc_info = kwargs.get('exc_info')
         if exc_info:
