@@ -89,10 +89,16 @@ class AuthenticatedHandler(web.RequestHandler):
                 # if method is unsupported (websocket and Access-Control-Allow-Origin
                 # for example, so just ignore)
                 self.log.debug(e)
-    
+
     def clear_login_cookie(self):
-        self.clear_cookie(self.cookie_name)
-    
+        cookie_options = self.settings.get('cookie_options', {})
+        path = cookie_options.setdefault('path', self.base_url)
+        self.clear_cookie(self.cookie_name, path=path)
+        if path and path != '/':
+            # also clear cookie on / to ensure old cookies
+            # are cleared after the change in path behavior.
+            self.clear_cookie(self.cookie_name)
+
     def get_current_user(self):
         if self.login_handler is None:
             return 'anonymous'
