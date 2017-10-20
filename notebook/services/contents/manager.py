@@ -326,8 +326,8 @@ class ContentsManager(LoggingConfigurable):
             A filename that is unique, based on the input filename.
         """
         # Extract the full suffix from the filename (e.g. .tar.gz)
-        dirname = os.path.dirname(filename)
-        basename = os.path.basename(filename)
+        path = path.strip('/')
+        dirname, basename = os.path.split(filename)
         name, dot, ext = basename.partition('.')
         basename = os.path.join(dirname, name)
         suffix = dot + ext
