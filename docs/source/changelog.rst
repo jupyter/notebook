@@ -26,17 +26,38 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
 5.2.0
 -----
 
-- Make all files in the dashboard editable by default and provide a whitelist of viewable file extensions (:ghpull:`2911`).
-- Ensure that the root directory is not hidden (:ghpull:`2907`).
-- Fix CodeMirror styling issue (:ghpull:`2880`).
-- Update error handling on ``APIHandlers`` (:ghpull:`2853`).
-- Upgrade xterm.js to 2.9.2 (:ghpull:`2849`).
-- Add Chinese translations (depends on upcoming UI implementation) (:ghpull:`2804`).
-- Allow for simpler customization of ``output_prompt`` in custom.js (:ghpull:`2774`).
-- Use RFC5987 encoding for filenames (:ghpull:`2767`).
-- Add path to the resources metadata (:ghpull:`2753`).
-- Make ``extraKeys`` consistent between notebook and editor views (:ghpull:`2745`).
-- Add RTL (right-to-left) support (:ghpull:`2357`).
+- Add 5.2.0 to changelog (:ghpull:`2930`). 
+- Allow setting token via jupyter_token env (:ghpull:`2921`). 
+- Fix some errors caused by raising 403 in get_current_user (:ghpull:`2919`). 
+- Register contents_manager.files_handler_class directly (:ghpull:`2917`). 
+- Update viewable_extensions (:ghpull:`2913`). 
+- Show edit shortcuts modal after shortcuts modal is hidden (:ghpull:`2912`). 
+- Improve edit/view behavior (:ghpull:`2911`). 
+- The root directory of the notebook server should never be hidden (:ghpull:`2907`). 
+- Fix notebook require config to match tools/build-main (:ghpull:`2888`). 
+- Give page constructor default arguments (:ghpull:`2887`). 
+- Fix codemirror.less to match codemirror\'s expected padding layout (:ghpull:`2880`). 
+- Add x-xsrftoken to access-control-allow-headers (:ghpull:`2876`). 
+- Buffer messages when websocket connection is interrupted (:ghpull:`2871`). 
+- Load locale dynamically only when not en-us (:ghpull:`2866`). 
+- Changed key strength to 2048 bits (:ghpull:`2861`). 
+- Resync jsversion with python version (:ghpull:`2860`). 
+- Allow copy operation on modified, read-only notebook (:ghpull:`2854`). 
+- Update error handling on apihandlers (:ghpull:`2853`). 
+- Test python 3.6 on travis, drop 3.3 (:ghpull:`2852`). 
+- Avoid base64-literals in image tests (:ghpull:`2851`). 
+- Upgrade xterm.js to 2.9.2 (:ghpull:`2849`). 
+- Changed all python variables named file to file_name to not override built_in file (:ghpull:`2830`). 
+- Add more doc tests (:ghpull:`2823`). 
+- Typos fix (:ghpull:`2815`). 
+- Rename and update license [ci skip] (:ghpull:`2810`). 
+- Travis builds doc  (:ghpull:`2808`). 
+- Pull request i18n  (:ghpull:`2804`). 
+- Factor out output_prompt_function, as is done with input prompt (:ghpull:`2774`). 
+- Use rfc5987 encoding for filenames (:ghpull:`2767`). 
+- Added path to the resources metadata, the same as in from_filename(...) in nbconvert.exporters.py (:ghpull:`2753`). 
+- Make "extrakeys" consistent for notebook and editor (:ghpull:`2745`). 
+- Bidi support (:ghpull:`2357`). 
 
 Special thanks to `samarsultan <https://github.com/samarsultan>`__ and the Arabic Competence and Globalization Center Team at IBM Egypt for adding RTL (right-to-left) support to the notebook!
 
