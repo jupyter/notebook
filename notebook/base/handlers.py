@@ -287,6 +287,16 @@ class IPythonHandler(AuthenticatedHandler):
             origin = self.get_origin()
             if origin and self.allow_origin_pat.match(origin):
                 self.set_header("Access-Control-Allow-Origin", origin)
+        elif (
+            self.token_authenticated
+            and "Access-Control-Allow-Origin" not in
+                self.settings.get('headers', {})
+        ):
+            # allow token-authenticated requests cross-origin by default.
+            # only apply this exception if allow-origin has not been specified.
+            self.set_header('Access-Control-Allow-Origin',
+                self.request.headers.get('Origin', ''))
+
         if self.allow_credentials:
             self.set_header("Access-Control-Allow-Credentials", 'true')
     
@@ -522,6 +532,28 @@ class APIHandler(IPythonHandler):
                         'accept, content-type, authorization, x-xsrftoken')
         self.set_header('Access-Control-Allow-Methods',
                         'GET, PUT, POST, PATCH, DELETE, OPTIONS')
+
+        # if authorization header is requested,
+        # that means the request is token-authenticated.
+        # avoid browser-side rejection of the preflight request.
+        # only allow this exception if allow_origin has not been specified
+        # and notebook authentication is enabled.
+        # If the token is not valid, the 'real' request will still be rejected.
+        requested_headers = self.request.headers.get('Access-Control-Request-Headers', '').split(',')
+        if requested_headers and any(
+            h.strip().lower() == 'authorization'
+            for h in requested_headers
+        ) and (
+            # FIXME: it would be even better to check specifically for token-auth,
+            # but there is currently no API for this.
+            self.login_available
+        ) and (
+            self.allow_origin
+            or self.allow_origin_pat
+            or 'Access-Control-Allow-Origin' in self.settings.get('headers', {})
+        ):
+            self.set_header('Access-Control-Allow-Origin',
+                self.request.headers.get('Origin', ''))
 
 
 class Template404(IPythonHandler):
