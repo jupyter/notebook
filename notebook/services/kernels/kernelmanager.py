@@ -61,12 +61,10 @@ class MappingKernelManager(MultiKernelManager):
             raise TraitError("kernel root dir %r is not a directory" % value)
         return value
 
-    cull_idle_timeout_minimum = 1
     cull_idle_timeout = Integer(0, config=True,
-        help="""Timeout (in seconds) after which a kernel is considered idle and ready to be culled.  Values of 0 or
-        lower disable culling. The minimum timeout is 1 second. Positive values less than the minimum value
-        will be set to the minimum. Very short timeouts may result in kernels being culled for users with poor
-        network connections."""
+        help="""Timeout (in seconds) after which a kernel is considered idle and ready to be culled.
+        Values of 0 or lower disable culling. Very short timeouts may result in kernels being culled
+        for users with poor network connections."""
     )
 
     cull_interval_default = 300 # 5 minutes
@@ -76,12 +74,12 @@ class MappingKernelManager(MultiKernelManager):
 
     cull_connected = Bool(False, config=True,
         help="""Whether to consider culling kernels which have one or more connections.
-        Only effective if cull_idle_timeout is not 0."""
+        Only effective if cull_idle_timeout > 0."""
     )
 
     cull_busy = Bool(False, config=True,
         help="""Whether to consider culling kernels which are busy.
-        Only effective if cull_idle_timeout is not 0."""
+        Only effective if cull_idle_timeout > 0."""
     )
 
     _kernel_buffers = Any()
@@ -366,10 +364,6 @@ class MappingKernelManager(MultiKernelManager):
         """
         if not self._initialized_culler and self.cull_idle_timeout > 0:
             if self._culler_callback is None:
-                if self.cull_idle_timeout < self.cull_idle_timeout_minimum:
-                    self.log.warning("'cull_idle_timeout' (%s) is less than the minimum value (%s) and has been set to the minimum.",
-                        self.cull_idle_timeout, self.cull_idle_timeout_minimum)
-                    self.cull_idle_timeout = self.cull_idle_timeout_minimum
                 loop = IOLoop.current()
                 if self.cull_interval <= 0: #handle case where user set invalid value
                     self.log.warning("Invalid value for 'cull_interval' detected (%s) - using default value (%s).",
