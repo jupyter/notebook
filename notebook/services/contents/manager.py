@@ -327,9 +327,7 @@ class ContentsManager(LoggingConfigurable):
         """
         # Extract the full suffix from the filename (e.g. .tar.gz)
         path = path.strip('/')
-        dirname, basename = os.path.split(filename)
-        name, dot, ext = basename.partition('.')
-        basename = os.path.join(dirname, name)
+        name, dot, ext = filename.partition('.')
         suffix = dot + ext
 
         for i in itertools.count():
@@ -337,9 +335,9 @@ class ContentsManager(LoggingConfigurable):
                 insert_i = '{}{}'.format(insert, i)
             else:
                 insert_i = ''
-            name = u'{basename}{insert}{suffix}'.format(basename=basename,
+            name = u'{name}{insert}{suffix}'.format(name=name,
                 insert=insert_i, suffix=suffix)
-            if not self.exists(os.path.join(path, name)):
+            if not self.exists(u'{}/{}'.format(path, name)):
                 break
         return name
 
