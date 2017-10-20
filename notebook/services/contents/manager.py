@@ -328,11 +328,9 @@ class ContentsManager(LoggingConfigurable):
         # Extract the full suffix from the filename (e.g. .tar.gz)
         dirname = os.path.dirname(filename)
         basename = os.path.basename(filename)
-        parts = basename.split('.')
-        basename = os.path.join(dirname, parts[0])
-        suffix = '.' + '.'.join(parts[1:])
-        if suffix == '.':
-            suffix = ''
+        name, dot, ext = basename.partition('.')
+        basename = os.path.join(dirname, name)
+        suffix = dot + ext
 
         for i in itertools.count():
             if i:
