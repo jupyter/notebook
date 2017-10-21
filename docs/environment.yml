@@ -10,3 +10,4 @@ dependencies:
 - pip:
   - sphinx<1.4
   - nbsphinx
+  - Send2Trash
