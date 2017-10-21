@@ -26,6 +26,10 @@ Hint: if running Windows, you can set it in PowerShell with `${Env:LANG} = "xx_X
 - *pybabel* (could be installed `pip install pybabel`)
 - *po2json* (could be installed with `npm install -g po2json`)
 
+**All i18n-related commands are done from the related directory :**
+
+    cd notebook/i18n/
+
 ### Message extraction
 
 The translatable material for notebook is split into 3 `.pot` files, as follows:
@@ -38,12 +42,12 @@ The translatable material for notebook is split into 3 `.pot` files, as follows:
 	user interface for Jupyter notebook.
 
 To extract the messages from the source code whenever new material is added, use the
-`pybabel` command (assuming you are in the base directory for Jupyter notebook):
+`pybabel` command:
 
 ```shell
-pybabel extract -F notebook/i18n/babel_notebook.cfg -o notebook/i18n/notebook.pot --no-wrap --project Jupyter .
-pybabel extract -F notebook/i18n/babel_nbui.cfg -o notebook/i18n/nbui.pot --no-wrap --project Jupyter .
-pybabel extract -F notebook/i18n/babel_nbjs.cfg -o notebook/i18n/nbjs.pot --no-wrap --project Jupyter .
+pybabel extract -F babel_notebook.cfg -o notebook.pot --no-wrap --project Jupyter .
+pybabel extract -F babel_nbui.cfg -o nbui.pot --no-wrap --project Jupyter .
+pybabel extract -F babel_nbjs.cfg -o nbjs.pot --no-wrap --project Jupyter .
 ```
 
 After this is complete you have 3 `.pot` files that you can give to a translator for your favorite language.
@@ -58,13 +62,13 @@ code for your desired language ( i.e. German = "de", Japanese = "ja", etc. ).
 use at runtime.
 
 ```shell
-pybabel compile -D notebook -f -l ${LANG} -i notebook/i18n/${LANG}/LC_MESSAGES/notebook.po -o notebook/i18n/${LANG}/notebook.mo
-pybabel compile -D nbui -f -l ${LANG} -i notebook/i18n/${LANG}/LC_MESSAGES/nbui.po -o notebook/i18n/${LANG}/nbui.mo
+pybabel compile -D notebook -f -l ${LANG} -i ${LANG}/LC_MESSAGES/notebook.po -o ${LANG}/notebook.mo
+pybabel compile -D nbui -f -l ${LANG} -i ${LANG}/LC_MESSAGES/nbui.po -o ${LANG}/nbui.mo
 ```
 
 *nbjs.po* needs to be converted to JSON for use within the JavaScript code, with  *po2json*, as follows:
 
-    po2json -p -F -f jed1.x -d nbjs notebook/i18n/${LANG}/LC_MESSAGES/nbjs.po notebook/i18n/${LANG}/LC_MESSAGES/nbjs.json
+    po2json -p -F -f jed1.x -d nbjs ${LANG}/LC_MESSAGES/nbjs.po ${LANG}/LC_MESSAGES/nbjs.json
 
 When new languages get added, their language codes should be added to *notebook/i18n/nbjs.json*
 under the `supported_languages` element.
