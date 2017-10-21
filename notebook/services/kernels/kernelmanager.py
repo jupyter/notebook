@@ -8,6 +8,7 @@
 # Distributed under the terms of the Modified BSD License.
 
 from collections import defaultdict
+from datetime import datetime, timedelta
 from functools import partial
 import os
 
@@ -17,13 +18,13 @@ from tornado.ioloop import IOLoop, PeriodicCallback
 
 from jupyter_client.session import Session
 from jupyter_client.multikernelmanager import MultiKernelManager
-from traitlets import Any, Bool, Dict, List, Unicode, TraitError, Integer, default, validate
+from traitlets import (Any, Bool, Dict, List, Unicode, TraitError, Integer,
+       Instance, default, validate
+)
 
 from notebook.utils import to_os_path, exists
 from notebook._tz import utcnow, isoformat
 from ipython_genutils.py3compat import getcwd
-
-from datetime import timedelta
 
 
 class MappingKernelManager(MultiKernelManager):
@@ -87,6 +88,13 @@ class MappingKernelManager(MultiKernelManager):
     @default('_kernel_buffers')
     def _default_kernel_buffers(self):
         return defaultdict(lambda: {'buffer': [], 'session_key': '', 'channels': {}})
+
+    last_kernel_activity = Instance(datetime,
+        help="The last activity on any kernel, including shutting down a kernel")
+
+    def __init__(self, **kwargs):
+        super(MappingKernelManager, self).__init__(**kwargs)
+        self.last_kernel_activity = utcnow()
 
     #-------------------------------------------------------------------------
     # Methods for managing kernels and sessions
@@ -241,6 +249,7 @@ class MappingKernelManager(MultiKernelManager):
         kernel._activity_stream.close()
         self.stop_buffering(kernel_id)
         self._kernel_connections.pop(kernel_id, None)
+        self.last_kernel_activity = utcnow()
         return super(MappingKernelManager, self).shutdown_kernel(kernel_id, now=now)
 
     def restart_kernel(self, kernel_id):
@@ -346,7 +355,7 @@ class MappingKernelManager(MultiKernelManager):
 
         def record_activity(msg_list):
             """Record an IOPub message arriving from a kernel"""
-            kernel.last_activity = utcnow()
+            self.last_kernel_activity = kernel.last_activity = utcnow()
 
             idents, fed_msg_list = session.feed_identities(msg_list)
             msg = session.deserialize(fed_msg_list)
