@@ -117,6 +117,7 @@ define([
             }
         },
         'confirm-restart-kernel-and-run-all-cells': {
+            icon: 'fa-recycle',
             cmd: i18n.msg._('confirm restart kernel and run all cells'),
             help: i18n.msg._('restart the kernel, then re-run the whole notebook (with dialog)'),
             handler: function (env) {

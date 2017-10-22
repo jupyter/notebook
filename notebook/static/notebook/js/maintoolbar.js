@@ -53,7 +53,8 @@ define([
           [ [new toolbar.Button('jupyter-notebook:run-cell-and-select-next',
                 {label: i18n.msg._('Run')}),
              'jupyter-notebook:interrupt-kernel',
-             'jupyter-notebook:confirm-restart-kernel'
+             'jupyter-notebook:confirm-restart-kernel',
+             'jupyter-notebook:confirm-restart-kernel-and-run-all-cells'
             ],
             'run_int'],
          ['<add_celltype_list>'],
@@ -61,7 +62,7 @@ define([
         ];
         this.construct(grps);
     };
-   
+
     MainToolBar.prototype._pseudo_actions = {};
 
     // add a cell type drop down to the maintoolbar.
