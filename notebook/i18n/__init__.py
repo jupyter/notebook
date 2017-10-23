@@ -35,6 +35,8 @@ def parse_accept_lang_header(accept_lang):
         if not m:
             continue
         lang, qvalue = m.group('lang', 'qvalue')
+        # Browser header format is zh-CN, gettext uses zh_CN
+        lang = lang.replace('-', '_')
         if qvalue is None:
             qvalue = 1.
         else:
