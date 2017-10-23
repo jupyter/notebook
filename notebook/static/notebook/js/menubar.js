@@ -24,6 +24,7 @@ define([
          *  options: dictionary
          *      Dictionary of keyword arguments.
          *          notebook: Notebook instance
+         *          render keyboard shortcuts from KeyboardManager
          *          contents: ContentManager instance
          *          events: $(Events) instance
          *          save_widget: SaveWidget instance
@@ -37,7 +38,8 @@ define([
         this.base_url = options.base_url || utils.get_body_data("baseUrl");
         this.selector = selector;
         this.notebook = options.notebook;
-        this.actions = this.notebook.keyboard_manager.actions;
+        this.keyboard_manager = this.notebook.keyboard_manager;
+        this.actions = this.keyboard_manager.actions;
         this.contents = options.contents;
         this.events = options.events;
         this.save_widget = options.save_widget;
@@ -276,9 +278,21 @@ define([
             }
             // Immediately-Invoked Function Expression cause JS.
             (function(that, id_act, idx){
-                that.element.find(idx).click(function(event){
+                var el = that.element.find(idx);
+                el.click(function(event){
                     that.actions.call(id_act, event);
                 });
+                
+                var keybinding = that.keyboard_manager.command_shortcuts.get_action_shortcut(id_act);
+                
+                if(keybinding === undefined) {
+            		    keybinding = that.keyboard_manager.edit_shortcuts.get_action_shortcut(id_act);
+                }
+                
+                if(keybinding !== undefined) {
+                    var binding = '<span class="kb">'+keybinding+'</span>';
+                    el.children().append(binding);
+                }
             })(that, id_act, idx);
         }
 
