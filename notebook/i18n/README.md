@@ -62,8 +62,8 @@ code for your desired language ( i.e. German = "de", Japanese = "ja", etc. ).
 use at runtime.
 
 ```shell
-pybabel compile -D notebook -f -l ${LANG} -i ${LANG}/LC_MESSAGES/notebook.po -o ${LANG}/notebook.mo
-pybabel compile -D nbui -f -l ${LANG} -i ${LANG}/LC_MESSAGES/nbui.po -o ${LANG}/nbui.mo
+pybabel compile -D notebook -f -l ${LANG} -i ${LANG}/LC_MESSAGES/notebook.po -o ${LANG}/LC_MESSAGES/notebook.mo
+pybabel compile -D nbui -f -l ${LANG} -i ${LANG}/LC_MESSAGES/nbui.po -o ${LANG}/LC_MESSAGES/nbui.mo
 ```
 
 *nbjs.po* needs to be converted to JSON for use within the JavaScript code, with  *po2json*, as follows:
