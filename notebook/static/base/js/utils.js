@@ -380,6 +380,12 @@ define([
                     case 22:
                         bold = false;
                         break;
+                    case 24:
+                        underline = false;
+                        break;
+                    case 27:
+                        inverse = false;
+                        break;
                     case 30:
                     case 31:
                     case 32:
