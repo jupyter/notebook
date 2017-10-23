@@ -34,6 +34,7 @@ from ipython_genutils.py3compat import string_types
 
 import notebook
 from notebook._tz import utcnow
+from notebook.i18n import combine_translations
 from notebook.utils import is_hidden, url_path_join, url_is_absolute, url_escape
 from notebook.services.security import csp_report_uri
 
@@ -409,6 +410,8 @@ class IPythonHandler(AuthenticatedHandler):
             xsrf_form_html=self.xsrf_form_html,
             token=self.token,
             xsrf_token=self.xsrf_token.decode('utf8'),
+            nbjs_translations=json.dumps(combine_translations(
+                self.request.headers.get('Accept-Language', ''))),
             **self.jinja_template_vars
         )
     
