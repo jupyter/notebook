@@ -7,7 +7,7 @@ import json
 from os.path import dirname, join as pjoin
 import re
 
-I18N_DIR = pjoin(dirname(dirname(__file__)), 'i18n')
+I18N_DIR = dirname(__file__)
 # Cache structure:
 # {'nbjs': {   # Domain
 #   'zh-CN': {  # Language code
