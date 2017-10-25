@@ -97,20 +97,29 @@ class NbconvertFileHandler(IPythonHandler):
             # not a notebook, redirect to files
             return FilesRedirectHandler.redirect_to_files(self, path)
 
+        nb = model['content']
+
         self.set_header('Last-Modified', model['last_modified'])
+
+        # create resources dictionary
+        mod_date = model['last_modified'].strftime(text.date_format)
+        nb_title = nb.metadata.get("title","") or os.path.splitext(name)[0]
+
+        resource_dict = {
+            "metadata": {
+                "name": nb_title,
+                "modified_date": mod_date
+            },
+            "config_dir": self.application.settings['config_dir']
+        }
+
+        if ext_resources_dir:
+            resource_dict['metadata']['path'] = ext_resources_dir
 
         try:
             output, resources = exporter.from_notebook_node(
-                model['content'],
-                resources={
-                    "metadata": {
-                        "name": name[:name.rfind('.')],
-                        "modified_date": (model['last_modified']
-                            .strftime(text.date_format)),
-                        "path" : os_path
-                    },
-                    "config_dir": self.application.settings['config_dir'],
-                }
+                nb,
+                resources=resource_dict
             )
         except Exception as e:
             self.log.exception("nbconvert failed: %s", e)
