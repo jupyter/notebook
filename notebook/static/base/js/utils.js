@@ -247,8 +247,6 @@ define([
                 fg += 8;  // Bold text uses "intense" colors
             }
             if (inverse) {
-                if (fg.length === 0) { fg = [0, 0, 0]; }
-                if (bg.length === 0) { bg = [255, 255, 255]; }
                 [fg, bg] = [bg, fg];
             }
 
@@ -256,12 +254,16 @@ define([
                 classes.push(_ANSI_COLORS[fg] + "-fg");
             } else if (fg.length) {
                 styles.push("color: rgb(" + fg + ")");
+            } else if (inverse) {
+                classes.push("ansi-default-inverse-fg");
             }
 
             if (typeof bg === "number") {
                 classes.push(_ANSI_COLORS[bg] + "-bg");
             } else if (bg.length) {
                 styles.push("background-color: rgb(" + bg + ")");
+            } else if (inverse) {
+                classes.push("ansi-default-inverse-bg");
             }
 
             if (bold) {
