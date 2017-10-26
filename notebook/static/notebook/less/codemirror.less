@@ -53,5 +53,19 @@
 }
 
 .CodeMirror-cursor {
-    border-left: 1.2px solid black;
+    border-left: 1.4px solid black;
+}
+
+// When zoomed out 67% and 33%
+@media screen and (min-width: 2138px) and (max-width: 4319px)  {
+    .CodeMirror-cursor {
+        border-left: 2px solid black;
+    }
+}
+
+// When zoomed out less than 33%
+@media screen and (min-width: 4320px)  {
+    .CodeMirror-cursor {
+        border-left: 4px solid black;
+    }
 }
