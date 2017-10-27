@@ -271,15 +271,15 @@ define([
                     that.actions.call(id_act, event);
                 });
                 
-                var keybinding = that.keyboard_manager.command_shortcuts.get_action_shortcut(id_act);
+                var keybinding = that.keyboard_manager.command_shortcuts.get_action_shortcut(id_act) || that.keyboard_manager.edit_shortcuts.get_action_shortcut(id_act);
                 
-                if(keybinding === undefined) {
-            		    keybinding = that.keyboard_manager.edit_shortcuts.get_action_shortcut(id_act);
-                }
-                
-                if(keybinding !== undefined) {
-                    var binding = '<span class="kb">'+keybinding+'</span>';
-                    el.children().append(binding);
+                if (keybinding) {
+                    var link_element = el.children('a');
+                    var text = link_element.text();
+                    link_element.text('');
+                    link_element.attr('style', 'display: flex; flex-direction: row; justify-content: space-between; align-items: flex-end;');
+                    link_element.append('<span class="action">' + text + '</span>');
+                    link_element.append('<span class="kb">' + keybinding + '</span>');
                 }
             })(that, id_act, idx);
         }
