@@ -21,12 +21,33 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
     ``pip --version``.
 
 
+.. _release-5.2.1:
+
+5.2.1
+-----
+
+- Fix invisible CodeMirror cursor at specific browser zoom levels (:ghpull:`2983`). 
+- Fix nbconvert handler causing broken export to PDF (:ghpull:`2981`). 
+- Fix the prompt_area argument of the output area constructor. (:ghpull:`2961`). 
+- Handle a compound extension in new_untitled (:ghpull:`2949`). 
+- Allow disabling offline message buffering (:ghpull:`2916`). 
+
+Thanks to the following contributors:
+
+- Steven Silvester (`blink1073 <https://github.com/blink1073>`__)
+- Grant Nestor (`gnestor <https://github.com/gnestor>`__)
+- Jason Grout (`jasongrout <https://github.com/jasongrout>`__)
+- Min RK (`minrk <https://github.com/minrk>`__)
+- M Pacer (`mpacer <https://github.com/mpacer>`__)
+
+See the 5.2.1 milestone on GitHub for a complete list of
+`pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A5.2.1>`__ involved in this release.
+
 .. _release-5.2.0:
 
 5.2.0
 -----
 
-- Add 5.2.0 to changelog (:ghpull:`2930`). 
 - Allow setting token via jupyter_token env (:ghpull:`2921`). 
 - Fix some errors caused by raising 403 in get_current_user (:ghpull:`2919`). 
 - Register contents_manager.files_handler_class directly (:ghpull:`2917`). 
