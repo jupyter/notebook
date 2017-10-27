@@ -60,13 +60,13 @@ def get_exporter(format, **kwargs):
         from nbconvert.exporters.base import get_exporter
     except ImportError as e:
         raise web.HTTPError(500, "Could not import nbconvert: %s" % e)
-    
+
     try:
         Exporter = get_exporter(format)
     except KeyError:
         # should this be 400?
         raise web.HTTPError(404, u"No exporter for format: %s" % format)
-    
+
     try:
         return Exporter(**kwargs)
     except Exception as e:
@@ -76,19 +76,20 @@ def get_exporter(format, **kwargs):
 class NbconvertFileHandler(IPythonHandler):
 
     SUPPORTED_METHODS = ('GET',)
-    
+
     @web.authenticated
     def get(self, format, path):
-        
+
         exporter = get_exporter(format, config=self.config, log=self.log)
-        
+
         path = path.strip('/')
         # If the notebook relates to a real file (default contents manager),
         # give its path to nbconvert.
         if hasattr(self.contents_manager, '_get_os_path'):
             os_path = self.contents_manager._get_os_path(path)
+            ext_resources_dir, basename = os.path.split(os_path)
         else:
-            os_path = ''
+            ext_resources_dir = None
 
         model = self.contents_manager.get(path=path)
         name = model['name']
@@ -96,20 +97,29 @@ class NbconvertFileHandler(IPythonHandler):
             # not a notebook, redirect to files
             return FilesRedirectHandler.redirect_to_files(self, path)
 
+        nb = model['content']
+
         self.set_header('Last-Modified', model['last_modified'])
+
+        # create resources dictionary
+        mod_date = model['last_modified'].strftime(text.date_format)
+        nb_title = os.path.splitext(name)[0]
+
+        resource_dict = {
+            "metadata": {
+                "name": nb_title,
+                "modified_date": mod_date
+            },
+            "config_dir": self.application.settings['config_dir']
+        }
+
+        if ext_resources_dir:
+            resource_dict['metadata']['path'] = ext_resources_dir
 
         try:
             output, resources = exporter.from_notebook_node(
-                model['content'],
-                resources={
-                    "metadata": {
-                        "name": name[:name.rfind('.')],
-                        "modified_date": (model['last_modified']
-                            .strftime(text.date_format)),
-                        "path" : os_path
-                    },
-                    "config_dir": self.application.settings['config_dir'],
-                }
+                nb,
+                resources=resource_dict
             )
         except Exception as e:
             self.log.exception("nbconvert failed: %s", e)
@@ -136,11 +146,11 @@ class NbconvertPostHandler(IPythonHandler):
     @web.authenticated
     def post(self, format):
         exporter = get_exporter(format, config=self.config)
-        
+
         model = self.get_json_body()
         name = model.get('name', 'notebook.ipynb')
         nbnode = from_dict(model['content'])
-        
+
         try:
             output, resources = exporter.from_notebook_node(nbnode, resources={
                 "metadata": {"name": name[:name.rfind('.')],},
