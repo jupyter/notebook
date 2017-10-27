@@ -103,7 +103,7 @@ class NbconvertFileHandler(IPythonHandler):
 
         # create resources dictionary
         mod_date = model['last_modified'].strftime(text.date_format)
-        nb_title = nb.metadata.get("title","") or os.path.splitext(name)[0]
+        nb_title = os.path.splitext(name)[0]
 
         resource_dict = {
             "metadata": {
