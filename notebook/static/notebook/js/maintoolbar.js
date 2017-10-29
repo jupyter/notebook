@@ -80,11 +80,17 @@ define([
             .append(multiselect);
         this.notebook.keyboard_manager.register_events(sel);
         this.events.on('selected_cell_type_changed.Notebook', function (event, data) {
-            if ( that.notebook.get_selected_cells_indices().length > 1) {
+            if (data.editable === false) {
+                sel.attr('disabled', true);
+            } else {
+                sel.removeAttr('disabled');
+            }
+
+            if (that.notebook.get_selected_cells_indices().length > 1) {
                 multiselect.show();
                 sel.val('multiselect');
             } else {
-                multiselect.hide()
+                multiselect.hide();
                 if (data.cell_type === 'heading') {
                     sel.val('Markdown');
                 } else {
