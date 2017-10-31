@@ -21,6 +21,7 @@ install:
   - cmd: conda update --yes --quiet -c defaults conda
   # seems to need a cleanup first
   - cmd: conda clean --yes --all
+  - cmd: conda install -y nbconvert
   - cmd: conda install -y pyzmq tornado jupyter_client nbformat nbconvert ipykernel pip nodejs nose
   - cmd: pip install .[test]
 
