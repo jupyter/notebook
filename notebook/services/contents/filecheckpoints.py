@@ -12,7 +12,7 @@ from .checkpoints import (
 )
 from .fileio import FileManagerMixin
 
-from ipython_genutils.path import ensure_dir_exists
+from jupyter_core.utils import ensure_dir_exists
 from ipython_genutils.py3compat import getcwd
 from traitlets import Unicode
 
