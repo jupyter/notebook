@@ -147,7 +147,7 @@ install_requires = [
     'tornado>=4',
     'ipython_genutils',
     'traitlets>=4.2.1',
-    'jupyter_core',
+    'jupyter_core>=4.4.0',
     'jupyter_client',
     'nbformat',
     'nbconvert',
