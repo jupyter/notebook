@@ -4,8 +4,8 @@ matrix:
 
 environment:
   matrix:
-    - CONDA_PY: 35
-      CONDA_INSTALL_LOCN: "C:\\Miniconda35-x64"
+    # - CONDA_PY: 35
+    #   CONDA_INSTALL_LOCN: "C:\\Miniconda35-x64"
     - CONDA_PY: 27
       CONDA_INSTALL_LOCN: "C:\\Miniconda-x64"
 
@@ -16,9 +16,13 @@ build: off
 
 install:
   - cmd: call %CONDA_INSTALL_LOCN%\Scripts\activate.bat
-  - cmd: conda update --yes --quiet conda
   - cmd: conda config --set show_channel_urls true
   - cmd: conda config --add channels conda-forge
+  - cmd: conda update --yes --quiet -c defaults conda
+  - cmd: conda config --set auto_update_conda false
+  # seems to need a cleanup first
+  - cmd: conda clean --yes --all
+  - cmd: conda install -y nbconvert
   - cmd: conda install -y pyzmq tornado jupyter_client nbformat nbconvert ipykernel pip nodejs nose
   - cmd: pip install .[test]
 
