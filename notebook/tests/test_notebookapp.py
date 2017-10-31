@@ -181,5 +181,5 @@ def test_notebook_stop():
         app.initialize(['999'])
         with nt.assert_raises(SystemExit) as exc:
             app.start()
-        nt.assert_equal(exc.exception.exception_code, 1)
+        nt.assert_equal(exc.exception.code, 1)
     nt.assert_equal(len(app.servers_shut_down), 0)
