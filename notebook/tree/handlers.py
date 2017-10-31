@@ -51,6 +51,7 @@ class TreeHandler(IPythonHandler):
                 breadcrumbs=breadcrumbs,
                 terminals_available=self.settings['terminals_available'],
                 server_root=self.settings['server_root_dir'],
+                shutdown_button=self.settings.get('shutdown_button', False)
             ))
         elif cm.file_exists(path):
             # it's not a directory, we have redirecting to do

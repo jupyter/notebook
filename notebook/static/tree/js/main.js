@@ -209,4 +209,21 @@ requirejs([
     if (window.location.hash) {
         $("#tabs").find("a[href=" + window.location.hash + "]").click();
     }
+    
+    // Add shutdown button
+    $("button#shutdown").click(function () {
+        utils.ajax(utils.url_path_join(
+            utils.get_body_data("baseUrl"),
+            "api",
+            "shutdown"
+        ), {
+            type: "POST",
+            success: function() {
+                console.log('server shutdown');
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
 });
