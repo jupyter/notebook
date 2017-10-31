@@ -855,11 +855,18 @@ define([
             this.update_soft_selection();
             if (cell.cell_type === 'heading') {
                 this.events.trigger('selected_cell_type_changed.Notebook',
-                    {'cell_type':cell.cell_type, level:cell.level}
+                    {
+                        'cell_type': cell.cell_type,
+                        'level': cell.level,
+                        'editable': cell.is_editable()
+                    }
                 );
             } else {
                 this.events.trigger('selected_cell_type_changed.Notebook',
-                    {'cell_type':cell.cell_type}
+                    {
+                        'cell_type': cell.cell_type,
+                        'editable': cell.is_editable()
+                    }
                 );
             }
         }
@@ -1416,7 +1423,7 @@ define([
         var i = this.index_or_selected(index);
         if (this.is_valid_cell_index(i)) {
             var source_cell = this.get_cell(i);
-            if (!(source_cell instanceof codecell.CodeCell)) {
+            if (!(source_cell instanceof codecell.CodeCell) && source_cell.is_editable()) {
                 var target_cell = this.insert_cell_below('code',i);
                 var text = source_cell.get_text();
                 if (text === source_cell.placeholder) {
@@ -1466,7 +1473,7 @@ define([
         if (this.is_valid_cell_index(i)) {
             var source_cell = this.get_cell(i);
 
-            if (!(source_cell instanceof textcell.MarkdownCell)) {
+            if (!(source_cell instanceof textcell.MarkdownCell) && source_cell.is_editable()) {
                 var target_cell = this.insert_cell_below('markdown',i);
                 var text = source_cell.get_text();
 
@@ -1521,7 +1528,7 @@ define([
             var target_cell = null;
             var source_cell = this.get_cell(i);
 
-            if (!(source_cell instanceof textcell.RawCell)) {
+            if (!(source_cell instanceof textcell.RawCell) && source_cell.is_editable()) {
                 target_cell = this.insert_cell_below('raw',i);
                 var text = source_cell.get_text();
                 if (text === source_cell.placeholder) {
