@@ -4,8 +4,8 @@ matrix:
 
 environment:
   matrix:
-    - CONDA_PY: 35
-      CONDA_INSTALL_LOCN: "C:\\Miniconda35-x64"
+    # - CONDA_PY: 35
+    #   CONDA_INSTALL_LOCN: "C:\\Miniconda35-x64"
     - CONDA_PY: 27
       CONDA_INSTALL_LOCN: "C:\\Miniconda-x64"
 
