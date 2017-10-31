@@ -461,16 +461,16 @@ class APIHandler(IPythonHandler):
         message = responses.get(status_code, 'Unknown HTTP Error')
         reply = {
             'message': message,
-            # some clients expect 'reason' to exist and equate to status_code text
-            'reason': message,
         }
         exc_info = kwargs.get('exc_info')
         if exc_info:
             e = exc_info[1]
             if isinstance(e, HTTPError):
                 reply['message'] = e.log_message or message
+                reply['reason'] = e.reason
             else:
                 reply['message'] = 'Unhandled error'
+                reply['reason'] = None
                 reply['traceback'] = ''.join(traceback.format_exception(*exc_info))
         self.log.warning(reply['message'])
         self.finish(json.dumps(reply))
