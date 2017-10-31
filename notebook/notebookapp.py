@@ -410,6 +410,9 @@ class NbserverStopApp(JupyterApp):
         if self.extra_args:
             self.port=int(self.extra_args[0])
 
+    def shutdown_server(self, server):
+        return shutdown_server(server, log=self.log)
+
     def start(self):
         servers = list(list_running_servers(self.runtime_dir))
         if not servers:
@@ -417,7 +420,7 @@ class NbserverStopApp(JupyterApp):
         for server in servers:
             if server['port'] == self.port:
                 print("Shutting down server on port", self.port, "...")
-                if not shutdown_server(server, log=self.log):
+                if not self.shutdown_server(server):
                     sys.exit("Could not stop server")
                 return
         else:
