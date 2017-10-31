@@ -24,6 +24,7 @@ import signal
 import socket
 import sys
 import threading
+import time
 import warnings
 import webbrowser
 
@@ -351,6 +352,51 @@ class NotebookPasswordApp(JupyterApp):
         set_password(config_file=self.config_file)
         self.log.info("Wrote hashed password to %s" % self.config_file)
 
+def shutdown_server(server_info, timeout=5, log=None):
+    """Shutdown a notebook server in a separate process.
+
+    *server_info* should be a dictionary as produced by list_running_servers().
+
+    Will first try to request shutdown using /api/shutdown .
+    On Unix, if the server is still running after *timeout* seconds, it will
+    send SIGTERM. After another timeout, it escalates to SIGKILL.
+
+    Returns True if the server was stopped by any means, False if stopping it
+    failed (on Windows).
+    """
+    from tornado.httpclient import HTTPClient, HTTPRequest
+    url = server_info['url']
+    pid = server_info['pid']
+    req = HTTPRequest(url + 'api/shutdown', method='POST', body=b'', headers={
+        'Authorization': 'token ' + server_info['token']
+    })
+    if log: log.debug("POST request to %sapi/shutdown", url)
+    HTTPClient().fetch(req)
+
+    # Poll to see if it shut down.
+    for _ in range(timeout*10):
+        if check_pid(pid):
+            if log: log.debug("Server PID %s is gone", pid)
+            return True
+        time.sleep(0.1)
+
+    if sys.platform.startswith('win'):
+        return False
+
+    if log: log.debug("SIGTERM to PID %s", pid)
+    os.kill(pid, signal.SIGTERM)
+
+    # Poll to see if it shut down.
+    for _ in range(timeout * 10):
+        if check_pid(pid):
+            if log: log.debug("Server PID %s is gone", pid)
+            return True
+        time.sleep(0.1)
+
+    if log: log.debug("SIGKILL to PID %s", pid)
+    os.kill(pid, signal.SIGKILL)
+    return True  # SIGKILL cannot be caught
+
 
 class NbserverStopApp(JupyterApp):
     version = __version__
@@ -370,8 +416,9 @@ class NbserverStopApp(JupyterApp):
             self.exit("There are no running servers")
         for server in servers:
             if server['port'] == self.port:
-                self.log.debug("Shutting down notebook server with PID: %i", server['pid'])
-                os.kill(server['pid'], signal.SIGTERM)
+                print("Shutting down server on port", self.port, "...")
+                if not shutdown_server(server, log=self.log):
+                    sys.exit("Could not stop server")
                 return
         else:
             print("There is currently no server running on port {}".format(self.port), file=sys.stderr)
