@@ -144,13 +144,14 @@ class NotebookWebApplication(web.Application):
 
     def __init__(self, jupyter_app, kernel_manager, contents_manager,
                  session_manager, kernel_spec_manager,
-                 config_manager, log,
+                 config_manager, kernel_handlers, kernelspecs_handlers, log,
                  base_url, default_url, settings_overrides, jinja_env_options):
 
 
         settings = self.init_settings(
             jupyter_app, kernel_manager, contents_manager,
-            session_manager, kernel_spec_manager, config_manager, log,
+            session_manager, kernel_spec_manager, config_manager,
+            kernel_handlers, kernelspecs_handlers, log,
             base_url, default_url, settings_overrides, jinja_env_options)
         handlers = self.init_handlers(settings)
 
@@ -158,7 +159,7 @@ class NotebookWebApplication(web.Application):
 
     def init_settings(self, jupyter_app, kernel_manager, contents_manager,
                       session_manager, kernel_spec_manager,
-                      config_manager,
+                      config_manager, kernel_handlers, kernelspecs_handlers,
                       log, base_url, default_url, settings_overrides,
                       jinja_env_options=None):
 
@@ -257,6 +258,10 @@ class NotebookWebApplication(web.Application):
             kernel_spec_manager=kernel_spec_manager,
             config_manager=config_manager,
 
+            # handlers
+            kernel_handlers=kernel_handlers,
+            kernelspecs_handlers=kernelspecs_handlers,
+
             # Jupyter stuff
             started=now,
             jinja_template_vars=jupyter_app.jinja_template_vars,
@@ -292,11 +297,11 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('edit.handlers'))
         handlers.extend(load_handlers('services.api.handlers'))
         handlers.extend(load_handlers('services.config.handlers'))
-        handlers.extend(load_handlers('services.kernels.handlers'))
+        handlers.extend(load_handlers(settings['kernel_handlers']))
         handlers.extend(load_handlers('services.contents.handlers'))
         handlers.extend(load_handlers('services.sessions.handlers'))
         handlers.extend(load_handlers('services.nbconvert.handlers'))
-        handlers.extend(load_handlers('services.kernelspecs.handlers'))
+        handlers.extend(load_handlers(settings['kernelspecs_handlers']))
         handlers.extend(load_handlers('services.security.handlers'))
         handlers.extend(load_handlers('services.shutdown'))
         handlers.extend(settings['contents_manager'].get_extra_handlers())
@@ -977,6 +982,18 @@ class NotebookApp(JupyterApp):
 
     info_file = Unicode()
 
+    kernel_handlers = Unicode(
+        default_value='services.kernels.handlers',
+        config=True,
+        help=_('The kernel handlers to use.'),
+    )
+
+    kernelspecs_handlers = Unicode(
+        default_value='services.kernelspecs.handlers',
+        config=True,
+        help=_('The kernelspecs handlers to use.'),
+    )
+
     @default('info_file')
     def _default_info_file(self):
         info_file = "nbserver-%s.json" % os.getpid()
@@ -1156,7 +1173,7 @@ class NotebookApp(JupyterApp):
         self.web_app = NotebookWebApplication(
             self, self.kernel_manager, self.contents_manager,
             self.session_manager, self.kernel_spec_manager,
-            self.config_manager,
+            self.config_manager, self.kernel_handlers, self.kernelspecs_handlers,
             self.log, self.base_url, self.default_url, self.tornado_settings,
             self.jinja_environment_options
         )
