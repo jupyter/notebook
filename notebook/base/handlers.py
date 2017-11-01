@@ -486,8 +486,10 @@ class APIHandler(IPythonHandler):
             e = exc_info[1]
             if isinstance(e, HTTPError):
                 reply['message'] = e.log_message or message
+                reply['reason'] = e.reason
             else:
                 reply['message'] = 'Unhandled error'
+                reply['reason'] = None
                 reply['traceback'] = ''.join(traceback.format_exception(*exc_info))
         self.log.warning(reply['message'])
         self.finish(json.dumps(reply))
