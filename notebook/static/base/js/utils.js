@@ -238,6 +238,59 @@ define([
         "ansi-white-intense",
     ];
     
+    function _pushColoredChunk(chunk, fg, bg, bold, underline, inverse, out) {
+        if (chunk) {
+            var classes = [];
+            var styles = [];
+
+            if (bold && typeof fg === "number" && 0 <= fg && fg < 8) {
+                fg += 8;  // Bold text uses "intense" colors
+            }
+            if (inverse) {
+                [fg, bg] = [bg, fg];
+            }
+
+            if (typeof fg === "number") {
+                classes.push(_ANSI_COLORS[fg] + "-fg");
+            } else if (fg.length) {
+                styles.push("color: rgb(" + fg + ")");
+            } else if (inverse) {
+                classes.push("ansi-default-inverse-fg");
+            }
+
+            if (typeof bg === "number") {
+                classes.push(_ANSI_COLORS[bg] + "-bg");
+            } else if (bg.length) {
+                styles.push("background-color: rgb(" + bg + ")");
+            } else if (inverse) {
+                classes.push("ansi-default-inverse-bg");
+            }
+
+            if (bold) {
+                classes.push("ansi-bold");
+            }
+
+            if (underline) {
+                classes.push("ansi-underline");
+            }
+
+            if (classes.length || styles.length) {
+                out.push("<span");
+                if (classes.length) {
+                    out.push(' class="' + classes.join(" ") + '"');
+                }
+                if (styles.length) {
+                    out.push(' style="' + styles.join("; ") + '"');
+                }
+                out.push(">");
+                out.push(chunk);
+                out.push("</span>");
+            } else {
+                out.push(chunk);
+            }
+        }
+    }
+
     function _getExtendedColors(numbers) {
         var r, g, b;
         var n = numbers.shift();
@@ -309,52 +362,7 @@ define([
                 // Ignored: Not a color code
             }
             var chunk = str.substring(start, match.index);
-            if (chunk) {
-                if (bold && typeof fg === "number" && 0 <= fg && fg < 8) {
-                    fg += 8;  // Bold text uses "intense" colors
-                }
-                var classes = [];
-                var styles = [];
-
-                if (typeof fg === "number") {
-                    classes.push(_ANSI_COLORS[fg] + "-fg");
-                } else if (fg.length) {
-                    styles.push("color: rgb(" + fg + ")");
-                }
-
-                if (typeof bg === "number") {
-                    classes.push(_ANSI_COLORS[bg] + "-bg");
-                } else if (bg.length) {
-                    styles.push("background-color: rgb(" + bg + ")");
-                }
-
-                if (bold) {
-                    classes.push("ansi-bold");
-                }
-
-                if (underline) {
-                    classes.push("ansi-underline");
-                }
-
-                if (inverse) {
-                    classes.push("ansi-inverse");
-                }
-
-                if (classes.length || styles.length) {
-                    out.push("<span");
-                    if (classes.length) {
-                        out.push(' class="' + classes.join(" ") + '"');
-                    }
-                    if (styles.length) {
-                        out.push(' style="' + styles.join("; ") + '"');
-                    }
-                    out.push(">");
-                    out.push(chunk);
-                    out.push("</span>");
-                } else {
-                    out.push(chunk);
-                }
-            }
+	    _pushColoredChunk(chunk, fg, bg, bold, underline, inverse, out);
             start = ansi_re.lastIndex;
 
             while (numbers.length) {
@@ -379,6 +387,12 @@ define([
                     case 21:
                     case 22:
                         bold = false;
+                        break;
+                    case 24:
+                        underline = false;
+                        break;
+                    case 27:
+                        inverse = false;
                         break;
                     case 30:
                     case 31:
