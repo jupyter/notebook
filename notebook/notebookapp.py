@@ -102,7 +102,7 @@ from ipython_genutils import py3compat
 from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
 from notebook._sysinfo import get_sys_info
 
-from ._tz import utcnow
+from ._tz import utcnow, utcfromtimestamp
 from .utils import url_path_join, check_pid, url_escape
 
 #-----------------------------------------------------------------------------
@@ -1070,12 +1070,14 @@ class NotebookApp(JupyterApp):
     rate_limit_window = Float(3, config=True, help=_("""(sec) Time window used to 
         check the message and data rate limits."""))
 
-    shutdown_no_kernels_timeout = Integer(0, config=True,
-        help=("Use a positive integer, to shut down the server after N "
-             "seconds with no kernels running. This can be used together with "
-             "culling idle kernels (MappingKernelManager.cull_idle_timeout) to "
-              "shutdown the notebook server when it's not in use. "
-              "Do not rely on this being accurately timed.")
+    shutdown_no_activity_timeout = Integer(0, config=True,
+        help=("Shut down the server after N seconds with no kernels or "
+              "terminals running and no activity. "
+              "This can be used together with culling idle kernels "
+              "(MappingKernelManager.cull_idle_timeout) to "
+              "shutdown the notebook server when it's not in use. This is not "
+              "precisely timed: it may shut down up to a minute later. "
+              "0 (the default) disables this automatic shutdown.")
     )
 
     def parse_command_line(self, argv=None):
@@ -1365,24 +1367,54 @@ class NotebookApp(JupyterApp):
         # mimetype always needs to be text/css, so we override it here.
         mimetypes.add_type('text/css', '.css')
 
-    def shutdown_no_kernels(self):
-        """Shutdown server on timeout when there are no kernels."""
-        km = self.kernel_manager
-        if len(km) == 0:
-            seconds_since_kernel = \
-                (utcnow() - km.last_kernel_activity).total_seconds()
-            self.log.debug("No kernels for %d seconds.",
-                           seconds_since_kernel)
-            if seconds_since_kernel > self.shutdown_no_kernels_timeout:
-                self.log.info("No kernels for %d seconds; shutting down.",
-                              seconds_since_kernel)
-                self.stop()
+    def last_activity(self):
+        """Get a UTC timestamp for when the server last did something.
 
-    def init_shutdown_no_kernels(self):
-        if self.shutdown_no_kernels_timeout > 0:
-            self.log.info("Will shut down after %d seconds with no kernels.",
-                          self.shutdown_no_kernels_timeout)
-            pc = ioloop.PeriodicCallback(self.shutdown_no_kernels, 60000)
+        Includes: API activity, kernel activity, kernel shutdown, and terminal
+        activity.
+        """
+        sources = [
+            self.web_app.settings['started'],
+            self.kernel_manager.last_kernel_activity,
+        ]
+        try:
+            sources.append(self.web_app.settings['api_last_activity'])
+        except KeyError:
+            pass
+        try:
+            sources.append(self.web_app.settings['terminal_last_activity'])
+        except KeyError:
+            pass
+        return max(sources)
+
+    def shutdown_no_activity(self):
+        """Shutdown server on timeout when there are no kernels or terminals."""
+        km = self.kernel_manager
+        if len(km) != 0:
+            return   # Kernels still running
+
+        try:
+            term_mgr = self.web_app.settings['terminal_manager']
+        except KeyError:
+            pass  # Terminals not enabled
+        else:
+            if term_mgr.terminals:
+                return   # Terminals still running
+
+        seconds_since_active = \
+            (utcnow() - self.last_activity()).total_seconds()
+        self.log.debug("No activity for %d seconds.",
+                       seconds_since_active)
+        if seconds_since_active > self.shutdown_no_activity_timeout:
+            self.log.info("No kernels or terminals for %d seconds; shutting down.",
+                          seconds_since_active)
+            self.stop()
+
+    def init_shutdown_no_activity(self):
+        if self.shutdown_no_activity_timeout > 0:
+            self.log.info("Will shut down after %d seconds with no kernels or terminals.",
+                          self.shutdown_no_activity_timeout)
+            pc = ioloop.PeriodicCallback(self.shutdown_no_activity, 60000)
             pc.start()
 
     @catch_config_error
@@ -1398,7 +1430,7 @@ class NotebookApp(JupyterApp):
         self.init_signal()
         self.init_server_extensions()
         self.init_mime_overrides()
-        self.init_shutdown_no_kernels()
+        self.init_shutdown_no_activity()
 
     def cleanup_kernels(self):
         """Shutdown all kernels.
