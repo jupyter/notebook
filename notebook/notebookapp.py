@@ -27,6 +27,7 @@ import threading
 import time
 import warnings
 import webbrowser
+import hmac
 
 try: #PY3
     from base64 import encodebytes
@@ -674,11 +675,16 @@ class NotebookApp(JupyterApp):
     def _default_cookie_secret(self):
         if os.path.exists(self.cookie_secret_file):
             with io.open(self.cookie_secret_file, 'rb') as f:
-                return f.read()
+                key =  f.read()
         else:
-            secret = encodebytes(os.urandom(1024))
-            self._write_cookie_secret_file(secret)
-            return secret
+            key = encodebytes(os.urandom(1024))
+            self._write_cookie_secret_file(key)
+        h = hmac.HMAC(key)
+        h.digest_size = len(key)
+        h.update(self.password.encode())
+        return h.digest()
+
+
     
     def _write_cookie_secret_file(self, secret):
         """write my secret to my secret_file"""
