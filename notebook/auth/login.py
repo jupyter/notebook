@@ -4,6 +4,7 @@
 # Distributed under the terms of the Modified BSD License.
 
 import re
+import os
 
 try:
     from urllib.parse import urlparse # Py 3
@@ -13,7 +14,7 @@ import uuid
 
 from tornado.escape import url_escape
 
-from ..auth.security import passwd_check
+from .security import passwd_check, set_password
 
 from ..base.handlers import IPythonHandler
 
@@ -72,15 +73,25 @@ class LoginHandler(IPythonHandler):
     
     def post(self):
         typed_password = self.get_argument('password', default=u'')
+        new_password = self.get_argument('new_password', default=u'')
+
+
+        
         if self.get_login_available(self.settings):
-            if self.passwd_check(self.hashed_password, typed_password):
+            if self.passwd_check(self.hashed_password, typed_password) and not new_password:
                 self.set_login_cookie(self, uuid.uuid4().hex)
             elif self.token and self.token == typed_password:
                 self.set_login_cookie(self, uuid.uuid4().hex)
+                if self.new_password:
+                    config_dir = self.settings.get('config_dir')
+                    config_file = os.path.join(config_dir, 'jupyter_notebook_config.json')
+                    set_password(new_password, config_file=config_file)
+                    self.log.info("Wrote hashed password to %s" % config_file)
             else:
                 self.set_status(401)
-                self._render(message={'error': 'Invalid password'})
+                self._render(message={'error': 'Invalid credentials'})
                 return
+
 
         next_url = self.get_argument('next', default=self.base_url)
         self._redirect_safe(next_url)
