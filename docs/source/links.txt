@@ -25,8 +25,8 @@
 .. _notebook_p1: https://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Running%20Code.ipynb
 
 .. Other python projects
-.. _matplotlib: http://matplotlib.org
-.. _nbviewer: http://nbviewer.jupyter.org
+.. _matplotlib: http://matplotlib.org/
+.. _nbviewer: http://nbviewer.jupyter.org/
 .. _nbconvert: https://nbconvert.readthedocs.io/en/latest/
 
 .. Other tools and projects
