@@ -7,10 +7,11 @@ define([
     'base/js/dialog',
     'base/js/utils',
     'base/js/i18n',
+    'notebook/js/quickhelp',
     './celltoolbar',
     './tour',
     'moment',
-], function($, IPython, dialog, utils, i18n, celltoolbar, tour, moment) {
+], function($, IPython, dialog, utils, i18n, quickhelp, celltoolbar, tour, moment) {
     "use strict";
 
     var MenuBar = function (selector, options) {
@@ -274,12 +275,13 @@ define([
                 var keybinding = that.keyboard_manager.command_shortcuts.get_action_shortcut(id_act) || that.keyboard_manager.edit_shortcuts.get_action_shortcut(id_act);
                 
                 if (keybinding) {
+                    var shortcut = quickhelp.humanize_sequence(keybinding);
                     var link_element = el.children('a');
                     var text = link_element.text();
                     link_element.text('');
                     link_element.attr('style', 'display: flex; flex-direction: row; justify-content: space-between; align-items: flex-end;');
                     link_element.append('<span class="action">' + text + '</span>');
-                    link_element.append('<span class="kb">' + keybinding + '</span>');
+                    link_element.append('<span class="kb">' + shortcut + '</span>');
                 }
             })(that, id_act, idx);
         }
