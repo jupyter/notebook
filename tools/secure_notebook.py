@@ -3,7 +3,7 @@
 script to automatically setup notebook over SSL.
 
 Generate cert and keyfiles (rsa 1024) in ~/.ssh/, ask for a password, and add
-the corresponding entries in the notbook json configuration file. 
+the corresponding entries in the notebook json configuration file. 
 
 """
 
