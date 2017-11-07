@@ -6,6 +6,7 @@
     "bootstrap": "components/bootstrap#~3.3",
     "bootstrap-tour": "0.9.0",
     "codemirror": "components/codemirror#~5.27",
+    "core.js": "2.5.1",
     "es6-promise": "~1.0",
     "font-awesome": "components/font-awesome#~4.7.0",
     "google-caja": "5669",
