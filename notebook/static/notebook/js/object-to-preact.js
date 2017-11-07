@@ -31,6 +31,12 @@ define(function() {
   // Since apparently this is global rather than part of the UMD loading
   var preact = window.preact;
 
+  if (!preact) {
+    preact = {
+      h: function() {}
+    };
+  }
+
   /**
     * Convert an object to preact element(s).
     *
