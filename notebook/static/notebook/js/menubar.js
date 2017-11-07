@@ -235,6 +235,9 @@ define([
             '#int_kernel': 'interrupt-kernel',
             '#cut_cell': 'cut-cell',
             '#copy_cell': 'copy-cell',
+            '#paste_cell_above': 'paste-cell-above',
+            '#paste_cell_below': 'paste-cell-below',
+            '#paste_cell_replace': 'paste-cell-replace',
             '#delete_cell': 'delete-cell',
             '#undelete_cell': 'undo-cell-deletion',
             '#split_cell': 'split-cell-at-cursor',
@@ -266,6 +269,7 @@ define([
             '#copy_cell_attachments': 'copy-cell-attachments',
             '#paste_cell_attachments': 'paste-cell-attachments',
             '#insert_image': 'insert-image',
+            '#keyboard_shortcuts' : 'show-keyboard-shortcuts',
             '#edit_keyboard_shortcuts' : 'edit-command-mode-keyboard-shortcuts',
         };
 
@@ -311,9 +315,6 @@ define([
         } else {
             this.element.find('#notebook_tour').addClass("disabled");
         }
-        this.element.find('#keyboard_shortcuts').click(function () {
-            that.quick_help.show_keyboard_shortcuts();
-        });
         
         this.update_restore_checkpoint(null);
         
