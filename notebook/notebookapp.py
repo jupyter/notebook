@@ -1149,6 +1149,7 @@ class NotebookApp(JupyterApp):
             self.one_time_token = binascii.hexlify(os.urandom(24)).decode('ascii')
             self.tornado_settings['one_time_token'] = self.one_time_token
 
+        self.contents_manager.allow_hidden = self.allow_hidden
         # ensure default_url starts with base_url
         if not self.default_url.startswith(self.base_url):
             self.default_url = url_path_join(self.base_url, self.default_url)

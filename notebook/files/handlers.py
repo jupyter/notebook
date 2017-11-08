@@ -33,7 +33,7 @@ class FilesHandler(IPythonHandler):
                 path
             )
 
-        if cm.is_hidden(path):
+        if cm.is_hidden(path) and not self.allow_hidden:
             self.log.info("Refusing to serve hidden file, via 404 Error")
             raise web.HTTPError(404)
         
