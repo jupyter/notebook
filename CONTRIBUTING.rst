@@ -32,7 +32,7 @@ If you use ``conda``, you can get them with::
 
     conda install -c conda-forge nodejs
 
-If you use `Homebrew <http://brew.sh/>`_ on Mac OS X::
+If you use `Homebrew <https://brew.sh/>`_ on Mac OS X::
 
     brew install node
 
@@ -152,7 +152,7 @@ containing all the necessary packages (except pandoc), use::
     activate notebook_docs         # Windows
 
 .. _conda environment:
-    http://conda.pydata.org/docs/using/envs.html#use-environment-from-file
+    https://conda.io/docs/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file
 
 If you want to install the necessary packages with ``pip`` instead::
 

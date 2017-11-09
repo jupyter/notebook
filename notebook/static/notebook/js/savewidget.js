@@ -8,7 +8,8 @@ define([
     'base/js/dialog',
     'base/js/keyboard',
     'moment',
-], function($, utils, i18n, dialog, keyboard, moment) {
+    'bidi/bidi',
+], function($, utils, i18n, dialog, keyboard, moment, bidi) {
     "use strict";
 
     var SaveWidget = function (selector, options) {
@@ -133,6 +134,7 @@ define([
 
     SaveWidget.prototype.update_notebook_name = function () {
         var nbname = this.notebook.get_notebook_name();
+        nbname = bidi.applyBidi(nbname);
         this.element.find('span.filename').text(nbname);
     };
 
@@ -186,10 +188,11 @@ define([
             // less than 24 hours old, use relative date
             human_date = chkd.fromNow();
         } else {
-            // otherwise show calendar 
+            // otherwise show calendar
             // <Today | yesterday|...> at hh,mm,ss
             human_date = chkd.calendar();
         }
+        
         el.text(i18n.msg.sprintf(i18n.msg._('Last Checkpoint: %s'),human_date)).attr('title', long_date);
     };
 

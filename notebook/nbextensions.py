@@ -24,7 +24,7 @@ from jupyter_core.paths import (
     jupyter_data_dir, jupyter_config_path, jupyter_path,
     SYSTEM_JUPYTER_PATH, ENV_JUPYTER_PATH,
 )
-from ipython_genutils.path import ensure_dir_exists
+from jupyter_core.utils import ensure_dir_exists
 from ipython_genutils.py3compat import string_types, cast_unicode_py2
 from ipython_genutils.tempdir import TemporaryDirectory
 from ._version import __version__
@@ -190,9 +190,9 @@ def install_nbextension(path, overwrite=False, symlink=False,
                     if logger:
                         logger.info("Making directory: %s" % dest_dir)
                     os.makedirs(dest_dir)
-                for file in files:
-                    src = pjoin(parent, file)
-                    dest_file = pjoin(dest_dir, file)
+                for file_name in files:
+                    src = pjoin(parent, file_name)
+                    dest_file = pjoin(dest_dir, file_name)
                     _maybe_copy(src, dest_file, logger=logger)
         else:
             src = path

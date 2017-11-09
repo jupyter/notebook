@@ -5,7 +5,7 @@ cache:
     directories:
         - $HOME/.cache/bower
 python:
-    - 3.5.1  # Set to 3.5.1 since travis has not yet included as default for 3.5
+    - 3.6
     - 2.7
 
 sudo: required
@@ -48,13 +48,20 @@ install:
 script:
     - 'if [[ $GROUP == js* ]]; then travis_retry python -m notebook.jstest ${GROUP:3}; fi'
     - 'if [[ $GROUP == python ]]; then nosetests -v --with-coverage --cover-package=notebook notebook; fi'
-    - 'if [[ $GROUP == docs ]]; then make -C docs/ html; fi'
+    - |
+      if [[ $GROUP == docs ]]; then
+        EXIT_STATUS=0
+        make -C docs/ html || EXIT_STATUS=$?
+        make -C docs/ linkcheck || EXIT_STATUS=$?
+        pytest --nbval --current-env docs || EXIT_STATUS=$?
+        exit $EXIT_STATUS
+      fi
 
 matrix:
     include:
-        - python: 3.3
-          env: GROUP=python
         - python: 3.4
+          env: GROUP=python
+        - python: 3.5
           env: GROUP=python
     exclude:
         - python: 2.7

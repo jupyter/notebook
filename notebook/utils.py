@@ -173,6 +173,10 @@ def is_hidden(abs_path, abs_root=''):
     determined by either name starting with '.' or the UF_HIDDEN flag as
     reported by stat.
 
+    If abs_path is the same directory as abs_root, it will be visible even if
+    that is a hidden folder. This only checks the visibility of files
+    and directories *within* abs_root.
+
     Parameters
     ----------
     abs_path : unicode
@@ -181,6 +185,9 @@ def is_hidden(abs_path, abs_root=''):
         The absolute path of the root directory in which hidden directories
         should be checked for.
     """
+    if os.path.normpath(abs_path) == os.path.normpath(abs_root):
+        return False
+
     if is_file_hidden(abs_path):
         return True
 

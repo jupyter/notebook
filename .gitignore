@@ -6,6 +6,8 @@ docs/man/*.gz
 docs/source/api/generated
 docs/source/config.rst
 docs/gh-pages
+notebook/i18n/*/LC_MESSAGES/*.mo
+notebook/i18n/*/LC_MESSAGES/nbjs.json
 notebook/static/components
 notebook/static/style/*.min.css*
 notebook/static/*/js/built/

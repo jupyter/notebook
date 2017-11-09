@@ -77,6 +77,9 @@ define([
 
     OutputArea.prototype.style = function () {
         this.collapse_button.hide();
+        if (!this.prompt_area) {
+            this.prompt_overlay.hide();
+        }
         
         this.wrapper.addClass('output_wrapper');
         this.element.addClass('output');
@@ -467,6 +470,11 @@ define([
         this.element.trigger('changed', {output_area: this});
     };
 
+    OutputArea.output_prompt_classical = function(prompt_value) {
+        return $('<bdi>').text(i18n.msg.sprintf(i18n.msg._('Out[%d]:'),prompt_value));
+    };
+
+    OutputArea.output_prompt_function = OutputArea.output_prompt_classical;
 
     OutputArea.prototype.append_execute_result = function (json) {
         var n = json.execution_count || ' ';
@@ -476,9 +484,7 @@ define([
             toinsert.find('div.prompt')
                     .addClass('output_prompt')
                     .empty()
-                    .append(
-                      $('<bdi>').text(i18n.msg.sprintf(i18n.msg._('Out[%d]:'),n))
-                    );
+                    .append(OutputArea.output_prompt_function(n));
         }
         var inserted = this.append_mime_type(json, toinsert);
         if (inserted) {

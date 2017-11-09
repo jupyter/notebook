@@ -21,6 +21,71 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
     ``pip --version``.
 
 
+.. _release-5.2.1:
+
+5.2.1
+-----
+
+- Fix invisible CodeMirror cursor at specific browser zoom levels (:ghpull:`2983`). 
+- Fix nbconvert handler causing broken export to PDF (:ghpull:`2981`). 
+- Fix the prompt_area argument of the output area constructor. (:ghpull:`2961`). 
+- Handle a compound extension in new_untitled (:ghpull:`2949`). 
+- Allow disabling offline message buffering (:ghpull:`2916`). 
+
+Thanks to the following contributors:
+
+- Steven Silvester (`blink1073 <https://github.com/blink1073>`__)
+- Grant Nestor (`gnestor <https://github.com/gnestor>`__)
+- Jason Grout (`jasongrout <https://github.com/jasongrout>`__)
+- Min RK (`minrk <https://github.com/minrk>`__)
+- M Pacer (`mpacer <https://github.com/mpacer>`__)
+
+See the 5.2.1 milestone on GitHub for a complete list of
+`pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A5.2.1>`__ involved in this release.
+
+.. _release-5.2.0:
+
+5.2.0
+-----
+
+- Allow setting token via jupyter_token env (:ghpull:`2921`). 
+- Fix some errors caused by raising 403 in get_current_user (:ghpull:`2919`). 
+- Register contents_manager.files_handler_class directly (:ghpull:`2917`). 
+- Update viewable_extensions (:ghpull:`2913`). 
+- Show edit shortcuts modal after shortcuts modal is hidden (:ghpull:`2912`). 
+- Improve edit/view behavior (:ghpull:`2911`). 
+- The root directory of the notebook server should never be hidden (:ghpull:`2907`). 
+- Fix notebook require config to match tools/build-main (:ghpull:`2888`). 
+- Give page constructor default arguments (:ghpull:`2887`). 
+- Fix codemirror.less to match codemirror\'s expected padding layout (:ghpull:`2880`). 
+- Add x-xsrftoken to access-control-allow-headers (:ghpull:`2876`). 
+- Buffer messages when websocket connection is interrupted (:ghpull:`2871`). 
+- Load locale dynamically only when not en-us (:ghpull:`2866`). 
+- Changed key strength to 2048 bits (:ghpull:`2861`). 
+- Resync jsversion with python version (:ghpull:`2860`). 
+- Allow copy operation on modified, read-only notebook (:ghpull:`2854`). 
+- Update error handling on apihandlers (:ghpull:`2853`). 
+- Test python 3.6 on travis, drop 3.3 (:ghpull:`2852`). 
+- Avoid base64-literals in image tests (:ghpull:`2851`). 
+- Upgrade xterm.js to 2.9.2 (:ghpull:`2849`). 
+- Changed all python variables named file to file_name to not override built_in file (:ghpull:`2830`). 
+- Add more doc tests (:ghpull:`2823`). 
+- Typos fix (:ghpull:`2815`). 
+- Rename and update license [ci skip] (:ghpull:`2810`). 
+- Travis builds doc  (:ghpull:`2808`). 
+- Pull request i18n  (:ghpull:`2804`). 
+- Factor out output_prompt_function, as is done with input prompt (:ghpull:`2774`). 
+- Use rfc5987 encoding for filenames (:ghpull:`2767`). 
+- Added path to the resources metadata, the same as in from_filename(...) in nbconvert.exporters.py (:ghpull:`2753`). 
+- Make "extrakeys" consistent for notebook and editor (:ghpull:`2745`). 
+- Bidi support (:ghpull:`2357`). 
+
+Special thanks to `samarsultan <https://github.com/samarsultan>`__ and the Arabic Competence and Globalization Center Team at IBM Egypt for adding RTL (right-to-left) support to the notebook!
+
+See the 5.2 milestone on GitHub for a complete list of
+`issues <https://github.com/jupyter/notebook/issues?utf8=%E2%9C%93&q=is%3Aissue%20milestone%3A5.2>`__
+and `pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A5.2>`__ involved in this release.
+
 .. _release-5.1.0:
 
 5.1.0

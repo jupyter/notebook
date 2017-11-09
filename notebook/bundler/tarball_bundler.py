@@ -39,10 +39,9 @@ def bundle(handler, model):
     with io.BytesIO() as tar_buffer:
         with tarfile.open(tar_filename, "w:gz", fileobj=tar_buffer) as tar:
             tar.addfile(info, io.BytesIO(notebook_content))
-        
-        handler.set_header('Content-Disposition',
-                           'attachment; filename="{}"'.format(tar_filename))
+
+        handler.set_attachment_header(tar_filename)
         handler.set_header('Content-Type', 'application/gzip')
-                
+
         # Return the buffer value as the response
         handler.finish(tar_buffer.getvalue())

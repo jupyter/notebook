@@ -47,7 +47,7 @@ Main features of the web application
 
 
 
-.. _MathJax: http://www.mathjax.org/
+.. _MathJax: https://www.mathjax.org/
 
 
 Notebook documents
@@ -61,7 +61,7 @@ are internally JSON_ files and are saved with the ``.ipynb`` extension. Since
 JSON is a plain text format, they can be version-controlled and shared with
 colleagues.
 
-.. _JSON: http://en.wikipedia.org/wiki/JSON
+.. _JSON: https://en.wikipedia.org/wiki/JSON
 
 Notebooks may be exported to a range of static formats, including HTML (for
 example, for blog posts), reStructuredText, LaTeX, PDF, and slide shows, via

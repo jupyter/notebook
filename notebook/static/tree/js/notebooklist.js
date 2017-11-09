@@ -9,8 +9,9 @@ define([
     'base/js/dialog',
     'base/js/events',
     'base/js/keyboard',
-    'moment'
-], function($, IPython, utils, i18n, dialog, events, keyboard, moment) {
+    'moment',
+    'bidi/bidi'
+], function($, IPython, utils, i18n, dialog, events, keyboard, moment, bidi) {
     "use strict";
 
     var extension = function(path){
@@ -24,7 +25,11 @@ define([
     };
 
     var item_in = function(item, list) {
-      return list.indexOf(item) != -1;
+      // Normalize list and item to lowercase
+      var normalized_list = list.map(function(_item) {
+        return _item.toLowerCase();
+      });
+      return normalized_list.indexOf(item.toLowerCase()) != -1;
     };
 
     var includes_extension = function(filepath, extensionslist) {
@@ -535,30 +540,28 @@ define([
         this._selection_changed();
     };
 
-    NotebookList.ipynb_extensions = ['ipynb'];
-    // List of text file extensions from
-    // https://github.com/sindresorhus/text-extensions/blob/master/text-extensions.json
-    var editable_extensions = ['applescript', 'asp', 'aspx', 'atom', 'bashrc', 'bat', 'bbcolors', 'bib', 'bowerrc', 'c', 'cc', 'cfc', 'cfg', 'cfm', 'cmd', 'cnf', 'coffee', 'conf', 'cpp', 'cson', 'css', 'csslintrc', 'csv', 'curlrc', 'cxx', 'diff', 'eco', 'editorconfig', 'ejs', 'emacs', 'eml', 'erb', 'erl', 'eslintignore', 'eslintrc', 'gemrc', 'gitattributes', 'gitconfig', 'gitignore', 'go', 'gvimrc', 'h', 'haml', 'hbs', 'hgignore', 'hpp', 'htaccess', 'htm', 'html', 'iced', 'ini', 'ino', 'irbrc', 'itermcolors', 'jade', 'js', 'jscsrc', 'jshintignore', 'jshintrc', 'json', 'jsonld', 'jsx', 'less', 'log', 'ls', 'm', 'markdown', 'md', 'mdown', 'mdwn', 'mht', 'mhtml', 'mkd', 'mkdn', 'mkdown', 'nfo', 'npmignore', 'npmrc', 'nvmrc', 'patch', 'pbxproj', 'pch', 'php', 'phtml', 'pl', 'pm', 'properties', 'py', 'rb', 'rdoc', 'rdoc_options', 'ron', 'rss', 'rst', 'rtf', 'rvmrc', 'sass', 'scala', 'scss', 'seestyle', 'sh', 'sls', 'sql', 'sss', 'strings', 'styl', 'stylus', 'sub', 'sublime-build', 'sublime-commands', 'sublime-completions', 'sublime-keymap', 'sublime-macro', 'sublime-menu', 'sublime-project', 'sublime-settings', 'sublime-workspace', 'svg', 'terminal', 'tex', 'text', 'textile', 'tmLanguage', 'tmTheme', 'tsv', 'txt', 'vbs', 'vim', 'viminfo', 'vimrc', 'webapp', 'xht', 'xhtml', 'xml', 'xsl', 'yaml', 'yml', 'zsh', 'zshrc'];
-    NotebookList.editable_extensions = editable_extensions.concat(['ipynb', 'geojson', 'plotly', 'plotly.json', 'vg', 'vg.json', 'vl', 'vl.json']);
-    NotebookList.viewable_extensions = ['htm', 'html', 'xhtml', 'mht', 'mhtml'];
-
     NotebookList.prototype._is_notebook = function(model) {
-      return includes_extension(model.path, NotebookList.ipynb_extensions);
+      var ipynb_extensions = ['ipynb'];
+      return includes_extension(model.path, ipynb_extensions);
     };
     
     NotebookList.prototype._is_editable = function(model) {
-      // Editable: any text/ mimetype, specific mimetypes defined as editable,
-      // +json and +xml mimetypes, specific extensions listed as editable.
-      return model.mimetype &&
-          (model.mimetype.indexOf('text/') === 0
-           || item_in(model.mimetype, this.EDIT_MIMETYPES)
-           || json_or_xml_container_mimetype(model.mimetype))
-        || includes_extension(model.path, NotebookList.editable_extensions);
+      // Allow any file to be "edited"
+      // Non-text files will display the following error:
+      //   Error: [FILE] is not UTF-8 encoded
+      //   Saving is disabled.
+      //   See Console for more details.
+      return true;
     };
     
     NotebookList.prototype._is_viewable = function(model) {
+      var html_types = ['htm', 'html', 'xhtml', 'xml', 'mht', 'mhtml'];
+      var media_extension = ['3gp', 'avi', 'mov', 'mp4', 'm4v', 'm4a', 'mp3', 'mkv', 'ogv', 'ogm', 'ogg', 'oga', 'webm', 'wav'];
+      var image_type = ['bmp', 'gif', 'jpg', 'jpeg', 'png', 'webp'];
+      var other_type = ['ico'];
+      var viewable_extensions = [].concat(html_types, media_extension, image_type, other_type);
       return model.mimetype === 'text/html' 
-        || includes_extension(model.path, NotebookList.viewable_extensions);
+        || includes_extension(model.path, viewable_extensions);
     };
 
     /**
@@ -702,6 +705,7 @@ define([
             select_all.data('indeterminate', true);
         }
         // Update total counter
+        checked = bidi.applyBidi(checked);
         $('#counter-select-all').html(checked===0 ? '&nbsp;' : checked);
 
         // If at aleast on item is selected, hide the selection instructions.
@@ -714,28 +718,19 @@ define([
 
     NotebookList.prototype.add_link = function (model, item) {
         var running = (model.type === 'notebook' && this.sessions[model.path] !== undefined);
-
-        item.data('name', model.name);
+        item.data('name',model.name);
         item.data('path', model.path);
         item.data('modified', model.last_modified);
         item.data('type', model.type);
-        item.find(".item_name").text(model.name);
+        item.find(".item_name").text(bidi.applyBidi(model.name));
         var icon = NotebookList.icons[model.type];
         if (running) {
             icon = 'running_' + icon;
         }
         var uri_prefix = NotebookList.uri_prefixes[model.type];
-        if (model.type === 'file' && !this._is_editable(model))
-        {
-            uri_prefix = 'files';
-        }
         if (model.type === 'file' && this._is_viewable(model))
         {
             uri_prefix = 'view';
-        }
-        if (model.type === 'file' && this._is_editable(model))
-        {
-            uri_prefix = 'edit';
         }
         if (model.type === 'file' && this._is_notebook(model))
         {

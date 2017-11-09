@@ -313,6 +313,13 @@ man_pages = [
 #man_show_urls = False
 
 
+# -- Options for link checks ----------------------------------------------
+
+linkcheck_ignore = [
+    'http://127\.0\.0\.1/*'
+]
+
+
 # -- Options for Texinfo output -------------------------------------------
 
 # Grouping the document tree into Texinfo files. List of tuples

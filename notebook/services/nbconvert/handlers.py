@@ -2,11 +2,10 @@ import json
 
 from tornado import web
 
-from ...base.handlers import APIHandler, json_errors
+from ...base.handlers import APIHandler
 
 class NbconvertRootHandler(APIHandler):
 
-    @json_errors
     @web.authenticated
     def get(self):
         try:

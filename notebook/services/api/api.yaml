@@ -5,7 +5,7 @@ info:
   version: "5"
   contact:
     name: Jupyter Project
-    url: jupyter.org
+    url: https://jupyter.org
 # will be prefixed to all paths
 basePath: /api
 produces:
@@ -363,7 +363,7 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#definitions/Session'
+            $ref: '#/definitions/Session'
       responses:
         200:
           description: Session
@@ -400,7 +400,7 @@ paths:
         - name: session
           in: body
           schema:
-            $ref: '#definitions/Session'
+            $ref: '#/definitions/Session'
       responses:
         201:
           description: Session created or returned
@@ -549,8 +549,6 @@ paths:
           description: Configuration object
           schema:
             type: object
-            items:
-              $ref: '#/parameters/section_name'
 
   /terminals:
     get:
@@ -623,7 +621,8 @@ paths:
       responses:
         200:
           description: The current status of the server
-          $ref: '#/definitions/APIStatus'
+          schema:
+              $ref: '#/definitions/APIStatus'
 definitions:
   APIStatus:
     description: |
@@ -655,7 +654,6 @@ definitions:
         description: Unique name for kernel
       KernelSpecFile:
         $ref: '#/definitions/KernelSpecFile'
-        description: Kernel spec json file
       resources:
         type: object
         properties:

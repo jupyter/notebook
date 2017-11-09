@@ -140,6 +140,15 @@ def test_notebook_password():
             nt.assert_not_equal(nb.password, '')
             passwd_check(nb.password, password)
 
+class TestingStopApp(notebookapp.NbserverStopApp):
+    """For testing the logic of NbserverStopApp."""
+    def __init__(self, **kwargs):
+        super(TestingStopApp, self).__init__(**kwargs)
+        self.servers_shut_down = []
+
+    def shutdown_server(self, server):
+        self.servers_shut_down.append(server)
+        return True
 
 def test_notebook_stop():
     def list_running_servers(runtime_dir):
@@ -159,18 +168,18 @@ def test_notebook_stop():
     mock_servers = patch('notebook.notebookapp.list_running_servers', list_running_servers)
 
     # test stop with a match
-    with mock_servers, patch('os.kill') as os_kill:
-        app = notebookapp.NbserverStopApp()
+    with mock_servers:
+        app = TestingStopApp()
         app.initialize(['105'])
         app.start()
-    nt.assert_equal(os_kill.call_count, 1)
-    nt.assert_equal(os_kill.call_args, ((1105, signal.SIGTERM),))
+    nt.assert_equal(len(app.servers_shut_down), 1)
+    nt.assert_equal(app.servers_shut_down[0]['port'], 105)
 
     # test no match
     with mock_servers, patch('os.kill') as os_kill:
-        app = notebookapp.NbserverStopApp()
+        app = TestingStopApp()
         app.initialize(['999'])
         with nt.assert_raises(SystemExit) as exc:
             app.start()
         nt.assert_equal(exc.exception.code, 1)
-    nt.assert_equal(os_kill.call_count, 0)
+    nt.assert_equal(len(app.servers_shut_down), 0)

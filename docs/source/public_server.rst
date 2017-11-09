@@ -32,7 +32,7 @@ This document describes how you can
     To use JupyterHub, you need a Unix server (typically Linux) running
     somewhere that is accessible to your users on a network. This may run over
     the public internet, but doing so introduces additional
-    `security concerns <https://jupyterhub.readthedocs.io/en/latest/getting-started.html#security>`_.
+    `security concerns <https://jupyterhub.readthedocs.io/en/latest/getting-started/security-basics.html>`_.
 
 
 
@@ -134,7 +134,7 @@ with the command::
     the following command will create a certificate valid for 365 days with
     both the key and certificate data written to the same file::
 
-        $ openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mykey.key -out mycert.pem
+        $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout mykey.key -out mycert.pem
 
 When starting the notebook server, your browser may warn that your self-signed
 certificate is insecure or unrecognized.  If you wish to have a fully
@@ -145,7 +145,7 @@ certificate and follow the steps in :ref:`using-lets-encrypt` to set up a
 public server.
 
 .. _OWASP: https://www.owasp.org
-.. _tutorial: http://arstechnica.com/security/news/2009/12/how-to-get-set-with-a-secure-sertificate-for-free.ars
+.. _tutorial: https://arstechnica.com/information-technology/2009/12/how-to-get-set-with-a-secure-sertificate-for-free/
 
 .. _notebook_public_server:
 
@@ -326,7 +326,7 @@ Docker CMD
 ~~~~~~~~~~
 
 Using ``jupyter notebook`` as a
-`Docker CMD <https://docs.docker.com/reference/builder/#cmd>`_ results in
+`Docker CMD <https://docs.docker.com/engine/reference/builder/#cmd>`_ results in
 kernels repeatedly crashing, likely due to a lack of `PID reaping
 <https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/>`_.
 To avoid this, use the `tini <https://github.com/krallin/tini>`_ ``init`` as your

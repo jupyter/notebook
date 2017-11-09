@@ -11,7 +11,7 @@ import os
 
 from tornado import gen, web
 
-from ...base.handlers import APIHandler, json_errors
+from ...base.handlers import APIHandler
 from jupyter_client.jsonutil import date_default
 from notebook.utils import url_path_join
 from jupyter_client.kernelspec import NoSuchKernel
@@ -19,7 +19,6 @@ from jupyter_client.kernelspec import NoSuchKernel
 
 class SessionRootHandler(APIHandler):
 
-    @json_errors
     @web.authenticated
     @gen.coroutine
     def get(self):
@@ -28,7 +27,6 @@ class SessionRootHandler(APIHandler):
         sessions = yield gen.maybe_future(sm.list_sessions())
         self.finish(json.dumps(sessions, default=date_default))
 
-    @json_errors
     @web.authenticated
     @gen.coroutine
     def post(self):
@@ -90,7 +88,6 @@ class SessionRootHandler(APIHandler):
 
 class SessionHandler(APIHandler):
 
-    @json_errors
     @web.authenticated
     @gen.coroutine
     def get(self, session_id):
@@ -99,7 +96,6 @@ class SessionHandler(APIHandler):
         model = yield gen.maybe_future(sm.get_session(session_id=session_id))
         self.finish(json.dumps(model, default=date_default))
 
-    @json_errors
     @web.authenticated
     @gen.coroutine
     def patch(self, session_id):
@@ -153,7 +149,6 @@ class SessionHandler(APIHandler):
             )
         self.finish(json.dumps(model, default=date_default))
 
-    @json_errors
     @web.authenticated
     @gen.coroutine
     def delete(self, session_id):

@@ -147,16 +147,17 @@ install_requires = [
     'tornado>=4',
     'ipython_genutils',
     'traitlets>=4.2.1',
-    'jupyter_core',
+    'jupyter_core>=4.4.0',
     'jupyter_client',
     'nbformat',
     'nbconvert',
     'ipykernel', # bless IPython kernel for now
+    'Send2Trash',
 ]
 extras_require = {
     ':sys_platform != "win32"': ['terminado>=0.3.3'],
     'test:python_version == "2.7"': ['mock'],
-    'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters'],
+    'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters', 'nbval'],
     'test:sys_platform == "win32"': ['nose-exclude'],
 }
 

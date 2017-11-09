@@ -94,6 +94,7 @@ class LoginHandler(IPythonHandler):
         # 'secure' kwarg is passed to set_secure_cookie
         if handler.settings.get('secure_cookie', handler.request.protocol == 'https'):
             cookie_options.setdefault('secure', True)
+        cookie_options.setdefault('path', handler.base_url)
         handler.set_secure_cookie(handler.cookie_name, user_id, **cookie_options)
         return user_id
 

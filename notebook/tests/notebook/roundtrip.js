@@ -152,6 +152,13 @@ casper.notebook_test(function () {
 
     this.then(function() {
         clear_and_execute(this,
+            "from base64 import b64decode;" + 
+            "black_dot_png = b64decode(" + black_dot_png + ");" + 
+            "black_dot_jpeg = b64decode(" + black_dot_jpeg + ")"
+        );
+    });
+    this.then(function() {
+        clear_and_execute(this,
             "from IPython.display import HTML, display; display(HTML('<b>it works!</b>'))");
     });
     
@@ -162,7 +169,7 @@ casper.notebook_test(function () {
 
     this.then(function() {
         clear_and_execute(this,
-            "from IPython.display import Image; Image(" + black_dot_png + ")");
+            "from IPython.display import Image; Image(black_dot_png)");
     });
     this.thenEvaluate(function() { IPython.notebook.save_notebook(); });
     
@@ -172,7 +179,7 @@ casper.notebook_test(function () {
     
     this.then(function() {
         clear_and_execute(this,
-            "from IPython.display import Image, display; display(Image(" + black_dot_png + "))");
+            "from IPython.display import Image, display; display(Image(black_dot_png))");
     });
     
     this.then(function ( ) {
@@ -182,7 +189,7 @@ casper.notebook_test(function () {
 
     this.then(function() {
         clear_and_execute(this,
-            "from IPython.display import Image; Image(" + black_dot_jpeg + ", format='jpeg')");
+            "from IPython.display import Image; Image(black_dot_jpeg, format='jpeg')");
     });
     
     this.then(function ( ) {
@@ -191,7 +198,7 @@ casper.notebook_test(function () {
     
     this.then(function() {
         clear_and_execute(this,
-            "from IPython.display import Image, display; display(Image(" + black_dot_jpeg + ", format='jpeg'))");
+            "from IPython.display import Image, display; display(Image(black_dot_jpeg, format='jpeg'))");
     });
     
     this.then(function ( ) {

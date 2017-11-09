@@ -4,14 +4,14 @@
 # Distributed under the terms of the Modified BSD License.
 
 from fnmatch import fnmatch
-import gettext
 import itertools
 import json
 import os
 import re
 
-from tornado.web import HTTPError
+from tornado.web import HTTPError, RequestHandler
 
+from ...files.handlers import FilesHandler
 from .checkpoints import Checkpoints
 from traitlets.config.configurable import LoggingConfigurable
 from nbformat import sign, validate as validate_nb, ValidationError
@@ -30,6 +30,7 @@ from traitlets import (
 )
 from ipython_genutils.py3compat import string_types
 from notebook.base.handlers import IPythonHandler
+
 
 copy_pat = re.compile(r'\-Copy\d*\.')
 
@@ -131,7 +132,40 @@ class ContentsManager(LoggingConfigurable):
             log=self.log,
         )
 
-    files_handler_class = Type(IPythonHandler, allow_none=True, config=True)
+    files_handler_class = Type(
+        FilesHandler, klass=RequestHandler, allow_none=True, config=True,
+        help="""handler class to use when serving raw file requests.
+
+        Default is a fallback that talks to the ContentsManager API,
+        which may be inefficient, especially for large files.
+
+        Local files-based ContentsManagers can use a StaticFileHandler subclass,
+        which will be much more efficient.
+
+        Access to these files should be Authenticated.
+        """
+    )
+
+    files_handler_params = Dict(
+        config=True,
+        help="""Extra parameters to pass to files_handler_class.
+
+        For example, StaticFileHandlers generally expect a `path` argument
+        specifying the root directory from which to serve files.
+        """
+    )
+
+    def get_extra_handlers(self):
+        """Return additional handlers
+
+        Default: self.files_handler_class on /files/.*
+        """
+        handlers = []
+        if self.files_handler_class:
+            handlers.append(
+                (r"/files/(.*)", self.files_handler_class, self.files_handler_params)
+            )
+        return handlers
 
     # ContentsManager API part 1: methods that must be
     # implemented in subclasses.
@@ -283,21 +317,26 @@ class ContentsManager(LoggingConfigurable):
             The name of a file, including extension
         path : unicode
             The API path of the target's directory
+        insert: unicode
+            The characters to insert after the base filename
 
         Returns
         -------
         name : unicode
             A filename that is unique, based on the input filename.
         """
+        # Extract the full suffix from the filename (e.g. .tar.gz)
         path = path.strip('/')
-        basename, ext = os.path.splitext(filename)
+        basename, dot, ext = filename.partition('.')
+        suffix = dot + ext
+
         for i in itertools.count():
             if i:
                 insert_i = '{}{}'.format(insert, i)
             else:
                 insert_i = ''
-            name = u'{basename}{insert}{ext}'.format(basename=basename,
-                insert=insert_i, ext=ext)
+            name = u'{basename}{insert}{suffix}'.format(basename=basename,
+                insert=insert_i, suffix=suffix)
             if not self.exists(u'{}/{}'.format(path, name)):
                 break
         return name
