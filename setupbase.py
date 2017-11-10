@@ -100,7 +100,7 @@ def find_package_data():
     """
     Find package_data.
     """
-    # This is not enough for these things to appear in an sdist.
+    # This is not enough for these things to appear in a sdist.
     # We need to muck with the MANIFEST to get this to work
     
     # exclude components and less from the walk;
