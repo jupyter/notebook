@@ -386,7 +386,7 @@ class MappingKernelManager(MultiKernelManager):
                         self.cull_interval, self.cull_interval_default)
                     self.cull_interval = self.cull_interval_default
                 self._culler_callback = PeriodicCallback(
-                    self.cull_kernels, 1000*self.cull_interval, loop)
+                    self.cull_kernels, 1000*self.cull_interval)
                 self.log.info("Culling kernels with idle durations > %s seconds at %s second intervals ...",
                     self.cull_idle_timeout, self.cull_interval)
                 if self.cull_busy:
