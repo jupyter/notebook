@@ -452,7 +452,6 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                 # close the socket directly, don't wait for the stream
                 socket = stream.socket
                 stream.close()
-                socket.close()
         
         self.channels = {}
         self._close_future.set_result(None)

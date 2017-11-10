@@ -241,7 +241,6 @@ class MappingKernelManager(MultiKernelManager):
         for stream in buffer_info['channels'].values():
             if not stream.closed():
                 stream.on_recv(None)
-                stream.socket.close()
                 stream.close()
 
         msg_buffer = buffer_info['buffer']
