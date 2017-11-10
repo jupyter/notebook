@@ -140,7 +140,7 @@ Defining and registering your own actions
 
 As part of your front-end extension, you may wish to define actions, which can
 be attached to toolbar buttons, or called from the command palette. Here is an
-example of an extension that defines a (not very useful!) action to show an
+example of an extension that defines an (not very useful!) action to show an
 alert, and adds a toolabr button using the full action name:
 
 .. code:: javascript
