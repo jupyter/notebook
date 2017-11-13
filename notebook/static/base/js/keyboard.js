@@ -445,7 +445,7 @@ define([
 
     ShortcutManager.prototype.add_shortcut = function (shortcut, data, suppress_help_update) {
         /**
-         * Add a action to be handled by shortcut manager. 
+         * Add an action to be handled by shortcut manager. 
          * 
          * - `shortcut` should be a `Shortcut Sequence` of the for `Ctrl-Alt-C,Meta-X`...
          * - `data` could be an `action name`, an `action` or a `function`.
