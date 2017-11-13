@@ -91,7 +91,7 @@ def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     **kwargs
       Passed to :func:`io.open`.
     """
-    # realpath doesn't work on Windows: http://bugs.python.org/issue9949
+    # realpath doesn't work on Windows: https://bugs.python.org/issue9949
     # Luckily, we only need to resolve the file itself being a symlink, not
     # any of its directories, so this will suffice:
     if os.path.islink(path):
@@ -148,7 +148,7 @@ def _simple_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     **kwargs
       Passed to :func:`io.open`.
     """
-    # realpath doesn't work on Windows: http://bugs.python.org/issue9949
+    # realpath doesn't work on Windows: https://bugs.python.org/issue9949
     # Luckily, we only need to resolve the file itself being a symlink, not
     # any of its directories, so this will suffice:
     if os.path.islink(path):
