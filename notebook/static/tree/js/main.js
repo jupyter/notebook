@@ -196,7 +196,7 @@ require([
         e.preventDefault();
 
         // Set the hash without causing the page to jump.
-        // http://stackoverflow.com/a/14690177/2824256
+        // https://stackoverflow.com/a/14690177/2824256
         var hash = $(this).attr("href");
         if(window.history.pushState) {
             window.history.pushState(null, null, hash);
