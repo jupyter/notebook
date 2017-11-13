@@ -563,6 +563,12 @@ define([
       return model.mimetype === 'text/html' 
         || includes_extension(model.path, viewable_extensions);
     };
+    
+    // Files like PDF that should be opened using `/files` prefix
+    NotebookList.prototype._is_pdflike = function(model) {
+      var pdflike_extensions = ['pdf'];
+      return includes_extension(model.path, pdflike_extensions);
+    };
 
     /**
      * Handles when any row selector checkbox is toggled.
@@ -731,6 +737,10 @@ define([
         if (model.type === 'file' && this._is_viewable(model))
         {
             uri_prefix = 'view';
+        }
+        if (model.type === 'file' && this._is_pdflike(model))
+        {
+            uri_prefix = 'files';
         }
         if (model.type === 'file' && this._is_notebook(model))
         {
