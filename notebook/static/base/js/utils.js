@@ -311,7 +311,7 @@ define([
                 // 16 default terminal colors
                 return idx;
             } else if (idx < 232) {
-                // 6x6x6 color cube, see http://stackoverflow.com/a/27165165/500098
+                // 6x6x6 color cube, see https://stackoverflow.com/a/27165165/500098
                 r = Math.floor((idx - 16) / 36);
                 r = r > 0 ? 55 + r * 40 : 0;
                 g = Math.floor(((idx - 16) % 36) / 6);
@@ -319,7 +319,7 @@ define([
                 b = (idx - 16) % 6;
                 b = b > 0 ? 55 + b * 40 : 0;
             } else if (idx < 256) {
-                // grayscale, see http://stackoverflow.com/a/27165165/500098
+                // grayscale, see https://stackoverflow.com/a/27165165/500098
                 r = g = b = (idx - 232) * 10 + 8;
             } else {
                 throw new RangeError("Color index must be < 256");
@@ -503,7 +503,7 @@ define([
         return fixCarriageReturn(fixBackspace(txt));
     }
 
-    // Locate any URLs and convert them to a anchor tag
+    // Locate any URLs and convert them to an anchor tag
     function autoLinkUrls(txt) {
         return txt.replace(/(^|\s)(https?|ftp)(:[^'"<>\s]+)/gi,
             "$1<a target=\"_blank\" href=\"$2$3\">$2$3</a>");
@@ -525,7 +525,7 @@ define([
          * wrapper around contructor to avoid requiring `var a = new constructor()`
          * useful for passing constructors as callbacks,
          * not for programmer laziness.
-         * from http://programmers.stackexchange.com/questions/118798
+         * from https://programmers.stackexchange.com/questions/118798
          */
         return function () {
             var obj = Object.create(constructor.prototype);
@@ -644,7 +644,7 @@ define([
         return cm.posFromIndex(cursor_pos);
     };
     
-    // http://stackoverflow.com/questions/2400935/browser-detection-in-javascript
+    // https://stackoverflow.com/questions/2400935/browser-detection-in-javascript
     var browser = (function() {
         if (typeof navigator === 'undefined') {
             // navigator undefined in node
@@ -657,7 +657,7 @@ define([
         return M;
     })();
 
-    // http://stackoverflow.com/questions/11219582/how-to-detect-my-browser-version-and-operating-system-using-javascript
+    // https://stackoverflow.com/questions/11219582/how-to-detect-my-browser-version-and-operating-system-using-javascript
     var platform = (function () {
         if (typeof navigator === 'undefined') {
             // navigator undefined in node
@@ -673,7 +673,7 @@ define([
     
     var get_url_param = function (name) {
         // get a URL parameter. I cannot believe we actually need this.
-        // Based on http://stackoverflow.com/a/25359264/938949
+        // Based on https://stackoverflow.com/a/25359264/938949
         var match = new RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
         if (match){
             return decodeURIComponent(match[1] || '');
