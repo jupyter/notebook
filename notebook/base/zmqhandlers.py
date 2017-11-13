@@ -158,14 +158,14 @@ class WebSocketMixin(object):
 
     def open(self, *args, **kwargs):
         self.log.debug("Opening websocket %s", self.request.path)
-        
+
         # start the pinging
         if self.ping_interval > 0:
             loop = ioloop.IOLoop.current()
             self.last_ping = loop.time()  # Remember time of last ping
             self.last_pong = self.last_ping
             self.ping_callback = ioloop.PeriodicCallback(
-                self.send_ping, self.ping_interval, io_loop=loop,
+                self.send_ping, self.ping_interval,
             )
             self.ping_callback.start()
         return super(WebSocketMixin, self).open(*args, **kwargs)
@@ -175,7 +175,7 @@ class WebSocketMixin(object):
         if self.stream.closed() and self.ping_callback is not None:
             self.ping_callback.stop()
             return
-        
+
         # check for timeout on pong.  Make sure that we really have sent a recent ping in
         # case the machine with both server and client has been suspended since the last ping.
         now = ioloop.IOLoop.current().time()

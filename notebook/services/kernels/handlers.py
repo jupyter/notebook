@@ -449,11 +449,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         for channel, stream in self.channels.items():
             if stream is not None and not stream.closed():
                 stream.on_recv(None)
-                # close the socket directly, don't wait for the stream
-                socket = stream.socket
                 stream.close()
-                socket.close()
-        
+
         self.channels = {}
         self._close_future.set_result(None)
 
