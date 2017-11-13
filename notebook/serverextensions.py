@@ -283,8 +283,8 @@ class ServerExtensionApp(BaseExtensionApp):
     examples = _examples
 
     subcommands = dict(
-        enable=(EnableServerExtensionApp, "Enable an server extension"),
-        disable=(DisableServerExtensionApp, "Disable an server extension"),
+        enable=(EnableServerExtensionApp, "Enable a server extension"),
+        disable=(DisableServerExtensionApp, "Disable a server extension"),
         list=(ListServerExtensionsApp, "List server extensions")
     )
 
