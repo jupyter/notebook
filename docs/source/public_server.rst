@@ -78,7 +78,7 @@ the login token, otherwise follow the procedure to set a password from the
 command line.
 
 The ability to change the password at first login time may be disabled by
-integrations by setting the ``--NotebookApp.allow_password_change=True``
+integrations by setting the ``--NotebookApp.allow_password_change=False``
 
 
 Starting at notebook version 5.0, you can enter and store a password for your
