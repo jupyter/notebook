@@ -295,7 +295,7 @@ define([
                     var link_element = el.children('a');
                     var text = link_element.text();
                     link_element.text('');
-                    link_element.attr('style', 'display: flex; flex-direction: row; justify-content: space-between; align-items: flex-end;');
+                    link_element.addClass('menu-shortcut-container');
                     link_element.append('<span class="action">' + text + '</span>');
                     link_element.append('<span class="kb">' + shortcut + '</span>');
                 }
