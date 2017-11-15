@@ -268,6 +268,7 @@ class NotebookWebApplication(web.Application):
             mathjax_config=jupyter_app.mathjax_config,
             config=jupyter_app.config,
             config_dir=jupyter_app.config_dir,
+            allow_password_change=jupyter_app.allow_password_change,
             server_root_dir=root_dir,
             jinja2_env=env,
             terminals_available=False,  # Set later if terminals are available
@@ -755,6 +756,18 @@ class NotebookApp(JupyterApp):
 
                       """
     )
+
+    allow_password_change = Bool(True, config=True, 
+                    help="""Allow password to be changed at login for the notebook server. 
+
+                    While loggin in with a token, the notebook server UI will give the opportunity to
+                    the user to enter a new password at the same time that will replace
+                    the token login mechanism. 
+
+                    This can be set to false to prevent changing password from the UI/API.
+                    """
+    )
+
 
     disable_check_xsrf = Bool(False, config=True,
         help="""Disable cross-site-request-forgery protection

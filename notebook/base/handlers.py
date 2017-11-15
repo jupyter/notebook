@@ -400,6 +400,7 @@ class IPythonHandler(AuthenticatedHandler):
             default_url=self.default_url,
             ws_url=self.ws_url,
             logged_in=self.logged_in,
+            allow_password_change=self.settings.get('allow_password_change'),
             login_available=self.login_available,
             token_available=bool(self.token or self.one_time_token),
             static_url=self.static_url,
