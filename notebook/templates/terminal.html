@@ -2,7 +2,7 @@
 
 {% block title %}{{page_title}}{% endblock %}
 
-{% block favicon %}<link id="favicon" rel="shortcut icon" type="image/x-icon" href="{{static_url("base/images/favicon-terminal.ico") }}">{% endblock %}
+{% block favicon %}<link id="favicon" rel="shortcut icon" type="image/x-icon" href="{{static_url('base/images/favicon-terminal.ico') }}">{% endblock %}
 
 {% block bodyclasses %}terminal-app {{super()}}{% endblock %}
 
@@ -14,8 +14,8 @@ data-ws-path="{{ws_path}}"
 
 {% block stylesheet %}
 {{super()}}
-<link rel="stylesheet" href="{{ static_url("terminal/css/override.css") }}" type="text/css" />
-<link rel="stylesheet" href="{{static_url("components/xterm.js/dist/xterm.css") }}" type="text/css" />
+<link rel="stylesheet" href="{{ static_url('terminal/css/override.css') }}" type="text/css" />
+<link rel="stylesheet" href="{{static_url('components/xterm.js/dist/xterm.css') }}" type="text/css" />
 {% endblock %}
 
 {% block headercontainer %}
@@ -63,5 +63,5 @@ data-ws-path="{{ws_path}}"
 
     {{super()}}
 
-<script src="{{ static_url("terminal/js/main.min.js") }}" type="text/javascript" charset="utf-8"></script>
+<script src="{{ static_url('terminal/js/main.min.js') }}" type="text/javascript" charset="utf-8"></script>
 {% endblock %}
