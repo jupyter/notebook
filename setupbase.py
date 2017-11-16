@@ -157,6 +157,7 @@ def find_package_data():
         pjoin(components, "underscore", "underscore-min.js"),
         pjoin(components, "moment", "moment.js"),
         pjoin(components, "moment", "min", "*.js"),
+        pjoin(components, "moment", "locale", "*.js"),
         pjoin(components, "xterm.js", "dist", "xterm.js"),
         pjoin(components, "xterm.js", "dist", "xterm.css"),
         pjoin(components, "text-encoding", "lib", "encoding.js"),
