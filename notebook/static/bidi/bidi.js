@@ -15,16 +15,10 @@ define(['bidi/numericshaping'], function(numericshaping) {
     if (_isMirroringEnabled()) {
       $('body').attr('dir', 'rtl');
     }
-    var uiLang = _uiLang();
 
-    if (uiLang !== 'en' && uiLang !== 'en-us') {
-      // moment does not ship with a separate file for locale/en or locale/en-us
-      // so we must skip dynamically requiring it
-      requirejs(['components/moment/locale/' + _uiLang()], function(err) {
-        console.warn('Error loading the required locale');
-        console.warn(err);
-      });
-    }
+    require(['moment'], function (moment) {
+      console.log('Loaded moment locale', moment.locale(_uiLang()));
+    });
 
     shaperType = _uiLang() == 'ar' ? 'national' : 'defaultNumeral';
   };
