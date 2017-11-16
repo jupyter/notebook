@@ -5,7 +5,6 @@ define(['bidi/numericshaping'], function(numericshaping) {
   'use strict';
 
   var shaperType = '';
-  var textDir = '';
 
   var _uiLang = function() {
     return navigator.language.toLowerCase();
@@ -13,18 +12,12 @@ define(['bidi/numericshaping'], function(numericshaping) {
 
   var _loadLocale = function() {
     if (_isMirroringEnabled()) {
-      $('body').attr('dir', 'rtl');
+      document.body.dir = 'rtl';
     }
-    var uiLang = _uiLang();
 
-    if (uiLang !== 'en' && uiLang !== 'en-us') {
-      // moment does not ship with a separate file for locale/en or locale/en-us
-      // so we must skip dynamically requiring it
-      requirejs(['components/moment/locale/' + _uiLang()], function(err) {
-        console.warn('Error loading the required locale');
-        console.warn(err);
-      });
-    }
+    require(['moment'], function (moment) {
+      console.log('Loaded moment locale', moment.locale(_uiLang()));
+    });
 
     shaperType = _uiLang() == 'ar' ? 'national' : 'defaultNumeral';
   };
@@ -32,11 +25,6 @@ define(['bidi/numericshaping'], function(numericshaping) {
   var _isMirroringEnabled = function() {
     return new RegExp('^(ar|he)').test(_uiLang());
   };
-
-  /**
-     * NS :  for digit Shaping.
-     * BTD : for future work in case of Base Text Direction Addition.
-     */
 
   /**
      * @param value : the string to apply the bidi-support on it.
