@@ -333,6 +333,26 @@ class NotebookWebApplication(web.Application):
         new_handlers.append((r'(.*)', Template404))
         return new_handlers
 
+    def last_activity(self):
+        """Get a UTC timestamp for when the server last did something.
+
+        Includes: API activity, kernel activity, kernel shutdown, and terminal
+        activity.
+        """
+        sources = [
+            self.settings['started'],
+            self.settings['kernel_manager'].last_kernel_activity,
+        ]
+        try:
+            sources.append(self.settings['api_last_activity'])
+        except KeyError:
+            pass
+        try:
+            sources.append(self.settings['terminal_last_activity'])
+        except KeyError:
+            pass
+        return max(sources)
+
 
 class NotebookPasswordApp(JupyterApp):
     """Set a password for the notebook server.
@@ -1367,25 +1387,6 @@ class NotebookApp(JupyterApp):
         # mimetype always needs to be text/css, so we override it here.
         mimetypes.add_type('text/css', '.css')
 
-    def last_activity(self):
-        """Get a UTC timestamp for when the server last did something.
-
-        Includes: API activity, kernel activity, kernel shutdown, and terminal
-        activity.
-        """
-        sources = [
-            self.web_app.settings['started'],
-            self.kernel_manager.last_kernel_activity,
-        ]
-        try:
-            sources.append(self.web_app.settings['api_last_activity'])
-        except KeyError:
-            pass
-        try:
-            sources.append(self.web_app.settings['terminal_last_activity'])
-        except KeyError:
-            pass
-        return max(sources)
 
     def shutdown_no_activity(self):
         """Shutdown server on timeout when there are no kernels or terminals."""
@@ -1402,7 +1403,7 @@ class NotebookApp(JupyterApp):
                 return   # Terminals still running
 
         seconds_since_active = \
-            (utcnow() - self.last_activity()).total_seconds()
+            (utcnow() - self.web_app.last_activity()).total_seconds()
         self.log.debug("No activity for %d seconds.",
                        seconds_since_active)
         if seconds_since_active > self.shutdown_no_activity_timeout:
