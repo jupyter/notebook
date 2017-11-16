@@ -5,7 +5,6 @@ define(['bidi/numericshaping'], function(numericshaping) {
   'use strict';
 
   var shaperType = '';
-  var textDir = '';
 
   var _uiLang = function() {
     return navigator.language.toLowerCase();
@@ -13,7 +12,7 @@ define(['bidi/numericshaping'], function(numericshaping) {
 
   var _loadLocale = function() {
     if (_isMirroringEnabled()) {
-      $('body').attr('dir', 'rtl');
+      document.body.dir = 'rtl';
     }
 
     require(['moment'], function (moment) {
@@ -26,11 +25,6 @@ define(['bidi/numericshaping'], function(numericshaping) {
   var _isMirroringEnabled = function() {
     return new RegExp('^(ar|he)').test(_uiLang());
   };
-
-  /**
-     * NS :  for digit Shaping.
-     * BTD : for future work in case of Base Text Direction Addition.
-     */
 
   /**
      * @param value : the string to apply the bidi-support on it.
