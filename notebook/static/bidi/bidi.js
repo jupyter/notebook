@@ -19,7 +19,7 @@ define(['bidi/numericshaping'], function(numericshaping) {
       console.log('Loaded moment locale', moment.locale(_uiLang()));
     });
 
-    shaperType = _uiLang() == 'ar' ? 'national' : 'defaultNumeral';
+    shaperType = _uiLang().split('-')[0] == 'ar' ? 'national' : 'defaultNumeral';
   };
 
   var _isMirroringEnabled = function() {
