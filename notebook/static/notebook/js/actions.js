@@ -949,7 +949,7 @@ define([
 
     ActionHandler.prototype.get_name = function(name_or_data){
         /**
-         * given an `action` or `name` of a action, return the name attached to this action.
+         * given an `action` or `name` of an action, return the name attached to this action.
          * if given the name of and corresponding actions does not exist in registry, return `null`.
          **/
 
