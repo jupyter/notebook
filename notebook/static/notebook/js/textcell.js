@@ -491,7 +491,7 @@ define([
         // The dragleave event is fired when we hover a child element (which
         // is often immediatly after we got the dragenter), so we keep track
         // of the number of dragenter/dragleave we got, as discussed here :
-        // http://stackoverflow.com/q/7110353/116067
+        // https://stackoverflow.com/q/7110353/116067
         // This doesn't seem to be 100% reliable, so we clear the dropzone
         // class when the cell is rendered as well
         this.code_mirror.on("dragenter", function(cm, evt) {
