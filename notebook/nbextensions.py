@@ -1018,7 +1018,7 @@ def _should_copy(src, dest, logger=None):
         return True
     if os.stat(src).st_mtime - os.stat(dest).st_mtime > 1e-6:
         # we add a fudge factor to work around a bug in python 2.x
-        # that was fixed in python 3.x: http://bugs.python.org/issue12904
+        # that was fixed in python 3.x: https://bugs.python.org/issue12904
         if logger:
             logger.warn("Out of date: %s" % dest)
         return True
