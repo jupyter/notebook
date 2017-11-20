@@ -145,7 +145,7 @@ There is a new cell toolbar for adding *cell tags* (:ghpull:`2048`):
 
 Cell tags are a lightweight way to customise the behaviour of tools working with
 notebooks; we're working on building support for them into tools like `nbconvert
-<http://nbconvert.readthedocs.io/en/latest/>`__ and `nbval
+<https://nbconvert.readthedocs.io/en/latest/>`__ and `nbval
 <https://github.com/computationalmodelling/nbval>`__. To start using tags,
 select ``Tags`` in the ``View > Cell Toolbar`` menu in a notebook.
 
@@ -226,7 +226,7 @@ Other additions
   extensions(:ghpull:`2108`).
 
 - The notebook server now supports the `bundler API
-  <http://jupyter-notebook.readthedocs.io/en/latest/extending/bundler_extensions.html>`__
+  <https://jupyter-notebook.readthedocs.io/en/latest/extending/bundler_extensions.html>`__
   from the `jupyter_cms incubator project
   <https://github.com/jupyter-incubator/contentmanagement>`__ (:ghpull:`1579`).
 

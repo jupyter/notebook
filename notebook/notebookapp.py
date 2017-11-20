@@ -1579,7 +1579,7 @@ class NotebookApp(JupyterApp):
             info(_("Welcome to Project Jupyter! Explore the various tools available"
                  " and their corresponding documentation. If you are interested"
                  " in contributing to the platform, please visit the community"
-                 "resources section at http://jupyter.org/community.html."))
+                 "resources section at https://jupyter.org/community.html."))
 
         self.write_server_info_file()
 

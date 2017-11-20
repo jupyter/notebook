@@ -219,7 +219,7 @@ drop-down on the toolbar (which will be "Code", initially), or via
 
 For more information on the different things you can do in a notebook,
 see the `collection of examples
-<http://nbviewer.jupyter.org/github/jupyter/notebook/tree/master/docs/source/examples/Notebook/>`_.
+<https://nbviewer.jupyter.org/github/jupyter/notebook/tree/master/docs/source/examples/Notebook/>`_.
 
 Code cells
 ~~~~~~~~~~
@@ -266,7 +266,7 @@ the LaTeX portions are automatically rendered in the HTML output as equations
 with high quality typography. This is made possible by MathJax_, which
 supports a `large subset <mathjax_tex>`_ of LaTeX functionality
 
-.. _mathjax_tex: http://docs.mathjax.org/en/latest/tex.html
+.. _mathjax_tex: https://docs.mathjax.org/en/latest/tex.html
 
 Standard mathematics environments defined by LaTeX and AMS-LaTeX (the
 `amsmath` package) also work, such as
@@ -373,7 +373,7 @@ Installing kernels
 ------------------
 
 For information on how to install a Python kernel, refer to the
-`IPython install page <http://ipython.org/install.html>`__.
+`IPython install page <https://ipython.org/install.html>`__.
 
 Kernels for other languages can be found in the `IPython wiki
 <https://github.com/ipython/ipython/wiki/IPython%20kernels%20for%20other%20languages>`_.
