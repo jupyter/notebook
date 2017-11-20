@@ -114,7 +114,7 @@ define([
         if (threshold <=0) {
             return false;
         }
-        // line-height from http://stackoverflow.com/questions/1185151
+        // line-height from https://stackoverflow.com/questions/1185151
         var fontSize = this.element.css('font-size') || '14px';
         var lineHeight = Math.floor((parseFloat(fontSize.replace('px','')) || 14) * 1.3);
         return (this.element.height() > threshold * lineHeight);
@@ -399,7 +399,7 @@ define([
             // Once the iframe is loaded, the subarea is dynamically inserted
             iframe.on('load', function() {
                 // Workaround needed by Firefox, to properly render svg inside
-                // iframes, see http://stackoverflow.com/questions/10177190/
+                // iframes, see https://stackoverflow.com/questions/10177190/
                 // svg-dynamically-added-to-iframe-does-not-render-correctly
                 this.contentDocument.open();
 

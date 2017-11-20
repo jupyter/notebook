@@ -80,7 +80,7 @@ define([
     var mac_humanize_map = {
         // all these are unicode, will probably display badly on anything except macs.
         // these are the standard symbol that are used in MacOS native menus
-        // cf http://apple.stackexchange.com/questions/55727/
+        // cf https://apple.stackexchange.com/questions/55727/
         // for htmlentities and/or unicode value
         'cmd':'⌘',
         'shift':'⇧',
