@@ -28,7 +28,7 @@
 
  **Notebook Dashboard**
 
-![Notebook Dashboard example](docs-translations/ko-KR/resources/resources/dashboard.GIF "Notebook Dashboard")
+![Notebook Dashboard example](docs-translations/ko-KR/resources/dashboard.GIF "Notebook Dashboard")
 
 # Notebook 서버의 명령어 소개
 
