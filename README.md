@@ -22,7 +22,7 @@ language-agnostic **Jupyter notebook** in this repo and with the help of the
 community develop language specific kernels which are found in their own
 discrete repos.
 [[The Big Split™ announcement](https://blog.jupyter.org/2015/04/15/the-big-split/)]
-[[Jupyter Ascending blog post](http://blog.jupyter.org/2015/08/12/first-release-of-jupyter/)]
+[[Jupyter Ascending blog post](https://blog.jupyter.org/2015/08/12/first-release-of-jupyter/)]
 
 ## Installation
 You can find the installation documentation for the
