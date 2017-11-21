@@ -104,7 +104,7 @@ from ipython_genutils import py3compat
 from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
 from notebook._sysinfo import get_sys_info
 
-from ._tz import utcnow
+from ._tz import utcnow, utcfromtimestamp
 from .utils import url_path_join, check_pid, url_escape
 
 #-----------------------------------------------------------------------------
@@ -268,6 +268,7 @@ class NotebookWebApplication(web.Application):
             mathjax_config=jupyter_app.mathjax_config,
             config=jupyter_app.config,
             config_dir=jupyter_app.config_dir,
+            allow_password_change=jupyter_app.allow_password_change,
             server_root_dir=root_dir,
             jinja2_env=env,
             terminals_available=False,  # Set later if terminals are available
@@ -334,6 +335,26 @@ class NotebookWebApplication(web.Application):
         # add 404 on the end, which will catch everything that falls through
         new_handlers.append((r'(.*)', Template404))
         return new_handlers
+
+    def last_activity(self):
+        """Get a UTC timestamp for when the server last did something.
+
+        Includes: API activity, kernel activity, kernel shutdown, and terminal
+        activity.
+        """
+        sources = [
+            self.settings['started'],
+            self.settings['kernel_manager'].last_kernel_activity,
+        ]
+        try:
+            sources.append(self.settings['api_last_activity'])
+        except KeyError:
+            pass
+        try:
+            sources.append(self.settings['terminal_last_activity'])
+        except KeyError:
+            pass
+        return max(sources)
 
 
 class NotebookPasswordApp(JupyterApp):
@@ -756,6 +777,18 @@ class NotebookApp(JupyterApp):
                       """
     )
 
+    allow_password_change = Bool(True, config=True, 
+                    help="""Allow password to be changed at login for the notebook server. 
+
+                    While loggin in with a token, the notebook server UI will give the opportunity to
+                    the user to enter a new password at the same time that will replace
+                    the token login mechanism. 
+
+                    This can be set to false to prevent changing password from the UI/API.
+                    """
+    )
+
+
     disable_check_xsrf = Bool(False, config=True,
         help="""Disable cross-site-request-forgery protection
 
@@ -1126,6 +1159,16 @@ class NotebookApp(JupyterApp):
     rate_limit_window = Float(3, config=True, help=_("""(sec) Time window used to 
         check the message and data rate limits."""))
 
+    shutdown_no_activity_timeout = Integer(0, config=True,
+        help=("Shut down the server after N seconds with no kernels or "
+              "terminals running and no activity. "
+              "This can be used together with culling idle kernels "
+              "(MappingKernelManager.cull_idle_timeout) to "
+              "shutdown the notebook server when it's not in use. This is not "
+              "precisely timed: it may shut down up to a minute later. "
+              "0 (the default) disables this automatic shutdown.")
+    )
+
     def parse_command_line(self, argv=None):
         super(NotebookApp, self).parse_command_line(argv)
 
@@ -1413,6 +1456,37 @@ class NotebookApp(JupyterApp):
         # mimetype always needs to be text/css, so we override it here.
         mimetypes.add_type('text/css', '.css')
 
+
+    def shutdown_no_activity(self):
+        """Shutdown server on timeout when there are no kernels or terminals."""
+        km = self.kernel_manager
+        if len(km) != 0:
+            return   # Kernels still running
+
+        try:
+            term_mgr = self.web_app.settings['terminal_manager']
+        except KeyError:
+            pass  # Terminals not enabled
+        else:
+            if term_mgr.terminals:
+                return   # Terminals still running
+
+        seconds_since_active = \
+            (utcnow() - self.web_app.last_activity()).total_seconds()
+        self.log.debug("No activity for %d seconds.",
+                       seconds_since_active)
+        if seconds_since_active > self.shutdown_no_activity_timeout:
+            self.log.info("No kernels or terminals for %d seconds; shutting down.",
+                          seconds_since_active)
+            self.stop()
+
+    def init_shutdown_no_activity(self):
+        if self.shutdown_no_activity_timeout > 0:
+            self.log.info("Will shut down after %d seconds with no kernels or terminals.",
+                          self.shutdown_no_activity_timeout)
+            pc = ioloop.PeriodicCallback(self.shutdown_no_activity, 60000)
+            pc.start()
+
     @catch_config_error
     def initialize(self, argv=None):
         super(NotebookApp, self).initialize(argv)
@@ -1426,6 +1500,7 @@ class NotebookApp(JupyterApp):
         self.init_signal()
         self.init_server_extensions()
         self.init_mime_overrides()
+        self.init_shutdown_no_activity()
 
     def cleanup_kernels(self):
         """Shutdown all kernels.

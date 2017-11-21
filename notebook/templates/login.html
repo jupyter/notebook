@@ -85,6 +85,24 @@ http://localhost:8888/?token=c8de56fa... :: /Users/you/notebooks
       <p>
         Cookies are required for authenticated access to notebooks.
       </p>
+      {% if allow_password_change %}
+        <h3>{% trans %}Setup a Password{% endtrans %}</h3>
+        <p> You can also setup a password by entering your token and a new password
+        on the fields below:</p>
+        <form action="{{base_url}}login?next={{next}}" method="post" class="">
+                {{ xsrf_form_html() | safe }}
+          <div class="form-group">
+            <input type="password" name="password" id="password_input" class="form-control" placeholder="Token">
+          </div>
+          <div class="form-group">
+            <input type="password" name="new_password" id="new_password_input"
+            class="form-control" placeholder="New password" required>
+          </div>
+          <div class="form-group">
+            <button type="submit" id="login_submit">{% trans %}Log in and set new password{% endtrans %}</button>
+          </div>
+        </form>
+      {% endif %}
 
     </div>
     {% endblock token_message %}

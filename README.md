@@ -21,8 +21,8 @@ computing spans across many languages, Project Jupyter will continue to develop 
 language-agnostic **Jupyter notebook** in this repo and with the help of the
 community develop language specific kernels which are found in their own
 discrete repos.
-[[The Big Split™ announcement](https://blog.jupyter.org/2015/04/15/the-big-split/)]
-[[Jupyter Ascending blog post](https://blog.jupyter.org/2015/08/12/first-release-of-jupyter/)]
+[[The Big Split™ announcement](https://blog.jupyter.org/the-big-split-9d7b88a031a7)]
+[[Jupyter Ascending blog post](https://blog.jupyter.org/jupyter-ascending-1bf5b362d97e)]
 
 ## Installation
 You can find the installation documentation for the

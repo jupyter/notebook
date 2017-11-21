@@ -1193,7 +1193,7 @@ define([
                         .css('position', 'absolute');
 
                     var parse_large_file = function (f, item) {
-                        // codes inspired by http://stackoverflow.com/a/28318964
+                        // codes inspired by https://stackoverflow.com/a/28318964
                         var chunk_size = 1024 * 1024;
                         var offset = 0;
                         var chunk = 0;

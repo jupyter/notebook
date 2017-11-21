@@ -2,7 +2,7 @@ Comms
 =====
 
 *Comms* allow custom messages between the frontend and the kernel. They are used,
-for instance, in `ipywidgets <http://ipywidgets.readthedocs.io/en/latest/>`__ to
+for instance, in `ipywidgets <https://ipywidgets.readthedocs.io/en/latest/>`__ to
 update widget state.
 
 A comm consists of a pair of objects, in the kernel and the frontend, with an
@@ -12,7 +12,7 @@ or kernel, can open or close the comm.
 
 .. seealso::
 
-    `Custom Messages <http://jupyter-client.readthedocs.io/en/latest/messaging.html#custom-messages>`__
+    `Custom Messages <https://jupyter-client.readthedocs.io/en/latest/messaging.html#custom-messages>`__
       The messaging specification section on comms
 
 Opening a comm from the kernel

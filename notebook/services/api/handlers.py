@@ -33,14 +33,11 @@ class APIStatusHandler(APIHandler):
     def get(self):
         # if started was missing, use unix epoch
         started = self.settings.get('started', utcfromtimestamp(0))
-        # if we've never seen API activity, use started date
-        api_last_activity = self.settings.get('api_last_activity', started)
         started = isoformat(started)
-        api_last_activity = isoformat(api_last_activity)
 
         kernels = yield gen.maybe_future(self.kernel_manager.list_kernels())
         total_connections = sum(k['connections'] for k in kernels)
-        last_activity = max(chain([api_last_activity], [k['last_activity'] for k in kernels]))
+        last_activity = isoformat(self.application.last_activity())
         model = {
             'started': started,
             'last_activity': last_activity,

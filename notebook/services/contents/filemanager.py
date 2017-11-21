@@ -80,7 +80,9 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
     save_script = Bool(False, config=True, help='DEPRECATED, use post_save_hook. Will be removed in Notebook 5.0')
 
     @observe('save_script')
-    def _update_save_script(self):
+    def _update_save_script(self, change):
+        if not change['new']:
+            return
         self.log.warning("""
         `--script` is deprecated and will be removed in notebook 5.0.
 
