@@ -82,7 +82,7 @@ class LoginHandler(IPythonHandler):
                 self.set_login_cookie(self, uuid.uuid4().hex)
             elif self.token and self.token == typed_password:
                 self.set_login_cookie(self, uuid.uuid4().hex)
-                if self.new_password and self.settings.get('allow_password_change'):
+                if new_password and self.settings.get('allow_password_change'):
                     config_dir = self.settings.get('config_dir')
                     config_file = os.path.join(config_dir, 'jupyter_notebook_config.json')
                     set_password(new_password, config_file=config_file)
