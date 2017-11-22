@@ -148,8 +148,8 @@ define(function(require) {
         );
     };
 
-    Contents.prototype.rename = function(path, new_path) {
-        var data = {path: new_path};
+    Contents.prototype.rename = function(path, new_path, keep_old) {
+        var data = {path: new_path, keep: (keep_old ? 'True' : 'False')};
         var settings = {
             processData : false,
             type : "PATCH",

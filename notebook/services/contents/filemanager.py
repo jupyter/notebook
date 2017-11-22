@@ -518,7 +518,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             with self.perm_to_403():
                 rm(os_path)
 
-    def rename_file(self, old_path, new_path):
+    def rename_file(self, old_path, new_path, keep_old):
         """Rename a file."""
         old_path = old_path.strip('/')
         new_path = new_path.strip('/')
@@ -535,7 +535,10 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         # Move the file
         try:
             with self.perm_to_403():
-                shutil.move(old_os_path, new_os_path)
+                if keep_old:
+                    shutil.copy(old_os_path, new_os_path)
+                else:
+                    shutil.move(old_os_path, new_os_path)
         except web.HTTPError:
             raise
         except Exception as e:

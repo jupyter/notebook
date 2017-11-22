@@ -18,7 +18,7 @@ class Checkpoints(LoggingConfigurable):
 
     create_checkpoint(self, contents_mgr, path)
     restore_checkpoint(self, contents_mgr, checkpoint_id, path)
-    rename_checkpoint(self, checkpoint_id, old_path, new_path)
+    rename_checkpoint(self, checkpoint_id, old_path, new_path, keep_old)
     delete_checkpoint(self, checkpoint_id, path)
     list_checkpoints(self, path)
     """
@@ -30,7 +30,7 @@ class Checkpoints(LoggingConfigurable):
         """Restore a checkpoint"""
         raise NotImplementedError("must be implemented in a subclass")
 
-    def rename_checkpoint(self, checkpoint_id, old_path, new_path):
+    def rename_checkpoint(self, checkpoint_id, old_path, new_path, keep_old):
         """Rename a single checkpoint from old_path to new_path."""
         raise NotImplementedError("must be implemented in a subclass")
 
@@ -42,10 +42,10 @@ class Checkpoints(LoggingConfigurable):
         """Return a list of checkpoints for a given file"""
         raise NotImplementedError("must be implemented in a subclass")
 
-    def rename_all_checkpoints(self, old_path, new_path):
+    def rename_all_checkpoints(self, old_path, new_path, keep_old):
         """Rename all checkpoints for old_path to new_path."""
         for cp in self.list_checkpoints(old_path):
-            self.rename_checkpoint(cp['id'], old_path, new_path)
+            self.rename_checkpoint(cp['id'], old_path, new_path, keep_old)
 
     def delete_all_checkpoints(self, path):
         """Delete all checkpoints for the given path."""
@@ -72,7 +72,7 @@ class GenericCheckpointsMixin(object):
 
     - delete_checkpoint(self, checkpoint_id, path)
     - list_checkpoints(self, path)
-    - rename_checkpoint(self, checkpoint_id, old_path, new_path)
+    - rename_checkpoint(self, checkpoint_id, old_path, new_path, keep_old)
     """
 
     def create_checkpoint(self, contents_mgr, path):

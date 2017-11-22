@@ -260,7 +260,7 @@ class ContentsManager(LoggingConfigurable):
         """Delete the file or directory at path."""
         raise NotImplementedError('must be implemented in a subclass')
 
-    def rename_file(self, old_path, new_path):
+    def rename_file(self, old_path, new_path, keep_old):
         """Rename a file or directory."""
         raise NotImplementedError('must be implemented in a subclass')
 
@@ -275,10 +275,10 @@ class ContentsManager(LoggingConfigurable):
         self.delete_file(path)
         self.checkpoints.delete_all_checkpoints(path)
 
-    def rename(self, old_path, new_path):
+    def rename(self, old_path, new_path, keep_old):
         """Rename a file and any checkpoints associated with that file."""
-        self.rename_file(old_path, new_path)
-        self.checkpoints.rename_all_checkpoints(old_path, new_path)
+        self.rename_file(old_path, new_path, keep_old)
+        self.checkpoints.rename_all_checkpoints(old_path, new_path, keep_old)
 
     def update(self, model, path):
         """Update the file's path
@@ -288,8 +288,9 @@ class ContentsManager(LoggingConfigurable):
         """
         path = path.strip('/')
         new_path = model.get('path', path).strip('/')
+        keep_old = (model.get('keep') == 'True')
         if path != new_path:
-            self.rename(path, new_path)
+            self.rename(path, new_path, keep_old)
         model = self.get(new_path, content=False)
         return model
 

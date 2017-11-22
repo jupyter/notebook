@@ -63,7 +63,7 @@ class FileCheckpoints(FileManagerMixin, Checkpoints):
         self._copy(src_path, dest_path)
 
     # ContentsManager-independent checkpoint API
-    def rename_checkpoint(self, checkpoint_id, old_path, new_path):
+    def rename_checkpoint(self, checkpoint_id, old_path, new_path, keep_old):
         """Rename a checkpoint from old_path to new_path."""
         old_cp_path = self.checkpoint_path(checkpoint_id, old_path)
         new_cp_path = self.checkpoint_path(checkpoint_id, new_path)
@@ -74,7 +74,10 @@ class FileCheckpoints(FileManagerMixin, Checkpoints):
                 new_cp_path,
             )
             with self.perm_to_403():
-                shutil.move(old_cp_path, new_cp_path)
+                if keep_old:
+                    shutil.copy(old_cp_path, new_cp_path)
+                else:
+                    shutil.move(old_cp_path, new_cp_path)
 
     def delete_checkpoint(self, checkpoint_id, path):
         """delete a file's checkpoint"""

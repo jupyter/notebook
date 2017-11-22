@@ -194,6 +194,7 @@ define([
             // Bind events for action buttons.
             $('.rename-button').click($.proxy(this.rename_selected, this));
             $('.move-button').click($.proxy(this.move_selected, this));
+            $('.copy-button').click($.proxy(this.copy_selected, this));
             $('.download-button').click($.proxy(this.download_selected, this));
             $('.shutdown-button').click($.proxy(this.shutdown_selected, this));
             $('.duplicate-button').click($.proxy(this.duplicate_selected, this));
@@ -619,8 +620,10 @@ define([
         // are a running notebook.
         if (selected.length > 0 && !has_running_notebook) {
             $('.move-button').css('display', 'inline-block');
+            $('.copy-button').css('display', 'inline-block');
         } else {
             $('.move-button').css('display', 'none');
+            $('.copy-button').css('display', 'none');
         }
 
         // Download is only visible when one item is selected, and it is not a
@@ -918,8 +921,7 @@ define([
         });
     };
 
-    NotebookList.prototype.move_selected = function() {
-        var that = this;
+    function move_or_copy_selected(op_type, that) {
         var selected = that.selected.slice(); // Don't let that.selected change out from under us
         var num_items = selected.length;
 
@@ -945,13 +947,9 @@ define([
               input.addClass("path-input")
             ).addClass("move-path")
         );
-        var d = dialog.modal({
-            title : i18n.msg.sprintf(i18n.msg.ngettext("Move an Item","Move %d Items",num_items),num_items),
-            body : dialog_body,
-            default_button: "Cancel",
-            buttons : {
-                Cancel : {},
-                Move : {
+        var dialog_buttons = {};
+        dialog_buttons['Cancel'] = {}
+        dialog_buttons[op_type] = {
                     class: "btn-primary",
                     click: function() {
                         // Move all the items.
@@ -960,14 +958,14 @@ define([
                             var item_name = item.name;
                             // Construct the new path using the user input and the item's name.
                             var new_path = utils.url_path_join(input.val(), item_name);
-                            that.contents.rename(item_path, new_path).then(function() {
+                            that.contents.rename(item_path, new_path, op_type === 'Copy').then(function() {
                                 // After each move finishes, reload the list.
                                 that.load_list();
                             }).catch(function(e) {
                                 // If any of the moves fails, show this dialog for that move.
                             	var failmsg = i18n.msg._("An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\".");
                                 dialog.modal({
-                                    title: i18n.msg._("Move Failed"),
+                                    title: i18n.msg._(op_type + " Failed"),
                                     body: $('<div/>')
                                         .text(i18n.msg.sprintf(failmsg,item_name,item_path,new_path))
                                         .append($('<div/>')
@@ -982,7 +980,11 @@ define([
                         });  // End of forEach.
                     }
                 }
-            },
+        var d = dialog.modal({
+            title : i18n.msg.sprintf(i18n.msg.ngettext(op_type + " an Item", op_type + " %d Items",num_items),num_items),
+            body : dialog_body,
+            default_button: "Cancel",
+            buttons : dialog_buttons,
             // TODO: Consider adding fancier UI per Issue #941.
             open : function () {
                 // Upon ENTER, click the OK button.
@@ -996,6 +998,14 @@ define([
                 input.focus();
             }
         });
+    }
+
+    NotebookList.prototype.move_selected = function() {
+        move_or_copy_selected('Move', this);
+    };
+
+    NotebookList.prototype.copy_selected = function() {
+        move_or_copy_selected('Copy', this);
     };
 
     NotebookList.prototype.download_selected = function() {
