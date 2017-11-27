@@ -23,4 +23,9 @@ install:
   - cmd: pip install .[test]
 
 test_script:
-  - nosetests --exclude-dir notebook\terminal -v notebook
+  - ps: |
+    If ($CONDA_PY -eq 27) {
+        nosetests --exclude-dir notebook\terminal -v notebook
+    } Else {
+        nosetests -v notebook
+    }

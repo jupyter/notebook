@@ -153,9 +153,9 @@ install_requires = [
     'nbconvert',
     'ipykernel', # bless IPython kernel for now
     'Send2Trash',
+    'terminado>0.3.3; os.name=="posix" or (os_name=="nt" and python_version>="3.5")'
 ]
 extras_require = {
-    ':sys_platform != "win32"': ['terminado>=0.3.3'],
     'test:python_version == "2.7"': ['mock'],
     'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters', 'nbval'],
     'test:sys_platform == "win32"': ['nose-exclude'],
