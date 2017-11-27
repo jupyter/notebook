@@ -25,7 +25,7 @@ install:
 test_script:
   - ps: |
       $CONDA_PY = $env:CONDA_PY
-      If ($CONDA_PY  -eq 32) {
+      If ($CONDA_PY  -eq 27) {
           nosetests --exclude-dir notebook\terminal -v notebook
       } Else {
           nosetests  -v notebook
