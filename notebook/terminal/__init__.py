@@ -17,7 +17,9 @@ def initialize(webapp, notebook_dir, connection_url, settings):
     default_shell = which('sh')
     if not default_shell and os.name == 'nt':
         default_shell = 'cmd.exe'
-    shell = settings.get('shell_command', [os.environ.get('SHELL') or 'sh'])
+    shell = settings.get('shell_command',
+        [os.environ.get('SHELL', default_shell)]
+    )
     terminal_manager = webapp.settings['terminal_manager'] = NamedTermManager(
         shell_command=shell,
         extra_env={'JUPYTER_SERVER_ROOT': notebook_dir,
