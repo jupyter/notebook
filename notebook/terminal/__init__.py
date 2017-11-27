@@ -3,8 +3,8 @@ import os
 import terminado
 from ..utils import check_version
 
-if not check_version(terminado.__version__, '0.3.3'):
-    raise ImportError("terminado >= 0.3.3 required, found %s" % terminado.__version__)
+if not check_version(terminado.__version__, '0.8.0'):
+    raise ImportError("terminado >= 0.8.0 required, found %s" % terminado.__version__)
 
 from ipython_genutils.py3compat import which
 from terminado import NamedTermManager
@@ -18,7 +18,7 @@ def initialize(webapp, notebook_dir, connection_url, settings):
     if not default_shell and os.name == 'nt':
         default_shell = 'cmd.exe'
     shell = settings.get('shell_command',
-        [os.environ.get('SHELL', default_shell)]
+        [os.environ.get('SHELL') or default_shell]
     )
     terminal_manager = webapp.settings['terminal_manager'] = NamedTermManager(
         shell_command=shell,
