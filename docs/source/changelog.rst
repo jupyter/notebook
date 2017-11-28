@@ -21,6 +21,15 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
     ``pip --version``.
 
 
+.. _release-5.2.2:
+
+5.2.2
+-----
+
+- set cookie on base_urls (:ghpull:`2959`). 
+
+Thanks to Min RK (`minrk <https://github.com/minrk>`__).
+
 .. _release-5.2.1:
 
 5.2.1
