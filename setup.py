@@ -153,7 +153,7 @@ install_requires = [
     'nbconvert',
     'ipykernel', # bless IPython kernel for now
     'Send2Trash',
-    'terminado>=0.8.0; os.name=="posix" or (os_name=="nt" and python_version>="3.5")'
+    'terminado>=0.8.0'
 ]
 extras_require = {
     'test:python_version == "2.7"': ['mock'],
