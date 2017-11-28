@@ -73,7 +73,7 @@ define(function(){
     // tree
     jglobal('SessionList','tree/js/sessionlist');
 
-    Jupyter.version = "5.2.2";
+    Jupyter.version = "5.3.0.dev";
     Jupyter._target = '_blank';
     return Jupyter;
 });
