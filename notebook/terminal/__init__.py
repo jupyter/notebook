@@ -16,7 +16,7 @@ from . import api_handlers
 def initialize(webapp, notebook_dir, connection_url, settings):
     default_shell = which('sh')
     if not default_shell and os.name == 'nt':
-        default_shell = 'cmd.exe'
+        default_shell = 'powershell.exe'
     shell = settings.get('shell_command',
         [os.environ.get('SHELL') or default_shell]
     )
