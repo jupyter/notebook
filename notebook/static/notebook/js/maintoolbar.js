@@ -7,7 +7,7 @@ define([
     './toolbar',
     './celltoolbar',
     'base/js/i18n'
-], function($, require, toolbar, celltoolbar, i18n) {
+], function($, requirejs, toolbar, celltoolbar, i18n) {
     "use strict";
 
     var MainToolBar = function (selector, options) {

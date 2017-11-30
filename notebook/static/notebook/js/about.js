@@ -1,6 +1,6 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
-require([
+requirejs([
     'jquery',
     'base/js/dialog',
     'base/js/i18n',

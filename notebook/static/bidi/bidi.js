@@ -15,7 +15,7 @@ define(['bidi/numericshaping'], function(numericshaping) {
       document.body.dir = 'rtl';
     }
 
-    require(['moment'], function (moment) {
+    requirejs(['moment'], function (moment) {
       console.log('Loaded moment locale', moment.locale(_uiLang()));
     });
 
