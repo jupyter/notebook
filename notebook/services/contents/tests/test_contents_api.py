@@ -515,10 +515,10 @@ class APITest(NotebookTestBase):
 
     def test_delete_dirs(self):
         # depth-first delete everything, so we don't try to delete empty directories
-        directories = sorted(self.dirs + ['/', key=len, reverse=True])
+        directories = sorted(self.dirs + ['/'], key=len, reverse=True)
         # Since directories that are not empty can be deleted, remove subdirectories from the list of 
         # directories to be deleted
-        directories = set([d.split('/')[0] for d in directories])
+        directories = list(set([d.split('/')[0] for d in directories]))
         for name in directories:
             listing = self.api.list(name).json()['content']
             for model in listing:
