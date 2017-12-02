@@ -24,6 +24,7 @@ _accept_lang_re = re.compile(r'''
   (?P<qvalue>[01](.\d+)?)
 )?''', re.VERBOSE)
 
+
 def parse_accept_lang_header(accept_lang):
     """Parses the 'Accept-Language' HTTP header.
 
@@ -51,6 +52,7 @@ def parse_accept_lang_header(accept_lang):
         res.extend(sorted(langs))
     return res
 
+
 def load(language, domain='nbjs'):
     """Load translations from an nbjs.json file"""
     try:
@@ -65,8 +67,9 @@ def load(language, domain='nbjs'):
         data = json.load(f)
     return data["locale_data"][domain]
 
+
 def cached_load(language, domain='nbjs'):
-    """Load translations for one language, using in-memory cache if available"""
+    # Load translations for one language, using in-memory cache if available
     domain_cache = TRANSLATIONS_CACHE[domain]
     try:
         return domain_cache[language]
@@ -74,6 +77,7 @@ def cached_load(language, domain='nbjs'):
         data = load(language, domain)
         domain_cache[language] = data
         return data
+
 
 def combine_translations(accept_language, domain='nbjs'):
     """Combine translations for multiple accepted languages.
@@ -89,7 +93,7 @@ def combine_translations(accept_language, domain='nbjs'):
         else:
             combined.update(cached_load(language, domain))
 
-    combined[''] = {"domain":"nbjs"}
+    combined[''] = {"domain": "nbjs"}
 
     return {
         "domain": domain,

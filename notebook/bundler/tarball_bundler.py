@@ -5,6 +5,7 @@ import io
 import tarfile
 import nbformat
 
+
 def _jupyter_bundlerextension_paths():
     """Metadata for notebook bundlerextension"""
     return [{
@@ -13,14 +14,15 @@ def _jupyter_bundlerextension_paths():
         # module containing bundle function
         "module_name": "notebook.bundler.tarball_bundler",
         # human-redable menu item label
-        "label" : "Notebook Tarball (tar.gz)",
+        "label": "Notebook Tarball (tar.gz)",
         # group under 'deploy' or 'download' menu
-        "group" : "download",
+        "group": "download",
     }]
+
 
 def bundle(handler, model):
     """Create a compressed tarball containing the notebook document.
-    
+
     Parameters
     ----------
     handler : tornado.web.RequestHandler
@@ -32,7 +34,7 @@ def bundle(handler, model):
     notebook_content = nbformat.writes(model['content']).encode('utf-8')
     notebook_name = os.path.splitext(notebook_filename)[0]
     tar_filename = '{}.tar.gz'.format(notebook_name)
-    
+
     info = tarfile.TarInfo(notebook_filename)
     info.size = len(notebook_content)
 

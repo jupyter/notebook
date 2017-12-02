@@ -9,6 +9,7 @@ import nbformat
 import fnmatch
 import glob
 
+
 def get_file_references(abs_nb_path, version):
     """Gets a list of files referenced either in Markdown fenced code blocks
     or in HTML comments from the notebook. Expands patterns expressed in
@@ -30,6 +31,7 @@ def get_file_references(abs_nb_path, version):
     ref_patterns = get_reference_patterns(abs_nb_path, version)
     expanded = expand_references(os.path.dirname(abs_nb_path), ref_patterns)
     return expanded
+
 
 def get_reference_patterns(abs_nb_path, version):
     """Gets a list of reference patterns either in Markdown fenced code blocks
@@ -54,6 +56,7 @@ def get_reference_patterns(abs_nb_path, version):
         if references:
             referenced_list = referenced_list + references
     return referenced_list
+
 
 def get_cell_reference_patterns(cell):
     '''
@@ -85,8 +88,12 @@ def get_cell_reference_patterns(cell):
         Reference patterns found in the cell
     '''
     referenced = []
+    is_markdown_cell = cell.get('cell_type').startswith('markdown')
+    is_associate_source = cell.get('source').startswith('<!--associate:')
+    is_inline_code_source = cell.get('source').find('```') >= 0
+
     # invisible after execution: unrendered HTML comment
-    if cell.get('cell_type').startswith('markdown') and cell.get('source').startswith('<!--associate:'):
+    if is_markdown_cell and is_associate_source:
         lines = cell.get('source')[len('<!--associate:'):].splitlines()
         for line in lines:
             if line.startswith('-->'):
@@ -96,7 +103,7 @@ def get_cell_reference_patterns(cell):
             if line.find('../') < 0 and not line.startswith('#'):
                 referenced.append(line)
     # visible after execution: rendered as a code element within a pre element
-    elif cell.get('cell_type').startswith('markdown') and cell.get('source').find('```') >= 0:
+    elif is_markdown_cell and is_inline_code_source:
         source = cell.get('source')
         offset = source.find('```')
         lines = source[offset + len('```'):].splitlines()
@@ -110,6 +117,7 @@ def get_cell_reference_patterns(cell):
 
     # Clean out blank references
     return [ref for ref in referenced if ref.strip()]
+
 
 def expand_references(root_path, references):
     """Expands a set of reference patterns by evaluating them against the
@@ -198,6 +206,7 @@ def expand_references(root_path, references):
             pass
     return set(globbed)
 
+
 def copy_filelist(src, dst, src_relative_filenames):
     """Copies the given list of files, relative to src, into dst, creating
     directories along the way as needed and ignore existence errors.
@@ -227,4 +236,7 @@ def copy_filelist(src, dst, src_relative_filenames):
                         pass
                     else:
                         raise exc
-            shutil.copy2(os.path.join(src, filename), os.path.join(dst, filename))
+
+            filepath = os.path.join(src, filename)
+            dst_path = os.path.join(dst, filename)
+            shutil.copy2(filepath, dst_path)
