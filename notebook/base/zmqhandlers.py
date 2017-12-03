@@ -4,16 +4,14 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-import os
 import json
 import struct
-import warnings
 import sys
 
 try:
-    from urllib.parse import urlparse # Py 3
+    from urllib.parse import urlparse  # Py 3
 except ImportError:
-    from urlparse import urlparse # Py 2
+    from urlparse import urlparse  # Py 2
 
 import tornado
 from tornado import gen, ioloop, web
@@ -24,6 +22,7 @@ from jupyter_client.jsonutil import date_default, extract_dates
 from ipython_genutils.py3compat import cast_unicode
 
 from .handlers import IPythonHandler
+
 
 def serialize_binary_message(msg):
     """serialize a message as a binary blob
@@ -73,7 +72,7 @@ def deserialize_binary_message(bmsg):
     message dictionary
     """
     nbufs = struct.unpack('!i', bmsg[:4])[0]
-    offsets = list(struct.unpack('!' + 'I' * nbufs, bmsg[4:4*(nbufs+1)]))
+    offsets = list(struct.unpack('!' + 'I' * nbufs, bmsg[4:4 * (nbufs + 1)]))
     offsets.append(None)
     bufs = []
     for start, stop in zip(offsets[:-1], offsets[1:]):
@@ -83,6 +82,7 @@ def deserialize_binary_message(bmsg):
     msg['parent_header'] = extract_dates(msg['parent_header'])
     msg['buffers'] = bufs[1:]
     return msg
+
 
 # ping interval for keeping websockets alive (30 seconds)
 WS_PING_INTERVAL = 30000
@@ -94,50 +94,54 @@ class WebSocketMixin(object):
     last_ping = 0
     last_pong = 0
     stream = None
-    
+
     @property
     def ping_interval(self):
         """The interval for websocket keep-alive pings.
-        
+
         Set ws_ping_interval = 0 to disable pings.
         """
         return self.settings.get('ws_ping_interval', WS_PING_INTERVAL)
-    
+
     @property
     def ping_timeout(self):
         """If no ping is received in this many milliseconds,
-        close the websocket connection (VPNs, etc. can fail to cleanly close ws connections).
+        close the websocket connection (VPNs, etc. can fail to
+        cleanly close ws connections).
         Default is max of 3 pings or 30 seconds.
         """
         return self.settings.get('ws_ping_timeout',
-            max(3 * self.ping_interval, WS_PING_INTERVAL)
-        )
+                                 max(3 * self.ping_interval, WS_PING_INTERVAL)
+                                 )
 
     def check_origin(self, origin=None):
         """Check Origin == Host or Access-Control-Allow-Origin.
-        
-        Tornado >= 4 calls this method automatically, raising 403 if it returns False.
+
+        Tornado >= 4 calls this method automatically, raising 403 if
+        it returns False.
         """
 
-        if self.allow_origin == '*' or (
-            hasattr(self, 'skip_check_origin') and self.skip_check_origin()):
+        has_check_origin_attr = hasattr(self, 'skip_check_origin')
+        skip_check = has_check_origin_attr and self.skip_check_origin()
+
+        if self.allow_origin == '*' or skip_check:
             return True
 
         host = self.request.headers.get("Host")
         if origin is None:
             origin = self.get_origin()
-        
+
         # If no origin or host header is provided, assume from script
         if origin is None or host is None:
             return True
-        
+
         origin = origin.lower()
         origin_host = urlparse(origin).netloc
-        
+
         # OK if origin matches host
         if origin_host == host:
             return True
-        
+
         # Check CORS headers
         if self.allow_origin:
             allow = self.allow_origin == origin
@@ -147,9 +151,8 @@ class WebSocketMixin(object):
             # No CORS headers deny the request
             allow = False
         if not allow:
-            self.log.warning("Blocking Cross Origin WebSocket Attempt.  Origin: %s, Host: %s",
-                origin, host,
-            )
+            msg = "Blocking Cross Origin WebSocket Attempt. Origin: %s, Host: %s"
+            self.log.warning(msg, origin, host,)
         return allow
 
     def clear_cookie(self, *args, **kwargs):
@@ -176,13 +179,21 @@ class WebSocketMixin(object):
             self.ping_callback.stop()
             return
 
-        # check for timeout on pong.  Make sure that we really have sent a recent ping in
-        # case the machine with both server and client has been suspended since the last ping.
+        """ check for timeout on pong.
+        Make sure that we really have sent a recent ping in
+        case the machine with both server and client has been
+        suspended since the last ping.
+        """
         now = ioloop.IOLoop.current().time()
         since_last_pong = 1e3 * (now - self.last_pong)
         since_last_ping = 1e3 * (now - self.last_ping)
-        if since_last_ping < 2*self.ping_interval and since_last_pong > self.ping_timeout:
-            self.log.warning("WebSocket ping timeout after %i ms.", since_last_pong)
+
+        is_interval_exceeded = since_last_ping < 2 * self.ping_interval
+        is_timedout = since_last_pong > self.ping_timeout
+
+        if is_interval_exceeded and is_timedout:
+            msg = "WebSocket ping timeout after %i ms."
+            self.log.warning(msg, since_last_pong)
             self.close()
             return
 
@@ -194,9 +205,9 @@ class WebSocketMixin(object):
 
 
 class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
-    
-    if tornado.version_info < (4,1):
+    if tornado.version_info < (4, 1):
         """Backport send_error from tornado 4.1 to 4.0"""
+
         def send_error(self, *args, **kwargs):
             if self.stream is None:
                 super(WebSocketHandler, self).send_error(*args, **kwargs)
@@ -207,17 +218,19 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
                 # we can close the connection more gracefully.
                 self.stream.close()
 
-    
     def _reserialize_reply(self, msg_or_list, channel=None):
         """Reserialize a reply message using JSON.
 
-        msg_or_list can be an already-deserialized msg dict or the zmq buffer list.
+        msg_or_list can be an already-deserialized msg dict
+        or the zmq buffer list.
         If it is the zmq list, it will be deserialized with self.session.
-        
-        This takes the msg list from the ZMQ socket and serializes the result for the websocket.
-        This method should be used by self._on_zmq_reply to build messages that can
+
+        This takes the msg list from the ZMQ socket and serializes
+        the result for the websocket.
+        This method should be used by self._on_zmq_reply to
+        build messages that can
         be sent back to the browser.
-        
+
         """
         if isinstance(msg_or_list, dict):
             # already unpacked
@@ -235,8 +248,8 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
             return cast_unicode(smsg)
 
     def _on_zmq_reply(self, stream, msg_list):
-        # Sometimes this gets triggered when the on_close method is scheduled in the
-        # eventloop but hasn't been called.
+        # Sometimes this gets triggered when the on_close method
+        # is scheduled in the eventloop but hasn't been called.
         if self.stream.closed() or stream.closed():
             self.log.warning("zmq message arrived on closed channel")
             self.close()
@@ -245,23 +258,24 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
         try:
             msg = self._reserialize_reply(msg_list, channel=channel)
         except Exception:
-            self.log.critical("Malformed message: %r" % msg_list, exc_info=True)
+            msg = "Malformed message: %r"
+            self.log.critical(msg % msg_list, exc_info=True)
         else:
             self.write_message(msg, binary=isinstance(msg, bytes))
 
 
 class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
-    
+
     def set_default_headers(self):
         """Undo the set_default_headers in IPythonHandler
-        
+
         which doesn't make sense for websockets
         """
         pass
-    
+
     def pre_get(self):
         """Run before finishing the GET request
-        
+
         Extend this method to add logic that should fire before
         the websocket finishes completing.
         """
@@ -269,12 +283,12 @@ class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
         if self.get_current_user() is None:
             self.log.warning("Couldn't authenticate WebSocket connection")
             raise web.HTTPError(403)
-        
+
         if self.get_argument('session_id', False):
             self.session.session = cast_unicode(self.get_argument('session_id'))
         else:
             self.log.warning("No session ID specified")
-    
+
     @gen.coroutine
     def get(self, *args, **kwargs):
         # pre_get can be a coroutine in subclasses
@@ -282,9 +296,10 @@ class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
         res = self.pre_get()
         yield gen.maybe_future(res)
         super(AuthenticatedZMQStreamHandler, self).get(*args, **kwargs)
-    
+
     def initialize(self):
-        self.log.debug("Initializing websocket connection %s", self.request.path)
+        msg = "Initializing websocket connection %s"
+        self.log.debug(msg, self.request.path)
         self.session = Session(config=self.config)
 
     def get_compression_options(self):
