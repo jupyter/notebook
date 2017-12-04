@@ -508,9 +508,14 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                 # considered empty.
                 cp_dir = getattr(self.checkpoints, 'checkpoint_dir', None)
                 for entry in listing:
+<<<<<<< HEAD
                     send2trash(os_path + '/' + entry)
                     # if entry != cp_dir:
                     #     raise web.HTTPError(400, u'Directory %s not empty' % os_path)
+=======
+                    if entry != cp_dir:
+                        raise web.HTTPError(400, u'Directory %s not empty' % os_path)
+>>>>>>> edcb038ec141a265bb2cf461765e32e4d30ca3c6
 
         if os.path.isdir(os_path):
             self.log.debug("Removing directory %s", os_path)
