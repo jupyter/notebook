@@ -500,6 +500,17 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             # code. So for now, just let them all get logged as server errors.
             send2trash(os_path)
             return
+        else:
+            if os.path.isdir(os_path):
+                listing = os.listdir(os_path)
+                # Don't delete non-empty directories.
+                # A directory containing only leftover checkpoints is
+                # considered empty.
+                cp_dir = getattr(self.checkpoints, 'checkpoint_dir', None)
+                for entry in listing:
+                    send2trash(os_path + '/' + entry)
+                    # if entry != cp_dir:
+                    #     raise web.HTTPError(400, u'Directory %s not empty' % os_path)
 
         if os.path.isdir(os_path):
             self.log.debug("Removing directory %s", os_path)
@@ -509,40 +520,6 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             self.log.debug("Unlinking file %s", os_path)
             with self.perm_to_403():
                 rm(os_path)
-
-    # def delete_file(self, path):
-    #     """Delete file at path."""
-    #     path = path.strip('/')
-    #     os_path = self._get_os_path(path)
-    #     rm = os.unlink
-    #     if os.path.isdir(os_path):
-    #         listing = os.listdir(os_path)
-    #         # Don't delete non-empty directories.
-    #         # A directory containing only leftover checkpoints is
-    #         # considered empty.
-    #         cp_dir = getattr(self.checkpoints, 'checkpoint_dir', None)
-    #         for entry in listing:
-    #             if entry != cp_dir:
-    #                 raise web.HTTPError(400, u'Directory %s not empty' % os_path)
-    #     elif not os.path.isfile(os_path):
-    #         raise web.HTTPError(404, u'File does not exist: %s' % os_path)
-
-    #     if self.delete_to_trash:
-    #         self.log.debug("Sending %s to trash", os_path)
-    #         # Looking at the code in send2trash, I don't think the errors it
-    #         # raises let us distinguish permission errors from other errors in
-    #         # code. So for now, just let them all get logged as server errors.
-    #         send2trash(os_path)
-    #         return
-
-    #     if os.path.isdir(os_path):
-    #         self.log.debug("Removing directory %s", os_path)
-    #         with self.perm_to_403():
-    #             shutil.rmtree(os_path)
-    #     else:
-    #         self.log.debug("Unlinking file %s", os_path)
-    #         with self.perm_to_403():
-    #             rm(os_path)
 
     def rename_file(self, old_path, new_path):
         """Rename a file."""
