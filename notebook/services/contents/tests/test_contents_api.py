@@ -518,7 +518,8 @@ class APITest(NotebookTestBase):
         for name in sorted(self.dirs + ['/'], key=len, reverse=True):
             listing = self.api.list(name).json()['content']
             for model in listing:
-                self.api.delete(model['path'])
+                if os.path.exists(model['path']):
+                    self.api.delete(model['path'])
         listing = self.api.list('/').json()['content']
         self.assertEqual(listing, [])
 
