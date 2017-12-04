@@ -495,13 +495,13 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         if self.delete_to_trash:
             if os.path.isdir(os_path):
                 listing = os.listdir(os_path)
-            # Don't send non-empty directories to trash.
-            # A directory containing only leftover checkpoints is
-            # considered empty.
-            cp_dir = getattr(self.checkpoints, 'checkpoint_dir', None)
-            for entry in listing:
-                if entry != cp_dir:
-                    raise web.HTTPError(400, u'Directory %s not empty' % os_path)
+                # Don't send non-empty directories to trash.
+                # A directory containing only leftover checkpoints is
+                # considered empty.
+                cp_dir = getattr(self.checkpoints, 'checkpoint_dir', None)
+                for entry in listing:
+                    if entry != cp_dir:
+                        raise web.HTTPError(400, u'Directory %s not empty' % os_path)
             self.log.debug("Sending %s to trash", os_path)
             # Looking at the code in send2trash, I don't think the errors it
             # raises let us distinguish permission errors from other errors in
