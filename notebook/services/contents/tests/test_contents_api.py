@@ -523,7 +523,7 @@ class APITest(NotebookTestBase):
         self.assertEqual(listing, [])
 
     def test_delete_non_empty_dir(self):
-        """delete non-empty dir raises 400"""
+        """permanentaly deleting non-empty dir raises 400"""
         with assert_http_error(400):
             shutil.rmtree((u'å b', ignore_errors=True)
             # self.api.delete(u'å b')
