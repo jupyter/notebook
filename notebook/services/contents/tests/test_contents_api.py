@@ -185,6 +185,8 @@ class APITest(NotebookTestBase):
         """Delete a directory at api_path, removing any contents."""
         os_path = self.to_os_path(api_path)
         shutil.rmtree(os_path, ignore_errors=True)
+        with assert_http_error(400):
+            shutil.rmtree(u'å b')
 
     def delete_file(self, api_path):
         """Delete a file at the given path if it exists."""
@@ -518,15 +520,13 @@ class APITest(NotebookTestBase):
         for name in sorted(self.dirs + ['/'], key=len, reverse=True):
             listing = self.api.list(name).json()['content']
             for model in listing:
-                if os.path.exists(model['path']):
-                    self.api.delete(model['path'])
+                self.api.delete(model['path'])
         listing = self.api.list('/').json()['content']
         self.assertEqual(listing, [])
 
     def test_delete_non_empty_dir(self):
-        """delete non-empty dir raises 400"""
-        with assert_http_error(400):
-            self.api.delete(u'å b')
+        """deleting non-empty dir is allowed"""
+        self.api.delete(u'å b')
 
     def test_rename(self):
         resp = self.api.rename('foo/a.ipynb', 'foo/z.ipynb')
