@@ -524,10 +524,6 @@ class APITest(NotebookTestBase):
         listing = self.api.list('/').json()['content']
         self.assertEqual(listing, [])
 
-    def test_delete_non_empty_dir(self):
-        """deleting non-empty dir is allowed"""
-        self.api.delete(u'å b')
-
     def test_rename(self):
         resp = self.api.rename('foo/a.ipynb', 'foo/z.ipynb')
         self.assertEqual(resp.headers['Location'].split('/')[-1], 'z.ipynb')
