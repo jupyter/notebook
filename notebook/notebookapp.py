@@ -1328,8 +1328,7 @@ class NotebookApp(JupyterApp):
             initialize(self.web_app, self.notebook_dir, self.connection_url, self.terminado_settings)
             self.web_app.settings['terminals_available'] = True
         except ImportError as e:
-            log = self.log.debug if sys.platform == 'win32' else self.log.warning
-            log(_("Terminals not available (error was %s)"), e)
+            self.log.warning(_("Terminals not available (error was %s)"), e)
 
     def init_signal(self):
         if not sys.platform.startswith('win') and sys.stdin and sys.stdin.isatty():

@@ -34,10 +34,18 @@ function load_json(clipboard) {
   return JSON.parse(s.slice(pix + jcbprefix.length, six));
 }
 
+function isProgrammaticCopy(event) {
+  return (typeof(event.target.selectionStart) !== 'undefined'
+    && typeof(event.target.selectionEnd) !== 'undefined'
+    && ((event.target.selectionEnd - event.target.selectionStart) > 0));
+}
+
 function copy(event) {
   if ((Jupyter.notebook.mode !== 'command') ||
         // window.getSelection checks if text is selected, e.g. in output
-        !window.getSelection().isCollapsed) {
+        !window.getSelection().isCollapsed ||
+        // Allow programmatic copy
+        isProgrammaticCopy(event)) {
     return;
   }
   var selecn = Jupyter.notebook.get_selected_cells().map(
