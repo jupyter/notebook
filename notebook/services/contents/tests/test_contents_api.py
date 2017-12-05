@@ -525,8 +525,9 @@ class APITest(NotebookTestBase):
     def test_delete_non_empty_dir(self):
         # Test that non empty directory can be deleted
         self.api.delete(u'å b')
-        # Assertion will pass only if self.api.delete does not throw and error
-        assert True
+        # Check if directory has actually been deleted
+        with assert_http_error(404):
+            self.api.list(u'å b')
 
     def test_rename(self):
         resp = self.api.rename('foo/a.ipynb', 'foo/z.ipynb')
