@@ -185,8 +185,6 @@ class APITest(NotebookTestBase):
         """Delete a directory at api_path, removing any contents."""
         os_path = self.to_os_path(api_path)
         shutil.rmtree(os_path, ignore_errors=True)
-        with assert_http_error(400):
-            shutil.rmtree(u'å b')
 
     def delete_file(self, api_path):
         """Delete a file at the given path if it exists."""
