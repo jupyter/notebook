@@ -363,24 +363,26 @@ define([
         breadcrumb.empty();
         var url = '/tree';
         var list_item = $('<li/>');
-        var root = $('<li/>').append('<a><i class="fa fa-folder"></i></a>').css('cursor', 'pointer').click(function(e) {
+        var root = $('<li/>').append('<a href="/tree"><i class="fa fa-folder"></i></a>').click(function(e) {
             var path = '';
             window.history.pushState({
                 path: path
             }, 'Home', url);
             that.update_location(path);
+            return false;
         });
         breadcrumb.append(root);
         this.notebook_path.split('/').forEach(function(path) {
-            var crumb = $('<li/>').append('<a>' + path + '</a>').click(function(e) {
-                url = utils.url_path_join(
-                    url,
-                    utils.encode_uri_components(path)
-                );
+            url = utils.url_path_join(
+                url,
+                utils.encode_uri_components(path)
+            );
+            var crumb = $('<li/>').append('<a href="' + url + '">' + path + '</a>').click(function(e) {
                 window.history.pushState({
                     path: path
                 }, path, url);
                 that.update_location(path);
+                return false;
             });
             breadcrumb.append(crumb);
         });
@@ -801,8 +803,6 @@ define([
         if (model.type !== "directory") {
             link.attr('target', IPython._target);
         } else {
-            // Remove normal link
-            link.removeAttr('href').css('cursor', 'pointer');
             // Replace with a click handler that will use the History API to
             // push a new route without reloading the page
             link.click(function (e) {
@@ -813,6 +813,7 @@ define([
                     utils.encode_uri_components(model.path)
                 ));
                 that.update_location(model.path);
+                return false;
             });
         }
         
