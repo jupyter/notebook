@@ -16,7 +16,7 @@ from .extensions import (
 )
 from traitlets import Bool
 from traitlets.utils.importstring import import_item
-from notebook.manager import BaseJSONConfigManager
+from notebook.config_manager import BaseJSONConfigManager
 
 
 # ------------------------------------------------------------------------------

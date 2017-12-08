@@ -18,7 +18,7 @@ from ipython_genutils import py3compat
 from traitlets.tests.utils import check_help_all_output
 
 import notebook.nbextensions as nbextensions
-from notebook.manager import BaseJSONConfigManager
+from notebook.config_manager import BaseJSONConfigManager
 from ..bundlerextensions import (_get_config_dir, enable_bundler_python, 
     disable_bundler_python)
 

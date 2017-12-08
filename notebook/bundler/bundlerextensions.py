@@ -5,7 +5,7 @@ import os
 
 from ..extensions import BaseExtensionApp, _get_config_dir, GREEN_ENABLED, RED_DISABLED
 from .._version import __version__
-from notebook.manager import BaseJSONConfigManager
+from notebook.config_manager import BaseJSONConfigManager
 
 from jupyter_core.paths import jupyter_config_path
 

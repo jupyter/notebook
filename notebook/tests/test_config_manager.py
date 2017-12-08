@@ -3,7 +3,7 @@ import os
 import shutil
 import tempfile
 
-from notebook.manager import BaseJSONConfigManager
+from notebook.config_manager import BaseJSONConfigManager
 
 
 def test_json():
