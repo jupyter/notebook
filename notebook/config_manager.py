@@ -72,6 +72,7 @@ class BaseJSONConfigManager(LoggingConfigurable):
             # put a json file somewhere in the a .d directory, while the 
             # .json file is probably a user configuration.
             paths = sorted(glob.glob(pattern)) + paths
+        self.log.debug('Paths used for configuration of %s: \n\t%s', section_name, '\n\t'.join(paths))
         data = {}
         for path in paths:
             if os.path.isfile(path):
