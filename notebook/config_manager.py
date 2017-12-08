@@ -47,6 +47,7 @@ class BaseJSONConfigManager(LoggingConfigurable):
     read_directory = Bool(True)
 
     def ensure_config_dir_exists(self):
+        """Will try to create the config_dir directory."""
         try:
             os.makedirs(self.config_dir, 0o755)
         except OSError as e:
@@ -54,9 +55,11 @@ class BaseJSONConfigManager(LoggingConfigurable):
                 raise
 
     def file_name(self, section_name):
+        """Returns the json filename for the section_name: {config_dir}/{section_name}.json"""
         return os.path.join(self.config_dir, section_name+'.json')
 
     def directory(self, section_name):
+        """Returns the directory name for the section name: {config_dir}/{section_name}.d"""
         return os.path.join(self.config_dir, section_name+'.d')
 
     def get(self, section_name):
