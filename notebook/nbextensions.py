@@ -29,7 +29,7 @@ from ipython_genutils.py3compat import string_types, cast_unicode_py2
 from ipython_genutils.tempdir import TemporaryDirectory
 from ._version import __version__
 
-from traitlets.config.manager import BaseJSONConfigManager
+from notebook.manager import BaseJSONConfigManager
 from traitlets.utils.importstring import import_item
 
 DEPRECATED_ARGUMENT = object()
