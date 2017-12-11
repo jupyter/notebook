@@ -157,6 +157,11 @@ define([
           } else {
               display_text = humanize_action_id(action_id);
           }
+
+          var help = null;
+          if (action.help) {
+              help = i18n.msg._(action.help);
+          }
           
           src[group].data.push({
             display: display_text,
@@ -164,7 +169,7 @@ define([
             mode_shortcut: get_mode_for_action_id(action_id, notebook),
             group: group,
             icon: action.icon,
-            help: i18n.msg._(action.help),
+            help: help,
             key: action_id,
           });
         }
