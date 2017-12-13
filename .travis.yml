@@ -43,6 +43,11 @@ before_install:
 
 install:
     - pip install -f travis-wheels/wheelhouse file://$PWD#egg=notebook[test]
+    - |
+    if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      # Work around https://github.com/ipython/ipykernel/issues/288
+      pip install ipykernel==4.6.1
+    fi
     - wget https://github.com/jgm/pandoc/releases/download/1.19.1/pandoc-1.19.1-1-amd64.deb && sudo dpkg -i pandoc-1.19.1-1-amd64.deb
 
 
