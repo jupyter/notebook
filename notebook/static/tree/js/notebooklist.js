@@ -361,23 +361,25 @@ define([
         };
         var breadcrumb = $('.breadcrumb');
         breadcrumb.empty();
-        var url = '/tree';
         var list_item = $('<li/>');
         var root = $('<li/>').append('<a href="/tree"><i class="fa fa-folder"></i></a>').click(function(e) {
             var path = '';
             window.history.pushState({
                 path: path
-            }, 'Home', url);
+            }, 'Home', '/tree');
             that.update_location(path);
             return false;
         });
         breadcrumb.append(root);
-        this.notebook_path.split('/').forEach(function(path) {
-            url = utils.url_path_join(
-                url,
+        var path_parts = [];
+        this.notebook_path.split('/').forEach(function(path_part) {
+            path_parts.push(path_part)
+            var path = path_parts.join('/')
+            var url = utils.url_path_join(
+                '/tree',
                 utils.encode_uri_components(path)
             );
-            var crumb = $('<li/>').append('<a href="' + url + '">' + path + '</a>').click(function(e) {
+            var crumb = $('<li/>').append('<a href="' + url + '">' + path_part + '</a>').click(function(e) {
                 window.history.pushState({
                     path: path
                 }, path, url);
