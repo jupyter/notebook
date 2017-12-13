@@ -354,12 +354,53 @@ define([
 
     NotebookList.prototype.load_list = function () {
         var that = this;
+        // Add an event handler browser back and forward events
+        window.onpopstate = function(e) {
+            var path = window.history.state ? window.history.state.path : '';
+            that.update_location(path);
+        };
+        var breadcrumb = $('.breadcrumb');
+        breadcrumb.empty();
+        var list_item = $('<li/>');
+        var root = $('<li/>').append('<a href="/tree"><i class="fa fa-folder"></i></a>').click(function(e) {
+            var path = '';
+            window.history.pushState({
+                path: path
+            }, 'Home', utils.url_path_join(that.base_url, 'tree'));
+            that.update_location(path);
+            return false;
+        });
+        breadcrumb.append(root);
+        var path_parts = [];
+        this.notebook_path.split('/').forEach(function(path_part) {
+            path_parts.push(path_part)
+            var path = path_parts.join('/')
+            var url = utils.url_path_join(
+                that.base_url,
+                '/tree',
+                utils.encode_uri_components(path)
+            );
+            var crumb = $('<li/>').append('<a href="' + url + '">' + path_part + '</a>').click(function(e) {
+                window.history.pushState({
+                    path: path
+                }, path, url);
+                that.update_location(path);
+                return false;
+            });
+            breadcrumb.append(crumb);
+        });
         this.contents.list_contents(that.notebook_path).then(
             $.proxy(this.draw_notebook_list, this),
             function(error) {
                 that.draw_notebook_list({content: []}, i18n.msg._("Server error: ") + error.message);
             }
         );
+    };
+    
+    NotebookList.prototype.update_location = function (path) {
+        this.notebook_path = path;
+        // Update the file tree list without reloading the page
+        this.load_list();
     };
 
     /**
@@ -723,6 +764,7 @@ define([
     };
 
     NotebookList.prototype.add_link = function (model, item) {
+        var that = this;
         var running = (model.type === 'notebook' && this.sessions[model.path] !== undefined);
         item.data('name',model.name);
         item.data('path', model.path);
@@ -762,7 +804,21 @@ define([
         // directory nav doesn't open new tabs
         // files, notebooks do
         if (model.type !== "directory") {
-            link.attr('target',IPython._target);
+            link.attr('target', IPython._target);
+        } else {
+            // Replace with a click handler that will use the History API to
+            // push a new route without reloading the page
+            link.click(function (e) {
+                window.history.pushState({
+                    path: model.path
+                }, model.path, utils.url_path_join(
+                    that.base_url,
+                    'tree',
+                    utils.encode_uri_components(model.path)
+                ));
+                that.update_location(model.path);
+                return false;
+            });
         }
         
         // Add in the date that the file was last modified
