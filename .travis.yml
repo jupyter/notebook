@@ -4,6 +4,7 @@ language: python
 cache:
     directories:
         - $HOME/.cache/bower
+        - $HOME/.cache/pip
 python:
     - 3.6
     - 2.7
