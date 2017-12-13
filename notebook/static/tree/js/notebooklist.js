@@ -366,7 +366,7 @@ define([
             var path = '';
             window.history.pushState({
                 path: path
-            }, 'Home', '/tree');
+            }, 'Home', utils.url_path_join(that.base_url, 'tree'));
             that.update_location(path);
             return false;
         });
@@ -376,6 +376,7 @@ define([
             path_parts.push(path_part)
             var path = path_parts.join('/')
             var url = utils.url_path_join(
+                that.base_url,
                 '/tree',
                 utils.encode_uri_components(path)
             );
@@ -811,7 +812,8 @@ define([
                 window.history.pushState({
                     path: model.path
                 }, model.path, utils.url_path_join(
-                    '/tree',
+                    that.base_url,
+                    'tree',
                     utils.encode_uri_components(model.path)
                 ));
                 that.update_location(model.path);
