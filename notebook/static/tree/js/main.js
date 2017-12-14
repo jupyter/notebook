@@ -20,7 +20,7 @@ var bind = function bind(obj) {
 Function.prototype.bind = Function.prototype.bind || bind ;
 
 
-require([
+requirejs([
     'jquery',
     'contents',
     'base/js/namespace',

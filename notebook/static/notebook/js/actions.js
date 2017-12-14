@@ -36,8 +36,8 @@ define([
         Object.seal(this);
     };
 
-    var $ = require('jquery');
-    var events =  require('base/js/events');
+    var $ = requirejs('jquery');
+    var events =  requirejs('base/js/events');
 
     /**
      *  A bunch of predefined `Simple Actions` used by Jupyter.

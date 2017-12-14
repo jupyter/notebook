@@ -61,7 +61,7 @@
  *        'base/js/events'
  *    ], function(events) {
  *        events.on('app_initialized.DashboardApp', function(){
- *            require(['custom/unofficial_extension.js'])
+ *            requirejs(['custom/unofficial_extension.js'])
  *        });
  *    });
  *

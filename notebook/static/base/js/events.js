@@ -5,7 +5,7 @@
 // before all other objects so it exists when others register event handlers.
 // To register an event handler:
 //
-// require(['base/js/events'], function (events) {
+// requirejs(['base/js/events'], function (events) {
 //     events.on("event.Namespace", function () { do_stuff(); });
 // });
 
