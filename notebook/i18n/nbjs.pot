@@ -898,6 +898,14 @@ msgstr ""
 msgid "Do you want to restart the current kernel?  All variables will be lost."
 msgstr ""
 
+#: notebook/static/notebook/js/notebook.js:2320
+msgid "Shutdown kernel?"
+msgstr ""
+
+#: notebook/static/notebook/js/notebook.js:2322
+msgid "Do you want to shutdown the current kernel?  All variables will be lost."
+msgstr ""
+
 #: notebook/static/notebook/js/notebook.js:2734
 msgid "Notebook changed"
 msgstr ""

@@ -605,6 +605,7 @@ msgstr "下载"
 msgid "Shutdown selected notebook(s)"
 msgstr "停止运行选择的notebook(s)"
 
+#: notebook/templates/notebook.html:278
 #: notebook/templates/tree.html:39
 msgid "Shutdown"
 msgstr "关闭"

@@ -2319,7 +2319,7 @@ define([
         shutdown_options.dialog = {
             title : "Shutdown kernel?",
             body : $("<p/>").text(
-                'Do you want to shutdown the current kernel?  All variables will be lost.'
+                i18n.msg._('Do you want to shutdown the current kernel?  All variables will be lost.')
             ),
             buttons : {
                 "Shutdown" : {
