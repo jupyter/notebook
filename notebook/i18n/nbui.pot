@@ -605,6 +605,7 @@ msgstr ""
 msgid "Shutdown selected notebook(s)"
 msgstr ""
 
+#: notebook/templates/notebook.html:278
 #: notebook/templates/tree.html:39
 msgid "Shutdown"
 msgstr ""
