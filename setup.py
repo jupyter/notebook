@@ -148,7 +148,7 @@ install_requires = [
     'ipython_genutils',
     'traitlets>=4.2.1',
     'jupyter_core>=4.4.0',
-    'jupyter_client',
+    'jupyter_client>=5.2.0',
     'nbformat',
     'nbconvert',
     'ipykernel', # bless IPython kernel for now
