@@ -308,7 +308,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                     continue
 
                 try:
-                    st = os.lstat(os_path)
+                    st = os.stat(os_path)
                 except OSError as e:
                     # skip over broken symlinks in listing
                     if e.errno == errno.ENOENT:
