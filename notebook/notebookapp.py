@@ -134,7 +134,6 @@ def random_ports(port, n):
 
 def load_handlers(name):
     """Load the (URL pattern, handler) tuples for each component."""
-    name = 'notebook.' + name
     mod = __import__(name, fromlist=['default_handlers'])
     return mod.default_handlers
 
@@ -146,21 +145,22 @@ class NotebookWebApplication(web.Application):
 
     def __init__(self, jupyter_app, kernel_manager, contents_manager,
                  session_manager, kernel_spec_manager,
-                 config_manager, log,
+                 config_manager, extra_services, log,
                  base_url, default_url, settings_overrides, jinja_env_options):
 
 
         settings = self.init_settings(
             jupyter_app, kernel_manager, contents_manager,
-            session_manager, kernel_spec_manager, config_manager, log,
-            base_url, default_url, settings_overrides, jinja_env_options)
+            session_manager, kernel_spec_manager, config_manager,
+            extra_services, log, base_url,
+            default_url, settings_overrides, jinja_env_options)
         handlers = self.init_handlers(settings)
 
         super(NotebookWebApplication, self).__init__(handlers, **settings)
 
     def init_settings(self, jupyter_app, kernel_manager, contents_manager,
                       session_manager, kernel_spec_manager,
-                      config_manager,
+                      config_manager, extra_services,
                       log, base_url, default_url, settings_overrides,
                       jinja_env_options=None):
 
@@ -259,6 +259,9 @@ class NotebookWebApplication(web.Application):
             kernel_spec_manager=kernel_spec_manager,
             config_manager=config_manager,
 
+            # handlers
+            extra_services=extra_services,
+
             # Jupyter stuff
             started=now,
             jinja_template_vars=jupyter_app.jinja_template_vars,
@@ -283,25 +286,28 @@ class NotebookWebApplication(web.Application):
 
         # Order matters. The first handler to match the URL will handle the request.
         handlers = []
-        handlers.extend(load_handlers('tree.handlers'))
+        # load extra services specified by users before default handlers
+        for service in settings['extra_services']:
+            handlers.extend(load_handlers(service))
+        handlers.extend(load_handlers('notebook.tree.handlers'))
         handlers.extend([(r"/login", settings['login_handler_class'])])
         handlers.extend([(r"/logout", settings['logout_handler_class'])])
-        handlers.extend(load_handlers('files.handlers'))
-        handlers.extend(load_handlers('view.handlers'))
-        handlers.extend(load_handlers('notebook.handlers'))
-        handlers.extend(load_handlers('nbconvert.handlers'))
-        handlers.extend(load_handlers('bundler.handlers'))
-        handlers.extend(load_handlers('kernelspecs.handlers'))
-        handlers.extend(load_handlers('edit.handlers'))
-        handlers.extend(load_handlers('services.api.handlers'))
-        handlers.extend(load_handlers('services.config.handlers'))
-        handlers.extend(load_handlers('services.kernels.handlers'))
-        handlers.extend(load_handlers('services.contents.handlers'))
-        handlers.extend(load_handlers('services.sessions.handlers'))
-        handlers.extend(load_handlers('services.nbconvert.handlers'))
-        handlers.extend(load_handlers('services.kernelspecs.handlers'))
-        handlers.extend(load_handlers('services.security.handlers'))
-        handlers.extend(load_handlers('services.shutdown'))
+        handlers.extend(load_handlers('notebook.files.handlers'))
+        handlers.extend(load_handlers('notebook.view.handlers'))
+        handlers.extend(load_handlers('notebook.notebook.handlers'))
+        handlers.extend(load_handlers('notebook.nbconvert.handlers'))
+        handlers.extend(load_handlers('notebook.bundler.handlers'))
+        handlers.extend(load_handlers('notebook.kernelspecs.handlers'))
+        handlers.extend(load_handlers('notebook.edit.handlers'))
+        handlers.extend(load_handlers('notebook.services.api.handlers'))
+        handlers.extend(load_handlers('notebook.services.config.handlers'))
+        handlers.extend(load_handlers('notebook.services.kernels.handlers'))
+        handlers.extend(load_handlers('notebook.services.contents.handlers'))
+        handlers.extend(load_handlers('notebook.services.sessions.handlers'))
+        handlers.extend(load_handlers('notebook.services.nbconvert.handlers'))
+        handlers.extend(load_handlers('notebook.services.kernelspecs.handlers'))
+        handlers.extend(load_handlers('notebook.services.security.handlers'))
+        handlers.extend(load_handlers('notebook.services.shutdown'))
         handlers.extend(settings['contents_manager'].get_extra_handlers())
 
         handlers.append(
@@ -317,7 +323,7 @@ class NotebookWebApplication(web.Application):
             })
         )
         # register base handlers last
-        handlers.extend(load_handlers('base.handlers'))
+        handlers.extend(load_handlers('notebook.base.handlers'))
         # set the URL that will be redirected from `/`
         handlers.append(
             (r'/?', RedirectWithParams, {
@@ -953,6 +959,10 @@ class NotebookApp(JupyterApp):
     extra_nbextensions_path = List(Unicode(), config=True,
         help=_("""extra paths to look for Javascript notebook extensions""")
     )
+
+    extra_services = List(Unicode(), config=True,
+        help=_("""handlers that should be loaded at higher priority than the default services""")
+    )
     
     @property
     def nbextensions_path(self):
@@ -1255,7 +1265,7 @@ class NotebookApp(JupyterApp):
         self.web_app = NotebookWebApplication(
             self, self.kernel_manager, self.contents_manager,
             self.session_manager, self.kernel_spec_manager,
-            self.config_manager,
+            self.config_manager, self.extra_services,
             self.log, self.base_url, self.default_url, self.tornado_settings,
             self.jinja_environment_options
         )
