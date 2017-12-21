@@ -954,7 +954,7 @@ define([
          **/
 
         if(typeof(name_or_data) === 'string'){
-            warn_bad_name(name);
+            warn_bad_name(name_or_data);
             if(this.exists(name_or_data)){
                 return name_or_data;
             } else {
