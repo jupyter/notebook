@@ -74,7 +74,21 @@ define([
         if (!(e && e.target && e.target.tagName)) {
             $('div#site').height($(window).height() - $('#header').height());
         }
+        this._align_header_site();
     };
+
+
+
+    Page.prototype._align_header_site = function(e) {
+        /**
+         * Align the site and header divs
+         */
+        var header_div_element_width = this.header_div_element.outerWidth();
+        var header_container_width = $('div#header-container').outerWidth();
+        var margin_left = (header_div_element_width - header_container_width) / 2;
+
+        this.site_div_element.find('.container').css('margin-left', margin_left);
+    }
 
     return {'Page': Page};
 });
