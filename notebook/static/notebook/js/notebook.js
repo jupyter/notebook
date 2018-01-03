@@ -3179,8 +3179,14 @@ define([
             title: i18n.msg._("Error loading notebook"),
             body : msg,
             buttons : {
-                "OK": {}
-            }
+                "Close": {
+                    class : 'btn-danger',
+                    click : function () {
+                        window.close();
+                    }
+                },
+                "Ok": {}
+              }
         });
     };
 
