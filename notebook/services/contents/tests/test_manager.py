@@ -186,7 +186,7 @@ class TestFileContentsManager(TestCase):
             with self.assertRaisesHTTPError(404):
                 cm.delete('../foo')
             with self.assertRaisesHTTPError(404):
-                cm.rename('../foo', '../bar')
+                cm.rename('../foo', '../bar', False)
             with self.assertRaisesHTTPError(404):
                 cm.save(model={
                     'type': 'file',
@@ -326,7 +326,7 @@ class TestContentsManager(TestCase):
         # (The frontend fires a warning if last_modified increases on the
         # renamed file.)
         new_path = 'renamed.ipynb'
-        cm.rename(path, new_path)
+        cm.rename(path, new_path, False)
         renamed = cm.get(new_path)
         self.assertGreaterEqual(
             renamed['last_modified'],
@@ -515,7 +515,7 @@ class TestContentsManager(TestCase):
         nb, name, path = self.new_notebook()
 
         # Rename the notebook
-        cm.rename(path, "changed_path")
+        cm.rename(path, "changed_path", False)
 
         # Attempting to get the notebook under the old name raises an error
         self.assertRaises(HTTPError, cm.get, path)
@@ -534,13 +534,13 @@ class TestContentsManager(TestCase):
         # Renaming to an existing directory should fail
         for src, dest in combinations(all_dirs, 2):
             with self.assertRaisesHTTPError(409):
-                cm.rename(src, dest)
+                cm.rename(src, dest, False)
 
         # Creating a notebook in a non_existant directory should fail
         with self.assertRaisesHTTPError(404):
             cm.new_untitled("foo/bar_diff", ext=".ipynb")
 
-        cm.rename("foo/bar", "foo/bar_diff")
+        cm.rename("foo/bar", "foo/bar_diff", False)
 
         # Assert that unchanged directories remain so
         for unchanged in unchanged_dirs:
