@@ -77,12 +77,6 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         except AttributeError:
             return getcwd()
 
-    allow_hidden = Bool(False, config=True, help="Allow access to hidden files")
-
-    @default('allow_hidden')
-    def _default_all_hidden(self):
-        return False
-
     save_script = Bool(False, config=True, help='DEPRECATED, use post_save_hook. Will be removed in Notebook 5.0')
     @observe('save_script')
     def _update_save_script(self):

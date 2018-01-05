@@ -602,10 +602,6 @@ class NotebookApp(JupyterApp):
         help=_("Whether to allow the user to run the notebook as root.")
     )
 
-    allow_hidden = Bool(False, config=True,
-        help=_("Whether to allow the user access hidden files.")
-    )
-
     default_url = Unicode('/tree', config=True,
         help=_("The default URL to redirect to from `/`")
     )
@@ -1199,12 +1195,10 @@ class NotebookApp(JupyterApp):
         self.tornado_settings['allow_credentials'] = self.allow_credentials
         self.tornado_settings['cookie_options'] = self.cookie_options
         self.tornado_settings['token'] = self.token
-        self.tornado_settings['allow_hidden'] = self.allow_hidden
         if (self.open_browser or self.file_to_run) and not self.password:
             self.one_time_token = binascii.hexlify(os.urandom(24)).decode('ascii')
             self.tornado_settings['one_time_token'] = self.one_time_token
 
-        self.contents_manager.allow_hidden = self.allow_hidden
         # ensure default_url starts with base_url
         if not self.default_url.startswith(self.base_url):
             self.default_url = url_path_join(self.base_url, self.default_url)

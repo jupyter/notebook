@@ -19,6 +19,7 @@ from nbformat.v4 import new_notebook
 from ipython_genutils.importstring import import_item
 from traitlets import (
     Any,
+    Bool,
     Dict,
     Instance,
     List,
@@ -55,6 +56,8 @@ class ContentsManager(LoggingConfigurable):
     """
     
     root_dir = Unicode('/', config=True)
+
+    allow_hidden = Bool(False, config=True, help="Allow access to hidden files")
 
     notary = Instance(sign.NotebookNotary)
     def _notary_default(self):
