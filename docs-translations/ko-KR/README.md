@@ -8,7 +8,7 @@ English 버전 링크 : [[English Version](http://github.com/jupyter/notebook/)]
 
 Jupyter notebook 은 상호 교환을 위한 웹 기반 환경입니다.
 
-![Jupyter notebook example](docs/resources/running_code_med.png "Jupyter notebook example")
+![Jupyter notebook example](resources/running_code_med.png "Jupyter notebook example")
 
 ### Jupyter notebook, 사용자의 언어에 독립적인 IPython notebook의 진화
 Jupyter notebook은 Jupyter 프로젝트를 위한 사용자 언어에 독립적인 HTML 응용 프로그램입니다.
