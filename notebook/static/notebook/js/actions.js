@@ -684,6 +684,16 @@ define([
                 }
             }
         },
+        'auto-indent': {
+            cmd: i18n.msg._('automatically indent selection'),
+            help : i18n.msg._('automatically indent selection'),
+            handler : function(env) {
+              // Get selected cell
+              var selected_cell = env.notebook.get_selected_cell();
+              // Execute a CM command
+              selected_cell.code_mirror.execCommand('indentAuto');
+            }
+        }
     };
 
     /**
