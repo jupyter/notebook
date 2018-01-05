@@ -321,10 +321,10 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                     continue
 
                 if self.should_list(name) and not is_file_hidden(os_path, stat_res=st):
-                        contents.append(self.get(
-                            path='%s/%s' % (path, name),
-                            content=False)
-                        )
+                    contents.append(self.get(
+                        path='%s/%s' % (path, name),
+                        content=False)
+                    )
 
             model['format'] = 'json'
 
