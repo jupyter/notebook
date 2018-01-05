@@ -30,7 +30,7 @@ from notebook.nbextensions import (install_nbextension, check_nbextension,
     validate_nbextension, validate_nbextension_python
 )
 
-from traitlets.config.manager import BaseJSONConfigManager
+from notebook.config_manager import BaseJSONConfigManager
 
 
 def touch(file_name, mtime=None):

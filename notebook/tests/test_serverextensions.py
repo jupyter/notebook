@@ -10,7 +10,7 @@ except ImportError:
 from ipython_genutils.tempdir import TemporaryDirectory
 from ipython_genutils import py3compat
 
-from traitlets.config.manager import BaseJSONConfigManager
+from notebook.config_manager import BaseJSONConfigManager
 from traitlets.tests.utils import check_help_all_output
 from jupyter_core import paths
 

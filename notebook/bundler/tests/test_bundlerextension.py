@@ -15,10 +15,10 @@ except ImportError:
 from ipython_genutils.tempdir import TemporaryDirectory
 from ipython_genutils import py3compat
 
-from traitlets.config.manager import BaseJSONConfigManager
 from traitlets.tests.utils import check_help_all_output
 
 import notebook.nbextensions as nbextensions
+from notebook.config_manager import BaseJSONConfigManager
 from ..bundlerextensions import (_get_config_dir, enable_bundler_python, 
     disable_bundler_python)
 
