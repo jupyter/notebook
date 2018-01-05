@@ -617,7 +617,7 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
         abs_path = super(AuthenticatedFileHandler, self).validate_absolute_path(root, absolute_path)
         abs_root = os.path.abspath(root)
         if is_hidden(abs_path, abs_root) and not self.allow_hidden:
-                self.log.info("Refusing to serve hidden file, via 404 Error, use flag 'allow-hidden' to enable")
+                self.log.info("Refusing to serve hidden file, via 404 Error, use flag 'NotebookApp.allow_hidden' to enable")
                 raise web.HTTPError(404)
         return abs_path
 

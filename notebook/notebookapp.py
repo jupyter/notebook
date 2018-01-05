@@ -497,11 +497,6 @@ flags['allow-root']=(
     _("Allow the notebook to be run from root user.")
 )
 
-flags['allow-hidden']=(
-    {'NotebookApp' : {'allow_hidden' : True}},
-    _("Allow the notebook to access hidden files.")
-)
-
 # Add notebook manager flags
 flags.update(boolean_flag('script', 'FileContentsManager.save_script',
                'DEPRECATED, IGNORED',
