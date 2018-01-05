@@ -321,7 +321,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                     continue
 
                 if self.should_list(name):
-                    if is_file_hidden(os_path, stat_res=st) and not self.allow_hidden:
+                    if is_file_hidden(os_path, stat_res=st):
                         continue
                     else:
                         contents.append(self.get(
