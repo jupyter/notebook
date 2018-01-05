@@ -320,10 +320,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                     self.log.debug("%s not a regular file", os_path)
                     continue
 
-                if self.should_list(name):
-                    if is_file_hidden(os_path, stat_res=st):
-                        continue
-                    else:
+                if self.should_list(name) and not is_file_hidden(os_path, stat_res=st):
                         contents.append(self.get(
                             path='%s/%s' % (path, name),
                             content=False)
