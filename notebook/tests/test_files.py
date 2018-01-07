@@ -41,7 +41,7 @@ class FilesTest(NotebookTestBase):
                 f.write('foo')
             with open(pjoin(path, '.foo'), 'w') as f:
                 f.write('.foo')
-        
+
         for d in not_hidden:
             path = pjoin(nbdir, d.replace('/', os.sep))
             r = self.request('GET', url_path_join('files', d, 'foo'))
@@ -49,13 +49,33 @@ class FilesTest(NotebookTestBase):
             self.assertEqual(r.text, 'foo')
             r = self.request('GET', url_path_join('files', d, '.foo'))
             self.assertEqual(r.status_code, 404)
-            
+
         for d in hidden:
             path = pjoin(nbdir, d.replace('/', os.sep))
             for foo in ('foo', '.foo'):
                 r = self.request('GET', url_path_join('files', d, foo))
                 self.assertEqual(r.status_code, 404)
-    
+
+        self.notebook.contents_manager.allow_hidden = True
+        try:
+            for d in not_hidden:
+                path = pjoin(nbdir, d.replace('/', os.sep))
+                r = self.request('GET', url_path_join('files', d, 'foo'))
+                r.raise_for_status()
+                self.assertEqual(r.text, 'foo')
+                r = self.request('GET', url_path_join('files', d, '.foo'))
+                r.raise_for_status()
+                self.assertEqual(r.text, '.foo')
+
+            for d in hidden:
+                path = pjoin(nbdir, d.replace('/', os.sep))
+                for foo in ('foo', '.foo'):
+                    r = self.request('GET', url_path_join('files', d, foo))
+                    r.raise_for_status()
+                    self.assertEqual(r.text, foo)
+        finally:
+            self.notebook.contents_manager.allow_hidden = False
+
     def test_contents_manager(self):
         "make sure ContentsManager returns right files (ipynb, bin, txt)."
 

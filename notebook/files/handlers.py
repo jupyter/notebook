@@ -34,7 +34,7 @@ class FilesHandler(IPythonHandler):
     def get(self, path, include_body=True):
         cm = self.contents_manager
 
-        if cm.is_hidden(path):
+        if cm.is_hidden(path) and not cm.allow_hidden:
             self.log.info("Refusing to serve hidden file, via 404 Error")
             raise web.HTTPError(404)
 

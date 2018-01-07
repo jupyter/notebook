@@ -40,7 +40,7 @@ class TreeHandler(IPythonHandler):
         cm = self.contents_manager
         
         if cm.dir_exists(path=path):
-            if cm.is_hidden(path):
+            if cm.is_hidden(path) and not cm.allow_hidden:
                 self.log.info("Refusing to serve hidden directory, via 404 Error")
                 raise web.HTTPError(404)
             breadcrumbs = self.generate_breadcrumbs(path)
