@@ -29,16 +29,19 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
 This release introduces a couple noteable improvements, such as terminal support for Windows and support for OS trash (files deleted from the notebook dashboard are moved to the OS trash vs. deleted permanently).
 
 - Add support for terminals on windows (:ghpull:`3087`). 
+- Add a "restart and run all" button to the toolbar (:ghpull:`2965`). 
 - Send files to os trash mechanism on delete (:ghpull:`1968`). 
 - Allow programmatic copy to clipboard (:ghpull:`3088`). 
 - Use DOM History API for navigating between directories in the file browser (:ghpull:`3115`).
 - Add translated files to folder(docs-translations) (:ghpull:`3065`). 
-- Allowing non empty dirs to be deleted (:ghpull:`3108`). 
+- Allow non empty dirs to be deleted (:ghpull:`3108`). 
 - Set cookie on base_url (:ghpull:`2959`). 
 - Allow token-authenticated requests cross-origin by default (:ghpull:`2920`). 
 - Change cull_idle_timeout_minimum to 1 from 300 (:ghpull:`2910`). 
 - Config option to shut down server after n seconds with no kernels (:ghpull:`2963`). 
 - Display a "close" button on load notebook error (:ghpull:`3176`). 
+- Add action to command pallette to run CodeMirror's "indentAuto" on selection (:ghpull:`3175`). 
+- Add option to specify extra services (:ghpull:`3158`). 
 - Warn_bad_name should not use global name (:ghpull:`3160`). 
 - Avoid overflow of hidden form (:ghpull:`3148`). 
 - Fix shutdown trans loss (:ghpull:`3147`). 
