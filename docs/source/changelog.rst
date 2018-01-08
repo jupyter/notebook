@@ -21,6 +21,75 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
     ``pip --version``.
 
 
+.. _release-5.3.0:
+
+5.3.0
+-----
+
+This release introduces a couple noteable improvements, such as terminal support for Windows and support for OS trash (files deleted from the notebook dashboard are moved to the OS trash vs. deleted permanently).
+
+- Add support for terminals on windows (:ghpull:`3087`). 
+- Send files to os trash mechanism on delete (:ghpull:`1968`). 
+- Allow programmatic copy to clipboard (:ghpull:`3088`). 
+- Use DOM History API for navigating between directories in the file browser (:ghpull:`3115`).
+- Add translated files to folder(docs-translations) (:ghpull:`3065`). 
+- Allowing non empty dirs to be deleted (:ghpull:`3108`). 
+- Set cookie on base_url (:ghpull:`2959`). 
+- Allow token-authenticated requests cross-origin by default (:ghpull:`2920`). 
+- Change cull_idle_timeout_minimum to 1 from 300 (:ghpull:`2910`). 
+- Config option to shut down server after n seconds with no kernels (:ghpull:`2963`). 
+- Display a "close" button on load notebook error (:ghpull:`3176`). 
+- Warn_bad_name should not use global name (:ghpull:`3160`). 
+- Avoid overflow of hidden form (:ghpull:`3148`). 
+- Fix shutdown trans loss (:ghpull:`3147`). 
+- Find available kernelspecs more efficiently (:ghpull:`3136`). 
+- Don\'t try to translate missing help strings (:ghpull:`3122`). 
+- Frontend/extension-config: allow default json files in a .d directory (:ghpull:`3116`). 
+- Use `requirejs` vs. `require` (:ghpull:`3097`). 
+- Fixes some ui bugs in firefox #3044 (:ghpull:`3058`). 
+- Compare non-specific language code when choosing to use arabic numerals (:ghpull:`3055`). 
+- Fix save-script deprecation (:ghpull:`3053`). 
+- Include moment locales in package_data (:ghpull:`3051`). 
+- Fix moment locale loading in bidi support (:ghpull:`3048`). 
+- Tornado 5: periodiccallback loop arg will be removed (:ghpull:`3034`). 
+- Use `/files` prefix for pdf-like files (:ghpull:`3031`). 
+- Add folder for document translation (:ghpull:`3022`). 
+- When login-in via token, let a chance for user to set the password (:ghpull:`3008`). 
+- Switch to jupyter_core implementation of ensure_dir_exists (:ghpull:`3002`). 
+- Send http shutdown request on \'stop\' subcommand (:ghpull:`3000`). 
+- Work on loading ui translations  (:ghpull:`2969`). 
+- Fix ansi inverse (:ghpull:`2967`). 
+- Add send2trash to requirements for building docs (:ghpull:`2964`). 
+- I18n readme.md improvement (:ghpull:`2962`).  
+- Add \'reason\' field to json error responses (:ghpull:`2958`). 
+
+Thanks to the following contributors:
+
+- bacboc (`bacboc <https://github.com/bacboc>`__)
+- Steven Silvester (`blink1073 <https://github.com/blink1073>`__)
+- Matthias Bussonnier (`Carreau <https://github.com/Carreau>`__)
+- ChungJooHo (`ChungJooHo <https://github.com/ChungJooHo>`__)
+- edida (`edida <https://github.com/edida>`__)
+- Francesco Franchina (`ferdas <https://github.com/ferdas>`__)
+- forbxy (`forbxy <https://github.com/forbxy>`__)
+- Grant Nestor (`gnestor <https://github.com/gnestor>`__)
+- Josh Barnes (`jcb91 <https://github.com/jcb91>`__)
+- JocelynDelalande (`JocelynDelalande <https://github.com/JocelynDelalande>`__)
+- Karthik Balakrishnan (`karthikb351 <https://github.com/karthikb351>`__)
+- Kevin Bates (`kevin-bates <https://github.com/kevin-bates>`__)
+- Kirit Thadaka (`kirit93 <https://github.com/kirit93>`__)
+- Maarten Breddels (`maartenbreddels <https://github.com/maartenbreddels>`__)
+- Madhu94 (`Madhu94 <https://github.com/Madhu94>`__)
+- Matthias Geier (`mgeier <https://github.com/mgeier>`__)
+- Michael Heilman (`mheilman <https://github.com/mheilman>`__)
+- Min RK (`minrk <https://github.com/minrk>`__)
+- PHaeJin (`PHaeJin <https://github.com/PHaeJin>`__)
+- Sukneet (`Sukneet <https://github.com/Sukneet>`__)
+- Thomas Kluyver (`takluyver <https://github.com/takluyver>`__)
+
+See the 5.3 milestone on GitHub for a complete list of
+`pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A5.3>`__ involved in this release.
+
 .. _release-5.2.1:
 
 5.2.1
