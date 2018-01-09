@@ -24,7 +24,7 @@ var rjs_config = {
     "jquery-ui": 'components/jquery-ui/ui/minified/jquery-ui.min',
     moment: 'components/moment/min/moment-with-locales',
     codemirror: 'components/codemirror',
-    xterm: 'components/xterm.js/dist/xterm',
+    xterm: 'components/xterm.js/xterm',
     typeahead: 'components/jquery-typeahead/dist/jquery.typeahead',
     contents: 'empty:',
     custom: 'empty:',
