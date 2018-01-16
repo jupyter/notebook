@@ -3,6 +3,7 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
+import datetime
 import functools
 import json
 import mimetypes
@@ -15,15 +16,17 @@ import warnings
 try:
     # py3
     from http.client import responses
+    from http.cookies import Morsel
 except ImportError:
     from httplib import responses
+    from Cookie import Morsel
 try:
     from urllib.parse import urlparse # Py 3
 except ImportError:
     from urlparse import urlparse # Py 2
 
 from jinja2 import TemplateNotFound
-from tornado import web, gen, escape
+from tornado import web, gen, escape, httputil
 from tornado.log import app_log
 
 from notebook._sysinfo import get_sys_info
@@ -91,14 +94,41 @@ class AuthenticatedHandler(web.RequestHandler):
                 # for example, so just ignore)
                 self.log.debug(e)
 
+    def force_clear_cookie(self, name, path="/", domain=None):
+        """Deletes the cookie with the given name.
+
+        Tornado's cookie handling currently (Jan 2018) stores cookies in a dict
+        keyed by name, so it can only modify one cookie with a given name per
+        response. The browser can store multiple cookies with the same name
+        but different domains and/or paths. This method lets us clear multiple
+        cookies with the same name.
+
+        Due to limitations of the cookie protocol, you must pass the same
+        path and domain to clear a cookie as were used when that cookie
+        was set (but there is no way to find out on the server side
+        which values were used for a given cookie).
+        """
+        name = escape.native_str(name)
+        expires = datetime.datetime.utcnow() - datetime.timedelta(days=365)
+
+        morsel = Morsel()
+        morsel.set(name, '', '""')
+        morsel['expires'] = httputil.format_timestamp(expires)
+        morsel['path'] = path
+        if domain:
+            morsel['domain'] = domain
+        self.add_header("Set-Cookie", morsel.OutputString())
+
     def clear_login_cookie(self):
         cookie_options = self.settings.get('cookie_options', {})
         path = cookie_options.setdefault('path', self.base_url)
         self.clear_cookie(self.cookie_name, path=path)
         if path and path != '/':
-            # also clear cookie on / to ensure old cookies
-            # are cleared after the change in path behavior.
-            self.clear_cookie(self.cookie_name)
+            # also clear cookie on / to ensure old cookies are cleared
+            # after the change in path behavior (changed in notebook 5.2.2).
+            # N.B. This bypasses the normal cookie handling, which can't update
+            # two cookies with the same name. See the method above.
+            self.force_clear_cookie(self.cookie_name)
 
     def get_current_user(self):
         if self.login_handler is None:
