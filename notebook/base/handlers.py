@@ -124,8 +124,10 @@ class AuthenticatedHandler(web.RequestHandler):
         path = cookie_options.setdefault('path', self.base_url)
         self.clear_cookie(self.cookie_name, path=path)
         if path and path != '/':
-            # also clear cookie on / to ensure old cookies
-            # are cleared after the change in path behavior.
+            # also clear cookie on / to ensure old cookies are cleared
+            # after the change in path behavior (changed in notebook 5.2.2).
+            # N.B. This bypasses the normal cookie handling, which can't update
+            # two cookies with the same name. See the method above.
             self.force_clear_cookie(self.cookie_name)
 
     def get_current_user(self):
