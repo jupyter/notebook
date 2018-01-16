@@ -122,7 +122,7 @@ class AuthenticatedHandler(web.RequestHandler):
     def clear_login_cookie(self):
         cookie_options = self.settings.get('cookie_options', {})
         path = cookie_options.setdefault('path', self.base_url)
-        self.force_clear_cookie(self.cookie_name, path=path)
+        self.clear_cookie(self.cookie_name, path=path)
         if path and path != '/':
             # also clear cookie on / to ensure old cookies
             # are cleared after the change in path behavior.
