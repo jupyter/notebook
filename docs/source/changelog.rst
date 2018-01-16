@@ -64,7 +64,10 @@ This release introduces a couple noteable improvements, such as terminal support
 - Fix ansi inverse (:ghpull:`2967`). 
 - Add send2trash to requirements for building docs (:ghpull:`2964`). 
 - I18n readme.md improvement (:ghpull:`2962`).  
-- Add \'reason\' field to json error responses (:ghpull:`2958`). 
+- Add \'reason\' field to json error responses (:ghpull:`2958`).
+- Add some padding for stream outputs (:ghpull:`3194`).
+- Always use setuptools in ``setup.py`` (:ghpull:`3206`).
+- Fix clearing cookies on logout when ``base_url`` is configured (:ghpull:`3207`).
 
 Thanks to the following contributors:
 
@@ -81,6 +84,7 @@ Thanks to the following contributors:
 - Karthik Balakrishnan (`karthikb351 <https://github.com/karthikb351>`__)
 - Kevin Bates (`kevin-bates <https://github.com/kevin-bates>`__)
 - Kirit Thadaka (`kirit93 <https://github.com/kirit93>`__)
+- Lilian Besson (`Naereen <https://github.com/Naereen>`__)
 - Maarten Breddels (`maartenbreddels <https://github.com/maartenbreddels>`__)
 - Madhu94 (`Madhu94 <https://github.com/Madhu94>`__)
 - Matthias Geier (`mgeier <https://github.com/mgeier>`__)
