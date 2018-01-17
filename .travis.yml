@@ -7,7 +7,6 @@ cache:
         - $HOME/.cache/pip
 python:
     - 3.6
-    - 2.7
 
 sudo: required
 
@@ -70,9 +69,6 @@ matrix:
           env: GROUP=python
         - python: 3.5
           env: GROUP=python
-    exclude:
-        - python: 2.7
-          env: GROUP=docs
 
 after_success:
     - codecov
