@@ -53,6 +53,16 @@ install:
 
 script:
     - jupyter kernelspec list
+    - |
+      symlinks=$(find . -type l| grep -v './node_modules/' | grep -v './git-hooks')
+      if [[ $(echo $symlinks) ]]; then
+          echo "Repository contains symlinks which won't work on windows:"
+          echo $symlinks
+          echo ""
+          false
+      else
+          true
+      fi
     - 'if [[ $GROUP == js* ]]; then travis_retry python -m notebook.jstest ${GROUP:3}; fi'
     - 'if [[ $GROUP == python ]]; then nosetests -v --with-coverage --cover-package=notebook notebook; fi'
     - |
@@ -63,6 +73,7 @@ script:
         pytest --nbval --current-env docs || EXIT_STATUS=$?
         exit $EXIT_STATUS
       fi
+
 
 matrix:
     include:
