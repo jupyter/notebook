@@ -471,7 +471,7 @@ define([
     };
 
     OutputArea.output_prompt_classical = function(prompt_value) {
-        return $('<bdi>').text(i18n.msg.sprintf(i18n.msg._('Out[%d]:'),prompt_value));
+        return $('<bdi>').text(i18n.msg.sprintf(i18n.msg._('Out[%s]:'),prompt_value));
     };
 
     OutputArea.output_prompt_function = OutputArea.output_prompt_classical;
