@@ -306,7 +306,8 @@ define([
     };
 
     Completer.prototype.build_gui_list = function (completions) {
-        for (var i = 0; i < completions.length; ++i) {
+        var MAXIMUM_GUI_LIST_LENGTH = 1000;
+        for (var i = 0; i < completions.length && i < MAXIMUM_GUI_LIST_LENGTH; ++i) {
             var opt = $('<option/>').text(completions[i].str).addClass(completions[i].type);
             this.sel.append(opt);
         }
