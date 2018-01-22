@@ -208,7 +208,7 @@ define([
          * http://www.ietf.org/rfc/rfc4122.txt
          */
         var s = [];
-        var hexDigits = "0123456789ABCDEF";
+        var hexDigits = "0123456789abcdef";
         for (var i = 0; i < 32; i++) {
             s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
         }
