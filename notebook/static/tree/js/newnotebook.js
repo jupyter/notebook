@@ -13,7 +13,6 @@ define([
     var NewNotebookWidget = function (selector, options) {
         this.selector = selector;
         this.base_url = options.base_url;
-        this.notebook_path = options.notebook_path;
         this.contents = options.contents;
         this.events = options.events;
         this.default_kernel = null;
@@ -79,7 +78,8 @@ define([
         var that = this;
         kernel_name = kernel_name || this.default_kernel;
         var w = window.open(undefined, IPython._target);
-        this.contents.new_untitled(that.notebook_path, {type: "notebook"}).then(
+        var dir_path = $('body').attr('data-notebook-path');
+        this.contents.new_untitled(dir_path, {type: "notebook"}).then(
             function (data) {
                 var url = utils.url_path_join(
                     that.base_url, 'notebooks',
