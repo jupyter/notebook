@@ -73,7 +73,7 @@ define([
         this.events.trigger('kernelspecs_loaded.KernelSpec', data.kernelspecs);
     };
     
-    NewNotebookWidget.prototype.new_notebook = function (kernel_name) {
+    NewNotebookWidget.prototype.new_notebook = function (kernel_name, evt) {
         /** create and open a new notebook */
         var that = this;
         kernel_name = kernel_name || this.default_kernel;
@@ -107,6 +107,9 @@ define([
                 }
             });
         });
+        if (evt !== undefined) {
+            evt.preventDefault();
+        }
     };
     
     return {'NewNotebookWidget': NewNotebookWidget};

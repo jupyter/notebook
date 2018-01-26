@@ -169,6 +169,7 @@ define([
                     console.warn('Error during New file creation', e);
                 });
                 that.load_sessions();
+                e.preventDefault();
             });
             $('#new-folder').click(function(e) {
                 that.contents.new_untitled(that.notebook_path || '', {type: 'directory'})
@@ -189,6 +190,7 @@ define([
                     console.warn('Error during New directory creation', e);
                 });
                 that.load_sessions();
+                e.preventDefault();
             });
 
             // Bind events for action buttons.
@@ -373,8 +375,8 @@ define([
         breadcrumb.append(root);
         var path_parts = [];
         this.notebook_path.split('/').forEach(function(path_part) {
-            path_parts.push(path_part)
-            var path = path_parts.join('/')
+            path_parts.push(path_part);
+            var path = path_parts.join('/');
             var url = utils.url_path_join(
                 that.base_url,
                 '/tree',
