@@ -57,8 +57,7 @@ define([
         this.notebook = options.notebook;
         this.events = options.events;
         this.config = options.config;
-        this.notebook = options.notebook;
-        
+
         // we cannot put this as a class key as it has handle to "this".
         Cell.apply(this, [{
                     config: options.config, 
