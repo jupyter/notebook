@@ -20,6 +20,43 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+.. _release-5.4:
+
+5.4
+---
+
+- Fix creating files and folders after navigating directories in the dashboard
+  (:ghpull:`3264`).
+- Enable printing notebooks in colour, removing the CSS that made everything
+  black and white (:ghpull:`3212`).
+- Limit the completion options displayed in the notebook to 1000, to avoid
+  performance issues with very long lists (:ghpull:`3195`).
+- Added alt-text to the kernel logo image in the notebook UI (:ghpull:`3228`).
+- Added a test on Travis CI to flag if symlinks are accidentally introduced
+  in the future. This should prevent the issue that necessitated
+  :ref:`release-5.3.1` (:ghpull:`3227`).
+- Use lowercase letters for random IDs generated in our Javascript
+  (:ghpull:`3264`).
+- Removed duplicate code setting ``TextCell.notebook`` (:ghpull:`3256`).
+
+Thanks to the following contributors:
+
+- Matthias Bussonnier (`Carreau <https://github.com/Carreau>`__)
+- Min RK (`minrk <https://github.com/minrk>`__)
+- Nitesh Sawant (`ns23 <https://github.com/ns23>`__)
+- Thomas Kluyver (`takluyver <https://github.com/takluyver>`__)
+- Yuvi Panda (`yuvipanda <https://github.com/yuvipanda>`__)
+
+See the 5.4 milestone on GitHub for a complete list of
+`pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A5.4>`__ involved in this release.
+
+.. _release-5.3.1:
+
+5.3.1
+-----
+
+Replaced a symlink in the repository with a copy, to fix issues installing
+on Windows (:ghpull:`3220`).
 
 .. _release-5.3.0:
 
