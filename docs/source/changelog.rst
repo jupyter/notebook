@@ -31,6 +31,7 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
   black and white (:ghpull:`3212`).
 - Limit the completion options displayed in the notebook to 1000, to avoid
   performance issues with very long lists (:ghpull:`3195`).
+- Accessibility improvements in ``tree.html`` (:ghpull:`3271`).
 - Added alt-text to the kernel logo image in the notebook UI (:ghpull:`3228`).
 - Added a test on Travis CI to flag if symlinks are accidentally introduced
   in the future. This should prevent the issue that necessitated
@@ -41,6 +42,7 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
 
 Thanks to the following contributors:
 
+- Alex Soderman (`asoderman <https://github.com/asoderman>`__)
 - Matthias Bussonnier (`Carreau <https://github.com/Carreau>`__)
 - Min RK (`minrk <https://github.com/minrk>`__)
 - Nitesh Sawant (`ns23 <https://github.com/ns23>`__)
