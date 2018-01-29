@@ -461,13 +461,32 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         msg['channel'] = 'iopub'
         self.write_message(json.dumps(msg, default=date_default))
 
-    def on_kernel_restarted(self):
+    def on_kernel_restarted(self, **kwargs):
+        if 'newports' in kwargs:
+            newports = kwargs['newports']
+        else:
+            self.log.warning('newports parameter is not defined, setting default to False')
+            newports = False
+        logging.info("Restarting kernel with new ports: {}".format(newports))
+        if newports:
+            km = self.kernel_manager
+            km.remove_restart_callback(
+                self.kernel_id, self.on_kernel_restarted,
+            )
+            km.remove_restart_callback(
+                self.kernel_id, self.on_restart_failed, 'dead',
+            )
+            km.stop_buffering(self.kernel_id)
+            km.notify_disconnect(self.kernel_id)
+            self.open(self.kernel_id)
         logging.warn("kernel %s restarted", self.kernel_id)
         self._send_status_message('restarting')
+
 
     def on_restart_failed(self):
         logging.error("kernel %s restarted failed!", self.kernel_id)
         self._send_status_message('dead')
+
 
 
 #-----------------------------------------------------------------------------
