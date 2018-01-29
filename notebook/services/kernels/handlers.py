@@ -463,9 +463,10 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
 
     def on_kernel_restarted(self, **kwargs):
         if 'newports' in kwargs:
+            self.log.debug("Kernel restarted with new ports")
             newports = kwargs['newports']
         else:
-            self.log.warning('newports parameter is not defined, setting default to False')
+            self.log.debug('newports parameter is not defined, setting default to False')
             newports = False
         logging.info("Restarting kernel with new ports: {}".format(newports))
         if newports:
