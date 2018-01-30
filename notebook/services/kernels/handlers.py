@@ -470,16 +470,23 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             newports = False
         logging.info("Restarting kernel with new ports: {}".format(newports))
         if newports:
-            km = self.kernel_manager
-            km.remove_restart_callback(
-                self.kernel_id, self.on_kernel_restarted,
-            )
-            km.remove_restart_callback(
-                self.kernel_id, self.on_restart_failed, 'dead',
-            )
-            km.stop_buffering(self.kernel_id)
-            km.notify_disconnect(self.kernel_id)
-            self.open(self.kernel_id)
+            # Stream should be closed before reconnecting to the new ports
+            for channel, stream in self.channels.items():
+                if stream is not None and not stream.closed():
+                    stream.on_recv(None)
+                    stream.close()
+            # Connect to the stream with new ports
+            try:
+                self.create_stream()
+            except web.HTTPError as e:
+                self.log.error("Error opening stream after kernel restarted: %s", e)
+                for channel, stream in self.channels.items():
+                    if not stream.closed():
+                        stream.close()
+                self.close()
+                return
+            for channel, stream in self.channels.items():
+                stream.on_recv_stream(self._on_zmq_reply)
         logging.warn("kernel %s restarted", self.kernel_id)
         self._send_status_message('restarting')
 
