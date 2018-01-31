@@ -490,11 +490,9 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         logging.warn("kernel %s restarted", self.kernel_id)
         self._send_status_message('restarting')
 
-
     def on_restart_failed(self):
         logging.error("kernel %s restarted failed!", self.kernel_id)
         self._send_status_message('dead')
-
 
 
 #-----------------------------------------------------------------------------
