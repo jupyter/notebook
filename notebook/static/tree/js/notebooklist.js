@@ -412,6 +412,10 @@ define([
         $('body').attr('data-notebook-path', path);
         // Update the file tree list without reloading the page
         this.load_list();
+        // Update the page title so the browser tab reflects it
+        // Match how the title appears with a trailing slash or
+        // "Home" if the page loads from the server.
+        $('title').text(path ? path+'/' : i18n.msg._("Home"));
     };
 
     /**
