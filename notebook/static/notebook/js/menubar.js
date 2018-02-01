@@ -193,6 +193,10 @@ define([
             that._nbconvert('html', true);
         });
 
+        this.element.find('#download_slides').click(function () {
+            that._nbconvert('slides', true);
+        });
+
         this.element.find('#download_markdown').click(function () {
             that._nbconvert('markdown', true);
         });
