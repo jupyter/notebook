@@ -87,7 +87,7 @@ define([
      */
     function Notebook(selector, options) {
         this.config = options.config;
-        this.config.loaded.then(this.validate_config.bind(this))
+        this.config.loaded.then(this.validate_config.bind(this));
         this.class_config = new configmod.ConfigWithDefaults(this.config, 
                                         Notebook.options_default, 'Notebook');
         this.base_url = options.base_url;
@@ -250,7 +250,7 @@ define([
         
         // prevent assign to miss-typed properties.
         Object.seal(this);
-    };
+    }
 
     Notebook.options_default = {
         // can be any cell type, or the special values of
@@ -282,7 +282,7 @@ define([
         // edited, but is too low on the page, which browsers will do automatically.
         var end_space = $('<div/>')
             .addClass('end_space');
-        end_space.dblclick(function (e) {
+        end_space.dblclick(function () {
             var ncells = that.ncells();
             that.insert_cell_below('code',ncells-1);
         });
@@ -408,7 +408,7 @@ define([
 
         // Firefox 22 broke $(window).on("beforeunload")
         // I'm not sure why or how.
-        window.onbeforeunload = function (e) {
+        window.onbeforeunload = function () {
             // TODO: Make killing the kernel configurable.
             var kill_kernel = false;
             if (kill_kernel) {
@@ -454,7 +454,7 @@ define([
     
 
     Notebook.prototype.show_command_palette = function() {
-        var x = new commandpalette.CommandPalette(this);
+        new commandpalette.CommandPalette(this);
     };
 
     Notebook.prototype.show_shortcuts_editor = function() {
@@ -464,7 +464,7 @@ define([
     /**
      * Trigger a warning dialog about missing functionality from newer minor versions
      */
-    Notebook.prototype.warn_nbformat_minor = function (event) {
+    Notebook.prototype.warn_nbformat_minor = function () {
         var v = 'v' + this.nbformat + '.';
         var orig_vs = v + this.nbformat_minor;
         var this_vs = v + this.current_nbformat_minor;
@@ -588,7 +588,7 @@ define([
      * @return {jQuery} A selector of all cell elements
      */
     Notebook.prototype.get_cell_elements = function () {
-        var container = this.container || $('#notebook-container')
+        var container = this.container || $('#notebook-container');
         return container.find(".cell").not('.cell .cell');
     };
 
@@ -830,7 +830,7 @@ define([
      * Programmatically select a cell.
      * 
      * @param {integer} index - A cell's index
-     * @param {bool} moveanchor – whether to move the selection
+     * @param {boolean} moveanchor – whether to move the selection
      *               anchor, default to true.
      * @return {Notebook} This notebook
      */
@@ -1752,7 +1752,7 @@ define([
      * Merge a series of cells into one
      *
      * @param {Array} indices - the numeric indices of the cells to be merged
-     * @param {bool} into_last - merge into the last cell instead of the first
+     * @param {boolean} into_last - merge into the last cell instead of the first
      */
     Notebook.prototype.merge_cells = function(indices, into_last) {
         if (indices.length <= 1) {
@@ -1841,7 +1841,7 @@ define([
         // The following should not happen as the menu item is greyed out
         // when those conditions are not fullfilled (see MarkdownCell
         // unselect/select/unrender handlers)
-        if (cell.cell_type != 'markdown') {
+        if (cell.cell_type !== 'markdown') {
             console.log('Error: insert_image called on non-markdown cell');
             return;
         }
@@ -1918,7 +1918,6 @@ define([
      * Enable the "Paste Cell Attachments" menu item
      */
     Notebook.prototype.enable_attachments_paste = function () {
-        var that = this;
         if (!this.paste_attachments_enabled) {
             $('#paste_cell_attachments').removeClass('disabled');
             this.paste_attachments_enabled = true;
@@ -1956,7 +1955,7 @@ define([
      * Hide each code cell's output area.
      */
     Notebook.prototype.collapse_all_output = function () {
-        this.get_cells().map(function (cell, i) {
+        this.get_cells().map(function (cell) {
             if (cell instanceof codecell.CodeCell) {
                 cell.collapse_output();
             }
@@ -1983,7 +1982,7 @@ define([
      * Expand each code cell's output area, and remove scrollbars.
      */
     Notebook.prototype.expand_all_output = function () {
-        this.get_cells().map(function (cell, i) {
+        this.get_cells().map(function (cell) {
             if (cell instanceof codecell.CodeCell) {
                 cell.expand_output();
             }
@@ -2024,7 +2023,7 @@ define([
      * Clear each code cell's output area.
      */
     Notebook.prototype.clear_all_output = function () {
-        this.get_cells().map(function (cell, i) {
+        this.get_cells().map(function (cell) {
             if (cell instanceof codecell.CodeCell) {
                 cell.clear_output();
             }
@@ -2092,7 +2091,7 @@ define([
      * Toggle the output of all cells.
      */
     Notebook.prototype.toggle_all_output = function () {
-        this.get_cells().map(function (cell, i) {
+        this.get_cells().map(function (cell) {
             if (cell instanceof codecell.CodeCell) {
                 cell.toggle_output();
             }
@@ -2134,7 +2133,7 @@ define([
      * Toggle the scrolling of long output on all cells.
      */
     Notebook.prototype.toggle_all_output_scroll = function () {
-        this.get_cells().map(function (cell, i) {
+        this.get_cells().map(function (cell) {
             if (cell instanceof codecell.CodeCell) {
                 cell.toggle_output_scroll();
             }
@@ -2149,7 +2148,7 @@ define([
      * Toggle line numbers in the selected cell's input area.
      */
     Notebook.prototype.cell_toggle_line_numbers = function() {
-        this.get_selected_cells().map(function(cell, i){cell.toggle_line_numbers();});
+        this.get_selected_cells().map(function(cell){cell.toggle_line_numbers();});
     };
 
 
@@ -2157,7 +2156,7 @@ define([
     Notebook.prototype._dispatch_mode = function(spec, newmode){
         this.codemirror_mode = newmode;
         codecell.CodeCell.options_default.cm_config.mode = newmode;
-        this.get_cells().map(function(cell, i) {
+        this.get_cells().map(function(cell) {
             if (cell.cell_type === 'code'){
                 cell.code_mirror.setOption('mode', spec);
                 // This is currently redundant, because cm_config ends up as
@@ -2192,7 +2191,7 @@ define([
         }, function(){
             // on error don't dispatch the new mode as re-setting it later will not work.
             // don't either set to null mode if it has been changed in the meantime
-            if( _mode_equal(newmode, this.codemirror_mode) ){
+            if( _mode_equal(newmode, that.codemirror_mode) ){
                 that._dispatch_mode('null','null');
             }
         });
@@ -2335,7 +2334,6 @@ define([
     };
 
     Notebook.prototype.restart_kernel = function (options) {
-        var that = this;
         var restart_options = {};
         restart_options.confirm = (options || {}).confirm;
         restart_options.dialog = {
@@ -2402,7 +2400,7 @@ define([
     /**
      * Execute cells corresponding to the given indices.
      *
-     * @param {list} indices - indices of the cells to execute
+     * @param {Array} indices - indices of the cells to execute
      */
     Notebook.prototype.execute_cells = function (indices) {
         if (indices.length === 0) {
@@ -2550,8 +2548,7 @@ define([
      * @return {string} This notebook's name (excluding file extension)
      */
     Notebook.prototype.get_notebook_name = function () {
-        var nbname = utils.splitext(this.notebook_name)[0];
-        return nbname;
+        return utils.splitext(this.notebook_name)[0];
     };
 
     /**
@@ -2573,11 +2570,7 @@ define([
      */
     Notebook.prototype.test_notebook_name = function (nbname) {
         nbname = nbname || '';
-        if (nbname.length>0 && !this.notebook_name_blacklist_re.test(nbname)) {
-            return true;
-        } else {
-            return false;
-        }
+        return nbname.length > 0 && !this.notebook_name_blacklist_re.test(nbname);
     };
 
     /**
@@ -2778,7 +2771,7 @@ define([
                     } else {
                         return _save();
                     }
-                }, function (error) {
+                }, function () {
                     // maybe it has been deleted or renamed? Go ahead and save.
                     return _save();
                 }
@@ -2834,7 +2827,7 @@ define([
     /**
      * Update the autosave interval based on the duration of the last save.
      * 
-     * @param {integer} timestamp - when the save request started
+     * @param {integer} start - when the save request started
      */
     Notebook.prototype._update_autosave_interval = function (start) {
         var duration = (new Date().getTime() - start);
@@ -2894,7 +2887,7 @@ define([
                         }
                         return pr.then(function() {                            
                             nb.contents.trust(nb.notebook_path)
-                            .then(function(res) {
+                            .then(function() {
                                 nb.events.trigger("trust_changed.Notebook", true);
                                 window.location.reload();
                             }, function(err) {
@@ -3364,4 +3357,4 @@ define([
     };
 
     return {Notebook: Notebook};
-})
+});
