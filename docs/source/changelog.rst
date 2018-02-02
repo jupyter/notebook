@@ -76,7 +76,7 @@ Thanks to the following contributors:
 - Matthias Bussonnier (`Carreau <https://github.com/Carreau>`__)
 - ChungJooHo (`ChungJooHo <https://github.com/ChungJooHo>`__)
 - edida (`edida <https://github.com/edida>`__)
-- Francesco Franchina (`ferdas <https://github.com/ferdas>`__)
+- Francesco Franchina (``ferdas``)
 - forbxy (`forbxy <https://github.com/forbxy>`__)
 - Grant Nestor (`gnestor <https://github.com/gnestor>`__)
 - Josh Barnes (`jcb91 <https://github.com/jcb91>`__)
