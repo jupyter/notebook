@@ -365,6 +365,10 @@ define([
         breadcrumb.empty();
         var list_item = $('<li/>');
         var root = $('<li/>').append('<a href="/tree"><i class="fa fa-folder"></i></a>').click(function(e) {
+            // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
+            if(e.altKey || e.metaKey || e.shiftKey) {
+                return true;
+            }
             var path = '';
             window.history.pushState({
                 path: path
@@ -383,6 +387,10 @@ define([
                 utils.encode_uri_components(path)
             );
             var crumb = $('<li/>').append('<a href="' + url + '">' + path_part + '</a>').click(function(e) {
+                // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
+                if(e.altKey || e.metaKey || e.shiftKey) {
+                    return true;
+                }
                 window.history.pushState({
                     path: path
                 }, path, url);
@@ -404,6 +412,10 @@ define([
         $('body').attr('data-notebook-path', path);
         // Update the file tree list without reloading the page
         this.load_list();
+        // Update the page title so the browser tab reflects it
+        // Match how the title appears with a trailing slash or
+        // "Home" if the page loads from the server.
+        $('title').text(path ? path+'/' : i18n.msg._("Home"));
     };
 
     /**
@@ -810,8 +822,12 @@ define([
             link.attr('target', IPython._target);
         } else {
             // Replace with a click handler that will use the History API to
-            // push a new route without reloading the page
+            // push a new route without reloading the page if the click is
+            // not modified (e.g., Ctrl-Click)
             link.click(function (e) {
+                if(e.altKey || e.metaKey || e.shiftKey) {
+                    return true;
+                }
                 window.history.pushState({
                     path: model.path
                 }, model.path, utils.url_path_join(
