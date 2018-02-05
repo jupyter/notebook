@@ -2738,10 +2738,12 @@ define([
             return this.contents.get(this.notebook_path, {content: false}).then(
                 function (data) {
                     var last_modified = new Date(data.last_modified);
+                    var last_modified_check_margin = (that.config.data['last_modified_check_margin'] || 0.5) * 1000; // 500 ms
                     // We want to check last_modified (disk) > that.last_modified (our last save)
                     // In some cases the filesystem reports an inconsistent time,
                     // so we allow 0.5 seconds difference before complaining.
-                    if ((last_modified.getTime() - that.last_modified.getTime()) > 500) {  // 500 ms
+                    // This is configurable in nbconfig/notebook.json as `last_modified_check_margin`.
+                    if ((last_modified.getTime() - that.last_modified.getTime()) > last_modified_check_margin) {  
                         console.warn("Last saving was done on `"+that.last_modified+"`("+that._last_modified+"), "+
                                     "while the current file seem to have been saved on `"+data.last_modified+"`");
                         if (that._changed_on_disk_dialog !== null) {
