@@ -91,12 +91,16 @@ class BaseJSONConfigManager(LoggingConfigurable):
         filename = self.file_name(section_name)
         self.ensure_config_dir_exists()
 
+        # Generate the JSON up front, since it could raise an exception,
+        # in order to avoid writing half-finished corrupted data to disk.
+        json_content = json.dumps(data, indent=2)
+
         if PY3:
             f = io.open(filename, 'w', encoding='utf-8')
         else:
             f = open(filename, 'wb')
         with f:
-            json.dump(data, f, indent=2)
+            f.write(json_content)
 
     def update(self, section_name, new_data):
         """Modify the config section by recursively updating it with new_data.
