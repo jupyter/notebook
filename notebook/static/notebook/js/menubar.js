@@ -231,10 +231,6 @@ define([
             }
         });
 
-        this.element.find('#kill_and_exit').click(function () {
-            that.notebook.close_and_halt();
-        });
-
         // View
         this._add_celltoolbar_list();
 
@@ -254,6 +250,7 @@ define([
             '#restart_kernel': 'confirm-restart-kernel',
             '#restart_clear_output': 'confirm-restart-kernel-and-clear-output',
             '#restart_run_all': 'confirm-restart-kernel-and-run-all-cells',
+            '#close_and_halt': 'close-and-halt',
             '#int_kernel': 'interrupt-kernel',
             '#cut_cell': 'cut-cell',
             '#copy_cell': 'copy-cell',
