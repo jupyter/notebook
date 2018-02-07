@@ -232,15 +232,7 @@ define([
         });
 
         this.element.find('#kill_and_exit').click(function () {
-            var close_window = function () {
-                /**
-                 * allow closing of new tabs in Chromium, impossible in FF
-                 */
-                window.open('', '_self', '');
-                window.close();
-            };
-            // finish with close on success or failure
-            that.notebook.session.delete(close_window, close_window);
+            that.notebook.close_and_halt();
         });
 
         // View
@@ -252,7 +244,7 @@ define([
                 notebook: that.notebook,
                 keyboard_manager: that.notebook.keyboard_manager});
         });
-             
+
         var id_actions_dict = {
             '#trust_notebook' : 'trust-notebook',
             '#rename_notebook' : 'rename-notebook',

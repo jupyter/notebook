@@ -694,6 +694,13 @@ define([
               // Execute a CM command
               selected_cell.code_mirror.execCommand('indentAuto');
             }
+        },
+        'close-and-halt': {
+            cmd: i18n.msg._('shutdown kernel and close window'),
+            help : i18n.msg._('shutdown kernel and close window'),
+            handler : function(env) {
+                env.notebook.close_and_halt();
+            }
         }
     };
 
