@@ -2392,7 +2392,7 @@ define([
             button.click = function () {
                 promise.then(click);
                 do_kernel_action();
-            }
+            };
         });
         options.dialog.buttons = buttons;
         dialog.modal(options.dialog);
