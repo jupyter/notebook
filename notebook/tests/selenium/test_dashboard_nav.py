@@ -104,21 +104,17 @@ def browser(notebook_server):
     b.quit()
 
 def test_items(browser, visited=None):
-    base_url = 'http://localhost:8888/'  # TODO
+    tree_root_url = browser.current_url
     if visited is None:
         visited = set()
 
     wait_for_selector(browser, '.item_link')
     items = get_list_items(browser)
-    print(browser, len(items))
-    print(items)
-    time.sleep(1)
-    items = get_list_items(browser)
-    print(len(items))
-    print(items)
+    print(browser.current_url, len(items))
     for item in items:
+        print(item)
         url = item['link']
-        if url.startswith(urljoin(base_url, 'tree')):
+        if url.startswith(tree_root_url):
             print("Going to", url)
             if url in visited:
                 continue
@@ -128,6 +124,6 @@ def test_items(browser, visited=None):
             assert browser.current_url == url
 
             test_items(browser, visited)
-            browser.back()
+            #browser.back()
 
-#    assert False
+    print()
