@@ -49,7 +49,7 @@ def notebook_server():
                    '--notebook-dir', nbdir,
                    # run with a base URL that would be escaped,
                    # to test that we don't double-escape URLs
-                   '--NotebookApp.base_url', '/a@b/',
+                   '--NotebookApp.base_url=/a@b/',
                   ]
         print("command=", command)
         proc = info['popen'] = Popen(command, cwd=nbdir, env=env)
