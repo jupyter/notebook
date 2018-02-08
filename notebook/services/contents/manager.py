@@ -31,6 +31,7 @@ from traitlets import (
 )
 from ipython_genutils.py3compat import string_types
 from notebook.base.handlers import IPythonHandler
+from notebook.transutils import _
 
 
 copy_pat = re.compile(r'\-Copy\d*\.')
@@ -70,7 +71,7 @@ class ContentsManager(LoggingConfigurable):
         Glob patterns to hide in file and directory listings.
     """)
 
-    untitled_notebook = Unicode("Untitled", config=True,
+    untitled_notebook = Unicode(_("Untitled"), config=True,
         help="The base name used when creating untitled notebooks."
     )
 
