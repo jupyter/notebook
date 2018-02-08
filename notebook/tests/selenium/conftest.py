@@ -73,7 +73,8 @@ def _get_selenium_driver():
             "build": os.environ["TRAVIS_BUILD_NUMBER"],
             "tags": [os.environ['TRAVIS_PYTHON_VERSION'], 'CI'],
         }
-        hub_url = "%s:%s@localhost:4445" % (username, access_key)
+        hub_url = "%s:%s@ondemand.saucelabs.com:80" % (username, access_key)
+        print("Connecting remote driver on Sauce Labs")
         return Remote(desired_capabilities=capabilities,
                       command_executor="https://%s/wd/hub" % hub_url)
     elif os.environ.get('JUPYTER_TEST_BROWSER') == 'chrome':
