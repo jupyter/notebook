@@ -9,7 +9,7 @@ from testpath.tempdir import TemporaryDirectory
 import time
 from urllib.parse import urljoin
 
-from selenium.webdriver import Firefox, Remote
+from selenium.webdriver import Firefox, Remote, Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -91,6 +91,8 @@ def _get_selenium_driver():
         hub_url = "%s:%s@localhost:4445" % (username, access_key)
         return Remote(desired_capabilities=capabilities,
                       command_executor="https://%s/wd/hub" % hub_url)
+    elif os.environ.get('JUPYTER_TEST_BROWSER') == 'chrome':
+        return Chrome()
     else:
         return Firefox()
 
