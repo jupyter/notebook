@@ -67,7 +67,7 @@ def notebook_server():
                    '--NotebookApp.base_url', '/a@b/',
                   ]
         print("command=", command)
-        proc = info['popen'] = Popen(command, env=env)
+        proc = info['popen'] = Popen(command, cwd=nbdir, env=env)
         info_file_path = pjoin(td, 'jupyter_runtime', 'nbserver-%i.json' % proc.pid)
         info.update(_wait_for_server(proc, info_file_path))
 
