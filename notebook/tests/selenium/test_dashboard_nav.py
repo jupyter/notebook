@@ -35,7 +35,7 @@ def _wait_for_server(proc, info_file_path):
         if os.path.exists(info_file_path):
             try:
                 with open(info_file_path) as f:
-                    return json.load(f)['port']
+                    return json.load(f)
             except ValueError:
                 # If the server is halfway through writing the file, we may
                 # get invalid JSON; it should be ready next iteration.
@@ -46,7 +46,6 @@ def _wait_for_server(proc, info_file_path):
 @pytest.fixture(scope='session')
 def notebook_server():
     info = {}
-    info['token'] = binascii.hexlify(os.urandom(24)).decode('ascii')
     with TemporaryDirectory() as td:
         nbdir = info['nbdir'] = pjoin(td, 'notebooks')
         os.makedirs(pjoin(nbdir, u'sub ∂ir1', u'sub ∂ir 1a'))
@@ -59,23 +58,24 @@ def notebook_server():
         }
         env = os.environ.copy()
         env.update(info['extra_env'])
-        # run with a base URL that would be escaped,
-        # to test that we don't double-escape URLs
-        info['base_url'] = '/a@b/'
+
         command = [sys.executable, '-m', 'notebook',
                    '--no-browser',
                    '--notebook-dir', nbdir,
-                   '--NotebookApp.token', info['token'],
-                   '--NotebookApp.base_url', info['base_url'],
+                   # run with a base URL that would be escaped,
+                   # to test that we don't double-escape URLs
+                   '--NotebookApp.base_url', '/a@b/',
                   ]
+        print("command=", command)
         proc = info['popen'] = Popen(command, env=env)
         info_file_path = pjoin(td, 'jupyter_runtime', 'nbserver-%i.json' % proc.pid)
-        info['port'] = _wait_for_server(proc, info_file_path)
+        info.update(_wait_for_server(proc, info_file_path))
 
+        print("Notebook server info:", info)
         yield info
 
-    requests.post(urljoin('http://localhost:{port}{base_url}'.format(**info),
-                          'api/shutdown'),
+    # Shut the server down
+    requests.post(urljoin(info['url'], 'api/shutdown'),
                   headers={'Authorization': 'token '+info['token']})
 
 
@@ -97,7 +97,7 @@ def _get_selenium_driver():
 @pytest.fixture
 def browser(notebook_server):
     b = _get_selenium_driver()
-    b.get("http://localhost:{port}{base_url}?token={token}".format(**notebook_server))
+    b.get("{url}?token={token}".format(**notebook_server))
     yield b
     b.quit()
 
