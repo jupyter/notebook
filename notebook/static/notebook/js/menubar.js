@@ -231,18 +231,6 @@ define([
             }
         });
 
-        this.element.find('#kill_and_exit').click(function () {
-            var close_window = function () {
-                /**
-                 * allow closing of new tabs in Chromium, impossible in FF
-                 */
-                window.open('', '_self', '');
-                window.close();
-            };
-            // finish with close on success or failure
-            that.notebook.session.delete(close_window, close_window);
-        });
-
         // View
         this._add_celltoolbar_list();
 
@@ -252,7 +240,7 @@ define([
                 notebook: that.notebook,
                 keyboard_manager: that.notebook.keyboard_manager});
         });
-             
+
         var id_actions_dict = {
             '#trust_notebook' : 'trust-notebook',
             '#rename_notebook' : 'rename-notebook',
@@ -262,6 +250,7 @@ define([
             '#restart_kernel': 'confirm-restart-kernel',
             '#restart_clear_output': 'confirm-restart-kernel-and-clear-output',
             '#restart_run_all': 'confirm-restart-kernel-and-run-all-cells',
+            '#close_and_halt': 'close-and-halt',
             '#int_kernel': 'interrupt-kernel',
             '#cut_cell': 'cut-cell',
             '#copy_cell': 'copy-cell',

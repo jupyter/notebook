@@ -2400,6 +2400,22 @@ define([
     };
 
     /**
+     * 
+     * Halt the kernel and close the notebook window
+     */
+    Notebook.prototype.close_and_halt = function () {
+        var close_window = function () {
+            /**
+             * allow closing of new tabs in Chromium, impossible in FF
+             */
+                window.open('', '_self', '');
+                window.close();
+        };
+            // finish with close on success or failure
+            this.session.delete(close_window, close_window);
+    };
+    
+    /**
      * Execute cells corresponding to the given indices.
      *
      * @param {list} indices - indices of the cells to execute
