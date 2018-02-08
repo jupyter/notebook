@@ -250,12 +250,12 @@ function(
             that.events.trigger("file_saving.Editor");
             return that.contents.save(that.file_path, model).then(function(data) {
                 // record change generation for isClean
-                this.generation = this.codemirror.changeGeneration();
+                that.generation = that.codemirror.changeGeneration();
                 that.events.trigger("file_saved.Editor", data);
                 that.last_modified = new Date(data.last_modified);
                 that._clean_state();
             });
-        }
+        };
 
         /* 
          * Gets the current working file, and checks if the file has been modified on disk. If so, it
