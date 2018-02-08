@@ -23,11 +23,11 @@ env:
   matrix:
     - GROUP=selenium
     #- GROUP=js/notebook
-    - GROUP=python
+    #- GROUP=python
     #- GROUP=js/base
     #- GROUP=js/services
     #- GROUP=js/tree
-    - GROUP=docs
+    #- GROUP=docs
 
 before_install:
     - pip install --upgrade pip
@@ -46,6 +46,10 @@ before_install:
     - |
       if [[ $GROUP == docs ]]; then
         pip install -r docs/doc-requirements.txt
+      fi
+    - |
+      if [[ $GROUP == selenium ]]; then
+        pip install selenium
       fi
 
 install:
@@ -79,11 +83,11 @@ script:
 
 
 matrix:
-    include:
-        - python: 3.4
-          env: GROUP=python
-        - python: 3.5
-          env: GROUP=python
+#    include:
+#        - python: 3.4
+#          env: GROUP=python
+#        - python: 3.5
+#          env: GROUP=python
     exclude:
         - python: 2.7
           env: GROUP=docs
