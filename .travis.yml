@@ -15,7 +15,7 @@ addons:
   sauce_connect:
     username: "takluyver"
     access_key:
-      secure: "HztwG+VvNt7zKpHyGWKnUTLR67y4p6YMf2Y7fBwaaswah28C3PIAXTDicdQMbzjUmZ7rWvb6xQ1yGOk+EC0U3qKl9Z4WLTL0h+Wle7CeuAuyIW/HFU6Csm/W/jMD0rxYUuSFhqiWzVyFTvyGgZ8iRZue82/GlDC2BW3r+ghun28="
+      secure: "GMF7zYsgRJK4fVpRhjYa2W09DyIC5CC2U5v253+aa7jFCnl+RN8mvJ0JJkGHvunBQkYzqHHtIXcOQ7Z5tuNGpySeHsEFC4V2wdYqrqfFTHhAXmRUrFW+A9AxzCokzv5nAKFrywktSYMZx01mf1PGFlJ6NY25tNXPY3SR7m0rHLQ="
 
 env:
   global:
@@ -24,9 +24,9 @@ env:
     - GROUP=selenium
     #- GROUP=js/notebook
     - GROUP=python
-    - GROUP=js/base
-    - GROUP=js/services
-    - GROUP=js/tree
+    #- GROUP=js/base
+    #- GROUP=js/services
+    #- GROUP=js/tree
     - GROUP=docs
 
 before_install:
