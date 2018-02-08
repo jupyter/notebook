@@ -31,6 +31,7 @@ from traitlets import (
 )
 from ipython_genutils.py3compat import string_types
 from notebook.base.handlers import IPythonHandler
+from notebook.transutils import _
 
 
 copy_pat = re.compile(r'\-Copy\d*\.')
