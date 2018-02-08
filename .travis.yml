@@ -7,15 +7,22 @@ cache:
         - $HOME/.cache/pip
 python:
     - 3.6
-    - 2.7
+    #- 2.7
 
 sudo: required
+
+addons:
+  sauce_connect:
+    username: "takluyver"
+    access_key:
+      secure: "HztwG+VvNt7zKpHyGWKnUTLR67y4p6YMf2Y7fBwaaswah28C3PIAXTDicdQMbzjUmZ7rWvb6xQ1yGOk+EC0U3qKl9Z4WLTL0h+Wle7CeuAuyIW/HFU6Csm/W/jMD0rxYUuSFhqiWzVyFTvyGgZ8iRZue82/GlDC2BW3r+ghun28="
 
 env:
   global:
     - PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
   matrix:
-    - GROUP=js/notebook
+    - GROUP=selenium
+    #- GROUP=js/notebook
     - GROUP=python
     - GROUP=js/base
     - GROUP=js/services
@@ -59,7 +66,8 @@ script:
           true
       fi
     - 'if [[ $GROUP == js* ]]; then travis_retry python -m notebook.jstest ${GROUP:3}; fi'
-    - 'if [[ $GROUP == python ]]; then nosetests -v --with-coverage --cover-package=notebook notebook; fi'
+    - 'if [[ $GROUP == python ]]; then nosetests -v --ignore-files tests/selenium --with-coverage --cover-package=notebook notebook; fi'
+    - 'if [[ $GROUP == selenium ]]; then py.test -v notebook/tests/selenium; fi'
     - |
       if [[ $GROUP == docs ]]; then
         EXIT_STATUS=0
