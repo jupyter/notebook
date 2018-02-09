@@ -80,20 +80,9 @@ matrix:
           env:
           - GROUP=selenium
           - JUPYTER_TEST_BROWSER=firefox
+          - MOZ_HEADLESS=1
           addons:
-            sauce_connect:
-              username: "takluyver"
-              access_key:
-                secure: "GMF7zYsgRJK4fVpRhjYa2W09DyIC5CC2U5v253+aa7jFCnl+RN8mvJ0JJkGHvunBQkYzqHHtIXcOQ7Z5tuNGpySeHsEFC4V2wdYqrqfFTHhAXmRUrFW+A9AxzCokzv5nAKFrywktSYMZx01mf1PGFlJ6NY25tNXPY3SR7m0rHLQ="
-        - python: 3.6
-          env:
-          - GROUP=selenium
-          - JUPYTER_TEST_BROWSER=chrome
-          addons:
-            sauce_connect:
-              username: "takluyver"
-              access_key:
-                secure: "GMF7zYsgRJK4fVpRhjYa2W09DyIC5CC2U5v253+aa7jFCnl+RN8mvJ0JJkGHvunBQkYzqHHtIXcOQ7Z5tuNGpySeHsEFC4V2wdYqrqfFTHhAXmRUrFW+A9AxzCokzv5nAKFrywktSYMZx01mf1PGFlJ6NY25tNXPY3SR7m0rHLQ="
+            firefox: latest
 
         - python: 3.4
           env: GROUP=python

@@ -65,7 +65,7 @@ def notebook_server():
 
 
 def _get_selenium_driver():
-    if os.environ.get('TRAVIS'):
+    if os.environ.get('SAUCE_USERNAME'):
         username = os.environ["SAUCE_USERNAME"]
         access_key = os.environ["SAUCE_ACCESS_KEY"]
         capabilities = {
