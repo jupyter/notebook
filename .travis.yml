@@ -7,7 +7,7 @@ cache:
         - $HOME/.cache/pip
 python:
     - 3.6
-    #- 2.7
+    - 2.7
 
 sudo: required
 
@@ -16,11 +16,10 @@ env:
   global:
     - PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
   matrix:
-    #- GROUP=js/notebook
+    - GROUP=js/notebook
     - GROUP=python
-    #- GROUP=js/base
-    #- GROUP=js/services
-    #- GROUP=docs
+    - GROUP=js/base
+    - GROUP=js/services
 
 before_install:
     - pip install --upgrade pip
@@ -91,8 +90,7 @@ matrix:
           env: GROUP=python
         - python: 3.5
           env: GROUP=python
-    exclude:
-        - python: 2.7
+        - python: 3.6
           env: GROUP=docs
 
 after_success:
