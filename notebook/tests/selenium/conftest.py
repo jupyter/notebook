@@ -73,7 +73,7 @@ def _get_selenium_driver():
             "build": os.environ["TRAVIS_BUILD_NUMBER"],
             "tags": [os.environ['TRAVIS_PYTHON_VERSION'], 'CI'],
             "platform": "Linux",
-            "browserName": "firefox",
+            "browserName": os.environ['JUPYTER_TEST_BROWSER'],
         }
         hub_url = "%s:%s@localhost:4445" % (username, access_key)
         print("Connecting remote driver on Sauce Labs")

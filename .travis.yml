@@ -11,19 +11,13 @@ python:
 
 sudo: required
 
-addons:
-  sauce_connect:
-    username: "takluyver"
-    access_key:
-      secure: "GMF7zYsgRJK4fVpRhjYa2W09DyIC5CC2U5v253+aa7jFCnl+RN8mvJ0JJkGHvunBQkYzqHHtIXcOQ7Z5tuNGpySeHsEFC4V2wdYqrqfFTHhAXmRUrFW+A9AxzCokzv5nAKFrywktSYMZx01mf1PGFlJ6NY25tNXPY3SR7m0rHLQ="
 
 env:
   global:
     - PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
   matrix:
-    - GROUP=selenium
     #- GROUP=js/notebook
-    #- GROUP=python
+    - GROUP=python
     #- GROUP=js/base
     #- GROUP=js/services
     #- GROUP=js/tree
@@ -83,11 +77,21 @@ script:
 
 
 matrix:
-#    include:
-#        - python: 3.4
-#          env: GROUP=python
-#        - python: 3.5
-#          env: GROUP=python
+    include:
+        - python: 3.6
+          env:
+          - GROUP=selenium
+          - JUPYTER_TEST_BROWSER=firefox
+          addons:
+            sauce_connect:
+              username: "takluyver"
+              access_key:
+                secure: "GMF7zYsgRJK4fVpRhjYa2W09DyIC5CC2U5v253+aa7jFCnl+RN8mvJ0JJkGHvunBQkYzqHHtIXcOQ7Z5tuNGpySeHsEFC4V2wdYqrqfFTHhAXmRUrFW+A9AxzCokzv5nAKFrywktSYMZx01mf1PGFlJ6NY25tNXPY3SR7m0rHLQ="
+
+        - python: 3.4
+          env: GROUP=python
+        - python: 3.5
+          env: GROUP=python
     exclude:
         - python: 2.7
           env: GROUP=docs
