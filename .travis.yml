@@ -87,7 +87,7 @@ matrix:
           - JUPYTER_TEST_BROWSER=firefox
           - MOZ_HEADLESS=1
           addons:
-            firefox: latest
+            firefox: 57.0
 
         - python: 3.4
           env: GROUP=python
