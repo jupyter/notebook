@@ -24,7 +24,7 @@
     "requirejs-plugins": "~1.0.3",
     "text-encoding": "~0.1",
     "underscore": "components/underscore#~1.8.3",
-    "xterm.js": "https://unpkg.com/xterm@~3.0.1/dist/xterm.js",
-    "xterm.js-css": "https://unpkg.com/xterm@~3.0.1/dist/xterm.css"
+    "xterm.js": "https://unpkg.com/xterm@~3.1.0/dist/xterm.js",
+    "xterm.js-css": "https://unpkg.com/xterm@~3.1.0/dist/xterm.css"
   }
 }
