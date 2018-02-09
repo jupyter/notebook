@@ -114,6 +114,12 @@ data-notebook-path="{{notebook_path | urlencode}}"
                                 <li id="download_rst"><a href="#">{% trans %}reST (.rst){% endtrans %}</a></li>
                                 <li id="download_latex"><a href="#">{% trans %}LaTeX (.tex){% endtrans %}</a></li>
                                 <li id="download_pdf"><a href="#">{% trans %}PDF via LaTeX (.pdf){% endtrans %}</a></li>
+                                {% for exporter in get_custom_frontend_exporters() %}
+                                <li id="download_{{ exporter.name }}">
+                                    <a href="#">{{ exporter.display }}</a>
+                                </li>
+                                </span>
+                                {% endfor %}
                             </ul>
                         </li>
                         <li class="dropdown-submenu hidden"><a href="#">{% trans %}Deploy as{% endtrans %}</a>

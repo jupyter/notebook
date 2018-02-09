@@ -189,32 +189,8 @@ define([
             that._nbconvert('html', false);
         });
 
-        this.element.find('#download_html').click(function () {
-            that._nbconvert('html', true);
-        });
-
-        this.element.find('#download_slides').click(function () {
-            that._nbconvert('slides', true);
-        });
-
-        this.element.find('#download_markdown').click(function () {
-            that._nbconvert('markdown', true);
-        });
-
-        this.element.find('#download_rst').click(function () {
-            that._nbconvert('rst', true);
-        });
-
-        this.element.find('#download_pdf').click(function () {
-            that._nbconvert('pdf', true);
-        });
-        
-        this.element.find('#download_latex').click(function () {
-            that._nbconvert('latex', true);
-        });
-
-        this.element.find('#download_script').click(function () {
-            that._nbconvert('script', true);
+        this.element.find('#download_menu li').click(function (ev) {
+            that._nbconvert(ev.target.parentElement.getAttribute('id').substring(9), true);
         });
 
         this.events.on('trust_changed.Notebook', function (event, trusted) {

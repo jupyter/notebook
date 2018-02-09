@@ -3,6 +3,7 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
+from collections import namedtuple
 import os
 from tornado import web
 HTTPError = web.HTTPError
@@ -11,6 +12,20 @@ from ..base.handlers import (
     IPythonHandler, FilesRedirectHandler, path_regex,
 )
 from ..utils import url_escape
+from ..transutils import _
+
+
+def get_custom_frontend_exporters():
+    from nbconvert.exporters.base import get_export_names, get_exporter
+
+    ExporterInfo = namedtuple('ExporterInfo', ['name', 'display'])
+
+    for name in sorted(get_export_names()):
+        exporter = get_exporter(name)()
+        ux_name = getattr(exporter, 'export_from_notebook', None)
+        if ux_name is not None:
+            display = _('{} ({})'.format(ux_name, exporter.file_extension))
+            yield ExporterInfo(name, display)
 
 
 class NotebookHandler(IPythonHandler):
@@ -40,7 +55,8 @@ class NotebookHandler(IPythonHandler):
             notebook_name=name,
             kill_kernel=False,
             mathjax_url=self.mathjax_url,
-            mathjax_config=self.mathjax_config
+            mathjax_config=self.mathjax_config,
+            get_custom_frontend_exporters=get_custom_frontend_exporters
             )
         )
 
