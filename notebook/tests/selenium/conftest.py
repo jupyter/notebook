@@ -76,6 +76,9 @@ def _get_selenium_driver():
             "browserName": os.environ['JUPYTER_TEST_BROWSER'],
             "version": "latest",
         }
+        if capabilities['browserName'] == 'firefox':
+            # Attempt to work around issue where browser loses authentication
+            capabilities['version'] = '57.0'
         hub_url = "%s:%s@localhost:4445" % (username, access_key)
         print("Connecting remote driver on Sauce Labs")
         return Remote(desired_capabilities=capabilities,
