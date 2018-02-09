@@ -20,7 +20,6 @@ env:
     - GROUP=python
     #- GROUP=js/base
     #- GROUP=js/services
-    #- GROUP=js/tree
     #- GROUP=docs
 
 before_install:
