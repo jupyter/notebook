@@ -159,6 +159,7 @@ def find_package_data():
         pjoin(components, "moment", "min", "*.js"),
         pjoin(components, "xterm.js", "index.js"),
         pjoin(components, "xterm.js-css", "index.css"),
+        pjoin(components, "xterm.js-fit", "fit.js"),
         pjoin(components, "text-encoding", "lib", "encoding.js"),
     ])
 

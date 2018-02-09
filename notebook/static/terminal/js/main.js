@@ -32,9 +32,9 @@ requirejs([
     var login_widget = new loginwidget.LoginWidget('span#login_widget', common_options);
 
     // Test size: 25x80
-    var termRowHeight = function(){ return 1.00 * $("#dummy-screen")[0].offsetHeight / 25;};
+    // var termRowHeight = function(){ return 1.00 * $("#dummy-screen")[0].offsetHeight / 25;};
         // 1.02 here arrived at by trial and error to make the spacing look right
-    var termColWidth =  function() { return 1.02 * $("#dummy-screen-rows")[0].offsetWidth / 80;};
+    // var termColWidth =  function() { return 1.02 * $("#dummy-screen-rows")[0].offsetWidth / 80;};
 
     var base_url = utils.get_body_data('baseUrl').replace(/\/?$/, '/');
     var ws_path = utils.get_body_data('wsPath');
@@ -45,32 +45,33 @@ requirejs([
     }
     ws_url = ws_url + base_url + ws_path;
     
-    var header = $("#header")[0];
+    // var header = $("#header")[0];
 
-    function calculate_size() {
-        var height = $(window).height() - header.offsetHeight;
-        var width = $('#terminado-container').width();
-        var rows = Math.min(1000, Math.max(20, Math.floor(height/termRowHeight())-1));
-        var cols = Math.min(1000, Math.max(40, Math.floor(width/termColWidth())-1));
-        console.log("resize to :", rows , 'rows by ', cols, 'columns');
-        return {rows: rows, cols: cols};
-    }
+    // function calculate_size() {
+    //     var height = $(window).height() - header.offsetHeight;
+    //     var width = $('#terminado-container').width();
+    //     var rows = Math.min(1000, Math.max(20, Math.floor(height/termRowHeight())-1))-7;
+    //     var cols = Math.min(1000, Math.max(40, Math.floor(width/termColWidth())-1))-7;
+    //     console.log("resize to :", rows , 'rows by ', cols, 'columns');
+    //     return {rows: rows, cols: cols};
+    // }
     
     page.show_header();
     
-    var size = calculate_size();
-    var terminal = terminado.make_terminal($("#terminado-container")[0], size, ws_url);
+    // var size = calculate_size();
+    var terminal = terminado.make_terminal($("#terminado-container")[0], ws_url);
     
     page.show_site();
     
     utils.load_extensions_from_config(config);
     utils.load_extensions_from_config(common_config);
     
-    window.onresize = function() { 
-      var geom = calculate_size();
-      terminal.term.resize(geom.cols, geom.rows);
-      terminal.socket.send(JSON.stringify(["set_size", geom.rows, geom.cols,
-                                    $(window).height(), $(window).width()]));
+    window.onresize = function() {
+      terminal.term.fit();
+      // var geom = calculate_size();
+      // terminal.term.resize(geom.cols, geom.rows);
+      // terminal.socket.send(JSON.stringify(["set_size", geom.rows, geom.cols,
+      //                               $(window).height(), $(window).width()]));
     };
 
     // Expose terminal for fiddling with in the browser
