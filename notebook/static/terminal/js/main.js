@@ -29,13 +29,6 @@ requirejs([
     var common_config = new configmod.ConfigSection('common', common_options);
     common_config.load();
 
-    var login_widget = new loginwidget.LoginWidget('span#login_widget', common_options);
-
-    // Test size: 25x80
-    // var termRowHeight = function(){ return 1.00 * $("#dummy-screen")[0].offsetHeight / 25;};
-        // 1.02 here arrived at by trial and error to make the spacing look right
-    // var termColWidth =  function() { return 1.02 * $("#dummy-screen-rows")[0].offsetWidth / 80;};
-
     var base_url = utils.get_body_data('baseUrl').replace(/\/?$/, '/');
     var ws_path = utils.get_body_data('wsPath');
     var ws_url = utils.get_body_data('wsUrl');
@@ -44,17 +37,6 @@ requirejs([
         ws_url = location.protocol.replace('http', 'ws') + "//" + location.host;
     }
     ws_url = ws_url + base_url + ws_path;
-    
-    // var header = $("#header")[0];
-
-    // function calculate_size() {
-    //     var height = $(window).height() - header.offsetHeight;
-    //     var width = $('#terminado-container').width();
-    //     var rows = Math.min(1000, Math.max(20, Math.floor(height/termRowHeight())-1))-7;
-    //     var cols = Math.min(1000, Math.max(40, Math.floor(width/termColWidth())-1))-7;
-    //     console.log("resize to :", rows , 'rows by ', cols, 'columns');
-    //     return {rows: rows, cols: cols};
-    // }
     
     page.show_header();
     
@@ -68,10 +50,6 @@ requirejs([
     
     window.onresize = function() {
       terminal.term.fit();
-      // var geom = calculate_size();
-      // terminal.term.resize(geom.cols, geom.rows);
-      // terminal.socket.send(JSON.stringify(["set_size", geom.rows, geom.cols,
-      //                               $(window).height(), $(window).width()]));
     };
 
     // Expose terminal for fiddling with in the browser
