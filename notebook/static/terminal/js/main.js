@@ -40,7 +40,6 @@ requirejs([
     
     page.show_header();
     
-    // var size = calculate_size();
     var terminal = terminado.make_terminal($("#terminado-container")[0], ws_url);
     
     page.show_site();
