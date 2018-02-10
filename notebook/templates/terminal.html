@@ -28,13 +28,6 @@ data-ws-path="{{ws_path}}"
 
 {% block script %}
 
-<!-- Hack: this needs to be outside the display:none block, so we can measure
-     its size in JS in setting up the page. It is still invisible. Putting in
-     the script block gets it outside the initially undisplayed region. -->
-<!-- test size: 25x80 -->
-<div style='position:absolute; left:-1000em'>
-</div>
-
     {{super()}}
 
 <script src="{{ static_url("terminal/js/main.min.js") }}" type="text/javascript" charset="utf-8"></script>
