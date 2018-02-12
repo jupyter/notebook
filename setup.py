@@ -16,12 +16,31 @@ from __future__ import print_function
 import os
 import sys
 
-name = "notebook"
+if sys.version_info < (3, 4):
+    pip_message = 'This may be due to an out of date pip. Make sure you have pip >= 9.0.1.'
+    try:
+        import pip
+        pip_version = tuple([int(x) for x in pip.__version__.split('.')[:3]])
+        if pip_version < (9, 0, 1) :
+            pip_message = 'Your pip version is out of date, please install pip >= 9.0.1. '\
+            'pip {} detected.'.format(pip.__version__)
+        else:
+            # pip is new enough - it must be something else
+            pip_message = ''
+    except Exception:
+        pass
 
-# Minimal Python version sanity check
-v = sys.version_info
-if v[:2] < (2,7) or (v[0] >= 3 and v[:2] < (3,3)):
-    error = "ERROR: %s requires Python version 2.7 or 3.3 or above." % name
+
+    error = """
+Jupyter Notebook 6.0+ requires Python 3.4 or above.
+You can still install Notebook version 5.x on Python 2.7, but moving to the
+new version is recommended. You can run Python 2 notebooks by installing a
+kernel for Python 2.
+
+Python {py} detected.
+{pip}
+""".format(py=sys.version_info, pip=pip_message )
+
     print(error, file=sys.stderr)
     sys.exit(1)
 
@@ -46,7 +65,7 @@ from setupbase import (
 )
 
 setup_args = dict(
-    name            = name,
+    name            = "notebook",
     description     = "A web-based notebook environment for interactive computing",
     long_description = """
 The Jupyter Notebook is a web application that allows you to create and
@@ -72,10 +91,10 @@ for more information.
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
     ],
     zip_safe = False,
+    python_requires = ">=3.4",
     install_requires = [
         'jinja2',
         'tornado>=4',
@@ -90,7 +109,6 @@ for more information.
         'terminado>=0.8.1'
     ],
     extras_require = {
-        'test:python_version == "2.7"': ['mock'],
         'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters', 'nbval'],
         'test:sys_platform == "win32"': ['nose-exclude'],
     },
