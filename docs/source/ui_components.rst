@@ -26,8 +26,8 @@ Interactive User Interface Tour of the Notebook
 -----------------------------------------------
 
 If you would like to learn more about the specific elements within the Notebook
-Editor, you can go through the User Interface Tour by selecting Help in the
-menubar then selecting User Interface Tour.
+Editor, you can go through the user interface tour by selecting *Help* in the
+menubar then selecting *User Interface Tour*.
 
 Edit Mode and Notebook Editor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
