@@ -32,6 +32,7 @@ from notebook.utils import (
     to_api_path,
 )
 from notebook.base.handlers import AuthenticatedFileHandler
+from notebook.transutils import _
 
 try:
     from os.path import samefile
