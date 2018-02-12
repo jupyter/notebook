@@ -832,9 +832,11 @@ class NotebookApp(JupyterApp):
         `new` argument passed to the standard library method `webbrowser.open`.
         The behaviour is not guaranteed, but depends on browser support. Valid
         values are:
-            2 opens a new tab,
-            1 opens a new window,
-            0 opens in an existing window.
+
+         - 2 opens a new tab,
+         - 1 opens a new window,
+         - 0 opens in an existing window.
+
         See the `webbrowser.open` documentation for details.
         """))
 

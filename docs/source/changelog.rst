@@ -13,6 +13,7 @@ For more detailed information, see
      upgrade to the latest release.
 
 .. we push for pip 9+ or it will break for Python 2 users when IPython 6 is out.
+
 We strongly recommend that you upgrade to version 9+ of pip before upgrading ``notebook``.
 
 .. tip::
