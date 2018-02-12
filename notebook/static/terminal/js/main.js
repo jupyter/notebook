@@ -29,6 +29,9 @@ requirejs([
     var common_config = new configmod.ConfigSection('common', common_options);
     common_config.load();
 
+    // This makes the 'logout' button in the top right work.
+    var login_widget = new loginwidget.LoginWidget('span#login_widget', common_options);
+
     var base_url = utils.get_body_data('baseUrl').replace(/\/?$/, '/');
     var ws_path = utils.get_body_data('wsPath');
     var ws_url = utils.get_body_data('wsUrl');
@@ -49,6 +52,9 @@ requirejs([
     
     window.onresize = function() {
       terminal.term.fit();
+      // send the new size to the server so that it can trigger a resize in the running process.
+      terminal.socket.send(JSON.stringify(["set_size", terminal.term.rows, terminal.term.cols,
+                                    $(window).height(), $(window).width()]));
     };
 
     // Expose terminal for fiddling with in the browser

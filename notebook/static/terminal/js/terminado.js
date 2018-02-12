@@ -15,6 +15,9 @@ define (["xterm", "xtermjs-fit"], function(Terminal, fit) {
             
             term.open(element);
             term.fit();
+            // send the terminal size to the server.
+            ws.send(JSON.stringify(["set_size", term.rows, term.cols,
+                                        window.innerHeight, window.innerWidth]));
 
             ws.onmessage = function(event) {
                 var json_msg = JSON.parse(event.data);
