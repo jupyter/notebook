@@ -51,7 +51,7 @@ help:
 
 clean:
 	rm -rf $(BUILDDIR)/*
-	rm -rf config.rst
+	rm -rf source/config.rst
 
 html: source/config.rst
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
