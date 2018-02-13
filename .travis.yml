@@ -11,6 +11,7 @@ python:
 
 sudo: required
 
+
 env:
   global:
     - PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
@@ -19,8 +20,6 @@ env:
     - GROUP=python
     - GROUP=js/base
     - GROUP=js/services
-    - GROUP=js/tree
-    - GROUP=docs
 
 before_install:
     - pip install --upgrade pip
@@ -39,6 +38,15 @@ before_install:
     - |
       if [[ $GROUP == docs ]]; then
         pip install -r docs/doc-requirements.txt
+      fi
+    - |
+      if [[ $GROUP == selenium ]]; then
+        pip install selenium
+        # Install Webdriver backend for Firefox:
+        wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
+        mkdir geckodriver
+        tar -xzf geckodriver-v0.19.1-linux64.tar.gz -C geckodriver
+        export PATH=$PATH:$PWD/geckodriver
       fi
 
 install:
@@ -59,7 +67,8 @@ script:
           true
       fi
     - 'if [[ $GROUP == js* ]]; then travis_retry python -m notebook.jstest ${GROUP:3}; fi'
-    - 'if [[ $GROUP == python ]]; then nosetests -v --with-coverage --cover-package=notebook notebook; fi'
+    - 'if [[ $GROUP == python ]]; then nosetests -v --exclude-dir notebook/tests/selenium --with-coverage --cover-package=notebook notebook; fi'
+    - 'if [[ $GROUP == selenium ]]; then py.test -sv notebook/tests/selenium; fi'
     - |
       if [[ $GROUP == docs ]]; then
         EXIT_STATUS=0
@@ -72,12 +81,19 @@ script:
 
 matrix:
     include:
+        - python: 3.6
+          env:
+          - GROUP=selenium
+          - JUPYTER_TEST_BROWSER=firefox
+          - MOZ_HEADLESS=1
+          addons:
+            firefox: 57.0
+
         - python: 3.4
           env: GROUP=python
         - python: 3.5
           env: GROUP=python
-    exclude:
-        - python: 2.7
+        - python: 3.6
           env: GROUP=docs
 
 after_success:

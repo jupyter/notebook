@@ -91,7 +91,8 @@ for more information.
     ],
     extras_require = {
         'test:python_version == "2.7"': ['mock'],
-        'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters', 'nbval'],
+        'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters',
+                 'nbval', 'nose-exclude'],
         'test:sys_platform == "win32"': ['nose-exclude'],
     },
     entry_points = {
