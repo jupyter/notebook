@@ -492,13 +492,28 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         if not os.path.exists(os_path):
             raise web.HTTPError(404, u'File or directory does not exist: %s' % os_path)
 
+        def _check_trash(os_path):
+            if sys.platform in {'win32', 'darwin'}:
+                return True
+
+            # It's a bit more nuanced than this, but until we can better
+            # distinguish errors from send2trash, assume that we can only trash
+            # files on the same partition as the home directory.
+            file_dev = os.stat(os_path).st_dev
+            home_dev = os.stat(os.path.expanduser('~')).st_dev
+            return file_dev == home_dev
+
         if self.delete_to_trash:
-            self.log.debug("Sending %s to trash", os_path)
-            # Looking at the code in send2trash, I don't think the errors it
-            # raises let us distinguish permission errors from other errors in
-            # code. So for now, just let them all get logged as server errors.
-            send2trash(os_path)
-            return
+            if _check_trash(os_path):
+                self.log.debug("Sending %s to trash", os_path)
+                # Looking at the code in send2trash, I don't think the errors it
+                # raises let us distinguish permission errors from other errors in
+                # code. So for now, just let them all get logged as server errors.
+                send2trash(os_path)
+                return
+            else:
+                self.log.warning("Skipping trash for %s, on different device "
+                                 "to home directory", os_path)
 
         if os.path.isdir(os_path):
             listing = os.listdir(os_path)
