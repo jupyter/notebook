@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{static_url("components/jquery-ui/themes/smoothness/jquery-ui.min.css") }}" type="text/css" />
     <link rel="stylesheet" href="{{static_url("components/jquery-typeahead/dist/jquery.typeahead.min.css") }}" type="text/css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     {% block stylesheet %}
     <link rel="stylesheet" href="{{ static_url("style/style.min.css") }}" type="text/css"/>
     {% endblock %}
@@ -130,23 +130,15 @@ dir="ltr">
 
   {% block headercontainer %}
   {% endblock %}
-  
+
   {% block header_buttons %}
-  
+
   {% block login_widget %}
-
-    <span id="login_widget">
-      {% if logged_in %}
-        <button id="logout" class="btn btn-sm navbar-btn">{% trans %}Logout{% endtrans %}</button>
-      {% elif login_available and not logged_in %}
-        <button id="login" class="btn btn-sm navbar-btn">{% trans %}Login{% endtrans %}</button>
-      {% endif %}
-    </span>
-
-  {% endblock %}
+    {% include "login_widget.html" %}
+  {% endblock login_widget %}
 
   {% endblock header_buttons %}
-  
+
   </div>
   <div class="header-bar"></div>
 
@@ -179,9 +171,9 @@ dir="ltr">
         if (search_parameters.length) {
           new_search = '?' + search_parameters.join('&');
         }
-        var new_url = window.location.origin + 
-                      window.location.pathname + 
-                      new_search + 
+        var new_url = window.location.origin +
+                      window.location.pathname +
+                      new_search +
                       window.location.hash;
         window.history.replaceState({}, "", new_url);
         return;
