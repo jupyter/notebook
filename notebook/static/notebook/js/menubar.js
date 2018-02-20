@@ -136,15 +136,15 @@ define('notebook/js/menubar',[
         this.notebook.notebook_path
       );
 
-      const build_json_for_post = function(notebook, config, format) {
-        const json_to_pass = {
+      var build_json_for_post = function(notebook, config, format) {
+        var json_to_pass = {
           notebook_contents: {
             content: notebook.toJSON(),
             name: notebook.notebook_name,
-            last_modified: notebook.last_modified,
+            last_modified: notebook.last_modified
         },
           output_format: format,
-          config: config,
+          config: config
         };
         return json_to_pass;
       };
@@ -219,7 +219,7 @@ define('notebook/js/menubar',[
         var url =
           utils.url_path_join(
             that.base_url,
-            "nbconvert",
+            "nbconvert"
           ) +
           "?download=" +
           download.toString();
@@ -250,12 +250,12 @@ define('notebook/js/menubar',[
         a.style = "display: none";
         return (
           function(data, fileName) {
-            var blob = new Blob([data], { type: "octet/stream" }),
-              url = window.URL.createObjectURL(blob);
-            a.href = url;
+            var blob = new Blob([data], { type: "octet/stream" });
+            var objectUrl = window.URL.createObjectURL(blob);
+            a.href = objectUrl;
             a.download = fileName;
             a.click();
-            window.URL.revokeObjectURL(url);
+            window.URL.revokeObjectURL(objectUrl);
             document.body.removeChild(a);
           }
         )
@@ -417,7 +417,7 @@ define('notebook/js/menubar',[
             '#copy_cell_attachments': 'copy-cell-attachments',
             '#paste_cell_attachments': 'paste-cell-attachments',
             '#insert_image': 'insert-image',
-            '#edit_keyboard_shortcuts' : 'edit-command-mode-keyboard-shortcuts',
+            '#edit_keyboard_shortcuts' : 'edit-command-mode-keyboard-shortcuts'
         };
 
         for(var idx in id_actions_dict){
