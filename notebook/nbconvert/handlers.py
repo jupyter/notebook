@@ -140,7 +140,7 @@ class NbconvertFileHandler(IPythonHandler):
         self.finish(output)
 
 
-class NbconvertServiceHandler(IPythonHandler):
+class NbconvertConfigHandler(IPythonHandler):
     SUPPORTED_METHODS = ('POST',)
 
     @web.authenticated
@@ -254,7 +254,7 @@ _format_regex = r"(?P<format>\w+)"
 
 
 default_handlers = [
-    (r"/nbconvert", NbconvertServiceHandler),
+    (r"/nbconvert", NbconvertConfigHandler),
     (r"/nbconvert/%s" % _format_regex, NbconvertPostHandler),
     (r"/nbconvert/%s%s" % (_format_regex, path_regex),
          NbconvertFileHandler),

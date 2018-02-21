@@ -22,10 +22,8 @@ except ImportError: #PY2
     from base64 import encodestring as encodebytes
 
 
-
-
 class NbconvertAPI(object):
-    """Wrapper for nbconvert API calls."""
+    """Wrapper for API calls to /nbconvert/<format>."""
     def __init__(self, request):
         self.request = request
 
@@ -43,10 +41,28 @@ class NbconvertAPI(object):
 
     def from_post(self, format, nbmodel):
         body = json.dumps(nbmodel)
-        return self._req('POST', format, body)
+        return self._req('POST', format, body=body)
 
     def list_formats(self):
         return self._req('GET', '')
+
+class NbconvertConfigAPI(NbconvertAPI):
+    """Wrapper for API calls to /nbconvert"""
+
+    def _req(self, verb, body=None, params=None):
+        response = self.request(verb, 'nbconvert', data=body, params=params)
+        response.raise_for_status()
+        return response
+
+    def from_post(self, nbmodel, format="", config=None):
+        body = {}
+        body['notebook_contents'] = nbmodel
+        body['config'] = config
+        if format:
+            body['export_format'] = format
+
+        return self._req('POST', body=json.dumps(body))
+
 
 png_green_pixel = encodebytes(b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00'
 b'\x00\x00\x01\x00\x00x00\x01\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDAT'
@@ -56,7 +72,7 @@ b'\x08\xd7c\x90\xfb\xcf\x00\x00\x02\\\x01\x1e.~d\x87\x00\x00\x00\x00IEND\xaeB`\x
 class APITest(NotebookTestBase):
     def setUp(self):
         nbdir = self.notebook_dir
-        
+
         if not os.path.isdir(pjoin(nbdir, 'foo')):
             subdir = pjoin(nbdir, 'foo')
 
@@ -70,7 +86,7 @@ class APITest(NotebookTestBase):
                 shutil.rmtree(subdir, ignore_errors=True)
 
         nb = new_notebook()
-        
+
         nb.cells.append(new_markdown_cell(u'Created by test ³'))
         cc1 = new_code_cell(source=u'print(2*6)')
         cc1.outputs.append(new_output(output_type="stream", text=u'12'))
@@ -79,12 +95,13 @@ class APITest(NotebookTestBase):
             execution_count=1,
         ))
         nb.cells.append(cc1)
-        
+
         with io.open(pjoin(nbdir, 'foo', 'testnb.ipynb'), 'w',
                      encoding='utf-8') as f:
             write(nb, f, version=4)
 
         self.nbconvert_api = NbconvertAPI(self.request)
+        self.nbconvert_config_api = NbconvertConfigAPI(self.request)
 
     @onlyif_cmds_exist('pandoc')
     def test_from_file(self):
@@ -119,14 +136,29 @@ class APITest(NotebookTestBase):
     @onlyif_cmds_exist('pandoc')
     def test_from_post(self):
         nbmodel = self.request('GET', 'api/contents/foo/testnb.ipynb').json()
-        
+
         r = self.nbconvert_api.from_post(format='html', nbmodel=nbmodel)
         self.assertEqual(r.status_code, 200)
         self.assertIn(u'text/html', r.headers['Content-Type'])
         self.assertIn(u'Created by test', r.text)
         self.assertIn(u'print', r.text)
-        
+
         r = self.nbconvert_api.from_post(format='python', nbmodel=nbmodel)
+        self.assertIn(u'text/x-python', r.headers['Content-Type'])
+        self.assertIn(u'print(2*6)', r.text)
+
+    def test_config_from_post(self):
+        nbmodel = self.request('GET', 'api/contents/foo/testnb.ipynb').json()
+        html_config = json.dumps({"NbConvertApp":{"export_format": 'html'}})
+        python_config = json.dumps({"NbConvertApp":{"export_format": 'python'}})
+
+        r = self.nbconvert_config_api.from_post(config=html_config, nbmodel=nbmodel)
+        self.assertEqual(r.status_code, 200)
+        self.assertIn(u'text/html', r.headers['Content-Type'])
+        self.assertIn(u'Created by test', r.text)
+        self.assertIn(u'print', r.text)
+
+        r = self.nbconvert_config_api.from_post(config=python_config, nbmodel=nbmodel)
         self.assertIn(u'text/x-python', r.headers['Content-Type'])
         self.assertIn(u'print(2*6)', r.text)
 
@@ -135,5 +167,14 @@ class APITest(NotebookTestBase):
         nbmodel = self.request('GET', 'api/contents/foo/testnb.ipynb').json()
 
         r = self.nbconvert_api.from_post(format='latex', nbmodel=nbmodel)
+        self.assertIn(u'application/zip', r.headers['Content-Type'])
+        self.assertIn(u'.zip', r.headers['Content-Disposition'])
+
+    @onlyif_cmds_exist('pandoc')
+    def test_config_from_post_zip(self):
+        nbmodel = self.request('GET', 'api/contents/foo/testnb.ipynb').json()
+        latex_config = json.dumps({'NbConvertApp': {'export_format': 'latex'}})
+
+        r = self.nbconvert_config_api.from_post(config=latex_config, nbmodel=nbmodel)
         self.assertIn(u'application/zip', r.headers['Content-Type'])
         self.assertIn(u'.zip', r.headers['Content-Disposition'])
