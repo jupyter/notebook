@@ -1323,7 +1323,6 @@ class NotebookApp(JupyterApp):
         else:
             ip = hostname
         url = self._url(ip)
-        self.log.info(ip, url)
         if self.token:
             # Don't log full token if it came from config
             token = self.token if self._token_generated else '...'
