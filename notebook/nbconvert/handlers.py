@@ -151,7 +151,7 @@ class NbconvertServiceHandler(IPythonHandler):
         c = Config(self.config)
 
         # config needs to be dict
-        config = json.loads(json_content.get("config",{}))
+        config = Config(json.loads(json_content.get("config",{})))
         c.merge(config)
 
         # We're adhering to the content model laid out by the notebook data model
@@ -166,20 +166,27 @@ class NbconvertServiceHandler(IPythonHandler):
             raise web.HTTPError(500, "notebook content was not a valid notebook: %s" % e)
 
         nb = nbformat.from_dict(nb_contents["content"])
-        nb_name = nb_contents["name"]
+        name = nb_contents["name"]
         last_mod = nb_contents.get("modified_date","")
+        nb_title = os.path.splitext(name)[0]
 
-        output_format= json_content["output_format"]
-        exporter = get_exporter(output_format, config=c, log=self.log)
+        export_format = c.NbConvertApp.get("export_format","")
+        if not export_format:
+            try:
+                export_format= json_content["export_format"]
+            except KeyError:
+                raise web.HTTPError(500, "No format specified for export.")
+
+        exporter = get_exporter(export_format, config=c, log=self.log)
 
         metadata = {}
-        metadata['name'] = nb_name[:nb_name.rfind('.')]
+        metadata['name'] = nb_title
         if last_mod:
             metadata['modified_date'] = last_mod.strftime(text.date_format)
 
         resources_dict= {
             "config_dir": self.application.settings['config_dir'],
-            "output_files_dir": nb_name[:nb_name.rfind('.')]+"_files",
+            "output_files_dir": nb_title+"_files",
             "metadata": metadata
         }
 
@@ -193,12 +200,12 @@ class NbconvertServiceHandler(IPythonHandler):
             raise web.HTTPError(500, "nbconvert failed: %s" % e)
 
 
-        if respond_zip(self, nb_name, output, resources):
+        if respond_zip(self, name, output, resources):
             return
 
         # Force download if requested
         if self.get_argument('download', 'false').lower() == 'true':
-            output_filename = os.path.splitext(nb_name)[0] + resources['output_extension']
+            output_filename = nb_title + resources['output_extension']
             self.set_attachment_header(output_filename)
 
         # MIME type
@@ -214,11 +221,11 @@ class NbconvertPostHandler(IPythonHandler):
 
     @web.authenticated
     def post(self, format):
-        exporter = get_exporter(format, config=self.config)
 
         model = self.get_json_body()
         name = model.get('name', 'notebook.ipynb')
         nbnode = from_dict(model['content'])
+        exporter = get_exporter(format, config=self.config)
 
         try:
             output, resources = exporter.from_notebook_node(nbnode, resources={
@@ -247,8 +254,8 @@ _format_regex = r"(?P<format>\w+)"
 
 
 default_handlers = [
+    (r"/nbconvert", NbconvertServiceHandler),
     (r"/nbconvert/%s" % _format_regex, NbconvertPostHandler),
     (r"/nbconvert/%s%s" % (_format_regex, path_regex),
          NbconvertFileHandler),
-    (r"/nbconvert", NbconvertServiceHandler),
 ]

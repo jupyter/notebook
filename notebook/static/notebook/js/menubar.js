@@ -143,7 +143,7 @@ define('notebook/js/menubar',[
             name: notebook.notebook_name,
             last_modified: notebook.last_modified
         },
-          output_format: format,
+          export_format: format,
           config: config
         };
         return json_to_pass;
