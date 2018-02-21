@@ -1317,8 +1317,13 @@ class NotebookApp(JupyterApp):
     
     @property
     def display_url(self):
-        ip = self.ip if self.ip else _('[all ip addresses on your system]')
+        hostname = socket.gethostname()
+        if self.ip in ('localhost', '127.0.0.1', hostname):
+            ip = self.ip
+        else:
+            ip = hostname
         url = self._url(ip)
+        self.log.info(ip, url)
         if self.token:
             # Don't log full token if it came from config
             token = self.token if self._token_generated else '...'
@@ -1625,7 +1630,7 @@ class NotebookApp(JupyterApp):
                 '\n',
                 'Copy/paste this URL into your browser when you connect for the first time,',
                 'to login with a token:',
-                '    %s' % url_concat(self.connection_url, {'token': self.token}),
+                '    %s' % url_concat(self.display_url, {'token': self.token}),
             ]))
 
         self.io_loop = ioloop.IOLoop.current()
