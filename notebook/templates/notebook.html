@@ -107,14 +107,14 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         <li id="custom_download"><a href="#">{% trans %}Custom Download {% endtrans %}</a></li>
                         <li class="dropdown-submenu"><a href="#">{% trans %}Download as{% endtrans %}</a>
                             <ul id="download_menu" class="dropdown-menu">
-                                <li id="download_ipynb"><a href="#">Notebook (.ipynb)</a></li>
-                                <li id="download_script"><a href="#">Script</a></li>
-                                <li id="download_html"><a href="#">HTML (.html)</a></li>
-                                <li id="download_slides"><a href="#">Reveal.js slides (.html)</a></li>
-                                <li id="download_markdown"><a href="#">Markdown (.md)</a></li>
-                                <li id="download_rst"><a href="#">reST (.rst)</a></li>
-                                <li id="download_latex"><a href="#">LaTeX (.tex)</a></li>
-                                <li id="download_pdf"><a href="#">PDF via LaTeX (.pdf)</a></li>
+                                <li id="download_ipynb"><a href="#">{% trans %}Notebook (.ipynb){% endtrans %}</a></li>
+                                <li id="download_script"><a href="#">S{% trans %}script{% endtrans %}</a></li>
+                                <li id="download_html"><a href="#">{% trans %}HTML (.html){% endtrans %}</a></li>
+                                <li id="download_slides"><a href="#">{% trans %}Reveal.js slides (.html){% endtrans %}</a></li>
+                                <li id="download_markdown"><a href="#">{% trans %}Markdown (.md){% endtrans %}</a></li>
+                                <li id="download_rst"><a href="#">{% trans %}reST (.rst){% endtrans %}</a></li>
+                                <li id="download_latex"><a href="#">{% trans %}LaTeX (.tex){% endtrans %}</a></li>
+                                <li id="download_pdf"><a href="#">{% trans %}PDF via LaTeX (.pdf){% endtrans %}</a></li>
                                 {% for exporter in get_custom_frontend_exporters() %}
                                 <li id="download_{{ exporter.name }}">
                                     <a href="#">{{ exporter.display }}</a>

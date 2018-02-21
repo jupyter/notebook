@@ -158,15 +158,15 @@ define('notebook/js/menubar',[
 
       var export_opts = {
         markdown: {
-          display_text: "markdown",
+          display_text: "Markdown",
           exporter_name: "markdown"
         },
         html: {
-          display_text: "html",
+          display_text: "HTML",
           exporter_name: "html"
         },
         rst: {
-          display_text: "rst",
+          display_text: "reST",
           exporter_name: "rst"
         },
         pdf: {
@@ -180,6 +180,10 @@ define('notebook/js/menubar',[
         script: {
           display_text: "script",
           exporter_name: "script"
+        },
+        slides: {
+          display_text: "Reveal.js slides",
+          exporter_name: "slides"
         }
       };
 
