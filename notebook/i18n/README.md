@@ -15,6 +15,7 @@ However…
 run in).
 
 Hint: if running Windows, you can set it in PowerShell with `${Env:LANG} = "xx_XX"`.
+      if running Ubuntu, you should set environment variable `LANGUAGE="xx_XX"`.
 
 2. The preferred language for web pages in your browser settings (`xx`) is
    also used. At the moment, it has to be first in the list.
@@ -23,7 +24,7 @@ Hint: if running Windows, you can set it in PowerShell with `${Env:LANG} = "xx_X
 
 ### Requirements
 
-- *pybabel* (could be installed `pip install pybabel`)
+- *pybabel* (could be installed `pip install babel`)
 - *po2json* (could be installed with `npm install -g po2json`)
 
 **All i18n-related commands are done from the related directory :**
