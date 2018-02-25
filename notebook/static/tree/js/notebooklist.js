@@ -1220,12 +1220,14 @@ define([
     NotebookList.prototype.add_large_file_upload_button = function (file) {
         var that = this;
         var item = that.new_item(0, true);
+        var stop_singnal = false;
         item.addClass('new-file');
         that.add_name_input(file.name, item, 'file');
         var cancel_button = $('<button/>').text("Cancel")
             .addClass("btn btn-default btn-xs")
             .click(function (e) {
                 item.remove();
+                stop_singnal = true;
                 return false;
             });
 
@@ -1250,7 +1252,7 @@ define([
                     if ($(v).data('name') === filename) { exists = true; return false; }
                     });
                     return exists
-                }
+                };
                 var exists = check_exist();
                 
                 var add_uploading_button = function (f, item) {
@@ -1276,6 +1278,9 @@ define([
                         var upload_file = null;
                         
                         var large_reader_onload = function (event) {
+                            if (stop_singnal === true) {
+                                return;
+                            }
                             if (event.target.error == null) {
                                 offset += chunk_size;
                                 if (offset >= f.size) {
@@ -1305,7 +1310,7 @@ define([
                                 body : "Failed to read file '" + name + "'",
                                 buttons : {'OK' : { 'class' : 'btn-primary' }}
                             });
-                        }
+                        };
 
                         chunk_reader = function (_offset, _f) {
                             var reader = new FileReader();
@@ -1363,7 +1368,7 @@ define([
                                 }
                             };
                             that.contents.save(path, model).then(on_success, on_error);
-                        }
+                        };
 
                         // now let's start the read with the first block
                         chunk_reader(offset, f);
