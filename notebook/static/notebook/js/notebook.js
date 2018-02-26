@@ -572,8 +572,11 @@ define([
         var that = this;
         dialog.edit_metadata({
             md: this.metadata, 
-            callback: function (md) {
-                that.metadata = md;
+            callback: function (new_md) {
+                if(!_.isEqual(that.metadata, new_md)){
+                    that.set_dirty(true);
+                }
+                that.metadata = new_md;
             },
             name: 'Notebook',
             notebook: this,
