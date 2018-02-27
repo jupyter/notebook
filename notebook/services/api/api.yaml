@@ -7,7 +7,7 @@ info:
     name: Jupyter Project
     url: https://jupyter.org
 # will be prefixed to all paths
-basePath: /api
+basePath: /
 produces:
   - application/json
 consumes:
@@ -53,7 +53,9 @@ parameters:
     type: string
 
 paths:
-  /contents/{path}:
+
+
+  /api/contents/{path}:
     parameters:
       - $ref: '#/parameters/path'
     get:
@@ -252,7 +254,7 @@ paths:
               description: URL for the removed file
               type: string
               format: url
-  /contents/{path}/checkpoints:
+  /api/contents/{path}/checkpoints:
     parameters:
       - $ref: '#/parameters/path'
     get:
@@ -310,7 +312,7 @@ paths:
               reason:
                 type: string
                 description: Explanation of error reason
-  /contents/{path}/checkpoints/{checkpoint_id}:
+  /api/contents/{path}/checkpoints/{checkpoint_id}:
     post:
       summary: Restore a file to a particular checkpointed state
       parameters:
@@ -342,7 +344,7 @@ paths:
       responses:
         204:
           description: Checkpoint deleted
-  /sessions/{session}:
+  /api/sessions/{session}:
     parameters:
       - $ref: '#/parameters/session'
     get:
@@ -380,7 +382,7 @@ paths:
           description: Session (and kernel) were deleted
         410:
           description: "Kernel was deleted before the session, and the session was *not* deleted (TODO - check to make sure session wasn't deleted)"
-  /sessions:
+  /api/sessions:
     get:
       summary: List available sessions
       tags:
@@ -422,7 +424,7 @@ paths:
               short_message:
                 type: string
 
-  /kernels:
+  /api/kernels:
     get:
       summary: List the JSON data for all kernels that are currently running
       tags:
@@ -457,7 +459,7 @@ paths:
               description: Model for started kernel
               type: string
               format: url
-  /kernels/{kernel_id}:
+  /api/kernels/{kernel_id}:
     parameters:
       - $ref: '#/parameters/kernel'
     get:
@@ -476,7 +478,7 @@ paths:
       responses:
         204:
           description: Kernel deleted
-  /kernels/{kernel_id}/interrupt:
+  /api/kernels/{kernel_id}/interrupt:
     parameters:
       - $ref: '#/parameters/kernel'
     post:
@@ -486,7 +488,7 @@ paths:
       responses:
         204:
           description: Kernel interrupted
-  /kernels/{kernel_id}/restart:
+  /api/kernels/{kernel_id}/restart:
     parameters:
       - $ref: '#/parameters/kernel'
     post:
@@ -504,7 +506,7 @@ paths:
           schema:
             $ref: '#/definitions/Kernel'
 
-  /kernelspecs:
+  /api/kernelspecs:
     get:
       summary: Get kernel specs
       tags:
@@ -522,7 +524,7 @@ paths:
                 type: object
                 additionalProperties:
                   $ref: '#/definitions/KernelSpec'
-  /config/{section_name}:
+  /api/config/{section_name}:
     get:
       summary: Get a configuration section by name
       parameters:
@@ -550,7 +552,7 @@ paths:
           schema:
             type: object
 
-  /terminals:
+  /api/terminals:
     get:
       summary: Get available terminals
       tags:
@@ -581,7 +583,7 @@ paths:
         404:
           description: Not found
 
-  /terminals/{terminal_id}:
+  /api/terminals/{terminal_id}:
     get:
       summary: Get a terminal session corresponding to an id.
       tags:
@@ -615,14 +617,29 @@ paths:
 
 
 
-  /status:
+  /api/status:
     get:
-      summary: Get the current status / activity of the server
+      summary: Get the current status/activity of the server.
+      tags:
+        - status
       responses:
         200:
           description: The current status of the server
           schema:
               $ref: '#/definitions/APIStatus'
+
+  /api/spec.yaml:
+    get:
+      summary: Get the current spec for the notebook server's APIs.
+      tags:
+        - api-spec
+      produces:
+        - text/x-yaml
+      responses:
+        200:
+          description: The current spec for the notebook server's APIs.
+          schema:
+              type: file
 definitions:
   APIStatus:
     description: |
