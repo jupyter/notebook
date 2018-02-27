@@ -14,9 +14,10 @@ from .handlers import TerminalHandler, TermSocket
 from . import api_handlers
 
 def initialize(webapp, notebook_dir, connection_url, settings):
-    default_shell = which('sh')
-    if not default_shell and os.name == 'nt':
+    if os.name == 'nt':
         default_shell = 'powershell.exe'
+    else:
+        default_shell = which('sh')
     shell = settings.get('shell_command',
         [os.environ.get('SHELL') or default_shell]
     )
