@@ -47,21 +47,29 @@ This document describes how you can
 Securing a notebook server
 --------------------------
 
-You can protect your notebook server with a simple single password by
-configuring the :attr:`NotebookApp.password` setting in
-:file:`jupyter_notebook_config.py`.
+You can protect your notebook server with a simple single password. As of notebook
+5.0 this can be done automatically. To set up a password manually you can configure the
+:attr:`NotebookApp.password` setting in :file:`jupyter_notebook_config.py`.
+
 
 Prerequisite: A notebook configuration file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Check to see if you have a notebook configuration file,
 :file:`jupyter_notebook_config.py`. The default location for this file
-is your Jupyter folder in your home directory, ``~/.jupyter``.
+is your Jupyter folder located in your home directory:
 
-If you don't already have one, create a config file for the notebook
-using the following command::
+    - Windows: :file:`C:\\Users\\USERNAME\\.jupyter\\jupyter_notebook_config.py`
+    - OS X: :file:`/Users/USERNAME/.jupyter/jupyter_notebook_config.py`
+    - Linux: :file:`/home/USERNAME/.jupyter/jupyter_notebook_config.py`
+
+If you don't already have a Jupyter folder, or if your Jupyter folder doesn't contain
+a notebook configuration file, run the following command::
 
   $ jupyter notebook --generate-config
+
+This command will create the Jupyter folder if necessary, and create notebook
+configuration file, :file:`jupyter_notebook_config.py`, in this folder.
 
 
 Automatic Password setup
@@ -132,9 +140,9 @@ directory, ``~/.jupyter``, e.g.::
     c.NotebookApp.password = u'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
 
 Automatic password setup will store the hash in ``jupyter_notebook_config.json``
-while this method store in in ``jupyter_notebook_config.py``. The ``.json``
+while this method stores the hash in ``jupyter_notebook_config.py``. The ``.json``
 configuration options take precedence over the ``.py`` one, thus the manual
-password may not take effect if the Json file as a password set.
+password may not take effect if the Json file has a password set.
 
 
 Using SSL for encrypted communication
