@@ -175,8 +175,12 @@ class LoginHandler(IPythonHandler):
             # Used in is_token_authenticated above.
             handler._token_authenticated = True
         if user_id is None:
-            # prevent extra Invalid cookie sig warnings:
-            handler.clear_login_cookie()
+            # If an invalid cookie was sent, clear it to prevent unnecessary
+            # extra warnings. But don't do this on a request with *no* cookie,
+            # because that can erroneously log you out (see gh-3365)
+            if handler.get_cookie(handler.cookie_name) is not None:
+                handler.log.warning("Clearing invalid/expired login cookie %s", handler.cookie_name)
+                handler.clear_login_cookie()
             if not handler.login_available:
                 # Completely insecure! No authentication at all.
                 # No need to warn here, though; validate_security will have already done that.
