@@ -15,7 +15,7 @@ However…
 run in).
 
 Hint: if running Windows, you can set it in PowerShell with `${Env:LANG} = "xx_XX"`.
-      if running Ubuntu, you should set environment variable `LANGUAGE="xx_XX"`.
+      if running Ubuntu 14, you should set environment variable `LANGUAGE="xx_XX"`.
 
 2. The preferred language for web pages in your browser settings (`xx`) is
    also used. At the moment, it has to be first in the list.
