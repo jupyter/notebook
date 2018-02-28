@@ -711,13 +711,15 @@ class NotebookApp(JupyterApp):
         h.update(self.password.encode())
         return h.digest()
 
-
-    
     def _write_cookie_secret_file(self, secret):
         """write my secret to my secret_file"""
         self.log.info(_("Writing notebook server cookie secret to %s"), self.cookie_secret_file)
-        with io.open(self.cookie_secret_file, 'wb') as f:
-            f.write(secret)
+        try:
+            with io.open(self.cookie_secret_file, 'wb') as f:
+                f.write(secret)
+        except OSError as e:
+            self.log.error(_("Failed to write cookie secret to %s: %s"),
+                           self.cookie_secret_file, e)
         try:
             os.chmod(self.cookie_secret_file, 0o600)
         except OSError:
@@ -1554,12 +1556,16 @@ class NotebookApp(JupyterApp):
 
     def write_server_info_file(self):
         """Write the result of server_info() to the JSON file info_file."""
-        with open(self.info_file, 'w') as f:
-            json.dump(self.server_info(), f, indent=2, sort_keys=True)
+        try:
+            with open(self.info_file, 'w') as f:
+                json.dump(self.server_info(), f, indent=2, sort_keys=True)
+        except OSError as e:
+            self.log.error(_("Failed to write server-info to %s: %s"),
+                           self.info_file, e)
 
     def remove_server_info_file(self):
         """Remove the nbserver-<pid>.json file created for this server.
-        
+
         Ignores the error raised when the file has already been removed.
         """
         try:
