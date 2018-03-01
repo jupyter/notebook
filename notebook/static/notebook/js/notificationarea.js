@@ -399,7 +399,7 @@ define([
                 }, {'title':'Javascript enabled for notebook display'});
                 // don't allow 'Trusted' button to be clicked
                 $(tnw.selector).attr('disabled', true)
-                $(tnw.selector).css( 'cursor', 'help');
+                $(tnw.selector).css('cursor', 'help');
             } else {
                 tnw.set_message(i18n.msg._("Not Trusted"), undefined, function() {
                   that.notebook.trust_notebook();
