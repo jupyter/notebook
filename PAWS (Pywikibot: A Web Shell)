@@ -1,0 +1,8 @@
+YuviPanda
+http://www.rexamples.com/10/Reading%20data
+https://paws.wmflabs.org/paws/user/rcmpython/tree?
+jupyter nbextension install --sys-prefix --py ipyparallel
+ipcluster start
+import ipyparallel as ipp
+https://github.com/ipython/ipyparallel
+https://ipyparallel.readthedocs.io/en/latest/
