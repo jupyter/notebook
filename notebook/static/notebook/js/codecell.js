@@ -340,8 +340,10 @@ define([
         this.element.addClass("running");
         var callbacks = this.get_callbacks();
         
-        this.last_msg_id = this.kernel.execute(this.get_text(), callbacks, {silent: false, store_history: true,
-            stop_on_error : stop_on_error});
+        var contents = {silent: false, store_history: true, stop_on_error : stop_on_error}
+        if (Object.keys(this.metadata).length > 0)
+            contents.cell_metadata = this.metadata;
+        this.last_msg_id = this.kernel.execute(this.get_text(), callbacks, contents);
         CodeCell.msg_cells[this.last_msg_id] = this;
         this.render();
         this.events.trigger('execute.CodeCell', {cell: this});
