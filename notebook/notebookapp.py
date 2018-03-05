@@ -11,6 +11,8 @@ import binascii
 import datetime
 import errno
 import gettext
+import hashlib
+import hmac
 import importlib
 import io
 import json
@@ -27,7 +29,6 @@ import threading
 import time
 import warnings
 import webbrowser
-import hmac
 
 try: #PY3
     from base64 import encodebytes
@@ -706,7 +707,7 @@ class NotebookApp(JupyterApp):
         else:
             key = encodebytes(os.urandom(32))
             self._write_cookie_secret_file(key)
-        h = hmac.HMAC(key, digestmod='sha256')
+        h = hmac.new(key, digestmod=hashlib.sha256)
         h.update(self.password.encode())
         return h.digest()
 
