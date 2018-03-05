@@ -53,11 +53,12 @@ class KernelAPI(object):
 
     def websocket(self, id):
         loop = IOLoop()
+        loop.make_current()
         req = HTTPRequest(
             url_path_join(self.base_url.replace('http', 'ws', 1), 'api/kernels', id, 'channels'),
             headers=self.headers,
         )
-        f = websocket_connect(req, io_loop=loop)
+        f = websocket_connect(req)
         return loop.run_sync(lambda : f)
 
 
