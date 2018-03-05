@@ -135,6 +135,9 @@ class NotebookTestBase(TestCase):
 
         started = Event()
         def start_thread():
+            if 'asyncio' in sys.modules:
+                import asyncio
+                asyncio.set_event_loop(asyncio.new_event_loop())
             app = cls.notebook = NotebookApp(
                 port=cls.port,
                 port_retries=0,
