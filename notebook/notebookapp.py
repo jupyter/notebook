@@ -687,27 +687,26 @@ class NotebookApp(JupyterApp):
     @default('cookie_secret_file')
     def _default_cookie_secret_file(self):
         return os.path.join(self.runtime_dir, 'notebook_cookie_secret')
-    
+
     cookie_secret = Bytes(b'', config=True,
         help="""The random bytes used to secure cookies.
         By default this is a new random number every time you start the Notebook.
         Set it to a value in a config file to enable logins to persist across server sessions.
-        
+
         Note: Cookie secrets should be kept private, do not share config files with
         cookie_secret stored in plaintext (you can read the value from a file).
         """
     )
-    
+
     @default('cookie_secret')
     def _default_cookie_secret(self):
         if os.path.exists(self.cookie_secret_file):
             with io.open(self.cookie_secret_file, 'rb') as f:
                 key =  f.read()
         else:
-            key = encodebytes(os.urandom(1024))
+            key = encodebytes(os.urandom(32))
             self._write_cookie_secret_file(key)
-        h = hmac.HMAC(key)
-        h.digest_size = len(key)
+        h = hmac.HMAC(key, digestmod='sha256')
         h.update(self.password.encode())
         return h.digest()
 
