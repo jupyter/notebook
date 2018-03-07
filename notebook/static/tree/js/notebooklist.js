@@ -1220,14 +1220,14 @@ define([
     NotebookList.prototype.add_large_file_upload_button = function (file) {
         var that = this;
         var item = that.new_item(0, true);
-        var stop_singnal = false;
+        var stop_signal = false;
         item.addClass('new-file');
         that.add_name_input(file.name, item, 'file');
         var cancel_button = $('<button/>').text("Cancel")
             .addClass("btn btn-default btn-xs")
             .click(function (e) {
                 item.remove();
-                stop_singnal = true;
+                stop_signal = true;
                 return false;
             });
 
@@ -1278,7 +1278,7 @@ define([
                         var upload_file = null;
                         
                         var large_reader_onload = function (event) {
-                            if (stop_singnal === true) {
+                            if (stop_signal === true) {
                                 return;
                             }
                             if (event.target.error == null) {
