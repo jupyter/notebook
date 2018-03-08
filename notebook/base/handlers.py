@@ -601,6 +601,13 @@ class Template404(IPythonHandler):
 class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
     """static files should only be accessible when logged in"""
 
+    @property
+    def content_security_policy(self):
+        # In case we're serving HTML/SVG, confine any Javascript to a unique
+        # origin so it can't interact with the notebook server.
+        return super(AuthenticatedFileHandler, self).content_security_policy + \
+                "; sandbox allow-scripts"
+
     @web.authenticated
     def get(self, path):
         if os.path.splitext(path)[1] == '.ipynb' or self.get_argument("download", False):
@@ -629,10 +636,6 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
         # disable browser caching, rely on 304 replies for savings
         if "v" not in self.request.arguments:
             self.add_header("Cache-Control", "no-cache")
-
-        # In case we're serving HTML/SVG, confine any Javascript to a unique
-        # origin so it can't interact with the notebook server.
-        self.set_header('Content-Security-Policy', 'sandbox allow-scripts')
     
     def compute_etag(self):
         return None

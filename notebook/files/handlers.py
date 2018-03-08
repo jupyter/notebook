@@ -26,6 +26,13 @@ class FilesHandler(IPythonHandler):
     a subclass of StaticFileHandler.
     """
 
+    @property
+    def content_security_policy(self):
+        # In case we're serving HTML/SVG, confine any Javascript to a unique
+        # origin so it can't interact with the notebook server.
+        return super(FilesHandler, self).content_security_policy + \
+               "; sandbox allow-scripts"
+
     @web.authenticated
     def head(self, path):
         self.get(path, include_body=False)
@@ -63,10 +70,6 @@ class FilesHandler(IPythonHandler):
                     self.set_header('Content-Type', 'application/octet-stream')
                 else:
                     self.set_header('Content-Type', 'text/plain; charset=UTF-8')
-
-        # In case we're serving HTML/SVG, confine any Javascript to a unique
-        # origin so it can't interact with the notebook server.
-        self.set_header('Content-Security-Policy', 'sandbox allow-scripts')
 
         if include_body:
             if model['format'] == 'base64':
