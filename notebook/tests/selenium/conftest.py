@@ -63,8 +63,8 @@ def notebook_server():
     requests.post(urljoin(info['url'], 'api/shutdown'),
                   headers={'Authorization': 'token '+info['token']})
 
-
-def _get_selenium_driver():
+@pytest.fixture(scope='session')
+def selenium_driver():
     if os.environ.get('SAUCE_USERNAME'):
         username = os.environ["SAUCE_USERNAME"]
         access_key = os.environ["SAUCE_ACCESS_KEY"]
@@ -81,16 +81,19 @@ def _get_selenium_driver():
             capabilities['version'] = '57.0'
         hub_url = "%s:%s@localhost:4445" % (username, access_key)
         print("Connecting remote driver on Sauce Labs")
-        return Remote(desired_capabilities=capabilities,
+        driver = Remote(desired_capabilities=capabilities,
                       command_executor="http://%s/wd/hub" % hub_url)
     elif os.environ.get('JUPYTER_TEST_BROWSER') == 'chrome':
-        return Chrome()
+        driver = Chrome()
     else:
-        return Firefox()
+        driver = Firefox()
+
+    yield driver
+
+    # Teardown
+    driver.quit()
 
 @pytest.fixture
-def browser(notebook_server):
-    b = _get_selenium_driver()
-    b.get("{url}?token={token}".format(**notebook_server))
-    yield b
-    b.quit()
+def authenticated_browser(selenium_driver, notebook_server):
+    selenium_driver.get("{url}?token={token}".format(**notebook_server))
+    return selenium_driver
