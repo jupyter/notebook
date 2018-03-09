@@ -601,6 +601,13 @@ class Template404(IPythonHandler):
 class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
     """static files should only be accessible when logged in"""
 
+    @property
+    def content_security_policy(self):
+        # In case we're serving HTML/SVG, confine any Javascript to a unique
+        # origin so it can't interact with the notebook server.
+        return super(AuthenticatedFileHandler, self).content_security_policy + \
+                "; sandbox allow-scripts"
+
     @web.authenticated
     def get(self, path):
         if os.path.splitext(path)[1] == '.ipynb' or self.get_argument("download", False):
