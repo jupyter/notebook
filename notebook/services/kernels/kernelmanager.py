@@ -261,6 +261,7 @@ class MappingKernelManager(MultiKernelManager):
         self._check_kernel_id(kernel_id)
         kernel = self._kernels[kernel_id]
         kernel._activity_stream.close()
+        kernel._activity_stream = None
         self.stop_buffering(kernel_id)
         self._kernel_connections.pop(kernel_id, None)
         self.last_kernel_activity = utcnow()
