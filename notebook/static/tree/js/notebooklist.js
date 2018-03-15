@@ -29,17 +29,11 @@ define([
       var normalized_list = list.map(function(_item) {
         return _item.toLowerCase();
       });
-      return normalized_list.indexOf(item.toLowerCase()) != -1;
+      return normalized_list.indexOf(item.toLowerCase()) !== -1;
     };
 
     var includes_extension = function(filepath, extensionslist) {
       return item_in(extension(filepath), extensionslist);
-    };
-
-    var json_or_xml_container_mimetype = function(mimetype) {
-      // Match */*+json or */*+xml
-      return (mimetype.substring(mimetype.length - 5) == '+json'
-              || mimetype.substring(mimetype.length - 4) == '+xml');
     };
 
     function name_sorter(ascending) {
@@ -58,7 +52,7 @@ define([
             }
             return 0;
         });
-    };
+    }
 
     function modified_sorter(ascending) {
         var order = ascending ? 1 : 0;
@@ -148,11 +142,10 @@ define([
             $('#new-file').click(function(e) {
                 var w = window.open('', IPython._target);
                 that.contents.new_untitled(that.notebook_path || '', {type: 'file', ext: '.txt'}).then(function(data) {
-                    var url = utils.url_path_join(
+                    w.location = utils.url_path_join(
                         that.base_url, 'edit',
                         utils.encode_uri_components(data.path)
                     );
-                    w.location = url;
                 }).catch(function (e) {
                     w.close();
                     dialog.modal({
@@ -230,7 +223,7 @@ define([
                 var sort_on = e.target.id;
 
                 // Clear sort indications in UI
-                $(".sort-action i").removeClass("fa-arrow-up").removeClass("fa-arrow-down")
+                $(".sort-action i").removeClass("fa-arrow-up").removeClass("fa-arrow-down");
 
                 if ((that.sort_id === sort_on) && (that.sort_direction === 1)) {
                     that.sort_list(sort_on, 0);
@@ -457,7 +450,7 @@ define([
             model = {
                 type: 'directory',
                 name: '..',
-                path: utils.url_path_split(path)[0],
+                path: utils.url_path_split(path)[0]
             };
             this.add_link(model, item);
             offset += 1;
@@ -567,13 +560,13 @@ define([
     NotebookList.icons = {
         directory: 'folder_icon',
         notebook: 'notebook_icon',
-        file: 'file_icon',
+        file: 'file_icon'
     };
 
     NotebookList.uri_prefixes = {
         directory: 'tree',
         notebook: 'notebooks',
-        file: 'edit',
+        file: 'edit'
     };
 
     /**
@@ -638,7 +631,6 @@ define([
         var has_running_notebook = false;
         var has_directory = false;
         var has_file = false;
-        var that = this;
         var checked = 0;
         $('.list_item :checked').each(function(index, item) {
             var parent = $(item).parent().parent();
@@ -889,7 +881,7 @@ define([
             success : function () {
                 that.load_sessions();
             },
-            error : utils.log_ajax_error,
+            error : utils.log_ajax_error
         };
 
         var session = this.sessions[path];
@@ -921,7 +913,7 @@ define([
         	case 'notebook': return i18n.msg._("Enter a new notebook name:");
         	default: return i18n.msg._("Enter a new name:");
         	}
-        }
+        };
         var rename_title = function (type) {
            	switch(type) {
            	case 'file': return i18n.msg._("Rename file");
@@ -929,7 +921,7 @@ define([
            	case 'notebook': return i18n.msg._("Rename notebook");
            	default: return i18n.msg._("Rename");
            	}
-        }
+        };
         var dialog_body = $('<div/>').append(
             $("<p/>").addClass("rename-message")
                 .text(rename_msg(item_type))
@@ -1275,7 +1267,6 @@ define([
                         var offset = 0;
                         var chunk = 0;
                         var chunk_reader = null;
-                        var upload_file = null;
                         
                         var large_reader_onload = function (event) {
                             if (stop_signal === true) {
@@ -1294,7 +1285,6 @@ define([
                                 upload_file(item, chunk);  // Do the upload
                             } else {
                                 console.log("Read error: " + event.target.error);
-                                return;
                             }
                         };
                         var on_error = function (event) {
@@ -1351,7 +1341,7 @@ define([
                             model.chunk = chunk;
                             model.content = filedata;
                             
-                            var on_success = function (event) {
+                            var on_success = function () {
                                 if (offset < f.size) {
                                     // of to the next chunk
                                     chunk_reader(offset, f);
@@ -1403,7 +1393,7 @@ define([
         item.find(".item_buttons").empty()
             .append(upload_button)
             .append(cancel_button);
-    }
+    };
 
     NotebookList.prototype.add_upload_button = function (item) {
         var that = this;
@@ -1465,7 +1455,6 @@ define([
                     model.content = filedata;
                     content_type = 'application/octet-stream';
                 }
-                filedata = item.data('filedata');
 
                 var on_success = function () {
                     item.removeClass('new-file');
