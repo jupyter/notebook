@@ -233,7 +233,7 @@ class NotebookWebApplication(web.Application):
             },
             version_hash=version_hash,
             ignore_minified_js=jupyter_app.ignore_minified_js,
-            
+
             # rate limits
             iopub_msg_rate_limit=jupyter_app.iopub_msg_rate_limit,
             iopub_data_rate_limit=jupyter_app.iopub_data_rate_limit,
@@ -243,7 +243,7 @@ class NotebookWebApplication(web.Application):
             # tornado defaults are 100 MiB, we increase it to 0.5 GiB
             max_body_size = 512 * 1024 * 1024,
             max_buffer_size = 512 * 1024 * 1024,
-            
+
             # authentication
             cookie_secret=jupyter_app.cookie_secret,
             login_url=url_path_join(base_url,'/login'),
@@ -265,6 +265,9 @@ class NotebookWebApplication(web.Application):
 
             # Jupyter stuff
             started=now,
+            # place for extensions to register activity
+            # so that they can prevent idle-shutdown
+            last_activity_times={},
             jinja_template_vars=jupyter_app.jinja_template_vars,
             nbextensions_path=jupyter_app.nbextensions_path,
             websocket_url=jupyter_app.websocket_url,
@@ -361,6 +364,7 @@ class NotebookWebApplication(web.Application):
             sources.append(self.settings['terminal_last_activity'])
         except KeyError:
             pass
+        sources.extend(self.settings['last_activity_times'].values())
         return max(sources)
 
 
@@ -1271,7 +1275,7 @@ class NotebookApp(JupyterApp):
             self.session_manager, self.kernel_spec_manager,
             self.config_manager, self.extra_services,
             self.log, self.base_url, self.default_url, self.tornado_settings,
-            self.jinja_environment_options
+            self.jinja_environment_options,
         )
         ssl_options = self.ssl_options
         if self.certfile:
