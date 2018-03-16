@@ -265,7 +265,8 @@ class NotebookWebApplication(web.Application):
             # Jupyter stuff
             started=now,
             # place for extensions to register activity
-            activity_sources={},
+            # so that they can prevent idle-shutdown
+            last_activity_times={},
             jinja_template_vars=jupyter_app.jinja_template_vars,
             nbextensions_path=jupyter_app.nbextensions_path,
             websocket_url=jupyter_app.websocket_url,
@@ -362,7 +363,7 @@ class NotebookWebApplication(web.Application):
             sources.append(self.settings['terminal_last_activity'])
         except KeyError:
             pass
-        sources.extend(self.settings['activity_sources'].values())
+        sources.extend(self.settings['last_activity_times'].values())
         return max(sources)
 
 
@@ -1274,7 +1275,7 @@ class NotebookApp(JupyterApp):
             self.session_manager, self.kernel_spec_manager,
             self.config_manager, self.extra_services,
             self.log, self.base_url, self.default_url, self.tornado_settings,
-            self.jinja_environment_options
+            self.jinja_environment_options,
         )
         ssl_options = self.ssl_options
         if self.certfile:
