@@ -13,6 +13,7 @@ For more detailed information, see
      upgrade to the latest release.
 
 .. we push for pip 9+ or it will break for Python 2 users when IPython 6 is out.
+
 We strongly recommend that you upgrade to version 9+ of pip before upgrading ``notebook``.
 
 .. tip::
@@ -20,10 +21,22 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
-.. _release-5.4:
+.. _release-5.4.1:
 
-5.4
----
+5.4.1
+-----
+
+A security release to fix `CVE-2018-8768
+<http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-8768>`_.
+
+Thanks to `Alex <https://hackerone.com/pisarenko>`__ for identifying this bug,
+and Jonathan Kamens and Scott Sanderson at Quantopian for verifying it and
+bringing it to our attention.
+
+.. _release-5.4.0:
+
+5.4.0
+-----
 
 - Fix creating files and folders after navigating directories in the dashboard
   (:ghpull:`3264`).
