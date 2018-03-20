@@ -18,6 +18,11 @@ class Notebook:
     
     def __init__(self, browser):
         self.browser = browser
+        
+    @property
+    def body(self):
+        return self.browser.find_element_by_tag_name("body")
+        
     @property
     def cells(self):
         return self.browser.find_elements_by_class_name("cell")
