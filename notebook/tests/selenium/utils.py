@@ -95,3 +95,13 @@ class Notebook:
     def execute_cell(self, index=0):
         self.focus_cell(index)
         self.current_cell.send_keys(Keys.CONTROL, Keys.ENTER)
+
+    def add_cell(self, index=-1, cell_type="code"):
+        self.focus_cell(index)
+        self.current_cell.send_keys("a")
+        new_index = index + 1 if index >= 0 else index
+        self.convert_cell_type(index=new_index, cell_type=cell_type)
+
+    def add_markdown_cell(self, index=-1, content="", render=True):
+        self.add_cell(index, cell_type="markdown")
+        self.edit_cell(index=index, content=content, render=render)
