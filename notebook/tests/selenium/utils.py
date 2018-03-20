@@ -14,6 +14,12 @@ def wait_for_selector(browser, selector, timeout=10, visible=False):
     else:
         return wait.until(EC.visibility_of_all_element_located((By.CSS_SELECTOR, selector)))
 
+        
+class CellTypeError(ValueError):
+    
+    def __init__(self, message=""):
+        self.message = message
+
 class Notebook:
     
     def __init__(self, browser):
@@ -44,6 +50,34 @@ class Notebook:
         cell.click()
         self.to_command_mode()
         self.current_cell = cell
+
+    def convert_cell_type(self, index=0, cell_type="code"):
+        # TODO add check to see if it is already present
+        self.focus_cell(index)
+        cell = self.cells[index]
+        if cell_type == "markdown":
+            self.current_cell.send_keys("m")
+        elif cell_type == "raw":
+            self.current_cell.send_keys("r")
+        elif cell_type == "code":
+            self.current_cell.send_keys("y")
+        else:
+            raise CellTypeError(("{} is not a valid cell type,"
+                                 "use 'code', 'markdown', or 'raw'").format(cell_type))
+                                 
+        self.wait_for_stale_cell(cell)
+        self.focus_cell(index)
+        return self.current_cell
+
+    def wait_for_stale_cell(self, cell):
+        """ This is needed to switch a cell's mode and refocus it, or to render it.
+        
+        Warning: there is currently no way to do this when changing between 
+        markdown and raw cells.
+        """
+        wait = WebDriverWait(self.browser, 10)
+        element = wait.until(EC.staleness_of(cell))
+                
     def edit_cell(self, cell=None, index=0, content="", render=True):
         if cell is None:
             cell = self.cells[index]
