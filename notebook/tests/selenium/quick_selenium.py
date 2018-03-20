@@ -5,6 +5,12 @@ from notebook.notebookapp import list_running_servers
 def quick_driver():
     """Quickly create a selenium driver pointing at an active noteboook server.
 
+    Usage example
+    
+    from inside the selenium test directory:
+    
+        import quick_selenium, test_markdown, utils
+        nb = utils.Notebook(test_markdown.notebook(quick_selenium.quick_driver()))
     """
     try:
         server = list(list_running_servers())[0]

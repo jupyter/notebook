@@ -14,3 +14,7 @@ def wait_for_selector(browser, selector, timeout=10, visible=False):
     else:
         return wait.until(EC.visibility_of_all_element_located((By.CSS_SELECTOR, selector)))
 
+class Notebook:
+    
+    def __init__(self, browser):
+        self.browser = browser
