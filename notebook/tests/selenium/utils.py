@@ -18,3 +18,25 @@ class Notebook:
     
     def __init__(self, browser):
         self.browser = browser
+    @property
+    def cells(self):
+        return self.browser.find_elements_by_class_name("cell")
+
+    def to_command_mode(self):
+        """Changes us into command mode on currently focused cell
+        """
+        self.browser.switch_to.active_element.send_keys(Keys.ESCAPE)
+        self.browser.execute_script("return Jupyter.notebook.handle_command_mode("
+                                       "Jupyter.notebook.get_cell("
+                                           "Jupyter.notebook.get_edit_index()))")
+
+    @property
+    def current_cell_index(self):
+        return self.cells.index(self.current_cell)
+
+    def focus_cell(self, index=0, edit=False):
+        cell = self.cells[index]
+        cell.click()
+        if not edit:
+            self.to_command_mode()
+        self.current_cell = cell
