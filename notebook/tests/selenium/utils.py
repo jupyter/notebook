@@ -39,9 +39,25 @@ class Notebook:
     def current_cell_index(self):
         return self.cells.index(self.current_cell)
 
-    def focus_cell(self, index=0, edit=False):
+    def focus_cell(self, index=0):
         cell = self.cells[index]
         cell.click()
-        if not edit:
-            self.to_command_mode()
+        self.to_command_mode()
         self.current_cell = cell
+    def edit_cell(self, cell=None, index=0, content="", render=True):
+        if cell is None:
+            cell = self.cells[index]
+        else:
+            index = self.cells.index(cell)
+        self.focus_cell(index)
+        
+        for line_no, line in enumerate(content.splitlines()):
+            if line_no != 0:
+                self.current_cell.send_keys(Keys.ENTER, "\n")
+            self.current_cell.send_keys(Keys.ENTER, line)
+        if render:
+            self.execute_cell(self.current_cell_index)
+
+    def execute_cell(self, index=0):
+        self.focus_cell(index)
+        self.current_cell.send_keys(Keys.CONTROL, Keys.ENTER)
