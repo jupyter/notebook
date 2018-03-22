@@ -12,6 +12,7 @@ from selenium.webdriver import Firefox, Remote, Chrome
 
 pjoin = os.path.join
 
+
 def _wait_for_server(proc, info_file_path):
     """Wait 30 seconds for the notebook server to start"""
     for i in range(300):
@@ -27,6 +28,7 @@ def _wait_for_server(proc, info_file_path):
                 pass
         time.sleep(0.1)
     raise RuntimeError("Didn't find %s in 30 seconds", info_file_path)
+
 
 @pytest.fixture(scope='session')
 def notebook_server():
@@ -50,10 +52,11 @@ def notebook_server():
                    # run with a base URL that would be escaped,
                    # to test that we don't double-escape URLs
                    '--NotebookApp.base_url=/a@b/',
-                  ]
+                   ]
         print("command=", command)
         proc = info['popen'] = Popen(command, cwd=nbdir, env=env)
-        info_file_path = pjoin(td, 'jupyter_runtime', 'nbserver-%i.json' % proc.pid)
+        info_file_path = pjoin(td, 'jupyter_runtime',
+                               'nbserver-%i.json' % proc.pid)
         info.update(_wait_for_server(proc, info_file_path))
 
         print("Notebook server info:", info)
@@ -105,7 +108,8 @@ def selenium_driver():
     # Teardown
     driver.quit()
 
-@pytest.fixture
+
+@pytest.fixture(scope='module')
 def authenticated_browser(selenium_driver, notebook_server):
     selenium_driver.jupyter_server_info = notebook_server
     selenium_driver.get("{url}?token={token}".format(**notebook_server))
