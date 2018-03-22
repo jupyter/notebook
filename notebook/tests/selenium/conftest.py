@@ -95,5 +95,6 @@ def selenium_driver():
 
 @pytest.fixture
 def authenticated_browser(selenium_driver, notebook_server):
+    selenium_driver.jupyter_server_info = notebook_server
     selenium_driver.get("{url}?token={token}".format(**notebook_server))
     return selenium_driver
