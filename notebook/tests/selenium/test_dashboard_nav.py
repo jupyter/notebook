@@ -5,7 +5,29 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 pjoin = os.path.join
 
+
+class PageError(Exception):
+    """Error for an action being incompatible with the current jupyter web page.
+    
+    """
+    def __init__(self, message):
+        self.message = message
+        
+        
+
 def get_list_items(browser):
+    """Gets list items from a directory listing page
+    
+    Raises PageError if not in directory listing page (url has tree in it)
+    """
+    try:
+        assert 'tree' in browser.current_url
+    except PageError:
+        raise PageError("You are not in the notebook's file tree view."
+                        "This function can only be used the file tree context.")
+    # we need to make sure that at least one item link loads
+    wait_for_selector(browser, '.item_link')
+
     return [{
         'link': a.get_attribute('href'),
         'label': a.find_element_by_class_name('item_name').text,
@@ -14,11 +36,9 @@ def get_list_items(browser):
 
 
 def only_dir_links(browser):
-    try:
-        assert 'tree' in browser.current_url
-    except AssertionError:
-        raise("You currently ")
-    wait_for_selector(browser, '.item_link')
+    """Return only links that point at other directories in the tree
+    
+    """
     items = get_list_items(browser)
     return [i for i in items if 'tree' in i['link'] and i['label'] != '..']
 
@@ -29,7 +49,6 @@ def wait_for_selector(browser, selector, timeout=10):
 
 
 def test_items(authenticated_browser):
-    tree_root_url = authenticated_browser.current_url
     visited_dict = {}
     # Going down the tree to collect links
     while True:
@@ -38,14 +57,12 @@ def test_items(authenticated_browser):
         items = visited_dict[current_url] = only_dir_links(authenticated_browser)
         try: 
             item = items[0]
-            text, url = (item['label'], item['link'])
             item["element"].click()
-            assert authenticated_browser.current_url == url
+            assert authenticated_browser.current_url == item['link']
         except IndexError:
             break
     # Going back up the tree while we still have unvisited links
     while visited_dict:
-        wait_for_selector(authenticated_browser, '.item_link')
         current_items = only_dir_links(authenticated_browser)
         current_items_links = [item["link"] for item in current_items]
         stored_items = visited_dict.pop(authenticated_browser.current_url)
