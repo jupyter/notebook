@@ -13,9 +13,20 @@ def get_list_items(browser):
     } for a in browser.find_elements_by_class_name('item_link')]
 
 
+def only_dir_links(browser):
+    try:
+        assert 'tree' in browser.current_url
+    except AssertionError:
+        raise("You currently ")
+    wait_for_selector(browser, '.item_link')
+    items = get_list_items(browser)
+    return [i for i in items if 'tree' in i['link'] and i['label'] != '..']
+
+
 def wait_for_selector(browser, selector, timeout=10):
     wait = WebDriverWait(browser, timeout)
     return wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, selector)))
+
 
 def test_items(authenticated_browser):
     tree_root_url = authenticated_browser.current_url
@@ -42,3 +53,4 @@ def test_items(authenticated_browser):
         stored_items_links = [item["link"] for item in stored_items]
         assert stored_items_links == current_items_links
         authenticated_browser.back()
+
