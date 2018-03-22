@@ -32,6 +32,10 @@ class Notebook:
 
     @property
     def cells(self):
+        """Gets all cells once they are visible.
+        
+        """
+        wait_for_selector(self.browser, ".cell")
         return self.browser.find_elements_by_class_name("cell")
 
 
@@ -48,8 +52,9 @@ class Notebook:
 
     def to_command_mode(self):
         """Changes us into command mode on currently focused cell
+        
         """
-        self.browser.switch_to.active_element.send_keys(Keys.ESCAPE)
+        self.cells[0].send_keys(Keys.ESCAPE)
         self.browser.execute_script("return Jupyter.notebook.handle_command_mode("
                                        "Jupyter.notebook.get_cell("
                                            "Jupyter.notebook.get_edit_index()))")
