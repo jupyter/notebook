@@ -14,7 +14,7 @@ def wait_for_selector(browser, selector, timeout=10, visible=False):
     else:
         return wait.until(EC.visibility_of_all_element_located((By.CSS_SELECTOR, selector)))
 
-        
+
 class CellTypeError(ValueError):
     
     def __init__(self, message=""):
@@ -24,14 +24,27 @@ class Notebook:
     
     def __init__(self, browser):
         self.browser = browser
-        
+        self.remove_safety_check()
+
     @property
     def body(self):
         return self.browser.find_element_by_tag_name("body")
-        
+
     @property
     def cells(self):
         return self.browser.find_elements_by_class_name("cell")
+
+
+    @property
+    def current_cell_index(self):
+        return self.cells.index(self.current_cell)
+
+    def remove_safety_check(self):
+        """Disable request to save before closing window.
+        
+        This is most easily done by using js directly.
+        """
+        self.browser.execute_script("window.onbeforeunload = null;")
 
     def to_command_mode(self):
         """Changes us into command mode on currently focused cell
@@ -40,10 +53,6 @@ class Notebook:
         self.browser.execute_script("return Jupyter.notebook.handle_command_mode("
                                        "Jupyter.notebook.get_cell("
                                            "Jupyter.notebook.get_edit_index()))")
-
-    @property
-    def current_cell_index(self):
-        return self.cells.index(self.current_cell)
 
     def focus_cell(self, index=0):
         cell = self.cells[index]
@@ -71,20 +80,20 @@ class Notebook:
 
     def wait_for_stale_cell(self, cell):
         """ This is needed to switch a cell's mode and refocus it, or to render it.
-        
+
         Warning: there is currently no way to do this when changing between 
         markdown and raw cells.
         """
         wait = WebDriverWait(self.browser, 10)
         element = wait.until(EC.staleness_of(cell))
-                
+
     def edit_cell(self, cell=None, index=0, content="", render=True):
         if cell is None:
             cell = self.cells[index]
         else:
             index = self.cells.index(cell)
         self.focus_cell(index)
-        
+
         for line_no, line in enumerate(content.splitlines()):
             if line_no != 0:
                 self.current_cell.send_keys(Keys.ENTER, "\n")
