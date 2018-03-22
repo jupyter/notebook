@@ -3,6 +3,8 @@ import os
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+from notebook.utils import url_path_join
 pjoin = os.path.join
 
 
@@ -13,16 +15,20 @@ class PageError(Exception):
     def __init__(self, message):
         self.message = message
         
-        
+
+def url_in_tree(browser, url=None):
+    if url is None:
+        url = browser.current_url
+    tree_url = url_path_join(browser.jupyter_server_info['url'], 'tree')
+    return url.startswith(tree_url)
+
 
 def get_list_items(browser):
     """Gets list items from a directory listing page
     
     Raises PageError if not in directory listing page (url has tree in it)
     """
-    try:
-        assert 'tree' in browser.current_url
-    except PageError:
+    if not url_in_tree(browser):
         raise PageError("You are not in the notebook's file tree view."
                         "This function can only be used the file tree context.")
     # we need to make sure that at least one item link loads
@@ -40,7 +46,8 @@ def only_dir_links(browser):
     
     """
     items = get_list_items(browser)
-    return [i for i in items if 'tree' in i['link'] and i['label'] != '..']
+    return [i for i in items 
+            if url_in_tree(browser, i['link']) and i['label'] != '..']
 
 
 def wait_for_selector(browser, selector, timeout=10):
