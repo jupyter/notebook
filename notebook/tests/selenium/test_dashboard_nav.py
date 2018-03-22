@@ -34,20 +34,19 @@ def test_items(authenticated_browser):
     # Going down the tree to collect links
     while True:
         wait_for_selector(authenticated_browser, '.item_link')
-        items = get_list_items(authenticated_browser)
-        visited_dict[authenticated_browser.current_url] = items
-        print(authenticated_browser.current_url, len(items))
-        if len(items)>1:
-            item = items[1]
-            url = item['link']
+        current_url = authenticated_browser.current_url
+        items = visited_dict[current_url] = only_dir_links(authenticated_browser)
+        try: 
+            item = items[0]
+            text, url = (item['label'], item['link'])
             item["element"].click()
             assert authenticated_browser.current_url == url
-        else:
+        except IndexError:
             break
     # Going back up the tree while we still have unvisited links
     while visited_dict:
         wait_for_selector(authenticated_browser, '.item_link')
-        current_items = get_list_items(authenticated_browser)
+        current_items = only_dir_links(authenticated_browser)
         current_items_links = [item["link"] for item in current_items]
         stored_items = visited_dict.pop(authenticated_browser.current_url)
         stored_items_links = [item["link"] for item in stored_items]
