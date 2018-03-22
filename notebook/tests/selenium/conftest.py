@@ -63,26 +63,38 @@ def notebook_server():
     requests.post(urljoin(info['url'], 'api/shutdown'),
                   headers={'Authorization': 'token '+info['token']})
 
+
+def make_sauce_driver():
+    """This function helps travis create a driver on Sauce Labs.
+
+    This function will err if used without specifying the variables expected
+    in that context.
+    """
+
+    username = os.environ["SAUCE_USERNAME"]
+    access_key = os.environ["SAUCE_ACCESS_KEY"]
+    capabilities = {
+        "tunnel-identifier": os.environ["TRAVIS_JOB_NUMBER"],
+        "build": os.environ["TRAVIS_BUILD_NUMBER"],
+        "tags": [os.environ['TRAVIS_PYTHON_VERSION'], 'CI'],
+        "platform": "Windows 10",
+        "browserName": os.environ['JUPYTER_TEST_BROWSER'],
+        "version": "latest",
+    }
+    if capabilities['browserName'] == 'firefox':
+        # Attempt to work around issue where browser loses authentication
+        capabilities['version'] = '57.0'
+    hub_url = "%s:%s@localhost:4445" % (username, access_key)
+    print("Connecting remote driver on Sauce Labs")
+    driver = Remote(desired_capabilities=capabilities,
+                    command_executor="http://%s/wd/hub" % hub_url)
+    return driver
+
+
 @pytest.fixture(scope='session')
 def selenium_driver():
     if os.environ.get('SAUCE_USERNAME'):
-        username = os.environ["SAUCE_USERNAME"]
-        access_key = os.environ["SAUCE_ACCESS_KEY"]
-        capabilities = {
-            "tunnel-identifier": os.environ["TRAVIS_JOB_NUMBER"],
-            "build": os.environ["TRAVIS_BUILD_NUMBER"],
-            "tags": [os.environ['TRAVIS_PYTHON_VERSION'], 'CI'],
-            "platform": "Windows 10",
-            "browserName": os.environ['JUPYTER_TEST_BROWSER'],
-            "version": "latest",
-        }
-        if capabilities['browserName'] == 'firefox':
-            # Attempt to work around issue where browser loses authentication
-            capabilities['version'] = '57.0'
-        hub_url = "%s:%s@localhost:4445" % (username, access_key)
-        print("Connecting remote driver on Sauce Labs")
-        driver = Remote(desired_capabilities=capabilities,
-                      command_executor="http://%s/wd/hub" % hub_url)
+        driver = make_sauce_driver()
     elif os.environ.get('JUPYTER_TEST_BROWSER') == 'chrome':
         driver = Chrome()
     else:
