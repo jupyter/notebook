@@ -17,6 +17,6 @@ def quick_driver():
     except IndexError as e:
         e.message = 'You need a server running before you can run this command'
     driver = Firefox()
-    auth_url = f'{server["url"]}?token={server["token"]}'
+    auth_url = '{url}?token={token}'.format(**server)
     driver.get(auth_url)
     return driver
