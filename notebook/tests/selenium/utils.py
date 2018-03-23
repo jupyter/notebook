@@ -7,12 +7,20 @@ from selenium.webdriver.support import expected_conditions as EC
 
 pjoin = os.path.join
 
-def wait_for_selector(browser, selector, timeout=10, visible=False):
+
+def wait_for_selector(browser, selector, timeout=10, visible=False, single=False):
     wait = WebDriverWait(browser, timeout)
-    if not visible:
-        return wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, selector)))
+    if single:
+        if visible:
+            conditional = EC.visibility_of_element_located
+        else:
+            conditional = EC.presence_of_element_located
     else:
-        return wait.until(EC.visibility_of_all_element_located((By.CSS_SELECTOR, selector)))
+        if visible:
+            conditional = EC.visibility_of_all_elements_located
+        else:
+            conditional = EC.presence_of_all_elements_located
+    return wait.until(conditional((By.CSS_SELECTOR, selector)))
 
 
 class CellTypeError(ValueError):
