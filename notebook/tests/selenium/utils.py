@@ -65,9 +65,7 @@ class Notebook:
         """Gets all cells once they are visible.
         
         """
-        wait_for_selector(self.browser, ".cell")
         return self.browser.find_elements_by_class_name("cell")
-
 
     @property
     def current_index(self):
