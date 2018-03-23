@@ -1,4 +1,6 @@
 from selenium.webdriver import Firefox
+
+from notebook.tests.selenium.utils import Notebook
 from notebook.notebookapp import list_running_servers
 
 
@@ -10,6 +12,7 @@ def quick_driver(lab=False):
         from notebook.tests.selenium.quick_selenium import quick_driver
         driver = quick_driver
         
+    Note: you need to manually close the driver that opens with driver.quit()
     """
     try:
         server = list(list_running_servers())[0]
@@ -25,3 +28,16 @@ def quick_driver(lab=False):
         driver.get(driver.current_url.rstrip('lab')+'tree')
     return driver
 
+
+def quick_notebook():
+    """Quickly create a new classic notebook in a selenium driver
+
+
+    Usage example:
+    
+        from notebook.tests.selenium.quick_selenium import quick_notebook
+        nb = quick_notebook()
+
+    Note: you need to manually close the driver that opens with nb.browser.quit()
+    """
+    return Notebook.new_notebook(quick_driver())
