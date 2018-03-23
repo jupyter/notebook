@@ -135,11 +135,11 @@ class Notebook:
         if render:
             self.execute_cell(self.current_index)
 
-    def execute_cell(self, cell_or_index = None):
+    def execute_cell(self, cell_or_index=None):
         if isinstance(cell_or_index, int):
             index = cell_or_index
         elif isinstance(cell_or_index, WebElement): 
-            index = self[cell_or_index]
+            index = self.index(cell_or_index)
         else:
             raise TypeError("execute_cell only accepts a WebElement or an int")
         self.focus_cell(index)
