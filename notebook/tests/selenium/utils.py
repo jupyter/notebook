@@ -129,6 +129,17 @@ class Notebook:
     def add_markdown_cell(self, index=-1, content="", render=True):
         self.add_cell(index, cell_type="markdown")
         self.edit_cell(index=index, content=content, render=render)
+
+    
+def select_kernel(browser, kernel_name='kernel-python3'):
+    """Clicks the "new" button and selects a kernel from the options.
+    """
+    new_button = wait_for_selector(browser, "#new-buttons", single=True)
+    new_button.click()
+    kernel_selector = '#{} a'.format(kernel_name)
+    kernel = wait_for_selector(browser, kernel_selector, single=True)
+    kernel.click()
+
 @contextmanager
 def new_window(browser, selector=None):
     """Creates new window, switches you to that window, waits for selector if set.
