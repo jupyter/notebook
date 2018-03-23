@@ -156,7 +156,32 @@ class Notebook:
     def add_markdown_cell(self, index=-1, content="", render=True):
         self.add_cell(index, cell_type="markdown")
         self.edit_cell(index=index, content=content, render=render)
+    
+    def append(self, *values, cell_type="code"):
+        start = len(self)
+        for i, value in enumerate(values):
+            if isinstance(value, dict): 
+                _value = coerce_to_cell(value)
+                self.add_cell(index=start+i, 
+                              cell_type=_value["cell_type"], 
+                              content=_value["content"])
+            elif isinstance(value, str):
+                self.add_cell(index=start+i, 
+                              cell_type=cell_type,
+                              content=value)
+    
+    def extend(self, value):
+        self.append(*copy(value))
+    
 
+    def coerce_to_cell(self, value):
+        """This verifies that you have specified a valid cell object
+        
+        """
+        new_cell = {"cell_type": value.get("cell_type", "code"),
+                    "metadata": value.get("metadata", {}),
+                    "content": value.get("content", "")}
+        return new_cell
 
     @classmethod
     def new_notebook(cls, browser, kernel_name='kernel-python3'):
