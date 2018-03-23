@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.remote.webelement import WebElement
 
 from contextlib import contextmanager
 
@@ -30,11 +31,33 @@ class CellTypeError(ValueError):
     def __init__(self, message=""):
         self.message = message
 
+
 class Notebook:
     
     def __init__(self, browser):
         self.browser = browser
         self.remove_safety_check()
+        
+    def __len__(self):
+        return len(self.cells)
+        
+    def __getitem__(self, key):
+        if isinstance(key, (int, slice)):
+            value = self.cells[key]
+        elif isinstance(key, WebElement): 
+            value = self.index(key)
+        return value
+    
+    def __setitem__(self, key, item):
+        if isinstance(key, int):
+            self.edit_cell(index=key, content=item, render=False)
+        elif isinstance(key, slice):
+            indices = (self.index(cell) for cell in self[key])
+            for k, v in zip(indices, item):
+                self.edit_cell(index=k, content=v, render=False)
+
+    def __iter__(self):
+        return (cell for cell in self.cells)
 
     @property
     def body(self):
