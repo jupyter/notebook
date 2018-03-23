@@ -123,11 +123,9 @@ class Notebook:
         wait = WebDriverWait(self.browser, 10)
         element = wait.until(EC.staleness_of(cell))
 
-    def edit_cell(self, cell=None, index=0, content="", render=True):
-        if cell is None:
-            cell = self.cells[index]
-        else:
-            index = self.cells.index(cell)
+    def edit_cell(self, cell=None, index=0, content="", render=False):
+        if cell is not None:
+            index = self.index(cell)
         self.focus_cell(index)
 
         for line_no, line in enumerate(content.splitlines()):
@@ -147,10 +145,12 @@ class Notebook:
         self.focus_cell(index)
         self.current_cell.send_keys(Keys.CONTROL, Keys.ENTER)
 
-    def add_cell(self, index=-1, cell_type="code"):
+    def add_cell(self, index=-1, cell_type="code", content=""):
         self.focus_cell(index)
-        self.current_cell.send_keys("a")
+        self.current_cell.send_keys("b")
         new_index = index + 1 if index >= 0 else index
+        if content:
+            self.edit_cell(index=index, content=content)
         self.convert_cell_type(index=new_index, cell_type=cell_type)
 
     def add_markdown_cell(self, index=-1, content="", render=True):
