@@ -140,9 +140,15 @@ class Notebook:
                 self.current_cell.send_keys(Keys.ENTER, "\n")
             self.current_cell.send_keys(Keys.ENTER, line)
         if render:
-
-    def execute_cell(self, index=0):
             self.execute_cell(self.current_index)
+
+    def execute_cell(self, cell_or_index = None):
+        if isinstance(cell_or_index, int):
+            index = cell_or_index
+        elif isinstance(cell_or_index, WebElement): 
+            index = self[cell_or_index]
+        else:
+            raise TypeError("execute_cell only accepts a WebElement or an int")
         self.focus_cell(index)
         self.current_cell.send_keys(Keys.CONTROL, Keys.ENTER)
 
