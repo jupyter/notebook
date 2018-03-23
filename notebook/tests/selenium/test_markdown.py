@@ -10,18 +10,7 @@ pjoin = os.path.join
 
 @pytest.fixture(scope='module')
 def notebook(authenticated_browser):
-    b = authenticated_browser
-    new_button = b.find_element_by_id('new-buttons')
-    new_button.click()
-    kernel_selector = '#kernel-python3 a'
-    kernel_list = wait_for_selector(b, kernel_selector)
-    kernel_list[0].click()
-    window_handle_list = b.window_handles
-    window_handle_list.remove(b.current_window_handle)
-    b.switch_to_window(window_handle_list[0])
-    kernel_list = wait_for_selector(b, ".cell")
-    b.execute_script("Jupyter.notebook.set_autosave_interval(0)")
-    return Notebook(b)
+    return Notebook.new_notebook(authenticated_browser)
 
 
 def test_markdown_cell(notebook):

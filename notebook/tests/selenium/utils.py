@@ -130,6 +130,15 @@ class Notebook:
         self.add_cell(index, cell_type="markdown")
         self.edit_cell(index=index, content=content, render=render)
 
+
+    @classmethod
+    def new_notebook(cls, browser, kernel_name='kernel-python3'):
+        # initial_window_handles = browser.window_handles
+        with new_window(browser, selector=".cell"):
+            select_kernel(browser, kernel_name=kernel_name)
+        browser.execute_script("Jupyter.notebook.set_autosave_interval(0)")
+        return cls(browser)
+
     
 def select_kernel(browser, kernel_name='kernel-python3'):
     """Clicks the "new" button and selects a kernel from the options.
