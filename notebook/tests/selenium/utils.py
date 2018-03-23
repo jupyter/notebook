@@ -158,16 +158,13 @@ class Notebook:
         self.edit_cell(index=index, content=content, render=render)
     
     def append(self, *values, cell_type="code"):
-        start = len(self)
         for i, value in enumerate(values):
             if isinstance(value, dict): 
                 _value = coerce_to_cell(value)
-                self.add_cell(index=start+i, 
-                              cell_type=_value["cell_type"], 
+                self.add_cell(cell_type=_value["cell_type"], 
                               content=_value["content"])
             elif isinstance(value, str):
-                self.add_cell(index=start+i, 
-                              cell_type=cell_type,
+                self.add_cell(cell_type=cell_type,
                               content=value)
     
     def extend(self, value):
