@@ -8,7 +8,7 @@ from .utils import wait_for_selector, Notebook
 pjoin = os.path.join
     
 
-@pytest.fixture(scope='module')
+@pytest.fixture
 def notebook(authenticated_browser):
     return Notebook.new_notebook(authenticated_browser)
 
@@ -22,15 +22,23 @@ def get_rendered_contents(nb):
             for x in rendered_cells 
             if x is not None]
 
+            
 def test_markdown_cell(notebook):
     nb = notebook
-    cell_text = ["# Foo"]
-    expected_contents = ['<h1 id="Foo">Foo<a class="anchor-link" href="#Foo">¶</a></h1>']
+    cell_text = ["# Foo",
+                 '**Bar**',
+                 '*Baz*',
+                 '```\nx = 1\n```',
+                 '```aaaa\nx = 1\n```',
+                 ]
+    expected_contents = ['<h1 id="Foo">Foo<a class="anchor-link" href="#Foo">¶</a></h1>',
+                         '<p><strong>Bar</strong></p>',
+                         '<p><em>Baz</em></p>', 
+                         '<pre><code>x = 1\n</code></pre>',
+                         '<pre><code class="cm-s-ipython language-aaaa">x = 1\n</code></pre>'
+                         ]
     for i, cell in enumerate(nb):
-        if i==0:
-            nb.convert_cell_type(0, cell_type="markdown")
-            nb[0] = cell_text[0]
-        nb.append(cell_text[1:], cell_type="markdown")
+        nb.append(*cell_text, cell_type="markdown")
     nb.run_all()
     rendered_contents = get_rendered_contents(nb)
     assert rendered_contents == expected_contents
