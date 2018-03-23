@@ -42,19 +42,16 @@ class Notebook:
         return len(self.cells)
         
     def __getitem__(self, key):
-        if isinstance(key, (int, slice)):
-            value = self.cells[key]
-        elif isinstance(key, WebElement): 
-            value = self.index(key)
-        return value
+        return self.cells[key]
     
     def __setitem__(self, key, item):
         if isinstance(key, int):
             self.edit_cell(index=key, content=item, render=False)
-        elif isinstance(key, slice):
-            indices = (self.index(cell) for cell in self[key])
-            for k, v in zip(indices, item):
-                self.edit_cell(index=k, content=v, render=False)
+        # TODO: readd slicing support, handle general python slicing behaviour
+        # elif isinstance(key, slice):
+        #     indices = (self.index(cell) for cell in self[key])
+        #     for k, v in zip(indices, item):
+        #         self.edit_cell(index=k, content=v, render=False)
 
     def __iter__(self):
         return (cell for cell in self.cells)
