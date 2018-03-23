@@ -50,8 +50,11 @@ class Notebook:
 
 
     @property
-    def current_cell_index(self):
-        return self.cells.index(self.current_cell)
+    def current_index(self):
+        return self.index(self.current_cell)
+    
+    def index(self, cell):
+        return self.cells.index(cell)
 
     def remove_safety_check(self):
         """Disable request to save before closing window.
@@ -64,7 +67,7 @@ class Notebook:
         """Changes us into command mode on currently focused cell
         
         """
-        self.cells[0].send_keys(Keys.ESCAPE)
+        self.body.send_keys(Keys.ESCAPE)
         self.browser.execute_script("return Jupyter.notebook.handle_command_mode("
                                        "Jupyter.notebook.get_cell("
                                            "Jupyter.notebook.get_edit_index()))")
@@ -114,9 +117,9 @@ class Notebook:
                 self.current_cell.send_keys(Keys.ENTER, "\n")
             self.current_cell.send_keys(Keys.ENTER, line)
         if render:
-            self.execute_cell(self.current_cell_index)
 
     def execute_cell(self, index=0):
+            self.execute_cell(self.current_index)
         self.focus_cell(index)
         self.current_cell.send_keys(Keys.CONTROL, Keys.ENTER)
 
