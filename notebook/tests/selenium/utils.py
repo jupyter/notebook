@@ -47,7 +47,9 @@ class Notebook:
     def __setitem__(self, key, item):
         if isinstance(key, int):
             self.edit_cell(index=key, content=item, render=False)
-        # TODO: readd slicing support, handle general python slicing behaviour
+        # TODO: re-add slicing support, handle general python slicing behaviour
+        # includes: overwriting the entire self.cells object if you do 
+        # self[:] = []
         # elif isinstance(key, slice):
         #     indices = (self.index(cell) for cell in self[key])
         #     for k, v in zip(indices, item):
@@ -75,11 +77,12 @@ class Notebook:
         return self.cells.index(cell)
 
     def remove_safety_check(self):
-        """Disable request to save before closing window.
+        """Disable request to save before closing window and autosave.
         
         This is most easily done by using js directly.
         """
         self.browser.execute_script("window.onbeforeunload = null;")
+        self.browser.execute_script("Jupyter.notebook.set_autosave_interval(0)")
 
     def to_command_mode(self):
         """Changes us into command mode on currently focused cell
@@ -186,10 +189,8 @@ class Notebook:
 
     @classmethod
     def new_notebook(cls, browser, kernel_name='kernel-python3'):
-        # initial_window_handles = browser.window_handles
         with new_window(browser, selector=".cell"):
             select_kernel(browser, kernel_name=kernel_name)
-        browser.execute_script("Jupyter.notebook.set_autosave_interval(0)")
         return cls(browser)
 
     
@@ -204,8 +205,25 @@ def select_kernel(browser, kernel_name='kernel-python3'):
 
 @contextmanager
 def new_window(browser, selector=None):
-    """Creates new window, switches you to that window, waits for selector if set.
+    """Contextmanager for switching to & waiting for a window created. 
     
+    This context manager gives you the ability to create a new window inside 
+    the created context and it will switch you to that new window.abs
+    
+    If you know a CSS selector that can be expected to appear on the window, 
+    then this utility can wait on that selector appearing on the page before
+    releasing the context.
+    
+    Usage example:
+    
+        from notebook.tests.selenium.utils import new_window, Notebook
+        
+        ⋮ # something that creates a browser object
+        
+        with new_window(browser, selector=".cell"):
+            select_kernel(browser, kernel_name=kernel_name)
+        nb = Notebook(browser)
+
     """
     initial_window_handles = browser.window_handles
     yield
