@@ -173,6 +173,10 @@ class Notebook:
     def extend(self, value):
         self.append(*copy(value))
     
+    def run_all(self):
+        for cell in self:
+            self.execute_cell(cell)
+            
 
     def coerce_to_cell(self, value):
         """This verifies that you have specified a valid cell object
