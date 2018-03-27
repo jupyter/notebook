@@ -37,8 +37,7 @@ def test_markdown_cell(notebook):
                          '<pre><code>x = 1\n</code></pre>',
                          '<pre><code class="cm-s-ipython language-aaaa">x = 1\n</code></pre>'
                          ]
-    for i, cell in enumerate(nb):
-        nb.append(*cell_text, cell_type="markdown")
+    nb.append(*cell_text, cell_type="markdown")
     nb.run_all()
     rendered_contents = get_rendered_contents(nb)
     assert rendered_contents == expected_contents

@@ -3,6 +3,10 @@ from selenium.webdriver import Firefox
 from notebook.tests.selenium.utils import Notebook
 from notebook.notebookapp import list_running_servers
 
+class NoServerError(Exception):
+
+    def __init__(self, message):
+        self.message = message
 
 def quick_driver(lab=False):
     """Quickly create a selenium driver pointing at an active noteboook server.
@@ -17,7 +21,8 @@ def quick_driver(lab=False):
     try:
         server = list(list_running_servers())[0]
     except IndexError as e:
-        e.message = 'You need a server running before you can run this command'
+        raise NoServerError('You need a server running before you can run '
+                            'this command')
     driver = Firefox()
     auth_url = '{url}?token={token}'.format(**server)
     driver.get(auth_url)
