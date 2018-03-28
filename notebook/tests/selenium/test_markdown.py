@@ -1,12 +1,5 @@
-import os
-
 import pytest
-from selenium.webdriver.common.keys import Keys
-
-from .utils import wait_for_selector, Notebook
-
-pjoin = os.path.join
-    
+from .utils import Notebook
 
 @pytest.fixture
 def notebook(authenticated_browser):
