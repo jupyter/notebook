@@ -36,7 +36,7 @@ class Notebook:
     
     def __init__(self, browser):
         self.browser = browser
-        self.remove_safety_check()
+        self.disable_autosave_and_onbeforeunload()
         
     def __len__(self):
         return len(self.cells)
@@ -76,7 +76,7 @@ class Notebook:
     def index(self, cell):
         return self.cells.index(cell)
 
-    def remove_safety_check(self):
+    def disable_autosave_and_onbeforeunload(self):
         """Disable request to save before closing window and autosave.
         
         This is most easily done by using js directly.
@@ -208,7 +208,7 @@ def new_window(browser, selector=None):
     """Contextmanager for switching to & waiting for a window created. 
     
     This context manager gives you the ability to create a new window inside 
-    the created context and it will switch you to that new window.abs
+    the created context and it will switch you to that new window.
     
     If you know a CSS selector that can be expected to appear on the window, 
     then this utility can wait on that selector appearing on the page before

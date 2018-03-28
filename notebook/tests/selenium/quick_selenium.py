@@ -1,3 +1,8 @@
+"""Utilities for driving Selenium interactively to develop tests.
+
+These are not used in the tests themselves - rather, the developer writing tests
+can use them to experiment with Selenium.
+"""
 from selenium.webdriver import Firefox
 
 from notebook.tests.selenium.utils import Notebook
