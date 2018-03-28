@@ -254,8 +254,7 @@ define([
         var files;
         if(dropOrForm === 'drop'){
             files = event.originalEvent.dataTransfer.files;
-        } else
-        {
+        } else  {
             files = event.originalEvent.target.files;
         }
 
@@ -275,12 +274,11 @@ define([
             });
         };
 
-        for (var i = 0; i < files.length; i++) {
-            var f = files[i];
+        Array.from(files).forEach(function(f) {
             var name_and_ext = utils.splitext(f.name);
             var file_ext = name_and_ext[1];
 
-            if (f.size > this._max_upload_size_mb * 1024 * 1024) {
+            if (f.size > that._max_upload_size_mb * 1024 * 1024) {
             	var body_msg = i18n.msg.sprintf(i18n.msg._("The file size is %d MB. Do you still want to upload it?"),
             			Math.round(f.size / (1024 * 1024)));
                 dialog.modal({
@@ -314,7 +312,7 @@ define([
                 reader.onload = reader_onload;
                 reader.onerror = reader_onerror;
             }
-        }
+        });
         // Replace the file input form wth a clone of itself. This is required to
         // reset the form. Otherwise, if you upload a file, delete it and try to
         // upload it again, the changed event won't fire.
