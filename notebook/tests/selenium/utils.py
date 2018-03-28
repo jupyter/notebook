@@ -154,7 +154,8 @@ class Notebook:
         new_index = index + 1 if index >= 0 else index
         if content:
             self.edit_cell(index=index, content=content)
-        self.convert_cell_type(index=new_index, cell_type=cell_type)
+        if cell_type != 'code':
+            self.convert_cell_type(index=new_index, cell_type=cell_type)
 
     def add_markdown_cell(self, index=-1, content="", render=True):
         self.add_cell(index, cell_type="markdown")
