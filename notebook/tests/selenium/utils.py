@@ -170,8 +170,8 @@ class Notebook:
                 self.add_cell(cell_type=cell_type,
                               content=value)
     
-    def extend(self, value):
-        self.append(*copy(value))
+    def extend(self, values):
+        self.append(*values)
     
     def run_all(self):
         for cell in self:
