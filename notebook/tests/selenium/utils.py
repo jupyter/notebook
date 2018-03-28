@@ -162,13 +162,11 @@ class Notebook:
     
     def append(self, *values, cell_type="code"):
         for i, value in enumerate(values):
-            if isinstance(value, dict): 
-                _value = coerce_to_cell(value)
-                self.add_cell(cell_type=_value["cell_type"], 
-                              content=_value["content"])
-            elif isinstance(value, str):
+            if isinstance(value, str):
                 self.add_cell(cell_type=cell_type,
                               content=value)
+            else:
+                raise TypeError("Don't know how to add cell from %r" % value)
     
     def extend(self, values):
         self.append(*values)
@@ -176,16 +174,6 @@ class Notebook:
     def run_all(self):
         for cell in self:
             self.execute_cell(cell)
-            
-
-    def coerce_to_cell(self, value):
-        """This verifies that you have specified a valid cell object
-        
-        """
-        new_cell = {"cell_type": value.get("cell_type", "code"),
-                    "metadata": value.get("metadata", {}),
-                    "content": value.get("content", "")}
-        return new_cell
 
     @classmethod
     def new_notebook(cls, browser, kernel_name='kernel-python3'):
