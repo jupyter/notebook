@@ -9,6 +9,7 @@ import time
 from urllib.parse import urljoin
 
 from selenium.webdriver import Firefox, Remote, Chrome
+from .utils import Notebook
 
 pjoin = os.path.join
 
@@ -114,3 +115,7 @@ def authenticated_browser(selenium_driver, notebook_server):
     selenium_driver.jupyter_server_info = notebook_server
     selenium_driver.get("{url}?token={token}".format(**notebook_server))
     return selenium_driver
+
+@pytest.fixture
+def notebook(authenticated_browser):
+    return Notebook.new_notebook(authenticated_browser)

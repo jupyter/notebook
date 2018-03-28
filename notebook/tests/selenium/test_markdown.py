@@ -1,10 +1,3 @@
-import pytest
-from .utils import Notebook
-
-@pytest.fixture
-def notebook(authenticated_browser):
-    return Notebook.new_notebook(authenticated_browser)
-
 
 def get_rendered_contents(nb):
     cl = ["text_cell", "render"]
