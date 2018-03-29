@@ -35,6 +35,7 @@ requirejs([
     'tree/js/kernellist',
     'tree/js/terminallist',
     'tree/js/newnotebook',
+    'tree/js/shutdownbutton',
     'auth/js/loginwidget',
     'bidi/bidi',
 ], function(
@@ -52,6 +53,7 @@ requirejs([
     kernellist,
     terminallist,
     newnotebook,
+    shutdownbutton,
     loginwidget,
     bidi){
     "use strict";
@@ -210,20 +212,5 @@ requirejs([
         $("#tabs").find("a[href=" + window.location.hash + "]").click();
     }
     
-    // Add shutdown button
-    $("button#shutdown").click(function () {
-        utils.ajax(utils.url_path_join(
-            utils.get_body_data("baseUrl"),
-            "api",
-            "shutdown"
-        ), {
-            type: "POST",
-            success: function() {
-                console.log('server shutdown');
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-    });
+    shutdownbutton.activate();
 });
