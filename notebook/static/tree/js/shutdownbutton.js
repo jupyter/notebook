@@ -4,29 +4,25 @@
 define([
     'jquery',
     'base/js/dialog',
-    'base/js/events',
-    'base/js/promises',
-    'base/js/page',
+    'base/js/i18n',
     'base/js/utils'
 ], function(
     $,
     dialog,
-    events,
-    promises,
-    page,
+    i18n,
     utils
 ){
     "use strict";
 
     function display_shutdown_dialog() {
         var body = $('<div/>').append(
-            $('<p/>').text("You have shut down Jupyter. You can now close this tab.")
+            $('<p/>').text(i18n.msg._("You have shut down Jupyter. You can now close this tab."))
         ).append(
-            $('<p/>').text("To use Jupyter again, you will need to relaunch it.")
+            $('<p/>').text(i18n.msg._("To use Jupyter again, you will need to relaunch it."))
         );
 
         dialog.modal({
-            title: "Server stopped",
+            title: i18n.msg._("Server stopped"),
             body: body
         })
     }
