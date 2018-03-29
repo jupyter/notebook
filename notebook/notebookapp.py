@@ -1025,8 +1025,8 @@ class NotebookApp(JupyterApp):
     def _update_mathjax_config(self, change):
         self.log.info(_("Using MathJax configuration file: %s"), change['new'])
         
-    shutdown_button = Bool(False, config=True,
-        help="""Whether or not to display a shutdown server button in the dashboard"""
+    shutdown_button = Bool(True, config=True,
+        help="""If True, display a button in the dashboard to shutdown the server"""
     )
 
     contents_manager_class = Type(
