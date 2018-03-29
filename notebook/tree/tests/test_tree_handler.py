@@ -4,6 +4,10 @@ import io
 from notebook.utils import url_path_join
 from nbformat import write
 from nbformat.v4 import new_notebook
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
 
 import requests
 
@@ -28,5 +32,7 @@ class TreeTest(NotebookTestBase):
         r = self.request('GET', 'tree/foo/bar.ipynb')
         self.assertEqual(r.url, self.base_url() + 'notebooks/foo/bar.ipynb')
 
-        r = self.request('GET', 'tree/foo/baz.txt')
-        self.assertEqual(r.url, url_path_join(self.base_url(), 'files/foo/baz.txt'))
+        r = self.request('GET', 'tree/foo/baz.txt', allow_redirects=False)
+        self.assertEqual(r.status_code, 302)
+        self.assertEqual(r.headers['Location'],
+             urlparse(url_path_join(self.base_url(), 'files/foo/baz.txt')).path)
