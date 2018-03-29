@@ -15,7 +15,10 @@ data-server-root="{{server_root}}"
   <span class="flex-spacer"></span>
   {% if shutdown_button %}
     <span id="shutdown_widget">
-      <button id="shutdown" class="btn btn-sm navbar-btn">Shutdown</button>
+      <button id="shutdown" class="btn btn-sm navbar-btn"
+              title="{% trans %}Stop the Jupyter server{% endtrans %}">
+          {% trans %}Quit{% endtrans %}
+      </button>
     </span>
   {% endif %}
 {% endblock %}
