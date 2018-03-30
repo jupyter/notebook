@@ -108,11 +108,11 @@ class BaseJSONConfigManager(LoggingConfigurable):
         filename = self.file_name(section_name)
         self.ensure_config_dir_exists()
 
-        # we will modify data in place, so make a copy
-        data = copy.deepcopy(data)
-        defaults = self.get(section_name, include_root=False)
-        print(data, defaults)
-        remove_defaults(data, defaults)
+        if self.read_directory:
+            # we will modify data in place, so make a copy
+            data = copy.deepcopy(data)
+            defaults = self.get(section_name, include_root=False)
+            remove_defaults(data, defaults)
 
         # Generate the JSON up front, since it could raise an exception,
         # in order to avoid writing half-finished corrupted data to disk.
