@@ -138,7 +138,11 @@ class NbconvertFileHandler(IPythonHandler):
             self.set_header('Content-Type',
                             '%s; charset=utf-8' % exporter.output_mimetype)
 
+        self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
         self.finish(output)
+
+    def compute_etag(self):
+        return None
 
 class NbconvertPostHandler(IPythonHandler):
     SUPPORTED_METHODS = ('POST',)
