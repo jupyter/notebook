@@ -9,6 +9,7 @@ import glob
 import io
 import json
 import os
+import copy
 
 from six import PY3
 from traitlets.config import LoggingConfigurable
@@ -34,6 +35,19 @@ def recursive_update(target, new):
 
         else:
             target[k] = v
+
+def remove_defaults(data, defaults):
+    """Recursively remove items from dict that are already in defaults"""
+    for key, value in list(data.items()):  # copy the iterator, since data will be modified
+        new_value = None
+        if key in defaults:
+            if isinstance(value, dict):
+                remove_defaults(data[key], defaults[key])
+                if not data[key]:  # prune empty subdicts
+                    del data[key]
+            else:
+                if value == defaults[key]:
+                    del data[key]
 
 
 class BaseJSONConfigManager(LoggingConfigurable):
@@ -62,13 +76,16 @@ class BaseJSONConfigManager(LoggingConfigurable):
         """Returns the directory name for the section name: {config_dir}/{section_name}.d"""
         return os.path.join(self.config_dir, section_name+'.d')
 
-    def get(self, section_name):
+    def get(self, section_name, include_root=True):
         """Retrieve the config data for the specified section.
 
         Returns the data as a dictionary, or an empty dictionary if the file
         doesn't exist.
+
+        When include_root is False, it will not read the root .json file, effectively
+        returning the default values.
         """
-        paths = [self.file_name(section_name)]
+        paths = [self.file_name(section_name)] if include_root else []
         if self.read_directory:
             pattern = os.path.join(self.directory(section_name), '*.json')
             # These json files should be processed first so that the
@@ -90,6 +107,12 @@ class BaseJSONConfigManager(LoggingConfigurable):
         """
         filename = self.file_name(section_name)
         self.ensure_config_dir_exists()
+
+        # we will modify data in place, so make a copy
+        data = copy.deepcopy(data)
+        defaults = self.get(section_name, include_root=False)
+        print(data, defaults)
+        remove_defaults(data, defaults)
 
         # Generate the JSON up front, since it could raise an exception,
         # in order to avoid writing half-finished corrupted data to disk.
