@@ -59,5 +59,15 @@ def test_delete_cells(notebook):
     # Try to delete cell a (should succeed)
     delete_cell(notebook, 0)
     assert len(notebook.cells) == 1 # it contains an empty cell
+
+    # Make sure copied cells are deletable
+    notebook.edit_cell(index=0, content=a)
+    set_cell_metadata(notebook, 0, 'deletable', 'false')
+    assert not cell_is_deletable(notebook, 0)
+    notebook.to_command_mode()
+    notebook.current_cell.send_keys('cv')
+    assert len(notebook.cells) == 2
+    assert cell_is_deletable(notebook, 1)
+
 # NOTE: APIs that will be useful for testing
 # http://selenium-python.readthedocs.io/api.html#module-selenium.webdriver.common.action_chains
