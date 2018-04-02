@@ -2,6 +2,10 @@ import os
 import pytest
 from .utils import Notebook
 
+@pytest.fixture
+def notebook(authenticated_browser):
+    return Notebook.new_notebook(authenticated_browser)
+
 def get_cells_contents(nb):
     JS = 'return Jupyter.notebook.get_cells().map(function(c) {return c.get_text();})'
     return nb.browser.execute_script(JS)
