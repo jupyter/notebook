@@ -53,7 +53,7 @@ def test_delete_cells(notebook):
     delete_cell(notebook, 1)
     assert get_cells_contents(notebook) == [a, c]
 
-    # Try to delete cell c
+    # Try to delete cell c (should succeed)
     delete_cell(notebook, 1)
     assert get_cells_contents(notebook) == [a]
 
@@ -72,6 +72,3 @@ def test_delete_cells(notebook):
     notebook.current_cell.send_keys('cv')
     assert len(notebook.cells) == 2
     assert cell_is_deletable(notebook, 1)
-
-# NOTE: APIs that will be useful for testing
-# http://selenium-python.readthedocs.io/api.html#module-selenium.webdriver.common.action_chains
