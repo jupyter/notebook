@@ -1187,6 +1187,16 @@ class NotebookApp(JupyterApp):
               "0 (the default) disables this automatic shutdown.")
     )
 
+    terminals_enabled = Bool(True, config=True,
+         help=_("""Set to False to disable terminals.
+
+         This does *not* make the notebook server more secure by itself.
+         Anything the user can in a terminal, they can also do in a notebook.
+
+         Terminals may also be automatically disabled if the terminado package
+         is not available.
+         """))
+
     def parse_command_line(self, argv=None):
         super(NotebookApp, self).parse_command_line(argv)
 
@@ -1345,6 +1355,9 @@ class NotebookApp(JupyterApp):
         return "%s://%s:%i%s" % (proto, ip, self.port, self.base_url)
 
     def init_terminals(self):
+        if not self.terminals_enabled:
+            return
+
         try:
             from .terminal import initialize
             initialize(self.web_app, self.notebook_dir, self.connection_url, self.terminado_settings)
