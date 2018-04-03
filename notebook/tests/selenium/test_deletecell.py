@@ -1,10 +1,5 @@
 import os
 import pytest
-from .utils import Notebook
-
-@pytest.fixture
-def notebook(authenticated_browser):
-    return Notebook.new_notebook(authenticated_browser)
 
 def get_cells_contents(nb):
     JS = 'return Jupyter.notebook.get_cells().map(function(c) {return c.get_text();})'
@@ -24,7 +19,6 @@ def delete_cell(notebook, index):
     notebook.current_cell.send_keys('dd')
 
 def test_delete_cells(notebook):
-    print('testing deleteable cells')
     a = 'print("a")'
     b = 'print("b")'
     c = 'print("c")'
