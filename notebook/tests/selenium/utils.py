@@ -1,5 +1,6 @@
 import os
 
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -127,9 +128,16 @@ class Notebook:
         element = wait.until(EC.staleness_of(cell))
 
     def edit_cell(self, cell=None, index=0, content="", render=False):
+        """Set the contents of a cell to *content*, by cell object or by index
+        """
         if cell is not None:
             index = self.index(cell)
         self.focus_cell(index)
+
+        # Select & delete anything already in the cell
+        self.current_cell.send_keys(Keys.ENTER)
+        ctrl(self.browser, 'a')
+        self.current_cell.send_keys(Keys.DELETE)
 
         for line_no, line in enumerate(content.splitlines()):
             if line_no != 0:
@@ -154,7 +162,8 @@ class Notebook:
         new_index = index + 1 if index >= 0 else index
         if content:
             self.edit_cell(index=index, content=content)
-        self.convert_cell_type(index=new_index, cell_type=cell_type)
+        if cell_type != 'code':
+            self.convert_cell_type(index=new_index, cell_type=cell_type)
 
     def add_markdown_cell(self, index=-1, content="", render=True):
         self.add_cell(index, cell_type="markdown")
@@ -220,3 +229,13 @@ def new_window(browser, selector=None):
     browser.switch_to_window(new_window_handle)
     if selector is not None:
         wait_for_selector(browser, selector)
+
+def shift(browser, k):
+    """Send key combination Shift+(k)"""
+    ActionChains(browser)\
+        .key_down(Keys.SHIFT).send_keys(k).key_up(Keys.SHIFT).perform()
+
+def ctrl(browser, k):
+    """Send key combination Ctrl+(k)"""
+    ActionChains(browser)\
+        .key_down(Keys.CONTROL).send_keys(k).key_up(Keys.CONTROL).perform()

@@ -1,17 +1,3 @@
-import os
-
-import pytest
-from selenium.webdriver.common.keys import Keys
-
-from .utils import wait_for_selector, Notebook
-
-pjoin = os.path.join
-    
-
-@pytest.fixture
-def notebook(authenticated_browser):
-    return Notebook.new_notebook(authenticated_browser)
-
 
 def get_rendered_contents(nb):
     cl = ["text_cell", "render"]
