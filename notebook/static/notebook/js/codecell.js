@@ -203,6 +203,12 @@ define([
         this.element.focusout(
             function() { that.auto_highlight(); }
         );
+
+        this.events.on('kernel_restarting.Kernel', function() {
+            if (that.input_prompt_number === '*') {
+              that.set_input_prompt();
+            }
+        });
     };
 
 
