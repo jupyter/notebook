@@ -273,6 +273,7 @@ class NotebookWebApplication(web.Application):
             websocket_url=jupyter_app.websocket_url,
             mathjax_url=jupyter_app.mathjax_url,
             mathjax_config=jupyter_app.mathjax_config,
+            shutdown_button=jupyter_app.quit_button,
             config=jupyter_app.config,
             config_dir=jupyter_app.config_dir,
             allow_password_change=jupyter_app.allow_password_change,
@@ -1023,6 +1024,11 @@ class NotebookApp(JupyterApp):
     @observe('mathjax_config')
     def _update_mathjax_config(self, change):
         self.log.info(_("Using MathJax configuration file: %s"), change['new'])
+        
+    quit_button = Bool(True, config=True,
+        help="""If True, display a button in the dashboard to quit
+        (shutdown the notebook server)."""
+    )
 
     contents_manager_class = Type(
         default_value=LargeFileManager,
