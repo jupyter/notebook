@@ -127,6 +127,14 @@ class Notebook:
         wait = WebDriverWait(self.browser, 10)
         element = wait.until(EC.staleness_of(cell))
 
+    def get_cells_contents(self):
+        JS = 'return Jupyter.notebook.get_cells().map(function(c) {return c.get_text();})'
+        return self.browser.execute_script(JS)
+
+    def set_cell_metadata(self, index, key, value):
+        JS = 'Jupyter.notebook.get_cell({}).metadata.{} = {}'.format(index, key, value)
+        return self.browser.execute_script(JS)
+
     def edit_cell(self, cell=None, index=0, content="", render=False):
         """Set the contents of a cell to *content*, by cell object or by index
         """
