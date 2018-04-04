@@ -206,7 +206,7 @@ define([
 
         this.events.on('kernel_restarting.Kernel', function() {
             if (that.input_prompt_number === '*') {
-              that.set_input_prompt('');
+              that.set_input_prompt();
             }
         });
     };
