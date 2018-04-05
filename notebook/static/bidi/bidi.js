@@ -16,9 +16,7 @@ define(['bidi/numericshaping'], function(numericshaping) {
     }
 
     requirejs(['moment'], function (moment) {
-      var language = moment.locale(_uiLang());
-      document.documentElement.lang = language;
-      console.log('Loaded moment locale', language);
+      console.log('Loaded moment locale', moment.locale(_uiLang()));
     });
 
     shaperType = _uiLang().split('-')[0] == 'ar' ? 'national' : 'defaultNumeral';
