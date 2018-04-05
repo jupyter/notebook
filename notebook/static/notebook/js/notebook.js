@@ -3187,10 +3187,16 @@ define([
             console.warn('Error stack trace while loading notebook was:');
             console.warn(error.stack);
         }
+        // CELINA & ROSA
+        var cookiesNotEnabledMessage = "";
+        if(navigator.cookieEnabled == false){
+          cookiesNotEnabledMessage = " - Please Enable Cookies and Refresh Browser";
+        }
         dialog.modal({
             notebook: this,
             keyboard_manager: this.keyboard_manager,
-            title: i18n.msg._("Error loading notebook"),
+            // OUR CHANGE
+            title: i18n.msg._("Error loading notebook" + cookiesNotEnabledMessage),
             body : msg,
             buttons : {
                 "Close": {
