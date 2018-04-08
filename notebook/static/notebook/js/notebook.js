@@ -3201,8 +3201,7 @@ define([
                     click : function () {
                         window.close();
                     }
-                },
-                "Ok": {}
+                }
               }
         });
     };
