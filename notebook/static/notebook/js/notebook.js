@@ -3187,27 +3187,28 @@ define([
             console.warn('Error stack trace while loading notebook was:');
             console.warn(error.stack);
         }
-        //Check if cookies are enabled:
-      if(navigator.cookieEnabled == false){
-        //set modal message:
-        msg = i18n.msg._("Please enable cookies and refresh browser.");
-      }
-      dialog.modal({
-          notebook: this,
-          keyboard_manager: this.keyboard_manager,
-          title: i18n.msg._("Error loading notebook"),
-          body : msg,
-          buttons : {
-              "Close": {
-                  class : 'btn-danger',
-                  click : function () {
-                      window.close();
-                  }
-              },
-              "Ok": {}
-            }
-      });
-  };
+        //check if cookies enabled:
+        if (navigator.cookieEnabled == false){
+        	//set modal message:
+        	msg = i18n.msg._("Please enable cookies and refresh browser.");
+        }
+        dialog.modal({
+            notebook: this,
+            keyboard_manager: this.keyboard_manager,
+            title: i18n.msg._("Error loading notebook"),
+            body : msg,
+            buttons : {
+                "Close": {
+                    class : 'btn-danger',
+                    click : function () {
+                        window.close();
+                    }
+                },
+                "Ok": {}
+              }
+        });
+    };
+
     /*********************  checkpoint-related  ********************/
 
     /**
