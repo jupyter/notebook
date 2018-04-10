@@ -75,9 +75,6 @@ While running the notebook, select one of your notebooks (the file will have the
 If it does not include the word "dev", you are currently not working in development mode and should follow the steps above to uninstall and reinstall Jupyter. 
 
 
-
-
-
 Troubleshooting the Installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
