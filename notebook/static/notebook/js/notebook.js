@@ -3175,7 +3175,7 @@ define([
      * @param {Error} error
      */
     Notebook.prototype.load_notebook_error = function (error) {
-        var isSanitized = false;
+        var isSanitized = true;
         this.events.trigger('notebook_load_failed.Notebook', error);
         var msg;
         if (error.name === utils.XHR_ERROR && error.xhr.status === 500) {
@@ -3191,7 +3191,7 @@ define([
         if (navigator.cookieEnabled == false){
             msg = i18n.msg._("Jupyter requires cookies to work; please enable cookies" +
                 " and refresh page. <a href=\"https://www.wikihow.com/Enable-Cookies-in-Your-Internet-Web-Browser\"> Learn more about enabling cookies. </a>");
-            isSanitized = true;
+            isSanitized = false;
         }
         dialog.modal({
             notebook: this,
