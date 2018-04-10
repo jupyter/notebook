@@ -66,7 +66,11 @@ Verification
     
 While running the notebook, select one of your notebooks (the file will have the extension .ipynb). In the top tab you will click on "Help" and then click "About". In the pop window you will see "The version of the...". If you are working in development mode, you will see that your version of Jupyter notebook will include the word "dev". 
 
+![image showing dev mode](link here)
+
 If it does not include the word "dev", you are currently not working in development mode and should follow the steps above to uninstall and reinstall Jupyter. 
+
+
 
 
 Troubleshooting the Installation
