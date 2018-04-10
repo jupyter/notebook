@@ -60,6 +60,22 @@ Once you have done this, you can launch the master branch of Jupyter notebook
 from any directory in your system with::
 
     jupyter notebook
+    
+    
+    
+Verification 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Once you have installed the Jupyter Notebook, in order to work in development mode you should first verify that you are in development mode. Follow the steps below to complete the verification::
+
+    jupyter notebook
+    
+While running the notebook, select one of your notebooks (the file will have the extension .ipynb). In the top tab you will click on "Help" and then click "About". In the pop window you will see "The version of the...". If you are working in development mode, you will see that your version of Jupyter notebook will include the word "dev". 
+
+If it does not include the word "dev", you are currently not working in development mode and should follow the steps above to uninstall and reinstall Jupyter. 
+
+
+
 
 
 Rebuilding JavaScript and CSS
