@@ -219,11 +219,11 @@ rather than copying it, so there's no need to reinstall after changes.
 To use your extension, you'll also need to **enable** it, which tells the
 notebook interface to load it. You can do that with another command::
 
-    jupyter nbextension enable my_extension/main [--sys-prefix]
+    jupyter nbextension enable my_extension/main [--sys-prefix|--section='common']
 
 The argument refers to the Javascript module containing your
 ``load_ipython_extension`` function, which is ``my_extension/main.js`` in this
-example. There is a corresponding ``disable`` command to stop using an
+example. The ``--section='common'`` argument will affect all pages. There is a corresponding ``disable`` command to stop using an
 extension without uninstalling it.
 
 .. versionchanged:: 4.2
