@@ -223,7 +223,9 @@ notebook interface to load it. You can do that with another command::
 
 The argument refers to the Javascript module containing your
 ``load_ipython_extension`` function, which is ``my_extension/main.js`` in this
-example. The ``--section='common'`` argument will affect all pages, by default it will be loaded on the notebook view only. There is a corresponding ``disable`` command to stop using an
+example. The ``--section='common'`` argument will affect all pages, by default 
+it will be loaded on the notebook view only. 
+There is a corresponding ``disable`` command to stop using an
 extension without uninstalling it.
 
 .. versionchanged:: 4.2
