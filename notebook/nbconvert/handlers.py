@@ -40,6 +40,7 @@ def respond_zip(handler, name, output, resources):
     zip_filename = os.path.splitext(name)[0] + '.zip'
     handler.set_attachment_header(zip_filename)
     handler.set_header('Content-Type', 'application/zip')
+    handler.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
 
     # Prepare the zip file
     buffer = io.BytesIO()
@@ -138,6 +139,7 @@ class NbconvertFileHandler(IPythonHandler):
             self.set_header('Content-Type',
                             '%s; charset=utf-8' % exporter.output_mimetype)
 
+        self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
         self.finish(output)
 
 class NbconvertPostHandler(IPythonHandler):
