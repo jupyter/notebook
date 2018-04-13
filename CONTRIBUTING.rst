@@ -64,12 +64,14 @@ from any directory in your system with::
 Verification 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     
-While running the notebook, select one of your notebooks (the file will have the extension .ipynb). In the top tab you will click on "Help" and then click "About". In the pop window you will see "The version of the...". If you are working in development mode, you will see that your version of Jupyter notebook will include the word "dev". 
+While running the notebook, select one of your notebook files (the file will have the extension .ipynb). 
+In the top tab you will click on "Help" and then click on "About". In the pop window you will see information about the version of Jupyter that you are running. You will see "The version of the notebook server is:". 
+If you are working in development mode, you will see that your version of Jupyter notebook will include the word "dev". 
 
 .. image:: https://user-images.githubusercontent.com/327925/38238574-8a1ada9e-372a-11e8-8a9c-2a74af743390.png
    :width: 40pt
 
-If it does not include the word "dev", you are currently not working in development mode and should follow the steps above to uninstall and reinstall Jupyter. 
+If it does not include the word "dev", you are currently not working in development mode and should follow the steps below to uninstall and reinstall Jupyter. 
 
 Troubleshooting the Installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
