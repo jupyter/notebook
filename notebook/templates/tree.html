@@ -44,10 +44,10 @@ data-server-root="{{server_root}}"
                   <button title="{% trans %}Rename selected{% endtrans %}" aria-label="{% trans %}Rename selected{% endtrans %}" class="rename-button btn btn-default btn-xs">{% trans %}Rename{% endtrans %}</button>
                   <button title="{% trans %}Move selected{% endtrans %}" aria-label="{% trans %}Move selected{% endtrans %}" class="move-button btn btn-default btn-xs">{% trans %}Move{% endtrans %}</button>
                   <button title="{% trans %}Download selected{% endtrans %}" aria-label="{% trans %}Download selected{% endtrans %}" class="download-button btn btn-default btn-xs">{% trans %}Download{% endtrans %}</button>
-                  <button title="{% trans %}Shutdown selected notebook(s){% endtrans %}" aria-label="{% trans %}Shutdown selected notebook(s){% endtrans %}" class="shutdown-button btn btn-default btn-xs btn-warning">{% trans %}Shutdown{% endtrans %}</button>
                   <button title="{% trans %}View selected{% endtrans %}" aria-label="{% trans %}View selected{% endtrans %}" class="view-button btn btn-default btn-xs">{% trans %}View{% endtrans %}</button>
                   <button title="{% trans %}Edit selected{% endtrans %}" aria-label="{% trans %}Edit selected{% endtrans %}" class="edit-button btn btn-default btn-xs">{% trans %}Edit{% endtrans %}</button>
-                  <button title="{% trans %}Delete selected{% endtrans %}" aria-label="{% trans %}Delete selected{% endtrans %}" class="delete-button btn btn-default btn-xs btn-danger"><i class="fa fa-trash"></i></button>
+                  <button title="{% trans %}Shutdown selected notebook(s){% endtrans %}" aria-label="{% trans %}Shutdown selected notebook(s){% endtrans %}" class="shutdown-button btn btn-default btn-xs"><i class="fa fa-exclamation-triangle"></i> {% trans %}Shutdown{% endtrans %}</button>
+                  <button title="{% trans %}Delete selected{% endtrans %}" aria-label="{% trans %}Delete selected{% endtrans %}" class="delete-button btn btn-default btn-xs"><i class="fa fa-trash"></i> {% trans %}Delete{% endtrans %}</button>
               </div>
             </div>
             <div class="col-sm-4 no-padding tree-buttons">
