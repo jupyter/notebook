@@ -261,6 +261,13 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             self.log.warning('Invalid ctime %s for %s', info.st_ctime, os_path)
             created = datetime(1970, 1, 1, 0, 0, tzinfo=tz.UTC)
 
+        try:
+            # size of file and directory?
+            size = os.path.getsize(os_path)
+        except (ValueError, OSError):
+            self.log.warning('Unable to get size.')
+            size = None
+
         # Create the base model.
         model = {}
         model['name'] = path.rsplit('/', 1)[-1]
@@ -270,6 +277,8 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         model['content'] = None
         model['format'] = None
         model['mimetype'] = None
+        model['size'] = size
+
         try:
             model['writable'] = os.access(os_path, os.W_OK)
         except OSError:
