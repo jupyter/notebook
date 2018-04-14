@@ -789,7 +789,6 @@ definitions:
       - mimetype
       - format
       - content
-      - size
     properties:
       name:
         type: string
