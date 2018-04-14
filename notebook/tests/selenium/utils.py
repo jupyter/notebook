@@ -131,8 +131,15 @@ class Notebook:
         JS = 'return Jupyter.notebook.get_cells().map(function(c) {return c.get_text();})'
         return self.browser.execute_script(JS)
 
+    def get_cell_contents(self, index=0, selector='div .CodeMirror-code'):
+        return self.cells[index].find_element_by_css_selector(selector).text
+
     def set_cell_metadata(self, index, key, value):
         JS = 'Jupyter.notebook.get_cell({}).metadata.{} = {}'.format(index, key, value)
+        return self.browser.execute_script(JS)
+
+    def get_cell_type(self, index=0):
+        JS = 'return Jupyter.notebook.get_cell({}).cell_type'.format(index)
         return self.browser.execute_script(JS)
 
     def edit_cell(self, cell=None, index=0, content="", render=False):
