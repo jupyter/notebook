@@ -57,9 +57,6 @@ define([
     function modified_sorter(ascending) {
         var order = ascending ? 1 : 0;
         return (function(a, b) {
-          if (a['type'] === 'directory') {
-             return (ascending) ? 1 : -1;
-          }
             return utils.datetime_sort_helper(a.last_modified, b.last_modified,
                                               order)
         });
