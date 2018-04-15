@@ -859,6 +859,7 @@ define([
         // Add in the date that the file was last modified
         item.find(".item_modified").text(utils.format_datetime(model.last_modified));
         item.find(".item_modified").attr("title", moment(model.last_modified).format("YYYY-MM-DD HH:mm"));
+        item.find(".file_size").text(model.size || '');
     };
 
 
