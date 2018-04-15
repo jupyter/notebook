@@ -57,14 +57,32 @@ define([
     function modified_sorter(ascending) {
         var order = ascending ? 1 : 0;
         return (function(a, b) {
+          if (a['type'] === 'directory') {
+             return (ascending) ? 1 : -1;
+          }
             return utils.datetime_sort_helper(a.last_modified, b.last_modified,
                                               order)
         });
     }
 
+    function size_sorter(ascending) {
+        var order = ascending ? 1 : 0;
+        // directories have file size of undefined
+        return (function(a, b) {
+          if (a['type'] === 'directory') {
+             return (ascending) ? 1 : -1;
+          }
+
+          if (a.size > b.size) {
+            return (ascending) ? 1 : -1;
+          }
+        });
+    }
+
     var sort_functions = {
         'sort-name': name_sorter,
-        'last-modified': modified_sorter
+        'last-modified': modified_sorter,
+        'file-size': size_sorter
     };
 
     var NotebookList = function (selector, options) {
@@ -519,6 +537,12 @@ define([
         $("<span/>")
             .addClass("item_name")
             .appendTo(link);
+
+        $("<span/>")
+            .addClass("file_size")
+            .addClass("pull-right")
+            .css("width", "50px")
+            .appendTo(item);
 
         $("<span/>")
             .addClass("item_modified")
