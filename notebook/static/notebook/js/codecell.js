@@ -505,8 +505,17 @@ define([
         }
         this.input_prompt_number = number;
         var prompt_html = CodeCell.input_prompt_function(this.input_prompt_number, nline);
+
+        var that = this;
+        var input_prompt = this.element.find('div.input_prompt');
+
         // This HTML call is okay because the user contents are escaped.
-        this.element.find('div.input_prompt').html(prompt_html);
+        input_prompt.html(prompt_html);
+        input_prompt.addClass('clickable_prompt');
+        input_prompt.mouseup(function (event) {
+            event.stopImmediatePropagation();
+            that.execute();
+        });
         this.events.trigger('set_dirty.Notebook', {value: true});
     };
 
