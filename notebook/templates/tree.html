@@ -117,6 +117,12 @@ data-server-root="{{server_root}}"
                 {% endfor %}
                 </ul>
               </div>
+              <div id="file_size" class="pull-right sort_button">
+                  <span class="btn btn-xs btn-default sort-action" id="file-size">
+                      {% trans %}File size{% endtrans %}
+                      <i class="fa"></i>
+                  </span>
+              </div>
               <div id="last_modified" class="pull-right sort_button">
                   <span class="btn btn-xs btn-default sort-action" id="last-modified">
                       {% trans %}Last Modified{% endtrans %}

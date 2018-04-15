@@ -1039,6 +1039,11 @@ define([
         }
     };
 
+    var format_filesize = function(filesize) {
+      if (filesize) {
+        return filesize + " bytes";
+      }
+    }
 
     // javascript stores text as utf16 and string indices use "code units",
     // which stores high-codepoint characters as "surrogate pairs",
@@ -1180,6 +1185,7 @@ define([
         parse_b64_data_uri: parse_b64_data_uri,
         time: time,
         format_datetime: format_datetime,
+        format_filesize: format_filesize,
         datetime_sort_helper: datetime_sort_helper,
         dnd_contain_file: dnd_contain_file,
         js_idx_to_char_idx: js_idx_to_char_idx,
