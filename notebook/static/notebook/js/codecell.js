@@ -508,14 +508,17 @@ define([
 
         var that = this;
         var input_prompt = this.element.find('div.input_prompt');
-
-        // This HTML call is okay because the user contents are escaped.
-        input_prompt.html(prompt_html);
-        input_prompt.addClass('clickable_prompt');
-        input_prompt.mouseup(function (event) {
+        var run_this_cell = $('<span></span>').append('<i class="fa-step-forward fa"></i>');
+        run_this_cell.prop('title', 'Run this cell');
+        run_this_cell.addClass('run_this_cell');
+        run_this_cell.mouseup(function (event) {
             event.stopImmediatePropagation();
             that.execute();
         });
+
+        // This HTML call is okay because the user contents are escaped.
+        input_prompt.html(prompt_html);
+        input_prompt.prepend(run_this_cell);
         this.events.trigger('set_dirty.Notebook', {value: true});
     };
 

@@ -27,8 +27,15 @@ div.input_prompt {
     border-top: 1px solid transparent;
 }
 
-.clickable_prompt {
-   cursor: pointer;
+span.run_this_cell {
+    visibility: hidden;
+    cursor: pointer;
+    color: #333;
+    padding: 5px;
+}
+
+div.code_cell:hover span.run_this_cell {
+    visibility: visible;
 }
 
 // The styles related to div.highlight are for nbconvert HTML output only. This works
