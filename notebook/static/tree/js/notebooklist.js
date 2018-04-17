@@ -67,19 +67,19 @@ define([
         // directories have file size of undefined
         return (function(a, b) {
           if (a.size === undefined) {
-             return (ascending) ? 1 : -1;
-          }
-
-          if (b.size === undefined) {
              return (ascending) ? -1 : 1;
           }
 
+          if (b.size === undefined) {
+             return (ascending) ? 1 : -1;
+          }
+
           if (a.size > b.size) {
-            return (ascending) ? 1 : -1;
+            return (ascending) ? -1 : 1;
           }
 
           if (b.size > a.size) {
-            return (ascending) ? -1 : 1;
+            return (ascending) ? 1 : -1;
           }
 
           return 0;
@@ -548,7 +548,7 @@ define([
         $("<span/>")
             .addClass("file_size")
             .addClass("pull-right")
-            .css("width", "50px")
+            .css("width", "65px")
             .appendTo(item);
 
         $("<span/>")
