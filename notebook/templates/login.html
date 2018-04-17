@@ -28,7 +28,7 @@
                 <label for="password_input"><strong>{% trans %}Password:{% endtrans %}</strong></label>
               {% endif %}
               <input type="password" name="password" id="password_input" class="form-control">
-              <button type="submit" id="login_submit">{% trans %}Log in{% endtrans %}</button>
+              <button type="submit" class="btn btn-default" id="login_submit">{% trans %}Log in{% endtrans %}</button>
             </form>
           </div>
         </div>
@@ -100,7 +100,7 @@ http://localhost:8888/?token=c8de56fa... :: /Users/you/notebooks
             <input type="password" name="new_password" id="new_password_input" class="form-control" required>
           </div>
           <div class="form-group">
-            <button type="submit" id="login_new_pass_submit">{% trans %}Log in and set new password{% endtrans %}</button>
+            <button type="submit" class="btn btn-default" id="login_new_pass_submit">{% trans %}Log in and set new password{% endtrans %}</button>
           </div>
         </form>
       {% endif %}
