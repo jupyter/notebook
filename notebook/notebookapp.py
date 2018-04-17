@@ -384,7 +384,7 @@ class NotebookPasswordApp(JupyterApp):
     def start(self):
         from .auth.security import set_password
         set_password(config_file=self.config_file)
-        self.log.info("Wrote hashed password to %s" % self.config_file)
+        self.log.info("Wrote hashed password to {path}", path=self.config_file)
 
 def shutdown_server(server_info, timeout=5, log=None):
     """Shutdown a notebook server in a separate process.
@@ -653,7 +653,7 @@ class NotebookApp(JupyterApp):
         try:
             s.bind(('localhost', 0))
         except socket.error as e:
-            self.log.warning(_("Cannot bind to localhost, using 127.0.0.1 as default ip\n%s"), e)
+            self.log.warning(_("Cannot bind to localhost, using 127.0.0.1 as default ip\nerror"), error=e)
             return '127.0.0.1'
         else:
             s.close()
@@ -718,19 +718,19 @@ class NotebookApp(JupyterApp):
 
     def _write_cookie_secret_file(self, secret):
         """write my secret to my secret_file"""
-        self.log.info(_("Writing notebook server cookie secret to %s"), self.cookie_secret_file)
+        self.log.info(_("Writing notebook server cookie secret to {file_path}"), file_path=self.cookie_secret_file)
         try:
             with io.open(self.cookie_secret_file, 'wb') as f:
                 f.write(secret)
         except OSError as e:
-            self.log.error(_("Failed to write cookie secret to %s: %s"),
-                           self.cookie_secret_file, e)
+            self.log.error(_("Failed to write cookie secret to {file_path}: {error}"),
+                           file_path=self.cookie_secret_file, error=e)
         try:
             os.chmod(self.cookie_secret_file, 0o600)
         except OSError:
             self.log.warning(
-                _("Could not set permissions on %s"),
-                self.cookie_secret_file
+                _("Could not set permissions on {file_path}"),
+                file_path=self.cookie_secret_file
             )
 
     token = Unicode('<generated>',
@@ -1015,7 +1015,7 @@ class NotebookApp(JupyterApp):
             # enable_mathjax=False overrides mathjax_url
             self.mathjax_url = u''
         else:
-            self.log.info(_("Using MathJax: %s"), new)
+            self.log.info(_("Using MathJax: {url}"), url=new)
 
     mathjax_config = Unicode("TeX-AMS-MML_HTMLorMML-full,Safe", config=True,
         help=_("""The MathJax.js configuration file that is to be used.""")
@@ -1023,7 +1023,7 @@ class NotebookApp(JupyterApp):
 
     @observe('mathjax_config')
     def _update_mathjax_config(self, change):
-        self.log.info(_("Using MathJax configuration file: %s"), change['new'])
+        self.log.info(_("Using MathJax configuration file: {file_path}"), file_path=change['new'])
         
     quit_button = Bool(True, config=True,
         help="""If True, display a button in the dashboard to quit
@@ -1211,7 +1211,7 @@ class NotebookApp(JupyterApp):
             f = os.path.abspath(arg0)
             self.argv.remove(arg0)
             if not os.path.exists(f):
-                self.log.critical(_("No such file or directory: %s"), f)
+                self.log.critical(_("No such file or directory: {file_path}"), file_path=f)
                 self.exit(1)
             
             # Use config here, to ensure that it takes higher priority than
@@ -1321,10 +1321,10 @@ class NotebookApp(JupyterApp):
                 self.http_server.listen(port, self.ip)
             except socket.error as e:
                 if e.errno == errno.EADDRINUSE:
-                    self.log.info(_('The port %i is already in use, trying another port.') % port)
+                    self.log.info(_('The port {port} is already in use, trying another port.'), port=port)
                     continue
                 elif e.errno in (errno.EACCES, getattr(errno, 'WSAEACCES', errno.EACCES)):
-                    self.log.warning(_("Permission to listen on port %i denied") % port)
+                    self.log.warning(_("Permission to listen on port {port} denied"), port=port)
                     continue
                 else:
                     raise
@@ -1369,7 +1369,7 @@ class NotebookApp(JupyterApp):
             initialize(self.web_app, self.notebook_dir, self.connection_url, self.terminado_settings)
             self.web_app.settings['terminals_available'] = True
         except ImportError as e:
-            self.log.warning(_("Terminals not available (error was %s)"), e)
+            self.log.warning(_("Terminals not available (error was {error})"), error=e)
 
     def init_signal(self):
         if not sys.platform.startswith('win') and sys.stdin and sys.stdin.isatty():
@@ -1404,8 +1404,7 @@ class NotebookApp(JupyterApp):
         
         This doesn't work on Windows.
         """
-        info = self.log.info
-        info(_('interrupted'))
+        self.log.info(_('interrupted'))
         print(self.notebook_info())
         yes = _('y')
         no = _('n')
@@ -1430,7 +1429,7 @@ class NotebookApp(JupyterApp):
         self.io_loop.add_callback_from_signal(self._restore_sigint_handler)
     
     def _signal_stop(self, sig, frame):
-        self.log.critical(_("received signal %s, stopping"), sig)
+        self.log.critical(_("received signal {unix_signal}, stopping"), unix_signal=sig)
         self.io_loop.add_callback_from_signal(self.io_loop.stop)
 
     def _signal_info(self, sig, frame):
@@ -1486,7 +1485,7 @@ class NotebookApp(JupyterApp):
                 except Exception:
                     if self.reraise_server_extension_failures:
                         raise
-                    self.log.warning(_("Error loading server extension %s"), modulename,
+                    self.log.warning(_("Error loading server extension {module_name}"), module_name=modulename,
                                   exc_info=True)
 
     def init_mime_overrides(self):
@@ -1513,17 +1512,17 @@ class NotebookApp(JupyterApp):
 
         seconds_since_active = \
             (utcnow() - self.web_app.last_activity()).total_seconds()
-        self.log.debug("No activity for %d seconds.",
-                       seconds_since_active)
+        self.log.debug("No activity for {duration_seconds} seconds.",
+                       duration_seconds=seconds_since_active)
         if seconds_since_active > self.shutdown_no_activity_timeout:
-            self.log.info("No kernels or terminals for %d seconds; shutting down.",
-                          seconds_since_active)
+            self.log.info("No kernels or terminals for {duration_seconds} seconds; shutting down.",
+                          duration_seconds=seconds_since_active)
             self.stop()
 
     def init_shutdown_no_activity(self):
         if self.shutdown_no_activity_timeout > 0:
-            self.log.info("Will shut down after %d seconds with no kernels or terminals.",
-                          self.shutdown_no_activity_timeout)
+            self.log.info("Will shut down after {duration_seconds} seconds with no kernels or terminals.",
+                          duration_seconds=self.shutdown_no_activity_timeout)
             pc = ioloop.PeriodicCallback(self.shutdown_no_activity, 60000)
             pc.start()
 
