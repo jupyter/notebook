@@ -1041,9 +1041,25 @@ define([
 
     var format_filesize = function(filesize) {
       if (filesize) {
-        return filesize + " bytes";
+        return (convertFileSize(filesize));
       }
     }
+    
+    var convertFileSize = function(filesize){
+      var units = ['B', 'kB', 'MB', 'GB', 'TB'];
+      var base = 1000;
+      if (Math.abs(filesize) < base){
+        return filesize + " B";
+      }
+      var u = -1;
+      do{
+        filesize /= base;
+        u++;
+      } while(Math.abs(filesize) >= base && u < units.length - 1);
+      return filesize.toFixed(1) + " " + units[u];
+    
+    }
+
 
     // javascript stores text as utf16 and string indices use "code units",
     // which stores high-codepoint characters as "surrogate pairs",
