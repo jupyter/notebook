@@ -185,14 +185,11 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
     def _get_file_size(self, path):
         try:
-            # size of file
             size = os.path.getsize(path)
         except (ValueError, OSError):
             self.log.warning('Unable to get size.')
             size = None
-            
         return size
-
 
     def file_exists(self, path):
         """Returns True if the file exists, else returns False.
@@ -272,7 +269,6 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             self.log.warning('Invalid ctime %s for %s', info.st_ctime, os_path)
             created = datetime(1970, 1, 1, 0, 0, tzinfo=tz.UTC)
 
-
         # Create the base model.
         model = {}
         model['name'] = path.rsplit('/', 1)[-1]
@@ -346,7 +342,6 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
         return model
 
-
     def _file_model(self, path, content=True, format=None):
         """Build a model for a file
 
@@ -362,7 +357,6 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
         os_path = self._get_os_path(path)
         model['mimetype'] = mimetypes.guess_type(os_path)[0]
-                
         model['size'] = self._get_file_size(os_path)
 
         if content:
@@ -389,17 +383,15 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         """
         model = self._base_model(path)
         model['type'] = 'notebook'
-
+        os_path = self._get_os_path(path)
+        model['size'] = self._get_file_size(os_path)
         
         if content:
-            os_path = self._get_os_path(path)
             nb = self._read_notebook(os_path, as_version=4)
             self.mark_trusted_cells(nb, path)
             model['content'] = nb
             model['format'] = 'json'
-            model['size'] = self._get_file_size(os_path)
             self.validate_notebook_model(model)
-            
             
         return model
 
