@@ -389,15 +389,15 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         """
         model = self._base_model(path)
         model['type'] = 'notebook'
+        os_path = self._get_os_path(path)
+        model['size'] = self._get_file_size(os_path)
 
         
         if content:
-            os_path = self._get_os_path(path)
             nb = self._read_notebook(os_path, as_version=4)
             self.mark_trusted_cells(nb, path)
             model['content'] = nb
             model['format'] = 'json'
-            model['size'] = self._get_file_size(os_path)
             self.validate_notebook_model(model)
             
             
