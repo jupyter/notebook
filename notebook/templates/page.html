@@ -99,6 +99,7 @@
       })
 
     document.nbjs_translations = {{ nbjs_translations|safe }};
+    document.documentElement.lang = navigator.language.toLowerCase();
     </script>
 
     {% block meta %}
