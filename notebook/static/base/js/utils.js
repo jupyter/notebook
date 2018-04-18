@@ -1038,21 +1038,33 @@ define([
             return (order == 1) ? 1 : -1;
         }
     };
+    
+    // source: https://github.com/sindresorhus/pretty-bytes
+    var format_filesize = function(num) {
+      if (num === undefined)
+        return;
 
-    var format_filesize = function(filesize) {
-      if (filesize) {
-        var units = ['B', 'kB', 'MB', 'GB', 'TB'];
-        var base = 1000;
-        if (Math.abs(filesize) < base){
-          return filesize + " B";
-        }
-        var u = -1;
-        do {
-          filesize /= base;
-          u++;
-        } while(Math.abs(filesize) >= base && u < units.length - 1);
-        return filesize.toFixed(1) + " " + units[u];
+      var UNITS = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+      if (!Number.isFinite(num)) {
+        console.error(`Expected a finite number, got ${typeof num}: ${num}`);
       }
+
+      var neg = num < 0;
+
+      if (neg) {
+        num = -num;
+      }
+
+      if (num < 1) {
+        return (neg ? '-' : '') + num + ' B';
+      }
+
+      var exponent = Math.min(Math.floor(Math.log10(num) / 3), UNITS.length - 1);
+      var numStr = Number((num / Math.pow(1000, exponent)).toPrecision(3));
+      var unit = UNITS[exponent];
+
+      return (neg ? '-' : '') + numStr + ' ' + unit;
     }
 
     // javascript stores text as utf16 and string indices use "code units",
