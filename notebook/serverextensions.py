@@ -103,6 +103,7 @@ def validate_serverextension(import_name, logger=None):
     try:
         mod = importlib.import_module(import_name)
         func = getattr(mod, 'load_jupyter_server_extension', None)
+        version = getattr(mod, '__version__', '')
     except Exception:
         logger.warning("Error loading server extension %s", import_name)
 
@@ -118,7 +119,7 @@ def validate_serverextension(import_name, logger=None):
             [logger.info(info) for info in infos]
             [logger.warn(warning) for warning in warnings]
         else:
-            logger.info(post_mortem.format(import_name, "", GREEN_OK))
+            logger.info(post_mortem.format(import_name, version, GREEN_OK))
 
     return warnings
 
