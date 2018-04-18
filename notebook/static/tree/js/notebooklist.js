@@ -548,7 +548,6 @@ define([
         $("<span/>")
             .addClass("file_size")
             .addClass("pull-right")
-            .css("width", "65px")
             .appendTo(item);
 
         $("<span/>")
