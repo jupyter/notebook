@@ -183,15 +183,6 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         os_path = self._get_os_path(path=path)
         return is_hidden(os_path, self.root_dir)
 
-    def _get_file_size(self, path):
-        try:
-            # size of file
-            size = os.path.getsize(path)
-        except (ValueError, OSError):
-            self.log.warning('Unable to get size.')
-            size = None
-        return size
-
     def file_exists(self, path):
         """Returns True if the file exists, else returns False.
 
@@ -254,6 +245,14 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         """Build the common base of a contents model"""
         os_path = self._get_os_path(path)
         info = os.lstat(os_path)
+        
+        try:
+            # size of file 
+            size = info.st_size
+        except (ValueError, OSError):
+            self.log.warning('Unable to get size.')
+            size = None
+        
         try:
             last_modified = tz.utcfromtimestamp(info.st_mtime)
         except (ValueError, OSError):
@@ -279,6 +278,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         model['content'] = None
         model['format'] = None
         model['mimetype'] = None
+        model['size'] = size
 
         try:
             model['writable'] = os.access(os_path, os.W_OK)
@@ -306,6 +306,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
         model = self._base_model(path)
         model['type'] = 'directory'
+        model['size'] = None
         if content:
             model['content'] = contents = []
             os_dir = self._get_os_path(path)
@@ -359,7 +360,6 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
         os_path = self._get_os_path(path)
         model['mimetype'] = mimetypes.guess_type(os_path)[0]
-        model['size'] = self._get_file_size(os_path)
 
         if content:
             content, format = self._read_file(os_path, format)
@@ -386,7 +386,6 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         model = self._base_model(path)
         model['type'] = 'notebook'
         os_path = self._get_os_path(path)
-        model['size'] = self._get_file_size(os_path)
         
         if content:
             nb = self._read_notebook(os_path, as_version=4)

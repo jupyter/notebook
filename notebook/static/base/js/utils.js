@@ -1064,7 +1064,7 @@ define([
     THE SOFTWARE.
     **/
     var format_filesize = function(num) {
-      if (num === undefined)
+      if (num === undefined || num == null)
         return;
 
       var UNITS = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
