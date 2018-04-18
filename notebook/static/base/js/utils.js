@@ -1064,13 +1064,13 @@ define([
     THE SOFTWARE.
     **/
     var format_filesize = function(num) {
-      if (num === undefined || num == null)
+      if (num === undefined || num === null)
         return;
 
       var UNITS = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
       if (!Number.isFinite(num)) {
-        console.error(`Expected a finite number, got ${typeof num}: ${num}`);
+        console.error("Expected finite number, got ", typeof(num) + ": " + num);
       }
 
       var neg = num < 0;
