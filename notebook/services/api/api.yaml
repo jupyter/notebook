@@ -814,6 +814,9 @@ definitions:
         type: string
         description: Last modified timestamp
         format: dateTime
+      size:
+        type: integer
+        description: "The size of the file or notebook in bytes. If no size is provided, defaults to null."
       mimetype:
         type: string
         description: "The mimetype of a file.  If content is not null, and type is 'file', this will contain the mimetype of the file, otherwise this will be null."

@@ -245,6 +245,14 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         """Build the common base of a contents model"""
         os_path = self._get_os_path(path)
         info = os.lstat(os_path)
+        
+        try:
+            # size of file 
+            size = info.st_size
+        except (ValueError, OSError):
+            self.log.warning('Unable to get size.')
+            size = None
+        
         try:
             last_modified = tz.utcfromtimestamp(info.st_mtime)
         except (ValueError, OSError):
@@ -270,6 +278,8 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         model['content'] = None
         model['format'] = None
         model['mimetype'] = None
+        model['size'] = size
+
         try:
             model['writable'] = os.access(os_path, os.W_OK)
         except OSError:
@@ -296,6 +306,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
         model = self._base_model(path)
         model['type'] = 'directory'
+        model['size'] = None
         if content:
             model['content'] = contents = []
             os_dir = self._get_os_path(path)
@@ -332,6 +343,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             model['format'] = 'json'
 
         return model
+
 
     def _file_model(self, path, content=True, format=None):
         """Build a model for a file
@@ -373,13 +385,15 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         """
         model = self._base_model(path)
         model['type'] = 'notebook'
+        os_path = self._get_os_path(path)
+        
         if content:
-            os_path = self._get_os_path(path)
             nb = self._read_notebook(os_path, as_version=4)
             self.mark_trusted_cells(nb, path)
             model['content'] = nb
             model['format'] = 'json'
             self.validate_notebook_model(model)
+            
         return model
 
     def get(self, path, content=True, type=None, format=None):

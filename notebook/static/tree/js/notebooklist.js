@@ -62,9 +62,34 @@ define([
         });
     }
 
+    function size_sorter(ascending) {
+        var order = ascending ? 1 : 0;
+        // directories have file size of undefined
+        return (function(a, b) {
+          if (a.size === undefined) {
+             return (ascending) ? -1 : 1;
+          }
+
+          if (b.size === undefined) {
+             return (ascending) ? 1 : -1;
+          }
+
+          if (a.size > b.size) {
+            return (ascending) ? -1 : 1;
+          }
+
+          if (b.size > a.size) {
+            return (ascending) ? 1 : -1;
+          }
+
+          return 0;
+        });
+    }
+
     var sort_functions = {
         'sort-name': name_sorter,
-        'last-modified': modified_sorter
+        'last-modified': modified_sorter,
+        'file-size': size_sorter
     };
 
     var NotebookList = function (selector, options) {
@@ -521,6 +546,11 @@ define([
             .appendTo(link);
 
         $("<span/>")
+            .addClass("file_size")
+            .addClass("pull-right")
+            .appendTo(item);
+
+        $("<span/>")
             .addClass("item_modified")
             .addClass("pull-right")
             .appendTo(item);
@@ -835,6 +865,9 @@ define([
         // Add in the date that the file was last modified
         item.find(".item_modified").text(utils.format_datetime(model.last_modified));
         item.find(".item_modified").attr("title", moment(model.last_modified).format("YYYY-MM-DD HH:mm"));
+
+        var filesize = utils.format_filesize(model.size);
+        item.find(".file_size").text(filesize || '\xA0');
     };
 
 
