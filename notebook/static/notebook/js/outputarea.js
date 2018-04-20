@@ -674,19 +674,23 @@ define([
             var type = OutputArea.display_order[i];
             var append = OutputArea.append_map[type];
             if ((json.data[type] !== undefined) && append) {
+                var md = json.metadata || {};
                 var value = json.data[type];
+                var toinsert;
                 if (!this.trusted && !OutputArea.safe_outputs[type]) {
                     // not trusted, sanitize HTML
                     if (type===MIME_HTML || type==='text/svg') {
-                        value = security.sanitize_html(value);
+                        var parsed = $(security.sanitize_html_and_parse(value));
+                        toinsert = append.apply(this, [parsed, md, element, handle_inserted]);
                     } else {
                         // don't display if we don't know how to sanitize it
                         console.log("Ignoring untrusted " + type + " output.");
                         continue;
                     }
+                } else {
+                    toinsert = append.apply(this, [value, md, element, handle_inserted]);
                 }
-                var md = json.metadata || {};
-                var toinsert = append.apply(this, [value, md, element, handle_inserted]);
+
                 // Since only the png and jpeg mime types call the inserted
                 // callback, if the mime type is something other we must call the 
                 // inserted callback only when the element is actually inserted

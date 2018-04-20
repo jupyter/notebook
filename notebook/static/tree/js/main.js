@@ -35,6 +35,7 @@ requirejs([
     'tree/js/kernellist',
     'tree/js/terminallist',
     'tree/js/newnotebook',
+    'tree/js/shutdownbutton',
     'auth/js/loginwidget',
     'bidi/bidi',
 ], function(
@@ -52,6 +53,7 @@ requirejs([
     kernellist,
     terminallist,
     newnotebook,
+    shutdownbutton,
     loginwidget,
     bidi){
     "use strict";
@@ -207,6 +209,8 @@ requirejs([
     
     // load tab if url hash
     if (window.location.hash) {
-        $("#tabs").find("a[href=" + window.location.hash + "]").click();
+        $("#tabs").find("a[href='" + window.location.hash + "']").click();
     }
+    
+    shutdownbutton.activate();
 });

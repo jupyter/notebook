@@ -248,8 +248,7 @@ define([
                 // HTML <img>)
                 var text = this.get_text();
                 marked(text, function (err, html) {
-                    html = security.sanitize_html(html);
-                    html = $($.parseHTML(html));
+                    html = $(security.sanitize_html_and_parse(html));
                     html.find('img[src^="attachment:"]').each(function (i, h) {
                         h = $(h);
                         var key = h.attr('src').replace(/^attachment:/, '');
@@ -402,8 +401,7 @@ define([
             };
             marked(text, { renderer: renderer }, function (err, html) {
                 html = mathjaxutils.replace_math(html, math);
-                html = security.sanitize_html(html);
-                html = $($.parseHTML(html));
+                html = $(security.sanitize_html_and_parse(html));
                 // add anchors to headings
                 html.find(":header").addBack(":header").each(function (i, h) {
                     h = $(h);

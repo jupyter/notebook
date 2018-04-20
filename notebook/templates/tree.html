@@ -12,7 +12,15 @@ data-server-root="{{server_root}}"
 {% endblock %}
 
 {% block headercontainer %}
-<span class="flex-spacer"></span>
+  <span class="flex-spacer"></span>
+  {% if shutdown_button %}
+    <span id="shutdown_widget">
+      <button id="shutdown" class="btn btn-sm navbar-btn"
+              title="{% trans %}Stop the Jupyter server{% endtrans %}">
+          {% trans %}Quit{% endtrans %}
+      </button>
+    </span>
+  {% endif %}
 {% endblock %}
 
 {% block site %}
@@ -108,6 +116,12 @@ data-server-root="{{server_root}}"
                   <li><a href="{{crumb[0]}}">{{crumb[1]}}</a></li>
                 {% endfor %}
                 </ul>
+              </div>
+              <div id="file_size" class="pull-right sort_button">
+                  <span class="btn btn-xs btn-default sort-action" id="file-size">
+                      {% trans %}File size{% endtrans %}
+                      <i class="fa"></i>
+                  </span>
               </div>
               <div id="last_modified" class="pull-right sort_button">
                   <span class="btn btn-xs btn-default sort-action" id="last-modified">

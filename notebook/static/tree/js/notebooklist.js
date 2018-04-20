@@ -62,9 +62,34 @@ define([
         });
     }
 
+    function size_sorter(ascending) {
+        var order = ascending ? 1 : 0;
+        // directories have file size of undefined
+        return (function(a, b) {
+          if (a.size === undefined) {
+             return (ascending) ? -1 : 1;
+          }
+
+          if (b.size === undefined) {
+             return (ascending) ? 1 : -1;
+          }
+
+          if (a.size > b.size) {
+            return (ascending) ? -1 : 1;
+          }
+
+          if (b.size > a.size) {
+            return (ascending) ? 1 : -1;
+          }
+
+          return 0;
+        });
+    }
+
     var sort_functions = {
         'sort-name': name_sorter,
-        'last-modified': modified_sorter
+        'last-modified': modified_sorter,
+        'file-size': size_sorter
     };
 
     var NotebookList = function (selector, options) {
@@ -254,8 +279,7 @@ define([
         var files;
         if(dropOrForm === 'drop'){
             files = event.originalEvent.dataTransfer.files;
-        } else
-        {
+        } else  {
             files = event.originalEvent.target.files;
         }
 
@@ -275,12 +299,11 @@ define([
             });
         };
 
-        for (var i = 0; i < files.length; i++) {
-            var f = files[i];
+        Array.from(files).forEach(function(f) {
             var name_and_ext = utils.splitext(f.name);
             var file_ext = name_and_ext[1];
 
-            if (f.size > this._max_upload_size_mb * 1024 * 1024) {
+            if (f.size > that._max_upload_size_mb * 1024 * 1024) {
             	var body_msg = i18n.msg.sprintf(i18n.msg._("The file size is %d MB. Do you still want to upload it?"),
             			Math.round(f.size / (1024 * 1024)));
                 dialog.modal({
@@ -314,7 +337,7 @@ define([
                 reader.onload = reader_onload;
                 reader.onerror = reader_onerror;
             }
-        }
+        });
         // Replace the file input form wth a clone of itself. This is required to
         // reset the form. Otherwise, if you upload a file, delete it and try to
         // upload it again, the changed event won't fire.
@@ -521,6 +544,11 @@ define([
         $("<span/>")
             .addClass("item_name")
             .appendTo(link);
+
+        $("<span/>")
+            .addClass("file_size")
+            .addClass("pull-right")
+            .appendTo(item);
 
         $("<span/>")
             .addClass("item_modified")
@@ -837,6 +865,9 @@ define([
         // Add in the date that the file was last modified
         item.find(".item_modified").text(utils.format_datetime(model.last_modified));
         item.find(".item_modified").attr("title", moment(model.last_modified).format("YYYY-MM-DD HH:mm"));
+
+        var filesize = utils.format_filesize(model.size);
+        item.find(".file_size").text(filesize || '\xA0');
     };
 
 

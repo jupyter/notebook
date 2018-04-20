@@ -72,7 +72,11 @@ script:
       if [[ $GROUP == docs ]]; then
         EXIT_STATUS=0
         make -C docs/ html || EXIT_STATUS=$?
-        make -C docs/ linkcheck || EXIT_STATUS=$?
+
+        if [[ $TRAVIS_EVENT_TYPE == cron ]]; then
+          make -C docs/ linkcheck || EXIT_STATUS=$?;
+        fi
+
         pytest --nbval --current-env docs || EXIT_STATUS=$?
         exit $EXIT_STATUS
       fi

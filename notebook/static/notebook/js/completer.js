@@ -374,6 +374,7 @@ define([
             index = Math.min(Math.max(index, 0), options.length-1);
             this.sel[0].selectedIndex = index;
         } else if (code == keycodes.pageup || code == keycodes.pagedown) {
+            event.codemirrorIgnore = true;
             event._ipkmIgnore = true;
 
             options = this.sel.find('option');
