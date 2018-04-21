@@ -135,6 +135,10 @@ class Notebook:
         JS = 'Jupyter.notebook.get_cell({}).metadata.{} = {}'.format(index, key, value)
         return self.browser.execute_script(JS)
 
+    def set_cell_input_prompt(self, index, prmpt_val):
+        JS = 'Jupyter.notebook.get_cell({}).set_input_prompt({})'.format(index, prmpt_val)
+        self.browser.execute_script(JS)
+
     def edit_cell(self, cell=None, index=0, content="", render=False):
         """Set the contents of a cell to *content*, by cell object or by index
         """
