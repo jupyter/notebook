@@ -454,7 +454,14 @@ define([
          **/
         var action_name = this.actions.get_name(data);
         if (! action_name){
-          throw new Error('does not know how to deal with : ' + data);
+          if (typeof data === 'string') {
+            // If we have an action name, allow it to be bound anyway.
+            console.log("Unknown action '" + data + "' for shortcut " + shortcut
+                + "; it may be defined by an extension which is not yet loaded.");
+            action_name = data;
+          } else {
+            throw new Error('does not know how to deal with : ' + data);
+          }
         }
         var _shortcut = normalize_shortcut(shortcut);
         this.set_shortcut(_shortcut, action_name);
