@@ -28,14 +28,6 @@ def test_insert_cell(notebook):
     assert notebook.get_cell_type(3) == "code"
     assert len(notebook.cells) == 5
 
-    notebook.focus_cell(2)
-    notebook.convert_cell_type(2, "markdown")
-    assert notebook.get_cell_type(2) == "markdown"
-    notebook.current_cell.send_keys("a")
-    assert notebook.get_cell_type(3) == "markdown"
-    notebook.current_cell.send_keys("b")
-    assert notebook.get_cell_type(4) == "markdown"
-
     notebook.edit_cell(index=1, content="cell1")
     notebook.focus_cell(1)
     notebook.current_cell.send_keys("a")
