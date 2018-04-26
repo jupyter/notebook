@@ -1,4 +1,5 @@
-
+from selenium.webdriver.common.keys import Keys
+from .utils import shift
 
 def test_insert_cell(notebook):
     a = "print('a')"
@@ -43,3 +44,17 @@ def test_insert_cell(notebook):
     assert notebook.get_cell_contents(2) == "cell2"
     assert notebook.get_cell_contents(3) == ""
     assert notebook.get_cell_contents(4) == "cell3"
+
+    # insert above multiple selected cells
+    notebook.focus_cell(1)
+    shift(notebook.browser, Keys.DOWN)
+    notebook.current_cell.send_keys('a')
+    
+    # insert below multiple selected cells
+    notebook.focus_cell(2)
+    shift(notebook.browser, Keys.DOWN)
+    notebook.current_cell.send_keys('b')
+    assert notebook.get_cell_contents(1) == ""
+    assert notebook.get_cell_contents(2) == "cell1"
+    assert notebook.get_cell_contents(3) == "cell2"
+    assert notebook.get_cell_contents(4) == ""
