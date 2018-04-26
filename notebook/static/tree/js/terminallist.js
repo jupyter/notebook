@@ -42,7 +42,10 @@ define([
         $('#new-terminal').click($.proxy(this.new_terminal, this));
     };
 
-    TerminalList.prototype.new_terminal = function () {
+    TerminalList.prototype.new_terminal = function (event) {
+        if (event) {
+            event.preventDefault();
+        }
         var w = window.open('#', IPython._target);
         var base_url = this.base_url;
         var settings = {

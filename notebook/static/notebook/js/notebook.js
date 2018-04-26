@@ -3175,6 +3175,7 @@ define([
      * @param {Error} error
      */
     Notebook.prototype.load_notebook_error = function (error) {
+        var isSanitized = true;
         this.events.trigger('notebook_load_failed.Notebook', error);
         var msg;
         if (error.name === utils.XHR_ERROR && error.xhr.status === 500) {
@@ -3187,6 +3188,11 @@ define([
             console.warn('Error stack trace while loading notebook was:');
             console.warn(error.stack);
         }
+        if (navigator.cookieEnabled == false){
+            msg = i18n.msg._("Jupyter requires cookies to work; please enable cookies" +
+                " and refresh page. <a href=\"https://www.wikihow.com/Enable-Cookies-in-Your-Internet-Web-Browser\"> Learn more about enabling cookies. </a>");
+            isSanitized = false;
+        }
         dialog.modal({
             notebook: this,
             keyboard_manager: this.keyboard_manager,
@@ -3198,9 +3204,10 @@ define([
                     click : function () {
                         window.close();
                     }
-                },
-                "Ok": {}
-              }
+                }
+              },
+              sanitize: isSanitized
+          
         });
     };
 

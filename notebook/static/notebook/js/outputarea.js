@@ -631,6 +631,10 @@ define([
             (json.data[MIME_MARKDOWN] !== undefined)) {
             this.typeset();
         }
+        this.events.trigger('output_updated.OutputArea', {
+            output: json,
+            output_area: this,
+        });
     };
 
     OutputArea.prototype._record_display_id = function (json, element) {

@@ -1038,7 +1038,57 @@ define([
             return (order == 1) ? 1 : -1;
         }
     };
+    
+    /**
+    source: https://github.com/sindresorhus/pretty-bytes
+    The MIT License (MIT)
 
+    Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
+    **/
+    var format_filesize = function(num) {
+      if (num === undefined || num === null)
+        return;
+
+      var UNITS = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+      if (!Number.isFinite(num)) {
+        console.error("Expected finite number, got ", typeof(num) + ": " + num);
+      }
+
+      var neg = num < 0;
+
+      if (neg) {
+        num = -num;
+      }
+
+      if (num < 1) {
+        return (neg ? '-' : '') + num + ' B';
+      }
+
+      var exponent = Math.min(Math.floor(Math.log10(num) / 3), UNITS.length - 1);
+      var numStr = Number((num / Math.pow(1000, exponent)).toPrecision(3));
+      var unit = UNITS[exponent];
+
+      return (neg ? '-' : '') + numStr + ' ' + unit;
+    }
 
     // javascript stores text as utf16 and string indices use "code units",
     // which stores high-codepoint characters as "surrogate pairs",
@@ -1180,6 +1230,7 @@ define([
         parse_b64_data_uri: parse_b64_data_uri,
         time: time,
         format_datetime: format_datetime,
+        format_filesize: format_filesize,
         datetime_sort_helper: datetime_sort_helper,
         dnd_contain_file: dnd_contain_file,
         js_idx_to_char_idx: js_idx_to_char_idx,
