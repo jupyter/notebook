@@ -54,7 +54,4 @@ def test_insert_cell(notebook):
     notebook.focus_cell(2)
     shift(notebook.browser, Keys.DOWN)
     notebook.current_cell.send_keys('b')
-    assert notebook.get_cell_contents(1) == ""
-    assert notebook.get_cell_contents(2) == "cell1"
-    assert notebook.get_cell_contents(3) == "cell2"
-    assert notebook.get_cell_contents(4) == ""
+    assert notebook.get_cells_contents()[1:5] == ["", "cell1", "cell2", ""]
