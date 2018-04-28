@@ -247,7 +247,9 @@ define([
                 fg += 8;  // Bold text uses "intense" colors
             }
             if (inverse) {
-                [fg, bg] = [bg, fg];
+                var temp_ = fg;
+                fg = bg;
+                bg = temp_;
             }
 
             if (typeof fg === "number") {
