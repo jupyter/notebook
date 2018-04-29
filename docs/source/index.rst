@@ -10,6 +10,7 @@ The Jupyter notebook
    Installation <https://jupyter.readthedocs.io/en/latest/install.html>
    Running the Notebook <https://jupyter.readthedocs.io/en/latest/running.html>
    Migrating from IPython <https://jupyter.readthedocs.io/en/latest/migrating.html>
+   troubleshooting
    ui_components
    comms
 
