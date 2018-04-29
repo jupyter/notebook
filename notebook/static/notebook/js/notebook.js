@@ -2846,7 +2846,82 @@ define([
             this._checkpoint_after_save = false;
         }
     };
-    
+
+    Notebook.prototype.save_notebook_as = function() {
+        // If current notebook has some changes, save them, or the copied notebook won't have them.
+        if (this.writable && this.dirty) {
+            this.save_notebook();
+        }
+        var that = this;
+        var dialog_body = $('<div/>').append(
+            $("<p/>").addClass("save-message")
+                .text(i18n.msg._('Enter a notebook path relative to notebook dir'))
+        ).append(
+            $("<br/>")
+        ).append(
+            $('<input/>').attr('type','text').attr('size','25')
+            .addClass('form-control').attr('placeholder', that.notebook_name)
+        );
+
+        var d = dialog.modal({
+            title: 'Save As',
+            body: dialog_body,
+            keyboard_manager: this.keyboard_manager,
+            notebook: this,
+            buttons: {
+                Cancel: {},
+                Save: {
+                    class: 'btn-primary',
+                    click: function() {
+                        var nb_path = d.find('input').val();
+                        var nb_name = nb_path.split('/').slice(-1).pop();
+                        // If notebook name does not contain extension '.ipynb' add it
+                        var ext = utils.splitext(nb_name)[1];
+                        if (ext === '') {
+                            nb_name = nb_name + '.ipynb';
+                            nb_path = nb_path + '.ipynb';
+                        }
+                        var save_thunk = function() {
+                            var model = {
+                                'type': 'notebook',
+                                'content': that.toJSON(),
+                                'name': nb_name
+                             };
+                            return that.contents.save(nb_path, model)
+                                .then(function(data) {
+                                    window.open(data.path, '_self');
+                                },function(error) {
+                                   console.error(i18n.msg._(error.message || 'Unknown error saving notebook'));
+                                });
+                        }
+                        that.contents.get(nb_path, {type: 'notebook'}).then(function(data) {
+                            var warning_body = $('<div/>').append(
+                                $("<p/>").text(i18n.msg._('Notebook with that name exists.')));
+                            dialog.modal({
+                                title: 'Save As',
+                                body: warning_body,
+                                buttons: {Cancel: {},
+                                Overwrite: {
+                                    class: 'btn-warning',
+                                    click: function() {
+                                        return save_thunk();
+                                    }
+                                }
+                            }
+                            });
+                        }, function(err) {
+                            return save_thunk();
+                        })
+                        return false;
+                    }
+                },
+            },
+            open : function () {
+                d.find('input[type="text"]').focus().select();
+             }
+         });
+    }
+
     /**
      * Update the autosave interval based on the duration of the last save.
      * 
