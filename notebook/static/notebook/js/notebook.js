@@ -2853,14 +2853,21 @@ define([
             this.save_notebook();
         }
         var that = this;
+        var current_dir = $('body').attr('data-notebook-path').split('/').slice(0, -1).join("/");
+        current_dir = current_dir? currend_dir + "/": "";
         var dialog_body = $('<div/>').append(
-            $("<p/>").addClass("save-message")
+            $('<p/>').addClass('save-message')
                 .text(i18n.msg._('Enter a notebook path relative to notebook dir'))
         ).append(
-            $("<br/>")
+            $('<br/>')
+        ).append($('<label />').attr('for', 'save-as-dialog')
+            .html('<i class="fa fa-home"></i>')
         ).append(
             $('<input/>').attr('type','text').attr('size','25')
-            .addClass('form-control').attr('placeholder', that.notebook_name)
+            .attr('value', current_dir)
+            .css({'display': 'inline-block', 'margin-left': '0.5em'})
+            .attr('id', 'save-as-dialog')
+            .addClass('form-inline')
         );
 
         var d = dialog.modal({
@@ -2889,7 +2896,7 @@ define([
                              };
                             return that.contents.save(nb_path, model)
                                 .then(function(data) {
-                                    window.open(data.path, '_self');
+                                    window.open(data.path, '_blank');
                                 },function(error) {
                                    console.error(i18n.msg._(error.message || 'Unknown error saving notebook'));
                                 });
