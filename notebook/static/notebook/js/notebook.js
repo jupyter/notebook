@@ -2854,7 +2854,7 @@ define([
         }
         var that = this;
         var current_dir = $('body').attr('data-notebook-path').split('/').slice(0, -1).join("/");
-        current_dir = current_dir? currend_dir + "/": "";
+        current_dir = current_dir? current_dir + "/": "";
         var dialog_body = $('<div/>').append(
             $('<p/>').addClass('save-message')
                 .text(i18n.msg._('Enter a notebook path relative to notebook dir'))
@@ -2896,7 +2896,12 @@ define([
                              };
                             return that.contents.save(nb_path, model)
                                 .then(function(data) {
-                                    window.open(data.path, '_blank');
+                                    d.modal('hide');
+                                    that.notebook_name = data.name;
+                                    that.notebook_path = data.path;
+                                    that.session.rename_notebook(data.path);
+                                    that.events.trigger('notebook_renamed.Notebook', data);
+
                                 },function(error) {
                                    console.error(i18n.msg._(error.message || 'Unknown error saving notebook'));
                                 });
@@ -2924,6 +2929,12 @@ define([
                 },
             },
             open : function () {
+                d.find('input[type="text"]').keydown(function (event) {
+                    if (event.which === keyboard.keycodes.enter) {
+                        d.find('.btn-primary').first().click();
+                        return false;
+                    }
+                });
                 d.find('input[type="text"]').focus().select();
              }
          });
