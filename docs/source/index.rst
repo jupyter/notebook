@@ -1,5 +1,5 @@
 ====================
-The Jupyter notebook
+The Jupyter Notebook
 ====================
 
 * `Installation <https://jupyter.readthedocs.io/en/latest/install.html>`_
