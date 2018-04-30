@@ -1,5 +1,6 @@
-UI Components
-=============
+User interface components
+=========================
+
 When opening bug reports or sending emails to the Jupyter mailing list, it is
 useful to know the names of different UI components so that other developers
 and users have an easier time helping you diagnose your problems. This section

@@ -1,7 +1,7 @@
 .. _changelog:
 
-Jupyter notebook changelog
-==========================
+Changelog
+=========
 
 A summary of changes in the Jupyter notebook.
 For more detailed information, see
