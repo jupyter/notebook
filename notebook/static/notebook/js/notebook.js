@@ -2761,6 +2761,8 @@ define([
                         if (that._changed_on_disk_dialog !== null) {
                             // update save callback on the confirmation button
                             that._changed_on_disk_dialog.find('.save-confirm-btn').click(_save);
+                            //Rebind Click Event on Reload
+                            that._changed_on_disk_dialog.find('.btn-warning').click(function () {window.location.reload()});
                             // redisplay existing dialog
                             that._changed_on_disk_dialog.modal('show');
                         } else {
