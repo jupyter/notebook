@@ -79,6 +79,9 @@ for more information.
     install_requires = [
         'jinja2',
         'tornado>=4',
+        # pyzmq>=17 is not technically necessary,
+        # but hopefully avoids incompatibilities with Tornado 5. April 2018
+        'pyzmq>=17',
         'ipython_genutils',
         'traitlets>=4.2.1',
         'jupyter_core>=4.4.0',
