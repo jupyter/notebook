@@ -83,6 +83,29 @@ without relying on nbviewer.
     :ref:`Details on the notebook JSON file format <nbformat:notebook_file_format>`
 
 
+Notebooks and privacy
+~~~~~~~~~~~~~~~~~~~~~
+
+Because you use Jupyter in a web browser, some people are understandably
+concerned about using it with sensitive data.
+However, if you followed the standard
+`install instructions <https://jupyter.readthedocs.io/en/latest/install.html>`_,
+Jupyter is actually running on your own computer.
+If the URL in the address bar starts with ``http://localhost:`` or
+``http://127.0.0.1:``, it's your computer acting as the server.
+Jupyter doesn't send your data anywhere else—and as it's open source,
+other people can check that we're being honest about this.
+
+You can also use Jupyter remotely:
+your company or university might run the server for you, for instance.
+If you want to work with sensitive data in those cases,
+talk to your IT or data protection staff about it.
+
+We aim to ensure that other pages in your browser or other users on the same
+computer can't access your notebook server. See :ref:`server_security` for
+more about this.
+
+
 Starting the notebook server
 ----------------------------
 
