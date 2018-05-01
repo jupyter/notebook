@@ -21,6 +21,137 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+.. _release-5.5.0:
+
+5.5.0
+-----
+
+New features:
+
+- The files list now shows file sizes (:ghpull:`3539`)
+- Add a quit button in the dashboard (:ghpull:`3004`)
+- Display hostname in the terminal when running remotely (:ghpull:`3356`)
+- Add slides exportation/download to the menu (:ghpull:`3287`)
+- Add any extra installed nbconvert exporters to the "Download as" menu (:ghpull:`3323`)
+- Editor: warning when overwriting a file that is modified on disk (:ghpull:`2783`)
+- Display a warning message if cookies are not enabled (:ghpull:`3511`)
+- Basic ``__version__`` reporting for extensions (:ghpull:`3541`)
+- Add ``NotebookApp.terminals_enabled`` config option (:ghpull:`3478`)
+- Make buffer time between last modified on disk and last modified on last save configurable (:ghpull:`3273`)
+- Allow binding custom shortcuts for 'close and halt' (:ghpull:`3314`)
+- Add description for 'Trusted' notification (:ghpull:`3386`)
+- Add ``settings['activity_sources']`` (:ghpull:`3401`)
+- Add an ``output_updated.OutputArea`` event (:ghpull:`3560`)
+
+
+Fixing problems:
+
+- Fixes to improve web accessibility (:ghpull:`3507`)
+
+  - There is more to do on this! See :ghissue:`1801`.
+
+- Fixed color contrast issue in tree.less (:ghpull:`3336`)
+- Allow cancelling upload of large files (:ghpull:`3373`)
+- Don't clear login cookie on requests without cookie (:ghpull:`3380`)
+- Don't trash files on different device to home dir on Linux (:ghpull:`3304`)
+- Clear waiting asterisks when restarting kernel (:ghpull:`3494`)
+- Fix output prompt when ``execution_count`` missing (:ghpull:`3236`)
+- Make the 'changed on disk' dialog work when displayed twice (:ghpull:`3589`)
+- Fix going back to root directory with history in notebook list (:ghpull:`3411`)
+- Allow defining keyboard shortcuts for missing actions (:ghpull:`3561`)
+- Prevent default on pageup/pagedown when completer is active (:ghpull:`3500`)
+- Prevent default event handling on new terminal (:ghpull:`3497`)
+- ConfigManager should not write out default values found in the .d directory (:ghpull:`3485`)
+- Fix leak of iopub object in activity monitoring (:ghpull:`3424`)
+- Javascript lint in notebooklist.js (:ghpull:`3409`)
+- Some Javascript syntax fixes (:ghpull:`3294`)
+- Convert native for loop to ``Array.forEach()`` (:ghpull:`3477`)
+- Disable cache when downloading nbconvert output (:ghpull:`3484`)
+- Add missing digestmod arg to HMAC (:ghpull:`3399`)
+- Log OSErrors failing to create less-critical files during startup (:ghpull:`3384`)
+- Use powershell on Windows (:ghpull:`3379`)
+- API spec improvements, API handler improvements (:ghpull:`3368`)
+- Set notebook to dirty state after change to kernel metadata (:ghpull:`3350`)
+- Use CSP header to treat served files as belonging to a separate origin (:ghpull:`3341`)
+- Don't install gettext into builtins (:ghpull:`3330`)
+- Add missing ``import _`` (:ghpull:`3316`, :ghpull:`3326`)
+- Write ``notebook.json`` file atomically (:ghpull:`3305`)
+- Fix clicking with modifiers, page title updates (:ghpull:`3282`)
+- Upgrade jQuery to version 2.2 (:ghpull:`3428`)
+- Upgrade xterm.js to 3.1.0 (:ghpull:`3189`)
+- Upgrade moment.js to 2.19.3 (:ghpull:`3562`)
+- Upgrade CodeMirror to 5.35 (:ghpull:`3372`)
+- "Require" pyzmq>=17 (:ghpull:`3586`)
+
+Documentation:
+
+- Documentation updates and organisation (:ghpull:`3584`)
+- Add section in docs about privacy (:ghpull:`3571`)
+- Add explanation on how to change the type of a cell to Markdown (:ghpull:`3377`)
+- Update docs with confd implementation details (:ghpull:`3520`)
+- Add more information for where ``jupyter_notebook_config.py`` is located (:ghpull:`3346`)
+- Document options to enable nbextensions in specific sections (:ghpull:`3525`)
+- jQuery attribute selector value MUST be surrounded by quotes (:ghpull:`3527`)
+- Do not execute special notebooks with nbsphinx (:ghpull:`3360`)
+- Other minor fixes in :ghpull:`3288`, :ghpull:`3528`, :ghpull:`3293`, :ghpull:`3367`
+
+Testing:
+
+- Testing with Selenium & Sauce labs (:ghpull:`3321`)
+- Selenium utils + markdown rendering tests (:ghpull:`3458`)
+- Convert insert cell tests to Selenium (:ghpull:`3508`)
+- Convert prompt numbers tests to Selenium (:ghpull:`3554`)
+- Convert delete cells tests to Selenium (:ghpull:`3465`)
+- Convert undelete cell tests to Selenium (:ghpull:`3475`)
+- More selenium testing utilities (:ghpull:`3412`)
+- Only check links when build is trigger by Travis Cron job (:ghpull:`3493`)
+- Fix Appveyor build errors (:ghpull:`3430`)
+- Undo patches in teardown before attempting to delete files (:ghpull:`3459`)
+- Get tests running with tornado 5 (:ghpull:`3398`)
+- Unpin ipykernel version on Travis (:ghpull:`3223`)
+
+Thanks to the following contributors:
+
+- Arovit Narula (`arovit <https://github.com/arovit>`__)
+- Ashley Teoh (`ashleytqy <https://github.com/ashleytqy>`__)
+- Nicholas Bollweg (`bollwyvl <https://github.com/bollwyvl>`__)
+- Alex Rothberg (`cancan101 <https://github.com/cancan101>`__)
+- Celina Kilcrease (`ckilcrease <https://github.com/ckilcrease>`__)
+- dabuside (`dabuside <https://github.com/dabuside>`__)
+- Damian Avila (`damianavila <https://github.com/damianavila>`__)
+- Dana Lee (`danagilliann <https://github.com/danagilliann>`__)
+- Dave Hirschfeld (`dhirschfeld <https://github.com/dhirschfeld>`__)
+- Heng GAO (`ehengao <https://github.com/ehengao>`__)
+- Leo Gallucci (`elgalu <https://github.com/elgalu>`__)
+- Evan Van Dam (`evandam <https://github.com/evandam>`__)
+- forbxy (`forbxy <https://github.com/forbxy>`__)
+- Grant Nestor (`gnestor <https://github.com/gnestor>`__)
+- Ethan T. Hendrix (`hendrixet <https://github.com/hendrixet>`__)
+- Miro Hrončok (`hroncok <https://github.com/hroncok>`__)
+- Paul Ivanov (`ivanov <https://github.com/ivanov>`__)
+- Darío Hereñú (`kant <https://github.com/kant>`__)
+- Kevin Bates (`kevin-bates <https://github.com/kevin-bates>`__)
+- Maarten Breddels (`maartenbreddels <https://github.com/maartenbreddels>`__)
+- Michael Droettboom (`mdboom <https://github.com/mdboom>`__)
+- Min RK (`minrk <https://github.com/minrk>`__)
+- M Pacer (`mpacer <https://github.com/mpacer>`__)
+- Peter Parente (`parente <https://github.com/parente>`__)
+- Paul Masson (`paulmasson <https://github.com/paulmasson>`__)
+- Philipp Rudiger (`philippjfr <https://github.com/philippjfr>`__)
+- Mac Knight (`Shels1909 <https://github.com/Shels1909>`__)
+- Hisham Elsheshtawy (`Sheshtawy <https://github.com/Sheshtawy>`__)
+- Simon Biggs (`SimonBiggs <https://github.com/SimonBiggs>`__)
+- Sunil Hari (`sunilhari <https://github.com/sunilhari>`__)
+- Thomas Kluyver (`takluyver <https://github.com/takluyver>`__)
+- Tim Klever (`tklever <https://github.com/tklever>`__)
+- Gabriel Ruiz (`unnamedplay-r <https://github.com/unnamedplay-r>`__)
+- Vaibhav Sagar (`vaibhavsagar <https://github.com/vaibhavsagar>`__)
+- William Hosford (`whosford <https://github.com/whosford>`__)
+- Hong (`xuhdev <https://github.com/xuhdev>`__)
+
+See the 5.5 milestone on GitHub for a complete list of
+`pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A5.5>`__ involved in this release.
+
 .. _release-5.4.1:
 
 5.4.1
