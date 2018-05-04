@@ -131,10 +131,17 @@ class Notebook:
         JS = 'return Jupyter.notebook.get_cells().map(function(c) {return c.get_text();})'
         return self.browser.execute_script(JS)
 
+    def get_cell_contents(self, index=0, selector='div .CodeMirror-code'):
+        return self.cells[index].find_element_by_css_selector(selector).text
+
     def set_cell_metadata(self, index, key, value):
         JS = 'Jupyter.notebook.get_cell({}).metadata.{} = {}'.format(index, key, value)
         return self.browser.execute_script(JS)
 
+    def get_cell_type(self, index=0):
+        JS = 'return Jupyter.notebook.get_cell({}).cell_type'.format(index)
+        return self.browser.execute_script(JS)
+        
     def set_cell_input_prompt(self, index, prmpt_val):
         JS = 'Jupyter.notebook.get_cell({}).set_input_prompt({})'.format(index, prmpt_val)
         self.browser.execute_script(JS)

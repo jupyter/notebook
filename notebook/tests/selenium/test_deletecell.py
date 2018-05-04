@@ -1,5 +1,3 @@
-import os
-import pytest
 
 def cell_is_deletable(nb, index):
     JS = 'return Jupyter.notebook.get_cell({}).is_deletable();'.format(index)
