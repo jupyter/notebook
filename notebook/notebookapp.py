@@ -1339,11 +1339,10 @@ class NotebookApp(JupyterApp):
     
     @property
     def display_url(self):
-        hostname = socket.gethostname()
-        if self.ip in ('localhost', '127.0.0.1', hostname):
-            ip = self.ip
+        if self.ip in ('', '0.0.0.0'):
+            ip = socket.gethostname()
         else:
-            ip = hostname
+            ip = self.ip
         url = self._url(ip)
         if self.token:
             # Don't log full token if it came from config
