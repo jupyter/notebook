@@ -281,5 +281,6 @@ def trigger_keystrokes(browser, *keys):
             for i in modifiers_keys: ac = ac.key_down(i)
             ac.send_keys(keys[-1])
             for i in modifiers_keys[::-1]: ac = ac.key_up(i)
+            ac.perform()
         else:              # single key stroke. Check if modifier eg. "up"
             browser.send_keys(getattr(Keys, keys[0].upper(), keys[0]))
