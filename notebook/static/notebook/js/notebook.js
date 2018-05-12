@@ -2848,10 +2848,6 @@ define([
     };
 
     Notebook.prototype.save_notebook_as = function() {
-        // If current notebook has some changes, save them, or the copied notebook won't have them.
-        if (this.writable && this.dirty) {
-            this.save_notebook();
-        }
         var that = this;
         var current_dir = $('body').attr('data-notebook-path').split('/').slice(0, -1).join("/");
         current_dir = current_dir? current_dir + "/": "";
@@ -2860,14 +2856,9 @@ define([
                 .text(i18n.msg._('Enter a notebook path relative to notebook dir'))
         ).append(
             $('<br/>')
-        ).append($('<label />').attr('for', 'save-as-dialog')
-            .html('<i class="fa fa-home"></i>')
         ).append(
             $('<input/>').attr('type','text').attr('size','25')
-            .attr('value', current_dir)
-            .css({'display': 'inline-block', 'margin-left': '0.5em'})
-            .attr('id', 'save-as-dialog')
-            .addClass('form-inline')
+            .addClass('form-control')
         );
 
         var d = dialog.modal({
@@ -2935,7 +2926,7 @@ define([
                         return false;
                     }
                 });
-                d.find('input[type="text"]').focus().select();
+                d.find('input[type="text"]').val(current_dir).focus();
              }
          });
     }
