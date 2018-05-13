@@ -2858,6 +2858,7 @@ define([
             $('<br/>')
         ).append(
             $('<input/>').attr('type','text').attr('size','25')
+            .attr('data-testid', 'save-as')
             .addClass('form-control')
         );
 
@@ -2894,7 +2895,8 @@ define([
                                     that.events.trigger('notebook_renamed.Notebook', data);
 
                                 },function(error) {
-                                   console.error(i18n.msg._(error.message || 'Unknown error saving notebook'));
+                                   const msg = i18n.msg._(error.message || 'Unknown error saving notebook');
+                                   $('.save-message').html(`<span style='color:red;'>${msg}</span>`);
                                 });
                         }
                         that.contents.get(nb_path, {type: 'notebook'}).then(function(data) {
