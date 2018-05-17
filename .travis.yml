@@ -96,6 +96,8 @@ matrix:
           env: GROUP=python
         - python: 3.5
           env: GROUP=python
+        - python: "3.7-dev"
+          env: GROUP=python
         - python: 3.6
           env: GROUP=docs
 
