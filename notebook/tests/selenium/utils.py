@@ -1,5 +1,5 @@
 import os
-
+import time
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -99,6 +99,20 @@ class Notebook:
         cell.click()
         self.to_command_mode()
         self.current_cell = cell
+
+    def find_and_replace(self, index=0, find_txt='', replace_txt='', replace_all=False):
+        self.focus_cell(index)
+        esc(self.browser, 'F')
+        time.sleep(1)    # TODO: find better way to fill the find and replace form
+        self.browser.find_elements_by_css_selector("button.btn.btn-default.btn-sm")[2].click()
+        JS = "document.getElementsByClassName('form-control input-sm')[0].setAttribute('value', '%s')"%find_txt
+        self.browser.execute_script(JS)
+        JS = "document.getElementsByClassName('form-control input-sm')[1].setAttribute('value', '%s')"%replace_txt
+        self.browser.execute_script(JS)
+        self.body.send_keys(Keys.TAB)
+        self.body.send_keys(Keys.TAB)
+        self.body.send_keys(Keys.ENTER)
+        time.sleep(1)
 
     def convert_cell_type(self, index=0, cell_type="code"):
         # TODO add check to see if it is already present
@@ -258,3 +272,9 @@ def ctrl(browser, k):
     """Send key combination Ctrl+(k)"""
     ActionChains(browser)\
         .key_down(Keys.CONTROL).send_keys(k).key_up(Keys.CONTROL).perform()
+
+def esc(browser, k):
+    """Send key combination esc+(k)"""
+    ActionChains(browser)\
+        .key_down(Keys.ESCAPE).send_keys(k).key_up(Keys.ESCAPE).perform()
+
