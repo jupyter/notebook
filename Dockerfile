@@ -85,10 +85,6 @@ RUN set -ex; \
 		\) -exec rm -rf '{}' +; \
 	rm -f get-pip.py
 
-ADD bashrc /root/.bashrc
-
-WORKDIR /root
-
 RUN pip install notebook
 ENV PATH $PATH:/usr/local/bin/
 
