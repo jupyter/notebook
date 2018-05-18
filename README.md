@@ -42,6 +42,20 @@ For a local installation, make sure you have
 Launch with:
 
     $ jupyter notebook
+    
+### Running in a Docker container
+
+build & run
+
+```
+git clone https://github.com/jupyter/notebook.git && cd notebook
+docker build -t notebook .
+docker run -d -p 8888:8888 notebook
+```
+
+Access `http://ip:8888/` to login with password `notebook`
+
+
 
 ## Development Installation
 
