@@ -186,7 +186,7 @@ class Notebook:
 
     def delete_cell(self, index):
         self.focus_cell(index)
-        self.to_command_mode
+        self.to_command_mode()
         self.current_cell.send_keys('dd')
 
     def add_markdown_cell(self, index=-1, content="", render=True):
@@ -276,7 +276,7 @@ def trigger_keystrokes(browser, *keys):
     for each_key_combination in keys:
         keys = each_key_combination.split('-')
         if len(keys) > 1:  # key has modifiers eg. control, alt, shift
-            modifiers_keys = list(map(lambda x:getattr(Keys, x.upper()), keys[:-1]))
+            modifiers_keys = [getattr(Keys, x.upper()) for x in keys[:-1]]
             ac = ActionChains(browser)
             for i in modifiers_keys: ac = ac.key_down(i)
             ac.send_keys(keys[-1])
