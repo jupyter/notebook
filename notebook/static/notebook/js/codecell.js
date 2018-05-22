@@ -164,7 +164,7 @@ define([
         var run_this_cell = $('<div></div>').addClass('run_this_cell');
         run_this_cell.prop('title', 'Run this cell');
         run_this_cell.append('<i class="fa-step-forward fa"></i>');
-        run_this_cell.mouseup(function (event) {
+        run_this_cell.click(function (event) {
             event.stopImmediatePropagation();
             that.execute();
         });
