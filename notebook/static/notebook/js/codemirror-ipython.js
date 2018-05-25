@@ -31,7 +31,22 @@
         } else if (pythonConf.version === 2) {
             pythonConf.identifiers = new RegExp("^[_A-Za-z][_A-Za-z0-9]*");
         }
-        return CodeMirror.getMode(conf, pythonConf);
+
+        var todoHighlightOverlay = {
+            token: function(stream) {
+              if (stream.pos == 0) {
+                var re = /\b(to\s*do|fix\s*me|hack)\b/i;
+                var match = re.exec(stream.string);
+                if (match) {
+                  stream.skipToEnd();
+                  return "todo";
+                }
+              }
+              stream.skipToEnd();
+            }
+        };
+
+        return CodeMirror.overlayMode(CodeMirror.getMode(conf, pythonConf), todoHighlightOverlay, true);
     }, 'python');
 
     CodeMirror.defineMIME("text/x-ipython", "ipython");
