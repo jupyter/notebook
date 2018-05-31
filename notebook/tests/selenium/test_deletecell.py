@@ -3,6 +3,10 @@ def cell_is_deletable(nb, index):
     JS = 'return Jupyter.notebook.get_cell({}).is_deletable();'.format(index)
     return nb.browser.execute_script(JS)
 
+def remove_cells(notebook):
+    for i in notebook.cells:
+        notebook.delete_cell(notebook.index(i))
+
 def test_delete_cells(notebook):
     a = 'print("a")'
     b = 'print("b")'
@@ -51,3 +55,6 @@ def test_delete_cells(notebook):
     notebook.current_cell.send_keys('cv')
     assert len(notebook.cells) == 2
     assert cell_is_deletable(notebook, 1)
+
+    remove_cells(notebook)
+    assert len(notebook.cells) == 1    # notebook should create one automatically on empty notebook
