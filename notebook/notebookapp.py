@@ -1657,7 +1657,7 @@ class NotebookApp(JupyterApp):
                 '\n',
                 'Copy/paste this URL into your browser when you connect for the first time,',
                 'to login with a token:',
-                '    %s' % url_concat(self.display_url, {'token': self.token}),
+                '    %s' % self.display_url,
             ]))
 
         self.io_loop = ioloop.IOLoop.current()
