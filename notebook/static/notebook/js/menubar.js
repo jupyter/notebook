@@ -189,6 +189,20 @@ define([
             that._nbconvert('html', false);
         });
 
+        this.element.find('#document_details').click(function () {
+            var table = $('<table></table>');
+            var body = $('<tbody></tbody>');
+            body.append('<tr><td><b>File: </b></td><td>' + that.notebook.notebook_name + '</td></tr>');
+            body.append('<tr><td><b>Path: </b></td><td>' + that.notebook.notebook_path + '</td></tr>');
+            body.append('<tr><td><b>Last modified: </b></td><td>' + that.notebook.last_modified + '</td></tr>');
+            table.append(body);
+            dialog.modal({
+                title: i18n.msg._('Document Details'),
+                body: table,
+                buttons: {'OK': {}}
+            });
+        });
+
         this.element.find('#download_menu li').click(function (ev) {
             that._nbconvert(ev.target.parentElement.getAttribute('id').substring(9), true);
         });
