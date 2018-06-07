@@ -666,6 +666,19 @@ class NotebookApp(JupyterApp):
             value = u''
         return value
 
+    custom_display_url = Unicode(u'', config=True,
+        help=_("""Override URL shown to users.
+
+        Replace actual URL, including protocol, address, port and base URL,
+        with the given value when displaying URL to the users. Do not change
+        the actual connection URL. If authentication token is enabled, the
+        token is added to the custom URL automatically.
+
+        This option is intended to be used when the URL to display to the user
+        cannot be determined reliably by the Jupyter notebook server (proxified
+        or containerized setups for example).""")
+    )
+
     port = Integer(8888, config=True,
         help=_("The port the notebook server will listen on.")
     )
@@ -1339,11 +1352,16 @@ class NotebookApp(JupyterApp):
     
     @property
     def display_url(self):
-        if self.ip in ('', '0.0.0.0'):
-            ip = socket.gethostname()
+        if self.custom_display_url:
+            url = self.custom_display_url
+            if not url.endswith('/'):
+                url += '/'
         else:
-            ip = self.ip
-        url = self._url(ip)
+            if self.ip in ('', '0.0.0.0'):
+                ip = socket.gethostname()
+            else:
+                ip = self.ip
+            url = self._url(ip)
         if self.token:
             # Don't log full token if it came from config
             token = self.token if self._token_generated else '...'
