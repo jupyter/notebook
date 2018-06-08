@@ -163,7 +163,7 @@ define([
 
       var allCellsButton = $('<button/>')
       .append($('<i/>').addClass('fa fa-arrows-v'))
-      .attr('id', 'allcells_id')
+      .attr('id', 'findreplace_allcells_btn')
       .attr('type', 'button')
       .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
@@ -180,7 +180,7 @@ define([
      
     var search  = $("<input/>")
       .addClass('form-control input-sm')
-      .attr('id', 'input_id')
+      .attr('id', 'findreplace_find_inp')
       .attr('placeholder',i18n.msg._('Find'));
 
     var findFormGroup = $('<div/>').addClass('form-group');
@@ -196,7 +196,7 @@ define([
     )
 
     var replace = $("<input/>")
-      .attr('id', 'replace_id')
+      .attr('id', 'findreplace_replace_inp')
       .addClass('form-control input-sm')
       .attr('placeholder',i18n.msg._('Replace'));
     var replaceFormGroup = $('<div/>').addClass('form-group');
@@ -358,7 +358,7 @@ define([
       buttons:{
         'Replace All':{ class: "btn-primary",
             click: function(event){onsubmit(event); return true;},
-            id: "replaceall_id",
+            id: "findreplace_replaceall_btn",
         }
       },
       open: function(){

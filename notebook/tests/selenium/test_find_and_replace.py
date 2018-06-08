@@ -1,8 +1,7 @@
-import os
 import pytest
 
 
-def test_find_and_replace_apply_all(notebook):
+def test_find_and_replace(notebook):
     """ test find and replace on all the cells """
     cell_0, cell_1, cell_2, cell_3 = "hello", "hellohello", "abc", "ello"
 
@@ -16,7 +15,7 @@ def test_find_and_replace_apply_all(notebook):
     notebook.add_cell(index=3, content=cell_3);
 
     # replace the strings
-    notebook.find_and_replace(index=0, find_txt=find_str, replace_txt=replace_str, replace_all=True)
+    notebook.find_and_replace(index=0, find_txt=find_str, replace_txt=replace_str)
 
     # check content of the cells
     assert notebook.get_cell_contents(0) == cell_0.replace(find_str, replace_str)

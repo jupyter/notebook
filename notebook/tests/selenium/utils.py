@@ -100,15 +100,15 @@ class Notebook:
         self.to_command_mode()
         self.current_cell = cell
 
-    def find_and_replace(self, index=0, find_txt='', replace_txt='', replace_all=False):
+    def find_and_replace(self, index=0, find_txt='', replace_txt=''):
         self.focus_cell(index)
         self.to_command_mode()
         self.body.send_keys('f')
         wait_for_selector(self.browser, "#find-and-replace", single=True)
-        self.browser.find_element_by_id("allcells_id").click()
-        self.browser.find_element_by_id("input_id").send_keys(find_txt)
-        self.browser.find_element_by_id("replace_id").send_keys(replace_txt)
-        self.browser.find_element_by_id("replaceall_id").click()
+        self.browser.find_element_by_id("findreplace_allcells_btn").click()
+        self.browser.find_element_by_id("findreplace_find_inp").send_keys(find_txt)
+        self.browser.find_element_by_id("findreplace_replace_inp").send_keys(replace_txt)
+        self.browser.find_element_by_id("findreplace_replaceall_btn").click()
 
     def convert_cell_type(self, index=0, cell_type="code"):
         # TODO add check to see if it is already present
