@@ -104,7 +104,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
 
     @property
     def kernel_info_timeout(self):
-        return self.settings.get('kernel_info_timeout', 10)
+        km_default = self.kernel_manager.kernel_info_timeout
+        return self.settings.get('kernel_info_timeout', km_default)
 
     @property
     def iopub_msg_rate_limit(self):

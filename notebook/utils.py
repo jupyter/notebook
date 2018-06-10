@@ -140,7 +140,7 @@ def is_file_hidden_posix(abs_path, stat_res=None):
     if os.path.basename(abs_path).startswith('.'):
         return True
 
-    if stat_res is None:
+    if stat_res is None or stat.S_ISLNK(stat_res.st_mode):
         try:
             stat_res = os.stat(abs_path)
         except OSError as e:

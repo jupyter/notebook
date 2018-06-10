@@ -160,6 +160,15 @@ define([
 
         var input = $('<div></div>').addClass('input');
         this.input = input;
+
+        var run_this_cell = $('<div></div>').addClass('run_this_cell');
+        run_this_cell.prop('title', 'Run this cell');
+        run_this_cell.append('<i class="fa-step-forward fa"></i>');
+        run_this_cell.click(function (event) {
+            event.stopImmediatePropagation();
+            that.execute();
+        });
+
         var prompt = $('<div/>').addClass('prompt input_prompt');
         var inner_cell = $('<div/>').addClass('inner_cell');
         this.celltoolbar = new celltoolbar.CellToolbar({
@@ -180,7 +189,7 @@ define([
         this.code_mirror.on('keydown', $.proxy(this.handle_keyevent,this));
         $(this.code_mirror.getInputField()).attr("spellcheck", "false");
         inner_cell.append(input_area);
-        input.append(prompt).append(inner_cell);
+        input.append(run_this_cell).append(prompt).append(inner_cell);
 
         var output = $('<div></div>');
         cell.append(input).append(output);
@@ -505,6 +514,7 @@ define([
         }
         this.input_prompt_number = number;
         var prompt_html = CodeCell.input_prompt_function(this.input_prompt_number, nline);
+
         // This HTML call is okay because the user contents are escaped.
         this.element.find('div.input_prompt').html(prompt_html);
         this.events.trigger('set_dirty.Notebook', {value: true});

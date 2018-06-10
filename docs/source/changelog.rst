@@ -30,7 +30,7 @@ New features:
 
 - The files list now shows file sizes (:ghpull:`3539`)
 - Add a quit button in the dashboard (:ghpull:`3004`)
-- Display hostname in the terminal when running remotely (:ghpull:`3356`)
+- Display hostname in the terminal when running remotely (:ghpull:`3356`, :ghpull:`3593`)
 - Add slides exportation/download to the menu (:ghpull:`3287`)
 - Add any extra installed nbconvert exporters to the "Download as" menu (:ghpull:`3323`)
 - Editor: warning when overwriting a file that is modified on disk (:ghpull:`2783`)

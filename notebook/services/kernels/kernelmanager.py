@@ -19,7 +19,7 @@ from tornado.ioloop import IOLoop, PeriodicCallback
 from jupyter_client.session import Session
 from jupyter_client.multikernelmanager import MultiKernelManager
 from traitlets import (Any, Bool, Dict, List, Unicode, TraitError, Integer,
-       Instance, default, validate
+       Float, Instance, default, validate
 )
 
 from notebook.utils import to_os_path, exists
@@ -91,6 +91,18 @@ class MappingKernelManager(MultiKernelManager):
 
         Disable if long-running kernels will produce too much output while
         no frontends are connected.
+        """
+    )
+    
+    kernel_info_timeout = Float(60, config=True,
+        help="""Timeout for giving up on a kernel (in seconds).
+
+        On starting and restarting kernels, we check whether the
+        kernel is running and responsive by sending kernel_info_requests.
+        This sets the timeout in seconds for how long the kernel can take
+        before being presumed dead. 
+        This affects the MappingKernelManager (which handles kernel restarts) 
+        and the ZMQChannelsHandler (which handles the startup).
         """
     )
 
@@ -305,7 +317,7 @@ class MappingKernelManager(MultiKernelManager):
         kernel.session.send(channel, "kernel_info_request")
         channel.on_recv(on_reply)
         loop = IOLoop.current()
-        timeout = loop.add_timeout(loop.time() + 30, on_timeout)
+        timeout = loop.add_timeout(loop.time() + self.kernel_info_timeout, on_timeout)
         return future
 
     def notify_connect(self, kernel_id):
@@ -434,4 +446,3 @@ class MappingKernelManager(MultiKernelManager):
                 self.log.warning("Culling '%s' kernel '%s' (%s) with %d connections due to %s seconds of inactivity.",
                                  kernel.execution_state, kernel.kernel_name, kernel_id, connections, idle_duration)
                 self.shutdown_kernel(kernel_id)
-
