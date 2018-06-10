@@ -194,6 +194,11 @@ class Notebook:
         if cell_type != 'code':
             self.convert_cell_type(index=new_index, cell_type=cell_type)
 
+    def delete_cell(self, index):
+        self.focus_cell(index)
+        self.to_command_mode()
+        self.current_cell.send_keys('dd')
+
     def add_markdown_cell(self, index=-1, content="", render=True):
         self.add_cell(index, cell_type="markdown")
         self.edit_cell(index=index, content=content, render=render)
@@ -212,6 +217,9 @@ class Notebook:
     def run_all(self):
         for cell in self:
             self.execute_cell(cell)
+
+    def trigger_keydown(self, keys):
+        trigger_keystrokes(self.body, keys)
 
     @classmethod
     def new_notebook(cls, browser, kernel_name='kernel-python3'):
@@ -261,11 +269,28 @@ def new_window(browser, selector=None):
 
 def shift(browser, k):
     """Send key combination Shift+(k)"""
-    ActionChains(browser)\
-        .key_down(Keys.SHIFT).send_keys(k).key_up(Keys.SHIFT).perform()
+    trigger_keystrokes(browser, "shift-%s"%k)
 
 def ctrl(browser, k):
     """Send key combination Ctrl+(k)"""
-    ActionChains(browser)\
-        .key_down(Keys.CONTROL).send_keys(k).key_up(Keys.CONTROL).perform()
+    trigger_keystrokes(browser, "control-%s"%k)
 
+def trigger_keystrokes(browser, *keys):
+    """ Send the keys in sequence to the browser.
+    Handles following key combinations
+    1. with modifiers eg. 'control-alt-a', 'shift-c'
+    2. just modifiers eg. 'alt', 'esc'
+    3. non-modifiers eg. 'abc'
+    Modifiers : http://seleniumhq.github.io/selenium/docs/api/py/webdriver/selenium.webdriver.common.keys.html
+    """
+    for each_key_combination in keys:
+        keys = each_key_combination.split('-')
+        if len(keys) > 1:  # key has modifiers eg. control, alt, shift
+            modifiers_keys = [getattr(Keys, x.upper()) for x in keys[:-1]]
+            ac = ActionChains(browser)
+            for i in modifiers_keys: ac = ac.key_down(i)
+            ac.send_keys(keys[-1])
+            for i in modifiers_keys[::-1]: ac = ac.key_up(i)
+            ac.perform()
+        else:              # single key stroke. Check if modifier eg. "up"
+            browser.send_keys(getattr(Keys, keys[0].upper(), keys[0]))
