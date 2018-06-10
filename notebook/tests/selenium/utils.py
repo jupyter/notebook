@@ -1,5 +1,5 @@
 import os
-
+import time
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -99,6 +99,16 @@ class Notebook:
         cell.click()
         self.to_command_mode()
         self.current_cell = cell
+
+    def find_and_replace(self, index=0, find_txt='', replace_txt=''):
+        self.focus_cell(index)
+        self.to_command_mode()
+        self.body.send_keys('f')
+        wait_for_selector(self.browser, "#find-and-replace", single=True)
+        self.browser.find_element_by_id("findreplace_allcells_btn").click()
+        self.browser.find_element_by_id("findreplace_find_inp").send_keys(find_txt)
+        self.browser.find_element_by_id("findreplace_replace_inp").send_keys(replace_txt)
+        self.browser.find_element_by_id("findreplace_replaceall_btn").click()
 
     def convert_cell_type(self, index=0, cell_type="code"):
         # TODO add check to see if it is already present
@@ -258,3 +268,4 @@ def ctrl(browser, k):
     """Send key combination Ctrl+(k)"""
     ActionChains(browser)\
         .key_down(Keys.CONTROL).send_keys(k).key_up(Keys.CONTROL).perform()
+
