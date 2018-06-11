@@ -2,14 +2,12 @@
 Prometheus metrics exported by Jupyter Notebook Server
 
 Read https://prometheus.io/docs/practices/naming/ for naming
-conventions for metrics & labels. We generally prefer naming them
-`<noun>_<verb>_<type_suffix>`. So a histogram that's tracking
-the duration (in seconds) of servers spawning would be called
-SERVER_SPAWN_DURATION_SECONDS.
+conventions for metrics & labels.
 """
 
 from prometheus_client import Histogram
 
+# This is a fairly standard name for HTTP request latency reporting.
 REQUEST_DURATION_SECONDS = Histogram(
     'request_duration_seconds',
     'request duration for all HTTP requests',
