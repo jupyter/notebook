@@ -7,11 +7,11 @@ conventions for metrics & labels.
 
 from prometheus_client import Histogram
 
-# This is a fairly standard name for HTTP request latency reporting.
-REQUEST_DURATION_SECONDS = Histogram(
-    'request_duration_seconds',
-    'request duration for all HTTP requests',
-    ['method', 'handler', 'code'],
+# This is a fairly standard name for HTTP duration latency reporting
+HTTP_REQUEST_DURATION_SECONDS = Histogram(
+    'http_request_duration_seconds',
+    'duration in seconds for all HTTP requests',
+    ['method', 'handler', 'status_code'],
 )
 
 def prometheus_log_method(handler):
@@ -30,8 +30,8 @@ def prometheus_log_method(handler):
     that is the 'log_function' tornado setting. This makes it get called
     at the end of every request, allowing us to record the metrics we need.
     """
-    REQUEST_DURATION_SECONDS.labels(
+    HTTP_REQUEST_DURATION_SECONDS.labels(
         method=handler.request.method,
         handler='{}.{}'.format(handler.__class__.__module__, type(handler).__name__),
-        code=handler.get_status()
+        status_code=handler.get_status()
     ).observe(handler.request.request_time())
