@@ -517,7 +517,21 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             home_dev = os.stat(os.path.expanduser('~')).st_dev
             return file_dev == home_dev
 
+        def is_non_empty_dir(os_path):
+            if os.path.isdir(os_path):
+                # A directory containing only leftover checkpoints is
+                # considered empty.
+                cp_dir = getattr(self.checkpoints, 'checkpoint_dir', None)
+                if set(os.listdir(os_path)) - {cp_dir}:
+                    return True
+
+            return False
+
         if self.delete_to_trash:
+            if sys.platform == 'win32' and is_non_empty_dir(os_path):
+                # send2trash can really delete files on Windows, so disallow
+                # deleting non-empty files. See Github issue 3631.
+                raise web.HTTPError(400, u'Directory %s not empty' % os_path)
             if _check_trash(os_path):
                 self.log.debug("Sending %s to trash", os_path)
                 # Looking at the code in send2trash, I don't think the errors it
@@ -530,14 +544,9 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                                  "to home directory", os_path)
 
         if os.path.isdir(os_path):
-            listing = os.listdir(os_path)
             # Don't permanently delete non-empty directories.
-            # A directory containing only leftover checkpoints is
-            # considered empty.
-            cp_dir = getattr(self.checkpoints, 'checkpoint_dir', None)
-            for entry in listing:
-                if entry != cp_dir:
-                    raise web.HTTPError(400, u'Directory %s not empty' % os_path)
+            if is_non_empty_dir(os_path):
+                raise web.HTTPError(400, u'Directory %s not empty' % os_path)
             self.log.debug("Removing directory %s", os_path)
             with self.perm_to_403():
                 shutil.rmtree(os_path)

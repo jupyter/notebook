@@ -7,6 +7,7 @@ import io
 import json
 import os
 import shutil
+import sys
 from unicodedata import normalize
 
 pjoin = os.path.join
@@ -523,6 +524,8 @@ class APITest(NotebookTestBase):
         self.assertEqual(listing, [])
 
     def test_delete_non_empty_dir(self):
+        if sys.platform == 'win32':
+            self.skipTest("Disabled deleting non-empty dirs on Windows")
         # Test that non empty directory can be deleted
         self.api.delete(u'å b')
         # Check if directory has actually been deleted
