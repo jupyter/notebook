@@ -14,6 +14,9 @@ except ImportError:
     from urllib import urlparse, urlunparse
 
 from tornado.log import access_log
+from tornado.web import StaticFileHandler
+
+
 # url params to be scrubbed if seen
 # any url param that *contains* one of these
 # will be scrubbed from logs
@@ -62,8 +65,12 @@ def log_request(handler):
     """
     status = handler.get_status()
     request = handler.request
-    if status < 300 or status == 304:
-        # Successes (or 304 FOUND) are debug-level
+
+    if (
+        isinstance(handler, StaticFileHandler)
+        and (status < 300 or status == 304)
+    ):
+        # Successes (or 304 FOUND) on static files are debug-level
         log_method = access_log.debug
     elif status < 400:
         log_method = access_log.info
