@@ -28,6 +28,7 @@ except ImportError:
 from jinja2 import TemplateNotFound
 from tornado import web, gen, escape, httputil
 from tornado.log import app_log
+import prometheus_client
 
 from notebook._sysinfo import get_sys_info
 
@@ -809,6 +810,16 @@ class RedirectWithParams(web.RequestHandler):
         url = sep.join([self._url, self.request.query])
         self.redirect(url, permanent=self._permanent)
 
+class PrometheusMetricsHandler(IPythonHandler):
+    """
+    Return prometheus metrics for this notebook server
+    """
+    @web.authenticated
+    def get(self):
+        self.set_header('Content-Type', prometheus_client.CONTENT_TYPE_LATEST)
+        self.write(prometheus_client.generate_latest(prometheus_client.REGISTRY))
+
+
 #-----------------------------------------------------------------------------
 # URL pattern fragments for re-use
 #-----------------------------------------------------------------------------
@@ -825,4 +836,5 @@ default_handlers = [
     (r".*/", TrailingSlashHandler),
     (r"api", APIVersionHandler),
     (r'/(robots\.txt|favicon\.ico)', web.StaticFileHandler),
+    (r'/metrics', PrometheusMetricsHandler)
 ]

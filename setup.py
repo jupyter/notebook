@@ -90,7 +90,8 @@ for more information.
         'nbconvert',
         'ipykernel', # bless IPython kernel for now
         'Send2Trash',
-        'terminado>=0.8.1'
+        'terminado>=0.8.1',
+        'prometheus_client'
     ],
     extras_require = {
         'test:python_version == "2.7"': ['mock'],
