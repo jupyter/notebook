@@ -190,11 +190,18 @@ define([
         });
 
         this.element.find('#document_details').click(function () {
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             var table = $('<table></table>');
             var body = $('<tbody></tbody>');
+            
+            var lmod = that.notebook.last_modified;
+            var last_modified_str = months[lmod.getMonth()] + ' ' +
+                lmod.getDate() + ', ' + lmod.getFullYear() + ' ' + lmod.getHours() + ':'+ lmod.getMinutes();
+            
             body.append('<tr><td><b>File: </b></td><td>' + that.notebook.notebook_name + '</td></tr>');
             body.append('<tr><td><b>Path: </b></td><td>' + that.notebook.notebook_path + '</td></tr>');
-            body.append('<tr><td><b>Last modified: </b></td><td>' + that.notebook.last_modified + '</td></tr>');
+            body.append('<tr><td><b>Last modified: </b></td><td>' + last_modified_str + '</td></tr>');
+            table.addClass('document_details_table');
             table.append(body);
             dialog.modal({
                 title: i18n.msg._('Document Details'),
