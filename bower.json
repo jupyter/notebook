@@ -13,7 +13,7 @@
     "jquery": "components/jquery#~3.3",
     "jquery-typeahead": "~2.0.0",
     "jquery-ui": "components/jqueryui#~1.10",
-    "marked": "~0.3",
+    "marked": "~0.4",
     "MathJax": "components/MathJax#~2.6",
     "moment": "~2.19.3",
     "preact": "https://unpkg.com/preact@^7.2.0/dist/preact.min.js",
