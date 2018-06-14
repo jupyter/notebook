@@ -370,6 +370,7 @@ define([
     OutputArea.prototype.create_output_area = function () {
         var oa = $("<div/>").addClass("output_area");
         if (this.prompt_area) {
+            oa.append($('<div/>').addClass('run_this_cell'));
             oa.append($('<div/>').addClass('prompt'));
         }
         return oa;
