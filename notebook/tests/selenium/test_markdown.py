@@ -20,8 +20,8 @@ def test_markdown_cell(notebook):
     expected_contents = ['<h1 id="Foo">Foo<a class="anchor-link" href="#Foo">¶</a></h1>',
                          '<p><strong>Bar</strong></p>',
                          '<p><em>Baz</em></p>', 
-                         '<pre><code>x = 1\n</code></pre>',
-                         '<pre><code class="cm-s-ipython language-aaaa">x = 1\n</code></pre>'
+                         '<pre><code>x = 1</code></pre>',
+                         '<pre><code class="cm-s-ipython language-aaaa">x = 1</code></pre>'
                          ]
     nb.append(*cell_text, cell_type="markdown")
     nb.run_all()
