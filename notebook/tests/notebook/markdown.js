@@ -96,11 +96,11 @@ casper.notebook_test(function () {
     };
 
     var codeblock = '```\nx = 1\n```'
-    var result = '<pre><code>x = 1\n</code></pre>'
+    var result = '<pre><code>x = 1</code></pre>'
     md_render_test(codeblock, result, 'Markdown code block no language');
 
     codeblock = '```aaaa\nx = 1\n```'
-    result = '<pre><code class="cm-s-ipython language-aaaa">x = 1\n</code></pre>'
+    result = '<pre><code class="cm-s-ipython language-aaaa">x = 1</code></pre>'
     md_render_test(codeblock, result, 'Markdown code block unknown language');
 
     function mathjax_render_test(input_string, result, message){
