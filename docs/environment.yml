@@ -11,3 +11,4 @@ dependencies:
   - sphinx<1.4
   - nbsphinx
   - Send2Trash
+  - prometheus_client
