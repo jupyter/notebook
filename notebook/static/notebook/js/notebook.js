@@ -2899,7 +2899,7 @@ define([
                                    $('.save-message').html(`<span style='color:red;'>${msg}</span>`);
                                 });
                         }
-                        that.contents.get(nb_path, {type: 'notebook'}).then(function(data) {
+                        that.contents.get(nb_path, {type: 'notebook', content: false}).then(function(data) {
                             var warning_body = $('<div/>').append(
                                 $("<p/>").text(i18n.msg._('Notebook with that name exists.')));
                             dialog.modal({
