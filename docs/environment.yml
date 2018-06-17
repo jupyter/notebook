@@ -7,8 +7,8 @@ dependencies:
 - nbformat
 - jupyter_client
 - ipykernel
+- sphinx
 - pip:
-  - sphinx
   - nbsphinx
   - Send2Trash
   - prometheus_client
