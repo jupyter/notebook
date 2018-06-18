@@ -28,6 +28,7 @@ except ImportError:
 from jinja2 import TemplateNotFound
 from tornado import web, gen, escape, httputil
 from tornado.log import app_log
+from tornado.escape import xhtml_escape
 
 from notebook._sysinfo import get_sys_info
 
@@ -522,6 +523,7 @@ class APIHandler(IPythonHandler):
                 reply['message'] = 'Unhandled error'
                 reply['reason'] = None
                 reply['traceback'] = ''.join(traceback.format_exception(*exc_info))
+        reply['message'] = xhtml_escape(reply['message'])
         self.log.warning(reply['message'])
         self.finish(json.dumps(reply))
 
