@@ -2885,7 +2885,7 @@ define([
                                 'type': 'notebook',
                                 'content': that.toJSON(),
                                 'name': nb_name
-                             };
+                            };
                             return that.contents.save(nb_path, model)
                                 .then(function(data) {
                                     d.modal('hide');
@@ -2893,12 +2893,15 @@ define([
                                     that.notebook_path = data.path;
                                     that.session.rename_notebook(data.path);
                                     that.events.trigger('notebook_renamed.Notebook', data);
-
-                                },function(error) {
-                                   const msg = i18n.msg._(error.message || 'Unknown error saving notebook');
-                                   $('.save-message').html(`<span style='color:red;'>${msg}</span>`);
+                                }, function(error) {
+                                    var msg = i18n.msg._(error.message || 'Unknown error saving notebook');
+                                    $(".save-message").html(
+                                        $("<span>")
+                                            .attr("style", "color:red;")
+                                            .text(msg)
+                                    );
                                 });
-                        }
+                        };
                         that.contents.get(nb_path, {type: 'notebook', content: false}).then(function(data) {
                             var warning_body = $('<div/>').append(
                                 $("<p/>").text(i18n.msg._('Notebook with that name exists.')));
@@ -2916,7 +2919,7 @@ define([
                             });
                         }, function(err) {
                             return save_thunk();
-                        })
+                        });
                         return false;
                     }
                 },
@@ -2931,7 +2934,7 @@ define([
                 d.find('input[type="text"]').val(current_dir).focus();
              }
          });
-    }
+    };
 
     /**
      * Update the autosave interval based on the duration of the last save.
