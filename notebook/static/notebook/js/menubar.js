@@ -170,6 +170,10 @@ define([
             that.notebook.copy_notebook();
             return false;
         });
+        this.element.find('#save_notebook_as').click(function() {
+            that.notebook.save_notebook_as();
+            return false;
+        });
         this.element.find('#download_ipynb').click(function () {
             var base_url = that.notebook.base_url;
             var notebook_path = utils.encode_uri_components(that.notebook.notebook_path);
