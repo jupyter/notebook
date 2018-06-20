@@ -1570,13 +1570,14 @@ class NotebookApp(JupyterApp):
         self.log.info(kernel_msg % n_kernels)
         self.kernel_manager.shutdown_all()
 
-    def notebook_info(self):
+    def notebook_info(self, kernel_count=True):
         "Return the current working directory and the server url information"
         info = self.contents_manager.info_string() + "\n"
-        n_kernels = len(self.kernel_manager.list_kernel_ids())
-        kernel_msg = trans.ngettext("%d active kernel", "%d active kernels", n_kernels)
-        info += kernel_msg % n_kernels
-        info += "\n"
+        if kernel_count:
+            n_kernels = len(self.kernel_manager.list_kernel_ids())
+            kernel_msg = trans.ngettext("%d active kernel", "%d active kernels", n_kernels)
+            info += kernel_msg % n_kernels
+            info += "\n"
         # Format the info so that the URL fits on a single line in 80 char display
         info += _("The Jupyter Notebook is running at:\n%s") % self.display_url
         return info
@@ -1633,7 +1634,7 @@ class NotebookApp(JupyterApp):
                 self.exit(1)
 
         info = self.log.info
-        for line in self.notebook_info().split("\n"):
+        for line in self.notebook_info(kernel_count=False).split("\n"):
             info(line)
         info(_("Use Control-C to stop this server and shut down all kernels (twice to skip confirmation)."))
         if 'dev' in notebook.__version__:
