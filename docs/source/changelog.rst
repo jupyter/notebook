@@ -20,6 +20,45 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
 
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
+    
+.. _release-5.6.0:
+
+5.6.0
+-----
+
+New features:
+
+- Execute cells by clicking icon in input prompt (:ghpull:`3535`, :ghpull:`3687`)
+- New "Save as" menu option (:ghpull:`3289`) 
+- Add kernel_info_timeout traitlet to enable restarting slow kernels (:ghpull:`3665`)
+- Add ``custom_display_host`` config option to override displayed URL (:ghpull:`3668`)
+- Add /metrics endpoint for Prometheus Metrics (:ghpull:`3490`)
+- Update to jQuery 3.3 (:ghpull:`3655`)
+- Update marked to 0.4 (:ghpull:`3686`)
+
+Fixing problems:
+
+- Don't duplicate token in displayed URL (:ghpull:`3656`)
+- Don't trash non-empty directories on Windows (:ghpull:`3673`)
+- Include LICENSE file in wheels (:ghpull:`3671`)
+- Don't show "0 active kernels" when starting the notebook (:ghpull:`3696`)
+
+Testing: 
+
+- Add find replace test (:ghpull:`3630`)
+- Selenium test for deleting all cells (:ghpull:`3601`)
+
+Thanks to the following contributors:
+
+- Arovit Narula (`arovit <https://github.com/arovit>`__)
+- lucasoshiro (`lucasoshiro <https://github.com/lucasoshiro>`__)
+- M Pacer (`mpacer <https://github.com/mpacer>`__)
+- Thomas Kluyver (`takluyver <https://github.com/takluyver>`__)
+- Todd (`toddrme2178 <https://github.com/toddrme2178>`__)
+- Yuvi Panda (`yuvipanda <https://github.com/yuvipanda>`__)
+
+See the 5.6 milestone on GitHub for a complete list of
+`pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A5.6>`__ involved in this release.
 
 .. _release-5.5.0:
 
