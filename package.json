@@ -11,7 +11,8 @@
   "scripts": {
     "bower": "bower install",
     "build": "python setup.py js css",
-    "build:watch": "set -e; while true; do npm run build; sleep 3; done"
+    "build:watch": "set -e; while true; do npm run build; sleep 3; done",
+    "test": "python -m notebook.jstest"
   },
   "devDependencies": {
     "bower": "*",
