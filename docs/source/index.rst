@@ -15,6 +15,7 @@ The Jupyter Notebook
    troubleshooting
    changelog
    comms
+   google_cloud_console_install
 
 .. toctree::
    :maxdepth: 1
