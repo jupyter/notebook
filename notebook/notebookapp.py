@@ -856,7 +856,7 @@ class NotebookApp(JupyterApp):
             addr = ipaddress.ip_address(self.ip)
         except ValueError:
             # Address is a hostname
-            for info in socket.getaddrinfo(self.ip, self.port, type=socket.SOCK_STREAM):
+            for info in socket.getaddrinfo(self.ip, self.port, 0, socket.SOCK_STREAM):
                 addr = ipaddress.ip_address(info[4][0])
                 if not addr.is_loopback:
                     return True
