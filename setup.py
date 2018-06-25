@@ -94,6 +94,7 @@ for more information.
         'prometheus_client'
     ],
     extras_require = {
+        ':python_version == "2.7"': ['ipaddress'],
         'test:python_version == "2.7"': ['mock'],
         'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters',
                  'nbval', 'nose-exclude'],

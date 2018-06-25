@@ -252,6 +252,8 @@ class NotebookWebApplication(web.Application):
             password=jupyter_app.password,
             xsrf_cookies=True,
             disable_check_xsrf=jupyter_app.disable_check_xsrf,
+            allow_remote_access=jupyter_app.allow_remote_access,
+            local_hostnames=jupyter_app.local_hostnames,
 
             # managers
             kernel_manager=kernel_manager,
@@ -829,6 +831,29 @@ class NotebookApp(JupyterApp):
         These services can disable all authentication and security checks,
         with the full knowledge of what that implies.
         """
+    )
+
+    allow_remote_access = Bool(False, config=True,
+       help="""Allow requests where the Host header doesn't point to a local server
+
+       By default, requests get a 403 forbidden response if the 'Host' header
+       shows that the browser thinks it's on a non-local domain.
+       Setting this option to True disables this check.
+
+       This protects against 'DNS rebinding' attacks, where a remote web server
+       serves you a page and then changes its DNS to send later requests to a
+       local IP, bypassing same-origin checks.
+
+       Local IP addresses (such as 127.0.0.1 and ::1) are allowed as local,
+       along with hostnames configured in local_hostnames.
+       """)
+
+    local_hostnames = List(Unicode(), ['localhost'], config=True,
+       help="""Hostnames to allow as local when allow_remote_access is False.
+
+       Local IP addresses (such as 127.0.0.1 and ::1) are automatically accepted
+       as local as well.
+       """
     )
 
     open_browser = Bool(True, config=True,
