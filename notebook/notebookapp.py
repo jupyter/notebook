@@ -857,8 +857,10 @@ class NotebookApp(JupyterApp):
         except ValueError:
             # Address is a hostname
             for info in socket.getaddrinfo(self.ip, self.port, 0, socket.SOCK_STREAM):
-                addr = ipaddress.ip_address(info[4][0])
-                if not addr.is_loopback:
+                addr = info[4][0]
+                if not py3compat.PY3:
+                    addr = addr.decode('ascii')
+                if not ipaddress.ip_address(addr).is_loopback:
                     return True
             return False
         else:
