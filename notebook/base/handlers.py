@@ -436,8 +436,12 @@ class IPythonHandler(AuthenticatedHandler):
             allow = addr.is_loopback
 
         if not allow:
-            self.log.warning("Blocking request with non-local 'Host' %s (%s)",
-                             host, self.request.host)
+            self.log.warning(
+                ("Blocking request with non-local 'Host' %s (%s). "
+                 "If the notebook should be accessible at that name, "
+                 "set NotebookApp.allow_remote_access to disable the check."),
+                host, self.request.host
+            )
         return allow
 
     def prepare(self):
