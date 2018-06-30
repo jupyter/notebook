@@ -1358,7 +1358,7 @@ class NotebookApp(JupyterApp):
                 url += '/'
         else:
             if self.ip in ('', '0.0.0.0'):
-                ip = socket.gethostname()
+                ip = "(%s or 127.0.0.1)" % socket.gethostname()
             else:
                 ip = self.ip
             url = self._url(ip)
