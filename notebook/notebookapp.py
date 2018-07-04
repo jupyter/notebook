@@ -15,6 +15,7 @@ import hashlib
 import hmac
 import importlib
 import io
+import ipaddress
 import json
 import logging
 import mimetypes
@@ -252,6 +253,8 @@ class NotebookWebApplication(web.Application):
             password=jupyter_app.password,
             xsrf_cookies=True,
             disable_check_xsrf=jupyter_app.disable_check_xsrf,
+            allow_remote_access=jupyter_app.allow_remote_access,
+            local_hostnames=jupyter_app.local_hostnames,
 
             # managers
             kernel_manager=kernel_manager,
@@ -666,6 +669,19 @@ class NotebookApp(JupyterApp):
             value = u''
         return value
 
+    custom_display_url = Unicode(u'', config=True,
+        help=_("""Override URL shown to users.
+
+        Replace actual URL, including protocol, address, port and base URL,
+        with the given value when displaying URL to the users. Do not change
+        the actual connection URL. If authentication token is enabled, the
+        token is added to the custom URL automatically.
+
+        This option is intended to be used when the URL to display to the user
+        cannot be determined reliably by the Jupyter notebook server (proxified
+        or containerized setups for example).""")
+    )
+
     port = Integer(8888, config=True,
         help=_("The port the notebook server will listen on.")
     )
@@ -816,6 +832,46 @@ class NotebookApp(JupyterApp):
         These services can disable all authentication and security checks,
         with the full knowledge of what that implies.
         """
+    )
+
+    allow_remote_access = Bool(config=True,
+       help="""Allow requests where the Host header doesn't point to a local server
+
+       By default, requests get a 403 forbidden response if the 'Host' header
+       shows that the browser thinks it's on a non-local domain.
+       Setting this option to True disables this check.
+
+       This protects against 'DNS rebinding' attacks, where a remote web server
+       serves you a page and then changes its DNS to send later requests to a
+       local IP, bypassing same-origin checks.
+
+       Local IP addresses (such as 127.0.0.1 and ::1) are allowed as local,
+       along with hostnames configured in local_hostnames.
+       """)
+
+    @default('allow_remote_access')
+    def _default_allow_remote(self):
+        """Disallow remote access if we're listening only on loopback addresses"""
+        try:
+            addr = ipaddress.ip_address(self.ip)
+        except ValueError:
+            # Address is a hostname
+            for info in socket.getaddrinfo(self.ip, self.port, 0, socket.SOCK_STREAM):
+                addr = info[4][0]
+                if not py3compat.PY3:
+                    addr = addr.decode('ascii')
+                if not ipaddress.ip_address(addr).is_loopback:
+                    return True
+            return False
+        else:
+            return not addr.is_loopback
+
+    local_hostnames = List(Unicode(), ['localhost'], config=True,
+       help="""Hostnames to allow as local when allow_remote_access is False.
+
+       Local IP addresses (such as 127.0.0.1 and ::1) are automatically accepted
+       as local as well.
+       """
     )
 
     open_browser = Bool(True, config=True,
@@ -1339,11 +1395,16 @@ class NotebookApp(JupyterApp):
     
     @property
     def display_url(self):
-        if self.ip in ('', '0.0.0.0'):
-            ip = socket.gethostname()
+        if self.custom_display_url:
+            url = self.custom_display_url
+            if not url.endswith('/'):
+                url += '/'
         else:
-            ip = self.ip
-        url = self._url(ip)
+            if self.ip in ('', '0.0.0.0'):
+                ip = "(%s or 127.0.0.1)" % socket.gethostname()
+            else:
+                ip = self.ip
+            url = self._url(ip)
         if self.token:
             # Don't log full token if it came from config
             token = self.token if self._token_generated else '...'
@@ -1552,13 +1613,14 @@ class NotebookApp(JupyterApp):
         self.log.info(kernel_msg % n_kernels)
         self.kernel_manager.shutdown_all()
 
-    def notebook_info(self):
+    def notebook_info(self, kernel_count=True):
         "Return the current working directory and the server url information"
         info = self.contents_manager.info_string() + "\n"
-        n_kernels = len(self.kernel_manager.list_kernel_ids())
-        kernel_msg = trans.ngettext("%d active kernel", "%d active kernels", n_kernels)
-        info += kernel_msg % n_kernels
-        info += "\n"
+        if kernel_count:
+            n_kernels = len(self.kernel_manager.list_kernel_ids())
+            kernel_msg = trans.ngettext("%d active kernel", "%d active kernels", n_kernels)
+            info += kernel_msg % n_kernels
+            info += "\n"
         # Format the info so that the URL fits on a single line in 80 char display
         info += _("The Jupyter Notebook is running at:\n%s") % self.display_url
         return info
@@ -1615,7 +1677,7 @@ class NotebookApp(JupyterApp):
                 self.exit(1)
 
         info = self.log.info
-        for line in self.notebook_info().split("\n"):
+        for line in self.notebook_info(kernel_count=False).split("\n"):
             info(line)
         info(_("Use Control-C to stop this server and shut down all kernels (twice to skip confirmation)."))
         if 'dev' in notebook.__version__:
@@ -1657,7 +1719,7 @@ class NotebookApp(JupyterApp):
                 '\n',
                 'Copy/paste this URL into your browser when you connect for the first time,',
                 'to login with a token:',
-                '    %s' % url_concat(self.display_url, {'token': self.token}),
+                '    %s' % self.display_url,
             ]))
 
         self.io_loop = ioloop.IOLoop.current()

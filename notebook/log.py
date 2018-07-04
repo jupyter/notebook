@@ -7,6 +7,7 @@
 
 import json
 from tornado.log import access_log
+from .metrics import prometheus_log_method
 
 def log_request(handler):
     """log a bit more information about each request than tornado's default
@@ -45,4 +46,4 @@ def log_request(handler):
         # log all headers if it caused an error
         log_method(json.dumps(dict(request.headers), indent=2))
     log_method(msg.format(**ns))
-
+    prometheus_log_method(handler)

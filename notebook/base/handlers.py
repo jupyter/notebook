@@ -5,6 +5,7 @@
 
 import datetime
 import functools
+import ipaddress
 import json
 import mimetypes
 import os
@@ -28,6 +29,7 @@ except ImportError:
 from jinja2 import TemplateNotFound
 from tornado import web, gen, escape, httputil
 from tornado.log import app_log
+import prometheus_client
 
 from notebook._sysinfo import get_sys_info
 
@@ -409,6 +411,43 @@ class IPythonHandler(AuthenticatedHandler):
             # Servers without authentication are vulnerable to XSRF
             return
         return super(IPythonHandler, self).check_xsrf_cookie()
+
+    def check_host(self):
+        """Check the host header if remote access disallowed.
+
+        Returns True if the request should continue, False otherwise.
+        """
+        if self.settings.get('allow_remote_access', False):
+            return True
+
+        # Remove port (e.g. ':8888') from host
+        host = re.match(r'^(.*?)(:\d+)?$', self.request.host).group(1)
+
+        # Browsers format IPv6 addresses like [::1]; we need to remove the []
+        if host.startswith('[') and host.endswith(']'):
+            host = host[1:-1]
+
+        try:
+            addr = ipaddress.ip_address(host)
+        except ValueError:
+            # Not an IP address: check against hostnames
+            allow = host in self.settings.get('local_hostnames', [])
+        else:
+            allow = addr.is_loopback
+
+        if not allow:
+            self.log.warning(
+                ("Blocking request with non-local 'Host' %s (%s). "
+                 "If the notebook should be accessible at that name, "
+                 "set NotebookApp.allow_remote_access to disable the check."),
+                host, self.request.host
+            )
+        return allow
+
+    def prepare(self):
+        if not self.check_host():
+            raise web.HTTPError(403)
+        return super(IPythonHandler, self).prepare()
 
     #---------------------------------------------------------------
     # template rendering
@@ -809,6 +848,16 @@ class RedirectWithParams(web.RequestHandler):
         url = sep.join([self._url, self.request.query])
         self.redirect(url, permanent=self._permanent)
 
+class PrometheusMetricsHandler(IPythonHandler):
+    """
+    Return prometheus metrics for this notebook server
+    """
+    @web.authenticated
+    def get(self):
+        self.set_header('Content-Type', prometheus_client.CONTENT_TYPE_LATEST)
+        self.write(prometheus_client.generate_latest(prometheus_client.REGISTRY))
+
+
 #-----------------------------------------------------------------------------
 # URL pattern fragments for re-use
 #-----------------------------------------------------------------------------
@@ -825,4 +874,5 @@ default_handlers = [
     (r".*/", TrailingSlashHandler),
     (r"api", APIVersionHandler),
     (r'/(robots\.txt|favicon\.ico)', web.StaticFileHandler),
+    (r'/metrics', PrometheusMetricsHandler)
 ]
