@@ -232,6 +232,8 @@ define([
             '#restart_run_all': 'confirm-restart-kernel-and-run-all-cells',
             '#close_and_halt': 'close-and-halt',
             '#int_kernel': 'interrupt-kernel',
+            '#suspend_kernel': 'suspend-kernel',
+            '#resume_kernel': 'resume-kernel',
             '#cut_cell': 'cut-cell',
             '#copy_cell': 'copy-cell',
             '#delete_cell': 'delete-cell',

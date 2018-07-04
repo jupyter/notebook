@@ -147,6 +147,24 @@ define([
                 env.notebook.kernel.interrupt();
             }
         },
+        'suspend-kernel':{
+            icon: 'fa-stop',
+            cmd: i18n.msg._('suspend the kernel'),
+            help: i18n.msg._('suspend the kernel'),
+            help_index : 'ha',
+            handler : function (env) {
+                env.notebook.kernel.suspend();
+            }
+        },
+        'resume-kernel':{
+            icon: 'fa-stop',
+            cmd: i18n.msg._('resume the kernel'),
+            help: i18n.msg._('resume the kernel'),
+            help_index : 'ha',
+            handler : function (env) {
+                env.notebook.kernel.resume();
+            }
+        },
         'run-cell-and-select-next': {
             cmd: i18n.msg._('run cell and select next'),
             icon: 'fa-step-forward',

@@ -7,6 +7,7 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-
 # Distributed under the terms of the Modified BSD License.
 
 import json
+import signal
 import logging
 from textwrap import dedent
 
@@ -76,10 +77,16 @@ class KernelActionHandler(APIHandler):
     @gen.coroutine
     def post(self, kernel_id, action):
         km = self.kernel_manager
-        if action == 'interrupt':
+        if action == 'suspend':
+            km.signal_kernel(kernel_id, signal.SIGSTOP)
+            self.set_status(204)
+        elif action == 'resume':
+            km.signal_kernel(kernel_id, signal.SIGCONT)
+            self.set_status(204)
+        elif action == 'interrupt':
             km.interrupt_kernel(kernel_id)
             self.set_status(204)
-        if action == 'restart':
+        elif action == 'restart':
 
             try:
                 yield gen.maybe_future(km.restart_kernel(kernel_id))
@@ -477,7 +484,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
 
 
 _kernel_id_regex = r"(?P<kernel_id>\w+-\w+-\w+-\w+-\w+)"
-_kernel_action_regex = r"(?P<action>restart|interrupt)"
+_kernel_action_regex = r"(?P<action>restart|interrupt|suspend|resume)"
 
 default_handlers = [
     (r"/api/kernels", MainKernelHandler),
