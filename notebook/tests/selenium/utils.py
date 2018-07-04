@@ -231,7 +231,8 @@ class Notebook:
 def select_kernel(browser, kernel_name='kernel-python3'):
     """Clicks the "new" button and selects a kernel from the options.
     """
-    new_button = wait_for_selector(browser, "#new-buttons", single=True)
+    wait = WebDriverWait(browser, 10)
+    new_button = wait.until(EC.element_to_be_clickable((By.ID, "new-dropdown-button")))
     new_button.click()
     kernel_selector = '#{} a'.format(kernel_name)
     kernel = wait_for_selector(browser, kernel_selector, single=True)
