@@ -10,7 +10,6 @@ import json
 import mimetypes
 import os
 import re
-import sys
 import traceback
 import types
 import warnings
@@ -27,7 +26,7 @@ except ImportError:
     from urlparse import urlparse  # Py 2
 
 from jinja2 import TemplateNotFound
-from tornado import web, gen, escape, httputil
+from tornado import web, escape, httputil
 from tornado.log import app_log
 import prometheus_client
 
