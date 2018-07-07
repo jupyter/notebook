@@ -904,9 +904,26 @@ class PrometheusMetricsHandler(IPythonHandler):
     @web.authenticated
     def get(self):
         self.set_header('Content-Type', prometheus_client.CONTENT_TYPE_LATEST)
-        self.write(
-            prometheus_client.generate_latest(prometheus_client.REGISTRY)
-        )
+        metrics = prometheus_client.generate_latest(prometheus_client.REGISTRY)
+        all_kernels = self.kernel_manager.list_kernels()
+
+        kernels = "\nList of all Kernels: \n\n"
+        for kernel in all_kernels:
+            kernels = (
+                "{kernels}\tNAME: {name}\n\t\tSTATE: {state}"
+                "\n\t\tLast Activity: {last_activity}\n\n"
+            ).format(
+                kernels=kernels,
+                name=kernel.get("name", "NO NAME"),
+                state=kernel.get(
+                    "execution_state", "Failed to get the connection state"
+                ),
+                last_activity=kernel.get(
+                    "last_activity", "Failed to get the last activity time"
+                )
+            )
+
+        self.write(metrics + kernels.encode())
 
 
 #-----------------------------------------------------------------------------
