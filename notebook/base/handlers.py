@@ -908,6 +908,8 @@ class PrometheusMetricsHandler(IPythonHandler):
         all_kernels = self.kernel_manager.list_kernels()
 
         kernels = "\nList of all Kernels: \n\n"
+        kernels_running = 0
+
         for kernel in all_kernels:
             kernels = (
                 "{kernels}\tNAME: {name}\n\t\tSTATE: {state}"
@@ -922,6 +924,11 @@ class PrometheusMetricsHandler(IPythonHandler):
                     "last_activity", "Failed to get the last activity time"
                 )
             )
+
+            if kernel.get('execution_state', 'NA').lower() == 'running':
+                kernels_running += 1
+
+        kernels += "Kernels RUNNING: {0}\n".format(kernels_running)
 
         self.write(metrics + kernels.encode())
 
