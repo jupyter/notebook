@@ -29,16 +29,22 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
 New features:
 
 - Execute cells by clicking icon in input prompt (:ghpull:`3535`, :ghpull:`3687`)
-- New "Save as" menu option (:ghpull:`3289`) 
+- New "Save as" menu option (:ghpull:`3289`)
+- When serving on a loopback interface, protect against DNS rebinding by
+  checking the ``Host`` header from the browser (:ghpull:`3714`).
+  This check can be disabled if necessary by setting
+  ``NotebookApp.allow_remote_access``.
 - Add kernel_info_timeout traitlet to enable restarting slow kernels (:ghpull:`3665`)
 - Add ``custom_display_host`` config option to override displayed URL (:ghpull:`3668`)
 - Add /metrics endpoint for Prometheus Metrics (:ghpull:`3490`)
+- Update to MathJax 2.7.4 (:ghpull:`3751`)
 - Update to jQuery 3.3 (:ghpull:`3655`)
 - Update marked to 0.4 (:ghpull:`3686`)
 
 Fixing problems:
 
 - Don't duplicate token in displayed URL (:ghpull:`3656`)
+- Clarify displayed URL when listening on all interfaces (:ghpull:`3703`)
 - Don't trash non-empty directories on Windows (:ghpull:`3673`)
 - Include LICENSE file in wheels (:ghpull:`3671`)
 - Don't show "0 active kernels" when starting the notebook (:ghpull:`3696`)
@@ -47,6 +53,7 @@ Testing:
 
 - Add find replace test (:ghpull:`3630`)
 - Selenium test for deleting all cells (:ghpull:`3601`)
+- Make creating a new notebook more robust (:ghpull:`3726`)
 
 Thanks to the following contributors:
 
