@@ -34,6 +34,7 @@ New features:
   checking the ``Host`` header from the browser (:ghpull:`3714`).
   This check can be disabled if necessary by setting
   ``NotebookApp.allow_remote_access``.
+  (Disabled by default while we work out some Mac issues in :ghissue:`3754`).
 - Add kernel_info_timeout traitlet to enable restarting slow kernels (:ghpull:`3665`)
 - Add ``custom_display_host`` config option to override displayed URL (:ghpull:`3668`)
 - Add /metrics endpoint for Prometheus Metrics (:ghpull:`3490`)
