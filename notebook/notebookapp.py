@@ -852,10 +852,6 @@ class NotebookApp(JupyterApp):
     @default('allow_remote_access')
     def _default_allow_remote(self):
         """Disallow remote access if we're listening only on loopback addresses"""
-        # Disable the check temporarily because of Mac issues:
-        # https://github.com/jupyter/notebook/issues/3754
-        return True
-
         try:
             addr = ipaddress.ip_address(self.ip)
         except ValueError:
