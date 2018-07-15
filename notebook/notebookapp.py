@@ -860,7 +860,18 @@ class NotebookApp(JupyterApp):
                 addr = info[4][0]
                 if not py3compat.PY3:
                     addr = addr.decode('ascii')
-                if not ipaddress.ip_address(addr).is_loopback:
+
+                try:
+                    parsed = ipaddress.ip_address(addr.split('%')[0])
+                except ValueError:
+                    self.log.warning("Unrecognised IP address: %r", addr)
+                    continue
+
+                # Macs map localhost to 'fe80::1%lo0', a link local address
+                # scoped to the loopback interface. For now, we'll assume that
+                # any scoped link-local address is effectively local.
+                if not (parsed.is_loopback
+                        or (('%' in addr) and parsed.is_link_local)):
                     return True
             return False
         else:
