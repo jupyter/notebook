@@ -852,10 +852,6 @@ class NotebookApp(JupyterApp):
     @default('allow_remote_access')
     def _default_allow_remote(self):
         """Disallow remote access if we're listening only on loopback addresses"""
-        # Disable the check temporarily because of Mac issues:
-        # https://github.com/jupyter/notebook/issues/3754
-        return True
-
         try:
             addr = ipaddress.ip_address(self.ip)
         except ValueError:
@@ -864,7 +860,18 @@ class NotebookApp(JupyterApp):
                 addr = info[4][0]
                 if not py3compat.PY3:
                     addr = addr.decode('ascii')
-                if not ipaddress.ip_address(addr).is_loopback:
+
+                try:
+                    parsed = ipaddress.ip_address(addr.split('%')[0])
+                except ValueError:
+                    self.log.warning("Unrecognised IP address: %r", addr)
+                    continue
+
+                # Macs map localhost to 'fe80::1%lo0', a link local address
+                # scoped to the loopback interface. For now, we'll assume that
+                # any scoped link-local address is effectively local.
+                if not (parsed.is_loopback
+                        or (('%' in addr) and parsed.is_link_local)):
                     return True
             return False
         else:
