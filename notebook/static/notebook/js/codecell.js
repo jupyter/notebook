@@ -161,6 +161,8 @@ define([
         var input = $('<div></div>').addClass('input');
         this.input = input;
 
+        var prompt_container = $('<div/>').addClass('prompt_container');
+
         var run_this_cell = $('<div></div>').addClass('run_this_cell');
         run_this_cell.prop('title', 'Run this cell');
         run_this_cell.append('<i class="fa-step-forward fa"></i>');
@@ -170,6 +172,7 @@ define([
         });
 
         var prompt = $('<div/>').addClass('prompt input_prompt');
+        
         var inner_cell = $('<div/>').addClass('inner_cell');
         this.celltoolbar = new celltoolbar.CellToolbar({
             cell: this, 
@@ -189,7 +192,8 @@ define([
         this.code_mirror.on('keydown', $.proxy(this.handle_keyevent,this));
         $(this.code_mirror.getInputField()).attr("spellcheck", "false");
         inner_cell.append(input_area);
-        input.append(run_this_cell).append(prompt).append(inner_cell);
+        prompt_container.append(prompt).append(run_this_cell);
+        input.append(prompt_container).append(inner_cell);
 
         var output = $('<div></div>');
         cell.append(input).append(output);
