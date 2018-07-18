@@ -168,7 +168,8 @@ class LoginHandler(IPythonHandler):
             return handler._user_id
         user_id = cls.get_user_token(handler)
         if user_id is None:
-            user_id = handler.get_secure_cookie(handler.cookie_name)
+            get_secure_cookie_kwargs  = handler.settings.get('get_secure_cookie_kwargs', {})
+            user_id = handler.get_secure_cookie(handler.cookie_name, **get_secure_cookie_kwargs )
         else:
             cls.set_login_cookie(handler, user_id)
             # Record that the current request has been authenticated with a token.

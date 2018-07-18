@@ -945,6 +945,10 @@ class NotebookApp(JupyterApp):
         help=_("Extra keyword arguments to pass to `set_secure_cookie`."
              " See tornado's set_secure_cookie docs for details.")
     )
+    get_secure_cookie_kwargs = Dict(config=True,
+        help=_("Extra keyword arguments to pass to `get_secure_cookie`."
+             " See tornado's get_secure_cookie docs for details.")
+    )
     ssl_options = Dict(config=True,
             help=_("""Supply SSL options for the tornado HTTPServer.
             See the tornado docs for details."""))
@@ -1338,6 +1342,7 @@ class NotebookApp(JupyterApp):
             self.tornado_settings['allow_origin_pat'] = re.compile(self.allow_origin_pat)
         self.tornado_settings['allow_credentials'] = self.allow_credentials
         self.tornado_settings['cookie_options'] = self.cookie_options
+        self.tornado_settings['get_secure_cookie_kwargs'] = self.get_secure_cookie_kwargs
         self.tornado_settings['token'] = self.token
         if (self.open_browser or self.file_to_run) and not self.password:
             self.one_time_token = binascii.hexlify(os.urandom(24)).decode('ascii')
