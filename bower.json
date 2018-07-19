@@ -14,7 +14,7 @@
     "jquery-typeahead": "~2.0.0",
     "jquery-ui": "components/jqueryui#~1.10",
     "marked": "~0.4",
-    "MathJax": "components/MathJax#^2.7.4",
+    "MathJax": "^2.7.4",
     "moment": "~2.19.3",
     "preact": "https://unpkg.com/preact@^7.2.0/dist/preact.min.js",
     "preact-compat": "https://unpkg.com/preact-compat@^3.14.3/dist/preact-compat.min.js",
