@@ -2372,12 +2372,13 @@ define([
         }
 
         var do_kernel_action = options.kernel_action || restart_and_resolve;
-       
+
         // no need to confirm if the kernel is not connected
         if (options.confirm === false || !that.kernel.is_connected()) {
             var default_button = options.dialog.buttons[Object.keys(options.dialog.buttons)[0]];
             promise.then(default_button.click);
             do_kernel_action();
+            that.reset_pause_resume_options();
             return promise;
         }
         options.dialog.notebook = this;
@@ -2397,7 +2398,17 @@ define([
         });
         options.dialog.buttons = buttons;
         dialog.modal(options.dialog);
+        that.reset_pause_resume_options();
         return promise;
+    };
+
+    Notebook.prototype.reset_pause_resume_options = function () {
+        var sk = document.getElementById("suspend_kernel");
+        var rk = document.getElementById("resume_kernel");
+        if (sk.style.display == "none" && rk.style.display == "block"){
+            sk.style.display = "block";
+            rk.style.display = "none";
+        }
     };
 
     /**

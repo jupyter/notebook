@@ -314,6 +314,7 @@ define([
             if (success) {
                 success(data, status, xhr);
             }
+            that.toggle_suspend_resume_options();
         };
 
         var url = utils.url_path_join(this.kernel_url, 'suspend');
@@ -349,6 +350,7 @@ define([
             if (success) {
                 success(data, status, xhr);
             }
+            that.toggle_suspend_resume_options();
         };
 
         var url = utils.url_path_join(this.kernel_url, 'resume');
@@ -666,6 +668,22 @@ define([
                 close();
             }
         }
+    };
+
+    Kernel.prototype.toggle_suspend_resume_options = function () {
+        /**
+         * Toggle 'suspend' and 'resume' option.
+         */
+         var sk = document.getElementById("suspend_kernel");
+         var rk = document.getElementById("resume_kernel");
+         if (sk.style.display == "none"){
+             sk.style.display = "block";
+             rk.style.display = "none";
+         }
+         else {
+             sk.style.display = "none";
+             rk.style.display = "block";
+         };
     };
 
     Kernel.prototype.is_connected = function () {

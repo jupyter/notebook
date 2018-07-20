@@ -266,14 +266,6 @@ data-notebook-path="{{notebook_path | urlencode}}"
                             title="{% trans %}Send Keyboard Interrupt (CTRL-C) to the Kernel{% endtrans %}">
                             <a href="#">{% trans %}Interrupt{% endtrans %}</a>
                         </li>
-                        <li id="suspend_kernel"
-                            title="{% trans %}Pause the Kernel{% endtrans %}">
-                            <a href="#">{% trans %}Pause{% endtrans %}</a>
-                        </li>
-                        <li id="resume_kernel"
-                            title="{% trans %}Resume the Kernel{% endtrans %}">
-                            <a href="#">{% trans %}Resume{% endtrans %}</a>
-                        </li>
                         <li id="restart_kernel"
                             title="{% trans %}Restart the Kernel{% endtrans %}">
                             <a href="#">{% trans %}Restart{% endtrans %}</a>
@@ -293,6 +285,14 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         <li id="shutdown_kernel"
                             title="Shutdown the Kernel">
                             <a href="#">{% trans %}Shutdown{% endtrans %}</a>
+                        </li>
+                        <li id="suspend_kernel"
+                            title="{% trans %}Pause the Kernel{% endtrans %}">
+                            <a href="#">{% trans %}Pause{% endtrans %}</a>
+                        </li>
+                        <li id="resume_kernel" style="display:none"
+                            title="{% trans %}Resume the Kernel{% endtrans %}">
+                            <a href="#">{% trans %}Resume{% endtrans %}</a>
                         </li>
                         <li class="divider"></li>
                         <li id="menu-change-kernel" class="dropdown-submenu">

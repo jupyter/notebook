@@ -58,6 +58,12 @@ define([
             this.add_bundler_items();
             this.bind_events();
         }
+
+        // hide "suspend" and "resume" kernel options when on Windows OS
+        if (navigator.appVersion.indexOf("Win") != -1){
+            var sk = document.getElementById("suspend_kernel");
+            sk.style.display = "none";
+        }
     };
 
     // TODO: This has definitively nothing to do with style ...
@@ -323,6 +329,8 @@ define([
             that.update_nbconvert_script(langinfo);
             that.add_kernel_help_links(data.kernel.info_reply.help_links || []);
         });
+
+
     };
     
     MenuBar.prototype._add_celltoolbar_list = function () {
