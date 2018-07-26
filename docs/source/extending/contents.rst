@@ -191,12 +191,62 @@ methods:
    ContentsManager.dir_exists
    ContentsManager.is_hidden
 
+You may be required to specify a Checkpoints object, as the default one,
+``FileCheckpoints``, could be incompatible with your custom 
+ContentsManager.
 
 Customizing Checkpoints
 -----------------------
+.. currentmodule:: notebook.services.contents.checkpoints
 
-TODO:
+Customized Checkpoint definitions allows behavior to be 
+altered and extended.
 
+The ``Checkpoints`` and ``GenericCheckpointsMixin`` classes
+(from :mod:`notebook.services.contents.checkpoints`)
+have reusable code and are intended to be used together, 
+but require the following methods to be implemented.
+
+.. autosummary::
+   Checkpoints.rename_checkpoint
+   Checkpoints.list_checkpoints
+   Checkpoints.delete_checkpoint
+   GenericCheckpointsMixin.create_file_checkpoint
+   GenericCheckpointsMixin.create_notebook_checkpoint
+   GenericCheckpointsMixin.get_file_checkpoint
+   GenericCheckpointsMixin.get_notebook_checkpoint
+
+No-op example
+~~~~~~~~~~~~~
+
+Here is an example of a no-op checkpoints object - note the mixin
+comes first. The docstrings indicate what each method should do or 
+return for a more complete implementation.
+
+.. code-block:: python
+
+class NoOpCheckpoints(GenericCheckpointsMixin, Checkpoints):
+    """requires the following methods:"""
+    def create_file_checkpoint(self, content, format, path):
+        """ -> checkpoint model"""
+    def create_notebook_checkpoint(self, nb, path):
+        """ -> checkpoint model"""
+    def get_file_checkpoint(self, checkpoint_id, path):
+        """ -> {'type': 'file', 'content': <str>, 'format': {'text', 'base64'}}"""
+    def get_notebook_checkpoint(self, checkpoint_id, path):
+        """ -> {'type': 'notebook', 'content': <output of nbformat.read>}"""
+    def delete_checkpoint(self, checkpoint_id, path):
+        """deletes a checkpoint for a file"""
+    def list_checkpoints(self, path):
+        """returns a list of checkpoint models for a given file, 
+        default just does one per file
+        """
+        return []
+    def rename_checkpoint(self, checkpoint_id, old_path, new_path):
+        """renames checkpoint from old path to new path"""
+
+See ``GenericFileCheckpoints`` in :mod:`notebook.services.contents.filecheckpoints`
+for a more complete example.
 
 Testing
 -------
