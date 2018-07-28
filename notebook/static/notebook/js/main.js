@@ -241,9 +241,9 @@ requirejs([
     })
     .catch(function(error) {
         console.error('Could not load ipywidgets', error);
+    }).then(function() {
+        notebook.load_notebook(common_options.notebook_path);
     });
     // END HARDCODED WIDGETS HACK
-
-    notebook.load_notebook(common_options.notebook_path);
 
 });
