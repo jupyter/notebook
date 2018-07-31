@@ -35,7 +35,7 @@ from notebook._sysinfo import get_sys_info
 
 from traitlets.config import Application
 from ipython_genutils.path import filefind
-from ipython_genutils.py3compat import string_types
+from ipython_genutils.py3compat import string_types, PY3
 
 import notebook
 from notebook._tz import utcnow
@@ -426,6 +426,10 @@ class IPythonHandler(AuthenticatedHandler):
         # Browsers format IPv6 addresses like [::1]; we need to remove the []
         if host.startswith('[') and host.endswith(']'):
             host = host[1:-1]
+
+        if not PY3:
+            # ip_address only accepts unicode on Python 2
+            host = host.decode('utf8', 'replace')
 
         try:
             addr = ipaddress.ip_address(host)
