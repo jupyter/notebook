@@ -435,7 +435,7 @@ class IPythonHandler(AuthenticatedHandler):
             addr = ipaddress.ip_address(host)
         except ValueError:
             # Not an IP address: check against hostnames
-            allow = host in self.settings.get('local_hostnames', [])
+            allow = host in self.settings.get('local_hostnames', ['localhost'])
         else:
             allow = addr.is_loopback
 
