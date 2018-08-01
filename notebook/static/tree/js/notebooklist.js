@@ -338,11 +338,11 @@ define([
                 reader.onerror = reader_onerror;
             }
         });
-        // Replace the file input form wth a clone of itself. This is required to
+        // Clear fileinput value. This is required to
         // reset the form. Otherwise, if you upload a file, delete it and try to
         // upload it again, the changed event won't fire.
         var form = $('input.fileinput');
-        form.replaceWith(form.clone(true));
+        form.val('');
         return false;
     };
 
