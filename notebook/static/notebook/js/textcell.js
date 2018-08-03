@@ -354,9 +354,9 @@ define([
         // We generate names for blobs
         var key;
         if (blob.name !== undefined) {
-            key = encodeURIandParens(blob.name);
+            key = utils.uuid() + '_' + encodeURIandParens(blob.name);
         } else {
-            key = '_auto_' + Object.keys(that.attachments).length;
+            key =  utils.uuid() +'_auto_' + Object.keys(that.attachments).length;
         }
 
         reader.onloadend = function() {
