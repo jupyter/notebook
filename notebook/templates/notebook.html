@@ -260,11 +260,19 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Kernel{% endtrans %}</a>
+                <li class="dropdown" id="kernel_menu_main"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Kernel{% endtrans %}</a>
                     <ul id="kernel_menu" class="dropdown-menu">
                         <li id="int_kernel"
                             title="{% trans %}Send Keyboard Interrupt (CTRL-C) to the Kernel{% endtrans %}">
                             <a href="#">{% trans %}Interrupt{% endtrans %}</a>
+                        </li>
+                        <li id="suspend_kernel"
+                            title="{% trans %}Pause the Kernel{% endtrans %}">
+                            <a href="#">{% trans %}Pause{% endtrans %}</a>
+                        </li>
+                        <li id="resume_kernel" style="display:none"
+                            title="{% trans %}Resume the Kernel{% endtrans %}">
+                            <a href="#">{% trans %}Resume{% endtrans %}</a>
                         </li>
                         <li id="restart_kernel"
                             title="{% trans %}Restart the Kernel{% endtrans %}">
@@ -285,14 +293,6 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         <li id="shutdown_kernel"
                             title="Shutdown the Kernel">
                             <a href="#">{% trans %}Shutdown{% endtrans %}</a>
-                        </li>
-                        <li id="suspend_kernel"
-                            title="{% trans %}Pause the Kernel{% endtrans %}">
-                            <a href="#">{% trans %}Pause{% endtrans %}</a>
-                        </li>
-                        <li id="resume_kernel" style="display:none"
-                            title="{% trans %}Resume the Kernel{% endtrans %}">
-                            <a href="#">{% trans %}Resume{% endtrans %}</a>
                         </li>
                         <li class="divider"></li>
                         <li id="menu-change-kernel" class="dropdown-submenu">

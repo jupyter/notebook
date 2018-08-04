@@ -12,19 +12,22 @@ from contextlib import contextmanager
 pjoin = os.path.join
 
 
-def wait_for_selector(browser, selector, timeout=10, visible=False, single=False):
+def wait_for_selector(browser, selector, timeout=10, visible=False, clickable=False, single=False):
     wait = WebDriverWait(browser, timeout)
     if single:
         if visible:
             conditional = EC.visibility_of_element_located
         else:
             conditional = EC.presence_of_element_located
+    elif clickable:
+        conditional = EC.element_to_be_clickable
     else:
         if visible:
             conditional = EC.visibility_of_all_elements_located
         else:
             conditional = EC.presence_of_all_elements_located
     return wait.until(conditional((By.CSS_SELECTOR, selector)))
+
 
 
 class CellTypeError(ValueError):
@@ -155,6 +158,10 @@ class Notebook:
     def set_cell_input_prompt(self, index, prmpt_val):
         JS = 'Jupyter.notebook.get_cell({}).set_input_prompt({})'.format(index, prmpt_val)
         self.browser.execute_script(JS)
+
+    def get_cell_output(self, index):
+        JS = 'return Jupyter.notebook.get_cell({}).output_area.outputs'.format(index)
+        return self.browser.execute_script(JS)
 
     def edit_cell(self, cell=None, index=0, content="", render=False):
         """Set the contents of a cell to *content*, by cell object or by index
