@@ -183,7 +183,8 @@ casper.notebook_test(function () {
         var cell1 = this.evaluate(function() {
             return Jupyter.notebook.get_cell(1);
         });
-        this.test.assert('black_square_22.png' in cell0.attachments,
+        var cell0_att_filtered = Object.keys(cell0.attachments).filter(function(x) { return x.indexOf('black_square_22.png') >= 0} )
+        this.test.assert(cell0_att_filtered.length == 1,
                          'cell0 has kept its attachments');
         this.test.assertEquals(Object.keys(cell1.attachments).length, 0,
                                'cell1 attachments have been garbage collected');
