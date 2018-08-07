@@ -778,9 +778,9 @@ class NotebookApp(JupyterApp):
     max_body_size = Integer(512 * 1024 * 1024, config=True,
         help="""
         Sets the maximum allowed size of the client request body, specified in 
-        the “Content-Length” request header field. If the size in a request 
-        exceeds the configured value, returned to the client a 
-        Malformed HTTP message is returned.
+        the Content-Length request header field. If the size in a request 
+        exceeds the configured value, a malformed HTTP message is returned to
+        the client.
 
         Note: max_body_size is applied even in streaming mode.
         """
@@ -789,7 +789,7 @@ class NotebookApp(JupyterApp):
     max_buffer_size = Integer(512 * 1024 * 1024, config=True,
         help="""
         Gets or sets the maximum amount of memory, in bytes, that is allocated 
-        for use by the manager of the buffers.
+        for use by the buffer manager.
         """
     )
 
