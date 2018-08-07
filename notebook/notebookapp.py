@@ -775,6 +775,24 @@ class NotebookApp(JupyterApp):
             self._token_generated = True
             return binascii.hexlify(os.urandom(24)).decode('ascii')
 
+    max_body_size = Integer(512 * 1024 * 1024, config=True,
+        help="""
+        Sets the maximum allowed size of the client request body, specified in 
+        the “Content-Length” request header field. If the size in a request 
+        exceeds the configured value, returned to the client a 
+        Malformed HTTP message is returned.
+
+        Note: max_body_size is applied even in streaming mode.
+        """
+    )
+
+    max_buffer_size = Integer(512 * 1024 * 1024, config=True,
+        help="""
+        Gets or sets the maximum amount of memory, in bytes, that is allocated 
+        for use by the manager of the buffers.
+        """
+    )
+
     @observe('token')
     def _token_changed(self, change):
         self._token_generated = False
@@ -1380,7 +1398,9 @@ class NotebookApp(JupyterApp):
         
         self.login_handler_class.validate_security(self, ssl_options=ssl_options)
         self.http_server = httpserver.HTTPServer(self.web_app, ssl_options=ssl_options,
-                                                 xheaders=self.trust_xheaders)
+                                                 xheaders=self.trust_xheaders,
+                                                 max_body_size=self.max_body_size,
+                                                 max_buffer_size=self.max_buffer_size)
 
         success = None
         for port in random_ports(self.port, self.port_retries+1):
