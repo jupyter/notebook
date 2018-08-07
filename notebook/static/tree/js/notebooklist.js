@@ -14,16 +14,6 @@ define([
 ], function($, IPython, utils, i18n, dialog, events, keyboard, moment, bidi) {
     "use strict";
 
-    var extension = function(path){
-      /**
-       *  return the last pat after the dot in a filepath
-       *  or the filepath itself if no dots present.
-       *  Empty string if the filepath ends with a dot.
-       **/
-      var parts = path.split('.');
-      return parts[parts.length-1];
-    };
-
     var item_in = function(item, list) {
       // Normalize list and item to lowercase
       var normalized_list = list.map(function(_item) {
@@ -33,7 +23,7 @@ define([
     };
 
     var includes_extension = function(filepath, extensionslist) {
-      return item_in(extension(filepath), extensionslist);
+      return item_in(utils.file_extension(filepath), extensionslist);
     };
 
     function name_sorter(ascending) {

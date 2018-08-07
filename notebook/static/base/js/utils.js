@@ -1183,6 +1183,17 @@ define([
         document.head.appendChild(link);
     };
 
+    var file_extension = function(path){
+        /**
+         *  return the last pat after the dot in a filepath
+         *  or the filepath itself if no dots present.
+         *  Empty string if the filepath ends with a dot.
+         **/
+        var parts = path.split('.');
+        return parts[parts.length-1];
+    };
+
+
     var utils = {
         throttle: throttle,
         is_loaded: is_loaded,
@@ -1236,7 +1247,8 @@ define([
         js_idx_to_char_idx: js_idx_to_char_idx,
         char_idx_to_js_idx: char_idx_to_js_idx,
         _ansispan:_ansispan,
-        change_favicon: change_favicon
+        change_favicon: change_favicon,
+        file_extension: file_extension
     };
 
     return utils;
