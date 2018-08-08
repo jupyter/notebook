@@ -12,7 +12,7 @@
     "jed": "~1.1.1",
     "jquery": "components/jquery#~3.3",
     "jquery-typeahead": "~2.0.0",
-    "jquery-ui": "components/jqueryui#~1.10",
+    "jquery-ui": "components/jqueryui#~1.12",
     "marked": "~0.4",
     "MathJax": "^2.7.4",
     "moment": "~2.19.3",
