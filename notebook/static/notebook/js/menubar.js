@@ -174,7 +174,7 @@ define([
             that.notebook.save_notebook_as();
             return false;
         });
-        this.element.find('#download_ipynb').click(function () {
+        this.element.find('#download_file').click(function () {
             var base_url = that.notebook.base_url;
             var notebook_path = utils.encode_uri_components(that.notebook.notebook_path);
             var url = utils.url_path_join(
@@ -188,13 +188,13 @@ define([
                 that._new_window(url);
             }
         });
-        
+
         this.element.find('#print_preview').click(function () {
             that._nbconvert('html', false);
         });
 
-        this.element.find('#download_menu li').click(function (ev) {
-            that._nbconvert(ev.target.parentElement.getAttribute('id').substring(9), true);
+        this.element.find('#export_menu li').click(function (ev) {
+            that._nbconvert(ev.target.parentElement.getAttribute('id').substring(7), true);
         });
 
         this.events.on('trust_changed.Notebook', function (event, trusted) {
