@@ -446,6 +446,9 @@ define([
             var button_container = $(div);
             var lbl = $("<label/>").append($('<span/>').text(label));
             var select = $('<select/>');
+            if(!cell.is_editable()){
+                select.attr("disabled","disabled")
+            }
             for(var i=0; i < list_list.length; i++){
                 var opt = $('<option/>')
                     .attr('value', list_list[i][1])
