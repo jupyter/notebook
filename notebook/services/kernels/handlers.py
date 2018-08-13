@@ -456,6 +456,12 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         self._close_future.set_result(None)
 
     def _send_status_message(self, status):
+        iopub = self.channels.get('iopub', None)
+        if iopub and not iopub.closed():
+            # flush IOPub before sending a restarting/dead status message
+            # ensures proper ordering on the IOPub channel
+            # that all messages from the stopped kernel have been delivered
+            iopub.flush()
         msg = self.session.msg("status",
             {'execution_state': status}
         )
