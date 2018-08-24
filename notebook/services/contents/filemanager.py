@@ -298,7 +298,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
         if not os.path.isdir(os_path):
             raise web.HTTPError(404, four_o_four)
-        elif is_hidden(os_path, self.root_dir) and not self.allow_hidden:
+        elif is_hidden(os_path, self.root_dir) and not self.allow_hidden and not os.path.islink(os_path):
             self.log.info("Refusing to serve hidden directory %r, via 404 Error",
                 os_path
             )
