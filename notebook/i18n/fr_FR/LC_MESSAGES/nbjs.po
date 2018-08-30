@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2018-08-29 18:52+0200\n"
-"PO-Revision-Date: 2018-08-29 19:15+0200\n"
+"PO-Revision-Date: 2018-08-30 16:25+0200\n"
 "Last-Translator: Jocelyn Delalande <jocelyn@delalande.fr>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -684,7 +684,7 @@ msgstr "enregistrer le notebook"
 
 #: notebook/static/notebook/js/actions.js:836
 msgid "Save and Checkpoint"
-msgstr "Définir un nouveau point de sauvegarde"
+msgstr "Créer une nouvelle sauvegarde"
 
 #: notebook/static/notebook/js/cell.js:79
 msgid "Warning: accessing Cell.cm_config directly is deprecated."
@@ -1100,7 +1100,7 @@ msgstr "Erreur pendant le chargement du notebook"
 
 #: notebook/static/notebook/js/notebook.js:3243
 msgid "Are you sure you want to revert the notebook to the latest checkpoint?"
-msgstr "Êtes-vous certain de vouloir restaurer le dernier point de sauvegarde ?"
+msgstr "Êtes-vous certain de vouloir restaurer la dernière sauvegarde ?"
 
 #: notebook/static/notebook/js/notebook.js:3246
 msgid "This cannot be undone."
@@ -1112,7 +1112,7 @@ msgstr "Dernière sauvegarde à : "
 
 #: notebook/static/notebook/js/notebook.js:3260
 msgid "Revert notebook to checkpoint"
-msgstr "Restaurer le notebook à un point de sauvegarde antérieur"
+msgstr "Restaurer le notebook à une sauvegarde antérieure"
 
 #: notebook/static/notebook/js/notificationarea.js:77
 #: notebook/static/notebook/js/tour.js:61
@@ -1277,27 +1277,27 @@ msgstr "La copie du notebook a échoué"
 
 #: notebook/static/notebook/js/notificationarea.js:339
 msgid "Checkpoint created"
-msgstr "Point de sauvegarde créé"
+msgstr "Sauvegarde créée"
 
 #: notebook/static/notebook/js/notificationarea.js:347
 msgid "Checkpoint failed"
-msgstr "La création du point de sauvegarde a échoué"
+msgstr "Échec de la sauvegarde"
 
 #: notebook/static/notebook/js/notificationarea.js:350
 msgid "Checkpoint deleted"
-msgstr "Point de sauvegarde supprimé"
+msgstr "Sauvegarde supprimée"
 
 #: notebook/static/notebook/js/notificationarea.js:353
 msgid "Checkpoint delete failed"
-msgstr "La suppression du point de sauvegarde a échoué"
+msgstr "Échec de la suppression de la sauvegarde"
 
 #: notebook/static/notebook/js/notificationarea.js:356
 msgid "Restoring to checkpoint..."
-msgstr "Restauration du point de sauvegarde…"
+msgstr "Restauration de la sauvegarde…"
 
 #: notebook/static/notebook/js/notificationarea.js:359
 msgid "Checkpoint restore failed"
-msgstr "La restauration du point de sauvegarde a échoué"
+msgstr "La restauration de la sauvegarde a échoué"
 
 #: notebook/static/notebook/js/notificationarea.js:364
 msgid "Autosave disabled"
@@ -1612,12 +1612,12 @@ msgstr "Erreur inconnue"
 
 #: notebook/static/notebook/js/savewidget.js:178
 msgid "no checkpoint"
-msgstr "aucun point de sauvegarde"
+msgstr "aucune sauvegarde"
 
 #: notebook/static/notebook/js/savewidget.js:193
 #, python-format
 msgid "Last Checkpoint: %s"
-msgstr "Dernier Point de Sauvegarde : %s"
+msgstr "Dernière Sauvegarde : %s"
 
 #: notebook/static/notebook/js/savewidget.js:217
 msgid "(unsaved changes)"

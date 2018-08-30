@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2018-08-29 17:49+0200\n"
-"PO-Revision-Date: 2018-08-29 19:15+0200\n"
+"PO-Revision-Date: 2018-08-30 16:26+0200\n"
 "Last-Translator: Jocelyn Delalande <jocelyn@delalande.fr>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -162,7 +162,7 @@ msgstr "Renommer…"
 
 #: notebook/templates/notebook.html:93
 msgid "Save and Checkpoint"
-msgstr "Enregistrer et Définir un nouveau point de sauvegarde"
+msgstr "Créer une nouvelle sauvegarde"
 
 #: notebook/templates/notebook.html:96
 msgid "Revert to Checkpoint"
