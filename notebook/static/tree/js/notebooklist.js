@@ -382,7 +382,8 @@ define([
         var breadcrumb = $('.breadcrumb');
         breadcrumb.empty();
         var list_item = $('<li/>');
-        var root = $('<li/>').append('<a href="/tree"><i class="fa fa-folder"></i></a>').click(function(e) {
+        var root_url = utils.url_path_join(that.base_url, '/tree');
+        var root = $('<li/>').append('<a href="' + root_url + '"><i class="fa fa-folder"></i></a>').click(function(e) {
             // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
             if(e.altKey || e.metaKey || e.shiftKey) {
                 return true;
