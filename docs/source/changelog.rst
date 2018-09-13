@@ -14,13 +14,71 @@ For more detailed information, see
 
 .. we push for pip 9+ or it will break for Python 2 users when IPython 6 is out.
 
-We strongly recommend that you upgrade to version 9+ of pip before upgrading ``notebook``.
+We strongly recommend that you upgrade pip to version 9+ of pip before upgrading ``notebook``.
 
 .. tip::
 
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
-    
+
+.. _release-5.7.0:
+
+5.7.0
+-----
+
+New features:
+
+- Update to CodeMirror to 5.37, which includes f-string sytax for Python 3.6 (:ghpull:`3816`)
+- Update jquery-ui to 1.12 (:ghpull:`3836`)
+- Check Host header to more securely protect localhost deployments from DNS rebinding.
+  This is a pre-emptive measure, not fixing a known vulnerability (:ghpull:`3766`).
+  Use `.NotebookApp.allow_remote_access` and `.NotebookApp.local_hostnames` to configure
+  access.
+- Allow access-control-allow-headers to be overridden (:ghpull:`3886`)
+- Allow configuring max_body_size and max_buffer_size (:ghpull:`3829`)
+- Allow configuring get_secure_cookie keyword-args (:ghpull:`3778`)
+- Respect nbconvert entrypoints as sources for exporters (:ghpull:`3879`)
+- Various improvements to documentation (:ghpull:`3799`, :ghpull:`3800`,
+  :ghpull:`3806`, :ghpull:`3883`, :ghpull:`3908`)
+
+Fixing problems:
+
+- Fix breadcrumb link when running with a base url (:ghpull:`3905`)
+- Fix possible type error when closing activity stream (:ghpull:`3907`)
+- Disable metadata editing for non-editable celsl (:ghpull:`3744`)
+- Fix some styling and alignment of prompts caused by regressions in 5.6.0.
+- Enter causing page reload in shortcuts editor (:ghpull:`3871`)
+- Fix uploading to the same file twice (:ghpull:`3712`)
+
+See the 5.7 milestone on GitHub for a complete list of
+`pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A5.7>`__ involved in this release.
+
+Thanks to the following contributors:
+
+* Aaron Hall
+* Benjamin Ragan-Kelley
+* Bill Major
+* bxy007
+* Dave Aitken
+* Denis Ledoux
+* Félix-Antoine Fortin
+* Gabriel
+* Grant Nestor
+* Kevin Bates
+* Kristian Gregorius Hustad
+* M Pacer
+* Madicken Munk
+* Maitiu O Ciarain
+* Matthias Bussonnier
+* Michael Boyle
+* Michael Chirico
+* Mokkapati, Praneet(ES)
+* Peter Parente
+* Sally Wilsak
+* Steven Silvester
+* Thomas Kluyver
+* Walter Martin
+
 .. _release-5.6.0:
 
 5.6.0
@@ -50,7 +108,7 @@ Fixing problems:
 - Include LICENSE file in wheels (:ghpull:`3671`)
 - Don't show "0 active kernels" when starting the notebook (:ghpull:`3696`)
 
-Testing: 
+Testing:
 
 - Add find replace test (:ghpull:`3630`)
 - Selenium test for deleting all cells (:ghpull:`3601`)
