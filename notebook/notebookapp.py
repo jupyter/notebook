@@ -240,11 +240,6 @@ class NotebookWebApplication(web.Application):
             iopub_data_rate_limit=jupyter_app.iopub_data_rate_limit,
             rate_limit_window=jupyter_app.rate_limit_window,
 
-            # maximum request sizes - support saving larger notebooks
-            # tornado defaults are 100 MiB, we increase it to 0.5 GiB
-            max_body_size = 512 * 1024 * 1024,
-            max_buffer_size = 512 * 1024 * 1024,
-
             # authentication
             cookie_secret=jupyter_app.cookie_secret,
             login_url=url_path_join(base_url,'/login'),
@@ -779,6 +774,24 @@ class NotebookApp(JupyterApp):
         else:
             self._token_generated = True
             return binascii.hexlify(os.urandom(24)).decode('ascii')
+
+    max_body_size = Integer(512 * 1024 * 1024, config=True,
+        help="""
+        Sets the maximum allowed size of the client request body, specified in 
+        the Content-Length request header field. If the size in a request 
+        exceeds the configured value, a malformed HTTP message is returned to
+        the client.
+
+        Note: max_body_size is applied even in streaming mode.
+        """
+    )
+
+    max_buffer_size = Integer(512 * 1024 * 1024, config=True,
+        help="""
+        Gets or sets the maximum amount of memory, in bytes, that is allocated 
+        for use by the buffer manager.
+        """
+    )
 
     @observe('token')
     def _token_changed(self, change):
@@ -1385,7 +1398,9 @@ class NotebookApp(JupyterApp):
         
         self.login_handler_class.validate_security(self, ssl_options=ssl_options)
         self.http_server = httpserver.HTTPServer(self.web_app, ssl_options=ssl_options,
-                                                 xheaders=self.trust_xheaders)
+                                                 xheaders=self.trust_xheaders,
+                                                 max_body_size=self.max_body_size,
+                                                 max_buffer_size=self.max_buffer_size)
 
         success = None
         for port in random_ports(self.port, self.port_retries+1):
