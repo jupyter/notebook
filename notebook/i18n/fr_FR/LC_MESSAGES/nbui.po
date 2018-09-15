@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2018-08-29 17:49+0200\n"
-"PO-Revision-Date: 2018-08-30 16:26+0200\n"
+"PO-Revision-Date: 2018-09-15 17:55+0200\n"
 "Last-Translator: Jocelyn Delalande <jocelyn@delalande.fr>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -65,7 +65,7 @@ msgstr "Raccourcis clavier"
 
 #: notebook/templates/edit.html:62
 msgid "Default"
-msgstr "Par Défault"
+msgstr "Par Défaut"
 
 #: notebook/templates/edit.html:63
 msgid "Sublime Text"
@@ -218,7 +218,7 @@ msgstr "Faire confiance au Notebook"
 
 #: notebook/templates/notebook.html:127
 msgid "Shutdown this notebook's kernel, and close this window"
-msgstr "Éteindre le noyau de ce notebook et fermer cette fenêtre"
+msgstr "Arrêter le noyau du notebook et fermer cette fenêtre"
 
 #: notebook/templates/notebook.html:128
 msgid "Close and Halt"
@@ -687,7 +687,7 @@ msgstr "Tous les Notebooks"
 
 #: notebook/templates/tree.html:100
 msgid "Select Running Notebooks"
-msgstr "Sélectionner les Notebooks en cours d'exécution"
+msgstr "Sélectionner les Notebooks en cours d'Exécution"
 
 #: notebook/templates/tree.html:100
 msgid "Running"
