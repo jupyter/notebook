@@ -337,6 +337,30 @@ def run(cmd, *args, **kwargs):
     kwargs['shell'] = (sys.platform == 'win32')
     return check_call(cmd, *args, **kwargs)
 
+class CompileBackendTranslation(Command):
+    description = "compile the .po files into .mo files, that contain the translations."
+
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+
+    def run(self):
+        paths = glob('notebook/i18n/??_??')
+        for p in paths:
+            LANG = p.split('/')[-1]
+            for component in ['notebook', 'nbui']:
+                run(['pybabel', 'compile',
+                     '-D', component,
+                     '-f',
+                     '-l', LANG,
+                     '-i', pjoin('notebook', 'i18n', LANG, 'LC_MESSAGES', component+'.po'),
+                     '-o', pjoin('notebook', 'i18n', LANG, 'LC_MESSAGES', component+'.mo')
+                    ])
 
 class Bower(Command):
     description = "fetch static client-side components with bower"
@@ -467,7 +491,7 @@ class CompileCSS(Command):
 
 
 class CompileJS(Command):
-    """Rebuild Notebook Javascript main.min.js files
+    """Rebuild Notebook Javascript main.min.js files and translation files.
     
     Calls require via build-main.js
     """
@@ -526,12 +550,22 @@ class CompileJS(Command):
         log.info("Rebuilding %s" % target)
         run(['node', 'tools/build-main.js', name])
 
+    def build_jstranslation(self, trd):
+        lang = trd.split('/')[2]
+        run(['po2json', '-p', '-F',
+             '-f', 'jed1.x',
+             '-d', 'nbjs',
+             pjoin('notebook', 'i18n', lang ,'LC_MESSAGES', 'nbjs.po'),
+             pjoin('notebook', 'i18n', lang, 'LC_MESSAGES', 'nbjs.json')
+            ])
+
     def run(self):
         self.run_command('jsdeps')
         env = os.environ.copy()
         env['PATH'] = npm_path
         pool = ThreadPool()
         pool.map(self.build_main, self.apps)
+        pool.map(self.build_jstranslation, glob('notebook/i18n/??_??'))
         # update package data in case this created new files
         update_package_data(self.distribution)
 
@@ -586,6 +620,7 @@ def css_js_prerelease(command, strict=False):
             try:
                 self.distribution.run_command('js')
                 self.distribution.run_command('css')
+                self.distribution.run_command('backendtranslations')
             except Exception as e:
                 # refresh missing
                 missing = [ t for t in targets if not os.path.exists(t) ]

@@ -29,7 +29,7 @@ before_install:
     - node --version
     - npm --version
     - npm upgrade -g npm
-    - npm install
+    - npm install -g po2json@0.4.5
     - |
       if [[ $GROUP == js* ]]; then
         npm install -g casperjs@1.1.3 phantomjs-prebuilt@2.1.7
