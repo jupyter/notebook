@@ -249,7 +249,7 @@ msgstr "exécuter la cellule et sélectionner la suivante"
 
 #: notebook/static/notebook/js/actions.js:152
 msgid "run cell, select below"
-msgstr "exécuter la cellule et sélectionner la suivante"
+msgstr "exécuter la cellule, sélectionner la suivante"
 
 #: notebook/static/notebook/js/actions.js:159
 #: notebook/static/notebook/js/actions.js:160
@@ -317,7 +317,7 @@ msgstr "sélectionner la cellule précédente"
 
 #: notebook/static/notebook/js/actions.js:254
 msgid "select cell above"
-msgstr "sélectionner la cellule au-dessus"
+msgstr "sélectionner la cellule précédente"
 
 #: notebook/static/notebook/js/actions.js:265
 msgid "select next cell"
@@ -325,7 +325,7 @@ msgstr "sélectionner la cellule suivante"
 
 #: notebook/static/notebook/js/actions.js:266
 msgid "select cell below"
-msgstr "sélectionner la cellule en-dessous"
+msgstr "sélectionner la cellule suivante"
 
 #: notebook/static/notebook/js/actions.js:277
 msgid "extend selection above"
@@ -356,22 +356,22 @@ msgstr "copier les cellules sélectionnées"
 #: notebook/static/notebook/js/actions.js:327
 #: notebook/static/notebook/js/actions.js:328
 msgid "paste cells above"
-msgstr "coller les cellules au-dessus"
+msgstr "coller les cellules avant"
 
 #: notebook/static/notebook/js/actions.js:335
 #: notebook/static/notebook/js/actions.js:336
 msgid "paste cells below"
-msgstr "coller les cellules en-dessous"
+msgstr "coller les cellules après"
 
 #: notebook/static/notebook/js/actions.js:344
 #: notebook/static/notebook/js/actions.js:345
 msgid "insert cell above"
-msgstr "insérer une cellule au-dessus"
+msgstr "insérer une cellule après"
 
 #: notebook/static/notebook/js/actions.js:354
 #: notebook/static/notebook/js/actions.js:355
 msgid "insert cell below"
-msgstr "insérer une cellule en-dessous"
+msgstr "insérer une cellule après"
 
 #: notebook/static/notebook/js/actions.js:365
 #: notebook/static/notebook/js/actions.js:366
@@ -489,7 +489,7 @@ msgstr "fusionner la cellule avec la précédente"
 
 #: notebook/static/notebook/js/actions.js:513
 msgid "merge cell above"
-msgstr "fusionner la cellule vers le haut"
+msgstr "fusionner avec la cellule précédente"
 
 #: notebook/static/notebook/js/actions.js:519
 msgid "merge cell with next cell"
@@ -497,7 +497,7 @@ msgstr "fusionner la cellule avec la suivante"
 
 #: notebook/static/notebook/js/actions.js:520
 msgid "merge cell below"
-msgstr "fusionner la cellule vers le bas"
+msgstr "fusionner la cellule avec les suivantes"
 
 #: notebook/static/notebook/js/actions.js:527
 #: notebook/static/notebook/js/actions.js:528
@@ -513,8 +513,8 @@ msgid ""
 "merge selected cells, or current cell with cell below if only one cell is "
 "selected"
 msgstr ""
-"fusionner les cellules sélectionnées, ou la cellule courante avec celle d'en-"
-"dessous, si une unique cellule est sélectionnée"
+"fusionner les cellules sélectionnées, ou la cellule courante avec la "
+"suivante, si une unique cellule est sélectionnée"
 
 #: notebook/static/notebook/js/actions.js:549
 msgid "show command pallette"

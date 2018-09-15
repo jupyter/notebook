@@ -234,11 +234,11 @@ msgstr "Copier les Cellules"
 
 #: notebook/templates/notebook.html:135
 msgid "Paste Cells Above"
-msgstr "Coller les cellules au-dessus"
+msgstr "Coller les Cellules Avant"
 
 #: notebook/templates/notebook.html:136
 msgid "Paste Cells Below"
-msgstr "Coller les Cellules en-Dessous"
+msgstr "Coller les Cellules Après"
 
 #: notebook/templates/notebook.html:137
 msgid "Paste Cells &amp; Replace"
@@ -258,11 +258,11 @@ msgstr "Diviser la cellule"
 
 #: notebook/templates/notebook.html:142
 msgid "Merge Cell Above"
-msgstr "Fusionner la Cellule vers le Haut"
+msgstr "Fusionner avec la Cellule Précédente"
 
 #: notebook/templates/notebook.html:143
 msgid "Merge Cell Below"
-msgstr "Fusionner la Cellule vers le Bas"
+msgstr "Fusionner avec la Cellule Suivante"
 
 #: notebook/templates/notebook.html:145
 msgid "Move Cell Up"
@@ -318,19 +318,19 @@ msgstr "Insérer"
 
 #: notebook/templates/notebook.html:182
 msgid "Insert an empty Code cell above the currently active cell"
-msgstr "Insérer une cellule de Code vide au-dessus de la cellule active"
+msgstr "Insérer une cellule de Code vide avant de la cellule active"
 
 #: notebook/templates/notebook.html:183
 msgid "Insert Cell Above"
-msgstr "Insérer une Cellule au-Dessus"
+msgstr "Insérer une Cellule Avant"
 
 #: notebook/templates/notebook.html:185
 msgid "Insert an empty Code cell below the currently active cell"
-msgstr "Insérer une cellule de Code vide en-dessous de la cellule active"
+msgstr "Insérer une cellule de Code vide après la cellule active"
 
 #: notebook/templates/notebook.html:186
 msgid "Insert Cell Below"
-msgstr "Insérer une Cellule en-Dessous"
+msgstr "Insérer une Cellule Après"
 
 #: notebook/templates/notebook.html:189
 msgid "Cell"
@@ -346,19 +346,19 @@ msgstr "Exécuter les Cellules"
 
 #: notebook/templates/notebook.html:193
 msgid "Run this cell, select below"
-msgstr "Exécuter cette cellule et sélectionner la suivante"
+msgstr "Exécuter cette cellule, sélectionner la suivante"
 
 #: notebook/templates/notebook.html:194
 msgid "Run Cells and Select Below"
-msgstr "Exécuter les cellules et sélectionner celle en-dessous"
+msgstr "Exécuter les Cellules et Sélectionner la Suivante"
 
 #: notebook/templates/notebook.html:195
 msgid "Run this cell, insert below"
-msgstr "Exécuter la cellule et insérer après"
+msgstr "Exécuter la cellule et insérer à la suite"
 
 #: notebook/templates/notebook.html:196
 msgid "Run Cells and Insert Below"
-msgstr "Exécuter les Cellules et insérer Après"
+msgstr "Exécuter les Cellules et Insérer Après"
 
 #: notebook/templates/notebook.html:197
 msgid "Run all cells in the notebook"
@@ -370,19 +370,19 @@ msgstr "Exécuter tout"
 
 #: notebook/templates/notebook.html:199
 msgid "Run all cells above (but not including) this cell"
-msgstr "Exécuter toutes les cellules au-dessus de celle-ci (non incluse)"
+msgstr "Exécuter toutes les cellules avant celle-ci (non incluse)"
 
 #: notebook/templates/notebook.html:200
 msgid "Run All Above"
-msgstr "Exécuter au-dessus"
+msgstr "Exécuter toutes les Précédentes"
 
 #: notebook/templates/notebook.html:201
 msgid "Run this cell and all cells below it"
-msgstr "Exécuter cette cellule et celles en-dessous"
+msgstr "Exécuter cette cellule et les suivantes"
 
 #: notebook/templates/notebook.html:202
 msgid "Run All Below"
-msgstr "Exécuter en-dessous"
+msgstr "Exécuter les Suivantes"
 
 #: notebook/templates/notebook.html:205
 msgid ""
