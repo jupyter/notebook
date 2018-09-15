@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2018-08-29 18:52+0200\n"
-"PO-Revision-Date: 2018-08-30 16:25+0200\n"
+"PO-Revision-Date: 2018-09-15 17:59+0200\n"
 "Last-Translator: Jocelyn Delalande <jocelyn@delalande.fr>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -386,7 +386,7 @@ msgstr "transformer en cellule markdown"
 #: notebook/static/notebook/js/actions.js:381
 #: notebook/static/notebook/js/actions.js:382
 msgid "change cell to raw"
-msgstr "transformer en cellule brute"
+msgstr "transformer en texte brut (pour NBConvert)"
 
 #: notebook/static/notebook/js/actions.js:389
 #: notebook/static/notebook/js/actions.js:390
@@ -797,7 +797,7 @@ msgstr "Markdown"
 
 #: notebook/static/notebook/js/maintoolbar.js:78
 msgid "Raw NBConvert"
-msgstr "Brute NBConvert"
+msgstr "Texte Brut (pour NBConvert)"
 
 #: notebook/static/notebook/js/maintoolbar.js:79
 msgid "Heading"
@@ -1690,7 +1690,7 @@ msgid ""
 "be rendered in the notebook. When passing through nbconvert, a Raw Cell's "
 "content is added to the output unmodified."
 msgstr ""
-"Écrivez ici du code Latex brut ou d'autres format, pour usage avec "
+"Écrivez ici du code Latex brut ou d'autres formats, pour usage avec "
 "nbconvert. Il ne sera pas rendu dans le notebook. En utilisant nbconvert, le "
 "contenu d'une cellule brute est ajouté tel-quel à la sortie."
 
@@ -1876,19 +1876,19 @@ msgstr "Personnalisé"
 
 #: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:32
 msgid "Set the MIME type of the raw cell:"
-msgstr "Définir le type MIME de la cellule brute :"
+msgstr "Définir le type MIME de la cellule en texte brut :"
 
 #: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:40
 msgid "Raw Cell MIME Type"
-msgstr "Type MIME de la Cellule Brute"
+msgstr "Type MIME de la Cellule en Texte Brut"
 
 #: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:74
 msgid "Raw NBConvert Format"
-msgstr "Format Brut NBConvent"
+msgstr "Format du Texte Brut"
 
 #: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:81
 msgid "Raw Cell Format"
-msgstr "Format de la Cellule Brute"
+msgstr "Format de la Cellule Texte Brut"
 
 #: notebook/static/notebook/js/celltoolbarpresets/slideshow.js:15
 msgid "Slide"

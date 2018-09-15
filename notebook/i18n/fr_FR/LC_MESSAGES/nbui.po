@@ -419,7 +419,7 @@ msgstr "Le contenu passera par nbconvert qui ne l'altèrera pas"
 
 #: notebook/templates/notebook.html:216
 msgid "Raw NBConvert"
-msgstr "Brute NBConvert"
+msgstr "Texte Brut (pour NBConvert)"
 
 #: notebook/templates/notebook.html:220
 msgid "Current Outputs"
