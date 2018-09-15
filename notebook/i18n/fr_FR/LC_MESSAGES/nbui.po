@@ -674,7 +674,7 @@ msgid "Select All Folders"
 msgstr "Sélectionner Tous les Répertoires"
 
 #: notebook/templates/tree.html:98
-msgid " Folders"
+msgid  "Folders"
 msgstr "Répertoires"
 
 #: notebook/templates/tree.html:99
@@ -682,23 +682,23 @@ msgid "Select All Notebooks"
 msgstr "Sélectionner tous les Notebooks"
 
 #: notebook/templates/tree.html:99
-msgid " All Notebooks"
-msgstr "Tous les notebooks"
+msgid "All Notebooks"
+msgstr "Tous les Notebooks"
 
 #: notebook/templates/tree.html:100
 msgid "Select Running Notebooks"
 msgstr "Sélectionner les Notebooks en cours d'exécution"
 
 #: notebook/templates/tree.html:100
-msgid " Running"
-msgstr "Actif"
+msgid "Running"
+msgstr "Actifs"
 
 #: notebook/templates/tree.html:101
 msgid "Select All Files"
 msgstr "Sélectionner "
 
 #: notebook/templates/tree.html:101
-msgid " Files"
+msgid "Files"
 msgstr "Fichiers"
 
 #: notebook/templates/tree.html:114

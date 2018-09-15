@@ -663,7 +663,7 @@ msgid "Select All Folders"
 msgstr ""
 
 #: notebook/templates/tree.html:98
-msgid " Folders"
+msgid "Folders"
 msgstr ""
 
 #: notebook/templates/tree.html:99
@@ -671,7 +671,7 @@ msgid "Select All Notebooks"
 msgstr ""
 
 #: notebook/templates/tree.html:99
-msgid " All Notebooks"
+msgid "All Notebooks"
 msgstr ""
 
 #: notebook/templates/tree.html:100
@@ -679,7 +679,7 @@ msgid "Select Running Notebooks"
 msgstr ""
 
 #: notebook/templates/tree.html:100
-msgid " Running"
+msgid "Running"
 msgstr ""
 
 #: notebook/templates/tree.html:101
@@ -687,7 +687,7 @@ msgid "Select All Files"
 msgstr ""
 
 #: notebook/templates/tree.html:101
-msgid " Files"
+msgid "Files"
 msgstr ""
 
 #: notebook/templates/tree.html:114
