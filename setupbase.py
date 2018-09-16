@@ -352,7 +352,7 @@ class CompileBackendTranslation(Command):
     def run(self):
         paths = glob('notebook/i18n/??_??')
         for p in paths:
-            LANG = p.split('/')[-1]
+            LANG = p[-5:]
             for component in ['notebook', 'nbui']:
                 run(['pybabel', 'compile',
                      '-D', component,
@@ -551,7 +551,7 @@ class CompileJS(Command):
         run(['node', 'tools/build-main.js', name])
 
     def build_jstranslation(self, trd):
-        lang = trd.split('/')[2]
+        lang = trd[-5:]
         run(['po2json', '-p', '-F',
              '-f', 'jed1.x',
              '-d', 'nbjs',
