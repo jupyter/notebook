@@ -539,11 +539,11 @@ class CompileJS(Command):
                 print(source, target)
                 return True
         return False
-        
+
     def build_main(self, name):
         """Build main.min.js"""
         target = pjoin(static, name, 'js', 'main.min.js')
-        
+
         if not self.should_run(name, target):
             log.info("%s up to date" % target)
             return
@@ -552,12 +552,14 @@ class CompileJS(Command):
 
     def build_jstranslation(self, trd):
         lang = trd[-5:]
-        run(['po2json', '-p', '-F',
-             '-f', 'jed1.x',
-             '-d', 'nbjs',
-             pjoin('notebook', 'i18n', lang ,'LC_MESSAGES', 'nbjs.po'),
-             pjoin('notebook', 'i18n', lang, 'LC_MESSAGES', 'nbjs.json')
-            ])
+        run([
+            pjoin('node_modules', '.bin', 'po2json'),
+            '-p', '-F',
+            '-f', 'jed1.x',
+            '-d', 'nbjs',
+            pjoin('notebook', 'i18n', lang, 'LC_MESSAGES', 'nbjs.po'),
+            pjoin('notebook', 'i18n', lang, 'LC_MESSAGES', 'nbjs.json'),
+        ])
 
     def run(self):
         self.run_command('jsdeps')
