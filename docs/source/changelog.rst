@@ -38,6 +38,7 @@ New features:
 - Allow configuring max_body_size and max_buffer_size (:ghpull:`3829`)
 - Allow configuring get_secure_cookie keyword-args (:ghpull:`3778`)
 - Respect nbconvert entrypoints as sources for exporters (:ghpull:`3879`)
+- Include translation sources in source distributions (:ghpull:`3925`, :ghpull:`3931`)
 - Various improvements to documentation (:ghpull:`3799`, :ghpull:`3800`,
   :ghpull:`3806`, :ghpull:`3883`, :ghpull:`3908`)
 
