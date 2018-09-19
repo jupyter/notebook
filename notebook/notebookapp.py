@@ -184,11 +184,8 @@ class NotebookWebApplication(web.Application):
 
         # If the user is running the notebook in a git directory, make the assumption
         # that this is a dev install and suggest to the developer `npm run build:watch`.
-        base_dir = os.path.realpath(os.path.join(__file__, '..', '..'))
+        base_dir = os.path.realpath(os.path.join(notebook.__file__, os.pardir, os.pardir))
         dev_mode = os.path.exists(os.path.join(base_dir, '.git'))
-
-        nbui = gettext.translation('nbui', localedir=os.path.join(base_dir, 'notebook/i18n'), fallback=True)
-        env.install_gettext_translations(nbui, newstyle=False)
 
         if dev_mode:
             DEV_NOTE_NPM = """It looks like you're running the notebook from source.
