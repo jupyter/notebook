@@ -12,7 +12,7 @@ However…
 
 1. `jupyter notebook` command reads the `LANG` environment variable at startup,
 (`xx_XX` or just `xx` form, where `xx` is the language code you're wanting to
-run in).
+run in). This is used to set the
 
 Hint: if running Windows, you can set it in PowerShell with `${Env:LANG} = "xx_XX"`.
       if running Ubuntu 14, you should set environment variable `LANGUAGE="xx_XX"`.
@@ -108,15 +108,10 @@ to handle these cases properly.
 ### Known issues and future evolutions
 
 1. Right now there are two different places where the desired language is set.  At startup time, the Jupyter console's messages pay attention to the setting of the `${LANG}` environment variable
-as set in the shell at startup time.  Unfortunately, this is also the time where the Jinja2
-environment is set up, which means that the template stuff will always come from this setting.
-We really want to be paying attention to the browser's settings for the stuff that happens in the
-browser, so we need to be able to retrieve this information after the browser is started and somehow
-communicate this back to Jinja2.  So far, I haven't yet figured out how to do this, which means that if the ${LANG} at startup doesn't match the browser's settings, you could potentially get a mix
-of languages in the UI ( never a good thing ).
-
+as set in the shell at startup time. Messages in the frontend are handled in two places: in jinja2 templates and via i18n in javascript.
+Both of these should respect the `Accept-Language` header from the browser.
 2. We will need to decide if console messages should be translatable, and enable them if desired.
-3. The keyboard shorcut editor was implemented after the i18n work was completed, so that portion
+3. The keyboard shortcut editor was implemented after the i18n work was completed, so that portion
 does not have translation support at this time.
 4. Babel's documentation has instructions on how to integrate messages extraction
 into your *setup.py* so that eventually we can just do:
