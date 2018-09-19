@@ -32,7 +32,7 @@ New features:
 - Update jquery-ui to 1.12 (:ghpull:`3836`)
 - Check Host header to more securely protect localhost deployments from DNS rebinding.
   This is a pre-emptive measure, not fixing a known vulnerability (:ghpull:`3766`).
-  Use `.NotebookApp.allow_remote_access` and `.NotebookApp.local_hostnames` to configure
+  Use ``.NotebookApp.allow_remote_access`` and ``.NotebookApp.local_hostnames`` to configure
   access.
 - Allow access-control-allow-headers to be overridden (:ghpull:`3886`)
 - Allow configuring max_body_size and max_buffer_size (:ghpull:`3829`)
@@ -46,7 +46,7 @@ Fixing problems:
 
 - Fix breadcrumb link when running with a base url (:ghpull:`3905`)
 - Fix possible type error when closing activity stream (:ghpull:`3907`)
-- Disable metadata editing for non-editable celsl (:ghpull:`3744`)
+- Disable metadata editing for non-editable cells (:ghpull:`3744`)
 - Fix some styling and alignment of prompts caused by regressions in 5.6.0.
 - Enter causing page reload in shortcuts editor (:ghpull:`3871`)
 - Fix uploading to the same file twice (:ghpull:`3712`)
