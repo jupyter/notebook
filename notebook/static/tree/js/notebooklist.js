@@ -191,7 +191,8 @@ define([
                 e.preventDefault();
             });
             $('#new-folder').click(function(e) {
-                that.contents.new_untitled(that.notebook_path || '', {type: 'directory'})
+                var foldername = prompt("New folder:");
+                that.contents.new_untitled(that.notebook_path || '', {type: 'directory', name: foldername})
                 .then(function(){
                     that.load_list();
                 }).catch(function (e) {

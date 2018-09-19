@@ -355,7 +355,7 @@ class ContentsManager(LoggingConfigurable):
             )
         return model
     
-    def new_untitled(self, path='', type='', ext=''):
+    def new_untitled(self, path='', type='', ext='', new_name=''):
         """Create a new untitled file or directory in path
         
         path must be a directory
@@ -364,6 +364,7 @@ class ContentsManager(LoggingConfigurable):
         
         Use `new` to create files with a fully specified path (including filename).
         """
+
         path = path.strip('/')
         if not self.dir_exists(path):
             raise HTTPError(404, 'No such directory: %s' % path)
@@ -389,7 +390,11 @@ class ContentsManager(LoggingConfigurable):
         else:
             raise HTTPError(400, "Unexpected model type: %r" % model['type'])
         
-        name = self.increment_filename(untitled + ext, path, insert=insert)
+        if new_name == '':
+            name = self.increment_filename(untitled + ext, path, insert=insert)
+        else:
+            name = new_name
+
         path = u'{0}/{1}'.format(path, name)
         return self.new(model, path)
     

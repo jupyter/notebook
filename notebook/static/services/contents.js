@@ -115,7 +115,8 @@ define(function(requirejs) {
     Contents.prototype.new_untitled = function(path, options) {
         var data = JSON.stringify({
           ext: options.ext,
-          type: options.type
+          type: options.type,
+          name: options.name
         });
 
         var settings = {
