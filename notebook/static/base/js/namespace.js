@@ -75,6 +75,7 @@ define(function(){
 
     Jupyter.version = "6.0.0.dev0";
     Jupyter._target = '_blank';
+
     return Jupyter;
 });
 
