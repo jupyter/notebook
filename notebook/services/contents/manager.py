@@ -354,8 +354,8 @@ class ContentsManager(LoggingConfigurable):
                 e.message, json.dumps(e.instance, indent=1, default=lambda obj: '<UNKNOWN>'),
             )
         return model
-    
-    def new_untitled(self, path='', type='', ext=''):
+
+    def new_untitled(self, path='', type='', ext='', title=''):
         """Create a new untitled file or directory in path
         
         path must be a directory
@@ -389,7 +389,8 @@ class ContentsManager(LoggingConfigurable):
         else:
             raise HTTPError(400, "Unexpected model type: %r" % model['type'])
         
-        name = self.increment_filename(untitled + ext, path, insert=insert)
+        name = title if title else self.increment_filename(untitled + ext, path, insert=insert)
+        
         path = u'{0}/{1}'.format(path, name)
         return self.new(model, path)
     
