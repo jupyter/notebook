@@ -295,6 +295,15 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             # already closed, ignore the message
             self.log.debug("Received message on closed websocket %r", msg)
             return
+        # ugly way to count the # of sessions for a kernel
+        # NOTE: this is only for optimization, so a kernel can avoid sending back
+        # messages when only one session exists
+        session_count = 0
+        for key, session in self._open_sessions.items():
+            kernel_id = key.split(':')[0]
+            our_kernel_id = self.session_key.split(':')[0]
+            if kernel_id == our_kernel_id:
+                session_count += 1
         if isinstance(msg, bytes):
             msg = deserialize_binary_message(msg)
         else:
@@ -323,6 +332,14 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             self.write_message(json.dumps(msg, default=date_default))
         channel = getattr(stream, 'channel', None)
         msg_type = msg['header']['msg_type']
+        if msg_type.startswith('reflect:'):
+            # we got our own message back, don't send this to the client
+            if parent['session'] == str(self.session.session):
+                return
+            msg_type = msg_type.split(':', 1)[1]
+            # TODO: why do we need to update both, is this ok?
+            msg['header']['msg_type'] = msg_type
+            msg['msg_type'] = msg_type
 
         if channel == 'iopub' and msg_type == 'status' and msg['content'].get('execution_state') == 'idle':
             # reset rate limit counter on status=idle,
