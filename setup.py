@@ -18,10 +18,29 @@ import sys
 
 name = "notebook"
 
-# Minimal Python version sanity check
-v = sys.version_info
-if v[:2] < (2,7) or (v[0] >= 3 and v[:2] < (3,3)):
-    error = "ERROR: %s requires Python version 2.7 or 3.3 or above." % name
+if sys.version_info < (3, 4):
+    pip_message = 'This may be due to an out of date pip. Make sure you have pip >= 9.0.1.'
+    try:
+        import pip
+        pip_version = tuple([int(x) for x in pip.__version__.split('.')[:3]])
+        if pip_version < (9, 0, 1) :
+            pip_message = 'Your pip version is out of date, please install pip >= 9.0.1. '\
+            'pip {} detected.'.format(pip.__version__)
+        else:
+            # pip is new enough - it must be something else
+            pip_message = ''
+    except Exception:
+        pass
+
+
+    error = """
+Notebook 6.0+ supports Python 3.4 and above.
+When using Python 2.7, please install Notebook 5.x.
+
+Python {py} detected.
+{pip}
+""".format(py=sys.version_info, pip=pip_message )
+
     print(error, file=sys.stderr)
     sys.exit(1)
 
@@ -101,6 +120,7 @@ for more information.
                  'nbval', 'nose-exclude', 'selenium'],
         'test:sys_platform == "win32"': ['nose-exclude'],
     },
+    python_requires = '>=3.4', 
     entry_points = {
         'console_scripts': [
             'jupyter-notebook = notebook.notebookapp:main',
