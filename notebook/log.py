@@ -7,7 +7,8 @@
 
 import json
 from tornado.log import access_log
-from .metrics import prometheus_log_method
+from .prometheus.log_functions import prometheus_log_method
+
 
 def log_request(handler):
     """log a bit more information about each request than tornado's default
