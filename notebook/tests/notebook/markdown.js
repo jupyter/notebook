@@ -104,7 +104,9 @@ casper.notebook_test(function () {
     md_render_test(codeblock, result, 'Markdown code block unknown language');
 
     codeblock = '```python\ns = "$"\nt = "$"\n```'
-    result = '<pre><code class="cm-s-ipython language-python"><span class="cm-variable">s</span> <span class="cm-operator">=</span> <span class="cm-string">"$"</span>\n<span class="cm-variable">t</span> <span class="cm-operator">=</span> <span class="cm-string">"$"</span></code></pre>\n';
+    result = '<pre><code class="cm-s-ipython language-python">' + 
+             '<span class="cm-variable">s</span> <span class="cm-operator">=</span> <span class="cm-string">"$"</span>\n' +
+             '<span class="cm-variable">t</span> <span class="cm-operator">=</span> <span class="cm-string">"$"</span></code></pre>\n';
     md_render_test(codeblock, result, 'Markdown code block python');
 
     function mathjax_render_test(input_string, result, message){
