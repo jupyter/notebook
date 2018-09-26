@@ -67,9 +67,21 @@ script:
       else
           true
       fi
-    - 'if [[ $GROUP == js* ]]; then travis_retry python -m notebook.jstest ${GROUP:3}; fi'
-    - 'if [[ $GROUP == python ]]; then nosetests -v --exclude-dir notebook/tests/selenium --with-coverage --cover-package=notebook notebook; fi'
-    - 'if [[ $GROUP == selenium ]]; then py.test -sv notebook/tests/selenium; fi'
+    - |
+      # javascript tests
+      if [[ $GROUP == js* ]]; then
+        travis_retry python -m notebook.jstest ${GROUP:3}
+      fi
+    - |
+      # python tests
+      if [[ $GROUP == python ]]; then
+        pytest -v --ignore notebook/tests/selenium --cov notebook notebook
+      fi
+    - |
+      # selenium tests
+      if [[ $GROUP == selenium ]]; then
+        pytest -sv notebook/tests/selenium
+      fi
     - |
       if [[ $GROUP == docs ]]; then
         EXIT_STATUS=0
