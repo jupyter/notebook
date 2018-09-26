@@ -1,7 +1,7 @@
 import json
 from tornado import web, gen
 from ..base.handlers import APIHandler
-from notebook.prometheus.metrics import TERMINAL_CURRENTLY_RUNNING_TOTAL
+from ..prometheus.metrics import TERMINAL_CURRENTLY_RUNNING_TOTAL
 
 
 class TerminalRootHandler(APIHandler):

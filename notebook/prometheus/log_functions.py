@@ -1,4 +1,4 @@
-from notebook.prometheus.metrics import HTTP_REQUEST_DURATION_SECONDS
+from ..prometheus.metrics import HTTP_REQUEST_DURATION_SECONDS
 
 
 def prometheus_log_method(handler):
