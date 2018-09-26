@@ -117,7 +117,7 @@ for more information.
         ':python_version == "2.7"': ['ipaddress'],
         'test:python_version == "2.7"': ['mock'],
         'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters',
-                 'nbval', 'nose-exclude', 'selenium'],
+                 'nbval', 'nose-exclude', 'selenium', 'pytest', 'pytest-cov'],
         'test:sys_platform == "win32"': ['nose-exclude'],
     },
     python_requires = '>=3.4', 
