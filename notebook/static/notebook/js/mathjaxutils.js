@@ -113,9 +113,12 @@ define([
         var hasCodeSpans = /`/.test(text),
             de_tilde;
         if (hasCodeSpans) {
-            text = text.replace(/~/g, "~T").replace(/(^|[^\\])(`+)([^\n]*?[^`\n])\2(?!`)/gm, function (wholematch) {
+            var tilde = function (wholematch) {
                 return wholematch.replace(/\$/g, "~D");
-            });
+            }
+            text = text.replace(/~/g, "~T")
+                       .replace(/(^|[^\\])(`+)([^\n]*?[^`\n])\2(?!`)/gm, tilde)
+                       .replace(/^\s{0,3}(`{3,})(.|\n)*?\1/gm, tilde);
             de_tilde = function (text) {
                 return text.replace(/~([TD])/g, function (wholematch, character) {
                                                     return { T: "~", D: "$" }[character];
