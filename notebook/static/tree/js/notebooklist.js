@@ -10,8 +10,9 @@ define([
     'base/js/events',
     'base/js/keyboard',
     'moment',
-    'bidi/bidi'
-], function($, IPython, utils, i18n, dialog, events, keyboard, moment, bidi) {
+    'bidi/bidi',
+    'components/marked/lib/marked'
+], function($, IPython, utils, i18n, dialog, events, keyboard, moment, bidi, marked) {
     "use strict";
 
     var extension = function(path){
@@ -509,6 +510,7 @@ define([
                 console.log('Error adding link: ' + err);
             }
         }
+        this.add_header_footer(list)
         // Trigger an event when we've finished drawing the notebook list.
         events.trigger('draw_notebook_list.NotebookList');
 
@@ -526,6 +528,37 @@ define([
         });
         this._selection_changed();
     };
+
+
+    /**
+     * Adds header and/or footer
+     * @param  {Array} list - list of folder contents
+     */
+    NotebookList.prototype.add_header_footer = function (list) {
+      var that = this;
+      function create_markdown_row(index, list_item) {
+	var item = that.new_item(index);
+	var span12 = item.children().first();
+	span12.empty();
+	that.contents.get(list_item.path, {"content": true}).then(
+          function (data) {
+	    // input_area.getDoc().setValue(data.content);
+	    // span12.append($('<div style="margin:auto;text-align:center;color:grey"/>').text(data.content));
+	    span12.append($('<div style="margin:auto;text-align:center;color:grey"/>').innerHTML = marked(data.content));
+	  },
+          function(error) {
+            span12.append(i18n.msg._("Server error: ") + error.message);
+	  });
+      };
+      var f = list.content.find(function (el) {return el.name == "header.md"})
+      if (f !== undefined) {
+	create_markdown_row(0, f)
+      }
+      var f = list.content.find(function (el) {return el.name == "footer.md"})
+      if (f !== undefined) {
+	create_markdown_row(-1, f)
+      }
+    }
 
 
     /**
