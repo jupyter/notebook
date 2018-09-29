@@ -19,3 +19,9 @@ TERMINAL_CURRENTLY_RUNNING_TOTAL = Gauge(
     'terminal_currently_running_total',
     'counter for how many terminals are running',
 )
+
+KERNEL_CURRENTLY_RUNNING_TOTAL = Gauge(
+    'kernel_currently_running_total',
+    'counter for how many kernels are running labeled by type',
+    ['type']
+)
