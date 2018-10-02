@@ -17,7 +17,10 @@ install:
   - cmd: conda config --set show_channel_urls true
   - cmd: conda config --add channels conda-forge
   #- cmd: conda update --yes --quiet conda
-  - cmd: conda install -y pyzmq tornado jupyter_client nbformat nbconvert ipykernel pip nodejs nose
+  - cmd: conda install -y pyzmq tornado jupyter_client nbformat ipykernel pip nodejs nose
+  # not using `conda install -y` on nbconvent package because there is
+  # currently a bug with the version that the anaconda installs, so we will just install it with pip
+  - cmd: pip install nbconvert
   - cmd: python setup.py build
   - cmd: pip install .[test]
 
