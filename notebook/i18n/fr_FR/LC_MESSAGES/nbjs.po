@@ -83,7 +83,7 @@ msgstr "Appliquer"
 
 #: notebook/static/base/js/dialog.js:225
 msgid "WARNING: Could not save invalid JSON."
-msgstr "ATTENTION: Imposible de sauvegarder du JSON invalide."
+msgstr "ATTENTION: Impossible de sauvegarder du JSON invalide."
 
 #: notebook/static/base/js/dialog.js:247
 msgid "There are no attachments for this cell."
@@ -1528,7 +1528,7 @@ msgid ""
 "indicated by a grey cell border with a blue left margin."
 msgstr ""
 "<b>Mode Commande</b> déclenche au clavier des actions au niveau du notebook "
-"et se reconnaît à la bordure grise de la cellule, avec une margebleue sur "
+"et se reconnaît à la bordure grise de la cellule, avec une marge bleue sur "
 "la droite."
 
 #: notebook/static/notebook/js/quickhelp.js:222
