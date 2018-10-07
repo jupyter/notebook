@@ -25,3 +25,9 @@ KERNEL_CURRENTLY_RUNNING_TOTAL = Gauge(
     'counter for how many kernels are running labeled by type',
     ['type']
 )
+
+KERNEL_RAM_USAGE_MB = Gauge(
+    'kernel_ram_usage_mb',
+    'shows how much RAM in MB per kernel',
+    ['kernel_id', 'type']
+)

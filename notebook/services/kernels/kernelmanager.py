@@ -11,10 +11,12 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 from functools import partial
 import os
+import psutil
 
 from tornado import gen, web
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop, PeriodicCallback
+from tornado.stack_context import run_with_stack_context, NullContext
 
 from jupyter_client.session import Session
 from jupyter_client.multikernelmanager import MultiKernelManager
@@ -27,6 +29,7 @@ from notebook._tz import utcnow, isoformat
 from ipython_genutils.py3compat import getcwd
 
 from notebook.prometheus.metrics import KERNEL_CURRENTLY_RUNNING_TOTAL
+from notebook.prometheus.metrics import KERNEL_RAM_USAGE_MB
 
 
 class MappingKernelManager(MultiKernelManager):
@@ -118,6 +121,7 @@ class MappingKernelManager(MultiKernelManager):
 
     def __init__(self, **kwargs):
         super(MappingKernelManager, self).__init__(**kwargs)
+        self.kernel_ram_monitoring()
         self.last_kernel_activity = utcnow()
 
     #-------------------------------------------------------------------------
@@ -463,3 +467,38 @@ class MappingKernelManager(MultiKernelManager):
                 self.log.warning("Culling '%s' kernel '%s' (%s) with %d connections due to %s seconds of inactivity.",
                                  kernel.execution_state, kernel.kernel_name, kernel_id, connections, idle_duration)
                 self.shutdown_kernel(kernel_id)
+
+    @gen.coroutine
+    def kernel_ram_monitoring(self):
+        # Arbitrary time for waiting till next metric collection
+        yield gen.sleep(0.2)
+
+        # Update the relevant kernel's ram usage metric
+        def update_ram_metric():
+            pid = kernel.kernel.pid
+            kernel_process = psutil.Process(pid)
+
+            # The call for the prometheus metric update
+            # according to the kernel_id and kernel_name
+            KERNEL_RAM_USAGE_MB.labels(
+                kernel_id=kernel_id,
+                type=kernel.kernel_name
+            ).set(
+                kernel_process.memory_info()[0] / (10**6)  # usage in MB
+            )
+
+        def run_as_background():
+            loop = IOLoop.current()
+            loop.add_future(
+                run_with_stack_context(
+                    NullContext(),
+                    self.kernel_ram_monitoring
+                ),
+                lambda f: None
+            )
+
+        # Collect data from all active kernels
+        for kernel_id, kernel in self._kernels.items():
+            update_ram_metric()
+
+        run_as_background()
