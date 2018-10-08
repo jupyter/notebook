@@ -111,7 +111,8 @@ for more information.
         'ipykernel', # bless IPython kernel for now
         'Send2Trash',
         'terminado>=0.8.1',
-        'prometheus_client'
+        'prometheus_client',
+        'psutil'
     ],
     extras_require = {
         ':python_version == "2.7"': ['ipaddress'],
