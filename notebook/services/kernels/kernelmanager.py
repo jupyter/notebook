@@ -405,9 +405,11 @@ class MappingKernelManager(MultiKernelManager):
             msg = session.deserialize(fed_msg_list)
 
             msg_type = msg['header']['msg_type']
-            self.log.debug("activity on %s: %s", kernel_id, msg_type)
             if msg_type == 'status':
                 kernel.execution_state = msg['content']['execution_state']
+                self.log.debug("activity on %s: %s (%s)", kernel_id, msg_type, kernel.execution_state)
+            else:
+                self.log.debug("activity on %s: %s", kernel_id, msg_type)
 
         kernel._activity_stream.on_recv(record_activity)
 
