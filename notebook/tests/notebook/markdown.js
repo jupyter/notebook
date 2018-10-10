@@ -103,6 +103,12 @@ casper.notebook_test(function () {
     result = '<pre><code class="cm-s-ipython language-aaaa">x = 1</code></pre>'
     md_render_test(codeblock, result, 'Markdown code block unknown language');
 
+    codeblock = '```python\ns = "$"\nt = "$"\n```'
+    result = '<pre><code class="cm-s-ipython language-python">' + 
+             '<span class="cm-variable">s</span> <span class="cm-operator">=</span> <span class="cm-string">"$"</span>\n' +
+             '<span class="cm-variable">t</span> <span class="cm-operator">=</span> <span class="cm-string">"$"</span></code></pre>';
+    md_render_test(codeblock, result, 'Markdown code block python');
+
     function mathjax_render_test(input_string, result, message){
       casper.thenEvaluate(function (text){
         window._test_result = null;
