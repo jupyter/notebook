@@ -191,27 +191,63 @@ define([
                 e.preventDefault();
             });
             $('#new-folder').click(function(e) {
-                var new_title = prompt("New directory:")
+                var input = $('<input/>').attr('type','text').attr('size','25').addClass('form-control');
+                var rename_msg = i18n.msg._("Enter a new directory name:");
+                var rename_title = i18n.msg._("New directory");
+                var dialog_body = $('<div/>').append(
+                    $("<p/>").addClass("rename-message")
+                        .text(rename_msg)
+                ).append(
+                    $("<br/>")
+                ).append(input);
+        
+                // This statement is used simply so that message extraction
+                // will pick up the strings.  The actual setting of the text
+                // for the button is in dialog.js.
+                var button_labels = [ i18n.msg._("Cancel"), i18n.msg._("Rename"), i18n.msg._("Create"), i18n.msg._("OK"), i18n.msg._("Move")];
 
-                that.contents.new_untitled(that.notebook_path || '', {type: 'directory', title: new_title})
-                .then(function(){
-                    that.load_list();
-                }).catch(function (e) {
-                    dialog.modal({
-                        title: i18n.msg._('Creating Folder Failed'),
-                        body: $('<div/>')
-                            .text(i18n.msg._("An error occurred while creating a new folder."))
-                            .append($('<div/>')
-                                .addClass('alert alert-danger')
-                                .text(e.message || e)),
-                        buttons: {
-                            OK: {'class': 'btn-primary'}
+                var d = dialog.modal({
+                    title : rename_title,
+                    body : dialog_body,
+                    default_button: "Cancel",
+                    buttons : {
+                        Cancel: {},
+                        Create : {
+                            class: "btn-primary",
+                            click: function() {
+                                that.contents.new_untitled(that.notebook_path || '', {type: 'directory', title: input.val()})
+                                .then(function(){
+                                    that.load_list();
+                                }).catch(function (e) {
+                                    dialog.modal({
+                                        title: i18n.msg._('Creating Folder Failed'),
+                                        body: $('<div/>')
+                                            .text(i18n.msg._("An error occurred while creating a new folder."))
+                                            .append($('<div/>')
+                                                .addClass('alert alert-danger')
+                                                .text(e.message || e)),
+                                        buttons: {
+                                            OK: {'class': 'btn-primary'}
+                                        }
+                                    });
+                                    console.warn('Error during New directory creation', e);
+                                });
+                                that.load_sessions();
+                                e.preventDefault();
+                            }
                         }
-                    });
-                    console.warn('Error during New directory creation', e);
+                    },
+                    open : function () {
+                        // Upon ENTER, click the OK button.
+                        input.keydown(function (event) {
+                            if (event.which === keyboard.keycodes.enter) {
+                                d.find('.btn-primary').first().click();
+                                return false;
+                            }
+                        });
+                        input.focus();
+                    }
                 });
-                that.load_sessions();
-                e.preventDefault();
             });
 
             // Bind events for action buttons.
