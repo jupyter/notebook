@@ -167,7 +167,7 @@ define([
             NotebookList._bound_singletons = true;
             $('#new-file').click(function(e) {
                 var w = window.open('', IPython._target);
-                that.contents.new_untitled(that.notebook_path || '', {type: 'file', ext: '.txt'}).then(function(data) {
+                that.contents.new_entity(that.notebook_path || '', {type: 'file', ext: '.txt'}).then(function(data) {
                     w.location = utils.url_path_join(
                         that.base_url, 'edit',
                         utils.encode_uri_components(data.path)
@@ -192,11 +192,11 @@ define([
             });
             $('#new-folder').click(function(e) {
                 var input = $('<input/>').attr('type','text').attr('size','25').addClass('form-control');
-                var rename_msg = i18n.msg._("Enter a new directory name:");
-                var rename_title = i18n.msg._("New directory");
+                var new_dir_msg = i18n.msg._("Enter a new directory name:");
+                var new_dir_title = i18n.msg._("New directory");
                 var dialog_body = $('<div/>').append(
                     $("<p/>").addClass("rename-message")
-                        .text(rename_msg)
+                        .text(new_dir_msg)
                 ).append(
                     $("<br/>")
                 ).append(input);
@@ -207,7 +207,7 @@ define([
                 var button_labels = [ i18n.msg._("Cancel"), i18n.msg._("Rename"), i18n.msg._("Create"), i18n.msg._("OK"), i18n.msg._("Move")];
 
                 var d = dialog.modal({
-                    title : rename_title,
+                    title : new_dir_title,
                     body : dialog_body,
                     default_button: "Cancel",
                     buttons : {
@@ -215,7 +215,7 @@ define([
                         Create : {
                             class: "btn-primary",
                             click: function() {
-                                that.contents.new_untitled(that.notebook_path || '', {type: 'directory', title: input.val()})
+                                that.contents.new_entity(that.notebook_path || '', {type: 'directory', title: input.val()})
                                 .then(function(){
                                     that.load_list();
                                 }).catch(function (e) {

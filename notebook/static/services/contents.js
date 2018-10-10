@@ -112,7 +112,7 @@ define(function(requirejs) {
      *      ext: file extension to use
      *      type: model type to create ('notebook', 'file', or 'directory')
      */
-    Contents.prototype.new_untitled = function(path, options) {
+    Contents.prototype.new_entity = function(path, options) {
         var data = JSON.stringify({
           ext: options.ext,
           type: options.type,

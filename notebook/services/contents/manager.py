@@ -355,7 +355,7 @@ class ContentsManager(LoggingConfigurable):
             )
         return model
 
-    def new_untitled(self, path='', type='', ext='', title=''):
+    def new_entity(self, path='', type='', ext='', title=''):
         """Create a new untitled file or directory in path
         
         path must be a directory

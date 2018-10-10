@@ -148,10 +148,10 @@ class ContentsHandler(APIHandler):
         self._finish_model(model)
     
     @gen.coroutine
-    def _new_untitled(self, path, type='', ext='', title=''):
-        """Create a new, empty untitled entity"""
+    def _new_entity(self, path, type='', ext='', title=''):
+        """Create a new, empty entity"""
         self.log.info(u"Creating new %s in %s", type or 'file', path)
-        model = yield gen.maybe_future(self.contents_manager.new_untitled(path=path, type=type, ext=ext, title=title))
+        model = yield gen.maybe_future(self.contents_manager.new_entity(path=path, type=type, ext=ext, title=title))
         self.set_status(201)
         validate_model(model, expect_content=False)
         self._finish_model(model)
@@ -198,9 +198,9 @@ class ContentsHandler(APIHandler):
             if copy_from:
                 yield self._copy(copy_from, path)
             else:
-                yield self._new_untitled(path, type=type, ext=ext, title=title)
+                yield self._new_entity(path, type=type, ext=ext, title=title)
         else:
-            yield self._new_untitled(path)
+            yield self._new_entity(path)
 
     @web.authenticated
     @gen.coroutine
@@ -225,7 +225,7 @@ class ContentsHandler(APIHandler):
             else:
                 yield gen.maybe_future(self._upload(model, path))
         else:
-            yield gen.maybe_future(self._new_untitled(path))
+            yield gen.maybe_future(self._new_entity(path))
 
     @web.authenticated
     @gen.coroutine
