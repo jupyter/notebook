@@ -356,7 +356,7 @@ class ContentsManager(LoggingConfigurable):
         return model
 
     def new_entity(self, path='', type='', ext='', title=''):
-        """Create a new untitled file or directory in path
+        """Create a new file or directory in path
         
         path must be a directory
         
@@ -377,19 +377,20 @@ class ContentsManager(LoggingConfigurable):
         else:
             model.setdefault('type', 'file')
         
-        insert = ''
-        if model['type'] == 'directory':
-            untitled = self.untitled_directory
-            insert = ' '
-        elif model['type'] == 'notebook':
-            untitled = self.untitled_notebook
-            ext = '.ipynb'
-        elif model['type'] == 'file':
-            untitled = self.untitled_file
-        else:
-            raise HTTPError(400, "Unexpected model type: %r" % model['type'])
-        
-        name = title if title else self.increment_filename(untitled + ext, path, insert=insert)
+        insert = ' '
+        if not title:
+            if model['type'] == 'directory':
+                title = self.untitled_directory
+                insert = ' '
+            elif model['type'] == 'notebook':
+                title = self.untitled_notebook
+                ext = '.ipynb'
+            elif model['type'] == 'file':
+                title = self.untitled_file
+            else:
+                raise HTTPError(400, "Unexpected model type: %r" % model['type'])
+
+        name = self.increment_filename(title + ext, path, insert=insert)
         
         path = u'{0}/{1}'.format(path, name)
         return self.new(model, path)
