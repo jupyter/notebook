@@ -191,7 +191,7 @@ define([
                 e.preventDefault();
             });
             $('#new-folder').click(function(e) {
-                var input = $('<input/>').attr('type','text').attr('size','25').addClass('form-control');
+                var input = $('<input/>').attr('type','text').attr('size','25').attr('placeholder', 'Untitled Folder').addClass('form-control');
                 var new_dir_msg = i18n.msg._("Enter a new directory name:");
                 var new_dir_title = i18n.msg._("New directory");
                 var dialog_body = $('<div/>').append(
@@ -215,7 +215,8 @@ define([
                         Create : {
                             class: "btn-primary",
                             click: function() {
-                                that.contents.new_entity(that.notebook_path || '', {type: 'directory', title: input.val()})
+                                var new_title = input.val() === "" ? "Untitled Folder" : input.val();
+                                that.contents.new_entity(that.notebook_path || '', {type: 'directory', title: new_title})
                                 .then(function(){
                                     that.load_list();
                                 }).catch(function (e) {
