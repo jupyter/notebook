@@ -34,7 +34,7 @@ class TestLargeFileManager(TestCase):
 
         cm = self.contents_manager
         # Create a notebook
-        model = cm.new_untitled(type='notebook')
+        model = cm.new_entity(type='notebook')
         name = model['name']
         path = model['path']
 
@@ -99,7 +99,7 @@ class TestLargeFileManager(TestCase):
         # Create a directory and notebook in that directory
         sub_dir = '/foo/'
         self.make_dir('foo')
-        model = cm.new_untitled(path=sub_dir, type='notebook')
+        model = cm.new_entity(path=sub_dir, type='notebook')
         name = model['name']
         path = model['path']
         model = cm.get(path)

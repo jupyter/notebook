@@ -377,7 +377,7 @@ class APITest(NotebookTestBase):
 
         # Second time
         resp = self.api.create_untitled(path=u'å b')
-        self._check_created(resp, u'å b/Untitled1.ipynb')
+        self._check_created(resp, u'å b/Untitled 1.ipynb')
 
         # And two directories down
         resp = self.api.create_untitled(path='foo/bar')

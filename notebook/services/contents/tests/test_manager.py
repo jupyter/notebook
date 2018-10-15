@@ -115,7 +115,7 @@ class TestFileContentsManager(TestCase):
             path = 'test bad symlink'
             _make_dir(cm, path)
 
-            file_model = cm.new_untitled(path=path, ext='.txt')
+            file_model = cm.new_entity(path=path, ext='.txt')
 
             # create a broken symlink
             self.symlink(cm, "target", '%s/%s' % (path, 'bad symlink'))
@@ -158,7 +158,7 @@ class TestFileContentsManager(TestCase):
 
         with TemporaryDirectory() as td:
             cm = FileContentsManager(root_dir=td)
-            model = cm.new_untitled(type='file')
+            model = cm.new_entity(type='file')
             os_path = cm._get_os_path(model['path'])
 
             os.chmod(os_path, 0o400)
@@ -256,7 +256,7 @@ class TestContentsManager(TestCase):
 
     def new_notebook(self):
         cm = self.contents_manager
-        model = cm.new_untitled(type='notebook')
+        model = cm.new_entity(type='notebook')
         name = model['name']
         path = model['path']
 
@@ -268,10 +268,10 @@ class TestContentsManager(TestCase):
         cm.save(full_model, path)
         return nb, name, path
 
-    def test_new_untitled(self):
+    def test_new_entity(self):
         cm = self.contents_manager
         # Test in root directory
-        model = cm.new_untitled(type='notebook')
+        model = cm.new_entity(type='notebook')
         assert isinstance(model, dict)
         self.assertIn('name', model)
         self.assertIn('path', model)
@@ -281,7 +281,7 @@ class TestContentsManager(TestCase):
         self.assertEqual(model['path'], 'Untitled.ipynb')
 
         # Test in sub-directory
-        model = cm.new_untitled(type='directory')
+        model = cm.new_entity(type='directory')
         assert isinstance(model, dict)
         self.assertIn('name', model)
         self.assertIn('path', model)
@@ -291,7 +291,7 @@ class TestContentsManager(TestCase):
         self.assertEqual(model['path'], 'Untitled Folder')
         sub_dir = model['path']
 
-        model = cm.new_untitled(path=sub_dir)
+        model = cm.new_entity(path=sub_dir)
         assert isinstance(model, dict)
         self.assertIn('name', model)
         self.assertIn('path', model)
@@ -301,10 +301,10 @@ class TestContentsManager(TestCase):
         self.assertEqual(model['path'], '%s/untitled' % sub_dir)
 
         # Test with a compound extension
-        model = cm.new_untitled(path=sub_dir, ext='.foo.bar')
+        model = cm.new_entity(path=sub_dir, ext='.foo.bar')
         self.assertEqual(model['name'], 'untitled.foo.bar')
-        model = cm.new_untitled(path=sub_dir, ext='.foo.bar')
-        self.assertEqual(model['name'], 'untitled1.foo.bar')
+        model = cm.new_entity(path=sub_dir, ext='.foo.bar')
+        self.assertEqual(model['name'], 'untitled 1.foo.bar')
 
     def test_modified_date(self):
 
@@ -336,7 +336,7 @@ class TestContentsManager(TestCase):
     def test_get(self):
         cm = self.contents_manager
         # Create a notebook
-        model = cm.new_untitled(type='notebook')
+        model = cm.new_entity(type='notebook')
         name = model['name']
         path = model['path']
 
@@ -360,7 +360,7 @@ class TestContentsManager(TestCase):
         # Test in sub-directory
         sub_dir = '/foo/'
         self.make_dir('foo')
-        model = cm.new_untitled(path=sub_dir, ext='.ipynb')
+        model = cm.new_entity(path=sub_dir, ext='.ipynb')
         model2 = cm.get(sub_dir + name)
         assert isinstance(model2, dict)
         self.assertIn('name', model2)
@@ -370,7 +370,7 @@ class TestContentsManager(TestCase):
         self.assertEqual(model2['path'], '{0}/{1}'.format(sub_dir.strip('/'), name))
 
         # Test with a regular file.
-        file_model_path = cm.new_untitled(path=sub_dir, ext='.txt')['path']
+        file_model_path = cm.new_entity(path=sub_dir, ext='.txt')['path']
         file_model = cm.get(file_model_path)
         self.assertDictContainsSubset(
             {
@@ -425,7 +425,7 @@ class TestContentsManager(TestCase):
     def test_update(self):
         cm = self.contents_manager
         # Create a notebook
-        model = cm.new_untitled(type='notebook')
+        model = cm.new_entity(type='notebook')
         name = model['name']
         path = model['path']
 
@@ -444,7 +444,7 @@ class TestContentsManager(TestCase):
         # Create a directory and notebook in that directory
         sub_dir = '/foo/'
         self.make_dir('foo')
-        model = cm.new_untitled(path=sub_dir, type='notebook')
+        model = cm.new_entity(path=sub_dir, type='notebook')
         path = model['path']
 
         # Change the name in the model for rename
@@ -463,7 +463,7 @@ class TestContentsManager(TestCase):
     def test_save(self):
         cm = self.contents_manager
         # Create a notebook
-        model = cm.new_untitled(type='notebook')
+        model = cm.new_entity(type='notebook')
         name = model['name']
         path = model['path']
 
@@ -482,7 +482,7 @@ class TestContentsManager(TestCase):
         # Create a directory and notebook in that directory
         sub_dir = '/foo/'
         self.make_dir('foo')
-        model = cm.new_untitled(path=sub_dir, type='notebook')
+        model = cm.new_entity(path=sub_dir, type='notebook')
         name = model['name']
         path = model['path']
         model = cm.get(path)
@@ -538,7 +538,7 @@ class TestContentsManager(TestCase):
 
         # Creating a notebook in a non_existant directory should fail
         with self.assertRaisesHTTPError(404):
-            cm.new_untitled("foo/bar_diff", ext=".ipynb")
+            cm.new_entity("foo/bar_diff", ext=".ipynb")
 
         cm.rename("foo/bar", "foo/bar_diff")
 
@@ -556,7 +556,7 @@ class TestContentsManager(TestCase):
             self.check_populated_dir_files(new_dirname)
 
         # Created a notebook in the renamed directory should work
-        cm.new_untitled("foo/bar_diff", ext=".ipynb")
+        cm.new_entity("foo/bar_diff", ext=".ipynb")
 
     def test_delete_root(self):
         cm = self.contents_manager
