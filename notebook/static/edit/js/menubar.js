@@ -51,7 +51,7 @@ define([
             var w = window.open(undefined, IPython._target);
             // Create a new file in the current directory
             var parent = utils.url_path_split(editor.file_path)[0];
-            editor.contents.new_untitled(parent, {type: "file"}).then(
+            editor.contents.new_entity(parent, {type: "file"}).then(
                 function (data) {
                     w.location = utils.url_path_join(
                         that.base_url, 'edit', utils.encode_uri_components(data.path)
