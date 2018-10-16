@@ -208,7 +208,7 @@ class MappingKernelManager(MultiKernelManager):
                 stream.close()
             return
 
-        self.log.info("Starting buffering for %s", session_key)
+        self.log.info("Starting buffering for kernel_id %s with session_key %s", kernel_id, session_key)
         self._check_kernel_id(kernel_id)
         # clear previous buffering state
         self.stop_buffering(kernel_id)
@@ -239,7 +239,7 @@ class MappingKernelManager(MultiKernelManager):
             If the session_key matches the current buffered session_key,
             the buffer will be returned.
         """
-        self.log.debug("Getting buffer for %s", kernel_id)
+        self.log.debug("Getting buffer for kernel_id %s with session_key %s", kernel_id, session_key)
         if kernel_id not in self._kernel_buffers:
             return
 
@@ -260,7 +260,7 @@ class MappingKernelManager(MultiKernelManager):
         kernel_id : str
             The id of the kernel to stop buffering.
         """
-        self.log.debug("Clearing buffer for %s", kernel_id)
+        self.log.debug("Clearing buffer for kernel_id %s", kernel_id)
         self._check_kernel_id(kernel_id)
 
         if kernel_id not in self._kernel_buffers:
@@ -274,8 +274,8 @@ class MappingKernelManager(MultiKernelManager):
 
         msg_buffer = buffer_info['buffer']
         if msg_buffer:
-            self.log.info("Discarding %s buffered messages for %s",
-                len(msg_buffer), buffer_info['session_key'])
+            self.log.info("Discarding %s buffered messages for kernel_id %s with session_key %s",
+                len(msg_buffer), kernel_id, buffer_info['session_key'])
 
     def shutdown_kernel(self, kernel_id, now=False):
         """Shutdown a kernel by kernel_id"""
