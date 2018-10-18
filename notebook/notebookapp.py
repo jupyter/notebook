@@ -213,7 +213,7 @@ class NotebookWebApplication(web.Application):
         now = utcnow()
         
         root_dir = contents_manager.root_dir
-        home = os.path.expanduser('~')
+        home = py3compat.str_to_unicode(os.path.expanduser('~'), encoding=sys.getfilesystemencoding()) 
         if root_dir.startswith(home + os.path.sep):
             # collapse $HOME to ~
             root_dir = '~' + root_dir[len(home):]
