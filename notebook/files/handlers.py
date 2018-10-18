@@ -12,7 +12,7 @@ except ImportError: #PY2
     from base64 import decodestring as decodebytes
 
 
-from tornado import web
+from tornado import gen, web
 
 from notebook.base.handlers import IPythonHandler
 
@@ -51,7 +51,7 @@ class FilesHandler(IPythonHandler):
         else:
             name = path
         
-        model = cm.get(path, type='file', content=include_body)
+        model = yield gen.maybe_future(cm.get(path, type='file', content=include_body))
         
         if self.get_argument("download", False):
             self.set_attachment_header(name)

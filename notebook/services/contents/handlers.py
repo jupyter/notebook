@@ -182,10 +182,12 @@ class ContentsHandler(APIHandler):
 
         cm = self.contents_manager
 
-        if cm.file_exists(path):
+        file_exists = yield gen.maybe_future(cm.file_exists(path))
+        if file_exists:
             raise web.HTTPError(400, "Cannot POST to files, use PUT instead.")
 
-        if not cm.dir_exists(path):
+        dir_exists = yield gen.maybe_future(cm.dir_exists(path))
+        if not dir_exists:
             raise web.HTTPError(404, "No such directory: %s" % path)
 
         model = self.get_json_body()
