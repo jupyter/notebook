@@ -77,7 +77,7 @@ define([
         /** create and open a new notebook */
         var that = this;
         kernel_name = kernel_name || this.default_kernel;
-        var w = window.open(undefined, IPython._target);
+        var w = window.open(undefined, '_self');
         var dir_path = $('body').attr('data-notebook-path');
         this.contents.new_untitled(dir_path, {type: "notebook"}).then(
             function (data) {

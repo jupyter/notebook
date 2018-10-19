@@ -166,7 +166,7 @@ define([
         if (!NotebookList._bound_singletons) {
             NotebookList._bound_singletons = true;
             $('#new-file').click(function(e) {
-                var w = window.open('', IPython._target);
+                var w = window.open('', '_self');
                 that.contents.new_untitled(that.notebook_path || '', {type: 'file', ext: '.txt'}).then(function(data) {
                     w.location = utils.url_path_join(
                         that.base_url, 'edit',
@@ -842,7 +842,7 @@ define([
         // directory nav doesn't open new tabs
         // files, notebooks do
         if (model.type !== "directory") {
-            link.attr('target', IPython._target);
+            link.attr('target', '_self');
         } else {
             // Replace with a click handler that will use the History API to
             // push a new route without reloading the page if the click is
@@ -1109,7 +1109,7 @@ define([
 
         var item_path = that.selected[0].path;
 
-        window.open(utils.url_path_join(that.base_url, 'files', utils.encode_uri_components(item_path)) + '?download=1', IPython._target);
+        window.open(utils.url_path_join(that.base_url, 'files', utils.encode_uri_components(item_path)) + '?download=1', '_self');
     };
 
     NotebookList.prototype.delete_selected = function() {
@@ -1168,7 +1168,7 @@ define([
         that.selected.forEach(function(item) {
             var item_path = utils.encode_uri_components(item.path);
             var item_type = that._is_notebook(item) ? 'notebooks' : that._is_viewable(item) ? 'view' : 'files';
-            window.open(utils.url_path_join(that.base_url, item_type, item_path), IPython._target);
+            window.open(utils.url_path_join(that.base_url, item_type, item_path), '_self');
       	});
     };
 
@@ -1176,7 +1176,7 @@ define([
         var that = this;
         that.selected.forEach(function(item) {
             var item_path = utils.encode_uri_components(item.path);
-            window.open(utils.url_path_join(that.base_url, 'edit', item_path), IPython._target);
+            window.open(utils.url_path_join(that.base_url, 'edit', item_path), '_self');
       	});
     };
 

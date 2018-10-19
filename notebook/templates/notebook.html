@@ -312,7 +312,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
 						{% set openmsg = _("Opens in a new window") %}
                         {% for helplinks in sections %}
                             {% for link in helplinks %}
-                                <li><a rel="noreferrer" href="{{link[0]}}" target="{{'_blank' if link[2]}}" title="{{openmsg if link[2]}}">
+                                <li><a rel="noreferrer" href="{{link[0]}}" target="{{'_self' if link[2]}}" title="{{openmsg if link[2]}}">
                                 {% if link[2] %}
                                     <i class="fa fa-external-link menu-icon pull-right"></i>
                                 {% endif %}

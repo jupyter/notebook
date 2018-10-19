@@ -3019,7 +3019,7 @@ define([
     Notebook.prototype.copy_notebook = function () {
         var that = this;
         var base_url = this.base_url;
-        var w = window.open('', IPython._target);
+        var w = window.open('', '_self');
         var parent = utils.url_path_split(this.notebook_path)[0];
         var p;
         if (this.dirty && this.writable) {
