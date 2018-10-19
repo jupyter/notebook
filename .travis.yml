@@ -75,7 +75,7 @@ script:
     - |
       # python tests
       if [[ $GROUP == python ]]; then
-        pytest -v --ignore notebook/tests/selenium --cov notebook notebook
+        pytest -v --ignore notebook/tests/selenium --cov notebook --pyargs notebook
       fi
     - |
       # selenium tests
