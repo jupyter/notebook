@@ -167,7 +167,7 @@ define([
       .attr('type', 'button')
       .addClass("btn btn-default btn-sm")
       .attr('data-toggle','button')
-      .attr('title', i18n.msg._('Replace in selected cells'));
+      .attr('title', i18n.msg._('Replace in all cells'));
 
     var isCaseSensitiveButton = $('<button/>')
       .attr('type', 'button')
