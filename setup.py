@@ -92,7 +92,6 @@ for more information.
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
     ],
     zip_safe = False,
@@ -114,8 +113,6 @@ for more information.
         'prometheus_client'
     ],
     extras_require = {
-        ':python_version == "2.7"': ['ipaddress'],
-        'test:python_version == "2.7"': ['mock'],
         'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters',
                  'nbval', 'nose-exclude', 'selenium', 'pytest', 'pytest-cov'],
         'test:sys_platform == "win32"': ['nose-exclude'],
