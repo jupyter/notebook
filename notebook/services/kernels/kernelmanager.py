@@ -158,9 +158,19 @@ class MappingKernelManager(MultiKernelManager):
         if kernel_id is None:
             if path is not None:
                 kwargs['cwd'] = self.cwd_for_path(path)
-            kernel_id = yield gen.maybe_future(
-                super(MappingKernelManager, self).start_kernel(**kwargs)
-            )
+            
+            sup =  super(MappingKernelManager, self)
+            async_sk = getattr(sup, 'async_start_kernel', None)
+            if async_sk is not None:
+                res = super().async_start_kernel(**kwargs)
+            else:
+                res = super().start_kernel(**kwargs)
+
+            if isinstance(res, str):
+                kernel_id = res
+            else:
+                kernel_id = yield res
+
             self._kernel_connections[kernel_id] = 0
             self.start_watching_activity(kernel_id)
             self.log.info("Kernel started: %s" % kernel_id)
