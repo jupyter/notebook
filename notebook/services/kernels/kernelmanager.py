@@ -160,9 +160,9 @@ class MappingKernelManager(MultiKernelManager):
                 kwargs['cwd'] = self.cwd_for_path(path)
             
             sup =  super(MappingKernelManager, self)
-            async_sk = getattr(sup, 'async_start_kernel', None)
+            async_sk = getattr(sup, 'start_kernel_async', None)
             if async_sk is not None:
-                res = super().async_start_kernel(**kwargs)
+                res = super().start_kernel_async(**kwargs)
             else:
                 res = super().start_kernel(**kwargs)
 
