@@ -40,6 +40,9 @@ define([
         this.ws_url = options.ws_url;
         this.session_service_url = utils.url_path_join(this.base_url, 'api/sessions');
         this.session_url = null;
+        this._have_session_url = new Promise(function(resolve, reject){
+            this._got_session_url = resolve;
+        }.bind(this));
 
         this.notebook = options.notebook;
         this.kernel = null;
@@ -169,15 +172,18 @@ define([
             this.notebook_model.path = path;
         }
 
-        utils.ajax(this.session_url, {
-            processData: false,
-            cache: false,
-            type: "PATCH",
-            data: JSON.stringify(this._get_model()),
-            contentType: 'application/json',
-            dataType: "json",
-            success: this._on_success(success),
-            error: this._on_error(error)
+        var that = this;
+        this._have_session_url.then(function() {
+            utils.ajax(that.session_url, {
+                processData: false,
+                cache: false,
+                type: "PATCH",
+                data: JSON.stringify(that._get_model()),
+                contentType: 'application/json',
+                dataType: "json",
+                success: that._on_success(success),
+                error: that._on_error(error)
+            });
         });
     };
 
@@ -196,13 +202,16 @@ define([
             this.kernel._kernel_dead();
         }
 
-        utils.ajax(this.session_url, {
-            processData: false,
-            cache: false,
-            type: "DELETE",
-            dataType: "json",
-            success: this._on_success(success),
-            error: this._on_error(error)
+        var that = this;
+        this._have_session_url.then(function() {
+            utils.ajax(that.session_url, {
+                processData: false,
+                cache: false,
+                type: "DELETE",
+                dataType: "json",
+                success: that._on_success(success),
+                error: that._on_error(error)
+            });
         });
     };
 
@@ -265,6 +274,7 @@ define([
         if (data && data.id) {
             this.id = data.id;
             this.session_url = utils.url_path_join(this.session_service_url, this.id);
+            this._got_session_url();
         }
         if (data && data.notebook) {
             this.notebook_model.path = data.path;

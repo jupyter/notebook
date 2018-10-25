@@ -89,6 +89,10 @@ class SessionManager(LoggingConfigurable):
         result = yield maybe_future(
             self.save_session(session_id, path=path, name=name, type=type, kernel_id=kernel_id)
         )
+
+        # Now wait for the kernel to finish starting.
+        yield self.kernel_manager.get_kernel(kernel_id).client_ready()
+
         # py2-compat
         raise gen.Return(result)
 
@@ -97,9 +101,8 @@ class SessionManager(LoggingConfigurable):
         """Start a new kernel for a given session."""
         # allow contents manager to specify kernels cwd
         kernel_path = self.contents_manager.get_kernel_path(path=path)
-        kernel_id = yield maybe_future(
-            self.kernel_manager.start_kernel(path=kernel_path, kernel_name=kernel_name)
-        )
+        kernel_id = yield maybe_future(self.kernel_manager.start_launching_kernel(
+            path=kernel_path, kernel_name=kernel_name,))
         # py2-compat
         raise gen.Return(kernel_id)
 

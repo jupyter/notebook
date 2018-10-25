@@ -263,7 +263,11 @@ class IPythonHandler(AuthenticatedHandler):
     #---------------------------------------------------------------
     # Manager objects
     #---------------------------------------------------------------
-    
+
+    @property
+    def kernel_finder(self):
+        return self.settings['kernel_finder']
+
     @property
     def kernel_manager(self):
         return self.settings['kernel_manager']
@@ -279,10 +283,6 @@ class IPythonHandler(AuthenticatedHandler):
     @property
     def terminal_manager(self):
         return self.settings['terminal_manager']
-    
-    @property
-    def kernel_spec_manager(self):
-        return self.settings['kernel_spec_manager']
 
     @property
     def config_manager(self):

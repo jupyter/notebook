@@ -23,6 +23,7 @@ from tornado.ioloop import IOLoop
 import zmq
 
 import jupyter_core.paths
+from jupyter_kernel_mgmt.discovery import KernelSpecProvider, IPykernelProvider
 from traitlets.config import Config
 from ..notebookapp import NotebookApp
 from ..utils import url_path_join
@@ -154,6 +155,10 @@ class NotebookTestBase(TestCase):
                 data_dir=cls.data_dir,
                 runtime_dir=cls.runtime_dir,
                 notebook_dir=cls.notebook_dir,
+                kernel_providers=[
+                    KernelSpecProvider(search_path=[pjoin(data_dir, 'kernels')]),
+                    IPykernelProvider(),
+                ],
                 base_url=cls.url_prefix,
                 config=config,
                 allow_root=True,

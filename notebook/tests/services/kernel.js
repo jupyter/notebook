@@ -112,8 +112,8 @@ casper.notebook_test(function () {
         var kernel_info_response =  this.evaluate(function(){
             return IPython._kernel_info_response;
         });
-        this.test.assertTrue( kernel_info_response.msg_type === 'kernel_info_reply', 'Kernel info request return kernel_info_reply');
-        this.test.assertTrue( kernel_info_response.content !== undefined, 'Kernel_info_reply is not undefined');
+        this.test.assertEquals( kernel_info_response.header.msg_type, 'kernel_info_reply', 'Kernel info request return kernel_info_reply');
+        this.test.assertNotEquals( kernel_info_response.content, undefined, 'Kernel_info_reply is not undefined');
     });
 
     // test kill
@@ -287,6 +287,7 @@ casper.notebook_test(function () {
         [
             'kernel_restarting.Kernel',
             'kernel_autorestarting.Kernel',
+            'kernel_starting.Kernel',
         ],
         function () {
             this.thenEvaluate(function () {
@@ -297,29 +298,4 @@ casper.notebook_test(function () {
         }
     );
     this.wait_for_kernel_ready();
-
-    // test handling of failed restart
-    this.event_test(
-        'failed_restart',
-        [
-            'kernel_restarting.Kernel',
-            'kernel_autorestarting.Kernel',
-            'kernel_dead.Kernel'
-        ],
-        function () {
-            this.thenEvaluate(function () {
-                var cell = IPython.notebook.get_cell(0);
-                cell.set_text("import os\n" +
-                              "from IPython.kernel.connect import get_connection_file\n" +
-                              "with open(get_connection_file(), 'w') as f:\n" +
-                              "    f.write('garbage')\n" +
-                              "os._exit(1)");
-                cell.execute();
-            });
-        }, 
-
-        // need an extra-long timeout, because it needs to try
-        // restarting the kernel 5 times!
-        20000
-    );
 });

@@ -74,18 +74,19 @@ define([
                         .click( function () {
                             that.set_kernel(ks.name);
                         })
-                        .text(ks.spec.display_name)
+                        .text(ks.spec.display_name + " (" + ks.name + ")")
                 )
             );
             // Create the File > New Notebook submenu
             new_notebook_submenu.append(
-                $("<li>").attr("id", "new-notebook-submenu-"+ks.name).append(
+                $("<li>").addClass("new-notebook-kernel")
+                    .attr("data-kernel-type", ks.name).append(
                     $('<a>')
                         .attr('href', '#')
                         .click( function () {
                             that.new_notebook(ks.name);
                         })
-                        .text(ks.spec.display_name)
+                        .text(ks.spec.display_name + " (" + ks.name + ")")
                 )
             );
 
@@ -103,7 +104,7 @@ define([
         this.current_selection = ks.name;
         
         // put the current kernel at the top of File > New Notebook
-        var cur_kernel_entry = $("#new-notebook-submenu-" + ks.name);
+        var cur_kernel_entry = $('.new-notebook-kernel[data-kernel-type="' + ks.name + '"]');
         var parent = cur_kernel_entry.parent();
         // do something only if there is more than one kernel
         if (parent.children().length > 1) {
@@ -261,13 +262,17 @@ define([
         }
         names.map(function (name) {
             var ks = that.kernelspecs[name];
+            var display_txt = ks.name;
+            if (ks.spec.display_name) {
+                display_txt = ks.spec.display_name + " (" + ks.name + ")"
+            }
             select.append(
-                $('<option/>').attr('value', ks.name).text(ks.spec.display_name || ks.name)
+                $('<option/>').attr('value', ks.name).text(display_txt)
             );
         });
         
         var no_kernel_msg = i18n.msg.sprintf(i18n.msg._("Could not find a kernel matching %s. Please select a kernel:"),
-                (data.selected.display_name || data.selected.name))
+                (data.selected.display_name || data.selected.name));
         var body = $("<form>").addClass("form-inline").append(
             $("<span>").text(no_kernel_msg)
         ).append(select);

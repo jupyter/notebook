@@ -60,14 +60,15 @@ define([
         for (var i = keys.length - 1; i >= 0; i--) {
             var ks = this.kernelspecs[keys[i]];
             var li = $("<li>")
-                .attr("id", "kernel-" +ks.name)
+                .addClass("new-notebook-kernel")
+                .attr("data-kernel-type", ks.name)
                 .data('kernelspec', ks).append(
                     $('<a>')
                         .attr("aria-label", ks.name)
                         .attr("role", "menuitem")
                         .attr('href', '#')
                         .click($.proxy(this.new_notebook, this, ks.name))
-                        .text(ks.spec.display_name)
+                        .text(ks.spec.display_name + " (" + ks.name + ")")
                         .attr('title', i18n.sprintf(i18n._('Create a new notebook with %s'), ks.spec.display_name))
                 );
             menu.after(li);

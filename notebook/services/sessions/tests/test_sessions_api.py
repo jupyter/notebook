@@ -40,7 +40,7 @@ class SessionAPI(object):
     def get(self, id):
         return self._req('GET', id)
 
-    def create(self, path, type='notebook', kernel_name='python', kernel_id=None):
+    def create(self, path, type='notebook', kernel_name='pyimport/kernel', kernel_id=None):
         body = json.dumps({'path': path,
                            'type': type,
                            'kernel': {'name': kernel_name,
@@ -49,7 +49,7 @@ class SessionAPI(object):
 
     def create_deprecated(self, path):
         body = json.dumps({'notebook': {'path': path},
-                           'kernel': {'name': 'python',
+                           'kernel': {'name': 'pyimport/kernel',
                                       'id': 'foo'}})
         return self._req('POST', '', body)
 
@@ -123,11 +123,15 @@ class SessionAPITest(NotebookTestBase):
         self.assertEqual(resp.headers['Location'], self.url_prefix + 'api/sessions/{0}'.format(newsession['id']))
 
         sessions = self.sess_api.list().json()
-        self.assertEqual(sessions, [newsession])
+        self.assertEqual([s['id'] for s in sessions], [newsession['id']])
 
         # Retrieve it
         sid = newsession['id']
         got = self.sess_api.get(sid).json()
+
+        # Kernel state may have changed from 'starting' to 'idle'
+        del got['kernel']['execution_state']
+        del newsession['kernel']['execution_state']
         self.assertEqual(got, newsession)
 
     def test_create_file_session(self):
@@ -252,5 +256,7 @@ class SessionAPITest(NotebookTestBase):
         kernel_list = r.json()
 
         kernel.pop('last_activity')
+        kernel.pop('execution_state')
         [ k.pop('last_activity') for k in kernel_list ]
+        [ k.pop('execution_state') for k in kernel_list ]
         self.assertEqual(kernel_list, [kernel])
