@@ -19,7 +19,6 @@ import tornado
 from tornado import gen, ioloop, web
 from tornado.websocket import WebSocketHandler
 
-from jupyter_client.session import Session
 from jupyter_client.jsonutil import date_default, extract_dates
 from ipython_genutils.py3compat import cast_unicode
 
@@ -208,49 +207,39 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
                 self.stream.close()
 
     
-    def _reserialize_reply(self, msg_or_list, channel=None):
+    def _reserialize_reply(self, msg, channel=None):
         """Reserialize a reply message using JSON.
 
-        msg_or_list can be an already-deserialized msg dict or the zmq buffer list.
-        If it is the zmq list, it will be deserialized with self.session.
+        msg is a jupyter_protocol Message object
         
-        This takes the msg list from the ZMQ socket and serializes the result for the websocket.
+        This takes the message from the kernel and serializes the result for the websocket.
         This method should be used by self._on_zmq_reply to build messages that can
         be sent back to the browser.
         
         """
-        if isinstance(msg_or_list, dict):
-            # already unpacked
-            msg = msg_or_list
-        else:
-            idents, msg_list = self.session.feed_identities(msg_or_list)
-            msg = self.session.deserialize(msg_list)
+        d = msg.make_dict()
         if channel:
-            msg['channel'] = channel
-        if msg['buffers']:
-            buf = serialize_binary_message(msg)
+            d['channel'] = channel
+        if msg.buffers:
+            buf = serialize_binary_message(d, msg.buffers)
             return buf
         else:
-            smsg = json.dumps(msg, default=date_default)
+            smsg = json.dumps(d, default=date_default)
             return cast_unicode(smsg)
 
-    def _on_zmq_reply(self, stream, msg_list):
+    def _on_zmq_msg(self, channel, msg):
         # Sometimes this gets triggered when the on_close method is scheduled in the
         # eventloop but hasn't been called.
-        if self.stream.closed() or stream.closed():
-            self.log.warning("zmq message arrived on closed channel")
-            self.close()
-            return
-        channel = getattr(stream, 'channel', None)
         try:
-            msg = self._reserialize_reply(msg_list, channel=channel)
+            ws_msg = self._reserialize_reply(msg, channel=channel)
         except Exception:
-            self.log.critical("Malformed message: %r" % msg_list, exc_info=True)
+            self.log.critical("Malformed message: %r" % msg, exc_info=True)
         else:
-            self.write_message(msg, binary=isinstance(msg, bytes))
+            self.write_message(ws_msg, binary=isinstance(ws_msg, bytes))
 
 
 class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
+    session_id = None
     
     def set_default_headers(self):
         """Undo the set_default_headers in IPythonHandler
@@ -271,7 +260,7 @@ class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
             raise web.HTTPError(403)
         
         if self.get_argument('session_id', False):
-            self.session.session = cast_unicode(self.get_argument('session_id'))
+            self.session_id = cast_unicode(self.get_argument('session_id'))
         else:
             self.log.warning("No session ID specified")
     
@@ -282,10 +271,6 @@ class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
         res = self.pre_get()
         yield gen.maybe_future(res)
         super(AuthenticatedZMQStreamHandler, self).get(*args, **kwargs)
-    
-    def initialize(self):
-        self.log.debug("Initializing websocket connection %s", self.request.path)
-        self.session = Session(config=self.config)
 
     def get_compression_options(self):
         return self.settings.get('websocket_compression_options', None)
