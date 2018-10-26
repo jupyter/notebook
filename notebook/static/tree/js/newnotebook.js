@@ -65,7 +65,7 @@ define([
                     $('<a>')
                         .attr('href', '#')
                         .click($.proxy(this.new_notebook, this, ks.name))
-                        .text(ks.spec.display_name)
+                        .text(ks.spec.display_name + " (" + ks.name + ")")
                         .attr('title', i18n.sprintf(i18n._('Create a new notebook with %s'), ks.spec.display_name))
                 );
             menu.after(li);
