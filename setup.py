@@ -106,6 +106,8 @@ for more information.
         'traitlets>=4.2.1',
         'jupyter_core>=4.4.0',
         'jupyter_client>=5.2.0',
+        'jupyter_kernel_mgmt>=0.2',
+        'jupyter_protocol',
         'nbformat',
         'nbconvert',
         'ipykernel', # bless IPython kernel for now
