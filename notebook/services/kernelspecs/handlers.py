@@ -71,15 +71,16 @@ class KernelSpecHandler(APIHandler):
 
     @web.authenticated
     def get(self, kernel_name):
-        ksm = self.kernel_spec_manager
-        kernel_name = url_unescape(kernel_name)
-        try:
-            spec = ksm.get_kernel_spec(kernel_name)
-        except KeyError:
-            raise web.HTTPError(404, u'Kernel spec %s not found' % kernel_name)
-        model = kernelspec_model(self, kernel_name, spec.to_dict(), spec.resource_dir)
-        self.set_header("Content-Type", 'application/json')
-        self.finish(json.dumps(model))
+        kf = self.kernel_finder
+        for name, info in kf.find_kernels():
+            if name == kernel_name:
+                model = kernelspec_model(self, kernel_name, info,
+                                         info['resource_dir'])
+                self.set_header("Content-Type", 'application/json')
+                return self.finish(json.dumps(model))
+
+        raise web.HTTPError(404, u'Kernel spec %s not found' % kernel_name)
+
 
 
 # URL to handler mappings
