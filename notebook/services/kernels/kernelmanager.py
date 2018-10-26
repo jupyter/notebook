@@ -214,12 +214,12 @@ class MappingKernelManager(LoggingConfigurable):
     last_kernel_activity = Instance(datetime,
         help="The last activity on any kernel, including shutting down a kernel")
 
-    def __init__(self, **kwargs):
+    def __init__(self, kernel_finder, **kwargs):
         super(MappingKernelManager, self).__init__(**kwargs)
         self.last_kernel_activity = utcnow()
         self._kernels = {}
         self._restarters = {}
-        self.kernel_finder = KernelFinder.from_entrypoints()
+        self.kernel_finder = kernel_finder
 
     def get_kernel(self, kernel_id):
         return self._kernels[kernel_id]

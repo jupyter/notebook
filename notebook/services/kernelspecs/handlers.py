@@ -14,15 +14,16 @@ pjoin = os.path.join
 from tornado import web
 
 from ...base.handlers import APIHandler
-from ...utils import url_path_join, url_unescape
+from ...utils import url_path_join, url_unescape, quote
 
 def kernelspec_model(handler, name, spec_dict, resource_dir):
     """Load a KernelSpec by name and return the REST API model"""
     d = {
         'name': name,
-        'spec': spec_dict,
+        'spec': spec_dict.copy(),
         'resources': {}
     }
+    d['spec']['language'] = d['spec']['language_info']['name']
 
     # Add resource files if they exist
     resource_dir = resource_dir
@@ -31,7 +32,7 @@ def kernelspec_model(handler, name, spec_dict, resource_dir):
             d['resources'][resource] = url_path_join(
                 handler.base_url,
                 'kernelspecs',
-                name,
+                quote(name, safe=''),
                 resource
             )
     for logo_file in glob.glob(pjoin(resource_dir, 'logo-*')):
@@ -40,7 +41,7 @@ def kernelspec_model(handler, name, spec_dict, resource_dir):
         d['resources'][no_ext] = url_path_join(
             handler.base_url,
             'kernelspecs',
-            name,
+            quote(name, safe=''),
             fname
         )
     return d
@@ -49,14 +50,14 @@ class MainKernelSpecHandler(APIHandler):
 
     @web.authenticated
     def get(self):
-        ksm = self.kernel_spec_manager
+        kf = self.kernel_finder
         km = self.kernel_manager
         model = {}
         model['default'] = km.default_kernel_name
         model['kernelspecs'] = specs = {}
-        for kernel_name, kernel_info in ksm.get_all_specs().items():
+        for kernel_name, kernel_info in kf.find_kernels():
             try:
-                d = kernelspec_model(self, kernel_name, kernel_info['spec'],
+                d = kernelspec_model(self, kernel_name, kernel_info,
                                      kernel_info['resource_dir'])
             except Exception:
                 self.log.error("Failed to load kernel spec: '%s'", kernel_name, exc_info=True)

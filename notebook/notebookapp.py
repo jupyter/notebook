@@ -97,6 +97,7 @@ from jupyter_core.paths import jupyter_config_path
 from jupyter_client import KernelManager
 from jupyter_client.kernelspec import KernelSpecManager, NoSuchKernel, NATIVE_KERNEL_NAME
 from jupyter_client.session import Session
+from jupyter_kernel_mgmt.discovery import KernelFinder
 from nbformat.sign import NotebookNotary
 from traitlets import (
     Any, Dict, Unicode, Integer, List, Bool, Bytes, Instance,
@@ -146,14 +147,14 @@ def load_handlers(name):
 class NotebookWebApplication(web.Application):
 
     def __init__(self, jupyter_app, kernel_manager, contents_manager,
-                 session_manager, kernel_spec_manager,
+                 session_manager, kernel_spec_manager, kernel_finder,
                  config_manager, extra_services, log,
                  base_url, default_url, settings_overrides, jinja_env_options):
 
 
         settings = self.init_settings(
             jupyter_app, kernel_manager, contents_manager,
-            session_manager, kernel_spec_manager, config_manager,
+            session_manager, kernel_spec_manager, kernel_finder, config_manager,
             extra_services, log, base_url,
             default_url, settings_overrides, jinja_env_options)
         handlers = self.init_handlers(settings)
@@ -162,6 +163,7 @@ class NotebookWebApplication(web.Application):
 
     def init_settings(self, jupyter_app, kernel_manager, contents_manager,
                       session_manager, kernel_spec_manager,
+                      kernel_finder,
                       config_manager, extra_services,
                       log, base_url, default_url, settings_overrides,
                       jinja_env_options=None):
@@ -252,6 +254,7 @@ class NotebookWebApplication(web.Application):
             local_hostnames=jupyter_app.local_hostnames,
 
             # managers
+            kernel_finder=kernel_finder,
             kernel_manager=kernel_manager,
             contents_manager=contents_manager,
             session_manager=session_manager,
@@ -1311,10 +1314,12 @@ class NotebookApp(JupyterApp):
         self.kernel_spec_manager = self.kernel_spec_manager_class(
             parent=self,
         )
+        self.kernel_finder = KernelFinder.from_entrypoints()
         self.kernel_manager = self.kernel_manager_class(
             parent=self,
             log=self.log,
             connection_dir=self.runtime_dir,
+            kernel_finder=self.kernel_finder,
             kernel_spec_manager=self.kernel_spec_manager,
         )
         self.contents_manager = self.contents_manager_class(
@@ -1373,7 +1378,7 @@ class NotebookApp(JupyterApp):
 
         self.web_app = NotebookWebApplication(
             self, self.kernel_manager, self.contents_manager,
-            self.session_manager, self.kernel_spec_manager,
+            self.session_manager, self.kernel_spec_manager, self.kernel_finder,
             self.config_manager, self.extra_services,
             self.log, self.base_url, self.default_url, self.tornado_settings,
             self.jinja_environment_options,

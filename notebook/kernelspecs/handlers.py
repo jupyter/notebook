@@ -10,13 +10,16 @@ class KernelSpecResourceHandler(web.StaticFileHandler, IPythonHandler):
 
     @web.authenticated
     def get(self, kernel_name, path, include_body=True):
-        ksm = self.kernel_spec_manager
-        try:
-            self.root = ksm.get_kernel_spec(kernel_name).resource_dir
-        except KeyError:
-            raise web.HTTPError(404, u'Kernel spec %s not found' % kernel_name)
-        self.log.debug("Serving kernel resource from: %s", self.root)
-        return web.StaticFileHandler.get(self, path, include_body=include_body)
+        kf = self.kernel_finder
+        for name, info in kf.find_kernels():
+            if name == kernel_name:
+                self.root = info['resource_dir']
+                self.log.debug("Serving kernel resource from: %s", self.root)
+                return web.StaticFileHandler.get(self, path,
+                                                 include_body=include_body)
+
+        raise web.HTTPError(404, u'Kernel spec %s not found' % kernel_name)
+
 
     @web.authenticated
     def head(self, kernel_name, path):
