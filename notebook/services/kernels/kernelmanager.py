@@ -17,10 +17,7 @@ from tornado import gen, web
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop, PeriodicCallback
 
-from jupyter_client.session import Session
-from jupyter_client.multikernelmanager import MultiKernelManager
 from jupyter_kernel_mgmt.client import IOLoopKernelClient
-from jupyter_kernel_mgmt.discovery import KernelFinder
 from jupyter_kernel_mgmt.restarter import TornadoKernelRestarter
 from traitlets import (Any, Bool, Dict, List, Unicode, TraitError, Integer,
        Float, Instance, default, validate

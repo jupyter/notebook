@@ -287,10 +287,6 @@ class IPythonHandler(AuthenticatedHandler):
     @property
     def terminal_manager(self):
         return self.settings['terminal_manager']
-    
-    @property
-    def kernel_spec_manager(self):
-        return self.settings['kernel_spec_manager']
 
     @property
     def config_manager(self):
