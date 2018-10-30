@@ -11,6 +11,8 @@ class KernelSpecResourceHandler(web.StaticFileHandler, IPythonHandler):
     @web.authenticated
     def get(self, kernel_name, path, include_body=True):
         kf = self.kernel_finder
+        # TODO: Do we actually want all kernel type names to be case-insensitive?
+        kernel_name = kernel_name.lower()
         for name, info in kf.find_kernels():
             if name == kernel_name:
                 self.root = info['resource_dir']

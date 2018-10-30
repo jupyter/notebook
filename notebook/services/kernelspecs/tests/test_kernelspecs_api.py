@@ -12,7 +12,7 @@ pjoin = os.path.join
 import requests
 
 from jupyter_client.kernelspec import NATIVE_KERNEL_NAME
-from notebook.utils import url_path_join, url_escape
+from notebook.utils import url_path_join, url_escape, quote
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 
 # Copied from jupyter_client.tests.test_kernelspec so updating that doesn't
@@ -41,9 +41,11 @@ class KernelSpecAPI(object):
         return self._req('GET', 'api/kernelspecs')
 
     def kernel_spec_info(self, name):
+        name = quote(name, safe='')
         return self._req('GET', url_path_join('api/kernelspecs', name))
     
     def kernel_resource(self, name, path):
+        name = quote(name, safe='')
         return self._req('GET', url_path_join('kernelspecs', name, path))
 
 
@@ -102,36 +104,36 @@ class APITest(NotebookTestBase):
         self.assertGreaterEqual(len(specs), 2)
 
         def is_sample_kernelspec(s):
-            return s['name'] == 'sample' and s['spec']['display_name'] == 'Test kernel'
+            return s['name'] == 'spec/sample' and s['spec']['display_name'] == 'Test kernel'
 
         def is_default_kernelspec(s):
-            return s['name'] == NATIVE_KERNEL_NAME and s['spec']['display_name'].startswith("Python")
+            return s['name'] == 'pyimport/kernel' and s['spec']['display_name'].startswith("Python")
 
         assert any(is_sample_kernelspec(s) for s in specs.values()), specs
         assert any(is_default_kernelspec(s) for s in specs.values()), specs
 
     def test_get_kernelspec(self):
-        model = self.ks_api.kernel_spec_info('Sample').json()  # Case insensitive
-        self.assertEqual(model['name'].lower(), 'sample')
+        model = self.ks_api.kernel_spec_info('spec/Sample').json()  # Case insensitive
+        self.assertEqual(model['name'].lower(), 'spec/sample')
         self.assertIsInstance(model['spec'], dict)
         self.assertEqual(model['spec']['display_name'], 'Test kernel')
         self.assertIsInstance(model['resources'], dict)
 
     def test_get_kernelspec_spaces(self):
-        model = self.ks_api.kernel_spec_info('sample%202').json()
-        self.assertEqual(model['name'].lower(), 'sample 2')
+        model = self.ks_api.kernel_spec_info('spec/sample 2').json()
+        self.assertEqual(model['name'].lower(), 'spec/sample 2')
 
     def test_get_nonexistant_kernelspec(self):
         with assert_http_error(404):
-            self.ks_api.kernel_spec_info('nonexistant')
+            self.ks_api.kernel_spec_info('spec/nonexistant')
     
     def test_get_kernel_resource_file(self):
-        res = self.ks_api.kernel_resource('sAmple', 'resource.txt')
+        res = self.ks_api.kernel_resource('spec/sAmple', 'resource.txt')
         self.assertEqual(res.text, some_resource)
     
     def test_get_nonexistant_resource(self):
         with assert_http_error(404):
-            self.ks_api.kernel_resource('nonexistant', 'resource.txt')
+            self.ks_api.kernel_resource('spec/nonexistant', 'resource.txt')
         
         with assert_http_error(404):
-            self.ks_api.kernel_resource('sample', 'nonexistant.txt')
+            self.ks_api.kernel_resource('spec/sample', 'nonexistant.txt')

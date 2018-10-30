@@ -1113,6 +1113,12 @@ class NotebookApp(JupyterApp):
         (shutdown the notebook server)."""
     )
 
+    kernel_providers = List(config=True,
+        help=_('A list of kernel provider instances. '
+               'If not specified, all installed kernel providers are found '
+               'using entry points.')
+    )
+
     contents_manager_class = Type(
         default_value=LargeFileManager,
         klass=ContentsManager,
@@ -1293,7 +1299,10 @@ class NotebookApp(JupyterApp):
             self.update_config(c)
 
     def init_configurables(self):
-        self.kernel_finder = KernelFinder.from_entrypoints()
+        if self.kernel_providers:
+            self.kernel_finder = KernelFinder(self.kernel_providers)
+        else:
+            self.kernel_finder = KernelFinder.from_entrypoints()
         self.kernel_manager = self.kernel_manager_class(
             parent=self,
             log=self.log,
