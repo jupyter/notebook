@@ -73,6 +73,9 @@ class KernelInterface(LoggingConfigurable):
         self.manager.cleanup()
         self.stop_buffering()
 
+    def interrupt(self):
+        self.manager.interrupt()
+
     def _handle_kernel_restarted(self):
         self.manager = self.restarter.kernel_manager
         # TODO: connection_info
