@@ -6,14 +6,15 @@ from unittest import TestCase
 from tornado import gen, web
 from tornado.ioloop import IOLoop
 
+from jupyter_kernel_mgmt.discovery import KernelFinder
 from ..sessionmanager import SessionManager
 from notebook.services.kernels.kernelmanager import MappingKernelManager
 from notebook.services.contents.manager import ContentsManager
 from notebook._tz import utcnow, isoformat
 
 class DummyKernel(object):
-    def __init__(self, kernel_name='python'):
-        self.kernel_name = kernel_name
+    def __init__(self, kernel_type='python'):
+        self.kernel_type = kernel_type
 
 dummy_date = utcnow()
 dummy_date_s = isoformat(dummy_date)
@@ -29,8 +30,8 @@ class DummyMKM(MappingKernelManager):
     
     def start_kernel(self, kernel_id=None, path=None, kernel_name='python', **kwargs):
         kernel_id = kernel_id or self._new_id()
-        k = self._kernels[kernel_id] = DummyKernel(kernel_name=kernel_name)
-        self._kernel_connections[kernel_id] = 0
+        k = self._kernels[kernel_id] = DummyKernel(kernel_type=kernel_name)
+        k.n_connections = 0
         k.last_activity = dummy_date
         k.execution_state = 'idle'
         return kernel_id
@@ -43,7 +44,7 @@ class TestSessionManager(TestCase):
     
     def setUp(self):
         self.sm = SessionManager(
-            kernel_manager=DummyMKM(),
+            kernel_manager=DummyMKM(kernel_finder=KernelFinder(providers=[])),
             contents_manager=ContentsManager(),
         )
         self.loop = IOLoop()

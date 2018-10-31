@@ -405,7 +405,7 @@ class MappingKernelManager(LoggingConfigurable):
             "name": kernel.kernel_type,
             "last_activity": isoformat(kernel.last_activity),
             "execution_state": kernel.execution_state,
-            "connections": self._kernels[kernel_id].n_connections,
+            "connections": kernel.n_connections,
         }
         return model
 
