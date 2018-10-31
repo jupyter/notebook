@@ -77,10 +77,9 @@ class KernelInterface(LoggingConfigurable):
         self.manager.interrupt()
 
     def _handle_kernel_restarted(self, data):
-        if data['new_manager']:
-            self.manager = data['manager']
-            self.connection_info = data['connection_info']
-            self.connect_client()
+        self.manager = data['manager']
+        self.connection_info = data['connection_info']
+        self.connect_client()
 
     def start_buffering(self, session_key):
         # record the session key because only one session can buffer
