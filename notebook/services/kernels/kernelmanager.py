@@ -44,7 +44,7 @@ class KernelInterface(LoggingConfigurable):
 
         self.restarter = TornadoKernelRestarter(self.manager, kernel_type,
                                            kernel_finder=self.kernel_finder)
-        self.restarter.add_callback('restarted', self._handle_kernel_restarted)
+        self.restarter.add_callback(self._handle_kernel_restarted, 'restarted')
         self.restarter.start()
 
         self.buffer_for_key = None
@@ -288,8 +288,7 @@ class MappingKernelManager(LoggingConfigurable):
         self.log.info("Kernel started: %s" % kernel_id)
 
         kernel.restarter.add_callback(
-            'failed',
-            lambda data: self._handle_kernel_died(kernel_id),
+            lambda data: self._handle_kernel_died(kernel_id), 'failed',
         )
 
     def start_buffering(self, kernel_id, session_key, channels):
