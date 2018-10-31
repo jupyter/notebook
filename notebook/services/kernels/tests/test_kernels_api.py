@@ -7,8 +7,6 @@ from tornado.httpclient import HTTPRequest
 from tornado.ioloop import IOLoop
 from tornado.websocket import websocket_connect
 
-from jupyter_client.kernelspec import NATIVE_KERNEL_NAME
-
 from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 
@@ -38,7 +36,7 @@ class KernelAPI(object):
     def get(self, id):
         return self._req('GET', id)
 
-    def start(self, name=NATIVE_KERNEL_NAME):
+    def start(self, name='pyimport/kernel'):
         body = json.dumps({'name': name})
         return self._req('POST', '', body)
 
