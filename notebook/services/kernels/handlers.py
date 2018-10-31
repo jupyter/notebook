@@ -6,7 +6,6 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-from functools import partial
 import json
 import logging
 from textwrap import dedent
@@ -23,7 +22,6 @@ from notebook.utils import url_path_join, url_escape
 from ...base.handlers import APIHandler
 from ...base.zmqhandlers import AuthenticatedZMQStreamHandler, deserialize_binary_message
 
-from jupyter_client import protocol_version as client_protocol_version
 
 class MainKernelHandler(APIHandler):
 

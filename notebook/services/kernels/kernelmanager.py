@@ -9,17 +9,15 @@
 
 from collections import defaultdict
 from datetime import datetime, timedelta
-from functools import partial
 import os
 import uuid
 
 from tornado import gen, web
-from tornado.concurrent import Future
 from tornado.ioloop import IOLoop, PeriodicCallback
 
 from jupyter_kernel_mgmt.client import IOLoopKernelClient
 from jupyter_kernel_mgmt.restarter import TornadoKernelRestarter
-from traitlets import (Any, Bool, Dict, List, Unicode, TraitError, Integer,
+from traitlets import (Any, Bool, Dict, Unicode, TraitError, Integer,
        Float, Instance, default, validate
 )
 from traitlets.config.configurable import LoggingConfigurable
