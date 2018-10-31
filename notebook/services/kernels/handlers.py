@@ -87,7 +87,7 @@ class KernelActionHandler(APIHandler):
 
             try:
                 res = km.restart_kernel(kernel_id)
-                if res is not None
+                if res is not None:
                     yield from res
             except Exception as e:
                 self.log.error("Exception restarting kernel", exc_info=True)
