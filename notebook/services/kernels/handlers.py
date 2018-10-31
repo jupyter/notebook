@@ -29,7 +29,11 @@ class MainKernelHandler(APIHandler):
     @gen.coroutine
     def get(self):
         km = self.kernel_manager
-        kernels = yield gen.maybe_future(km.list_kernels())
+        res = km.list_kernels()
+        if not isinstance(res, list):
+            kernels = res
+        else:
+            kernels = yield res
         self.finish(json.dumps(kernels, default=date_default))
 
     @web.authenticated
@@ -82,7 +86,9 @@ class KernelActionHandler(APIHandler):
         if action == 'restart':
 
             try:
-                yield gen.maybe_future(km.restart_kernel(kernel_id))
+                res = km.restart_kernel(kernel_id)
+                if res is not None
+                    yield from res
             except Exception as e:
                 self.log.error("Exception restarting kernel", exc_info=True)
                 self.set_status(500)
