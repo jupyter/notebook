@@ -133,7 +133,6 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
     def initialize(self):
         super(ZMQChannelsHandler, self).initialize()
         self.zmq_stream = None
-        self.handlers = {}
         self.kernel_id = None
         self._close_future = Future()
         self.session_key = ''
@@ -187,20 +186,17 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             self.log.info("Restoring connection for %s", self.session_key)
             if replay_buffer:
                 self.log.info("Replaying %s buffered messages", len(replay_buffer))
-                for channel, msg in replay_buffer:
-                    self._on_zmq_msg(channel, msg)
+                for msg, channel in replay_buffer:
+                    self._on_zmq_msg(msg, channel)
 
         # km.add_restart_callback(self.kernel_id, self.on_kernel_restarted)
         # km.add_restart_callback(self.kernel_id, self.on_restart_failed, 'dead')
 
-        for channel in ('shell', 'iopub', 'stdin'):
-            handler = partial(self._on_zmq_msg, channel)
-            kernel.client.add_handler(channel, handler)
-            self.handlers[channel] = handler
+        kernel.client.add_handler(self._on_zmq_msg, self.channels)
 
     def on_message(self, msg):
         """Received websocket message; forward to kernel"""
-        if not self.handlers:
+        if self._close_future.done():
             # already closed, ignore the message
             self.log.debug("Received message on closed websocket %r", msg)
             return
@@ -217,7 +213,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             return
         self.kernel_client.messaging.send(channel, Message(**msg))
 
-    def _on_zmq_msg(self, channel, msg: Message):
+    def _on_zmq_msg(self, msg: Message, channel):
         """Received message from kernel; forward over websocket"""
         def write_stderr(error_message):
             self.log.warning(error_message)
@@ -322,7 +318,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                 self._iopub_window_byte_count -= byte_count
                 self._iopub_window_byte_queue.pop(-1)
                 return
-        super(ZMQChannelsHandler, self)._on_zmq_msg(channel, msg)
+        super(ZMQChannelsHandler, self)._on_zmq_msg(msg, channel)
 
     def close(self):
         super(ZMQChannelsHandler, self).close()
@@ -349,14 +345,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             if kernel.n_connections == 0:
                 km.start_buffering(self.kernel_id, self.session_key, self.channels)
 
-        for channel, handler in self.handlers.items():
-            try:
-                kernel.client.remove_handler(channel, handler)
-            except ValueError:
-                # Handler was not attached
-                pass
+            kernel.client.remove_handler(self._on_zmq_msg)
 
-        self.handlers = {}
         self._close_future.set_result(None)
 
     def _send_status_message(self, status):

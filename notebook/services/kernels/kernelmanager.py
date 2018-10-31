@@ -50,7 +50,6 @@ class KernelInterface(LoggingConfigurable):
         self.buffer_for_key = None
         # TODO: the buffer should likely be a memory bounded queue, we're starting with a list to keep it simple
         self.buffer = []
-        self.buffer_handlers = {}  # {channel: handler}
 
     client = None
 
@@ -86,14 +85,11 @@ class KernelInterface(LoggingConfigurable):
         self.buffer_for_key = session_key
 
         # forward any future messages to the internal buffer
-        def buffer_msg(channel, msg_parts):
-            self.log.debug("Buffering msg on %s", channel)
-            self.buffer.append((channel, msg_parts))
+        self.client.add_handler(self._buffer_msg, {'shell', 'iopub', 'stdin'})
 
-        for channel in ('shell', 'iopub', 'stdin'):
-            handler = partial(buffer_msg, channel)
-            self.client.add_handler(channel, handler)
-            self.buffer_handlers[channel] = handler
+    def _buffer_msg(self, msg, channel):
+        self.log.debug("Buffering msg on %s", channel)
+        self.buffer.append((msg, channel))
 
     def get_buffer(self):
         """Get the buffer for a given kernel, and stop buffering new messages
@@ -105,19 +101,8 @@ class KernelInterface(LoggingConfigurable):
 
     def stop_buffering(self):
         """Stop buffering kernel messages
-
-        Parameters
-        ----------
-        kernel_id : str
-            The id of the kernel to stop buffering.
         """
-        # close buffering streams
-        for channel, handler in self.buffer_handlers.items():
-            try:
-                self.client.remove_handler(channel, handler)
-            except ValueError:
-                pass   # Handler wasn't attached
-        self.buffer_handlers = {}
+        self.client.remove_handler(self._buffer_msg)
 
         if self.buffer:
             self.log.info("Discarding %s buffered messages for %s",
@@ -439,7 +424,7 @@ class MappingKernelManager(LoggingConfigurable):
         """
         kernel = self._kernels[kernel_id]
 
-        def record_activity(msg):
+        def record_activity(msg, _channel):
             """Record an IOPub message arriving from a kernel"""
             self.last_kernel_activity = kernel.last_activity = utcnow()
 
@@ -450,7 +435,7 @@ class MappingKernelManager(LoggingConfigurable):
             else:
                 self.log.debug("activity on %s: %s", kernel_id, msg_type)
 
-        kernel.client.add_handler('iopub', record_activity)
+        kernel.client.add_handler(record_activity, 'iopub')
 
     def initialize_culler(self):
         """Start idle culler if 'cull_idle_timeout' is greater than zero.

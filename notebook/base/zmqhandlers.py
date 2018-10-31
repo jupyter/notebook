@@ -227,7 +227,7 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
             smsg = json.dumps(d, default=date_default)
             return cast_unicode(smsg)
 
-    def _on_zmq_msg(self, channel, msg):
+    def _on_zmq_msg(self, msg, channel):
         # Sometimes this gets triggered when the on_close method is scheduled in the
         # eventloop but hasn't been called.
         try:
