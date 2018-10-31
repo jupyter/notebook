@@ -132,7 +132,7 @@ class MappingKernelManager(LoggingConfigurable):
     def _default_kernel_manager_class(self):
         return "jupyter_client.ioloop.IOLoopKernelManager"
 
-    default_kernel_name = Unicode('python3', config=True,
+    default_kernel_name = Unicode('pyimport/kernel', config=True,
         help="The name of the default kernel to start"
     )
 

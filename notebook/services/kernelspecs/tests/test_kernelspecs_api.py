@@ -9,10 +9,7 @@ import shutil
 
 pjoin = os.path.join
 
-import requests
-
-from jupyter_client.kernelspec import NATIVE_KERNEL_NAME
-from notebook.utils import url_path_join, url_escape, quote
+from notebook.utils import url_path_join, quote
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 
 # Copied from jupyter_client.tests.test_kernelspec so updating that doesn't
@@ -85,7 +82,7 @@ class APITest(NotebookTestBase):
         
         model = self.ks_api.list().json()
         assert isinstance(model, dict)
-        self.assertEqual(model['default'], NATIVE_KERNEL_NAME)
+        self.assertEqual(model['default'], 'pyimport/kernel')
         specs = model['kernelspecs']
         assert isinstance(specs, dict)
         # 2: the sample kernelspec created in setUp, and the native Python kernel
@@ -96,7 +93,7 @@ class APITest(NotebookTestBase):
     def test_list_kernelspecs(self):
         model = self.ks_api.list().json()
         assert isinstance(model, dict)
-        self.assertEqual(model['default'], NATIVE_KERNEL_NAME)
+        self.assertEqual(model['default'], 'pyimport/kernel')
         specs = model['kernelspecs']
         assert isinstance(specs, dict)
 
