@@ -44,7 +44,7 @@ class KernelInterface(LoggingConfigurable):
 
         self.restarter = TornadoKernelRestarter(self.manager, kernel_type,
                                            kernel_finder=self.kernel_finder)
-        self.restarter.add_callback(self._handle_kernel_restarted, 'restart')
+        self.restarter.add_callback('restarted', self._handle_kernel_restarted)
         self.restarter.start()
 
         self.buffer_for_key = None
@@ -76,10 +76,11 @@ class KernelInterface(LoggingConfigurable):
     def interrupt(self):
         self.manager.interrupt()
 
-    def _handle_kernel_restarted(self):
-        self.manager = self.restarter.kernel_manager
-        # TODO: connection_info
-        self.connect_client()
+    def _handle_kernel_restarted(self, data):
+        if data['new_manager']:
+            self.manager = data['manager']
+            self.connection_info = data['connection_info']
+            self.connect_client()
 
     def start_buffering(self, session_key):
         # record the session key because only one session can buffer
@@ -303,8 +304,8 @@ class MappingKernelManager(LoggingConfigurable):
         self.log.info("Kernel started: %s" % kernel_id)
 
         kernel.restarter.add_callback(
-            lambda: self._handle_kernel_died(kernel_id),
-            'dead'
+            'failed',
+            lambda data: self._handle_kernel_died(kernel_id),
         )
 
     def start_buffering(self, kernel_id, session_key, channels):
