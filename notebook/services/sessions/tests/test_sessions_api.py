@@ -40,7 +40,7 @@ class SessionAPI(object):
     def get(self, id):
         return self._req('GET', id)
 
-    def create(self, path, type='notebook', kernel_name='python', kernel_id=None):
+    def create(self, path, type='notebook', kernel_name='pyimport/kernel', kernel_id=None):
         body = json.dumps({'path': path,
                            'type': type,
                            'kernel': {'name': kernel_name,
@@ -49,7 +49,7 @@ class SessionAPI(object):
 
     def create_deprecated(self, path):
         body = json.dumps({'notebook': {'path': path},
-                           'kernel': {'name': 'python',
+                           'kernel': {'name': 'pyimport/kernel',
                                       'id': 'foo'}})
         return self._req('POST', '', body)
 
