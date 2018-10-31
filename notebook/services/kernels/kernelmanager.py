@@ -28,6 +28,8 @@ from ipython_genutils.py3compat import getcwd
 
 from notebook.prometheus.metrics import KERNEL_CURRENTLY_RUNNING_TOTAL
 
+import asyncio
+
 
 class MappingKernelManager(MultiKernelManager):
     """A KernelManager that handles notebook mapping and HTTP error handling"""
@@ -162,8 +164,10 @@ class MappingKernelManager(MultiKernelManager):
             sup =  super(MappingKernelManager, self)
             async_sk = getattr(sup, 'start_kernel_async', None)
             if async_sk is not None:
+                self.log.debug('dispathcing start to async super')
                 res = super().start_kernel_async(**kwargs)
             else:
+                self.log.debug('dispathcing start to sync super')
                 res = super().start_kernel(**kwargs)
 
             if isinstance(res, str):
@@ -306,10 +310,19 @@ class MappingKernelManager(MultiKernelManager):
 
         return super(MappingKernelManager, self).shutdown_kernel(kernel_id, now=now)
 
+    @asyncio.coroutine
     def restart_kernel(self, kernel_id):
         """Restart a kernel by kernel_id"""
         self._check_kernel_id(kernel_id)
-        super(MappingKernelManager, self).restart_kernel(kernel_id)
+        sup = super(MappingKernelManager, self)
+        
+        if hasattr(sup, 'restart_kernel_async'):
+            self.log.debug('dispatching restart_kernel to async super')
+            yield from sup.restart_kernel_async(kernel_id)
+        else:
+            self.log.debug('dispatching restart_kernel to sync super')
+            sup.restart_kernel(kernel_id)
+        
         kernel = self.get_kernel(kernel_id)
         # return a Future that will resolve when the kernel has successfully restarted
         channel = kernel.connect_shell()
