@@ -60,7 +60,8 @@ define([
         for (var i = keys.length - 1; i >= 0; i--) {
             var ks = this.kernelspecs[keys[i]];
             var li = $("<li>")
-                .attr("id", "kernel-" +ks.name)
+                .addClass("new-notebook-kernel")
+                .attr("data-kernel-type", ks.name)
                 .data('kernelspec', ks).append(
                     $('<a>')
                         .attr('href', '#')

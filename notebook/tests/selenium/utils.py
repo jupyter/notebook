@@ -222,7 +222,7 @@ class Notebook:
         trigger_keystrokes(self.body, keys)
 
     @classmethod
-    def new_notebook(cls, browser, kernel_name='kernel-python3'):
+    def new_notebook(cls, browser, kernel_name='pyimport/kernel'):
         with new_window(browser, selector=".cell"):
             select_kernel(browser, kernel_name=kernel_name)
         return cls(browser)
@@ -234,7 +234,7 @@ def select_kernel(browser, kernel_name='kernel-python3'):
     wait = WebDriverWait(browser, 10)
     new_button = wait.until(EC.element_to_be_clickable((By.ID, "new-dropdown-button")))
     new_button.click()
-    kernel_selector = '#{} a'.format(kernel_name)
+    kernel_selector = '.new-notebook-kernel[data-kernel-type="{}"] a'.format(kernel_name)
     kernel = wait_for_selector(browser, kernel_selector, single=True)
     kernel.click()
 
