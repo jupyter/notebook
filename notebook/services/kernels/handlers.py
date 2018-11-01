@@ -10,17 +10,20 @@ import json
 import logging
 from textwrap import dedent
 
+import tornado
 from tornado import gen, web
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
+from tornado.websocket import WebSocketHandler
 
 from jupyter_client.jsonutil import date_default
 from jupyter_protocol.messages import Message
 from ipython_genutils.py3compat import cast_unicode
 from notebook.utils import url_path_join, url_escape
 
-from ...base.handlers import APIHandler
-from ...base.zmqhandlers import AuthenticatedZMQStreamHandler, deserialize_binary_message
+from ...base.handlers import APIHandler, IPythonHandler
+from ...base.zmqhandlers import WebSocketMixin
+from .ws_serialize import serialize_message, deserialize_message
 
 
 class MainKernelHandler(APIHandler):
@@ -94,7 +97,7 @@ class KernelActionHandler(APIHandler):
         self.finish()
 
 
-class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
+class ZMQChannelsHandler(WebSocketMixin, WebSocketHandler, IPythonHandler):
     '''There is one ZMQChannelsHandler per running kernel and it oversees all
     the sessions.
     '''
@@ -128,6 +131,28 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
     def __repr__(self):
         return "%s(%s)" % (self.__class__.__name__, getattr(self, 'kernel_id', 'uninitialized'))
 
+    if tornado.version_info < (4,1):
+        """Backport send_error from tornado 4.1 to 4.0"""
+        def send_error(self, *args, **kwargs):
+            if self.stream is None:
+                super(WebSocketHandler, self).send_error(*args, **kwargs)
+            else:
+                # If we get an uncaught exception during the handshake,
+                # we have no choice but to abruptly close the connection.
+                # TODO: for uncaught exceptions after the handshake,
+                # we can close the connection more gracefully.
+                self.stream.close()
+
+    def set_default_headers(self):
+        """Undo the set_default_headers in IPythonHandler
+
+        which doesn't make sense for websockets
+        """
+        pass
+
+    def get_compression_options(self):
+        return self.settings.get('websocket_compression_options', None)
+
     channels = {'shell', 'iopub', 'stdin'}
 
     def initialize(self):
@@ -147,17 +172,28 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         # by a delta amount at some point in the future.
         self._iopub_window_byte_queue = []
 
+    session_id = None
+
     @gen.coroutine
     def pre_get(self):
-        # authenticate first
-        super(ZMQChannelsHandler, self).pre_get()
+        # authenticate the request before opening the websocket
+        if self.get_current_user() is None:
+            self.log.warning("Couldn't authenticate WebSocket connection")
+            raise web.HTTPError(403)
+
+        if self.get_argument('session_id', False):
+            self.session_id = cast_unicode(self.get_argument('session_id'))
+        else:
+            self.log.warning("No session ID specified")
+
         # check session collision:
         yield self._register_session()
     
     @gen.coroutine
     def get(self, kernel_id):
         self.kernel_id = cast_unicode(kernel_id, 'ascii')
-        yield super(ZMQChannelsHandler, self).get(kernel_id=kernel_id)
+        yield self.pre_get()
+        super(ZMQChannelsHandler, self).get(kernel_id=kernel_id)
     
     @gen.coroutine
     def _register_session(self):
@@ -201,10 +237,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             # already closed, ignore the message
             self.log.debug("Received message on closed websocket %r", msg)
             return
-        if isinstance(msg, bytes):
-            msg = deserialize_binary_message(msg)
-        else:
-            msg = json.loads(msg)
+
+        msg = deserialize_message(msg)
         channel = msg.pop('channel', None)
         if channel is None:
             self.log.warning("No channel specified, assuming shell: %s", msg)
@@ -319,7 +353,14 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                 self._iopub_window_byte_count -= byte_count
                 self._iopub_window_byte_queue.pop(-1)
                 return
-        super(ZMQChannelsHandler, self)._on_zmq_msg(msg, channel)
+
+        try:
+            ws_msg = serialize_message(msg, channel=channel)
+        except Exception:
+            self.log.critical("Malformed message: %r" % msg,
+                              exc_info=True)
+        else:
+            self.write_message(ws_msg, binary=isinstance(ws_msg, bytes))
 
     def close(self):
         super(ZMQChannelsHandler, self).close()
@@ -351,7 +392,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         msg = Message.from_type("status",
             {'execution_state': status}
         )
-        ws_msg = self._reserialize_reply(msg, channel='iopub')
+        ws_msg = serialize_message(msg, channel='iopub')
         self.write_message(ws_msg, binary=isinstance(ws_msg, bytes))
 
     def on_kernel_died(self, _data):
