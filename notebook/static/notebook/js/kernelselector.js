@@ -104,7 +104,7 @@ define([
         this.current_selection = ks.name;
         
         // put the current kernel at the top of File > New Notebook
-        var cur_kernel_entry = $('.new-notebook-kernel[data-kernel-type="' + ks.name + '"');
+        var cur_kernel_entry = $('.new-notebook-kernel[data-kernel-type="' + ks.name + '"]');
         var parent = cur_kernel_entry.parent();
         // do something only if there is more than one kernel
         if (parent.children().length > 1) {
