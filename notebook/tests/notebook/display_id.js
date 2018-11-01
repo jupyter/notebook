@@ -131,6 +131,7 @@ casper.notebook_test(function () {
         var callback_results = returned[1];
         this.test.assertEquals(cell_results.length, 0, "correct number of cell outputs");
         this.test.assertEquals(callback_results.length, 2, "correct number of callback outputs");
+        this.echo(callback_results);
         this.test.assertEquals(callback_results[0].output_type, 'display_data', 'check output_type 0');
         this.test.assertEquals(callback_results[0].transient.display_id, 'here', 'check display id 0');
         this.test.assertEquals(callback_results[0].data['text/plain'], '5', 'value');
