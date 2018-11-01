@@ -15,9 +15,9 @@
   },
   "devDependencies": {
     "bower": "*",
-    "less": "~2",
-    "requirejs": "^2.1.17",
-    "po2json": "^0.4.5"
+    "less": "^3.8.1",
+    "po2json": "^0.4.5",
+    "requirejs": "^2.1.17"
   },
   "dependencies": {}
 }

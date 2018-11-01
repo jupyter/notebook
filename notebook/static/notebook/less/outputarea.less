@@ -9,7 +9,7 @@ div.output_wrapper {
 /* class for the output area when it should be height-limited */
 div.output_scroll {
     /* ideally, this would be max-height, but FF barfs all over that */
-    height: 24em;
+    height: 100%;
     /* FF needs this *and the wrapper* to specify full width, or it will shrinkwrap */
     width: 100%;
 
@@ -69,7 +69,7 @@ div.output_area {
     
     img, svg {
         max-width: 100%;
-        height: auto;
+        height: 100%;
         &.unconfined {
             max-width: none;
         }
@@ -149,6 +149,7 @@ div.output_html {
 }
 
 div.output_png {
+    background: #fdd;
 }
 
 div.output_jpeg {

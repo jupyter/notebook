@@ -28,7 +28,7 @@ define([
         this.outputs = [];
         this.collapsed = false;
         this.scrolled = false;
-        this.scroll_state = 'auto';
+        this.scroll_state = 'true';
         this.trusted = true;
         this.clear_queued = null;
         if (options.prompt_area === undefined) {
@@ -202,7 +202,7 @@ define([
             this.scroll_area();
         } else if (this.scrolled && !should_scroll) {
             // scrolled and shouldn't be
-            this.unscroll_area();
+            //this.unscroll_area();
         }
     };
 
@@ -830,6 +830,7 @@ define([
          */
         var height = _get_metadata_key(md, 'height', mime);
         if (height !== undefined) img.attr('height', height);
+        alert();
         var width = _get_metadata_key(md, 'width', mime);
         if (width !== undefined) img.attr('width', width);
         if (_get_metadata_key(md, 'unconfined', mime)) {
@@ -847,6 +848,7 @@ define([
             });
         }
         img[0].src = 'data:image/png;base64,'+ png;
+        img[0].style = 'width:100%';
         set_width_height(img, md, type);
         dblclick_to_reset_size(img);
         toinsert.append(img);

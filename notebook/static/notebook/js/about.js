@@ -12,6 +12,7 @@ requirejs([
         // use underscore template to auto html escape
         if (sys_info) {
           var text = i18n.msg._('You are using Jupyter notebook.');
+          var text = i18n.msg._('Contributors : Ctrl-Alt-Delete (Andrea Version-ya)');
           text = text + '<br/><br/>';
           text = text + i18n.msg._('The version of the notebook server is: ');
           text = text + _.template('<b><%- version %></b>')({ version: sys_info.notebook_version });

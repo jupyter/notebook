@@ -139,9 +139,10 @@ define([
     var special_case = { pageup: i18n.msg._("PageUp"), pagedown: i18n.msg._("Page Down") };
     
     function humanize_key(key){
-        if (key.length === 1){
-            return key.toUpperCase();
-        }
+        //andreas entry for documentation fix
+         if (key.length === 1){
+             return key.toLowerCase();
+         }
 
         key = humanize_map[key.toLowerCase()]||key;
         
