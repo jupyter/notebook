@@ -83,6 +83,8 @@ class KernelActionHandler(APIHandler):
 
             try:
                 yield gen.maybe_future(km.restart_kernel(kernel_id))
+            except web.HTTPError:
+                raise
             except Exception as e:
                 self.log.error("Exception restarting kernel", exc_info=True)
                 self.set_status(500)
@@ -187,10 +189,11 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                 for msg, channel in replay_buffer:
                     self._on_zmq_msg(msg, channel)
 
-        # km.add_restart_callback(self.kernel_id, self.on_kernel_restarted)
-        # km.add_restart_callback(self.kernel_id, self.on_restart_failed, 'dead')
+        kernel.restarter.add_callback(self.on_kernel_died, 'died')
+        kernel.restarter.add_callback(self.on_kernel_restarted, 'restarted')
+        kernel.restarter.add_callback(self.on_restart_failed, 'failed')
 
-        kernel.client.add_handler(self._on_zmq_msg, self.channels)
+        kernel.msg_handlers.append(self._on_zmq_msg)
 
     def on_message(self, msg):
         """Received websocket message; forward to kernel"""
@@ -331,40 +334,35 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         km = self.kernel_manager
         if self.kernel_id in km:
             km.notify_disconnect(self.kernel_id)
-            # km.remove_restart_callback(
-            #     self.kernel_id, self.on_kernel_restarted,
-            # )
-            # km.remove_restart_callback(
-            #     self.kernel_id, self.on_restart_failed, 'dead',
-            # )
+            kernel = km.get_kernel(self.kernel_id)
+            kernel.msg_handlers.remove(self._on_zmq_msg)
+
+            kernel.restarter.remove_callback(self.on_kernel_died, 'died')
+            kernel.restarter.remove_callback(self.on_restart_failed, 'failed')
+            kernel.restarter.remove_callback(self.on_kernel_restarted, 'restarted')
 
             # start buffering instead of closing if this was the last connection
-            kernel = km.get_kernel(self.kernel_id)
             if kernel.n_connections == 0:
                 km.start_buffering(self.kernel_id, self.session_key, self.channels)
-
-            kernel.client.remove_handler(self._on_zmq_msg)
 
         self._close_future.set_result(None)
 
     def _send_status_message(self, status):
-        iopub = self.channels.get('iopub', None)
-        if iopub and not iopub.closed():
-            # flush IOPub before sending a restarting/dead status message
-            # ensures proper ordering on the IOPub channel
-            # that all messages from the stopped kernel have been delivered
-            iopub.flush()
-        msg = self.session.msg("status",
+        msg = Message.from_type("status",
             {'execution_state': status}
         )
-        msg['channel'] = 'iopub'
-        self.write_message(json.dumps(msg, default=date_default))
+        ws_msg = self._reserialize_reply(msg, channel='iopub')
+        self.write_message(ws_msg, binary=isinstance(ws_msg, bytes))
 
-    def on_kernel_restarted(self):
-        logging.warn("kernel %s restarted", self.kernel_id)
+    def on_kernel_died(self, _data):
+        logging.warning("kernel %s died, noticed by auto restarter", self.kernel_id)
         self._send_status_message('restarting')
 
-    def on_restart_failed(self):
+    def on_kernel_restarted(self, _data):
+        logging.warning("kernel %s restarted", self.kernel_id)
+        self._send_status_message('starting')
+
+    def on_restart_failed(self, _data):
         logging.error("kernel %s restarted failed!", self.kernel_id)
         self._send_status_message('dead')
 

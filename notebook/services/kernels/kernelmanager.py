@@ -14,6 +14,7 @@ import uuid
 
 from tornado import gen, web
 from tornado.ioloop import IOLoop, PeriodicCallback
+from tornado.locks import Event
 
 from jupyter_kernel_mgmt.client import IOLoopKernelClient
 from jupyter_kernel_mgmt.restarter import TornadoKernelRestarter
@@ -30,6 +31,11 @@ from notebook.prometheus.metrics import KERNEL_CURRENTLY_RUNNING_TOTAL
 
 
 class KernelInterface(LoggingConfigurable):
+    """A wrapper around one kernel, including manager, client and restarter.
+
+    A KernelInterface instance persists across kernel restarts, whereas
+    manager and client objects are recreated.
+    """
     def __init__(self, kernel_type, kernel_finder):
         super(KernelInterface, self).__init__()
         self.kernel_type = kernel_type
@@ -49,34 +55,60 @@ class KernelInterface(LoggingConfigurable):
         # TODO: the buffer should likely be a memory bounded queue, we're starting with a list to keep it simple
         self.buffer = []
 
+        # Message handlers stored here don't have to be re-added if the kernel
+        # is restarted.
+        self.msg_handlers = []
+        self._client_connected = Event()
+
     client = None
 
     @gen.coroutine
     def connect_client(self):
-        if self.client is not None:
-            return self.client
-
+        """Connect a client and wait for it to be ready."""
         self.client = IOLoopKernelClient(self.connection_info, self.manager)
         yield self.client.wait_for_ready()
-        return self.client
+        self.client.add_handler(self._msg_received, {'shell', 'iopub', 'stdin'})
+        self._client_connected.set()
+
+    def _msg_received(self, msg, channel):
+        loop = IOLoop.current()
+        for handler in self.msg_handlers:
+            loop.add_callback(handler, msg, channel)
 
     @gen.coroutine
     def shutdown(self, now=False):
+        self.restarter.stop()
+
         if now:
             self.manager.kill()
         else:
             yield self.client.shutdown_or_terminate()
+
         self.client.close()
+        self.client = None
+        self._client_connected.clear()
         self.manager.cleanup()
-        self.stop_buffering()
 
     def interrupt(self):
         self.manager.interrupt()
 
+    @gen.coroutine
     def _handle_kernel_restarted(self, data):
+        """Called when the kernel has been restarted"""
+        self._client_connected.clear()
         self.manager = data['manager']
         self.connection_info = data['connection_info']
-        self.connect_client()
+        yield self.connect_client()
+
+    @gen.coroutine
+    def restart(self):
+        yield self.shutdown()
+        # The restart will trigger _handle_kernel_restarted() to connect a
+        # new client.
+        self.restarter.do_restart()
+        # Resume monitoring the kernel for auto-restart
+        self.restarter.start()
+        yield self._client_connected.wait()
 
     def start_buffering(self, session_key):
         # record the session key because only one session can buffer
@@ -257,7 +289,19 @@ class MappingKernelManager(LoggingConfigurable):
             elif '/' not in kernel_name:
                 kernel_name = 'spec/' + kernel_name
 
-            yield self._start_kernel(kernel_id, kernel_name)
+            kernel = KernelInterface(kernel_name, self.kernel_finder)
+            yield gen.with_timeout(timedelta(seconds=self.kernel_info_timeout),
+                kernel.connect_client()
+            )
+            self._kernels[kernel_id] = kernel
+
+            self.start_watching_activity(kernel_id)
+            self.log.info("Kernel started: %s" % kernel_id)
+
+            kernel.restarter.add_callback(
+                lambda data: self._handle_kernel_died(kernel_id),
+                'failed'
+            )
 
             # Increase the metric of number of kernels running
             # for the relevant kernel type by 1
@@ -275,19 +319,6 @@ class MappingKernelManager(LoggingConfigurable):
 
         # py2-compat
         raise gen.Return(kernel_id)
-
-    @gen.coroutine
-    def _start_kernel(self, kernel_id, kernel_type):
-        kernel = KernelInterface(kernel_type, self.kernel_finder)
-        yield kernel.connect_client()
-        self._kernels[kernel_id] = kernel
-
-        self.start_watching_activity(kernel_id)
-        self.log.info("Kernel started: %s" % kernel_id)
-
-        kernel.restarter.add_callback(
-            lambda data: self._handle_kernel_died(kernel_id), 'failed',
-        )
 
     def start_buffering(self, kernel_id, session_key, channels):
         """Start buffering messages for a kernel
@@ -343,20 +374,22 @@ class MappingKernelManager(LoggingConfigurable):
 
     @gen.coroutine
     def restart_kernel(self, kernel_id):
-        """Restart a kernel by kernel_id"""
+        """Restart a kernel by kernel_id
+
+        The restarted kernel keeps the same ID and KernelInterface object.
+        """
         self._check_kernel_id(kernel_id)
         kernel = self.get_kernel(kernel_id)
-
-        yield kernel.shutdown()
 
         try:
             yield gen.with_timeout(
                 timedelta(seconds=self.kernel_info_timeout),
-                self._start_kernel(kernel_id, kernel.kernel_type)
+                kernel.restart(),
             )
         except gen.TimeoutError:
             self.log.warning("Timeout waiting for kernel_info_reply: %s",
                              kernel_id)
+            self._kernels.pop(kernel_id)
             # Decrease the metric of number of kernels
             # running for the relevant kernel type by 1
             KERNEL_CURRENTLY_RUNNING_TOTAL.labels(
@@ -432,7 +465,7 @@ class MappingKernelManager(LoggingConfigurable):
             else:
                 self.log.debug("activity on %s: %s", kernel_id, msg_type)
 
-        kernel.client.add_handler(record_activity, 'iopub')
+        kernel.msg_handlers.append(record_activity)
 
     def initialize_culler(self):
         """Start idle culler if 'cull_idle_timeout' is greater than zero.
