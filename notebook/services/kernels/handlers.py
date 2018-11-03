@@ -250,6 +250,9 @@ class ZMQChannelsHandler(WebSocketMixin, WebSocketHandler, IPythonHandler):
 
     def _on_zmq_msg(self, msg: Message, channel):
         """Received message from kernel; forward over websocket"""
+        if self.ws_connection is None:
+            return
+
         def write_stderr(error_message):
             self.log.warning(error_message)
             stream_msg = Message.from_type("stream",
