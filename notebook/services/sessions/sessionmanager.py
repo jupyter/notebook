@@ -73,26 +73,28 @@ class SessionManager(LoggingConfigurable):
     def create_session(self, path=None, name=None, type=None, kernel_name=None, kernel_id=None):
         """Creates a session and returns its model"""
         session_id = self.new_session_id()
-        if kernel_id is not None and kernel_id in self.kernel_manager:
-            pass
-        else:
-            kernel_id = yield self.start_kernel_for_session(session_id, path, name, type, kernel_name)
+        if (kernel_id is None) or (kernel_id not in self.kernel_manager):
+            kernel_id = self.start_kernel_for_session(session_id, path, name, type, kernel_name)
+
+        # Save the session before waiting for the kernel to be fully started,
+        # to avoid race conditions resulting in two sessions.
         result = yield gen.maybe_future(
             self.save_session(session_id, path=path, name=name, type=type, kernel_id=kernel_id)
         )
+
+        # Now wait for the kernel to finish starting.
+        yield self.kernel_manager.wait_for_start(kernel_id)
+
         # py2-compat
         raise gen.Return(result)
 
-    @gen.coroutine
     def start_kernel_for_session(self, session_id, path, name, type, kernel_name):
         """Start a new kernel for a given session."""
         # allow contents manager to specify kernels cwd
         kernel_path = self.contents_manager.get_kernel_path(path=path)
-        kernel_id = yield gen.maybe_future(
-            self.kernel_manager.start_kernel(path=kernel_path, kernel_name=kernel_name)
+        return self.kernel_manager.start_launching_kernel(
+            path=kernel_path, kernel_name=kernel_name,
         )
-        # py2-compat
-        raise gen.Return(kernel_id)
 
     def save_session(self, session_id, path=None, name=None, type=None, kernel_id=None):
         """Saves the items for the session with the given session_id

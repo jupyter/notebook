@@ -233,8 +233,10 @@ class MappingKernelManager(LoggingConfigurable):
         super(MappingKernelManager, self).__init__(**kwargs)
         self.last_kernel_activity = utcnow()
         self._kernels = {}
+        self._kernels_starting = {}
         self._restarters = {}
         self.kernel_finder = kernel_finder
+        self.initialize_culler()
 
     def get_kernel(self, kernel_id):
         return self._kernels[kernel_id]
@@ -281,44 +283,58 @@ class MappingKernelManager(LoggingConfigurable):
             an existing kernel is returned, but it may be checked in the future.
         """
         if kernel_id is None:
-            if path is not None:
-                kwargs['cwd'] = self.cwd_for_path(path)
-            kernel_id = str(uuid.uuid4())
-            if kernel_name is None:
-                kernel_name = 'pyimport/kernel'
-            elif '/' not in kernel_name:
-                kernel_name = 'spec/' + kernel_name
-
-            kernel = KernelInterface(kernel_name, self.kernel_finder)
-            yield gen.with_timeout(timedelta(seconds=self.kernel_info_timeout),
-                kernel.connect_client()
-            )
-            self._kernels[kernel_id] = kernel
-
-            self.start_watching_activity(kernel_id)
-            self.log.info("Kernel started: %s" % kernel_id)
-
-            kernel.restarter.add_callback(
-                lambda data: self._handle_kernel_died(kernel_id),
-                'failed'
-            )
-
-            # Increase the metric of number of kernels running
-            # for the relevant kernel type by 1
-            KERNEL_CURRENTLY_RUNNING_TOTAL.labels(
-                type=self._kernels[kernel_id].kernel_type
-            ).inc()
-
+            kernel_id = self.start_launching_kernel(path, kernel_name, **kwargs)
+            yield self.wait_for_start(kernel_id)
         else:
             self._check_kernel_id(kernel_id)
             self.log.info("Using existing kernel: %s" % kernel_id)
 
-        # Initialize culling if not already
-        if not self._initialized_culler:
-            self.initialize_culler()
-
         # py2-compat
         raise gen.Return(kernel_id)
+
+    def start_launching_kernel(self, path=None, kernel_name=None, **kwargs):
+        """Launch a new kernel, return its kernel ID
+
+        This is a synchronous method which starts the process of launching a
+        kernel. Call :meth:`wait_for_start` to get an awaitable for the
+        rest of the startup and connection process.
+        """
+        if path is not None:
+            kwargs['cwd'] = self.cwd_for_path(path)
+        kernel_id = str(uuid.uuid4())
+        if kernel_name is None:
+            kernel_name = 'pyimport/kernel'
+        elif '/' not in kernel_name:
+            kernel_name = 'spec/' + kernel_name
+
+        kernel = KernelInterface(kernel_name, self.kernel_finder)
+        self._kernels[kernel_id] = kernel
+        self._kernels_starting[kernel_id] = \
+            self._finish_launching_kernel(kernel_id, kernel)
+        return kernel_id
+
+    def wait_for_start(self, kernel_id):
+        return self._kernels_starting[kernel_id]
+
+    @gen.coroutine
+    def _finish_launching_kernel(self, kernel_id, kernel):
+        yield gen.with_timeout(timedelta(seconds=self.kernel_info_timeout),
+                               kernel.connect_client()
+                               )
+
+        self.start_watching_activity(kernel_id)
+        self.log.info("Kernel started: %s" % kernel_id)
+
+        kernel.restarter.add_callback(
+            lambda data: self._handle_kernel_died(kernel_id),
+            'failed'
+        )
+
+        # Increase the metric of number of kernels running
+        # for the relevant kernel type by 1
+        KERNEL_CURRENTLY_RUNNING_TOTAL.labels(
+            type=self._kernels[kernel_id].kernel_type
+        ).inc()
 
     def start_buffering(self, kernel_id, session_key, channels):
         """Start buffering messages for a kernel
