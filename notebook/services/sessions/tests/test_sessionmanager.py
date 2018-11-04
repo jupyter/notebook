@@ -28,13 +28,17 @@ class DummyMKM(MappingKernelManager):
     def _new_id(self):
         return next(self.id_letters)
     
-    def start_kernel(self, kernel_id=None, path=None, kernel_name='python', **kwargs):
-        kernel_id = kernel_id or self._new_id()
+    def start_launching_kernel(self, path=None, kernel_name='python', **kwargs):
+        kernel_id = self._new_id()
         k = self._kernels[kernel_id] = DummyKernel(kernel_type=kernel_name)
         k.n_connections = 0
         k.last_activity = dummy_date
         k.execution_state = 'idle'
         return kernel_id
+
+    @gen.coroutine
+    def wait_for_start(self, kernel_id):
+        return  # Don't wait for anything
 
     def shutdown_kernel(self, kernel_id, now=False):
         del self._kernels[kernel_id]
