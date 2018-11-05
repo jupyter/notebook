@@ -396,19 +396,19 @@ class ZMQChannelsHandler(WebSocketMixin, WebSocketHandler, IPythonHandler):
             {'execution_state': status}
         )
         ws_msg = serialize_message(msg, channel='iopub')
-        self.write_message(ws_msg, binary=isinstance(ws_msg, bytes))
+        return self.write_message(ws_msg, binary=isinstance(ws_msg, bytes))
 
     def on_kernel_died(self, _data):
         logging.warning("kernel %s died, noticed by auto restarter", self.kernel_id)
-        self._send_status_message('restarting')
+        return self._send_status_message('restarting')
 
     def on_kernel_restarted(self, _data):
         logging.warning("kernel %s restarted", self.kernel_id)
-        self._send_status_message('starting')
+        return self._send_status_message('starting')
 
     def on_restart_failed(self, _data):
         logging.error("kernel %s restarted failed!", self.kernel_id)
-        self._send_status_message('dead')
+        return self._send_status_message('dead')
 
 
 #-----------------------------------------------------------------------------
