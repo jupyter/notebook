@@ -379,7 +379,10 @@ class ZMQChannelsHandler(WebSocketMixin, WebSocketHandler, IPythonHandler):
         if self.kernel_id in km:
             km.notify_disconnect(self.kernel_id)
             kernel = km.get_kernel(self.kernel_id)
-            kernel.msg_handlers.remove(self._on_zmq_msg)
+            try:
+                kernel.msg_handlers.remove(self._on_zmq_msg)
+            except ValueError:
+                self.log.debug("Message handler not connected")
 
             kernel.restarter.remove_callback(self.on_kernel_died, 'died')
             kernel.restarter.remove_callback(self.on_restart_failed, 'failed')
