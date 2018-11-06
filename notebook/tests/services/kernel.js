@@ -297,29 +297,4 @@ casper.notebook_test(function () {
         }
     );
     this.wait_for_kernel_ready();
-
-    // test handling of failed restart
-    this.event_test(
-        'failed_restart',
-        [
-            'kernel_restarting.Kernel',
-            'kernel_autorestarting.Kernel',
-            'kernel_dead.Kernel'
-        ],
-        function () {
-            this.thenEvaluate(function () {
-                var cell = IPython.notebook.get_cell(0);
-                cell.set_text("import os\n" +
-                              "from IPython.kernel.connect import get_connection_file\n" +
-                              "with open(get_connection_file(), 'w') as f:\n" +
-                              "    f.write('garbage')\n" +
-                              "os._exit(1)");
-                cell.execute();
-            });
-        }, 
-
-        // need an extra-long timeout, because it needs to try
-        // restarting the kernel 5 times!
-        20000
-    );
 });
