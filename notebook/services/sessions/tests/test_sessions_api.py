@@ -123,11 +123,15 @@ class SessionAPITest(NotebookTestBase):
         self.assertEqual(resp.headers['Location'], self.url_prefix + 'api/sessions/{0}'.format(newsession['id']))
 
         sessions = self.sess_api.list().json()
-        self.assertEqual(sessions, [newsession])
+        self.assertEqual([s['id'] for s in sessions], [newsession['id']])
 
         # Retrieve it
         sid = newsession['id']
         got = self.sess_api.get(sid).json()
+
+        # Kernel state may have changed from 'starting' to 'idle'
+        del got['kernel']['execution_state']
+        del newsession['kernel']['execution_state']
         self.assertEqual(got, newsession)
 
     def test_create_file_session(self):
