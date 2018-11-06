@@ -48,6 +48,7 @@ class KernelInterface(LoggingConfigurable):
 
         self.restarter = TornadoKernelRestarter(self.manager, kernel_type,
                                            kernel_finder=self.kernel_finder)
+        self.restarter.add_callback(self._handle_kernel_died, 'died')
         self.restarter.add_callback(self._handle_kernel_restarted, 'restarted')
         self.restarter.start()
 
@@ -58,17 +59,33 @@ class KernelInterface(LoggingConfigurable):
         # Message handlers stored here don't have to be re-added if the kernel
         # is restarted.
         self.msg_handlers = []
-        self._client_connected = Event()
+        # A future that resolves when the client is connected
+        self.client_connected = self._connect_client()
+        self._client_connected_evt = Event()
 
     client = None
 
     @gen.coroutine
-    def connect_client(self):
+    def _connect_client(self):
         """Connect a client and wait for it to be ready."""
         self.client = IOLoopKernelClient(self.connection_info, self.manager)
         yield self.client.wait_for_ready()
         self.client.add_handler(self._msg_received, {'shell', 'iopub', 'stdin'})
-        self._client_connected.set()
+        self._client_connected_evt.set()
+
+    def _close_client(self):
+        if self.client is not None:
+            self._client_connected_evt.clear()
+            self.client_connected.cancel()
+            self.client.close()
+            self.client = None
+
+    def client_ready(self):
+        """Return a future which resolves when the client is ready"""
+        if self.client is None:
+            return self._client_connected_evt.wait()
+        else:
+            return self.client_connected
 
     def _msg_received(self, msg, channel):
         loop = IOLoop.current()
@@ -84,21 +101,24 @@ class KernelInterface(LoggingConfigurable):
         else:
             yield self.client.shutdown_or_terminate()
 
-        self.client.close()
-        self.client = None
-        self._client_connected.clear()
+        self._close_client()
         self.manager.cleanup()
 
     def interrupt(self):
         self.manager.interrupt()
 
     @gen.coroutine
+    def _handle_kernel_died(self, data):
+        """Called when the auto-restarter notices the kernel has died"""
+        self._close_client()
+
+    @gen.coroutine
     def _handle_kernel_restarted(self, data):
         """Called when the kernel has been restarted"""
-        self._client_connected.clear()
         self.manager = data['manager']
         self.connection_info = data['connection_info']
-        yield self.connect_client()
+        self.client_connected = self._connect_client()
+        yield self.client_connected
 
     @gen.coroutine
     def restart(self):
@@ -108,7 +128,7 @@ class KernelInterface(LoggingConfigurable):
         self.restarter.do_restart()
         # Resume monitoring the kernel for auto-restart
         self.restarter.start()
-        yield self._client_connected.wait()
+        yield self._client_connected_evt.wait()
 
     def start_buffering(self, session_key):
         # record the session key because only one session can buffer
@@ -284,7 +304,7 @@ class MappingKernelManager(LoggingConfigurable):
         """
         if kernel_id is None:
             kernel_id = self.start_launching_kernel(path, kernel_name, **kwargs)
-            yield self.wait_for_start(kernel_id)
+            yield self.get_kernel(kernel_id).client_ready()
         else:
             self._check_kernel_id(kernel_id)
             self.log.info("Using existing kernel: %s" % kernel_id)
@@ -296,8 +316,8 @@ class MappingKernelManager(LoggingConfigurable):
         """Launch a new kernel, return its kernel ID
 
         This is a synchronous method which starts the process of launching a
-        kernel. Call :meth:`wait_for_start` to get an awaitable for the
-        rest of the startup and connection process.
+        kernel. Retrieve the KernelInterface object and call ``.client_ready()``
+        to get a future for the rest of the startup & connection.
         """
         if path is not None:
             kwargs['cwd'] = self.cwd_for_path(path)
@@ -309,18 +329,6 @@ class MappingKernelManager(LoggingConfigurable):
 
         kernel = KernelInterface(kernel_name, self.kernel_finder)
         self._kernels[kernel_id] = kernel
-        self._kernels_starting[kernel_id] = \
-            self._finish_launching_kernel(kernel_id, kernel)
-        return kernel_id
-
-    def wait_for_start(self, kernel_id):
-        return self._kernels_starting[kernel_id]
-
-    @gen.coroutine
-    def _finish_launching_kernel(self, kernel_id, kernel):
-        yield gen.with_timeout(timedelta(seconds=self.kernel_info_timeout),
-                               kernel.connect_client()
-                               )
 
         self.start_watching_activity(kernel_id)
         self.log.info("Kernel started: %s" % kernel_id)
@@ -335,6 +343,8 @@ class MappingKernelManager(LoggingConfigurable):
         KERNEL_CURRENTLY_RUNNING_TOTAL.labels(
             type=self._kernels[kernel_id].kernel_type
         ).inc()
+
+        return kernel_id
 
     def start_buffering(self, kernel_id, session_key, channels):
         """Start buffering messages for a kernel

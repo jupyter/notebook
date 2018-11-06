@@ -83,7 +83,7 @@ class SessionManager(LoggingConfigurable):
         )
 
         # Now wait for the kernel to finish starting.
-        yield self.kernel_manager.wait_for_start(kernel_id)
+        yield self.kernel_manager.get_kernel(kernel_id).client_ready()
 
         # py2-compat
         raise gen.Return(result)

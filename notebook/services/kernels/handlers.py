@@ -80,7 +80,10 @@ class KernelActionHandler(APIHandler):
     def post(self, kernel_id, action):
         km = self.kernel_manager
         if action == 'interrupt':
-            km.get_kernel(kernel_id).interrupt()
+            kernel = km.get_kernel(kernel_id)
+            # Don't interrupt a kernel while it's still starting
+            yield kernel.client_ready()
+            kernel.interrupt()
             self.set_status(204)
         if action == 'restart':
 
@@ -210,11 +213,13 @@ class ZMQChannelsHandler(WebSocketMixin, WebSocketHandler, IPythonHandler):
             yield stale_handler.close()
         self._open_sessions[self.session_key] = self
 
+    @gen.coroutine
     def open(self, kernel_id):
         super(ZMQChannelsHandler, self).open()
         km = self.kernel_manager
         km.notify_connect(kernel_id)
         kernel = km.get_kernel(kernel_id)
+        yield from kernel.client_ready()
 
         # on new connections, flush the message buffer
         buffer_key, replay_buffer = kernel.get_buffer()

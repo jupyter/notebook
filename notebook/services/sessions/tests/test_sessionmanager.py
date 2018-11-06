@@ -16,6 +16,10 @@ class DummyKernel(object):
     def __init__(self, kernel_type='python'):
         self.kernel_type = kernel_type
 
+    @gen.coroutine
+    def client_ready(self):
+        return  # Don't wait for anything
+
 dummy_date = utcnow()
 dummy_date_s = isoformat(dummy_date)
 
@@ -35,10 +39,6 @@ class DummyMKM(MappingKernelManager):
         k.last_activity = dummy_date
         k.execution_state = 'idle'
         return kernel_id
-
-    @gen.coroutine
-    def wait_for_start(self, kernel_id):
-        return  # Don't wait for anything
 
     def shutdown_kernel(self, kernel_id, now=False):
         del self._kernels[kernel_id]
