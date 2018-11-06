@@ -47,7 +47,7 @@ casper.notebook_test(function () {
     });
 
     this.wait_for_output(1);
-    this.wait_for_idle()
+    this.wait_for_idle();
 
     this.then(function () {
         var outputs = get_outputs(1);
@@ -151,7 +151,7 @@ casper.notebook_test(function () {
         cell.execute();
 
         Jupyter.notebook.insert_cell_at_index("code", 5);
-        var cell = Jupyter.notebook.get_cell(5);
+        cell = Jupyter.notebook.get_cell(5);
         cell.set_text([
             "display_with_id(10, 'result', update=True)",
             "1",
@@ -179,7 +179,7 @@ casper.notebook_test(function () {
         this.test.assertEquals(callback_results[1].output_type, 'update_display_data', 'check output_type 1');
         this.test.assertEquals(callback_results[1].transient.display_id, 'here', 'display id 1');
         this.test.assertEquals(callback_results[1].data['text/plain'], '6', 'value');
-        this.test.assertEquals(callback_results[2].output_type, 'display_data', 'check output_type 2');
+        this.test.assertEquals(callback_results[2].output_type, 'update_display_data', 'check output_type 2');
         this.test.assertEquals(callback_results[2].transient.display_id, 'here', 'check display id 2');
         this.test.assertEquals(callback_results[2].data['text/plain'], '7', 'value');
         this.test.assertEquals(callback_results[3].output_type, 'update_display_data', 'check output_type 3');
