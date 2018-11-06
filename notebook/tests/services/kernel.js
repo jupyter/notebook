@@ -287,6 +287,7 @@ casper.notebook_test(function () {
         [
             'kernel_restarting.Kernel',
             'kernel_autorestarting.Kernel',
+            'kernel_starting.Kernel',
         ],
         function () {
             this.thenEvaluate(function () {
