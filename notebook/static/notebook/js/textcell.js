@@ -74,7 +74,9 @@ define([
     TextCell.options_default = {
         cm_config : {
             mode: 'htmlmixed',
-            lineWrapping : true,
+            lineWrapping: true,
+            matchBrackets: true,
+            autoCloseBrackets: true
         }
     };
 
