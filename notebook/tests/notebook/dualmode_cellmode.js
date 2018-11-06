@@ -7,6 +7,7 @@ casper.notebook_test(function () {
             return Jupyter.notebook.get_cell(index).code_mirror.getMode().name;
         }, {index: index});
     }
+    this.wait_for_kernel_ready();
 
     this.then(function () {
         // Cell mode change
