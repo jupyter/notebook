@@ -256,5 +256,7 @@ class SessionAPITest(NotebookTestBase):
         kernel_list = r.json()
 
         kernel.pop('last_activity')
+        kernel.pop('execution_state')
         [ k.pop('last_activity') for k in kernel_list ]
+        [ k.pop('execution_state') for k in kernel_list ]
         self.assertEqual(kernel_list, [kernel])
