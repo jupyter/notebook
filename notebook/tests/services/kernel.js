@@ -112,8 +112,8 @@ casper.notebook_test(function () {
         var kernel_info_response =  this.evaluate(function(){
             return IPython._kernel_info_response;
         });
-        this.test.assertTrue( kernel_info_response.msg_type === 'kernel_info_reply', 'Kernel info request return kernel_info_reply');
-        this.test.assertTrue( kernel_info_response.content !== undefined, 'Kernel_info_reply is not undefined');
+        this.test.assertEquals( kernel_info_response.header.msg_type, 'kernel_info_reply', 'Kernel info request return kernel_info_reply');
+        this.test.assertNotEquals( kernel_info_response.content, undefined, 'Kernel_info_reply is not undefined');
     });
 
     // test kill

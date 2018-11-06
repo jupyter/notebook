@@ -99,10 +99,10 @@ casper.notebook_test(function () {
         cell.execute();
         var kernel = IPython.notebook.kernel;
         var msg_id = cell.last_msg_id;
-        var callback_id = 'mycallbackid'
+        var callback_id = 'mycallbackid';
         cell.iopub_messages = [];
         var add_msg = function(msg) {
-            msg.content.output_type = msg.msg_type;
+            msg.content.output_type = msg.header.msg_type;
             cell.iopub_messages.push(msg.content);
         };
         kernel.set_callbacks_for_msg(callback_id, {
