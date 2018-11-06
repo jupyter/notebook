@@ -28,6 +28,7 @@ def serialize_message(msg, channel):
         buf = serialize_binary_message(d, msg.buffers)
         return buf
     else:
+        d['buffers'] = []
         smsg = json.dumps(d, default=date_default)
         return cast_unicode(smsg)
 
