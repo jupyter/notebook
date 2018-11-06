@@ -217,6 +217,7 @@ class ZMQChannelsHandler(WebSocketMixin, WebSocketHandler, IPythonHandler):
     def open(self, kernel_id):
         super(ZMQChannelsHandler, self).open()
         km = self.kernel_manager
+        km._check_kernel_id(kernel_id)
         km.notify_connect(kernel_id)
         kernel = km.get_kernel(kernel_id)
         yield from kernel.client_ready()
