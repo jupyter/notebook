@@ -40,3 +40,8 @@ class TermSocket(WebSocketMixin, IPythonHandler, terminado.TermSocket):
     def write_message(self, message, binary=False):
         super(TermSocket, self).write_message(message, binary=binary)
         self.application.settings['terminal_last_activity'] = utcnow()
+
+    def open(self, url_component=None):
+        if not url_component in self.term_manager.terminals:
+            raise web.HTTPError(404)
+        return super(TermSocket, self).open(url_component)
