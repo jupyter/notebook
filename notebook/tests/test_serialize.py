@@ -23,8 +23,10 @@ def test_serialize_binary():
 def test_deserialize_json():
     msg = Message.from_type('data_pub', content={'a': 'b'})
     smsg = serialize_message(msg, 'iopub')
+    print("Serialised: ", smsg)
     msg_dict = msg.make_dict()
     msg_dict['channel'] = 'iopub'
+    msg_dict['buffers'] = []
 
     msg2 = deserialize_message(smsg)
     nt.assert_equal(msg2, msg_dict)
