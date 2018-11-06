@@ -96,9 +96,10 @@ class KernelInterface(LoggingConfigurable):
     def shutdown(self, now=False):
         self.restarter.stop()
 
-        if now:
+        if now or (self.client is None):
             self.manager.kill()
         else:
+            yield self.client_connected
             yield self.client.shutdown_or_terminate()
 
         self._close_client()
