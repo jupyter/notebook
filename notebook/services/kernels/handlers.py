@@ -410,7 +410,11 @@ class ZMQChannelsHandler(WebSocketMixin, WebSocketHandler, IPythonHandler):
         logging.warning("kernel %s died, noticed by auto restarter", self.kernel_id)
         return self._send_status_message('restarting')
 
+    @gen.coroutine
     def on_kernel_restarted(self, _data):
+        kernel = self.kernel_manager.get_kernel(self.kernel_id)
+        # Send the status message once the client is connected
+        yield kernel.client_ready()
         logging.warning("kernel %s restarted", self.kernel_id)
         return self._send_status_message('starting')
 
