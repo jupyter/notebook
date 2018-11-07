@@ -1438,14 +1438,16 @@ class NotebookApp(JupyterApp):
                 url += '/'
         else:
             if self.ip in ('', '0.0.0.0'):
-                ip = "(%s or 127.0.0.1)" % socket.gethostname()
+                ip = "%s" % socket.gethostname()
             else:
                 ip = self.ip
             url = self._url(ip)
         if self.token:
             # Don't log full token if it came from config
             token = self.token if self._token_generated else '...'
-            url = url_concat(url, {'token': token})
+            url = (url_concat(url, {'token': token})
+                  + '\n or '
+                  + url_concat(self._url('127.0.0.1'), {'token': token}))
         return url
 
     @property
