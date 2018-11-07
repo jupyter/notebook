@@ -865,6 +865,12 @@ class NotebookApp(JupyterApp):
     @default('allow_remote_access')
     def _default_allow_remote(self):
         """Disallow remote access if we're listening only on loopback addresses"""
+
+        # if blank, self.ip was configured to "*" meaning bind to all interfaces,
+        # see _valdate_ip
+        if self.ip == "":
+            return True
+
         try:
             addr = ipaddress.ip_address(self.ip)
         except ValueError:
