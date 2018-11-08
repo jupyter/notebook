@@ -27,7 +27,7 @@ def test_merge_cells(notebook):
     assert notebook.get_cells_contents() == [merged_a_b, merged_c_d, e, f]
 
     # Merge everything down to a single cell with selected cells
-    notebook.select_command_lines(0,3)
+    notebook.select_cell_range(0,3)
     notebook.browser.execute_script("Jupyter.notebook.merge_selected_cells();")
     merged_all = "%s\n\n%s\n\n%s\n\n%s" % (merged_a_b, merged_c_d, e, f)
     assert notebook.get_cells_contents() == [merged_all]

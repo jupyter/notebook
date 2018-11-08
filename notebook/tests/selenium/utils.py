@@ -100,7 +100,7 @@ class Notebook:
         self.to_command_mode()
         self.current_cell = cell
     
-    def select_command_lines(self, initial_index=0, final_index=0):
+    def select_cell_range(self, initial_index=0, final_index=0):
         self.focus_cell(initial_index)
         self.to_command_mode()
         for i in range(final_index - initial_index):
