@@ -107,8 +107,10 @@ from jupyter_client.session import Session
 from nbformat.sign import NotebookNotary
 from traitlets import (
     Any, Dict, Unicode, Integer, List, Bool, Bytes, Instance,
-    TraitError, Type, Float, observe, default, validate
+    TraitError, Type, Float, observe, default, validate,
+    import_item,
 )
+
 from ipython_genutils import py3compat
 from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
 from notebook._sysinfo import get_sys_info
@@ -1123,9 +1125,37 @@ class NotebookApp(JupyterApp):
         self.log.info(_("Using MathJax configuration file: %s"), change['new'])
         
     quit_button = Bool(True, config=True,
-        help="""If True, display a button in the dashboard to quit
-        (shutdown the notebook server)."""
+        help=_("""If True, display a button in the dashboard to quit
+        (shutdown the notebook server).""")
     )
+
+    event_loop_policy = Any(
+        config=True,
+        help=_("""The asyncio event loop policy
+
+        allows specifying an eventloop policy other than the default,
+        e.g.::
+
+            c.NotebookApp.event_loop_policy = 'uvloop.EventLoopPolicy'
+
+        or::
+
+            from tornado.platform.asyncio import AnyThreadEventLoopPolicy
+            c.NotebookApp.event_loop_policy = AnyThreadEventLoopPolicy()
+
+        If specified as a string, the event loop policy class
+        will be imported and instantiated.
+        """
+        ),
+    )
+    @observe('event_loop_policy')
+    def _event_loop_policy_changed(self, change):
+        policy = change.new
+        if isinstance(policy, str):
+            # if it's a str, it should be an import string
+            policy = import_item(policy)()
+        import asyncio
+        asyncio.set_event_loop_policy(policy)
 
     contents_manager_class = Type(
         default_value=LargeFileManager,
