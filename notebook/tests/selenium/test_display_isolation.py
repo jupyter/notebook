@@ -3,6 +3,7 @@
 An object whose metadata contains an "isolated" tag must be isolated
 from the rest of the document.
 """
+from .utils import wait_for_tag
 
 
 def test_display_isolation(notebook):
@@ -26,7 +27,7 @@ def isolated_html(notebook):
     """
     red = 'rgb(255, 0, 0)'
     blue = 'rgb(0, 0, 255)'
-    test_str = "<div id='test'>Should be red from non-isolation</div>"
+    test_str = "<div id='test'>Should turn red from non-isolation</div>"
     notebook.add_and_execute_cell(content="display(HTML(%r))" % test_str)
     non_isolated = (
         "<style>div{color:%s;}</style>" % red +
@@ -40,6 +41,8 @@ def isolated_html(notebook):
     display_i = "display(HTML(%r), metadata={'isolated':True})" % (
         isolated)
     notebook.add_and_execute_cell(content=display_i)
+
+    wait_for_tag(notebook.browser, "iframe")
 
     # The non-isolated div will be in the body
     non_isolated_div = notebook.body.find_element_by_id("non-isolated")
@@ -55,6 +58,9 @@ def isolated_html(notebook):
     isolated_div = notebook.browser.find_element_by_id("isolated")
     assert isolated_div.value_of_css_property("color") == blue
     notebook.browser.switch_to.default_content()
+    # Clean up the html test cells
+    for i in range(1, len(notebook.cells)):
+        notebook.delete_cell(1)
 
 
 def isolated_svg(notebook):
@@ -73,16 +79,20 @@ def isolated_svg(notebook):
         content="display_svg(SVG(s1), metadata=dict(isolated=True))")
     notebook.add_and_execute_cell(
         content="display_svg(SVG(s2), metadata=dict(isolated=True))")
+    wait_for_tag(notebook.browser, "iframe")
     iframes = notebook.body.find_elements_by_tag_name("iframe")
 
     # The first rectangle will be red
-    notebook.browser.switch_to.frame(iframes[1])
+    notebook.browser.switch_to.frame(iframes[0])
     isolated_svg_1 = notebook.browser.find_element_by_id('r1')
     assert isolated_svg_1.value_of_css_property("fill") == yellow
     notebook.browser.switch_to.default_content()
 
     # The second rectangle will be black
-    notebook.browser.switch_to.frame(iframes[2])
+    notebook.browser.switch_to.frame(iframes[1])
     isolated_svg_2 = notebook.browser.find_element_by_id('r2')
     assert isolated_svg_2.value_of_css_property("fill") == black
 
+    # Clean up the svg test cells
+    for i in range(1, len(notebook.cells)):
+        notebook.delete_cell(1)
