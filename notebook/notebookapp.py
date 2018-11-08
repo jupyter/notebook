@@ -9,6 +9,7 @@ from __future__ import absolute_import, print_function
 import notebook
 import binascii
 import datetime
+from distutils.version import LooseVersion as V
 import errno
 import gettext
 import hashlib
@@ -43,8 +44,12 @@ from notebook.transutils import trans, _
 
 # Install the pyzmq ioloop. This has to be done before anything else from
 # tornado is imported.
-from zmq.eventloop import ioloop
-ioloop.install()
+import zmq
+if V(zmq.__version__) < V('17'):
+    from zmq.eventloop import ioloop
+    ioloop.install()
+else:
+    ioloop = None
 
 # check for tornado 3.1.0
 try:
@@ -62,6 +67,8 @@ from tornado import httpserver
 from tornado import web
 from tornado.httputil import url_concat
 from tornado.log import LogFormatter, app_log, access_log, gen_log
+if not ioloop:
+    from tornado import ioloop
 
 from notebook import (
     DEFAULT_STATIC_FILES_PATH,
