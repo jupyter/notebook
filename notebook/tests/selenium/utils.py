@@ -12,8 +12,14 @@ from contextlib import contextmanager
 pjoin = os.path.join
 
 
-def wait_for_selector(browser, selector, timeout=10, visible=False, single=False):
-    wait = WebDriverWait(browser, timeout)
+def wait_for_selector(driver, selector, timeout=10, visible=False, single=False):
+    return _wait_for(driver, By.CSS_SELECTOR, selector, timeout, visible, single)
+
+def wait_for_tag(driver, tag, timeout=10, visible=False, single=False):
+    return _wait_for(driver, By.TAG_NAME, tag, timeout, visible, single)
+
+def _wait_for(driver, locator_type, locator, timeout=10, visible=False, single=False):
+    wait = WebDriverWait(driver, timeout)
     if single:
         if visible:
             conditional = EC.visibility_of_element_located
@@ -24,7 +30,7 @@ def wait_for_selector(browser, selector, timeout=10, visible=False, single=False
             conditional = EC.visibility_of_all_elements_located
         else:
             conditional = EC.presence_of_all_elements_located
-    return wait.until(conditional((By.CSS_SELECTOR, selector)))
+    return wait.until(conditional((locator_type, locator)))
 
 
 class CellTypeError(ValueError):
