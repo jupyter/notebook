@@ -6,11 +6,15 @@ from the rest of the document.
 
 
 def test_display_isolation(notebook):
-    import_ln = """from IPython.core.display import HTML, SVG, display, display_svg"""
+    import_ln = "from IPython.core.display import HTML, SVG, display, display_svg"
     notebook.edit_cell(index=0, content=import_ln)
     notebook.execute_cell(notebook.current_cell)
-    isolated_html(notebook)
-    isolated_svg(notebook)
+    try:
+        isolated_html(notebook)
+        isolated_svg(notebook)
+    finally:
+        # Ensure we switch from iframe back to default content even if test fails
+        notebook.browser.switch_to.default_content()
 
 
 def isolated_html(notebook):
@@ -22,18 +26,18 @@ def isolated_html(notebook):
     """
     red = 'rgb(255, 0, 0)'
     blue = 'rgb(0, 0, 255)'
-    test_str = """<div id='test'>Should be red from non-isolation</div>"""
-    notebook.add_and_execute_cell(content="""display(HTML("%s"))""" % test_str)
+    test_str = "<div id='test'>Should be red from non-isolation</div>"
+    notebook.add_and_execute_cell(content="display(HTML(%r))" % test_str)
     non_isolated = (
         "<style>div{color:%s;}</style>" % red +
         "<div id='non-isolated'>Should be red</div>")
-    display_ni = """display(HTML("%s"), metadata={"isolated":False})""" % (
+    display_ni = "display(HTML(%r), metadata={'isolated':False})" % (
         non_isolated)
     notebook.add_and_execute_cell(content=display_ni)
     isolated = (
         "<style>div{color:%s;}</style>" % blue +
         "<div id='isolated'>Should be blue</div>")
-    display_i = """display(HTML("%s"), metadata={"isolated":True})""" % (
+    display_i = "display(HTML(%r), metadata={'isolated':True})" % (
         isolated)
     notebook.add_and_execute_cell(content=display_i)
 
