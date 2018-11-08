@@ -35,8 +35,6 @@ def validate_img(notebook, cell_index, image_fmt, retina):
     notebook.execute_cell(cell_index)
 
     # Find the image element that was just displayed
-    import time
-    time.sleep(1)
     wait_for_tag(notebook.cells[cell_index], "img", single=True)
     img_element = notebook.cells[cell_index].find_element_by_tag_name("img")
 
@@ -45,15 +43,11 @@ def validate_img(notebook, cell_index, image_fmt, retina):
     expected_prefix = "data:%s;base64" % image_fmt
     assert prefix == expected_prefix
 
-    width = img_element.size["width"]
-    height = img_element.size["height"]
-    width_attr = img_element.get_attribute("width")
-    height_attr = img_element.get_attribute("height")
     expected_size = 1 if retina else 2
-    assert width == expected_size
-    assert height == expected_size
-    assert width_attr == str(expected_size)
-    assert height_attr == str(expected_size)
+    assert img_element.size["width"] == expected_size
+    assert img_element.size["height"] == expected_size
+    assert img_element.get_attribute("width") == str(expected_size)
+    assert img_element.get_attribute("height") == str(expected_size)
 
 
 def test_display_image(notebook):
