@@ -71,13 +71,6 @@ class Notebook:
         return self.browser.find_elements_by_class_name("cell")
     
     @property
-    def inputs(self):
-        """Gets all inputs once they are visible.
-        
-        """
-        return self.browser.find_elements_by_class_name("input")
-
-    @property
     def current_index(self):
         return self.index(self.current_cell)
     
