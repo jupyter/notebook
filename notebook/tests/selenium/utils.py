@@ -200,6 +200,10 @@ class Notebook:
         if cell_type != 'code':
             self.convert_cell_type(index=new_index, cell_type=cell_type)
 
+    def add_and_execute_cell(self, index=-1, cell_type="code", content=""):
+        self.add_cell(index=index, cell_type=cell_type, content=content)
+        self.execute_cell(index)
+
     def delete_cell(self, index):
         self.focus_cell(index)
         self.to_command_mode()
@@ -270,7 +274,7 @@ def new_window(browser, selector=None):
     yield
     new_window_handle = next(window for window in browser.window_handles 
                              if window not in initial_window_handles)
-    browser.switch_to_window(new_window_handle)
+    browser.switch_to.window(new_window_handle)
     if selector is not None:
         wait_for_selector(browser, selector)
 
