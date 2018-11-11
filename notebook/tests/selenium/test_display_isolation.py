@@ -42,7 +42,7 @@ def isolated_html(notebook):
         isolated)
     notebook.add_and_execute_cell(content=display_i)
 
-    wait_for_tag(notebook.browser, "iframe")
+    iframe = wait_for_tag(notebook.browser, "iframe", single=True)
 
     # The non-isolated div will be in the body
     non_isolated_div = notebook.body.find_element_by_id("non-isolated")
@@ -53,7 +53,6 @@ def isolated_html(notebook):
     assert test_div.value_of_css_property("color") == red
 
     # The isolated div will be in an iframe, only that element will be blue
-    iframe = notebook.body.find_element_by_tag_name("iframe")
     notebook.browser.switch_to.frame(iframe)
     isolated_div = notebook.browser.find_element_by_id("isolated")
     assert isolated_div.value_of_css_property("color") == blue
@@ -79,8 +78,7 @@ def isolated_svg(notebook):
         content="display_svg(SVG(s1), metadata=dict(isolated=True))")
     notebook.add_and_execute_cell(
         content="display_svg(SVG(s2), metadata=dict(isolated=True))")
-    wait_for_tag(notebook.browser, "iframe")
-    iframes = notebook.body.find_elements_by_tag_name("iframe")
+    iframes = wait_for_tag(notebook.browser, "iframe", wait_for_n=2)
 
     # The first rectangle will be red
     notebook.browser.switch_to.frame(iframes[0])
