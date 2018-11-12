@@ -15,15 +15,15 @@ pjoin = os.path.join
 
 def wait_for_selector(driver, selector, timeout=10, visible=False, single=False, wait_for_n=1):
     if wait_for_n > 1:
-            return _wait_for_multiple(
-                driver, By.CSS_SELECTOR, selector, timeout, wait_for_n, visible)
+        return _wait_for_multiple(
+            driver, By.CSS_SELECTOR, selector, timeout, wait_for_n, visible)
     return _wait_for(driver, By.CSS_SELECTOR, selector, timeout, visible, single)
 
 
 def wait_for_tag(driver, tag, timeout=10, visible=False, single=False, wait_for_n=1):
     if wait_for_n > 1:
-            return _wait_for_multiple(
-                driver, By.TAG_NAME, tag, timeout, wait_for_n, visible)
+        return _wait_for_multiple(
+            driver, By.TAG_NAME, tag, timeout, wait_for_n, visible)
     return _wait_for(driver, By.TAG_NAME, tag, timeout, visible, single)
 
 
@@ -69,16 +69,11 @@ def _wait_for_multiple(driver, locator_type, locator, timeout, wait_for_n, visib
     wait = WebDriverWait(driver, timeout)
 
     def multiple_found(driver):
-        try:
-            elements = driver.find_elements(locator_type, locator)
-        except WebDriverException as e:
-            raise e
+        elements = driver.find_elements(locator_type, locator)
+        if visible:
+            elements = [e for e in elements if e.is_displayed()]
         if len(elements) < wait_for_n:
             return False
-        if visible:
-            for element in elements:
-                if not element.is_displayed():
-                    return False
         return elements
 
     return wait.until(multiple_found)
