@@ -1311,11 +1311,11 @@ msgstr "Sauvegarde toutes les %d sec."
 
 #: notebook/static/notebook/js/notificationarea.js:383
 msgid "Trusted"
-msgstr "De confiance"
+msgstr "Fiable"
 
 #: notebook/static/notebook/js/notificationarea.js:385
 msgid "Not Trusted"
-msgstr "Sans confiance"
+msgstr "Non fiable"
 
 #: notebook/static/notebook/js/outputarea.js:75
 msgid "click to expand output"
@@ -1725,11 +1725,11 @@ msgstr ""
 
 #: notebook/static/notebook/js/tour.js:33
 msgid "Filename"
-msgstr "Nom de fichier"
+msgstr "Nom du fichier"
 
 #: notebook/static/notebook/js/tour.js:35
 msgid "Click here to change the filename for this notebook."
-msgstr "Cliquer ici pour changer le nom de fichier de ce notebook."
+msgstr "Cliquer ici pour changer le nom du fichier de ce notebook."
 
 #: notebook/static/notebook/js/tour.js:39
 msgid "Notebook Menubar"
@@ -1954,7 +1954,7 @@ msgstr "Une erreur s'est produite à la création du notebook"
 
 #: notebook/static/tree/js/notebooklist.js:122
 msgid "Creating File Failed"
-msgstr "La création du Fichier a Échoué"
+msgstr "La création du fichier a échoué"
 
 #: notebook/static/tree/js/notebooklist.js:124
 msgid "An error occurred while creating a new file."
@@ -1962,7 +1962,7 @@ msgstr "Une erreur est survenue à la création du nouveau fichier."
 
 #: notebook/static/tree/js/notebooklist.js:142
 msgid "Creating Folder Failed"
-msgstr "La création du Répertoire a Échoué"
+msgstr "La création du répertoire a échoué"
 
 #: notebook/static/tree/js/notebooklist.js:144
 msgid "An error occurred while creating a new folder."
@@ -2114,7 +2114,7 @@ msgstr "Nom de fichier invalide"
 #: notebook/static/tree/js/notebooklist.js:1333
 msgid "File names must be at least one character and not start with a period"
 msgstr ""
-"Les noms de fichier doivent compter au moins un caractère et ne doivent pas "
+"Les noms des fichier doivent compter au moins un caractère et ne doivent pas "
 "commencer avec un point."
 
 #: notebook/static/tree/js/notebooklist.js:1362
