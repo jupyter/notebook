@@ -37,7 +37,17 @@ The Jupyter Notebook
    development_faq
 
 .. toctree::
+   :maxdepth: 1
+   :caption: Notebook API
+
+   api/modules
+
+.. toctree::
     :hidden:
 
     examples/Notebook/nbpackage/mynotebook.ipynb
     examples/Notebook/nbpackage/nbs/other.ipynb
+
+* :ref:`genindex`
+* :ref:`modindex`
+
