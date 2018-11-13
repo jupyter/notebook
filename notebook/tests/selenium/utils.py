@@ -2,6 +2,7 @@ import os
 import time
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -12,13 +13,33 @@ from contextlib import contextmanager
 pjoin = os.path.join
 
 
-def wait_for_selector(driver, selector, timeout=10, visible=False, single=False):
+def wait_for_selector(driver, selector, timeout=10, visible=False, single=False, wait_for_n=1):
+    if wait_for_n > 1:
+        return _wait_for_multiple(
+            driver, By.CSS_SELECTOR, selector, timeout, wait_for_n, visible)
     return _wait_for(driver, By.CSS_SELECTOR, selector, timeout, visible, single)
 
-def wait_for_tag(driver, tag, timeout=10, visible=False, single=False):
+
+def wait_for_tag(driver, tag, timeout=10, visible=False, single=False, wait_for_n=1):
+    if wait_for_n > 1:
+        return _wait_for_multiple(
+            driver, By.TAG_NAME, tag, timeout, wait_for_n, visible)
     return _wait_for(driver, By.TAG_NAME, tag, timeout, visible, single)
 
+
 def _wait_for(driver, locator_type, locator, timeout=10, visible=False, single=False):
+    """Waits `timeout` seconds for the specified condition to be met. Condition is
+    met if any matching element is found. Returns located element(s) when found.
+
+    Args:
+        driver: Selenium web driver instance
+        locator_type: type of locator (e.g. By.CSS_SELECTOR or By.TAG_NAME)
+        locator: name of tag, class, etc. to wait for
+        timeout: how long to wait for presence/visibility of element
+        visible: if True, require that element is not only present, but visible
+        single: if True, return a single element, otherwise return a list of matching
+        elements
+    """
     wait = WebDriverWait(driver, timeout)
     if single:
         if visible:
@@ -31,6 +52,31 @@ def _wait_for(driver, locator_type, locator, timeout=10, visible=False, single=F
         else:
             conditional = EC.presence_of_all_elements_located
     return wait.until(conditional((locator_type, locator)))
+
+
+def _wait_for_multiple(driver, locator_type, locator, timeout, wait_for_n, visible=False):
+    """Waits until `wait_for_n` matching elements to be present (or visible).
+    Returns located elements when found.
+
+    Args:
+        driver: Selenium web driver instance
+        locator_type: type of locator (e.g. By.CSS_SELECTOR or By.TAG_NAME)
+        locator: name of tag, class, etc. to wait for
+        timeout: how long to wait for presence/visibility of element
+        wait_for_n: wait until this number of matching elements are present/visible
+        visible: if True, require that elements are not only present, but visible
+    """
+    wait = WebDriverWait(driver, timeout)
+
+    def multiple_found(driver):
+        elements = driver.find_elements(locator_type, locator)
+        if visible:
+            elements = [e for e in elements if e.is_displayed()]
+        if len(elements) < wait_for_n:
+            return False
+        return elements
+
+    return wait.until(multiple_found)
 
 
 class CellTypeError(ValueError):
