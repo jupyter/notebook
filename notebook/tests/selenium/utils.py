@@ -121,7 +121,7 @@ class Notebook:
         
         """
         return self.browser.find_elements_by_class_name("cell")
-
+    
     @property
     def current_index(self):
         return self.index(self.current_cell)
@@ -151,6 +151,12 @@ class Notebook:
         cell.click()
         self.to_command_mode()
         self.current_cell = cell
+    
+    def select_cell_range(self, initial_index=0, final_index=0):
+        self.focus_cell(initial_index)
+        self.to_command_mode()
+        for i in range(final_index - initial_index):
+            shift(self.browser, 'j')
 
     def find_and_replace(self, index=0, find_txt='', replace_txt=''):
         self.focus_cell(index)
