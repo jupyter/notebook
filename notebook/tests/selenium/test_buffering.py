@@ -3,7 +3,7 @@
 from .utils import wait_for_selector
 
 
-def get_cell_text_output(notebook, index):
+def wait_for_cell_text_output(notebook, index):
     cell = notebook.cells[index]
     output = wait_for_selector(cell, ".output_text", single=True)
     return output.text
@@ -23,16 +23,13 @@ def kernels_buffer_without_conn(notebook):
     notebook.execute_cell(0)
     notebook.browser.execute_script("IPython.notebook.kernel.reconnect();")
     wait_for_kernel_ready(notebook)
-    assert get_cell_text_output(notebook, 0) == "3"
+    assert wait_for_cell_text_output(notebook, 0) == "3"
     notebook.delete_cell(0)
 
 
 def buffered_cells_execute_in_order(notebook):
     """Test that buffered requests execute in order."""
-    notebook.append('k=1')
-    notebook.append('k+=1')
-    notebook.append('k*=3')
-    notebook.append('print(k)')
+    notebook.append('k=1', 'k+=1', 'k*=3', 'print(k)')
 
     # Repeated execution of cell queued up in the kernel executes
     # each execution request in order.
@@ -51,7 +48,7 @@ def buffered_cells_execute_in_order(notebook):
     wait_for_kernel_ready(notebook)
 
     # Check that current value of k is 7
-    get_cell_text_output(notebook, 4) == "7"
+    assert wait_for_cell_text_output(notebook, 4) == "7"
 
 
 def test_buffering(notebook):
