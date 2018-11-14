@@ -6,7 +6,7 @@ define([
     'base/js/utils',
     'base/js/i18n',
     'base/js/dialog',
-], function($, utils, dialog) {
+], function($, utils, i18n, dialog) {
     "use strict";
 
     var init = function () {
