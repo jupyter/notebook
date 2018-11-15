@@ -25,6 +25,7 @@ import re
 import select
 import signal
 import socket
+import subprocess
 import sys
 import threading
 import time
@@ -1283,6 +1284,14 @@ class NotebookApp(JupyterApp):
               "0 (the default) disables this automatic shutdown.")
     )
 
+    on_inactivity_shutdown_execute = Unicode(u'', config=True,
+        help=("Path of the script to execute before shutting down due to inactivity."
+              "This is intended to be used together with culling idle kernels"
+              "(MappingKernelManager.cull_idle_timeout) and automatic shutting"
+              "down the server after inactivity (NotebookApp.shutdown_no_activity_timeout)"
+              "configuration options")
+    )
+
     terminals_enabled = Bool(True, config=True,
          help=_("""Set to False to disable terminals.
 
@@ -1617,7 +1626,16 @@ class NotebookApp(JupyterApp):
         if seconds_since_active > self.shutdown_no_activity_timeout:
             self.log.info("No kernels or terminals for %d seconds; shutting down.",
                           seconds_since_active)
+            if self.on_inactivity_shutdown_execute:
+                self.execute_pre_shutdown_script(self.on_inactivity_shutdown_execute)
             self.stop()
+
+    def execute_pre_shutdown_script(self, path):
+        self.log.info("Executing pre-shutdown script: %s", path)
+        try:
+            subprocess.call(path, shell=True)
+        except:
+            self.log.info("Error running script: %s", path)
 
     def init_shutdown_no_activity(self):
         if self.shutdown_no_activity_timeout > 0:
