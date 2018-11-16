@@ -59,10 +59,17 @@ class SessionManager(LoggingConfigurable):
     def session_exists(self, path):
         """Check to see if the session of a given name exists"""
         self.cursor.execute("SELECT * FROM session WHERE path=?", (path,))
-        reply = self.cursor.fetchone()
-        if reply is None:
+        row = self.cursor.fetchone()
+        if row is None:
             return False
         else:
+            # Note, although we found a row for the session, the associated kernel may have
+            # been culled or died unexpectedly.  If that's the case, we should delete the
+            # row, thereby terminating the session.  This can be done via a call to
+            # row_to_model that tolerates that condition.  If row_to_model returns None,
+            # we'll return false, since, at that point, the session doesn't exist anyway.
+            if self.row_to_model(row, tolerate_culled=True) is None:
+                return False
             return True
 
     def new_session_id(self):
@@ -198,15 +205,25 @@ class SessionManager(LoggingConfigurable):
         query = "UPDATE session SET %s WHERE session_id=?" % (', '.join(sets))
         self.cursor.execute(query, list(kwargs.values()) + [session_id])
 
-    def row_to_model(self, row):
+    def row_to_model(self, row, tolerate_culled=False):
         """Takes sqlite database session row and turns it into a dictionary"""
         if row['kernel_id'] not in self.kernel_manager:
-            # The kernel was killed or died without deleting the session.
+            # The kernel was culled or died without deleting the session.
             # We can't use delete_session here because that tries to find
-            # and shut down the kernel.
+            # and shut down the kernel - so we'll delete the row directly.
+            #
+            # If caller wishes to tolerate culled kernels, log a warning
+            # and return None.  Otherwise, raise KeyError with a similar
+            # message.
             self.cursor.execute("DELETE FROM session WHERE session_id=?", 
                                 (row['session_id'],))
-            raise KeyError
+            msg = "Kernel '{kernel_id}' appears to have been culled or died unexpectedly, " \
+                  "invalidating session '{session_id}'. The session has been removed.".\
+                format(kernel_id=row['kernel_id'],session_id=row['session_id'])
+            if tolerate_culled:
+                self.log.warning(msg + "  Continuing...")
+                return None
+            raise KeyError(msg)
 
         model = {
             'id': row['session_id'],
