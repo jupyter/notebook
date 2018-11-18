@@ -21,6 +21,21 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+.. _release-5.7.2:
+
+5.7.2
+-----
+
+5.7.2 contains a security fix preventing malicious directory names
+from being able to execute javascript. CVE request pending.
+
+.. _release-5.7.1:
+
+5.7.1
+-----
+
+5.7.1 contains a security fix preventing nbconvert endpoints from executing javascript with access to the server API. CVE request pending.
+
 .. _release-5.7.0:
 
 5.7.0
