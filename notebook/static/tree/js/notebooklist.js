@@ -383,18 +383,28 @@ define([
         breadcrumb.empty();
         var list_item = $('<li/>');
         var root_url = utils.url_path_join(that.base_url, '/tree');
-        var root = $('<li/>').append('<a href="' + root_url + '"><i class="fa fa-folder"></i></a>').click(function(e) {
-            // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
-            if(e.altKey || e.metaKey || e.shiftKey) {
-                return true;
-            }
-            var path = '';
-            window.history.pushState({
-                path: path
-            }, 'Home', utils.url_path_join(that.base_url, 'tree'));
-            that.update_location(path);
-            return false;
-        });
+        var root = $('<li/>').append(
+            $("<a/>")
+            .attr('href', root_url)
+            .append(
+                $("<i/>")
+                .addClass('fa fa-folder')
+            )
+            .click(function(e) {
+                // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
+                if(e.altKey || e.metaKey || e.shiftKey) {
+                    return true;
+                }
+                var path = '';
+                window.history.pushState(
+                    {path: path},
+                    'Home',
+                    utils.url_path_join(that.base_url, 'tree')
+                );
+                that.update_location(path);
+                return false;
+            })
+        );
         breadcrumb.append(root);
         var path_parts = [];
         this.notebook_path.split('/').forEach(function(path_part) {
@@ -405,17 +415,24 @@ define([
                 '/tree',
                 utils.encode_uri_components(path)
             );
-            var crumb = $('<li/>').append('<a href="' + url + '">' + path_part + '</a>').click(function(e) {
-                // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
-                if(e.altKey || e.metaKey || e.shiftKey) {
-                    return true;
-                }
-                window.history.pushState({
-                    path: path
-                }, path, url);
-                that.update_location(path);
-                return false;
-            });
+            var crumb = $('<li/>').append(
+                $('<a/>')
+                .attr('href', url)
+                .text(path_part)
+                .click(function(e) {
+                    // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
+                    if(e.altKey || e.metaKey || e.shiftKey) {
+                        return true;
+                    }
+                    window.history.pushState(
+                        {path: path},
+                        path,
+                        url
+                    );
+                    that.update_location(path);
+                    return false;
+                })
+            );
             breadcrumb.append(crumb);
         });
         this.contents.list_contents(that.notebook_path).then(
