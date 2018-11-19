@@ -442,7 +442,7 @@ define([
             }
         );
     };
-    
+
     NotebookList.prototype.update_location = function (path) {
         this.notebook_path = path;
         $('body').attr('data-notebook-path', path);
@@ -542,7 +542,7 @@ define([
         var item = $("<div/>")
             .addClass("col-md-12")
             .appendTo(row);
-        
+
         var checkbox;
         if (selectable !== undefined) {
             checkbox = $('<input/>')
@@ -641,7 +641,7 @@ define([
       var ipynb_extensions = ['ipynb'];
       return includes_extension(model.path, ipynb_extensions);
     };
-    
+
     NotebookList.prototype._is_editable = function(model) {
       // Allow any file to be "edited"
       // Non-text files will display the following error:
@@ -650,17 +650,17 @@ define([
       //   See Console for more details.
       return true;
     };
-    
+
     NotebookList.prototype._is_viewable = function(model) {
       var html_types = ['htm', 'html', 'xhtml', 'xml', 'mht', 'mhtml'];
       var media_extension = ['3gp', 'avi', 'mov', 'mp4', 'm4v', 'm4a', 'mp3', 'mkv', 'ogv', 'ogm', 'ogg', 'oga', 'webm', 'wav'];
       var image_type = ['bmp', 'gif', 'jpg', 'jpeg', 'png', 'webp'];
       var other_type = ['ico'];
       var viewable_extensions = [].concat(html_types, media_extension, image_type, other_type);
-      return model.mimetype === 'text/html' 
+      return model.mimetype === 'text/html'
         || includes_extension(model.path, viewable_extensions);
     };
-    
+
     // Files like PDF that should be opened using `/files` prefix
     NotebookList.prototype._is_pdflike = function(model) {
       var pdflike_extensions = ['pdf'];
@@ -879,7 +879,7 @@ define([
                 return false;
             });
         }
-        
+
         // Add in the date that the file was last modified
         item.find(".item_modified").text(utils.format_datetime(model.last_modified));
         item.find(".item_modified").attr("title", moment(model.last_modified).format("YYYY-MM-DD HH:mm"));
@@ -979,7 +979,7 @@ define([
         ).append(
             $("<br/>")
         ).append(input);
-        
+
         // This statement is used simply so that message extraction
         // will pick up the strings.  The actual setting of the text
         // for the button is in dialog.js.
@@ -1288,7 +1288,7 @@ define([
                     });
                     return false;
                 }
-                
+
                 var check_exist = function () {
                     var exists = false;
                     $.each(that.element.find('.list_item:not(.new-file)'), function(k,v){
@@ -1297,7 +1297,7 @@ define([
                     return exists
                 };
                 var exists = check_exist();
-                
+
                 var add_uploading_button = function (f, item) {
                     // change buttons, add a progress bar
                     var uploading_button = item.find('.upload_button').text("Uploading");
@@ -1318,7 +1318,7 @@ define([
                         var offset = 0;
                         var chunk = 0;
                         var chunk_reader = null;
-                        
+
                         var large_reader_onload = function (event) {
                             if (stop_signal === true) {
                                 return;
@@ -1391,7 +1391,7 @@ define([
 
                             model.chunk = chunk;
                             model.content = filedata;
-                            
+
                             var on_success = function () {
                                 if (offset < f.size) {
                                     // of to the next chunk
@@ -1451,6 +1451,7 @@ define([
         var upload_button = $('<button/>').text(i18n.msg._("Upload"))
             .addClass('btn btn-primary btn-xs upload_button')
             .click(function (e) {
+                item.find('.upload_button').text("Uploading...");
                 var filename = item.find('.item_name > input').val();
                 var path = utils.url_path_join(that.notebook_path, filename);
                 var filedata = item.data('filedata');
