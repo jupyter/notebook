@@ -3,6 +3,8 @@
 import json
 import time
 
+from traitlets.config import Config
+
 from tornado.httpclient import HTTPRequest
 from tornado.ioloop import IOLoop
 from tornado.websocket import websocket_connect
@@ -11,6 +13,7 @@ from jupyter_client.kernelspec import NATIVE_KERNEL_NAME
 
 from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
+
 
 class KernelAPI(object):
     """Wrapper for kernel REST API requests"""
@@ -183,3 +186,19 @@ class KernelAPITest(NotebookTestBase):
                 break
         model = self.kern_api.get(kid).json()
         self.assertEqual(model['connections'], 0)
+
+
+class KernelFilterTest(NotebookTestBase):
+
+    # A special install of NotebookTestBase where only `kernel_info_request`
+    # messages are allowed.
+    config = Config({
+        'NotebookApp': {
+            'MappingKernelManager': {
+                'allowed_message_types': ['kernel_info_request']
+            }
+        }
+    })
+    # Sanity check verifying that the configurable was properly set.
+    def test_config(self):
+        self.assertEqual(self.notebook.kernel_manager.allowed_message_types, ['kernel_info_request'])
