@@ -593,7 +593,11 @@ class APIHandler(IPythonHandler):
     def update_api_activity(self):
         """Update last_activity of API requests"""
         # record activity of authenticated requests
-        if self._track_activity and getattr(self, '_user_cache', None):
+        if (
+            self._track_activity
+            and getattr(self, '_user_cache', None)
+            and self.get_argument('no_track_activity', None) is None
+        ):
             self.settings['api_last_activity'] = utcnow()
 
     def finish(self, *args, **kwargs):
