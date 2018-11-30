@@ -95,10 +95,12 @@ define([
          * call for a 'first' completion, that will set the editor and do some
          * special behavior like autopicking if only one completion available.
          */
-        if (this.editor.somethingSelected()|| this.editor.getSelections().length > 1) return;
+        
+        if (this.editor.somethingSelected() || this.editor.getSelections().length > 1) return;
+        if (!this.done && (this.raw_result || this.raw_result.length) || this.visible) return;
         this.done = false;
         // use to get focus back on opera
-        this.carry_on_completion(true);
+        this.carry_on_completion(true);      
     };
 
 
@@ -345,17 +347,28 @@ define([
             event._ipkmIgnore = true;
             event.preventDefault();
             this.close();
+
         } else if (code == keycodes.tab) {
             //all the fastforwarding operation,
             //Check that shared start is not null which can append with prefixed completion
             // like %pylab , pylab have no shred start, and ff will result in py<tab><tab>
             // to erase py
             var sh = shared_start(this.raw_result, true);
-            if (sh.str !== '') {
+            var cur = this.editor.getCursor();
+            var pre_cursor = this.editor.getRange({ line: cur.line, ch: 0 }, cur);
+            pre_cursor = pre_cursor.split(" ").pop();
+            if (sh.str !== '' && sh.str !== pre_cursor) {
                 this.insert(sh);
+                this.close();
+                this.carry_on_completion();
+                this.done = false;
             }
-            this.close();
-            this.carry_on_completion();
+
+            options = this.sel.find('option');
+            index = this.sel[0].selectedIndex;
+            index = ++index % options.length;
+            this.sel[0].selectedIndex = index;
+            
         } else if (code == keycodes.up || code == keycodes.down) {
             // need to do that to be able to move the arrow
             // when on the first or last line ofo a code cell
