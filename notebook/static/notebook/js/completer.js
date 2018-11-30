@@ -96,9 +96,8 @@ define([
          * special behavior like autopicking if only one completion available.
          */
         
-        if (this.editor.somethingSelected() || this.editor.getSelections().length > 1) return;
-        if (!this.done && (this.raw_result || this.raw_result.length) || this.visible) return;
-        this.done = false;
+        if (this.editor.somethingSelected() || this.editor.getSelections().length > 1 || this.visible) return;
+
         // use to get focus back on opera
         this.carry_on_completion(true);      
     };
@@ -361,7 +360,6 @@ define([
                 this.insert(sh);
                 this.close();
                 this.carry_on_completion();
-                this.done = false;
             }
 
             options = this.sel.find('option');
