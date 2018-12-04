@@ -1314,7 +1314,8 @@ define([
 
                     var parse_large_file = function (f, item) {
                         // codes inspired by https://stackoverflow.com/a/28318964
-                        var chunk_size = 1024 * 1024;
+                        // 8MB chunk size chosen to match chunk sizes used by benchmark reference (AWS S3)
+                        var chunk_size = 1024 * 1024 * 8;
                         var offset = 0;
                         var chunk = 0;
                         var chunk_reader = null;
