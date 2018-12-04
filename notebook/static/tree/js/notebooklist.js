@@ -1365,18 +1365,25 @@ define([
                             reader.onerror = on_error;
                         };
 
+                        // This approach avoids triggering multiple GC pauses for large files.
+                        // Borrowed from kanaka's answer at:
+                        // https://stackoverflow.com/questions/12710001/how-to-convert-uint8-array-to-base64-encoded-string
+                        var  Uint8ToString = function(u8a){
+                            var CHUNK_SZ = 0x8000;
+                            var c = [];
+                            for (var i=0; i < u8a.length; i+=CHUNK_SZ) {
+                              c.push(String.fromCharCode.apply(null, u8a.subarray(i, i+CHUNK_SZ)));
+                            }
+                            return c.join("");
+                        };
+
                         // These codes to upload file in original class
                         var upload_file = function(item, chunk) {
                             var filedata = item.data('filedata');
                             if (filedata instanceof ArrayBuffer) {
                                 // base64-encode binary file data
-                                var bytes = '';
                                 var buf = new Uint8Array(filedata);
-                                var nbytes = buf.byteLength;
-                                for (var i=0; i<nbytes; i++) {
-                                    bytes += String.fromCharCode(buf[i]);
-                                }
-                                filedata = btoa(bytes);
+                                filedata = btoa(Uint8ToString(buf));
                                 format = 'base64';
                             }
                             var model = { name: filename, path: path };
