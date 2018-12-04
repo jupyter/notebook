@@ -359,13 +359,13 @@ the environment:
 
     .. code-block:: bash
 
-        GATEWAY_URL=http://my-gateway-server:8888
+        JUPYTER_GATEWAY_URL=http://my-gateway-server:8888
 
 or in :file:`jupyter_notebook_config.py`:
 
    .. code-block:: python
 
-      c.NotebookApp.gateway_url = http://my-gateway-server:8888
+      c.Gateway.url = http://my-gateway-server:8888
 
 When provided, all kernel specifications will be retrieved from the specified Gateway server and all
 kernels will be managed by that server.  This option enables the ability to target kernel processes

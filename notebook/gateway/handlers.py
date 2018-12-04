@@ -21,27 +21,7 @@ from ipython_genutils.py3compat import cast_unicode
 from jupyter_client.session import Session
 from traitlets.config.configurable import LoggingConfigurable
 
-# Note: Although some of these are available via NotebookApp (command line), we will
-# take the approach of using environment variables to enable separate sets of values
-# for use with the local Notebook server (via command-line) and remote Gateway server
-# (via environment variables).
-
-GATEWAY_HEADERS = json.loads(os.getenv('GATEWAY_HEADERS', '{}'))
-GATEWAY_HEADERS.update({
-    'Authorization': 'token {}'.format(os.getenv('GATEWAY_AUTH_TOKEN', ''))
-})
-VALIDATE_GATEWAY_CERT = os.getenv('VALIDATE_GATEWAY_CERT') not in ['no', 'false']
-
-GATEWAY_CLIENT_KEY = os.getenv('GATEWAY_CLIENT_KEY')
-GATEWAY_CLIENT_CERT = os.getenv('GATEWAY_CLIENT_CERT')
-GATEWAY_CLIENT_CA = os.getenv('GATEWAY_CLIENT_CA')
-
-GATEWAY_HTTP_USER = os.getenv('GATEWAY_HTTP_USER')
-GATEWAY_HTTP_PASS = os.getenv('GATEWAY_HTTP_PASS')
-
-# Get env variables to handle timeout of request and connection
-GATEWAY_CONNECT_TIMEOUT = float(os.getenv('GATEWAY_CONNECT_TIMEOUT', 20.0))
-GATEWAY_REQUEST_TIMEOUT = float(os.getenv('GATEWAY_REQUEST_TIMEOUT', 20.0))
+from .managers import Gateway
 
 
 class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
@@ -77,7 +57,7 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
     def initialize(self):
         self.log.debug("Initializing websocket connection %s", self.request.path)
         self.session = Session(config=self.config)
-        self.gateway = GatewayWebSocketClient(gateway_url=self.kernel_manager.parent.gateway_url)
+        self.gateway = GatewayWebSocketClient(gateway_url=Gateway.instance().url)
 
     @gen.coroutine
     def get(self, kernel_id, *args, **kwargs):
@@ -135,7 +115,6 @@ class GatewayWebSocketClient(LoggingConfigurable):
 
     def __init__(self, **kwargs):
         super(GatewayWebSocketClient, self).__init__(**kwargs)
-        self.gateway_url = kwargs['gateway_url']
         self.kernel_id = None
         self.ws = None
         self.ws_future = Future()
@@ -145,29 +124,14 @@ class GatewayWebSocketClient(LoggingConfigurable):
     def _connect(self, kernel_id):
         self.kernel_id = kernel_id
         ws_url = url_path_join(
-            os.getenv('GATEWAY_WS_URL', self.gateway_url.replace('http', 'ws')),
-            '/api/kernels', 
-            url_escape(kernel_id),
-            'channels'
+            Gateway.instance().ws_url,
+            Gateway.instance().kernels_endpoint, url_escape(kernel_id), 'channels'
         )
         self.log.info('Connecting to {}'.format(ws_url))
-        parameters = {
-          "headers": GATEWAY_HEADERS,
-          "validate_cert": VALIDATE_GATEWAY_CERT,
-          "connect_timeout": GATEWAY_CONNECT_TIMEOUT,
-          "request_timeout": GATEWAY_REQUEST_TIMEOUT
-        }
-        if GATEWAY_HTTP_USER:
-            parameters["auth_username"] = GATEWAY_HTTP_USER
-        if GATEWAY_HTTP_PASS:
-            parameters["auth_password"] = GATEWAY_HTTP_PASS
-        if GATEWAY_CLIENT_KEY:
-            parameters["client_key"] = GATEWAY_CLIENT_KEY
-            parameters["client_cert"] = GATEWAY_CLIENT_CERT
-            if GATEWAY_CLIENT_CA:
-                parameters["ca_certs"] = GATEWAY_CLIENT_CA
+        kwargs = {}
+        kwargs = Gateway.instance().load_connection_args(**kwargs)
 
-        request = HTTPRequest(ws_url, **parameters)
+        request = HTTPRequest(ws_url, **kwargs)
         self.ws_future = websocket_connect(request)
         self.ws_future.add_done_callback(self._connection_done)
 
@@ -178,7 +142,7 @@ class GatewayWebSocketClient(LoggingConfigurable):
         else:
             self.log.warning("Websocket connection has been cancelled via client disconnect before its establishment.  "
                              "Kernel with ID '{}' may not be terminated on Gateway: {}".
-                             format(self.kernel_id, self.gateway_url))
+                             format(self.kernel_id, Gateway.instance().url))
 
     def _disconnect(self):
         if self.ws is not None:
@@ -343,18 +307,15 @@ class MainKernelSpecHandler(APIHandler):
         # NOTE: We do this here since this handler is called during the Notebook's startup and subsequent refreshes
         # of the tree view.
         except ConnectionRefusedError:
-            gateway_url = ksm.parent.gateway_url
             self.log.error("Connection refused from Gateway server url '{}'.  "
-                         "Check to be sure the Gateway instance is running.".format(gateway_url))
+                         "Check to be sure the Gateway instance is running.".format(Gateway.instance().url))
         except HTTPTimeoutError:
             # This can occur if the host is valid (e.g., foo.com) but there's nothing there.
-            gateway_url = ksm.parent.gateway_url
             self.log.error("Timeout error attempting to connect to Gateway server url '{}'.  "
-                         "Ensure gateway_url is valid and the Gateway instance is running.".format(gateway_url))
+                         "Ensure gateway url is valid and the Gateway instance is running.".format(Gateway.instance().url))
         except gaierror as e:
-            gateway_url = ksm.parent.gateway_url
             self.log.error("The Gateway server specified in the gateway_url '{}' doesn't appear to be valid.  "
-                         "Ensure gateway_url is valid and the Gateway instance is running.".format(gateway_url))
+                         "Ensure gateway url is valid and the Gateway instance is running.".format(Gateway.instance().url))
 
         self.finish()
 

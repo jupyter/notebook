@@ -14,47 +14,8 @@ from ..services.sessions.sessionmanager import SessionManager
 from jupyter_client.kernelspec import KernelSpecManager
 from ..utils import url_path_join
 
-from traitlets import Instance, Unicode, default
-
-# Note: Although some of these are available via NotebookApp (command line), we will
-# take the approach of using environment variables to enable separate sets of values
-# for use with the local Notebook server (via command-line) and remote Gateway server
-# (via environment variables).
-
-GATEWAY_HEADERS = json.loads(os.getenv('GATEWAY_HEADERS', '{}'))
-GATEWAY_HEADERS.update({
-    'Authorization': 'token {}'.format(os.getenv('GATEWAY_AUTH_TOKEN', ''))
-})
-VALIDATE_GATEWAY_CERT = os.getenv('VALIDATE_GATEWAY_CERT') not in ['no', 'false']
-
-GATEWAY_CLIENT_KEY = os.getenv('GATEWAY_CLIENT_KEY')
-GATEWAY_CLIENT_CERT = os.getenv('GATEWAY_CLIENT_CERT')
-GATEWAY_CLIENT_CA = os.getenv('GATEWAY_CLIENT_CA')
-
-GATEWAY_HTTP_USER = os.getenv('GATEWAY_HTTP_USER')
-GATEWAY_HTTP_PASS = os.getenv('GATEWAY_HTTP_PASS')
-
-GATEWAY_CONNECT_TIMEOUT = float(os.getenv('GATEWAY_CONNECT_TIMEOUT', 20.0))
-GATEWAY_REQUEST_TIMEOUT = float(os.getenv('GATEWAY_REQUEST_TIMEOUT', 20.0))
-
-
-def load_connection_args(**kwargs):
-
-    if GATEWAY_CLIENT_CERT:
-        kwargs["client_key"] = kwargs.get("client_key", GATEWAY_CLIENT_KEY)
-        kwargs["client_cert"] = kwargs.get("client_cert", GATEWAY_CLIENT_CERT)
-        if GATEWAY_CLIENT_CA:
-            kwargs["ca_certs"] = kwargs.get("ca_certs", GATEWAY_CLIENT_CA)
-    kwargs['connect_timeout'] = kwargs.get('connect_timeout', GATEWAY_CONNECT_TIMEOUT)
-    kwargs['request_timeout'] = kwargs.get('request_timeout', GATEWAY_REQUEST_TIMEOUT)
-    kwargs['headers'] = kwargs.get('headers', GATEWAY_HEADERS)
-    kwargs['validate_cert'] = kwargs.get('validate_cert', VALIDATE_GATEWAY_CERT)
-    if GATEWAY_HTTP_USER:
-        kwargs['auth_username'] = kwargs.get('auth_username', GATEWAY_HTTP_USER)
-    if GATEWAY_HTTP_PASS:
-        kwargs['auth_password'] = kwargs.get('auth_password', GATEWAY_HTTP_PASS)
-
-    return kwargs
+from traitlets import Instance, Unicode, Float, Bool, default, validate, TraitError
+from traitlets.config import SingletonConfigurable
 
 
 @gen.coroutine
@@ -62,30 +23,234 @@ def fetch_gateway(endpoint, **kwargs):
     """Make an async request to kernel gateway endpoint."""
     client = AsyncHTTPClient()
 
-    kwargs = load_connection_args(**kwargs)
+    kwargs = Gateway.instance().load_connection_args(**kwargs)
 
     response = yield client.fetch(endpoint, **kwargs)
     raise gen.Return(response)
 
 
-class GatewayKernelManager(MappingKernelManager):
-    """Kernel manager that supports remote kernels hosted by Jupyter 
-    kernel gateway."""
+class Gateway(SingletonConfigurable):
+    """This class manages the configuration.  It's its own class so that we can avoid having command
+       line options of the likes `--GatewayKernelManager.connect_timeout` and use the shorter and more
+       applicable `--Gateway.connect_timeout`, etc.  It also contains some helper methods to build
+       request arguments out of the various config options.
 
-    kernels_endpoint_env = 'GATEWAY_KERNELS_ENDPOINT'
-    kernels_endpoint = Unicode(config=True,
-        help="""The gateway API endpoint for accessing kernel resources (GATEWAY_KERNELS_ENDPOINT env var)""")
+    """
+
+    url = Unicode(default_value=None, allow_none=True, config=True,
+        help="""The url of the Kernel or Enterprise Gateway server where
+        kernel specifications are defined and kernel management takes place.
+        If defined, this Notebook server acts as a proxy for all kernel
+        management and kernel specification retrieval.  (JUPYTER_GATEWAY_URL env var)
+        """
+    )
+
+    url_env = 'JUPYTER_GATEWAY_URL'
+    @default('url')
+    def _url_default(self):
+        return os.environ.get(self.url_env)
+
+    @validate('url')
+    def _url_validate(self, proposal):
+        value = proposal['value']
+        # Ensure value, if present, starts with 'http'
+        if value is not None and len(value) > 0:
+            if not str(value).lower().startswith('http'):
+                raise TraitError("Gateway url must start with 'http': '%r'" % value)
+        return value
+
+    ws_url = Unicode(default_value=None, allow_none=True, config=True,
+        help="""The websocket url of the Kernel or Enterprise Gateway server.  If not provided, this value
+        will correspond to the value of the Gateway url with 'ws' in place of 'http'.  (JUPYTER_GATEWAY_WS_URL env var)
+        """
+    )
+
+    ws_url_env = 'JUPYTER_GATEWAY_WS_URL'
+    @default('ws_url')
+    def _ws_url_default(self):
+        default_value = os.environ.get(self.ws_url_env)
+        if default_value is None:
+            if self.gateway_enabled:
+                default_value = self.url.lower().replace('http', 'ws')
+        return default_value
+
+    @validate('ws_url')
+    def _ws_url_validate(self, proposal):
+        value = proposal['value']
+        # Ensure value, if present, starts with 'ws'
+        if value is not None and len(value) > 0:
+            if not str(value).lower().startswith('ws'):
+                raise TraitError("Gateway ws_url must start with 'ws': '%r'" % value)
+        return value
+
+    kernels_endpoint_default_value = '/api/kernels'
+    kernels_endpoint_env = 'JUPYTER_GATEWAY_KERNELS_ENDPOINT'
+    kernels_endpoint = Unicode(default_value=kernels_endpoint_default_value, config=True,
+        help="""The gateway API endpoint for accessing kernel resources (JUPYTER_GATEWAY_KERNELS_ENDPOINT env var)""")
 
     @default('kernels_endpoint')
-    def kernels_endpoint_default(self):
-        return os.getenv(self.kernels_endpoint_env, '/api/kernels')
+    def _kernels_endpoint_default(self):
+        return os.environ.get(self.kernels_endpoint_env, self.kernels_endpoint_default_value)
+
+    kernelspecs_endpoint_default_value = '/api/kernelspecs'
+    kernelspecs_endpoint_env = 'JUPYTER_GATEWAY_KERNELSPECS_ENDPOINT'
+    kernelspecs_endpoint = Unicode(default_value=kernelspecs_endpoint_default_value, config=True,
+        help="""The gateway API endpoint for accessing kernelspecs (JUPYTER_GATEWAY_KERNELSPECS_ENDPOINT env var)""")
+
+    @default('kernelspecs_endpoint')
+    def _kernelspecs_endpoint_default(self):
+        return os.environ.get(self.kernelspecs_endpoint_env, self.kernelspecs_endpoint_default_value)
+
+    connect_timeout_default_value = 20.0
+    connect_timeout_env = 'JUPYTER_GATEWAY_CONNECT_TIMEOUT'
+    connect_timeout = Float(default_value=connect_timeout_default_value, config=True,
+        help="""The time allowed for HTTP connection establishment with the Gateway server.
+        (JUPYTER_GATEWAY_CONNECT_TIMEOUT env var)""")
+
+    @default('connect_timeout')
+    def connect_timeout_default(self):
+        return float(os.environ.get('JUPYTER_GATEWAY_CONNECT_TIMEOUT', self.connect_timeout_default_value))
+
+    request_timeout_default_value = 20.0
+    request_timeout_env = 'JUPYTER_GATEWAY_REQUEST_TIMEOUT'
+    request_timeout = Float(default_value=request_timeout_default_value, config=True,
+        help="""The time allowed for HTTP request completion. (JUPYTER_GATEWAY_REQUEST_TIMEOUT env var)""")
+
+    @default('request_timeout')
+    def request_timeout_default(self):
+        return float(os.environ.get('JUPYTER_GATEWAY_REQUEST_TIMEOUT', self.request_timeout_default_value))
+
+    client_key = Unicode(default_value=None, allow_none=True, config=True,
+        help="""The filename for client SSL key, if any.  (JUPYTER_GATEWAY_CLIENT_KEY env var)
+        """
+    )
+    client_key_env = 'JUPYTER_GATEWAY_CLIENT_KEY'
+
+    @default('client_key')
+    def _client_key_default(self):
+        return os.environ.get(self.client_key_env)
+
+    client_cert = Unicode(default_value=None, allow_none=True, config=True,
+        help="""The filename for client SSL certificate, if any.  (JUPYTER_GATEWAY_CLIENT_CERT env var)
+        """
+    )
+    client_cert_env = 'JUPYTER_GATEWAY_CLIENT_CERT'
+
+    @default('client_cert')
+    def _client_cert_default(self):
+        return os.environ.get(self.client_cert_env)
+
+    ca_certs = Unicode(default_value=None, allow_none=True, config=True,
+        help="""The filename of CA certificates or None to use defaults.  (JUPYTER_GATEWAY_CA_CERTS env var)
+        """
+    )
+    ca_certs_env = 'JUPYTER_GATEWAY_CA_CERTS'
+
+    @default('ca_certs')
+    def _ca_certs_default(self):
+        return os.environ.get(self.ca_certs_env)
+
+    http_user = Unicode(default_value=None, allow_none=True, config=True,
+        help="""The username for HTTP authentication. (JUPYTER_GATEWAY_HTTP_USER env var)
+        """
+    )
+    http_user_env = 'JUPYTER_GATEWAY_HTTP_USER'
+
+    @default('http_user')
+    def _http_user_default(self):
+        return os.environ.get(self.http_user_env)
+
+    http_pwd = Unicode(default_value=None, allow_none=True, config=True,
+        help="""The password for HTTP authentication.  (JUPYTER_GATEWAY_HTTP_PWD env var)
+        """
+    )
+    http_pwd_env = 'JUPYTER_GATEWAY_HTTP_PWD'
+
+    @default('http_pwd')
+    def _http_pwd_default(self):
+        return os.environ.get(self.http_pwd_env)
+
+    headers_default_value = '{}'
+    headers_env = 'JUPYTER_GATEWAY_HEADERS'
+    headers = Unicode(default_value=headers_default_value, allow_none=True,config=True,
+        help="""Additional HTTP headers to pass on the request.  This value will be converted to a dict.
+          (JUPYTER_GATEWAY_HEADERS env var)
+        """
+    )
+
+    @default('headers')
+    def _headers_default(self):
+        return os.environ.get(self.headers_env, self.headers_default_value)
+
+    auth_token = Unicode(default_value=None, allow_none=True, config=True,
+        help="""The authorization token used in the HTTP headers.  (JUPYTER_GATEWAY_AUTH_TOKEN env var)
+        """
+    )
+    auth_token_env = 'JUPYTER_GATEWAY_AUTH_TOKEN'
+
+    @default('auth_token')
+    def _auth_token_default(self):
+        return os.environ.get(self.auth_token_env)
+
+    validate_cert_default_value = True
+    validate_cert_env = 'JUPYTER_GATEWAY_VALIDATE_CERT'
+    validate_cert = Bool(default_value=validate_cert_default_value, config=True,
+        help="""For HTTPS requests, determines if server's certificate should be validated or not.
+        (JUPYTER_GATEWAY_VALIDATE_CERT env var)"""
+    )
+
+    @default('validate_cert')
+    def validate_cert_default(self):
+        return bool(os.environ.get(self.validate_cert_env, str(self.validate_cert_default_value)) not in ['no', 'false'])
+
+    def __init__(self, **kwargs):
+        super(Gateway, self).__init__(**kwargs)
+        self._static_args = {}  # initialized on first use
+
+    @property
+    def gateway_enabled(self):
+        return bool(self.url is not None and len(self.url) > 0)
+
+    def init_static_args(self):
+        """Initialize arguments used on every request.  Since these are static values, we'll
+        perform this operation once.
+
+        """
+        self._static_args['headers'] = json.loads(self.headers)
+        self._static_args['headers'].update({'Authorization': 'token {}'.format(self.auth_token)})
+        self._static_args['connect_timeout'] = self.connect_timeout
+        self._static_args['request_timeout'] = self.request_timeout
+        self._static_args['validate_cert'] = self.validate_cert
+        if self.client_cert:
+            self._static_args['client_cert'] = self.client_cert
+            self._static_args['client_key'] = self.client_key
+            if self.ca_certs:
+                self._static_args['ca_certs'] = self.ca_certs
+        if self.http_user:
+            self._static_args['auth_username'] = self.http_user
+        if self.http_pwd:
+            self._static_args['auth_password'] = self.http_pwd
+
+    def load_connection_args(self, **kwargs):
+        """Merges the static args relative to the connection, with the given keyword arguments.  If statics
+         have yet to be initialized, we'll do that here.
+
+        """
+        if len(self._static_args) == 0:
+            self.init_static_args()
+
+        kwargs.update(self._static_args)
+        return kwargs
+
+class GatewayKernelManager(MappingKernelManager):
+    """Kernel manager that supports remote kernels hosted by Jupyter Kernel or Enterprise Gateway."""
 
     # We'll maintain our own set of kernel ids
     _kernels = {}
 
     def __init__(self, **kwargs):
         super(GatewayKernelManager, self).__init__(**kwargs)
-        self.gateway_url = self.parent.gateway_url
+        self.base_endpoint = url_path_join(Gateway.instance().url, Gateway.instance().kernels_endpoint)
 
     def __contains__(self, kernel_id):
         return kernel_id in self._kernels
@@ -105,9 +270,9 @@ class GatewayKernelManager(MappingKernelManager):
         kernel_id: kernel UUID (optional)
         """
         if kernel_id:
-            return url_path_join(self.gateway_url, self.kernels_endpoint, url_escape(str(kernel_id)))
+            return url_path_join(self.base_endpoint, url_escape(str(kernel_id)))
 
-        return url_path_join(self.gateway_url, self.kernels_endpoint)
+        return self.base_endpoint
 
     @gen.coroutine
     def start_kernel(self, kernel_id=None, path=None, **kwargs):
@@ -243,7 +408,7 @@ class GatewayKernelManager(MappingKernelManager):
         """Shutdown all kernels."""
         # Note: We have to make this sync because the NotebookApp does not wait for async.
         kwargs = {'method': 'DELETE'}
-        kwargs = load_connection_args(**kwargs)
+        kwargs = Gateway.instance().load_connection_args(**kwargs)
         client = HTTPClient()
         for kernel_id in self._kernels.keys():
             kernel_url = self._get_kernel_endpoint_url(kernel_id)
@@ -259,18 +424,9 @@ class GatewayKernelManager(MappingKernelManager):
 
 class GatewayKernelSpecManager(KernelSpecManager):
 
-    kernelspecs_endpoint_env = 'GATEWAY_KERNELSPECS_ENDPOINT'
-    kernelspecs_endpoint = Unicode(config=True,
-        help="""The kernel gateway API endpoint for accessing kernelspecs 
-        (GATEWAY_KERNELSPECS_ENDPOINT env var)""")
-
-    @default('kernelspecs_endpoint')
-    def kernelspecs_endpoint_default(self):
-        return os.getenv(self.kernelspecs_endpoint_env, '/api/kernelspecs')
-
     def __init__(self, **kwargs):
         super(GatewayKernelSpecManager, self).__init__(**kwargs)
-        self.gateway_url = self.parent.gateway_url
+        self.base_endpoint = url_path_join(Gateway.instance().url, Gateway.instance().kernelspecs_endpoint)
 
     def _get_kernelspecs_endpoint_url(self, kernel_name=None):
         """Builds a url for the kernels endpoint
@@ -280,9 +436,9 @@ class GatewayKernelSpecManager(KernelSpecManager):
         kernel_name: kernel name (optional)
         """
         if kernel_name:
-            return url_path_join(self.gateway_url, self.kernelspecs_endpoint, url_escape(kernel_name))
+            return url_path_join(self.base_endpoint, url_escape(kernel_name))
 
-        return url_path_join(self.gateway_url, self.kernelspecs_endpoint)
+        return self.base_endpoint
 
     @gen.coroutine
     def list_kernel_specs(self):

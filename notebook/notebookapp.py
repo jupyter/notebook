@@ -84,9 +84,7 @@ from .services.contents.manager import ContentsManager
 from .services.contents.filemanager import FileContentsManager
 from .services.contents.largefilemanager import LargeFileManager
 from .services.sessions.sessionmanager import SessionManager
-from .gateway.managers import GatewayKernelManager
-from .gateway.managers import GatewayKernelSpecManager
-from .gateway.managers import GatewaySessionManager
+from .gateway.managers import GatewayKernelManager, GatewayKernelSpecManager, GatewaySessionManager, Gateway
 
 from .auth.login import LoginHandler
 from .auth.logout import LogoutHandler
@@ -153,14 +151,13 @@ class NotebookWebApplication(web.Application):
     def __init__(self, jupyter_app, kernel_manager, contents_manager,
                  session_manager, kernel_spec_manager,
                  config_manager, extra_services, log,
-                 base_url, default_url, settings_overrides, jinja_env_options,
-                 gateway_url):
+                 base_url, default_url, settings_overrides, jinja_env_options):
 
         settings = self.init_settings(
             jupyter_app, kernel_manager, contents_manager,
             session_manager, kernel_spec_manager, config_manager,
             extra_services, log, base_url,
-            default_url, settings_overrides, jinja_env_options, gateway_url)
+            default_url, settings_overrides, jinja_env_options)
         handlers = self.init_handlers(settings)
 
         super(NotebookWebApplication, self).__init__(handlers, **settings)
@@ -169,7 +166,7 @@ class NotebookWebApplication(web.Application):
                       session_manager, kernel_spec_manager,
                       config_manager, extra_services,
                       log, base_url, default_url, settings_overrides,
-                      jinja_env_options=None, gateway_url=None):
+                      jinja_env_options=None):
 
         _template_path = settings_overrides.get(
             "template_path",
@@ -283,7 +280,6 @@ class NotebookWebApplication(web.Application):
             server_root_dir=root_dir,
             jinja2_env=env,
             terminals_available=False,  # Set later if terminals are available
-            gateway_url=gateway_url,
         )
 
         # allow custom overrides for the tornado web app.
@@ -317,7 +313,7 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('notebook.services.shutdown'))
 
         # If gateway server is configured, replace appropriate handlers to perform redirection
-        if settings['gateway_url']:
+        if Gateway.instance().gateway_enabled:
             handlers.extend(load_handlers('notebook.gateway.handlers'))
         else:
             handlers.extend(load_handlers('notebook.services.kernels.handlers'))
@@ -558,7 +554,7 @@ aliases.update({
     'notebook-dir': 'NotebookApp.notebook_dir',
     'browser': 'NotebookApp.browser',
     'pylab': 'NotebookApp.pylab',
-    'gateway-url': 'NotebookApp.gateway_url',
+    'gateway-url': 'Gateway.url',
 })
 
 #-----------------------------------------------------------------------------
@@ -579,7 +575,7 @@ class NotebookApp(JupyterApp):
     classes = [
         KernelManager, Session, MappingKernelManager, KernelSpecManager,
         ContentsManager, FileContentsManager, NotebookNotary,
-        GatewayKernelManager, GatewayKernelSpecManager, GatewaySessionManager,
+        GatewayKernelManager, GatewayKernelSpecManager, GatewaySessionManager, Gateway,
     ]
     flags = Dict(flags)
     aliases = Dict(aliases)
@@ -1307,20 +1303,6 @@ class NotebookApp(JupyterApp):
          is not available.
          """))
 
-    gateway_url_env = 'GATEWAY_URL'
-
-    @default('gateway_url')
-    def gateway_url_default(self):
-        return os.getenv(self.gateway_url_env)
-
-    gateway_url = Unicode(default_value=None, allow_none=True, config=True,
-        help="""The url of the Kernel or Enterprise Gateway server where
-        kernel specifications are defined and kernel management takes place.
-        If defined, this Notebook server acts as a proxy for all kernel
-        management and kernel specification retrieval.  (GATEWAY_URL env var)
-        """
-    )
-
     def parse_command_line(self, argv=None):
         super(NotebookApp, self).parse_command_line(argv)
 
@@ -1344,7 +1326,9 @@ class NotebookApp(JupyterApp):
     def init_configurables(self):
 
         # If gateway server is configured, replace appropriate managers to perform redirection
-        if self.gateway_url:
+        self.gateway_config = Gateway.instance(parent=self)
+
+        if self.gateway_config.gateway_enabled:
             self.kernel_manager_class = 'notebook.gateway.managers.GatewayKernelManager'
             self.session_manager_class = 'notebook.gateway.managers.GatewaySessionManager'
             self.kernel_spec_manager_class = 'notebook.gateway.managers.GatewayKernelSpecManager'
@@ -1414,7 +1398,7 @@ class NotebookApp(JupyterApp):
             self.session_manager, self.kernel_spec_manager,
             self.config_manager, self.extra_services,
             self.log, self.base_url, self.default_url, self.tornado_settings,
-            self.jinja_environment_options, self.gateway_url,
+            self.jinja_environment_options,
         )
         ssl_options = self.ssl_options
         if self.certfile:
@@ -1694,8 +1678,8 @@ class NotebookApp(JupyterApp):
             info += "\n"
         # Format the info so that the URL fits on a single line in 80 char display
         info += _("The Jupyter Notebook is running at:\n%s") % self.display_url
-        if self.gateway_url:
-            info += _("\nKernels will be managed by the Gateway server running at:\n%s") % self.gateway_url
+        if self.gateway_config.gateway_enabled:
+            info += _("\nKernels will be managed by the Gateway server running at:\n%s") % self.gateway_config.url
         return info
 
     def server_info(self):

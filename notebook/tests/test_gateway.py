@@ -7,6 +7,7 @@ from tornado import gen
 from tornado.httpclient import HTTPRequest, HTTPResponse, HTTPError
 from traitlets.config import Config
 from .launchnotebook import NotebookTestBase
+from notebook.gateway.managers import Gateway
 
 try:
     from unittest.mock import patch, Mock
@@ -137,11 +138,38 @@ mocked_gateway = patch('notebook.gateway.managers.fetch_gateway', mock_fetch_gat
 
 class TestGateway(NotebookTestBase):
 
+    mock_gateway_url = 'http://mock-gateway-server:8889'
+    mock_http_user = 'alice'
+
     @classmethod
     def setup_class(cls):
-        cls.config = Config()
-        cls.config.NotebookApp.gateway_url = 'http://mock-gateway-server:8889'
+        Gateway.clear_instance()
         super(TestGateway, cls).setup_class()
+
+    @classmethod
+    def teardown_class(cls):
+        Gateway.clear_instance()
+        super(TestGateway, cls).teardown_class()
+
+    @classmethod
+    def get_patch_env(cls):
+        test_env = super(TestGateway, cls).get_patch_env()
+        test_env.update({'JUPYTER_GATEWAY_URL': TestGateway.mock_gateway_url,
+                         'JUPYTER_GATEWAY_REQUEST_TIMEOUT': '44.4'})
+        return test_env
+
+    @classmethod
+    def get_argv(cls):
+        argv = super(TestGateway, cls).get_argv()
+        argv.extend(['--Gateway.connect_timeout=44.4', '--Gateway.http_user=' + TestGateway.mock_http_user])
+        return argv
+
+    def test_gateway_options(self):
+        nt.assert_equal(self.notebook.gateway_config.gateway_enabled, True)
+        nt.assert_equal(self.notebook.gateway_config.url, TestGateway.mock_gateway_url)
+        nt.assert_equal(self.notebook.gateway_config.http_user, TestGateway.mock_http_user)
+        nt.assert_equal(self.notebook.gateway_config.connect_timeout, self.notebook.gateway_config.connect_timeout)
+        nt.assert_equal(self.notebook.gateway_config.connect_timeout, 44.4)
 
     def test_gateway_class_mappings(self):
         # Ensure appropriate class mappings are in place.
