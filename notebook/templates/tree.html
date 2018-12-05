@@ -12,6 +12,7 @@ data-server-root="{{server_root}}"
 {% endblock %}
 
 {% block headercontainer %}
+{{super()}}
   <span class="flex-spacer"></span>
   {% if shutdown_button %}
     <span id="shutdown_widget">
