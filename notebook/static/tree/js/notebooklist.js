@@ -1314,7 +1314,8 @@ define([
 
                     var parse_large_file = function (f, item) {
                         // codes inspired by https://stackoverflow.com/a/28318964
-                        var chunk_size = 1024 * 1024;
+                        // 8MB chunk size chosen to match chunk sizes used by benchmark reference (AWS S3)
+                        var chunk_size = 1024 * 1024 * 8;
                         var offset = 0;
                         var chunk = 0;
                         var chunk_reader = null;
@@ -1365,18 +1366,25 @@ define([
                             reader.onerror = on_error;
                         };
 
+                        // This approach avoids triggering multiple GC pauses for large files.
+                        // Borrowed from kanaka's answer at:
+                        // https://stackoverflow.com/questions/12710001/how-to-convert-uint8-array-to-base64-encoded-string
+                        var  Uint8ToString = function(u8a){
+                            var CHUNK_SZ = 0x8000;
+                            var c = [];
+                            for (var i=0; i < u8a.length; i+=CHUNK_SZ) {
+                              c.push(String.fromCharCode.apply(null, u8a.subarray(i, i+CHUNK_SZ)));
+                            }
+                            return c.join("");
+                        };
+
                         // These codes to upload file in original class
                         var upload_file = function(item, chunk) {
                             var filedata = item.data('filedata');
                             if (filedata instanceof ArrayBuffer) {
                                 // base64-encode binary file data
-                                var bytes = '';
                                 var buf = new Uint8Array(filedata);
-                                var nbytes = buf.byteLength;
-                                for (var i=0; i<nbytes; i++) {
-                                    bytes += String.fromCharCode(buf[i]);
-                                }
-                                filedata = btoa(bytes);
+                                filedata = btoa(Uint8ToString(buf));
                                 format = 'base64';
                             }
                             var model = { name: filename, path: path };
