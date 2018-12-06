@@ -56,21 +56,22 @@ class SessionManager(LoggingConfigurable):
         """Close connection once SessionManager closes"""
         self.close()
 
+    @gen.coroutine
     def session_exists(self, path):
         """Check to see if the session of a given name exists"""
+        exists = False
         self.cursor.execute("SELECT * FROM session WHERE path=?", (path,))
         row = self.cursor.fetchone()
-        if row is None:
-            return False
-        else:
+        if row is not None:
             # Note, although we found a row for the session, the associated kernel may have
             # been culled or died unexpectedly.  If that's the case, we should delete the
             # row, thereby terminating the session.  This can be done via a call to
             # row_to_model that tolerates that condition.  If row_to_model returns None,
             # we'll return false, since, at that point, the session doesn't exist anyway.
-            if self.row_to_model(row, tolerate_culled=True) is None:
-                return False
-            return True
+            model = yield gen.maybe_future(self.row_to_model(row, tolerate_culled=True))
+            if model is not None:
+                exists = True
+        raise gen.Return(exists)
 
     def new_session_id(self):
         "Create a uuid for a new session"
@@ -101,6 +102,7 @@ class SessionManager(LoggingConfigurable):
         # py2-compat
         raise gen.Return(kernel_id)
 
+    @gen.coroutine
     def save_session(self, session_id, path=None, name=None, type=None, kernel_id=None):
         """Saves the items for the session with the given session_id
         
@@ -129,8 +131,10 @@ class SessionManager(LoggingConfigurable):
         self.cursor.execute("INSERT INTO session VALUES (?,?,?,?,?)",
             (session_id, path, name, type, kernel_id)
         )
-        return self.get_session(session_id=session_id)
+        result = yield gen.maybe_future(self.get_session(session_id=session_id))
+        raise gen.Return(result)
 
+    @gen.coroutine
     def get_session(self, **kwargs):
         """Returns the model for a particular session.
         
@@ -174,8 +178,10 @@ class SessionManager(LoggingConfigurable):
 
             raise web.HTTPError(404, u'Session not found: %s' % (', '.join(q)))
 
-        return self.row_to_model(row)
+        model = yield gen.maybe_future(self.row_to_model(row))
+        raise gen.Return(model)
 
+    @gen.coroutine
     def update_session(self, session_id, **kwargs):
         """Updates the values in the session database.
         
@@ -191,7 +197,7 @@ class SessionManager(LoggingConfigurable):
             and the value replaces the current value in the session 
             with session_id.
         """
-        self.get_session(session_id=session_id)
+        yield gen.maybe_future(self.get_session(session_id=session_id))
 
         if not kwargs:
             # no changes
@@ -205,9 +211,15 @@ class SessionManager(LoggingConfigurable):
         query = "UPDATE session SET %s WHERE session_id=?" % (', '.join(sets))
         self.cursor.execute(query, list(kwargs.values()) + [session_id])
 
+    def kernel_culled(self, kernel_id):
+        """Checks if the kernel is still considered alive and returns true if its not found. """
+        return kernel_id not in self.kernel_manager
+
+    @gen.coroutine
     def row_to_model(self, row, tolerate_culled=False):
         """Takes sqlite database session row and turns it into a dictionary"""
-        if row['kernel_id'] not in self.kernel_manager:
+        kernel_culled = yield gen.maybe_future(self.kernel_culled(row['kernel_id']))
+        if kernel_culled:
             # The kernel was culled or died without deleting the session.
             # We can't use delete_session here because that tries to find
             # and shut down the kernel - so we'll delete the row directly.
@@ -222,21 +234,23 @@ class SessionManager(LoggingConfigurable):
                 format(kernel_id=row['kernel_id'],session_id=row['session_id'])
             if tolerate_culled:
                 self.log.warning(msg + "  Continuing...")
-                return None
+                raise gen.Return(None)
             raise KeyError(msg)
 
+        kernel_model = yield gen.maybe_future(self.kernel_manager.kernel_model(row['kernel_id']))
         model = {
             'id': row['session_id'],
             'path': row['path'],
             'name': row['name'],
             'type': row['type'],
-            'kernel': self.kernel_manager.kernel_model(row['kernel_id'])
+            'kernel': kernel_model
         }
         if row['type'] == 'notebook':
             # Provide the deprecated API.
             model['notebook'] = {'path': row['path'], 'name': row['name']}
-        return model
+        raise gen.Return(model)
 
+    @gen.coroutine
     def list_sessions(self):
         """Returns a list of dictionaries containing all the information from
         the session database"""
@@ -246,14 +260,15 @@ class SessionManager(LoggingConfigurable):
         # which messes up the cursor if we're iterating over rows.
         for row in c.fetchall():
             try:
-                result.append(self.row_to_model(row))
+                model = yield gen.maybe_future(self.row_to_model(row))
+                result.append(model)
             except KeyError:
                 pass
-        return result
+        raise gen.Return(result)
 
     @gen.coroutine
     def delete_session(self, session_id):
         """Deletes the row in the session database with given session_id"""
-        session = self.get_session(session_id=session_id)
+        session = yield gen.maybe_future(self.get_session(session_id=session_id))
         yield gen.maybe_future(self.kernel_manager.shutdown_kernel(session['kernel']['id']))
         self.cursor.execute("DELETE FROM session WHERE session_id=?", (session_id,))

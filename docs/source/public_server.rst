@@ -365,7 +365,7 @@ or in :file:`jupyter_notebook_config.py`:
 
    .. code-block:: python
 
-      c.Gateway.url = http://my-gateway-server:8888
+      c.GatewayClient.url = http://my-gateway-server:8888
 
 When provided, all kernel specifications will be retrieved from the specified Gateway server and all
 kernels will be managed by that server.  This option enables the ability to target kernel processes

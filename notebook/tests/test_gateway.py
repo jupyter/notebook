@@ -1,4 +1,4 @@
-"""Test Gateway"""
+"""Test GatewayClient"""
 import os
 import json
 import uuid
@@ -7,7 +7,7 @@ from tornado import gen
 from tornado.httpclient import HTTPRequest, HTTPResponse, HTTPError
 from traitlets.config import Config
 from .launchnotebook import NotebookTestBase
-from notebook.gateway.managers import Gateway
+from notebook.gateway.managers import GatewayClient
 
 try:
     from unittest.mock import patch, Mock
@@ -25,12 +25,12 @@ import nose.tools as nt
 def generate_kernelspec(name):
     argv_stanza = ['python', '-m', 'ipykernel_launcher', '-f', '{connection_file}']
     spec_stanza = {'spec': {'argv': argv_stanza, 'env': {}, 'display_name': name, 'language': 'python', 'interrupt_mode': 'signal', 'metadata': {}}}
-    kernelspec_stanza = {name: {'name': name, 'spec': spec_stanza, 'resources': {}}}
+    kernelspec_stanza = {'name': name, 'spec': spec_stanza, 'resources': {}}
     return kernelspec_stanza
 
 
 # We'll mock up two kernelspecs - kspec_foo and kspec_bar
-kernelspecs = {'kernelspecs': {'kspec_foo': generate_kernelspec('kspec_foo'), 'kspec_bar': generate_kernelspec('kspec_bar')}}
+kernelspecs = {'default': 'kspec_foo', 'kernelspecs': {'kspec_foo': generate_kernelspec('kspec_foo'), 'kspec_bar': generate_kernelspec('kspec_bar')}}
 
 
 # maintain a dictionary of expected running kernels.  Key = kernel_id, Value = model.
@@ -46,7 +46,7 @@ def generate_model(name):
 
 
 @gen.coroutine
-def mock_fetch_gateway(url, **kwargs):
+def mock_gateway_request(url, **kwargs):
     method = 'GET'
     if kwargs['method']:
         method = kwargs['method']
@@ -133,7 +133,7 @@ def mock_fetch_gateway(url, **kwargs):
             raise HTTPError(404, message='Kernel does not exist: %s' % requested_kernel_id)
 
 
-mocked_gateway = patch('notebook.gateway.managers.fetch_gateway', mock_fetch_gateway)
+mocked_gateway = patch('notebook.gateway.managers.gateway_request', mock_gateway_request)
 
 
 class TestGateway(NotebookTestBase):
@@ -143,12 +143,12 @@ class TestGateway(NotebookTestBase):
 
     @classmethod
     def setup_class(cls):
-        Gateway.clear_instance()
+        GatewayClient.clear_instance()
         super(TestGateway, cls).setup_class()
 
     @classmethod
     def teardown_class(cls):
-        Gateway.clear_instance()
+        GatewayClient.clear_instance()
         super(TestGateway, cls).teardown_class()
 
     @classmethod
@@ -161,7 +161,7 @@ class TestGateway(NotebookTestBase):
     @classmethod
     def get_argv(cls):
         argv = super(TestGateway, cls).get_argv()
-        argv.extend(['--Gateway.connect_timeout=44.4', '--Gateway.http_user=' + TestGateway.mock_http_user])
+        argv.extend(['--GatewayClient.connect_timeout=44.4', '--GatewayClient.http_user=' + TestGateway.mock_http_user])
         return argv
 
     def test_gateway_options(self):
@@ -185,15 +185,14 @@ class TestGateway(NotebookTestBase):
             content = json.loads(response.content.decode('utf-8'), encoding='utf-8')
             kspecs = content.get('kernelspecs')
             self.assertEqual(len(kspecs), 2)
-            self.assertEqual(kspecs.get('kspec_bar').get('kspec_bar').get('name'), 'kspec_bar')
+            self.assertEqual(kspecs.get('kspec_bar').get('name'), 'kspec_bar')
 
     def test_gateway_get_named_kernelspec(self):
         # Validate that a specific kernelspec can be retrieved from gateway.
         with mocked_gateway:
             response = self.request('GET', '/api/kernelspecs/kspec_foo')
             self.assertEqual(response.status_code, 200)
-            content = json.loads(response.content.decode('utf-8'), encoding='utf-8')
-            kspec_foo = content.get('kspec_foo')
+            kspec_foo = json.loads(response.content.decode('utf-8'), encoding='utf-8')
             self.assertEqual(kspec_foo.get('name'), 'kspec_foo')
 
             response = self.request('GET', '/api/kernelspecs/no_such_spec')
