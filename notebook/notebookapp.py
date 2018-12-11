@@ -1805,8 +1805,9 @@ class NotebookApp(JupyterApp):
             # with auth info.
             self.log.critical('\n'.join([
                 '\n',
-                'Copy/paste this URL into your browser when you connect for the first time,',
-                'to login with a token:',
+                'To access the notebook, open this file in a browser:',
+                '    %s' % urljoin('file:', pathname2url(self.browser_open_file)),
+                'Or copy and paste one of these URLs:',
                 '    %s' % self.display_url,
             ]))
 
