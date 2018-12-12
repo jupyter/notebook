@@ -755,12 +755,6 @@ class NotebookApp(JupyterApp):
         """)
     ).tag(config=True)
 
-    one_time_token = Unicode(
-        help=_("""One-time token used for opening a browser.
-        Once used, this token cannot be used again.
-        """)
-    )
-
     _token_generated = True
 
     @default('token')
@@ -1371,9 +1365,6 @@ class NotebookApp(JupyterApp):
         self.tornado_settings['cookie_options'] = self.cookie_options
         self.tornado_settings['get_secure_cookie_kwargs'] = self.get_secure_cookie_kwargs
         self.tornado_settings['token'] = self.token
-        if (self.open_browser or self.file_to_run) and not self.password:
-            self.one_time_token = binascii.hexlify(os.urandom(24)).decode('ascii')
-            self.tornado_settings['one_time_token'] = self.one_time_token
 
         # ensure default_url starts with base_url
         if not self.default_url.startswith(self.base_url):
