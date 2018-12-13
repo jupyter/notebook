@@ -181,11 +181,6 @@ class AuthenticatedHandler(web.RequestHandler):
         return self.settings.get('token', None)
 
     @property
-    def one_time_token(self):
-        """Return the one-time-use token for this application, if any."""
-        return self.settings.get('one_time_token', None)
-
-    @property
     def login_available(self):
         """May a user proceed to log in?
 
@@ -475,7 +470,7 @@ class IPythonHandler(AuthenticatedHandler):
             logged_in=self.logged_in,
             allow_password_change=self.settings.get('allow_password_change'),
             login_available=self.login_available,
-            token_available=bool(self.token or self.one_time_token),
+            token_available=bool(self.token),
             static_url=self.static_url,
             sys_info=json_sys_info(),
             contents_js_source=self.contents_js_source,
