@@ -13,10 +13,11 @@ import sys
 from distutils.version import LooseVersion
 
 try:
-    from urllib.parse import quote, unquote, urlparse
+    from urllib.parse import quote, unquote, urlparse, urljoin
+    from urllib.request import pathname2url
 except ImportError:
-    from urllib import quote, unquote
-    from urlparse import urlparse
+    from urllib import quote, unquote, pathname2url
+    from urlparse import urlparse, urljoin
 
 from ipython_genutils import py3compat
 
