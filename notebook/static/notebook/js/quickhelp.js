@@ -140,7 +140,7 @@ define([
     
     function humanize_key(key){
          if (key.length === 1){
-             return key.LowerCase();
+             return key.toLowerCase();
          }
 
         key = humanize_map[key.toLowerCase()]||key;
