@@ -19,7 +19,7 @@ var rjs_config = {
     jquery: 'components/jquery/jquery.min',
     json: 'components/requirejs-plugins/src/json',
     text: 'components/requirejs-text/text',
-    bootstrap: 'components/bootstrap/js/bootstrap.min',
+    bootstrap: 'components/bootstrap/dist/js/bootstrap.min',
     bootstraptour: 'components/bootstrap-tour/build/js/bootstrap-tour.min',
     "jquery-ui": 'components/jquery-ui/jquery-ui.min',
     moment: 'components/moment/min/moment-with-locales',

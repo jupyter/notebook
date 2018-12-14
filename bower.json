@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "dependencies": {
     "backbone": "components/backbone#~1.2",
-    "bootstrap": "components/bootstrap#~3.3",
+    "bootstrap": "bootstrap#~3.4",
     "bootstrap-tour": "0.9.0",
     "codemirror": "components/codemirror#~5.37",
     "es6-promise": "~1.0",
