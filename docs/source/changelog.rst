@@ -21,6 +21,15 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+.. _release-5.7.4:
+
+5.7.4
+-----
+
+5.7.4 fixes a bug introduced in 5.7.3, in which the ``list_running_servers()``
+function attempts to parse HTML files as JSON, and consequently crashes
+(:ghpull:`4284`).
+
 .. _release-5.7.3:
 
 5.7.3
