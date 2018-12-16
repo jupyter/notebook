@@ -21,6 +21,23 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+.. _release-5.7.3:
+
+5.7.3
+-----
+
+5.7.3 contains one security improvement and one security fix:
+
+- Launch the browser with a local file which redirects to the server address
+  including the authentication token (:ghpull:`4260`).
+  This prevents another logged-in user from stealing the token from command line
+  arguments and authenticating to the server.
+  The single-use token previously used to mitigate this has been removed.
+  Thanks to Dr. Owain Kenway for suggesting the local file approach.
+- Upgrade bootstrap to 3.4, fixing an XSS vulnerability, which has been
+  assigned `CVE-2018-14041 <https://nvd.nist.gov/vuln/detail/CVE-2018-14041>`_
+  (:ghpull:`4271`).
+
 .. _release-5.7.2:
 
 5.7.2
