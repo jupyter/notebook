@@ -1831,7 +1831,7 @@ def list_running_servers(runtime_dir=None):
         return
 
     for file_name in os.listdir(runtime_dir):
-        if file_name.startswith('nbserver-'):
+        if re.match('nbserver-(.+).json', file_name):
             with io.open(os.path.join(runtime_dir, file_name), encoding='utf-8') as f:
                 info = json.load(f)
 
