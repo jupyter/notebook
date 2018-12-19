@@ -108,7 +108,9 @@ from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
 from notebook._sysinfo import get_sys_info
 
 from ._tz import utcnow, utcfromtimestamp
-from .utils import url_path_join, check_pid, url_escape, urljoin, pathname2url
+from .utils import (url_path_join, check_pid, url_escape, urljoin, pathname2url,
+                    path2url)
+
 
 #-----------------------------------------------------------------------------
 # Module globals
@@ -527,6 +529,14 @@ flags['no-mathjax']=(
 flags['allow-root']=(
     {'NotebookApp' : {'allow_root' : True}},
     _("Allow the notebook to be run from root user.")
+)
+
+flags['whole-filesystem'] = (
+    {'NotebookApp': {
+        'notebook_dir': '/',
+        'default_url': url_path_join('/tree', path2url(os.getcwd())),
+    }},
+    _("Allow the server to navigate up to the root directory.")
 )
 
 # Add notebook manager flags
