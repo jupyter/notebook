@@ -97,13 +97,13 @@ requirejs([
         contents: contents,
         session_list:  session_list},
         common_options));
-    var kernel_list = new kernellist.KernelList('#running_list',  $.extend({
+    var kernel_list = new kernellist.KernelList('#running_list_panel',  $.extend({
         session_list:  session_list},
         common_options));
     
     var terminal_list;
     if (utils.get_body_data("terminalsAvailable") === "True") {
-        terminal_list = new terminallist.TerminalList('#terminal_list', common_options);
+        terminal_list = new terminallist.TerminalList('#terminal_list_panel', common_options);
     }
 
     var login_widget = new loginwidget.LoginWidget('#login_widget', common_options);

@@ -102,6 +102,7 @@ define([
          *      Dictionary of keyword arguments.
          *          session_list: SessionList instance
          *          element_name: string
+         *          element: string
          *          base_url: string
          *          notebook_path: string
          *          contents: Contents instance
@@ -112,8 +113,11 @@ define([
         // allow code re-use by just changing element_name in kernellist.js
         this.element_name = options.element_name || 'notebook';
         this.selector = selector;
-        if (this.selector !== undefined) {
-            this.element = $(selector);
+        if (this.selector !== undefined || options.element !== undefined) {
+            if (options.element !== undefined)
+                this.element = $(options.element);
+            else
+                this.element = $(selector);
             this.style();
             this.bind_events();
         }
@@ -160,6 +164,35 @@ define([
         this.element.bind('drop', function(event){
             that.handleFilesUpload(event,'drop');
             return false;
+        });
+
+        // Bind events for action buttons.
+        $('#' + that.element_name + '_toolbar').find('.rename-button').click($.proxy(this.rename_selected, this));
+        $('#' + that.element_name + '_toolbar').find('.move-button').click($.proxy(this.move_selected, this));
+        $('#' + that.element_name + '_toolbar').find('.download-button').click($.proxy(this.download_selected, this));
+        $('#' + that.element_name + '_toolbar').find('.shutdown-button').click($.proxy(this.shutdown_selected, this));
+        $('#' + that.element_name + '_toolbar').find('.duplicate-button').click($.proxy(this.duplicate_selected, this));
+        $('#' + that.element_name + '_toolbar').find('.view-button').click($.proxy(this.view_selected, this));
+        $('#' + that.element_name + '_toolbar').find('.edit-button').click($.proxy(this.edit_selected, this));
+        $('#' + that.element_name + '_toolbar').find('.delete-button').click($.proxy(this.delete_selected, this));
+
+        var select_all = $(that.selector).find('#select-all');
+        select_all.change(function () {
+            if (!select_all.prop('checked') || select_all.data('indeterminate')) {
+                that.select('select-none');
+            } else {
+                that.select('select-all');
+            }
+        });
+        $(that.selector).find('#button-select-all').click(function (e) {
+            // toggle checkbox if the click doesn't come from the checkbox already
+            if (!$(e.target).is('input[type=checkbox]')) {
+                if (select_all.prop('checked') || select_all.data('indeterminate')) {
+                    that.select('select-none');
+                } else {
+                    that.select('select-all');
+                }
+            }
         });
 
         // Bind events for singleton controls.
@@ -212,38 +245,9 @@ define([
                 e.preventDefault();
             });
 
-            // Bind events for action buttons.
-            $('.rename-button').click($.proxy(this.rename_selected, this));
-            $('.move-button').click($.proxy(this.move_selected, this));
-            $('.download-button').click($.proxy(this.download_selected, this));
-            $('.shutdown-button').click($.proxy(this.shutdown_selected, this));
-            $('.duplicate-button').click($.proxy(this.duplicate_selected, this));
-            $('.view-button').click($.proxy(this.view_selected, this));
-            $('.edit-button').click($.proxy(this.edit_selected, this));
-            $('.delete-button').click($.proxy(this.delete_selected, this));
-
             // Bind events for selection menu buttons.
             $('#selector-menu').click(function (event) {
                 that.select($(event.target).attr('id'));
-            });
-            var select_all = $('#select-all');
-            select_all.change(function () {
-                if (!select_all.prop('checked') || select_all.data('indeterminate')) {
-                    that.select('select-none');
-                } else {
-                    that.select('select-all');
-                }
-            });
-
-            $('#button-select-all').click(function (e) {
-                // toggle checkbox if the click doesn't come from the checkbox already
-                if (!$(e.target).is('input[type=checkbox]')) {
-                    if (select_all.prop('checked') || select_all.data('indeterminate')) {
-                        that.select('select-none');
-                    } else {
-                        that.select('select-all');
-                    }
-                }
             });
 
             $('.sort-action').click(function(e) {
@@ -468,6 +472,7 @@ define([
     var type_order = {'directory':0,'notebook':1,'file':2};
 
     NotebookList.prototype.draw_notebook_list = function (list, error_msg) {
+        var that = this;
         // Remember what was selected before the refresh.
         var selected_before = this.selected;
 
@@ -515,7 +520,7 @@ define([
         // Reselect the items that were selected before.  Notify listeners
         // that the selected items may have changed.  O(n^2) operation.
         selected_before.forEach(function(item) {
-            var list_items = $('.list_item');
+            var list_items = that.element.children('.list_item');
             for (var i=0; i<list_items.length; i++) {
                 var $list_item = $(list_items[i]);
                 if ($list_item.data('path') === item.path) {
@@ -592,8 +597,8 @@ define([
         } else if (selectable === true) {
             var that = this;
             row.click(function(e) {
-                // toggle checkbox only if the click doesn't come from the checkbox or the link
-                if (!$(e.target).is('span[class=item_name]') && !$(e.target).is('input[type=checkbox]')) {
+                // toggle checkbox only if the click doesn't come from the checkbox or the link or any button
+                if (!$(e.target).is('span[class=item_name]') && !$(e.target).is('input[type=checkbox]') && !$(e.target).is('button')) {
                     checkbox.prop('checked', !checkbox.prop('checked'));
                 }
                 that._selection_changed();
@@ -634,7 +639,7 @@ define([
      */
     NotebookList.prototype.select = function(selection_type) {
         var that = this;
-        $('.list_item').each(function(index, item) {
+        $(that.selector).find('.list_item').each(function(index, item) {
             var item_type = $(item).data('type');
             var state = false;
             state = state || (selection_type === "select-all");
@@ -689,8 +694,9 @@ define([
         var has_running_notebook = false;
         var has_directory = false;
         var has_file = false;
+        var has_terminal = $('#terminal_list').find('.list_item :checked').length;
         var checked = 0;
-        $('.list_item :checked').each(function(index, item) {
+        $(that.selector).find('.list_item :checked').each(function(index, item) {
             var parent = $(item).parent().parent();
 
             // If the item doesn't have an upload button, isn't the
@@ -716,48 +722,48 @@ define([
 
         // Rename is only visible when one item is selected, and it is not a running notebook
         if (selected.length === 1 && !has_running_notebook) {
-            $('.rename-button').css('display', 'inline-block');
+            $('#' + that.element_name + '_toolbar').find('.rename-button').css('display', 'inline-block');
         } else {
-            $('.rename-button').css('display', 'none');
+            $('#' + that.element_name + '_toolbar').find('.rename-button').css('display', 'none');
         }
 
         // Move is visible if at least one item is selected, and none of them
         // are a running notebook.
         if (selected.length > 0 && !has_running_notebook) {
-            $('.move-button').css('display', 'inline-block');
+            $('#' + that.element_name + '_toolbar').find('.move-button').css('display', 'inline-block');
         } else {
-            $('.move-button').css('display', 'none');
+            $('#' + that.element_name + '_toolbar').find('.move-button').css('display', 'none');
         }
 
         // Download is only visible when one item is selected, and it is not a
         // running notebook or a directory
         // TODO(nhdaly): Add support for download multiple items at once.
         if (selected.length === 1 && !has_running_notebook && !has_directory) {
-            $('.download-button').css('display', 'inline-block');
+            $('#' + that.element_name + '_toolbar').find('.download-button').css('display', 'inline-block');
         } else {
-            $('.download-button').css('display', 'none');
+            $('#' + that.element_name + '_toolbar').find('.download-button').css('display', 'none');
         }
 
         // Shutdown is only visible when one or more notebooks running notebooks
         // are selected and no non-notebook items are selected.
-        if (has_running_notebook && !(has_file || has_directory)) {
-            $('.shutdown-button').css('display', 'inline-block');
+        if ((has_running_notebook || has_terminal) && !(has_file || has_directory)) {
+            $('#' + that.element_name + '_toolbar').find('.shutdown-button').css('display', 'inline-block');
         } else {
-            $('.shutdown-button').css('display', 'none');
+            $('#' + that.element_name + '_toolbar').find('.shutdown-button').css('display', 'none');
         }
 
-        // Duplicate isn't visible when a directory is selected.
-        if (selected.length > 0 && !has_directory) {
-            $('.duplicate-button').css('display', 'inline-block');
+        // Duplicate isn't visible when a directory or terminal is selected.
+        if (selected.length > 0 && !has_directory && !has_terminal) {
+            $('#' + that.element_name + '_toolbar').find('.duplicate-button').css('display', 'inline-block');
         } else {
-            $('.duplicate-button').css('display', 'none');
+            $('#' + that.element_name + '_toolbar').find('.duplicate-button').css('display', 'none');
         }
 
-        // Delete is visible if one or more items are selected.
-        if (selected.length > 0) {
-            $('.delete-button').css('display', 'inline-block');
+        // Delete isn't visible when a terminal is selected.
+        if (selected.length > 0 && !has_terminal) {
+            $('#' + that.element_name + '_toolbar').find('.delete-button').css('display', 'inline-block');
         } else {
-            $('.delete-button').css('display', 'none');
+            $('#' + that.element_name + '_toolbar').find('.delete-button').css('display', 'none');
         }
 
         // View is visible in the following case:
@@ -768,10 +774,10 @@ define([
         // If it's not editable or unknown, the default action should be view
         // already so no need to show the button.
         // That should include things like, html, py, txt, json....
-        if (selected.length >= 1 && !has_directory) {
-            $('.view-button').css('display', 'inline-block');
+        if (selected.length >= 1 && !has_directory && !has_terminal) {
+            $('#' + that.element_name + '_toolbar').find('.view-button').css('display', 'inline-block');
         } else {
-            $('.view-button').css('display', 'none');
+            $('#' + that.element_name + '_toolbar').find('.view-button').css('display', 'none');
         }
 
         // Edit is visible when an item is unknown, that is to say:
@@ -781,19 +787,19 @@ define([
         // Indeed if it's editable the default action is already to edit.
         // And non editable files should not show edit button.
         // for unknown we'll assume users know what they are doing.
-        if (selected.length >= 1 && !has_directory && selected.every(function(el) {
+        if (selected.length >= 1 && !has_directory && !has_terminal && selected.every(function(el) {
             return that._is_editable(el);
         })) {
-            $('.edit-button').css('display', 'inline-block');
+            $('#' + that.element_name + '_toolbar').find('.edit-button').css('display', 'inline-block');
         } else {
-            $('.edit-button').css('display', 'none');
+            $('#' + that.element_name + '_toolbar').find('.edit-button').css('display', 'none');
         }
 
         // If all of the items are selected, show the selector as checked.  If
         // some of the items are selected, show it as checked.  Otherwise,
         // uncheck it.
         var total = 0;
-        $('.list_item input[type=checkbox]').each(function(index, item) {
+        $(that.selector).find('.list_item input[type=checkbox]').each(function(index, item) {
             var parent = $(item).parent().parent();
             // If the item doesn't have an upload button and it's not the
             // breadcrumbs, it can be selected.  Breadcrumbs path == ''.
@@ -802,7 +808,7 @@ define([
             }
         });
 
-        var select_all = $("#select-all");
+        var select_all = $(that.selector).find("#select-all");
         if (checked === 0) {
             select_all.prop('checked', false);
             select_all.prop('indeterminate', false);
@@ -818,7 +824,7 @@ define([
         }
         // Update total counter
         checked = bidi.applyBidi(checked);
-        $('#counter-select-all').html(checked===0 ? '&nbsp;' : checked);
+        $(that.selector).find('#counter-select-all').html(checked===0 ? '&nbsp;' : checked);
 
         //#issue 3961, update the checkbox aria-label when it changed
         if(selected.length>=1){
@@ -838,10 +844,10 @@ define([
         }
 
         // If at aleast on item is selected, hide the selection instructions.
-        if (checked > 0) {
-            $('.dynamic-instructions').hide();
+        if (checked > 0 || has_terminal) {
+            $('#' + that.element_name + '_toolbar').find('.dynamic-instructions').hide();
         } else {
-            $('.dynamic-instructions').show();
+            $('#' + that.element_name + '_toolbar').find('.dynamic-instructions').show();
         }
     };
 

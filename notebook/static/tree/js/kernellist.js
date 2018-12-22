@@ -22,7 +22,8 @@ define([
          *          notebook_path: string
          */
         notebooklist.NotebookList.call(this, selector, $.extend({
-            element_name: 'running'},
+            element_name: 'running',
+            element: '#running_list'},
             options));
         this.kernelspecs = this.sessions = null;
         this.events.on('kernelspecs_loaded.KernelSpec', $.proxy(this._kernelspecs_loaded, this));
@@ -45,10 +46,15 @@ define([
     };
     
     KernelList.prototype.sessions_loaded = function (d) {
+        var that = this;
         this.sessions = d;
         if (!this.kernelspecs) {
             return; // wait for kernelspecs before first load
         }
+
+        // Remember what was selected before the refresh.
+        var selected_before = this.selected;
+
         this.clear_list();
         var item, path, session, info;
         for (path in d) {
@@ -57,7 +63,7 @@ define([
                 continue;
             }
             session = d[path];
-            item = this.new_item(-1);
+            item = this.new_item(-1, true);
             info = this.kernelspecs[session.kernel.name];
             this.add_link({
                 name: path,
@@ -67,6 +73,20 @@ define([
             }, item);
         }
         $('#running_list_placeholder').toggle($.isEmptyObject(d));
+
+        // Reselect the items that were selected before.  Notify listeners
+        // that the selected items may have changed.  O(n^2) operation.
+        selected_before.forEach(function(item) {
+            var list_items = that.element.children('.list_item');
+            for (var i=0; i<list_items.length; i++) {
+                var $list_item = $(list_items[i]);
+                if ($list_item.data('path') === item.path) {
+                    $list_item.find('input[type=checkbox]').prop('checked', true);
+                    break;
+                }
+            }
+        });
+        this._selection_changed();
     };
 
     KernelList.prototype.add_link = function (model, item) {

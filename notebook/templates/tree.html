@@ -146,7 +146,19 @@ data-server-root="{{server_root}}"
         <div id="running" class="tab-pane">
           <div id="running_toolbar" class="row">
             <div class="col-sm-8 no-padding">
-              <span id="running_list_info">{% trans %}Currently running Jupyter processes{% endtrans %}</span>
+              <span id="running_list_info" class="dynamic-instructions">
+                {% trans %}Currently running Jupyter processes{% endtrans %}
+              </span>
+              <div class="dynamic-buttons">
+                  <button title="{% trans %}Duplicate selected{% endtrans %}" class="duplicate-button btn btn-default btn-xs">{% trans %}Duplicate{% endtrans %}</button>
+                  <button title="{% trans %}Rename selected{% endtrans %}" class="rename-button btn btn-default btn-xs">{% trans %}Rename{% endtrans %}</button>
+                  <button title="{% trans %}Move selected{% endtrans %}" class="move-button btn btn-default btn-xs">{% trans %}Move{% endtrans %}</button>
+                  <button title="{% trans %}Download selected{% endtrans %}" class="download-button btn btn-default btn-xs">{% trans %}Download{% endtrans %}</button>
+                  <button title="{% trans %}Shutdown selected notebook(s){% endtrans %}" class="shutdown-button btn btn-default btn-xs btn-warning">{% trans %}Shutdown{% endtrans %}</button>
+                  <button title="{% trans %}View selected{% endtrans %}" class="view-button btn btn-default btn-xs">{% trans %}View{% endtrans %}</button>
+                  <button title="{% trans %}Edit selected{% endtrans %}" class="edit-button btn btn-default btn-xs">{% trans %}Edit{% endtrans %}</button>
+                  <button title="{% trans %}Delete selected{% endtrans %}" class="delete-button btn btn-default btn-xs btn-danger"><i class="fa fa-trash"></i></button>
+              </div>
             </div>
             <div class="col-sm-4 no-padding tree-buttons">
               <span id="running_buttons" class="pull-right">
@@ -155,8 +167,13 @@ data-server-root="{{server_root}}"
             </div>
           </div>
           <div class="panel-group" id="accordion" >
-            <div class="panel panel-default">
+            <div class="panel panel-default" id="terminal_list_panel">
               <div class="panel-heading">
+                <div class="btn-group dropdown" id="tree-selector">
+                  <button title="{% trans %}Select All / None{% endtrans %}" type="button" class="btn btn-default btn-xs" id="button-select-all">
+                    <input type="checkbox" class="pull-left tree-selector" id="select-all"><span id="counter-select-all">&nbsp;</span></input>
+                  </button>
+                </div>
                 <a data-toggle="collapse" data-target="#collapseOne" href="#">
                   Terminals
                 </a>
@@ -164,19 +181,24 @@ data-server-root="{{server_root}}"
               <div id="collapseOne" class=" collapse in">
                 <div class="panel-body">
                   <div id="terminal_list">
-                    <div id="terminal_list_header" class="row list_placeholder">
-                    {% if terminals_available %}
-                      <div> {% trans %}There are no terminals running.{% endtrans %} </div>
-                    {% else %}
-                      <div> {% trans %}Terminals are unavailable.{% endtrans %} </div>
-                    {% endif %}
+                    <div id="terminal_list_placeholder" class="row list_placeholder">
+                      {% if terminals_available %}
+                        <div> {% trans %}There are no terminals running.{% endtrans %} </div>
+                      {% else %}
+                        <div> {% trans %}Terminals are unavailable.{% endtrans %} </div>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="panel panel-default">
+            <div class="panel panel-default" id="running_list_panel">
               <div class="panel-heading">
+                <div class="btn-group dropdown" id="tree-selector">
+                  <button title="{% trans %}Select All / None{% endtrans %}" type="button" class="btn btn-default btn-xs" id="button-select-all">
+                    <input type="checkbox" class="pull-left tree-selector" id="select-all"><span id="counter-select-all">&nbsp;</span></input>
+                  </button>
+                </div>
                 <a data-toggle="collapse" data-target="#collapseTwo" href="#">
                   {% trans %}Notebooks{% endtrans %}
                 </a>
