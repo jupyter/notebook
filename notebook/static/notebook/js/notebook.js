@@ -257,7 +257,8 @@ define([
         // 'above', 'below', or 'selected' to get the value from another cell.
         default_cell_type: 'code',
         Header: true,
-        Toolbar: true
+        Toolbar: true,
+        kill_kernel: false
     };
 
     Notebook.prototype.validate_config = function() {
@@ -409,8 +410,18 @@ define([
         // Firefox 22 broke $(window).on("beforeunload")
         // I'm not sure why or how.
         window.onbeforeunload = function () {
-            // TODO: Make killing the kernel configurable.
-            var kill_kernel = false;
+            /* Make kill kernel configurable.
+            example in custom.js:
+                var notebook = Jupyter.notebook;
+                var config = notebook.config;
+                var patch = {
+                    Notebook:{
+                        kill_kernel: true
+                    }
+                };
+                config.update(patch);
+            */
+            var kill_kernel = that.class_config.get_sync("kill_kernel");
             if (kill_kernel) {
                 that.session.delete();
             }
