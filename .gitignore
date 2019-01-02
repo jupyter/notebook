@@ -27,6 +27,7 @@ __pycache__
 \#*#
 .#*
 .coverage
+.pytest_cache
 src
 
 *.swp
@@ -39,3 +40,4 @@ config.rst
 /.pydevproject
 
 package-lock.json
+geckodriver.log
