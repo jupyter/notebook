@@ -98,7 +98,7 @@ for more information.
     zip_safe = False,
     install_requires = [
         'jinja2',
-        'tornado>=4',
+        'tornado>=4, <6',
         # pyzmq>=17 is not technically necessary,
         # but hopefully avoids incompatibilities with Tornado 5. April 2018
         'pyzmq>=17',
