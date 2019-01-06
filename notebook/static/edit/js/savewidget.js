@@ -122,7 +122,7 @@ define([
         if(filename){
             this._filename = filename;
         }
-        document.title = (dirty?'*':'')+this._filename;
+        document.title = (dirty?'*':'')+this._filename+' - Jupyter Notebook';
     };
 
     SaveWidget.prototype.update_address_bar = function (path) {
