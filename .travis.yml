@@ -39,7 +39,7 @@ before_install:
       fi
     - |
       if [[ $GROUP == selenium ]]; then
-        pip install selenium
+        pip install --upgrade selenium pytest
         # Install Webdriver backend for Firefox:
         wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
         mkdir geckodriver
