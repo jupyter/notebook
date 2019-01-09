@@ -36,6 +36,7 @@ before_install:
     - |
       if [[ $GROUP == docs ]]; then
         pip install -r docs/doc-requirements.txt
+        pip install --upgrade pytest
       fi
     - |
       if [[ $GROUP == selenium ]]; then
