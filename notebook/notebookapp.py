@@ -1747,7 +1747,7 @@ class NotebookApp(JupyterApp):
 
             # Write a temporary file to open in the browser
             fd, open_file = tempfile.mkstemp(suffix='.html')
-            with open(fd, 'w', encoding='utf-8') as fh:
+            with open(open_file, 'w', encoding='utf-8') as fh:
                 self._write_browser_open_file(uri, fh)
         else:
             open_file = self.browser_open_file
