@@ -31,6 +31,7 @@ import threading
 import time
 import warnings
 import webbrowser
+from platform import uname
 
 try: #PY3
     from base64 import encodebytes
@@ -214,7 +215,7 @@ class NotebookWebApplication(web.Application):
         now = utcnow()
         
         root_dir = contents_manager.root_dir
-        home = py3compat.str_to_unicode(os.path.expanduser('~'), encoding=sys.getfilesystemencoding()) 
+        home = os.path.expanduser('~')
         if root_dir.startswith(home + os.path.sep):
             # collapse $HOME to ~
             root_dir = '~' + root_dir[len(home):]
@@ -860,12 +861,6 @@ class NotebookApp(JupyterApp):
     @default('allow_remote_access')
     def _default_allow_remote(self):
         """Disallow remote access if we're listening only on loopback addresses"""
-
-        # if blank, self.ip was configured to "*" meaning bind to all interfaces,
-        # see _valdate_ip
-        if self.ip == "":
-            return True
-
         try:
             addr = ipaddress.ip_address(self.ip)
         except ValueError:
@@ -1437,16 +1432,14 @@ class NotebookApp(JupyterApp):
                 url += '/'
         else:
             if self.ip in ('', '0.0.0.0'):
-                ip = "%s" % socket.gethostname()
+                ip = "(%s or 127.0.0.1)" % socket.gethostname()
             else:
                 ip = self.ip
             url = self._url(ip)
         if self.token:
             # Don't log full token if it came from config
             token = self.token if self._token_generated else '...'
-            url = (url_concat(url, {'token': token})
-                  + '\n or '
-                  + url_concat(self._url('127.0.0.1'), {'token': token}))
+            url = url_concat(url, {'token': token})
         return url
 
     @property
@@ -1704,7 +1697,7 @@ class NotebookApp(JupyterApp):
         # default_url contains base_url, but so does connection_url
         open_url = self.default_url[len(self.base_url):]
 
-        with open(self.browser_open_file, 'w', encoding='utf-8') as f:
+        with io.open(self.browser_open_file, 'w', encoding='utf-8') as f:
             self._write_browser_open_file(open_url, f)
 
     def _write_browser_open_file(self, url, fh):
@@ -1728,6 +1721,7 @@ class NotebookApp(JupyterApp):
                 raise
 
     def launch_browser(self):
+        wsl_token = False
         try:
             browser = webbrowser.get(self.browser or None)
         except webbrowser.Error as e:
@@ -1737,7 +1731,17 @@ class NotebookApp(JupyterApp):
         if not browser:
             return
 
-        if self.file_to_run:
+        if uname().system == 'Linux' and 'Microsoft' in uname().release:
+            wsl_token = True
+            uri = self.default_url[len(self.base_url):]
+            
+            if self.token:
+                uri = url_concat(uri, {'token': self.token})
+            if browser:
+                b = lambda : browser.open(url_path_join(self.connection_url, uri),
+                                          new=self.webbrowser_open_new)
+                threading.Thread(target=b).start()    
+        elif self.file_to_run:
             if not os.path.exists(self.file_to_run):
                 self.log.critical(_("%s does not exist") % self.file_to_run)
                 self.exit(1)
@@ -1752,10 +1756,11 @@ class NotebookApp(JupyterApp):
         else:
             open_file = self.browser_open_file
 
-        b = lambda: browser.open(
-            urljoin('file:', pathname2url(open_file)),
-            new=self.webbrowser_open_new)
-        threading.Thread(target=b).start()
+        if not wsl_token:
+            b = lambda: browser.open(
+                urljoin('file:', pathname2url(open_file)),
+                new=self.webbrowser_open_new)
+            threading.Thread(target=b).start()
 
     def start(self):
         """ Start the Notebook server app, after initialization
