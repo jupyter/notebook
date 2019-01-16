@@ -1671,7 +1671,7 @@ class NotebookApp(JupyterApp):
     def write_server_info_file(self):
         """Write the result of server_info() to the JSON file info_file."""
         try:
-            with open(self.info_file, 'w') as f:
+            with io.open(self.info_file, 'w') as f:
                 json.dump(self.server_info(), f, indent=2, sort_keys=True)
         except OSError as e:
             self.log.error(_("Failed to write server-info to %s: %s"),
