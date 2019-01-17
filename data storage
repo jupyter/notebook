@@ -1,1 +1,6 @@
-
+import wbdata
+import pandas
+import matplotlib.pyplot as plt
+countries = ["CL","UY","HU"]
+indicators = {'NY.GNP.PCAP.CD':'GNI per Capita'}
+df = wbdata.get_dataframe(indicators, country=countries, convert_date=False)
