@@ -82,6 +82,7 @@ class AuthenticatedHandler(web.RequestHandler):
 
     def set_default_headers(self):
         headers = {}
+        headers["X-Content-Type-Options"] = "nosniff"
         headers.update(self.settings.get('headers', {}))
 
         headers["Content-Security-Policy"] = self.content_security_policy
