@@ -651,13 +651,20 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
                 "; sandbox allow-scripts"
 
     @web.authenticated
+    def head(self, path):
+        self.check_xsrf_cookie()
+        return super(AuthenticatedFileHandler, self).head(path)
+
+    @web.authenticated
     def get(self, path):
+        self.check_xsrf_cookie()
+
         if os.path.splitext(path)[1] == '.ipynb' or self.get_argument("download", False):
             name = path.rsplit('/', 1)[-1]
             self.set_attachment_header(name)
 
         return web.StaticFileHandler.get(self, path)
-    
+
     def get_content_type(self):
         path = self.absolute_path.strip('/')
         if '/' in path:
