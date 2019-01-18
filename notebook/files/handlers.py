@@ -31,10 +31,13 @@ class FilesHandler(IPythonHandler):
 
     @web.authenticated
     def head(self, path):
-        self.get(path, include_body=False)
+        self.check_xsrf_cookie()
+        return self.get(path, include_body=False)
 
     @web.authenticated
     def get(self, path, include_body=True):
+        # /files/ requests must originate from the same site
+        self.check_xsrf_cookie()
         cm = self.contents_manager
 
         if cm.is_hidden(path) and not cm.allow_hidden:

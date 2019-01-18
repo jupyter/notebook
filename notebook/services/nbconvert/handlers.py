@@ -9,6 +9,7 @@ class NbconvertRootHandler(APIHandler):
 
     @web.authenticated
     def get(self):
+        self.check_xsrf_cookie()
         try:
             from nbconvert.exporters import base
         except ImportError as e:
