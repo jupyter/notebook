@@ -1721,7 +1721,17 @@ class NotebookApp(JupyterApp):
                 raise
 
     def launch_browser(self):
-        wsl_token = False
+        # If 'Linux' and 'Microsoft' are both in the uname, the user is within a
+        # WSL environment
+        unix_name = platform.uname()
+        wsl_environ = 'Linux' in unix_name.system and 'Microsoft' in unix_name.release
+
+        # Check to see if the user has overridden the browser to redirect 
+        # to a Windows-based browser. If this is the case, then redirect should
+        # be a token-based URL instead of a file
+        wsl_win_browser = os.environ['BROWSER'] or '.exe' in self.browser
+        wsl_redirect = wsl_environ and wsl_win_browser
+
         try:
             browser = webbrowser.get(self.browser or None)
         except webbrowser.Error as e:
@@ -1731,16 +1741,16 @@ class NotebookApp(JupyterApp):
         if not browser:
             return
 
-        if uname().system == 'Linux' and 'Microsoft' in uname().release:
-            wsl_token = True
+        # If both of these conditions are True, it is a reasonable assumption
+        # that the user is in a WSL environment and redirecting the notebook
+        # to a Windows-based browser. Therefore, we spawn using a token-based URL
+        if wsl_redirect:
             uri = self.default_url[len(self.base_url):]
-            
+
             if self.token:
                 uri = url_concat(uri, {'token': self.token})
-            if browser:
-                b = lambda : browser.open(url_path_join(self.connection_url, uri),
-                                          new=self.webbrowser_open_new)
-                threading.Thread(target=b).start()    
+
+        # Now handle all the cases that aren't WSL porting to Windows-based browser
         elif self.file_to_run:
             if not os.path.exists(self.file_to_run):
                 self.log.critical(_("%s does not exist") % self.file_to_run)
@@ -1756,7 +1766,13 @@ class NotebookApp(JupyterApp):
         else:
             open_file = self.browser_open_file
 
-        if not wsl_token:
+        # Now control the file/URL redirect
+        if wsl_redirect:
+            if browser:
+                b = lambda : browser.open(url_path_join(self.connection_url, uri),
+                                          new=self.webbrowser_open_new)
+                threading.Thread(target=b).start()
+        else:
             b = lambda: browser.open(
                 urljoin('file:', pathname2url(open_file)),
                 new=self.webbrowser_open_new)
