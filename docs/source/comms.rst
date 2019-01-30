@@ -88,8 +88,7 @@ And then open the comm from the frontend:
 
 .. code-block:: javascript
 
-    comm = Jupyter.notebook.kernel.comm_manager.new_comm('my_comm_target',
-                                                         {'foo': 6})
+    const comm = Jupyter.notebook.kernel.comm_manager.new_comm('my_comm_target', {'foo': 6})
     // Send data
     comm.send({'foo': 7})
 
