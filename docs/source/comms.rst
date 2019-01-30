@@ -65,7 +65,7 @@ containing Javascript to connect to it.
 
 .. code-block:: python
 
-    def target_func(comm, msg):
+    def target_func(comm, open_msg):
         # comm is the kernel Comm instance
         # msg is the comm_open message
 
@@ -73,8 +73,9 @@ containing Javascript to connect to it.
         @comm.on_msg
         def _recv(msg):
             # Use msg['content']['data'] for the data in the message
+            comm.send({'echo': msg['content']['data']})
 
-        # Send data to the frontend
+        # Send data to the frontend on creation
         comm.send({'foo': 5})
 
     get_ipython().kernel.comm_manager.register_target('my_comm_target', target_func)
