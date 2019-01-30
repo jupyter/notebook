@@ -1539,15 +1539,13 @@ class NotebookApp(JupyterApp):
         # TODO: this should still check, but now we use bower, not git submodule
         pass
 
-    def init_server_extensions(self):
-        """Load any extensions specified by config.
+    def init_server_extension_config(self):
+        """Consolidate server extensions specified by all configs.
 
-        Import the module, then call the load_jupyter_server_extension function,
-        if one exists.
+        The resulting list is stored on self.nbserver_extensions and updates config object.
         
         The extension API is experimental, and may change in future releases.
         """
-        
         # TODO: Remove me in notebook 5.0
         for modulename in self.server_extensions:
             # Don't override disable state of the extension if it already exist
@@ -1566,15 +1564,23 @@ class NotebookApp(JupyterApp):
         manager = ConfigManager(read_config_path=config_path)
         section = manager.get(self.config_file_name)
         extensions = section.get('NotebookApp', {}).get('nbserver_extensions', {})
-
-        for modulename, enabled in self.nbserver_extensions.items():
-            if modulename not in extensions:
-                # not present in `extensions` means it comes from Python config,
-                # so we need to add it.
-                # Otherwise, trust ConfigManager to have loaded it.
-                extensions[modulename] = enabled
-
+        
         for modulename, enabled in sorted(extensions.items()):
+            if modulename not in self.nbserver_extensions:
+                self.config.NotebookApp.nbserver_extensions.update({modulename: enabled})
+                self.nbserver_extensions.update({modulename: enabled})
+
+    def init_server_extensions(self):
+        """Load any extensions specified by config.
+
+        Import the module, then call the load_jupyter_server_extension function,
+        if one exists.
+        
+        The extension API is experimental, and may change in future releases.
+        """
+        
+
+        for modulename, enabled in sorted(self.nbserver_extensions.items()):
             if enabled:
                 try:
                     mod = importlib.import_module(modulename)
@@ -1632,6 +1638,7 @@ class NotebookApp(JupyterApp):
         if self._dispatching:
             return
         self.init_configurables()
+        self.init_server_extension_config()
         self.init_components()
         self.init_webapp()
         self.init_terminals()

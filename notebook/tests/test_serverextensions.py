@@ -147,6 +147,7 @@ class TestInstallServerExtension(MockEnvTestCase):
         toggle_serverextension_python('mockext_both', enabled=False, user=True)
 
         app = NotebookApp(nbserver_extensions={'mockext_py': True})
+        app.init_server_extension_config()
         app.init_server_extensions()
 
         assert mock_user.loaded
