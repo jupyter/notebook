@@ -324,9 +324,11 @@ def new_window(browser, selector=None):
     """
     initial_window_handles = browser.window_handles
     yield
-    new_window_handle = next(window for window in browser.window_handles 
-                             if window not in initial_window_handles)
-    browser.switch_to.window(new_window_handle)
+    new_window_handles = [window for window in browser.window_handles
+                          if window not in initial_window_handles]
+    if not new_window_handles:
+        raise Exception("No new windows opened during context")
+    browser.switch_to.window(new_window_handles[0])
     if selector is not None:
         wait_for_selector(browser, selector)
 
