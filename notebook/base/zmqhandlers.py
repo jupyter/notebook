@@ -281,7 +281,8 @@ class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
         # assign and yield in two step to avoid tornado 3 issues
         res = self.pre_get()
         yield gen.maybe_future(res)
-        super(AuthenticatedZMQStreamHandler, self).get(*args, **kwargs)
+        res = super(AuthenticatedZMQStreamHandler, self).get(*args, **kwargs)
+        yield gen.maybe_future(res)
     
     def initialize(self):
         self.log.debug("Initializing websocket connection %s", self.request.path)
