@@ -19,6 +19,9 @@ define([
                     processEscapes: true,
                     processEnvironments: true
                 },
+                TeX: {
+                    extensions: ['newcommand.js', 'begingroup.js']  // For \gdef
+                },
                 MathML: {
                     extensions: ['content-mathml.js']
                 },
