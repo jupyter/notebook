@@ -302,10 +302,11 @@ class MappingKernelManager(MultiKernelManager):
 
         return super(MappingKernelManager, self).shutdown_kernel(kernel_id, now=now)
 
+    @gen.coroutine
     def restart_kernel(self, kernel_id):
         """Restart a kernel by kernel_id"""
         self._check_kernel_id(kernel_id)
-        super(MappingKernelManager, self).restart_kernel(kernel_id)
+        yield gen.maybe_future(super(MappingKernelManager, self).restart_kernel(kernel_id))
         kernel = self.get_kernel(kernel_id)
         # return a Future that will resolve when the kernel has successfully restarted
         channel = kernel.connect_shell()
@@ -341,7 +342,7 @@ class MappingKernelManager(MultiKernelManager):
         channel.on_recv(on_reply)
         loop = IOLoop.current()
         timeout = loop.add_timeout(loop.time() + self.kernel_info_timeout, on_timeout)
-        return future
+        raise gen.Return(future)
 
     def notify_connect(self, kernel_id):
         """Notice a new connection to a kernel"""
