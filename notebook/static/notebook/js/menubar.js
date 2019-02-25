@@ -174,20 +174,6 @@ define([
             that.notebook.save_notebook_as();
             return false;
         });
-        this.element.find('#download_ipynb').click(function () {
-            var base_url = that.notebook.base_url;
-            var notebook_path = utils.encode_uri_components(that.notebook.notebook_path);
-            var url = utils.url_path_join(
-                base_url, 'files', notebook_path
-            ) + '?download=1';
-            if (that.notebook.dirty && that.notebook.writable) {
-                that.notebook.save_notebook().then(function() {
-                    that._new_window(url);
-                });
-            } else {
-                that._new_window(url);
-            }
-        });
         
         this.element.find('#print_preview').click(function () {
             that._nbconvert('html', false);
