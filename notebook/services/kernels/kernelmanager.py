@@ -283,6 +283,7 @@ class MappingKernelManager(MultiKernelManager):
             self.log.info("Discarding %s buffered messages for %s",
                 len(msg_buffer), buffer_info['session_key'])
 
+    @gen.coroutine
     def shutdown_kernel(self, kernel_id, now=False):
         """Shutdown a kernel by kernel_id"""
         self._check_kernel_id(kernel_id)
@@ -300,7 +301,8 @@ class MappingKernelManager(MultiKernelManager):
             type=self._kernels[kernel_id].kernel_name
         ).dec()
 
-        return super(MappingKernelManager, self).shutdown_kernel(kernel_id, now=now)
+        ret = yield gen.maybe_future(super(MappingKernelManager, self).shutdown_kernel(kernel_id, now=now))
+        raise gen.Return(ret)
 
     @gen.coroutine
     def restart_kernel(self, kernel_id):
