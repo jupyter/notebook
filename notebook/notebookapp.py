@@ -84,6 +84,7 @@ from .services.contents.manager import ContentsManager
 from .services.contents.filemanager import FileContentsManager
 from .services.contents.largefilemanager import LargeFileManager
 from .services.sessions.sessionmanager import SessionManager
+from .gateway.managers import GatewayKernelManager, GatewayKernelSpecManager, GatewaySessionManager, GatewayClient
 
 from .auth.login import LoginHandler
 from .auth.logout import LogoutHandler
@@ -96,7 +97,7 @@ from jupyter_core.application import (
 )
 from jupyter_core.paths import jupyter_config_path
 from jupyter_client import KernelManager
-from jupyter_client.kernelspec import KernelSpecManager, NoSuchKernel, NATIVE_KERNEL_NAME
+from jupyter_client.kernelspec import KernelSpecManager
 from jupyter_client.session import Session
 from nbformat.sign import NotebookNotary
 from traitlets import (
@@ -144,13 +145,13 @@ def load_handlers(name):
 # The Tornado web application
 #-----------------------------------------------------------------------------
 
+
 class NotebookWebApplication(web.Application):
 
     def __init__(self, jupyter_app, kernel_manager, contents_manager,
                  session_manager, kernel_spec_manager,
                  config_manager, extra_services, log,
                  base_url, default_url, settings_overrides, jinja_env_options):
-
 
         settings = self.init_settings(
             jupyter_app, kernel_manager, contents_manager,
@@ -305,14 +306,26 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('notebook.edit.handlers'))
         handlers.extend(load_handlers('notebook.services.api.handlers'))
         handlers.extend(load_handlers('notebook.services.config.handlers'))
-        handlers.extend(load_handlers('notebook.services.kernels.handlers'))
         handlers.extend(load_handlers('notebook.services.contents.handlers'))
         handlers.extend(load_handlers('notebook.services.sessions.handlers'))
         handlers.extend(load_handlers('notebook.services.nbconvert.handlers'))
-        handlers.extend(load_handlers('notebook.services.kernelspecs.handlers'))
         handlers.extend(load_handlers('notebook.services.security.handlers'))
         handlers.extend(load_handlers('notebook.services.shutdown'))
+        handlers.extend(load_handlers('notebook.services.kernels.handlers'))
+        handlers.extend(load_handlers('notebook.services.kernelspecs.handlers'))
+
         handlers.extend(settings['contents_manager'].get_extra_handlers())
+
+        # If gateway mode is enabled, replace appropriate handlers to perform redirection
+        if GatewayClient.instance().gateway_enabled:
+            # for each handler required for gateway, locate its pattern
+            # in the current list and replace that entry...
+            gateway_handlers = load_handlers('notebook.gateway.handlers')
+            for i, gwh in enumerate(gateway_handlers):
+                for j, h in enumerate(handlers):
+                    if gwh[0] == h[0]:
+                        handlers[j] = (gwh[0], gwh[1])
+                        break
 
         handlers.append(
             (r"/nbextensions/(.*)", FileFindHandler, {
@@ -547,6 +560,7 @@ aliases.update({
     'notebook-dir': 'NotebookApp.notebook_dir',
     'browser': 'NotebookApp.browser',
     'pylab': 'NotebookApp.pylab',
+    'gateway-url': 'GatewayClient.url',
 })
 
 #-----------------------------------------------------------------------------
@@ -565,9 +579,9 @@ class NotebookApp(JupyterApp):
     flags = flags
     
     classes = [
-        KernelManager, Session, MappingKernelManager,
+        KernelManager, Session, MappingKernelManager, KernelSpecManager,
         ContentsManager, FileContentsManager, NotebookNotary,
-        KernelSpecManager,
+        GatewayKernelManager, GatewayKernelSpecManager, GatewaySessionManager, GatewayClient,
     ]
     flags = Dict(flags)
     aliases = Dict(aliases)
@@ -1316,6 +1330,16 @@ class NotebookApp(JupyterApp):
             self.update_config(c)
 
     def init_configurables(self):
+
+        # If gateway server is configured, replace appropriate managers to perform redirection.  To make
+        # this determination, instantiate the GatewayClient config singleton.
+        self.gateway_config = GatewayClient.instance(parent=self)
+
+        if self.gateway_config.gateway_enabled:
+            self.kernel_manager_class = 'notebook.gateway.managers.GatewayKernelManager'
+            self.session_manager_class = 'notebook.gateway.managers.GatewaySessionManager'
+            self.kernel_spec_manager_class = 'notebook.gateway.managers.GatewayKernelSpecManager'
+
         self.kernel_spec_manager = self.kernel_spec_manager_class(
             parent=self,
         )
@@ -1661,6 +1685,8 @@ class NotebookApp(JupyterApp):
             info += "\n"
         # Format the info so that the URL fits on a single line in 80 char display
         info += _("The Jupyter Notebook is running at:\n%s") % self.display_url
+        if self.gateway_config.gateway_enabled:
+            info += _("\nKernels will be managed by the Gateway server running at:\n%s") % self.gateway_config.url
         return info
 
     def server_info(self):

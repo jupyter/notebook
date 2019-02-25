@@ -343,6 +343,35 @@ single-tab mode:
     });
 
 
+Using a gateway server for kernel management
+--------------------------------------------
+
+You are now able to redirect the management of your kernels to a Gateway Server
+(i.e., `Jupyter Kernel Gateway <https://jupyter-kernel-gateway.readthedocs.io/en/latest/>`_ or
+`Jupyter Enterprise Gateway <https://jupyter-enterprise-gateway.readthedocs.io/en/latest/>`_)
+simply by specifying a Gateway url via the following command-line option:
+
+    .. code-block:: bash
+
+        $ jupyter notebook --gateway-url=http://my-gateway-server:8888
+
+the environment:
+
+    .. code-block:: bash
+
+        JUPYTER_GATEWAY_URL=http://my-gateway-server:8888
+
+or in :file:`jupyter_notebook_config.py`:
+
+   .. code-block:: python
+
+      c.GatewayClient.url = http://my-gateway-server:8888
+
+When provided, all kernel specifications will be retrieved from the specified Gateway server and all
+kernels will be managed by that server.  This option enables the ability to target kernel processes
+against managed clusters while allowing for the notebook's management to remain local to the Notebook
+server.
+
 Known issues
 ------------
 

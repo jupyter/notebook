@@ -11,7 +11,7 @@ import json
 import os
 pjoin = os.path.join
 
-from tornado import web
+from tornado import web, gen
 
 from ...base.handlers import APIHandler
 from ...utils import url_path_join, url_unescape
@@ -48,13 +48,15 @@ def kernelspec_model(handler, name, spec_dict, resource_dir):
 class MainKernelSpecHandler(APIHandler):
 
     @web.authenticated
+    @gen.coroutine
     def get(self):
         ksm = self.kernel_spec_manager
         km = self.kernel_manager
         model = {}
         model['default'] = km.default_kernel_name
         model['kernelspecs'] = specs = {}
-        for kernel_name, kernel_info in ksm.get_all_specs().items():
+        kspecs = yield gen.maybe_future(ksm.get_all_specs())
+        for kernel_name, kernel_info in kspecs.items():
             try:
                 d = kernelspec_model(self, kernel_name, kernel_info['spec'],
                                      kernel_info['resource_dir'])
@@ -69,11 +71,12 @@ class MainKernelSpecHandler(APIHandler):
 class KernelSpecHandler(APIHandler):
 
     @web.authenticated
+    @gen.coroutine
     def get(self, kernel_name):
         ksm = self.kernel_spec_manager
         kernel_name = url_unescape(kernel_name)
         try:
-            spec = ksm.get_kernel_spec(kernel_name)
+            spec = yield gen.maybe_future(ksm.get_kernel_spec(kernel_name))
         except KeyError:
             raise web.HTTPError(404, u'Kernel spec %s not found' % kernel_name)
         model = kernelspec_model(self, kernel_name, spec.to_dict(), spec.resource_dir)
