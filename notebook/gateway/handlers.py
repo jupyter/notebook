@@ -3,8 +3,9 @@
 
 import os
 import logging
+import mimetypes
 
-from ..base.handlers import IPythonHandler
+from ..base.handlers import APIHandler, IPythonHandler
 from ..utils import url_path_join
 
 from tornado import gen, web
@@ -200,8 +201,26 @@ class GatewayWebSocketClient(LoggingConfigurable):
         self._disconnect()
 
 
+class GatewayResourceHandler(APIHandler):
+    """Retrieves resources for specific kernelspec definitions from kernel/enterprise gateway."""
+
+    @web.authenticated
+    @gen.coroutine
+    def get(self, kernel_name, path, include_body=True):
+        ksm = self.kernel_spec_manager
+        kernel_spec_res = yield ksm.get_kernel_spec_resource(kernel_name, path)
+        if kernel_spec_res is None:
+            self.log.warning("Kernelspec resource '{}' for '{}' not found.  Gateway may not support"
+                             " resource serving.".format(path, kernel_name))
+        else:
+            self.set_header("Content-Type", mimetypes.guess_type(path)[0])
+        self.finish(kernel_spec_res)
+
+
 from ..services.kernels.handlers import _kernel_id_regex
+from ..services.kernelspecs.handlers import kernel_name_regex
 
 default_handlers = [
     (r"/api/kernels/%s/channels" % _kernel_id_regex, WebSocketChannelsHandler),
+    (r"/kernelspecs/%s/(?P<path>.*)" % kernel_name_regex, GatewayResourceHandler),
 ]

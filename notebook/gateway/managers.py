@@ -91,6 +91,16 @@ class GatewayClient(SingletonConfigurable):
     def _kernelspecs_endpoint_default(self):
         return os.environ.get(self.kernelspecs_endpoint_env, self.kernelspecs_endpoint_default_value)
 
+    kernelspecs_resource_endpoint_default_value = '/kernelspecs'
+    kernelspecs_resource_endpoint_env = 'JUPYTER_GATEWAY_KERNELSPECS_RESOURCE_ENDPOINT'
+    kernelspecs_resource_endpoint = Unicode(default_value=kernelspecs_resource_endpoint_default_value, config=True,
+        help="""The gateway endpoint for accessing kernelspecs resources
+            (JUPYTER_GATEWAY_KERNELSPECS_RESOURCE_ENDPOINT env var)""")
+
+    @default('kernelspecs_resource_endpoint')
+    def _kernelspecs_resource_endpoint_default(self):
+        return os.environ.get(self.kernelspecs_resource_endpoint_env, self.kernelspecs_resource_endpoint_default_value)
+
     connect_timeout_default_value = 20.0
     connect_timeout_env = 'JUPYTER_GATEWAY_CONNECT_TIMEOUT'
     connect_timeout = Float(default_value=connect_timeout_default_value, config=True,
@@ -333,6 +343,11 @@ class GatewayKernelManager(MappingKernelManager):
 
             kernel_env = {k: v for (k, v) in dict(os.environ).items() if k.startswith('KERNEL_')
                         or k in GatewayClient.instance().env_whitelist.split(",")}
+
+            # Convey the full path to where this notebook file is located.
+            if path is not None and kernel_env.get('KERNEL_WORKING_DIR') is None:
+                kernel_env['KERNEL_WORKING_DIR'] = kwargs['cwd']
+
             json_body = json_encode({'name': kernel_name, 'env': kernel_env})
 
             response = yield gateway_request(kernel_url, method='POST', body=json_body)
@@ -467,7 +482,10 @@ class GatewayKernelSpecManager(KernelSpecManager):
 
     def __init__(self, **kwargs):
         super(GatewayKernelSpecManager, self).__init__(**kwargs)
-        self.base_endpoint = url_path_join(GatewayClient.instance().url, GatewayClient.instance().kernelspecs_endpoint)
+        self.base_endpoint = url_path_join(GatewayClient.instance().url,
+                                           GatewayClient.instance().kernelspecs_endpoint)
+        self.base_resource_endpoint = url_path_join(GatewayClient.instance().url,
+                                                    GatewayClient.instance().kernelspecs_resource_endpoint)
 
     def _get_kernelspecs_endpoint_url(self, kernel_name=None):
         """Builds a url for the kernels endpoint
@@ -498,14 +516,7 @@ class GatewayKernelSpecManager(KernelSpecManager):
                                  notebook_default=km.default_kernel_name))
             km.default_kernel_name = remote_default_kernel_name
 
-        # gateway doesn't support resources (requires transfer for use by NB client)
-        # so add `resource_dir` to each kernelspec and value of 'not supported in gateway mode'
         remote_kspecs = fetched_kspecs.get('kernelspecs')
-        for kernel_name, kspec_info in remote_kspecs.items():
-            if not kspec_info.get('resource_dir'):
-                kspec_info['resource_dir'] = 'not supported in gateway mode'
-                remote_kspecs[kernel_name].update(kspec_info)
-
         raise gen.Return(remote_kspecs)
 
     @gen.coroutine
@@ -540,9 +551,32 @@ class GatewayKernelSpecManager(KernelSpecManager):
                 raise
         else:
             kernel_spec = json_decode(response.body)
-            # Convert to instance of Kernelspec
-            kspec_instance = self.kernel_spec_class(resource_dir=u'', **kernel_spec['spec'])
-        raise gen.Return(kspec_instance)
+
+        raise gen.Return(kernel_spec)
+
+    @gen.coroutine
+    def get_kernel_spec_resource(self, kernel_name, path):
+        """Get kernel spec for kernel_name.
+
+        Parameters
+        ----------
+        kernel_name : str
+            The name of the kernel.
+        path : str
+            The name of the desired resource
+        """
+        kernel_spec_resource_url = url_path_join(self.base_resource_endpoint, str(kernel_name), str(path))
+        self.log.debug("Request kernel spec resource '{}' at: {}".format(path, kernel_spec_resource_url))
+        try:
+            response = yield gateway_request(kernel_spec_resource_url, method='GET')
+        except HTTPError as error:
+            if error.code == 404:
+                kernel_spec_resource = None
+            else:
+                raise
+        else:
+            kernel_spec_resource = response.body
+        raise gen.Return(kernel_spec_resource)
 
 
 class GatewaySessionManager(SessionManager):
