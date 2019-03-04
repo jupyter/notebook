@@ -195,12 +195,21 @@ class Notebook:
         wait = WebDriverWait(self.browser, 10)
         element = wait.until(EC.staleness_of(cell))
 
+    def wait_explicitly(self, seconds=0):
+        time.sleep(seconds)
+
     def get_cells_contents(self):
         JS = 'return Jupyter.notebook.get_cells().map(function(c) {return c.get_text();})'
         return self.browser.execute_script(JS)
 
     def get_cell_contents(self, index=0, selector='div .CodeMirror-code'):
         return self.cells[index].find_element_by_css_selector(selector).text
+
+    def get_cell_output(self, index=0, output='output_subarea'):
+        try:
+            return self.cells[index].find_element_by_class_name(output).text
+        except Exception:
+            return None
 
     def set_cell_metadata(self, index, key, value):
         JS = 'Jupyter.notebook.get_cell({}).metadata.{} = {}'.format(index, key, value)
@@ -282,6 +291,9 @@ class Notebook:
 
     def trigger_keydown(self, keys):
         trigger_keystrokes(self.body, keys)
+    
+    def is_kernel_running(self):
+        return self.browser.execute_script("return Jupyter.notebook.kernel.is_connected()")
 
     @classmethod
     def new_notebook(cls, browser, kernel_name='kernel-python3'):
