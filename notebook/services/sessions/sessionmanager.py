@@ -17,6 +17,8 @@ from traitlets.config.configurable import LoggingConfigurable
 from ipython_genutils.py3compat import unicode_type
 from traitlets import Instance
 
+from notebook.utils import maybe_future
+
 
 class SessionManager(LoggingConfigurable):
 
@@ -67,7 +69,7 @@ class SessionManager(LoggingConfigurable):
             # row, thereby terminating the session.  This can be done via a call to
             # row_to_model that tolerates that condition.  If row_to_model returns None,
             # we'll return false, since, at that point, the session doesn't exist anyway.
-            model = yield gen.maybe_future(self.row_to_model(row, tolerate_culled=True))
+            model = yield maybe_future(self.row_to_model(row, tolerate_culled=True))
             if model is not None:
                 exists = True
         raise gen.Return(exists)
@@ -84,7 +86,7 @@ class SessionManager(LoggingConfigurable):
             pass
         else:
             kernel_id = yield self.start_kernel_for_session(session_id, path, name, type, kernel_name)
-        result = yield gen.maybe_future(
+        result = yield maybe_future(
             self.save_session(session_id, path=path, name=name, type=type, kernel_id=kernel_id)
         )
         # py2-compat
@@ -95,7 +97,7 @@ class SessionManager(LoggingConfigurable):
         """Start a new kernel for a given session."""
         # allow contents manager to specify kernels cwd
         kernel_path = self.contents_manager.get_kernel_path(path=path)
-        kernel_id = yield gen.maybe_future(
+        kernel_id = yield maybe_future(
             self.kernel_manager.start_kernel(path=kernel_path, kernel_name=kernel_name)
         )
         # py2-compat
@@ -130,7 +132,7 @@ class SessionManager(LoggingConfigurable):
         self.cursor.execute("INSERT INTO session VALUES (?,?,?,?,?)",
             (session_id, path, name, type, kernel_id)
         )
-        result = yield gen.maybe_future(self.get_session(session_id=session_id))
+        result = yield maybe_future(self.get_session(session_id=session_id))
         raise gen.Return(result)
 
     @gen.coroutine
@@ -177,7 +179,7 @@ class SessionManager(LoggingConfigurable):
 
             raise web.HTTPError(404, u'Session not found: %s' % (', '.join(q)))
 
-        model = yield gen.maybe_future(self.row_to_model(row))
+        model = yield maybe_future(self.row_to_model(row))
         raise gen.Return(model)
 
     @gen.coroutine
@@ -196,7 +198,7 @@ class SessionManager(LoggingConfigurable):
             and the value replaces the current value in the session 
             with session_id.
         """
-        yield gen.maybe_future(self.get_session(session_id=session_id))
+        yield maybe_future(self.get_session(session_id=session_id))
 
         if not kwargs:
             # no changes
@@ -217,7 +219,7 @@ class SessionManager(LoggingConfigurable):
     @gen.coroutine
     def row_to_model(self, row, tolerate_culled=False):
         """Takes sqlite database session row and turns it into a dictionary"""
-        kernel_culled = yield gen.maybe_future(self.kernel_culled(row['kernel_id']))
+        kernel_culled = yield maybe_future(self.kernel_culled(row['kernel_id']))
         if kernel_culled:
             # The kernel was culled or died without deleting the session.
             # We can't use delete_session here because that tries to find
@@ -236,7 +238,7 @@ class SessionManager(LoggingConfigurable):
                 raise gen.Return(None)
             raise KeyError(msg)
 
-        kernel_model = yield gen.maybe_future(self.kernel_manager.kernel_model(row['kernel_id']))
+        kernel_model = yield maybe_future(self.kernel_manager.kernel_model(row['kernel_id']))
         model = {
             'id': row['session_id'],
             'path': row['path'],
@@ -259,7 +261,7 @@ class SessionManager(LoggingConfigurable):
         # which messes up the cursor if we're iterating over rows.
         for row in c.fetchall():
             try:
-                model = yield gen.maybe_future(self.row_to_model(row))
+                model = yield maybe_future(self.row_to_model(row))
                 result.append(model)
             except KeyError:
                 pass
@@ -268,6 +270,6 @@ class SessionManager(LoggingConfigurable):
     @gen.coroutine
     def delete_session(self, session_id):
         """Deletes the row in the session database with given session_id"""
-        session = yield gen.maybe_future(self.get_session(session_id=session_id))
-        yield gen.maybe_future(self.kernel_manager.shutdown_kernel(session['kernel']['id']))
+        session = yield maybe_future(self.get_session(session_id=session_id))
+        yield maybe_future(self.kernel_manager.shutdown_kernel(session['kernel']['id']))
         self.cursor.execute("DELETE FROM session WHERE session_id=?", (session_id,))

@@ -3,23 +3,16 @@ import os
 import json
 import uuid
 from datetime import datetime
-from tornado import gen
-from tornado.httpclient import HTTPRequest, HTTPResponse, HTTPError
-from traitlets.config import Config
-from .launchnotebook import NotebookTestBase
-from notebook.gateway.managers import GatewayClient
-
-try:
-    from unittest.mock import patch, Mock
-except ImportError:
-    from mock import patch, Mock # py2
-
-try:
-    from io import StringIO
-except ImportError:
-    import StringIO
+from io import StringIO
+from unittest.mock import patch
 
 import nose.tools as nt
+from tornado import gen
+from tornado.httpclient import HTTPRequest, HTTPResponse, HTTPError
+
+from notebook.gateway.managers import GatewayClient
+from notebook.utils import maybe_future
+from .launchnotebook import NotebookTestBase
 
 
 def generate_kernelspec(name):
@@ -58,7 +51,7 @@ def mock_gateway_request(url, **kwargs):
     # Fetch all kernelspecs
     if endpoint.endswith('/api/kernelspecs') and method == 'GET':
         response_buf = StringIO(json.dumps(kernelspecs))
-        response = yield gen.maybe_future(HTTPResponse(request, 200, buffer=response_buf))
+        response = yield maybe_future(HTTPResponse(request, 200, buffer=response_buf))
         raise gen.Return(response)
 
     # Fetch named kernelspec
@@ -67,7 +60,7 @@ def mock_gateway_request(url, **kwargs):
         kspecs = kernelspecs.get('kernelspecs')
         if requested_kernelspec in kspecs:
             response_buf = StringIO(json.dumps(kspecs.get(requested_kernelspec)))
-            response = yield gen.maybe_future(HTTPResponse(request, 200, buffer=response_buf))
+            response = yield maybe_future(HTTPResponse(request, 200, buffer=response_buf))
             raise gen.Return(response)
         else:
             raise HTTPError(404, message='Kernelspec does not exist: %s' % requested_kernelspec)
@@ -82,7 +75,7 @@ def mock_gateway_request(url, **kwargs):
         model = generate_model(name)
         running_kernels[model.get('id')] = model  # Register model as a running kernel
         response_buf = StringIO(json.dumps(model))
-        response = yield gen.maybe_future(HTTPResponse(request, 201, buffer=response_buf))
+        response = yield maybe_future(HTTPResponse(request, 201, buffer=response_buf))
         raise gen.Return(response)
 
     # Fetch list of running kernels
@@ -92,7 +85,7 @@ def mock_gateway_request(url, **kwargs):
             model = running_kernels.get(kernel_id)
             kernels.append(model)
         response_buf = StringIO(json.dumps(kernels))
-        response = yield gen.maybe_future(HTTPResponse(request, 200, buffer=response_buf))
+        response = yield maybe_future(HTTPResponse(request, 200, buffer=response_buf))
         raise gen.Return(response)
 
     # Interrupt or restart existing kernel
@@ -101,14 +94,14 @@ def mock_gateway_request(url, **kwargs):
 
         if action == 'interrupt':
             if requested_kernel_id in running_kernels:
-                response = yield gen.maybe_future(HTTPResponse(request, 204))
+                response = yield maybe_future(HTTPResponse(request, 204))
                 raise gen.Return(response)
             else:
                 raise HTTPError(404, message='Kernel does not exist: %s' % requested_kernel_id)
         elif action == 'restart':
             if requested_kernel_id in running_kernels:
                 response_buf = StringIO(json.dumps(running_kernels.get(requested_kernel_id)))
-                response = yield gen.maybe_future(HTTPResponse(request, 204, buffer=response_buf))
+                response = yield maybe_future(HTTPResponse(request, 204, buffer=response_buf))
                 raise gen.Return(response)
             else:
                 raise HTTPError(404, message='Kernel does not exist: %s' % requested_kernel_id)
@@ -119,7 +112,7 @@ def mock_gateway_request(url, **kwargs):
     if endpoint.rfind('/api/kernels/') >= 0 and method == 'DELETE':
         requested_kernel_id = endpoint.rpartition('/')[2]
         running_kernels.pop(requested_kernel_id)  # Simulate shutdown by removing kernel from running set
-        response = yield gen.maybe_future(HTTPResponse(request, 204))
+        response = yield maybe_future(HTTPResponse(request, 204))
         raise gen.Return(response)
 
     # Fetch existing kernel
@@ -127,7 +120,7 @@ def mock_gateway_request(url, **kwargs):
         requested_kernel_id =  endpoint.rpartition('/')[2]
         if requested_kernel_id in running_kernels:
             response_buf = StringIO(json.dumps(running_kernels.get(requested_kernel_id)))
-            response = yield gen.maybe_future(HTTPResponse(request, 200, buffer=response_buf))
+            response = yield maybe_future(HTTPResponse(request, 200, buffer=response_buf))
             raise gen.Return(response)
         else:
             raise HTTPError(404, message='Kernel does not exist: %s' % requested_kernel_id)

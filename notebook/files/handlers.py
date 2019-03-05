@@ -5,16 +5,12 @@
 
 import mimetypes
 import json
+from base64 import decodebytes
 
-try: #PY3
-    from base64 import decodebytes
-except ImportError: #PY2
-    from base64 import decodestring as decodebytes
-
-
-from tornado import gen, web
+from tornado import web
 
 from notebook.base.handlers import IPythonHandler
+from notebook.utils import maybe_future
 
 
 class FilesHandler(IPythonHandler):
@@ -51,7 +47,7 @@ class FilesHandler(IPythonHandler):
         else:
             name = path
         
-        model = yield gen.maybe_future(cm.get(path, type='file', content=include_body))
+        model = yield maybe_future(cm.get(path, type='file', content=include_body))
         
         if self.get_argument("download", False):
             self.set_attachment_header(name)
