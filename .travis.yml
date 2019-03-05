@@ -50,7 +50,7 @@ before_install:
     - pip install "attrs>=17.4.0"
 
 install:
-    - pip install --pre .[test]
+    - pip install --pre .[test] $EXTRA_PIP
     - pip freeze
     - wget https://github.com/jgm/pandoc/releases/download/1.19.1/pandoc-1.19.1-1-amd64.deb && sudo dpkg -i pandoc-1.19.1-1-amd64.deb
 
@@ -103,6 +103,14 @@ matrix:
           env: GROUP=python
         - python: 3.6
           env: GROUP=docs
+        - python: 3.6
+          env:
+          - GROUP=python
+          - EXTRA_PIP="tornado<5"
+        - python: 2.7
+          env:
+          - GROUP=python
+          - EXTRA_PIP="tornado<5"
 
 after_success:
     - codecov
