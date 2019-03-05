@@ -98,7 +98,8 @@ matrix:
           env: GROUP=python
         - python: 3.5
           env: GROUP=python
-        - python: "3.7-dev"
+        - python: 3.7
+          dist: xenial
           env: GROUP=python
         - python: 3.6
           env: GROUP=docs
