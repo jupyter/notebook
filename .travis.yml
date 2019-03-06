@@ -106,6 +106,10 @@ matrix:
           env:
           - GROUP=python
           - EXTRA_PIP="tornado<5"
+        - python: 2.7
+          env:
+          - GROUP=python
+          - EXTRA_PIP="tornado<5"
 
 after_success:
     - codecov
