@@ -3,19 +3,6 @@ Placeholder for custom user CSS
 
 mainly to be overridden in profile/static/custom/custom.css
 
-This will always be an empty file in IPython
+This will always be an empty file
 */
 
-/*for the error , connecting & renaming window*/
-
-[dir="rtl"] .modal-footer {
-	text-align : left !important;
-}
-
-[dir="rtl"] .close {
-	float : left;
-}
-
-[dir="rtl"] .fa-step-forward::before {
-    content: "\f048";
-}
