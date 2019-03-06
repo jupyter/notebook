@@ -8,7 +8,6 @@ from socket import gaierror
 from tornado import gen, web
 from tornado.escape import json_encode, json_decode, url_escape
 from tornado.httpclient import HTTPClient, AsyncHTTPClient, HTTPError
-from tornado.simple_httpclient import HTTPTimeoutError
 
 from ..services.kernels.kernelmanager import MappingKernelManager
 from ..services.sessions.sessionmanager import SessionManager
@@ -259,9 +258,9 @@ def gateway_request(endpoint, **kwargs):
     except ConnectionRefusedError:
         raise web.HTTPError(503, "Connection refused from Gateway server url '{}'.  " 
               "Check to be sure the Gateway instance is running.".format(GatewayClient.instance().url))
-    except HTTPTimeoutError:
+    except HTTPError:
         # This can occur if the host is valid (e.g., foo.com) but there's nothing there.
-        raise web.HTTPError(504, "Timeout error attempting to connect to Gateway server url '{}'.  " \
+        raise web.HTTPError(504, "Error attempting to connect to Gateway server url '{}'.  " \
                        "Ensure gateway url is valid and the Gateway instance is running.".format(
             GatewayClient.instance().url))
     except gaierror as e:

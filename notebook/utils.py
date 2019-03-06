@@ -13,12 +13,30 @@ import sys
 from distutils.version import LooseVersion
 
 try:
+    from inspect import isawaitable
+except ImportError:
+    def isawaitable(f):
+        """If isawaitable is undefined, nothing is awaitable"""
+        return False
+
+try:
+    from concurrent.futures import Future as ConcurrentFuture
+except ImportError:
+    class ConcurrentFuture:
+        """If concurrent.futures isn't importable, nothing will be a c.f.Future"""
+        pass
+
+try:
     from urllib.parse import quote, unquote, urlparse, urljoin
     from urllib.request import pathname2url
 except ImportError:
     from urllib import quote, unquote, pathname2url
     from urlparse import urlparse, urljoin
 
+# tornado.concurrent.Future is asyncio.Future
+# in tornado >=5 with Python 3
+from tornado.concurrent import Future as TornadoFuture
+from tornado import gen
 from ipython_genutils import py3compat
 
 # UF_HIDDEN is a stat flag not defined in the stat module.
@@ -306,3 +324,34 @@ if sys.platform == 'win32':
     check_pid = _check_pid_win32
 else:
     check_pid = _check_pid_posix
+
+
+def maybe_future(obj):
+    """Like tornado's gen.maybe_future
+
+    but more compatible with asyncio for recent versions
+    of tornado
+    """
+    if isinstance(obj, TornadoFuture):
+        return obj
+    elif isawaitable(obj):
+        return asyncio.ensure_future(obj)
+    elif isinstance(obj, ConcurrentFuture):
+        return asyncio.wrap_future(obj)
+    else:
+        # not awaitable, wrap scalar in future
+        f = TornadoFuture()
+        f.set_result(obj)
+        return f
+
+# monkeypatch tornado gen.maybe_future
+# on Python 3
+# TODO: remove monkeypatch after backporting smaller fix to 5.x
+try:
+    import asyncio
+except ImportError:
+    pass
+else:
+    import tornado.gen
+    tornado.gen.maybe_future = maybe_future
+

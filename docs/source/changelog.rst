@@ -21,6 +21,15 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+.. _release-5.7.5:
+
+5.7.5
+-----
+
+- Fix compatibility with tornado 6 (:ghpull:`4392`, :ghpull:`4449`).
+- Fix opening integer filedescriptor during startup on Python 2 (:ghpull:`4349`)
+- Fix compatibility with asynchronous `KernelManager.restart_kernel` methods (:ghpull:`4412`)
+
 .. _release-5.7.4:
 
 5.7.4
