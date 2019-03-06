@@ -172,7 +172,7 @@ class WebSocketMixin(object):
 
     def send_ping(self):
         """send a ping to keep the websocket alive"""
-        if self.stream.closed() and self.ping_callback is not None:
+        if self.ws_connection is None and self.ping_callback is not None:
             self.ping_callback.stop()
             return
 
@@ -237,7 +237,7 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
     def _on_zmq_reply(self, stream, msg_list):
         # Sometimes this gets triggered when the on_close method is scheduled in the
         # eventloop but hasn't been called.
-        if self.stream.closed() or stream.closed():
+        if self.ws_connection is None or stream.closed():
             self.log.warning("zmq message arrived on closed channel")
             self.close()
             return

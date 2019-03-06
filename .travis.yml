@@ -49,7 +49,8 @@ before_install:
       fi
 
 install:
-    - pip install --pre .[test]
+    - pip install --pre .[test] $EXTRA_PIP
+    - pip freeze
     - wget https://github.com/jgm/pandoc/releases/download/1.19.1/pandoc-1.19.1-1-amd64.deb && sudo dpkg -i pandoc-1.19.1-1-amd64.deb
 
 
@@ -96,10 +97,19 @@ matrix:
           env: GROUP=python
         - python: 3.5
           env: GROUP=python
-        - python: "3.7-dev"
+        - python: 3.7
+          dist: xenial
           env: GROUP=python
         - python: 3.6
           env: GROUP=docs
+        - python: 3.6
+          env:
+          - GROUP=python
+          - EXTRA_PIP="tornado<5"
+        - python: 2.7
+          env:
+          - GROUP=python
+          - EXTRA_PIP="tornado<5"
 
 after_success:
     - codecov
