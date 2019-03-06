@@ -44,6 +44,8 @@ data-notebook-path="{{notebook_path | urlencode}}"
     <span class="autosave_status"></span>
 </span>
 
+{{super()}}
+
 <span id="kernel_logo_widget">
   {% block kernel_logo_widget %}
   <img class="current_kernel_logo" alt="Current Kernel Logo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"/>
