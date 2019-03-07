@@ -2,12 +2,15 @@
 
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
-from . import tools
-from notebook.utils import url2path
-from notebook.base.handlers import IPythonHandler
-from notebook.services.config import ConfigManager
+
 from ipython_genutils.importstring import import_item
 from tornado import web, gen
+
+from notebook.utils import maybe_future, url2path
+from notebook.base.handlers import IPythonHandler
+from notebook.services.config import ConfigManager
+
+from . import tools
 
 
 class BundlerHandler(IPythonHandler):
@@ -74,7 +77,7 @@ class BundlerHandler(IPythonHandler):
 
         # Let the bundler respond in any way it sees fit and assume it will
         # finish the request
-        yield gen.maybe_future(bundler_mod.bundle(self, model))
+        yield maybe_future(bundler_mod.bundle(self, model))
 
 _bundler_id_regex = r'(?P<bundler_id>[A-Za-z0-9_]+)'
 

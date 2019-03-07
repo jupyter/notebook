@@ -7,13 +7,12 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-
 # Distributed under the terms of the Modified BSD License.
 
 import json
-import os
 
 from tornado import gen, web
 
 from ...base.handlers import APIHandler
 from jupyter_client.jsonutil import date_default
-from notebook.utils import url_path_join
+from notebook.utils import maybe_future, url_path_join
 from jupyter_client.kernelspec import NoSuchKernel
 
 
@@ -24,7 +23,7 @@ class SessionRootHandler(APIHandler):
     def get(self):
         # Return a list of running sessions
         sm = self.session_manager
-        sessions = yield gen.maybe_future(sm.list_sessions())
+        sessions = yield maybe_future(sm.list_sessions())
         self.finish(json.dumps(sessions, default=date_default))
 
     @web.authenticated
@@ -62,12 +61,12 @@ class SessionRootHandler(APIHandler):
             self.log.debug("No kernel specified, using default kernel")
             kernel_name = None
 
-        exists = yield gen.maybe_future(sm.session_exists(path=path))
+        exists = yield maybe_future(sm.session_exists(path=path))
         if exists:
-            model = yield gen.maybe_future(sm.get_session(path=path))
+            model = yield maybe_future(sm.get_session(path=path))
         else:
             try:
-                model = yield gen.maybe_future(
+                model = yield maybe_future(
                     sm.create_session(path=path, kernel_name=kernel_name,
                                       kernel_id=kernel_id, name=name,
                                       type=mtype))
@@ -93,7 +92,7 @@ class SessionHandler(APIHandler):
     def get(self, session_id):
         # Returns the JSON model for a single session
         sm = self.session_manager
-        model = yield gen.maybe_future(sm.get_session(session_id=session_id))
+        model = yield maybe_future(sm.get_session(session_id=session_id))
         self.finish(json.dumps(model, default=date_default))
 
     @web.authenticated
@@ -111,7 +110,7 @@ class SessionHandler(APIHandler):
             raise web.HTTPError(400, "No JSON data provided")
 
         # get the previous session model
-        before = yield gen.maybe_future(sm.get_session(session_id=session_id))
+        before = yield maybe_future(sm.get_session(session_id=session_id))
 
         changes = {}
         if 'notebook' in model and 'path' in model['notebook']:
@@ -138,13 +137,13 @@ class SessionHandler(APIHandler):
                     path=before['path'], type=before['type'])
                 changes['kernel_id'] = kernel_id
 
-        yield gen.maybe_future(sm.update_session(session_id, **changes))
-        model = yield gen.maybe_future(sm.get_session(session_id=session_id))
+        yield maybe_future(sm.update_session(session_id, **changes))
+        model = yield maybe_future(sm.get_session(session_id=session_id))
 
         if model['kernel']['id'] != before['kernel']['id']:
             # kernel_id changed because we got a new kernel
             # shutdown the old one
-            yield gen.maybe_future(
+            yield maybe_future(
                 km.shutdown_kernel(before['kernel']['id'])
             )
         self.finish(json.dumps(model, default=date_default))
@@ -155,7 +154,7 @@ class SessionHandler(APIHandler):
         # Deletes the session with given session_id
         sm = self.session_manager
         try:
-            yield gen.maybe_future(sm.delete_session(session_id))
+            yield maybe_future(sm.delete_session(session_id))
         except KeyError:
             # the kernel was deleted but the session wasn't!
             raise web.HTTPError(410, "Kernel deleted before session")

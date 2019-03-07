@@ -14,14 +14,14 @@ from tornado import gen, web
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
 
+from jupyter_client import protocol_version as client_protocol_version
 from jupyter_client.jsonutil import date_default
 from ipython_genutils.py3compat import cast_unicode
-from notebook.utils import url_path_join, url_escape
+from notebook.utils import maybe_future, url_path_join, url_escape
 
 from ...base.handlers import APIHandler
 from ...base.zmqhandlers import AuthenticatedZMQStreamHandler, deserialize_binary_message
 
-from jupyter_client import protocol_version as client_protocol_version
 
 class MainKernelHandler(APIHandler):
 
@@ -29,7 +29,7 @@ class MainKernelHandler(APIHandler):
     @gen.coroutine
     def get(self):
         km = self.kernel_manager
-        kernels = yield gen.maybe_future(km.list_kernels())
+        kernels = yield maybe_future(km.list_kernels())
         self.finish(json.dumps(kernels, default=date_default))
 
     @web.authenticated
@@ -44,8 +44,8 @@ class MainKernelHandler(APIHandler):
         else:
             model.setdefault('name', km.default_kernel_name)
 
-        kernel_id = yield gen.maybe_future(km.start_kernel(kernel_name=model['name']))
-        model = yield gen.maybe_future(km.kernel_model(kernel_id))
+        kernel_id = yield maybe_future(km.start_kernel(kernel_name=model['name']))
+        model = yield maybe_future(km.kernel_model(kernel_id))
         location = url_path_join(self.base_url, 'api', 'kernels', url_escape(kernel_id))
         self.set_header('Location', location)
         self.set_status(201)
@@ -64,7 +64,7 @@ class KernelHandler(APIHandler):
     @gen.coroutine
     def delete(self, kernel_id):
         km = self.kernel_manager
-        yield gen.maybe_future(km.shutdown_kernel(kernel_id))
+        yield maybe_future(km.shutdown_kernel(kernel_id))
         self.set_status(204)
         self.finish()
 
@@ -81,12 +81,12 @@ class KernelActionHandler(APIHandler):
         if action == 'restart':
 
             try:
-                yield gen.maybe_future(km.restart_kernel(kernel_id))
+                yield maybe_future(km.restart_kernel(kernel_id))
             except Exception as e:
                 self.log.error("Exception restarting kernel", exc_info=True)
                 self.set_status(500)
             else:
-                model = yield gen.maybe_future(km.kernel_model(kernel_id))
+                model = yield maybe_future(km.kernel_model(kernel_id))
                 self.write(json.dumps(model, default=date_default))
         self.finish()
 
