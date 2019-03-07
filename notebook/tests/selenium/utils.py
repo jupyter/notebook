@@ -195,8 +195,8 @@ class Notebook:
         wait = WebDriverWait(self.browser, 10)
         element = wait.until(EC.staleness_of(cell))
 
-    def wait_explicitly(self, seconds=0):
-        time.sleep(seconds)
+    def wait_for_element_availability(self, element):
+        _wait_for(self.browser, By.CLASS_NAME, element, visible=True)
 
     def get_cells_contents(self):
         JS = 'return Jupyter.notebook.get_cells().map(function(c) {return c.get_text();})'
