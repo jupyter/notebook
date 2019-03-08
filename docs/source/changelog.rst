@@ -21,6 +21,21 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+.. _release-5.7.6:
+
+5.7.6
+-----
+
+5.7.6 contains a security fix for a cross-site inclusion (XSSI) vulnerability,
+where files at a known URL could be included in a page from an unauthorized website if the user is logged into a Jupyter server.
+The fix involves setting the ``X-Content-Type-Options: nosniff``
+header, and applying CSRF checks previously on all non-GET
+API requests to GET requests to API endpoints and the /files/ endpoint.
+
+The attacking page is able to access some contents of files when using Internet Explorer through script errors,
+but this has not been demonstrated with other browsers.
+A CVE has been requested for this vulnerability.
+
 .. _release-5.7.5:
 
 5.7.5
