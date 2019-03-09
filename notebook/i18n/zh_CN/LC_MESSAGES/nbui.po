@@ -19,7 +19,7 @@ msgstr ""
 
 #: notebook/templates/404.html:3
 msgid "You are requesting a page that does not exist!"
-msgstr "请求的代码不存在!"
+msgstr "请求的代码不存在！"
 
 #: notebook/templates/edit.html:37
 msgid "current mode"
@@ -93,15 +93,15 @@ msgstr "语言"
 
 #: notebook/templates/error.html:23
 msgid "The error was:"
-msgstr "错误:"
+msgstr "错误："
 
 #: notebook/templates/login.html:24
 msgid "Password or token:"
-msgstr "密码或者token:"
+msgstr "密码或者token："
 
 #: notebook/templates/login.html:26
 msgid "Password:"
-msgstr "密码:"
+msgstr "密码："
 
 #: notebook/templates/login.html:31
 msgid "Log in"
@@ -109,7 +109,7 @@ msgstr "登录"
 
 #: notebook/templates/login.html:39
 msgid "No login available, you shouldn't be seeing this page."
-msgstr "还没有登录, 请先登录."
+msgstr "还没有登录，请先登录。"
 
 #: notebook/templates/logout.html:31
 #, python-format
@@ -143,7 +143,7 @@ msgstr "以仪表盘视角打开新的窗口"
 
 #: notebook/templates/notebook.html:86
 msgid "Open..."
-msgstr "打开..."
+msgstr "打开…"
 
 #: notebook/templates/notebook.html:90
 msgid "Open a copy of this notebook's contents and start a new kernel"
@@ -151,11 +151,11 @@ msgstr "打开代码内容的副本并启动一个新的服务"
 
 #: notebook/templates/notebook.html:91
 msgid "Make a Copy..."
-msgstr "复制..."
+msgstr "复制…"
 
 #: notebook/templates/notebook.html:92
 msgid "Rename..."
-msgstr "重命名..."
+msgstr "重命名…"
 
 #: notebook/templates/notebook.html:93
 msgid "Save and Checkpoint"
@@ -175,7 +175,7 @@ msgstr "下载"
 
 #: notebook/templates/notebook.html:109
 msgid "Notebook (.ipynb)"
-msgstr "代码(.ipynb)"
+msgstr "Notebook (.ipynb)"
 
 #: notebook/templates/notebook.html:110
 msgid "Script"
@@ -207,15 +207,15 @@ msgstr "部署在"
 
 #: notebook/templates/notebook.html:123
 msgid "Trust the output of this notebook"
-msgstr "信任代码的输出"
+msgstr "信任 Notebook 的输出"
 
 #: notebook/templates/notebook.html:124
 msgid "Trust Notebook"
-msgstr "信任代码"
+msgstr "信任 Notebook"
 
 #: notebook/templates/notebook.html:127
 msgid "Shutdown this notebook's kernel, and close this window"
-msgstr "关闭代码服务并关闭窗口"
+msgstr "关闭 Notebook 内核并关闭窗口"
 
 #: notebook/templates/notebook.html:128
 msgid "Close and Halt"
@@ -367,7 +367,7 @@ msgstr "运行所有"
 
 #: notebook/templates/notebook.html:199
 msgid "Run all cells above (but not including) this cell"
-msgstr "运行上面的所有单元(但不包括)这个单元格"
+msgstr "运行上面的所有单元（但不包括）这个单元格"
 
 #: notebook/templates/notebook.html:200
 msgid "Run All Above"
@@ -383,7 +383,7 @@ msgstr "运行下面的代码块"
 
 #: notebook/templates/notebook.html:205
 msgid "All cells in the notebook have a cell type. By default, new cells are created as 'Code' cells"
-msgstr "代码里的所有单元格都有一个类型. 默认情况下, 新单元被创建为'Code'单元格"
+msgstr "代码里的所有单元格都有一个类型。默认情况下，新单元被创建为'Code'单元格"
 
 #: notebook/templates/notebook.html:206
 msgid "Cell Type"
@@ -391,11 +391,11 @@ msgstr "单元格类型"
 
 #: notebook/templates/notebook.html:209
 msgid "Contents will be sent to the kernel for execution, and output will display in the footer of cell"
-msgstr "内容将被发送到内核以执行, 输出将显示在单元格的页脚."
+msgstr "内容将被发送到内核以执行，输出将显示在单元格的页脚。"
 
 #: notebook/templates/notebook.html:212
 msgid "Contents will be rendered as HTML and serve as explanatory text"
-msgstr "内容将以HTML形式呈现, 并作为解释性文本"
+msgstr "内容将以 HTML 形式呈现，并作为解释性文本"
 
 #: notebook/templates/notebook.html:213 notebook/templates/notebook.html:298
 msgid "Markdown"
@@ -403,7 +403,7 @@ msgstr "标签"
 
 #: notebook/templates/notebook.html:215
 msgid "Contents will pass through nbconvert unmodified"
-msgstr "内容将通过未经修改的nbconvert"
+msgstr "内容将通过未经修改的 nbconvert"
 
 #: notebook/templates/notebook.html:216
 msgid "Raw NBConvert"
@@ -503,7 +503,7 @@ msgstr "帮助"
 
 #: notebook/templates/notebook.html:290
 msgid "A quick tour of the notebook user interface"
-msgstr "快速浏览一下notebook用户界面"
+msgstr "快速浏览一下 Notebook 用户界面"
 
 #: notebook/templates/notebook.html:290
 msgid "User Interface Tour"
@@ -543,11 +543,11 @@ msgstr "关于"
 
 #: notebook/templates/page.html:114
 msgid "Jupyter Notebook requires JavaScript."
-msgstr "Jupyter Notebook需要的JavaScript."
+msgstr "Jupyter Notebook需要JavaScript。"
 
 #: notebook/templates/page.html:115
 msgid "Please enable it to proceed. "
-msgstr "请允许它继续."
+msgstr "请允许它继续。"
 
 #: notebook/templates/page.html:122
 msgid "dashboard"
@@ -575,7 +575,7 @@ msgstr "集群"
 
 #: notebook/templates/tree.html:32
 msgid "Select items to perform actions on them."
-msgstr "选择操作对象."
+msgstr "选择操作对象。"
 
 #: notebook/templates/tree.html:35
 msgid "Duplicate selected"
@@ -656,7 +656,7 @@ msgstr "全选 / 全部选"
 
 #: notebook/templates/tree.html:93
 msgid "Select..."
-msgstr "选择..."
+msgstr "选择…"
 
 #: notebook/templates/tree.html:98
 msgid "Select All Folders"
@@ -724,9 +724,9 @@ msgstr "没有笔记正在运行"
 
 #: notebook/templates/tree.html:178
 msgid "Clusters tab is now provided by IPython parallel."
-msgstr "集群标签现在由IPython并行提供."
+msgstr "集群标签现在由IPython并行提供。"
 
 #: notebook/templates/tree.html:179
 msgid "See '<a href=\"https://github.com/ipython/ipyparallel\">IPython parallel</a>' for installation details."
-msgstr "安装细节查看 '<a href=\"https://github.com/ipython/ipyparallel\">IPython parallel</a>'."
+msgstr "安装细节查看 '<a href=\"https://github.com/ipython/ipyparallel\">IPython parallel</a>'。"
 

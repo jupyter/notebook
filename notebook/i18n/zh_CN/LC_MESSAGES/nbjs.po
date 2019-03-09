@@ -19,15 +19,15 @@ msgstr ""
 
 #: notebook/static/base/js/dialog.js:161
 msgid "Manually edit the JSON below to manipulate the metadata for this cell."
-msgstr "手动编辑下面的JSON代码来修改块元数据."
+msgstr "手动编辑下面的 JSON 代码来修改块元数据。"
 
 #: notebook/static/base/js/dialog.js:163
 msgid "Manually edit the JSON below to manipulate the metadata for this notebook."
-msgstr "手动编辑下面的JSON代码来修改界面元数据."
+msgstr "手动编辑下面的 JSON 代码来修改界面元数据。"
 
 #: notebook/static/base/js/dialog.js:165
 msgid " We recommend putting custom metadata attributes in an appropriately named substructure, so they don't conflict with those of others."
-msgstr "我们建议将自定义的元数据属性放入适当的子结构中，这样就不会与其他的子结构发生冲突."
+msgstr "我们建议将自定义的元数据属性放入适当的子结构中，这样就不会与其他的子结构发生冲突。"
 
 #: notebook/static/base/js/dialog.js:180
 msgid "Edit the metadata"
@@ -70,11 +70,11 @@ msgstr "应用"
 
 #: notebook/static/base/js/dialog.js:225
 msgid "WARNING: Could not save invalid JSON."
-msgstr "警告: 不能保存无效的JSON."
+msgstr "警告：不能保存无效的 JSON。"
 
 #: notebook/static/base/js/dialog.js:247
 msgid "There are no attachments for this cell."
-msgstr "这个块没有附件."
+msgstr "这个块没有附件。"
 
 #: notebook/static/base/js/dialog.js:250
 msgid "Current cell attachments"
@@ -100,7 +100,7 @@ msgstr "编辑附件"
 
 #: notebook/static/base/js/dialog.js:348
 msgid "Edit Notebook Attachments"
-msgstr "编辑代码附件"
+msgstr "编辑 Notebook 附件"
 
 #: notebook/static/base/js/dialog.js:350
 msgid "Edit Cell Attachments"
@@ -116,35 +116,35 @@ msgstr "选择文件"
 
 #: notebook/static/notebook/js/about.js:14
 msgid "You are using Jupyter notebook."
-msgstr "你正在运行notebook."
+msgstr "你正在运行 Jupyter Notebook。"
 
 #: notebook/static/notebook/js/about.js:16
 msgid "The version of the notebook server is: "
-msgstr "该notebook 服务的版本是："
+msgstr "该 Notebook 服务的版本是："
 
 #: notebook/static/notebook/js/about.js:22
 msgid "The server is running on this version of Python:"
-msgstr "该服务运行中使用的python版本为:"
+msgstr "该服务运行中使用的 Python 版本为："
 
 #: notebook/static/notebook/js/about.js:25
 msgid "Waiting for kernel to be available..."
-msgstr "等待服务可用..."
+msgstr "等待内核可用…"
 
 #: notebook/static/notebook/js/about.js:27
 msgid "Server Information:"
-msgstr "服务信息:"
+msgstr "服务信息："
 
 #: notebook/static/notebook/js/about.js:29
 msgid "Current Kernel Information:"
-msgstr "当前服务信息:"
+msgstr "当前内核信息："
 
 #: notebook/static/notebook/js/about.js:32
 msgid "Could not access sys_info variable for version information."
-msgstr "无法为版本信息访问sysinfo变量."
+msgstr "无法为版本信息访问 sys_info 变量。"
 
 #: notebook/static/notebook/js/about.js:34
 msgid "Cannot find sys_info!"
-msgstr "找不到sys_info!"
+msgstr "找不到 sys_info！"
 
 #: notebook/static/notebook/js/about.js:38
 msgid "About Jupyter Notebook"
@@ -156,11 +156,11 @@ msgstr "不能连接到服务"
 
 #: notebook/static/notebook/js/actions.js:69
 msgid "toggle rtl layout"
-msgstr "切换trl布局"
+msgstr "切换左至右布局"
 
 #: notebook/static/notebook/js/actions.js:70
 msgid "Toggle the screen directionality between left-to-right and right-to-left"
-msgstr "切换左右至右至左之间的屏幕方向"
+msgstr "切换左至右、右至左之间的屏幕方向"
 
 #: notebook/static/notebook/js/actions.js:76
 msgid "edit command mode keyboard shortcuts"
@@ -172,56 +172,56 @@ msgstr "打开窗口来编辑快捷键"
 
 #: notebook/static/notebook/js/actions.js:97
 msgid "restart kernel"
-msgstr "重启服务"
+msgstr "重启内核"
 
 #: notebook/static/notebook/js/actions.js:98
 msgid "restart the kernel (no confirmation dialog)"
-msgstr "重启服务(没有确认窗口)"
+msgstr "重启内核（不含确认窗口）"
 
 #: notebook/static/notebook/js/actions.js:106
 msgid "confirm restart kernel"
-msgstr "确定重启服务"
+msgstr "确定重启内核"
 
 #: notebook/static/notebook/js/actions.js:107
 msgid "restart the kernel (with dialog)"
-msgstr "重启服务(带窗口)"
+msgstr "重启内核（含窗口）"
 
 #: notebook/static/notebook/js/actions.js:113
 msgid "restart kernel and run all cells"
-msgstr "重启服务并且运行所有代码块"
+msgstr "重启内核并且运行所有代码块"
 
 #: notebook/static/notebook/js/actions.js:114
 msgid "restart the kernel, then re-run the whole notebook (no confirmation dialog)"
-msgstr "重启服务, 然后重新运行整个代码(不含确认窗口)"
+msgstr "重启内核，然后重新运行整个 Notebook（不含确认窗口）"
 
 #: notebook/static/notebook/js/actions.js:120
 msgid "confirm restart kernel and run all cells"
-msgstr "确认重启服务并且运行所有代码块"
+msgstr "确认重启内核并且运行所有代码块"
 
 #: notebook/static/notebook/js/actions.js:121
 msgid "restart the kernel, then re-run the whole notebook (with dialog)"
-msgstr "重启服务, 然后重新运行整个代码(含窗口)"
+msgstr "重启内核，然后重新运行整个 Notebook （含窗口）"
 
 #: notebook/static/notebook/js/actions.js:127
 msgid "restart kernel and clear output"
-msgstr "重启服务并且清空输入"
+msgstr "重启内核并且清空输入"
 
 #: notebook/static/notebook/js/actions.js:128
 msgid "restart the kernel and clear all output (no confirmation dialog)"
-msgstr "重启服务并且清空所有输出(不含确认窗口)"
+msgstr "重启内核并且清空所有输出（不含确认窗口）"
 
 #: notebook/static/notebook/js/actions.js:134
 msgid "confirm restart kernel and clear output"
-msgstr "确认重启服务并且清空输出"
+msgstr "确认重启内核并且清空输出"
 
 #: notebook/static/notebook/js/actions.js:135
 msgid "restart the kernel and clear all output (with dialog)"
-msgstr "重启服务并且清空所有输出(含窗口)"
+msgstr "重启内核并且清空所有输出（含窗口）"
 
 #: notebook/static/notebook/js/actions.js:142
 #: notebook/static/notebook/js/actions.js:143
 msgid "interrupt the kernel"
-msgstr "中断服务"
+msgstr "中断内核"
 
 #: notebook/static/notebook/js/actions.js:150
 msgid "run cell and select next"
@@ -229,7 +229,7 @@ msgstr "运行代码块并且选择下一个代码块"
 
 #: notebook/static/notebook/js/actions.js:152
 msgid "run cell, select below"
-msgstr "运行代码块, 选择下面的代码块"
+msgstr "运行代码块，选择下面的代码块"
 
 #: notebook/static/notebook/js/actions.js:159
 #: notebook/static/notebook/js/actions.js:160
@@ -371,32 +371,32 @@ msgstr "清除代码块格式"
 #: notebook/static/notebook/js/actions.js:389
 #: notebook/static/notebook/js/actions.js:390
 msgid "change cell to heading 1"
-msgstr "把代码块变成heading 1"
+msgstr "把代码块变成一级标题"
 
 #: notebook/static/notebook/js/actions.js:397
 #: notebook/static/notebook/js/actions.js:398
 msgid "change cell to heading 2"
-msgstr "把代码块变成heading 2"
+msgstr "把代码块变成二级标题"
 
 #: notebook/static/notebook/js/actions.js:405
 #: notebook/static/notebook/js/actions.js:406
 msgid "change cell to heading 3"
-msgstr "把代码块变成heading 3"
+msgstr "把代码块变成三级标题"
 
 #: notebook/static/notebook/js/actions.js:413
 #: notebook/static/notebook/js/actions.js:414
 msgid "change cell to heading 4"
-msgstr "把代码块变成heading 4"
+msgstr "把代码块变成四级标题"
 
 #: notebook/static/notebook/js/actions.js:421
 #: notebook/static/notebook/js/actions.js:422
 msgid "change cell to heading 5"
-msgstr "把代码块变成heading 5"
+msgstr "把代码块变成五级标题"
 
 #: notebook/static/notebook/js/actions.js:429
 #: notebook/static/notebook/js/actions.js:430
 msgid "change cell to heading 6"
-msgstr "把代码块变成heading 6"
+msgstr "把代码块变成六级标题"
 
 #: notebook/static/notebook/js/actions.js:437
 msgid "toggle cell output"
@@ -488,7 +488,7 @@ msgstr "合并单元格"
 
 #: notebook/static/notebook/js/actions.js:536
 msgid "merge selected cells, or current cell with cell below if only one cell is selected"
-msgstr "合并选中单元格, 如果只有一个单元格被选中"
+msgstr "合并选中单元格，如果只有一个单元格被选中，则合并下一个"
 
 #: notebook/static/notebook/js/actions.js:549
 msgid "show command pallette"
@@ -605,27 +605,27 @@ msgstr "将当前单元格滚动到顶部"
 
 #: notebook/static/notebook/js/actions.js:792
 msgid "duplicate notebook"
-msgstr "复制代码"
+msgstr "复制 Notebook"
 
 #: notebook/static/notebook/js/actions.js:793
 msgid "Create and open a copy of the current notebook"
-msgstr "创建并打开当前代码的一个副本"
+msgstr "创建并打开当前 Notebook 的一个副本"
 
 #: notebook/static/notebook/js/actions.js:799
 msgid "trust notebook"
-msgstr "信任代码"
+msgstr "信任 Notebook"
 
 #: notebook/static/notebook/js/actions.js:800
 msgid "Trust the current notebook"
-msgstr "信任当前代码"
+msgstr "信任当前 Notebook"
 
 #: notebook/static/notebook/js/actions.js:806
 msgid "rename notebook"
-msgstr "重命名"
+msgstr "重命名 Notebook"
 
 #: notebook/static/notebook/js/actions.js:807
 msgid "Rename the current notebook"
-msgstr "重命名"
+msgstr "重命名当前 Notebook"
 
 #: notebook/static/notebook/js/actions.js:813
 msgid "toggle all cells output collapsed"
@@ -653,7 +653,7 @@ msgstr "清空所有的输出内容"
 
 #: notebook/static/notebook/js/actions.js:835
 msgid "save notebook"
-msgstr "保存代码"
+msgstr "保存 Notebook"
 
 #: notebook/static/notebook/js/actions.js:836
 msgid "Save and Checkpoint"
@@ -661,12 +661,12 @@ msgstr "保存并检查"
 
 #: notebook/static/notebook/js/cell.js:79
 msgid "Warning: accessing Cell.cm_config directly is deprecated."
-msgstr "警告: 访问Cell.cm_config已经被弃用了."
+msgstr "警告：直接访问 Cell.cm_config 已经被弃用了。"
 
 #: notebook/static/notebook/js/cell.js:763
 #, python-format
 msgid "Unrecognized cell type: %s"
-msgstr "未知的单元格类型: %s"
+msgstr "未知的单元格类型：%s"
 
 #: notebook/static/notebook/js/cell.js:777
 msgid "Unrecognized cell type"
@@ -680,7 +680,7 @@ msgstr "工具栏调用 %s 出现错误"
 #: notebook/static/notebook/js/clipboard.js:53
 #, python-format
 msgid "Clipboard types: %s"
-msgstr "剪贴板类型: %s"
+msgstr "剪贴板类型：%s"
 
 #: notebook/static/notebook/js/clipboard.js:96
 msgid "Dialog for paste from system clipboard"
@@ -701,15 +701,15 @@ msgstr "再按一次 %s 粘贴"
 
 #: notebook/static/notebook/js/clipboard.js:116
 msgid "Why is this needed? "
-msgstr "这个为啥需要?"
+msgstr "这个为何需要？"
 
 #: notebook/static/notebook/js/clipboard.js:118
 msgid "We can't get paste events in this browser without a text box. "
-msgstr "在浏览器里没有文本框我们不能粘贴. "
+msgstr "在浏览器里没有文本框，我们不能粘贴。"
 
 #: notebook/static/notebook/js/clipboard.js:119
 msgid "There's an invisible text box focused in this dialog."
-msgstr "在这个对话框中有一个不可见的文本框."
+msgstr "在这个对话框中有一个不可见的文本框。"
 
 #: notebook/static/notebook/js/clipboard.js:125
 #, python-format
@@ -718,7 +718,7 @@ msgstr "%s 来粘贴"
 
 #: notebook/static/notebook/js/codecell.js:310
 msgid "Can't execute cell since kernel is not set."
-msgstr "只要服务没有设置就不能执行单元格代码."
+msgstr "只要内核没有设置就不能执行单元格代码。"
 
 #: notebook/static/notebook/js/codecell.js:481
 msgid "In"
@@ -727,30 +727,30 @@ msgstr ""
 #: notebook/static/notebook/js/kernelselector.js:269
 #, python-format
 msgid "Could not find a kernel matching %s. Please select a kernel:"
-msgstr "找不到服务匹配 %s. 请选择一个服务:"
+msgstr "找不到内核匹配 %s。请选择一个服务："
 
 #: notebook/static/notebook/js/kernelselector.js:278
 msgid "Continue Without Kernel"
-msgstr "继续运行没有服务"
+msgstr "在没有内核时继续运行"
 
 #: notebook/static/notebook/js/kernelselector.js:278
 msgid "Set Kernel"
-msgstr "设置服务"
+msgstr "设置内核"
 
 #: notebook/static/notebook/js/kernelselector.js:281
 msgid "Kernel not found"
-msgstr "服务没找到"
+msgstr "内核未找到"
 
 #: notebook/static/notebook/js/kernelselector.js:319
 #: notebook/static/tree/js/newnotebook.js:99
 msgid "Creating Notebook Failed"
-msgstr "创建代码失败"
+msgstr "创建 Notebook 失败"
 
 #: notebook/static/notebook/js/kernelselector.js:320
 #: notebook/static/tree/js/notebooklist.js:1362
 #, python-format
 msgid "The error was: %s"
-msgstr "错误; %s"
+msgstr "错误：%s"
 
 #: notebook/static/notebook/js/maintoolbar.js:54
 msgid "Run"
@@ -762,7 +762,7 @@ msgstr "代码"
 
 #: notebook/static/notebook/js/maintoolbar.js:77
 msgid "Markdown"
-msgstr "标记"
+msgstr "Markdown"
 
 #: notebook/static/notebook/js/maintoolbar.js:78
 msgid "Raw NBConvert"
@@ -774,7 +774,7 @@ msgstr "标题"
 
 #: notebook/static/notebook/js/maintoolbar.js:115
 msgid "unrecognized cell type:"
-msgstr "未识别的单元格类型:"
+msgstr "未识别的单元格类型："
 
 #: notebook/static/notebook/js/mathjaxutils.js:45
 #, python-format
@@ -783,15 +783,15 @@ msgstr "从 '%s' 中未能检索 MathJax"
 
 #: notebook/static/notebook/js/mathjaxutils.js:47
 msgid "Math/LaTeX rendering will be disabled."
-msgstr "Math/LaTeX 渲染 将会失效."
+msgstr "Math/LaTeX 渲染将会禁用。"
 
 #: notebook/static/notebook/js/menubar.js:220
 msgid "Trusted Notebook"
-msgstr "可信的笔记"
+msgstr "可信的 Notebook"
 
 #: notebook/static/notebook/js/menubar.js:226
 msgid "Trust Notebook"
-msgstr "信任笔记"
+msgstr "信任 Notebook"
 
 #: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:16
 #: notebook/static/notebook/js/menubar.js:383
@@ -808,23 +808,23 @@ msgstr "在新窗口打开"
 
 #: notebook/static/notebook/js/notebook.js:441
 msgid "Autosave in progress, latest changes may be lost."
-msgstr "自动保存, 最新的改变有可能被丢弃."
+msgstr "自动保存，最新的改变有可能被丢弃。"
 
 #: notebook/static/notebook/js/notebook.js:443
 msgid "Unsaved changes will be lost."
-msgstr "未保存的修改将会丢失."
+msgstr "未保存的修改将会丢失。"
 
 #: notebook/static/notebook/js/notebook.js:448
 msgid "The Kernel is busy, outputs may be lost."
-msgstr "服务正忙, 输出也许会丢失."
+msgstr "服务正忙，输出也许会丢失。"
 
 #: notebook/static/notebook/js/notebook.js:471
 msgid "This notebook is version %1$s, but we only fully support up to %2$s."
-msgstr "本程序版本 %1$s, 但是我们只是支持到 %2$s."
+msgstr "本程序版本 %1$s，但是我们只是支持到 %2$s。"
 
 #: notebook/static/notebook/js/notebook.js:473
 msgid "You can still work with this notebook, but cell and output types introduced in later notebook versions will not be available."
-msgstr "您仍然可以使用本程序, 但是在以后的版本中引入的单元和输出类型将不可用."
+msgstr "您仍然可以使用本程序，但是在以后的版本中引入的单元和输出类型将不可用。"
 
 #: notebook/static/notebook/js/notebook.js:480
 msgid "Restart and Run All Cells"
@@ -860,59 +860,59 @@ msgstr "恢复"
 
 #: notebook/static/notebook/js/notebook.js:493
 msgid "Newer Notebook"
-msgstr "新笔记"
+msgstr "新的 Notebook"
 
 #: notebook/static/notebook/js/notebook.js:1558
 msgid "Use markdown headings"
-msgstr "使用标签 headings"
+msgstr "使用Markdown标题"
 
 #: notebook/static/notebook/js/notebook.js:1560
 msgid "Jupyter no longer uses special heading cells. Instead, write your headings in Markdown cells using # characters:"
-msgstr "Jupyter不再使用特殊的标题单元格. 相反, 在Markdown单元中使用字符来写标题:"
+msgstr "Jupyter 不再使用特殊的标题单元格。相反，在 Markdown 单元中使用字符来写标题："
 
 #: notebook/static/notebook/js/notebook.js:1563
 msgid "## This is a level 2 heading"
-msgstr "## 这是一个 2 heading"
+msgstr "## 这是一个二级标题"
 
 #: notebook/static/notebook/js/notebook.js:2261
 msgid "Restart kernel and re-run the whole notebook?"
-msgstr "重新启动内核并重新运行整个笔记本?"
+msgstr "重新启动内核并重新运行整个 Notebook？"
 
 #: notebook/static/notebook/js/notebook.js:2263
 msgid "Are you sure you want to restart the current kernel and re-execute the whole notebook?  All variables and outputs will be lost."
-msgstr "您确定要重新启动当前的内核并重新执行整个笔记本吗? 所有的变量和输出都将丢失."
+msgstr "您确定要重新启动当前的内核并重新执行整个 Notebook 吗？所有的变量和输出都将丢失。"
 
 #: notebook/static/notebook/js/notebook.js:2288
 msgid "Restart kernel and clear all output?"
-msgstr "重启服务并且清空输出?"
+msgstr "重启内核并且清空输出？"
 
 #: notebook/static/notebook/js/notebook.js:2290
 msgid "Do you want to restart the current kernel and clear all output?  All variables and outputs will be lost."
-msgstr "您是否希望重新启动当前的内核并清除所有输出? 所有的变量和输出都将丢失."
+msgstr "您是否希望重新启动当前的内核并清除所有输出？所有的变量和输出都将丢失。"
 
 #: notebook/static/notebook/js/notebook.js:2335
 msgid "Restart kernel?"
-msgstr "重启服务?"
+msgstr "重启内核？"
 
 #: notebook/static/notebook/js/notebook.js:2337
 msgid "Do you want to restart the current kernel?  All variables will be lost."
-msgstr "如果重启服务, 所有变量都会丢弃."
+msgstr "如果重启内核，所有变量都会丢弃。"
 
 #: notebook/static/notebook/js/notebook.js:2320
 msgid "Shutdown kernel?"
-msgstr "关闭服务"
+msgstr "关闭内核？"
 
 #: notebook/static/notebook/js/notebook.js:2322
 msgid "Do you want to shutdown the current kernel?  All variables will be lost."
-msgstr "如果关闭服务，所有变量都会丢失"
+msgstr "如果关闭当前内核，所有变量都会丢失。"
 
 #: notebook/static/notebook/js/notebook.js:2750
 msgid "Notebook changed"
-msgstr "笔记改变了"
+msgstr "Notebook 改变了"
 
 #: notebook/static/notebook/js/notebook.js:2751
 msgid "The notebook file has changed on disk since the last time we opened or saved it. Do you want to overwrite the file on disk with the version open here, or load the version on disk (reload the page)?"
-msgstr "自从上次我们打开或保存它以来, 笔记本文件已经在磁盘上发生了变化. 您是否希望在磁盘上使用打开的版本, 或在磁盘上的版本(重新加载页面)上覆盖该文件?"
+msgstr "自从上次我们打开或保存它以来， Notebook 文件已经在磁盘上发生了变化。您是否希望在磁盘上使用打开的版本，或在磁盘上的版本(重新加载页面)上覆盖该文件？"
 
 #: notebook/static/notebook/js/notebook.js:2798
 #: notebook/static/notebook/js/notebook.js:3020
@@ -921,11 +921,11 @@ msgstr "Notebook 失效"
 
 #: notebook/static/notebook/js/notebook.js:2801
 msgid "The save operation succeeded, but the notebook does not appear to be valid. The validation error was:"
-msgstr "保存操作成功了, 但是这个笔记本看起来并不有效. 验证错误:"
+msgstr "保存操作成功了，但是这个 Notebook 看起来并不有效。验证错误："
 
 #: notebook/static/notebook/js/notebook.js:2852
 msgid "A trusted Jupyter notebook may execute hidden malicious code when you open it. Selecting trust will immediately reload this notebook in a trusted state. For more information, see the Jupyter security documentation: "
-msgstr "当你打开它时, 一个可信任的Jupyter笔记本可能会执行隐藏的恶意代码. 选择信任将立即在一个可信的状态中重新加载这个笔记本. 要了解更多信息, 请参阅Jupyter安全文档:"
+msgstr "当你打开它时，一个可信任的 Jupyter Notebook 可能会执行隐藏的恶意代码。选择信任将立即在一个可信的状态中重新加载这个 Notebook 。要了解更多信息，请参阅 Jupyter 安全文档："
 
 #: notebook/static/notebook/js/notebook.js:2856
 msgid "here"
@@ -933,86 +933,86 @@ msgstr "这里"
 
 #: notebook/static/notebook/js/notebook.js:2864
 msgid "Trust this notebook?"
-msgstr "信任这个代码?"
+msgstr "信任这个 Notebook？"
 
 #: notebook/static/notebook/js/notebook.js:3011
 msgid "Notebook failed to load"
-msgstr "代码加载失败"
+msgstr "Notebook 加载失败"
 
 #: notebook/static/notebook/js/notebook.js:3013
 msgid "The error was: "
-msgstr "错误: "
+msgstr "错误："
 
 #: notebook/static/notebook/js/notebook.js:3017
 msgid "See the error console for details."
-msgstr "有关详细信息, 请参阅错误控制台."
+msgstr "有关详细信息，请参阅错误控制台。"
 
 #: notebook/static/notebook/js/notebook.js:3025
 msgid "The notebook also failed validation:"
-msgstr "代码失败了:"
+msgstr "Notebook 认证失败了："
 
 #: notebook/static/notebook/js/notebook.js:3027
 msgid "An invalid notebook may not function properly. The validation error was:"
-msgstr "无效的笔记本可能不能正常工作. 验证错误:"
+msgstr "无效的 Notebook 可能不能正常工作，验证错误："
 
 #: notebook/static/notebook/js/notebook.js:3066
 #, python-format
 msgid "This notebook has been converted from an older notebook format to the current notebook format v(%s)."
-msgstr "本笔记本已从较旧的笔记本格式转换为当前的笔记本格式 v(%s)."
+msgstr "本 Notebook 已从较旧的 Notebook 格式转换为当前的 Notebook 格式 v(%s)。"
 
 #: notebook/static/notebook/js/notebook.js:3068
 #, python-format
 msgid "This notebook has been converted from a newer notebook format to the current notebook format v(%s)."
-msgstr "这个笔记本已经从一种新的笔记本格式转换为当前的笔记本格式 v(%s)."
+msgstr "这个 Notebook 已经从一种新的 Notebook 格式转换为当前的 Notebook 格式 v(%s)。"
 
 #: notebook/static/notebook/js/notebook.js:3076
 msgid "The next time you save this notebook, the current notebook format will be used."
-msgstr "下次你保存这个笔记本时, 当前的笔记本格式将会被使用."
+msgstr "下次你保存这个 Notebook 时，当前的 Notebook 格式将会被使用。"
 
 #: notebook/static/notebook/js/notebook.js:3081
 msgid "Older versions of Jupyter may not be able to read the new format."
-msgstr "旧版本的Jupyter可能无法读取新格式."
+msgstr "旧版本的 Jupyter 可能无法读取新格式。"
 
 #: notebook/static/notebook/js/notebook.js:3083
 msgid "Some features of the original notebook may not be available."
-msgstr "原始笔记本的一些特性可能无法使用."
+msgstr "原始 Notebook 的一些特性可能无法使用。"
 
 #: notebook/static/notebook/js/notebook.js:3086
 msgid "To preserve the original version, close the notebook without saving it."
-msgstr "为了保存原始版本, 关闭笔记本而不保存它."
+msgstr "为了保存原始版本，关闭 Notebook 而不保存它。"
 
 #: notebook/static/notebook/js/notebook.js:3091
 msgid "Notebook converted"
-msgstr "代码被修改了"
+msgstr "Notebook 被修改了"
 
 #: notebook/static/notebook/js/notebook.js:3113
 msgid "(No name)"
-msgstr "(没有名字)"
+msgstr "（没有名字）"
 
 #: notebook/static/notebook/js/notebook.js:3161
 #, python-format
 msgid "An unknown error occurred while loading this notebook. This version can load notebook formats %s or earlier. See the server log for details."
-msgstr "加载本笔记本时出现了一个未知的错误. 这个版本可以加载%s或更早的笔记本. 有关详细信息, 请参阅服务器日志."
+msgstr "加载本 Notebook 时出现了一个未知的错误。这个版本可以加载%s或更早的 Notebook 。有关详细信息，请参阅服务器日志。"
 
 #: notebook/static/notebook/js/notebook.js:3172
 msgid "Error loading notebook"
-msgstr "加载代码出错"
+msgstr "加载 Notebook 出错"
 
 #: notebook/static/notebook/js/notebook.js:3273
 msgid "Are you sure you want to revert the notebook to the latest checkpoint?"
-msgstr "确定撤销操作?"
+msgstr "确定撤销操作？"
 
 #: notebook/static/notebook/js/notebook.js:3276
 msgid "This cannot be undone."
-msgstr "该操作不能被执行."
+msgstr "该操作不能被执行。"
 
 #: notebook/static/notebook/js/notebook.js:3279
 msgid "The checkpoint was last updated at:"
-msgstr "这个代码最后更新时间:"
+msgstr "这个检查点最后更新时间："
 
 #: notebook/static/notebook/js/notebook.js:3290
 msgid "Revert notebook to checkpoint"
-msgstr "恢复代码"
+msgstr "恢复 Notebook"
 
 #: notebook/static/notebook/js/notificationarea.js:76
 #: notebook/static/notebook/js/tour.js:61
@@ -1024,15 +1024,15 @@ msgstr "编辑模式"
 #: notebook/static/notebook/js/notificationarea.js:87
 #: notebook/static/notebook/js/tour.js:54
 msgid "Command Mode"
-msgstr "命令 模式"
+msgstr "命令模式"
 
 #: notebook/static/notebook/js/notificationarea.js:94
 msgid "Kernel Created"
-msgstr "服务创建"
+msgstr "内核创建"
 
 #: notebook/static/notebook/js/notificationarea.js:98
 msgid "Connecting to kernel"
-msgstr "正在连接服务"
+msgstr "正在连接内核"
 
 #: notebook/static/notebook/js/notificationarea.js:102
 msgid "Not Connected"
@@ -1044,39 +1044,39 @@ msgstr "点击重连"
 
 #: notebook/static/notebook/js/notificationarea.js:114
 msgid "Restarting kernel"
-msgstr "重启服务"
+msgstr "重启内核"
 
 #: notebook/static/notebook/js/notificationarea.js:128
 msgid "Kernel Restarting"
-msgstr "服务正重启"
+msgstr "内核正重启"
 
 #: notebook/static/notebook/js/notificationarea.js:129
 msgid "The kernel appears to have died. It will restart automatically."
-msgstr "服务似乎挂掉了,但是会立刻重启的."
+msgstr "内核似乎挂掉了，但是会立刻重启的。"
 
 #: notebook/static/notebook/js/notificationarea.js:139
 #: notebook/static/notebook/js/notificationarea.js:197
 #: notebook/static/notebook/js/notificationarea.js:217
 msgid "Dead kernel"
-msgstr "挂掉的服务"
+msgstr "挂掉的内核"
 
 #: notebook/static/notebook/js/notificationarea.js:140
 #: notebook/static/notebook/js/notificationarea.js:218
 #: notebook/static/notebook/js/notificationarea.js:265
 msgid "Kernel Dead"
-msgstr "服务挂掉"
+msgstr "内核挂掉"
 
 #: notebook/static/notebook/js/notificationarea.js:144
 msgid "Interrupting kernel"
-msgstr "正在中断服务"
+msgstr "正在中断内核"
 
 #: notebook/static/notebook/js/notificationarea.js:150
 msgid "No Connection to Kernel"
-msgstr "没有到服务的连接"
+msgstr "没有到内核的连接"
 
 #: notebook/static/notebook/js/notificationarea.js:160
 msgid "A connection to the notebook server could not be established. The notebook will continue trying to reconnect. Check your network connection or notebook server configuration."
-msgstr "到后台服务的连接没能建立, 我们会继续尝试重连, 请检出网络连接...还有服务配置."
+msgstr "到后台服务的连接没能建立，我们会继续尝试重连，请检出网络连接...还有服务配置。"
 
 #: notebook/static/notebook/js/notificationarea.js:165
 msgid "Connection failed"
@@ -1084,11 +1084,11 @@ msgstr "连接失败"
 
 #: notebook/static/notebook/js/notificationarea.js:178
 msgid "No kernel"
-msgstr "没有服务"
+msgstr "没有内核"
 
 #: notebook/static/notebook/js/notificationarea.js:179
 msgid "Kernel is not running"
-msgstr "服务没有运行"
+msgstr "内核没有运行"
 
 #: notebook/static/notebook/js/notificationarea.js:186
 msgid "Don't Restart"
@@ -1100,90 +1100,90 @@ msgstr "现在尝试重启"
 
 #: notebook/static/notebook/js/notificationarea.js:190
 msgid "The kernel has died, and the automatic restart has failed. It is possible the kernel cannot be restarted. If you are not able to restart the kernel, you will still be able to save the notebook, but running code will no longer work until the notebook is reopened."
-msgstr "内核已经死亡，自动重启也失败了。有可能内核不能重新启动。如果您不能重新启动内核，您仍然能够保存笔记本，但是运行代码将不再工作，直到笔记本重新打开. "
+msgstr "内核已经死亡，自动重启也失败了。有可能内核不能重新启动。如果您不能重新启动内核，您仍然能够保存 Notebook ，但是运行代码将不再工作，直到 Notebook 重新打开。"
 
 #: notebook/static/notebook/js/notificationarea.js:224
 msgid "No Kernel"
-msgstr "没有服务"
+msgstr "没有内核"
 
 #: notebook/static/notebook/js/notificationarea.js:251
 msgid "Failed to start the kernel"
-msgstr "启动服务失败"
+msgstr "启动内核失败"
 
 #: notebook/static/notebook/js/notificationarea.js:271
 #: notebook/static/notebook/js/notificationarea.js:291
 #: notebook/static/notebook/js/notificationarea.js:305
 msgid "Kernel Busy"
-msgstr "服务正忙"
+msgstr "内核正忙"
 
 #: notebook/static/notebook/js/notificationarea.js:272
 msgid "Kernel starting, please wait..."
-msgstr "服务正在启动,请等待..."
+msgstr "内核正在启动,请等待…"
 
 #: notebook/static/notebook/js/notificationarea.js:278
 #: notebook/static/notebook/js/notificationarea.js:285
 msgid "Kernel Idle"
-msgstr "服务空闲"
+msgstr "内核空闲"
 
 #: notebook/static/notebook/js/notificationarea.js:279
 msgid "Kernel ready"
-msgstr "服务准备好了"
+msgstr "内核准备好了"
 
 #: notebook/static/notebook/js/notificationarea.js:296
 msgid "Using kernel: "
-msgstr "使用服务:"
+msgstr "使用内核："
 
 #: notebook/static/notebook/js/notificationarea.js:297
 msgid "Only candidate for language: %1$s was %2$s."
-msgstr "只支持语言: %1$s - %2$s."
+msgstr "只支持语言：%1$s - %2$s。"
 
 #: notebook/static/notebook/js/notificationarea.js:318
 msgid "Loading notebook"
-msgstr "加载服务"
+msgstr "加载 Notebook "
 
 #: notebook/static/notebook/js/notificationarea.js:321
 msgid "Notebook loaded"
-msgstr "程序已加载"
+msgstr " Notebook 已加载"
 
 #: notebook/static/notebook/js/notificationarea.js:324
 msgid "Saving notebook"
-msgstr "保存代码"
+msgstr "保存 Notebook"
 
 #: notebook/static/notebook/js/notificationarea.js:327
 msgid "Notebook saved"
-msgstr "代码已保存"
+msgstr "Notebook 已保存"
 
 #: notebook/static/notebook/js/notificationarea.js:330
 msgid "Notebook save failed"
-msgstr "代码保存失败"
+msgstr "Notebook 保存失败"
 
 #: notebook/static/notebook/js/notificationarea.js:333
 msgid "Notebook copy failed"
-msgstr "代码复制失败"
+msgstr "Notebook 复制失败"
 
 #: notebook/static/notebook/js/notificationarea.js:338
 msgid "Checkpoint created"
-msgstr "checkpoint已创建"
+msgstr "检查点已创建"
 
 #: notebook/static/notebook/js/notificationarea.js:346
 msgid "Checkpoint failed"
-msgstr "Checkpoint 失败"
+msgstr "检查点失败"
 
 #: notebook/static/notebook/js/notificationarea.js:349
 msgid "Checkpoint deleted"
-msgstr "checkpoint已删除"
+msgstr "检查点已删除"
 
 #: notebook/static/notebook/js/notificationarea.js:352
 msgid "Checkpoint delete failed"
-msgstr "checkpoint删除失败"
+msgstr "检查点删除失败"
 
 #: notebook/static/notebook/js/notificationarea.js:355
 msgid "Restoring to checkpoint..."
-msgstr "重新保存checkpoint..."
+msgstr "重新保存检查点…"
 
 #: notebook/static/notebook/js/notificationarea.js:358
 msgid "Checkpoint restore failed"
-msgstr "checkpoint 重新保存失败"
+msgstr "检查点重新保存失败"
 
 #: notebook/static/notebook/js/notificationarea.js:363
 msgid "Autosave disabled"
@@ -1192,7 +1192,7 @@ msgstr "自动保存失败"
 #: notebook/static/notebook/js/notificationarea.js:366
 #, python-format
 msgid "Saving every %d sec."
-msgstr "每隔 %s 秒保存一次."
+msgstr "每隔 %s 秒保存一次。"
 
 #: notebook/static/notebook/js/notificationarea.js:382
 msgid "Trusted"
@@ -1208,33 +1208,33 @@ msgstr "点击展开内容"
 
 #: notebook/static/notebook/js/outputarea.js:89
 msgid "click to expand output; double click to hide output"
-msgstr "点击展开输出; 双击隐藏"
+msgstr "点击展开输出；双击隐藏"
 
 #: notebook/static/notebook/js/outputarea.js:177
 msgid "click to unscroll output; double click to hide"
-msgstr "单击显示输出; 双击隐藏"
+msgstr "单击显示输出；双击隐藏"
 
 #: notebook/static/notebook/js/outputarea.js:184
 msgid "click to scroll output; double click to hide"
-msgstr "点击滚动输出;双击隐藏"
+msgstr "点击滚动输出；双击隐藏"
 
 #: notebook/static/notebook/js/outputarea.js:434
 msgid "Javascript error adding output!"
-msgstr "Javascript添加输出错误!"
+msgstr "Javascript 添加输出错误!"
 
 #: notebook/static/notebook/js/outputarea.js:439
 msgid "See your browser Javascript console for more details."
-msgstr "更多细节请参见您的浏览器Javascript控制台。"
+msgstr "更多细节请参见您的浏览器 Javascript 控制台。"
 
 #: notebook/static/notebook/js/outputarea.js:480
 #, python-format
 msgid "Out[%d]:"
-msgstr "输出[%d]:"
+msgstr "输出[%d]："
 
 #: notebook/static/notebook/js/outputarea.js:589
 #, python-format
 msgid "Unrecognized output: %s"
-msgstr "未识别的输出: %s"
+msgstr "未识别的输出：%s"
 
 #: notebook/static/notebook/js/pager.js:36
 msgid "Open the pager in an external window"
@@ -1340,7 +1340,7 @@ msgstr "撤销选择"
 
 #: notebook/static/notebook/js/quickhelp.js:77
 msgid "toggle overwrite flag"
-msgstr "切换 重写标志"
+msgstr "切换重写标志"
 
 #: notebook/static/notebook/js/quickhelp.js:111
 #: notebook/static/notebook/js/quickhelp.js:252
@@ -1426,15 +1426,15 @@ msgstr "上一页"
 
 #: notebook/static/notebook/js/quickhelp.js:206
 msgid "The Jupyter Notebook has two different keyboard input modes."
-msgstr "Jupyter笔记本有两种不同的键盘输入模式."
+msgstr "Jupyter Notebook 有两种不同的键盘输入模式。"
 
 #: notebook/static/notebook/js/quickhelp.js:208
 msgid "<b>Edit mode</b> allows you to type code or text into a cell and is indicated by a green cell border."
-msgstr "<b>编辑模式</b>允许您将代码或文本输入到一个单元格中，并通过一个绿色的单元格来表示"
+msgstr "<b>编辑模式</b>允许您将代码或文本输入到一个单元格中，并通过一个绿色的单元格来表示。"
 
 #: notebook/static/notebook/js/quickhelp.js:210
 msgid "<b>Command mode</b> binds the keyboard to notebook level commands and is indicated by a grey cell border with a blue left margin."
-msgstr "<b>命令模式</b>将键盘与笔记本级命令绑定在一起，并通过一个灰色的单元格边界显示，该边框为蓝色的左边框。"
+msgstr "<b>命令模式</b>将键盘与 Notebook 级命令绑定在一起，并通过一个灰色的单元格边界显示，该边框为蓝色的左边框。"
 
 #: notebook/static/notebook/js/quickhelp.js:231
 #: notebook/static/notebook/js/tooltip.js:58
@@ -1465,7 +1465,7 @@ msgstr "返回"
 #: notebook/static/notebook/js/quickhelp.js:279
 #, python-format
 msgid "Command Mode (press %s to enable)"
-msgstr "命令行模式(按 %s 生效)"
+msgstr "命令行模式（按 %s 生效）"
 
 #: notebook/static/notebook/js/quickhelp.js:281
 msgid "Edit Shortcuts"
@@ -1478,11 +1478,11 @@ msgstr "编辑命令行快捷键"
 #: notebook/static/notebook/js/quickhelp.js:301
 #, python-format
 msgid "Edit Mode (press %s to enable)"
-msgstr "编辑模式(按 %s 生效)"
+msgstr "编辑模式（按 %s 生效）"
 
 #: notebook/static/notebook/js/savewidget.js:49
 msgid "Autosave Failed!"
-msgstr "自动保存失败!"
+msgstr "自动保存失败！"
 
 #: notebook/static/notebook/js/savewidget.js:71
 #: notebook/static/tree/js/notebooklist.js:850
@@ -1493,7 +1493,7 @@ msgstr "重命名"
 #: notebook/static/notebook/js/savewidget.js:78
 #: notebook/static/tree/js/notebooklist.js:841
 msgid "Enter a new notebook name:"
-msgstr "请输入代码名称:"
+msgstr "请输入 Notebook 名称："
 
 #: notebook/static/notebook/js/savewidget.js:86
 msgid "Rename Notebook"
@@ -1501,11 +1501,11 @@ msgstr "重命名"
 
 #: notebook/static/notebook/js/savewidget.js:98
 msgid "Invalid notebook name. Notebook names must have 1 or more characters and can contain any characters except :/\\. Please enter a new notebook name:"
-msgstr "无效的文件名. 代码名不能为空 并且不能包含\".\" 请输入一个新的文件名:"
+msgstr "无效的文件名。Notebook 名不能为空，并且不能包含\".\" 请输入一个新的文件名："
 
 #: notebook/static/notebook/js/savewidget.js:103
 msgid "Renaming..."
-msgstr "正在重命名..."
+msgstr "正在重命名…"
 
 #: notebook/static/notebook/js/savewidget.js:109
 msgid "Unknown error"
@@ -1518,20 +1518,20 @@ msgstr "没有检查点"
 #: notebook/static/notebook/js/savewidget.js:193
 #, python-format
 msgid "Last Checkpoint: %s"
-msgstr "最后检查: %s "
+msgstr "最后检查：%s "
 
 #: notebook/static/notebook/js/savewidget.js:217
 msgid "(unsaved changes)"
-msgstr "(未保存改变)"
+msgstr "（未保存改变）"
 
 #: notebook/static/notebook/js/savewidget.js:219
 msgid "(autosaved)"
-msgstr "(自动保存)"
+msgstr "（自动保存）"
 
 #: notebook/static/notebook/js/searchandreplace.js:71
 #, python-format
 msgid "Warning: too many matches (%d). Some changes might not be shown or applied."
-msgstr "警告:太多的匹配(%d). 有些更改可能不会被显示或应用."
+msgstr "警告：太多的匹配(%d)。有些更改可能不会被显示或应用。"
 
 #: notebook/static/notebook/js/searchandreplace.js:74
 #, python-format
@@ -1542,7 +1542,7 @@ msgstr[1] "%d 匹配"
 
 #: notebook/static/notebook/js/searchandreplace.js:141
 msgid "More than 100 matches, aborting"
-msgstr "超过100个匹配, 中止"
+msgstr "超过100个匹配，中止"
 
 #: notebook/static/notebook/js/searchandreplace.js:161
 msgid "Use regex (JavaScript regex syntax)"
@@ -1566,7 +1566,7 @@ msgstr "替换"
 
 #: notebook/static/notebook/js/searchandreplace.js:244
 msgid "No matches, invalid or empty regular expression"
-msgstr "没匹配到, 无效或空的正则表达式"
+msgstr "没有匹配，无效或空的正则表达式"
 
 #: notebook/static/notebook/js/searchandreplace.js:348
 msgid "Replace All"
@@ -1603,7 +1603,7 @@ msgstr ""
 
 #: notebook/static/notebook/js/tour.js:27
 msgid "Welcome to the Notebook Tour"
-msgstr "欢迎使用Notebook"
+msgstr "欢迎使用 Notebook"
 
 #: notebook/static/notebook/js/tour.js:30
 msgid "You can use the left and right arrow keys to go backwards and forwards."
@@ -1615,7 +1615,7 @@ msgstr "文件名"
 
 #: notebook/static/notebook/js/tour.js:35
 msgid "Click here to change the filename for this notebook."
-msgstr "点击改变代码文件名"
+msgstr "点击改变 Notebook 文件名"
 
 #: notebook/static/notebook/js/tour.js:39
 msgid "Notebook Menubar"
@@ -1623,11 +1623,11 @@ msgstr "菜单栏"
 
 #: notebook/static/notebook/js/tour.js:40
 msgid "The menubar has menus for actions on the notebook, its cells, and the kernel it communicates with."
-msgstr "菜单栏操作界面, 它的单元格和它与之通信的内核上进行操作. "
+msgstr "菜单栏操作界面，它的单元格和它与之通信的内核上进行操作。"
 
 #: notebook/static/notebook/js/tour.js:44
 msgid "Notebook Toolbar"
-msgstr "代码工具栏"
+msgstr "Notebook 工具栏"
 
 #: notebook/static/notebook/js/tour.js:45
 msgid "The toolbar has buttons for the most common actions. Hover your mouse over each button for more information."
@@ -1639,19 +1639,19 @@ msgstr "模式指示器"
 
 #: notebook/static/notebook/js/tour.js:50
 msgid "The Notebook has two modes: Edit Mode and Command Mode. In this area, an indicator can appear to tell you which mode you are in."
-msgstr "该笔记本有两种模式:编辑模式和命令模式. 在这个区域, 一个指示器可以显示你在哪个模式. "
+msgstr "该 Notebook 有两种模式：编辑模式和命令模式。在这个区域，一个指示器可以显示你在哪个模式。"
 
 #: notebook/static/notebook/js/tour.js:58
 msgid "Right now you are in Command Mode, and many keyboard shortcuts are available. In this mode, no icon is displayed in the indicator area."
-msgstr "现在你处于命令模式, 许多快捷键都可以使用. 在该模式下, 指示区域中没有显示图标."
+msgstr "现在你处于命令模式，许多快捷键都可以使用。在该模式下，指示区域中没有显示图标。"
 
 #: notebook/static/notebook/js/tour.js:64
 msgid "Pressing <code>Enter</code> or clicking in the input text area of the cell switches to Edit Mode."
-msgstr "按下<code>Enter</code>, 或者点击输入文本区域, 将你返回到命令模式. "
+msgstr "按下<code>Enter</code>，或者点击输入文本区域，将你返回到命令模式。"
 
 #: notebook/static/notebook/js/tour.js:70
 msgid "Notice that the border around the currently active cell changed color. Typing will insert text into the currently active cell."
-msgstr "请注意, 当前活动单元周围的边框改变了颜色. 键入将在当前活动单元中插入文本."
+msgstr "请注意，当前活动单元周围的边框改变了颜色。键入将在当前活动单元中插入文本。"
 
 #: notebook/static/notebook/js/tour.js:73
 msgid "Back to Command Mode"
@@ -1659,7 +1659,7 @@ msgstr "转到命令模式"
 
 #: notebook/static/notebook/js/tour.js:76
 msgid "Pressing <code>Esc</code> or clicking outside of the input text area takes you back to Command Mode."
-msgstr "按下<code>Esc</code>, 或者点击输入文本区域, 将你返回到命令模式. "
+msgstr "按下<code>Esc</code>，或者点击输入文本区域，将你返回到命令模式。"
 
 #: notebook/static/notebook/js/tour.js:79
 msgid "Keyboard Shortcuts"
@@ -1696,7 +1696,7 @@ msgstr "任务栏通知区"
 
 #: notebook/static/notebook/js/tour.js:115
 msgid "Messages in response to user actions (Save, Interrupt, etc.) appear here."
-msgstr "响应用户操作(保存, 中断等)的消息出现在这里."
+msgstr "响应用户操作(保存，中断等)的消息出现在这里。"
 
 #: notebook/static/notebook/js/tour.js:117
 msgid "End of Tour"
@@ -1704,7 +1704,7 @@ msgstr "结束"
 
 #: notebook/static/notebook/js/tour.js:120
 msgid "This concludes the Jupyter Notebook User Interface Tour."
-msgstr "这就结束了Jupyter笔记本用户界面之旅。"
+msgstr "这就结束了Jupyter Notebook 用户界面之旅。"
 
 #: notebook/static/notebook/js/celltoolbarpresets/attachments.js:32
 msgid "Edit Attachments"
@@ -1773,15 +1773,15 @@ msgstr "添加标签"
 
 #: notebook/static/notebook/js/celltoolbarpresets/tags.js:163
 msgid "Edit the list of tags below. All whitespace is treated as tag separators."
-msgstr "编辑下面的标签列表. 所有空格都被当作标记分隔符."
+msgstr "编辑下面的标签列表。所有空格都被当作标记分隔符。"
 
 #: notebook/static/notebook/js/celltoolbarpresets/tags.js:172
 msgid "Edit the tags"
-msgstr "编辑tags"
+msgstr "编辑标签"
 
 #: notebook/static/notebook/js/celltoolbarpresets/tags.js:186
 msgid "Edit Tags"
-msgstr "编辑tags"
+msgstr "编辑标签"
 
 #: notebook/static/tree/js/kernellist.js:86
 #: notebook/static/tree/js/terminallist.js:105
@@ -1791,11 +1791,11 @@ msgstr "关闭"
 #: notebook/static/tree/js/newnotebook.js:70
 #, python-format
 msgid "Create a new notebook with %s"
-msgstr "创建新的代码 %s"
+msgstr "创建新的 Notebook  %s"
 
 #: notebook/static/tree/js/newnotebook.js:101
 msgid "An error occurred while creating a new notebook."
-msgstr "当创建新的notebook的时候出现一个错误."
+msgstr "当创建新的notebook的时候出现一个错误。"
 
 #: notebook/static/tree/js/notebooklist.js:154
 msgid "Creating File Failed"
@@ -1811,7 +1811,7 @@ msgstr "创建文件夹失败"
 
 #: notebook/static/tree/js/notebooklist.js:176
 msgid "An error occurred while creating a new folder."
-msgstr "创建新文件夹的时候出现了一个错误."
+msgstr "创建新文件夹的时候出现了一个错误。"
 
 #: notebook/static/tree/js/notebooklist.js:271
 msgid "Failed to read file"
@@ -1820,32 +1820,32 @@ msgstr "读取文件失败"
 #: notebook/static/tree/js/notebooklist.js:272
 #, python-format
 msgid "Failed to read file %s"
-msgstr "读取代码文件 %s 失败了."
+msgstr "读取代码文件 %s 失败了。"
 
 
 #: notebook/static/tree/js/notebooklist.js:283
 #, python-format
 msgid "The file size is %d MB. Do you still want to upload it?"
-msgstr "文件大小为 %d MB, 还想上传么?"
+msgstr "文件大小为 %d MB，还想上传么？"
 
 
 #: notebook/static/tree/js/notebooklist.js:286
 msgid "Large file size warning"
-msgstr "请注意文件大小..."
+msgstr "请注意文件大小…"
 
 
 #: notebook/static/tree/js/notebooklist.js:355
 msgid "Server error: "
-msgstr "服务出现错误:"
+msgstr "服务出现错误："
 
 #: notebook/static/tree/js/notebooklist.js:380
 msgid "The notebook list is empty."
-msgstr "代码列表为空, 请添加代码."
+msgstr "Notebook 列表为空，请添加 Notebook。"
 
 
 #: notebook/static/tree/js/notebooklist.js:453
 msgid "Click here to rename, delete, etc."
-msgstr "点击进行操作."
+msgstr "点击进行操作。"
 
 
 #: notebook/static/tree/js/notebooklist.js:493
@@ -1854,17 +1854,17 @@ msgstr "运行"
 
 #: notebook/static/tree/js/notebooklist.js:839
 msgid "Enter a new file name:"
-msgstr "请输入一个新的文件名:"
+msgstr "请输入一个新的文件名："
 
 
 #: notebook/static/tree/js/notebooklist.js:840
 msgid "Enter a new directory name:"
-msgstr "请输入一个新的路径:"
+msgstr "请输入一个新的路径："
 
 
 #: notebook/static/tree/js/notebooklist.js:842
 msgid "Enter a new name:"
-msgstr "请输入新名字:"
+msgstr "请输入新名字："
 
 
 #: notebook/static/tree/js/notebooklist.js:847
@@ -1886,7 +1886,7 @@ msgstr "移动"
 
 #: notebook/static/tree/js/notebooklist.js:879
 msgid "An error occurred while renaming \"%1$s\" to \"%2$s\"."
-msgstr "当把 \"%1$s\" 重命名为 \"%2$s\" 时出现错误."
+msgstr "当把 \"%1$s\" 重命名为 \"%2$s\" 时出现错误。"
 
 #: notebook/static/tree/js/notebooklist.js:882
 msgid "Rename Failed"
@@ -1908,7 +1908,7 @@ msgstr[1] "移动 %d 个代码文件"
 
 #: notebook/static/tree/js/notebooklist.js:963
 msgid "An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\"."
-msgstr "当把 \"%1$s\" 从 \"%2$s\" 移动到 \"%3$s\" 时出现错误."
+msgstr "当把 \"%1$s\" 从 \"%2$s\" 移动到 \"%3$s\" 时出现错误。"
 
 #: notebook/static/tree/js/notebooklist.js:965
 msgid "Move Failed"
@@ -1924,7 +1924,7 @@ msgstr[1] "删除不可恢复: 选择 %d 文件, 确定删除?"
 #: notebook/static/tree/js/notebooklist.js:1039
 #, python-format
 msgid "An error occurred while deleting \"%s\"."
-msgstr "当删除 \"%s\" 时, 出现错误."
+msgstr "当删除 \"%s\" 时，出现错误。"
 
 #: notebook/static/tree/js/notebooklist.js:1041
 msgid "Delete Failed"
@@ -1944,7 +1944,7 @@ msgstr "复制"
 #: notebook/static/tree/js/notebooklist.js:1103
 #, python-format
 msgid "An error occurred while duplicating \"%s\"."
-msgstr "当复制\"%s\" 时出现错误."
+msgstr "当复制\"%s\" 时出现错误。"
 
 #: notebook/static/tree/js/notebooklist.js:1105
 msgid "Duplicate Failed"
@@ -1960,7 +1960,7 @@ msgstr "无效的文件名"
 
 #: notebook/static/tree/js/notebooklist.js:1335
 msgid "File names must be at least one character and not start with a period"
-msgstr "文件名不能为空...并且不能以句号开始,除下划线以外的符号都不能开头..."
+msgstr "文件名不能为空…并且不能以句号开始,除下划线以外的符号都不能开头…"
 
 #: notebook/static/tree/js/notebooklist.js:1364
 msgid "Cannot upload invalid Notebook"
@@ -1969,7 +1969,7 @@ msgstr "无法上传无效的Notebook"
 #: notebook/static/tree/js/notebooklist.js:1397
 #, python-format
 msgid "There is already a file named \"%s\". Do you want to replace it?"
-msgstr "文件名已经存在 \"%s\", 需要替换现有文件?"
+msgstr "文件名已经存在 \"%s\"，需要替换现有文件？"
 
 #: notebook/static/tree/js/notebooklist.js:1399
 msgid "Replace file"

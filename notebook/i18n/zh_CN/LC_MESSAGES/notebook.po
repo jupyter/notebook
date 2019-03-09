@@ -23,12 +23,12 @@ msgstr "该程序要求 tornado 版本 >= 4.0"
 
 #: notebook/notebookapp.py:53
 msgid "The Jupyter Notebook requires tornado >= 4.0, but you have < 1.1.0"
-msgstr "该程序要求 tornado 版本 >= 4.0, 可是现实却是 < 1.1.0"
+msgstr "该程序要求 tornado 版本 >= 4.0, 可实际却是 < 1.1.0"
 
 #: notebook/notebookapp.py:55
 #, python-format
 msgid "The Jupyter Notebook requires tornado >= 4.0, but you have %s"
-msgstr "该程序要求 tornado 版本 >= 4.0, 可是现实却是 %s"
+msgstr "该程序要求 tornado 版本 >= 4.0, 可实际却是 %s"
 
 #: notebook/notebookapp.py:205
 msgid "The `ignore_minified_js` flag is deprecated and no longer works."
@@ -37,7 +37,7 @@ msgstr ""
 #: notebook/notebookapp.py:206
 #, python-format
 msgid "Alternatively use `%s` when working on the notebook's Javascript and LESS"
-msgstr "在使用notebook的JavaScript和LESS时，可以替换使用 `%s` "
+msgstr "在使用 Notebook 的 JavaScript 和 LESS 时，可以替换使用 `%s` "
 
 #: notebook/notebookapp.py:207
 msgid "The `ignore_minified_js` flag is deprecated and will be removed in Notebook 6.0"
@@ -45,11 +45,11 @@ msgstr ""
 
 #: notebook/notebookapp.py:385
 msgid "List currently running notebook servers."
-msgstr "列出当前运行的Notebook服务."
+msgstr "列出当前运行的Notebook服务。"
 
 #: notebook/notebookapp.py:389
 msgid "Produce machine-readable JSON list output."
-msgstr "生成机器可读的JSON输出."
+msgstr "生成机器可读的JSON输出。"
 
 #: notebook/notebookapp.py:391
 msgid "Produce machine-readable JSON object on each line of output."
@@ -61,11 +61,11 @@ msgstr "如果是正确的，输出将是一个对象的JSON列表，一个活�
 
 #: notebook/notebookapp.py:399
 msgid "If True, each line of output will be a JSON object with the details from the server info file. For a JSON list output, see the NbserverListApp.jsonlist configuration value"
-msgstr "如果是正确的，每一行输出将是一个JSON对象，其中有来自服务器信息文件的详细信息。对于一个JSON列表输出，请参阅NbserverListApp。jsonlist配置值"
+msgstr "如果是正确的，每一行输出将是一个JSON对象，其中有来自服务器信息文件的详细信息。对于一个JSON列表输出，请参阅 NbserverListApp.jsonlist 配置值"
 
 #: notebook/notebookapp.py:425
 msgid "Don't open the notebook in a browser after startup."
-msgstr "在启动服务以后不在浏览器中打开一个窗口."
+msgstr "在启动服务以后不在浏览器中打开一个窗口。"
 
 #: notebook/notebookapp.py:429
 msgid "DISABLED: use %pylab or %matplotlib in the notebook to enable matplotlib."
@@ -73,7 +73,7 @@ msgstr ""
 
 #: notebook/notebookapp.py:445
 msgid "Allow the notebook to be run from root user."
-msgstr "允许notebook在root用户下运行."
+msgstr "允许notebook在root用户下运行。"
 
 #: notebook/notebookapp.py:476
 msgid ""
@@ -92,7 +92,7 @@ msgstr "设置Access-Control-Allow-Credentials:true报头"
 
 #: notebook/notebookapp.py:550
 msgid "Whether to allow the user to run the notebook as root."
-msgstr "是否允许notebook在root用户下运行."
+msgstr "是否允许notebook在root用户下运行。"
 
 #: notebook/notebookapp.py:554
 msgid "The default URL to redirect to from `/`"
@@ -100,43 +100,43 @@ msgstr "从 `/` 重定向到的默认URL "
 
 #: notebook/notebookapp.py:558
 msgid "The IP address the notebook server will listen on."
-msgstr "notebook服务会监听的IP地址."
+msgstr "notebook服务会监听的IP地址。"
 
 #: notebook/notebookapp.py:571
 #, python-format
 msgid ""
 "Cannot bind to localhost, using 127.0.0.1 as default ip\n"
 "%s"
-msgstr "不能绑定到localhost, 使用127.0.0.1作为默认的IP \n %s"
+msgstr "不能绑定到localhost，使用127.0.0.1作为默认的IP \n %s"
 
 #: notebook/notebookapp.py:585
 msgid "The port the notebook server will listen on."
-msgstr "notebook服务会监听的IP端口."
+msgstr "Notebook 服务会监听的IP端口。"
 
 #: notebook/notebookapp.py:589
 msgid "The number of additional ports to try if the specified port is not available."
-msgstr "如果指定的端口不可用，则要尝试其他端口的数量."
+msgstr "如果指定的端口不可用，则要尝试其他端口的数量。"
 
 #: notebook/notebookapp.py:593
 msgid "The full path to an SSL/TLS certificate file."
-msgstr "SSL/TLS 认证文件所在全路径."
+msgstr "SSL/TLS 证书的完整路径。"
 
 #: notebook/notebookapp.py:597
 msgid "The full path to a private key file for usage with SSL/TLS."
-msgstr "SSL/TLS 私钥文件所在全路径."
+msgstr "SSL/TLS 私钥文件的完整路径。"
 
 #: notebook/notebookapp.py:601
 msgid "The full path to a certificate authority certificate for SSL/TLS client authentication."
-msgstr "用于ssl/tls客户端身份验证的证书颁发证书的完整路径."
+msgstr "用于 SSL/TLS 客户端身份验证的证书颁发证书的完整路径。"
 
 #: notebook/notebookapp.py:605
 msgid "The file where the cookie secret is stored."
-msgstr "存放cookie密钥的文件被保存了."
+msgstr "存放 cookie 密钥的文件被保存了。"
 
 #: notebook/notebookapp.py:634
 #, python-format
 msgid "Writing notebook server cookie secret to %s"
-msgstr "把notebook 服务cookie密码写入 %s"
+msgstr "把 Notebook 服务cookie密码写入 %s"
 
 #: notebook/notebookapp.py:641
 #, python-format
@@ -305,28 +305,28 @@ msgstr ""
 
 #: notebook/notebookapp.py:1001
 msgid "The directory to use for notebooks and kernels."
-msgstr "用于笔记本和内核的目录。"
+msgstr "用于 Notebook 和内核的目录。"
 
 #: notebook/notebookapp.py:1024
 #, python-format
 msgid "No such notebook dir: '%r'"
-msgstr "没有找到路径: '%r' "
+msgstr "没有找到路径：'%r' "
 
 #: notebook/notebookapp.py:1037
 msgid "DEPRECATED use the nbserver_extensions dict instead"
-msgstr "不赞成使用nbserverextensions"
+msgstr "不赞成使用 nbserverextensions"
 
 #: notebook/notebookapp.py:1042
 msgid "server_extensions is deprecated, use nbserver_extensions"
-msgstr "服务器扩展被弃用，使用nbserverextensions"
+msgstr "服务器扩展被弃用，使用 nbserver_extensions"
 
 #: notebook/notebookapp.py:1046
 msgid "Dict of Python modules to load as notebook server extensions.Entry values can be used to enable and disable the loading ofthe extensions. The extensions will be loaded in alphabetical order."
-msgstr "将Python模块作为笔记本服务器扩展加载。可以使用条目值来启用和禁用扩展的加载。这些扩展将以字母顺序加载。"
+msgstr "将 Python 模块作为笔记本服务器扩展加载。可以使用条目值来启用和禁用扩展的加载。这些扩展将以字母顺序加载。"
 
 #: notebook/notebookapp.py:1055
 msgid "Reraise exceptions encountered loading server extensions?"
-msgstr "重新运行的异常会遇到加载服务器扩展吗?"
+msgstr "重新运行的异常会遇到加载服务器扩展吗？"
 
 #: notebook/notebookapp.py:1058
 msgid ""
@@ -346,7 +346,7 @@ msgstr ""
 msgid ""
 "(sec) Time window used to \n"
 "        check the message and data rate limits."
-msgstr "(sec)时间窗口被用来 \n 检查消息和数据速率限制."
+msgstr "(sec)时间窗口被用来 \n 检查消息和数据速率限制。"
 
 #: notebook/notebookapp.py:1077
 #, python-format
@@ -355,11 +355,11 @@ msgstr "找不到文件或文件夹: %s"
 
 #: notebook/notebookapp.py:1147
 msgid "Notebook servers are configured to only be run with a password."
-msgstr "服务设置为只能使用密码运行."
+msgstr "服务设置为只能使用密码运行。"
 
 #: notebook/notebookapp.py:1148
 msgid "Hint: run the following command to set a password"
-msgstr "提示: 运行下面命令设置密码"
+msgstr "提示：运行下面命令设置密码"
 
 #: notebook/notebookapp.py:1149
 msgid "\t$ python -m notebook.auth password"
@@ -368,7 +368,7 @@ msgstr ""
 #: notebook/notebookapp.py:1187
 #, python-format
 msgid "The port %i is already in use, trying another port."
-msgstr "端口 %i 已经被站用, 请尝试其他端口."
+msgstr "端口 %i 已经被站用，请尝试其他端口。"
 
 #: notebook/notebookapp.py:1190
 #, python-format
@@ -377,7 +377,7 @@ msgstr "监听端口 %i 失败"
 
 #: notebook/notebookapp.py:1199
 msgid "ERROR: the notebook server could not be started because no available port could be found."
-msgstr "错误: 服务启动失败因为没有找到可用的端口. "
+msgstr "错误：服务启动失败因为没有找到可用的端口。"
 
 #: notebook/notebookapp.py:1205
 msgid "[all ip addresses on your system]"
@@ -386,7 +386,7 @@ msgstr "[系统所有IP地址]"
 #: notebook/notebookapp.py:1229
 #, python-format
 msgid "Terminals not available (error was %s)"
-msgstr "终端不可用(错误: %s)"
+msgstr "终端不可用（错误：%s）"
 
 #: notebook/notebookapp.py:1265
 msgid "interrupted"
@@ -415,12 +415,12 @@ msgstr "5s 未响应"
 
 #: notebook/notebookapp.py:1280
 msgid "resuming operation..."
-msgstr "重启操作..."
+msgstr "重启操作…"
 
 #: notebook/notebookapp.py:1288
 #, python-format
 msgid "received signal %s, stopping"
-msgstr "接受信号 %s, 正在停止"
+msgstr "接受信号 %s，正在停止"
 
 #: notebook/notebookapp.py:1344
 #, python-format
@@ -446,24 +446,24 @@ msgstr[1] "%d 活跃的服务"
 msgid ""
 "The Jupyter Notebook is running at:\n"
 "%s"
-msgstr "本程序运行在: %s"
+msgstr "本程序运行在：%s"
 
 #: notebook/notebookapp.py:1434
 msgid "Running as root is not recommended. Use --allow-root to bypass."
-msgstr "不建议以root身份运行.使用--allow-root绕过过."
+msgstr "不建议以 root 身份运行。使用 --allow-root 绕过。"
 
 #: notebook/notebookapp.py:1440
 msgid "Use Control-C to stop this server and shut down all kernels (twice to skip confirmation)."
-msgstr "使用control-c停止此服务器并关闭所有内核(两次跳过确认)."
+msgstr "使用 control-c 停止此服务器并关闭所有内核（两次跳过确认）。"
 
 #: notebook/notebookapp.py:1442
 msgid "Welcome to Project Jupyter! Explore the various tools available and their corresponding documentation. If you are interested in contributing to the platform, please visit the communityresources section at http://jupyter.org/community.html."
-msgstr "欢迎来到项目Jupyter! 探索可用的各种工具及其相应的文档. 如果你有兴趣对这个平台,请访问http://jupyter.org/community.html community resources部分."
+msgstr "欢迎来到项目 Jupyter！探索可用的各种工具及其相应的文档。如果你对这个平台有兴趣，请访问http://jupyter.org/community.html community resources部分。"
 
 #: notebook/notebookapp.py:1453
 #, python-format
 msgid "No web browser found: %s."
-msgstr "没有找到web浏览器: %s."
+msgstr "没有找到网络浏览器：%s。"
 
 #: notebook/notebookapp.py:1458
 #, python-format
@@ -472,12 +472,12 @@ msgstr "%s 不存在"
 
 #: notebook/notebookapp.py:1492
 msgid "Interrupted..."
-msgstr "已经中断..."
+msgstr "已经中断…"
 
 #: notebook/services/contents/filemanager.py:525
 #, python-format
 msgid "Serving notebooks from local directory: %s"
-msgstr "启动notebooks 在本地路径: %s"
+msgstr "在本地路径：%s 启动 Notebook"
 
 #: notebook/services/contents/manager.py:69
 msgid "Untitled"
