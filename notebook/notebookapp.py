@@ -75,7 +75,7 @@ from notebook import (
 
 from .base.handlers import Template404, RedirectWithParams
 from .log import log_request
-from .services.kernels.kernelmanager import MappingKernelManager
+from .services.kernels.kernelmanager import MappingKernelManager, AsyncMappingKernelManager, MappingKernelManagerBase
 from .services.config import ConfigManager
 from .services.contents.manager import ContentsManager
 from .services.contents.filemanager import FileContentsManager
@@ -1177,6 +1177,7 @@ class NotebookApp(JupyterApp):
 
     kernel_manager_class = Type(
         default_value=MappingKernelManager,
+        klass=MappingKernelManagerBase,
         config=True,
         help=_('The kernel manager class to use.')
     )
@@ -1380,6 +1381,13 @@ class NotebookApp(JupyterApp):
             connection_dir=self.runtime_dir,
             kernel_spec_manager=self.kernel_spec_manager,
         )
+        #  Ensure the appropriate jupyter_client is in place.
+        #  TODO: remove once dependencies are updated.
+        if isinstance(self.kernel_manager, AsyncMappingKernelManager):
+            if not hasattr(self.kernel_manager, 'list_kernel_ids'):
+                raise RuntimeError("Using `AsyncMappingKernelManager` without an appropriate "
+                                   "jupyter_client installed!  Upgrade jupyter_client and try again.")
+
         self.contents_manager = self.contents_manager_class(
             parent=self,
             log=self.log,
@@ -1897,8 +1905,8 @@ class NotebookApp(JupyterApp):
             assembled_url = urljoin('file:', pathname2url(open_file))
         else:
             assembled_url = url_path_join(self.connection_url, uri)
-        
-        b = lambda: browser.open(assembled_url, new=self.webbrowser_open_new)                            
+
+        b = lambda: browser.open(assembled_url, new=self.webbrowser_open_new)
         threading.Thread(target=b).start()
 
     def start(self):

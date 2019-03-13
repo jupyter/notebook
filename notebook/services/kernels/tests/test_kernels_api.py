@@ -8,11 +8,18 @@ from traitlets.config import Config
 from tornado.httpclient import HTTPRequest
 from tornado.ioloop import IOLoop
 from tornado.websocket import websocket_connect
+from unittest import SkipTest
 
 from jupyter_client.kernelspec import NATIVE_KERNEL_NAME
 
 from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
+
+try:
+    from jupyter_client import AsyncMultiKernelManager
+    async_testing_enabled = True
+except ImportError:
+    async_testing_enabled = False
 
 
 class KernelAPI(object):
@@ -186,6 +193,27 @@ class KernelAPITest(NotebookTestBase):
                 break
         model = self.kern_api.get(kid).json()
         self.assertEqual(model['connections'], 0)
+
+
+class AsyncKernelAPITest(KernelAPITest):
+    """Test the kernels web service API using the AsyncMappingKernelManager"""
+
+    @classmethod
+    def get_argv(cls):
+        argv = super(AsyncKernelAPITest, cls).get_argv()
+
+        # before we extend the argv with the class, ensure that appropriate jupyter_client is available.
+        # if not available, don't set kernel_manager_class, resulting in the repeat of sync-based tests.
+        if async_testing_enabled:
+            argv.extend(['--NotebookApp.kernel_manager_class='
+                        'notebook.services.kernels.kernelmanager.AsyncMappingKernelManager'])
+        return argv
+
+    def setUp(self):
+        if not async_testing_enabled:
+            raise SkipTest("AsyncKernelAPITest.{test_method} skipped due to down-level jupyter_client!".
+                           format(test_method=self._testMethodName))
+        super(AsyncKernelAPITest, self).setUp()
 
 
 class KernelFilterTest(NotebookTestBase):
