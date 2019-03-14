@@ -1,5 +1,5 @@
 """Tests shutdown of the Kernel."""
-from utils import wait_for_selector, wait_for_xpath
+from .utils import wait_for_selector, wait_for_xpath
 
 def test_shutdown(notebook):
     notebook.edit_cell(content="print(21)")
