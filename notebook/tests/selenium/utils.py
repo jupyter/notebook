@@ -13,21 +13,28 @@ from contextlib import contextmanager
 pjoin = os.path.join
 
 
-def wait_for_selector(driver, selector, timeout=10, visible=False, single=False, wait_for_n=1):
+def wait_for_selector(driver, selector, timeout=10, visible=False, single=False, wait_for_n=1, obscures=False):
     if wait_for_n > 1:
         return _wait_for_multiple(
             driver, By.CSS_SELECTOR, selector, timeout, wait_for_n, visible)
-    return _wait_for(driver, By.CSS_SELECTOR, selector, timeout, visible, single)
+    return _wait_for(driver, By.CSS_SELECTOR, selector, timeout, visible, single, obscures)
 
 
-def wait_for_tag(driver, tag, timeout=10, visible=False, single=False, wait_for_n=1):
+def wait_for_tag(driver, tag, timeout=10, visible=False, single=False, wait_for_n=1, obscures=False):
     if wait_for_n > 1:
         return _wait_for_multiple(
             driver, By.TAG_NAME, tag, timeout, wait_for_n, visible)
-    return _wait_for(driver, By.TAG_NAME, tag, timeout, visible, single)
+    return _wait_for(driver, By.TAG_NAME, tag, timeout, visible, single, obscures)
 
 
-def _wait_for(driver, locator_type, locator, timeout=10, visible=False, single=False):
+def wait_for_xpath(driver, xpath, timeout=10, visible=False, single=False, wait_for_n=1, obscures=False):
+    if wait_for_n > 1:
+        return _wait_for_multiple(
+            driver, By.XPATH, xpath, timeout, wait_for_n, visible)
+    return _wait_for(driver, By.XPATH, xpath, timeout, visible, single, obscures)
+
+
+def _wait_for(driver, locator_type, locator, timeout=10, visible=False, single=False, obscures=False):
     """Waits `timeout` seconds for the specified condition to be met. Condition is
     met if any matching element is found. Returns located element(s) when found.
 
@@ -39,9 +46,12 @@ def _wait_for(driver, locator_type, locator, timeout=10, visible=False, single=F
         visible: if True, require that element is not only present, but visible
         single: if True, return a single element, otherwise return a list of matching
         elements
+        osbscures: if True, waits until the element becomes invisible
     """
     wait = WebDriverWait(driver, timeout)
-    if single:
+    if obscures:
+        conditional = EC.invisibility_of_element_located
+    elif single:
         if visible:
             conditional = EC.visibility_of_element_located
         else:
@@ -195,12 +205,18 @@ class Notebook:
         wait = WebDriverWait(self.browser, 10)
         element = wait.until(EC.staleness_of(cell))
 
+    def wait_for_element_availability(self, element):
+        _wait_for(self.browser, By.CLASS_NAME, element, visible=True)
+
     def get_cells_contents(self):
         JS = 'return Jupyter.notebook.get_cells().map(function(c) {return c.get_text();})'
         return self.browser.execute_script(JS)
 
     def get_cell_contents(self, index=0, selector='div .CodeMirror-code'):
         return self.cells[index].find_element_by_css_selector(selector).text
+
+    def get_cell_output(self, index=0, output='output_subarea'):
+        return self.cells[index].find_elements_by_class_name(output)
 
     def set_cell_metadata(self, index, key, value):
         JS = 'Jupyter.notebook.get_cell({}).metadata.{} = {}'.format(index, key, value)
@@ -282,6 +298,9 @@ class Notebook:
 
     def trigger_keydown(self, keys):
         trigger_keystrokes(self.body, keys)
+    
+    def is_kernel_running(self):
+        return self.browser.execute_script("return Jupyter.notebook.kernel.is_connected()")
 
     @classmethod
     def new_notebook(cls, browser, kernel_name='kernel-python3'):
