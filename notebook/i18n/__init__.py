@@ -47,7 +47,7 @@ def parse_accept_lang_header(accept_lang):
         by_q[qvalue].append(lang)
         if '_' in lang:
             short = lang.split('_')[0]
-            if not short in by_q[qvalue]:
+            if short != 'en':
                 by_q[qvalue].append(short)
 
     res = []
