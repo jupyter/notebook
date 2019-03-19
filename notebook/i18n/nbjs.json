@@ -3,6 +3,7 @@
 	"supported_languages": [
 		"fr-FR",
 		"zh-CN",
+		"ja",
 		"nl"
 	],
 	"locale_data": {
