@@ -157,6 +157,9 @@ msgstr "コピーを作る..."
 msgid "Rename..."
 msgstr "リネーム..."
 
+msgid "Save as..."
+msgstr "名前を付けて保存..."
+
 #: notebook/templates/notebook.html:93
 msgid "Save and Checkpoint"
 msgstr "保存とチェックポイント"

@@ -49,11 +49,11 @@ msgstr "現在起動中のノートブックサーバーの一覧"
 
 #: notebook/notebookapp.py:393
 msgid "Produce machine-readable JSON output."
-msgstr ""
+msgstr "機械で読み込み可能な JSON 出力。"
 
 #: notebook/notebookapp.py:397
 msgid "If True, each line of output will be a JSON object with the details from the server info file."
-msgstr ""
+msgstr "True の場合、出力の各行はサーバー情報ファイルからの詳細情報を含む JSON オブジェクトになります。"
 
 #: notebook/notebookapp.py:402
 msgid "Currently running servers:"
@@ -65,11 +65,11 @@ msgstr "起動後にブラウザでノートブックを開かない。"
 
 #: notebook/notebookapp.py:423
 msgid "DISABLED: use %pylab or %matplotlib in the notebook to enable matplotlib."
-msgstr ""
+msgstr "無効: matplotlib を有効にするにはノートブックで %pylab または %matplotlib を使用して下さい。"
 
 #: notebook/notebookapp.py:439
 msgid "Allow the notebook to be run from root user."
-msgstr ""
+msgstr "ノートブックをrootユーザーから実行できるようにする。"
 
 #: notebook/notebookapp.py:470
 msgid ""
@@ -77,26 +77,29 @@ msgid ""
 "    \n"
 "    This launches a Tornado based HTML Notebook Server that serves up an HTML5/Javascript Notebook client."
 msgstr ""
+"The Jupyter HTML Notebook.\n"
+"    \n"
+"    HTML5/Javascript Notebook クライアントを提供する Tornado ベースの HTML Notebook サーバーを起動します。"
 
 #: notebook/notebookapp.py:509
 msgid "Deprecated: Use minified JS file or not, mainly use during dev to avoid JS recompilation"
-msgstr ""
+msgstr "非推奨: 圧縮された JS ファイルを使用するかどうか。主に開発中に JS が再コンパイルされるのを回避するために使用します。"
 
 #: notebook/notebookapp.py:540
 msgid "Set the Access-Control-Allow-Credentials: true header"
-msgstr ""
+msgstr "Access-Control-Allow-Credentials: true ヘッダーを設定します。"
 
 #: notebook/notebookapp.py:544
 msgid "Whether to allow the user to run the notebook as root."
-msgstr ""
+msgstr "ユーザーがノートブックを root として実行できるようにするかどうか。"
 
 #: notebook/notebookapp.py:548
 msgid "The default URL to redirect to from `/`"
-msgstr ""
+msgstr "`/` からリダイレクトされるデフォルトの URL"
 
 #: notebook/notebookapp.py:552
 msgid "The IP address the notebook server will listen on."
-msgstr ""
+msgstr "ノートブックサーバが待ち受ける IP アドレス。"
 
 #: notebook/notebookapp.py:565
 #, python-format
@@ -104,40 +107,42 @@ msgid ""
 "Cannot bind to localhost, using 127.0.0.1 as default ip\n"
 "%s"
 msgstr ""
+"localhost でバインドできません。デフォルト IP アドレスとして 127.0.0.1 を使用します\n"
+"%s"
 
 #: notebook/notebookapp.py:579
 msgid "The port the notebook server will listen on."
-msgstr ""
+msgstr "ノートブックサーバが待ち受けするポート番号。"
 
 #: notebook/notebookapp.py:583
 msgid "The number of additional ports to try if the specified port is not available."
-msgstr ""
+msgstr "指定されたポートが利用できない場合に試す追加のポートの数。"
 
 #: notebook/notebookapp.py:587
 msgid "The full path to an SSL/TLS certificate file."
-msgstr ""
+msgstr "SSL/TLS 証明書ファイルへの完全なパス。"
 
 #: notebook/notebookapp.py:591
 msgid "The full path to a private key file for usage with SSL/TLS."
-msgstr ""
+msgstr "SSL/TLS で使用する秘密鍵ファイルへの完全なパス。"
 
 #: notebook/notebookapp.py:595
 msgid "The full path to a certificate authority certificate for SSL/TLS client authentication."
-msgstr ""
+msgstr "SSL/TLS クライアント認証用の認証局証明書への完全なパス。"
 
 #: notebook/notebookapp.py:599
 msgid "The file where the cookie secret is stored."
-msgstr ""
+msgstr "cookie secret を保存するファイル。"
 
 #: notebook/notebookapp.py:628
 #, python-format
 msgid "Writing notebook server cookie secret to %s"
-msgstr ""
+msgstr "ノートブックサーバは cookie secret を %s に書き込みます"
 
 #: notebook/notebookapp.py:635
 #, python-format
 msgid "Could not set permissions on %s"
-msgstr ""
+msgstr "%s の権限を設定出来ませんでした"
 
 #: notebook/notebookapp.py:640
 msgid ""
@@ -149,6 +154,13 @@ msgid ""
 "        Setting to an empty string disables authentication altogether, which is NOT RECOMMENDED.\n"
 "        "
 msgstr ""
+"サーバに接続する際に初回の認証に使われるトークン。\n"
+"\n"
+"        パスワード無しが有効になっている場合\n"
+"        デフォルト値はランダムなトークンが新しく生成されます。\n"
+"\n"
+"        空の文字列に設定すると認証が完全に無効になります。これは推奨されていません。\n"
+"        "
 
 #: notebook/notebookapp.py:650
 msgid ""
@@ -156,6 +168,9 @@ msgid ""
 "        Once used, this token cannot be used again.\n"
 "        "
 msgstr ""
+"開いたブラウザが仕様するワンタイムトークン。\n"
+"        1度使用されると再度使用する事が出来ません。\n"
+"        "
 
 #: notebook/notebookapp.py:726
 msgid ""
@@ -169,20 +184,31 @@ msgid ""
 "        See the `webbrowser.open` documentation for details.\n"
 "        "
 msgstr ""
+"起動時にどこでノートブックを開くかを指定します。これは\n"
+"        標準ライブラリのメソッド `webbrowser.open` の引数 `new` に渡されます。\n"
+"        動作は保証されていませんがブラウザのサポートによって異なります。\n"
+"        有効な値::\n"
+"            2 新しいタブで開く\n"
+"            1 新しいウィンドウで開く\n"
+"            0 既にあるウィンドウで開く\n"
+"        詳細は `webbrowser.open` のドキュメントを参照。\n"
+"        "
 
 #: notebook/notebookapp.py:737
 msgid "DEPRECATED, use tornado_settings"
-msgstr ""
+msgstr "非推奨 tornado_settings の使用"
 
 #: notebook/notebookapp.py:742
 msgid ""
 "\n"
 "    webapp_settings is deprecated, use tornado_settings.\n"
 msgstr ""
+"\n"
+"    webapp_settings は非推奨です。tornado_settings を使って下さい。\n"
 
 #: notebook/notebookapp.py:746
 msgid "Supply overrides for the tornado.web.Application that the Jupyter notebook uses."
-msgstr ""
+msgstr "Jupyterノートブックが使用する tornado.web.Application のオーバーライドを指定します。"
 
 #: notebook/notebookapp.py:750
 msgid ""
@@ -196,40 +222,51 @@ msgid ""
 "        See the tornado docs for WebSocketHandler.get_compression_options for details.\n"
 "        "
 msgstr ""
+"\n"
+"        tornado の websocket 接続の圧縮オプションを指定します。\n"
+"\n"
+"        この値は :meth:`WebSocketHandler.get_compression_options` から返されます。\n"
+"        None (default) の場合は圧縮は無効になります。\n"
+"        辞書 (空でも良い) の場合は圧縮が有効になります。\n"
+"\n"
+"        詳細は tornado の WebSocketHandler.get_compression_options のドキュメントを参照。\n"
+"        "
 
 #: notebook/notebookapp.py:761
 msgid "Supply overrides for terminado. Currently only supports \"shell_command\"."
-msgstr ""
+msgstr "terminado のオーバーライドを指定します。現時は \"shell_command \" のみをサポートしています。"
 
 #: notebook/notebookapp.py:764
 msgid "Extra keyword arguments to pass to `set_secure_cookie`. See tornado's set_secure_cookie docs for details."
-msgstr ""
+msgstr "`set_secure_cookie` に渡す追加のキーワード引数。詳細は tornado の set_secure_cookie のドキュメントを参照。"
 
 #: notebook/notebookapp.py:768
 msgid ""
 "Supply SSL options for the tornado HTTPServer.\n"
 "            See the tornado docs for details."
 msgstr ""
+"tornado HTTPServer の SSL オプションを指定します。\n"
+"            詳しくは tornado のドキュメントを参照。"
 
 #: notebook/notebookapp.py:772
 msgid "Supply extra arguments that will be passed to Jinja environment."
-msgstr ""
+msgstr "Jinja environment に渡される追加の引数を指定します。"
 
 #: notebook/notebookapp.py:776
 msgid "Extra variables to supply to jinja templates when rendering."
-msgstr ""
+msgstr "jinja テンプレートがレンダリングする際に渡される追加の変数。"
 
 #: notebook/notebookapp.py:812
 msgid "DEPRECATED use base_url"
-msgstr ""
+msgstr "非推奨 base_url の使用"
 
 #: notebook/notebookapp.py:816
 msgid "base_project_url is deprecated, use base_url"
-msgstr ""
+msgstr "base_project_url は非推奨です。base_url を使用して下さい。"
 
 #: notebook/notebookapp.py:832
 msgid "Path to search for custom.js, css"
-msgstr ""
+msgstr "custom.js、CSS を検索するためのパス"
 
 #: notebook/notebookapp.py:844
 msgid ""
@@ -237,52 +274,55 @@ msgid ""
 "\n"
 "        Can be used to override templates from notebook.templates."
 msgstr ""
+"Jinja テンプレートを探す為の追加パス。\n"
+"\n"
+"        notebook.templates を上書きする為に使う事が出来ます。"
 
 #: notebook/notebookapp.py:855
 msgid "extra paths to look for Javascript notebook extensions"
-msgstr ""
+msgstr "Javascript ノートブック拡張への追加パス"
 
 #: notebook/notebookapp.py:900
 #, python-format
 msgid "Using MathJax: %s"
-msgstr ""
+msgstr "使用している MathJax: %s"
 
 #: notebook/notebookapp.py:903
 msgid "The MathJax.js configuration file that is to be used."
-msgstr ""
+msgstr "使用される MathJax.js 設定ファイル。"
 
 #: notebook/notebookapp.py:908
 #, python-format
 msgid "Using MathJax configuration file: %s"
-msgstr ""
+msgstr "使用する MathJax 設定ファイル: %s"
 
 #: notebook/notebookapp.py:914
 msgid "The notebook manager class to use."
-msgstr ""
+msgstr "ノートブックマネージャのクラス"
 
 #: notebook/notebookapp.py:920
 msgid "The kernel manager class to use."
-msgstr ""
+msgstr "カーネルマネージャのクラス"
 
 #: notebook/notebookapp.py:926
 msgid "The session manager class to use."
-msgstr ""
+msgstr "セッションマネージャのクラス"
 
 #: notebook/notebookapp.py:932
 msgid "The config manager class to use"
-msgstr ""
+msgstr "設定マネージャのクラス"
 
 #: notebook/notebookapp.py:953
 msgid "The login handler class to use."
-msgstr ""
+msgstr "ログインのハンドラクラス"
 
 #: notebook/notebookapp.py:960
 msgid "The logout handler class to use."
-msgstr ""
+msgstr "ログアウトのハンドラクラス"
 
 #: notebook/notebookapp.py:964
 msgid "Whether to trust or not X-Scheme/X-Forwarded-Proto and X-Real-Ip/X-Forwarded-For headerssent by the upstream reverse proxy. Necessary if the proxy handles SSL"
-msgstr ""
+msgstr "X-Scheme/X-Forwarded-Proto および X-Real-Ip/X-Forwarded-For ヘッダーがアップストリームのリバースプロキシによって送信されたことを信頼するかどうか。プロキシが SSL を処理する場合に必要となります。"
 
 #: notebook/notebookapp.py:976
 msgid ""
@@ -290,46 +330,49 @@ msgid ""
 "        DISABLED: use %pylab or %matplotlib in the notebook to enable matplotlib.\n"
 "        "
 msgstr ""
+"\n"
+"        非推奨: matplotlib を有効にするにはノートブックで %pylab または %matplotlib\n"
+"        を実行して下さい。"
 
 #: notebook/notebookapp.py:988
 msgid "Support for specifying --pylab on the command line has been removed."
-msgstr ""
+msgstr "コマンドラインでの --pylab 指定はサポートされなくなりました。"
 
 #: notebook/notebookapp.py:990
 msgid "Please use `%pylab{0}` or `%matplotlib{0}` in the notebook itself."
-msgstr ""
+msgstr "ノートブックの中で `%pylab{0}` または `%matplotlib{0}` を使ってください。"
 
 #: notebook/notebookapp.py:995
 msgid "The directory to use for notebooks and kernels."
-msgstr ""
+msgstr "ノートブックとカーネルが使うディレクトリ。"
 
 #: notebook/notebookapp.py:1018
 #, python-format
 msgid "No such notebook dir: '%r'"
-msgstr ""
+msgstr "ノートブックディレクトリが見つかりません: '%r'"
 
 #: notebook/notebookapp.py:1031
 msgid "DEPRECATED use the nbserver_extensions dict instead"
-msgstr ""
+msgstr "非推奨 nbserver_extensions 辞書を代わりに使用して下さい "
 
 #: notebook/notebookapp.py:1036
 msgid "server_extensions is deprecated, use nbserver_extensions"
-msgstr ""
+msgstr "server_extensions が非推奨です。 nbserver_extensions を使用して下さい。"
 
 #: notebook/notebookapp.py:1040
 msgid "Dict of Python modules to load as notebook server extensions.Entry values can be used to enable and disable the loading ofthe extensions. The extensions will be loaded in alphabetical order."
-msgstr ""
+msgstr "ノートブックサーバー拡張としてロードする Python モジュールの辞書。エントリー値を使用して拡張のロードを有効または無効にすることができます。 拡張子はアルファベット順にロードされます。"
 
 #: notebook/notebookapp.py:1049
 msgid "Reraise exceptions encountered loading server extensions?"
-msgstr ""
+msgstr "サーバーエクステンションの読み込み中に例外が発生しましたか？"
 
 #: notebook/notebookapp.py:1052
 msgid ""
 "(msgs/sec)\n"
 "        Maximum rate at which messages can be sent on iopub before they are\n"
 "        limited."
-msgstr ""
+msgstr "メッセージが送信される前に iopub で送信可能な最大レート。"
 
 #: notebook/notebookapp.py:1056
 msgid ""
@@ -337,12 +380,16 @@ msgid ""
 "        Maximum rate at which stream output can be sent on iopub before they are\n"
 "        limited."
 msgstr ""
+"(bytes/sec)\n"
+"        ストリーム出力が送信制限される前に iopub で送信可能な最大レート。"
 
 #: notebook/notebookapp.py:1060
 msgid ""
 "(sec) Time window used to \n"
 "        check the message and data rate limits."
 msgstr ""
+"(sec) このウィンドウはメッセージとデータの帯域リミット\n"
+"        をチェックする為に使用されます。"
 
 #: notebook/notebookapp.py:1071
 #, python-format
@@ -351,11 +398,11 @@ msgstr "その様なファイルまたはディレクトリは存在しません
 
 #: notebook/notebookapp.py:1141
 msgid "Notebook servers are configured to only be run with a password."
-msgstr ""
+msgstr "ノートブックサーバはパスワードが設定された場合にだけ動作するよう設定されています。"
 
 #: notebook/notebookapp.py:1142
 msgid "Hint: run the following command to set a password"
-msgstr ""
+msgstr "ヒント: パスワードを設定するには以下のコマンドを実行します"
 
 #: notebook/notebookapp.py:1143
 msgid "\t$ python -m notebook.auth password"

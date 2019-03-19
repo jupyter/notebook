@@ -1008,7 +1008,7 @@ msgstr "この操作は取り消せません。"
 
 #: notebook/static/notebook/js/notebook.js:3249
 msgid "The checkpoint was last updated at:"
-msgstr "チェックポイントは更新されました:"
+msgstr "チェックポイントはこの時間に変更されました:"
 
 #: notebook/static/notebook/js/notebook.js:3260
 msgid "Revert notebook to checkpoint"
