@@ -1228,8 +1228,8 @@ msgstr "より詳細を知るにはブラウザの Javascript コンソールを
 
 #: notebook/static/notebook/js/outputarea.js:468
 #, python-format
-msgid "Out[%d]:"
-msgstr "出力[%d]:"
+msgid "Out[%s]:"
+msgstr "出力[%s]:"
 
 #: notebook/static/notebook/js/outputarea.js:577
 #, python-format
