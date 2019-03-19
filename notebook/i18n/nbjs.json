@@ -3,8 +3,8 @@
 	"supported_languages": [
 		"fr-FR",
 		"zh-CN",
-		"ja",
-		"nl"
+		"nl",
+		"ja_JP"
 	],
 	"locale_data": {
 		"nbjs": {
