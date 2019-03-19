@@ -160,6 +160,9 @@ msgstr "リネーム..."
 msgid "Save as..."
 msgstr "名前を付けて保存..."
 
+msgid "Quit"
+msgstr "終了"
+
 #: notebook/templates/notebook.html:93
 msgid "Save and Checkpoint"
 msgstr "保存とチェックポイント"
