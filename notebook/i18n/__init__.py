@@ -46,7 +46,9 @@ def parse_accept_lang_header(accept_lang):
             continue  # 0 means not accepted
         by_q[qvalue].append(lang)
         if '_' in lang:
-            by_q[qvalue].append(lang.split('_')[0])
+            short = lang.split('_')[0]
+            if not short in by_q[qvalue]:
+                by_q[qvalue].append(short)
 
     res = []
     for qvalue, langs in sorted(by_q.items()):
