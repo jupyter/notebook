@@ -356,8 +356,8 @@ def shift(browser, k):
     trigger_keystrokes(browser, "shift-%s"%k)
 
 def ctrl(browser, k):
-    """Send key combination Ctrl+(k)"""
-    trigger_keystrokes(browser, "control-%s"%k)
+    """Send key combination Ctrl+(k) or Command+(k) for MacOS"""
+    trigger_keystrokes(browser, "command-%s"%k) if os.uname()[0] == "Darwin" else trigger_keystrokes(browser, "control-%s"%k)
 
 def trigger_keystrokes(browser, *keys):
     """ Send the keys in sequence to the browser.
