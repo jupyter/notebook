@@ -704,6 +704,9 @@ msgstr "最終変更時刻"
 msgid "Name"
 msgstr "名前"
 
+msgid "File size"
+msgstr "ファイルサイズ"
+
 #: notebook/templates/tree.html:130
 msgid "Currently running Jupyter processes"
 msgstr "現在実行中の Jupyter プロセス一覧"
