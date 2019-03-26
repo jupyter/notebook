@@ -937,7 +937,7 @@ msgstr "このノートブックを信頼しますか？"
 
 #: notebook/static/notebook/js/notebook.js:2981
 msgid "Notebook failed to load"
-msgstr "ノートブックの読み込みでエラーが発生しました"
+msgstr "ノートブックの読み込みに失敗しました"
 
 #: notebook/static/notebook/js/notebook.js:2983
 msgid "The error was: "
