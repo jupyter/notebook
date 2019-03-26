@@ -820,7 +820,7 @@ msgstr "カーネルがビジーです。出力が欠けるかもしれません
 
 #: notebook/static/notebook/js/notebook.js:461
 msgid "This notebook is version %1$s, but we only fully support up to %2$s."
-msgstr "このノートブックのバージョンあｈ %1$s です。しかし完全なサポートは %2$s だけになります。"
+msgstr "このノートブックのバージョンは %1$s です。しかし完全なサポートは %2$s だけになります。"
 
 #: notebook/static/notebook/js/notebook.js:463
 msgid "You can still work with this notebook, but cell and output types introduced in later notebook versions will not be available."
