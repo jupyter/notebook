@@ -996,7 +996,7 @@ msgstr "このノートブックの読み込み中に不明なエラーが発生
 
 #: notebook/static/notebook/js/notebook.js:3142
 msgid "Error loading notebook"
-msgstr "ノートブックの読み込みに失敗"
+msgstr "ノートブックの読み込み中にエラー"
 
 #: notebook/static/notebook/js/notebook.js:3243
 msgid "Are you sure you want to revert the notebook to the latest checkpoint?"
