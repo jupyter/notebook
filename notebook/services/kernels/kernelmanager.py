@@ -342,7 +342,8 @@ class MappingKernelManager(MultiKernelManager):
         channel.on_recv(on_reply)
         loop = IOLoop.current()
         timeout = loop.add_timeout(loop.time() + self.kernel_info_timeout, on_timeout)
-        raise gen.Return(future)
+        # wait for restart to complete
+        yield future
 
     def notify_connect(self, kernel_id):
         """Notice a new connection to a kernel"""
