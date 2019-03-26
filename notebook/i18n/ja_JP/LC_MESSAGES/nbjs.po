@@ -87,7 +87,7 @@ msgstr "添付ファイル"
 
 #: notebook/static/base/js/dialog.js:283
 msgid "Restore"
-msgstr "破棄"
+msgstr "復元"
 
 #: notebook/static/base/js/dialog.js:293
 #: notebook/static/tree/js/notebooklist.js:1018
