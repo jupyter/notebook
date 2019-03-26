@@ -120,11 +120,11 @@ msgstr "Jupyter notebook を使用しています。"
 
 #: notebook/static/notebook/js/about.js:16
 msgid "The version of the notebook server is: "
-msgstr "ノートブックサーバーのバージョン"
+msgstr "ノートブックサーバのバージョン"
 
 #: notebook/static/notebook/js/about.js:22
 msgid "The server is running on this version of Python:"
-msgstr "サーバーはこのバージョンの Python で稼働しています:"
+msgstr "サーバはこのバージョンの Python で稼働しています:"
 
 #: notebook/static/notebook/js/about.js:25
 msgid "Waiting for kernel to be available..."
@@ -132,7 +132,7 @@ msgstr "利用可能なカーネルを待機しています..."
 
 #: notebook/static/notebook/js/about.js:27
 msgid "Server Information:"
-msgstr "サーバー情報:"
+msgstr "サーバ情報:"
 
 #: notebook/static/notebook/js/about.js:29
 msgid "Current Kernel Information:"
@@ -613,11 +613,11 @@ msgstr "現在のノートブックのコピーを作成し開く"
 
 #: notebook/static/notebook/js/actions.js:799
 msgid "trust notebook"
-msgstr "ノートブックを信用"
+msgstr "ノートブックを信頼"
 
 #: notebook/static/notebook/js/actions.js:800
 msgid "Trust the current notebook"
-msgstr "現在のノートブックを信用する"
+msgstr "現在のノートブックを信頼する"
 
 #: notebook/static/notebook/js/actions.js:806
 msgid "rename notebook"
@@ -787,11 +787,11 @@ msgstr "Math/LaTeX レンダリングは無効になります。"
 
 #: notebook/static/notebook/js/menubar.js:220
 msgid "Trusted Notebook"
-msgstr "信用されたノートブック"
+msgstr "信頼されたノートブック"
 
 #: notebook/static/notebook/js/menubar.js:226
 msgid "Trust Notebook"
-msgstr "ノートブックを信用する"
+msgstr "ノートブックを信頼する"
 
 #: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:16
 #: notebook/static/notebook/js/menubar.js:383
@@ -992,7 +992,7 @@ msgstr "(無題)"
 #: notebook/static/notebook/js/notebook.js:3131
 #, python-format
 msgid "An unknown error occurred while loading this notebook. This version can load notebook formats %s or earlier. See the server log for details."
-msgstr "このノートブックの読み込み中に不明なエラーが発生しました。このバージョンはノートブックの形式 %s とそれ以前のバージョンをロードできます。 詳細についてはサーバーのログを参照して下さい。"
+msgstr "このノートブックの読み込み中に不明なエラーが発生しました。このバージョンはノートブックの形式 %s とそれ以前のバージョンをロードできます。 詳細についてはサーバのログを参照して下さい。"
 
 #: notebook/static/notebook/js/notebook.js:3142
 msgid "Error loading notebook"
@@ -1076,7 +1076,7 @@ msgstr "カーネルへの接続がありません"
 
 #: notebook/static/notebook/js/notificationarea.js:161
 msgid "A connection to the notebook server could not be established. The notebook will continue trying to reconnect. Check your network connection or notebook server configuration."
-msgstr "ノートブックサーバーへの接続を確立できませんでした。ノートブックは再接続を試みます。ネットワーク接続またはノートブックサーバーの設定を確認してください。"
+msgstr "ノートブックサーバへの接続を確立できませんでした。ノートブックは再接続を試みます。ネットワーク接続またはノートブックサーバの設定を確認してください。"
 
 #: notebook/static/notebook/js/notificationarea.js:166
 msgid "Connection failed"
@@ -1800,7 +1800,7 @@ msgstr "大きいファイルサイズの警告"
 
 #: notebook/static/tree/js/notebooklist.js:355
 msgid "Server error: "
-msgstr "サーバーエラー:"
+msgstr "サーバエラー:"
 
 #: notebook/static/tree/js/notebooklist.js:390
 msgid "The notebook list is empty."

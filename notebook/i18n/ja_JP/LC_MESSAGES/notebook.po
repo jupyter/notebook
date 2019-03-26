@@ -45,7 +45,7 @@ msgstr "`ignore_minified_js` フラグは非推奨でありノートブック 6.
 
 #: notebook/notebookapp.py:389
 msgid "List currently running notebook servers."
-msgstr "現在起動中のノートブックサーバーの一覧"
+msgstr "現在起動中のノートブックサーバの一覧"
 
 #: notebook/notebookapp.py:393
 msgid "Produce machine-readable JSON output."
@@ -53,7 +53,7 @@ msgstr "機械で読み込み可能な JSON 出力。"
 
 #: notebook/notebookapp.py:397
 msgid "If True, each line of output will be a JSON object with the details from the server info file."
-msgstr "True の場合、出力の各行はサーバー情報ファイルからの詳細情報を含む JSON オブジェクトになります。"
+msgstr "True の場合、出力の各行はサーバ情報ファイルからの詳細情報を含む JSON オブジェクトになります。"
 
 #: notebook/notebookapp.py:402
 msgid "Currently running servers:"
@@ -79,7 +79,7 @@ msgid ""
 msgstr ""
 "The Jupyter HTML Notebook.\n"
 "    \n"
-"    HTML5/Javascript Notebook クライアントを提供する Tornado ベースの HTML Notebook サーバーを起動します。"
+"    HTML5/Javascript Notebook クライアントを提供する Tornado ベースの HTML Notebook サーバを起動します。"
 
 #: notebook/notebookapp.py:509
 msgid "Deprecated: Use minified JS file or not, mainly use during dev to avoid JS recompilation"
@@ -361,11 +361,11 @@ msgstr "server_extensions が非推奨です。 nbserver_extensions を使用し
 
 #: notebook/notebookapp.py:1040
 msgid "Dict of Python modules to load as notebook server extensions.Entry values can be used to enable and disable the loading ofthe extensions. The extensions will be loaded in alphabetical order."
-msgstr "ノートブックサーバー拡張としてロードする Python モジュールの辞書。エントリー値を使用して拡張のロードを有効または無効にすることができます。 拡張子はアルファベット順にロードされます。"
+msgstr "ノートブックサーバ拡張としてロードする Python モジュールの辞書。エントリー値を使用して拡張のロードを有効または無効にすることができます。 拡張子はアルファベット順にロードされます。"
 
 #: notebook/notebookapp.py:1049
 msgid "Reraise exceptions encountered loading server extensions?"
-msgstr "サーバーエクステンションの読み込み中に例外が発生しましたか？"
+msgstr "サーバ拡張の読み込み中に例外が発生しましたか？"
 
 #: notebook/notebookapp.py:1052
 msgid ""
@@ -468,7 +468,7 @@ msgstr "シグナル %s を受信。停止します"
 #: notebook/notebookapp.py:1338
 #, python-format
 msgid "Error loading server extension %s"
-msgstr "サーバー拡張 %s の読み込みエラー"
+msgstr "サーバ拡張 %s の読み込みエラー"
 
 #: notebook/notebookapp.py:1369
 #, python-format
