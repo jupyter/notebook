@@ -56,7 +56,7 @@ msgstr "検索"
 
 #: notebook/templates/edit.html:59
 msgid "Find &amp; Replace"
-msgstr "検索と置換(&A)"
+msgstr "検索と置換"
 
 #: notebook/templates/edit.html:61
 msgid "Key Map"
