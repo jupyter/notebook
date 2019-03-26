@@ -1692,7 +1692,7 @@ msgstr "カスタム"
 
 #: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:32
 msgid "Set the MIME type of the raw cell:"
-msgstr "Raw セルの MIMME タイプを設定:"
+msgstr "Raw セルの MIME タイプを設定:"
 
 #: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:40
 msgid "Raw Cell MIME Type"
