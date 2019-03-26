@@ -1886,7 +1886,7 @@ msgstr "\"%s\" を削除中にエラーが発生しました。"
 
 #: notebook/static/tree/js/notebooklist.js:1037
 msgid "Delete Failed"
-msgstr "ファイルの削除に失敗"
+msgstr "削除に失敗"
 
 #: notebook/static/tree/js/notebooklist.js:1078
 #, python-format
