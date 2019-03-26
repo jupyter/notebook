@@ -706,7 +706,7 @@ msgstr "名前"
 
 #: notebook/templates/tree.html:130
 msgid "Currently running Jupyter processes"
-msgstr "現在実行風の Jupyter プロセス一覧"
+msgstr "現在実行中の Jupyter プロセス一覧"
 
 #: notebook/templates/tree.html:134
 msgid "Refresh running list"
