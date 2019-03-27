@@ -30,6 +30,7 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
   The restart handler would return before restart was completed.
 - Further improve compatibility with tornado 6 with improved
   checks for when websockets are closed.
+- Fix regression in 5.7.6 on Windows where .js files could have the wrong mime-type.
 
 .. _release-5.7.6:
 
