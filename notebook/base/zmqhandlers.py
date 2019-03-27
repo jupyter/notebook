@@ -11,7 +11,8 @@ from urllib.parse import urlparse
 
 import tornado
 from tornado import gen, ioloop, web
-from tornado.websocket import WebSocketHandler
+from tornado.iostream import StreamClosedError
+from tornado.websocket import WebSocketHandler, WebSocketClosedError
 
 from jupyter_client.session import Session
 from jupyter_client.jsonutil import date_default, extract_dates
@@ -181,8 +182,13 @@ class WebSocketMixin(object):
             self.log.warning("WebSocket ping timeout after %i ms.", since_last_pong)
             self.close()
             return
+        try:
+            self.ping(b'')
+        except (StreamClosedError, WebSocketClosedError):
+            # websocket has been closed, stop pinging
+            self.ping_callback.stop()
+            return
 
-        self.ping(b'')
         self.last_ping = now
 
     def on_pong(self, data):
@@ -242,8 +248,14 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
             msg = self._reserialize_reply(msg_list, channel=channel)
         except Exception:
             self.log.critical("Malformed message: %r" % msg_list, exc_info=True)
-        else:
+            return
+
+        try:
             self.write_message(msg, binary=isinstance(msg, bytes))
+        except (StreamClosedError, WebSocketClosedError):
+            self.log.warning("zmq message arrived on closed channel")
+            self.close()
+            return
 
 
 class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):

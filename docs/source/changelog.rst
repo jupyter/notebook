@@ -21,6 +21,17 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+.. _release-5.7.7:
+
+5.7.7
+-----
+
+- Fix regression in restarting kernels in 5.7.5.
+  The restart handler would return before restart was completed.
+- Further improve compatibility with tornado 6 with improved
+  checks for when websockets are closed.
+- Fix regression in 5.7.6 on Windows where .js files could have the wrong mime-type.
+
 .. _release-5.7.6:
 
 5.7.6
