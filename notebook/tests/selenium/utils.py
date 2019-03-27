@@ -298,7 +298,7 @@ class Notebook:
 
     def trigger_keydown(self, keys):
         trigger_keystrokes(self.body, keys)
-    
+
     def is_kernel_running(self):
         return self.browser.execute_script("return Jupyter.notebook.kernel.is_connected()")
 
@@ -306,9 +306,12 @@ class Notebook:
     def new_notebook(cls, browser, kernel_name='kernel-python3'):
         with new_window(browser, selector=".cell"):
             select_kernel(browser, kernel_name=kernel_name)
-        return cls(browser)
+        wait = WebDriverWait(browser, 10)
+        nb = cls(browser)
+        wait.until(lambda driver: nb.is_kernel_running())
+        return nb
 
-    
+
 def select_kernel(browser, kernel_name='kernel-python3'):
     """Clicks the "new" button and selects a kernel from the options.
     """
@@ -318,6 +321,7 @@ def select_kernel(browser, kernel_name='kernel-python3'):
     kernel_selector = '#{} a'.format(kernel_name)
     kernel = wait_for_selector(browser, kernel_selector, single=True)
     kernel.click()
+
 
 @contextmanager
 def new_window(browser, selector=None):
