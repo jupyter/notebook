@@ -39,14 +39,15 @@ class LoginHandler(IPythonHandler):
         """
         if default is None:
             default = self.base_url
-        if not url.startswith(self.base_url):
+        parsed = urlparse(url)
+        if parsed.netloc or not (parsed.path + '/').startswith(self.base_url):
             # require that next_url be absolute path within our path
             allow = False
             # OR pass our cross-origin check
-            if '://' in url:
+            if parsed.netloc:
                 # if full URL, run our cross-origin check:
-                parsed = urlparse(url.lower())
                 origin = '%s://%s' % (parsed.scheme, parsed.netloc)
+                origin = origin.lower()
                 if self.allow_origin:
                     allow = self.allow_origin == origin
                 elif self.allow_origin_pat:
