@@ -39,6 +39,10 @@ class LoginHandler(IPythonHandler):
         """
         if default is None:
             default = self.base_url
+        # protect chrome users from mishandling unescaped backslashes.
+        # \ is not valid in urls, but some browsers treat it as /
+        # instead of %5C, causing `\\` to behave as `//`
+        url = url.replace("\\", "%5C")
         parsed = urlparse(url)
         if parsed.netloc or not (parsed.path + '/').startswith(self.base_url):
             # require that next_url be absolute path within our path
