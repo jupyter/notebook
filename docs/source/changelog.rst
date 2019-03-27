@@ -312,7 +312,7 @@ Thanks to the following contributors:
 - Mac Knight (`Shels1909 <https://github.com/Shels1909>`__)
 - Hisham Elsheshtawy (`Sheshtawy <https://github.com/Sheshtawy>`__)
 - Simon Biggs (`SimonBiggs <https://github.com/SimonBiggs>`__)
-- Sunil Hari (`sunilhari <https://github.com/sunilhari>`__)
+- Sunil Hari (``@sunilhari``)
 - Thomas Kluyver (`takluyver <https://github.com/takluyver>`__)
 - Tim Klever (`tklever <https://github.com/tklever>`__)
 - Gabriel Ruiz (`unnamedplay-r <https://github.com/unnamedplay-r>`__)
