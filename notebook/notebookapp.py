@@ -1421,7 +1421,11 @@ class NotebookApp(JupyterApp):
             # SSL may be missing, so only import it if it's to be used
             import ssl
             # Disable SSLv3 by default, since its use is discouraged.
-            ssl_options.setdefault('ssl_version', ssl.PROTOCOL_TLSv1)
+            _ssl_protocol = (
+                ssl.PROTOCOL_TLS if hasattr(ssl, 'PROTOCOL_TLS') 
+                else ssl.PROTOCOL_SSLv23
+            )
+            ssl_options.setdefault('ssl_version', _ssl_protocol)
             if ssl_options.get('ca_certs', False):
                 ssl_options.setdefault('cert_reqs', ssl.CERT_REQUIRED)
         
