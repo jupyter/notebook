@@ -239,7 +239,7 @@ class Notebook:
 
         # Select & delete anything already in the cell
         self.current_cell.send_keys(Keys.ENTER)
-        ctrl(self.browser, 'a')
+        cmdtrl(self.browser, 'a')
         self.current_cell.send_keys(Keys.DELETE)
 
         for line_no, line in enumerate(content.splitlines()):
@@ -355,7 +355,7 @@ def shift(browser, k):
     """Send key combination Shift+(k)"""
     trigger_keystrokes(browser, "shift-%s"%k)
 
-def ctrl(browser, k):
+def cmdtrl(browser, k):
     """Send key combination Ctrl+(k) or Command+(k) for MacOS"""
     trigger_keystrokes(browser, "command-%s"%k) if os.uname()[0] == "Darwin" else trigger_keystrokes(browser, "control-%s"%k)
 
