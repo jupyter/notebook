@@ -21,9 +21,9 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
-.. _release-5.7.7:
+.. _release-5.7.8:
 
-5.7.7
+5.7.8
 -----
 
 - Fix regression in restarting kernels in 5.7.5.
@@ -31,7 +31,10 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
 - Further improve compatibility with tornado 6 with improved
   checks for when websockets are closed.
 - Fix regression in 5.7.6 on Windows where .js files could have the wrong mime-type.
-- Fix Open Redirect vulnerability where certain malicious URLs could redirect from the Jupyter login page to a malicious site after a successful login. A CVE has been requested for this vulnerability.
+- Fix Open Redirect vulnerability (CVE-2019-10255)
+  where certain malicious URLs could redirect from the Jupyter login page
+  to a malicious site after a successful login.
+  5.7.7 contained only a partial fix for this issue.
 
 .. _release-5.7.6:
 
