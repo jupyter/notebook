@@ -1420,12 +1420,12 @@ class NotebookApp(JupyterApp):
         else:
             # SSL may be missing, so only import it if it's to be used
             import ssl
-            # Disable SSLv3 by default, since its use is discouraged.
-            _ssl_protocol = (
-                ssl.PROTOCOL_TLS if hasattr(ssl, 'PROTOCOL_TLS') 
-                else ssl.PROTOCOL_SSLv23
+            # PROTOCOL_TLS selects the highest ssl/tls protocol version that both the client and
+            # server support. When PROTOCOL_TLS is not available use PROTOCOL_SSLv23
+            ssl_options.setdefault(
+                'ssl_version',
+                getattr('ssl', 'PROTOCOL_TLS', ssl.PROTOCOL_SSLv23)
             )
-            ssl_options.setdefault('ssl_version', _ssl_protocol)
             if ssl_options.get('ca_certs', False):
                 ssl_options.setdefault('cert_reqs', ssl.CERT_REQUIRED)
         
