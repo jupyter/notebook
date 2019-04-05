@@ -1623,11 +1623,16 @@ class NotebookApp(JupyterApp):
                                   exc_info=True)
 
     def init_mime_overrides(self):
-        # On some Windows machines, an application has registered an incorrect
-        # mimetype for CSS and JavaScript in the registry.
+        # On some Windows machines, an application has registered incorrect
+        # mimetypes in the registry.
         # Tornado uses this when serving .css and .js files, causing browsers to
         # reject these files. We know the mimetype always needs to be text/css for css
-        # and application/javascript for JS, so we override it here.
+        # and application/javascript for JS, so we override it here
+        # and explicitly tell the mimetypes to not trust the Windows registry
+        if os.name == 'nt':
+            # do not trust windows registry, which regularly has bad info
+            mimetypes.init(files=[])
+        # ensure css, js are correct, which are required for pages to function
         mimetypes.add_type('text/css', '.css')
         mimetypes.add_type('application/javascript', '.js')
 
