@@ -1041,7 +1041,7 @@ class NotebookApp(JupyterApp):
         """return extra paths + the default location"""
         return self.extra_static_paths + [DEFAULT_STATIC_FILES_PATH]
     
-    static_custom_path = List(Unicode(),
+    static_custom_path = List(Unicode(), config=True,
         help=_("""Path to search for custom.js, css""")
     )
 
