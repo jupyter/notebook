@@ -15,16 +15,22 @@ from ..utils import url_escape
 from ..transutils import _
 
 
-def get_custom_frontend_exporters():
+def get_frontend_exporters():
     from nbconvert.exporters.base import get_export_names, get_exporter
 
     ExporterInfo = namedtuple('ExporterInfo', ['name', 'display'])
 
     for name in sorted(get_export_names()):
-        exporter = get_exporter(name)()
-        ux_name = getattr(exporter, 'export_from_notebook', None)
-        if ux_name is not None:
-            display = _('{} ({})'.format(ux_name, exporter.file_extension))
+        exporter_class = get_exporter(name)
+        exporter_instance = exporter_class()
+        ux_name = getattr(exporter_instance, 'export_from_notebook', None)
+        # ensure export_from_notebook is explicitly defined & not inherited
+        super_uxname = getattr(super(exporter_class, exporter_instance),
+                               'export_from_notebook',
+                               None)
+        if ux_name is not None and ux_name != super_uxname:
+            display = _('{} ({})'.format(ux_name,
+                                         exporter_instance.file_extension))
             yield ExporterInfo(name, display)
 
 
@@ -56,7 +62,7 @@ class NotebookHandler(IPythonHandler):
             kill_kernel=False,
             mathjax_url=self.mathjax_url,
             mathjax_config=self.mathjax_config,
-            get_custom_frontend_exporters=get_custom_frontend_exporters
+            get_frontend_exporters=get_frontend_exporters
             )
         )
 
