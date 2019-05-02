@@ -6,7 +6,7 @@ def test_clipboard_multiselect(notebook):
 
     # Cell contents setup
     values = ['1', '2', '3', '4', '5a', '6b', '7c', '8d']
-    [notebook.append(i) for i in values]
+    notebook.extend(values)
 
     assert notebook.get_cells_contents() == ['', '1', '2', '3', '4', '5a', '6b', '7c', '8d']
     
@@ -23,7 +23,8 @@ def test_clipboard_multiselect(notebook):
     # Select the last four cells, cut them and paste them below the first cell
     notebook.select_cell_range(5, 8)
     wait_for_selector(notebook.browser, '.fa-cut.fa', single=True).click()
-    [notebook.body.send_keys(Keys.UP) for i in range(8)]
+    for i in range(8):
+        notebook.body.send_keys(Keys.UP)
     notebook.body.send_keys("v")
 
     assert notebook.get_cells_contents() == ['', '5a', '1', '2', '3', '1', '2', '3', '4']
