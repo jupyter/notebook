@@ -734,7 +734,7 @@ class NotebookApp(JupyterApp):
     def _default_cookie_secret(self):
         if os.path.exists(self.cookie_secret_file):
             with io.open(self.cookie_secret_file, 'rb') as f:
-                key =  f.read()
+                key = f.read()
         else:
             key = encodebytes(os.urandom(32))
             self._write_cookie_secret_file(key)

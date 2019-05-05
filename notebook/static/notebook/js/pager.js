@@ -102,6 +102,7 @@ define([
                 that.expand();
                 that.append_text(payload.data['text/plain']);
             }
+            console.log(payload)
         });
     };
 

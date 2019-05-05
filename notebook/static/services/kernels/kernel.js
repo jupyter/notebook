@@ -638,6 +638,8 @@ define([
        * @param msg
        */
       if (this.is_connected()) {
+            console.log(this.ws.url)
+            //console.log(msg)
             this.ws.send(msg);
         } else {
             this._pending_messages.push(msg);

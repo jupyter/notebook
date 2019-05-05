@@ -404,6 +404,7 @@ define([
     };
     
     CodeCell.prototype._open_with_pager = function (payload) {
+        console.log(payload)
         this.events.trigger('open_with_text.Pager', payload);
     };
 
@@ -428,6 +429,7 @@ define([
             replace: payload.replace,
             clear_output: payload.clear_output,
         };
+        console.log(data)
         this.events.trigger('set_next_input.Notebook', data);
     };
 

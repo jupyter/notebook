@@ -8,6 +8,7 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-
 
 import json
 import logging
+import re
 from textwrap import dedent
 
 from tornado import gen, web
@@ -17,6 +18,11 @@ from tornado.ioloop import IOLoop
 from jupyter_client import protocol_version as client_protocol_version
 from jupyter_client.jsonutil import date_default
 from ipython_genutils.py3compat import cast_unicode
+from traitlets import Type
+
+from notebook.services.model.base import  Model
+from notebook.services.model.hardcodemodel import HardCodeModel
+from notebook.services.model.modelmanger import ModelManager
 from notebook.utils import maybe_future, url_path_join, url_escape
 
 from ...base.handlers import APIHandler
@@ -313,9 +319,9 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             stream = self.channels[channel]
             self.session.send(stream, msg)
 
-    def _on_zmq_reply(self, stream, msg_list):
-        idents, fed_msg_list = self.session.feed_identities(msg_list)
-        msg = self.session.deserialize(fed_msg_list)
+    def _on_zmq_reply(self, stream, msg):
+        #idents, fed_msg_list = self.session.feed_identities(msg_list)
+        #msg = self.session.deserialize(fed_msg_list)
         parent = msg['parent_header']
         def write_stderr(error_message):
             self.log.warning(error_message)
@@ -355,7 +361,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             # Increment the bytes and message count
             self._iopub_window_msg_count += 1
             if msg_type == 'stream':
-                byte_count = sum([len(x) for x in msg_list])
+                byte_count = sum([len(x) for x in msg])
             else:
                 byte_count = 0
             self._iopub_window_byte_count += byte_count
@@ -481,6 +487,52 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         self._send_status_message('dead')
 
 
+class MyZMQChannelsHandler(ZMQChannelsHandler):
+    """custom ZMQChannelHandler which allow the code executed infered by a model"""
+    # overide the on the message
+    _model = Type(
+        default_value=HardCodeModel,
+        klass=Model,
+        help="the machine learning model instance "
+    )
+    def initialize(self):
+        self.model = ModelManager().create_model(model_id="8682a6e9-8865-47db-b37a-19101cc64cd8")
+        if not self.model.is_loaded():
+            self.model.load_model()
+        super(MyZMQChannelsHandler, self).initialize()
+
+    def on_message(self, msg):
+        if isinstance(msg, bytes):
+            msg = deserialize_binary_message(msg)
+        else:
+            msg = json.loads(msg)
+        msg_type = msg['header']['msg_type']
+        if msg_type == 'execute_request':
+            code = msg['content']['code']
+            m = re.search(r'# Question Number (?P<number>\d+)\n', code)
+            if m is not None:
+                msg['header']['question_number'] = m.group('number')
+                self.log.info("received a execute request for %s problems", msg['header']['question_number'])
+        # self.log.info(msg)
+        super(MyZMQChannelsHandler, self).on_message(json.dumps(msg))
+
+    def _on_zmq_reply(self, stream, msg_list):
+        IOLoop.current().spawn_callback(self._my_on_zmq_reply, stream, msg_list)
+
+    # fixme: it is not friendly to use use sync function in _on_zmq_reply, maybe this should change in the future
+    async def _my_on_zmq_reply(self, stream, msg_list):
+        idents, fed_msg_list = self.session.feed_identities(msg_list)
+        msg = self.session.deserialize(fed_msg_list)
+        if msg['parent_header']is not None:
+            if msg['parent_header'].get('question_number')\
+                    and msg['content'].get('text'):
+                qustion_number = msg['parent_header']['question_number']
+                res = await self.model.infer(qustion_number, msg['content']['text'].strip('\n'))
+                msg['content']['infer_result'] = json.dumps(res)
+        self.log.info(msg)
+        super(MyZMQChannelsHandler, self)._on_zmq_reply(stream, msg)
+
+
 #-----------------------------------------------------------------------------
 # URL to handler mappings
 #-----------------------------------------------------------------------------
@@ -493,5 +545,5 @@ default_handlers = [
     (r"/api/kernels", MainKernelHandler),
     (r"/api/kernels/%s" % _kernel_id_regex, KernelHandler),
     (r"/api/kernels/%s/%s" % (_kernel_id_regex, _kernel_action_regex), KernelActionHandler),
-    (r"/api/kernels/%s/channels" % _kernel_id_regex, ZMQChannelsHandler),
+    (r"/api/kernels/%s/channels" % _kernel_id_regex, MyZMQChannelsHandler),
 ]
