@@ -222,6 +222,14 @@ class Notebook:
         JS = 'Jupyter.notebook.get_cell({}).metadata.{} = {}'.format(index, key, value)
         return self.browser.execute_script(JS)
 
+    def get_cells_mode(self):
+        JS = 'return Jupyter.notebook.get_cells().map(function(c) {return c.mode;})'
+        return self.browser.execute_script(JS)
+
+    def get_cells_length(self):
+        JS = 'return IPython.notebook.get_cells().length;'
+        return self.browser.execute_script(JS)
+
     def get_cell_type(self, index=0):
         JS = 'return Jupyter.notebook.get_cell({}).cell_type'.format(index)
         return self.browser.execute_script(JS)
@@ -363,6 +371,10 @@ def cmdtrl(browser, k):
     """Send key combination Ctrl+(k) or Command+(k) for MacOS"""
     trigger_keystrokes(browser, "command-%s"%k) if os.uname()[0] == "Darwin" else trigger_keystrokes(browser, "control-%s"%k)
 
+def alt(browser, k):
+    """Send key combination Alt+(k)"""
+    trigger_keystrokes(browser, 'alt-%s'%k)
+
 def trigger_keystrokes(browser, *keys):
     """ Send the keys in sequence to the browser.
     Handles following key combinations
@@ -382,3 +394,71 @@ def trigger_keystrokes(browser, *keys):
             ac.perform()
         else:              # single key stroke. Check if modifier eg. "up"
             browser.send_keys(getattr(Keys, keys[0].upper(), keys[0]))
+
+def validate_notebook_state(notebook, mode, index):
+    def is_only_cell_edit(index):
+        cells_mode = notebook.get_cells_mode()
+        #None of the cells are in edit mode
+        if(index == None):
+            for mode in cells_mode:
+                if(mode == 'edit'):
+                    return False
+            return True
+        #Only the index cell is on edit mode
+        i = 0
+        for mode in cells_mode:
+            if(i == index):
+                if(mode != 'edit'):
+                    return False
+            else:
+                if(mode == 'edit'):
+                    return False
+            i += 1
+        return True
+
+    def is_focused_on(index):
+        JS = "return $('#notebook .CodeMirror-focused textarea').length;"
+        focused_cells = notebook.browser.execute_script(JS)
+        if(index == None):
+            return focused_cells == 0
+        assert focused_cells == 1
+        JS = "return $('#notebook .CodeMirror-focused textarea')[0];"
+        focused_cell = notebook.browser.execute_script(JS)
+        JS = "return IPython.notebook.get_cell(%s).code_mirror.getInputField()"%index
+        cell = notebook.browser.execute_script(JS)
+        assert focused_cell == cell
+
+
+    #general test
+    JS = "return IPython.keyboard_manager.mode;"
+    keyboard_mode = notebook.browser.execute_script(JS)
+    JS = "return IPython.notebook.mode;"
+    notebook_mode = notebook.browser.execute_script(JS)
+
+    #validate selected cell
+    if (index != None):
+        JS = "return Jupyter.notebook.get_selected_cells_indices();"
+        cell_index = notebook.browser.execute_script(JS)
+        assert cell_index == [index] #only the index cell is selected
+
+    if(mode == 'command'):
+        #validate mode
+        assert mode == keyboard_mode #keyboard mode is correct
+
+        assert is_focused_on(None)#no focused cells
+
+        assert is_only_cell_edit(None)#no cells in edit mode
+    
+    elif(mode == 'edit'):
+        #Are the notebook and keyboard manager in edit mode?
+        assert mode == keyboard_mode #keyboard mode is correct
+
+        is_focused_on(index)#The specified cell is focused
+
+        assert is_only_cell_edit(index) #The specified cell is the only one in edit mode
+    
+    else:
+        assert False #An unknown mode is send
+
+
+    
