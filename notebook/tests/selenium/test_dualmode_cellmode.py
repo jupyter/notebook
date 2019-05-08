@@ -1,10 +1,9 @@
 """Test keyboard shortcuts that change the cell's mode."""
-from selenium.webdriver.common.keys import Keys
 
 def test_dualmode_cellmode(notebook):
     def get_cell_cm_mode(index):
         code_mirror_mode = notebook.browser.execute_script(
-            "return Jupyter.notebook.get_cell("+str(index)+").code_mirror.getMode().name;")
+            "return Jupyter.notebook.get_cell(%s).code_mirror.getMode().name;"%index)
         return code_mirror_mode
     
     
