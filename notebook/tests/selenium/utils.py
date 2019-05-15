@@ -222,10 +222,6 @@ class Notebook:
         JS = 'Jupyter.notebook.get_cell({}).metadata.{} = {}'.format(index, key, value)
         return self.browser.execute_script(JS)
 
-    def get_cells_mode(self):
-        JS = 'return Jupyter.notebook.get_cells().map(function(c) {return c.mode;})'
-        return self.browser.execute_script(JS)
-
     def get_cell_type(self, index=0):
         JS = 'return Jupyter.notebook.get_cell({}).cell_type'.format(index)
         return self.browser.execute_script(JS)
@@ -391,9 +387,14 @@ def trigger_keystrokes(browser, *keys):
         else:              # single key stroke. Check if modifier eg. "up"
             browser.send_keys(getattr(Keys, keys[0].upper(), keys[0]))
 
-def validate_notebook_state(notebook, mode, index):
+def validate_dualmode_state(notebook, mode, index):
+    '''Validate the entire dual mode state of the notebook.  
+    Make sure no more than one cell is selected, focused, in edit mode, etc...
+
+    '''
     def is_only_cell_edit(index):
-        cells_mode = notebook.get_cells_mode()
+        JS = 'return Jupyter.notebook.get_cells().map(function(c) {return c.mode;})'
+        cells_mode = notebook.browser.execute_script(JS)
         #None of the cells are in edit mode
         if(index == None):
             for mode in cells_mode:
@@ -417,7 +418,9 @@ def validate_notebook_state(notebook, mode, index):
         focused_cells = notebook.browser.execute_script(JS)
         if(index == None):
             return focused_cells == 0
+
         assert focused_cells == 1
+
         JS = "return $('#notebook .CodeMirror-focused textarea')[0];"
         focused_cell = notebook.browser.execute_script(JS)
         JS = "return IPython.notebook.get_cell(%s).code_mirror.getInputField()"%index
@@ -432,10 +435,9 @@ def validate_notebook_state(notebook, mode, index):
     notebook_mode = notebook.browser.execute_script(JS)
 
     #validate selected cell
-    if (index != None):
-        JS = "return Jupyter.notebook.get_selected_cells_indices();"
-        cell_index = notebook.browser.execute_script(JS)
-        assert cell_index == [index] #only the index cell is selected
+    JS = "return Jupyter.notebook.get_selected_cells_indices();"
+    cell_index = notebook.browser.execute_script(JS)
+    assert cell_index == [index] #only the index cell is selected
 
     if(mode == 'command'):
         #validate mode
