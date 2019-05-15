@@ -36,7 +36,7 @@ def test_multiselect_toggle(notebook):
     notebook.browser.execute_script("Jupyter.notebook.toggle_cells_outputs_scroll();")
     cell_scrolled_states = notebook.browser.execute_script(
         "return Jupyter.notebook.get_cells().map(c => c.output_area.scroll_state)")
-    assert cell_scrolled_states, "ensure that all have scrolling enabled"
+    assert all(cell_scrolled_states), "ensure that all have scrolling enabled"
 
     # Test that cells, which start off not cleared are cleared after
     # calling the multiselected scroll toggle.
