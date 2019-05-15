@@ -226,10 +226,6 @@ class Notebook:
         JS = 'return Jupyter.notebook.get_cells().map(function(c) {return c.mode;})'
         return self.browser.execute_script(JS)
 
-    def get_cells_length(self):
-        JS = 'return IPython.notebook.get_cells().length;'
-        return self.browser.execute_script(JS)
-
     def get_cell_type(self, index=0):
         JS = 'return Jupyter.notebook.get_cell({}).cell_type'.format(index)
         return self.browser.execute_script(JS)

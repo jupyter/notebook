@@ -76,6 +76,6 @@ def test_dualmode_execute(notebook):
 
 
     #Notebook will now have 8 cells, the index of the last cell will be 7
-    assert notebook.get_cells_length() == 8 #Cells where added
+    assert len(notebook) == 8 #Cells where added
     notebook.focus_cell(7)
     validate_notebook_state(notebook, 'command', 7)
