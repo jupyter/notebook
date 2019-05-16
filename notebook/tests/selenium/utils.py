@@ -421,13 +421,14 @@ def validate_dualmode_state(notebook, mode, index):
         if index is None:
             return focused_cells == 0
 
-        assert focused_cells == 1
+        if focused_cells != 1: #only one cell is focused
+            return False
 
         JS = "return $('#notebook .CodeMirror-focused textarea')[0];"
         focused_cell = notebook.browser.execute_script(JS)
         JS = "return IPython.notebook.get_cell(%s).code_mirror.getInputField()"%index
         cell = notebook.browser.execute_script(JS)
-        assert focused_cell == cell
+        return focused_cell == cell
 
 
     #general test
@@ -453,7 +454,7 @@ def validate_dualmode_state(notebook, mode, index):
         #Are the notebook and keyboard manager in edit mode?
         assert mode == keyboard_mode #keyboard mode is correct
 
-        is_focused_on(index)#The specified cell is focused
+        assert is_focused_on(index)#The specified cell is focused
 
         assert is_only_cell_edit(index) #The specified cell is the only one in edit mode
     
