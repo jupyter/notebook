@@ -446,15 +446,15 @@ def validate_dualmode_state(notebook, mode, index):
         #validate mode
         assert mode == keyboard_mode #keyboard mode is correct
 
-        assert is_focused_on(None)#no focused cells
+        assert is_focused_on(None) #no focused cells
 
-        assert is_only_cell_edit(None)#no cells in edit mode
+        assert is_only_cell_edit(None) #no cells in edit mode
     
     elif mode == 'edit':
         #Are the notebook and keyboard manager in edit mode?
         assert mode == keyboard_mode #keyboard mode is correct
 
-        assert is_focused_on(index)#The specified cell is focused
+        assert is_focused_on(index) #The specified cell is focused
 
         assert is_only_cell_edit(index) #The specified cell is the only one in edit mode
     
