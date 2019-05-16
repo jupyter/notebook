@@ -459,7 +459,7 @@ def validate_dualmode_state(notebook, mode, index):
         assert is_only_cell_edit(index) #The specified cell is the only one in edit mode
     
     else:
-        assert False #An unknown mode is send
+        raise Exception('An unknown mode was send: mode = "%s"'%mode) #An unknown mode is send
 
 
     
