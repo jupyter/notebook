@@ -398,19 +398,19 @@ def validate_dualmode_state(notebook, mode, index):
         JS = 'return Jupyter.notebook.get_cells().map(function(c) {return c.mode;})'
         cells_mode = notebook.browser.execute_script(JS)
         #None of the cells are in edit mode
-        if(index == None):
+        if index is None:
             for mode in cells_mode:
-                if(mode == 'edit'):
+                if mode == 'edit':
                     return False
             return True
         #Only the index cell is on edit mode
         i = 0
         for mode in cells_mode:
-            if(i == index):
-                if(mode != 'edit'):
+            if i == index:
+                if mode != 'edit':
                     return False
             else:
-                if(mode == 'edit'):
+                if mode == 'edit':
                     return False
             i += 1
         return True
@@ -418,7 +418,7 @@ def validate_dualmode_state(notebook, mode, index):
     def is_focused_on(index):
         JS = "return $('#notebook .CodeMirror-focused textarea').length;"
         focused_cells = notebook.browser.execute_script(JS)
-        if(index == None):
+        if index is None:
             return focused_cells == 0
 
         assert focused_cells == 1
@@ -441,7 +441,7 @@ def validate_dualmode_state(notebook, mode, index):
     cell_index = notebook.browser.execute_script(JS)
     assert cell_index == [index] #only the index cell is selected
 
-    if(mode == 'command'):
+    if mode == 'command':
         #validate mode
         assert mode == keyboard_mode #keyboard mode is correct
 
@@ -449,7 +449,7 @@ def validate_dualmode_state(notebook, mode, index):
 
         assert is_only_cell_edit(None)#no cells in edit mode
     
-    elif(mode == 'edit'):
+    elif mode == 'edit':
         #Are the notebook and keyboard manager in edit mode?
         assert mode == keyboard_mode #keyboard mode is correct
 
