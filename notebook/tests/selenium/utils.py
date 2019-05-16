@@ -389,8 +389,10 @@ def trigger_keystrokes(browser, *keys):
 
 def validate_dualmode_state(notebook, mode, index):
     '''Validate the entire dual mode state of the notebook.  
-    Make sure no more than one cell is selected, focused, in edit mode, etc...
-
+    Checks if the specified cell is selected, and the mode and keyboard mode are the same.
+    Depending on the mode given:
+        Command: Checks that no cells are in focus or in edit mode.
+        Edit:    Checks that only the specified cell is in focus and in edit mode.
     '''
     def is_only_cell_edit(index):
         JS = 'return Jupyter.notebook.get_cells().map(function(c) {return c.mode;})'
