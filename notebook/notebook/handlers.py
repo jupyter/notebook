@@ -20,18 +20,43 @@ def get_frontend_exporters():
 
     ExporterInfo = namedtuple('ExporterInfo', ['name', 'display'])
 
-    for name in sorted(get_export_names()):
+    default_exporters = [
+        ExporterInfo(name='html', display='html (.html)'),
+        ExporterInfo(name='latex', display='latex (.tex)'),
+        ExporterInfo(name='markdown', display='markdown (.md)'),
+        ExporterInfo(name='notebook', display='notebook (.ipynb)'),
+        ExporterInfo(name='pdf', display='pdf (.pdf)'),
+        ExporterInfo(name='rst', display='rst (.rst)'),
+        ExporterInfo(name='script', display='script (.txt)'),
+        ExporterInfo(name='slides', display='slides (.slides.html)')
+    ]
+
+    frontend_exporters = []
+    for name in get_export_names():
         exporter_class = get_exporter(name)
         exporter_instance = exporter_class()
         ux_name = getattr(exporter_instance, 'export_from_notebook', None)
-        # ensure export_from_notebook is explicitly defined & not inherited
         super_uxname = getattr(super(exporter_class, exporter_instance),
-                               'export_from_notebook',
-                               None)
+                               'export_from_notebook', None)
+
+        # Ensure export_from_notebook is explicitly defined & not inherited
         if ux_name is not None and ux_name != super_uxname:
             display = _('{} ({})'.format(ux_name,
                                          exporter_instance.file_extension))
-            yield ExporterInfo(name, display)
+            frontend_exporters.append(ExporterInfo(name, display))
+
+    # Ensure default_exporters are in frontend_exporters if not already
+    # This protects againts nbconvert versions lower than 5.5
+    names = set(exporter.name.lower() for exporter in frontend_exporters)
+    for exporter in default_exporters:
+        if exporter.name.lower() not in names:
+            frontend_exporters.append(exporter)
+
+    # Protect against nbconvert 5.4.x
+    template_exporter = ExporterInfo(name='custom', display='custom (.txt)')
+    if template_exporter in frontend_exporters:
+        frontend_exporters.remove(template_exporter)
+    return sorted(frontend_exporters)
 
 
 class NotebookHandler(IPythonHandler):
