@@ -442,24 +442,19 @@ def validate_dualmode_state(notebook, mode, index):
     cell_index = notebook.browser.execute_script(JS)
     assert cell_index == [index] #only the index cell is selected
 
-    if mode == 'command':
-        #validate mode
-        assert mode == keyboard_mode #keyboard mode is correct
+    if mode != 'command' and mode != 'edit':
+        raise Exception('An unknown mode was send: mode = "%s"'%mode) #An unknown mode is send
 
+    #validate mode
+    assert mode == keyboard_mode #keyboard mode is correct
+
+    if mode == 'command':
         assert is_focused_on(None) #no focused cells
 
         assert is_only_cell_edit(None) #no cells in edit mode
     
     elif mode == 'edit':
-        #Are the notebook and keyboard manager in edit mode?
-        assert mode == keyboard_mode #keyboard mode is correct
-
         assert is_focused_on(index) #The specified cell is focused
 
         assert is_only_cell_edit(index) #The specified cell is the only one in edit mode
-    
-    else:
-        raise Exception('An unknown mode was send: mode = "%s"'%mode) #An unknown mode is send
-
-
     
