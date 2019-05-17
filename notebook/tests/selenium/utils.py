@@ -404,15 +404,13 @@ def validate_dualmode_state(notebook, mode, index):
                     return False
             return True
         #Only the index cell is on edit mode
-        i = 0
-        for mode in cells_mode:
+        for i, mode in enumerate(cells_mode):
             if i == index:
                 if mode != 'edit':
                     return False
             else:
                 if mode == 'edit':
                     return False
-            i += 1
         return True
 
     def is_focused_on(index):
