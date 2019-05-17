@@ -18,17 +18,18 @@ from ..transutils import _
 def get_frontend_exporters():
     from nbconvert.exporters.base import get_export_names, get_exporter
 
+    # name=exporter_name, display=export_from_notebook+extension
     ExporterInfo = namedtuple('ExporterInfo', ['name', 'display'])
 
     default_exporters = [
-        ExporterInfo(name='html', display='html (.html)'),
-        ExporterInfo(name='latex', display='latex (.tex)'),
-        ExporterInfo(name='markdown', display='markdown (.md)'),
-        ExporterInfo(name='notebook', display='notebook (.ipynb)'),
-        ExporterInfo(name='pdf', display='pdf (.pdf)'),
-        ExporterInfo(name='rst', display='rst (.rst)'),
-        ExporterInfo(name='script', display='script (.txt)'),
-        ExporterInfo(name='slides', display='slides (.slides.html)')
+        ExporterInfo(name='html', display='HTML (.html)'),
+        ExporterInfo(name='latex', display='LaTeX (.tex)'),
+        ExporterInfo(name='markdown', display='Markdown (.md)'),
+        ExporterInfo(name='notebook', display='Notebook (.ipynb)'),
+        ExporterInfo(name='pdf', display='PDF via LaTeX (.pdf)'),
+        ExporterInfo(name='rst', display='reST (.rst)'),
+        ExporterInfo(name='script', display='Script (.txt)'),
+        ExporterInfo(name='slides', display='Reveal.js slides (.slides.html)')
     ]
 
     frontend_exporters = []
@@ -46,11 +47,16 @@ def get_frontend_exporters():
             frontend_exporters.append(ExporterInfo(name, display))
 
     # Ensure default_exporters are in frontend_exporters if not already
-    # This protects againts nbconvert versions lower than 5.5
+    # This protects against nbconvert versions lower than 5.5
     names = set(exporter.name.lower() for exporter in frontend_exporters)
     for exporter in default_exporters:
-        if exporter.name.lower() not in names:
+        if exporter.name not in names:
             frontend_exporters.append(exporter)
+
+    # Protect against nbconvert 5.5.0
+    python_exporter = ExporterInfo(name='python', display='python (.py)')
+    if python_exporter in frontend_exporters:
+        frontend_exporters.remove(python_exporter)
 
     # Protect against nbconvert 5.4.x
     template_exporter = ExporterInfo(name='custom', display='custom (.txt)')
