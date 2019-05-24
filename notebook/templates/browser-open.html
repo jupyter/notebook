@@ -6,6 +6,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="1;url={{ open_url }}" />
     <title>Opening Jupyter Notebook</title>
+    <script>
+      setTimeout(function() {
+        window.location.href = "{{ open_url }}";
+      }, 1000);
+    </script>
 </head>
 <body>
 
