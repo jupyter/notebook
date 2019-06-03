@@ -30,6 +30,6 @@ from .notebookapp import NotebookApp
 EXTENSION_NAME = "notebook"
 
 def _jupyter_server_extension_paths():
-    return [{"module": EXT_NAME}]
+    return [{"module": EXTENSION_NAME}]
 
 load_jupyter_server_extension = NotebookApp.load_jupyter_server_extension
