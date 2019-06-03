@@ -24,3 +24,12 @@ del os
 
 from .nbextensions import install_nbextension
 from ._version import version_info, __version__
+
+from .notebookapp import NotebookApp
+
+EXTENSION_NAME = "notebook"
+
+def _jupyter_server_extension_paths():
+    return [{"module": EXT_NAME}]
+
+load_jupyter_server_extension = NotebookApp.load_jupyter_server_extension
