@@ -39,7 +39,8 @@ If you use `Homebrew <https://brew.sh/>`_ on Mac OS X::
 Installation on Linux may vary, but be aware that the `nodejs` or `npm` packages
 included in the system package repository may be too old to work properly.
 
-You can also use the installer from the `Node.js website <https://nodejs.org>`_.
+If you are on Windows run the installer from the `Node.js website <https://nodejs.org>`_. Mac OS X and Linux users can also follow the 
+same.
 
 
 Installing the Jupyter Notebook
