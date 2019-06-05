@@ -61,6 +61,7 @@ data-server-root="{{server_root}}"
                   </span>
                   </span>
                 </form>
+
                 <div id="new-buttons" class="btn-group">
                   <button class="dropdown-toggle btn btn-default btn-xs" id="new-dropdown-button" data-toggle="dropdown">
                   <span>{% trans %}New{% endtrans %}</span>
@@ -87,6 +88,7 @@ data-server-root="{{server_root}}"
                     {% endif %}
                   </ul>
                 </div>
+
                 <div class="btn-group">
                     <button id="refresh_notebook_list" title="{% trans %}Refresh notebook list{% endtrans %}"  aria-label="{% trans %}Refresh notebook list{% endtrans %}" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></button>
                 </div>
@@ -112,7 +114,7 @@ data-server-root="{{server_root}}"
               </div>
               <div id="project_name">
                 <ul class="breadcrumb">
-                  <li><a href="{{breadcrumbs[0][0]}}"><i class="fa fa-folder" alt="folder icon"></i></a></li>
+                  <li><a href="{{breadcrumbs[0][0]}}"><i class="fa fa-folder" alt="folder icon"></i>we</a></li>
                 {% for crumb in breadcrumbs[1:] %}
                   <li><a href="{{crumb[0]}}">{{crumb[1]}}</a></li>
                 {% endfor %}
