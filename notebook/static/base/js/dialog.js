@@ -60,6 +60,7 @@ define(['jquery',
                 })
                 .append($("<button>")
                     .attr("type", "button")
+                    .attr("aria-label","close")
                     .addClass("close")
                     .attr("data-dismiss", "modal")
                     .attr("aria-hidden", "true")
