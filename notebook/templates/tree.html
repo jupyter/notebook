@@ -71,18 +71,18 @@ data-server-root="{{server_root}}"
                     <li role="presentation" class="divider"></li>
                     <li role="presentation" class="dropdown-header" >Other:</li>
                     <li role="presentation" id="new-file">
-                      <a role="menuitem" tabindex="-1" href="#">{% trans %}Text File{% endtrans %}</a>
+                      <a role="menuitem" aria-label="list item 2, Text file" tabindex="-1" href="#">{% trans %}Text File{% endtrans %}</a>
                     </li>
                     <li role="presentation" id="new-folder">
-                      <a role="menuitem" tabindex="-1" href="#">{% trans %}Folder{% endtrans %}</a>
+                      <a role="menuitem" aria-label="list item 3, Folder" tabindex="-1" href="#">{% trans %}Folder{% endtrans %}</a>
                     </li>
                     {% if terminals_available %}
                     <li role="presentation" id="new-terminal">
-                      <a role="menuitem" tabindex="-1" href="#">{% trans %}Terminal{% endtrans %}</a>
+                      <a role="menuitem" aria-label="list item 4, Terminal" tabindex="-1" href="#">{% trans %}Terminal{% endtrans %}</a>
                     </li>
                     {% else %}
                     <li role="presentation" id="new-terminal-disabled" class="disabled">
-                      <a role="menuitem" tabindex="-1" href="#">{% trans %}Terminals Unavailable{% endtrans %}</a>
+                      <a role="menuitem" aria-label="list item 5, Terminals Unavailable" tabindex="-1" href="#">{% trans %}Terminals Unavailable{% endtrans %}</a>
                     </li>
                     {% endif %}
                   </ul>
@@ -104,10 +104,10 @@ data-server-root="{{server_root}}"
                   <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul id='selector-menu' class="dropdown-menu" role="menu" aria-labelledby="tree-selector-btn">
-                  <li role="presentation"><a id="select-folders" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select All Folders{% endtrans %}"><i class="menu_icon folder_icon icon-fixed-width"></i>&nbsp;{% trans %}Folders{% endtrans %}</a></li>
-                  <li role="presentation"><a id="select-notebooks" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select All Notebooks{% endtrans %}"><i class="menu_icon notebook_icon icon-fixed-width"></i>&nbsp;{% trans %}All Notebooks{% endtrans %}</a></li>
-                  <li role="presentation"><a id="select-running-notebooks" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select Running Notebooks{% endtrans %}"><i class="menu_icon running_notebook_icon icon-fixed-width"></i>&nbsp;{% trans %}Running{% endtrans %}</a></li>
-                  <li role="presentation"><a id="select-files" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select All Files{% endtrans %}"><i class="menu_icon file_icon icon-fixed-width"></i>&nbsp;{% trans %}Files{% endtrans %}</a></li>
+                  <li role="presentation"><a id="select-folders" aria-label="list item 1, Folders" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select All Folders{% endtrans %}"><i class="menu_icon folder_icon icon-fixed-width"></i>&nbsp;{% trans %}Folders{% endtrans %}</a></li>
+                  <li role="presentation"><a id="select-notebooks" aria-label="list item 2, All Notebooks" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select All Notebooks{% endtrans %}"><i class="menu_icon notebook_icon icon-fixed-width"></i>&nbsp;{% trans %}All Notebooks{% endtrans %}</a></li>
+                  <li role="presentation"><a id="select-running-notebooks" aria-label="list item 3, Running" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select Running Notebooks{% endtrans %}"><i class="menu_icon running_notebook_icon icon-fixed-width"></i>&nbsp;{% trans %}Running{% endtrans %}</a></li>
+                  <li role="presentation"><a id="select-files" role="menuitem" aria-label="list item 4, Files" tabindex="-1" href="#" title="{% trans %}Select All Files{% endtrans %}"><i class="menu_icon file_icon icon-fixed-width"></i>&nbsp;{% trans %}Files{% endtrans %}</a></li>
                 </ul>
               </div>
               <div id="project_name">
