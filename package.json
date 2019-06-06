@@ -19,5 +19,7 @@
     "requirejs": "^2.1.17",
     "po2json": "^0.4.5"
   },
-  "dependencies": {}
+  "dependencies": {
+    "requests": "^0.2.2"
+  }
 }

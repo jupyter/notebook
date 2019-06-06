@@ -77,7 +77,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
             <span id="notification_area"></span>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}File{% endtrans %}</a>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans %}File Menu{% endtrans %}" aria-label="{% trans %}File Menu{% endtrans %}">{% trans %}File{% endtrans %}</a>
                     <ul id="file_menu" class="dropdown-menu">
                         <li id="new_notebook" class="dropdown-submenu">
                             <a href="#">{% trans %}New Notebook{% endtrans %}</a>
@@ -131,7 +131,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
                             <a href="#" >{% trans %}Close and Halt{% endtrans %}</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Edit{% endtrans %}</a>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans %}Edit Menu{% endtrans %}" aria-label="{% trans %}Edit Menu{% endtrans %}">{% trans %}Edit{% endtrans %}</a>
                     <ul id="edit_menu" class="dropdown-menu">
                         <li id="cut_cell"><a href="#">{% trans %}Cut Cells{% endtrans %}</a></li>
                         <li id="copy_cell"><a href="#">{% trans %}Copy Cells{% endtrans %}</a></li>
@@ -159,7 +159,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         <li id="insert_image" class="disabled"><a href="#"> {% trans %}Insert Image{% endtrans %} </a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}View{% endtrans %}</a>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans %}View Menu{% endtrans %}" aria-label="{% trans %}View Menu{% endtrans %}">{% trans %}View{% endtrans %}</a>
                     <ul id="view_menu" class="dropdown-menu">
                         <li id="toggle_header"
                             title="{% trans %}Show/Hide the logo and notebook title (above menu bar){% endtrans %}">
@@ -179,7 +179,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Insert{% endtrans %}</a>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans %}Insert Menu{% endtrans %}" aria-label="{% trans %}Insert Menu{% endtrans %}">{% trans %}Insert{% endtrans %}</a>
                     <ul id="insert_menu" class="dropdown-menu">
                         <li id="insert_cell_above"
                             title="{% trans %}Insert an empty Code cell above the currently active cell{% endtrans %}">
@@ -189,7 +189,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
                             <a href="#">{% trans %}Insert Cell Below{% endtrans %}</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Cell{% endtrans %}</a>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans %}Cell Menu{% endtrans %}" aria-label="{% trans %}Cell Menu{% endtrans %}">{% trans %}Cell{% endtrans %}</a>
                     <ul id="cell_menu" class="dropdown-menu">
                         <li id="run_cell" title="{% trans %}Run this cell, and move cursor to the next one{% endtrans %}">
                             <a href="#">{% trans %}Run Cells{% endtrans %}</a></li>
@@ -254,7 +254,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Kernel{% endtrans %}</a>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans %}Kernel Menu{% endtrans %}" aria-label="{% trans %}Kernel Menu{% endtrans %}">{% trans %}Kernel{% endtrans %}</a>
                     <ul id="kernel_menu" class="dropdown-menu">
                         <li id="int_kernel"
                             title="{% trans %}Send Keyboard Interrupt (CTRL-C) to the Kernel{% endtrans %}">
@@ -287,7 +287,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Help{% endtrans %}</a>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans %}Help Menu{% endtrans %}" aria-label="{% trans %}Help Menu{% endtrans %}">{% trans %}Help{% endtrans %}</a>
                     <ul  id="help_menu" class="dropdown-menu">
                         {% block help %}
                         <li id="notebook_tour" title="{% trans %}A quick tour of the notebook user interface{% endtrans %}"><a href="#">{% trans %}User Interface Tour{% endtrans %}</a></li>
