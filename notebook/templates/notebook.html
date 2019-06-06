@@ -254,35 +254,35 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans %}Kernel Menu{% endtrans %}" aria-label="{% trans %}Kernel Menu{% endtrans %}">{% trans %}Kernel{% endtrans %}</a>
-                    <ul id="kernel_menu" class="dropdown-menu">
-                        <li id="int_kernel"
+                <li class="dropdown"><a href="#" class="dropdown-toggle" id="kernellink" data-toggle="dropdown" aria-haspopup="true" aria-controls="kernel_menu">{% trans %}Kernel{% endtrans %}</a>
+                    <ul id="kernel_menu" class="dropdown-menu" role="menu" aria-labelledby="kernellink">
+                        <li id="int_kernel" role="none"
                             title="{% trans %}Send Keyboard Interrupt (CTRL-C) to the Kernel{% endtrans %}">
-                            <a href="#">{% trans %}Interrupt{% endtrans %}</a>
+                            <a href="#" role="menuitem">{% trans %}Interrupt{% endtrans %}</a>
                         </li>
-                        <li id="restart_kernel"
+                        <li id="restart_kernel" role="none"
                             title="{% trans %}Restart the Kernel{% endtrans %}">
-                            <a href="#">{% trans %}Restart{% endtrans %}</a>
+                            <a href="#" role="menuitem">{% trans %}Restart{% endtrans %}</a>
                         </li>
-                        <li id="restart_clear_output"
+                        <li id="restart_clear_output" role="none"
                             title="{% trans %}Restart the Kernel and clear all output{% endtrans %}">
-                            <a href="#">{% trans %}Restart &amp; Clear Output{% endtrans %}</a>
+                            <a href="#" role="menuitem">{% trans %}Restart &amp; Clear Output{% endtrans %}</a>
                         </li>
-                        <li id="restart_run_all"
+                        <li id="restart_run_all" role="none"
                             title="{% trans %}Restart the Kernel and re-run the notebook{% endtrans %}">
-                            <a href="#">{% trans %}Restart &amp; Run All{% endtrans %}</a>
+                            <a href="#" role="menuitem">{% trans %}Restart &amp; Run All{% endtrans %}</a>
                         </li>
-                        <li id="reconnect_kernel"
+                        <li id="reconnect_kernel" role="none"
                             title="{% trans %}Reconnect to the Kernel{% endtrans %}">
-                            <a href="#">{% trans %}Reconnect{% endtrans %}</a>
+                            <a href="#" role="menuitem">{% trans %}Reconnect{% endtrans %}</a>
                         </li>
-                        <li id="shutdown_kernel"
+                        <li id="shutdown_kernel" role="none"
                             title="Shutdown the Kernel">
-                            <a href="#">{% trans %}Shutdown{% endtrans %}</a>
+                            <a href="#" role="menuitem">{% trans %}Shutdown{% endtrans %}</a>
                         </li>
-                        <li class="divider"></li>
-                        <li id="menu-change-kernel" class="dropdown-submenu">
-                            <a href="#">{% trans %}Change kernel{% endtrans %}</a>
+                        <li class="divider" role="none"></li>
+                        <li id="menu-change-kernel" class="dropdown-submenu" role="menuitem">
+                            <a href="#" role="menuitem">{% trans %}Change kernel{% endtrans %}</a>
                             <ul class="dropdown-menu" id="menu-change-kernel-submenu"></ul>
                         </li>
                     </ul>
