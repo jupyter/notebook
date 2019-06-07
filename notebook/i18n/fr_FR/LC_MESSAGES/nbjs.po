@@ -1187,7 +1187,7 @@ msgstr ""
 
 #: notebook/static/notebook/js/notificationarea.js:166
 msgid "Connection failed"
-msgstr "Échec de la connection"
+msgstr "Échec de la connexion"
 
 #: notebook/static/notebook/js/notificationarea.js:179
 msgid "No kernel"
