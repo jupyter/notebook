@@ -189,66 +189,66 @@ data-notebook-path="{{notebook_path | urlencode}}"
                             <a href="#">{% trans %}Insert Cell Below{% endtrans %}</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans %}Cell Menu{% endtrans %}" aria-label="{% trans %}Cell Menu{% endtrans %}">{% trans %}Cell{% endtrans %}</a>
-                    <ul id="cell_menu" class="dropdown-menu">
-                        <li id="run_cell" title="{% trans %}Run this cell, and move cursor to the next one{% endtrans %}">
-                            <a href="#">{% trans %}Run Cells{% endtrans %}</a></li>
-                        <li id="run_cell_select_below" title="{% trans %}Run this cell, select below{% endtrans %}">
-                            <a href="#">{% trans %}Run Cells and Select Below{% endtrans %}</a></li>
-                        <li id="run_cell_insert_below" title="{% trans %}Run this cell, insert below{% endtrans %}">
-                            <a href="#">{% trans %}Run Cells and Insert Below{% endtrans %}</a></li>
-                        <li id="run_all_cells" title="{% trans %}Run all cells in the notebook{% endtrans %}">
-                            <a href="#">{% trans %}Run All{% endtrans %}</a></li>
-                        <li id="run_all_cells_above" title="{% trans %}Run all cells above (but not including) this cell{% endtrans %}">
-                            <a href="#">{% trans %}Run All Above{% endtrans %}</a></li>
-                        <li id="run_all_cells_below" title="{% trans %}Run this cell and all cells below it{% endtrans %}">
-                            <a href="#">{% trans %}Run All Below{% endtrans %}</a></li>
-                        <li class="divider"></li>
-                        <li id="change_cell_type" class="dropdown-submenu"
+                <li class="dropdown"><a href="#" class="dropdown-toggle" id="celllink" data-toggle="dropdown" aria-haspopup="true" aria-controls="cell_menu">{% trans %}Cell{% endtrans %}</a>
+                    <ul id="cell_menu" class="dropdown-menu" role="menu" aria-labelledby="celllink">
+                        <li id="run_cell" role="none" title="{% trans %}Run this cell, and move cursor to the next one{% endtrans %}">
+                            <a role="menuitem" href="#">{% trans %}Run Cells{% endtrans %}</a></li>
+                        <li id="run_cell_select_below" role="none" title="{% trans %}Run this cell, select below{% endtrans %}">
+                            <a href="#" role="menuitem">{% trans %}Run Cells and Select Below{% endtrans %}</a></li>
+                        <li id="run_cell_insert_below" role="none" title="{% trans %}Run this cell, insert below{% endtrans %}">
+                            <a href="#" role="menuitem">{% trans %}Run Cells and Insert Below{% endtrans %}</a></li>
+                        <li id="run_all_cells" role="none" title="{% trans %}Run all cells in the notebook{% endtrans %}">
+                            <a href="#" role="menuitem">{% trans %}Run All{% endtrans %}</a></li>
+                        <li id="run_all_cells_above" role="none" title="{% trans %}Run all cells above (but not including) this cell{% endtrans %}">
+                            <a href="#" role="menuitem">{% trans %}Run All Above{% endtrans %}</a></li>
+                        <li id="run_all_cells_below" role="none" title="{% trans %}Run this cell and all cells below it{% endtrans %}">
+                            <a href="#" role="menuitem">{% trans %}Run All Below{% endtrans %}</a></li>
+                        <li class="divider" role="none"></li>
+                        <li id="change_cell_type" class="dropdown-submenu" role="none"
                             title="{% trans %}All cells in the notebook have a cell type. By default, new cells are created as 'Code' cells{% endtrans %}">
-                            <a href="#">{% trans %}Cell Type{% endtrans %}</a>
-                            <ul class="dropdown-menu">
-                              <li id="to_code"
+                            <a href="#" role="menuitem">{% trans %}Cell Type{% endtrans %}</a>
+                            <ul class="dropdown-menu" role="menu">
+                              <li id="to_code" role="none"
                                   title="{% trans %}Contents will be sent to the kernel for execution, and output will display in the footer of cell{% endtrans %}">
-                                  <a href="#">Code</a></li>
-                              <li id="to_markdown"
+                                  <a href="#" role="menuitem">Code</a></li>
+                              <li id="to_markdown" role="none"
                                   title="{% trans %}Contents will be rendered as HTML and serve as explanatory text{% endtrans %}">
-                                  <a href="#">{% trans %}Markdown{% endtrans %}</a></li>
-                              <li id="to_raw"
+                                  <a href="#" role="menuitem">{% trans %}Markdown{% endtrans %}</a></li>
+                              <li id="to_raw" role="none"
                                   title="{% trans %}Contents will pass through nbconvert unmodified{% endtrans %}">
-                                  <a href="#">{% trans %}Raw NBConvert{% endtrans %}</a></li>
+                                  <a href="#" role="menuitem">{% trans %}Raw NBConvert{% endtrans %}</a></li>
                             </ul>
                         </li>
-                        <li class="divider"></li>
-                        <li id="current_outputs" class="dropdown-submenu"><a href="#">{% trans %}Current Outputs{% endtrans %}</a>
-                            <ul class="dropdown-menu">
-                                <li id="toggle_current_output"
+                        <li class="divider" role="none"></li>
+                        <li id="current_outputs" class="dropdown-submenu" role="none"><a href="#" role="menuitem">{% trans %}Current Outputs{% endtrans %}</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li id="toggle_current_output" role="none"
                                     title="{% trans %}Hide/Show the output of the current cell{% endtrans %}">
-                                    <a href="#">{% trans %}Toggle{% endtrans %}</a>
+                                    <a href="#" role="menuitem">{% trans %}Toggle{% endtrans %}</a>
                                 </li>
-                                <li id="toggle_current_output_scroll"
+                                <li id="toggle_current_output_scroll" role="none"
                                     title="{% trans %}Scroll the output of the current cell{% endtrans %}">
-                                    <a href="#">{% trans %}Toggle Scrolling{% endtrans %}</a>
+                                    <a href="#" role="menuitem">{% trans %}Toggle Scrolling{% endtrans %}</a>
                                 </li>
-                                <li id="clear_current_output"
+                                <li id="clear_current_output" role="none"
                                     title="{% trans %}Clear the output of the current cell{% endtrans %}">
-                                    <a href="#">{% trans %}Clear{% endtrans %}</a>
+                                    <a href="#" role="menuitem">{% trans %}Clear{% endtrans %}</a>
                                 </li>
                             </ul>
                         </li>
-                        <li id="all_outputs" class="dropdown-submenu"><a href="#">{% trans %}All Output{% endtrans %}</a>
-                            <ul class="dropdown-menu">
-                                <li id="toggle_all_output"
+                        <li id="all_outputs" class="dropdown-submenu" role="none"><a href="#" role="menuitem">{% trans %}All Output{% endtrans %}</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li id="toggle_all_output" role="none"
                                     title="{% trans %}Hide/Show the output of all cells{% endtrans %}">
-                                    <a href="#">{% trans %}Toggle{% endtrans %}</a>
+                                    <a href="#" role="menuitem">{% trans %}Toggle{% endtrans %}</a>
                                 </li>
-                                <li id="toggle_all_output_scroll"
+                                <li id="toggle_all_output_scroll" role="none"
                                     title="{% trans %}Scroll the output of all cells{% endtrans %}">
-                                    <a href="#">{% trans %}Toggle Scrolling{% endtrans %}</a>
+                                    <a href="#" role="menuitem">{% trans %}Toggle Scrolling{% endtrans %}</a>
                                 </li>
-                                <li id="clear_all_output"
+                                <li id="clear_all_output" role="none"
                                     title="{% trans %}Clear the output of all cells{% endtrans %}">
-                                    <a href="#">{% trans %}Clear{% endtrans %}</a>
+                                    <a href="#" role="menuitem">{% trans %}Clear{% endtrans %}</a>
                                 </li>
                             </ul>
                         </li>
