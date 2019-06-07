@@ -390,7 +390,7 @@ class MappingKernelManager(LoggingConfigurable):
         self._check_kernel_id(kernel_id)
         kernel = self._kernels.pop(kernel_id)
         self.log.info("Shutting down kernel %s", kernel_id)
-        yield kernel.shutdown()
+        yield kernel.shutdown(now=now)
         self.last_kernel_activity = utcnow()
 
         # Decrease the metric of number of kernels
@@ -545,4 +545,4 @@ class MappingKernelManager(LoggingConfigurable):
                 idle_duration = int(dt_idle.total_seconds())
                 self.log.warning("Culling '%s' kernel '%s' (%s) with %d connections due to %s seconds of inactivity.",
                                  kernel.execution_state, kernel.kernel_type, kernel_id, connections, idle_duration)
-                kernel.shutdown()
+                self.shutdown_kernel(kernel_id, now=True)
