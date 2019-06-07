@@ -1581,6 +1581,7 @@ define([
             notebook: this,
             keyboard_manager: this.keyboard_manager,
             title : i18n.msg._("Use markdown headings"),
+            type : $("<h1/>"),
             body : $("<p/>").text(
                 i18n.msg._('Jupyter no longer uses special heading cells. ' + 
                 'Instead, write your headings in Markdown cells using # characters:')

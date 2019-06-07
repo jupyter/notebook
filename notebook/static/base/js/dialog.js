@@ -66,9 +66,8 @@ define(['jquery',
                     .attr("aria-hidden", "true")
                     .html("&times;")
                 ).append(
-                    $("<h4/>")
-                        .addClass('modal-title')
-                        .text(options.title || "")
+                    options.type ? options.type.addClass('modal-title').text(options.title || "")
+                        : $("<h4/>").addClass('modal-title').text(options.title || "")
                 )
         ).append(
             $("<div/>")
