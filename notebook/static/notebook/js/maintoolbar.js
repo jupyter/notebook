@@ -58,7 +58,9 @@ define([
             ],
             'run_int'],
          ['<add_celltype_list>'],
-         [['jupyter-notebook:show-command-palette']]
+         [
+           ['jupyter-notebook:show-command-palette'],
+           'cmd_palette']
         ];
         this.construct(grps);
     };
