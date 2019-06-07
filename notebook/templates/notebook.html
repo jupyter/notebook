@@ -287,13 +287,13 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans %}Help Menu{% endtrans %}" aria-label="{% trans %}Help Menu{% endtrans %}">{% trans %}Help{% endtrans %}</a>
-                    <ul  id="help_menu" class="dropdown-menu">
+                <li class="dropdown"><a href="#" class="dropdown-toggle" id="helplink" data-toggle="dropdown" aria-haspopup="true" aria-controls="help_menu">{% trans %}Help{% endtrans %}</a>
+                    <ul  id="help_menu" class="dropdown-menu" role="menu" aria-labelledby="helplink">
                         {% block help %}
-                        <li id="notebook_tour" title="{% trans %}A quick tour of the notebook user interface{% endtrans %}"><a href="#">{% trans %}User Interface Tour{% endtrans %}</a></li>
-                        <li id="keyboard_shortcuts" title="{% trans %}Opens a tooltip with all keyboard shortcuts{% endtrans %}"><a href="#">{% trans %}Keyboard Shortcuts{% endtrans %}</a></li>
-                        <li id="edit_keyboard_shortcuts" title="{% trans %}Opens a dialog allowing you to edit Keyboard shortcuts{% endtrans %}"><a href="#">{% trans %}Edit Keyboard Shortcuts{% endtrans %}</a></li>
-                        <li class="divider"></li>
+                        <li id="notebook_tour" role="none" title="{% trans %}A quick tour of the notebook user interface{% endtrans %}"><a href="#" role="menuitem">{% trans %}User Interface Tour{% endtrans %}</a></li>
+                        <li id="keyboard_shortcuts" role="none" title="{% trans %}Opens a tooltip with all keyboard shortcuts{% endtrans %}"><a href="#" role="menuitem">{% trans %}Keyboard Shortcuts{% endtrans %}</a></li>
+                        <li id="edit_keyboard_shortcuts" role="none" title="{% trans %}Opens a dialog allowing you to edit Keyboard shortcuts{% endtrans %}"><a href="#" role="menuitem">{% trans %}Edit Keyboard Shortcuts{% endtrans %}</a></li>
+                        <li class="divider" role="none"></li>
                         {% set
                             sections = (
                                 (
@@ -306,7 +306,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
 						{% set openmsg = _("Opens in a new window") %}
                         {% for helplinks in sections %}
                             {% for link in helplinks %}
-                                <li><a rel="noreferrer" href="{{link[0]}}" target="{{'_blank' if link[2]}}" title="{{openmsg if link[2]}}">
+                                <li role="none"><a rel="noreferrer" role="menuitem" href="{{link[0]}}" target="{{'_blank' if link[2]}}" title="{{openmsg if link[2]}}">
                                 {% if link[2] %}
                                     <i class="fa fa-external-link menu-icon pull-right"></i>
                                 {% endif %}
@@ -315,11 +315,11 @@ data-notebook-path="{{notebook_path | urlencode}}"
                                 </a></li>
                             {% endfor %}
                             {% if not loop.last %}
-                                <li class="divider"></li>
+                                <li class="divider" role="none"></li>
                             {% endif %}
                         {% endfor %}
-                        <li class="divider"></li>
-                        <li title="{% trans %}About Jupyter Notebook{% endtrans %}"><a id="notebook_about" href="#">{% trans %}About{% endtrans %}</a></li>
+                        <li class="divider" role="none"></li>
+                        <li role="none" title="{% trans %}About Jupyter Notebook{% endtrans %}"><a id="notebook_about" href="#" role="menuitem">{% trans %}About{% endtrans %}</a></li>
                         {% endblock %}
                     </ul>
                 </li>
