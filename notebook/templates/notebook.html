@@ -81,7 +81,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
                 <li class="dropdown"><a href="#" class="dropdown-toggle" id="filelink" data-toggle="dropdown" aria-haspopup="true" aria-controls="file_menu">{% trans %}File{% endtrans %}</a>
                     <ul id="file_menu" class="dropdown-menu" role="menu" aria-labelledby="filelink">
                         <li id="new_notebook" class="dropdown-submenu" role="none">
-                            <a href="#" role="menuitem">{% trans %}New Notebook{% endtrans %}<span class="sr-only">Toggle Dropdown</span></a>
+                            <a href="#" role="menuitem">{% trans %}New Notebook{% endtrans %}<span class="sr-only">Dropdown</span></a>
                             <ul class="dropdown-menu" id="menu-new-notebook-submenu"></ul>
                         </li>
                         <li id="open_notebook" role="none"
@@ -99,7 +99,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         <li id="save_checkpoint" role="none"><a href="#" role="menuitem">{% trans %}Save and Checkpoint{% endtrans %}</a></li>
                         <!-- <hr/> -->
                         <li class="divider" role="none"></li>
-                        <li id="restore_checkpoint" class="dropdown-submenu" role="none"><a href="#" role="menuitem">{% trans %}Revert to Checkpoint{% endtrans %}<span class="sr-only">Toggle Dropdown</span></a>
+                        <li id="restore_checkpoint" class="dropdown-submenu" role="none"><a href="#" role="menuitem">{% trans %}Revert to Checkpoint{% endtrans %}<span class="sr-only">Dropdown</span></a>
                           <ul class="dropdown-menu">
                             <li><a href="#"></a></li>
                             <li><a href="#"></a></li>
@@ -110,7 +110,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         </li>
                         <li class="divider" role="none"></li>
                         <li id="print_preview" role="none"><a href="#" role="menuitem">{% trans %}Print Preview{% endtrans %}</a></li>
-                        <li class="dropdown-submenu" role="none"><a href="#" role="menuitem">{% trans %}Download as{% endtrans %}<span class="sr-only">Toggle Dropdown</span></a>
+                        <li class="dropdown-submenu" role="none"><a href="#" role="menuitem">{% trans %}Download as{% endtrans %}<span class="sr-only">Dropdown</span></a>
 
                             <ul id="download_menu" class="dropdown-menu">
                                 {% for exporter in get_frontend_exporters() %}
