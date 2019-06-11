@@ -971,7 +971,11 @@ define([
         var item_path = this.selected[0].path;
         var item_name = this.selected[0].name;
         var item_type = this.selected[0].type;
-        var input = $('<input/>').attr('type','text').attr('size','25').addClass('form-control')
+        var input = $('<input/>')
+            .attr('type','text')
+            .attr('size','25')
+            .attr('aria-labelledby','rename-message')
+            .addClass('form-control')
             .val(item_name);
         var rename_msg = function (type) {
         	switch(type) {
@@ -991,6 +995,7 @@ define([
         };
         var dialog_body = $('<div/>').append(
             $("<p/>").addClass("rename-message")
+                .attr('id', 'rename-message')
                 .text(rename_msg(item_type))
         ).append(
             $("<br/>")
