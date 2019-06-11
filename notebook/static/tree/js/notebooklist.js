@@ -386,6 +386,7 @@ define([
         var root = $('<li/>').append(
             $("<a/>")
             .attr('href', root_url)
+            .attr('title','Link to root folder'+root_url)
             .append(
                 $("<i/>")
                 .addClass('fa fa-folder')
