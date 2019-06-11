@@ -4,6 +4,8 @@
 // adapted from Mozilla Developer Network example at
 // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind
 // shim `bind` for testing under casper.js
+
+
 var bind = function bind(obj) {
   var slice = [].slice;
   var args = slice.call(arguments, 1),
@@ -190,7 +192,7 @@ requirejs([
     $("#alternate_upload").change(function (event){
         notebook_list.handleFilesUpload(event,'form');
     });
-    
+
     // set hash on tab click
     $("#tabs").find("a").click(function(e) {
         // Prevent the document from jumping when the active tab is changed to a 
@@ -213,4 +215,5 @@ requirejs([
     }
     
     shutdownbutton.activate();
+
 });
