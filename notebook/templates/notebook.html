@@ -113,7 +113,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
                             <ul id="download_menu" class="dropdown-menu">
                                 {% for exporter in get_frontend_exporters() %}
                                 <li id="download_{{ exporter.name }}">
-                                    <a href="#">{{ exporter.display }}</a>
+                                    <a  href="#">{{ exporter.display }}</a>
                                 </li>
                                 {% endfor %}
                             </ul>
