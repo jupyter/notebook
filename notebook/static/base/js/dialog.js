@@ -60,14 +60,14 @@ define(['jquery',
                 })
                 .append($("<button>")
                     .attr("type", "button")
+                    .attr("aria-label","close")
                     .addClass("close")
                     .attr("data-dismiss", "modal")
                     .attr("aria-hidden", "true")
                     .html("&times;")
                 ).append(
-                    $("<h4/>")
-                        .addClass('modal-title')
-                        .text(options.title || "")
+                    options.type ? options.type.addClass('modal-title').text(options.title || "")
+                        : $("<h4/>").addClass('modal-title').text(options.title || "")
                 )
         ).append(
             $("<div/>")
