@@ -404,6 +404,7 @@ define([
             var about = $("#notebook_about").parent();
             divider = $("<li>")
                 .attr('id', "kernel-help-links")
+                .attr('role', "none")
                 .addClass('divider');
             about.prev().before(divider);
         }
@@ -421,6 +422,7 @@ define([
             cursor.after($("<li>")
                 .append($("<a>")
                     .attr('target', '_blank')
+                    .attr('role', "menuitem")
                     .attr('title', i18n.msg._('Opens in a new window'))
                     .attr('href', requirejs.toUrl(link.url))
                     .append($("<i>")
