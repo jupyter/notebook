@@ -1,44 +1,52 @@
-# http://travis-ci.org/#!/ipython/ipython
-language: python
+# Node.js
 
-cache:
-    directories:
-        - $HOME/.cache/bower
-        - $HOME/.cache/pip
-python:
-    - 3.6
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
-sudo: required
+#TODO: remove this so it triggers on all branches
+trigger:
+- master
 
+pool:
+  vmImage: 'ubuntu-latest'
 
-env:
+strategy:
   global:
-    - PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
+    set_path:
+      path_1: PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
   matrix:
-    - GROUP=js/notebook
-    - GROUP=python
-    - GROUP=js/base
-    - GROUP=js/services
+    set_to_notebook:
+      env_1: GROUP=js/notebook
+      env_2: GROUP=python
+      env_3: GROUP=js/base
+      env_4: GROUP=js/services
 
-before_install:
-    - pip install --upgrade pip
-    - pip install --upgrade setuptools wheel nose coverage codecov
-    - nvm install 6.9.2
-    - nvm use 6.9.2
-    - node --version
-    - npm --version
-    - npm upgrade -g npm
-    - npm install
-    - |
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.7'
+    addToPath: true
+    architecture: 'x64'
+
+- script: |
+      pip install --upgrade pip
+      pip install --upgrade setuptools wheel nose coverage codecov
+      nvm install 6.9.2
+      nvm use 6.9.2
+      node --version
+      npm --version
+      npm upgrade -g npm
+      npm install
+      |
       if [[ $GROUP == js* ]]; then
         npm install -g casperjs@1.1.3 phantomjs-prebuilt@2.1.7
       fi
-    - |
+      |
       if [[ $GROUP == docs ]]; then
         pip install -r docs/doc-requirements.txt
         pip install --upgrade pytest
       fi
-    - |
+      |
       if [[ $GROUP == selenium ]]; then
         pip install --upgrade selenium pytest
         # Install Webdriver backend for Firefox:
@@ -47,17 +55,21 @@ before_install:
         tar -xzf geckodriver-v0.19.1-linux64.tar.gz -C geckodriver
         export PATH=$PATH:$PWD/geckodriver
       fi
-    - pip install "attrs>=17.4.0"
+      pip install "attrs>=17.4.0"
+    displayName: 'Before Install'
+    continueOnError: false
 
-install:
-    - pip install --pre .[test] $EXTRA_PIP
-    - pip freeze
-    - wget https://github.com/jgm/pandoc/releases/download/1.19.1/pandoc-1.19.1-1-amd64.deb && sudo dpkg -i pandoc-1.19.1-1-amd64.deb
+- script: |
+      pip install --pre .[test] $EXTRA_PIP
+      pip freeze
+      wget https://github.com/jgm/pandoc/releases/download/1.19.1/pandoc-1.19.1-1-amd64.deb && sudo dpkg -i pandoc-1.19.1-1-amd64.deb
+    displayName: 'Install'
+    continueOnError: false
 
-
-script:
-    - jupyter kernelspec list
-    - |
+# Run Tests
+- script: |
+      jupyter kernelspec list
+      |
       symlinks=$(find . -type l| grep -v './node_modules/' | grep -v './git-hooks')
       if [[ $(echo $symlinks) ]]; then
           echo "Repository contains symlinks which won't work on windows:"
@@ -67,10 +79,10 @@ script:
       else
           true
       fi
-    - 'if [[ $GROUP == js* ]]; then travis_retry python -m notebook.jstest ${GROUP:3}; fi'
-    - 'if [[ $GROUP == python ]]; then nosetests -v --exclude-dir notebook/tests/selenium --with-coverage --cover-package=notebook notebook; fi'
-    - 'if [[ $GROUP == selenium ]]; then py.test -sv notebook/tests/selenium; fi'
-    - |
+      'if [[ $GROUP == js* ]]; then travis_retry python -m notebook.jstest ${GROUP:3}; fi'
+      'if [[ $GROUP == python ]]; then nosetests -v --exclude-dir notebook/tests/selenium --with-coverage --cover-package=notebook notebook; fi'
+      'if [[ $GROUP == selenium ]]; then py.test -sv notebook/tests/selenium; fi'
+      |
       if [[ $GROUP == docs ]]; then
         EXIT_STATUS=0
         make -C docs/ html || EXIT_STATUS=$?
@@ -80,22 +92,5 @@ script:
         pytest --nbval --current-env docs || EXIT_STATUS=$?
         exit $EXIT_STATUS
       fi
-matrix:
-    include:
-        - python: 3.6
-          env:
-          - GROUP=selenium
-          - JUPYTER_TEST_BROWSER=firefox
-          - MOZ_HEADLESS=1
-          addons:
-            firefox: 57.0
-        - python: 3.5
-          env: GROUP=python
-        - python: 3.7
-          dist: xenial
-          env: GROUP=python
-        - python: 3.6
-          env: GROUP=docs
-
-after_success:
-    - codecov
+    displayName: 'script'
+    continueOnError: false
