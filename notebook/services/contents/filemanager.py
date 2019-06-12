@@ -342,7 +342,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                             )
                 except OSError as e:
                     # Ignore recursive links and move on
-                    if e.errno==62:
+                    if e.errno==62 or e.errno==40:
                         continue
                     else:
                         raise e
