@@ -421,6 +421,7 @@ define([
             var crumb = $('<li/>').append(
                 $('<a/>')
                 .attr('href', url)
+                .attr('title',"link to"+url)
                 .text(path_part)
                 .click(function(e) {
                     // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
@@ -817,13 +818,16 @@ define([
         if(selected.length>=1){
           if($('#select-all').prop("checked")){
             $('#button-select-all').attr("aria-label","Selected All "+ selected.length+" items");
+            $("#button-select-all").attr("aria-checked","true");
           }
           else{
             $('#button-select-all').attr("aria-label","Selected, "+ selected.length+" items");
+            $("#button-select-all").attr("aria-checked","true");
           }
         }
         else{
           $('#button-select-all').attr("aria-label","Select All/None");
+        $("#button-select-all").attr("aria-checked","false");
         }
 
         // If at aleast on item is selected, hide the selection instructions.
