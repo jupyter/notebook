@@ -37,23 +37,14 @@ steps:
       npm --version
       npm upgrade -g npm
       npm install
-      |
-      if [[ $GROUP == js* ]]; then
-        npm install -g casperjs@1.1.3 phantomjs-prebuilt@2.1.7
-      fi
-      |
-      if [[ $GROUP == docs ]]; then
-        pip install -r docs/doc-requirements.txt
-        pip install --upgrade pytest
-      fi
-      |
-      if [[ $GROUP == selenium ]]; then
-        pip install --upgrade selenium pytest
-        wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
-        mkdir geckodriver
-        tar -xzf geckodriver-v0.19.1-linux64.tar.gz -C geckodriver
-        export PATH=$PATH:$PWD/geckodriver
-      fi
+      npm install -g casperjs@1.1.3 phantomjs-prebuilt@2.1.7
+      pip install -r docs/doc-requirements.txt
+      pip install --upgrade pytest
+      pip install --upgrade selenium pytest
+      wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
+      mkdir geckodriver
+      tar -xzf geckodriver-v0.19.1-linux64.tar.gz -C geckodriver
+      export PATH=$PATH:$PWD/geckodriver
       pip install "attrs>=17.4.0"
   displayName: 'Before Install'
   continueOnError: false
@@ -79,18 +70,18 @@ steps:
       else
           true
       fi
-      'if [[ $GROUP == js* ]]; then travis_retry python -m notebook.jstest ${GROUP:3}; fi'
-      'if [[ $GROUP == python ]]; then nosetests -v --exclude-dir notebook/tests/selenium --with-coverage --cover-package=notebook notebook; fi'
-      'if [[ $GROUP == selenium ]]; then py.test -sv notebook/tests/selenium; fi'
-      |
-      if [[ $GROUP == docs ]]; then
-        EXIT_STATUS=0
-        make -C docs/ html || EXIT_STATUS=$?
-        if [[ $TRAVIS_EVENT_TYPE == cron ]]; then
-          make -C docs/ linkcheck || EXIT_STATUS=$?;
-        fi
-        pytest --nbval --current-env docs || EXIT_STATUS=$?
-        exit $EXIT_STATUS
-      fi
+      python -m notebook.jstest ${GROUP:3}
+      nosetests -v --exclude-dir notebook/tests/selenium --with-coverage --cover-package=notebook notebook
+      py.test -sv notebook/tests/selenium
+      # |
+      # if [[ $GROUP == docs ]]; then
+      #   EXIT_STATUS=0
+      #   make -C docs/ html || EXIT_STATUS=$?
+      #   if [[ $TRAVIS_EVENT_TYPE == cron ]]; then
+      #     make -C docs/ linkcheck || EXIT_STATUS=$?;
+      #   fi
+      #   pytest --nbval --current-env docs || EXIT_STATUS=$?
+      #   exit $EXIT_STATUS
+      # fi
   displayName: 'script'
   continueOnError: false
