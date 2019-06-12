@@ -60,7 +60,6 @@ steps:
 # Run Tests
 - script: |
       jupyter kernelspec list
-      |
       symlinks=$(find . -type l| grep -v './node_modules/' | grep -v './git-hooks')
       if [[ $(echo $symlinks) ]]; then
           echo "Repository contains symlinks which won't work on windows:"
