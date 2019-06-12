@@ -12,16 +12,16 @@ pool:
   vmImage: 'ubuntu-latest'
 
 strategy:
-  global:
-    set_path:
-      path_1: PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
   matrix:
-    set_to_notebook:
-      env_1: GROUP=js/notebook
-      env_2: GROUP=python
-      env_3: GROUP=js/base
-      env_4: GROUP=js/services
+      set_path:
+        path_1: PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
+      set_to_notebook:
+        env_1: GROUP=js/notebook
+        env_2: GROUP=python
+        env_3: GROUP=js/base
+        env_4: GROUP=js/services
 
+steps:
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.7'
@@ -49,22 +49,22 @@ strategy:
       |
       if [[ $GROUP == selenium ]]; then
         pip install --upgrade selenium pytest
-        # Install Webdriver backend for Firefox:
         wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
         mkdir geckodriver
         tar -xzf geckodriver-v0.19.1-linux64.tar.gz -C geckodriver
         export PATH=$PATH:$PWD/geckodriver
       fi
       pip install "attrs>=17.4.0"
-    displayName: 'Before Install'
-    continueOnError: false
+  displayName: 'Before Install'
+  continueOnError: false
 
 - script: |
       pip install --pre .[test] $EXTRA_PIP
       pip freeze
-      wget https://github.com/jgm/pandoc/releases/download/1.19.1/pandoc-1.19.1-1-amd64.deb && sudo dpkg -i pandoc-1.19.1-1-amd64.deb
-    displayName: 'Install'
-    continueOnError: false
+      wget https://github.com/jgm/pandoc/releases/download/1.19.1/pandoc-1.19.1-1-amd64.deb
+      sudo dpkg -i pandoc-1.19.1-1-amd64.deb
+  displayName: 'Install'
+  continueOnError: false
 
 # Run Tests
 - script: |
@@ -92,5 +92,5 @@ strategy:
         pytest --nbval --current-env docs || EXIT_STATUS=$?
         exit $EXIT_STATUS
       fi
-    displayName: 'script'
-    continueOnError: false
+  displayName: 'script'
+  continueOnError: false
