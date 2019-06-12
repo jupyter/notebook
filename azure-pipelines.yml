@@ -26,3 +26,7 @@ steps:
     npm install
     npm run build
   displayName: 'npm install and build'
+
+- script:
+    python -m notebook.jstest 
+  displayName: 'run notebook tests'
