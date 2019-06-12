@@ -334,12 +334,18 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                     self.log.debug("%s not a regular file", os_path)
                     continue
 
-                if self.should_list(name):
-                    if self.allow_hidden or not is_file_hidden(os_path, stat_res=st):
-                        contents.append(
-                                self.get(path='%s/%s' % (path, name), content=False)
-                        )
-
+                try:
+                    if self.should_list(name):
+                        if self.allow_hidden or not is_file_hidden(os_path, stat_res=st):
+                            contents.append(
+                                    self.get(path='%s/%s' % (path, name), content=False)
+                            )
+                except OSError as e:
+                    # Ignore recursive links and move on
+                    if e.errno==62:
+                        continue
+                    else:
+                        raise e
             model['format'] = 'json'
 
         return model

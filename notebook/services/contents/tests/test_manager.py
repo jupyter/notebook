@@ -130,6 +130,26 @@ class TestFileContentsManager(TestCase):
             self.assertTrue('bad symlink' in contents)
 
     @dec.skipif(sys.platform == 'win32' and sys.version_info[0] < 3)
+    def test_recursive_symlink(self):
+        with TemporaryDirectory() as td:
+            cm = FileContentsManager(root_dir=td)
+            path = 'test recursive symlink'
+            _make_dir(cm, path)
+            os_path = cm._get_os_path(path)
+            os.symlink("recursive", os.path.join(os_path, "recursive"))
+            file_model = cm.new_untitled(path=path, ext='.txt')
+
+            model = cm.get(path)
+
+            contents = {
+                content['name']: content for content in model['content']
+            }
+            self.assertTrue('untitled.txt' in contents)
+            self.assertEqual(contents['untitled.txt'], file_model)
+            # recusrive symlinks should not be shown in the contents manager
+            self.assertFalse('recusrive' in contents)
+
+    @dec.skipif(sys.platform == 'win32' and sys.version_info[0] < 3)
     def test_good_symlink(self):
         with TemporaryDirectory() as td:
             cm = FileContentsManager(root_dir=td)
