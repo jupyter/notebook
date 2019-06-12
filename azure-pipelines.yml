@@ -69,9 +69,13 @@ steps:
       else
           true
       fi
-      python -m notebook.jstest ${GROUP:3}
-      nosetests -v --exclude-dir notebook/tests/selenium --with-coverage --cover-package=notebook notebook
-      py.test -sv notebook/tests/selenium
+      python -m notebook.jstest js/notebook
+      python -m notebook.jstest python
+      python -m notebook.jstest js/base
+      python -m notebook.jstest js/services
+
+      # nosetests -v --exclude-dir notebook/tests/selenium --with-coverage --cover-package=notebook notebook
+      # py.test -sv notebook/tests/selenium
       # |
       # if [[ $GROUP == docs ]]; then
       #   EXIT_STATUS=0
