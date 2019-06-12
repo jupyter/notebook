@@ -190,12 +190,19 @@ define(['jquery',
                         .append(textarea)
                     )
             );
+
+        //fix issue#4012
         var editor = CodeMirror.fromTextArea(textarea[0], {
             lineNumbers: true,
             matchBrackets: true,
             indentUnit: 2,
             autoIndent: true,
             mode: 'application/json',
+            extraKeys:{
+                Tab:false,
+                Shift:false,
+                'Shift-Tab':false
+            }
         });
         var title_msg;
         if (options.name === "Notebook") {
