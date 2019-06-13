@@ -1,9 +1,4 @@
 
-
-#TODO: remove this so it triggers on all branches
-trigger:
-- master
-
 variables:
   JUPYTER_TEST_BROWSER: firefox
   MOZ_HEADLESS: 1
@@ -105,9 +100,3 @@ steps:
       pytest --nbval --current-env docs
   displayName: 'Run documentation Tests'
   continueOnError: false
-
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
-  inputs:
-    testResultsFiles: '**/test-*.xml'
-    testRunTitle: 'Publish test results for Python'
