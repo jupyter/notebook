@@ -531,7 +531,7 @@ class MappingKernelManager(LoggingConfigurable):
 
     def cull_kernel_if_idle(self, kernel_id):
         kernel = self._kernels[kernel_id]
-        self.log.debug("kernel_id=%s, kernel_name=%s, last_activity=%s", kernel_id, kernel.kernel_name, kernel.last_activity)
+        self.log.debug("kernel_id=%s, kernel_name=%s, last_activity=%s", kernel_id, kernel.kernel_type, kernel.last_activity)
         if kernel.last_activity is not None:
             dt_now = utcnow()
             dt_idle = dt_now - kernel.last_activity
