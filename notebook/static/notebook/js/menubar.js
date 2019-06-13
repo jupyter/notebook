@@ -152,12 +152,27 @@ define([
         this.events.trigger('resize-header.Page');
     };
 
+    (function($){
+        $(document).ready(function(){
+            $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+                event.preventDefault(); 
+                event.stopPropagation(); 
+                $(this).parent().siblings().removeClass('open');
+                $(this).parent().toggleClass('open');
+            });
+        });
+    })(jQuery);
+
     MenuBar.prototype.bind_events = function () {
         /**
          *  File
          */
         var that = this;
         
+        this.element.find("#new_notebook").click(function(){
+            console.log("11");
+        })
+
         this.element.find('#open_notebook').click(function () {
             var parent = utils.url_path_split(that.notebook.notebook_path)[0];
             window.open(
