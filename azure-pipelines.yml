@@ -85,10 +85,10 @@ steps:
   displayName: 'Run notebook Tests'
   continueOnError: false
 
-- script: |
-      python -m notebook.jstest services
-  displayName: 'Run services Tests'
-  continueOnError: false
+# - script: |
+#       python -m notebook.jstest services
+#   displayName: 'Run services Tests'
+#   continueOnError: false
 
 - script: |
       nosetests -v --exclude-dir notebook/tests/selenium --with-coverage --cover-package=notebook notebook
