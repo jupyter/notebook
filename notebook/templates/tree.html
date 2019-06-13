@@ -100,7 +100,7 @@ data-server-root="{{server_root}}"
             <div id="notebook_list_header" class="row list_header">
               <div class="btn-group dropdown" id="tree-selector">
                 <button title="{% trans %}Select All / None{% endtrans %}" aria-label="{% trans %}Select All / None{% endtrans %}" type="button" class="btn btn-default btn-xs" id="button-select-all" role="checkbox">
-                  <input type="checkbox" class="pull-left tree-selector" id="select-all"><span id="counter-select-all">&nbsp;</span></input>
+                  <input type="checkbox" class="pull-left tree-selector" id="select-all" tabindex="-1"><span id="counter-select-all">&nbsp;</span></input>
                 </button>
                 <button title="{% trans %}Select Folders/All Notebooks/Running/Files {% endtrans %}" class="btn btn-default btn-xs dropdown-toggle" type="button" id="tree-selector-btn" data-toggle="dropdown" aria-expanded="true">
                   <span class="caret"></span>
