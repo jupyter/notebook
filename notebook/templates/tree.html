@@ -119,22 +119,22 @@ data-server-root="{{server_root}}"
                 </ul>
               </div>
               <div id="file_size" class="pull-right sort_button">
-                  <span class="btn btn-xs btn-default sort-action" id="file-size">
+                  <button type="button" class="btn btn-xs btn-default sort-action" id="file-size" aria-label="{% trans %}Sort by file size{% endtrans %}">
                       {% trans %}File size{% endtrans %}
                       <i class="fa"></i>
-                  </span>
+                  </button>
               </div>
               <div id="last_modified" class="pull-right sort_button">
-                  <span class="btn btn-xs btn-default sort-action" id="last-modified">
+                  <button type="button" class="btn btn-xs btn-default sort-action" id="last-modified" aria-label="{% trans %}Sort by last modified{% endtrans %}">
                       {% trans %}Last Modified{% endtrans %}
                       <i class="fa"></i>
-                  </span>
+                  </button>
               </div>
               <div id="sort_name" class="pull-right sort_button">
-                  <span class="btn btn-xs btn-default sort-action" id="sort-name">
+                <button type="button" class="btn btn-xs btn-default sort-action" id="sort-name" aria-label="{% trans %}Sort by name{% endtrans %}">
                       {% trans %}Name{% endtrans %}
                       <i class="fa fa-arrow-down"></i>
-                  </span>
+                </button>
               </div>
             </div>
           </div>
