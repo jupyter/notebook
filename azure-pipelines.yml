@@ -27,7 +27,6 @@ steps:
       sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
       cd ..
       echo 'casperjs and phantomjs installed'
-      
       sudo apt-get install libc6 libstdc++6 libgcc1 libgtk2.0-0 libasound2 libxrender1 libdbus-glib-1-2
       sudo apt-get install firefox
       echo 'FIREFOX INSTALLED'
@@ -36,7 +35,6 @@ steps:
       sudo mv slimerjs-1.0.0 /usr/local/share
       sudo ln -sf /usr/local/share/slimerjs-1.0.0/slimerjs /usr/local/bin
       export SLIMERJSLAUNCHER=/usr/bin/firefox
-
       pip install -r docs/doc-requirements.txt
       pip install --upgrade pytest
       pip install --upgrade selenium pytest
