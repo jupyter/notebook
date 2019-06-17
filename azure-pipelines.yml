@@ -51,12 +51,12 @@ steps:
       pip install "attrs>=17.4.0"
 
       apt-get install sqlite3  
-      sqlite3 -version  
-      apt-get install python-pysqlite2  
-      apt-get install python-pysqlite2-dbg  
-      apt-get install libsqlite3-dev   
-      apt-get install sqlite  
-      pip install pysqlite 
+      # sqlite3 -version  
+      # apt-get install python-pysqlite2  
+      # apt-get install python-pysqlite2-dbg  
+      # apt-get install libsqlite3-dev   
+      # apt-get install sqlite  
+      # pip install pysqlite 
   displayName: 'Before Install'
   continueOnError: false
 
