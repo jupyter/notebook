@@ -16,8 +16,8 @@ steps:
 - script: |
       pip install --upgrade pip
       pip install --upgrade setuptools wheel nose coverage codecov
-      nvm install 6.9.2
-      nvm use 6.9.2
+      nvm install 10.16.0
+      nvm use 10.16.0
       node --version
       npm --version
       npm upgrade -g npm
