@@ -35,7 +35,7 @@ from notebook._sysinfo import get_sys_info
 
 from traitlets.config import Application
 from ipython_genutils.path import filefind
-from ipython_genutils.py3compat import string_types
+from ipython_genutils.py3compat import string_types, PY3
 
 import notebook
 from notebook._tz import utcnow
@@ -82,6 +82,7 @@ class AuthenticatedHandler(web.RequestHandler):
 
     def set_default_headers(self):
         headers = {}
+        headers["X-Content-Type-Options"] = "nosniff"
         headers.update(self.settings.get('headers', {}))
 
         headers["Content-Security-Policy"] = self.content_security_policy
@@ -179,11 +180,6 @@ class AuthenticatedHandler(web.RequestHandler):
     def token(self):
         """Return the login token for this application, if any."""
         return self.settings.get('token', None)
-
-    @property
-    def one_time_token(self):
-        """Return the one-time-use token for this application, if any."""
-        return self.settings.get('one_time_token', None)
 
     @property
     def login_available(self):
@@ -404,13 +400,69 @@ class IPythonHandler(AuthenticatedHandler):
             )
         return allow
 
+    def check_referer(self):
+        """Check Referer for cross-site requests.
+
+        Disables requests to certain endpoints with
+        external or missing Referer.
+
+        If set, allow_origin settings are applied to the Referer
+        to whitelist specific cross-origin sites.
+
+        Used on GET for api endpoints and /files/
+        to block cross-site inclusion (XSSI).
+        """
+        host = self.request.headers.get("Host")
+        referer = self.request.headers.get("Referer")
+
+        if not host:
+            self.log.warning("Blocking request with no host")
+            return False
+        if not referer:
+            self.log.warning("Blocking request with no referer")
+            return False
+
+        referer_url = urlparse(referer)
+        referer_host = referer_url.netloc
+        if referer_host == host:
+            return True
+
+        # apply cross-origin checks to Referer:
+        origin = "{}://{}".format(referer_url.scheme, referer_url.netloc)
+        if self.allow_origin:
+            allow = self.allow_origin == origin
+        elif self.allow_origin_pat:
+            allow = bool(self.allow_origin_pat.match(origin))
+        else:
+            # No CORS settings, deny the request
+            allow = False
+
+        if not allow:
+            self.log.warning("Blocking Cross Origin request for %s.  Referer: %s, Host: %s",
+                self.request.path, origin, host,
+            )
+        return allow
+
     def check_xsrf_cookie(self):
         """Bypass xsrf cookie checks when token-authenticated"""
         if self.token_authenticated or self.settings.get('disable_check_xsrf', False):
             # Token-authenticated requests do not need additional XSRF-check
             # Servers without authentication are vulnerable to XSRF
             return
-        return super(IPythonHandler, self).check_xsrf_cookie()
+        try:
+            return super(IPythonHandler, self).check_xsrf_cookie()
+        except web.HTTPError as e:
+            if self.request.method in {'GET', 'HEAD'}:
+                # Consider Referer a sufficient cross-origin check for GET requests
+                if not self.check_referer():
+                    referer = self.request.headers.get('Referer')
+                    if referer:
+                        msg = "Blocking Cross Origin request from {}.".format(referer)
+                    else:
+                        msg = "Blocking request from unknown origin"
+                    raise web.HTTPError(403, msg)
+            else:
+                raise
 
     def check_host(self):
         """Check the host header if remote access disallowed.
@@ -427,11 +479,15 @@ class IPythonHandler(AuthenticatedHandler):
         if host.startswith('[') and host.endswith(']'):
             host = host[1:-1]
 
+        if not PY3:
+            # ip_address only accepts unicode on Python 2
+            host = host.decode('utf8', 'replace')
+
         try:
             addr = ipaddress.ip_address(host)
         except ValueError:
             # Not an IP address: check against hostnames
-            allow = host in self.settings.get('local_hostnames', [])
+            allow = host in self.settings.get('local_hostnames', ['localhost'])
         else:
             allow = addr.is_loopback
 
@@ -471,7 +527,7 @@ class IPythonHandler(AuthenticatedHandler):
             logged_in=self.logged_in,
             allow_password_change=self.settings.get('allow_password_change'),
             login_available=self.login_available,
-            token_available=bool(self.token or self.one_time_token),
+            token_available=bool(self.token),
             static_url=self.static_url,
             sys_info=json_sys_info(),
             contents_js_source=self.contents_js_source,
@@ -603,8 +659,11 @@ class APIHandler(IPythonHandler):
         return super(APIHandler, self).finish(*args, **kwargs)
 
     def options(self, *args, **kwargs):
-        self.set_header('Access-Control-Allow-Headers',
-                        'accept, content-type, authorization, x-xsrftoken')
+        if 'Access-Control-Allow-Headers' in self.settings.get('headers', {}):
+            self.set_header('Access-Control-Allow-Headers', self.settings['headers']['Access-Control-Allow-Headers'])
+        else:
+            self.set_header('Access-Control-Allow-Headers',
+                            'accept, content-type, authorization, x-xsrftoken')
         self.set_header('Access-Control-Allow-Methods',
                         'GET, PUT, POST, PATCH, DELETE, OPTIONS')
 
@@ -648,13 +707,20 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
                 "; sandbox allow-scripts"
 
     @web.authenticated
+    def head(self, path):
+        self.check_xsrf_cookie()
+        return super(AuthenticatedFileHandler, self).head(path)
+
+    @web.authenticated
     def get(self, path):
+        self.check_xsrf_cookie()
+
         if os.path.splitext(path)[1] == '.ipynb' or self.get_argument("download", False):
             name = path.rsplit('/', 1)[-1]
             self.set_attachment_header(name)
 
         return web.StaticFileHandler.get(self, path)
-    
+
     def get_content_type(self):
         path = self.absolute_path.strip('/')
         if '/' in path:

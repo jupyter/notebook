@@ -122,7 +122,7 @@ define([
         if(filename){
             this._filename = filename;
         }
-        document.title = (dirty?'*':'')+this._filename;
+        document.title = (dirty ? '*' : '') + this._filename + ' - Jupyter Text Editor';
     };
 
     SaveWidget.prototype.update_address_bar = function (path) {

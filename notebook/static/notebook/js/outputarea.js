@@ -732,7 +732,8 @@ define([
         var renderer = new marked.Renderer();
         renderer.tablecell = function (content, flags) {
           var type = flags.header ? 'th' : 'td';
-          var start_tag = '<' + type + '>';
+          var style = flags.align == null ? '': ' style="text-align: ' + flags.align + '"';
+          var start_tag = '<' + type + style + '>';
           var end_tag = '</' + type + '>\n';
           return start_tag + content + end_tag;
         };

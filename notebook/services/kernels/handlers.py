@@ -15,14 +15,14 @@ from tornado import gen, web
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
 
+from jupyter_client import protocol_version as client_protocol_version
 from jupyter_client.jsonutil import date_default
 from ipython_genutils.py3compat import cast_unicode
-from notebook.utils import url_path_join, url_escape
+from notebook.utils import maybe_future, url_path_join, url_escape
 
 from ...base.handlers import APIHandler
 from ...base.zmqhandlers import AuthenticatedZMQStreamHandler, deserialize_binary_message
 
-from jupyter_client import protocol_version as client_protocol_version
 
 class MainKernelHandler(APIHandler):
 
@@ -30,7 +30,7 @@ class MainKernelHandler(APIHandler):
     @gen.coroutine
     def get(self):
         km = self.kernel_manager
-        kernels = yield gen.maybe_future(km.list_kernels())
+        kernels = yield maybe_future(km.list_kernels())
         self.finish(json.dumps(kernels, default=date_default))
 
     @web.authenticated
@@ -45,8 +45,8 @@ class MainKernelHandler(APIHandler):
         else:
             model.setdefault('name', km.default_kernel_name)
 
-        kernel_id = yield gen.maybe_future(km.start_kernel(kernel_name=model['name']))
-        model = km.kernel_model(kernel_id)
+        kernel_id = yield maybe_future(km.start_kernel(kernel_name=model['name']))
+        model = yield maybe_future(km.kernel_model(kernel_id))
         location = url_path_join(self.base_url, 'api', 'kernels', url_escape(kernel_id))
         self.set_header('Location', location)
         self.set_status(201)
@@ -58,7 +58,6 @@ class KernelHandler(APIHandler):
     @web.authenticated
     def get(self, kernel_id):
         km = self.kernel_manager
-        km._check_kernel_id(kernel_id)
         model = km.kernel_model(kernel_id)
         self.finish(json.dumps(model, default=date_default))
 
@@ -66,7 +65,7 @@ class KernelHandler(APIHandler):
     @gen.coroutine
     def delete(self, kernel_id):
         km = self.kernel_manager
-        yield gen.maybe_future(km.shutdown_kernel(kernel_id))
+        yield maybe_future(km.shutdown_kernel(kernel_id))
         self.set_status(204)
         self.finish()
 
@@ -89,12 +88,12 @@ class KernelActionHandler(APIHandler):
         elif action == 'restart':
 
             try:
-                yield gen.maybe_future(km.restart_kernel(kernel_id))
+                yield maybe_future(km.restart_kernel(kernel_id))
             except Exception as e:
                 self.log.error("Exception restarting kernel", exc_info=True)
                 self.set_status(500)
             else:
-                model = km.kernel_model(kernel_id)
+                model = yield maybe_future(km.kernel_model(kernel_id))
                 self.write(json.dumps(model, default=date_default))
         self.finish()
 
@@ -194,7 +193,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         protocol_version = info.get('protocol_version', client_protocol_version)
         if protocol_version != client_protocol_version:
             self.session.adapt_version = int(protocol_version.split('.')[0])
-            self.log.info("Adapting to protocol v%s for kernel %s", protocol_version, self.kernel_id)
+            self.log.info("Adapting from protocol version {protocol_version} (kernel {kernel_id}) to {client_protocol_version} (client).".format(protocol_version=protocol_version, kernel_id=self.kernel_id, client_protocol_version=client_protocol_version))
         if not self._kernel_info_future.done():
             self._kernel_info_future.set_result(info)
     
@@ -313,8 +312,13 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         if channel not in self.channels:
             self.log.warning("No such channel: %r", channel)
             return
-        stream = self.channels[channel]
-        self.session.send(stream, msg)
+        am = self.kernel_manager.allowed_message_types
+        mt = msg['header']['msg_type']
+        if am and mt not in am:
+            self.log.warning('Received message of type "%s", which is not allowed. Ignoring.' % mt)
+        else:
+            stream = self.channels[channel]
+            self.session.send(stream, msg)
 
     def _on_zmq_reply(self, stream, msg_list):
         idents, fed_msg_list = self.session.feed_identities(msg_list)
@@ -463,6 +467,12 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         self._close_future.set_result(None)
 
     def _send_status_message(self, status):
+        iopub = self.channels.get('iopub', None)
+        if iopub and not iopub.closed():
+            # flush IOPub before sending a restarting/dead status message
+            # ensures proper ordering on the IOPub channel
+            # that all messages from the stopped kernel have been delivered
+            iopub.flush()
         msg = self.session.msg("status",
             {'execution_state': status}
         )

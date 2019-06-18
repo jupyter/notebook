@@ -4,26 +4,23 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-import os
 import json
 import struct
-import warnings
 import sys
-
-try:
-    from urllib.parse import urlparse # Py 3
-except ImportError:
-    from urlparse import urlparse # Py 2
+from urllib.parse import urlparse
 
 import tornado
 from tornado import gen, ioloop, web
-from tornado.websocket import WebSocketHandler
+from tornado.iostream import StreamClosedError
+from tornado.websocket import WebSocketHandler, WebSocketClosedError
 
 from jupyter_client.session import Session
 from jupyter_client.jsonutil import date_default, extract_dates
 from ipython_genutils.py3compat import cast_unicode
 
+from notebook.utils import maybe_future
 from .handlers import IPythonHandler
+
 
 def serialize_binary_message(msg):
     """serialize a message as a binary blob
@@ -172,7 +169,7 @@ class WebSocketMixin(object):
 
     def send_ping(self):
         """send a ping to keep the websocket alive"""
-        if self.stream.closed() and self.ping_callback is not None:
+        if self.ws_connection is None and self.ping_callback is not None:
             self.ping_callback.stop()
             return
 
@@ -185,8 +182,13 @@ class WebSocketMixin(object):
             self.log.warning("WebSocket ping timeout after %i ms.", since_last_pong)
             self.close()
             return
+        try:
+            self.ping(b'')
+        except (StreamClosedError, WebSocketClosedError):
+            # websocket has been closed, stop pinging
+            self.ping_callback.stop()
+            return
 
-        self.ping(b'')
         self.last_ping = now
 
     def on_pong(self, data):
@@ -237,7 +239,7 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
     def _on_zmq_reply(self, stream, msg_list):
         # Sometimes this gets triggered when the on_close method is scheduled in the
         # eventloop but hasn't been called.
-        if self.stream.closed() or stream.closed():
+        if self.ws_connection is None or stream.closed():
             self.log.warning("zmq message arrived on closed channel")
             self.close()
             return
@@ -246,22 +248,28 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
             msg = self._reserialize_reply(msg_list, channel=channel)
         except Exception:
             self.log.critical("Malformed message: %r" % msg_list, exc_info=True)
-        else:
+            return
+
+        try:
             self.write_message(msg, binary=isinstance(msg, bytes))
+        except (StreamClosedError, WebSocketClosedError):
+            self.log.warning("zmq message arrived on closed channel")
+            self.close()
+            return
 
 
 class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
-    
+
     def set_default_headers(self):
         """Undo the set_default_headers in IPythonHandler
-        
+
         which doesn't make sense for websockets
         """
         pass
-    
+
     def pre_get(self):
         """Run before finishing the GET request
-        
+
         Extend this method to add logic that should fire before
         the websocket finishes completing.
         """
@@ -269,20 +277,21 @@ class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
         if self.get_current_user() is None:
             self.log.warning("Couldn't authenticate WebSocket connection")
             raise web.HTTPError(403)
-        
+
         if self.get_argument('session_id', False):
             self.session.session = cast_unicode(self.get_argument('session_id'))
         else:
             self.log.warning("No session ID specified")
-    
+
     @gen.coroutine
     def get(self, *args, **kwargs):
         # pre_get can be a coroutine in subclasses
         # assign and yield in two step to avoid tornado 3 issues
         res = self.pre_get()
-        yield gen.maybe_future(res)
-        super(AuthenticatedZMQStreamHandler, self).get(*args, **kwargs)
-    
+        yield maybe_future(res)
+        res = super(AuthenticatedZMQStreamHandler, self).get(*args, **kwargs)
+        yield maybe_future(res)
+
     def initialize(self):
         self.log.debug("Initializing websocket connection %s", self.request.path)
         self.session = Session(config=self.config)

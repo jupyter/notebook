@@ -22,9 +22,11 @@ from traitlets import (Any, Bool, Dict, List, Unicode, TraitError, Integer,
        Float, Instance, default, validate
 )
 
-from notebook.utils import to_os_path, exists
+from notebook.utils import maybe_future, to_os_path, exists
 from notebook._tz import utcnow, isoformat
 from ipython_genutils.py3compat import getcwd
+
+from notebook.prometheus.metrics import KERNEL_CURRENTLY_RUNNING_TOTAL
 
 
 class MappingKernelManager(MultiKernelManager):
@@ -37,7 +39,7 @@ class MappingKernelManager(MultiKernelManager):
     kernel_argv = List(Unicode())
 
     root_dir = Unicode(config=True)
-    
+
     _kernel_connections = Dict()
 
     _culler_callback = None
@@ -93,15 +95,15 @@ class MappingKernelManager(MultiKernelManager):
         no frontends are connected.
         """
     )
-    
+
     kernel_info_timeout = Float(60, config=True,
         help="""Timeout for giving up on a kernel (in seconds).
 
         On starting and restarting kernels, we check whether the
         kernel is running and responsive by sending kernel_info_requests.
         This sets the timeout in seconds for how long the kernel can take
-        before being presumed dead. 
-        This affects the MappingKernelManager (which handles kernel restarts) 
+        before being presumed dead.
+        This affects the MappingKernelManager (which handles kernel restarts)
         and the ZMQChannelsHandler (which handles the startup).
         """
     )
@@ -117,6 +119,12 @@ class MappingKernelManager(MultiKernelManager):
     def __init__(self, **kwargs):
         super(MappingKernelManager, self).__init__(**kwargs)
         self.last_kernel_activity = utcnow()
+
+    allowed_message_types = List(trait=Unicode(), config=True,
+        help="""White list of allowed kernel message types.
+        When the list is empty, all message types are allowed.
+        """
+    )
 
     #-------------------------------------------------------------------------
     # Methods for managing kernels and sessions
@@ -156,7 +164,7 @@ class MappingKernelManager(MultiKernelManager):
         if kernel_id is None:
             if path is not None:
                 kwargs['cwd'] = self.cwd_for_path(path)
-            kernel_id = yield gen.maybe_future(
+            kernel_id = yield maybe_future(
                 super(MappingKernelManager, self).start_kernel(**kwargs)
             )
             self._kernel_connections[kernel_id] = 0
@@ -168,6 +176,13 @@ class MappingKernelManager(MultiKernelManager):
                 lambda : self._handle_kernel_died(kernel_id),
                 'dead',
             )
+
+            # Increase the metric of number of kernels running
+            # for the relevant kernel type by 1
+            KERNEL_CURRENTLY_RUNNING_TOTAL.labels(
+                type=self._kernels[kernel_id].kernel_name
+            ).inc()
+
         else:
             self._check_kernel_id(kernel_id)
             self.log.info("Using existing kernel: %s" % kernel_id)
@@ -272,53 +287,63 @@ class MappingKernelManager(MultiKernelManager):
         """Shutdown a kernel by kernel_id"""
         self._check_kernel_id(kernel_id)
         kernel = self._kernels[kernel_id]
-        kernel._activity_stream.close()
-        kernel._activity_stream = None
+        if kernel._activity_stream:
+            kernel._activity_stream.close()
+            kernel._activity_stream = None
         self.stop_buffering(kernel_id)
         self._kernel_connections.pop(kernel_id, None)
         self.last_kernel_activity = utcnow()
+
+        # Decrease the metric of number of kernels
+        # running for the relevant kernel type by 1
+        KERNEL_CURRENTLY_RUNNING_TOTAL.labels(
+            type=self._kernels[kernel_id].kernel_name
+        ).dec()
+
         return super(MappingKernelManager, self).shutdown_kernel(kernel_id, now=now)
 
+    @gen.coroutine
     def restart_kernel(self, kernel_id):
         """Restart a kernel by kernel_id"""
         self._check_kernel_id(kernel_id)
-        super(MappingKernelManager, self).restart_kernel(kernel_id)
+        yield maybe_future(super(MappingKernelManager, self).restart_kernel(kernel_id))
         kernel = self.get_kernel(kernel_id)
         # return a Future that will resolve when the kernel has successfully restarted
         channel = kernel.connect_shell()
         future = Future()
-        
+
         def finish():
             """Common cleanup when restart finishes/fails for any reason."""
             if not channel.closed():
                 channel.close()
             loop.remove_timeout(timeout)
             kernel.remove_restart_callback(on_restart_failed, 'dead')
-        
+
         def on_reply(msg):
             self.log.debug("Kernel info reply received: %s", kernel_id)
             finish()
             if not future.done():
                 future.set_result(msg)
-            
+
         def on_timeout():
             self.log.warning("Timeout waiting for kernel_info_reply: %s", kernel_id)
             finish()
             if not future.done():
                 future.set_exception(gen.TimeoutError("Timeout waiting for restart"))
-        
+
         def on_restart_failed():
             self.log.warning("Restarting kernel failed: %s", kernel_id)
             finish()
             if not future.done():
                 future.set_exception(RuntimeError("Restart failed"))
-        
+
         kernel.add_restart_callback(on_restart_failed, 'dead')
         kernel.session.send(channel, "kernel_info_request")
         channel.on_recv(on_reply)
         loop = IOLoop.current()
         timeout = loop.add_timeout(loop.time() + self.kernel_info_timeout, on_timeout)
-        return future
+        # wait for restart to complete
+        yield future
 
     def notify_connect(self, kernel_id):
         """Notice a new connection to a kernel"""
@@ -366,7 +391,7 @@ class MappingKernelManager(MultiKernelManager):
 
     def start_watching_activity(self, kernel_id):
         """Start watching IOPub messages on a kernel for activity.
-        
+
         - update last_activity on every message
         - record execution_state from status messages
         """
@@ -388,9 +413,11 @@ class MappingKernelManager(MultiKernelManager):
             msg = session.deserialize(fed_msg_list)
 
             msg_type = msg['header']['msg_type']
-            self.log.debug("activity on %s: %s", kernel_id, msg_type)
             if msg_type == 'status':
                 kernel.execution_state = msg['content']['execution_state']
+                self.log.debug("activity on %s: %s (%s)", kernel_id, msg_type, kernel.execution_state)
+            else:
+                self.log.debug("activity on %s: %s", kernel_id, msg_type)
 
         kernel._activity_stream.on_recv(record_activity)
 

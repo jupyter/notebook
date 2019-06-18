@@ -663,7 +663,7 @@ msgid "Select All Folders"
 msgstr "选择所有文件夹"
 
 #: notebook/templates/tree.html:98
-msgid " Folders"
+msgid "Folders"
 msgstr "文件夹"
 
 #: notebook/templates/tree.html:99
@@ -671,7 +671,7 @@ msgid "Select All Notebooks"
 msgstr "选择所有笔记"
 
 #: notebook/templates/tree.html:99
-msgid " All Notebooks"
+msgid "All Notebooks"
 msgstr "所有笔记"
 
 #: notebook/templates/tree.html:100
@@ -679,7 +679,7 @@ msgid "Select Running Notebooks"
 msgstr "选择运行中的笔记"
 
 #: notebook/templates/tree.html:100
-msgid " Running"
+msgid "Running"
 msgstr "运行"
 
 #: notebook/templates/tree.html:101
@@ -687,7 +687,7 @@ msgid "Select All Files"
 msgstr "选择所有文件"
 
 #: notebook/templates/tree.html:101
-msgid " Files"
+msgid "Files"
 msgstr "文件"
 
 #: notebook/templates/tree.html:114

@@ -8,6 +8,9 @@ include setupbase.py
 include Dockerfile
 graft tools
 
+# Translations
+graft notebook/i18n
+
 # Documentation
 graft docs
 exclude docs/\#*

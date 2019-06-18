@@ -14,13 +14,151 @@ For more detailed information, see
 
 .. we push for pip 9+ or it will break for Python 2 users when IPython 6 is out.
 
-We strongly recommend that you upgrade to version 9+ of pip before upgrading ``notebook``.
+We strongly recommend that you upgrade pip to version 9+ of pip before upgrading ``notebook``.
 
 .. tip::
 
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
-    
+
+.. _release-5.7.8:
+
+5.7.8
+-----
+
+- Fix regression in restarting kernels in 5.7.5.
+  The restart handler would return before restart was completed.
+- Further improve compatibility with tornado 6 with improved
+  checks for when websockets are closed.
+- Fix regression in 5.7.6 on Windows where .js files could have the wrong mime-type.
+- Fix Open Redirect vulnerability (CVE-2019-10255)
+  where certain malicious URLs could redirect from the Jupyter login page
+  to a malicious site after a successful login.
+  5.7.7 contained only a partial fix for this issue.
+
+.. _release-5.7.6:
+
+5.7.6
+-----
+
+5.7.6 contains a security fix for a cross-site inclusion (XSSI) vulnerability (CVE-2019–9644),
+where files at a known URL could be included in a page from an unauthorized website if the user is logged into a Jupyter server.
+The fix involves setting the ``X-Content-Type-Options: nosniff``
+header, and applying CSRF checks previously on all non-GET
+API requests to GET requests to API endpoints and the /files/ endpoint.
+
+The attacking page is able to access some contents of files when using Internet Explorer through script errors,
+but this has not been demonstrated with other browsers.
+
+.. _release-5.7.5:
+
+5.7.5
+-----
+
+- Fix compatibility with tornado 6 (:ghpull:`4392`, :ghpull:`4449`).
+- Fix opening integer filedescriptor during startup on Python 2 (:ghpull:`4349`)
+- Fix compatibility with asynchronous `KernelManager.restart_kernel` methods (:ghpull:`4412`)
+
+.. _release-5.7.4:
+
+5.7.4
+-----
+
+5.7.4 fixes a bug introduced in 5.7.3, in which the ``list_running_servers()``
+function attempts to parse HTML files as JSON, and consequently crashes
+(:ghpull:`4284`).
+
+.. _release-5.7.3:
+
+5.7.3
+-----
+
+5.7.3 contains one security improvement and one security fix:
+
+- Launch the browser with a local file which redirects to the server address
+  including the authentication token (:ghpull:`4260`).
+  This prevents another logged-in user from stealing the token from command line
+  arguments and authenticating to the server.
+  The single-use token previously used to mitigate this has been removed.
+  Thanks to Dr. Owain Kenway for suggesting the local file approach.
+- Upgrade bootstrap to 3.4, fixing an XSS vulnerability, which has been
+  assigned `CVE-2018-14041 <https://nvd.nist.gov/vuln/detail/CVE-2018-14041>`_
+  (:ghpull:`4271`).
+
+.. _release-5.7.2:
+
+5.7.2
+-----
+
+5.7.2 contains a security fix preventing malicious directory names
+from being able to execute javascript. CVE request pending.
+
+.. _release-5.7.1:
+
+5.7.1
+-----
+
+5.7.1 contains a security fix preventing nbconvert endpoints from executing javascript with access to the server API. CVE request pending.
+
+.. _release-5.7.0:
+
+5.7.0
+-----
+
+New features:
+
+- Update to CodeMirror to 5.37, which includes f-string sytax for Python 3.6 (:ghpull:`3816`)
+- Update jquery-ui to 1.12 (:ghpull:`3836`)
+- Check Host header to more securely protect localhost deployments from DNS rebinding.
+  This is a pre-emptive measure, not fixing a known vulnerability (:ghpull:`3766`).
+  Use ``.NotebookApp.allow_remote_access`` and ``.NotebookApp.local_hostnames`` to configure
+  access.
+- Allow access-control-allow-headers to be overridden (:ghpull:`3886`)
+- Allow configuring max_body_size and max_buffer_size (:ghpull:`3829`)
+- Allow configuring get_secure_cookie keyword-args (:ghpull:`3778`)
+- Respect nbconvert entrypoints as sources for exporters (:ghpull:`3879`)
+- Include translation sources in source distributions (:ghpull:`3925`, :ghpull:`3931`)
+- Various improvements to documentation (:ghpull:`3799`, :ghpull:`3800`,
+  :ghpull:`3806`, :ghpull:`3883`, :ghpull:`3908`)
+
+Fixing problems:
+
+- Fix breadcrumb link when running with a base url (:ghpull:`3905`)
+- Fix possible type error when closing activity stream (:ghpull:`3907`)
+- Disable metadata editing for non-editable cells (:ghpull:`3744`)
+- Fix some styling and alignment of prompts caused by regressions in 5.6.0.
+- Enter causing page reload in shortcuts editor (:ghpull:`3871`)
+- Fix uploading to the same file twice (:ghpull:`3712`)
+
+See the 5.7 milestone on GitHub for a complete list of
+`pull requests <https://github.com/jupyter/notebook/pulls?utf8=%E2%9C%93&q=is%3Apr%20milestone%3A5.7>`__ involved in this release.
+
+Thanks to the following contributors:
+
+* Aaron Hall
+* Benjamin Ragan-Kelley
+* Bill Major
+* bxy007
+* Dave Aitken
+* Denis Ledoux
+* Félix-Antoine Fortin
+* Gabriel
+* Grant Nestor
+* Kevin Bates
+* Kristian Gregorius Hustad
+* M Pacer
+* Madicken Munk
+* Maitiu O Ciarain
+* Matthias Bussonnier
+* Michael Boyle
+* Michael Chirico
+* Mokkapati, Praneet(ES)
+* Peter Parente
+* Sally Wilsak
+* Steven Silvester
+* Thomas Kluyver
+* Walter Martin
+
 .. _release-5.6.0:
 
 5.6.0
@@ -29,24 +167,32 @@ We strongly recommend that you upgrade to version 9+ of pip before upgrading ``n
 New features:
 
 - Execute cells by clicking icon in input prompt (:ghpull:`3535`, :ghpull:`3687`)
-- New "Save as" menu option (:ghpull:`3289`) 
+- New "Save as" menu option (:ghpull:`3289`)
+- When serving on a loopback interface, protect against DNS rebinding by
+  checking the ``Host`` header from the browser (:ghpull:`3714`).
+  This check can be disabled if necessary by setting
+  ``NotebookApp.allow_remote_access``.
+  (Disabled by default while we work out some Mac issues in :ghissue:`3754`).
 - Add kernel_info_timeout traitlet to enable restarting slow kernels (:ghpull:`3665`)
 - Add ``custom_display_host`` config option to override displayed URL (:ghpull:`3668`)
 - Add /metrics endpoint for Prometheus Metrics (:ghpull:`3490`)
+- Update to MathJax 2.7.4 (:ghpull:`3751`)
 - Update to jQuery 3.3 (:ghpull:`3655`)
 - Update marked to 0.4 (:ghpull:`3686`)
 
 Fixing problems:
 
 - Don't duplicate token in displayed URL (:ghpull:`3656`)
+- Clarify displayed URL when listening on all interfaces (:ghpull:`3703`)
 - Don't trash non-empty directories on Windows (:ghpull:`3673`)
 - Include LICENSE file in wheels (:ghpull:`3671`)
 - Don't show "0 active kernels" when starting the notebook (:ghpull:`3696`)
 
-Testing: 
+Testing:
 
 - Add find replace test (:ghpull:`3630`)
 - Selenium test for deleting all cells (:ghpull:`3601`)
+- Make creating a new notebook more robust (:ghpull:`3726`)
 
 Thanks to the following contributors:
 
@@ -180,7 +326,7 @@ Thanks to the following contributors:
 - Mac Knight (`Shels1909 <https://github.com/Shels1909>`__)
 - Hisham Elsheshtawy (`Sheshtawy <https://github.com/Sheshtawy>`__)
 - Simon Biggs (`SimonBiggs <https://github.com/SimonBiggs>`__)
-- Sunil Hari (`sunilhari <https://github.com/sunilhari>`__)
+- Sunil Hari (``@sunilhari``)
 - Thomas Kluyver (`takluyver <https://github.com/takluyver>`__)
 - Tim Klever (`tklever <https://github.com/tklever>`__)
 - Gabriel Ruiz (`unnamedplay-r <https://github.com/unnamedplay-r>`__)

@@ -18,10 +18,29 @@ import sys
 
 name = "notebook"
 
-# Minimal Python version sanity check
-v = sys.version_info
-if v[:2] < (2,7) or (v[0] >= 3 and v[:2] < (3,3)):
-    error = "ERROR: %s requires Python version 2.7 or 3.3 or above." % name
+if sys.version_info < (3, 4):
+    pip_message = 'This may be due to an out of date pip. Make sure you have pip >= 9.0.1.'
+    try:
+        import pip
+        pip_version = tuple([int(x) for x in pip.__version__.split('.')[:3]])
+        if pip_version < (9, 0, 1) :
+            pip_message = 'Your pip version is out of date, please install pip >= 9.0.1. '\
+            'pip {} detected.'.format(pip.__version__)
+        else:
+            # pip is new enough - it must be something else
+            pip_message = ''
+    except Exception:
+        pass
+
+
+    error = """
+Notebook 6.0+ supports Python 3.4 and above.
+When using Python 2.7, please install Notebook 5.x.
+
+Python {py} detected.
+{pip}
+""".format(py=sys.version_info, pip=pip_message )
+
     print(error, file=sys.stderr)
     sys.exit(1)
 
@@ -40,6 +59,7 @@ from setupbase import (
     check_package_data_first,
     CompileCSS,
     CompileJS,
+    CompileBackendTranslation,
     Bower,
     JavascriptVersion,
     css_js_prerelease,
@@ -78,7 +98,7 @@ for more information.
     zip_safe = False,
     install_requires = [
         'jinja2',
-        'tornado>=4',
+        'tornado>=5.0',
         # pyzmq>=17 is not technically necessary,
         # but hopefully avoids incompatibilities with Tornado 5. April 2018
         'pyzmq>=17',
@@ -97,9 +117,10 @@ for more information.
         ':python_version == "2.7"': ['ipaddress'],
         'test:python_version == "2.7"': ['mock'],
         'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters',
-                 'nbval', 'nose-exclude'],
+                 'nbval', 'nose-exclude', 'selenium', 'pytest', 'pytest-cov'],
         'test:sys_platform == "win32"': ['nose-exclude'],
     },
+    python_requires = '>=3.5',
     entry_points = {
         'console_scripts': [
             'jupyter-notebook = notebook.notebookapp:main',
@@ -131,6 +152,7 @@ setup_args['cmdclass'] = {
     'sdist' : css_js_prerelease(sdist, strict=True),
     'develop': css_js_prerelease(develop),
     'css' : CompileCSS,
+    'backendtranslations': CompileBackendTranslation,
     'js' : CompileJS,
     'jsdeps' : Bower,
     'jsversion' : JavascriptVersion,

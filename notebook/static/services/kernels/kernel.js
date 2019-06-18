@@ -19,6 +19,9 @@ define([
      * Preliminary documentation for the REST API is at
      * https://github.com/ipython/ipython/wiki/IPEP-16%3A-Notebook-multi-directory-dashboard-and-URL-mapping#kernels-api
      * 
+     * Documentation for the messaging specifications is at
+     * https://jupyter-client.readthedocs.io/en/stable/messaging.html
+     *
      * @class Kernel
      * @param {string} kernel_service_url - the URL to access the kernel REST api
      * @param {string} ws_url - the websockets URL
@@ -541,33 +544,31 @@ define([
         
         var already_called_onclose = false; // only alert once
         var ws_closed_early = function(evt){
+            console.log("WebSocket closed early", evt);
             if (already_called_onclose){
                 return;
             }
             already_called_onclose = true;
-            if ( ! evt.wasClean ){
-                // If the websocket was closed early, that could mean
-                // that the kernel is actually dead. Try getting
-                // information about the kernel from the API call --
-                // if that fails, then assume the kernel is dead,
-                // otherwise just follow the typical websocket closed
-                // protocol.
-                that.get_info(function () {
-                    that._ws_closed(ws_host_url, false);
-                }, function () {
-                    that.events.trigger('kernel_dead.Kernel', {kernel: that});
-                    that._kernel_dead();
-                });
-            }
+            // If the websocket was closed early, that could mean
+            // that the kernel is actually dead. Try getting
+            // information about the kernel from the API call --
+            // if that fails, then assume the kernel is dead,
+            // otherwise just follow the typical websocket closed
+            // protocol.
+            that.get_info(function () {
+                that._ws_closed(ws_host_url, false);
+            }, function () {
+                that.events.trigger('kernel_dead.Kernel', {kernel: that});
+                that._kernel_dead();
+            });
         };
         var ws_closed_late = function(evt){
+            console.log("WebSocket closed unexpectedly", evt);
             if (already_called_onclose){
                 return;
             }
             already_called_onclose = true;
-            if ( ! evt.wasClean ){
-                that._ws_closed(ws_host_url, false);
-            }
+            that._ws_closed(ws_host_url, false);
         };
         var ws_error = function(evt){
             if (already_called_onclose){

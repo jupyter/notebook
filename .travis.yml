@@ -7,9 +7,6 @@ cache:
         - $HOME/.cache/pip
 python:
     - 3.6
-    - 2.7
-
-sudo: required
 
 
 env:
@@ -37,19 +34,22 @@ before_install:
     - |
       if [[ $GROUP == docs ]]; then
         pip install -r docs/doc-requirements.txt
+        pip install --upgrade pytest
       fi
     - |
       if [[ $GROUP == selenium ]]; then
-        pip install selenium
+        pip install --upgrade selenium pytest
         # Install Webdriver backend for Firefox:
         wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
         mkdir geckodriver
         tar -xzf geckodriver-v0.19.1-linux64.tar.gz -C geckodriver
         export PATH=$PATH:$PWD/geckodriver
       fi
+    - pip install "attrs>=17.4.0"
 
 install:
-    - pip install --pre .[test]
+    - pip install --pre .[test] $EXTRA_PIP
+    - pip freeze
     - wget https://github.com/jgm/pandoc/releases/download/1.19.1/pandoc-1.19.1-1-amd64.deb && sudo dpkg -i pandoc-1.19.1-1-amd64.deb
 
 
@@ -91,12 +91,10 @@ matrix:
           - MOZ_HEADLESS=1
           addons:
             firefox: 57.0
-
-        - python: 3.4
-          env: GROUP=python
         - python: 3.5
           env: GROUP=python
-        - python: "3.7-dev"
+        - python: 3.7
+          dist: xenial
           env: GROUP=python
         - python: 3.6
           env: GROUP=docs

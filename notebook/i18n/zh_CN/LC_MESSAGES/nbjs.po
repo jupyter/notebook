@@ -284,7 +284,7 @@ msgstr "粘贴代码块"
 #: notebook/static/notebook/js/actions.js:237
 #: notebook/static/notebook/js/actions.js:238
 msgid "split cell at cursor"
-msgstr "在鼠标出分割代码块"
+msgstr "在鼠标处分割代码块"
 
 #: notebook/static/notebook/js/actions.js:245
 #: notebook/static/notebook/js/actions.js:246
@@ -1036,7 +1036,7 @@ msgstr "正在连接服务"
 
 #: notebook/static/notebook/js/notificationarea.js:102
 msgid "Not Connected"
-msgstr "木有连接成功"
+msgstr "未连接成功"
 
 #: notebook/static/notebook/js/notificationarea.js:105
 msgid "click to reconnect"

@@ -62,7 +62,7 @@ define([
 
             if (changed) {
                 // Make tag UI
-                var tag = make_tag(name, on_remove);
+                var tag = make_tag(name, on_remove, cell.is_editable());
                 tag_container.append(tag);
                 var tag_map = jQuery.data(tag_container, "tag_map") || {};
                 tag_map[name] = tag;
@@ -84,7 +84,7 @@ define([
         };
     };
 
-    var init_tag_container = function(cell, tag_container, on_remove) {
+    var init_tag_container = function(cell, tag_container, on_remove) {    
         var tag_list = cell.metadata.tags || [];
         if (!Array.isArray(tag_list)) {
             // We cannot make tags UI for this cell!
@@ -99,7 +99,7 @@ define([
                 // Unexpected type, disable toolbar for safety
                 return false;
             }
-            var tag = make_tag(tag_name, on_remove);
+            var tag = make_tag(tag_name, on_remove, cell.is_editable());
             tag_container.append(tag);
             tag_map[tag_name] = tag;
         }
@@ -107,19 +107,21 @@ define([
         return true;
     };
 
-    var make_tag = function(name, on_remove) {
+    var make_tag = function(name, on_remove, is_editable) {
         var tag_UI = $('<span/>')
             .addClass('cell-tag')
             .text(name);
 
-        var remove_button = $('<i/>')
-            .addClass('remove-tag-btn')
-            .addClass('fa fa-times')
-            .click(function () {
-                on_remove(name);
-                return false;
-            });
-        tag_UI.append(remove_button);
+        if(is_editable){
+            var remove_button = $('<i/>')
+                .addClass('remove-tag-btn')
+                .addClass('fa fa-times')
+                .click(function () {
+                    on_remove(name);
+                    return false;
+                });
+            tag_UI.append(remove_button);
+        }
         return tag_UI;
     };
 
@@ -234,7 +236,9 @@ define([
         button_container.append(tag_container);
 
         var on_add = add_tag(cell, tag_container, on_remove);
-        add_tag_edit(div, cell, on_add, on_remove);
+        if(cell.is_editable()){
+            add_tag_edit(div, cell, on_add, on_remove);
+        }
     };
 
     var register = function(notebook) {

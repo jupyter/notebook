@@ -338,11 +338,11 @@ define([
                 reader.onerror = reader_onerror;
             }
         });
-        // Replace the file input form wth a clone of itself. This is required to
+        // Clear fileinput value. This is required to
         // reset the form. Otherwise, if you upload a file, delete it and try to
         // upload it again, the changed event won't fire.
         var form = $('input.fileinput');
-        form.replaceWith(form.clone(true));
+        form.val('');
         return false;
     };
 
@@ -382,18 +382,29 @@ define([
         var breadcrumb = $('.breadcrumb');
         breadcrumb.empty();
         var list_item = $('<li/>');
-        var root = $('<li/>').append('<a href="/tree"><i class="fa fa-folder"></i></a>').click(function(e) {
-            // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
-            if(e.altKey || e.metaKey || e.shiftKey) {
-                return true;
-            }
-            var path = '';
-            window.history.pushState({
-                path: path
-            }, 'Home', utils.url_path_join(that.base_url, 'tree'));
-            that.update_location(path);
-            return false;
-        });
+        var root_url = utils.url_path_join(that.base_url, '/tree');
+        var root = $('<li/>').append(
+            $("<a/>")
+            .attr('href', root_url)
+            .append(
+                $("<i/>")
+                .addClass('fa fa-folder')
+            )
+            .click(function(e) {
+                // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
+                if(e.altKey || e.metaKey || e.shiftKey) {
+                    return true;
+                }
+                var path = '';
+                window.history.pushState(
+                    {path: path},
+                    'Home',
+                    utils.url_path_join(that.base_url, 'tree')
+                );
+                that.update_location(path);
+                return false;
+            })
+        );
         breadcrumb.append(root);
         var path_parts = [];
         this.notebook_path.split('/').forEach(function(path_part) {
@@ -404,17 +415,24 @@ define([
                 '/tree',
                 utils.encode_uri_components(path)
             );
-            var crumb = $('<li/>').append('<a href="' + url + '">' + path_part + '</a>').click(function(e) {
-                // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
-                if(e.altKey || e.metaKey || e.shiftKey) {
-                    return true;
-                }
-                window.history.pushState({
-                    path: path
-                }, path, url);
-                that.update_location(path);
-                return false;
-            });
+            var crumb = $('<li/>').append(
+                $('<a/>')
+                .attr('href', url)
+                .text(path_part)
+                .click(function(e) {
+                    // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
+                    if(e.altKey || e.metaKey || e.shiftKey) {
+                        return true;
+                    }
+                    window.history.pushState(
+                        {path: path},
+                        path,
+                        url
+                    );
+                    that.update_location(path);
+                    return false;
+                })
+            );
             breadcrumb.append(crumb);
         });
         this.contents.list_contents(that.notebook_path).then(
@@ -424,7 +442,7 @@ define([
             }
         );
     };
-    
+
     NotebookList.prototype.update_location = function (path) {
         this.notebook_path = path;
         $('body').attr('data-notebook-path', path);
@@ -524,7 +542,7 @@ define([
         var item = $("<div/>")
             .addClass("col-md-12")
             .appendTo(row);
-        
+
         var checkbox;
         if (selectable !== undefined) {
             checkbox = $('<input/>')
@@ -623,7 +641,7 @@ define([
       var ipynb_extensions = ['ipynb'];
       return includes_extension(model.path, ipynb_extensions);
     };
-    
+
     NotebookList.prototype._is_editable = function(model) {
       // Allow any file to be "edited"
       // Non-text files will display the following error:
@@ -632,17 +650,17 @@ define([
       //   See Console for more details.
       return true;
     };
-    
+
     NotebookList.prototype._is_viewable = function(model) {
       var html_types = ['htm', 'html', 'xhtml', 'xml', 'mht', 'mhtml'];
       var media_extension = ['3gp', 'avi', 'mov', 'mp4', 'm4v', 'm4a', 'mp3', 'mkv', 'ogv', 'ogm', 'ogg', 'oga', 'webm', 'wav'];
       var image_type = ['bmp', 'gif', 'jpg', 'jpeg', 'png', 'webp'];
       var other_type = ['ico'];
       var viewable_extensions = [].concat(html_types, media_extension, image_type, other_type);
-      return model.mimetype === 'text/html' 
+      return model.mimetype === 'text/html'
         || includes_extension(model.path, viewable_extensions);
     };
-    
+
     // Files like PDF that should be opened using `/files` prefix
     NotebookList.prototype._is_pdflike = function(model) {
       var pdflike_extensions = ['pdf'];
@@ -861,7 +879,7 @@ define([
                 return false;
             });
         }
-        
+
         // Add in the date that the file was last modified
         item.find(".item_modified").text(utils.format_datetime(model.last_modified));
         item.find(".item_modified").attr("title", moment(model.last_modified).format("YYYY-MM-DD HH:mm"));
@@ -961,7 +979,7 @@ define([
         ).append(
             $("<br/>")
         ).append(input);
-        
+
         // This statement is used simply so that message extraction
         // will pick up the strings.  The actual setting of the text
         // for the button is in dialog.js.
@@ -1270,7 +1288,7 @@ define([
                     });
                     return false;
                 }
-                
+
                 var check_exist = function () {
                     var exists = false;
                     $.each(that.element.find('.list_item:not(.new-file)'), function(k,v){
@@ -1279,7 +1297,7 @@ define([
                     return exists
                 };
                 var exists = check_exist();
-                
+
                 var add_uploading_button = function (f, item) {
                     // change buttons, add a progress bar
                     var uploading_button = item.find('.upload_button').text("Uploading");
@@ -1296,11 +1314,12 @@ define([
 
                     var parse_large_file = function (f, item) {
                         // codes inspired by https://stackoverflow.com/a/28318964
-                        var chunk_size = 1024 * 1024;
+                        // 8MB chunk size chosen to match chunk sizes used by benchmark reference (AWS S3)
+                        var chunk_size = 1024 * 1024 * 8;
                         var offset = 0;
                         var chunk = 0;
                         var chunk_reader = null;
-                        
+
                         var large_reader_onload = function (event) {
                             if (stop_signal === true) {
                                 return;
@@ -1347,18 +1366,25 @@ define([
                             reader.onerror = on_error;
                         };
 
+                        // This approach avoids triggering multiple GC pauses for large files.
+                        // Borrowed from kanaka's answer at:
+                        // https://stackoverflow.com/questions/12710001/how-to-convert-uint8-array-to-base64-encoded-string
+                        var  Uint8ToString = function(u8a){
+                            var CHUNK_SZ = 0x8000;
+                            var c = [];
+                            for (var i=0; i < u8a.length; i+=CHUNK_SZ) {
+                              c.push(String.fromCharCode.apply(null, u8a.subarray(i, i+CHUNK_SZ)));
+                            }
+                            return c.join("");
+                        };
+
                         // These codes to upload file in original class
                         var upload_file = function(item, chunk) {
                             var filedata = item.data('filedata');
                             if (filedata instanceof ArrayBuffer) {
                                 // base64-encode binary file data
-                                var bytes = '';
                                 var buf = new Uint8Array(filedata);
-                                var nbytes = buf.byteLength;
-                                for (var i=0; i<nbytes; i++) {
-                                    bytes += String.fromCharCode(buf[i]);
-                                }
-                                filedata = btoa(bytes);
+                                filedata = btoa(Uint8ToString(buf));
                                 format = 'base64';
                             }
                             var model = { name: filename, path: path };
@@ -1373,7 +1399,7 @@ define([
 
                             model.chunk = chunk;
                             model.content = filedata;
-                            
+
                             var on_success = function () {
                                 if (offset < f.size) {
                                     // of to the next chunk
@@ -1433,6 +1459,7 @@ define([
         var upload_button = $('<button/>').text(i18n.msg._("Upload"))
             .addClass('btn btn-primary btn-xs upload_button')
             .click(function (e) {
+                item.find('.upload_button').text("Uploading...");
                 var filename = item.find('.item_name > input').val();
                 var path = utils.url_path_join(that.notebook_path, filename);
                 var filedata = item.data('filedata');

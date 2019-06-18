@@ -21,6 +21,9 @@ def initialize(webapp, notebook_dir, connection_url, settings):
     shell = settings.get('shell_command',
         [os.environ.get('SHELL') or default_shell]
     )
+    # Enable login mode - to automatically source the /etc/profile script
+    if os.name != 'nt':
+        shell.append('-l')
     terminal_manager = webapp.settings['terminal_manager'] = NamedTermManager(
         shell_command=shell,
         extra_env={'JUPYTER_SERVER_ROOT': notebook_dir,

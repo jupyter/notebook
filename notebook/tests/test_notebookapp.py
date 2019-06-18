@@ -25,6 +25,8 @@ from notebook import notebookapp, __version__
 from notebook.auth.security import passwd_check
 NotebookApp = notebookapp.NotebookApp
 
+from .launchnotebook import NotebookTestBase
+
 
 def test_help_output():
     """ipython notebook --help-all works"""
@@ -183,3 +185,10 @@ def test_notebook_stop():
             app.start()
         nt.assert_equal(exc.exception.code, 1)
     nt.assert_equal(len(app.servers_shut_down), 0)
+
+
+class NotebookAppTests(NotebookTestBase):
+    def test_list_running_servers(self):
+        servers = list(notebookapp.list_running_servers())
+        assert len(servers) >= 1
+        assert self.port in {info['port'] for info in servers}

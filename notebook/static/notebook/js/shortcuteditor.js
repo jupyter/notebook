@@ -50,6 +50,7 @@ var KeyBinding = createClass({
         that.props.onAddBindings(that.state.shrt, that.props.ckey);
       }
       that.state.shrt='';
+      event.preventDefault();
       return false;
     };
     return createElement('form', {className:'jupyter-keybindings',

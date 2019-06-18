@@ -1,18 +1,5 @@
-"""
-Prometheus metrics exported by Jupyter Notebook Server
+from ..prometheus.metrics import HTTP_REQUEST_DURATION_SECONDS
 
-Read https://prometheus.io/docs/practices/naming/ for naming
-conventions for metrics & labels.
-"""
-
-from prometheus_client import Histogram
-
-# This is a fairly standard name for HTTP duration latency reporting
-HTTP_REQUEST_DURATION_SECONDS = Histogram(
-    'http_request_duration_seconds',
-    'duration in seconds for all HTTP requests',
-    ['method', 'handler', 'status_code'],
-)
 
 def prometheus_log_method(handler):
     """
