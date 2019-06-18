@@ -1046,9 +1046,55 @@ define([
             return;
         }
 
-        // Open a dialog to enter the new path, with current path as default.
         var input = $('<input/>').attr('type','text').attr('size','25').addClass('form-control')
             .val(utils.url_path_join('/', that.notebook_path));
+
+        // look for available folders in the current directory        
+        var available_folders = []
+        $('.list_item').each(function(index, item) {
+            var item_type = $(item).data('type');
+            var name = $(item).data('name');
+                    
+            if (item_type === 'directory') {
+
+                var item_selected = false;
+                that.selected.forEach(function(selected_item) {
+                    if (selected_item["name"] === name) {
+                        item_selected = true;                        
+                    }
+                });
+
+                if (!item_selected) {
+                    available_folders.push(name);    
+                }
+            }
+        });
+
+        var folder_selector = $("<select>").addClass("form-control");
+
+        var default_option = $("<option>").text(".").val("");
+        folder_selector.append(default_option);
+
+        available_folders.forEach(function(folder_name) {
+            var option = $("<option>").text(folder_name).val(folder_name);
+            folder_selector.append(option);
+        })
+        folder_selector.on("mouseup change", function() {
+
+            var current_directory = utils.url_path_join('/', that.notebook_path);
+            var new_directory = '';
+
+            if (this.value !== "..") {                        
+                new_directory = utils.url_path_join(current_directory, this.value);
+            } else {                
+                var parent_directory = utils.url_path_split(current_directory)[0];
+                new_directory = utils.url_path_join(parent_directory, '/');
+            }
+            
+            input.val(new_directory);
+        });
+
+        // Open a dialog to enter the new path, with current path as default.
         var dialog_body = $('<div/>').append(
             $("<p/>").addClass("rename-message")
                 .text(i18n.msg.sprintf(i18n.msg.ngettext("Enter a new destination directory path for this item:",
@@ -1062,7 +1108,18 @@ define([
             ).append(
               input.addClass("path-input")
             ).addClass("move-path")
+        ).append(
+            $("<br/>")
+        ).append(
+            $("<p/>").text(i18n.msg.ngettext("Or select a folder:"))
+        ).append(
+            $("<br/>")
+        ).append(
+            $("<div>").append(
+                folder_selector
+            ).addClass("move-path")
         );
+
         var d = dialog.modal({
             title : i18n.msg.sprintf(i18n.msg.ngettext("Move an Item","Move %d Items",num_items),num_items),
             body : dialog_body,
