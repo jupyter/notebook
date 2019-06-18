@@ -20,6 +20,7 @@
     "po2json": "^0.4.5"
   },
   "dependencies": {
-    "requests": "^0.2.2"
+    "requests": "^0.2.2",
+    "six": "0.0.12"
   }
 }

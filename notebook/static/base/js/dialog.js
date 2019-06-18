@@ -65,6 +65,7 @@ define(['jquery',
                     .attr("data-dismiss", "modal")
                     .attr("aria-hidden", "true")
                     .html("&times;")
+                    .attr("tabindex","0")
                 ).append(
                     options.type ? options.type.addClass('modal-title').text(options.title || "")
                         : $("<h4/>").addClass('modal-title').text(options.title || "")
