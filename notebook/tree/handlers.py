@@ -32,7 +32,7 @@ class TreeHandler(IPythonHandler):
         if page_title:
             return page_title+'/'
         else:
-            return 'Home'
+            return 'Home Page - Select or create a notebook'
 
     @web.authenticated
     def get(self, path=''):
