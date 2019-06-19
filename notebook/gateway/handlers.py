@@ -10,7 +10,7 @@ from ..utils import url_path_join
 
 from tornado import gen, web
 from tornado.concurrent import Future
-from tornado.ioloop import IOLoop
+from tornado.ioloop import IOLoop, PeriodicCallback
 from tornado.websocket import WebSocketHandler, websocket_connect
 from tornado.httpclient import HTTPRequest
 from tornado.escape import url_escape, json_decode, utf8
@@ -21,12 +21,16 @@ from traitlets.config.configurable import LoggingConfigurable
 
 from .managers import GatewayClient
 
+# Keepalive ping interval (default: 30 seconds)
+GATEWAY_WS_PING_INTERVAL_SECS = int(os.getenv('GATEWAY_WS_PING_INTERVAL_SECS', 30))
+
 
 class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
 
     session = None
     gateway = None
     kernel_id = None
+    ping_callback = None
 
     def set_default_headers(self):
         """Undo the set_default_headers in IPythonHandler which doesn't make sense for websockets"""
@@ -63,8 +67,18 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
         self.kernel_id = cast_unicode(kernel_id, 'ascii')
         super(WebSocketChannelsHandler, self).get(kernel_id=kernel_id, *args, **kwargs)
 
+    def send_ping(self):
+        if self.ws_connection is None and self.ping_callback is not None:
+            self.ping_callback.stop()
+            return
+
+        self.ping(b'')
+
     def open(self, kernel_id, *args, **kwargs):
         """Handle web socket connection open to notebook server and delegate to gateway web socket handler """
+        self.ping_callback = PeriodicCallback(self.send_ping, GATEWAY_WS_PING_INTERVAL_SECS * 1000)
+        self.ping_callback.start()
+
         self.gateway.on_open(
             kernel_id=kernel_id,
             message_callback=self.write_message,
