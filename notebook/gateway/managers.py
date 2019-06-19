@@ -226,7 +226,7 @@ class GatewayClient(SingletonConfigurable):
 
     # Ensure KERNEL_LAUNCH_TIMEOUT has a default value.
     KERNEL_LAUNCH_TIMEOUT = int(os.environ.get('KERNEL_LAUNCH_TIMEOUT', 40))
-    os.environ['KERNEL_LAUNCH_TIMEOUT'] = KERNEL_LAUNCH_TIMEOUT
+    os.environ['KERNEL_LAUNCH_TIMEOUT'] = str(KERNEL_LAUNCH_TIMEOUT)
 
     LAUNCH_TIMEOUT_PAD = int(os.environ.get('LAUNCH_TIMEOUT_PAD', 2))
 
