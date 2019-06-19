@@ -191,7 +191,7 @@ class GatewayClient(SingletonConfigurable):
 
     @default('auth_token')
     def _auth_token_default(self):
-        return os.environ.get(self.auth_token_env)
+        return os.environ.get(self.auth_token_env, '')
 
     validate_cert_default_value = True
     validate_cert_env = 'JUPYTER_GATEWAY_VALIDATE_CERT'
@@ -240,7 +240,10 @@ class GatewayClient(SingletonConfigurable):
             self.request_timeout = float(GatewayClient.KERNEL_LAUNCH_TIMEOUT + GatewayClient.LAUNCH_TIMEOUT_PAD)
 
         self._static_args['headers'] = json.loads(self.headers)
-        self._static_args['headers'].update({'Authorization': 'token {}'.format(self.auth_token)})
+        if 'Authorization' not in self._static_args['headers'].keys():
+            self._static_args['headers'].update({
+                'Authorization': 'token {}'.format(self.auth_token)
+            })
         self._static_args['connect_timeout'] = self.connect_timeout
         self._static_args['request_timeout'] = self.request_timeout
         self._static_args['validate_cert'] = self.validate_cert
