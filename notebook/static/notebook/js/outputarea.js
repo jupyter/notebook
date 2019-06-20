@@ -513,7 +513,7 @@ define([
             var toinsert = this.create_output_area();
             var append_text = OutputArea.append_map[MIME_TEXT];
             if (append_text) {
-                append_text.apply(this, [s, {}, toinsert]).addClass('output_error').attr('aria-live', s);
+                append_text.apply(this, [s, {}, toinsert]).addClass('output_error');
             }
             this._safe_append(toinsert);
         }
