@@ -10,7 +10,7 @@
   },
   "scripts": {
     "bower": "bower install",
-    "build": "python3 setup.py js css",
+    "build": "python setup.py js css",
     "build:watch": "set -e; while true; do npm run build; sleep 3; done"
   },
   "devDependencies": {
@@ -19,8 +19,5 @@
     "requirejs": "^2.1.17",
     "po2json": "^0.4.5"
   },
-  "dependencies": {
-    "requests": "^0.2.2",
-    "six": "0.0.12"
-  }
+  "dependencies": {}
 }
