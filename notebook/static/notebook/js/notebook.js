@@ -938,8 +938,7 @@ define([
         if (this.mode !== 'command') {
             cell.command_mode();
             this.mode = 'command';
-            $('div[class*="code_cell"]').attr('aria-label', 'Command Mode')
-                .attr('title', 'Command Mode');
+            $('div[class*="code_cell"]')
             this.events.trigger('command_mode.Notebook');
             this.keyboard_manager.command_mode();
         }
@@ -967,7 +966,7 @@ define([
         if (cell && this.mode !== 'edit') {
             cell.edit_mode();
             this.mode = 'edit';
-            $('div[class*="code_cell"]').attr('aria-label', 'Edit Mode').attr('title', 'Edit Mode');
+            $('div[class*="code_cell"]')
             this.events.trigger('edit_mode.Notebook');
             this.keyboard_manager.edit_mode();
         }
