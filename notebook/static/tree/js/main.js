@@ -119,23 +119,17 @@ requirejs([
 
 
 
-    // $("#refresh_notebook_list").click(function(){
-        
-    //     if($("#refresh_notebook_list").attr("aria-pressed")=="true"){
-    //         $(this).removeAttr("aria-pressed");
-    //         // $("#refresh_notebook_list").attr("aria-pressed","false");
-    //         // $("#refresh_notebook_list").attr("aria-pressed","undefined");
-
-    //         // $("#refresh_notebook_list").attr("aria-label","Pressed Refresh");
-    //     }
-    //     else if($("#refresh_notebook_list").attr("aria-pressed")=="false"){
-    //         $("#refresh_notebook_list").attr("aria-pressed","true");
-    //         // $("#refresh_notebook_list").attr("aria-label","Pressed Refresh");
-    //     } 
-    //     else{
-    //         $("#refresh_notebook_list").attr("aria-pressed","false");
-    //     }
-    // });
+    $("#refresh_notebook_list").click(function(){
+        if($(this).attr("aria-label")=="pressing refresh button"){
+            $(this).attr("aria-label","pressing refresh button.");
+        }
+        else if($(this).attr("aria-label")=="pressing refresh button."){
+            $(this).attr("aria-label","pressing refresh button");
+        }
+        else{
+            $(this).attr("aria-label","pressing refresh button");
+        }
+    });
 
     var interval_id=0;
     // auto refresh every xx secondes, no need to be fast,
