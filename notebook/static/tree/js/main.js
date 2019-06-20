@@ -117,6 +117,20 @@ requirejs([
         )
     );
 
+
+
+    $("#refresh_notebook_list").click(function(){
+        if($(this).attr("aria-label")=="pressing refresh button"){
+            $(this).attr("aria-label","pressing refresh button.");
+        }
+        else if($(this).attr("aria-label")=="pressing refresh button."){
+            $(this).attr("aria-label","pressing refresh button");
+        }
+        else{
+            $(this).attr("aria-label","pressing refresh button");
+        }
+    });
+
     var interval_id=0;
     // auto refresh every xx secondes, no need to be fast,
     //  update is done most of the time when page get focus
