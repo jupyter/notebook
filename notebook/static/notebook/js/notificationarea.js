@@ -398,7 +398,6 @@ define([
                   return false;
                 }, {'title':'Javascript enabled for notebook display'});
                 // don't allow 'Trusted' button to be clicked
-                $(tnw.selector).attr('role', 'button')
                 $(tnw.selector).attr('disabled', true)
                 $(tnw.selector).css('cursor', 'help');
             } else {
@@ -406,7 +405,6 @@ define([
                   that.notebook.trust_notebook();
                   return false;
                 }, {'title':'Javascript disabled for notebook display'});
-                $(tnw.selector).attr('role', 'button')
             }
         });
     };
