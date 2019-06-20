@@ -2989,6 +2989,7 @@ define([
             keyboard_manager: this.keyboard_manager,
             title: i18n.msg._("Trust this notebook?"),
             body: body,
+            focus_button: 'notification_trusted',
 
             buttons: {
                 Cancel : {},
