@@ -18,11 +18,4 @@
     "less": "~2",
     "requirejs": "^2.1.17",
     "po2json": "^0.4.5"
-  },
-<<<<<<< HEAD
-  "dependencies": {
   }
-=======
-  "dependencies": {}
->>>>>>> d7cf9b75341d784870e6f8ad42c88a518214577e
-}
