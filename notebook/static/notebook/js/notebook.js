@@ -938,6 +938,7 @@ define([
         if (this.mode !== 'command') {
             cell.command_mode();
             this.mode = 'command';
+            $('div[class*="code_cell"]')
             this.events.trigger('command_mode.Notebook');
             this.keyboard_manager.command_mode();
         }
@@ -965,6 +966,10 @@ define([
         if (cell && this.mode !== 'edit') {
             cell.edit_mode();
             this.mode = 'edit';
+<<<<<<< HEAD
+=======
+            $('div[class*="code_cell"]')
+>>>>>>> 1dbabaa0a... #4006: fixed the edit-metadata button so that focus returns to it after closing the popup
             this.events.trigger('edit_mode.Notebook');
             this.keyboard_manager.edit_mode();
         }
