@@ -21,10 +21,17 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
-.. _release-6.0.0:
+.. _release-6.0:
 
-6.0.0
------
+6.0
+---
+
+This is the first major release of the Jupyter Notebook since version 5.0 (March 2017).
+
+We encourage users to start trying JupyterLab, which has just announced it's 1.0 release  in preparation
+for a future transition.
+
+- Remove Python 2.x support
 
 - add ``?no_track_activity=1`` argument to allow API requests
   to not be registered as activity (e.g. API calls by external activity monitors).
@@ -406,42 +413,42 @@ on Windows (:ghpull:`3220`).
 
 This release introduces a couple noteable improvements, such as terminal support for Windows and support for OS trash (files deleted from the notebook dashboard are moved to the OS trash vs. deleted permanently).
 
-- Add support for terminals on windows (:ghpull:`3087`). 
-- Add a "restart and run all" button to the toolbar (:ghpull:`2965`). 
-- Send files to os trash mechanism on delete (:ghpull:`1968`). 
-- Allow programmatic copy to clipboard (:ghpull:`3088`). 
+- Add support for terminals on windows (:ghpull:`3087`).
+- Add a "restart and run all" button to the toolbar (:ghpull:`2965`).
+- Send files to os trash mechanism on delete (:ghpull:`1968`).
+- Allow programmatic copy to clipboard (:ghpull:`3088`).
 - Use DOM History API for navigating between directories in the file browser (:ghpull:`3115`).
-- Add translated files to folder(docs-translations) (:ghpull:`3065`). 
-- Allow non empty dirs to be deleted (:ghpull:`3108`). 
-- Set cookie on base_url (:ghpull:`2959`). 
-- Allow token-authenticated requests cross-origin by default (:ghpull:`2920`). 
-- Change cull_idle_timeout_minimum to 1 from 300 (:ghpull:`2910`). 
-- Config option to shut down server after n seconds with no kernels (:ghpull:`2963`). 
-- Display a "close" button on load notebook error (:ghpull:`3176`). 
-- Add action to command pallette to run CodeMirror's "indentAuto" on selection (:ghpull:`3175`). 
-- Add option to specify extra services (:ghpull:`3158`). 
-- Warn_bad_name should not use global name (:ghpull:`3160`). 
-- Avoid overflow of hidden form (:ghpull:`3148`). 
-- Fix shutdown trans loss (:ghpull:`3147`). 
-- Find available kernelspecs more efficiently (:ghpull:`3136`). 
-- Don\'t try to translate missing help strings (:ghpull:`3122`). 
-- Frontend/extension-config: allow default json files in a .d directory (:ghpull:`3116`). 
-- Use `requirejs` vs. `require` (:ghpull:`3097`). 
-- Fixes some ui bugs in firefox #3044 (:ghpull:`3058`). 
-- Compare non-specific language code when choosing to use arabic numerals (:ghpull:`3055`). 
-- Fix save-script deprecation (:ghpull:`3053`). 
-- Include moment locales in package_data (:ghpull:`3051`). 
-- Fix moment locale loading in bidi support (:ghpull:`3048`). 
-- Tornado 5: periodiccallback loop arg will be removed (:ghpull:`3034`). 
-- Use `/files` prefix for pdf-like files (:ghpull:`3031`). 
-- Add folder for document translation (:ghpull:`3022`). 
-- When login-in via token, let a chance for user to set the password (:ghpull:`3008`). 
-- Switch to jupyter_core implementation of ensure_dir_exists (:ghpull:`3002`). 
-- Send http shutdown request on \'stop\' subcommand (:ghpull:`3000`). 
-- Work on loading ui translations  (:ghpull:`2969`). 
-- Fix ansi inverse (:ghpull:`2967`). 
-- Add send2trash to requirements for building docs (:ghpull:`2964`). 
-- I18n readme.md improvement (:ghpull:`2962`).  
+- Add translated files to folder(docs-translations) (:ghpull:`3065`).
+- Allow non empty dirs to be deleted (:ghpull:`3108`).
+- Set cookie on base_url (:ghpull:`2959`).
+- Allow token-authenticated requests cross-origin by default (:ghpull:`2920`).
+- Change cull_idle_timeout_minimum to 1 from 300 (:ghpull:`2910`).
+- Config option to shut down server after n seconds with no kernels (:ghpull:`2963`).
+- Display a "close" button on load notebook error (:ghpull:`3176`).
+- Add action to command pallette to run CodeMirror's "indentAuto" on selection (:ghpull:`3175`).
+- Add option to specify extra services (:ghpull:`3158`).
+- Warn_bad_name should not use global name (:ghpull:`3160`).
+- Avoid overflow of hidden form (:ghpull:`3148`).
+- Fix shutdown trans loss (:ghpull:`3147`).
+- Find available kernelspecs more efficiently (:ghpull:`3136`).
+- Don\'t try to translate missing help strings (:ghpull:`3122`).
+- Frontend/extension-config: allow default json files in a .d directory (:ghpull:`3116`).
+- Use `requirejs` vs. `require` (:ghpull:`3097`).
+- Fixes some ui bugs in firefox #3044 (:ghpull:`3058`).
+- Compare non-specific language code when choosing to use arabic numerals (:ghpull:`3055`).
+- Fix save-script deprecation (:ghpull:`3053`).
+- Include moment locales in package_data (:ghpull:`3051`).
+- Fix moment locale loading in bidi support (:ghpull:`3048`).
+- Tornado 5: periodiccallback loop arg will be removed (:ghpull:`3034`).
+- Use `/files` prefix for pdf-like files (:ghpull:`3031`).
+- Add folder for document translation (:ghpull:`3022`).
+- When login-in via token, let a chance for user to set the password (:ghpull:`3008`).
+- Switch to jupyter_core implementation of ensure_dir_exists (:ghpull:`3002`).
+- Send http shutdown request on \'stop\' subcommand (:ghpull:`3000`).
+- Work on loading ui translations  (:ghpull:`2969`).
+- Fix ansi inverse (:ghpull:`2967`).
+- Add send2trash to requirements for building docs (:ghpull:`2964`).
+- I18n readme.md improvement (:ghpull:`2962`).
 - Add \'reason\' field to json error responses (:ghpull:`2958`).
 - Add some padding for stream outputs (:ghpull:`3194`).
 - Always use setuptools in ``setup.py`` (:ghpull:`3206`).
@@ -480,11 +487,11 @@ See the 5.3 milestone on GitHub for a complete list of
 5.2.1
 -----
 
-- Fix invisible CodeMirror cursor at specific browser zoom levels (:ghpull:`2983`). 
-- Fix nbconvert handler causing broken export to PDF (:ghpull:`2981`). 
-- Fix the prompt_area argument of the output area constructor. (:ghpull:`2961`). 
-- Handle a compound extension in new_untitled (:ghpull:`2949`). 
-- Allow disabling offline message buffering (:ghpull:`2916`). 
+- Fix invisible CodeMirror cursor at specific browser zoom levels (:ghpull:`2983`).
+- Fix nbconvert handler causing broken export to PDF (:ghpull:`2981`).
+- Fix the prompt_area argument of the output area constructor. (:ghpull:`2961`).
+- Handle a compound extension in new_untitled (:ghpull:`2949`).
+- Allow disabling offline message buffering (:ghpull:`2916`).
 
 Thanks to the following contributors:
 
@@ -502,37 +509,37 @@ See the 5.2.1 milestone on GitHub for a complete list of
 5.2.0
 -----
 
-- Allow setting token via jupyter_token env (:ghpull:`2921`). 
-- Fix some errors caused by raising 403 in get_current_user (:ghpull:`2919`). 
-- Register contents_manager.files_handler_class directly (:ghpull:`2917`). 
-- Update viewable_extensions (:ghpull:`2913`). 
-- Show edit shortcuts modal after shortcuts modal is hidden (:ghpull:`2912`). 
-- Improve edit/view behavior (:ghpull:`2911`). 
-- The root directory of the notebook server should never be hidden (:ghpull:`2907`). 
-- Fix notebook require config to match tools/build-main (:ghpull:`2888`). 
-- Give page constructor default arguments (:ghpull:`2887`). 
-- Fix codemirror.less to match codemirror\'s expected padding layout (:ghpull:`2880`). 
-- Add x-xsrftoken to access-control-allow-headers (:ghpull:`2876`). 
-- Buffer messages when websocket connection is interrupted (:ghpull:`2871`). 
-- Load locale dynamically only when not en-us (:ghpull:`2866`). 
-- Changed key strength to 2048 bits (:ghpull:`2861`). 
-- Resync jsversion with python version (:ghpull:`2860`). 
-- Allow copy operation on modified, read-only notebook (:ghpull:`2854`). 
-- Update error handling on apihandlers (:ghpull:`2853`). 
-- Test python 3.6 on travis, drop 3.3 (:ghpull:`2852`). 
-- Avoid base64-literals in image tests (:ghpull:`2851`). 
-- Upgrade xterm.js to 2.9.2 (:ghpull:`2849`). 
-- Changed all python variables named file to file_name to not override built_in file (:ghpull:`2830`). 
-- Add more doc tests (:ghpull:`2823`). 
-- Typos fix (:ghpull:`2815`). 
-- Rename and update license [ci skip] (:ghpull:`2810`). 
-- Travis builds doc  (:ghpull:`2808`). 
-- Pull request i18n  (:ghpull:`2804`). 
-- Factor out output_prompt_function, as is done with input prompt (:ghpull:`2774`). 
-- Use rfc5987 encoding for filenames (:ghpull:`2767`). 
-- Added path to the resources metadata, the same as in from_filename(...) in nbconvert.exporters.py (:ghpull:`2753`). 
-- Make "extrakeys" consistent for notebook and editor (:ghpull:`2745`). 
-- Bidi support (:ghpull:`2357`). 
+- Allow setting token via jupyter_token env (:ghpull:`2921`).
+- Fix some errors caused by raising 403 in get_current_user (:ghpull:`2919`).
+- Register contents_manager.files_handler_class directly (:ghpull:`2917`).
+- Update viewable_extensions (:ghpull:`2913`).
+- Show edit shortcuts modal after shortcuts modal is hidden (:ghpull:`2912`).
+- Improve edit/view behavior (:ghpull:`2911`).
+- The root directory of the notebook server should never be hidden (:ghpull:`2907`).
+- Fix notebook require config to match tools/build-main (:ghpull:`2888`).
+- Give page constructor default arguments (:ghpull:`2887`).
+- Fix codemirror.less to match codemirror\'s expected padding layout (:ghpull:`2880`).
+- Add x-xsrftoken to access-control-allow-headers (:ghpull:`2876`).
+- Buffer messages when websocket connection is interrupted (:ghpull:`2871`).
+- Load locale dynamically only when not en-us (:ghpull:`2866`).
+- Changed key strength to 2048 bits (:ghpull:`2861`).
+- Resync jsversion with python version (:ghpull:`2860`).
+- Allow copy operation on modified, read-only notebook (:ghpull:`2854`).
+- Update error handling on apihandlers (:ghpull:`2853`).
+- Test python 3.6 on travis, drop 3.3 (:ghpull:`2852`).
+- Avoid base64-literals in image tests (:ghpull:`2851`).
+- Upgrade xterm.js to 2.9.2 (:ghpull:`2849`).
+- Changed all python variables named file to file_name to not override built_in file (:ghpull:`2830`).
+- Add more doc tests (:ghpull:`2823`).
+- Typos fix (:ghpull:`2815`).
+- Rename and update license [ci skip] (:ghpull:`2810`).
+- Travis builds doc  (:ghpull:`2808`).
+- Pull request i18n  (:ghpull:`2804`).
+- Factor out output_prompt_function, as is done with input prompt (:ghpull:`2774`).
+- Use rfc5987 encoding for filenames (:ghpull:`2767`).
+- Added path to the resources metadata, the same as in from_filename(...) in nbconvert.exporters.py (:ghpull:`2753`).
+- Make "extrakeys" consistent for notebook and editor (:ghpull:`2745`).
+- Bidi support (:ghpull:`2357`).
 
 Special thanks to `samarsultan <https://github.com/samarsultan>`__ and the Arabic Competence and Globalization Center Team at IBM Egypt for adding RTL (right-to-left) support to the notebook!
 
@@ -587,7 +594,7 @@ File sorting in the dashboard
 Files in the dashboard may now be sorted by last modified date or name (:ghpull:`943`):
 
 .. image:: /_static/images/dashboard-sort.png
-   :align: center 
+   :align: center
 
 Cell tags
 *********
@@ -615,7 +622,7 @@ Before:
 
 .. image:: /_static/images/table-style-before.png
    :align: center
-   
+
 After:
 
 .. image:: /_static/images/table-style-after.png
@@ -671,7 +678,7 @@ Other additions
 
 - The favicon (browser shortcut icon) now changes to indicate when the kernel is busy
   (:ghpull:`1837`).
-  
+
 - Header and toolbar visibility is now persisted in nbconfig and across sessions
   (:ghpull:`1769`).
 
