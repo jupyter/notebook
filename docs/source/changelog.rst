@@ -38,6 +38,145 @@ for a future transition.
 - Kernels shutting down due to an idle timeout is no longer considered
   an activity-updating event.
 
+Thanks for all the contributors:
+
+* AAYUSH SINHA
+* Aaron Hall, MBA
+* Abhinav Sagar
+* Adam Rule
+* Adeel Ahmad
+* Alex Rothberg
+* Amy Skerry-Ryan
+* Anastasis Germanidis
+* Andrés Sánchez
+* Arjun Radhakrishna
+* Arovit Narula
+* Benda Xu
+* Björn Grüning
+* Brian E. Granger
+* Carol Willing
+* Celina Kilcrease
+* Chris Holdgraf
+* Chris Miller
+* Ciaran Langton
+* Damian Avila
+* Dana Lee
+* Daniel Farrell
+* Daniel Nicolai
+* Darío Hereñú
+* Dave Aitken
+* Dave Foster
+* Dave Hirschfeld
+* Denis Ledoux
+* Dmitry Mikushin
+* Dominic Kuang
+* Douglas Hanley
+* Elliott Sales de Andrade
+* Emilio Talamante Lugo
+* Eric Perry
+* Ethan T. Hendrix
+* Evan Van Dam
+* Francesco Franchina
+* Frédéric Chapoton
+* Félix-Antoine Fortin
+* Gabriel
+* Gabriel Nützi
+* Gabriel Ruiz
+* Gestalt LUR
+* Grant Nestor
+* Gustavo Efeiche
+* Harsh Vardhan
+* Heng GAO
+* Hisham Elsheshtawy
+* Hong Xu
+* Ian Rose
+* Ivan Ogasawara
+* J Forde
+* Jason Grout
+* Jessica B. Hamrick
+* Jiaqi Liu
+* John Emmons
+* Josh Barnes
+* Karthik Balakrishnan
+* Kevin Bates
+* Kirit Thadaka
+* Kristian Gregorius Hustad
+* Kyle Kelley
+* Leo Gallucci
+* Lilian Besson
+* Lucas Seiki Oshiro
+* Luciano Resende
+* Luis Angel Rodriguez Guerrero
+* M Pacer
+* Maarten Breddels
+* Mac Knight
+* Madicken Munk
+* Maitiú Ó Ciaráin
+* Marc Udoff
+* Mathis HAMMEL
+* Mathis Rosenhauer
+* Matthias Bussonnier
+* Matthias Geier
+* Max Vovshin
+* Maxime Mouchet
+* Michael Chirico
+* Michael Droettboom
+* Michael Heilman
+* Michael Scott Cuthbert
+* Michal Charemza
+* Mike Boyle
+* Milos Miljkovic
+* Min RK
+* Miro Hrončok
+* Nicholas Bollweg
+* Nitesh Sawant
+* Ondrej Jariabka
+* Park Hae Jin
+* Paul Ivanov
+* Paul Masson
+* Peter Parente
+* Pierre Tholoniat
+* Remco Verhoef
+* Roland Weber
+* Roman Kornev
+* Rosa Swaby
+* Roy Hyunjin Han
+* Sally
+* Sam Lau
+* Samar Sultan
+* Shiti Saxena
+* Simon Biggs
+* Spencer Park
+* Stephen Ward
+* Steve (Gadget) Barnes
+* Steven Silvester
+* Surya Prakash Susarla
+* Syed Shah
+* Sylvain Corlay
+* Thomas Aarholt
+* Thomas Kluyver
+* Tim
+* Tim Head
+* Tim Klever
+* Tim Metzler
+* Todd
+* Tom Jorquera
+* Tyler Makaro
+* Vaibhav Sagar
+* Victor
+* Vidar Tonaas Fauske
+* Vu Minh Tam
+* Vít Tuček
+* Will Costello
+* Will Starms
+* William Hosford
+* Xiaohan Li
+* Yuvi Panda
+* ashley teoh
+* nullptr
+
+
+
 .. _release-5.7.8:
 
 5.7.8
