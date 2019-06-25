@@ -77,10 +77,10 @@ data-notebook-path="{{notebook_path | urlencode}}"
             <span id="notification_area"></span>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}File{% endtrans %}</a>
-                    <ul id="file_menu" class="dropdown-menu">
-                        <li id="new_notebook" class="dropdown-submenu">
-                            <a href="#">{% trans %}New Notebook{% endtrans %}<span class="sr-only">{% trans %}Toggle Dropdown{% endtrans %}</span></a>
+                <li class="dropdown"><a href="#" id="filelink" aria-haspopup="true" aria-controls="file_menu class="dropdown-toggle" data-toggle="dropdown">{% trans %}File{% endtrans %}</a>
+                    <ul id="file_menu" class="dropdown-menu" role="menu" aria-labelledby="filelink">
+                        <li id="new_notebook" class="dropdown-submenu" role="none">
+                            <a href="#" role="menuitem">{% trans %}New Notebook{% endtrans %}<span class="sr-only">{% trans %}Toggle Dropdown{% endtrans %}</span></a>
                             <ul class="dropdown-menu" id="menu-new-notebook-submenu"></ul>
                         </li>
                         <li id="open_notebook" role="none"
@@ -97,8 +97,8 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         <li id="rename_notebook" role="none"><a href="#" role="menuitem">{% trans %}Rename...{% endtrans %}</a></li>
                         <li id="save_checkpoint" role="none"><a href="#" role="menuitem">{% trans %}Save and Checkpoint{% endtrans %}</a></li>
                         <!-- <hr/> -->
-                        <li class="divider"></li>
-                        <li id="restore_checkpoint" class="dropdown-submenu"><a href="#">{% trans %}Revert to Checkpoint{% endtrans %}<span class="sr-only">{% trans %}Toggle Dropdown{% endtrans %}</span></a>
+                        <li class="divider" role="none"></li>
+                        <li id="restore_checkpoint" class="dropdown-submenu" role="none"><a href="#" role="menuitem">{% trans %}Revert to Checkpoint{% endtrans %}<span class="sr-only">{% trans %}Toggle Dropdown{% endtrans %}</span></a>
                           <ul class="dropdown-menu">
                             <li><a href="#"></a></li>
                             <li><a href="#"></a></li>
@@ -107,9 +107,9 @@ data-notebook-path="{{notebook_path | urlencode}}"
                             <li><a href="#"></a></li>
                           </ul>
                         </li>
-                        <li class="divider"></li>
-                        <li id="print_preview"><a href="#">{% trans %}Print Preview{% endtrans %}</a></li>
-                        <li class="dropdown-submenu"><a href="#">{% trans %}Download as{% endtrans %}<span class="sr-only">{% trans %}Toggle Dropdown{% endtrans %}</span></a>
+                        <li class="divider" role="none"></li>
+                        <li id="print_preview" role="none"><a href="#" role="menuitem">{% trans %}Print Preview{% endtrans %}</a></li>
+                        <li class="dropdown-submenu" role="none"><a href="#" role="menuitem">{% trans %}Download as{% endtrans %}<span class="sr-only">{% trans %}Toggle Dropdown{% endtrans %}</span></a>
                             <ul id="download_menu" class="dropdown-menu">
                                 {% for exporter in get_frontend_exporters() %}
                                 <li id="download_{{ exporter.name }}">
