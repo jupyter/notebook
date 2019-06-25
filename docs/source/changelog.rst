@@ -21,7 +21,6 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
-
 .. _release-6.0.0:
 
 6.0.0
@@ -32,6 +31,43 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
 - Kernels shutting down due to an idle timeout is no longer considered
   an activity-updating event.
 
+.. _release-5.7.8:
+
+5.7.8
+-----
+
+- Fix regression in restarting kernels in 5.7.5.
+  The restart handler would return before restart was completed.
+- Further improve compatibility with tornado 6 with improved
+  checks for when websockets are closed.
+- Fix regression in 5.7.6 on Windows where .js files could have the wrong mime-type.
+- Fix Open Redirect vulnerability (CVE-2019-10255)
+  where certain malicious URLs could redirect from the Jupyter login page
+  to a malicious site after a successful login.
+  5.7.7 contained only a partial fix for this issue.
+
+.. _release-5.7.6:
+
+5.7.6
+-----
+
+5.7.6 contains a security fix for a cross-site inclusion (XSSI) vulnerability (CVE-2019–9644),
+where files at a known URL could be included in a page from an unauthorized website if the user is logged into a Jupyter server.
+The fix involves setting the ``X-Content-Type-Options: nosniff``
+header, and applying CSRF checks previously on all non-GET
+API requests to GET requests to API endpoints and the /files/ endpoint.
+
+The attacking page is able to access some contents of files when using Internet Explorer through script errors,
+but this has not been demonstrated with other browsers.
+
+.. _release-5.7.5:
+
+5.7.5
+-----
+
+- Fix compatibility with tornado 6 (:ghpull:`4392`, :ghpull:`4449`).
+- Fix opening integer filedescriptor during startup on Python 2 (:ghpull:`4349`)
+- Fix compatibility with asynchronous `KernelManager.restart_kernel` methods (:ghpull:`4412`)
 
 .. _release-5.7.4:
 
@@ -300,7 +336,7 @@ Thanks to the following contributors:
 - Mac Knight (`Shels1909 <https://github.com/Shels1909>`__)
 - Hisham Elsheshtawy (`Sheshtawy <https://github.com/Sheshtawy>`__)
 - Simon Biggs (`SimonBiggs <https://github.com/SimonBiggs>`__)
-- Sunil Hari (`sunilhari <https://github.com/sunilhari>`__)
+- Sunil Hari (``@sunilhari``)
 - Thomas Kluyver (`takluyver <https://github.com/takluyver>`__)
 - Tim Klever (`tklever <https://github.com/tklever>`__)
 - Gabriel Ruiz (`unnamedplay-r <https://github.com/unnamedplay-r>`__)

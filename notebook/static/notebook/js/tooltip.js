@@ -37,8 +37,8 @@ define([
 
         // build the buttons menu on the upper right
         // expand the tooltip to see more
-        var expandlink = $('<a/>').attr('href', "#").addClass("ui-corner-all") //rounded corner
-        .attr('role', "button").attr('id', 'expanbutton').attr('title', i18n.msg._('Grow the tooltip vertically (press shift-tab twice)')).click(function () {
+        var expandlink = $('<a/>').attr('href', "#").attr('role', "button").addClass('ui-button')
+        .attr('id', 'expanbutton').attr('title', i18n.msg._('Grow the tooltip vertically (press shift-tab twice)')).click(function () {
             that.expand();
             event.preventDefault();
         }).append(

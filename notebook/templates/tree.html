@@ -13,6 +13,7 @@ data-server-root="{{server_root}}"
 
 {% block headercontainer %}
   <span class="flex-spacer"></span>
+  {{super()}}
   {% if shutdown_button %}
     <span id="shutdown_widget">
       <button id="shutdown" class="btn btn-sm navbar-btn"

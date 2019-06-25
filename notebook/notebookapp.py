@@ -84,6 +84,7 @@ from .services.contents.manager import ContentsManager
 from .services.contents.filemanager import FileContentsManager
 from .services.contents.largefilemanager import LargeFileManager
 from .services.sessions.sessionmanager import SessionManager
+from .gateway.managers import GatewayKernelManager, GatewayKernelSpecManager, GatewaySessionManager, GatewayClient
 
 from .auth.login import LoginHandler
 from .auth.logout import LogoutHandler
@@ -96,7 +97,7 @@ from jupyter_core.application import (
 )
 from jupyter_core.paths import jupyter_config_path
 from jupyter_client import KernelManager
-from jupyter_client.kernelspec import KernelSpecManager, NoSuchKernel, NATIVE_KERNEL_NAME
+from jupyter_client.kernelspec import KernelSpecManager
 from jupyter_client.session import Session
 from nbformat.sign import NotebookNotary
 from traitlets import (
@@ -144,13 +145,13 @@ def load_handlers(name):
 # The Tornado web application
 #-----------------------------------------------------------------------------
 
+
 class NotebookWebApplication(web.Application):
 
     def __init__(self, jupyter_app, kernel_manager, contents_manager,
                  session_manager, kernel_spec_manager,
                  config_manager, extra_services, log,
                  base_url, default_url, settings_overrides, jinja_env_options):
-
 
         settings = self.init_settings(
             jupyter_app, kernel_manager, contents_manager,
@@ -305,14 +306,26 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('notebook.edit.handlers'))
         handlers.extend(load_handlers('notebook.services.api.handlers'))
         handlers.extend(load_handlers('notebook.services.config.handlers'))
-        handlers.extend(load_handlers('notebook.services.kernels.handlers'))
         handlers.extend(load_handlers('notebook.services.contents.handlers'))
         handlers.extend(load_handlers('notebook.services.sessions.handlers'))
         handlers.extend(load_handlers('notebook.services.nbconvert.handlers'))
-        handlers.extend(load_handlers('notebook.services.kernelspecs.handlers'))
         handlers.extend(load_handlers('notebook.services.security.handlers'))
         handlers.extend(load_handlers('notebook.services.shutdown'))
+        handlers.extend(load_handlers('notebook.services.kernels.handlers'))
+        handlers.extend(load_handlers('notebook.services.kernelspecs.handlers'))
+
         handlers.extend(settings['contents_manager'].get_extra_handlers())
+
+        # If gateway mode is enabled, replace appropriate handlers to perform redirection
+        if GatewayClient.instance().gateway_enabled:
+            # for each handler required for gateway, locate its pattern
+            # in the current list and replace that entry...
+            gateway_handlers = load_handlers('notebook.gateway.handlers')
+            for i, gwh in enumerate(gateway_handlers):
+                for j, h in enumerate(handlers):
+                    if gwh[0] == h[0]:
+                        handlers[j] = (gwh[0], gwh[1])
+                        break
 
         handlers.append(
             (r"/nbextensions/(.*)", FileFindHandler, {
@@ -547,6 +560,7 @@ aliases.update({
     'notebook-dir': 'NotebookApp.notebook_dir',
     'browser': 'NotebookApp.browser',
     'pylab': 'NotebookApp.pylab',
+    'gateway-url': 'GatewayClient.url',
 })
 
 #-----------------------------------------------------------------------------
@@ -565,9 +579,9 @@ class NotebookApp(JupyterApp):
     flags = flags
     
     classes = [
-        KernelManager, Session, MappingKernelManager,
+        KernelManager, Session, MappingKernelManager, KernelSpecManager,
         ContentsManager, FileContentsManager, NotebookNotary,
-        KernelSpecManager,
+        GatewayKernelManager, GatewayKernelSpecManager, GatewaySessionManager, GatewayClient,
     ]
     flags = Dict(flags)
     aliases = Dict(aliases)
@@ -1316,6 +1330,16 @@ class NotebookApp(JupyterApp):
             self.update_config(c)
 
     def init_configurables(self):
+
+        # If gateway server is configured, replace appropriate managers to perform redirection.  To make
+        # this determination, instantiate the GatewayClient config singleton.
+        self.gateway_config = GatewayClient.instance(parent=self)
+
+        if self.gateway_config.gateway_enabled:
+            self.kernel_manager_class = 'notebook.gateway.managers.GatewayKernelManager'
+            self.session_manager_class = 'notebook.gateway.managers.GatewaySessionManager'
+            self.kernel_spec_manager_class = 'notebook.gateway.managers.GatewayKernelSpecManager'
+
         self.kernel_spec_manager = self.kernel_spec_manager_class(
             parent=self,
         )
@@ -1396,8 +1420,13 @@ class NotebookApp(JupyterApp):
         else:
             # SSL may be missing, so only import it if it's to be used
             import ssl
-            # Disable SSLv3 by default, since its use is discouraged.
-            ssl_options.setdefault('ssl_version', ssl.PROTOCOL_TLSv1)
+            # PROTOCOL_TLS selects the highest ssl/tls protocol version that both the client and
+            # server support. When PROTOCOL_TLS is not available use PROTOCOL_SSLv23.
+            # PROTOCOL_TLS is new in version 2.7.13, 3.5.3 and 3.6
+            ssl_options.setdefault(
+                'ssl_version',
+                getattr(ssl, 'PROTOCOL_TLS', ssl.PROTOCOL_SSLv23)
+            )
             if ssl_options.get('ca_certs', False):
                 ssl_options.setdefault('cert_reqs', ssl.CERT_REQUIRED)
         
@@ -1539,15 +1568,13 @@ class NotebookApp(JupyterApp):
         # TODO: this should still check, but now we use bower, not git submodule
         pass
 
-    def init_server_extensions(self):
-        """Load any extensions specified by config.
+    def init_server_extension_config(self):
+        """Consolidate server extensions specified by all configs.
 
-        Import the module, then call the load_jupyter_server_extension function,
-        if one exists.
+        The resulting list is stored on self.nbserver_extensions and updates config object.
         
         The extension API is experimental, and may change in future releases.
         """
-        
         # TODO: Remove me in notebook 5.0
         for modulename in self.server_extensions:
             # Don't override disable state of the extension if it already exist
@@ -1566,15 +1593,23 @@ class NotebookApp(JupyterApp):
         manager = ConfigManager(read_config_path=config_path)
         section = manager.get(self.config_file_name)
         extensions = section.get('NotebookApp', {}).get('nbserver_extensions', {})
-
-        for modulename, enabled in self.nbserver_extensions.items():
-            if modulename not in extensions:
-                # not present in `extensions` means it comes from Python config,
-                # so we need to add it.
-                # Otherwise, trust ConfigManager to have loaded it.
-                extensions[modulename] = enabled
-
+        
         for modulename, enabled in sorted(extensions.items()):
+            if modulename not in self.nbserver_extensions:
+                self.config.NotebookApp.nbserver_extensions.update({modulename: enabled})
+                self.nbserver_extensions.update({modulename: enabled})
+
+    def init_server_extensions(self):
+        """Load any extensions specified by config.
+
+        Import the module, then call the load_jupyter_server_extension function,
+        if one exists.
+        
+        The extension API is experimental, and may change in future releases.
+        """
+        
+
+        for modulename, enabled in sorted(self.nbserver_extensions.items()):
             if enabled:
                 try:
                     mod = importlib.import_module(modulename)
@@ -1588,11 +1623,18 @@ class NotebookApp(JupyterApp):
                                   exc_info=True)
 
     def init_mime_overrides(self):
-        # On some Windows machines, an application has registered an incorrect
-        # mimetype for CSS in the registry. Tornado uses this when serving
-        # .css files, causing browsers to reject the stylesheet. We know the
-        # mimetype always needs to be text/css, so we override it here.
+        # On some Windows machines, an application has registered incorrect
+        # mimetypes in the registry.
+        # Tornado uses this when serving .css and .js files, causing browsers to
+        # reject these files. We know the mimetype always needs to be text/css for css
+        # and application/javascript for JS, so we override it here
+        # and explicitly tell the mimetypes to not trust the Windows registry
+        if os.name == 'nt':
+            # do not trust windows registry, which regularly has bad info
+            mimetypes.init(files=[])
+        # ensure css, js are correct, which are required for pages to function
         mimetypes.add_type('text/css', '.css')
+        mimetypes.add_type('application/javascript', '.js')
 
 
     def shutdown_no_activity(self):
@@ -1632,6 +1674,7 @@ class NotebookApp(JupyterApp):
         if self._dispatching:
             return
         self.init_configurables()
+        self.init_server_extension_config()
         self.init_components()
         self.init_webapp()
         self.init_terminals()
@@ -1661,6 +1704,8 @@ class NotebookApp(JupyterApp):
             info += "\n"
         # Format the info so that the URL fits on a single line in 80 char display
         info += _("The Jupyter Notebook is running at:\n%s") % self.display_url
+        if self.gateway_config.gateway_enabled:
+            info += _("\nKernels will be managed by the Gateway server running at:\n%s") % self.gateway_config.url
         return info
 
     def server_info(self):

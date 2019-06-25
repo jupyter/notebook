@@ -12,7 +12,7 @@ it's easy to upgrade and get on with what you wanted to do.
 Jupyter fails to start
 ----------------------
 
-* Have you `installed it <http://jupyter.org/install.html>`__? ;-)
+* Have you `installed it <https://jupyter.org/install.html>`__? ;-)
 * If you're using a menu shortcut or Anaconda launcher to start it, try
   opening a terminal or command prompt and running the command ``jupyter notebook``.
 * If it can't find ``jupyter``,

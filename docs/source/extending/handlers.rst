@@ -124,4 +124,4 @@ following:
 
 References:
 
-1. `Peter Parente's Mindtrove <http://mindtrove.info/4-ways-to-extend-jupyter-notebook/#nb-server-exts>`__
+1. `Peter Parente's Mindtrove <https://mindtrove.info/4-ways-to-extend-jupyter-notebook/#nb-server-exts>`__

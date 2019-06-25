@@ -2,7 +2,7 @@
 
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
 [![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
-[![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](http://jupyter-notebook.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/latest/?badge=latest)
                 
 
 
@@ -45,7 +45,7 @@ Launch with:
 
 ### Running in a remote installation
 
-You need some configuration before starting Jupyter notebook remotely. See [Running a notebook server](http://jupyter-notebook.readthedocs.io/en/stable/public_server.html).
+You need some configuration before starting Jupyter notebook remotely. See [Running a notebook server](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html).
 
 ## Development Installation
 
@@ -57,7 +57,7 @@ If you are interested in contributing to the project, see [`CONTRIBUTING.rst`](C
 
 ## Resources
 - [Project Jupyter website](https://jupyter.org)
-- [Online Demo at try.jupyter.org](https://try.jupyter.org)
+- [Online Demo at jupyter.org/try](https://jupyter.org/try)
 - [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/latest/) [[PDF](https://media.readthedocs.org/pdf/jupyter-notebook/latest/jupyter-notebook.pdf)]
 - [Korean Version of Installation](https://github.com/ChungJooHo/Jupyter_Kor_doc/)
 - [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/latest/index.html) [[PDF](https://media.readthedocs.org/pdf/jupyter/latest/jupyter.pdf)]

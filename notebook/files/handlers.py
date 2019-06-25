@@ -5,16 +5,12 @@
 
 import mimetypes
 import json
+from base64 import decodebytes
 
-try: #PY3
-    from base64 import decodebytes
-except ImportError: #PY2
-    from base64 import decodestring as decodebytes
-
-
-from tornado import gen, web
+from tornado import web
 
 from notebook.base.handlers import IPythonHandler
+from notebook.utils import maybe_future
 
 
 class FilesHandler(IPythonHandler):
@@ -35,10 +31,13 @@ class FilesHandler(IPythonHandler):
 
     @web.authenticated
     def head(self, path):
-        self.get(path, include_body=False)
+        self.check_xsrf_cookie()
+        return self.get(path, include_body=False)
 
     @web.authenticated
     def get(self, path, include_body=True):
+        # /files/ requests must originate from the same site
+        self.check_xsrf_cookie()
         cm = self.contents_manager
 
         if cm.is_hidden(path) and not cm.allow_hidden:
@@ -51,13 +50,13 @@ class FilesHandler(IPythonHandler):
         else:
             name = path
         
-        model = yield gen.maybe_future(cm.get(path, type='file', content=include_body))
+        model = yield maybe_future(cm.get(path, type='file', content=include_body))
         
         if self.get_argument("download", False):
             self.set_attachment_header(name)
         
         # get mimetype from filename
-        if name.endswith('.ipynb'):
+        if name.lower().endswith('.ipynb'):
             self.set_header('Content-Type', 'application/x-ipynb+json')
         else:
             cur_mime = mimetypes.guess_type(name)[0]

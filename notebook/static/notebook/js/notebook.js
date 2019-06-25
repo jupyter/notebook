@@ -257,7 +257,8 @@ define([
         // 'above', 'below', or 'selected' to get the value from another cell.
         default_cell_type: 'code',
         Header: true,
-        Toolbar: true
+        Toolbar: true,
+        kill_kernel: false
     };
 
     Notebook.prototype.validate_config = function() {
@@ -409,8 +410,18 @@ define([
         // Firefox 22 broke $(window).on("beforeunload")
         // I'm not sure why or how.
         window.onbeforeunload = function () {
-            // TODO: Make killing the kernel configurable.
-            var kill_kernel = false;
+            /* Make kill kernel configurable.
+            example in custom.js:
+                var notebook = Jupyter.notebook;
+                var config = notebook.config;
+                var patch = {
+                    Notebook:{
+                        kill_kernel: true
+                    }
+                };
+                config.update(patch);
+            */
+            var kill_kernel = that.class_config.get_sync("kill_kernel");
             if (kill_kernel) {
                 that.session.delete();
             }
@@ -2742,6 +2753,8 @@ define([
                 $.proxy(that.save_notebook_success, that, start),
                 function (error) {
                     that.events.trigger('notebook_save_failed.Notebook', error);
+                    // This hasn't handled the error, so propagate it up
+                    return Promise.reject(error);
                 }
             );
         };
@@ -2845,6 +2858,7 @@ define([
             this.create_checkpoint();
             this._checkpoint_after_save = false;
         }
+        return data;
     };
 
     Notebook.prototype.save_notebook_as = function() {
@@ -3309,7 +3323,7 @@ define([
      */
     Notebook.prototype.save_checkpoint = function () {
         this._checkpoint_after_save = true;
-        this.save_notebook(true);
+        return this.save_notebook(true);
     };
     
     /**
