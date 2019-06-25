@@ -421,7 +421,7 @@ def shutdown_server(server_info, timeout=5, log=None):
 
     # Poll to see if it shut down.
     for _ in range(timeout*10):
-        if check_pid(pid):
+        if not check_pid(pid):
             if log: log.debug("Server PID %s is gone", pid)
             return True
         time.sleep(0.1)
@@ -434,7 +434,7 @@ def shutdown_server(server_info, timeout=5, log=None):
 
     # Poll to see if it shut down.
     for _ in range(timeout * 10):
-        if check_pid(pid):
+        if not check_pid(pid):
             if log: log.debug("Server PID %s is gone", pid)
             return True
         time.sleep(0.1)
