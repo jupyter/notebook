@@ -21,6 +21,16 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+.. _release-6.0.0:
+
+6.0.0
+-----
+
+- add ``?no_track_activity=1`` argument to allow API requests
+  to not be registered as activity (e.g. API calls by external activity monitors).
+- Kernels shutting down due to an idle timeout is no longer considered
+  an activity-updating event.
+
 .. _release-5.7.8:
 
 5.7.8
