@@ -144,10 +144,10 @@ class TestFileContentsManager(TestCase):
             contents = {
                 content['name']: content for content in model['content']
             }
-            self.assertTrue('untitled.txt' in contents)
+            self.assertIn('untitled.txt', contents)
             self.assertEqual(contents['untitled.txt'], file_model)
-            # recusrive symlinks should not be shown in the contents manager
-            self.assertFalse('recusrive' in contents)
+            # recursive symlinks should not be shown in the contents manager
+            self.assertNotIn('recursive', contents)
 
     @dec.skipif(sys.platform == 'win32' and sys.version_info[0] < 3)
     def test_good_symlink(self):
