@@ -6,9 +6,9 @@ var Jupyter = Jupyter || {};
 
 var jprop = function(name, module_path){
     Object.defineProperty(Jupyter, name, {
-      get: function() {
+      get: function() { 
           console.warn('accessing `'+name+'` is deprecated. Use `requirejs("'+module_path+'")`');
-          return requirejs(module_path);
+          return requirejs(module_path);    
       },
       enumerable: true,
       configurable: false
