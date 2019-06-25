@@ -814,10 +814,14 @@ define([
         //#issue 3961, update the checkbox aria-label when it changed
         if(selected.length>=1){
           if($('#select-all').prop("checked")){
-            $('#button-select-all').attr("aria-label", i18n.msg._("Selected All "+ selected.length+" items"));
+            // $('#button-select-all').attr("aria-label", i18n.msg._("Selected All "+ selected.length +" items"));
+            var msg1 = i18n.msg._("Selected All %d items")
+            $('#button-select-all').attr("aria-label", i18n.msg.sprintf(msg1, selected.length));
           }
           else{
-            $('#button-select-all').attr("aria-label", i18n.msg._("Selected, "+ selected.length+" items"));
+            // $('#button-select-all').attr("aria-label", i18n.msg._("Selected, "+ selected.length+" items"));
+            var msg2 = i18n.msg._("Selected, %d items")
+            $('#button-select-all').attr("aria-label", i18n.msg.sprintf(msg2, selected.length));
           }
         }
         else{
