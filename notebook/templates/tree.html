@@ -55,9 +55,9 @@ data-server-root="{{server_root}}"
               <div class="pull-right">
                 <form id='alternate_upload'  class='alternate_upload'>
                   <span id="notebook_list_info">
-                  <span class="btn btn-xs btn-default btn-upload">
-                  <input  title="{% trans %}Click to browse for a file to upload.{% endtrans %}" type="file" name="datafile" class="fileinput" multiple='multiple'>
-                  {% trans %}Upload{% endtrans %}
+                  <span id="upload_span" class="btn btn-xs btn-default btn-upload" role="button" tabindex="0">
+                    <input id="upload_span_input" title="{% trans %}Click to browse for a file to upload.{% endtrans %}" type="file" name="datafile" class="fileinput" multiple='multiple' tabindex="-1">
+                    {% trans %}Upload{% endtrans %}
                   </span>
                   </span>
                 </form>
