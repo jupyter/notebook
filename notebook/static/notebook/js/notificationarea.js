@@ -398,15 +398,14 @@ define([
                   return false;
                 }, {'title':'Javascript enabled for notebook display'});
                 // don't allow 'Trusted' button to be clicked
-                $(tnw.selector).attr('disabled', true)
-                $(tnw.selector).attr('role', 'button')
+                $(tnw.selector).attr('disabled', true);
                 $(tnw.selector).css('cursor', 'help');
             } else {
                 tnw.set_message(i18n.msg._("Not Trusted"), undefined, function() {
                   that.notebook.trust_notebook();
                   return false;
                 }, {'title':'Javascript disabled for notebook display'});
-                $(tnw.selector).attr('role', 'button')
+                $(tnw.selector).attr('role', 'button');
             }
         });
     };
