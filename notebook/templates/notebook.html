@@ -80,7 +80,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}File{% endtrans %}</a>
                     <ul id="file_menu" class="dropdown-menu">
                         <li id="new_notebook" class="dropdown-submenu">
-                            <a href="#">{% trans %}New Notebook{% endtrans %}<span class="sr-only">Toggle Dropdown</span></a>
+                            <a href="#">{% trans %}New Notebook{% endtrans %}<span class="sr-only">{% trans %}Toggle Dropdown{% endtrans %}</span></a>
                             <ul class="dropdown-menu" id="menu-new-notebook-submenu"></ul>
                         </li>
                         <li id="open_notebook"
@@ -98,7 +98,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         <li id="save_checkpoint"><a href="#">{% trans %}Save and Checkpoint{% endtrans %}</a></li>
                         <!-- <hr/> -->
                         <li class="divider"></li>
-                        <li id="restore_checkpoint" class="dropdown-submenu"><a href="#">{% trans %}Revert to Checkpoint{% endtrans %}<span class="sr-only">Toggle Dropdown</span></a>
+                        <li id="restore_checkpoint" class="dropdown-submenu"><a href="#">{% trans %}Revert to Checkpoint{% endtrans %}<span class="sr-only">{% trans %}Toggle Dropdown{% endtrans %}</span></a>
                           <ul class="dropdown-menu">
                             <li><a href="#"></a></li>
                             <li><a href="#"></a></li>
