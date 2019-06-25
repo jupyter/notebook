@@ -35,6 +35,7 @@ class GatewayClient(SingletonConfigurable):
     )
 
     url_env = 'JUPYTER_GATEWAY_URL'
+
     @default('url')
     def _url_default(self):
         return os.environ.get(self.url_env)
@@ -55,6 +56,7 @@ class GatewayClient(SingletonConfigurable):
     )
 
     ws_url_env = 'JUPYTER_GATEWAY_WS_URL'
+
     @default('ws_url')
     def _ws_url_default(self):
         default_value = os.environ.get(self.ws_url_env)
@@ -100,7 +102,7 @@ class GatewayClient(SingletonConfigurable):
     def _kernelspecs_resource_endpoint_default(self):
         return os.environ.get(self.kernelspecs_resource_endpoint_env, self.kernelspecs_resource_endpoint_default_value)
 
-    connect_timeout_default_value = 20.0
+    connect_timeout_default_value = 60.0
     connect_timeout_env = 'JUPYTER_GATEWAY_CONNECT_TIMEOUT'
     connect_timeout = Float(default_value=connect_timeout_default_value, config=True,
         help="""The time allowed for HTTP connection establishment with the Gateway server.
@@ -110,7 +112,7 @@ class GatewayClient(SingletonConfigurable):
     def connect_timeout_default(self):
         return float(os.environ.get('JUPYTER_GATEWAY_CONNECT_TIMEOUT', self.connect_timeout_default_value))
 
-    request_timeout_default_value = 20.0
+    request_timeout_default_value = 60.0
     request_timeout_env = 'JUPYTER_GATEWAY_REQUEST_TIMEOUT'
     request_timeout = Float(default_value=request_timeout_default_value, config=True,
         help="""The time allowed for HTTP request completion. (JUPYTER_GATEWAY_REQUEST_TIMEOUT env var)""")
@@ -171,7 +173,7 @@ class GatewayClient(SingletonConfigurable):
 
     headers_default_value = '{}'
     headers_env = 'JUPYTER_GATEWAY_HEADERS'
-    headers = Unicode(default_value=headers_default_value, allow_none=True,config=True,
+    headers = Unicode(default_value=headers_default_value, allow_none=True, config=True,
         help="""Additional HTTP headers to pass on the request.  This value will be converted to a dict.
           (JUPYTER_GATEWAY_HEADERS env var)
         """
@@ -189,7 +191,7 @@ class GatewayClient(SingletonConfigurable):
 
     @default('auth_token')
     def _auth_token_default(self):
-        return os.environ.get(self.auth_token_env)
+        return os.environ.get(self.auth_token_env, '')
 
     validate_cert_default_value = True
     validate_cert_env = 'JUPYTER_GATEWAY_VALIDATE_CERT'
@@ -222,13 +224,26 @@ class GatewayClient(SingletonConfigurable):
     def gateway_enabled(self):
         return bool(self.url is not None and len(self.url) > 0)
 
+    # Ensure KERNEL_LAUNCH_TIMEOUT has a default value.
+    KERNEL_LAUNCH_TIMEOUT = int(os.environ.get('KERNEL_LAUNCH_TIMEOUT', 40))
+    os.environ['KERNEL_LAUNCH_TIMEOUT'] = str(KERNEL_LAUNCH_TIMEOUT)
+
+    LAUNCH_TIMEOUT_PAD = int(os.environ.get('LAUNCH_TIMEOUT_PAD', 2))
+
     def init_static_args(self):
         """Initialize arguments used on every request.  Since these are static values, we'll
         perform this operation once.
 
         """
+        # Ensure that request timeout is at least "pad" greater than launch timeout.
+        if self.request_timeout < float(GatewayClient.KERNEL_LAUNCH_TIMEOUT + GatewayClient.LAUNCH_TIMEOUT_PAD):
+            self.request_timeout = float(GatewayClient.KERNEL_LAUNCH_TIMEOUT + GatewayClient.LAUNCH_TIMEOUT_PAD)
+
         self._static_args['headers'] = json.loads(self.headers)
-        self._static_args['headers'].update({'Authorization': 'token {}'.format(self.auth_token)})
+        if 'Authorization' not in self._static_args['headers'].keys():
+            self._static_args['headers'].update({
+                'Authorization': 'token {}'.format(self.auth_token)
+            })
         self._static_args['connect_timeout'] = self.connect_timeout
         self._static_args['request_timeout'] = self.request_timeout
         self._static_args['validate_cert'] = self.validate_cert
@@ -270,13 +285,13 @@ def gateway_request(endpoint, **kwargs):
               "Check to be sure the Gateway instance is running.".format(GatewayClient.instance().url))
     except HTTPError:
         # This can occur if the host is valid (e.g., foo.com) but there's nothing there.
-        raise web.HTTPError(504, "Error attempting to connect to Gateway server url '{}'.  " \
-                       "Ensure gateway url is valid and the Gateway instance is running.".format(
-            GatewayClient.instance().url))
+        raise web.HTTPError(504, "Error attempting to connect to Gateway server url '{}'.  "
+                       "Ensure gateway url is valid and the Gateway instance is running.".
+                            format(GatewayClient.instance().url))
     except gaierror as e:
         raise web.HTTPError(404, "The Gateway server specified in the gateway_url '{}' doesn't appear to be valid.  "
-                       "Ensure gateway url is valid and the Gateway instance is running.".format(
-            GatewayClient.instance().url))
+                       "Ensure gateway url is valid and the Gateway instance is running.".
+                            format(GatewayClient.instance().url))
 
     raise gen.Return(response)
 
@@ -409,7 +424,7 @@ class GatewayKernelManager(MappingKernelManager):
         self.log.debug("Request list kernels: %s", kernel_url)
         response = yield gateway_request(kernel_url, method='GET')
         kernels = json_decode(response.body)
-        self._kernels = {x['id']:x for x in kernels}
+        self._kernels = {x['id']: x for x in kernels}
         raise gen.Return(kernels)
 
     @gen.coroutine
@@ -420,6 +435,10 @@ class GatewayKernelManager(MappingKernelManager):
         ==========
         kernel_id : uuid
             The id of the kernel to shutdown.
+        now : bool
+            Shutdown the kernel immediately (True) or gracefully (False)
+        restart : bool
+            The purpose of this shutdown is to restart the kernel (True)
         """
         kernel_url = self._get_kernel_endpoint_url(kernel_id)
         self.log.debug("Request shutdown kernel at: %s", kernel_url)
