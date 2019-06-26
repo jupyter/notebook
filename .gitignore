@@ -41,3 +41,5 @@ config.rst
 
 package-lock.json
 geckodriver.log
+*.ipynb
+.vscode/settings.json
