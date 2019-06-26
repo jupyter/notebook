@@ -28,15 +28,81 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
 
 This is the first major release of the Jupyter Notebook since version 5.0 (March 2017).
 
-We encourage users to start trying JupyterLab, which has just announced it's 1.0 release  in preparation
+We encourage users to start trying JupyterLab, which has just announced it's 1.0 release in preparation
 for a future transition.
 
-- Remove Python 2.x support
-
-- add ``?no_track_activity=1`` argument to allow API requests
+- Remove Python 2.x support in favor of Python 3.5 and higher.
+- Multiple accessibility enhancements and bug-fixes.
+- Multiple translation enhancements and bug-fixes.
+- Remove deprecated ANSI CSS styles.
+- Native support to forward requests to Jupyter Gateway(s) (Embedded NB2KG).
+- Use JavaScript to redirect users to notebook homepage.
+- Enhanced SSL/TLS security by using PROTOCOL_TLS which selects the highest ssl/tls
+  protocol version available that both the client and server support. When PROTOCOL_TLS
+  is not available use PROTOCOL_SSLv23.
+- Add ``?no_track_activity=1`` argument to allow API requests.
   to not be registered as activity (e.g. API calls by external activity monitors).
 - Kernels shutting down due to an idle timeout is no longer considered
   an activity-updating event.
+- Further improve compatibility with tornado 6 with improved
+  checks for when websockets are closed.
+- Launch the browser with a local file which redirects to the server address including
+  the authentication token. This prevents another logged-in user from stealing the token
+  from command line arguments and authenticating to the server.
+  The single-use token previously used to mitigate this has been removed.
+  Thanks to Dr. Owain Kenway for suggesting the local file approach.
+- Respect nbconvert entrypoints as sources for exporters
+- Update to CodeMirror to 5.37, which includes f-string syntax for Python 3.6.
+- Update jquery-ui to 1.12
+- Execute cells by clicking icon in input prompt.
+- New "Save as" menu option.
+- When serving on a loopback interface, protect against DNS rebinding by
+  checking the ``Host`` header from the browser.
+  This check can be disabled if necessary by setting
+  ``NotebookApp.allow_remote_access``.
+  (Disabled by default while we work out some Mac issues in :ghissue:`3754`).
+- Add kernel_info_timeout traitlet to enable restarting slow kernels.
+- Add ``custom_display_host`` config option to override displayed URL.
+- Add /metrics endpoint for Prometheus Metrics.
+- Optimize large file uploads.
+- Allow access control headers to be overriden in jupyter_notebook_config.py to support
+  greater CORS and proxy configuration flexibility.
+- Add support for terminals on windows.
+- Add a "restart and run all" button to the toolbar.
+- Frontend/extension-config: allow default json files in a .d directory.
+- Allow setting token via jupyter_token env.
+- Cull idle kernels using ``--MappingKernelManager.cull_idle_timeout``.
+- Allow read-only notebooks to be trusted.
+- Convert JS tests to Selenium.
+
+
+Security Fixes included in previous minor releases of Jupyter Notebook and also included in version 6.0.
+
+- Fix Open Redirect vulnerability (CVE-2019-10255)
+  where certain malicious URLs could redirect from the Jupyter login page
+  to a malicious site after a successful login.
+
+- Contains a security fix for a cross-site inclusion (XSSI) vulnerability (CVE-2019–9644),
+  where files at a known URL could be included in a page from an unauthorized website if
+  the user is logged into a Jupyter server. The fix involves setting the
+  ``X-Content-Type-Options: nosniff`` header, and applying CSRF checks previously on all
+  non-GET API requests to GET requests to API endpoints and the /files/ endpoint.
+
+- Check Host header to more securely protect localhost deployments from DNS rebinding.
+  This is a pre-emptive measure, not fixing a known vulnerability.
+  Use ``.NotebookApp.allow_remote_access`` and ``.NotebookApp.local_hostnames`` to configure
+  access.
+
+- Upgrade bootstrap to 3.4, fixing an XSS vulnerability, which has been
+  assigned `CVE-2018-14041 <https://nvd.nist.gov/vuln/detail/CVE-2018-14041>`_.
+
+- Contains a security fix preventing malicious directory names
+  from being able to execute javascript.
+
+- Contains a security fix preventing nbconvert endpoints from executing javascript with
+  access to the server API. CVE request pending.
+
+
 
 Thanks for all the contributors:
 
@@ -263,7 +329,7 @@ from being able to execute javascript. CVE request pending.
 
 New features:
 
-- Update to CodeMirror to 5.37, which includes f-string sytax for Python 3.6 (:ghpull:`3816`)
+- Update to CodeMirror to 5.37, which includes f-string syntax for Python 3.6 (:ghpull:`3816`)
 - Update jquery-ui to 1.12 (:ghpull:`3836`)
 - Check Host header to more securely protect localhost deployments from DNS rebinding.
   This is a pre-emptive measure, not fixing a known vulnerability (:ghpull:`3766`).
