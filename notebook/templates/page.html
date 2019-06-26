@@ -122,6 +122,7 @@ dir="ltr">
   </div>
 </noscript>
 
+<div role="navigation">
 <div id="header">
   <div id="header-container" class="container">
   <div id="ipython_notebook" class="nav navbar-brand"><a href="{{default_url}}
@@ -147,17 +148,19 @@ dir="ltr">
   {% endblock %}
 
   {% endblock header_buttons %}
-  
+
   </div>
   <div class="header-bar"></div>
 
   {% block header %}
   {% endblock %}
 </div>
-
-<div id="site">
-{% block site %}
-{% endblock %}
+</div>
+<div role="main">
+    <div id="site">
+        {% block site %}
+        {% endblock %}
+    </div>
 </div>
 
 {% block after_site %}
