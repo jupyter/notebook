@@ -65,7 +65,7 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
     def get(self, kernel_id, *args, **kwargs):
         self.authenticate()
         self.kernel_id = cast_unicode(kernel_id, 'ascii')
-        super(WebSocketChannelsHandler, self).get(kernel_id=kernel_id, *args, **kwargs)
+        yield super(WebSocketChannelsHandler, self).get(kernel_id=kernel_id, *args, **kwargs)
 
     def send_ping(self):
         if self.ws_connection is None and self.ping_callback is not None:
@@ -92,7 +92,6 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
 
     def write_message(self, message, binary=False):
         """Send message back to notebook client.  This is called via callback from self.gateway._read_messages."""
-        self.log.debug("Receiving message from gateway: {}".format(message))
         if self.ws_connection:  # prevent WebSocketClosedError
             if isinstance(message, bytes):
                 binary = True
