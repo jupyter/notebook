@@ -131,32 +131,32 @@ data-notebook-path="{{notebook_path | urlencode}}"
                             <a href="#" >{% trans %}Close and Halt{% endtrans %}</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Edit{% endtrans %}</a>
-                    <ul id="edit_menu" class="dropdown-menu">
-                        <li id="cut_cell"><a href="#">{% trans %}Cut Cells{% endtrans %}</a></li>
-                        <li id="copy_cell"><a href="#">{% trans %}Copy Cells{% endtrans %}</a></li>
-                        <li id="paste_cell_above" class="disabled"><a href="#">{% trans %}Paste Cells Above{% endtrans %}</a></li>
-                        <li id="paste_cell_below" class="disabled"><a href="#">{% trans %}Paste Cells Below{% endtrans %}</a></li>
-                        <li id="paste_cell_replace" class="disabled"><a href="#">{% trans %}Paste Cells &amp; Replace{% endtrans %}</a></li>
-                        <li id="delete_cell"><a href="#">{% trans %}Delete Cells{% endtrans %}</a></li>
-                        <li id="undelete_cell" class="disabled"><a href="#">{% trans %}Undo Delete Cells{% endtrans %}</a></li>
-                        <li class="divider"></li>
-                        <li id="split_cell"><a href="#">{% trans %}Split Cell{% endtrans %}</a></li>
-                        <li id="merge_cell_above"><a href="#">{% trans %}Merge Cell Above{% endtrans %}</a></li>
-                        <li id="merge_cell_below"><a href="#">{% trans %}Merge Cell Below{% endtrans %}</a></li>
-                        <li class="divider"></li>
-                        <li id="move_cell_up"><a href="#">{% trans %}Move Cell Up{% endtrans %}</a></li>
-                        <li id="move_cell_down"><a href="#">{% trans %}Move Cell Down{% endtrans %}</a></li>
-                        <li class="divider"></li>
-                        <li id="edit_nb_metadata"><a href="#">{% trans %}Edit Notebook Metadata{% endtrans %}</a></li>
-                        <li class="divider"></li>
-                        <li id="find_and_replace"><a href="#"> {% trans %}Find and Replace{% endtrans %} </a></li>
-                        <li class="divider"></li>
-                        <li id="cut_cell_attachments"><a href="#">{% trans %}Cut Cell Attachments{% endtrans %}</a></li>
-                        <li id="copy_cell_attachments"><a href="#">{% trans %}Copy Cell Attachments{% endtrans %}</a></li>
-                        <li id="paste_cell_attachments" class="disabled"><a href="#">{% trans %}Paste Cell Attachments{% endtrans %}</a></li>
-                        <li class="divider"></li>
-                        <li id="insert_image" class="disabled"><a href="#"> {% trans %}Insert Image{% endtrans %} </a></li>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" id="editlink" data-toggle="dropdown" aria-haspopup="true" aria-controls="edit_menu">{% trans %}Edit{% endtrans %}</a>
+                    <ul id="edit_menu" class="dropdown-menu" role="menu" aria-labelledby="editlink">
+                        <li id="cut_cell" role="none"><a href="#" role="menuitem">{% trans %}Cut Cells{% endtrans %}</a></li>
+                        <li id="copy_cell" role="none"><a href="#" role="menuitem">{% trans %}Copy Cells{% endtrans %}</a></li>
+                        <li id="paste_cell_above" class="disabled" role="none"><a href="#" class="paste_above" role="menuitem" aria-disabled="true">{% trans %}Paste Cells Above{% endtrans %}</a></li>
+                        <li id="paste_cell_below" class="disabled" role="none"><a href="#" class="paste_below" role="menuitem" aria-disabled="true">{% trans %}Paste Cells Below{% endtrans %}</a></li>
+                        <li id="paste_cell_replace" class="disabled" role="none"><a href="#" class="paste_replace" role="menuitem" aria-disabled="true">{% trans %}Paste Cells &amp; Replace{% endtrans %}</a></li>
+                        <li id="delete_cell" role="none"><a href="#" role="menuitem">{% trans %}Delete Cells{% endtrans %}</a></li>
+                        <li id="undelete_cell" class="disabled" role="none"><a href="#" class="undelete_link" role="menuitem" aria-disabled="true">{% trans %}Undo Delete Cells{% endtrans %}</a></li>
+                        <li class="divider" role="none"></li>
+                        <li id="split_cell" role="none"><a href="#" role="menuitem">{% trans %}Split Cell{% endtrans %}</a></li>
+                        <li id="merge_cell_above" role="none"><a href="#" role="menuitem">{% trans %}Merge Cell Above{% endtrans %}</a></li>
+                        <li id="merge_cell_below" role="none"><a href="#" role="menuitem">{% trans %}Merge Cell Below{% endtrans %}</a></li>
+                        <li class="divider" role="none"></li>
+                        <li id="move_cell_up" role="none"><a href="#" role="menuitem">{% trans %}Move Cell Up{% endtrans %}</a></li>
+                        <li id="move_cell_down" role="none"><a href="#" role="menuitem">{% trans %}Move Cell Down{% endtrans %}</a></li>
+                        <li class="divider" role="none"></li>
+                        <li id="edit_nb_metadata" role="none"><a href="#" role="menuitem">{% trans %}Edit Notebook Metadata{% endtrans %}</a></li>
+                        <li class="divider" role="none"></li>
+                        <li id="find_and_replace" role="none"><a href="#" role="menuitem"> {% trans %}Find and Replace{% endtrans %} </a></li>
+                        <li class="divider" role="none"></li>
+                        <li id="cut_cell_attachments" role="none"><a href="#" role="menuitem">{% trans %}Cut Cell Attachments{% endtrans %}</a></li>
+                        <li id="copy_cell_attachments" role="none"><a href="#" role="menuitem">{% trans %}Copy Cell Attachments{% endtrans %}</a></li>
+                        <li id="paste_cell_attachments"  class="disabled" role="none"><a href="#" class="paste_attachments" role="menuitem" aria-disabled="true">{% trans %}Paste Cell Attachments{% endtrans %}</a></li>
+                        <li class="divider" role="none"></li>
+                        <li id="insert_image" class="disabled" role="none"><a href="#" class="image_link" role="menuitem" aria-disabled="true">  {% trans %}Insert Image{% endtrans %} </a></li>
                     </ul>
                 </li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}View{% endtrans %}</a>
