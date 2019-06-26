@@ -1216,7 +1216,7 @@ define([
         // where they came from. It will do until we have proper undo support.
         undelete_backup.index = cursor_ix_after;
         $('#undelete_cell').removeClass('disabled');
-
+        $('.undelete_link').removeAttr("aria-disabled");
         this.undelete_backup_stack.push(undelete_backup);
         this.set_dirty(true);
 
@@ -1621,13 +1621,16 @@ define([
         if (!this.paste_enabled) {
             $('#paste_cell_replace').removeClass('disabled')
                 .on('click', function () {that.keyboard_manager.actions.call(
-                    'jupyter-notebook:paste-cell-replace');});
+                    'jupyter-notebook:paste-cell-replace');})
+            $('.paste_replace').removeAttr("aria-disabled"); 
             $('#paste_cell_above').removeClass('disabled')
                 .on('click', function () {that.keyboard_manager.actions.call(
                     'jupyter-notebook:paste-cell-above');});
+            $('.paste_above').removeAttr("aria-disabled"); 
             $('#paste_cell_below').removeClass('disabled')
                 .on('click', function () {that.keyboard_manager.actions.call(
                     'jupyter-notebook:paste-cell-below');});
+            $('.paste_below').removeAttr("aria-disabled");         
             this.paste_enabled = true;
         }
     };
@@ -1938,6 +1941,7 @@ define([
     Notebook.prototype.enable_attachments_paste = function () {
         if (!this.paste_attachments_enabled) {
             $('#paste_cell_attachments').removeClass('disabled');
+            $('.paste_attachments').removeAttr("aria-disabled");
             this.paste_attachments_enabled = true;
         }
     };
@@ -1948,6 +1952,7 @@ define([
     Notebook.prototype.set_insert_image_enabled = function(enabled) {
         if (enabled) {
             $('#insert_image').removeClass('disabled');
+            $('.image_link').removeAttr("aria-disabled");
         } else {
             $('#insert_image').addClass('disabled');
         }

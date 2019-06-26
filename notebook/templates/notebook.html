@@ -137,11 +137,11 @@ data-notebook-path="{{notebook_path | urlencode}}"
                     <ul id="edit_menu" class="dropdown-menu" role="menu" aria-labelledby="editlink">
                         <li id="cut_cell" role="none"><a href="#" role="menuitem">{% trans %}Cut Cells{% endtrans %}</a></li>
                         <li id="copy_cell" role="none"><a href="#" role="menuitem">{% trans %}Copy Cells{% endtrans %}</a></li>
-                        <li id="paste_cell_above" class="disabled role="none"><a href="#" role="menuitem">{% trans %}Paste Cells Above{% endtrans %}</a></li>
-                        <li id="paste_cell_below" class="disabled" role="none"><a href="#" role="menuitem">{% trans %}Paste Cells Below{% endtrans %}</a></li>
-                        <li id="paste_cell_replace" class="disabled" role="none"><a href="#" role="menuitem">{% trans %}Paste Cells &amp; Replace{% endtrans %}</a></li>
+                        <li id="paste_cell_above" class="disabled" role="none"><a href="#" class="paste_above" role="menuitem" aria-disabled="true">{% trans %}Paste Cells Above{% endtrans %}</a></li>
+                        <li id="paste_cell_below" class="disabled" role="none"><a href="#" class="paste_below" role="menuitem" aria-disabled="true">{% trans %}Paste Cells Below{% endtrans %}</a></li>
+                        <li id="paste_cell_replace" class="disabled" role="none"><a href="#" class="paste_replace" role="menuitem" aria-disabled="true">{% trans %}Paste Cells &amp; Replace{% endtrans %}</a></li>
                         <li id="delete_cell" role="none"><a href="#" role="menuitem">{% trans %}Delete Cells{% endtrans %}</a></li>
-                        <li id="undelete_cell" class="disabled" role="none"><a href="#" role="menuitem">{% trans %}Undo Delete Cells{% endtrans %}</a></li>
+                        <li id="undelete_cell" class="disabled" role="none"><a href="#" class="undelete_link" role="menuitem" aria-disabled="true">{% trans %}Undo Delete Cells{% endtrans %}</a></li>
                         <li class="divider" role="none"></li>
                         <li id="split_cell" role="none"><a href="#" role="menuitem">{% trans %}Split Cell{% endtrans %}</a></li>
                         <li id="merge_cell_above" role="none"><a href="#" role="menuitem">{% trans %}Merge Cell Above{% endtrans %}</a></li>
@@ -156,9 +156,9 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         <li class="divider" role="none"></li>
                         <li id="cut_cell_attachments" role="none"><a href="#" role="menuitem">{% trans %}Cut Cell Attachments{% endtrans %}</a></li>
                         <li id="copy_cell_attachments" role="none"><a href="#" role="menuitem">{% trans %}Copy Cell Attachments{% endtrans %}</a></li>
-                        <li id="paste_cell_attachments" class="disabled" role="none"><a href="#" role="menuitem">{% trans %}Paste Cell Attachments{% endtrans %}</a></li>
+                        <li id="paste_cell_attachments"  class="disabled" role="none"><a href="#" class="paste_attachments" role="menuitem" aria-disabled="true">{% trans %}Paste Cell Attachments{% endtrans %}</a></li>
                         <li class="divider" role="none"></li>
-                        <li id="insert_image" class="disabled" role="none"><a href="#" role="menuitem"> {% trans %}Insert Image{% endtrans %} </a></li>
+                        <li id="insert_image" class="disabled" role="none"><a href="#" class="image_link" role="menuitem" aria-disabled="true">  {% trans %}Insert Image{% endtrans %} </a></li>
                     </ul>
                 </li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" id="viewlink" data-toggle="dropdown" aria-haspopup="true" aria-controls="view_menu">{% trans %}View{% endtrans %}</a>
