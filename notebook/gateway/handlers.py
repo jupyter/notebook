@@ -87,7 +87,6 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
 
     def on_message(self, message):
         """Forward message to gateway web socket handler."""
-        self.log.debug("Sending message to gateway: {}".format(message))
         self.gateway.on_message(message)
 
     def write_message(self, message, binary=False):
