@@ -122,8 +122,7 @@ dir="ltr">
   </div>
 </noscript>
 
-<div role="navigation">
-<div id="header">
+<div id="header" role="navigation" aria-label="Top Menu">
   <div id="header-container" class="container">
   <div id="ipython_notebook" class="nav navbar-brand"><a href="{{default_url}}
     {%- if logged_in and token -%}?token={{token}}{%- endif -%}" title='{% trans %}dashboard{% endtrans %}'>
@@ -154,13 +153,11 @@ dir="ltr">
 
   {% block header %}
   {% endblock %}
-</div>
-</div>
-<div role="main">
-    <div id="site">
-        {% block site %}
-        {% endblock %}
     </div>
+
+<div id="site">
+    {% block site %}
+    {% endblock %}
 </div>
 
 {% block after_site %}

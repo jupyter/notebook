@@ -1,5 +1,4 @@
 {% extends "page.html" %}
-
 {% block title %}{{page_title}}{% endblock %}
 
 
@@ -10,7 +9,6 @@ data-notebook-path="{{notebook_path | urlencode}}"
 data-terminals-available="{{terminals_available}}"
 data-server-root="{{server_root}}"
 {% endblock %}
-
 
 {% block headercontainer %}
   <span class="flex-spacer"></span>
@@ -28,7 +26,8 @@ data-server-root="{{server_root}}"
 {% block site %}
 
   <div id="ipython-main-app" class="container">
-    <div id="tab_content" class="tabbable">
+
+    <div id="tab_content" class="tabbable" role="main">
       <ul id="tabs" class="nav nav-tabs">
         <li class="active"><a href="#notebooks" data-toggle="tab">{% trans %}Files{% endtrans %}</a></li>
         <li><a href="#running" data-toggle="tab">{% trans %}Running{% endtrans %}</a></li>
