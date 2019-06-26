@@ -35,7 +35,7 @@ src
 .idea/
 Read the Docs
 config.rst
-
+*.iml
 /.project
 /.pydevproject
 
