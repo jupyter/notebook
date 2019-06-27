@@ -130,6 +130,9 @@ define(['jquery',
                 options.keyboard_manager.enable();
                 options.keyboard_manager.command_mode();
             }
+            if (options.focus_button === 'notification_trusted') {
+                $('#notification_trusted').focus();
+            }
         });
         
         if (options.keyboard_manager) {
