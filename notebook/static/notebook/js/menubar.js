@@ -169,9 +169,6 @@ define([
          */
         var that = this;
         
-        this.element.find("#new_notebook").click(function(){
-            console.log("11");
-        })
 
         this.element.find('#open_notebook').click(function () {
             var parent = utils.url_path_split(that.notebook.notebook_path)[0];
