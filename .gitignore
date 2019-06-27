@@ -29,7 +29,7 @@ __pycache__
 .coverage
 .pytest_cache
 src
-
+*.iml
 *.swp
 *.map
 .idea/
