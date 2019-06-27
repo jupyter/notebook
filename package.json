@@ -11,11 +11,13 @@
   "scripts": {
     "bower": "bower install",
     "build": "python setup.py js css",
-    "build:watch": "set -e; while true; do npm run build; sleep 3; done"
+    "build:watch": "npm run watch",
+    "watch": "onchange 'notebook/static/**/!(*.min).js' 'notebook/static/**/*.less' 'bower.json' -- npm run build"
   },
   "devDependencies": {
     "bower": "^1.8.8",
     "less": "~2",
+    "onchange": "^6.0.0",
     "po2json": "^0.4.5",
     "requirejs": "^2.3.6"
   },
