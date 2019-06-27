@@ -41,3 +41,7 @@ config.rst
 
 package-lock.json
 geckodriver.log
+
+*.ipynb
+*.iml
+Part\ IA\ Computing\ (Michaelmas)
