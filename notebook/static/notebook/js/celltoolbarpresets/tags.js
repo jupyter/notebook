@@ -169,7 +169,6 @@ define([
             .attr('rows', '13')
             .attr('cols', '80')
             .attr('name', 'tags')
-            // .attr('title','edit text area')
             .text(tag_list.join('\n'));
 
         var dialogform = $('<div/>').attr('title', i18n.msg._('Edit the tags'))
