@@ -234,6 +234,7 @@ define([
                     that.select('select-all');
                 }
             });
+
             $('#button-select-all').click(function (e) {
                 // toggle checkbox if the click doesn't come from the checkbox already
                 if (!$(e.target).is('input[type=checkbox]')) {
@@ -386,6 +387,7 @@ define([
         var root = $('<li/>').append(
             $("<a/>")
             .attr('href', root_url)
+            .attr('title', i18n.msg._('Link to root folder'))
             .append(
                 $("<i/>")
                 .addClass('fa fa-folder')
@@ -810,6 +812,23 @@ define([
         checked = bidi.applyBidi(checked);
         $('#counter-select-all').html(checked===0 ? '&nbsp;' : checked);
 
+        //#issue 3961, update the checkbox aria-label when it changed
+        if(selected.length>=1){
+          if($('#select-all').prop("checked")){
+            // $('#button-select-all').attr("aria-label", i18n.msg._("Selected All "+ selected.length +" items"));
+            var msg1 = i18n.msg._("Selected All %d items")
+            $('#button-select-all').attr("aria-label", i18n.msg.sprintf(msg1, selected.length));
+          }
+          else{
+            // $('#button-select-all').attr("aria-label", i18n.msg._("Selected, "+ selected.length+" items"));
+            var msg2 = i18n.msg._("Selected, %d items")
+            $('#button-select-all').attr("aria-label", i18n.msg.sprintf(msg2, selected.length));
+          }
+        }
+        else{
+          $('#button-select-all').attr("aria-label", i18n.msg._("Select All/None"));
+        }
+
         // If at aleast on item is selected, hide the selection instructions.
         if (checked > 0) {
             $('.dynamic-instructions').hide();
@@ -955,7 +974,11 @@ define([
         var item_path = this.selected[0].path;
         var item_name = this.selected[0].name;
         var item_type = this.selected[0].type;
-        var input = $('<input/>').attr('type','text').attr('size','25').addClass('form-control')
+        var input = $('<input/>')
+            .attr('type','text')
+            .attr('size','25')
+            .attr('aria-labelledby','rename-message')
+            .addClass('form-control')
             .val(item_name);
         var rename_msg = function (type) {
         	switch(type) {
@@ -975,6 +998,7 @@ define([
         };
         var dialog_body = $('<div/>').append(
             $("<p/>").addClass("rename-message")
+                .attr('id', 'rename-message')
                 .text(rename_msg(item_type))
         ).append(
             $("<br/>")
