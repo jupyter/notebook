@@ -589,11 +589,6 @@ define([
             .addClass("pull-right")
             .appendTo(div2);
 
-
-
-
-
-
         if (selectable === false) {
             checkbox.css('visibility', 'hidden');
         } else if (selectable === true) {
