@@ -190,6 +190,15 @@ requirejs([
     $("#alternate_upload").change(function (event){
         notebook_list.handleFilesUpload(event,'form');
     });
+
+    // bound the the span around the input file upload to enable keyboard click
+    $("#upload_span").keydown(function (event) {
+        var key = event.which;
+        if ((key === 13) || (key === 32)) {
+            event.preventDefault();
+            $("#upload_span_input").click();
+        }
+    })
     
     // set hash on tab click
     $("#tabs").find("a").click(function(e) {

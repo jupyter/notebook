@@ -14,10 +14,10 @@
     "build:watch": "set -e; while true; do npm run build; sleep 3; done"
   },
   "devDependencies": {
-    "bower": "*",
+    "bower": "^1.8.8",
     "less": "~2",
-    "requirejs": "^2.1.17",
-    "po2json": "^0.4.5"
+    "po2json": "^0.4.5",
+    "requirejs": "^2.3.6"
   },
   "dependencies": {}
 }
