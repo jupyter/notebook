@@ -75,6 +75,7 @@ define([
         var multiselect = $('<option/>').attr('value','multiselect').attr('disabled','').text('-');
         var sel = $('<select/>')
             .attr('id','cell_type')
+
             .attr('aria-label', i18n.msg._('combobox, select cell type'))
             .attr('role', 'combobox')
             .addClass('form-control select-xs')

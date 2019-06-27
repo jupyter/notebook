@@ -420,6 +420,7 @@ define([
             var crumb = $('<li/>').append(
                 $('<a/>')
                 .attr('href', url)
+                .attr('title',"link to"+url)
                 .text(path_part)
                 .click(function(e) {
                     // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
@@ -815,18 +816,19 @@ define([
         //#issue 3961, update the checkbox aria-label when it changed
         if(selected.length>=1){
           if($('#select-all').prop("checked")){
-            // $('#button-select-all').attr("aria-label", i18n.msg._("Selected All "+ selected.length +" items"));
-            var msg1 = i18n.msg._("Selected All %d items")
-            $('#button-select-all').attr("aria-label", i18n.msg.sprintf(msg1, selected.length));
+
+            $('#button-select-all').attr("aria-label","Selected All "+ selected.length+" items");
+            $("#button-select-all").attr("aria-checked","true");
           }
           else{
-            // $('#button-select-all').attr("aria-label", i18n.msg._("Selected, "+ selected.length+" items"));
-            var msg2 = i18n.msg._("Selected, %d items")
-            $('#button-select-all').attr("aria-label", i18n.msg.sprintf(msg2, selected.length));
+            $('#button-select-all').attr("aria-label","Selected, "+ selected.length+" items");
+            $("#button-select-all").attr("aria-checked","true");
           }
         }
         else{
-          $('#button-select-all').attr("aria-label", i18n.msg._("Select All/None"));
+          $('#button-select-all').attr("aria-label","Select All/None");
+        $("#button-select-all").attr("aria-checked","false");
+
         }
 
         // If at aleast on item is selected, hide the selection instructions.

@@ -65,10 +65,10 @@ define(['jquery',
                     .attr("data-dismiss", "modal")
                     .attr("aria-hidden", "true")
                     .html("&times;")
+                    .attr("tabindex","0")
                 ).append(
-                    $("<h4/>")
-                        .addClass('modal-title')
-                        .text(options.title || "")
+                    options.type ? options.type.addClass('modal-title').text(options.title || "")
+                        : $("<h4/>").addClass('modal-title').text(options.title || "")
                 )
         ).append(
             $("<div/>")
@@ -131,6 +131,9 @@ define(['jquery',
                 options.keyboard_manager.enable();
                 options.keyboard_manager.command_mode();
             }
+            if (options.focus_button) {
+                $('#notification_trusted').focus();
+            }
         });
         
         if (options.keyboard_manager) {
@@ -191,12 +194,19 @@ define(['jquery',
                         .append(textarea)
                     )
             );
+
+        //fix issue#4012
         var editor = CodeMirror.fromTextArea(textarea[0], {
             lineNumbers: true,
             matchBrackets: true,
             indentUnit: 2,
             autoIndent: true,
             mode: 'application/json',
+            extraKeys:{
+                Tab:false,
+                Shift:false,
+                'Shift-Tab':false
+            }
         });
         var title_msg;
         if (options.name === "Notebook") {
@@ -235,8 +245,8 @@ define(['jquery',
         });
 
         modal_obj.on('shown.bs.modal', function(){ editor.refresh(); });
-        modal_obj.on('hide.bs.modal', function(){
-            options.edit_metadata_button ? options.edit_metadata_button.focus() : "";});
+        modal_obj.on('hide.bs.modal', function(){options.edit_metadata_button.focus(); });
+
     };
 
     var edit_attachments = function (options) {
