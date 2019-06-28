@@ -563,15 +563,27 @@ define([
             .addClass("item_name")
             .appendTo(link);
 
-        $("<span/>")
-            .addClass("file_size")
-            .addClass("pull-right")
+        var div = $('<div/>')
+            .addClass('pull-right')
             .appendTo(item);
+
+        var buttons = $('<div/>')
+            .addClass("item_buttons pull-left")
+            .appendTo(div);
+
+        var div2 = $('<div/>')
+            .addClass('pull-right')
+            .appendTo(div);
 
         $("<span/>")
             .addClass("item_modified")
+            .addClass("pull-left")
+            .appendTo(div2);
+
+        $("<span/>")
+            .addClass("file_size")
             .addClass("pull-right")
-            .appendTo(item);
+            .appendTo(div2);
 
         if (selectable === false) {
             checkbox.css('visibility', 'hidden');
@@ -585,10 +597,6 @@ define([
                 that._selection_changed();
             });
         }
-
-        var buttons = $('<div/>')
-            .addClass("item_buttons  pull-right")
-            .appendTo(item);
 
         $('<div/>')
             .addClass('running-indicator')
