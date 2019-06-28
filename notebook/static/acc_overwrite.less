@@ -45,10 +45,15 @@
       // To make keyboard focus clearly visible on the Controls(File,Edit,View,Insert,Cell...etc)present on the menubar.
       //&:hover, //To use browser's hover default value 
       &:focus {
-      /* -webkit-focus-ring-color = '#5B9DD9' */
-      outline: -webkit-focus-ring-color auto 5px;
-     // color: @navbar-default-link-hover-color;
-     // background-color: @navbar-default-link-hover-bg;
+        outline: 1px dotted #212121;
+        outline: 5px auto -webkit-focus-ring-color;
+
       }
     }
-    }
+}
+
+.menu_focus_highlight{
+  a:focus {
+    outline: -webkit-focus-ring-color auto 5px;
+}
+}

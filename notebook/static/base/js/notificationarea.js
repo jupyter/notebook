@@ -71,8 +71,13 @@ define([
 
         // create the element for the notification widget and add it
         // to the notification aread element
-        var div = $('<div/>').attr('id', 'notification_' + name);
-        $(this.selector).append(div);
+        if (name === 'trusted') {
+            var div = $('<button/>').attr('id', 'notification_' + name);
+            $(this.selector).append(div);
+        } else {
+            var div = $('<div/>').attr('id', 'notification_' + name);
+            $(this.selector).append(div);
+        }
 
         // create the widget object and return it
         this.widget_dict[name] = new NotificationWidget('#notification_' + name);
