@@ -43,4 +43,5 @@ package-lock.json
 geckodriver.log
 *.iml
 *.ipynb
+*.iml
 .vscode/settings.json
