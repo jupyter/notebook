@@ -15,25 +15,25 @@ define([
     "use strict";
 
     var extension = function(path){
-      /**
-       *  return the last pat after the dot in a filepath
-       *  or the filepath itself if no dots present.
-       *  Empty string if the filepath ends with a dot.
-       **/
-      var parts = path.split('.');
-      return parts[parts.length-1];
+        /**
+         *  return the last pat after the dot in a filepath
+         *  or the filepath itself if no dots present.
+         *  Empty string if the filepath ends with a dot.
+         **/
+        var parts = path.split('.');
+        return parts[parts.length-1];
     };
 
     var item_in = function(item, list) {
-      // Normalize list and item to lowercase
-      var normalized_list = list.map(function(_item) {
-        return _item.toLowerCase();
-      });
-      return normalized_list.indexOf(item.toLowerCase()) !== -1;
+        // Normalize list and item to lowercase
+        var normalized_list = list.map(function(_item) {
+            return _item.toLowerCase();
+        });
+        return normalized_list.indexOf(item.toLowerCase()) !== -1;
     };
 
     var includes_extension = function(filepath, extensionslist) {
-      return item_in(extension(filepath), extensionslist);
+        return item_in(extension(filepath), extensionslist);
     };
 
     function name_sorter(ascending) {
@@ -58,7 +58,7 @@ define([
         var order = ascending ? 1 : 0;
         return (function(a, b) {
             return utils.datetime_sort_helper(a.last_modified, b.last_modified,
-                                              order)
+                order)
         });
     }
 
@@ -66,23 +66,23 @@ define([
         var order = ascending ? 1 : 0;
         // directories have file size of undefined
         return (function(a, b) {
-          if (a.size === undefined) {
-             return (ascending) ? -1 : 1;
-          }
+            if (a.size === undefined) {
+                return (ascending) ? -1 : 1;
+            }
 
-          if (b.size === undefined) {
-             return (ascending) ? 1 : -1;
-          }
+            if (b.size === undefined) {
+                return (ascending) ? 1 : -1;
+            }
 
-          if (a.size > b.size) {
-            return (ascending) ? -1 : 1;
-          }
+            if (a.size > b.size) {
+                return (ascending) ? -1 : 1;
+            }
 
-          if (b.size > a.size) {
-            return (ascending) ? 1 : -1;
-          }
+            if (b.size > a.size) {
+                return (ascending) ? 1 : -1;
+            }
 
-          return 0;
+            return 0;
         });
     }
 
@@ -134,9 +134,9 @@ define([
         this.sort_direction = 1;
         this._max_upload_size_mb = 25;
         this.EDIT_MIMETYPES = [
-          'application/javascript',
-          'application/x-sh',
-          'application/vnd.groove-tool-template'
+            'application/javascript',
+            'application/x-sh',
+            'application/vnd.groove-tool-template'
         ];
     };
 
@@ -192,9 +192,9 @@ define([
             });
             $('#new-folder').click(function(e) {
                 that.contents.new_untitled(that.notebook_path || '', {type: 'directory'})
-                .then(function(){
-                    that.load_list();
-                }).catch(function (e) {
+                    .then(function(){
+                        that.load_list();
+                    }).catch(function (e) {
                     dialog.modal({
                         title: i18n.msg._('Creating Folder Failed'),
                         body: $('<div/>')
@@ -234,6 +234,8 @@ define([
                     that.select('select-all');
                 }
             });
+
+
             $('#button-select-all').click(function (e) {
                 // toggle checkbox if the click doesn't come from the checkbox already
                 if (!$(e.target).is('input[type=checkbox]')) {
@@ -304,8 +306,8 @@ define([
             var file_ext = name_and_ext[1];
 
             if (f.size > that._max_upload_size_mb * 1024 * 1024) {
-            	var body_msg = i18n.msg.sprintf(i18n.msg._("The file size is %d MB. Do you still want to upload it?"),
-            			Math.round(f.size / (1024 * 1024)));
+                var body_msg = i18n.msg.sprintf(i18n.msg._("The file size is %d MB. Do you still want to upload it?"),
+                    Math.round(f.size / (1024 * 1024)));
                 dialog.modal({
                     title : i18n.msg._('Large file size warning'),
                     body : body_msg,
@@ -376,7 +378,7 @@ define([
         // Add an event handler browser back and forward events
         window.onpopstate = function(e) {
             var path = (window.history.state && window.history.state.path) ?
-                    window.history.state.path : that.initial_notebook_path;
+                window.history.state.path : that.initial_notebook_path;
             that.update_location(path);
         };
         var breadcrumb = $('.breadcrumb');
@@ -385,25 +387,26 @@ define([
         var root_url = utils.url_path_join(that.base_url, '/tree');
         var root = $('<li/>').append(
             $("<a/>")
-            .attr('href', root_url)
-            .append(
-                $("<i/>")
-                .addClass('fa fa-folder')
-            )
-            .click(function(e) {
-                // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
-                if(e.altKey || e.metaKey || e.shiftKey) {
-                    return true;
-                }
-                var path = '';
-                window.history.pushState(
-                    {path: path},
-                    'Home',
-                    utils.url_path_join(that.base_url, 'tree')
-                );
-                that.update_location(path);
-                return false;
-            })
+                .attr('href', root_url)
+                .attr('title','Link to root folder'+root_url)
+                .append(
+                    $("<i/>")
+                        .addClass('fa fa-folder')
+                )
+                .click(function(e) {
+                    // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
+                    if(e.altKey || e.metaKey || e.shiftKey) {
+                        return true;
+                    }
+                    var path = '';
+                    window.history.pushState(
+                        {path: path},
+                        'Home',
+                        utils.url_path_join(that.base_url, 'tree')
+                    );
+                    that.update_location(path);
+                    return false;
+                })
         );
         breadcrumb.append(root);
         var path_parts = [];
@@ -417,7 +420,9 @@ define([
             );
             var crumb = $('<li/>').append(
                 $('<a/>')
+
                 .attr('href', url)
+                .attr('title',"link to"+url)
                 .text(path_part)
                 .click(function(e) {
                     // Allow the default browser action when the user holds a modifier (e.g., Ctrl-Click)
@@ -563,15 +568,27 @@ define([
             .addClass("item_name")
             .appendTo(link);
 
-        $("<span/>")
-            .addClass("file_size")
-            .addClass("pull-right")
+        var div = $('<div/>')
+            .addClass('pull-right')
             .appendTo(item);
+
+        var buttons = $('<div/>')
+            .addClass("item_buttons pull-left")
+            .appendTo(div);
+
+        var div2 = $('<div/>')
+            .addClass('pull-right')
+            .appendTo(div);
 
         $("<span/>")
             .addClass("item_modified")
+            .addClass("pull-left")
+            .appendTo(div2);
+
+        $("<span/>")
+            .addClass("file_size")
             .addClass("pull-right")
-            .appendTo(item);
+            .appendTo(div2);
 
         if (selectable === false) {
             checkbox.css('visibility', 'hidden');
@@ -585,10 +602,6 @@ define([
                 that._selection_changed();
             });
         }
-
-        var buttons = $('<div/>')
-            .addClass("item_buttons  pull-right")
-            .appendTo(item);
 
         $('<div/>')
             .addClass('running-indicator')
@@ -638,33 +651,33 @@ define([
     };
 
     NotebookList.prototype._is_notebook = function(model) {
-      var ipynb_extensions = ['ipynb'];
-      return includes_extension(model.path, ipynb_extensions);
+        var ipynb_extensions = ['ipynb'];
+        return includes_extension(model.path, ipynb_extensions);
     };
 
     NotebookList.prototype._is_editable = function(model) {
-      // Allow any file to be "edited"
-      // Non-text files will display the following error:
-      //   Error: [FILE] is not UTF-8 encoded
-      //   Saving is disabled.
-      //   See Console for more details.
-      return true;
+        // Allow any file to be "edited"
+        // Non-text files will display the following error:
+        //   Error: [FILE] is not UTF-8 encoded
+        //   Saving is disabled.
+        //   See Console for more details.
+        return true;
     };
 
     NotebookList.prototype._is_viewable = function(model) {
-      var html_types = ['htm', 'html', 'xhtml', 'xml', 'mht', 'mhtml'];
-      var media_extension = ['3gp', 'avi', 'mov', 'mp4', 'm4v', 'm4a', 'mp3', 'mkv', 'ogv', 'ogm', 'ogg', 'oga', 'webm', 'wav'];
-      var image_type = ['bmp', 'gif', 'jpg', 'jpeg', 'png', 'webp'];
-      var other_type = ['ico'];
-      var viewable_extensions = [].concat(html_types, media_extension, image_type, other_type);
-      return model.mimetype === 'text/html'
-        || includes_extension(model.path, viewable_extensions);
+        var html_types = ['htm', 'html', 'xhtml', 'xml', 'mht', 'mhtml'];
+        var media_extension = ['3gp', 'avi', 'mov', 'mp4', 'm4v', 'm4a', 'mp3', 'mkv', 'ogv', 'ogm', 'ogg', 'oga', 'webm', 'wav'];
+        var image_type = ['bmp', 'gif', 'jpg', 'jpeg', 'png', 'webp'];
+        var other_type = ['ico'];
+        var viewable_extensions = [].concat(html_types, media_extension, image_type, other_type);
+        return model.mimetype === 'text/html'
+            || includes_extension(model.path, viewable_extensions);
     };
 
     // Files like PDF that should be opened using `/files` prefix
     NotebookList.prototype._is_pdflike = function(model) {
-      var pdflike_extensions = ['pdf'];
-      return includes_extension(model.path, pdflike_extensions);
+        var pdflike_extensions = ['pdf'];
+        return includes_extension(model.path, pdflike_extensions);
     };
 
     /**
@@ -810,6 +823,22 @@ define([
         checked = bidi.applyBidi(checked);
         $('#counter-select-all').html(checked===0 ? '&nbsp;' : checked);
 
+        //#issue 3961, update the checkbox aria-label when it changed
+        if(selected.length>=1){
+          if($('#select-all').prop("checked")){
+            $('#button-select-all').attr("aria-label","Selected All "+ selected.length+" items");
+            $("#button-select-all").attr("aria-checked","true");
+          }
+          else{
+            $('#button-select-all').attr("aria-label","Selected, "+ selected.length+" items");
+            $("#button-select-all").attr("aria-checked","true");
+          }
+        }
+        else{
+          $('#button-select-all').attr("aria-label","Select All/None");
+        $("#button-select-all").attr("aria-checked","false");
+        }
+
         // If at aleast on item is selected, hide the selection instructions.
         if (checked > 0) {
             $('.dynamic-instructions').hide();
@@ -894,14 +923,14 @@ define([
         item.find(".item_icon").addClass(NotebookList.icons[icon_type]).addClass('icon-fixed-width');
         item.find(".item_name").empty().append(
             $('<input/>')
-            .addClass("filename_input")
-            .attr('value', name)
-            .attr('size', '30')
-            .attr('type', 'text')
-            .keyup(function(event){
-                if(event.keyCode === 13){item.find('.upload_button').click();}
-                else if(event.keyCode === 27){item.remove();}
-            })
+                .addClass("filename_input")
+                .attr('value', name)
+                .attr('size', '30')
+                .attr('type', 'text')
+                .keyup(function(event){
+                    if(event.keyCode === 13){item.find('.upload_button').click();}
+                    else if(event.keyCode === 27){item.remove();}
+                })
         );
     };
 
@@ -955,26 +984,31 @@ define([
         var item_path = this.selected[0].path;
         var item_name = this.selected[0].name;
         var item_type = this.selected[0].type;
-        var input = $('<input/>').attr('type','text').attr('size','25').addClass('form-control')
+        var input = $('<input/>')
+            .attr('type','text')
+            .attr('size','25')
+            .attr('aria-labelledby','rename-message')
+            .addClass('form-control')
             .val(item_name);
         var rename_msg = function (type) {
-        	switch(type) {
-        	case 'file': return i18n.msg._("Enter a new file name:");
-        	case 'directory': return i18n.msg._("Enter a new directory name:");
-        	case 'notebook': return i18n.msg._("Enter a new notebook name:");
-        	default: return i18n.msg._("Enter a new name:");
-        	}
+            switch(type) {
+                case 'file': return i18n.msg._("Enter a new file name:");
+                case 'directory': return i18n.msg._("Enter a new directory name:");
+                case 'notebook': return i18n.msg._("Enter a new notebook name:");
+                default: return i18n.msg._("Enter a new name:");
+            }
         };
         var rename_title = function (type) {
-           	switch(type) {
-           	case 'file': return i18n.msg._("Rename file");
-           	case 'directory': return i18n.msg._("Rename directory");
-           	case 'notebook': return i18n.msg._("Rename notebook");
-           	default: return i18n.msg._("Rename");
-           	}
+            switch(type) {
+                case 'file': return i18n.msg._("Rename file");
+                case 'directory': return i18n.msg._("Rename directory");
+                case 'notebook': return i18n.msg._("Rename notebook");
+                default: return i18n.msg._("Rename");
+            }
         };
         var dialog_body = $('<div/>').append(
             $("<p/>").addClass("rename-message")
+                .attr('id', 'rename-message')
                 .text(rename_msg(item_type))
         ).append(
             $("<br/>")
@@ -999,8 +1033,8 @@ define([
                             // Deselect items after successful rename.
                             that.select('select-none');
                         }).catch(function(e) {
-                        	var template = i18n.msg._("An error occurred while renaming \"%1$s\" to \"%2$s\".");
-                        	var failmsg = i18n.msg.sprintf(template,item_name,input.val());
+                            var template = i18n.msg._("An error occurred while renaming \"%1$s\" to \"%2$s\".");
+                            var failmsg = i18n.msg.sprintf(template,item_name,input.val());
                             dialog.modal({
                                 title: i18n.msg._("Rename Failed"),
                                 body: $('<div/>')
@@ -1047,12 +1081,12 @@ define([
         }
 
         // Open a dialog to enter the new path, with current path as default.
-        var input = $('<input/>').attr('type','text').attr('size','25').addClass('form-control')
+        var input = $('<input/>').attr('type','text').attr('size','25').attr('aria-labelledby','move-message').addClass('form-control')
             .val(utils.url_path_join('/', that.notebook_path));
         var dialog_body = $('<div/>').append(
-            $("<p/>").addClass("rename-message")
+            $("<p/>").addClass("rename-message").attr('id', 'move-message')
                 .text(i18n.msg.sprintf(i18n.msg.ngettext("Enter a new destination directory path for this item:",
-                					"Enter a new destination directory path for these %d items:", num_items),num_items))
+                    "Enter a new destination directory path for these %d items:", num_items),num_items))
         ).append(
             $("<br/>")
         ).append(
@@ -1060,7 +1094,7 @@ define([
                 // $("<i/>").addClass("fa fa-folder").addClass("server-root")
                 $("<span/>").text(utils.get_body_data("serverRoot")).addClass("server-root")
             ).append(
-              input.addClass("path-input")
+                input.addClass("path-input")
             ).addClass("move-path")
         );
         var d = dialog.modal({
@@ -1083,7 +1117,7 @@ define([
                                 that.load_list();
                             }).catch(function(e) {
                                 // If any of the moves fails, show this dialog for that move.
-                            	var failmsg = i18n.msg._("An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\".");
+                                var failmsg = i18n.msg._("An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\".");
                                 dialog.modal({
                                     title: i18n.msg._("Move Failed"),
                                     body: $('<div/>')
@@ -1132,8 +1166,8 @@ define([
     NotebookList.prototype.delete_selected = function() {
         var selected = this.selected.slice(); // Don't let that.selected change out from under us
         var template = i18n.msg.ngettext("Are you sure you want to permanently delete: \"%s\"?",
-        						"Are you sure you want to permanently delete the %d files or folders selected?",
-        						selected.length);
+            "Are you sure you want to permanently delete the %d files or folders selected?",
+            selected.length);
         var delete_msg;
         if (selected.length === 1) {
             delete_msg = i18n.msg.sprintf(template, selected[0].name);
@@ -1157,9 +1191,9 @@ define([
                         // Delete selected.
                         selected.forEach(function(item) {
                             that.contents.delete(item.path).then(function() {
-                                    that.notebook_deleted(item.path);
+                                that.notebook_deleted(item.path);
                             }).catch(function(e) {
-                            	var failmsg = i18n.msg._("An error occurred while deleting \"%s\".");
+                                var failmsg = i18n.msg._("An error occurred while deleting \"%s\".");
                                 dialog.modal({
                                     title: i18n.msg._("Delete Failed"),
                                     body: $('<div/>')
@@ -1186,7 +1220,7 @@ define([
             var item_path = utils.encode_uri_components(item.path);
             var item_type = that._is_notebook(item) ? 'notebooks' : that._is_viewable(item) ? 'view' : 'files';
             window.open(utils.url_path_join(that.base_url, item_type, item_path), IPython._target);
-      	});
+        });
     };
 
     NotebookList.prototype.edit_selected = function() {
@@ -1194,14 +1228,14 @@ define([
         that.selected.forEach(function(item) {
             var item_path = utils.encode_uri_components(item.path);
             window.open(utils.url_path_join(that.base_url, 'edit', item_path), IPython._target);
-      	});
+        });
     };
 
     NotebookList.prototype.duplicate_selected = function() {
         var selected = this.selected.slice(); // Don't let that.selected change out from under us
-    	var template = i18n.msg.ngettext("Are you sure you want to duplicate: \"%s\"?",
-				"Are you sure you want to duplicate the %d files selected?",selected.length);
-    	var dup_msg;
+        var template = i18n.msg.ngettext("Are you sure you want to duplicate: \"%s\"?",
+            "Are you sure you want to duplicate the %d files selected?",selected.length);
+        var dup_msg;
         if (selected.length === 1) {
             dup_msg = i18n.msg.sprintf(template,selected[0].name);
         } else {
@@ -1223,7 +1257,7 @@ define([
                                 // Deselect items after successful duplication.
                                 that.select('select-none');
                             }).catch(function(e) {
-                            	var failmsg = i18n.msg._("An error occurred while duplicating \"%s\".");
+                                var failmsg = i18n.msg._("An error occurred while duplicating \"%s\".");
                                 dialog.modal({
                                     title: i18n.msg._("Duplicate Failed"),
                                     body: $('<div/>')
@@ -1292,7 +1326,7 @@ define([
                 var check_exist = function () {
                     var exists = false;
                     $.each(that.element.find('.list_item:not(.new-file)'), function(k,v){
-                    if ($(v).data('name') === filename) { exists = true; return false; }
+                        if ($(v).data('name') === filename) { exists = true; return false; }
                     });
                     return exists
                 };
@@ -1373,7 +1407,7 @@ define([
                             var CHUNK_SZ = 0x8000;
                             var c = [];
                             for (var i=0; i < u8a.length; i+=CHUNK_SZ) {
-                              c.push(String.fromCharCode.apply(null, u8a.subarray(i, i+CHUNK_SZ)));
+                                c.push(String.fromCharCode.apply(null, u8a.subarray(i, i+CHUNK_SZ)));
                             }
                             return c.join("");
                         };
@@ -1494,16 +1528,16 @@ define([
                     try {
                         model.content = JSON.parse(filedata);
                     } catch (e) {
-                    	var failbody = i18n.msg._("The error was: %s");
+                        var failbody = i18n.msg._("The error was: %s");
                         dialog.modal({
                             title : i18n.msg._('Cannot upload invalid Notebook'),
                             body : i18n.msg.sprintf(failbody,e),
                             buttons : {'OK' : {
-                                'class' : 'btn-primary',
-                                click: function () {
-                                    item.remove();
-                                }
-                            }}
+                                    'class' : 'btn-primary',
+                                    click: function () {
+                                        item.remove();
+                                    }
+                                }}
                         });
                         console.warn('Error during notebook uploading', e);
                         return false;
@@ -1528,7 +1562,7 @@ define([
                 });
 
                 if (exists) {
-                	var body = i18n.msg._("There is already a file named \"%s\". Do you want to replace it?");
+                    var body = i18n.msg._("There is already a file named \"%s\". Do you want to replace it?");
                     dialog.modal({
                         title : i18n.msg._("Replace file"),
                         body : i18n.msg.sprintf(body,filename),

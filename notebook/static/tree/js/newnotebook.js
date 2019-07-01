@@ -63,6 +63,7 @@ define([
                 .attr("id", "kernel-" +ks.name)
                 .data('kernelspec', ks).append(
                     $('<a>')
+                        .attr("aria-label","menu item 1,"+ks.name)
                         .attr('href', '#')
                         .click($.proxy(this.new_notebook, this, ks.name))
                         .text(ks.spec.display_name)

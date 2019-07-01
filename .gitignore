@@ -29,7 +29,7 @@ __pycache__
 .coverage
 .pytest_cache
 src
-
+*.iml
 *.swp
 *.map
 .idea/
@@ -42,6 +42,8 @@ config.rst
 package-lock.json
 geckodriver.log
 
+
 *.ipynb
 *.iml
 Part\ IA\ Computing\ (Michaelmas)
+.vscode/settings.json

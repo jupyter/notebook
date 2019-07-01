@@ -938,6 +938,7 @@ define([
         if (this.mode !== 'command') {
             cell.command_mode();
             this.mode = 'command';
+            $('div[class*="code_cell"]')
             this.events.trigger('command_mode.Notebook');
             this.keyboard_manager.command_mode();
         }
@@ -965,6 +966,7 @@ define([
         if (cell && this.mode !== 'edit') {
             cell.edit_mode();
             this.mode = 'edit';
+            $('div[class*="code_cell"]')
             this.events.trigger('edit_mode.Notebook');
             this.keyboard_manager.edit_mode();
         }
@@ -980,6 +982,7 @@ define([
             cell.unrender();
             cell.focus_editor();
         }
+
     };
     
     /**
@@ -1213,7 +1216,7 @@ define([
         // where they came from. It will do until we have proper undo support.
         undelete_backup.index = cursor_ix_after;
         $('#undelete_cell').removeClass('disabled');
-
+        $('.undelete_link').removeAttr("aria-disabled");
         this.undelete_backup_stack.push(undelete_backup);
         this.set_dirty(true);
 
@@ -1577,6 +1580,7 @@ define([
             notebook: this,
             keyboard_manager: this.keyboard_manager,
             title : i18n.msg._("Use markdown headings"),
+            type : $("<h1/>"),
             body : $("<p/>").text(
                 i18n.msg._('Jupyter no longer uses special heading cells. ' + 
                 'Instead, write your headings in Markdown cells using # characters:')
@@ -1617,13 +1621,16 @@ define([
         if (!this.paste_enabled) {
             $('#paste_cell_replace').removeClass('disabled')
                 .on('click', function () {that.keyboard_manager.actions.call(
-                    'jupyter-notebook:paste-cell-replace');});
+                    'jupyter-notebook:paste-cell-replace');})
+            $('.paste_replace').removeAttr("aria-disabled"); 
             $('#paste_cell_above').removeClass('disabled')
                 .on('click', function () {that.keyboard_manager.actions.call(
                     'jupyter-notebook:paste-cell-above');});
+            $('.paste_above').removeAttr("aria-disabled"); 
             $('#paste_cell_below').removeClass('disabled')
                 .on('click', function () {that.keyboard_manager.actions.call(
                     'jupyter-notebook:paste-cell-below');});
+            $('.paste_below').removeAttr("aria-disabled");         
             this.paste_enabled = true;
         }
     };
@@ -1934,6 +1941,7 @@ define([
     Notebook.prototype.enable_attachments_paste = function () {
         if (!this.paste_attachments_enabled) {
             $('#paste_cell_attachments').removeClass('disabled');
+            $('.paste_attachments').removeAttr("aria-disabled");
             this.paste_attachments_enabled = true;
         }
     };
@@ -1944,6 +1952,7 @@ define([
     Notebook.prototype.set_insert_image_enabled = function(enabled) {
         if (enabled) {
             $('#insert_image').removeClass('disabled');
+            $('.image_link').removeAttr("aria-disabled");
         } else {
             $('#insert_image').addClass('disabled');
         }
@@ -2992,6 +3001,7 @@ define([
             keyboard_manager: this.keyboard_manager,
             title: i18n.msg._("Trust this notebook?"),
             body: body,
+            focus_button: 'notification_trusted',
 
             focus_button: fb,
 

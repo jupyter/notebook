@@ -1,5 +1,4 @@
 {% extends "page.html" %}
-
 {% block title %}{{page_title}}{% endblock %}
 
 
@@ -27,11 +26,12 @@ data-server-root="{{server_root}}"
 {% block site %}
 
   <div id="ipython-main-app" class="container">
-    <div id="tab_content" class="tabbable">
+
+    <div id="tab_content" class="tabbable" role="main">
       <ul id="tabs" class="nav nav-tabs">
-        <li class="active"><a href="#notebooks" data-toggle="tab">{% trans %}Files{% endtrans %}</a></li>
-        <li><a href="#running" data-toggle="tab">{% trans %}Running{% endtrans %}</a></li>
-        <li><a href="#clusters" data-toggle="tab" class="clusters_tab_link" >{% trans %}Clusters{% endtrans %}</a></li>
+        <li class="active"><a href="#notebooks" data-toggle="tab" role="tab">{% trans %}Files{% endtrans %}</a></li>
+        <li><a href="#running" data-toggle="tab" role="tab">{% trans %}Running{% endtrans %}</a></li>
+        <li><a href="#clusters" data-toggle="tab" class="clusters_tab_link" role="tab">{% trans %}Clusters{% endtrans %}</a></li>
       </ul>
       <div class="tab-content">
         <div id="notebooks" class="tab-pane active">
@@ -41,14 +41,24 @@ data-server-root="{{server_root}}"
                 {% trans %}Select items to perform actions on them.{% endtrans %}
               </div>
               <div class="dynamic-buttons">
-                  <button title="{% trans %}Duplicate selected{% endtrans %}" aria-label="{% trans %}Duplicate selected{% endtrans %}" class="duplicate-button btn btn-default btn-xs">{% trans %}Duplicate{% endtrans %}</button>
-                  <button title="{% trans %}Rename selected{% endtrans %}" aria-label="{% trans %}Rename selected{% endtrans %}" class="rename-button btn btn-default btn-xs">{% trans %}Rename{% endtrans %}</button>
-                  <button title="{% trans %}Move selected{% endtrans %}" aria-label="{% trans %}Move selected{% endtrans %}" class="move-button btn btn-default btn-xs">{% trans %}Move{% endtrans %}</button>
-                  <button title="{% trans %}Download selected{% endtrans %}" aria-label="{% trans %}Download selected{% endtrans %}" class="download-button btn btn-default btn-xs">{% trans %}Download{% endtrans %}</button>
-                  <button title="{% trans %}Shutdown selected notebook(s){% endtrans %}" aria-label="{% trans %}Shutdown selected notebook(s){% endtrans %}" class="shutdown-button btn btn-default btn-xs btn-warning">{% trans %}Shutdown{% endtrans %}</button>
-                  <button title="{% trans %}View selected{% endtrans %}" aria-label="{% trans %}View selected{% endtrans %}" class="view-button btn btn-default btn-xs">{% trans %}View{% endtrans %}</button>
-                  <button title="{% trans %}Edit selected{% endtrans %}" aria-label="{% trans %}Edit selected{% endtrans %}" class="edit-button btn btn-default btn-xs">{% trans %}Edit{% endtrans %}</button>
-                  <button title="{% trans %}Delete selected{% endtrans %}" aria-label="{% trans %}Delete selected{% endtrans %}" class="delete-button btn btn-default btn-xs btn-danger"><i class="fa fa-trash"></i></button>
+                  <button  title="{% trans %}Duplicate selected{% endtrans %}" aria-label="{% trans %}Duplicate{% endtrans %}" class="duplicate-button btn btn-default btn-xs" aria-describedby="tooltip1">{% trans %}Duplicate{% endtrans %} </button>
+                  <div role="tooltip" id="tooltip1" >{% trans %}Duplicate selected{% endtrans %}</div>
+                  <button title="{% trans %}Rename selected{% endtrans %}" aria-label="{% trans %}Rename{% endtrans %}" class="rename-button btn btn-default btn-xs" aria-describedby="tooltip2">{% trans %} Rename{% endtrans %}</button>
+                  <div role="tooltip" id="tooltip2" >{% trans %}Rename selected{% endtrans %}</div> 
+                  <button title="{% trans %}Move selected{% endtrans %}" aria-label="{% trans %}Move{% endtrans %}" class="move-button btn btn-default btn-xs" aria-describedby="tooltip3">{% trans %}Move{% endtrans %}</button>
+                  <div role="tooltip" id="tooltip3" >{% trans %}Move selected{% endtrans %}</div> 
+                  <button title="{% trans %}Download selected{% endtrans %}" aria-label="{% trans %}Download{% endtrans %}" class="download-button btn btn-default btn-xs" aria-describedby="tooltip4">{% trans %}Download{% endtrans %}</button>
+                  <div role="tooltip" id="tooltip4" >{% trans %}Download selected{% endtrans %}</div>
+                  <button title="{% trans %}Shutdown selected notebook(s){% endtrans %}" aria-label="{% trans %}Shutdown{% endtrans %}" class="shutdown-button btn btn-default btn-xs btn-warning" aria-describedby="tooltip5">{% trans %}Shutdown{% endtrans %}</button>
+                  <div role="tooltip" id="tooltip5" >{% trans %}Shutdown selected notebook(s){% endtrans %}</div>  
+                  <button title="{% trans %}View selected{% endtrans %}" aria-label="{% trans %}View{% endtrans %}" class="view-button btn btn-default btn-xs" aria-describedby="tooltip6">{% trans %}View{% endtrans %}</button>
+                  <div role="tooltip" id="tooltip6" >{% trans %}View selected{% endtrans %}</div> 
+                  <button title="{% trans %}Edit selected{% endtrans %}" aria-label="{% trans %}Edit{% endtrans %}"  class="edit-button btn btn-default btn-xs" aria-describedby="tooltip7">{% trans %}Edit{% endtrans %}</button>
+                  <div role="tooltip" id="tooltip7" >{% trans %}Edit selected{% endtrans %}</div>  
+                  <button title="{% trans %}Delete selected{% endtrans %}" aria-label="{% trans %}Delete selected{% endtrans %}" class="delete-button btn btn-default btn-xs btn-danger" aria-describedby="tooltip8">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                  <div role="tooltip" id="tooltip8" >{% trans %}Delete selected{% endtrans %}</div>
               </div>
             </div>
             <div class="col-sm-4 no-padding tree-buttons">
@@ -56,86 +66,92 @@ data-server-root="{{server_root}}"
                 <form id='alternate_upload'  class='alternate_upload'>
                   <span id="notebook_list_info">
                   <span class="btn btn-xs btn-default btn-upload">
-                  <input  title="{% trans %}Click to browse for a file to upload.{% endtrans %}" type="file" name="datafile" class="fileinput" multiple='multiple'>
+                  <input title="{% trans %}Click to browse for a file to upload.{% endtrans %}" aria-label="Upload" type="file" name="datafile" class="fileinput" multiple='multiple'>
                   {% trans %}Upload{% endtrans %}
                   </span>
                   </span>
                 </form>
+
                 <div id="new-buttons" class="btn-group">
                   <button class="dropdown-toggle btn btn-default btn-xs" id="new-dropdown-button" data-toggle="dropdown">
                   <span>{% trans %}New{% endtrans %}</span>
                   <span class="caret"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul id="new-menu" class="dropdown-menu">
                     <li role="presentation" class="dropdown-header" id="notebook-kernels">Notebook:</li>
                     <li role="presentation" class="divider"></li>
                     <li role="presentation" class="dropdown-header" >Other:</li>
                     <li role="presentation" id="new-file">
-                      <a role="menuitem" tabindex="-1" href="#">{% trans %}Text File{% endtrans %}</a>
+                      <a role="menuitem" aria-label="menu item 2, Text file" tabindex="-1" href="#">{% trans %}Text File{% endtrans %}</a>
                     </li>
                     <li role="presentation" id="new-folder">
-                      <a role="menuitem" tabindex="-1" href="#">{% trans %}Folder{% endtrans %}</a>
+                      <a role="menuitem" aria-label="menu item 3, Folder" tabindex="-1" href="#">{% trans %}Folder{% endtrans %}</a>
                     </li>
                     {% if terminals_available %}
                     <li role="presentation" id="new-terminal">
-                      <a role="menuitem" tabindex="-1" href="#">{% trans %}Terminal{% endtrans %}</a>
+                      <a role="menuitem" aria-label="menu item 4, Terminal" tabindex="-1" href="#">{% trans %}Terminal{% endtrans %}</a>
                     </li>
                     {% else %}
                     <li role="presentation" id="new-terminal-disabled" class="disabled">
-                      <a role="menuitem" tabindex="-1" href="#">{% trans %}Terminals Unavailable{% endtrans %}</a>
+                      <a role="menuitem" aria-label="menu item 5, Terminals Unavailable" tabindex="-1" href="#">{% trans %}Terminals Unavailable{% endtrans %}</a>
                     </li>
                     {% endif %}
                   </ul>
                 </div>
+
                 <div class="btn-group">
-                    <button id="refresh_notebook_list" title="{% trans %}Refresh notebook list{% endtrans %}"  aria-label="{% trans %}Refresh notebook list{% endtrans %}" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></button>
-                </div>
+                    <button id="refresh_notebook_list" title="{% trans %}Refresh notebook list{% endtrans %}" aria-live="polite" class="btn btn-default btn-xs" role="button"><i class="fa fa-refresh"></i></button>
+                  </div>
               </div>
             </div>
           </div>
           <div id="notebook_list">
             <div id="notebook_list_header" class="row list_header">
               <div class="btn-group dropdown" id="tree-selector">
-                <button title="{% trans %}Select All / None{% endtrans %}" aria-label="{% trans %}Select All / None{% endtrans %}" type="button" class="btn btn-default btn-xs" id="button-select-all">
-                  <input type="checkbox" class="pull-left tree-selector" id="select-all"><span id="counter-select-all">&nbsp;</span></input>
+                <button title="{% trans %}Select All / None{% endtrans %}" aria-label="{% trans %}Select All / None{% endtrans %}" aria-checked="true" type="button" class="btn btn-default btn-xs" id="button-select-all" role="checkbox">
+                  <input type="checkbox" class="pull-left tree-selector" id="select-all" tabindex="-1"><span id="counter-select-all">&nbsp;</span></input>
                 </button>
-                <button title="{% trans %}Select...{% endtrans %}" class="btn btn-default btn-xs dropdown-toggle" type="button" id="tree-selector-btn" data-toggle="dropdown" aria-expanded="true">
+                <button title="{% trans %}Select Folders/All Notebooks/Running/Files {% endtrans %}" class="btn btn-default btn-xs dropdown-toggle" type="button" id="tree-selector-btn" data-toggle="dropdown" aria-expanded="true">
                   <span class="caret"></span>
                   <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul id='selector-menu' class="dropdown-menu" role="menu" aria-labelledby="tree-selector-btn">
-                  <li role="presentation"><a id="select-folders" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select All Folders{% endtrans %}"><i class="menu_icon folder_icon icon-fixed-width"></i>&nbsp;{% trans %}Folders{% endtrans %}</a></li>
-                  <li role="presentation"><a id="select-notebooks" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select All Notebooks{% endtrans %}"><i class="menu_icon notebook_icon icon-fixed-width"></i>&nbsp;{% trans %}All Notebooks{% endtrans %}</a></li>
-                  <li role="presentation"><a id="select-running-notebooks" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select Running Notebooks{% endtrans %}"><i class="menu_icon running_notebook_icon icon-fixed-width"></i>&nbsp;{% trans %}Running{% endtrans %}</a></li>
-                  <li role="presentation"><a id="select-files" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select All Files{% endtrans %}"><i class="menu_icon file_icon icon-fixed-width"></i>&nbsp;{% trans %}Files{% endtrans %}</a></li>
+                  <li role="presentation"><a id="select-folders" aria-label="menu item 1, Folders" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select All Folders{% endtrans %}"><i class="menu_icon folder_icon icon-fixed-width"></i>&nbsp;{% trans %}Folders{% endtrans %}</a></li>
+                  <li role="presentation"><a id="select-notebooks" aria-label="menu item 2, All Notebooks" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select All Notebooks{% endtrans %}"><i class="menu_icon notebook_icon icon-fixed-width"></i>&nbsp;{% trans %}All Notebooks{% endtrans %}</a></li>
+                  <li role="presentation"><a id="select-running-notebooks" aria-label="menu item 3, Running" role="menuitem" tabindex="-1" href="#" title="{% trans %}Select Running Notebooks{% endtrans %}"><i class="menu_icon running_notebook_icon icon-fixed-width"></i>&nbsp;{% trans %}Running{% endtrans %}</a></li>
+                  <li role="presentation"><a id="select-files" role="menuitem" aria-label="menu item 4, Files" tabindex="-1" href="#" title="{% trans %}Select All Files{% endtrans %}"><i class="menu_icon file_icon icon-fixed-width"></i>&nbsp;{% trans %}Files{% endtrans %}</a></li>
                 </ul>
               </div>
               <div id="project_name">
                 <ul class="breadcrumb">
-                  <li><a href="{{breadcrumbs[0][0]}}"><i class="fa fa-folder" alt="folder icon"></i></a></li>
+                  <li><a href="{{breadcrumbs[0][0]}}"><i class="fa fa-folder" alt="root folder icon"></i></a></li>
                 {% for crumb in breadcrumbs[1:] %}
                   <li><a href="{{crumb[0]}}">{{crumb[1]}}</a></li>
                 {% endfor %}
                 </ul>
               </div>
-              <div id="file_size" class="pull-right sort_button">
-                  <span class="btn btn-xs btn-default sort-action" id="file-size">
-                      {% trans %}File size{% endtrans %}
-                      <i class="fa"></i>
-                  </span>
+              <div id="sort_buttons" class="pull-right">
+                <div id="sort_name" class="sort_button">
+                  <button type="button" class="btn btn-xs btn-default sort-action" id="sort-name" aria-label="{% trans %}Sort by name{% endtrans %}">
+                        {% trans %}Name{% endtrans %}
+                        <i class="fa fa-arrow-down"></i>
+                  </button>
+                </div>
+                <div id="last_modified" class="sort_button">
+                    <button type="button" class="btn btn-xs btn-default sort-action" id="last-modified" aria-label="{% trans %}Sort by last modified{% endtrans %}">
+                        {% trans %}Last Modified{% endtrans %}
+                        <i class="fa"></i>
+                    </button>
+                </div>
+                <div id="file_size" class="sort_button">
+                    <button type="button" class="btn btn-xs btn-default sort-action" id="file-size" aria-label="{% trans %}Sort by file size{% endtrans %}">
+                        {% trans %}File size{% endtrans %}
+                        <i class="fa"></i>
+                    </button>
+                </div>
               </div>
-              <div id="last_modified" class="pull-right sort_button">
-                  <span class="btn btn-xs btn-default sort-action" id="last-modified">
-                      {% trans %}Last Modified{% endtrans %}
-                      <i class="fa"></i>
-                  </span>
-              </div>
-              <div id="sort_name" class="pull-right sort_button">
-                  <span class="btn btn-xs btn-default sort-action" id="sort-name">
-                      {% trans %}Name{% endtrans %}
-                      <i class="fa fa-arrow-down"></i>
-                  </span>
-              </div>
+
             </div>
           </div>
         </div>
@@ -201,7 +217,11 @@ data-server-root="{{server_root}}"
 
 {% block script %}
     {{super()}}
-
+    <script type="text/javascript">
+      ('#element').tooltip('enable')
+    </script>
 
 <script src="{{ static_url("tree/js/main.min.js") }}" type="text/javascript" charset="utf-8"></script>
+
 {% endblock %}
+

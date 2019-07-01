@@ -67,6 +67,8 @@ ul.breadcrumb {
 .dynamic-buttons {
     padding-top: @dashboard_tb_pad - 1px;
     display: inline-block;
+    width: 400px;
+
 }
 
 .list_toolbar [class*="span"] {
@@ -186,9 +188,10 @@ ul.breadcrumb {
         padding-top: @dashboard_tb_pad;
         color: darken(@brand-success,20%);
     }
+    //was @brand-info
     .kernel-name {
         padding-top: @dashboard_tb_pad;
-        color: @brand-info;
+        color: @link-color;
         margin-right: @dashboard_lr_pad;
         float: left;
     }
@@ -341,6 +344,7 @@ ul#new-menu {
     padding-top: @page-header-padding;
 }
 
+
 #running {
     .panel-group{
         .panel {
@@ -409,4 +413,49 @@ ul#new-menu {
 .dynamic-instructions {
     display: inline-block;
     padding-top: @dashboard_tb_pad;
+}
+
+//TO show tooltips via keyboard for"Duplicate","View","Rename", "Download", "Shutdown", "Edit","Move", "Delete" buttons.
+
+.visually-hidden {
+  clip-path: inset(100%);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+button:focus + [role="tooltip"] {  
+visibility: visible;
+ opacity: 1;
+}
+
+.button-and-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+[role="tooltip"] {
+/* Position the tooltip */
+position: absolute;
+top:70%;
+display:inline;
+//--------------
+visibility: hidden;
+width: 100px;
+background-color: #F0EFEF;
+color: #080808;
+text-align: center;
+padding: 3px;
+outline-color: grey;
+outline-offset: -2px;
+outline-style: auto;
+outline-width:1px;
+ z-index: 1;
+ opacity: 0;
+ transition: opacity .6s;
+ margin: 3px;
+ font-size:10px;
 }

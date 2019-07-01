@@ -4,6 +4,8 @@
 // adapted from Mozilla Developer Network example at
 // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind
 // shim `bind` for testing under casper.js
+
+
 var bind = function bind(obj) {
   var slice = [].slice;
   var args = slice.call(arguments, 1),
@@ -115,6 +117,20 @@ requirejs([
         )
     );
 
+
+
+    $("#refresh_notebook_list").click(function(){
+        if($(this).attr("aria-label")=="pressing refresh button"){
+            $(this).attr("aria-label","pressing refresh button.");
+        }
+        else if($(this).attr("aria-label")=="pressing refresh button."){
+            $(this).attr("aria-label","pressing refresh button");
+        }
+        else{
+            $(this).attr("aria-label","pressing refresh button");
+        }
+    });
+
     var interval_id=0;
     // auto refresh every xx secondes, no need to be fast,
     //  update is done most of the time when page get focus
@@ -190,7 +206,7 @@ requirejs([
     $("#alternate_upload").change(function (event){
         notebook_list.handleFilesUpload(event,'form');
     });
-    
+
     // set hash on tab click
     $("#tabs").find("a").click(function(e) {
         // Prevent the document from jumping when the active tab is changed to a 
@@ -213,4 +229,5 @@ requirejs([
     }
     
     shutdownbutton.activate();
+
 });

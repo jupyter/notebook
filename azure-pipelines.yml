@@ -1,0 +1,100 @@
+
+variables:
+  JUPYTER_TEST_BROWSER: firefox
+  MOZ_HEADLESS: 1
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.6'
+    addToPath: true
+    architecture: 'x64'
+
+- script: |
+      pip install --upgrade pip
+      pip install --upgrade setuptools wheel nose coverage codecov
+      nvm install 6.9.2
+      nvm use 6.9.2
+      node --version
+      npm --version
+      npm upgrade -g npm
+      npm install
+      git clone git://github.com/n1k0/casperjs.git
+      cd casperjs
+      sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
+      cd ..
+      echo 'casperjs and phantomjs installed'
+      sudo apt-get install libc6 libstdc++6 libgcc1 libgtk2.0-0 libasound2 libxrender1 libdbus-glib-1-2
+      sudo apt-get install firefox
+      echo 'FIREFOX INSTALLED'
+      wget https://github.com/laurentj/slimerjs/releases/download/1.0.0/slimerjs-1.0.0.tar.bz2
+      tar -xvjf slimerjs-1.0.0.tar.bz2
+      sudo mv slimerjs-1.0.0 /usr/local/share
+      sudo ln -sf /usr/local/share/slimerjs-1.0.0/slimerjs /usr/local/bin
+      export SLIMERJSLAUNCHER=/usr/bin/firefox
+      pip install -r docs/doc-requirements.txt
+      pip install --upgrade pytest
+      pip install --upgrade selenium pytest
+      wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
+      mkdir geckodriver
+      tar -xzf geckodriver-v0.19.1-linux64.tar.gz -C geckodriver
+      cd geckodriver
+      sudo cp geckodriver /usr/local/bin
+      cd ..
+      #   export PATH=$PATH:$PWD/geckodriver
+      npm install sqlite3
+      pip install "attrs>=17.4.0"
+  displayName: 'Before Install'
+  continueOnError: false
+
+- script: |
+      pip install --pre .[test] $EXTRA_PIP
+      pip freeze
+      wget https://github.com/jgm/pandoc/releases/download/1.19.1/pandoc-1.19.1-1-amd64.deb
+      sudo dpkg -i pandoc-1.19.1-1-amd64.deb
+  displayName: 'Install'
+  continueOnError: false
+
+- script: |
+      jupyter kernelspec list
+      symlinks=$(find . -type l| grep -v './node_modules/' | grep -v './git-hooks')
+      if [[ $(echo $symlinks) ]]; then
+          echo "Repository contains symlinks which won't work on windows:"
+          echo $symlinks
+          echo ""
+          false
+      else
+          true
+      fi
+      python -m notebook.jstest base
+  displayName: 'Run base Tests'
+  continueOnError: false
+
+- script: |
+      python -m notebook.jstest notebook
+  displayName: 'Run notebook Tests'
+  continueOnError: false
+
+# - script: |
+#       python -m notebook.jstest services
+#   displayName: 'Run services Tests'
+#   continueOnError: false
+
+- script: |
+      nosetests -v --exclude-dir notebook/tests/selenium --with-coverage --cover-package=notebook notebook
+  displayName: 'Run coverage Tests'
+  continueOnError: false
+
+# - script: |
+#       py.test -sv notebook/tests/selenium
+#   displayName: 'Run selenium Tests'
+#   continueOnError: false
+
+- script: |
+      make -C docs/ html
+      pytest --nbval --current-env docs
+  displayName: 'Run documentation Tests'
+  continueOnError: false
