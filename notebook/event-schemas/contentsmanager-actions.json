@@ -1,0 +1,30 @@
+{
+    "$id": "jupyter.org/contentsmanager-actions",
+    "version": 1,
+    "title": "Contents Manager activities",
+    "description": "Notebook Server emits this event whenever a contentsmanager action happens",
+    "type": "object",
+    "required": ["action", "path"],
+    "properties": {
+        "action": {
+            "enum": [
+                "get",
+                "create",
+                "save",
+                "upload",
+                "rename",
+                "create",
+                "copy"
+            ],
+            "description": "Action performed by contents manager"
+        },
+        "path": {
+            "type": "string",
+            "description": "Logical path the action was performed in"
+        },
+        "source_path": {
+            "type": "string",
+            "description": "If action is 'copy', this specifies the source path"
+        }
+    }
+}

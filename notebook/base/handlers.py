@@ -221,6 +221,13 @@ class IPythonHandler(AuthenticatedHandler):
     def jinja_template_vars(self):
         """User-supplied values to supply to jinja templates."""
         return self.settings.get('jinja_template_vars', {})
+
+    @property
+    def eventlog(self):
+        """
+        EventLog to record events in
+        """
+        return self.settings.get('eventlog')
     
     #---------------------------------------------------------------
     # URLs

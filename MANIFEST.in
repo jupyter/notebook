@@ -11,6 +11,9 @@ graft tools
 # Translations
 graft notebook/i18n
 
+# Event Schemas
+graft notebook/event-schemas
+
 # Documentation
 graft docs
 exclude docs/\#*

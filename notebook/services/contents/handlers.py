@@ -113,6 +113,10 @@ class ContentsHandler(APIHandler):
         ))
         validate_model(model, expect_content=content)
         self._finish_model(model, location=False)
+        self.eventlog.record_event(
+            'jupyter.org/contentsmanager-actions', 1,
+            { 'action': 'get', 'path': model['path'] }
+        )
 
     @web.authenticated
     @gen.coroutine
@@ -122,9 +126,17 @@ class ContentsHandler(APIHandler):
         model = self.get_json_body()
         if model is None:
             raise web.HTTPError(400, u'JSON body missing')
+        self.log.info(model)
         model = yield maybe_future(cm.update(model, path))
         validate_model(model, expect_content=False)
         self._finish_model(model)
+        self.log.info(model)
+        self.eventlog.record_event(
+            'jupyter.org/contentsmanager-actions', 1,
+            # FIXME: 'path' always has a leading slash, while model['path'] does not.
+            # What to do here for source_path? path munge manually? Eww
+            { 'action': 'rename', 'path': model['path'], 'source_path': path }
+        )
     
     @gen.coroutine
     def _copy(self, copy_from, copy_to=None):
@@ -137,6 +149,10 @@ class ContentsHandler(APIHandler):
         self.set_status(201)
         validate_model(model, expect_content=False)
         self._finish_model(model)
+        self.eventlog.record_event(
+            'jupyter.org/contentsmanager-actions', 1,
+            { 'action': 'copy', 'path': model['path'], 'source_path': copy_from }
+        )
 
     @gen.coroutine
     def _upload(self, model, path):
@@ -146,6 +162,11 @@ class ContentsHandler(APIHandler):
         self.set_status(201)
         validate_model(model, expect_content=False)
         self._finish_model(model)
+
+        self.eventlog.record_event(
+            'jupyter.org/contentsmanager-actions', 1,
+            { 'action': 'upload', 'path': model['path'] }
+        )
     
     @gen.coroutine
     def _new_untitled(self, path, type='', ext=''):
@@ -155,6 +176,12 @@ class ContentsHandler(APIHandler):
         self.set_status(201)
         validate_model(model, expect_content=False)
         self._finish_model(model)
+
+        self.eventlog.record_event(
+            'jupyter.org/contentsmanager-actions', 1,
+            # Set path to path of created object, not directory it was created in
+            { 'action': 'create', 'path': model['path'] }
+        )
     
     @gen.coroutine
     def _save(self, model, path):
@@ -165,6 +192,11 @@ class ContentsHandler(APIHandler):
         model = yield maybe_future(self.contents_manager.save(model, path))
         validate_model(model, expect_content=False)
         self._finish_model(model)
+
+        self.eventlog.record_event(
+            'jupyter.org/contentsmanager-actions', 1,
+            { 'action': 'save', 'path': model['path'] }
+        )
 
     @web.authenticated
     @gen.coroutine
@@ -237,6 +269,10 @@ class ContentsHandler(APIHandler):
         yield maybe_future(cm.delete(path))
         self.set_status(204)
         self.finish()
+        self.eventlog.record_event(
+            'jupyter.org/contentsmanager-actions', 1,
+            { 'action': 'delete', 'path': path }
+        )
 
 
 class CheckpointsHandler(APIHandler):

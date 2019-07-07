@@ -31,6 +31,7 @@ import threading
 import time
 import warnings
 import webbrowser
+from glob import glob
 
 try: #PY3
     from base64 import encodebytes
@@ -106,6 +107,7 @@ from traitlets import (
 )
 from ipython_genutils import py3compat
 from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
+from jupyter_telemetry.eventlog import EventLog
 from notebook._sysinfo import get_sys_info
 
 from ._tz import utcnow, utcfromtimestamp
@@ -280,6 +282,7 @@ class NotebookWebApplication(web.Application):
             server_root_dir=root_dir,
             jinja2_env=env,
             terminals_available=False,  # Set later if terminals are available
+            eventlog=jupyter_app.eventlog
         )
 
         # allow custom overrides for the tornado web app.
@@ -1667,10 +1670,24 @@ class NotebookApp(JupyterApp):
             pc = ioloop.PeriodicCallback(self.shutdown_no_activity, 60000)
             pc.start()
 
+    def init_eventlog(self):
+        self.eventlog = EventLog(parent=self)
+
+        schemas_glob = os.path.join(
+            os.path.dirname(__file__),
+            'event-schemas',
+            '*.json'
+        )
+
+        for schema_file in glob(schemas_glob):
+            with open(schema_file) as f:
+                self.eventlog.register_schema(json.load(f))
+
     @catch_config_error
     def initialize(self, argv=None):
         super(NotebookApp, self).initialize(argv)
         self.init_logging()
+        self.init_eventlog()
         if self._dispatching:
             return
         self.init_configurables()
