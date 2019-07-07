@@ -307,6 +307,7 @@ class NotebookWebApplication(web.Application):
         handlers.extend(load_handlers('notebook.bundler.handlers'))
         handlers.extend(load_handlers('notebook.kernelspecs.handlers'))
         handlers.extend(load_handlers('notebook.edit.handlers'))
+        handlers.extend(load_handlers('notebook.services.eventlog.handlers'))
         handlers.extend(load_handlers('notebook.services.api.handlers'))
         handlers.extend(load_handlers('notebook.services.config.handlers'))
         handlers.extend(load_handlers('notebook.services.contents.handlers'))
