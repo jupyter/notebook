@@ -20,6 +20,8 @@ env:
 
 before_install:
     - pip install --upgrade pip
+    # Manually install jupyter_telemetry, as of https://github.com/jupyter/telemetry/pull/10
+    - pip install git+https://github.com/yuvipanda/telemetry@5789321
     - pip install --upgrade setuptools wheel nose coverage codecov
     - nvm install 6.9.2
     - nvm use 6.9.2
