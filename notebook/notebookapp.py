@@ -1674,15 +1674,14 @@ class NotebookApp(JupyterApp):
     def init_eventlog(self):
         self.eventlog = EventLog(parent=self)
 
-        schemas_glob = os.path.join(
-            os.path.dirname(__file__),
-            'event-schemas',
-            '*.json'
-        )
-
-        for schema_file in glob(schemas_glob):
-            with open(schema_file) as f:
-                self.eventlog.register_schema(json.load(f))
+        event_schemas_dir = os.path.join(os.path.dirname(__file__), 'event-schemas')
+        # Recursively register all .json files under event-schemas
+        for dirname, _, files in os.walk(event_schemas_dir):
+            for file in files:
+                if file.endswith('.json'):
+                    file_path = os.path.join(dirname, file)
+                    with open(file_path) as f:
+                        self.eventlog.register_schema(json.load(f))
 
     @catch_config_error
     def initialize(self, argv=None):

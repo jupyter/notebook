@@ -332,3 +332,11 @@ def maybe_future(obj):
         f.set_result(obj)
         return f
 
+
+def eventlogging_schema_fqn(name):
+    """
+    Return fully qualified event schema name
+
+    Matches convention for this particular repo
+    """
+    return 'eventlogging.jupyter.org/notebook/{}'.format(name)

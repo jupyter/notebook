@@ -1,5 +1,5 @@
 {
-    "$id": "jupyter.org/contentsmanager-actions",
+    "$id": "eventlogging.jupyter.org/notebook/contentsmanager-actions",
     "version": 1,
     "title": "Contents Manager activities",
     "description": "Notebook Server emits this event whenever a contentsmanager action happens",
