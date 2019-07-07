@@ -23,7 +23,7 @@ class EventLoggingHandler(APIHandler):
         required_fields = {'schema', 'version', 'event'}
         for rf in required_fields:
             if rf not in raw_event:
-                raise web.HTTPError(400, f'{rf} is a required field')
+                raise web.HTTPError(400, '{} is a required field'.format(rf))
 
         schema_name = raw_event['schema'] 
         version = raw_event['version']
