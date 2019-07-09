@@ -112,6 +112,7 @@ for more information.
         'Send2Trash',
         'terminado>=0.8.1',
         'prometheus_client',
+        'jupyter_telemetry'
     ],
     extras_require = {
         ':python_version == "2.7"': ['ipaddress'],
