@@ -213,6 +213,7 @@ following::
      c.NotebookApp.certfile = u'/absolute/path/to/your/certificate/mycert.pem'
      c.NotebookApp.keyfile = u'/absolute/path/to/your/certificate/mykey.key'
      # Set ip to '*' to bind on all interfaces (ips) for the public server
+     # The ip should be '0.0.0.0' since version 5.6.0
      c.NotebookApp.ip = '*'
      c.NotebookApp.password = u'sha1:bcd259ccf...<your hashed password here>'
      c.NotebookApp.open_browser = False
@@ -252,6 +253,7 @@ following::
      c.NotebookApp.certfile = u'/absolute/path/to/your/certificate/fullchain.pem'
      c.NotebookApp.keyfile = u'/absolute/path/to/your/certificate/privkey.pem'
      # Set ip to '*' to bind on all interfaces (ips) for the public server
+     # The ip should be '0.0.0.0' since version 5.6.0
      c.NotebookApp.ip = '*'
      c.NotebookApp.password = u'sha1:bcd259ccf...<your hashed password here>'
      c.NotebookApp.open_browser = False
