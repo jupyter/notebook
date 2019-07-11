@@ -402,7 +402,7 @@ define([
                 $(tnw.selector).css('cursor', 'help');
             } else {
                 tnw.set_message(i18n.msg._("Not Trusted"), undefined, function() {
-                  that.notebook.trust_notebook("Notification_button");
+                  that.notebook.trust_notebook("#notification_trusted");
                   return false;
                 }, {'title':'Javascript disabled for notebook display'});
             }

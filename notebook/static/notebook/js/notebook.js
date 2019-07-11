@@ -2982,17 +2982,14 @@ define([
                 .text(i18n.msg._("here"))
             )
         );
-        var fb = '';
-        if(from_notification === 'Notification_button') {
-            fb = 'notification_trusted';
-        }
+
         var nb = this;
         dialog.modal({
             notebook: this,
             keyboard_manager: this.keyboard_manager,
             title: i18n.msg._("Trust this notebook?"),
             body: body,
-            focus_button: fb,
+            focus_button: from_notification,
 
             buttons: {
                 Cancel : {},
