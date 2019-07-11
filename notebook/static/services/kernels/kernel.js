@@ -15,10 +15,10 @@ define([
      * should generally not be constructed directly, but be created
      * by.  the `Session` object. Once created, this object should be
      * used to communicate with the kernel.
-     * 
+     *
      * Preliminary documentation for the REST API is at
      * https://github.com/ipython/ipython/wiki/IPEP-16%3A-Notebook-multi-directory-dashboard-and-URL-mapping#kernels-api
-     * 
+     *
      * Documentation for the messaging specifications is at
      * https://jupyter-client.readthedocs.io/en/stable/messaging.html
      *
@@ -58,18 +58,18 @@ define([
         } else {
             alert('Your browser does not have WebSocket support, please try Chrome, Safari or Firefox ≥ 6. Firefox 4 and 5 are also supported by you have to enable WebSockets in about:config.');
         }
-        
+
         this.bind_events();
         this.init_iopub_handlers();
         this.comm_manager = new comm.CommManager(this);
-        
+
         this.last_msg_id = null;
         this.last_msg_callbacks = {};
 
         this._autorestart_attempt = 0;
         this._reconnect_attempt = 0;
         this.reconnect_limit = 7;
-        
+
         this._pending_messages = [];
     };
 
@@ -98,7 +98,7 @@ define([
      */
     Kernel.prototype.bind_events = function () {
         var that = this;
-        this.events.on('send_input_reply.Kernel', function(evt, data) { 
+        this.events.on('send_input_reply.Kernel', function(evt, data) {
             that.send_input_reply(data);
         });
 
@@ -141,7 +141,7 @@ define([
         this.register_iopub_handler('status', $.proxy(this._handle_status_message, this));
         this.register_iopub_handler('clear_output', $.proxy(this._handle_clear_output, this));
         this.register_iopub_handler('execute_input', $.proxy(this._handle_input_message, this));
-        
+
         for (var i=0; i < output_msg_types.length; i++) {
             this.register_iopub_handler(output_msg_types[i], $.proxy(this._handle_output_message, this));
         }
@@ -154,7 +154,7 @@ define([
      *
      * @function list
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Kernel.prototype.list = function (success, error) {
         utils.ajax(this.kernel_service_url, {
@@ -180,7 +180,7 @@ define([
      * @function start
      * @param {params} [Object] - parameters to include in the query string
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Kernel.prototype.start = function (params, success, error) {
         var url = this.kernel_service_url;
@@ -220,7 +220,7 @@ define([
      *
      * @function get_info
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Kernel.prototype.get_info = function (success, error) {
         utils.ajax(this.kernel_url, {
@@ -238,13 +238,13 @@ define([
      *
      * Shutdown the kernel.
      *
-     * If you are also using sessions, then this function shoul NOT be
+     * If you are also using sessions, then this function should NOT be
      * used. Instead, use Session.delete. Otherwise, the session and
      * kernel WILL be out of sync.
      *
      * @function kill
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Kernel.prototype.kill = function (success, error) {
         this.events.trigger('kernel_killed.Kernel', {kernel: this});
@@ -266,7 +266,7 @@ define([
      *
      * @function interrupt
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Kernel.prototype.interrupt = function (success, error) {
         this.events.trigger('kernel_interrupting.Kernel', {kernel: this});
@@ -302,7 +302,7 @@ define([
          *
          * @function interrupt
          * @param {function} [success] - function executed on ajax success
-         * @param {function} [error] - functon executed on ajax error
+         * @param {function} [error] - function executed on ajax error
          */
         this.events.trigger('kernel_restarting.Kernel', {kernel: this});
         this.stop_channels();
@@ -467,7 +467,7 @@ define([
                 "?session_id=" + that.session_id
             ].join('')
         );
-        
+
         var already_called_onclose = false; // only alert once
         var ws_closed_early = function(evt){
             console.log("WebSocket closed early", evt);
@@ -552,7 +552,7 @@ define([
         }
         this._schedule_reconnect();
     };
-    
+
     Kernel.prototype._schedule_reconnect = function () {
         /**
          * function to call when kernel connection is lost
@@ -570,7 +570,7 @@ define([
             console.log("Failed to reconnect, giving up.");
         }
     };
-    
+
     Kernel.prototype.stop_channels = function () {
         /**
          * Close the websocket. After successful close, the value
@@ -627,7 +627,7 @@ define([
          */
         return (this.ws === null);
     };
-    
+
     Kernel.prototype._send = function(msg) {
       /**
        * Send a message (if the kernel is connected) or queue the message for future delivery
@@ -643,13 +643,13 @@ define([
             this._pending_messages.push(msg);
         }
     };
-    
+
     Kernel.prototype.send_shell_message = function (msg_type, content, callbacks, metadata, buffers) {
         /**
          * Send a message on the Kernel's shell channel
          *
          * If the kernel is not connected, the message will be buffered.
-         * 
+         *
          * @function send_shell_message
          */
         var msg = this._get_msg(msg_type, content, metadata, buffers);
@@ -715,7 +715,7 @@ define([
         if (callback) {
             callbacks = { shell : { reply : callback } };
         }
-        
+
         var content = {
             code : code,
             cursor_pos : cursor_pos,
@@ -737,7 +737,7 @@ define([
          *      @param callbacks.iopub.output {function}
          *      @param callbacks.iopub.clear_output {function}
          *      @param callbacks.input {function}
-         *      @param callbacks.clear_on_done=true {Bolean}
+         *      @param callbacks.clear_on_done=true {Boolean}
          * @param {object} [options]
          *      @param [options.silent=false] {Boolean}
          *      @param [options.user_expressions=empty_dict] {Dict}
@@ -772,7 +772,7 @@ define([
          *      }
          *
          * Each callback will be passed the entire message as a single
-         * arugment.  Payload handlers will be passed the corresponding
+         * argument.  Payload handlers will be passed the corresponding
          * payload and the execute_reply message.
          */
         var content = {
@@ -916,7 +916,7 @@ define([
             delete this._msg_callbacks[msg_id];
         }
     };
-    
+
     /**
      * @function _finish_shell
      */
@@ -943,12 +943,12 @@ define([
         }
         this.events.trigger('finished_iopub.Kernel', {kernel: this, msg_id: msg_id});
     };
-    
+
     /**
      * Set callbacks for a particular message.
      * Callbacks should be a struct of the following form:
      * shell : {
-     * 
+     *
      * }
      *
      * If the third parameter is truthy, the callback is set as the last
@@ -1020,7 +1020,7 @@ define([
                 console.error("unrecognized message channel", msg.channel, msg);
         }
     };
-    
+
     Kernel.prototype._handle_shell_reply = function (reply) {
         this.events.trigger('shell_reply.Kernel', {kernel: this, reply:reply});
         var that = this;
@@ -1033,10 +1033,10 @@ define([
             return;
         }
         var shell_callbacks = callbacks.shell;
-        
+
         // signal that shell callbacks are done
         this._finish_shell(parent_id);
-        
+
         if (shell_callbacks.reply !== undefined) {
             promise = promise.then(function() {return shell_callbacks.reply(reply);});
         }
@@ -1072,7 +1072,7 @@ define([
     Kernel.prototype._handle_status_message = function (msg) {
         var execution_state = msg.content.execution_state;
         var parent_id = msg.parent_header.msg_id;
-        
+
         // dispatch status msg callbacks, if any
         var callbacks = this.get_callbacks_for_msg(parent_id);
         if (callbacks && callbacks.iopub && callbacks.iopub.status) {
@@ -1082,7 +1082,7 @@ define([
                 console.log("Exception in status msg handler", e, e.stack);
             }
         }
-        
+
         if (execution_state === 'busy') {
             this.events.trigger('kernel_busy.Kernel', {kernel: this});
 
@@ -1091,7 +1091,7 @@ define([
             // async output may still arrive,
             // but only for the most recent request
             this._finish_iopub(parent_id);
-            
+
             // trigger status_idle event
             this.events.trigger('kernel_idle.Kernel', {kernel: this});
 
@@ -1117,7 +1117,7 @@ define([
             this._kernel_dead();
         }
     };
-    
+
     /**
      * Handle clear_output message
      *

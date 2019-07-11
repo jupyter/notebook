@@ -76,7 +76,7 @@ define([
         { shortcut: cmd_ctrl + "u", help:i18n.msg._("undo selection") },
         { shortcut: "Insert", help:i18n.msg._("toggle overwrite flag") }
     ].concat( platform_specific );
-    
+
     var mac_humanize_map = {
         // all these are unicode, will probably display badly on anything except macs.
         // these are the standard symbol that are used in MacOS native menus
@@ -127,7 +127,7 @@ define([
         'backspace':i18n.msg._('Backspace'),
         '-':i18n.msg._('Minus')
         };
-    
+
     var humanize_map;
 
     if (platform === 'MacOS'){
@@ -137,14 +137,14 @@ define([
     }
 
     var special_case = { pageup: i18n.msg._("PageUp"), pagedown: i18n.msg._("Page Down") };
-    
+
     function humanize_key(key){
         if (key.length === 1){
             return key.toUpperCase();
         }
 
         key = humanize_map[key.toLowerCase()]||key;
-        
+
         if (key.indexOf(',') === -1){
             return  ( special_case[key] ? special_case[key] : key.charAt(0).toUpperCase() + key.slice(1) );
         }
@@ -152,7 +152,7 @@ define([
 
     // return an **html** string of the keyboard shortcut
     // for human eyes consumption.
-    // the sequence is a string, comma sepparated linkt of shortcut,
+    // the sequence is a string, comma separated linkt of shortcut,
     // where the shortcut is a list of dash-joined keys.
     // Each shortcut will be wrapped in <kbd> tag, and joined by comma is in a
     // sequence.
@@ -182,7 +182,7 @@ define([
     function humanize_shortcut(shortcut){
         return '<kbd>'+_humanize_shortcut(shortcut)+'</kbd>';
     }
-    
+
 
     QuickHelp.prototype.show_keyboard_shortcuts = function () {
         /**
@@ -241,7 +241,7 @@ define([
             keyboard_manager: this.keyboard_manager,
         });
         this.shortcut_dialog.addClass("modal_stretch");
-        
+
         this.events.on('rebuild.QuickHelp', function() { that.force_rebuild = true;});
     };
 
@@ -296,7 +296,7 @@ define([
         return div;
     };
 
-    
+
     QuickHelp.prototype.build_edit_help = function (cm_shortcuts) {
         var edit_shortcuts = this.keyboard_manager.edit_shortcuts.help();
         var enterkey = '<kbd>'+i18n.msg._('Enter')+'</kbd>';
@@ -317,7 +317,7 @@ define([
     };
 
     var build_div = function (title, shortcuts) {
-        
+
         // Remove jupyter-notebook:ignore shortcuts.
         shortcuts = shortcuts.filter(function(shortcut) {
             if (shortcut.help === 'ignore') {
@@ -326,7 +326,7 @@ define([
                 return true;
             }
         });
-        
+
         var i, half, n;
         var div = $('<div/>').append($(title));
         var sub_div = $('<div/>').addClass('container-fluid');

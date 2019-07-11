@@ -46,7 +46,7 @@ def _wait_for(driver, locator_type, locator, timeout=10, visible=False, single=F
         visible: if True, require that element is not only present, but visible
         single: if True, return a single element, otherwise return a list of matching
         elements
-        osbscures: if True, waits until the element becomes invisible
+        obscures: if True, waits until the element becomes invisible
     """
     wait = WebDriverWait(driver, timeout)
     if obscures:
@@ -90,28 +90,28 @@ def _wait_for_multiple(driver, locator_type, locator, timeout, wait_for_n, visib
 
 
 class CellTypeError(ValueError):
-    
+
     def __init__(self, message=""):
         self.message = message
 
 
 class Notebook:
-    
+
     def __init__(self, browser):
         self.browser = browser
         self.disable_autosave_and_onbeforeunload()
-        
+
     def __len__(self):
         return len(self.cells)
-        
+
     def __getitem__(self, key):
         return self.cells[key]
-    
+
     def __setitem__(self, key, item):
         if isinstance(key, int):
             self.edit_cell(index=key, content=item, render=False)
         # TODO: re-add slicing support, handle general python slicing behaviour
-        # includes: overwriting the entire self.cells object if you do 
+        # includes: overwriting the entire self.cells object if you do
         # self[:] = []
         # elif isinstance(key, slice):
         #     indices = (self.index(cell) for cell in self[key])
@@ -128,20 +128,20 @@ class Notebook:
     @property
     def cells(self):
         """Gets all cells once they are visible.
-        
+
         """
         return self.browser.find_elements_by_class_name("cell")
-    
+
     @property
     def current_index(self):
         return self.index(self.current_cell)
-    
+
     def index(self, cell):
         return self.cells.index(cell)
 
     def disable_autosave_and_onbeforeunload(self):
         """Disable request to save before closing window and autosave.
-        
+
         This is most easily done by using js directly.
         """
         self.browser.execute_script("window.onbeforeunload = null;")
@@ -149,7 +149,7 @@ class Notebook:
 
     def to_command_mode(self):
         """Changes us into command mode on currently focused cell
-        
+
         """
         self.body.send_keys(Keys.ESCAPE)
         self.browser.execute_script("return Jupyter.notebook.handle_command_mode("
@@ -161,7 +161,7 @@ class Notebook:
         cell.click()
         self.to_command_mode()
         self.current_cell = cell
-    
+
     def select_cell_range(self, initial_index=0, final_index=0):
         self.focus_cell(initial_index)
         self.to_command_mode()
@@ -191,7 +191,7 @@ class Notebook:
         else:
             raise CellTypeError(("{} is not a valid cell type,"
                                  "use 'code', 'markdown', or 'raw'").format(cell_type))
-                                 
+
         self.wait_for_stale_cell(cell)
         self.focus_cell(index)
         return self.current_cell
@@ -199,7 +199,7 @@ class Notebook:
     def wait_for_stale_cell(self, cell):
         """ This is needed to switch a cell's mode and refocus it, or to render it.
 
-        Warning: there is currently no way to do this when changing between 
+        Warning: there is currently no way to do this when changing between
         markdown and raw cells.
         """
         wait = WebDriverWait(self.browser, 10)
@@ -225,7 +225,7 @@ class Notebook:
     def get_cell_type(self, index=0):
         JS = 'return Jupyter.notebook.get_cell({}).cell_type'.format(index)
         return self.browser.execute_script(JS)
-        
+
     def set_cell_input_prompt(self, index, prmpt_val):
         JS = 'Jupyter.notebook.get_cell({}).set_input_prompt({})'.format(index, prmpt_val)
         self.browser.execute_script(JS)
@@ -252,7 +252,7 @@ class Notebook:
     def execute_cell(self, cell_or_index=None):
         if isinstance(cell_or_index, int):
             index = cell_or_index
-        elif isinstance(cell_or_index, WebElement): 
+        elif isinstance(cell_or_index, WebElement):
             index = self.index(cell_or_index)
         else:
             raise TypeError("execute_cell only accepts a WebElement or an int")
@@ -280,7 +280,7 @@ class Notebook:
     def add_markdown_cell(self, index=-1, content="", render=True):
         self.add_cell(index, cell_type="markdown")
         self.edit_cell(index=index, content=content, render=render)
-    
+
     def append(self, *values, cell_type="code"):
         for i, value in enumerate(values):
             if isinstance(value, str):
@@ -288,10 +288,10 @@ class Notebook:
                               content=value)
             else:
                 raise TypeError("Don't know how to add cell from %r" % value)
-    
+
     def extend(self, values):
         self.append(*values)
-    
+
     def run_all(self):
         for cell in self:
             self.execute_cell(cell)
@@ -325,21 +325,21 @@ def select_kernel(browser, kernel_name='kernel-python3'):
 
 @contextmanager
 def new_window(browser, selector=None):
-    """Contextmanager for switching to & waiting for a window created. 
-    
-    This context manager gives you the ability to create a new window inside 
+    """Contextmanager for switching to & waiting for a window created.
+
+    This context manager gives you the ability to create a new window inside
     the created context and it will switch you to that new window.
-    
-    If you know a CSS selector that can be expected to appear on the window, 
+
+    If you know a CSS selector that can be expected to appear on the window,
     then this utility can wait on that selector appearing on the page before
     releasing the context.
-    
+
     Usage example:
-    
+
         from notebook.tests.selenium.utils import new_window, Notebook
-        
+
         ⋮ # something that creates a browser object
-        
+
         with new_window(browser, selector=".cell"):
             select_kernel(browser, kernel_name=kernel_name)
         nb = Notebook(browser)
@@ -388,7 +388,7 @@ def trigger_keystrokes(browser, *keys):
             browser.send_keys(getattr(Keys, keys[0].upper(), keys[0]))
 
 def validate_dualmode_state(notebook, mode, index):
-    '''Validate the entire dual mode state of the notebook.  
+    '''Validate the entire dual mode state of the notebook.
     Checks if the specified cell is selected, and the mode and keyboard mode are the same.
     Depending on the mode given:
         Command: Checks that no cells are in focus or in edit mode.
@@ -450,9 +450,8 @@ def validate_dualmode_state(notebook, mode, index):
         assert is_focused_on(None) #no focused cells
 
         assert is_only_cell_edit(None) #no cells in edit mode
-    
+
     elif mode == 'edit':
         assert is_focused_on(index) #The specified cell is focused
 
         assert is_only_cell_edit(index) #The specified cell is the only one in edit mode
-    

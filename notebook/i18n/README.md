@@ -116,7 +116,7 @@ communicate this back to Jinja2.  So far, I haven't yet figured out how to do th
 of languages in the UI ( never a good thing ).
 
 2. We will need to decide if console messages should be translatable, and enable them if desired.
-3. The keyboard shorcut editor was implemented after the i18n work was completed, so that portion
+3. The keyboard shortcut editor was implemented after the i18n work was completed, so that portion
 does not have translation support at this time.
 4. Babel's documentation has instructions on how to integrate messages extraction
 into your *setup.py* so that eventually we can just do:

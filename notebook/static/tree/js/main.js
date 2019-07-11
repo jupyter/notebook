@@ -57,7 +57,7 @@ requirejs([
     loginwidget,
     bidi){
     "use strict";
-    
+
     try{
         requirejs(['custom/custom'], function() {});
         bidi.loadLocale();
@@ -100,7 +100,7 @@ requirejs([
     var kernel_list = new kernellist.KernelList('#running_list',  $.extend({
         session_list:  session_list},
         common_options));
-    
+
     var terminal_list;
     if (utils.get_body_data("terminalsAvailable") === "True") {
         terminal_list = new terminallist.TerminalList('#terminal_list', common_options);
@@ -172,7 +172,7 @@ requirejs([
 
     page.show();
 
-    // For backwards compatability.
+    // For backwards compatibility.
     IPython.page = page;
     IPython.notebook_list = notebook_list;
     IPython.session_list = session_list;
@@ -181,11 +181,11 @@ requirejs([
     IPython.new_notebook_widget = new_buttons;
 
     events.trigger('app_initialized.DashboardApp');
-    
+
     // Now actually load nbextensions
     utils.load_extensions_from_config(cfg);
     utils.load_extensions_from_config(common_config);
-    
+
     // bound the upload method to the on change of the file select list
     $("#alternate_upload").change(function (event){
         notebook_list.handleFilesUpload(event,'form');
@@ -199,10 +199,10 @@ requirejs([
             $("#upload_span_input").click();
         }
     })
-    
+
     // set hash on tab click
     $("#tabs").find("a").click(function(e) {
-        // Prevent the document from jumping when the active tab is changed to a 
+        // Prevent the document from jumping when the active tab is changed to a
         // tab that has a lot of content.
         e.preventDefault();
 
@@ -215,11 +215,11 @@ requirejs([
             window.location.hash = hash;
         }
     });
-    
+
     // load tab if url hash
     if (window.location.hash) {
         $("#tabs").find("a[href='" + window.location.hash + "']").click();
     }
-    
+
     shutdownbutton.activate();
 });

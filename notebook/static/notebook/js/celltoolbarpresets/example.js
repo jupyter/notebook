@@ -64,7 +64,7 @@ define([
              // set the value
              cell.metadata.yn_test.value = value;
              },
-         //geter
+         // getter
          function(cell){ var ns = cell.metadata.yn_test;
              // if the slideshow namespace does not exist return `undefined`
              // (will be interpreted as `false` by checkbox) otherwise
@@ -91,7 +91,7 @@ define([
                 // set the value
                 cell.metadata.test.slide_type = value;
                 },
-            //geter
+            // getter
             function(cell){ var ns = cell.metadata.test;
                 // if the slideshow namespace does not exist return `undefined`
                 // (will be interpreted as `false` by checkbox) otherwise
@@ -122,7 +122,7 @@ define([
     var add_simple_dialog_button = function(div, cell) {
         var help_text = ["This is the Metadata editting UI.",
                          "It heavily rely on plugin to work ",
-                         "and is still under developpement. You shouldn't wait too long before",
+                         "and is still under development. You shouldn't wait too long before",
                          " seeing some customisable buttons in those toolbar."
                         ].join('\n');
         var button_container = $(div);

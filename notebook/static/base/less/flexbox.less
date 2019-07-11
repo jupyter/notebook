@@ -2,15 +2,15 @@
 /* Flexible box model classes */
 /* Taken from Alex Russell http://infrequently.org/2009/08/css-3-progress/ */
 
-/* This file is a compatability layer.  It allows the usage of flexible box 
+/* This file is a compatibility layer.  It allows the usage of flexible box
 model layouts accross multiple browsers, including older browsers.  The newest,
 universal implementation of the flexible box model is used when available (see
-`Modern browsers` comments below).  Browsers that are known to implement this 
+`Modern browsers` comments below).  Browsers that are known to implement this
 new spec completely include:
 
     Firefox 28.0+
     Chrome 29.0+
-    Internet Explorer 11+ 
+    Internet Explorer 11+
     Opera 17.0+
 
 Browsers not listed, including Safari, are supported via the styling under the
@@ -73,7 +73,7 @@ Browsers not listed, including Safari, are supported via the styling under the
     -webkit-box-flex: 0;
     -moz-box-flex: 0;
     box-flex: 0;
-    
+
     /* Modern browsers */
     flex: none;
 }
@@ -85,7 +85,7 @@ Browsers not listed, including Safari, are supported via the styling under the
     -webkit-box-direction: reverse;
     -moz-box-direction: reverse;
     box-direction: reverse;
-    
+
     /* Modern browsers */
     flex-direction: row-reverse;
 }
@@ -97,7 +97,7 @@ Browsers not listed, including Safari, are supported via the styling under the
     -webkit-box-flex: 0;
     -moz-box-flex: 0;
     box-flex: 0;
-    
+
     /* Modern browsers */
     flex: none;
     width: auto;
@@ -148,122 +148,122 @@ Browsers not listed, including Safari, are supported via the styling under the
     box-flex-group: 2;
 }
 
-.hbox.start, 
+.hbox.start,
 .vbox.start,
 .start {
     /* Old browsers */
     -webkit-box-pack: start;
     -moz-box-pack: start;
     box-pack: start;
-    
+
     /* Modern browsers */
     justify-content: flex-start;
 }
 
-.hbox.end, 
+.hbox.end,
 .vbox.end,
 .end {
     /* Old browsers */
     -webkit-box-pack: end;
     -moz-box-pack: end;
     box-pack: end;
-    
+
     /* Modern browsers */
     justify-content: flex-end;
 }
 
-.hbox.center, 
+.hbox.center,
 .vbox.center,
 .center {
     /* Old browsers */
     -webkit-box-pack: center;
     -moz-box-pack: center;
     box-pack: center;
-    
+
     /* Modern browsers */
     justify-content: center;
 }
 
-.hbox.baseline, 
+.hbox.baseline,
 .vbox.baseline,
 .baseline {
     /* Old browsers */
     -webkit-box-pack: baseline;
     -moz-box-pack: baseline;
     box-pack: baseline;
-    
+
     /* Modern browsers */
     justify-content: baseline;
 }
 
-.hbox.stretch, 
+.hbox.stretch,
 .vbox.stretch,
 .stretch {
     /* Old browsers */
     -webkit-box-pack: stretch;
     -moz-box-pack: stretch;
     box-pack: stretch;
-    
+
     /* Modern browsers */
     justify-content: stretch;
 }
 
-.hbox.align-start, 
+.hbox.align-start,
 .vbox.align-start,
 .align-start {
     /* Old browsers */
     -webkit-box-align: start;
     -moz-box-align: start;
     box-align: start;
-    
+
     /* Modern browsers */
     align-items: flex-start;
 }
 
-.hbox.align-end, 
+.hbox.align-end,
 .vbox.align-end,
 .align-end {
     /* Old browsers */
     -webkit-box-align: end;
     -moz-box-align: end;
     box-align: end;
-    
+
     /* Modern browsers */
     align-items: flex-end;
 }
 
-.hbox.align-center, 
+.hbox.align-center,
 .vbox.align-center,
 .align-center {
     /* Old browsers */
     -webkit-box-align: center;
     -moz-box-align: center;
     box-align: center;
-    
+
     /* Modern browsers */
     align-items: center;
 }
 
-.hbox.align-baseline, 
+.hbox.align-baseline,
 .vbox.align-baseline,
 .align-baseline {
     /* Old browsers */
     -webkit-box-align: baseline;
     -moz-box-align: baseline;
     box-align: baseline;
-    
+
     /* Modern browsers */
     align-items: baseline;
 }
 
-.hbox.align-stretch, 
+.hbox.align-stretch,
 .vbox.align-stretch,
 .align-stretch {
     /* Old browsers */
     -webkit-box-align: stretch;
     -moz-box-align: stretch;
     box-align: stretch;
-    
+
     /* Modern browsers */
     align-items: stretch;
 }

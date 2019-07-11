@@ -20,7 +20,7 @@ define([
     'services/config',
 ], function($, utils, i18n, CodeMirror, cm_match, cm_closeb, cm_comment, configmod) {
     "use strict";
-    
+
     var overlayHack = CodeMirror.scrollbarModel.native.prototype.overlayHack;
 
     CodeMirror.scrollbarModel.native.prototype.overlayHack = function () {
@@ -35,7 +35,7 @@ define([
             this.horiz.style.minHeight = "";
         }
     };
-    
+
     var Cell = function (options) {
         /* Constructor
          *
@@ -53,7 +53,7 @@ define([
         this.events = options.events;
         var config = options.config;
         // superclass default overwrite our default
-        
+
         this.selected = false;
         this.anchor = false;
         this.rendered = false;
@@ -139,10 +139,10 @@ define([
             }
         }
     };
-    
+
     // FIXME: Workaround CM Bug #332 (Safari segfault on drag)
     // by disabling drag/drop altogether on Safari
-    // https://github.com/codemirror/CodeMirror/issues/332    
+    // https://github.com/codemirror/CodeMirror/issues/332
     if (utils.browser[0] == "Safari") {
         Cell.options_default.cm_config.dragDrop = false;
     }
@@ -226,7 +226,7 @@ define([
             }
         });
     };
-    
+
     /**
      * This method gets called in CodeMirror's onKeyDown/onKeyPress
      * handlers and is used to provide custom key handling.
@@ -258,7 +258,7 @@ define([
         if (shortcuts.handles(event)) {
             return true;
         }
-        
+
         return false;
     };
 
@@ -316,7 +316,7 @@ define([
             return false;
         }
     };
-    
+
 
     /**
      * should be overwritten by subclass
@@ -434,7 +434,7 @@ define([
             this.focus_cell();
         }
     };
-    
+
     /**
      * Focus the cell in the DOM sense
      * @method focus_cell
@@ -467,14 +467,14 @@ define([
     };
 
     /**
-     * should be overritten by subclass
+     * should be overwritten by subclass
      * @method get_text
      */
     Cell.prototype.get_text = function () {
     };
 
     /**
-     * should be overritten by subclass
+     * should be overwritten by subclass
      * @method set_text
      * @param {string} text
      */
@@ -482,7 +482,7 @@ define([
     };
 
     /**
-     * should be overritten by subclass
+     * should be overwritten by subclass
      * serialise cell to json.
      * @method toJSON
      **/
@@ -504,7 +504,7 @@ define([
     };
 
     /**
-     * should be overritten by subclass
+     * should be overwritten by subclass
      * @method fromJSON
      **/
     Cell.prototype.fromJSON = function (data) {
@@ -615,7 +615,7 @@ define([
         this.user_highlight = mode;
         this.auto_highlight();
     };
-    
+
     /**
      * Trigger autodetection of highlight scheme for current cell
      * @method auto_highlight
@@ -623,7 +623,7 @@ define([
     Cell.prototype.auto_highlight = function () {
         this._auto_highlight(this.class_config.get_sync('highlight_modes'));
     };
-    
+
     /**
      * Try to autodetect cell highlight mode, or use selected mode
      * @methods _auto_highlight
@@ -653,8 +653,8 @@ define([
                 // here we handle non magic_modes.
                 // TODO :
                 // On 3.0 and below, these things were regex.
-                // But now should be string for json-able config. 
-                // We should get rid of assuming they might be already 
+                // But now should be string for json-able config.
+                // We should get rid of assuming they might be already
                 // in a later version of Jupyter.
                 var re = regs[i];
                 if(typeof(re) === 'string'){
@@ -728,22 +728,22 @@ define([
         this.cell_type = 'unrecognized';
         this.celltoolbar = null;
         this.data = {};
-        
+
         Object.seal(this);
     };
 
     UnrecognizedCell.prototype = Object.create(Cell.prototype);
-    
-    
+
+
     // cannot merge or split unrecognized cells
     UnrecognizedCell.prototype.is_mergeable = function () {
         return false;
     };
-    
+
     UnrecognizedCell.prototype.is_splittable = function () {
         return false;
     };
-    
+
     UnrecognizedCell.prototype.toJSON = function () {
         /**
          * deepcopy the metadata so copied cells don't share the same object
@@ -760,7 +760,7 @@ define([
         }
         this.element.find('.inner_cell').find("a").text(i18n.msg.sprintf(i18n.msg._("Unrecognized cell type: %s"), data.cell_type));
     };
-    
+
     UnrecognizedCell.prototype.create_element = function () {
         Cell.prototype.create_element.apply(this, arguments);
         var cell = this.element = $("<div>").addClass('cell unrecognized_cell');
@@ -781,7 +781,7 @@ define([
     UnrecognizedCell.prototype.bind_events = function () {
         Cell.prototype.bind_events.apply(this, arguments);
         var cell = this;
-        
+
         this.element.find('.inner_cell').find("a").click(function () {
             cell.events.trigger('unrecognized_cell.Cell', {cell: cell});
         });

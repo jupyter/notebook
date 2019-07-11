@@ -26,7 +26,7 @@ casper.open_new_notebook = function () {
     this.waitFor(this.page_loaded);
     this.waitForSelector('#kernel-python2 a, #kernel-python3 a');
     this.thenClick('#kernel-python2 a, #kernel-python3 a');
-    
+
     this.waitForPopup('');
 
     this.withPopup('', function () {this.waitForSelector('.CodeMirror-code');});
@@ -69,7 +69,7 @@ casper.open_new_notebook = function () {
     // track the IPython busy/idle state
     this.thenEvaluate(function () {
         require(['base/js/namespace', 'base/js/events'], function (IPython, events) {
-        
+
             events.on('kernel_idle.Kernel',function () {
                 IPython._status = 'idle';
             });
@@ -192,11 +192,11 @@ casper.wait_for_widget = function (widget_info) {
     // Clear the results of a previous query, if they exist.  Make sure a
     // dictionary exists to store the async results in.
     this.thenEvaluate(function(model_id) {
-        if (window.pending_msgs === undefined) { 
-            window.pending_msgs = {}; 
+        if (window.pending_msgs === undefined) {
+            window.pending_msgs = {};
         } else {
             window.pending_msgs[model_id] = -1;
-        } 
+        }
     }, {model_id: widget_info.model_id});
 
     // Wait for the pending messages to be 0.
@@ -206,8 +206,8 @@ casper.wait_for_widget = function (widget_info) {
             // Get the model.  Once the model is had, store it's pending_msgs
             // count in the window's dictionary.
             IPython.notebook.kernel.widget_manager.get_model(model_id)
-            .then(function(model) {     
-                window.pending_msgs[model_id] = model.pending_msgs; 
+            .then(function(model) {
+                window.pending_msgs[model_id] = model.pending_msgs;
             });
 
             // Return the pending_msgs result.
@@ -287,7 +287,7 @@ casper.insert_cell_at_bottom = function(cell_type){
     }, cell_type);
 };
 
-casper.append_cell = function(text, cell_type) { 
+casper.append_cell = function(text, cell_type) {
     // Insert a cell at the bottom of the notebook and set the cells text.
     // Returns the new cell's index.
     var index = this.insert_cell_at_bottom(cell_type);
@@ -300,7 +300,7 @@ casper.append_cell = function(text, cell_type) {
 casper.execute_cell = function(index, expect_failure){
     // Asynchronously executes a cell by index.
     // Returns the cell's index.
-    
+
     if (expect_failure === undefined) expect_failure = false;
     var that = this;
     this.then(function(){
@@ -310,7 +310,7 @@ casper.execute_cell = function(index, expect_failure){
         }, index);
     });
     this.wait_for_idle();
-    
+
     this.then(function () {
         var error = that.evaluate(function (index) {
             var cell = IPython.notebook.get_cell(index);
@@ -344,7 +344,7 @@ casper.execute_cell_then = function(index, then_callback, expect_failure) {
     this.wait_for_idle();
 
     var that = this;
-    this.then(function(){ 
+    this.then(function(){
         if (then_callback!==undefined) {
             then_callback.apply(that, [index]);
         }
@@ -367,7 +367,7 @@ casper.assert_output_equals = function(text, output_text, message) {
 };
 
 casper.wait_for_element = function(index, selector){
-    // Utility function that allows us to easily wait for an element 
+    // Utility function that allows us to easily wait for an element
     // within a cell.  Uses JQuery selector to look for the element.
     var that = this;
     this.waitFor(function() {
@@ -376,7 +376,7 @@ casper.wait_for_element = function(index, selector){
 };
 
 casper.cell_element_exists = function(index, selector){
-    // Utility function that allows us to easily check if an element exists 
+    // Utility function that allows us to easily check if an element exists
     // within a cell.  Uses JQuery selector to look for the element.
     return casper.evaluate(function (index, selector) {
         var $cell = IPython.notebook.get_cell(index).element;
@@ -385,7 +385,7 @@ casper.cell_element_exists = function(index, selector){
 };
 
 casper.cell_element_function = function(index, selector, function_name, function_args){
-    // Utility function that allows us to execute a jQuery function on an 
+    // Utility function that allows us to execute a jQuery function on an
     // element within a cell.
     return casper.evaluate(function (index, selector, function_name, function_args) {
         var $cell = IPython.notebook.get_cell(index).element;
@@ -459,8 +459,8 @@ casper.select_cells = function(index, bound, moveanchor) {
 
 casper.click_cell_editor = function(index) {
     // Emulate a click on a cell's editor.
-    
-    // Code Mirror does not play nicely with emulated brower events.  
+
+    // Code Mirror does not play nicely with emulated brower events.
     // Instead of trying to emulate a click, here we run code similar to
     // the code used in Code Mirror that handles the mousedown event on a
     // region of codemirror that the user can focus.
@@ -493,7 +493,7 @@ casper.trigger_keydown = function() {
             var element = $(document);
             var event = IPython.keyboard.shortcut_to_event(k, 'keydown');
             element.trigger(event);
-        }, {k: arguments[i]});    
+        }, {k: arguments[i]});
     }
 };
 
@@ -536,7 +536,7 @@ casper.is_cell_editor_focused = function(index) {
             var cell = IPython.notebook.get_cell(i);
             if (cell) {
                 return cell.code_mirror.getInputField() == focused_textarea[0];
-            }    
+            }
         }
         return false;
     }, {i : index});
@@ -625,16 +625,16 @@ casper.assert_colors_equal = function (hex_color, local_color, msg) {
     //
     // Parameters
     // hex_color: string
-    //      Hexadecimal color code, with or without preceeding hash character.
+    //      Hexadecimal color code, with or without preceding hash character.
     // local_color: string
-    //      Local color representation.  Can either be hexadecimal (default for 
+    //      Local color representation.  Can either be hexadecimal (default for
     //      phantom) or rgb (default for slimer).
 
     // Remove parentheses, hashes, semi-colons, and space characters.
     hex_color = hex_color.replace(/[\(\); #]/, '');
     local_color = local_color.replace(/[\(\); #]/, '');
 
-    // If the local color is rgb, clean it up and replace 
+    // If the local color is rgb, clean it up and replace
     if (local_color.substr(0,3).toLowerCase() == 'rgb') {
         var components = local_color.substr(3).split(',');
         local_color = '';
@@ -644,7 +644,7 @@ casper.assert_colors_equal = function (hex_color, local_color, msg) {
             local_color += part;
         }
     }
-    
+
     this.test.assertEquals(hex_color.toUpperCase(), local_color.toUpperCase(), msg);
 };
 
@@ -655,12 +655,12 @@ casper.notebook_test = function(test) {
     // Echo whether or not we are running this test using SlimerJS
     if (this.evaluate(function(){
         return typeof InstallTrigger !== 'undefined';   // Firefox 1.0+
-    })) { 
-        console.log('This test is running in SlimerJS.'); 
+    })) {
+        console.log('This test is running in SlimerJS.');
         this.slimerjs = true;
     }
-    
-    // Make sure to remove the onbeforeunload callback.  This callback is 
+
+    // Make sure to remove the onbeforeunload callback.  This callback is
     // responsible for the "Are you sure you want to quit?" type messages.
     // PhantomJS ignores these prompts, SlimerJS does not which causes hangs.
     this.then(function(){
@@ -670,12 +670,12 @@ casper.notebook_test = function(test) {
     });
 
     this.then(test);
-    
+
     // Kill the kernel and delete the notebook.
     this.shutdown_current_kernel();
     // This is still broken but shouldn't be a problem for now.
     // this.delete_current_notebook();
-    
+
     // This is required to clean up the page we just finished with. If we don't call this
     // casperjs will leak file descriptors of all the open WebSockets in that page. We
     // have to set this.page=null so that next time casper.start runs, it will create a
@@ -684,7 +684,7 @@ casper.notebook_test = function(test) {
         this.page.close();
         this.page = null;
     });
-    
+
     // Run the browser automation.
     this.run(function() {
         this.test.done();
@@ -727,7 +727,7 @@ casper.dashboard_test = function (test) {
         this.page.close();
         this.page = null;
     });
-    
+
     // Run the browser automation.
     this.run(function() {
         this.test.done();

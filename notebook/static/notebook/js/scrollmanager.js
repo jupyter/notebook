@@ -32,7 +32,7 @@ define(['jquery'], function($) {
          * Parameters
          * ----------
          * delta: integer
-         *  direction to scroll the document.  Positive is downwards. 
+         *  direction to scroll the document.  Positive is downwards.
          *  Unit is one page length.
          */
         this.scroll_some(delta);
@@ -63,9 +63,9 @@ define(['jquery'], function($) {
          * Gets the index of the first visible cell in the document.
          *
          * First, attempt to be smart by guessing the index of the cell we are
-         * scrolled to.  Then, walk from there up or down until the right cell 
+         * scrolled to.  Then, walk from there up or down until the right cell
          * is found.  To guess the index, get the top of the last cell, and
-         * divide that by the number of cells to get an average cell height.  
+         * divide that by the number of cells to get an average cell height.
          * Then divide the scroll height by the average cell height.
          */
         var cell_count = this.notebook.ncells();
@@ -77,11 +77,11 @@ define(['jquery'], function($) {
 
         while (this.notebook.get_cell(i).element.offset().top - first_cell_top < this.element.scrollTop() && i < cell_count - 1) {
             i += 1;
-        } 
+        }
 
         while (this.notebook.get_cell(i).element.offset().top - first_cell_top > this.element.scrollTop() - 50 && i >= 0) {
             i -= 1;
-        } 
+        }
         return Math.min(i + 1, cell_count - 1);
     };
 
@@ -105,7 +105,7 @@ define(['jquery'], function($) {
          * Check if a cell should be a scroll stop.
          *
          * Returns `true` if the cell is a cell that the scroll manager
-         * should scroll to.  Otherwise, false is returned. 
+         * should scroll to.  Otherwise, false is returned.
          *
          * Parameters
          * ----------
@@ -137,7 +137,7 @@ define(['jquery'], function($) {
             return ScrollManager.prototype.scroll.apply(this, [delta]);
         } else {
             this.scroll_to(this.notebook.get_cell(selected_index).element);
-            
+
             // Cancel browser keyboard scroll.
             return false;
         }
@@ -154,8 +154,8 @@ define(['jquery'], function($) {
 
     SlideScrollManager.prototype.is_target = function (index) {
         var cell = this.notebook.get_cell(index);
-        return cell.metadata && cell.metadata.slideshow && 
-            cell.metadata.slideshow.slide_type && 
+        return cell.metadata && cell.metadata.slideshow &&
+            cell.metadata.slideshow.slide_type &&
             (cell.metadata.slideshow.slide_type === "slide" ||
             cell.metadata.slideshow.slide_type === "subslide");
     };
@@ -222,7 +222,7 @@ define(['jquery'], function($) {
         }
     };
 
-    // Return naemspace for require.js loads
+    // Return namespace for require.js loads
     return {
         'ScrollManager': ScrollManager,
         'SlideScrollManager': SlideScrollManager,

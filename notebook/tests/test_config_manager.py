@@ -26,7 +26,7 @@ def test_json():
         assert 'c' not in data
         assert data['a'] == 1
         assert 'x' in data['nest']
-        # if we write it out, it also shouldn't pick up the subdirectoy
+        # if we write it out, it also shouldn't pick up the subdirectory
         manager.set('foo', data)
         data = manager.get('foo')
         assert data == root_data

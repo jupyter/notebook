@@ -8,7 +8,7 @@ define([
     'base/js/i18n'
 ], function($, IPython, notebooklist, i18n) {
     "use strict";
-    
+
     var KernelList = function (selector, options) {
         /**
          * Constructor
@@ -35,7 +35,7 @@ define([
          * do nothing
          */
     };
-    
+
     KernelList.prototype._kernelspecs_loaded = function (event, kernelspecs) {
         this.kernelspecs = kernelspecs;
         if (this.sessions) {
@@ -43,7 +43,7 @@ define([
             this.sessions_loaded(this.sessions);
         }
     };
-    
+
     KernelList.prototype.sessions_loaded = function (d) {
         this.sessions = d;
         if (!this.kernelspecs) {
@@ -90,8 +90,8 @@ define([
             })
             .appendTo(running_indicator);
     };
-    
-    // Backwards compatability.
+
+    // Backwards compatibility.
     IPython.KernelList = KernelList;
 
     return {'KernelList': KernelList};

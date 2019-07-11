@@ -16,9 +16,9 @@ define([
          * Parameters:
          *  options: dictionary
          *      Dictionary of keyword arguments.
-         *          events: $(Events) instance 
+         *          events: $(Events) instance
          *          cell: Cell instance
-         *          notebook: Notebook instance 
+         *          notebook: Notebook instance
          *
          *  TODO: This leaks, when cell are deleted
          *  There is still a reference to each celltoolbars.
@@ -167,7 +167,7 @@ define([
      * @param name {String} name to use to refer to the preset. It is advised to use a prefix with the name
      * for easier sorting and avoid collision
      * @param  preset_list {List_of_String} reverse order of the button in the toolbar. Each String of the list
-     *          should correspond to a name of a registerd callback.
+     *          should correspond to a name of a registered callback.
      *
      * @private
      * @example
@@ -192,7 +192,7 @@ define([
     };
 
     /**
-     * unregister the selected preset, 
+     * unregister the selected preset,
      *
      * return true if preset successfully unregistered
      * false otherwise
@@ -268,7 +268,7 @@ define([
      */
     CellToolbar.prototype.rebuild = function(){
         /**
-         * strip evrything from the div
+         * strip everything from the div
          * which is probably inner_element
          * or this.element.
          */
@@ -287,7 +287,7 @@ define([
                 if (callback.cell_types.indexOf(this.cell.cell_type) === -1) continue;
                 callback = callback.callback;
             }
-            
+
             var local_div = $('<div/>').addClass('button_container');
             try {
                 callback(local_div, this.cell, this);
@@ -337,7 +337,7 @@ define([
      *              // set the value
      *              cell.metadata.slideshow.isSectionStart = value
      *              },
-     *          //geter
+     *          // getter
      *          function(cell){ var ns = cell.metadata.slideshow;
      *              // if the slideshow namespace does not exist return `undefined`
      *              // (will be interpreted as `false` by checkbox) otherwise
@@ -403,14 +403,14 @@ define([
      * @static
      *
      * @param list_list {list_of_sublist} List of sublist of metadata value and name in the dropdown list.
-     *        subslit shoud contain 2 element each, first a string that woul be displayed in the dropdown list,
-     *        and second the corresponding value to  be passed to setter/return by getter. the corresponding value 
+     *        subslit should contain 2 element each, first a string that woul be displayed in the dropdown list,
+     *        and second the corresponding value to  be passed to setter/return by getter. the corresponding value
      *        should not be "undefined" or behavior can be unexpected.
      * @param setter {function( cell, newValue )}
      *        A setter method to set the newValue
      * @param getter {function( cell )}
      *        A getter methods which return the current value of the metadata.
-     * @param [label=""] {String} optionnal label for the dropdown menu
+     * @param [label=""] {String} optional label for the dropdown menu
      *
      * @return callback {function( div, cell )} Callback to be passed to `register_callback`
      *
@@ -430,7 +430,7 @@ define([
      *                  // set the value
      *                  cell.metadata.slideshow.slide_type = value
      *                  },
-     *              //geter
+     *              // getter
      *              function(cell){ var ns = cell.metadata.slideshow;
      *                  // if the slideshow namespace does not exist return `undefined`
      *                  // (will be interpreted as `false` by checkbox) otherwise
@@ -463,7 +463,7 @@ define([
         };
     };
 
-    // Backwards compatability.
+    // Backwards compatibility.
     IPython.CellToolbar = CellToolbar;
 
     return {'CellToolbar': CellToolbar};

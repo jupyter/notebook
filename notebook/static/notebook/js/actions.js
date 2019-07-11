@@ -708,13 +708,13 @@ define([
      * A bunch of `Advance actions` for Jupyter.
      * Cf `Simple Action` plus the following properties.
      *
-     * handler: first argument of the handler is the event that triggerd the action
+     * handler: first argument of the handler is the event that triggered the action
      *      (typically keypress). The handler is responsible for any modification of the
      *      event and event propagation.
      *      Is also responsible for returning false if the event have to be further ignored,
      *      true, to tell keyboard manager that it ignored the event.
      *
-     *      the second parameter of the handler is the environemnt passed to Simple Actions
+     *      the second parameter of the handler is the environment passed to Simple Actions
      *
      **/
     var custom_ignore = {

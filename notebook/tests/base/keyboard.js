@@ -88,8 +88,8 @@ casper.notebook_test(function () {
                 longer_last = longer_last  ||(that.msgs[m].match(/will be shadowed/) != null);
             }
         }
-        this.test.assert(longer_first, 'no warning if registering shorter shortut');
-        this.test.assert(longer_last , 'no warning if registering longer shortut');
+        this.test.assert(longer_first, 'no warning if registering shorter shortcut');
+        this.test.assert(longer_last , 'no warning if registering longer shortcut');
     });
 
 });

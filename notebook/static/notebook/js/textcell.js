@@ -37,15 +37,15 @@ define([
         /**
          * Constructor
          *
-         * Construct a new TextCell, codemirror mode is by default 'htmlmixed', 
+         * Construct a new TextCell, codemirror mode is by default 'htmlmixed',
          * and cell type is 'text' cell start as not redered.
          *
          * Parameters:
          *  options: dictionary
          *      Dictionary of keyword arguments.
-         *          events: $(Events) instance 
+         *          events: $(Events) instance
          *          config: dictionary
-         *          keyboard_manager: KeyboardManager instance 
+         *          keyboard_manager: KeyboardManager instance
          *          notebook: Notebook instance
          */
         options = options || {};
@@ -60,8 +60,8 @@ define([
 
         // we cannot put this as a class key as it has handle to "this".
         Cell.apply(this, [{
-                    config: options.config, 
-                    keyboard_manager: options.keyboard_manager, 
+                    config: options.config,
+                    keyboard_manager: options.keyboard_manager,
                     events: this.events}]);
 
         this.cell_type = this.cell_type || 'text';
@@ -95,7 +95,7 @@ define([
         cell.append(prompt);
         var inner_cell = $('<div/>').addClass('inner_cell');
         this.celltoolbar = new celltoolbar.CellToolbar({
-            cell: this, 
+            cell: this,
             notebook: this.notebook});
         inner_cell.append(this.celltoolbar.element);
         var input_area = $('<div/>').addClass('input_area');
@@ -158,7 +158,7 @@ define([
     /**
      * setter: {{#crossLink "TextCell/set_text"}}{{/crossLink}}
      * @method get_text
-     * @retrun {string} CodeMirror current text value
+     * @return {string} CodeMirror current text value
      */
     TextCell.prototype.get_text = function() {
         return this.code_mirror.getValue();
@@ -281,9 +281,9 @@ define([
          * Parameters:
          *  options: dictionary
          *      Dictionary of keyword arguments.
-         *          events: $(Events) instance 
+         *          events: $(Events) instance
          *          config: ConfigSection instance
-         *          keyboard_manager: KeyboardManager instance 
+         *          keyboard_manager: KeyboardManager instance
          *          notebook: Notebook instance
          */
         options = options || {};
@@ -487,7 +487,7 @@ define([
 
         // We want to display a visual indicator that the drop is possible.
         // The dragleave event is fired when we hover a child element (which
-        // is often immediatly after we got the dragenter), so we keep track
+        // is often immediately after we got the dragenter), so we keep track
         // of the number of dragenter/dragleave we got, as discussed here :
         // https://stackoverflow.com/q/7110353/116067
         // This doesn't seem to be 100% reliable, so we clear the dropzone
@@ -537,9 +537,9 @@ define([
          * Parameters:
          *  options: dictionary
          *      Dictionary of keyword arguments.
-         *          events: $(Events) instance 
+         *          events: $(Events) instance
          *          config: ConfigSection instance
-         *          keyboard_manager: KeyboardManager instance 
+         *          keyboard_manager: KeyboardManager instance
          *          notebook: Notebook instance
          */
         options = options || {};

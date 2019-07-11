@@ -127,7 +127,7 @@ define([
         this.remove_and_cancel_tooltip();
     };
 
-    // grow the tooltip verticaly
+    // grow the tooltip vertically
     Tooltip.prototype.expand = function () {
         this.text.removeClass('smalltooltip');
         this.text.addClass('bigtooltip');
@@ -244,9 +244,9 @@ define([
     };
 
     // put the tooltip in a sicky state for 10 seconds
-    // it won't be removed by remove_and_cancell() unless you called with
+    // it won't be removed by remove_and_cancel() unless you called with
     // the first parameter set to true.
-    // remove_and_cancell_tooltip(true)
+    // remove_and_cancel_tooltip(true)
     Tooltip.prototype.stick = function (time) {
         time = (time !== undefined) ? time : 10;
         var that = this;
@@ -286,7 +286,7 @@ define([
         var edge_left = Math.max(center_left - 450, 0);
         // locate the arrow at the cursor. A 24 px offset seems necessary.
         var arrow_left = center_left - edge_left - 24;
-        
+
         // locate left, top within container element
         var left = (cell_pos.left + cm_pos.left + edge_left) + 'px';
         var top = (cell_pos.top + cm_pos.top + head.bottom + 10) + 'px';
@@ -307,11 +307,11 @@ define([
         this.arrow.animate({
             'left': arrow_left + 'px'
         });
-        
+
         this._hidden = false;
         this.tooltip.fadeIn('fast');
         this.text.children().remove();
-        
+
         // This should support rich data types, but only text/plain for now
         // Any HTML within the docstring is escaped by the fixConsole() method.
         var pre = $('<pre/>').html(utils.fixConsole(content.data['text/plain']));

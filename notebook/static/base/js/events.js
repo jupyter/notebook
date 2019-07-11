@@ -11,17 +11,17 @@
 
 define(['jquery', 'base/js/namespace'], function($, Jupyter) {
     "use strict";
-    
+
     // Events singleton
     if (!window._Events) {
         window._Events = function () {};
         window._events = new window._Events();
     }
-    
-    // Backwards compatability.
+
+    // Backwards compatibility.
     Jupyter.Events = window._Events;
     Jupyter.events = window._events;
-    
+
     var events = $([window._events]);
 
     // catch and log errors in triggered events
