@@ -1006,9 +1006,9 @@ define([
     
     time.timeout_from_dt = function (dt) {
         /** compute a timeout based on dt
-
+        
         input and output both in milliseconds
-
+        
         use moment's relative time thresholds:
         
         - 10 seconds if in 'seconds ago' territory
