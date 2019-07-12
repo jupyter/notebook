@@ -2382,7 +2382,7 @@ define([
         }
 
         var do_kernel_action = options.kernel_action || restart_and_resolve;
-
+       
         // no need to confirm if the kernel is not connected
         if (options.confirm === false || !that.kernel.is_connected()) {
             var default_button = options.dialog.buttons[Object.keys(options.dialog.buttons)[0]];
