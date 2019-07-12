@@ -131,6 +131,9 @@ define(['jquery',
                 options.keyboard_manager.enable();
                 options.keyboard_manager.command_mode();
             }
+	    if (options.focus_button) {
+            	$(options.focus_button).focus();
+	    }
         });
         
         if (options.keyboard_manager) {

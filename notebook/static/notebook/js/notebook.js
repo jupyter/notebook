@@ -2973,7 +2973,7 @@ define([
     /**
      * Explicitly trust the output of this notebook.
      */
-    Notebook.prototype.trust_notebook = function () {
+    Notebook.prototype.trust_notebook = function (from_notification) {
         var body = $("<div>").append($("<p>")
             .text(i18n.msg._("A trusted Jupyter notebook may execute hidden malicious code when you open it. " +
                     "Selecting trust will immediately reload this notebook in a trusted state. " +
@@ -2989,6 +2989,7 @@ define([
             keyboard_manager: this.keyboard_manager,
             title: i18n.msg._("Trust this notebook?"),
             body: body,
+            focus_button: from_notification,
 
             buttons: {
                 Cancel : {},
