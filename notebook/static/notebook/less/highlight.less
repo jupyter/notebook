@@ -29,8 +29,9 @@ Adapted from GitHub theme
   color: #BA2121;
 }
 
+//fix issue #4206, overwrite .highlight-comment class, from #408080 to #007979
 .highlight-comment{
-  color: #408080;
+  color: #007979;
   font-style: italic;
 }
 
@@ -63,12 +64,6 @@ Adapted from GitHub theme
 .highlight-meta{
   color: #AA22FF;
 }
-
-//fix issue #4206, overwrite .highlight-comment class
-.highlight-comment{
-  color:#007979;
-}
-
 
 /* previously not defined, copying from default codemirror */
 .highlight-def{ .cm-s-default.cm-def() }
