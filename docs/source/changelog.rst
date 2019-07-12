@@ -995,7 +995,7 @@ Bug fixes:
 - :code:`json_errors` should be outermost decorator on API handlers
 - Fix remove old nbserver info files
 - Fix notebook mime type on download links
-- Fix carriage symbol bahvior
+- Fix carriage symbol behavior
 - Fix terminal styles
 - Update dead links in docs
 - If kernel is broken, start a new session

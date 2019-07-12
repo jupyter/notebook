@@ -12,7 +12,7 @@ def _jupyter_bundlerextension_paths():
         "name": "tarball_bundler",
         # module containing bundle function
         "module_name": "notebook.bundler.tarball_bundler",
-        # human-redable menu item label
+        # human-readable menu item label
         "label" : "Notebook Tarball (tar.gz)",
         # group under 'deploy' or 'download' menu
         "group" : "download",

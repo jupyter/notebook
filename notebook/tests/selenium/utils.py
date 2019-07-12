@@ -46,7 +46,7 @@ def _wait_for(driver, locator_type, locator, timeout=10, visible=False, single=F
         visible: if True, require that element is not only present, but visible
         single: if True, return a single element, otherwise return a list of matching
         elements
-        osbscures: if True, waits until the element becomes invisible
+        obscures: if True, waits until the element becomes invisible
     """
     wait = WebDriverWait(driver, timeout)
     if obscures:

@@ -119,7 +119,7 @@ var KeyBindingList = createReactClass({
 
             "This dialog allows you to modify the keyboard shortcuts available in command mode. "+ 
             "Any changes will be persisted between sessions and across environments. "+
-            "You can define two kinds of shorctuts: **key combinations** and **key sequences**.\n"+
+            "You can define two kinds of shortcuts: **key combinations** and **key sequences**.\n"+
             "\n"+
             " - **Key Combinations**:\n"+
             "   - Use hyphens `-` to represent keys that should be pressed at the same time.\n"+

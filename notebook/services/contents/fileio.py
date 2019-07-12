@@ -192,8 +192,8 @@ class FileManagerMixin(Configurable):
     """
 
     use_atomic_writing = Bool(True, config=True, help=
-    """By default notebooks are saved on disk on a temporary file and then if succefully written, it replaces the old ones.
-      This procedure, namely 'atomic_writing', causes some bugs on file system whitout operation order enforcement (like some networked fs).
+    """By default notebooks are saved on disk on a temporary file and then if successfully written, it replaces the old ones.
+      This procedure, namely 'atomic_writing', causes some bugs on file system without operation order enforcement (like some networked fs).
       If set to False, the new notebook is written directly on the old one which could fail (eg: full filesystem or quota )""")
 
     @contextmanager

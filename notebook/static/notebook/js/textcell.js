@@ -158,7 +158,7 @@ define([
     /**
      * setter: {{#crossLink "TextCell/set_text"}}{{/crossLink}}
      * @method get_text
-     * @retrun {string} CodeMirror current text value
+     * @return {string} CodeMirror current text value
      */
     TextCell.prototype.get_text = function() {
         return this.code_mirror.getValue();
@@ -487,7 +487,7 @@ define([
 
         // We want to display a visual indicator that the drop is possible.
         // The dragleave event is fired when we hover a child element (which
-        // is often immediatly after we got the dragenter), so we keep track
+        // is often immediately after we got the dragenter), so we keep track
         // of the number of dragenter/dragleave we got, as discussed here :
         // https://stackoverflow.com/q/7110353/116067
         // This doesn't seem to be 100% reliable, so we clear the dropzone

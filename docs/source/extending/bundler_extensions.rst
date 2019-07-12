@@ -39,7 +39,7 @@ when enabling the bundler extension. (See :ref:`enabling-bundlers`.)
         """Example "hello world" bundler extension"""
         return [{
             'name': 'hello_bundler',                    # unique bundler name
-            'label': 'Hello Bundler',                   # human-redable menu item label
+            'label': 'Hello Bundler',                   # human-readable menu item label
             'module_name': 'mypackage.hello_bundler',   # module containing bundle()
             'group': 'deploy'                           # group under 'deploy' or 'download' menu
         }]
@@ -150,7 +150,7 @@ bundlers for single users, configuring bundlers system-wide, etc.
 Example: IPython Notebook bundle (.zip)
 ---------------------------------------
 
-The `hello_bundler` example in this documentation is simplisitic in the name
+The `hello_bundler` example in this documentation is simplistic in the name
 of brevity. For more meaningful examples, see
 `notebook/bundler/zip_bundler.py` and `notebook/bundler/tarball_bundler.py`.
 You can enable them to try them like so:

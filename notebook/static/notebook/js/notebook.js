@@ -168,7 +168,7 @@ define([
         this.paste_enabled = false;
         this.paste_attachments_enabled = false;
         this.writable = false;
-        // It is important to start out in command mode to match the intial mode
+        // It is important to start out in command mode to match the initial mode
         // of the KeyboardManager.
         this.mode = 'command';
         this.set_dirty(false);
@@ -1853,7 +1853,7 @@ define([
         var that = this;
         var cell = this.get_selected_cell();
         // The following should not happen as the menu item is greyed out
-        // when those conditions are not fullfilled (see MarkdownCell
+        // when those conditions are not fulfilled (see MarkdownCell
         // unselect/select/unrender handlers)
         if (cell.cell_type !== 'markdown') {
             console.log('Error: insert_image called on non-markdown cell');

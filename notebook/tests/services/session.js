@@ -170,7 +170,7 @@ casper.notebook_test(function () {
     this.thenEvaluate( function() {IPython.notebook.session.start()});
     this.wait_for_kernel_ready();
 
-    // check for events when starting a nonexistant kernel
+    // check for events when starting a nonexistent kernel
     this.event_test(
         'bad_start_session',
         [

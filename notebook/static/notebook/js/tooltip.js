@@ -127,7 +127,7 @@ define([
         this.remove_and_cancel_tooltip();
     };
 
-    // grow the tooltip verticaly
+    // grow the tooltip vertically
     Tooltip.prototype.expand = function () {
         this.text.removeClass('smalltooltip');
         this.text.addClass('bigtooltip');
@@ -244,9 +244,9 @@ define([
     };
 
     // put the tooltip in a sicky state for 10 seconds
-    // it won't be removed by remove_and_cancell() unless you called with
+    // it won't be removed by remove_and_cancel() unless you called with
     // the first parameter set to true.
-    // remove_and_cancell_tooltip(true)
+    // remove_and_cancel_tooltip(true)
     Tooltip.prototype.stick = function (time) {
         time = (time !== undefined) ? time : 10;
         var that = this;

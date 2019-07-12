@@ -384,7 +384,7 @@ define([
         } else {
             if(typeof(current_node) === 'string'){
                 console.warn('you are trying to set a shortcut that will be shadowed'+
-                             'by a more specific one. Aborting for :', action_name, 'the follwing '+
+                             'by a more specific one. Aborting for :', action_name, 'the following '+
                              'will take precedence', current_node);
                 return false;
             } else {
@@ -494,7 +494,7 @@ define([
 
     ShortcutManager.prototype.remove_shortcut = function (shortcut, suppress_help_update) {
         /**
-         * Remove the binding of shortcut `sortcut` with its action.
+         * Remove the binding of shortcut `shortcut` with its action.
          * throw an error if trying to remove a non-exiting shortcut
          **/
         if(!shortcut){

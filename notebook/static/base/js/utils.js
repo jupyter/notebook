@@ -736,7 +736,7 @@ define([
     var requireCodeMirrorMode = function (mode, callback, errback) {
         /** 
          * find a predefined mode or detect from CM metadata then
-         * require and callback with the resolveable mode string: mime or
+         * require and callback with the resolvable mode string: mime or
          * custom name
          */
 

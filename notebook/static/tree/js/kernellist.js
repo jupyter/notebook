@@ -91,7 +91,7 @@ define([
             .appendTo(running_indicator);
     };
     
-    // Backwards compatability.
+    // Backwards compatibility.
     IPython.KernelList = KernelList;
 
     return {'KernelList': KernelList};

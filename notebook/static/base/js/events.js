@@ -18,7 +18,7 @@ define(['jquery', 'base/js/namespace'], function($, Jupyter) {
         window._events = new window._Events();
     }
     
-    // Backwards compatability.
+    // Backwards compatibility.
     Jupyter.Events = window._Events;
     Jupyter.events = window._events;
     

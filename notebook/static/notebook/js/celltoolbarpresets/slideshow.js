@@ -25,7 +25,7 @@ define([
                 // set the value
                 cell.metadata.slideshow.slide_type = value;
                 },
-            //geter
+            // getter
             function(cell){ var ns = cell.metadata.slideshow;
                 // if the slideshow namespace does not exist return `undefined`
                 // (will be interpreted as `false` by checkbox) otherwise

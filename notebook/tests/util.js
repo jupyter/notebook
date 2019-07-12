@@ -625,7 +625,7 @@ casper.assert_colors_equal = function (hex_color, local_color, msg) {
     //
     // Parameters
     // hex_color: string
-    //      Hexadecimal color code, with or without preceeding hash character.
+    //      Hexadecimal color code, with or without preceding hash character.
     // local_color: string
     //      Local color representation.  Can either be hexadecimal (default for 
     //      phantom) or rgb (default for slimer).

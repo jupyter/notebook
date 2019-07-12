@@ -86,7 +86,7 @@ define(['codemirror/lib/codemirror'], function(CodeMirror) {
 
     var getCompletions = function(token, editor) {
         var candidates = getAllTokens(editor);
-        // filter all token that have a common start (but nox exactly) the lenght of the current token
+        // filter all token that have a common start (but nox exactly) the length of the current token
         var lambda = function (x) {
                 return (x.indexOf(token.string) === 0 && x != token.string);
             };

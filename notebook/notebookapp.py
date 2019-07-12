@@ -1366,7 +1366,7 @@ class NotebookApp(JupyterApp):
 
     def init_logging(self):
         # This prevents double log messages because tornado use a root logger that
-        # self.log is a child of. The logging module dipatches log messages to a log
+        # self.log is a child of. The logging module dispatches log messages to a log
         # and all of its ancenstors until propagate is set to False.
         self.log.propagate = False
         

@@ -154,7 +154,7 @@ define([
      *
      * @function list
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Kernel.prototype.list = function (success, error) {
         utils.ajax(this.kernel_service_url, {
@@ -180,7 +180,7 @@ define([
      * @function start
      * @param {params} [Object] - parameters to include in the query string
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Kernel.prototype.start = function (params, success, error) {
         var url = this.kernel_service_url;
@@ -220,7 +220,7 @@ define([
      *
      * @function get_info
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Kernel.prototype.get_info = function (success, error) {
         utils.ajax(this.kernel_url, {
@@ -238,13 +238,13 @@ define([
      *
      * Shutdown the kernel.
      *
-     * If you are also using sessions, then this function shoul NOT be
+     * If you are also using sessions, then this function should NOT be
      * used. Instead, use Session.delete. Otherwise, the session and
      * kernel WILL be out of sync.
      *
      * @function kill
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Kernel.prototype.kill = function (success, error) {
         this.events.trigger('kernel_killed.Kernel', {kernel: this});
@@ -266,7 +266,7 @@ define([
      *
      * @function interrupt
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Kernel.prototype.interrupt = function (success, error) {
         this.events.trigger('kernel_interrupting.Kernel', {kernel: this});
@@ -302,7 +302,7 @@ define([
          *
          * @function interrupt
          * @param {function} [success] - function executed on ajax success
-         * @param {function} [error] - functon executed on ajax error
+         * @param {function} [error] - function executed on ajax error
          */
         this.events.trigger('kernel_restarting.Kernel', {kernel: this});
         this.stop_channels();
@@ -737,7 +737,7 @@ define([
          *      @param callbacks.iopub.output {function}
          *      @param callbacks.iopub.clear_output {function}
          *      @param callbacks.input {function}
-         *      @param callbacks.clear_on_done=true {Bolean}
+         *      @param callbacks.clear_on_done=true {Boolean}
          * @param {object} [options]
          *      @param [options.silent=false] {Boolean}
          *      @param [options.user_expressions=empty_dict] {Dict}
@@ -772,7 +772,7 @@ define([
          *      }
          *
          * Each callback will be passed the entire message as a single
-         * arugment.  Payload handlers will be passed the corresponding
+         * argument.  Payload handlers will be passed the corresponding
          * payload and the execute_reply message.
          */
         var content = {

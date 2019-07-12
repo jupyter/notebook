@@ -77,7 +77,7 @@ define([
      *
      * @function list
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Session.prototype.list = function (success, error) {
         utils.ajax(this.session_service_url, {
@@ -97,7 +97,7 @@ define([
      *
      * @function start
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Session.prototype.start = function (success, error) {
         var that = this;
@@ -140,7 +140,7 @@ define([
      *
      * @function get_info
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Session.prototype.get_info = function (success, error) {
         utils.ajax(this.session_url, {
@@ -162,7 +162,7 @@ define([
      * @function rename_notebook
      * @param {string} [path] - new notebook path
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Session.prototype.rename_notebook = function (path, success, error) {
         if (path !== undefined) {
@@ -188,7 +188,7 @@ define([
      *
      * @function delete
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Session.prototype.delete = function (success, error) {
         if (this.kernel && this.kernel.is_connected()) {
@@ -217,7 +217,7 @@ define([
      * @function restart
      * @param {Object} [options] - options for the new kernel
      * @param {function} [success] - function executed on ajax success
-     * @param {function} [error] - functon executed on ajax error
+     * @param {function} [error] - function executed on ajax error
      */
     Session.prototype.restart = function (options, success, error) {
         var that = this;

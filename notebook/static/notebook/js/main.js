@@ -205,7 +205,7 @@ requirejs([
 
     Object.defineProperty( IPython, 'actions', {
       get: function() {
-          console.warn('accessing "actions" on the global IPython/Jupyter is not recommended. Pass it to your objects contructors at creation time');
+          console.warn('accessing "actions" on the global IPython/Jupyter is not recommended. Pass it to your objects constructors at creation time');
           return acts;
       },
       enumerable: true,

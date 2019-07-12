@@ -152,7 +152,7 @@ define([
 
     // return an **html** string of the keyboard shortcut
     // for human eyes consumption.
-    // the sequence is a string, comma sepparated linkt of shortcut,
+    // the sequence is a string, comma separated linkt of shortcut,
     // where the shortcut is a list of dash-joined keys.
     // Each shortcut will be wrapped in <kbd> tag, and joined by comma is in a
     // sequence.

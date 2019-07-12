@@ -92,7 +92,7 @@ requirejs([
         }
     };
 
-    // Make sure the codemirror editor is sized appropriatley.
+    // Make sure the codemirror editor is sized appropriately.
     var _handle_resize = function() {
         var backdrop = $("#texteditor-backdrop");
 

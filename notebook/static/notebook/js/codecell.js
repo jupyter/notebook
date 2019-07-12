@@ -609,7 +609,7 @@ define([
         return cont;
     };
 
-    // Backwards compatability.
+    // Backwards compatibility.
     IPython.CodeCell = CodeCell;
 
     return {'CodeCell': CodeCell};

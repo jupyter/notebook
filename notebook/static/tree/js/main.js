@@ -172,7 +172,7 @@ requirejs([
 
     page.show();
 
-    // For backwards compatability.
+    // For backwards compatibility.
     IPython.page = page;
     IPython.notebook_list = notebook_list;
     IPython.session_list = session_list;

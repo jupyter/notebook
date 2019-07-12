@@ -11,9 +11,9 @@ define([
 
     /**
      * Humanize the action name to be consumed by user.
-     * internaly the actions anem are of the form
+     * internally the actions anem are of the form
      * <namespace>:<description-with-dashes>
-     * we drop <namesapce> and replace dashes for space.
+     * we drop <namespace> and replace dashes for space.
      */
     var humanize_action_id = function(str) {
       return str.split(':')[1].replace(/-/g, ' ').replace(/_/g, '-');
@@ -38,7 +38,7 @@ define([
 
     var CommandPalette = function(notebook) {
         if(!notebook){
-          throw new Error("CommandPalette takes a notebook non-null mandatory arguement");
+          throw new Error("CommandPalette takes a notebook non-null mandatory argument");
         }
 
         // typeahead lib need a specific layout with specific class names.
@@ -81,7 +81,7 @@ define([
         .modal({show: false, backdrop:true})
         .on('shown.bs.modal', function () {
               // click on button trigger de-focus on mouse up.
-              // or somethign like that.
+              // or something like that.
               setTimeout(function(){input.focus();}, 100);
         });
 

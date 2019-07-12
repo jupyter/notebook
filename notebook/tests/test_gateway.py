@@ -293,7 +293,7 @@ class TestGateway(NotebookTestBase):
             return False
 
     def create_kernel(self, kernel_name):
-        """Issues request to retart the given kernel
+        """Issues request to restart the given kernel
         """
         with mocked_gateway:
             kwargs = dict()
@@ -324,7 +324,7 @@ class TestGateway(NotebookTestBase):
             self.assertEqual(response.reason, 'No Content')
 
     def restart_kernel(self, kernel_id):
-        """Issues request to retart the given kernel
+        """Issues request to restart the given kernel
         """
         with mocked_gateway:
             response = self.request('POST', '/api/kernels/' + kernel_id + '/restart')

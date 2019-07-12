@@ -51,12 +51,12 @@ define(['jquery','base/js/i18n'], function($, i18n) {
      *      ]
      *
      *  @param list {List}
-     *      List of button of the group, with the following paramter for each :
+     *      List of button of the group, with the following parameter for each :
      *      @param list.label {string} text to show on button hover
      *      @param list.icon {string} icon to choose from [Font Awesome](http://fortawesome.github.io/Font-Awesome)
      *      @param list.callback {function} function to be called on button click
      *      @param [list.id] {String} id to give to the button
-     *  @param [group_id] {String} optionnal id to give to the group
+     *  @param [group_id] {String} optional id to give to the group
      *
      *
      *  for private usage, the key can also be strings starting with '<' and ending with '>' to inject custom element that cannot
