@@ -65,7 +65,7 @@ define(['jquery'], function($) {
          * First, attempt to be smart by guessing the index of the cell we are
          * scrolled to.  Then, walk from there up or down until the right cell 
          * is found.  To guess the index, get the top of the last cell, and
-         * divide that by the number of cells to get an average cell height. 
+         * divide that by the number of cells to get an average cell height.  
          * Then divide the scroll height by the average cell height.
          */
         var cell_count = this.notebook.ncells();

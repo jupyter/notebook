@@ -215,7 +215,7 @@ class NotebookWebApplication(web.Application):
         now = utcnow()
         
         root_dir = contents_manager.root_dir
-        home = py3compat.str_to_unicode(os.path.expanduser('~'), encoding=sys.getfilesystemencoding())
+        home = py3compat.str_to_unicode(os.path.expanduser('~'), encoding=sys.getfilesystemencoding()) 
         if root_dir.startswith(home + os.path.sep):
             # collapse $HOME to ~
             root_dir = '~' + root_dir[len(home):]
@@ -480,7 +480,7 @@ class NbserverStopApp(JupyterApp):
 class NbserverListApp(JupyterApp):
     version = __version__
     description=_("List currently running notebook servers.")
-
+    
     flags = dict(
         jsonlist=({'NbserverListApp': {'jsonlist': True}},
               _("Produce machine-readable JSON list output.")),
@@ -620,9 +620,9 @@ class NotebookApp(JupyterApp):
     
     allow_origin = Unicode('', config=True,
         help="""Set the Access-Control-Allow-Origin header
-
+        
         Use '*' to allow any origin to access your server.
-    
+        
         Takes precedence over allow_origin_pat.
         """
     )
@@ -644,7 +644,7 @@ class NotebookApp(JupyterApp):
         help=_("Set the Access-Control-Allow-Credentials: true header")
     )
     
-    allow_root = Bool(False, config=True,
+    allow_root = Bool(False, config=True, 
         help=_("Whether to allow the user to run the notebook as root.")
     )
 
@@ -704,7 +704,7 @@ class NotebookApp(JupyterApp):
         help=_("""The full path to an SSL/TLS certificate file.""")
     )
     
-    keyfile = Unicode(u'', config=True,
+    keyfile = Unicode(u'', config=True, 
         help=_("""The full path to a private key file for usage with SSL/TLS.""")
     )
     

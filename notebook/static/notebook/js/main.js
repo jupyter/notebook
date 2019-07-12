@@ -112,8 +112,8 @@ requirejs([
     var acts = new actions.init();
     var keyboard_manager = new keyboardmanager.KeyboardManager({
         pager: pager,
-        events: events, 
-        actions: acts,
+        events: events,
+        actions: acts, 
         config: config_section,
     });
     var save_widget = new savewidget.SaveWidget('span#save_widget', {

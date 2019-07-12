@@ -142,7 +142,7 @@ define([
     
     // FIXME: Workaround CM Bug #332 (Safari segfault on drag)
     // by disabling drag/drop altogether on Safari
-    // https://github.com/codemirror/CodeMirror/issues/332  
+    // https://github.com/codemirror/CodeMirror/issues/332    
     if (utils.browser[0] == "Safari") {
         Cell.options_default.cm_config.dragDrop = false;
     }

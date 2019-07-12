@@ -317,7 +317,7 @@ define([
     };
 
     var build_div = function (title, shortcuts) {
-
+        
         // Remove jupyter-notebook:ignore shortcuts.
         shortcuts = shortcuts.filter(function(shortcut) {
             if (shortcut.help === 'ignore') {

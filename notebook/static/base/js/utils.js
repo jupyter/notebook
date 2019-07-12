@@ -921,7 +921,7 @@ define([
          * Creates a wrappable Promise rejection function.
          * 
          * Creates a function that returns a Promise.reject with a new WrappedError
-         * that has the provided message and wraps the original error that
+         * that has the provided message and wraps the original error that 
          * caused the promise to reject.
          */
         return function(error) { 
@@ -1008,7 +1008,7 @@ define([
         /** compute a timeout based on dt
             
         input and output both in milliseconds
-            
+         
         use moment's relative time thresholds:
         
         - 10 seconds if in 'seconds ago' territory

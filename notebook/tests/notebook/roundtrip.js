@@ -99,7 +99,7 @@ casper.notebook_test(function () {
             "var a=5;"
             ].join('\n'));
     });
-    
+
 
     this.then(function () {
         check_output_area.apply(this, ['display_data', ['javascript']]);
@@ -109,7 +109,7 @@ casper.notebook_test(function () {
     this.then(function() {
         clear_and_execute(this, '%lsmagic');
     });
-    
+
     this.then(function () {
         check_output_area.apply(this, ['execute_result', ['text', 'json']]);
     });
