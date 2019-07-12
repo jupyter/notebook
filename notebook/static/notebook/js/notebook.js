@@ -1954,10 +1954,10 @@ define([
     Notebook.prototype.set_insert_image_enabled = function(enabled) {
         if (enabled) {
             $('#insert_image').removeClass('disabled');
-            $('#insert_image > a').attr("aria-disabled", "false");
+            $('#insert_image > a').attr('aria-disabled', 'false');
         } else {
             $('#insert_image').addClass('disabled');
-            $('#insert_image > a').attr("aria-disabled", "true");
+            $('#insert_image > a').attr('aria-disabled', 'true');
         }
     };
 
