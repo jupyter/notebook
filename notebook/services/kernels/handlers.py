@@ -22,7 +22,6 @@ from notebook.utils import maybe_future, url_path_join, url_escape
 from ...base.handlers import APIHandler
 from ...base.zmqhandlers import AuthenticatedZMQStreamHandler, deserialize_binary_message
 
-
 class MainKernelHandler(APIHandler):
 
     @web.authenticated
@@ -124,7 +123,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
     def create_stream(self):
         km = self.kernel_manager
         identity = self.session.bsession
-        for channel in ('shell', 'iopub', 'stdin'):
+        for channel in ('shell', 'control', 'iopub', 'stdin'):
             meth = getattr(km, 'connect_' + channel)
             self.channels[channel] = stream = meth(self.kernel_id, identity=identity)
             stream.channel = channel

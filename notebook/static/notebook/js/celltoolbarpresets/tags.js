@@ -166,6 +166,7 @@ define([
             "is treated as tag separators.");
 
         var textarea = $('<textarea/>')
+            .attr('aria-label', i18n.msg._('Edit the tags in the text area'))
             .attr('rows', '13')
             .attr('cols', '80')
             .attr('name', 'tags')

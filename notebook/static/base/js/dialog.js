@@ -60,6 +60,7 @@ define(['jquery',
                 })
                 .append($("<button>")
                     .attr("type", "button")
+                    .attr("aria-label", i18n.msg._("close"))
                     .addClass("close")
                     .attr("data-dismiss", "modal")
                     .attr("aria-hidden", "true")
@@ -237,6 +238,8 @@ define(['jquery',
         });
 
         modal_obj.on('shown.bs.modal', function(){ editor.refresh(); });
+        modal_obj.on('hide.bs.modal', function(){
+            options.edit_metadata_button ? options.edit_metadata_button.focus() : "";});
     };
 
     var edit_attachments = function (options) {

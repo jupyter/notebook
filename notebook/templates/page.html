@@ -16,9 +16,9 @@
     {% endblock %}
     <link rel="stylesheet" href="{{ base_url }}custom/custom.css" type="text/css" />
     <script src="{{static_url("components/es6-promise/promise.min.js")}}" type="text/javascript" charset="utf-8"></script>
-    <script src="{{static_url('components/preact/index.js')}}" type="text/javascript"></script>
-    <script src="{{static_url('components/proptypes/index.js')}}" type="text/javascript"></script>
-    <script src="{{static_url('components/preact-compat/index.js')}}" type="text/javascript"></script>
+    <script src="{{static_url('components/react/react.production.min.js')}}" type="text/javascript"></script>
+    <script src="{{static_url('components/react/react-dom.production.min.js')}}" type="text/javascript"></script>
+    <script src="{{static_url('components/create-react-class/index.js')}}" type="text/javascript"></script>
     <script src="{{static_url('components/requirejs/require.js') }}" type="text/javascript" charset="utf-8"></script>
     <script>
       require.config({
@@ -122,7 +122,7 @@ dir="ltr">
   </div>
 </noscript>
 
-<div id="header">
+<div id="header" role="navigation" aria-label="{% trans %}Top Menu{% endtrans %}">
   <div id="header-container" class="container">
   <div id="ipython_notebook" class="nav navbar-brand"><a href="{{default_url}}
     {%- if logged_in and token -%}?token={{token}}{%- endif -%}" title='{% trans %}dashboard{% endtrans %}'>

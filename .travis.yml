@@ -8,8 +8,6 @@ cache:
 python:
     - 3.6
 
-sudo: required
-
 
 env:
   global:

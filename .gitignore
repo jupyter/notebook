@@ -35,11 +35,10 @@ src
 .idea/
 Read the Docs
 config.rst
-
+*.iml
 /.project
 /.pydevproject
 
 package-lock.json
 geckodriver.log
-
-
+*.iml
