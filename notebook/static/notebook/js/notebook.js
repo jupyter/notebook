@@ -463,6 +463,7 @@ define([
         };
     };
     
+
     Notebook.prototype.show_command_palette = function() {
         new commandpalette.CommandPalette(this);
     };

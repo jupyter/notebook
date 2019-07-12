@@ -455,4 +455,4 @@ def validate_dualmode_state(notebook, mode, index):
         assert is_focused_on(index) #The specified cell is focused
 
         assert is_only_cell_edit(index) #The specified cell is the only one in edit mode
-
+    
