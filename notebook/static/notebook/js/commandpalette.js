@@ -104,9 +104,9 @@ define([
           }
           before_close.ok = true; // avoid double call.
         };
-
+        
         mod.on("hide.bs.modal", before_close);
-
+        
 
         // will be trigger when user select action
         var onSubmit = function(node, query, result, resultCount) {
@@ -162,7 +162,7 @@ define([
           if (action.help) {
               help = i18n.msg._(action.help);
           }
-
+          
           src[group].data.push({
             display: display_text,
             shortcut: short,

@@ -43,7 +43,7 @@ var KeyBinding = createReactClass({
     var available = this.props.available(this.state.shrt);
     var empty = (this.state.shrt === '');
     var binding_setter = function(){
-      if (available) {
+      if (available) { 
         that.props.onAddBindings(that.state.shrt, that.props.ckey);
       }
       that.state.shrt='';
@@ -57,8 +57,8 @@ var KeyBinding = createReactClass({
                   onClick: binding_setter
               }),
               React.createElement('input', {
-                                      type:'text',
-                               placeholder:'add shortcut',
+                                      type:'text', 
+                               placeholder:'add shortcut', 
                                  className:'pull-right'+((available||empty)?'':' alert alert-danger'),
                                      value:that.state.shrt,
                                   onChange:that.handleShrtChange
@@ -105,7 +105,7 @@ var KeyBindingList = createReactClass({
           }));
       });
       children.unshift(React.createElement('div', {className:'well', key:'disclamer', id:'short-key-binding-intro', dangerouslySetInnerHTML:
-            {__html:
+            {__html: 
             marked(
 
             "Here you can modify the keyboard shortcuts available in "+
@@ -114,17 +114,17 @@ var KeyBindingList = createReactClass({
             )}
       }));
       children.push(React.createElement('div', {className:'well', key:'disclamer', id:'long-key-binding-intro', dangerouslySetInnerHTML:
-            {__html:
+            {__html: 
             marked(
 
-            "This dialog allows you to modify the keyboard shortcuts available in command mode. "+
+            "This dialog allows you to modify the keyboard shortcuts available in command mode. "+ 
             "Any changes will be persisted between sessions and across environments. "+
             "You can define two kinds of shortcuts: **key combinations** and **key sequences**.\n"+
             "\n"+
             " - **Key Combinations**:\n"+
             "   - Use hyphens `-` to represent keys that should be pressed at the same time.\n"+
             "   - This is designed for use with *modifier* keys: `Cmd`, `Ctrl`, `Alt` ,`Meta`, "+
-            "`Cmdtrl`, and `Shift`.\n"+
+            "`Cmdtrl`, and `Shift`.\n"+ 
             "       - `Cmdtrl` acts like `Cmd` on OS X/MacOS and `Ctrl` on Windows/Linux.\n"+
             "   - At most, one non-modifier key can exist in a key combination.\n"+
             "   - Multiple modifier keys can exist in a key combination.\n"+
@@ -140,8 +140,8 @@ var KeyBindingList = createReactClass({
             "<kbd>t</kbd> or <kbd>a</kbd>  <kbd>h</kbd> <kbd>l</kbd> <kbd>t</kbd>.\n"+
             "   - Sequences can include the same key multiple times (e.g., `d,d`).\n"+
             "   - You cannot include any pairs of sequences where one is a 'prefix' the other.\n"+
-            "     - E.g., `d,d,d` cannot be used a the same time as `d,d`.\n"+
-            "   - Key combinations are unique elements that can be used in a sequence.\n"+
+            "     - E.g., `d,d,d` cannot be used a the same time as `d,d`.\n"+ 
+            "   - Key combinations are unique elements that can be used in a sequence.\n"+ 
             "     - E.g., `Ctrl-d,d` and `d,d` can exist at the same time and are both valid key sequences.\n"+
             "\n"+
             "**Additional notes**:\n"+
@@ -208,7 +208,7 @@ var ShortcutEditor = function(notebook) {
             OK : {}
         }
     });
-
+    
     var src = get_shortcuts_data(notebook);
 
     mod.addClass("modal_stretch");

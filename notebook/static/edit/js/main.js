@@ -37,7 +37,7 @@ requirejs([
         console.log("Error loading custom.js from edition service. Continuing and logging");
         console.warn(err);
     }
-
+    
     page = new page.Page('div#header', 'div#site');
 
     var base_url = utils.get_body_data('baseUrl');
@@ -50,7 +50,7 @@ requirejs([
         base_url: base_url,
         common_config: common_config
     });
-
+    
     var editor = new editmod.Editor('#texteditor-container', {
         base_url: base_url,
         events: events,
@@ -58,22 +58,22 @@ requirejs([
         file_path: file_path,
         config: config,
     });
-
+    
     // Make it available for debugging
     IPython.editor = editor;
-
+    
     var save_widget = new savewidget.SaveWidget('span#save_widget', {
         editor: editor,
         events: events,
     });
-
+    
     var menus = new menubar.MenuBar('#menubar', {
         base_url: base_url,
         editor: editor,
         events: events,
         save_widget: save_widget,
     });
-
+    
     var notification_area = new notificationarea.EditorNotificationArea(
         '#notification_area', {
         events: events,

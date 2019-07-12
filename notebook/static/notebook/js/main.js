@@ -77,7 +77,7 @@ requirejs([
 
     // Pull typeahead from the global jquery object
     var typeahead = $.typeahead;
-
+    
     try{
         requirejs(['custom/custom'], function() {});
         bidi.loadLocale();
@@ -90,7 +90,7 @@ requirejs([
     window.CodeMirror = CodeMirror;
 
     // Setup all of the config related things
-
+    
 
     var common_options = {
         ws_url : utils.get_body_data("wsUrl"),
@@ -105,14 +105,14 @@ requirejs([
     common_config.load();
 
     // Instantiate the main objects
-
+    
     var page = new page.Page('div#header', 'div#site');
     var pager = new pager.Pager('div#pager', {
         events: events});
     var acts = new actions.init();
     var keyboard_manager = new keyboardmanager.KeyboardManager({
         pager: pager,
-        events: events,
+        events: events, 
         actions: acts,
         config: config_section,
     });
@@ -213,7 +213,7 @@ requirejs([
     });
 
     clipboard.setup_clipboard_events();
-
+    
     // Now actually load nbextensionsload_extensions_from_config
     Promise.all([
         utils.load_extensions_from_config(config_section),

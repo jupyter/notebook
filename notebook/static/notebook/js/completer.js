@@ -399,17 +399,17 @@ define([
          * before events were disconnected and CodeMirror stopped
          * receiving events while the completer is focused.
          */
-
+        
         var that = this;
         var code = event.keyCode;
-
+        
         // don't handle keypress if it's not a character (arrows on FF)
         // or ENTER/TAB
         if (event.charCode === 0 ||
             code == keycodes.tab ||
             code == keycodes.enter
         ) return;
-
+        
         this.close();
         this.editor.focus();
         setTimeout(function () {

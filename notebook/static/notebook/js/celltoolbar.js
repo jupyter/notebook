@@ -16,9 +16,9 @@ define([
          * Parameters:
          *  options: dictionary
          *      Dictionary of keyword arguments.
-         *          events: $(Events) instance
+         *          events: $(Events) instance 
          *          cell: Cell instance
-         *          notebook: Notebook instance
+         *          notebook: Notebook instance 
          *
          *  TODO: This leaks, when cell are deleted
          *  There is still a reference to each celltoolbars.
@@ -192,7 +192,7 @@ define([
     };
 
     /**
-     * unregister the selected preset,
+     * unregister the selected preset, 
      *
      * return true if preset successfully unregistered
      * false otherwise
@@ -287,7 +287,7 @@ define([
                 if (callback.cell_types.indexOf(this.cell.cell_type) === -1) continue;
                 callback = callback.callback;
             }
-
+            
             var local_div = $('<div/>').addClass('button_container');
             try {
                 callback(local_div, this.cell, this);

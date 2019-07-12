@@ -286,7 +286,7 @@ define([
         var edge_left = Math.max(center_left - 450, 0);
         // locate the arrow at the cursor. A 24 px offset seems necessary.
         var arrow_left = center_left - edge_left - 24;
-
+        
         // locate left, top within container element
         var left = (cell_pos.left + cm_pos.left + edge_left) + 'px';
         var top = (cell_pos.top + cm_pos.top + head.bottom + 10) + 'px';
@@ -307,11 +307,11 @@ define([
         this.arrow.animate({
             'left': arrow_left + 'px'
         });
-
+        
         this._hidden = false;
         this.tooltip.fadeIn('fast');
         this.text.children().remove();
-
+        
         // This should support rich data types, but only text/plain for now
         // Any HTML within the docstring is escaped by the fixConsole() method.
         var pre = $('<pre/>').html(utils.fixConsole(content.data['text/plain']));

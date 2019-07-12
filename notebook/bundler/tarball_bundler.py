@@ -20,7 +20,7 @@ def _jupyter_bundlerextension_paths():
 
 def bundle(handler, model):
     """Create a compressed tarball containing the notebook document.
-
+    
     Parameters
     ----------
     handler : tornado.web.RequestHandler
@@ -32,7 +32,7 @@ def bundle(handler, model):
     notebook_content = nbformat.writes(model['content']).encode('utf-8')
     notebook_name = os.path.splitext(notebook_filename)[0]
     tar_filename = '{}.tar.gz'.format(notebook_name)
-
+    
     info = tarfile.TarInfo(notebook_filename)
     info.size = len(notebook_content)
 

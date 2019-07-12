@@ -32,7 +32,7 @@ define([
         'j': 74, 'k': 75, 'l': 76, 'm': 77, 'n': 78, 'o': 79, 'p': 80, 'q': 81, 'r': 82,
         's': 83, 't': 84, 'u': 85, 'v': 86, 'w': 87, 'x': 88, 'y': 89, 'z': 90,
         '1 !': 49, '2 @': 50, '3 #': 51, '4 $': 52, '5 %': 53, '6 ^': 54,
-        '7 &': 55, '8 *': 56, '9 (': 57, '0 )': 48,
+        '7 &': 55, '8 *': 56, '9 (': 57, '0 )': 48, 
         '[ {': 219, '] }': 221, '` ~': 192,  ', <': 188, '. >': 190, '/ ?': 191,
         '\\ |': 220, '\' "': 222,
         'numpad0': 96, 'numpad1': 97, 'numpad2': 98, 'numpad3': 99, 'numpad4': 100,
@@ -45,20 +45,20 @@ define([
         'end': 35, 'home': 36, 'left': 37, 'up': 38, 'right': 39, 'down': 40,
         'insert': 45, 'delete': 46, 'numlock': 144,
     };
-
+    
     // These apply to Firefox and Opera
     var _mozilla_keycodes = {
         '; :': 59, '= +': 61, '- _': 173, 'meta': 224, 'minus':173
     };
-
+    
     // This apply to Webkit and IE
     var _ie_keycodes = {
         '; :': 186, '= +': 187, '- _': 189, 'minus':189
     };
-
+    
     var browser = utils.browser[0];
     var platform = utils.platform;
-
+    
     if (browser === 'Firefox' || browser === 'Opera' || browser === 'Netscape') {
         $.extend(_keycodes, _mozilla_keycodes);
     } else if (browser === 'Safari' || browser === 'Chrome' || browser === 'MSIE') {
@@ -206,7 +206,7 @@ define([
 
     ShortcutManager.prototype.clearqueue = function(){
         /**
-         * clear the pending shortcut sequence now.
+         * clear the pending shortcut sequence now. 
          **/
         this._queue = [];
         clearTimeout(this._cleartimeout);
@@ -215,7 +215,7 @@ define([
 
     var flatten_shorttree = function(tree){
         /**
-         * Flatten a tree of shortcut sequences.
+         * Flatten a tree of shortcut sequences. 
          * use full to iterate over all the key/values of available shortcuts.
          **/
         var dct = {};
@@ -227,7 +227,7 @@ define([
                 _.forEach(ftree, function(v2, subkey) {
                     dct[key+','+subkey] = ftree[subkey];
                 });
-            }
+            } 
         });
         return dct;
     };
@@ -243,7 +243,7 @@ define([
       });
       return res;
     };
-
+    
     ShortcutManager.prototype.get_action_shortcut = function(name){
       var matches = this.get_action_shortcuts(name);
       if (matches.length > 0) {
@@ -299,7 +299,7 @@ define([
         if(typeof(shortcut) === 'string'){
             shortcut = shortcut.split(',');
         }
-
+        
         return this._get_leaf(shortcut, this._shortcuts);
     };
 
@@ -397,8 +397,8 @@ define([
 
     ShortcutManager.prototype._persist_shortcut = function(shortcut, data) {
         /**
-         * add a shortcut to this manager and persist it to the config file.
-         **/
+         * add a shortcut to this manager and persist it to the config file. 
+         **/ 
         shortcut = shortcut.toLowerCase();
         this.add_shortcut(shortcut, data);
         var patch = {keys:{}};
@@ -441,11 +441,11 @@ define([
 
     ShortcutManager.prototype.add_shortcut = function (shortcut, data, suppress_help_update) {
         /**
-         * Add an action to be handled by shortcut manager.
-         *
+         * Add an action to be handled by shortcut manager. 
+         * 
          * - `shortcut` should be a `Shortcut Sequence` of the for `Ctrl-Alt-C,Meta-X`...
          * - `data` could be an `action name`, an `action` or a `function`.
-         *   if a `function` is passed it will be converted to an anonymous `action`.
+         *   if a `function` is passed it will be converted to an anonymous `action`. 
          *
          **/
         var action_name = this.actions.get_name(data);
@@ -471,7 +471,7 @@ define([
     ShortcutManager.prototype.add_shortcuts = function (data) {
         /**
          * Convenient methods to call `add_shortcut(key, value)` on several items
-         *
+         * 
          *  data : Dict of the form {key:value, ...}
          **/
         var that = this;
@@ -485,7 +485,7 @@ define([
     ShortcutManager.prototype._add_default_shortcuts = function (data) {
         /**
          * same as add_shortcuts, but register them as "default" that if persistently unbound, with
-         * persist_remove_shortcut, need to be on the "unbind" list.
+         * persist_remove_shortcut, need to be on the "unbind" list. 
          **/
         this._defaults_bindings = this._defaults_bindings.concat(Object.keys(data));
         this.add_shortcuts(data);
@@ -526,11 +526,11 @@ define([
         /**
          * Call the corresponding shortcut handler for a keyboard event
          * @method call_handler
-         * @return {Boolean} `true|false`, `false` if no handler was found, otherwise the  value return by the handler.
+         * @return {Boolean} `true|false`, `false` if no handler was found, otherwise the  value return by the handler. 
          * @param event {event}
          *
-         * given an event, call the corresponding shortcut.
-         * return false is event wan handled, true otherwise
+         * given an event, call the corresponding shortcut. 
+         * return false is event wan handled, true otherwise 
          * in any case returning false stop event propagation
          **/
 
@@ -547,7 +547,7 @@ define([
             this.clearqueue();
             return true;
         }
-
+        
         if (this.actions.exists(action_name)) {
             event.preventDefault();
             this.clearqueue();
