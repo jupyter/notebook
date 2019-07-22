@@ -322,13 +322,16 @@ class MappingKernelManager(LoggingConfigurable):
         """
         if path is not None:
             kwargs['cwd'] = self.cwd_for_path(path)
-        kernel_id = str(uuid.uuid4())
+
         if kernel_name is None:
             kernel_name = 'pyimport/kernel'
         elif '/' not in kernel_name:
             kernel_name = 'spec/' + kernel_name
 
         kernel = KernelInterface(kernel_name, self.kernel_finder)
+        kernel_id = kernel.manager.kernel_id
+        if kernel_id is None:  # if provider didn't set a kernel_id, let's associate one to this kernel
+            kernel_id = str(uuid.uuid4())
         self._kernels[kernel_id] = kernel
 
         self.start_watching_activity(kernel_id)
