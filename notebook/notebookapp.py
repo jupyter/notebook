@@ -1746,8 +1746,9 @@ class NotebookApp(JupyterApp):
 
         This can be used to open the notebook in a browser
         """
-        # default_url contains base_url, but so does connection_url
-        open_url = self.default_url[len(self.base_url):]
+        
+        # New notebook path.
+        open_url = "/notebooks/newnotebook.ipynb"
 
         with open(self.browser_open_file, 'w', encoding='utf-8') as f:
             self._write_browser_open_file(open_url, f)
