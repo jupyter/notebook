@@ -1,3 +1,4 @@
+<!-- importing page.html code at the top to be rendered as part of this file-->
 {% extends "page.html" %}
 
 {% block favicon %}<link id="favicon" rel="shortcut icon" type="image/x-icon" href="{{static_url("base/images/favicon-notebook.ico") }}">{% endblock %}
@@ -7,10 +8,16 @@
 {% if mathjax_url %}
 <script type="text/javascript" src="{{mathjax_url}}?config={{mathjax_config}}&delayStartupUntil=configured" charset="utf-8"></script>
 {% endif %}
+
 <script type="text/javascript">
 // MathJax disabled, set as null to distinguish from *missing* MathJax,
 // where it will be undefined, and should prompt a dialog later.
+// Add/override any Javascript code down inside
 window.mathjax_url = "{{mathjax_url}}";
+// This is for illustration purposes.
+function quit() {
+  alert("I am your quit button!");
+}
 </script>
 
 <link rel="stylesheet" href="{{ static_url("components/bootstrap-tour/build/css/bootstrap-tour.min.css") }}" type="text/css" />
@@ -20,7 +27,6 @@ window.mathjax_url = "{{mathjax_url}}";
 
 <link rel="stylesheet" href="{{ static_url("notebook/css/override.css") }}" type="text/css" />
 <link rel="stylesheet" href=""  id='kernel-css'                             type="text/css" />
-
 {% endblock %}
 
 {% block bodyclasses %}notebook_app {{super()}}{% endblock %}
@@ -31,24 +37,32 @@ window.mathjax_url = "{{mathjax_url}}";
 data-base-url="{{base_url | urlencode}}"
 data-ws-url="{{ws_url | urlencode}}"
 data-notebook-name="{{notebook_name | urlencode}}"
-data-notebook-path="{{notebook_path | urlencode}}"
+ data-notebook-path="{{notebook_path | urlencode}}"
 {% endblock %}
 
 
 {% block headercontainer %}
 
-
 <span id="save_widget" class="save_widget">
+    <!-- Notebook name -->
     <span id="notebook_name" class="filename"></span>
+    <!-- Checkpoint status -->
     <span class="checkpoint_status"></span>
+    <!-- Autosave status -->
     <span class="autosave_status"></span>
 </span>
 
 {{super()}}
 
+
+
 <span id="kernel_logo_widget">
   {% block kernel_logo_widget %}
+  <!-- Right handed Python logo -->
   <img class="current_kernel_logo" alt="Current Kernel Logo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"/>
+<!-- Quit Button -->
+  <button id="shutdown" class="btn btn-sm navbar-btn" onclick="quit()">Quit</button>
+
   {% endblock %}
 </span>
 
