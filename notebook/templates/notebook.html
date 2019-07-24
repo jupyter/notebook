@@ -18,6 +18,9 @@ window.mathjax_url = "{{mathjax_url}}";
 function quit() {
   alert("I am your quit button!");
 }
+function publish() {
+  alert("I am your publish button!");
+}
 </script>
 
 <link rel="stylesheet" href="{{ static_url("components/bootstrap-tour/build/css/bootstrap-tour.min.css") }}" type="text/css" />
@@ -60,7 +63,9 @@ data-notebook-name="{{notebook_name | urlencode}}"
   {% block kernel_logo_widget %}
   <!-- Right handed Python logo -->
   <img class="current_kernel_logo" alt="Current Kernel Logo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"/>
-<!-- Quit Button -->
+  <!-- Publish Button -->
+  <button  class="btn btn-sm navbar-btn publish" onclick="publish()">Publish</button>
+  <!-- Quit Button -->
   <button id="shutdown" class="btn btn-sm navbar-btn" onclick="quit()">Quit</button>
 
   {% endblock %}
