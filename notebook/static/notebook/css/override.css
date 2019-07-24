@@ -5,3 +5,11 @@ a hack to deal with our current css styles and no new styling should be added in
 #ipython-main-app {
     position: relative;
 }
+/*Styling publishing button*/
+.publish{
+	background-color: white;
+	border-color: lightgray;
+}
+.publish:hover{
+	background-color: lightgray!important;
+}
