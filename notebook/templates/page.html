@@ -132,22 +132,6 @@ dir="ltr">
   {% block headercontainer %}
   {% endblock %}
   
-  {% block header_buttons %}
-  
-  {% block login_widget %}
-
-    <span id="login_widget">
-      {% if logged_in %}
-        <button id="logout" class="btn btn-sm navbar-btn">{% trans %}Logout{% endtrans %}</button>
-      {% elif login_available and not logged_in %}
-        <button id="login" class="btn btn-sm navbar-btn">{% trans %}Login{% endtrans %}</button>
-      {% endif %}
-    </span>
-
-  {% endblock %}
-
-  {% endblock header_buttons %}
-  
   </div>
   <div class="header-bar"></div>
 
