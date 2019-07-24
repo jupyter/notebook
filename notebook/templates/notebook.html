@@ -96,27 +96,12 @@ data-notebook-name="{{notebook_name | urlencode}}"
             <span id="notification_area"></span>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
+                <!-- File menu -->
                 <li class="dropdown"><a href="#" id="filelink" aria-haspopup="true" aria-controls="file_menu class="dropdown-toggle" data-toggle="dropdown">{% trans %}File{% endtrans %}</a>
                     <ul id="file_menu" class="dropdown-menu" role="menu" aria-labelledby="filelink">
-                        <li id="new_notebook" class="dropdown-submenu" role="none">
-                            <a href="#" role="menuitem">{% trans %}New Notebook{% endtrans %}<span class="sr-only">{% trans %}Toggle Dropdown{% endtrans %}</span></a>
-                            <ul class="dropdown-menu" id="menu-new-notebook-submenu"></ul>
-                        </li>
-                        <li id="open_notebook" role="none"
-                            title="{% trans %}Opens a new window with the Dashboard view{% endtrans %}">
-                            <a href="#" role="menuitem">{% trans %}Open...{% endtrans %}</a></li>
-                        <!-- <hr/> -->
-                        <li class="divider" role="none"></li>
-                        <li id="copy_notebook" role="none"
-                            title="{% trans %}Open a copy of this notebook's contents and start a new kernel{% endtrans %}">
-                            <a href="#" role="menuitem">{% trans %}Make a Copy...{% endtrans %}</a></li>
-                        <li id="save_notebook_as" role="none"
-                            title="{% trans %}Save a copy of the notebook's contents and start a new kernel{% endtrans %}">
-                            <a href="#" role="menuitem">{% trans %}Save as...{% endtrans %}</a></li>
-                        <li id="rename_notebook" role="none"><a href="#" role="menuitem">{% trans %}Rename...{% endtrans %}</a></li>
+                        <!-- Save checkpoint item -->
                         <li id="save_checkpoint" role="none"><a href="#" role="menuitem">{% trans %}Save and Checkpoint{% endtrans %}</a></li>
-                        <!-- <hr/> -->
-                        <li class="divider" role="none"></li>
+                        <!-- Restore checkpoint item -->
                         <li id="restore_checkpoint" class="dropdown-submenu" role="none"><a href="#" role="menuitem">{% trans %}Revert to Checkpoint{% endtrans %}<span class="sr-only">{% trans %}Toggle Dropdown{% endtrans %}</span></a>
                           <ul class="dropdown-menu">
                             <li><a href="#"></a></li>
@@ -126,8 +111,7 @@ data-notebook-name="{{notebook_name | urlencode}}"
                             <li><a href="#"></a></li>
                           </ul>
                         </li>
-                        <li class="divider" role="none"></li>
-                        <li id="print_preview" role="none"><a href="#" role="menuitem">{% trans %}Print Preview{% endtrans %}</a></li>
+                        <!-- Download as -->
                         <li class="dropdown-submenu" role="none"><a href="#" role="menuitem">{% trans %}Download as{% endtrans %}<span class="sr-only">{% trans %}Toggle Dropdown{% endtrans %}</span></a>
                             <ul id="download_menu" class="dropdown-menu">
                                 {% for exporter in get_frontend_exporters() %}
@@ -137,17 +121,10 @@ data-notebook-name="{{notebook_name | urlencode}}"
                                 {% endfor %}
                             </ul>
                         </li>
+                        <!-- Deploy as -->
                         <li class="dropdown-submenu hidden" role="none"><a href="#" role="menuitem">{% trans %}Deploy as{% endtrans %}</a>
                             <ul id="deploy_menu" class="dropdown-menu"></ul>
                         </li>
-                        <li class="divider" role="none"></li>
-                        <li id="trust_notebook" role="none"
-                            title="{% trans %}Trust the output of this notebook{% endtrans %}">
-                            <a href="#" role="menuitem">{% trans %}Trust Notebook{% endtrans %}</a></li>
-                        <li class="divider" role="none"></li>
-                        <li id="close_and_halt" role="none"
-                            title="{% trans %}Shutdown this notebook's kernel, and close this window{% endtrans %}">
-                            <a href="#" role="menuitem">{% trans %}Close and Halt{% endtrans %}</a></li>
                     </ul>
                 </li>
 
