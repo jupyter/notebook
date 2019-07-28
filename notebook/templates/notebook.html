@@ -320,49 +320,12 @@ data-notebook-name="{{notebook_name | urlencode}}"
                         </li>
                     </ul>
                 </li>
-                
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Help{% endtrans %}</a>
-                    <ul  id="help_menu" class="dropdown-menu">
-                        {% block help %}
-                        <li id="notebook_tour" title="{% trans %}A quick tour of the notebook user interface{% endtrans %}"><a href="#">{% trans %}User Interface Tour{% endtrans %}</a></li>
-                        <li id="keyboard_shortcuts" title="{% trans %}Opens a tooltip with all keyboard shortcuts{% endtrans %}"><a href="#">{% trans %}Keyboard Shortcuts{% endtrans %}</a></li>
-                        <li id="edit_keyboard_shortcuts" title="{% trans %}Opens a dialog allowing you to edit Keyboard shortcuts{% endtrans %}"><a href="#">{% trans %}Edit Keyboard Shortcuts{% endtrans %}</a></li>
-                        <li class="divider"></li>
-                        {% set
-                            sections = (
-                                (
-                                    ("http://nbviewer.jupyter.org/github/ipython/ipython/blob/3.x/examples/Notebook/Index.ipynb", _("Notebook Help"), True),
-                                    ("https://help.github.com/articles/markdown-basics/",_("Markdown"),True),
-                                ),
-                            )
-                        %}
-
-						{% set openmsg = _("Opens in a new window") %}
-                        {% for helplinks in sections %}
-                            {% for link in helplinks %}
-                                <li><a rel="noreferrer" href="{{link[0]}}" target="{{'_blank' if link[2]}}" title="{{openmsg if link[2]}}">
-                                {% if link[2] %}
-                                    <i class="fa fa-external-link menu-icon pull-right"></i>
-                                {% endif %}
-
-                                {{link[1]}}
-                                </a></li>
-                            {% endfor %}
-                            {% if not loop.last %}
-                                <li class="divider"></li>
-                            {% endif %}
-                        {% endfor %}
-                        <li class="divider"></li>
-                        <li title="{% trans %}About Jupyter Notebook{% endtrans %}"><a id="notebook_about" href="#">{% trans %}About{% endtrans %}</a></li>
-                        {% endblock %}
-                    </ul>
-                </li>
               </ul>
             </div>
         </div>
     </div>
 </div>
-
+<!-- Tool bar -->
 <div id="maintoolbar" class="navbar">
   <div class="toolbar-inner navbar-inner navbar-nobg">
     <div id="maintoolbar-container" class="container"></div>

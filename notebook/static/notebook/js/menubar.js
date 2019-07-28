@@ -305,7 +305,6 @@ define([
         this.events.on('kernel_ready.Kernel', function(event, data) {
             var langinfo = data.kernel.info_reply.language_info || {};
             that.update_nbconvert_script(langinfo);
-            that.add_kernel_help_links(data.kernel.info_reply.help_links || []);
         });
     };
     
@@ -395,46 +394,5 @@ define([
         langname = langname.charAt(0).toUpperCase()+langname.substr(1); // Capitalise
         el.find('a').text(langname + ' ('+(langinfo.file_extension || 'txt')+')');
     };
-
-    MenuBar.prototype.add_kernel_help_links = function(help_links) {
-        /** add links from kernel_info to the help menu */
-        var divider = $("#kernel-help-links");
-        if (divider.length === 0) {
-            // insert kernel help section above about link
-            var about = $("#notebook_about").parent();
-            divider = $("<li>")
-                .attr('id', "kernel-help-links")
-                .addClass('divider');
-            about.prev().before(divider);
-        }
-        // remove previous entries
-        while (!divider.next().hasClass('divider')) {
-            divider.next().remove();
-        }
-        if (help_links.length === 0) {
-            // no help links, remove the divider
-            divider.remove();
-            return;
-        }
-        var cursor = divider;
-        help_links.map(function (link) {
-            cursor.after($("<li>")
-                .append($("<a>")
-                    .attr('target', '_blank')
-                    .attr('title', i18n.msg._('Opens in a new window'))
-                    .attr('href', requirejs.toUrl(link.url))
-                    .append($("<i>")
-                        .addClass("fa fa-external-link menu-icon pull-right")
-                    )
-                    .append($("<span>")
-                        .text(link.text)
-                    )
-                )
-            );
-            cursor = cursor.next();
-        });
-        
-    };
-
     return {'MenuBar': MenuBar};
 });
