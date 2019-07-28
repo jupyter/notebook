@@ -91,7 +91,7 @@ You can test it out through your powershell:
 #### Installing Jupyter Notebook
 
 	pip install --upgrade setuptools pip
-	git clone https://www.github.com/
+	git clone https://github.com/AlyMuhammadAly/notebook.git
 	cd notebook
 	pip install -e .
 	
