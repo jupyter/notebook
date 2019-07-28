@@ -1748,6 +1748,9 @@ class NotebookApp(JupyterApp):
         """
         
         # New notebook path.
+        # The notebook path depends on the directorys' path where your're going to run the "jupyter notebook" command from.
+        # This path is set such that the "jupyter notebook" command will be ran inside the notebook directory.
+        # Otherwise you'll need to change the path underneath, or you'll get a 404 error.
         open_url = "/notebooks/newnotebook.ipynb"
 
         with open(self.browser_open_file, 'w', encoding='utf-8') as f:
