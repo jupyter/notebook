@@ -20,7 +20,7 @@
 <a name="about"></a>
 ## About This Repository:
 
-Hey there! In This **forked** repository few contributions to Jupyter Notebook's UI to accommodate to the modifications underneath:
+Hey there! In This **forked** repository are few contributions to Jupyter Notebook's UI to accommodate to the modifications underneath:
 
 * Redirecting the user to an existing notebook instead of the default dashboard.
 * Deleting some sub-items in the menu bar in the notebook file.
@@ -172,7 +172,7 @@ Adding the **Quit** button.
 <a name="styling"></a>
 #### Styling Jupyter Notebooks:
 
-You can download some cool stylings from [here] (https://github.com/dunovank/jupyter-themes/tree/master/jupyterthemes/styles/compiled). Paste & save the css code in `custom.css`, then run `jupyter notebook` in the terminal to see the new stylings in action.
+You can download some cool stylings from [here](https://github.com/dunovank/jupyter-themes/tree/master/jupyterthemes/styles/compiled). Paste & save the css code in `custom.css`, then run `jupyter notebook` in the terminal to see the new stylings in action.
 	
 	/notebook/notebook/static/custom/custom.css
 
