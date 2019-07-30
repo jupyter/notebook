@@ -99,17 +99,6 @@ Once installation done successfully, now you can launch the master branch of Jup
 
 	jupyter notebook
 
-<!--#### Verification
-
-* While running the notebook
-* select one of your notebook files (the file will have the extension .ipynb). 
-* In the top tab you will click on **Help** and then click on **About**. 
-* In the pop window you will see information about the version of Jupyter that you are running. You will see `The version of the notebook server is:`.
-* If you are working in development mode, you will see that your version of Jupyter notebook will include the word `dev`.
-
-<img src="https://raw.githubusercontent.com/jupyter/notebook/master/docs/source/_static/images/jupyter-verification.png"/> 
--->
-
 <a name="contributing"></a>
 ## Contributing To Jupyter Notebook:
 Underneath you'll find every modification is associated with the necessary file(s) path(s).
@@ -119,7 +108,7 @@ Underneath you'll find every modification is associated with the necessary file(
 
 Changing the default dashboard to a new **existing** notebook.
 
-	/notebook/notebook/notebookapp.py
+	notebook/notebook/notebookapp.py
 	
 
 <img src="https://i.ibb.co/K5h0PCP/new.png"/> 
@@ -129,9 +118,9 @@ Changing the default dashboard to a new **existing** notebook.
 	
 Removing few sub-items from the menu bar.
 
-	/notebook/notebook/templates/notebook.html 
-	/notebook/notebook/static/notebook/js/menubar.js
-	/notebook/notebook/static/notebook/less/style.less
+	notebook/notebook/templates/notebook.html 
+	notebook/notebook/static/notebook/js/menubar.js
+	notebook/notebook/static/notebook/less/style.less
 	 
 	
 Modifying the **file** drop down menu:
@@ -151,21 +140,21 @@ Removing the **Help** menu item:
 
 Removing the upper right **logout** button.
 
-	/notebook/notebook/templates/page.html
+	notebook/notebook/templates/page.html
 		
 <img src="https://i.ibb.co/6nVmhYr/nologout.png"  /> 
 
 Adding the **Quit** button.
 
-	/notebook/notebook/templates/notebook.html
+	notebook/notebook/templates/notebook.html
 	
 <img src="https://i.ibb.co/kyGCqG1/quit.png"/> 
 
 <a name="publish-button"></a>
 #### Adding a "Publish" Button:
 
-	/notebook/notebook/templates/notebook.html
-	/notebook/notebook/templates/override.css
+	notebook/notebook/templates/notebook.html
+	notebook/notebook/templates/override.css
 
 <img src="https://i.ibb.co/vcpKMRN/buttons.png" /> 
 
@@ -174,7 +163,7 @@ Adding the **Quit** button.
 
 You can download some cool stylings from [here](https://github.com/dunovank/jupyter-themes/tree/master/jupyterthemes/styles/compiled). Paste & save the css code in `custom.css`, then run `jupyter notebook` in the terminal to see the new stylings in action.
 	
-	/notebook/notebook/static/custom/custom.css
+	notebook/notebook/static/custom/custom.css
 
 	
 	
