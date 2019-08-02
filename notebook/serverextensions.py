@@ -106,20 +106,21 @@ def validate_serverextension(import_name, logger=None):
         version = getattr(mod, '__version__', '')
     except Exception:
         logger.warning("Error loading server extension %s", import_name)
-
-    import_msg = u"     {} is {} importable?"
-    if func is not None:
-        infos.append(import_msg.format(GREEN_OK, import_name))
-    else:
-        warnings.append(import_msg.format(RED_X, import_name))
-
-    post_mortem = u"      {} {} {}"
-    if logger:
-        if warnings:
-            [logger.info(info) for info in infos]
-            [logger.warn(warning) for warning in warnings]
+        sys.exit(1)
+    finally:
+        import_msg = u"     {} is {} importable?"
+        if func is not None:
+            infos.append(import_msg.format(GREEN_OK, import_name))
         else:
-            logger.info(post_mortem.format(import_name, version, GREEN_OK))
+            warnings.append(import_msg.format(RED_X, import_name))
+
+        post_mortem = u"      {} {} {}"
+        if logger:
+            if warnings:
+                [logger.info(info) for info in infos]
+                [logger.warn(warning) for warning in warnings]
+            else:
+                logger.info(post_mortem.format(import_name, version, GREEN_OK))
 
     return warnings
 
