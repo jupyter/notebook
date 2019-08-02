@@ -306,40 +306,40 @@ class NotebookApp(ExtensionApp):
         basename = "nbserver-%s-open.html" % os.getpid()
         return os.path.join(self.runtime_dir, basename)
 
-    notebook_dir = Unicode(config=True,
-        help=_("The directory to use for notebooks and kernels.")
-    )
+    # notebook_dir = Unicode(config=True,
+    #     help=_("The directory to use for notebooks and kernels.")
+    # )
 
-    @default('notebook_dir')
-    def _default_notebook_dir(self):
-        if self.file_to_run:
-            return os.path.dirname(os.path.abspath(self.file_to_run))
-        else:
-            return py3compat.getcwd()
+    # @default('notebook_dir')
+    # def _default_notebook_dir(self):
+    #     if self.file_to_run:
+    #         return os.path.dirname(os.path.abspath(self.file_to_run))
+    #     else:
+    #         return py3compat.getcwd()
 
-    @validate('notebook_dir')
-    def _notebook_dir_validate(self, proposal):
-        value = proposal['value']
-        # Strip any trailing slashes
-        # *except* if it's root
-        _, path = os.path.splitdrive(value)
-        if path == os.sep:
-            return value
-        value = value.rstrip(os.sep)
-        if not os.path.isabs(value):
-            # If we receive a non-absolute path, make it absolute.
-            value = os.path.abspath(value)
-        if not os.path.isdir(value):
-            raise TraitError(trans.gettext("No such notebook dir: '%r'") % value)
-        return value
+    # @validate('notebook_dir')
+    # def _notebook_dir_validate(self, proposal):
+    #     value = proposal['value']
+    #     # Strip any trailing slashes
+    #     # *except* if it's root
+    #     _, path = os.path.splitdrive(value)
+    #     if path == os.sep:
+    #         return value
+    #     value = value.rstrip(os.sep)
+    #     if not os.path.isabs(value):
+    #         # If we receive a non-absolute path, make it absolute.
+    #         value = os.path.abspath(value)
+    #     if not os.path.isdir(value):
+    #         raise TraitError(trans.gettext("No such notebook dir: '%r'") % value)
+    #     return value
 
-    @observe('notebook_dir')
-    def _update_notebook_dir(self, change):
-        """Do a bit of validation of the notebook dir."""
-        # setting App.notebook_dir implies setting notebook and kernel dirs as well
-        new = change['new']
-        self.config.FileContentsManager.root_dir = new
-        self.config.MappingKernelManager.root_dir = new
+    # @observe('notebook_dir')
+    # def _update_notebook_dir(self, change):
+    #     """Do a bit of validation of the notebook dir."""
+    #     # setting App.notebook_dir implies setting notebook and kernel dirs as well
+    #     new = change['new']
+    #     self.config.FileContentsManager.root_dir = new
+    #     self.config.MappingKernelManager.root_dir = new
 
     nbserver_extensions = Dict({}, config=True,
         help=(_("Dict of Python modules to load as notebook server extensions."
