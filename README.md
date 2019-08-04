@@ -1,9 +1,3 @@
-## <center>Customizing Jupyter Notebook</center>
-
-<center> <p float="center">
-  <img src="https://i.ibb.co/fS9612F/jupyter.png" width="200" /> 
-</p></center>
-
 ## Table Of Contents:
 
 * [About This Repository](#about)
