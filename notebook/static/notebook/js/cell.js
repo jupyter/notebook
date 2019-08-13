@@ -615,7 +615,9 @@ define([
         // Cursors is now sorted, but likely has duplicates due to anchor and head being the same for cursors
         var locations = [cursors[0]];
         for (var i = 1; i < cursors.length; i++) {
-            if (cursors[i] != locations[locations.length-1]) {
+            var last = locations[locations.length-1];
+            var current = cursors[i];
+            if ((last.line != current.line) || (last.ch != current.ch)) {
                 locations.push(cursors[i]);
             }
         }
@@ -625,10 +627,7 @@ define([
         for (var i = 1; i < locations.length; i++) {
             var text = this.code_mirror.getRange(locations[i-1], locations[i]);
             text = text.replace(/^\n+/, '').replace(/\n+$/, ''); // removes newlines at beginning and end
-            if ($.trim(text) != '') {
-                // No cells full of whitespace
-                text_list.push(text);
-            }
+            text_list.push(text);
         }
         return text_list;
     };
