@@ -1755,18 +1755,19 @@ define([
     Notebook.prototype.split_cell = function () {
         var cell = this.get_selected_cell();
         if (cell.is_splittable()) {
-            var texta = cell.get_pre_cursor();
-            var textb = cell.get_post_cursor();
-            // current cell becomes the second one
+            var text_list = cell.get_split_text();
+            for (var i = 0; i < text_list.length-1; i++) {
+                // Create new cell with same type
+                var new_cell = this.insert_cell_above(cell.cell_type);
+                // Unrender the new cell so we can call set_text.
+                new_cell.unrender();
+                new_cell.set_text(text_list[i]);
+                // Duplicate metadata
+                new_cell.metadata = JSON.parse(JSON.stringify(cell.metadata));
+            }
+            // Original cell becomes the last one
             // so we don't need to worry about selection
-            cell.set_text(textb);
-            // create new cell with same type
-            var new_cell = this.insert_cell_above(cell.cell_type);
-            // Unrender the new cell so we can call set_text.
-            new_cell.unrender();
-            new_cell.set_text(texta);
-            // duplicate metadata
-            new_cell.metadata = JSON.parse(JSON.stringify(cell.metadata));
+            cell.set_text(text_list[text_list.length-1]);
         }
     };
 
