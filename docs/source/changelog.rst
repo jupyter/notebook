@@ -21,6 +21,20 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+
+.. _release-6.0.1:
+
+6.0.1
+-----
+
+- Attempt to re-establish websocket connection to Gateway (:ghpull:`4777`)
+- Add missing react-dom js to package data (:ghpull:`4772`)
+
+Thanks for all the contributors:
+
+- Eunsoo Park
+- Min RK
+
 .. _release-6.0:
 
 6.0
