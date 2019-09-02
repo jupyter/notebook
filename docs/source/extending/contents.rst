@@ -79,7 +79,8 @@ model. There are three model types: **notebook**, **file**, and **directory**.
 
 - ``file`` models
     - The ``format`` field is either ``"text"`` or ``"base64"``.
-    - The ``mimetype`` field is ``text/plain`` for text-format models and
+    - The ``mimetype`` field is can be any mimetype string, but defaults to 
+      ``text/plain`` for text-format models and
       ``application/octet-stream`` for base64-format models.
     - The ``content`` field is always of type ``unicode``.  For text-format
       file models, ``content`` simply contains the file's bytes after decoding
@@ -97,11 +98,11 @@ model. There are three model types: **notebook**, **file**, and **directory**.
    .. _contentfree:
 
    In certain circumstances, we don't need the full content of an entity to
-   complete a Contents API request.  In such cases, we omit the ``mimetype``,
-   ``content``, and ``format`` keys from the model. This most commonly occurs
-   when listing a directory, in which circumstance we represent files within
-   the directory as content-less models to avoid having to recursively traverse
-   and serialize the entire filesystem.
+   complete a Contents API request.  In such cases, we omit the ``content``, and
+   ``format`` keys from the model, and the default values for the ``mimetype``
+   field. This most commonly occurs    when listing a directory, in which
+   circumstance we represent files within    the directory as content-less models
+   to avoid having to recursively traverse    and serialize the entire filesystem.
 
 **Sample Models**
 
