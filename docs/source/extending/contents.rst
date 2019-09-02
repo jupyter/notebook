@@ -100,9 +100,9 @@ model. There are three model types: **notebook**, **file**, and **directory**.
    In certain circumstances, we don't need the full content of an entity to
    complete a Contents API request.  In such cases, we omit the ``content``, and
    ``format`` keys from the model, and the default values for the ``mimetype``
-   field. This most commonly occurs    when listing a directory, in which
-   circumstance we represent files within    the directory as content-less models
-   to avoid having to recursively traverse    and serialize the entire filesystem.
+   field. This most commonly occurs when listing a directory, in which
+   circumstance we represent files within the directory as content-less models
+   to avoid having to recursively traverse and serialize the entire filesystem.
 
 **Sample Models**
 
