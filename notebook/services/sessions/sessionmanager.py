@@ -15,16 +15,34 @@ from tornado import gen, web
 
 from traitlets.config.configurable import LoggingConfigurable
 from ipython_genutils.py3compat import unicode_type
-from traitlets import Instance
+from traitlets import Instance, CBool
 
 from notebook.utils import maybe_future
 
 
 class SessionManager(LoggingConfigurable):
+    """Manage kernel sessions in the Jupyter server.
+
+    A session is a record with the following fields:
+
+    session_id: unique id string, assigned by the server
+    path: string, assigned by user, denoting a user-assigned unique id.
+    name: string, assigned by user, denoting a value to be displayed to the user.
+    type: string, assigned by user, for categorizing sessions
+    kernel_id: string, assigned by server, mapping the appropriate kernel id.
+
+    The kernel_id may be null/None if allow_no_kernel is True.
+
+    If allow_no_kernel is False (the default), sessions are automatically deleted
+    when the associated kernel is gone. If allow_no_kernel is True, sessions persist
+    beyond their kernel.
+    """
 
     kernel_manager = Instance('notebook.services.kernels.kernelmanager.MappingKernelManager')
     contents_manager = Instance('notebook.services.contents.manager.ContentsManager')
     
+    allow_no_kernel = CBool(False, help="Allow a session to exist without a kernel.", config=True)
+
     # Session database initialized below
     _cursor = None
     _connection = None
@@ -59,16 +77,13 @@ class SessionManager(LoggingConfigurable):
 
     @gen.coroutine
     def session_exists(self, path):
-        """Check to see if the session of a given name exists"""
+        """Check to see if the session of a given path exists"""
         exists = False
         self.cursor.execute("SELECT * FROM session WHERE path=?", (path,))
         row = self.cursor.fetchone()
         if row is not None:
-            # Note, although we found a row for the session, the associated kernel may have
-            # been culled or died unexpectedly.  If that's the case, we should delete the
-            # row, thereby terminating the session.  This can be done via a call to
-            # row_to_model that tolerates that condition.  If row_to_model returns None,
-            # we'll return false, since, at that point, the session doesn't exist anyway.
+            # Call row_to_model to see if we should garbage collect the session
+            # and report that it does not exist.
             model = yield maybe_future(self.row_to_model(row, tolerate_culled=True))
             if model is not None:
                 exists = True
@@ -82,10 +97,10 @@ class SessionManager(LoggingConfigurable):
     def create_session(self, path=None, name=None, type=None, kernel_name=None, kernel_id=None):
         """Creates a session and returns its model"""
         session_id = self.new_session_id()
-        if kernel_id is not None and kernel_id in self.kernel_manager:
-            pass
-        else:
+        # If we do not have a valid kernel, start one.
+        if kernel_id is None or kernel_id not in self.kernel_manager:
             kernel_id = yield self.start_kernel_for_session(session_id, path, name, type, kernel_name)
+
         result = yield maybe_future(
             self.save_session(session_id, path=path, name=name, type=type, kernel_id=kernel_id)
         )
@@ -219,26 +234,40 @@ class SessionManager(LoggingConfigurable):
     @gen.coroutine
     def row_to_model(self, row, tolerate_culled=False):
         """Takes sqlite database session row and turns it into a dictionary"""
-        kernel_culled = yield maybe_future(self.kernel_culled(row['kernel_id']))
-        if kernel_culled:
-            # The kernel was culled or died without deleting the session.
-            # We can't use delete_session here because that tries to find
-            # and shut down the kernel - so we'll delete the row directly.
+        session_id = row['session_id']
+        kernel_id = row['kernel_id']
+        if kernel_id is not None:
+            # If the kernel is culled, then it should be None
+            kernel_culled = yield maybe_future(self.kernel_culled(kernel_id))
+            if kernel_culled:
+                kernel_id = None
+                if self.allow_no_kernel:
+                    self.cursor.execute('UPDATE session SET kernel_id=NULL WHERE session_id=?', (session_id,))
+
+        if kernel_id is None and not self.allow_no_kernel:
+            # Kernel is not allowed to be None (could be that it was culled or
+            # died), so delete the session. We can't use delete_session here
+            # because that tries to find and shut down the kernel - so we'll
+            # delete the row directly.
             #
-            # If caller wishes to tolerate culled kernels, log a warning
-            # and return None.  Otherwise, raise KeyError with a similar
-            # message.
+            # If caller wishes to tolerate culled kernels with raising an
+            # error, log a warning and return None.  Otherwise, raise KeyError
+            # with a similar message.
             self.cursor.execute("DELETE FROM session WHERE session_id=?", 
-                                (row['session_id'],))
+                                (session_id,))
             msg = "Kernel '{kernel_id}' appears to have been culled or died unexpectedly, " \
                   "invalidating session '{session_id}'. The session has been removed.".\
-                format(kernel_id=row['kernel_id'],session_id=row['session_id'])
+                format(kernel_id=kernel_id, session_id=session_id)
             if tolerate_culled:
                 self.log.warning(msg + "  Continuing...")
                 raise gen.Return(None)
             raise KeyError(msg)
 
-        kernel_model = yield maybe_future(self.kernel_manager.kernel_model(row['kernel_id']))
+        if kernel_id is None:
+            kernel_model = None
+        else:
+            kernel_model = yield maybe_future(self.kernel_manager.kernel_model(row['kernel_id']))
+
         model = {
             'id': row['session_id'],
             'path': row['path'],
@@ -247,7 +276,7 @@ class SessionManager(LoggingConfigurable):
             'kernel': kernel_model
         }
         if row['type'] == 'notebook':
-            # Provide the deprecated API.
+            # TODO: remove this deprecated API.
             model['notebook'] = {'path': row['path'], 'name': row['name']}
         raise gen.Return(model)
 
@@ -269,7 +298,8 @@ class SessionManager(LoggingConfigurable):
 
     @gen.coroutine
     def delete_session(self, session_id):
-        """Deletes the row in the session database with given session_id"""
+        """Deletes the row in the session database with given session_id and shuts down any associated kernel"""
         session = yield maybe_future(self.get_session(session_id=session_id))
-        yield maybe_future(self.kernel_manager.shutdown_kernel(session['kernel']['id']))
+        if session['kernel'] is not None:
+            yield maybe_future(self.kernel_manager.shutdown_kernel(session['kernel']['id']))
         self.cursor.execute("DELETE FROM session WHERE session_id=?", (session_id,))
