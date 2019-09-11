@@ -11,14 +11,12 @@
 #  The full license is in the file COPYING.md, distributed with this software.
 #-----------------------------------------------------------------------------
 
-from __future__ import print_function
-
 import os
 import sys
 
 name = "notebook"
 
-if sys.version_info < (3, 4):
+if sys.version_info < (3, 5):
     pip_message = 'This may be due to an out of date pip. Make sure you have pip >= 9.0.1.'
     try:
         import pip
@@ -34,8 +32,8 @@ if sys.version_info < (3, 4):
 
 
     error = """
-Notebook 6.0+ supports Python 3.4 and above.
-When using Python 2.7, please install Notebook 5.x.
+Notebook 6.0+ supports Python 3.5 and above.
+When using Python 3.4 or earlier (including 2.7), please install Notebook 5.x.
 
 Python {py} detected.
 {pip}
@@ -92,8 +90,10 @@ for more information.
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7'
     ],
     zip_safe = False,
     install_requires = [
@@ -114,8 +114,6 @@ for more information.
         'prometheus_client'
     ],
     extras_require = {
-        ':python_version == "2.7"': ['ipaddress'],
-        'test:python_version == "2.7"': ['mock'],
         'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters',
                  'nbval', 'nose-exclude', 'selenium', 'pytest', 'pytest-cov'],
         'test:sys_platform == "win32"': ['nose-exclude'],
