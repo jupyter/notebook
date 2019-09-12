@@ -52,25 +52,35 @@ define([
      * @private
      */
     CodeMirror.commands.delSpaceToPrevTabStop = function(cm){
-        var from = cm.getCursor(true), to = cm.getCursor(false), sel = !posEq(from, to);
-         if (sel) {
-            var ranges = cm.listSelections();
-            for (var i = ranges.length - 1; i >= 0; i--) {
-                var head = ranges[i].head;
-                var anchor = ranges[i].anchor;
-                cm.replaceRange("", CodeMirror.Pos(head.line, head.ch), CodeMirror.Pos(anchor.line, anchor.ch));
+        var tabSize = cm.getOption('tabSize');
+        var ranges = cm.listSelections(); // handle multicursor
+        for (var i = ranges.length - 1; i >= 0; i--) { // iterate reverse so any deletions don't overlap
+            var head = ranges[i].head;
+            var anchor = ranges[i].anchor;
+            var sel = !posEq(head, anchor);
+            if (sel) {
+                // range is selection
+                cm.replaceRange("", anchor, head);
+            } else {
+                // range is cursor
+                var line = cm.getLine(head.line).substring(0, head.ch);
+                if( line.match(/^\ +$/) !== null){
+                    // delete tabs
+                    var prevTabStop = (Math.ceil(head.ch/tabSize)-1)*tabSize;
+                    var from = {
+                        ch: prevTabStop,
+                        line: head.line
+                    };
+                    cm.replaceRange("", from, head);
+                } else {
+                    // delete non-tabs
+                    var from = {
+                        ch: head.ch-1,
+                        line: head.line
+                    };
+                    cm.replaceRange("", from, head);
+                }
             }
-            return;
-        }
-        var cur = cm.getCursor(), line = cm.getLine(cur.line);
-        var tabsize = cm.getOption('tabSize');
-        var chToPrevTabStop = cur.ch-(Math.ceil(cur.ch/tabsize)-1)*tabsize;
-        from = {ch:cur.ch-chToPrevTabStop,line:cur.line};
-        var select = cm.getRange(from,cur);
-        if( select.match(/^\ +$/) !== null){
-            cm.replaceRange("",from,cur);
-        } else {
-            cm.deleteH(-1,"char");
         }
     };
 
