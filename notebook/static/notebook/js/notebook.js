@@ -835,6 +835,12 @@ define([
         });
     };
 
+
+    Notebook.prototype.select_all = function(){
+        this.select(0, true);
+        this.select(this.ncells()-1, false);
+    };
+
     Notebook.prototype._contract_selection = function(){
         var i = this.get_selected_index();
         this.select(i, true);
