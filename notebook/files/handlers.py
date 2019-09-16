@@ -7,7 +7,7 @@ import mimetypes
 import json
 from base64 import decodebytes
 
-from tornado import web
+from tornado import  gen, web
 
 from notebook.base.handlers import IPythonHandler
 from notebook.utils import maybe_future
