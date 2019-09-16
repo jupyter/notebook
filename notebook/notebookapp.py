@@ -22,7 +22,6 @@ import mimetypes
 import os
 import random
 import re
-import resource
 import select
 import signal
 import socket
