@@ -22,6 +22,7 @@ import mimetypes
 import os
 import random
 import re
+import resource
 import select
 import signal
 import socket
@@ -31,6 +32,12 @@ import threading
 import time
 import warnings
 import webbrowser
+
+try:
+    import resource
+except ImportError:
+    # Windows
+    resource = None
 
 try: #PY3
     from base64 import encodebytes
@@ -802,6 +809,14 @@ class NotebookApp(JupyterApp):
         """
     )
 
+    min_open_files_limit = Integer(4096, config=True,
+        help="""
+        Gets or sets a lower bound on the open file handles process resource
+        limit. This may need to be increased if you run into an
+        OSError: [Errno 24] Too many open files.
+        This is not applicable when running on Windows.
+        """)
+
     @observe('token')
     def _token_changed(self, change):
         self._token_generated = False
@@ -1379,6 +1394,22 @@ class NotebookApp(JupyterApp):
         logger.parent = self.log
         logger.setLevel(self.log.level)
     
+    def init_resources(self):
+        if resource is None:
+            self.log.debug('Ignoring min_open_files_limit because the limit cannot be adjusted (for example, on Windows)')
+            return
+
+        old_soft, old_hard = resource.getrlimit(resource.RLIMIT_NOFILE)
+        soft = self.min_open_files_limit
+        hard = old_hard
+        if old_soft < soft:
+            if hard < soft:
+                hard = soft
+            resource.setrlimit(resource.RLIMIT_NOFILE, (soft, hard))
+            self.log.debug(
+                'Raised open file limit: soft {}->{}; hard {}->{}'.format(old_soft, soft, old_hard, hard)
+            )
+
     def init_webapp(self):
         """initialize tornado webapp and httpserver"""
         self.tornado_settings['allow_origin'] = self.allow_origin
@@ -1673,6 +1704,7 @@ class NotebookApp(JupyterApp):
         self.init_logging()
         if self._dispatching:
             return
+        self.init_resources()
         self.init_configurables()
         self.init_server_extension_config()
         self.init_components()
