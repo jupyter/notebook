@@ -35,6 +35,7 @@ class FilesHandler(IPythonHandler):
         return self.get(path, include_body=False)
 
     @web.authenticated
+    @gen.coroutine
     def get(self, path, include_body=True):
         # /files/ requests must originate from the same site
         self.check_xsrf_cookie()
