@@ -1,13 +1,12 @@
-`View the original notebooks on nbviewer`__
+=================
+Notebook Examples
+=================
 
-__ http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/
+The pages in this section are all converted notebook files. You can also
+`view these notebooks on nbviewer`__.
+
+__ https://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/
    docs/source/examples/Notebook/
-
-========
-Examples
-========
-
-The following notebooks have been rendered for your convenience.
 
 .. toctree::
    :maxdepth: 2

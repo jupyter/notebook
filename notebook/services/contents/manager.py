@@ -9,8 +9,9 @@ import json
 import os
 import re
 
-from tornado.web import HTTPError
+from tornado.web import HTTPError, RequestHandler
 
+from ...files.handlers import FilesHandler
 from .checkpoints import Checkpoints
 from traitlets.config.configurable import LoggingConfigurable
 from nbformat import sign, validate as validate_nb, ValidationError
@@ -18,6 +19,7 @@ from nbformat.v4 import new_notebook
 from ipython_genutils.importstring import import_item
 from traitlets import (
     Any,
+    Bool,
     Dict,
     Instance,
     List,
@@ -28,6 +30,9 @@ from traitlets import (
     default,
 )
 from ipython_genutils.py3compat import string_types
+from notebook.base.handlers import IPythonHandler
+from notebook.transutils import _
+
 
 copy_pat = re.compile(r'\-Copy\d*\.')
 
@@ -50,6 +55,10 @@ class ContentsManager(LoggingConfigurable):
       indicating the root path.
 
     """
+    
+    root_dir = Unicode('/', config=True)
+
+    allow_hidden = Bool(False, config=True, help="Allow access to hidden files")
 
     notary = Instance(sign.NotebookNotary)
     def _notary_default(self):
@@ -62,7 +71,7 @@ class ContentsManager(LoggingConfigurable):
         Glob patterns to hide in file and directory listings.
     """)
 
-    untitled_notebook = Unicode("Untitled", config=True,
+    untitled_notebook = Unicode(_("Untitled"), config=True,
         help="The base name used when creating untitled notebooks."
     )
 
@@ -126,6 +135,41 @@ class ContentsManager(LoggingConfigurable):
             parent=self,
             log=self.log,
         )
+
+    files_handler_class = Type(
+        FilesHandler, klass=RequestHandler, allow_none=True, config=True,
+        help="""handler class to use when serving raw file requests.
+
+        Default is a fallback that talks to the ContentsManager API,
+        which may be inefficient, especially for large files.
+
+        Local files-based ContentsManagers can use a StaticFileHandler subclass,
+        which will be much more efficient.
+
+        Access to these files should be Authenticated.
+        """
+    )
+
+    files_handler_params = Dict(
+        config=True,
+        help="""Extra parameters to pass to files_handler_class.
+
+        For example, StaticFileHandlers generally expect a `path` argument
+        specifying the root directory from which to serve files.
+        """
+    )
+
+    def get_extra_handlers(self):
+        """Return additional handlers
+
+        Default: self.files_handler_class on /files/.*
+        """
+        handlers = []
+        if self.files_handler_class:
+            handlers.append(
+                (r"/files/(.*)", self.files_handler_class, self.files_handler_params)
+            )
+        return handlers
 
     # ContentsManager API part 1: methods that must be
     # implemented in subclasses.
@@ -277,21 +321,29 @@ class ContentsManager(LoggingConfigurable):
             The name of a file, including extension
         path : unicode
             The API path of the target's directory
+        insert: unicode
+            The characters to insert after the base filename
 
         Returns
         -------
         name : unicode
             A filename that is unique, based on the input filename.
         """
+        # Extract the full suffix from the filename (e.g. .tar.gz)
         path = path.strip('/')
-        basename, ext = os.path.splitext(filename)
+        basename, dot, ext = filename.rpartition('.')
+        if ext != 'ipynb':
+                basename, dot, ext = filename.partition('.')
+                
+        suffix = dot + ext
+
         for i in itertools.count():
             if i:
                 insert_i = '{}{}'.format(insert, i)
             else:
                 insert_i = ''
-            name = u'{basename}{insert}{ext}'.format(basename=basename,
-                insert=insert_i, ext=ext)
+            name = u'{basename}{insert}{suffix}'.format(basename=basename,
+                insert=insert_i, suffix=suffix)
             if not self.exists(u'{}/{}'.format(path, name)):
                 break
         return name
@@ -376,6 +428,8 @@ class ContentsManager(LoggingConfigurable):
 
         If to_path not specified, it will be the parent directory of from_path.
         If to_path is a directory, filename will increment `from_path-Copy#.ext`.
+        Considering multi-part extensions, the Copy# part will be placed before the first dot for all the extensions except `ipynb`.
+        For easier manual searching in case of notebooks, the Copy# part will be placed before the last dot. 
 
         from_path must be a full path to a file.
         """
@@ -420,7 +474,7 @@ class ContentsManager(LoggingConfigurable):
         nb = model['content']
         self.log.warning("Trusting notebook %s", path)
         self.notary.mark_cells(nb, True)
-        self.save(model, path)
+        self.check_and_sign(nb, path)
 
     def check_and_sign(self, nb, path=''):
         """Check for trusted cells, and sign the notebook.
@@ -437,7 +491,7 @@ class ContentsManager(LoggingConfigurable):
         if self.notary.check_cells(nb):
             self.notary.sign(nb)
         else:
-            self.log.warning("Saving untrusted notebook %s", path)
+            self.log.warning("Notebook %s is not trusted", path)
 
     def mark_trusted_cells(self, nb, path=''):
         """Mark cells as trusted if the notebook signature matches.

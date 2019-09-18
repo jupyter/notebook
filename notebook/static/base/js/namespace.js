@@ -7,8 +7,8 @@ var Jupyter = Jupyter || {};
 var jprop = function(name, module_path){
     Object.defineProperty(Jupyter, name, {
       get: function() { 
-          console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'")`');
-          return require(module_path); 
+          console.warn('accessing `'+name+'` is deprecated. Use `requirejs("'+module_path+'")`');
+          return requirejs(module_path); 
       },
       enumerable: true,
       configurable: false
@@ -18,8 +18,8 @@ var jprop = function(name, module_path){
 var jglobal = function(name, module_path){
     Object.defineProperty(Jupyter, name, {
       get: function() { 
-          console.warn('accessing `'+name+'` is deprecated. Use `require("'+module_path+'").'+name+'`');
-          return require(module_path)[name]; 
+          console.warn('accessing `'+name+'` is deprecated. Use `requirejs("'+module_path+'").'+name+'`');
+          return requirejs(module_path)[name]; 
       },
       enumerable: true,
       configurable: false
@@ -73,8 +73,9 @@ define(function(){
     // tree
     jglobal('SessionList','tree/js/sessionlist');
 
-    Jupyter.version = "5.0.0.dev";
+    Jupyter.version = "6.0.1";
     Jupyter._target = '_blank';
+
     return Jupyter;
 });
 

@@ -20,12 +20,13 @@ var bind = function bind(obj) {
 Function.prototype.bind = Function.prototype.bind || bind ;
 
 
-require([
+requirejs([
     'jquery',
     'contents',
     'base/js/namespace',
     'base/js/dialog',
     'base/js/events',
+    'base/js/promises',
     'base/js/page',
     'base/js/utils',
     'services/config',
@@ -34,13 +35,16 @@ require([
     'tree/js/kernellist',
     'tree/js/terminallist',
     'tree/js/newnotebook',
+    'tree/js/shutdownbutton',
     'auth/js/loginwidget',
+    'bidi/bidi',
 ], function(
     $,
     contents_service,
     IPython,
     dialog,
     events,
+    promises,
     page,
     utils,
     config,
@@ -49,10 +53,14 @@ require([
     kernellist,
     terminallist,
     newnotebook,
-    loginwidget){
+    shutdownbutton,
+    loginwidget,
+    bidi){
     "use strict";
+    
     try{
         requirejs(['custom/custom'], function() {});
+        bidi.loadLocale();
     } catch(err) {
         console.log("Error loading custom.js from tree service. Continuing and logging");
         console.warn(err);
@@ -75,7 +83,7 @@ require([
 
     // Instantiate the main objects
 
-    page = new page.Page();
+    page = new page.Page('div#header', 'div#site');
 
     var session_list = new sesssionlist.SesssionList($.extend({
         events: events},
@@ -164,7 +172,7 @@ require([
 
     page.show();
 
-    // For backwards compatability.
+    // For backwards compatibility.
     IPython.page = page;
     IPython.notebook_list = notebook_list;
     IPython.session_list = session_list;
@@ -182,6 +190,15 @@ require([
     $("#alternate_upload").change(function (event){
         notebook_list.handleFilesUpload(event,'form');
     });
+
+    // bound the the span around the input file upload to enable keyboard click
+    $("#upload_span").keydown(function (event) {
+        var key = event.which;
+        if ((key === 13) || (key === 32)) {
+            event.preventDefault();
+            $("#upload_span_input").click();
+        }
+    })
     
     // set hash on tab click
     $("#tabs").find("a").click(function(e) {
@@ -190,7 +207,7 @@ require([
         e.preventDefault();
 
         // Set the hash without causing the page to jump.
-        // http://stackoverflow.com/a/14690177/2824256
+        // https://stackoverflow.com/a/14690177/2824256
         var hash = $(this).attr("href");
         if(window.history.pushState) {
             window.history.pushState(null, null, hash);
@@ -201,6 +218,8 @@ require([
     
     // load tab if url hash
     if (window.location.hash) {
-        $("#tabs").find("a[href=" + window.location.hash + "]").click();
+        $("#tabs").find("a[href='" + window.location.hash + "']").click();
     }
+    
+    shutdownbutton.activate();
 });

@@ -12,7 +12,7 @@ For this reason, notebook 4.3 introduces token-based authentication that is **on
 
     If you enable a password for your notebook server,
     token authentication is not enabled by default,
-    and the behavior of the notebook server is unchanged from from versions earlier than 4.3.
+    and the behavior of the notebook server is unchanged from versions earlier than 4.3.
 
 When token authentication is enabled, the notebook uses a token to authenticate requests.
 This token can be provided to login to the notebook server in three ways:
@@ -31,7 +31,8 @@ When you start a notebook server with token authentication enabled (default),
 a token is generated to use for authentication.
 This token is logged to the terminal, so that you can copy/paste the URL into your browser::
 
-    [I 11:59:16.597 NotebookApp] The Jupyter Notebook is running at: http://localhost:8888/?token=c8de56fa4deed24899803e93c227592aef6538f93025fe01
+    [I 11:59:16.597 NotebookApp] The Jupyter Notebook is running at:
+    http://localhost:8888/?token=c8de56fa4deed24899803e93c227592aef6538f93025fe01
 
 
 If the notebook server is going to open your browser automatically

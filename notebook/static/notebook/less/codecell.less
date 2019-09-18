@@ -21,10 +21,40 @@ div.input {
     }
 }
 
+div.prompt_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    text-align: right;
+}
+
 /* input_area and input_prompt must match in top border and margin for alignment */
 div.input_prompt {
     color: @input_prompt_color;
     border-top: 1px solid transparent;
+}
+
+div.run_this_cell {
+    display: none;
+    cursor: pointer;
+    color: #333;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 2ex;
+    padding-right: 2ex;
+    width: 1ex;
+}
+
+// set the prompt width
+div.prompt {
+    min-width: 15ex;
+}
+
+@media (-moz-touch-enabled: 1), (any-pointer: coarse) {
+    div.run_this_cell {
+        display: block;
+    }
 }
 
 // The styles related to div.highlight are for nbconvert HTML output only. This works
@@ -45,4 +75,3 @@ div.input_area > div.highlight > pre {
     padding: 0px;
     background-color: transparent;
 }
-

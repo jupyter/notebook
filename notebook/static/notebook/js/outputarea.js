@@ -4,12 +4,13 @@
 define([
     'jquery',
     'base/js/utils',
+    'base/js/i18n',
     'base/js/security',
     'base/js/keyboard',
     'services/config',
     'notebook/js/mathjaxutils',
     'components/marked/lib/marked',
-], function($, utils, security, keyboard, configmod, mathjaxutils, marked) {
+], function($, utils, i18n, security, keyboard, configmod, mathjaxutils, marked) {
     "use strict";
 
     /**
@@ -54,7 +55,18 @@ define([
      **/
 
     OutputArea.prototype.create_elements = function () {
-        this.element = $("<div/>");
+        var element = this.element = $("<div/>");
+        // wrap element in safe trigger,
+        // so that errors (e.g. in widget extensions) are logged instead of
+        // breaking everything.
+        this.element._original_trigger = this.element.trigger;
+        this.element.trigger = function (name, data) {
+            try {
+                this._original_trigger.apply(this, arguments);
+            } catch (e) {
+                console.error("Exception in event handler for " + name, e, arguments);
+            }
+        }
         this.collapse_button = $("<div/>");
         this.prompt_overlay = $("<div/>");
         this.wrapper.append(this.prompt_overlay);
@@ -65,19 +77,21 @@ define([
 
     OutputArea.prototype.style = function () {
         this.collapse_button.hide();
-        this.prompt_overlay.hide();
+        if (!this.prompt_area) {
+            this.prompt_overlay.hide();
+        }
         
         this.wrapper.addClass('output_wrapper');
         this.element.addClass('output');
         
         this.collapse_button.addClass("btn btn-default output_collapsed");
-        this.collapse_button.attr('title', 'click to expand output');
+        this.collapse_button.attr('title', i18n.msg._('click to expand output'));
         this.collapse_button.text('. . .');
         
         this.prompt_overlay.addClass('out_prompt_overlay prompt');
-        this.prompt_overlay.attr('title', 'click to expand output; double click to hide output');
+        this.prompt_overlay.attr('title', i18n.msg._('click to expand output; double click to hide output'));
         
-        this.collapse();
+        this.expand();
     };
 
     /**
@@ -100,7 +114,7 @@ define([
         if (threshold <=0) {
             return false;
         }
-        // line-height from http://stackoverflow.com/questions/1185151
+        // line-height from https://stackoverflow.com/questions/1185151
         var fontSize = this.element.css('font-size') || '14px';
         var lineHeight = Math.floor((parseFloat(fontSize.replace('px','')) || 14) * 1.3);
         return (this.element.height() > threshold * lineHeight);
@@ -163,14 +177,14 @@ define([
 
     OutputArea.prototype.scroll_area = function () {
         this.element.addClass('output_scroll');
-        this.prompt_overlay.attr('title', 'click to unscroll output; double click to hide');
+        this.prompt_overlay.attr('title', i18n.msg._('click to unscroll output; double click to hide'));
         this.scrolled = true;
     };
 
 
     OutputArea.prototype.unscroll_area = function () {
         this.element.removeClass('output_scroll');
-        this.prompt_overlay.attr('title', 'click to scroll output; double click to hide');
+        this.prompt_overlay.attr('title', i18n.msg._('click to scroll output; double click to hide'));
         this.scrolled = false;
     };
 
@@ -251,6 +265,7 @@ define([
     var MIME_SVG = 'image/svg+xml';
     var MIME_PNG = 'image/png';
     var MIME_JPEG = 'image/jpeg';
+    var MIME_GIF = 'image/gif';
     var MIME_PDF = 'application/pdf';
     var MIME_TEXT = 'text/plain';
     
@@ -263,6 +278,7 @@ define([
         MIME_SVG,
         MIME_PNG,
         MIME_JPEG,
+        MIME_GIF,
         MIME_PDF,
         MIME_TEXT,
     ];
@@ -331,10 +347,15 @@ define([
         } else {
             this.handle_appended();
         }
-        
+
         if (record_output) {
             this.outputs.push(json);
         }
+
+        this.events.trigger('output_added.OutputArea', {
+            output: json,
+            output_area: this,
+        });
     };
 
     OutputArea.prototype.handle_appended = function () {
@@ -343,12 +364,13 @@ define([
             this._needs_height_reset = false;
         }
 
-        this.element.trigger('resizeOutput');
+        this.element.trigger('resizeOutput', {output_area: this});
     };
 
     OutputArea.prototype.create_output_area = function () {
         var oa = $("<div/>").addClass("output_area");
         if (this.prompt_area) {
+            oa.append($('<div/>').addClass('run_this_cell'));
             oa.append($('<div/>').addClass('prompt'));
         }
         return oa;
@@ -378,7 +400,7 @@ define([
             // Once the iframe is loaded, the subarea is dynamically inserted
             iframe.on('load', function() {
                 // Workaround needed by Firefox, to properly render svg inside
-                // iframes, see http://stackoverflow.com/questions/10177190/
+                // iframes, see https://stackoverflow.com/questions/10177190/
                 // svg-dynamically-added-to-iframe-does-not-render-correctly
                 this.contentDocument.open();
 
@@ -413,12 +435,12 @@ define([
         /**
          * display a message when a javascript error occurs in display output
          */
-        var msg = "Javascript error adding output!";
+        var msg = i18n.msg._("Javascript error adding output!");
         if ( element === undefined ) return;
         element
             .append($('<div/>').text(msg).addClass('js-error'))
             .append($('<div/>').text(err.toString()).addClass('js-error'))
-            .append($('<div/>').text('See your browser Javascript console for more details.').addClass('js-error'));
+            .append($('<div/>').text(i18n.msg._('See your browser Javascript console for more details.')).addClass('js-error'));
     };
     
     OutputArea.prototype._safe_append = function (toinsert, toreplace) {
@@ -446,16 +468,24 @@ define([
         }
 
         // Notify others of changes.
-        this.element.trigger('changed');
+        this.element.trigger('changed', {output_area: this});
     };
 
+    OutputArea.output_prompt_classical = function(prompt_value) {
+        return $('<bdi>').text(i18n.msg.sprintf(i18n.msg._('Out[%s]:'),prompt_value));
+    };
+
+    OutputArea.output_prompt_function = OutputArea.output_prompt_classical;
 
     OutputArea.prototype.append_execute_result = function (json) {
         var n = json.execution_count || ' ';
         var toinsert = this.create_output_area();
         this._record_display_id(json, toinsert);
         if (this.prompt_area) {
-            toinsert.find('div.prompt').addClass('output_prompt').text('Out[' + n + ']:');
+            toinsert.find('div.prompt')
+                    .addClass('output_prompt')
+                    .empty()
+                    .append(OutputArea.output_prompt_function(n));
         }
         var inserted = this.append_mime_type(json, toinsert);
         if (inserted) {
@@ -563,7 +593,7 @@ define([
         subarea.append(
             $("<a>")
                 .attr("href", "#")
-                .text("Unrecognized output: " + json.output_type)
+                .text(i18n.msg.sprintf(i18n.msg._("Unrecognized output: %s"),json.output_type))
                 .click(function () {
                     that.events.trigger('unrecognized_output.OutputArea', {output: json});
                 })
@@ -602,6 +632,10 @@ define([
             (json.data[MIME_MARKDOWN] !== undefined)) {
             this.typeset();
         }
+        this.events.trigger('output_updated.OutputArea', {
+            output: json,
+            output_area: this,
+        });
     };
 
     OutputArea.prototype._record_display_id = function (json, element) {
@@ -638,30 +672,35 @@ define([
     OutputArea.safe_outputs[MIME_LATEX] = true;
     OutputArea.safe_outputs[MIME_PNG] = true;
     OutputArea.safe_outputs[MIME_JPEG] = true;
+    OutputArea.safe_outputs[MIME_GIF] = true;
 
     OutputArea.prototype.append_mime_type = function (json, element, handle_inserted) {
         for (var i=0; i < OutputArea.display_order.length; i++) {
             var type = OutputArea.display_order[i];
             var append = OutputArea.append_map[type];
             if ((json.data[type] !== undefined) && append) {
+                var md = json.metadata || {};
                 var value = json.data[type];
+                var toinsert;
                 if (!this.trusted && !OutputArea.safe_outputs[type]) {
                     // not trusted, sanitize HTML
                     if (type===MIME_HTML || type==='text/svg') {
-                        value = security.sanitize_html(value);
+                        var parsed = $(security.sanitize_html_and_parse(value));
+                        toinsert = append.apply(this, [parsed, md, element, handle_inserted]);
                     } else {
                         // don't display if we don't know how to sanitize it
                         console.log("Ignoring untrusted " + type + " output.");
                         continue;
                     }
+                } else {
+                    toinsert = append.apply(this, [value, md, element, handle_inserted]);
                 }
-                var md = json.metadata || {};
-                var toinsert = append.apply(this, [value, md, element, handle_inserted]);
+
                 // Since only the png and jpeg mime types call the inserted
                 // callback, if the mime type is something other we must call the 
                 // inserted callback only when the element is actually inserted
                 // into the DOM.  Use a timeout of 0 to do this.
-                if ([MIME_PNG, MIME_JPEG].indexOf(type) < 0 && handle_inserted !== undefined) {
+                if ([MIME_PNG, MIME_JPEG, MIME_GIF].indexOf(type) < 0 && handle_inserted !== undefined) {
                     setTimeout(handle_inserted, 0);
                 }
                 this.events.trigger('output_appended.OutputArea', [type, value, md, toinsert]);
@@ -689,7 +728,16 @@ define([
         var text_and_math = mathjaxutils.remove_math(markdown);
         var text = text_and_math[0];
         var math = text_and_math[1];
-        marked(text, function (err, html) {
+        // Prevent marked from returning inline styles for table cells
+        var renderer = new marked.Renderer();
+        renderer.tablecell = function (content, flags) {
+          var type = flags.header ? 'th' : 'td';
+          var style = flags.align == null ? '': ' style="text-align: ' + flags.align + '"';
+          var start_tag = '<' + type + style + '>';
+          var end_tag = '</' + type + '>\n';
+          return start_tag + content + end_tag;
+        };
+        marked(text, { renderer: renderer }, function (err, html) {
             html = mathjaxutils.replace_math(html, math);
             toinsert.append(html);
         });
@@ -800,7 +848,7 @@ define([
             });
         }
         img[0].src = 'data:image/png;base64,'+ png;
-        set_width_height(img, md, MIME_PNG);
+        set_width_height(img, md, type);
         dblclick_to_reset_size(img);
         toinsert.append(img);
         element.append(toinsert);
@@ -818,7 +866,24 @@ define([
             });
         }
         img[0].src = 'data:image/jpeg;base64,'+ jpeg;
-        set_width_height(img, md, MIME_JPEG);
+        set_width_height(img, md, type);
+        dblclick_to_reset_size(img);
+        toinsert.append(img);
+        element.append(toinsert);
+        return toinsert;
+    };
+    
+    var append_gif = function (gif, md, element, handle_inserted) {
+        var type = MIME_GIF;
+        var toinsert = this.create_output_subarea(md, "output_gif", type);
+        var img = $("<img/>");
+        if (handle_inserted !== undefined) {
+            img.on('load', function(){
+                handle_inserted(img);
+            });
+        }
+        img[0].src = 'data:image/gif;base64,'+ gif;
+        set_width_height(img, md, type);
         dblclick_to_reset_size(img);
         toinsert.append(img);
         element.append(toinsert);
@@ -930,7 +995,7 @@ define([
     };
 
 
-    OutputArea.prototype.clear_output = function(wait, ignore_que) {
+    OutputArea.prototype.clear_output = function(wait, ignore_clear_queue) {
         if (wait) {
 
             // If a clear is queued, clear before adding another to the queue.
@@ -943,8 +1008,9 @@ define([
 
             // Fix the output div's height if the clear_output is waiting for
             // new output (it is being used in an animation).
-            if (!ignore_que && this.clear_queued) {
-                var height = this.element.height();
+            if (!ignore_clear_queue && this.clear_queued) {
+                // this.element.height() rounds the height, so we get the exact value
+                var height = this.element[0].getBoundingClientRect().height;
                 this.element.height(height);
                 this.clear_queued = false;
             }
@@ -953,15 +1019,18 @@ define([
             // Remove load event handlers from img tags because we don't want
             // them to fire if the image is never added to the page.
             this.element.find('img').off('load');
+            this.element.trigger('clearing', {output_area: this});
             this.element.html("");
 
             // Notify others of changes.
-            this.element.trigger('changed');
+            this.element.trigger('changed', {output_area: this});
+            this.element.trigger('cleared', {output_area: this});
             
             this.outputs = [];
             this._display_id_targets = {};
             this.trusted = true;
             this.unscroll_area();
+            this.expand();
             return;
         }
     };
@@ -1047,6 +1116,7 @@ define([
         MIME_SVG,
         MIME_PNG,
         MIME_JPEG,
+        MIME_GIF,
         MIME_PDF,
         MIME_TEXT
     ];
@@ -1058,6 +1128,7 @@ define([
     OutputArea.append_map[MIME_SVG] = append_svg;
     OutputArea.append_map[MIME_PNG] = append_png;
     OutputArea.append_map[MIME_JPEG] = append_jpeg;
+    OutputArea.append_map[MIME_GIF] = append_gif;
     OutputArea.append_map[MIME_LATEX] = append_latex;
     OutputArea.append_map[MIME_JAVASCRIPT] = append_javascript;
     OutputArea.append_map[MIME_PDF] = append_pdf;

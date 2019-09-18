@@ -14,6 +14,7 @@ This includes:
 from __future__ import print_function
 
 import os
+import re
 import pipes
 import shutil
 import sys
@@ -69,6 +70,11 @@ execfile(pjoin(repo_root, name, '_version.py'), version_ns)
 version = version_ns['__version__']
 
 
+# vendored from pep440 package, we allow `.dev` suffix without trailing number.
+loose_pep440re = re.compile(r'^([1-9]\d*!)?(0|[1-9]\d*)(\.(0|[1-9]\d*))*((a|b|rc)(0|[1-9]\d*))?(\.post(0|[1-9]\d*))?(\.dev(0|[1-9]\d*)?)?$')
+if not loose_pep440re.match(version):
+    raise ValueError('Invalid version number `%s`, please follow pep440 convention or pip will get confused about which package is more recent.' % version)
+
 #---------------------------------------------------------------------------
 # Find packages
 #---------------------------------------------------------------------------
@@ -94,7 +100,7 @@ def find_package_data():
     """
     Find package_data.
     """
-    # This is not enough for these things to appear in an sdist.
+    # This is not enough for these things to appear in a sdist.
     # We need to muck with the MANIFEST to get this to work
     
     # exclude components and less from the walk;
@@ -127,29 +133,33 @@ def find_package_data():
     # (there are lots of resources we bundle for sdist-reasons that we don't actually use)
     static_data.extend([
         pjoin(components, "backbone", "backbone-min.js"),
-        pjoin(components, "bootstrap", "js", "bootstrap.min.js"),
+        pjoin(components, "bootstrap", "dist", "js", "bootstrap.min.js"),
         pjoin(components, "bootstrap-tour", "build", "css", "bootstrap-tour.min.css"),
         pjoin(components, "bootstrap-tour", "build", "js", "bootstrap-tour.min.js"),
+        pjoin(components, "create-react-class", "index.js"),
         pjoin(components, "font-awesome", "css", "*.css"),
         pjoin(components, "es6-promise", "*.js"),
         pjoin(components, "font-awesome", "fonts", "*.*"),
         pjoin(components, "google-caja", "html-css-sanitizer-minified.js"),
+        pjoin(components, "jed", "jed.js"),
         pjoin(components, "jquery", "jquery.min.js"),
         pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.js"),
         pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.css"),
-        pjoin(components, "jquery-ui", "ui", "minified", "jquery-ui.min.js"),
+        pjoin(components, "jquery-ui", "jquery-ui.min.js"),
         pjoin(components, "jquery-ui", "themes", "smoothness", "jquery-ui.min.css"),
         pjoin(components, "jquery-ui", "themes", "smoothness", "images", "*"),
         pjoin(components, "marked", "lib", "marked.js"),
-        pjoin(components, "preact", "dist", "preact.min.js"),
-        pjoin(components, "preact-compat", "dist", "preact-compat.min.js"),
-        pjoin(components, "proptypes", "index.js"),
+        pjoin(components, "react", "react.production.min.js"),
+        pjoin(components, "react", "react-dom.production.min.js"),
         pjoin(components, "requirejs", "require.js"),
+        pjoin(components, "requirejs-plugins", "src", "json.js"),
+        pjoin(components, "requirejs-text", "text.js"),
         pjoin(components, "underscore", "underscore-min.js"),
         pjoin(components, "moment", "moment.js"),
-        pjoin(components, "moment", "min", "moment.min.js"),
-        pjoin(components, "xterm.js", "dist", "xterm.js"),
-        pjoin(components, "xterm.js", "dist", "xterm.css"),
+        pjoin(components, "moment", "min", "*.js"),
+        pjoin(components, "xterm.js", "index.js"),
+        pjoin(components, "xterm.js-css", "index.css"),
+        pjoin(components, "xterm.js-fit", "index.js"),
         pjoin(components, "text-encoding", "lib", "encoding.js"),
     ])
 
@@ -185,6 +195,7 @@ def find_package_data():
         mj('jax', 'input', 'TeX'),
         mj('jax', 'output', 'HTML-CSS', 'fonts', 'STIX-Web'),
         mj('jax', 'output', 'SVG', 'fonts', 'STIX-Web'),
+        mj('jax', 'element', 'mml'),
     ]:
         for parent, dirs, files in os.walk(tree):
             for f in files:
@@ -200,6 +211,7 @@ def find_package_data():
         'notebook.tests' : js_tests,
         'notebook.bundler.tests': ['resources/*', 'resources/*/*', 'resources/*/*/.*'],
         'notebook.services.api': ['api.yaml'],
+        'notebook.i18n': ['*/LC_MESSAGES/*.*'],
     }
     
     return package_data
@@ -325,6 +337,30 @@ def run(cmd, *args, **kwargs):
     kwargs['shell'] = (sys.platform == 'win32')
     return check_call(cmd, *args, **kwargs)
 
+class CompileBackendTranslation(Command):
+    description = "compile the .po files into .mo files, that contain the translations."
+
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+
+    def run(self):
+        paths = glob('notebook/i18n/??_??')
+        for p in paths:
+            LANG = p[-5:]
+            for component in ['notebook', 'nbui']:
+                run(['pybabel', 'compile',
+                     '-D', component,
+                     '-f',
+                     '-l', LANG,
+                     '-i', pjoin('notebook', 'i18n', LANG, 'LC_MESSAGES', component+'.po'),
+                     '-o', pjoin('notebook', 'i18n', LANG, 'LC_MESSAGES', component+'.mo')
+                    ])
 
 class Bower(Command):
     description = "fetch static client-side components with bower"
@@ -348,14 +384,6 @@ class Bower(Command):
         if not os.path.exists(self.bower_dir):
             return True
         
-        # check npm packages
-        for pkg in ['preact', 'preact-compat', 'proptypes']:
-            npm_pkg = os.path.join(self.node_modules, pkg)
-            bower_pkg = os.path.join(self.bower_dir, pkg)
-            if not os.path.exists(npm_pkg) or not os.path.exists(bower_pkg):
-                return True
-            if mtime(bower_pkg) < mtime(npm_pkg):
-                return True
         return mtime(self.bower_dir) < mtime(pjoin(repo_root, 'bower.json'))
 
     def should_run_npm(self):
@@ -366,25 +394,6 @@ class Bower(Command):
             return True
         return mtime(self.node_modules) < mtime(pjoin(repo_root, 'package.json'))
 
-    def npm_components(self):
-        """Stage npm frontend dependencies into components"""
-        for pkg in ['preact', 'preact-compat', 'proptypes']:
-            npm_pkg = os.path.join(self.node_modules, pkg)
-            bower_pkg = os.path.join(self.bower_dir, pkg)
-            log.info("Staging %s -> %s" % (npm_pkg, bower_pkg))
-            if os.path.exists(bower_pkg):
-                shutil.rmtree(bower_pkg)
-            shutil.copytree(npm_pkg, bower_pkg)
-
-    def patch_codemirror(self):
-        """Patch CodeMirror until https://github.com/codemirror/CodeMirror/issues/4454 is resolved"""
-        
-        try:
-            shutil.copyfile('tools/patches/codemirror.js', 'notebook/static/components/codemirror/lib/codemirror.js')
-        except OSError as e:
-            print("Failed to patch codemirror.js: %s" % e, file=sys.stderr)
-            raise
-            
     def run(self):
         if not self.should_run():
             print("bower dependencies up to date")
@@ -408,12 +417,33 @@ class Bower(Command):
             print("Failed to run bower: %s" % e, file=sys.stderr)
             print("You can install js dependencies with `npm install`", file=sys.stderr)
             raise
-        self.patch_codemirror()
-        self.npm_components()
+        # self.npm_components()
         os.utime(self.bower_dir, None)
         # update package data in case this created new files
         update_package_data(self.distribution)
 
+
+def patch_out_bootstrap_bw_print():
+    """Hack! Manually patch out the bootstrap rule that forces printing in B&W.
+
+    We haven't found a way to override this rule with another one.
+    """
+    print_less = pjoin(static, 'components', 'bootstrap', 'less', 'print.less')
+    with open(print_less) as f:
+        lines = f.readlines()
+
+    for ix, line in enumerate(lines):
+        if 'Black prints faster' in line:
+            break
+    else:
+        return  # Already patched out, nothing to do.
+
+    rmed = lines.pop(ix)
+    print("Removed line", ix, "from bootstrap print.less:")
+    print("-", rmed)
+    print()
+    with open(print_less, 'w') as f:
+        f.writelines(lines)
 
 class CompileCSS(Command):
     """Recompile Notebook CSS
@@ -441,6 +471,8 @@ class CompileCSS(Command):
         self.run_command('jsdeps')
         env = os.environ.copy()
         env['PATH'] = npm_path
+
+        patch_out_bootstrap_bw_print()
         
         for src, dst in zip(self.sources, self.targets):
             try:
@@ -459,7 +491,7 @@ class CompileCSS(Command):
 
 
 class CompileJS(Command):
-    """Rebuild Notebook Javascript main.min.js files
+    """Rebuild Notebook Javascript main.min.js files and translation files.
     
     Calls require via build-main.js
     """
@@ -507,16 +539,27 @@ class CompileJS(Command):
                 print(source, target)
                 return True
         return False
-        
+
     def build_main(self, name):
         """Build main.min.js"""
         target = pjoin(static, name, 'js', 'main.min.js')
-        
+
         if not self.should_run(name, target):
             log.info("%s up to date" % target)
             return
         log.info("Rebuilding %s" % target)
         run(['node', 'tools/build-main.js', name])
+
+    def build_jstranslation(self, trd):
+        lang = trd[-5:]
+        run([
+            pjoin('node_modules', '.bin', 'po2json'),
+            '-p', '-F',
+            '-f', 'jed1.x',
+            '-d', 'nbjs',
+            pjoin('notebook', 'i18n', lang, 'LC_MESSAGES', 'nbjs.po'),
+            pjoin('notebook', 'i18n', lang, 'LC_MESSAGES', 'nbjs.json'),
+        ])
 
     def run(self):
         self.run_command('jsdeps')
@@ -524,6 +567,7 @@ class CompileJS(Command):
         env['PATH'] = npm_path
         pool = ThreadPool()
         pool.map(self.build_main, self.apps)
+        pool.map(self.build_jstranslation, glob('notebook/i18n/??_??'))
         # update package data in case this created new files
         update_package_data(self.distribution)
 
@@ -578,6 +622,7 @@ def css_js_prerelease(command, strict=False):
             try:
                 self.distribution.run_command('js')
                 self.distribution.run_command('css')
+                self.distribution.run_command('backendtranslations')
             except Exception as e:
                 # refresh missing
                 missing = [ t for t in targets if not os.path.exists(t) ]

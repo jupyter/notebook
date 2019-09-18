@@ -35,8 +35,7 @@ def bundle(handler, model):
 
     # Headers
     zip_filename = os.path.splitext(notebook_name)[0] + '.zip'
-    handler.set_header('Content-Disposition',
-                       'attachment; filename="%s"' % zip_filename)
+    handler.set_attachment_header(zip_filename)
     handler.set_header('Content-Type', 'application/zip')
 
     # Get associated files

@@ -25,12 +25,12 @@
 .. _notebook_p1: https://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Running%20Code.ipynb
 
 .. Other python projects
-.. _matplotlib: http://matplotlib.org
-.. _nbviewer: http://nbviewer.jupyter.org
+.. _matplotlib: https://matplotlib.org
+.. _nbviewer: https://nbviewer.jupyter.org
 .. _nbconvert: https://nbconvert.readthedocs.io/en/latest/
 
 .. Other tools and projects
-.. _Markdown: http://daringfireball.net/projects/markdown/syntax
+.. _Markdown: https://daringfireball.net/projects/markdown/syntax
 
 .. _Rich Output: notebook_p5_
 .. _notebook_p5: https://nbviewer.jupyter.org/github/ipython/ipython/blob/master/examples/IPython%20Kernel/Rich%20Output.ipynb

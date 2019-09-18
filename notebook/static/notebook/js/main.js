@@ -20,7 +20,7 @@ var bind = function bind(obj) {
 Function.prototype.bind = Function.prototype.bind || bind ;
 
 
-require([
+requirejs([
     'jquery',
     'contents',
     'base/js/namespace',
@@ -29,9 +29,11 @@ require([
     'base/js/utils',
     'base/js/page',
     'base/js/events',
+    'base/js/promises',
     'auth/js/loginwidget',
     'notebook/js/maintoolbar',
     'notebook/js/pager',
+    'notebook/js/promises',
     'notebook/js/quickhelp',
     'notebook/js/menubar',
     'notebook/js/notificationarea',
@@ -42,7 +44,8 @@ require([
     'codemirror/lib/codemirror',
     'notebook/js/about',
     'notebook/js/searchandreplace',
-    'notebook/js/clipboard'
+    'notebook/js/clipboard',
+    'bidi/bidi'
 ], function(
     $,
     contents_service,
@@ -52,9 +55,11 @@ require([
     utils,
     page,
     events,
+    promises,
     loginwidget,
     maintoolbar,
     pager,
+    nb_promises,
     quickhelp,
     menubar,
     notificationarea,
@@ -65,7 +70,8 @@ require([
     CodeMirror,
     about,
     searchandreplace,
-    clipboard
+    clipboard,
+    bidi
     ) {
     "use strict";
 
@@ -74,6 +80,7 @@ require([
     
     try{
         requirejs(['custom/custom'], function() {});
+        bidi.loadLocale();
     } catch(err) {
         console.log("Error processing custom.js. Logging and continuing");
         console.warn(err);
@@ -99,7 +106,7 @@ require([
 
     // Instantiate the main objects
     
-    var page = new page.Page();
+    var page = new page.Page('div#header', 'div#site');
     var pager = new pager.Pager('div#pager', {
         events: events});
     var acts = new actions.init();
@@ -198,7 +205,7 @@ require([
 
     Object.defineProperty( IPython, 'actions', {
       get: function() {
-          console.warn('accessing "actions" on the global IPython/Jupyter is not recommended. Pass it to your objects contructors at creation time');
+          console.warn('accessing "actions" on the global IPython/Jupyter is not recommended. Pass it to your objects constructors at creation time');
           return acts;
       },
       enumerable: true,

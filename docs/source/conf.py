@@ -30,8 +30,6 @@ for item in sys.path:
 # add repo root to sys.path
 # here = root/docs/source
 here = os.path.abspath(os.path.dirname(__file__))
-sphinxext = os.path.join(os.path.dirname(here), 'sphinxext')
-sys.path.insert(0, sphinxext)
 repo_root = os.path.dirname(os.path.dirname(here))
 sys.path.insert(0, repo_root)
 
@@ -72,7 +70,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'IPython.sphinxext.ipython_console_highlighting',
     'nbsphinx',
-    'github',
+    'sphinxcontrib_github_alt',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -313,6 +311,13 @@ man_pages = [
 #man_show_urls = False
 
 
+# -- Options for link checks ----------------------------------------------
+
+linkcheck_ignore = [
+    'http://127\.0\.0\.1/*'
+]
+
+
 # -- Options for Texinfo output -------------------------------------------
 
 # Grouping the document tree into Texinfo files. List of tuples
@@ -345,3 +350,6 @@ intersphinx_mapping = {
 
 spelling_lang='en_US'
 spelling_word_list_filename='spelling_wordlist.txt'
+
+# import before any doc is built, so _ is guaranteed to be injected
+import notebook.transutils

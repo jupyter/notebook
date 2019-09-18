@@ -1,7 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define(['jquery'], function($) {
+define(['jquery','base/js/i18n'], function($, i18n) {
     "use strict";
 
     /**
@@ -51,12 +51,12 @@ define(['jquery'], function($) {
      *      ]
      *
      *  @param list {List}
-     *      List of button of the group, with the following paramter for each :
+     *      List of button of the group, with the following parameter for each :
      *      @param list.label {string} text to show on button hover
      *      @param list.icon {string} icon to choose from [Font Awesome](http://fortawesome.github.io/Font-Awesome)
      *      @param list.callback {function} function to be called on button click
      *      @param [list.id] {String} id to give to the button
-     *  @param [group_id] {String} optionnal id to give to the group
+     *  @param [group_id] {String} optional id to give to the group
      *
      *
      *  for private usage, the key can also be strings starting with '<' and ending with '>' to inject custom element that cannot
@@ -82,26 +82,26 @@ define(['jquery'], function($) {
         if( group_id !== undefined ) {
             btn_group.attr('id',group_id);
         }
-        for(var i=0; i < list.length; i++) {
-
-            // IIFE because javascript don't have loop scope so
-            // action_name would otherwise be the same on all iteration
-            // of the loop
-            (function(i,list){
-                var el = list[i];
+        list.forEach(function(el) {
                 var action_name;
                 var action;
                 if(typeof(el) === 'string'){
                     action = that.actions.get(el);
                     action_name = el;
-
+                } else if (el.action) {
+                    action = that.actions.get(el.action);
+                    action_name = el.action
                 }
                 var button  = $('<button/>')
                     .addClass('btn btn-default')
-                    .attr("title", el.label||action.help)
+                    .attr("title", el.label||i18n.msg._(action.help))
                     .append(
                         $("<i/>").addClass(el.icon||(action||{icon:'fa-exclamation-triangle'}).icon).addClass('fa')
                     );
+                if (el.label) {
+                    var label = $('<span/>').text(i18n.msg._(el.label)).addClass('toolbar-btn-label');
+                    button.append(label);
+                }
                 var id = el.id;
                 if( id !== undefined ){
                     button.attr('id',id);
@@ -112,9 +112,7 @@ define(['jquery'], function($) {
                 };
                 button.click(fun);
                 btn_group.append(button);
-            })(i,list);
-            // END IIFE
-        }
+        });
         $(this.selector).append(btn_group);
         return btn_group;
     };
@@ -131,5 +129,20 @@ define(['jquery'], function($) {
         this.element.toggle();
     };
 
-    return {'ToolBar': ToolBar};
+    /**
+     * A simple class to hold information defining one toolbar button.
+     * @class ToolBar
+     * @constructor
+     * @param action {String} name of a Jupyter action taken when pressed
+     * @param options.label {String} short label to display on the button
+     */
+    var Button = function(action, options) {
+        this.action = action;
+        this.label = (options||{}).label;
+    };
+
+    return {
+        'ToolBar': ToolBar,
+        'Button': Button
+    };
 });

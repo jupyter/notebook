@@ -39,10 +39,10 @@ casper.notebook_test(function () {
         this.test.assert(get_widget('kernel') && widget('kernel'), 'The kernel notification widget exists');
         this.test.assert(get_widget('notebook') && widget('notbook'), 'The notebook notification widget exists');
 
-        // try getting a non-existant widget
+        // try getting a non-existent widget
         this.test.assertRaises(get_widget, 'foo', 'get_widget: error is thrown');
 
-        // try creating a non-existant widget
+        // try creating a non-existent widget
         this.test.assert(widget('bar'), 'widget: new widget is created');
 
         // try creating a widget that already exists

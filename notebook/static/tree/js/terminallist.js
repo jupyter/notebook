@@ -5,8 +5,9 @@ define([
     'jquery',
     'base/js/namespace',
     'base/js/utils',
+    'base/js/i18n',
     'tree/js/notebooklist',
-], function($, IPython, utils, notebooklist) {
+], function($, IPython, utils, i18n, notebooklist) {
     "use strict";
 
     var TerminalList = function (selector, options) {
@@ -41,8 +42,11 @@ define([
         $('#new-terminal').click($.proxy(this.new_terminal, this));
     };
 
-    TerminalList.prototype.new_terminal = function () {
-        var w = window.open(undefined, IPython._target);
+    TerminalList.prototype.new_terminal = function (event) {
+        if (event) {
+            event.preventDefault();
+        }
+        var w = window.open('#', IPython._target);
         var base_url = this.base_url;
         var settings = {
             type : "POST",
@@ -101,7 +105,7 @@ define([
     
     TerminalList.prototype.add_shutdown_button = function(name, item) {
         var that = this;
-        var shutdown_button = $("<button/>").text("Shutdown").addClass("btn btn-xs btn-warning").
+        var shutdown_button = $("<button/>").text(i18n._("Shutdown")).addClass("btn btn-xs btn-warning").
             click(function (e) {
                 var settings = {
                     processData : false,

@@ -15,26 +15,23 @@ from tornado import gen, web
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
 
+from jupyter_client import protocol_version as client_protocol_version
 from jupyter_client.jsonutil import date_default
 from ipython_genutils.py3compat import cast_unicode
-from notebook.utils import url_path_join, url_escape
+from notebook.utils import maybe_future, url_path_join, url_escape
 
-from ...base.handlers import APIHandler, json_errors
+from ...base.handlers import APIHandler
 from ...base.zmqhandlers import AuthenticatedZMQStreamHandler, deserialize_binary_message
-
-from jupyter_client import protocol_version as client_protocol_version
 
 class MainKernelHandler(APIHandler):
 
-    @json_errors
     @web.authenticated
     @gen.coroutine
     def get(self):
         km = self.kernel_manager
-        kernels = yield gen.maybe_future(km.list_kernels())
+        kernels = yield maybe_future(km.list_kernels())
         self.finish(json.dumps(kernels, default=date_default))
 
-    @json_errors
     @web.authenticated
     @gen.coroutine
     def post(self):
@@ -47,8 +44,8 @@ class MainKernelHandler(APIHandler):
         else:
             model.setdefault('name', km.default_kernel_name)
 
-        kernel_id = yield gen.maybe_future(km.start_kernel(kernel_name=model['name']))
-        model = km.kernel_model(kernel_id)
+        kernel_id = yield maybe_future(km.start_kernel(kernel_name=model['name']))
+        model = yield maybe_future(km.kernel_model(kernel_id))
         location = url_path_join(self.base_url, 'api', 'kernels', url_escape(kernel_id))
         self.set_header('Location', location)
         self.set_status(201)
@@ -57,27 +54,23 @@ class MainKernelHandler(APIHandler):
 
 class KernelHandler(APIHandler):
 
-    @json_errors
     @web.authenticated
     def get(self, kernel_id):
         km = self.kernel_manager
-        km._check_kernel_id(kernel_id)
         model = km.kernel_model(kernel_id)
         self.finish(json.dumps(model, default=date_default))
 
-    @json_errors
     @web.authenticated
     @gen.coroutine
     def delete(self, kernel_id):
         km = self.kernel_manager
-        yield gen.maybe_future(km.shutdown_kernel(kernel_id))
+        yield maybe_future(km.shutdown_kernel(kernel_id))
         self.set_status(204)
         self.finish()
 
 
 class KernelActionHandler(APIHandler):
 
-    @json_errors
     @web.authenticated
     @gen.coroutine
     def post(self, kernel_id, action):
@@ -88,17 +81,20 @@ class KernelActionHandler(APIHandler):
         if action == 'restart':
 
             try:
-                yield gen.maybe_future(km.restart_kernel(kernel_id))
+                yield maybe_future(km.restart_kernel(kernel_id))
             except Exception as e:
                 self.log.error("Exception restarting kernel", exc_info=True)
                 self.set_status(500)
             else:
-                model = km.kernel_model(kernel_id)
+                model = yield maybe_future(km.kernel_model(kernel_id))
                 self.write(json.dumps(model, default=date_default))
         self.finish()
 
 
 class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
+    '''There is one ZMQChannelsHandler per running kernel and it oversees all
+    the sessions.
+    '''
     
     # class-level registry of open sessions
     # allows checking for conflict on session-id,
@@ -107,7 +103,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
 
     @property
     def kernel_info_timeout(self):
-        return self.settings.get('kernel_info_timeout', 10)
+        km_default = self.kernel_manager.kernel_info_timeout
+        return self.settings.get('kernel_info_timeout', km_default)
 
     @property
     def iopub_msg_rate_limit(self):
@@ -134,12 +131,10 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
     def create_stream(self):
         km = self.kernel_manager
         identity = self.session.bsession
-        for channel in ('shell', 'iopub', 'stdin'):
+        for channel in ('shell', 'control', 'iopub', 'stdin'):
             meth = getattr(km, 'connect_' + channel)
             self.channels[channel] = stream = meth(self.kernel_id, identity=identity)
             stream.channel = channel
-        km.add_restart_callback(self.kernel_id, self.on_kernel_restarted)
-        km.add_restart_callback(self.kernel_id, self.on_restart_failed, 'dead')
     
     def request_kernel_info(self):
         """send a request for kernel_info"""
@@ -198,7 +193,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         protocol_version = info.get('protocol_version', client_protocol_version)
         if protocol_version != client_protocol_version:
             self.session.adapt_version = int(protocol_version.split('.')[0])
-            self.log.info("Adapting to protocol v%s for kernel %s", protocol_version, self.kernel_id)
+            self.log.info("Adapting from protocol version {protocol_version} (kernel {kernel_id}) to {client_protocol_version} (client).".format(protocol_version=protocol_version, kernel_id=self.kernel_id, client_protocol_version=client_protocol_version))
         if not self._kernel_info_future.done():
             self._kernel_info_future.set_result(info)
     
@@ -265,23 +260,41 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             self.log.warning("Replacing stale connection: %s", self.session_key)
             yield stale_handler.close()
         self._open_sessions[self.session_key] = self
-    
+
     def open(self, kernel_id):
         super(ZMQChannelsHandler, self).open()
-        self.kernel_manager.notify_connect(kernel_id)
-        try:
-            self.create_stream()
-        except web.HTTPError as e:
-            self.log.error("Error opening stream: %s", e)
-            # WebSockets don't response to traditional error codes so we
-            # close the connection.
-            for channel, stream in self.channels.items():
-                if not stream.closed():
-                    stream.close()
-            self.close()
+        km = self.kernel_manager
+        km.notify_connect(kernel_id)
+
+        # on new connections, flush the message buffer
+        buffer_info = km.get_buffer(kernel_id, self.session_key)
+        if buffer_info and buffer_info['session_key'] == self.session_key:
+            self.log.info("Restoring connection for %s", self.session_key)
+            self.channels = buffer_info['channels']
+            replay_buffer = buffer_info['buffer']
+            if replay_buffer:
+                self.log.info("Replaying %s buffered messages", len(replay_buffer))
+                for channel, msg_list in replay_buffer:
+                    stream = self.channels[channel]
+                    self._on_zmq_reply(stream, msg_list)
         else:
-            for channel, stream in self.channels.items():
-                stream.on_recv_stream(self._on_zmq_reply)
+            try:
+                self.create_stream()
+            except web.HTTPError as e:
+                self.log.error("Error opening stream: %s", e)
+                # WebSockets don't response to traditional error codes so we
+                # close the connection.
+                for channel, stream in self.channels.items():
+                    if not stream.closed():
+                        stream.close()
+                self.close()
+                return
+
+        km.add_restart_callback(self.kernel_id, self.on_kernel_restarted)
+        km.add_restart_callback(self.kernel_id, self.on_restart_failed, 'dead')
+
+        for channel, stream in self.channels.items():
+            stream.on_recv_stream(self._on_zmq_reply)
 
     def on_message(self, msg):
         if not self.channels:
@@ -299,11 +312,15 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         if channel not in self.channels:
             self.log.warning("No such channel: %r", channel)
             return
-        stream = self.channels[channel]
-        self.session.send(stream, msg)
-
-        if self.kernel_logger and msg['content'].get('code', None):
-            self.kernel_logger.info(msg['content']['code'].replace('\n', '\\n'))
+        am = self.kernel_manager.allowed_message_types
+        mt = msg['header']['msg_type']
+        if am and mt not in am:
+            self.log.warning('Received message of type "%s", which is not allowed. Ignoring.' % mt)
+        else:
+            stream = self.channels[channel]
+            self.session.send(stream, msg)
+            if self.kernel_logger and msg['content'].get('code', None):
+                self.kernel_logger.info(msg['content']['code'].replace('\n', '\\n'))
 
     def _on_zmq_reply(self, stream, msg_list):
         idents, fed_msg_list = self.session.feed_identities(msg_list)
@@ -317,7 +334,6 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             )
             msg['channel'] = 'iopub'
             self.write_message(json.dumps(msg, default=date_default))
-            
         channel = getattr(stream, 'channel', None)
         msg_type = msg['header']['msg_type']
 
@@ -347,7 +363,10 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
 
             # Increment the bytes and message count
             self._iopub_window_msg_count += 1
-            byte_count = sum([len(x) for x in msg_list])
+            if msg_type == 'stream':
+                byte_count = sum([len(x) for x in msg_list])
+            else:
+                byte_count = 0
             self._iopub_window_byte_count += byte_count
             
             # Queue a removal of the byte and message count for a time in the 
@@ -368,7 +387,12 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                     The notebook server will temporarily stop sending output
                     to the client in order to avoid crashing it.
                     To change this limit, set the config variable
-                    `--NotebookApp.iopub_msg_rate_limit`."""))
+                    `--NotebookApp.iopub_msg_rate_limit`.
+                    
+                    Current values:
+                    NotebookApp.iopub_msg_rate_limit={} (msgs/sec)
+                    NotebookApp.rate_limit_window={} (secs)
+                    """.format(self.iopub_msg_rate_limit, self.rate_limit_window)))
             else:
                 # resume once we've got some headroom below the limit
                 if self._iopub_msgs_exceeded and msg_rate < (0.8 * self.iopub_msg_rate_limit):
@@ -385,7 +409,12 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                     The notebook server will temporarily stop sending output
                     to the client in order to avoid crashing it.
                     To change this limit, set the config variable
-                    `--NotebookApp.iopub_data_rate_limit`."""))
+                    `--NotebookApp.iopub_data_rate_limit`.
+                    
+                    Current values:
+                    NotebookApp.iopub_data_rate_limit={} (bytes/sec)
+                    NotebookApp.rate_limit_window={} (secs)
+                    """.format(self.iopub_data_rate_limit, self.rate_limit_window)))
             else:
                 # resume once we've got some headroom below the limit
                 if self._iopub_data_exceeded and data_rate < (0.8 * self.iopub_data_rate_limit):
@@ -411,6 +440,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         # unregister myself as an open session (only if it's really me)
         if self._open_sessions.get(self.session_key) is self:
             self._open_sessions.pop(self.session_key)
+
         km = self.kernel_manager
         if self.kernel_id in km:
             km.notify_disconnect(self.kernel_id)
@@ -420,21 +450,31 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             km.remove_restart_callback(
                 self.kernel_id, self.on_restart_failed, 'dead',
             )
+
+            # start buffering instead of closing if this was the last connection
+            if km._kernel_connections[self.kernel_id] == 0:
+                km.start_buffering(self.kernel_id, self.session_key, self.channels)
+                self._close_future.set_result(None)
+                return
+
         # This method can be called twice, once by self.kernel_died and once
         # from the WebSocket close event. If the WebSocket connection is
         # closed before the ZMQ streams are setup, they could be None.
         for channel, stream in self.channels.items():
             if stream is not None and not stream.closed():
                 stream.on_recv(None)
-                # close the socket directly, don't wait for the stream
-                socket = stream.socket
                 stream.close()
-                socket.close()
-        
+
         self.channels = {}
         self._close_future.set_result(None)
 
     def _send_status_message(self, status):
+        iopub = self.channels.get('iopub', None)
+        if iopub and not iopub.closed():
+            # flush IOPub before sending a restarting/dead status message
+            # ensures proper ordering on the IOPub channel
+            # that all messages from the stopped kernel have been delivered
+            iopub.flush()
         msg = self.session.msg("status",
             {'execution_state': status}
         )

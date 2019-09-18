@@ -1,6 +1,6 @@
 from notebook.auth import passwd
 from getpass import getpass
-from traitlets.config.manager import BaseJSONConfigManager
+from notebook.config_manager import BaseJSONConfigManager
 from jupyter_core.paths import jupyter_config_dir
 import argparse
 import sys

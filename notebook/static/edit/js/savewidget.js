@@ -7,9 +7,10 @@ define([
     'base/js/dialog',
     'base/js/keyboard',
     'moment',
-], function($, utils, dialog, keyboard, moment) {
+    'bidi/bidi',
+], function($, utils, dialog, keyboard, moment, bidi) {
     "use strict";
-
+    
     var SaveWidget = function (selector, options) {
         this.editor = undefined;
         this.selector = selector;
@@ -79,6 +80,11 @@ define([
                     class: "btn-primary",
                     click: function () {
                         var new_name = d.find('input').val();
+                        if (!new_name) {
+                            // Reset the message
+                            d.find('.rename-message').text("Enter a new filename:");
+                            return false;
+                        }
                         d.find('.rename-message').text("Renaming...");
                         d.find('input[type="text"]').prop('disabled', true);
                         that.editor.rename(new_name).then(
@@ -108,6 +114,7 @@ define([
 
 
     SaveWidget.prototype.update_filename = function (filename) {
+    	filename = bidi.applyBidi(filename);
         this.element.find('span.filename').text(filename);
     };
 
@@ -115,7 +122,7 @@ define([
         if(filename){
             this._filename = filename;
         }
-        document.title = (dirty?'*':'')+this._filename;
+        document.title = (dirty ? '*' : '') + this._filename + ' - Jupyter Text Editor';
     };
 
     SaveWidget.prototype.update_address_bar = function (path) {
@@ -146,7 +153,7 @@ define([
         if (!this._last_modified) {
             el.text('').attr('title', 'never saved');
             return;
-        }
+	 }
         var chkd = moment(this._last_modified);
         var long_date = chkd.format('llll');
         var human_date;

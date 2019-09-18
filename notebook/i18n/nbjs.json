@@ -1,0 +1,14 @@
+{
+	"domain": "nbjs",
+	"supported_languages": [
+		"fr-FR",
+		"zh-CN"
+	],
+	"locale_data": {
+		"nbjs": {
+			"": {
+				"domain": "nbjs"
+         	}
+		}
+	}
+}

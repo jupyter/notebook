@@ -11,12 +11,12 @@ import sys
 
 from jupyter_core.paths import jupyter_config_path
 from ._version import __version__
+from .config_manager import BaseJSONConfigManager
 from .extensions import (
     BaseExtensionApp, _get_config_dir, GREEN_ENABLED, RED_DISABLED, GREEN_OK, RED_X
 )
 from traitlets import Bool
 from traitlets.utils.importstring import import_item
-from traitlets.config.manager import BaseJSONConfigManager
 
 
 # ------------------------------------------------------------------------------
@@ -103,6 +103,7 @@ def validate_serverextension(import_name, logger=None):
     try:
         mod = importlib.import_module(import_name)
         func = getattr(mod, 'load_jupyter_server_extension', None)
+        version = getattr(mod, '__version__', '')
     except Exception:
         logger.warning("Error loading server extension %s", import_name)
 
@@ -118,7 +119,7 @@ def validate_serverextension(import_name, logger=None):
             [logger.info(info) for info in infos]
             [logger.warn(warning) for warning in warnings]
         else:
-            logger.info(post_mortem.format(import_name, "", GREEN_OK))
+            logger.info(post_mortem.format(import_name, version, GREEN_OK))
 
     return warnings
 
@@ -283,8 +284,8 @@ class ServerExtensionApp(BaseExtensionApp):
     examples = _examples
 
     subcommands = dict(
-        enable=(EnableServerExtensionApp, "Enable an server extension"),
-        disable=(DisableServerExtensionApp, "Disable an server extension"),
+        enable=(EnableServerExtensionApp, "Enable a server extension"),
+        disable=(DisableServerExtensionApp, "Disable a server extension"),
         list=(ListServerExtensionsApp, "List server extensions")
     )
 

@@ -4,6 +4,7 @@ import getpass
 import logging
 import os
 import re
+import signal
 from subprocess import Popen, PIPE, STDOUT
 import sys
 from tempfile import NamedTemporaryFile
@@ -23,6 +24,8 @@ from traitlets import TraitError
 from notebook import notebookapp, __version__
 from notebook.auth.security import passwd_check
 NotebookApp = notebookapp.NotebookApp
+
+from .launchnotebook import NotebookTestBase
 
 
 def test_help_output():
@@ -138,3 +141,54 @@ def test_notebook_password():
             nb.load_config_file()
             nt.assert_not_equal(nb.password, '')
             passwd_check(nb.password, password)
+
+class TestingStopApp(notebookapp.NbserverStopApp):
+    """For testing the logic of NbserverStopApp."""
+    def __init__(self, **kwargs):
+        super(TestingStopApp, self).__init__(**kwargs)
+        self.servers_shut_down = []
+
+    def shutdown_server(self, server):
+        self.servers_shut_down.append(server)
+        return True
+
+def test_notebook_stop():
+    def list_running_servers(runtime_dir):
+        for port in range(100, 110):
+            yield {
+                'pid': 1000 + port,
+                'port': port,
+                'base_url': '/',
+                'hostname': 'localhost',
+                'notebook_dir': '/',
+                'secure': False,
+                'token': '',
+                'password': False,
+                'url': 'http://localhost:%i' % port,
+            }
+
+    mock_servers = patch('notebook.notebookapp.list_running_servers', list_running_servers)
+
+    # test stop with a match
+    with mock_servers:
+        app = TestingStopApp()
+        app.initialize(['105'])
+        app.start()
+    nt.assert_equal(len(app.servers_shut_down), 1)
+    nt.assert_equal(app.servers_shut_down[0]['port'], 105)
+
+    # test no match
+    with mock_servers, patch('os.kill') as os_kill:
+        app = TestingStopApp()
+        app.initialize(['999'])
+        with nt.assert_raises(SystemExit) as exc:
+            app.start()
+        nt.assert_equal(exc.exception.code, 1)
+    nt.assert_equal(len(app.servers_shut_down), 0)
+
+
+class NotebookAppTests(NotebookTestBase):
+    def test_list_running_servers(self):
+        servers = list(notebookapp.list_running_servers())
+        assert len(servers) >= 1
+        assert self.port in {info['port'] for info in servers}

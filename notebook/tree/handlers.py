@@ -4,6 +4,7 @@
 # Distributed under the terms of the Modified BSD License.
 
 from tornado import web
+import os
 from ..base.handlers import IPythonHandler, path_regex
 from ..utils import url_path_join, url_escape
 
@@ -31,7 +32,7 @@ class TreeHandler(IPythonHandler):
         if page_title:
             return page_title+'/'
         else:
-            return 'Home'
+            return 'Home Page - Select or create a notebook'
 
     @web.authenticated
     def get(self, path=''):
@@ -39,7 +40,7 @@ class TreeHandler(IPythonHandler):
         cm = self.contents_manager
         
         if cm.dir_exists(path=path):
-            if cm.is_hidden(path):
+            if cm.is_hidden(path) and not cm.allow_hidden:
                 self.log.info("Refusing to serve hidden directory, via 404 Error")
                 raise web.HTTPError(404)
             breadcrumbs = self.generate_breadcrumbs(path)
@@ -49,6 +50,8 @@ class TreeHandler(IPythonHandler):
                 notebook_path=path,
                 breadcrumbs=breadcrumbs,
                 terminals_available=self.settings['terminals_available'],
+                server_root=self.settings['server_root_dir'],
+                shutdown_button=self.settings.get('shutdown_button', False)
             ))
         elif cm.file_exists(path):
             # it's not a directory, we have redirecting to do

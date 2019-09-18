@@ -18,13 +18,17 @@ casper.notebook_test(function () {
         cell.set_text([
             "ip = get_ipython()",
             "from IPython.display import display",
-            "def display_with_id(obj, display_id, update=False):",
+            "def display_with_id(obj, display_id, update=False, execute_result=False):",
             "  iopub = ip.kernel.iopub_socket",
             "  session = get_ipython().kernel.session",
             "  data, md = ip.display_formatter.format(obj)",
             "  transient = {'display_id': display_id}",
             "  content = {'data': data, 'metadata': md, 'transient': transient}",
-            "  msg_type = 'update_display_data' if update else 'display_data'",
+            "  if execute_result:",
+            "    msg_type = 'execute_result'",
+            "    content['execution_count'] = ip.execution_count",
+            "  else:",
+            "    msg_type = 'update_display_data' if update else 'display_data'",
             "  session.send(iopub, msg_type, content, parent=ip.parent_header)",
             "",
         ].join('\n'));
@@ -110,7 +114,12 @@ casper.notebook_test(function () {
         kernel.output_callback_overrides_push(msg_id, callback_id);
     });
 
-    this.wait_for_output(3);
+    this.waitFor(function () {
+        return this.evaluate(function () {
+            var cell = IPython.notebook.get_cell(3);
+            return cell.iopub_messages.length >= 2;
+        });
+    });
     this.wait_for_idle();
 
     this.then(function () {
@@ -136,11 +145,21 @@ casper.notebook_test(function () {
         cell.set_text([
             "display_with_id(7, 'here')",
             "display_with_id(8, 'here', update=True)",
+            "display_with_id(9, 'result', execute_result=True)"
+        ].join('\n'));
+        cell.execute();
+
+        Jupyter.notebook.insert_cell_at_index("code", 5);
+        var cell = Jupyter.notebook.get_cell(5);
+        cell.set_text([
+            "display_with_id(10, 'result', update=True)",
+            "1",
         ].join('\n'));
         cell.execute();
     });
 
     this.wait_for_output(4);
+    this.wait_for_output(5);
     this.wait_for_idle();
 
     this.then(function () {
@@ -151,7 +170,7 @@ casper.notebook_test(function () {
         }));
         var cell_results = returned[0];
         var callback_results = returned[1];
-        this.test.assertEquals(cell_results.length, 1, "correct number of cell outputs");
+        this.test.assertEquals(cell_results.length, 2, "correct number of cell outputs");
         this.test.assertEquals(callback_results.length, 4, "correct number of callback outputs");
         this.test.assertEquals(callback_results[0].output_type, 'display_data', 'check output_type 0');
         this.test.assertEquals(callback_results[0].transient.display_id, 'here', 'check display id 0');
@@ -165,6 +184,8 @@ casper.notebook_test(function () {
         this.test.assertEquals(callback_results[3].output_type, 'update_display_data', 'check output_type 3');
         this.test.assertEquals(callback_results[3].transient.display_id, 'here', 'display id 3');
         this.test.assertEquals(callback_results[3].data['text/plain'], '8', 'value');
+
+        this.test.assertEquals(cell_results[1].data['text/plain'], '10', 'update execute_result')
     });
 
 

@@ -5,7 +5,7 @@
 // before all other objects so it exists when others register event handlers.
 // To register an event handler:
 //
-// require(['base/js/events'], function (events) {
+// requirejs(['base/js/events'], function (events) {
 //     events.on("event.Namespace", function () { do_stuff(); });
 // });
 
@@ -18,7 +18,7 @@ define(['jquery', 'base/js/namespace'], function($, Jupyter) {
         window._events = new window._Events();
     }
     
-    // Backwards compatability.
+    // Backwards compatibility.
     Jupyter.Events = window._Events;
     Jupyter.events = window._events;
     

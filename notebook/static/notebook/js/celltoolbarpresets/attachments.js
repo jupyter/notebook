@@ -4,7 +4,8 @@
 define([
     'notebook/js/celltoolbar',
     'base/js/dialog',
-], function(celltoolbar, dialog) {
+    'base/js/i18n'
+], function(celltoolbar, dialog, i18n) {
     "use strict";
 
     var CellToolbar = celltoolbar.CellToolbar;
@@ -18,7 +19,7 @@ define([
             cell.unrender();
             cell.render();
           },
-          name: 'cell',
+          name: 'Cell',
           notebook: cell.notebook,
           keyboard_manager: cell.keyboard_manager
         });
@@ -28,7 +29,7 @@ define([
         var button_container = $(div);
         var button = $('<button />')
             .addClass('btn btn-default btn-xs')
-            .text('Edit Attachments')
+            .text(i18n.msg._('Edit Attachments'))
             .click( function() {
               edit_attachments_dialog(cell);
               return false;
@@ -42,7 +43,7 @@ define([
       var attachments_preset = [];
       attachments_preset.push('attachments.edit');
 
-      CellToolbar.register_preset('Attachments', attachments_preset, notebook);
+      CellToolbar.register_preset(i18n.msg._('Attachments'), attachments_preset, notebook);
 
     };
     return {'register' : register};

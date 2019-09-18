@@ -5,14 +5,14 @@ define([
     'jquery',
     'base/js/namespace',
     'base/js/utils',
+    'base/js/i18n',
     'base/js/dialog',
-], function ($, IPython, utils, dialog) {
+], function ($, IPython, utils, i18n, dialog) {
     "use strict";
     
     var NewNotebookWidget = function (selector, options) {
         this.selector = selector;
         this.base_url = options.base_url;
-        this.notebook_path = options.notebook_path;
         this.contents = options.contents;
         this.events = options.events;
         this.default_kernel = null;
@@ -63,22 +63,25 @@ define([
                 .attr("id", "kernel-" +ks.name)
                 .data('kernelspec', ks).append(
                     $('<a>')
+                        .attr("aria-label", ks.name)
+                        .attr("role", "menuitem")
                         .attr('href', '#')
                         .click($.proxy(this.new_notebook, this, ks.name))
                         .text(ks.spec.display_name)
-                        .attr('title', 'Create a new notebook with ' + ks.spec.display_name)
+                        .attr('title', i18n.sprintf(i18n._('Create a new notebook with %s'), ks.spec.display_name))
                 );
             menu.after(li);
         }
         this.events.trigger('kernelspecs_loaded.KernelSpec', data.kernelspecs);
     };
     
-    NewNotebookWidget.prototype.new_notebook = function (kernel_name) {
+    NewNotebookWidget.prototype.new_notebook = function (kernel_name, evt) {
         /** create and open a new notebook */
         var that = this;
         kernel_name = kernel_name || this.default_kernel;
         var w = window.open(undefined, IPython._target);
-        this.contents.new_untitled(that.notebook_path, {type: "notebook"}).then(
+        var dir_path = $('body').attr('data-notebook-path');
+        this.contents.new_untitled(dir_path, {type: "notebook"}).then(
             function (data) {
                 var url = utils.url_path_join(
                     that.base_url, 'notebooks',
@@ -90,10 +93,14 @@ define([
                 w.location = url;
         }).catch(function (e) {
             w.close();
+            // This statement is used simply so that message extraction
+            // will pick up the strings.  The actual setting of the text
+            // for the button is in dialog.js.
+            var button_labels = [ i18n._("OK")];
             dialog.modal({
-                title : 'Creating Notebook Failed',
+                title : i18n._('Creating Notebook Failed'),
                 body : $('<div/>')
-                    .text("An error occurred while creating a new notebook.")
+                    .text(i18n._("An error occurred while creating a new notebook."))
                     .append($('<div/>')
                         .addClass('alert alert-danger')
                         .text(e.message || e)),
@@ -102,6 +109,9 @@ define([
                 }
             });
         });
+        if (evt !== undefined) {
+            evt.preventDefault();
+        }
     };
     
     return {'NewNotebookWidget': NewNotebookWidget};

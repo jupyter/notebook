@@ -125,7 +125,7 @@ define([
         });
         
         this.events.on("config_changed.Editor", function () {
-            var keyMap = editor.codemirror.getOption('keyMap') || "default";
+            var keyMap = editor.codemirror.getOption('keyMap') || 'default';
             that.element.find(".selected-keymap").removeClass("selected-keymap");
             that.element.find("#menu-keymap-" + keyMap).addClass("selected-keymap");
         });
@@ -146,6 +146,8 @@ define([
         function make_set_mode(info) {
             return function () {
                 editor.set_codemirror_mode(info);
+                // save codemirror mode for extension when explicitly selected
+                editor.save_codemirror_mode(info);
             };
         }
         for (var i = 0; i < CodeMirror.modeInfo.length; i++) {

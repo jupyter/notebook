@@ -218,18 +218,17 @@ define([
          * Flatten a tree of shortcut sequences. 
          * use full to iterate over all the key/values of available shortcuts.
          **/
-        var  dct = {};
-        for(var key in tree){
-            var value = tree[key];
+        var dct = {};
+        _.forEach(tree, function(value, key) {
             if(typeof(value) === 'string'){
                 dct[key] = value;
             } else {
                 var ftree=flatten_shorttree(value);
-                for(var subkey in ftree){
+                _.forEach(ftree, function(v2, subkey) {
                     dct[key+','+subkey] = ftree[subkey];
-                }
+                });
             } 
-        }
+        });
         return dct;
     };
 
@@ -237,40 +236,39 @@ define([
     ShortcutManager.prototype.get_action_shortcuts = function(name){
       var ftree = flatten_shorttree(this._shortcuts);
       var res = [];
-      for (var sht in ftree ){
-        if(ftree[sht] === name){
-          res.push(sht);
+      _.forEach(ftree, function(value, key) {
+        if(value === name){
+          res.push(key);
         }
-      }
+      });
       return res;
     };
     
     ShortcutManager.prototype.get_action_shortcut = function(name){
-      var ftree = flatten_shorttree(this._shortcuts);
-      for (var sht in ftree ){
-        if(ftree[sht] === name){
-          return sht;
-        }
+      var matches = this.get_action_shortcuts(name);
+      if (matches.length > 0) {
+          return matches[0];
       }
       return undefined;
     };
 
     ShortcutManager.prototype.help = function () {
+        var that = this;
         var help = [];
         var ftree = flatten_shorttree(this._shortcuts);
-        for (var shortcut in ftree) {
-            var action = this.actions.get(ftree[shortcut]);
+        _.forEach(ftree, function(value, key) {
+            var action = that.actions.get(value);
             var help_string = action.help||'== no help ==';
             var help_index = action.help_index;
             if (help_string) {
-                var shortstring = (action.shortstring||shortcut);
+                var shortstring = (action.shortstring||key);
                 help.push({
                     shortcut: shortstring,
                     help: help_string,
                     help_index: help_index}
                 );
             }
-        }
+        });
         help.sort(function (a, b) {
             if (a.help_index === b.help_index) {
                 if (a.shortcut === b.shortcut) {
@@ -366,7 +364,7 @@ define([
         if(current_node === undefined){
             return true;
         } else {
-            if (typeof(current_node) == 'string'){
+            if (typeof(current_node) === 'string'){
                 return false;
             } else { // assume is a sub-shortcut tree
                 return this._is_available_shortcut(shortcut_array.slice(1), current_node);
@@ -386,7 +384,7 @@ define([
         } else {
             if(typeof(current_node) === 'string'){
                 console.warn('you are trying to set a shortcut that will be shadowed'+
-                             'by a more specific one. Aborting for :', action_name, 'the follwing '+
+                             'by a more specific one. Aborting for :', action_name, 'the following '+
                              'will take precedence', current_node);
                 return false;
             } else {
@@ -404,7 +402,6 @@ define([
         shortcut = shortcut.toLowerCase();
         this.add_shortcut(shortcut, data);
         var patch = {keys:{}};
-        var b = {bind:{}};
         patch.keys[this._mode] = {bind:{}};
         patch.keys[this._mode].bind[shortcut] = data;
         this._config.update(patch);
@@ -418,7 +415,6 @@ define([
         shortcut = shortcut.toLowerCase();
         this.remove_shortcut(shortcut);
         var patch = {keys: {}};
-        var b = {bind: {}};
         patch.keys[this._mode] = {bind:{}};
         patch.keys[this._mode].bind[shortcut] = null;
         this._config.update(patch);
@@ -445,7 +441,7 @@ define([
 
     ShortcutManager.prototype.add_shortcut = function (shortcut, data, suppress_help_update) {
         /**
-         * Add a action to be handled by shortcut manager. 
+         * Add an action to be handled by shortcut manager. 
          * 
          * - `shortcut` should be a `Shortcut Sequence` of the for `Ctrl-Alt-C,Meta-X`...
          * - `data` could be an `action name`, an `action` or a `function`.
@@ -454,7 +450,14 @@ define([
          **/
         var action_name = this.actions.get_name(data);
         if (! action_name){
-          throw new Error('does not know how to deal with : ' + data);
+          if (typeof data === 'string') {
+            // If we have an action name, allow it to be bound anyway.
+            console.log("Unknown action '" + data + "' for shortcut " + shortcut
+                + "; it may be defined by an extension which is not yet loaded.");
+            action_name = data;
+          } else {
+            throw new Error('does not know how to deal with : ' + data);
+          }
         }
         var _shortcut = normalize_shortcut(shortcut);
         this.set_shortcut(_shortcut, action_name);
@@ -471,9 +474,10 @@ define([
          * 
          *  data : Dict of the form {key:value, ...}
          **/
-        for (var shortcut in data) {
-            this.add_shortcut(shortcut, data[shortcut], true);
-        }
+        var that = this;
+        _.forEach(data, function(value, key) {
+            that.add_shortcut(key, value, true);
+        });
         // update the keyboard shortcuts notebook help
         this.events.trigger('rebuild.QuickHelp');
     };
@@ -490,7 +494,7 @@ define([
 
     ShortcutManager.prototype.remove_shortcut = function (shortcut, suppress_help_update) {
         /**
-         * Remove the binding of shortcut `sortcut` with its action.
+         * Remove the binding of shortcut `shortcut` with its action.
          * throw an error if trying to remove a non-exiting shortcut
          **/
         if(!shortcut){
@@ -560,7 +564,7 @@ define([
         return (typeof(action_name) !== 'undefined');
     };
 
-    var keyboard = {
+    return {
         keycodes : keycodes,
         inv_keycodes : inv_keycodes,
         ShortcutManager : ShortcutManager,
@@ -569,6 +573,4 @@ define([
         shortcut_to_event : shortcut_to_event,
         event_to_shortcut : event_to_shortcut,
     };
-
-    return keyboard;
 });

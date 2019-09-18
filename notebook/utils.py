@@ -5,24 +5,44 @@
 
 from __future__ import print_function
 
+import asyncio
+import concurrent.futures
 import ctypes
 import errno
+import inspect
 import os
 import stat
 import sys
 from distutils.version import LooseVersion
 
-try:
-    from urllib.parse import quote, unquote, urlparse
-except ImportError:
-    from urllib import quote, unquote
-    from urlparse import urlparse
 
+try:
+    from urllib.parse import quote, unquote, urlparse, urljoin
+    from urllib.request import pathname2url
+except ImportError:
+    from urllib import quote, unquote, pathname2url
+    from urlparse import urlparse, urljoin
+
+# tornado.concurrent.Future is asyncio.Future
+# in tornado >=5 with Python 3
+from tornado.concurrent import Future as TornadoFuture
+from tornado import gen
 from ipython_genutils import py3compat
 
 # UF_HIDDEN is a stat flag not defined in the stat module.
 # It is used by BSD to indicate hidden files.
 UF_HIDDEN = getattr(stat, 'UF_HIDDEN', 32768)
+
+
+def exists(path):
+    """Replacement for `os.path.exists` which works for host mapped volumes
+    on Windows containers
+    """
+    try:
+        os.lstat(path)
+    except OSError:
+        return False
+    return True
 
 
 def url_path_join(*pieces):
@@ -58,10 +78,10 @@ def url2path(url):
     pieces = [ unquote(p) for p in url.split('/') ]
     path = os.path.join(*pieces)
     return path
-    
+
 def url_escape(path):
     """Escape special characters in a URL path
-    
+
     Turns '/foo bar/' into '/foo%20bar/'
     """
     parts = py3compat.unicode_to_str(path, encoding='utf8').split('/')
@@ -69,7 +89,7 @@ def url_escape(path):
 
 def url_unescape(path):
     """Unescape special characters in a URL path
-    
+
     Turns '/foo%20bar/' into '/foo bar/'
     """
     return u'/'.join([
@@ -77,7 +97,6 @@ def url_unescape(path):
         for p in py3compat.unicode_to_str(path, encoding='utf8').split('/')
     ])
 
-_win32_FILE_ATTRIBUTE_HIDDEN = 0x02
 
 def is_file_hidden_win(abs_path, stat_res=None):
     """Is a file hidden?
@@ -98,22 +117,15 @@ def is_file_hidden_win(abs_path, stat_res=None):
     if os.path.basename(abs_path).startswith('.'):
         return True
 
-    # check that dirs can be listed
-    if os.path.isdir(abs_path):
-        # can't trust os.access on Windows because it seems to always return True
-        try:
-            os.stat(abs_path)
-        except OSError:
-            # stat may fail on Windows junctions or non-user-readable dirs
-            return True
-
+    win32_FILE_ATTRIBUTE_HIDDEN = 0x02
     try:
         attrs = ctypes.windll.kernel32.GetFileAttributesW(
-            py3compat.cast_unicode(abs_path))
+            py3compat.cast_unicode(abs_path)
+        )
     except AttributeError:
         pass
     else:
-        if attrs > 0 and attrs & _win32_FILE_ATTRIBUTE_HIDDEN:
+        if attrs > 0 and attrs & win32_FILE_ATTRIBUTE_HIDDEN:
             return True
 
     return False
@@ -137,7 +149,7 @@ def is_file_hidden_posix(abs_path, stat_res=None):
     if os.path.basename(abs_path).startswith('.'):
         return True
 
-    if stat_res is None:
+    if stat_res is None or stat.S_ISLNK(stat_res.st_mode):
         try:
             stat_res = os.stat(abs_path)
         except OSError as e:
@@ -164,12 +176,16 @@ else:
 
 def is_hidden(abs_path, abs_root=''):
     """Is a file hidden or contained in a hidden directory?
-    
+
     This will start with the rightmost path element and work backwards to the
     given root to see if a path is hidden or in a hidden directory. Hidden is
-    determined by either name starting with '.' or the UF_HIDDEN flag as 
+    determined by either name starting with '.' or the UF_HIDDEN flag as
     reported by stat.
-    
+
+    If abs_path is the same directory as abs_root, it will be visible even if
+    that is a hidden folder. This only checks the visibility of files
+    and directories *within* abs_root.
+
     Parameters
     ----------
     abs_path : unicode
@@ -178,6 +194,9 @@ def is_hidden(abs_path, abs_root=''):
         The absolute path of the root directory in which hidden directories
         should be checked for.
     """
+    if os.path.normpath(abs_path) == os.path.normpath(abs_root):
+        return False
+
     if is_file_hidden(abs_path):
         return True
 
@@ -191,12 +210,12 @@ def is_hidden(abs_path, abs_root=''):
     # is_file_hidden() already checked the file, so start from its parent dir
     path = os.path.dirname(abs_path)
     while path and path.startswith(abs_root) and path != abs_root:
-        if not os.path.exists(path):
+        if not exists(path):
             path = os.path.dirname(path)
             continue
         try:
             # may fail on Windows junctions
-            st = os.stat(path)
+            st = os.lstat(path)
         except OSError:
             return True
         if getattr(st, 'st_flags', 0) & UF_HIDDEN:
@@ -244,7 +263,7 @@ def to_os_path(path, root=''):
 
 def to_api_path(os_path, root=''):
     """Convert a filesystem path to an API path
-    
+
     If given, root will be removed from the path.
     root must be a filesystem path already.
     """
@@ -295,3 +314,21 @@ if sys.platform == 'win32':
     check_pid = _check_pid_win32
 else:
     check_pid = _check_pid_posix
+
+
+def maybe_future(obj):
+    """Like tornado's deprecated gen.maybe_future
+
+    but more compatible with asyncio for recent versions
+    of tornado
+    """
+    if inspect.isawaitable(obj):
+        return asyncio.ensure_future(obj)
+    elif isinstance(obj, concurrent.futures.Future):
+        return asyncio.wrap_future(obj)
+    else:
+        # not awaitable, wrap scalar in future
+        f = asyncio.Future()
+        f.set_result(obj)
+        return f
+

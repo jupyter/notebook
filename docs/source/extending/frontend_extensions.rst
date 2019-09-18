@@ -140,8 +140,8 @@ Defining and registering your own actions
 
 As part of your front-end extension, you may wish to define actions, which can
 be attached to toolbar buttons, or called from the command palette. Here is an
-example of an extension that defines a (not very useful!) action to show an
-alert, and adds a toolabr button using the full action name:
+example of an extension that defines an (not very useful!) action to show an
+alert, and adds a toolbar button using the full action name:
 
 .. code:: javascript
 
@@ -219,11 +219,13 @@ rather than copying it, so there's no need to reinstall after changes.
 To use your extension, you'll also need to **enable** it, which tells the
 notebook interface to load it. You can do that with another command::
 
-    jupyter nbextension enable my_extension/main [--sys-prefix]
+    jupyter nbextension enable my_extension/main [--sys-prefix][--section='common']
 
 The argument refers to the Javascript module containing your
 ``load_ipython_extension`` function, which is ``my_extension/main.js`` in this
-example. There is a corresponding ``disable`` command to stop using an
+example. The ``--section='common'`` argument will affect all pages, by default 
+it will be loaded on the notebook view only. 
+There is a corresponding ``disable`` command to stop using an
 extension without uninstalling it.
 
 .. versionchanged:: 4.2

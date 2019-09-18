@@ -6,6 +6,7 @@
 
 from tornado import web
 import terminado
+from notebook._tz import utcnow
 from ..base.handlers import IPythonHandler
 from ..base.zmqhandlers import WebSocketMixin
 
@@ -31,4 +32,11 @@ class TermSocket(WebSocketMixin, IPythonHandler, terminado.TermSocket):
         if not self.get_current_user():
             raise web.HTTPError(403)
         return super(TermSocket, self).get(*args, **kwargs)
-    
+
+    def on_message(self, message):
+        super(TermSocket, self).on_message(message)
+        self.application.settings['terminal_last_activity'] = utcnow()
+
+    def write_message(self, message, binary=False):
+        super(TermSocket, self).write_message(message, binary=binary)
+        self.application.settings['terminal_last_activity'] = utcnow()

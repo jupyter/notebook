@@ -208,7 +208,7 @@ define([
          * http://www.ietf.org/rfc/rfc4122.txt
          */
         var s = [];
-        var hexDigits = "0123456789ABCDEF";
+        var hexDigits = "0123456789abcdef";
         for (var i = 0; i < 32; i++) {
             s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
         }
@@ -238,6 +238,59 @@ define([
         "ansi-white-intense",
     ];
     
+    function _pushColoredChunk(chunk, fg, bg, bold, underline, inverse, out) {
+        if (chunk) {
+            var classes = [];
+            var styles = [];
+
+            if (bold && typeof fg === "number" && 0 <= fg && fg < 8) {
+                fg += 8;  // Bold text uses "intense" colors
+            }
+            if (inverse) {
+                [fg, bg] = [bg, fg];
+            }
+
+            if (typeof fg === "number") {
+                classes.push(_ANSI_COLORS[fg] + "-fg");
+            } else if (fg.length) {
+                styles.push("color: rgb(" + fg + ")");
+            } else if (inverse) {
+                classes.push("ansi-default-inverse-fg");
+            }
+
+            if (typeof bg === "number") {
+                classes.push(_ANSI_COLORS[bg] + "-bg");
+            } else if (bg.length) {
+                styles.push("background-color: rgb(" + bg + ")");
+            } else if (inverse) {
+                classes.push("ansi-default-inverse-bg");
+            }
+
+            if (bold) {
+                classes.push("ansi-bold");
+            }
+
+            if (underline) {
+                classes.push("ansi-underline");
+            }
+
+            if (classes.length || styles.length) {
+                out.push("<span");
+                if (classes.length) {
+                    out.push(' class="' + classes.join(" ") + '"');
+                }
+                if (styles.length) {
+                    out.push(' style="' + styles.join("; ") + '"');
+                }
+                out.push(">");
+                out.push(chunk);
+                out.push("</span>");
+            } else {
+                out.push(chunk);
+            }
+        }
+    }
+
     function _getExtendedColors(numbers) {
         var r, g, b;
         var n = numbers.shift();
@@ -258,7 +311,7 @@ define([
                 // 16 default terminal colors
                 return idx;
             } else if (idx < 232) {
-                // 6x6x6 color cube, see http://stackoverflow.com/a/27165165/500098
+                // 6x6x6 color cube, see https://stackoverflow.com/a/27165165/500098
                 r = Math.floor((idx - 16) / 36);
                 r = r > 0 ? 55 + r * 40 : 0;
                 g = Math.floor(((idx - 16) % 36) / 6);
@@ -266,7 +319,7 @@ define([
                 b = (idx - 16) % 6;
                 b = b > 0 ? 55 + b * 40 : 0;
             } else if (idx < 256) {
-                // grayscale, see http://stackoverflow.com/a/27165165/500098
+                // grayscale, see https://stackoverflow.com/a/27165165/500098
                 r = g = b = (idx - 232) * 10 + 8;
             } else {
                 throw new RangeError("Color index must be < 256");
@@ -309,52 +362,7 @@ define([
                 // Ignored: Not a color code
             }
             var chunk = str.substring(start, match.index);
-            if (chunk) {
-                if (bold && typeof fg === "number" && 0 <= fg && fg < 8) {
-                    fg += 8;  // Bold text uses "intense" colors
-                }
-                var classes = [];
-                var styles = [];
-
-                if (typeof fg === "number") {
-                    classes.push(_ANSI_COLORS[fg] + "-fg");
-                } else if (fg.length) {
-                    styles.push("color: rgb(" + fg + ")");
-                }
-
-                if (typeof bg === "number") {
-                    classes.push(_ANSI_COLORS[bg] + "-bg");
-                } else if (bg.length) {
-                    styles.push("background-color: rgb(" + bg + ")");
-                }
-
-                if (bold) {
-                    classes.push("ansi-bold");
-                }
-
-                if (underline) {
-                    classes.push("ansi-underline");
-                }
-
-                if (inverse) {
-                    classes.push("ansi-inverse");
-                }
-
-                if (classes.length || styles.length) {
-                    out.push("<span");
-                    if (classes.length) {
-                        out.push(' class="' + classes.join(" ") + '"');
-                    }
-                    if (styles.length) {
-                        out.push(' style="' + styles.join("; ") + '"');
-                    }
-                    out.push(">");
-                    out.push(chunk);
-                    out.push("</span>");
-                } else {
-                    out.push(chunk);
-                }
-            }
+	    _pushColoredChunk(chunk, fg, bg, bold, underline, inverse, out);
             start = ansi_re.lastIndex;
 
             while (numbers.length) {
@@ -379,6 +387,12 @@ define([
                     case 21:
                     case 22:
                         bold = false;
+                        break;
+                    case 24:
+                        underline = false;
+                        break;
+                    case 27:
+                        inverse = false;
                         break;
                     case 30:
                     case 31:
@@ -489,7 +503,7 @@ define([
         return fixCarriageReturn(fixBackspace(txt));
     }
 
-    // Locate any URLs and convert them to a anchor tag
+    // Locate any URLs and convert them to an anchor tag
     function autoLinkUrls(txt) {
         return txt.replace(/(^|\s)(https?|ftp)(:[^'"<>\s]+)/gi,
             "$1<a target=\"_blank\" href=\"$2$3\">$2$3</a>");
@@ -511,7 +525,7 @@ define([
          * wrapper around contructor to avoid requiring `var a = new constructor()`
          * useful for passing constructors as callbacks,
          * not for programmer laziness.
-         * from http://programmers.stackexchange.com/questions/118798
+         * from https://programmers.stackexchange.com/questions/118798
          */
         return function () {
             var obj = Object.create(constructor.prototype);
@@ -615,7 +629,7 @@ define([
          * until we are building an actual request
          */
         var val = $('body').data(key);
-        if (!val)
+        if (typeof val === 'undefined')
             return val;
         return decodeURIComponent(val);
     };
@@ -630,7 +644,7 @@ define([
         return cm.posFromIndex(cursor_pos);
     };
     
-    // http://stackoverflow.com/questions/2400935/browser-detection-in-javascript
+    // https://stackoverflow.com/questions/2400935/browser-detection-in-javascript
     var browser = (function() {
         if (typeof navigator === 'undefined') {
             // navigator undefined in node
@@ -643,7 +657,7 @@ define([
         return M;
     })();
 
-    // http://stackoverflow.com/questions/11219582/how-to-detect-my-browser-version-and-operating-system-using-javascript
+    // https://stackoverflow.com/questions/11219582/how-to-detect-my-browser-version-and-operating-system-using-javascript
     var platform = (function () {
         if (typeof navigator === 'undefined') {
             // navigator undefined in node
@@ -659,7 +673,7 @@ define([
     
     var get_url_param = function (name) {
         // get a URL parameter. I cannot believe we actually need this.
-        // Based on http://stackoverflow.com/a/25359264/938949
+        // Based on https://stackoverflow.com/a/25359264/938949
         var match = new RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
         if (match){
             return decodeURIComponent(match[1] || '');
@@ -722,7 +736,7 @@ define([
     var requireCodeMirrorMode = function (mode, callback, errback) {
         /** 
          * find a predefined mode or detect from CM metadata then
-         * require and callback with the resolveable mode string: mime or
+         * require and callback with the resolvable mode string: mime or
          * custom name
          */
 
@@ -772,7 +786,13 @@ define([
     };
     
     var ajax = function (url, settings) {
-        // like $.ajax, but ensure Authorization header is set
+        // like $.ajax, but ensure XSRF or Authorization header is set
+        if (typeof url === "object") {
+            // called with single argument: $.ajax({url: '...'})
+            settings = url;
+            url = settings.url;
+            delete settings.url;
+        }
         settings = _add_auth_header(settings);
         return $.ajax(url, settings);
     };
@@ -934,9 +954,17 @@ define([
         if(!window.MathJax){
             return;
         }
-        return $el.map(function(){
+        $el.map(function(){
             // MathJax takes a DOM node: $.map makes `this` the context
-            return MathJax.Hub.Queue(["Typeset", MathJax.Hub, this]);
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, this]);
+            try {
+                MathJax.Hub.Queue(
+                    ["Require", MathJax.Ajax, "[MathJax]/extensions/TeX/AMSmath.js"],
+                    function() { MathJax.InputJax.TeX.resetEquationNumbers(); }
+                );
+            } catch (e) {
+                console.error("Error queueing resetEquationNumbers:", e);
+            }
         });
     };
 
@@ -1010,6 +1038,100 @@ define([
             return (order == 1) ? 1 : -1;
         }
     };
+    
+    /**
+    source: https://github.com/sindresorhus/pretty-bytes
+    The MIT License (MIT)
+
+    Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
+    **/
+    var format_filesize = function(num) {
+      if (num === undefined || num === null)
+        return;
+
+      var UNITS = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+      if (!Number.isFinite(num)) {
+        console.error("Expected finite number, got ", typeof(num) + ": " + num);
+      }
+
+      var neg = num < 0;
+
+      if (neg) {
+        num = -num;
+      }
+
+      if (num < 1) {
+        return (neg ? '-' : '') + num + ' B';
+      }
+
+      var exponent = Math.min(Math.floor(Math.log10(num) / 3), UNITS.length - 1);
+      var numStr = Number((num / Math.pow(1000, exponent)).toPrecision(3));
+      var unit = UNITS[exponent];
+
+      return (neg ? '-' : '') + numStr + ' ' + unit;
+    }
+
+    // javascript stores text as utf16 and string indices use "code units",
+    // which stores high-codepoint characters as "surrogate pairs",
+    // which occupy two indices in the javascript string.
+    // We need to translate cursor_pos in the protocol (in characters)
+    // to js offset (with surrogate pairs taking two spots).
+    function js_idx_to_char_idx (js_idx, text) {
+        var char_idx = js_idx;
+        for (var i = 0; i + 1 < text.length && i < js_idx; i++) {
+            var char_code = text.charCodeAt(i);
+            // check for surrogate pair
+            if (char_code >= 0xD800 && char_code <= 0xDBFF) {
+                var next_char_code = text.charCodeAt(i+1);
+                if (next_char_code >= 0xDC00 && next_char_code <= 0xDFFF) {
+                    char_idx--;
+                    i++;
+                }
+            }
+        }
+        return char_idx;
+    }
+
+    function char_idx_to_js_idx (char_idx, text) {
+        var js_idx = char_idx;
+        for (var i = 0; i + 1 < text.length && i < js_idx; i++) {
+            var char_code = text.charCodeAt(i);
+            // check for surrogate pair
+            if (char_code >= 0xD800 && char_code <= 0xDBFF) {
+                var next_char_code = text.charCodeAt(i+1);
+                if (next_char_code >= 0xDC00 && next_char_code <= 0xDFFF) {
+                    js_idx++;
+                    i++;
+                }
+            }
+        }
+        return js_idx;
+    }
+
+    if ('𝐚'.length === 1) {
+        // If javascript fixes string indices of non-BMP characters,
+        // don't keep shifting offsets to compensate for surrogate pairs
+        char_idx_to_js_idx = js_idx_to_char_idx = function (idx, text) { return idx; };
+    }
 
     // Test if a drag'n'drop event contains a file (as opposed to an HTML
     // element/text from the document)
@@ -1045,6 +1167,21 @@ define([
         fn();
       }
     }
+    
+    var change_favicon = function (src) {
+        var link = document.createElement('link'),
+            oldLink = document.getElementById('favicon');
+        link.id = 'favicon';
+        link.type = 'image/x-icon';
+        link.rel = 'shortcut icon';
+        link.href = utils.url_path_join(utils.get_body_data('baseUrl'), src);
+        if (oldLink && (link.href === oldLink.href)) {
+            // This favicon is already set, don't modify the DOM.
+            return;
+        }
+        if (oldLink) document.head.removeChild(oldLink);
+        document.head.appendChild(link);
+    };
 
     var utils = {
         throttle: throttle,
@@ -1093,9 +1230,13 @@ define([
         parse_b64_data_uri: parse_b64_data_uri,
         time: time,
         format_datetime: format_datetime,
+        format_filesize: format_filesize,
         datetime_sort_helper: datetime_sort_helper,
         dnd_contain_file: dnd_contain_file,
-        _ansispan:_ansispan
+        js_idx_to_char_idx: js_idx_to_char_idx,
+        char_idx_to_js_idx: char_idx_to_js_idx,
+        _ansispan:_ansispan,
+        change_favicon: change_favicon
     };
 
     return utils;

@@ -13,40 +13,44 @@
 
 from __future__ import print_function
 
-name = "notebook"
-
-#-----------------------------------------------------------------------------
-# Minimal Python version sanity check
-#-----------------------------------------------------------------------------
-
+import os
 import sys
 
-v = sys.version_info
-if v[:2] < (2,7) or (v[0] >= 3 and v[:2] < (3,3)):
-    error = "ERROR: %s requires Python version 2.7 or 3.3 or above." % name
+name = "notebook"
+
+if sys.version_info < (3, 4):
+    pip_message = 'This may be due to an out of date pip. Make sure you have pip >= 9.0.1.'
+    try:
+        import pip
+        pip_version = tuple([int(x) for x in pip.__version__.split('.')[:3]])
+        if pip_version < (9, 0, 1) :
+            pip_message = 'Your pip version is out of date, please install pip >= 9.0.1. '\
+            'pip {} detected.'.format(pip.__version__)
+        else:
+            # pip is new enough - it must be something else
+            pip_message = ''
+    except Exception:
+        pass
+
+
+    error = """
+Notebook 6.0+ supports Python 3.4 and above.
+When using Python 2.7, please install Notebook 5.x.
+
+Python {py} detected.
+{pip}
+""".format(py=sys.version_info, pip=pip_message )
+
     print(error, file=sys.stderr)
     sys.exit(1)
 
-PY3 = (sys.version_info[0] >= 3)
-
 # At least we're on the python version we need, move on.
-
-
-#-------------------------------------------------------------------------------
-# Imports
-#-------------------------------------------------------------------------------
-
-import os
-
-from glob import glob
 
 # BEFORE importing distutils, remove MANIFEST. distutils doesn't properly
 # update it when the contents of directories change.
 if os.path.exists('MANIFEST'): os.remove('MANIFEST')
 
-from distutils.core import setup
-
-# Our own imports
+from setuptools import setup
 
 from setupbase import (
     version,
@@ -55,13 +59,11 @@ from setupbase import (
     check_package_data_first,
     CompileCSS,
     CompileJS,
+    CompileBackendTranslation,
     Bower,
     JavascriptVersion,
     css_js_prerelease,
 )
-
-isfile = os.path.isfile
-pjoin = os.path.join
 
 setup_args = dict(
     name            = name,
@@ -76,7 +78,6 @@ Read `the documentation <https://jupyter-notebook.readthedocs.io>`_
 for more information.
     """,
     version         = version,
-    scripts         = glob(pjoin('scripts', '*')),
     packages        = find_packages(),
     package_data    = find_package_data(),
     author          = 'Jupyter Development Team',
@@ -94,104 +95,78 @@ for more information.
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
     ],
-)
-
-
-
-#---------------------------------------------------------------------------
-# Find all the packages, package data, and data_files
-#---------------------------------------------------------------------------
-
-packages = find_packages()
-package_data = find_package_data()
-
-#---------------------------------------------------------------------------
-# custom distutils commands
-#---------------------------------------------------------------------------
-# imports here, so they are after setuptools import if there was one
-from distutils.command.build_py import build_py
-from distutils.command.sdist import sdist
-
-
-setup_args['cmdclass'] = {
-    'build_py': css_js_prerelease(
-            check_package_data_first(build_py)),
-    'sdist' : css_js_prerelease(sdist, strict=True),
-    'css' : CompileCSS,
-    'js' : CompileJS,
-    'jsdeps' : Bower,
-    'jsversion' : JavascriptVersion,
-}
-
-
-
-#---------------------------------------------------------------------------
-# Handle scripts, dependencies, and setuptools specific things
-#---------------------------------------------------------------------------
-
-if any(arg.startswith('bdist') for arg in sys.argv):
-    import setuptools
-
-# This dict is used for passing extra arguments that are setuptools
-# specific to setup
-setuptools_extra_args = {}
-
-# setuptools requirements
-
-pyzmq = 'pyzmq>=13'
-
-setup_args['scripts'] = glob(pjoin('scripts', '*'))
-
-install_requires = [
-    'jinja2',
-    'tornado>=4',
-    'ipython_genutils',
-    'traitlets>=4.2.1',
-    'jupyter_core',
-    'jupyter_client',
-    'nbformat',
-    'nbconvert',
-    'ipykernel', # bless IPython kernel for now
-]
-extras_require = {
-    ':sys_platform != "win32"': ['terminado>=0.3.3'],
-    'test:python_version == "2.7"': ['mock'],
-    'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters'],
-    'test:sys_platform == "win32"': ['nose-exclude'],
-}
-
-if 'setuptools' in sys.modules:
-    # setup.py develop should check for submodules
-    from setuptools.command.develop import develop
-    setup_args['cmdclass']['develop'] = css_js_prerelease(develop)
-
-    try:
-        from wheel.bdist_wheel import bdist_wheel
-    except ImportError:
-        pass
-    else:
-        setup_args['cmdclass']['bdist_wheel'] = css_js_prerelease(bdist_wheel)
-
-    setuptools_extra_args['zip_safe'] = False
-    setup_args['extras_require'] = extras_require
-    requires = setup_args['install_requires'] = install_requires
-
-    setup_args['entry_points'] = {
+    zip_safe = False,
+    install_requires = [
+        'jinja2',
+        'tornado>=5.0',
+        # pyzmq>=17 is not technically necessary,
+        # but hopefully avoids incompatibilities with Tornado 5. April 2018
+        'pyzmq>=17',
+        'ipython_genutils',
+        'traitlets>=4.2.1',
+        'jupyter_core>=4.4.0',
+        'jupyter_client>=5.3.1',
+        'nbformat',
+        'nbconvert',
+        'ipykernel', # bless IPython kernel for now
+        'Send2Trash',
+        'terminado>=0.8.1',
+        'prometheus_client'
+    ],
+    extras_require = {
+        ':python_version == "2.7"': ['ipaddress'],
+        'test:python_version == "2.7"': ['mock'],
+        'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters',
+                 'nbval', 'nose-exclude', 'selenium', 'pytest', 'pytest-cov'],
+        'test:sys_platform == "win32"': ['nose-exclude'],
+    },
+    python_requires = '>=3.5',
+    entry_points = {
         'console_scripts': [
             'jupyter-notebook = notebook.notebookapp:main',
             'jupyter-nbextension = notebook.nbextensions:main',
             'jupyter-serverextension = notebook.serverextensions:main',
             'jupyter-bundlerextension = notebook.bundler.bundlerextensions:main',
         ]
-    }
-    setup_args.pop('scripts', None)
+    },
+)
 
-#---------------------------------------------------------------------------
-# Do the actual setup now
-#---------------------------------------------------------------------------
+# Custom distutils/setuptools commands ----------
+from distutils.command.build_py import build_py
+from distutils.command.sdist import sdist
+from setuptools.command.bdist_egg import bdist_egg
+from setuptools.command.develop import develop
 
-setup_args.update(setuptools_extra_args)
+class bdist_egg_disabled(bdist_egg):
+    """Disabled version of bdist_egg
 
+    Prevents setup.py install from performing setuptools' default easy_install,
+    which it should never ever do.
+    """
+    def run(self):
+        sys.exit("Aborting implicit building of eggs. Use `pip install .` to install from source.")
+
+setup_args['cmdclass'] = {
+    'build_py': css_js_prerelease(
+            check_package_data_first(build_py)),
+    'sdist' : css_js_prerelease(sdist, strict=True),
+    'develop': css_js_prerelease(develop),
+    'css' : CompileCSS,
+    'backendtranslations': CompileBackendTranslation,
+    'js' : CompileJS,
+    'jsdeps' : Bower,
+    'jsversion' : JavascriptVersion,
+    'bdist_egg': bdist_egg if 'bdist_egg' in sys.argv else bdist_egg_disabled,
+}
+
+try:
+    from wheel.bdist_wheel import bdist_wheel
+except ImportError:
+    pass
+else:
+    setup_args['cmdclass']['bdist_wheel'] = css_js_prerelease(bdist_wheel)
+
+# Run setup --------------------
 def main():
     setup(**setup_args)
 

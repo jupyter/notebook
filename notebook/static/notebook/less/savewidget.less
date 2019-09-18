@@ -1,13 +1,21 @@
 span.save_widget {
-    margin-top: 6px;
+    height: 30px;
+    margin-top: 4px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    width: 50%;
+    flex: 1;
     
     span.filename {
-        height: 1em;
+        height: 100%;
         line-height: 1em;
-        padding: 3px;
         margin-left: @padding-large-horizontal;
         border: none;
         font-size: 146.5%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
         &:hover{
             // ensure body is lighter on dark palette, 
             // and vice versa
@@ -17,16 +25,30 @@ span.save_widget {
     }
 }
 
+[dir="rtl"] span.save_widget.pull-left {
+    .pull-right();
+}
+
+[dir="rtl"] span.save_widget {
+    span.filename {
+        margin-left : 0;
+        margin-right : @padding-large-horizontal;
+    }
+}
+
 span.checkpoint_status, span.autosave_status {
     font-size: small;
+    white-space: nowrap;
+    padding: 0 5px;
 }
 
 @media (max-width: @screen-xs-max) {
     span.save_widget {
         font-size: small;
+        padding: 0 0 0 5px;
     }
     span.checkpoint_status, span.autosave_status {
-      display: none;
+        display: none;
     }
 }
 
@@ -38,6 +60,3 @@ span.checkpoint_status, span.autosave_status {
         font-size: x-small;
     }
 }
-
-
-

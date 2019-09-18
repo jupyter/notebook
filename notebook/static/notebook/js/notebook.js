@@ -10,6 +10,7 @@ define([
     'base/js/namespace',
     'underscore',
     'base/js/utils',
+    'base/js/i18n',
     'base/js/dialog',
     './cell',
     './textcell',
@@ -37,6 +38,7 @@ define([
     IPython,
     _,
     utils,
+    i18n,
     dialog,
     cellmod,
     textcell,
@@ -62,6 +64,7 @@ define([
 ) {
 
     var ShortcutEditor = shortcuteditor.ShortcutEditor;
+
     var _SOFT_SELECTION_CLASS = 'jupyter-soft-selected';
 
     function soft_selected(cell){
@@ -84,6 +87,7 @@ define([
      */
     function Notebook(selector, options) {
         this.config = options.config;
+        this.config.loaded.then(this.validate_config.bind(this));
         this.class_config = new configmod.ConfigWithDefaults(this.config, 
                                         Notebook.options_default, 'Notebook');
         this.base_url = options.base_url;
@@ -164,7 +168,7 @@ define([
         this.paste_enabled = false;
         this.paste_attachments_enabled = false;
         this.writable = false;
-        // It is important to start out in command mode to match the intial mode
+        // It is important to start out in command mode to match the initial mode
         // of the KeyboardManager.
         this.mode = 'command';
         this.set_dirty(false);
@@ -246,14 +250,24 @@ define([
         
         // prevent assign to miss-typed properties.
         Object.seal(this);
-    };
+    }
 
     Notebook.options_default = {
         // can be any cell type, or the special values of
         // 'above', 'below', or 'selected' to get the value from another cell.
         default_cell_type: 'code',
         Header: true,
-        Toolbar: true
+        Toolbar: true,
+        kill_kernel: false
+    };
+
+    Notebook.prototype.validate_config = function() {
+        var code_cell = this.config.data['CodeCell'] || {};
+        var cm_keymap = (code_cell['cm_config'] || {})['keyMap'];
+        if (cm_keymap && CodeMirror.keyMap[cm_keymap] === undefined) {
+            console.warn('CodeMirror keymap not found, ignoring: ' + cm_keymap);
+            delete code_cell.cm_config.keyMap;
+        }
     };
 
     /**
@@ -269,7 +283,7 @@ define([
         // edited, but is too low on the page, which browsers will do automatically.
         var end_space = $('<div/>')
             .addClass('end_space');
-        end_space.dblclick(function (e) {
+        end_space.dblclick(function () {
             var ncells = that.ncells();
             that.insert_cell_below('code',ncells-1);
         });
@@ -395,9 +409,19 @@ define([
 
         // Firefox 22 broke $(window).on("beforeunload")
         // I'm not sure why or how.
-        window.onbeforeunload = function (e) {
-            // TODO: Make killing the kernel configurable.
-            var kill_kernel = false;
+        window.onbeforeunload = function () {
+            /* Make kill kernel configurable.
+            example in custom.js:
+                var notebook = Jupyter.notebook;
+                var config = notebook.config;
+                var patch = {
+                    Notebook:{
+                        kill_kernel: true
+                    }
+                };
+                config.update(patch);
+            */
+            var kill_kernel = that.class_config.get_sync("kill_kernel");
             if (kill_kernel) {
                 that.session.delete();
             }
@@ -425,14 +449,14 @@ define([
                             that.save_notebook();
                         }
                     }, 1000);
-                    return "Autosave in progress, latest changes may be lost.";
+                    return i18n.msg._("Autosave in progress, latest changes may be lost.");
                 } else {
-                    return "Unsaved changes will be lost.";
+                    return i18n.msg._("Unsaved changes will be lost.");
                 }
             }
             // if the kernel is busy, prompt the user if he’s sure
             if (that.kernel_busy) {
-                return "The Kernel is busy, outputs may be lost.";
+                return i18n.msg._("The Kernel is busy, outputs may be lost.");
             }
             // IE treats null as a string.  Instead just return which will avoid the dialog.
             return;
@@ -441,7 +465,7 @@ define([
     
 
     Notebook.prototype.show_command_palette = function() {
-        var x = new commandpalette.CommandPalette(this);
+        new commandpalette.CommandPalette(this);
     };
 
     Notebook.prototype.show_shortcuts_editor = function() {
@@ -451,18 +475,33 @@ define([
     /**
      * Trigger a warning dialog about missing functionality from newer minor versions
      */
-    Notebook.prototype.warn_nbformat_minor = function (event) {
+    Notebook.prototype.warn_nbformat_minor = function () {
         var v = 'v' + this.nbformat + '.';
         var orig_vs = v + this.nbformat_minor;
         var this_vs = v + this.current_nbformat_minor;
-        var msg = "This notebook is version " + orig_vs + ", but we only fully support up to " +
-        this_vs + ".  You can still work with this notebook, but cell and output types " +
-        "introduced in later notebook versions will not be available.";
+        var msg = i18n.msg.sprintf(i18n.msg._("This notebook is version %1$s, but we only fully support up to %2$s."),
+                orig_vs,this_vs) + " " +
+                i18n.msg._("You can still work with this notebook, but cell and output types introduced in later notebook versions will not be available.");
 
+        // This statement is used simply so that message extraction
+        // will pick up the strings.  The actual setting of the text
+        // for the button is in dialog.js.
+        var button_labels = [ 
+            i18n.msg._("OK"),
+            i18n.msg._("Restart and Run All Cells"),
+            i18n.msg._("Restart and Clear All Outputs"),
+            i18n.msg._("Restart"),
+            i18n.msg._("Continue Running"),
+            i18n.msg._("Reload"),
+            i18n.msg._("Cancel"),
+            i18n.msg._("Overwrite"),
+            i18n.msg._("Trust"),
+            i18n.msg._("Revert")];
+        
         dialog.modal({
             notebook: this,
             keyboard_manager: this.keyboard_manager,
-            title : "Newer Notebook",
+            title : i18n.msg._("Newer Notebook"),
             body : msg,
             buttons : {
                 OK : {
@@ -544,8 +583,11 @@ define([
         var that = this;
         dialog.edit_metadata({
             md: this.metadata, 
-            callback: function (md) {
-                that.metadata = md;
+            callback: function (new_md) {
+                if(!_.isEqual(that.metadata, new_md)){
+                    that.set_dirty(true);
+                }
+                that.metadata = new_md;
             },
             name: 'Notebook',
             notebook: this,
@@ -560,7 +602,7 @@ define([
      * @return {jQuery} A selector of all cell elements
      */
     Notebook.prototype.get_cell_elements = function () {
-        var container = this.container || $('#notebook-container')
+        var container = this.container || $('#notebook-container');
         return container.find(".cell").not('.cell .cell');
     };
 
@@ -802,7 +844,7 @@ define([
      * Programmatically select a cell.
      * 
      * @param {integer} index - A cell's index
-     * @param {bool} moveanchor – whether to move the selection
+     * @param {boolean} moveanchor – whether to move the selection
      *               anchor, default to true.
      * @return {Notebook} This notebook
      */
@@ -827,11 +869,18 @@ define([
             this.update_soft_selection();
             if (cell.cell_type === 'heading') {
                 this.events.trigger('selected_cell_type_changed.Notebook',
-                    {'cell_type':cell.cell_type, level:cell.level}
+                    {
+                        'cell_type': cell.cell_type,
+                        'level': cell.level,
+                        'editable': cell.is_editable()
+                    }
                 );
             } else {
                 this.events.trigger('selected_cell_type_changed.Notebook',
-                    {'cell_type':cell.cell_type}
+                    {
+                        'cell_type': cell.cell_type,
+                        'editable': cell.is_editable()
+                    }
                 );
             }
         }
@@ -1085,6 +1134,7 @@ define([
         var cell = this.get_cell(i);
 
         $('#undelete_cell').addClass('disabled');
+        $('#undelete_cell > a').attr('aria-disabled','true');
         if (this.is_valid_cell_index(i)) {
             var old_ncells = this.ncells();
             var ce = this.get_cell_element(i);
@@ -1164,7 +1214,7 @@ define([
         // where they came from. It will do until we have proper undo support.
         undelete_backup.index = cursor_ix_after;
         $('#undelete_cell').removeClass('disabled');
-
+        $('#undelete_cell > a').attr('aria-disabled','false');
         this.undelete_backup_stack.push(undelete_backup);
         this.set_dirty(true);
 
@@ -1207,6 +1257,7 @@ define([
         }
         if (this.undelete_backup_stack.length === 0) {
             $('#undelete_cell').addClass('disabled');
+            $('#undelete_cell > a').attr('aria-disabled','true');
         }
     };
 
@@ -1388,7 +1439,7 @@ define([
         var i = this.index_or_selected(index);
         if (this.is_valid_cell_index(i)) {
             var source_cell = this.get_cell(i);
-            if (!(source_cell instanceof codecell.CodeCell)) {
+            if (!(source_cell instanceof codecell.CodeCell) && source_cell.is_editable()) {
                 var target_cell = this.insert_cell_below('code',i);
                 var text = source_cell.get_text();
                 if (text === source_cell.placeholder) {
@@ -1438,7 +1489,7 @@ define([
         if (this.is_valid_cell_index(i)) {
             var source_cell = this.get_cell(i);
 
-            if (!(source_cell instanceof textcell.MarkdownCell)) {
+            if (!(source_cell instanceof textcell.MarkdownCell) && source_cell.is_editable()) {
                 var target_cell = this.insert_cell_below('markdown',i);
                 var text = source_cell.get_text();
 
@@ -1493,7 +1544,7 @@ define([
             var target_cell = null;
             var source_cell = this.get_cell(i);
 
-            if (!(source_cell instanceof textcell.RawCell)) {
+            if (!(source_cell instanceof textcell.RawCell) && source_cell.is_editable()) {
                 target_cell = this.insert_cell_below('raw',i);
                 var text = source_cell.get_text();
                 if (text === source_cell.placeholder) {
@@ -1527,12 +1578,12 @@ define([
         dialog.modal({
             notebook: this,
             keyboard_manager: this.keyboard_manager,
-            title : "Use markdown headings",
+            title : i18n.msg._("Use markdown headings"),
             body : $("<p/>").text(
-                'Jupyter no longer uses special heading cells. ' + 
-                'Instead, write your headings in Markdown cells using # characters:'
+                i18n.msg._('Jupyter no longer uses special heading cells. ' + 
+                'Instead, write your headings in Markdown cells using # characters:')
             ).append($('<pre/>').text(
-                '## This is a level 2 heading'
+                i18n.msg._('## This is a level 2 heading')
             )),
             buttons : {
                 "OK" : {}
@@ -1567,11 +1618,17 @@ define([
         var that = this;
         if (!this.paste_enabled) {
             $('#paste_cell_replace').removeClass('disabled')
-                .on('click', function () {that.paste_cell_replace();});
+                .on('click', function () {that.keyboard_manager.actions.call(
+                    'jupyter-notebook:paste-cell-replace');});
+            $('#paste_cell_replace > a').attr('aria-disabled', 'false'); 
             $('#paste_cell_above').removeClass('disabled')
-                .on('click', function () {that.paste_cell_above();});
+                .on('click', function () {that.keyboard_manager.actions.call(
+                    'jupyter-notebook:paste-cell-above');});
+            $('#paste_cell_above > a').attr('aria-disabled', 'false'); 
             $('#paste_cell_below').removeClass('disabled')
-                .on('click', function () {that.paste_cell_below();});
+                .on('click', function () {that.keyboard_manager.actions.call(
+                    'jupyter-notebook:paste-cell-below');});
+            $('#paste_cell_below > a').attr('aria-disabled', 'false');         
             this.paste_enabled = true;
         }
     };
@@ -1582,8 +1639,11 @@ define([
     Notebook.prototype.disable_paste = function () {
         if (this.paste_enabled) {
             $('#paste_cell_replace').addClass('disabled').off('click');
+            $('#paste_cell_replace > a').attr('aria-disabled', 'true'); 
             $('#paste_cell_above').addClass('disabled').off('click');
+            $('#paste_cell_above > a').attr('aria-disabled', 'true'); 
             $('#paste_cell_below').addClass('disabled').off('click');
+            $('#paste_cell_below > a').attr('aria-disabled', 'true'); 
             this.paste_enabled = false;
         }
     };
@@ -1697,11 +1757,16 @@ define([
         if (cell.is_splittable()) {
             var texta = cell.get_pre_cursor();
             var textb = cell.get_post_cursor();
+            // current cell becomes the second one
+            // so we don't need to worry about selection
             cell.set_text(textb);
+            // create new cell with same type
             var new_cell = this.insert_cell_above(cell.cell_type);
             // Unrender the new cell so we can call set_text.
             new_cell.unrender();
             new_cell.set_text(texta);
+            // duplicate metadata
+            new_cell.metadata = JSON.parse(JSON.stringify(cell.metadata));
         }
     };
 
@@ -1709,7 +1774,7 @@ define([
      * Merge a series of cells into one
      *
      * @param {Array} indices - the numeric indices of the cells to be merged
-     * @param {bool} into_last - merge into the last cell instead of the first
+     * @param {boolean} into_last - merge into the last cell instead of the first
      */
     Notebook.prototype.merge_cells = function(indices, into_last) {
         if (indices.length <= 1) {
@@ -1756,6 +1821,9 @@ define([
 
         // Delete the other cells
         this.delete_cells(indices);
+        
+        // Reset the target cell's undo history
+        target.code_mirror.clearHistory();
 
         this.select(this.find_cell_index(target));
     };
@@ -1793,9 +1861,9 @@ define([
         var that = this;
         var cell = this.get_selected_cell();
         // The following should not happen as the menu item is greyed out
-        // when those conditions are not fullfilled (see MarkdownCell
+        // when those conditions are not fulfilled (see MarkdownCell
         // unselect/select/unrender handlers)
-        if (cell.cell_type != 'markdown') {
+        if (cell.cell_type !== 'markdown') {
             console.log('Error: insert_image called on non-markdown cell');
             return;
         }
@@ -1864,6 +1932,7 @@ define([
     Notebook.prototype.disable_attachments_paste = function () {
         if (this.paste_attachments_enabled) {
             $('#paste_cell_attachments').addClass('disabled');
+            $('#paste_cell_attachments > a').attr('disabled','true');
             this.paste_attachments_enabled = false;
         }
     };
@@ -1872,9 +1941,9 @@ define([
      * Enable the "Paste Cell Attachments" menu item
      */
     Notebook.prototype.enable_attachments_paste = function () {
-        var that = this;
         if (!this.paste_attachments_enabled) {
             $('#paste_cell_attachments').removeClass('disabled');
+            $('#paste_cell_attachments > a').attr('aria-disabled','false');
             this.paste_attachments_enabled = true;
         }
     };
@@ -1885,8 +1954,10 @@ define([
     Notebook.prototype.set_insert_image_enabled = function(enabled) {
         if (enabled) {
             $('#insert_image').removeClass('disabled');
+            $('#insert_image > a').attr('aria-disabled', 'false');
         } else {
             $('#insert_image').addClass('disabled');
+            $('#insert_image > a').attr('aria-disabled', 'true');
         }
     };
 
@@ -1910,7 +1981,7 @@ define([
      * Hide each code cell's output area.
      */
     Notebook.prototype.collapse_all_output = function () {
-        this.get_cells().map(function (cell, i) {
+        this.get_cells().map(function (cell) {
             if (cell instanceof codecell.CodeCell) {
                 cell.collapse_output();
             }
@@ -1937,7 +2008,7 @@ define([
      * Expand each code cell's output area, and remove scrollbars.
      */
     Notebook.prototype.expand_all_output = function () {
-        this.get_cells().map(function (cell, i) {
+        this.get_cells().map(function (cell) {
             if (cell instanceof codecell.CodeCell) {
                 cell.expand_output();
             }
@@ -1978,7 +2049,7 @@ define([
      * Clear each code cell's output area.
      */
     Notebook.prototype.clear_all_output = function () {
-        this.get_cells().map(function (cell, i) {
+        this.get_cells().map(function (cell) {
             if (cell instanceof codecell.CodeCell) {
                 cell.clear_output();
             }
@@ -2046,7 +2117,7 @@ define([
      * Toggle the output of all cells.
      */
     Notebook.prototype.toggle_all_output = function () {
-        this.get_cells().map(function (cell, i) {
+        this.get_cells().map(function (cell) {
             if (cell instanceof codecell.CodeCell) {
                 cell.toggle_output();
             }
@@ -2088,7 +2159,7 @@ define([
      * Toggle the scrolling of long output on all cells.
      */
     Notebook.prototype.toggle_all_output_scroll = function () {
-        this.get_cells().map(function (cell, i) {
+        this.get_cells().map(function (cell) {
             if (cell instanceof codecell.CodeCell) {
                 cell.toggle_output_scroll();
             }
@@ -2103,7 +2174,7 @@ define([
      * Toggle line numbers in the selected cell's input area.
      */
     Notebook.prototype.cell_toggle_line_numbers = function() {
-        this.get_selected_cells().map(function(cell, i){cell.toggle_line_numbers();});
+        this.get_selected_cells().map(function(cell){cell.toggle_line_numbers();});
     };
 
 
@@ -2111,7 +2182,7 @@ define([
     Notebook.prototype._dispatch_mode = function(spec, newmode){
         this.codemirror_mode = newmode;
         codecell.CodeCell.options_default.cm_config.mode = newmode;
-        this.get_cells().map(function(cell, i) {
+        this.get_cells().map(function(cell) {
             if (cell.cell_type === 'code'){
                 cell.code_mirror.setOption('mode', spec);
                 // This is currently redundant, because cm_config ends up as
@@ -2146,7 +2217,7 @@ define([
         }, function(){
             // on error don't dispatch the new mode as re-setting it later will not work.
             // don't either set to null mode if it has been changed in the meantime
-            if( _mode_equal(newmode, this.codemirror_mode) ){
+            if( _mode_equal(newmode, that.codemirror_mode) ){
                 that._dispatch_mode('null','null');
             }
         });
@@ -2219,9 +2290,9 @@ define([
         restart_options.dialog = {
             notebook: that,
             keyboard_manager: that.keyboard_manager,
-            title : "Restart kernel and re-run the whole notebook?",
+            title : i18n.msg._("Restart kernel and re-run the whole notebook?"),
             body : $("<p/>").text(
-                'Are you sure you want to restart the current kernel and re-execute the whole notebook?  All variables and outputs will be lost.'
+                i18n.msg._('Are you sure you want to restart the current kernel and re-execute the whole notebook?  All variables and outputs will be lost.')
             ),
             buttons : {
                 "Restart and Run All Cells" : {
@@ -2246,9 +2317,9 @@ define([
         restart_options.dialog = {
             notebook: that,
             keyboard_manager: that.keyboard_manager,
-            title : "Restart kernel and clear all output?",
+            title : i18n.msg._("Restart kernel and clear all output?"),
             body : $("<p/>").text(
-                'Do you want to restart the current kernel and clear all output?  All variables and outputs will be lost.'
+                i18n.msg._('Do you want to restart the current kernel and clear all output?  All variables and outputs will be lost.')
             ),
             buttons : {
                 "Restart and Clear All Outputs" : {
@@ -2273,7 +2344,7 @@ define([
         shutdown_options.dialog = {
             title : "Shutdown kernel?",
             body : $("<p/>").text(
-                'Do you want to shutdown the current kernel?  All variables will be lost.'
+                i18n.msg._('Do you want to shutdown the current kernel?  All variables will be lost.')
             ),
             buttons : {
                 "Shutdown" : {
@@ -2289,13 +2360,12 @@ define([
     };
 
     Notebook.prototype.restart_kernel = function (options) {
-        var that = this;
         var restart_options = {};
         restart_options.confirm = (options || {}).confirm;
         restart_options.dialog = {
-            title : "Restart kernel?",
+            title : i18n.msg._("Restart kernel?"),
             body : $("<p/>").text(
-                'Do you want to restart the current kernel?  All variables will be lost.'
+                i18n.msg._('Do you want to restart the current kernel?  All variables will be lost.')
             ),
             buttons : {
                 "Restart" : {
@@ -2354,9 +2424,25 @@ define([
     };
 
     /**
+     * 
+     * Halt the kernel and close the notebook window
+     */
+    Notebook.prototype.close_and_halt = function () {
+        var close_window = function () {
+            /**
+             * allow closing of new tabs in Chromium, impossible in FF
+             */
+                window.open('', '_self', '');
+                window.close();
+        };
+            // finish with close on success or failure
+            this.session.delete(close_window, close_window);
+    };
+    
+    /**
      * Execute cells corresponding to the given indices.
      *
-     * @param {list} indices - indices of the cells to execute
+     * @param {Array} indices - indices of the cells to execute
      */
     Notebook.prototype.execute_cells = function (indices) {
         if (indices.length === 0) {
@@ -2504,8 +2590,7 @@ define([
      * @return {string} This notebook's name (excluding file extension)
      */
     Notebook.prototype.get_notebook_name = function () {
-        var nbname = utils.splitext(this.notebook_name)[0];
-        return nbname;
+        return utils.splitext(this.notebook_name)[0];
     };
 
     /**
@@ -2527,11 +2612,7 @@ define([
      */
     Notebook.prototype.test_notebook_name = function (nbname) {
         nbname = nbname || '';
-        if (nbname.length>0 && !this.notebook_name_blacklist_re.test(nbname)) {
-            return true;
-        } else {
-            return false;
-        }
+        return nbname.length > 0 && !this.notebook_name_blacklist_re.test(nbname);
     };
 
     /**
@@ -2684,6 +2765,8 @@ define([
                 $.proxy(that.save_notebook_success, that, start),
                 function (error) {
                     that.events.trigger('notebook_save_failed.Notebook', error);
+                    // This hasn't handled the error, so propagate it up
+                    return Promise.reject(error);
                 }
             );
         };
@@ -2692,12 +2775,19 @@ define([
             return this.contents.get(this.notebook_path, {content: false}).then(
                 function (data) {
                     var last_modified = new Date(data.last_modified);
-                    if (last_modified > that.last_modified) {
+                    var last_modified_check_margin = (that.config.data['last_modified_check_margin'] || 0.5) * 1000; // 500 ms
+                    // We want to check last_modified (disk) > that.last_modified (our last save)
+                    // In some cases the filesystem reports an inconsistent time,
+                    // so we allow 0.5 seconds difference before complaining.
+                    // This is configurable in nbconfig/notebook.json as `last_modified_check_margin`.
+                    if ((last_modified.getTime() - that.last_modified.getTime()) > last_modified_check_margin) {  
                         console.warn("Last saving was done on `"+that.last_modified+"`("+that._last_modified+"), "+
                                     "while the current file seem to have been saved on `"+data.last_modified+"`");
                         if (that._changed_on_disk_dialog !== null) {
                             // update save callback on the confirmation button
                             that._changed_on_disk_dialog.find('.save-confirm-btn').click(_save);
+                            //Rebind Click Event on Reload
+                            that._changed_on_disk_dialog.find('.btn-warning').click(function () {window.location.reload()});
                             // redisplay existing dialog
                             that._changed_on_disk_dialog.modal('show');
                         } else {
@@ -2705,10 +2795,10 @@ define([
                           that._changed_on_disk_dialog = dialog.modal({
                             notebook: that,
                             keyboard_manager: that.keyboard_manager,
-                            title: "Notebook changed",
-                            body: "The notebook file has changed on disk since the last time we opened or saved it. "+
-                                  "Do you want to overwrite the file on disk with the version open here, or load "+
-                                  "the version on disk (reload the page) ?",
+                            title: i18n.msg._("Notebook changed"),
+                            body: i18n.msg._("The notebook file has changed on disk since the last time we opened or saved it. "
+                                  + "Do you want to overwrite the file on disk with the version open here, or load "
+                                  + "the version on disk (reload the page)?"),
                             buttons: {
                                 Reload: {
                                     class: 'btn-warning',
@@ -2729,7 +2819,7 @@ define([
                     } else {
                         return _save();
                     }
-                }, function (error) {
+                }, function () {
                     // maybe it has been deleted or renamed? Go ahead and save.
                     return _save();
                 }
@@ -2753,12 +2843,12 @@ define([
         if (data.message) {
             // save succeeded, but validation failed.
             var body = $("<div>");
-            var title = "Notebook validation failed";
+            var title = i18n.msg._("Notebook validation failed");
 
             body.append($("<p>").text(
-                "The save operation succeeded," +
+                i18n.msg._("The save operation succeeded," +
                 " but the notebook does not appear to be valid." +
-                " The validation error was:"
+                " The validation error was:")
             )).append($("<div>").addClass("validation-error").append(
                 $("<pre>").text(data.message)
             ));
@@ -2780,12 +2870,102 @@ define([
             this.create_checkpoint();
             this._checkpoint_after_save = false;
         }
+        return data;
     };
-    
+
+    Notebook.prototype.save_notebook_as = function() {
+        var that = this;
+        var current_dir = $('body').attr('data-notebook-path').split('/').slice(0, -1).join("/");
+        current_dir = current_dir? current_dir + "/": "";
+        var dialog_body = $('<div/>').append(
+            $('<p/>').addClass('save-message')
+                .text(i18n.msg._('Enter a notebook path relative to notebook dir'))
+        ).append(
+            $('<br/>')
+        ).append(
+            $('<input/>').attr('type','text').attr('size','25')
+            .attr('data-testid', 'save-as')
+            .addClass('form-control')
+        );
+
+        var d = dialog.modal({
+            title: 'Save As',
+            body: dialog_body,
+            keyboard_manager: this.keyboard_manager,
+            notebook: this,
+            buttons: {
+                Cancel: {},
+                Save: {
+                    class: 'btn-primary',
+                    click: function() {
+                        var nb_path = d.find('input').val();
+                        var nb_name = nb_path.split('/').slice(-1).pop();
+                        // If notebook name does not contain extension '.ipynb' add it
+                        var ext = utils.splitext(nb_name)[1];
+                        if (ext === '') {
+                            nb_name = nb_name + '.ipynb';
+                            nb_path = nb_path + '.ipynb';
+                        }
+                        var save_thunk = function() {
+                            var model = {
+                                'type': 'notebook',
+                                'content': that.toJSON(),
+                                'name': nb_name
+                            };
+                            return that.contents.save(nb_path, model)
+                                .then(function(data) {
+                                    d.modal('hide');
+                                    that.notebook_name = data.name;
+                                    that.notebook_path = data.path;
+                                    that.session.rename_notebook(data.path);
+                                    that.events.trigger('notebook_renamed.Notebook', data);
+                                }, function(error) {
+                                    var msg = i18n.msg._(error.message || 'Unknown error saving notebook');
+                                    $(".save-message").html(
+                                        $("<span>")
+                                            .attr("style", "color:red;")
+                                            .text(msg)
+                                    );
+                                });
+                        };
+                        that.contents.get(nb_path, {type: 'notebook', content: false}).then(function(data) {
+                            var warning_body = $('<div/>').append(
+                                $("<p/>").text(i18n.msg._('Notebook with that name exists.')));
+                            dialog.modal({
+                                title: 'Save As',
+                                body: warning_body,
+                                buttons: {Cancel: {},
+                                Overwrite: {
+                                    class: 'btn-warning',
+                                    click: function() {
+                                        return save_thunk();
+                                    }
+                                }
+                            }
+                            });
+                        }, function(err) {
+                            return save_thunk();
+                        });
+                        return false;
+                    }
+                },
+            },
+            open : function () {
+                d.find('input[type="text"]').keydown(function (event) {
+                    if (event.which === keyboard.keycodes.enter) {
+                        d.find('.btn-primary').first().click();
+                        return false;
+                    }
+                });
+                d.find('input[type="text"]').val(current_dir).focus();
+             }
+         });
+    };
+
     /**
      * Update the autosave interval based on the duration of the last save.
      * 
-     * @param {integer} timestamp - when the save request started
+     * @param {integer} start - when the save request started
      */
     Notebook.prototype._update_autosave_interval = function (start) {
         var duration = (new Date().getTime() - start);
@@ -2805,28 +2985,23 @@ define([
     /**
      * Explicitly trust the output of this notebook.
      */
-    Notebook.prototype.trust_notebook = function () {
+    Notebook.prototype.trust_notebook = function (from_notification) {
         var body = $("<div>").append($("<p>")
-            .text("A trusted Jupyter notebook may execute hidden malicious code ")
-            .append($("<strong>")
-                .append(
-                    $("<em>").text("when you open it")
-                )
-            ).append(".").append(
-                " Selecting trust will immediately reload this notebook in a trusted state."
-            ).append(
-                " For more information, see the "
-            ).append($("<a>").attr("href", "https://jupyter-notebook.readthedocs.io/en/latest/security.html")
-                .text("Jupyter security documentation")
-            ).append(".")
+            .text(i18n.msg._("A trusted Jupyter notebook may execute hidden malicious code when you open it. " +
+                    "Selecting trust will immediately reload this notebook in a trusted state. " +
+                    "For more information, see the Jupyter security documentation: "))
+            .append($("<a>").attr("href", "https://jupyter-notebook.readthedocs.io/en/latest/security.html")
+                .text(i18n.msg._("here"))
+            )
         );
 
         var nb = this;
         dialog.modal({
             notebook: this,
             keyboard_manager: this.keyboard_manager,
-            title: "Trust this notebook?",
+            title: i18n.msg._("Trust this notebook?"),
             body: body,
+            focus_button: from_notification,
 
             buttons: {
                 Cancel : {},
@@ -2840,10 +3015,24 @@ define([
                                 cell.output_area.trusted = true;
                             }
                         }
-                        nb.events.on('notebook_saved.Notebook', function () {
-                            window.location.reload();
+                        // If its write only and dirty, save before 
+                        // trusting
+                        var pr;
+                        if(nb.writable && nb.dirty) {
+                            pr = nb.save_notebook();
+                        }
+                        else {
+                            pr = Promise.resolve();
+                        }
+                        return pr.then(function() {                            
+                            nb.contents.trust(nb.notebook_path)
+                            .then(function() {
+                                nb.events.trigger("trust_changed.Notebook", true);
+                                window.location.reload();
+                            }, function(err) {
+                                console.log(err);
+                            });
                         });
-                        nb.save_notebook();
                     }
                 }
             }
@@ -2860,7 +3049,7 @@ define([
         var w = window.open('', IPython._target);
         var parent = utils.url_path_split(this.notebook_path)[0];
         var p;
-        if (this.dirty) {
+        if (this.dirty && this.writable) {
             p = this.save_notebook(true);
         } else {
             p = Promise.resolve();
@@ -2951,31 +3140,31 @@ define([
             this.fromJSON(data);
         } catch (e) {
             failed = e;
-            console.log("Notebook failed to load from JSON:", e);
+            console.error("Notebook failed to load from JSON:", e);
         }
         if (failed || data.message) {
             // *either* fromJSON failed or validation failed
             var body = $("<div>");
             var title;
             if (failed) {
-                title = "Notebook failed to load";
+                title = i18n.msg._("Notebook failed to load");
                 body.append($("<p>").text(
-                    "The error was: "
+                    i18n.msg._("The error was: ")
                 )).append($("<div>").addClass("js-error").text(
                     failed.toString()
                 )).append($("<p>").text(
-                    "See the error console for details."
+                    i18n.msg._("See the error console for details.")
                 ));
             } else {
-                title = "Notebook validation failed";
+                title = i18n.msg._("Notebook validation failed");
             }
 
             if (data.message) {
                 if (failed) {
-                    msg = "The notebook also failed validation:";
+                    msg = i18n.msg._("The notebook also failed validation:");
                 } else {
-                    msg = "An invalid notebook may not function properly." +
-                    " The validation error was:";
+                    msg = i18n.msg._("An invalid notebook may not function properly." +
+                    " The validation error was:");
                 }
                 body.append($("<p>").text(
                     msg
@@ -3013,29 +3202,32 @@ define([
         var orig_nbformat = nbmodel.metadata.orig_nbformat;
         var orig_nbformat_minor = nbmodel.metadata.orig_nbformat_minor;
         if (orig_nbformat !== undefined && nbmodel.nbformat !== orig_nbformat) {
-            var src;
+            var oldmsg = i18n.msg._("This notebook has been converted from an older notebook format" +
+            " to the current notebook format v(%s).");
+            var newmsg = i18n.msg._("This notebook has been converted from a newer notebook format" +
+            " to the current notebook format v(%s).");
             if (nbmodel.nbformat > orig_nbformat) {
-                src = " an older notebook format ";
+                msg = i18n.msg.sprintf(oldmsg,nbmodel.nbformat);
             } else {
-                src = " a newer notebook format ";
+                msg = i18n.msg.sprintf(newmsg,nbmodel.nbformat);
             }
+            msg += " ";
+            msg += i18n.msg._("The next time you save this notebook, the " +
+            "current notebook format will be used.");
             
-            msg = "This notebook has been converted from" + src +
-            "(v"+orig_nbformat+") to the current notebook " +
-            "format (v"+nbmodel.nbformat+"). The next time you save this notebook, the " +
-            "current notebook format will be used.";
-            
+            msg += " ";
             if (nbmodel.nbformat > orig_nbformat) {
-                msg += " Older versions of Jupyter may not be able to read the new format.";
+                msg += i18n.msg._("Older versions of Jupyter may not be able to read the new format.");
             } else {
-                msg += " Some features of the original notebook may not be available.";
+                msg += i18n.msg._("Some features of the original notebook may not be available.");
             }
-            msg += " To preserve the original version, close the " +
-                "notebook without saving it.";
+            msg += " ";
+            msg += i18n.msg._("To preserve the original version, close the " +
+                "notebook without saving it.");
             dialog.modal({
                 notebook: this,
                 keyboard_manager: this.keyboard_manager,
-                title : "Notebook converted",
+                title : i18n.msg._("Notebook converted"),
                 body : msg,
                 buttons : {
                     OK : {
@@ -3057,7 +3249,7 @@ define([
                 // compat with IJulia, IHaskell, and other early kernels
                 // adopters that where setting a language metadata.
                 this.kernel_selector.set_kernel({
-                    name: "(No name)",
+                    name: i18n.msg._("(No name)"),
                     language: this.metadata.language
                   });
                 // this should be stored in kspec now, delete it.
@@ -3101,26 +3293,39 @@ define([
      * @param {Error} error
      */
     Notebook.prototype.load_notebook_error = function (error) {
+        var isSanitized = true;
         this.events.trigger('notebook_load_failed.Notebook', error);
         var msg;
         if (error.name === utils.XHR_ERROR && error.xhr.status === 500) {
             utils.log_ajax_error(error.xhr, error.xhr_status, error.xhr_error);
-            msg = "An unknown error occurred while loading this notebook. " +
-            "This version can load notebook formats " +
-            "v" + this.nbformat + " or earlier. See the server log for details.";
+            msg = i18n.msg.sprintf(i18n.msg._("An unknown error occurred while loading this notebook. " +
+            "This version can load notebook formats %s or earlier. See the server log for details.",
+            "v" + this.nbformat));
         } else {
             msg = error.message;
             console.warn('Error stack trace while loading notebook was:');
             console.warn(error.stack);
         }
+        if (navigator.cookieEnabled == false){
+            msg = i18n.msg._("Jupyter requires cookies to work; please enable cookies" +
+                " and refresh page. <a href=\"https://www.wikihow.com/Enable-Cookies-in-Your-Internet-Web-Browser\"> Learn more about enabling cookies. </a>");
+            isSanitized = false;
+        }
         dialog.modal({
             notebook: this,
             keyboard_manager: this.keyboard_manager,
-            title: "Error loading notebook",
+            title: i18n.msg._("Error loading notebook"),
             body : msg,
             buttons : {
-                "OK": {}
-            }
+                "Close": {
+                    class : 'btn-danger',
+                    click : function () {
+                        window.close();
+                    }
+                }
+              },
+              sanitize: isSanitized
+          
         });
     };
 
@@ -3131,7 +3336,7 @@ define([
      */
     Notebook.prototype.save_checkpoint = function () {
         this._checkpoint_after_save = true;
-        this.save_notebook(true);
+        return this.save_notebook(true);
     };
     
     /**
@@ -3217,15 +3422,13 @@ define([
         }
         var body = $('<div/>').append(
             $('<p/>').addClass("p-space").text(
-                "Are you sure you want to revert the notebook to " +
-                "the latest checkpoint?"
+                i18n.msg._("Are you sure you want to revert the notebook to " +
+                "the latest checkpoint?")
             ).append(
-                $("<strong/>").text(
-                    " This cannot be undone."
-                )
+                $("<strong/>").text(" "+i18n.msg._("This cannot be undone."))
             )
         ).append(
-            $('<p/>').addClass("p-space").text("The checkpoint was last updated at:")
+            $('<p/>').addClass("p-space").text(i18n.msg._("The checkpoint was last updated at:"))
         ).append(
             $('<p/>').addClass("p-space").text(
                 moment(checkpoint.last_modified).format('LLLL') +
@@ -3236,7 +3439,7 @@ define([
         dialog.modal({
             notebook: this,
             keyboard_manager: this.keyboard_manager,
-            title : "Revert notebook to checkpoint",
+            title : i18n.msg._("Revert notebook to checkpoint"),
             body : body,
             default_button: "Cancel",
             buttons : {
@@ -3300,4 +3503,4 @@ define([
     };
 
     return {Notebook: Notebook};
-})
+});

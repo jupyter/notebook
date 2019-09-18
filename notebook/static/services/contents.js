@@ -1,11 +1,11 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define(function(require) {
+define(function(requirejs) {
     "use strict";
 
-    var $ = require('jquery');
-    var utils = require('base/js/utils');
+    var $ = requirejs('jquery');
+    var utils = requirejs('base/js/utils');
 
     var Contents = function(options) {
         /**
@@ -160,6 +160,16 @@ define(function(require) {
         var url = this.api_url(path);
         return utils.promising_ajax(url, settings);
     };
+
+    Contents.prototype.trust = function(path) {
+        var settings = {
+            processData : false,
+            type : "POST",
+            contentType: 'application/json',
+        };
+        var url = this.api_url(path, "trust");
+        return utils.promising_ajax(url, settings);
+    }
 
     Contents.prototype.save = function(path, model) {
         /**

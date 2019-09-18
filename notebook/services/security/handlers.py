@@ -5,7 +5,7 @@
 
 from tornado import web
 
-from ...base.handlers import APIHandler, json_errors
+from ...base.handlers import APIHandler
 from . import csp_report_uri
 
 class CSPReportHandler(APIHandler):
@@ -13,11 +13,14 @@ class CSPReportHandler(APIHandler):
 
     _track_activity = False
 
-    def skip_origin_check(self):
+    def skip_check_origin(self):
         """Don't check origin when reporting origin-check violations!"""
         return True
 
-    @json_errors
+    def check_xsrf_cookie(self):
+        # don't check XSRF for CSP reports
+        return
+
     @web.authenticated
     def post(self):
         '''Log a content security policy violation report'''

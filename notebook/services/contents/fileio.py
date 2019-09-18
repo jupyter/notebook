@@ -91,7 +91,7 @@ def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     **kwargs
       Passed to :func:`io.open`.
     """
-    # realpath doesn't work on Windows: http://bugs.python.org/issue9949
+    # realpath doesn't work on Windows: https://bugs.python.org/issue9949
     # Luckily, we only need to resolve the file itself being a symlink, not
     # any of its directories, so this will suffice:
     if os.path.islink(path):
@@ -148,7 +148,7 @@ def _simple_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     **kwargs
       Passed to :func:`io.open`.
     """
-    # realpath doesn't work on Windows: http://bugs.python.org/issue9949
+    # realpath doesn't work on Windows: https://bugs.python.org/issue9949
     # Luckily, we only need to resolve the file itself being a symlink, not
     # any of its directories, so this will suffice:
     if os.path.islink(path):
@@ -192,8 +192,8 @@ class FileManagerMixin(Configurable):
     """
 
     use_atomic_writing = Bool(True, config=True, help=
-    """By default notebooks are saved on disk on a temporary file and then if succefully written, it replaces the old ones.
-      This procedure, namely 'atomic_writing', causes some bugs on file system whitout operation order enforcement (like some networked fs).
+    """By default notebooks are saved on disk on a temporary file and then if successfully written, it replaces the old ones.
+      This procedure, namely 'atomic_writing', causes some bugs on file system without operation order enforcement (like some networked fs).
       If set to False, the new notebook is written directly on the old one which could fail (eg: full filesystem or quota )""")
 
     @contextmanager

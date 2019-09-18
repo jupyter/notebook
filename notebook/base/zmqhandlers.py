@@ -4,26 +4,23 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-import os
 import json
 import struct
-import warnings
 import sys
-
-try:
-    from urllib.parse import urlparse # Py 3
-except ImportError:
-    from urlparse import urlparse # Py 2
+from urllib.parse import urlparse
 
 import tornado
 from tornado import gen, ioloop, web
-from tornado.websocket import WebSocketHandler
+from tornado.iostream import StreamClosedError
+from tornado.websocket import WebSocketHandler, WebSocketClosedError
 
 from jupyter_client.session import Session
 from jupyter_client.jsonutil import date_default, extract_dates
 from ipython_genutils.py3compat import cast_unicode
 
+from notebook.utils import maybe_future
 from .handlers import IPythonHandler
+
 
 def serialize_binary_message(msg):
     """serialize a message as a binary blob
@@ -86,14 +83,6 @@ def deserialize_binary_message(bmsg):
 
 # ping interval for keeping websockets alive (30 seconds)
 WS_PING_INTERVAL = 30000
-
-if os.environ.get('IPYTHON_ALLOW_DRAFT_WEBSOCKETS_FOR_PHANTOMJS', False):
-    warnings.warn("""Allowing draft76 websocket connections!
-    This should only be done for testing with phantomjs!""")
-    from notebook import allow76
-    WebSocketHandler = allow76.AllowDraftWebSocketHandler
-    # draft 76 doesn't support ping
-    WS_PING_INTERVAL = 0
 
 
 class WebSocketMixin(object):
@@ -166,24 +155,24 @@ class WebSocketMixin(object):
 
     def open(self, *args, **kwargs):
         self.log.debug("Opening websocket %s", self.request.path)
-        
+
         # start the pinging
         if self.ping_interval > 0:
             loop = ioloop.IOLoop.current()
             self.last_ping = loop.time()  # Remember time of last ping
             self.last_pong = self.last_ping
             self.ping_callback = ioloop.PeriodicCallback(
-                self.send_ping, self.ping_interval, io_loop=loop,
+                self.send_ping, self.ping_interval,
             )
             self.ping_callback.start()
         return super(WebSocketMixin, self).open(*args, **kwargs)
 
     def send_ping(self):
         """send a ping to keep the websocket alive"""
-        if self.stream.closed() and self.ping_callback is not None:
+        if self.ws_connection is None and self.ping_callback is not None:
             self.ping_callback.stop()
             return
-        
+
         # check for timeout on pong.  Make sure that we really have sent a recent ping in
         # case the machine with both server and client has been suspended since the last ping.
         now = ioloop.IOLoop.current().time()
@@ -193,8 +182,13 @@ class WebSocketMixin(object):
             self.log.warning("WebSocket ping timeout after %i ms.", since_last_pong)
             self.close()
             return
+        try:
+            self.ping(b'')
+        except (StreamClosedError, WebSocketClosedError):
+            # websocket has been closed, stop pinging
+            self.ping_callback.stop()
+            return
 
-        self.ping(b'')
         self.last_ping = now
 
     def on_pong(self, data):
@@ -245,7 +239,7 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
     def _on_zmq_reply(self, stream, msg_list):
         # Sometimes this gets triggered when the on_close method is scheduled in the
         # eventloop but hasn't been called.
-        if self.stream.closed() or stream.closed():
+        if self.ws_connection is None or stream.closed():
             self.log.warning("zmq message arrived on closed channel")
             self.close()
             return
@@ -254,22 +248,28 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
             msg = self._reserialize_reply(msg_list, channel=channel)
         except Exception:
             self.log.critical("Malformed message: %r" % msg_list, exc_info=True)
-        else:
+            return
+
+        try:
             self.write_message(msg, binary=isinstance(msg, bytes))
+        except (StreamClosedError, WebSocketClosedError):
+            self.log.warning("zmq message arrived on closed channel")
+            self.close()
+            return
 
 
 class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
-    
+
     def set_default_headers(self):
         """Undo the set_default_headers in IPythonHandler
-        
+
         which doesn't make sense for websockets
         """
         pass
-    
+
     def pre_get(self):
         """Run before finishing the GET request
-        
+
         Extend this method to add logic that should fire before
         the websocket finishes completing.
         """
@@ -277,24 +277,24 @@ class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
         if self.get_current_user() is None:
             self.log.warning("Couldn't authenticate WebSocket connection")
             raise web.HTTPError(403)
-        
+
         if self.get_argument('session_id', False):
             self.session.session = cast_unicode(self.get_argument('session_id'))
         else:
             self.log.warning("No session ID specified")
-    
+
     @gen.coroutine
     def get(self, *args, **kwargs):
         # pre_get can be a coroutine in subclasses
         # assign and yield in two step to avoid tornado 3 issues
         res = self.pre_get()
-        yield gen.maybe_future(res)
-        super(AuthenticatedZMQStreamHandler, self).get(*args, **kwargs)
-    
+        yield maybe_future(res)
+        res = super(AuthenticatedZMQStreamHandler, self).get(*args, **kwargs)
+        yield maybe_future(res)
+
     def initialize(self):
         self.log.debug("Initializing websocket connection %s", self.request.path)
         self.session = Session(config=self.config)
 
     def get_compression_options(self):
-        # use deflate compress websocket
-        return {}
+        return self.settings.get('websocket_compression_options', None)

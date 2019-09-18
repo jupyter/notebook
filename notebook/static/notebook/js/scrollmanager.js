@@ -222,7 +222,7 @@ define(['jquery'], function($) {
         }
     };
 
-    // Return naemspace for require.js loads
+    // Return namespace for require.js loads
     return {
         'ScrollManager': ScrollManager,
         'SlideScrollManager': SlideScrollManager,

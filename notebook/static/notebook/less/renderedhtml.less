@@ -28,10 +28,16 @@
     ul:not(.list-inline),
     ol:not(.list-inline) {padding-left: 2em;}
     ul {list-style:disc;}
-    ul ul {list-style:square;}
+    ul ul {
+      list-style:square;
+      margin-top: 0;
+    }
     ul ul ul {list-style:circle;}
     ol {list-style:decimal;}
-    ol ol {list-style:upper-alpha; }
+    ol ol {
+      list-style:upper-alpha; 
+      margin-top: 0;
+    }
     ol ol ol {list-style:lower-alpha; }
     ol ol ol ol {list-style:lower-roman; }
     /* any extras will just be numbers: */
@@ -44,14 +50,26 @@
         background-color: @rendered_html_border_color;
     }
 
-    pre {margin: 1em 2em;}
+    pre {
+        margin: 1em 2em;
+        padding: 0px;
+        background-color: @body-bg;
+    }
+
+    code {
+        background-color: #eff0f1;
+    }
+
+    p code {
+        padding: 1px 5px;
+    }
+
+    pre code {background-color: @body-bg;}
 
     pre, code {
-        border:             0;
-        background-color:   @body-bg;
-        color:              @text-color;
-        font-size:          100%;
-        padding:            0px;
+        border: 0;
+        color: @text-color;
+        font-size: 100%;
     }
 
     blockquote {margin: 1em 2em;}
@@ -74,11 +92,9 @@
         text-align: right;
         vertical-align: middle;
         padding: 0.5em 0.5em;
-        line-height: 1.0;
-        white-space: nowrap;
-        max-width: 150px;
-        text-overflow: ellipsis;
-        overflow: hidden;
+        line-height: normal;
+        white-space: normal;
+        max-width: none;
         border: none;
     }
     th {
@@ -114,3 +130,10 @@
     .alert {margin-bottom: initial;}
     * + .alert {margin-top: 1em;}
 }
+
+[dir="rtl"] .rendered_html {
+    p {
+        text-align : right;
+    }
+}
+

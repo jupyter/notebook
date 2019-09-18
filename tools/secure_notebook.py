@@ -3,7 +3,7 @@
 script to automatically setup notebook over SSL.
 
 Generate cert and keyfiles (rsa 1024) in ~/.ssh/, ask for a password, and add
-the corresponding entries in the notbook json configuration file. 
+the corresponding entries in the notebook json configuration file. 
 
 """
 
@@ -69,7 +69,7 @@ def persist_config(mode=0o600):
     """Context manager that can be use to modify a config object
 
     On exit of the context manager, the config will be written back to disk, 
-    by defauld with 600 permissions.
+    by default with 600 permissions.
     """
 
     loader = JSONFileConfigLoader('jupyter_notebook_config.json', jupyter_config_dir())

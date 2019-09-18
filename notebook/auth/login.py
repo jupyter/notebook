@@ -4,6 +4,7 @@
 # Distributed under the terms of the Modified BSD License.
 
 import re
+import os
 
 try:
     from urllib.parse import urlparse # Py 3
@@ -13,7 +14,7 @@ import uuid
 
 from tornado.escape import url_escape
 
-from ..auth.security import passwd_check
+from .security import passwd_check, set_password
 
 from ..base.handlers import IPythonHandler
 
@@ -38,14 +39,19 @@ class LoginHandler(IPythonHandler):
         """
         if default is None:
             default = self.base_url
-        if not url.startswith(self.base_url):
+        # protect chrome users from mishandling unescaped backslashes.
+        # \ is not valid in urls, but some browsers treat it as /
+        # instead of %5C, causing `\\` to behave as `//`
+        url = url.replace("\\", "%5C")
+        parsed = urlparse(url)
+        if parsed.netloc or not (parsed.path + '/').startswith(self.base_url):
             # require that next_url be absolute path within our path
             allow = False
             # OR pass our cross-origin check
-            if '://' in url:
+            if parsed.netloc:
                 # if full URL, run our cross-origin check:
-                parsed = urlparse(url.lower())
                 origin = '%s://%s' % (parsed.scheme, parsed.netloc)
+                origin = origin.lower()
                 if self.allow_origin:
                     allow = self.allow_origin == origin
                 elif self.allow_origin_pat:
@@ -72,15 +78,25 @@ class LoginHandler(IPythonHandler):
     
     def post(self):
         typed_password = self.get_argument('password', default=u'')
+        new_password = self.get_argument('new_password', default=u'')
+
+
+        
         if self.get_login_available(self.settings):
-            if self.passwd_check(self.hashed_password, typed_password):
+            if self.passwd_check(self.hashed_password, typed_password) and not new_password:
                 self.set_login_cookie(self, uuid.uuid4().hex)
             elif self.token and self.token == typed_password:
                 self.set_login_cookie(self, uuid.uuid4().hex)
+                if new_password and self.settings.get('allow_password_change'):
+                    config_dir = self.settings.get('config_dir')
+                    config_file = os.path.join(config_dir, 'jupyter_notebook_config.json')
+                    set_password(new_password, config_file=config_file)
+                    self.log.info("Wrote hashed password to %s" % config_file)
             else:
                 self.set_status(401)
-                self._render(message={'error': 'Invalid password'})
+                self._render(message={'error': 'Invalid credentials'})
                 return
+
 
         next_url = self.get_argument('next', default=self.base_url)
         self._redirect_safe(next_url)
@@ -94,6 +110,7 @@ class LoginHandler(IPythonHandler):
         # 'secure' kwarg is passed to set_secure_cookie
         if handler.settings.get('secure_cookie', handler.request.protocol == 'https'):
             cookie_options.setdefault('secure', True)
+        cookie_options.setdefault('path', handler.base_url)
         handler.set_secure_cookie(handler.cookie_name, user_id, **cookie_options)
         return user_id
 
@@ -156,15 +173,20 @@ class LoginHandler(IPythonHandler):
             return handler._user_id
         user_id = cls.get_user_token(handler)
         if user_id is None:
-            user_id = handler.get_secure_cookie(handler.cookie_name)
+            get_secure_cookie_kwargs  = handler.settings.get('get_secure_cookie_kwargs', {})
+            user_id = handler.get_secure_cookie(handler.cookie_name, **get_secure_cookie_kwargs )
         else:
             cls.set_login_cookie(handler, user_id)
             # Record that the current request has been authenticated with a token.
             # Used in is_token_authenticated above.
             handler._token_authenticated = True
         if user_id is None:
-            # prevent extra Invalid cookie sig warnings:
-            handler.clear_login_cookie()
+            # If an invalid cookie was sent, clear it to prevent unnecessary
+            # extra warnings. But don't do this on a request with *no* cookie,
+            # because that can erroneously log you out (see gh-3365)
+            if handler.get_cookie(handler.cookie_name) is not None:
+                handler.log.warning("Clearing invalid/expired login cookie %s", handler.cookie_name)
+                handler.clear_login_cookie()
             if not handler.login_available:
                 # Completely insecure! No authentication at all.
                 # No need to warn here, though; validate_security will have already done that.
@@ -187,16 +209,10 @@ class LoginHandler(IPythonHandler):
             return
         # check login token from URL argument or Authorization header
         user_token = cls.get_token(handler)
-        one_time_token = handler.one_time_token
         authenticated = False
         if user_token == token:
             # token-authenticated, set the login cookie
             handler.log.debug("Accepting token-authenticated connection from %s", handler.request.remote_ip)
-            authenticated = True
-        elif one_time_token and user_token == one_time_token:
-            # one-time-token-authenticated, only allow this token once
-            handler.settings.pop('one_time_token', None)
-            handler.log.info("Accepting one-time-token-authenticated connection from %s", handler.request.remote_ip)
             authenticated = True
 
         if authenticated:

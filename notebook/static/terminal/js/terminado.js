@@ -1,14 +1,10 @@
-define (["xterm"], function(Terminal) {
+define (["xterm", "xtermjs-fit"], function(Terminal, fit) {
     "use strict";
-    function make_terminal(element, size, ws_url) {
+    function make_terminal(element, ws_url) {
         var ws = new WebSocket(ws_url);
-        var term = new Terminal({
-          cols: size.cols,
-          rows: size.rows
-        });
+        Terminal.applyAddon(fit);
+        var term = new Terminal();
         ws.onopen = function(event) {
-            ws.send(JSON.stringify(["set_size", size.rows, size.cols,
-                                        window.innerHeight, window.innerWidth]));
             term.on('data', function(data) {
                 ws.send(JSON.stringify(['stdin', data]));
             });
@@ -18,7 +14,11 @@ define (["xterm"], function(Terminal) {
             });
             
             term.open(element);
-            
+            term.fit();
+            // send the terminal size to the server.
+            ws.send(JSON.stringify(["set_size", term.rows, term.cols,
+                                        window.innerHeight, window.innerWidth]));
+
             ws.onmessage = function(event) {
                 var json_msg = JSON.parse(event.data);
                 switch(json_msg[0]) {

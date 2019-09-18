@@ -7,6 +7,7 @@ import io
 import json
 import os
 import shutil
+import sys
 from unicodedata import normalize
 
 pjoin = os.path.join
@@ -249,8 +250,8 @@ class APITest(NotebookTestBase):
         self.assertEqual(nbnames, expected)
 
         nbs = notebooks_only(self.api.list('ordering').json())
-        nbnames = [n['name'] for n in nbs]
-        expected = ['A.ipynb', 'b.ipynb', 'C.ipynb']
+        nbnames = {n['name'] for n in nbs}
+        expected = {'A.ipynb', 'b.ipynb', 'C.ipynb'}
         self.assertEqual(nbnames, expected)
 
     def test_list_dirs(self):
@@ -523,9 +524,13 @@ class APITest(NotebookTestBase):
         self.assertEqual(listing, [])
 
     def test_delete_non_empty_dir(self):
-        """delete non-empty dir raises 400"""
-        with assert_http_error(400):
-            self.api.delete(u'å b')
+        if sys.platform == 'win32':
+            self.skipTest("Disabled deleting non-empty dirs on Windows")
+        # Test that non empty directory can be deleted
+        self.api.delete(u'å b')
+        # Check if directory has actually been deleted
+        with assert_http_error(404):
+            self.api.list(u'å b')
 
     def test_rename(self):
         resp = self.api.rename('foo/a.ipynb', 'foo/z.ipynb')

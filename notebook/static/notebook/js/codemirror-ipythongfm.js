@@ -9,10 +9,10 @@
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object"){ // CommonJS
-    mod(require("codemirror/lib/codemirror")
-        ,require("codemirror/addon/mode/multiplex")
-        ,require("codemirror/mode/gfm/gfm")
-        ,require("codemirror/mode/stex/stex")
+    mod(requirejs("codemirror/lib/codemirror")
+        ,requirejs("codemirror/addon/mode/multiplex")
+        ,requirejs("codemirror/mode/gfm/gfm")
+        ,requirejs("codemirror/mode/stex/stex")
         );
   } else if (typeof define == "function" && define.amd){ // AMD
     define(["codemirror/lib/codemirror"
@@ -33,14 +33,15 @@
 
         return CodeMirror.multiplexingMode(
             gfm_mode,
+            // By defining the $$ delimiter before the $ delimiter we don't run
+            // into the problem that $$ is interpreted as two consecutive $.
             {
-                open: "$", close: "$",
+                open: "$$", close: "$$",
                 mode: tex_mode,
                 delimStyle: "delimit"
             },
             {
-                // not sure this works as $$ is interpreted at (opening $, closing $, as defined just above)
-                open: "$$", close: "$$",
+                open: "$", close: "$",
                 mode: tex_mode,
                 delimStyle: "delimit"
             },

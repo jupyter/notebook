@@ -4,20 +4,22 @@
 define([
     'notebook/js/celltoolbar',
     'base/js/dialog',
-], function(celltoolbar, dialog) {
+    'base/js/i18n'
+], function(celltoolbar, dialog, i18n) {
     "use strict";
 
     var CellToolbar = celltoolbar.CellToolbar;
 
-    var raw_edit = function (cell) {
+    var raw_edit = function (cell , edit_metadata_button) {
         dialog.edit_metadata({
             md: cell.metadata,
             callback: function (md) {
                 cell.metadata = md;
             },
-            name: 'Cell',
+            name: i18n.msg._('Cell'),
             notebook: this.notebook,
-            keyboard_manager: this.keyboard_manager
+            keyboard_manager: this.keyboard_manager,
+            edit_metadata_button: edit_metadata_button
         });
     };
 
@@ -25,11 +27,12 @@ define([
         var button_container = $(div);
         var button = $('<button/>')
             .addClass("btn btn-default btn-xs")
-            .text("Edit Metadata")
+            .text(i18n.msg._("Edit Metadata"))
             .click( function () {
-                raw_edit(cell);
+                raw_edit(cell, this);
                 return false;
             });
+
         button_container.append(button);
     };
 
@@ -43,7 +46,7 @@ define([
         var example_preset = [];
         example_preset.push('default.rawedit');
 
-        CellToolbar.register_preset('Edit Metadata', example_preset, notebook);
+        CellToolbar.register_preset(i18n.msg._('Edit Metadata'), example_preset, notebook);
     };
     return {'register': register};
 });

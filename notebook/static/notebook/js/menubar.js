@@ -6,12 +6,13 @@ define([
     'base/js/namespace',
     'base/js/dialog',
     'base/js/utils',
+    'base/js/i18n',
     './celltoolbar',
     './tour',
     'moment',
-], function($, IPython, dialog, utils, celltoolbar, tour, moment) {
+], function($, IPython, dialog, utils, i18n, celltoolbar, tour, moment) {
     "use strict";
-    
+
     var MenuBar = function (selector, options) {
         /**
          * Constructor
@@ -169,70 +170,31 @@ define([
             that.notebook.copy_notebook();
             return false;
         });
-        this.element.find('#download_ipynb').click(function () {
-            var base_url = that.notebook.base_url;
-            var notebook_path = utils.encode_uri_components(that.notebook.notebook_path);
-            var w = window.open('');
-            var url = utils.url_path_join(
-                base_url, 'files', notebook_path
-            ) + '?download=1';
-            if (that.notebook.dirty && that.notebook.writable) {
-                that.notebook.save_notebook().then(function() {
-                    w.location = url;
-                });
-            } else {
-                w.location = url;
-            }
+        this.element.find('#save_notebook_as').click(function() {
+            that.notebook.save_notebook_as();
+            return false;
         });
         
         this.element.find('#print_preview').click(function () {
             that._nbconvert('html', false);
         });
 
-        this.element.find('#download_html').click(function () {
-            that._nbconvert('html', true);
-        });
-
-        this.element.find('#download_markdown').click(function () {
-            that._nbconvert('markdown', true);
-        });
-
-        this.element.find('#download_rst').click(function () {
-            that._nbconvert('rst', true);
-        });
-
-        this.element.find('#download_pdf').click(function () {
-            that._nbconvert('pdf', true);
-        });
-
-        this.element.find('#download_script').click(function () {
-            that._nbconvert('script', true);
+        this.element.find('#download_menu li').click(function (ev) {
+            that._nbconvert(ev.target.parentElement.getAttribute('id').substring(9), true);
         });
 
         this.events.on('trust_changed.Notebook', function (event, trusted) {
             if (trusted) {
                 that.element.find('#trust_notebook')
                     .addClass("disabled").off('click')
-                    .find("a").text("Trusted Notebook");
+                    .find("a").text(i18n.msg._("Trusted Notebook"));
             } else {
                 that.element.find('#trust_notebook')
                     .removeClass("disabled").on('click', function () {
                         that.notebook.trust_notebook();
                     })
-                    .find("a").text("Trust Notebook");
+                    .find("a").text(i18n.msg._("Trust Notebook"));
             }
-        });
-
-        this.element.find('#kill_and_exit').click(function () {
-            var close_window = function () {
-                /**
-                 * allow closing of new tabs in Chromium, impossible in FF
-                 */
-                window.open('', '_self', '');
-                window.close();
-            };
-            // finish with close on success or failure
-            that.notebook.session.delete(close_window, close_window);
         });
 
         // View
@@ -244,7 +206,7 @@ define([
                 notebook: that.notebook,
                 keyboard_manager: that.notebook.keyboard_manager});
         });
-             
+
         var id_actions_dict = {
             '#trust_notebook' : 'trust-notebook',
             '#rename_notebook' : 'rename-notebook',
@@ -254,6 +216,7 @@ define([
             '#restart_kernel': 'confirm-restart-kernel',
             '#restart_clear_output': 'confirm-restart-kernel-and-clear-output',
             '#restart_run_all': 'confirm-restart-kernel-and-run-all-cells',
+            '#close_and_halt': 'close-and-halt',
             '#int_kernel': 'interrupt-kernel',
             '#cut_cell': 'cut-cell',
             '#copy_cell': 'copy-cell',
@@ -376,7 +339,7 @@ define([
         
         // Setup the existing presets
         var presets = celltoolbar.CellToolbar.list_presets();
-        preset_added(null, {name: "None"});
+        preset_added(null, {name: i18n.msg._("None")});
         presets.map(function (name) {
             preset_added(null, {name: name});
         });
@@ -399,7 +362,7 @@ define([
                 .addClass("disabled")
                 .append(
                     $("<a/>")
-                    .text("No checkpoints")
+                    .text(i18n.msg._("No checkpoints"))
                 )
             );
             return;
@@ -458,7 +421,7 @@ define([
             cursor.after($("<li>")
                 .append($("<a>")
                     .attr('target', '_blank')
-                    .attr('title', 'Opens in a new window')
+                    .attr('title', i18n.msg._('Opens in a new window'))
                     .attr('href', requirejs.toUrl(link.url))
                     .append($("<i>")
                         .addClass("fa fa-external-link menu-icon pull-right")

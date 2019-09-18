@@ -4,8 +4,9 @@
 define([
     'jquery',
     'base/js/utils',
+    'base/js/i18n',
     'base/js/dialog',
-], function($, utils, dialog) {
+], function($, utils, i18n, dialog) {
     "use strict";
 
     var init = function () {
@@ -35,11 +36,15 @@ define([
             });
             MathJax.Hub.Configured();
         } else if (window.mathjax_url !== "") {
+            // This statement is used simply so that message extraction
+            // will pick up the strings.  The actual setting of the text
+            // for the button is in dialog.js.
+            var button_labels = [ i18n.msg._("OK") ];
             // Don't have MathJax, but should. Show dialog.
             dialog.modal({
-                title : "Failed to retrieve MathJax from '" + window.mathjax_url + "'",
+                title : i18n.msg.sprintf(i18n.msg._("Failed to retrieve MathJax from '%s'",window.mathjax_url)),
                 body : $("<p/>").addClass('dialog').text(
-                        "Math/LaTeX rendering will be disabled."
+                        i18n.msg._("Math/LaTeX rendering will be disabled.")
                     ),
                 buttons : {
                     OK : {class: "btn-danger"}
@@ -55,11 +60,9 @@ define([
     // Other minor modifications are also due to StackExchange and are used with
     // permission.
 
-    var inline = "$"; // the inline math delimiter
-
     // MATHSPLIT contains the pattern for math delimiters and special symbols
     // needed for searching for math in the text input.
-    var MATHSPLIT = /(\$\$?|\\(?:begin|end)\{[a-z]*\*?\}|\\[\\{}$]|[{}]|(?:\n\s*)+|@@\d+@@)/i;
+    var MATHSPLIT = /(\$\$?|\\(?:begin|end)\{[a-z]*\*?\}|\\[{}$]|[{}]|(?:\n\s*)+|@@\d+@@|\\\\(?:\(|\)|\[|\]))/i;
 
     //  The math is in blocks i through j, so
     //    collect it into one block and clear the others.
@@ -110,9 +113,12 @@ define([
         var hasCodeSpans = /`/.test(text),
             de_tilde;
         if (hasCodeSpans) {
-            text = text.replace(/~/g, "~T").replace(/(^|[^\\])(`+)([^\n]*?[^`\n])\2(?!`)/gm, function (wholematch) {
+            var tilde = function (wholematch) {
                 return wholematch.replace(/\$/g, "~D");
-            });
+            }
+            text = text.replace(/~/g, "~T")
+                       .replace(/(^|[^\\])(`+)([^\n]*?[^`\n])\2(?!`)/gm, tilde)
+                       .replace(/^\s{0,3}(`{3,})(.|\n)*?\1/gm, tilde);
             de_tilde = function (text) {
                 return text.replace(/~([TD])/g, function (wholematch, character) {
                                                     return { T: "~", D: "$" }[character];
@@ -173,9 +179,14 @@ define([
                 //  Look for math start delimiters and when
                 //    found, set up the end delimiter.
                 //
-                if (block === inline || block === "$$") {
+                if (block === "$" || block === "$$") {
                     start = i;
                     end = block;
+                    braces = 0;
+                }
+                else if (block === "\\\\\(" || block === "\\\\\[") {
+                    start = i;
+                    end = block.slice(-1) === "(" ? "\\\\\)" : "\\\\\]";
                     braces = 0;
                 }
                 else if (block.substr(1, 5) === "begin") {
@@ -199,9 +210,27 @@ define([
     //    and clear the math array (no need to keep it around).
     //
     var replace_math = function (text, math) {
-        text = text.replace(/@@(\d+)@@/g, function (match, n) {
-            return math[n];
-        });
+        //
+        //  Replaces a math placeholder with its corresponding group.
+        //  The math delimiters "\\(", "\\[", "\\)" and "\\]" are replaced
+        //  removing one backslash in order to be interpreted correctly by MathJax.
+        //
+        var math_group_process = function (match, n) {
+            var math_group = math[n];
+
+            if (math_group.substr(0, 3) === "\\\\\("  && math_group.substr(math_group.length - 3) === "\\\\\)") {
+                math_group = "\\\(" + math_group.substring(3, math_group.length - 3) + "\\\)";
+            } else if (math_group.substr(0, 3) === "\\\\\[" && math_group.substr(math_group.length - 3) === "\\\\\]") {
+                math_group = "\\\[" + math_group.substring(3, math_group.length - 3) + "\\\]";
+            }
+            
+            return math_group;
+        };
+
+        // Replace all the math group placeholders in the text
+        // with the saved strings.
+        text = text.replace(/@@(\d+)@@/g, math_group_process);
+        
         return text;
     };
 

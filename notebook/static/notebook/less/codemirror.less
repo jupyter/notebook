@@ -26,7 +26,9 @@
 .CodeMirror-lines {
     /* In CM2, this used to be 0.4em, but in CM3 it went to 4px. We need the em value because */
     /* we have set a different line-height and want this to scale with that. */
-    padding: @code_padding;
+    /* Note that this should set vertical padding only, since CodeMirror assumes
+       that horizontal padding will be set on CodeMirror pre */
+    padding: @code_padding 0;
 }
 
 .CodeMirror-linenumber {
@@ -43,10 +45,27 @@
 }
 
 .CodeMirror pre {
-    /* In CM3 this went to 4px from 0 in CM2. We need the 0 value because of how we size */
-    /* .CodeMirror-lines */
-    padding: 0;
+    /* In CM3 this went to 4px from 0 in CM2. This sets horizontal padding only,
+    use .CodeMirror-lines for vertical */
+    padding: 0 @code_padding;
     border: 0;
     .border-radius(0)
 }
 
+.CodeMirror-cursor {
+    border-left: 1.4px solid black;
+}
+
+// When zoomed out 67% and 33% on a screen of 1440 width x 900 height
+@media screen and (min-width: 2138px) and (max-width: 4319px)  {
+    .CodeMirror-cursor {
+        border-left: 2px solid black;
+    }
+}
+
+// When zoomed out less than 33%
+@media screen and (min-width: 4320px)  {
+    .CodeMirror-cursor {
+        border-left: 4px solid black;
+    }
+}

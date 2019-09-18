@@ -47,7 +47,7 @@ Main features of the web application
 
 
 
-.. _MathJax: http://www.mathjax.org/
+.. _MathJax: https://www.mathjax.org/
 
 
 Notebook documents
@@ -61,7 +61,7 @@ are internally JSON_ files and are saved with the ``.ipynb`` extension. Since
 JSON is a plain text format, they can be version-controlled and shared with
 colleagues.
 
-.. _JSON: http://en.wikipedia.org/wiki/JSON
+.. _JSON: https://en.wikipedia.org/wiki/JSON
 
 Notebooks may be exported to a range of static formats, including HTML (for
 example, for blog posts), reStructuredText, LaTeX, PDF, and slide shows, via
@@ -81,6 +81,29 @@ without relying on nbviewer.
 .. seealso::
 
     :ref:`Details on the notebook JSON file format <nbformat:notebook_file_format>`
+
+
+Notebooks and privacy
+~~~~~~~~~~~~~~~~~~~~~
+
+Because you use Jupyter in a web browser, some people are understandably
+concerned about using it with sensitive data.
+However, if you followed the standard
+`install instructions <https://jupyter.readthedocs.io/en/latest/install.html>`_,
+Jupyter is actually running on your own computer.
+If the URL in the address bar starts with ``http://localhost:`` or
+``http://127.0.0.1:``, it's your computer acting as the server.
+Jupyter doesn't send your data anywhere else—and as it's open source,
+other people can check that we're being honest about this.
+
+You can also use Jupyter remotely:
+your company or university might run the server for you, for instance.
+If you want to work with sensitive data in those cases,
+talk to your IT or data protection staff about it.
+
+We aim to ensure that other pages in your browser or other users on the same
+computer can't access your notebook server. See :ref:`server_security` for
+more about this.
 
 
 Starting the notebook server
@@ -177,57 +200,47 @@ Notebook user interface
 -----------------------
 
 When you create a new notebook document, you will be presented with the
-**notebook name**, a **menu bar**, a **toolbar** and an empty **code
-cell**.
+**notebook name**, a **menu bar**, a **toolbar** and an empty **code cell**.
 
-**notebook name**: The name of the notebook document is displayed at the top
-of the page, next to the ``IP[y]: Notebook`` logo. This name reflects the name
-of the ``.ipynb`` notebook document file.  Clicking on the notebook name
-brings up a dialog which allows you to rename it. Thus, renaming a notebook
+.. image:: ./_static/images/blank-notebook-ui.png
+
+**Notebook name**: The name displayed at the top of the page,
+next to the Jupyter logo, reflects the name of the ``.ipynb`` file.
+Clicking on the notebook name brings up a dialog which allows you to rename it.
+Thus, renaming a notebook
 from "Untitled0" to "My first notebook" in the browser, renames the
 ``Untitled0.ipynb`` file to ``My first notebook.ipynb``.
 
-**menu bar**: The menu bar presents different options that may be used to
+**Menu bar**: The menu bar presents different options that may be used to
 manipulate the way the notebook functions.
 
-**toolbar**: The tool bar gives a quick way of performing the most-used
+**Toolbar**: The tool bar gives a quick way of performing the most-used
 operations within the notebook, by clicking on an icon.
 
-**code cell**: the default type of cell, read on for an explanation of cells
-
-.. note::
-
-    As of notebook version 4.1, the user interface allows for multiple cells to
-    be selected.  The ``quick celltype selector``, found in the menubar, will
-    display a dash ``-`` when multiple cells are selected to indicate that the
-    type of the cells in the selection might not be unique. The quick selector
-    can still be used to change the type of the selection and will change the
-    type of all the currently selected cells.
+**Code cell**: the default type of cell; read on for an explanation of cells.
 
 
 Structure of a notebook document
 --------------------------------
 
-The notebook consists of a sequence of cells.  A cell is a multiline
-text input field, and its contents can be executed by using
-:kbd:`Shift-Enter`, or by clicking either the "Play" button the toolbar, or
-`Cell | Run` in the menu bar.  The execution behavior of a cell is determined
-the cell's type.  There are four types of cells: **code cells**, **markdown
-cells**, **raw cells** and **heading cells**.  Every cell starts off
-being a **code cell**, but its type can be changed by using a drop-down on the
-toolbar (which will be "Code", initially), or via :ref:`keyboard shortcuts
-<keyboard-shortcuts>`.
+The notebook consists of a sequence of cells.  A cell is a multiline text input
+field, and its contents can be executed by using :kbd:`Shift-Enter`, or by
+clicking either the "Play" button the toolbar, or :guilabel:`Cell`, :guilabel:`Run` in the menu bar.
+The execution behavior of a cell is determined by the cell's type.  There are three
+types of cells: **code cells**, **markdown cells**, and **raw cells**.  Every
+cell starts off being a **code cell**, but its type can be changed by using a
+drop-down on the toolbar (which will be "Code", initially), or via
+:ref:`keyboard shortcuts <keyboard-shortcuts>`.
 
 For more information on the different things you can do in a notebook,
 see the `collection of examples
-<http://nbviewer.jupyter.org/github/jupyter/notebook/tree/master/docs/source/examples/Notebook/>`_.
+<https://nbviewer.jupyter.org/github/jupyter/notebook/tree/master/docs/source/examples/Notebook/>`_.
 
 Code cells
 ~~~~~~~~~~
 A *code cell* allows you to edit and write new code, with full syntax
-highlighting and tab completion. By default, the language associated to a code
-cell is Python, but other languages, such as ``Julia`` and ``R``, can be
-handled using :ref:`cell magic commands <magics_explained>`.
+highlighting and tab completion. The programming language you use depends
+on the *kernel*, and the default kernel (IPython) runs Python code.
 
 When a code cell is executed, code that it contains is sent to the kernel
 associated with the notebook.  The results that are returned from this
@@ -250,6 +263,11 @@ called *Markdown cells*. The Markdown language provides a simple way to
 perform this text markup, that is, to specify which parts of the text should
 be emphasized (italics), bold, form lists, etc.
 
+If you want to provide structure for your document, you can use markdown
+headings. Markdown headings consist of 1 to 6 hash # signs ``#`` followed by a
+space and the title of your section. The markdown heading will be converted
+to a clickable link for a section of the notebook. It is also used as a hint
+when exporting to other document formats, like PDF.
 
 When a Markdown cell is executed, the Markdown code is converted into
 the corresponding formatted rich text. Markdown allows arbitrary HTML code for
@@ -262,10 +280,10 @@ the LaTeX portions are automatically rendered in the HTML output as equations
 with high quality typography. This is made possible by MathJax_, which
 supports a `large subset <mathjax_tex>`_ of LaTeX functionality
 
-.. _mathjax_tex: http://docs.mathjax.org/en/latest/tex.html
+.. _mathjax_tex: https://docs.mathjax.org/en/latest/tex.html
 
 Standard mathematics environments defined by LaTeX and AMS-LaTeX (the
-`amsmath` package) also work, such as
+``amsmath`` package) also work, such as
 ``\begin{equation}...\end{equation}``, and ``\begin{align}...\end{align}``.
 New LaTeX macros may be defined using standard methods,
 such as ``\newcommand``, by placing them anywhere *between math delimiters* in
@@ -282,21 +300,10 @@ Raw cells
 *Raw* cells provide a place in which you can write *output* directly.
 Raw cells are not evaluated by the notebook.
 When passed through nbconvert_, raw cells arrive in the
-destination format unmodified. For example, this allows you to type full LaTeX
+destination format unmodified. For example, you can type full LaTeX
 into a raw cell, which will only be rendered by LaTeX after conversion by
 nbconvert.
 
-Heading cells
-~~~~~~~~~~~~~
-
-If you want to provide structure for your document, you can use markdown
-headings. Markdown headings consist of 1 to 6 hash # signs ``#`` followed by a
-space and the title of your section. The markdown heading will be converted
-to a clickable link for a section of the notebook. It is also used as a hint
-when exporting to other document formats, like PDF.
-We recommend using only one markdown header in a cell and limit the cell's
-content to the header text. For flexibility of text format conversion, we
-suggest placing additional text in the next notebook cell.
 
 Basic workflow
 --------------
@@ -313,17 +320,14 @@ correctly. This is much more convenient for interactive exploration than
 breaking up a computation into scripts that must be executed together, as was
 previously necessary, especially if parts of them take a long time to run.
 
-At certain moments, it may be necessary to interrupt a calculation which is
-taking too long to complete. This may be done with the `Kernel | Interrupt`
-menu option, or the :kbd:`Ctrl-m i` keyboard shortcut.
-Similarly, it may be necessary or desirable to restart the whole computational
-process, with the `Kernel | Restart` menu option or :kbd:`Ctrl-m .`
+To interrupt a calculation which is taking too long, use the :guilabel:`Kernel`,
+:guilabel:`Interrupt` menu option, or the :kbd:`i,i` keyboard shortcut.
+Similarly, to restart the whole computational process,
+use the :guilabel:`Kernel`, :guilabel:`Restart` menu option or :kbd:`0,0`
 shortcut.
 
-A notebook may be downloaded in either a ``.ipynb`` or ``.py`` file from the
-menu option `File | Download as`. Choosing the ``.py`` option downloads a
-Python ``.py`` script, in which all rich output has been removed and the
-content of markdown cells have been inserted as comments.
+A notebook may be downloaded as a ``.ipynb`` file or converted to a number of
+other formats using the menu option :guilabel:`File`, :guilabel:`Download as`.
 
 .. seealso::
 
@@ -340,31 +344,16 @@ shortcuts are also available for the most common ones. The essential shortcuts
 to remember are the following:
 
 * :kbd:`Shift-Enter`:  run cell
-    Execute the current cell, show output (if any), and jump to the next cell
-    below. If :kbd:`Shift-Enter` is invoked on the last cell, a new code
-    cell will also be created. Note that in the notebook, typing :kbd:`Enter`
-    on its own *never* forces execution, but rather just inserts a new line in
-    the current cell. :kbd:`Shift-Enter` is equivalent to clicking the
-    ``Cell | Run`` menu item.
+    Execute the current cell, show any output, and jump to the next cell below.
+    If :kbd:`Shift-Enter` is invoked on the last cell, it makes a new cell below.
+    This is equivalent to clicking the :guilabel:`Cell`, :guilabel:`Run` menu
+    item, or the Play button in the toolbar.
 
-* :kbd:`Ctrl-Enter`: run cell in-place
-    Execute the current cell as if it were in "terminal mode", where any
-    output is shown, but the cursor *remains* in the current cell. The cell's
-    entire contents are selected after execution, so you can just start typing
-    and only the new input will be in the cell. This is convenient for doing
-    quick experiments in place, or for querying things like filesystem
-    content, without needing to create additional cells that you may not want
-    to be saved in the notebook.
+* :kbd:`Esc`: Command mode
+    In command mode, you can navigate around the notebook using keyboard shortcuts.
 
-* :kbd:`Alt-Enter`: run cell, insert below
-    Executes the current cell, shows the output, and inserts a *new*
-    cell between the current cell and the cell below (if one exists). This
-    is thus a shortcut for the sequence :kbd:`Shift-Enter`, :kbd:`Ctrl-m a`.
-    (:kbd:`Ctrl-m a` adds a new cell above the current one.)
-
-* :kbd:`Esc` and :kbd:`Enter`: Command mode and edit mode
-    In command mode, you can easily navigate around the notebook using keyboard
-    shortcuts. In edit mode, you can edit text in cells.
+* :kbd:`Enter`: Edit mode
+    In edit mode, you can edit text in cells.
 
 For the full list of available shortcuts, click :guilabel:`Help`,
 :guilabel:`Keyboard Shortcuts` in the notebook menus.
@@ -380,66 +369,51 @@ Installing kernels
 ------------------
 
 For information on how to install a Python kernel, refer to the
-`IPython install page <http://ipython.org/install.html>`__.
+`IPython install page <https://ipython.org/install.html>`__.
 
-Kernels for other languages can be found in the `IPython wiki
-<https://github.com/ipython/ipython/wiki/IPython%20kernels%20for%20other%20languages>`_.
-They usually come with instruction what to run to make the kernel available
+The Jupyter wiki has a long list of `Kernels for other languages
+<https://github.com/jupyter/jupyter/wiki/Jupyter-kernels>`_.
+They usually come with instructions on how to make the kernel available
 in the notebook.
 
 
 .. _signing_notebooks:
 
-Signing Notebooks
------------------
+Trusting Notebooks
+------------------
 
 To prevent untrusted code from executing on users' behalf when notebooks open,
-we have added a signature to the notebook, stored in metadata.
+we store a signature of each trusted notebook.
 The notebook server verifies this signature when a notebook is opened.
-If the signature stored in the notebook metadata does not match,
-javascript and HTML output will not be displayed on load,
-and must be regenerated by re-executing the cells.
+If no matching signature is found,
+Javascript and HTML output will not be displayed
+until they are regenerated by re-executing the cells.
 
-Any notebook that you have executed yourself *in its entirety* will be
-considered trusted, and its HTML and javascript output will be displayed on
+Any notebook that you have fully executed yourself will be
+considered trusted, and its HTML and Javascript output will be displayed on
 load.
 
 If you need to see HTML or Javascript output without re-executing,
-you can explicitly trust notebooks, such as those shared with you,
-or those that you have written yourself prior to IPython 2.0,
+and you are sure the notebook is not malicious, you can tell Jupyter to trust it
 at the command-line with::
 
-    $ jupyter trust mynotebook.ipynb [other notebooks.ipynb]
+    $ jupyter trust mynotebook.ipynb
 
-This just generates a new signature stored in each notebook.
-
-You can generate a new notebook signing key with::
-
-    $ jupyter trust --reset
-
-.. include:: links.txt
+See :ref:`notebook_security` for more details about the trust mechanism.
 
 Browser Compatibility
 ---------------------
 
-The Jupyter Notebook is officially supported by the latest stable versions of the
-following browsers:
+The Jupyter Notebook aims to support the latest versions of these browsers:
 
 * Chrome
 * Safari
 * Firefox
 
-The is mainly due to the notebook's usage of WebSockets and the flexible box
-model.
-
-The following browsers are unsupported:
-
-* Safari < 5
-* Firefox < 6
-* Chrome < 13
-* Opera (any): CSS issues, but execution might work
-* Internet Explorer < 10
-* Internet Explorer ≥ 10 (same as Opera)
+Up to date versions of Opera and Edge may also work, but if they don't, please
+use one of the supported browsers.
 
 Using Safari with HTTPS and an untrusted certificate is known to not work
 (websockets will fail).
+
+.. include:: links.txt

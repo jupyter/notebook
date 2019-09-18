@@ -12,7 +12,7 @@ def _jupyter_bundlerextension_paths():
         "name": "tarball_bundler",
         # module containing bundle function
         "module_name": "notebook.bundler.tarball_bundler",
-        # human-redable menu item label
+        # human-readable menu item label
         "label" : "Notebook Tarball (tar.gz)",
         # group under 'deploy' or 'download' menu
         "group" : "download",
@@ -39,10 +39,9 @@ def bundle(handler, model):
     with io.BytesIO() as tar_buffer:
         with tarfile.open(tar_filename, "w:gz", fileobj=tar_buffer) as tar:
             tar.addfile(info, io.BytesIO(notebook_content))
-        
-        handler.set_header('Content-Disposition',
-                           'attachment; filename="{}"'.format(tar_filename))
+
+        handler.set_attachment_header(tar_filename)
         handler.set_header('Content-Type', 'application/gzip')
-                
+
         # Return the buffer value as the response
         handler.finish(tar_buffer.getvalue())

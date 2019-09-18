@@ -4,8 +4,9 @@
 define([
     'jquery',
     'base/js/namespace',
-    'base/js/events'
-], function($, IPython, events) {
+    'base/js/events',
+    'base/js/i18n'
+], function($, IPython, events, i18n) {
     "use strict";
 
     var CellToolbar = function (options) {
@@ -166,7 +167,7 @@ define([
      * @param name {String} name to use to refer to the preset. It is advised to use a prefix with the name
      * for easier sorting and avoid collision
      * @param  preset_list {List_of_String} reverse order of the button in the toolbar. Each String of the list
-     *          should correspond to a name of a registerd callback.
+     *          should correspond to a name of a registered callback.
      *
      * @private
      * @example
@@ -267,7 +268,7 @@ define([
      */
     CellToolbar.prototype.rebuild = function(){
         /**
-         * strip evrything from the div
+         * strip everything from the div
          * which is probably inner_element
          * or this.element.
          */
@@ -292,7 +293,7 @@ define([
                 callback(local_div, this.cell, this);
                 this.ui_controls_list.push(key);
             } catch (e) {
-                console.log("Error in cell toolbar callback " + key, e);
+                console.log(i18n.msg.sprintf(i18n.msg._("Error in cell toolbar callback %s"), key), e);
                 continue;
             }
             // only append if callback succeeded.
@@ -336,7 +337,7 @@ define([
      *              // set the value
      *              cell.metadata.slideshow.isSectionStart = value
      *              },
-     *          //geter
+     *          // getter
      *          function(cell){ var ns = cell.metadata.slideshow;
      *              // if the slideshow namespace does not exist return `undefined`
      *              // (will be interpreted as `false` by checkbox) otherwise
@@ -402,14 +403,14 @@ define([
      * @static
      *
      * @param list_list {list_of_sublist} List of sublist of metadata value and name in the dropdown list.
-     *        subslit shoud contain 2 element each, first a string that woul be displayed in the dropdown list,
-     *        and second the corresponding value to  be passed to setter/return by getter. the corresponding value 
+     *        subslit should contain 2 element each, first a string that woul be displayed in the dropdown list,
+     *        and second the corresponding value to  be passed to setter/return by getter. the corresponding value
      *        should not be "undefined" or behavior can be unexpected.
      * @param setter {function( cell, newValue )}
      *        A setter method to set the newValue
      * @param getter {function( cell )}
      *        A getter methods which return the current value of the metadata.
-     * @param [label=""] {String} optionnal label for the dropdown menu
+     * @param [label=""] {String} optional label for the dropdown menu
      *
      * @return callback {function( div, cell )} Callback to be passed to `register_callback`
      *
@@ -429,7 +430,7 @@ define([
      *                  // set the value
      *                  cell.metadata.slideshow.slide_type = value
      *                  },
-     *              //geter
+     *              // getter
      *              function(cell){ var ns = cell.metadata.slideshow;
      *                  // if the slideshow namespace does not exist return `undefined`
      *                  // (will be interpreted as `false` by checkbox) otherwise
@@ -445,6 +446,9 @@ define([
             var button_container = $(div);
             var lbl = $("<label/>").append($('<span/>').text(label));
             var select = $('<select/>');
+            if(!cell.is_editable()){
+                select.attr("disabled","disabled")
+            }
             for(var i=0; i < list_list.length; i++){
                 var opt = $('<option/>')
                     .attr('value', list_list[i][1])
@@ -459,7 +463,7 @@ define([
         };
     };
 
-    // Backwards compatability.
+    // Backwards compatibility.
     IPython.CellToolbar = CellToolbar;
 
     return {'CellToolbar': CellToolbar};

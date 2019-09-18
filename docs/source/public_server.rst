@@ -32,7 +32,7 @@ This document describes how you can
     To use JupyterHub, you need a Unix server (typically Linux) running
     somewhere that is accessible to your users on a network. This may run over
     the public internet, but doing so introduces additional
-    `security concerns <https://jupyterhub.readthedocs.io/en/latest/getting-started.html#security>`_.
+    `security concerns <https://jupyterhub.readthedocs.io/en/latest/getting-started/security-basics.html>`_.
 
 
 
@@ -47,31 +47,52 @@ This document describes how you can
 Securing a notebook server
 --------------------------
 
-You can protect your notebook server with a simple single password by
-configuring the :attr:`NotebookApp.password` setting in
-:file:`jupyter_notebook_config.py`.
+You can protect your notebook server with a simple single password. As of notebook
+5.0 this can be done automatically. To set up a password manually you can configure the
+:attr:`NotebookApp.password` setting in :file:`jupyter_notebook_config.py`.
+
 
 Prerequisite: A notebook configuration file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Check to see if you have a notebook configuration file,
 :file:`jupyter_notebook_config.py`. The default location for this file
-is your Jupyter folder in your home directory, ``~/.jupyter``.
+is your Jupyter folder located in your home directory:
 
-If you don't already have one, create a config file for the notebook
-using the following command::
+    - Windows: :file:`C:\\Users\\USERNAME\\.jupyter\\jupyter_notebook_config.py`
+    - OS X: :file:`/Users/USERNAME/.jupyter/jupyter_notebook_config.py`
+    - Linux: :file:`/home/USERNAME/.jupyter/jupyter_notebook_config.py`
+
+If you don't already have a Jupyter folder, or if your Jupyter folder doesn't contain
+a notebook configuration file, run the following command::
 
   $ jupyter notebook --generate-config
 
-.. _hashed-pw:
+This command will create the Jupyter folder if necessary, and create notebook
+configuration file, :file:`jupyter_notebook_config.py`, in this folder.
 
-Preparing a hashed password
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As of notebook version 5.0, you can enter and store a password for your
-notebook server with a single command.
-:command:`jupyter notebook password` will prompt you for your password
-and record the hashed password in your :file:`jupyter_notebook_config.json`.
+Automatic Password setup
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+As of notebook 5.3, the first time you log-in using a token, the notebook server
+should give you the opportunity to setup a password from the user interface.
+
+You will be presented with a form asking for the current _token_, as well as
+your _new_ _password_ ; enter both and click on ``Login and setup new password``.
+
+Next time you need to log in you'll be able to use the new password instead of
+the login token, otherwise follow the procedure to set a password from the
+command line.
+
+The ability to change the password at first login time may be disabled by
+integrations by setting the ``--NotebookApp.allow_password_change=False``
+
+
+Starting at notebook version 5.0, you can enter and store a password for your
+notebook server with a single command. :command:`jupyter notebook password` will
+prompt you for your password and record the hashed password in your
+:file:`jupyter_notebook_config.json`.
 
 .. code-block:: bash
 
@@ -79,6 +100,15 @@ and record the hashed password in your :file:`jupyter_notebook_config.json`.
     Enter password:  ****
     Verify password: ****
     [NotebookPasswordApp] Wrote hashed password to /Users/you/.jupyter/jupyter_notebook_config.json
+
+This can be used to reset a lost password; or if you believe your credentials
+have been leaked and desire to change your password. Changing your password will
+invalidate all logged-in sessions after a server restart.
+
+.. _hashed-pw:
+
+Preparing a hashed password
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can prepare a hashed password manually, using the function
 :func:`notebook.auth.security.passwd`:
@@ -109,6 +139,12 @@ directory, ``~/.jupyter``, e.g.::
 
     c.NotebookApp.password = u'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
 
+Automatic password setup will store the hash in ``jupyter_notebook_config.json``
+while this method stores the hash in ``jupyter_notebook_config.py``. The ``.json``
+configuration options take precedence over the ``.py`` one, thus the manual
+password may not take effect if the Json file has a password set.
+
+
 Using SSL for encrypted communication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 When using a password, it is a good idea to also use SSL with a web
@@ -134,7 +170,7 @@ with the command::
     the following command will create a certificate valid for 365 days with
     both the key and certificate data written to the same file::
 
-        $ openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mykey.key -out mycert.pem
+        $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout mykey.key -out mycert.pem
 
 When starting the notebook server, your browser may warn that your self-signed
 certificate is insecure or unrecognized.  If you wish to have a fully
@@ -145,7 +181,7 @@ certificate and follow the steps in :ref:`using-lets-encrypt` to set up a
 public server.
 
 .. _OWASP: https://www.owasp.org
-.. _tutorial: http://arstechnica.com/security/news/2009/12/how-to-get-set-with-a-secure-sertificate-for-free.ars
+.. _tutorial: https://arstechnica.com/information-technology/2009/12/how-to-get-set-with-a-secure-sertificate-for-free/
 
 .. _notebook_public_server:
 
@@ -289,7 +325,7 @@ with the following configuration setting in
 
     c.NotebookApp.tornado_settings = {
         'headers': {
-            'Content-Security-Policy': "frame-ancestors 'https://mywebsite.example.com' 'self' "
+            'Content-Security-Policy': "frame-ancestors https://mywebsite.example.com 'self' "
         }
     }
 
@@ -307,6 +343,35 @@ single-tab mode:
     });
 
 
+Using a gateway server for kernel management
+--------------------------------------------
+
+You are now able to redirect the management of your kernels to a Gateway Server
+(i.e., `Jupyter Kernel Gateway <https://jupyter-kernel-gateway.readthedocs.io/en/latest/>`_ or
+`Jupyter Enterprise Gateway <https://jupyter-enterprise-gateway.readthedocs.io/en/latest/>`_)
+simply by specifying a Gateway url via the following command-line option:
+
+    .. code-block:: bash
+
+        $ jupyter notebook --gateway-url=http://my-gateway-server:8888
+
+the environment:
+
+    .. code-block:: bash
+
+        JUPYTER_GATEWAY_URL=http://my-gateway-server:8888
+
+or in :file:`jupyter_notebook_config.py`:
+
+   .. code-block:: python
+
+      c.GatewayClient.url = http://my-gateway-server:8888
+
+When provided, all kernel specifications will be retrieved from the specified Gateway server and all
+kernels will be managed by that server.  This option enables the ability to target kernel processes
+against managed clusters while allowing for the notebook's management to remain local to the Notebook
+server.
+
 Known issues
 ------------
 
@@ -322,11 +387,47 @@ For example, in Firefox, go to the Preferences panel, Advanced section,
 Network tab, click 'Settings...', and add the address of the notebook server
 to the 'No proxy for' field.
 
+Content-Security-Policy (CSP)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Certain `security guidelines
+<https://infosec.mozilla.org/guidelines/web_security.html#content-security-policy>`_
+recommend that servers use a Content-Security-Policy (CSP) header to prevent
+cross-site scripting vulnerabilities, specifically limiting to ``default-src:
+https:`` when possible.  This directive causes two problems with Jupyter.
+First, it disables execution of inline javascript code, which is used
+extensively by Jupyter.  Second, it limits communication to the https scheme,
+and prevents WebSockets from working because they communicate via the wss
+scheme (or ws for insecure communication).  Jupyter uses WebSockets for
+interacting with kernels, so when you visit a server with such a CSP, your
+browser will block attempts to use wss, which will cause you to see
+"Connection failed" messages from jupyter notebooks, or simply no response
+from jupyter terminals.  By looking in your browser's javascript console, you
+can see any error messages that will explain what is failing.
+
+To avoid these problem, you need to add ``'unsafe-inline'`` and ``connect-src
+https: wss:`` to your CSP header, at least for pages served by jupyter.  (That
+is, you can leave your CSP unchanged for other parts of your website.)  Note
+that multiple CSP headers are allowed, but successive CSP headers can only
+restrict the policy; they cannot loosen it.  For example, if your server sends
+both of these headers
+
+    Content-Security-Policy "default-src https: 'unsafe-inline'"
+    Content-Security-Policy "connect-src https: wss:"
+
+the first policy will already eliminate wss connections, so the second has no
+effect.  Therefore, you can't simply add the second header; you have to
+actually modify your CSP header to look more like this:
+
+    Content-Security-Policy "default-src https: 'unsafe-inline'; connect-src https: wss:"
+
+
+
 Docker CMD
 ~~~~~~~~~~
 
 Using ``jupyter notebook`` as a
-`Docker CMD <https://docs.docker.com/reference/builder/#cmd>`_ results in
+`Docker CMD <https://docs.docker.com/engine/reference/builder/#cmd>`_ results in
 kernels repeatedly crashing, likely due to a lack of `PID reaping
 <https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/>`_.
 To avoid this, use the `tini <https://github.com/krallin/tini>`_ ``init`` as your
