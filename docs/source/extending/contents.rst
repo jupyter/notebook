@@ -79,7 +79,7 @@ model. There are three model types: **notebook**, **file**, and **directory**.
 
 - ``file`` models
     - The ``format`` field is either ``"text"`` or ``"base64"``.
-    - The ``mimetype`` field is can be any mimetype string, but defaults to 
+    - The ``mimetype`` field can be any mimetype string, but defaults to 
       ``text/plain`` for text-format models and
       ``application/octet-stream`` for base64-format models.
     - The ``content`` field is always of type ``unicode``.  For text-format
