@@ -1394,6 +1394,7 @@ class NotebookApp(JupyterApp):
         logger.setLevel(self.log.level)
     
     def init_resources(self):
+        """initialize system resources"""
         if resource is None:
             self.log.debug('Ignoring min_open_files_limit because the limit cannot be adjusted (for example, on Windows)')
             return
@@ -1404,10 +1405,10 @@ class NotebookApp(JupyterApp):
         if old_soft < soft:
             if hard < soft:
                 hard = soft
-            resource.setrlimit(resource.RLIMIT_NOFILE, (soft, hard))
             self.log.debug(
-                'Raised open file limit: soft {}->{}; hard {}->{}'.format(old_soft, soft, old_hard, hard)
+                'Raising open file limit: soft {}->{}; hard {}->{}'.format(old_soft, soft, old_hard, hard)
             )
+            resource.setrlimit(resource.RLIMIT_NOFILE, (soft, hard))
 
     def init_webapp(self):
         """initialize tornado webapp and httpserver"""
