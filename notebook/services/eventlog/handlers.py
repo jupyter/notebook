@@ -29,13 +29,14 @@ class EventLoggingHandler(APIHandler):
         version = raw_event['version']
         event = raw_event['event']
         
-        # Profile, and move to a background thread if this is problematic
-        # FIXME: Return a more appropriate error response if validation fails
-        self.eventlog.record_event(schema_name, version, event)
-
+        # Profile, may need to move to a background thread if this is problematic
+        try: 
+            self.eventlog.record_event(schema_name, version, event)
+        except:
+            raise web.HTTPError(500, "Event could not be validated.")
+            
         self.set_status(204)
         self.finish()
-
 
 default_handlers = [
     (r"/api/eventlog", EventLoggingHandler),
