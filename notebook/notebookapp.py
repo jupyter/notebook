@@ -112,7 +112,14 @@ from jupyter_telemetry.eventlog import EventLog
 from notebook._sysinfo import get_sys_info
 
 from ._tz import utcnow, utcfromtimestamp
-from .utils import url_path_join, check_pid, url_escape, urljoin, pathname2url
+from .utils import (
+    url_path_join, 
+    check_pid, 
+    url_escape, 
+    urljoin, 
+    pathname2url, 
+    get_schema_files
+)
 
 #-----------------------------------------------------------------------------
 # Module globals
@@ -1674,15 +1681,9 @@ class NotebookApp(JupyterApp):
 
     def init_eventlog(self):
         self.eventlog = EventLog(parent=self)
-
-        yaml = YAML(typ='safe')
-        event_schemas_dir = os.path.join(os.path.dirname(__file__), 'event-schemas')
-        # Recursively register all .json files under event-schemas
-        for dirname, _, files in os.walk(event_schemas_dir):
-            for file in files:
-                if file.endswith('.yaml'):
-                    file_path = os.path.join(dirname, file)
-                    self.eventlog.register_schema_file(file_path)
+        # Register schemas for notebook services.
+        for file_path in get_schema_files():
+            self.eventlog.register_schema_file(file_path)
 
     @catch_config_error
     def initialize(self, argv=None):

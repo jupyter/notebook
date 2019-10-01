@@ -340,3 +340,17 @@ def eventlogging_schema_fqn(name):
     Matches convention for this particular repo
     """
     return 'eventlogging.jupyter.org/notebook/{}'.format(name)
+
+
+def get_schema_files():
+    """Yield a sequence of event schemas for jupyter services."""
+    # Hardcode path to event schemas directory.
+    event_schemas_dir = os.path.join(os.path.dirname(__file__), 'event-schemas')
+    schema_files = []
+    # Recursively register all .json files under event-schemas
+    for dirname, _, files in os.walk(event_schemas_dir):
+        for file in files:
+            if file.endswith('.yaml'):
+                file_path = os.path.join(dirname, file)
+                schema_files.append(file_path)
+    yield schema_files
