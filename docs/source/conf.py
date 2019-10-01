@@ -365,6 +365,10 @@ import notebook.transutils
  
 from notebook.utils import get_schema_files
 
+# Create an events directory if it doesn't exist.
+if not os.path.exists('events'):
+    os.makedirs('events') 
+
 # Build a dictionary that describes the event schema table of contents.
 # toc = {
 #     schema_name : {
@@ -413,64 +417,14 @@ for schema_name, x in toc.items():
     with open(dst, 'w') as f:
         f.write('.. jsonschema:: {}'.format(src))
 
-# Write table of contents
+# Build a table of contents for these schemas.
 events_index = """
 .. toctree::
    :maxdepth: 1
    :glob:
 
 """
-
 with open(os.path.join('events', 'index.rst'), 'w') as f:
     f.write(events_index)
     for item in toc.keys():
         f.write('   {}'.format(item))
-
-
-
-
-
-
-
-
-
-
-#     # create a directory for this schema if it doesn't exist:
-#     schema_dir = os.path.join('events', schema_name)
-#     if not os.path.exists(schema_dir):
-#         os.makedirs(schema_dir)
-
-
-#     toc[schema_name]
-    
-    
-    
-#     with open(dst, 'w') as f:
-#         f.write('.. jsonschema:: {}'.format(src))
-    
-    
-    
-    
-    
-    
-    
-#     toc.append(schema_name)
-
-
-# events_index = """
-# .. toctree::
-#    :maxdepth: 1
-#    :glob:
-
-# """
-
-
-# with open(os.path.join('events', 'index.rst'), 'w') as f:
-#     f.write(events_index)
-#     for item in set(toc):
-#         f.write('   {}/*'.format(item))
-
-
-
-
-

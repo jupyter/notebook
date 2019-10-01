@@ -24,6 +24,7 @@ The Jupyter Notebook
    config
    public_server
    security
+   eventlog
    frontend_config
    examples/Notebook/Distributing Jupyter Extensions as Python Packages
    extending/index.rst
