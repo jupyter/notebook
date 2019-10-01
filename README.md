@@ -24,6 +24,24 @@ discrete repos.
 [[The Big Split™ announcement](https://blog.jupyter.org/the-big-split-9d7b88a031a7)]
 [[Jupyter Ascending blog post](https://blog.jupyter.org/jupyter-ascending-1bf5b362d97e)]
 
+## System Requirement for Jupyter notebook
+### Recommended System Requirements
+- Processors:
+- Intel® Core™ i5 processor 4300M at 2.60 GHz or 2.59 GHz (1 socket, 2 cores, 2 threads per core), 8 GB of DRAM
+- Intel® Xeon® processor E5-2698 v3 at 2.30 GHz (2 sockets, 16 cores each, 1 thread per core), 64 GB of DRAM
+- Intel® Xeon Phi™ processor 7210 at 1.30 GHz (1 socket, 64 cores, 4 threads per core), 32 GB of DRAM, 16 GB of MCDRAM (flat mode enabled)
+- Disk space: 2 to 3 GB
+- Operating systems: Windows® 10, macOS*, and Linux*
+ 
+### Minimum System Requirements
+- Processors: Intel Atom® processor or Intel® Core™ i3 processor
+- Disk space: 1 GB
+- Operating systems: Windows* 7 or later, macOS, and Linux
+- Python* versions: 2.7.X, 3.6.X
+- Included development tools: conda*, conda-env, Jupyter Notebook* (IPython)
+- Compatible tools: Microsoft Visual Studio*, PyCharm*
+- Included Python packages: NumPy, SciPy, scikit-learn*, pandas, Matplotlib, Numba*, Intel® Threading Building Blocks, pyDAAL, Jupyter, mpi4py, PIP*, and others.
+
 ## Installation
 You can find the installation documentation for the
 [Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/latest/install.html).
