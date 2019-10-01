@@ -279,7 +279,7 @@ class ContentsHandler(APIHandler):
         self.finish()
         self.eventlog.record_event(
             eventlogging_schema_fqn('contentsmanager-actions'), 1,
-            { 'action': 'delete', 'path': path }
+            { 'action': 'delete', 'path': path.lstrip(os.path.sep) }
         )
 
 
