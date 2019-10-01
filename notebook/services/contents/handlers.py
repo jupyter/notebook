@@ -114,7 +114,8 @@ class ContentsHandler(APIHandler):
         validate_model(model, expect_content=content)
         self._finish_model(model, location=False)
         self.eventlog.record_event(
-            eventlogging_schema_fqn('contentsmanager-actions'), 1,
+            eventlogging_schema_fqn('contentsmanager-actions'),
+            1,
             { 'action': 'get', 'path': model['path'] }
         )
 
@@ -132,10 +133,13 @@ class ContentsHandler(APIHandler):
         self._finish_model(model)
         self.log.info(model)
         self.eventlog.record_event(
-            eventlogging_schema_fqn('contentsmanager-actions'), 1,
-            # FIXME: 'path' always has a leading slash, while model['path'] does not.
-            # What to do here for source_path? path munge manually? Eww
-            { 'action': 'rename', 'path': model['path'], 'source_path': path }
+            eventlogging_schema_fqn('contentsmanager-actions'),
+            1,
+            { 
+                'action': 'rename', 
+                'path': model['path'], 
+                'source_path': path.lstrip(os.path.sep) 
+            }
         )
     
     @gen.coroutine
@@ -150,8 +154,13 @@ class ContentsHandler(APIHandler):
         validate_model(model, expect_content=False)
         self._finish_model(model)
         self.eventlog.record_event(
-            eventlogging_schema_fqn('contentsmanager-actions'), 1,
-            { 'action': 'copy', 'path': model['path'], 'source_path': copy_from }
+            eventlogging_schema_fqn('contentsmanager-actions'),
+            1,
+            {
+                'action': 'copy', 
+                'path': model['path'], 
+                'source_path': copy_from.lstrip(os.path.sep) 
+            }
         )
 
     @gen.coroutine
@@ -162,9 +171,9 @@ class ContentsHandler(APIHandler):
         self.set_status(201)
         validate_model(model, expect_content=False)
         self._finish_model(model)
-
         self.eventlog.record_event(
-            eventlogging_schema_fqn('contentsmanager-actions'), 1,
+            eventlogging_schema_fqn('contentsmanager-actions'),
+            1,
             { 'action': 'upload', 'path': model['path'] }
         )
     
@@ -176,7 +185,6 @@ class ContentsHandler(APIHandler):
         self.set_status(201)
         validate_model(model, expect_content=False)
         self._finish_model(model)
-
         self.eventlog.record_event(
             eventlogging_schema_fqn('contentsmanager-actions'), 1,
             # Set path to path of created object, not directory it was created in
@@ -192,9 +200,9 @@ class ContentsHandler(APIHandler):
         model = yield maybe_future(self.contents_manager.save(model, path))
         validate_model(model, expect_content=False)
         self._finish_model(model)
-
         self.eventlog.record_event(
-            eventlogging_schema_fqn('contentsmanager-actions'), 1,
+            eventlogging_schema_fqn('contentsmanager-actions'),
+            1,
             { 'action': 'save', 'path': model['path'] }
         )
 
