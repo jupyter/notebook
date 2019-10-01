@@ -53,7 +53,7 @@ Events that are validated by this endpoint must have their schema listed in the 
 
 
 Server Event schemas
--------=======------
+--------------------
 
 .. toctree::
    :maxdepth: 2

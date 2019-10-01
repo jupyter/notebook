@@ -6,7 +6,6 @@ from notebook.utils import url_path_join
 from notebook.base.handlers import APIHandler, json_errors
 from jupyter_telemetry.eventlog import EventLog
 
-
 class EventLoggingHandler(APIHandler):
     """
     A handler that receives and stores telemetry data from the client.
@@ -32,8 +31,8 @@ class EventLoggingHandler(APIHandler):
         # Profile, may need to move to a background thread if this is problematic
         try: 
             self.eventlog.record_event(schema_name, version, event)
-        except:
-            raise web.HTTPError(500, "Event could not be validated.")
+        except Exception as e:
+            raise web.HTTPError(400, e)
             
         self.set_status(204)
         self.finish()
