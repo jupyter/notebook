@@ -86,7 +86,7 @@ define([
             .text(i18n._('Shutdown'))
             .click(function() {
                 var parent = $(this).parent().parent().parent();
-                var path = parent.data('path'):
+                var path = parent.data('path');
                 if(!path) {
                   path = parent.parent().data('path');
                 }
