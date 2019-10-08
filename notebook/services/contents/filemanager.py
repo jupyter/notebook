@@ -341,11 +341,13 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                                     self.get(path='%s/%s' % (path, name), content=False)
                             )
                 except OSError as e:
-                    # Ignore recursive links and move on
-                    if e.errno==errno.ELOOP:
-                        continue
-                    else:
-                        raise e
+                    # ELOOP: recursive symlink
+                    if e.errno != errno.ELOOP:
+                        self.log.warning(
+                            "Unknown error checking if file %r is hidden",
+                            os_path,
+                            exc_info=True,
+                        )
             model['format'] = 'json'
 
         return model
