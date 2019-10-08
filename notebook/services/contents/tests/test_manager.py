@@ -149,7 +149,7 @@ class TestFileContentsManager(TestCase):
             # recursive symlinks should not be shown in the contents manager
             self.assertNotIn('recursive', contents)
 
-    @dec.skipif(sys.platform == 'win32' and sys.version_info[0] < 3)
+    @dec.skipif(sys.platform == 'win32')
     def test_good_symlink(self):
         with TemporaryDirectory() as td:
             cm = FileContentsManager(root_dir=td)
