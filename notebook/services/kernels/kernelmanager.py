@@ -200,7 +200,7 @@ class MappingKernelManager(MultiKernelManager):
         Parameters
         ----------
         kernel_id : str
-            The id of the kernel to stop buffering.
+            The id of the kernel to start buffering.
         session_key: str
             The session_key, if any, that should get the buffer.
             If the session_key matches the current buffered session_key,
