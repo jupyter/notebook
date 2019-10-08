@@ -67,8 +67,6 @@ from notebook import (
     __version__,
 )
 
-# py23 compatibility
-raw_input = input
 
 from .base.handlers import Template404, RedirectWithParams
 from .log import log_request
