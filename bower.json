@@ -11,7 +11,7 @@
     "font-awesome": "components/font-awesome#~4.7.0",
     "google-caja": "5669",
     "jed": "~1.1.1",
-    "jquery": "components/jquery#~3.3",
+    "jquery": "components/jquery#~3.4.1",
     "jquery-typeahead": "~2.0.0",
     "jquery-ui": "components/jqueryui#~1.12",
     "marked": "~0.5",
