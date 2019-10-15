@@ -30,6 +30,7 @@ data-server-root="{{server_root}}"
     <div id="tab_content" class="tabbable" role="main">
       <ul id="tabs" class="nav nav-tabs">
         <li class="active"><a href="#notebooks" data-toggle="tab">{% trans %}Files{% endtrans %}</a></li>
+        <li><a href="#recent" data-toggle="tab">{% trans %}Recent{% endtrans %}</a></li>
         <li><a href="#running" data-toggle="tab">{% trans %}Running{% endtrans %}</a></li>
         <li><a href="#clusters" data-toggle="tab" class="clusters_tab_link" >{% trans %}Clusters{% endtrans %}</a></li>
       </ul>
@@ -186,6 +187,37 @@ data-server-root="{{server_root}}"
                   <div id="running_list">
                     <div id="running_list_placeholder" class="row list_placeholder">
                       <div> {% trans %}There are no notebooks running.{% endtrans %} </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="recent" class="tab-pane">
+          <div id="running_toolbar" class="row">
+            <div class="col-sm-8 no-padding">
+              <span id="running_list_info">{% trans %}Recent Jupyter processes{% endtrans %}</span>
+            </div>
+            <div class="col-sm-4 no-padding tree-buttons">
+              <span id="running_buttons" class="pull-right">
+              <button id="refresh_running_list" title="{% trans %}Refresh running list{% endtrans %}" aria-label="{% trans %}Refresh running list{% endtrans %}" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></button>
+              </span>
+            </div>
+          </div>
+          <div class="panel-group" id="accordion" >
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <a data-toggle="collapse" data-target="#collapseTwo" href="#">
+                  {% trans %}Notebooks{% endtrans %}
+                </a>
+              </div>
+              <div id="collapseTwo" class=" collapse in">
+                <div class="panel-body">
+                  <div id="running_list">
+                    <div id="running_list_placeholder" class="row list_placeholder">
+                      <div> {% trans %}There are no recent notebooks.{% endtrans %} </div>
                     </div>
                   </div>
                 </div>
