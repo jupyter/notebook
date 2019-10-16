@@ -38,11 +38,7 @@ except ImportError:
     # Windows
     resource = None
 
-try: #PY3
-    from base64 import encodebytes
-except ImportError: #PY2
-    from base64 import encodestring as encodebytes
-
+from base64 import encodebytes
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -76,11 +72,6 @@ from notebook import (
     __version__,
 )
 
-# py23 compatibility
-try:
-    raw_input = raw_input
-except NameError:
-    raw_input = input
 
 from .base.handlers import Template404, RedirectWithParams
 from .log import log_request

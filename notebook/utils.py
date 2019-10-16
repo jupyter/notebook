@@ -16,13 +16,8 @@ import sys
 from distutils.version import LooseVersion
 
 
-try:
-    from urllib.parse import quote, unquote, urlparse, urljoin
-    from urllib.request import pathname2url
-except ImportError:
-    from urllib import quote, unquote, pathname2url
-    from urlparse import urlparse, urljoin
-
+from urllib.parse import quote, unquote, urlparse, urljoin
+from urllib.request import pathname2url
 # tornado.concurrent.Future is asyncio.Future
 # in tornado >=5 with Python 3
 from tornado.concurrent import Future as TornadoFuture
