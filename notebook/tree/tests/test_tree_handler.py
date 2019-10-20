@@ -4,10 +4,7 @@ import io
 from notebook.utils import url_path_join
 from nbformat import write
 from nbformat.v4 import new_notebook
-try:
-    from urllib.parse import urlparse
-except ImportError:
-    from urlparse import urlparse
+from urllib.parse import urlparse
 
 import requests
 

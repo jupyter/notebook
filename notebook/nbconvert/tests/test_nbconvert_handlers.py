@@ -16,12 +16,7 @@ from nbformat.v4 import (
 
 from ipython_genutils.testing.decorators import onlyif_cmds_exist
 
-try: #PY3
-    from base64 import encodebytes
-except ImportError: #PY2
-    from base64 import encodestring as encodebytes
-
-
+from base64 import encodebytes
 
 
 class NbconvertAPI(object):
