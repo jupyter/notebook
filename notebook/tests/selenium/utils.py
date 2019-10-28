@@ -300,7 +300,9 @@ class Notebook:
         trigger_keystrokes(self.body, keys)
 
     def is_kernel_running(self):
-        return self.browser.execute_script("return Jupyter.notebook.kernel.is_connected()")
+        return self.browser.execute_script(
+            "return Jupyter.notebook.kernel && Jupyter.notebook.kernel.is_connected()"
+        )
 
     @classmethod
     def new_notebook(cls, browser, kernel_name='kernel-python3'):
@@ -455,4 +457,3 @@ def validate_dualmode_state(notebook, mode, index):
         assert is_focused_on(index) #The specified cell is focused
 
         assert is_only_cell_edit(index) #The specified cell is the only one in edit mode
-    
