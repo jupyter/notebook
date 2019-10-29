@@ -540,20 +540,6 @@ flags['allow-root']=(
     _("Allow the notebook to be run from root user.")
 )
 
-flags['use_redirect_file']=(
-    {'NotebookApp' : {'use_redirect_file' : True}},
-    """Disable launching browser by redirect file
-
-     For some environments (like Windows Subsystem for Linux (WSL) and Chromebooks),
-     launching a browser using a redirect file (introduced in notebook versions 
-     > 5.7.2) can lead the browser failing to load. This is because of the 
-     difference in file structures/paths between the runtime and the browser. 
-     
-     Disabling this setting will  by setting to False will disable this behavior, 
-     allowing the browser to launch by using a URL and visible token (as before).
-     """
-)
-
 # Add notebook manager flags
 flags.update(boolean_flag('script', 'FileContentsManager.save_script',
                'DEPRECATED, IGNORED',
@@ -663,13 +649,18 @@ class NotebookApp(JupyterApp):
     use_redirect_file = Bool(True, config=True,
         help="""Disable launching browser by redirect file
 
-     For some environments (like Windows Subsystem for Linux (WSL) and Chromebooks),
-     launching a browser using a redirect file (introduced in notebook versions 
-     > 5.7.2) can lead the browser failing to load. This is because of the 
-     difference in file structures/paths between the runtime and the browser. 
+     For versions of notebook > 5.7.2, a security feature measure was added that 
+     prevented the authentication token used to launch the browser from being visible.
+     This feature makes it difficult for other users on a multi-user system from
+     running code in your Jupyter session as you.
+
+     However, some environments (like Windows Subsystem for Linux (WSL) and Chromebooks),
+     launching a browser using a redirect file can lead the browser failing to load. 
+     This is because of the difference in file structures/paths between the runtime and 
+     the browser. 
      
-     Disabling this setting will  by setting to False will disable this behavior, 
-     allowing the browser to launch by using a URL and visible token (as before).
+     Disabling this setting to False will disable this behavior, allowing the browser 
+     to launch by using a URL and visible token (as before).
      """
     )
 
@@ -1839,7 +1830,7 @@ class NotebookApp(JupyterApp):
             if self.token:
                 uri = url_concat(uri, {'token': self.token})
 
-        elif self.file_to_run:
+        if self.file_to_run:
             if not os.path.exists(self.file_to_run):
                 self.log.critical(_("%s does not exist") % self.file_to_run)
                 self.exit(1)
@@ -1854,17 +1845,13 @@ class NotebookApp(JupyterApp):
         else:
             open_file = self.browser_open_file
 
-        if not self.use_redirect_file:
-            if browser:
-                b = lambda: browser.open(url_path_join(self.connection_url, uri),
-                                        new=self.webbrowser_open_new)
-                threading.Thread(target=b).start()
-
+        if self.use_redirect_file:
+            assembled_url = urljoin('file:', pathname2url(open_file))
         else:
-            b = lambda: browser.open(
-                urljoin('file:', pathname2url(open_file)),
-                new=self.webbrowser_open_new)
-            threading.Thread(target=b).start()
+            assembled_url = url_path_join(self.connection_url, uri)
+        
+        b = lambda: browser.open(assembled_url, new=self.webbrowser_open_new)                            
+        threading.Thread(target=b).start()
 
     def start(self):
         """ Start the Notebook server app, after initialization
