@@ -212,8 +212,8 @@ following::
      # browser auto-opening
      c.NotebookApp.certfile = u'/absolute/path/to/your/certificate/mycert.pem'
      c.NotebookApp.keyfile = u'/absolute/path/to/your/certificate/mykey.key'
-     # Set ip to '*' to bind on all interfaces (ips) for the public server
-     c.NotebookApp.ip = '*'
+     # Set ip to '0.0.0.0' to bind on all interfaces (ips) for the public server
+     c.NotebookApp.ip = '0.0.0.0'
      c.NotebookApp.password = u'sha1:bcd259ccf...<your hashed password here>'
      c.NotebookApp.open_browser = False
 
