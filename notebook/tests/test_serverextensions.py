@@ -2,10 +2,7 @@ import imp
 import os
 import sys
 from unittest import TestCase
-try:
-    from unittest.mock import patch
-except ImportError:
-    from mock import patch # py2
+from unittest.mock import patch
 
 from ipython_genutils.tempdir import TemporaryDirectory
 from ipython_genutils import py3compat

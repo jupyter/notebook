@@ -8,7 +8,6 @@ import io
 import errno
 from tornado import web
 
-from ipython_genutils.py3compat import PY3
 from ...base.handlers import APIHandler
 
 class ConfigHandler(APIHandler):

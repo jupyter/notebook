@@ -1,16 +1,8 @@
 
 import re
-import nose.tools as nt
+from nose.tools import assert_regex, assert_not_regex
 
 from notebook.base.handlers import path_regex
-
-try: # py3
-    assert_regex = nt.assert_regex
-    assert_not_regex = nt.assert_not_regex
-except AttributeError: # py2
-    assert_regex = nt.assert_regexp_matches
-    assert_not_regex = nt.assert_not_regexp_matches
-
 
 # build regexps that tornado uses:
 path_pat = re.compile('^' + '/x%s' % path_regex + '$')

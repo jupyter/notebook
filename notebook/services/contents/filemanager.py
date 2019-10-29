@@ -34,11 +34,7 @@ from notebook.utils import (
 from notebook.base.handlers import AuthenticatedFileHandler
 from notebook.transutils import _
 
-try:
-    from os.path import samefile
-except ImportError:
-    # windows + py2
-    from notebook.utils import samefile_simple as samefile
+from os.path import samefile
 
 _script_exporter = None
 

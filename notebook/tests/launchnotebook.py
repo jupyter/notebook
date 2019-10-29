@@ -13,10 +13,7 @@ from unittest import TestCase
 
 pjoin = os.path.join
 
-try:
-    from unittest.mock import patch
-except ImportError:
-    from mock import patch #py2
+from unittest.mock import patch
 
 import requests
 from tornado.ioloop import IOLoop
