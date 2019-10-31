@@ -223,7 +223,6 @@ class NotebookWebApplication(web.Application):
             base_url=base_url,
             default_url=default_url,
             template_path=template_path,
-            use_redirect_file=jupyter_app.use_redirect_file,
             static_path=jupyter_app.static_file_path,
             static_custom_path=jupyter_app.static_custom_path,
             static_handler_class = FileFindHandler,
