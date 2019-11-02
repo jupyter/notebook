@@ -6,6 +6,8 @@
 from collections import namedtuple
 import os
 from tornado import web
+import json
+import datetime
 HTTPError = web.HTTPError
 
 from ..base.handlers import (
@@ -67,6 +69,14 @@ def get_frontend_exporters():
 
 class NotebookHandler(IPythonHandler):
 
+    def storeList(name, path, dire):
+        fin = open(dire,"a+")
+        dire = os.getcmwd() + dire
+        data = {'name': name, 'path':dire, 'time': datetime.now().strftime("%m/%d/%Y, %H:%M:%S")}
+        json.dump(data,f)
+        fin.close()
+
+
     @web.authenticated
     def get(self, path):
         """get renders the notebook template if a name is given, or 
@@ -87,6 +97,7 @@ class NotebookHandler(IPythonHandler):
             # not a notebook, redirect to files
             return FilesRedirectHandler.redirect_to_files(self, path)
         name = path.rsplit('/', 1)[-1]
+        storeList(name, path,"recentList.json")
         self.write(self.render_template('notebook.html',
             notebook_path=path,
             notebook_name=name,
