@@ -13,7 +13,8 @@ define([
     'components/marked/lib/marked',
     'codemirror/lib/codemirror',
     'codemirror/mode/gfm/gfm',
-    'notebook/js/codemirror-ipythongfm'
+    'notebook/js/codemirror-ipythongfm',
+    'bidi/bidi'
 ], function(
     $,
     utils,
@@ -26,7 +27,8 @@ define([
     marked,
     CodeMirror,
     gfm,
-    ipgfm
+    ipgfm,
+    bidi
     ) {
     "use strict";
     function encodeURIandParens(uri){return encodeURI(uri).replace('(','%28').replace(')','%29')}
@@ -300,7 +302,8 @@ define([
 
     MarkdownCell.options_default = {
         cm_config: {
-            mode: 'ipythongfm'
+            mode: 'ipythongfm',
+            direction: bidi.isMirroringEnabled() ? 'rtl' : 'ltr'
         },
         placeholder: "Type *Markdown* and LaTeX: $\\alpha^2$"
     };
