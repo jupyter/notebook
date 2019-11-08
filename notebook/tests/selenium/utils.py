@@ -230,14 +230,6 @@ class Notebook:
         JS = 'Jupyter.notebook.get_cell({}).set_input_prompt({})'.format(index, prmpt_val)
         self.browser.execute_script(JS)
 
-    def get_cells_output(self, index):
-        """ Returns JSON object that contains the "outputs" field for the cell.
-
-        """
-        JS = 'return Jupyter.notebook.get_cell({}).toJSON();'.format(index)
-        result = self.browser.execute_script(JS)
-        return result["outputs"]
-
     def edit_cell(self, cell=None, index=0, content="", render=False):
         """Set the contents of a cell to *content*, by cell object or by index
         """
@@ -312,7 +304,7 @@ class Notebook:
             "return Jupyter.notebook.kernel && Jupyter.notebook.kernel.is_connected()"
         )
 
-    def clear_cells_output(self, index):
+    def clear_cell_output(self, index):
         JS = 'Jupyter.notebook.clear_output({})'.format(index)
         self.browser.execute_script(JS)
 
