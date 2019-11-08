@@ -146,7 +146,18 @@ define([
         });
 
         this.events.on('kernel_interrupting.Kernel', function () {
+
             knw.set_message(i18n.msg._("Interrupting kernel"), 2000);
+        });
+
+        this.events.on('kernel_suspending.Kernel', function () {
+            knw.set_message(i18n.msg._("Suspending kernel"), 2000);
+            knw.warning(i18n.msg._("kernel paused"));
+            $kernel_ind_icon.attr('class','kernel_busy_icon').attr('title',i18n.msg._('Kernel is not running'));
+        });
+
+        this.events.on('kernel_resuming.Kernel', function () {
+            knw.set_message(i18n.msg._("Resuming kernel"), 2000);
         });
 
         this.events.on('kernel_disconnected.Kernel', function () {

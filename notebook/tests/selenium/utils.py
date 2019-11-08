@@ -12,7 +12,6 @@ from contextlib import contextmanager
 
 pjoin = os.path.join
 
-
 def wait_for_selector(driver, selector, timeout=10, visible=False, single=False, wait_for_n=1, obscures=False):
     if wait_for_n > 1:
         return _wait_for_multiple(
@@ -56,6 +55,8 @@ def _wait_for(driver, locator_type, locator, timeout=10, visible=False, single=F
             conditional = EC.visibility_of_element_located
         else:
             conditional = EC.presence_of_element_located
+    elif clickable:
+        conditional = EC.element_to_be_clickable
     else:
         if visible:
             conditional = EC.visibility_of_all_elements_located
@@ -87,6 +88,7 @@ def _wait_for_multiple(driver, locator_type, locator, timeout, wait_for_n, visib
         return elements
 
     return wait.until(multiple_found)
+
 
 
 class CellTypeError(ValueError):
@@ -229,6 +231,10 @@ class Notebook:
     def set_cell_input_prompt(self, index, prmpt_val):
         JS = 'Jupyter.notebook.get_cell({}).set_input_prompt({})'.format(index, prmpt_val)
         self.browser.execute_script(JS)
+
+    def get_cell_output(self, index):
+        JS = 'return Jupyter.notebook.get_cell({}).output_area.outputs'.format(index)
+        return self.browser.execute_script(JS)
 
     def edit_cell(self, cell=None, index=0, content="", render=False):
         """Set the contents of a cell to *content*, by cell object or by index

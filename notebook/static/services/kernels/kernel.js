@@ -113,6 +113,8 @@ define([
         this.events.on('kernel_restarting.Kernel', record_status);
         this.events.on('kernel_autorestarting.Kernel', record_status);
         this.events.on('kernel_interrupting.Kernel', record_status);
+        this.events.on('kernel_suspending.Kernel', record_status);
+        this.events.on('kernel_resuming.Kernel', record_status);
         this.events.on('kernel_disconnected.Kernel', record_status);
         // these are commented out because they are triggered a lot, but can
         // be uncommented for debugging purposes
@@ -283,6 +285,78 @@ define([
         };
 
         var url = utils.url_path_join(this.kernel_url, 'interrupt');
+        utils.ajax(url, {
+            processData: false,
+            cache: false,
+            type: "POST",
+            contentType: false,  // there's no data with this
+            dataType: "json",
+            success: this._on_success(on_success),
+            error: this._on_error(error)
+        });
+    };
+
+    /**
+     * POST /api/kernels/[:kernel_id]/suspend
+     *
+     * Suspend the kernel.
+     *
+     * @function suspend
+     * @param {function} [success] - function executed on ajax success
+     * @param {function} [error] - functon executed on ajax error
+     */
+    Kernel.prototype.suspend = function (success, error) {
+        this.events.trigger('kernel_suspending.Kernel', {kernel: this});
+
+        var that = this;
+        var on_success = function (data, status, xhr) {
+            /**
+             * get kernel info so we know what state the kernel is in
+             */
+            that.kernel_info();
+            if (success) {
+                success(data, status, xhr);
+            }
+            that.toggle_suspend_resume_options();
+        };
+
+        var url = utils.url_path_join(this.kernel_url, 'suspend');
+        utils.ajax(url, {
+            processData: false,
+            cache: false,
+            type: "POST",
+            contentType: false,  // there's no data with this
+            dataType: "json",
+            success: this._on_success(on_success),
+            error: this._on_error(error)
+        });
+    };
+
+    /**
+     * POST /api/kernels/[:kernel_id]/resume
+     *
+     * Resume the kernel after it is suspended
+     *
+     * @function resume
+     * @param {function} [success] - function executed on ajax success
+     * @param {function} [error] - functon executed on ajax error
+     */
+    Kernel.prototype.resume = function (success, error) {
+        this.events.trigger('kernel_resuming.Kernel', {kernel: this});
+
+        var that = this;
+        var on_success = function (data, status, xhr) {
+            /**
+             * get kernel info so we know what state the kernel is in
+             */
+            that.kernel_info();
+            if (success) {
+                success(data, status, xhr);
+            }
+            that.toggle_suspend_resume_options();
+        };
+
+        var url = utils.url_path_join(this.kernel_url, 'resume');
         utils.ajax(url, {
             processData: false,
             cache: false,
@@ -595,6 +669,22 @@ define([
                 close();
             }
         }
+    };
+
+    Kernel.prototype.toggle_suspend_resume_options = function () {
+        /**
+         * Toggle 'suspend' and 'resume' option.
+         */
+         var sk = document.getElementById("suspend_kernel");
+         var rk = document.getElementById("resume_kernel");
+         if (sk.style.display == "none"){
+             sk.style.display = "block";
+             rk.style.display = "none";
+         }
+         else {
+             sk.style.display = "none";
+             rk.style.display = "block";
+         };
     };
 
     Kernel.prototype.is_connected = function () {

@@ -58,6 +58,12 @@ define([
             this.add_bundler_items();
             this.bind_events();
         }
+
+        // hide "suspend" and "resume" kernel options when on Windows OS
+        if (navigator.appVersion.indexOf("Win") != -1){
+            var sk = document.getElementById("suspend_kernel");
+            sk.style.display = "none";
+        }
     };
 
     // TODO: This has definitively nothing to do with style ...
@@ -218,6 +224,8 @@ define([
             '#restart_run_all': 'confirm-restart-kernel-and-run-all-cells',
             '#close_and_halt': 'close-and-halt',
             '#int_kernel': 'interrupt-kernel',
+            '#suspend_kernel': 'suspend-kernel',
+            '#resume_kernel': 'resume-kernel',
             '#cut_cell': 'cut-cell',
             '#copy_cell': 'copy-cell',
             '#delete_cell': 'delete-cell',
@@ -307,6 +315,8 @@ define([
             that.update_nbconvert_script(langinfo);
             that.add_kernel_help_links(data.kernel.info_reply.help_links || []);
         });
+
+
     };
     
     MenuBar.prototype._add_celltoolbar_list = function () {
