@@ -49,7 +49,9 @@ def test_menu_items(notebook):
         # Restart
         # Selenium can't click the menu while a modal dialog is fading out
         WebDriverWait(browser, 3).until(
-            EC.element_to_be_clickable((By.ID, 'kernellink'))).click()
+            EC.invisibility_of_element((By.CSS_SELECTOR, '.modal-backdrop'))
+        )
+        kernel_menu.click()
 
         wait_for_selector(browser, menu_item, visible=True, single=True).click()
         WebDriverWait(browser, 10).until(
