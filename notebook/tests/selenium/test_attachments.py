@@ -1,5 +1,12 @@
-from .utils import wait_for_selector
-# TODO: insert an image using edit menuitem
+from pathlib import Path
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+from .utils import wait_for_selector, wait_for_xpath
+
+tests_dir = Path(__file__).parent.parent
+
 # TODO: assert attachment for the cell
 # TODO: append another markdown cell
 # TODO: copy the first cell
@@ -11,14 +18,27 @@ from .utils import wait_for_selector
 # TODO: !! Figure out how to pass params to pytest fixtures
 
 def test_attachments(notebook):
+    browser = notebook.browser
     notebook.focus_cell(index=0)
     notebook.convert_cell_type(cell_type='markdown')
 
     # Click 'Edit', 'Insert image'
-    notebook.browser.find_element_by_id('editlink').click()
-    wait_for_selector(notebook.browser, '#insert_image', visible=True, single=True).click()
+    browser.find_element_by_id('editlink').click()
+    wait_for_selector(browser, '#insert_image', visible=True, single=True).click()
 
+    # Upload an image
+    # This is the recommended way to use a file input through Selenium:
+    # https://stackoverflow.com/a/9735909/434217
+    wait_for_xpath(browser, '//input[@type="file"]', single=True).send_keys(
+        str(tests_dir / '_testdata' / 'black_square_22.png')
+    )
+    browser.find_element_by_id('btn_ok').click()
 
+    # Wait for dialog to fade out
+    WebDriverWait(browser, 3).until(
+        EC.invisibility_of_element((By.CSS_SELECTOR, '.modal-backdrop'))
+    )
 
-
+    # Render the Markdown cell
+    notebook.execute_cell(0)
 
