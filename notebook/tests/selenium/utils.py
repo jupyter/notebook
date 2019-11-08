@@ -218,6 +218,11 @@ class Notebook:
     def get_cell_output(self, index=0, output='output_subarea'):
         return self.cells[index].find_elements_by_class_name(output)
 
+    def wait_for_cell_output(self, index=0, timeout=10):
+        return WebDriverWait(self.browser, timeout).until(
+            lambda b: self.get_cell_output(index)
+        )
+
     def set_cell_metadata(self, index, key, value):
         JS = 'Jupyter.notebook.get_cell({}).metadata.{} = {}'.format(index, key, value)
         return self.browser.execute_script(JS)

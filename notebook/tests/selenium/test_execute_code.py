@@ -1,51 +1,66 @@
 from selenium.webdriver.common.keys import Keys
-from .utils import shift, cmdtrl, wait_for_selector
-import time
+from .utils import shift, cmdtrl
 
 
 def test_execute_code(notebook):
-    def get_output_text(index=0):
-        result = notebook.get_cell_output(index=index)
-        return result[0].text 
+    browser = notebook.browser
     
     def clear_outputs():
         return notebook.browser.execute_script(
             "Jupyter.notebook.clear_all_output();")
 
+    # Execute cell with Javascript API
     notebook.edit_cell(index=0, content='a=10; print(a)')
-    notebook.execute_cell(0)
-    wait_for_selector(notebook.browser, 'div.output_area')
-    assert get_output_text() == '10', 'cell execute (using js)'
+    browser.execute_script("Jupyter.notebook.get_cell(0).execute();")
+    outputs = notebook.wait_for_cell_output(0)
+    assert outputs[0].text == '10'
 
+    # Execute cell with Shift-Enter
     notebook.edit_cell(index=0, content='a=11; print(a)')
     clear_outputs()
     shift(notebook.browser, Keys.ENTER)
+    outputs = notebook.wait_for_cell_output(0)
+    assert outputs[0].text == '11'
     notebook.delete_cell(index=1)
-    wait_for_selector(notebook.browser, 'div.output_area')
-    assert get_output_text() == '11', 'cell execute (using shift-enter)'
 
+    # Execute cell with Ctrl-Enter
     notebook.edit_cell(index=0, content='a=12; print(a)')
     clear_outputs()
     cmdtrl(notebook.browser, Keys.ENTER)
-    wait_for_selector(notebook.browser, 'div.output_area')
-    assert get_output_text() == '12', 'cell execute (using ctrl-enter)'
+    outputs = notebook.wait_for_cell_output(0)
+    assert outputs[0].text == '12'
 
+    # Execute cell with toolbar button
     notebook.edit_cell(index=0, content='a=13; print(a)')
     clear_outputs()
     notebook.browser.find_element_by_css_selector(
         "button[data-jupyter-action='jupyter-notebook:run-cell-and-select-next']").click()
-    wait_for_selector(notebook.browser, 'div.output_area')
-    assert get_output_text() == '13', 'cell execute (cell execute (using "play" toolbar button))'
+    outputs = notebook.wait_for_cell_output(0)
+    assert outputs[0].text == '13'
 
+    # Set up two cells to test stopping on error
     notebook.edit_cell(index=0, content='raise IOError')
     notebook.edit_cell(index=1, content='a=14; print(a)')
-    clear_outputs()
-    notebook.execute_cell(1)
-    wait_for_selector(notebook.browser, 'div.output_area')
-    assert get_output_text(1) == '14', "cell execute, don't stop on error"
 
+    # Default behaviour: stop on error
     clear_outputs()
-    notebook.browser.execute_script(
-            "Jupyter.notebook.execute_all_cells;")
-    assert len(notebook.get_cell_output(index=1)) == 0, "cell execute, stop on error (default)"
+    browser.execute_script("""
+        var cell0 = Jupyter.notebook.get_cell(0);
+        var cell1 = Jupyter.notebook.get_cell(1);
+        cell0.execute();
+        cell1.execute();
+    """)
+    outputs = notebook.wait_for_cell_output(0)
+    assert notebook.get_cell_output(1) == []
+
+    # Execute a cell with stop_on_error=false
+    clear_outputs()
+    browser.execute_script("""
+            var cell0 = Jupyter.notebook.get_cell(0);
+            var cell1 = Jupyter.notebook.get_cell(1);
+            cell0.execute(false);
+            cell1.execute();
+        """)
+    outputs = notebook.wait_for_cell_output(1)
+    assert outputs[0].text == '14'
 
