@@ -1,79 +1,58 @@
-'''
-Test that the kernel disconnects and re-connects
-when shutdown then restarted
-'''
-
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from notebook.tests.selenium.utils import wait_for_selector
 
-kernel_menu_selector = '.dropdown:nth-child(5)'
-menu_items = ['#restart_kernel', '#restart_clear_output', '#restart_run_all', '#shutdown_kernel']
+restart_selectors = [
+    '#restart_kernel', '#restart_clear_output', '#restart_run_all'
+]
 notify_interaction = '#notification_kernel > span'
 
-shutdown_selector = menu_items.pop()
+shutdown_selector = '#shutdown_kernel'
 confirm_selector = '.btn-danger'
+cancel_selector = ".modal-footer button:first-of-type"
 
-def check_kernel_shutdown(notebook):
+
+def test_cancel_restart_or_shutdown(notebook):
+    """Click each of the restart options, then cancel the confirmation dialog"""
     browser = notebook.browser
+    kernel_menu = browser.find_element_by_id('kernellink')
 
-    try:
+    for menu_item in restart_selectors + [shutdown_selector]:
+        kernel_menu.click()
+        wait_for_selector(browser, menu_item, visible=True, single=True).click()
+        wait_for_selector(browser, cancel_selector, visible=True, single=True).click()
         WebDriverWait(browser, 3).until(
-                EC.text_to_be_present_in_element(
-                    (By.CSS_SELECTOR, notify_interaction), 'No kernel'))
-    except TimeoutException:
-        return False
-    return True
+            EC.invisibility_of_element((By.CSS_SELECTOR, '.modal-backdrop'))
+        )
+        assert notebook.is_kernel_running()
 
-def check_kernel_restart(notebook):
-    browser = notebook.browser
-
-    try:
-        WebDriverWait(browser, 3).until(
-                EC.text_to_be_present_in_element(
-                    (By.CSS_SELECTOR, notify_interaction), 'Kernel ready'))
-    except TimeoutException:
-        return False
-    return True
-
-def check_modal_still_open(notebook):
-    '''
-    The shutdown confirmation modal seems to briefly reappear
-    after disappearing, then disappear for good.
-    Selenium kept throwing errors for element not being clickable
-    because it was obscured, even though we use WebDriverWait
-    '''
-    browser = notebook.browser
-    return browser.find_elements_by_css_selector('.modal-backdrop')
 
 def test_menu_items(notebook):
     browser = notebook.browser
-    kernel_menu = browser.find_element_by_link_text('Kernel')
+    kernel_menu = browser.find_element_by_id('kernellink')
 
-    for menu_item_selector in menu_items:
-        WebDriverWait(browser, 3).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, kernel_menu_selector)))
-
+    for menu_item in restart_selectors:
+        # Shutdown
         kernel_menu.click()
-        browser.find_element_by_css_selector(shutdown_selector).click()
+        wait_for_selector(browser, shutdown_selector, visible=True, single=True).click()
 
-        wait_for_selector(browser, confirm_selector)
-        browser.find_element_by_css_selector(confirm_selector).click()
-
-        WebDriverWait(browser, 3).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, kernel_menu_selector)))
-
-        while check_modal_still_open(notebook):
-            pass
-
-        assert check_kernel_shutdown(notebook)
+        # Confirm shutdown
+        wait_for_selector(browser, confirm_selector, visible=True, single=True).click()
 
         WebDriverWait(browser, 3).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, kernel_menu_selector)))
+            lambda b: not notebook.is_kernel_running(),
+            message="Kernel did not shut down as expected"
+        )
 
-        kernel_menu.click()
-        browser.find_element_by_css_selector(menu_item_selector).click()
+        # Restart
+        # Selenium can't click the menu while a modal dialog is fading out
+        WebDriverWait(browser, 3).until(
+            EC.element_to_be_clickable((By.ID, 'kernellink'))).click()
 
-        assert check_kernel_restart(notebook)
+        wait_for_selector(browser, menu_item, visible=True, single=True).click()
+        WebDriverWait(browser, 10).until(
+            lambda b: notebook.is_kernel_running(),
+            message="Restart (%r) after shutdown did not start kernel" % menu_item
+        )
