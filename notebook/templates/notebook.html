@@ -255,8 +255,8 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Kernel{% endtrans %}</a>
-                    <ul id="kernel_menu" class="dropdown-menu">
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" id="kernellink">{% trans %}Kernel{% endtrans %}</a>
+                    <ul id="kernel_menu" class="dropdown-menu" aria-labelledby="kernellink">
                         <li id="int_kernel"
                             title="{% trans %}Send Keyboard Interrupt (CTRL-C) to the Kernel{% endtrans %}">
                             <a href="#">{% trans %}Interrupt{% endtrans %}</a>

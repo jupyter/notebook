@@ -304,6 +304,10 @@ class Notebook:
             "return Jupyter.notebook.kernel && Jupyter.notebook.kernel.is_connected()"
         )
 
+    def clear_cell_output(self, index):
+        JS = 'Jupyter.notebook.clear_output({})'.format(index)
+        self.browser.execute_script(JS)
+
     @classmethod
     def new_notebook(cls, browser, kernel_name='kernel-python3'):
         with new_window(browser, selector=".cell"):
