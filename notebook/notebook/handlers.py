@@ -6,8 +6,9 @@
 from collections import namedtuple
 import os
 from tornado import web
-import json
-import datetime
+from datetime import datetime
+import pandas as pd
+import numpy as np
 HTTPError = web.HTTPError
 
 from ..base.handlers import (
@@ -15,7 +16,6 @@ from ..base.handlers import (
 )
 from ..utils import url_escape
 from ..transutils import _
-
 
 def get_frontend_exporters():
     from nbconvert.exporters.base import get_export_names, get_exporter
@@ -66,16 +66,32 @@ def get_frontend_exporters():
         frontend_exporters.remove(template_exporter)
     return sorted(frontend_exporters)
 
+def savingFile(name,path):
+    ''' Get the name,time and path of a notebook file that is opened and save the
+    information in the current working directly'''
 
+    dire = "recentList.json"
+    try:
+        recentlist = pd.read_json(dire)
+    except:
+        recentlist = pd.DataFrame(columns = ['Name','Path','Time'])
+
+    #Reterving time at which the file is opened
+    recentlist["Time"] = pd.to_datetime(recentlist["Time"],utc=True)
+    oldrep = np.logical_and(recentlist['Name']==name, recentlist['Path']==path)
+    
+    #updating time if file exists
+    if np.sum(oldrep):
+        recentlist.at[recentlist.index[oldrep].tolist()[0],'Time'] = datetime.now()
+        recentlist["Time"] = pd.to_datetime(recentlist["Time"],utc=True)
+    else:
+        if recentlist.shape[0]>10:
+            recentlist.drop(9,inplace = True)
+        recentlist = recentlist.append({'Name':name,'Path':path,'Time':datetime.now()},ignore_index=True)
+    recentlist.sort_values("Time",ascending=False,inplace=True)
+    recentlist.to_json(dire,orient = 'records',date_format='iso')
+        
 class NotebookHandler(IPythonHandler):
-
-    def storeList(name, path, dire):
-        fin = open(dire,"a+")
-        dire = os.getcmwd() + dire
-        data = {'name': name, 'path':dire, 'time': datetime.now().strftime("%m/%d/%Y, %H:%M:%S")}
-        json.dump(data,f)
-        fin.close()
-
 
     @web.authenticated
     def get(self, path):
@@ -97,7 +113,8 @@ class NotebookHandler(IPythonHandler):
             # not a notebook, redirect to files
             return FilesRedirectHandler.redirect_to_files(self, path)
         name = path.rsplit('/', 1)[-1]
-        storeList(name, path,"recentList.json")
+        
+        savingFile(name,path)
         self.write(self.render_template('notebook.html',
             notebook_path=path,
             notebook_name=name,
