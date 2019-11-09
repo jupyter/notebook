@@ -117,20 +117,28 @@ requirejs([
     );
     RecentList();
     function RecentList() {
-      fetch(window.location.pathname + "/recentList.json")
+        fetch("/api/recentlist") 
         .then(function(resp) {
           return resp.json();
         })
         .then(function(data) {
+          document.getElementById("recent_list").innerHTML = "";
           if (data.length == 0)
-            document.getElementById("recent_list_placeholder").innerHTML = '<div class="col-md-12 > There are no recent notebooks.</div>';
-          data.forEach(function(x) {
+          {
+              console.log(data);
+              document.getElementById("recent_list").innerHTML = '<div>There are no recent notebooks.';
+          }   
+            data.forEach(function(x) {
             var time = utils.format_datetime(x.Time);
             var path = x.Path;
             var name = x.Name;            
 			addNewFile(name, path, time);
           });
         });
+
+    var refresh_button = document.getElementById("refresh_recent_list");
+    refresh_button.addEventListener("click", RecentList, false);
+      
       function addNewFile(name, path, time) {
         var y = document.getElementById("recent_list").innerHTML;
         document.getElementById("recent_list").innerHTML =
@@ -139,7 +147,7 @@ requirejs([
           path +
           '" target="_blank"><span class="item_name">' +
           name +
-          '</span></a> <div class="pull-right"><div class="item_buttons pull-right"><button class="btn btn-warning btn-xs" id="remove-nb">Remove</button></div><div class="pull-left"><span class="item_modified pull-left" title="' +
+          '</span></a> <div class="pull-right"><div class="pull-left"><span class="item_modified pull-left" title="' +
           time +
           '">' +
           time +

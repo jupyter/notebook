@@ -15,6 +15,18 @@ from jupyter_client.jsonutil import date_default
 from notebook.utils import maybe_future, url_path_join
 from jupyter_client.kernelspec import NoSuchKernel
 
+class RecentList(APIHandler):
+
+    @web.authenticated
+    @gen.coroutine
+    def get(self):
+        # Return a list of running sessions
+        try:
+            rl = open("recentList.json","r").read()
+        except FileNotFoundError:
+            rl = '{"Error":"No File Exists"}'
+        self.finish(rl)
+
 
 class SessionRootHandler(APIHandler):
 
@@ -170,6 +182,7 @@ _session_id_regex = r"(?P<session_id>\w+-\w+-\w+-\w+-\w+)"
 
 default_handlers = [
     (r"/api/sessions/%s" % _session_id_regex, SessionHandler),
-    (r"/api/sessions",  SessionRootHandler)
+    (r"/api/sessions",  SessionRootHandler),
+    (r"/api/recentlist", RecentList)
 ]
 
