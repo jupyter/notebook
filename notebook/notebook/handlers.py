@@ -82,12 +82,12 @@ def savingFile(name,path):
     
     #updating time if file exists
     if np.sum(oldrep):
-        recentlist.at[recentlist.index[oldrep].tolist()[0],'Time'] = datetime.now()
+        recentlist.at[recentlist.index[oldrep].tolist()[0],'Time'] = datetime.utcnow()
         recentlist["Time"] = pd.to_datetime(recentlist["Time"],utc=True)
     else:
         if recentlist.shape[0]>10:
             recentlist.drop(9,inplace = True)
-        recentlist = recentlist.append({'Name':name,'Path':path,'Time':datetime.now()},ignore_index=True)
+        recentlist = recentlist.append({'Name':name,'Path':path,'Time':datetime.utcnow()},ignore_index=True)
     recentlist.sort_values("Time",ascending=False,inplace=True)
     recentlist.to_json(dire,orient = 'records',date_format='iso')
         

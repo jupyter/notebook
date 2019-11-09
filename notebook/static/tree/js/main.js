@@ -123,10 +123,9 @@ requirejs([
         })
         .then(function(data) {
           if (data.length == 0)
-            document.getElementById("recent_list_placeholder").style.display =
-              "block";
+            document.getElementById("recent_list_placeholder").innerHTML = '<div class="col-md-12 > There are no recent notebooks.</div>';
           data.forEach(function(x) {
-            var time = moment(x.Time).fromNow();
+            var time = utils.format_datetime(x.Time);
             var path = x.Path;
             var name = x.Name;            
 			addNewFile(name, path, time);
