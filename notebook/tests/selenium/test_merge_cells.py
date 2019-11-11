@@ -1,15 +1,17 @@
 """Tests the merge cell api."""
 
-def test_merge_cells(notebook):
-    # Add cells to notebook
-    a = "foo = 5"
-    b = "bar = 10"
-    c = "baz = 15"
-    d = "print(foo)"
-    e = "print(bar)"
-    f = "print(baz)"
-    notebook.edit_cell(index=0, content=a)
-    notebook.append(b, c, d, e, f)
+INITIAL_CELLS = [
+    "foo = 5",
+    "bar = 10",
+    "baz = 15",
+    "print(foo)",
+    "print(bar)",
+    "print(baz)",
+]
+
+def test_merge_cells(prefill_notebook):
+    notebook = prefill_notebook(INITIAL_CELLS)
+    a, b, c, d, e, f = INITIAL_CELLS
 
     # Before merging, there are 6 separate cells
     assert notebook.get_cells_contents() == [a, b, c, d, e, f]

@@ -1,8 +1,6 @@
 import os
-import time
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -99,6 +97,7 @@ class Notebook:
     
     def __init__(self, browser):
         self.browser = browser
+        self._wait_for_start()
         self.disable_autosave_and_onbeforeunload()
         
     def __len__(self):
@@ -120,6 +119,13 @@ class Notebook:
 
     def __iter__(self):
         return (cell for cell in self.cells)
+
+    def _wait_for_start(self):
+        """Wait until the notebook interface is loaded and the kernel started"""
+        wait_for_selector(self.browser, '.cell')
+        WebDriverWait(self.browser, 10).until(
+            lambda drvr: self.is_kernel_running()
+        )
 
     @property
     def body(self):
@@ -315,12 +321,9 @@ class Notebook:
 
     @classmethod
     def new_notebook(cls, browser, kernel_name='kernel-python3'):
-        with new_window(browser, selector=".cell"):
+        with new_window(browser):
             select_kernel(browser, kernel_name=kernel_name)
-        wait = WebDriverWait(browser, 10)
-        nb = cls(browser)
-        wait.until(lambda driver: nb.is_kernel_running())
-        return nb
+        return cls(browser)
 
 
 def select_kernel(browser, kernel_name='kernel-python3'):
@@ -335,15 +338,11 @@ def select_kernel(browser, kernel_name='kernel-python3'):
 
 
 @contextmanager
-def new_window(browser, selector=None):
+def new_window(browser):
     """Contextmanager for switching to & waiting for a window created. 
     
     This context manager gives you the ability to create a new window inside 
     the created context and it will switch you to that new window.
-    
-    If you know a CSS selector that can be expected to appear on the window, 
-    then this utility can wait on that selector appearing on the page before
-    releasing the context.
     
     Usage example:
     
@@ -351,7 +350,7 @@ def new_window(browser, selector=None):
         
         ⋮ # something that creates a browser object
         
-        with new_window(browser, selector=".cell"):
+        with new_window(browser):
             select_kernel(browser, kernel_name=kernel_name)
         nb = Notebook(browser)
 
@@ -363,8 +362,6 @@ def new_window(browser, selector=None):
     if not new_window_handles:
         raise Exception("No new windows opened during context")
     browser.switch_to.window(new_window_handles[0])
-    if selector is not None:
-        wait_for_selector(browser, selector)
 
 def shift(browser, k):
     """Send key combination Shift+(k)"""
