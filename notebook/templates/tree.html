@@ -25,11 +25,13 @@ data-server-root="{{server_root}}"
 {% endblock %}
 
 {% block site %}
+<script src="{{ static_url("tree/js/main.min.js") }}" type="text/javascript" charset="utf-8"></script>
 
   <div id="ipython-main-app" class="container">
     <div id="tab_content" class="tabbable" role="main">
       <ul id="tabs" class="nav nav-tabs">
         <li class="active"><a href="#notebooks" data-toggle="tab">{% trans %}Files{% endtrans %}</a></li>
+        <li><a href="#recent" data-toggle="tab">{% trans %}Recent{% endtrans %}</a></li>
         <li><a href="#running" data-toggle="tab">{% trans %}Running{% endtrans %}</a></li>
         <li><a href="#clusters" data-toggle="tab" class="clusters_tab_link" >{% trans %}Clusters{% endtrans %}</a></li>
       </ul>
@@ -193,6 +195,47 @@ data-server-root="{{server_root}}"
             </div>
           </div>
         </div>
+
+        <div id="recent" class="tab-pane">  
+          <!-- mru-running replaced with recent -->
+          <div id="recent_toolbar" class="row">
+            <div class="col-sm-8 no-padding">
+              <span id="recent_list_info">{% trans %}Recent Jupyter Notebooks{% endtrans %}</span>
+            </div>
+            <div class="col-sm-4 no-padding tree-buttons">
+              <span id="recent_buttons" class="pull-right">
+              <button id="refresh_recent_list" title="{% trans %}Refresh recent list{% endtrans %}" aria-label="{% trans %}Refresh recent list{% endtrans %}" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></button>
+              </span>
+            </div>
+          </div>
+          <div class="panel-group" id="accordion" >
+            
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                <b>{% trans %} Notebooks{% endtrans %}</b>
+              </div>
+
+              <div id="collapseTwo" class=" collapse in">
+                <div class="panel-body">
+                  <div id="recent_list" class="list_container">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script type="text/javascript">
+            
+              function deleteRecentList(del_id) {
+              fetch("/api/recentlistdel/"+del_id).then(function(data){
+                  console.log(data)
+                  window.location.reload()
+                  
+                }
+                  );
+              }
+
+          </script>
+        </div>
         <div id="clusters" class="tab-pane">
           {% trans %}Clusters tab is now provided by IPython parallel.{% endtrans %}
           {% trans %}See '<a href="https://github.com/ipython/ipyparallel">IPython parallel</a>' for installation details.{% endtrans %}
@@ -207,5 +250,4 @@ data-server-root="{{server_root}}"
     {{super()}}
 
 
-<script src="{{ static_url("tree/js/main.min.js") }}" type="text/javascript" charset="utf-8"></script>
 {% endblock %}

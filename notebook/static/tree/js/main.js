@@ -29,6 +29,7 @@ requirejs([
     'base/js/promises',
     'base/js/page',
     'base/js/utils',
+    'components/moment/moment',
     'services/config',
     'tree/js/notebooklist',
     'tree/js/sessionlist',
@@ -47,6 +48,7 @@ requirejs([
     promises,
     page,
     utils,
+    moment,
     config,
     notebooklist,
     sesssionlist,
@@ -100,8 +102,7 @@ requirejs([
     var kernel_list = new kernellist.KernelList('#running_list',  $.extend({
         session_list:  session_list},
         common_options));
-    
-    var terminal_list;
+     var terminal_list;
     if (utils.get_body_data("terminalsAvailable") === "True") {
         terminal_list = new terminallist.TerminalList('#terminal_list', common_options);
     }
@@ -114,6 +115,51 @@ requirejs([
             common_options
         )
     );
+
+
+    RecentList();
+    function RecentList() {
+        fetch("/api/recentlist") 
+        .then(function(resp) {
+          return resp.json();
+        })
+        .then(function(data) {
+          document.getElementById("recent_list").innerHTML = "";
+          if (data['Error']) {
+                document.getElementById("recent_list").innerHTML = '<div class = "row list_placeholder">There are no recent notebooks.</div>';          
+
+          }       
+          else 
+          {
+                var count = 0;
+                data.forEach(function(x) {
+                var time = utils.format_datetime(x.Time);
+                var path = x.Path;
+                addNewFile(count, path, time);
+                count = count +1;
+          });   
+          } 
+         
+        });
+
+    var refresh_button = document.getElementById("refresh_recent_list");
+    refresh_button.addEventListener("click", RecentList, false);
+      
+      function addNewFile(count, path, time) {
+        var y = document.getElementById("recent_list").innerHTML;
+        document.getElementById("recent_list").innerHTML =
+          y +
+          '<div class="list_item row"><div class="col-md-12"><i class="item_icon notebook_icon icon-fixed-width"></i><a class="item_link" href="/notebooks/' +
+          path +
+          '" target="_blank"><span class="item_name">' +
+          path +
+          '</span></a> <div class="pull-right"><div class="item_buttons pull-right"><button onclick="deleteRecentList('+ String(count) +')" class="btn btn-warning btn-xs" id="remove-nb">Remove</button></div><div class="pull-left"><span class="item_modified pull-left" title="' +
+          time +
+          '">' +
+          time +
+          '</span><span class="file_size pull-right">&nbsp;</span></div></div></div></div>';
+    	}
+	}
 
     var interval_id=0;
     // auto refresh every xx secondes, no need to be fast,
