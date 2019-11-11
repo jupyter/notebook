@@ -115,6 +115,8 @@ requirejs([
             common_options
         )
     );
+
+
     RecentList();
     function RecentList() {
         fetch("/api/recentlist") 
@@ -123,31 +125,35 @@ requirejs([
         })
         .then(function(data) {
           document.getElementById("recent_list").innerHTML = "";
-          if (data.length == 0)
+          if (data['Error']) {
+                document.getElementById("recent_list").innerHTML = '<div class = "row list_placeholder">There are no recent notebooks.</div>';          
+
+          }       
+          else 
           {
-              console.log(data);
-              document.getElementById("recent_list").innerHTML = '<div>There are no recent notebooks.';
-          }   
-            data.forEach(function(x) {
-            var time = utils.format_datetime(x.Time);
-            var path = x.Path;
-            var name = x.Name;            
-			addNewFile(name, path, time);
-          });
+                var count = 0;
+                data.forEach(function(x) {
+                var time = utils.format_datetime(x.Time);
+                var path = x.Path;
+                addNewFile(count, path, time);
+                count = count +1;
+          });   
+          } 
+         
         });
 
     var refresh_button = document.getElementById("refresh_recent_list");
     refresh_button.addEventListener("click", RecentList, false);
       
-      function addNewFile(name, path, time) {
+      function addNewFile(count, path, time) {
         var y = document.getElementById("recent_list").innerHTML;
         document.getElementById("recent_list").innerHTML =
           y +
           '<div class="list_item row"><div class="col-md-12"><i class="item_icon notebook_icon icon-fixed-width"></i><a class="item_link" href="/notebooks/' +
           path +
           '" target="_blank"><span class="item_name">' +
-          name +
-          '</span></a> <div class="pull-right"><div class="pull-left"><span class="item_modified pull-left" title="' +
+          path +
+          '</span></a> <div class="pull-right"><div class="item_buttons pull-right"><button onclick="deleteRecentList('+ String(count) +')" class="btn btn-warning btn-xs" id="remove-nb">Remove</button></div><div class="pull-left"><span class="item_modified pull-left" title="' +
           time +
           '">' +
           time +

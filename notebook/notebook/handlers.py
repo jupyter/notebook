@@ -76,6 +76,9 @@ def savingFile(name,path):
     except:
         recentlist = pd.DataFrame(columns = ['Name','Path','Time'])
 
+    if recentlist.shape[0]<1:
+        recentlist = pd.DataFrame(columns = ['Name','Path','Time'])
+
     #Reterving time at which the file is opened
     recentlist["Time"] = pd.to_datetime(recentlist["Time"],utc=True)
     oldrep = np.logical_and(recentlist['Name']==name, recentlist['Path']==path)
@@ -84,7 +87,7 @@ def savingFile(name,path):
     if np.sum(oldrep):
         recentlist.at[recentlist.index[oldrep].tolist()[0],'Time'] = datetime.utcnow()
     else:
-        if recentlist.shape[0]>10:
+        if recentlist.shape[0]>=10:
             recentlist.drop(9,inplace = True)
         recentlist = recentlist.append({'Name':name,'Path':path,'Time':datetime.utcnow()},ignore_index=True)
     

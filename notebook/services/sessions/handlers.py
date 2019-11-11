@@ -7,7 +7,8 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-
 # Distributed under the terms of the Modified BSD License.
 
 import json
-
+import os.path
+import pandas as pd
 from tornado import gen, web
 
 from ...base.handlers import APIHandler
@@ -20,12 +21,40 @@ class RecentList(APIHandler):
     @web.authenticated
     @gen.coroutine
     def get(self):
+        dire = "recentList.json"
         # Return a list of running sessions
         try:
-            rl = open("recentList.json","r").read()
-        except FileNotFoundError:
-            rl = '{"Error":"No File Exists"}'
-        self.finish(rl)
+            recentlist = pd.read_json(dire) 
+        except:
+            rl = '{"Error":"Please Use Jupyter Notebook To Use This Feature!"}'
+            self.finish(rl)
+            return
+        if recentlist.shape[0]<1:
+            rl = '{"Error":"Please Use Jupyter Notebook To Use This Feature!"}'
+            self.finish(rl)
+            print("Kyun Nahi")
+            return
+        recentlist = recentlist[recentlist["Path"].apply(os.path.isfile)]
+        recentlist.to_json(dire,orient = 'records',date_format='iso')
+        self.finish(open(dire,'r').read())
+
+
+class RecentListDel(APIHandler):
+    @web.authenticated
+    @gen.coroutine
+    def get(self,recentlist_id):
+        # Deletes the session with given session_id
+        # recentlist_id = self.path_kwargs["key"]
+        # print(recentlist_id)
+        dire = "recentList.json"
+        recentlist_id = int(recentlist_id)
+        recentlist = pd.read_json(dire)
+        recentlist.drop(recentlist_id,inplace=True)
+        recentlist.reset_index(drop=True,inplace=True)
+        recentlist.to_json(dire,orient = 'records',date_format='iso')
+        self.finish(open(dire,'r').read())
+
+
 
 
 class SessionRootHandler(APIHandler):
@@ -179,10 +208,11 @@ class SessionHandler(APIHandler):
 #-----------------------------------------------------------------------------
 
 _session_id_regex = r"(?P<session_id>\w+-\w+-\w+-\w+-\w+)"
+_recentlist_id_regex = r"(?P<recentlist_id>[0-9]+)"
 
 default_handlers = [
     (r"/api/sessions/%s" % _session_id_regex, SessionHandler),
     (r"/api/sessions",  SessionRootHandler),
-    (r"/api/recentlist", RecentList)
+    (r"/api/recentlist", RecentList),
+    (r"/api/recentlistdel/%s" % _recentlist_id_regex ,RecentListDel)
 ]
-

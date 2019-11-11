@@ -25,6 +25,7 @@ data-server-root="{{server_root}}"
 {% endblock %}
 
 {% block site %}
+<script src="{{ static_url("tree/js/main.min.js") }}" type="text/javascript" charset="utf-8"></script>
 
   <div id="ipython-main-app" class="container">
     <div id="tab_content" class="tabbable" role="main">
@@ -211,10 +212,9 @@ data-server-root="{{server_root}}"
             
           <div class="panel panel-default">
               <div class="panel-heading">
-                <a data-toggle="collapse" data-target="#collapseTwo" href="#">
-                  {% trans %}Notebooks{% endtrans %}
-                </a>
+                <b>{% trans %} Notebooks{% endtrans %}</b>
               </div>
+
               <div id="collapseTwo" class=" collapse in">
                 <div class="panel-body">
                   <div id="recent_list" class="list_container">
@@ -223,6 +223,18 @@ data-server-root="{{server_root}}"
               </div>
             </div>
           </div>
+          <script type="text/javascript">
+            
+              function deleteRecentList(del_id) {
+              fetch("/api/recentlistdel/"+del_id).then(function(data){
+                  console.log(data)
+                  window.location.reload()
+                  
+                }
+                  );
+              }
+
+          </script>
         </div>
         <div id="clusters" class="tab-pane">
           {% trans %}Clusters tab is now provided by IPython parallel.{% endtrans %}
@@ -238,5 +250,4 @@ data-server-root="{{server_root}}"
     {{super()}}
 
 
-<script src="{{ static_url("tree/js/main.min.js") }}" type="text/javascript" charset="utf-8"></script>
 {% endblock %}
