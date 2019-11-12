@@ -5,10 +5,13 @@ matrix:
 environment:
   matrix:
     - CONDA_PY: 36
+      CONDA_PY_SPEC: ">=3.6,<3.7.0a0"
       CONDA_INSTALL_LOCN: "C:\\Miniconda36-x64"
     - CONDA_PY: 37
+      CONDA_PY_SPEC: ">=3.7,<3.8.0a0"
       CONDA_INSTALL_LOCN: "C:\\Miniconda36-x64"
     - CONDA_PY: 38
+      CONDA_PY_SPEC: ">=3.8,<3.9.0a0"
       CONDA_INSTALL_LOCN: "C:\\Miniconda36-x64"
 
 platform:
@@ -21,11 +24,34 @@ install:
   - cmd: conda config --set show_channel_urls true
   - cmd: conda config --add channels conda-forge
   #- cmd: conda update --yes --quiet conda
-  - cmd: conda install -y pyzmq tornado jupyter_client nbformat ipykernel pip nodejs nose
-  # not using `conda install -y` on nbconvent package because there is
-  # currently a bug with the version that the anaconda installs, so we will just install it with pip
-  - cmd: pip install nbconvert
+  - cmd: >-
+      conda install -y
+        "python %CONDA_PY_SPEC%"
+        coverage
+        ipykernel
+        ipython_genutils
+        jinja2
+        jupyter_client
+        jupyter_core
+        nbconvert
+        nbformat
+        nbval
+        nodejs
+        nose
+        nose-exclude
+        pip
+        prometheus_client
+        pytest
+        pytest-cov
+        pyzmq
+        requests
+        selenium
+        send2trash
+        terminado
+        tornado
+        traitlets
   - cmd: python setup.py build
+  # basically for nose_warnings_filter at this point
   - cmd: pip install .[test]
 
 test_script:
