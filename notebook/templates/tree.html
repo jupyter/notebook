@@ -227,7 +227,6 @@ data-server-root="{{server_root}}"
             
               function deleteRecentList(del_id) {
               fetch("/api/recentlistdel/"+del_id).then(function(data){
-                  console.log(data)
                   window.location.reload()
                   
                 }
