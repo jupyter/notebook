@@ -7,8 +7,7 @@ from collections import namedtuple
 import os
 from tornado import web
 from datetime import datetime
-import pandas as pd
-import numpy as np
+import json
 HTTPError = web.HTTPError
 
 from ..base.handlers import (
@@ -70,29 +69,31 @@ def savingFile(name,path):
     ''' Get the name,time and path of a notebook file that is opened and save the
     information in the current working directly'''
 
-    dire = "recentList.json"
+    dire = ".recentList.json"
     try:
-        recentlist = pd.read_json(dire)
+        recentlist = json.loads(open(dire, 'r').read())
     except:
-        recentlist = pd.DataFrame(columns = ['Path','Time'])
+        recentlist = []
 
-    if recentlist.shape[0]<1:
-        recentlist = pd.DataFrame(columns = ['Path','Time'])
+    if len(recentlist)<1:
+        recentlist = []
 
-    #Reterving time at which the file is opened
-    recentlist["Time"] = pd.to_datetime(recentlist["Time"],utc=True)
-    
-    #updating time if file exists
-    if np.sum(recentlist['Path']==path):
-        recentlist.at[recentlist.index[recentlist['Path']==path].tolist()[0],'Time'] = datetime.utcnow()
-    else:
-        if recentlist.shape[0]>=10:
-            recentlist.drop(9,inplace = True)
-        recentlist = recentlist.append({'Path':path,'Time':datetime.utcnow()},ignore_index=True)
-    
-    recentlist["Time"] = pd.to_datetime(recentlist["Time"],utc=True)
-    recentlist.sort_values("Time",ascending=False,inplace=True)
-    recentlist.to_json(dire,orient = 'records',date_format='iso')
+    present = False
+    for i in range(len(recentlist)):
+        if recentlist[i]['Path']==path:
+            temp = recentlist[i]
+            temp['Time'] = datetime.now().isoformat()
+            recentlist.remove(recentlist[i])
+            recentlist.insert(0, temp)
+            present = True
+            break
+
+    if not present:
+        if len(recentlist)>=10 and i==9:
+            recentlist.remove(recentlist[9])
+        recentlist.insert(0, {'Path':path, 'Time':datetime.now().isoformat()})
+    with open(dire, 'w') as fout:
+        json.dump(recentlist, fout)
         
 class NotebookHandler(IPythonHandler):
 

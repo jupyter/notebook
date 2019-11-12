@@ -8,7 +8,6 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-
 
 import json
 import os.path
-import pandas as pd
 from tornado import gen, web
 
 from ...base.handlers import APIHandler
@@ -21,20 +20,25 @@ class RecentList(APIHandler):
     @web.authenticated
     @gen.coroutine
     def get(self):
-        dire = "recentList.json"
+        dire = ".recentList.json"
         # Return a list of running sessions
         try:
-            recentlist = pd.read_json(dire) 
+            recentlist = json.loads(open(dire, 'r').read()) 
         except:
             rl = '{"Error":"Please Use Jupyter Notebook To Use This Feature!"}'
             self.finish(rl)
             return
-        if recentlist.shape[0]<1:
+        if len(recentlist)<1:
             rl = '{"Error":"Please Use Jupyter Notebook To Use This Feature!"}'
             self.finish(rl)
             return
-        recentlist = recentlist[recentlist["Path"].apply(os.path.isfile)]
-        recentlist.to_json(dire,orient = 'records',date_format='iso')
+        temp = []
+        for i in recentlist:
+            if os.path.isfile(i['Path']):
+                temp.append(i)
+        recentlist = temp
+        with open(dire, 'w') as fout:
+            json.dump(recentlist, fout)
         self.finish(open(dire,'r').read())
 
 
@@ -43,13 +47,17 @@ class RecentListDel(APIHandler):
     @gen.coroutine
     def get(self,recentlist_id):
         # Deletes the recent list with given recentlist_id
-
-        dire = "recentList.json"
+        dire = ".recentList.json"
         recentlist_id = int(recentlist_id)
-        recentlist = pd.read_json(dire)
-        recentlist.drop(recentlist_id,inplace=True)
-        recentlist.reset_index(drop=True,inplace=True)
-        recentlist.to_json(dire,orient = 'records',date_format='iso')
+        recentlist = json.loads(open(dire, 'r').read())
+        temp = []
+        for i in range(len(recentlist)):
+            if i!=recentlist_id:
+                temp.append(recentlist[i])
+        recentlist = temp
+
+        with open(dire, 'w') as fout:
+            json.dump(recentlist, fout)
         self.finish(open(dire,'r').read())
 
 
