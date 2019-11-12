@@ -65,11 +65,27 @@ define([
      *
      **/
     var _actions = {
+        'toggle-cell-rtl-layout': {
+            cmd: i18n.msg._('toggle current cell ltr/rtl direction'),
+            help: i18n.msg._('Toggle current cell directionality between left-to-right and right-to-left'),
+            handler: function (env) {
+              var notebook_direction = document.body.getAttribute('dir') == 'rtl' ? 'rtl' : 'ltr';
+              var current_cell_default_direction = env.notebook.get_selected_cell().cell_type == 'code' ? 'ltr' : notebook_direction;
+              var current_cell_direction = env.notebook.get_selected_cell().metadata.direction || current_cell_default_direction;
+              var new_direction = current_cell_direction == 'rtl' ? 'ltr' : 'rtl';
+              env.notebook.get_selected_cells().forEach(cell => cell.metadata.direction = new_direction);
+              env.notebook.set_dirty(true);
+              env.notebook.apply_directionality();
+            }
+        },
         'toggle-rtl-layout': {
-            cmd: i18n.msg._('toggle rtl layout'),
-            help: i18n.msg._('Toggle the screen directionality between left-to-right and right-to-left'),
-            handler: function () {
-              (document.body.getAttribute('dir')=='rtl') ? document.body.setAttribute('dir','ltr') : document.body.setAttribute('dir','rtl');
+            cmd: i18n.msg._('toggle notebook ltr/rtl direction'),
+            help: i18n.msg._('Toggle notebook directionality between left-to-right and right-to-left'),
+            handler: function (env) {
+              var new_direction = document.body.getAttribute('dir') == 'rtl' ? 'ltr' : 'rtl';
+              env.notebook.metadata.direction = new_direction;
+              env.notebook.set_dirty(true);
+              env.notebook.apply_directionality();
             }
         },
         'edit-command-mode-keyboard-shortcuts': {

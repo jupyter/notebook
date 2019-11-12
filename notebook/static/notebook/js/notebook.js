@@ -691,6 +691,27 @@ define([
     };
 
     /**
+     * Reads direction settings (LTR/RTL) from notebook/cells metadata
+     * and applies them to display elements.
+     */
+    Notebook.prototype.apply_directionality = function () {
+        var notebook_direction = this.metadata.direction || 'ltr';
+        // html
+        document.body.setAttribute('dir', notebook_direction);
+        // existing cells
+        this.get_cells().forEach(cell => {
+            if (cell.cell_type == 'markdown') {
+                cell.code_mirror.setOption('direction', cell.metadata.direction || notebook_direction);
+                cell.element.find('.rendered_html').attr('dir', cell.metadata.direction || notebook_direction);
+            } else if (cell.cell_type == 'code') {
+                cell.element.find('.output_text').attr('dir', cell.metadata.direction || 'auto');
+            }
+        });
+        // new cells
+        textcell.MarkdownCell.options_default.cm_config.direction = notebook_direction;
+    };
+
+    /**
      * Get the cell above a given cell.
      * 
      * @param {Cell} cell
@@ -2662,6 +2683,9 @@ define([
             this.trusted = trusted;
             this.events.trigger("trust_changed.Notebook", trusted);
         }
+
+        this.apply_directionality();
+
     };
 
     /**

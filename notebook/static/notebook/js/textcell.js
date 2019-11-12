@@ -303,7 +303,6 @@ define([
     MarkdownCell.options_default = {
         cm_config: {
             mode: 'ipythongfm',
-            direction: bidi.isMirroringEnabled() ? 'rtl' : 'ltr'
         },
         placeholder: "Type *Markdown* and LaTeX: $\\alpha^2$"
     };
