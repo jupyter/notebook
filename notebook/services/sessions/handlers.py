@@ -32,7 +32,6 @@ class RecentList(APIHandler):
         if recentlist.shape[0]<1:
             rl = '{"Error":"Please Use Jupyter Notebook To Use This Feature!"}'
             self.finish(rl)
-            print("Kyun Nahi")
             return
         recentlist = recentlist[recentlist["Path"].apply(os.path.isfile)]
         recentlist.to_json(dire,orient = 'records',date_format='iso')
@@ -43,9 +42,8 @@ class RecentListDel(APIHandler):
     @web.authenticated
     @gen.coroutine
     def get(self,recentlist_id):
-        # Deletes the session with given session_id
-        # recentlist_id = self.path_kwargs["key"]
-        # print(recentlist_id)
+        # Deletes the recent list with given recentlist_id
+
         dire = "recentList.json"
         recentlist_id = int(recentlist_id)
         recentlist = pd.read_json(dire)

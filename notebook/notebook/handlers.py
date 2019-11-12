@@ -74,22 +74,21 @@ def savingFile(name,path):
     try:
         recentlist = pd.read_json(dire)
     except:
-        recentlist = pd.DataFrame(columns = ['Name','Path','Time'])
+        recentlist = pd.DataFrame(columns = ['Path','Time'])
 
     if recentlist.shape[0]<1:
-        recentlist = pd.DataFrame(columns = ['Name','Path','Time'])
+        recentlist = pd.DataFrame(columns = ['Path','Time'])
 
     #Reterving time at which the file is opened
     recentlist["Time"] = pd.to_datetime(recentlist["Time"],utc=True)
-    oldrep = np.logical_and(recentlist['Name']==name, recentlist['Path']==path)
     
     #updating time if file exists
-    if np.sum(oldrep):
-        recentlist.at[recentlist.index[oldrep].tolist()[0],'Time'] = datetime.utcnow()
+    if np.sum(recentlist['Path']==path):
+        recentlist.at[recentlist.index[recentlist['Path']==path].tolist()[0],'Time'] = datetime.utcnow()
     else:
         if recentlist.shape[0]>=10:
             recentlist.drop(9,inplace = True)
-        recentlist = recentlist.append({'Name':name,'Path':path,'Time':datetime.utcnow()},ignore_index=True)
+        recentlist = recentlist.append({'Path':path,'Time':datetime.utcnow()},ignore_index=True)
     
     recentlist["Time"] = pd.to_datetime(recentlist["Time"],utc=True)
     recentlist.sort_values("Time",ascending=False,inplace=True)
