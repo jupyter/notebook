@@ -3,6 +3,8 @@ matrix:
   fast_finish: true
 
 environment:
+  CONDA_RUN_DEPS: jinja2 tornado pyzmq ipython_genutils traitlets jupyter_core jupyter_client nbformat nbconvert ipykernel send2trash terminado prometheus_client
+  CONDA_TEST_DEPS: nose coverage requests nbval nose-exclude selenium pytest pytest-cov
   matrix:
     - CONDA_PY: 36
       CONDA_PY_SPEC: ">=3.6,<3.7.0a0"
@@ -24,32 +26,7 @@ install:
   - cmd: conda config --set show_channel_urls true
   - cmd: conda config --add channels conda-forge
   #- cmd: conda update --yes --quiet conda
-  - cmd: >-
-      conda install -y
-        "python %CONDA_PY_SPEC%"
-        coverage
-        ipykernel
-        ipython_genutils
-        jinja2
-        jupyter_client
-        jupyter_core
-        nbconvert
-        nbformat
-        nbval
-        nodejs
-        nose
-        nose-exclude
-        pip
-        prometheus_client
-        pytest
-        pytest-cov
-        pyzmq
-        requests
-        selenium
-        send2trash
-        terminado
-        tornado
-        traitlets
+  - cmd: conda install -y "python %CONDA_PY_SPEC%" %CONDA_RUN_DEPS% %CONDA_TEST_DEPS%
   - cmd: python setup.py build
   # basically for nose_warnings_filter at this point
   - cmd: pip install .[test]
