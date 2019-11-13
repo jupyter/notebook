@@ -2,9 +2,9 @@ matrix:
   fast_finish: true
 
 environment:
-  CONDA_BUILD_DEPS: nodejs
+  CONDA_BUILD_DEPS: nodejs pip
   CONDA_RUN_DEPS: jinja2 tornado pyzmq ipython_genutils traitlets jupyter_core jupyter_client nbformat nbconvert ipykernel send2trash terminado prometheus_client
-  CONDA_TEST_DEPS: nose coverage requests nbval nose-exclude selenium pytest pytest-cov
+  CONDA_TEST_DEPS: nose coverage requests nbval nose-exclude selenium pytest pytest-cov firefox geckodriver
   CUSTOM_CHANNELS: -c conda-forge -c defaults
   matrix:
     - CONDA_PY: 38
@@ -27,8 +27,7 @@ install:
   - cmd: conda config --set show_channel_urls true
   - cmd: conda create -yn notebook-test %CUSTOM_CHANNELS% "python %CONDA_PY_SPEC%" %CONDA_BUILD_DEPS% %CONDA_RUN_DEPS% %CONDA_TEST_DEPS% || exit 1
   - cmd: call activate notebook-test && python setup.py build
-  # basically for nose_warnings_filter at this point
-  - cmd: call activate notebook-test && pip install . --no-deps
+  - cmd: call activate notebook-test && python -m pip install . --no-deps
 
 test_script:
-  - call activate notebook-test && md tst_tmp && cd tst_tmp && nosetests -v notebook --ignore-files selenium
+  - call activate notebook-test && md tst_tmp && cd tst_tmp && python -m nosetests -v notebook
