@@ -6,8 +6,6 @@ environment:
   CONDA_RUN_DEPS: jinja2 tornado pyzmq ipython_genutils traitlets jupyter_core jupyter_client nbformat nbconvert ipykernel send2trash terminado prometheus_client
   CONDA_TEST_DEPS: nose nose-cov requests
   CUSTOM_CHANNELS: -c conda-forge -c defaults
-  JUPYTER_TEST_BROWSER: firefox
-  MOZ_HEADLESS: "1"
   NOSE_EXCLUDE: selenium
   matrix:
     - CONDA_PY: 38
