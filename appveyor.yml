@@ -32,4 +32,4 @@ install:
   - cmd: call activate notebook-test && python -m pip install . --no-deps
 
 test_script:
-  - call activate notebook-test && md tst_tmp && cd tst_tmp && python -m nose -v notebook
+  - call activate notebook-test && md tst_tmp && cd tst_tmp && python -m nose -v notebook --traverse-namespace
