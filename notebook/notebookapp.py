@@ -1270,14 +1270,6 @@ class NotebookApp(JupyterApp):
             raise TraitError(trans.gettext("No such notebook dir: '%r'") % value)
         return value
 
-    @observe('notebook_dir')
-    def _update_notebook_dir(self, change):
-        """Do a bit of validation of the notebook dir."""
-        # setting App.notebook_dir implies setting notebook and kernel dirs as well
-        new = change['new']
-        self.config.FileContentsManager.root_dir = new
-        self.config.MappingKernelManager.root_dir = new
-
     # TODO: Remove me in notebook 5.0
     server_extensions = List(Unicode(), config=True,
         help=(_("DEPRECATED use the nbserver_extensions dict instead"))
