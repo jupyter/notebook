@@ -1,19 +1,15 @@
-# miniconda bootstrap from conda-forge recipe
-matrix:
-  fast_finish: true
-
 environment:
   CONDA_RUN_DEPS: jinja2 tornado pyzmq ipython_genutils traitlets jupyter_core jupyter_client nbformat nbconvert ipykernel send2trash terminado prometheus_client
   CONDA_TEST_DEPS: nose coverage requests nbval nose-exclude selenium pytest pytest-cov
   matrix:
-    - CONDA_PY: 36
-      CONDA_PY_SPEC: ">=3.6,<3.7.0a0"
+    - CONDA_PY: 38
+      CONDA_PY_SPEC: ">=3.8,<3.9.0a0"
       CONDA_INSTALL_LOCN: "C:\\Miniconda36-x64"
     - CONDA_PY: 37
       CONDA_PY_SPEC: ">=3.7,<3.8.0a0"
       CONDA_INSTALL_LOCN: "C:\\Miniconda36-x64"
-    - CONDA_PY: 38
-      CONDA_PY_SPEC: ">=3.8,<3.9.0a0"
+    - CONDA_PY: 36
+      CONDA_PY_SPEC: ">=3.6,<3.7.0a0"
       CONDA_INSTALL_LOCN: "C:\\Miniconda36-x64"
 
 platform:
@@ -24,9 +20,10 @@ build: off
 install:
   - cmd: call %CONDA_INSTALL_LOCN%\Scripts\activate.bat
   - cmd: conda config --set show_channel_urls true
+  - cmd: conda config --set always_yes true
   - cmd: conda config --add channels conda-forge
-  #- cmd: conda update --yes --quiet conda
-  - cmd: conda install -y "python %CONDA_PY_SPEC%" %CONDA_RUN_DEPS% %CONDA_TEST_DEPS%
+  - cmd: conda update conda
+  - cmd: conda install "python %CONDA_PY_SPEC%" %CONDA_RUN_DEPS% %CONDA_TEST_DEPS% || exit 1
   - cmd: python setup.py build
   # basically for nose_warnings_filter at this point
   - cmd: pip install .[test]
