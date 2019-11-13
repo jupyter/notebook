@@ -27,6 +27,7 @@ build: off
 
 install:
   - cmd: call %CONDA_INSTALL_LOCN%\Scripts\activate.bat
+  - cmd: conda upgrade conda
   - cmd: conda config --set show_channel_urls true
   - cmd: conda create -yn notebook-test %CUSTOM_CHANNELS% "python %CONDA_PY_SPEC%" %CONDA_BUILD_DEPS% %CONDA_RUN_DEPS% %CONDA_TEST_DEPS% || exit 1
   - cmd: call activate notebook-test && python setup.py build
