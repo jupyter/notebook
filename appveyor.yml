@@ -28,7 +28,7 @@ install:
   - cmd: conda create -yn notebook-test %CUSTOM_CHANNELS% "python %CONDA_PY_SPEC%" %CONDA_BUILD_DEPS% %CONDA_RUN_DEPS% %CONDA_TEST_DEPS% || exit 1
   - cmd: call activate notebook-test && python setup.py build
   # basically for nose_warnings_filter at this point
-  - cmd: call activate notebook-test && pip install .[test]
+  - cmd: call activate notebook-test && pip install . --no-deps
 
 test_script:
-  - call activate notebook-test && nosetests -v notebook --exclude-dir notebook\tests\selenium
+  - call activate notebook-test && md tst_tmp && cd tst_tmp && nosetests -v notebook --ignore-files selenium
