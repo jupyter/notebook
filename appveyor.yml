@@ -4,10 +4,11 @@ matrix:
 environment:
   CONDA_BUILD_DEPS: nodejs pip
   CONDA_RUN_DEPS: jinja2 tornado pyzmq ipython_genutils traitlets jupyter_core jupyter_client nbformat nbconvert ipykernel send2trash terminado prometheus_client
-  CONDA_TEST_DEPS: nose coverage requests nbval nose-exclude selenium pytest pytest-cov firefox=68 geckodriver
+  CONDA_TEST_DEPS: nose nose-cov requests
   CUSTOM_CHANNELS: -c conda-forge -c defaults
   JUPYTER_TEST_BROWSER: firefox
   MOZ_HEADLESS: "1"
+  NOSE_EXCLUDE: selenium
   matrix:
     - CONDA_PY: 38
       CONDA_PY_SPEC: ">=3.8,<3.9.0a0"
@@ -32,4 +33,4 @@ install:
   - cmd: call activate notebook-test && python -m pip install . --no-deps
 
 test_script:
-  - call activate notebook-test && md tst_tmp && cd tst_tmp && python -m nose -v notebook --traverse-namespace
+  - call activate notebook-test && md tst_tmp && cd tst_tmp && nosetests -v notebook --with-cov --cov notebook --traverse-namespace
