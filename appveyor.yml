@@ -30,7 +30,7 @@ install:
   - cmd: conda upgrade conda
   - cmd: conda create -n notebook-test %CUSTOM_CHANNELS% "python %CONDA_PY_SPEC%" %CONDA_BUILD_DEPS% %CONDA_RUN_DEPS% %CONDA_TEST_DEPS% || exit 1
   - cmd: call %CONDA_INSTALL_LOCN%\Scripts\activate.bat notebook-test && python setup.py build
-  - cmd: call %CONDA_INSTALL_LOCN%\Scripts\activate.bat notebook-test && python -m pip install . --no-deps
+  - cmd: call %CONDA_INSTALL_LOCN%\Scripts\activate.bat notebook-test && python -m pip install . jupyter_client jupyter_core --no-deps
 
 test_script:
   - call %CONDA_INSTALL_LOCN%\Scripts\activate.bat notebook-test && md tst_tmp && cd tst_tmp && nosetests -v notebook --with-cov --cov notebook --traverse-namespace
