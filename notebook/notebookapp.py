@@ -817,13 +817,29 @@ class NotebookApp(JupyterApp):
         """
     )
 
-    min_open_files_limit = Integer(4096, config=True,
+    min_open_files_limit = Integer(config=True,
         help="""
         Gets or sets a lower bound on the open file handles process resource
         limit. This may need to be increased if you run into an
         OSError: [Errno 24] Too many open files.
         This is not applicable when running on Windows.
         """)
+
+    @default('min_open_files_limit')
+    def _default_min_open_files_limit(self):
+        if resource is None:
+            # Ignoring min_open_files_limit because the limit cannot be adjusted (for example, on Windows)
+            return None
+
+        soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
+
+        DEFAULT_SOFT = 4096
+        if hard >= DEFAULT_SOFT:
+            return DEFAULT_SOFT
+
+        self.log.debug("Default value for min_open_files_limit is ignored (hard=%r, soft=%r)", hard, soft)
+
+        return soft
 
     @observe('token')
     def _token_changed(self, change):
