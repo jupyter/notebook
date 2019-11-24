@@ -7,13 +7,60 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-
 # Distributed under the terms of the Modified BSD License.
 
 import json
-
+import os.path
 from tornado import gen, web
 
 from ...base.handlers import APIHandler
 from jupyter_client.jsonutil import date_default
 from notebook.utils import maybe_future, url_path_join
 from jupyter_client.kernelspec import NoSuchKernel
+
+class RecentList(APIHandler):
+
+    @web.authenticated
+    @gen.coroutine
+    def get(self):
+        dire = ".recentList.json"
+        # Return a list of running sessions
+        try:
+            recentlist = json.loads(open(dire, 'r').read()) 
+        except:
+            rl = '{"Error":"Please Use Jupyter Notebook To Use This Feature!"}'
+            self.finish(rl)
+            return
+        if len(recentlist)<1:
+            rl = '{"Error":"Please Use Jupyter Notebook To Use This Feature!"}'
+            self.finish(rl)
+            return
+        temp = []
+        for i in recentlist:
+            if os.path.isfile(i['Path']):
+                temp.append(i)
+        recentlist = temp
+        with open(dire, 'w') as fout:
+            json.dump(recentlist, fout)
+        self.finish(open(dire,'r').read())
+
+
+class RecentListDel(APIHandler):
+    @web.authenticated
+    @gen.coroutine
+    def get(self,recentlist_id):
+        # Deletes the recent list with given recentlist_id
+        dire = ".recentList.json"
+        recentlist_id = int(recentlist_id)
+        recentlist = json.loads(open(dire, 'r').read())
+        temp = []
+        for i in range(len(recentlist)):
+            if i!=recentlist_id:
+                temp.append(recentlist[i])
+        recentlist = temp
+
+        with open(dire, 'w') as fout:
+            json.dump(recentlist, fout)
+        self.finish(open(dire,'r').read())
+
+
 
 
 class SessionRootHandler(APIHandler):
@@ -167,9 +214,11 @@ class SessionHandler(APIHandler):
 #-----------------------------------------------------------------------------
 
 _session_id_regex = r"(?P<session_id>\w+-\w+-\w+-\w+-\w+)"
+_recentlist_id_regex = r"(?P<recentlist_id>[0-9]+)"
 
 default_handlers = [
     (r"/api/sessions/%s" % _session_id_regex, SessionHandler),
-    (r"/api/sessions",  SessionRootHandler)
+    (r"/api/sessions",  SessionRootHandler),
+    (r"/api/recentlist", RecentList),
+    (r"/api/recentlistdel/%s" % _recentlist_id_regex ,RecentListDel)
 ]
-

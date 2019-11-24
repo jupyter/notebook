@@ -32,6 +32,7 @@ requirejs([
     'services/config',
     'tree/js/notebooklist',
     'tree/js/sessionlist',
+    'tree/js/recentlist',
     'tree/js/kernellist',
     'tree/js/terminallist',
     'tree/js/newnotebook',
@@ -50,6 +51,7 @@ requirejs([
     config,
     notebooklist,
     sesssionlist,
+    recentlist,
     kernellist,
     terminallist,
     newnotebook,
@@ -100,8 +102,7 @@ requirejs([
     var kernel_list = new kernellist.KernelList('#running_list',  $.extend({
         session_list:  session_list},
         common_options));
-    
-    var terminal_list;
+     var terminal_list;
     if (utils.get_body_data("terminalsAvailable") === "True") {
         terminal_list = new terminallist.TerminalList('#terminal_list', common_options);
     }
@@ -114,6 +115,12 @@ requirejs([
             common_options
         )
     );
+
+    var recent_list = new recentlist.RecentList();
+    recent_list.load_files();
+    $('#refresh_recent_list').click(function () {
+        recent_list.load_files();   
+    });
 
     var interval_id=0;
     // auto refresh every xx secondes, no need to be fast,
@@ -176,6 +183,7 @@ requirejs([
     IPython.page = page;
     IPython.notebook_list = notebook_list;
     IPython.session_list = session_list;
+    IPython.recent_list = recent_list;
     IPython.kernel_list = kernel_list;
     IPython.login_widget = login_widget;
     IPython.new_notebook_widget = new_buttons;
