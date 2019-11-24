@@ -7,13 +7,14 @@ import io
 import os
 import zipfile
 
-from tornado import web, escape
+from tornado import gen, web, escape
 from tornado.log import app_log
 
 from ..base.handlers import (
     IPythonHandler, FilesRedirectHandler,
     path_regex,
 )
+from ..utils import maybe_future
 from nbformat import from_dict
 
 from ipython_genutils.py3compat import cast_bytes
@@ -86,6 +87,7 @@ class NbconvertFileHandler(IPythonHandler):
                "; sandbox allow-scripts"
 
     @web.authenticated
+    @gen.coroutine
     def get(self, format, path):
 
         exporter = get_exporter(format, config=self.config, log=self.log)
@@ -99,7 +101,7 @@ class NbconvertFileHandler(IPythonHandler):
         else:
             ext_resources_dir = None
 
-        model = self.contents_manager.get(path=path)
+        model = yield maybe_future(self.contents_manager.get(path=path))
         name = model['name']
         if model['type'] != 'notebook':
             # not a notebook, redirect to files
