@@ -218,6 +218,11 @@ class Notebook:
     def get_cell_output(self, index=0, output='output_subarea'):
         return self.cells[index].find_elements_by_class_name(output)
 
+    def wait_for_cell_output(self, index=0, timeout=10):
+        return WebDriverWait(self.browser, timeout).until(
+            lambda b: self.get_cell_output(index)
+        )
+
     def set_cell_metadata(self, index, key, value):
         JS = 'Jupyter.notebook.get_cell({}).metadata.{} = {}'.format(index, key, value)
         return self.browser.execute_script(JS)
@@ -300,7 +305,13 @@ class Notebook:
         trigger_keystrokes(self.body, keys)
 
     def is_kernel_running(self):
-        return self.browser.execute_script("return Jupyter.notebook.kernel.is_connected()")
+        return self.browser.execute_script(
+            "return Jupyter.notebook.kernel && Jupyter.notebook.kernel.is_connected()"
+        )
+
+    def clear_cell_output(self, index):
+        JS = 'Jupyter.notebook.clear_output({})'.format(index)
+        self.browser.execute_script(JS)
 
     @classmethod
     def new_notebook(cls, browser, kernel_name='kernel-python3'):
@@ -455,4 +466,3 @@ def validate_dualmode_state(notebook, mode, index):
         assert is_focused_on(index) #The specified cell is focused
 
         assert is_only_cell_edit(index) #The specified cell is the only one in edit mode
-    

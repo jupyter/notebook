@@ -14,10 +14,7 @@ from os.path import basename, join as pjoin
 from traitlets.tests.utils import check_help_all_output
 from unittest import TestCase
 
-try:
-    from unittest.mock import patch
-except ImportError:
-    from mock import patch # py2
+from unittest.mock import patch
 
 import ipython_genutils.testing.decorators as dec
 from ipython_genutils import py3compat

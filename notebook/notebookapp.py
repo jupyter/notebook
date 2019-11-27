@@ -32,11 +32,13 @@ import time
 import warnings
 import webbrowser
 
-try: #PY3
-    from base64 import encodebytes
-except ImportError: #PY2
-    from base64 import encodestring as encodebytes
+try:
+    import resource
+except ImportError:
+    # Windows
+    resource = None
 
+from base64 import encodebytes
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -70,11 +72,6 @@ from notebook import (
     __version__,
 )
 
-# py23 compatibility
-try:
-    raw_input = raw_input
-except NameError:
-    raw_input = input
 
 from .base.handlers import Template404, RedirectWithParams
 from .log import log_request
@@ -648,6 +645,24 @@ class NotebookApp(JupyterApp):
         help=_("Whether to allow the user to run the notebook as root.")
     )
 
+    use_redirect_file = Bool(True, config=True,
+        help="""Disable launching browser by redirect file
+
+     For versions of notebook > 5.7.2, a security feature measure was added that 
+     prevented the authentication token used to launch the browser from being visible.
+     This feature makes it difficult for other users on a multi-user system from
+     running code in your Jupyter session as you.
+
+     However, some environments (like Windows Subsystem for Linux (WSL) and Chromebooks),
+     launching a browser using a redirect file can lead the browser failing to load. 
+     This is because of the difference in file structures/paths between the runtime and 
+     the browser. 
+     
+     Disabling this setting to False will disable this behavior, allowing the browser 
+     to launch by using a URL and visible token (as before).
+     """
+    )
+
     default_url = Unicode('/tree', config=True,
         help=_("The default URL to redirect to from `/`")
     )
@@ -801,6 +816,30 @@ class NotebookApp(JupyterApp):
         for use by the buffer manager.
         """
     )
+
+    min_open_files_limit = Integer(config=True,
+        help="""
+        Gets or sets a lower bound on the open file handles process resource
+        limit. This may need to be increased if you run into an
+        OSError: [Errno 24] Too many open files.
+        This is not applicable when running on Windows.
+        """)
+
+    @default('min_open_files_limit')
+    def _default_min_open_files_limit(self):
+        if resource is None:
+            # Ignoring min_open_files_limit because the limit cannot be adjusted (for example, on Windows)
+            return None
+
+        soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
+
+        DEFAULT_SOFT = 4096
+        if hard >= DEFAULT_SOFT:
+            return DEFAULT_SOFT
+
+        self.log.debug("Default value for min_open_files_limit is ignored (hard=%r, soft=%r)", hard, soft)
+
+        return soft
 
     @observe('token')
     def _token_changed(self, change):
@@ -1247,14 +1286,6 @@ class NotebookApp(JupyterApp):
             raise TraitError(trans.gettext("No such notebook dir: '%r'") % value)
         return value
 
-    @observe('notebook_dir')
-    def _update_notebook_dir(self, change):
-        """Do a bit of validation of the notebook dir."""
-        # setting App.notebook_dir implies setting notebook and kernel dirs as well
-        new = change['new']
-        self.config.FileContentsManager.root_dir = new
-        self.config.MappingKernelManager.root_dir = new
-
     # TODO: Remove me in notebook 5.0
     server_extensions = List(Unicode(), config=True,
         help=(_("DEPRECATED use the nbserver_extensions dict instead"))
@@ -1379,6 +1410,23 @@ class NotebookApp(JupyterApp):
         logger.parent = self.log
         logger.setLevel(self.log.level)
     
+    def init_resources(self):
+        """initialize system resources"""
+        if resource is None:
+            self.log.debug('Ignoring min_open_files_limit because the limit cannot be adjusted (for example, on Windows)')
+            return
+
+        old_soft, old_hard = resource.getrlimit(resource.RLIMIT_NOFILE)
+        soft = self.min_open_files_limit
+        hard = old_hard
+        if old_soft < soft:
+            if hard < soft:
+                hard = soft
+            self.log.debug(
+                'Raising open file limit: soft {}->{}; hard {}->{}'.format(old_soft, soft, old_hard, hard)
+            )
+            resource.setrlimit(resource.RLIMIT_NOFILE, (soft, hard))
+
     def init_webapp(self):
         """initialize tornado webapp and httpserver"""
         self.tornado_settings['allow_origin'] = self.allow_origin
@@ -1667,12 +1715,47 @@ class NotebookApp(JupyterApp):
             pc = ioloop.PeriodicCallback(self.shutdown_no_activity, 60000)
             pc.start()
 
+    def _init_asyncio_patch(self):
+        """set default asyncio policy to be compatible with tornado
+
+        Tornado 6 (at least) is not compatible with the default
+        asyncio implementation on Windows
+
+        Pick the older SelectorEventLoopPolicy on Windows
+        if the known-incompatible default policy is in use.
+
+        do this as early as possible to make it a low priority and overrideable
+
+        ref: https://github.com/tornadoweb/tornado/issues/2608
+
+        FIXME: if/when tornado supports the defaults in asyncio,
+               remove and bump tornado requirement for py38
+        """
+        if sys.platform.startswith("win") and sys.version_info >= (3, 8):
+            import asyncio
+            try:
+                from asyncio import (
+                    WindowsProactorEventLoopPolicy,
+                    WindowsSelectorEventLoopPolicy,
+                )
+            except ImportError:
+                pass
+                # not affected
+            else:
+                if type(asyncio.get_event_loop_policy()) is WindowsProactorEventLoopPolicy:
+                    # WindowsProactorEventLoopPolicy is not compatible with tornado 6
+                    # fallback to the pre-3.8 default of Selector
+                    asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())
+
     @catch_config_error
     def initialize(self, argv=None):
+        self._init_asyncio_patch()
+
         super(NotebookApp, self).initialize(argv)
         self.init_logging()
         if self._dispatching:
             return
+        self.init_resources()
         self.init_configurables()
         self.init_server_extension_config()
         self.init_components()
@@ -1782,6 +1865,12 @@ class NotebookApp(JupyterApp):
         if not browser:
             return
 
+        if not self.use_redirect_file:
+            uri = self.default_url[len(self.base_url):]
+
+            if self.token:
+                uri = url_concat(uri, {'token': self.token})
+
         if self.file_to_run:
             if not os.path.exists(self.file_to_run):
                 self.log.critical(_("%s does not exist") % self.file_to_run)
@@ -1797,9 +1886,12 @@ class NotebookApp(JupyterApp):
         else:
             open_file = self.browser_open_file
 
-        b = lambda: browser.open(
-            urljoin('file:', pathname2url(open_file)),
-            new=self.webbrowser_open_new)
+        if self.use_redirect_file:
+            assembled_url = urljoin('file:', pathname2url(open_file))
+        else:
+            assembled_url = url_path_join(self.connection_url, uri)
+        
+        b = lambda: browser.open(assembled_url, new=self.webbrowser_open_new)                            
         threading.Thread(target=b).start()
 
     def start(self):

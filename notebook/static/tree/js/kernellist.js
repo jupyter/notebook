@@ -85,7 +85,14 @@ define([
             .addClass('btn btn-warning btn-xs')
             .text(i18n._('Shutdown'))
             .click(function() {
-                var path = $(this).parent().parent().parent().data('path');
+                var parent = $(this).parent().parent().parent();
+                var path = parent.data('path');
+                if(!path) {
+                  path = parent.parent().data('path');
+                }
+                if(!path) {
+                  throw new Error("Shutdown path not present");
+                }
                 that.shutdown_notebook(path);
             })
             .appendTo(running_indicator);

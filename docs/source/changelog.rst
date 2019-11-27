@@ -21,6 +21,44 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+.. _release-6.0.2:
+
+6.0.2
+-----
+
+- Update JQuery dependency to version 3.4.1 to fix security vulnerability (CVE-2019-11358)
+- Update CodeMirror to version 5.48.4 to fix Python formatting issues
+- Continue removing obsolete Python 2.x code/dependencies
+- Multiple documentation updates
+
+Thanks for all the contributors:
+
+- David Robles
+- Jason Grout
+- Kerwin Sun
+- Kevin Bates
+- Kyle Kelley
+- Luciano Resende
+- Marcus D Sherman
+- Sasaki Takeru
+- Tom Jarosz
+- Vidar Tonaas Fauske
+- Wes Turner
+- Zachary Sailer
+
+.. _release-6.0.1:
+
+6.0.1
+-----
+
+- Attempt to re-establish websocket connection to Gateway (:ghpull:`4777`)
+- Add missing react-dom js to package data (:ghpull:`4772`)
+
+Thanks for all the contributors:
+
+- Eunsoo Park
+- Min RK
+
 .. _release-6.0:
 
 6.0

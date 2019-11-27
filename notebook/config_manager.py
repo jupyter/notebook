@@ -11,7 +11,6 @@ import json
 import os
 import copy
 
-from six import PY3
 from traitlets.config import LoggingConfigurable
 from traitlets.traitlets import Unicode, Bool
 
@@ -119,10 +118,7 @@ class BaseJSONConfigManager(LoggingConfigurable):
         # in order to avoid writing half-finished corrupted data to disk.
         json_content = json.dumps(data, indent=2)
 
-        if PY3:
-            f = io.open(filename, 'w', encoding='utf-8')
-        else:
-            f = open(filename, 'wb')
+        f = io.open(filename, 'w', encoding='utf-8')
         with f:
             f.write(json_content)
 

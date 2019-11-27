@@ -118,4 +118,6 @@ def authenticated_browser(selenium_driver, notebook_server):
 
 @pytest.fixture
 def notebook(authenticated_browser):
-    return Notebook.new_notebook(authenticated_browser)
+    tree_wh = authenticated_browser.current_window_handle
+    yield Notebook.new_notebook(authenticated_browser)
+    authenticated_browser.switch_to.window(tree_wh)

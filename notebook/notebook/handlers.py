@@ -5,13 +5,17 @@
 
 from collections import namedtuple
 import os
-from tornado import web
+from tornado import (
+    gen, web,
+)
 HTTPError = web.HTTPError
 
 from ..base.handlers import (
     IPythonHandler, FilesRedirectHandler, path_regex,
 )
-from ..utils import url_escape
+from ..utils import (
+    maybe_future, url_escape,
+)
 from ..transutils import _
 
 
@@ -68,6 +72,7 @@ def get_frontend_exporters():
 class NotebookHandler(IPythonHandler):
 
     @web.authenticated
+    @gen.coroutine
     def get(self, path):
         """get renders the notebook template if a name is given, or 
         redirects to the '/files/' handler if the name is not given."""
@@ -76,7 +81,7 @@ class NotebookHandler(IPythonHandler):
         
         # will raise 404 on not found
         try:
-            model = cm.get(path, content=False)
+            model = yield maybe_future(cm.get(path, content=False))
         except web.HTTPError as e:
             if e.status_code == 404 and 'files' in path.split('/'):
                 # 404, but '/files/' in URL, let FilesRedirect take care of it
