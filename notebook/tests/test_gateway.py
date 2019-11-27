@@ -8,7 +8,8 @@ from unittest.mock import patch
 
 import nose.tools as nt
 from tornado import gen
-from tornado.httpclient import HTTPRequest, HTTPResponse, HTTPError
+from tornado.web import HTTPError
+from tornado.httpclient import HTTPRequest, HTTPResponse
 
 from notebook.gateway.managers import GatewayClient
 from notebook.utils import maybe_future
