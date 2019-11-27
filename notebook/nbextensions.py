@@ -13,13 +13,8 @@ import tarfile
 import zipfile
 from os.path import basename, join as pjoin, normpath
 
-try:
-    from urllib.parse import urlparse  # Py3
-    from urllib.request import urlretrieve
-except ImportError:
-    from urlparse import urlparse
-    from urllib import urlretrieve
-
+from urllib.parse import urlparse
+from urllib.request import urlretrieve
 from jupyter_core.paths import (
     jupyter_data_dir, jupyter_config_path, jupyter_path,
     SYSTEM_JUPYTER_PATH, ENV_JUPYTER_PATH,

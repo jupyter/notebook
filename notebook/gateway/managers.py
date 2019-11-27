@@ -283,12 +283,12 @@ def gateway_request(endpoint, **kwargs):
     except ConnectionRefusedError:
         raise web.HTTPError(503, "Connection refused from Gateway server url '{}'.  " 
               "Check to be sure the Gateway instance is running.".format(GatewayClient.instance().url))
-    except HTTPError:
+    except HTTPError as e:
         # This can occur if the host is valid (e.g., foo.com) but there's nothing there.
-        raise web.HTTPError(504, "Error attempting to connect to Gateway server url '{}'.  "
+        raise web.HTTPError(e.code, "Error attempting to connect to Gateway server url '{}'.  "
                        "Ensure gateway url is valid and the Gateway instance is running.".
                             format(GatewayClient.instance().url))
-    except gaierror as e:
+    except gaierror:
         raise web.HTTPError(404, "The Gateway server specified in the gateway_url '{}' doesn't appear to be valid.  "
                        "Ensure gateway url is valid and the Gateway instance is running.".
                             format(GatewayClient.instance().url))
@@ -390,8 +390,8 @@ class GatewayKernelManager(MappingKernelManager):
         self.log.debug("Request kernel at: %s" % kernel_url)
         try:
             response = yield gateway_request(kernel_url, method='GET')
-        except HTTPError as error:
-            if error.code == 404:
+        except web.HTTPError as error:
+            if error.status_code == 404:
                 self.log.warn("Kernel not found at: %s" % kernel_url)
                 self.remove_kernel(kernel_id)
                 kernel = None
@@ -559,8 +559,8 @@ class GatewayKernelSpecManager(KernelSpecManager):
         self.log.debug("Request kernel spec at: %s" % kernel_spec_url)
         try:
             response = yield gateway_request(kernel_spec_url, method='GET')
-        except HTTPError as error:
-            if error.code == 404:
+        except web.HTTPError as error:
+            if error.status_code == 404:
                 # Convert not found to KeyError since that's what the Notebook handler expects
                 # message is not used, but might as well make it useful for troubleshooting
                 raise KeyError('kernelspec {kernel_name} not found on Gateway server at: {gateway_url}'.
@@ -587,8 +587,8 @@ class GatewayKernelSpecManager(KernelSpecManager):
         self.log.debug("Request kernel spec resource '{}' at: {}".format(path, kernel_spec_resource_url))
         try:
             response = yield gateway_request(kernel_spec_resource_url, method='GET')
-        except HTTPError as error:
-            if error.code == 404:
+        except web.HTTPError as error:
+            if error.status_code == 404:
                 kernel_spec_resource = None
             else:
                 raise

@@ -24,10 +24,7 @@ from ipython_genutils.py3compat import str_to_unicode
 from traitlets.config import Configurable
 from traitlets import Bool
 
-try: #PY3
-    from base64 import encodebytes, decodebytes
-except ImportError: #PY2
-    from base64 import encodestring as encodebytes, decodestring as decodebytes
+from base64 import encodebytes, decodebytes
 
 
 def replace_file(src, dst):

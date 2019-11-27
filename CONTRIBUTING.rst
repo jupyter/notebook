@@ -80,9 +80,9 @@ If you do not see that your Jupyter Notebook is not running on dev mode, it's po
 running other instances of Jupyter Notebook. You can try the following steps:
 
 1. Uninstall all instances of the notebook package. These include any installations you made using
-   pip or conda
-2. Run ``python3 -m pip install -e .`` in the notebook repository to install the notebook from there
-3. Run ``npm run build`` to make sure the Javascript and CSS are updated and compiled
+   pip or conda.
+2. Run ``python3 -m pip install -e .`` in the notebook repository to install the notebook from there.
+3. Run ``npm run build`` to make sure the Javascript and CSS are updated and compiled.
 4. Launch with ``python3 -m notebook --port 8989``, and check that the browser is pointing to ``localhost:8989``
    (rather than the default 8888). You don't necessarily have to launch with port 8989, as long as you use
    a port that is neither the default nor in use, then it should be fine.
@@ -98,16 +98,16 @@ this command whenever there are changes to JavaScript or LESS sources::
 
     npm run build
 
-**IMPORTANT:** Don't forget to run ``npm run build`` after switching branches. 
-When switching between branches of different versions (e.g. ``4.x`` and 
-``master``), run ``pip install -e .``. If you have tried the above and still 
+**IMPORTANT:** Don't forget to run ``npm run build`` after switching branches.
+When switching between branches of different versions (e.g. ``4.x`` and
+``master``), run ``pip install -e .``. If you have tried the above and still
 find that the notebook is not reflecting the current source code, try cleaning
 the repo with ``git clean -xfd`` and reinstalling with ``pip install -e .``.
 
 Development Tip
 """""""""""""""
 
-When doing development, you can use this command to automatically rebuild 
+When doing development, you can use this command to automatically rebuild
 JavaScript and LESS sources as they are modified::
 
     npm run build:watch
@@ -116,7 +116,7 @@ Git Hooks
 """""""""
 
 If you want to automatically update dependencies and recompile JavaScript and
-CSS after checking out a new commit, you can install post-checkout and 
+CSS after checking out a new commit, you can install post-checkout and
 post-merge hooks which will do it for you::
 
     git-hooks/install-hooks.sh
@@ -132,7 +132,7 @@ Python Tests
 
 Install dependencies::
 
-    pip install -e .[test]
+    pip install -e '.[test]'
 
 To run the Python tests, use::
 

@@ -1,4 +1,4 @@
-include COPYING.md
+include LICENSE
 include CONTRIBUTING.rst
 include README.md
 include package.json

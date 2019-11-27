@@ -8,7 +8,7 @@
 #
 #  Distributed under the terms of the Modified BSD License.
 #
-#  The full license is in the file COPYING.md, distributed with this software.
+#  The full license is in the file LICENSE, distributed with this software.
 #-----------------------------------------------------------------------------
 
 import os
@@ -104,10 +104,10 @@ for more information.
         'pyzmq>=17',
         'ipython_genutils',
         'traitlets>=4.2.1',
-        'jupyter_core>=4.4.0',
-        'jupyter_client>=5.3.1',
+        'jupyter_core>=4.6.0',
+        'jupyter_client>=5.3.4',
         'nbformat',
-        'nbconvert',
+        'nbconvert<6',
         'ipykernel', # bless IPython kernel for now
         'Send2Trash',
         'terminado>=0.8.1',

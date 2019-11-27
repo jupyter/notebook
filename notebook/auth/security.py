@@ -120,6 +120,8 @@ def persist_config(config_file=None, mode=0o600):
     if config_file is None:
         config_file = os.path.join(jupyter_config_dir(), 'jupyter_notebook_config.json')
 
+    os.makedirs(os.path.dirname(config_file), exist_ok=True)
+
     loader = JSONFileConfigLoader(os.path.basename(config_file), os.path.dirname(config_file))
     try:
         config = loader.load_config()
