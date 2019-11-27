@@ -80,9 +80,9 @@ If you do not see that your Jupyter Notebook is not running on dev mode, it's po
 running other instances of Jupyter Notebook. You can try the following steps:
 
 1. Uninstall all instances of the notebook package. These include any installations you made using
-   pip or conda
-2. Run ``python3 -m pip install -e .`` in the notebook repository to install the notebook from there
-3. Run ``npm run build`` to make sure the Javascript and CSS are updated and compiled
+   pip or conda.
+2. Run ``python3 -m pip install -e .`` in the notebook repository to install the notebook from there.
+3. Run ``npm run build`` to make sure the Javascript and CSS are updated and compiled.
 4. Launch with ``python3 -m notebook --port 8989``, and check that the browser is pointing to ``localhost:8989``
    (rather than the default 8888). You don't necessarily have to launch with port 8989, as long as you use
    a port that is neither the default nor in use, then it should be fine.
