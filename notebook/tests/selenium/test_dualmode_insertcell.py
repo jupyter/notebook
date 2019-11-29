@@ -1,16 +1,10 @@
 from selenium.webdriver.common.keys import Keys
 from .utils import shift
 
-def test_insert_cell(notebook):
-    a = "print('a')"
-    b = "print('b')"
-    c = "print('c')"
+INITIAL_CELLS = ['print("a")', 'print("b")', 'print("c")']
 
-    notebook.edit_cell(index=0, content=a)
-    notebook.append(b, c)
-    notebook.to_command_mode()
-
-    assert notebook.get_cells_contents() == [a, b, c] 
+def test_insert_cell(prefill_notebook):
+    notebook = prefill_notebook(INITIAL_CELLS)
 
     notebook.to_command_mode()
     notebook.focus_cell(2)

@@ -1,24 +1,16 @@
-import pytest
+INITIAL_CELLS = ["hello", "hellohello", "abc", "ello"]
 
-
-def test_find_and_replace(notebook):
+def test_find_and_replace(prefill_notebook):
     """ test find and replace on all the cells """
-    cell_0, cell_1, cell_2, cell_3 = "hello", "hellohello", "abc", "ello"
+    notebook = prefill_notebook(INITIAL_CELLS)
 
-    find_str = "ello"                            # string to replace
-    replace_str = "foo"                          # string to replace to
-
-    # set the contents of the cells
-    notebook.add_cell(index=0, content=cell_0);
-    notebook.add_cell(index=1, content=cell_1);
-    notebook.add_cell(index=2, content=cell_2);
-    notebook.add_cell(index=3, content=cell_3);
+    find_str = "ello"
+    replace_str = "foo"
 
     # replace the strings
     notebook.find_and_replace(index=0, find_txt=find_str, replace_txt=replace_str)
 
     # check content of the cells
-    assert notebook.get_cell_contents(0) == cell_0.replace(find_str, replace_str)
-    assert notebook.get_cell_contents(1) == cell_1.replace(find_str, replace_str)
-    assert notebook.get_cell_contents(2) == cell_2.replace(find_str, replace_str)
-    assert notebook.get_cell_contents(3) == cell_3.replace(find_str, replace_str)
+    assert notebook.get_cells_contents() == [
+        s.replace(find_str, replace_str) for s in INITIAL_CELLS
+    ]

@@ -1,4 +1,8 @@
-def test_multiselect(notebook):
+INITIAL_CELLS = ['print("a")', 'print("b")', 'print("c")']
+
+def test_multiselect(prefill_notebook):
+    notebook = prefill_notebook(INITIAL_CELLS)
+
     def extend_selection_by(delta):
         notebook.browser.execute_script(
             "Jupyter.notebook.extend_selection_by(arguments[0]);", delta)
@@ -6,12 +10,6 @@ def test_multiselect(notebook):
     def n_selected_cells():
         return notebook.browser.execute_script(
             "return Jupyter.notebook.get_selected_cells().length;")
-
-    a = 'print("a")'
-    b = 'print("b")'
-    c = 'print("c")'
-    notebook.edit_cell(index=0, content=a)
-    notebook.append(b, c)
 
     notebook.focus_cell(0)
     assert n_selected_cells() == 1

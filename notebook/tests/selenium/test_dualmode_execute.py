@@ -4,19 +4,12 @@ from selenium.webdriver.common.keys import Keys
 
 from .utils import shift, cmdtrl, alt, validate_dualmode_state
 
+INITIAL_CELLS = ['', 'print("a")', 'print("b")', 'print("c")']
 
-def test_dualmode_execute(notebook):
-    a = 'print("a")'
-    notebook.append(a)
-    notebook.execute_cell(1)
-
-    b = 'print("b")'
-    notebook.append(b)
-    notebook.execute_cell(2)
-
-    c = 'print("c")'
-    notebook.append(c)
-    notebook.execute_cell(3)
+def test_dualmode_execute(prefill_notebook):
+    notebook = prefill_notebook(INITIAL_CELLS)
+    for i in range(1, 4):
+        notebook.execute_cell(i)
 
     #shift-enter
     #last cell in notebook

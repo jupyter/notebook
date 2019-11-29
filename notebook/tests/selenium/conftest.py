@@ -1,9 +1,12 @@
 import json
+import nbformat
+from nbformat.v4 import new_notebook, new_code_cell
 import os
 import pytest
 import requests
 from subprocess import Popen
 import sys
+from tempfile import mkstemp
 from testpath.tempdir import TemporaryDirectory
 import time
 from urllib.parse import urljoin
@@ -121,3 +124,20 @@ def notebook(authenticated_browser):
     tree_wh = authenticated_browser.current_window_handle
     yield Notebook.new_notebook(authenticated_browser)
     authenticated_browser.switch_to.window(tree_wh)
+
+@pytest.fixture
+def prefill_notebook(selenium_driver, notebook_server):
+    def inner(cells):
+        cells = [new_code_cell(c) if isinstance(c, str) else c
+                 for c in cells]
+        nb = new_notebook(cells=cells)
+        fd, path = mkstemp(dir=notebook_server['nbdir'], suffix='.ipynb')
+        with open(fd, 'w', encoding='utf-8') as f:
+            nbformat.write(nb, f)
+        fname = os.path.basename(path)
+        selenium_driver.get(
+            "{url}notebooks/{}?token={token}".format(fname, **notebook_server)
+        )
+        return Notebook(selenium_driver)
+
+    return inner

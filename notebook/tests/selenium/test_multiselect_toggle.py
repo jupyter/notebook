@@ -1,4 +1,8 @@
-def test_multiselect_toggle(notebook):
+INITIAL_CELLS = ['print("a")', 'print("b")', 'print("c")']
+
+def test_multiselect_toggle(prefill_notebook):
+    notebook = prefill_notebook(INITIAL_CELLS)
+
     def extend_selection_by(delta):
         notebook.browser.execute_script(
             "Jupyter.notebook.extend_selection_by(arguments[0]);", delta)
@@ -10,13 +14,6 @@ def test_multiselect_toggle(notebook):
     def select_cells():
         notebook.focus_cell(0)
         extend_selection_by(2)
-
-    a = 'print("a")'
-    b = 'print("b")'
-    c = 'print("c")'
-
-    notebook.edit_cell(index=0, content=a)
-    notebook.append(b, c)
 
     # Test that cells, which start off not collapsed, are collapsed after
     # calling the multiselected cell toggle.

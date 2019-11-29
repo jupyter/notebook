@@ -7,15 +7,12 @@ def remove_all_cells(notebook):
     for i in range(len(notebook.cells)):
         notebook.delete_cell(0)
 
-def test_delete_cells(notebook):
-    a = 'print("a")'
-    b = 'print("b")'
-    c = 'print("c")'
+INITIAL_CELLS = ['print("a")', 'print("b")', 'print("c")']
 
-    notebook.edit_cell(index=0, content=a)
-    notebook.append(b, c)
-    notebook.to_command_mode()
-    
+def test_delete_cells(prefill_notebook):
+    a, b, c = INITIAL_CELLS
+    notebook = prefill_notebook(INITIAL_CELLS)
+
     # Validate initial state
     assert notebook.get_cells_contents() == [a, b, c]
     for cell in range(0, 3):

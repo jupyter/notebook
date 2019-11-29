@@ -1,18 +1,13 @@
 """Test"""
 from .utils import shift, validate_dualmode_state
 
-def test_dualmode_clipboard(notebook):
-    a = 'print("a")'
-    notebook.append(a)
-    notebook.execute_cell(1)
+INITIAL_CELLS = ['', 'print("a")', 'print("b")', 'print("c")']
 
-    b = 'print("b")'
-    notebook.append(b)
-    notebook.execute_cell(2)
-
-    c = 'print("c")'
-    notebook.append(c)
-    notebook.execute_cell(3)
+def test_dualmode_clipboard(prefill_notebook):
+    notebook = prefill_notebook(INITIAL_CELLS)
+    _, a, b, c = INITIAL_CELLS
+    for i in range(1, 4):
+        notebook.execute_cell(i)
 
     #Copy/past/cut
     num_cells = len(notebook.cells)
@@ -56,4 +51,4 @@ def test_dualmode_clipboard(notebook):
     shift(notebook.browser, 'v') #Paste
     validate_dualmode_state(notebook, 'command', 0)
     assert notebook.get_cell_contents(0) == c #Cell 0 has the copied contents
-    assert len(notebook.cells) == num_cells+3 #A cell was added 
+    assert len(notebook.cells) == num_cells+3 #A cell was added
