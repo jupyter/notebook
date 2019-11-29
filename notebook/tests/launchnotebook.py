@@ -124,6 +124,11 @@ class NotebookTestBase(TestCase):
         cls.notebook_dir = tmp('notebooks')
         cls.env_patch = patch.dict('os.environ', cls.get_patch_env())
         cls.env_patch.start()
+        # nbconvert >= 6 installs the templates in $prefix/share/jupyter/nbconvert/templates
+        # so we cannot run the test with the patched jupyter_core.paths
+        jupyter_path_before_patch = jupyter_core.paths.jupyter_path()
+        cls.notebook_exporter_patch = patch('nbconvert.exporters.templateexporter.jupyter_path', lambda: jupyter_path_before_patch)
+        cls.notebook_exporter_patch.start()
         cls.path_patch = patch.multiple(
             jupyter_core.paths,
             SYSTEM_JUPYTER_PATH=[tmp('share', 'jupyter')],
@@ -185,6 +190,7 @@ class NotebookTestBase(TestCase):
         cls.notebook.stop()
         cls.wait_until_dead()
         cls.env_patch.stop()
+        cls.notebook_exporter_patch.stop()
         cls.path_patch.stop()
         cls.tmp_dir.cleanup()
         # cleanup global zmq Context, to ensure we aren't leaving dangling sockets
