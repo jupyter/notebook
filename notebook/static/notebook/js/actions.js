@@ -298,6 +298,15 @@ define([
                 env.notebook.get_selected_cell().element.focus();
             }
         },
+        'select-all' : {
+            cmd: i18n.msg._('select all'),
+            help: i18n.msg._('select all cells'),
+            help_index : 'de',
+            handler : function (env) {
+                env.notebook.select_all();
+                env.notebook.get_selected_cell().element.focus();
+            }
+        },
         'cut-cell' : {
             cmd: i18n.msg._('cut selected cells'),
             help: i18n.msg._('cut selected cells'),
