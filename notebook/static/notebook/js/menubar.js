@@ -74,7 +74,7 @@ define([
             }
         );
     };
-    
+
     MenuBar.prototype.add_bundler_items = function() {
         var that = this;
         this.config.loaded.then(function() {
@@ -85,7 +85,7 @@ define([
                 ids.forEach(function(bundler_id) {
                     var bundler = bundlers[bundler_id];
                     var group = that.element.find('#'+bundler.group+'_menu')
-                    
+
                     // Validate menu item metadata
                     if(!group.length) {
                         console.warn('unknown group', bundler.group, 'for bundler ID', bundler_id, '; skipping');
@@ -94,7 +94,7 @@ define([
                         console.warn('no label for bundler ID', bundler_id, '; skipping');
                         return;
                     }
-                    
+
                     // Insert menu item into correct group, click handler
                     group.parent().removeClass('hidden');
                     var $li = $('<li>')
@@ -120,7 +120,7 @@ define([
             w.location = url;
         }
     };
-    
+
     MenuBar.prototype._bundle = function(bundler_id) {
         // Read notebook path and base url here in case they change
         var notebook_path = utils.encode_uri_components(this.notebook.notebook_path);
@@ -142,12 +142,12 @@ define([
             format,
             notebook_path
         ) + "?download=" + download.toString();
-        
+
         this._new_window(url);
     };
 
     MenuBar.prototype._size_header = function() {
-        /** 
+        /**
          * Update header spacer size.
          */
         console.warn('`_size_header` is deprecated and will be removed in future versions.'+
@@ -160,7 +160,7 @@ define([
          *  File
          */
         var that = this;
-        
+
         this.element.find('#open_notebook').click(function () {
             var parent = utils.url_path_split(that.notebook.notebook_path)[0];
             window.open(
@@ -177,7 +177,7 @@ define([
             that.notebook.save_notebook_as();
             return false;
         });
-        
+
         this.element.find('#print_preview').click(function () {
             that._nbconvert('html', false);
         });
@@ -275,9 +275,9 @@ define([
                 el.click(function(event){
                     that.actions.call(id_act, event);
                 });
-                
+
                 var keybinding = that.keyboard_manager.command_shortcuts.get_action_shortcut(id_act) || that.keyboard_manager.edit_shortcuts.get_action_shortcut(id_act);
-                
+
                 if (keybinding) {
                     var shortcut = quickhelp.humanize_sequence(keybinding);
                     var link_element = el.children('a');
@@ -290,7 +290,7 @@ define([
             })(that, id_act, idx);
         }
 
-        
+
         // Kernel
         this.element.find('#reconnect_kernel').click(function () {
             that.notebook.kernel.reconnect();
@@ -303,33 +303,33 @@ define([
         } else {
             this.element.find('#notebook_tour').addClass("disabled");
         }
-        
+
         this.update_restore_checkpoint(null);
-        
+
         this.events.on('checkpoints_listed.Notebook', function (event, data) {
             that.update_restore_checkpoint(that.notebook.checkpoints);
         });
-        
+
         this.events.on('checkpoint_created.Notebook', function (event, data) {
             that.update_restore_checkpoint(that.notebook.checkpoints);
         });
-        
+
         this.events.on('notebook_loaded.Notebook', function() {
             var langinfo = that.notebook.metadata.language_info || {};
             that.update_nbconvert_script(langinfo);
         });
-        
+
         this.events.on('kernel_ready.Kernel', function(event, data) {
             var langinfo = data.kernel.info_reply.language_info || {};
             that.update_nbconvert_script(langinfo);
             that.add_kernel_help_links(data.kernel.info_reply.help_links || []);
         });
     };
-    
+
     MenuBar.prototype._add_celltoolbar_list = function () {
         var that = this;
         var submenu = $("#menu-cell-toolbar-submenu");
-        
+
         function preset_added(event, data) {
             var name = data.name;
             submenu.append(
@@ -353,7 +353,7 @@ define([
                 )
             );
         }
-        
+
         // Setup the existing presets
         var presets = celltoolbar.CellToolbar.list_presets();
         preset_added(null, {name: i18n.msg._("None")});
@@ -363,7 +363,7 @@ define([
 
         // Setup future preset registrations
         this.events.on('preset_added.CellToolbar', preset_added);
-        
+
         // Handle unregistered presets
         this.events.on('unregistered_preset.CellToolbar', function (event, data) {
             submenu.find("li[data-name='" + encodeURIComponent(data.name) + "']").remove();
@@ -384,7 +384,7 @@ define([
             );
             return;
         }
-        
+
         var that = this;
         checkpoints.map(function (checkpoint) {
             var d = new Date(checkpoint.last_modified);
@@ -400,13 +400,13 @@ define([
             );
         });
     };
-    
+
     MenuBar.prototype.update_nbconvert_script = function(langinfo) {
         /**
          * Set the 'Download as foo' menu option for the relevant language.
          */
         var el = this.element.find('#download_script');
-        
+
         // Set menu entry text to e.g. "Python (.py)"
         var langname = (langinfo.name || 'Script');
         langname = langname.charAt(0).toUpperCase()+langname.substr(1); // Capitalise
@@ -450,7 +450,7 @@ define([
             );
             cursor = cursor.next();
         });
-        
+
     };
 
     return {'MenuBar': MenuBar};
