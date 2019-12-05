@@ -762,7 +762,7 @@ msgstr "代码"
 
 #: notebook/static/notebook/js/maintoolbar.js:77
 msgid "Markdown"
-msgstr "标记"
+msgstr "Markdown"
 
 #: notebook/static/notebook/js/maintoolbar.js:78
 msgid "Raw NBConvert"
