@@ -94,7 +94,7 @@ define(['jquery','base/js/i18n'], function($, i18n) {
                 }
                 var button  = $('<button/>')
                     .addClass('btn btn-default')
-                    .attr("title", el.label||i18n.msg._(action.help))
+                    .attr("title", i18n.msg._(action.help))
                     .append(
                         $("<i/>").addClass(el.icon||(action||{icon:'fa-exclamation-triangle'}).icon).addClass('fa')
                     );
