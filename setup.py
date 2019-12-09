@@ -107,7 +107,7 @@ for more information.
         'jupyter_core>=4.6.0',
         'jupyter_client>=5.3.4',
         'nbformat',
-        'nbconvert<6',
+        'nbconvert',
         'ipykernel', # bless IPython kernel for now
         'Send2Trash',
         'terminado>=0.8.1',
