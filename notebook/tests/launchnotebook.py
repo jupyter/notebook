@@ -124,12 +124,15 @@ class NotebookTestBase(TestCase):
         cls.notebook_dir = tmp('notebooks')
         cls.env_patch = patch.dict('os.environ', cls.get_patch_env())
         cls.env_patch.start()
+        # Patch systemwide & user-wide data & config directories, to isolate
+        # the tests from oddities of the local setup. But leave Python env
+        # locations alone, so data files for e.g. nbconvert are accessible.
+        # If this isolation isn't sufficient, you may need to run the tests in
+        # a virtualenv or conda env.
         cls.path_patch = patch.multiple(
             jupyter_core.paths,
             SYSTEM_JUPYTER_PATH=[tmp('share', 'jupyter')],
-            ENV_JUPYTER_PATH=[tmp('env', 'share', 'jupyter')],
             SYSTEM_CONFIG_PATH=[tmp('etc', 'jupyter')],
-            ENV_CONFIG_PATH=[tmp('env', 'etc', 'jupyter')],
         )
         cls.path_patch.start()
 
