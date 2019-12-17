@@ -104,9 +104,9 @@ define([
         return {
             'shift'       : 'jupyter-notebook:ignore',
             'shift-enter' : 'jupyter-notebook:run-cell-and-select-next',
-            'ctrl-enter'  : 'jupyter-notebook:run-cell',
             'alt-enter'   : 'jupyter-notebook:run-cell-and-insert-below',
             // cmd on mac, ctrl otherwise
+            'cmdtrl-enter'  : 'jupyter-notebook:run-cell',
             'cmdtrl-s'    : 'jupyter-notebook:save-notebook'
         };
     };
