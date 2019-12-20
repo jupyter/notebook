@@ -47,7 +47,7 @@ RecentList.prototype.addFiles=function (data){
                   path +
                   '" target="_blank"><span class="item_name">' +
                   path +
-                  '</span></a> <div class="pull-right"><div class="item_buttons pull-right"><button onclick="deleteRecentList('+ String(count) +')" class="btn btn-warning btn-xs" id="remove-nb">Remove</button></div><div class="pull-left"><span class="item_modified pull-left" title="' +
+                  '</span></a> <div class="pull-right"><div class="item_buttons pull-right"><button class="btn btn-warning btn-xs" id="remove-nb">Remove</button></div><div class="pull-left"><span class="item_modified pull-left" title="' +
                   time +
                   '">' +
                   time +
@@ -57,6 +57,27 @@ RecentList.prototype.addFiles=function (data){
         }
         
     };
+
+     RecentList.prototype.deleteRecentList = function(del_id) {
+          var that = this;
+          var settings = {
+              processData : false,
+              cache : false,
+              type : "DELETE",
+              dataType : "json",
+              success : function () {
+                  window.location.reload()
+              },
+              error : utils.log_ajax_error
+          };
+
+          var url = utils.url_path_join(
+              '/api/recentlist/',
+              del_id
+          );
+          utils.ajax(url, settings);
+        };
+
 
     return {'RecentList': RecentList};
 });

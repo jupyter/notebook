@@ -118,10 +118,15 @@ requirejs([
 
     var recent_list = new recentlist.RecentList();
     recent_list.load_files();
+
     $('#refresh_recent_list').click(function () {
         recent_list.load_files();   
     });
 
+    $(document).on('click','#remove-nb  ',function(){
+          var path = $(this).parent().parent().parent().find('.item_name').text();
+          recent_list.deleteRecentList(path);
+    });
     var interval_id=0;
     // auto refresh every xx secondes, no need to be fast,
     //  update is done most of the time when page get focus

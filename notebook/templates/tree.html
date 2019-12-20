@@ -223,17 +223,6 @@ data-server-root="{{server_root}}"
               </div>
             </div>
           </div>
-          <script type="text/javascript">
-            
-              function deleteRecentList(del_id) {
-              fetch("/api/recentlistdel/"+del_id).then(function(data){
-                  window.location.reload()
-                  
-                }
-                  );
-              }
-
-          </script>
         </div>
         <div id="clusters" class="tab-pane">
           {% trans %}Clusters tab is now provided by IPython parallel.{% endtrans %}

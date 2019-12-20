@@ -14,6 +14,23 @@ from ...base.handlers import APIHandler
 from jupyter_client.jsonutil import date_default
 from notebook.utils import maybe_future, url_path_join
 from jupyter_client.kernelspec import NoSuchKernel
+"""Tornado handlers for the sessions web service.
+
+Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-Notebook-multi-directory-dashboard-and-URL-mapping#sessions-api
+"""
+
+# Copyright (c) Jupyter Development Team.
+# Distributed under the terms of the Modified BSD License.
+
+#import json
+#import os.path
+#from tornado import gen, web
+
+#from ...base.handlers import APIHandler
+#from jupyter_client.jsonutil import date_default
+#from notebook.utils import maybe_future, url_path_join
+#from jupyter_client.kernelspec import NoSuchKernel
+
 
 class RecentList(APIHandler):
 
@@ -33,26 +50,25 @@ class RecentList(APIHandler):
             self.finish(rl)
             return
         temp = []
-        for i in recentlist:
-            if os.path.isfile(i['Path']):
-                temp.append(i)
+        for i in range(len(recentlist)):
+            print(type(recentlist[i]))
+            if os.path.isfile(recentlist[i]['Path']):
+                temp.append(recentlist[i])
         recentlist = temp
         with open(dire, 'w') as fout:
             json.dump(recentlist, fout)
         self.finish(open(dire,'r').read())
 
-
-class RecentListDel(APIHandler):
     @web.authenticated
     @gen.coroutine
-    def get(self,recentlist_id):
+    def delete(self,recentlist_id):
         # Deletes the recent list with given recentlist_id
         dire = ".recentList.json"
-        recentlist_id = int(recentlist_id)
+        # recentlist_id = int(recentlist_id)
         recentlist = json.loads(open(dire, 'r').read())
         temp = []
         for i in range(len(recentlist)):
-            if i!=recentlist_id:
+            if recentlist[i]['Path']!=recentlist_id:
                 temp.append(recentlist[i])
         recentlist = temp
 
@@ -61,7 +77,9 @@ class RecentListDel(APIHandler):
         self.finish(open(dire,'r').read())
 
 
-
+#-----------------------------------------------------------------------------
+# URL to handler mappings
+#-----------------------------------------------------------------------------
 
 class SessionRootHandler(APIHandler):
 
@@ -193,7 +211,7 @@ class SessionHandler(APIHandler):
             yield maybe_future(
                 km.shutdown_kernel(before['kernel']['id'])
             )
-        self.finish(json.dumps(model, default=date_default))
+        self.finish(json.dumps(model,(r"/api/recentlist", RecentList), default=date_default))
 
     @web.authenticated
     @gen.coroutine
@@ -214,11 +232,12 @@ class SessionHandler(APIHandler):
 #-----------------------------------------------------------------------------
 
 _session_id_regex = r"(?P<session_id>\w+-\w+-\w+-\w+-\w+)"
-_recentlist_id_regex = r"(?P<recentlist_id>[0-9]+)"
+_recentlist_id_regex = r"(?P<recentlist_id>.*)"
 
 default_handlers = [
     (r"/api/sessions/%s" % _session_id_regex, SessionHandler),
     (r"/api/sessions",  SessionRootHandler),
+    (r"/api/recentlist/%s" % _recentlist_id_regex, RecentList),
     (r"/api/recentlist", RecentList),
-    (r"/api/recentlistdel/%s" % _recentlist_id_regex ,RecentListDel)
+
 ]
