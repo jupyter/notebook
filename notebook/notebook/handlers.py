@@ -5,15 +5,20 @@
 
 from collections import namedtuple
 import os
-from tornado import web
 from datetime import datetime
 import json
+from tornado import (
+    gen, web,
+)
 HTTPError = web.HTTPError
 
 from ..base.handlers import (
     IPythonHandler, FilesRedirectHandler, path_regex,
 )
-from ..utils import url_escape
+from ..utils import (
+    maybe_future, url_escape,
+)
+
 from ..transutils import _
 
 def get_frontend_exporters():
@@ -138,4 +143,5 @@ class NotebookHandler(IPythonHandler):
 default_handlers = [
     (r"/notebooks%s" % path_regex, NotebookHandler),
 ]
+
 
