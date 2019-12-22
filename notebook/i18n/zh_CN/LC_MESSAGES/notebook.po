@@ -136,7 +136,7 @@ msgstr "存放 cookie 密钥的文件被保存了。"
 #: notebook/notebookapp.py:634
 #, python-format
 msgid "Writing notebook server cookie secret to %s"
-msgstr "把 Notebook 服务cookie密码写入 %s"
+msgstr "把 Notebook 服务 cookie 密码写入 %s"
 
 #: notebook/notebookapp.py:641
 #, python-format
@@ -314,7 +314,7 @@ msgstr "没有找到路径：'%r' "
 
 #: notebook/notebookapp.py:1037
 msgid "DEPRECATED use the nbserver_extensions dict instead"
-msgstr "不赞成使用 nbserverextensions"
+msgstr "不赞成使用 nbserver_extensions"
 
 #: notebook/notebookapp.py:1042
 msgid "server_extensions is deprecated, use nbserver_extensions"

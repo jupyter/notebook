@@ -912,7 +912,7 @@ msgstr "Notebook 改变了"
 
 #: notebook/static/notebook/js/notebook.js:2751
 msgid "The notebook file has changed on disk since the last time we opened or saved it. Do you want to overwrite the file on disk with the version open here, or load the version on disk (reload the page)?"
-msgstr "自从上次我们打开或保存它以来， Notebook 文件已经在磁盘上发生了变化。您是否希望在磁盘上使用打开的版本，或在磁盘上的版本(重新加载页面)上覆盖该文件？"
+msgstr "自从上次我们打开或保存它以来，Notebook 文件已经在磁盘上发生了变化。您是否希望在磁盘上使用打开的版本，或在磁盘上的版本(重新加载页面)上覆盖该文件？"
 
 #: notebook/static/notebook/js/notebook.js:2798
 #: notebook/static/notebook/js/notebook.js:3020
@@ -925,7 +925,7 @@ msgstr "保存操作成功了，但是这个 Notebook 看起来并不有效。�
 
 #: notebook/static/notebook/js/notebook.js:2852
 msgid "A trusted Jupyter notebook may execute hidden malicious code when you open it. Selecting trust will immediately reload this notebook in a trusted state. For more information, see the Jupyter security documentation: "
-msgstr "当你打开它时，一个可信任的 Jupyter Notebook 可能会执行隐藏的恶意代码。选择信任将立即在一个可信的状态中重新加载这个 Notebook 。要了解更多信息，请参阅 Jupyter 安全文档："
+msgstr "当你打开它时，一个可信任的 Jupyter Notebook 可能会执行隐藏的恶意代码。选择信任将立即在一个可信的状态中重新加载这个 Notebook。要了解更多信息，请参阅 Jupyter 安全文档："
 
 #: notebook/static/notebook/js/notebook.js:2856
 msgid "here"
@@ -992,7 +992,7 @@ msgstr "（没有名字）"
 #: notebook/static/notebook/js/notebook.js:3161
 #, python-format
 msgid "An unknown error occurred while loading this notebook. This version can load notebook formats %s or earlier. See the server log for details."
-msgstr "加载本 Notebook 时出现了一个未知的错误。这个版本可以加载%s或更早的 Notebook 。有关详细信息，请参阅服务器日志。"
+msgstr "加载本 Notebook 时出现了一个未知的错误。这个版本可以加载%s或更早的 Notebook。有关详细信息，请参阅服务器日志。"
 
 #: notebook/static/notebook/js/notebook.js:3172
 msgid "Error loading notebook"
@@ -1076,7 +1076,7 @@ msgstr "没有到内核的连接"
 
 #: notebook/static/notebook/js/notificationarea.js:160
 msgid "A connection to the notebook server could not be established. The notebook will continue trying to reconnect. Check your network connection or notebook server configuration."
-msgstr "到后台服务的连接没能建立，我们会继续尝试重连，请检出网络连接...还有服务配置。"
+msgstr "到后台服务的连接没能建立，我们会继续尝试重连，请检查网络连接或服务配置。"
 
 #: notebook/static/notebook/js/notificationarea.js:165
 msgid "Connection failed"
@@ -1100,7 +1100,7 @@ msgstr "现在尝试重启"
 
 #: notebook/static/notebook/js/notificationarea.js:190
 msgid "The kernel has died, and the automatic restart has failed. It is possible the kernel cannot be restarted. If you are not able to restart the kernel, you will still be able to save the notebook, but running code will no longer work until the notebook is reopened."
-msgstr "内核已经死亡，自动重启也失败了。有可能内核不能重新启动。如果您不能重新启动内核，您仍然能够保存 Notebook ，但是运行代码将不再工作，直到 Notebook 重新打开。"
+msgstr "内核已经死亡，自动重启也失败了。有可能内核不能重新启动。如果您不能重新启动内核，您仍然能够保存 Notebook，但是运行代码将不再工作，直到 Notebook 重新打开。"
 
 #: notebook/static/notebook/js/notificationarea.js:224
 msgid "No Kernel"
@@ -1220,7 +1220,7 @@ msgstr "点击滚动输出；双击隐藏"
 
 #: notebook/static/notebook/js/outputarea.js:434
 msgid "Javascript error adding output!"
-msgstr "Javascript 添加输出错误!"
+msgstr "Javascript 添加输出错误！"
 
 #: notebook/static/notebook/js/outputarea.js:439
 msgid "See your browser Javascript console for more details."

@@ -543,7 +543,7 @@ msgstr "关于"
 
 #: notebook/templates/page.html:114
 msgid "Jupyter Notebook requires JavaScript."
-msgstr "Jupyter Notebook需要JavaScript。"
+msgstr "Jupyter Notebook 需要 JavaScript。"
 
 #: notebook/templates/page.html:115
 msgid "Please enable it to proceed. "
