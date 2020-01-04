@@ -1502,8 +1502,12 @@ class NotebookApp(JupyterApp):
                 success = True
                 break
         if not success:
-            self.log.critical(_('ERROR: the notebook server could not be started because '
+            if self.port_retries:
+                self.log.critical(_('ERROR: the notebook server could not be started because '
                               'no available port could be found.'))
+            else:
+                self.log.critical(_('ERROR: the notebook server could not be started because '
+                              'port %i is not available.') % port)
             self.exit(1)
     
     @property
