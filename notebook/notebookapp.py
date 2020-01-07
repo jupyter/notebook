@@ -1490,10 +1490,13 @@ class NotebookApp(JupyterApp):
                 self.http_server.listen(port, self.ip)
             except socket.error as e:
                 if e.errno == errno.EADDRINUSE:
-                    self.log.info(_('The port %i is already in use, trying another port.') % port)
+                    if self.port_retries:
+                        self.log.info(_('The port %i is already in use, trying another port.') % port)
+                    else:
+                        self.log.info(_('The port %i is already in use.') % port)
                     continue
                 elif e.errno in (errno.EACCES, getattr(errno, 'WSAEACCES', errno.EACCES)):
-                    self.log.warning(_("Permission to listen on port %i denied") % port)
+                    self.log.warning(_("Permission to listen on port %i denied.") % port)
                     continue
                 else:
                     raise
@@ -1502,8 +1505,12 @@ class NotebookApp(JupyterApp):
                 success = True
                 break
         if not success:
-            self.log.critical(_('ERROR: the notebook server could not be started because '
+            if self.port_retries:
+                self.log.critical(_('ERROR: the notebook server could not be started because '
                               'no available port could be found.'))
+            else:
+                self.log.critical(_('ERROR: the notebook server could not be started because '
+                              'port %i is not available.') % port)
             self.exit(1)
     
     @property
