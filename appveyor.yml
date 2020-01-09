@@ -1,6 +1,9 @@
 matrix:
   fast_finish: true
 
+cache:
+  - '%LOCALAPPDATA%\bower\cache\packages -> bower.json'
+
 environment:
   CONDA_ACTIVATE: "call C:\\Miniconda36-x64\\Scripts\\activate.bat"
   CONDA_BUILD_DEPS: >-
