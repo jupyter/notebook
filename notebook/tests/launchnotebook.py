@@ -158,9 +158,9 @@ class NotebookTestBase(TestCase):
                     token=cls.token,
                 )
                 if 'asyncio' in sys.modules:
-                          app._init_asyncio_patch()
-                          import asyncio
-                          asyncio.set_event_loop(asyncio.new_event_loop())
+                    app._init_asyncio_patch()
+                    import asyncio
+                    asyncio.set_event_loop(asyncio.new_event_loop())
                 # don't register signal handler during tests
                 app.init_signal = lambda : None
                 # clear log handlers and propagate to root for nose to capture it
