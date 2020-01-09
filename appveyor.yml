@@ -2,21 +2,37 @@ matrix:
   fast_finish: true
 
 environment:
-  CONDA_BUILD_DEPS: nodejs pip
-  CONDA_RUN_DEPS: jinja2 tornado pyzmq ipython_genutils traitlets jupyter_core jupyter_client nbformat nbconvert ipykernel send2trash terminado prometheus_client
-  CONDA_TEST_DEPS: nose nose-cov requests
-  CUSTOM_CHANNELS: -c conda-forge -c defaults
+  CONDA_ACTIVATE: "call C:\\Miniconda36-x64\\Scripts\\activate.bat"
+  CONDA_BUILD_DEPS: >-
+    "babel"
+    "nodejs >=6.0"
+    "pip"
+  CONDA_RUN_DEPS: >-
+    "ipykernel"
+    "ipython_genutils"
+    "jinja2"
+    "jupyter_client >=5.3.4"
+    "jupyter_core >=4.6.0"
+    "nbconvert"
+    "nbformat"
+    "prometheus_client"
+    "pyzmq"
+    "send2trash"
+    "terminado >=0.8.1"
+    "tornado"
+    "traitlets >=4.2.1"
+  CONDA_TEST_DEPS: >
+    "nose"
+    "nose-cov"
+    "requests"
   NOSE_EXCLUDE: selenium
   matrix:
     - CONDA_PY: 38
       CONDA_PY_SPEC: ">=3.8,<3.9.0a0"
-      CONDA_INSTALL_LOCN: "C:\\Miniconda36-x64"
     - CONDA_PY: 37
       CONDA_PY_SPEC: ">=3.7,<3.8.0a0"
-      CONDA_INSTALL_LOCN: "C:\\Miniconda36-x64"
     - CONDA_PY: 36
       CONDA_PY_SPEC: ">=3.6,<3.7.0a0"
-      CONDA_INSTALL_LOCN: "C:\\Miniconda36-x64"
 
 platform:
   - x64
@@ -24,13 +40,35 @@ platform:
 build: off
 
 install:
-  - cmd: call %CONDA_INSTALL_LOCN%\Scripts\activate.bat
-  - cmd: conda config --set show_channel_urls true
-  - cmd: conda config --set always_yes true
   - cmd: conda upgrade conda
-  - cmd: conda create -n notebook-test %CUSTOM_CHANNELS% "python %CONDA_PY_SPEC%" %CONDA_BUILD_DEPS% %CONDA_RUN_DEPS% %CONDA_TEST_DEPS% || exit 1
-  - cmd: call %CONDA_INSTALL_LOCN%\Scripts\activate.bat notebook-test && python setup.py build
-  - cmd: call %CONDA_INSTALL_LOCN%\Scripts\activate.bat notebook-test && python -m pip install . jupyter_client jupyter_core --no-deps
-
+  - cmd: >-
+      conda create -y
+        -n notebook-test
+        -c conda-forge
+        -c defaults
+        "python %CONDA_PY_SPEC%"
+        %CONDA_BUILD_DEPS%
+        %CONDA_RUN_DEPS%
+        %CONDA_TEST_DEPS%
+      || exit 1
+  - cmd: >-
+      %CONDA_ACTIVATE% notebook-test
+      && npm install
+      && python setup.py build sdist bdist_wheel
+      || exit 1
+  - cmd: >-
+      %CONDA_ACTIVATE% notebook-test
+      && cd build
+      && dir /b /a-d *.whl > whl.txt
+      && set /p WHL=<whl.txt
+      && python -m pip install --no-deps %WHL%
+      || exit 1
 test_script:
-  - call %CONDA_INSTALL_LOCN%\Scripts\activate.bat notebook-test && md tst_tmp && cd tst_tmp && nosetests -v notebook --with-cov --cov notebook --traverse-namespace
+  - >-
+    %CONDA_ACTIVATE% notebook-test
+    && md tst_tmp
+    && cd tst_tmp
+    && nosetests -vv --with-cov --traverse-namespace
+      --cov notebook
+      notebook
+    || exit 1
