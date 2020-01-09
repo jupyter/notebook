@@ -40,9 +40,15 @@ platform:
 build: off
 
 install:
-  - cmd: conda upgrade conda
   - cmd: >-
-      conda create -y
+      %CONDA_ACTIVATE%
+      && conda upgrade -y
+        -n base
+        -c conda-forge
+        conda
+  - cmd: >-
+      %CONDA_ACTIVATE%
+      && conda create -y
         -n notebook-test
         -c conda-forge
         -c defaults
