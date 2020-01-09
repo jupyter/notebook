@@ -2,11 +2,8 @@
 from selenium.webdriver.common.keys import Keys
 from .utils import wait_for_selector, wait_for_xpath
 
-def test_clipboard_multiselect(notebook):
-
-    # Cell contents setup
-    values = ['1', '2', '3', '4', '5a', '6b', '7c', '8d']
-    notebook.extend(values)
+def test_clipboard_multiselect(prefill_notebook):
+    notebook = prefill_notebook(['', '1', '2', '3', '4', '5a', '6b', '7c', '8d'])
 
     assert notebook.get_cells_contents() == ['', '1', '2', '3', '4', '5a', '6b', '7c', '8d']
     

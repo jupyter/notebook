@@ -2,7 +2,7 @@
 """
 
 from urllib.parse import quote
-from .utils import wait_for_selector, new_window
+from .utils import wait_for_selector
 
 promise_js = """
 var done = arguments[arguments.length - 1];

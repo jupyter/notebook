@@ -145,6 +145,7 @@ define([
             'shift-j': 'jupyter-notebook:extend-selection-below',
             'shift-up': 'jupyter-notebook:extend-selection-above',
             'shift-down': 'jupyter-notebook:extend-selection-below',
+            'cmdtrl-a': 'jupyter-notebook:select-all',
             'x' : 'jupyter-notebook:cut-cell',
             'c' : 'jupyter-notebook:copy-cell',
             'v' : 'jupyter-notebook:paste-cell-below',
