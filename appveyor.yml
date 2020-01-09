@@ -46,7 +46,7 @@ install:
   - cmd: '%CONDA_ACTIVATE% && conda upgrade -y -c conda-forge conda'
   - cmd: '%CONDA_ACTIVATE% && conda create -y -n notebook-test -c conda-forge -c defaults "python %CONDA_PY_SPEC%" %CONDA_BUILD_DEPS% %CONDA_RUN_DEPS% %CONDA_TEST_DEPS% || exit 1'
   - cmd: '%CONDA_ACTIVATE% notebook-test && npm install && python setup.py build sdist bdist_wheel || exit 1'
-  - cmd: '%CONDA_ACTIVATE% notebook-test && cd dist && for %%whl in (*.whl) do (python -m pip install --no-deps %%whl) || exit 1'
+  - cmd: '%CONDA_ACTIVATE% notebook-test && cd dist && for %whl in (*.whl) do (python -m pip install --no-deps %whl) || exit 1'
 
 test_script:
   - '%CONDA_ACTIVATE% notebook-test && md tst_tmp && cd tst_tmp && nosetests -vv --with-cov --traverse-namespace --cov notebook notebook || exit 1'
