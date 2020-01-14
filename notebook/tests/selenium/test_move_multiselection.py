@@ -1,4 +1,3 @@
-import time
 INITIAL_CELLS = ['1', '2', '3', '4', '5', '6']
 def test_move_multiselection(prefill_notebook):
     notebook = prefill_notebook(INITIAL_CELLS)
@@ -27,7 +26,6 @@ def test_move_multiselection(prefill_notebook):
     
     # 3 times down should move the 3 selected cells to the bottom
     assert_oder("move down to bottom", ['4', '5', '6', '1', '2', '3'])
-    time.sleep(5)
     notebook.browser.execute_script(
         "Jupyter.notebook.move_selection_down();"
     )
@@ -47,4 +45,3 @@ def test_move_multiselection(prefill_notebook):
 
     # Bring them back on top
     assert_oder('move up at top', ['1', '2', '3', '4', '5','6'])
-    time.sleep(5)
