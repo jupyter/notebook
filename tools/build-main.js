@@ -25,21 +25,18 @@ var rjs_config = {
     moment: 'components/moment/min/moment-with-locales',
     codemirror: 'components/codemirror',
     xterm: 'components/xterm.js/index',
-    'xtermjs-fit': 'components/xterm.js-fit/index',
-    typeahead: 'components/jquery-typeahead/dist/jquery.typeahead',
+    "xtermjs-fit": 'components/xterm.js-fit/index',
+    "jquery-typeahead": 'components/jquery-typeahead/dist/jquery.typeahead.min',
     contents: 'empty:',
     custom: 'empty:',
   },
   map: { // for backward compatibility
     "*": {
         "jqueryui": "jquery-ui",
+        "typeahead": "jquery-typeahead"
     }
   },
   shim: {
-    typeahead: {
-            deps: ["jquery"],
-            exports: "typeahead"
-          },
     underscore: {
       exports: '_'
     },
