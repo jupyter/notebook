@@ -1,14 +1,12 @@
-ul.typeahead-list i{
-    margin-left: -10px;
+div.typeahead__container {
+  font: revert;
+}
+
+ul.typeahead__list i {
     width: 18px;
 }
 
-[dir="rtl"] ul.typeahead-list i {
-    margin-left: 0;
-    margin-right: -10px;
-}
-
-ul.typeahead-list {
+ul.typeahead__list {
   max-height: 80vh;
   overflow:auto;
 
@@ -19,11 +17,11 @@ ul.typeahead-list {
     }
 }
 
-ul.typeahead-list & > li > a.pull-right {
+ul.typeahead__list & > li > a.pull-right {
     .pull-left();
 }
 
-[dir="rtl"] .typeahead-list {
+[dir="rtl"] .typeahead__list {
     text-align : right;
 }
 
