@@ -21,6 +21,34 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+.. _release-6.0.3:
+
+6.0.3
+-----
+
+- Dependency updates to fix startup issues on Windows platform
+- Add support for nbconvert 6.x
+- Creation of recent tab
+
+Thanks for all the contributors:
+
+- Luciano Resende
+- Kevin Bates
+- ahangsleben
+- Zachary Sailer
+- Pallavi Bharadwaj
+- Thomas Kluyver
+- Min RK
+- forest0
+- Bibo Hao
+- Michal Charemza
+- Sergey Shevelev
+- Shuichiro MAKIGAKI
+- krinsman
+- TPartida
+- Landen McDonald
+- Tres DuBiel
+
 .. _release-6.0.2:
 
 6.0.2
