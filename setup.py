@@ -104,7 +104,7 @@ for more information.
         'pyzmq>=17',
         'ipython_genutils',
         'traitlets>=4.2.1',
-        'jupyter_core>=4.6.0',
+        'jupyter_core>=4.6.1',
         'jupyter_client>=5.3.4',
         'nbformat',
         'nbconvert',
