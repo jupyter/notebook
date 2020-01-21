@@ -176,7 +176,7 @@ class TestGateway(NotebookTestBase):
         with mocked_gateway:
             response = self.request('GET', '/api/kernelspecs')
             self.assertEqual(response.status_code, 200)
-            content = json.loads(response.content.decode('utf-8'), encoding='utf-8')
+            content = json.loads(response.content.decode('utf-8'))
             kspecs = content.get('kernelspecs')
             self.assertEqual(len(kspecs), 2)
             self.assertEqual(kspecs.get('kspec_bar').get('name'), 'kspec_bar')
@@ -186,7 +186,7 @@ class TestGateway(NotebookTestBase):
         with mocked_gateway:
             response = self.request('GET', '/api/kernelspecs/kspec_foo')
             self.assertEqual(response.status_code, 200)
-            kspec_foo = json.loads(response.content.decode('utf-8'), encoding='utf-8')
+            kspec_foo = json.loads(response.content.decode('utf-8'))
             self.assertEqual(kspec_foo.get('name'), 'kspec_foo')
 
             response = self.request('GET', '/api/kernelspecs/no_such_spec')
@@ -257,7 +257,7 @@ class TestGateway(NotebookTestBase):
             # Create the kernel... (also tests get_kernel)
             response = self.request('POST', '/api/sessions', **kwargs)
             self.assertEqual(response.status_code, 201)
-            model = json.loads(response.content.decode('utf-8'), encoding='utf-8')
+            model = json.loads(response.content.decode('utf-8'))
             self.assertEqual(model.get('path'), nb_path)
             kernel_id = model.get('kernel').get('id')
             # ensure its in the running_kernels and name matches.
@@ -286,7 +286,7 @@ class TestGateway(NotebookTestBase):
             # Get list of running kernels
             response = self.request('GET', '/api/kernels')
             self.assertEqual(response.status_code, 200)
-            kernels = json.loads(response.content.decode('utf-8'), encoding='utf-8')
+            kernels = json.loads(response.content.decode('utf-8'))
             self.assertEqual(len(kernels), len(running_kernels))
             for model in kernels:
                 if model.get('id') == kernel_id:
@@ -305,7 +305,7 @@ class TestGateway(NotebookTestBase):
 
             response = self.request('POST', '/api/kernels', **kwargs)
             self.assertEqual(response.status_code, 201)
-            model = json.loads(response.content.decode('utf-8'), encoding='utf-8')
+            model = json.loads(response.content.decode('utf-8'))
             kernel_id = model.get('id')
             # ensure its in the running_kernels and name matches.
             running_kernel = running_kernels.get(kernel_id)
@@ -330,7 +330,7 @@ class TestGateway(NotebookTestBase):
         with mocked_gateway:
             response = self.request('POST', '/api/kernels/' + kernel_id + '/restart')
             self.assertEqual(response.status_code, 200)
-            model = json.loads(response.content.decode('utf-8'), encoding='utf-8')
+            model = json.loads(response.content.decode('utf-8'))
             restarted_kernel_id = model.get('id')
             # ensure its in the running_kernels and name matches.
             running_kernel = running_kernels.get(restarted_kernel_id)
@@ -345,4 +345,3 @@ class TestGateway(NotebookTestBase):
             response = self.request('DELETE', '/api/kernels/' + kernel_id)
             self.assertEqual(response.status_code, 204)
             self.assertEqual(response.reason, 'No Content')
-
