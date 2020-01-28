@@ -600,12 +600,13 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             # be created and confusion will reign! (See https://github.com/jupyter/notebook/issues/5190)
             # Go ahead and add other invalid (and non-path-separator) characters here as well so there's
             # consistent behavior - although all others will result in '[Errno 22]Invalid Argument' errors.
-            invalid_chars = (':', '>', '<', '*', '?', '|', '"')
+            invalid_chars = '?:><*"|'
         else:
             # On non-windows systems, allow the underlying file creation to perform enforcement when appropriate
-            invalid_chars = ()
+            invalid_chars = ''
 
         for char in invalid_chars:
             if char in path:
-                raise web.HTTPError(400, u"Path '{}' contains invalid characters {} relative to its platform.  "
-                                         u"Please edit the path and re-submit the request.".format(path, invalid_chars))
+                raise web.HTTPError(400, "Path '{}' contains characters that are invalid for the filesystem. "
+                                         "Path names on this filesystem cannot contain any of the following "
+                                         "characters: {}".format(path, invalid_chars))
