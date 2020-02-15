@@ -10,7 +10,7 @@ Jupyter Notebookは、インタラクティブなWebベースのノートブッ�
 
 ![Jupyter notebook example](resources/running_code_med.png "Jupyter notebook example")
 
-### Jupyter notebook, 言語に依存しないIPython notebookの進化
+### Jupyter Notebook, 言語に依存しないIPython Notebookの進化
 
 Jupyter Notebookは、Project Jupyter用の言語に依存しないHTMLノートブックアプリケーションです。
 2015年、Jupyter NotebookはIPythonコードベースのThe Big Split™の一部としてリリースされました。IPython3はIPython Notebookなどのユーザーの言語に依存しないコードとIPython kernel for Pythonのような特定の言語ベースのコードの機能を持ってリリースしました。
@@ -23,7 +23,7 @@ Jupyter Notebookは、Project Jupyter用の言語に依存しないHTMLノート
 [Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/latest/install.html)から、インストールドキュメントをご覧になれます。
 Jupyter Notebookの発展的な使用方法に関するドキュメントは、[こちら](https://jupyter-notebook.readthedocs.io/en/latest/)をご覧ください。
 
-ローカルへのインストールの場合、[pip]（https://pip.readthedocs.io/en/stable/installing/）をインストールしていることを確認し、以下のコマンドを実行してください。
+ローカルへのインストールの場合、[pip](https://pip.readthedocs.io/en/stable/installing/)をインストールしていることを確認し、以下のコマンドを実行してください。
 
     $ pip install notebook
 
@@ -33,23 +33,22 @@ Jupyter Notebookの発展的な使用方法に関するドキュメントは、[
 
 以下のコマンドをを実行してください：
 
-Launch with:
-
     $ jupyter notebook
 
 ### リモートへのインストールにおける実行
 
-Jupyter Notebookをリモートで起動する前に、いくつかの構成が必要です。 Notebookサーバーの実行（https://jupyter-notebook.readthedocs.io/en/stable/public_server.html）を参照してください。
+Jupyter Notebookをリモートで起動する前に、いくつかの構成が必要です。 [Notebookサーバーの実行](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html)を参照してください。
 
-## 開発者向けのインストール
+## 開発用インストール
 
-ローカル開発インストールのセットアップ方法については、[`CONTRIBUTING.rst`]（CONTRIBUTING.rst）を参照してください。
+開発用インストールのセットアップ方法については、[`CONTRIBUTING.rst`](https://github.com/jupyter/notebook/blob/master/CONTRIBUTING.rst)を参照してください。
 
 ## 貢献
 
-プロジェクトへの貢献に興味がある場合は、[`CONTRIBUTING.rst`](CONTRIBUTING.rst)をご覧ください。
+プロジェクトへの貢献に興味がある場合は、[`CONTRIBUTING.rst`](https://github.com/jupyter/notebook/blob/master/CONTRIBUTING.rst)をご覧ください。
 
 ## 参考
+
 - [Project Jupyter website](https://jupyter.org)
 - [Online Demo at try.jupyter.org](https://try.jupyter.org)
 - [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/latest/) [[PDF](https://media.readthedocs.org/pdf/jupyter-notebook/latest/jupyter-notebook.pdf)]
