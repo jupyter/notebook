@@ -36,13 +36,17 @@ define([
       return item_in(extension(filepath), extensionslist);
     };
 
-    function name_sorter(ascending) {
+    function name_sorter(ascending, natural) {
         return (function(a, b) {
             if (type_order[a['type']] < type_order[b['type']]) {
                 return -1;
             }
             if (type_order[a['type']] > type_order[b['type']]) {
                 return 1;
+            }
+            if (natural) {
+                const res = natural_sort(a['name'], b['name']);
+                return (ascending) ? res : res * (-1);
             }
             if (a['name'].toLowerCase() < b['name'].toLowerCase()) {
                 return (ascending) ? -1 : 1;
@@ -52,6 +56,28 @@ define([
             }
             return 0;
         });
+    }
+
+    function natural_sort(a, b) {
+        /** 
+         *  Performs a natural (alphanumeric) sort on a and b without their
+         *  respective extensions. If equal, sorts on their extensions.
+         **/   
+        const a_sub = a.substring(0, a.lastIndexOf('.')) || a;
+        const b_sub = b.substring(0, b.lastIndexOf('.')) || b;
+        let res = a_sub.localeCompare(b_sub, undefined, {numeric: true, sensitivity: 'base'});
+        if (res === 0) {
+            let a_ext = a.substring(a.lastIndexOf('.'));
+            let b_ext = b.substring(b.lastIndexOf('.'));
+            if (a_ext === a ){
+                a_ext = ''
+            }
+            if (b_ext === b){
+                b_ext = ''
+            }
+            res = a_ext.localeCompare(b_ext, undefined, {numeric:true, sensitivity:'base'});
+        }
+        return res;
     }
 
     function modified_sorter(ascending) {
@@ -85,6 +111,7 @@ define([
           return 0;
         });
     }
+
 
     var sort_functions = {
         'sort-name': name_sorter,
@@ -128,10 +155,10 @@ define([
                 function(e, d) { that.sessions_loaded(d); });
         }
         this.selected = [];
-        this.sort_function = name_sorter(1);
-        // 0 => descending, 1 => ascending
+        this.sort_direction = 1;  // 0 => descending, 1 => ascending
+        this.natural_sorting = 1; // 0 => standard sorting, 1 => natural sorting
+        this.sort_function = name_sorter(this.sort_direction, this.natural_sorting);
         this.sort_id = 'sort-name';
-        this.sort_direction = 1;
         this._max_upload_size_mb = 25;
         this.EDIT_MIMETYPES = [
           'application/javascript',
@@ -248,10 +275,10 @@ define([
 
             $('.sort-action').click(function(e) {
                 var sort_on = e.target.id;
-
+                
                 // Clear sort indications in UI
                 $(".sort-action i").removeClass("fa-arrow-up").removeClass("fa-arrow-down");
-
+                
                 if ((that.sort_id === sort_on) && (that.sort_direction === 1)) {
                     that.sort_list(sort_on, 0);
                     $("#" + sort_on + " i").addClass("fa-arrow-up");
@@ -261,14 +288,15 @@ define([
                     $("#" + sort_on + " i").addClass("fa-arrow-down");
                     that.sort_direction = 1;
                 }
-                that.sort_id = sort_on;
             });
         }
     };
 
     NotebookList.prototype.sort_list = function(id, order) {
         if (sort_functions.hasOwnProperty(id)) {
-            this.sort_function = sort_functions[id](order);
+            this.sort_function = sort_functions[id](order, this.natural_sorting); // second argument is only used for name_sorter
+            // set global sort_id after sort_function as defined by id parameter has been set
+            this.sort_id = id;
             this.draw_notebook_list(this.model_list, this.error_msg);
         } else {
             console.error("No such sort id: '" + id + "'")
