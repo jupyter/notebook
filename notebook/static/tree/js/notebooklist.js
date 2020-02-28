@@ -112,7 +112,6 @@ define([
         });
     }
 
-
     var sort_functions = {
         'sort-name': name_sorter,
         'last-modified': modified_sorter,
@@ -275,10 +274,10 @@ define([
 
             $('.sort-action').click(function(e) {
                 var sort_on = e.target.id;
-                
+
                 // Clear sort indications in UI
                 $(".sort-action i").removeClass("fa-arrow-up").removeClass("fa-arrow-down");
-                
+
                 if ((that.sort_id === sort_on) && (that.sort_direction === 1)) {
                     that.sort_list(sort_on, 0);
                     $("#" + sort_on + " i").addClass("fa-arrow-up");
