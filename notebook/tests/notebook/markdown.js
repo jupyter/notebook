@@ -159,4 +159,25 @@ casper.notebook_test(function () {
     mathjax_render_test(input_string_3, expected_result_3, message_3);
     mathjax_render_test(input_string_4, expected_result_4, message_4);
     mathjax_render_test(input_string_5, expected_result_5, message_5);
+
+    // Test markdown italics parentheses
+
+    output = this.evaluate(function () {
+      IPython.notebook.to_markdown();
+      var cell = IPython.notebook.get_selected_cell();
+      cell.set_text('(_Foo_)');
+      cell.render();
+      return cell.get_rendered();
+    });
+    this.test.assertEquals(output.trim(), '<p>(<em>Foo</em>)</p>','Markdown italics in parenthesis work.');
+
+    output = this.evaluate(function () {
+      IPython.notebook.to_markdown();
+      var cell = IPython.notebook.get_selected_cell();
+      cell.set_text('_Foo_.');
+      cell.render();
+      return cell.get_rendered();
+    });
+    this.test.assertEquals(output.trim(), '<p><em>Foo</em>.</p>','Markdown italics with period work.');
+
 });
