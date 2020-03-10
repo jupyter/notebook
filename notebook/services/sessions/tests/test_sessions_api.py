@@ -9,12 +9,21 @@ import requests
 import shutil
 import time
 
-pjoin = os.path.join
+from unittest import SkipTest
 
 from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 from nbformat.v4 import new_notebook
 from nbformat import write
+
+try:
+    from jupyter_client import AsyncMultiKernelManager
+    async_testing_enabled = True
+except ImportError:
+    async_testing_enabled = False
+
+pjoin = os.path.join
+
 
 class SessionAPI(object):
     """Wrapper for notebook API calls."""
@@ -76,6 +85,7 @@ class SessionAPI(object):
 
     def delete(self, id):
         return self._req('DELETE', id)
+
 
 class SessionAPITest(NotebookTestBase):
     """Test the sessions web service API"""
@@ -254,3 +264,24 @@ class SessionAPITest(NotebookTestBase):
         kernel.pop('last_activity')
         [ k.pop('last_activity') for k in kernel_list ]
         self.assertEqual(kernel_list, [kernel])
+
+
+class AsyncSessionAPITest(SessionAPITest):
+    """Test the sessions web service API using the AsyncMappingKernelManager"""
+
+    @classmethod
+    def get_argv(cls):
+        argv = super(AsyncSessionAPITest, cls).get_argv()
+
+        # before we extend the argv with the class, ensure that appropriate jupyter_client is available.
+        # if not available, don't set kernel_manager_class, resulting in the repeat of sync-based tests.
+        if async_testing_enabled:
+            argv.extend(['--NotebookApp.kernel_manager_class='
+                        'notebook.services.kernels.kernelmanager.AsyncMappingKernelManager'])
+        return argv
+
+    def setUp(self):
+        if not async_testing_enabled:
+            raise SkipTest("AsyncSessionAPITest.{test_method} skipped due to down-level jupyter_client!".
+                           format(test_method=self._testMethodName))
+        super(AsyncSessionAPITest, self).setUp()

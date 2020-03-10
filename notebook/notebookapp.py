@@ -7,6 +7,7 @@
 from __future__ import absolute_import, print_function
 
 import notebook
+import asyncio
 import binascii
 import datetime
 import errno
@@ -583,7 +584,7 @@ class NotebookApp(JupyterApp):
     flags = flags
     
     classes = [
-        KernelManager, Session, MappingKernelManager, KernelSpecManager,
+        KernelManager, Session, MappingKernelManager, AsyncMappingKernelManager, KernelSpecManager,
         ContentsManager, FileContentsManager, NotebookNotary,
         GatewayKernelManager, GatewayKernelSpecManager, GatewaySessionManager, GatewayClient,
     ]
@@ -1392,10 +1393,10 @@ class NotebookApp(JupyterApp):
         #  Ensure the appropriate jupyter_client is in place.
         if isinstance(self.kernel_manager, AsyncMappingKernelManager):
             if not async_kernel_mgmt_available:
-                raise ValueError("You're using `AsyncMappingKernelManager` without an appropriate "
+                raise ValueError("You are using `AsyncMappingKernelManager` without an appropriate "
                                  "jupyter_client installed!  Upgrade jupyter_client or change kernel managers.")
             else:
-                self.log.info("Asynchronous kernel management has been configured via '{}'.".
+                self.log.info("Asynchronous kernel management has been configured to use '{}'.".
                               format(self.kernel_manager.__class__.__name__))
 
         self.contents_manager = self.contents_manager_class(
@@ -1800,7 +1801,11 @@ class NotebookApp(JupyterApp):
         n_kernels = len(self.kernel_manager.list_kernel_ids())
         kernel_msg = trans.ngettext('Shutting down %d kernel', 'Shutting down %d kernels', n_kernels)
         self.log.info(kernel_msg % n_kernels)
-        self.kernel_manager.shutdown_all()
+        # If we're using async kernel management, we need to invoke the async method via the event loop.
+        if isinstance(self.kernel_manager, AsyncMappingKernelManager):
+            asyncio.get_event_loop().run_until_complete(self.kernel_manager.shutdown_all())
+        else:
+            self.kernel_manager.shutdown_all()
 
     def notebook_info(self, kernel_count=True):
         "Return the current working directory and the server url information"

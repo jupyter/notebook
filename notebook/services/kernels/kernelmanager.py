@@ -401,8 +401,7 @@ class AsyncMappingKernelManager(AsyncMultiKernelManager, MappingKernelManagerBas
         self.log.warning("Kernel %s died, removing from map.", kernel_id)
         self.remove_kernel(kernel_id)
 
-    @gen.coroutine
-    def start_kernel(self, kernel_id=None, path=None, **kwargs):
+    async def start_kernel(self, kernel_id=None, path=None, **kwargs):
         """Start a kernel for a session and return its kernel_id.
 
         Parameters
@@ -421,7 +420,7 @@ class AsyncMappingKernelManager(AsyncMultiKernelManager, MappingKernelManagerBas
         if kernel_id is None:
             if path is not None:
                 kwargs['cwd'] = self.cwd_for_path(path)
-            kernel_id = yield super(AsyncMappingKernelManager, self).start_kernel(**kwargs)
+            kernel_id = await super(AsyncMappingKernelManager, self).start_kernel(**kwargs)
 
             self._kernel_connections[kernel_id] = 0
             self.start_watching_activity(kernel_id)
@@ -443,11 +442,9 @@ class AsyncMappingKernelManager(AsyncMultiKernelManager, MappingKernelManagerBas
             self._check_kernel_id(kernel_id)
             self.log.info("Using existing kernel: %s" % kernel_id)
 
-        # py2-compat
-        raise gen.Return(kernel_id)
+        return kernel_id
 
-    @gen.coroutine
-    def shutdown_kernel(self, kernel_id, now=False, restart=False):
+    async def shutdown_kernel(self, kernel_id, now=False, restart=False):
         """Shutdown a kernel by kernel_id"""
         self._check_kernel_id(kernel_id)
         kernel = self._kernels[kernel_id]
@@ -464,13 +461,12 @@ class AsyncMappingKernelManager(AsyncMultiKernelManager, MappingKernelManagerBas
             type=self._kernels[kernel_id].kernel_name
         ).dec()
 
-        yield super(AsyncMappingKernelManager, self).shutdown_kernel(kernel_id, now=now, restart=restart)
+        await super(AsyncMappingKernelManager, self).shutdown_kernel(kernel_id, now=now, restart=restart)
 
-    @gen.coroutine
-    def restart_kernel(self, kernel_id, now=False):
+    async def restart_kernel(self, kernel_id, now=False):
         """Restart a kernel by kernel_id"""
         self._check_kernel_id(kernel_id)
-        yield super(AsyncMappingKernelManager, self).restart_kernel(kernel_id, now=now)
+        await super(AsyncMappingKernelManager, self).restart_kernel(kernel_id, now=now)
         kernel = self.get_kernel(kernel_id)
         # return a Future that will resolve when the kernel has successfully restarted
         channel = kernel.connect_shell()
@@ -506,7 +502,7 @@ class AsyncMappingKernelManager(AsyncMultiKernelManager, MappingKernelManagerBas
         channel.on_recv(on_reply)
         loop = IOLoop.current()
         timeout = loop.add_timeout(loop.time() + self.kernel_info_timeout, on_timeout)
-        raise gen.Return(future)
+        return future
 
     def kernel_model(self, kernel_id):
         """Return a JSON-safe dict representing a kernel
