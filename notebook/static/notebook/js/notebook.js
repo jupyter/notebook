@@ -2486,9 +2486,9 @@ define([
     };
 
     /**
-     * Execute or render cell outputs and insert a new cell below.
+     * Check if cells are selected. If so, execute or render them.
      */
-    Notebook.prototype.execute_cell_and_insert_below = function () {
+    Notebook.prototype.check_and_execute_cells = function () {
         var indices = this.get_selected_cells_indices();
         var cell_index;
         if (indices.length > 1) {
@@ -2510,7 +2510,13 @@ define([
             this.set_dirty(true);
             return;
         }
+    }
 
+    /**
+     * Execute or render cell outputs and insert a new cell below.
+     */
+    Notebook.prototype.execute_cell_and_insert_below = function () {
+        this.check_and_execute_cells();
         this.command_mode();
         this.insert_cell_below();
         this.select(cell_index+1);
@@ -2522,28 +2528,7 @@ define([
      * Execute or render cell outputs and select the next cell.
      */
     Notebook.prototype.execute_cell_and_select_below = function () {
-        var indices = this.get_selected_cells_indices();
-        var cell_index;
-        if (indices.length > 1) {
-            this.execute_cells(indices);
-            cell_index = Math.max.apply(Math, indices);
-        } else {
-            var cell = this.get_selected_cell();
-            cell_index = this.find_cell_index(cell);
-            cell.execute();
-        }
-
-        // If we are at the end always insert a new cell and return
-        if (cell_index === (this.ncells()-1)) {
-            this.command_mode();
-            this.insert_cell_below();
-            this.select(cell_index+1);
-            this.edit_mode();
-            this.scroll_to_bottom();
-            this.set_dirty(true);
-            return;
-        }
-
+        this.check_and_execute_cells();
         this.command_mode();
         this.select(cell_index+1);
         this.focus_cell();
