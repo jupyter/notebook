@@ -35,6 +35,7 @@ try:
     from jupyter_client.multikernelmanager import AsyncMultiKernelManager
 except ImportError:
     class AsyncMultiKernelManager(object):
+        """Empty class to satisfy unused reference by AsyncMappingKernelManager."""
         pass
 
 
@@ -46,8 +47,6 @@ class MappingKernelManagerBase(LoggingConfigurable):
 
         Since we have this class, we'll reduce duplication of code between the disjoint classes by using this
         common superclass for configuration properties and static methods and local member variables.
-
-        TODO - move contents back to appropriate mapping kernel manager once we converge to async only.
     """
 
     kernel_argv = List(Unicode())

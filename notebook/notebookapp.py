@@ -108,6 +108,13 @@ from notebook._sysinfo import get_sys_info
 from ._tz import utcnow, utcfromtimestamp
 from .utils import url_path_join, check_pid, url_escape, urljoin, pathname2url
 
+# Check if we can user async kernel management
+try:
+    from jupyter_client import AsyncMultiKernelManager
+    async_kernel_mgmt_available = True
+except ImportError:
+    async_kernel_mgmt_available = False
+
 #-----------------------------------------------------------------------------
 # Module globals
 #-----------------------------------------------------------------------------
@@ -1375,6 +1382,7 @@ class NotebookApp(JupyterApp):
         self.kernel_spec_manager = self.kernel_spec_manager_class(
             parent=self,
         )
+
         self.kernel_manager = self.kernel_manager_class(
             parent=self,
             log=self.log,
@@ -1382,11 +1390,13 @@ class NotebookApp(JupyterApp):
             kernel_spec_manager=self.kernel_spec_manager,
         )
         #  Ensure the appropriate jupyter_client is in place.
-        #  TODO: remove once dependencies are updated.
         if isinstance(self.kernel_manager, AsyncMappingKernelManager):
-            if not hasattr(self.kernel_manager, 'list_kernel_ids'):
-                raise RuntimeError("Using `AsyncMappingKernelManager` without an appropriate "
-                                   "jupyter_client installed!  Upgrade jupyter_client and try again.")
+            if not async_kernel_mgmt_available:
+                raise ValueError("You're using `AsyncMappingKernelManager` without an appropriate "
+                                 "jupyter_client installed!  Upgrade jupyter_client or change kernel managers.")
+            else:
+                self.log.info("Asynchronous kernel management has been configured via '{}'.".
+                              format(self.kernel_manager.__class__.__name__))
 
         self.contents_manager = self.contents_manager_class(
             parent=self,
