@@ -17,7 +17,10 @@ def initialize(webapp, notebook_dir, connection_url, settings):
     if os.name == 'nt':
         default_shell = 'powershell.exe'
     else:
-        default_shell = which('sh')
+        # The SHELL value could be inherited from a user who starts Jupyter Notebook, such as root or nginx,
+        # with possibly non-standard SHELL setting. So the script should explicitly query the /etc/passwd instead
+        import pwd
+        default_shell = pwd.getpwuid(os.getuid()).pw_shell
     shell = settings.get('shell_command',
         [os.environ.get('SHELL') or default_shell]
     )
