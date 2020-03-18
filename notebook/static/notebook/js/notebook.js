@@ -2918,13 +2918,16 @@ define([
                                 'content': that.toJSON(),
                                 'name': nb_name
                             };
+                            var start = new Date().getTime();
                             return that.contents.save(nb_path, model)
                                 .then(function(data) {
                                     d.modal('hide');
+                                    that.writable = true;
                                     that.notebook_name = data.name;
                                     that.notebook_path = data.path;
                                     that.session.rename_notebook(data.path);
                                     that.events.trigger('notebook_renamed.Notebook', data);
+                                    that.save_notebook_success(start, data);
                                 }, function(error) {
                                     var msg = i18n.msg._(error.message || 'Unknown error saving notebook');
                                     $(".save-message").html(
