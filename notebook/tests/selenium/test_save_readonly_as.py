@@ -2,6 +2,21 @@ from notebook.tests.selenium.utils import wait_for_selector, Notebook
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 
+
+promise_js = """
+var done = arguments[arguments.length - 1];
+(%s).then(
+    data => { done(["success", data]); },
+    error => { done(["error", error]); }
+);
+"""
+
+def execute_promise(js, browser):
+    state, data = browser.execute_async_script(promise_js % js)
+    if state == 'success':
+        return data
+    raise Exception(data)
+
 def wait_for_rename(browser, nbname, timeout=10):
     wait = WebDriverWait(browser, timeout)
     def notebook_renamed(browser):
@@ -33,8 +48,8 @@ def test_save_readonly_notebook_as(notebook):
     assert notebook.browser.execute_script('return Jupyter.notebook.writable') == False
 
     # Add some content
-    test_content = "print('a simple')\nprint('test script')"
-    notebook.edit_cell(index=0, content=test_content)
+    test_content_0 = "print('a simple')\nprint('test script')"
+    notebook.edit_cell(index=0, content=test_content_0)
 
     # Wait for Save As modal, save
     save_as(notebook)
@@ -49,8 +64,18 @@ def test_save_readonly_notebook_as(notebook):
     assert "writable_notebook.ipynb" in notebook.browser.current_url
     # Test that it is no longer read-only
     assert notebook.browser.execute_script('return Jupyter.notebook.writable') == True
+
+    # Add some more content
+    test_content_1 = "print('a second simple')\nprint('script to test save feature')"
+    notebook.add_cell()
+    notebook.edit_cell(index=1, content=test_content_1)
+    # and save the notebook
+    execute_promise("Jupyter.notebook.save_notebook()", notebook.browser)
+    
     # Test that it still contains the content
-    assert notebook.get_cell_contents(index=0) == test_content
+    assert notebook.get_cell_contents(index=0) == test_content_0
+    assert notebook.get_cell_contents(index=1) == test_content_1
     # even after a refresh
     refresh_notebook(notebook)
-    assert notebook.get_cell_contents(index=0) == test_content
+    assert notebook.get_cell_contents(index=0) == test_content_0
+    assert notebook.get_cell_contents(index=1) == test_content_1
