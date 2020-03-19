@@ -15,21 +15,52 @@ define([
         this.notebook_list = notebook_list;
         this.base_url = options.base_url || utils.get_body_data("baseUrl");
         this.contents = options.contents;
+        this.drawn_readme = null;
 
         this.init_readme();
         this.bind_events();
     };
 
-    DirectoryReadme.prototype.fetch_readme = function() {
-        var that = this;
-        this.contents.get(utils.url_path_join(this.notebook_list.notebook_path, 'readme.md'), {type: 'file'}).then(
-            function(file) {
-                that.draw_readme(file);
-            },
-            function() {
-                that.clear_readme();
+    DirectoryReadme.prototype.find_readme = function() {
+        var files_in_directory = this.notebook_list.model_list.content;
+        for (var i = 0; i < files_in_directory.length; i++) {
+            var file = files_in_directory[i];
+            if(file.type === "file"
+                    && file.mimetype === "text/markdown"
+                    && file.name.toLowerCase().split(".")[0] === "readme"){
+                return file;
             }
-        );
+        }
+        return null;
+    }
+
+    DirectoryReadme.prototype.needs_update = function(readme) {
+        if(this.drawn_readme === readme) return false;
+        if(this.drawn_readme === null || readme === null) return true;
+        if(this.drawn_readme.path !== readme.path) return true;
+        if(this.draw_readme.last_modified < readme.last_modified) return true;
+        return false;
+    }
+
+
+    DirectoryReadme.prototype.fetch_readme = function() {
+        var readme = this.find_readme();
+
+        if(this.needs_update(readme)) {
+            if(readme === null) {
+                this.clear_readme();
+            } else {
+                var that = this;
+                this.contents.get(readme.path, {type: 'file'}).then(
+                    function(file) {
+                        that.draw_readme(file);
+                    },
+                    function() {
+                        that.clear_readme();
+                    }
+                );
+            }
+        }
     }
 
     DirectoryReadme.prototype.bind_events = function () {
@@ -71,10 +102,12 @@ define([
     } 
 
     DirectoryReadme.prototype.clear_readme = function () {
+        this.drawn_readme = null;
         this.element.hide();
     }
     
     DirectoryReadme.prototype.draw_readme = function (file) {
+        this.drawn_readme = file;
         this.element.show();
         this.title
         .attr("href", 
