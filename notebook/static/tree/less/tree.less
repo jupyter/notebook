@@ -15,6 +15,9 @@
 // The left padding of the selector button's contents.
 @dashboard-selectorbtn-lpad: 7px;
 
+// The horizontal padding of the readme iframe.
+@dashboard_readme_lr_pad: 21px;
+
 ul#tabs {
     margin-bottom: @dashboard_tb_pad;
 }
@@ -409,4 +412,19 @@ ul#new-menu {
 .dynamic-instructions {
     display: inline-block;
     padding-top: @dashboard_tb_pad;
+}
+
+#directory_readme {
+    &>div {
+        padding-top: @dashboard_tb_pad;
+        padding-bottom: @dashboard_tb_pad;
+        padding-left: @dashboard_lr_pad;
+        padding-right: @dashboard_lr_pad;
+    }
+
+    iframe {
+        padding: @dashboard_tb_pad @dashboard_readme_lr_pad;
+        border: 0;
+        width: 100%;
+    }
 }
