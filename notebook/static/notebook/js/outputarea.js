@@ -7,10 +7,9 @@ define([
     'base/js/i18n',
     'base/js/security',
     'base/js/keyboard',
+    'base/js/markdown',
     'services/config',
-    'notebook/js/mathjaxutils',
-    'components/marked/lib/marked',
-], function($, utils, i18n, security, keyboard, configmod, mathjaxutils, marked) {
+], function($, utils, i18n, security, keyboard, markdown, configmod) {
     "use strict";
 
     /**
@@ -722,25 +721,15 @@ define([
     };
 
 
-    var append_markdown = function(markdown, md, element) {
+    var append_markdown = function(text, md, element) {
         var type = MIME_MARKDOWN;
         var toinsert = this.create_output_subarea(md, "output_markdown rendered_html", type);
-        var text_and_math = mathjaxutils.remove_math(markdown);
-        var text = text_and_math[0];
-        var math = text_and_math[1];
-        // Prevent marked from returning inline styles for table cells
-        var renderer = new marked.Renderer();
-        renderer.tablecell = function (content, flags) {
-          var type = flags.header ? 'th' : 'td';
-          var style = flags.align == null ? '': ' style="text-align: ' + flags.align + '"';
-          var start_tag = '<' + type + style + '>';
-          var end_tag = '</' + type + '>\n';
-          return start_tag + content + end_tag;
-        };
-        marked(text, { renderer: renderer }, function (err, html) {
-            html = mathjaxutils.replace_math(html, math);
+        markdown.render(text, {
+            with_math: true,
+            clean_tables: true
+        }, function (err, html) {
             toinsert.append(html);
-        });
+        })
         dblclick_to_reset_size(toinsert.find('img'));
         element.append(toinsert);
         return toinsert;

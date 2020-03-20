@@ -12,6 +12,7 @@ define([
     'base/js/utils',
     'base/js/i18n',
     'base/js/dialog',
+    'base/js/markdown',
     './cell',
     './textcell',
     './codecell',
@@ -19,10 +20,9 @@ define([
     'services/config',
     'services/sessions/session',
     './celltoolbar',
-    'components/marked/lib/marked',
     'codemirror/lib/codemirror',
     'codemirror/addon/runmode/runmode',
-    './mathjaxutils',
+    'base/js/mathjaxutils',
     'base/js/keyboard',
     './tooltip',
     './celltoolbarpresets/default',
@@ -40,6 +40,7 @@ define([
     utils,
     i18n,
     dialog,
+    markdown,
     cellmod,
     textcell,
     codecell,
@@ -47,7 +48,6 @@ define([
     configmod,
     session,
     celltoolbar,
-    marked,
     CodeMirror,
     runMode,
     mathjaxutils,
@@ -115,46 +115,6 @@ define([
         this.save_widget.notebook = this;
         
         mathjaxutils.init();
-
-        if (marked) {
-            marked.setOptions({
-                gfm : true,
-                tables: true,
-                // FIXME: probably want central config for CodeMirror theme when we have js config
-                langPrefix: "cm-s-ipython language-",
-                highlight: function(code, lang, callback) {
-                    if (!lang) {
-                        // no language, no highlight
-                        if (callback) {
-                            callback(null, code);
-                            return;
-                        } else {
-                            return code;
-                        }
-                    }
-                    utils.requireCodeMirrorMode(lang, function (spec) {
-                        var el = document.createElement("div");
-                        var mode = CodeMirror.getMode({}, spec);
-                        if (!mode) {
-                            console.log("No CodeMirror mode: " + lang);
-                            callback(null, code);
-                            return;
-                        }
-                        try {
-                            CodeMirror.runMode(code, spec, el);
-                            callback(null, el.innerHTML);
-                        } catch (err) {
-                            console.log("Failed to highlight " + lang + " code", err);
-                            callback(err, code);
-                        }
-                    }, function (err) {
-                        console.log("No CodeMirror mode: " + lang);
-                        console.log("Require CodeMirror mode error: " + err);
-                        callback(null, code);
-                    });
-                }
-            });
-        }
 
         this.element = $(selector);
         this.element.scroll();

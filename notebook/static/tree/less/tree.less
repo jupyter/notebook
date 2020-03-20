@@ -15,8 +15,11 @@
 // The left padding of the selector button's contents.
 @dashboard-selectorbtn-lpad: 7px;
 
-// The horizontal padding of the readme iframe.
+// The horizontal padding of the readme.
 @dashboard_readme_lr_pad: 21px;
+// The vertical padding of the readme.
+@dashboard_readme_top_pad: 7px;
+@dashboard_readme_bottom_pad: 14px;
 
 ul#tabs {
     margin-bottom: @dashboard_tb_pad;
@@ -415,16 +418,14 @@ ul#new-menu {
 }
 
 #directory_readme {
-    &>div {
+    .readme_header {
         padding-top: @dashboard_tb_pad;
         padding-bottom: @dashboard_tb_pad;
         padding-left: @dashboard_lr_pad;
         padding-right: @dashboard_lr_pad;
     }
 
-    iframe {
-        padding: @dashboard_tb_pad @dashboard_readme_lr_pad;
-        border: 0;
-        width: 100%;
+    .readme_content {
+        padding: @dashboard_readme_top_pad @dashboard_readme_lr_pad @dashboard_readme_bottom_pad;
     }
 }
