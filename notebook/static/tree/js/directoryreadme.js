@@ -6,16 +6,21 @@ define([
     'base/js/utils',
     'base/js/events',
     'base/js/markdown',
-    'base/js/mathjaxutils',
-], function ($, utils, events, markdown, mathjaxutils) {
+], function ($, utils, events, markdown) {
     "use strict";
     
-    var DirectoryReadme = function (selector, notebook_list, options) {
+    var DirectoryReadme = function (selector, notebook_list) {
+        /**
+         * Constructor
+         *
+         * Parameters:
+         *  selector: string
+         *  notebook_list: NotebookList
+         *      Used to obtain a file listing of the active directory.
+         */
         this.selector = selector;
         this.element = $(selector);
         this.notebook_list = notebook_list;
-        this.base_url = options.base_url || utils.get_body_data("baseUrl");
-        this.contents = options.contents;
         this.drawn_readme = null;
 
         this.init_readme();
@@ -23,6 +28,13 @@ define([
     };
 
     DirectoryReadme.prototype.find_readme = function() {
+        /**
+         * Find a readme in the current directory. Look for files with
+         * a name like 'readme.md' (case insensitive) or similar and
+         * mimetype 'text/markdown'.
+         * 
+         * @return null or { name, path, last_modified... }
+         */
         var files_in_directory = this.notebook_list.model_list.content;
         for (var i = 0; i < files_in_directory.length; i++) {
             var file = files_in_directory[i];
@@ -36,6 +48,12 @@ define([
     }
 
     DirectoryReadme.prototype.needs_update = function(readme) {
+        /**
+         * Checks if readme is newer or different from the current drawn readme.
+         * 
+         * @private
+         * @return if a redraw should happen
+         */
         if(this.drawn_readme === readme) return false;
         if(this.drawn_readme === null || readme === null) return true;
         if(this.drawn_readme.path !== readme.path) return true;
@@ -45,6 +63,9 @@ define([
 
 
     DirectoryReadme.prototype.fetch_readme = function() {
+        /**
+         * Find and fetch a readme file, and if necessary trigger a redraw.
+         */
         var readme = this.find_readme();
 
         if(this.needs_update(readme)) {
@@ -52,7 +73,7 @@ define([
                 this.clear_readme();
             } else {
                 var that = this;
-                this.contents.get(readme.path, {type: 'file'}).then(
+                this.notebook_list.contents.get(readme.path, {type: 'file'}).then(
                     function(file) {
                         that.draw_readme(file);
                     },
@@ -65,10 +86,16 @@ define([
     }
 
     DirectoryReadme.prototype.bind_events = function () {
+        /**
+         * When the notebook_list fires a draw_notebook event, fetch the readme. 
+         */
         events.on("draw_notebook_list.NotebookList", $.proxy(this.fetch_readme, this));
     }
     
     DirectoryReadme.prototype.init_readme = function() {
+        /**
+         * Build the DOM.
+         */
         var element = this.element;
         element.hide().addClass("list_container");
 
@@ -88,17 +115,25 @@ define([
     } 
 
     DirectoryReadme.prototype.clear_readme = function () {
+        /**
+         * If no readme is found, hide.
+         */
         this.drawn_readme = null;
         this.element.hide();
     }
     
     DirectoryReadme.prototype.draw_readme = function (file) {
+        /**
+         * Draw the given readme file. This function is used by fetch_readme.
+         * 
+         * @param file: {name, path, content}
+         */
         this.drawn_readme = file;
         this.element.show();
         this.title
         .attr("href", 
             utils.url_path_join(
-                this.base_url,
+                this.notebook_list.base_url,
                 "edit",
                 utils.encode_uri_components(file.path)
             ))
