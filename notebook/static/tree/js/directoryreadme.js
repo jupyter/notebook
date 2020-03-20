@@ -5,8 +5,9 @@ define([
     'jquery',
     'base/js/utils',
     'base/js/events',
-    'components/marked/lib/marked'
-], function ($, utils, events, marked) {
+    'base/js/markdown',
+    'base/js/mathjaxutils',
+], function ($, utils, events, markdown, mathjaxutils) {
     "use strict";
     
     var DirectoryReadme = function (selector, notebook_list, options) {
@@ -73,7 +74,7 @@ define([
 
         this.title = $("<a />");
         $("<div/>")
-        .addClass("list_header row")
+        .addClass("list_header row readme_header")
         .html([
             $('<i/>')
             .addClass('item_icon file_icon'),
@@ -81,24 +82,9 @@ define([
         ]).appendTo(element);
 
 
-        var frame = $("<iframe/>")
-        .attr("src", "about:blank")
-        .attr("sandbox", "allow-same-origin")
+        this.page = $("<div/>")
+        .addClass("readme_content")
         .appendTo(element);
-
-        frame.on("load", function() {
-            var contents = frame.contents();
-            contents.find("head")
-            .append($("<link/>")
-                .attr("rel", "stylesheet")
-                .attr("type","text/css")
-                .attr("href", utils.url_path_join(
-                    element.data("static-url"),
-                    "style",
-                    "style.min.css"
-                )));
-        });
-        this.frame = frame;
     } 
 
     DirectoryReadme.prototype.clear_readme = function () {
@@ -117,10 +103,15 @@ define([
                 utils.encode_uri_components(file.path)
             ))
         .text(file.name);
-        this.frame.height(0); // reset height
-        var contents = this.frame.contents();
-        contents.find("body").html(marked(file.content));
-        this.frame.height(contents.height());
+
+        var page = this.page;
+        markdown.render(file.content, {
+            with_math: true,
+            sanitize: true
+        }, function(err, html) {
+            page.html(html);
+            utils.typeset(page);
+        });
     };
     
     return {'DirectoryReadme': DirectoryReadme};
