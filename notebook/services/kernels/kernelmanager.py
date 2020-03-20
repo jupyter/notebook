@@ -139,6 +139,11 @@ class MappingKernelManagerBase(LoggingConfigurable):
         self.kernel_culler = KernelCuller(parent=self)
         self.activity_monitor = ActivityMonitor(parent=self)
 
+    def _handle_kernel_died(self, kernel_id):
+        """notice that a kernel died"""
+        self.log.warning("Kernel %s died, removing from map.", kernel_id)
+        self.remove_kernel(kernel_id)
+
     def kernel_model(self, kernel_id):
         """Return a JSON-safe dict representing a kernel
 
@@ -269,13 +274,7 @@ class MappingKernelManager(MappingKernelManagerBase, MultiKernelManager):
     # Methods for managing kernels and sessions
     # -------------------------------------------------------------------------
 
-    def _handle_kernel_died(self, kernel_id):
-        """notice that a kernel died"""
-        self.log.warning("Kernel %s died, removing from map.", kernel_id)
-        self.remove_kernel(kernel_id)
-
-    @gen.coroutine
-    def start_kernel(self, kernel_id=None, path=None, **kwargs):
+    async def start_kernel(self, kernel_id=None, path=None, **kwargs):
         """Start a kernel for a session and return its kernel_id.
 
         Parameters
@@ -294,7 +293,7 @@ class MappingKernelManager(MappingKernelManagerBase, MultiKernelManager):
         if kernel_id is None:
             if path is not None:
                 kwargs['cwd'] = self.cwd_for_path(path)
-            kernel_id = yield maybe_future(
+            kernel_id = await maybe_future(
                 super(MappingKernelManager, self).start_kernel(**kwargs)
             )
             self._kernel_connections[kernel_id] = 0
@@ -317,8 +316,7 @@ class MappingKernelManager(MappingKernelManagerBase, MultiKernelManager):
             self._check_kernel_id(kernel_id)
             self.log.info("Using existing kernel: %s" % kernel_id)
 
-        # py2-compat
-        raise gen.Return(kernel_id)
+        return kernel_id
 
     def shutdown_kernel(self, kernel_id, now=False):
         """Shutdown a kernel by kernel_id"""
@@ -338,11 +336,10 @@ class MappingKernelManager(MappingKernelManagerBase, MultiKernelManager):
 
         return super(MappingKernelManager, self).shutdown_kernel(kernel_id, now=now)
 
-    @gen.coroutine
-    def restart_kernel(self, kernel_id):
+    async def restart_kernel(self, kernel_id):
         """Restart a kernel by kernel_id"""
         self._check_kernel_id(kernel_id)
-        yield maybe_future(super(MappingKernelManager, self).restart_kernel(kernel_id))
+        await maybe_future(super(MappingKernelManager, self).restart_kernel(kernel_id))
         kernel = self.get_kernel(kernel_id)
         # return a Future that will resolve when the kernel has successfully restarted
         channel = kernel.connect_shell()
@@ -379,7 +376,7 @@ class MappingKernelManager(MappingKernelManagerBase, MultiKernelManager):
         loop = IOLoop.current()
         timeout = loop.add_timeout(loop.time() + self.kernel_info_timeout, on_timeout)
         # wait for restart to complete
-        yield future
+        await future
 
 
 class AsyncMappingKernelManager(MappingKernelManagerBase, AsyncMultiKernelManager):
@@ -395,11 +392,6 @@ class AsyncMappingKernelManager(MappingKernelManagerBase, AsyncMultiKernelManage
     # -------------------------------------------------------------------------
     # Methods for managing kernels and sessions
     # -------------------------------------------------------------------------
-
-    def _handle_kernel_died(self, kernel_id):
-        """notice that a kernel died"""
-        self.log.warning("Kernel %s died, removing from map.", kernel_id)
-        self.remove_kernel(kernel_id)
 
     async def start_kernel(self, kernel_id=None, path=None, **kwargs):
         """Start a kernel for a session and return its kernel_id.
@@ -695,16 +687,14 @@ class KernelCuller(LoggingConfigurable):
         log_msg.append(".")
         self.log.info(''.join(log_msg))
 
-    @gen.coroutine
-    def cull_kernels(self):
+    async def cull_kernels(self):
         self.log.debug("Polling every %s seconds for kernels %s > %s seconds...",
                        self.parent.cull_interval, self.cull_state, self.parent.cull_idle_timeout)
         # Get a separate list of kernels to avoid conflicting updates while iterating
         for kernel_id in self.parent.list_kernel_ids():
-            yield self.parent.cull_kernel_if_idle(kernel_id)
+            await self.parent.cull_kernel_if_idle(kernel_id)
 
-    @gen.coroutine
-    def cull_kernel_if_idle(self, kernel_id):
+    async def cull_kernel_if_idle(self, kernel_id):
 
         # Get the kernel model and use that to determine cullability...
         try:
@@ -729,7 +719,7 @@ class KernelCuller(LoggingConfigurable):
                     self.log.warning(
                         "Culling '%s' kernel '%s' (%s) with %d connections due to %s seconds of inactivity.",
                         model['execution_state'], model['name'], kernel_id, connections, idle_duration)
-                    yield maybe_future(self.parent.shutdown_kernel(kernel_id))
+                    await maybe_future(self.parent.shutdown_kernel(kernel_id))
         except KeyError:
             pass  # KeyErrors are somewhat expected since the kernel can be shutdown as the culling check is made.
         except Exception as e:  # other errors are not as expected, so we'll make some noise, but continue.
