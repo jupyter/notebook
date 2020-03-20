@@ -57,11 +57,30 @@ define([
     }
 
     function render(markdown, options, callback) {
+        /**
+         * Find a readme in the current directory. Look for files with
+         * a name like 'readme.md' (case insensitive) or similar and
+         * mimetype 'text/markdown'.
+         * 
+         * @param markdown: the markdown text to parse
+         * @param options
+         *  Object with parameters:
+         *      with_math: the markdown can contain mathematics
+         *      clean_tables: prevent default inline styles for table cells
+         *      sanitize: remove dangerous html (like <script>)
+         * @param callback
+         *  A function with two arguments (err, html)
+         *      err: null or the error if there was one
+         *      html: the rendered html string, or if {sanitize: true} was used
+        *             a sanitized jQuery object
+         */
         options = $.extend({
             // Apply mathjax transformation
             with_math: false,
             // Prevent marked from returning inline styles for table cells
-            clean_tables: false
+            clean_tables: false,
+            // Apply sanitation, this will return a jQuery object.
+            sanitize: false,
         }, options);
         var renderer = new marked.Renderer();
         if(options.clean_tables) {

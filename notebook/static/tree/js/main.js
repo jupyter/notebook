@@ -102,10 +102,7 @@ requirejs([
     var kernel_list = new kernellist.KernelList('#running_list',  $.extend({
         session_list:  session_list},
         common_options));
-    var directory_readme = new directoryreadme.DirectoryReadme('#directory_readme', notebook_list, $.extend({
-        contents: contents,
-        base_url: common_options.base_url,},
-        common_options));
+    var directory_readme = new directoryreadme.DirectoryReadme('#directory_readme', notebook_list);
 
     var terminal_list;
     if (utils.get_body_data("terminalsAvailable") === "True") {
