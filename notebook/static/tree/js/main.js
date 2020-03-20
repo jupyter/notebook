@@ -98,6 +98,7 @@ requirejs([
         session_list:  session_list},
         common_options));
     var kernel_list = new kernellist.KernelList('#running_list_panel',  $.extend({
+        contents: contents,
         session_list:  session_list},
         common_options));
     
