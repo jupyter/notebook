@@ -139,6 +139,38 @@ class MappingKernelManagerBase(LoggingConfigurable):
         self.kernel_culler = KernelCuller(parent=self)
         self.activity_monitor = ActivityMonitor(parent=self)
 
+    def kernel_model(self, kernel_id):
+        """Return a JSON-safe dict representing a kernel
+
+        For use in representing kernels in the JSON APIs.
+        """
+        self._check_kernel_id(kernel_id)
+        kernel = self._kernels[kernel_id]
+
+        model = {
+            "id":kernel_id,
+            "name": kernel.kernel_name,
+            "last_activity": isoformat(kernel.last_activity),
+            "execution_state": kernel.execution_state,
+            "connections": self._kernel_connections[kernel_id],
+        }
+        return model
+
+    def list_kernels(self):
+        """Returns a list of kernel models relative to the running kernels."""
+        kernels = []
+        kernel_ids = self.list_kernel_ids()
+        for kernel_id in kernel_ids:
+            model = self.kernel_model(kernel_id)
+            kernels.append(model)
+        return kernels
+
+    # override _check_kernel_id to raise 404 instead of KeyError
+    def _check_kernel_id(self, kernel_id):
+        """Check a that a kernel_id exists and raise 404 if not."""
+        if kernel_id not in self:
+            raise web.HTTPError(404, u'Kernel does not exist: %s' % kernel_id)
+
     def cwd_for_path(self, path):
         """Turn API path into absolute OS path."""
         os_path = to_os_path(path, self.root_dir)
@@ -223,7 +255,7 @@ class MappingKernelManagerBase(LoggingConfigurable):
         self.kernel_culler.cull_kernel_if_idle(kernel_id)
 
 
-class MappingKernelManager(MultiKernelManager, MappingKernelManagerBase):
+class MappingKernelManager(MappingKernelManagerBase, MultiKernelManager):
     """A KernelManager that handles notebook mapping and HTTP error handling"""
 
     @default('kernel_manager_class')
@@ -349,40 +381,8 @@ class MappingKernelManager(MultiKernelManager, MappingKernelManagerBase):
         # wait for restart to complete
         yield future
 
-    def kernel_model(self, kernel_id):
-        """Return a JSON-safe dict representing a kernel
 
-        For use in representing kernels in the JSON APIs.
-        """
-        self._check_kernel_id(kernel_id)
-        kernel = self._kernels[kernel_id]
-
-        model = {
-            "id":kernel_id,
-            "name": kernel.kernel_name,
-            "last_activity": isoformat(kernel.last_activity),
-            "execution_state": kernel.execution_state,
-            "connections": self._kernel_connections[kernel_id],
-        }
-        return model
-
-    def list_kernels(self):
-        """Returns a list of kernel models relative to the running kernels."""
-        kernels = []
-        kernel_ids = self.list_kernel_ids()
-        for kernel_id in kernel_ids:
-            model = self.kernel_model(kernel_id)
-            kernels.append(model)
-        return kernels
-
-    # override _check_kernel_id to raise 404 instead of KeyError
-    def _check_kernel_id(self, kernel_id):
-        """Check a that a kernel_id exists and raise 404 if not."""
-        if kernel_id not in self:
-            raise web.HTTPError(404, u'Kernel does not exist: %s' % kernel_id)
-
-
-class AsyncMappingKernelManager(AsyncMultiKernelManager, MappingKernelManagerBase):
+class AsyncMappingKernelManager(MappingKernelManagerBase, AsyncMultiKernelManager):
     """A KernelManager that handles notebook mapping and HTTP error handling using coroutines throughout"""
 
     @default('kernel_manager_class')
@@ -503,38 +503,6 @@ class AsyncMappingKernelManager(AsyncMultiKernelManager, MappingKernelManagerBas
         loop = IOLoop.current()
         timeout = loop.add_timeout(loop.time() + self.kernel_info_timeout, on_timeout)
         return future
-
-    def kernel_model(self, kernel_id):
-        """Return a JSON-safe dict representing a kernel
-
-        For use in representing kernels in the JSON APIs.
-        """
-        self._check_kernel_id(kernel_id)
-        kernel = self._kernels[kernel_id]
-
-        model = {
-            "id":kernel_id,
-            "name": kernel.kernel_name,
-            "last_activity": isoformat(kernel.last_activity),
-            "execution_state": kernel.execution_state,
-            "connections": self._kernel_connections[kernel_id],
-        }
-        return model
-
-    def list_kernels(self):
-        """Returns a list of kernel models relative to the running kernels."""
-        kernels = []
-        kernel_ids = self.list_kernel_ids()
-        for kernel_id in kernel_ids:
-            model = self.kernel_model(kernel_id)
-            kernels.append(model)
-        return kernels
-
-    # override _check_kernel_id to raise 404 instead of KeyError
-    def _check_kernel_id(self, kernel_id):
-        """Check a that a kernel_id exists and raise 404 if not."""
-        if kernel_id not in self:
-            raise web.HTTPError(404, u'Kernel does not exist: %s' % kernel_id)
 
 
 class ActivityMonitor(LoggingConfigurable):
