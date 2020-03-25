@@ -76,7 +76,7 @@ from notebook import (
 
 from .base.handlers import Template404, RedirectWithParams
 from .log import log_request
-from .services.kernels.kernelmanager import MappingKernelManager, AsyncMappingKernelManager, MappingKernelManagerBase
+from .services.kernels.kernelmanager import MappingKernelManager, AsyncMappingKernelManager
 from .services.config import ConfigManager
 from .services.contents.manager import ContentsManager
 from .services.contents.filemanager import FileContentsManager
@@ -109,7 +109,7 @@ from notebook._sysinfo import get_sys_info
 from ._tz import utcnow, utcfromtimestamp
 from .utils import url_path_join, check_pid, url_escape, urljoin, pathname2url
 
-# Check if we can user async kernel management
+# Check if we can use async kernel management
 try:
     from jupyter_client import AsyncMultiKernelManager
     async_kernel_mgmt_available = True
@@ -584,7 +584,7 @@ class NotebookApp(JupyterApp):
     flags = flags
     
     classes = [
-        KernelManager, Session, MappingKernelManager, AsyncMappingKernelManager, KernelSpecManager,
+        KernelManager, Session, MappingKernelManager, KernelSpecManager,
         ContentsManager, FileContentsManager, NotebookNotary,
         GatewayKernelManager, GatewayKernelSpecManager, GatewaySessionManager, GatewayClient,
     ]
@@ -1185,7 +1185,7 @@ class NotebookApp(JupyterApp):
 
     kernel_manager_class = Type(
         default_value=MappingKernelManager,
-        klass=MappingKernelManagerBase,
+        klass=MappingKernelManager,
         config=True,
         help=_('The kernel manager class to use.')
     )
@@ -1816,7 +1816,8 @@ class NotebookApp(JupyterApp):
             info += kernel_msg % n_kernels
             info += "\n"
         # Format the info so that the URL fits on a single line in 80 char display
-        info += _("The Jupyter Notebook is running at:\n%s") % self.display_url
+        info += _("Jupyter Notebook {version} is running at:\n{url}".
+                  format(version=NotebookApp.version, url=self.display_url))
         if self.gateway_config.gateway_enabled:
             info += _("\nKernels will be managed by the Gateway server running at:\n%s") % self.gateway_config.url
         return info

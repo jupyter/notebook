@@ -22,7 +22,7 @@ from notebook.utils import maybe_future
 
 class SessionManager(LoggingConfigurable):
 
-    kernel_manager = Instance('notebook.services.kernels.kernelmanager.MappingKernelManagerBase')
+    kernel_manager = Instance('notebook.services.kernels.kernelmanager.MappingKernelManager')
     contents_manager = Instance('notebook.services.contents.manager.ContentsManager')
     
     # Session database initialized below

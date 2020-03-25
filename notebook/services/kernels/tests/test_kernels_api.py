@@ -227,6 +227,7 @@ class KernelFilterTest(NotebookTestBase):
             }
         }
     })
+
     # Sanity check verifying that the configurable was properly set.
     def test_config(self):
         self.assertEqual(self.notebook.kernel_manager.allowed_message_types, ['kernel_info_request'])

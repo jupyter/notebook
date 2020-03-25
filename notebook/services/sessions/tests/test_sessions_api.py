@@ -273,11 +273,12 @@ class AsyncSessionAPITest(SessionAPITest):
     def get_argv(cls):
         argv = super(AsyncSessionAPITest, cls).get_argv()
 
-        # before we extend the argv with the class, ensure that appropriate jupyter_client is available.
+        # Before we extend the argv with the class, ensure that appropriate jupyter_client is available.
         # if not available, don't set kernel_manager_class, resulting in the repeat of sync-based tests.
         if async_testing_enabled:
             argv.extend(['--NotebookApp.kernel_manager_class='
                         'notebook.services.kernels.kernelmanager.AsyncMappingKernelManager'])
+
         return argv
 
     def setUp(self):
