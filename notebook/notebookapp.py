@@ -107,7 +107,7 @@ from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
 from notebook._sysinfo import get_sys_info
 
 from ._tz import utcnow, utcfromtimestamp
-from .utils import url_path_join, check_pid, url_escape, urljoin, pathname2url
+from .utils import url_path_join, check_pid, url_escape, urljoin, pathname2url, run_sync
 
 # Check if we can use async kernel management
 try:
@@ -1801,11 +1801,7 @@ class NotebookApp(JupyterApp):
         n_kernels = len(self.kernel_manager.list_kernel_ids())
         kernel_msg = trans.ngettext('Shutting down %d kernel', 'Shutting down %d kernels', n_kernels)
         self.log.info(kernel_msg % n_kernels)
-        # If we're using async kernel management, we need to invoke the async method via the event loop.
-        if isinstance(self.kernel_manager, AsyncMappingKernelManager):
-            asyncio.get_event_loop().run_until_complete(self.kernel_manager.shutdown_all())
-        else:
-            self.kernel_manager.shutdown_all()
+        run_sync(self.kernel_manager.shutdown_all())
 
     def notebook_info(self, kernel_count=True):
         "Return the current working directory and the server url information"

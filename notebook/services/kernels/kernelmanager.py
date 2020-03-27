@@ -122,10 +122,6 @@ class MappingKernelManager(MultiKernelManager):
     last_kernel_activity = Instance(datetime,
         help="The last activity on any kernel, including shutting down a kernel")
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.last_kernel_activity = utcnow()
-
     allowed_message_types = List(trait=Unicode(), config=True,
         help="""White list of allowed kernel message types.
         When the list is empty, all message types are allowed.
@@ -137,8 +133,11 @@ class MappingKernelManager(MultiKernelManager):
     #-------------------------------------------------------------------------
 
     def __init__(self, **kwargs):
-        self.super = MultiKernelManager
-        self.super.__init__(self, **kwargs)
+        # Pin the superclass to better control the MRO.  This is needed by
+        # AsyncMappingKernelManager so that it can give priority to methods
+        # on AsyncMultiKernelManager over this superclass.
+        self.pinned_superclass = MultiKernelManager
+        self.pinned_superclass.__init__(self, **kwargs)
         self.last_kernel_activity = utcnow()
 
     def _handle_kernel_died(self, kernel_id):
@@ -173,7 +172,7 @@ class MappingKernelManager(MultiKernelManager):
         if kernel_id is None:
             if path is not None:
                 kwargs['cwd'] = self.cwd_for_path(path)
-            kernel_id = await maybe_future(self.super.start_kernel(self, **kwargs))
+            kernel_id = await maybe_future(self.pinned_superclass.start_kernel(self, **kwargs))
             self._kernel_connections[kernel_id] = 0
             self.start_watching_activity(kernel_id)
             self.log.info("Kernel started: %s" % kernel_id)
@@ -302,12 +301,12 @@ class MappingKernelManager(MultiKernelManager):
             type=self._kernels[kernel_id].kernel_name
         ).dec()
 
-        return self.super.shutdown_kernel(self, kernel_id, now=now, restart=restart)
+        return self.pinned_superclass.shutdown_kernel(self, kernel_id, now=now, restart=restart)
 
     async def restart_kernel(self, kernel_id, now=False):
         """Restart a kernel by kernel_id"""
         self._check_kernel_id(kernel_id)
-        await maybe_future(self.super.restart_kernel(self, kernel_id, now=now))
+        await maybe_future(self.pinned_superclass.restart_kernel(self, kernel_id, now=now))
         kernel = self.get_kernel(kernel_id)
         # return a Future that will resolve when the kernel has successfully restarted
         channel = kernel.connect_shell()
@@ -374,7 +373,7 @@ class MappingKernelManager(MultiKernelManager):
     def list_kernels(self):
         """Returns a list of kernel_id's of kernels running."""
         kernels = []
-        kernel_ids = self.super.list_kernel_ids(self)
+        kernel_ids = self.pinned_superclass.list_kernel_ids(self)
         for kernel_id in kernel_ids:
             model = self.kernel_model(kernel_id)
             kernels.append(model)
@@ -485,8 +484,9 @@ class AsyncMappingKernelManager(MappingKernelManager, AsyncMultiKernelManager):
         return "jupyter_client.ioloop.AsyncIOLoopKernelManager"
 
     def __init__(self, **kwargs):
-        self.super = AsyncMultiKernelManager
-        self.super.__init__(self, **kwargs)
+        # Pin the superclass to better control the MRO.
+        self.pinned_superclass = AsyncMultiKernelManager
+        self.pinned_superclass.__init__(self, **kwargs)
         self.last_kernel_activity = utcnow()
 
     async def shutdown_kernel(self, kernel_id, now=False, restart=False):
@@ -505,4 +505,4 @@ class AsyncMappingKernelManager(MappingKernelManager, AsyncMultiKernelManager):
             type=self._kernels[kernel_id].kernel_name
         ).dec()
 
-        return await self.super.shutdown_kernel(self, kernel_id, now=now, restart=restart)
+        return await self.pinned_superclass.shutdown_kernel(self, kernel_id, now=now, restart=restart)
