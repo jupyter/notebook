@@ -117,8 +117,8 @@ def mock_gateway_request(url, **kwargs):
         raise gen.Return(response)
 
     # Fetch existing kernel
-    if endpoint.rfind('/api/kernels/') >= 0  and method == 'GET':
-        requested_kernel_id =  endpoint.rpartition('/')[2]
+    if endpoint.rfind('/api/kernels/') >= 0 and method == 'GET':
+        requested_kernel_id = endpoint.rpartition('/')[2]
         if requested_kernel_id in running_kernels:
             response_buf = StringIO(json.dumps(running_kernels.get(requested_kernel_id)))
             response = yield maybe_future(HTTPResponse(request, 200, buffer=response_buf))
@@ -149,14 +149,19 @@ class TestGateway(NotebookTestBase):
     def get_patch_env(cls):
         test_env = super(TestGateway, cls).get_patch_env()
         test_env.update({'JUPYTER_GATEWAY_URL': TestGateway.mock_gateway_url,
-                         'JUPYTER_GATEWAY_REQUEST_TIMEOUT': '44.4'})
+                         'JUPYTER_GATEWAY_CONNECT_TIMEOUT': '44.4'})
         return test_env
 
     @classmethod
     def get_argv(cls):
         argv = super(TestGateway, cls).get_argv()
-        argv.extend(['--GatewayClient.connect_timeout=44.4', '--GatewayClient.http_user=' + TestGateway.mock_http_user])
+        argv.extend(['--GatewayClient.request_timeout=96.0', '--GatewayClient.http_user=' + TestGateway.mock_http_user])
         return argv
+
+    def setUp(self):
+        kwargs = dict()
+        GatewayClient.instance().load_connection_args(**kwargs)
+        super(TestGateway, self).setUp()
 
     def test_gateway_options(self):
         nt.assert_equal(self.notebook.gateway_config.gateway_enabled, True)
@@ -164,6 +169,8 @@ class TestGateway(NotebookTestBase):
         nt.assert_equal(self.notebook.gateway_config.http_user, TestGateway.mock_http_user)
         nt.assert_equal(self.notebook.gateway_config.connect_timeout, self.notebook.gateway_config.connect_timeout)
         nt.assert_equal(self.notebook.gateway_config.connect_timeout, 44.4)
+        nt.assert_equal(self.notebook.gateway_config.request_timeout, 96.0)
+        nt.assert_equal(os.environ['KERNEL_LAUNCH_TIMEOUT'], str(96))  # Ensure KLT gets set from request-timeout
 
     def test_gateway_class_mappings(self):
         # Ensure appropriate class mappings are in place.
