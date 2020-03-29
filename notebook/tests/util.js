@@ -789,7 +789,7 @@ casper.event_test = function (name, events, action, timeout) {
     });
 };
 
-casper.options.waitTimeout=10000;
+casper.options.waitTimeout=20000;
 casper.on('waitFor.timeout', function onWaitForTimeout(timeout) {
     this.echo("Timeout for " + casper.get_notebook_server());
     this.echo("Is the notebook server running?");
