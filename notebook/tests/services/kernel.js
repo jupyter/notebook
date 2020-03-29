@@ -137,11 +137,15 @@ casper.notebook_test(function () {
     });
     this.then(function () {
         this.test.assertEquals(url, base_url + "api/kernels", "start url is correct");
-    });
+    });    
+
     this.wait_for_kernel_ready();
+
     this.then(function () {
         this.test.assert(this.kernel_running(), 'kernel is running');
     });
+
+
 
     // test start with parameters
     this.thenEvaluate(function () {
@@ -156,170 +160,172 @@ casper.notebook_test(function () {
     this.then(function () {
         this.test.assertEquals(url, base_url + "api/kernels?foo=bar", "start url with params is correct");
     });
+
     this.wait_for_kernel_ready();
+
     this.then(function () {
         this.test.assert(this.kernel_running(), 'kernel is running');
     });
 
     // check for events in kill/start cycle
-    this.event_test(
-        'kill/start',
-        [
-            'kernel_killed.Kernel',
-            'kernel_starting.Kernel',
-            'kernel_created.Kernel',
-            'kernel_connected.Kernel',
-            'kernel_ready.Kernel'
-        ],
-        function () {
-            this.thenEvaluate(function () {
-                IPython.notebook.kernel.kill();
-            });
-            this.waitFor(this.kernel_disconnected);
-            this.thenEvaluate(function () {
-                IPython.notebook.kernel.start();
-            });
-        }
-    );
+    // this.event_test(
+    //     'kill/start',
+    //     [
+    //         'kernel_killed.Kernel',
+    //         'kernel_starting.Kernel',
+    //         'kernel_created.Kernel',
+    //         'kernel_connected.Kernel',
+    //         'kernel_ready.Kernel'
+    //     ],
+    //     function () {
+    //         this.thenEvaluate(function () {
+    //             IPython.notebook.kernel.kill();
+    //         });
+    //         this.waitFor(this.kernel_disconnected);
+    //         this.thenEvaluate(function () {
+    //             IPython.notebook.kernel.start();
+    //         });
+    //     }
+    // );
     // wait for any last idle/busy messages to be handled
     this.wait_for_kernel_ready();
 
-    // check for events in disconnect/connect cycle
-    this.event_test(
-        'reconnect',
-        [
-            'kernel_reconnecting.Kernel',
-            'kernel_connected.Kernel',
-        ],
-        function () {
-            this.thenEvaluate(function () {
-                IPython.notebook.kernel.stop_channels();
-                IPython.notebook.kernel.reconnect(1);
-            });
-        }
-    );
-    // wait for any last idle/busy messages to be handled
+    // // check for events in disconnect/connect cycle
+    // this.event_test(
+    //     'reconnect',
+    //     [
+    //         'kernel_reconnecting.Kernel',
+    //         'kernel_connected.Kernel',
+    //     ],
+    //     function () {
+    //         this.thenEvaluate(function () {
+    //             IPython.notebook.kernel.stop_channels();
+    //             IPython.notebook.kernel.reconnect(1);
+    //         });
+    //     }
+    // );
+    // // wait for any last idle/busy messages to be handled
     this.wait_for_kernel_ready();
 
     // check for events in the restart cycle
-    this.event_test(
-        'restart',
-        [
-            'kernel_restarting.Kernel',
-            'kernel_created.Kernel',
-            'kernel_connected.Kernel',
-            'kernel_ready.Kernel'
-        ],
-        function () {
-            this.thenEvaluate(function () {
-                IPython.notebook.kernel.restart();
-            });
-        }
-    );
+    // this.event_test(
+    //     'restart',
+    //     [
+    //         'kernel_restarting.Kernel',
+    //         'kernel_created.Kernel',
+    //         'kernel_connected.Kernel',
+    //         'kernel_ready.Kernel'
+    //     ],
+    //     function () {
+    //         this.thenEvaluate(function () {
+    //             IPython.notebook.kernel.restart();
+    //         });
+    //     }
+    // );
     // wait for any last idle/busy messages to be handled
     this.wait_for_kernel_ready();
 
-    // check for events in the interrupt cycle
-    this.event_test(
-        'interrupt',
-        [
-            'kernel_interrupting.Kernel',
-            'kernel_busy.Kernel',
-            'kernel_idle.Kernel'
-        ],
-        function () {
-            this.thenEvaluate(function () {
-                IPython.notebook.kernel.interrupt();
-            });
-        }
-    );
+//     // check for events in the interrupt cycle
+//     this.event_test(
+//         'interrupt',
+//         [
+//             'kernel_interrupting.Kernel',
+//             'kernel_busy.Kernel',
+//             'kernel_idle.Kernel'
+//         ],
+//         function () {
+//             this.thenEvaluate(function () {
+//                 IPython.notebook.kernel.interrupt();
+//             });
+//         }
+//     );
     this.wait_for_kernel_ready();
 
-    // check for events after ws close
-    this.event_test(
-        'ws_closed_ok',
-        [
-            'kernel_disconnected.Kernel',
-            'kernel_reconnecting.Kernel',
-            'kernel_connected.Kernel',
-            'kernel_busy.Kernel',
-            'kernel_idle.Kernel'
-        ],
-        function () {
-            this.thenEvaluate(function () {
-                IPython.notebook.kernel._ws_closed("", false);
-            });
-        }
-    );
-    // wait for any last idle/busy messages to be handled
+//     // check for events after ws close
+//     this.event_test(
+//         'ws_closed_ok',
+//         [
+//             'kernel_disconnected.Kernel',
+//             'kernel_reconnecting.Kernel',
+//             'kernel_connected.Kernel',
+//             'kernel_busy.Kernel',
+//             'kernel_idle.Kernel'
+//         ],
+//         function () {
+//             this.thenEvaluate(function () {
+//                 IPython.notebook.kernel._ws_closed("", false);
+//             });
+//         }
+//     );
+//     // wait for any last idle/busy messages to be handled
     this.wait_for_kernel_ready();
 
-    // check for events after ws close (error)
-    this.event_test(
-        'ws_closed_error',
-        [
-            'kernel_disconnected.Kernel',
-            'kernel_connection_failed.Kernel',
-            'kernel_reconnecting.Kernel',
-            'kernel_connected.Kernel',
-            'kernel_busy.Kernel',
-            'kernel_idle.Kernel'
-        ],
-        function () {
-            this.thenEvaluate(function () {
-                IPython.notebook.kernel._ws_closed("", true);
-            });
-        }
-    );
-    // wait for any last idle/busy messages to be handled
+//     // check for events after ws close (error)
+//     this.event_test(
+//         'ws_closed_error',
+//         [
+//             'kernel_disconnected.Kernel',
+//             'kernel_connection_failed.Kernel',
+//             'kernel_reconnecting.Kernel',
+//             'kernel_connected.Kernel',
+//             'kernel_busy.Kernel',
+//             'kernel_idle.Kernel'
+//         ],
+//         function () {
+//             this.thenEvaluate(function () {
+//                 IPython.notebook.kernel._ws_closed("", true);
+//             });
+//         }
+//     );
+//     // wait for any last idle/busy messages to be handled
+    // this.wait_for_kernel_ready();
+
+//     // start the kernel back up
+//     this.thenEvaluate(function () {
+//         IPython.notebook.kernel.restart();
+//     });
+//     this.waitFor(this.kernel_running);
+        this.wait_for_kernel_ready();
+
+//     // test handling of autorestarting messages
+//     this.event_test(
+//         'autorestarting',
+//         [
+//             'kernel_restarting.Kernel',
+//             'kernel_autorestarting.Kernel',
+//         ],
+//         function () {
+//             this.thenEvaluate(function () {
+//                 var cell = IPython.notebook.get_cell(0);
+//                 cell.set_text('import os\n' + 'os._exit(1)');
+//                 cell.execute();
+//             });
+//         }
+//     );
     this.wait_for_kernel_ready();
 
-    // start the kernel back up
-    this.thenEvaluate(function () {
-        IPython.notebook.kernel.restart();
-    });
-    this.waitFor(this.kernel_running);
-    this.wait_for_kernel_ready();
+//     // test handling of failed restart
+//     this.event_test(
+//         'failed_restart',
+//         [
+//             'kernel_restarting.Kernel',
+//             'kernel_autorestarting.Kernel',
+//             'kernel_dead.Kernel'
+//         ],
+//         function () {
+//             this.thenEvaluate(function () {
+//                 var cell = IPython.notebook.get_cell(0);
+//                 cell.set_text("import os\n" +
+//                               "from IPython.kernel.connect import get_connection_file\n" +
+//                               "with open(get_connection_file(), 'w') as f:\n" +
+//                               "    f.write('garbage')\n" +
+//                               "os._exit(1)");
+//                 cell.execute();
+//             });
+//         }, 
 
-    // test handling of autorestarting messages
-    this.event_test(
-        'autorestarting',
-        [
-            'kernel_restarting.Kernel',
-            'kernel_autorestarting.Kernel',
-        ],
-        function () {
-            this.thenEvaluate(function () {
-                var cell = IPython.notebook.get_cell(0);
-                cell.set_text('import os\n' + 'os._exit(1)');
-                cell.execute();
-            });
-        }
-    );
-    this.wait_for_kernel_ready();
-
-    // test handling of failed restart
-    this.event_test(
-        'failed_restart',
-        [
-            'kernel_restarting.Kernel',
-            'kernel_autorestarting.Kernel',
-            'kernel_dead.Kernel'
-        ],
-        function () {
-            this.thenEvaluate(function () {
-                var cell = IPython.notebook.get_cell(0);
-                cell.set_text("import os\n" +
-                              "from IPython.kernel.connect import get_connection_file\n" +
-                              "with open(get_connection_file(), 'w') as f:\n" +
-                              "    f.write('garbage')\n" +
-                              "os._exit(1)");
-                cell.execute();
-            });
-        }, 
-
-        // need an extra-long timeout, because it needs to try
-        // restarting the kernel 5 times!
-        20000
-    );
+//         // need an extra-long timeout, because it needs to try
+//         // restarting the kernel 5 times!
+//         20000
+//     );
 });
