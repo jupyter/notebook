@@ -753,7 +753,7 @@ casper.event_test = function (name, events, action, timeout) {
             IPython._event_handlers[events[i]] = make_handler(events[i]);
             IPython.notebook.events.on(events[i], IPython._event_handlers[events[i]]);
         }
-    }, [events]);
+    }, events);
 
     // execute the requested action
     this.then(action);
@@ -762,7 +762,7 @@ casper.event_test = function (name, events, action, timeout) {
     this.waitFor(function () {
         return this.evaluate(function (events) {
             return IPython._events_triggered.length >= events.length;
-        }, [events]);
+        }, events);
     }, undefined, undefined, timeout);
 
     // test that the events were triggered in the proper order

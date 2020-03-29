@@ -95,60 +95,60 @@ casper.notebook_test(function () {
     });
 
     // check for events when starting the session
-    // this.event_test(
-    //     'start_session',
-    //     [
-    //         'kernel_created.Session',
-    //         'kernel_connected.Kernel',
-    //         'kernel_ready.Kernel'
-    //     ],
-    //     function () {
-    //         this.thenEvaluate(function () {
-    //             IPython.notebook.session.start();
-    //         });
-    //     }
-    // );
-    // this.wait_for_kernel_ready();
+    this.event_test(
+        'start_session',
+        [
+            'kernel_created.Session',
+            'kernel_connected.Kernel',
+            'kernel_ready.Kernel'
+        ],
+        function () {
+            this.thenEvaluate(function () {
+                IPython.notebook.session.start();
+            });
+        }
+    );
+    this.wait_for_kernel_ready();
 
     // // check for events when killing the session
-    // this.event_test(
-    //     'delete_session',
-    //     ['kernel_killed.Session'],
-    //     function () {
-    //         this.thenEvaluate(function () {
-    //             IPython.notebook.session.delete();
-    //         });
-    //     }
-    // );
+    this.event_test(
+        'delete_session',
+        ['kernel_killed.Session'],
+        function () {
+            this.thenEvaluate(function () {
+                IPython.notebook.session.delete();
+            });
+        }
+    );
 
-    // this.thenEvaluate( function() {IPython.notebook.session.start()});
-    // this.wait_for_kernel_ready();
+    this.thenEvaluate( function() {IPython.notebook.session.start()});
+    this.wait_for_kernel_ready();
 
-    // // check for events when restarting the session
-    // this.event_test(
-    //     'restart_session',
-    //     [
-    //         'kernel_killed.Session',
-    //         'kernel_created.Session',
-    //         'kernel_connected.Kernel',
-    //         'kernel_ready.Kernel'
-    //     ],
-    //     function () {
-    //         this.thenEvaluate(function () {
-    //             IPython.notebook.session.restart();
-    //         });
-    //     }
-    // );
-    // this.wait_for_kernel_ready();
+    // check for events when restarting the session
+    this.event_test(
+        'restart_session',
+        [
+            'kernel_killed.Session',
+            'kernel_created.Session',
+            'kernel_connected.Kernel',
+            'kernel_ready.Kernel'
+        ],
+        function () {
+            this.thenEvaluate(function () {
+                IPython.notebook.session.restart();
+            });
+        }
+    );
+    this.wait_for_kernel_ready();
 
+    // TODO: Check if kernel is dead, crashes kernel and timeout fails test
     // // test handling of failed restart
     // this.event_test(
     //     'failed_restart',
     //     [
     //         'kernel_restarting.Kernel',
     //         'kernel_autorestarting.Kernel',
-    //         'kernel_killed.Session',
-    //         'kernel_dead.Kernel',
+    //         'kernel_killed.Session'
     //     ],
     //     function () {
     //         this.thenEvaluate(function () {
@@ -167,20 +167,20 @@ casper.notebook_test(function () {
     //     20000
     // );
 
-    // this.thenEvaluate( function() {IPython.notebook.session.start()});
-    // this.wait_for_kernel_ready();
+    this.thenEvaluate( function() {IPython.notebook.session.start()});
+    this.wait_for_kernel_ready();
 
-    // // check for events when starting a nonexistent kernel
-    // this.event_test(
-    //     'bad_start_session',
-    //     [
-    //         'kernel_killed.Session',
-    //         'kernel_dead.Session'
-    //     ],
-    //     function () {
-    //         this.thenEvaluate(function () {
-    //             IPython.notebook.session.restart({kernel_name: 'foo'});
-    //         });
-    //     }
-    // );
+    // check for events when starting a nonexistent kernel
+    this.event_test(
+        'bad_start_session',
+        [
+            'kernel_killed.Session',
+            'kernel_dead.Session'
+        ],
+        function () {
+            this.thenEvaluate(function () {
+                IPython.notebook.session.restart({kernel_name: 'foo'});
+            });
+        }
+    );
 });
