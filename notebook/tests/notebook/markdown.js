@@ -171,6 +171,8 @@ casper.notebook_test(function () {
     });
     this.test.assertEquals(output.trim(), '<p>(<em>Foo</em>)</p>','Markdown italics in parenthesis work.');
 
+    // Test markdown italics period
+
     output = this.evaluate(function () {
       IPython.notebook.to_markdown();
       var cell = IPython.notebook.get_selected_cell();
