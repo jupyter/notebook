@@ -859,7 +859,6 @@ define([
         return _append_img(png, md, element, handle_inserted, MIME_PNG, 'png');
     };
 
-
     var append_jpeg = function (jpeg, md, element, handle_inserted) {
         return _append_img(jpeg, md, element, handle_inserted, MIME_JPEG, 'jpeg');
     };
