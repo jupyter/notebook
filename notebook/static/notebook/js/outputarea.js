@@ -867,8 +867,6 @@ define([
         return _append_img(gif, md, element, handle_inserted, MIME_GIF, 'gif');
     };
 
-
-
     var append_pdf = function (pdf, md, element) {
         var type = MIME_PDF;
         var toinsert = this.create_output_subarea(md, "output_pdf", type);
