@@ -861,7 +861,7 @@ class NotebookApp(JupyterApp):
                       This is useful in a multi user environment, for instance when
                       everybody in the LAN can access each other's machine through ssh.
 
-                      In such a case, server the notebook server on localhost is not secure
+                      In such a case, serving the notebook server on localhost is not secure
                       since any user can connect to the notebook server via ssh.
 
                       """
