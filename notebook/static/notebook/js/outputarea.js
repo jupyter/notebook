@@ -838,7 +838,7 @@ define([
         }
     };
     
-    var append_img = function (src_type, md, element, handle_inserted, MIME, type_string) {
+    _append_img = function (src_type, md, element, handle_inserted, MIME, type_string) {
         var type = MIME;
         var toinsert = this.create_output_subarea(md, 'output_' + type_string, type);
         var img = $("<img/>");
@@ -856,16 +856,16 @@ define([
     };
     
     var append_png = function (png, md, element, handle_inserted) {
-        append_img(png, md, element, handle_inserted, MIME_PNG, 'png');
+        return _append_img(png, md, element, handle_inserted, MIME_PNG, 'png');
     };
 
 
     var append_jpeg = function (jpeg, md, element, handle_inserted) {
-        append_img(jpeg, md, element, handle_inserted, MIME_JPEG, 'jpeg');
+        return _append_img(jpeg, md, element, handle_inserted, MIME_JPEG, 'jpeg');
     };
     
     var append_gif = function (gif, md, element, handle_inserted) {
-        append_img(gif, md, element, handle_inserted, MIME_GIF, 'gif');
+        return _append_img(gif, md, element, handle_inserted, MIME_GIF, 'gif');
     };
 
 
