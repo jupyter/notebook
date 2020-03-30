@@ -838,7 +838,7 @@ define([
         }
     };
     
-    _append_img = function (src_type, md, element, handle_inserted, MIME, type_string) {
+    var _append_img = function (src_type, md, element, handle_inserted, MIME, type_string) {
         var type = MIME;
         var toinsert = this.create_output_subarea(md, 'output_' + type_string, type);
         var img = $("<img/>");
