@@ -1,6 +1,7 @@
 """Test the kernels service API."""
 
 import json
+import sys
 import time
 
 from traitlets.config import Config
@@ -199,6 +200,14 @@ class AsyncKernelAPITest(KernelAPITest):
     """Test the kernels web service API using the AsyncMappingKernelManager"""
 
     @classmethod
+    def setup_class(cls):
+        if not async_testing_enabled:
+            raise SkipTest("AsyncKernelAPITest tests skipped due to down-level jupyter_client!")
+        if sys.version_info < (3, 6):
+            raise SkipTest("AsyncKernelAPITest tests skipped due to Python < 3.6!")
+        super(AsyncKernelAPITest, cls).setup_class()
+
+    @classmethod
     def get_argv(cls):
         argv = super(AsyncKernelAPITest, cls).get_argv()
 
@@ -208,12 +217,6 @@ class AsyncKernelAPITest(KernelAPITest):
             argv.extend(['--NotebookApp.kernel_manager_class='
                         'notebook.services.kernels.kernelmanager.AsyncMappingKernelManager'])
         return argv
-
-    def setUp(self):
-        if not async_testing_enabled:
-            raise SkipTest("AsyncKernelAPITest.{test_method} skipped due to down-level jupyter_client!".
-                           format(test_method=self._testMethodName))
-        super(AsyncKernelAPITest, self).setUp()
 
 
 class KernelFilterTest(NotebookTestBase):

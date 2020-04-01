@@ -1390,14 +1390,16 @@ class NotebookApp(JupyterApp):
             connection_dir=self.runtime_dir,
             kernel_spec_manager=self.kernel_spec_manager,
         )
-        #  Ensure the appropriate jupyter_client is in place.
+        #  Ensure the appropriate version of Python and jupyter_client is available.
         if isinstance(self.kernel_manager, AsyncMappingKernelManager):
+            if sys.version_info < (3, 6):
+                raise ValueError("You are using `AsyncMappingKernelManager` in Python 3.5 (or lower) "
+                                 "which is not supported. Please upgrade Python to 3.6+ or change kernel managers.")
             if not async_kernel_mgmt_available:
                 raise ValueError("You are using `AsyncMappingKernelManager` without an appropriate "
-                                 "jupyter_client installed!  Upgrade jupyter_client or change kernel managers.")
-            else:
-                self.log.info("Asynchronous kernel management has been configured to use '{}'.".
-                              format(self.kernel_manager.__class__.__name__))
+                                 "jupyter_client installed!  Please upgrade jupyter_client or change kernel managers.")
+            self.log.info("Asynchronous kernel management has been configured to use '{}'.".
+                          format(self.kernel_manager.__class__.__name__))
 
         self.contents_manager = self.contents_manager_class(
             parent=self,

@@ -5,8 +5,8 @@ from functools import partial
 import io
 import os
 import json
-import requests
 import shutil
+import sys
 import time
 
 from unittest import SkipTest
@@ -270,6 +270,14 @@ class AsyncSessionAPITest(SessionAPITest):
     """Test the sessions web service API using the AsyncMappingKernelManager"""
 
     @classmethod
+    def setup_class(cls):
+        if not async_testing_enabled:
+            raise SkipTest("AsyncSessionAPITest tests skipped due to down-level jupyter_client!")
+        if sys.version_info < (3, 6):
+            raise SkipTest("AsyncSessionAPITest tests skipped due to Python < 3.6!")
+        super(AsyncSessionAPITest, cls).setup_class()
+
+    @classmethod
     def get_argv(cls):
         argv = super(AsyncSessionAPITest, cls).get_argv()
 
@@ -280,9 +288,3 @@ class AsyncSessionAPITest(SessionAPITest):
                         'notebook.services.kernels.kernelmanager.AsyncMappingKernelManager'])
 
         return argv
-
-    def setUp(self):
-        if not async_testing_enabled:
-            raise SkipTest("AsyncSessionAPITest.{test_method} skipped due to down-level jupyter_client!".
-                           format(test_method=self._testMethodName))
-        super(AsyncSessionAPITest, self).setUp()

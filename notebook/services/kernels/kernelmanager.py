@@ -35,7 +35,8 @@ try:
 except ImportError:
     class AsyncMultiKernelManager(object):
         """Empty class to satisfy unused reference by AsyncMappingKernelManager."""
-        pass
+        def __init__(self, **kwargs):
+            pass
 
 
 class MappingKernelManager(MultiKernelManager):
