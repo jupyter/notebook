@@ -92,13 +92,12 @@ define(function(requirejs) {
             processData : false,
             cache : false,
             type : "GET",
-            dataType : "json",
+            dataType : "json"
         };
+        var params = {}
         var url = this.api_url(path);
-        var params = {};
         if (options.type) { params.type = options.type; }
         if (options.format) { params.format = options.format; }
-        if (options.content === false) { params.content = '0'; }
         return utils.promising_ajax(url + '?' + $.param(params), settings);
     };
 
@@ -260,8 +259,15 @@ define(function(requirejs) {
      * @method list_notebooks
      * @param {String} path The path to list notebooks in
      */
-    Contents.prototype.list_contents = function(path) {
-        return this.get(path, {type: 'directory'});
+    Contents.prototype.list_contents = async function(path) {
+        var res = await this.get(path, {type: 'directory'});
+        res.content.forEach(entry => {
+            if (entry.type === 'directory') {
+                entry.content = this.get(path + "/" + entry.name, {type: 'directory'})
+            }
+        });
+
+        return res;
     };
 
     return {'Contents': Contents};

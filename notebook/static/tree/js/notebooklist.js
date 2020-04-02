@@ -437,7 +437,11 @@ define([
             );
             breadcrumb.append(crumb);
         });
+        console.log("LIST CONTENTS BELOW")
+        console.log(this.contents.list_contents(that.notebook_path))
         this.contents.list_contents(that.notebook_path).then(
+            console.log("Before proxyy")
+            console.log(this)
             $.proxy(this.draw_notebook_list, this),
             function(error) {
                 that.draw_notebook_list({content: []}, i18n.msg._("Server error: ") + error.message);
@@ -495,15 +499,20 @@ define([
             model = {
                 type: 'directory',
                 name: '..',
-                path: utils.url_path_split(path)[0]
+                path: utils.url_path_split(path)[0],
+                path_full: path
             };
             this.add_link(model, item);
             offset += 1;
         }
+        console.log(len)
+        console.log(list)
+        console.log("********************************************************")
         for (var i=0; i<len; i++) {
             model = list.content[i];
             item = this.new_item(i+offset, true);
             try {
+                console.log("REACHEEEEEEDDDD")
                 this.add_link(model, item);
             } catch(err) {
                 console.log('Error adding link: ' + err);
@@ -846,6 +855,7 @@ define([
     };
 
     NotebookList.prototype.add_link = function (model, item) {
+
         var that = this;
         var running = (model.type === 'notebook' && this.sessions[model.path] !== undefined);
         item.data('name',model.name);
@@ -910,6 +920,8 @@ define([
         // Add in the date that the file was last modified
         item.find(".item_modified").text(utils.format_datetime(model.last_modified));
         item.find(".item_modified").attr("title", moment(model.last_modified).format("YYYY-MM-DD HH:mm"));
+
+        console.log("file last modified: " + utils.format_datetime(model.last_modified))
 
         var filesize = utils.format_filesize(model.size);
         item.find(".file_size").text(filesize || '\xA0');
