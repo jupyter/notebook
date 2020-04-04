@@ -327,3 +327,43 @@ def maybe_future(obj):
         f.set_result(obj)
         return f
 
+
+def run_sync(maybe_async):
+    """If async, runs maybe_async and blocks until it has executed,
+    possibly creating an event loop.
+    If not async, just returns maybe_async as it is the result of something
+    that has already executed.
+    Parameters
+    ----------
+    maybe_async : async or non-async object
+        The object to be executed, if it is async.
+    Returns
+    -------
+    result :
+        Whatever the async object returns, or the object itself.
+    """
+    if not inspect.isawaitable(maybe_async):
+        # that was not something async, just return it
+        return maybe_async
+    # it is async, we need to run it in an event loop
+
+    def wrapped():
+        create_new_event_loop = False
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            create_new_event_loop = True
+        else:
+            if loop.is_closed():
+                create_new_event_loop = True
+        if create_new_event_loop:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+        try:
+            result = loop.run_until_complete(maybe_async)
+        except RuntimeError as e:
+            if str(e) == 'This event loop is already running':
+                # just return a Future, hoping that it will be awaited
+                result = asyncio.ensure_future(maybe_async)
+        return result
+    return wrapped()

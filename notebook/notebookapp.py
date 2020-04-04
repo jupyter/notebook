@@ -7,6 +7,7 @@
 from __future__ import absolute_import, print_function
 
 import notebook
+import asyncio
 import binascii
 import datetime
 import errno
@@ -75,7 +76,7 @@ from notebook import (
 
 from .base.handlers import Template404, RedirectWithParams
 from .log import log_request
-from .services.kernels.kernelmanager import MappingKernelManager
+from .services.kernels.kernelmanager import MappingKernelManager, AsyncMappingKernelManager
 from .services.config import ConfigManager
 from .services.contents.manager import ContentsManager
 from .services.contents.filemanager import FileContentsManager
@@ -106,7 +107,14 @@ from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
 from notebook._sysinfo import get_sys_info
 
 from ._tz import utcnow, utcfromtimestamp
-from .utils import url_path_join, check_pid, url_escape, urljoin, pathname2url
+from .utils import url_path_join, check_pid, url_escape, urljoin, pathname2url, run_sync
+
+# Check if we can use async kernel management
+try:
+    from jupyter_client import AsyncMultiKernelManager
+    async_kernel_mgmt_available = True
+except ImportError:
+    async_kernel_mgmt_available = False
 
 #-----------------------------------------------------------------------------
 # Module globals
@@ -1177,6 +1185,7 @@ class NotebookApp(JupyterApp):
 
     kernel_manager_class = Type(
         default_value=MappingKernelManager,
+        klass=MappingKernelManager,
         config=True,
         help=_('The kernel manager class to use.')
     )
@@ -1374,12 +1383,24 @@ class NotebookApp(JupyterApp):
         self.kernel_spec_manager = self.kernel_spec_manager_class(
             parent=self,
         )
+
         self.kernel_manager = self.kernel_manager_class(
             parent=self,
             log=self.log,
             connection_dir=self.runtime_dir,
             kernel_spec_manager=self.kernel_spec_manager,
         )
+        #  Ensure the appropriate version of Python and jupyter_client is available.
+        if isinstance(self.kernel_manager, AsyncMappingKernelManager):
+            if sys.version_info < (3, 6):  # Can be removed once 3.5 is dropped.
+                raise ValueError("You are using `AsyncMappingKernelManager` in Python 3.5 (or lower) "
+                                 "which is not supported. Please upgrade Python to 3.6+ or change kernel managers.")
+            if not async_kernel_mgmt_available:  # Can be removed once jupyter_client >= 6.1 is required.
+                raise ValueError("You are using `AsyncMappingKernelManager` without an appropriate "
+                                 "jupyter_client installed!  Please upgrade jupyter_client or change kernel managers.")
+            self.log.info("Asynchronous kernel management has been configured to use '{}'.".
+                          format(self.kernel_manager.__class__.__name__))
+
         self.contents_manager = self.contents_manager_class(
             parent=self,
             log=self.log,
@@ -1782,7 +1803,7 @@ class NotebookApp(JupyterApp):
         n_kernels = len(self.kernel_manager.list_kernel_ids())
         kernel_msg = trans.ngettext('Shutting down %d kernel', 'Shutting down %d kernels', n_kernels)
         self.log.info(kernel_msg % n_kernels)
-        self.kernel_manager.shutdown_all()
+        run_sync(self.kernel_manager.shutdown_all())
 
     def notebook_info(self, kernel_count=True):
         "Return the current working directory and the server url information"
@@ -1793,7 +1814,8 @@ class NotebookApp(JupyterApp):
             info += kernel_msg % n_kernels
             info += "\n"
         # Format the info so that the URL fits on a single line in 80 char display
-        info += _("The Jupyter Notebook is running at:\n%s") % self.display_url
+        info += _("Jupyter Notebook {version} is running at:\n{url}".
+                  format(version=NotebookApp.version, url=self.display_url))
         if self.gateway_config.gateway_enabled:
             info += _("\nKernels will be managed by the Gateway server running at:\n%s") % self.gateway_config.url
         return info
@@ -1897,8 +1919,8 @@ class NotebookApp(JupyterApp):
             assembled_url = urljoin('file:', pathname2url(open_file))
         else:
             assembled_url = url_path_join(self.connection_url, uri)
-        
-        b = lambda: browser.open(assembled_url, new=self.webbrowser_open_new)                            
+
+        b = lambda: browser.open(assembled_url, new=self.webbrowser_open_new)
         threading.Thread(target=b).start()
 
     def start(self):
