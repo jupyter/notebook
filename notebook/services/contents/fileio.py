@@ -64,6 +64,15 @@ def path_to_invalid(path):
     dirname, basename = os.path.split(path)
     return os.path.join(dirname, basename+'.invalid')
 
+def ensure_unix_linefeed(path, text, encoding, **kwargs):
+    '''Make sure that text files have Unix linefeeds by default.'''
+    if text:
+        kwargs.setdefault('newline', '\n')
+        fileobj = io.open(path, 'w', encoding=encoding, **kwargs)
+    else:
+        fileobj = io.open(path, 'wb', **kwargs)
+    return fileobj
+
 @contextmanager
 def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     """Context manager to write to a file only if the entire write is successful.
@@ -99,12 +108,7 @@ def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     if os.path.isfile(path):
         copy2_safe(path, tmp_path, log=log)
 
-    if text:
-        # Make sure that text files have Unix linefeeds by default
-        kwargs.setdefault('newline', '\n')
-        fileobj = io.open(path, 'w', encoding=encoding, **kwargs)
-    else:
-        fileobj = io.open(path, 'wb', **kwargs)
+    fileobj = ensure_unix_linefeed(path, text, encoding, kwargs)
 
     try:
         yield fileobj
@@ -151,12 +155,7 @@ def _simple_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     if os.path.islink(path):
         path = os.path.join(os.path.dirname(path), os.readlink(path))
 
-    if text:
-        # Make sure that text files have Unix linefeeds by default
-        kwargs.setdefault('newline', '\n')
-        fileobj = io.open(path, 'w', encoding=encoding, **kwargs)
-    else:
-        fileobj = io.open(path, 'wb', **kwargs)
+    fileobj = ensure_unix_linefeed(path, text, encoding, kwargs)
 
     try:
         yield fileobj
