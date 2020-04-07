@@ -108,7 +108,12 @@ def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     if os.path.isfile(path):
         copy2_safe(path, tmp_path, log=log)
 
-    fileobj = ensure_unix_linefeed(path, text, encoding, kwargs)
+    # fileobj = ensure_unix_linefeed(path, text, encoding, kwargs)
+    if text:
+        kwargs.setdefault('newline', '\n')
+        fileobj = io.open(path, 'w', encoding=encoding, **kwargs)
+    else:
+        fileobj = io.open(path, 'wb', **kwargs)
 
     try:
         yield fileobj
@@ -155,7 +160,12 @@ def _simple_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     if os.path.islink(path):
         path = os.path.join(os.path.dirname(path), os.readlink(path))
 
-    fileobj = ensure_unix_linefeed(path, text, encoding, kwargs)
+    # fileobj = ensure_unix_linefeed(path, text, encoding, kwargs)
+    if text:
+        kwargs.setdefault('newline', '\n')
+        fileobj = io.open(path, 'w', encoding=encoding, **kwargs)
+    else:
+        fileobj = io.open(path, 'wb', **kwargs)
 
     try:
         yield fileobj
