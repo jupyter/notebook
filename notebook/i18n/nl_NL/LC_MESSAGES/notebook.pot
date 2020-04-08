@@ -541,8 +541,8 @@ msgstr "%d-kernels afsluiten"
 #, python-format
 msgid "%d active kernel"
 msgid_plural "%d active kernels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d actieve kernel"
+msgstr[1] "%d actieve kernel"
 
 #: notebook/notebookapp.py:1379
 #, python-format

@@ -1625,19 +1625,19 @@ msgstr "(automatisch opgeslagen)"
 msgid ""
 "Warning: too many matches (%d). Some changes might not be shown or applied."
 msgstr ""
-"Waarschuwing: te veel wedstrijden (%d). Sommige wijzigingen worden mogelijk "
+"Waarschuwing: te veel matches (%d). Sommige wijzigingen worden mogelijk "
 "niet weergegeven of toegepast."
 
 #: notebook/static/notebook/js/searchandreplace.js:77
 #, python-format
 msgid "%d match"
 msgid_plural "%d matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d match"
+msgstr[1] "%d matches"
 
 #: notebook/static/notebook/js/searchandreplace.js:145
 msgid "More than 100 matches, aborting"
-msgstr "Meer dan 100 wedstrijden, afbreken"
+msgstr "Meer dan 100 matches, afbreken"
 
 #: notebook/static/notebook/js/searchandreplace.js:166
 msgid "Use regex (JavaScript regex syntax)"
@@ -2028,15 +2028,15 @@ msgstr "Naam wijzigen Van mislukt"
 #, python-format
 msgid "Enter a new destination directory path for this item:"
 msgid_plural "Enter a new destination directory path for these %d items:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Voer een nieuw bestemmingsmappad in voor dit item:"
+msgstr[1] "Voer een nieuw bestemmingsmappad in voor deze %d-items:"
 
 #: notebook/static/tree/js/notebooklist.js:940
 #, python-format
 msgid "Move an Item"
 msgid_plural "Move %d Items"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Een item verplaatsen"
+msgstr[1] "%d-objecten verplaatsen"
 
 #: notebook/static/tree/js/notebooklist.js:959
 msgid "An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\"."
@@ -2054,8 +2054,10 @@ msgid "Are you sure you want to permanently delete: \"%s\"?"
 msgid_plural ""
 "Are you sure you want to permanently delete the %d files or folders "
 "selected?"
-msgstr[0] ""
+msgstr[0] "Weet u zeker dat u definitief wilt verwijderen: \"%s\"?"
 msgstr[1] ""
+"Weet u zeker dat u de geselecteerde %d-bestanden of mappen permanent wilt "
+"verwijderen?"
 
 #: notebook/static/tree/js/notebooklist.js:1035
 #, python-format
@@ -2070,8 +2072,8 @@ msgstr "Verwijderen mislukt"
 #, python-format
 msgid "Are you sure you want to duplicate: \"%s\"?"
 msgid_plural "Are you sure you want to duplicate the %d files selected?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Weet u zeker dat u wilt dupliceren: \"%s\"?"
+msgstr[1] "Weet u zeker dat u de geselecteerde %d-bestanden wilt dupliceren?"
 
 #: notebook/static/tree/js/notebooklist.js:1088
 msgid "Duplicate"
