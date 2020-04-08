@@ -1420,6 +1420,28 @@ define([
         var len = this.ncells();
         return this.insert_cell_below(type,len-1);
     };
+
+    /**
+     * Transfer contents from one cell to a new type cell
+     */
+    Notebook.prototype.transfer_to_new_cell = function (source_cell, target_cell){
+        var text = source_cell.get_text();
+
+        if (text === source_cell.placeholder) {
+            text = '';
+        }
+        // metadata
+        target_cell.metadata = source_cell.metadata;
+        target_cell.attachments = source_cell.attachments;
+
+        // We must show the editor before setting its contents
+        target_cell.unrender();
+        target_cell.set_text(text);
+        // make this value the starting point, so that we can only undo
+        // to this state, instead of a blank cell
+        target_cell.code_mirror.clearHistory();
+        source_cell.element.remove();
+    }
     
     /**
      * Turn one or more cells into code.
@@ -1497,23 +1519,10 @@ define([
 
             if (!(source_cell instanceof textcell.MarkdownCell) && source_cell.is_editable()) {
                 var target_cell = this.insert_cell_below('markdown',i);
-                var text = source_cell.get_text();
 
-                if (text === source_cell.placeholder) {
-                    text = '';
-                }
-                // metadata
-                target_cell.metadata = source_cell.metadata;
-                target_cell.attachments = source_cell.attachments;
-
-                // We must show the editor before setting its contents
-                target_cell.unrender();
-                target_cell.set_text(text);
-                // make this value the starting point, so that we can only undo
-                // to this state, instead of a blank cell
-                target_cell.code_mirror.clearHistory();
-                source_cell.element.remove();
+                this.transfer_to_new_cell(source_cell, target_cell);
                 this.select(i);
+
                 if ((source_cell instanceof textcell.TextCell) && source_cell.rendered) {
                     target_cell.render();
                 }
@@ -1552,24 +1561,10 @@ define([
 
             if (!(source_cell instanceof textcell.RawCell) && source_cell.is_editable()) {
                 target_cell = this.insert_cell_below('raw',i);
-                var text = source_cell.get_text();
-                if (text === source_cell.placeholder) {
-                    text = '';
-                }
-                //metadata
-                target_cell.metadata = source_cell.metadata;
-                // attachments (we transfer them so they aren't lost if the
-                // cell is turned back into markdown)
-                target_cell.attachments = source_cell.attachments;
-
-                // We must show the editor before setting its contents
-                target_cell.unrender();
-                target_cell.set_text(text);
-                // make this value the starting point, so that we can only undo
-                // to this state, instead of a blank cell
-                target_cell.code_mirror.clearHistory();
-                source_cell.element.remove();
+                
+                this.transfer_to_new_cell(source_cell, target_cell);
                 this.select(i);
+                
                 var cursor = source_cell.code_mirror.getCursor();
                 target_cell.code_mirror.setCursor(cursor);
                 this.set_dirty(true);
