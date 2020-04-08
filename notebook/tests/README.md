@@ -24,4 +24,3 @@ The file `jstest.py` will automatically launch a notebook server to run the
 tests against. You can however specify the url of a running notebook server
 by using `--url=http://localhost:8888`.
 
-Add comment for checking master pipeline
