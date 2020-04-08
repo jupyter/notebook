@@ -729,10 +729,10 @@ define([
             $('.move-button').css('display', 'none');
         }
 
-        // Download is only visible when one item is selected, and it is not a
+        // Download is only visible when items is selected, and it is not a
         // running notebook or a directory
-        // TODO(nhdaly): Add support for download multiple items at once.
-        if (selected.length === 1 && !has_running_notebook && !has_directory) {
+        // Added support for downloading multiple items
+        if (selected.length > 0 && !has_running_notebook && !has_directory) {
             $('.download-button').css('display', 'inline-block');
         } else {
             $('.download-button').css('display', 'none');
@@ -1150,15 +1150,15 @@ define([
 
     NotebookList.prototype.download_selected = function() {
         var that = this;
+        
+        that.selected.forEach(function(item) {
+            var item_path = utils.encode_uri_components(item.path);
+            window.open(utils.url_path_join(that.base_url, 'files', utils.encode_uri_components(item_path)) + '?download=1', IPython._target);
+      	});
 
-        // TODO(nhdaly): Support download multiple items at once.
-        if (that.selected.length !== 1){
-            return;
-        }
+        // var item_path = that.selected[0].path;
 
-        var item_path = that.selected[0].path;
-
-        window.open(utils.url_path_join(that.base_url, 'files', utils.encode_uri_components(item_path)) + '?download=1', IPython._target);
+        // window.open(utils.url_path_join(that.base_url, 'files', utils.encode_uri_components(item_path)) + '?download=1', IPython._target);
     };
 
     NotebookList.prototype.delete_selected = function() {
