@@ -579,7 +579,7 @@ msgstr "Bestanden"
 
 #: notebook/templates/tree.html:24
 msgid "Running"
-msgstr "Met"
+msgstr "Lopend"
 
 #: notebook/templates/tree.html:25
 msgid "Clusters"
@@ -691,7 +691,7 @@ msgstr "Geselecteerde notitieblokken selecteren"
 
 #: notebook/templates/tree.html:100
 msgid "Running"
-msgstr "Met"
+msgstr "Lopend"
 
 #: notebook/templates/tree.html:101
 msgid "Select All Files"

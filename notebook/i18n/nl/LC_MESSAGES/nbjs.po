@@ -1986,7 +1986,7 @@ msgstr "Klik hier om de naam te wijzigen, te verwijderen, enz."
 
 #: notebook/static/tree/js/notebooklist.js:503
 msgid "Running"
-msgstr "Met"
+msgstr "Lopend"
 
 #: notebook/static/tree/js/notebooklist.js:835
 msgid "Enter a new file name:"

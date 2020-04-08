@@ -499,11 +499,11 @@ msgstr "Onderbroken"
 
 #: notebook/notebookapp.py:1261
 msgid "y"
-msgstr "En"
+msgstr "y"
 
 #: notebook/notebookapp.py:1262
 msgid "n"
-msgstr "N"
+msgstr "n"
 
 #: notebook/notebookapp.py:1263
 #, python-format
