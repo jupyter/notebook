@@ -856,27 +856,16 @@ define([
     };
     
     var append_png = function (png, md, element, handle_inserted) {
-        return _append_img(png, md, element, handle_inserted, MIME_PNG, 'png');
+        return this._append_img(png, md, element, handle_inserted, MIME_PNG, 'png');
     };
 
     var append_jpeg = function (jpeg, md, element, handle_inserted) {
-        return _append_img(jpeg, md, element, handle_inserted, MIME_JPEG, 'jpeg');
+        return this._append_img(jpeg, md, element, handle_inserted, MIME_JPEG, 'jpeg');
     };
     
     var append_gif = function (gif, md, element, handle_inserted) {
-        return _append_img(gif, md, element, handle_inserted, MIME_GIF, 'gif');
+        return this._append_img(gif, md, element, handle_inserted, MIME_GIF, 'gif');
     };
-
-    var append_pdf = function (pdf, md, element) {
-        var type = MIME_PDF;
-        var toinsert = this.create_output_subarea(md, "output_pdf", type);
-        var a = $('<a/>').attr('href', 'data:application/pdf;base64,'+pdf);
-        a.attr('target', '_blank');
-        a.text('View PDF');
-        toinsert.append(a);
-        element.append(toinsert);
-        return toinsert;
-     };
 
     var append_latex = function (latex, md, element) {
         /**
