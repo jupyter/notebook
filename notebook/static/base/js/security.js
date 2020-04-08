@@ -100,7 +100,7 @@ define([
         };
         
         var policy = function (tagName, attribs) {
-            if (!(html4.ELEMENTS[tagName] & html4.eflags.UNSAFE)) {
+            if (!(html4.ELEMENTS[tagName] && html4.eflags.UNSAFE)) {
                 return {
                     'attribs': sanitizeAttribs(tagName, attribs,
                         noop, noop, record_messages)
