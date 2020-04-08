@@ -729,9 +729,8 @@ define([
             $('.move-button').css('display', 'none');
         }
 
-        // Download is only visible when items is selected, and it is not a
-        // running notebook or a directory
-        // Added support for downloading multiple items
+        // Download is only visible when items are selected, and none are
+        // running notebooks or a directories
         if (selected.length > 0 && !has_running_notebook && !has_directory) {
             $('.download-button').css('display', 'inline-block');
         } else {
@@ -1155,10 +1154,6 @@ define([
             var item_path = utils.encode_uri_components(item.path);
             window.open(utils.url_path_join(that.base_url, 'files', utils.encode_uri_components(item_path)) + '?download=1', IPython._target);
       	});
-
-        // var item_path = that.selected[0].path;
-
-        // window.open(utils.url_path_join(that.base_url, 'files', utils.encode_uri_components(item_path)) + '?download=1', IPython._target);
     };
 
     NotebookList.prototype.delete_selected = function() {
