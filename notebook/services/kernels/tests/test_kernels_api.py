@@ -4,6 +4,7 @@ import json
 import sys
 import time
 
+from requests import HTTPError
 from traitlets.config import Config
 
 from tornado.httpclient import HTTPRequest
@@ -234,3 +235,49 @@ class KernelFilterTest(NotebookTestBase):
     # Sanity check verifying that the configurable was properly set.
     def test_config(self):
         self.assertEqual(self.notebook.kernel_manager.allowed_message_types, ['kernel_info_request'])
+
+
+class KernelCullingTest(NotebookTestBase):
+    """Test kernel culling """
+
+    @classmethod
+    def get_argv(cls):
+        argv = super(KernelCullingTest, cls).get_argv()
+
+        # Enable culling with 2s timeout and 1s intervals
+        argv.extend(['--MappingKernelManager.cull_idle_timeout=2',
+                     '--MappingKernelManager.cull_interval=1',
+                     '--MappingKernelManager.cull_connected=False'])
+        return argv
+
+    def setUp(self):
+        self.kern_api = KernelAPI(self.request,
+                                  base_url=self.base_url(),
+                                  headers=self.auth_headers(),
+                                  )
+
+    def tearDown(self):
+        for k in self.kern_api.list().json():
+            self.kern_api.shutdown(k['id'])
+
+    def test_culling(self):
+        kid = self.kern_api.start().json()['id']
+        ws = self.kern_api.websocket(kid)
+        model = self.kern_api.get(kid).json()
+        self.assertEqual(model['connections'], 1)
+        assert not self.get_cull_status(kid)  # connected, should not be culled
+        ws.close()
+        assert self.get_cull_status(kid)  # not connected, should be culled
+
+    def get_cull_status(self, kid):
+        culled = False
+        for i in range(15):  # Need max of 3s to ensure culling timeout exceeded
+            try:
+                self.kern_api.get(kid)
+            except HTTPError as e:
+                assert e.response.status_code == 404
+                culled = True
+                break
+            else:
+                time.sleep(0.2)
+        return culled
