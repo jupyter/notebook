@@ -99,6 +99,7 @@ define([
             console.log("HTML Sanitizer", msg, opts);
         };
         
+        // Add comment to see if pipeline fails on this
         var policy = function (tagName, attribs) {
             if (!(html4.ELEMENTS[tagName] & html4.eflags.UNSAFE)) {
                 return {
