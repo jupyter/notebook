@@ -109,7 +109,7 @@ msgstr "De access-control-allow-credentials instellen: true header"
 
 #: notebook/notebookapp.py:544
 msgid "Whether to allow the user to run the notebook as root."
-msgstr "Of de gebruiker het notitieblok als hoofd moet laten draaien."
+msgstr "Of de gebruiker het notitieblok als root moet laten draaien."
 
 #: notebook/notebookapp.py:548
 msgid "The default URL to redirect to from `/`"
@@ -288,7 +288,7 @@ msgstr ""
 #: notebook/notebookapp.py:772
 msgid "Supply extra arguments that will be passed to Jinja environment."
 msgstr ""
-"Lever extra argumenten die zullen worden doorgegeven aan Jinja milieu."
+"Lever extra argumenten die zullen worden doorgegeven aan Jinja environment."
 
 #: notebook/notebookapp.py:776
 msgid "Extra variables to supply to jinja templates when rendering."
@@ -340,11 +340,11 @@ msgstr "De notebook manager klasse te gebruiken."
 
 #: notebook/notebookapp.py:920
 msgid "The kernel manager class to use."
-msgstr "De klasse kernelmanager om te gebruiken."
+msgstr "De kernel manager klasse om te gebruiken."
 
 #: notebook/notebookapp.py:926
 msgid "The session manager class to use."
-msgstr "De sessiemanagerklasse die u gebruiken."
+msgstr "De sessie manager klasse die u gebruiken."
 
 #: notebook/notebookapp.py:932
 msgid "The config manager class to use"
@@ -352,11 +352,11 @@ msgstr "De config manager klasse te gebruiken"
 
 #: notebook/notebookapp.py:953
 msgid "The login handler class to use."
-msgstr "De inloghandlerklasse om te gebruiken."
+msgstr "De login handler klasse te gebruiken."
 
 #: notebook/notebookapp.py:960
 msgid "The logout handler class to use."
-msgstr "De afmeldhandlerklasse die u wilt gebruiken."
+msgstr "De afmeld handler klasse die u wilt gebruiken."
 
 #: notebook/notebookapp.py:964
 msgid ""
@@ -558,7 +558,7 @@ msgstr ""
 #: notebook/notebookapp.py:1426
 msgid "Running as root is not recommended. Use --allow-root to bypass."
 msgstr ""
-"Hardlopen als wortel wordt niet aanbevolen. Gebruik --allow-root te "
+"Hardlopen als root wordt niet aanbevolen. Gebruik --allow-root te "
 "omzeilen."
 
 #: notebook/notebookapp.py:1432

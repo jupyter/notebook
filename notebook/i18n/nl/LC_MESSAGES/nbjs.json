@@ -375,7 +375,7 @@
             "de werkbalk verbergen"
          ],
          "close the pager": [
-            "de pieper sluiten"
+            "de pager sluiten"
          ],
          "ignore": [
             "Negeren"
@@ -456,7 +456,7 @@
             "Niet-herkende celtype"
          ],
          "Error in cell toolbar callback %s": [
-            "Fout in belterugroep van de celwerkbalk"
+            "Fout in callback-functie van de celwerkbalk"
          ],
          "Clipboard types: %s": [
             "Klembordtypen: %s"
@@ -477,7 +477,7 @@
             "Waarom is dit nodig? "
          ],
          "We can't get paste events in this browser without a text box. ": [
-            "We kunnen geen plakgebeurtenissen in deze browser krijgen zonder tekstvak. "
+            "We kunnen niet plakken in deze browser zonder tekstvak. "
          ],
          "There's an invisible text box focused in this dialog.": [
             "Er is een onzichtbaar tekstvak gericht in dit dialoogvenster."
@@ -489,7 +489,7 @@
             "Kan geen cel uitvoeren omdat kernel niet is ingesteld."
          ],
          "In": [
-            "Inch"
+            "In"
          ],
          "Could not find a kernel matching %s. Please select a kernel:": [
             "Kon geen kernel vinden die overeenkomt met %s. Selecteer een kernel:"
@@ -522,7 +522,7 @@
             "Ruwe NBConvert"
          ],
          "Heading": [
-            "Rubriek"
+            "Headers"
          ],
          "unrecognized cell type:": [
             "niet-herkende celtype:"
@@ -573,7 +573,7 @@
             "Opnieuw starten"
          ],
          "Continue Running": [
-            "Doorgaan met hardlopen"
+            "Doorgaan met uitvoeren"
          ],
          "Reload": [
             "Reload"
@@ -627,7 +627,7 @@
             "Notitieblok gewijzigd"
          ],
          "The notebook file has changed on disk since the last time we opened or saved it. Do you want to overwrite the file on disk with the version open here, or load the version on disk (reload the page) ?": [
-            "Het notitieblokbestand is op schijf gewijzigd sinds de laatste keer dat we het hebben geopend of opgeslagen. Wilt u het bestand op schijf overschrijven met de versie die hier wordt geopend, of de versie op schijf laden (de pagina opnieuw laden) ?"
+            "Het notitieblokbestand op de schijf is gewijzigd sinds de laatste keer dat het geopend of opgeslagen is. Wilt u het bestand op schijf overschrijven met de versie die hier wordt geopend, of de versie op schijf laden (de pagina opnieuw laden) ?"
          ],
          "Notebook validation failed": [
             "Laptopvalidatie is mislukt"
@@ -639,10 +639,10 @@
             "Een vertrouwd Jupyter-notitieblok kan verborgen schadelijke code uitvoeren wanneer u het opent. Als u vertrouwensrelatie selecteert, wordt dit notitieblok onmiddellijk opnieuw geladen in een vertrouwde status. Zie voor meer informatie de beveiligingsdocumentatie van Jupyter: "
          ],
          "here": [
-            "Hier"
+            "hier"
          ],
          "Trust this notebook?": [
-            "Vertrouw je dit notitieboekje?"
+            "Vertrouw je dit notitieblok?"
          ],
          "Notebook failed to load": [
             "Notitieblok kan niet worden geladen"
@@ -726,7 +726,7 @@
             "Kernel opnieuw opstarten"
          ],
          "The kernel appears to have died. It will restart automatically.": [
-            "De kernel lijkt te zijn gestorven. Het wordt automatisch opnieuw opgestart."
+            "De kernel lijkt te zijn gestopt. Het wordt automatisch opnieuw opgestart."
          ],
          "Dead kernel": [
             "Dode kernel"
@@ -750,7 +750,7 @@
             "Geen kernel"
          ],
          "Kernel is not running": [
-            "Kernel wordt niet uitgevoerd"
+            "Kernel is niet actief"
          ],
          "Don't Restart": [
             "Start niet opnieuw op"
@@ -759,7 +759,7 @@
             "Probeer nu opnieuw te starten"
          ],
          "The kernel has died, and the automatic restart has failed. It is possible the kernel cannot be restarted. If you are not able to restart the kernel, you will still be able to save the notebook, but running code will no longer work until the notebook is reopened.": [
-            "De kernel is overleden en de automatische herstart is mislukt. Het is mogelijk dat de kernel niet opnieuw kan worden gestart. Als u de kernel niet opnieuw starten, u het notitieblok nog steeds opslaan, maar werkt de code niet meer totdat het notitieblok opnieuw is geopend."
+            "De kernel is gestopt en de automatische herstart is mislukt. Het is mogelijk dat de kernel niet opnieuw kan worden gestart. Als u de kernel niet opnieuw starten, u het notitieblok nog steeds opslaan, maar werkt de code niet meer totdat het notitieblok opnieuw is geopend."
          ],
          "No Kernel": [
             "Geen kernel"
@@ -771,7 +771,7 @@
             "Kernel bezet"
          ],
          "Kernel starting, please wait...": [
-            "Kernel beginnen, u wachten..."
+            "Kernel beginnen, wachten..."
          ],
          "Kernel Idle": [
             "Kernel Idle"
@@ -798,10 +798,10 @@
             "Notitieblok opgeslagen"
          ],
          "Notebook save failed": [
-            "Notitieblokopslaan is mislukt"
+            "Notitieblok opslaan is mislukt"
          ],
          "Notebook copy failed": [
-            "Notitieblokkopie is mislukt"
+            "Notitieblok kopiëren is mislukt"
          ],
          "Checkpoint created": [
             "Controlepunt gemaakt"
@@ -825,7 +825,7 @@
             "Automatisch opslaan uitgeschakeld"
          ],
          "Saving every %d sec.": [
-            "Elke %d sec besparen."
+            "Het notitieblok wordt elke %d sec opgeslagen."
          ],
          "Trusted": [
             "Vertrouwde"
@@ -846,7 +846,7 @@
             "klik om de uitvoer te schuiven; dubbelklikken om te verbergen"
          ],
          "Javascript error adding output!": [
-            "Javascript fout toevoegen van uitvoer!"
+            "Javascript fout bij het toevoegen van uitvoer!"
          ],
          "See your browser Javascript console for more details.": [
             "Zie uw browser Javascript console voor meer details."
@@ -858,10 +858,10 @@
             "Niet-herkende uitvoer: %s"
          ],
          "Open the pager in an external window": [
-            "De pieper openen in een extern venster"
+            "De pager openen in een extern venster"
          ],
          "Close the pager": [
-            "De pieper sluiten"
+            "De pager sluiten"
          ],
          "Jupyter Pager": [
             "Jupyter Pager"
@@ -891,13 +891,13 @@
             "Tooltip"
          ],
          "indent": [
-            "Streepje"
+            "inspringing"
          ],
          "dedent": [
             "dedent"
          ],
          "select all": [
-            "alle"
+            "selecteer alle"
          ],
          "undo": [
             "Ongedaan maken"
@@ -909,7 +909,7 @@
             "Shift"
          ],
          "Alt": [
-            "Oude"
+            "Alt"
          ],
          "Up": [
             "Omhoog"
@@ -936,7 +936,7 @@
             "Ctrl"
          ],
          "Enter": [
-            "Voer"
+            "Enter"
          ],
          "Page Up": [
             "Pagina omhoog"
@@ -960,7 +960,7 @@
             "Minus"
          ],
          "PageUp": [
-            "PageUp PageUp"
+            "PageUp"
          ],
          "The Jupyter Notebook has two different keyboard input modes.": [
             "De Jupyter Notebook heeft twee verschillende toetsenbordinvoermodi."
@@ -1138,7 +1138,7 @@
             "U hier klikken om een lijst van alle sneltoetsen te krijgen."
          ],
          "Kernel Indicator": [
-            "Kernelindicator"
+            "Kernel Indicator"
          ],
          "This is the Kernel indicator. It looks like this when the Kernel is idle.": [
             "Dit is de Kernel indicator. Het ziet er zo uit als de Kernel niet actief is."
@@ -1150,7 +1150,7 @@
             "De kernel onderbreken"
          ],
          "To cancel a computation in progress, you can click here.": [
-            "Als u een lopende berekening wilt annuleren, u hier klikken."
+            "Als u een actieve berekening wilt annuleren, u hier klikken."
          ],
          "Notification Area": [
             "Systeemvak"
@@ -1264,7 +1264,7 @@
             "Klik hier om de naam te wijzigen, te verwijderen, enz."
          ],
          "Running": [
-            "Lopend"
+            "Actieve Processen"
          ],
          "Enter a new file name:": [
             "Voer een nieuwe bestandsnaam in:"
@@ -1294,8 +1294,8 @@
             "Naam wijzigen Van mislukt"
          ],
          "Enter a new destination directory path for this item:": [
-            "Voer een nieuw bestemmingsmappad in voor dit item:",
-            "Voer een nieuw bestemmingsmappad in voor deze %d-items:"
+            "Voer een nieuw bestemmingsmap-pad in voor dit item:",
+            "Voer een nieuw bestemmingsmap-pad in voor deze %d-items:"
          ],
          "Move an Item": [
             "Een item verplaatsen",
@@ -1308,7 +1308,7 @@
             "Verplaatsen mislukt"
          ],
          "Are you sure you want to permanently delete: \"%s\"?": [
-            "Weet u zeker dat u definitief wilt verwijderen: \"%s\"?",
+            "Weet u zeker dat u het volgende definitief wilt verwijderen: \"%s\"?",
             "Weet u zeker dat u de geselecteerde %d-bestanden of mappen permanent wilt verwijderen?"
          ],
          "An error occurred while deleting \"%s\".": [

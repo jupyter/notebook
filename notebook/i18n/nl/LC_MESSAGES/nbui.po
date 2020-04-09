@@ -431,11 +431,11 @@ msgstr "De uitvoer van de huidige cel verbergen/weergeven"
 
 #: notebook/templates/notebook.html:224 notebook/templates/notebook.html:240
 msgid "Toggle"
-msgstr "Knevel"
+msgstr "In- en uitschakelen"
 
 #: notebook/templates/notebook.html:227
 msgid "Scroll the output of the current cell"
-msgstr "De uitvoer van de huidige cel schuiven"
+msgstr "De uitvoer van de huidige cel scrollen"
 
 #: notebook/templates/notebook.html:228 notebook/templates/notebook.html:244
 msgid "Toggle Scrolling"
@@ -459,7 +459,7 @@ msgstr "De uitvoer van alle cellen verbergen/weergeven"
 
 #: notebook/templates/notebook.html:243
 msgid "Scroll the output of all cells"
-msgstr "De uitvoer van alle cellen schuiven"
+msgstr "De uitvoer van alle cellen scrollen"
 
 #: notebook/templates/notebook.html:247
 msgid "Clear the output of all cells"
@@ -579,7 +579,7 @@ msgstr "Bestanden"
 
 #: notebook/templates/tree.html:24
 msgid "Running"
-msgstr "Lopend"
+msgstr "Actieve processen"
 
 #: notebook/templates/tree.html:25
 msgid "Clusters"
@@ -691,7 +691,7 @@ msgstr "Geselecteerde notitieblokken selecteren"
 
 #: notebook/templates/tree.html:100
 msgid "Running"
-msgstr "Lopend"
+msgstr "Actieve Processen"
 
 #: notebook/templates/tree.html:101
 msgid "Select All Files"
@@ -711,11 +711,11 @@ msgstr "Naam"
 
 #: notebook/templates/tree.html:130
 msgid "Currently running Jupyter processes"
-msgstr "Momenteel draait Jupyter processen"
+msgstr "Momenteel actieve Jupyter processen"
 
 #: notebook/templates/tree.html:134
 msgid "Refresh running list"
-msgstr "Lopende lijst vernieuwen"
+msgstr "Actieve processen lijst vernieuwen"
 
 #: notebook/templates/tree.html:150
 msgid "There are no terminals running."

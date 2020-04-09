@@ -588,7 +588,7 @@ msgstr "de werkbalk verbergen"
 #: notebook/static/notebook/js/actions.js:678
 #: notebook/static/notebook/js/actions.js:679
 msgid "close the pager"
-msgstr "de pieper sluiten"
+msgstr "de pager sluiten"
 
 #: notebook/static/notebook/js/actions.js:704
 msgid "ignore"
@@ -703,7 +703,7 @@ msgstr "Niet-herkende celtype"
 #: notebook/static/notebook/js/celltoolbar.js:296
 #, python-format
 msgid "Error in cell toolbar callback %s"
-msgstr "Fout in belterugroep van de celwerkbalk"
+msgstr "Fout in callback-functie van de celwerkbalk"
 
 #: notebook/static/notebook/js/clipboard.js:53
 #, python-format
@@ -734,7 +734,7 @@ msgstr "Waarom is dit nodig? "
 #: notebook/static/notebook/js/clipboard.js:118
 msgid "We can't get paste events in this browser without a text box. "
 msgstr ""
-"We kunnen geen plakgebeurtenissen in deze browser krijgen zonder tekstvak. "
+"We kunnen niet plakken in deze browser zonder tekstvak. "
 
 #: notebook/static/notebook/js/clipboard.js:119
 msgid "There's an invisible text box focused in this dialog."
@@ -751,7 +751,7 @@ msgstr "Kan geen cel uitvoeren omdat kernel niet is ingesteld."
 
 #: notebook/static/notebook/js/codecell.js:472
 msgid "In"
-msgstr "Inch"
+msgstr "In"
 
 #: notebook/static/notebook/js/kernelselector.js:269
 #, python-format
@@ -799,7 +799,7 @@ msgstr "Ruwe NBConvert"
 
 #: notebook/static/notebook/js/maintoolbar.js:79
 msgid "Heading"
-msgstr "Rubriek"
+msgstr "Headers"
 
 #: notebook/static/notebook/js/maintoolbar.js:115
 msgid "unrecognized cell type:"
@@ -876,7 +876,7 @@ msgstr "Opnieuw starten"
 
 #: notebook/static/notebook/js/notebook.js:473
 msgid "Continue Running"
-msgstr "Doorgaan met hardlopen"
+msgstr "Doorgaan met uitvoeren"
 
 #: notebook/static/notebook/js/notebook.js:474
 msgid "Reload"
@@ -968,8 +968,8 @@ msgid ""
 " it. Do you want to overwrite the file on disk with the version open here, "
 "or load the version on disk (reload the page) ?"
 msgstr ""
-"Het notitieblokbestand is op schijf gewijzigd sinds de laatste keer dat we "
-"het hebben geopend of opgeslagen. Wilt u het bestand op schijf overschrijven"
+"Het notitieblokbestand op de schijf is gewijzigd sinds de laatste keer dat het "
+"geopend of opgeslagen is. Wilt u het bestand op schijf overschrijven"
 " met de versie die hier wordt geopend, of de versie op schijf laden (de "
 "pagina opnieuw laden) ?"
 
@@ -999,11 +999,11 @@ msgstr ""
 
 #: notebook/static/notebook/js/notebook.js:2840
 msgid "here"
-msgstr "Hier"
+msgstr "hier"
 
 #: notebook/static/notebook/js/notebook.js:2848
 msgid "Trust this notebook?"
-msgstr "Vertrouw je dit notitieboekje?"
+msgstr "Vertrouw je dit notitieblok?"
 
 #: notebook/static/notebook/js/notebook.js:2981
 msgid "Notebook failed to load"
@@ -1149,7 +1149,7 @@ msgstr "Kernel opnieuw opstarten"
 #: notebook/static/notebook/js/notificationarea.js:130
 msgid "The kernel appears to have died. It will restart automatically."
 msgstr ""
-"De kernel lijkt te zijn gestorven. Het wordt automatisch opnieuw opgestart."
+"De kernel lijkt te zijn gestopt. Het wordt automatisch opnieuw opgestart."
 
 #: notebook/static/notebook/js/notificationarea.js:140
 #: notebook/static/notebook/js/notificationarea.js:198
@@ -1191,7 +1191,7 @@ msgstr "Geen kernel"
 
 #: notebook/static/notebook/js/notificationarea.js:180
 msgid "Kernel is not running"
-msgstr "Kernel wordt niet uitgevoerd"
+msgstr "Kernel is niet actief"
 
 #: notebook/static/notebook/js/notificationarea.js:187
 msgid "Don't Restart"
@@ -1208,7 +1208,7 @@ msgid ""
 "you will still be able to save the notebook, but running code will no longer"
 " work until the notebook is reopened."
 msgstr ""
-"De kernel is overleden en de automatische herstart is mislukt. Het is "
+"De kernel is gestopt en de automatische herstart is mislukt. Het is "
 "mogelijk dat de kernel niet opnieuw kan worden gestart. Als u de kernel niet"
 " opnieuw starten, u het notitieblok nog steeds opslaan, maar werkt de code "
 "niet meer totdat het notitieblok opnieuw is geopend."
@@ -1229,7 +1229,7 @@ msgstr "Kernel bezet"
 
 #: notebook/static/notebook/js/notificationarea.js:273
 msgid "Kernel starting, please wait..."
-msgstr "Kernel beginnen, u wachten..."
+msgstr "Kernel beginnen, wachten..."
 
 #: notebook/static/notebook/js/notificationarea.js:279
 #: notebook/static/notebook/js/notificationarea.js:286
@@ -1266,11 +1266,11 @@ msgstr "Notitieblok opgeslagen"
 
 #: notebook/static/notebook/js/notificationarea.js:331
 msgid "Notebook save failed"
-msgstr "Notitieblokopslaan is mislukt"
+msgstr "Notitieblok opslaan is mislukt"
 
 #: notebook/static/notebook/js/notificationarea.js:334
 msgid "Notebook copy failed"
-msgstr "Notitieblokkopie is mislukt"
+msgstr "Notitieblok kopiëren is mislukt"
 
 #: notebook/static/notebook/js/notificationarea.js:339
 msgid "Checkpoint created"
@@ -1303,7 +1303,7 @@ msgstr "Automatisch opslaan uitgeschakeld"
 #: notebook/static/notebook/js/notificationarea.js:367
 #, python-format
 msgid "Saving every %d sec."
-msgstr "Elke %d sec besparen."
+msgstr "Het notitieblok wordt elke %d sec opgeslagen."
 
 #: notebook/static/notebook/js/notificationarea.js:383
 msgid "Trusted"
@@ -1332,7 +1332,7 @@ msgstr "klik om de uitvoer te schuiven; dubbelklikken om te verbergen"
 
 #: notebook/static/notebook/js/outputarea.js:422
 msgid "Javascript error adding output!"
-msgstr "Javascript fout toevoegen van uitvoer!"
+msgstr "Javascript fout bij het toevoegen van uitvoer!"
 
 #: notebook/static/notebook/js/outputarea.js:427
 msgid "See your browser Javascript console for more details."
@@ -1350,11 +1350,11 @@ msgstr "Niet-herkende uitvoer: %s"
 
 #: notebook/static/notebook/js/pager.js:36
 msgid "Open the pager in an external window"
-msgstr "De pieper openen in een extern venster"
+msgstr "De pager openen in een extern venster"
 
 #: notebook/static/notebook/js/pager.js:45
 msgid "Close the pager"
-msgstr "De pieper sluiten"
+msgstr "De pager sluiten"
 
 #: notebook/static/notebook/js/pager.js:148
 msgid "Jupyter Pager"
@@ -1402,7 +1402,7 @@ msgstr "Tooltip"
 
 #: notebook/static/notebook/js/quickhelp.js:63
 msgid "indent"
-msgstr "Streepje"
+msgstr "inspringing"
 
 #: notebook/static/notebook/js/quickhelp.js:64
 msgid "dedent"
@@ -1410,7 +1410,7 @@ msgstr "dedent"
 
 #: notebook/static/notebook/js/quickhelp.js:65
 msgid "select all"
-msgstr "alle"
+msgstr "selecteer alle"
 
 #: notebook/static/notebook/js/quickhelp.js:66
 msgid "undo"
@@ -1428,7 +1428,7 @@ msgstr "Shift"
 
 #: notebook/static/notebook/js/quickhelp.js:103
 msgid "Alt"
-msgstr "Oude"
+msgstr "Alt"
 
 #: notebook/static/notebook/js/quickhelp.js:104
 msgid "Up"
@@ -1467,7 +1467,7 @@ msgstr "Ctrl"
 #: notebook/static/notebook/js/quickhelp.js:112
 #: notebook/static/notebook/js/quickhelp.js:290
 msgid "Enter"
-msgstr "Voer"
+msgstr "Enter"
 
 #: notebook/static/notebook/js/quickhelp.js:113
 msgid "Page Up"
@@ -1501,7 +1501,7 @@ msgstr "Minus"
 
 #: notebook/static/notebook/js/quickhelp.js:130
 msgid "PageUp"
-msgstr "PageUp PageUp"
+msgstr "PageUp"
 
 #: notebook/static/notebook/js/quickhelp.js:197
 msgid "The Jupyter Notebook has two different keyboard input modes."
@@ -1804,7 +1804,7 @@ msgstr "U hier klikken om een lijst van alle sneltoetsen te krijgen."
 #: notebook/static/notebook/js/tour.js:94
 #: notebook/static/notebook/js/tour.js:100
 msgid "Kernel Indicator"
-msgstr "Kernelindicator"
+msgstr "Kernel Indicator"
 
 #: notebook/static/notebook/js/tour.js:97
 msgid ""
@@ -1822,7 +1822,7 @@ msgstr "De kernel onderbreken"
 
 #: notebook/static/notebook/js/tour.js:109
 msgid "To cancel a computation in progress, you can click here."
-msgstr "Als u een lopende berekening wilt annuleren, u hier klikken."
+msgstr "Als u een actieve berekening wilt annuleren, u hier klikken."
 
 #: notebook/static/notebook/js/tour.js:114
 msgid "Notification Area"
@@ -1986,7 +1986,7 @@ msgstr "Klik hier om de naam te wijzigen, te verwijderen, enz."
 
 #: notebook/static/tree/js/notebooklist.js:503
 msgid "Running"
-msgstr "Lopend"
+msgstr "Actieve Processen"
 
 #: notebook/static/tree/js/notebooklist.js:835
 msgid "Enter a new file name:"
@@ -2028,8 +2028,8 @@ msgstr "Naam wijzigen Van mislukt"
 #, python-format
 msgid "Enter a new destination directory path for this item:"
 msgid_plural "Enter a new destination directory path for these %d items:"
-msgstr[0] "Voer een nieuw bestemmingsmappad in voor dit item:"
-msgstr[1] "Voer een nieuw bestemmingsmappad in voor deze %d-items:"
+msgstr[0] "Voer een nieuw bestemmingsmap-pad in voor dit item:"
+msgstr[1] "Voer een nieuw bestemmingsmap-pad in voor deze %d-items:"
 
 #: notebook/static/tree/js/notebooklist.js:940
 #, python-format
@@ -2054,7 +2054,7 @@ msgid "Are you sure you want to permanently delete: \"%s\"?"
 msgid_plural ""
 "Are you sure you want to permanently delete the %d files or folders "
 "selected?"
-msgstr[0] "Weet u zeker dat u definitief wilt verwijderen: \"%s\"?"
+msgstr[0] "Weet u zeker dat u het volgende definitief wilt verwijderen: \"%s\"?"
 msgstr[1] ""
 "Weet u zeker dat u de geselecteerde %d-bestanden of mappen permanent wilt "
 "verwijderen?"
