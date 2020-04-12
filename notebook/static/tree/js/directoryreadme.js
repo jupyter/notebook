@@ -39,7 +39,6 @@ define([
         for (var i = 0; i < files_in_directory.length; i++) {
             var file = files_in_directory[i];
             if(file.type === "file"
-                    && file.mimetype === "text/markdown"
                     && file.name.toLowerCase().split(".")[0] === "readme"){
                 return file;
             }
