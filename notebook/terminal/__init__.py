@@ -7,13 +7,14 @@ if not check_version(terminado.__version__, '0.8.1'):
     raise ImportError("terminado >= 0.8.1 required, found %s" % terminado.__version__)
 
 from ipython_genutils.py3compat import which
-from terminado import NamedTermManager
 from tornado.log import app_log
 from notebook.utils import url_path_join as ujoin
+from .terminalmanager import TerminalManager
 from .handlers import TerminalHandler, TermSocket
 from . import api_handlers
 
-def initialize(webapp, notebook_dir, connection_url, settings):
+
+def initialize(webapp, notebook_dir, connection_url, settings, parent):
     if os.name == 'nt':
         default_shell = 'powershell.exe'
     else:
@@ -24,11 +25,12 @@ def initialize(webapp, notebook_dir, connection_url, settings):
     # Enable login mode - to automatically source the /etc/profile script
     if os.name != 'nt':
         shell.append('-l')
-    terminal_manager = webapp.settings['terminal_manager'] = NamedTermManager(
+    terminal_manager = webapp.settings['terminal_manager'] = TerminalManager(
         shell_command=shell,
         extra_env={'JUPYTER_SERVER_ROOT': notebook_dir,
                    'JUPYTER_SERVER_URL': connection_url,
                    },
+        parent=parent,
     )
     terminal_manager.log = app_log
     base_url = webapp.settings['base_url']

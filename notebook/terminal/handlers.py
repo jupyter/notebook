@@ -35,8 +35,14 @@ class TermSocket(WebSocketMixin, IPythonHandler, terminado.TermSocket):
 
     def on_message(self, message):
         super(TermSocket, self).on_message(message)
-        self.application.settings['terminal_last_activity'] = utcnow()
+        self._update_activity()
 
     def write_message(self, message, binary=False):
         super(TermSocket, self).write_message(message, binary=binary)
+        self._update_activity()
+
+    def _update_activity(self):
         self.application.settings['terminal_last_activity'] = utcnow()
+        # terminal may not be around on deletion/cull
+        if self.term_name in self.terminal_manager.terminals:
+            self.terminal_manager.terminals[self.term_name].last_activity = utcnow()

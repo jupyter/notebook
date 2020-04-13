@@ -87,6 +87,7 @@ from .gateway.managers import GatewayKernelManager, GatewayKernelSpecManager, Ga
 from .auth.login import LoginHandler
 from .auth.logout import LogoutHandler
 from .base.handlers import FileFindHandler
+from .terminal import TerminalManager
 
 from traitlets.config import Config
 from traitlets.config.application import catch_config_error, boolean_flag
@@ -585,7 +586,7 @@ class NotebookApp(JupyterApp):
     
     classes = [
         KernelManager, Session, MappingKernelManager, KernelSpecManager,
-        ContentsManager, FileContentsManager, NotebookNotary,
+        ContentsManager, FileContentsManager, NotebookNotary, TerminalManager,
         GatewayKernelManager, GatewayKernelSpecManager, GatewaySessionManager, GatewayClient,
     ]
     flags = Dict(flags)
@@ -1569,7 +1570,7 @@ class NotebookApp(JupyterApp):
 
         try:
             from .terminal import initialize
-            initialize(self.web_app, self.notebook_dir, self.connection_url, self.terminado_settings)
+            initialize(self.web_app, self.notebook_dir, self.connection_url, self.terminado_settings, self)
             self.web_app.settings['terminals_available'] = True
         except ImportError as e:
             self.log.warning(_("Terminals not available (error was %s)"), e)
