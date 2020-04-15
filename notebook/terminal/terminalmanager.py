@@ -41,6 +41,7 @@ class TerminalManager(Configurable, NamedTermManager):
         super(TerminalManager, self).__init__(*args, **kwargs)
 
     def create(self):
+        """Create a new terminal."""
         name, term = self.new_named_terminal()
         # Monkey-patch last-activity, similar to kernels.  Should we need
         # more functionality per terminal, we can look into possible sub-
@@ -50,14 +51,16 @@ class TerminalManager(Configurable, NamedTermManager):
         # Increase the metric by one because a new terminal was created
         TERMINAL_CURRENTLY_RUNNING_TOTAL.inc()
         # Ensure culler is initialized
-        self.initialize_culler()
+        self._initialize_culler()
         return model
 
     def get(self, name):
+        """Get terminal 'name'."""
         model = self.terminal_model(name)
         return model
 
     def list(self):
+        """Get a list of all running terminals."""
         models = [self.terminal_model(name) for name in self.terminals]
 
         # Update the metric below to the length of the list 'terms'
@@ -67,12 +70,19 @@ class TerminalManager(Configurable, NamedTermManager):
         return models
 
     async def terminate(self, name, force=False):
+        """Terminate terminal 'name'."""
         self._check_terminal(name)
         await super(TerminalManager, self).terminate(name, force=force)
 
         # Decrease the metric below by one
         # because a terminal has been shutdown
         TERMINAL_CURRENTLY_RUNNING_TOTAL.dec()
+
+    async def terminate_all(self):
+        """Terminate all terminals."""
+        terms = [name for name in self.terminals]
+        for term in terms:
+            await self.terminate(term, force=True)
 
     def terminal_model(self, name):
         """Return a JSON-safe dict representing a terminal.
@@ -91,7 +101,7 @@ class TerminalManager(Configurable, NamedTermManager):
         if name not in self.terminals:
             raise web.HTTPError(404, u'Terminal not found: %s' % name)
 
-    def initialize_culler(self):
+    def _initialize_culler(self):
         """Start culler if 'cull_inactive_timeout' is greater than zero.
         Regardless of that value, set flag that we've been here.
         """
@@ -103,25 +113,25 @@ class TerminalManager(Configurable, NamedTermManager):
                         self.cull_interval, self.cull_interval_default)
                     self.cull_interval = self.cull_interval_default
                 self._culler_callback = PeriodicCallback(
-                    self.cull_terminals, 1000*self.cull_interval)
+                    self._cull_terminals, 1000 * self.cull_interval)
                 self.log.info("Culling terminals with inactivity > %s seconds at %s second intervals ...",
                               self.cull_inactive_timeout, self.cull_interval)
                 self._culler_callback.start()
 
         self._initialized_culler = True
 
-    async def cull_terminals(self):
+    async def _cull_terminals(self):
         self.log.debug("Polling every %s seconds for terminals inactive for > %s seconds...",
                        self.cull_interval, self.cull_inactive_timeout)
         # Create a separate list of terminals to avoid conflicting updates while iterating
         for name in list(self.terminals):
             try:
-                await self.cull_inactive_terminal(name)
+                await self._cull_inactive_terminal(name)
             except Exception as e:
                 self.log.exception("The following exception was encountered while checking the "
                                    "activity of terminal {}: {}".format(name, e))
 
-    async def cull_inactive_terminal(self, name):
+    async def _cull_inactive_terminal(self, name):
         try:
             term = self.terminals[name]
         except KeyError:
