@@ -32,6 +32,10 @@ def wait_for_xpath(driver, xpath, timeout=10, visible=False, single=False, wait_
     return _wait_for(driver, By.XPATH, xpath, timeout, visible, single, obscures)
 
 
+def wait_for_script_to_return_true(driver, script, timeout=10):
+    WebDriverWait(driver, timeout).until(lambda d: d.execute_script(script))
+
+
 def _wait_for(driver, locator_type, locator, timeout=10, visible=False, single=False, obscures=False):
     """Waits `timeout` seconds for the specified condition to be met. Condition is
     met if any matching element is found. Returns located element(s) when found.
