@@ -260,7 +260,6 @@ class Notebook:
         for line_no, line in enumerate(content.splitlines()):
             if line_no != 0:
                 self.current_cell.send_keys(Keys.ENTER, "\n")
-            self.current_cell.send_keys(Keys.ENTER, Keys.HOME)  # Avoid auto-indent.
             self.current_cell.send_keys(Keys.ENTER, line)
         if render:
             self.execute_cell(self.current_index)
