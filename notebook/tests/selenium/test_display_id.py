@@ -11,7 +11,7 @@ INITIAL_CELLS = [textwrap.dedent("""\
     from IPython.display import display
     def display_with_id(obj, display_id, update=False, execute_result=False):
         iopub = ip.kernel.iopub_socket
-        session = get_ipython().kernel.session
+        session = ip.kernel.session
         data, md = ip.display_formatter.format(obj)
         transient = {'display_id': display_id}
         content = {'data': data, 'metadata': md, 'transient': transient}
