@@ -471,10 +471,6 @@ class IPythonHandler(AuthenticatedHandler):
         if host.startswith('[') and host.endswith(']'):
             host = host[1:-1]
 
-        if not PY3:
-            # ip_address only accepts unicode on Python 2
-            host = host.decode('utf8', 'replace')
-
         # UNIX socket handling
         check_host = urldecode_unix_socket_path(host)
         if check_host.startswith('/') and os.path.exists(check_host):
