@@ -152,34 +152,6 @@ class NotebookTestBase(TestCase):
 
         started = Event()
         def start_thread():
-            if 'asyncio' in sys.modules:
-                import asyncio
-                asyncio.set_event_loop(asyncio.new_event_loop())
-            bind_args = cls.get_bind_args()
-            app = cls.notebook = NotebookApp(
-                port_retries=0,
-                open_browser=False,
-                config_dir=cls.config_dir,
-                data_dir=cls.data_dir,
-                runtime_dir=cls.runtime_dir,
-                notebook_dir=cls.notebook_dir,
-                base_url=cls.url_prefix,
-                config=config,
-                allow_root=True,
-                token=cls.token,
-                **bind_args
-            )
-            # don't register signal handler during tests
-            app.init_signal = lambda : None
-            # clear log handlers and propagate to root for nose to capture it
-            # needs to be redone after initialize, which reconfigures logging
-            app.log.propagate = True
-            app.log.handlers = []
-            app.initialize(argv=cls.get_argv())
-            app.log.propagate = True
-            app.log.handlers = []
-            loop = IOLoop.current()
-            loop.add_callback(started.set)
             try:
                 app = cls.notebook = NotebookApp(
                     port=cls.port,
