@@ -153,8 +153,8 @@ class NotebookTestBase(TestCase):
         started = Event()
         def start_thread():
             try:
+                bind_args = cls.get_bind_args()
                 app = cls.notebook = NotebookApp(
-                    port=cls.port,
                     port_retries=0,
                     open_browser=False,
                     config_dir=cls.config_dir,
@@ -165,6 +165,7 @@ class NotebookTestBase(TestCase):
                     config=config,
                     allow_root=True,
                     token=cls.token,
+                    **bind_args
                 )
                 if 'asyncio' in sys.modules:
                           app._init_asyncio_patch()
