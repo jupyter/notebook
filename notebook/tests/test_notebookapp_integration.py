@@ -17,7 +17,7 @@ def test_shutdown_sock_server_integration():
     encoded_sock_path = urlencode_unix_socket_path(sock)
 
     p = subprocess.Popen(
-        ['jupyter-notebook', '--no-browser', '--sock=%s' % sock],
+        ['jupyter-notebook', '--sock=%s' % sock],
         stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
 
@@ -32,6 +32,15 @@ def test_shutdown_sock_server_integration():
 
     # Ensure default umask is properly applied.
     assert stat.S_IMODE(os.lstat(sock).st_mode) == 0o600
+
+    try:
+        subprocess.check_output(['jupyter-notebook', 'stop'], stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as e:
+        assert 'There is currently no server running on' in e.output.decode()
+    else:
+        raise AssertionError('expected stop command to fail due to target mis-match')
+
+    assert encoded_sock_path.encode() in subprocess.check_output(['jupyter-notebook', 'list'])
 
     subprocess.check_output(['jupyter-notebook', 'stop', sock])
 
@@ -54,7 +63,7 @@ def _ensure_stopped(check_msg='There are no running servers'):
 
 
 @skip_win32
-def test_stop_multi():
+def test_stop_multi_integration():
     """Tests lifecycle behavior for mixed-mode server types w/ default ports.
 
     Mostly suitable for local dev testing due to reliance on default port binding.
@@ -72,7 +81,7 @@ def test_stop_multi():
     # Unix socket.
     sock = UNIXSocketNotebookTestBase.sock
     p2 = subprocess.Popen(
-        ['jupyter-notebook', '--no-browser', '--sock=%s' % sock]
+        ['jupyter-notebook', '--sock=%s' % sock]
     )
 
     # Specified port
