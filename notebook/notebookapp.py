@@ -620,7 +620,7 @@ aliases.update({
     'port': 'NotebookApp.port',
     'port-retries': 'NotebookApp.port_retries',
     'sock': 'NotebookApp.sock',
-    'sock-umask': 'NotebookApp.sock_umask',
+    'sock-mode': 'NotebookApp.sock_mode',
     'transport': 'KernelManager.transport',
     'keyfile': 'NotebookApp.keyfile',
     'certfile': 'NotebookApp.certfile',
@@ -786,8 +786,8 @@ class NotebookApp(JupyterApp):
         help=_("The UNIX socket the notebook server will listen on.")
     )
 
-    sock_umask = Unicode(u'0600', config=True,
-        help=_("The UNIX socket umask to set on creation (default: 0600).")
+    sock_mode = Unicode(u'0600', config=True,
+        help=_("The permissions mode/umask for UNIX socket creation (default: 0600).")
     )
 
     port_retries = Integer(50, config=True,
@@ -1616,7 +1616,7 @@ class NotebookApp(JupyterApp):
 
     def _bind_http_server_unix(self):
         try:
-            sock = bind_unix_socket(self.sock, mode=int(self.sock_umask.encode(), 8))
+            sock = bind_unix_socket(self.sock, mode=int(self.sock_mode.encode(), 8))
             self.http_server.add_socket(sock)
         except socket.error as e:
             if e.errno == errno.EADDRINUSE:
