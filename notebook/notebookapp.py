@@ -1557,6 +1557,12 @@ class NotebookApp(JupyterApp):
                     _('Ignoring --NotebookApp.open_browser due to --sock being used.'),
                 )
 
+            if self.file_to_run:
+                self.log.critical(
+                    _('Options --NotebookApp.file_to_run and --sock are mutually exclusive.'),
+                )
+                sys.exit(1)
+
             if sys.platform.startswith('win'):
                 self.log.critical(
                     _('Option --sock is not supported on Windows, but got value of %s. Aborting.' % self.sock),
