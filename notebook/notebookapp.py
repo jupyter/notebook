@@ -490,7 +490,7 @@ def shutdown_server(server_info, timeout=5, log=None):
 
 class NbserverStopApp(JupyterApp):
     version = __version__
-    description="Stop currently running notebook server for a given port"
+    description="Stop currently running notebook server."
 
     port = Integer(DEFAULT_NOTEBOOK_PORT, config=True,
         help="Port of the server to be killed. Default %s" % DEFAULT_NOTEBOOK_PORT)
