@@ -2105,7 +2105,7 @@ class NotebookApp(JupyterApp):
                     (
                         'UNIX sockets are not browser-connectable, but you can tunnel to '
                         'the instance via e.g.`ssh -L 8888:%s -N user@this_host` and then '
-                        'opening e.g. %s in a browser.'
+                        'open e.g. %s in a browser.'
                     ) % (self.sock, self._concat_token(self._tcp_url('localhost', 8888)))
                 ]))
             else:
