@@ -510,21 +510,36 @@ class NbserverStopApp(JupyterApp):
     def shutdown_server(self, server):
         return shutdown_server(server, log=self.log)
 
+    def _shutdown_or_exit(self, target_endpoint, server):
+        print("Shutting down server on %s..." % target_endpoint)
+        if not self.shutdown_server(server):
+            sys.exit("Could not stop server on %s" % target_endpoint)
+
     def start(self):
         servers = list(list_running_servers(self.runtime_dir))
         if not servers:
-            self.exit("There are no running servers")
+            self.exit("There are no running servers (per %s)" % self.runtime_dir)
+
         for server in servers:
-            if server.get('sock') == self.sock or server['port'] == self.port:
-                print("Shutting down server on %s..." % self.sock or self.port)
-                if not self.shutdown_server(server):
-                    sys.exit("Could not stop server")
-                return
+            if self.sock:
+                sock = server.get('sock', None)
+                if sock and sock == self.sock:
+                    self._shutdown_or_exit(sock, server)
+                    return
+            elif self.port:
+                port = server.get('port', None)
+                if port == self.port:
+                    self._shutdown_or_exit(port, server)
+                    return
         else:
-            print("There is currently no server running on port {}".format(self.port), file=sys.stderr)
+            current_endpoint = self.sock or self.port
+            print(
+                "There is currently no server running on {}".format(current_endpoint),
+                file=sys.stderr
+            )
             print("Ports/sockets currently in use:", file=sys.stderr)
             for server in servers:
-                print("  - {}".format(server.get('sock', server['port'])), file=sys.stderr)
+                print("  - {}".format(server.get('sock') or server['port']), file=sys.stderr)
             self.exit(1)
 
 
@@ -1532,6 +1547,9 @@ class NotebookApp(JupyterApp):
                     _('Options --port and --sock are mutually exclusive. Aborting.'),
                 )
                 sys.exit(1)
+            else:
+                # Reset the default port if we're using a UNIX socket.
+                self.port = 0
 
             if self.open_browser:
                 # If we're bound to a UNIX socket, we can't reliably connect from a browser.
