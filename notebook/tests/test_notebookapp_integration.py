@@ -3,7 +3,7 @@ import stat
 import subprocess
 import time
 
-from ipython_genutils.testing.decorators import skip_win32
+from ipython_genutils.testing.decorators import skip_win32, onlyif
 from notebook import DEFAULT_NOTEBOOK_PORT
 
 from .launchnotebook import UNIXSocketNotebookTestBase
@@ -62,7 +62,7 @@ def _ensure_stopped(check_msg='There are no running servers'):
         raise AssertionError('expected all servers to be stopped')
 
 
-@skip_win32
+@onlyif(bool(os.environ.get('RUN_NB_INTEGRATION_TESTS', False)), 'for local testing')
 def test_stop_multi_integration():
     """Tests lifecycle behavior for mixed-mode server types w/ default ports.
 
