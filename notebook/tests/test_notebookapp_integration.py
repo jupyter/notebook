@@ -57,7 +57,7 @@ def _ensure_stopped(check_msg='There are no running servers'):
 def test_stop_multi():
     """Tests lifecycle behavior for mixed-mode server types w/ default ports.
 
-    Suitable for local dev testing only due to reliance on default port binding.
+    Mostly suitable for local dev testing due to reliance on default port binding.
     """
     TEST_PORT = '9797'
     MSG_TMPL = 'Shutting down server on {}...'
