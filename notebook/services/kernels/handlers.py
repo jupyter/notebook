@@ -262,25 +262,26 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         buffer_info = km.get_buffer(kernel_id, self.session_key)
         if buffer_info and buffer_info['session_key'] == self.session_key:
             self.log.info("Restoring connection for %s", self.session_key)
-            self.channels = buffer_info['channels']
             replay_buffer = buffer_info['buffer']
             if replay_buffer:
                 self.log.info("Replaying %s buffered messages", len(replay_buffer))
                 for channel, msg_list in replay_buffer:
-                    stream = self.channels[channel]
+                    stream = buffer_info['channels']
                     self._on_zmq_reply(stream, msg_list)
-        else:
-            try:
-                self.create_stream()
-            except web.HTTPError as e:
-                self.log.error("Error opening stream: %s", e)
-                # WebSockets don't response to traditional error codes so we
-                # close the connection.
-                for channel, stream in self.channels.items():
-                    if not stream.closed():
-                        stream.close()
-                self.close()
-                return
+
+        try:
+            # The channel addresses may have changed (the kernel may have
+            # restarted with different ports), so always reconnect.
+            self.create_stream()
+        except web.HTTPError as e:
+            self.log.error("Error opening stream: %s", e)
+            # WebSockets don't respond to traditional error codes so we
+            # close the connection.
+            for channel, stream in self.channels.items():
+                if not stream.closed():
+                    stream.close()
+            self.close()
+            return
 
         km.add_restart_callback(self.kernel_id, self.on_kernel_restarted)
         km.add_restart_callback(self.kernel_id, self.on_restart_failed, 'dead')
