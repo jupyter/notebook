@@ -12,6 +12,7 @@ from tempfile import NamedTemporaryFile
 from unittest.mock import patch
 
 import nose.tools as nt
+import pytest
 
 from traitlets.tests.utils import check_help_all_output
 
@@ -90,27 +91,30 @@ def test_generate_config():
         assert os.path.exists(os.path.join(td, 'jupyter_notebook_config.py'))
 
 #test if the version testin function works
-def test_pep440_version():
-
-    for version in [
+@pytest.mark.parametrize(
+    'version',
+    [
         '4.1.0.b1',
         '4.1.b1',
         '4.2',
         'X.y.z',
         '1.2.3.dev1.post2',
-        ]:
-        def loc():
-            with nt.assert_raises(ValueError):
-                raise_on_bad_version(version)
-        yield loc
+    ]
+)
+def test_pep440_version_bad(version):
+    with pytest.raises(ValueError):
+        raise_on_bad_version(version)
 
-    for version in [
+
+@pytest.mark.parametrize(
+    'version',
+    [
         '4.1.1',
         '4.2.1b3',
-        ]:
-
-        yield (raise_on_bad_version, version)
-
+    ]
+)
+def test_pep440_version_ok(version):
+    raise_on_bad_version(version)
 
 
 pep440re = re.compile('^(\d+)\.(\d+)\.(\d+((a|b|rc)\d+)?)(\.post\d+)?(\.dev\d*)?$')

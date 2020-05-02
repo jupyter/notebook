@@ -3,11 +3,9 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-import os
-import gettext
+from .i18n import get_translation
 
+# global default translation object (used for log messages)
 
-# Set up message catalog access
-base_dir = os.path.realpath(os.path.join(__file__, '..', '..'))
-trans = gettext.translation('notebook', localedir=os.path.join(base_dir, 'notebook/i18n'), fallback=True)
+trans = get_translation('notebook')
 _ = trans.gettext

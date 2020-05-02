@@ -19,8 +19,8 @@ env:
     - GROUP=js/services
 
 before_install:
-    - pip install --upgrade pip
-    - pip install --upgrade setuptools wheel nose coverage codecov
+    - pip install --upgrade setuptools pip
+    - pip install --upgrade codecov attrs
     - nvm install 6.9.2
     - nvm use 6.9.2
     - node --version
@@ -48,7 +48,7 @@ before_install:
     - pip install "attrs>=17.4.0"
 
 install:
-    - pip install --pre .[test] $EXTRA_PIP
+    - pip install --upgrade --upgrade-strategy eager --pre .[test] $EXTRA_PIP
     - pip freeze
     - wget https://github.com/jgm/pandoc/releases/download/1.19.1/pandoc-1.19.1-1-amd64.deb && sudo dpkg -i pandoc-1.19.1-1-amd64.deb
 
@@ -65,9 +65,21 @@ script:
       else
           true
       fi
-    - 'if [[ $GROUP == js* ]]; then travis_retry python -m notebook.jstest ${GROUP:3}; fi'
-    - 'if [[ $GROUP == python ]]; then nosetests -v --exclude-dir notebook/tests/selenium --with-coverage --cover-package=notebook notebook; fi'
-    - 'if [[ $GROUP == selenium ]]; then py.test -sv notebook/tests/selenium; fi'
+    - |
+      # javascript tests
+      if [[ $GROUP == js* ]]; then
+        travis_retry python -m notebook.jstest ${GROUP:3}
+      fi
+    - |
+      # python tests
+      if [[ $GROUP == python ]]; then
+        pytest -v --ignore notebook/tests/selenium --cov notebook --pyargs notebook
+      fi
+    - |
+      # selenium tests
+      if [[ $GROUP == selenium ]]; then
+        pytest -sv notebook/tests/selenium
+      fi
     - |
       if [[ $GROUP == docs ]]; then
         EXIT_STATUS=0

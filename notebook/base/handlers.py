@@ -10,7 +10,6 @@ import json
 import mimetypes
 import os
 import re
-import sys
 import traceback
 import types
 import warnings
@@ -19,7 +18,7 @@ from http.cookies import Morsel
 
 from urllib.parse import urlparse
 from jinja2 import TemplateNotFound
-from tornado import web, gen, escape, httputil
+from tornado import web, escape, httputil
 from tornado.log import app_log
 import prometheus_client
 
@@ -31,7 +30,7 @@ from ipython_genutils.py3compat import string_types
 
 import notebook
 from notebook._tz import utcnow
-from notebook.i18n import combine_translations
+from notebook.i18n import combine_translations, get_translation, parse_accept_lang_header
 from notebook.utils import is_hidden, url_path_join, url_is_absolute, url_escape
 from notebook.services.security import csp_report_uri
 
@@ -496,16 +495,29 @@ class IPythonHandler(AuthenticatedHandler):
     #---------------------------------------------------------------
     # template rendering
     #---------------------------------------------------------------
-    
+
     def get_template(self, name):
         """Return the jinja template object for a given name"""
         return self.settings['jinja2_env'].get_template(name)
-    
+
     def render_template(self, name, **ns):
         ns.update(self.template_namespace)
+
+        accept_language = self.request.headers.get('Accept-Language', '')
+        languages = parse_accept_lang_header(accept_language)
+
+        # register backend translations with jinja
+        self.settings['jinja2_env'].install_gettext_translations(
+            get_translation('nbui', languages),
+            newstyle=False,
+        )
+
+        # pass frontend translations to javascript
+        ns['nbjs_translations'] = combine_translations(languages)
+
         template = self.get_template(name)
         return template.render(**ns)
-    
+
     @property
     def template_namespace(self):
         return dict(
@@ -524,11 +536,9 @@ class IPythonHandler(AuthenticatedHandler):
             xsrf_form_html=self.xsrf_form_html,
             token=self.token,
             xsrf_token=self.xsrf_token.decode('utf8'),
-            nbjs_translations=json.dumps(combine_translations(
-                self.request.headers.get('Accept-Language', ''))),
             **self.jinja_template_vars
         )
-    
+
     def get_json_body(self):
         """Return the body of the request as JSON data."""
         if not self.request.body:
