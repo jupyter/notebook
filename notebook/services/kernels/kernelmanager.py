@@ -176,7 +176,7 @@ class MappingKernelManager(MultiKernelManager):
             kernel_id = await maybe_future(self.pinned_superclass.start_kernel(self, **kwargs))
             self._kernel_connections[kernel_id] = 0
             self.start_watching_activity(kernel_id)
-            self.log.info("Kernel started: %s" % kernel_id)
+            self.log.info("Kernel started: %s, name: %s" % (kernel_id, self._kernels[kernel_id].kernel_name))
             self.log.debug("Kernel args: %r" % kwargs)
             # register callback for failed auto-restart
             self.add_restart_callback(kernel_id,
