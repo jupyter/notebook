@@ -20,14 +20,14 @@ msgstr ""
 #: notebook/static/base/js/dialog.js:161
 msgid "Manually edit the JSON below to manipulate the metadata for this cell."
 msgstr ""
-"Bewerk de JSON hieronder handmatig om de metagegevens voor deze cel te "
+"Bewerk de JSON eronder handmatig om de metagegevens voor deze cel te "
 "manipuleren."
 
 #: notebook/static/base/js/dialog.js:163
 msgid ""
 "Manually edit the JSON below to manipulate the metadata for this notebook."
 msgstr ""
-"Bewerk de JSON hieronder handmatig om de metagegevens voor dit notitieblok "
+"Bewerk de JSON eronder handmatig om de metagegevens voor dit notebook "
 "te manipuleren."
 
 #: notebook/static/base/js/dialog.js:165
@@ -45,7 +45,7 @@ msgstr "De metagegevens bewerken"
 
 #: notebook/static/base/js/dialog.js:202
 msgid "Edit Notebook Metadata"
-msgstr "Metagegevens van notitieblokmetagegevens bewerken"
+msgstr "Metagegevens van notebook-metagegevens bewerken"
 
 #: notebook/static/base/js/dialog.js:204
 msgid "Edit Cell Metadata"
@@ -110,7 +110,7 @@ msgstr "Bijlagen bewerken"
 
 #: notebook/static/base/js/dialog.js:348
 msgid "Edit Notebook Attachments"
-msgstr "Notitieblokbijlagen bewerken"
+msgstr "Notebook-bijlagen bewerken"
 
 #: notebook/static/base/js/dialog.js:350
 msgid "Edit Cell Attachments"
@@ -138,7 +138,7 @@ msgstr "De server draait op deze versie van Python:"
 
 #: notebook/static/notebook/js/about.js:25
 msgid "Waiting for kernel to be available..."
-msgstr "Wachten tot kernel beschikbaar is ..."
+msgstr "Wachten tot kernel beschikbaar is..."
 
 #: notebook/static/notebook/js/about.js:27
 msgid "Server Information:"
@@ -173,8 +173,8 @@ msgstr "rtl-indeling in- en uitschakelen"
 msgid ""
 "Toggle the screen directionality between left-to-right and right-to-left"
 msgstr ""
-"De richting van het scherm schakelen tussen links naar rechts en van rechts "
-"naar links"
+"De richting van het scherm schakelen tussen links-naar-rechts en rechts-"
+"naar-links"
 
 #: notebook/static/notebook/js/actions.js:76
 msgid "edit command mode keyboard shortcuts"
@@ -195,7 +195,7 @@ msgstr "de kernel opnieuw starten (geen bevestigingsdialoogvenster)"
 
 #: notebook/static/notebook/js/actions.js:106
 msgid "confirm restart kernel"
-msgstr "opnieuw opstartenkernel bevestigen"
+msgstr "bevestig herstart van kernel"
 
 #: notebook/static/notebook/js/actions.js:107
 msgid "restart the kernel (with dialog)"
@@ -209,17 +209,17 @@ msgstr "kernel opnieuw opstarten en alle cellen uitvoeren"
 msgid ""
 "restart the kernel, then re-run the whole notebook (no confirmation dialog)"
 msgstr ""
-"start de kernel opnieuw en voer vervolgens het hele notitieblok opnieuw uit "
+"start de kernel opnieuw en voer vervolgens het hele notebook opnieuw uit "
 "(geen bevestigingsdialoogvenster)"
 
 #: notebook/static/notebook/js/actions.js:120
 msgid "confirm restart kernel and run all cells"
-msgstr "bevestigen startkernel en voer alle cellen uit"
+msgstr "bevestig opnieuw opstartern kernel en cellen uitvoeren"
 
 #: notebook/static/notebook/js/actions.js:121
 msgid "restart the kernel, then re-run the whole notebook (with dialog)"
 msgstr ""
-"start de kernel opnieuw en voer vervolgens het hele notitieblok opnieuw uit "
+"start de kernel opnieuw en voer vervolgens het hele notebook opnieuw uit "
 "(met dialoogvenster)"
 
 #: notebook/static/notebook/js/actions.js:127
@@ -234,7 +234,7 @@ msgstr ""
 
 #: notebook/static/notebook/js/actions.js:134
 msgid "confirm restart kernel and clear output"
-msgstr "bevestigen startkernel en duidelijke uitvoer"
+msgstr "bevestigen startkernel en verwijder uitvoer"
 
 #: notebook/static/notebook/js/actions.js:135
 msgid "restart the kernel and clear all output (with dialog)"
@@ -252,7 +252,7 @@ msgstr "cel uitvoeren en volgende selecteren"
 
 #: notebook/static/notebook/js/actions.js:152
 msgid "run cell, select below"
-msgstr "cel uitvoeren, selecteer hieronder"
+msgstr "cel uitvoeren en de cel eronder selecteren"
 
 #: notebook/static/notebook/js/actions.js:159
 #: notebook/static/notebook/js/actions.js:160
@@ -262,7 +262,7 @@ msgstr "geselecteerde cellen uitvoeren"
 #: notebook/static/notebook/js/actions.js:167
 #: notebook/static/notebook/js/actions.js:168
 msgid "run cell and insert below"
-msgstr "cel uitvoeren en hieronder invoegen"
+msgstr "cel uitvoeren en voeg een cel toe"
 
 #: notebook/static/notebook/js/actions.js:175
 #: notebook/static/notebook/js/actions.js:176
@@ -272,12 +272,12 @@ msgstr "alle cellen uitvoeren"
 #: notebook/static/notebook/js/actions.js:183
 #: notebook/static/notebook/js/actions.js:184
 msgid "run all cells above"
-msgstr "alle cellen boven uitvoeren"
+msgstr "alle cellen erboven uitvoeren"
 
 #: notebook/static/notebook/js/actions.js:190
 #: notebook/static/notebook/js/actions.js:191
 msgid "run all cells below"
-msgstr "alle cellen hieronder uitvoeren"
+msgstr "alle cellen eronder uitvoeren"
 
 #: notebook/static/notebook/js/actions.js:197
 #: notebook/static/notebook/js/actions.js:198
@@ -307,12 +307,12 @@ msgstr "celbijlagen plakken"
 #: notebook/static/notebook/js/actions.js:237
 #: notebook/static/notebook/js/actions.js:238
 msgid "split cell at cursor"
-msgstr "gesplitste cel bij cursor"
+msgstr "cel splitsen bij cursor"
 
 #: notebook/static/notebook/js/actions.js:245
 #: notebook/static/notebook/js/actions.js:246
 msgid "enter edit mode"
-msgstr "voer de bewerkingsmodus in"
+msgstr "activeer bewerkingsmodus"
 
 #: notebook/static/notebook/js/actions.js:253
 msgid "select previous cell"
@@ -320,7 +320,7 @@ msgstr "vorige cel selecteren"
 
 #: notebook/static/notebook/js/actions.js:254
 msgid "select cell above"
-msgstr "cel boven selecteren"
+msgstr "cel erboven selecteren"
 
 #: notebook/static/notebook/js/actions.js:265
 msgid "select next cell"
@@ -328,23 +328,23 @@ msgstr "volgende cel selecteren"
 
 #: notebook/static/notebook/js/actions.js:266
 msgid "select cell below"
-msgstr "cel hieronder selecteren"
+msgstr "cel eronder selecteren"
 
 #: notebook/static/notebook/js/actions.js:277
 msgid "extend selection above"
-msgstr "selectie hierboven uit te breiden"
+msgstr "selectie erboven uit te breiden"
 
 #: notebook/static/notebook/js/actions.js:278
 msgid "extend selected cells above"
-msgstr "geselecteerde cellen hierboven uit te breiden"
+msgstr "geselecteerde cellen erboven uit te breiden"
 
 #: notebook/static/notebook/js/actions.js:289
 msgid "extend selection below"
-msgstr "selectie hieronder uitbreiden"
+msgstr "selectie eronder uitbreiden"
 
 #: notebook/static/notebook/js/actions.js:290
 msgid "extend selected cells below"
-msgstr "geselecteerde cellen hieronder uit te breiden"
+msgstr "geselecteerde cellen eronder uitbreiden"
 
 #: notebook/static/notebook/js/actions.js:301
 #: notebook/static/notebook/js/actions.js:302
@@ -359,22 +359,22 @@ msgstr "geselecteerde cellen kopiëren"
 #: notebook/static/notebook/js/actions.js:327
 #: notebook/static/notebook/js/actions.js:328
 msgid "paste cells above"
-msgstr "cellen boven plakken"
+msgstr "cellen erboven plakken"
 
 #: notebook/static/notebook/js/actions.js:335
 #: notebook/static/notebook/js/actions.js:336
 msgid "paste cells below"
-msgstr "cellen hieronder plakken"
+msgstr "cellen eronder plakken"
 
 #: notebook/static/notebook/js/actions.js:344
 #: notebook/static/notebook/js/actions.js:345
 msgid "insert cell above"
-msgstr "cel boven invoegen"
+msgstr "cel erboven invoegen"
 
 #: notebook/static/notebook/js/actions.js:354
 #: notebook/static/notebook/js/actions.js:355
 msgid "insert cell below"
-msgstr "cel onder invoegen"
+msgstr "cel eronder invoegen"
 
 #: notebook/static/notebook/js/actions.js:365
 #: notebook/static/notebook/js/actions.js:366
@@ -384,7 +384,7 @@ msgstr "cel wijzigen in code"
 #: notebook/static/notebook/js/actions.js:373
 #: notebook/static/notebook/js/actions.js:374
 msgid "change cell to markdown"
-msgstr "cel wijzigen om af te markeren"
+msgstr "cel wijzigen naar markdown"
 
 #: notebook/static/notebook/js/actions.js:381
 #: notebook/static/notebook/js/actions.js:382
@@ -394,32 +394,32 @@ msgstr "cel wijzigen in raw"
 #: notebook/static/notebook/js/actions.js:389
 #: notebook/static/notebook/js/actions.js:390
 msgid "change cell to heading 1"
-msgstr "cel wijzigen in kop 1"
+msgstr "cel wijzigen in header 1"
 
 #: notebook/static/notebook/js/actions.js:397
 #: notebook/static/notebook/js/actions.js:398
 msgid "change cell to heading 2"
-msgstr "cel wijzigen in kop 2"
+msgstr "cel wijzigen in header 2"
 
 #: notebook/static/notebook/js/actions.js:405
 #: notebook/static/notebook/js/actions.js:406
 msgid "change cell to heading 3"
-msgstr "cel wijzigen in post 3"
+msgstr "cel wijzigen in header 3"
 
 #: notebook/static/notebook/js/actions.js:413
 #: notebook/static/notebook/js/actions.js:414
 msgid "change cell to heading 4"
-msgstr "cel wijzigen naar post 4"
+msgstr "cel wijzigen naar header 4"
 
 #: notebook/static/notebook/js/actions.js:421
 #: notebook/static/notebook/js/actions.js:422
 msgid "change cell to heading 5"
-msgstr "cel wijzigen naar post 5"
+msgstr "cel wijzigen naar header 5"
 
 #: notebook/static/notebook/js/actions.js:429
 #: notebook/static/notebook/js/actions.js:430
 msgid "change cell to heading 6"
-msgstr "cel wijzigen naar post 6"
+msgstr "cel wijzigen naar header 6"
 
 #: notebook/static/notebook/js/actions.js:437
 msgid "toggle cell output"
@@ -427,23 +427,23 @@ msgstr "celuitvoer in- of uitschakelen"
 
 #: notebook/static/notebook/js/actions.js:438
 msgid "toggle output of selected cells"
-msgstr "schakeluitvoer van geselecteerde cellen"
+msgstr "uitvoer van geselecteerde cellen in- of uitschakelen"
 
 #: notebook/static/notebook/js/actions.js:445
 msgid "toggle cell scrolling"
-msgstr "celschuiven in- en uitschakelen"
+msgstr "scrollen van cellen in- of uitschakelen"
 
 #: notebook/static/notebook/js/actions.js:446
 msgid "toggle output scrolling of selected cells"
-msgstr "uitvoerschuiven van geselecteerde cellen in- of uitschakelen"
+msgstr "scrollen van uitvoer van geselecteerde cellen in- of uitschakelen"
 
 #: notebook/static/notebook/js/actions.js:453
 msgid "clear cell output"
-msgstr "duidelijke celuitvoer"
+msgstr "verwijder celuitvoer"
 
 #: notebook/static/notebook/js/actions.js:454
 msgid "clear output of selected cells"
-msgstr "duidelijke uitvoer van geselecteerde cellen"
+msgstr "verwijder uitvoer van geselecteerde cellen"
 
 #: notebook/static/notebook/js/actions.js:460
 msgid "move cells down"
@@ -490,7 +490,7 @@ msgstr "cel samenvoegen met vorige cel"
 
 #: notebook/static/notebook/js/actions.js:513
 msgid "merge cell above"
-msgstr "cel boven samenvoegen"
+msgstr "cel erboven samenvoegen"
 
 #: notebook/static/notebook/js/actions.js:519
 msgid "merge cell with next cell"
@@ -498,7 +498,7 @@ msgstr "cel samenvoegen met volgende cel"
 
 #: notebook/static/notebook/js/actions.js:520
 msgid "merge cell below"
-msgstr "cel hieronder samenvoegen"
+msgstr "cel eronder samenvoegen"
 
 #: notebook/static/notebook/js/actions.js:527
 #: notebook/static/notebook/js/actions.js:528
@@ -514,7 +514,7 @@ msgid ""
 "merge selected cells, or current cell with cell below if only one cell is "
 "selected"
 msgstr ""
-"geselecteerde cellen of huidige cel samenvoegen met cel hieronder als "
+"geselecteerde cellen of huidige cel samenvoegen met cel eronder als "
 "slechts één cel is geselecteerd"
 
 #: notebook/static/notebook/js/actions.js:549
@@ -531,7 +531,7 @@ msgstr "alle regelnummers in- en uitschakelen"
 
 #: notebook/static/notebook/js/actions.js:558
 msgid "toggles line numbers in all cells, and persist the setting"
-msgstr "schakelt lijnnummers in alle cellen in en houdt de instelling aan"
+msgstr "lijnnummers in alle cellen in- of uitschakelen en de instelling aanhouden"
 
 #: notebook/static/notebook/js/actions.js:569
 msgid "show all line numbers"
@@ -607,52 +607,52 @@ msgstr "cursor omlaag verplaatsen"
 #: notebook/static/notebook/js/actions.js:750
 #: notebook/static/notebook/js/actions.js:751
 msgid "scroll notebook down"
-msgstr "schuifnotitieblok omlaag"
+msgstr "scroll notebook omlaag"
 
 #: notebook/static/notebook/js/actions.js:760
 #: notebook/static/notebook/js/actions.js:761
 msgid "scroll notebook up"
-msgstr "schuifnotitieblok omhoog"
+msgstr "scroll notebook omhoog"
 
 #: notebook/static/notebook/js/actions.js:770
 msgid "scroll cell center"
-msgstr "schuifcelcentrum"
+msgstr "scroll cel naar het midden"
 
 #: notebook/static/notebook/js/actions.js:771
 msgid "Scroll the current cell to the center"
-msgstr "De huidige cel naar het midden schuiven"
+msgstr "De huidige cel naar het midden scrollen"
 
 #: notebook/static/notebook/js/actions.js:781
 msgid "scroll cell top"
-msgstr "schuifcelboven"
+msgstr "scroll cel naar boven"
 
 #: notebook/static/notebook/js/actions.js:782
 msgid "Scroll the current cell to the top"
-msgstr "De huidige cel naar boven schuiven"
+msgstr "De huidige cel naar erboven scrollen"
 
 #: notebook/static/notebook/js/actions.js:792
 msgid "duplicate notebook"
-msgstr "duplicaat notitieblok"
+msgstr "dupliceer notebook"
 
 #: notebook/static/notebook/js/actions.js:793
 msgid "Create and open a copy of the current notebook"
-msgstr "Een kopie van het huidige notitieblok maken en openen"
+msgstr "Een kopie van het huidige notebook maken en openen"
 
 #: notebook/static/notebook/js/actions.js:799
 msgid "trust notebook"
-msgstr "vertrouwensnotitieblok"
+msgstr "vertrouwensnotebook"
 
 #: notebook/static/notebook/js/actions.js:800
 msgid "Trust the current notebook"
-msgstr "Het huidige notitieblok vertrouwen"
+msgstr "Het huidige notebook vertrouwen"
 
 #: notebook/static/notebook/js/actions.js:806
 msgid "rename notebook"
-msgstr "de naam van notitieblok wijzigen"
+msgstr "de naam van notebook wijzigen"
 
 #: notebook/static/notebook/js/actions.js:807
 msgid "Rename the current notebook"
-msgstr "De naam van het huidige notitieblok wijzigen"
+msgstr "De naam van het huidige notebook wijzigen"
 
 #: notebook/static/notebook/js/actions.js:813
 msgid "toggle all cells output collapsed"
@@ -664,11 +664,11 @@ msgstr "De verborgen status van alle uitvoergebieden inschakelen"
 
 #: notebook/static/notebook/js/actions.js:820
 msgid "toggle all cells output scrolled"
-msgstr "alle gebladerde cellenuitvoer inschakelen"
+msgstr "alle cellenuitvoer in- of uitschakelen"
 
 #: notebook/static/notebook/js/actions.js:821
 msgid "Toggle the scrolling state of all output areas"
-msgstr "De schuifstatus van alle uitvoergebieden inschakelen"
+msgstr "De scroll-status van alle uitvoergebieden in- of uitschakelen"
 
 #: notebook/static/notebook/js/actions.js:828
 msgid "clear all cells output"
@@ -680,11 +680,11 @@ msgstr "De inhoud van alle uitgangen wissen"
 
 #: notebook/static/notebook/js/actions.js:835
 msgid "save notebook"
-msgstr "notitieblok opslaan"
+msgstr "notebook opslaan"
 
 #: notebook/static/notebook/js/actions.js:836
 msgid "Save and Checkpoint"
-msgstr "Opslaan en controlepunt"
+msgstr "Opslaan en checkpoint"
 
 #: notebook/static/notebook/js/cell.js:79
 msgid "Warning: accessing Cell.cm_config directly is deprecated."
@@ -773,7 +773,7 @@ msgstr "Kernel niet gevonden"
 #: notebook/static/notebook/js/kernelselector.js:319
 #: notebook/static/tree/js/newnotebook.js:99
 msgid "Creating Notebook Failed"
-msgstr "Notitieblok maken is mislukt"
+msgstr "Notebook maken is mislukt"
 
 #: notebook/static/notebook/js/kernelselector.js:320
 #: notebook/static/tree/js/notebooklist.js:1360
@@ -795,7 +795,7 @@ msgstr "Markdown"
 
 #: notebook/static/notebook/js/maintoolbar.js:78
 msgid "Raw NBConvert"
-msgstr "Ruwe NBConvert"
+msgstr "Raw NBConvert"
 
 #: notebook/static/notebook/js/maintoolbar.js:79
 msgid "Heading"
@@ -816,11 +816,11 @@ msgstr "Wiskunde/LaTeX-rendering wordt uitgeschakeld."
 
 #: notebook/static/notebook/js/menubar.js:220
 msgid "Trusted Notebook"
-msgstr "Vertrouwd notitieblok"
+msgstr "Vertrouwd notebook"
 
 #: notebook/static/notebook/js/menubar.js:226
 msgid "Trust Notebook"
-msgstr "Notitieblok vertrouwen"
+msgstr "Notebook vertrouwen"
 
 #: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:16
 #: notebook/static/notebook/js/menubar.js:383
@@ -838,7 +838,7 @@ msgstr "Opent in een nieuw venster"
 #: notebook/static/notebook/js/notebook.js:431
 msgid "Autosave in progress, latest changes may be lost."
 msgstr ""
-"Automatisch opslaan in uitvoering, kunnen de laatste wijzigingen verloren "
+"Bezig met automatisch opslaan, de laatste wijzigingen kunnen verloren "
 "gaan."
 
 #: notebook/static/notebook/js/notebook.js:433
@@ -847,7 +847,7 @@ msgstr "Niet-opgeslagen wijzigingen gaan verloren."
 
 #: notebook/static/notebook/js/notebook.js:438
 msgid "The Kernel is busy, outputs may be lost."
-msgstr "De Kernel is bezet, uitgangen kunnen verloren gaan."
+msgstr "De Kernel is bezet, uitvoeren kunnen verloren gaan."
 
 #: notebook/static/notebook/js/notebook.js:461
 msgid "This notebook is version %1$s, but we only fully support up to %2$s."
@@ -859,8 +859,8 @@ msgid ""
 "You can still work with this notebook, but cell and output types introduced "
 "in later notebook versions will not be available."
 msgstr ""
-"U nog steeds met deze notebook werken, maar cel- en uitvoertypen die in "
-"latere notitieblokversies zijn geïntroduceerd, zijn niet beschikbaar."
+"U kunt nog steeds met deze notebook werken, maar cel- en uitvoertypen die in "
+"latere notebookversies zijn geïntroduceerd, zijn niet beschikbaar."
 
 #: notebook/static/notebook/js/notebook.js:470
 msgid "Restart and Run All Cells"
@@ -896,27 +896,27 @@ msgstr "Terugkeren"
 
 #: notebook/static/notebook/js/notebook.js:483
 msgid "Newer Notebook"
-msgstr "Nieuwer notitieblok"
+msgstr "Nieuwer notebook"
 
 #: notebook/static/notebook/js/notebook.js:1548
 msgid "Use markdown headings"
-msgstr "Markeringskoppen gebruiken"
+msgstr "Markdown headers gebruiken"
 
 #: notebook/static/notebook/js/notebook.js:1550
 msgid ""
 "Jupyter no longer uses special heading cells. Instead, write your headings "
 "in Markdown cells using # characters:"
 msgstr ""
-"Jupyter maakt geen gebruik meer van speciale kopcellen. Schrijf in plaats "
-"daarvan uw koppen in Markdown-cellen met # tekens:"
+"Jupyter maakt geen gebruik meer van speciale headercellen. Schrijf in plaats "
+"daarvan uw headers in Markdown-cellen met # tekens:"
 
 #: notebook/static/notebook/js/notebook.js:1553
 msgid "## This is a level 2 heading"
-msgstr "## Dit is een niveau 2 kop"
+msgstr "## Dit is een niveau 2 header"
 
 #: notebook/static/notebook/js/notebook.js:2248
 msgid "Restart kernel and re-run the whole notebook?"
-msgstr "Kernel opnieuw opstarten en het hele notitieblok opnieuw uitvoeren?"
+msgstr "Kernel opnieuw opstarten en het hele notebook opnieuw uitvoeren?"
 
 #: notebook/static/notebook/js/notebook.js:2250
 msgid ""
@@ -924,12 +924,12 @@ msgid ""
 " notebook?  All variables and outputs will be lost."
 msgstr ""
 "Weet u zeker dat u de huidige kernel opnieuw wilt starten en het hele "
-"notitieblok opnieuw wilt uitvoeren?  Alle variabelen en uitgangen gaan "
+"notebook opnieuw wilt uitvoeren?  Alle variabelen en uitgangen gaan "
 "verloren."
 
 #: notebook/static/notebook/js/notebook.js:2275
 msgid "Restart kernel and clear all output?"
-msgstr "Herstart kernel en duidelijk alle output?"
+msgstr "Herstart kernel en verwijder alle output?"
 
 #: notebook/static/notebook/js/notebook.js:2277
 msgid ""
@@ -960,7 +960,7 @@ msgstr "Wilt u de huidige kernel afsluiten?  Alle variabelen gaan verloren."
 
 #: notebook/static/notebook/js/notebook.js:2734
 msgid "Notebook changed"
-msgstr "Notitieblok gewijzigd"
+msgstr "Notebook gewijzigd"
 
 #: notebook/static/notebook/js/notebook.js:2735
 msgid ""
@@ -968,7 +968,7 @@ msgid ""
 " it. Do you want to overwrite the file on disk with the version open here, "
 "or load the version on disk (reload the page) ?"
 msgstr ""
-"Het notitieblokbestand op de schijf is gewijzigd sinds de laatste keer dat het "
+"Het notebookbestand op de schijf is gewijzigd sinds de laatste keer dat het "
 "geopend of opgeslagen is. Wilt u het bestand op schijf overschrijven"
 " met de versie die hier wordt geopend, of de versie op schijf laden (de "
 "pagina opnieuw laden) ?"
@@ -983,7 +983,7 @@ msgid ""
 "The save operation succeeded, but the notebook does not appear to be valid. "
 "The validation error was:"
 msgstr ""
-"De opslagbewerking is geslaagd, maar het notitieblok lijkt niet geldig te "
+"De opslagbewerking is geslaagd, maar het notebook lijkt niet geldig te "
 "zijn. De validatiefout was:"
 
 #: notebook/static/notebook/js/notebook.js:2836
@@ -992,9 +992,9 @@ msgid ""
 "it. Selecting trust will immediately reload this notebook in a trusted "
 "state. For more information, see the Jupyter security documentation: "
 msgstr ""
-"Een vertrouwd Jupyter-notitieblok kan verborgen schadelijke code uitvoeren "
+"Een vertrouwd Jupyter-notebook kan verborgen schadelijke code uitvoeren "
 "wanneer u het opent. Als u vertrouwensrelatie selecteert, wordt dit "
-"notitieblok onmiddellijk opnieuw geladen in een vertrouwde status. Zie voor "
+"notebook onmiddellijk opnieuw geladen in een vertrouwde status. Zie voor "
 "meer informatie de beveiligingsdocumentatie van Jupyter: "
 
 #: notebook/static/notebook/js/notebook.js:2840
@@ -1003,11 +1003,11 @@ msgstr "hier"
 
 #: notebook/static/notebook/js/notebook.js:2848
 msgid "Trust this notebook?"
-msgstr "Vertrouw je dit notitieblok?"
+msgstr "Vertrouw je dit notebook?"
 
 #: notebook/static/notebook/js/notebook.js:2981
 msgid "Notebook failed to load"
-msgstr "Notitieblok kan niet worden geladen"
+msgstr "Notebook kan niet worden geladen"
 
 #: notebook/static/notebook/js/notebook.js:2983
 msgid "The error was: "
@@ -1019,13 +1019,13 @@ msgstr "Zie de foutconsole voor meer informatie."
 
 #: notebook/static/notebook/js/notebook.js:2995
 msgid "The notebook also failed validation:"
-msgstr "Het notitieblok is ook mislukt:"
+msgstr "De notebook validatie is ook mislukt:"
 
 #: notebook/static/notebook/js/notebook.js:2997
 msgid ""
 "An invalid notebook may not function properly. The validation error was:"
 msgstr ""
-"Een ongeldig notitieblok werkt mogelijk niet goed. De validatiefout was:"
+"Een ongeldig notebook werkt mogelijk niet goed. De validatiefout was:"
 
 #: notebook/static/notebook/js/notebook.js:3036
 #, python-format
@@ -1050,7 +1050,7 @@ msgid ""
 "The next time you save this notebook, the current notebook format will be "
 "used."
 msgstr ""
-"De volgende keer dat u dit notitieblok opslaat, wordt de huidige "
+"De volgende keer dat u dit notebook opslaat, wordt de huidige "
 "notebookindeling gebruikt."
 
 #: notebook/static/notebook/js/notebook.js:3051
@@ -1067,12 +1067,12 @@ msgstr ""
 msgid ""
 "To preserve the original version, close the notebook without saving it."
 msgstr ""
-"Als u de oorspronkelijke versie wilt behouden, sluit u het notitieblok "
+"Als u de oorspronkelijke versie wilt behouden, sluit u het notebook "
 "zonder deze op te slaan."
 
 #: notebook/static/notebook/js/notebook.js:3061
 msgid "Notebook converted"
-msgstr "Notitieblok geconverteerd"
+msgstr "Notebook geconverteerd"
 
 #: notebook/static/notebook/js/notebook.js:3083
 msgid "(No name)"
@@ -1084,19 +1084,19 @@ msgid ""
 "An unknown error occurred while loading this notebook. This version can load"
 " notebook formats %s or earlier. See the server log for details."
 msgstr ""
-"Er is een onbekende fout opgetreden tijdens het laden van dit notitieblok. "
-"Deze versie kan notitieblokindelingen %s of eerder laden. Zie het "
+"Er is een onbekende fout opgetreden tijdens het laden van dit notebook. "
+"Deze versie kan notebook-indelingen %s of eerder laden. Zie het "
 "serverlogboek voor meer informatie."
 
 #: notebook/static/notebook/js/notebook.js:3142
 msgid "Error loading notebook"
-msgstr "Fout bij het laden van notitieblok"
+msgstr "Fout bij het laden van notebook"
 
 #: notebook/static/notebook/js/notebook.js:3243
 msgid "Are you sure you want to revert the notebook to the latest checkpoint?"
 msgstr ""
-"Weet je zeker dat je het notitieblok wilt terugdraaien naar het laatste "
-"controlepunt?"
+"Weet je zeker dat je het notebook wilt terugdraaien naar het laatste "
+"checkpoint?"
 
 #: notebook/static/notebook/js/notebook.js:3246
 msgid "This cannot be undone."
@@ -1104,11 +1104,11 @@ msgstr "Dit kan niet ongedaan worden gemaakt."
 
 #: notebook/static/notebook/js/notebook.js:3249
 msgid "The checkpoint was last updated at:"
-msgstr "Het controlepunt is voor het laatst bijgewerkt op:"
+msgstr "Het checkpoint is voor het laatst bijgewerkt op:"
 
 #: notebook/static/notebook/js/notebook.js:3260
 msgid "Revert notebook to checkpoint"
-msgstr "Notitieblok terugzetten naar controlepunt"
+msgstr "Notebook terugzetten naar checkpoint"
 
 #: notebook/static/notebook/js/notificationarea.js:77
 #: notebook/static/notebook/js/tour.js:61
@@ -1149,19 +1149,19 @@ msgstr "Kernel opnieuw opstarten"
 #: notebook/static/notebook/js/notificationarea.js:130
 msgid "The kernel appears to have died. It will restart automatically."
 msgstr ""
-"De kernel lijkt te zijn gestopt. Het wordt automatisch opnieuw opgestart."
+"De kernel lijkt te zijn gestopt. Hij wordt automatisch opnieuw opgestart."
 
 #: notebook/static/notebook/js/notificationarea.js:140
 #: notebook/static/notebook/js/notificationarea.js:198
 #: notebook/static/notebook/js/notificationarea.js:218
 msgid "Dead kernel"
-msgstr "Dode kernel"
+msgstr "Gestopte kernel"
 
 #: notebook/static/notebook/js/notificationarea.js:141
 #: notebook/static/notebook/js/notificationarea.js:219
 #: notebook/static/notebook/js/notificationarea.js:266
 msgid "Kernel Dead"
-msgstr "Kernel Dood"
+msgstr "Kernel is gestopt"
 
 #: notebook/static/notebook/js/notificationarea.js:145
 msgid "Interrupting kernel"
@@ -1177,7 +1177,7 @@ msgid ""
 "will continue trying to reconnect. Check your network connection or notebook"
 " server configuration."
 msgstr ""
-"Er kan geen verbinding met de notebookserver worden gemaakt. Het notitieblok"
+"Er kan geen verbinding met de notebookserver worden gemaakt. Het notebook"
 " blijft proberen opnieuw verbinding te maken. Controleer de configuratie van"
 " uw netwerkverbinding of laptopserver."
 
@@ -1210,8 +1210,8 @@ msgid ""
 msgstr ""
 "De kernel is gestopt en de automatische herstart is mislukt. Het is "
 "mogelijk dat de kernel niet opnieuw kan worden gestart. Als u de kernel niet"
-" opnieuw starten, u het notitieblok nog steeds opslaan, maar werkt de code "
-"niet meer totdat het notitieblok opnieuw is geopend."
+" opnieuw starten, u het notebook nog steeds opslaan, maar werkt de code "
+"niet meer totdat het notebook opnieuw is geopend."
 
 #: notebook/static/notebook/js/notificationarea.js:225
 msgid "No Kernel"
@@ -1250,51 +1250,51 @@ msgstr "Enige kandidaat voor taal: %1$s was %2$s."
 
 #: notebook/static/notebook/js/notificationarea.js:319
 msgid "Loading notebook"
-msgstr "Notitieblok laden"
+msgstr "Notebook laden"
 
 #: notebook/static/notebook/js/notificationarea.js:322
 msgid "Notebook loaded"
-msgstr "Notitieblok geladen"
+msgstr "Notebook geladen"
 
 #: notebook/static/notebook/js/notificationarea.js:325
 msgid "Saving notebook"
-msgstr "Notitieblok opslaan"
+msgstr "Notebook opslaan"
 
 #: notebook/static/notebook/js/notificationarea.js:328
 msgid "Notebook saved"
-msgstr "Notitieblok opgeslagen"
+msgstr "Notebook opgeslagen"
 
 #: notebook/static/notebook/js/notificationarea.js:331
 msgid "Notebook save failed"
-msgstr "Notitieblok opslaan is mislukt"
+msgstr "Notebook opslaan is mislukt"
 
 #: notebook/static/notebook/js/notificationarea.js:334
 msgid "Notebook copy failed"
-msgstr "Notitieblok kopiëren is mislukt"
+msgstr "Notebook kopiëren is mislukt"
 
 #: notebook/static/notebook/js/notificationarea.js:339
 msgid "Checkpoint created"
-msgstr "Controlepunt gemaakt"
+msgstr "Checkpoint gemaakt"
 
 #: notebook/static/notebook/js/notificationarea.js:347
 msgid "Checkpoint failed"
-msgstr "Controlepunt is mislukt"
+msgstr "Checkpoint is mislukt"
 
 #: notebook/static/notebook/js/notificationarea.js:350
 msgid "Checkpoint deleted"
-msgstr "Controlepunt verwijderd"
+msgstr "Checkpoint verwijderd"
 
 #: notebook/static/notebook/js/notificationarea.js:353
 msgid "Checkpoint delete failed"
-msgstr "Controlepunt verwijderen is mislukt"
+msgstr "Checkpoint verwijderen is mislukt"
 
 #: notebook/static/notebook/js/notificationarea.js:356
 msgid "Restoring to checkpoint..."
-msgstr "Herstellen naar controlepunt..."
+msgstr "Herstellen naar checkpoint..."
 
 #: notebook/static/notebook/js/notificationarea.js:359
 msgid "Checkpoint restore failed"
-msgstr "Controlepunt herstel is mislukt"
+msgstr "Checkpoint herstel is mislukt"
 
 #: notebook/static/notebook/js/notificationarea.js:364
 msgid "Autosave disabled"
@@ -1303,7 +1303,7 @@ msgstr "Automatisch opslaan uitgeschakeld"
 #: notebook/static/notebook/js/notificationarea.js:367
 #, python-format
 msgid "Saving every %d sec."
-msgstr "Het notitieblok wordt elke %d sec opgeslagen."
+msgstr "Het notebook wordt elke %d sec opgeslagen."
 
 #: notebook/static/notebook/js/notificationarea.js:383
 msgid "Trusted"
@@ -1315,20 +1315,20 @@ msgstr "Niet vertrouwd"
 
 #: notebook/static/notebook/js/outputarea.js:75
 msgid "click to expand output"
-msgstr "klik om de uitvoer uit te vouwen"
+msgstr "klik om de uitvoer volledig weer te geven"
 
 #: notebook/static/notebook/js/outputarea.js:79
 msgid "click to expand output; double click to hide output"
 msgstr ""
-"klik om de uitvoer uit te vouwen; dubbelklikken om uitvoer te verbergen"
+"klik om de uitvoer te laten verschijnen; dubbelklikken om uitvoer te verbergen"
 
 #: notebook/static/notebook/js/outputarea.js:167
 msgid "click to unscroll output; double click to hide"
-msgstr "klik om de uitvoer te ontrollen; dubbelklikken om te verbergen"
+msgstr "klik om de uitvoer te ontscrollen; dubbelklikken om te verbergen"
 
 #: notebook/static/notebook/js/outputarea.js:174
 msgid "click to scroll output; double click to hide"
-msgstr "klik om de uitvoer te schuiven; dubbelklikken om te verbergen"
+msgstr "klik om de uitvoer te scrollen; dubbelklikken om te verbergen"
 
 #: notebook/static/notebook/js/outputarea.js:422
 msgid "Javascript error adding output!"
@@ -1406,7 +1406,7 @@ msgstr "inspringing"
 
 #: notebook/static/notebook/js/quickhelp.js:64
 msgid "dedent"
-msgstr "dedent"
+msgstr "inspringing ongedaan maken"
 
 #: notebook/static/notebook/js/quickhelp.js:65
 msgid "select all"
@@ -1489,7 +1489,7 @@ msgstr "Einde"
 #: notebook/static/notebook/js/quickhelp.js:117
 #: notebook/static/notebook/js/quickhelp.js:245
 msgid "Space"
-msgstr "Ruimte"
+msgstr "Spatie"
 
 #: notebook/static/notebook/js/quickhelp.js:118
 msgid "Backspace"
@@ -1580,19 +1580,19 @@ msgstr "Hernoemen"
 #: notebook/static/notebook/js/savewidget.js:78
 #: notebook/static/tree/js/notebooklist.js:837
 msgid "Enter a new notebook name:"
-msgstr "Voer een nieuwe notitiebloknaam in:"
+msgstr "Voer een nieuwe notebooknaam in:"
 
 #: notebook/static/notebook/js/savewidget.js:86
 msgid "Rename Notebook"
-msgstr "De naam van notitieblok wijzigen"
+msgstr "De naam van notebook wijzigen"
 
 #: notebook/static/notebook/js/savewidget.js:98
 msgid ""
 "Invalid notebook name. Notebook names must have 1 or more characters and can"
 " contain any characters except :/\\. Please enter a new notebook name:"
 msgstr ""
-"Ongeldige notitiebloknaam. Notitiebloknamen moeten 1 of meer tekens bevatten"
-" en kunnen tekens bevatten, behalve :/\\. Voer een nieuwe notitiebloknaam "
+"Ongeldige notebooknaam. Notebook-namen moeten 1 of meer tekens bevatten"
+" en kunnen tekens bevatten, behalve :/\\. Voer een nieuwe notebooknaam "
 "in:"
 
 #: notebook/static/notebook/js/savewidget.js:103
@@ -1605,12 +1605,12 @@ msgstr "Onbekende fout"
 
 #: notebook/static/notebook/js/savewidget.js:178
 msgid "no checkpoint"
-msgstr "geen controlepunt"
+msgstr "geen checkpoint"
 
 #: notebook/static/notebook/js/savewidget.js:193
 #, python-format
 msgid "Last Checkpoint: %s"
-msgstr "Laatste controlepunt: %s"
+msgstr "Laatste checkpoint: %s"
 
 #: notebook/static/notebook/js/savewidget.js:217
 msgid "(unsaved changes)"
@@ -1649,11 +1649,11 @@ msgstr "Vervangen in geselecteerde cellen"
 
 #: notebook/static/notebook/js/searchandreplace.js:181
 msgid "Match case"
-msgstr "Kwestie overeenkomen"
+msgstr "Hoofdletters matchen"
 
 #: notebook/static/notebook/js/searchandreplace.js:187
 msgid "Find"
-msgstr "Vinden"
+msgstr "Zoek"
 
 #: notebook/static/notebook/js/searchandreplace.js:203
 msgid "Replace"
@@ -1682,13 +1682,13 @@ msgid ""
 "be rendered in the notebook. When passing through nbconvert, a Raw Cell's "
 "content is added to the output unmodified."
 msgstr ""
-"Schrijf hier raw LaTeX of andere formaten, voor gebruik met nbconvert. Het "
-"wordt niet weergegeven in het notitieblok. Bij het doorlopen van nbconvert "
+"Schrijf hier in LaTeX of ander format, voor gebruik met nbconvert. Het "
+"wordt niet weergegeven in het notebook. Bij het doorlopen van nbconvert "
 "wordt de inhoud van een Raw Cell ongewijzigd aan de uitvoer toegevoegd."
 
 #: notebook/static/notebook/js/tooltip.js:41
 msgid "Grow the tooltip vertically (press shift-tab twice)"
-msgstr "De knopinfo verticaal laten groeien (druk twee maal op shift-tab)"
+msgstr "De tooltip verticaal laten groeien (druk twee maal op shift-tab)"
 
 #: notebook/static/notebook/js/tooltip.js:48
 msgid "show the current docstring in pager (press shift-tab 4 times)"
@@ -1700,7 +1700,7 @@ msgstr "Openen in Pager"
 
 #: notebook/static/notebook/js/tooltip.js:68
 msgid "Tooltip will linger for 10 seconds while you type"
-msgstr "De knopinfo blijft 10 seconden hangen terwijl u typt"
+msgstr "De tooltip blijft 10 seconden hangen terwijl u typt"
 
 #: notebook/static/notebook/js/tour.js:27
 msgid "Welcome to the Notebook Tour"
@@ -1717,23 +1717,23 @@ msgstr "Bestandsnaam"
 
 #: notebook/static/notebook/js/tour.js:35
 msgid "Click here to change the filename for this notebook."
-msgstr "Klik hier om de bestandsnaam voor dit notitieblok te wijzigen."
+msgstr "Klik hier om de bestandsnaam voor dit notebook te wijzigen."
 
 #: notebook/static/notebook/js/tour.js:39
 msgid "Notebook Menubar"
-msgstr "Menubalk notitieblok"
+msgstr "Menubalk notebook"
 
 #: notebook/static/notebook/js/tour.js:40
 msgid ""
 "The menubar has menus for actions on the notebook, its cells, and the kernel"
 " it communicates with."
 msgstr ""
-"De menubalk heeft menu's voor acties op het notitieblok, de cellen en de "
+"De menubalk heeft menu's voor acties op het notebook, de cellen en de "
 "kernel waarmee het communiceert."
 
 #: notebook/static/notebook/js/tour.js:44
 msgid "Notebook Toolbar"
-msgstr "Werkbalk Notitieblok"
+msgstr "Werkbalk Notebook"
 
 #: notebook/static/notebook/js/tour.js:45
 msgid ""
@@ -1862,7 +1862,7 @@ msgstr "Aangepaste"
 
 #: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:32
 msgid "Set the MIME type of the raw cell:"
-msgstr "Stel het MIME-type van de ruwe cel in:"
+msgstr "Stel het MIME-type van de raw cel in:"
 
 #: notebook/static/notebook/js/celltoolbarpresets/rawcell.js:40
 msgid "Raw Cell MIME Type"
@@ -1931,12 +1931,12 @@ msgstr "Afsluiten"
 #: notebook/static/tree/js/newnotebook.js:70
 #, python-format
 msgid "Create a new notebook with %s"
-msgstr "Een nieuw notitieblok maken met %s"
+msgstr "Een nieuw notebook maken met %s"
 
 #: notebook/static/tree/js/newnotebook.js:101
 msgid "An error occurred while creating a new notebook."
 msgstr ""
-"Er is een fout opgetreden tijdens het maken van een nieuw notitieblok."
+"Er is een fout opgetreden tijdens het maken van een nieuw notebook."
 
 #: notebook/static/tree/js/notebooklist.js:122
 msgid "Creating File Failed"
@@ -1978,7 +1978,7 @@ msgstr "Serverfout: "
 
 #: notebook/static/tree/js/notebooklist.js:390
 msgid "The notebook list is empty."
-msgstr "De lijst met notitieblokken is leeg."
+msgstr "De lijst met notebooks is leeg."
 
 #: notebook/static/tree/js/notebooklist.js:463
 msgid "Click here to rename, delete, etc."
@@ -2010,7 +2010,7 @@ msgstr "Naamvan naam wijzigen"
 
 #: notebook/static/tree/js/notebooklist.js:845
 msgid "Rename notebook"
-msgstr "De naam van notitieblok wijzigen"
+msgstr "De naam van notebook wijzigen"
 
 #: notebook/static/tree/js/notebooklist.js:859
 msgid "Move"
@@ -2077,7 +2077,7 @@ msgstr[1] "Weet u zeker dat u de geselecteerde %d-bestanden wilt dupliceren?"
 
 #: notebook/static/tree/js/notebooklist.js:1088
 msgid "Duplicate"
-msgstr "Dubbele"
+msgstr "Dupliceren"
 
 #: notebook/static/tree/js/notebooklist.js:1102
 #, python-format
@@ -2104,7 +2104,7 @@ msgstr ""
 
 #: notebook/static/tree/js/notebooklist.js:1362
 msgid "Cannot upload invalid Notebook"
-msgstr "Kan ongeldig notitieblok niet uploaden"
+msgstr "Kan ongeldig notebook niet uploaden"
 
 #: notebook/static/tree/js/notebooklist.js:1395
 #, python-format

@@ -68,7 +68,7 @@ msgstr "Standaard"
 
 #: notebook/templates/edit.html:63
 msgid "Sublime Text"
-msgstr "Sublieme tekst"
+msgstr "Sublime Tekst"
 
 #: notebook/templates/edit.html:68 notebook/templates/notebook.html:159
 #: notebook/templates/tree.html:40
@@ -78,7 +78,7 @@ msgstr "Bekijken"
 #: notebook/templates/edit.html:70 notebook/templates/notebook.html:162
 msgid "Show/Hide the logo and notebook title (above menu bar)"
 msgstr ""
-"Het logo en de titel van het notitieblok weergeven/verbergen (boven "
+"Het logo en de titel van het notebook weergeven/verbergen (boven "
 "menubalk)"
 
 #: notebook/templates/edit.html:71 notebook/templates/notebook.html:163
@@ -91,7 +91,7 @@ msgstr "Regelnummers in- of uitschakelen"
 
 #: notebook/templates/edit.html:75
 msgid "Language"
-msgstr "Language"
+msgstr "Taal"
 
 #: notebook/templates/error.html:23
 msgid "The error was:"
@@ -111,7 +111,7 @@ msgstr "Aanmelden"
 
 #: notebook/templates/login.html:39
 msgid "No login available, you shouldn't be seeing this page."
-msgstr "Geen login beschikbaar, zou u deze pagina niet moeten zien."
+msgstr "Geen login beschikbaar, u zou deze pagina niet moeten zien."
 
 #: notebook/templates/logout.html:24
 #, python-format
@@ -133,11 +133,11 @@ msgstr "Kernel"
 
 #: notebook/templates/notebook.html:68
 msgid "This notebook is read-only"
-msgstr "Dit notitieblok is alleen-lezen"
+msgstr "Dit notebook is alleen-lezen"
 
 #: notebook/templates/notebook.html:81
 msgid "New Notebook"
-msgstr "Nieuw notitieblok"
+msgstr "Nieuw notebook"
 
 #: notebook/templates/notebook.html:85
 msgid "Opens a new window with the Dashboard view"
@@ -150,7 +150,7 @@ msgstr "Open..."
 #: notebook/templates/notebook.html:90
 msgid "Open a copy of this notebook's contents and start a new kernel"
 msgstr ""
-"Een kopie van de inhoud van dit notitieblok openen en een nieuwe kernel "
+"Een kopie van de inhoud van dit notebook openen en een nieuwe kernel "
 "starten"
 
 #: notebook/templates/notebook.html:91
@@ -163,11 +163,11 @@ msgstr "Hernoemen..."
 
 #: notebook/templates/notebook.html:93
 msgid "Save and Checkpoint"
-msgstr "Opslaan en controlepunt"
+msgstr "Opslaan en Checkpoint"
 
 #: notebook/templates/notebook.html:96
 msgid "Revert to Checkpoint"
-msgstr "Terugkeren naar Controlepunt"
+msgstr "Terugkeren naar Checkpoint"
 
 #: notebook/templates/notebook.html:106
 msgid "Print Preview"
@@ -179,7 +179,7 @@ msgstr "Download als"
 
 #: notebook/templates/notebook.html:109
 msgid "Notebook (.ipynb)"
-msgstr "Notitieblok (.ipynb)"
+msgstr "Notebook (.ipynb)"
 
 #: notebook/templates/notebook.html:110
 msgid "Script"
@@ -211,11 +211,11 @@ msgstr "Implementeren als"
 
 #: notebook/templates/notebook.html:123
 msgid "Trust the output of this notebook"
-msgstr "Vertrouwen op de uitvoer van dit notitieblok"
+msgstr "Vertrouwen op de uitvoer van dit notebook"
 
 #: notebook/templates/notebook.html:124
 msgid "Trust Notebook"
-msgstr "Notitieblok vertrouwen"
+msgstr "Notebook vertrouwen"
 
 #: notebook/templates/notebook.html:127
 msgid "Shutdown this notebook's kernel, and close this window"
@@ -239,7 +239,7 @@ msgstr "Cellen boven plakken"
 
 #: notebook/templates/notebook.html:136
 msgid "Paste Cells Below"
-msgstr "Cellen hieronder plakken"
+msgstr "Cellen eronder plakken"
 
 #: notebook/templates/notebook.html:137
 msgid "Paste Cells &amp; Replace"
@@ -263,7 +263,7 @@ msgstr "Cel boven samenvoegen"
 
 #: notebook/templates/notebook.html:143
 msgid "Merge Cell Below"
-msgstr "Cel hieronder samenvoegen"
+msgstr "Cel eronder samenvoegen"
 
 #: notebook/templates/notebook.html:145
 msgid "Move Cell Up"
@@ -275,7 +275,7 @@ msgstr "Cel omlaag verplaatsen"
 
 #: notebook/templates/notebook.html:148
 msgid "Edit Notebook Metadata"
-msgstr "Metagegevens van notitieblokmetagegevens bewerken"
+msgstr "Metagegevens van notebook bewerken"
 
 #: notebook/templates/notebook.html:150
 msgid "Find and Replace"
@@ -331,7 +331,7 @@ msgstr "Een lege codecel onder de actieve cel invoegen"
 
 #: notebook/templates/notebook.html:186
 msgid "Insert Cell Below"
-msgstr "Cel hieronder invoegen"
+msgstr "Cel eronder invoegen"
 
 #: notebook/templates/notebook.html:189
 msgid "Cell"
@@ -347,23 +347,23 @@ msgstr "Cellen uitvoeren"
 
 #: notebook/templates/notebook.html:193
 msgid "Run this cell, select below"
-msgstr "Voer deze cel uit, selecteer hieronder"
+msgstr "Voer deze cel uit en selecteer de cel eronder"
 
 #: notebook/templates/notebook.html:194
 msgid "Run Cells and Select Below"
-msgstr "Cellen uitvoeren en hieronder selecteren"
+msgstr "Cellen uitvoeren en de cel eronder selecteren"
 
 #: notebook/templates/notebook.html:195
 msgid "Run this cell, insert below"
-msgstr "Voer deze cel uit, hieronder invoegen"
+msgstr "Voer deze cel uit en voeg een cel toe"
 
 #: notebook/templates/notebook.html:196
 msgid "Run Cells and Insert Below"
-msgstr "Cellen uitvoeren en hieronder invoegen"
+msgstr "Cellen uitvoeren en voeg een cel toe"
 
 #: notebook/templates/notebook.html:197
 msgid "Run all cells in the notebook"
-msgstr "Alle cellen in het notitieblok uitvoeren"
+msgstr "Alle cellen in het notebook uitvoeren"
 
 #: notebook/templates/notebook.html:198
 msgid "Run All"
@@ -375,7 +375,7 @@ msgstr "Alle cellen boven (maar niet inclusief) deze cel uitvoeren"
 
 #: notebook/templates/notebook.html:200
 msgid "Run All Above"
-msgstr "All Above uitvoeren"
+msgstr "All cellen hierboven uitvoeren"
 
 #: notebook/templates/notebook.html:201
 msgid "Run this cell and all cells below it"
@@ -383,14 +383,14 @@ msgstr "Voer deze cel en alle cellen eronder uit."
 
 #: notebook/templates/notebook.html:202
 msgid "Run All Below"
-msgstr "Voer alles hieronder uit"
+msgstr "Voer alles eronder uit"
 
 #: notebook/templates/notebook.html:205
 msgid ""
 "All cells in the notebook have a cell type. By default, new cells are "
 "created as 'Code' cells"
 msgstr ""
-"Alle cellen in het notitieblok hebben een celtype. Standaard worden nieuwe "
+"Alle cellen in het notebook hebben een celtype. Standaard worden nieuwe "
 "cellen gemaakt als 'Code'-cellen"
 
 #: notebook/templates/notebook.html:206
@@ -415,11 +415,11 @@ msgstr "Markdown"
 
 #: notebook/templates/notebook.html:215
 msgid "Contents will pass through nbconvert unmodified"
-msgstr "Inhoud zal passeren nbconvert ongewijzigd"
+msgstr "De inhoud zal niet worden gewijzigd door nbconvert"
 
 #: notebook/templates/notebook.html:216
 msgid "Raw NBConvert"
-msgstr "Ruwe NBConvert"
+msgstr "Raw NBConvert"
 
 #: notebook/templates/notebook.html:220
 msgid "Current Outputs"
@@ -439,7 +439,7 @@ msgstr "De uitvoer van de huidige cel scrollen"
 
 #: notebook/templates/notebook.html:228 notebook/templates/notebook.html:244
 msgid "Toggle Scrolling"
-msgstr "Schuiven in- en uitschakelen"
+msgstr "Scrollen in- en uitschakelen"
 
 #: notebook/templates/notebook.html:231
 msgid "Clear the output of the current cell"
@@ -447,7 +447,7 @@ msgstr "De uitvoer van de huidige cel wissen"
 
 #: notebook/templates/notebook.html:232 notebook/templates/notebook.html:248
 msgid "Clear"
-msgstr "Duidelijk"
+msgstr "Wissen"
 
 #: notebook/templates/notebook.html:236
 msgid "All Output"
@@ -459,7 +459,7 @@ msgstr "De uitvoer van alle cellen verbergen/weergeven"
 
 #: notebook/templates/notebook.html:243
 msgid "Scroll the output of all cells"
-msgstr "De uitvoer van alle cellen scrollen"
+msgstr "Door de uitvoer van alle cellen scrollen"
 
 #: notebook/templates/notebook.html:247
 msgid "Clear the output of all cells"
@@ -467,7 +467,7 @@ msgstr "De uitvoer van alle cellen wissen"
 
 #: notebook/templates/notebook.html:257
 msgid "Send Keyboard Interrupt (CTRL-C) to the Kernel"
-msgstr "Toetsenbordinterrupt (Ctrl-C) naar de kernel verzenden"
+msgstr "Toetsenbordinterruptie (Ctrl-C) naar de kernel verzenden"
 
 #: notebook/templates/notebook.html:258
 msgid "Interrupt"
@@ -491,7 +491,7 @@ msgstr "Uitvoer opnieuw starten en wissen"
 
 #: notebook/templates/notebook.html:269
 msgid "Restart the Kernel and re-run the notebook"
-msgstr "Start de kernel opnieuw en voer het notitieblok opnieuw uit"
+msgstr "Start de kernel opnieuw en voer notebook opnieuw uit"
 
 #: notebook/templates/notebook.html:270
 msgid "Restart &amp; Run All"
@@ -523,7 +523,7 @@ msgstr "Gebruikersinterfacetour"
 
 #: notebook/templates/notebook.html:291
 msgid "Opens a tooltip with all keyboard shortcuts"
-msgstr "Hiermee opent u een knopinfo met alle sneltoetsen"
+msgstr "Hiermee opent u een tooltop met alle sneltoetsen"
 
 #: notebook/templates/notebook.html:291
 msgid "Keyboard Shortcuts"
@@ -539,7 +539,7 @@ msgstr "Sneltoetsen bewerken"
 
 #: notebook/templates/notebook.html:297
 msgid "Notebook Help"
-msgstr "Help voor notitieblokken"
+msgstr "Help voor notebooks"
 
 #: notebook/templates/notebook.html:303
 msgid "Opens in a new window"
@@ -587,7 +587,7 @@ msgstr "Clusters"
 
 #: notebook/templates/tree.html:32
 msgid "Select items to perform actions on them."
-msgstr "Selecteer items om acties op deze acties uit te voeren."
+msgstr "Selecteer items om acties op uit te voeren."
 
 #: notebook/templates/tree.html:35
 msgid "Duplicate selected"
@@ -595,7 +595,7 @@ msgstr "Duplicaat geselecteerd"
 
 #: notebook/templates/tree.html:35
 msgid "Duplicate"
-msgstr "Dubbele"
+msgstr "Dupliceer"
 
 #: notebook/templates/tree.html:36
 msgid "Rename selected"
@@ -603,7 +603,7 @@ msgstr "Naam wijzigen van geselecteerde"
 
 #: notebook/templates/tree.html:37
 msgid "Move selected"
-msgstr "Geselecteerd verplaatsen"
+msgstr "Verplaats geselecteerde"
 
 #: notebook/templates/tree.html:37
 msgid "Move"
@@ -611,11 +611,11 @@ msgstr "Verplaatsen"
 
 #: notebook/templates/tree.html:38
 msgid "Download selected"
-msgstr "Geselecteerd downloaden"
+msgstr "Download geselecteerde"
 
 #: notebook/templates/tree.html:39
 msgid "Shutdown selected notebook(s)"
-msgstr "Geselecteerde notitieblok(s) afsluiten"
+msgstr "Geselecteerde notebook(s) afsluiten"
 
 #: notebook/templates/notebook.html:278 notebook/templates/tree.html:39
 msgid "Shutdown"
@@ -623,15 +623,15 @@ msgstr "Afsluiten"
 
 #: notebook/templates/tree.html:40
 msgid "View selected"
-msgstr "Weergave geselecteerd"
+msgstr "Geef geselecteerde weer"
 
 #: notebook/templates/tree.html:41
 msgid "Edit selected"
-msgstr "Geselecteerd bewerken"
+msgstr "Bewerk geselecteerde"
 
 #: notebook/templates/tree.html:42
 msgid "Delete selected"
-msgstr "Geselecteerd verwijderen"
+msgstr "Verwijder geselecteerde"
 
 #: notebook/templates/tree.html:50
 msgid "Click to browse for a file to upload."
@@ -655,11 +655,11 @@ msgstr "Terminal"
 
 #: notebook/templates/tree.html:76
 msgid "Terminals Unavailable"
-msgstr "Terminals niet beschikbaar"
+msgstr "Terminals Niet Beschikbaar"
 
 #: notebook/templates/tree.html:82
 msgid "Refresh notebook list"
-msgstr "Notitiebloklijst vernieuwen"
+msgstr "Notebook-lijst vernieuwen"
 
 #: notebook/templates/tree.html:90
 msgid "Select All / None"
@@ -671,7 +671,7 @@ msgstr "Selecteer..."
 
 #: notebook/templates/tree.html:98
 msgid "Select All Folders"
-msgstr "Alle mappen selecteren"
+msgstr "Alle Mappen Selecteren"
 
 #: notebook/templates/tree.html:98
 msgid "Folders"
@@ -679,15 +679,15 @@ msgstr "Mappen"
 
 #: notebook/templates/tree.html:99
 msgid "Select All Notebooks"
-msgstr "Alle notitieblokken selecteren"
+msgstr "Alle Notebooks Selecteren"
 
 #: notebook/templates/tree.html:99
 msgid "All Notebooks"
-msgstr "Alle notitieblokken"
+msgstr "Alle notebooks"
 
 #: notebook/templates/tree.html:100
 msgid "Select Running Notebooks"
-msgstr "Geselecteerde notitieblokken selecteren"
+msgstr "Actieve Notebooks Selecteren"
 
 #: notebook/templates/tree.html:100
 msgid "Running"
@@ -695,7 +695,7 @@ msgstr "Actieve Processen"
 
 #: notebook/templates/tree.html:101
 msgid "Select All Files"
-msgstr "Alle bestanden selecteren"
+msgstr "Alle Bestanden Selecteren"
 
 #: notebook/templates/tree.html:101
 msgid "Files"
@@ -731,7 +731,7 @@ msgstr "Notebooks"
 
 #: notebook/templates/tree.html:169
 msgid "There are no notebooks running."
-msgstr "Er worden geen notitieblokken uitgevoerd."
+msgstr "Er worden geen notebooks uitgevoerd."
 
 #: notebook/templates/tree.html:178
 msgid "Clusters tab is now provided by IPython parallel."

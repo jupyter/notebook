@@ -56,34 +56,34 @@ msgstr "Lijst met momenteel draaiende notebookservers."
 
 #: notebook/notebookapp.py:393
 msgid "Produce machine-readable JSON output."
-msgstr "Productie machineleesbare JSON-uitvoer."
+msgstr "Productie computer-leesbare JSON-uitvoer."
 
 #: notebook/notebookapp.py:397
 msgid ""
 "If True, each line of output will be a JSON object with the details from the"
 " server info file."
 msgstr ""
-"Als true is elke uitvoerregel een JSON-object met de details uit het "
+"Als dit True is, zal elke uitvoerregel een JSON-object worden met de details uit het "
 "serverinfobestand."
 
 #: notebook/notebookapp.py:402
 msgid "Currently running servers:"
-msgstr "Momenteel servers draaien:"
+msgstr "Momenteel draaiende servers:"
 
 #: notebook/notebookapp.py:419
 msgid "Don't open the notebook in a browser after startup."
-msgstr "Open het notitieblok niet in een browser na het opstarten."
+msgstr "Open het notebook niet in een browser na het opstarten."
 
 #: notebook/notebookapp.py:423
 msgid ""
 "DISABLED: use %pylab or %matplotlib in the notebook to enable matplotlib."
 msgstr ""
-"UITGESCHAKELD: gebruik %pylab of %matplotlib in het notitieblok om "
+"UITGESCHAKELD: gebruik %pylab of %matplotlib in het notebook om "
 "matplotlib in te schakelen."
 
 #: notebook/notebookapp.py:439
 msgid "Allow the notebook to be run from root user."
-msgstr "Laat het notitieblok vanaf de hoofdgebruiker worden uitgevoerd."
+msgstr "Sta toe dat het notebook vanaf de root user kan worden uitgevoerd."
 
 #: notebook/notebookapp.py:470
 msgid ""
@@ -93,7 +93,7 @@ msgid ""
 msgstr ""
 "De Jupyter HTML Notebook.\n"
 "    \n"
-"Hiermee wordt een OP Tornado gebaseerde HTML-notebookserver gelanceerd die een HTML5/Javascript-laptopclient bedient."
+"Hiermee wordt een op Tornado gebaseerde HTML-notebookserver gelanceerd die een HTML5/Javascript-laptopclient bedient."
 
 #: notebook/notebookapp.py:509
 msgid ""
@@ -109,7 +109,7 @@ msgstr "De access-control-allow-credentials instellen: true header"
 
 #: notebook/notebookapp.py:544
 msgid "Whether to allow the user to run the notebook as root."
-msgstr "Of de gebruiker het notitieblok als root moet laten draaien."
+msgstr "Of de gebruiker het notebook als root mag activeren."
 
 #: notebook/notebookapp.py:548
 msgid "The default URL to redirect to from `/`"
@@ -117,7 +117,7 @@ msgstr "De standaard-URL om naar '/' te leiden"
 
 #: notebook/notebookapp.py:552
 msgid "The IP address the notebook server will listen on."
-msgstr "Het IP-adres waar de notebookserver op luistert."
+msgstr "Het IP-adres waar de notebookserver op geactiveerd wordt."
 
 #: notebook/notebookapp.py:565
 #, python-format
@@ -130,14 +130,14 @@ msgstr ""
 
 #: notebook/notebookapp.py:579
 msgid "The port the notebook server will listen on."
-msgstr "De poort waarop de notebookserver luistert."
+msgstr "De port waarop de notebookserver geactiveerd wordt."
 
 #: notebook/notebookapp.py:583
 msgid ""
 "The number of additional ports to try if the specified port is not "
 "available."
 msgstr ""
-"Het aantal extra poorten dat moet worden geprobeerd als de opgegeven poort "
+"Het aantal extra ports dat moet worden geprobeerd als de opgegeven port "
 "niet beschikbaar is."
 
 #: notebook/notebookapp.py:587
@@ -164,7 +164,7 @@ msgstr "Het bestand waarin het cookiegeheim wordt opgeslagen."
 #: notebook/notebookapp.py:628
 #, python-format
 msgid "Writing notebook server cookie secret to %s"
-msgstr "Cookiegeheim voor notitieblokserver schrijven naar %s"
+msgstr "Cookiegeheim voor notebookserver schrijven naar %s"
 
 #: notebook/notebookapp.py:635
 #, python-format
@@ -211,7 +211,7 @@ msgid ""
 "        See the `webbrowser.open` documentation for details.\n"
 "        "
 msgstr ""
-"Geef op waar u het notitieblok moet openen bij het opstarten. Dit is de\n"
+"Geef op waar u het notebook moet openen bij het opstarten. Dit is de\n"
 "        'nieuw' argument doorgegeven aan de standaard bibliotheek methode 'webbrowser.open'.\n"
 "        Het gedrag is niet gegarandeerd, maar is afhankelijk van browserondersteuning. Geldig\n"
 "        waarden zijn:\n"
@@ -223,7 +223,7 @@ msgstr ""
 
 #: notebook/notebookapp.py:737
 msgid "DEPRECATED, use tornado_settings"
-msgstr "AFGESCHAFT, gebruik tornado_settings"
+msgstr "DEPRECATED, gebruik tornado_settings"
 
 #: notebook/notebookapp.py:742
 msgid ""
@@ -231,7 +231,7 @@ msgid ""
 "    webapp_settings is deprecated, use tornado_settings.\n"
 msgstr ""
 "\n"
-"webapp_settings is afgeschaft, gebruik tornado_settings.\n"
+"webapp_settings is deprecated, gebruik tornado_settings.\n"
 
 #: notebook/notebookapp.py:746
 msgid ""
@@ -266,7 +266,7 @@ msgstr ""
 #: notebook/notebookapp.py:761
 msgid "Supply overrides for terminado. Currently only supports \"shell_command\"."
 msgstr ""
-"Levering overschrijft voor terminado. Momenteel alleen ondersteunt "
+"Supply overrides voor terminado. Ondersteunt momenteel alleen een "
 "\"shell_command\"."
 
 #: notebook/notebookapp.py:764
@@ -282,25 +282,25 @@ msgid ""
 "Supply SSL options for the tornado HTTPServer.\n"
 "            See the tornado docs for details."
 msgstr ""
-"Ssl-opties leveren voor de tornado HTTPServer.\n"
+"SSL-opties leveren voor de tornado HTTPServer.\n"
 "            Zie de tornado docs voor meer informatie."
 
 #: notebook/notebookapp.py:772
 msgid "Supply extra arguments that will be passed to Jinja environment."
 msgstr ""
-"Lever extra argumenten die zullen worden doorgegeven aan Jinja environment."
+"Vul extra argumenten aan die zullen worden doorgegeven aan de Jinja environment."
 
 #: notebook/notebookapp.py:776
 msgid "Extra variables to supply to jinja templates when rendering."
-msgstr "Extra variabelen om te leveren aan jinja-sjablonen bij het renderen."
+msgstr "Extra variabelen om aan te vullen aan de jinja-sjablonen bij het renderen."
 
 #: notebook/notebookapp.py:812
 msgid "DEPRECATED use base_url"
-msgstr "AFGESCHAFT gebruik base_url"
+msgstr "DEPRECATED gebruik base_url"
 
 #: notebook/notebookapp.py:816
 msgid "base_project_url is deprecated, use base_url"
-msgstr "base_project_url is afgeschaft, gebruik base_url"
+msgstr "base_project_url is deprecated, gebruik base_url"
 
 #: notebook/notebookapp.py:832
 msgid "Path to search for custom.js, css"
@@ -312,13 +312,13 @@ msgid ""
 "\n"
 "        Can be used to override templates from notebook.templates."
 msgstr ""
-"Extra paden om te zoeken naar het serveren van jinja-sjablonen.\n"
+"Extra paden om te zoeken voor het activeren van jinja-sjablonen.\n"
 "\n"
 "Kan worden gebruikt om sjablonen van notebook.templates te overschrijven."
 
 #: notebook/notebookapp.py:855
 msgid "extra paths to look for Javascript notebook extensions"
-msgstr "extra paden om te zoeken naar Javascript-notitieblokextensies"
+msgstr "extra paden om te zoeken naar Javascript-notebookextensies"
 
 #: notebook/notebookapp.py:900
 #, python-format
@@ -375,7 +375,7 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"UITGESCHAKELD: gebruik %pylab of %matplotlib in het notitieblok om matplotlib in te schakelen.\n"
+"UITGESCHAKELD: gebruik %pylab of %matplotlib in het notebook om matplotlib in te schakelen.\n"
 "        "
 
 #: notebook/notebookapp.py:988
@@ -386,11 +386,11 @@ msgstr ""
 
 #: notebook/notebookapp.py:990
 msgid "Please use `%pylab{0}` or `%matplotlib{0}` in the notebook itself."
-msgstr "Gebruik '%pylab{0}' of '%matplotlib{0}' in het notitieblok zelf."
+msgstr "Gebruik '%pylab{0}' of '%matplotlib{0}' in het notebook zelf."
 
 #: notebook/notebookapp.py:995
 msgid "The directory to use for notebooks and kernels."
-msgstr "De map die u wilt gebruiken voor notitieblokken en kernels."
+msgstr "De map die u wilt gebruiken voor notebooks en kernels."
 
 #: notebook/notebookapp.py:1018
 #, python-format
@@ -417,7 +417,8 @@ msgstr ""
 
 #: notebook/notebookapp.py:1049
 msgid "Reraise exceptions encountered loading server extensions?"
-msgstr "Uitzonderingen opnieuw verhogen voor het laden van server-extensies?"
+msgstr "Exceptions opnieuw weergeven die geraised waren tijdens het laden van"
+" de server-extensies?"
 
 #: notebook/notebookapp.py:1052
 msgid ""
@@ -426,8 +427,8 @@ msgid ""
 "        limited."
 msgstr ""
 "(msgs/sec)\n"
-"        Maximale snelheid waarmee berichten op iopub kunnen worden verzonden voordat ze\n"
-"        Beperkt."
+"        Maximale ratio waarmee berichten op iopub kunnen worden verzonden voordat ze\n"
+"        worden beperkt."
 
 #: notebook/notebookapp.py:1056
 msgid ""
@@ -436,8 +437,8 @@ msgid ""
 "        limited."
 msgstr ""
 "(bytes/sec)\n"
-"        Maximale snelheid waarmee streamoutput op iopub kan worden verzonden voordat ze\n"
-"        Beperkt."
+"        Maximale ratio waarmee streamoutput op iopub kan worden verzonden voordat ze\n"
+"        worden beperkt."
 
 #: notebook/notebookapp.py:1060
 msgid ""
@@ -445,12 +446,13 @@ msgid ""
 "        check the message and data rate limits."
 msgstr ""
 "(sec) Tijdvenster gebruikt om \n"
-"        controleer de limieten voor het bericht en de gegevenssnelheid."
+"        de limieten voor het verzenden van berichten en de gegevenssnelheiden te"
+" controleren."
 
 #: notebook/notebookapp.py:1071
 #, python-format
 msgid "No such file or directory: %s"
-msgstr "Geen dergelijk bestand of directory: %s"
+msgstr "Geen dergelijk bestand of map: %s"
 
 #: notebook/notebookapp.py:1141
 msgid "Notebook servers are configured to only be run with a password."
@@ -469,12 +471,12 @@ msgstr "\t$ python -m notebook.auth wachtwoord"
 #: notebook/notebookapp.py:1181
 #, python-format
 msgid "The port %i is already in use, trying another port."
-msgstr "De poort %i is al in gebruik, proberen een andere poort."
+msgstr "De port %i is al in gebruik, proberen een andere port."
 
 #: notebook/notebookapp.py:1184
 #, python-format
 msgid "Permission to listen on port %i denied"
-msgstr "Toestemming om te luisteren op poort %i geweigerd"
+msgstr "Toestemming om te luisteren op port %i geweigerd"
 
 #: notebook/notebookapp.py:1193
 msgid ""
@@ -482,7 +484,7 @@ msgid ""
 "could be found."
 msgstr ""
 "FOUT: de notebookserver kan niet worden gestart omdat er geen beschikbare "
-"poort kon worden gevonden."
+"port kon worden gevonden."
 
 #: notebook/notebookapp.py:1199
 msgid "[all ip addresses on your system]"
@@ -495,7 +497,7 @@ msgstr "Terminals niet beschikbaar (fout was %s)"
 
 #: notebook/notebookapp.py:1259
 msgid "interrupted"
-msgstr "Onderbroken"
+msgstr "onderbroken"
 
 #: notebook/notebookapp.py:1261
 msgid "y"
@@ -598,8 +600,8 @@ msgstr "Onderbroken..."
 #: notebook/services/contents/filemanager.py:506
 #, python-format
 msgid "Serving notebooks from local directory: %s"
-msgstr "Notitieblokken uit lokale directory serveren: %s"
+msgstr "Notebooks uit lokale map activeren: %s"
 
 #: notebook/services/contents/manager.py:68
 msgid "Untitled"
-msgstr "Untitled"
+msgstr "Naamloos"
