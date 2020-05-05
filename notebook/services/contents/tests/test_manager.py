@@ -522,6 +522,11 @@ class TestContentsManager(TestCase):
         # Fetching the notebook under the new name is successful
         assert isinstance(cm.get("changed_path"), dict)
 
+        # Test validation.  Currently, only Windows has a non-empty set of invalid characters
+        if sys.platform == 'win32' and isinstance(cm, FileContentsManager):
+            with self.assertRaisesHTTPError(400):
+                cm.rename("changed_path", "prevent: in name")
+
         # Ported tests on nested directory renaming from pgcontents
         all_dirs = ['foo', 'bar', 'foo/bar', 'foo/bar/foo', 'foo/bar/foo/bar']
         unchanged_dirs = all_dirs[:2]
