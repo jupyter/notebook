@@ -14,6 +14,7 @@ requirejs([
     'edit/js/savewidget',
     'edit/js/notificationarea',
     'bidi/bidi',
+    'auth/js/loginwidget', 
 ], function(
     $,
     contents_service,
@@ -26,7 +27,8 @@ requirejs([
     menubar,
     savewidget,
     notificationarea,
-    bidi
+    bidi,
+    loginwidget,
     ){
     "use strict";
 
@@ -42,6 +44,10 @@ requirejs([
 
     var base_url = utils.get_body_data('baseUrl');
     var file_path = utils.get_body_data('filePath');
+    // This enables logout
+    var login_widget = new loginwidget.LoginWidget('#login_widget', {
+        base_url: base_url
+    });
     var config = new configmod.ConfigSection('edit', {base_url: base_url});
     config.load();
     var common_config = new configmod.ConfigSection('common', {base_url: base_url});
