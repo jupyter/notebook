@@ -54,13 +54,13 @@ ioloop.install()
 try:
     import tornado
 except ImportError:
-    raise ImportError(_("The Jupyter Notebook requires tornado >= 4.0"))
+    raise ImportError(_("The Jupyter Notebook requires tornado >= 5.0"))
 try:
     version_info = tornado.version_info
 except AttributeError:
-    raise ImportError(_("The Jupyter Notebook requires tornado >= 4.0, but you have < 1.1.0"))
-if version_info < (4,0):
-    raise ImportError(_("The Jupyter Notebook requires tornado >= 4.0, but you have %s") % tornado.version)
+    raise ImportError(_("The Jupyter Notebook requires tornado >= 5.0, but you have < 1.1.0"))
+if version_info < (5,0):
+    raise ImportError(_("The Jupyter Notebook requires tornado >= 5.0, but you have %s") % tornado.version)
 
 from tornado import httpserver
 from tornado import web
