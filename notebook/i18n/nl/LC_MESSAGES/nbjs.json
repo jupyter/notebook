@@ -18,7 +18,7 @@
             "De metagegevens bewerken"
          ],
          "Edit Notebook Metadata": [
-            "Metagegevens van notebook-metagegevens bewerken"
+            "Metagegevens van notebook bewerken"
          ],
          "Edit Cell Metadata": [
             "Celmetagegevens bewerken"
@@ -84,7 +84,7 @@
             "Servergegevens:"
          ],
          "Current Kernel Information:": [
-            "Huidige kernelinformatie:"
+            "Informatie van huidige kernel:"
          ],
          "Could not access sys_info variable for version information.": [
             "Kon geen toegang krijgen tot sys_info variabele voor versie-informatie."
@@ -96,7 +96,7 @@
             "Over Jupyter Notebook"
          ],
          "unable to contact kernel": [
-            "kan geen contact opnemen met kernel"
+            "kan de kernel niet bereiken"
          ],
          "toggle rtl layout": [
             "rtl-indeling in- en uitschakelen"
@@ -111,40 +111,40 @@
             "Een dialoogvenster openen om sneltoetsen in de opdrachtmodus te bewerken"
          ],
          "restart kernel": [
-            "kernel opnieuw opstarten"
+            "kernel herstarten"
          ],
          "restart the kernel (no confirmation dialog)": [
-            "de kernel opnieuw starten (geen bevestigingsdialoogvenster)"
+            "de kernel herstarten (geen bevestigingsdialoogvenster)"
          ],
          "confirm restart kernel": [
             "bevestig herstart van kernel"
          ],
          "restart the kernel (with dialog)": [
-            "de kernel opnieuw starten (met dialoogvenster)"
+            "de kernel herstarten (met dialoogvenster)"
          ],
          "restart kernel and run all cells": [
-            "kernel opnieuw opstarten en alle cellen uitvoeren"
+            "kernel herstarten en alle cellen uitvoeren"
          ],
          "restart the kernel, then re-run the whole notebook (no confirmation dialog)": [
-            "start de kernel opnieuw en voer vervolgens het hele notebook opnieuw uit (geen bevestigingsdialoogvenster)"
+            "herstart de kernel en voer vervolgens het hele notebook uit (geen bevestigingsdialoogvenster)"
          ],
          "confirm restart kernel and run all cells": [
-            "bevestig opnieuw opstartern kernel en cellen uitvoeren"
+            "bevestig herstartern kernel en cellen uitvoeren"
          ],
          "restart the kernel, then re-run the whole notebook (with dialog)": [
-            "start de kernel opnieuw en voer vervolgens het hele notebook opnieuw uit (met dialoogvenster)"
+            "herstart de kernel en voer vervolgens het hele notebook uit (met dialoogvenster)"
          ],
          "restart kernel and clear output": [
-            "kernel opnieuw opstarten en de uitvoer wissen"
+            "kernel herstarten en de uitvoer wissen"
          ],
          "restart the kernel and clear all output (no confirmation dialog)": [
-            "start de kernel opnieuw en schakel alle uitvoer uit (geen bevestigingsdialoogvenster)"
+            "herstart de kernel en schakel alle uitvoer uit (geen bevestigingsdialoogvenster)"
          ],
          "confirm restart kernel and clear output": [
-            "bevestigen startkernel en verwijder uitvoer"
+            "bevestigen herstart kernel en verwijder uitvoer"
          ],
          "restart the kernel and clear all output (with dialog)": [
-            "start de kernel opnieuw en schakel alle uitvoer uit (met dialoogvenster)"
+            "herstart de kernel en verwijder alle uitvoer (met dialoogvenster)"
          ],
          "interrupt the kernel": [
             "de kernel onderbreken"
@@ -204,16 +204,16 @@
             "cel eronder selecteren"
          ],
          "extend selection above": [
-            "selectie erboven uit te breiden"
+            "selectie naar boven uitbreiden"
          ],
          "extend selected cells above": [
-            "geselecteerde cellen erboven uit te breiden"
+            "geselecteerde cellen naar boven uitbreiden"
          ],
          "extend selection below": [
-            "selectie eronder uitbreiden"
+            "selectie naar onder uitbreiden"
          ],
          "extend selected cells below": [
-            "geselecteerde cellen eronder uitbreiden"
+            "geselecteerde cellen naar onder uitbreiden"
          ],
          "cut selected cells": [
             "geselecteerde cellen knippen"
@@ -234,22 +234,22 @@
             "cel eronder invoegen"
          ],
          "change cell to code": [
-            "cel wijzigen in code"
+            "cel wijzigen naar code"
          ],
          "change cell to markdown": [
             "cel wijzigen naar markdown"
          ],
          "change cell to raw": [
-            "cel wijzigen in raw"
+            "cel wijzigen naar raw"
          ],
          "change cell to heading 1": [
-            "cel wijzigen in header 1"
+            "cel wijzigen naar header 1"
          ],
          "change cell to heading 2": [
-            "cel wijzigen in header 2"
+            "cel wijzigen naar header 2"
          ],
          "change cell to heading 3": [
-            "cel wijzigen in header 3"
+            "cel wijzigen naar header 3"
          ],
          "change cell to heading 4": [
             "cel wijzigen naar header 4"
@@ -330,7 +330,7 @@
             "opdrachtpallette weergeven"
          ],
          "open the command palette": [
-            "het opdrachtpalet openen"
+            "opdrachtpallette openen"
          ],
          "toggle all line numbers": [
             "alle regelnummers in- en uitschakelen"
@@ -402,7 +402,7 @@
             "scroll cel naar boven"
          ],
          "Scroll the current cell to the top": [
-            "De huidige cel naar erboven scrollen"
+            "De huidige cel volledig naar boven scrollen"
          ],
          "duplicate notebook": [
             "dupliceer notebook"
@@ -411,22 +411,22 @@
             "Een kopie van het huidige notebook maken en openen"
          ],
          "trust notebook": [
-            "vertrouwensnotebook"
+            "vertrouw notebook"
          ],
          "Trust the current notebook": [
             "Het huidige notebook vertrouwen"
          ],
          "rename notebook": [
-            "de naam van notebook wijzigen"
+            "naam van notebook wijzigen"
          ],
          "Rename the current notebook": [
             "De naam van het huidige notebook wijzigen"
          ],
          "toggle all cells output collapsed": [
-            "alle samengevouwen cellenuitvoer in- of uitschakelen"
+            "alle samengevouwen celuitvoer in- of uitschakelen"
          ],
          "Toggle the hidden state of all output areas": [
-            "De verborgen status van alle uitvoergebieden inschakelen"
+            "De zichtbaarheid status van alle uitvoergebieden in- of uitschakelen"
          ],
          "toggle all cells output scrolled": [
             "alle cellenuitvoer in- of uitschakelen"
@@ -438,7 +438,7 @@
             "alle cellenuitvoer wissen"
          ],
          "Clear the content of all the outputs": [
-            "De inhoud van alle uitgangen wissen"
+            "De inhoud van alle celuitvoer wissen"
          ],
          "save notebook": [
             "notebook opslaan"
@@ -480,7 +480,7 @@
             "We kunnen niet plakken in deze browser zonder tekstvak. "
          ],
          "There's an invisible text box focused in this dialog.": [
-            "Er is een onzichtbaar tekstvak gericht in dit dialoogvenster."
+            "Er is een onzichtbaar tekstvak geopend in dit dialoogvenster."
          ],
          "%s to paste": [
             "%s plakken"
@@ -543,7 +543,7 @@
             "Geen"
          ],
          "No checkpoints": [
-            "Geen controleposten"
+            "Geen checkpoints"
          ],
          "Opens in a new window": [
             "Opent in een nieuw venster"
@@ -564,13 +564,13 @@
             "U kunt nog steeds met deze notebook werken, maar cel- en uitvoertypen die in latere notebookversies zijn geïntroduceerd, zijn niet beschikbaar."
          ],
          "Restart and Run All Cells": [
-            "Alle cellen opnieuw starten en uitvoeren"
+            "Herstarten en alle cellen uitvoeren"
          ],
          "Restart and Clear All Outputs": [
-            "Alle uitvoer opnieuw starten en wissen"
+            "Herstarten en alle uitvoer wissen"
          ],
          "Restart": [
-            "Opnieuw starten"
+            "Herstarten"
          ],
          "Continue Running": [
             "Doorgaan met uitvoeren"
@@ -600,25 +600,25 @@
             "## Dit is een niveau 2 header"
          ],
          "Restart kernel and re-run the whole notebook?": [
-            "Kernel opnieuw opstarten en het hele notebook opnieuw uitvoeren?"
+            "Kernel herstarten en het hele notebook opnieuw uitvoeren?"
          ],
          "Are you sure you want to restart the current kernel and re-execute the whole notebook?  All variables and outputs will be lost.": [
-            "Weet u zeker dat u de huidige kernel opnieuw wilt starten en het hele notebook opnieuw wilt uitvoeren?  Alle variabelen en uitgangen gaan verloren."
+            "Weet u zeker dat u de huidige kernel wilt herstarten en het hele notebook opnieuw wilt uitvoeren?  Alle variabelen en uitgangen gaan verloren."
          ],
          "Restart kernel and clear all output?": [
             "Herstart kernel en verwijder alle output?"
          ],
          "Do you want to restart the current kernel and clear all output?  All variables and outputs will be lost.": [
-            "Wilt u de huidige kernel opnieuw opstarten en alle uitvoer wissen?  Alle variabelen en uitgangen gaan verloren."
+            "Wilt u de huidige kernel herstarten en alle uitvoer wissen?  Alle variabelen en uitgangen gaan verloren."
          ],
          "Restart kernel?": [
-            "Kernel opnieuw opstarten?"
+            "Kernel herstarten?"
          ],
          "Do you want to restart the current kernel?  All variables will be lost.": [
-            "Wilt u de huidige kernel opnieuw opstarten?  Alle variabelen gaan verloren."
+            "Wilt u de huidige kernel herstarten?  Alle variabelen gaan verloren."
          ],
          "Shutdown kernel?": [
-            "Shutdown kernel?"
+            "Kernel afsluiten?"
          ],
          "Do you want to shutdown the current kernel?  All variables will be lost.": [
             "Wilt u de huidige kernel afsluiten?  Alle variabelen gaan verloren."
@@ -630,13 +630,13 @@
             "Het notebookbestand op de schijf is gewijzigd sinds de laatste keer dat het geopend of opgeslagen is. Wilt u het bestand op schijf overschrijven met de versie die hier wordt geopend, of de versie op schijf laden (de pagina opnieuw laden) ?"
          ],
          "Notebook validation failed": [
-            "Laptopvalidatie is mislukt"
+            "Notebook validatie is mislukt"
          ],
          "The save operation succeeded, but the notebook does not appear to be valid. The validation error was:": [
             "De opslagbewerking is geslaagd, maar het notebook lijkt niet geldig te zijn. De validatiefout was:"
          ],
          "A trusted Jupyter notebook may execute hidden malicious code when you open it. Selecting trust will immediately reload this notebook in a trusted state. For more information, see the Jupyter security documentation: ": [
-            "Een vertrouwd Jupyter-notebook kan verborgen schadelijke code uitvoeren wanneer u het opent. Als u vertrouwensrelatie selecteert, wordt dit notebook onmiddellijk opnieuw geladen in een vertrouwde status. Zie voor meer informatie de beveiligingsdocumentatie van Jupyter: "
+            "Een vertrouwd Jupyter-notebook kan verborgen schadelijke code uitvoeren wanneer u het opent. Als u vertrouwensstatus selecteert, wordt dit notebook onmiddellijk opnieuw geladen in een vertrouwde status. Zie voor meer informatie de beveiligingsdocumentatie van Jupyter: "
          ],
          "here": [
             "hier"
@@ -708,7 +708,7 @@
             "Opdrachtmodus"
          ],
          "Kernel Created": [
-            "Kernel gemaakt"
+            "Kernel aangemaakt"
          ],
          "Connecting to kernel": [
             "Verbinding maken met kernel"
@@ -720,13 +720,13 @@
             "klik om opnieuw verbinding te maken"
          ],
          "Restarting kernel": [
-            "Kernel opnieuw opstarten"
+            "Kernel herstarten"
          ],
          "Kernel Restarting": [
-            "Kernel opnieuw opstarten"
+            "Kernel herstarten"
          ],
          "The kernel appears to have died. It will restart automatically.": [
-            "De kernel lijkt te zijn gestopt. Hij wordt automatisch opnieuw opgestart."
+            "De kernel lijkt te zijn gestopt. Hij wordt automatisch herstart."
          ],
          "Dead kernel": [
             "Gestopte kernel"
@@ -753,13 +753,13 @@
             "Kernel is niet actief"
          ],
          "Don't Restart": [
-            "Start niet opnieuw op"
+            "Niet herstarten"
          ],
          "Try Restarting Now": [
-            "Probeer nu opnieuw te starten"
+            "Probeer nu te herstarten"
          ],
          "The kernel has died, and the automatic restart has failed. It is possible the kernel cannot be restarted. If you are not able to restart the kernel, you will still be able to save the notebook, but running code will no longer work until the notebook is reopened.": [
-            "De kernel is gestopt en de automatische herstart is mislukt. Het is mogelijk dat de kernel niet opnieuw kan worden gestart. Als u de kernel niet opnieuw starten, u het notebook nog steeds opslaan, maar werkt de code niet meer totdat het notebook opnieuw is geopend."
+            "De kernel is gestopt en de automatische herstart is mislukt. Het is mogelijk dat de kernel niet kan worden herstart. Als u de kernel niet start, kan u het notebook nog steeds opslaan, maar werkt de code niet meer totdat het notebook opnieuw is geopend."
          ],
          "No Kernel": [
             "Geen kernel"
@@ -828,7 +828,7 @@
             "Het notebook wordt elke %d sec opgeslagen."
          ],
          "Trusted": [
-            "Vertrouwde"
+            "Vertrouwd"
          ],
          "Not Trusted": [
             "Niet vertrouwd"
@@ -879,13 +879,13 @@
             "ga een woord naar rechts"
          ],
          "delete word before": [
-            "woord verwijderen voordat"
+            "woord ervoor verwijderen"
          ],
          "delete word after": [
-            "woord verwijderen na"
+            "woord erna verwijderen"
          ],
          "code completion or indent": [
-            "code voltooiing of inspringing"
+            "code aanvulling of inspringing"
          ],
          "tooltip": [
             "Tooltip"
@@ -1045,7 +1045,7 @@
             "Meer dan 100 matches, afbreken"
          ],
          "Use regex (JavaScript regex syntax)": [
-            "Regex (syntaxis van JavaScript-regex) gebruiken"
+            "Regex gebruiken (JavaScript regex syntax)"
          ],
          "Replace in selected cells": [
             "Vervangen in geselecteerde cellen"
@@ -1075,10 +1075,10 @@
             "Schrijf hier in LaTeX of ander format, voor gebruik met nbconvert. Het wordt niet weergegeven in het notebook. Bij het doorlopen van nbconvert wordt de inhoud van een Raw Cell ongewijzigd aan de uitvoer toegevoegd."
          ],
          "Grow the tooltip vertically (press shift-tab twice)": [
-            "De tooltip verticaal laten groeien (druk twee maal op shift-tab)"
+            "De tooltip verticaal laten groeien (druk twee keer op shift-tab)"
          ],
          "show the current docstring in pager (press shift-tab 4 times)": [
-            "de huidige docstring weergeven in pager (druk op shift-tab 4 keer)"
+            "de huidige docstring weergeven in pager (druk 4 keer op shift-tab)"
          ],
          "Open in Pager": [
             "Openen in Pager"
@@ -1087,10 +1087,10 @@
             "De tooltip blijft 10 seconden hangen terwijl u typt"
          ],
          "Welcome to the Notebook Tour": [
-            "Welkom bij de Notebook Tour"
+            "Welkom bij de Notebook Rondleiding"
          ],
          "You can use the left and right arrow keys to go backwards and forwards.": [
-            "U de pijltoetsen links en rechts gebruiken om heen en weer te gaan."
+            "U kan de pijltjestoetsen links en rechts gebruiken om heen en weer te gaan."
          ],
          "Filename": [
             "Bestandsnaam"
@@ -1120,7 +1120,7 @@
             "Op dit moment bent u in de opdrachtmodus en zijn er veel sneltoetsen beschikbaar. In deze modus wordt geen pictogram weergegeven in het indicatorgebied."
          ],
          "Pressing <code>Enter</code> or clicking in the input text area of the cell switches to Edit Mode.": [
-            "Als u op <code>Enter </code> of klikt in het invoertekstgebied van de cel, schakelt u over naar de bewerkingsmodus."
+            "Als u op <code>Enter </code> drukt of klikt in het invoertekstgebied van de cel, schakelt u over naar de bewerkingsmodus."
          ],
          "Notice that the border around the currently active cell changed color. Typing will insert text into the currently active cell.": [
             "De rand rond de actieve cel is van kleur veranderd. Als u typt, wordt tekst ingevoegd in de actieve cel."
@@ -1150,7 +1150,7 @@
             "De kernel onderbreken"
          ],
          "To cancel a computation in progress, you can click here.": [
-            "Als u een actieve berekening wilt annuleren, u hier klikken."
+            "Als u een actieve berekening wilt annuleren, kan u hier klikken."
          ],
          "Notification Area": [
             "Systeemvak"
@@ -1162,7 +1162,7 @@
             "Einde van de Tour"
          ],
          "This concludes the Jupyter Notebook User Interface Tour.": [
-            "Dit concludeert de Jupyter Notebook User Interface Tour."
+            "Dit concludeert de Jupyter Notebook User Interface Rondleiding."
          ],
          "Edit Attachments": [
             "Bijlagen bewerken"
@@ -1295,11 +1295,11 @@
          ],
          "Enter a new destination directory path for this item:": [
             "Voer een nieuw bestemmingsmap-pad in voor dit item:",
-            "Voer een nieuw bestemmingsmap-pad in voor deze %d-items:"
+            "Voer een nieuw bestemmingsmap-pad in voor deze %d items:"
          ],
          "Move an Item": [
             "Een item verplaatsen",
-            "%d-objecten verplaatsen"
+            "%d objecten verplaatsen"
          ],
          "An error occurred while moving \"%1$s\" from \"%2$s\" to \"%3$s\".": [
             "Er is een fout opgetreden tijdens het verplaatsen van \"%1$s\" van \"%2$s\" naar \"%3$s\"."
@@ -1309,7 +1309,7 @@
          ],
          "Are you sure you want to permanently delete: \"%s\"?": [
             "Weet u zeker dat u het volgende definitief wilt verwijderen: \"%s\"?",
-            "Weet u zeker dat u de geselecteerde %d-bestanden of mappen permanent wilt verwijderen?"
+            "Weet u zeker dat u de geselecteerde %d bestanden of mappen permanent wilt verwijderen?"
          ],
          "An error occurred while deleting \"%s\".": [
             "Er is een fout opgetreden tijdens het verwijderen van \"%s\"."
@@ -1319,7 +1319,7 @@
          ],
          "Are you sure you want to duplicate: \"%s\"?": [
             "Weet u zeker dat u wilt dupliceren: \"%s\"?",
-            "Weet u zeker dat u de geselecteerde %d-bestanden wilt dupliceren?"
+            "Weet u zeker dat u de geselecteerde %d bestanden wilt dupliceren?"
          ],
          "Duplicate": [
             "Dupliceren"

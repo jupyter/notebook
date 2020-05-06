@@ -40,7 +40,7 @@ msgid ""
 "Alternatively use `%s` when working on the notebook's Javascript and LESS"
 msgstr ""
 "U ook '%s' gebruiken bij het werken aan de Javascript van de notebook en "
-"MINDER"
+"LESS"
 
 #: notebook/notebookapp.py:211
 msgid ""
@@ -238,7 +238,7 @@ msgid ""
 "Supply overrides for the tornado.web.Application that the Jupyter notebook "
 "uses."
 msgstr ""
-"Levering overschrijft voor de tornado.web.Application die de Jupyter "
+"Supply overrides voor de tornado.web.Application die de Jupyter "
 "notebook gebruikt."
 
 #: notebook/notebookapp.py:750
