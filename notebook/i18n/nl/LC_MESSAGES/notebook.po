@@ -238,8 +238,8 @@ msgid ""
 "Supply overrides for the tornado.web.Application that the Jupyter notebook "
 "uses."
 msgstr ""
-"Supply overrides voor de tornado.web.Application die de Jupyter "
-"notebook gebruikt."
+"Geef extra instellingen voor de tornado.web.Application die gebruikt wordt door de "
+" Jupyter notebook."
 
 #: notebook/notebookapp.py:750
 msgid ""
