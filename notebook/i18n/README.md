@@ -22,6 +22,8 @@ Hint: if running Windows, you can set it in PowerShell with `${Env:LANG} = "xx_X
 
 ## Contributing and managing translations
 
+Finding and translating the `.pot` files could be (partially) done with a translation API, see the repo [Jupyter Notebook Azure Translator](https://github.com/berendjan/Jupyter-Notebook-Azure-Translator.git) for a possible starting point. (Not affiliated with Jupyter)
+
 ### Requirements
 
 - *pybabel* (could be installed `pip install babel`)
@@ -52,6 +54,8 @@ pybabel extract -F babel_nbjs.cfg -o nbjs.pot --no-wrap --project Jupyter .
 ```
 
 After this is complete you have 3 `.pot` files that you can give to a translator for your favorite language.
+
+Finding and translating the `.pot` files could be (partially done with a translation API, see the repo [Jupyter Notebook Azure Translator](https://github.com/berendjan/Jupyter-Notebook-Azure-Translator.git) for a possible starting point. (Not affiliated with Jupyter)
 
 ### Messages compilation
 
