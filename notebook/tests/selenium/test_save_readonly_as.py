@@ -67,15 +67,14 @@ def test_save_readonly_notebook_as(notebook):
 
     # Add some more content
     test_content_1 = "print('a second simple')\nprint('script to test save feature')"
-    notebook.add_cell()
-    notebook.edit_cell(index=1, content=test_content_1)
+    notebook.add_and_execute_cell(content=test_content_1)
     # and save the notebook
     execute_promise("Jupyter.notebook.save_notebook()", notebook.browser)
     
     # Test that it still contains the content
     assert notebook.get_cell_contents(index=0) == test_content_0
     assert notebook.get_cell_contents(index=1) == test_content_1
-    # even after a refresh
+    # even after a refresh 
     refresh_notebook(notebook)
     assert notebook.get_cell_contents(index=0) == test_content_0
     assert notebook.get_cell_contents(index=1) == test_content_1
