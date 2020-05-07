@@ -8,7 +8,13 @@ define([
     'base/js/markdown',
 ], function ($, utils, events, markdown) {
     "use strict";
-    
+
+    function endsWith(haystack, needle) {
+        if(haystack.endsWith) return haystack.endsWith(needle);
+        return haystack.substring(
+            haystack.length - needle.length, haystack.length) === needle;
+    }
+
     var DirectoryReadme = function (selector, notebook_list) {
         /**
          * Constructor
@@ -22,6 +28,12 @@ define([
         this.element = $(selector);
         this.notebook_list = notebook_list;
         this.drawn_readme = null;
+        this.readme_order = [
+            /^readme\.(md|markdown)$/i,
+            /^about\.(md|markdown)$/i,
+            /^readme(\.[^\.]*)?$/i,
+            /^about(\.[^\.]*)?$/i,
+        ]
 
         this.init_readme();
         this.bind_events();
@@ -30,17 +42,23 @@ define([
     DirectoryReadme.prototype.find_readme = function() {
         /**
          * Find a readme in the current directory. Look for files with
-         * a name like 'readme.md' (case insensitive) or similar and
-         * mimetype 'text/markdown'.
+         * a name matching a pattern in this.readme_order.
+         * 
          * 
          * @return null or { name, path, last_modified... }
          */
         var files_in_directory = this.notebook_list.model_list.content;
-        for (var i = 0; i < files_in_directory.length; i++) {
-            var file = files_in_directory[i];
-            if(file.type === "file"
-                    && file.name.toLowerCase().split(".")[0] === "readme"){
-                return file;
+
+
+        for(var j = 0; j < this.readme_order.length; ++j) {
+            var readme_name = this.readme_order[j];
+            for (var i = 0; i < files_in_directory.length; ++i) {
+                var file = files_in_directory[i];
+                if(file.type === "file"
+                    && file.name.match(readme_name)
+                ){
+                    return file;
+                }
             }
         }
         return null;
@@ -74,7 +92,11 @@ define([
                 var that = this;
                 this.notebook_list.contents.get(readme.path, {type: 'file'}).then(
                     function(file) {
-                        that.draw_readme(file);
+                        if(file.format !== "text") {
+                            that.clear_readme(file);
+                        } else {
+                            that.draw_readme(file);
+                        }
                     },
                     function() {
                         that.clear_readme();
@@ -89,6 +111,13 @@ define([
          * When the notebook_list fires a draw_notebook event, fetch the readme. 
          */
         events.on("draw_notebook_list.NotebookList", $.proxy(this.fetch_readme, this));
+
+        var that = this;
+        events.on("notebook_deleted.NotebookList", function(event, path) {
+            if(that.drawn_readme.path === path) {
+                that.clear_readme();
+            }
+        });
     }
     
     DirectoryReadme.prototype.init_readme = function() {
@@ -113,11 +142,11 @@ define([
         .appendTo(element);
     } 
 
-    DirectoryReadme.prototype.clear_readme = function () {
+    DirectoryReadme.prototype.clear_readme = function (drawn_readme) {
         /**
          * If no readme is found, hide.
          */
-        this.drawn_readme = null;
+        this.drawn_readme = drawn_readme || null;
         this.element.hide();
     }
     
@@ -139,13 +168,17 @@ define([
         .text(file.name);
 
         var page = this.page;
-        markdown.render(file.content, {
-            with_math: true,
-            sanitize: true
-        }, function(err, html) {
-            page.html(html);
-            utils.typeset(page);
-        });
+        if(endsWith(file.name.toLowerCase(), ".md") || endsWith(file.name.toLowerCase(), ".markdown")){
+            markdown.render(file.content, {
+                with_math: true,
+                sanitize: true
+            }, function(err, html) {
+                page.html(html);
+                utils.typeset(page);
+            });
+        } else {
+            page.html($("<pre>").text(file.content.replace(/\r\n/g,'\n')));
+        }
     };
     
     return {'DirectoryReadme': DirectoryReadme};
