@@ -19,13 +19,6 @@ var bind = function bind(obj) {
 };
 Function.prototype.bind = Function.prototype.bind || bind ;
 
-requirejs.config({
-  map: {
-    "*": {
-      "typeahead": "jquery-typeahead"
-    }
-  }
-})
 
 requirejs([
     'jquery',
