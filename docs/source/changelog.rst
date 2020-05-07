@@ -21,6 +21,14 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+.. _release-5.7.9:
+
+5.7.9
+------
+
+- Update JQuery dependency to version 3.4.1 to fix security vulnerability (CVE-2019-11358)
+- Update from preact to React
+
 .. _release-5.7.8:
 
 5.7.8
