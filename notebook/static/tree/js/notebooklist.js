@@ -1311,7 +1311,7 @@ define([
             var element = $(this);
             if (element.data("path") === path) {
                 element.remove();
-                events.trigger('notebook_deleted.NotebookList');
+                events.trigger('notebook_deleted.NotebookList', [path]);
                 that._selection_changed();
             }
         });
