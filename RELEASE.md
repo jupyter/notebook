@@ -40,6 +40,7 @@ npm install -g po2json
 
 ```bash
 vim notebook/_version.py
+python setup.py jsversion
 git commit -am "Release $(python setup.py --version)"
 git tag $(python setup.py --version)
 ```
@@ -61,7 +62,7 @@ twine check dist/* && twine upload dist/*
 ## Change back to dev version
 
 ```bash
-vim notebook/_version.py
+vim notebook/_version.py   # Add the .dev suffix
 git commit -am "Back to dev version"
 ```
 

@@ -33,7 +33,6 @@ The Jupyter Notebook
    :caption: Contributor Documentation
 
    contributing
-   development_release
    development_faq
 
 .. toctree::
