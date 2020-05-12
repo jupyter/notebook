@@ -563,6 +563,7 @@ aliases.update({
     'certfile': 'NotebookApp.certfile',
     'client-ca': 'NotebookApp.client_ca',
     'notebook-dir': 'NotebookApp.notebook_dir',
+    'open_browser': 'NotebookApp.open_browser',
     'browser': 'NotebookApp.browser',
     'pylab': 'NotebookApp.pylab',
     'gateway-url': 'GatewayClient.url',
