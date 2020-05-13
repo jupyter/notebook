@@ -517,6 +517,13 @@ class NbserverStopApp(JupyterApp):
         if not self.shutdown_server(server):
             sys.exit("Could not stop server on %s" % target_endpoint)
 
+    @staticmethod
+    def _maybe_remove_unix_socket(socket_path):
+        try:
+            os.unlink(socket_path)
+        except (OSError, IOError):
+            pass
+
     def start(self):
         servers = list(list_running_servers(self.runtime_dir))
         if not servers:
@@ -527,6 +534,8 @@ class NbserverStopApp(JupyterApp):
                 sock = server.get('sock', None)
                 if sock and sock == self.sock:
                     self._shutdown_or_exit(sock, server)
+                    # Attempt to remove the UNIX socket after stopping.
+                    self._maybe_remove_unix_socket(sock)
                     return
             elif self.port:
                 port = server.get('port', None)
