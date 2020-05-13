@@ -787,7 +787,7 @@ class NotebookApp(JupyterApp):
         help=_("The UNIX socket the notebook server will listen on.")
     )
 
-    sock_mode = Integer(int('0600', 8), config=True,
+    sock_mode = Unicode('0600', config=True,
         help=_("The permissions mode for UNIX socket creation (default: 0600).")
     )
 
@@ -796,18 +796,22 @@ class NotebookApp(JupyterApp):
         value = proposal['value']
         try:
             converted_value = int(value.encode(), 8)
-            # Ensure the mode is at least user readable/writable.
             assert all((
+                # Ensure the mode is at least user readable/writable.
                 bool(converted_value & stat.S_IRUSR),
                 bool(converted_value & stat.S_IWUSR),
+                # And isn't out of bounds.
+                converted_value <= 2 ** 12
             ))
         except ValueError:
-            raise TraitError('invalid --sock-mode value: %s' % value)
+            raise TraitError(
+                'invalid --sock-mode value: %s, please specify as e.g. "0600"' % value
+            )
         except AssertionError:
             raise TraitError(
                 'invalid --sock-mode value: %s, must have u+rw (0600) at a minimum' % value
             )
-        return converted_value
+        return value
 
     port_retries = Integer(50, config=True,
         help=_("The number of additional ports to try if the specified port is not available.")
@@ -1635,7 +1639,7 @@ class NotebookApp(JupyterApp):
 
     def _bind_http_server_unix(self):
         try:
-            sock = bind_unix_socket(self.sock, mode=self.sock_mode)
+            sock = bind_unix_socket(self.sock, mode=int(self.sock_mode.encode(), 8))
             self.http_server.add_socket(sock)
         except socket.error as e:
             if e.errno == errno.EADDRINUSE:

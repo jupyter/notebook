@@ -23,7 +23,7 @@ def test_shutdown_sock_server_integration():
 
     complete = False
     for line in iter(p.stderr.readline, b''):
-        print(line)
+        print(line.decode())
         if url in line:
             complete = True
             break
