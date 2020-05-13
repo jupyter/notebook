@@ -11,6 +11,7 @@ import ctypes
 import errno
 import inspect
 import os
+import socket
 import stat
 import sys
 from distutils.version import LooseVersion
@@ -22,6 +23,7 @@ from urllib.request import pathname2url
 # in tornado >=5 with Python 3
 from tornado.concurrent import Future as TornadoFuture
 from tornado import gen
+import requests_unixsocket
 from ipython_genutils import py3compat
 
 # UF_HIDDEN is a stat flag not defined in the stat module.
@@ -382,3 +384,19 @@ def urldecode_unix_socket_path(socket_path):
 def urlencode_unix_socket(socket_path):
     """Encodes a UNIX socket URL from a socket path for the `http+unix` URI form."""
     return 'http+unix://%s' % urlencode_unix_socket_path(socket_path)
+
+
+def unix_socket_in_use(socket_path):
+    """Checks whether a UNIX socket path on disk is in use by attempting to connect to it."""
+    if not os.path.exists(socket_path):
+        return False
+
+    try:
+        sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        sock.connect(socket_path)
+    except socket.error:
+        return False
+    else:
+        return True
+    finally:
+        sock.close()

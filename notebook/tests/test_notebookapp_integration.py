@@ -135,3 +135,32 @@ def test_stop_multi_integration():
     p1.wait()
     p2.wait()
     p3.wait()
+
+
+@skip_win32
+def test_launch_socket_collision():
+    """Tests UNIX socket in-use detection for lifecycle correctness."""
+    sock = UNIXSocketNotebookTestBase.sock
+    check_msg = 'socket %s is already in use' % sock
+
+    _ensure_stopped()
+
+    # Start a server.
+    cmd = ['jupyter-notebook', '--sock=%s' % sock]
+    p1 = subprocess.Popen(cmd)
+    time.sleep(3)
+
+    # Try to start a server bound to the same UNIX socket.
+    try:
+        subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as e:
+        assert check_msg in e.output.decode()
+    else:
+        raise AssertionError('expected error, instead got %s' % e.output.decode())
+
+    # Stop the background server, ensure it's stopped and wait on the process to exit.
+    subprocess.check_call(['jupyter-notebook', 'stop', sock])
+
+    _ensure_stopped()
+
+    p1.wait()

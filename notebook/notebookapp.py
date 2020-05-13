@@ -115,6 +115,7 @@ from .utils import (
     check_pid,
     pathname2url,
     run_sync,
+    unix_socket_in_use,
     url_escape,
     url_path_join,
     urldecode_unix_socket_path,
@@ -1638,12 +1639,16 @@ class NotebookApp(JupyterApp):
         return self._bind_http_server_unix() if self.sock else self._bind_http_server_tcp()
 
     def _bind_http_server_unix(self):
+        if unix_socket_in_use(self.sock):
+            self.log.warning(_('The socket %s is already in use.') % self.sock)
+            return False
+
         try:
             sock = bind_unix_socket(self.sock, mode=int(self.sock_mode.encode(), 8))
             self.http_server.add_socket(sock)
         except socket.error as e:
             if e.errno == errno.EADDRINUSE:
-                self.log.info(_('The socket %s is already in use.') % self.sock)
+                self.log.warning(_('The socket %s is already in use.') % self.sock)
                 return False
             elif e.errno in (errno.EACCES, getattr(errno, 'WSAEACCES', errno.EACCES)):
                 self.log.warning(_("Permission to listen on sock %s denied") % self.sock)
