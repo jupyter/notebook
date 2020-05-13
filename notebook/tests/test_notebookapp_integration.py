@@ -17,11 +17,13 @@ def test_shutdown_sock_server_integration():
     encoded_sock_path = urlencode_unix_socket_path(sock)
 
     p = subprocess.Popen(
-        ['jupyter-notebook', '--sock=%s' % sock],
+        ['jupyter-notebook', '--sock=%s' % sock, '--sock-mode=0700'],
         stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
 
+    complete = False
     for line in iter(p.stderr.readline, b''):
+        print(line)
         if url in line:
             complete = True
             break
@@ -30,8 +32,8 @@ def test_shutdown_sock_server_integration():
 
     assert encoded_sock_path.encode() in subprocess.check_output(['jupyter-notebook', 'list'])
 
-    # Ensure default umask is properly applied.
-    assert stat.S_IMODE(os.lstat(sock).st_mode) == 0o600
+    # Ensure umask is properly applied.
+    assert stat.S_IMODE(os.lstat(sock).st_mode) == 0o700
 
     try:
         subprocess.check_output(['jupyter-notebook', 'stop'], stderr=subprocess.STDOUT)
@@ -48,6 +50,29 @@ def test_shutdown_sock_server_integration():
 
     p.wait()
 
+
+def test_sock_server_validate_sockmode_type():
+    try:
+        subprocess.check_output(
+            ['jupyter-notebook', '--sock=/tmp/nonexistent', '--sock-mode=badbadbad'],
+            stderr=subprocess.STDOUT
+        )
+    except subprocess.CalledProcessError as e:
+        assert 'badbadbad' in e.output.decode()
+    else:
+        raise AssertionError('expected execution to fail due to validation of --sock-mode param')
+
+
+def test_sock_server_validate_sockmode_accessible():
+    try:
+        subprocess.check_output(
+            ['jupyter-notebook', '--sock=/tmp/nonexistent', '--sock-mode=0444'],
+            stderr=subprocess.STDOUT
+        )
+    except subprocess.CalledProcessError as e:
+        assert '0444' in e.output.decode()
+    else:
+        raise AssertionError('expected execution to fail due to validation of --sock-mode param')
 
 
 def _ensure_stopped(check_msg='There are no running servers'):

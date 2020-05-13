@@ -26,6 +26,7 @@ import re
 import select
 import signal
 import socket
+import stat
 import sys
 import tempfile
 import threading
@@ -759,7 +760,7 @@ class NotebookApp(JupyterApp):
             return 'localhost'
 
     @validate('ip')
-    def _valdate_ip(self, proposal):
+    def _validate_ip(self, proposal):
         value = proposal['value']
         if value == u'*':
             value = u''
@@ -786,9 +787,27 @@ class NotebookApp(JupyterApp):
         help=_("The UNIX socket the notebook server will listen on.")
     )
 
-    sock_mode = Unicode(u'0600', config=True,
-        help=_("The permissions mode/umask for UNIX socket creation (default: 0600).")
+    sock_mode = Integer(int('0600', 8), config=True,
+        help=_("The permissions mode for UNIX socket creation (default: 0600).")
     )
+
+    @validate('sock_mode')
+    def _validate_sock_mode(self, proposal):
+        value = proposal['value']
+        try:
+            converted_value = int(value.encode(), 8)
+            # Ensure the mode is at least user readable/writable.
+            assert all((
+                bool(converted_value & stat.S_IRUSR),
+                bool(converted_value & stat.S_IWUSR),
+            ))
+        except ValueError:
+            raise TraitError('invalid --sock-mode value: %s' % value)
+        except AssertionError:
+            raise TraitError(
+                'invalid --sock-mode value: %s, must have u+rw (0600) at a minimum' % value
+            )
+        return converted_value
 
     port_retries = Integer(50, config=True,
         help=_("The number of additional ports to try if the specified port is not available.")
@@ -1616,7 +1635,7 @@ class NotebookApp(JupyterApp):
 
     def _bind_http_server_unix(self):
         try:
-            sock = bind_unix_socket(self.sock, mode=int(self.sock_mode.encode(), 8))
+            sock = bind_unix_socket(self.sock, mode=self.sock_mode)
             self.http_server.add_socket(sock)
         except socket.error as e:
             if e.errno == errno.EADDRINUSE:
