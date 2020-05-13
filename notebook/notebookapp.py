@@ -1553,7 +1553,7 @@ class NotebookApp(JupyterApp):
 
             if self.open_browser:
                 # If we're bound to a UNIX socket, we can't reliably connect from a browser.
-                self.log.warning(
+                self.log.info(
                     _('Ignoring --NotebookApp.open_browser due to --sock being used.'),
                 )
 
