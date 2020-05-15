@@ -795,6 +795,22 @@ class NotebookApp(JupyterApp):
         help=_("The port the notebook server will listen on (env: JUPYTER_PORT).")
     )
 
+    @default('port')
+    def port_default(self):
+        return int(os.getenv(self.port_env, self.port_default_value))
+
+    port_retries_env = 'JUPYTER_PORT_RETRIES'
+    port_retries_default_value = 50
+    port_retries = Integer(port_retries_default_value, config=True,
+        help=_("The number of additional ports to try if the specified port is not "
+               "available (env: JUPYTER_PORT_RETRIES).")
+    )
+
+    @default('port_retries')
+    def port_retries_default(self):
+        return int(os.getenv(self.port_retries_env, self.port_retries_default_value))
+
+
     sock = Unicode(u'', config=True,
         help=_("The UNIX socket the notebook server will listen on.")
     )
@@ -825,22 +841,6 @@ class NotebookApp(JupyterApp):
             )
         return value
 
-    port_retries = Integer(50, config=True,
-        help=_("The number of additional ports to try if the specified port is not available.")
-    @default('port')
-    def port_default(self):
-        return int(os.getenv(self.port_env, self.port_default_value))
-
-    port_retries_env = 'JUPYTER_PORT_RETRIES'
-    port_retries_default_value = 50
-    port_retries = Integer(port_retries_default_value, config=True,
-        help=_("The number of additional ports to try if the specified port is not "
-               "available (env: JUPYTER_PORT_RETRIES).")
-    )
-
-    @default('port_retries')
-    def port_retries_default(self):
-        return int(os.getenv(self.port_retries_env, self.port_retries_default_value))
 
     certfile = Unicode(u'', config=True, 
         help=_("""The full path to an SSL/TLS certificate file.""")
