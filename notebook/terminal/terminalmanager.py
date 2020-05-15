@@ -6,13 +6,14 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
+import warnings
 
 from datetime import timedelta
 from notebook._tz import utcnow, isoformat
 from terminado import NamedTermManager
 from tornado import web
 from tornado.ioloop import IOLoop, PeriodicCallback
-from traitlets import Integer
+from traitlets import Integer, validate
 from traitlets.config import Configurable
 from ..prometheus.metrics import TERMINAL_CURRENTLY_RUNNING_TOTAL
 
@@ -25,7 +26,7 @@ class TerminalManager(Configurable, NamedTermManager):
     _initialized_culler = False
 
     cull_inactive_timeout = Integer(0, config=True,
-                                    help="""Timeout (in seconds) in which a terminal has been inactive and ready to be culled.
+        help="""Timeout (in seconds) in which a terminal has been inactive and ready to be culled.
         Values of 0 or lower disable culling."""
                                     )
 
@@ -33,6 +34,15 @@ class TerminalManager(Configurable, NamedTermManager):
     cull_interval = Integer(cull_interval_default, config=True,
         help="""The interval (in seconds) on which to check for terminals exceeding the inactive timeout value."""
                             )
+
+    @validate('cull_interval')
+    def _cull_interval_validate(self, proposal):
+        value = proposal['value']
+        if value <= 0:
+            warnings.warn("Invalid value for 'cull_interval' detected ({}) - using default value ({}).".
+                          format(value, self.cull_interval_default))
+            value = self.cull_interval_default
+        return value
 
     # -------------------------------------------------------------------------
     # Methods for managing terminals
@@ -47,7 +57,7 @@ class TerminalManager(Configurable, NamedTermManager):
         # more functionality per terminal, we can look into possible sub-
         # classing or containment then.
         term.last_activity = utcnow()
-        model = self.terminal_model(name)
+        model = self.get_terminal_model(name)
         # Increase the metric by one because a new terminal was created
         TERMINAL_CURRENTLY_RUNNING_TOTAL.inc()
         # Ensure culler is initialized
@@ -56,12 +66,12 @@ class TerminalManager(Configurable, NamedTermManager):
 
     def get(self, name):
         """Get terminal 'name'."""
-        model = self.terminal_model(name)
+        model = self.get_terminal_model(name)
         return model
 
     def list(self):
         """Get a list of all running terminals."""
-        models = [self.terminal_model(name) for name in self.terminals]
+        models = [self.get_terminal_model(name) for name in self.terminals]
 
         # Update the metric below to the length of the list 'terms'
         TERMINAL_CURRENTLY_RUNNING_TOTAL.set(
@@ -84,7 +94,7 @@ class TerminalManager(Configurable, NamedTermManager):
         for term in terms:
             await self.terminate(term, force=True)
 
-    def terminal_model(self, name):
+    def get_terminal_model(self, name):
         """Return a JSON-safe dict representing a terminal.
         For use in representing terminals in the JSON APIs.
         """
@@ -108,10 +118,6 @@ class TerminalManager(Configurable, NamedTermManager):
         if not self._initialized_culler and self.cull_inactive_timeout > 0:
             if self._culler_callback is None:
                 loop = IOLoop.current()
-                if self.cull_interval <= 0:  # handle case where user set invalid value
-                    self.log.warning("Invalid value for 'cull_interval' detected (%s) - using default value (%s).",
-                        self.cull_interval, self.cull_interval_default)
-                    self.cull_interval = self.cull_interval_default
                 self._culler_callback = PeriodicCallback(
                     self._cull_terminals, 1000 * self.cull_interval)
                 self.log.info("Culling terminals with inactivity > %s seconds at %s second intervals ...",
