@@ -32,7 +32,7 @@ from ipython_genutils.py3compat import string_types
 import notebook
 from notebook._tz import utcnow
 from notebook.i18n import combine_translations
-from notebook.utils import is_hidden, url_path_join, url_is_absolute, url_escape
+from notebook.utils import is_hidden, url_path_join, url_is_absolute, url_escape, urldecode_unix_socket_path
 from notebook.services.security import csp_report_uri
 
 #-----------------------------------------------------------------------------
@@ -471,13 +471,18 @@ class IPythonHandler(AuthenticatedHandler):
         if host.startswith('[') and host.endswith(']'):
             host = host[1:-1]
 
-        try:
-            addr = ipaddress.ip_address(host)
-        except ValueError:
-            # Not an IP address: check against hostnames
-            allow = host in self.settings.get('local_hostnames', ['localhost'])
+        # UNIX socket handling
+        check_host = urldecode_unix_socket_path(host)
+        if check_host.startswith('/') and os.path.exists(check_host):
+            allow = True
         else:
-            allow = addr.is_loopback
+            try:
+                addr = ipaddress.ip_address(host)
+            except ValueError:
+                # Not an IP address: check against hostnames
+                allow = host in self.settings.get('local_hostnames', ['localhost'])
+            else:
+                allow = addr.is_loopback
 
         if not allow:
             self.log.warning(

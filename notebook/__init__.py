@@ -20,6 +20,8 @@ DEFAULT_TEMPLATE_PATH_LIST = [
     os.path.join(os.path.dirname(__file__), "templates"),
 ]
 
+DEFAULT_NOTEBOOK_PORT = 8888
+
 del os
 
 from .nbextensions import install_nbextension

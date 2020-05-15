@@ -115,7 +115,8 @@ for more information.
     ],
     extras_require = {
         'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters',
-                 'nbval', 'nose-exclude', 'selenium', 'pytest', 'pytest-cov'],
+                 'nbval', 'nose-exclude', 'selenium', 'pytest', 'pytest-cov',
+                 'requests-unixsocket'],
         'test:sys_platform == "win32"': ['nose-exclude'],
     },
     python_requires = '>=3.5',
