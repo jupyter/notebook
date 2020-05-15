@@ -558,6 +558,10 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         if new_path == old_path:
             return
 
+        # Perform path validation prior to converting to os-specific value since this
+        # is still relative to root_dir.
+        self._validate_path(new_path)
+
         new_os_path = self._get_os_path(new_path)
         old_os_path = self._get_os_path(old_path)
 
@@ -586,3 +590,23 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         else:
             parent_dir = ''
         return parent_dir
+
+    @staticmethod
+    def _validate_path(path):
+        """Checks if the path contains invalid characters relative to the current platform"""
+
+        if sys.platform == 'win32':
+            # On Windows systems, we MUST disallow colons otherwise an Alternative Data Stream will
+            # be created and confusion will reign! (See https://github.com/jupyter/notebook/issues/5190)
+            # Go ahead and add other invalid (and non-path-separator) characters here as well so there's
+            # consistent behavior - although all others will result in '[Errno 22]Invalid Argument' errors.
+            invalid_chars = '?:><*"|'
+        else:
+            # On non-windows systems, allow the underlying file creation to perform enforcement when appropriate
+            invalid_chars = ''
+
+        for char in invalid_chars:
+            if char in path:
+                raise web.HTTPError(400, "Path '{}' contains characters that are invalid for the filesystem. "
+                                         "Path names on this filesystem cannot contain any of the following "
+                                         "characters: {}".format(path, invalid_chars))

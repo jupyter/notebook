@@ -5,7 +5,7 @@
     "backbone": "components/backbone#~1.2",
     "bootstrap": "bootstrap#~3.4",
     "bootstrap-tour": "0.9.0",
-    "codemirror": "components/codemirror#~5.48.4",
+    "codemirror": "components/codemirror#~5.51.0",
     "create-react-class": "https://cdn.jsdelivr.net/npm/create-react-class@15.6.3/create-react-class.min.js",
     "es6-promise": "~1.0",
     "font-awesome": "components/font-awesome#~4.7.0",

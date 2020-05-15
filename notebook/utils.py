@@ -11,6 +11,7 @@ import ctypes
 import errno
 import inspect
 import os
+import socket
 import stat
 import sys
 from distutils.version import LooseVersion
@@ -22,6 +23,7 @@ from urllib.request import pathname2url
 # in tornado >=5 with Python 3
 from tornado.concurrent import Future as TornadoFuture
 from tornado import gen
+import requests_unixsocket
 from ipython_genutils import py3compat
 
 # UF_HIDDEN is a stat flag not defined in the stat module.
@@ -327,3 +329,74 @@ def maybe_future(obj):
         f.set_result(obj)
         return f
 
+
+def run_sync(maybe_async):
+    """If async, runs maybe_async and blocks until it has executed,
+    possibly creating an event loop.
+    If not async, just returns maybe_async as it is the result of something
+    that has already executed.
+    Parameters
+    ----------
+    maybe_async : async or non-async object
+        The object to be executed, if it is async.
+    Returns
+    -------
+    result :
+        Whatever the async object returns, or the object itself.
+    """
+    if not inspect.isawaitable(maybe_async):
+        # that was not something async, just return it
+        return maybe_async
+    # it is async, we need to run it in an event loop
+
+    def wrapped():
+        create_new_event_loop = False
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            create_new_event_loop = True
+        else:
+            if loop.is_closed():
+                create_new_event_loop = True
+        if create_new_event_loop:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+        try:
+            result = loop.run_until_complete(maybe_async)
+        except RuntimeError as e:
+            if str(e) == 'This event loop is already running':
+                # just return a Future, hoping that it will be awaited
+                result = asyncio.ensure_future(maybe_async)
+        return result
+    return wrapped()
+
+
+def urlencode_unix_socket_path(socket_path):
+    """Encodes a UNIX socket path string from a socket path for the `http+unix` URI form."""
+    return socket_path.replace('/', '%2F')
+
+
+def urldecode_unix_socket_path(socket_path):
+    """Decodes a UNIX sock path string from an encoded sock path for the `http+unix` URI form."""
+    return socket_path.replace('%2F', '/')
+
+
+def urlencode_unix_socket(socket_path):
+    """Encodes a UNIX socket URL from a socket path for the `http+unix` URI form."""
+    return 'http+unix://%s' % urlencode_unix_socket_path(socket_path)
+
+
+def unix_socket_in_use(socket_path):
+    """Checks whether a UNIX socket path on disk is in use by attempting to connect to it."""
+    if not os.path.exists(socket_path):
+        return False
+
+    try:
+        sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        sock.connect(socket_path)
+    except socket.error:
+        return False
+    else:
+        return True
+    finally:
+        sock.close()
