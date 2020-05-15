@@ -26,6 +26,7 @@ import re
 import select
 import signal
 import socket
+import stat
 import sys
 import tempfile
 import threading
@@ -54,20 +55,23 @@ ioloop.install()
 try:
     import tornado
 except ImportError:
-    raise ImportError(_("The Jupyter Notebook requires tornado >= 4.0"))
+    raise ImportError(_("The Jupyter Notebook requires tornado >= 5.0"))
 try:
     version_info = tornado.version_info
 except AttributeError:
-    raise ImportError(_("The Jupyter Notebook requires tornado >= 4.0, but you have < 1.1.0"))
-if version_info < (4,0):
-    raise ImportError(_("The Jupyter Notebook requires tornado >= 4.0, but you have %s") % tornado.version)
+    raise ImportError(_("The Jupyter Notebook requires tornado >= 5.0, but you have < 1.1.0"))
+if version_info < (5,0):
+    raise ImportError(_("The Jupyter Notebook requires tornado >= 5.0, but you have %s") % tornado.version)
 
 from tornado import httpserver
 from tornado import web
 from tornado.httputil import url_concat
 from tornado.log import LogFormatter, app_log, access_log, gen_log
+if not sys.platform.startswith('win'):
+    from tornado.netutil import bind_unix_socket
 
 from notebook import (
+    DEFAULT_NOTEBOOK_PORT,
     DEFAULT_STATIC_FILES_PATH,
     DEFAULT_TEMPLATE_PATH_LIST,
     __version__,
@@ -108,7 +112,18 @@ from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
 from notebook._sysinfo import get_sys_info
 
 from ._tz import utcnow, utcfromtimestamp
-from .utils import url_path_join, check_pid, url_escape, urljoin, pathname2url, run_sync
+from .utils import (
+    check_pid,
+    pathname2url,
+    run_sync,
+    unix_socket_in_use,
+    url_escape,
+    url_path_join,
+    urldecode_unix_socket_path,
+    urlencode_unix_socket,
+    urlencode_unix_socket_path,
+    urljoin,
+)
 
 # Check if we can use async kernel management
 try:
@@ -219,7 +234,7 @@ class NotebookWebApplication(web.Application):
             warnings.warn(_("The `ignore_minified_js` flag is deprecated and will be removed in Notebook 6.0"), DeprecationWarning)
 
         now = utcnow()
-        
+
         root_dir = contents_manager.root_dir
         home = py3compat.str_to_unicode(os.path.expanduser('~'), encoding=sys.getfilesystemencoding()) 
         if root_dir.startswith(home + os.path.sep):
@@ -404,6 +419,7 @@ class NotebookPasswordApp(JupyterApp):
         set_password(config_file=self.config_file)
         self.log.info("Wrote hashed password to %s" % self.config_file)
 
+
 def shutdown_server(server_info, timeout=5, log=None):
     """Shutdown a notebook server in a separate process.
 
@@ -416,14 +432,39 @@ def shutdown_server(server_info, timeout=5, log=None):
     Returns True if the server was stopped by any means, False if stopping it
     failed (on Windows).
     """
-    from tornado.httpclient import HTTPClient, HTTPRequest
+    from tornado import gen
+    from tornado.httpclient import AsyncHTTPClient, HTTPClient, HTTPRequest
+    from tornado.netutil import bind_unix_socket, Resolver
     url = server_info['url']
     pid = server_info['pid']
+    resolver = None
+
+    # UNIX Socket handling.
+    if url.startswith('http+unix://'):
+        # This library doesn't understand our URI form, but it's just HTTP.
+        url = url.replace('http+unix://', 'http://')
+
+        class UnixSocketResolver(Resolver):
+            def initialize(self, resolver):
+                self.resolver = resolver
+
+            def close(self):
+                self.resolver.close()
+
+            @gen.coroutine
+            def resolve(self, host, port, *args, **kwargs):
+                raise gen.Return([
+                    (socket.AF_UNIX, urldecode_unix_socket_path(host))
+                ])
+
+        resolver = UnixSocketResolver(resolver=Resolver())
+
     req = HTTPRequest(url + 'api/shutdown', method='POST', body=b'', headers={
         'Authorization': 'token ' + server_info['token']
     })
     if log: log.debug("POST request to %sapi/shutdown", url)
-    HTTPClient().fetch(req)
+    AsyncHTTPClient.configure(None, resolver=resolver)
+    HTTPClient(AsyncHTTPClient).fetch(req)
 
     # Poll to see if it shut down.
     for _ in range(timeout*10):
@@ -452,34 +493,65 @@ def shutdown_server(server_info, timeout=5, log=None):
 
 class NbserverStopApp(JupyterApp):
     version = __version__
-    description="Stop currently running notebook server for a given port"
+    description="Stop currently running notebook server."
 
-    port = Integer(8888, config=True,
-        help="Port of the server to be killed. Default 8888")
+    port = Integer(DEFAULT_NOTEBOOK_PORT, config=True,
+        help="Port of the server to be killed. Default %s" % DEFAULT_NOTEBOOK_PORT)
+
+    sock = Unicode(u'', config=True,
+        help="UNIX socket of the server to be killed.")
 
     def parse_command_line(self, argv=None):
         super(NbserverStopApp, self).parse_command_line(argv)
         if self.extra_args:
-            self.port=int(self.extra_args[0])
+            try:
+                self.port = int(self.extra_args[0])
+            except ValueError:
+                # self.extra_args[0] was not an int, so it must be a string (unix socket).
+                self.sock = self.extra_args[0]
 
     def shutdown_server(self, server):
         return shutdown_server(server, log=self.log)
 
+    def _shutdown_or_exit(self, target_endpoint, server):
+        print("Shutting down server on %s..." % target_endpoint)
+        if not self.shutdown_server(server):
+            sys.exit("Could not stop server on %s" % target_endpoint)
+
+    @staticmethod
+    def _maybe_remove_unix_socket(socket_path):
+        try:
+            os.unlink(socket_path)
+        except (OSError, IOError):
+            pass
+
     def start(self):
         servers = list(list_running_servers(self.runtime_dir))
         if not servers:
-            self.exit("There are no running servers")
+            self.exit("There are no running servers (per %s)" % self.runtime_dir)
+
         for server in servers:
-            if server['port'] == self.port:
-                print("Shutting down server on port", self.port, "...")
-                if not self.shutdown_server(server):
-                    sys.exit("Could not stop server")
-                return
+            if self.sock:
+                sock = server.get('sock', None)
+                if sock and sock == self.sock:
+                    self._shutdown_or_exit(sock, server)
+                    # Attempt to remove the UNIX socket after stopping.
+                    self._maybe_remove_unix_socket(sock)
+                    return
+            elif self.port:
+                port = server.get('port', None)
+                if port == self.port:
+                    self._shutdown_or_exit(port, server)
+                    return
         else:
-            print("There is currently no server running on port {}".format(self.port), file=sys.stderr)
-            print("Ports currently in use:", file=sys.stderr)
+            current_endpoint = self.sock or self.port
+            print(
+                "There is currently no server running on {}".format(current_endpoint),
+                file=sys.stderr
+            )
+            print("Ports/sockets currently in use:", file=sys.stderr)
             for server in servers:
-                print("  - {}".format(server['port']), file=sys.stderr)
+                print("  - {}".format(server.get('sock') or server['port']), file=sys.stderr)
             self.exit(1)
 
 
@@ -559,6 +631,8 @@ aliases.update({
     'ip': 'NotebookApp.ip',
     'port': 'NotebookApp.port',
     'port-retries': 'NotebookApp.port_retries',
+    'sock': 'NotebookApp.sock',
+    'sock-mode': 'NotebookApp.sock_mode',
     'transport': 'KernelManager.transport',
     'keyfile': 'NotebookApp.keyfile',
     'certfile': 'NotebookApp.certfile',
@@ -697,7 +771,7 @@ class NotebookApp(JupyterApp):
             return 'localhost'
 
     @validate('ip')
-    def _valdate_ip(self, proposal):
+    def _validate_ip(self, proposal):
         value = proposal['value']
         if value == u'*':
             value = u''
@@ -716,9 +790,39 @@ class NotebookApp(JupyterApp):
         or containerized setups for example).""")
     )
 
-    port = Integer(8888, config=True,
+    port = Integer(DEFAULT_NOTEBOOK_PORT, config=True,
         help=_("The port the notebook server will listen on.")
     )
+
+    sock = Unicode(u'', config=True,
+        help=_("The UNIX socket the notebook server will listen on.")
+    )
+
+    sock_mode = Unicode('0600', config=True,
+        help=_("The permissions mode for UNIX socket creation (default: 0600).")
+    )
+
+    @validate('sock_mode')
+    def _validate_sock_mode(self, proposal):
+        value = proposal['value']
+        try:
+            converted_value = int(value.encode(), 8)
+            assert all((
+                # Ensure the mode is at least user readable/writable.
+                bool(converted_value & stat.S_IRUSR),
+                bool(converted_value & stat.S_IWUSR),
+                # And isn't out of bounds.
+                converted_value <= 2 ** 12
+            ))
+        except ValueError:
+            raise TraitError(
+                'invalid --sock-mode value: %s, please specify as e.g. "0600"' % value
+            )
+        except AssertionError:
+            raise TraitError(
+                'invalid --sock-mode value: %s, must have u+rw (0600) at a minimum' % value
+            )
+        return value
 
     port_retries = Integer(50, config=True,
         help=_("The number of additional ports to try if the specified port is not available.")
@@ -1470,6 +1574,35 @@ class NotebookApp(JupyterApp):
             self.log.critical(_("\t$ python -m notebook.auth password"))
             sys.exit(1)
 
+        # Socket options validation.
+        if self.sock:
+            if self.port != DEFAULT_NOTEBOOK_PORT:
+                self.log.critical(
+                    _('Options --port and --sock are mutually exclusive. Aborting.'),
+                )
+                sys.exit(1)
+            else:
+                # Reset the default port if we're using a UNIX socket.
+                self.port = 0
+
+            if self.open_browser:
+                # If we're bound to a UNIX socket, we can't reliably connect from a browser.
+                self.log.info(
+                    _('Ignoring --NotebookApp.open_browser due to --sock being used.'),
+                )
+
+            if self.file_to_run:
+                self.log.critical(
+                    _('Options --NotebookApp.file_to_run and --sock are mutually exclusive.'),
+                )
+                sys.exit(1)
+
+            if sys.platform.startswith('win'):
+                self.log.critical(
+                    _('Option --sock is not supported on Windows, but got value of %s. Aborting.' % self.sock),
+                )
+                sys.exit(1)
+
         self.web_app = NotebookWebApplication(
             self, self.kernel_manager, self.contents_manager,
             self.session_manager, self.kernel_spec_manager,
@@ -1506,6 +1639,36 @@ class NotebookApp(JupyterApp):
                                                  max_body_size=self.max_body_size,
                                                  max_buffer_size=self.max_buffer_size)
 
+        success = self._bind_http_server()
+        if not success:
+            self.log.critical(_('ERROR: the notebook server could not be started because '
+                              'no available port could be found.'))
+            self.exit(1)
+
+    def _bind_http_server(self):
+        return self._bind_http_server_unix() if self.sock else self._bind_http_server_tcp()
+
+    def _bind_http_server_unix(self):
+        if unix_socket_in_use(self.sock):
+            self.log.warning(_('The socket %s is already in use.') % self.sock)
+            return False
+
+        try:
+            sock = bind_unix_socket(self.sock, mode=int(self.sock_mode.encode(), 8))
+            self.http_server.add_socket(sock)
+        except socket.error as e:
+            if e.errno == errno.EADDRINUSE:
+                self.log.warning(_('The socket %s is already in use.') % self.sock)
+                return False
+            elif e.errno in (errno.EACCES, getattr(errno, 'WSAEACCES', errno.EACCES)):
+                self.log.warning(_("Permission to listen on sock %s denied") % self.sock)
+                return False
+            else:
+                raise
+        else:
+            return True
+
+    def _bind_http_server_tcp(self):
         success = None
         for port in random_ports(self.port, self.port_retries+1):
             try:
@@ -1534,35 +1697,45 @@ class NotebookApp(JupyterApp):
                 self.log.critical(_('ERROR: the notebook server could not be started because '
                               'port %i is not available.') % port)
             self.exit(1)
-    
+        return success
+
+    def _concat_token(self, url):
+        token = self.token if self._token_generated else '...'
+        return url_concat(url, {'token': token})
+
     @property
     def display_url(self):
         if self.custom_display_url:
             url = self.custom_display_url
             if not url.endswith('/'):
                 url += '/'
+        elif self.sock:
+            url = self._unix_sock_url()
         else:
             if self.ip in ('', '0.0.0.0'):
                 ip = "%s" % socket.gethostname()
             else:
                 ip = self.ip
-            url = self._url(ip)
-        if self.token:
-            # Don't log full token if it came from config
-            token = self.token if self._token_generated else '...'
-            url = (url_concat(url, {'token': token})
-                  + '\n or '
-                  + url_concat(self._url('127.0.0.1'), {'token': token}))
+            url = self._tcp_url(ip)
+        if self.token and not self.sock:
+            url = self._concat_token(url)
+            url += '\n or %s' % self._concat_token(self._tcp_url('127.0.0.1'))
         return url
 
     @property
     def connection_url(self):
-        ip = self.ip if self.ip else 'localhost'
-        return self._url(ip)
+        if self.sock:
+            return self._unix_sock_url()
+        else:
+            ip = self.ip if self.ip else 'localhost'
+            return self._tcp_url(ip)
 
-    def _url(self, ip):
+    def _unix_sock_url(self, token=None):
+        return '%s%s' % (urlencode_unix_socket(self.sock), self.base_url)
+
+    def _tcp_url(self, ip, port=None):
         proto = 'https' if self.certfile else 'http'
-        return "%s://%s:%i%s" % (proto, ip, self.port, self.base_url)
+        return "%s://%s:%i%s" % (proto, ip, port or self.port, self.base_url)
 
     def init_terminals(self):
         if not self.terminals_enabled:
@@ -1842,6 +2015,7 @@ class NotebookApp(JupyterApp):
         return {'url': self.connection_url,
                 'hostname': self.ip if self.ip else 'localhost',
                 'port': self.port,
+                'sock': self.sock,
                 'secure': bool(self.certfile),
                 'base_url': self.base_url,
                 'token': self.token,
@@ -1971,19 +2145,31 @@ class NotebookApp(JupyterApp):
         self.write_server_info_file()
         self.write_browser_open_file()
 
-        if self.open_browser or self.file_to_run:
+        if (self.open_browser or self.file_to_run) and not self.sock:
             self.launch_browser()
 
         if self.token and self._token_generated:
             # log full URL with generated token, so there's a copy/pasteable link
             # with auth info.
-            self.log.critical('\n'.join([
-                '\n',
-                'To access the notebook, open this file in a browser:',
-                '    %s' % urljoin('file:', pathname2url(self.browser_open_file)),
-                'Or copy and paste one of these URLs:',
-                '    %s' % self.display_url,
-            ]))
+            if self.sock:
+                self.log.critical('\n'.join([
+                    '\n',
+                    'Notebook is listening on %s' % self.display_url,
+                    '',
+                    (
+                        'UNIX sockets are not browser-connectable, but you can tunnel to '
+                        'the instance via e.g.`ssh -L 8888:%s -N user@this_host` and then '
+                        'open e.g. %s in a browser.'
+                    ) % (self.sock, self._concat_token(self._tcp_url('localhost', 8888)))
+                ]))
+            else:
+                self.log.critical('\n'.join([
+                    '\n',
+                    'To access the notebook, open this file in a browser:',
+                    '    %s' % urljoin('file:', pathname2url(self.browser_open_file)),
+                    'Or copy and paste one of these URLs:',
+                    '    %s' % self.display_url,
+                ]))
 
         self.io_loop = ioloop.IOLoop.current()
         if sys.platform.startswith('win'):
