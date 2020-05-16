@@ -23,7 +23,6 @@ from urllib.request import pathname2url
 # in tornado >=5 with Python 3
 from tornado.concurrent import Future as TornadoFuture
 from tornado import gen
-import requests_unixsocket
 from ipython_genutils import py3compat
 
 # UF_HIDDEN is a stat flag not defined in the stat module.
