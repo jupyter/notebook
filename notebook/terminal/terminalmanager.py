@@ -14,11 +14,11 @@ from terminado import NamedTermManager
 from tornado import web
 from tornado.ioloop import IOLoop, PeriodicCallback
 from traitlets import Integer, validate
-from traitlets.config import Configurable
+from traitlets.config import LoggingConfigurable
 from ..prometheus.metrics import TERMINAL_CURRENTLY_RUNNING_TOTAL
 
 
-class TerminalManager(Configurable, NamedTermManager):
+class TerminalManager(LoggingConfigurable, NamedTermManager):
     """  """
 
     _culler_callback = None
@@ -34,15 +34,6 @@ class TerminalManager(Configurable, NamedTermManager):
     cull_interval = Integer(cull_interval_default, config=True,
         help="""The interval (in seconds) on which to check for terminals exceeding the inactive timeout value."""
                             )
-
-    @validate('cull_interval')
-    def _cull_interval_validate(self, proposal):
-        value = proposal['value']
-        if value <= 0:
-            warnings.warn("Invalid value for 'cull_interval' detected ({}) - using default value ({}).".
-                          format(value, self.cull_interval_default))
-            value = self.cull_interval_default
-        return value
 
     # -------------------------------------------------------------------------
     # Methods for managing terminals
@@ -118,6 +109,10 @@ class TerminalManager(Configurable, NamedTermManager):
         if not self._initialized_culler and self.cull_inactive_timeout > 0:
             if self._culler_callback is None:
                 loop = IOLoop.current()
+                if self.cull_interval <= 0:  # handle case where user set invalid value
+                    self.log.warning("Invalid value for 'cull_interval' detected (%s) - using default value (%s).",
+                                     self.cull_interval, self.cull_interval_default)
+                    self.cull_interval = self.cull_interval_default
                 self._culler_callback = PeriodicCallback(
                     self._cull_terminals, 1000 * self.cull_interval)
                 self.log.info("Culling terminals with inactivity > %s seconds at %s second intervals ...",
