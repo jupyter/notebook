@@ -1743,7 +1743,7 @@ class NotebookApp(JupyterApp):
 
         try:
             from .terminal import initialize
-            initialize(parent=self)
+            initialize(nb_app=self)
             self.web_app.settings['terminals_available'] = True
         except ImportError as e:
             self.log.warning(_("Terminals not available (error was %s)"), e)

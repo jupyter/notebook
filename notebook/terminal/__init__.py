@@ -14,26 +14,26 @@ from .handlers import TerminalHandler, TermSocket
 from . import api_handlers
 
 
-def initialize(parent):
+def initialize(nb_app):
     if os.name == 'nt':
         default_shell = 'powershell.exe'
     else:
         default_shell = which('sh')
-    shell = parent.terminado_settings.get('shell_command',
-        [os.environ.get('SHELL') or default_shell]
-    )
+    shell = nb_app.terminado_settings.get('shell_command',
+                                          [os.environ.get('SHELL') or default_shell]
+                                          )
     # Enable login mode - to automatically source the /etc/profile script
     if os.name != 'nt':
         shell.append('-l')
-    terminal_manager = parent.web_app.settings['terminal_manager'] = TerminalManager(
+    terminal_manager = nb_app.web_app.settings['terminal_manager'] = TerminalManager(
         shell_command=shell,
-        extra_env={'JUPYTER_SERVER_ROOT': parent.notebook_dir,
-                   'JUPYTER_SERVER_URL': parent.connection_url,
+        extra_env={'JUPYTER_SERVER_ROOT': nb_app.notebook_dir,
+                   'JUPYTER_SERVER_URL': nb_app.connection_url,
                    },
-        parent=parent,
+        parent=nb_app,
     )
-    terminal_manager.log = parent.log
-    base_url = parent.web_app.settings['base_url']
+    terminal_manager.log = nb_app.log
+    base_url = nb_app.web_app.settings['base_url']
     handlers = [
         (ujoin(base_url, r"/terminals/(\w+)"), TerminalHandler),
         (ujoin(base_url, r"/terminals/websocket/(\w+)"), TermSocket,
@@ -41,4 +41,4 @@ def initialize(parent):
         (ujoin(base_url, r"/api/terminals"), api_handlers.TerminalRootHandler),
         (ujoin(base_url, r"/api/terminals/(\w+)"), api_handlers.TerminalHandler),
     ]
-    parent.web_app.add_handlers(".*$", handlers)
+    nb_app.web_app.add_handlers(".*$", handlers)
