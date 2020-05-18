@@ -91,6 +91,7 @@ from .gateway.managers import GatewayKernelManager, GatewayKernelSpecManager, Ga
 from .auth.login import LoginHandler
 from .auth.logout import LogoutHandler
 from .base.handlers import FileFindHandler
+from .terminal import TerminalManager
 
 from traitlets.config import Config
 from traitlets.config.application import catch_config_error, boolean_flag
@@ -659,7 +660,7 @@ class NotebookApp(JupyterApp):
     
     classes = [
         KernelManager, Session, MappingKernelManager, KernelSpecManager,
-        ContentsManager, FileContentsManager, NotebookNotary,
+        ContentsManager, FileContentsManager, NotebookNotary, TerminalManager,
         GatewayKernelManager, GatewayKernelSpecManager, GatewaySessionManager, GatewayClient,
     ]
     flags = Dict(flags)
@@ -1757,7 +1758,7 @@ class NotebookApp(JupyterApp):
 
         try:
             from .terminal import initialize
-            initialize(self.web_app, self.notebook_dir, self.connection_url, self.terminado_settings)
+            initialize(nb_app=self)
             self.web_app.settings['terminals_available'] = True
         except ImportError as e:
             self.log.warning(_("Terminals not available (error was %s)"), e)
@@ -1993,6 +1994,22 @@ class NotebookApp(JupyterApp):
         self.log.info(kernel_msg % n_kernels)
         run_sync(self.kernel_manager.shutdown_all())
 
+    def cleanup_terminals(self):
+        """Shutdown all terminals.
+
+        The terminals will shutdown themselves when this process no longer exists,
+        but explicit shutdown allows the TerminalManager to cleanup.
+        """
+        try:
+            terminal_manager = self.web_app.settings['terminal_manager']
+        except KeyError:
+            return  # Terminals not enabled
+
+        n_terminals = len(terminal_manager.list())
+        terminal_msg = trans.ngettext('Shutting down %d terminal', 'Shutting down %d terminals', n_terminals)
+        self.log.info(terminal_msg % n_terminals)
+        run_sync(terminal_manager.terminate_all())
+
     def notebook_info(self, kernel_count=True):
         "Return the current working directory and the server url information"
         info = self.contents_manager.info_string() + "\n"
@@ -2183,6 +2200,7 @@ class NotebookApp(JupyterApp):
             self.remove_server_info_file()
             self.remove_browser_open_file()
             self.cleanup_kernels()
+            self.cleanup_terminals()
 
     def stop(self):
         def _stop():
