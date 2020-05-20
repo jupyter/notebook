@@ -134,9 +134,9 @@ except ImportError:
 # Tolerate missing terminado package.
 try:
     from .terminal import TerminalManager
-    terminals_available = True
+    terminado_available = True
 except ImportError:
-    terminals_available = False
+    terminado_available = False
 
 #-----------------------------------------------------------------------------
 # Module globals
@@ -306,7 +306,7 @@ class NotebookWebApplication(web.Application):
             allow_password_change=jupyter_app.allow_password_change,
             server_root_dir=root_dir,
             jinja2_env=env,
-            terminals_available=terminals_available and terminals_enabled,
+            terminals_available=terminado_available and terminals_enabled,
         )
 
         # allow custom overrides for the tornado web app.
@@ -669,7 +669,7 @@ class NotebookApp(JupyterApp):
         ContentsManager, FileContentsManager, NotebookNotary,
         GatewayKernelManager, GatewayKernelSpecManager, GatewaySessionManager, GatewayClient,
     ]
-    if terminals_available:  # Only necessary when terminals are available
+    if terminado_available:  # Only necessary when terminado is available
         classes.append(TerminalManager)
 
     flags = Dict(flags)
