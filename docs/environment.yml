@@ -1,6 +1,6 @@
 name: notebook_docs
 dependencies:
-- python=3.5
+- python=3.8
 - sphinx_rtd_theme
 - jinja2
 - tornado
@@ -8,6 +8,7 @@ dependencies:
 - jupyter_client
 - ipykernel
 - sphinx
+- terminado
 - pip:
   - nbsphinx
   - Send2Trash
