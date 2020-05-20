@@ -178,13 +178,13 @@ class NotebookWebApplication(web.Application):
     def __init__(self, jupyter_app, kernel_manager, contents_manager,
                  session_manager, kernel_spec_manager,
                  config_manager, extra_services, log,
-                 base_url, default_url, settings_overrides, jinja_env_options):
+                 base_url, default_url, settings_overrides, jinja_env_options, terminals_enabled):
 
         settings = self.init_settings(
             jupyter_app, kernel_manager, contents_manager,
             session_manager, kernel_spec_manager, config_manager,
             extra_services, log, base_url,
-            default_url, settings_overrides, jinja_env_options)
+            default_url, settings_overrides, jinja_env_options, terminals_enabled)
         handlers = self.init_handlers(settings)
 
         super(NotebookWebApplication, self).__init__(handlers, **settings)
@@ -193,7 +193,7 @@ class NotebookWebApplication(web.Application):
                       session_manager, kernel_spec_manager,
                       config_manager, extra_services,
                       log, base_url, default_url, settings_overrides,
-                      jinja_env_options=None):
+                      jinja_env_options=None, terminals_enabled=True):
 
         _template_path = settings_overrides.get(
             "template_path",
@@ -306,7 +306,7 @@ class NotebookWebApplication(web.Application):
             allow_password_change=jupyter_app.allow_password_change,
             server_root_dir=root_dir,
             jinja2_env=env,
-            terminals_available=terminals_available,
+            terminals_available=terminals_available and terminals_enabled,
         )
 
         # allow custom overrides for the tornado web app.
@@ -1632,7 +1632,7 @@ class NotebookApp(JupyterApp):
             self.session_manager, self.kernel_spec_manager,
             self.config_manager, self.extra_services,
             self.log, self.base_url, self.default_url, self.tornado_settings,
-            self.jinja_environment_options,
+            self.jinja_environment_options, self.terminals_enabled,
         )
         ssl_options = self.ssl_options
         if self.certfile:
