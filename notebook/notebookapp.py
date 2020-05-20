@@ -91,7 +91,6 @@ from .gateway.managers import GatewayKernelManager, GatewayKernelSpecManager, Ga
 from .auth.login import LoginHandler
 from .auth.logout import LogoutHandler
 from .base.handlers import FileFindHandler
-from .terminal import TerminalManager
 
 from traitlets.config import Config
 from traitlets.config.application import catch_config_error, boolean_flag
@@ -131,6 +130,13 @@ try:
     async_kernel_mgmt_available = True
 except ImportError:
     async_kernel_mgmt_available = False
+
+# Tolerate missing terminado package.
+try:
+    from .terminal import TerminalManager
+    terminals_available = True
+except ImportError:
+    terminals_available = False
 
 #-----------------------------------------------------------------------------
 # Module globals
@@ -300,7 +306,7 @@ class NotebookWebApplication(web.Application):
             allow_password_change=jupyter_app.allow_password_change,
             server_root_dir=root_dir,
             jinja2_env=env,
-            terminals_available=False,  # Set later if terminals are available
+            terminals_available=terminals_available,
         )
 
         # allow custom overrides for the tornado web app.
@@ -660,9 +666,12 @@ class NotebookApp(JupyterApp):
     
     classes = [
         KernelManager, Session, MappingKernelManager, KernelSpecManager,
-        ContentsManager, FileContentsManager, NotebookNotary, TerminalManager,
+        ContentsManager, FileContentsManager, NotebookNotary,
         GatewayKernelManager, GatewayKernelSpecManager, GatewaySessionManager, GatewayClient,
     ]
+    if terminals_available:  # Only necessary when terminals are available
+        classes.append(TerminalManager)
+
     flags = Dict(flags)
     aliases = Dict(aliases)
     
@@ -1759,8 +1768,8 @@ class NotebookApp(JupyterApp):
         try:
             from .terminal import initialize
             initialize(nb_app=self)
-            self.web_app.settings['terminals_available'] = True
         except ImportError as e:
+            self.terminals_enabled = False
             self.log.warning(_("Terminals not available (error was %s)"), e)
 
     def init_signal(self):
@@ -1908,13 +1917,12 @@ class NotebookApp(JupyterApp):
         if len(km) != 0:
             return   # Kernels still running
 
-        try:
-            term_mgr = self.web_app.settings['terminal_manager']
-        except KeyError:
-            pass  # Terminals not enabled
-        else:
-            if term_mgr.terminals:
-                return   # Terminals still running
+        if not self.terminals_enabled:
+            return
+
+        term_mgr = self.web_app.settings['terminal_manager']
+        if term_mgr.terminals:
+            return   # Terminals still running
 
         seconds_since_active = \
             (utcnow() - self.web_app.last_activity()).total_seconds()
@@ -2000,11 +2008,10 @@ class NotebookApp(JupyterApp):
         The terminals will shutdown themselves when this process no longer exists,
         but explicit shutdown allows the TerminalManager to cleanup.
         """
-        try:
-            terminal_manager = self.web_app.settings['terminal_manager']
-        except KeyError:
-            return  # Terminals not enabled
+        if not self.terminals_enabled:
+            return
 
+        terminal_manager = self.web_app.settings['terminal_manager']
         n_terminals = len(terminal_manager.list())
         terminal_msg = trans.ngettext('Shutting down %d terminal', 'Shutting down %d terminals', n_terminals)
         self.log.info(terminal_msg % n_terminals)
