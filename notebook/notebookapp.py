@@ -178,13 +178,13 @@ class NotebookWebApplication(web.Application):
     def __init__(self, jupyter_app, kernel_manager, contents_manager,
                  session_manager, kernel_spec_manager,
                  config_manager, extra_services, log,
-                 base_url, default_url, settings_overrides, jinja_env_options, terminals_enabled):
+                 base_url, default_url, settings_overrides, jinja_env_options):
 
         settings = self.init_settings(
             jupyter_app, kernel_manager, contents_manager,
             session_manager, kernel_spec_manager, config_manager,
             extra_services, log, base_url,
-            default_url, settings_overrides, jinja_env_options, terminals_enabled)
+            default_url, settings_overrides, jinja_env_options)
         handlers = self.init_handlers(settings)
 
         super(NotebookWebApplication, self).__init__(handlers, **settings)
@@ -193,7 +193,7 @@ class NotebookWebApplication(web.Application):
                       session_manager, kernel_spec_manager,
                       config_manager, extra_services,
                       log, base_url, default_url, settings_overrides,
-                      jinja_env_options=None, terminals_enabled=True):
+                      jinja_env_options=None):
 
         _template_path = settings_overrides.get(
             "template_path",
@@ -306,7 +306,7 @@ class NotebookWebApplication(web.Application):
             allow_password_change=jupyter_app.allow_password_change,
             server_root_dir=root_dir,
             jinja2_env=env,
-            terminals_available=terminado_available and terminals_enabled,
+            terminals_available=terminado_available and jupyter_app.terminals_enabled,
         )
 
         # allow custom overrides for the tornado web app.
@@ -1478,6 +1478,12 @@ class NotebookApp(JupyterApp):
          is not available.
          """))
 
+    # Since use of terminals is also a function of whether the terminado package is
+    # avaialble, this variable holds the "final indication" of whether terminal functionality
+    # should be considered (particularly during shutdown/cleanup).  It is enabled only
+    # once both the terminals "service" can be initialized and terminals_enabled is True.
+    terminals_in_use = False
+
     def parse_command_line(self, argv=None):
         super(NotebookApp, self).parse_command_line(argv)
 
@@ -1632,7 +1638,7 @@ class NotebookApp(JupyterApp):
             self.session_manager, self.kernel_spec_manager,
             self.config_manager, self.extra_services,
             self.log, self.base_url, self.default_url, self.tornado_settings,
-            self.jinja_environment_options, self.terminals_enabled,
+            self.jinja_environment_options,
         )
         ssl_options = self.ssl_options
         if self.certfile:
@@ -1768,8 +1774,8 @@ class NotebookApp(JupyterApp):
         try:
             from .terminal import initialize
             initialize(nb_app=self)
+            self.terminals_in_use = True
         except ImportError as e:
-            self.terminals_enabled = False
             self.log.warning(_("Terminals not available (error was %s)"), e)
 
     def init_signal(self):
@@ -1917,7 +1923,7 @@ class NotebookApp(JupyterApp):
         if len(km) != 0:
             return   # Kernels still running
 
-        if not self.terminals_enabled:
+        if not self.terminals_in_use:
             return
 
         term_mgr = self.web_app.settings['terminal_manager']
@@ -2008,7 +2014,7 @@ class NotebookApp(JupyterApp):
         The terminals will shutdown themselves when this process no longer exists,
         but explicit shutdown allows the TerminalManager to cleanup.
         """
-        if not self.terminals_enabled:
+        if not self.terminals_in_use:
             return
 
         terminal_manager = self.web_app.settings['terminal_manager']
