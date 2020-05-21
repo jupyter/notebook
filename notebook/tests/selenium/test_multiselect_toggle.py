@@ -1,8 +1,7 @@
-INITIAL_CELLS = ['print("a")', 'print("b")', 'print("c")']
 
+INITIAL_CELLS = ['print("a")', 'print("b")', 'print("c")']
 def test_multiselect_toggle(prefill_notebook):
     notebook = prefill_notebook(INITIAL_CELLS)
-
     def extend_selection_by(delta):
         notebook.browser.execute_script(
             "Jupyter.notebook.extend_selection_by(arguments[0]);", delta)
