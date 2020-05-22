@@ -26,22 +26,35 @@ define([
       function(cell, value) {
         if (value === "-") {
           delete cell.metadata.raw_mimetype;
-        } else if (value === 'dialog'){
-            var dialog = $('<div/>').append(
-                $("<p/>")
-                    .text(i18n.msg._("Set the MIME type of the raw cell:"))
-            ).append(
-                $("<br/>")
-            ).append(
-                $('<input/>').attr('type','text').attr('size','25')
-                .val(cell.metadata.raw_mimetype || "-")
-            );
+        } else if (value === 'dialog') {
+            var message =
+                i18n.msg._("Set the MIME type of the raw cell:");
+
+            var mimeinput = $('<input/>')
+                .attr('type', 'text')
+                .attr('size', '25')
+                .attr('name', 'mimetype')
+                .val(cell.metadata.raw_mimetype || "-");
+
+            var dialogform = $('<div/>').attr('title', i18n.msg._("Edit MIME type"))
+                .append(
+                    $('<form/>').append(
+                        $('<fieldset/>').append(
+                            $('<label/>')
+                            .attr('for', 'mimetype')
+                            .text(message)
+                            )
+                        .append($('<br/>'))
+                        .append(mimeinput)
+                        )
+                );
+
             dialog.modal({
                 title: i18n.msg._("Raw Cell MIME Type"),
-                body: dialog,
+                body: dialogform,
                 buttons : {
-                    "Cancel": {},
-                    "OK": {
+                    Cancel: {},
+                    OK: {
                         class: "btn-primary",
                         click: function () {
                             console.log(cell);
@@ -50,6 +63,8 @@ define([
                         }
                     }
                 },
+                notebook: cell.notebook,
+                keyboard_manager: cell.keyboard_manager,
                 open : function (event, ui) {
                     var that = $(this);
                     // Upon ENTER, click the OK button.
