@@ -42,3 +42,12 @@ config.rst
 package-lock.json
 geckodriver.log
 *.iml
+
+# jetbrains IDE stuff
+*.iml
+.idea/
+
+# ms IDE stuff
+*.code-workspace
+.history
+.vscode
