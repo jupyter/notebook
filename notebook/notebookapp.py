@@ -1479,10 +1479,13 @@ class NotebookApp(JupyterApp):
          """))
 
     # Since use of terminals is also a function of whether the terminado package is
-    # avaialble, this variable holds the "final indication" of whether terminal functionality
+    # available, this variable holds the "final indication" of whether terminal functionality
     # should be considered (particularly during shutdown/cleanup).  It is enabled only
     # once both the terminals "service" can be initialized and terminals_enabled is True.
-    terminals_in_use = False
+    # Note: this variable is slightly different from 'terminals_available' in the web settings
+    # in that this variable *could* remain false if terminado is available, yet the terminal
+    # service's initialization still fails.  As a result, this variable holds the truth.
+    terminals_available = False
 
     def parse_command_line(self, argv=None):
         super(NotebookApp, self).parse_command_line(argv)
@@ -1774,7 +1777,7 @@ class NotebookApp(JupyterApp):
         try:
             from .terminal import initialize
             initialize(nb_app=self)
-            self.terminals_in_use = True
+            self.terminals_available = True
         except ImportError as e:
             self.log.warning(_("Terminals not available (error was %s)"), e)
 
@@ -1887,7 +1890,6 @@ class NotebookApp(JupyterApp):
         
         The extension API is experimental, and may change in future releases.
         """
-        
 
         for modulename, enabled in sorted(self.nbserver_extensions.items()):
             if enabled:
@@ -1916,14 +1918,13 @@ class NotebookApp(JupyterApp):
         mimetypes.add_type('text/css', '.css')
         mimetypes.add_type('application/javascript', '.js')
 
-
     def shutdown_no_activity(self):
         """Shutdown server on timeout when there are no kernels or terminals."""
         km = self.kernel_manager
         if len(km) != 0:
             return   # Kernels still running
 
-        if not self.terminals_in_use:
+        if not self.terminals_available:
             return
 
         term_mgr = self.web_app.settings['terminal_manager']
@@ -2014,7 +2015,7 @@ class NotebookApp(JupyterApp):
         The terminals will shutdown themselves when this process no longer exists,
         but explicit shutdown allows the TerminalManager to cleanup.
         """
-        if not self.terminals_in_use:
+        if not self.terminals_available:
             return
 
         terminal_manager = self.web_app.settings['terminal_manager']
