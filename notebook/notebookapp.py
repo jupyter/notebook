@@ -91,7 +91,6 @@ from .gateway.managers import GatewayKernelManager, GatewayKernelSpecManager, Ga
 from .auth.login import LoginHandler
 from .auth.logout import LogoutHandler
 from .base.handlers import FileFindHandler
-from .terminal import TerminalManager
 
 from traitlets.config import Config
 from traitlets.config.application import catch_config_error, boolean_flag
@@ -131,6 +130,13 @@ try:
     async_kernel_mgmt_available = True
 except ImportError:
     async_kernel_mgmt_available = False
+
+# Tolerate missing terminado package.
+try:
+    from .terminal import TerminalManager
+    terminado_available = True
+except ImportError:
+    terminado_available = False
 
 #-----------------------------------------------------------------------------
 # Module globals
@@ -303,7 +309,7 @@ class NotebookWebApplication(web.Application):
             allow_password_change=jupyter_app.allow_password_change,
             server_root_dir=root_dir,
             jinja2_env=env,
-            terminals_available=False,  # Set later if terminals are available
+            terminals_available=terminado_available and jupyter_app.terminals_enabled,
         )
 
         # allow custom overrides for the tornado web app.
@@ -673,9 +679,12 @@ class NotebookApp(JupyterApp):
 
     classes = [
         KernelManager, Session, MappingKernelManager, KernelSpecManager,
-        ContentsManager, FileContentsManager, NotebookNotary, TerminalManager,
+        ContentsManager, FileContentsManager, NotebookNotary,
         GatewayKernelManager, GatewayKernelSpecManager, GatewaySessionManager, GatewayClient,
     ]
+    if terminado_available:  # Only necessary when terminado is available
+        classes.append(TerminalManager)
+
     flags = Dict(flags)
     aliases = Dict(aliases)
 
@@ -1486,6 +1495,15 @@ class NotebookApp(JupyterApp):
          is not available.
          """))
 
+    # Since use of terminals is also a function of whether the terminado package is
+    # available, this variable holds the "final indication" of whether terminal functionality
+    # should be considered (particularly during shutdown/cleanup).  It is enabled only
+    # once both the terminals "service" can be initialized and terminals_enabled is True.
+    # Note: this variable is slightly different from 'terminals_available' in the web settings
+    # in that this variable *could* remain false if terminado is available, yet the terminal
+    # service's initialization still fails.  As a result, this variable holds the truth.
+    terminals_available = False
+
     def parse_command_line(self, argv=None):
         super(NotebookApp, self).parse_command_line(argv)
 
@@ -1777,7 +1795,7 @@ class NotebookApp(JupyterApp):
         try:
             from .terminal import initialize
             initialize(nb_app=self)
-            self.web_app.settings['terminals_available'] = True
+            self.terminals_available = True
         except ImportError as e:
             self.log.warning(_("Terminals not available (error was %s)"), e)
 
@@ -1919,18 +1937,14 @@ class NotebookApp(JupyterApp):
         mimetypes.add_type('text/css', '.css')
         mimetypes.add_type('application/javascript', '.js')
 
-
     def shutdown_no_activity(self):
         """Shutdown server on timeout when there are no kernels or terminals."""
         km = self.kernel_manager
         if len(km) != 0:
             return   # Kernels still running
 
-        try:
+        if self.terminals_available:
             term_mgr = self.web_app.settings['terminal_manager']
-        except KeyError:
-            pass  # Terminals not enabled
-        else:
             if term_mgr.terminals:
                 return   # Terminals still running
 
@@ -2018,11 +2032,10 @@ class NotebookApp(JupyterApp):
         The terminals will shutdown themselves when this process no longer exists,
         but explicit shutdown allows the TerminalManager to cleanup.
         """
-        try:
-            terminal_manager = self.web_app.settings['terminal_manager']
-        except KeyError:
-            return  # Terminals not enabled
+        if not self.terminals_available:
+            return
 
+        terminal_manager = self.web_app.settings['terminal_manager']
         n_terminals = len(terminal_manager.list())
         terminal_msg = trans.ngettext('Shutting down %d terminal', 'Shutting down %d terminals', n_terminals)
         self.log.info(terminal_msg % n_terminals)
