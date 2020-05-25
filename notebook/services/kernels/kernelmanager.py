@@ -459,9 +459,9 @@ class MappingKernelManager(MultiKernelManager):
         except KeyError:
             return  # KeyErrors are somewhat expected since the kernel can be shutdown as the culling check is made.
 
-        self.log.debug("kernel_id=%s, kernel_name=%s, last_activity=%s",
-                       kernel_id, kernel.kernel_name, kernel.last_activity)
-        if kernel.last_activity is not None:
+        if hasattr(kernel, 'last_activity'):  # last_activity is monkey-patched, so ensure that has occurred
+            self.log.debug("kernel_id=%s, kernel_name=%s, last_activity=%s",
+                           kernel_id, kernel.kernel_name, kernel.last_activity)
             dt_now = utcnow()
             dt_idle = dt_now - kernel.last_activity
             # Compute idle properties
