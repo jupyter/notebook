@@ -98,7 +98,16 @@
           }
       })
 
+    // Detect Safari
+    let chromeAgent = navigator.userAgent.indexOf("Chrome") > -1;
+    let safariAgent = navigator.userAgent.indexOf("Safari") > -1;
+    if (chromeAgent && safariAgent) safariAgent = false;
+
     document.nbjs_translations = {{ nbjs_translations|safe }};
+    if (!safariAgent) {
+        // Safari has an issue with the lang setting (bug #4517)
+        document.documentElement.lang = navigator.language.toLowerCase();
+    }
     </script>
 
     {% block meta %}
