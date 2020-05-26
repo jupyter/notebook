@@ -21,6 +21,98 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+.. _release-6.1.0:
+
+6.1.0
+-----
+Please note that this repository is currently maintained by a skeleton crew of maintainers
+from the Jupyter community.  For our approach moving forward, please see this
+`notice <https://github.com/jupyter/notebook#notice>`_ from the README. Thank you.
+
+Here is an enumeration of changes made since the last release and included in 6.1.0.
+
+- Remove deprecated encoding parameter for Python 3.9 compatibility. (:ghpull:`5174`)
+- Add support for async kernel management (:ghpull:`4479`)
+- Fix typo in password_required help message (:ghpull:`5320`)
+- Gateway only: Ensure launch and request timeouts are in sync (:ghpull:`5317`)
+- Update Markdown Cells example to HTML5 video tag (:ghpull:`5411`)
+- Integrated LoginWidget into edit to enable users to logout from the t… (:ghpull:`5406`)
+- Update message about minimum Tornado version (:ghpull:`5222`)
+- Logged notebook type (:ghpull:`5425`)
+- Added nl language (:ghpull:`5354`)
+- Add UNIX socket support to notebook server. (:ghpull:`4835`)
+- Update CodeMirror dependency (:ghpull:`5198`)
+- tree added download multiple files (:ghpull:`5351`)
+- Toolbar buttons tooltip: show help instead of label (:ghpull:`5107`)
+- Remove unnecessary import of requests_unixsocket (:ghpull:`5451`)
+- Add ability to cull terminals and track last activity (:ghpull:`5372`)
+- Code refactoring notebook.js (:ghpull:`5352`)
+- Install terminado for docs build (:ghpull:`5462`)
+- Convert notifications JS test to selenium (:ghpull:`5455`)
+- Add cell attachments to markdown example (:ghpull:`5412`)
+- Add Japanese document (:ghpull:`5231`)
+- Migrate Move multiselection test to selenium (:ghpull:`5158`)
+- use cmdtrl-enter to run a cell (:ghpull:`5120`)
+- Fix broken "Raw cell MIME type" dialog (:ghpull:`5385`)
+- Make a notebook writable after successful save-as (:ghpull:`5296`)
+- Add actual watch script (:ghpull:`4738`)
+- added `--autoreload` flag to `NotebookApp` (:ghpull:`4795`)
+- Enable check_origin on gateway websocket communication (:ghpull:`5471`)
+- Restore detection of missing terminado package (:ghpull:`5465`)
+- Culling: ensure last_activity attr exists before use (:ghpull:`5355`)
+- Added functionality to allow filter kernels by Jupyter Enterprise Gat… (:ghpull:`5484`)
+- 'Play' icon for run-cell toolbar button (:ghpull:`2922`)
+- Bump minimum version of jQuery to 3.5.0 (:ghpull:`5491`)
+- remove old JS markdown tests, add a new one in selenium (:ghpull:`5497`)
+- add support for more RTL languages (:ghpull:`5036`)
+- Make markdown cells stay RTL in edit mode (:ghpull:`5037`)
+- Unforce RTL output display (:ghpull:`5039`)
+- Fixed multicursor backspacing (:ghpull:`4880`)
+- Implemented Split Cell for multicursor (:ghpull:`4824`)
+- Alignment issue [FIXED] (:ghpull:`3173`)
+- MathJax: Support for \gdef (:ghpull:`4407`)
+- Another (Minor) Duplicate Code Reduction (:ghpull:`5316`)
+- Update readme regarding maintenance (:ghpull:`5500`)
+- Document contents chunks (:ghpull:`5508`)
+
+Thank you to all the contributors:
+
+- Afshin Taylor Darian
+- Aman Bansal
+- Ben Thayer
+- berendjan
+- Bruno P. Kinoshita
+- bzinberg
+- Daiki Katsuragawa
+- dmpe
+- dylanzjy
+- dSchurch
+- ErwinRussel
+- Grant Nestor
+- Jesus Panales Castillo
+- Karthikeyan Singaravelan
+- Kevin Bates
+- Kris Wilson
+- Kyle Kelley
+- Luciano Resende
+- Luis Cabezon Manchado
+- Madhusudhan Srinivasa
+- Matthias Geier
+- Max Klein
+- Min RK
+- Mohammad Mostafa Farzan
+- Niko Felger
+- Onno Broekmans
+- pinarkavak
+- Rohit Sanjay
+- Simon Li
+- Steven Silvester
+- Thew Dhanat
+- Thomas Kluyver
+- Toon Baeyens
+- Vidar Tonaas Fauske
+- Zachary Sailer
+
 .. _release-6.0.3:
 
 6.0.3
