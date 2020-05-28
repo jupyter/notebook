@@ -735,7 +735,7 @@ define([
             clean_tables: true
         }, function (err, html) {
             toinsert.append(html);
-        })
+        });
         dblclick_to_reset_size(toinsert.find('img'));
         element.append(toinsert);
         return toinsert;
