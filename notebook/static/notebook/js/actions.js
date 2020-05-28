@@ -149,7 +149,7 @@ define([
         },
         'run-cell-and-select-next': {
             cmd: i18n.msg._('run cell and select next'),
-            icon: 'fa-step-forward',
+            icon: 'fa-play',
             help: i18n.msg._('run cell, select below'),
             help_index : 'ba',
             handler : function (env) {
