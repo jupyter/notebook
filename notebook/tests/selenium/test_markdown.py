@@ -36,7 +36,6 @@ def test_markdown_headings(notebook):
             cell.set_heading_level({i});
             cell.get_text();
         """)
-        print(notebook.get_cell_contents(1))
         assert notebook.get_cell_contents(1) == "#" * i + " "
         notebook.delete_cell(1)
 
