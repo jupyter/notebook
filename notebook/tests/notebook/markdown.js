@@ -10,23 +10,6 @@ casper.notebook_test(function () {
         cell.set_text(text);
     }, {text: text});
 
-    var set_level = function (level) {
-        return casper.evaluate(function (level) {
-            var cell = IPython.notebook.get_cell(0);
-            cell.set_heading_level(level);
-            return cell.get_text();
-        }, {level: level});
-    };
-    
-    var level_text;
-    var levels = [ 1, 2, 3, 4, 5, 6, 2, 1 ];
-    for (var idx=0; idx < levels.length; idx++) {
-        var level = levels[idx];
-        level_text = set_level(level);
-        var hashes = new Array(level + 1).join('#');
-        this.test.assertEquals(level_text, hashes + ' ' + text, 'markdown set_heading_level ' + level);
-    }
-
     // Test markdown code blocks
     function mathjax_render_test(input_string, result, message){
       casper.thenEvaluate(function (text){
