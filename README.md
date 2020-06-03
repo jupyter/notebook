@@ -11,6 +11,7 @@ computing.
 
 ![Jupyter notebook example](docs/resources/running_code_med.png "Jupyter notebook example")
 
+### Notice
 Since the release of JupyterLab, many users of the classic Jupyter Notebook have been migrating to using the new front-end.
 
 The `jupyter/notebook` repository is currently maintained by a skeleton crew of maintainers from the Jupyter community. Our approach is:
@@ -21,7 +22,7 @@ The `jupyter/notebook` repository is currently maintained by a skeleton crew of 
 
 If you have an open pull request with a new feature or if you were planning to open one, please consider shipping it as a [notebook extension](https://jupyter-notebook.readthedocs.io/en/stable/extending/) instead.
 
-### Alternatives to contributing to `notebook`
+##### Alternatives to contributing to `notebook`
 Additionally, please consider whether your contribution would be appropriate for either the underlying server for Jupyter front-ends, [jupyter_server](https://github.com/jupyter/jupyter_server) or in the [JupyterLab front-end](https://github.com/jupyterlab/jupyterlab).
 
 ### Jupyter notebook, the language-agnostic evolution of IPython notebook
