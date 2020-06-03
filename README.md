@@ -11,6 +11,19 @@ computing.
 
 ![Jupyter notebook example](docs/resources/running_code_med.png "Jupyter notebook example")
 
+Since the release of JupyterLab, many users of the classic Jupyter Notebook have been migrating to using the new front-end.
+
+The `jupyter/notebook` repository is currently maintained by a skeleton crew of maintainers from the Jupyter community. Our approach is:
+
+1. To maintain the security of the Jupyter Notebook. That means security-related issues and pull requests are our highest priority.
+2. To address JupyterLab [feature parity issues](https://github.com/jupyterlab/jupyterlab/issues?q=is%3Aopen+is%3Aissue+label%3A%22tag%3AFeature+Parity%22).
+3. To be responsive to the hard work of community members who have opened pull requests. We are triaging these PRs. We cannot support or maintain new features at this time, but we welcome security and other sustainability fixes.
+
+If you have an open pull request with a new feature or if you were planning to open one, please consider shipping it as a [notebook extension](https://jupyter-notebook.readthedocs.io/en/stable/extending/) instead.
+
+### Alternatives to contributing to `notebook`
+Additionally, please consider whether your contribution would be appropriate for either the underlying server for Jupyter front-ends, [jupyter_server](https://github.com/jupyter/jupyter_server) or in the [JupyterLab front-end](https://github.com/jupyterlab/jupyterlab).
+
 ### Jupyter notebook, the language-agnostic evolution of IPython notebook
 Jupyter notebook is a language-agnostic HTML notebook application for
 Project Jupyter. In 2015, Jupyter notebook was released as a part of
