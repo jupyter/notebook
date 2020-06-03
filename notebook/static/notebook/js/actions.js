@@ -235,8 +235,8 @@ define([
             }
         },
         'split-cell-at-cursor': {
-            cmd: i18n.msg._('split cell at cursor'),
-            help    : i18n.msg._('split cell at cursor'),
+            cmd: i18n.msg._('split cell at cursor(s)'),
+            help    : i18n.msg._('split cell at cursor(s)'),
             help_index : 'ea',
             handler : function (env) {
                 env.notebook.split_cell();

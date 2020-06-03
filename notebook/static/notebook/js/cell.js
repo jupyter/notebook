@@ -586,6 +586,52 @@ define([
         return text;
     };
 
+
+    /**
+     * @return {Array} - the text between cursors and within selections (multicursor/sorted)
+     * @method get_split_text
+     **/
+    Cell.prototype.get_split_text = function () {
+        var ranges = this.code_mirror.listSelections();
+
+        var cursors = [{line: 0, ch: 0}];
+
+        for (var i = 0; i < ranges.length; i++) {
+            // append both to handle selections
+            if (ranges[i].head.sticky == 'before') {
+                cursors.push(ranges[i].anchor);
+                cursors.push(ranges[i].head);
+            } else {
+                cursors.push(ranges[i].head);
+                cursors.push(ranges[i].anchor);
+            }
+        }
+
+        var last_line_num = this.code_mirror.lineCount()-1;
+        var last_line_len = this.code_mirror.getLine(last_line_num).length;
+        var end = {line:last_line_num, ch:last_line_len};
+        cursors.push(end);
+
+        // Cursors is now sorted, but likely has duplicates due to anchor and head being the same for cursors
+        var locations = [cursors[0]];
+        for (var i = 1; i < cursors.length; i++) {
+            var last = locations[locations.length-1];
+            var current = cursors[i];
+            if ((last.line != current.line) || (last.ch != current.ch)) {
+                locations.push(cursors[i]);
+            }
+        }
+
+        // Split text
+        var text_list = [];
+        for (var i = 1; i < locations.length; i++) {
+            var text = this.code_mirror.getRange(locations[i-1], locations[i]);
+            text = text.replace(/^\n+/, '').replace(/\n+$/, ''); // removes newlines at beginning and end
+            text_list.push(text);
+        }
+        return text_list;
+    };
+
     /**
      * Show/Hide CodeMirror LineNumber
      * @method show_line_numbers
