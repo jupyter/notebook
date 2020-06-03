@@ -23,7 +23,7 @@ define(['bidi/numericshaping'], function(numericshaping) {
   };
 
   var _isMirroringEnabled = function() {
-    return new RegExp('^(ar|he)').test(_uiLang());
+    return new RegExp('^(ar|ara|arc|ae|ave|egy|he|heb|nqo|pal|phn|sam|syc|syr|fa|per|fas|ckb|ur|urd)').test(_uiLang());
   };
 
   /**
