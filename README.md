@@ -12,9 +12,7 @@ computing.
 ![Jupyter notebook example](docs/resources/running_code_med.png "Jupyter notebook example")
 
 ### Notice
-Please note that this repository is currently maintained by a skeleton crew of maintainers from the Jupyter community. As a result, we encourage users to transition to JupyterLab, where more immediate support can occur.
-
-The `jupyter/notebook` repository is currently maintained by a skeleton crew of maintainers from the Jupyter community. As a result, our approach moving forward will be:
+Please note that this repository is currently maintained by a skeleton crew of maintainers from the Jupyter community. We encourage users to transition to JupyterLab, where more immediate support can occur. Our approach moving forward will be:
 
 1. To maintain the security of the Jupyter Notebook. That means security-related issues and pull requests are our highest priority.
 2. To address JupyterLab [feature parity issues](https://github.com/jupyterlab/jupyterlab/issues?q=is%3Aopen+is%3Aissue+label%3A%22tag%3AFeature+Parity%22). As part of this effort, we are also working on a better [notebook-only experience](https://github.com/jupyterlab/jupyterlab/issues/8450) in JupyterLab for users who prefer the UI of the classic Jupyter Notebook.
