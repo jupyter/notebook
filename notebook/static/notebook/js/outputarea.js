@@ -389,6 +389,8 @@ define([
 
     OutputArea.prototype.create_output_subarea = function(md, classes, mime) {
         var subarea = $('<div/>').addClass('output_subarea').addClass(classes);
+        // Unforce RTL
+        subarea.attr("dir","auto");
         if (_get_metadata_key(md, 'isolated', mime)) {
             // Create an iframe to isolate the subarea from the rest of the
             // document
@@ -462,6 +464,8 @@ define([
             // the prompt area and the proper indentation.
             toinsert = this.create_output_area();
             var subarea = $('<div/>').addClass('output_subarea');
+            // Unforce RTL
+            subarea.attr("dir","auto");
             toinsert.append(subarea);
             this._append_javascript_error(err, subarea);
             this.element.append(toinsert);
@@ -589,6 +593,8 @@ define([
         var that = this;
         var toinsert = this.create_output_area();
         var subarea = $('<div/>').addClass('output_subarea output_unrecognized');
+        // Unforce RTL
+        subarea.attr("dir","auto");
         toinsert.append(subarea);
         subarea.append(
             $("<a>")
@@ -947,6 +953,7 @@ define([
                     })
                 )
             )
+            .attr("dir","auto")
         );
         
         this.element.append(area);
