@@ -200,6 +200,25 @@ You may be required to specify a Checkpoints object, as the default one,
 ``FileCheckpoints``, could be incompatible with your custom 
 ContentsManager.
 
+
+Chunked Saving
+~~~~~~~~~~~~~~
+
+The contents API allows for "chunked" saving of files, i.e.
+saving/transmitting in partial pieces:
+
+* This can only be used when the ``type`` of the model is ``file``.
+* The model should be as otherwise expected for
+  :meth:`~manager.ContentsManager.save`, with an added field ``chunk``.
+* The value of ``chunk`` should be an integer starting at ``1``, and incrementing
+  for each subsequent chunk, except for the final chunk, which should be
+  indicated with a value of ``-1``.
+* The model returned from using :meth:`~manager.ContentsManager.save` with
+  ``chunk`` should be treated as unreliable for all chunks except the final one.
+* Any interaction with a file being saved in a chunked manner is unreliable
+  until the final chunk has been saved. This includes directory listings.
+
+
 Customizing Checkpoints
 -----------------------
 .. currentmodule:: notebook.services.contents.checkpoints
