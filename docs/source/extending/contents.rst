@@ -217,6 +217,10 @@ saving/transmitting in partial pieces:
   ``chunk`` should be treated as unreliable for all chunks except the final one.
 * Any interaction with a file being saved in a chunked manner is unreliable
   until the final chunk has been saved. This includes directory listings.
+* For contents managers that fire the pre-/post-save hooks as defined in 
+  :class:`~manager.ContentsManager`, the pre-save hook should be invoked before the
+  first chunk is processed, and the post-save hook should be invoked after the last chunk
+  is received and stored.
 
 
 Customizing Checkpoints
