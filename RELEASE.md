@@ -63,6 +63,7 @@ twine check dist/* && twine upload dist/*
 
 ```bash
 vim notebook/_version.py   # Add the .dev suffix
+python setup.py jsversion
 git commit -am "Back to dev version"
 ```
 
