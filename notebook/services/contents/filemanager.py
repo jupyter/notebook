@@ -330,12 +330,20 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                     self.log.debug("%s not a regular file", os_path)
                     continue
 
-                if self.should_list(name):
-                    if self.allow_hidden or not is_file_hidden(os_path, stat_res=st):
-                        contents.append(
-                                self.get(path='%s/%s' % (path, name), content=False)
+                try:
+                    if self.should_list(name):
+                        if self.allow_hidden or not is_file_hidden(os_path, stat_res=st):
+                            contents.append(
+                                    self.get(path='%s/%s' % (path, name), content=False)
+                            )
+                except OSError as e:
+                    # ELOOP: recursive symlink
+                    if e.errno != errno.ELOOP:
+                        self.log.warning(
+                            "Unknown error checking if file %r is hidden",
+                            os_path,
+                            exc_info=True,
                         )
-
             model['format'] = 'json'
 
         return model
