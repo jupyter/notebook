@@ -74,6 +74,13 @@ Here is an enumeration of changes made since the last release and included in 6.
 - Another (Minor) Duplicate Code Reduction (:ghpull:`5316`)
 - Update readme regarding maintenance (:ghpull:`5500`)
 - Document contents chunks (:ghpull:`5508`)
+- Backspace deletes empty line (:ghpull:`5516`)
+- The dropdown submenu at notebook page is not keyboard accessible (:ghpull:`4732`)
+- Tooltips visible through keyboard navigation for specified buttons (:ghpull:`4729`)
+- Fix for recursive symlink (:ghpull:`4670`)
+- Fix for the terminal shutdown issue (:ghpull:`4180`)
+- Add japanese translation files (:ghpull:`4490`)
+- Workaround for socket permission errors on Cygwin (:ghpull:`4584`)
 
 Thank you to all the contributors:
 
@@ -87,10 +94,13 @@ Thank you to all the contributors:
 - dmpe
 - dylanzjy
 - dSchurch
+- E\. M\. Bray
 - ErwinRussel
 - Grant Nestor
 - Jesus Panales Castillo
+- Joshua Zeltser
 - Karthikeyan Singaravelan
+- Kenichi Ito
 - Kevin Bates
 - Kris Wilson
 - Kyle Kelley
@@ -98,15 +108,20 @@ Thank you to all the contributors:
 - Luis Cabezon Manchado
 - Madhusudhan Srinivasa
 - Matthias Geier
+- mattn
 - Max Klein
 - Min RK
+- Mingxuan Lin
 - Mohammad Mostafa Farzan
 - Niko Felger
+- Norah Abanumay
 - Onno Broekmans
 - pinarkavak
 - Rohit Sanjay
+- Shane Canon
 - Simon Li
 - Steven Silvester
+- taohan16
 - Thew Dhanat
 - Thomas Kluyver
 - Toon Baeyens
