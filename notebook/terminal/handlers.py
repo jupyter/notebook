@@ -31,6 +31,8 @@ class TermSocket(WebSocketMixin, IPythonHandler, terminado.TermSocket):
     def get(self, *args, **kwargs):
         if not self.get_current_user():
             raise web.HTTPError(403)
+        if not args[0] in self.term_manager.terminals:
+            raise web.HTTPError(404)
         return super(TermSocket, self).get(*args, **kwargs)
 
     def on_message(self, message):
