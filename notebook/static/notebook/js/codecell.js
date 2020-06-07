@@ -64,20 +64,14 @@ define([
             } else {
                 // range is cursor
                 var line = cm.getLine(head.line).substring(0, head.ch);
-                if( line.match(/^\ +$/) !== null){
+                if (line.match(/^\ +$/) !== null){
                     // delete tabs
                     var prevTabStop = (Math.ceil(head.ch/tabSize)-1)*tabSize;
-                    var from = {
-                        ch: prevTabStop,
-                        line: head.line
-                    };
+                    var from = CodeMirror.Pos(head.line, prevTabStop)
                     cm.replaceRange("", from, head);
                 } else {
-                    // delete non-tabs
-                    var from = {
-                        ch: head.ch-1,
-                        line: head.line
-                    };
+                    // delete normally
+                    var from = cm.findPosH(head, -1,  'char', false);
                     cm.replaceRange("", from, head);
                 }
             }
