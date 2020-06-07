@@ -1739,7 +1739,7 @@ class NotebookApp(JupyterApp):
                         self.log.info(_('The port %i is already in use.') % port)
                     continue
                 elif e.errno in eacces:
-                    self.log.warning(_("Permission to listen on port %i denied") % port)
+                    self.log.warning(_("Permission to listen on port %i denied.") % port)
                     continue
                 else:
                     raise
