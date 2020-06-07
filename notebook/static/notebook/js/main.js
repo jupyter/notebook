@@ -52,7 +52,8 @@ requirejs([
     'notebook/js/about',
     'notebook/js/searchandreplace',
     'notebook/js/clipboard',
-    'bidi/bidi'
+    'bidi/bidi',
+    'notebook/js/celltoolbarpresets/tags'
 ], function(
     $,
     contents_service,

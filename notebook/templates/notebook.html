@@ -77,11 +77,12 @@ data-notebook-path="{{notebook_path | urlencode}}"
             <span id="notification_area"></span>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li class="dropdown"><a href="#" id="filelink" aria-haspopup="true" aria-controls="file_menu class="dropdown-toggle" data-toggle="dropdown">{% trans %}File{% endtrans %}</a>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" id="filelink" data-toggle="dropdown" aria-haspopup="true" aria-controls="file_menu">{% trans %}File{% endtrans %}</a>
                     <ul id="file_menu" class="dropdown-menu" role="menu" aria-labelledby="filelink">
-                        <li id="new_notebook" class="dropdown-submenu" role="none">
-                            <a href="#" role="menuitem">{% trans %}New Notebook{% endtrans %}<span class="sr-only">{% trans %}Toggle Dropdown{% endtrans %}</span></a>
-                            <ul class="dropdown-menu" id="menu-new-notebook-submenu"></ul>
+                        <li id="new_notebook" class="menu_focus_highlight dropdown dropdown-submenu" role="none">
+                            <a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown">{% trans %}New Notebook{% endtrans %}<span class="sr-only">Dropdown</span></a>
+                            <ul class="dropdown-menu" id="menu-new-notebook-submenu" role="menu">
+                            </ul>
                         </li>
                         <li id="open_notebook" role="none"
                             title="{% trans %}Opens a new window with the Dashboard view{% endtrans %}">
@@ -98,7 +99,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         <li id="save_checkpoint" role="none"><a href="#" role="menuitem">{% trans %}Save and Checkpoint{% endtrans %}</a></li>
                         <!-- <hr/> -->
                         <li class="divider" role="none"></li>
-                        <li id="restore_checkpoint" class="dropdown-submenu" role="none"><a href="#" role="menuitem">{% trans %}Revert to Checkpoint{% endtrans %}<span class="sr-only">{% trans %}Toggle Dropdown{% endtrans %}</span></a>
+                        <li id="restore_checkpoint" class="menu_focus_highlight dropdown-submenu" role="none"><a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Revert to Checkpoint{% endtrans %}<span class="sr-only">Dropdown</span></a>
                           <ul class="dropdown-menu">
                             <li><a href="#"></a></li>
                             <li><a href="#"></a></li>
@@ -109,7 +110,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         </li>
                         <li class="divider" role="none"></li>
                         <li id="print_preview" role="none"><a href="#" role="menuitem">{% trans %}Print Preview{% endtrans %}</a></li>
-                        <li class="dropdown-submenu" role="none"><a href="#" role="menuitem">{% trans %}Download as{% endtrans %}<span class="sr-only">{% trans %}Toggle Dropdown{% endtrans %}</span></a>
+                        <li class="dropdown-submenu menu_focus_highlight" role="none"><a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Download as{% endtrans %}<span class="sr-only">Dropdown</span></a>
                             <ul id="download_menu" class="dropdown-menu">
                                 {% for exporter in get_frontend_exporters() %}
                                 <li id="download_{{ exporter.name }}">
@@ -174,8 +175,8 @@ data-notebook-path="{{notebook_path | urlencode}}"
                             title="{% trans %}Show/Hide line numbers in cells{% endtrans %}">
                             <a href="#" role="menuitem">{% trans %}Toggle Line Numbers{% endtrans %}</a>
                         </li>
-                        <li id="menu-cell-toolbar" class="dropdown-submenu" role="none">
-                            <a href="#" role="menuitem">{% trans %}Cell Toolbar{% endtrans %}</a>
+                        <li id="menu-cell-toolbar" class="menu_focus_highlight dropdown-submenu" role="none">
+                            <a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Cell Toolbar{% endtrans %}</a>
                             <ul class="dropdown-menu" id="menu-cell-toolbar-submenu"></ul>
                         </li>
                     </ul>
@@ -190,26 +191,26 @@ data-notebook-path="{{notebook_path | urlencode}}"
                             <a href="#" role="menuitem">{% trans %}Insert Cell Below{% endtrans %}</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Cell{% endtrans %}</a>
-                    <ul id="cell_menu" class="dropdown-menu">
-                        <li id="run_cell" title="{% trans %}Run this cell, and move cursor to the next one{% endtrans %}">
-                            <a href="#">{% trans %}Run Cells{% endtrans %}</a></li>
-                        <li id="run_cell_select_below" title="{% trans %}Run this cell, select below{% endtrans %}">
-                            <a href="#">{% trans %}Run Cells and Select Below{% endtrans %}</a></li>
-                        <li id="run_cell_insert_below" title="{% trans %}Run this cell, insert below{% endtrans %}">
-                            <a href="#">{% trans %}Run Cells and Insert Below{% endtrans %}</a></li>
-                        <li id="run_all_cells" title="{% trans %}Run all cells in the notebook{% endtrans %}">
-                            <a href="#">{% trans %}Run All{% endtrans %}</a></li>
-                        <li id="run_all_cells_above" title="{% trans %}Run all cells above (but not including) this cell{% endtrans %}">
-                            <a href="#">{% trans %}Run All Above{% endtrans %}</a></li>
-                        <li id="run_all_cells_below" title="{% trans %}Run this cell and all cells below it{% endtrans %}">
-                            <a href="#">{% trans %}Run All Below{% endtrans %}</a></li>
-                        <li class="divider"></li>
-                        <li id="change_cell_type" class="dropdown-submenu"
+                <li class="dropdown"><a href="#" class="dropdown-toggle" id="celllink" data-toggle="dropdown" aria-haspopup="true" aria-controls="cell_menu">{% trans %}Cell{% endtrans %}</a>
+                    <ul id="cell_menu" class="dropdown-menu" role="menu" aria-labelledby="celllink">
+                        <li id="run_cell" role="none" title="{% trans %}Run this cell, and move cursor to the next one{% endtrans %}">
+                            <a role="menuitem" href="#">{% trans %}Run Cells{% endtrans %}</a></li>
+                        <li id="run_cell_select_below" role="none" title="{% trans %}Run this cell, select below{% endtrans %}">
+                            <a href="#" role="menuitem">{% trans %}Run Cells and Select Below{% endtrans %}</a></li>
+                        <li id="run_cell_insert_below" role="none" title="{% trans %}Run this cell, insert below{% endtrans %}">
+                            <a href="#" role="menuitem">{% trans %}Run Cells and Insert Below{% endtrans %}</a></li>
+                        <li id="run_all_cells" role="none" title="{% trans %}Run all cells in the notebook{% endtrans %}">
+                            <a href="#" role="menuitem">{% trans %}Run All{% endtrans %}</a></li>
+                        <li id="run_all_cells_above" role="none" title="{% trans %}Run all cells above (but not including) this cell{% endtrans %}">
+                            <a href="#" role="menuitem">{% trans %}Run All Above{% endtrans %}</a></li>
+                        <li id="run_all_cells_below" role="none" title="{% trans %}Run this cell and all cells below it{% endtrans %}">
+                            <a href="#" role="menuitem">{% trans %}Run All Below{% endtrans %}</a></li>
+                        <li class="divider" role="none"></li>
+                        <li id="change_cell_type" class="menu_focus_highlight dropdown-submenu" role="none"
                             title="{% trans %}All cells in the notebook have a cell type. By default, new cells are created as 'Code' cells{% endtrans %}">
-                            <a href="#">{% trans %}Cell Type{% endtrans %}</a>
-                            <ul class="dropdown-menu">
-                              <li id="to_code"
+                            <a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Cell Type{% endtrans %}</a>
+                            <ul class="dropdown-menu" role="menu">
+                              <li id="to_code" role="none"
                                   title="{% trans %}Contents will be sent to the kernel for execution, and output will display in the footer of cell{% endtrans %}">
                                   <a href="#">Code</a></li>
                               <li id="to_markdown"
@@ -220,10 +221,10 @@ data-notebook-path="{{notebook_path | urlencode}}"
                                   <a href="#">{% trans %}Raw NBConvert{% endtrans %}</a></li>
                             </ul>
                         </li>
-                        <li class="divider"></li>
-                        <li id="current_outputs" class="dropdown-submenu"><a href="#">{% trans %}Current Outputs{% endtrans %}</a>
-                            <ul class="dropdown-menu">
-                                <li id="toggle_current_output"
+                        <li class="divider" role="none"></li>
+                        <li id="current_outputs" class="menu_focus_highlight dropdown-submenu" role="none"><a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Current Outputs{% endtrans %}</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li id="toggle_current_output" role="none"
                                     title="{% trans %}Hide/Show the output of the current cell{% endtrans %}">
                                     <a href="#">{% trans %}Toggle{% endtrans %}</a>
                                 </li>
@@ -237,9 +238,9 @@ data-notebook-path="{{notebook_path | urlencode}}"
                                 </li>
                             </ul>
                         </li>
-                        <li id="all_outputs" class="dropdown-submenu"><a href="#">{% trans %}All Output{% endtrans %}</a>
-                            <ul class="dropdown-menu">
-                                <li id="toggle_all_output"
+                        <li id="all_outputs" class="menu_focus_highlight dropdown-submenu" role="none"><a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown">{% trans %}All Output{% endtrans %}</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li id="toggle_all_output" role="none"
                                     title="{% trans %}Hide/Show the output of all cells{% endtrans %}">
                                     <a href="#">{% trans %}Toggle{% endtrans %}</a>
                                 </li>
@@ -281,9 +282,9 @@ data-notebook-path="{{notebook_path | urlencode}}"
                             title="Shutdown the Kernel">
                             <a href="#">{% trans %}Shutdown{% endtrans %}</a>
                         </li>
-                        <li class="divider"></li>
-                        <li id="menu-change-kernel" class="dropdown-submenu">
-                            <a href="#">{% trans %}Change kernel{% endtrans %}</a>
+                        <li class="divider" role="none"></li>
+                        <li id="menu-change-kernel" class="menu_focus_highlight dropdown-submenu" role="menuitem">
+                            <a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Change kernel{% endtrans %}</a>
                             <ul class="dropdown-menu" id="menu-change-kernel-submenu"></ul>
                         </li>
                     </ul>
