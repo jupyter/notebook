@@ -41,14 +41,24 @@ data-server-root="{{server_root}}"
                 {% trans %}Select items to perform actions on them.{% endtrans %}
               </div>
               <div class="dynamic-buttons">
-                  <button title="{% trans %}Duplicate selected{% endtrans %}" aria-label="{% trans %}Duplicate{% endtrans %}" class="duplicate-button btn btn-default btn-xs">{% trans %}Duplicate{% endtrans %}</button>
-                  <button title="{% trans %}Rename selected{% endtrans %}" aria-label="{% trans %}Rename{% endtrans %}" class="rename-button btn btn-default btn-xs">{% trans %}Rename{% endtrans %}</button>
-                  <button title="{% trans %}Move selected{% endtrans %}" aria-label="{% trans %}Move{% endtrans %}" class="move-button btn btn-default btn-xs">{% trans %}Move{% endtrans %}</button>
-                  <button title="{% trans %}Download selected{% endtrans %}" aria-label="{% trans %}Download{% endtrans %}" class="download-button btn btn-default btn-xs">{% trans %}Download{% endtrans %}</button>
-                  <button title="{% trans %}Shutdown selected notebook(s){% endtrans %}" aria-label="{% trans %}Shutdown{% endtrans %}" class="shutdown-button btn btn-default btn-xs btn-warning">{% trans %}Shutdown{% endtrans %}</button>
-                  <button title="{% trans %}View selected{% endtrans %}" aria-label="{% trans %}View{% endtrans %}" class="view-button btn btn-default btn-xs">{% trans %}View{% endtrans %}</button>
-                  <button title="{% trans %}Edit selected{% endtrans %}" aria-label="{% trans %}Edit{% endtrans %}" class="edit-button btn btn-default btn-xs">{% trans %}Edit{% endtrans %}</button>
-                  <button title="{% trans %}Delete selected{% endtrans %}" aria-label="{% trans %}Delete selected{% endtrans %}" class="delete-button btn btn-default btn-xs btn-danger"><i class="fa fa-trash"></i></button>
+                  <button  title="{% trans %}Duplicate selected{% endtrans %}" aria-label="{% trans %}Duplicate selected{% endtrans %}" class="duplicate-button btn btn-default btn-xs" aria-describedby="tooltip1">{% trans %}Duplicate{% endtrans %} </button>
+                  <div role="tooltip" id="tooltip1" >{% trans %}Duplicate selected{% endtrans %}</div>
+                  <button title="{% trans %}Rename selected{% endtrans %}" aria-label="{% trans %}Rename selected{% endtrans %}" class="rename-button btn btn-default btn-xs" aria-describedby="tooltip2">{% trans %}Rename{% endtrans %}</button>
+                  <div role="tooltip" id="tooltip2" >{% trans %}Rename selected{% endtrans %}</div> 
+                  <button title="{% trans %}Move selected{% endtrans %}" aria-label="{% trans %}Move selected{% endtrans %}" class="move-button btn btn-default btn-xs" aria-describedby="tooltip3">{% trans %}Move{% endtrans %}</button>
+                  <div role="tooltip" id="tooltip3" >{% trans %}Move selected{% endtrans %}</div> 
+                  <button title="{% trans %}Download selected{% endtrans %}" aria-label="{% trans %}Download selected{% endtrans %}" class="download-button btn btn-default btn-xs" aria-describedby="tooltip4">{% trans %}Download{% endtrans %}</button>
+                  <div role="tooltip" id="tooltip4" >{% trans %}Download selected{% endtrans %}</div>
+                  <button title="{% trans %}Shutdown selected notebook(s){% endtrans %}" aria-label="{% trans %}Shutdown selected notebook(s){% endtrans %}" class="shutdown-button btn btn-default btn-xs btn-warning" aria-describedby="tooltip5">{% trans %}Shutdown{% endtrans %}</button>
+                  <div role="tooltip" id="tooltip5" >{% trans %}Shutdown selected notebook(s){% endtrans %}</div>  
+                  <button title="{% trans %}View selected{% endtrans %}" aria-label="{% trans %}View selected{% endtrans %}" class="view-button btn btn-default btn-xs" aria-describedby="tooltip6">{% trans %}View{% endtrans %}</button>
+                  <div role="tooltip" id="tooltip6" >{% trans %}View selected{% endtrans %}</div> 
+                  <button title="{% trans %}Edit selected{% endtrans %}" aria-label="{% trans %}Edit selected{% endtrans %}" class="edit-button btn btn-default btn-xs" aria-describedby="tooltip7">{% trans %}Edit{% endtrans %}</button>
+                  <div role="tooltip" id="tooltip7" >{% trans %}Edit selected{% endtrans %}</div>  
+                  <button title="{% trans %}Delete selected{% endtrans %}" aria-label="{% trans %}Delete selected{% endtrans %}" class="delete-button btn btn-default btn-xs btn-danger" aria-describedby="tooltip8">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                  <div role="tooltip" id="tooltip8" >{% trans %}Delete selected{% endtrans %}</div>
               </div>
             </div>
             <div class="col-sm-4 no-padding tree-buttons">
@@ -205,7 +215,10 @@ data-server-root="{{server_root}}"
 
 {% block script %}
     {{super()}}
-
+    <script type="text/javascript">
+      ('#element').tooltip('enable')
+    </script>
 
 <script src="{{ static_url("tree/js/main.min.js") }}" type="text/javascript" charset="utf-8"></script>
+
 {% endblock %}
