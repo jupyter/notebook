@@ -542,8 +542,6 @@ define([
 	span12.empty();
 	that.contents.get(list_item.path, {"content": true}).then(
           function (data) {
-	    // input_area.getDoc().setValue(data.content);
-	    // span12.append($('<div style="margin:auto;text-align:center;color:grey"/>').text(data.content));
 	    span12.append($('<div style="margin:auto;text-align:center;color:grey"/>').innerHTML = marked(data.content));
 	  },
           function(error) {
