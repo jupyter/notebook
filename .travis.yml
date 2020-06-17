@@ -8,7 +8,6 @@ cache:
 python:
     - 3.6
 
-
 env:
   global:
     - PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
@@ -95,6 +94,10 @@ matrix:
           env: GROUP=python
         - python: 3.7
           dist: xenial
+          env: GROUP=python
+        - python: 3.8
+          env: GROUP=python
+        - python: 3.9-dev
           env: GROUP=python
         - python: 3.6
           env: GROUP=docs
