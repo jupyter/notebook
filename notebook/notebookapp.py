@@ -1777,7 +1777,8 @@ class NotebookApp(JupyterApp):
             url = self._tcp_url(ip)
         if self.token and not self.sock:
             url = self._concat_token(url)
-            url += '\n or %s' % self._concat_token(self._tcp_url('127.0.0.1'))
+            if not self.custom_display_url:
+                url += '\n or %s' % self._concat_token(self._tcp_url('127.0.0.1'))
         return url
 
     @property
@@ -2216,13 +2217,22 @@ class NotebookApp(JupyterApp):
                     ) % (self.sock, self._concat_token(self._tcp_url('localhost', 8888)))
                 ]))
             else:
-                self.log.critical('\n'.join([
-                    '\n',
-                    'To access the notebook, open this file in a browser:',
-                    '    %s' % urljoin('file:', pathname2url(self.browser_open_file)),
-                    'Or copy and paste one of these URLs:',
-                    '    %s' % self.display_url,
-                ]))
+                if not self.custom_display_url:
+                    self.log.critical('\n'.join([
+                        '\n',
+                        'To access the notebook, open this file in a browser:',
+                        '    %s' % urljoin('file:', pathname2url(self.browser_open_file)),
+                        'Or copy and paste one of these URLs:',
+                        '    %s' % self.display_url,
+                    ]))
+                else:
+                    self.log.critical('\n'.join([
+                        '\n',
+                        'To access the notebook, open this file in a browser:',
+                        '    %s' % urljoin('file:', pathname2url(self.browser_open_file)),
+                        'Or copy and paste this URL:',
+                        '    %s' % self.display_url,
+                    ]))
 
         self.io_loop = ioloop.IOLoop.current()
         if sys.platform.startswith('win'):
