@@ -73,7 +73,9 @@ define([
               var current_cell_default_direction = env.notebook.get_selected_cell().cell_type == 'code' ? 'ltr' : notebook_direction;
               var current_cell_direction = env.notebook.get_selected_cell().metadata.direction || current_cell_default_direction;
               var new_direction = current_cell_direction == 'rtl' ? 'ltr' : 'rtl';
-              env.notebook.get_selected_cells().forEach(cell => cell.metadata.direction = new_direction);
+              env.notebook.get_selected_cells().forEach(
+                  function(cell) { cell.metadata.direction = new_direction; }
+              );
               env.notebook.set_dirty(true);
               env.notebook.apply_directionality();
             }

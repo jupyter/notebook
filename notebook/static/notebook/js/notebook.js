@@ -699,7 +699,7 @@ define([
         // html
         document.body.setAttribute('dir', notebook_direction);
         // existing cells
-        this.get_cells().forEach(cell => {
+        this.get_cells().forEach( function(cell) {
             if (cell.cell_type == 'markdown') {
                 cell.code_mirror.setOption('direction', cell.metadata.direction || notebook_direction);
                 cell.element.find('.rendered_html').attr('dir', cell.metadata.direction || notebook_direction);
