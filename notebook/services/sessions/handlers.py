@@ -44,13 +44,13 @@ class SessionRootHandler(APIHandler):
 
         try:
             path = model['path']
-        except KeyError:
-            raise web.HTTPError(400, "Missing field in JSON data: path")
+        except KeyError as e:
+            raise web.HTTPError(400, "Missing field in JSON data: path") from e
 
         try:
             mtype = model['type']
-        except KeyError:
-            raise web.HTTPError(400, "Missing field in JSON data: type")
+        except KeyError as e:
+            raise web.HTTPError(400, "Missing field in JSON data: type") from e
 
         name = model.get('name', None)
         kernel = model.get('kernel', {})
@@ -155,9 +155,9 @@ class SessionHandler(APIHandler):
         sm = self.session_manager
         try:
             yield maybe_future(sm.delete_session(session_id))
-        except KeyError:
+        except KeyError as e:
             # the kernel was deleted but the session wasn't!
-            raise web.HTTPError(410, "Kernel deleted before session")
+            raise web.HTTPError(410, "Kernel deleted before session") from e
         self.set_status(204)
         self.finish()
 

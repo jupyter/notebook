@@ -54,12 +54,12 @@ ioloop.install()
 # check for tornado 3.1.0
 try:
     import tornado
-except ImportError:
-    raise ImportError(_("The Jupyter Notebook requires tornado >= 5.0"))
+except ImportError as e:
+    raise ImportError(_("The Jupyter Notebook requires tornado >= 5.0")) from e
 try:
     version_info = tornado.version_info
-except AttributeError:
-    raise ImportError(_("The Jupyter Notebook requires tornado >= 5.0, but you have < 1.1.0"))
+except AttributeError as e:
+    raise ImportError(_("The Jupyter Notebook requires tornado >= 5.0, but you have < 1.1.0")) from e
 if version_info < (5,0):
     raise ImportError(_("The Jupyter Notebook requires tornado >= 5.0, but you have %s") % tornado.version)
 
@@ -858,14 +858,14 @@ class NotebookApp(JupyterApp):
                 # And isn't out of bounds.
                 converted_value <= 2 ** 12
             ))
-        except ValueError:
+        except ValueError as e:
             raise TraitError(
                 'invalid --sock-mode value: %s, please specify as e.g. "0600"' % value
-            )
-        except AssertionError:
+            ) from e
+        except AssertionError as e:
             raise TraitError(
                 'invalid --sock-mode value: %s, must have u+rw (0600) at a minimum' % value
-            )
+            ) from e
         return value
 
 

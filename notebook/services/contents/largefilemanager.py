@@ -34,7 +34,7 @@ class LargeFileManager(FileContentsManager):
                 raise
             except Exception as e:
                 self.log.error(u'Error while saving file: %s %s', path, e, exc_info=True)
-                raise web.HTTPError(500, u'Unexpected error while saving file: %s %s' % (path, e))
+                raise web.HTTPError(500, u'Unexpected error while saving file: %s %s' % (path, e)) from e
 
             model = self.get(path, content=False)
 
@@ -61,7 +61,7 @@ class LargeFileManager(FileContentsManager):
         except Exception as e:
             raise web.HTTPError(
                 400, u'Encoding error saving %s: %s' % (os_path, e)
-            )
+            ) from e
 
         with self.perm_to_403(os_path):
             if os.path.islink(os_path):

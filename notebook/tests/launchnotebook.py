@@ -56,7 +56,7 @@ class NotebookTestBase(TestCase):
                 cls.fetch_url(url)
             except Exception as e:
                 if not cls.notebook_thread.is_alive():
-                    raise RuntimeError("The notebook server failed to start")
+                    raise RuntimeError("The notebook server failed to start") from e
                 time.sleep(POLL_INTERVAL)
             else:
                 return
