@@ -226,7 +226,7 @@ class FileManagerMixin(Configurable):
                 if not os_path:
                     os_path = str_to_unicode(e.filename or 'unknown file')
                 path = to_api_path(os_path, root=self.root_dir)
-                raise HTTPError(403, u'Permission denied: %s' % path)
+                raise HTTPError(403, u'Permission denied: %s' % path) from e
             else:
                 raise
 
@@ -310,13 +310,13 @@ class FileManagerMixin(Configurable):
             # was explicitly requested.
             try:
                 return bcontent.decode('utf8'), 'text'
-            except UnicodeError:
+            except UnicodeError as e:
                 if format == 'text':
                     raise HTTPError(
                         400,
                         "%s is not UTF-8 encoded" % os_path,
                         reason='bad format',
-                    )
+                    ) from e
         return encodebytes(bcontent).decode('ascii'), 'base64'
 
     def _save_file(self, os_path, content, format):
@@ -335,7 +335,7 @@ class FileManagerMixin(Configurable):
         except Exception as e:
             raise HTTPError(
                 400, u'Encoding error saving %s: %s' % (os_path, e)
-            )
+            ) from e
 
         with self.atomic_writing(os_path, text=False) as f:
             f.write(bcontent)

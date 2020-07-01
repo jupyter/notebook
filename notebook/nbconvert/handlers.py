@@ -61,19 +61,19 @@ def get_exporter(format, **kwargs):
     try:
         from nbconvert.exporters.base import get_exporter
     except ImportError as e:
-        raise web.HTTPError(500, "Could not import nbconvert: %s" % e)
+        raise web.HTTPError(500, "Could not import nbconvert: %s" % e) from e
 
     try:
         Exporter = get_exporter(format)
-    except KeyError:
+    except KeyError as e:
         # should this be 400?
-        raise web.HTTPError(404, u"No exporter for format: %s" % format)
+        raise web.HTTPError(404, u"No exporter for format: %s" % format) from e
 
     try:
         return Exporter(**kwargs)
     except Exception as e:
         app_log.exception("Could not construct Exporter: %s", Exporter)
-        raise web.HTTPError(500, "Could not construct Exporter: %s" % e)
+        raise web.HTTPError(500, "Could not construct Exporter: %s" % e) from e
 
 class NbconvertFileHandler(IPythonHandler):
 
@@ -133,7 +133,7 @@ class NbconvertFileHandler(IPythonHandler):
             )
         except Exception as e:
             self.log.exception("nbconvert failed: %s", e)
-            raise web.HTTPError(500, "nbconvert failed: %s" % e)
+            raise web.HTTPError(500, "nbconvert failed: %s" % e) from e
 
         if respond_zip(self, name, output, resources):
             return
@@ -175,7 +175,7 @@ class NbconvertPostHandler(IPythonHandler):
                 "config_dir": self.application.settings['config_dir'],
             })
         except Exception as e:
-            raise web.HTTPError(500, "nbconvert failed: %s" % e)
+            raise web.HTTPError(500, "nbconvert failed: %s" % e) from e
 
         if respond_zip(self, name, output, resources):
             return

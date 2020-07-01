@@ -13,8 +13,9 @@ class KernelSpecResourceHandler(web.StaticFileHandler, IPythonHandler):
         ksm = self.kernel_spec_manager
         try:
             self.root = ksm.get_kernel_spec(kernel_name).resource_dir
-        except KeyError:
-            raise web.HTTPError(404, u'Kernel spec %s not found' % kernel_name)
+        except KeyError as e:
+            raise web.HTTPError(404,
+                                u'Kernel spec %s not found' % kernel_name) from e
         self.log.debug("Serving kernel resource from: %s", self.root)
         return web.StaticFileHandler.get(self, path, include_body=include_body)
 

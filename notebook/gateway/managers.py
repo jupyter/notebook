@@ -282,18 +282,23 @@ def gateway_request(endpoint, **kwargs):
     # or the server is not running.
     # NOTE: We do this here since this handler is called during the Notebook's startup and subsequent refreshes
     # of the tree view.
-    except ConnectionRefusedError:
-        raise web.HTTPError(503, "Connection refused from Gateway server url '{}'.  " 
-              "Check to be sure the Gateway instance is running.".format(GatewayClient.instance().url))
+    except ConnectionRefusedError as e:
+        raise web.HTTPError(
+            503,
+            "Connection refused from Gateway server url '{}'.  Check to be sure the"
+            " Gateway instance is running.".format(GatewayClient.instance().url)
+        ) from e
     except HTTPError as e:
         # This can occur if the host is valid (e.g., foo.com) but there's nothing there.
         raise web.HTTPError(e.code, "Error attempting to connect to Gateway server url '{}'.  "
                        "Ensure gateway url is valid and the Gateway instance is running.".
-                            format(GatewayClient.instance().url))
-    except gaierror:
-        raise web.HTTPError(404, "The Gateway server specified in the gateway_url '{}' doesn't appear to be valid.  "
-                       "Ensure gateway url is valid and the Gateway instance is running.".
-                            format(GatewayClient.instance().url))
+                            format(GatewayClient.instance().url)) from e
+    except gaierror as e:
+        raise web.HTTPError(
+            404,
+            "The Gateway server specified in the gateway_url '{}' doesn't appear to be valid.  Ensure gateway "
+            "url is valid and the Gateway instance is running.".format(GatewayClient.instance().url)
+        ) from e
 
     raise gen.Return(response)
 
@@ -575,8 +580,10 @@ class GatewayKernelSpecManager(KernelSpecManager):
             if error.status_code == 404:
                 # Convert not found to KeyError since that's what the Notebook handler expects
                 # message is not used, but might as well make it useful for troubleshooting
-                raise KeyError('kernelspec {kernel_name} not found on Gateway server at: {gateway_url}'.
-                               format(kernel_name=kernel_name, gateway_url=GatewayClient.instance().url))
+                raise KeyError(
+                    'kernelspec {kernel_name} not found on Gateway server at: {gateway_url}'.
+                    format(kernel_name=kernel_name, gateway_url=GatewayClient.instance().url)
+                ) from error
             else:
                 raise
         else:

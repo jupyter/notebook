@@ -131,7 +131,8 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                 self.post_save_hook(os_path=os_path, model=model, contents_manager=self)
             except Exception as e:
                 self.log.error("Post-save hook failed o-n %s", os_path, exc_info=True)
-                raise web.HTTPError(500, u'Unexpected error while running post hook save: %s' % e)
+                raise web.HTTPError(500, u'Unexpected error while running post hook save: %s'
+                                    % e) from e
 
     @validate('root_dir')
     def _validate_root_dir(self, proposal):
@@ -487,7 +488,8 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             raise
         except Exception as e:
             self.log.error(u'Error while saving file: %s %s', path, e, exc_info=True)
-            raise web.HTTPError(500, u'Unexpected error while saving file: %s %s' % (path, e))
+            raise web.HTTPError(500, u'Unexpected error while saving file: %s %s' %
+                                (path, e)) from e
 
         validation_message = None
         if model['type'] == 'notebook':
@@ -584,7 +586,8 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         except web.HTTPError:
             raise
         except Exception as e:
-            raise web.HTTPError(500, u'Unknown error renaming file: %s %s' % (old_path, e))
+            raise web.HTTPError(500, u'Unknown error renaming file: %s %s' %
+                                (old_path, e)) from e
 
     def info_string(self):
         return _("Serving notebooks from local directory: %s") % self.root_dir
