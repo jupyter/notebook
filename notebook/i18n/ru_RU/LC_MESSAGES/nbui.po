@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2017-07-07 12:48-0500\n"
-"PO-Revision-Date: 2020-07-03 15:04+0500\n"
+"PO-Revision-Date: 2020-07-03 15:30+0500\n"
 "Language-Team: TranslAster <https://github.com/translaster>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,11 +22,11 @@ msgstr ""
 
 #: notebook/templates/404.html:3
 msgid "You are requesting a page that does not exist!"
-msgstr ""
+msgstr "Вы запрашиваете страницу, которая не существует!"
 
 #: notebook/templates/edit.html:37
 msgid "current mode"
-msgstr ""
+msgstr "текущий режим"
 
 #: notebook/templates/edit.html:48 notebook/templates/notebook.html:78
 msgid "File"
@@ -42,7 +42,7 @@ msgstr "Сохранить"
 
 #: notebook/templates/edit.html:52 notebook/templates/tree.html:36
 msgid "Rename"
-msgstr ""
+msgstr "Переименовать"
 
 #: notebook/templates/edit.html:53 notebook/templates/tree.html:38
 msgid "Download"
@@ -55,15 +55,15 @@ msgstr "Редактировать"
 
 #: notebook/templates/edit.html:58
 msgid "Find"
-msgstr ""
+msgstr "Поиск"
 
 #: notebook/templates/edit.html:59
 msgid "Find &amp; Replace"
-msgstr ""
+msgstr "Поиск &amp; Замена"
 
 #: notebook/templates/edit.html:61
 msgid "Key Map"
-msgstr ""
+msgstr "Сопоставления клавиш"
 
 #: notebook/templates/edit.html:62
 msgid "Default"
@@ -96,7 +96,7 @@ msgstr "Язык"
 
 #: notebook/templates/error.html:23
 msgid "The error was:"
-msgstr ""
+msgstr "Ошибка в:"
 
 #: notebook/templates/login.html:24
 msgid "Password or token:"
@@ -104,11 +104,11 @@ msgstr ""
 
 #: notebook/templates/login.html:26
 msgid "Password:"
-msgstr ""
+msgstr "Пароль:"
 
 #: notebook/templates/login.html:31
 msgid "Log in"
-msgstr ""
+msgstr "Вход"
 
 #: notebook/templates/login.html:39
 msgid "No login available, you shouldn't be seeing this page."
@@ -126,19 +126,19 @@ msgstr ""
 
 #: notebook/templates/notebook.html:62
 msgid "Menu"
-msgstr ""
+msgstr "Меню"
 
 #: notebook/templates/notebook.html:65 notebook/templates/notebook.html:254
 msgid "Kernel"
-msgstr ""
+msgstr "Ядро"
 
 #: notebook/templates/notebook.html:68
 msgid "This notebook is read-only"
-msgstr ""
+msgstr "Этот блокнот только для чтения"
 
 #: notebook/templates/notebook.html:81
 msgid "New Notebook"
-msgstr ""
+msgstr "Новый блокнот"
 
 #: notebook/templates/notebook.html:85
 msgid "Opens a new window with the Dashboard view"
@@ -146,7 +146,7 @@ msgstr ""
 
 #: notebook/templates/notebook.html:86
 msgid "Open..."
-msgstr ""
+msgstr "Открыть..."
 
 #: notebook/templates/notebook.html:90
 msgid "Open a copy of this notebook's contents and start a new kernel"
@@ -154,11 +154,11 @@ msgstr ""
 
 #: notebook/templates/notebook.html:91
 msgid "Make a Copy..."
-msgstr ""
+msgstr "Сделать копию..."
 
 #: notebook/templates/notebook.html:92
 msgid "Rename..."
-msgstr ""
+msgstr "Переименовать..."
 
 #: notebook/templates/notebook.html:93
 msgid "Save and Checkpoint"
@@ -170,51 +170,51 @@ msgstr ""
 
 #: notebook/templates/notebook.html:106
 msgid "Print Preview"
-msgstr ""
+msgstr "Предпросмотр печати"
 
 #: notebook/templates/notebook.html:107
 msgid "Download as"
-msgstr ""
+msgstr "Скачать как"
 
 #: notebook/templates/notebook.html:109
 msgid "Notebook (.ipynb)"
-msgstr ""
+msgstr "Notebook (.ipynb)"
 
 #: notebook/templates/notebook.html:110
 msgid "Script"
-msgstr ""
+msgstr "Скрипт"
 
 #: notebook/templates/notebook.html:111
 msgid "HTML (.html)"
-msgstr ""
+msgstr "HTML (.html)"
 
 #: notebook/templates/notebook.html:112
 msgid "Markdown (.md)"
-msgstr ""
+msgstr "Markdown (.md)"
 
 #: notebook/templates/notebook.html:113
 msgid "reST (.rst)"
-msgstr ""
+msgstr "reST (.rst)"
 
 #: notebook/templates/notebook.html:114
 msgid "LaTeX (.tex)"
-msgstr ""
+msgstr "LaTeX (.tex)"
 
 #: notebook/templates/notebook.html:115
 msgid "PDF via LaTeX (.pdf)"
-msgstr ""
+msgstr "PDF через LaTeX (.pdf)"
 
 #: notebook/templates/notebook.html:118
 msgid "Deploy as"
-msgstr ""
+msgstr "Использовать как"
 
 #: notebook/templates/notebook.html:123
 msgid "Trust the output of this notebook"
-msgstr ""
+msgstr "Доверять выводу этого блокнота"
 
 #: notebook/templates/notebook.html:124
 msgid "Trust Notebook"
-msgstr ""
+msgstr "Доверять блокноту"
 
 #: notebook/templates/notebook.html:127
 msgid "Shutdown this notebook's kernel, and close this window"
@@ -226,11 +226,11 @@ msgstr "Закрыть и остановить"
 
 #: notebook/templates/notebook.html:133
 msgid "Cut Cells"
-msgstr ""
+msgstr "Вырезать ячейки"
 
 #: notebook/templates/notebook.html:134
 msgid "Copy Cells"
-msgstr ""
+msgstr "Копировать ячейки"
 
 #: notebook/templates/notebook.html:135
 msgid "Paste Cells Above"
@@ -246,47 +246,47 @@ msgstr ""
 
 #: notebook/templates/notebook.html:138
 msgid "Delete Cells"
-msgstr ""
+msgstr "Удалить ячейки"
 
 #: notebook/templates/notebook.html:139
 msgid "Undo Delete Cells"
-msgstr ""
+msgstr "Отменить удаление ячеек"
 
 #: notebook/templates/notebook.html:141
 msgid "Split Cell"
-msgstr ""
+msgstr "Разбить ячейку"
 
 #: notebook/templates/notebook.html:142
 msgid "Merge Cell Above"
-msgstr ""
+msgstr "Объединить с ячейкой выше"
 
 #: notebook/templates/notebook.html:143
 msgid "Merge Cell Below"
-msgstr ""
+msgstr "Объединить с ячейкой ниже"
 
 #: notebook/templates/notebook.html:145
 msgid "Move Cell Up"
-msgstr ""
+msgstr "Переместить ячейку выше"
 
 #: notebook/templates/notebook.html:146
 msgid "Move Cell Down"
-msgstr ""
+msgstr "Переместить ячейку ниже"
 
 #: notebook/templates/notebook.html:148
 msgid "Edit Notebook Metadata"
-msgstr ""
+msgstr "Редактировать метаданные блокнота"
 
 #: notebook/templates/notebook.html:150
 msgid "Find and Replace"
-msgstr ""
+msgstr "Поиск и замена"
 
 #: notebook/templates/notebook.html:152
 msgid "Cut Cell Attachments"
-msgstr ""
+msgstr "Вырезать вложения ячейки"
 
 #: notebook/templates/notebook.html:153
 msgid "Copy Cell Attachments"
-msgstr ""
+msgstr "Копировать вложения ячейки"
 
 #: notebook/templates/notebook.html:154
 msgid "Paste Cell Attachments"
@@ -294,7 +294,7 @@ msgstr ""
 
 #: notebook/templates/notebook.html:156
 msgid "Insert Image"
-msgstr ""
+msgstr "Вставить изображение"
 
 #: notebook/templates/notebook.html:166
 msgid "Show/Hide the action icons (below menu bar)"
@@ -314,23 +314,23 @@ msgstr "Панель инструментов ячейки"
 
 #: notebook/templates/notebook.html:179
 msgid "Insert"
-msgstr ""
+msgstr "Вставка"
 
 #: notebook/templates/notebook.html:182
 msgid "Insert an empty Code cell above the currently active cell"
-msgstr ""
+msgstr "Вставьте пустую ячейку кода над текущей активной ячейкой"
 
 #: notebook/templates/notebook.html:183
 msgid "Insert Cell Above"
-msgstr ""
+msgstr "Вставить ячейку выше"
 
 #: notebook/templates/notebook.html:185
 msgid "Insert an empty Code cell below the currently active cell"
-msgstr ""
+msgstr "Вставьте пустую ячейку кода под текущей активной ячейкой"
 
 #: notebook/templates/notebook.html:186
 msgid "Insert Cell Below"
-msgstr ""
+msgstr "Вставить ячейку ниже"
 
 #: notebook/templates/notebook.html:189
 msgid "Cell"
@@ -366,7 +366,7 @@ msgstr ""
 
 #: notebook/templates/notebook.html:198
 msgid "Run All"
-msgstr ""
+msgstr "Запустить всё"
 
 #: notebook/templates/notebook.html:199
 msgid "Run all cells above (but not including) this cell"
@@ -374,7 +374,7 @@ msgstr ""
 
 #: notebook/templates/notebook.html:200
 msgid "Run All Above"
-msgstr ""
+msgstr "Запустить всё выше"
 
 #: notebook/templates/notebook.html:201
 msgid "Run this cell and all cells below it"
@@ -382,13 +382,15 @@ msgstr ""
 
 #: notebook/templates/notebook.html:202
 msgid "Run All Below"
-msgstr ""
+msgstr "Запустить всё ниже"
 
 #: notebook/templates/notebook.html:205
 msgid ""
 "All cells in the notebook have a cell type. By default, new cells are "
 "created as 'Code' cells"
 msgstr ""
+"Все ячейки в блокноте имеют определенный тип ячеек. По умолчанию новые "
+"ячейки создаются как ячейки \"Код\""
 
 #: notebook/templates/notebook.html:206
 msgid "Cell Type"
@@ -399,18 +401,22 @@ msgid ""
 "Contents will be sent to the kernel for execution, and output will display "
 "in the footer of cell"
 msgstr ""
+"Содержимое будет отправлено ядру для выполнения, а выходные данные будут "
+"отображаться в нижнем колонтитуле ячейки"
 
 #: notebook/templates/notebook.html:212
 msgid "Contents will be rendered as HTML and serve as explanatory text"
 msgstr ""
+"Содержимое будет отображаться в формате HTML и служить пояснительным "
+"текстом"
 
 #: notebook/templates/notebook.html:213 notebook/templates/notebook.html:298
 msgid "Markdown"
-msgstr ""
+msgstr "Markdown"
 
 #: notebook/templates/notebook.html:215
 msgid "Contents will pass through nbconvert unmodified"
-msgstr ""
+msgstr "Содержимое будет проходить через nbconvert неизмененным"
 
 #: notebook/templates/notebook.html:216
 msgid "Raw NBConvert"
@@ -418,11 +424,11 @@ msgstr ""
 
 #: notebook/templates/notebook.html:220
 msgid "Current Outputs"
-msgstr ""
+msgstr "Текущий вывод"
 
 #: notebook/templates/notebook.html:223
 msgid "Hide/Show the output of the current cell"
-msgstr ""
+msgstr "Показать/скрыть вывод текущей ячейки"
 
 #: notebook/templates/notebook.html:224 notebook/templates/notebook.html:240
 msgid "Toggle"
@@ -450,7 +456,7 @@ msgstr "Весь вывод"
 
 #: notebook/templates/notebook.html:239
 msgid "Hide/Show the output of all cells"
-msgstr ""
+msgstr "Скрыть/показать вывод всех ячеек"
 
 #: notebook/templates/notebook.html:243
 msgid "Scroll the output of all cells"
@@ -466,31 +472,31 @@ msgstr ""
 
 #: notebook/templates/notebook.html:258
 msgid "Interrupt"
-msgstr ""
+msgstr "Прервать"
 
 #: notebook/templates/notebook.html:261
 msgid "Restart the Kernel"
-msgstr ""
+msgstr "Перезапустить ядро"
 
 #: notebook/templates/notebook.html:262
 msgid "Restart"
-msgstr ""
+msgstr "Перезапуск"
 
 #: notebook/templates/notebook.html:265
 msgid "Restart the Kernel and clear all output"
-msgstr ""
+msgstr "Перезапустить ядро и очистить все выходные данные"
 
 #: notebook/templates/notebook.html:266
 msgid "Restart &amp; Clear Output"
-msgstr ""
+msgstr "Перезапустить &amp; очистить вывод"
 
 #: notebook/templates/notebook.html:269
 msgid "Restart the Kernel and re-run the notebook"
-msgstr ""
+msgstr "Перезапустить ядро и перезапустить блокнот"
 
 #: notebook/templates/notebook.html:270
 msgid "Restart &amp; Run All"
-msgstr ""
+msgstr "Перезапустить &amp; Запустить всё"
 
 #: notebook/templates/notebook.html:273
 msgid "Reconnect to the Kernel"
@@ -498,7 +504,7 @@ msgstr ""
 
 #: notebook/templates/notebook.html:274
 msgid "Reconnect"
-msgstr ""
+msgstr "Переподключение"
 
 #: notebook/templates/notebook.html:282
 msgid "Change kernel"
@@ -506,7 +512,7 @@ msgstr "Изменение ядра"
 
 #: notebook/templates/notebook.html:287
 msgid "Help"
-msgstr ""
+msgstr "Справка"
 
 #: notebook/templates/notebook.html:290
 msgid "A quick tour of the notebook user interface"
@@ -514,7 +520,7 @@ msgstr "Краткий обзор пользовательского интер�
 
 #: notebook/templates/notebook.html:290
 msgid "User Interface Tour"
-msgstr ""
+msgstr "Обзор пользовательского интерфейса"
 
 #: notebook/templates/notebook.html:291
 msgid "Opens a tooltip with all keyboard shortcuts"
@@ -522,7 +528,7 @@ msgstr ""
 
 #: notebook/templates/notebook.html:291
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Сочетания клавиш"
 
 #: notebook/templates/notebook.html:292
 msgid "Opens a dialog allowing you to edit Keyboard shortcuts"
@@ -530,11 +536,11 @@ msgstr ""
 
 #: notebook/templates/notebook.html:292
 msgid "Edit Keyboard Shortcuts"
-msgstr ""
+msgstr "Редактировать сочетания клавиш"
 
 #: notebook/templates/notebook.html:297
 msgid "Notebook Help"
-msgstr ""
+msgstr "Справка по блокноту"
 
 #: notebook/templates/notebook.html:303
 msgid "Opens in a new window"
@@ -558,7 +564,7 @@ msgstr ""
 
 #: notebook/templates/page.html:121
 msgid "dashboard"
-msgstr ""
+msgstr "приборная панель"
 
 #: notebook/templates/page.html:132
 msgid "Logout"
@@ -574,7 +580,7 @@ msgstr "Файлы"
 
 #: notebook/templates/tree.html:24 notebook/templates/tree.html:100
 msgid "Running"
-msgstr ""
+msgstr "Запустить"
 
 #: notebook/templates/tree.html:25
 msgid "Clusters"
@@ -582,11 +588,11 @@ msgstr "Кластеры"
 
 #: notebook/templates/tree.html:32
 msgid "Select items to perform actions on them."
-msgstr ""
+msgstr "Выберите элементы для выполнения действий над ними."
 
 #: notebook/templates/tree.html:35
 msgid "Duplicate selected"
-msgstr ""
+msgstr "Копировать выбранное"
 
 #: notebook/templates/tree.html:35
 msgid "Duplicate"
@@ -594,19 +600,19 @@ msgstr "Скопировать"
 
 #: notebook/templates/tree.html:36
 msgid "Rename selected"
-msgstr ""
+msgstr "Переименовать выделенное"
 
 #: notebook/templates/tree.html:37
 msgid "Move selected"
-msgstr ""
+msgstr "Переместить выделенное"
 
 #: notebook/templates/tree.html:37
 msgid "Move"
-msgstr ""
+msgstr "Переместить"
 
 #: notebook/templates/tree.html:38
 msgid "Download selected"
-msgstr ""
+msgstr "Скачать выбранное"
 
 #: notebook/templates/tree.html:39
 msgid "Shutdown selected notebook(s)"
@@ -618,11 +624,11 @@ msgstr ""
 
 #: notebook/templates/tree.html:40
 msgid "View selected"
-msgstr ""
+msgstr "Просмотр выбранного"
 
 #: notebook/templates/tree.html:41
 msgid "Edit selected"
-msgstr ""
+msgstr "Редактировать выделенное"
 
 #: notebook/templates/tree.html:42
 msgid "Delete selected"
@@ -638,19 +644,19 @@ msgstr "Загрузить"
 
 #: notebook/templates/tree.html:65
 msgid "Text File"
-msgstr ""
+msgstr "Текстовый файл"
 
 #: notebook/templates/tree.html:68
 msgid "Folder"
-msgstr ""
+msgstr "Папка"
 
 #: notebook/templates/tree.html:72
 msgid "Terminal"
-msgstr ""
+msgstr "Терминал"
 
 #: notebook/templates/tree.html:76
 msgid "Terminals Unavailable"
-msgstr ""
+msgstr "Терминалы недоступны"
 
 #: notebook/templates/tree.html:82
 msgid "Refresh notebook list"
@@ -658,23 +664,23 @@ msgstr ""
 
 #: notebook/templates/tree.html:90
 msgid "Select All / None"
-msgstr ""
+msgstr "Выбрать всё / ничего"
 
 #: notebook/templates/tree.html:93
 msgid "Select..."
-msgstr ""
+msgstr "Выбрать..."
 
 #: notebook/templates/tree.html:98
 msgid "Select All Folders"
-msgstr ""
+msgstr "Выбрать все папки"
 
 #: notebook/templates/tree.html:98
 msgid "Folders"
-msgstr ""
+msgstr "Папки"
 
 #: notebook/templates/tree.html:99
 msgid "Select All Notebooks"
-msgstr ""
+msgstr "Выбрать все блокноты"
 
 #: notebook/templates/tree.html:99
 msgid "All Notebooks"
@@ -682,11 +688,11 @@ msgstr "Все блокноты"
 
 #: notebook/templates/tree.html:100
 msgid "Select Running Notebooks"
-msgstr ""
+msgstr "Запустить выбранные блокноты"
 
 #: notebook/templates/tree.html:101
 msgid "Select All Files"
-msgstr ""
+msgstr "Выбрать все файлы"
 
 #: notebook/templates/tree.html:114
 msgid "Last Modified"
@@ -698,7 +704,7 @@ msgstr "Название"
 
 #: notebook/templates/tree.html:130
 msgid "Currently running Jupyter processes"
-msgstr ""
+msgstr "Текущие запущенные процессы Jupyter"
 
 #: notebook/templates/tree.html:134
 msgid "Refresh running list"
@@ -706,11 +712,11 @@ msgstr ""
 
 #: notebook/templates/tree.html:150
 msgid "There are no terminals running."
-msgstr ""
+msgstr "Эти терминалы не запущены."
 
 #: notebook/templates/tree.html:152
 msgid "Terminals are unavailable."
-msgstr ""
+msgstr "Терминалы недоступны."
 
 #: notebook/templates/tree.html:162
 msgid "Notebooks"
@@ -718,7 +724,7 @@ msgstr "Блокноты"
 
 #: notebook/templates/tree.html:169
 msgid "There are no notebooks running."
-msgstr ""
+msgstr "Эти блокноты не запущены."
 
 #: notebook/templates/tree.html:178
 msgid "Clusters tab is now provided by IPython parallel."
