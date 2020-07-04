@@ -308,6 +308,10 @@ define([
       var cells = get_cells(env);
       for (var c = 0; c < cells.length; c++) {
         var cell = cells[c];
+        if (!cell.is_editable()) {
+          continue;
+        }
+          
         var oldvalue = cell.code_mirror.getValue();
         var newvalue = oldvalue.replace(reg , replaceValue);
         cell.code_mirror.setValue(newvalue);
