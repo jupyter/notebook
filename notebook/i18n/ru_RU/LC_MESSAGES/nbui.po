@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2017-07-07 12:48-0500\n"
-"PO-Revision-Date: 2020-07-03 15:30+0500\n"
+"PO-Revision-Date: 2020-07-06 11:05+0500\n"
 "Language-Team: TranslAster <https://github.com/translaster>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -71,7 +71,7 @@ msgstr "По-умолчанию"
 
 #: notebook/templates/edit.html:63
 msgid "Sublime Text"
-msgstr ""
+msgstr "Sublime Text"
 
 #: notebook/templates/edit.html:68 notebook/templates/notebook.html:159
 #: notebook/templates/tree.html:40
@@ -80,15 +80,15 @@ msgstr "Вид"
 
 #: notebook/templates/edit.html:70 notebook/templates/notebook.html:162
 msgid "Show/Hide the logo and notebook title (above menu bar)"
-msgstr ""
+msgstr "Показать/cкрыть логотип и название блокнота (над строкой меню)"
 
 #: notebook/templates/edit.html:71 notebook/templates/notebook.html:163
 msgid "Toggle Header"
-msgstr ""
+msgstr "Триггер заголовка"
 
 #: notebook/templates/edit.html:72 notebook/templates/notebook.html:171
 msgid "Toggle Line Numbers"
-msgstr ""
+msgstr "Триггер номеров строк"
 
 #: notebook/templates/edit.html:75
 msgid "Language"
@@ -100,7 +100,7 @@ msgstr "Ошибка в:"
 
 #: notebook/templates/login.html:24
 msgid "Password or token:"
-msgstr ""
+msgstr "Пароль или токен:"
 
 #: notebook/templates/login.html:26
 msgid "Password:"
@@ -112,17 +112,17 @@ msgstr "Вход"
 
 #: notebook/templates/login.html:39
 msgid "No login available, you shouldn't be seeing this page."
-msgstr ""
+msgstr "Без входа недоступно, вы не должны видеть эту страницу."
 
 #: notebook/templates/logout.html:24
 #, python-format
 msgid "Proceed to the <a href=\"%(base_url)s\">dashboard"
-msgstr ""
+msgstr "Перейдите к <a href=\"%(base_url)s\">панели мониторинга"
 
 #: notebook/templates/logout.html:26
 #, python-format
 msgid "Proceed to the <a href=\"%(base_url)slogin\">login page"
-msgstr ""
+msgstr "Перейдите к <a href=\"%(base_url)slogin\">странице входа"
 
 #: notebook/templates/notebook.html:62
 msgid "Menu"
@@ -142,7 +142,7 @@ msgstr "Новый блокнот"
 
 #: notebook/templates/notebook.html:85
 msgid "Opens a new window with the Dashboard view"
-msgstr ""
+msgstr "Открывает новое окно с видом панели мониторинга"
 
 #: notebook/templates/notebook.html:86
 msgid "Open..."
@@ -150,7 +150,7 @@ msgstr "Открыть..."
 
 #: notebook/templates/notebook.html:90
 msgid "Open a copy of this notebook's contents and start a new kernel"
-msgstr ""
+msgstr "Откройте копию содержимого этого блокнота и запустите новое ядро"
 
 #: notebook/templates/notebook.html:91
 msgid "Make a Copy..."
@@ -162,11 +162,11 @@ msgstr "Переименовать..."
 
 #: notebook/templates/notebook.html:93
 msgid "Save and Checkpoint"
-msgstr ""
+msgstr "Сохранение и контрольная точка"
 
 #: notebook/templates/notebook.html:96
 msgid "Revert to Checkpoint"
-msgstr ""
+msgstr "Вернуться к контрольной точке"
 
 #: notebook/templates/notebook.html:106
 msgid "Print Preview"
@@ -218,7 +218,7 @@ msgstr "Доверять блокноту"
 
 #: notebook/templates/notebook.html:127
 msgid "Shutdown this notebook's kernel, and close this window"
-msgstr ""
+msgstr "Выключить ядро этого блокнота и закрыть это окно"
 
 #: notebook/templates/notebook.html:128
 msgid "Close and Halt"
@@ -234,15 +234,15 @@ msgstr "Копировать ячейки"
 
 #: notebook/templates/notebook.html:135
 msgid "Paste Cells Above"
-msgstr ""
+msgstr "Вставить ячейки выше"
 
 #: notebook/templates/notebook.html:136
 msgid "Paste Cells Below"
-msgstr ""
+msgstr "Вставить ячейки ниже"
 
 #: notebook/templates/notebook.html:137
 msgid "Paste Cells &amp; Replace"
-msgstr ""
+msgstr "Вставить ячейки &amp; заменить"
 
 #: notebook/templates/notebook.html:138
 msgid "Delete Cells"
@@ -290,7 +290,7 @@ msgstr "Копировать вложения ячейки"
 
 #: notebook/templates/notebook.html:154
 msgid "Paste Cell Attachments"
-msgstr ""
+msgstr "Вставить вложения ячейки"
 
 #: notebook/templates/notebook.html:156
 msgid "Insert Image"
@@ -298,15 +298,15 @@ msgstr "Вставить изображение"
 
 #: notebook/templates/notebook.html:166
 msgid "Show/Hide the action icons (below menu bar)"
-msgstr ""
+msgstr "Показать/скрыть значки действий (ниже строки меню)"
 
 #: notebook/templates/notebook.html:167
 msgid "Toggle Toolbar"
-msgstr ""
+msgstr "Триггер панели мониторинга"
 
 #: notebook/templates/notebook.html:170
 msgid "Show/Hide line numbers in cells"
-msgstr ""
+msgstr "Показать/скрыть номера строк в ячейках"
 
 #: notebook/templates/notebook.html:174
 msgid "Cell Toolbar"
@@ -338,31 +338,31 @@ msgstr "Ячейка"
 
 #: notebook/templates/notebook.html:191
 msgid "Run this cell, and move cursor to the next one"
-msgstr ""
+msgstr "Запустить эту ячейку и переместить курсор на следующую"
 
 #: notebook/templates/notebook.html:192
 msgid "Run Cells"
-msgstr ""
+msgstr "Запустить ячейки"
 
 #: notebook/templates/notebook.html:193
 msgid "Run this cell, select below"
-msgstr ""
+msgstr "Запустить эту ячейку, выбрать ниже"
 
 #: notebook/templates/notebook.html:194
 msgid "Run Cells and Select Below"
-msgstr ""
+msgstr "Запустить ячейки и выбрать ниже"
 
 #: notebook/templates/notebook.html:195
 msgid "Run this cell, insert below"
-msgstr ""
+msgstr "Запустить эту ячейку, вставить ниже"
 
 #: notebook/templates/notebook.html:196
 msgid "Run Cells and Insert Below"
-msgstr ""
+msgstr "Запустить ячейки и вставить ниже"
 
 #: notebook/templates/notebook.html:197
 msgid "Run all cells in the notebook"
-msgstr ""
+msgstr "Запустить все ячейки в этом блокноте"
 
 #: notebook/templates/notebook.html:198
 msgid "Run All"
@@ -370,7 +370,7 @@ msgstr "Запустить всё"
 
 #: notebook/templates/notebook.html:199
 msgid "Run all cells above (but not including) this cell"
-msgstr ""
+msgstr "Запустите все ячейки выше (но не включая) этой ячейки"
 
 #: notebook/templates/notebook.html:200
 msgid "Run All Above"
@@ -378,7 +378,7 @@ msgstr "Запустить всё выше"
 
 #: notebook/templates/notebook.html:201
 msgid "Run this cell and all cells below it"
-msgstr ""
+msgstr "Запустить эту ячейку и все ячейки под ней"
 
 #: notebook/templates/notebook.html:202
 msgid "Run All Below"
@@ -420,7 +420,7 @@ msgstr "Содержимое будет проходить через nbconvert 
 
 #: notebook/templates/notebook.html:216
 msgid "Raw NBConvert"
-msgstr ""
+msgstr "Необработанный NBConvert"
 
 #: notebook/templates/notebook.html:220
 msgid "Current Outputs"
@@ -432,15 +432,15 @@ msgstr "Показать/скрыть вывод текущей ячейки"
 
 #: notebook/templates/notebook.html:224 notebook/templates/notebook.html:240
 msgid "Toggle"
-msgstr ""
+msgstr "Триггер"
 
 #: notebook/templates/notebook.html:227
 msgid "Scroll the output of the current cell"
-msgstr ""
+msgstr "Прокрутить вывод текущей ячейки"
 
 #: notebook/templates/notebook.html:228 notebook/templates/notebook.html:244
 msgid "Toggle Scrolling"
-msgstr ""
+msgstr "Триггер скроллинга"
 
 #: notebook/templates/notebook.html:231
 msgid "Clear the output of the current cell"
@@ -460,7 +460,7 @@ msgstr "Скрыть/показать вывод всех ячеек"
 
 #: notebook/templates/notebook.html:243
 msgid "Scroll the output of all cells"
-msgstr ""
+msgstr "Прокрутите вывод всех ячеек"
 
 #: notebook/templates/notebook.html:247
 msgid "Clear the output of all cells"
@@ -468,7 +468,7 @@ msgstr "Очистите выходные данные всех ячеек"
 
 #: notebook/templates/notebook.html:257
 msgid "Send Keyboard Interrupt (CTRL-C) to the Kernel"
-msgstr ""
+msgstr "Отправить прерывание клавиатуры (CTRL-C) ядру"
 
 #: notebook/templates/notebook.html:258
 msgid "Interrupt"
@@ -500,7 +500,7 @@ msgstr "Перезапустить &amp; Запустить всё"
 
 #: notebook/templates/notebook.html:273
 msgid "Reconnect to the Kernel"
-msgstr ""
+msgstr "Переподключение к ядру"
 
 #: notebook/templates/notebook.html:274
 msgid "Reconnect"
@@ -524,7 +524,7 @@ msgstr "Обзор пользовательского интерфейса"
 
 #: notebook/templates/notebook.html:291
 msgid "Opens a tooltip with all keyboard shortcuts"
-msgstr ""
+msgstr "Открывает инструмент со всеми сочетаниями клавиш"
 
 #: notebook/templates/notebook.html:291
 msgid "Keyboard Shortcuts"
@@ -532,7 +532,7 @@ msgstr "Сочетания клавиш"
 
 #: notebook/templates/notebook.html:292
 msgid "Opens a dialog allowing you to edit Keyboard shortcuts"
-msgstr ""
+msgstr "Открывает диалог, позволяющий редактировать сочетания клавиш"
 
 #: notebook/templates/notebook.html:292
 msgid "Edit Keyboard Shortcuts"
@@ -544,7 +544,7 @@ msgstr "Справка по блокноту"
 
 #: notebook/templates/notebook.html:303
 msgid "Opens in a new window"
-msgstr ""
+msgstr "Открыть в новом окне"
 
 #: notebook/templates/notebook.html:319
 msgid "About Jupyter Notebook"
@@ -556,15 +556,15 @@ msgstr "О программе"
 
 #: notebook/templates/page.html:114
 msgid "Jupyter Notebook requires JavaScript."
-msgstr ""
+msgstr "Блокнот Jupyter требует JavaScript."
 
 #: notebook/templates/page.html:115
 msgid "Please enable it to proceed. "
-msgstr ""
+msgstr "Пожалуйста, позвольте продолжить работу. "
 
 #: notebook/templates/page.html:121
 msgid "dashboard"
-msgstr "приборная панель"
+msgstr "панель мониторинга"
 
 #: notebook/templates/page.html:132
 msgid "Logout"
@@ -616,11 +616,11 @@ msgstr "Скачать выбранное"
 
 #: notebook/templates/tree.html:39
 msgid "Shutdown selected notebook(s)"
-msgstr ""
+msgstr "Выключить выбранный(-е) блокнот(ы)"
 
 #: notebook/templates/notebook.html:278 notebook/templates/tree.html:39
 msgid "Shutdown"
-msgstr ""
+msgstr "Выключение"
 
 #: notebook/templates/tree.html:40
 msgid "View selected"
@@ -660,7 +660,7 @@ msgstr "Терминалы недоступны"
 
 #: notebook/templates/tree.html:82
 msgid "Refresh notebook list"
-msgstr ""
+msgstr "Обновить список блокнотов"
 
 #: notebook/templates/tree.html:90
 msgid "Select All / None"
@@ -708,7 +708,7 @@ msgstr "Текущие запущенные процессы Jupyter"
 
 #: notebook/templates/tree.html:134
 msgid "Refresh running list"
-msgstr ""
+msgstr "Обновить список запущенных"
 
 #: notebook/templates/tree.html:150
 msgid "There are no terminals running."
@@ -735,3 +735,5 @@ msgid ""
 "See '<a href=\"https://github.com/ipython/ipyparallel\">IPython parallel</"
 "a>' for installation details."
 msgstr ""
+"Смотрите '<a href=\"https://github.com/ipython/ipyparallel\">IPython "
+"parallel</a>' для подробной информации об установке."
