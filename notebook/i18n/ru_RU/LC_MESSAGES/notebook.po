@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2017-07-08 21:52-0500\n"
-"PO-Revision-Date: 2020-07-06 12:13+0500\n"
+"PO-Revision-Date: 2020-07-06 17:38+0500\n"
 "Language-Team: TranslAster <https://github.com/translaster>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,20 +22,20 @@ msgstr ""
 
 #: notebook/notebookapp.py:53
 msgid "The Jupyter Notebook requires tornado >= 4.0"
-msgstr ""
+msgstr "Для Jupyter Notebook требуется tornado >= 4.0"
 
 #: notebook/notebookapp.py:57
 msgid "The Jupyter Notebook requires tornado >= 4.0, but you have < 1.1.0"
-msgstr ""
+msgstr "Для Jupyter Notebook требуется tornado >= 4.0, но у вас < 1.1.0"
 
 #: notebook/notebookapp.py:59
 #, python-format
 msgid "The Jupyter Notebook requires tornado >= 4.0, but you have %s"
-msgstr ""
+msgstr "Для Jupyter Notebook требуется tornado >= 4.0, но у вас %s"
 
 #: notebook/notebookapp.py:209
 msgid "The `ignore_minified_js` flag is deprecated and no longer works."
-msgstr ""
+msgstr "Флаг `ignore_minified_js` устарел и больше не работает."
 
 #: notebook/notebookapp.py:210
 #, python-format
@@ -49,7 +49,7 @@ msgstr ""
 msgid ""
 "The `ignore_minified_js` flag is deprecated and will be removed in Notebook "
 "6.0"
-msgstr ""
+msgstr "Флаг `ignore_minified_js` устарел и будет удален в Notebook 6.0"
 
 #: notebook/notebookapp.py:389
 msgid "List currently running notebook servers."
@@ -57,13 +57,15 @@ msgstr "Список запущенных в данный момент серв�
 
 #: notebook/notebookapp.py:393
 msgid "Produce machine-readable JSON output."
-msgstr ""
+msgstr "Произведите машиночитаемый вывод JSON."
 
 #: notebook/notebookapp.py:397
 msgid ""
 "If True, each line of output will be a JSON object with the details from the "
 "server info file."
 msgstr ""
+"Если True, то каждая строка вывода будет представлять собой объект JSON с "
+"подробностями из файла информации сервера."
 
 #: notebook/notebookapp.py:402
 msgid "Currently running servers:"
@@ -91,6 +93,10 @@ msgid ""
 "    This launches a Tornado based HTML Notebook Server that serves up an "
 "HTML5/Javascript Notebook client."
 msgstr ""
+"The Jupyter HTML Notebook.\n"
+"    \n"
+"    Запускает сервер HTML Notebook на базе Tornado, обслуживающий клиент "
+"HTML5/Javascript Notebook."
 
 #: notebook/notebookapp.py:509
 msgid ""
@@ -102,19 +108,19 @@ msgstr ""
 
 #: notebook/notebookapp.py:540
 msgid "Set the Access-Control-Allow-Credentials: true header"
-msgstr ""
+msgstr "Установка контроль-доступа-разрешенные-учетные_данные: заголовок true"
 
 #: notebook/notebookapp.py:544
 msgid "Whether to allow the user to run the notebook as root."
-msgstr ""
+msgstr "Следует ли разрешить пользователю запускать блокнот от имени root."
 
 #: notebook/notebookapp.py:548
 msgid "The default URL to redirect to from `/`"
-msgstr ""
+msgstr "URL-адрес по умолчанию для перенаправления на `/`"
 
 #: notebook/notebookapp.py:552
 msgid "The IP address the notebook server will listen on."
-msgstr ""
+msgstr "IP-адрес, который будет прослушиваться сервером блокнота."
 
 #: notebook/notebookapp.py:565
 #, python-format
@@ -128,35 +134,39 @@ msgstr ""
 
 #: notebook/notebookapp.py:579
 msgid "The port the notebook server will listen on."
-msgstr ""
+msgstr "Порт сервера блокнотов для прослушивания."
 
 #: notebook/notebookapp.py:583
 msgid ""
 "The number of additional ports to try if the specified port is not available."
 msgstr ""
+"Количество дополнительных портов, которые нужно попробовать, если указанный "
+"порт недоступен."
 
 #: notebook/notebookapp.py:587
 msgid "The full path to an SSL/TLS certificate file."
-msgstr ""
+msgstr "Полный путь к файлу сертификата с SSL/TLS."
 
 #: notebook/notebookapp.py:591
 msgid "The full path to a private key file for usage with SSL/TLS."
-msgstr ""
+msgstr "Полный путь к файлу приватного ключа для использования с SSL/TLS."
 
 #: notebook/notebookapp.py:595
 msgid ""
 "The full path to a certificate authority certificate for SSL/TLS client "
 "authentication."
 msgstr ""
+"Полный путь к сертификату центра сертификации для SSL/TLS аутентификации "
+"клиента."
 
 #: notebook/notebookapp.py:599
 msgid "The file where the cookie secret is stored."
-msgstr ""
+msgstr "Файл, в котором хранится пароль cookie."
 
 #: notebook/notebookapp.py:628
 #, python-format
 msgid "Writing notebook server cookie secret to %s"
-msgstr ""
+msgstr "Запись пароля cookie сервера блокнота в %s"
 
 #: notebook/notebookapp.py:635
 #, python-format
@@ -174,6 +184,15 @@ msgid ""
 "is NOT RECOMMENDED.\n"
 "        "
 msgstr ""
+"Токен, используемый для проверки подлинности при первом подключении к "
+"серверу.\n"
+"\n"
+"        Когда пароль не включен,\n"
+"        по умолчанию генерируется новый случайный токен.\n"
+"\n"
+"        Установка пустой строки полностью отключает аутентификацию, что НЕ "
+"РЕКОМЕНДУЕТСЯ.\n"
+"        "
 
 #: notebook/notebookapp.py:650
 msgid ""
@@ -181,6 +200,9 @@ msgid ""
 "        Once used, this token cannot be used again.\n"
 "        "
 msgstr ""
+"Одноразовый токен, используемый для открытия в браузере. \n"
+"        После использования этот токен не может быть использован снова.\n"
+"        "
 
 #: notebook/notebookapp.py:726
 msgid ""
@@ -196,6 +218,18 @@ msgid ""
 "        See the `webbrowser.open` documentation for details.\n"
 "        "
 msgstr ""
+"Укажите где открывать блокнот при запуске. Это \"новый\"\n"
+"        аргумент, передаваемый для стандартного метода библиотек `webbrowser."
+"open`.\n"
+"        Поведение не гарантируется, но зависит от поддержки браузера. "
+"Допустимыми\n"
+"        значениями являются:\n"
+"            2 открывает новую вкладку,\n"
+"            1 открывает новое окно,\n"
+"            0 открывается в существующем окне.\n"
+"        См. документацию `webbrowser.open` для получения подробной "
+"информации.\n"
+"        "
 
 #: notebook/notebookapp.py:737
 msgid "DEPRECATED, use tornado_settings"
@@ -214,6 +248,8 @@ msgid ""
 "Supply overrides for the tornado.web.Application that the Jupyter notebook "
 "uses."
 msgstr ""
+"Перекрывает поставки для tornado.web. Приложение, использующее блокнот "
+"Jupyter."
 
 #: notebook/notebookapp.py:750
 msgid ""
@@ -245,26 +281,33 @@ msgstr ""
 msgid ""
 "Supply overrides for terminado. Currently only supports \"shell_command\"."
 msgstr ""
+"Переопределение поставок для terminado. В настоящее время поддерживается "
+"только \"shell_command\"."
 
 #: notebook/notebookapp.py:764
 msgid ""
 "Extra keyword arguments to pass to `set_secure_cookie`. See tornado's "
 "set_secure_cookie docs for details."
 msgstr ""
+"Дополнительные аргументы ключевого слова для передачи в `set_secure_cookie`. "
+"Подробнее см. документацию set_secure_cookie для tornado."
 
 #: notebook/notebookapp.py:768
 msgid ""
 "Supply SSL options for the tornado HTTPServer.\n"
 "            See the tornado docs for details."
 msgstr ""
+"Предоставьте параметры SSL для HTTPServer tornado.\n"
+"            Подробности смотрите в документации tornado."
 
 #: notebook/notebookapp.py:772
 msgid "Supply extra arguments that will be passed to Jinja environment."
-msgstr ""
+msgstr "Предоставьте дополнительные аргументы, передаваемые в среду Jinja."
 
 #: notebook/notebookapp.py:776
 msgid "Extra variables to supply to jinja templates when rendering."
 msgstr ""
+"Дополнительные переменные для предоставления шаблонам jinja при рендеринге."
 
 #: notebook/notebookapp.py:812
 msgid "DEPRECATED use base_url"
@@ -284,6 +327,10 @@ msgid ""
 "\n"
 "        Can be used to override templates from notebook.templates."
 msgstr ""
+"Дополнительные пути для поиска обслуживающих шаблонов jinja.\n"
+"\n"
+"        Может использоваться для переопределения шаблонов из notebook."
+"templates."
 
 #: notebook/notebookapp.py:855
 msgid "extra paths to look for Javascript notebook extensions"
@@ -292,40 +339,40 @@ msgstr "дополнительные пути для поиска расшире
 #: notebook/notebookapp.py:900
 #, python-format
 msgid "Using MathJax: %s"
-msgstr ""
+msgstr "Использование MathJax: %s"
 
 #: notebook/notebookapp.py:903
 msgid "The MathJax.js configuration file that is to be used."
-msgstr ""
+msgstr "Использовать файл конфигурации MathJax.js."
 
 #: notebook/notebookapp.py:908
 #, python-format
 msgid "Using MathJax configuration file: %s"
-msgstr ""
+msgstr "Использование файла конфигурации MathJax: %s"
 
 #: notebook/notebookapp.py:914
 msgid "The notebook manager class to use."
-msgstr ""
+msgstr "Используемый класс менеджера блокнотов."
 
 #: notebook/notebookapp.py:920
 msgid "The kernel manager class to use."
-msgstr ""
+msgstr "Используемый класс менеджера ядра."
 
 #: notebook/notebookapp.py:926
 msgid "The session manager class to use."
-msgstr ""
+msgstr "Класс менеджера сеансов для использования."
 
 #: notebook/notebookapp.py:932
 msgid "The config manager class to use"
-msgstr ""
+msgstr "Класс менеджера конфигурации для использования"
 
 #: notebook/notebookapp.py:953
 msgid "The login handler class to use."
-msgstr ""
+msgstr "Используемый класс обработчика входа в систему."
 
 #: notebook/notebookapp.py:960
 msgid "The logout handler class to use."
-msgstr ""
+msgstr "Используемый класс обработчика выхода из системы."
 
 #: notebook/notebookapp.py:964
 msgid ""
@@ -333,6 +380,9 @@ msgid ""
 "For headerssent by the upstream reverse proxy. Necessary if the proxy "
 "handles SSL"
 msgstr ""
+"Стоит ли доверять или нет Х-схеме/х-перенаправлению-прото и X-реал-ip/х-"
+"перенаправлению-для заголовков, загружаемых по потоку обратного прокси-"
+"сервера. Необходимо, если прокси обрабатывает SSL"
 
 #: notebook/notebookapp.py:976
 msgid ""
@@ -348,15 +398,16 @@ msgstr ""
 
 #: notebook/notebookapp.py:988
 msgid "Support for specifying --pylab on the command line has been removed."
-msgstr ""
+msgstr "Поддержка указания --pylab в командной строке была удалена."
 
 #: notebook/notebookapp.py:990
 msgid "Please use `%pylab{0}` or `%matplotlib{0}` in the notebook itself."
 msgstr ""
+"Пожалуйста, используйте `%pylab{0}` или `%matplotlib{0}` в самом блокноте."
 
 #: notebook/notebookapp.py:995
 msgid "The directory to use for notebooks and kernels."
-msgstr ""
+msgstr "Каталог, используемый для блокнотов и ядер."
 
 #: notebook/notebookapp.py:1018
 #, python-format
@@ -369,7 +420,7 @@ msgstr "УСТАРЕЛО - используйте nbserver_extensions вмест
 
 #: notebook/notebookapp.py:1036
 msgid "server_extensions is deprecated, use nbserver_extensions"
-msgstr ""
+msgstr "server_extensions устарело - используйте nbserver_extensions"
 
 #: notebook/notebookapp.py:1040
 msgid ""
@@ -377,10 +428,15 @@ msgid ""
 "can be used to enable and disable the loading ofthe extensions. The "
 "extensions will be loaded in alphabetical order."
 msgstr ""
+"Dict модулей Python для загрузки в качестве серверных расширений блокнотов. "
+"Введенные значения можно использовать для включения и отключения загрузки "
+"расширений. Расширения будут загружены в алфавитном порядке."
 
 #: notebook/notebookapp.py:1049
 msgid "Reraise exceptions encountered loading server extensions?"
 msgstr ""
+"Повторно поднимаемые исключения, встречающиеся при загрузке серверных "
+"расширений?"
 
 #: notebook/notebookapp.py:1052
 msgid ""
@@ -418,20 +474,20 @@ msgstr "Нет такого файла или каталога: %s"
 
 #: notebook/notebookapp.py:1141
 msgid "Notebook servers are configured to only be run with a password."
-msgstr "Серверы ноутбуков настроены на работу только с паролем."
+msgstr "Серверы блокнотов настроены на работу только с паролем."
 
 #: notebook/notebookapp.py:1142
 msgid "Hint: run the following command to set a password"
-msgstr ""
+msgstr "Подсказка: выполните следующую команду, чтобы установить пароль"
 
 #: notebook/notebookapp.py:1143
 msgid "\t$ python -m notebook.auth password"
-msgstr ""
+msgstr "\t$ python -m notebook.auth password"
 
 #: notebook/notebookapp.py:1181
 #, python-format
 msgid "The port %i is already in use, trying another port."
-msgstr ""
+msgstr "Порт %i уже используется, попробуйте другой порт."
 
 #: notebook/notebookapp.py:1184
 #, python-format
@@ -443,6 +499,8 @@ msgid ""
 "ERROR: the notebook server could not be started because no available port "
 "could be found."
 msgstr ""
+"ОШИБКА: не удалось запустить сервер блокнота, так как не удалось найти "
+"доступный порт."
 
 #: notebook/notebookapp.py:1199
 msgid "[all ip addresses on your system]"
@@ -451,7 +509,7 @@ msgstr "[все ip-адреса в вашей системе]"
 #: notebook/notebookapp.py:1223
 #, python-format
 msgid "Terminals not available (error was %s)"
-msgstr ""
+msgstr "Терминалы недоступны (ошибка: %s)"
 
 #: notebook/notebookapp.py:1259
 msgid "interrupted"
@@ -459,20 +517,20 @@ msgstr "прервано"
 
 #: notebook/notebookapp.py:1261
 msgid "y"
-msgstr ""
+msgstr "д"
 
 #: notebook/notebookapp.py:1262
 msgid "n"
-msgstr ""
+msgstr "н"
 
 #: notebook/notebookapp.py:1263
 #, python-format
 msgid "Shutdown this notebook server (%s/[%s])? "
-msgstr ""
+msgstr "Выключить этот сервер блокнотов (%s/[%s])? "
 
 #: notebook/notebookapp.py:1269
 msgid "Shutdown confirmed"
-msgstr ""
+msgstr "Выключение подтверждено"
 
 #: notebook/notebookapp.py:1273
 msgid "No answer for 5s:"
@@ -480,7 +538,7 @@ msgstr "Нет ответа уже 5с:"
 
 #: notebook/notebookapp.py:1274
 msgid "resuming operation..."
-msgstr ""
+msgstr "возобновить работу..."
 
 #: notebook/notebookapp.py:1282
 #, python-format
@@ -495,7 +553,7 @@ msgstr "Ошибка загрузки расширения сервера %s"
 #: notebook/notebookapp.py:1369
 #, python-format
 msgid "Shutting down %d kernels"
-msgstr ""
+msgstr "Выключить %d ядер"
 
 #: notebook/notebookapp.py:1375
 #, python-format
@@ -511,16 +569,21 @@ msgid ""
 "The Jupyter Notebook is running at:\n"
 "\r%s"
 msgstr ""
+"Jupyter Notebook запущен на:\n"
+"\r%s"
 
 #: notebook/notebookapp.py:1426
 msgid "Running as root is not recommended. Use --allow-root to bypass."
 msgstr ""
+"Запуск от имени root не рекомендуется. Используйте --allow-root для обхода."
 
 #: notebook/notebookapp.py:1432
 msgid ""
 "Use Control-C to stop this server and shut down all kernels (twice to skip "
 "confirmation)."
 msgstr ""
+"Используйте Control-C, для остановки этого сервера и выключения всех ядер "
+"(дважды, чтобы пропустить подтверждение)."
 
 #: notebook/notebookapp.py:1434
 msgid ""
@@ -529,6 +592,10 @@ msgid ""
 "platform, please visit the communityresources section at http://jupyter.org/"
 "community.html."
 msgstr ""
+"Добро пожаловать в проект Jupyter! Изучите различные доступные инструменты и "
+"соответствующую им документацию. Если вы заинтересованы в том, чтобы внести "
+"свой вклад в платформу, пожалуйста, посетите раздел ресурсов сообщества по "
+"адресу http://jupyter.org/community.html."
 
 #: notebook/notebookapp.py:1445
 #, python-format
@@ -547,8 +614,8 @@ msgstr "Прерывание..."
 #: notebook/services/contents/filemanager.py:506
 #, python-format
 msgid "Serving notebooks from local directory: %s"
-msgstr ""
+msgstr "Обслуживание блокнотов из локального каталога: %s"
 
 #: notebook/services/contents/manager.py:68
 msgid "Untitled"
-msgstr ""
+msgstr "Без названия"
