@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2017-07-08 21:52-0500\n"
-"PO-Revision-Date: 2020-07-03 15:05+0500\n"
+"PO-Revision-Date: 2020-07-06 12:13+0500\n"
 "Language-Team: TranslAster <https://github.com/translaster>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,6 +42,8 @@ msgstr ""
 msgid ""
 "Alternatively use `%s` when working on the notebook's Javascript and LESS"
 msgstr ""
+"В качестве альтернативы используйте `%s` при работе с блокнотами Javascript "
+"и LESS"
 
 #: notebook/notebookapp.py:211
 msgid ""
@@ -51,7 +53,7 @@ msgstr ""
 
 #: notebook/notebookapp.py:389
 msgid "List currently running notebook servers."
-msgstr ""
+msgstr "Список запущенных в данный момент серверов блокнотов."
 
 #: notebook/notebookapp.py:393
 msgid "Produce machine-readable JSON output."
@@ -65,16 +67,18 @@ msgstr ""
 
 #: notebook/notebookapp.py:402
 msgid "Currently running servers:"
-msgstr ""
+msgstr "В настоящее время работают сервера:"
 
 #: notebook/notebookapp.py:419
 msgid "Don't open the notebook in a browser after startup."
-msgstr ""
+msgstr "Не открывайте блокнот в браузере после запуска."
 
 #: notebook/notebookapp.py:423
 msgid ""
 "DISABLED: use %pylab or %matplotlib in the notebook to enable matplotlib."
 msgstr ""
+"ОТКЛЮЧЕНО: используйте %pylab или %matplotlib в блокноте чтобы включить "
+"matplotlib."
 
 #: notebook/notebookapp.py:439
 msgid "Allow the notebook to be run from root user."
@@ -93,6 +97,8 @@ msgid ""
 "Deprecated: Use minified JS file or not, mainly use during dev to avoid JS "
 "recompilation"
 msgstr ""
+"Устарело: используйте уменьшенный файл JS или нет, в основном используется "
+"во время разработки чтобы избежать перекомпиляции JS"
 
 #: notebook/notebookapp.py:540
 msgid "Set the Access-Control-Allow-Credentials: true header"
@@ -116,6 +122,9 @@ msgid ""
 "Cannot bind to localhost, using 127.0.0.1 as default ip\n"
 "%s"
 msgstr ""
+"Невозможно привязаться к localhost, используйте 127.0.0.1 в качестве ip-"
+"адреса по умолчанию\n"
+"%s"
 
 #: notebook/notebookapp.py:579
 msgid "The port the notebook server will listen on."
@@ -190,7 +199,7 @@ msgstr ""
 
 #: notebook/notebookapp.py:737
 msgid "DEPRECATED, use tornado_settings"
-msgstr ""
+msgstr "УСТАРЕЛО - используйте tornado_settings"
 
 #: notebook/notebookapp.py:742
 msgid ""
@@ -220,6 +229,17 @@ msgid ""
 "for details.\n"
 "        "
 msgstr ""
+"\n"
+"        Установите параметры сжатия tornado для соединений websocket.\n"
+"\n"
+"        Это значение будет возвращено из :meth: 'WebSocketHandler."
+"get_compression_options`.\n"
+"        None (по умолчанию) отключит сжатие.\n"
+"        Диктат (даже пустой) будет включать сжатие.\n"
+"\n"
+"        Смотрите документы tornado для WebSocketHandler."
+"get_compression_options для получения подробной информации.\n"
+"        "
 
 #: notebook/notebookapp.py:761
 msgid ""
@@ -248,15 +268,15 @@ msgstr ""
 
 #: notebook/notebookapp.py:812
 msgid "DEPRECATED use base_url"
-msgstr ""
+msgstr "УСТАРЕЛО - используйте base_url"
 
 #: notebook/notebookapp.py:816
 msgid "base_project_url is deprecated, use base_url"
-msgstr ""
+msgstr "base_project_url устарел - используйте base_url"
 
 #: notebook/notebookapp.py:832
 msgid "Path to search for custom.js, css"
-msgstr ""
+msgstr "Путь для поиска custom.js, css"
 
 #: notebook/notebookapp.py:844
 msgid ""
@@ -267,7 +287,7 @@ msgstr ""
 
 #: notebook/notebookapp.py:855
 msgid "extra paths to look for Javascript notebook extensions"
-msgstr ""
+msgstr "дополнительные пути для поиска расширений блокнота Javascript"
 
 #: notebook/notebookapp.py:900
 #, python-format
@@ -341,11 +361,11 @@ msgstr ""
 #: notebook/notebookapp.py:1018
 #, python-format
 msgid "No such notebook dir: '%r'"
-msgstr ""
+msgstr "Нет такого блокнота: '%r'"
 
 #: notebook/notebookapp.py:1031
 msgid "DEPRECATED use the nbserver_extensions dict instead"
-msgstr ""
+msgstr "УСТАРЕЛО - используйте nbserver_extensions вместо диктата"
 
 #: notebook/notebookapp.py:1036
 msgid "server_extensions is deprecated, use nbserver_extensions"
@@ -368,6 +388,9 @@ msgid ""
 "        Maximum rate at which messages can be sent on iopub before they are\n"
 "        limited."
 msgstr ""
+"(сообщ/сек)\n"
+"        Максимальная скорость отправки сообщений на iopub, прежде\n"
+"         чем они будут ограничены."
 
 #: notebook/notebookapp.py:1056
 msgid ""
@@ -376,21 +399,26 @@ msgid ""
 "are\n"
 "        limited."
 msgstr ""
+"(байт/сек)\n"
+"        Максимальная скорость отправки потока вывода на iopub, прежде\n"
+"         чем он будет ограничен."
 
 #: notebook/notebookapp.py:1060
 msgid ""
 "(sec) Time window used to \n"
 "        check the message and data rate limits."
 msgstr ""
+"(сек) Окно времени, используемое для \n"
+"          проверки ограничений скорости передачи сообщений и данных."
 
 #: notebook/notebookapp.py:1071
 #, python-format
 msgid "No such file or directory: %s"
-msgstr ""
+msgstr "Нет такого файла или каталога: %s"
 
 #: notebook/notebookapp.py:1141
 msgid "Notebook servers are configured to only be run with a password."
-msgstr ""
+msgstr "Серверы ноутбуков настроены на работу только с паролем."
 
 #: notebook/notebookapp.py:1142
 msgid "Hint: run the following command to set a password"
@@ -408,7 +436,7 @@ msgstr ""
 #: notebook/notebookapp.py:1184
 #, python-format
 msgid "Permission to listen on port %i denied"
-msgstr ""
+msgstr "Разрешение на прослушивание порта %i отклонено"
 
 #: notebook/notebookapp.py:1193
 msgid ""
@@ -427,7 +455,7 @@ msgstr ""
 
 #: notebook/notebookapp.py:1259
 msgid "interrupted"
-msgstr ""
+msgstr "прервано"
 
 #: notebook/notebookapp.py:1261
 msgid "y"
@@ -448,7 +476,7 @@ msgstr ""
 
 #: notebook/notebookapp.py:1273
 msgid "No answer for 5s:"
-msgstr ""
+msgstr "Нет ответа уже 5с:"
 
 #: notebook/notebookapp.py:1274
 msgid "resuming operation..."
@@ -457,12 +485,12 @@ msgstr ""
 #: notebook/notebookapp.py:1282
 #, python-format
 msgid "received signal %s, stopping"
-msgstr ""
+msgstr "получен сигнал %s, остановка"
 
 #: notebook/notebookapp.py:1338
 #, python-format
 msgid "Error loading server extension %s"
-msgstr ""
+msgstr "Ошибка загрузки расширения сервера %s"
 
 #: notebook/notebookapp.py:1369
 #, python-format
@@ -473,9 +501,9 @@ msgstr ""
 #, python-format
 msgid "%d active kernel"
 msgid_plural "%d active kernels"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d активное ядро"
+msgstr[1] "%d активных ядра"
+msgstr[2] "%d активных ядер"
 
 #: notebook/notebookapp.py:1379
 #, python-format
@@ -505,7 +533,7 @@ msgstr ""
 #: notebook/notebookapp.py:1445
 #, python-format
 msgid "No web browser found: %s."
-msgstr ""
+msgstr "Веб-браузер не найден: %s."
 
 #: notebook/notebookapp.py:1450
 #, python-format
@@ -514,7 +542,7 @@ msgstr "%s не существует"
 
 #: notebook/notebookapp.py:1484
 msgid "Interrupted..."
-msgstr ""
+msgstr "Прерывание..."
 
 #: notebook/services/contents/filemanager.py:506
 #, python-format
