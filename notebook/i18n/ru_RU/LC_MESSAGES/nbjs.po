@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2017-06-27 14:04-0500\n"
-"PO-Revision-Date: 2020-07-06 12:13+0500\n"
+"PO-Revision-Date: 2020-07-06 17:47+0500\n"
 "Language-Team: TranslAster <https://github.com/translaster>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -285,7 +285,7 @@ msgstr ""
 #: notebook/static/notebook/js/actions.js:221
 #: notebook/static/notebook/js/actions.js:222
 msgid "copy cell attachments"
-msgstr ""
+msgstr "копирование вложений ячейки"
 
 #: notebook/static/notebook/js/actions.js:229
 #: notebook/static/notebook/js/actions.js:230
@@ -693,7 +693,7 @@ msgstr ""
 #: notebook/static/notebook/js/clipboard.js:53
 #, python-format
 msgid "Clipboard types: %s"
-msgstr ""
+msgstr "Типы буфера обмена: %s"
 
 #: notebook/static/notebook/js/clipboard.js:96
 msgid "Dialog for paste from system clipboard"
@@ -855,7 +855,7 @@ msgstr "Перезапуск"
 
 #: notebook/static/notebook/js/notebook.js:473
 msgid "Continue Running"
-msgstr ""
+msgstr "Продолжить запуск"
 
 #: notebook/static/notebook/js/notebook.js:474
 msgid "Reload"
@@ -1221,19 +1221,19 @@ msgstr ""
 
 #: notebook/static/notebook/js/notificationarea.js:339
 msgid "Checkpoint created"
-msgstr ""
+msgstr "Контрольная точка создана"
 
 #: notebook/static/notebook/js/notificationarea.js:347
 msgid "Checkpoint failed"
-msgstr ""
+msgstr "Ошибка контрольной точки"
 
 #: notebook/static/notebook/js/notificationarea.js:350
 msgid "Checkpoint deleted"
-msgstr ""
+msgstr "Контрольная точка удалена"
 
 #: notebook/static/notebook/js/notificationarea.js:353
 msgid "Checkpoint delete failed"
-msgstr ""
+msgstr "Ошибка удаления контрольной точки"
 
 #: notebook/static/notebook/js/notificationarea.js:356
 msgid "Restoring to checkpoint..."
@@ -1262,11 +1262,11 @@ msgstr ""
 
 #: notebook/static/notebook/js/outputarea.js:75
 msgid "click to expand output"
-msgstr ""
+msgstr "щелкните чтобы развернуть вывод"
 
 #: notebook/static/notebook/js/outputarea.js:79
 msgid "click to expand output; double click to hide output"
-msgstr ""
+msgstr "щелкните чтобы развернуть вывод; двойной щелчок чтобы скрыть вывод"
 
 #: notebook/static/notebook/js/outputarea.js:167
 msgid "click to unscroll output; double click to hide"
@@ -1340,7 +1340,7 @@ msgstr ""
 
 #: notebook/static/notebook/js/quickhelp.js:61
 msgid "code completion or indent"
-msgstr ""
+msgstr "завершение кода или отступ"
 
 #: notebook/static/notebook/js/quickhelp.js:62
 msgid "tooltip"
