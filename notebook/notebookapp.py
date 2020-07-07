@@ -1160,7 +1160,10 @@ class NotebookApp(JupyterApp):
         """)
     )
     terminado_settings = Dict(config=True,
-            help=_('Supply overrides for terminado. Currently only supports "shell_command".'))
+            help=_('Supply overrides for terminado. Currently only supports "shell_command". '
+                 'On Unix, if "shell_command" is not provided, a non-login shell is launched '
+                 "by default when the notebook server is connected to a terminal, a login "
+                 "shell otherwise."))
 
     cookie_options = Dict(config=True,
         help=_("Extra keyword arguments to pass to `set_secure_cookie`."
