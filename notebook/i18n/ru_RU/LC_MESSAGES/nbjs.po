@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2017-06-27 14:04-0500\n"
-"PO-Revision-Date: 2020-07-06 17:47+0500\n"
+"PO-Revision-Date: 2020-07-07 16:07+0500\n"
 "Language-Team: TranslAster <https://github.com/translaster>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +40,7 @@ msgstr ""
 
 #: notebook/static/base/js/dialog.js:180
 msgid "Edit the metadata"
-msgstr ""
+msgstr "Редактировать метаданные"
 
 #: notebook/static/base/js/dialog.js:202
 msgid "Edit Notebook Metadata"
@@ -87,7 +87,7 @@ msgstr ""
 
 #: notebook/static/base/js/dialog.js:250
 msgid "Current cell attachments"
-msgstr ""
+msgstr "Вложения текущей ячейки"
 
 #: notebook/static/base/js/dialog.js:259
 #: notebook/static/notebook/js/celltoolbarpresets/attachments.js:46
@@ -145,15 +145,17 @@ msgstr ""
 
 #: notebook/static/notebook/js/about.js:29
 msgid "Current Kernel Information:"
-msgstr ""
+msgstr "Информация о текущем ядре:"
 
 #: notebook/static/notebook/js/about.js:32
 msgid "Could not access sys_info variable for version information."
 msgstr ""
+"Невозможно получить доступ к переменной sys_info для получения информации о "
+"версии."
 
 #: notebook/static/notebook/js/about.js:34
 msgid "Cannot find sys_info!"
-msgstr ""
+msgstr "Невозможно найти sys_info!"
 
 #: notebook/static/notebook/js/about.js:38
 msgid "About Jupyter Notebook"
@@ -275,12 +277,12 @@ msgstr "вход в командный режим"
 #: notebook/static/notebook/js/actions.js:205
 #: notebook/static/notebook/js/actions.js:206
 msgid "insert image"
-msgstr ""
+msgstr "вставить изображение"
 
 #: notebook/static/notebook/js/actions.js:213
 #: notebook/static/notebook/js/actions.js:214
 msgid "cut cell attachments"
-msgstr ""
+msgstr "вырезать вложения ячейки"
 
 #: notebook/static/notebook/js/actions.js:221
 #: notebook/static/notebook/js/actions.js:222
@@ -337,12 +339,12 @@ msgstr ""
 #: notebook/static/notebook/js/actions.js:301
 #: notebook/static/notebook/js/actions.js:302
 msgid "cut selected cells"
-msgstr ""
+msgstr "вырезать выбранные ячейки"
 
 #: notebook/static/notebook/js/actions.js:312
 #: notebook/static/notebook/js/actions.js:313
 msgid "copy selected cells"
-msgstr ""
+msgstr "копировать выбранные ячейки"
 
 #: notebook/static/notebook/js/actions.js:327
 #: notebook/static/notebook/js/actions.js:328
@@ -461,7 +463,7 @@ msgstr ""
 
 #: notebook/static/notebook/js/actions.js:494
 msgid "delete cells"
-msgstr ""
+msgstr "удалить ячейки"
 
 #: notebook/static/notebook/js/actions.js:495
 msgid "delete selected cells"
@@ -578,7 +580,7 @@ msgstr "закрыть пейджер"
 
 #: notebook/static/notebook/js/actions.js:704
 msgid "ignore"
-msgstr ""
+msgstr "игнорировать"
 
 #: notebook/static/notebook/js/actions.js:710
 #: notebook/static/notebook/js/actions.js:711
@@ -622,7 +624,7 @@ msgstr "дублировать блокнот"
 
 #: notebook/static/notebook/js/actions.js:793
 msgid "Create and open a copy of the current notebook"
-msgstr ""
+msgstr "Создать и открыть копию текущего блокнота"
 
 #: notebook/static/notebook/js/actions.js:799
 msgid "trust notebook"
@@ -662,7 +664,7 @@ msgstr "очистить вывод всех ячеек"
 
 #: notebook/static/notebook/js/actions.js:829
 msgid "Clear the content of all the outputs"
-msgstr ""
+msgstr "Очистить содержимое всех выводов"
 
 #: notebook/static/notebook/js/actions.js:835
 msgid "save notebook"
@@ -697,7 +699,7 @@ msgstr "Типы буфера обмена: %s"
 
 #: notebook/static/notebook/js/clipboard.js:96
 msgid "Dialog for paste from system clipboard"
-msgstr ""
+msgstr "Диалоговое окно для вставки из системного буфера обмена"
 
 #: notebook/static/notebook/js/clipboard.js:109
 msgid "Ctrl-V"
@@ -731,7 +733,7 @@ msgstr "%s для вставки"
 
 #: notebook/static/notebook/js/codecell.js:310
 msgid "Can't execute cell since kernel is not set."
-msgstr ""
+msgstr "Невозможно выполнить ячейку, так как ядро не установлено."
 
 #: notebook/static/notebook/js/codecell.js:472
 msgid "In"
@@ -740,7 +742,7 @@ msgstr "В"
 #: notebook/static/notebook/js/kernelselector.js:269
 #, python-format
 msgid "Could not find a kernel matching %s. Please select a kernel:"
-msgstr ""
+msgstr "Не удалось найти ядро, соответствующее %s. Пожалуйста, выберите ядро:"
 
 #: notebook/static/notebook/js/kernelselector.js:278
 msgid "Continue Without Kernel"
@@ -752,7 +754,7 @@ msgstr ""
 
 #: notebook/static/notebook/js/kernelselector.js:281
 msgid "Kernel not found"
-msgstr ""
+msgstr "Ядро не найдено"
 
 #: notebook/static/notebook/js/kernelselector.js:319
 #: notebook/static/tree/js/newnotebook.js:99
@@ -1076,7 +1078,7 @@ msgstr "Командный режим"
 
 #: notebook/static/notebook/js/notificationarea.js:95
 msgid "Kernel Created"
-msgstr ""
+msgstr "Ядро создано"
 
 #: notebook/static/notebook/js/notificationarea.js:99
 msgid "Connecting to kernel"
@@ -1096,7 +1098,7 @@ msgstr ""
 
 #: notebook/static/notebook/js/notificationarea.js:129
 msgid "Kernel Restarting"
-msgstr ""
+msgstr "Перезапуск ядра"
 
 #: notebook/static/notebook/js/notificationarea.js:130
 msgid "The kernel appears to have died. It will restart automatically."
@@ -1106,13 +1108,13 @@ msgstr ""
 #: notebook/static/notebook/js/notificationarea.js:198
 #: notebook/static/notebook/js/notificationarea.js:218
 msgid "Dead kernel"
-msgstr ""
+msgstr "Убить ядро"
 
 #: notebook/static/notebook/js/notificationarea.js:141
 #: notebook/static/notebook/js/notificationarea.js:219
 #: notebook/static/notebook/js/notificationarea.js:266
 msgid "Kernel Dead"
-msgstr ""
+msgstr "Ядро мертво"
 
 #: notebook/static/notebook/js/notificationarea.js:145
 msgid "Interrupting kernel"
@@ -1172,11 +1174,11 @@ msgstr ""
 #: notebook/static/notebook/js/notificationarea.js:292
 #: notebook/static/notebook/js/notificationarea.js:306
 msgid "Kernel Busy"
-msgstr ""
+msgstr "Ядро занято"
 
 #: notebook/static/notebook/js/notificationarea.js:273
 msgid "Kernel starting, please wait..."
-msgstr ""
+msgstr "Перезапуск ядра, пожалуйста подождите..."
 
 #: notebook/static/notebook/js/notificationarea.js:279
 #: notebook/static/notebook/js/notificationarea.js:286
@@ -1185,7 +1187,7 @@ msgstr ""
 
 #: notebook/static/notebook/js/notificationarea.js:280
 msgid "Kernel ready"
-msgstr ""
+msgstr "Ядро готово"
 
 #: notebook/static/notebook/js/notificationarea.js:297
 msgid "Using kernel: "
@@ -1197,7 +1199,7 @@ msgstr ""
 
 #: notebook/static/notebook/js/notificationarea.js:319
 msgid "Loading notebook"
-msgstr ""
+msgstr "Загрузка блокнота"
 
 #: notebook/static/notebook/js/notificationarea.js:322
 msgid "Notebook loaded"
@@ -1270,11 +1272,11 @@ msgstr "щелкните чтобы развернуть вывод; двойн�
 
 #: notebook/static/notebook/js/outputarea.js:167
 msgid "click to unscroll output; double click to hide"
-msgstr ""
+msgstr "щелчок для прокрутки вывода; двойной щелчок - чтобы скрыть"
 
 #: notebook/static/notebook/js/outputarea.js:174
 msgid "click to scroll output; double click to hide"
-msgstr ""
+msgstr "щелчок для прокрутки вывода; двойной щелчок - чтобы скрыть"
 
 #: notebook/static/notebook/js/outputarea.js:422
 msgid "Javascript error adding output!"
@@ -1331,12 +1333,12 @@ msgstr ""
 #: notebook/static/notebook/js/quickhelp.js:43
 #: notebook/static/notebook/js/quickhelp.js:55
 msgid "delete word before"
-msgstr ""
+msgstr "удалить слово перед"
 
 #: notebook/static/notebook/js/quickhelp.js:44
 #: notebook/static/notebook/js/quickhelp.js:56
 msgid "delete word after"
-msgstr ""
+msgstr "удалить слово после"
 
 #: notebook/static/notebook/js/quickhelp.js:61
 msgid "code completion or indent"
@@ -1348,11 +1350,11 @@ msgstr ""
 
 #: notebook/static/notebook/js/quickhelp.js:63
 msgid "indent"
-msgstr ""
+msgstr "отступ"
 
 #: notebook/static/notebook/js/quickhelp.js:64
 msgid "dedent"
-msgstr ""
+msgstr "dedent"
 
 #: notebook/static/notebook/js/quickhelp.js:65
 msgid "select all"
@@ -1443,7 +1445,7 @@ msgstr "Бэкспейс"
 
 #: notebook/static/notebook/js/quickhelp.js:119
 msgid "Minus"
-msgstr ""
+msgstr "Минус"
 
 #: notebook/static/notebook/js/quickhelp.js:130
 msgid "PageUp"
@@ -1502,7 +1504,7 @@ msgstr "Командный режим (нажмите %s для включени
 
 #: notebook/static/notebook/js/quickhelp.js:272
 msgid "Edit Shortcuts"
-msgstr ""
+msgstr "Редактировать ярлыки"
 
 #: notebook/static/notebook/js/quickhelp.js:275
 msgid "edit command-mode keyboard shortcuts"
@@ -1553,7 +1555,7 @@ msgstr ""
 #: notebook/static/notebook/js/savewidget.js:193
 #, python-format
 msgid "Last Checkpoint: %s"
-msgstr ""
+msgstr "Последняя контрольная точка: %s"
 
 #: notebook/static/notebook/js/savewidget.js:217
 msgid "(unsaved changes)"
@@ -1655,7 +1657,7 @@ msgstr "Имя файла"
 
 #: notebook/static/notebook/js/tour.js:35
 msgid "Click here to change the filename for this notebook."
-msgstr ""
+msgstr "Нажмите здесь чтобы изменить имя файла для этого блокнота."
 
 #: notebook/static/notebook/js/tour.js:39
 msgid "Notebook Menubar"
@@ -1756,7 +1758,7 @@ msgstr ""
 
 #: notebook/static/notebook/js/tour.js:117
 msgid "End of Tour"
-msgstr ""
+msgstr "Конец обзора"
 
 #: notebook/static/notebook/js/tour.js:120
 msgid "This concludes the Jupyter Notebook User Interface Tour."
@@ -1831,14 +1833,16 @@ msgstr "Добавить тег"
 msgid ""
 "Edit the list of tags below. All whitespace is treated as tag separators."
 msgstr ""
+"Отредактируйте список тегов ниже. Все пробелы рассматриваются как "
+"разделители тегов."
 
 #: notebook/static/notebook/js/celltoolbarpresets/tags.js:172
 msgid "Edit the tags"
-msgstr ""
+msgstr "Редактировать теги"
 
 #: notebook/static/notebook/js/celltoolbarpresets/tags.js:186
 msgid "Edit Tags"
-msgstr ""
+msgstr "Редактировать теги"
 
 #: notebook/static/tree/js/kernellist.js:86
 #: notebook/static/tree/js/terminallist.js:105
@@ -1848,7 +1852,7 @@ msgstr ""
 #: notebook/static/tree/js/newnotebook.js:70
 #, python-format
 msgid "Create a new notebook with %s"
-msgstr ""
+msgstr "Создать новый блокнот с %s"
 
 #: notebook/static/tree/js/newnotebook.js:101
 msgid "An error occurred while creating a new notebook."
@@ -1898,7 +1902,7 @@ msgstr ""
 
 #: notebook/static/tree/js/notebooklist.js:463
 msgid "Click here to rename, delete, etc."
-msgstr ""
+msgstr "Нажмите здесь, чтобы переименовать, удалить и т.д."
 
 #: notebook/static/tree/js/notebooklist.js:503
 msgid "Running"
@@ -1930,7 +1934,7 @@ msgstr "Переименовать блокнот"
 
 #: notebook/static/tree/js/notebooklist.js:859
 msgid "Move"
-msgstr ""
+msgstr "Перемещение"
 
 #: notebook/static/tree/js/notebooklist.js:875
 msgid "An error occurred while renaming \"%1$s\" to \"%2$s\"."
@@ -2020,7 +2024,7 @@ msgstr ""
 
 #: notebook/static/tree/js/notebooklist.js:1362
 msgid "Cannot upload invalid Notebook"
-msgstr ""
+msgstr "Невозможно загрузить недействительный Notebook"
 
 #: notebook/static/tree/js/notebooklist.js:1395
 #, python-format
