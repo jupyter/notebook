@@ -21,7 +21,7 @@ from jupyter_core.paths import jupyter_config_dir
 salt_len = 12
 
 
-def passwd(passphrase=None, algorithm='bcrypt'):
+def passwd(passphrase=None, algorithm='argon2'):
     """Generate hashed password and salt for use in notebook configuration.
 
     In the notebook configuration, set `c.NotebookApp.password` to
@@ -34,7 +34,7 @@ def passwd(passphrase=None, algorithm='bcrypt'):
         and verify a password.
     algorithm : str
         Hashing algorithm to use (e.g, 'sha1' or any argument supported
-        by :func:`hashlib.new`).
+        by :func:`hashlib.new`, or 'argon2').
 
     Returns
     -------
@@ -59,9 +59,14 @@ def passwd(passphrase=None, algorithm='bcrypt'):
         else:
             raise ValueError('No matching passwords found. Giving up.')
 
-    if algorithm == 'bcrypt':
-        import bcrypt
-        h = bcrypt.hashpw(cast_bytes(passphrase, 'utf-8'), bcrypt.gensalt())
+    if algorithm == 'argon2':
+        from argon2 import PasswordHasher
+        ph = PasswordHasher(
+            memory_cost=10240,
+            time_cost=10,
+            parallelism=8,
+        )
+        h = ph.hash(passphrase)
 
         return ':'.join((algorithm, cast_unicode(h, 'ascii')))
     else:
@@ -90,20 +95,24 @@ def passwd_check(hashed_passphrase, passphrase):
     Examples
     --------
     >>> from notebook.auth.security import passwd_check
-    >>> passwd_check('bcrypt:...', 'mypassword')
+    >>> passwd_check('argon2:...', 'mypassword')
     True
 
-    >>> passwd_check('bcrypt:...', 'otherpassword')
+    >>> passwd_check('argon2:...', 'otherpassword')
     False
 
     >>> passwd_check('sha1:0e112c3ddfce:a68df677475c2b47b6e86d0467eec97ac5f4b85a',
     ...              'mypassword')
     True
     """
-    if hashed_passphrase.startswith('bcrypt:'):
-        import bcrypt
-        return bcrypt.checkpw(cast_bytes(passphrase, 'utf-8'),
-                              cast_bytes(hashed_passphrase[7:], 'ascii'))
+    if hashed_passphrase.startswith('argon2:'):
+        import argon2
+        import argon2.exceptions
+        ph = argon2.PasswordHasher()
+        try:
+            return ph.verify(hashed_passphrase[7:], passphrase)
+        except argon2.exceptions.VerificationError:
+            return False
     else:
         try:
             algorithm, salt, pw_digest = hashed_passphrase.split(':', 2)
