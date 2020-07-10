@@ -21,7 +21,7 @@ from jupyter_core.paths import jupyter_config_dir
 salt_len = 12
 
 
-def passwd(passphrase=None, algorithm='sha1'):
+def passwd(passphrase=None, algorithm='argon2'):
     """Generate hashed password and salt for use in notebook configuration.
 
     In the notebook configuration, set `c.NotebookApp.password` to
@@ -34,7 +34,7 @@ def passwd(passphrase=None, algorithm='sha1'):
         and verify a password.
     algorithm : str
         Hashing algorithm to use (e.g, 'sha1' or any argument supported
-        by :func:`hashlib.new`).
+        by :func:`hashlib.new`, or 'argon2').
 
     Returns
     -------
@@ -59,11 +59,22 @@ def passwd(passphrase=None, algorithm='sha1'):
         else:
             raise ValueError('No matching passwords found. Giving up.')
 
-    h = hashlib.new(algorithm)
-    salt = ('%0' + str(salt_len) + 'x') % random.getrandbits(4 * salt_len)
-    h.update(cast_bytes(passphrase, 'utf-8') + str_to_bytes(salt, 'ascii'))
+    if algorithm == 'argon2':
+        from argon2 import PasswordHasher
+        ph = PasswordHasher(
+            memory_cost=10240,
+            time_cost=10,
+            parallelism=8,
+        )
+        h = ph.hash(passphrase)
 
-    return ':'.join((algorithm, salt, h.hexdigest()))
+        return ':'.join((algorithm, cast_unicode(h, 'ascii')))
+    else:
+        h = hashlib.new(algorithm)
+        salt = ('%0' + str(salt_len) + 'x') % random.getrandbits(4 * salt_len)
+        h.update(cast_bytes(passphrase, 'utf-8') + str_to_bytes(salt, 'ascii'))
+
+        return ':'.join((algorithm, salt, h.hexdigest()))
 
 
 def passwd_check(hashed_passphrase, passphrase):
@@ -84,30 +95,41 @@ def passwd_check(hashed_passphrase, passphrase):
     Examples
     --------
     >>> from notebook.auth.security import passwd_check
+    >>> passwd_check('argon2:...', 'mypassword')
+    True
+
+    >>> passwd_check('argon2:...', 'otherpassword')
+    False
+
     >>> passwd_check('sha1:0e112c3ddfce:a68df677475c2b47b6e86d0467eec97ac5f4b85a',
     ...              'mypassword')
     True
-
-    >>> passwd_check('sha1:0e112c3ddfce:a68df677475c2b47b6e86d0467eec97ac5f4b85a',
-    ...              'anotherpassword')
-    False
     """
-    try:
-        algorithm, salt, pw_digest = hashed_passphrase.split(':', 2)
-    except (ValueError, TypeError):
-        return False
+    if hashed_passphrase.startswith('argon2:'):
+        import argon2
+        import argon2.exceptions
+        ph = argon2.PasswordHasher()
+        try:
+            return ph.verify(hashed_passphrase[7:], passphrase)
+        except argon2.exceptions.VerificationError:
+            return False
+    else:
+        try:
+            algorithm, salt, pw_digest = hashed_passphrase.split(':', 2)
+        except (ValueError, TypeError):
+            return False
 
-    try:
-        h = hashlib.new(algorithm)
-    except ValueError:
-        return False
+        try:
+            h = hashlib.new(algorithm)
+        except ValueError:
+            return False
 
-    if len(pw_digest) == 0:
-        return False
+        if len(pw_digest) == 0:
+            return False
 
-    h.update(cast_bytes(passphrase, 'utf-8') + cast_bytes(salt, 'ascii'))
+        h.update(cast_bytes(passphrase, 'utf-8') + cast_bytes(salt, 'ascii'))
 
-    return h.hexdigest() == pw_digest
+        return h.hexdigest() == pw_digest
 
 @contextmanager
 def persist_config(config_file=None, mode=0o600):
