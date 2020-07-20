@@ -14,7 +14,7 @@
     "jquery": "components/jquery#~3.5.0",
     "jquery-typeahead": "~2.10.6",
     "jquery-ui": "components/jqueryui#~1.12",
-    "marked": "~0.5",
+    "marked": "~0.7",
     "MathJax": "^2.7.4",
     "moment": "~2.19.3",
     "react": "~16.0.0",
