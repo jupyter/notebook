@@ -931,6 +931,9 @@ class NotebookApp(JupyterApp):
     token = Unicode('<generated>',
         help=_("""Token used for authenticating first-time connections to the server.
 
+        The token can be read from the file referenced by JUPYTER_TOKEN_FILE or set directly
+        with the JUPYTER_TOKEN environment variable.
+
         When no password is enabled,
         the default is to generate a new, random token.
 
