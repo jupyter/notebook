@@ -33,6 +33,58 @@ define([
     "use strict";
     function encodeURIandParens(uri){return encodeURI(uri).replace('(','%28').replace(')','%29')}
 
+    /**
+     * Given a file name and a list of existing file names, returns a new file name
+     * that is not in the existing list. If the file name already exists, a new one with
+     * an incremented index is returned instead.
+     *
+     * Example:
+     *  addIndexToFileName('attachment.png',
+     *                    ['attachment.png', 'attachment-3.png']) returns 'attachment-4.png'
+     *
+     * @param  {string} fileName  - original file name
+     * @param  {string} fileNames - other file names
+     * @return {string}             the original file name or one with a postfix
+     *                              index (before the extension, if one exists)
+     */
+    function addIndexToFileName(fileName, fileNames) {
+        if (fileNames === undefined) {
+            return fileName;
+        }
+        var lastDot = fileName.lastIndexOf('.');
+        var pre = fileName.substr(0, lastDot);
+        var optionalExt = fileName.substr(lastDot);
+
+        var indexMatch = '-(\\d+)';
+        // Make the index match optional so we can match both 'fileName.png' and 'fileName-2.png'
+        // The ?: makes it a non-capturing group.
+        var optionalIndexMatch = '(?:' + indexMatch + ')?';
+
+        var regex = new RegExp(pre + optionalIndexMatch + optionalExt);
+
+        var highestIndex = 0;
+        for (var existingFileName in fileNames) {
+            var match = existingFileName.match(regex);
+            var index = match[1];
+            if (index === undefined) {
+                index = 1;
+            }
+            else {
+                index = parseInt(index);
+            }
+            if (index > highestIndex) {
+                highestIndex = index;
+            }
+        }
+
+        if (highestIndex > 0) {
+            return pre + "-" + (highestIndex + 1) + optionalExt;
+        }
+        else {
+            return fileName;
+        }
+    };
+
     var Cell = cell.Cell;
 
     var TextCell = function (options) {
@@ -357,18 +409,37 @@ define([
         var key;
         if (blob.name !== undefined) {
             key = encodeURIandParens(blob.name);
+
+            // Add an index to the filename if we already have one with the same name
+            key = addIndexToFileName(key, that.attachments);
         } else {
             key = '_auto_' + Object.keys(that.attachments).length;
         }
 
         reader.onloadend = function() {
             var d = utils.parse_b64_data_uri(reader.result);
+            var blobData = d[1]
+
             if (blob.type != d[0]) {
                 // TODO(julienr): Not sure what we should do in this case
                 console.log('File type (' + blob.type + ') != data-uri ' +
                             'type (' + d[0] + ')');
             }
-            that.add_attachment(key, blob.type, d[1]);
+
+            // If we have the same attachment already under another key, we change the key to that.
+            // This ensures we don't create two attachments if pasting the same image twice.
+
+            for (var savedKey in that.attachments) {
+                var attachment = that.attachments[savedKey];
+                if (attachment === undefined) continue;
+
+                var savedBlob = attachment[blob.type];
+                if (savedBlob === blobData) {
+                    key = savedKey;
+                }
+            }
+
+            that.add_attachment(key, blob.type, blobData);
             var img_md = '![' + key + '](attachment:' + key + ')';
             that.code_mirror.replaceRange(img_md, pos);
         }
@@ -464,7 +535,7 @@ define([
         $(div).on('paste', function(evt) {
             var data = evt.originalEvent.clipboardData;
             var items = data.items;
-            if (data.items !== undefined) {
+            if (items !== undefined) {
                 for (var i = 0; i < items.length; ++i) {
                     var item = items[i];
                     if (item.kind == 'file' && attachment_regex.test(item.type)) {
