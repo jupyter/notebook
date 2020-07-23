@@ -141,6 +141,7 @@ define([
         this.register_iopub_handler('status', $.proxy(this._handle_status_message, this));
         this.register_iopub_handler('clear_output', $.proxy(this._handle_clear_output, this));
         this.register_iopub_handler('execute_input', $.proxy(this._handle_input_message, this));
+        this.register_iopub_handler('shutdown_reply', $.proxy(this._handle_shutdown_message, this));
         
         for (var i=0; i < output_msg_types.length; i++) {
             this.register_iopub_handler(output_msg_types[i], $.proxy(this._handle_output_message, this));
@@ -1211,6 +1212,19 @@ define([
             this.events.trigger('received_unsolicited_message.Kernel', msg);
         }
     };
+
+
+    /**
+     * Handle a kernel shutdown message
+     * @function _handle_shutdown_message
+     */
+    Kernel.prototype._handle_shutdown_message = function (msg) {
+        if (!msg.content.restart) {
+            this.events.trigger('kernel_dead.Kernel', {kernel: this});
+            this._kernel_dead();
+        }
+    }
+
 
     /**
      * Dispatch IOPub messages to respective handlers. Each message
