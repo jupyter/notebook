@@ -7,10 +7,11 @@ define([
     'base/js/dialog',
     'base/js/utils',
     'base/js/i18n',
+    'notebook/js/quickhelp',
     './celltoolbar',
     './tour',
     'moment',
-], function($, IPython, dialog, utils, i18n, celltoolbar, tour, moment) {
+], function($, IPython, dialog, utils, i18n, quickhelp, celltoolbar, tour, moment) {
     "use strict";
 
     var MenuBar = function (selector, options) {
@@ -24,6 +25,7 @@ define([
          *  options: dictionary
          *      Dictionary of keyword arguments.
          *          notebook: Notebook instance
+         *          render keyboard shortcuts from KeyboardManager
          *          contents: ContentManager instance
          *          events: $(Events) instance
          *          save_widget: SaveWidget instance
@@ -37,7 +39,8 @@ define([
         this.base_url = options.base_url || utils.get_body_data("baseUrl");
         this.selector = selector;
         this.notebook = options.notebook;
-        this.actions = this.notebook.keyboard_manager.actions;
+        this.keyboard_manager = this.notebook.keyboard_manager;
+        this.actions = this.keyboard_manager.actions;
         this.contents = options.contents;
         this.events = options.events;
         this.save_widget = options.save_widget;
@@ -232,6 +235,9 @@ define([
             '#int_kernel': 'interrupt-kernel',
             '#cut_cell': 'cut-cell',
             '#copy_cell': 'copy-cell',
+            '#paste_cell_above': 'paste-cell-above',
+            '#paste_cell_below': 'paste-cell-below',
+            '#paste_cell_replace': 'paste-cell-replace',
             '#delete_cell': 'delete-cell',
             '#undelete_cell': 'undo-cell-deletion',
             '#split_cell': 'split-cell-at-cursor',
@@ -263,6 +269,7 @@ define([
             '#copy_cell_attachments': 'copy-cell-attachments',
             '#paste_cell_attachments': 'paste-cell-attachments',
             '#insert_image': 'insert-image',
+            '#keyboard_shortcuts' : 'show-keyboard-shortcuts',
             '#edit_keyboard_shortcuts' : 'edit-command-mode-keyboard-shortcuts',
         };
 
@@ -276,9 +283,22 @@ define([
             }
             // Immediately-Invoked Function Expression cause JS.
             (function(that, id_act, idx){
-                that.element.find(idx).click(function(event){
+                var el = that.element.find(idx);
+                el.click(function(event){
                     that.actions.call(id_act, event);
                 });
+                
+                var keybinding = that.keyboard_manager.command_shortcuts.get_action_shortcut(id_act) || that.keyboard_manager.edit_shortcuts.get_action_shortcut(id_act);
+                
+                if (keybinding) {
+                    var shortcut = quickhelp.humanize_sequence(keybinding);
+                    var link_element = el.children('a');
+                    var text = link_element.text();
+                    link_element.text('');
+                    link_element.addClass('menu-shortcut-container');
+                    link_element.append('<span class="action">' + text + '</span>');
+                    link_element.append('<span class="kb">' + shortcut + '</span>');
+                }
             })(that, id_act, idx);
         }
 
@@ -295,9 +315,6 @@ define([
         } else {
             this.element.find('#notebook_tour').addClass("disabled");
         }
-        this.element.find('#keyboard_shortcuts').click(function () {
-            that.quick_help.show_keyboard_shortcuts();
-        });
         
         this.update_restore_checkpoint(null);
         

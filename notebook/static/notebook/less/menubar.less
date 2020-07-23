@@ -71,6 +71,13 @@ i.menu-icon {
     .pull-left();
 }
 
+ul.dropdown-menu li a.menu-shortcut-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
 ul#help_menu li a{
     overflow: hidden;
     padding-right: 2.2em;
@@ -144,6 +151,19 @@ ul#help_menu li a{
 .dropdown-submenu.pull-left>.dropdown-menu {
     left: -100%;
     margin-left: 10px;
+}
+
+.action {
+    
+}
+
+.kb {
+    color: darkgray;
+    margin-left: 10px;
+    text-transform: capitalize;
+    kbd {
+        white-space: nowrap;
+    }
 }
 
 //end submenu
