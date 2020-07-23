@@ -131,7 +131,11 @@
     * + .alert {margin-top: 1em;}
 }
 
-[dir="rtl"] .rendered_html {
+// Right align text iff:
+// (a) notebook is rtl and it's not overriden in cell metadata (i.e. rtl or none)
+// (b) notebook is whatever but cell metadata specifies rtl
+// note that cell metadata is used to set 'dir' attribute of rendered_html element.
+[dir="rtl"] .rendered_html:not([dir="ltr"]), .rendered_html[dir="rtl"] {
     p {
         text-align : right;
     }

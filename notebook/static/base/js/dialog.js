@@ -230,6 +230,7 @@ define(['jquery',
                             return false;
                         }
                         options.callback(new_md);
+                        options.notebook.apply_directionality();
                     }
                 }
             },
