@@ -81,29 +81,53 @@ Here is an enumeration of changes made since the last release and included in 6.
 - Fix for the terminal shutdown issue (:ghpull:`4180`)
 - Add japanese translation files (:ghpull:`4490`)
 - Workaround for socket permission errors on Cygwin (:ghpull:`4584`)
+- Implement optional markdown header and footer files (:ghpull:`4043`)
+- Remove double link when using custom_display_url (:ghpull:`5544`)
+- Respect cell.is_editable during find-and-replace (:ghpull:`5545`)
+- Fix exception causes all over the codebase (:ghpull:`5556`
+- Improve login shell heuristics (:ghpull:`5588`)
+- Added support for JUPYTER_TOKEN_FILE (:ghpull:`5587`)
+- Kill notebook its self when server cull idle kernel (:ghpull:`5593`)
+- Implement password hashing with bcrypt (:ghpull:`3793`)
+- Fix broken links (:ghpull:`5600`)
+- Russian internationalization support (:ghpull:`5571`)
+- Add a metadata tag to override notebook direction (ltr/rtl) (:ghpull:`5052`)
+- Paste two images from clipboard in markdown cell (:ghpull:`5598`)
+- Add keyboard shortcuts to menu dropdowns (:ghpull:`5525`)
+- Update codemirror to 5.56.0+components1 (:ghpull:`5637`)
 
 Thank you to all the contributors:
 
+- Aaron Myatt
+- Adam Blake
 - Afshin Taylor Darian
 - Aman Bansal
 - Ben Thayer
 - berendjan
 - Bruno P. Kinoshita
 - bzinberg
+- Christophe Cadilhac
 - Daiki Katsuragawa
+- David Lukes
+- Dmitriy Q
 - dmpe
 - dylanzjy
 - dSchurch
 - E\. M\. Bray
 - ErwinRussel
+- Felix Mönckemeyer
 - Grant Nestor
+- Jarrad Whitaker
 - Jesus Panales Castillo
 - Joshua Zeltser
 - Karthikeyan Singaravelan
 - Kenichi Ito
 - Kevin Bates
+- Koki Nishihara
 - Kris Wilson
 - Kyle Kelley
+- Laura Merlo
+- levinxo
 - Luciano Resende
 - Luis Cabezon Manchado
 - Madhusudhan Srinivasa
@@ -116,10 +140,15 @@ Thank you to all the contributors:
 - Niko Felger
 - Norah Abanumay
 - Onno Broekmans
+- PierreMB
 - pinarkavak
+- Ram Rachum
+- Reece Hart
+- Remi Rampin
 - Rohit Sanjay
 - Shane Canon
 - Simon Li
+- Steinar Sturlaugsson
 - Steven Silvester
 - taohan16
 - Thew Dhanat
