@@ -56,7 +56,7 @@ Here is an enumeration of changes made since the last release and included in 6.
 - Fix broken "Raw cell MIME type" dialog (:ghpull:`5385`)
 - Make a notebook writable after successful save-as (:ghpull:`5296`)
 - Add actual watch script (:ghpull:`4738`)
-- Added ``--autoreload`` flag to `NotebookApp` (:ghpull:`4795`)
+- Added ``--autoreload`` flag to ``NotebookApp`` (:ghpull:`4795`)
 - Enable check_origin on gateway websocket communication (:ghpull:`5471`)
 - Restore detection of missing terminado package (:ghpull:`5465`)
 - Culling: ensure ``last_activity`` attr exists before use (:ghpull:`5355`)
