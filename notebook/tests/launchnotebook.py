@@ -16,7 +16,8 @@ pjoin = os.path.join
 from unittest.mock import patch
 
 import requests
-import requests_unixsocket
+if not sys.platform.startswith('win'):
+    import requests_unixsocket
 from tornado.ioloop import IOLoop
 import zmq
 
