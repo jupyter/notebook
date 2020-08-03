@@ -117,10 +117,9 @@ for more information.
     ],
     extras_require = {
         'test': ['nose', 'coverage', 'requests', 'nose_warnings_filters',
-                 'nbval', 'nose-exclude', 'selenium', 'pytest', 'pytest-cov',
-                 'requests-unixsocket'],
+                 'nbval', 'nose-exclude', 'selenium', 'pytest', 'pytest-cov'],
         'docs': ['sphinx', 'nbsphinx', 'sphinxcontrib_github_alt'],
-        'test:sys_platform == "win32"': ['nose-exclude'],
+        'test:sys_platform != "win32"': ['requests-unixsocket'],
     },
     python_requires = '>=3.5',
     entry_points = {

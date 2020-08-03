@@ -16,7 +16,6 @@ pjoin = os.path.join
 from unittest.mock import patch
 
 import requests
-import requests_unixsocket
 from tornado.ioloop import IOLoop
 import zmq
 
@@ -231,6 +230,9 @@ class UNIXSocketNotebookTestBase(NotebookTestBase):
 
     @staticmethod
     def fetch_url(url):
+        # Lazily import so it is not required at the module level
+        if os.name != 'nt':
+            import requests_unixsocket
         with requests_unixsocket.monkeypatch():
             return requests.get(url)
 
