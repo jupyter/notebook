@@ -21,6 +21,19 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+
+.. _release-6.1.1:
+
+6.1.1
+-----
+
+- Prevent inclusion of requests_unixsocket on Windows (:ghpull:`5650`)
+
+Thanks for all the contributors:
+
+- Kevin Bates
+
+
 .. _release-6.1.0:
 
 6.1.0
