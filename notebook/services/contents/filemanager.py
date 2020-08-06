@@ -242,14 +242,14 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         """Build the common base of a contents model"""
         os_path = self._get_os_path(path)
         info = os.lstat(os_path)
-        
+
         try:
-            # size of file 
+            # size of file
             size = info.st_size
         except (ValueError, OSError):
             self.log.warning('Unable to get size.')
             size = None
-        
+
         try:
             last_modified = tz.utcfromtimestamp(info.st_mtime)
         except (ValueError, OSError):
@@ -391,14 +391,14 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         model = self._base_model(path)
         model['type'] = 'notebook'
         os_path = self._get_os_path(path)
-        
+
         if content:
             nb = self._read_notebook(os_path, as_version=4)
             self.mark_trusted_cells(nb, path)
             model['content'] = nb
             model['format'] = 'json'
             self.validate_notebook_model(model)
-            
+
         return model
 
     def get(self, path, content=True, type=None, format=None):
@@ -509,7 +509,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         path = path.strip('/')
         os_path = self._get_os_path(path)
         rm = os.unlink
-        if not os.path.exists(os_path):
+        if not os.path.exists(os_path) and not os.path.islink(os_path):
             raise web.HTTPError(404, u'File or directory does not exist: %s' % os_path)
 
         def _check_trash(os_path):
