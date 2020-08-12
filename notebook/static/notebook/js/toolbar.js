@@ -92,10 +92,14 @@ define(['jquery','base/js/i18n'], function($, i18n) {
                     action = that.actions.get(el.action);
                     action_name = el.action
                 }
+                var title = el.label;
+                if(action && action.help) {
+                    title = i18n.msg._(action.help) || el.label;
+                }
                 var button  = $('<button/>')
                     .addClass('btn btn-default')
                     .attr("aria-label", el.label)
-                    .attr("title", i18n.msg._(action.help)||el.label)
+                    .attr("title", title)
                     .append(
                         $("<i/>").addClass(el.icon||(action||{icon:'fa-exclamation-triangle'}).icon).addClass('fa')
                     );
