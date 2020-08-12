@@ -414,46 +414,46 @@ ul#new-menu {
 }
 
 //TO show tooltips via keyboard for"Duplicate","View","Rename", "Download", "Shutdown", "Edit","Move", "Delete" buttons.
+.dynamic-buttons {
+    .visually-hidden {
+        clip-path: inset(100%);
+        clip: rect(1px, 1px, 1px, 1px);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+    }
 
-.visually-hidden {
-  clip-path: inset(100%);
-  clip: rect(1px, 1px, 1px, 1px);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-}
+    button:focus + [role="tooltip"] {
+        visibility: visible;
+        opacity: 1;
+    }
 
-button:focus + [role="tooltip"] {  
-visibility: visible;
- opacity: 1;
-}
+    .button-and-tooltip {
+        position: relative;
+        display: inline-block;
+    }
 
-.button-and-tooltip {
-  position: relative;
-  display: inline-block;
-}
-
-[role="tooltip"] {
-/* Position the tooltip */
-position: absolute;
-top:70%;
-display:inline;
-//--------------
-visibility: hidden;
-width: 100px;
-background-color: #F0EFEF;
-color: #080808;
-text-align: center;
-padding: 3px;
-outline-color: grey;
-outline-offset: -2px;
-outline-style: auto;
-outline-width:1px;
- z-index: 1;
- opacity: 0;
- transition: opacity .6s;
- margin: 3px;
- font-size:10px;
+    [role="tooltip"] {
+        /* Position the tooltip */
+        position: absolute;
+        top:70%;
+        display:inline;
+        //--------------
+        visibility: hidden;
+        background-color: #F0EFEF;
+        color: #080808;
+        text-align: center;
+        padding: 3px;
+        outline-color: grey;
+        outline-offset: -2px;
+        outline-style: auto;
+        outline-width:1px;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity .6s;
+        margin: 3px;
+        font-size:10px;
+    }
 }
