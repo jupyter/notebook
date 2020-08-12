@@ -443,7 +443,7 @@ def shutdown_server(server_info, timeout=5, log=None):
     """
     from tornado import gen
     from tornado.httpclient import AsyncHTTPClient, HTTPClient, HTTPRequest
-    from tornado.netutil import bind_unix_socket, Resolver
+    from tornado.netutil import Resolver
     url = server_info['url']
     pid = server_info['pid']
     resolver = None
@@ -524,7 +524,15 @@ class NbserverStopApp(JupyterApp):
 
     def _shutdown_or_exit(self, target_endpoint, server):
         print("Shutting down server on %s..." % target_endpoint)
-        if not self.shutdown_server(server):
+        server_stopped = self.shutdown_server(server)
+        if not server_stopped and sys.platform.startswith('win'):
+            # the pid check on Windows appears to be unreliable, so fetch another
+            # list of servers and ensure our server is not in the list before
+            # sending the wrong impression.
+            servers = list(list_running_servers(self.runtime_dir))
+            if server not in servers:
+                server_stopped = True
+        if not server_stopped:
             sys.exit("Could not stop server on %s" % target_endpoint)
 
     @staticmethod
