@@ -22,6 +22,21 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     ``pip --version``.
 
 
+.. _release-6.1.2:
+
+6.1.2
+-----
+
+- Fix russian message format for delete/duplicate actions (:ghpull:`5662`)
+- Remove unnecessary import of bind_unix_socket (:ghpull:`5666`)
+- Tooltip style scope fix (:ghpull:`5672`)
+
+Thank you to all the contributors:
+
+- Dmitry Akatov
+- Kevin Bates
+- Magda Stenius
+
 .. _release-6.1.1:
 
 6.1.1
@@ -29,7 +44,7 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
 
 - Prevent inclusion of requests_unixsocket on Windows (:ghpull:`5650`)
 
-Thanks for all the contributors:
+Thank you to all the contributors:
 
 - Kevin Bates
 
