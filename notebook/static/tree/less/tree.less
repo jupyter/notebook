@@ -415,24 +415,9 @@ ul#new-menu {
 
 //TO show tooltips via keyboard for"Duplicate","View","Rename", "Download", "Shutdown", "Edit","Move", "Delete" buttons.
 .dynamic-buttons {
-    .visually-hidden {
-        clip-path: inset(100%);
-        clip: rect(1px, 1px, 1px, 1px);
-        height: 1px;
-        overflow: hidden;
-        position: absolute;
-        white-space: nowrap;
-        width: 1px;
-    }
-
     button:focus + [role="tooltip"] {
         visibility: visible;
         opacity: 1;
-    }
-
-    .button-and-tooltip {
-        position: relative;
-        display: inline-block;
     }
 
     [role="tooltip"] {
