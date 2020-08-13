@@ -12,7 +12,7 @@ from tornado import gen, web
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop, PeriodicCallback
 from tornado.websocket import WebSocketHandler, websocket_connect
-from tornado.httpclient import HTTPRequest
+from tornado.httpclient import HTTPRequest, HTTPClientError
 from tornado.escape import url_escape, json_decode, utf8
 
 from ipython_genutils.py3compat import cast_unicode
@@ -153,10 +153,16 @@ class GatewayWebSocketClient(LoggingConfigurable):
         self.ws_future.add_done_callback(self._connection_done)
 
     def _connection_done(self, fut):
-        if not self.disconnected and fut.exception() is None:  # prevent concurrent.futures._base.CancelledError
+        exc = fut.exception()
+        if not self.disconnected and exc is None:  # prevent concurrent.futures._base.CancelledError
             self.ws = fut.result()
             self.log.debug("Connection is ready: ws: {}".format(self.ws))
         else:
+            if exc is not None and isinstance(exc, HTTPClientError):
+                self.log.warning("Encountered this HTTPError: {}. Disconnecting if it's a 404.".format(exc))
+                if exc.code == 404:
+                    # Disconnect if the kernel no longer exists
+                    self._disconnect()
             self.log.warning("Websocket connection has been closed via client disconnect or due to error.  "
                              "Kernel with ID '{}' may not be terminated on GatewayClient: {}".
                              format(self.kernel_id, GatewayClient.instance().url))
