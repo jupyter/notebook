@@ -22,6 +22,18 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     ``pip --version``.
 
 
+.. _release-6.1.3:
+
+6.1.3
+-----
+
+- Title new buttons with label if action undefined (:ghpull:`5676`)
+
+Thank you to all the contributors:
+
+- Kyle Kelley
+
+
 .. _release-6.1.2:
 
 6.1.2
