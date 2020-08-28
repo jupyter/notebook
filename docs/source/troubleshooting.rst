@@ -72,7 +72,7 @@ are often the source of reported issues.  In many cases, these issues stem from 
 Notebook server running in one environment, while the kernel and/or its resources,
 derive from another environment.  Indicators of this scenario include:
 
-* ``import`` statements within code cells producing ``ModuleNotFound`` exceptions.
+* ``import`` statements within code cells producing ``ImportError`` or ``ModuleNotFound`` exceptions.
 * General kernel startup failures exhibited by nothing happening when attempting
   to execute a cell.
 
