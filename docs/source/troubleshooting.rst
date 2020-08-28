@@ -78,8 +78,11 @@ derive from another environment.  Indicators of this scenario include:
 
 In these situations, take a close look at your environment structure and ensure all
 packages required by your notebook's code are installed in the correct environment.
-If you need to run the kernel from different conda environments than your Notebook
-server, you might consider using `nb_conda_kernels <https://github.com/Anaconda-Platform/nb_conda_kernels>`_.
+If you need to run the kernel from different environments than your Notebook
+server, check out `IPython's documentation <https://ipython.readthedocs.io/en/stable/install/kernel_install.html#kernels-for-different-environments>`_
+for using kernels from different environments as this is the recommended approach.
+Anaconda's `nb_conda_kernels <https://github.com/Anaconda-Platform/nb_conda_kernels>`_
+package might also be an option for you in these scenarios.
 
 Another thing to check is the ``kernel.json`` file that will be located in the
 aforementioned *kernel specs* directory identified by running ``jupyter kernelspec list``.
