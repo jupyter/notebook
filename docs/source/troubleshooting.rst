@@ -43,7 +43,7 @@ Jupyter doesn't load or doesn't work in the browser
 Jupyter can't start a kernel
 ----------------------------
 
-Files called *kernel specs* tell Jupyter how to start different kinds of kernel.
+Files called *kernel specs* tell Jupyter how to start different kinds of kernels.
 To see where these are on your system, run ``jupyter kernelspec list``::
 
     $ jupyter kernelspec list
@@ -65,22 +65,168 @@ try deleting or renaming that kernelspec folder to expose the default.
 If your problem is with another kernel, not the Python one we maintain,
 you may need to look for support about that kernel.
 
+Python Environments
+-------------------
+Multiple python environments, whether based on Anaconda or Python Virtual environments,
+are often the source of reported issues.  In many cases, these issues stem from the
+Notebook server running in one environment, while the kernel and/or its resources,
+derive from another environment.  Indicators of this scenario include:
+
+* ``import`` statements within code cells producing ``ImportError`` or ``ModuleNotFound`` exceptions.
+* General kernel startup failures exhibited by nothing happening when attempting
+  to execute a cell.
+
+In these situations, take a close look at your environment structure and ensure all
+packages required by your notebook's code are installed in the correct environment.
+If you need to run the kernel from different environments than your Notebook
+server, check out `IPython's documentation <https://ipython.readthedocs.io/en/stable/install/kernel_install.html#kernels-for-different-environments>`_
+for using kernels from different environments as this is the recommended approach.
+Anaconda's `nb_conda_kernels <https://github.com/Anaconda-Platform/nb_conda_kernels>`_
+package might also be an option for you in these scenarios.
+
+Another thing to check is the ``kernel.json`` file that will be located in the
+aforementioned *kernel specs* directory identified by running ``jupyter kernelspec list``.
+This file will contain an ``argv`` stanza that includes the actual command to run
+when launching the kernel.  Oftentimes, when reinstalling python environments, a previous
+``kernel.json`` will reference an python executable from an old or non-existent location.
+As a result, it's always a good idea when encountering kernel startup issues to validate
+the ``argv`` stanza to ensure all file references exist and are appropriate.
+
+Windows Systems
+---------------
+Although Jupyter Notebook is primarily developed on the various flavors of the Unix
+operating system it also supports Microsoft
+Windows - which introduces its own set of commonly encountered issues,
+particularly in the areas of security, process management and lower-level libraries.
+
+pywin32 Issues
+^^^^^^^^^^^^^^^^^^
+The primary package for interacting with Windows' primitives is ``pywin32``.
+
+* Issues surrounding the creation of the kernel's communication file utilize
+  ``jupyter_core``'s ``secure_write()`` function.  This function ensures a file is
+  created in which only the owner of the file has access.  If libraries like ``pywin32``
+  are not properly installed, issues can arise when it's necessary to use the native
+  Windows libraries.
+
+  Here's a portion of such a traceback::
+
+    File "c:\users\jovyan\python\myenv.venv\lib\site-packages\jupyter_core\paths.py", line 424, in secure_write
+    win32_restrict_file_to_user(fname)
+    File "c:\users\jovyan\python\myenv.venv\lib\site-packages\jupyter_core\paths.py", line 359, in win32_restrict_file_to_user
+    import win32api
+    ImportError: DLL load failed: The specified module could not be found.
+
+* As noted earlier, the installation of ``pywin32`` can be problematic on Windows
+  configurations.  When such an issue occurs, you may need to revisit how the environment
+  was setup.  Pay careful attention to whether you're running the 32 or 64 bit versions
+  of Windows and be sure to install appropriate packages for that environment.
+
+  Here's a portion of such a traceback::
+
+    File "C:\Users\jovyan\AppData\Roaming\Python\Python37\site-packages\jupyter_core\paths.py", line 435, in secure_write
+    win32_restrict_file_to_user(fname)
+    File "C:\Users\jovyan\AppData\Roaming\Python\Python37\site-packages\jupyter_core\paths.py", line 361, in win32_restrict_file_to_user
+    import win32api
+    ImportError: DLL load failed: %1 is not a valid Win32 application
+
+Resolving pywin32 Issues
+""""""""""""""""""""""""""""
+  In this case, your ``pywin32`` module may not be installed correctly and the following
+  should be attempted:
+  ::
+
+    pip install --upgrade pywin32
+
+  or::
+
+    conda install --force-reinstall pywin32
+
+  followed by::
+
+    python.exe Scripts/pywin32_postinstall.py -install
+
+  where ``Scripts`` is located in the active Python's installation location.
+
+* Another common failure specific to Windows environments is the location of various
+  python commands.  On ``*nix`` systems, these typically reside in the ``bin`` directory
+  of the active Python environment.  However, on Windows, these tend to reside in the
+  ``Scripts`` folder - which is a sibling to ``bin``.  As a result, when encountering
+  kernel startup issues, again, check the ``argv`` stanza and verify it's pointing to a
+  valid file.  You may find that it's pointing in ``bin`` when ``Scripts`` is correct, or
+  the referenced file does not include its ``.exe`` extension - typically resulting in
+  ``FileNotFoundError`` exceptions.
+
+This Worked An Hour Ago
+-----------------------
+The Jupyter stack is very complex and rightfully so, there's a lot going on.  On occassion
+you might find the system working perfectly well, then, suddenly, you can't get past a
+certain cell due to ``import`` failures.  In these situations, it's best to ask yourself
+if any new python files were added to your notebook development area.
+
+These issues are usually evident by carefully analyzing the traceback produced in
+the notebook error or the Notebook server's command window.  In these cases, you'll typically
+find the Python kernel code (from ``IPython`` and ``ipykernel``) performing *its* imports
+and notice a file from your Notebook development error included in that traceback followed
+by an ``AttributeError``::
+
+    File "C:\Users\jovyan\anaconda3\lib\site-packages\ipykernel\connect.py", line 13, in
+    from IPython.core.profiledir import ProfileDir
+    File "C:\Users\jovyan\anaconda3\lib\site-packages\IPython_init.py", line 55, in
+    from .core.application import Application
+    ...
+    File "C:\Users\jovyan\anaconda3\lib\site-packages\ipython_genutils\path.py", line 13, in
+    import random
+    File "C:\Users\jovyan\Desktop\Notebooks\random.py", line 4, in
+    rand_set = random.sample(english_words_lower_set, 12)
+    AttributeError: module 'random' has no attribute 'sample'
+
+What has happened is that you have named a file that conflicts with an installed package
+that is used by the kernel software and now introduces a conflict preventing the
+kernel's startup.
+
+**Resolution**: You'll need to rename your file.  A best practice would be to prefix or
+*namespace* your files so as not to conflict with any python package.
+
+
 Asking for help
 ---------------
 
 As with any problem, try searching to see if someone has already found an answer.
 If you can't find an existing answer, you can ask questions at:
 
+* The `Jupyter Discourse Forum <https://discourse.jupyter.org/>`_
 * The `jupyter-notebook tag on Stackoverflow <https://stackoverflow.com/questions/tagged/jupyter-notebook>`_
-* The `jupyter/help repository on Github <https://github.com/jupyter/help>`_
+* Peruse the `jupyter/help repository on Github <https://github.com/jupyter/help>`_ (read-only)
 * Or in an issue on another repository, if it's clear which component is
-  responsible.
+  responsible.  Typical repositories include:
 
-Don't forget to provide details. What error messages do you see?
-What platform are you on? How did you install Jupyter?
-What have you tried already?
+    * `jupyter_core <https://github.com/jupyter/jupyter_core>`_ - ``secure_write()``
+      and file path issues
+    * `jupyter_client <https://github.com/jupyter/jupyter_core>`_ - kernel management
+      issues found in Notebook server's command window.
+    * `IPython <https://github.com/ipython/ipython>`_ and
+      `ipykernel <https://github.com/ipython/ipykernel>`_ - kernel runtime issues
+      typically found in Notebook server's command window and/or Notebook cell execution.
+
+Gathering Information
+^^^^^^^^^^^^^^^^^^^^^
+Should you find that your problem warrants that an issue be opened in
+`notebook <https://github.com/jupyter/notebook>`_ please don't forget to provide details
+like the following:
+
+* What error messages do you see (within your notebook and, more importantly, in
+  the Notebook server's command window)?
+* What platform are you on?
+* How did you install Jupyter?
+* What have you tried already?
+
 The ``jupyter troubleshoot`` command collects a lot of information
-about your installation, which can be useful.
+about your installation, which can also be useful.
+
+When providing textual information, it's most helpful if you can *scrape* the contents
+into the issue rather than providing a screenshot.  This enables others to select
+pieces of that content so they can search more efficiently and try to help.
 
 Remember that it's not anyone's job to help you.
 We want Jupyter to work for you,
