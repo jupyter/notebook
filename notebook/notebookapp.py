@@ -429,20 +429,10 @@ class NotebookPasswordApp(JupyterApp):
         self.log.info("Wrote hashed password to %s" % self.config_file)
 
 
-def shutdown_server(server_info, timeout=5, log=None):
-    """Shutdown a notebook server in a separate process.
-
-    *server_info* should be a dictionary as produced by list_running_servers().
-
-    Will first try to request shutdown using /api/shutdown .
-    On Unix, if the server is still running after *timeout* seconds, it will
-    send SIGTERM. After another timeout, it escalates to SIGKILL.
-
-    Returns True if the server was stopped by any means, False if stopping it
-    failed (on Windows).
-    """
+def kernel_request(server_info, path='/login', method='GET', body=None, headers=None, timeout=5, log=None):
+    """query a notebook server in a separate process."""
     from tornado import gen
-    from tornado.httpclient import AsyncHTTPClient, HTTPClient, HTTPRequest
+    from tornado.httpclient import AsyncHTTPClient, HTTPClient, HTTPRequest, HTTPError
     from tornado.netutil import Resolver
     url = server_info['url']
     pid = server_info['pid']
@@ -468,12 +458,48 @@ def shutdown_server(server_info, timeout=5, log=None):
 
         resolver = UnixSocketResolver(resolver=Resolver())
 
-    req = HTTPRequest(url + 'api/shutdown', method='POST', body=b'', headers={
-        'Authorization': 'token ' + server_info['token']
-    })
-    if log: log.debug("POST request to %sapi/shutdown", url)
-    AsyncHTTPClient.configure(None, resolver=resolver)
-    HTTPClient(AsyncHTTPClient).fetch(req)
+    fullurl = urljoin(url, path)
+    headers = dict(headers) if headers is not None else {}
+    headers.setdefault('Authorization', 'token ' + server_info['token'])
+    req = HTTPRequest(fullurl,
+        method=method, body=body, headers=headers,
+        follow_redirects=True,
+        decompress_response=True,
+        allow_nonstandard_methods=False,
+        validate_cert=False
+    )
+    if log: log.debug("%s request to %s", method, fullurl)
+
+    savedAsyncHTTPClient = AsyncHTTPClient._save_configuration()
+    try:
+        AsyncHTTPClient.configure(None, resolver=resolver)
+        response = HTTPClient(AsyncHTTPClient).fetch(req)
+    except HTTPError as e:
+        if e.response is not None:
+            response = e.response
+        else:
+            raise
+    finally:
+        AsyncHTTPClient._restore_configuration(savedAsyncHTTPClient)
+
+    return response
+
+
+def shutdown_server(server_info, timeout=5, log=None):
+    """Shutdown a notebook server in a separate process.
+
+    *server_info* should be a dictionary as produced by list_running_servers().
+
+    Will first try to request shutdown using /api/shutdown .
+    On Unix, if the server is still running after *timeout* seconds, it will
+    send SIGTERM. After another timeout, it escalates to SIGKILL.
+
+    Returns True if the server was stopped by any means, False if stopping it
+    failed (on Windows).
+    """
+    url = server_info['url']
+    pid = server_info['pid']
+    kernel_request(server_info, path='api/shutdown', method='POST', body=b'', timeout=timeout, log=log)
 
     # Poll to see if it shut down.
     for _ in range(timeout*10):
@@ -2288,15 +2314,15 @@ def list_running_servers(runtime_dir=None):
     # The runtime dir might not exist
     if not os.path.isdir(runtime_dir):
         return
-
     for file_name in os.listdir(runtime_dir):
         if re.match('nbserver-(.+).json', file_name):
             with io.open(os.path.join(runtime_dir, file_name), encoding='utf-8') as f:
                 info = json.load(f)
 
-            # Simple check whether that process is really still running
+            # active check whether that process is really available via real HTTP request
             # Also remove leftover files from IPython 2.x without a pid field
-            if ('pid' in info) and check_pid(info['pid']):
+            response = kernel_request(info, path='/login')
+            if response.code in ('200',) and response.body.find(b'<title>Jupyter Notebook</title>') > 0:
                 yield info
             else:
                 # If the process has died, try to delete its info file
