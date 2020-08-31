@@ -30,21 +30,40 @@ def test_help_output():
     check_help_all_output('notebook')
 
 def test_server_info_file():
-    td = TemporaryDirectory()
-    nbapp = NotebookApp(runtime_dir=td.name, log=logging.getLogger())
-    def get_servers():
-        return list(notebookapp.list_running_servers(nbapp.runtime_dir))
-    nbapp.initialize(argv=[])
-    nbapp.write_server_info_file()
-    servers = get_servers()
-    nt.assert_equal(len(servers), 1)
-    nt.assert_equal(servers[0]['port'], nbapp.port)
-    nt.assert_equal(servers[0]['url'], nbapp.connection_url)
-    nbapp.remove_server_info_file()
-    nt.assert_equal(get_servers(), [])
-
-    # The ENOENT error should be silenced.
-    nbapp.remove_server_info_file()
+    import threading, tornado.ioloop as iom, tornado.platform.asyncio as torio                                                                                          
+    td = TemporaryDirectory()                                                                                                                                           
+                                                                                                                                                                        
+    if iom.asyncio is not None:                                                                                                                                         
+        iom.asyncio.set_event_loop_policy(torio.AnyThreadEventLoopPolicy())                                                                                             
+        iom.IOLoop.configure("tornado.platform.asyncio.AsyncIOLoop")                                                                                                    
+                                                                                                                                                                        
+    nbapp = NotebookApp(runtime_dir=td.name, log=logging.getLogger())                                                                                                   
+    nbapp.initialize(argv=[])                                                                                                                                           
+    nbapp.io_loop = iom.IOLoop.current()                                                                                                                                
+    nbapp.open_browser = False                                                                                                                                          
+    super(NotebookApp, nbapp).start()                                                                                                                                   
+    nbapp.write_server_info_file()                                                                                                                                      
+                                                                                                                                                                        
+    def check_thread():                                                                                                                                                 
+        try:                                                                                                                                                            
+            servers = list(notebookapp.list_running_servers(nbapp.runtime_dir))                                                                                         
+            nt.assert_equal(len(servers), 1)                                                                                                                            
+            nt.assert_equal(servers[0]['port'], nbapp.port)                                                                                                             
+            nt.assert_equal(servers[0]['url'], nbapp.connection_url)                                                                                                    
+        finally:                                                                                                                                                        
+            nbapp.stop()                                                                                                                                                
+                                                                                                                                                                        
+    nbapp.io_loop.add_callback(nbapp.io_loop.run_in_executor, executor=None, func=check_thread)                                                                         
+                                                                                                                                                                        
+    if sys.platform.startswith("win"):                                                                                                                                  
+        pc = iom.PeriodicCallback(lambda: None, 5000)                                                                                                                   
+        pc.start()                                                                                                                                                      
+    try:                                                                                                                                                                
+        nbapp.io_loop.start()                                                                                                                                           
+    except KeyboardInterrupt:                                                                                                                                           
+        print("Interrupted...")                                                                                                                                         
+    finally:                                                                                                                                                            
+        nbapp.remove_server_info_file()
 
 def test_nb_dir():
     with TemporaryDirectory() as td:
