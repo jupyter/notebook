@@ -1180,10 +1180,10 @@ define([
 
     NotebookList.prototype.download_selected = function() {
         var that = this;
-        
+
         that.selected.forEach(function(item) {
             var item_path = utils.encode_uri_components(item.path);
-            window.open(utils.url_path_join(that.base_url, 'files', utils.encode_uri_components(item_path)) + '?download=1', IPython._target);
+            window.open(utils.url_path_join(that.base_url, 'files', item_path) + '?download=1', IPython._target);
       	});
     };
 
