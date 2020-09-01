@@ -2320,7 +2320,8 @@ def list_running_servers(runtime_dir=None):
             # active check whether that process is really available via real HTTP request
             # Also remove leftover files from IPython 2.x without a pid field
             response = kernel_request(info, path='/login')
-            if response.body.find(b'<title>Jupyter Notebook</title>') > 0:
+            if response.body.find(b'<title>Jupyter Notebook</title>') > 0 or \
+                    response.body.find(b'<title>Home Page - Select or create a notebook</title>') > 0:
                 yield info
             else:
                 # If the process has died, try to delete its info file
