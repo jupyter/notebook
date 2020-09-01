@@ -2317,7 +2317,7 @@ def list_running_servers(runtime_dir=None):
             with io.open(os.path.join(runtime_dir, file_name), encoding='utf-8') as f:
                 info = json.load(f)
 
-            # active check whether that process is really available via real HTTP request
+            # Actively check whether that process is really available via an HTTP request
             # Also remove leftover files from IPython 2.x without a pid field
             response = kernel_request(info, path='/login')
             if response.body.find(b'<title>Jupyter Notebook</title>') > 0 or \
