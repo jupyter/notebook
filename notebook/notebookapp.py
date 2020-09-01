@@ -430,7 +430,7 @@ class NotebookPasswordApp(JupyterApp):
 
 
 def kernel_request(server_info, path='/login', method='GET', body=None, headers=None, timeout=5, log=None):
-    """query a notebook server in a separate process."""
+    """Query a notebook server in a separate process."""
     from tornado import gen
     from tornado.httpclient import AsyncHTTPClient, HTTPClient, HTTPRequest, HTTPError
     from tornado.netutil import Resolver
