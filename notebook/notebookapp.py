@@ -494,7 +494,6 @@ def shutdown_server(server_info, timeout=5, log=None):
     Returns True if the server was stopped by any means, False if stopping it
     failed (on Windows).
     """
-    url = server_info['url']
     pid = server_info['pid']
     kernel_request(server_info, path='api/shutdown', method='POST', body=b'', timeout=timeout, log=log)
 
