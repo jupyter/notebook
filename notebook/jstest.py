@@ -331,7 +331,7 @@ class JSController(TestController):
         with patch.dict('os.environ', {'HOME': self.home.name}):
             runtime_dir = jupyter_runtime_dir()
         self.server_info_file = os.path.join(runtime_dir,
-            'nbserver-%i.json' % self.file_id
+            'nbserver-%s.json' % self.file_id
         )
         self._wait_for_server()
     
