@@ -11,6 +11,7 @@ from testpath.tempdir import TemporaryDirectory
 import time
 from urllib.parse import urljoin
 
+from notebook.utils import available_port
 from selenium.webdriver import Firefox, Remote, Chrome
 from .utils import Notebook
 
@@ -41,6 +42,7 @@ def notebook_server():
         nbdir = info['nbdir'] = pjoin(td, 'notebooks')
         os.makedirs(pjoin(nbdir, u'sub ∂ir1', u'sub ∂ir 1a'))
         os.makedirs(pjoin(nbdir, u'sub ∂ir2', u'sub ∂ir 1b'))
+        port = available_port()
 
         info['extra_env'] = {
             'JUPYTER_CONFIG_DIR': pjoin(td, 'jupyter_config'),
@@ -52,6 +54,7 @@ def notebook_server():
 
         command = [sys.executable, '-m', 'notebook',
                    '--no-browser',
+                   '--port=%s' % port,
                    '--notebook-dir', nbdir,
                    # run with a base URL that would be escaped,
                    # to test that we don't double-escape URLs
@@ -60,7 +63,7 @@ def notebook_server():
         print("command=", command)
         proc = info['popen'] = Popen(command, cwd=nbdir, env=env)
         info_file_path = pjoin(td, 'jupyter_runtime',
-                               'nbserver-%i.json' % proc.pid)
+                               'nbserver-%s.json' % port)
         info.update(_wait_for_server(proc, info_file_path))
 
         print("Notebook server info:", info)

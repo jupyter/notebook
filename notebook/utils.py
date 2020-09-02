@@ -22,12 +22,18 @@ from urllib.request import pathname2url
 # tornado.concurrent.Future is asyncio.Future
 # in tornado >=5 with Python 3
 from tornado.concurrent import Future as TornadoFuture
+from tornado.netutil import bind_sockets
 from tornado import gen
 from ipython_genutils import py3compat
 
 # UF_HIDDEN is a stat flag not defined in the stat module.
 # It is used by BSD to indicate hidden files.
 UF_HIDDEN = getattr(stat, 'UF_HIDDEN', 32768)
+
+
+def available_port(host='127.0.0.1'):
+    sockets = bind_sockets(0, host)
+    return sockets[0].getsockname()[:2][1]
 
 
 def exists(path):

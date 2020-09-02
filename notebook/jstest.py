@@ -31,6 +31,8 @@ from notebook._sysinfo import get_sys_info
 from ipython_genutils.tempdir import TemporaryDirectory
 
 from subprocess import TimeoutExpired
+from notebook.utils import available_port
+
 def popen_wait(p, timeout):
     return p.wait(timeout)
 
@@ -299,9 +301,7 @@ class JSController(TestController):
             if port_env > 0:
                 self.server_port = port_env
             else:
-                from tornado.netutil import bind_sockets
-                sockets = bind_sockets(0, '127.0.0.1')
-                self.server_port = sockets[0].getsockname()[:2][1]
+                self.server_port = available_port()
         return str(self.server_port)
 
     def _init_server(self):
@@ -321,6 +321,7 @@ class JSController(TestController):
         self.stream_capturer = c = StreamCapturer()
         c.start()
         env = os.environ.copy()
+        env['PYTHONPATH']= ':'.join(sys.path)
         env.update(self.env)
         self.server = subprocess.Popen(command,
             stdout = c.writefd,
