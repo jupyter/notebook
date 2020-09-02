@@ -2244,7 +2244,8 @@ class NotebookApp(JupyterApp):
                  "resources section at https://jupyter.org/community.html."))
 
         self.write_server_info_file()
-        self.write_browser_open_file()
+        if not self.sock:
+            self.write_browser_open_file()
 
         if (self.open_browser or self.file_to_run) and not self.sock:
             self.launch_browser()
@@ -2326,7 +2327,7 @@ def list_running_servers(runtime_dir=None):
 
             # Actively check whether that process is really available via an HTTP request
             # Also remove leftover files from IPython 2.x without a pid field
-            response = kernel_request(info, path='/api')
+            response = kernel_request(info, path=url_path_join(info.get('base_url') or '/','/api'))
             if response.body == api_version_json_bytes:
                 yield info
             else:
