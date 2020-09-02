@@ -1421,18 +1421,25 @@ class NotebookApp(JupyterApp):
               "sent by the upstream reverse proxy. Necessary if the proxy handles SSL"))
     )
 
+    file_id = Unicode()
+
+    @default('file_id')
+    def _default_file_id(self):
+        int_hash = "%s" % (hash(self.sock) if self.sock else self.port)
+        return str(int_hash)
+
     info_file = Unicode()
 
     @default('info_file')
     def _default_info_file(self):
-        info_file = "nbserver-%s.json" % os.getpid()
+        info_file = "nbserver-%s.json" % self.file_id
         return os.path.join(self.runtime_dir, info_file)
 
     browser_open_file = Unicode()
 
     @default('browser_open_file')
     def _default_browser_open_file(self):
-        basename = "nbserver-%s-open.html" % os.getpid()
+        basename = "nbserver-%s-open.html" % self.file_id
         return os.path.join(self.runtime_dir, basename)
 
     pylab = Unicode('disabled', config=True,
@@ -2311,6 +2318,7 @@ def list_running_servers(runtime_dir=None):
     if not os.path.isdir(runtime_dir):
         return
 
+    api_version_json_bytes = json.dumps({"version":__version__}).encode()
     for file_name in os.listdir(runtime_dir):
         if re.match('nbserver-(.+).json', file_name):
             with io.open(os.path.join(runtime_dir, file_name), encoding='utf-8') as f:
@@ -2318,9 +2326,8 @@ def list_running_servers(runtime_dir=None):
 
             # Actively check whether that process is really available via an HTTP request
             # Also remove leftover files from IPython 2.x without a pid field
-            response = kernel_request(info, path='/login')
-            if response.body.find(b'<title>Jupyter Notebook</title>') > 0 or \
-                    response.body.find(b'<title>Home Page - Select or create a notebook</title>') > 0:
+            response = kernel_request(info, path='/api')
+            if response.body == api_version_json_bytes:
                 yield info
             else:
                 # If the process has died, try to delete its info file
