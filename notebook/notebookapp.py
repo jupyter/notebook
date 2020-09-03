@@ -2331,15 +2331,13 @@ def list_running_servers(runtime_dir=None):
                 try:
                     os.unlink(os.path.join(runtime_dir, file_name))
                 except OSError:
-                    pass  # TODO: This should warn or log or something
+                    pass
 
             version_dict = {}
-            erro = False
             try:
                 version_dict.update(json.loads(response.body.decode()))
             except:
                 flush_info_file()
-                erro = True
             else:
                 received_version = version_dict.get('version', '0.0.0')
                 msg_special = "Jupyter Notebook HIGHER VERSION detected: %s, current:%s" %(
