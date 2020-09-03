@@ -107,6 +107,7 @@ from traitlets import (
     Any, Dict, Unicode, Integer, List, Bool, Bytes, Instance,
     TraitError, Type, Float, observe, default, validate
 )
+from traitlets.config.configurable import MultipleInstanceError
 from ipython_genutils import py3compat
 from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
 from notebook._sysinfo import get_sys_info
@@ -2342,12 +2343,11 @@ def list_running_servers(runtime_dir=None):
                 received_version = version_dict.get('version', '0.0.0')
                 msg_special = "Jupyter Notebook HIGHER VERSION detected: %s, current:%s" %(
                     received_version, __version__)
-                msg_upgrade = "!!! Jupyter Notebook Upgrade REQUIRED: >=%s, got:%s(info file removed) !!!" % (
+                msg_upgrade = "Jupyter Notebook Upgrade REQUIRED: >=%s, got:%s(info file removed)" % (
                     __version__, received_version)
 
                 if JUPYTER_NOTEBOOK_TAG != version_dict.get('module'):
-                    print(msg_upgrade)
-                    flush_info_file()
+                    raise MultipleInstanceError(msg_upgrade)
                 else:
                     if __version__ < received_version:
                         print(msg_special)
