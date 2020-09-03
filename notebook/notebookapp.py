@@ -435,7 +435,6 @@ def kernel_request(server_info, path='/login', method='GET', body=None, headers=
     from tornado.httpclient import AsyncHTTPClient, HTTPClient, HTTPRequest, HTTPError
     from tornado.netutil import Resolver
     url = server_info['url']
-    pid = server_info['pid']
     resolver = None
 
     # UNIX Socket handling.
