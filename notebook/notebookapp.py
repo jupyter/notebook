@@ -2319,7 +2319,6 @@ def list_running_servers(runtime_dir=None):
     if not os.path.isdir(runtime_dir):
         return
 
-    api_version_json_bytes = json.dumps({"version":__version__}).encode()
     for file_name in os.listdir(runtime_dir):
         if re.match('nbserver-(.+).json', file_name):
             with io.open(os.path.join(runtime_dir, file_name), encoding='utf-8') as f:
@@ -2328,15 +2327,36 @@ def list_running_servers(runtime_dir=None):
             # Actively check whether that process is really available via an HTTP request
             # Also remove leftover files from IPython 2.x without a pid field
             response = kernel_request(info, path=url_path_join(info.get('base_url') or '/','/api'))
-            try:
-                assert JUPYTER_NOTEBOOK_TAG == json.loads(response.body.decode())["module"]
-                yield info
-            except:
-                # If the process has died, try to delete its info file
+            def flush_info_file():
                 try:
                     os.unlink(os.path.join(runtime_dir, file_name))
                 except OSError:
                     pass  # TODO: This should warn or log or something
+
+            version_dict = {}
+            erro = False
+            try:
+                version_dict.update(json.loads(response.body.decode()))
+            except:
+                flush_info_file()
+                erro = True
+            else:
+                received_version = version_dict.get('version', '0.0.0')
+                msg_special = "Jupyter Notebook HIGHER VERSION detected: %s, current:%s" %(
+                    received_version, __version__)
+                msg_upgrade = "!!! Jupyter Notebook Upgrade REQUIRED: >=%s, got:%s(info file removed) !!!" % (
+                    __version__, received_version)
+
+                if JUPYTER_NOTEBOOK_TAG != version_dict.get('module'):
+                    print(msg_upgrade)
+                    flush_info_file()
+                else:
+                    if __version__ < received_version:
+                        print(msg_special)
+                    yield info
+
+
+
 #-----------------------------------------------------------------------------
 # Main entry point
 #-----------------------------------------------------------------------------
