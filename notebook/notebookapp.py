@@ -2329,7 +2329,7 @@ def list_running_servers(runtime_dir=None):
             # Also remove leftover files from IPython 2.x without a pid field
             response = kernel_request(info, path=url_path_join(info.get('base_url') or '/','/api'))
             try:
-                assert JUPYTER_NOTEBOOK_TAG == json.loads(response.body)["module"]
+                assert JUPYTER_NOTEBOOK_TAG == json.loads(response.body.decode())["module"]
                 yield info
             except:
                 # If the process has died, try to delete its info file
