@@ -1,6 +1,9 @@
 """The Jupyter HTML Notebook"""
 
 import os
+
+JUPYTER_NOTEBOOK_TAG = "JupyterNotebook"
+
 # Packagers: modify this line if you store the notebook static files elsewhere
 DEFAULT_STATIC_FILES_PATH = os.path.join(os.path.dirname(__file__), "static")
 

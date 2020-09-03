@@ -34,6 +34,7 @@ from notebook._tz import utcnow
 from notebook.i18n import combine_translations
 from notebook.utils import is_hidden, url_path_join, url_is_absolute, url_escape, urldecode_unix_socket_path
 from notebook.services.security import csp_report_uri
+from notebook import JUPYTER_NOTEBOOK_TAG
 
 #-----------------------------------------------------------------------------
 # Top-level handlers
@@ -849,7 +850,7 @@ class APIVersionHandler(APIHandler):
 
     def get(self):
         # not authenticated, so give as few info as possible
-        self.finish(json.dumps({"version":notebook.__version__}))
+        self.finish(json.dumps({"version": notebook.__version__, "module": JUPYTER_NOTEBOOK_TAG}))
 
 
 class TrailingSlashHandler(web.RequestHandler):

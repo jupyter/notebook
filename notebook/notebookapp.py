@@ -71,6 +71,7 @@ if not sys.platform.startswith('win'):
     from tornado.netutil import bind_unix_socket
 
 from notebook import (
+    JUPYTER_NOTEBOOK_TAG,
     DEFAULT_NOTEBOOK_PORT,
     DEFAULT_STATIC_FILES_PATH,
     DEFAULT_TEMPLATE_PATH_LIST,
@@ -2327,9 +2328,10 @@ def list_running_servers(runtime_dir=None):
             # Actively check whether that process is really available via an HTTP request
             # Also remove leftover files from IPython 2.x without a pid field
             response = kernel_request(info, path=url_path_join(info.get('base_url') or '/','/api'))
-            if response.body == api_version_json_bytes:
+            try:
+                assert JUPYTER_NOTEBOOK_TAG == json.loads(response.body)["module"]
                 yield info
-            else:
+            except:
                 # If the process has died, try to delete its info file
                 try:
                     os.unlink(os.path.join(runtime_dir, file_name))
