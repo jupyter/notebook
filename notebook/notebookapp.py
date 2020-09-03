@@ -1424,7 +1424,7 @@ class NotebookApp(JupyterApp):
 
     @default('file_id')
     def _default_file_id(self):
-        int_hash = "%s" % (hash(self.sock) if self.sock else self.port)
+        return str(hash(self.sock) if self.sock else self.port)
         return str(int_hash)
 
     info_file = Unicode()
