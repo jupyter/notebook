@@ -2341,7 +2341,7 @@ def list_running_servers(runtime_dir=None):
                 flush_info_file()
             else:
                 received_version = version_dict.get('version', '0.0.0')
-                msg_special = "Jupyter Notebook HIGHER VERSION detected: %s, current:%s" %(
+                msg_special = "WARNING: Jupyter Notebook HIGHER VERSION was detected: %s, current:%s" %(
                     received_version, __version__)
                 msg_upgrade = "Jupyter Notebook Upgrade REQUIRED: >=%s, got:%s(info file removed)" % (
                     __version__, received_version)
