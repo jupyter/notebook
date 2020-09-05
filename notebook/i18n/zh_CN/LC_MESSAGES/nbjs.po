@@ -1076,7 +1076,7 @@ msgstr "没有到服务的连接"
 
 #: notebook/static/notebook/js/notificationarea.js:160
 msgid "A connection to the notebook server could not be established. The notebook will continue trying to reconnect. Check your network connection or notebook server configuration."
-msgstr "到后台服务的连接没能建立, 我们会继续尝试重连, 请检查网络连接...还有服务配置."
+msgstr "到后台服务的连接没能建立, 我们会继续尝试重连, 请检查网络连接还有服务配置."
 
 #: notebook/static/notebook/js/notificationarea.js:165
 msgid "Connection failed"
