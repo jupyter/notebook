@@ -2920,6 +2920,14 @@ define([
                     click: function() {
                         var nb_path = d.find('input').val();
                         var nb_name = nb_path.split('/').slice(-1).pop();
+                        if (!nb_name) {
+                            $(".save-message").html(
+                                    $("<span>")
+                                        .attr("style", "color:red;")
+                                        .text($(".save-message").text())
+                                );
+                            return false;
+                        }
                         // If notebook name does not contain extension '.ipynb' add it
                         var ext = utils.splitext(nb_name)[1];
                         if (ext === '') {
