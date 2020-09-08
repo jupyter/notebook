@@ -22,6 +22,27 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     ``pip --version``.
 
 
+.. _release-6.1.4:
+
+6.1.4
+-----
+
+- Fix broken links to jupyter documentation (:ghpull:`5686`)
+- Add additional entries to troubleshooting section (:ghpull:`5695`)
+- Revert change in page alignment (:ghpull:`5703`)
+- Bug fix: remove double encoding in download files (:ghpull:`5720`)
+- Fix typo for Check in zh_CN (:ghpull:`5730`)
+- Require a file name in the "Save As" dialog (:ghpull:`5733`)
+
+Thank you to all the contributors:
+
+- bdbai
+- Jaipreet Singh
+- Kevin Bates
+- Pavel Panchekha
+- Zach Sailer
+
+
 .. _release-6.1.3:
 
 6.1.3
