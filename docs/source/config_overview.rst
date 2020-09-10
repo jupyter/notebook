@@ -54,12 +54,11 @@ front-end Notebook client (i.e. the familiar notebook interface).
 
 Notebook front-end client
 -------------------------
-- :ref:`How front-end configuration works <frontend_config>`
-    * :ref:`Example: Changing the notebook's default indentation setting
-      <frontend_config>`
-    * :ref:`Example: Restoring the notebook's default indentation setting
-      <frontend_config>`
-- :ref:`Persisting configuration settings <frontend_config>`
+
+.. toctree::
+   :maxdepth: 2
+
+   frontend_config
 
 .. _configure_nbextensions:
 
