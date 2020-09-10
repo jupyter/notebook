@@ -183,7 +183,7 @@ containing all the necessary packages (except pandoc), use::
 
 If you want to install the necessary packages with ``pip``, use the following instead::
 
-    pip install -r docs/doc-requirements.txt
+    pip install . -r docs/doc-requirements.txt
 
 Once you have installed the required packages, you can build the docs with::
 
