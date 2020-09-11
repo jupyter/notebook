@@ -176,7 +176,8 @@ containing all the necessary packages (except pandoc), use::
 
     conda env create -f docs/environment.yml
     conda activate notebook_docs  # Linux and OS X
-    activate notebook_docs         # Windows
+    activate notebook_docs        # Windows
+    pip install .
 
 .. _conda environment:
     https://conda.io/docs/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file
