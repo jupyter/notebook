@@ -174,17 +174,17 @@ To build the documentation you'll need `Sphinx <http://www.sphinx-doc.org/>`_,
 To install (and activate) a `conda environment`_ named ``notebook_docs``
 containing all the necessary packages (except pandoc), use::
 
-    conda env create -f docs/environment.yml
+    conda create -n notebook_docs pip
     conda activate notebook_docs  # Linux and OS X
     activate notebook_docs        # Windows
-    pip install .
+    pip install .[docs]
 
 .. _conda environment:
     https://conda.io/docs/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file
 
 If you want to install the necessary packages with ``pip``, use the following instead::
 
-    pip install . -r docs/doc-requirements.txt
+    pip install .[docs]
 
 Once you have installed the required packages, you can build the docs with::
 
