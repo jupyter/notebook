@@ -53,6 +53,9 @@ class NotebookTestBase(TestCase):
         for _ in range(int(MAX_WAITTIME/POLL_INTERVAL)):
             try:
                 cls.fetch_url(url)
+            except ModuleNotFoundError as error:
+                # Errors that should be immediately thrown back to caller
+                raise error
             except Exception as e:
                 if not cls.notebook_thread.is_alive():
                     raise RuntimeError("The notebook server failed to start") from e
