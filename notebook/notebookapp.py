@@ -40,6 +40,8 @@ except ImportError:
     # Windows
     resource = None
 
+import psutil
+
 from base64 import encodebytes
 
 from jinja2 import Environment, FileSystemLoader
@@ -112,7 +114,6 @@ from notebook._sysinfo import get_sys_info
 
 from ._tz import utcnow, utcfromtimestamp
 from .utils import (
-    check_pid,
     pathname2url,
     run_sync,
     unix_socket_in_use,
@@ -477,7 +478,7 @@ def shutdown_server(server_info, timeout=5, log=None):
 
     # Poll to see if it shut down.
     for _ in range(timeout*10):
-        if not check_pid(pid):
+        if not psutil.pid_exists(pid):
             if log: log.debug("Server PID %s is gone", pid)
             return True
         time.sleep(0.1)
@@ -490,7 +491,7 @@ def shutdown_server(server_info, timeout=5, log=None):
 
     # Poll to see if it shut down.
     for _ in range(timeout * 10):
-        if not check_pid(pid):
+        if not psutil.pid_exists(pid):
             if log: log.debug("Server PID %s is gone", pid)
             return True
         time.sleep(0.1)
@@ -2084,6 +2085,7 @@ class NotebookApp(JupyterApp):
 
     def server_info(self):
         """Return a JSONable dict of information about this server."""
+        pid = os.getpid()
         return {'url': self.connection_url,
                 'hostname': self.ip if self.ip else 'localhost',
                 'port': self.port,
@@ -2093,7 +2095,8 @@ class NotebookApp(JupyterApp):
                 'token': self.token,
                 'notebook_dir': os.path.abspath(self.notebook_dir),
                 'password': bool(self.password),
-                'pid': os.getpid(),
+                'pid': pid,
+                'create_time': psutil.Process(pid).create_time(),
                }
 
     def write_server_info_file(self):
@@ -2295,15 +2298,18 @@ def list_running_servers(runtime_dir=None):
                 info = json.load(f)
 
             # Simple check whether that process is really still running
-            # Also remove leftover files from IPython 2.x without a pid field
-            if ('pid' in info) and check_pid(info['pid']):
+            p = psutil.Process(info.get('pid'))
+            if (p.is_running() and
+                    not 'create_time' in info or
+                    p.create_time() == info.get('create_time')):
                 yield info
             else:
                 # If the process has died, try to delete its info file
                 try:
                     os.unlink(os.path.join(runtime_dir, file_name))
                 except OSError:
-                    pass  # TODO: This should warn or log or something
+                    logging.error('Could not delete nbserver '
+                                  'info file %s' % file_name, exc_info=True)
 #-----------------------------------------------------------------------------
 # Main entry point
 #-----------------------------------------------------------------------------

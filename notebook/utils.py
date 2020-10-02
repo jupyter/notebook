@@ -284,34 +284,6 @@ def check_version(v, check):
         return True
 
 
-# Copy of IPython.utils.process.check_pid:
-
-def _check_pid_win32(pid):
-    import ctypes
-    # OpenProcess returns 0 if no such process (of ours) exists
-    # positive int otherwise
-    return bool(ctypes.windll.kernel32.OpenProcess(1,0,pid))
-
-def _check_pid_posix(pid):
-    """Copy of IPython.utils.process.check_pid"""
-    try:
-        os.kill(pid, 0)
-    except OSError as err:
-        if err.errno == errno.ESRCH:
-            return False
-        elif err.errno == errno.EPERM:
-            # Don't have permission to signal the process - probably means it exists
-            return True
-        raise
-    else:
-        return True
-
-if sys.platform == 'win32':
-    check_pid = _check_pid_win32
-else:
-    check_pid = _check_pid_posix
-
-
 def maybe_future(obj):
     """Like tornado's deprecated gen.maybe_future
 

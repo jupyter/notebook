@@ -113,6 +113,7 @@ for more information.
         'ipykernel', # bless IPython kernel for now
         'Send2Trash',
         'terminado>=0.8.3',
+        'psutil~=5.7.2',
         'prometheus_client'
     ],
     extras_require = {
