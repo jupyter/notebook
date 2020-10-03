@@ -1,4 +1,4 @@
-# Jupyter Notebook
+ Jupyter Notebook(Amazing notebook for Python beginners)
 
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
 [![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
@@ -20,7 +20,7 @@ Please note that this repository is currently maintained by a skeleton crew of m
 
 If you have an open pull request with a new feature or if you were planning to open one, please consider shipping it as a [notebook extension](https://jupyter-notebook.readthedocs.io/en/stable/extending/) instead.
 
-##### Alternatives to contributing to `notebook`
+##### Other ways to contributing to `notebook`
 Additionally, please consider whether your contribution would be appropriate for either the underlying server for Jupyter front-ends, [jupyter_server](https://github.com/jupyter/jupyter_server) or in the [JupyterLab front-end](https://github.com/jupyterlab/jupyterlab).
 
 ### Jupyter notebook, the language-agnostic evolution of IPython notebook
@@ -36,7 +36,7 @@ discrete repos.
 [[The Big Split™ announcement](https://blog.jupyter.org/the-big-split-9d7b88a031a7)]
 [[Jupyter Ascending blog post](https://blog.jupyter.org/jupyter-ascending-1bf5b362d97e)]
 
-## Installation
+## About how to install this notebook
 You can find the installation documentation for the
 [Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/latest/install.html).
 The documentation for advanced usage of Jupyter notebook can be found
