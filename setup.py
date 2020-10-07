@@ -120,6 +120,7 @@ for more information.
                  'nbval', 'nose-exclude', 'selenium', 'pytest', 'pytest-cov'],
         'docs': ['sphinx', 'nbsphinx', 'sphinxcontrib_github_alt', 'sphinx_rtd_theme'],
         'test:sys_platform != "win32"': ['requests-unixsocket'],
+        'json-logging': ['json-logging']
     },
     python_requires = '>=3.5',
     entry_points = {

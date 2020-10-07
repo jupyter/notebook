@@ -138,6 +138,19 @@ try:
 except ImportError:
     terminado_available = False
 
+# Tolerate missing json_logging package.
+enable_json_logs = os.getenv('ENABLE_JSON_LOGGING', 'false').lower() == 'true'
+try:
+    import json_logging
+except ImportError:
+    # If configured for json logs and we can't do it, log a hint.
+    if enable_json_logs:
+        logging.getLogger(__name__).exception(
+            'Unable to use json logging due to missing packages. '
+            'Run "pip install notebook[json-logging]" to fix.'
+        )
+    enable_json_logs = False
+
 #-----------------------------------------------------------------------------
 # Module globals
 #-----------------------------------------------------------------------------
@@ -702,7 +715,9 @@ class NotebookApp(JupyterApp):
         password=(NotebookPasswordApp, NotebookPasswordApp.description.splitlines()[0]),
     )
 
-    _log_formatter_cls = LogFormatter
+    # Unless there is a way to re-initialize the log formatter (like with _log_format_changed?)
+    # we need to load the json logging formatter early here otherwise traitlets complains.
+    _log_formatter_cls = json_logging.JSONLogFormatter if enable_json_logs else LogFormatter
 
     @default('log_level')
     def _default_log_level(self):
