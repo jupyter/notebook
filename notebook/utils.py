@@ -284,13 +284,15 @@ def check_version(v, check):
         return True
 
 
-# Copy of IPython.utils.process.check_pid:
-
 def _check_pid_win32(pid):
     import ctypes
     # OpenProcess returns 0 if no such process (of ours) exists
     # positive int otherwise
-    return bool(ctypes.windll.kernel32.OpenProcess(1,0,pid))
+    handle = ctypes.windll.kernel32.OpenProcess(1,0,pid)
+    if handle:
+        # the handle must be closed or the kernel process object won't be freed
+        ctypes.windll.kernel32.CloseHandle( handle )
+    return bool(handle)
 
 def _check_pid_posix(pid):
     """Copy of IPython.utils.process.check_pid"""
