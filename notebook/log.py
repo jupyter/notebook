@@ -9,6 +9,10 @@ import json
 from tornado.log import access_log
 from .prometheus.log_functions import prometheus_log_method
 
+from .utils import enable_json_logs
+
+_enable_json_logs = enable_json_logs()
+
 
 def log_request(handler):
     """log a bit more information about each request than tornado's default
@@ -46,5 +50,11 @@ def log_request(handler):
     if status >= 500 and status != 502:
         # log all headers if it caused an error
         log_method(json.dumps(dict(request.headers), indent=2))
-    log_method(msg.format(**ns))
+    if _enable_json_logs:
+        # FIXME: this still logs the msg as a serialized json string,
+        # presumably because it's using tornado's access_log rather than
+        # the logger setup in notebook app with _log_formatter_cls.
+        log_method(ns)
+    else:
+        log_method(msg.format(**ns))
     prometheus_log_method(handler)

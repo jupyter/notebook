@@ -113,6 +113,7 @@ from notebook._sysinfo import get_sys_info
 from ._tz import utcnow, utcfromtimestamp
 from .utils import (
     check_pid,
+    enable_json_logs,
     pathname2url,
     run_sync,
     unix_socket_in_use,
@@ -139,17 +140,17 @@ except ImportError:
     terminado_available = False
 
 # Tolerate missing json_logging package.
-enable_json_logs = os.getenv('ENABLE_JSON_LOGGING', 'false').lower() == 'true'
+_enable_json_logs = enable_json_logs()
 try:
     import json_logging
 except ImportError:
     # If configured for json logs and we can't do it, log a hint.
-    if enable_json_logs:
+    if _enable_json_logs:
         logging.getLogger(__name__).exception(
             'Unable to use json logging due to missing packages. '
             'Run "pip install notebook[json-logging]" to fix.'
         )
-    enable_json_logs = False
+    _enable_json_logs = False
 
 #-----------------------------------------------------------------------------
 # Module globals
@@ -717,7 +718,7 @@ class NotebookApp(JupyterApp):
 
     # Unless there is a way to re-initialize the log formatter (like with _log_format_changed?)
     # we need to load the json logging formatter early here otherwise traitlets complains.
-    _log_formatter_cls = json_logging.JSONLogFormatter if enable_json_logs else LogFormatter
+    _log_formatter_cls = json_logging.JSONLogFormatter if _enable_json_logs else LogFormatter
 
     @default('log_level')
     def _default_log_level(self):
