@@ -6,11 +6,9 @@ define([
     'base/js/utils',
     'base/js/i18n',
     'notebook/js/cell',
-    'base/js/security',
+    'base/js/markdown',
     'services/config',
-    'notebook/js/mathjaxutils',
     'notebook/js/celltoolbar',
-    'components/marked/lib/marked',
     'codemirror/lib/codemirror',
     'codemirror/mode/gfm/gfm',
     'notebook/js/codemirror-ipythongfm',
@@ -20,11 +18,9 @@ define([
     utils,
     i18n,
     cell,
-    security,
+    markdown,
     configmod,
-    mathjaxutils,
     celltoolbar,
-    marked,
     CodeMirror,
     gfm,
     ipgfm,
@@ -119,7 +115,6 @@ define([
                     events: this.events}]);
 
         this.cell_type = this.cell_type || 'text';
-        mathjaxutils = mathjaxutils;
         this.rendered = false;
     };
 
@@ -301,8 +296,9 @@ define([
                 // can reference an image in markdown (using []() or a
                 // HTML <img>)
                 var text = this.get_text();
-                marked(text, function (err, html) {
-                    html = $(security.sanitize_html_and_parse(html));
+                markdown.render(text, {
+                    sanitize: true,
+                }, function (err, html) {
                     html.find('img[src^="attachment:"]').each(function (i, h) {
                         h = $(h);
                         var key = h.attr('src').replace(/^attachment:/, '');
@@ -461,21 +457,11 @@ define([
             var text = this.get_text();
             var math = null;
             if (text === "") { text = this.placeholder; }
-            var text_and_math = mathjaxutils.remove_math(text);
-            text = text_and_math[0];
-            math = text_and_math[1];
-            // Prevent marked from returning inline styles for table cells
-            var renderer = new marked.Renderer();
-            renderer.tablecell = function (content, flags) {
-              var type = flags.header ? 'th' : 'td';
-              var style = flags.align == null ? '': ' style="text-align: ' + flags.align + '"';
-              var start_tag = '<' + type + style + '>';
-              var end_tag = '</' + type + '>\n';
-              return start_tag + content + end_tag;
-            };
-            marked(text, { renderer: renderer }, function (err, html) {
-                html = mathjaxutils.replace_math(html, math);
-                html = $(security.sanitize_html_and_parse(html));
+            markdown.render(text, {
+                with_math: true,
+                clean_tables: true,
+                sanitize: true,
+            }, function (err, html) {
                 // add anchors to headings
                 html.find(":header").addBack(":header").each(function (i, h) {
                     h = $(h);

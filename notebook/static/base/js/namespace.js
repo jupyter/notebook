@@ -32,13 +32,13 @@ define(function(){
     // expose modules
     
     jprop('utils','base/js/utils')
+    jprop('mathjaxutils','base/js/mathjaxutils');
     
     //Jupyter.load_extensions = Jupyter.utils.load_extensions;
     // 
     jprop('security','base/js/security');
     jprop('keyboard','base/js/keyboard');
     jprop('dialog','base/js/dialog');
-    jprop('mathjaxutils','notebook/js/mathjaxutils');
 
 
     //// exposed constructors

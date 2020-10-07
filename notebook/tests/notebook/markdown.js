@@ -14,7 +14,7 @@ casper.notebook_test(function () {
     function mathjax_render_test(input_string, result, message){
       casper.thenEvaluate(function (text){
         window._test_result = null;
-        require(['notebook/js/mathjaxutils'],function(mathjaxutils){
+        require(['base/js/mathjaxutils'],function(mathjaxutils){
           window._test_result = mathjaxutils.remove_math(text);
         });
       }, {text: input_string});
