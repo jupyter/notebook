@@ -31,6 +31,8 @@ from notebook._sysinfo import get_sys_info
 from ipython_genutils.tempdir import TemporaryDirectory
 
 from subprocess import TimeoutExpired
+from notebook.utils import available_port
+
 def popen_wait(p, timeout):
     return p.wait(timeout)
 
@@ -291,11 +293,23 @@ class JSController(TestController):
         should_run = all(have[a] for a in self.requirements + [self.engine])
         return should_run
 
+    @property
+    def file_id(self):
+        if self.server_port == 0:
+            port_env = os.environ.get('JUPYTER_PORT') or '0'
+            port_env =int(port_env) if port_env.isdigit() else 0
+            if port_env > 0:
+                self.server_port = port_env
+            else:
+                self.server_port = available_port()
+        return str(self.server_port)
+
     def _init_server(self):
         "Start the notebook server in a separate process"
         self.server_command = command = [sys.executable,
             '-m', 'notebook',
             '--no-browser',
+            '--port=%s' % self.file_id,
             '--notebook-dir', self.nbdir.name,
             '--NotebookApp.token=',
             '--NotebookApp.base_url=%s' % self.base_url,
@@ -307,6 +321,7 @@ class JSController(TestController):
         self.stream_capturer = c = StreamCapturer()
         c.start()
         env = os.environ.copy()
+        env['PYTHONPATH']= ':'.join(sys.path)
         env.update(self.env)
         self.server = subprocess.Popen(command,
             stdout = c.writefd,
@@ -317,7 +332,7 @@ class JSController(TestController):
         with patch.dict('os.environ', {'HOME': self.home.name}):
             runtime_dir = jupyter_runtime_dir()
         self.server_info_file = os.path.join(runtime_dir,
-            'nbserver-%i.json' % self.server.pid
+            'nbserver-%s.json' % self.file_id
         )
         self._wait_for_server()
     

@@ -71,6 +71,7 @@ if not sys.platform.startswith('win'):
     from tornado.netutil import bind_unix_socket
 
 from notebook import (
+    JUPYTER_NOTEBOOK_TAG,
     DEFAULT_NOTEBOOK_PORT,
     DEFAULT_STATIC_FILES_PATH,
     DEFAULT_TEMPLATE_PATH_LIST,
@@ -106,6 +107,7 @@ from traitlets import (
     Any, Dict, Unicode, Integer, List, Bool, Bytes, Instance,
     TraitError, Type, Float, observe, default, validate
 )
+from traitlets.config.configurable import MultipleInstanceError
 from ipython_genutils import py3compat
 from jupyter_core.paths import jupyter_runtime_dir, jupyter_path
 from notebook._sysinfo import get_sys_info
@@ -429,23 +431,12 @@ class NotebookPasswordApp(JupyterApp):
         self.log.info("Wrote hashed password to %s" % self.config_file)
 
 
-def shutdown_server(server_info, timeout=5, log=None):
-    """Shutdown a notebook server in a separate process.
-
-    *server_info* should be a dictionary as produced by list_running_servers().
-
-    Will first try to request shutdown using /api/shutdown .
-    On Unix, if the server is still running after *timeout* seconds, it will
-    send SIGTERM. After another timeout, it escalates to SIGKILL.
-
-    Returns True if the server was stopped by any means, False if stopping it
-    failed (on Windows).
-    """
+def kernel_request(server_info, path='/login', method='GET', body=None, headers=None, timeout=5, log=None):
+    """Query a notebook server in a separate process."""
     from tornado import gen
-    from tornado.httpclient import AsyncHTTPClient, HTTPClient, HTTPRequest
+    from tornado.httpclient import AsyncHTTPClient, HTTPClient, HTTPRequest, HTTPError
     from tornado.netutil import Resolver
     url = server_info['url']
-    pid = server_info['pid']
     resolver = None
 
     # UNIX Socket handling.
@@ -468,12 +459,44 @@ def shutdown_server(server_info, timeout=5, log=None):
 
         resolver = UnixSocketResolver(resolver=Resolver())
 
-    req = HTTPRequest(url + 'api/shutdown', method='POST', body=b'', headers={
-        'Authorization': 'token ' + server_info['token']
-    })
-    if log: log.debug("POST request to %sapi/shutdown", url)
-    AsyncHTTPClient.configure(None, resolver=resolver)
-    HTTPClient(AsyncHTTPClient).fetch(req)
+    fullurl = urljoin(url, path)
+    headers = dict(headers) if headers is not None else {}
+    headers.setdefault('Authorization', 'token ' + server_info['token'])
+    req = HTTPRequest(fullurl,
+        method=method, body=body, headers=headers,
+        follow_redirects=True,
+        decompress_response=True,
+        allow_nonstandard_methods=False,
+        validate_cert=False
+    )
+    if log: log.debug("%s request to %s", method, fullurl)
+
+    savedAsyncHTTPClient = AsyncHTTPClient._save_configuration()
+    try:
+        AsyncHTTPClient.configure(None, resolver=resolver)
+        response = HTTPClient(AsyncHTTPClient).fetch(req)
+    except HTTPError as e:
+        if e.response is not None:
+            response = e.response
+        else:
+            raise
+    finally:
+        AsyncHTTPClient._restore_configuration(savedAsyncHTTPClient)
+
+    return response
+
+
+def shutdown_server(server_info, timeout=5, log=None):
+    """Shutdown a notebook server in a separate process.
+    *server_info* should be a dictionary as produced by list_running_servers().
+    Will first try to request shutdown using /api/shutdown .
+    On Unix, if the server is still running after *timeout* seconds, it will
+    send SIGTERM. After another timeout, it escalates to SIGKILL.
+    Returns True if the server was stopped by any means, False if stopping it
+    failed (on Windows).
+    """
+    pid = server_info['pid']
+    kernel_request(server_info, path='api/shutdown', method='POST', body=b'', timeout=timeout, log=log)
 
     # Poll to see if it shut down.
     for _ in range(timeout*10):
@@ -1399,18 +1422,25 @@ class NotebookApp(JupyterApp):
               "sent by the upstream reverse proxy. Necessary if the proxy handles SSL"))
     )
 
+    file_id = Unicode()
+
+    @default('file_id')
+    def _default_file_id(self):
+        return str(hash(self.sock) if self.sock else self.port)
+        return str(int_hash)
+
     info_file = Unicode()
 
     @default('info_file')
     def _default_info_file(self):
-        info_file = "nbserver-%s.json" % os.getpid()
+        info_file = "nbserver-%s.json" % self.file_id
         return os.path.join(self.runtime_dir, info_file)
 
     browser_open_file = Unicode()
 
     @default('browser_open_file')
     def _default_browser_open_file(self):
-        basename = "nbserver-%s-open.html" % os.getpid()
+        basename = "nbserver-%s-open.html" % self.file_id
         return os.path.join(self.runtime_dir, basename)
 
     pylab = Unicode('disabled', config=True,
@@ -2215,7 +2245,8 @@ class NotebookApp(JupyterApp):
                  "resources section at https://jupyter.org/community.html."))
 
         self.write_server_info_file()
-        self.write_browser_open_file()
+        if not self.sock:
+            self.write_browser_open_file()
 
         if (self.open_browser or self.file_to_run) and not self.sock:
             self.launch_browser()
@@ -2294,16 +2325,36 @@ def list_running_servers(runtime_dir=None):
             with io.open(os.path.join(runtime_dir, file_name), encoding='utf-8') as f:
                 info = json.load(f)
 
-            # Simple check whether that process is really still running
+            # Actively check whether that process is really available via an HTTP request
             # Also remove leftover files from IPython 2.x without a pid field
-            if ('pid' in info) and check_pid(info['pid']):
-                yield info
-            else:
-                # If the process has died, try to delete its info file
+            response = kernel_request(info, path=url_path_join(info.get('base_url') or '/','/api'))
+            def flush_info_file():
                 try:
                     os.unlink(os.path.join(runtime_dir, file_name))
                 except OSError:
-                    pass  # TODO: This should warn or log or something
+                    pass
+
+            version_dict = {}
+            try:
+                version_dict.update(json.loads(response.body.decode()))
+            except:
+                flush_info_file()
+            else:
+                received_version = version_dict.get('version', '0.0.0')
+                msg_special = "WARNING: Jupyter Notebook HIGHER VERSION was detected: %s, current:%s" %(
+                    received_version, __version__)
+                msg_upgrade = "Jupyter Notebook Upgrade REQUIRED: >=%s, got:%s(info file removed)" % (
+                    __version__, received_version)
+
+                if JUPYTER_NOTEBOOK_TAG != version_dict.get('module'):
+                    raise MultipleInstanceError(msg_upgrade)
+                else:
+                    if __version__ < received_version:
+                        print(msg_special)
+                    yield info
+
+
+
 #-----------------------------------------------------------------------------
 # Main entry point
 #-----------------------------------------------------------------------------
