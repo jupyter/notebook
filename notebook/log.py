@@ -46,8 +46,5 @@ def log_request(handler, log=access_log):
     if status >= 500 and status != 502:
         # log all headers if it caused an error
         log_method(json.dumps(dict(request.headers), indent=2))
-    # if _enable_json_logs:
-    #     log_method(ns)
-    # else:
     log_method(msg.format(**ns))
     prometheus_log_method(handler)

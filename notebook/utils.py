@@ -401,7 +401,3 @@ def unix_socket_in_use(socket_path):
         return True
     finally:
         sock.close()
-
-
-def enable_json_logs():
-    return os.getenv('JUPYTER_ENABLE_JSON_LOGGING', 'false').lower() == 'true'

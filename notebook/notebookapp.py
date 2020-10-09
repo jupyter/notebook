@@ -114,7 +114,6 @@ from notebook._sysinfo import get_sys_info
 from ._tz import utcnow, utcfromtimestamp
 from .utils import (
     check_pid,
-    enable_json_logs,
     pathname2url,
     run_sync,
     unix_socket_in_use,
@@ -720,7 +719,7 @@ class NotebookApp(JupyterApp):
     @default('log_json')
     def _default_log_json(self):
         """Get the log_json value from the environment."""
-        return enable_json_logs()
+        return os.getenv('JUPYTER_ENABLE_JSON_LOGGING', 'false').lower() == 'true'
 
     @validate('log_json')
     def _validate_log_json(self, proposal):
