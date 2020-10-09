@@ -11,6 +11,7 @@ import asyncio
 import binascii
 import datetime
 import errno
+import functools
 import gettext
 import hashlib
 import hmac
@@ -251,9 +252,11 @@ class NotebookWebApplication(web.Application):
             # collapse $HOME to ~
             root_dir = '~' + root_dir[len(home):]
 
+        # Use the NotebookApp logger and its formatting for tornado request logging.
+        log_function = functools.partial(log_request, log=log)
         settings = dict(
             # basics
-            log_function=log_request,
+            log_function=log_function,
             base_url=base_url,
             default_url=default_url,
             template_path=template_path,
