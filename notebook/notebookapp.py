@@ -139,19 +139,6 @@ try:
 except ImportError:
     terminado_available = False
 
-# Tolerate missing json_logging package.
-_enable_json_logs = enable_json_logs()
-try:
-    import json_logging
-except ImportError:
-    # If configured for json logs and we can't do it, log a hint.
-    if _enable_json_logs:
-        logging.getLogger(__name__).exception(
-            'Unable to use json logging due to missing packages. '
-            'Run "pip install notebook[json-logging]" to fix.'
-        )
-    _enable_json_logs = False
-
 #-----------------------------------------------------------------------------
 # Module globals
 #-----------------------------------------------------------------------------
@@ -716,9 +703,45 @@ class NotebookApp(JupyterApp):
         password=(NotebookPasswordApp, NotebookPasswordApp.description.splitlines()[0]),
     )
 
-    # Unless there is a way to re-initialize the log formatter (like with _log_format_changed?)
-    # we need to load the json logging formatter early here otherwise traitlets complains.
-    _log_formatter_cls = json_logging.JSONLogFormatter if _enable_json_logs else LogFormatter
+    _log_formatter_cls = LogFormatter
+
+    _json_logging_import_error_logged = False
+
+    log_json = Bool(False, config=True,
+        help=_('Set to True to enable JSON formatted logs. '
+               'Run "pip install notebook[json-logging]" to install the '
+               'required dependent packages. Can also be set using the '
+               'environment variable JUPYTER_ENABLE_JSON_LOGGING=true.')
+    )
+
+    @default('log_json')
+    def _default_log_json(self):
+        """Get the log_json value from the environment."""
+        return enable_json_logs()
+
+    @validate('log_json')
+    def _validate_log_json(self, proposal):
+        # If log_json=True, see if the json_logging package can be imported and
+        # override _log_formatter_cls if so.
+        value = proposal['value']
+        if value:
+            try:
+                import json_logging
+                self._log_formatter_cls = json_logging.JSONLogFormatter
+                # Note that we don't need to trigger _log_format_changed here
+                # because init_logging will set the JSONLogFormatter on all
+                # of the registered loggers.
+            except ImportError:
+                # If configured for json logs and we can't do it, log a hint.
+                # Only log the error once though.
+                if not self._json_logging_import_error_logged:
+                    logging.getLogger(__name__).exception(
+                        'Unable to use json logging due to missing packages. '
+                        'Run "pip install notebook[json-logging]" to fix.'
+                    )
+                    self._json_logging_import_error_logged = True
+                value = False
+        return value
 
     @default('log_level')
     def _default_log_level(self):
@@ -1606,6 +1629,13 @@ class NotebookApp(JupyterApp):
         )
 
     def init_logging(self):
+        if self.log_json:
+            self.log.debug('initializing json logging')
+            # Note that we don't guard against ImportError here because if the
+            # package is missing then _validate_log_json should have set
+            # log_json=False.
+            import json_logging
+            json_logging.init_non_web(enable_json=True)
         # This prevents double log messages because tornado use a root logger that
         # self.log is a child of. The logging module dispatches log messages to a log
         # and all of its ancenstors until propagate is set to False.

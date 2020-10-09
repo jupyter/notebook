@@ -404,4 +404,4 @@ def unix_socket_in_use(socket_path):
 
 
 def enable_json_logs():
-    return os.getenv('ENABLE_JSON_LOGGING', 'false').lower() == 'true'
+    return os.getenv('JUPYTER_ENABLE_JSON_LOGGING', 'false').lower() == 'true'
