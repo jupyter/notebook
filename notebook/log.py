@@ -10,7 +10,7 @@ from tornado.log import access_log
 from .prometheus.log_functions import prometheus_log_method
 
 
-def log_request(handler, log=access_log):
+def log_request(handler, log=access_log, log_json=False):
     """log a bit more information about each request than tornado's default
     
     - move static file get success to debug-level (reduces noise)
@@ -36,9 +36,9 @@ def log_request(handler, log=access_log):
         method=request.method,
         ip=request.remote_ip,
         uri=request.uri,
-        request_time=request_time,
+        request_time=float('%.2f' % request_time),
     )
-    msg = "{status} {method} {uri} ({ip}) {request_time:.2f}ms"
+    msg = "{status} {method} {uri} ({ip}) {request_time:f}ms"
     if status >= 400:
         # log bad referers
         ns['referer'] = request.headers.get('Referer', 'None')
@@ -46,5 +46,8 @@ def log_request(handler, log=access_log):
     if status >= 500 and status != 502:
         # log all headers if it caused an error
         log_method(json.dumps(dict(request.headers), indent=2))
-    log_method(msg.format(**ns))
+    if log_json:
+        log_method("", extra=dict(props=ns))
+    else:
+        log_method(msg.format(**ns))
     prometheus_log_method(handler)

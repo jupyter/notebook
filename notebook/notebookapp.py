@@ -252,7 +252,8 @@ class NotebookWebApplication(web.Application):
             root_dir = '~' + root_dir[len(home):]
 
         # Use the NotebookApp logger and its formatting for tornado request logging.
-        log_function = functools.partial(log_request, log=log)
+        log_function = functools.partial(
+            log_request, log=log, log_json=jupyter_app.log_json)
         settings = dict(
             # basics
             log_function=log_function,
