@@ -1,7 +1,5 @@
 """Base class for notebook tests."""
 
-from __future__ import print_function
-
 from binascii import hexlify
 from contextlib import contextmanager
 import errno
