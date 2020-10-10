@@ -1,4 +1,3 @@
-# coding: utf-8
 """Test installation of notebook extensions"""
 
 # Copyright (c) Jupyter Development Team.

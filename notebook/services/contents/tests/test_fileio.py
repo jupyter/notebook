@@ -1,4 +1,3 @@
-# encoding: utf-8
 """Tests for file IO"""
 
 # Copyright (c) Jupyter Development Team.

@@ -1,4 +1,3 @@
-# encoding: utf-8
 """
 This module defines the things that are used in setup.py for building the notebook
 

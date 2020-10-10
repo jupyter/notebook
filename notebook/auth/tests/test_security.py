@@ -1,4 +1,3 @@
-# coding: utf-8
 from ..security import passwd, passwd_check
 import nose.tools as nt
 

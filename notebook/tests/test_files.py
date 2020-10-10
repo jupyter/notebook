@@ -1,4 +1,3 @@
-# coding: utf-8
 """Test the /files/ handler."""
 
 import io

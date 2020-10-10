@@ -1,4 +1,3 @@
-# coding: utf-8
 """Test the kernel specs webservice API."""
 
 import errno

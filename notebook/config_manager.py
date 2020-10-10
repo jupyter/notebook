@@ -1,4 +1,3 @@
-# coding: utf-8
 """Manager to read and modify config data in JSON files."""
 
 # Copyright (c) Jupyter Development Team.
