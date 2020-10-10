@@ -142,7 +142,7 @@ def test_notebook_password():
 class TestingStopApp(notebookapp.NbserverStopApp):
     """For testing the logic of NbserverStopApp."""
     def __init__(self, **kwargs):
-        super(TestingStopApp, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.servers_shut_down = []
 
     def shutdown_server(self, server):

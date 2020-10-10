@@ -68,7 +68,7 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
     def get(self, kernel_id, *args, **kwargs):
         self.authenticate()
         self.kernel_id = cast_unicode(kernel_id, 'ascii')
-        yield super(WebSocketChannelsHandler, self).get(kernel_id=kernel_id, *args, **kwargs)
+        yield super().get(kernel_id=kernel_id, *args, **kwargs)
 
     def send_ping(self):
         if self.ws_connection is None and self.ping_callback is not None:
@@ -97,7 +97,7 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
         if self.ws_connection:  # prevent WebSocketClosedError
             if isinstance(message, bytes):
                 binary = True
-            super(WebSocketChannelsHandler, self).write_message(message, binary=binary)
+            super().write_message(message, binary=binary)
         elif self.log.isEnabledFor(logging.DEBUG):
             msg_summary = WebSocketChannelsHandler._get_message_summary(json_decode(utf8(message)))
             self.log.debug("Notebook client closed websocket connection - message dropped: {}".format(msg_summary))
@@ -105,7 +105,7 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
     def on_close(self):
         self.log.debug("Closing websocket connection %s", self.request.path)
         self.gateway.on_close()
-        super(WebSocketChannelsHandler, self).on_close()
+        super().on_close()
 
     @staticmethod
     def _get_message_summary(message):
@@ -129,7 +129,7 @@ class GatewayWebSocketClient(LoggingConfigurable):
     """Proxy web socket connection to a kernel/enterprise gateway."""
 
     def __init__(self, **kwargs):
-        super(GatewayWebSocketClient, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.kernel_id = None
         self.ws = None
         self.ws_future = Future()

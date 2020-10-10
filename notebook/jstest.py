@@ -45,7 +45,7 @@ class StreamCapturer(Thread):
     daemon = True  # Don't hang if main thread crashes
     started = False
     def __init__(self, echo=False):
-        super(StreamCapturer, self).__init__()
+        super().__init__()
         self.echo = echo
         self.streams = []
         self.buffer = BytesIO()
@@ -264,14 +264,14 @@ class JSController(TestController):
         # If the engine is SlimerJS, we need to buffer the output because
         # SlimerJS does not support exit codes, so CasperJS always returns 0.
         if self.engine == 'slimerjs' and not buffer_output:
-            return super(JSController, self).launch(capture_output=True)
+            return super().launch(capture_output=True)
 
         else:
-            return super(JSController, self).launch(buffer_output=buffer_output)
+            return super().launch(buffer_output=buffer_output)
 
     def wait(self, *pargs, **kwargs):
         """Wait for the JSController to finish"""
-        ret = super(JSController, self).wait(*pargs, **kwargs)
+        ret = super().wait(*pargs, **kwargs)
         # If this is a SlimerJS controller, check the captured stdout for
         # errors.  Otherwise, just return the return code.
         if self.engine == 'slimerjs':

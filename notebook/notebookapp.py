@@ -190,7 +190,7 @@ class NotebookWebApplication(web.Application):
         if settings['autoreload']:
             log.info('Autoreload enabled: the webapp will restart when any Python src file changes.')
 
-        super(NotebookWebApplication, self).__init__(handlers, **settings)
+        super().__init__(handlers, **settings)
 
     def init_settings(self, jupyter_app, kernel_manager, contents_manager,
                       session_manager, kernel_spec_manager,
@@ -511,7 +511,7 @@ class NbserverStopApp(JupyterApp):
         help="UNIX socket of the server to be killed.")
 
     def parse_command_line(self, argv=None):
-        super(NbserverStopApp, self).parse_command_line(argv)
+        super().parse_command_line(argv)
         if self.extra_args:
             try:
                 self.port = int(self.extra_args[0])
@@ -1523,7 +1523,7 @@ class NotebookApp(JupyterApp):
     terminals_available = False
 
     def parse_command_line(self, argv=None):
-        super(NotebookApp, self).parse_command_line(argv)
+        super().parse_command_line(argv)
 
         if self.extra_args:
             arg0 = self.extra_args[0]
@@ -2026,7 +2026,7 @@ class NotebookApp(JupyterApp):
     def initialize(self, argv=None):
         self._init_asyncio_patch()
 
-        super(NotebookApp, self).initialize(argv)
+        super().initialize(argv)
         self.init_logging()
         if self._dispatching:
             return
@@ -2192,7 +2192,7 @@ class NotebookApp(JupyterApp):
         This method takes no arguments so all configuration and initialization
         must be done prior to calling this method."""
 
-        super(NotebookApp, self).start()
+        super().start()
 
         if not self.allow_root:
             # check if we are running as root, and abort if it's not allowed

@@ -27,7 +27,7 @@ class LargeFileManager(FileContentsManager):
                 if chunk == 1:
                     self.log.debug("Saving %s", os_path)
                     self.run_pre_save_hook(model=model, path=path)
-                    super(LargeFileManager, self)._save_file(os_path, model['content'], model.get('format'))
+                    super()._save_file(os_path, model['content'], model.get('format'))
                 else:
                     self._save_large_file(os_path, model['content'], model.get('format'))
             except web.HTTPError:
@@ -43,7 +43,7 @@ class LargeFileManager(FileContentsManager):
                 self.run_post_save_hook(model=model, os_path=os_path)
             return model
         else:
-            return super(LargeFileManager, self).save(model, path)
+            return super().save(model, path)
 
     def _save_large_file(self, os_path, content, format):
         """Save content of a generic file."""

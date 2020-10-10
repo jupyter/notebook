@@ -301,7 +301,7 @@ class IPythonHandler(AuthenticatedHandler):
     
     def set_default_headers(self):
         """Add CORS headers, if defined"""
-        super(IPythonHandler, self).set_default_headers()
+        super().set_default_headers()
         if self.allow_origin:
             self.set_header("Access-Control-Allow-Origin", self.allow_origin)
         elif self.allow_origin_pat:
@@ -442,7 +442,7 @@ class IPythonHandler(AuthenticatedHandler):
             # Servers without authentication are vulnerable to XSRF
             return
         try:
-            return super(IPythonHandler, self).check_xsrf_cookie()
+            return super().check_xsrf_cookie()
         except web.HTTPError as e:
             if self.request.method in {'GET', 'HEAD'}:
                 # Consider Referer a sufficient cross-origin check for GET requests
@@ -496,7 +496,7 @@ class IPythonHandler(AuthenticatedHandler):
     def prepare(self):
         if not self.check_host():
             raise web.HTTPError(403)
-        return super(IPythonHandler, self).prepare()
+        return super().prepare()
 
     #---------------------------------------------------------------
     # template rendering
@@ -591,7 +591,7 @@ class APIHandler(IPythonHandler):
     def prepare(self):
         if not self.check_origin():
             raise web.HTTPError(404)
-        return super(APIHandler, self).prepare()
+        return super().prepare()
 
     def write_error(self, status_code, **kwargs):
         """APIHandler errors are JSON, not human pages"""
@@ -618,7 +618,7 @@ class APIHandler(IPythonHandler):
         # preserve _user_cache so we don't raise more than once
         if hasattr(self, '_user_cache'):
             return self._user_cache
-        self._user_cache = user = super(APIHandler, self).get_current_user()
+        self._user_cache = user = super().get_current_user()
         return user
 
     def get_login_url(self):
@@ -627,12 +627,12 @@ class APIHandler(IPythonHandler):
         # instead of redirecting, raise 403 instead.
         if not self.current_user:
             raise web.HTTPError(403)
-        return super(APIHandler, self).get_login_url()
+        return super().get_login_url()
 
     @property
     def content_security_policy(self):
         csp = '; '.join([
-                super(APIHandler, self).content_security_policy,
+                super().content_security_policy,
                 "default-src 'none'",
             ])
         return csp
@@ -653,7 +653,7 @@ class APIHandler(IPythonHandler):
     def finish(self, *args, **kwargs):
         self.update_api_activity()
         self.set_header('Content-Type', 'application/json')
-        return super(APIHandler, self).finish(*args, **kwargs)
+        return super().finish(*args, **kwargs)
 
     def options(self, *args, **kwargs):
         if 'Access-Control-Allow-Headers' in self.settings.get('headers', {}):
@@ -700,13 +700,12 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
     def content_security_policy(self):
         # In case we're serving HTML/SVG, confine any Javascript to a unique
         # origin so it can't interact with the notebook server.
-        return super(AuthenticatedFileHandler, self).content_security_policy + \
-                "; sandbox allow-scripts"
+        return super().content_security_policy + "; sandbox allow-scripts"
 
     @web.authenticated
     def head(self, path):
         self.check_xsrf_cookie()
-        return super(AuthenticatedFileHandler, self).head(path)
+        return super().head(path)
 
     @web.authenticated
     def get(self, path):
@@ -731,10 +730,10 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
             if cur_mime == 'text/plain':
                 return 'text/plain; charset=UTF-8'
             else:
-                return super(AuthenticatedFileHandler, self).get_content_type()
+                return super().get_content_type()
 
     def set_headers(self):
-        super(AuthenticatedFileHandler, self).set_headers()
+        super().set_headers()
         # disable browser caching, rely on 304 replies for savings
         if "v" not in self.request.arguments:
             self.add_header("Cache-Control", "no-cache")
@@ -749,7 +748,7 @@ class AuthenticatedFileHandler(IPythonHandler, web.StaticFileHandler):
         
         Adding to tornado's own handling, forbids the serving of hidden files.
         """
-        abs_path = super(AuthenticatedFileHandler, self).validate_absolute_path(root, absolute_path)
+        abs_path = super().validate_absolute_path(root, absolute_path)
         abs_root = os.path.abspath(root)
         if is_hidden(abs_path, abs_root) and not self.contents_manager.allow_hidden:
             self.log.info("Refusing to serve hidden file, via 404 Error, use flag 'ContentsManager.allow_hidden' to enable")
@@ -795,7 +794,7 @@ class FileFindHandler(IPythonHandler, web.StaticFileHandler):
     _static_paths = {}
     
     def set_headers(self):
-        super(FileFindHandler, self).set_headers()
+        super().set_headers()
         # disable browser caching, rely on 304 replies for savings
         if "v" not in self.request.arguments or \
                 any(self.request.path.startswith(path) for path in self.no_cache_paths):
@@ -842,7 +841,7 @@ class FileFindHandler(IPythonHandler, web.StaticFileHandler):
             if (absolute_path + os.sep).startswith(root):
                 break
         
-        return super(FileFindHandler, self).validate_absolute_path(root, absolute_path)
+        return super().validate_absolute_path(root, absolute_path)
 
 
 class APIVersionHandler(APIHandler):

@@ -159,7 +159,7 @@ class TestOrderedServerExtension(MockEnvTestCase):
     """
 
     def setUp(self):
-        super(TestOrderedServerExtension, self).setUp()
+        super().setUp()
         mockextension1 = SimpleNamespace()
         mockextension2 = SimpleNamespace()
 
@@ -179,7 +179,7 @@ class TestOrderedServerExtension(MockEnvTestCase):
         sys.modules['mockextension1'] = mockextension1
 
     def tearDown(self):
-        super(TestOrderedServerExtension, self).tearDown()
+        super().tearDown()
         del sys.modules['mockextension2']
         del sys.modules['mockextension1']
 

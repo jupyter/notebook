@@ -190,7 +190,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             self._kernel_info_future.set_result(info)
     
     def initialize(self):
-        super(ZMQChannelsHandler, self).initialize()
+        super().initialize()
         self.zmq_stream = None
         self.channels = {}
         self.kernel_id = None
@@ -212,7 +212,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
     @gen.coroutine
     def pre_get(self):
         # authenticate first
-        super(ZMQChannelsHandler, self).pre_get()
+        super().pre_get()
         # check session collision:
         yield self._register_session()
         # then request kernel info, waiting up to a certain time before giving up.
@@ -236,7 +236,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
     @gen.coroutine
     def get(self, kernel_id):
         self.kernel_id = cast_unicode(kernel_id, 'ascii')
-        yield super(ZMQChannelsHandler, self).get(kernel_id=kernel_id)
+        yield super().get(kernel_id=kernel_id)
     
     @gen.coroutine
     def _register_session(self):
@@ -254,7 +254,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         self._open_sessions[self.session_key] = self
 
     def open(self, kernel_id):
-        super(ZMQChannelsHandler, self).open()
+        super().open()
         km = self.kernel_manager
         km.notify_connect(kernel_id)
 
@@ -419,10 +419,10 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                 self._iopub_window_byte_count -= byte_count
                 self._iopub_window_byte_queue.pop(-1)
                 return
-        super(ZMQChannelsHandler, self)._on_zmq_reply(stream, msg)
+        super()._on_zmq_reply(stream, msg)
 
     def close(self):
-        super(ZMQChannelsHandler, self).close()
+        super().close()
         return self._close_future
 
     def on_close(self):
