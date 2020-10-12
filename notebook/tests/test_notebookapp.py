@@ -191,10 +191,10 @@ class NotebookAppTests(NotebookTestBase):
         assert self.port in {info['port'] for info in servers}
 
     def test_log_json_default(self):
-        assert self.notebook.log_json == False
+        self.assertFalse(self.notebook.log_json)
 
     def test_validate_log_json(self):
-        assert self.notebook._validate_log_json(dict(value=False)) == False
+        self.assertFalse(self.notebook._validate_log_json(dict(value=False)))
 
 
 # UNIX sockets aren't available on Windows.
@@ -227,7 +227,9 @@ class NotebookAppJSONLoggingTests(NotebookTestBase):
         return test_env
 
     def test_log_json_enabled(self):
-        assert self.notebook.log_json == self.json_logging_available
+        self.assertEqual(self.notebook.log_json, self.json_logging_available)
 
     def test_validate_log_json(self):
-        assert self.notebook._validate_log_json(dict(value=True)) == self.json_logging_available
+        self.assertEqual(
+            self.notebook._validate_log_json(dict(value=True)),
+            self.json_logging_available)
