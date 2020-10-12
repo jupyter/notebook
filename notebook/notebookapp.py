@@ -730,14 +730,14 @@ class NotebookApp(JupyterApp):
         if value:
             try:
                 import json_logging
-                self.log.info('initializing json logging')
+                self.log.debug('initializing json logging')
                 json_logging.init_non_web(enable_json=True)
                 self._log_formatter_cls = json_logging.JSONLogFormatter
             except ImportError:
                 # If configured for json logs and we can't do it, log a hint.
                 # Only log the error once though.
                 if not self._json_logging_import_error_logged:
-                    logging.getLogger(__name__).warning(
+                    self.log.warning(
                         'Unable to use json logging due to missing packages. '
                         'Run "pip install notebook[json-logging]" to fix.'
                     )
