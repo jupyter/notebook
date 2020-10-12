@@ -45,7 +45,10 @@ def log_request(handler, log=access_log, log_json=False):
         msg = msg + ' referer={referer}'
     if status >= 500 and status != 502:
         # log all headers if it caused an error
-        log_method(json.dumps(dict(request.headers), indent=2))
+        if log_json:
+            log_method("", extra=dict(props=dict(request.headers)))
+        else:
+            log_method(json.dumps(dict(request.headers), indent=2))
     if log_json:
         log_method("", extra=dict(props=ns))
     else:
