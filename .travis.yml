@@ -24,7 +24,7 @@ before_install:
     - nvm use 6.9.2
     - node --version
     - npm --version
-    - npm upgrade -g npm
+    - npm install -g npm
     - npm install
     - |
       if [[ $GROUP == js* ]]; then
