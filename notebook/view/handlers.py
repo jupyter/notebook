@@ -1,4 +1,3 @@
-#encoding: utf-8
 """Tornado handlers for viewing HTML files."""
 
 # Copyright (c) Jupyter Development Team.

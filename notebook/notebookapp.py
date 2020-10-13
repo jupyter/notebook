@@ -1,4 +1,3 @@
-# coding: utf-8
 """A tornado based Jupyter notebook server."""
 
 # Copyright (c) Jupyter Development Team.

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Notebook Javascript Test Controller
 
 This module runs one or more subprocesses which will actually run the Javascript

@@ -1,4 +1,3 @@
-# coding: utf-8
 """Tornado handlers for WebSocket <-> ZMQ sockets."""
 
 # Copyright (c) Jupyter Development Team.

@@ -1,4 +1,3 @@
-# coding: utf-8
 """Utilities for installing Javascript extensions for the notebook"""
 
 # Copyright (c) Jupyter Development Team.

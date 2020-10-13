@@ -1,4 +1,3 @@
-# coding: utf-8
 """Tests for the notebook manager."""
 from __future__ import print_function
 
