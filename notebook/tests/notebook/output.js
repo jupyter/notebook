@@ -44,7 +44,6 @@ casper.notebook_test(function () {
         IPython.notebook.insert_cell_at_index("code", 0);
         var cell = IPython.notebook.get_cell(0);
         cell.set_text([
-            "from __future__ import print_function",
             "import sys",
             "from IPython.display import display, clear_output"
             ].join("\n")
