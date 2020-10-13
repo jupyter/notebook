@@ -205,7 +205,7 @@ class GatewayClient(SingletonConfigurable):
         return bool(os.environ.get(self.validate_cert_env, str(self.validate_cert_default_value)) not in ['no', 'false'])
 
     def __init__(self, **kwargs):
-        super(GatewayClient, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self._static_args = {}  # initialized on first use
 
     env_whitelist_default_value = ''
@@ -310,7 +310,7 @@ class GatewayKernelManager(MappingKernelManager):
     _kernels = {}
 
     def __init__(self, **kwargs):
-        super(GatewayKernelManager, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.base_endpoint = url_path_join(GatewayClient.instance().url, GatewayClient.instance().kernels_endpoint)
 
     def __contains__(self, kernel_id):
@@ -507,7 +507,7 @@ class GatewayKernelManager(MappingKernelManager):
 class GatewayKernelSpecManager(KernelSpecManager):
 
     def __init__(self, **kwargs):
-        super(GatewayKernelSpecManager, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         base_endpoint = url_path_join(GatewayClient.instance().url,
                                       GatewayClient.instance().kernelspecs_endpoint)
 

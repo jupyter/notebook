@@ -21,7 +21,7 @@ dummy_date_s = isoformat(dummy_date)
 class DummyMKM(MappingKernelManager):
     """MappingKernelManager interface that doesn't start kernels, for testing"""
     def __init__(self, *args, **kwargs):
-        super(DummyMKM, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.id_letters = iter(u'ABCDEFGHIJK')
 
     def _new_id(self):

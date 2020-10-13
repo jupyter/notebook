@@ -977,7 +977,7 @@ class NBExtensionApp(BaseExtensionApp):
 
     def start(self):
         """Perform the App's functions as configured"""
-        super(NBExtensionApp, self).start()
+        super().start()
 
         # The above should have called a subcommand and raised NoStart; if we
         # get here, it didn't, so we should self.log.info a message.

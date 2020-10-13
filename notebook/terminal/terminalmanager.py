@@ -39,7 +39,7 @@ class TerminalManager(LoggingConfigurable, NamedTermManager):
     # Methods for managing terminals
     # -------------------------------------------------------------------------
     def __init__(self, *args, **kwargs):
-        super(TerminalManager, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def create(self):
         """Create a new terminal."""
@@ -73,7 +73,7 @@ class TerminalManager(LoggingConfigurable, NamedTermManager):
     async def terminate(self, name, force=False):
         """Terminate terminal 'name'."""
         self._check_terminal(name)
-        await super(TerminalManager, self).terminate(name, force=force)
+        await super().terminate(name, force=force)
 
         # Decrease the metric below by one
         # because a terminal has been shutdown

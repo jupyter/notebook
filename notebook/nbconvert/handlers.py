@@ -83,8 +83,7 @@ class NbconvertFileHandler(IPythonHandler):
     def content_security_policy(self):
         # In case we're serving HTML/SVG, confine any Javascript to a unique
         # origin so it can't interact with the notebook server.
-        return super(NbconvertFileHandler, self).content_security_policy + \
-               "; sandbox allow-scripts"
+        return super().content_security_policy + "; sandbox allow-scripts"
 
     @web.authenticated
     @gen.coroutine
@@ -158,8 +157,7 @@ class NbconvertPostHandler(IPythonHandler):
     def content_security_policy(self):
         # In case we're serving HTML/SVG, confine any Javascript to a unique
         # origin so it can't interact with the notebook server.
-        return super(NbconvertPostHandler, self).content_security_policy + \
-               "; sandbox allow-scripts"
+        return super().content_security_policy + "; sandbox allow-scripts"
 
     @web.authenticated
     def post(self, format):

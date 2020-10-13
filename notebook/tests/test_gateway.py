@@ -161,7 +161,7 @@ class TestGateway(NotebookTestBase):
     def setUp(self):
         kwargs = dict()
         GatewayClient.instance().load_connection_args(**kwargs)
-        super(TestGateway, self).setUp()
+        super().setUp()
 
     def test_gateway_options(self):
         nt.assert_equal(self.notebook.gateway_config.gateway_enabled, True)

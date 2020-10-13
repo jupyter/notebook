@@ -288,7 +288,7 @@ class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
         # assign and yield in two step to avoid tornado 3 issues
         res = self.pre_get()
         yield maybe_future(res)
-        res = super(AuthenticatedZMQStreamHandler, self).get(*args, **kwargs)
+        res = super().get(*args, **kwargs)
         yield maybe_future(res)
 
     def initialize(self):
