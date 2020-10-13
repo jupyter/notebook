@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 #
 # Jupyter Notebook documentation build configuration file, created by
 # sphinx-quickstart on Mon Apr 13 09:51:11 2015.

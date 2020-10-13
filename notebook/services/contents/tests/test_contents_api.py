@@ -1,4 +1,3 @@
-# coding: utf-8
 """Test the contents webservice API."""
 
 from contextlib import contextmanager

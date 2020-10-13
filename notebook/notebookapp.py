@@ -1,10 +1,7 @@
-# coding: utf-8
 """A tornado based Jupyter notebook server."""
 
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
-
-from __future__ import absolute_import, print_function
 
 import notebook
 import asyncio

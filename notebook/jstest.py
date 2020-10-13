@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Notebook Javascript Test Controller
 
 This module runs one or more subprocesses which will actually run the Javascript
@@ -7,8 +6,6 @@ test suite.
 
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
-
-from __future__ import absolute_import, print_function
 
 import argparse
 import json

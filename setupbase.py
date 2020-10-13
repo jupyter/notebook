@@ -1,4 +1,3 @@
-# encoding: utf-8
 """
 This module defines the things that are used in setup.py for building the notebook
 
@@ -10,8 +9,6 @@ This includes:
 
 # Copyright (c) IPython Development Team.
 # Distributed under the terms of the Modified BSD License.
-
-from __future__ import print_function
 
 import os
 import re

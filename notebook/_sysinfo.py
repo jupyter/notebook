@@ -1,12 +1,9 @@
-# encoding: utf-8
 """
 Utilities for getting information about Jupyter and the system it's running in.
 """
 
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
-
-from __future__ import absolute_import
 
 import os
 import platform

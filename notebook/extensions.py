@@ -1,4 +1,3 @@
-# coding: utf-8
 """Utilities for installing extensions"""
 
 # Copyright (c) Jupyter Development Team.

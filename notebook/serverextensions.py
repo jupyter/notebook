@@ -1,10 +1,7 @@
-# coding: utf-8
 """Utilities for installing server extensions for the notebook"""
 
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
-
-from __future__ import print_function
 
 import importlib
 import sys
