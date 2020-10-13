@@ -227,7 +227,7 @@ class NotebookAppJSONLoggingTests(NotebookTestBase):
         return test_env
 
     def test_log_json_enabled(self):
-        self.assertEqual(self.notebook.log_json, self.json_logging_available)
+        self.assertTrue(self.notebook._default_log_json())
 
     def test_validate_log_json(self):
         self.assertEqual(
