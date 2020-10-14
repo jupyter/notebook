@@ -16,11 +16,7 @@ from notebook import nbextensions, serverextensions, extensions
 from notebook.notebookapp import NotebookApp
 from notebook.nbextensions import _get_config_dir
 
-if sys.version_info > (3,):
-    from types import SimpleNamespace
-else:
-    class SimpleNamespace(object):
-        pass
+from types import SimpleNamespace
 
 from collections import OrderedDict
 

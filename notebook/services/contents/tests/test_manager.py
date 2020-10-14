@@ -106,7 +106,6 @@ class TestFileContentsManager(TestCase):
         self.assertEqual(cp_dir, os.path.join(root, cpm.checkpoint_dir, cp_name))
         self.assertEqual(cp_subdir, os.path.join(root, subd, cpm.checkpoint_dir, cp_name))
 
-    @dec.skipif(sys.platform == 'win32' and sys.version_info[0] < 3)
     def test_bad_symlink(self):
         with TemporaryDirectory() as td:
             cm = FileContentsManager(root_dir=td)
@@ -147,7 +146,6 @@ class TestFileContentsManager(TestCase):
             # recursive symlinks should not be shown in the contents manager
             self.assertNotIn('recursive', contents)
 
-    @dec.skipif(sys.platform == 'win32' and sys.version_info[0] < 3)
     def test_good_symlink(self):
         with TemporaryDirectory() as td:
             cm = FileContentsManager(root_dir=td)
