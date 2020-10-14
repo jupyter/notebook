@@ -190,6 +190,12 @@ class NotebookAppTests(NotebookTestBase):
         assert len(servers) >= 1
         assert self.port in {info['port'] for info in servers}
 
+    def test_log_json_default(self):
+        self.assertFalse(self.notebook.log_json)
+
+    def test_validate_log_json(self):
+        self.assertFalse(self.notebook._validate_log_json(dict(value=False)))
+
 
 # UNIX sockets aren't available on Windows.
 if not sys.platform.startswith('win'):
@@ -201,3 +207,29 @@ if not sys.platform.startswith('win'):
             servers = list(notebookapp.list_running_servers())
             assert len(servers) >= 1
             assert self.sock in {info['sock'] for info in servers}
+
+
+class NotebookAppJSONLoggingTests(NotebookTestBase):
+    """Tests for when json logging is enabled."""
+    @classmethod
+    def setup_class(cls):
+        super(NotebookAppJSONLoggingTests, cls).setup_class()
+        try:
+            import json_logging
+            cls.json_logging_available = True
+        except ImportError:
+            cls.json_logging_available = False
+
+    @classmethod
+    def get_patch_env(cls):
+        test_env = super(NotebookAppJSONLoggingTests, cls).get_patch_env()
+        test_env.update({'JUPYTER_ENABLE_JSON_LOGGING': 'true'})
+        return test_env
+
+    def test_log_json_enabled(self):
+        self.assertTrue(self.notebook._default_log_json())
+
+    def test_validate_log_json(self):
+        self.assertEqual(
+            self.notebook._validate_log_json(dict(value=True)),
+            self.json_logging_available)

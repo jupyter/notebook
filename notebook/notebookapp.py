@@ -8,6 +8,7 @@ import asyncio
 import binascii
 import datetime
 import errno
+import functools
 import gettext
 import hashlib
 import hmac
@@ -247,9 +248,12 @@ class NotebookWebApplication(web.Application):
             # collapse $HOME to ~
             root_dir = '~' + root_dir[len(home):]
 
+        # Use the NotebookApp logger and its formatting for tornado request logging.
+        log_function = functools.partial(
+            log_request, log=log, log_json=jupyter_app.log_json)
         settings = dict(
             # basics
-            log_function=log_request,
+            log_function=log_function,
             base_url=base_url,
             default_url=default_url,
             template_path=template_path,
@@ -700,6 +704,43 @@ class NotebookApp(JupyterApp):
     )
 
     _log_formatter_cls = LogFormatter
+
+    _json_logging_import_error_logged = False
+
+    log_json = Bool(False, config=True,
+        help=_('Set to True to enable JSON formatted logs. '
+               'Run "pip install notebook[json-logging]" to install the '
+               'required dependent packages. Can also be set using the '
+               'environment variable JUPYTER_ENABLE_JSON_LOGGING=true.')
+    )
+
+    @default('log_json')
+    def _default_log_json(self):
+        """Get the log_json value from the environment."""
+        return os.getenv('JUPYTER_ENABLE_JSON_LOGGING', 'false').lower() == 'true'
+
+    @validate('log_json')
+    def _validate_log_json(self, proposal):
+        # If log_json=True, see if the json_logging package can be imported and
+        # override _log_formatter_cls if so.
+        value = proposal['value']
+        if value:
+            try:
+                import json_logging
+                self.log.debug('initializing json logging')
+                json_logging.init_non_web(enable_json=True)
+                self._log_formatter_cls = json_logging.JSONLogFormatter
+            except ImportError:
+                # If configured for json logs and we can't do it, log a hint.
+                # Only log the error once though.
+                if not self._json_logging_import_error_logged:
+                    self.log.warning(
+                        'Unable to use json logging due to missing packages. '
+                        'Run "pip install notebook[json-logging]" to fix.'
+                    )
+                    self._json_logging_import_error_logged = True
+                value = False
+        return value
 
     @default('log_level')
     def _default_log_level(self):

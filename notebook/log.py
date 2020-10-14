@@ -10,7 +10,7 @@ from tornado.log import access_log
 from .prometheus.log_functions import prometheus_log_method
 
 
-def log_request(handler):
+def log_request(handler, log=access_log, log_json=False):
     """log a bit more information about each request than tornado's default
     
     - move static file get success to debug-level (reduces noise)
@@ -22,29 +22,35 @@ def log_request(handler):
     request = handler.request
     if status < 300 or status == 304:
         # Successes (or 304 FOUND) are debug-level
-        log_method = access_log.debug
+        log_method = log.debug
     elif status < 400:
-        log_method = access_log.info
+        log_method = log.info
     elif status < 500:
-        log_method = access_log.warning
+        log_method = log.warning
     else:
-        log_method = access_log.error
+        log_method = log.error
     
-    request_time = 1000.0 * handler.request.request_time()
+    request_time = 1000.0 * request.request_time()
     ns = dict(
         status=status,
         method=request.method,
         ip=request.remote_ip,
         uri=request.uri,
-        request_time=request_time,
+        request_time=float('%.2f' % request_time),
     )
-    msg = "{status} {method} {uri} ({ip}) {request_time:.2f}ms"
+    msg = "{status} {method} {uri} ({ip}) {request_time:f}ms"
     if status >= 400:
         # log bad referers
         ns['referer'] = request.headers.get('Referer', 'None')
         msg = msg + ' referer={referer}'
     if status >= 500 and status != 502:
         # log all headers if it caused an error
-        log_method(json.dumps(dict(request.headers), indent=2))
-    log_method(msg.format(**ns))
+        if log_json:
+            log_method("", extra=dict(props=dict(request.headers)))
+        else:
+            log_method(json.dumps(dict(request.headers), indent=2))
+    if log_json:
+        log_method("", extra=dict(props=ns))
+    else:
+        log_method(msg.format(**ns))
     prometheus_log_method(handler)
