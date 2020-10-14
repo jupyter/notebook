@@ -54,7 +54,7 @@ class TerminalAPITest(NotebookTestBase):
             self.term_api.shutdown(k['name'])
 
     def test_no_terminals(self):
-        # Make sure there are no terminals running at the start
+        # Make sure there are no terminals are running at the start
         terminals = self.term_api.list().json()
         self.assertEqual(terminals, [])
 
@@ -64,6 +64,27 @@ class TerminalAPITest(NotebookTestBase):
         term1 = r.json()
         self.assertEqual(r.status_code, 200)
         self.assertIsInstance(term1, dict)
+
+    def test_create_terminal_via_get(self):
+        # Test creation of terminal via GET against terminals/new/<name>
+        r = self.term_api._req('GET', 'terminals/new/foo')
+        self.assertEqual(r.status_code, 200)
+
+        r = self.term_api.get('foo')
+        foo_term = r.json()
+        self.assertEqual(r.status_code, 200)
+        self.assertIsInstance(foo_term, dict)
+        self.assertEqual(foo_term['name'], 'foo')
+
+        with assert_http_error(409):
+            self.term_api._req('GET', 'terminals/new/foo')
+
+        r = self.term_api.shutdown('foo')
+        self.assertEqual(r.status_code, 204)
+
+        # Make sure there are no terminals are running
+        terminals = self.term_api.list().json()
+        self.assertEqual(terminals, [])
 
     def test_terminal_root_handler(self):
         # POST request

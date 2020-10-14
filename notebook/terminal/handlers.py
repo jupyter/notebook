@@ -18,6 +18,15 @@ class TerminalHandler(IPythonHandler):
                    ws_path="terminals/websocket/%s" % term_name))
 
 
+class NewTerminalHandler(IPythonHandler):
+    """Render the terminal interface."""
+    @web.authenticated
+    def get(self, term_name):
+        self.terminal_manager.create_with_name(term_name)
+        new_path = self.request.path.replace("new/{}".format(term_name), term_name)
+        self.redirect(new_path)
+
+
 class TermSocket(WebSocketMixin, IPythonHandler, terminado.TermSocket):
 
     def origin_check(self):

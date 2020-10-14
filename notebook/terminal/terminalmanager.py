@@ -44,6 +44,16 @@ class TerminalManager(LoggingConfigurable, NamedTermManager):
     def create(self):
         """Create a new terminal."""
         name, term = self.new_named_terminal()
+        return self._finish_create(name, term)
+
+    def create_with_name(self, name):
+        """Create a new terminal."""
+        if name in self.terminals:
+            raise web.HTTPError(409, "A terminal with name '{}' already exists.".format(name))
+        term = self.get_terminal(name)
+        return self._finish_create(name, term)
+
+    def _finish_create(self, name, term):
         # Monkey-patch last-activity, similar to kernels.  Should we need
         # more functionality per terminal, we can look into possible sub-
         # classing or containment then.
