@@ -76,8 +76,16 @@ class TerminalAPITest(NotebookTestBase):
         self.assertIsInstance(foo_term, dict)
         self.assertEqual(foo_term['name'], 'foo')
 
-        with assert_http_error(409):
-            self.term_api._req('GET', 'terminals/new/foo')
+        # hit the same endpoint a second time and ensure 302 with Location is returned
+        r = self.term_api._req('GET', 'terminals/new/foo')
+        # Access the "interesting" response from the history
+        self.assertEqual(len(r.history), 1)
+        r = r.history[0]
+        foo_term = r.json()
+        self.assertEqual(r.status_code, 302)
+        self.assertEqual(r.headers['Location'], self.url_prefix + "terminals/foo")
+        self.assertIsInstance(foo_term, dict)
+        self.assertEqual(foo_term['name'], 'foo')
 
         r = self.term_api.shutdown('foo')
         self.assertEqual(r.status_code, 204)

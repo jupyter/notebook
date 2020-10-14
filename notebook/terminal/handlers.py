@@ -3,6 +3,7 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
+import json
 from tornado import web
 import terminado
 from notebook._tz import utcnow
@@ -19,11 +20,17 @@ class TerminalHandler(IPythonHandler):
 
 
 class NewTerminalHandler(IPythonHandler):
-    """Render the terminal interface."""
+    """Renders a new terminal interface using the named argument."""
     @web.authenticated
     def get(self, term_name):
-        self.terminal_manager.create_with_name(term_name)
         new_path = self.request.path.replace("new/{}".format(term_name), term_name)
+        if term_name in self.terminal_manager.terminals:
+            self.set_header('Location', new_path)
+            self.set_status(302)
+            self.finish(json.dumps(self.terminal_manager.get_terminal_model(term_name)))
+            return
+
+        self.terminal_manager.create_with_name(term_name)
         self.redirect(new_path)
 
 
