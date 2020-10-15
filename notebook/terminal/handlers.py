@@ -15,18 +15,22 @@ class TerminalHandler(IPythonHandler):
     """Render the terminal interface."""
     @web.authenticated
     def get(self, term_name):
-        if term_name == 'new':
-            model = self.terminal_manager.create()
-            term_name = model['name']
-            new_path = self.request.path.replace("terminals/new", "terminals/" + term_name)
-            self.redirect(new_path)
-        else:
-            self.write(self.render_template('terminal.html',
+        self.write(self.render_template('terminal.html',
                        ws_path="terminals/websocket/%s" % term_name))
 
 
+class NamedTerminalHandler(IPythonHandler):
+    """Creates and renders a named terminal interface."""
+    @web.authenticated
+    def get(self):
+        model = self.terminal_manager.create()
+        term_name = model['name']
+        new_path = self.request.path.replace("terminals/new", "terminals/" + term_name)
+        self.redirect(new_path)
+
+
 class NewTerminalHandler(IPythonHandler):
-    """Renders a new terminal interface using the named argument."""
+    """Creates and renders a terminal interface using the named argument."""
     @web.authenticated
     def get(self, term_name):
         if term_name == 'new':
