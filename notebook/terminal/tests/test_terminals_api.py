@@ -67,6 +67,41 @@ class TerminalAPITest(NotebookTestBase):
 
     def test_create_terminal_via_get(self):
         # Test creation of terminal via GET against terminals/new/<name>
+        r = self.term_api._req('GET', 'terminals/new')
+        self.assertEqual(r.status_code, 200)
+
+        r = self.term_api.get('1')
+        term1 = r.json()
+        self.assertEqual(r.status_code, 200)
+        self.assertIsInstance(term1, dict)
+        self.assertEqual(term1['name'], '1')
+
+        # hit the same endpoint a second time and ensure a second named terminal is created
+        r = self.term_api._req('GET', 'terminals/new')
+        self.assertEqual(r.status_code, 200)
+
+        r = self.term_api.get('2')
+        term2 = r.json()
+        self.assertEqual(r.status_code, 200)
+        self.assertIsInstance(term2, dict)
+        self.assertEqual(term2['name'], '2')
+
+        r = self.term_api.shutdown('2')
+        self.assertEqual(r.status_code, 204)
+
+        # Make sure there is 1 terminal running
+        terminals = self.term_api.list().json()
+        self.assertEqual(len(terminals), 1)
+
+        r = self.term_api.shutdown('1')
+        self.assertEqual(r.status_code, 204)
+
+        # Make sure there are no terminals are running
+        terminals = self.term_api.list().json()
+        self.assertEqual(len(terminals), 0)
+
+    def test_create_terminal_with_name(self):
+        # Test creation of terminal via GET against terminals/new/<name>
         r = self.term_api._req('GET', 'terminals/new/foo')
         self.assertEqual(r.status_code, 200)
 
@@ -92,7 +127,11 @@ class TerminalAPITest(NotebookTestBase):
 
         # Make sure there are no terminals are running
         terminals = self.term_api.list().json()
-        self.assertEqual(terminals, [])
+        self.assertEqual(len(terminals), 0)
+
+        # hit terminals/new/new and ensure that 400 is raised
+        with assert_http_error(400):
+            self.term_api._req('GET', 'terminals/new/new')
 
     def test_terminal_root_handler(self):
         # POST request
