@@ -54,7 +54,7 @@ class TerminalAPITest(NotebookTestBase):
             self.term_api.shutdown(k['name'])
 
     def test_no_terminals(self):
-        # Make sure there are no terminals running at the start
+        # Make sure there are no terminals are running at the start
         terminals = self.term_api.list().json()
         self.assertEqual(terminals, [])
 
@@ -64,6 +64,74 @@ class TerminalAPITest(NotebookTestBase):
         term1 = r.json()
         self.assertEqual(r.status_code, 200)
         self.assertIsInstance(term1, dict)
+
+    def test_create_terminal_via_get(self):
+        # Test creation of terminal via GET against terminals/new/<name>
+        r = self.term_api._req('GET', 'terminals/new')
+        self.assertEqual(r.status_code, 200)
+
+        r = self.term_api.get('1')
+        term1 = r.json()
+        self.assertEqual(r.status_code, 200)
+        self.assertIsInstance(term1, dict)
+        self.assertEqual(term1['name'], '1')
+
+        # hit the same endpoint a second time and ensure a second named terminal is created
+        r = self.term_api._req('GET', 'terminals/new')
+        self.assertEqual(r.status_code, 200)
+
+        r = self.term_api.get('2')
+        term2 = r.json()
+        self.assertEqual(r.status_code, 200)
+        self.assertIsInstance(term2, dict)
+        self.assertEqual(term2['name'], '2')
+
+        r = self.term_api.shutdown('2')
+        self.assertEqual(r.status_code, 204)
+
+        # Make sure there is 1 terminal running
+        terminals = self.term_api.list().json()
+        self.assertEqual(len(terminals), 1)
+
+        r = self.term_api.shutdown('1')
+        self.assertEqual(r.status_code, 204)
+
+        # Make sure there are no terminals are running
+        terminals = self.term_api.list().json()
+        self.assertEqual(len(terminals), 0)
+
+    def test_create_terminal_with_name(self):
+        # Test creation of terminal via GET against terminals/new/<name>
+        r = self.term_api._req('GET', 'terminals/new/foo')
+        self.assertEqual(r.status_code, 200)
+
+        r = self.term_api.get('foo')
+        foo_term = r.json()
+        self.assertEqual(r.status_code, 200)
+        self.assertIsInstance(foo_term, dict)
+        self.assertEqual(foo_term['name'], 'foo')
+
+        # hit the same endpoint a second time and ensure 302 with Location is returned
+        r = self.term_api._req('GET', 'terminals/new/foo')
+        # Access the "interesting" response from the history
+        self.assertEqual(len(r.history), 1)
+        r = r.history[0]
+        foo_term = r.json()
+        self.assertEqual(r.status_code, 302)
+        self.assertEqual(r.headers['Location'], self.url_prefix + "terminals/foo")
+        self.assertIsInstance(foo_term, dict)
+        self.assertEqual(foo_term['name'], 'foo')
+
+        r = self.term_api.shutdown('foo')
+        self.assertEqual(r.status_code, 204)
+
+        # Make sure there are no terminals are running
+        terminals = self.term_api.list().json()
+        self.assertEqual(len(terminals), 0)
+
+        # hit terminals/new/new and ensure that 400 is raised
+        with assert_http_error(400):
+            self.term_api._req('GET', 'terminals/new/new')
 
     def test_terminal_root_handler(self):
         # POST request
