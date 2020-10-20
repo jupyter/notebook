@@ -27,10 +27,10 @@ Jupyter Notebook是用于交互的基于Web的笔记本环境
 Jupyter Notebook是与语言无关的HTML Notebook应用程序
 木星计划。 2015年，木星作为笔记本的一部分发布
 IPython代码库的Big Split™。 IPython 3是最后一个主要的整体
-两种与语言无关的代码，例如* IPython notebook *，
-以及特定语言的代码，例如*用于Python的IPython内核*。如
+两种与语言无关的代码，例如 *IPython notebook*，
+以及特定语言的代码，例如 *用于Python的IPython内核* 。如
 通过多种语言计算SPAN，Jupiter项目将继续发展
-与语言无关** ** Jupiter Notebook **在此仓库中更多帮助下
+与语言无关 **Jupiter Notebook** 在此仓库中更多帮助下
 社区开发自己发现的特定于语言的内核
 离散回购。
 [[Big Split™ 宣言](https://blog.jupyter.org/the-big-split-9d7b88a031a7)]
