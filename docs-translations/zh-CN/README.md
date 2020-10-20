@@ -12,7 +12,7 @@ Jupyter Notebook是用于交互的基于Web的笔记本环境
 ![Jupyter notebook example](docs/resources/running_code_med.png "Jupyter notebook example")
 
 ### 注意
-请注意，这家商店目前由木星社区的骨干团队维护。我们鼓励用户过渡到JupiterLab，那里可能会立即提供更多支持。我们的方法将向前发展：
+请注意，这家商店目前由木星社区的骨干团队维护。我们鼓励用户过渡到 JupyterLab，那里可能会立即提供更多支持。我们的方法将向前发展：
 
 1.维护Jupiter笔记本电脑的安全性。这意味着与安全相关的问题和请求是我们的首要任务。
 2.解决JupyterLab [促进平等问题](https://github.com/jupyterlab/jupyterlab/issues?q=is%3Aopen+is%3Aissue+label%3A%22tag%3AFeature+Parity%22)|作为这项工作的一部分，我们有更好的[仅限笔记本电脑的体验](https://github.com/jupyterlab/jupyterlab/issues/8450)在JupyterLab中，适合喜欢经典Jupyter笔记本UI的用户。
@@ -21,7 +21,7 @@ Jupyter Notebook是用于交互的基于Web的笔记本环境
 如果您有一个具有新功能的打开请求请求，或者您打算打开一个请求，请将该请求命名为[notebook extension](https://jupyter-notebook.readthedocs.io/en/stable/extending/) 考虑运送为。代替。
 
 ##### 选择贡献“笔记本”
-此外，请考虑您的贡献是否适合Jupyter前端的基础服务器， [jupyter server](https://github.com/jupyter/jupyter_server)或在[JupyterLab前端]中(https://github.com/jupyterlab/jupyterlab).
+此外，请考虑您的贡献是否适合Jupyter前端的基础服务器， [jupyter server](https://github.com/jupyter/jupyter_server) 或在 [JupyterLab 前端](https://github.com/jupyterlab/jupyterlab).
 
 ### Jupiter笔记本，与IPython笔记本无关的语言开发
 Jupyter Notebook是与语言无关的HTML Notebook应用程序
@@ -36,7 +36,7 @@ IPython代码库的Big Split™。 IPython 3是最后一个主要的整体
 [[Big Split™ 宣言](https://blog.jupyter.org/the-big-split-9d7b88a031a7)]
 [[Jupyter 升序博客文章](https://blog.jupyter.org/jupyter-ascending-1bf5b362d97e)]
 
-##成立
+## 成立
 您可以找到以下安装文件
 [Jupiter论坛，在ReadTheDocs上](https://jupyter.readthedocs.io/en/latest/install.html).
 可以找到有关Jupiter笔记本的高级使用的文档
@@ -46,17 +46,18 @@ IPython代码库的Big Split™。 IPython 3是最后一个主要的整体
 [pip 成立时间](https://pip.readthedocs.io/en/stable/installing/) 并运行：
 
     $ pip install notebook
-##用法-运行木星笔记本
 
-###在本地安装中运行
+## 用法-运行木星笔记本
+
+### 在本地安装中运行
 
 与启动
 
     $ jupyter笔记本
 
-###在远程安装中运行
+### 在远程安装中运行
 
-在远程启动Jupiter笔记本电脑之前，需要进行一些配置。请参阅[运行笔记本服务器](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html).
+在远程启动Jupiter笔记本电脑之前，需要进行一些配置。请参阅 [运行笔记本服务器](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html).
 
 ## 开发设置
 
@@ -64,9 +65,9 @@ IPython代码库的Big Split™。 IPython 3是最后一个主要的整体
 
 ## 贡献
 
-如果您有兴趣为这个项目做贡献，请参阅[`CONTRIBUTING.rst`]（CONTRIBUTING.rst）
+如果您有兴趣为这个项目做贡献，请参阅 [`CONTRIBUTING.rst`](CONTRIBUTING.rst).
 
-##资源
+## 资源
 - [Project Jupyter website](https://jupyter.org)
 - [Online Demo at jupyter.org/try](https://jupyter.org/try)
 - [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/latest/) [[PDF](https://media.readthedocs.org/pdf/jupyter-notebook/latest/jupyter-notebook.pdf)]
