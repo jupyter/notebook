@@ -6,7 +6,6 @@ from datetime import datetime
 from io import StringIO
 from unittest.mock import patch
 
-import nose.tools as nt
 from tornado import gen
 from tornado.web import HTTPError
 from tornado.httpclient import HTTPRequest, HTTPResponse
@@ -72,7 +71,7 @@ def mock_gateway_request(url, **kwargs):
         name = json_body.get('name')
         env = json_body.get('env')
         kspec_name = env.get('KERNEL_KSPEC_NAME')
-        nt.assert_equal(name, kspec_name)   # Ensure that KERNEL_ env values get propagated
+        assert name == kspec_name   # Ensure that KERNEL_ env values get propagated
         model = generate_model(name)
         running_kernels[model.get('id')] = model  # Register model as a running kernel
         response_buf = StringIO(json.dumps(model))
@@ -164,19 +163,19 @@ class TestGateway(NotebookTestBase):
         super().setUp()
 
     def test_gateway_options(self):
-        nt.assert_equal(self.notebook.gateway_config.gateway_enabled, True)
-        nt.assert_equal(self.notebook.gateway_config.url, TestGateway.mock_gateway_url)
-        nt.assert_equal(self.notebook.gateway_config.http_user, TestGateway.mock_http_user)
-        nt.assert_equal(self.notebook.gateway_config.connect_timeout, self.notebook.gateway_config.connect_timeout)
-        nt.assert_equal(self.notebook.gateway_config.connect_timeout, 44.4)
-        nt.assert_equal(self.notebook.gateway_config.request_timeout, 96.0)
-        nt.assert_equal(os.environ['KERNEL_LAUNCH_TIMEOUT'], str(96))  # Ensure KLT gets set from request-timeout
+        assert self.notebook.gateway_config.gateway_enabled == True
+        assert self.notebook.gateway_config.url == TestGateway.mock_gateway_url
+        assert self.notebook.gateway_config.http_user == TestGateway.mock_http_user
+        assert self.notebook.gateway_config.connect_timeout == self.notebook.gateway_config.connect_timeout
+        assert self.notebook.gateway_config.connect_timeout == 44.4
+        assert self.notebook.gateway_config.request_timeout == 96.0
+        assert os.environ['KERNEL_LAUNCH_TIMEOUT'] == str(96)  # Ensure KLT gets set from request-timeout
 
     def test_gateway_class_mappings(self):
         # Ensure appropriate class mappings are in place.
-        nt.assert_equal(self.notebook.kernel_manager_class.__name__, 'GatewayKernelManager')
-        nt.assert_equal(self.notebook.session_manager_class.__name__, 'GatewaySessionManager')
-        nt.assert_equal(self.notebook.kernel_spec_manager_class.__name__, 'GatewayKernelSpecManager')
+        assert self.notebook.kernel_manager_class.__name__ == 'GatewayKernelManager'
+        assert self.notebook.session_manager_class.__name__ == 'GatewaySessionManager'
+        assert self.notebook.kernel_spec_manager_class.__name__ == 'GatewayKernelSpecManager'
 
     def test_gateway_get_kernelspecs(self):
         # Validate that kernelspecs come from gateway.
@@ -185,19 +184,19 @@ class TestGateway(NotebookTestBase):
             self.assertEqual(response.status_code, 200)
             content = json.loads(response.content.decode('utf-8'))
             kspecs = content.get('kernelspecs')
-            self.assertEqual(len(kspecs), 2)
-            self.assertEqual(kspecs.get('kspec_bar').get('name'), 'kspec_bar')
+            assert len(kspecs) == 2
+            assert kspecs.get('kspec_bar').get('name') == 'kspec_bar'
 
     def test_gateway_get_named_kernelspec(self):
         # Validate that a specific kernelspec can be retrieved from gateway.
         with mocked_gateway:
             response = self.request('GET', '/api/kernelspecs/kspec_foo')
-            self.assertEqual(response.status_code, 200)
+            assert response.status_code == 200
             kspec_foo = json.loads(response.content.decode('utf-8'))
-            self.assertEqual(kspec_foo.get('name'), 'kspec_foo')
+            assert kspec_foo.get('name') == 'kspec_foo'
 
             response = self.request('GET', '/api/kernelspecs/no_such_spec')
-            self.assertEqual(response.status_code, 404)
+            assert response.status_code == 404
 
     def test_gateway_session_lifecycle(self):
         # Validate session lifecycle functions; create and delete.

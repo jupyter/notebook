@@ -1,21 +1,20 @@
 from ..security import passwd, passwd_check
-import nose.tools as nt
 
 def test_passwd_structure():
     p = passwd('passphrase')
     algorithm, hashed = p.split(':')
-    nt.assert_equal(algorithm, 'argon2')
-    nt.assert_true(hashed.startswith('$argon2id$'))
+    assert algorithm == 'argon2'
+    assert hashed.startswith('$argon2id$')
 
 def test_roundtrip():
     p = passwd('passphrase')
-    nt.assert_equal(passwd_check(p, 'passphrase'), True)
+    assert passwd_check(p, 'passphrase') == True
 
 def test_bad():
     p = passwd('passphrase')
-    nt.assert_equal(passwd_check(p, p), False)
-    nt.assert_equal(passwd_check(p, 'a:b:c:d'), False)
-    nt.assert_equal(passwd_check(p, 'a:b'), False)
+    assert passwd_check(p, p) == False
+    assert passwd_check(p, 'a:b:c:d') == False
+    assert passwd_check(p, 'a:b') == False
 
 def test_passwd_check_unicode():
     # GH issue #4524

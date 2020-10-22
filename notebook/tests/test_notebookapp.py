@@ -11,7 +11,7 @@ from tempfile import NamedTemporaryFile
 
 from unittest.mock import patch
 
-import nose.tools as nt
+import pytest
 
 from traitlets.tests.utils import check_help_all_output
 
@@ -37,11 +37,11 @@ def test_server_info_file():
     nbapp.initialize(argv=[])
     nbapp.write_server_info_file()
     servers = get_servers()
-    nt.assert_equal(len(servers), 1)
-    nt.assert_equal(servers[0]['port'], nbapp.port)
-    nt.assert_equal(servers[0]['url'], nbapp.connection_url)
+    assert len(servers) == 1
+    assert servers[0]['port'] == nbapp.port
+    assert servers[0]['url'] == nbapp.connection_url
     nbapp.remove_server_info_file()
-    nt.assert_equal(get_servers(), [])
+    assert get_servers() == []
 
     # The ENOENT error should be silenced.
     nbapp.remove_server_info_file()
@@ -49,43 +49,43 @@ def test_server_info_file():
 def test_nb_dir():
     with TemporaryDirectory() as td:
         app = NotebookApp(notebook_dir=td)
-        nt.assert_equal(app.notebook_dir, td)
+        assert app.notebook_dir == td
 
 def test_no_create_nb_dir():
     with TemporaryDirectory() as td:
         nbdir = os.path.join(td, 'notebooks')
         app = NotebookApp()
-        with nt.assert_raises(TraitError):
+        with pytest.raises(TraitError):
             app.notebook_dir = nbdir
 
 def test_missing_nb_dir():
     with TemporaryDirectory() as td:
         nbdir = os.path.join(td, 'notebook', 'dir', 'is', 'missing')
         app = NotebookApp()
-        with nt.assert_raises(TraitError):
+        with pytest.raises(TraitError):
             app.notebook_dir = nbdir
 
 def test_invalid_nb_dir():
     with NamedTemporaryFile() as tf:
         app = NotebookApp()
-        with nt.assert_raises(TraitError):
+        with pytest.raises(TraitError):
             app.notebook_dir = tf
 
 def test_nb_dir_with_slash():
     with TemporaryDirectory(suffix="_slash" + os.sep) as td:
         app = NotebookApp(notebook_dir=td)
-        nt.assert_false(app.notebook_dir.endswith(os.sep))
+        assert not app.notebook_dir.endswith(os.sep)
 
 def test_nb_dir_root():
     root = os.path.abspath(os.sep) # gets the right value on Windows, Posix
     app = NotebookApp(notebook_dir=root)
-    nt.assert_equal(app.notebook_dir, root)
+    assert app.notebook_dir == root
 
 def test_generate_config():
     with TemporaryDirectory() as td:
         app = NotebookApp(config_dir=td)
         app.initialize(['--generate-config', '--allow-root'])
-        with nt.assert_raises(NoStart):
+        with pytest.raises(NoStart):
             app.start()
         assert os.path.exists(os.path.join(td, 'jupyter_notebook_config.py'))
 
@@ -100,7 +100,7 @@ def test_pep440_version():
         '1.2.3.dev1.post2',
         ]:
         def loc():
-            with nt.assert_raises(ValueError):
+            with pytest.raises(ValueError):
                 raise_on_bad_version(version)
         yield loc
 
@@ -136,7 +136,7 @@ def test_notebook_password():
             app.start()
             nb = NotebookApp()
             nb.load_config_file()
-            nt.assert_not_equal(nb.password, '')
+            assert nb.password != ''
             passwd_check(nb.password, password)
 
 class TestingStopApp(notebookapp.NbserverStopApp):
@@ -171,17 +171,17 @@ def test_notebook_stop():
         app = TestingStopApp()
         app.initialize(['105'])
         app.start()
-    nt.assert_equal(len(app.servers_shut_down), 1)
-    nt.assert_equal(app.servers_shut_down[0]['port'], 105)
+    assert len(app.servers_shut_down) == 1
+    assert app.servers_shut_down[0]['port'] == 105
 
     # test no match
     with mock_servers, patch('os.kill') as os_kill:
         app = TestingStopApp()
         app.initialize(['999'])
-        with nt.assert_raises(SystemExit) as exc:
+        with pytest.raises(SystemExit) as exc:
             app.start()
-        nt.assert_equal(exc.exception.code, 1)
-    nt.assert_equal(len(app.servers_shut_down), 0)
+        assert exc.value.code == 1
+    assert len(app.servers_shut_down) == 0
 
 
 class NotebookAppTests(NotebookTestBase):

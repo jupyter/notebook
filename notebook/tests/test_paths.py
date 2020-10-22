@@ -1,6 +1,5 @@
 
 import re
-from nose.tools import assert_regex, assert_not_regex
 
 from notebook.base.handlers import path_regex
 
@@ -16,7 +15,9 @@ def test_path_regex():
         '/x/foo/bar',
         '/x/foo/bar.txt',
     ):
-        assert_regex(path, path_pat)
+        print(type(path))
+        print(type(path_pat))
+        assert re.match(path_pat, path)
 
 def test_path_regex_bad():
     for path in (
@@ -29,4 +30,4 @@ def test_path_regex_bad():
         '/y',
         '/y/x/foo',
     ):
-        assert_not_regex(path, path_pat)
+        assert not re.match(path_pat, path)
