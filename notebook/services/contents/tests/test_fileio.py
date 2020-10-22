@@ -5,8 +5,10 @@
 
 import io as stdlib_io
 import os.path
+import unittest
 import pytest
 import stat
+import sys
 
 from ..fileio import atomic_writing
 
@@ -63,31 +65,33 @@ def test_atomic_writing():
             with stdlib_io.open(f1, 'r') as f:
                 assert f.read() == u'written from symlink'
 
-def _save_umask():
-    global umask
-    umask = os.umask(0)
-    os.umask(umask)
+class TestWithSetUmask(unittest.TestCase):
+    def setUp(self):
+        # save umask
+        global umask
+        umask = os.umask(0)
+        os.umask(umask)
+    
+    def tearDown(self):
+        # restore umask
+        os.umask(umask)
 
-def _restore_umask():
-    os.umask(umask)
-
-#@skip_win32
-#@nt.with_setup(_save_umask, _restore_umask)
-#def test_atomic_writing_umask():
-#    with TemporaryDirectory() as td:
-#        os.umask(0o022)
-#        f1 = os.path.join(td, '1')
-#        with atomic_writing(f1) as f:
-#            f.write(u'1')
-#        mode = stat.S_IMODE(os.stat(f1).st_mode)
-#        nt.assert_equal(mode, 0o644, '{:o} != 644'.format(mode))
-#
-#        os.umask(0o057)
-#        f2 = os.path.join(td, '2')
-#        with atomic_writing(f2) as f:
-#            f.write(u'2')
-#        mode = stat.S_IMODE(os.stat(f2).st_mode)
-#        nt.assert_equal(mode, 0o620, '{:o} != 620'.format(mode))
+    @pytest.mark.skipif(sys.platform == "win32", reason="do not run on windows")
+    def test_atomic_writing_umask(self):
+        with TemporaryDirectory() as td:
+            os.umask(0o022)
+            f1 = os.path.join(td, '1')
+            with atomic_writing(f1) as f:
+                f.write(u'1')
+            mode = stat.S_IMODE(os.stat(f1).st_mode)
+            assert mode == 0o644
+    
+            os.umask(0o057)
+            f2 = os.path.join(td, '2')
+            with atomic_writing(f2) as f:
+                f.write(u'2')
+            mode = stat.S_IMODE(os.stat(f2).st_mode)
+            assert mode == 0o620
 
 
 def test_atomic_writing_newlines():
