@@ -21,7 +21,7 @@ install:
   - cmd: conda config --set show_channel_urls true
   - cmd: conda config --add channels conda-forge
   #- cmd: conda update --yes --quiet conda
-  - cmd: conda install -y python=%CONDA_PY_SPEC% pyzmq tornado jupyter_client nbformat ipykernel pip nodejs nose
+  - cmd: conda install -y python=%CONDA_PY_SPEC% pyzmq tornado jupyter_client nbformat ipykernel pip nodejs pytest nose
   # not using `conda install -y` on nbconvent package because there is
   # currently a bug with the version that the anaconda installs, so we will just install it with pip
   - cmd: pip install nbconvert
@@ -29,4 +29,4 @@ install:
   - cmd: pip install .[test]
 
 test_script:
-  - nosetests  -v notebook --exclude-dir notebook\tests\selenium
+  - py.test  -v notebook --ignore notebook\tests\selenium

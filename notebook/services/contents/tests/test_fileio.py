@@ -5,11 +5,11 @@
 
 import io as stdlib_io
 import os.path
+import unittest
+import pytest
 import stat
+import sys
 
-import nose.tools as nt
-
-from ipython_genutils.testing.decorators import skip_win32
 from ..fileio import atomic_writing
 
 from ipython_genutils.tempdir import TemporaryDirectory
@@ -38,24 +38,24 @@ def test_atomic_writing():
             # OSError: The user lacks the privilege (Windows)
             have_symlink = False
 
-        with nt.assert_raises(CustomExc):
+        with pytest.raises(CustomExc):
             with atomic_writing(f1) as f:
                 f.write(u'Failing write')
                 raise CustomExc
 
         # Because of the exception, the file should not have been modified
         with stdlib_io.open(f1, 'r') as f:
-            nt.assert_equal(f.read(), u'Before')
+            assert f.read() == u'Before'
 
         with atomic_writing(f1) as f:
             f.write(u'Overwritten')
 
         with stdlib_io.open(f1, 'r') as f:
-            nt.assert_equal(f.read(), u'Overwritten')
+            assert f.read() == u'Overwritten'
 
         if os.name != 'nt':
             mode = stat.S_IMODE(os.stat(f1).st_mode)
-            nt.assert_equal(mode, orig_mode)
+            assert mode == orig_mode
 
         if have_symlink:
             # Check that writing over a file preserves a symlink
@@ -63,33 +63,35 @@ def test_atomic_writing():
                 f.write(u'written from symlink')
             
             with stdlib_io.open(f1, 'r') as f:
-                nt.assert_equal(f.read(), u'written from symlink')
+                assert f.read() == u'written from symlink'
 
-def _save_umask():
-    global umask
-    umask = os.umask(0)
-    os.umask(umask)
+class TestWithSetUmask(unittest.TestCase):
+    def setUp(self):
+        # save umask
+        global umask
+        umask = os.umask(0)
+        os.umask(umask)
+    
+    def tearDown(self):
+        # restore umask
+        os.umask(umask)
 
-def _restore_umask():
-    os.umask(umask)
-
-@skip_win32
-@nt.with_setup(_save_umask, _restore_umask)
-def test_atomic_writing_umask():
-    with TemporaryDirectory() as td:
-        os.umask(0o022)
-        f1 = os.path.join(td, '1')
-        with atomic_writing(f1) as f:
-            f.write(u'1')
-        mode = stat.S_IMODE(os.stat(f1).st_mode)
-        nt.assert_equal(mode, 0o644, '{:o} != 644'.format(mode))
-
-        os.umask(0o057)
-        f2 = os.path.join(td, '2')
-        with atomic_writing(f2) as f:
-            f.write(u'2')
-        mode = stat.S_IMODE(os.stat(f2).st_mode)
-        nt.assert_equal(mode, 0o620, '{:o} != 620'.format(mode))
+    @pytest.mark.skipif(sys.platform == "win32", reason="do not run on windows")
+    def test_atomic_writing_umask(self):
+        with TemporaryDirectory() as td:
+            os.umask(0o022)
+            f1 = os.path.join(td, '1')
+            with atomic_writing(f1) as f:
+                f.write(u'1')
+            mode = stat.S_IMODE(os.stat(f1).st_mode)
+            assert mode == 0o644
+    
+            os.umask(0o057)
+            f2 = os.path.join(td, '2')
+            with atomic_writing(f2) as f:
+                f.write(u'2')
+            mode = stat.S_IMODE(os.stat(f2).st_mode)
+            assert mode == 0o620
 
 
 def test_atomic_writing_newlines():
@@ -105,21 +107,21 @@ def test_atomic_writing_newlines():
             f.write(lf)
         with stdlib_io.open(path, 'r', newline='') as f:
             read = f.read()
-        nt.assert_equal(read, plat)
+        assert read == plat
         
         # test newline=LF
         with stdlib_io.open(path, 'w', newline='\n') as f:
             f.write(lf)
         with stdlib_io.open(path, 'r', newline='') as f:
             read = f.read()
-        nt.assert_equal(read, lf)
+        assert read == lf
         
         # test newline=CRLF
         with atomic_writing(path, newline='\r\n') as f:
             f.write(lf)
         with stdlib_io.open(path, 'r', newline='') as f:
             read = f.read()
-        nt.assert_equal(read, crlf)
+        assert read == crlf
         
         # test newline=no convert
         text = u'crlf\r\ncr\rlf\n'
@@ -127,4 +129,4 @@ def test_atomic_writing_newlines():
             f.write(text)
         with stdlib_io.open(path, 'r', newline='') as f:
             read = f.read()
-        nt.assert_equal(read, text)
+        assert read == text
