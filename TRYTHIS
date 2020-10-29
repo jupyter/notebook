@@ -1,0 +1,6 @@
+To close the running jupyter notebooks all at once, try shutting down the associated 
+kernel. TO shut down a kernel, go to one of notebooks that you want to close, click on 
+File -> Close and Hault.
+
+Alternativley, the notebook Dashboard has a tab named 'Running' that shows currently
+running notebooks, use the shut down button to close them all at once.
