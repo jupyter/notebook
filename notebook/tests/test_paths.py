@@ -15,8 +15,6 @@ def test_path_regex():
         '/x/foo/bar',
         '/x/foo/bar.txt',
     ):
-        print(type(path))
-        print(type(path_pat))
         assert re.match(path_pat, path)
 
 def test_path_regex_bad():
