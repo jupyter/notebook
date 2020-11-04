@@ -105,6 +105,7 @@ define([
             'shift'       : 'jupyter-notebook:ignore',
             'shift-enter' : 'jupyter-notebook:run-cell-and-select-next',
             'alt-enter'   : 'jupyter-notebook:run-cell-and-insert-below',
+            'ctrl-enter'  : 'jupyter-notebook:run-cell',
             // cmd on mac, ctrl otherwise
             'cmdtrl-enter'  : 'jupyter-notebook:run-cell',
             'cmdtrl-s'    : 'jupyter-notebook:save-notebook'
