@@ -2000,6 +2000,8 @@ class NotebookApp(JupyterApp):
         # ensure css, js are correct, which are required for pages to function
         mimetypes.add_type('text/css', '.css')
         mimetypes.add_type('application/javascript', '.js')
+        # for python <3.8
+        mimetypes.add_type('application/wasm', '.wasm')
 
     def shutdown_no_activity(self):
         """Shutdown server on timeout when there are no kernels or terminals."""
