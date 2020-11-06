@@ -854,13 +854,18 @@ class APIVersionHandler(APIHandler):
 
 class TrailingSlashHandler(web.RequestHandler):
     """Simple redirect handler that strips trailing slashes
-    
+
     This should be the first, highest priority handler.
     """
-    
+
     def get(self):
-        self.redirect(self.request.uri.rstrip('/'))
-    
+        path, *rest = self.request.uri.partition("?")
+        # trim trailing *and* leading /
+        # to avoid misinterpreting repeated '//'
+        path = "/" + path.strip("/")
+        new_uri = "".join([path, *rest])
+        self.redirect(new_uri)
+
     post = put = get
 
 
@@ -910,6 +915,7 @@ class RedirectWithParams(web.RequestHandler):
         sep = '&' if '?' in self._url else '?'
         url = sep.join([self._url, self.request.query])
         self.redirect(url, permanent=self._permanent)
+
 
 class PrometheusMetricsHandler(IPythonHandler):
     """
