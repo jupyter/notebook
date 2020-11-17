@@ -914,8 +914,10 @@ class PrometheusMetricsHandler(IPythonHandler):
     """
     Return prometheus metrics for this notebook server
     """
-    @web.authenticated
     def get(self):
+        if self.settings['authenticate_prometheus'] and not self.logged_in:
+            raise web.HTTPError(403)
+
         self.set_header('Content-Type', prometheus_client.CONTENT_TYPE_LATEST)
         self.write(prometheus_client.generate_latest(prometheus_client.REGISTRY))
 
