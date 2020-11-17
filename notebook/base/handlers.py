@@ -856,9 +856,13 @@ class TrailingSlashHandler(web.RequestHandler):
     
     This should be the first, highest priority handler.
     """
-    
+
     def get(self):
-        self.redirect(self.request.uri.rstrip('/'))
+        uri = self.request.uri
+        new_uri = uri.rstrip('/')
+        if new_uri == uri and '/?' in new_uri:
+            new_uri = '?'.join(new_uri.rsplit('/?'))
+        self.redirect(new_uri)
     
     post = put = get
 
