@@ -283,6 +283,7 @@ class NotebookWebApplication(web.Application):
             disable_check_xsrf=jupyter_app.disable_check_xsrf,
             allow_remote_access=jupyter_app.allow_remote_access,
             local_hostnames=jupyter_app.local_hostnames,
+            authenticate_prometheus=jupyter_app.authenticate_prometheus,
 
             # managers
             kernel_manager=kernel_manager,
@@ -1550,6 +1551,13 @@ class NotebookApp(JupyterApp):
          Terminals may also be automatically disabled if the terminado package
          is not available.
          """))
+
+    authenticate_prometheus = Bool(
+        True,
+        help=""""
+        Require authentication to access prometheus metrics.
+        """
+    ).tag(config=True)
 
     # Since use of terminals is also a function of whether the terminado package is
     # available, this variable holds the "final indication" of whether terminal functionality
