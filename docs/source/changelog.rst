@@ -22,6 +22,15 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     ``pip --version``.
 
 
+.. _release-6.1.5:
+
+6.1.5
+-----
+
+6.1.5 is a security release, fixing one vulnerability:
+
+- Fix open redirect vulnerability GHSA-c7vm-f5p4-8fqh (CVE to be assigned)
+
 .. _release-6.1.4:
 
 6.1.4
