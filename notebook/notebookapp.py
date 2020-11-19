@@ -1667,6 +1667,16 @@ class NotebookApp(JupyterApp):
             )
             resource.setrlimit(resource.RLIMIT_NOFILE, (soft, hard))
 
+        if os.path.isfile('/sys/fs/cgroup/memory/memory.limit_in_bytes'):
+            old_soft, old_hard = resource.getrlimit(resource.RLIMIT_AS)
+            with open('/sys/fs/cgroup/memory/memory.limit_in_bytes') as limit:
+                soft = int(limit.read())
+                hard = soft
+                self.log.debug(
+                    'Setting memory limit from cgroups: soft {}->{}; hard {}->{}'.format(old_soft, soft, old_hard, hard)
+                )
+                resource.setrlimit(resource.RLIMIT_AS, (soft, hard))
+
     def init_webapp(self):
         """initialize tornado webapp and httpserver"""
         self.tornado_settings['allow_origin'] = self.allow_origin
