@@ -48,6 +48,18 @@ to reissue the patch on new notebooks.
 <https://codemirror.net/doc/manual.html#option_indentUnit>`_ which are available
 for configuration.
 
+You can similarly change the options of the file editor by entering the following
+snippet in the browser's Javascript console once (from a file editing page).::
+
+   var config = Jupyter.editor.config
+   var patch = {
+         Editor: {
+           codemirror_options: {
+             indentUnit: 2
+           }
+         }
+       }
+   config.update(patch)
 
 Example - Restoring the notebook's default indentation
 ------------------------------------------------------
