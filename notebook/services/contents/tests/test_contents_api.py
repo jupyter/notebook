@@ -12,6 +12,8 @@ from unicodedata import normalize
 pjoin = os.path.join
 
 import requests
+from send2trash import send2trash
+from send2trash.exceptions import TrashPermissionError
 
 from ..filecheckpoints import GenericFileCheckpoints
 
@@ -196,6 +198,14 @@ class APITest(NotebookTestBase):
     
     def isdir(self, api_path):
         return os.path.isdir(self.to_os_path(api_path))
+
+    def can_send2trash(self, api_path):
+        """Send a path to trash, if possible. Return success."""
+        try:
+            send2trash(self.to_os_path(api_path))
+            return True
+        except TrashPermissionError as e:
+            return False
 
     def setUp(self):
         for d in (self.dirs + self.hidden_dirs):
@@ -526,7 +536,13 @@ class APITest(NotebookTestBase):
         if sys.platform == 'win32':
             self.skipTest("Disabled deleting non-empty dirs on Windows")
         # Test that non empty directory can be deleted
-        self.api.delete(u'å b')
+        try:
+            self.api.delete(u'å b')
+        except requests.HTTPError as e:
+            if e.response.status_code == 400:
+                if not self.can_send2trash(u'å b'):
+                    self.skipTest("Dir can't be sent to trash")
+            raise
         # Check if directory has actually been deleted
         with assert_http_error(404):
             self.api.list(u'å b')
