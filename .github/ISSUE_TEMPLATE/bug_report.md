@@ -22,7 +22,7 @@ If you're having issues installing Jupyter Notebook, or you're having another is
 
 1. scan the "What to do when things go wrong" (https://jupyter-notebook.readthedocs.io/en/stable/troubleshooting.html#what-to-do-when-things-go-wrong) page in our documentation to see if your question has already been answered
 
-2. post your question on the Jupyter Notebook discourse channel (https://discourse.jupyter.org/c/notebook/31). There are many more people in the Jupyter community that engage on this channel.
+2. post your question on the Jupyter Notebook discourse channel (https://discourse.jupyter.org/c/notebook/31). There are many more people in the Jupyter community that engage on that channel.
 -->
 
 **Describe the bug**
