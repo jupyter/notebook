@@ -187,6 +187,7 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
 
     const removeClasses = () => {
       widget.removeClass(KERNEL_STATUS_ERROR_CLASS);
+      widget.removeClass(KERNEL_STATUS_WARN_CLASS);
       widget.removeClass(KERNEL_STATUS_INFO_CLASS);
       widget.removeClass(KERNEL_STATUS_FADE_OUT_CLASS);
     };
