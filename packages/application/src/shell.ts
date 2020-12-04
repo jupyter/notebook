@@ -42,15 +42,15 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
     const rootLayout = new BoxLayout();
 
     this._topHandler = new Private.PanelHandler();
-    this._menu = new Panel();
+    this._menuHandler = new Private.PanelHandler();
     this._main = new Panel();
 
     this._topHandler.panel.id = 'top-panel';
-    this._menu.id = 'menu-panel';
+    this._menuHandler.panel.id = 'menu-panel';
     this._main.id = 'main-panel';
 
     BoxLayout.setStretch(this._topHandler.panel, 0);
-    BoxLayout.setStretch(this._menu, 0);
+    BoxLayout.setStretch(this._menuHandler.panel, 0);
     BoxLayout.setStretch(this._main, 1);
 
     const spacer = new Widget();
@@ -58,7 +58,7 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
 
     rootLayout.spacing = 0;
     rootLayout.addWidget(this._topHandler.panel);
-    rootLayout.addWidget(this._menu);
+    rootLayout.addWidget(this._menuHandler.panel);
     rootLayout.addWidget(spacer);
     rootLayout.addWidget(this._main);
 
@@ -85,12 +85,12 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
     area?: Shell.Area,
     options?: DocumentRegistry.IOpenOptions
   ): void {
+    const rank = options?.rank ?? DEFAULT_RANK;
     if (area === 'top') {
-      const rank = options?.rank ?? DEFAULT_RANK;
       return this._topHandler.addWidget(widget, rank);
     }
     if (area === 'menu') {
-      return this._menu.addWidget(widget);
+      return this._menuHandler.addWidget(widget, rank);
     }
     this._main.widgets.forEach(w => {
       w.close();
@@ -124,13 +124,13 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
       return iter(this._topHandler.panel.widgets);
     }
     if (area === 'menu') {
-      return iter(this._menu.widgets);
+      return iter(this._menuHandler.panel.widgets);
     }
     return iter(this._main.widgets);
   }
 
   private _topHandler: Private.PanelHandler;
-  private _menu: Panel;
+  private _menuHandler: Private.PanelHandler;
   private _main: Panel;
   private _currentChanged = new Signal<this, void>(this);
 }

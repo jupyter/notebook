@@ -3,6 +3,12 @@
 | Distributed under the terms of the Modified BSD License.
 |----------------------------------------------------------------------------*/
 
+:root {
+  --jp-private-topbar-height: 28px;
+  /* Override the layout-2 color for the dark theme */
+  --md-grey-800: #323232;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -24,17 +30,19 @@ body {
   display: flex;
   border-bottom: var(--jp-border-width) solid var(--jp-border-color0);
   background: var(--jp-layout-color1);
-  min-height: calc(1.5 * var(--jp-private-menubar-height));
+  min-height: calc(1.5 * var(--jp-private-topbar-height));
   padding-left: 5px;
   padding-right: 5px;
 }
 
 #menu-panel {
   display: flex;
-  min-height: var(--jp-private-menu-panel-height);
+  min-height: var(--jp-private-topbar-height);
   background: var(--jp-layout-color1);
   border-bottom: var(--jp-border-width) solid var(--jp-border-color0);
   box-shadow: var(--jp-elevation-z1);
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 #main-panel {

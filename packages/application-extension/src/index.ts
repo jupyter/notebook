@@ -11,10 +11,11 @@ import {
 import {
   sessionContextDialogs,
   ISessionContextDialogs,
+  ISessionContext,
   DOMUtils
 } from '@jupyterlab/apputils';
 
-import { PageConfig, Time } from '@jupyterlab/coreutils';
+import { PageConfig, Text, Time } from '@jupyterlab/coreutils';
 
 import { IDocumentManager, renameDialog } from '@jupyterlab/docmanager';
 
@@ -36,6 +37,21 @@ import { Widget } from '@lumino/widgets';
  * The default notebook factory.
  */
 const NOTEBOOK_FACTORY = 'Notebook';
+
+/**
+ * The class for kernel status errors.
+ */
+const KERNEL_STATUS_ERROR_CLASS = 'jp-ClassicKernelStatus-error';
+
+/**
+ * The class for kernel status infos.
+ */
+const KERNEL_STATUS_INFO_CLASS = 'jp-ClassicKernelStatus-info';
+
+/**
+ * The class to fade out the kernel status.
+ */
+const KERNEL_STATUS_FADE_OUT_CLASS = 'jp-ClassicKernelStatus-fade';
 
 /**
  * The command IDs used by the application plugin.
@@ -85,9 +101,10 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
 
     if (classicShell) {
       classicShell.currentChanged.connect(onChange);
-    } else {
-      onChange();
     }
+    // TODO: replace by a Poll
+    onChange();
+    setInterval(onChange, 2000);
   }
 };
 
@@ -95,7 +112,7 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
  * The kernel logo plugin.
  */
 const kernelLogo: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-classic/application-extension:kernelLogo',
+  id: '@jupyterlab-classic/application-extension:kernel-logo',
   autoStart: true,
   requires: [IClassicShell],
   activate: (app: JupyterFrontEnd, shell: IClassicShell) => {
@@ -140,6 +157,65 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
       widget = new Widget({ node });
       widget.addClass('jp-ClassicKernelLogo');
       app.shell.add(widget, 'top', { rank: 10_010 });
+    };
+
+    shell.currentChanged.connect(onChange);
+  }
+};
+
+/**
+ * A plugin to display the kernel status;
+ */
+const kernelStatus: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-classic/application-extension:kernel-status',
+  autoStart: true,
+  requires: [IClassicShell],
+  activate: (app: JupyterFrontEnd, shell: IClassicShell) => {
+    const widget = new Widget();
+    widget.addClass('jp-ClassicKernelStatus');
+    app.shell.add(widget, 'menu', { rank: 10_010 });
+
+    const removeClasses = () => {
+      widget.removeClass(KERNEL_STATUS_ERROR_CLASS);
+      widget.removeClass(KERNEL_STATUS_INFO_CLASS);
+      widget.removeClass(KERNEL_STATUS_FADE_OUT_CLASS);
+    };
+
+    const onStatusChanged = (sessionContext: ISessionContext) => {
+      const status = sessionContext.kernelDisplayStatus;
+      let text = `Kernel ${Text.titleCase(status)}`;
+      removeClasses();
+      switch (status) {
+        case 'busy':
+        case 'idle':
+          text = '';
+          widget.addClass(KERNEL_STATUS_FADE_OUT_CLASS);
+          break;
+        case 'unknown':
+          widget.addClass(KERNEL_STATUS_ERROR_CLASS);
+          break;
+        case 'dead':
+        case 'terminating':
+          widget.addClass(KERNEL_STATUS_ERROR_CLASS);
+          break;
+        default:
+          widget.addClass(KERNEL_STATUS_INFO_CLASS);
+          widget.addClass(KERNEL_STATUS_FADE_OUT_CLASS);
+          break;
+      }
+      widget.node.textContent = text;
+    };
+
+    // TODO: this signal might not be needed if we assume there is always only
+    // one notebook in the main area
+    const onChange = async () => {
+      const current = shell.currentWidget;
+      if (!(current instanceof NotebookPanel)) {
+        return;
+      }
+      const sessionContext = current.sessionContext;
+      await sessionContext.ready;
+      sessionContext.statusChanged.connect(onStatusChanged);
     };
 
     shell.currentChanged.connect(onChange);
@@ -249,10 +325,15 @@ const spacer: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-classic/application-extension:spacer',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
-    const spacer = new Widget();
-    spacer.id = DOMUtils.createDomID();
-    spacer.addClass('jp-ClassicSpacer');
-    app.shell.add(spacer, 'top', { rank: 10000 });
+    const top = new Widget();
+    top.id = DOMUtils.createDomID();
+    top.addClass('jp-ClassicSpacer');
+    app.shell.add(top, 'top', { rank: 10000 });
+
+    const menu = new Widget();
+    menu.id = DOMUtils.createDomID();
+    menu.addClass('jp-ClassicSpacer');
+    app.shell.add(menu, 'menu', { rank: 10000 });
   }
 };
 
@@ -359,6 +440,7 @@ const tree: JupyterFrontEndPlugin<void> = {
 const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
   kernelLogo,
+  kernelStatus,
   logo,
   main,
   paths,

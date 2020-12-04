@@ -23,6 +23,42 @@
   display: flex;
 }
 
+.jp-ClassicKernelStatus {
+  font-size: 12px;
+  margin: 0;
+  font-weight: normal;
+  color: var(--jp-ui-font-color0);
+  font-family: var(--jp-ui-font-family);
+  line-height: var(--jp-private-title-panel-height);
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.jp-ClassicKernelStatus-error {
+  background-color: var(--jp-error-color0);
+}
+
+.jp-ClassicKernelStatus-warn {
+  background-color: var(--jp-warn-color0);
+}
+
+.jp-ClassicKernelStatus-info {
+  background-color: var(--jp-info-color0);
+}
+
+.jp-ClassicKernelStatus-fade {
+  animation: 0.5s fade-out forwards;
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 #jp-title h1 {
   cursor: pointer;
   font-size: 18px;
