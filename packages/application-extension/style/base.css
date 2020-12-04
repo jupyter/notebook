@@ -36,3 +36,13 @@
 #jp-title h1:hover {
   background: var(--jp-layout-color2);
 }
+
+.jp-ClassicCheckpoint {
+  font-size: 14px;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-weight: normal;
+  color: var(--jp-ui-font-color0);
+  font-family: var(--jp-ui-font-family);
+  line-height: calc(1.5 * var(--jp-private-title-panel-height));
+}

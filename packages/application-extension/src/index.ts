@@ -14,7 +14,7 @@ import {
   DOMUtils
 } from '@jupyterlab/apputils';
 
-import { PageConfig } from '@jupyterlab/coreutils';
+import { PageConfig, Time } from '@jupyterlab/coreutils';
 
 import { IDocumentManager, renameDialog } from '@jupyterlab/docmanager';
 
@@ -43,6 +43,53 @@ const NOTEBOOK_FACTORY = 'Notebook';
 namespace CommandIDs {
   export const open = 'docmanager:open';
 }
+
+/**
+ * A plugin for the checkpoint indicator
+ */
+const checkpoints: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-classic/application-extension:checkpoints',
+  autoStart: true,
+  requires: [IDocumentManager],
+  optional: [IClassicShell],
+  activate: (
+    app: JupyterFrontEnd,
+    docManager: IDocumentManager,
+    classicShell: IClassicShell
+  ) => {
+    const { shell } = app;
+    const widget = new Widget();
+    widget.id = DOMUtils.createDomID();
+    widget.addClass('jp-ClassicCheckpoint');
+    app.shell.add(widget, 'top', { rank: 100 });
+
+    const onChange = async () => {
+      const current = shell.currentWidget;
+      if (!current) {
+        return;
+      }
+      const context = docManager.contextForWidget(current);
+
+      context?.fileChanged.disconnect(onChange);
+      context?.fileChanged.connect(onChange);
+
+      const checkpoints = await context?.listCheckpoints();
+      if (!checkpoints) {
+        return;
+      }
+      const checkpoint = checkpoints[checkpoints.length - 1];
+      widget.node.textContent = `Last Checkpoint: ${Time.formatHuman(
+        new Date(checkpoint.last_modified)
+      )}`;
+    };
+
+    if (classicShell) {
+      classicShell.currentChanged.connect(onChange);
+    } else {
+      onChange();
+    }
+  }
+};
 
 /**
  * The kernel logo plugin.
@@ -310,6 +357,7 @@ const tree: JupyterFrontEndPlugin<void> = {
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
+  checkpoints,
   kernelLogo,
   logo,
   main,
