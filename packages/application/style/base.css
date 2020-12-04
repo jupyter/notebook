@@ -25,6 +25,8 @@ body {
   border-bottom: var(--jp-border-width) solid var(--jp-border-color0);
   background: var(--jp-layout-color1);
   min-height: calc(1.5 * var(--jp-private-menubar-height));
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 #menu-panel {
