@@ -65,6 +65,8 @@ async function createModule(scope, module) {
 async function main() {
   const App = require('@jupyterlab-classic/application').App;
   const app = new App();
+
+  // TODO: formalize the way the set of initial extensions and plugins are specified
   const mods = [
     require('@jupyterlab-classic/application-extension'),
     require('@jupyterlab/apputils-extension').default.filter(({ id }) =>
