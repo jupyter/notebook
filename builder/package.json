@@ -21,6 +21,7 @@
     "@jupyterlab/rendermime-extension": "^3.0.0-rc.12",
     "@jupyterlab/shortcuts-extension": "^3.0.0-rc.12",
     "@jupyterlab/theme-light-extension": "^3.0.0-rc.12",
+    "@jupyterlab/theme-dark-extension": "^3.0.0-rc.12",
     "@jupyterlab/coreutils": "~5.0.0-rc.12"
   },
   "devDependencies": {

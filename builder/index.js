@@ -68,7 +68,11 @@ async function main() {
   const mods = [
     require('@jupyterlab-classic/application-extension'),
     require('@jupyterlab/apputils-extension').default.filter(({ id }) =>
-      ['@jupyterlab/apputils-extension:settings'].includes(id)
+      [
+        '@jupyterlab/apputils-extension:settings',
+        '@jupyterlab/apputils-extension:themes',
+        '@jupyterlab/apputils-extension:themes-palette-menu'
+      ].includes(id)
     ),
     require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
       ['@jupyterlab/codemirror-extension:services'].includes(id)
@@ -85,7 +89,9 @@ async function main() {
         '@jupyterlab/notebook-extension:tracker'
       ].includes(id)
     ),
-    require('@jupyterlab/shortcuts-extension')
+    require('@jupyterlab/shortcuts-extension'),
+    require('@jupyterlab/theme-light-extension'),
+    require('@jupyterlab/theme-dark-extension')
   ];
 
   const extension_data = JSON.parse(

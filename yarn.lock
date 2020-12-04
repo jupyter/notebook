@@ -1827,6 +1827,15 @@
     simulate-event "~1.4.0"
     ts-jest "^26.3.0"
 
+"@jupyterlab/theme-dark-extension@^3.0.0-rc.12":
+  version "3.0.0-rc.12"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/theme-dark-extension/-/theme-dark-extension-3.0.0-rc.12.tgz#6e9beea402582bfd810361cc38bf64b4a939388b"
+  integrity sha512-+YeHYrZv3hhqSdhThfFcN2P7V32kFZ6cvlrin2RxKS8XHaRPPlWqbTBLy53Ik/vGvfN/Q9aMsHSsLq2V5MgYfw==
+  dependencies:
+    "@jupyterlab/application" "^3.0.0-rc.12"
+    "@jupyterlab/apputils" "^3.0.0-rc.12"
+    "@jupyterlab/translation" "^3.0.0-rc.12"
+
 "@jupyterlab/theme-light-extension@^3.0.0-rc.12":
   version "3.0.0-rc.12"
   resolved "https://registry.yarnpkg.com/@jupyterlab/theme-light-extension/-/theme-light-extension-3.0.0-rc.12.tgz#5d1d8627827edf630fc2bdf60f7b043e3394cd70"
