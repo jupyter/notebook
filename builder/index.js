@@ -81,7 +81,8 @@ async function main() {
         '@jupyterlab/notebook-extension:widget-factory',
         '@jupyterlab/notebook-extension:tracker'
       ].includes(id)
-    )
+    ),
+    require('@jupyterlab/shortcuts-extension')
   ];
 
   const extension_data = JSON.parse(
