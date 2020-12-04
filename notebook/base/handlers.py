@@ -404,6 +404,10 @@ class IPythonHandler(AuthenticatedHandler):
         Used on GET for api endpoints and /files/
         to block cross-site inclusion (XSSI).
         """
+
+        if self.allow_origin == "*" or self.skip_check_origin():
+            return True
+
         host = self.request.headers.get("Host")
         referer = self.request.headers.get("Referer")
 
