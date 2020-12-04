@@ -41,12 +41,12 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/ui-components": "^3.0.0-rc.10"
+    "@jupyterlab/ui-components": "^3.0.0-rc.12"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
-    "@jupyterlab/testutils": "^3.0.0-rc.10",
+    "@jupyterlab/testutils": "^3.0.0-rc.12",
     "@types/jest": "^26.0.10",
     "babel-loader": "^8.0.6",
     "jest": "^26.4.2",

@@ -73,6 +73,9 @@ async function main() {
     require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
       ['@jupyterlab/codemirror-extension:services'].includes(id)
     ),
+    require('@jupyterlab/docmanager-extension').default.filter(({ id }) =>
+      ['@jupyterlab/docmanager-extension:plugin'].includes(id)
+    ),
     require('@jupyterlab/mainmenu-extension'),
     require('@jupyterlab/rendermime-extension'),
     require('@jupyterlab/notebook-extension').default.filter(({ id }) =>

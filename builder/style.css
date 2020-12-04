@@ -2,6 +2,7 @@
 @import url('~@jupyterlab-classic/ui-components/style/index.css');
 
 @import url('~@jupyterlab/codemirror-extension/style/index.css');
+@import url('~@jupyterlab/docmanager-extension/style/index.css');
 @import url('~@jupyterlab/rendermime-extension/style/index.css');
 @import url('~@jupyterlab/notebook-extension/style/index.css');
 @import url('~@jupyterlab/theme-light-extension/style/index.css');

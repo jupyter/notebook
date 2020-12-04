@@ -16,13 +16,7 @@ import {
 
 import { PageConfig } from '@jupyterlab/coreutils';
 
-import {
-  DocumentManager,
-  IDocumentManager,
-  renameDialog
-} from '@jupyterlab/docmanager';
-
-import { DocumentRegistry } from '@jupyterlab/docregistry';
+import { IDocumentManager, renameDialog } from '@jupyterlab/docmanager';
 
 import { NotebookPanel } from '@jupyterlab/notebook';
 
@@ -47,46 +41,8 @@ const NOTEBOOK_FACTORY = 'Notebook';
  * The command IDs used by the application plugin.
  */
 namespace CommandIDs {
-  export const open = 'open';
+  export const open = 'docmanager:open';
 }
-
-/**
- * A minimal document manager plugin.
- * TODO: move to @jupyterlab-classic/docmanager-extension
- */
-const doc: JupyterFrontEndPlugin<IDocumentManager> = {
-  id: '@jupyterlab-classic/application-extension:docmanager',
-  provides: IDocumentManager,
-  autoStart: true,
-  activate: (app: JupyterFrontEnd) => {
-    const opener = {
-      open: (widget: Widget, options: DocumentRegistry.IOpenOptions) => {
-        app.shell.add(widget, 'main', options);
-      }
-    };
-    const docManager = new DocumentManager({
-      registry: app.docRegistry,
-      manager: app.serviceManager,
-      opener
-    });
-
-    app.commands.addCommand(CommandIDs.open, {
-      label: 'Open a document',
-      execute: (args: any) => {
-        const path = args['path'] as string;
-        const factory = args['factory'] as string;
-        const options = args['options'] as DocumentRegistry.IOpenOptions;
-        const closable = args['closable'] as boolean;
-        const widget = docManager.open(path, factory, undefined, options);
-        if (widget) {
-          widget.title.closable = closable ?? true;
-        }
-      }
-    });
-
-    return docManager;
-  }
-};
 
 /**
  * The kernel logo plugin.
@@ -350,7 +306,6 @@ const tree: JupyterFrontEndPlugin<void> = {
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
-  doc,
   kernelLogo,
   logo,
   main,
