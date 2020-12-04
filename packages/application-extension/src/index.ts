@@ -44,6 +44,11 @@ const NOTEBOOK_FACTORY = 'Notebook';
 const KERNEL_STATUS_ERROR_CLASS = 'jp-ClassicKernelStatus-error';
 
 /**
+ * The class for kernel status warnings.
+ */
+const KERNEL_STATUS_WARN_CLASS = 'jp-ClassicKernelStatus-warn';
+
+/**
  * The class for kernel status infos.
  */
 const KERNEL_STATUS_INFO_CLASS = 'jp-ClassicKernelStatus-info';
@@ -191,12 +196,12 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
           text = '';
           widget.addClass(KERNEL_STATUS_FADE_OUT_CLASS);
           break;
-        case 'unknown':
-          widget.addClass(KERNEL_STATUS_ERROR_CLASS);
-          break;
         case 'dead':
         case 'terminating':
           widget.addClass(KERNEL_STATUS_ERROR_CLASS);
+          break;
+        case 'unknown':
+          widget.addClass(KERNEL_STATUS_WARN_CLASS);
           break;
         default:
           widget.addClass(KERNEL_STATUS_INFO_CLASS);
@@ -214,7 +219,6 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
         return;
       }
       const sessionContext = current.sessionContext;
-      await sessionContext.ready;
       sessionContext.statusChanged.connect(onStatusChanged);
     };
 
