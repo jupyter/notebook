@@ -19,6 +19,8 @@ import { PageConfig, Text, Time } from '@jupyterlab/coreutils';
 
 import { IDocumentManager, renameDialog } from '@jupyterlab/docmanager';
 
+import { IMainMenu } from '@jupyterlab/mainmenu';
+
 import { NotebookPanel } from '@jupyterlab/notebook';
 
 import { ITranslator, TranslationManager } from '@jupyterlab/translation';
@@ -62,7 +64,10 @@ const KERNEL_STATUS_FADE_OUT_CLASS = 'jp-ClassicKernelStatus-fade';
  * The command IDs used by the application plugin.
  */
 namespace CommandIDs {
-  export const open = 'docmanager:open';
+  /**
+   * Toggle Top Bar visibility
+   */
+  export const toggleTop = 'application:toggle-top';
 }
 
 /**
@@ -392,6 +397,35 @@ const title: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * Plugin to toggle the top header visibility.
+ */
+const topVisibility: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-classic/application-extension:top',
+  requires: [IClassicShell],
+  optional: [IMainMenu],
+  activate: (
+    app: JupyterFrontEnd<JupyterFrontEnd.IShell>,
+    classicShell: IClassicShell,
+    menu: IMainMenu | null
+  ) => {
+    const top = classicShell.top;
+
+    app.commands.addCommand(CommandIDs.toggleTop, {
+      label: 'Show Header',
+      execute: (args: any) => {
+        top.setHidden(top.isVisible);
+      },
+      isToggled: () => top.isVisible
+    });
+
+    if (menu) {
+      menu.viewMenu.addGroup([{ command: CommandIDs.toggleTop }], 2);
+    }
+  },
+  autoStart: true
+};
+
+/**
  * A simplified Translator
  */
 const translator: JupyterFrontEndPlugin<ITranslator> = {
@@ -426,7 +460,7 @@ const tree: JupyterFrontEndPlugin<void> = {
         const [, path] = matches;
 
         app.restored.then(() => {
-          commands.execute(CommandIDs.open, {
+          commands.execute('docmanager:open', {
             path,
             factory: NOTEBOOK_FACTORY
           });
@@ -453,6 +487,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   shell,
   spacer,
   title,
+  topVisibility,
   translator,
   tree
 ];

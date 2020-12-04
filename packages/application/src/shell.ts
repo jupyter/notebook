@@ -115,6 +115,13 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
   }
 
   /**
+   * Get the top area panel
+   */
+  get top(): Widget {
+    return this._topHandler.panel;
+  }
+
+  /**
    * Return the list of widgets for the given area.
    *
    * @param area The area
