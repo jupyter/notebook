@@ -58,7 +58,7 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
     let widget: Widget;
     // TODO: this signal might not be needed if we assume there is always only
     // one notebook in the main area
-    shell.currentChanged.connect(async () => {
+    const onChange = async () => {
       if (widget) {
         widget.dispose();
         widget.parent = null;
@@ -69,6 +69,8 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
       }
 
       await current.sessionContext.ready;
+      current.sessionContext.kernelChanged.disconnect(onChange);
+      current.sessionContext.kernelChanged.connect(onChange);
 
       const name = current.sessionContext.session?.kernel?.name ?? '';
       const spec = serviceManager.kernelspecs?.specs?.kernelspecs[name];
@@ -91,7 +93,9 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
       widget = new Widget({ node });
       widget.addClass('jp-ClassicKernelLogo');
       app.shell.add(widget, 'top', { rank: 10_010 });
-    });
+    };
+
+    shell.currentChanged.connect(onChange);
   }
 };
 
