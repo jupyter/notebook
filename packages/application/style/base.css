@@ -1,0 +1,40 @@
+/*-----------------------------------------------------------------------------
+| Copyright (c) Jupyter Development Team.
+| Distributed under the terms of the Modified BSD License.
+|----------------------------------------------------------------------------*/
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--jp-layout-color2);
+}
+
+#main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+}
+
+#top-panel {
+  display: flex;
+  border-bottom: var(--jp-border-width) solid var(--jp-border-color0);
+  background: var(--jp-layout-color1);
+  min-height: calc(1.5 * var(--jp-private-menubar-height));
+}
+
+#menu-panel {
+  display: flex;
+  min-height: var(--jp-private-menu-panel-height);
+  background: var(--jp-layout-color1);
+  border-bottom: var(--jp-border-width) solid var(--jp-border-color0);
+  box-shadow: var(--jp-elevation-z1);
+}
+
+#main-panel {
+  box-shadow: var(--jp-elevation-z4);
+}

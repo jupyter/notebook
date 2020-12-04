@@ -1,0 +1,61 @@
+{
+  "name": "@jupyterlab-classic/application-extension",
+  "version": "0.1.0",
+  "description": "JupyterLab Classic - Application Extension",
+  "homepage": "https://github.com/jtpio/jupyterlab-classic",
+  "bugs": {
+    "url": "https://github.com/jtpio/jupyterlab-classic/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jtpio/jupyterlab-classic.git"
+  },
+  "license": "BSD-3-Clause",
+  "author": "Project Jupyter",
+  "sideEffects": [
+    "style/**/*.css"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "style": "style/index.css",
+  "directories": {
+    "lib": "lib/"
+  },
+  "files": [
+    "lib/*.d.ts",
+    "lib/*.js.map",
+    "lib/*.js",
+    "schema/*.json",
+    "style/**/*.css"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
+    "docs": "typedoc src",
+    "prepublishOnly": "npm run build",
+    "watch": "tsc -b --watch"
+  },
+  "dependencies": {
+    "@jupyterlab-classic/application": "0.1.0",
+    "@jupyterlab-classic/ui-components": "0.1.0",
+    "@jupyterlab/application": "^3.0.0-rc.10",
+    "@jupyterlab/apputils": "^3.0.0-rc.10",
+    "@jupyterlab/codeeditor": "^3.0.0-rc.10",
+    "@jupyterlab/codemirror": "^3.0.0-rc.10",
+    "@jupyterlab/docregistry": "^3.0.0-rc.10",
+    "@jupyterlab/docmanager": "^3.0.0-rc.10",
+    "@jupyterlab/notebook": "^3.0.0-rc.10",
+    "@jupyterlab/translation": "^3.0.0-rc.10",
+    "@lumino/widgets": "^1.14.0"
+  },
+  "devDependencies": {
+    "rimraf": "~3.0.0",
+    "typescript": "~4.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "jupyterlab": {
+    "extension": true
+  }
+}
