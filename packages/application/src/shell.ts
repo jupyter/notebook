@@ -49,16 +49,25 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
     this._menuHandler.panel.id = 'menu-panel';
     this._main.id = 'main-panel';
 
-    BoxLayout.setStretch(this._topHandler.panel, 0);
-    BoxLayout.setStretch(this._menuHandler.panel, 0);
+    // create wrappers around the top and menu areas
+    const topWrapper = (this._topWrapper = new Panel());
+    topWrapper.id = 'top-panel-wrapper';
+    topWrapper.addWidget(this._topHandler.panel);
+
+    const menuWrapper = new Panel();
+    menuWrapper.id = 'menu-panel-wrapper';
+    menuWrapper.addWidget(this._menuHandler.panel);
+
+    BoxLayout.setStretch(topWrapper, 0);
+    BoxLayout.setStretch(menuWrapper, 0);
     BoxLayout.setStretch(this._main, 1);
 
     const spacer = new Widget();
     spacer.node.style.minHeight = '16px';
 
     rootLayout.spacing = 0;
-    rootLayout.addWidget(this._topHandler.panel);
-    rootLayout.addWidget(this._menuHandler.panel);
+    rootLayout.addWidget(topWrapper);
+    rootLayout.addWidget(menuWrapper);
     rootLayout.addWidget(spacer);
     rootLayout.addWidget(this._main);
 
@@ -115,10 +124,10 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
   }
 
   /**
-   * Get the top area panel
+   * Get the top area wrapper panel
    */
   get top(): Widget {
-    return this._topHandler.panel;
+    return this._topWrapper;
   }
 
   /**
@@ -136,6 +145,7 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
     return iter(this._main.widgets);
   }
 
+  private _topWrapper: Panel;
   private _topHandler: Private.PanelHandler;
   private _menuHandler: Private.PanelHandler;
   private _main: Panel;

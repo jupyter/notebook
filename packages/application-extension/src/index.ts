@@ -386,7 +386,7 @@ const title: JupyterFrontEndPlugin<void> = {
             h.textContent = result.path;
             if (router) {
               // TODO: better handle this
-              router.navigate(`/classic/tree/${result.path}`, {
+              router.navigate(`/classic/notebooks/${result.path}`, {
                 skipRouting: true
               });
             }
@@ -448,7 +448,7 @@ const tree: JupyterFrontEndPlugin<void> = {
   requires: [IRouter],
   activate: (app: JupyterFrontEnd, router: IRouter): void => {
     const { commands } = app;
-    const treePattern = new RegExp('/tree/(.*)');
+    const treePattern = new RegExp('/notebooks/(.*)');
 
     const command = 'router:tree';
     commands.addCommand(command, {
