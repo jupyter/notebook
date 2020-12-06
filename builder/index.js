@@ -71,6 +71,7 @@ async function main() {
     require('@jupyterlab-classic/application-extension'),
     require('@jupyterlab/apputils-extension').default.filter(({ id }) =>
       [
+        '@jupyterlab/apputils-extension:palette',
         '@jupyterlab/apputils-extension:settings',
         '@jupyterlab/apputils-extension:themes',
         '@jupyterlab/apputils-extension:themes-palette-menu'
