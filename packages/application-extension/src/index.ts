@@ -12,7 +12,8 @@ import {
   sessionContextDialogs,
   ISessionContextDialogs,
   ISessionContext,
-  DOMUtils
+  DOMUtils,
+  ICommandPalette
 } from '@jupyterlab/apputils';
 
 import { PageConfig, Text, Time } from '@jupyterlab/coreutils';
@@ -68,6 +69,11 @@ namespace CommandIDs {
    * Toggle Top Bar visibility
    */
   export const toggleTop = 'application:toggle-top';
+
+  /**
+   * Toggle the Zen mode
+   */
+  export const toggleZen = 'application:toggle-zen';
 }
 
 /**
@@ -474,6 +480,66 @@ const tree: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * Zen mode plugin
+ */
+const zen: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-classic/application-extension:zen',
+  autoStart: true,
+  optional: [ICommandPalette, IClassicShell, IMainMenu],
+  activate: (
+    app: JupyterFrontEnd,
+    palette: ICommandPalette | null,
+    classicShell: IClassicShell | null,
+    menu: IMainMenu | null
+  ): void => {
+    const { commands } = app;
+    const elem = document.documentElement;
+    const topArea = classicShell?.top;
+    const menuArea = classicShell?.menu;
+
+    const toggleOn = () => {
+      topArea?.setHidden(true);
+      menuArea?.setHidden(true);
+      zenModeEnabled = true;
+    };
+
+    const toggleOff = () => {
+      topArea?.setHidden(false);
+      menuArea?.setHidden(false);
+      zenModeEnabled = false;
+    };
+
+    let zenModeEnabled = false;
+    commands.addCommand(CommandIDs.toggleZen, {
+      label: 'Toggle Zen Mode',
+      execute: (args: any) => {
+        if (!zenModeEnabled) {
+          elem.requestFullscreen();
+          toggleOn();
+        } else {
+          document.exitFullscreen();
+          toggleOff();
+        }
+      }
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement) {
+        toggleOff();
+      }
+    });
+
+    if (palette) {
+      palette.addItem({ command: CommandIDs.toggleZen, category: 'Mode' });
+    }
+
+    if (menu) {
+      menu.viewMenu.addGroup([{ command: CommandIDs.toggleZen }], 3);
+    }
+  }
+};
+
+/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
@@ -490,7 +556,8 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   title,
   topVisibility,
   translator,
-  tree
+  tree,
+  zen
 ];
 
 export default plugins;

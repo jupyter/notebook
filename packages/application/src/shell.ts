@@ -54,7 +54,7 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
     topWrapper.id = 'top-panel-wrapper';
     topWrapper.addWidget(this._topHandler.panel);
 
-    const menuWrapper = new Panel();
+    const menuWrapper = (this._menuWrapper = new Panel());
     menuWrapper.id = 'menu-panel-wrapper';
     menuWrapper.addWidget(this._menuHandler.panel);
 
@@ -132,6 +132,13 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
   }
 
   /**
+   * Get the menu area wrapper panel
+   */
+  get menu(): Widget {
+    return this._menuWrapper;
+  }
+
+  /**
    * Return the list of widgets for the given area.
    *
    * @param area The area
@@ -148,6 +155,7 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
 
   private _topWrapper: Panel;
   private _topHandler: Private.PanelHandler;
+  private _menuWrapper: Panel;
   private _menuHandler: Private.PanelHandler;
   private _main: Panel;
   private _currentChanged = new Signal<this, void>(this);
