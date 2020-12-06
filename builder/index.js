@@ -83,6 +83,7 @@ async function main() {
       ['@jupyterlab/docmanager-extension:plugin'].includes(id)
     ),
     require('@jupyterlab/mainmenu-extension'),
+    require('@jupyterlab/mathjax2-extension'),
     require('@jupyterlab/rendermime-extension'),
     require('@jupyterlab/notebook-extension').default.filter(({ id }) =>
       [
