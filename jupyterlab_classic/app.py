@@ -13,6 +13,7 @@ from jupyterlab.commands import get_app_dir, get_user_settings_dir, get_workspac
 from jupyterlab_server import LabServerApp
 from jupyterlab_server.config import get_page_config, recursive_update, LabConfig
 from jupyterlab_server.handlers import is_url, _camelCase
+from nbclassic.shim import NBClassicConfigShimMixin
 from tornado import web
 
 from ._version import __version__
@@ -81,7 +82,7 @@ class ClassicHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterH
         )
 
 
-class ClassicApp(LabServerApp):
+class ClassicApp(NBClassicConfigShimMixin, LabServerApp):
     name = "classic"
     app_name = "JupyterLab Classic"
     app_version = version

@@ -9,6 +9,7 @@ include ts*.json
 
 graft jupyterlab-classic/labextension
 graft jupyterlab-classic/static
+graft jupyterlab-classic/templates
 
 # Javascript files
 graft src

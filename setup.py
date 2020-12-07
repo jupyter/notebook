@@ -41,6 +41,11 @@ data_files_spec = [
         "jupyter-config/jupyter_server_config.d",
         "jupyterlab_classic.json",
     ),
+    (
+        "etc/jupyter/jupyter_notebook_config.d",
+        "jupyter-config/jupyter_notebook_config.d",
+        "jupyterlab_classic.json",
+    ),
 ]
 
 cmdclass = create_cmdclass(

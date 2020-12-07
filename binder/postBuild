@@ -1,0 +1,2 @@
+jlpm && jlpm run build
+python -m pip install -e .
