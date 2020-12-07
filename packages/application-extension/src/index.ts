@@ -239,6 +239,18 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to dispose the Tabs menu
+ */
+const noTabsMenu: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-classic/application-extension:no-tabs-menu',
+  requires: [IMainMenu],
+  autoStart: true,
+  activate: (app: JupyterFrontEnd, menu: IMainMenu) => {
+    menu.tabsMenu.dispose();
+  }
+};
+
+/**
  * The logo plugin.
  */
 const logo: JupyterFrontEndPlugin<void> = {
@@ -548,6 +560,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   kernelStatus,
   logo,
   main,
+  noTabsMenu,
   paths,
   router,
   sessionDialogs,
