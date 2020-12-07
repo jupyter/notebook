@@ -34,13 +34,11 @@
     "build:labextension:dev": "jupyter labextension build --development True .",
     "build:lib": "tsc",
     "build:prod": "jlpm run build:lib && jlpm run build:labextension",
-    "build:test": "tsc --build tsconfig.test.json",
     "clean": "jlpm run clean:lib",
     "clean:all": "jlpm run clean:lib && jlpm run clean:labextension",
     "clean:labextension": "rimraf ../../jupyterlab_classic/labextension",
     "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
     "prepare": "jlpm run clean && jlpm run build:prod",
-    "test": "jest",
     "watch": "run-p watch:src watch:labextension",
     "watch:labextension": "jupyter labextension watch .",
     "watch:src": "tsc -w"
