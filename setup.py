@@ -3,7 +3,13 @@ jupyterlab-classic setup
 """
 import os
 
-from jupyter_packaging import get_version
+from jupyter_packaging import (
+    get_version,
+    create_cmdclass,
+    combine_commands,
+    install_npm,
+    ensure_targets,
+)
 import setuptools
 
 HERE = os.path.abspath(os.path.dirname(__file__))
@@ -14,6 +20,37 @@ PACKAGE_NAME = NAME.replace("-", "_")
 
 # Get our version
 version = get_version(os.path.join(PACKAGE_NAME, "_version.py"))
+
+labext_name = "@jupyterlab-classic/lab-extension"
+lab_extension_dest = os.path.join(HERE, PACKAGE_NAME, "labextension")
+lab_extension_source = os.path.join(HERE, "packages", "lab-extension")
+
+# Representative files that should exist after a successful build
+jstargets = [
+    os.path.join(lab_extension_source, "lib", "index.js"),
+    os.path.join(lab_extension_dest, "package.json"),
+]
+
+package_data_spec = {PACKAGE_NAME: ["*"]}
+
+data_files_spec = [
+    ("share/jupyter/labextensions/%s" % labext_name, lab_extension_dest, "**"),
+    ("share/jupyter/labextensions/%s" % labext_name, HERE, "install.json"),
+    (
+        "etc/jupyter/jupyter_server_config.d",
+        "jupyter-config/jupyter_server_config.d",
+        "jupyterlab_classic.json",
+    ),
+]
+
+cmdclass = create_cmdclass(
+    "jsdeps", package_data_spec=package_data_spec, data_files_spec=data_files_spec
+)
+
+cmdclass["jsdeps"] = combine_commands(
+    install_npm(lab_extension_source, build_cmd="build", npm=["jlpm"]),
+    ensure_targets(jstargets),
+)
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -26,12 +63,7 @@ setup_args = dict(
     description="The next gen old-school Notebook UI",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    data_files=[
-        (
-            "etc/jupyter/jupyter_server_config.d",
-            ["jupyter-config/jupyter_server_config.d/jupyterlab_classic.json"],
-        ),
-    ],
+    cmdclass= cmdclass,
     packages=setuptools.find_packages(),
     install_requires=[
         "jupyterlab>=3.0.0rc10,==3.*",
@@ -53,10 +85,8 @@ setup_args = dict(
         "Framework :: Jupyter",
     ],
     entry_points={
-        "console_scripts": [
-            "jupyterlab-classic = jupyterlab_classic.app:main"
-        ]
-    }
+        "console_scripts": ["jupyterlab-classic = jupyterlab_classic.app:main"]
+    },
 )
 
 

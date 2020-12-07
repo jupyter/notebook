@@ -1,0 +1,70 @@
+{
+  "name": "@jupyterlab-classic/lab-extension",
+  "version": "0.1.0",
+  "description": "JupyterLab Classic - Lab Extension",
+  "homepage": "https://github.com/jtpio/jupyterlab-classic",
+  "bugs": {
+    "url": "https://github.com/jtpio/jupyterlab-classic/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jtpio/jupyterlab-classic.git"
+  },
+  "license": "BSD-3-Clause",
+  "author": "Project Jupyter",
+  "sideEffects": [
+    "style/**/*.css"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "style": "style/index.css",
+  "directories": {
+    "lib": "lib/"
+  },
+  "files": [
+    "lib/*.d.ts",
+    "lib/*.js.map",
+    "lib/*.js",
+    "schema/*.json",
+    "style/**/*.css"
+  ],
+  "scripts": {
+    "build": "jlpm run build:lib && jlpm run build:labextension:dev",
+    "build:labextension": "jupyter labextension build .",
+    "build:labextension:dev": "jupyter labextension build --development True .",
+    "build:lib": "tsc",
+    "build:prod": "jlpm run build:lib && jlpm run build:labextension",
+    "build:test": "tsc --build tsconfig.test.json",
+    "clean": "jlpm run clean:lib",
+    "clean:all": "jlpm run clean:lib && jlpm run clean:labextension",
+    "clean:labextension": "rimraf ../../jupyterlab_classic/labextension",
+    "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
+    "prepare": "jlpm run clean && jlpm run build:prod",
+    "test": "jest",
+    "watch": "run-p watch:src watch:labextension",
+    "watch:labextension": "jupyter labextension watch .",
+    "watch:src": "tsc -w"
+  },
+  "dependencies": {
+    "@jupyterlab-classic/ui-components": "^0.1.0",
+    "@jupyterlab/application": "^3.0.0-rc.12",
+    "@jupyterlab/apputils": "^3.0.0-rc.12",
+    "@jupyterlab/docregistry": "^3.0.0-rc.12",
+    "@jupyterlab/mainmenu": "^3.0.0-rc.12",
+    "@jupyterlab/notebook": "^3.0.0-rc.12",
+    "@lumino/commands": "^1.11.4",
+    "@lumino/disposable": "^1.4.3"
+  },
+  "devDependencies": {
+    "@jupyterlab/builder": "^3.0.0-rc.12",
+    "rimraf": "~3.0.0",
+    "typescript": "~4.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "jupyterlab": {
+    "extension": true,
+    "outputDir": "../../jupyterlab_classic/labextension"
+  }
+}

@@ -7,6 +7,9 @@ include package.json
 include install.json
 include ts*.json
 
+graft jupyterlab-classic/labextension
+graft jupyterlab-classic/static
+
 # Javascript files
 graft src
 graft style
