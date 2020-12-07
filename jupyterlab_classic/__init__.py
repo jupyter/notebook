@@ -13,3 +13,10 @@ def _jupyter_server_extension_paths():
 
 def _jupyter_server_extension_points():
     return [{"module": "jupyterlab_classic", "app": ClassicApp}]
+
+
+def _jupyter_labextension_paths():
+    return [{
+        'src': 'labextension',
+        'dest': '@jupyterlab-classic/lab-extension'
+    }]
