@@ -1,5 +1,7 @@
 # jupyterlab-classic
 
+![Github Actions Status](https://github.com/jtpio/jupyterlab-classic/workflows/Build/badge.svg)
+
 The next gen old-school Notebook UI.
 
 ![image](https://user-images.githubusercontent.com/591645/101378325-400fa280-38b3-11eb-81a5-4c7a1aca780e.png)
