@@ -6,6 +6,7 @@ import { JupyterFrontEnd } from '@jupyterlab/application';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
 import { ArrayExt, IIterator, iter } from '@lumino/algorithm';
+
 import { Token } from '@lumino/coreutils';
 
 import { Message, MessageLoop, IMessageHandler } from '@lumino/messaging';
