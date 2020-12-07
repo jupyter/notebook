@@ -41,7 +41,7 @@ class ClassicApp(LabApp):
     extension_url = '/classic'
     app_url = "/classic"
     load_other_extensions = True
-    name = __name__
+    name = "classic"
     app_name = 'JupyterLab Classic'
     static_dir = os.path.join(HERE, 'static')
     templates_dir = os.path.join(HERE, 'templates')
