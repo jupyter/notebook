@@ -46,6 +46,11 @@ namespace CommandIDs {
   export const toggleZen = 'application:toggle-zen';
 
   /**
+   * Open JupyterLab
+   */
+  export const openLab = 'application:open-lab';
+
+  /**
    * Open the tree page.
    */
   export const openTree = 'application:open-tree';
@@ -107,28 +112,42 @@ const pages: JupyterFrontEndPlugin<void> = {
   ): void => {
     const baseUrl = PageConfig.getBaseUrl();
 
+    app.commands.addCommand(CommandIDs.openLab, {
+      label: 'Open JupyterLab',
+      execute: () => {
+        window.open(`${baseUrl}lab`);
+      }
+    });
+
     app.commands.addCommand(CommandIDs.openTree, {
       label: 'Open the File Browser',
-      execute: (args: any) => {
+      execute: () => {
         window.open(`${baseUrl}classic/tree`);
       }
     });
 
     app.commands.addCommand(CommandIDs.openRunning, {
       label: 'Open the Running Sessions',
-      execute: (args: any) => {
+      execute: () => {
         window.open(`${baseUrl}classic/running`);
       }
     });
 
     if (palette) {
-      palette.addItem({ command: CommandIDs.openTree, category: 'View' });
-      palette.addItem({ command: CommandIDs.openRunning, category: 'View' });
+      [CommandIDs.openLab, CommandIDs.openRunning, CommandIDs.openTree].forEach(
+        command => {
+          palette.addItem({ command, category: 'View' });
+        }
+      );
     }
 
     if (menu) {
       menu.viewMenu.addGroup(
-        [{ command: CommandIDs.openTree }, { command: CommandIDs.openRunning }],
+        [
+          { command: CommandIDs.openLab },
+          { command: CommandIDs.openTree },
+          { command: CommandIDs.openRunning }
+        ],
         0
       );
     }
@@ -235,7 +254,7 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
 
     app.commands.addCommand(CommandIDs.toggleTop, {
       label: 'Show Header',
-      execute: (args: any) => {
+      execute: () => {
         top.setHidden(top.isVisible);
       },
       isToggled: () => top.isVisible
@@ -294,7 +313,7 @@ const zen: JupyterFrontEndPlugin<void> = {
     let zenModeEnabled = false;
     commands.addCommand(CommandIDs.toggleZen, {
       label: 'Toggle Zen Mode',
-      execute: (args: any) => {
+      execute: () => {
         if (!zenModeEnabled) {
           elem.requestFullscreen();
           toggleOn();
