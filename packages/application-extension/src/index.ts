@@ -44,19 +44,22 @@ namespace CommandIDs {
    * Toggle the Zen mode
    */
   export const toggleZen = 'application:toggle-zen';
-}
 
-/**
- * A plugin to dispose the Tabs menu
- */
-const noTabsMenu: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-classic/application-extension:no-tabs-menu',
-  requires: [IMainMenu],
-  autoStart: true,
-  activate: (app: JupyterFrontEnd, menu: IMainMenu) => {
-    menu.tabsMenu.dispose();
-  }
-};
+  /**
+   * Open JupyterLab
+   */
+  export const openLab = 'application:open-lab';
+
+  /**
+   * Open the tree page.
+   */
+  export const openTree = 'application:open-tree';
+
+  /**
+   * Open the runnning page.
+   */
+  export const openRunning = 'application:open-running';
+}
 
 /**
  * The logo plugin.
@@ -80,6 +83,74 @@ const logo: JupyterFrontEndPlugin<void> = {
     });
     logo.id = 'jp-ClassicLogo';
     app.shell.add(logo, 'top', { rank: 0 });
+  }
+};
+
+/**
+ * A plugin to dispose the Tabs menu
+ */
+const noTabsMenu: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-classic/application-extension:no-tabs-menu',
+  requires: [IMainMenu],
+  autoStart: true,
+  activate: (app: JupyterFrontEnd, menu: IMainMenu) => {
+    menu.tabsMenu.dispose();
+  }
+};
+
+/**
+ * Add commands to open the tree and running pages.
+ */
+const pages: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-classic/application-extension:pages',
+  autoStart: true,
+  optional: [ICommandPalette, IMainMenu],
+  activate: (
+    app: JupyterFrontEnd,
+    palette: ICommandPalette,
+    menu: IMainMenu
+  ): void => {
+    const baseUrl = PageConfig.getBaseUrl();
+
+    app.commands.addCommand(CommandIDs.openLab, {
+      label: 'Open JupyterLab',
+      execute: () => {
+        window.open(`${baseUrl}lab`);
+      }
+    });
+
+    app.commands.addCommand(CommandIDs.openTree, {
+      label: 'Open the File Browser',
+      execute: () => {
+        window.open(`${baseUrl}classic/tree`);
+      }
+    });
+
+    app.commands.addCommand(CommandIDs.openRunning, {
+      label: 'Open the Running Sessions',
+      execute: () => {
+        window.open(`${baseUrl}classic/running`);
+      }
+    });
+
+    if (palette) {
+      [CommandIDs.openLab, CommandIDs.openRunning, CommandIDs.openTree].forEach(
+        command => {
+          palette.addItem({ command, category: 'View' });
+        }
+      );
+    }
+
+    if (menu) {
+      menu.viewMenu.addGroup(
+        [
+          { command: CommandIDs.openLab },
+          { command: CommandIDs.openTree },
+          { command: CommandIDs.openRunning }
+        ],
+        0
+      );
+    }
   }
 };
 
@@ -183,7 +254,7 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
 
     app.commands.addCommand(CommandIDs.toggleTop, {
       label: 'Show Header',
-      execute: (args: any) => {
+      execute: () => {
         top.setHidden(top.isVisible);
       },
       isToggled: () => top.isVisible
@@ -242,7 +313,7 @@ const zen: JupyterFrontEndPlugin<void> = {
     let zenModeEnabled = false;
     commands.addCommand(CommandIDs.toggleZen, {
       label: 'Toggle Zen Mode',
-      execute: (args: any) => {
+      execute: () => {
         if (!zenModeEnabled) {
           elem.requestFullscreen();
           toggleOn();
@@ -275,6 +346,7 @@ const zen: JupyterFrontEndPlugin<void> = {
 const plugins: JupyterFrontEndPlugin<any>[] = [
   logo,
   noTabsMenu,
+  pages,
   paths,
   router,
   sessionDialogs,

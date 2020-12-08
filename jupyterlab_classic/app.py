@@ -87,6 +87,20 @@ class ClassicTreeHandler(ClassicPageConfigMixin, ExtensionHandlerJinjaMixin, Ext
         )
 
 
+class ClassicRunningHandler(ClassicPageConfigMixin, ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
+    @web.authenticated
+    def get(self, path=None):
+        page_config = self.get_page_config()
+        return self.write(
+            self.render_template(
+                "running.html",
+                base_url=self.base_url,
+                token=self.settings["token"],
+                page_config=page_config,
+            )
+        )
+
+
 class ClassicNotebookHandler(ClassicPageConfigMixin, ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
     @web.authenticated
     def get(self, path=None):
@@ -117,6 +131,7 @@ class ClassicApp(NBClassicConfigShimMixin, LabServerApp):
     def initialize_handlers(self):
         super().initialize_handlers()
         self.handlers.append(("/classic/tree(.*)", ClassicTreeHandler))
+        self.handlers.append(("/classic/running", ClassicRunningHandler))
         self.handlers.append(("/classic/notebooks(.*)", ClassicNotebookHandler))
 
     def initialize_templates(self):
