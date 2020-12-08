@@ -15,6 +15,8 @@ import {
   ICommandPalette
 } from '@jupyterlab/apputils';
 
+import { PageConfig } from '@jupyterlab/coreutils';
+
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { ITranslator, TranslationManager } from '@jupyterlab/translation';
@@ -68,9 +70,14 @@ const logo: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-classic/application-extension:logo',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
-    const logo = new Widget();
+    const baseUrl = PageConfig.getBaseUrl();
+    const node = document.createElement('a');
+    node.href = `${baseUrl}classic/tree`;
+    node.target = '_blank';
+    node.rel = 'noopener noreferrer';
+    const logo = new Widget({ node });
     jupyterIcon.element({
-      container: logo.node,
+      container: node,
       elementPosition: 'center',
       padding: '2px 2px 2px 8px',
       height: '28px',
