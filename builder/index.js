@@ -114,6 +114,11 @@ async function main() {
           ].includes(id)
       )
     ]);
+  } else if (page === 'running') {
+    mods = mods.concat([
+      require('@jupyterlab-classic/running-extension'),
+      require('@jupyterlab/running-extension')
+    ]);
   } else if (page === 'notebooks') {
     mods = mods.concat([
       require('@jupyterlab/completer-extension').default.filter(({ id }) =>
