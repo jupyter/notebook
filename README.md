@@ -37,7 +37,7 @@ jupyter labextension list
 
 Should also be available when starting `jupyterlab-classic`.
 
-This package also install a JupyterLab extension by default, to make it easier to transition to classic view:
+This package also adds a toolbar button by default, to make it easier to switch to the classic view:
 
 ![open-jupyterlab-classic](https://user-images.githubusercontent.com/591645/101534129-02844580-3997-11eb-962a-5475bcc831bb.gif)
 
