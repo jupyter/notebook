@@ -112,7 +112,8 @@ async function main() {
             '@jupyterlab-classic/filebrowser-extension:browser',
             '@jupyterlab-classic/filebrowser-extension:factory'
           ].includes(id)
-      )
+      ),
+      require('@jupyterlab/running-extension')
     ]);
   } else if (page === 'running') {
     mods = mods.concat([

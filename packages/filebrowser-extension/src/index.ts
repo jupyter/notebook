@@ -39,6 +39,8 @@ import { Launcher } from '@jupyterlab/launcher';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
+import { IRunningSessionManagers, RunningSessions } from '@jupyterlab/running';
+
 import { Contents } from '@jupyterlab/services';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -59,17 +61,18 @@ import {
   markdownIcon,
   newFolderIcon,
   pasteIcon,
+  runningIcon,
   stopIcon,
   textEditorIcon
 } from '@jupyterlab/ui-components';
 
-import { IIterator, map, reduce, toArray, find } from '@lumino/algorithm';
+import { IIterator, map, reduce, toArray } from '@lumino/algorithm';
 
 import { CommandRegistry } from '@lumino/commands';
 
 import { Message } from '@lumino/messaging';
 
-import { Menu } from '@lumino/widgets';
+import { Menu, TabPanel } from '@lumino/widgets';
 
 /**
  * The command IDs used by the file browser plugin.
@@ -149,13 +152,16 @@ const browser: JupyterFrontEndPlugin<void> = {
     ICommandPalette,
     IMainMenu,
     ILayoutRestorer,
-    ITreePathUpdater
+    ITreePathUpdater,
+    IRunningSessionManagers
   ],
   autoStart: true
 };
 
 /**
  * The default file browser factory provider.
+ *
+ * TODO: remove and use upstream plugin
  */
 const factory: JupyterFrontEndPlugin<IFileBrowserFactory> = {
   activate: activateFactory,
@@ -261,9 +267,9 @@ function activateBrowser(
   commandPalette: ICommandPalette | null,
   mainMenu: IMainMenu | null,
   restorer: ILayoutRestorer | null,
-  treePathUpdater: ITreePathUpdater | null
+  treePathUpdater: ITreePathUpdater | null,
+  manager: IRunningSessionManagers | null
 ): void {
-  const trans = translator.load('jupyterlab');
   const browser = factory.defaultBrowser;
   const { commands } = app;
 
@@ -288,25 +294,24 @@ function activateBrowser(
   );
 
   browser.title.icon = folderIcon;
-  // Show the current file browser shortcut in its title.
-  const updateBrowserTitle = () => {
-    const binding = find(
-      app.commands.keyBindings,
-      b => b.command === CommandIDs.toggleBrowser
-    );
-    if (binding) {
-      const ks = CommandRegistry.formatKeystroke(binding.keys.join(' '));
-      browser.title.caption = trans.__('File Browser (%1)', ks);
-    } else {
-      browser.title.caption = trans.__('File Browser');
-    }
-  };
-  updateBrowserTitle();
-  app.commands.keyBindingChanged.connect(() => {
-    updateBrowserTitle();
-  });
 
-  app.shell.add(browser, 'main', { rank: 100 });
+  const tabPanel = new TabPanel({ tabPlacement: 'top', tabsMovable: false });
+  tabPanel.addClass('jp-TreePanel');
+
+  browser.title.label = 'File Browser';
+  tabPanel.addWidget(browser);
+  tabPanel.tabBar.addTab(browser.title);
+
+  if (manager) {
+    const running = new RunningSessions(manager, translator);
+    running.id = 'jp-running-sessions';
+    running.title.label = 'Running Sessions';
+    running.title.icon = runningIcon;
+    tabPanel.addWidget(running);
+    tabPanel.tabBar.addTab(running.title);
+  }
+
+  app.shell.add(tabPanel, 'main', { rank: 100 });
 
   // If the layout is a fresh session without saved data and not in single document
   // mode, open file browser.
