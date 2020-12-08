@@ -100,6 +100,12 @@ async function main() {
       ].includes(id)
     ),
     require('@jupyterlab/shortcuts-extension'),
+    require('@jupyterlab/tooltip-extension').default.filter(({ id }) =>
+      [
+        '@jupyterlab/tooltip-extension:manager',
+        '@jupyterlab/tooltip-extension:notebooks'
+      ].includes(id)
+    ),
     require('@jupyterlab/theme-light-extension'),
     require('@jupyterlab/theme-dark-extension')
   ];

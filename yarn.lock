@@ -2306,6 +2306,37 @@
     "@jupyterlab/apputils" "^3.0.0-rc.12"
     "@jupyterlab/translation" "^3.0.0-rc.12"
 
+"@jupyterlab/tooltip-extension@^3.0.0-rc.12":
+  version "3.0.0-rc.13"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/tooltip-extension/-/tooltip-extension-3.0.0-rc.13.tgz#548f9f98f0ff46da7dbc80e0e1530d9a75bdfa64"
+  integrity sha512-KLIajs2ddOemhW3gFTJJWzckryw31yfyw4Zldk+5Zmzzo+R/q+g1iynIBnu3Yrlbg94UpoEdh/gzNq1rESoJPg==
+  dependencies:
+    "@jupyterlab/application" "^3.0.0-rc.13"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.13"
+    "@jupyterlab/console" "^3.0.0-rc.13"
+    "@jupyterlab/coreutils" "^5.0.0-rc.13"
+    "@jupyterlab/fileeditor" "^3.0.0-rc.13"
+    "@jupyterlab/notebook" "^3.0.0-rc.13"
+    "@jupyterlab/rendermime" "^3.0.0-rc.13"
+    "@jupyterlab/services" "^6.0.0-rc.13"
+    "@jupyterlab/tooltip" "^3.0.0-rc.13"
+    "@lumino/algorithm" "^1.3.3"
+    "@lumino/coreutils" "^1.5.3"
+    "@lumino/widgets" "^1.16.1"
+
+"@jupyterlab/tooltip@^3.0.0-rc.13":
+  version "3.0.0-rc.13"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/tooltip/-/tooltip-3.0.0-rc.13.tgz#092d0fd8525fb948de671aa06b1d4b3f2befd77d"
+  integrity sha512-lPVKgkFguWFlPCEW6r442YvFyDhGTviHrfZAb2AIjz7UcsAjkyEZiFLZ5XI9aS0ukXj3lHi+Ck4rwEktzUI8zQ==
+  dependencies:
+    "@jupyterlab/apputils" "^3.0.0-rc.13"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.13"
+    "@jupyterlab/rendermime" "^3.0.0-rc.13"
+    "@jupyterlab/services" "^6.0.0-rc.13"
+    "@lumino/coreutils" "^1.5.3"
+    "@lumino/messaging" "^1.4.3"
+    "@lumino/widgets" "^1.16.1"
+
 "@jupyterlab/translation@^3.0.0-rc.12":
   version "3.0.0-rc.12"
   resolved "https://registry.yarnpkg.com/@jupyterlab/translation/-/translation-3.0.0-rc.12.tgz#fe02531847f2d388d629f8485dca79901518e856"
