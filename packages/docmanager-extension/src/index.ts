@@ -10,7 +10,9 @@ import { PageConfig } from '@jupyterlab/coreutils';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
-import { toArray } from '@lumino/algorithm';
+import { IDocumentWidget, DocumentRegistry } from '@jupyterlab/docregistry';
+
+import { Kernel } from '@jupyterlab/services';
 
 /**
  * A plugin to open document in a new browser tab.
@@ -19,18 +21,27 @@ import { toArray } from '@lumino/algorithm';
  */
 const opener: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-classic/docmanager-extension:opener',
+  requires: [IDocumentManager],
   autoStart: true,
   activate: (app: JupyterFrontEnd, docManager: IDocumentManager) => {
-    const { commands, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
-    commands.commandExecuted.connect((sender, executedArgs) => {
-      const widgets = toArray(shell.widgets('main'));
-      const { id, args } = executedArgs;
-      const path = args['path'] as string;
-      if (id === 'docmanager:open' && widgets.length > 0 && path) {
-        window.open(`${baseUrl}classic/notebooks/${path}`, '_blank');
+
+    // patch the `docManager.open` option to prevent the default behavior
+    const docOpen = docManager.open;
+    docManager.open = (
+      path: string,
+      widgetName = 'default',
+      kernel?: Partial<Kernel.IModel>,
+      options?: DocumentRegistry.IOpenOptions
+    ): IDocumentWidget | undefined => {
+      const ref = options?.ref;
+      if (ref === 'noref') {
+        docOpen.call(docManager, path, widgetName, kernel, options);
+        return;
       }
-    });
+      window.open(`${baseUrl}classic/notebooks/${path}`);
+      return undefined;
+    };
   }
 };
 

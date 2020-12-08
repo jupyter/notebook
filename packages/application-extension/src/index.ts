@@ -32,11 +32,6 @@ import { jupyterIcon } from '@jupyterlab-classic/ui-components';
 import { Widget } from '@lumino/widgets';
 
 /**
- * The default notebook factory.
- */
-const NOTEBOOK_FACTORY = 'Notebook';
-
-/**
  * The command IDs used by the application plugin.
  */
 namespace CommandIDs {
@@ -215,40 +210,6 @@ const translator: JupyterFrontEndPlugin<ITranslator> = {
 };
 
 /**
- * The default tree route resolver plugin.
- */
-const tree: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-classic/application-extension:tree-resolver',
-  autoStart: true,
-  requires: [IRouter],
-  activate: (app: JupyterFrontEnd, router: IRouter): void => {
-    const { commands } = app;
-    const treePattern = new RegExp('/notebooks/(.*)');
-
-    const command = 'router:tree';
-    commands.addCommand(command, {
-      execute: (args: any) => {
-        const parsed = args as IRouter.ILocation;
-        const matches = parsed.path.match(treePattern);
-        if (!matches) {
-          return;
-        }
-        const [, path] = matches;
-
-        app.restored.then(() => {
-          commands.execute('docmanager:open', {
-            path,
-            factory: NOTEBOOK_FACTORY
-          });
-        });
-      }
-    });
-
-    router.register({ command, pattern: treePattern });
-  }
-};
-
-/**
  * Zen mode plugin
  */
 const zen: JupyterFrontEndPlugin<void> = {
@@ -321,7 +282,6 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   spacer,
   topVisibility,
   translator,
-  tree,
   zen
 ];
 

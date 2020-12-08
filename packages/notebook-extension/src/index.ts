@@ -24,6 +24,11 @@ import {
 import { Widget } from '@lumino/widgets';
 
 /**
+ * The default notebook factory.
+ */
+const NOTEBOOK_FACTORY = 'Notebook';
+
+/**
  * The class for kernel status errors.
  */
 const KERNEL_STATUS_ERROR_CLASS = 'jp-ClassicKernelStatus-error';
@@ -286,13 +291,49 @@ const title: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * The default tree route resolver plugin.
+ */
+const tree: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-classic/application-extension:tree-resolver',
+  autoStart: true,
+  requires: [IRouter, IDocumentManager],
+  activate: (
+    app: JupyterFrontEnd,
+    router: IRouter,
+    docManager: IDocumentManager
+  ): void => {
+    const { commands } = app;
+    const treePattern = new RegExp('/notebooks/(.*)');
+
+    const command = 'router:tree';
+    commands.addCommand(command, {
+      execute: (args: any) => {
+        const parsed = args as IRouter.ILocation;
+        const matches = parsed.path.match(treePattern);
+        if (!matches) {
+          return;
+        }
+        const [, path] = matches;
+
+        app.restored.then(() => {
+          docManager.open(path, NOTEBOOK_FACTORY, undefined, { ref: 'noref' });
+        });
+      }
+    });
+
+    router.register({ command, pattern: treePattern });
+  }
+};
+
+/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
   kernelLogo,
   kernelStatus,
-  title
+  title,
+  tree
 ];
 
 export default plugins;
