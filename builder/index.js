@@ -70,6 +70,7 @@ async function main() {
   let mods = [
     // @jupyterlab-classic plugins
     require('@jupyterlab-classic/application-extension'),
+    require('@jupyterlab-classic/docmanager-extension'),
     require('@jupyterlab-classic/notebook-extension'),
 
     // @jupyterlab plugins
