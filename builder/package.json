@@ -12,6 +12,7 @@
   "dependencies": {
     "@jupyterlab-classic/application": "^0.1.0",
     "@jupyterlab-classic/application-extension": "^0.1.0",
+    "@jupyterlab-classic/filebrowser-extension": "^0.1.0",
     "@jupyterlab-classic/ui-components": "^0.1.0",
     "@jupyterlab/apputils-extension": "^3.0.0-rc.12",
     "@jupyterlab/codemirror-extension": "^3.0.0-rc.12",

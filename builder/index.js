@@ -67,7 +67,7 @@ async function main() {
   const app = new App();
 
   // TODO: formalize the way the set of initial extensions and plugins are specified
-  const mods = [
+  let mods = [
     require('@jupyterlab-classic/application-extension'),
     require('@jupyterlab/apputils-extension').default.filter(({ id }) =>
       [
@@ -80,35 +80,51 @@ async function main() {
     require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
       ['@jupyterlab/codemirror-extension:services'].includes(id)
     ),
-    require('@jupyterlab/completer-extension').default.filter(({ id }) =>
-      [
-        '@jupyterlab/completer-extension:manager',
-        '@jupyterlab/completer-extension:notebooks'
-      ].includes(id)
-    ),
     require('@jupyterlab/docmanager-extension').default.filter(({ id }) =>
       ['@jupyterlab/docmanager-extension:plugin'].includes(id)
     ),
     require('@jupyterlab/mainmenu-extension'),
     require('@jupyterlab/mathjax2-extension'),
-    require('@jupyterlab/rendermime-extension'),
     require('@jupyterlab/notebook-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/notebook-extension:factory',
-        '@jupyterlab/notebook-extension:widget-factory',
-        '@jupyterlab/notebook-extension:tracker'
+        '@jupyterlab/notebook-extension:tracker',
+        '@jupyterlab/notebook-extension:widget-factory'
       ].includes(id)
     ),
+    require('@jupyterlab/rendermime-extension'),
     require('@jupyterlab/shortcuts-extension'),
-    require('@jupyterlab/tooltip-extension').default.filter(({ id }) =>
-      [
-        '@jupyterlab/tooltip-extension:manager',
-        '@jupyterlab/tooltip-extension:notebooks'
-      ].includes(id)
-    ),
     require('@jupyterlab/theme-light-extension'),
     require('@jupyterlab/theme-dark-extension')
   ];
+
+  const page = PageConfig.getOption('classicPage');
+  if (page === 'tree') {
+    mods = mods.concat([
+      require('@jupyterlab-classic/filebrowser-extension').default.filter(
+        ({ id }) =>
+          [
+            '@jupyterlab-classic/filebrowser-extension:browser',
+            '@jupyterlab-classic/filebrowser-extension:factory'
+          ].includes(id)
+      )
+    ]);
+  } else if (page === 'notebooks') {
+    mods = mods.concat([
+      require('@jupyterlab/completer-extension').default.filter(({ id }) =>
+        [
+          '@jupyterlab/completer-extension:manager',
+          '@jupyterlab/completer-extension:notebooks'
+        ].includes(id)
+      ),
+      require('@jupyterlab/tooltip-extension').default.filter(({ id }) =>
+        [
+          '@jupyterlab/tooltip-extension:manager',
+          '@jupyterlab/tooltip-extension:notebooks'
+        ].includes(id)
+      )
+    ]);
+  }
 
   const extension_data = JSON.parse(
     PageConfig.getOption('federated_extensions')

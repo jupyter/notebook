@@ -24,9 +24,8 @@ app_dir = get_app_dir()
 version = __version__
 
 
-class ClassicHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
-    @web.authenticated
-    def get(self, path=None):
+class ClassicPageConfigMixin:
+    def get_page_config(self):
         config = LabConfig()
         app = self.extensionapp
         base_url = self.settings.get("base_url")
@@ -71,7 +70,27 @@ class ClassicHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterH
                 logger=self.log,
             ),
         )
+        return page_config
 
+
+class ClassicTreeHandler(ClassicPageConfigMixin, ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
+    @web.authenticated
+    def get(self, path=None):
+        page_config = self.get_page_config()
+        return self.write(
+            self.render_template(
+                "tree.html",
+                base_url=self.base_url,
+                token=self.settings["token"],
+                page_config=page_config,
+            )
+        )
+
+
+class ClassicNotebookHandler(ClassicPageConfigMixin, ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
+    @web.authenticated
+    def get(self, path=None):
+        page_config = self.get_page_config()
         return self.write(
             self.render_template(
                 "notebooks.html",
@@ -97,7 +116,8 @@ class ClassicApp(NBClassicConfigShimMixin, LabServerApp):
 
     def initialize_handlers(self):
         super().initialize_handlers()
-        self.handlers.append(("/classic/notebooks(.*)", ClassicHandler))
+        self.handlers.append(("/classic/tree(.*)", ClassicTreeHandler))
+        self.handlers.append(("/classic/notebooks(.*)", ClassicNotebookHandler))
 
     def initialize_templates(self):
         super().initialize_templates()
