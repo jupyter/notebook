@@ -68,7 +68,11 @@ async function main() {
 
   // TODO: formalize the way the set of initial extensions and plugins are specified
   let mods = [
+    // @jupyterlab-classic plugins
     require('@jupyterlab-classic/application-extension'),
+    require('@jupyterlab-classic/notebook-extension'),
+
+    // @jupyterlab plugins
     require('@jupyterlab/apputils-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/apputils-extension:palette',
