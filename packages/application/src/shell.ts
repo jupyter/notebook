@@ -102,13 +102,17 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
     if (area === 'menu') {
       return this._menuHandler.addWidget(widget, rank);
     }
-    if (this._main.widgets.length > 0) {
-      // do not add the widget if there is already one
-      return;
+    if (area === 'main') {
+      if (this._main.widgets.length > 0) {
+        // do not add the widget if there is already one
+        // TODO: should the widget be closed?
+        widget.close();
+        return;
+      }
+      this._main.addWidget(widget);
+      this._main.update();
+      this._currentChanged.emit(void 0);
     }
-    this._main.addWidget(widget);
-    this._main.update();
-    this._currentChanged.emit(void 0);
   }
 
   /**

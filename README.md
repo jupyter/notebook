@@ -1,7 +1,7 @@
 # jupyterlab-classic
 
 ![Github Actions Status](https://github.com/jtpio/jupyterlab-classic/workflows/Build/badge.svg)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jtpio/jupyterlab-classic/main?urlpath=classic/notebooks/binder/example.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jtpio/jupyterlab-classic/main?urlpath=classic/tree)
 
 The next gen old-school Notebook UI.
 
@@ -36,6 +36,10 @@ jupyter labextension list
 ```
 
 Should also be available when starting `jupyterlab-classic`.
+
+This package also adds a toolbar button by default, to make it easier to switch to the classic view:
+
+![open-jupyterlab-classic](https://user-images.githubusercontent.com/591645/101534129-02844580-3997-11eb-962a-5475bcc831bb.gif)
 
 ## Motivation
 
