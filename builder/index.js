@@ -112,7 +112,8 @@ async function main() {
           '@jupyterlab-classic/tree-extension:factory'
         ].includes(id)
       ),
-      require('@jupyterlab/running-extension')
+      require('@jupyterlab/running-extension'),
+      require('@jupyterlab/terminal-extension')
     ]);
   } else if (page === 'notebooks') {
     mods = mods.concat([

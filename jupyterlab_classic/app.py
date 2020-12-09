@@ -77,6 +77,7 @@ class ClassicTreeHandler(ClassicPageConfigMixin, ExtensionHandlerJinjaMixin, Ext
     @web.authenticated
     def get(self, path=None):
         page_config = self.get_page_config()
+        page_config['terminalsAvailable'] = self.settings['terminals_available']
         return self.write(
             self.render_template(
                 "tree.html",
