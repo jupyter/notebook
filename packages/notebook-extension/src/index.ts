@@ -316,7 +316,7 @@ const tree: JupyterFrontEndPlugin<void> = {
         const [, path] = matches;
 
         app.restored.then(() => {
-          docManager.open(path, NOTEBOOK_FACTORY, undefined, { ref: 'noref' });
+          docManager.open(path, NOTEBOOK_FACTORY, undefined, { ref: '_noref' });
         });
       }
     });

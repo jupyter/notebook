@@ -35,7 +35,7 @@ const opener: JupyterFrontEndPlugin<void> = {
       options?: DocumentRegistry.IOpenOptions
     ): IDocumentWidget | undefined => {
       const ref = options?.ref;
-      if (ref === 'noref') {
+      if (ref === '_noref') {
         docOpen.call(docManager, path, widgetName, kernel, options);
         return;
       }
