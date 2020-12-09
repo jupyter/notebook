@@ -249,14 +249,14 @@ function activateBrowser(
   const tabPanel = new TabPanel({ tabPlacement: 'top', tabsMovable: true });
   tabPanel.addClass('jp-TreePanel');
 
-  browser.title.label = 'File Browser';
+  browser.title.label = 'Files';
   tabPanel.addWidget(browser);
   tabPanel.tabBar.addTab(browser.title);
 
   if (manager) {
     const running = new RunningSessions(manager, translator);
     running.id = 'jp-running-sessions';
-    running.title.label = 'Running Sessions';
+    running.title.label = 'Running';
     running.title.icon = runningIcon;
     tabPanel.addWidget(running);
     tabPanel.tabBar.addTab(running.title);
