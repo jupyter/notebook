@@ -6,7 +6,7 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { PageConfig } from '@jupyterlab/coreutils';
+import { PageConfig, PathExt } from '@jupyterlab/coreutils';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
@@ -35,11 +35,13 @@ const opener: JupyterFrontEndPlugin<void> = {
       options?: DocumentRegistry.IOpenOptions
     ): IDocumentWidget | undefined => {
       const ref = options?.ref;
-      if (ref === 'noref') {
+      if (ref === '_noref') {
         docOpen.call(docManager, path, widgetName, kernel, options);
         return;
       }
-      window.open(`${baseUrl}classic/notebooks/${path}`);
+      const ext = PathExt.extname(path);
+      const route = ext === '.ipynb' ? 'notebooks' : 'edit';
+      window.open(`${baseUrl}classic/${route}/${path}`);
       return undefined;
     };
   }

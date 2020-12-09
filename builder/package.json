@@ -20,6 +20,7 @@
     "@jupyterlab/codemirror-extension": "^3.0.0-rc.12",
     "@jupyterlab/completer-extension": "^3.0.0-rc.12",
     "@jupyterlab/docmanager-extension": "^3.0.0-rc.12",
+    "@jupyterlab/fileeditor-extension": "^3.0.0-rc.12",
     "@jupyterlab/mainmenu-extension": "^3.0.0-rc.12",
     "@jupyterlab/mathjax2-extension": "^3.0.0-rc.12",
     "@jupyterlab/notebook-extension": "^3.0.0-rc.12",

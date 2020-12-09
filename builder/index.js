@@ -129,6 +129,15 @@ async function main() {
         ].includes(id)
       )
     ]);
+  } else if (page === 'edit') {
+    mods = mods.concat([
+      require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
+        ['@jupyterlab/fileeditor-extension:plugin'].includes(id)
+      ),
+      require('@jupyterlab-classic/tree-extension').default.filter(({ id }) =>
+        ['@jupyterlab-classic/tree-extension:factory'].includes(id)
+      )
+    ]);
   }
 
   const extension_data = JSON.parse(

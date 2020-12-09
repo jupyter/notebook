@@ -5,6 +5,7 @@
 
 /* TODO: check is the the extension package can be used directly */
 @import url('~@jupyterlab/completer/style/index.css');
+@import url('~@jupyterlab/fileeditor/style/index.css');
 @import url('~@jupyterlab/tooltip/style/index.css');
 @import url('~@jupyterlab/running/style/index.css');
 

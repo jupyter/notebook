@@ -2,7 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
 
 import {
-  IRouter,
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
@@ -11,7 +10,7 @@ import { ISessionContext, DOMUtils } from '@jupyterlab/apputils';
 
 import { PageConfig, Text, Time } from '@jupyterlab/coreutils';
 
-import { IDocumentManager, renameDialog } from '@jupyterlab/docmanager';
+import { IDocumentManager } from '@jupyterlab/docmanager';
 
 import { NotebookPanel } from '@jupyterlab/notebook';
 
@@ -22,11 +21,6 @@ import {
 } from '@jupyterlab-classic/application';
 
 import { Widget } from '@lumino/widgets';
-
-/**
- * The default notebook factory.
- */
-const NOTEBOOK_FACTORY = 'Notebook';
 
 /**
  * The class for kernel status errors.
@@ -241,99 +235,12 @@ const shell: JupyterFrontEndPlugin<IClassicShell> = {
 };
 
 /**
- * A plugin to display the title of the notebook
- */
-const title: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-classic/application-extension:title',
-  autoStart: true,
-  requires: [IClassicShell],
-  optional: [IDocumentManager, IRouter],
-  activate: (
-    app: JupyterFrontEnd,
-    shell: IClassicShell,
-    docManager: IDocumentManager | null,
-    router: IRouter | null
-  ) => {
-    // TODO: this signal might not be needed if we assume there is always only
-    // one notebook in the main area
-    const widget = new Widget();
-    widget.id = 'jp-title';
-    app.shell.add(widget, 'top', { rank: 10 });
-
-    shell.currentChanged.connect(async () => {
-      const current = shell.currentWidget;
-      if (!(current instanceof NotebookPanel)) {
-        return;
-      }
-      const h = document.createElement('h1');
-      h.textContent = current.title.label;
-      widget.node.appendChild(h);
-      widget.node.style.marginLeft = '10px';
-      if (docManager) {
-        widget.node.onclick = async () => {
-          const result = await renameDialog(
-            docManager,
-            current.sessionContext.path
-          );
-          if (result) {
-            h.textContent = result.path;
-            if (router) {
-              // TODO: better handle this
-              router.navigate(`/classic/notebooks/${result.path}`, {
-                skipRouting: true
-              });
-            }
-          }
-        };
-      }
-    });
-  }
-};
-
-/**
- * The default tree route resolver plugin.
- */
-const tree: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-classic/application-extension:tree-resolver',
-  autoStart: true,
-  requires: [IRouter, IDocumentManager],
-  activate: (
-    app: JupyterFrontEnd,
-    router: IRouter,
-    docManager: IDocumentManager
-  ): void => {
-    const { commands } = app;
-    const treePattern = new RegExp('/notebooks/(.*)');
-
-    const command = 'router:tree';
-    commands.addCommand(command, {
-      execute: (args: any) => {
-        const parsed = args as IRouter.ILocation;
-        const matches = parsed.path.match(treePattern);
-        if (!matches) {
-          return;
-        }
-        const [, path] = matches;
-
-        app.restored.then(() => {
-          docManager.open(path, NOTEBOOK_FACTORY, undefined, { ref: 'noref' });
-        });
-      }
-    });
-
-    router.register({ command, pattern: treePattern });
-  }
-};
-
-/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
   kernelLogo,
-  kernelStatus,
-  title,
-  tree
+  kernelStatus
 ];
 
 export default plugins;
