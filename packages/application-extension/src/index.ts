@@ -115,7 +115,7 @@ const pages: JupyterFrontEndPlugin<void> = {
     });
 
     app.commands.addCommand(CommandIDs.openTree, {
-      label: 'Open File Browser',
+      label: 'Open Files',
       execute: () => {
         window.open(`${baseUrl}classic/tree`);
       }
