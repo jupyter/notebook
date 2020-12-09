@@ -7,6 +7,12 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
+import { PageConfig } from '@jupyterlab/coreutils';
+
+import { ITerminalTracker } from '@jupyterlab/terminal';
+
+import { find } from '@lumino/algorithm';
+
 /**
  * A plugin to terminals in a new tab
  */
@@ -40,8 +46,29 @@ const opener: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * Open terminals in a new tab.
+ */
+const redirect: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-classic/terminal-extension:redirect',
+  requires: [ITerminalTracker],
+  autoStart: true,
+  activate: (app: JupyterFrontEnd, tracker: ITerminalTracker) => {
+    const baseUrl = PageConfig.getBaseUrl();
+    tracker.widgetAdded.connect((send, terminal) => {
+      const widget = find(app.shell.widgets('main'), w => w.id === terminal.id);
+      if (widget) {
+        // bail if the terminal is already added to the main area
+        return;
+      }
+      const name = terminal.content.session.name;
+      window.open(`${baseUrl}classic/terminals/${name}`);
+    });
+  }
+};
+
+/**
  * Export the plugins as default.
  */
-const plugins: JupyterFrontEndPlugin<any>[] = [opener];
+const plugins: JupyterFrontEndPlugin<any>[] = [opener, redirect];
 
 export default plugins;

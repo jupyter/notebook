@@ -72,6 +72,8 @@ async function main() {
     require('@jupyterlab-classic/application-extension'),
     require('@jupyterlab-classic/docmanager-extension'),
     require('@jupyterlab-classic/notebook-extension'),
+    // to handle opening new tabs after creating a new terminal
+    require('@jupyterlab-classic/terminal-extension'),
 
     // @jupyterlab plugins
     require('@jupyterlab/apputils-extension').default.filter(({ id }) =>
@@ -114,8 +116,7 @@ async function main() {
           '@jupyterlab-classic/tree-extension:factory'
         ].includes(id)
       ),
-      require('@jupyterlab/running-extension'),
-      require('@jupyterlab-classic/terminal-extension')
+      require('@jupyterlab/running-extension')
     ]);
   } else if (page === 'notebooks') {
     mods = mods.concat([
@@ -141,8 +142,6 @@ async function main() {
         ['@jupyterlab-classic/tree-extension:factory'].includes(id)
       )
     ]);
-  } else if (page === 'terminals') {
-    mods = mods.concat([require('@jupyterlab-classic/terminal-extension')]);
   }
 
   const extension_data = JSON.parse(
