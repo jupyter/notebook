@@ -23,7 +23,7 @@ if (Promise.allSettled === undefined) {
     );
 }
 
-require('./style.css');
+require('./style.js');
 
 function loadScript(url) {
   return new Promise((resolve, reject) => {

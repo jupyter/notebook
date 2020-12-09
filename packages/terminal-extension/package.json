@@ -13,11 +13,13 @@
   "license": "BSD-3-Clause",
   "author": "Project Jupyter",
   "sideEffects": [
-    "style/**/*.css"
+    "style/**/*.css",
+    "style/index.js"
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "style": "style/index.css",
+  "styleModule": "style/index.js",
   "directories": {
     "lib": "lib/"
   },
@@ -26,7 +28,8 @@
     "lib/*.js.map",
     "lib/*.js",
     "schema/*.json",
-    "style/**/*.css"
+    "style/**/*.css",
+    "style/index.js"
   ],
   "scripts": {
     "build": "tsc -b",
@@ -36,9 +39,9 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/application": "^3.0.0-rc.12",
-    "@jupyterlab/coreutils": "^5.0.0-rc.12",
-    "@jupyterlab/terminal": "^3.0.0-rc.12",
+    "@jupyterlab/application": "^3.0.0-rc.13",
+    "@jupyterlab/coreutils": "^5.0.0-rc.13",
+    "@jupyterlab/terminal": "^3.0.0-rc.13",
     "@lumino/algorithm": "^1.3.3"
   },
   "devDependencies": {
