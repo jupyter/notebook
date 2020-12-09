@@ -11,3 +11,4 @@ dependencies:
 - matplotlib
 - numpy
 - nodejs
+- xeus-python
