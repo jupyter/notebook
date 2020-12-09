@@ -15,7 +15,11 @@ import {
   ICommandPalette
 } from '@jupyterlab/apputils';
 
-import { PageConfig } from '@jupyterlab/coreutils';
+import { PageConfig, PathExt } from '@jupyterlab/coreutils';
+
+import { IDocumentManager, renameDialog } from '@jupyterlab/docmanager';
+
+import { DocumentWidget } from '@jupyterlab/docregistry';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
@@ -30,6 +34,16 @@ import {
 import { jupyterIcon } from '@jupyterlab-classic/ui-components';
 
 import { Widget } from '@lumino/widgets';
+
+/**
+ * The default notebook factory.
+ */
+const NOTEBOOK_FACTORY = 'Notebook';
+
+/**
+ * The editor factory.
+ */
+const EDITOR_FACTORY = 'Editor';
 
 /**
  * The command IDs used by the application plugin.
@@ -78,6 +92,55 @@ const logo: JupyterFrontEndPlugin<void> = {
     });
     logo.id = 'jp-ClassicLogo';
     app.shell.add(logo, 'top', { rank: 0 });
+  }
+};
+
+/**
+ * A plugin to open document in the main area.
+ */
+const opener: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-classic/application-extension:opener',
+  autoStart: true,
+  requires: [IRouter, IDocumentManager],
+  activate: (
+    app: JupyterFrontEnd,
+    router: IRouter,
+    docManager: IDocumentManager
+  ): void => {
+    const { commands } = app;
+    const treePattern = new RegExp('/(notebooks|edit)/(.*)');
+
+    const command = 'router:tree';
+    commands.addCommand(command, {
+      execute: (args: any) => {
+        const parsed = args as IRouter.ILocation;
+        const matches = parsed.path.match(treePattern);
+        if (!matches) {
+          return;
+        }
+
+        const [, , file] = matches;
+        if (!file) {
+          return;
+        }
+
+        const ext = PathExt.extname(file);
+        app.restored.then(() => {
+          // TODO: get factory from file type instead?
+          if (ext === '.ipynb') {
+            docManager.open(file, NOTEBOOK_FACTORY, undefined, {
+              ref: '_noref'
+            });
+          } else {
+            docManager.open(file, EDITOR_FACTORY, undefined, {
+              ref: '_noref'
+            });
+          }
+        });
+      }
+    });
+
+    router.register({ command, pattern: treePattern });
   }
 };
 
@@ -221,6 +284,53 @@ const spacer: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to display and rename the title of a file
+ */
+const title: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-classic/application-extension:title',
+  autoStart: true,
+  requires: [IClassicShell],
+  optional: [IDocumentManager, IRouter],
+  activate: (
+    app: JupyterFrontEnd,
+    shell: IClassicShell,
+    docManager: IDocumentManager | null,
+    router: IRouter | null
+  ) => {
+    // TODO: this signal might not be needed if we assume there is always only
+    // one notebook in the main area
+    const widget = new Widget();
+    widget.id = 'jp-title';
+    app.shell.add(widget, 'top', { rank: 10 });
+
+    shell.currentChanged.connect(async () => {
+      const current = shell.currentWidget;
+      if (!(current instanceof DocumentWidget)) {
+        return;
+      }
+      const h = document.createElement('h1');
+      h.textContent = current.title.label;
+      widget.node.appendChild(h);
+      widget.node.style.marginLeft = '10px';
+      if (docManager) {
+        widget.node.onclick = async () => {
+          const result = await renameDialog(docManager, current.context.path);
+          if (result) {
+            h.textContent = result.path;
+            if (router) {
+              // TODO: better handle this
+              router.navigate(`/classic/notebooks/${result.path}`, {
+                skipRouting: true
+              });
+            }
+          }
+        };
+      }
+    });
+  }
+};
+
+/**
  * Plugin to toggle the top header visibility.
  */
 const topVisibility: JupyterFrontEndPlugin<void> = {
@@ -328,12 +438,14 @@ const zen: JupyterFrontEndPlugin<void> = {
 const plugins: JupyterFrontEndPlugin<any>[] = [
   logo,
   noTabsMenu,
+  opener,
   pages,
   paths,
   router,
   sessionDialogs,
   shell,
   spacer,
+  title,
   topVisibility,
   translator,
   zen

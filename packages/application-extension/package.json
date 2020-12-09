@@ -43,6 +43,7 @@
     "@jupyterlab/codeeditor": "^3.0.0-rc.12",
     "@jupyterlab/codemirror": "^3.0.0-rc.12",
     "@jupyterlab/coreutils": "^5.0.0-rc.12",
+    "@jupyterlab/docmanager": "^3.0.0-rc.12",
     "@jupyterlab/docregistry": "^3.0.0-rc.12",
     "@jupyterlab/mainmenu": "^3.0.0-rc.12",
     "@jupyterlab/settingregistry": "^3.0.0-rc.12",
