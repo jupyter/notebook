@@ -1,2 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+
 jlpm && jlpm run build
 python -m pip install -e .
