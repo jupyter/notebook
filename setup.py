@@ -21,6 +21,9 @@ PACKAGE_NAME = NAME.replace("-", "_")
 # Get our version
 version = get_version(os.path.join(PACKAGE_NAME, "_version.py"))
 
+main_bundle_dest = os.path.join(HERE, PACKAGE_NAME, "static")
+main_bundle_source = os.path.join(HERE, "builder")
+
 labext_name = "@jupyterlab-classic/lab-extension"
 lab_extension_dest = os.path.join(HERE, PACKAGE_NAME, "labextension")
 lab_extension_source = os.path.join(HERE, "packages", "lab-extension")
@@ -29,6 +32,7 @@ lab_extension_source = os.path.join(HERE, "packages", "lab-extension")
 jstargets = [
     os.path.join(lab_extension_source, "lib", "index.js"),
     os.path.join(lab_extension_dest, "package.json"),
+    os.path.join(main_bundle_dest, "bundle.js"),
 ]
 
 package_data_spec = {PACKAGE_NAME: ["*"]}
@@ -53,7 +57,9 @@ cmdclass = create_cmdclass(
 )
 
 cmdclass["jsdeps"] = combine_commands(
-    install_npm(lab_extension_source, build_cmd="build", npm=["jlpm"]),
+    install_npm(HERE, build_cmd="install", npm=["jlpm"]),
+    install_npm(HERE, build_cmd="build", npm=["jlpm"]),
+    install_npm(main_bundle_source, build_cmd="build:prod", npm=["jlpm"]),
     ensure_targets(jstargets),
 )
 
