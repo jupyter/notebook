@@ -99,6 +99,8 @@ async function main() {
     ),
     require('@jupyterlab/rendermime-extension'),
     require('@jupyterlab/shortcuts-extension'),
+    // so new terminals can be create from the menu
+    require('@jupyterlab/terminal-extension'),
     require('@jupyterlab/theme-light-extension'),
     require('@jupyterlab/theme-dark-extension')
   ];
@@ -113,7 +115,7 @@ async function main() {
         ].includes(id)
       ),
       require('@jupyterlab/running-extension'),
-      require('@jupyterlab/terminal-extension')
+      require('@jupyterlab-classic/terminal-extension')
     ]);
   } else if (page === 'notebooks') {
     mods = mods.concat([
@@ -139,6 +141,8 @@ async function main() {
         ['@jupyterlab-classic/tree-extension:factory'].includes(id)
       )
     ]);
+  } else if (page === 'terminals') {
+    mods = mods.concat([require('@jupyterlab-classic/terminal-extension')]);
   }
 
   const extension_data = JSON.parse(
