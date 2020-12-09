@@ -54,11 +54,6 @@ namespace CommandIDs {
    * Open the tree page.
    */
   export const openTree = 'application:open-tree';
-
-  /**
-   * Open the runnning page.
-   */
-  export const openRunning = 'application:open-running';
 }
 
 /**
@@ -120,34 +115,21 @@ const pages: JupyterFrontEndPlugin<void> = {
     });
 
     app.commands.addCommand(CommandIDs.openTree, {
-      label: 'Open the File Browser',
+      label: 'Open File Browser',
       execute: () => {
         window.open(`${baseUrl}classic/tree`);
       }
     });
 
-    app.commands.addCommand(CommandIDs.openRunning, {
-      label: 'Open the Running Sessions',
-      execute: () => {
-        window.open(`${baseUrl}classic/running`);
-      }
-    });
-
     if (palette) {
-      [CommandIDs.openLab, CommandIDs.openRunning, CommandIDs.openTree].forEach(
-        command => {
-          palette.addItem({ command, category: 'View' });
-        }
-      );
+      [CommandIDs.openLab, CommandIDs.openTree].forEach(command => {
+        palette.addItem({ command, category: 'View' });
+      });
     }
 
     if (menu) {
       menu.viewMenu.addGroup(
-        [
-          { command: CommandIDs.openLab },
-          { command: CommandIDs.openTree },
-          { command: CommandIDs.openRunning }
-        ],
+        [{ command: CommandIDs.openLab }, { command: CommandIDs.openTree }],
         0
       );
     }
