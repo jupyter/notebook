@@ -61,13 +61,11 @@ import {
   textEditorIcon
 } from '@jupyterlab/ui-components';
 
-import { IIterator, map, reduce, toArray } from '@lumino/algorithm';
+import { map, toArray } from '@lumino/algorithm';
 
 import { CommandRegistry } from '@lumino/commands';
 
-import { Message } from '@lumino/messaging';
-
-import { Menu, TabPanel } from '@lumino/widgets';
+import { TabPanel } from '@lumino/widgets';
 
 /**
  * The command IDs used by the file browser plugin.
@@ -84,9 +82,6 @@ namespace CommandIDs {
   export const download = 'filebrowser:download';
 
   export const duplicate = 'filebrowser:duplicate';
-
-  // For main browser only.
-  export const hideBrowser = 'filebrowser:hide-main';
 
   export const goToPath = 'filebrowser:go-to-path';
 
@@ -112,12 +107,7 @@ namespace CommandIDs {
   // For main browser only.
   export const copyPath = 'filebrowser:copy-path';
 
-  export const showBrowser = 'filebrowser:activate';
-
   export const shutdown = 'filebrowser:shutdown';
-
-  // For main browser only.
-  export const toggleBrowser = 'filebrowser:toggle-main';
 
   export const toggleNavigateToCurrentDirectory =
     'filebrowser:toggle-navigate-to-current-directory';
@@ -386,10 +376,9 @@ function addCommands(
   commands.addCommand(CommandIDs.goToPath, {
     execute: async args => {
       const path = (args.path as string) || '';
-      const showBrowser = !(args?.dontShowBrowser ?? false);
       try {
         const item = await Private.navigateToPath(path, factory, translator);
-        if (item.type !== 'directory' && showBrowser) {
+        if (item.type !== 'directory') {
           const browserForPath = Private.getBrowserForPath(path, factory);
           if (browserForPath) {
             browserForPath.clearSelectedItems();
@@ -402,9 +391,6 @@ function addCommands(
         }
       } catch (reason) {
         console.warn(`${CommandIDs.goToPath} failed to go to: ${path}`, reason);
-      }
-      if (showBrowser) {
-        return commands.execute(CommandIDs.showBrowser, { path });
       }
     }
   });
@@ -655,16 +641,6 @@ function addCommands(
     label: trans.__('Shut Down Kernel')
   });
 
-  commands.addCommand(CommandIDs.toggleBrowser, {
-    execute: () => {
-      if (browser.isHidden) {
-        return commands.execute(CommandIDs.showBrowser, void 0);
-      }
-
-      return commands.execute(CommandIDs.hideBrowser, void 0);
-    }
-  });
-
   commands.addCommand(CommandIDs.toggleNavigateToCurrentDirectory, {
     label: trans.__('Show Active File in File Browser'),
     isToggled: () => browser.navigateToCurrentDirectory,
@@ -720,77 +696,6 @@ function addCommands(
     });
   }
 
-  /**
-   * A menu widget that dynamically populates with different widget factories
-   * based on current filebrowser selection.
-   */
-  class OpenWithMenu extends Menu {
-    protected onBeforeAttach(msg: Message): void {
-      // clear the current menu items
-      this.clearItems();
-
-      // get the widget factories that could be used to open all of the items
-      // in the current filebrowser selection
-      const factories = tracker.currentWidget
-        ? OpenWithMenu._intersection(
-            map(tracker.currentWidget.selectedItems(), i => {
-              return OpenWithMenu._getFactories(i);
-            })
-          )
-        : undefined;
-
-      if (factories) {
-        // make new menu items from the widget factories
-        factories.forEach(factory => {
-          this.addItem({
-            args: { factory: factory },
-            command: CommandIDs.open
-          });
-        });
-      }
-
-      super.onBeforeAttach(msg);
-    }
-
-    static _getFactories(item: Contents.IModel): Array<string> {
-      const factories = registry
-        .preferredWidgetFactories(item.path)
-        .map(f => f.name);
-      const notebookFactory = registry.getWidgetFactory('notebook')?.name;
-      if (
-        notebookFactory &&
-        item.type === 'notebook' &&
-        factories.indexOf(notebookFactory) === -1
-      ) {
-        factories.unshift(notebookFactory);
-      }
-
-      return factories;
-    }
-
-    static _intersection<T>(iter: IIterator<Array<T>>): Set<T> | void {
-      // pop the first element of iter
-      const first = iter.next();
-      // first will be undefined if iter is empty
-      if (!first) {
-        return;
-      }
-
-      // "initialize" the intersection from first
-      const isect = new Set(first);
-      // reduce over the remaining elements of iter
-      return reduce(
-        iter,
-        (isect, subarr) => {
-          // filter out all elements not present in both isect and subarr,
-          // accumulate result in new set
-          return new Set(subarr.filter(x => isect.has(x)));
-        },
-        isect
-      );
-    }
-  }
-
   // matches anywhere on filebrowser
   const selectorContent = '.jp-DirListing-content';
   // matches all filebrowser items
@@ -828,15 +733,6 @@ function addCommands(
     command: CommandIDs.open,
     selector: selectorItem,
     rank: 1
-  });
-
-  const openWith = new OpenWithMenu({ commands });
-  openWith.title.label = trans.__('Open With');
-  app.contextMenu.addItem({
-    type: 'submenu',
-    submenu: openWith,
-    selector: selectorNotDir,
-    rank: 2
   });
 
   app.contextMenu.addItem({
