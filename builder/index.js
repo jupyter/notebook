@@ -72,6 +72,8 @@ async function main() {
     require('@jupyterlab-classic/application-extension'),
     require('@jupyterlab-classic/docmanager-extension'),
     require('@jupyterlab-classic/notebook-extension'),
+    // to handle opening new tabs after creating a new terminal
+    require('@jupyterlab-classic/terminal-extension'),
 
     // @jupyterlab plugins
     require('@jupyterlab/apputils-extension').default.filter(({ id }) =>
@@ -99,6 +101,8 @@ async function main() {
     ),
     require('@jupyterlab/rendermime-extension'),
     require('@jupyterlab/shortcuts-extension'),
+    // so new terminals can be create from the menu
+    require('@jupyterlab/terminal-extension'),
     require('@jupyterlab/theme-light-extension'),
     require('@jupyterlab/theme-dark-extension')
   ];
