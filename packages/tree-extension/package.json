@@ -1,7 +1,7 @@
 {
-  "name": "@jupyterlab-classic/filebrowser-extension",
+  "name": "@jupyterlab-classic/tree-extension",
   "version": "0.1.0",
-  "description": "JupyterLab Classic - File browser Extension",
+  "description": "JupyterLab Classic - Tree Extension",
   "homepage": "https://github.com/jtpio/jupyterlab-classic",
   "bugs": {
     "url": "https://github.com/jtpio/jupyterlab-classic/issues"

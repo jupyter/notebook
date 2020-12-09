@@ -122,7 +122,7 @@ namespace CommandIDs {
  */
 const browser: JupyterFrontEndPlugin<void> = {
   activate: activateBrowser,
-  id: '@jupyterlab-classic/filebrowser-extension:browser',
+  id: '@jupyterlab-classic/tree-extension:browser',
   requires: [
     IFileBrowserFactory,
     IDocumentManager,
@@ -146,7 +146,7 @@ const browser: JupyterFrontEndPlugin<void> = {
  */
 const factory: JupyterFrontEndPlugin<IFileBrowserFactory> = {
   activate: activateFactory,
-  id: '@jupyterlab-classic/filebrowser-extension:factory',
+  id: '@jupyterlab-classic/tree-extension:factory',
   provides: IFileBrowserFactory,
   requires: [IDocumentManager, ITranslator],
   optional: [IStateDB, IRouter, JupyterFrontEnd.ITreeResolver]

@@ -1,6 +1,6 @@
 @import url('~@jupyterlab-classic/application-extension/style/index.css');
-@import url('~@jupyterlab-classic/filebrowser-extension/style/index.css');
 @import url('~@jupyterlab-classic/notebook-extension/style/index.css');
+@import url('~@jupyterlab-classic/tree-extension/style/index.css');
 @import url('~@jupyterlab-classic/ui-components/style/index.css');
 
 /* TODO: check is the the extension package can be used directly */
