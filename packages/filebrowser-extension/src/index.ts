@@ -295,7 +295,7 @@ function activateBrowser(
 
   browser.title.icon = folderIcon;
 
-  const tabPanel = new TabPanel({ tabPlacement: 'top', tabsMovable: false });
+  const tabPanel = new TabPanel({ tabPlacement: 'top', tabsMovable: true });
   tabPanel.addClass('jp-TreePanel');
 
   browser.title.label = 'File Browser';
