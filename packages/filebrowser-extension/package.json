@@ -42,7 +42,6 @@
     "@jupyterlab/coreutils": "^5.0.0-rc.13",
     "@jupyterlab/docmanager": "^3.0.0-rc.13",
     "@jupyterlab/filebrowser": "^3.0.0-rc.13",
-    "@jupyterlab/launcher": "^3.0.0-rc.13",
     "@jupyterlab/mainmenu": "^3.0.0-rc.13",
     "@jupyterlab/services": "^6.0.0-rc.13",
     "@jupyterlab/settingregistry": "^3.0.0-rc.13",

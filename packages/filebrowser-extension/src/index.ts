@@ -6,7 +6,6 @@
 // Distributed under the terms of the Modified BSD License.
 
 import {
-  ILabShell,
   ILayoutRestorer,
   ITreePathUpdater,
   IRouter,
@@ -16,8 +15,6 @@ import {
 
 import {
   Clipboard,
-  MainAreaWidget,
-  ToolbarButton,
   WidgetTracker,
   ICommandPalette,
   InputDialog,
@@ -25,7 +22,7 @@ import {
   DOMUtils
 } from '@jupyterlab/apputils';
 
-import { PageConfig, PathExt } from '@jupyterlab/coreutils';
+import { PathExt } from '@jupyterlab/coreutils';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
@@ -34,8 +31,6 @@ import {
   FileBrowser,
   IFileBrowserFactory
 } from '@jupyterlab/filebrowser';
-
-import { Launcher } from '@jupyterlab/launcher';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
@@ -81,9 +76,6 @@ namespace CommandIDs {
   export const copy = 'filebrowser:copy';
 
   export const copyDownloadLink = 'filebrowser:copy-download-link';
-
-  // For main browser only.
-  export const createLauncher = 'filebrowser:create-main-launcher';
 
   export const cut = 'filebrowser:cut';
 
@@ -148,7 +140,6 @@ const browser: JupyterFrontEndPlugin<void> = {
     ITranslator
   ],
   optional: [
-    ILabShell,
     ICommandPalette,
     IMainMenu,
     ILayoutRestorer,
@@ -168,7 +159,7 @@ const factory: JupyterFrontEndPlugin<IFileBrowserFactory> = {
   id: '@jupyterlab-classic/filebrowser-extension:factory',
   provides: IFileBrowserFactory,
   requires: [IDocumentManager, ITranslator],
-  optional: [ILabShell, IStateDB, IRouter, JupyterFrontEnd.ITreeResolver]
+  optional: [IStateDB, IRouter, JupyterFrontEnd.ITreeResolver]
 };
 
 /**
@@ -189,12 +180,10 @@ async function activateFactory(
   app: JupyterFrontEnd,
   docManager: IDocumentManager,
   translator: ITranslator,
-  labShell: ILabShell | null,
   state: IStateDB | null,
   router: IRouter | null,
   tree: JupyterFrontEnd.ITreeResolver | null
 ): Promise<IFileBrowserFactory> {
-  const trans = translator.load('jupyterlab');
   const { commands } = app;
   const tracker = new WidgetTracker<FileBrowser>({ namespace });
   const createFileBrowser = (
@@ -212,31 +201,6 @@ async function activateFactory(
     });
     const restore = options.restore;
     const widget = new FileBrowser({ id, model, restore, translator });
-
-    // Add a launcher toolbar item.
-    if (labShell) {
-      const launcher = new ToolbarButton({
-        icon: addIcon,
-        onClick: () => {
-          if (
-            labShell.mode === 'multiple-document' &&
-            commands.hasCommand('launcher:create')
-          ) {
-            return Private.createLauncher(commands, widget);
-          } else {
-            const newUrl = PageConfig.getUrl({
-              mode: labShell.mode,
-              workspace: PageConfig.defaultWorkspace,
-              treePath: model.path
-            });
-            window.open(newUrl, '_blank');
-          }
-        },
-        tooltip: trans.__('New Launcher'),
-        actualOnClick: true
-      });
-      widget.toolbar.insertItem(0, 'launch', launcher);
-    }
 
     // Track the newly created file browser.
     void tracker.add(widget);
@@ -263,7 +227,6 @@ function activateBrowser(
   docManager: IDocumentManager,
   settingRegistry: ISettingRegistry,
   translator: ITranslator,
-  labShell: ILabShell | null,
   commandPalette: ICommandPalette | null,
   mainMenu: IMainMenu | null,
   restorer: ILayoutRestorer | null,
@@ -271,7 +234,6 @@ function activateBrowser(
   manager: IRunningSessionManagers | null
 ): void {
   const browser = factory.defaultBrowser;
-  const { commands } = app;
 
   // Let the application restorer track the primary file browser (that is
   // automatically created) for restoration of application state (e.g. setting
@@ -288,7 +250,6 @@ function activateBrowser(
     factory,
     settingRegistry,
     translator,
-    labShell,
     commandPalette,
     mainMenu
   );
@@ -313,34 +274,7 @@ function activateBrowser(
 
   app.shell.add(tabPanel, 'main', { rank: 100 });
 
-  // If the layout is a fresh session without saved data and not in single document
-  // mode, open file browser.
-  if (labShell) {
-    void labShell.restored.then(layout => {
-      if (layout.fresh && labShell.mode !== 'single-document') {
-        void commands.execute(CommandIDs.showBrowser, void 0);
-      }
-    });
-  }
-
   void Promise.all([app.restored, browser.model.restored]).then(() => {
-    function maybeCreate() {
-      // Create a launcher if there are no open items.
-      if (
-        toArray(app.shell.widgets('main')).length === 0 &&
-        commands.hasCommand('launcher:create')
-      ) {
-        void Private.createLauncher(commands, browser);
-      }
-    }
-
-    // When layout is modified, create a launcher if there are no open items.
-    if (labShell) {
-      labShell.layoutModified.connect(() => {
-        maybeCreate();
-      });
-    }
-
     let navigateToCurrentDirectory = false;
     let useFuzzyFilter = true;
 
@@ -364,35 +298,11 @@ function activateBrowser(
         browser.useFuzzyFilter = useFuzzyFilter;
       });
 
-    // Whether to automatically navigate to a document's current directory
-    if (labShell) {
-      labShell.currentChanged.connect(async (_, change) => {
-        if (navigateToCurrentDirectory && change.newValue) {
-          const { newValue } = change;
-          const context = docManager.contextForWidget(newValue);
-          if (context) {
-            const { path } = context;
-            try {
-              await Private.navigateToPath(path, factory, translator);
-              labShell.currentWidget?.activate();
-            } catch (reason) {
-              console.warn(
-                `${CommandIDs.goToPath} failed to open: ${path}`,
-                reason
-              );
-            }
-          }
-        }
-      });
-    }
-
     if (treePathUpdater) {
       browser.model.pathChanged.connect((sender, args) => {
         treePathUpdater(args.newValue);
       });
     }
-
-    maybeCreate();
   });
 }
 
@@ -404,7 +314,6 @@ function addCommands(
   factory: IFileBrowserFactory,
   settingRegistry: ISettingRegistry,
   translator: ITranslator,
-  labShell: ILabShell | null,
   commandPalette: ICommandPalette | null,
   mainMenu: IMainMenu | null
 ): void {
@@ -473,17 +382,6 @@ function addCommands(
     icon: copyIcon.bindprops({ stylesheet: 'menuItem' }),
     label: trans.__('Duplicate')
   });
-
-  if (labShell) {
-    commands.addCommand(CommandIDs.hideBrowser, {
-      execute: () => {
-        const widget = tracker.currentWidget;
-        if (widget && !widget.isHidden) {
-          labShell.collapseLeft();
-        }
-      }
-    });
-  }
 
   commands.addCommand(CommandIDs.goToPath, {
     execute: async args => {
@@ -745,36 +643,6 @@ function addCommands(
     label: trans.__('Copy Path')
   });
 
-  commands.addCommand(CommandIDs.showBrowser, {
-    execute: args => {
-      const path = (args.path as string) || '';
-      const browserForPath = Private.getBrowserForPath(path, factory);
-
-      // Check for browser not found
-      if (!browserForPath) {
-        return;
-      }
-      // Shortcut if we are using the main file browser
-      if (browser === browserForPath) {
-        app.shell.activateById(browser.id);
-        return;
-      } else {
-        const areas: ILabShell.Area[] = ['left', 'right'];
-        for (const area of areas) {
-          const it = app.shell.widgets(area);
-          let widget = it.next();
-          while (widget) {
-            if (widget.contains(browserForPath)) {
-              app.shell.activateById(widget.id);
-              return;
-            }
-            widget = it.next();
-          }
-        }
-      }
-    }
-  });
-
   commands.addCommand(CommandIDs.shutdown, {
     execute: () => {
       const widget = tracker.currentWidget;
@@ -795,11 +663,6 @@ function addCommands(
 
       return commands.execute(CommandIDs.hideBrowser, void 0);
     }
-  });
-
-  commands.addCommand(CommandIDs.createLauncher, {
-    label: trans.__('New Launcher'),
-    execute: () => Private.createLauncher(commands, browser)
   });
 
   commands.addCommand(CommandIDs.toggleNavigateToCurrentDirectory, {
@@ -1046,27 +909,6 @@ function addCommands(
  * A namespace for private module data.
  */
 namespace Private {
-  /**
-   * Create a launcher for a given filebrowser widget.
-   */
-  export function createLauncher(
-    commands: CommandRegistry,
-    browser: FileBrowser
-  ): Promise<MainAreaWidget<Launcher>> {
-    const { model } = browser;
-
-    return commands
-      .execute('launcher:create', { cwd: model.path })
-      .then((launcher: MainAreaWidget<Launcher>) => {
-        model.pathChanged.connect(() => {
-          if (launcher.content) {
-            launcher.content.cwd = model.path;
-          }
-        }, launcher);
-        return launcher;
-      });
-  }
-
   /**
    * Get browser object given file path.
    */
