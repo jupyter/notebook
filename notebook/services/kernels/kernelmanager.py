@@ -310,38 +310,70 @@ class MappingKernelManager(MultiKernelManager):
         await maybe_future(self.pinned_superclass.restart_kernel(self, kernel_id, now=now))
         kernel = self.get_kernel(kernel_id)
         # return a Future that will resolve when the kernel has successfully restarted
-        channel = kernel.connect_shell()
+        shell_channel = kernel.connect_shell()
+        iopub_channel = kernel.connect_iopub()
         future = Future()
+        info_future = Future()
+        iopub_future = Future()
 
         def finish():
             """Common cleanup when restart finishes/fails for any reason."""
-            if not channel.closed():
-                channel.close()
             loop.remove_timeout(timeout)
+            loop.remove_timeout(nudge_handle)
             kernel.remove_restart_callback(on_restart_failed, 'dead')
 
-        def on_reply(msg):
+        def on_shell_reply(msg):
             self.log.debug("Kernel info reply received: %s", kernel_id)
-            finish()
-            if not future.done():
-                future.set_result(msg)
+            shell_channel.close()
+            if not info_future.done():
+                info_future.set_result(msg)
+            if iopub_future.done():
+                finish()
+                future.set_result(info_future.result())
+
+        def on_iopub(msg):
+            self.log.debug("First IOPub received: %s", kernel_id)
+            iopub_channel.close()
+            if not iopub_future.done():
+                iopub_future.set_result(None)
+            if info_future.done():
+                finish()
+                future.set_result(info_future.result())
 
         def on_timeout():
             self.log.warning("Timeout waiting for kernel_info_reply: %s", kernel_id)
             finish()
+            if not shell_channel.closed():
+                shell_channel.close()
+            if not iopub_channel.closed():
+                iopub_channel.close()
             if not future.done():
                 future.set_exception(TimeoutError("Timeout waiting for restart"))
 
         def on_restart_failed():
             self.log.warning("Restarting kernel failed: %s", kernel_id)
             finish()
+            if not shell_channel.closed():
+                shell_channel.close()
+            if not iopub_channel.closed():
+                iopub_channel.close()
             if not future.done():
                 future.set_exception(RuntimeError("Restart failed"))
 
         kernel.add_restart_callback(on_restart_failed, 'dead')
-        kernel.session.send(channel, "kernel_info_request")
-        channel.on_recv(on_reply)
+        iopub_channel.on_recv(on_iopub)
+        shell_channel.on_recv(on_shell_reply)
         loop = IOLoop.current()
+
+        # Nudge the kernel with kernel info requests until we get an IOPub message
+        def nudge():
+            self.log.debug("nudge")
+            if not future.done():
+                self.log.debug("nudging")
+                kernel.session.send(shell_channel, "kernel_info_request")
+                nudge_handle = loop.call_later(1.0, nudge)
+        nudge_handle = loop.call_later(0, nudge)
+
         timeout = loop.add_timeout(loop.time() + self.kernel_info_timeout, on_timeout)
         return future
 
