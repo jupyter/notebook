@@ -73,15 +73,17 @@ class ClassicButton
 const openClassic: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-classic/lab-extension:open-classic',
   autoStart: true,
-  requires: [INotebookTracker],
-  optional: [ICommandPalette, IMainMenu],
+  optional: [INotebookTracker, ICommandPalette, IMainMenu],
   activate: (
     app: JupyterFrontEnd,
     notebookTracker: INotebookTracker,
     palette: ICommandPalette | null,
     menu: IMainMenu | null
   ) => {
-    // TODO: do not activate if already in a IClassicShell
+    // TODO: do not activate if already in a IClassicShell?
+    if (!notebookTracker) {
+      return;
+    }
 
     const { commands, docRegistry, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
