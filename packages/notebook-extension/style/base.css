@@ -63,6 +63,9 @@
   color: var(--jp-ui-font-color0);
   font-family: var(--jp-ui-font-family);
   line-height: calc(1.5 * var(--jp-private-title-panel-height));
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 #jp-title h1:hover {
@@ -77,4 +80,13 @@
   color: var(--jp-ui-font-color0);
   font-family: var(--jp-ui-font-family);
   line-height: calc(1.5 * var(--jp-private-title-panel-height));
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+@media only screen and (max-width: 760px) {
+  .jp-ClassicCheckpoint {
+    display: none;
+  }
 }
