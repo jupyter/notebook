@@ -1,7 +1,7 @@
 # jupyterlab-classic
 
 ![Github Actions Status](https://github.com/jtpio/jupyterlab-classic/workflows/Build/badge.svg)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jtpio/jupyterlab-classic/main?urlpath=classic/tree)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jtpio/jupyterlab-classic/main?urlpath=classic/notebooks/binder/example.ipynb)
 
 The next gen old-school Notebook UI.
 
