@@ -113,7 +113,7 @@ const openClassic: JupyterFrontEndPlugin<void> = {
     }
 
     if (menu) {
-      menu.helpMenu.addGroup([{ command: CommandIDs.openClassic }], 2);
+      menu.viewMenu.addGroup([{ command: CommandIDs.openClassic }], 1);
     }
 
     const classicButton = new ClassicButton(commands);

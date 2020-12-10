@@ -3,6 +3,7 @@
   flex-direction: row;
   align-items: center;
   height: calc(1.5 * var(--jp-private-topbar-height));
+  padding: var(--jp-flat-button-padding);
 }
 
 .jp-AboutClassic-header-text {
