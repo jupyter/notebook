@@ -31,9 +31,9 @@ fs.ensureDirSync(buildDir);
 
 // Copy extra files
 const index = path.resolve(__dirname, 'index.js');
-const cssImports = path.resolve(__dirname, 'style.css');
+const cssImports = path.resolve(__dirname, 'style.js');
 fs.copySync(index, path.resolve(buildDir, 'index.js'));
-fs.copySync(cssImports, path.resolve(buildDir, 'style.css'));
+fs.copySync(cssImports, path.resolve(buildDir, 'style.js'));
 
 const extras = Build.ensureAssets({
   packageNames: names,

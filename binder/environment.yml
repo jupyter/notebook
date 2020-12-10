@@ -12,4 +12,5 @@ dependencies:
 - matplotlib
 - numpy
 - nodejs
+- tornado>=6.1
 - xeus-python
