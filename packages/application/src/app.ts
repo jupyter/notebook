@@ -28,7 +28,7 @@ export class App extends JupyterFrontEnd<IClassicShell> {
   /**
    * The name of the application.
    */
-  readonly name = 'JupyterLab Custom App';
+  readonly name = 'JupyterLab Classic';
 
   /**
    * A namespace/prefix plugins may use to denote their provenance.
@@ -38,7 +38,8 @@ export class App extends JupyterFrontEnd<IClassicShell> {
   /**
    * The version of the application.
    */
-  readonly version = 'unknown';
+
+  readonly version = PageConfig.getOption('appVersion') ?? 'unknown';
 
   /**
    * The JupyterLab application paths dictionary.

@@ -76,7 +76,7 @@ const openClassic: JupyterFrontEndPlugin<void> = {
   optional: [INotebookTracker, ICommandPalette, IMainMenu],
   activate: (
     app: JupyterFrontEnd,
-    notebookTracker: INotebookTracker,
+    notebookTracker: INotebookTracker | null,
     palette: ICommandPalette | null,
     menu: IMainMenu | null
   ) => {
