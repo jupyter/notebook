@@ -71,6 +71,7 @@ async function main() {
     // @jupyterlab-classic plugins
     require('@jupyterlab-classic/application-extension'),
     require('@jupyterlab-classic/docmanager-extension'),
+    require('@jupyterlab-classic/help-extension'),
     require('@jupyterlab-classic/notebook-extension'),
     // to handle opening new tabs after creating a new terminal
     require('@jupyterlab-classic/terminal-extension'),

@@ -1,0 +1,48 @@
+.jp-AboutClassic-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: calc(1.5 * var(--jp-private-topbar-height));
+  padding: var(--jp-flat-button-padding);
+}
+
+.jp-AboutClassic-header-text {
+  margin-left: 16px;
+}
+
+.jp-AboutClassic-body {
+  display: flex;
+  font-size: var(--jp-ui-font-size3);
+  padding: var(--jp-flat-button-padding);
+  color: var(--jp-ui-font-color1);
+  text-align: left;
+  flex-direction: column;
+  min-width: 360px;
+  overflow: hidden;
+}
+
+.jp-AboutClassic-about-body pre {
+  white-space: pre-wrap;
+}
+
+.jp-AboutClassic-about-externalLinks {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-top: 12px;
+  color: var(--jp-warn-color0);
+}
+
+.jp-AboutClassic-shortcuts {
+  padding: 10px;
+}
+
+.jp-AboutClassic-shortcuts pre {
+  padding: 5px;
+  margin: 0 0 10px;
+  background: var(--jp-layout-color2);
+  border: 1px solid var(--jp-border-color0);
+  border-radius: 2px;
+  word-break: break-all;
+}
