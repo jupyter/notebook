@@ -15,7 +15,6 @@ In the meantime, you can try the latest preview on Binder:
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jtpio/jupyterlab-classic/main?urlpath=classic/tree)
 
-
 With `pip`:
 
 ```bash
