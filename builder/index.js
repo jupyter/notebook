@@ -111,12 +111,7 @@ async function main() {
   const page = PageConfig.getOption('classicPage');
   if (page === 'tree') {
     mods = mods.concat([
-      require('@jupyterlab-classic/tree-extension').default.filter(({ id }) =>
-        [
-          '@jupyterlab-classic/tree-extension:browser',
-          '@jupyterlab-classic/tree-extension:factory'
-        ].includes(id)
-      ),
+      require('@jupyterlab-classic/tree-extension'),
       require('@jupyterlab/running-extension')
     ]);
   } else if (page === 'notebooks') {

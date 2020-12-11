@@ -19,7 +19,8 @@ import {
   ICommandPalette,
   InputDialog,
   showErrorMessage,
-  DOMUtils
+  DOMUtils,
+  CommandToolbarButton
 } from '@jupyterlab/apputils';
 
 import { PathExt } from '@jupyterlab/coreutils';
@@ -55,9 +56,11 @@ import {
   folderIcon,
   markdownIcon,
   newFolderIcon,
+  notebookIcon,
   pasteIcon,
   runningIcon,
   stopIcon,
+  terminalIcon,
   textEditorIcon
 } from '@jupyterlab/ui-components';
 
@@ -118,6 +121,58 @@ namespace CommandIDs {
 }
 
 /**
+ * Plugin to add extra buttons to the file browser to create
+ * new notebooks, files and terminals.
+ */
+const buttons: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-classic/tree-extension:buttons',
+  requires: [IFileBrowserFactory],
+  autoStart: true,
+  activate: (app: JupyterFrontEnd, filebrowser: IFileBrowserFactory) => {
+    const { commands } = app;
+    const browser = filebrowser.defaultBrowser;
+
+    // wrapper commands to be able to override the label
+    const newNotebookCommand = 'tree:new-notebook';
+    commands.addCommand(newNotebookCommand, {
+      label: 'New Notebook',
+      icon: notebookIcon,
+      execute: () => {
+        return commands.execute('notebook:create-new');
+      }
+    });
+
+    const newTerminalCommand = 'tree:new-terminal';
+    commands.addCommand(newTerminalCommand, {
+      label: 'New Terminal',
+      icon: terminalIcon,
+      execute: () => {
+        return commands.execute('terminal:create-new');
+      }
+    });
+
+    const newNotebook = new CommandToolbarButton({
+      commands,
+      id: newNotebookCommand
+    });
+
+    const newFile = new CommandToolbarButton({
+      commands,
+      id: CommandIDs.createNewFile
+    });
+
+    const newTerminal = new CommandToolbarButton({
+      commands,
+      id: newTerminalCommand
+    });
+
+    browser.toolbar.insertItem(0, 'new-notebook', newNotebook);
+    browser.toolbar.insertItem(1, 'new-file', newFile);
+    browser.toolbar.insertItem(2, 'new-terminal', newTerminal);
+  }
+};
+
+/**
  * The default file browser extension.
  */
 const browser: JupyterFrontEndPlugin<void> = {
@@ -156,12 +211,6 @@ const factory: JupyterFrontEndPlugin<IFileBrowserFactory> = {
  * The file browser namespace token.
  */
 const namespace = 'filebrowser';
-
-/**
- * Export the plugins as default.
- */
-const plugins: JupyterFrontEndPlugin<any>[] = [factory, browser];
-export default plugins;
 
 /**
  * Activate the file browser factory provider.
@@ -911,3 +960,9 @@ namespace Private {
     router.routed.connect(listener);
   }
 }
+
+/**
+ * Export the plugins as default.
+ */
+const plugins: JupyterFrontEndPlugin<any>[] = [browser, buttons, factory];
+export default plugins;
