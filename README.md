@@ -43,9 +43,53 @@ jupyter labextension list
 
 Should also be available when starting `jupyterlab-classic`.
 
-This package also adds a toolbar button by default, to make it easier to switch to the classic view:
+### Files 📂 and Running Sessions 🏃‍♀️
 
-![open-jupyterlab-classic](https://user-images.githubusercontent.com/591645/101534129-02844580-3997-11eb-962a-5475bcc831bb.gif)
+![tree](https://user-images.githubusercontent.com/591645/101952684-54c4a100-3bf9-11eb-8031-6900f6d3a445.gif)
+
+### Notebook 📒
+
+![notebook](https://user-images.githubusercontent.com/591645/101953039-efbd7b00-3bf9-11eb-9d34-3cb663a5ac43.gif)
+
+### Open in a new Browser Tab by default
+
+![new-browser-tab](https://user-images.githubusercontent.com/591645/101954309-21374600-3bfc-11eb-80fc-447dce4e6ac6.gif)
+
+### Command Palette 🎨
+
+![command-palette](https://user-images.githubusercontent.com/591645/101953322-72ded100-3bfa-11eb-9b13-3a912e4f6844.gif)
+
+### Themes 🌈
+
+Support for existing JupyterLab themes!
+
+![themes](https://user-images.githubusercontent.com/591645/101953333-75d9c180-3bfa-11eb-868f-af54d1ea7091.gif)
+
+### Zen Mode 😌
+
+![compact-zen-mode](https://user-images.githubusercontent.com/591645/101923740-149cf880-3bd0-11eb-9617-e3349a76d034.gif)
+
+### Terminals 🖥️
+
+![terminals](https://user-images.githubusercontent.com/591645/101954217-fc42d300-3bfb-11eb-84c3-fbf84896b829.gif)
+
+### File Editor 🖊️
+
+![image](https://user-images.githubusercontent.com/591645/101953590-e2ed5700-3bfa-11eb-9fee-0b6d964f0949.png)
+
+### Compact View on Mobile Devices 📱
+
+![mobile](https://user-images.githubusercontent.com/591645/101954969-48424780-3bfd-11eb-8ce5-85f3d2d3ae4f.gif)
+
+### Support for federated extensions 🧩
+
+Install new extensions easily!
+
+![federated-extensions](https://user-images.githubusercontent.com/591645/101954127-dd444100-3bfb-11eb-96be-fee87db5171d.gif)
+
+### Switch between JupyterLab and JupyterLab Classic easily ↔️
+
+![jupyterlab-switch](https://user-images.githubusercontent.com/591645/101954746-ec77be80-3bfc-11eb-85ed-7ac0922e365c.gif)
 
 ## Motivation
 
