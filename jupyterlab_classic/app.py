@@ -135,7 +135,7 @@ class ClassicApp(NBClassicConfigShimMixin, LabServerApp):
     name = "classic"
     app_name = "JupyterLab Classic"
     app_version = version
-    extension_url = "/classic"
+    extension_url = "/classic/tree"
     load_other_extensions = True
     app_dir = app_dir
     app_settings_dir = pjoin(app_dir, "settings")
