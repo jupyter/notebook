@@ -9,13 +9,13 @@
 .jp-TreePanel .lm-TabPanel-tabBar {
   border: none;
   overflow: visible;
-  min-height: 28px;
+  min-height: 32px;
 }
 
 .jp-TreePanel .lm-TabBar-tab {
   color: var(--jp-ui-font-color0);
   font-size: var(--jp-ui-font-size1);
-  padding: 5px;
+  padding: 8px;
 }
 
 .jp-TreePanel .lm-TabBar-tabLabel {
