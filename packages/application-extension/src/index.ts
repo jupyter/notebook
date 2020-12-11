@@ -355,6 +355,15 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
     if (menu) {
       menu.viewMenu.addGroup([{ command: CommandIDs.toggleTop }], 2);
     }
+
+    // listen on format change (mobile and desktop) to make the view more compact
+    app.formatChanged.connect(() => {
+      if (app.format === 'desktop') {
+        classicShell.expandTop();
+      } else {
+        classicShell.collapseTop();
+      }
+    });
   },
   autoStart: true
 };

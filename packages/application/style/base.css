@@ -63,3 +63,7 @@ body {
   margin-right: auto;
   max-width: 1200px;
 }
+
+#spacer-widget {
+  min-height: 16px;
+}

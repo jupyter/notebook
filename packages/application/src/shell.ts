@@ -63,16 +63,44 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
     BoxLayout.setStretch(menuWrapper, 0);
     BoxLayout.setStretch(this._main, 1);
 
-    const spacer = new Widget();
-    spacer.node.style.minHeight = '16px';
+    this._spacer = new Widget();
+    this._spacer.id = 'spacer-widget';
 
     rootLayout.spacing = 0;
     rootLayout.addWidget(topWrapper);
     rootLayout.addWidget(menuWrapper);
-    rootLayout.addWidget(spacer);
+    rootLayout.addWidget(this._spacer);
     rootLayout.addWidget(this._main);
 
     this.layout = rootLayout;
+  }
+
+  /**
+   * A signal emitted when the current widget changes.
+   */
+  get currentChanged(): ISignal<ClassicShell, void> {
+    return this._currentChanged;
+  }
+
+  /**
+   * The current widget in the shell's main area.
+   */
+  get currentWidget(): Widget {
+    return this._main.widgets[0];
+  }
+
+  /**
+   * Get the top area wrapper panel
+   */
+  get top(): Widget {
+    return this._topWrapper;
+  }
+
+  /**
+   * Get the menu area wrapper panel
+   */
+  get menu(): Widget {
+    return this._menuWrapper;
   }
 
   activateById(id: string): void {
@@ -114,31 +142,19 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
   }
 
   /**
-   * A signal emitted when the current widget changes.
+   * Collapse the top area and the spacer to make the view more compact.
    */
-  get currentChanged(): ISignal<ClassicShell, void> {
-    return this._currentChanged;
+  collapseTop(): void {
+    this._topWrapper.setHidden(true);
+    this._spacer.setHidden(true);
   }
 
   /**
-   * The current widget in the shell's main area.
+   * Expand the top area to show the header and the spacer.
    */
-  get currentWidget(): Widget {
-    return this._main.widgets[0];
-  }
-
-  /**
-   * Get the top area wrapper panel
-   */
-  get top(): Widget {
-    return this._topWrapper;
-  }
-
-  /**
-   * Get the menu area wrapper panel
-   */
-  get menu(): Widget {
-    return this._menuWrapper;
+  expandTop(): void {
+    this._topWrapper.setHidden(false);
+    this._spacer.setHidden(false);
   }
 
   /**
@@ -160,6 +176,7 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
   private _topHandler: Private.PanelHandler;
   private _menuWrapper: Panel;
   private _menuHandler: Private.PanelHandler;
+  private _spacer: Widget;
   private _main: Panel;
   private _currentChanged = new Signal<this, void>(this);
 }

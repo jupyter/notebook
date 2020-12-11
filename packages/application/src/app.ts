@@ -8,6 +8,8 @@ import {
 
 import { PageConfig } from '@jupyterlab/coreutils';
 
+import { Throttler } from '@lumino/polling';
+
 import { IClassicShell, ClassicShell } from './shell';
 
 /**
@@ -74,6 +76,18 @@ export class App extends JupyterFrontEnd<IClassicShell> {
   }
 
   /**
+   * Handle the DOM events for the application.
+   *
+   * @param event - The DOM event sent to the application.
+   */
+  handleEvent(event: Event): void {
+    super.handleEvent(event);
+    if (event.type === 'resize') {
+      void this._formatter.invoke();
+    }
+  }
+
+  /**
    * Register plugins from a plugin module.
    *
    * @param mod - The plugin module to register.
@@ -106,6 +120,10 @@ export class App extends JupyterFrontEnd<IClassicShell> {
       this.registerPluginModule(mod);
     });
   }
+
+  private _formatter = new Throttler(() => {
+    Private.setFormat(this);
+  }, 250);
 }
 
 /**
@@ -126,5 +144,24 @@ export namespace App {
      * The default export.
      */
     default: JupyterFrontEndPlugin<any> | JupyterFrontEndPlugin<any>[];
+  }
+}
+
+/**
+ * A namespace for module-private functionality.
+ */
+namespace Private {
+  /**
+   * Media query for mobile devices.
+   */
+  const MOBILE_QUERY = 'only screen and (max-width: 760px)';
+
+  /**
+   * Sets the `format` of a Jupyter front-end application.
+   *
+   * @param app The front-end application whose format is set.
+   */
+  export function setFormat(app: App): void {
+    app.format = window.matchMedia(MOBILE_QUERY).matches ? 'mobile' : 'desktop';
   }
 }
