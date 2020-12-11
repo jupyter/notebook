@@ -2,6 +2,7 @@
 // Distributed under the terms of the Modified BSD License.
 
 import {
+  ILabShell,
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
@@ -73,15 +74,17 @@ class ClassicButton
 const openClassic: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-classic/lab-extension:open-classic',
   autoStart: true,
-  optional: [INotebookTracker, ICommandPalette, IMainMenu],
+  optional: [INotebookTracker, ICommandPalette, IMainMenu, ILabShell],
   activate: (
     app: JupyterFrontEnd,
     notebookTracker: INotebookTracker | null,
     palette: ICommandPalette | null,
-    menu: IMainMenu | null
+    menu: IMainMenu | null,
+    labShell: ILabShell | null
   ) => {
     // TODO: do not activate if already in a IClassicShell?
-    if (!notebookTracker) {
+    if (!notebookTracker || !labShell) {
+      // to prevent showing the toolbar button in JupyterLab Classic
       return;
     }
 
