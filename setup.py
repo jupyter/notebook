@@ -96,7 +96,7 @@ setup_args = dict(
         "Framework :: Jupyter",
     ],
     entry_points={
-        "console_scripts": ["jupyterlab-classic = jupyterlab_classic.app:main"]
+        "console_scripts": ["jupyter-classic = jupyterlab_classic.app:main"]
     },
 )
 

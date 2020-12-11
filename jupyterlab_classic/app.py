@@ -1,14 +1,12 @@
 import os
-from os import path
 from os.path import join as pjoin
-from urllib.parse import urlparse
 
 from jupyter_server.base.handlers import JupyterHandler
 from jupyter_server.extension.handler import (
     ExtensionHandlerMixin,
     ExtensionHandlerJinjaMixin,
 )
-from jupyter_server.utils import url_path_join as ujoin
+from jupyter_server.utils import url_path_join as ujoin, url_escape
 from jupyterlab.commands import get_app_dir, get_user_settings_dir, get_workspaces_dir
 from jupyterlab_server import LabServerApp
 from jupyterlab_server.config import get_page_config, recursive_update, LabConfig
@@ -24,7 +22,7 @@ app_dir = get_app_dir()
 version = __version__
 
 
-class ClassicPageConfigMixin:
+class ClassicHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
     def get_page_config(self):
         config = LabConfig()
         app = self.extensionapp
@@ -33,6 +31,7 @@ class ClassicPageConfigMixin:
         page_config = {
             "appVersion": version,
             "baseUrl": self.base_url,
+            "terminalsAvailable": self.settings.get('terminals_available', False),
             "token": self.settings["token"],
             "fullStaticUrl": ujoin(self.base_url, "static", self.name),
             "frontendUrl": ujoin(self.base_url, "classic/"),
@@ -73,69 +72,39 @@ class ClassicPageConfigMixin:
         return page_config
 
 
-class ClassicTreeHandler(ClassicPageConfigMixin, ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
+class ClassicTreeHandler(ClassicHandler):
     @web.authenticated
     def get(self, path=None):
-        page_config = self.get_page_config()
-        page_config['terminalsAvailable'] = self.settings['terminals_available']
-        return self.write(
-            self.render_template(
-                "tree.html",
-                base_url=self.base_url,
-                token=self.settings["token"],
-                page_config=page_config,
-            )
-        )
+        tpl = self.render_template("tree.html", page_config=self.get_page_config())
+        return self.write(tpl)
 
 
-class ClassicTerminalHandler(ClassicPageConfigMixin, ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
+class ClassicTerminalHandler(ClassicHandler):
     @web.authenticated
     def get(self, path=None):
-        page_config = self.get_page_config()
-        page_config['terminalsAvailable'] = self.settings['terminals_available']
-        return self.write(
-            self.render_template(
-                "terminals.html",
-                base_url=self.base_url,
-                token=self.settings["token"],
-                page_config=page_config,
-            )
-        )
+        tpl = self.render_template("terminals.html", page_config=self.get_page_config())
+        return self.write(tpl)
 
 
-class ClassicFileHandler(ClassicPageConfigMixin, ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
+class ClassicFileHandler(ClassicHandler):
     @web.authenticated
     def get(self, path=None):
-        page_config = self.get_page_config()
-        return self.write(
-            self.render_template(
-                "edit.html",
-                base_url=self.base_url,
-                token=self.settings["token"],
-                page_config=page_config,
-            )
-        )
+        tpl = self.render_template("edit.html", page_config=self.get_page_config())
+        return self.write(tpl)
 
 
-class ClassicNotebookHandler(ClassicPageConfigMixin, ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
+class ClassicNotebookHandler(ClassicHandler):
     @web.authenticated
     def get(self, path=None):
-        page_config = self.get_page_config()
-        return self.write(
-            self.render_template(
-                "notebooks.html",
-                base_url=self.base_url,
-                token=self.settings["token"],
-                page_config=page_config,
-            )
-        )
+        tpl = self.render_template("notebooks.html", page_config=self.get_page_config())
+        return self.write(tpl)
 
 
 class ClassicApp(NBClassicConfigShimMixin, LabServerApp):
     name = "classic"
     app_name = "JupyterLab Classic"
     app_version = version
-    extension_url = "/classic"
+    extension_url = "/classic/tree"
     load_other_extensions = True
     app_dir = app_dir
     app_settings_dir = pjoin(app_dir, "settings")
@@ -145,11 +114,11 @@ class ClassicApp(NBClassicConfigShimMixin, LabServerApp):
     workspaces_dir = get_workspaces_dir()
 
     def initialize_handlers(self):
-        super().initialize_handlers()
         self.handlers.append(("/classic/tree(.*)", ClassicTreeHandler))
         self.handlers.append(("/classic/notebooks(.*)", ClassicNotebookHandler))
         self.handlers.append(("/classic/edit(.*)", ClassicFileHandler))
         self.handlers.append(("/classic/terminals/(.*)", ClassicTerminalHandler))
+        super().initialize_handlers()
 
     def initialize_templates(self):
         super().initialize_templates()

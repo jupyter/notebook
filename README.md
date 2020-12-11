@@ -32,7 +32,7 @@ conda install -c conda-forge jupyterlab-classic
 `jupyterlab-classic` can be started as a standalone app with:
 
 ```bash
-python -m jupyterlab_classic
+jupyter classic
 ```
 
 Existing federated JupyterLab extensions listed via:
