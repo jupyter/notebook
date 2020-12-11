@@ -396,18 +396,16 @@ const zen: JupyterFrontEndPlugin<void> = {
   ): void => {
     const { commands } = app;
     const elem = document.documentElement;
-    const topArea = classicShell?.top;
-    const menuArea = classicShell?.menu;
 
     const toggleOn = () => {
-      topArea?.setHidden(true);
-      menuArea?.setHidden(true);
+      classicShell?.collapseTop();
+      classicShell?.menu.setHidden(true);
       zenModeEnabled = true;
     };
 
     const toggleOff = () => {
-      topArea?.setHidden(false);
-      menuArea?.setHidden(false);
+      classicShell?.expandTop();
+      classicShell?.menu.setHidden(false);
       zenModeEnabled = false;
     };
 
