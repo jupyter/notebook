@@ -9,19 +9,15 @@ The next gen old-school Notebook UI.
 
 ## Install
 
-**Note**: `jupyterlab-classic` hasn't been released yet, but will be soon!
+**Pre-releases of `jupyterlab-classic` are now available!**
 
-In the meantime, you can try the latest preview on Binder:
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jtpio/jupyterlab-classic/main?urlpath=classic/tree)
-
-With `pip`:
+`jupyterlab-classic` can be installed with `pip`:
 
 ```bash
-pip install jupyterlab-classic
+pip install jupyterlab-classic --pre
 ```
 
-With `conda`:
+And with `conda` (coming soon):
 
 ```bash
 conda install -c conda-forge jupyterlab-classic
