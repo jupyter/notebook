@@ -14,7 +14,7 @@ import { ITerminalTracker } from '@jupyterlab/terminal';
 import { find } from '@lumino/algorithm';
 
 /**
- * A plugin to terminals in a new tab
+ * A plugin to open terminals in a new tab
  */
 const opener: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-classic/terminal-extension:opener',
@@ -63,7 +63,7 @@ const redirect: JupyterFrontEndPlugin<void> = {
       const name = terminal.content.session.name;
       window.open(`${baseUrl}classic/terminals/${name}`, '_blank');
 
-      // dispose the widget since it is not used
+      // dispose the widget since it is not used on this page
       terminal.dispose();
     });
   }

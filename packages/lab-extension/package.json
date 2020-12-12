@@ -49,6 +49,7 @@
     "@jupyterlab-classic/ui-components": "^0.1.0",
     "@jupyterlab/application": "^3.0.0-rc.13",
     "@jupyterlab/apputils": "^3.0.0-rc.13",
+    "@jupyterlab/coreutils": "^5.0.0-rc.13",
     "@jupyterlab/docregistry": "^3.0.0-rc.13",
     "@jupyterlab/mainmenu": "^3.0.0-rc.13",
     "@jupyterlab/notebook": "^3.0.0-rc.13",

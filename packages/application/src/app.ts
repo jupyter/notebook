@@ -25,6 +25,7 @@ export class App extends JupyterFrontEnd<IClassicShell> {
     super({
       shell: options.shell
     });
+    void this._formatter.invoke();
   }
 
   /**

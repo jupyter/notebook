@@ -12,7 +12,7 @@
 
 .jp-AboutClassic-body {
   display: flex;
-  font-size: var(--jp-ui-font-size3);
+  font-size: var(--jp-ui-font-size2);
   padding: var(--jp-flat-button-padding);
   color: var(--jp-ui-font-color1);
   text-align: left;

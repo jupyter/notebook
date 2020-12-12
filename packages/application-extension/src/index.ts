@@ -96,7 +96,7 @@ const logo: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * A plugin to open document in the main area.
+ * A plugin to open documents in the main area.
  */
 const opener: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-classic/application-extension:opener',
@@ -204,14 +204,14 @@ const pages: JupyterFrontEndPlugin<void> = {
  */
 const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
   id: '@jupyterlab-classic/application-extension:paths',
+  autoStart: true,
+  provides: JupyterFrontEnd.IPaths,
   activate: (app: JupyterFrontEnd): JupyterFrontEnd.IPaths => {
     if (!(app instanceof App)) {
       throw new Error(`${paths.id} must be activated in JupyterLab Classic.`);
     }
     return app.paths;
-  },
-  autoStart: true,
-  provides: JupyterFrontEnd.IPaths
+  }
 };
 
 /**
@@ -219,6 +219,8 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
  */
 const router: JupyterFrontEndPlugin<IRouter> = {
   id: '@jupyterlab-classic/application-extension:router',
+  autoStart: true,
+  provides: IRouter,
   requires: [JupyterFrontEnd.IPaths],
   activate: (app: JupyterFrontEnd, paths: JupyterFrontEnd.IPaths) => {
     const { commands } = app;
@@ -234,16 +236,14 @@ const router: JupyterFrontEndPlugin<IRouter> = {
       });
     });
     return router;
-  },
-  autoStart: true,
-  provides: IRouter
+  }
 };
 
 /**
  * The default session dialogs plugin
  */
 const sessionDialogs: JupyterFrontEndPlugin<ISessionContextDialogs> = {
-  id: '@jupyterlab-classic/application-extension:sessionDialogs',
+  id: '@jupyterlab-classic/application-extension:session-dialogs',
   provides: ISessionContextDialogs,
   autoStart: true,
   activate: () => sessionContextDialogs
@@ -356,14 +356,17 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
       menu.viewMenu.addGroup([{ command: CommandIDs.toggleTop }], 2);
     }
 
-    // listen on format change (mobile and desktop) to make the view more compact
-    app.formatChanged.connect(() => {
+    const onChanged = (): void => {
       if (app.format === 'desktop') {
         classicShell.expandTop();
       } else {
         classicShell.collapseTop();
       }
-    });
+    };
+
+    // listen on format change (mobile and desktop) to make the view more compact
+    app.formatChanged.connect(onChanged);
+    onChanged();
   },
   autoStart: true
 };

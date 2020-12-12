@@ -161,9 +161,6 @@
   "jupyterlab": {
     "name": "JupyterLab Classic",
     "version": "0.1.0",
-    "extensions": {
-      "@jupyterlab-classic/application-extension": ""
-    },
     "buildDir": "./static",
     "outputDir": ".",
     "singletonPackages": [
@@ -212,10 +209,6 @@
       "@lumino/widgets",
       "react",
       "react-dom"
-    ],
-    "linkedPackages": {
-      "@jupyterlab-classic/application": "../packages/application",
-      "@jupyterlab-classic/application-extension": "../packages/application-extension"
-    }
+    ]
   }
 }
