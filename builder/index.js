@@ -1,6 +1,8 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
+// Inspired by: https://github.com/jupyterlab/jupyterlab/blob/master/dev_mode/index.js
+
 import { PageConfig, URLExt } from '@jupyterlab/coreutils';
 
 // Promise.allSettled polyfill, until our supported browsers implement it
@@ -108,6 +110,8 @@ async function main() {
     require('@jupyterlab/theme-dark-extension')
   ];
 
+  // The motivation here is to only load a specific set of plugins dependending on
+  // the current page
   const page = PageConfig.getOption('classicPage');
   if (page === 'tree') {
     mods = mods.concat([
@@ -184,6 +188,7 @@ async function main() {
   });
 
   // Add the federated extensions.
+  // TODO: Add support for disabled extensions
   const federatedExtensions = await Promise.allSettled(
     federatedExtensionPromises
   );
