@@ -75,7 +75,7 @@ Support for existing JupyterLab themes!
 
 ### Compact View on Mobile Devices 📱
 
-![mobile](https://user-images.githubusercontent.com/591645/101954969-48424780-3bfd-11eb-8ce5-85f3d2d3ae4f.gif)
+![mobile](https://user-images.githubusercontent.com/591645/101995448-2793f380-3cca-11eb-8971-067dd068ccbe.gif)
 
 ### Support for federated extensions 🧩
 
