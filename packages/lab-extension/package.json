@@ -1,6 +1,6 @@
 {
   "name": "@jupyterlab-classic/lab-extension",
-  "version": "0.1.0-rc.0",
+  "version": "0.1.0-rc.1",
   "description": "JupyterLab Classic - Lab Extension",
   "homepage": "https://github.com/jtpio/jupyterlab-classic",
   "bugs": {
@@ -46,7 +46,7 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab-classic/ui-components": "^0.1.0-rc.0",
+    "@jupyterlab-classic/ui-components": "^0.1.0-rc.1",
     "@jupyterlab/application": "^3.0.0-rc.13",
     "@jupyterlab/apputils": "^3.0.0-rc.13",
     "@jupyterlab/coreutils": "^5.0.0-rc.13",

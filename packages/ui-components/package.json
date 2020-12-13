@@ -1,6 +1,6 @@
 {
   "name": "@jupyterlab-classic/ui-components",
-  "version": "0.1.0-rc.0",
+  "version": "0.1.0-rc.1",
   "description": "JupyterLab Classic - UI components",
   "homepage": "https://github.com/jtpio/jupyterlab-classic",
   "bugs": {
