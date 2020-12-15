@@ -46,6 +46,11 @@ const NOTEBOOK_FACTORY = 'Notebook';
 const EDITOR_FACTORY = 'Editor';
 
 /**
+ * A regular expression to match path to notebooks and documents
+ */
+const TREE_PATTERN = new RegExp('/(notebooks|edit)/(.*)');
+
+/**
  * The command IDs used by the application plugin.
  */
 namespace CommandIDs {
@@ -108,17 +113,12 @@ const opener: JupyterFrontEndPlugin<void> = {
     docManager: IDocumentManager
   ): void => {
     const { commands } = app;
-    const treePattern = new RegExp('/(notebooks|edit)/(.*)');
 
     const command = 'router:tree';
     commands.addCommand(command, {
       execute: (args: any) => {
         const parsed = args as IRouter.ILocation;
-        const matches = parsed.path.match(treePattern);
-        if (!matches) {
-          return;
-        }
-
+        const matches = parsed.path.match(TREE_PATTERN) ?? [];
         const [, , path] = matches;
         if (!path) {
           return;
@@ -141,7 +141,7 @@ const opener: JupyterFrontEndPlugin<void> = {
       }
     });
 
-    router.register({ command, pattern: treePattern });
+    router.register({ command, pattern: TREE_PATTERN });
   }
 };
 
@@ -313,22 +313,29 @@ const title: JupyterFrontEndPlugin<void> = {
       h.textContent = current.title.label;
       widget.node.appendChild(h);
       widget.node.style.marginLeft = '10px';
-      if (docManager) {
-        widget.node.onclick = async () => {
-          const result = await renameDialog(docManager, current.context.path);
-          if (result) {
-            const basename = PathExt.basename(result.path);
-            h.textContent = basename;
-            if (router) {
-              // TODO: better handle this
-              const encoded = encodeURIComponent(result.path);
-              router.navigate(`/classic/notebooks/${encoded}`, {
-                skipRouting: true
-              });
-            }
-          }
-        };
+      if (!docManager) {
+        return;
       }
+      widget.node.onclick = async () => {
+        const result = await renameDialog(docManager, current.context.path);
+        if (result) {
+          const basename = PathExt.basename(result.path);
+          h.textContent = basename;
+          if (!router) {
+            return;
+          }
+          const current = router.current;
+          const matches = current.path.match(TREE_PATTERN) ?? [];
+          const [, route, path] = matches;
+          if (!route || !path) {
+            return;
+          }
+          const encoded = encodeURIComponent(result.path);
+          router.navigate(`/classic/${route}/${encoded}`, {
+            skipRouting: true
+          });
+        }
+      };
     });
   }
 };
