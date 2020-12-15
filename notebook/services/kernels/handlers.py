@@ -312,7 +312,6 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             yield stale_handler.close()
         self._open_sessions[self.session_key] = self
 
-    @gen.coroutine
     def open(self, kernel_id):
         super().open()
         km = self.kernel_manager
