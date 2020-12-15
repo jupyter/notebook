@@ -317,7 +317,8 @@ const title: JupyterFrontEndPlugin<void> = {
         widget.node.onclick = async () => {
           const result = await renameDialog(docManager, current.context.path);
           if (result) {
-            h.textContent = result.path;
+            const basename = PathExt.basename(result.path);
+            h.textContent = basename;
             if (router) {
               // TODO: better handle this
               const encoded = encodeURIComponent(result.path);
