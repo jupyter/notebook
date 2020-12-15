@@ -119,11 +119,12 @@ const opener: JupyterFrontEndPlugin<void> = {
           return;
         }
 
-        const [, , file] = matches;
-        if (!file) {
+        const [, , path] = matches;
+        if (!path) {
           return;
         }
 
+        const file = decodeURIComponent(path);
         const ext = PathExt.extname(file);
         app.restored.then(() => {
           // TODO: get factory from file type instead?
@@ -319,7 +320,8 @@ const title: JupyterFrontEndPlugin<void> = {
             h.textContent = result.path;
             if (router) {
               // TODO: better handle this
-              router.navigate(`/classic/notebooks/${result.path}`, {
+              const encoded = encodeURIComponent(result.path);
+              router.navigate(`/classic/notebooks/${encoded}`, {
                 skipRouting: true
               });
             }
