@@ -183,7 +183,7 @@ class FileManagerMixin(Configurable):
     Classes using this mixin must provide the following attributes:
 
     root_dir : unicode
-        A directory against against which API-style paths are to be resolved.
+        A directory against which API-style paths are to be resolved.
 
     log : logging.Logger
     """
