@@ -176,13 +176,15 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         loop = IOLoop.current()
 
         # Nudge the kernel with kernel info requests until we get an IOPub message
-        def nudge():
-            self.log.debug("Nudge")
+        def nudge(count):
+            count += 1
             if not future.done():
-                self.log.debug("nudging")
+                self.log.debug("Nudging attempt %s or kernel %s" % (count, self.kernel_id))
                 self.session.send(shell_channel, "kernel_info_request")
-                nudge_handle = loop.call_later(0.5, nudge)
-        nudge_handle = loop.call_later(0, nudge)
+                nudge_handle = loop.call_later(0.5, nudge, count)
+
+        nudge_count = 0
+        nudge_handle = loop.call_later(0, nudge, nudge_count)
 
         timeout = loop.add_timeout(loop.time() + self.kernel_info_timeout, on_timeout)
         return future
