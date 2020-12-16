@@ -87,6 +87,10 @@ Install new extensions easily!
 
 ![jupyterlab-switch](https://user-images.githubusercontent.com/591645/101954746-ec77be80-3bfc-11eb-85ed-7ac0922e365c.gif)
 
+## Contributing
+
+If you would like to contribute to the project and set up a development environment, check out [CONTRIBUTING.md](./CONTRIBUTING.md).
+
 ## Motivation
 
 JupyterLab is the next-gen UI for Project Jupyter. Approaching version 3.0, it is becoming more mature and provides an advanced computational environment, that can sometimes be compared to what traditional IDEs offer.
