@@ -5,7 +5,7 @@ import { JupyterFrontEnd } from '@jupyterlab/application';
 
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
-import { ArrayExt, IIterator, iter } from '@lumino/algorithm';
+import { ArrayExt, find, IIterator, iter } from '@lumino/algorithm';
 
 import { Token } from '@lumino/coreutils';
 
@@ -103,8 +103,14 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
     return this._menuWrapper;
   }
 
+  /**
+   * Activate a widget in its area.
+   */
   activateById(id: string): void {
-    // no-op
+    const widget = find(this.widgets('main'), w => w.id === id);
+    if (widget) {
+      widget.activate();
+    }
   }
 
   /**

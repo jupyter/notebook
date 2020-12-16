@@ -298,12 +298,12 @@ const title: JupyterFrontEndPlugin<void> = {
     docManager: IDocumentManager | null,
     router: IRouter | null
   ) => {
-    // TODO: this signal might not be needed if we assume there is always only
-    // one notebook in the main area
     const widget = new Widget();
     widget.id = 'jp-title';
     app.shell.add(widget, 'top', { rank: 10 });
 
+    // TODO: this signal might not be needed if we assume there is always only
+    // one notebook in the main area
     shell.currentChanged.connect(async () => {
       const current = shell.currentWidget;
       if (!(current instanceof DocumentWidget)) {
@@ -318,23 +318,30 @@ const title: JupyterFrontEndPlugin<void> = {
       }
       widget.node.onclick = async () => {
         const result = await renameDialog(docManager, current.context.path);
-        if (result) {
-          const basename = PathExt.basename(result.path);
-          h.textContent = basename;
-          if (!router) {
-            return;
-          }
-          const current = router.current;
-          const matches = current.path.match(TREE_PATTERN) ?? [];
-          const [, route, path] = matches;
-          if (!route || !path) {
-            return;
-          }
-          const encoded = encodeURIComponent(result.path);
-          router.navigate(`/classic/${route}/${encoded}`, {
-            skipRouting: true
-          });
+
+        // activate the current widget to bring the focus
+        if (current) {
+          current.activate();
         }
+
+        if (!result) {
+          return;
+        }
+
+        const basename = PathExt.basename(result.path);
+        h.textContent = basename;
+        if (!router) {
+          return;
+        }
+        const matches = router.current.path.match(TREE_PATTERN) ?? [];
+        const [, route, path] = matches;
+        if (!route || !path) {
+          return;
+        }
+        const encoded = encodeURIComponent(result.path);
+        router.navigate(`/classic/${route}/${encoded}`, {
+          skipRouting: true
+        });
       };
     });
   }
