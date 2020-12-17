@@ -129,7 +129,12 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             stream.channel = channel
     
     def nudge(self): 
-        shell_channel = self.channels['shell']
+        # Use a transient shell channel to prevent leaking
+        # shell responses to the front-end.
+        kernel = self.kernel_manager.get_kernel(self.kernel_id)
+        shell_channel = kernel.connect_shell()
+
+        # The IOPub used by the client.
         iopub_channel = self.channels['iopub']
         
         future = Future()
@@ -141,18 +146,20 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             loop.remove_timeout(timeout)
             loop.remove_timeout(nudge_handle)
             iopub_channel.stop_on_recv()
-            shell_channel.stop_on_recv()
+            if not shell_channel.closed():
+                shell_channel.close()
 
         def on_shell_reply(msg):
             if not info_future.done():
                 self.log.debug("Nudge: shell info reply received: %s", self.kernel_id)
-                shell_channel.stop_on_recv()
+                if not shell_channel.closed():
+                    shell_channel.close()
                 self.log.debug("Nudge: resolving shell future")
-                info_future.set_result(msg)
+                info_future.set_result(None)
                 if iopub_future.done():
                     finish()
                     self.log.debug("Nudge: resolving main future in shell handler")
-                    future.set_result(info_future.result())
+                    future.set_result(None)
 
         def on_iopub(msg):
             if not iopub_future.done():
@@ -163,7 +170,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                 if info_future.done():
                     finish()
                     self.log.debug("Nudge: resolving main future in iopub handler")
-                    future.set_result(info_future.result())
+                    future.set_result(None)
 
         def on_timeout():
             self.log.warning("Nudge: Timeout waiting for kernel_info_reply: %s", self.kernel_id)
@@ -177,16 +184,18 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
 
         # Nudge the kernel with kernel info requests until we get an IOPub message
         def nudge(count):
-            count += 1
-            nonlocal nudge_handle
+            # Do not nudge busy kernels as kernel info requests sent to shell are
+            # queued behind execution requests.
+            if kernel.execution_state == 'busy':
+                future.set_result(None)
             if not future.done():
                 log = self.log.warning if count % 10 == 0 else self.log.debug
                 log("Nudging attempt %s on kernel %s" % (count, self.kernel_id))
                 self.session.send(shell_channel, "kernel_info_request")
+                nonlocal nudge_handle
                 nudge_handle = loop.call_later(0.5, nudge, count)
 
         nudge_handle = loop.call_later(0, nudge, count=0)
-
         timeout = loop.add_timeout(loop.time() + self.kernel_info_timeout, on_timeout)
         return future
 
