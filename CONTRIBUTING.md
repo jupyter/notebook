@@ -40,7 +40,7 @@ Config dir: /home/username/.jupyter
 Config dir: /home/username/miniforge3/envs/jupyterlab-classic/etc/jupyter
     jupyterlab enabled
     - Validating jupyterlab...
-      jupyterlab 3.0.0rc13 OK
+      jupyterlab 3.0.0rc14 OK
     jupyterlab_classic enabled
     - Validating jupyterlab_classic...
       jupyterlab_classic 0.1.0rc1 OK
