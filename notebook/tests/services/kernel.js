@@ -242,8 +242,9 @@ casper.notebook_test(function () {
             'kernel_disconnected.Kernel',
             'kernel_reconnecting.Kernel',
             'kernel_connected.Kernel',
-            'kernel_busy.Kernel',
-            'kernel_idle.Kernel'
+            // note: there will be a 'busy' in here, too,
+            // but we can't guarantee which will come first
+            'kernel_idle.Kernel',
         ],
         function () {
             this.thenEvaluate(function () {
@@ -262,8 +263,7 @@ casper.notebook_test(function () {
             'kernel_connection_failed.Kernel',
             'kernel_reconnecting.Kernel',
             'kernel_connected.Kernel',
-            'kernel_busy.Kernel',
-            'kernel_idle.Kernel'
+            'kernel_idle.Kernel',
         ],
         function () {
             this.thenEvaluate(function () {
