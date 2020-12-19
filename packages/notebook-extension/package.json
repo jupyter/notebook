@@ -40,10 +40,10 @@
   },
   "dependencies": {
     "@jupyterlab-classic/application": "^0.1.0-rc.1",
-    "@jupyterlab/application": "^3.0.0-rc.14",
-    "@jupyterlab/apputils": "^3.0.0-rc.14",
-    "@jupyterlab/docmanager": "^3.0.0-rc.14",
-    "@jupyterlab/notebook": "^3.0.0-rc.14",
+    "@jupyterlab/application": "^3.0.0-rc.15",
+    "@jupyterlab/apputils": "^3.0.0-rc.15",
+    "@jupyterlab/docmanager": "^3.0.0-rc.15",
+    "@jupyterlab/notebook": "^3.0.0-rc.15",
     "@lumino/widgets": "^1.14.0"
   },
   "devDependencies": {

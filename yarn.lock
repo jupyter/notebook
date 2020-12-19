@@ -1157,21 +1157,21 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@jupyterlab/application@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/application/-/application-3.0.0-rc.14.tgz#34c088f4849f86fb1fd4e019239e4aaa7b6170fa"
-  integrity sha512-d0+fz2JUZcQPhOBtTbrMFMDDcMcFUvtCRyne10HMUmsvFgA3SMThxtmm6scWAJKXLcuhjRBoougFPWgfxO32vw==
+"@jupyterlab/application@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/application/-/application-3.0.0-rc.15.tgz#61e311b534431f0fb1a66c01134d28ee11dd5527"
+  integrity sha512-kZKesWHlZQedeUZ0G1Yt3ghuTWWBUOShq5LgPRdkGQUvjzLlsftBkvJc6m9yGtbmkIuWdHISrEitl2I384MB0w==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.12.0"
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/docregistry" "^3.0.0-rc.14"
-    "@jupyterlab/rendermime" "^3.0.0-rc.14"
-    "@jupyterlab/rendermime-interfaces" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/statedb" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/docregistry" "^3.0.0-rc.15"
+    "@jupyterlab/rendermime" "^3.0.0-rc.15"
+    "@jupyterlab/rendermime-interfaces" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/statedb" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/application" "^1.13.1"
     "@lumino/commands" "^1.12.0"
@@ -1183,22 +1183,22 @@
     "@lumino/signaling" "^1.4.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/apputils-extension@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/apputils-extension/-/apputils-extension-3.0.0-rc.14.tgz#7a7a25c97f9a8483ca3ec3152d4a080fdbfd255e"
-  integrity sha512-cYieUVgrSywn3UPZl1kawnpNO1YfFMAagx/GfPXAV2GE6fy5JYHeuf1D/pOtCrJwzK6Iz6eyAbHnBXrBx7P3xA==
+"@jupyterlab/apputils-extension@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/apputils-extension/-/apputils-extension-3.0.0-rc.15.tgz#3c34cada27d4b0a6f5eee5ca026b534e9b97e2c0"
+  integrity sha512-8nVz+bp+zoe9wgtPjTigBR1MIOUIxyBVARhm/MR0i7CFpKDhGF+a0fIbaE3JUoJTD1jS7/ySwKwQSweq6u7OHw==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/docregistry" "^3.0.0-rc.14"
-    "@jupyterlab/filebrowser" "^3.0.0-rc.14"
-    "@jupyterlab/mainmenu" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/settingregistry" "^3.0.0-rc.14"
-    "@jupyterlab/statedb" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/docregistry" "^3.0.0-rc.15"
+    "@jupyterlab/filebrowser" "^3.0.0-rc.15"
+    "@jupyterlab/mainmenu" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/settingregistry" "^3.0.0-rc.15"
+    "@jupyterlab/statedb" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/commands" "^1.12.0"
     "@lumino/coreutils" "^1.5.3"
@@ -1207,17 +1207,17 @@
     "@lumino/widgets" "^1.16.1"
     es6-promise "~4.2.8"
 
-"@jupyterlab/apputils@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/apputils/-/apputils-3.0.0-rc.14.tgz#d6ae0f0a29df405bbb5f7842ffb27a60bb8431ed"
-  integrity sha512-uzMY4m23vLWsYUxpNLAN7EkW27AKJ1bw4SZVFjoN7Rjz8cq2XfIYZxyD64qc5CZmQRIb08EluhOTTA9tM40krg==
+"@jupyterlab/apputils@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/apputils/-/apputils-3.0.0-rc.15.tgz#71290bca1ea076cf8d2eee7333edd3dbb66f8b4e"
+  integrity sha512-6Wd6O/DkbWH9mMB5On5mWAEnu70bsuG11eLenM8RXvz0ZYnmlNZFiblwJXtsNQcBjIhXOPd+8Sttr9XVJjyYQA==
   dependencies:
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/settingregistry" "^3.0.0-rc.14"
-    "@jupyterlab/statedb" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/settingregistry" "^3.0.0-rc.15"
+    "@jupyterlab/statedb" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/commands" "^1.12.0"
     "@lumino/coreutils" "^1.5.3"
@@ -1235,24 +1235,24 @@
     sanitize-html "~1.27.4"
     url "^0.11.0"
 
-"@jupyterlab/attachments@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/attachments/-/attachments-3.0.0-rc.14.tgz#afa242fc6b6ee6dbabadfa00163e0dd6de0426c5"
-  integrity sha512-8pKB3Ff27wd1LwuWVTxxbVneuNC3gPfVZMRdHgfbmCbriLaEY42XDRY0+iE0VGryuWXG7z/nBT3z8z6RZdtPqA==
+"@jupyterlab/attachments@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/attachments/-/attachments-3.0.0-rc.15.tgz#919a786bf909c809c018dee74771e8642c446ce7"
+  integrity sha512-RmHfug2JjD9Xdvq2K4Fzr4mad1HGsXb/wJt4cdu2LhEOXYtp9PSjPAU+ZOCOMj/rU5o3J4kj7xWuQ3B0g7scAA==
   dependencies:
-    "@jupyterlab/nbformat" "^3.0.0-rc.14"
-    "@jupyterlab/observables" "^4.0.0-rc.14"
-    "@jupyterlab/rendermime" "^3.0.0-rc.14"
-    "@jupyterlab/rendermime-interfaces" "^3.0.0-rc.14"
+    "@jupyterlab/nbformat" "^3.0.0-rc.15"
+    "@jupyterlab/observables" "^4.0.0-rc.15"
+    "@jupyterlab/rendermime" "^3.0.0-rc.15"
+    "@jupyterlab/rendermime-interfaces" "^3.0.0-rc.15"
     "@lumino/disposable" "^1.4.3"
     "@lumino/signaling" "^1.4.3"
 
-"@jupyterlab/builder@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/builder/-/builder-3.0.0-rc.14.tgz#615612547113097ad3cd521e356ea171ba772f1d"
-  integrity sha512-oBXBI/vIZfkgi9w1Vy8AiFggcs8LqnmOOCpEEwd2YpWyFApsxfqme9xwaB5udmuRRkv4i6XbTFT50Hjnv5Y0sA==
+"@jupyterlab/builder@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/builder/-/builder-3.0.0-rc.15.tgz#9f9382ae11d15cf5cf3fd0b74ec83a83f7a44b95"
+  integrity sha512-LypAVcaxyAg+B33t/1Y6NAXDdLf/liPCy1Q4vgY7nHbtEdth/N0SPGwgohEWKSWDDOogSxzAjpH3nl/swJsrvw==
   dependencies:
-    "@jupyterlab/buildutils" "^3.0.0-rc.14"
+    "@jupyterlab/buildutils" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/application" "^1.13.1"
     "@lumino/commands" "^1.12.0"
@@ -1286,10 +1286,10 @@
     webpack-merge "^5.1.2"
     worker-loader "^3.0.2"
 
-"@jupyterlab/buildutils@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/buildutils/-/buildutils-3.0.0-rc.14.tgz#a3a4b792acdc32265a317ddb38745a9e01838de3"
-  integrity sha512-xwg4WIMDtse1ZY3dl6x5OZ9oVEPt2g7iGeV2HwvABHvCio87Wmkm0ruU5ML9efLW1s2LzXYkUBvGjhSbuU04xA==
+"@jupyterlab/buildutils@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/buildutils/-/buildutils-3.0.0-rc.15.tgz#ce341a5692d344dff521d0b9b6824a4a0e7eb96e"
+  integrity sha512-ND1Yrk5EBUfl+sOdGRRdpn9RHtyVEzTKq/uZUi0N9M8D6sMNmFe6QShl9kYDM6SK7qWioObERqNzrqOeLFJxlA==
   dependencies:
     "@lumino/coreutils" "^1.5.3"
     "@yarnpkg/lockfile" "^1.1.0"
@@ -1306,23 +1306,23 @@
     sort-package-json "~1.44.0"
     typescript "~4.1.3"
 
-"@jupyterlab/cells@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/cells/-/cells-3.0.0-rc.14.tgz#29943e08b9962652e1a3b0bbe7058e11efb55f11"
-  integrity sha512-HRtL1g5/RaP7Dxy7X3LgvWHcRDA3emLcpBJEtzjGCH4qd4vwogqEWOgz154Yn8X5gs7+Xu1Yi+3d7c7JxOa52A==
+"@jupyterlab/cells@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/cells/-/cells-3.0.0-rc.15.tgz#caa5e9cb5e6e0116d1f3ab0c8c0cf940114ebe08"
+  integrity sha512-+T10F/2s6PZGQoeDMbwpb2lzQP90VP72jAabykgcKPLryLvIrdSIQyeKxOgqbfc17jV6Saorofn3RFkIAXSsIw==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/attachments" "^3.0.0-rc.14"
-    "@jupyterlab/codeeditor" "^3.0.0-rc.14"
-    "@jupyterlab/codemirror" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/filebrowser" "^3.0.0-rc.14"
-    "@jupyterlab/nbformat" "^3.0.0-rc.14"
-    "@jupyterlab/observables" "^4.0.0-rc.14"
-    "@jupyterlab/outputarea" "^3.0.0-rc.14"
-    "@jupyterlab/rendermime" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/attachments" "^3.0.0-rc.15"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.15"
+    "@jupyterlab/codemirror" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/filebrowser" "^3.0.0-rc.15"
+    "@jupyterlab/nbformat" "^3.0.0-rc.15"
+    "@jupyterlab/observables" "^4.0.0-rc.15"
+    "@jupyterlab/outputarea" "^3.0.0-rc.15"
+    "@jupyterlab/rendermime" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/dragdrop" "^1.7.1"
@@ -1332,16 +1332,16 @@
     "@lumino/widgets" "^1.16.1"
     react "^17.0.1"
 
-"@jupyterlab/codeeditor@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/codeeditor/-/codeeditor-3.0.0-rc.14.tgz#91e530dd12cf829c400f90ee5b7b7649440f2d95"
-  integrity sha512-vEl6OFjQaAQE6F6Iy1UOyCfckqqVR/frWftSsUSJUHsFsidKJhuZqDqYnWM/4sovjd6YWD8f8u/8yxA/ihyBjA==
+"@jupyterlab/codeeditor@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/codeeditor/-/codeeditor-3.0.0-rc.15.tgz#561ddf4d82c161131e5c38de6b72d010bd3a2014"
+  integrity sha512-XA+X4wxeq68V6fO0tDHRwxP8PuuAQeg7gIUErtRyUNdL062e4U2UfgBhVtY770L/LXAaA9ZZ7b3BWKiyOLtmnw==
   dependencies:
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/nbformat" "^3.0.0-rc.14"
-    "@jupyterlab/observables" "^4.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/nbformat" "^3.0.0-rc.15"
+    "@jupyterlab/observables" "^4.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
     "@lumino/dragdrop" "^1.7.1"
@@ -1349,35 +1349,35 @@
     "@lumino/signaling" "^1.4.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/codemirror-extension@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/codemirror-extension/-/codemirror-extension-3.0.0-rc.14.tgz#b3ff8b52fbbde212c2d0c50b81aa28635594749e"
-  integrity sha512-h8RxSuQsMeBGL0M1mRK+L5bvz9vhzCiPKOZ919M2LAW5Hz5GoNCDs2spChwmztdf7jLmKghisNbdNPRkQJjJGQ==
+"@jupyterlab/codemirror-extension@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/codemirror-extension/-/codemirror-extension-3.0.0-rc.15.tgz#87ce6de3bf55dca44b2c68f5ba2c0f8e9b5533bf"
+  integrity sha512-3CMday2mu9IqinFobgRKCPTBYMRRe1MHpmmy0cPu+QM3XkHhrxk1oFbe8HqUiXhaPo7gQbYE7Ti7PTxDls8iNQ==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/codeeditor" "^3.0.0-rc.14"
-    "@jupyterlab/codemirror" "^3.0.0-rc.14"
-    "@jupyterlab/docregistry" "^3.0.0-rc.14"
-    "@jupyterlab/fileeditor" "^3.0.0-rc.14"
-    "@jupyterlab/mainmenu" "^3.0.0-rc.14"
-    "@jupyterlab/settingregistry" "^3.0.0-rc.14"
-    "@jupyterlab/statusbar" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.15"
+    "@jupyterlab/codemirror" "^3.0.0-rc.15"
+    "@jupyterlab/docregistry" "^3.0.0-rc.15"
+    "@jupyterlab/fileeditor" "^3.0.0-rc.15"
+    "@jupyterlab/mainmenu" "^3.0.0-rc.15"
+    "@jupyterlab/settingregistry" "^3.0.0-rc.15"
+    "@jupyterlab/statusbar" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
     "@lumino/widgets" "^1.16.1"
     codemirror "~5.57.0"
 
-"@jupyterlab/codemirror@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/codemirror/-/codemirror-3.0.0-rc.14.tgz#fced260120c18fe90a39fa0b6f0b1e9f7a36ff3d"
-  integrity sha512-kHHN9HuaF9ipE4p69/LXiSlCVYj0lXEZtKD5uDWhSiNDDgKy3WJKkLUgW09muloVyF8nwiT/PQtVWqQd7d0RHA==
+"@jupyterlab/codemirror@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/codemirror/-/codemirror-3.0.0-rc.15.tgz#a32ceab199e1510b9fe1483d6adf73398eed06e4"
+  integrity sha512-KkWT0PHuuSq7EDptRiyzHQXz115HUoJ2QsRKtOvQACuMcIQfloUXtqS2iTYBDcAtcnpJux0+yDXufuAIH1Ue7g==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/codeeditor" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/nbformat" "^3.0.0-rc.14"
-    "@jupyterlab/observables" "^4.0.0-rc.14"
-    "@jupyterlab/statusbar" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/nbformat" "^3.0.0-rc.15"
+    "@jupyterlab/observables" "^4.0.0-rc.15"
+    "@jupyterlab/statusbar" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/commands" "^1.12.0"
     "@lumino/coreutils" "^1.5.3"
@@ -1388,31 +1388,31 @@
     codemirror "~5.57.0"
     react "^17.0.1"
 
-"@jupyterlab/completer-extension@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/completer-extension/-/completer-extension-3.0.0-rc.14.tgz#8fa6051ccf8fa7ae349ae5c51acde362a47faed9"
-  integrity sha512-wY5W+1T2kQXI8Yuf8Ff2azai5/xHERniImK9RCrbPX04sMH7zTaE3eoenBX8YSgRn5uz8JBHdUl5yhENcoPUTw==
+"@jupyterlab/completer-extension@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/completer-extension/-/completer-extension-3.0.0-rc.15.tgz#8058a5006712d7ff03e52b3610afa2579d1b3aaa"
+  integrity sha512-H2+ikb1MEoywcnNReJ0nDHX7s/UTrHMLrM9chi9kCdmKb1vbIuiE8ibxzd/zRahdaOtq/z+y4w1vufCsSqZEAQ==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/completer" "^3.0.0-rc.14"
-    "@jupyterlab/console" "^3.0.0-rc.14"
-    "@jupyterlab/fileeditor" "^3.0.0-rc.14"
-    "@jupyterlab/notebook" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/completer" "^3.0.0-rc.15"
+    "@jupyterlab/console" "^3.0.0-rc.15"
+    "@jupyterlab/fileeditor" "^3.0.0-rc.15"
+    "@jupyterlab/notebook" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/completer@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/completer/-/completer-3.0.0-rc.14.tgz#846711cd0c4bc2ed3a40382a93a3fab9912f66e4"
-  integrity sha512-nQJCszE9Mwj0bMitppU77GBduVlFpfe8tFpJeuZuZJYk2/Gb21Kktx2aj2NOSFFRP2M7Ut4IUbjLRla1ed7nXA==
+"@jupyterlab/completer@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/completer/-/completer-3.0.0-rc.15.tgz#9438705c8205c0a27acb43f49debcd537d656611"
+  integrity sha512-5RM6mk0/uOF4vihJgJptS4cZ2jm3sApv6qoIVf5xPcXZYDUqkp0K07GtjkRDR7TZBtrDbIR2dkOd9LvL68p+Iw==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/codeeditor" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/statedb" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/statedb" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
@@ -1421,21 +1421,21 @@
     "@lumino/signaling" "^1.4.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/console@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/console/-/console-3.0.0-rc.14.tgz#42dd5c6ccbe9bf6b056d2922b4c9049ee751e513"
-  integrity sha512-v2sJP28itOFi8A85ZZYBKHXaZ5L3a9EdPaY2bze3GRhxTZKKxptq46eSpXd+0BV5/3KJW6qXNxG5j7bg7WciLQ==
+"@jupyterlab/console@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/console/-/console-3.0.0-rc.15.tgz#56eb5004c926cb4c65aa9e90c29e1f6b13869a5a"
+  integrity sha512-/4c/6+DRH0zCJlepX2Q2PRRJD7D6VhS69pZqRqi3PsuYWtGk3B3a6wH3yy4z8XNwaphgiMc0wkMeVoauegOB9g==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/cells" "^3.0.0-rc.14"
-    "@jupyterlab/codeeditor" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/nbformat" "^3.0.0-rc.14"
-    "@jupyterlab/observables" "^4.0.0-rc.14"
-    "@jupyterlab/rendermime" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/cells" "^3.0.0-rc.15"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/nbformat" "^3.0.0-rc.15"
+    "@jupyterlab/observables" "^4.0.0-rc.15"
+    "@jupyterlab/rendermime" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
@@ -1444,10 +1444,10 @@
     "@lumino/signaling" "^1.4.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/coreutils@^5.0.0-rc.14", "@jupyterlab/coreutils@~5.0.0-rc.14":
-  version "5.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/coreutils/-/coreutils-5.0.0-rc.14.tgz#780a603d29c1fb5356311e0cac411ed7c76790b6"
-  integrity sha512-3/IvPCWqQx2yptrtZ+hCrBwb554iEdIqde4Cy+MSXc77lc9d+gdyVZkLAukvE4c8v+xh8aOE8vAvnQL/WPHtmA==
+"@jupyterlab/coreutils@^5.0.0-rc.15", "@jupyterlab/coreutils@~5.0.0-rc.15":
+  version "5.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/coreutils/-/coreutils-5.0.0-rc.15.tgz#05a4aafbabe9eed4d052d392e3dd5ab77bbe25f3"
+  integrity sha512-WicUOTfNX5rsnVNOBJosK41MTYO0XVX6RBFqUtT5kpulLBwaNngdfnrhd3wlJlMI6gjJQ8LkodkR8Olb2OjLgA==
   dependencies:
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
@@ -1457,37 +1457,37 @@
     path-browserify "^1.0.0"
     url-parse "~1.4.7"
 
-"@jupyterlab/docmanager-extension@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/docmanager-extension/-/docmanager-extension-3.0.0-rc.14.tgz#ccb56f59a9a0db77e0a503dc0b2009ae1f762c2f"
-  integrity sha512-zmdpYLoV0T592eGWxoJQis+cdPHX5hq14QtPR5/1IJu1TNdJ/OS2vVocOezjbr5ty+T/L0JH+++OpU1eV2tUrA==
+"@jupyterlab/docmanager-extension@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/docmanager-extension/-/docmanager-extension-3.0.0-rc.15.tgz#199235a5b0bc298246941e3df40c8df9a0e824f0"
+  integrity sha512-3kRgy3qcZPDxO0lqMN7w0aGRQHPsaEr8TqnKmNWuEL5eSB4CPO+wPG+71DN42zmmrH+DYNaEaOS+QrX74hYOsg==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/docmanager" "^3.0.0-rc.14"
-    "@jupyterlab/docregistry" "^3.0.0-rc.14"
-    "@jupyterlab/mainmenu" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/settingregistry" "^3.0.0-rc.14"
-    "@jupyterlab/statusbar" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/docmanager" "^3.0.0-rc.15"
+    "@jupyterlab/docregistry" "^3.0.0-rc.15"
+    "@jupyterlab/mainmenu" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/settingregistry" "^3.0.0-rc.15"
+    "@jupyterlab/statusbar" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/docmanager@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/docmanager/-/docmanager-3.0.0-rc.14.tgz#10a7669e49b68d6b38b679c32d254234943305ba"
-  integrity sha512-7au8WgkwoHeChqUjRzgI5ZpnK2SwoYXHAHQdZU36fWx/N65vRx2265j8OmUJ6dXUfIyiYjrzCCV1IaloC4HdIA==
+"@jupyterlab/docmanager@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/docmanager/-/docmanager-3.0.0-rc.15.tgz#8f97f20980deef252bfee3767522f17f1c11441b"
+  integrity sha512-TBXaniavIzSaGXeK1k6ciu+v86YbPVcmThBljvcZYhfyqRvmyz5veogFBjHRRRKCzPzjnjndhLxkfuhK8UjwPA==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/docregistry" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/statusbar" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/docregistry" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/statusbar" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
@@ -1497,21 +1497,21 @@
     "@lumino/widgets" "^1.16.1"
     react "^17.0.1"
 
-"@jupyterlab/docregistry@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/docregistry/-/docregistry-3.0.0-rc.14.tgz#169c083a4a32683e9336650e137e3602b876af66"
-  integrity sha512-3AJLp1CTSX3XtFpjutinQqpoIWwmA5vJjSqmEcPT+zNDZ9mNRrJfaybLqDlndpZeXWOid52lXzjUDEDLW0kczg==
+"@jupyterlab/docregistry@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/docregistry/-/docregistry-3.0.0-rc.15.tgz#c075ec47b349a7d23b17d209c9d49ef93f582677"
+  integrity sha512-R4YE4Eqm1SKYOIyvTZGxrPdG9ItbvJO9VKCjseJ1Wqn4cBGA9jpchGhmVe3k4rTrZFR83aER2yGx1C/qeNCx4Q==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/codeeditor" "^3.0.0-rc.14"
-    "@jupyterlab/codemirror" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/observables" "^4.0.0-rc.14"
-    "@jupyterlab/rendermime" "^3.0.0-rc.14"
-    "@jupyterlab/rendermime-interfaces" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.15"
+    "@jupyterlab/codemirror" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/observables" "^4.0.0-rc.15"
+    "@jupyterlab/rendermime" "^3.0.0-rc.15"
+    "@jupyterlab/rendermime-interfaces" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
@@ -1519,20 +1519,20 @@
     "@lumino/signaling" "^1.4.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/filebrowser@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/filebrowser/-/filebrowser-3.0.0-rc.14.tgz#77fe9193553f2a3a34c05dcfc53996ff65db4b9d"
-  integrity sha512-A4v7QslgHtZpUe8A2EfRDU9cJr4uCdlIpmaSYJrPc50zQpwYxfXpalL50OfcCMt2HIVryawk3+rcRcUajOznhg==
+"@jupyterlab/filebrowser@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/filebrowser/-/filebrowser-3.0.0-rc.15.tgz#2ef57084e2810edb25ef77ee93cac6f65d4756e0"
+  integrity sha512-JUchYzfDURDjiR1hgqB6LmSn4OKZr/jrRX2WOwYfpaqEXYU9U9uawBWuMDZFfmKXyo0OZrE7tG3My495hsElIA==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/docmanager" "^3.0.0-rc.14"
-    "@jupyterlab/docregistry" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/statedb" "^3.0.0-rc.14"
-    "@jupyterlab/statusbar" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/docmanager" "^3.0.0-rc.15"
+    "@jupyterlab/docregistry" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/statedb" "^3.0.0-rc.15"
+    "@jupyterlab/statusbar" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
@@ -1545,54 +1545,54 @@
     "@lumino/widgets" "^1.16.1"
     react "^17.0.1"
 
-"@jupyterlab/fileeditor-extension@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/fileeditor-extension/-/fileeditor-extension-3.0.0-rc.14.tgz#504e7d162de670cc103921160ece5d83348fd9c7"
-  integrity sha512-EJ0YEqyXpSTJi86W4GJSdbD4JrCgH8LLiGYB273YJnwKGGbmw0dCUr8pnpesXzkUTJj3aqVQyfoBZRW7OEYWfg==
+"@jupyterlab/fileeditor-extension@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/fileeditor-extension/-/fileeditor-extension-3.0.0-rc.15.tgz#900455506043025cd9b3ca086a21786986cb83b4"
+  integrity sha512-+3La6Ks75O9qB22v6pEQB6fsbnsik0MYrzhdf1RU2FeC4ifp2Rg+9anOG2rvojed+Gj8eBYzoJP4ZbRS499CJg==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/codeeditor" "^3.0.0-rc.14"
-    "@jupyterlab/codemirror" "^3.0.0-rc.14"
-    "@jupyterlab/console" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/docregistry" "^3.0.0-rc.14"
-    "@jupyterlab/filebrowser" "^3.0.0-rc.14"
-    "@jupyterlab/fileeditor" "^3.0.0-rc.14"
-    "@jupyterlab/launcher" "^3.0.0-rc.14"
-    "@jupyterlab/mainmenu" "^3.0.0-rc.14"
-    "@jupyterlab/settingregistry" "^3.0.0-rc.14"
-    "@jupyterlab/statusbar" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.15"
+    "@jupyterlab/codemirror" "^3.0.0-rc.15"
+    "@jupyterlab/console" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/docregistry" "^3.0.0-rc.15"
+    "@jupyterlab/filebrowser" "^3.0.0-rc.15"
+    "@jupyterlab/fileeditor" "^3.0.0-rc.15"
+    "@jupyterlab/launcher" "^3.0.0-rc.15"
+    "@jupyterlab/mainmenu" "^3.0.0-rc.15"
+    "@jupyterlab/settingregistry" "^3.0.0-rc.15"
+    "@jupyterlab/statusbar" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/commands" "^1.12.0"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/fileeditor@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/fileeditor/-/fileeditor-3.0.0-rc.14.tgz#8fa01493bf4632377d417cfb20a6b0d75e54f15e"
-  integrity sha512-V/YGu9vCRcCsWXrskm++ahokODyKATv3UemFrUR/V3Jq54EKiRh7YWVvU66DPyQK3E4yjxTHED85XnlvnLcvPw==
+"@jupyterlab/fileeditor@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/fileeditor/-/fileeditor-3.0.0-rc.15.tgz#b4608fc0077e77d79b6a95b958af9f3089a09ea8"
+  integrity sha512-Nr6l/7T4nSY0fWXB2hTIJVbp7QgZbIOI0hlqHUjEsFy7nF5K48zO7LNEO0hrMTNbmWTf5/X8yFImShSFQe69ug==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/codeeditor" "^3.0.0-rc.14"
-    "@jupyterlab/docregistry" "^3.0.0-rc.14"
-    "@jupyterlab/statusbar" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.15"
+    "@jupyterlab/docregistry" "^3.0.0-rc.15"
+    "@jupyterlab/statusbar" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/messaging" "^1.4.3"
     "@lumino/widgets" "^1.16.1"
     react "^17.0.1"
 
-"@jupyterlab/launcher@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/launcher/-/launcher-3.0.0-rc.14.tgz#a0c90fd49ee73a172ef222bec37eef595d44d10d"
-  integrity sha512-JjRzM5oilqaI5T+bLsgkgy2+d3TLVX4u6/wQsmCbWU/SylHR6qDPu3LOL8nKQJxFDFcL1jVnLZhBz552Mj8EvA==
+"@jupyterlab/launcher@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/launcher/-/launcher-3.0.0-rc.15.tgz#da2e058f0b1135e42fb5207e5e9bb6dcaa890dcd"
+  integrity sha512-JoJt9XNgRtx5WI2YEVacF73kSq/JA3d+3GYjbVNl9JIhk8+hezEIixoq3NC87H2v3iWX+Qe0d7OQyQnHpNOo8Q==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/commands" "^1.12.0"
     "@lumino/coreutils" "^1.5.3"
@@ -1601,102 +1601,102 @@
     "@lumino/widgets" "^1.16.1"
     react "^17.0.1"
 
-"@jupyterlab/logconsole@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/logconsole/-/logconsole-3.0.0-rc.14.tgz#c4c052f7c889808fa9514ecfd2fb1bb2df9e4a64"
-  integrity sha512-b1FrHax/s+RTmvoUVRZsmQIfWc69QjIrfyxlErjDpLBudXS7fErUrgnlJQ4+fcLL+xgItpAL9XUW0rVNhVoTxQ==
+"@jupyterlab/logconsole@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/logconsole/-/logconsole-3.0.0-rc.15.tgz#781105e6b05f0eccb2250cbbc3aedfd088e7469d"
+  integrity sha512-M66cf+vg6nBef97EWz8oUfU/wgvHmndn/e5wHGDYOeJuWEdWFPdCHvtLwaPYrtVFZItS1UguqthrbpWFETcVNg==
   dependencies:
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/nbformat" "^3.0.0-rc.14"
-    "@jupyterlab/outputarea" "^3.0.0-rc.14"
-    "@jupyterlab/rendermime" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/nbformat" "^3.0.0-rc.15"
+    "@jupyterlab/outputarea" "^3.0.0-rc.15"
+    "@jupyterlab/rendermime" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
     "@lumino/messaging" "^1.4.3"
     "@lumino/signaling" "^1.4.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/mainmenu-extension@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/mainmenu-extension/-/mainmenu-extension-3.0.0-rc.14.tgz#ddb9b075ae89497637262e3d039b0520587c9951"
-  integrity sha512-J/W6pF/pnhqeYJ1YAu/ywfGleBgWay1xOnbRu2gx2gY0Bu4EEYBboV6AOZWDgyswOWLNAqWaTBj0Wy4KLNnahw==
+"@jupyterlab/mainmenu-extension@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/mainmenu-extension/-/mainmenu-extension-3.0.0-rc.15.tgz#0bcee30011534a2e1148a3b42dd75fad6cef8f5f"
+  integrity sha512-HyppOlO18MYwXftyzYNVkV0g/CQjRoCC27ZlYZaSmjNLcPV8Wdue3hpFhisHgm6T1cNfwXOAg96fgP5x90zFKA==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/mainmenu" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/mainmenu" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/disposable" "^1.4.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/mainmenu@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/mainmenu/-/mainmenu-3.0.0-rc.14.tgz#6c047243513e64f55d93d96bb522bdba2da5c25c"
-  integrity sha512-NJsF0mUbaMeQNk3JvWI896iLctpiA61VigwHrWithlOMIOk5WWqN2tWsElX3j4FE7PQB0DIO5Nr6mO4sIrHepQ==
+"@jupyterlab/mainmenu@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/mainmenu/-/mainmenu-3.0.0-rc.15.tgz#606a1c92e4dbd7a5c4a2b629e9fb1d693720d3fb"
+  integrity sha512-7+C1sm13Kba3ZuMdwJIseOtFJNl4RHS9Wx5o7yvb7G2tSBs707no0mQHdq8U2oSZzb++ZrEkSR1oE3kbsS7Qag==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/commands" "^1.12.0"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/mathjax2-extension@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/mathjax2-extension/-/mathjax2-extension-3.0.0-rc.14.tgz#a04a08638340faeb4cc92cc22a00b741750a9c7c"
-  integrity sha512-+vRGge6REj0IH7Atdf0BkuK9UOW5eyZoKv7Z1pA/qQBlx2UlRj6RFibElYK7ACaYDinQQ6UQhdWeeDehqgHZMA==
+"@jupyterlab/mathjax2-extension@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/mathjax2-extension/-/mathjax2-extension-3.0.0-rc.15.tgz#4930dc45929efea385ce9c9a291e8ef740959cb6"
+  integrity sha512-CdX1H80w2as7iu6MrGapjha7xy7VCCstK0M+UhKthHgfTcl6hMD6i9BP+kdnpuT9e4EhlJ4kw3jmJnicerCo5g==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/mathjax2" "^3.0.0-rc.14"
-    "@jupyterlab/rendermime" "^3.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/mathjax2" "^3.0.0-rc.15"
+    "@jupyterlab/rendermime" "^3.0.0-rc.15"
 
-"@jupyterlab/mathjax2@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/mathjax2/-/mathjax2-3.0.0-rc.14.tgz#bc4106902c47b9e4fe8d69a453004dc04f048315"
-  integrity sha512-0CCVwRoBz6rayfEYLY0iBXzObjY5eY/HSAxK3/np8YyzBIDGVwatxpmsV7/V8hGx14/0IblmV1anmJURxNYk2A==
+"@jupyterlab/mathjax2@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/mathjax2/-/mathjax2-3.0.0-rc.15.tgz#e5ffd6d02a2be58e41be30a00367312a6b238e07"
+  integrity sha512-Jmr5CdlTqPLApt+wRwAteGjxtty9LpfzUBT8uRn/ZLEMCOcPuZHzXRh4LXEQJYcI1F9neW3yYfGHDFyKJvz9+w==
   dependencies:
-    "@jupyterlab/rendermime-interfaces" "^3.0.0-rc.14"
+    "@jupyterlab/rendermime-interfaces" "^3.0.0-rc.15"
     "@lumino/coreutils" "^1.5.3"
 
-"@jupyterlab/nbformat@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/nbformat/-/nbformat-3.0.0-rc.14.tgz#7958ee58151e30cae8e3dd4b01fe26d80611ecb8"
-  integrity sha512-RPAgAjJR9hToqvY5jzazgvy+Eaxidzd7qVZDhW45SsnIqGfB0RyWZmxBLkkyMl4NI5jsQxX73I6KEUZYsrGh0Q==
+"@jupyterlab/nbformat@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/nbformat/-/nbformat-3.0.0-rc.15.tgz#642b533dbda6fc585c7ba73300d04b124ddd5504"
+  integrity sha512-pI5nbOPWzEdDMd0JM6clttp1CBWSwByBjABVm933cF6oSrkTYMbzyLLvf8oWLVHtiS0SQMWAVynHq4bPXOicJQ==
   dependencies:
     "@lumino/coreutils" "^1.5.3"
 
-"@jupyterlab/notebook-extension@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/notebook-extension/-/notebook-extension-3.0.0-rc.14.tgz#15e9be38aa67e699cb499abf1dc8db3fa562cad5"
-  integrity sha512-s7A4ChetHnG3vHOot5v97PhL3nI819YvPmWFYCEt7hzKztBhQiy0jqtauDUmkd4uI0YK5BgTBd9NNuUXD82xcw==
+"@jupyterlab/notebook-extension@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/notebook-extension/-/notebook-extension-3.0.0-rc.15.tgz#c12622d5b94fbc33b136c9421f48d391cb8b995a"
+  integrity sha512-LdQr3Pcasty+jxn25rQMqztHGHgMwqrROFtImKmmK/07DoWOp6SPMcJf31BFtzeg0pjmTFCnqe+TMvtUIYrObQ==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/cells" "^3.0.0-rc.14"
-    "@jupyterlab/codeeditor" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/docmanager" "^3.0.0-rc.14"
-    "@jupyterlab/filebrowser" "^3.0.0-rc.14"
-    "@jupyterlab/launcher" "^3.0.0-rc.14"
-    "@jupyterlab/logconsole" "^3.0.0-rc.14"
-    "@jupyterlab/mainmenu" "^3.0.0-rc.14"
-    "@jupyterlab/nbformat" "^3.0.0-rc.14"
-    "@jupyterlab/notebook" "^3.0.0-rc.14"
-    "@jupyterlab/property-inspector" "^3.0.0-rc.14"
-    "@jupyterlab/rendermime" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/settingregistry" "^3.0.0-rc.14"
-    "@jupyterlab/statedb" "^3.0.0-rc.14"
-    "@jupyterlab/statusbar" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/cells" "^3.0.0-rc.15"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/docmanager" "^3.0.0-rc.15"
+    "@jupyterlab/filebrowser" "^3.0.0-rc.15"
+    "@jupyterlab/launcher" "^3.0.0-rc.15"
+    "@jupyterlab/logconsole" "^3.0.0-rc.15"
+    "@jupyterlab/mainmenu" "^3.0.0-rc.15"
+    "@jupyterlab/nbformat" "^3.0.0-rc.15"
+    "@jupyterlab/notebook" "^3.0.0-rc.15"
+    "@jupyterlab/property-inspector" "^3.0.0-rc.15"
+    "@jupyterlab/rendermime" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/settingregistry" "^3.0.0-rc.15"
+    "@jupyterlab/statedb" "^3.0.0-rc.15"
+    "@jupyterlab/statusbar" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/commands" "^1.12.0"
     "@lumino/coreutils" "^1.5.3"
@@ -1704,23 +1704,23 @@
     "@lumino/messaging" "^1.4.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/notebook@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/notebook/-/notebook-3.0.0-rc.14.tgz#529f9f0bece66d9ade7273cd1bed29ddcc5b01c7"
-  integrity sha512-Bi6sLj+JL5HDwWKQ+cpJXrwTdTSgUf6GgLyPdTyORilLAdw4s2tK9JZYlp56SBbHsPqDgMqEa7WQB5RfseBDNQ==
+"@jupyterlab/notebook@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/notebook/-/notebook-3.0.0-rc.15.tgz#8740782acc550ffddd7484fa49215b9d119fceb9"
+  integrity sha512-MXwOKeeC1tXHWln9g1XPASl0MXQpKN7nnXEpCCQc9Bum4/e+A9mWWCXd1760T4IeeBZa+f/9mOL8hPjEagELzQ==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/cells" "^3.0.0-rc.14"
-    "@jupyterlab/codeeditor" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/docregistry" "^3.0.0-rc.14"
-    "@jupyterlab/nbformat" "^3.0.0-rc.14"
-    "@jupyterlab/observables" "^4.0.0-rc.14"
-    "@jupyterlab/rendermime" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/statusbar" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/cells" "^3.0.0-rc.15"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/docregistry" "^3.0.0-rc.15"
+    "@jupyterlab/nbformat" "^3.0.0-rc.15"
+    "@jupyterlab/observables" "^4.0.0-rc.15"
+    "@jupyterlab/rendermime" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/statusbar" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/domutils" "^1.2.3"
@@ -1732,10 +1732,10 @@
     "@lumino/widgets" "^1.16.1"
     react "^17.0.1"
 
-"@jupyterlab/observables@^4.0.0-rc.14":
-  version "4.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/observables/-/observables-4.0.0-rc.14.tgz#81e0ddf547fbde924416d70b8635d3d1c8deab0a"
-  integrity sha512-aW44U35fO838jOw1FgniLGAtHv6XfUHTxwLzeZvcsG5QchbU4veE0nPdDdsN1C0Irgee9oo1mfJ2khwiD4rmYg==
+"@jupyterlab/observables@^4.0.0-rc.15":
+  version "4.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/observables/-/observables-4.0.0-rc.15.tgz#cc96452717d11cef3007c0e33e78dfd59e2b92d8"
+  integrity sha512-6s1GZjOj5jEbB51mOWYpVKD0O2FozPEN+R+KTnHbuwazl8WPQ6u4R8/JjcIbXOEj3v3Eff2U8dHQodS3amADCQ==
   dependencies:
     "@lumino/algorithm" "^1.3.3"
     "@lumino/coreutils" "^1.5.3"
@@ -1743,17 +1743,17 @@
     "@lumino/messaging" "^1.4.3"
     "@lumino/signaling" "^1.4.3"
 
-"@jupyterlab/outputarea@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/outputarea/-/outputarea-3.0.0-rc.14.tgz#b8ad9efadabba3881778a75105469f114c79a542"
-  integrity sha512-muDbq5NivoEZCpMmIYAXr2p9qbyK1xaHXya3+i3T4DH7n2BIVyLts9NT739wfYCJBMF7w4RGg7WMc2weq2RGIw==
+"@jupyterlab/outputarea@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/outputarea/-/outputarea-3.0.0-rc.15.tgz#21e21a09170397dbb2b1ed704f9cbb19b8fe82e3"
+  integrity sha512-3PXMKzlIMl3OCYQ/YKf/Lo2++AAAflfmO5hDAGwVIrfz2IvnCetQQgMuxNuR8E3QFpK75otuuavo1eMDBqmcRg==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/nbformat" "^3.0.0-rc.14"
-    "@jupyterlab/observables" "^4.0.0-rc.14"
-    "@jupyterlab/rendermime" "^3.0.0-rc.14"
-    "@jupyterlab/rendermime-interfaces" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/nbformat" "^3.0.0-rc.15"
+    "@jupyterlab/observables" "^4.0.0-rc.15"
+    "@jupyterlab/rendermime" "^3.0.0-rc.15"
+    "@jupyterlab/rendermime-interfaces" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
@@ -1763,52 +1763,52 @@
     "@lumino/widgets" "^1.16.1"
     resize-observer-polyfill "^1.5.1"
 
-"@jupyterlab/property-inspector@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/property-inspector/-/property-inspector-3.0.0-rc.14.tgz#54a55ac60acbfa7143953dafea08d895e3887a36"
-  integrity sha512-r58si02eyD3pH6JUk580YZEqzb+ybNPgPhY0wsM/m59wqc49VYotkfCZcb0KlvH/dXYmrbKpU2JBgMU5ukJFbA==
+"@jupyterlab/property-inspector@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/property-inspector/-/property-inspector-3.0.0-rc.15.tgz#9a2b731f3e3a3861133e4aed08a5850df34a386c"
+  integrity sha512-RH96GMdx4lJ9hu81a0I8YAvamFLCXP9PBqIANRRcN+Mx41+ac0TcNnLW7r7Wy8/RiePndacUkiEp39ehcXQsdg==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
     "@lumino/signaling" "^1.4.3"
     "@lumino/widgets" "^1.16.1"
     react "^17.0.1"
 
-"@jupyterlab/rendermime-extension@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/rendermime-extension/-/rendermime-extension-3.0.0-rc.14.tgz#2403a136813bd7a917e9903c85f75e801215b7f2"
-  integrity sha512-j+cQRttP/rhFl8IGlZSm+NzlsuVS6fooa2DdRNf+cGPgGTr4gAYFxQkIpHi06wAutoQnX0N+BQaR1Szck+sGNw==
+"@jupyterlab/rendermime-extension@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/rendermime-extension/-/rendermime-extension-3.0.0-rc.15.tgz#03332dc72fa460881176dabf0e6e981a189a22d4"
+  integrity sha512-FWypHee9KBiGnypBNPCBYwPBSuLvtKfmKoL9bOperUelpF13bytlYvQiXbAiXBIxKbcPiNZiI02a0f1+LXBPQA==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/docmanager" "^3.0.0-rc.14"
-    "@jupyterlab/rendermime" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/docmanager" "^3.0.0-rc.15"
+    "@jupyterlab/rendermime" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
 
-"@jupyterlab/rendermime-interfaces@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/rendermime-interfaces/-/rendermime-interfaces-3.0.0-rc.14.tgz#8f3d9c577a4c385f024aa8a84ed2e478c297029f"
-  integrity sha512-D0np3v3hDxlFLFChs89zx6aO6vZM3wRHaNI/PO9Q+4Eu7prFVaQdRVdmp74UaONZxQYmpBEh/ZImvdQaUUAg/A==
+"@jupyterlab/rendermime-interfaces@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/rendermime-interfaces/-/rendermime-interfaces-3.0.0-rc.15.tgz#4d858de74858944fb49bc1a5dee3e667b6cd0a0a"
+  integrity sha512-DfcZ6D6FfBe7JW7JNC2ajmq8HbCLSkDgMElQjvnNwjAyzpI7EIxpsDvCf/3Z8sSHHbLB1E0DJUQVMrFic85zGQ==
   dependencies:
-    "@jupyterlab/translation" "^3.0.0-rc.14"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/rendermime@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/rendermime/-/rendermime-3.0.0-rc.14.tgz#e758437fa8892502e532388d77e6cad9d61477d9"
-  integrity sha512-IGoMkTMwHZRvgHco0Ip9IoCrW9y79JGeW0qO+618R+6ptnvzLVe7RiVKvgC0+OrEeRrxnAKICLkFLP8M/9rZyg==
+"@jupyterlab/rendermime@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/rendermime/-/rendermime-3.0.0-rc.15.tgz#640295031be26577aaa6dbcff671e7093113d8dc"
+  integrity sha512-wFw3I1K/zYHj6XxcTC4L/O0KziXwA1sHKMwQppppYtqcwK7fcTNo7Rlqbd97dFgPiIRCn1XrEULLwXbf6XtEhA==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/codemirror" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/nbformat" "^3.0.0-rc.14"
-    "@jupyterlab/observables" "^4.0.0-rc.14"
-    "@jupyterlab/rendermime-interfaces" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/codemirror" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/nbformat" "^3.0.0-rc.15"
+    "@jupyterlab/observables" "^4.0.0-rc.15"
+    "@jupyterlab/rendermime-interfaces" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/messaging" "^1.4.3"
@@ -1817,45 +1817,45 @@
     lodash.escape "^4.0.1"
     marked "^1.1.1"
 
-"@jupyterlab/running-extension@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/running-extension/-/running-extension-3.0.0-rc.14.tgz#6fd64ac71b5b279a93df7743c70bcb5bbfd657c1"
-  integrity sha512-mGTGcAkIcOEvP7mOPyyNYgUGoCYmqQ0iErEu/GXPxa89mWO+/FqA60lhyIm+gJGbUF2bhf3H6Hm8WzqO9a8s2g==
+"@jupyterlab/running-extension@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/running-extension/-/running-extension-3.0.0-rc.15.tgz#f5995788bc5213c4c3737fadb5e1121d34cf4230"
+  integrity sha512-ty3WyO66NAshUsuwuZFuKzsKx3tk9uhfscZHYOK/J6/IwEInUbjPMyqmlEMtURhW2LGIvXAJBvQFMdOWuuK/yA==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/docregistry" "^3.0.0-rc.14"
-    "@jupyterlab/running" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/docregistry" "^3.0.0-rc.15"
+    "@jupyterlab/running" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/signaling" "^1.4.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/running@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/running/-/running-3.0.0-rc.14.tgz#4113fc021807da2c1c76157a906055b1c57d589a"
-  integrity sha512-Y+nMj000yYriunQQAdiV4Uln3DnpoHQzz31x97VAQu+JbDXnLBohOI3l2LCNLf7F6+xb+XpIwf/0kJ4LsdC9ig==
+"@jupyterlab/running@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/running/-/running-3.0.0-rc.15.tgz#70f111f53362113803212bfe2fed131ea1895612"
+  integrity sha512-AerGk+ydiXqKbFwEVSnin5FIq4ajiwS0B+LsQhf81ht686FW0UIf1B6kBqezJwafJZB4sG4o8bVieNpc0J759w==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
     "@lumino/signaling" "^1.4.3"
     react "^17.0.1"
 
-"@jupyterlab/services@^6.0.0-rc.14":
-  version "6.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/services/-/services-6.0.0-rc.14.tgz#fd8de5d3cc7ac9613e96a00ae8ff52a57910b556"
-  integrity sha512-mtdwkNuefc5OhjpmNhlmn0Blc/uHq+siEIEMgdoqt/qFyCD/Rq6vvR+B/m+5Mgx8JeKyrl4bqtLEjvtQx+oM3g==
+"@jupyterlab/services@^6.0.0-rc.15":
+  version "6.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/services/-/services-6.0.0-rc.15.tgz#8d9d29f29684f765790517d14d7a6b340a474022"
+  integrity sha512-+01qKqFn2uHg+whS/CMoTBlQkjq0rhUpksF8kuyqM9pAFCU2Pu6L+/LrMyruusB0yRdVIyokP+hZQqENlwU/4A==
   dependencies:
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/nbformat" "^3.0.0-rc.14"
-    "@jupyterlab/observables" "^4.0.0-rc.14"
-    "@jupyterlab/settingregistry" "^3.0.0-rc.14"
-    "@jupyterlab/statedb" "^3.0.0-rc.14"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/nbformat" "^3.0.0-rc.15"
+    "@jupyterlab/observables" "^4.0.0-rc.15"
+    "@jupyterlab/settingregistry" "^3.0.0-rc.15"
+    "@jupyterlab/statedb" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
@@ -1864,12 +1864,12 @@
     node-fetch "^2.6.0"
     ws "^7.2.0"
 
-"@jupyterlab/settingregistry@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/settingregistry/-/settingregistry-3.0.0-rc.14.tgz#6dc06945906143c4001294b8c4753d1e3f18a46c"
-  integrity sha512-2MNxt+jPq1HWcFJ6qA7XBfrCiEak9DpGcIRFgryPOKmpwxhr4w4M6XszKgC/2kcswaL543SnhY2n6bTnZaHv9w==
+"@jupyterlab/settingregistry@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/settingregistry/-/settingregistry-3.0.0-rc.15.tgz#8067cc4a1584eb3fc0a975c32abe12266344e8ba"
+  integrity sha512-axSLXymC9CHqY+Ir/OsongYfjCoGVuMZeRQ1KjCBJFRXkp9BcVTLIlohgkvvJcmYD+EJl/hDsDYyBn+j6tIGNA==
   dependencies:
-    "@jupyterlab/statedb" "^3.0.0-rc.14"
+    "@jupyterlab/statedb" "^3.0.0-rc.15"
     "@lumino/commands" "^1.12.0"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
@@ -1877,22 +1877,22 @@
     ajv "^6.12.3"
     json5 "^2.1.1"
 
-"@jupyterlab/shortcuts-extension@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/shortcuts-extension/-/shortcuts-extension-3.0.0-rc.14.tgz#007bf61468001a1a192bf923d5306203eeb1fbdb"
-  integrity sha512-ZSEDh8iy0EfYwcx+UIdnIt4FRCQG0iAtj7qhZGoo/Tzs2tf5Vh28jPDdkML5uCUK8XVtBQ6X8qj+kFbhaWlW/g==
+"@jupyterlab/shortcuts-extension@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/shortcuts-extension/-/shortcuts-extension-3.0.0-rc.15.tgz#8ca0303047c3f8bcfee03d69d0152cfbc0d9a6d3"
+  integrity sha512-ehK7g+MwvquDeh7icgwUqupg6RKcLRAPpOWBqh0N5ZMogmsTDfxlwq3epnBLQO+92FB7+49uRG9h21jcp8sxAQ==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/settingregistry" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/settingregistry" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
     "@lumino/commands" "^1.12.0"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
 
-"@jupyterlab/statedb@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/statedb/-/statedb-3.0.0-rc.14.tgz#cdd1ad8152661b5488a19e2cd5fbb5279111690b"
-  integrity sha512-pSYgrkpf+pJEytSuKV7h/sEph90vRiDtcfdtpr/Kkt6OWy7CbhqIfVmdeQQY47QSk/JvYacllYbaaHoFQqHUYw==
+"@jupyterlab/statedb@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/statedb/-/statedb-3.0.0-rc.15.tgz#10c1af02de622e966b2ff9773db9417b81b4269b"
+  integrity sha512-mArmxGzCDymygs710ThbMzJMXjXQFAi2h/npY/6nPkJNGQCf147SvxhWJG4P3I1GCM0dRUIxpatYkhg09AQvWg==
   dependencies:
     "@lumino/commands" "^1.12.0"
     "@lumino/coreutils" "^1.5.3"
@@ -1900,17 +1900,17 @@
     "@lumino/properties" "^1.2.3"
     "@lumino/signaling" "^1.4.3"
 
-"@jupyterlab/statusbar@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/statusbar/-/statusbar-3.0.0-rc.14.tgz#82765b12911ef8c2cf0edd82514d56306dd3817a"
-  integrity sha512-aABQ+MI8QU/n7ZNjmNd8BCXtPA41PusBUMmDPRcxQ++gMoUZURr0MYAvmxPyeg9OvJVOt6GmyyE8qXP7cFt8Pw==
+"@jupyterlab/statusbar@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/statusbar/-/statusbar-3.0.0-rc.15.tgz#af00804981272622cd08fc98b52832a5c5c33d53"
+  integrity sha512-GV9ObDLstqVpGOZF+do9d0iBLFvFVOdQCcKoyAtXby3ijO4KDerz7J1Hav2DKuncfy7y+uvbg0vbCAwG44uNSQ==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/codeeditor" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/disposable" "^1.4.3"
@@ -1921,32 +1921,32 @@
     react "^17.0.1"
     typestyle "^2.0.4"
 
-"@jupyterlab/terminal-extension@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/terminal-extension/-/terminal-extension-3.0.0-rc.14.tgz#4e7a7ce4b02af0ea104b1aff84128122b3e7ba8c"
-  integrity sha512-AjAsluSxbDgoeJvdPteSo8hJXpdSuPmJe/sR1HdESoi8UfC4+IcjeESMgnYVeIqu0lVcboBwOiAGQZ+LJX0RMg==
+"@jupyterlab/terminal-extension@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/terminal-extension/-/terminal-extension-3.0.0-rc.15.tgz#a670c73c1fb0f0b8851a86ed0081b3eecf33d6a2"
+  integrity sha512-kkLPec/qE/m3ylWvoyWf3jBPCm6u+QCxWjQNMqcWF+ujTGAP0JKcN2usdEIXvUa7QSBv1tjJdIezaQbJPJq+Pg==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/launcher" "^3.0.0-rc.14"
-    "@jupyterlab/mainmenu" "^3.0.0-rc.14"
-    "@jupyterlab/running" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/settingregistry" "^3.0.0-rc.14"
-    "@jupyterlab/terminal" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
-    "@jupyterlab/ui-components" "^3.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/launcher" "^3.0.0-rc.15"
+    "@jupyterlab/mainmenu" "^3.0.0-rc.15"
+    "@jupyterlab/running" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/settingregistry" "^3.0.0-rc.15"
+    "@jupyterlab/terminal" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
+    "@jupyterlab/ui-components" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/terminal@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/terminal/-/terminal-3.0.0-rc.14.tgz#1505753cdf709319b38f73db8b26faf63e82b945"
-  integrity sha512-0KDVZBfHmV4Zm2unQXGMwXmt7MqnvHmyYyYPWEdkMR0VZQWZvRfYFgzgRV4BVv8KNlbCYY3boFz6HGEJqeeJ7g==
+"@jupyterlab/terminal@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/terminal/-/terminal-3.0.0-rc.15.tgz#7e49f7eb2758fd86864dc1f365bd6520d6aca716"
+  integrity sha512-fZhKwxAHOJrtjjiF1sdHeZvgW5WRJHFwE7SHv0EKguQN47Y9C52TuluZ0w178KDd7ll3ROizq0pKkbouYG+vVw==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/domutils" "^1.2.3"
     "@lumino/messaging" "^1.4.3"
@@ -1954,21 +1954,21 @@
     xterm "~4.8.1"
     xterm-addon-fit "~0.4.0"
 
-"@jupyterlab/testutils@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/testutils/-/testutils-3.0.0-rc.14.tgz#f438f06f2d2ecc0f5014fb7440273282f8d474ae"
-  integrity sha512-3gZFCoJtDwv05FYcnpE/wzfJ+HcjDi07EQwtqQ6sgF13Y2/D1XTIL7RoFgIfB+YhIQSfhwgCiXKDhSdklX7eQg==
+"@jupyterlab/testutils@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/testutils/-/testutils-3.0.0-rc.15.tgz#10b36bc8fce5d827ddb1165ebd0309a1a2ac1331"
+  integrity sha512-aSsAnLlFc7ddQodpT1E+Hcp6OZ/9AfQ9r7ovLlrPD3v4ghHq2mDxn2h53CZhhK4f6EpVbYxUoS5c0zOqn+n5YQ==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/cells" "^3.0.0-rc.14"
-    "@jupyterlab/codeeditor" "^3.0.0-rc.14"
-    "@jupyterlab/codemirror" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/docregistry" "^3.0.0-rc.14"
-    "@jupyterlab/nbformat" "^3.0.0-rc.14"
-    "@jupyterlab/notebook" "^3.0.0-rc.14"
-    "@jupyterlab/rendermime" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/cells" "^3.0.0-rc.15"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.15"
+    "@jupyterlab/codemirror" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/docregistry" "^3.0.0-rc.15"
+    "@jupyterlab/nbformat" "^3.0.0-rc.15"
+    "@jupyterlab/notebook" "^3.0.0-rc.15"
+    "@jupyterlab/rendermime" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/properties" "^1.2.3"
@@ -1986,73 +1986,73 @@
     simulate-event "~1.4.0"
     ts-jest "^26.3.0"
 
-"@jupyterlab/theme-dark-extension@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/theme-dark-extension/-/theme-dark-extension-3.0.0-rc.14.tgz#39126687f0fce006f1d3c165fc7dd8c710199f12"
-  integrity sha512-CFabZa5oy/xD+DJHhiLGzgkjVCrRXSz5WICcuvpCu35net2N81y/G55FNsI40ynnoT9bL7crb/n234qUY6zisw==
+"@jupyterlab/theme-dark-extension@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/theme-dark-extension/-/theme-dark-extension-3.0.0-rc.15.tgz#7aac54629d73a336ed2ac3ffa2b17aa2bb0677e0"
+  integrity sha512-luqrgyYdzOZmh3RnZwoA7zbldzvvTpLinmOM3QH2l/SVowTwwqk9qgVMT4DbJOYOh4s9PXxwNQ0UGxWa/3GtsA==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
 
-"@jupyterlab/theme-light-extension@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/theme-light-extension/-/theme-light-extension-3.0.0-rc.14.tgz#8098753b627ef6c35a284616bd007db4ed3e8607"
-  integrity sha512-tOPU3M+oDr39/0KDeYAmT3xTJSV/yFUyJoPKQ4zpO/es2lmFZ/MbRP5cp+DDFOhEF8zwSepm229qZ7QUaKXOww==
+"@jupyterlab/theme-light-extension@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/theme-light-extension/-/theme-light-extension-3.0.0-rc.15.tgz#30047d0b04d9dea0f06f356e6d3257b1405248d6"
+  integrity sha512-w2dZ4AFRlkOzvoashcHHrCvVdQSdZQPT4aURm40puvm8j4vKlFWWHTnirTKWbwyXtlmT4sz35z5IjVRDItbgZw==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/translation" "^3.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/translation" "^3.0.0-rc.15"
 
-"@jupyterlab/tooltip-extension@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/tooltip-extension/-/tooltip-extension-3.0.0-rc.14.tgz#eb6308fcbd3c03effbd5a9104af0292dda1f22c7"
-  integrity sha512-2vRo6uV4LxhDOmGsIA788BJ1B/1leM+JhGHA4uvcyQEiSVXGLSrT2mpTTmnM+wp5NhMCZvXSxd7cei+0sd5C2Q==
+"@jupyterlab/tooltip-extension@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/tooltip-extension/-/tooltip-extension-3.0.0-rc.15.tgz#924870797fc274ee8be2cd9dbf0471917ae563e1"
+  integrity sha512-crzyjV3AYWkD5ls4iNLico/84R51WI03ADDjUzLuTo2M571eULT5ofLboCQgXhmN5M4NTNh//cW7kZcc8/UsPA==
   dependencies:
-    "@jupyterlab/application" "^3.0.0-rc.14"
-    "@jupyterlab/codeeditor" "^3.0.0-rc.14"
-    "@jupyterlab/console" "^3.0.0-rc.14"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/fileeditor" "^3.0.0-rc.14"
-    "@jupyterlab/notebook" "^3.0.0-rc.14"
-    "@jupyterlab/rendermime" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/tooltip" "^3.0.0-rc.14"
+    "@jupyterlab/application" "^3.0.0-rc.15"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.15"
+    "@jupyterlab/console" "^3.0.0-rc.15"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/fileeditor" "^3.0.0-rc.15"
+    "@jupyterlab/notebook" "^3.0.0-rc.15"
+    "@jupyterlab/rendermime" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/tooltip" "^3.0.0-rc.15"
     "@lumino/algorithm" "^1.3.3"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/tooltip@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/tooltip/-/tooltip-3.0.0-rc.14.tgz#e60e39b1894a7477a62f4ccd54a22a19f14cb827"
-  integrity sha512-lCAXgBBW7K4Br3qGFl7khviyoAe1jqsm5qlzTepihV8sK63TM2LqI0EdSUbyfKy/1k/r1HraRXssXqfhiBpdAw==
+"@jupyterlab/tooltip@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/tooltip/-/tooltip-3.0.0-rc.15.tgz#a33a8c3df8760435649fd2153e4aecd91c67d2e4"
+  integrity sha512-KSVWSsmbyE5NcM9PmwpTRStuBJVAcTeDMbPs6TohD70WdQjF05CtKCF3JIC1bodW9ERC+Y1k4CJFYZmbykrqPA==
   dependencies:
-    "@jupyterlab/apputils" "^3.0.0-rc.14"
-    "@jupyterlab/codeeditor" "^3.0.0-rc.14"
-    "@jupyterlab/rendermime" "^3.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
+    "@jupyterlab/apputils" "^3.0.0-rc.15"
+    "@jupyterlab/codeeditor" "^3.0.0-rc.15"
+    "@jupyterlab/rendermime" "^3.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/messaging" "^1.4.3"
     "@lumino/widgets" "^1.16.1"
 
-"@jupyterlab/translation@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/translation/-/translation-3.0.0-rc.14.tgz#0c9126325bfa412533077403353976dea0b98bb0"
-  integrity sha512-kzTxK2ziv7skZGsijulfRS3hwKtUALK2c9DKbIwv4SYsI5yhY5W2LhbTT+PJ2A5WdY98pyYO7AG0YpBwbJ+X7w==
+"@jupyterlab/translation@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/translation/-/translation-3.0.0-rc.15.tgz#c303d91932d60f768febcdd08f126f89629c0a55"
+  integrity sha512-z+F0rq0f9I3EWCIUStW3gs24xSFqy9YNSkINdtBHCyNjZKoXpMq0Li645sTeXeuSPIY3XocJfUP/IMEvlxz59Q==
   dependencies:
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
-    "@jupyterlab/services" "^6.0.0-rc.14"
-    "@jupyterlab/statedb" "^3.0.0-rc.14"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
+    "@jupyterlab/services" "^6.0.0-rc.15"
+    "@jupyterlab/statedb" "^3.0.0-rc.15"
     "@lumino/coreutils" "^1.5.3"
 
-"@jupyterlab/ui-components@^3.0.0-rc.14":
-  version "3.0.0-rc.14"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/ui-components/-/ui-components-3.0.0-rc.14.tgz#4f5eef1db057fb43094d7d398532e794cd4a9274"
-  integrity sha512-49Y8BOpNdHX+gpm0KKEGRhHX71IkZl/qDQpsDUr+B3FFIjoCix1TFRxePn5aSNnuEmUdEQRGapDrpPn9T2dApQ==
+"@jupyterlab/ui-components@^3.0.0-rc.15":
+  version "3.0.0-rc.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/ui-components/-/ui-components-3.0.0-rc.15.tgz#f80a5de4bc5584c9e8ede9e3dc70f2cf0e3b70bb"
+  integrity sha512-Sl9yAtu99XzZZ/mu70IqLDz/4KNAG1Xx5dub8ebHotVaO84sSGDdxanuyefY/0TUOFE3R4aUj7ngFsL0c2fZgg==
   dependencies:
     "@blueprintjs/core" "^3.36.0"
     "@blueprintjs/select" "^3.15.0"
-    "@jupyterlab/coreutils" "^5.0.0-rc.14"
+    "@jupyterlab/coreutils" "^5.0.0-rc.15"
     "@lumino/coreutils" "^1.5.3"
     "@lumino/signaling" "^1.4.3"
     "@lumino/virtualdom" "^1.8.0"

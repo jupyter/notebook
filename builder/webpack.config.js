@@ -14,8 +14,23 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 
 const Build = require('@jupyterlab/builder').Build;
 const baseConfig = require('@jupyterlab/builder/lib/webpack.config.base');
+const buildutils = require('@jupyterlab/buildutils');
 
 const data = require('./package.json');
+
+// get resolutions and singletons from upstream JupyterLab
+function getJupyterLabPackageJsonPath() {
+  const script = [
+    'python',
+    '-c',
+    "\"import pkg_resources; print(pkg_resources.resource_filename('jupyterlab', 'staging/package.json'))\""
+  ];
+  const cmd = script.join(' ');
+  return buildutils.run(cmd, { stdio: 'pipe' }, true);
+}
+
+const labPackagePath = getJupyterLabPackageJsonPath();
+const labJson = buildutils.readJSONFile(labPackagePath);
 
 const names = Object.keys(data.dependencies).filter(name => {
   const packageData = require(path.join(name, 'package.json'));
@@ -42,7 +57,7 @@ const extras = Build.ensureAssets({
 
 const singletons = {};
 
-data.jupyterlab.singletonPackages.forEach(element => {
+labJson.jupyterlab.singletonPackages.forEach(element => {
   singletons[element] = { singleton: true };
 });
 
@@ -79,7 +94,7 @@ module.exports = [
         },
         name: 'CORE_FEDERATION',
         shared: {
-          ...data.resolutions,
+          ...labJson.resolutions,
           ...singletons
         }
       })
