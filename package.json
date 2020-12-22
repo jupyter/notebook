@@ -9,7 +9,7 @@
     "url": "https://github.com/jtpio/jupyterlab-classic/issues"
   },
   "license": "BSD-3-Clause",
-  "author": "Jeremy Tuloup",
+  "author": "JupyterLab Classic Contributors",
   "workspaces": {
     "packages": [
       "builder",
