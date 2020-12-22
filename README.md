@@ -103,6 +103,15 @@ The goal of the `jupyterlab-classic` project is to look as close to the classic 
 
 Technically speaking, `jupyterlab-classic` reuses **many** of the existing plugins for JupyterLab (notebook, toolbar), and also supports pre-built (federated) third-party extensions using the new distribution system added in 3.0. That way, extensions built for JupyterLab should also be compatible with `jupyterlab-classic`, as long as they can be added to the application shell provided by JupyterLab Classic.
 
+## Relation to other Jupyter frontends
+
+Jupyterlab Classic is an alternative frontend built using the latest JupyterLab components, with the look and feel of the Classic Jupyter Notebook UI. Below is a short comparison to know where it stands when compared to other Jupyter UI projects:
+
+- Classic Jupyter Notebook - Classic frontend, classic notebook server.
+- NBClassic - Classic frontend, new Jupyter Server.
+- JupyterLab - Jupyterlab frontend, new Jupyter Server (or Classic Notebook Server). Extensions are not compatible with the Classic Jupyter Notebook since it is built with different components. With version 3.0 onwards, it uses the new Jupyter Server and supports federated extensions that don't need to be rebuilt on the end-user machine.
+- Jupyterlab Classic - JupyterLab frontend built with JupyterLab components, with the look and feel of the Classic Notebook. Consistent with the latest version of Jupyterlab. Extensions built for Jupyterlab should work as long as the components they depend on are part of this classic interface (for install JupyterLab Classic doesn't have the `left`, `right` and `bottom` areas).
+
 ## Prior art
 
 This project is mostly a reboot of the two previous attempts at making something similar:
