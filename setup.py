@@ -35,7 +35,7 @@ jstargets = [
     os.path.join(main_bundle_dest, "bundle.js"),
 ]
 
-package_data_spec = {PACKAGE_NAME: ["*"]}
+package_data_spec = {PACKAGE_NAME: ["*", "templates/*", "static/**"]}
 
 data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, lab_extension_dest, "**"),
@@ -81,7 +81,7 @@ setup_args = dict(
     description="The next gen old-school Notebook UI",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    cmdclass= cmdclass,
+    cmdclass=cmdclass,
     packages=setuptools.find_packages(),
     install_requires=[
         "jupyterlab~=3.0",
@@ -102,9 +102,7 @@ setup_args = dict(
         "Programming Language :: Python :: 3.9",
         "Framework :: Jupyter",
     ],
-    entry_points={
-        "console_scripts": ["jupyter-classic = jupyterlab_classic.app:main"]
-    },
+    entry_points={"console_scripts": ["jupyter-classic = jupyterlab_classic.app:main"]},
 )
 
 
