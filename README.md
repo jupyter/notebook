@@ -77,7 +77,7 @@ Support for existing JupyterLab themes!
 
 ![mobile](https://user-images.githubusercontent.com/591645/101995448-2793f380-3cca-11eb-8971-067dd068ccbe.gif)
 
-### Support for federated extensions 🧩
+### Support for prebuilt extensions 🧩
 
 Install new extensions easily!
 
@@ -93,15 +93,15 @@ If you would like to contribute to the project and set up a development environm
 
 ## Motivation
 
-JupyterLab is the next-gen UI for Project Jupyter. Approaching version 3.0, it is becoming more mature and provides an advanced computational environment, that can sometimes be compared to what traditional IDEs offer.
+JupyterLab is the next-gen UI for Project Jupyter. Currently at version 3.0, it is becoming more mature and provides an advanced computational environment, that can sometimes be compared to what traditional IDEs offer.
 
 However in some cases, having a leaner, simpler, and more focused interface to work on a notebook is really useful.
 
 The single document mode as currently implemented in JupyterLab helps address this issue, but still displays a couple of visual cues that can be distracting to some users.
 
-The goal of the `jupyterlab-classic` project is to look as close to the classic notebook UI as possible, while leveraging the efforts put in the development of JupyterLab itself and its extension system.
+The goal of the `jupyterlab-classic` project is to provide an alternative JupyterLab distribution with the look and feed of the classic notebook UI, while leveraging the efforts put in the development of JupyterLab itself and its extension system.
 
-Technically speaking, `jupyterlab-classic` reuses **many** of the existing plugins for JupyterLab (notebook, toolbar), and also supports pre-built (federated) third-party extensions using the new distribution system added in 3.0. That way, extensions built for JupyterLab should also be compatible with `jupyterlab-classic`, as long as they can be added to the application shell provided by JupyterLab Classic.
+Technically speaking, `jupyterlab-classic` reuses **many** of the existing plugins for JupyterLab (notebook, toolbar), and also supports prebuilt (federated) third-party extensions using the new distribution system added in 3.0. That way, extensions built for JupyterLab should also be compatible with `jupyterlab-classic`, as long as they can be added to the application shell provided by JupyterLab Classic.
 
 ## Relation to other Jupyter frontends
 
