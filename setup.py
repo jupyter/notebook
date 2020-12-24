@@ -9,6 +9,7 @@ from jupyter_packaging import (
     combine_commands,
     install_npm,
     ensure_targets,
+    skip_if_exists,
 )
 import setuptools
 
@@ -30,7 +31,6 @@ lab_extension_source = os.path.join(HERE, "packages", "lab-extension")
 
 # Representative files that should exist after a successful build
 jstargets = [
-    os.path.join(lab_extension_source, "lib", "index.js"),
     os.path.join(lab_extension_dest, "package.json"),
     os.path.join(main_bundle_dest, "bundle.js"),
 ]
@@ -56,12 +56,19 @@ cmdclass = create_cmdclass(
     "jsdeps", package_data_spec=package_data_spec, data_files_spec=data_files_spec
 )
 
-cmdclass["jsdeps"] = combine_commands(
+js_command = combine_commands(
     install_npm(HERE, build_cmd="install", npm=["jlpm"]),
     install_npm(HERE, build_cmd="build", npm=["jlpm"]),
     install_npm(main_bundle_source, build_cmd="build:prod", npm=["jlpm"]),
     ensure_targets(jstargets),
 )
+
+is_repo = os.path.exists(os.path.join(HERE, ".git"))
+if is_repo:
+    cmdclass["jsdeps"] = js_command
+else:
+    cmdclass["jsdeps"] = skip_if_exists(jstargets, js_command)
+
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
