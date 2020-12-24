@@ -40,9 +40,9 @@
   },
   "dependencies": {
     "@jupyterlab-classic/ui-components": "^0.1.0-rc.2",
-    "@jupyterlab/application": "^3.0.0-rc.15",
-    "@jupyterlab/apputils": "^3.0.0-rc.15",
-    "@jupyterlab/mainmenu": "^3.0.0-rc.15"
+    "@jupyterlab/application": "^3.0.0",
+    "@jupyterlab/apputils": "^3.0.0",
+    "@jupyterlab/mainmenu": "^3.0.0"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",

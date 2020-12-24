@@ -39,9 +39,9 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/application": "^3.0.0-rc.15",
-    "@jupyterlab/coreutils": "^5.0.0-rc.15",
-    "@jupyterlab/terminal": "^3.0.0-rc.15",
+    "@jupyterlab/application": "^3.0.0",
+    "@jupyterlab/coreutils": "^5.0.0",
+    "@jupyterlab/terminal": "^3.0.0",
     "@lumino/algorithm": "^1.3.3"
   },
   "devDependencies": {
