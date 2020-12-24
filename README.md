@@ -9,12 +9,10 @@ The next gen old-school Notebook UI.
 
 ## Install
 
-**Pre-releases of `jupyterlab-classic` are now available!**
-
 `jupyterlab-classic` can be installed with `pip`:
 
 ```bash
-pip install jupyterlab-classic --pre
+pip install jupyterlab-classic
 ```
 
 And with `conda` (coming soon):
