@@ -13,14 +13,14 @@
 import os
 import sys
 
-name = "notebook"
+name = "quartic_notebook"
 
 if sys.version_info < (3, 5):
     pip_message = 'This may be due to an out of date pip. Make sure you have pip >= 9.0.1.'
     try:
         import pip
         pip_version = tuple([int(x) for x in pip.__version__.split('.')[:3]])
-        if pip_version < (9, 0, 1) :
+        if pip_version < (9, 0, 1):
             pip_message = 'Your pip version is out of date, please install pip >= 9.0.1. '\
             'pip {} detected.'.format(pip.__version__)
         else:
@@ -77,11 +77,9 @@ for more information.
     version         = version,
     packages        = find_packages(),
     package_data    = find_package_data(),
-    author          = 'Jupyter Development Team',
-    author_email    = 'jupyter@googlegroups.com',
-    url             = 'http://jupyter.org',
-    license         = 'BSD',
-    platforms       = "Linux, Mac OS X, Windows",
+    author          = 'Quartic Development Team',
+    author_email    = 'tech@quartic.ai',
+    url             = 'https://quartic.ai',
     keywords        = ['Interactive', 'Interpreter', 'Shell', 'Web'],
     classifiers     = [
         'Intended Audience :: Developers',
