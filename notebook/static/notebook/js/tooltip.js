@@ -135,7 +135,7 @@ define([
     };
 
     // deal with all the logic of hiding the tooltip
-    // and reset it's status
+    // and reset its status
     Tooltip.prototype._hide = function () {
         this._hidden = true;
         this.tooltip.fadeOut('fast');
@@ -243,7 +243,7 @@ define([
         this._sticky = false;
     };
 
-    // put the tooltip in a sicky state for 10 seconds
+    // put the tooltip in a sticky state for 10 seconds
     // it won't be removed by remove_and_cancel() unless you called with
     // the first parameter set to true.
     // remove_and_cancel_tooltip(true)
