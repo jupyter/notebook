@@ -1,6 +1,6 @@
 @_cell_padding_minus_border: @cell_padding - @cell_border_width;
 
-._selected_style(@border_color) {
+._selected_style(@primary_color) {
     position: absolute;
     display: block;
     top: -1 * @cell_border_width;
@@ -9,7 +9,7 @@
     // height: 100% + (2 * @cell_border_width);
     height: calc(~"100% + "(2 * @cell_border_width));
     content: '';
-    background: @border_color;
+    background: @primary_color;
 }
 
 
@@ -23,8 +23,7 @@ div.cell {
     border-color: transparent;
 
     width: 100%;
-    padding: @_cell_padding_minus_border;
-    /* This acts as a spacer between cells, that is outside the border */
+    padding: 20px 5px;
     margin: 0px;
     outline: none;
     
@@ -49,10 +48,9 @@ div.cell {
     }
 
     &.selected, &.selected.jupyter-soft-selected {
-        border-color: @border_color;
         
         &:before {
-            ._selected_style(@selected_border_color);
+            ._selected_style(@primary_color);
         }
 
         @media print {
@@ -61,10 +59,10 @@ div.cell {
     }
 
     .edit_mode &.selected {
-        border-color: @edit_mode_border_color;
+        border-color: @primary_color;
         
         &:before {
-            ._selected_style(@edit_mode_border_color);
+            ._selected_style(@primary_color);
         }
 
         @media print {

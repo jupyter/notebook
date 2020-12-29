@@ -55,6 +55,22 @@ data-notebook-path="{{notebook_path | urlencode}}"
 {% endblock headercontainer %}
 
 {% block header %}
+
+<div class="header-bar">
+    <div class="header-bar-details">
+      <div class="header-bar-breadcrumb">
+        <span class="breadcrumb-text">eXponence&trade;</sup></span>
+        <span class="breadcrumb-text"><strong>></strong></span>
+        <span class="breadcrumb-text">Project Builder</span>
+      </div>
+      <div class="header-bar-code-editor">Jupyter Code Editor</div>
+    </div>
+    <div class="header-bar-btn">
+      <i class="fa fa-arrow-left"></i>
+      <span>Go Back</span>
+    </div>
+</div>
+
 <div id="menubar-container" class="container">
 <div id="menubar">
     <div id="menus" class="navbar navbar-default" role="navigation">
@@ -63,10 +79,6 @@ data-notebook-path="{{notebook_path | urlencode}}"
               <i class="fa fa-bars"></i>
               <span class="navbar-text">{% trans %}Menu{% endtrans %}</span>
             </button>
-            <p id="kernel_indicator" class="navbar-text indicator_area">
-              <span class="kernel_indicator_name">{% trans %}Kernel{% endtrans %}</span>
-              <i id="kernel_indicator_icon"></i>
-            </p>
             <i id="readonly-indicator" class="navbar-text" title='{% trans %}This notebook is read-only{% endtrans %}'>
                 <span class="fa-stack">
                     <i class="fa fa-save fa-stack-1x"></i>
@@ -331,11 +343,6 @@ data-notebook-path="{{notebook_path | urlencode}}"
     </div>
 </div>
 
-<div id="maintoolbar" class="navbar">
-  <div class="toolbar-inner navbar-inner navbar-nobg">
-    <div id="maintoolbar-container" class="container"></div>
-  </div>
-</div>
 </div>
 
 <div class="lower-header-bar"></div>
@@ -345,6 +352,15 @@ data-notebook-path="{{notebook_path | urlencode}}"
 
 <div id="ipython-main-app">
     <div id="notebook_panel">
+        <div id="maintoolbar" class="navbar">
+            <div class="toolbar-inner navbar-inner navbar-nobg">
+                <div id="maintoolbar-container" class="container"></div>
+            </div>
+            <p id="kernel_indicator" class="navbar-text indicator_area">
+              <span class="kernel_indicator_name">{% trans %}Kernel{% endtrans %}</span>
+              <i id="kernel_indicator_icon"></i>
+            </p>
+        </div>
         <div id="notebook"></div>
         <div id='tooltip' class='ipython_tooltip' style='display:none'></div>
     </div>

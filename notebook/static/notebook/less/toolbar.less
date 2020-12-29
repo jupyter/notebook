@@ -1,8 +1,6 @@
 .toolbar {
     padding: 0px;
     margin-left: -5px;
-    margin-top: 2px;
-    margin-bottom: 5px;
 
     select, label {
         width: auto;
@@ -16,8 +14,21 @@
         padding: 0px;
         padding-top: 3px;
     }
+    
     .btn {
         padding: 2px 8px;
+        color: @primary_color;
+        border-color: white;
+        display: flex;
+    }
+
+    .btn > .fa {
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      border-color: @primary_color;
+      background-color: #FFE4DB;
     }
 
     .border-box-sizing();
@@ -33,21 +44,18 @@
 }
 
 #maintoolbar {
-  margin-bottom: -3px;
-  margin-top: -8px;
+  margin: 0;
   border: 0px;
   min-height: 27px;
-  margin-left: 0px;
-  padding-top: 11px;
-  padding-bottom: 3px;
+  padding: 8px 20px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #EFEFEF;
 
   .navbar-text {
     float: none;
-    vertical-align: middle;
-    text-align: right;
-    margin-left: 5px;
-    margin-right: 0px;
-    margin-top: 0px;
+    margin-left: auto;
   }
 }
 
@@ -61,6 +69,6 @@
 
 // highlight the new menu where celltoolbar is
 .pulse, .dropdown-menu > li > a.pulse,  li.pulse > a.dropdown-toggle, li.pulse.open > a.dropdown-toggle {
-    background-color: #F37626;
+    background-color: @primary_color;
     color: white;
 }

@@ -60,7 +60,8 @@ define([
          ['<add_celltype_list>'],
          [
            ['jupyter-notebook:show-command-palette'],
-           'cmd_palette']
+           'cmd_palette'],
+         ['<change_kernel>'] // Add a pseudo action for kernel change
         ];
         this.construct(grps);
     };
@@ -130,6 +131,19 @@ define([
         return sel;
 
     };
+
+    // Register the pseudo action for kernel change and create the select menu
+    MainToolBar.prototype._pseudo_actions.change_kernel = function () {
+        var multiselectKernel = $('<option/>').attr('value','multiselect').attr('disabled','').text('-');
+        var kernelSel = $('<select/>')
+            .attr('id','change_kernel_type')
+            .attr('aria-label', i18n.msg._('combobox, change kernel'))
+            .attr('role', 'combobox')
+            .addClass('form-control select-xs')
+            .append(multiselectKernel);
+        this.notebook.keyboard_manager.register_events(kernelSel);
+        return kernelSel
+    }
 
     return {'MainToolBar': MainToolBar};
 });

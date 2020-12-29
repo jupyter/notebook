@@ -19,7 +19,7 @@ from http.cookies import Morsel
 
 from urllib.parse import urlparse
 from jinja2 import TemplateNotFound
-from tornado import web, gen, escape, httputil
+from tornado import web, gen, escape, httputil, httpclient
 from tornado.log import app_log
 import prometheus_client
 
@@ -34,6 +34,9 @@ from notebook._tz import utcnow
 from notebook.i18n import combine_translations
 from notebook.utils import is_hidden, url_path_join, url_is_absolute, url_escape, urldecode_unix_socket_path
 from notebook.services.security import csp_report_uri
+
+import asyncio
+import nest_asyncio
 
 #-----------------------------------------------------------------------------
 # Top-level handlers
@@ -210,9 +213,44 @@ class IPythonHandler(AuthenticatedHandler):
         return log()
 
     @property
+    async def get_user_data(self):
+        """Use torando to request Quartic's API to get user data."""
+        http_client = httpclient.AsyncHTTPClient()
+        template_vars = self.settings.get('jinja_template_vars', {})
+        site_url = template_vars["site_url"] if(template_vars and "site_url" in template_vars) else 'http://localhost:8000'
+        cookie = {
+            "Cookie" : self.request.headers['Cookie']
+        }
+        try:
+            user_detail_response = await http_client.fetch(site_url + '/user_detail', headers=cookie)
+            features_response = await http_client.fetch(site_url + '/accounts/users/features/', headers=cookie)
+
+            return {
+                "user_data": {
+                    **json.loads(user_detail_response.body.decode('utf-8'))
+                    },
+                "features": {
+                    **json.loads(features_response.body.decode('utf-8'))
+                    },
+                "site_url": site_url
+            }
+        except Exception as e:
+            print("Error: %s" % e)
+            return {
+                "site_url": site_url
+            }
+
+    @property
     def jinja_template_vars(self):
         """User-supplied values to supply to jinja templates."""
-        return self.settings.get('jinja_template_vars', {})
+        template_vars = self.settings.get('jinja_template_vars', {})
+
+        nest_asyncio.apply()
+        loop = asyncio.get_event_loop()
+        result = loop.run_until_complete(self.get_user_data)
+        template_vars.update(result)
+
+        return template_vars
     
     #---------------------------------------------------------------
     # URLs

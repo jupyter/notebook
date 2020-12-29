@@ -20,6 +20,7 @@
     <script src="{{static_url('components/react/react-dom.production.min.js')}}" type="text/javascript"></script>
     <script src="{{static_url('components/create-react-class/index.js')}}" type="text/javascript"></script>
     <script src="{{static_url('components/requirejs/require.js') }}" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="{{static_url("icon-fonts/css/all.css") }}" type="text/css" />
     <script>
       require.config({
           {% if version_hash %}
@@ -101,7 +102,6 @@
     document.nbjs_translations = {{ nbjs_translations|safe }};
     document.documentElement.lang = navigator.language.toLowerCase();
     </script>
-
     {% block meta %}
     {% endblock %}
 
@@ -124,6 +124,40 @@ dir="ltr">
 
 <div id="header" role="navigation" aria-label="{% trans %}Top Menu{% endtrans %}">
   <div id="header-container" class="container">
+  <input id="checkbox-sidebar" class="checkbox-sidebar" name="checkbox-sidebar" type="checkbox">
+  <label for="checkbox-sidebar" class="sidebar-custom-label" id="sidebar-label">
+    <i class="fal fa-bars sidebar-open"></i>
+    <i class="fal fa-times sidebar-close"></i>
+  </label>
+  <div class="sidebar-menu-container">
+    {% for parentFeature in FEATURES_DATA_MAP %}
+      {% if parentFeature["value"] in features and features[parentFeature["value"]] %}
+        <span class="sidebar-menu-heading">{{ parentFeature["name"] }}</span>
+        <ul class="sidebar-menu-list">
+          {% for subFeature in parentFeature["subFeatures"] %}
+            {% if (subFeature["feature"] == "POV") %}
+              {% if (subFeature["value"] in features and features[subFeature["value"]]) or (OTHER_FEATURES["META_TRAINER"] in features and features[OTHER_FEATURES["META_TRAINER"]]) %}
+                <li class="sidebar-menu-list-item">
+                  <a class="sidebar-menu-list-link" href="{{ site_url + subFeature['url'] }}">
+                    <i class="{{ subFeature['icon'] + ' sidebar-menu-list-icon'}}"></i>
+                    {{ subFeature["name"] }}
+                  </a>
+                </li>
+              {% endif %}
+            {% elif subFeature["value"] in features and features[subFeature["value"]] %}
+              <li class="sidebar-menu-list-item">
+                <a class="sidebar-menu-list-link" href="{{ site_url + subFeature['url'] }}">
+                  <i class="{{ subFeature['icon'] + ' sidebar-menu-list-icon'}}"></i>
+                  {{ subFeature["name"] }}
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <div class="dropdown-overlay sidebar-overlay" id="sidebar-overlay"></div>
   <div id="ipython_notebook" class="nav navbar-brand"><a href="{{default_url}}
     {%- if logged_in and token -%}?token={{token}}{%- endif -%}" title='{% trans %}dashboard{% endtrans %}'>
       {% block logo %}<img src='{{static_url("base/images/logo.png") }}' alt='Jupyter Notebook'/>{% endblock %}
@@ -138,7 +172,31 @@ dir="ltr">
 
     <span id="login_widget">
       {% if logged_in %}
-        <button id="logout" class="btn btn-sm navbar-btn">{% trans %}Logout{% endtrans %}</button>
+        <input id="login-checkbox" class="login-checkbox" name="login-checkbox" type="checkbox">
+        <label for="login-checkbox" class="login-checkbox-label" id="login-checkbox-label">
+          <i class="fas fa-user-circle login_user"></i>
+        </label>
+        <div class="dropdown-container" id="user-info-dropdown">
+          <div class="user-info-container">
+            <img alt="profile" data-testid="user-pic" src="{{static_url("base/images/profile.png") }}" class="profile-image">
+            <div class="user-info">
+              <span data-testid="user-name" class="user-info-name">{{user_data.name}}</span>
+              <span data-testid="user-email" class="user-info-email">{{user_data.email}}</span>
+            </div>
+          </div>
+          <a data-testid="account-link" href="{{site_url+'/administration/profile/'}}" class="dropdown-links">
+              <i class="far fa-user dropdown-links-icon"></i>View Account
+          </a>
+          {% if (OTHER_FEATURES["SETTINGS"] in features and features[OTHER_FEATURES["SETTINGS"]]) or (OTHER_FEATURES["SOFTWARE_UPDATES"] in features and features[OTHER_FEATURES["SOFTWARE_UPDATES"]]) %}
+          <a href="{{site_url+'/administration/settings'}}" data-testid="sign-out-link" class="dropdown-links">
+            <i class="far fa-cog dropdown-links-icon"></i>Settings
+          </a>
+          {% endif %}
+          <button class="dropdown-links" id="logout">
+            <i class="far fa-unlock dropdown-links-icon"></i>Sign Out
+          </button>
+        </div>
+        <div class="dropdown-overlay login-overlay" id="login-dropdown-overlay"></div>
       {% elif login_available and not logged_in %}
         <button id="login" class="btn btn-sm navbar-btn">{% trans %}Login{% endtrans %}</button>
       {% endif %}
@@ -149,7 +207,6 @@ dir="ltr">
   {% endblock header_buttons %}
   
   </div>
-  <div class="header-bar"></div>
 
   {% block header %}
   {% endblock %}

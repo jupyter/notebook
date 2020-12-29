@@ -25,12 +25,13 @@ div#notebook {
     overflow-x: auto;
     width: 100%;
     /* This spaces the page away from the edge of the notebook area */
-    padding-top: @page-header-padding;
-    padding-bottom: @page-header-padding;
+    padding-top: 1px;
+    padding-bottom: 1px;
     margin: 0px;
     outline: none;
     .border-box-sizing();
     min-height: 100%;
+    background-color: white;
 }
 
 #notebook-container{
@@ -38,7 +39,7 @@ div#notebook {
         padding: @page-padding;
         background-color :  @page-color;
         min-height: @page-min-height;
-        .box-shadow(@global-shadow);
+        width: 100%;
     }
     @media print {
         width: 100%;
@@ -78,10 +79,6 @@ p {
 .end_space {
     min-height: 100px;
     transition: height .2s ease;
-}
-
-.notebook_app > #header {
-    .box-shadow(@global-shadow);
 }
 
 .notebook_app{
