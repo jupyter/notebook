@@ -25,4 +25,4 @@ DEFAULT_NOTEBOOK_PORT = 8888
 del os
 
 from .nbextensions import install_nbextension
-from ._version import version_info, __version__
+from ._version import __version__

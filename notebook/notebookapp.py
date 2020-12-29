@@ -4,7 +4,6 @@
 # Distributed under the terms of the Modified BSD License.
 
 import notebook
-import asyncio
 import binascii
 import datetime
 import errno
@@ -32,16 +31,16 @@ import time
 import warnings
 import webbrowser
 
+
 try:
     import resource
 except ImportError:
     # Windows
     resource = None
 
+from .db_util import PostgresUtils
 from base64 import encodebytes
-
 from jinja2 import Environment, FileSystemLoader
-
 from notebook.transutils import trans, _
 
 # Install the pyzmq ioloop. This has to be done before anything else from
@@ -1846,6 +1845,10 @@ class NotebookApp(JupyterApp):
         return url
 
     @property
+    def db(self):
+        return PostgresUtils()
+
+    @property
     def connection_url(self):
         if self.sock:
             return self._unix_sock_url()
@@ -2088,6 +2091,9 @@ class NotebookApp(JupyterApp):
         self.init_server_extensions()
         self.init_mime_overrides()
         self.init_shutdown_no_activity()
+        self.db
+        _users = self.db.get_users()
+        self.log.info(f'users={_users}')
 
     def cleanup_kernels(self):
         """Shutdown all kernels.

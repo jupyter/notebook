@@ -22,6 +22,7 @@ from notebook.utils import maybe_future, url_path_join, url_escape
 from ...base.handlers import APIHandler
 from ...base.zmqhandlers import AuthenticatedZMQStreamHandler, deserialize_binary_message
 
+
 class MainKernelHandler(APIHandler):
 
     @web.authenticated
