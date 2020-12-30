@@ -46,7 +46,7 @@ class BundleAPITest(NotebookTestBase):
         self.assertIn('Missing argument bundler', resp.text)
 
     def test_notebook_not_found(self):
-        """Shoudl respond with 404 error about missing notebook"""
+        """Should respond with 404 error about missing notebook"""
         resp = self.request('GET', 'bundle/fake.ipynb',
             params={'bundler': 'fake_bundler'})
         self.assertEqual(resp.status_code, 404)

@@ -348,7 +348,7 @@ define([
         } else if (code == keycodes.tab) {
             //all the fastforwarding operation,
             //Check that shared start is not null which can append with prefixed completion
-            // like %pylab , pylab have no shred start, and ff will result in py<tab><tab>
+            // like %pylab , pylab have no shared start, and ff will result in py<tab><tab>
             // to erase py
             var sh = shared_start(this.raw_result, true);
             if (sh.str !== '') {
@@ -358,7 +358,7 @@ define([
             this.carry_on_completion();
         } else if (code == keycodes.up || code == keycodes.down) {
             // need to do that to be able to move the arrow
-            // when on the first or last line ofo a code cell
+            // when on the first or last line of a code cell
             event.codemirrorIgnore = true;
             event._ipkmIgnore = true;
             event.preventDefault();

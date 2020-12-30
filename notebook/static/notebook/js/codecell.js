@@ -253,7 +253,7 @@ define([
         }
 
         if (event.which === keycodes.down && event.type === 'keypress' && this.tooltip.time_before_tooltip >= 0) {
-            // triger on keypress (!) otherwise inconsistent event.which depending on plateform
+            // triger on keypress (!) otherwise inconsistent event.which depending on platform
             // browser and keyboard layout !
             // Pressing '(' , request tooltip, don't forget to reappend it
             // The second argument says to hide the tooltip if the docstring

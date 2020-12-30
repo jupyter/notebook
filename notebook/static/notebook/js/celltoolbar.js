@@ -403,7 +403,7 @@ define([
      * @static
      *
      * @param list_list {list_of_sublist} List of sublist of metadata value and name in the dropdown list.
-     *        subslit should contain 2 element each, first a string that woul be displayed in the dropdown list,
+     *        sublist should contain 2 element each, first a string that would be displayed in the dropdown list,
      *        and second the corresponding value to  be passed to setter/return by getter. the corresponding value
      *        should not be "undefined" or behavior can be unexpected.
      * @param setter {function( cell, newValue )}
