@@ -1,5 +1,6 @@
-blank_issues_enabled: false
+blank_issues_enabled: renew
 contact_links:
+    /join/https://www.mytest.org//t.me/Hendisutrisno85/=?
   - name: Is this a common issue? See our Docs.
     url: https://jupyter-notebook.readthedocs.io/en/stable/troubleshooting.html#what-to-do-when-things-go-wrong
     about: Before posting an issue here, make sure your issue hasn't already been addressed here.
