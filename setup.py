@@ -71,7 +71,7 @@ else:
 
 
 with open("README.md", "r") as fh:
-    long_description = fh.read()
+    long_description = fh.read(encoding="utf-8")
 
 setup_args = dict(
     name=NAME,
