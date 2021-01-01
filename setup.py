@@ -70,8 +70,8 @@ else:
     cmdclass["jsdeps"] = skip_if_exists(jstargets, js_command)
 
 
-with open("README.md", "r") as fh:
-    long_description = fh.read(encoding="utf-8")
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
 
 setup_args = dict(
     name=NAME,
