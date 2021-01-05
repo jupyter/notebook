@@ -22,7 +22,7 @@ from traitlets.config import SingletonConfigurable
 class GatewayClient(SingletonConfigurable):
     """This class manages the configuration.  It's its own singleton class so that we
        can share these values across all objects.  It also contains some helper methods
-        to build request arguments out of the various config options.
+       to build request arguments out of the various config options.
 
     """
 
@@ -219,6 +219,38 @@ class GatewayClient(SingletonConfigurable):
     @default('env_whitelist')
     def _env_whitelist_default(self):
         return os.environ.get(self.env_whitelist_env, self.env_whitelist_default_value)
+
+    gateway_retry_interval_default_value = 1.0
+    gateway_retry_interval_env = 'JUPYTER_GATEWAY_RETRY_INTERVAL'
+    gateway_retry_interval = Float(default_value=gateway_retry_interval_default_value, config=True,
+        help="""The time allowed for HTTP reconnection with the Gateway server for the first time.
+                Next will be JUPYTER_GATEWAY_RETRY_INTERVAL multiplied by two in factor of numbers of retries
+                but less than JUPYTER_GATEWAY_RETRY_INTERVAL_MAX.
+                (JUPYTER_GATEWAY_RETRY_INTERVAL env var)""")
+
+    @default('gateway_retry_interval')
+    def gateway_retry_interval_default(self):
+        return float(os.environ.get('JUPYTER_GATEWAY_RETRY_INTERVAL', self.gateway_retry_interval_default_value))
+
+    gateway_retry_interval_max_default_value = 30.0
+    gateway_retry_interval_max_env = 'JUPYTER_GATEWAY_RETRY_INTERVAL_MAX'
+    gateway_retry_interval_max = Float(default_value=gateway_retry_interval_max_default_value, config=True,
+        help="""The maximum time allowed for HTTP reconnection retry with the Gateway server.
+                (JUPYTER_GATEWAY_RETRY_INTERVAL_MAX env var)""")
+
+    @default('gateway_retry_interval_max')
+    def gateway_retry_interval_max_default(self):
+        return float(os.environ.get('JUPYTER_GATEWAY_RETRY_INTERVAL_MAX', self.gateway_retry_interval_max_default_value))
+
+    gateway_retry_max_default_value = 5
+    gateway_retry_max_env = 'JUPYTER_GATEWAY_RETRY_MAX'
+    gateway_retry_max = Float(default_value=gateway_retry_max_default_value, config=True,
+        help="""The maximum numbers allowed for HTTP reconnection retries with the Gateway server.
+                (JUPYTER_GATEWAY_RETRY_MAX env var)""")
+
+    @default('gateway_retry_max')
+    def gateway_retry_max_default(self):
+        return int(os.environ.get('JUPYTER_GATEWAY_RETRY_MAX', self.gateway_retry_max_default_value))
 
     @property
     def gateway_enabled(self):
@@ -501,7 +533,6 @@ class GatewayKernelManager(MappingKernelManager):
         client.close()
         for kernel_id in shutdown_kernels:
             self.remove_kernel(kernel_id)
-
 
 
 class GatewayKernelSpecManager(KernelSpecManager):
