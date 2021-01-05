@@ -15,7 +15,7 @@ from ..services.sessions.sessionmanager import SessionManager
 from jupyter_client.kernelspec import KernelSpecManager
 from ..utils import url_path_join
 
-from traitlets import Instance, Unicode, Float, Bool, default, validate, TraitError
+from traitlets import Instance, Unicode, Int, Float, Bool, default, validate, TraitError
 from traitlets.config import SingletonConfigurable
 
 
@@ -244,7 +244,7 @@ class GatewayClient(SingletonConfigurable):
 
     gateway_retry_max_default_value = 5
     gateway_retry_max_env = 'JUPYTER_GATEWAY_RETRY_MAX'
-    gateway_retry_max = Float(default_value=gateway_retry_max_default_value, config=True,
+    gateway_retry_max = Int(default_value=gateway_retry_max_default_value, config=True,
         help="""The maximum numbers allowed for HTTP reconnection retries with the Gateway server.
                 (JUPYTER_GATEWAY_RETRY_MAX env var)""")
 
