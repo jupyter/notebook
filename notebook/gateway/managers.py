@@ -245,7 +245,7 @@ class GatewayClient(SingletonConfigurable):
     gateway_retry_max_default_value = 5
     gateway_retry_max_env = 'JUPYTER_GATEWAY_RETRY_MAX'
     gateway_retry_max = Int(default_value=gateway_retry_max_default_value, config=True,
-        help="""The maximum numbers allowed for HTTP reconnection retries with the Gateway server.
+        help="""The maximum retries allowed for HTTP reconnection with the Gateway server.
                 (JUPYTER_GATEWAY_RETRY_MAX env var)""")
 
     @default('gateway_retry_max')
