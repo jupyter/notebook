@@ -1,6 +1,6 @@
 {
   "name": "@jupyterlab-classic/docmanager-extension",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "JupyterLab Classic - Document Manager Extension",
   "homepage": "https://github.com/jtpio/jupyterlab-classic",
   "bugs": {
