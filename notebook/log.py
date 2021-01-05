@@ -13,7 +13,7 @@ from .prometheus.log_functions import prometheus_log_method
 def log_request(handler, log=access_log, log_json=False):
     """log a bit more information about each request than tornado's default
     
-    - move static file get success to debug-level (reduces noise)
+    - move static file get success to info-level (reduces noise)
     - get proxied IP instead of proxy IP
     - log referer for redirect and failed requests
     - log user-agent for failed requests
@@ -21,8 +21,8 @@ def log_request(handler, log=access_log, log_json=False):
     status = handler.get_status()
     request = handler.request
     if status < 300 or status == 304:
-        # Successes (or 304 FOUND) are debug-level
-        log_method = log.debug
+        # Successes (or 304 FOUND) are info-level
+        log_method = log.info
     elif status < 400:
         log_method = log.info
     elif status < 500:

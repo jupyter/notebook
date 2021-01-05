@@ -116,7 +116,7 @@ class ContentsManager(LoggingConfigurable):
         """Run the pre-save hook if defined, and log errors"""
         if self.pre_save_hook:
             try:
-                self.log.debug("Running pre-save hook on %s", path)
+                self.log.info("Running pre-save hook on %s", path)
                 self.pre_save_hook(model=model, path=path, contents_manager=self, **kwargs)
             except Exception:
                 self.log.error("Pre-save hook failed on %s", path, exc_info=True)

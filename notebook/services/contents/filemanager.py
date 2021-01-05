@@ -127,7 +127,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         """Run the post-save hook if defined, and log errors"""
         if self.post_save_hook:
             try:
-                self.log.debug("Running post-save hook on %s", os_path)
+                self.log.info("Running post-save hook on %s", os_path)
                 self.post_save_hook(os_path=os_path, model=model, contents_manager=self)
             except Exception as e:
                 self.log.error("Post-save hook failed o-n %s", os_path, exc_info=True)
@@ -328,7 +328,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                 if (not stat.S_ISLNK(st.st_mode)
                         and not stat.S_ISREG(st.st_mode)
                         and not stat.S_ISDIR(st.st_mode)):
-                    self.log.debug("%s not a regular file", os_path)
+                    self.log.info("%s not a regular file", os_path)
                     continue
 
                 try:
@@ -453,7 +453,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         elif not os.path.isdir(os_path):
             raise web.HTTPError(400, u'Not a directory: %s' % (os_path))
         else:
-            self.log.debug("Directory %r already exists", os_path)
+            self.log.info("Directory %r already exists", os_path)
 
     def save(self, model, path=''):
         """Save the file model and return the model with no content."""
@@ -465,7 +465,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             raise web.HTTPError(400, u'No file content provided')
 
         os_path = self._get_os_path(path)
-        self.log.debug("Saving %s", os_path)
+        self.log.info("Saving %s", os_path)
 
         self.run_pre_save_hook(model=model, path=path)
 
@@ -539,7 +539,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                 # deleting non-empty files. See Github issue 3631.
                 raise web.HTTPError(400, u'Directory %s not empty' % os_path)
             if _check_trash(os_path):
-                self.log.debug("Sending %s to trash", os_path)
+                self.log.info("Sending %s to trash", os_path)
                 # Looking at the code in send2trash, I don't think the errors it
                 # raises let us distinguish permission errors from other errors in
                 # code. So for now, just let them all get logged as server errors.
@@ -553,11 +553,11 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             # Don't permanently delete non-empty directories.
             if is_non_empty_dir(os_path):
                 raise web.HTTPError(400, u'Directory %s not empty' % os_path)
-            self.log.debug("Removing directory %s", os_path)
+            self.log.info("Removing directory %s", os_path)
             with self.perm_to_403():
                 shutil.rmtree(os_path)
         else:
-            self.log.debug("Unlinking file %s", os_path)
+            self.log.info("Unlinking file %s", os_path)
             with self.perm_to_403():
                 rm(os_path)
 

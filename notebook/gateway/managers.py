@@ -356,7 +356,7 @@ class GatewayKernelManager(MappingKernelManager):
                 kwargs['cwd'] = self.cwd_for_path(path)
             kernel_name = kwargs.get('kernel_name', 'python3')
             kernel_url = self._get_kernel_endpoint_url()
-            self.log.debug("Request new kernel at: %s" % kernel_url)
+            self.log.info("Request new kernel at: %s" % kernel_url)
 
             # Let KERNEL_USERNAME take precedent over http_user config option.
             if os.environ.get('KERNEL_USERNAME') is None and GatewayClient.instance().http_user:
@@ -375,7 +375,7 @@ class GatewayKernelManager(MappingKernelManager):
             kernel = json_decode(response.body)
             kernel_id = kernel['id']
             self.log.info("Kernel started: %s" % kernel_id)
-            self.log.debug("Kernel args: %r" % kwargs)
+            self.log.info("Kernel args: %r" % kwargs)
         else:
             kernel = yield self.get_kernel(kernel_id)
             kernel_id = kernel['id']
@@ -394,7 +394,7 @@ class GatewayKernelManager(MappingKernelManager):
             The uuid of the kernel.
         """
         kernel_url = self._get_kernel_endpoint_url(kernel_id)
-        self.log.debug("Request kernel at: %s" % kernel_url)
+        self.log.info("Request kernel at: %s" % kernel_url)
         try:
             response = yield gateway_request(kernel_url, method='GET')
         except web.HTTPError as error:
@@ -407,7 +407,7 @@ class GatewayKernelManager(MappingKernelManager):
         else:
             kernel = json_decode(response.body)
             self._kernels[kernel_id] = kernel
-        self.log.debug("Kernel retrieved: %s" % kernel)
+        self.log.info("Kernel retrieved: %s" % kernel)
         raise gen.Return(kernel)
 
     @gen.coroutine
@@ -420,7 +420,7 @@ class GatewayKernelManager(MappingKernelManager):
         kernel_id : uuid
             The uuid of the kernel.
         """
-        self.log.debug("RemoteKernelManager.kernel_model: %s", kernel_id)
+        self.log.info("RemoteKernelManager.kernel_model: %s", kernel_id)
         model = yield self.get_kernel(kernel_id)
         raise gen.Return(model)
 
@@ -428,7 +428,7 @@ class GatewayKernelManager(MappingKernelManager):
     def list_kernels(self, **kwargs):
         """Get a list of kernels."""
         kernel_url = self._get_kernel_endpoint_url()
-        self.log.debug("Request list kernels: %s", kernel_url)
+        self.log.info("Request list kernels: %s", kernel_url)
         response = yield gateway_request(kernel_url, method='GET')
         kernels = json_decode(response.body)
         self._kernels = {x['id']: x for x in kernels}
@@ -448,9 +448,9 @@ class GatewayKernelManager(MappingKernelManager):
             The purpose of this shutdown is to restart the kernel (True)
         """
         kernel_url = self._get_kernel_endpoint_url(kernel_id)
-        self.log.debug("Request shutdown kernel at: %s", kernel_url)
+        self.log.info("Request shutdown kernel at: %s", kernel_url)
         response = yield gateway_request(kernel_url, method='DELETE')
-        self.log.debug("Shutdown kernel response: %d %s", response.code, response.reason)
+        self.log.info("Shutdown kernel response: %d %s", response.code, response.reason)
         self.remove_kernel(kernel_id)
 
     @gen.coroutine
@@ -463,9 +463,9 @@ class GatewayKernelManager(MappingKernelManager):
             The id of the kernel to restart.
         """
         kernel_url = self._get_kernel_endpoint_url(kernel_id) + '/restart'
-        self.log.debug("Request restart kernel at: %s", kernel_url)
+        self.log.info("Request restart kernel at: %s", kernel_url)
         response = yield gateway_request(kernel_url, method='POST', body=json_encode({}))
-        self.log.debug("Restart kernel response: %d %s", response.code, response.reason)
+        self.log.info("Restart kernel response: %d %s", response.code, response.reason)
 
     @gen.coroutine
     def interrupt_kernel(self, kernel_id, **kwargs):
@@ -477,9 +477,9 @@ class GatewayKernelManager(MappingKernelManager):
             The id of the kernel to interrupt.
         """
         kernel_url = self._get_kernel_endpoint_url(kernel_id) + '/interrupt'
-        self.log.debug("Request interrupt kernel at: %s", kernel_url)
+        self.log.info("Request interrupt kernel at: %s", kernel_url)
         response = yield gateway_request(kernel_url, method='POST', body=json_encode({}))
-        self.log.debug("Interrupt kernel response: %d %s", response.code, response.reason)
+        self.log.info("Interrupt kernel response: %d %s", response.code, response.reason)
 
     def shutdown_all(self, now=False):
         """Shutdown all kernels."""
@@ -490,13 +490,13 @@ class GatewayKernelManager(MappingKernelManager):
         client = HTTPClient()
         for kernel_id in self._kernels.keys():
             kernel_url = self._get_kernel_endpoint_url(kernel_id)
-            self.log.debug("Request delete kernel at: %s", kernel_url)
+            self.log.info("Request delete kernel at: %s", kernel_url)
             try:
                 response = client.fetch(kernel_url, **kwargs)
             except HTTPError:
                 pass
             else:
-                self.log.debug("Delete kernel response: %d %s", response.code, response.reason)
+                self.log.info("Delete kernel response: %d %s", response.code, response.reason)
             shutdown_kernels.append(kernel_id)  # avoid changing dict size during iteration
         client.close()
         for kernel_id in shutdown_kernels:
@@ -558,7 +558,7 @@ class GatewayKernelSpecManager(KernelSpecManager):
     def list_kernel_specs(self):
         """Get a list of kernel specs."""
         kernel_spec_url = self._get_kernelspecs_endpoint_url()
-        self.log.debug("Request list kernel specs at: %s", kernel_spec_url)
+        self.log.info("Request list kernel specs at: %s", kernel_spec_url)
         response = yield gateway_request(kernel_spec_url, method='GET')
         kernel_specs = json_decode(response.body)
         raise gen.Return(kernel_specs)
@@ -573,7 +573,7 @@ class GatewayKernelSpecManager(KernelSpecManager):
             The name of the kernel.
         """
         kernel_spec_url = self._get_kernelspecs_endpoint_url(kernel_name=str(kernel_name))
-        self.log.debug("Request kernel spec at: %s" % kernel_spec_url)
+        self.log.info("Request kernel spec at: %s" % kernel_spec_url)
         try:
             response = yield gateway_request(kernel_spec_url, method='GET')
         except web.HTTPError as error:
@@ -603,7 +603,7 @@ class GatewayKernelSpecManager(KernelSpecManager):
             The name of the desired resource
         """
         kernel_spec_resource_url = url_path_join(self.base_resource_endpoint, str(kernel_name), str(path))
-        self.log.debug("Request kernel spec resource '{}' at: {}".format(path, kernel_spec_resource_url))
+        self.log.info("Request kernel spec resource '{}' at: {}".format(path, kernel_spec_resource_url))
         try:
             response = yield gateway_request(kernel_spec_resource_url, method='GET')
         except web.HTTPError as error:

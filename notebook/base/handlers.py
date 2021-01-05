@@ -90,7 +90,7 @@ class AuthenticatedHandler(web.RequestHandler):
                 # tornado raise Exception (not a subclass)
                 # if method is unsupported (websocket and Access-Control-Allow-Origin
                 # for example, so just ignore)
-                self.log.debug(e)
+                self.log.info(e)
 
     def force_clear_cookie(self, name, path="/", domain=None):
         """Deletes the cookie with the given name.
@@ -214,28 +214,258 @@ class IPythonHandler(AuthenticatedHandler):
 
     @property
     async def get_user_data(self):
-        """Use torando to request Quartic's API to get user data."""
+        """Use tornado to request Quartic's API to get user data."""
         http_client = httpclient.AsyncHTTPClient()
         template_vars = self.settings.get('jinja_template_vars', {})
-        site_url = template_vars["site_url"] if(template_vars and "site_url" in template_vars) else 'http://localhost:8000'
+        server_name = os.environ.get('SERVER_NAME', 'localhost:8000')
+        site_url = 'https://' + server_name if 'localhost:8000' not in server_name else 'http://' + server_name
+        self.log.info(f'site url = {site_url}')
         cookie = {
             "Cookie" : self.request.headers['Cookie']
         }
         try:
-            user_detail_response = await http_client.fetch(site_url + '/user_detail', headers=cookie)
-            features_response = await http_client.fetch(site_url + '/accounts/users/features/', headers=cookie)
+            user_detail_response = await http_client.fetch(site_url + '/user_detail', headers=cookie,
+                                                           validate_cert=False)
+            features_response = await http_client.fetch(site_url + '/accounts/users/features/', headers=cookie,
+                                                        validate_cert=False)
 
             return {
                 "user_data": {
                     **json.loads(user_detail_response.body.decode('utf-8'))
-                    },
+                },
                 "features": {
                     **json.loads(features_response.body.decode('utf-8'))
+                },
+                "site_url": site_url,
+                "FEATURES_DATA_MAP": (
+                    {
+                        "name": "QuarticView",
+                        "feature": "QUARTIC_VIEW",
+                        "value": "16",
+                        "subFeatures": (
+                            {
+                                "name": "My Dashboard",
+                                "feature": "DASHBOARD",
+                                "url":"/contexalyze/my-dashboard",
+                                "icon": "fal fa-window-restore",
+                                "value": "17"
+                            },
+                            {
+                                "name": "Reliability",
+                                "feature": "RELIABILITY",
+                                "url": "/quartic-view/reliability",
+                                "icon": "fal fa-atom-alt",
+                                "value": "25"
+                            },
+                            {
+                                "name": "Energy",
+                                "feature": "ENERGY",
+                                "url": "/quartic-view/energy",
+                                "icon": "fal fa-bolt",
+                                "value": "28"
+                            },
+                            {
+                                "name": "Throughput",
+                                "feature": "THROUGHPUT",
+                                "url": "/quartic-view/throughput",
+                                "icon": "fal fa-conveyor-belt-alt",
+                                "value": "29"
+                            },
+                            {
+                                "name": "Quality",
+                                "feature": "QUALITY",
+                                "url": "/quality/quality-events",
+                                "icon": "fal fa-award",
+                                "value": "30"
+                            },
+                            {
+                                "name": "Safety",
+                                "feature": "SAFETY",
+                                "url": "/quartic-view/safety",
+                                "icon": "fal fa-first-aid",
+                                "value": "31"
+                            },
+                            {
+                                "name": "Environment",
+                                "feature": "ENVIRONMENT",
+                                "url": "/quartic-view/environment",
+                                "icon": "fal fa-seedling",
+                                "value": "32"
+                            },
+                            {
+                                "name": "Alarms & Events",
+                                "feature": "ALARMS_AND_EVENTS",
+                                "url": "/quartic-view/alarms-and-events",
+                                "icon": "fal fa-bell-exclamation",
+                                "value": "18"
+                            }
+                        )
                     },
-                "site_url": site_url
+                    {
+                        "name": "ContexAlyze",
+                        "feature": "CONTEXALYZE",
+                        "value": "1",
+                        "subFeatures": (
+                            {
+                                "name": "Self-Service Analytics",
+                                "feature": "SELF_SERVICE_ANALYTICS",
+                                "url": "/contexalyze/self-service-analytics",
+                                "icon": "fal fa-chart-bar",
+                                "value": "2"
+                            },
+                            {
+                                "name": "Batch Analytics",
+                                "feature": "BATCH_ANALYTICS",
+                                "url": "/contexalyze/batch-analytics",
+                                "icon": "fal fa-boxes",
+                                "value": "3"
+                            },
+                            {
+                                "name": "Saved Searches",
+                                "feature": "SAVED_SEARCHES",
+                                "url": "/contexalyze/saved-searches",
+                                "icon": "fal fa-file-search",
+                                "value": "6"
+                            }
+                        )
+                    },
+                    {
+                        "name": "eXponence",
+                        "feature": "EXPONENCE",
+                        "value": "7",
+                        "subFeatures": (
+                            {
+                                "name": "Project Builder",
+                                "feature": "POV",
+                                "url": "/project-builder",
+                                "icon": "fal fa-project-diagram",
+                                "value": "19"
+                            },
+                            {
+                                "name": "Reckon Insights",
+                                "feature": "RECKON_INSIGHTS",
+                                "url": "/reckon/reckon-insights",
+                                "icon": "fal fa-puzzle-piece",
+                                "value": "9"
+                            },
+                            {
+                                "name": "Reckon Rules",
+                                "feature": "RECKON_RULES",
+                                "url": "/reckon/reckon-rules",
+                                "icon": "fal fa-check-double",
+                                "value": "10"
+                            },
+                            {
+                                "name": "Context Frames",
+                                "feature":"EVENT_FRAMES",
+                                "url": "/reckon/context-frames",
+                                "icon": "fal fa-server",
+                                "value": "5"
+                            },
+                            {
+                                "name": "DOE",
+                                "feature":"DOE",
+                                "url": "",
+                                "icon": "fal fa-vials",
+                                "value": "100"
+                            },
+                        )
+                    },
+                    {
+                        "name": "illuminator",
+                        "feature": "ILLUMINATOR",
+                        "value": "11",
+                        "subFeatures": (
+                            {
+                                "name": "AssetHarbor",
+                                "feature": "ASSET_HARBOUR",
+                                "url": "/illuminator/asset-harbor",
+                                "icon": "fal fa-box",
+                                "value": "12"
+                            },
+                            {
+                                "name": "ProductHarbor",
+                                "feature": "PRODUCT_HARBOR",
+                                "url": "/illuminator/product-harbor",
+                                "icon": "fal fa-box",
+                                "value": "34"
+                            },
+                            {
+                                "name": "Qnnect",
+                                "feature": "QNNECT",
+                                "url": "/illuminator/qnnect",
+                                "icon": "fal fa-sitemap",
+                                "value": "13"
+                            },
+                            {
+                                "name": "Meta Definitions",
+                                "feature": "GLOBAL_DEFINITIONS",
+                                "url": "/illuminator/global-definitions",
+                                "icon": "fal fa-globe",
+                                "value": "24"
+                            },
+                            {
+
+                                "name": "OPC UA Writeback",
+                                "feature": "OPCUA_WRITEBACK",
+                                "url": "/illuminator/opcua-writeback",
+                                "icon": "fal fa-file-signature",
+                                "value": "33"
+                            }
+                        )
+                    },
+                    {
+                        "name": "Administration",
+                        "feature": "ADMINISTRATION",
+                        "value": "20",
+                        "subFeatures": (
+                            {
+                                "name": "User Management",
+                                "feature": "USER_MANAGEMENT",
+                                "url": "/adminstration/users",
+                                "icon": "fal fa-user-cog",
+                                "value": "21"
+                            },
+                            {
+                                "name": "User Persona",
+                                "feature": "USER_PERSONA_MANAGEMENT",
+                                "url": "/adminstration/organisation-groups",
+                                "icon": "fal fa-users",
+                                "value": "22"
+                            },
+                            {
+
+                                "name": "Global Settings",
+                                "feature": "GLOBAL_SETTINGS",
+                                "url": "/adminstration/global-settings",
+                                "icon": "fal fa-cog",
+                                "value": "35"
+                            }
+                        )
+                    },
+                    {
+                        "name": "Support",
+                        "feature": "SUPPORT",
+                        "value": "14",
+                        "subFeatures": (
+                            {
+                                "name": "Downloads",
+                                "feature": "DOWNLOADS",
+                                "url": "/support/downloads",
+                                "icon": "fal fa-download",
+                                "value": "15"
+                            },
+                        )
+                    }
+                ),
+                "OTHER_FEATURES": {
+                    "SETTINGS": "26",
+                    "SOFTWARE_UPDATES": "27",
+                    "META_TRAINER": "8"
+                }
             }
         except Exception as e:
-            print("Error: %s" % e)
+            self.log.info("Error: %s" % e)
             return {
                 "site_url": site_url
             }
@@ -286,7 +516,7 @@ class IPythonHandler(AuthenticatedHandler):
 
     @property
     def contents_js_source(self):
-        self.log.debug("Using contents: %s", self.settings.get('contents_js_source',
+        self.log.info("Using contents: %s", self.settings.get('contents_js_source',
             'services/contents'))
         return self.settings.get('contents_js_source', 'services/contents')
     
@@ -581,7 +811,7 @@ class IPythonHandler(AuthenticatedHandler):
         try:
             model = json.loads(body)
         except Exception as e:
-            self.log.debug("Bad JSON: %r", body)
+            self.log.info("Bad JSON: %r", body)
             self.log.error("Couldn't parse JSON", exc_info=True)
             raise web.HTTPError(400, u'Invalid JSON in body of request') from e
         return model
@@ -867,7 +1097,7 @@ class FileFindHandler(IPythonHandler, web.StaticFileHandler):
             cls._static_paths[path] = abspath
             
 
-            log().debug("Path %s served from %s"%(path, abspath))
+            log().info("Path %s served from %s"%(path, abspath))
             return abspath
     
     def validate_absolute_path(self, root, absolute_path):
@@ -935,7 +1165,7 @@ class FilesRedirectHandler(IPythonHandler):
                 raise web.HTTPError(404)
 
             url = url_path_join(self.base_url, 'files', url_escape(path))
-        self.log.debug("Redirecting %s to %s", self.request.path, url)
+        self.log.info("Redirecting %s to %s", self.request.path, url)
         self.redirect(url)
     
     def get(self, path=''):

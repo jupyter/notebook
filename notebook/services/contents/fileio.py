@@ -50,7 +50,7 @@ def copy2_safe(src, dst, log=None):
         shutil.copystat(src, dst)
     except OSError:
         if log:
-            log.debug("copystat on %s failed", dst, exc_info=True)
+            log.info("copystat on %s failed", dst, exc_info=True)
 
 def path_to_intermediate(path):
     '''Name of the intermediate file used in atomic writes.

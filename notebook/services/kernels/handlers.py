@@ -137,7 +137,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             # check for previous request
             future = kernel._kernel_info_future
         except AttributeError:
-            self.log.debug("Requesting kernel info from %s", self.kernel_id)
+            self.log.info("Requesting kernel info from %s", self.kernel_id)
             # Create a kernel_info channel to query the kernel protocol version.
             # This channel will be closed after the kernel_info reply is received.
             if self.kernel_info_channel is None:
@@ -148,7 +148,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             kernel._kernel_info_future = self._kernel_info_future
         else:
             if not future.done():
-                self.log.debug("Waiting for pending kernel_info request")
+                self.log.info("Waiting for pending kernel_info request")
             future.add_done_callback(lambda f: self._finish_kernel_info(f.result()))
         return self._kernel_info_future
     
@@ -166,7 +166,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             return
         else:
             info = msg['content']
-            self.log.debug("Received kernel info: %s", info)
+            self.log.info("Received kernel info: %s", info)
             if msg['msg_type'] != 'kernel_info_reply' or 'protocol_version' not in info:
                 self.log.error("Kernel info request failed, assuming current %s", info)
                 info = {}
@@ -292,7 +292,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
     def on_message(self, msg):
         if not self.channels:
             # already closed, ignore the message
-            self.log.debug("Received message on closed websocket %r", msg)
+            self.log.info("Received message on closed websocket %r", msg)
             return
         if isinstance(msg, bytes):
             msg = deserialize_binary_message(msg)
@@ -427,7 +427,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         return self._close_future
 
     def on_close(self):
-        self.log.debug("Websocket closed %s", self.session_key)
+        self.log.info("Websocket closed %s", self.session_key)
         # unregister myself as an open session (only if it's really me)
         if self._open_sessions.get(self.session_key) is self:
             self._open_sessions.pop(self.session_key)

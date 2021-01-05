@@ -68,7 +68,7 @@ class FileCheckpoints(FileManagerMixin, Checkpoints):
         old_cp_path = self.checkpoint_path(checkpoint_id, old_path)
         new_cp_path = self.checkpoint_path(checkpoint_id, new_path)
         if os.path.isfile(old_cp_path):
-            self.log.debug(
+            self.log.info(
                 "Renaming checkpoint %s -> %s",
                 old_cp_path,
                 new_cp_path,
@@ -83,7 +83,7 @@ class FileCheckpoints(FileManagerMixin, Checkpoints):
         if not os.path.isfile(cp_path):
             self.no_such_checkpoint(path, checkpoint_id)
 
-        self.log.debug("unlinking %s", cp_path)
+        self.log.info("unlinking %s", cp_path)
         with self.perm_to_403():
             os.unlink(cp_path)
 
@@ -148,7 +148,7 @@ class GenericFileCheckpoints(GenericCheckpointsMixin, FileCheckpoints):
         # only the one checkpoint ID:
         checkpoint_id = u"checkpoint"
         os_checkpoint_path = self.checkpoint_path(checkpoint_id, path)
-        self.log.debug("creating checkpoint for %s", path)
+        self.log.info("creating checkpoint for %s", path)
         with self.perm_to_403():
             self._save_file(os_checkpoint_path, content, format=format)
 
@@ -161,7 +161,7 @@ class GenericFileCheckpoints(GenericCheckpointsMixin, FileCheckpoints):
         # only the one checkpoint ID:
         checkpoint_id = u"checkpoint"
         os_checkpoint_path = self.checkpoint_path(checkpoint_id, path)
-        self.log.debug("creating checkpoint for %s", path)
+        self.log.info("creating checkpoint for %s", path)
         with self.perm_to_403():
             self._save_notebook(os_checkpoint_path, nb)
 

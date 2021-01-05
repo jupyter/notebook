@@ -10,4 +10,4 @@ store the current version info of the notebook.
 # Next beta/alpha/rc release: The version number for beta is X.Y.ZbN **without dots**.
 
 
-__version__ = 'plt.3816.1'
+__version__ = 'plt.3990.0'

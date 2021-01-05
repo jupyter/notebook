@@ -151,7 +151,7 @@ class WebSocketMixin(object):
         pass
 
     def open(self, *args, **kwargs):
-        self.log.debug("Opening websocket %s", self.request.path)
+        self.log.info("Opening websocket %s", self.request.path)
 
         # start the pinging
         if self.ping_interval > 0:
@@ -290,7 +290,7 @@ class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
         yield maybe_future(res)
 
     def initialize(self):
-        self.log.debug("Initializing websocket connection %s", self.request.path)
+        self.log.info("Initializing websocket connection %s", self.request.path)
         self.session = Session(config=self.config)
 
     def get_compression_options(self):

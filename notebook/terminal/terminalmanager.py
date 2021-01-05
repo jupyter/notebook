@@ -132,7 +132,7 @@ class TerminalManager(LoggingConfigurable, NamedTermManager):
         self._initialized_culler = True
 
     async def _cull_terminals(self):
-        self.log.debug("Polling every %s seconds for terminals inactive for > %s seconds...",
+        self.log.info("Polling every %s seconds for terminals inactive for > %s seconds...",
                        self.cull_interval, self.cull_inactive_timeout)
         # Create a separate list of terminals to avoid conflicting updates while iterating
         for name in list(self.terminals):
@@ -148,7 +148,7 @@ class TerminalManager(LoggingConfigurable, NamedTermManager):
         except KeyError:
             return  # KeyErrors are somewhat expected since the terminal can be terminated as the culling check is made.
 
-        self.log.debug("name=%s, last_activity=%s", name, term.last_activity)
+        self.log.info("name=%s, last_activity=%s", name, term.last_activity)
         if hasattr(term, 'last_activity'):
             dt_now = utcnow()
             dt_inactive = dt_now - term.last_activity

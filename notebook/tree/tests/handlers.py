@@ -60,7 +60,7 @@ class TreeHandler(IPythonHandler):
             url = url_path_join(
                 self.base_url, service, url_escape(path),
             )
-            self.log.debug("Redirecting %s to %s", self.request.path, url)
+            self.log.info("Redirecting %s to %s", self.request.path, url)
             self.redirect(url)
         else:
             raise web.HTTPError(404)

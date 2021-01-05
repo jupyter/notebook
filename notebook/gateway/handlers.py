@@ -60,7 +60,7 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
             self.log.warning("No session ID specified")
 
     def initialize(self):
-        self.log.debug("Initializing websocket connection %s", self.request.path)
+        self.log.info("Initializing websocket connection %s", self.request.path)
         self.session = Session(config=self.config)
         self.gateway = GatewayWebSocketClient(gateway_url=GatewayClient.instance().url)
 
@@ -98,12 +98,12 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
             if isinstance(message, bytes):
                 binary = True
             super().write_message(message, binary=binary)
-        elif self.log.isEnabledFor(logging.DEBUG):
+        elif self.log.isEnabledFor(logging.info):
             msg_summary = WebSocketChannelsHandler._get_message_summary(json_decode(utf8(message)))
-            self.log.debug("Notebook client closed websocket connection - message dropped: {}".format(msg_summary))
+            self.log.info("Notebook client closed websocket connection - message dropped: {}".format(msg_summary))
 
     def on_close(self):
-        self.log.debug("Closing websocket connection %s", self.request.path)
+        self.log.info("Closing websocket connection %s", self.request.path)
         self.gateway.on_close()
         super().on_close()
 
@@ -155,7 +155,7 @@ class GatewayWebSocketClient(LoggingConfigurable):
     def _connection_done(self, fut):
         if not self.disconnected and fut.exception() is None:  # prevent concurrent.futures._base.CancelledError
             self.ws = fut.result()
-            self.log.debug("Connection is ready: ws: {}".format(self.ws))
+            self.log.info("Connection is ready: ws: {}".format(self.ws))
         else:
             self.log.warning("Websocket connection has been closed via client disconnect or due to error.  "
                              "Kernel with ID '{}' may not be terminated on GatewayClient: {}".
@@ -169,7 +169,7 @@ class GatewayWebSocketClient(LoggingConfigurable):
         elif not self.ws_future.done():
             # Cancel pending connection.  Since future.cancel() is a noop on tornado, we'll track cancellation locally
             self.ws_future.cancel()
-            self.log.debug("_disconnect: future cancelled, disconnected: {}".format(self.disconnected))
+            self.log.info("_disconnect: future cancelled, disconnected: {}".format(self.disconnected))
 
     @gen.coroutine
     def _read_messages(self, callback):

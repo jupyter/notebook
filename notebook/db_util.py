@@ -25,7 +25,7 @@ class PostgresUtils:
         self.db_config = {
             'NAME': 'contexalyze',
             'USER': 'postgres',
-            'PASSWORD': 'password',
+            'PASSWORD': 'postgres',
             'HOST': 'postgres',
             'PORT': '5432'
         }

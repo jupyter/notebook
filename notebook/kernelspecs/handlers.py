@@ -16,7 +16,7 @@ class KernelSpecResourceHandler(web.StaticFileHandler, IPythonHandler):
         except KeyError as e:
             raise web.HTTPError(404,
                                 u'Kernel spec %s not found' % kernel_name) from e
-        self.log.debug("Serving kernel resource from: %s", self.root)
+        self.log.info("Serving kernel resource from: %s", self.root)
         return web.StaticFileHandler.get(self, path, include_body=include_body)
 
     @web.authenticated

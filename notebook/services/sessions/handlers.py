@@ -58,7 +58,7 @@ class SessionRootHandler(APIHandler):
         kernel_id = kernel.get('id', None)
 
         if not kernel_id and not kernel_name:
-            self.log.debug("No kernel specified, using default kernel")
+            self.log.info("No kernel specified, using default kernel")
             kernel_name = None
 
         exists = yield maybe_future(sm.session_exists(path=path))

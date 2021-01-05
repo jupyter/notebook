@@ -177,7 +177,7 @@ class MappingKernelManager(MultiKernelManager):
             self._kernel_connections[kernel_id] = 0
             self.start_watching_activity(kernel_id)
             self.log.info("Kernel started: %s, name: %s" % (kernel_id, self._kernels[kernel_id].kernel_name))
-            self.log.debug("Kernel args: %r" % kwargs)
+            self.log.info("Kernel args: %r" % kwargs)
             # register callback for failed auto-restart
             self.add_restart_callback(kernel_id,
                 lambda : self._handle_kernel_died(kernel_id),
@@ -232,7 +232,7 @@ class MappingKernelManager(MultiKernelManager):
 
         # forward any future messages to the internal buffer
         def buffer_msg(channel, msg_parts):
-            self.log.debug("Buffering msg on %s:%s", kernel_id, channel)
+            self.log.info("Buffering msg on %s:%s", kernel_id, channel)
             buffer_info['buffer'].append((channel, msg_parts))
 
         for channel, stream in channels.items():
@@ -249,7 +249,7 @@ class MappingKernelManager(MultiKernelManager):
             If the session_key matches the current buffered session_key,
             the buffer will be returned.
         """
-        self.log.debug("Getting buffer for %s", kernel_id)
+        self.log.info("Getting buffer for %s", kernel_id)
         if kernel_id not in self._kernel_buffers:
             return
 
@@ -269,7 +269,7 @@ class MappingKernelManager(MultiKernelManager):
         kernel_id : str
             The id of the kernel to stop buffering.
         """
-        self.log.debug("Clearing buffer for %s", kernel_id)
+        self.log.info("Clearing buffer for %s", kernel_id)
         self._check_kernel_id(kernel_id)
 
         if kernel_id not in self._kernel_buffers:
@@ -321,7 +321,7 @@ class MappingKernelManager(MultiKernelManager):
             kernel.remove_restart_callback(on_restart_failed, 'dead')
 
         def on_reply(msg):
-            self.log.debug("Kernel info reply received: %s", kernel_id)
+            self.log.info("Kernel info reply received: %s", kernel_id)
             finish()
             if not future.done():
                 future.set_result(msg)
@@ -413,9 +413,9 @@ class MappingKernelManager(MultiKernelManager):
             msg_type = msg['header']['msg_type']
             if msg_type == 'status':
                 kernel.execution_state = msg['content']['execution_state']
-                self.log.debug("activity on %s: %s (%s)", kernel_id, msg_type, kernel.execution_state)
+                self.log.info("activity on %s: %s (%s)", kernel_id, msg_type, kernel.execution_state)
             else:
-                self.log.debug("activity on %s: %s", kernel_id, msg_type)
+                self.log.info("activity on %s: %s", kernel_id, msg_type)
 
         kernel._activity_stream.on_recv(record_activity)
 
@@ -443,7 +443,7 @@ class MappingKernelManager(MultiKernelManager):
         self._initialized_culler = True
 
     async def cull_kernels(self):
-        self.log.debug("Polling every %s seconds for kernels idle > %s seconds...",
+        self.log.info("Polling every %s seconds for kernels idle > %s seconds...",
             self.cull_interval, self.cull_idle_timeout)
         """Create a separate list of kernels to avoid conflicting updates while iterating"""
         for kernel_id in list(self._kernels):
@@ -460,7 +460,7 @@ class MappingKernelManager(MultiKernelManager):
             return  # KeyErrors are somewhat expected since the kernel can be shutdown as the culling check is made.
 
         if hasattr(kernel, 'last_activity'):  # last_activity is monkey-patched, so ensure that has occurred
-            self.log.debug("kernel_id=%s, kernel_name=%s, last_activity=%s",
+            self.log.info("kernel_id=%s, kernel_name=%s, last_activity=%s",
                            kernel_id, kernel.kernel_name, kernel.last_activity)
             dt_now = utcnow()
             dt_idle = dt_now - kernel.last_activity
