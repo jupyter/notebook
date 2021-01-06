@@ -123,3 +123,5 @@ jobs:
           jupyter labextension list 2>&1 | grep -ie "@jupyterlab-classic/lab-extension.*enabled.*ok" -
           jupyter server extension list
           jupyter server extension list 2>&1 | grep -ie "jupyterlab_classic.*enabled" -
+          jupyter classic --version
+          jupyter classic --help
