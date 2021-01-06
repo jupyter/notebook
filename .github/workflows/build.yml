@@ -6,7 +6,48 @@ on:
   pull_request:
     branches: '*'
 
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: 1
+
+defaults:
+  run:
+    shell: bash -l {0}
+
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install node
+      uses: actions/setup-node@v1
+      with:
+       node-version: '14.x'
+    - name: Install Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+        architecture: 'x64'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip wheel
+        python -m pip install jupyter_packaging
+    - name: Install the package
+      run: |
+        python -m pip install .
+        jupyter labextension list 2>&1 | grep -ie "@jupyterlab-classic/lab-extension.*enabled.*ok" -
+        jupyter server extension list 2>&1 | grep -ie "jupyterlab_classic.*enabled" -
+        python -m jupyterlab.browser_check
+    - name: Lint
+      run: |
+        jlpm
+        jlpm run eslint:check
+        jlpm run prettier:check
+    - name: Test
+      run: |
+        jlpm run build:test
+        jlpm run test
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -23,21 +64,64 @@ jobs:
         architecture: 'x64'
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        python -m pip install jupyter_packaging
-    - name: Install the package
+        python -m pip install --upgrade pip wheel
+        python -m pip install setuptools jupyter_packaging "jupyterlab>=3,<4"
+    - name: Build packages
       run: |
-        python -m pip install .
-        jupyter labextension list 2>&1 | grep -ie "@jupyterlab-classic/lab-extension.*enabled.*ok" -
-        jupyter server extension list 2>&1 | grep -ie "jupyterlab_classic.*enabled" -
-        python -m jupyterlab.browser_check
-    - name: Lint
-      run: |
-        jlpm
-        jlpm run eslint:check
-        jlpm run prettier:check
+        python setup.py sdist bdist_wheel
+        cd dist
+        sha256sum * | tee SHA256SUMS
+    - name: Upload builds
+      uses: actions/upload-artifact@v2
+      with:
+        name: dist ${{ github.run_number }}
+        path: ./dist
 
-    - name: Test
-      run: |
-        jlpm run build:test
-        jlpm run test
+  install:
+    runs-on: ${{ matrix.os }}-latest
+    needs: [build]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu, macos, windows]
+        python: ['3.6', '3.9']
+        include:
+          - python: '3.6'
+            dist: 'jupyterlab-classic*.tar.gz'
+          - python: '3.9'
+            dist: 'jupyterlab_classic*.whl'
+          - os: windows
+            py_cmd: python
+          - os: macos
+            py_cmd: python3
+          - os: ubuntu
+            py_cmd: python
+    steps:
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+          architecture: 'x64'
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist ${{ github.run_number }}
+          path: ./dist
+      - name: Install the prerequisites
+        run: |
+          ${{ matrix.py_cmd }} -m pip install pip wheel
+      - name: Install the package
+        run: |
+          cd dist
+          ${{ matrix.py_cmd }} -m pip install -vv ${{ matrix.dist }}
+      - name: Validate environment
+        run: |
+          ${{ matrix.py_cmd }} -m pip freeze
+          ${{ matrix.py_cmd }} -m pip check
+      - name: Validate the install
+        run: |
+          jupyter labextension list
+          jupyter labextension list 2>&1 | grep -ie "@jupyterlab-classic/lab-extension.*enabled.*ok" -
+          jupyter server extension list
+          jupyter server extension list 2>&1 | grep -ie "jupyterlab_classic.*enabled" -
+          jupyter classic --version
+          jupyter classic --help
