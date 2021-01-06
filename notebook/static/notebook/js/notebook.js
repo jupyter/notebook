@@ -1648,6 +1648,9 @@ define([
             if (cell_json.metadata.deletable !== undefined) {
                 delete cell_json.metadata.deletable;
             }
+            if (cell_json.id !== undefined) {
+                delete cell_json.id;
+            }
             this.clipboard.push(cell_json);
         }
         this.enable_paste();
