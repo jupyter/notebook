@@ -490,6 +490,9 @@ define([
         var data = {};
         // deepcopy the metadata so copied cells don't share the same object
         data.metadata = JSON.parse(JSON.stringify(this.metadata));
+        if (this.id !== undefined) {
+            data.id = this.id;
+        }
         if (data.metadata.deletable) {
             delete data.metadata.deletable;
         }
@@ -510,6 +513,9 @@ define([
     Cell.prototype.fromJSON = function (data) {
         if (data.metadata !== undefined) {
             this.metadata = data.metadata;
+        }
+        if (data.id !== undefined) {
+            this.id = data.id;
         }
     };
 
