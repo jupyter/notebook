@@ -2,6 +2,8 @@
 
 ![Github Actions Status](https://github.com/jtpio/jupyterlab-classic/workflows/Build/badge.svg)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jtpio/jupyterlab-classic/main?urlpath=classic/notebooks/binder/example.ipynb)
+[![PyPI](https://img.shields.io/pypi/v/jupyterlab-classic.svg)](https://pypi.org/project/jupyterlab-classic)
+[![conda-forge](https://img.shields.io/conda/vn/conda-forge/jupyterlab-classic.svg)](https://anaconda.org/conda-forge/jupyterlab-classic)
 
 The next gen old-school Notebook UI.
 
@@ -15,7 +17,13 @@ The next gen old-school Notebook UI.
 pip install jupyterlab-classic
 ```
 
-And with `conda` (coming soon):
+With `mamba`:
+
+```bash
+mamba install -c conda-forge jupyterlab-classic
+```
+
+With `conda`:
 
 ```bash
 conda install -c conda-forge jupyterlab-classic
