@@ -35,6 +35,18 @@ Make sure the `dist/` folder is empty.
 5. `export TWINE_USERNAME=mypypi_username`
 6. `twine upload dist/*`
 
+## Releasing on conda-forge
+
+The simplest is to wait for the bot to automatically open the PR.
+
+Alternatively, to do the update manually:
+
+1. Open a new PR on https://github.com/conda-forge/jupyterlab-classic-feedstock to update the `version` and the `sha256` hash
+2. Wait for the tests
+3. Merge the PR
+
+The new version will be available on `conda-forge` soon after.
+
 ## Publish the packages to npm
 
 1. Bump the version in
