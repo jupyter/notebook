@@ -1,16 +1,17 @@
 import os
+import pytest
 import stat
 import subprocess
+import sys
 import time
 
-from ipython_genutils.testing.decorators import skip_win32, onlyif
 from notebook import DEFAULT_NOTEBOOK_PORT
 
 from .launchnotebook import UNIXSocketNotebookTestBase
 from ..utils import urlencode_unix_socket, urlencode_unix_socket_path
 
 
-@skip_win32
+@pytest.mark.skipif(sys.platform == "win32", reason="do not run on windows")
 def test_shutdown_sock_server_integration():
     sock = UNIXSocketNotebookTestBase.sock
     url = urlencode_unix_socket(sock).encode()
@@ -87,7 +88,7 @@ def _ensure_stopped(check_msg='There are no running servers'):
         raise AssertionError('expected all servers to be stopped')
 
 
-@onlyif(bool(os.environ.get('RUN_NB_INTEGRATION_TESTS', False)), 'for local testing')
+@pytest.mark.skipif(not bool(os.environ.get('RUN_NB_INTEGRATION_TESTS', False)), reason="for local testing")
 def test_stop_multi_integration():
     """Tests lifecycle behavior for mixed-mode server types w/ default ports.
 
@@ -137,7 +138,7 @@ def test_stop_multi_integration():
     p3.wait()
 
 
-@skip_win32
+@pytest.mark.skipif(sys.platform == "win32", reason="do not run on windows")
 def test_launch_socket_collision():
     """Tests UNIX socket in-use detection for lifecycle correctness."""
     sock = UNIXSocketNotebookTestBase.sock
