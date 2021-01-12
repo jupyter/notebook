@@ -197,7 +197,8 @@ class IPythonHandler(AuthenticatedHandler):
 
     @property
     def ignore_minified_js(self):
-        """Whether to user bundle in template. (*.min files)
+        """Wether to user bundle in template. (*.min files)
+        
         Mainly use for development and avoid file recompilation
         """
         return self.settings.get('ignore_minified_js', False)
