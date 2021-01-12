@@ -28,7 +28,7 @@ GATEWAY_WS_PING_INTERVAL_SECS = int(os.getenv('GATEWAY_WS_PING_INTERVAL_SECS', 3
 class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
 
     session = None
-    gateway = None
+    gateways = None
     kernel_id = None
     ping_callback = None
 
@@ -50,7 +50,7 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
         the websocket finishes completing.
         """
         # authenticate the request before opening the websocket
-        if self.get_current_user() is None:
+        if not self.get_current_user():
             self.log.warning("Couldn't authenticate WebSocket connection")
             raise web.HTTPError(403)
 
@@ -60,13 +60,19 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
             self.log.warning("No session ID specified")
 
     def initialize(self):
-        self.log.info("Initializing websocket connection %s", self.request.path)
         self.session = Session(config=self.config)
-        self.gateway = GatewayWebSocketClient(gateway_url=GatewayClient.instance().url)
+        gateways = []
+        for url in GatewayClient.instance().urls:
+            gateways.append(GatewayWebSocketClient(gateway_url=url))
+        self.gateways = gateways
 
     @gen.coroutine
     def get(self, kernel_id, *args, **kwargs):
+        self.log.info(f'kernel_id in wehbhook handler get={kernel_id} get')
         self.authenticate()
+        # TODO: Update the database with user info.
+        self.log.info(f"Got the user={self.current_user}")
+        self.log.info(f'kwargs inside user ={kwargs}')
         self.kernel_id = cast_unicode(kernel_id, 'ascii')
         yield super().get(kernel_id=kernel_id, *args, **kwargs)
 
@@ -78,22 +84,32 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
         self.ping(b'')
 
     def open(self, kernel_id, *args, **kwargs):
-        """Handle web socket connection open to notebook server and delegate to gateway web socket handler """
+        """
+        Handle web socket connection open to notebook server and delegate to gateway web socket handler
+        """
+        self.log.info(f'kernel_id={kernel_id}, open')
         self.ping_callback = PeriodicCallback(self.send_ping, GATEWAY_WS_PING_INTERVAL_SECS * 1000)
         self.ping_callback.start()
-
-        self.gateway.on_open(
-            kernel_id=kernel_id,
-            message_callback=self.write_message,
-            compression_options=self.get_compression_options()
-        )
+        self.log.info(f'on open called')
+        #TODO: Predict where does this kernel ID exists.
+        for gateway in self.gateways:
+            gateway.on_open(
+                kernel_id=kernel_id,
+                message_callback=self.write_message,
+                compression_options=self.get_compression_options()
+            )
 
     def on_message(self, message):
         """Forward message to gateway web socket handler."""
-        self.gateway.on_message(message)
+        self.log.info(f'on message called={message}')
+        for gateway in self.gateways:
+            gateway.on_message(message)
 
     def write_message(self, message, binary=False):
-        """Send message back to notebook client.  This is called via callback from self.gateway._read_messages."""
+        """
+        Send message back to notebook client.  This is called via callback from self.gateway._read_messages.
+        """
+        self.log.info(f'write message = {message}')
         if self.ws_connection:  # prevent WebSocketClosedError
             if isinstance(message, bytes):
                 binary = True
@@ -103,8 +119,11 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
             self.log.info("Notebook client closed websocket connection - message dropped: {}".format(msg_summary))
 
     def on_close(self):
+
         self.log.info("Closing websocket connection %s", self.request.path)
-        self.gateway.on_close()
+        for gateway in self.gateways:
+            gateway.on_close()
+        # self.gateway.on_close()
         super().on_close()
 
     @staticmethod
@@ -125,6 +144,7 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
         return ''.join(summary)
 
 
+
 class GatewayWebSocketClient(LoggingConfigurable):
     """Proxy web socket connection to a kernel/enterprise gateway."""
 
@@ -136,15 +156,24 @@ class GatewayWebSocketClient(LoggingConfigurable):
         self.disconnected = False
 
     @gen.coroutine
-    def _connect(self, kernel_id):
+    def _connect(self, kernel_id, retry=False):
         # websocket is initialized before connection
+
         self.ws = None
         self.kernel_id = kernel_id
+
+        # get the data from the kernel session.
         ws_url = url_path_join(
-            GatewayClient.instance().ws_url,
+            f'ws://{self.gateway_url}',
             GatewayClient.instance().kernels_endpoint, url_escape(kernel_id), 'channels'
         )
-        self.log.info('Connecting to {}'.format(ws_url))
+        if retry:
+            ws_url = url_path_join(
+                    f'ws://{self.gateway_url}',
+                    GatewayClient.instance().kernels_endpoint, url_escape(kernel_id), 'channels'
+            )
+
+        self.log.info(f'Connecting to={ws_url}')
         kwargs = {}
         kwargs = GatewayClient.instance().load_connection_args(**kwargs)
 
@@ -153,13 +182,15 @@ class GatewayWebSocketClient(LoggingConfigurable):
         self.ws_future.add_done_callback(self._connection_done)
 
     def _connection_done(self, fut):
+
         if not self.disconnected and fut.exception() is None:  # prevent concurrent.futures._base.CancelledError
             self.ws = fut.result()
+            self.log.info(f'self.ws={self.ws}')
             self.log.info("Connection is ready: ws: {}".format(self.ws))
         else:
             self.log.warning("Websocket connection has been closed via client disconnect or due to error.  "
                              "Kernel with ID '{}' may not be terminated on GatewayClient: {}".
-                             format(self.kernel_id, GatewayClient.instance().url))
+                             format(self.kernel_id, GatewayClient.instance().urls))
 
     def _disconnect(self):
         self.disconnected = True
@@ -173,8 +204,10 @@ class GatewayWebSocketClient(LoggingConfigurable):
 
     @gen.coroutine
     def _read_messages(self, callback):
-        """Read messages from gateway server."""
-        while self.ws is not None:
+        """
+        Read messages from gateway server.
+        """
+        while self.ws:
             message = None
             if not self.disconnected:
                 try:
@@ -191,12 +224,15 @@ class GatewayWebSocketClient(LoggingConfigurable):
 
         if not self.disconnected: # if websocket is not disconnected by client, attept to reconnect to Gateway
             self.log.info("Attempting to re-establish the connection to Gateway: {}".format(self.kernel_id))
-            self._connect(self.kernel_id)
+            self._connect(self.kernel_id, True)
             loop = IOLoop.current()
             loop.add_future(self.ws_future, lambda future: self._read_messages(callback))
 
     def on_open(self, kernel_id, message_callback, **kwargs):
-        """Web socket connection open against gateway server."""
+        """
+        Web socket connection open against gateway server.
+        """
+        self.log.info(f"kernel_id={self.kernel_id} on_open")
         self._connect(kernel_id)
         loop = IOLoop.current()
         loop.add_future(
@@ -218,7 +254,7 @@ class GatewayWebSocketClient(LoggingConfigurable):
     def _write_message(self, message):
         """Send message to gateway server."""
         try:
-            if not self.disconnected and self.ws is not None:
+            if not self.disconnected and self.ws:
                 self.ws.write_message(message)
         except Exception as e:
             self.log.error("Exception writing message to websocket: {}".format(e))  # , exc_info=True)

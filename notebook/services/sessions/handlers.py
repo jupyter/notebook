@@ -34,6 +34,8 @@ class SessionRootHandler(APIHandler):
         sm = self.session_manager
 
         model = self.get_json_body()
+        self.log.info(f'json body={self.get_json_body()}')
+
         if model is None:
             raise web.HTTPError(400, "No JSON data provided")
 
@@ -52,9 +54,12 @@ class SessionRootHandler(APIHandler):
         except KeyError as e:
             raise web.HTTPError(400, "Missing field in JSON data: type") from e
 
+        self.log.info(f'model={model}')
+
         name = model.get('name', None)
         kernel = model.get('kernel', {})
         kernel_name = kernel.get('name', None)
+        mlnode_name = kernel.get('ml_node_name', None)
         kernel_id = kernel.get('id', None)
 
         if not kernel_id and not kernel_name:
@@ -69,7 +74,7 @@ class SessionRootHandler(APIHandler):
                 model = yield maybe_future(
                     sm.create_session(path=path, kernel_name=kernel_name,
                                       kernel_id=kernel_id, name=name,
-                                      type=mtype))
+                                      type=mtype, mlnode_name=mlnode_name))
             except NoSuchKernel:
                 msg = ("The '%s' kernel is not available. Please pick another "
                        "suitable kernel instead, or install that kernel." % kernel_name)

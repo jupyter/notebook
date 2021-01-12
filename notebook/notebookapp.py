@@ -1,3 +1,5 @@
+#TODO: Update kernel manager related things here.
+
 """A tornado based Jupyter notebook server."""
 
 # Copyright (c) Jupyter Development Team.
@@ -38,7 +40,7 @@ except ImportError:
     # Windows
     resource = None
 
-from .db_util import PostgresUtils
+# from .db_util import PostgresUtils
 from base64 import encodebytes
 from jinja2 import Environment, FileSystemLoader
 from notebook.transutils import trans, _
@@ -1844,9 +1846,9 @@ class NotebookApp(JupyterApp):
                 url += '\n or %s' % self._concat_token(self._tcp_url('127.0.0.1'))
         return url
 
-    @property
-    def db(self):
-        return PostgresUtils()
+    # @property
+    # def db(self):
+    #     return PostgresUtils()
 
     @property
     def connection_url(self):
@@ -2091,9 +2093,11 @@ class NotebookApp(JupyterApp):
         self.init_server_extensions()
         self.init_mime_overrides()
         self.init_shutdown_no_activity()
-        self.db
-        _users = self.db.get_users()
-        self.log.info(f'users={_users}')
+        # self.db
+        # _users = self.db.get_users()
+        # _ml_nodes = self.db.get_mlnodes()
+        # self.log.info(f'users={_users}')
+        # self.log.info(f'mlnodes={_ml_nodes}')
 
     def cleanup_kernels(self):
         """Shutdown all kernels.
@@ -2122,7 +2126,11 @@ class NotebookApp(JupyterApp):
         run_sync(terminal_manager.terminate_all())
 
     def notebook_info(self, kernel_count=True):
-        "Return the current working directory and the server url information"
+        """
+        Return the current working directory and the server url information
+        :param kernel_count:
+        :return:
+        """
         info = self.contents_manager.info_string() + "\n"
         if kernel_count:
             n_kernels = len(self.kernel_manager.list_kernel_ids())
@@ -2133,7 +2141,7 @@ class NotebookApp(JupyterApp):
         info += _("Jupyter Notebook {version} is running at:\n{url}".
                   format(version=NotebookApp.version, url=self.display_url))
         if self.gateway_config.gateway_enabled:
-            info += _("\nKernels will be managed by the Gateway server running at:\n%s") % self.gateway_config.url
+            info += _("\nKernels will be managed by the Gateway server running at:\n%s") % self.gateway_config.urls
         return info
 
     def server_info(self):

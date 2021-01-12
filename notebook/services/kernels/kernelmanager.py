@@ -28,7 +28,7 @@ from ipython_genutils.py3compat import getcwd
 from notebook.prometheus.metrics import KERNEL_CURRENTLY_RUNNING_TOTAL
 
 # Since use of AsyncMultiKernelManager is optional at the moment, don't require appropriate jupyter_client.
-# This will be confirmed at runtime in notebookapp.  The following block can be removed once the jupyter_client's
+# This will be confirmed at runtime in notebook app.  The following block can be removed once the jupyter_client's
 # floor has been updated.
 try:
     from jupyter_client.multikernelmanager import AsyncMultiKernelManager
@@ -155,8 +155,9 @@ class MappingKernelManager(MultiKernelManager):
             os_path = os.path.dirname(os_path)
         return os_path
 
-    async def start_kernel(self, kernel_id=None, path=None, **kwargs):
-        """Start a kernel for a session and return its kernel_id.
+    async def start_kernel(self, kernel_id=None, path=None, mlnode_name=None, **kwargs):
+        """
+        Start a kernel for a session and return its kernel_id.
         Parameters
         ----------
         kernel_id : uuid
@@ -170,9 +171,10 @@ class MappingKernelManager(MultiKernelManager):
             The name identifying which kernel spec to launch. This is ignored if
             an existing kernel is returned, but it may be checked in the future.
         """
-        if kernel_id is None:
-            if path is not None:
+        if not kernel_id:
+            if path:
                 kwargs['cwd'] = self.cwd_for_path(path)
+            self.log.info(f'kwargs={kwargs}')
             kernel_id = await maybe_future(self.pinned_superclass.start_kernel(self, **kwargs))
             self._kernel_connections[kernel_id] = 0
             self.start_watching_activity(kernel_id)

@@ -304,6 +304,7 @@ define([
         
         this.events.on('spec_changed.Kernel', function(event, data) {
             var existing_spec = that.metadata.kernelspec;
+            console.log('data', data)
             that.metadata.kernelspec = {
                 name: data.name,
                 display_name: data.spec.display_name,
@@ -313,7 +314,7 @@ define([
                 that.set_dirty(true);
             }
             // start a new session
-            that.start_session(data.name);
+            that.start_session(data.name, node_name=data.node_name);
         });
 
         this.events.on('kernel_ready.Kernel', function(event, data) {
@@ -2205,7 +2206,7 @@ define([
     /**
      * Start a new session and set it on each code cell.
      */
-    Notebook.prototype.start_session = function (kernel_name) {
+    Notebook.prototype.start_session = function (kernel_name, node_name='') {
         if (this._session_starting) {
             throw new session.SessionAlreadyStarting();
         }
@@ -2217,6 +2218,7 @@ define([
             notebook_path: this.notebook_path,
             notebook_name: this.notebook_name,
             kernel_name: kernel_name,
+            node_name: node_name,
             notebook: this
         };
 
