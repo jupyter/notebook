@@ -13,7 +13,6 @@ from traitlets.tests.utils import check_help_all_output
 from notebook.utils import url_escape, url_unescape, is_hidden, is_file_hidden
 from ipython_genutils.py3compat import cast_unicode
 from ipython_genutils.tempdir import TemporaryDirectory
-from ipython_genutils.testing.decorators import skip_if_not_win32
 
 
 def test_help_output():
@@ -34,7 +33,7 @@ def test_url_escape():
 
     path = url_escape('/path with a/notebook and space.ipynb')
     assert path == '/path%20with%20a/notebook%20and%20space.ipynb'
-    
+
     path = url_escape('/ !@$#%^&* / test %^ notebook @#$ name.ipynb')
     assert path == '/%20%21%40%24%23%25%5E%26%2A%20/%20test%20%25%5E%20notebook%20%40%23%24%20name.ipynb'
 
