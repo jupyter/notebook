@@ -22,6 +22,50 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     ``pip --version``.
 
 
+
+.. _release-6.2.0:
+
+6.2.0
+-----
+
+Merged PRs
+~~~~~~~~~~
+
+-  Increase minimum tornado version (:ghpull:`5933`)
+-  Adjust skip decorators to avoid remaining dependency on nose (:ghpull:`5932`)
+-  Ensure that cell ids persist after save (:ghpull:`5928`)
+-  Add reconnection to Gateway (form nb2kg) (:ghpull:`5924`)
+-  Fix some typos (:ghpull:`5917`)
+-  Handle TrashPermissionError, now that it exists (:ghpull:`5894`)
+
+Thank you to all the contributors:
+
+- @kevin-bates
+- @mishaschwartz
+- @oyvsyo
+- @user202729
+- @stefanor
+
+.. _release-6.1.6:
+
+6.1.6
+-----
+
+Merged PRs
+~~~~~~~~~~
+
+* do not require nose for testing (:ghpull:`5826`)
+* [docs] Update Chinese and Hindi readme.md (:ghpull:`5823`)
+* Add support for creating terminals via GET (:ghpull:`5813`)
+* Made doc translations in Hindi and Chinese (:ghpull:`5787`)
+
+Thank you to all the contributors:
+
+- @pgajdos
+- @rjn01
+- @kevin-bates
+- @virejdasani
+
 .. _release-6.1.5:
 
 6.1.5
