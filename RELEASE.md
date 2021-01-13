@@ -9,7 +9,7 @@ This should normally be possible to automate the process at some point.
 Creating a new environment can help avoid pushing local changes and any extra tag.
 
 ```bash
-mamba create -q -y -n jupyterlab-classic-release -c conda-forge twine nodejs -y
+mamba create -q -y -n jupyterlab-classic-release -c conda-forge twine nodejs jupyter-packaging jupyterlab -y
 conda activate jupyterlab-classic-release
 ```
 
@@ -24,16 +24,21 @@ git clean -fdx
 Make sure the `dist/` folder is empty.
 
 1. Update [jupyterlab_classic/\_version.py](./jupyterlab_classic/_version.py) with the new version number
-2. Run: `python setup.py sdist bdist_wheel`
-3. Double check the size of the bundles in the `dist/` folder
-4. Test the release by installing the wheel or sdist: `python -m pip install ./dist/jupyterlab_classic-0.1.1-py3-none-any.whl
-5. Commit the changes
+2. Commit the changes
 
 - `git add jupyterlab_classic/_version.py`
 - `git commit -m "Release x.y.z"`
 
-5. `export TWINE_USERNAME=mypypi_username`
-6. `twine upload dist/*`
+3. Bump the frontend packages:
+
+- `jlpm`
+- `jlpm run lerna version x.y.z --no-push --amend --force-publish`
+
+4. Run: `python setup.py sdist bdist_wheel`
+5. Double check the size of the bundles in the `dist/` folder
+6. Test the release by installing the wheel or sdist: `python -m pip install ./dist/jupyterlab_classic-x.y.z-py3-none-any.whl
+7. `export TWINE_USERNAME=mypypi_username`
+8. `twine upload dist/*`
 
 ## Releasing on conda-forge
 
@@ -49,9 +54,7 @@ The new version will be available on `conda-forge` soon after.
 
 ## Publish the packages to npm
 
-1. Bump the version in
-2. `jlpm run lerna version x.y.z --no-push --amend --force-publish`
-3. `jlpm run lerna publish from-package`
+1. Publish the packages: `jlpm run lerna publish from-package`
 
 ## Committing and tagging
 
