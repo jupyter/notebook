@@ -169,13 +169,16 @@ export class ClassicShell extends Widget implements JupyterFrontEnd.IShell {
    * @param area The area
    */
   widgets(area: Shell.Area): IIterator<Widget> {
-    if (area === 'top') {
-      return iter(this._topHandler.panel.widgets);
+    switch (area ?? 'main') {
+      case 'top':
+        return iter(this._topHandler.panel.widgets);
+      case 'menu':
+        return iter(this._menuHandler.panel.widgets);
+      case 'main':
+        return iter(this._main.widgets);
+      default:
+        throw new Error(`Invalid area: ${area}`);
     }
-    if (area === 'menu') {
-      return iter(this._menuHandler.panel.widgets);
-    }
-    return iter(this._main.widgets);
   }
 
   private _topWrapper: Panel;
