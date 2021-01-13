@@ -26,12 +26,14 @@ Make sure the `dist/` folder is empty.
 1. Update [jupyterlab_classic/\_version.py](./jupyterlab_classic/_version.py) with the new version number
 2. Commit the changes
 
-  - `git add jupyterlab_classic/_version.py`
-  - `git commit -m "Release x.y.z"`
+- `git add jupyterlab_classic/_version.py`
+- `git commit -m "Release x.y.z"`
+
 3. Bump the frontend packages:
-  
-  - `jlpm`
-  - `jlpm run lerna version x.y.z --no-push --amend --force-publish`
+
+- `jlpm`
+- `jlpm run lerna version x.y.z --no-push --amend --force-publish`
+
 4. Run: `python setup.py sdist bdist_wheel`
 5. Double check the size of the bundles in the `dist/` folder
 6. Test the release by installing the wheel or sdist: `python -m pip install ./dist/jupyterlab_classic-x.y.z-py3-none-any.whl
