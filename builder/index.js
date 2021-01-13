@@ -90,6 +90,9 @@ async function main() {
     require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
       ['@jupyterlab/codemirror-extension:services'].includes(id)
     ),
+    require('@jupyterlab/completer-extension').default.filter(({ id }) =>
+      ['@jupyterlab/completer-extension:manager'].includes(id)
+    ),
     require('@jupyterlab/docmanager-extension').default.filter(({ id }) =>
       ['@jupyterlab/docmanager-extension:plugin'].includes(id)
     ),
@@ -121,10 +124,7 @@ async function main() {
   } else if (page === 'notebooks') {
     mods = mods.concat([
       require('@jupyterlab/completer-extension').default.filter(({ id }) =>
-        [
-          '@jupyterlab/completer-extension:manager',
-          '@jupyterlab/completer-extension:notebooks'
-        ].includes(id)
+        ['@jupyterlab/completer-extension:notebooks'].includes(id)
       ),
       require('@jupyterlab/tooltip-extension').default.filter(({ id }) =>
         [
@@ -135,6 +135,9 @@ async function main() {
     ]);
   } else if (page === 'edit') {
     mods = mods.concat([
+      require('@jupyterlab/completer-extension').default.filter(({ id }) =>
+        ['@jupyterlab/completer-extension:files'].includes(id)
+      ),
       require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
         ['@jupyterlab/fileeditor-extension:plugin'].includes(id)
       ),
