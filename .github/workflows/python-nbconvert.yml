@@ -1,0 +1,53 @@
+# The NBConvert Service requires pandoc. Instead of testing
+# Pandoc on every operating system (which should already be
+# done in nbconvert directly), we'll only test these services
+# on ubuntu where we can easily load Pandoc from a Github
+# Actions docker image (this docker image is not on other
+# operating systems).
+name: NBConvert Service Tests
+on:
+  push:
+    branches: '*'
+  pull_request:
+    branches: '*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ '3.6' , '3.7', '3.8', '3.9' ]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Install Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: 'x64'
+    - name: Setup Pandoc
+      uses: r-lib/actions/setup-pandoc@v1
+    - name: Upgrade packaging dependencies
+      run: |
+        pip install --upgrade pip setuptools wheel
+    - name: Get pip cache dir
+      id: pip-cache
+      run: |
+        echo "::set-output name=dir::$(pip cache dir)"
+    - name: Cache pip
+      uses: actions/cache@v1
+      with:
+        path: ${{ steps.pip-cache.outputs.dir }}
+        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('setup.py') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-${{ matrix.python-version }}-
+          ${{ runner.os }}-pip-
+    - name: Install the Python dependencies
+      run: |
+        pip install -e .[test]
+    - name: Run NBConvert Tests
+      run: |
+        pytest notebook/nbconvert/tests/
+    - name: Run NBConvert Service Tests
+      run: |
+        pytest notebook/services/nbconvert/tests/

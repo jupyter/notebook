@@ -4,11 +4,15 @@ import stat
 import subprocess
 import sys
 import time
+import pytest
 
 from notebook import DEFAULT_NOTEBOOK_PORT
 
 from .launchnotebook import UNIXSocketNotebookTestBase
 from ..utils import urlencode_unix_socket, urlencode_unix_socket_path
+
+
+pytestmark = pytest.mark.integration_tests
 
 
 @pytest.mark.skipif(sys.platform == "win32", reason="do not run on windows")

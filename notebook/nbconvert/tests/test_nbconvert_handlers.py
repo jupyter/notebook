@@ -5,7 +5,7 @@ from os.path import join as pjoin
 import shutil
 
 import requests
-
+import pytest
 from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 from nbformat import write
@@ -16,6 +16,13 @@ from nbformat.v4 import (
 from ipython_genutils.testing.decorators import onlyif_cmds_exist
 
 from base64 import encodebytes
+
+
+def cmd_exists(cmd):
+    """Check is a command exists."""
+    if shutil.which(cmd) is None:
+        return False
+    return True
 
 
 class NbconvertAPI(object):
@@ -50,7 +57,7 @@ b'\x08\xd7c\x90\xfb\xcf\x00\x00\x02\\\x01\x1e.~d\x87\x00\x00\x00\x00IEND\xaeB`\x
 class APITest(NotebookTestBase):
     def setUp(self):
         nbdir = self.notebook_dir
-        
+
         if not os.path.isdir(pjoin(nbdir, 'foo')):
             subdir = pjoin(nbdir, 'foo')
 
@@ -64,7 +71,7 @@ class APITest(NotebookTestBase):
                 shutil.rmtree(subdir, ignore_errors=True)
 
         nb = new_notebook()
-        
+
         nb.cells.append(new_markdown_cell(u'Created by test ³'))
         cc1 = new_code_cell(source=u'print(2*6)')
         cc1.outputs.append(new_output(output_type="stream", text=u'12'))
@@ -73,14 +80,17 @@ class APITest(NotebookTestBase):
             execution_count=1,
         ))
         nb.cells.append(cc1)
-        
+
         with io.open(pjoin(nbdir, 'foo', 'testnb.ipynb'), 'w',
                      encoding='utf-8') as f:
             write(nb, f, version=4)
 
         self.nbconvert_api = NbconvertAPI(self.request)
 
-    @onlyif_cmds_exist('pandoc')
+    @pytest.mark.skipif(
+        not cmd_exists('pandoc'),
+        reason="Pandoc wasn't found. Skipping this test."
+    )
     def test_from_file(self):
         r = self.nbconvert_api.from_file('html', 'foo', 'testnb.ipynb')
         self.assertEqual(r.status_code, 200)
@@ -92,39 +102,54 @@ class APITest(NotebookTestBase):
         self.assertIn(u'text/x-python', r.headers['Content-Type'])
         self.assertIn(u'print(2*6)', r.text)
 
-    @onlyif_cmds_exist('pandoc')
+    @pytest.mark.skipif(
+        not cmd_exists('pandoc'),
+        reason="Pandoc wasn't found. Skipping this test."
+    )
     def test_from_file_404(self):
         with assert_http_error(404):
             self.nbconvert_api.from_file('html', 'foo', 'thisdoesntexist.ipynb')
 
-    @onlyif_cmds_exist('pandoc')
+    @pytest.mark.skipif(
+        not cmd_exists('pandoc'),
+        reason="Pandoc wasn't found. Skipping this test."
+    )
     def test_from_file_download(self):
         r = self.nbconvert_api.from_file('python', 'foo', 'testnb.ipynb', download=True)
         content_disposition = r.headers['Content-Disposition']
         self.assertIn('attachment', content_disposition)
         self.assertIn('testnb.py', content_disposition)
 
-    @onlyif_cmds_exist('pandoc')
+    @pytest.mark.skipif(
+        not cmd_exists('pandoc'),
+        reason="Pandoc wasn't found. Skipping this test."
+    )
     def test_from_file_zip(self):
         r = self.nbconvert_api.from_file('latex', 'foo', 'testnb.ipynb', download=True)
         self.assertIn(u'application/zip', r.headers['Content-Type'])
         self.assertIn(u'.zip', r.headers['Content-Disposition'])
 
-    @onlyif_cmds_exist('pandoc')
+    @pytest.mark.skipif(
+        not cmd_exists('pandoc'),
+        reason="Pandoc wasn't found. Skipping this test."
+    )
     def test_from_post(self):
         nbmodel = self.request('GET', 'api/contents/foo/testnb.ipynb').json()
-        
+
         r = self.nbconvert_api.from_post(format='html', nbmodel=nbmodel)
         self.assertEqual(r.status_code, 200)
         self.assertIn(u'text/html', r.headers['Content-Type'])
         self.assertIn(u'Created by test', r.text)
         self.assertIn(u'print', r.text)
-        
+
         r = self.nbconvert_api.from_post(format='python', nbmodel=nbmodel)
         self.assertIn(u'text/x-python', r.headers['Content-Type'])
         self.assertIn(u'print(2*6)', r.text)
 
-    @onlyif_cmds_exist('pandoc')
+    @pytest.mark.skipif(
+        not cmd_exists('pandoc'),
+        reason="Pandoc wasn't found. Skipping this test."
+    )
     def test_from_post_zip(self):
         nbmodel = self.request('GET', 'api/contents/foo/testnb.ipynb').json()
 

@@ -1,0 +1,52 @@
+name: Docs Tests
+on:
+  push:
+    branches: '*'
+  pull_request:
+    branches: '*'
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu]
+        python-version: [ '3.6' ]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Install Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: 'x64'
+    - name: Upgrade packaging dependencies
+      run: |
+        pip install --upgrade pip setuptools wheel
+    - name: Get pip cache dir
+      id: pip-cache
+      run: |
+        echo "::set-output name=dir::$(pip cache dir)"
+    - name: Cache pip
+      uses: actions/cache@v1
+      with:
+        path: ${{ steps.pip-cache.outputs.dir }}
+        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('setup.py') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-${{ matrix.python-version }}-
+          ${{ runner.os }}-pip-
+    - name: Install the Python dependencies
+      run: |
+        pip install -e .[test] codecov
+        pip install -r docs/doc-requirements.txt
+        wget https://github.com/jgm/pandoc/releases/download/1.19.1/pandoc-1.19.1-1-amd64.deb && sudo dpkg -i pandoc-1.19.1-1-amd64.deb
+    - name: List installed packages
+      run: |
+        pip freeze
+        pip check
+    - name: Run tests on documentation
+      run: |
+        EXIT_STATUS=0
+        make -C docs/ html || EXIT_STATUS=$?
+        pytest --nbval --current-env docs || EXIT_STATUS=$?
+        exit $EXIT_STATUS
