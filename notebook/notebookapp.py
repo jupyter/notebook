@@ -1906,6 +1906,13 @@ class NotebookApp(JupyterApp):
         """
         info = self.log.info
         info(_('interrupted'))
+        # Check if answer_yes is set
+        if self.answer_yes:
+            self.log.critical(_("Shutting down..."))
+            # schedule stop on the main thread,
+            # since this might be called from a signal handler
+            self.io_loop.add_callback_from_signal(self.io_loop.stop)
+            return
         print(self.notebook_info())
         yes = _('y')
         no = _('n')
