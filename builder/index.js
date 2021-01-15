@@ -88,7 +88,10 @@ async function main() {
       ].includes(id)
     ),
     require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
-      ['@jupyterlab/codemirror-extension:services'].includes(id)
+      [
+        '@jupyterlab/codemirror-extension:services',
+        '@jupyterlab/codemirror-extension:codemirror'
+      ].includes(id)
     ),
     require('@jupyterlab/completer-extension').default.filter(({ id }) =>
       ['@jupyterlab/completer-extension:manager'].includes(id)
