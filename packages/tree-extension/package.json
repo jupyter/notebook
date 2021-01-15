@@ -1,6 +1,6 @@
 {
   "name": "@jupyterlab-classic/tree-extension",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "JupyterLab Classic - Tree Extension",
   "homepage": "https://github.com/jtpio/jupyterlab-classic",
   "bugs": {
@@ -39,7 +39,7 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab-classic/application": "^0.1.2",
+    "@jupyterlab-classic/application": "^0.1.3",
     "@jupyterlab/application": "^3.0.0",
     "@jupyterlab/apputils": "^3.0.0",
     "@jupyterlab/coreutils": "^5.0.0",
