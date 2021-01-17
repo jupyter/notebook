@@ -237,6 +237,10 @@ class KernelFilterTest(NotebookTestBase):
         self.assertEqual(self.notebook.kernel_manager.allowed_message_types, ['kernel_info_request'])
 
 
+CULL_TIMEOUT = 5
+CULL_INTERVAL = 1
+
+
 class KernelCullingTest(NotebookTestBase):
     """Test kernel culling """
 
@@ -244,9 +248,9 @@ class KernelCullingTest(NotebookTestBase):
     def get_argv(cls):
         argv = super(KernelCullingTest, cls).get_argv()
 
-        # Enable culling with 2s timeout and 1s intervals
-        argv.extend(['--MappingKernelManager.cull_idle_timeout=2',
-                     '--MappingKernelManager.cull_interval=1',
+        # Enable culling with 5s timeout and 1s intervals
+        argv.extend(['--MappingKernelManager.cull_idle_timeout={}'.format(CULL_TIMEOUT),
+                     '--MappingKernelManager.cull_interval={}'.format(CULL_INTERVAL),
                      '--MappingKernelManager.cull_connected=False'])
         return argv
 
@@ -270,8 +274,9 @@ class KernelCullingTest(NotebookTestBase):
         assert self.get_cull_status(kid)  # not connected, should be culled
 
     def get_cull_status(self, kid):
+        frequency = 0.5
         culled = False
-        for i in range(15):  # Need max of 3s to ensure culling timeout exceeded
+        for _ in range(int((CULL_TIMEOUT + CULL_INTERVAL)/frequency)):  # Timeout + Interval will ensure cull
             try:
                 self.kern_api.get(kid)
             except HTTPError as e:
@@ -279,5 +284,5 @@ class KernelCullingTest(NotebookTestBase):
                 culled = True
                 break
             else:
-                time.sleep(0.2)
+                time.sleep(frequency)
         return culled
