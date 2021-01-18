@@ -1,12 +1,12 @@
 {
   "private": true,
   "homepage": "https://github.com/jtpio/jupyterlab-classic",
+  "bugs": {
+    "url": "https://github.com/jtpio/jupyterlab-classic/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/jtpio/jupyterlab-classic"
-  },
-  "bugs": {
-    "url": "https://github.com/jtpio/jupyterlab-classic/issues"
   },
   "license": "BSD-3-Clause",
   "author": "JupyterLab Classic Contributors",
@@ -20,21 +20,30 @@
     "build": "lerna run build",
     "build:prod": "lerna run build:prod",
     "build:test": "lerna run build:test",
+    "bumpversion": "node ./node_modules/@jupyterlab/buildutils/lib/bumpversion.js",
     "clean": "lerna run clean",
-    "install": "lerna bootstrap",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
+    "install": "lerna bootstrap",
+    "patch:release": "node ./node_modules/@jupyterlab/buildutils/lib/patch-release.js",
     "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "publish": "yarn run clean && yarn run build && lerna publish",
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "update:dependency": "node ./node_modules/@jupyterlab/buildutils/lib/update-dependency.js --lerna"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "devDependencies": {
+    "@jupyterlab/buildutils": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
     "eslint": "^7.10.0",
-    "eslint-plugin-jest": "^24.1.3",
     "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-jest": "^24.1.3",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
     "husky": "^3",
@@ -49,10 +58,5 @@
     "rimraf": "^3.0.2",
     "shell-quote": "^1.7.2",
     "typescript": "~4.1.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }
