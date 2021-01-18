@@ -753,7 +753,7 @@ msgstr "Невозможно выполнить ячейку, так как яд
 
 #: notebook/static/notebook/js/codecell.js:472
 msgid "In"
-msgstr "В"
+msgstr "Ввод"
 
 #: notebook/static/notebook/js/kernelselector.js:269
 #, python-format
@@ -1329,7 +1329,7 @@ msgstr ""
 #: notebook/static/notebook/js/outputarea.js:468
 #, python-format
 msgid "Out[%d]:"
-msgstr "Выход[%d]:"
+msgstr "Вывод[%d]:"
 
 #: notebook/static/notebook/js/outputarea.js:577
 #, python-format
