@@ -84,11 +84,11 @@ msgstr "Показать/cкрыть логотип и название блок
 
 #: notebook/templates/edit.html:71 notebook/templates/notebook.html:163
 msgid "Toggle Header"
-msgstr "Триггер заголовка"
+msgstr "Показать/скрыть заголовок"
 
 #: notebook/templates/edit.html:72 notebook/templates/notebook.html:171
 msgid "Toggle Line Numbers"
-msgstr "Триггер номеров строк"
+msgstr "Показать/скрыть номера строк"
 
 #: notebook/templates/edit.html:75
 msgid "Language"
@@ -302,7 +302,7 @@ msgstr "Показать/скрыть значки действий (ниже с
 
 #: notebook/templates/notebook.html:167
 msgid "Toggle Toolbar"
-msgstr "Триггер панели мониторинга"
+msgstr "Показать/скрыть панель мониторинга"
 
 #: notebook/templates/notebook.html:170
 msgid "Show/Hide line numbers in cells"
