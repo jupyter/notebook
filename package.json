@@ -12,7 +12,7 @@
   "author": "JupyterLab Classic Contributors",
   "workspaces": {
     "packages": [
-      "builder",
+      "app",
       "packages/*"
     ]
   },

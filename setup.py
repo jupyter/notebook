@@ -23,7 +23,7 @@ PACKAGE_NAME = NAME.replace("-", "_")
 version = get_version(os.path.join(PACKAGE_NAME, "_version.py"))
 
 main_bundle_dest = os.path.join(HERE, PACKAGE_NAME, "static")
-main_bundle_source = os.path.join(HERE, "builder")
+main_bundle_source = os.path.join(HERE, "app")
 
 labext_name = "@jupyterlab-classic/lab-extension"
 lab_extension_dest = os.path.join(HERE, PACKAGE_NAME, "labextension")
