@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@jupyterlab/buildutils": "^3.0.0",
+    "commander": "^6.2.0",
     "typescript": "~4.1.3"
   },
   "devDependencies": {
