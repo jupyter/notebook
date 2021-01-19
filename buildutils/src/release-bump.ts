@@ -61,7 +61,7 @@ commander
       utils.run(`bumpversion ${spec}`);
 
       // Run the post-bump script.
-      utils.postbump();
+      postbump();
 
       return;
     }
