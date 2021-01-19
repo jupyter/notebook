@@ -30,6 +30,10 @@ jobs:
         python -m pip install -U jupyterlab~=3.0 jupyter_packaging~=0.7.9 pip
         jlpm
         jlpm run build
+    - name: Configure git identity to commit
+      run: |
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
     - name: Patch Release
       run: |
         jlpm release:patch --force
