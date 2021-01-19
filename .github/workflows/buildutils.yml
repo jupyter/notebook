@@ -40,6 +40,14 @@ jobs:
     - name: Minor Release
       run: |
         jlpm release:bump minor --force
+    - name: Release Cycle
+      run: |
+        # beta
+        jlpm release:bump release --force
+        # rc
+        jlpm release:bump release --force
+        # final
+        jlpm release:bump release --force
     - name: Major Release
       run: |
         jlpm release:bump major --force
