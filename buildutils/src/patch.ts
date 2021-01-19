@@ -7,15 +7,6 @@ import commander from 'commander';
 
 import * as utils from '@jupyterlab/buildutils';
 
-/**
- * Post-bump.
- */
-export function postbump() {
-  const pyVersion = utils.getPythonVersion();
-  // Commit changes.
-  utils.run(`git commit -am "Release ${pyVersion}"`);
-}
-
 // Specify the program signature.
 commander
   .description('Create a patch release')
@@ -40,38 +31,17 @@ commander
     utils.run('bumpversion release --allow-dirty'); // switches to rc.
     utils.run('bumpversion release --allow-dirty'); // switches to final.
 
-    // Run post-bump actions.
-    postbump();
-
-    return;
+    // Commit the changes
+    const newPyVersion = utils.getPythonVersion();
+    // Commit changes.
+    utils.run(`git commit -am "Release ${newPyVersion}"`);
 
     // Version the changed
-    let cmd = 'jlpm run lerna patch --no-push --amend --force-publish';
+    let cmd = 'jlpm run lerna version patch --no-push --amend --force-publish';
     if (options.force) {
       cmd += ' --yes';
     }
-    const oldVersion = utils.run(
-      'git rev-parse HEAD',
-      {
-        stdio: 'pipe',
-        encoding: 'utf8'
-      },
-      true
-    );
     utils.run(cmd);
-    const newVersion = utils.run(
-      'git rev-parse HEAD',
-      {
-        stdio: 'pipe',
-        encoding: 'utf8'
-      },
-      true
-    );
-    if (oldVersion === newVersion) {
-      console.debug('aborting');
-      // lerna didn't version anything, so we assume the user aborted
-      throw new Error('Lerna aborted');
-    }
   });
 
 commander.parse(process.argv);
