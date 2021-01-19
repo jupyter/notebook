@@ -3,16 +3,15 @@
 | Distributed under the terms of the Modified BSD License.
 |----------------------------------------------------------------------------*/
 
-import commander from 'commander';
+/**
+ * Inspired by: https://github.com/jupyterlab/jupyterlab/blob/master/buildutils/src/patch-release.ts
+ */
 
 import * as utils from '@jupyterlab/buildutils';
 
-function postbump() {
-  // Commit the changes
-  const newPyVersion = utils.getPythonVersion();
-  // Commit changes.
-  utils.run(`git commit -am "Release ${newPyVersion}"`);
-}
+import commander from 'commander';
+
+import { postbump } from './utils';
 
 // Specify the program signature.
 commander
