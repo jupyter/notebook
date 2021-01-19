@@ -21,7 +21,6 @@
     "build": "lerna run build",
     "build:prod": "lerna run build:prod",
     "build:test": "lerna run build:test",
-    "bumpversion": "node ./node_modules/@jupyterlab/buildutils/lib/bumpversion.js",
     "clean": "lerna run clean",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
@@ -29,6 +28,7 @@
     "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "publish": "yarn run clean && yarn run build && lerna publish",
+    "release:bump": "node ./buildutils/lib/release-bump.js",
     "release:patch": "node ./buildutils/lib/release-patch.js",
     "test": "lerna run test",
     "update:dependency": "node ./node_modules/@jupyterlab/buildutils/lib/update-dependency.js --lerna"
