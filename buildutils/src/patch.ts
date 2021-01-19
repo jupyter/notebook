@@ -37,7 +37,8 @@ commander
     utils.run(`git commit -am "Release ${newPyVersion}"`);
 
     // Version the changed
-    let cmd = 'jlpm run lerna version patch --no-push --amend --force-publish';
+    let cmd =
+      'jlpm run lerna version patch --no-push --amend --force-publish --no-git-tag-version';
     if (options.force) {
       cmd += ' --yes';
     }
