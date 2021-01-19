@@ -7,6 +7,13 @@ import commander from 'commander';
 
 import * as utils from '@jupyterlab/buildutils';
 
+function postbump() {
+  // Commit the changes
+  const newPyVersion = utils.getPythonVersion();
+  // Commit changes.
+  utils.run(`git commit -am "Release ${newPyVersion}"`);
+}
+
 // Specify the program signature.
 commander
   .description('Create a patch release')
@@ -31,18 +38,16 @@ commander
     utils.run('bumpversion release --allow-dirty'); // switches to rc.
     utils.run('bumpversion release --allow-dirty'); // switches to final.
 
-    // Commit the changes
-    const newPyVersion = utils.getPythonVersion();
-    // Commit changes.
-    utils.run(`git commit -am "Release ${newPyVersion}"`);
-
     // Version the changed
     let cmd =
-      'jlpm run lerna version patch --no-push --amend --force-publish --no-git-tag-version';
+      'jlpm run lerna version patch --no-push --force-publish --no-git-tag-version';
     if (options.force) {
       cmd += ' --yes';
     }
     utils.run(cmd);
+
+    // Run post-bump actions.
+    postbump();
   });
 
 commander.parse(process.argv);
