@@ -13,6 +13,7 @@
   "workspaces": {
     "packages": [
       "app",
+      "buildutils",
       "packages/*"
     ]
   },
