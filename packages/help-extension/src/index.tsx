@@ -10,7 +10,7 @@ import { showDialog, Dialog } from '@jupyterlab/apputils';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
-import { jupyterIcon } from '@jupyterlab-classic/ui-components';
+import { jupyterlabClassicIcon } from '@jupyterlab-classic/ui-components';
 
 import * as React from 'react';
 
@@ -111,7 +111,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
         const title = (
           <>
             <span className="jp-AboutClassic-header">
-              <jupyterIcon.react height="32px" width="auto" />
+              <jupyterlabClassicIcon.react height="128px" width="auto" />
             </span>
           </>
         );
@@ -132,7 +132,6 @@ const plugin: JupyterFrontEndPlugin<void> = {
         );
         const body = (
           <>
-            <span className="jp-AboutClassic-body">JupyterLab Classic</span>
             <span className="jp-AboutClassic-body">Version: {app.version}</span>
             <div>{externalLinks}</div>
           </>
