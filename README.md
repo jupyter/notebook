@@ -1,4 +1,4 @@
-# jupyterlab-classic
+![jupyterlab-classic-logo](./jupyterlab-classic.png)
 
 ![Github Actions Status](https://github.com/jtpio/jupyterlab-classic/workflows/Build/badge.svg)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gist/jtpio/795608163800b4a7d34d60a015c3d27c/master?urlpath=/classic/tree/tour.ipynb)
