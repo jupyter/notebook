@@ -1,10 +1,10 @@
-name: Build
+name: Release
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: '*'
+    tags:
+      - '*'
+
 
 env:
   PIP_DISABLE_PIP_VERSION_CHECK: 1
@@ -144,3 +144,74 @@ jobs:
           jupyter server extension list 2>&1 | grep -ie "jupyterlab_classic.*enabled" -
           jupyter classic --version
           jupyter classic --help
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [install]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - uses: actions/download-artifact@v2
+      with:
+        name: dist ${{ github.run_number }}
+        path: ./tmp
+    - name: Copy to ./dist
+      run: |
+        mkdir dist/
+        cp ./tmp/jupyterlab-classic*.tar.gz ./tmp/jupyterlab_classic*.whl dist
+        ls dist
+    - name: Install node
+      uses: actions/setup-node@v1
+      with:
+       node-version: '14.x'
+       registry-url: 'https://registry.npmjs.org'
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Publish a Python distribution to PyPI
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
+    - name: Publish to npm
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: |
+        echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+        jlpm run lerna publish from-package --yes
+    - name: Get the current tag
+      id: current_tag
+      run: |
+        tag=`git describe --abbrev=0 --tags $(git rev-list --tags --max-count=1)`
+        echo "::set-output name=tag::${tag}"
+    - name: Get the previous tag
+      id: previous_tag
+      run: |
+        tag=`git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1)`
+        echo "::set-output name=tag::${tag}"
+    - name: Generate Changelog
+      env:
+        CHANGELOG_GITHUB_TOKEN: ${{ secrets.CHANGELOG_GITHUB_TOKEN }}
+      run: |
+        docker run --rm -v "$(pwd)":/usr/local/src/your-app \
+          -e CHANGELOG_GITHUB_TOKEN=${CHANGELOG_GITHUB_TOKEN} \
+          ferrarimarco/github-changelog-generator \
+          github_changelog_generator -u jtpio -p jupyterlab-classic --usernames-as-github-logins --no-issues --no-unreleased \
+          --since-tag ${{ steps.previous_tag.outputs.tag }} --header "" --pr-label "## Changes"
+        head -n -1 CHANGELOG.md > CHANGELOG
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.current_tag.outputs.tag }}
+        release_name: ${{ steps.current_tag.outputs.tag }}
+        body_path: CHANGELOG
+        # TODO: set to false?
+        draft: true
+        prerelease: false
+

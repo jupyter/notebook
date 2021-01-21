@@ -1,8 +1,37 @@
-# Making a new release of JupyterLab Classic
+# Releasing JupyterLab Classic
+
+## Automated releases
+
+Releases are automated using GitHub Actions. They are triggered when a new tag is pushed to the remote.
+
+To cut a new release, run the following:
+
+```bash
+# checkout the main branch
+git checkout main
+
+# for a patch release
+jlpm release:patch
+
+# for a minor version bump
+jlpm release:bump minor
+
+# for a major version bump
+jlpm release:bump major
+
+# push to the main branch
+git push origin main --tags
+```
+
+We follow a similar bump strategy as in JupyterLab: https://github.com/jupyterlab/jupyterlab/blob/master/RELEASE.md#bump-version
+
+The release workflow also creates a GitHub release with the new changes generated with [github-changelog-generator](https://github.com/github-changelog-generator/github-changelog-generator).
+
+If you would still like to do the release manually instead, read below.
+
+## Making a nanual new release of JupyterLab Classic
 
 This process is still a bit manual and consists in running a couple of commands.
-
-This should normally be possible to automate the process at some point.
 
 ## Getting a clean environment
 
