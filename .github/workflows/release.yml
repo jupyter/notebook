@@ -32,7 +32,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Install node
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2
       with:
        node-version: '14.x'
     - name: Install Python
@@ -67,7 +67,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Install node
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2
       with:
        node-version: '14.x'
     - name: Install Python
@@ -162,26 +162,23 @@ jobs:
         mkdir dist/
         cp ./tmp/jupyterlab-classic*.tar.gz ./tmp/jupyterlab_classic*.whl dist
         ls dist
-    - name: Install node
-      uses: actions/setup-node@v1
-      with:
-       node-version: '14.x'
-       registry-url: 'https://registry.npmjs.org'
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
     - name: Publish a Python distribution to PyPI
       uses: pypa/gh-action-pypi-publish@master
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
+        skip_existing: true
+    - uses: actions/setup-node@v2
+      with:
+       node-version: '14.x'
+       registry-url: 'https://registry.npmjs.org'
     - name: Publish to npm
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
-        echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-        jlpm run lerna publish from-package --yes
+        npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+        # jlpm
+        # jlpm run lerna publish from-package --yes --registry "//registry.npmjs.org/:_authToken=${NPM_TOKEN}"
     - name: Get the current tag
       id: current_tag
       run: |
@@ -208,8 +205,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.current_tag.outputs.tag }}
-        release_name: ${{ steps.current_tag.outputs.tag }}
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
         body_path: CHANGELOG
         # TODO: set to false?
         draft: true

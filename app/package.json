@@ -1,6 +1,6 @@
 {
   "name": "@jupyterlab-classic/app",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "scripts": {
     "build": "webpack",
@@ -10,14 +10,14 @@
     "watch": "webpack --watch"
   },
   "dependencies": {
-    "@jupyterlab-classic/application": "^0.1.3",
-    "@jupyterlab-classic/application-extension": "^0.1.3",
-    "@jupyterlab-classic/docmanager-extension": "^0.1.3",
-    "@jupyterlab-classic/help-extension": "^0.1.3",
-    "@jupyterlab-classic/notebook-extension": "^0.1.3",
-    "@jupyterlab-classic/terminal-extension": "^0.1.3",
-    "@jupyterlab-classic/tree-extension": "^0.1.3",
-    "@jupyterlab-classic/ui-components": "^0.1.3",
+    "@jupyterlab-classic/application": "^0.1.4",
+    "@jupyterlab-classic/application-extension": "^0.1.4",
+    "@jupyterlab-classic/docmanager-extension": "^0.1.4",
+    "@jupyterlab-classic/help-extension": "^0.1.4",
+    "@jupyterlab-classic/notebook-extension": "^0.1.4",
+    "@jupyterlab-classic/terminal-extension": "^0.1.4",
+    "@jupyterlab-classic/tree-extension": "^0.1.4",
+    "@jupyterlab-classic/ui-components": "^0.1.4",
     "@jupyterlab/apputils-extension": "^3.0.0",
     "@jupyterlab/codemirror-extension": "^3.0.0",
     "@jupyterlab/completer-extension": "^3.0.0",

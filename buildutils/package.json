@@ -1,6 +1,6 @@
 {
   "name": "@jupyterlab-classic/buildutils",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "description": "JupyterLab Classic - Build Utilities",
   "homepage": "https://github.com/jtpio/jupyterlab-classic",
@@ -39,4 +39,3 @@
     "rimraf": "~3.0.0"
   }
 }
-
