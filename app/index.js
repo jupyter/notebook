@@ -68,6 +68,7 @@ async function main() {
   const App = require('@jupyterlab-classic/application').App;
   const app = new App();
 
+  const disabled = [];
   // TODO: formalize the way the set of initial extensions and plugins are specified
   let mods = [
     // @jupyterlab-classic plugins
@@ -150,6 +151,32 @@ async function main() {
     ]);
   }
 
+  /**
+   * Iterate over active plugins in an extension.
+   *
+   * #### Notes
+   * This also populates the disabled
+   */
+  function* activePlugins(extension) {
+    // Handle commonjs or es2015 modules
+    let exports;
+    if (Object.prototype.hasOwnProperty.call(extension, '__esModule')) {
+      exports = extension.default;
+    } else {
+      // CommonJS exports.
+      exports = extension;
+    }
+
+    let plugins = Array.isArray(exports) ? exports : [exports];
+    for (let plugin of plugins) {
+      if (PageConfig.Extension.isDisabled(plugin.id)) {
+        disabled.push(plugin.id);
+        continue;
+      }
+      yield plugin;
+    }
+  }
+
   const extension_data = JSON.parse(
     PageConfig.getOption('federated_extensions')
   );
@@ -200,7 +227,9 @@ async function main() {
   );
   federatedExtensions.forEach(p => {
     if (p.status === 'fulfilled') {
-      mods.push(p.value);
+      for (let plugin of activePlugins(p.value)) {
+        mods.push(plugin);
+      }
     } else {
       console.error(p.reason);
     }
