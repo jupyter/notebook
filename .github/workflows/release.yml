@@ -173,7 +173,6 @@ jobs:
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
-        skip_existing: true
     - name: Install Python
       uses: actions/setup-python@v2
       with:
