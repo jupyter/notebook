@@ -173,6 +173,7 @@ jobs:
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
+        skip_existing: true
     - name: Install Python
       uses: actions/setup-python@v2
       with:
@@ -183,19 +184,22 @@ jobs:
         python -m pip install -U jupyterlab~=3.0 jupyter_packaging~=0.7.9 pip
         jlpm
         jlpm run build
-    - uses: actions/setup-node@v2
-      with:
-       node-version: '14.x'
-       registry-url: 'https://registry.npmjs.org'
     - uses: actions/download-artifact@v2
       with:
         name: pkgs ${{ github.run_number }}
         path: ./pkgs
+    - uses: actions/setup-node@v2
+      with:
+       node-version: '14.x'
+       registry-url: 'https://registry.npmjs.org'
     - name: Publish to npm
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
+        jlpm config set registry https://registry.npmjs.org
         npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+        echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+        cp ~/.npmrc .npmrc
         jlpm release:npm --dist ./pkgs
     - name: Get the current tag
       id: current_tag
