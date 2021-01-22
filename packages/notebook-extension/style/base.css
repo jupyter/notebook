@@ -19,8 +19,7 @@
 }
 
 .jp-ClassicKernelStatus {
-  /* TODO: replace with lab variable  */
-  font-size: 12px;
+  font-size: var(--jp-ui-font-size1);
   margin: 0;
   font-weight: normal;
   color: var(--jp-ui-font-color0);
