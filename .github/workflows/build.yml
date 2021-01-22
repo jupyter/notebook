@@ -84,17 +84,25 @@ jobs:
         python setup.py sdist bdist_wheel
     - name: Build npm distributions
       run: |
+        mkdir pkgs
         jlpm lerna exec -- npm pack
-        cp packages/*/*.tgz dist
+        cp packages/*/*.tgz pkgs
     - name: Build checksum file
       run: |
         cd dist
+        sha256sum * | tee SHA256SUMS
+        cd ../pkgs
         sha256sum * | tee SHA256SUMS
     - name: Upload distributions
       uses: actions/upload-artifact@v2
       with:
         name: dist ${{ github.run_number }}
         path: ./dist
+    - name: Upload distributions
+      uses: actions/upload-artifact@v2
+      with:
+        name: pkgs ${{ github.run_number }}
+        path: ./pkgs
 
   install:
     runs-on: ${{ matrix.os }}-latest

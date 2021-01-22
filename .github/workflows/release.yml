@@ -84,17 +84,25 @@ jobs:
         python setup.py sdist bdist_wheel
     - name: Build npm distributions
       run: |
+        mkdir pkgs
         jlpm lerna exec -- npm pack
-        cp packages/*/*.tgz dist
+        cp packages/*/*.tgz pkgs
     - name: Build checksum file
       run: |
         cd dist
+        sha256sum * | tee SHA256SUMS
+        cd ../pkgs
         sha256sum * | tee SHA256SUMS
     - name: Upload distributions
       uses: actions/upload-artifact@v2
       with:
         name: dist ${{ github.run_number }}
         path: ./dist
+    - name: Upload distributions
+      uses: actions/upload-artifact@v2
+      with:
+        name: pkgs ${{ github.run_number }}
+        path: ./pkgs
 
   install:
     runs-on: ${{ matrix.os }}-latest
@@ -156,29 +164,39 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: dist ${{ github.run_number }}
-        path: ./tmp
-    - name: Copy to ./dist
+        path: ./dist
+    - name: Cleanup dist
       run: |
-        mkdir dist/
-        cp ./tmp/jupyterlab-classic*.tar.gz ./tmp/jupyterlab_classic*.whl dist
-        ls dist
+        rm dist/SHA256SUMS
     - name: Publish a Python distribution to PyPI
       uses: pypa/gh-action-pypi-publish@master
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
-        skip_existing: true
+    - name: Install Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+        architecture: 'x64'
+    - name: Install dependencies
+      run: |
+        python -m pip install -U jupyterlab~=3.0 jupyter_packaging~=0.7.9 pip
+        jlpm
+        jlpm run build
     - uses: actions/setup-node@v2
       with:
        node-version: '14.x'
        registry-url: 'https://registry.npmjs.org'
+    - uses: actions/download-artifact@v2
+      with:
+        name: pkgs ${{ github.run_number }}
+        path: ./pkgs
     - name: Publish to npm
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
-        # jlpm
-        # jlpm run lerna publish from-package --yes --registry "//registry.npmjs.org/:_authToken=${NPM_TOKEN}"
+        jlpm release:npm --dist ./pkgs
     - name: Get the current tag
       id: current_tag
       run: |

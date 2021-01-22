@@ -29,6 +29,7 @@
     "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "publish": "yarn run clean && yarn run build && lerna publish",
     "release:bump": "node ./buildutils/lib/release-bump.js",
+    "release:npm": "node ./buildutils/lib/release-npm.js",
     "release:patch": "node ./buildutils/lib/release-patch.js",
     "test": "lerna run test",
     "update:dependency": "node ./node_modules/@jupyterlab/buildutils/lib/update-dependency.js --lerna"

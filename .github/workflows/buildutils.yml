@@ -11,7 +11,7 @@ defaults:
     shell: bash -l {0}
 
 jobs:
-  scripts:
+  versioning:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -59,3 +59,25 @@ jobs:
     - name: Major Release
       run: |
         jlpm release:bump major --force
+
+  npm:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+        architecture: 'x64'
+    - name: Install dependencies
+      run: |
+        python -m pip install -U jupyterlab~=3.0 jupyter_packaging~=0.7.9 pip
+        jlpm
+        jlpm run build
+    - name: Publish to npm in dry-run mode
+      run: |
+        mkdir dist
+        jlpm lerna exec -- npm pack
+        cp packages/*/*.tgz dist
+        jlpm release:npm --dist ./dist --dry-run
