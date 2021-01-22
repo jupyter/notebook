@@ -20,6 +20,8 @@ import {
   IClassicShell
 } from '@jupyterlab-classic/application';
 
+import { Poll } from '@lumino/polling';
+
 import { Widget } from '@lumino/widgets';
 
 /**
@@ -84,9 +86,16 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
     if (classicShell) {
       classicShell.currentChanged.connect(onChange);
     }
-    // TODO: replace by a Poll
-    onChange();
-    setInterval(onChange, 2000);
+
+    new Poll({
+      auto: true,
+      factory: () => onChange(),
+      frequency: {
+        interval: 2000,
+        backoff: false
+      },
+      standby: 'when-hidden'
+    });
   }
 };
 
