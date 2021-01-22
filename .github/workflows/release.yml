@@ -231,5 +231,5 @@ jobs:
         body_path: CHANGELOG
         # TODO: set to false?
         draft: true
-        prerelease: false
+        prerelease: ${{ contains(github.ref, 'a') || contains(github.ref, 'b') || contains(github.ref, 'rc') }}
 
