@@ -389,6 +389,7 @@ define([
             shell : {
                 reply : $.proxy(this._handle_execute_reply, this),
                 payload : {
+                    run_next_input : $.proxy(this._handle_run_next_input, this),
                     set_next_input : $.proxy(this._handle_set_next_input, this),
                     page : $.proxy(this._open_with_pager, this)
                 }
@@ -420,6 +421,20 @@ define([
         this.element.removeClass("running");
         this.events.trigger('set_dirty.Notebook', {value: true});
     };
+
+    /**
+     * @method _handle_run_next_input
+     * @private
+     */
+    CodeCell.prototype._handle_run_next_input = function (payload) {
+        var data = {
+            cell: this,
+            text: payload.text,
+            replace: payload.replace,
+            clear_output: payload.clear_output,
+        };
+        this.events.trigger('run_next_input.Notebook', data);
+    }
 
     /**
      * @method _handle_set_next_input

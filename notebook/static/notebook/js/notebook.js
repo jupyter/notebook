@@ -257,6 +257,21 @@ define([
     Notebook.prototype.bind_events = function () {
         var that = this;
 
+        this.events.on('run_next_input.Notebook', function (event, data) {
+            if (data.replace) {
+                data.cell.set_text(data.text);
+                if (data.clear_output !== false) {
+                  // default (undefined) is true to preserve prior behavior
+                  data.cell.clear_output();
+                }
+            } else {
+                var index = that.find_cell_index(data.cell);
+                var new_cell = that.insert_cell_below('code',index);
+                new_cell.set_text(data.text);
+            }
+
+	    new_cell.execute()
+        });
 
         this.events.on('set_next_input.Notebook', function (event, data) {
             if (data.replace) {
