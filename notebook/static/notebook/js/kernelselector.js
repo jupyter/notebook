@@ -113,7 +113,7 @@ define([
         
         // update selection
         this.current_selection = ks.name;
-        
+
         // put the current kernel at the top of File > New Notebook
         var cur_kernel_entry = $("#new-notebook-submenu-" + ks.name);
         var parent = cur_kernel_entry.parent();
@@ -208,7 +208,8 @@ define([
         }
         if (this._loaded) {
             this._set_kernel(selected);
-        } else {
+        }
+        else {
             return this.loaded.then(function () {
                 that._set_kernel(selected);
             });
@@ -217,12 +218,15 @@ define([
 
     KernelSelector.prototype._set_kernel = function (selected) {
         /** Actually set the kernel (kernelspecs have been loaded) */
+
         if (selected.name === this.current_selection) {
             // only trigger event if value changed
             return;
         }
+
         var kernelspecs = this.kernelspecs;
         var ks = kernelspecs[selected.name];
+
         if (ks === undefined) {
             var available = _sorted_names(kernelspecs);
             var matches = [];
@@ -252,11 +256,14 @@ define([
                 return;
             }
         }
+
         if (this.notebook._session_starting &&
             this.notebook.session.kernel.name !== ks.name) {
             console.error("Cannot change kernel while waiting for pending session start.");
             return;
+
         }
+
         this.current_selection = ks.name;
         this.events.trigger('spec_changed.Kernel', ks);
     };

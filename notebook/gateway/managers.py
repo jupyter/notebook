@@ -17,16 +17,16 @@ from ..utils import url_path_join
 
 from traitlets import Instance, Unicode, Float, Bool, default, validate, TraitError
 from traitlets.config import SingletonConfigurable
+from ..db_util import ExecuteQueries
 
 
 class GatewayClient(SingletonConfigurable):
-    """This class manages the configuration.  It's its own singleton class so that we
-       can share these values across all objects.  It also contains some helper methods
-        to build request arguments out of the various config options.
-
+    """
+    This class manages the configuration. It's its own singleton class so that we can share these values across
+    all objects. It also contains some helper methods to build request arguments out of the various config options.
     """
 
-    url = Unicode(default_value=None, allow_none=True, config=True,
+    urls = Unicode(default_value=None, allow_none=True, config=True,
         help="""The url of the Kernel or Enterprise Gateway server where
         kernel specifications are defined and kernel management takes place.
         If defined, this Notebook server acts as a proxy for all kernel
@@ -34,20 +34,41 @@ class GatewayClient(SingletonConfigurable):
         """
     )
 
-    url_env = 'JUPYTER_GATEWAY_URL'
+    ml_nodes = ExecuteQueries().get_mlnodes()
+    ml_node_urls = []
+    for record in ml_nodes:
+        ml_node_urls.append(str(record.ip_address) + ':8888')
 
-    @default('url')
+    urls = ml_node_urls
+
+    urls_env = 'JUPYTER_GATEWAY_URL'
+
+    @default('urls')
     def _url_default(self):
+        """
+        Get's the default url.
+        Not being used anywhere in the project.
+        Since the property of the class has been changed from url -> urls,
+        it was throwing an error so updated.
+        """
         return os.environ.get(self.url_env)
 
-    @validate('url')
+    @validate('urls')
     def _url_validate(self, proposal):
-        value = proposal['value']
-        # Ensure value, if present, starts with 'http'
-        if value is not None and len(value) > 0:
-            if not str(value).lower().startswith('http'):
-                raise TraitError("GatewayClient url must start with 'http': '%r'" % value)
-        return value
+        """
+        Updated this method to loop through all the urls rather than picking up the default url.
+        :param proposal: An array of proposed urls.
+        :return: Return an array of validated urls.
+        """
+        values = []
+        for url in proposal:
+            value = url['value']
+            # Ensure value, if present, starts with 'http'
+            if value and len(value):
+                if not str(value).lower().startswith('http'):
+                    raise TraitError("GatewayClient url must start with 'http': '%r'" % value)
+            values.append(value)
+        return proposal
 
     ws_url = Unicode(default_value=None, allow_none=True, config=True,
         help="""The websocket url of the Kernel or Enterprise Gateway server.  If not provided, this value
@@ -69,7 +90,7 @@ class GatewayClient(SingletonConfigurable):
     def _ws_url_validate(self, proposal):
         value = proposal['value']
         # Ensure value, if present, starts with 'ws'
-        if value is not None and len(value) > 0:
+        if value and len(value):
             if not str(value).lower().startswith('ws'):
                 raise TraitError("GatewayClient ws_url must start with 'ws': '%r'" % value)
         return value
@@ -222,7 +243,12 @@ class GatewayClient(SingletonConfigurable):
 
     @property
     def gateway_enabled(self):
-        return bool(self.url is not None and len(self.url) > 0)
+        """
+        This property validates if the urls property is null or not.
+        Updated this to validate on an array.
+        :return:
+        """
+        return bool(self.urls is not None and len(self.urls) > 0)
 
     # Ensure KERNEL_LAUNCH_TIMEOUT has a default value.
     KERNEL_LAUNCH_TIMEOUT = int(os.environ.get('KERNEL_LAUNCH_TIMEOUT', 40))
@@ -273,7 +299,9 @@ class GatewayClient(SingletonConfigurable):
 
 @gen.coroutine
 def gateway_request(endpoint, **kwargs):
-    """Make an async request to kernel gateway endpoint, returns a response """
+    """
+    Make an async request to kernel gateway endpoint, returns a response
+    """
     client = AsyncHTTPClient()
     kwargs = GatewayClient.instance().load_connection_args(**kwargs)
     try:
@@ -282,62 +310,93 @@ def gateway_request(endpoint, **kwargs):
     # or the server is not running.
     # NOTE: We do this here since this handler is called during the Notebook's startup and subsequent refreshes
     # of the tree view.
+    # here the endpoint is of the gateway of the kernel
     except ConnectionRefusedError as e:
         raise web.HTTPError(
             503,
             "Connection refused from Gateway server url '{}'.  Check to be sure the"
-            " Gateway instance is running.".format(GatewayClient.instance().url)
+            " Gateway instance is running.".format(endpoint)
         ) from e
     except HTTPError as e:
         # This can occur if the host is valid (e.g., foo.com) but there's nothing there.
         raise web.HTTPError(e.code, "Error attempting to connect to Gateway server url '{}'.  "
                        "Ensure gateway url is valid and the Gateway instance is running.".
-                            format(GatewayClient.instance().url)) from e
+                            format(endpoint)) from e
     except gaierror as e:
         raise web.HTTPError(
             404,
             "The Gateway server specified in the gateway_url '{}' doesn't appear to be valid.  Ensure gateway "
-            "url is valid and the Gateway instance is running.".format(GatewayClient.instance().url)
+            "url is valid and the Gateway instance is running.".format(endpoint)
         ) from e
 
     raise gen.Return(response)
 
 
-class GatewayKernelManager(MappingKernelManager):
-    """Kernel manager that supports remote kernels hosted by Jupyter Kernel or Enterprise Gateway."""
 
-    # We'll maintain our own set of kernel ids
-    _kernels = {}
+class GatewayKernelManager(MappingKernelManager):
+    """
+    Kernel manager that supports remote kernels hosted by Jupyter Kernel or Enterprise Gateway.
+    """
+
+    gateway_urls = GatewayClient.instance().urls
+    db = ExecuteQueries()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.base_endpoint = url_path_join(GatewayClient.instance().url, GatewayClient.instance().kernels_endpoint)
+        base_endpoints = []
+        for url in self.gateway_urls:
+            base_endpoints.append(url_path_join(url, GatewayClient.instance().kernels_endpoint))
+        self.base_endpoints = base_endpoints
 
     def __contains__(self, kernel_id):
-        return kernel_id in self._kernels
+        """
+        Check whether the given kernel id is present or not.
+        :param kernel_id: Kernel ID ( str )
+        :return: Boolean stating if it is present in the system.
+        """
+
+        _return = self.db.check_kernel_sessions('kernel_id', kernel_id)
+        return _return
 
     def remove_kernel(self, kernel_id):
-        """Complete override since we want to be more tolerant of missing keys """
-        try:
-            return self._kernels.pop(kernel_id)
-        except KeyError:
-            pass
+        """
+        Complete override since we want to be more tolerant of missing keys
+        """
+        self.db.delete_kernel_session('kernel_id', kernel_id)
 
-    def _get_kernel_endpoint_url(self, kernel_id=None):
-        """Builds a url for the kernels endpoint
+    def _get_kernel_endpoint_url(self, kernel_id=None,
+                                 kernel_name=None,
+                                 mlnode_id=None):
+        """
+        Builds a url for the kernels endpoint
 
         Parameters
         ----------
         kernel_id: kernel UUID (optional)
-        """
-        if kernel_id:
-            return url_path_join(self.base_endpoint, url_escape(str(kernel_id)))
+        kernel_name: Name of the Kernel (optional). ( String )
+        mlnode_id: ID of the ml node ( Optional ) ( UID )
 
-        return self.base_endpoint
+        """
+
+        _url = None
+        if not kernel_id:
+            ml_node = self.db.get_ml_node('id', mlnode_id)
+            _url =  f'http://{str(ml_node[0].ip_address)}:8888/api/kernels'
+
+        _base_endpoint = _url if _url else self.base_endpoints
+
+        if kernel_id:
+            kernel_session = self.db.get_kernel_session('kernel_id', kernel_id)
+            ml_node = kernel_session[0].ml_node
+            _url =  f'http://{str(ml_node.ip_address)}:8888/api/kernels'
+            return url_path_join(_url, url_escape(str(kernel_id)))
+
+        return _base_endpoint
 
     @gen.coroutine
     def start_kernel(self, kernel_id=None, path=None, **kwargs):
-        """Start a kernel for a session and return its kernel_id.
+        """
+        Start a kernel for a session and return its kernel_id.
 
         Parameters
         ----------
@@ -350,13 +409,14 @@ class GatewayKernelManager(MappingKernelManager):
             Will be transformed to an OS path relative to root_dir.
         """
         self.log.info('Request start kernel: kernel_id=%s, path="%s"', kernel_id, path)
-
-        if kernel_id is None:
-            if path is not None:
+        if not kernel_id:
+            if path:
                 kwargs['cwd'] = self.cwd_for_path(path)
-            kernel_name = kwargs.get('kernel_name', 'python3')
-            kernel_url = self._get_kernel_endpoint_url()
-            self.log.info("Request new kernel at: %s" % kernel_url)
+            _kernel_name = kwargs.get('kernel_name', 'python3')
+            _kernel_name = _kernel_name.split('~')
+            kernel_name = _kernel_name[0]
+            mlnode_id = _kernel_name[-1]
+            kernel_url = self._get_kernel_endpoint_url(kernel_name=kernel_name, mlnode_id=mlnode_id)
 
             # Let KERNEL_USERNAME take precedent over http_user config option.
             if os.environ.get('KERNEL_USERNAME') is None and GatewayClient.instance().http_user:
@@ -366,23 +426,31 @@ class GatewayKernelManager(MappingKernelManager):
                         or k in GatewayClient.instance().env_whitelist.split(",")}
 
             # Convey the full path to where this notebook file is located.
-            if path is not None and kernel_env.get('KERNEL_WORKING_DIR') is None:
+            if path and kernel_env.get('KERNEL_WORKING_DIR') is None:
                 kernel_env['KERNEL_WORKING_DIR'] = kwargs['cwd']
 
             json_body = json_encode({'name': kernel_name, 'env': kernel_env})
 
             response = yield gateway_request(kernel_url, method='POST', body=json_body)
             kernel = json_decode(response.body)
+
             kernel_id = kernel['id']
             self.log.info("Kernel started: %s" % kernel_id)
-            self.log.info("Kernel args: %r" % kwargs)
+
+            _field_values = {
+                'kernel_id': str(kernel_id),
+                'kernel_name': str(kernel_name),
+                'mlnode_id': str(mlnode_id)
+            }
+
+            self.db.create_kernel_session(_field_values)
         else:
             kernel = yield self.get_kernel(kernel_id)
             kernel_id = kernel['id']
             self.log.info("Using existing kernel: %s" % kernel_id)
 
-        self._kernels[kernel_id] = kernel
         raise gen.Return(kernel_id)
+
 
     @gen.coroutine
     def get_kernel(self, kernel_id=None, **kwargs):
@@ -393,8 +461,8 @@ class GatewayKernelManager(MappingKernelManager):
         kernel_id : uuid
             The uuid of the kernel.
         """
+        # Get the url from the kernel ID in Kernel Session Table.
         kernel_url = self._get_kernel_endpoint_url(kernel_id)
-        self.log.info("Request kernel at: %s" % kernel_url)
         try:
             response = yield gateway_request(kernel_url, method='GET')
         except web.HTTPError as error:
@@ -405,10 +473,21 @@ class GatewayKernelManager(MappingKernelManager):
             else:
                 raise
         else:
+            # after successful response add the updated entries to the db.
             kernel = json_decode(response.body)
-            self._kernels[kernel_id] = kernel
+            mlnode_name = self.db.get_ml_node('ip_address', kernel_url.split(':')[1].split('//')[-1])[0]
+
+            _field_values = {
+                'kernel_id': str(kernel['id']),
+                'mlnode_id': mlnode_name.id,
+                'kernel_name': str(kernel['name'])
+            }
+
+            self.db.create_kernel_session(_field_values)
+
         self.log.info("Kernel retrieved: %s" % kernel)
         raise gen.Return(kernel)
+
 
     @gen.coroutine
     def kernel_model(self, kernel_id):
@@ -420,17 +499,24 @@ class GatewayKernelManager(MappingKernelManager):
         kernel_id : uuid
             The uuid of the kernel.
         """
-        self.log.info("RemoteKernelManager.kernel_model: %s", kernel_id)
+
         model = yield self.get_kernel(kernel_id)
         raise gen.Return(model)
 
     @gen.coroutine
     def list_kernels(self, **kwargs):
-        """Get a list of kernels."""
-        kernel_url = self._get_kernel_endpoint_url()
-        self.log.info("Request list kernels: %s", kernel_url)
-        response = yield gateway_request(kernel_url, method='GET')
-        kernels = json_decode(response.body)
+        """
+        Get a list of kernels.
+        """
+        kernels = {}
+        self.log.info(f"Request list kernels from = {self.base_endpoints} ")
+        for base_endpoint in self.base_endpoints:
+            self.log.info(f'listing kernels from = {base_endpoint}')
+            response = yield gateway_request(base_endpoint, method='GET')
+            self.log.info(f'response from listing kernels from = {base_endpoint, response}')
+            kernels = json_decode(response.body)
+            self.log.info(f'kernels response from listing kernels from = {base_endpoint, response, kernels}')
+
         self._kernels = {x['id']: x for x in kernels}
         raise gen.Return(kernels)
 
@@ -455,7 +541,8 @@ class GatewayKernelManager(MappingKernelManager):
 
     @gen.coroutine
     def restart_kernel(self, kernel_id, now=False, **kwargs):
-        """Restart a kernel by its kernel uuid.
+        """
+        Restart a kernel by its kernel uuid.
 
         Parameters
         ==========
@@ -482,7 +569,8 @@ class GatewayKernelManager(MappingKernelManager):
         self.log.info("Interrupt kernel response: %d %s", response.code, response.reason)
 
     def shutdown_all(self, now=False):
-        """Shutdown all kernels."""
+        """
+        Shutdown all kernels."""
         # Note: We have to make this sync because the NotebookApp does not wait for async.
         shutdown_kernels = []
         kwargs = {'method': 'DELETE'}
@@ -503,20 +591,24 @@ class GatewayKernelManager(MappingKernelManager):
             self.remove_kernel(kernel_id)
 
 
-
 class GatewayKernelSpecManager(KernelSpecManager):
-
+    """
+    Kernel Spec class for remote kernels.
+    """
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        base_endpoint = url_path_join(GatewayClient.instance().url,
-                                      GatewayClient.instance().kernelspecs_endpoint)
-
-        self.base_endpoint = GatewayKernelSpecManager._get_endpoint_for_user_filter(base_endpoint)
-        self.base_resource_endpoint = url_path_join(GatewayClient.instance().url,
-                                                    GatewayClient.instance().kernelspecs_resource_endpoint)
+        base_endpoints = []
+        self.base_resource_endpoints = []
+        # Appending all the available mlnode urls.
+        for url in GatewayClient.instance().urls:
+            base_endpoints.append(url_path_join(url, GatewayClient.instance().kernelspecs_endpoint))
+            self.base_resource_endpoints.append(url_path_join(url,
+                                                              GatewayClient.instance().kernelspecs_resource_endpoint))
+        self.base_endpoints = GatewayKernelSpecManager._get_endpoint_for_user_filter(base_endpoints)
 
     @staticmethod
     def _get_endpoint_for_user_filter(default_endpoint):
+
         kernel_user = os.environ.get('KERNEL_USERNAME')
         if kernel_user:
             return '?user='.join([default_endpoint, kernel_user])
@@ -530,38 +622,86 @@ class GatewayKernelSpecManager(KernelSpecManager):
         kernel_name: kernel name (optional)
         """
         if kernel_name:
-            return url_path_join(self.base_endpoint, url_escape(kernel_name))
+            return url_path_join(self.base_endpoints, url_escape(kernel_name))
 
-        return self.base_endpoint
+        return self.base_endpoints
+
 
     @gen.coroutine
     def get_all_specs(self):
+        """
+        Get the default kernel name and compare to that of this server.
+        If different log a warning and reset the default.  However, the
+        caller of this method will still return this server's value until
+        the next fetch of kernelspecs - at which time they'll match.
+        :return: list of kernels.
+        """
         fetched_kspecs = yield self.list_kernel_specs()
-
-        # get the default kernel name and compare to that of this server.
-        # If different log a warning and reset the default.  However, the
-        # caller of this method will still return this server's value until
-        # the next fetch of kernelspecs - at which time they'll match.
-        km = self.parent.kernel_manager
-        remote_default_kernel_name = fetched_kspecs.get('default')
-        if remote_default_kernel_name != km.default_kernel_name:
-            self.log.info("Default kernel name on Gateway server ({gateway_default}) differs from "
-                          "Notebook server ({notebook_default}).  Updating to Gateway server's value.".
-                          format(gateway_default=remote_default_kernel_name,
-                                 notebook_default=km.default_kernel_name))
-            km.default_kernel_name = remote_default_kernel_name
-
-        remote_kspecs = fetched_kspecs.get('kernelspecs')
+        remote_kspecs = [fetched_kspec.get('kernelspecs') for fetched_kspec in fetched_kspecs]
         raise gen.Return(remote_kspecs)
 
     @gen.coroutine
     def list_kernel_specs(self):
-        """Get a list of kernel specs."""
-        kernel_spec_url = self._get_kernelspecs_endpoint_url()
-        self.log.info("Request list kernel specs at: %s", kernel_spec_url)
-        response = yield gateway_request(kernel_spec_url, method='GET')
-        kernel_specs = json_decode(response.body)
-        raise gen.Return(kernel_specs)
+        """
+        Get a list of kernel specs.
+        """
+
+        kernel_mlnode = {}
+        _kernel_specs = []
+
+
+        # Fetching all the kernels from the available MLnodes.
+
+        for endpoint in self.base_endpoints:
+            response = yield gateway_request('http://' + endpoint, method='GET')
+            kernel_mlnode[endpoint] = json_decode(response.body)
+
+        """
+        Since the data structure that is send by mlnodes is same. When sending the data to FE the data structure
+        would be updated. Avoiding that by creating a unique keys. Assuming the name of mlnode to be unique.
+        For example:
+        {'168.62.201.192:8888/api/kernelspecs': 
+            {'default': 'python3', 'kernelspecs': 
+                {'python3': 
+                    {'name': 'python3', 'spec': 
+                                        {'argv': 
+                                            ['/opt/conda/bin/python', '-m', 'ipykernel_launcher', '-f', 
+                                            '{connection_file}'], 'env': {}, 'display_name': 'Python 3', 
+                                            'language': 'python', 'interrupt_mode': 'signal', 'metadata': {}}, 
+                                            'resources': {'logo-64x64': '/kernelspecs/python3/logo-64x64.png', 
+                                            'logo-32x32': '/kernelspecs/python3/logo-32x32.png'}}, 'spylon-kernel': 
+                                            {'name': 'spylon-kernel', 'spec': {'argv': ['/opt/conda/bin/python', '-m', 
+                                            'spylon_kernel', '-f', '{connection_file}'], 
+                                            'env': {'PYTHONUNBUFFERED': '1', 'SPARK_SUBMIT_OPTS': 
+                                            '-Dscala.usejavacp=true'}, 'display_name': 'spylon-kernel', 
+                                            'language': 'scala', 'interrupt_mode': 'signal', 'metadata': {}},
+                                             'resources': {'logo-64x64': '/kernelspecs/spylon-kernel/logo-64x64.png', 
+                                             'logo-32x32': '/kernelspecs/spylon-kernel/logo-32x32.png'}}, 
+                                             'ir': {'name': 'ir', 'spec': {'argv': ['R', '--slave', '-e', 
+                                             'IRkernel::main()', '--args', '{connection_file}'], 'env': {}, 
+                                             'display_name': 'R', 'language': 'R', 'interrupt_mode': 'signal', 
+                                             'metadata': {}}, 'resources': {'kernel.js': '/kernelspecs/ir/kernel.js', 
+                                             'logo-64x64': '/kernelspecs/ir/logo-64x64.png'}
+                                        }
+                    }
+            }
+        }
+        """
+
+        for key_mlnode, value_mlnode in kernel_mlnode.items():
+            __kernel_specs = {'kernelspecs': {}}
+            __kernel_specs__ = value_mlnode['kernelspecs']
+            for key, value in __kernel_specs__.items():
+                node = ExecuteQueries().get_ml_node('ip_address', key_mlnode.split(':')[0])[0]
+                display_name = __kernel_specs__[key]['spec']['display_name'] + " " + node.name
+                _key = key + "~" + str(node.id)
+                __kernel_specs['kernelspecs'][_key] = value
+                __kernel_specs['kernelspecs'][_key]['name'] = _key
+                __kernel_specs['kernelspecs'][_key]['spec']['display_name'] = display_name
+                __kernel_specs['kernelspecs'][_key]['node_id'] = str(node.id)
+            _kernel_specs.append(__kernel_specs)
+
+        raise gen.Return(_kernel_specs)
 
     @gen.coroutine
     def get_kernel_spec(self, kernel_name, **kwargs):
@@ -573,7 +713,6 @@ class GatewayKernelSpecManager(KernelSpecManager):
             The name of the kernel.
         """
         kernel_spec_url = self._get_kernelspecs_endpoint_url(kernel_name=str(kernel_name))
-        self.log.info("Request kernel spec at: %s" % kernel_spec_url)
         try:
             response = yield gateway_request(kernel_spec_url, method='GET')
         except web.HTTPError as error:
@@ -582,7 +721,7 @@ class GatewayKernelSpecManager(KernelSpecManager):
                 # message is not used, but might as well make it useful for troubleshooting
                 raise KeyError(
                     'kernelspec {kernel_name} not found on Gateway server at: {gateway_url}'.
-                    format(kernel_name=kernel_name, gateway_url=GatewayClient.instance().url)
+                    format(kernel_name=kernel_name, gateway_url=kernel_spec_url)
                 ) from error
             else:
                 raise
@@ -593,7 +732,8 @@ class GatewayKernelSpecManager(KernelSpecManager):
 
     @gen.coroutine
     def get_kernel_spec_resource(self, kernel_name, path):
-        """Get kernel spec for kernel_name.
+        """
+        Get kernel spec for kernel_name.
 
         Parameters
         ----------

@@ -34,6 +34,7 @@ class SessionRootHandler(APIHandler):
         sm = self.session_manager
 
         model = self.get_json_body()
+
         if model is None:
             raise web.HTTPError(400, "No JSON data provided")
 
@@ -56,6 +57,7 @@ class SessionRootHandler(APIHandler):
         kernel = model.get('kernel', {})
         kernel_name = kernel.get('name', None)
         kernel_id = kernel.get('id', None)
+        mlnode_id = kernel_name.split('~')[-1]
 
         if not kernel_id and not kernel_name:
             self.log.info("No kernel specified, using default kernel")
@@ -82,6 +84,10 @@ class SessionRootHandler(APIHandler):
         location = url_path_join(self.base_url, 'api', 'sessions', model['id'])
         self.set_header('Location', location)
         self.set_status(201)
+        self.log.info(f'model={model}')
+        if 'kernel' in model.keys() and 'name' in model['kernel'].keys():
+            _updated_name = model['kernel']['name'] + '~' + mlnode_id
+            model['kernel']['name'] = _updated_name
         self.finish(json.dumps(model, default=date_default))
 
 

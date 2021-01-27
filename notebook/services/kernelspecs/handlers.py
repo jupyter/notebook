@@ -19,7 +19,9 @@ from ...utils import maybe_future, url_path_join, url_unescape
 
 
 def kernelspec_model(handler, name, spec_dict, resource_dir):
-    """Load a KernelSpec by name and return the REST API model"""
+    """
+    Load a KernelSpec by name and return the REST API model
+    """
     d = {
         'name': name,
         'spec': spec_dict,
@@ -48,7 +50,9 @@ def kernelspec_model(handler, name, spec_dict, resource_dir):
 
 
 def is_kernelspec_model(spec_dict):
-    """Returns True if spec_dict is already in proper form.  This will occur when using a gateway."""
+    """
+    Returns True if spec_dict is already in proper form.  This will occur when using a gateway.
+    """
     return isinstance(spec_dict, dict) and 'name' in spec_dict and 'spec' in spec_dict and 'resources' in spec_dict
 
 
@@ -63,16 +67,17 @@ class MainKernelSpecHandler(APIHandler):
         model['default'] = km.default_kernel_name
         model['kernelspecs'] = specs = {}
         kspecs = yield maybe_future(ksm.get_all_specs())
-        for kernel_name, kernel_info in kspecs.items():
-            try:
-                if is_kernelspec_model(kernel_info):
-                    d = kernel_info
-                else:
-                    d = kernelspec_model(self, kernel_name, kernel_info['spec'], kernel_info['resource_dir'])
-            except Exception:
-                self.log.error("Failed to load kernel spec: '%s'", kernel_name, exc_info=True)
-                continue
-            specs[kernel_name] = d
+        for kspec in kspecs:
+            for kernel_name, kernel_info in kspec.items():
+                try:
+                    if is_kernelspec_model(kernel_info):
+                        _kernel_info = kernel_info
+                    else:
+                        _kernel_info = kernelspec_model(self, kernel_name, kernel_info['spec'], kernel_info['resource_dir'])
+                except Exception:
+                    self.log.error("Failed to load kernel spec: '%s'", kernel_name, exc_info=True)
+                    continue
+                specs[kernel_name] = _kernel_info
         self.set_header("Content-Type", 'application/json')
         self.finish(json.dumps(model))
 

@@ -1,87 +1,115 @@
-import psycopg2
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-from psycopg2 import ProgrammingError
-import psycopg2.extras
-from psycopg2.extras import NamedTupleCursor
+# Db util class which take care of executing queries.
 
-class PostgresUtils:
+import os
+
+import django
+from django.conf import settings
+
+# PG values.
+PG_DB_USER = os.environ.get('PG_DB_USER', '')
+PG_DB_NAME = os.environ.get('PG_DB_NAME', '')
+PG_DB_PASS = os.environ.get('PG_DB_PASS', '')
+PG_DB_HOST = os.environ.get('PG_DB_HOST', '')
+PG_DB_PORT = os.environ.get('PG_DB_PORT', '')
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': PG_DB_NAME,
+        'USER': PG_DB_USER,
+        'PASSWORD': PG_DB_PASS,
+        'HOST': PG_DB_HOST,
+        'PORT': PG_DB_PORT,
+    }
+}
+
+settings.configure(
+        DATABASES=DATABASES,
+        SECRET_KEY='1234578',
+        INSTALLED_APPS=[
+            'deming_core',
+            'django.contrib.auth',
+            'django.contrib.admin',
+            'django.contrib.contenttypes',
+            'django.contrib.sessions',
+            'django.contrib.messages',
+            'django.contrib.staticfiles',
+        ])
+
+django.setup()
+
+
+from deming.models import MLNode, KernelSession
+
+
+class ExecuteQueries:
     """
-    Collection of all Postgres utility functions
+    This class contains all the helper methods for executing queries using django orms.
+    The logic of  django orm is kept here so that we don't repeat the imports and setup django in different files.
     """
 
-    def __init__(self, db_name=None, db_config=None):
+    def get_mlnodes(self):
         """
-        Args:
-            db_name: Name of database (Str) (overwrites value in db_config if present)
-            db_config: Dict containing postgres server configuration
-                        {'NAME': <db_name>,
-                         'HOST': <host_name>,
-                         'USER': <user>,
-                         'PASSWORD': <pass>,
-                         'PORT': <port>
-                        }
-        """
-        #TODO: Remove the hardcoded value from here. Use env vars.
-        self.db_config = {
-            'NAME': 'contexalyze',
-            'USER': 'postgres',
-            'PASSWORD': 'postgres',
-            'HOST': 'postgres',
-            'PORT': '5432'
-        }
-        self.conn = self.__create_new_conn__()
-
-    def __create_new_conn__(self):
-        """
-        Method to connect with Postgres server
-        :return: psycopg connection object with the database.
-        """
-        try:
-            conn = psycopg2.connect(dbname=self.db_config['NAME'],
-                                    user=self.db_config['USER'],
-                                    host=self.db_config['HOST'],
-                                    port=self.db_config['PORT'],
-                                    password=self.db_config['PASSWORD'])
-
-            conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-            return conn
-        except psycopg2.ProgrammingError as e:
-            raise RuntimeError(
-                    f'Error creating connection to PostgreSQL, {e})')
-
-    def __get_connection__(self):
-        "Return connection if active else create new"
-        return self.__create_new_conn__() if self.conn.closed else self.conn
-
-    def __execute_query__(self, conn, query, fetch_after=True):
-        """
-        Execute given query & return result
-        Args:
-            conn: Postgres connection client
-            query: Query to execute
-            fetch_after: Execute fetchall after executing query
-        Return:
-            Result array
-        """
-        try:
-            cur = conn.cursor(cursor_factory=NamedTupleCursor)
-            cur.execute(query)
-            result = None
-            if fetch_after:
-                result = cur.fetchall() if cur.rowcount > 0 else []
-            cur.close()
-            return result
-        except ProgrammingError as e:
-            raise RuntimeError('Error excuting query "%s"\n %s' % (query, e))
-
-    def get_users(self):
-        """
-        #TODO: Remove the method if not required, this is dummy method to test the and list the connections.
+        Get all the mlnode instances that are present in the MLNode table.
+        :return: List of Mlnode instances.
         """
 
-        self.conn = self.__get_connection__()
-        result = self.__execute_query__(self.conn, 'select * from deming_core_enterpriseuser;')
-        self.conn.close()
+        return MLNode.objects.all()
 
+    
+    def get_ml_node(self, column_name, column_value):
+        """
+        Get ml node instances for the given column name and value.
+        :param column_name: (str) Name of the column.
+        :param column_value: (str) Value of column.
+        :return: List of Mlnode instances.
+        """
+        kwargs = {column_name: column_value}
+        return MLNode.objects.filter(**kwargs)
+
+    def delete_kernel_session(self, column_name, column_value):
+        """
+        Delete the entry in the Kernel Session table for the given column name and Value.
+        :param column_name: (str) Name of the column
+        :param column_value: (str) Value of column
+        :return: List of KernelSession instances.
+        """
+        kwargs = {column_name: column_value}
+        return KernelSession.objects.filter(**kwargs).delete()
+
+
+    def get_kernel_session(self, column_name, column_value):
+        """
+        Get kernel session instances for the given column name and value.
+        :param column_name: (str) Name of the column
+        :param column_value: (str) Value of column
+        :return: List of KernelSession instances.
+        """
+        kwargs = {column_name: column_value}
+        return KernelSession.objects.filter(**kwargs)
+
+    def create_kernel_session(self, _field_values):
+        """
+        Create kernel session instance with provided values.
+        :param _field_values: (Dict) Dictionary of field values.
+        :return: KernelSession instance.
+        """
+
+        _kernel_id = _field_values.get("kernel_id", None)
+        _kernel_name   = _field_values.get("kernel_name", None)
+        mlnode_id = _field_values['mlnode_id']
+        result, _ = KernelSession.objects.update_or_create(kernel_id=_kernel_id,
+                                                        kernel_name=_kernel_name,
+                                                        ml_node=MLNode.objects.get(id=mlnode_id))
         return result
 
+    def check_kernel_sessions(self, column_name, column_value):
+        """
+        Check if there is an entry wih the following field and value.
+        :param column_name: Name of the Column. ( String )
+        :param column_value: Value of the Column. ( String )
+        :return: Boolean Value.
+        """
+
+        kwargs = {column_name: column_value}
+        return KernelSession.objects.filter(**kwargs).exists()

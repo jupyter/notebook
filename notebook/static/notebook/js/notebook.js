@@ -3237,8 +3237,8 @@ define([
             } else if (this.metadata.kernelspec) {
                 this.kernel_selector.set_kernel(this.metadata.kernelspec);
             } else if (this.metadata.language) {
-                // compat with IJulia, IHaskell, and other early kernels
                 // adopters that where setting a language metadata.
+                // compat with IJulia, IHaskell, and other early kernels
                 this.kernel_selector.set_kernel({
                     name: i18n.msg._("(No name)"),
                     language: this.metadata.language

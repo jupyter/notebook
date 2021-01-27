@@ -155,8 +155,9 @@ class MappingKernelManager(MultiKernelManager):
             os_path = os.path.dirname(os_path)
         return os_path
 
-    async def start_kernel(self, kernel_id=None, path=None, **kwargs):
-        """Start a kernel for a session and return its kernel_id.
+    async def start_kernel(self, kernel_id=None, path=None, mlnode_name=None, **kwargs):
+        """
+        Start a kernel for a session and return its kernel_id.
         Parameters
         ----------
         kernel_id : uuid
@@ -169,9 +170,11 @@ class MappingKernelManager(MultiKernelManager):
         kernel_name : str
             The name identifying which kernel spec to launch. This is ignored if
             an existing kernel is returned, but it may be checked in the future.
+        mlnode_name: str
+            The name of the mlnode.
         """
-        if kernel_id is None:
-            if path is not None:
+        if not kernel_id:
+            if path:
                 kwargs['cwd'] = self.cwd_for_path(path)
             kernel_id = await maybe_future(self.pinned_superclass.start_kernel(self, **kwargs))
             self._kernel_connections[kernel_id] = 0

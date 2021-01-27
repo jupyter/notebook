@@ -38,7 +38,6 @@ except ImportError:
     # Windows
     resource = None
 
-from .db_util import PostgresUtils
 from base64 import encodebytes
 from jinja2 import Environment, FileSystemLoader
 from notebook.transutils import trans, _
@@ -1845,10 +1844,6 @@ class NotebookApp(JupyterApp):
         return url
 
     @property
-    def db(self):
-        return PostgresUtils()
-
-    @property
     def connection_url(self):
         if self.sock:
             return self._unix_sock_url()
@@ -2091,9 +2086,6 @@ class NotebookApp(JupyterApp):
         self.init_server_extensions()
         self.init_mime_overrides()
         self.init_shutdown_no_activity()
-        self.db
-        _users = self.db.get_users()
-        self.log.info(f'users={_users}')
 
     def cleanup_kernels(self):
         """Shutdown all kernels.
@@ -2122,7 +2114,11 @@ class NotebookApp(JupyterApp):
         run_sync(terminal_manager.terminate_all())
 
     def notebook_info(self, kernel_count=True):
-        "Return the current working directory and the server url information"
+        """
+        Return the current working directory and the server url information
+        :param kernel_count:
+        :return:
+        """
         info = self.contents_manager.info_string() + "\n"
         if kernel_count:
             n_kernels = len(self.kernel_manager.list_kernel_ids())
@@ -2133,7 +2129,7 @@ class NotebookApp(JupyterApp):
         info += _("Jupyter Notebook {version} is running at:\n{url}".
                   format(version=NotebookApp.version, url=self.display_url))
         if self.gateway_config.gateway_enabled:
-            info += _("\nKernels will be managed by the Gateway server running at:\n%s") % self.gateway_config.url
+            info += _("\nKernels will be managed by the Gateway server running at:\n%s") % self.gateway_config.urls
         return info
 
     def server_info(self):
