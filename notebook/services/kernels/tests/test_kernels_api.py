@@ -204,8 +204,6 @@ class AsyncKernelAPITest(KernelAPITest):
     def setup_class(cls):
         if not async_testing_enabled:  # Can be removed once jupyter_client >= 6.1 is required.
             raise SkipTest("AsyncKernelAPITest tests skipped due to down-level jupyter_client!")
-        if sys.version_info < (3, 6):  # Can be removed once 3.5 is dropped.
-            raise SkipTest("AsyncKernelAPITest tests skipped due to Python < 3.6!")
         super(AsyncKernelAPITest, cls).setup_class()
 
     @classmethod
