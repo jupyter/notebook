@@ -1,7 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import { ClassicShell } from '@jupyterlab-classic/application';
+import { ClassicShell, IClassicShell } from '@jupyterlab-classic/application';
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
 
@@ -10,16 +10,25 @@ import { toArray } from '@lumino/algorithm';
 import { Widget } from '@lumino/widgets';
 
 describe('Shell', () => {
+  let shell: IClassicShell;
+
+  beforeEach(() => {
+    shell = new ClassicShell();
+    Widget.attach(shell, document.body);
+  });
+
+  afterEach(() => {
+    shell.dispose();
+  });
+
   describe('#constructor()', () => {
     it('should create a LabShell instance', () => {
-      const shell = new ClassicShell();
       expect(shell).toBeInstanceOf(ClassicShell);
     });
   });
 
   describe('#widgets()', () => {
     it('should add widgets to existing areas', () => {
-      const shell = new ClassicShell();
       const widget = new Widget();
       shell.add(widget, 'main');
       const widgets = toArray(shell.widgets('main'));
@@ -27,11 +36,52 @@ describe('Shell', () => {
     });
 
     it('should throw an exception if the area does not exist', () => {
-      const classicShell = new ClassicShell();
-      const shell = classicShell as JupyterFrontEnd.IShell;
+      const jupyterFrontEndShell = shell as JupyterFrontEnd.IShell;
       expect(() => {
-        shell.widgets('left');
+        jupyterFrontEndShell.widgets('left');
       }).toThrow('Invalid area: left');
+    });
+  });
+
+  describe('#currentWidget', () => {
+    it('should be the current widget in the shell main area', () => {
+      expect(shell.currentWidget).toBe(null);
+      const widget = new Widget();
+      widget.node.tabIndex = -1;
+      widget.id = 'foo';
+      expect(shell.currentWidget).toBe(null);
+      shell.add(widget, 'main');
+      expect(shell.currentWidget).toBe(widget);
+      widget.parent = null;
+      expect(shell.currentWidget).toBe(null);
+    });
+  });
+
+  describe('#add(widget, "top")', () => {
+    it('should add a widget to the top area', () => {
+      const widget = new Widget();
+      widget.id = 'foo';
+      shell.add(widget, 'top');
+      const widgets = toArray(shell.widgets('top'));
+      expect(widgets.length).toBeGreaterThan(0);
+    });
+
+    it('should accept options', () => {
+      const widget = new Widget();
+      widget.id = 'foo';
+      shell.add(widget, 'top', { rank: 10 });
+      const widgets = toArray(shell.widgets('top'));
+      expect(widgets.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('#add(widget, "main")', () => {
+    it('should add a widget to the main area', () => {
+      const widget = new Widget();
+      widget.id = 'foo';
+      shell.add(widget, 'main');
+      const widgets = toArray(shell.widgets('main'));
+      expect(widgets.length).toBeGreaterThan(0);
     });
   });
 });
