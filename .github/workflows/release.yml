@@ -60,6 +60,11 @@ jobs:
       run: |
         jlpm run build:test
         jlpm run test:ci
+    - uses: actions/upload-artifact@v2
+      if: ${{ always() }}
+      with:
+        name: test-artifacts
+        path: app/artifacts
 
   build:
     needs: [integrity]

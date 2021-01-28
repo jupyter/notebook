@@ -7,7 +7,9 @@ describe('Smoke', () => {
   beforeAll(async () => {
     jest.setTimeout(200000);
     browser = await chromium.launch({ slowMo: 1000 });
-    context = await browser.newContext({ recordVideo: { dir: 'videos/' } });
+    context = await browser.newContext({
+      recordVideo: { dir: 'artifacts/videos/' }
+    });
   });
 
   afterAll(async () => {
