@@ -1,4 +1,6 @@
-import { firefox, Browser, BrowserContext } from 'playwright';
+import { chromium, firefox, Browser, BrowserContext } from 'playwright';
+
+import { BrowserName } from './utils';
 
 describe('Smoke', () => {
   let browser: Browser;
@@ -6,7 +8,8 @@ describe('Smoke', () => {
 
   beforeAll(async () => {
     jest.setTimeout(200000);
-    browser = await firefox.launch({ slowMo: 1000 });
+    const browserName = (process.env.BROWSER as BrowserName) || 'chromium';
+    browser = await { chromium, firefox }[browserName].launch({ slowMo: 100 });
     context = await browser.newContext({
       recordVideo: { dir: 'artifacts/videos/' }
     });

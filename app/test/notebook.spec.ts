@@ -1,7 +1,9 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import { chromium, Browser } from 'playwright';
+import { chromium, firefox, Browser } from 'playwright';
+
+import { BrowserName } from './utils';
 
 const JUPYTERLAB_CLASSIC =
   'http://localhost:8889/classic/notebooks/app/test/data/example.ipynb';
@@ -10,7 +12,8 @@ describe('Notebook', () => {
   let browser: Browser;
 
   beforeEach(async () => {
-    browser = await chromium.launch({ slowMo: 100 });
+    const browserName = (process.env.BROWSER as BrowserName) || 'chromium';
+    browser = await { chromium, firefox }[browserName].launch({ slowMo: 100 });
   });
 
   afterEach(() => {

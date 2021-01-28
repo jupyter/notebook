@@ -55,16 +55,10 @@ jobs:
         jlpm
         jlpm run eslint:check
         jlpm run prettier:check
-    - uses: microsoft/playwright-github-action@v1
     - name: Test
       run: |
         jlpm run build:test
-        jlpm run test:ci
-    - uses: actions/upload-artifact@v2
-      if: ${{ always() }}
-      with:
-        name: test-artifacts
-        path: app/artifacts
+        jlpm run test
 
   build:
     needs: [integrity]
@@ -158,3 +152,40 @@ jobs:
           jupyter server extension list 2>&1 | grep -ie "jupyterlab_classic.*enabled" -
           jupyter classic --version
           jupyter classic --help
+
+  end2end:
+    needs: [build]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [firefox, chromium]
+    steps:
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+          architecture: 'x64'
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist ${{ github.run_number }}
+          path: ./dist
+      - name: Install the prerequisites
+        run: |
+          python -m pip install pip wheel
+      - name: Install the package
+        run: |
+          cd dist
+          python -m pip install -vv jupyterlab_classic*.whl
+      - uses: microsoft/playwright-github-action@v1
+      - name: Test
+        run: |
+          jlpm run build:test
+          jlpm run test:e2e
+        env:
+          BROWSER: ${{ matrix.browser }}
+      - uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: test-artifacts
+          path: app/artifacts
