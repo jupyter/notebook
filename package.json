@@ -33,7 +33,7 @@
     "release:patch": "node ./buildutils/lib/release-patch.js",
     "start": "jupyter classic --config ./app/test/jupyter_server_config.py --no-browser",
     "test": "lerna run test",
-    "test:ci": "run-p start test",
+    "test:ci": "(jlpm run start&) && jlpm run test",
     "update:dependency": "node ./node_modules/@jupyterlab/buildutils/lib/update-dependency.js --lerna"
   },
   "husky": {

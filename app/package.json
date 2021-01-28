@@ -9,6 +9,7 @@
     "clean": "rimraf build",
     "prepublishOnly": "yarn run build",
     "test": "jest",
+    "test:pwdebug": "PWDEBUG=1 jest",
     "test:cov": "jest --collect-coverage",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "test:debug:watch": "node --inspect-brk node_modules/.bin/jest --runInBand --watch",
