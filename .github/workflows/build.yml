@@ -183,7 +183,7 @@ jobs:
       - name: Test
         run: |
           jlpm run build:test
-          jlpm run test:e2e
+          jlpm run test:ci
         env:
           BROWSER: ${{ matrix.browser }}
       - uses: actions/upload-artifact@v2
