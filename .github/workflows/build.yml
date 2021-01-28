@@ -182,6 +182,7 @@ jobs:
       - uses: microsoft/playwright-github-action@v1
       - name: Test
         run: |
+          jlpm
           jlpm run build:test
           jlpm run test:ci
         env:
