@@ -55,10 +55,11 @@ jobs:
         jlpm
         jlpm run eslint:check
         jlpm run prettier:check
+    - uses: microsoft/playwright-github-action@v1
     - name: Test
       run: |
         jlpm run build:test
-        jlpm run test
+        jlpm run test:ci
 
   build:
     needs: [integrity]
