@@ -6,20 +6,12 @@ import { chromium, Browser } from 'playwright';
 const JUPYTERLAB_CLASSIC =
   'http://localhost:8889/classic/notebooks/binder/example.ipynb';
 
-const TITLE_XPATH = '//*[@id="jp-title"]/h1';
-
-const RENAME_SELECTOR =
-  'div.lm-Widget.p-Widget.jp-FileDialog.jp-Dialog-body > input';
-
-const ACCEPT_SELECTOR =
-  'body > div.lm-Widget.p-Widget.jp-Dialog > div > div.lm-Widget.p-Widget.jp-Dialog-footer > button.jp-Dialog-button.jp-mod-accept.jp-mod-styled';
-
 describe('Notebook', () => {
   let browser: Browser;
 
   beforeEach(async () => {
-    // browser = await chromium.launch({ headless: false, slowMo: 100 });
-    browser = await chromium.launch();
+    browser = await chromium.launch({ slowMo: 100 });
+    // browser = await chromium.launch();
   });
 
   afterEach(() => {
@@ -42,15 +34,21 @@ describe('Notebook', () => {
     it('should be possible to rename the notebook', async () => {
       const page = await browser.newPage();
       await page.goto(JUPYTERLAB_CLASSIC);
-      await page.waitForSelector(TITLE_XPATH);
 
-      await page.click(TITLE_XPATH);
+      // Click text="Untitled.ipynb"
+      await page.click('text="example.ipynb"');
 
-      const name = await page.$(RENAME_SELECTOR);
-      const newName = 'test';
-      await name?.type(newName);
+      const newName = 'test.ipynb';
+      await page.fill(
+        "//div[normalize-space(.)='File Pathbinder/example.ipynbNew Name']/input",
+        newName
+      );
 
-      await page.click(ACCEPT_SELECTOR);
+      // Click text="Rename"
+      await Promise.all([
+        page.waitForNavigation(/*{ url: 'http://localhost:8889/classic/notebooks/test.ipynb' }*/),
+        page.click('text="Rename"')
+      ]);
 
       const url = page.url();
       expect(url).toContain(newName);
