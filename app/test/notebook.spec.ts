@@ -18,8 +18,7 @@ describe('Notebook', () => {
   let browser: Browser;
 
   beforeEach(async () => {
-    // browser = await chromium.launch({ headless: false, slowMo: 1000 });
-    browser = await chromium.launch();
+    browser = await chromium.launch({ headless: false, slowMo: 100 });
   });
 
   afterEach(() => {
@@ -48,7 +47,7 @@ describe('Notebook', () => {
 
       const name = await page.$(RENAME_SELECTOR);
       const newName = 'test';
-      await name?.type(newName, { delay: 100 });
+      await name?.type(newName);
 
       await page.click(ACCEPT_SELECTOR);
 
