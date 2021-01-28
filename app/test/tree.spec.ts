@@ -9,7 +9,8 @@ describe('Tree', () => {
   let browser: Browser;
 
   beforeEach(async () => {
-    browser = await chromium.launch({ headless: false, slowMo: 100 });
+    // browser = await chromium.launch({ headless: false, slowMo: 100 });
+    browser = await chromium.launch();
   });
 
   afterEach(() => {
