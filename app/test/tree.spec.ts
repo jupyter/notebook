@@ -9,8 +9,7 @@ describe('Tree', () => {
   let browser: Browser;
 
   beforeEach(async () => {
-    // browser = await chromium.launch({ headless: false, slowMo: 100 });
-    browser = await chromium.launch();
+    browser = await chromium.launch({ slowMo: 100 });
   });
 
   afterEach(() => {
@@ -24,7 +23,6 @@ describe('Tree', () => {
       await page.waitForSelector(NEW_NOTEBOOK);
 
       const button = await page.$(NEW_NOTEBOOK);
-      await page.screenshot({ path: 'screenshot.png', fullPage: true });
       expect(button).toBeDefined();
     });
   });

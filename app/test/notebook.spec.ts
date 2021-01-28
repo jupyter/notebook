@@ -4,14 +4,13 @@
 import { chromium, Browser } from 'playwright';
 
 const JUPYTERLAB_CLASSIC =
-  'http://localhost:8889/classic/notebooks/binder/example.ipynb';
+  'http://localhost:8889/classic/notebooks/app/test/data/example.ipynb';
 
 describe('Notebook', () => {
   let browser: Browser;
 
   beforeEach(async () => {
     browser = await chromium.launch({ slowMo: 100 });
-    // browser = await chromium.launch();
   });
 
   afterEach(() => {
@@ -40,7 +39,7 @@ describe('Notebook', () => {
 
       const newName = 'test.ipynb';
       await page.fill(
-        "//div[normalize-space(.)='File Pathbinder/example.ipynbNew Name']/input",
+        "//div[normalize-space(.)='File Pathapp/test/data/example.ipynbNew Name']/input",
         newName
       );
 
