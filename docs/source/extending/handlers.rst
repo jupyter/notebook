@@ -122,6 +122,53 @@ following:
         route_pattern = url_path_join(web_app.settings['base_url'], '/hello')
         web_app.add_handlers(host_pattern, [(route_pattern, HelloWorldHandler)])
 
+
+Extra Parameters and authentication
+===================================
+
+Here is a quick rundown of what you need to know to pass extra parameters to the handler and enable authentication:
+
+ - extra arguments to the ``__init__`` constructor are given in a dictionary after the  handler class in ``add_handlers``:
+
+.. code:: python
+
+
+    class HelloWorldHandler(IPythonHandler):
+
+        def __init__(self, *args, **kwargs):
+            self.extra = kwargs.pop('extra')
+            ...
+
+    def load_jupyter_server_extension(nb_server_app):
+
+        ...
+
+        web_app.add_handlers(host_pattern,
+            [
+               (route_pattern, HelloWorldHandler, {"extra": nb_server_app.extra})
+            ])
+
+
+All handler methods that require authentication _MUST_ be decorated with ``@tornado.web.authenticated``:
+
+
+.. code:: python
+
+    from tornado import web
+
+    class HelloWorldHandler(IPythonHandler):
+
+        ...
+
+        @web.authenticated
+        def  get(self, *args, **kwargs):
+             ...
+
+        @web.authenticated
+        def  post(self, *args, **kwargs):
+             ...
+
+
 References:
 
 1. `Peter Parente's Mindtrove <https://mindtrove.info/4-ways-to-extend-jupyter-notebook/#nb-server-exts>`__
