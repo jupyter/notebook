@@ -44,11 +44,6 @@ from jinja2 import Environment, FileSystemLoader
 
 from notebook.transutils import trans, _
 
-# Install the pyzmq ioloop. This has to be done before anything else from
-# tornado is imported.
-from zmq.eventloop import ioloop
-ioloop.install()
-
 # check for tornado 3.1.0
 try:
     import tornado
@@ -62,6 +57,7 @@ if version_info < (5,0):
     raise ImportError(_("The Jupyter Notebook requires tornado >= 5.0, but you have %s") % tornado.version)
 
 from tornado import httpserver
+from tornado import ioloop
 from tornado import web
 from tornado.httputil import url_concat
 from tornado.log import LogFormatter, app_log, access_log, gen_log
