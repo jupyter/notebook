@@ -1,8 +1,6 @@
 import { chromium, firefox, Browser } from 'playwright';
 
-import { BrowserName } from './utils';
-
-const JUPYTERLAB_CLASSIC = 'http://localhost:8889/classic/tree';
+import { BASE_URL, BrowserName } from './utils';
 
 describe('Tree', () => {
   let browser: Browser;
@@ -20,7 +18,7 @@ describe('Tree', () => {
   describe('File Browser', () => {
     it('should render a New Notebook button', async () => {
       const page = await browser.newPage();
-      await page.goto(JUPYTERLAB_CLASSIC);
+      await page.goto(`${BASE_URL}classic/tree`);
 
       const button = await page.$('text="New Notebook"');
       expect(button).toBeDefined();

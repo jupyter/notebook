@@ -3,10 +3,10 @@
 
 import { chromium, firefox, Browser } from 'playwright';
 
-import { BrowserName } from './utils';
+import { BrowserName, BASE_URL } from './utils';
 
-const JUPYTERLAB_CLASSIC =
-  'http://localhost:8889/classic/notebooks/app/test/data/example.ipynb';
+const NOTEBOOK_PATH = 'app/test/data/example.ipynb';
+const NOTEBOOK_URL = `${BASE_URL}classic/notebooks/${NOTEBOOK_PATH}`;
 
 describe('Notebook', () => {
   let browser: Browser;
@@ -23,7 +23,7 @@ describe('Notebook', () => {
   describe('Title', () => {
     it('should be rendered', async () => {
       const page = await browser.newPage();
-      await page.goto(JUPYTERLAB_CLASSIC);
+      await page.goto(NOTEBOOK_URL);
       await page.waitForTimeout(2000);
       const href = await page.evaluate(() => {
         return document.querySelector('#jp-ClassicLogo')?.getAttribute('href');
@@ -35,23 +35,23 @@ describe('Notebook', () => {
   describe('Renaming', () => {
     it('should be possible to rename the notebook', async () => {
       const page = await browser.newPage();
-      await page.goto(JUPYTERLAB_CLASSIC);
+      await page.goto(NOTEBOOK_URL);
 
-      // Click text="Untitled.ipynb"
+      // Click on the title
       await page.click('text="example.ipynb"');
 
+      // Rename in the input dialog
       const newName = 'test.ipynb';
       await page.fill(
-        "//div[normalize-space(.)='File Pathapp/test/data/example.ipynbNew Name']/input",
+        `//div[normalize-space(.)='File Path${NOTEBOOK_PATH}New Name']/input`,
         newName
       );
-
-      // Click text="Rename"
       await Promise.all([
-        page.waitForNavigation(/*{ url: 'http://localhost:8889/classic/notebooks/test.ipynb' }*/),
+        page.waitForNavigation(),
         page.click('text="Rename"')
       ]);
 
+      // Check the URL contains the new name
       const url = page.url();
       expect(url).toContain(newName);
     });

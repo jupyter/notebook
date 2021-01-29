@@ -1,6 +1,6 @@
 import { chromium, firefox, Browser, BrowserContext } from 'playwright';
 
-import { BrowserName } from './utils';
+import { BrowserName, BASE_URL } from './utils';
 
 describe('Smoke', () => {
   let browser: Browser;
@@ -25,7 +25,7 @@ describe('Smoke', () => {
       const tree = await context.newPage();
 
       // Open the tree page
-      await tree.goto('http://localhost:8889/classic/tree?');
+      await tree.goto(`${BASE_URL}classic/tree`);
       await tree.click('text="Running"');
       await tree.click('text="Files"');
 
