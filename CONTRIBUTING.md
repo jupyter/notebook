@@ -56,3 +56,32 @@ Then start JupyterLab Classic with:
 ```bash
 jupyter classic
 ```
+
+## Running Tests
+
+To run the tests:
+
+```bash
+jlpm run build:test
+jlpm run test
+```
+
+There are also end to end tests to cover higher level user interactions, located in the `app/test` folder. To run these tests:
+
+```bash
+# start a new Jupyter server in a terminal
+npm start
+
+# run the end to end tests
+jlpm run test:e2e
+
+# to run in headful mode
+PWDEBUG=1 jlpm run test:e2e
+
+# to run with firefox as the browser
+BROWSER=firefox jlpm run test:e2e
+```
+
+Running the end to end tests in headful mode will trigger something like the following:
+
+![end-to-end-smoke](https://user-images.githubusercontent.com/591645/106299215-34a67b00-6255-11eb-854c-756a8790246b.gif)
