@@ -115,3 +115,7 @@ junit.xml
 [uU]ntitled*
 jupyterlab_classic/static
 jupyterlab_classic/labextension
+
+# playwright
+app/artifacts/videos
+app/test/data

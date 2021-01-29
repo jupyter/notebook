@@ -152,3 +152,43 @@ jobs:
           jupyter server extension list 2>&1 | grep -ie "jupyterlab_classic.*enabled" -
           jupyter classic --version
           jupyter classic --help
+
+  end2end:
+    needs: [build]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [firefox, chromium]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+          architecture: 'x64'
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist ${{ github.run_number }}
+          path: ./dist
+      - name: Install the prerequisites
+        run: |
+          python -m pip install pip wheel
+      - name: Install the package
+        run: |
+          cd dist
+          python -m pip install -vv jupyterlab_classic*.whl
+      - uses: microsoft/playwright-github-action@v1
+      - name: Test
+        run: |
+          jlpm
+          jlpm run build:test
+          jlpm run test:ci
+        env:
+          BROWSER: ${{ matrix.browser }}
+      - uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: test-artifacts-${{ matrix.browser }} ${{ github.run_number }}
+          path: app/artifacts
