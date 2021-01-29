@@ -190,5 +190,5 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: ${{ always() }}
         with:
-          name: test-artifacts
+          name: test-artifacts-${{ matrix.browser }}
           path: app/artifacts
