@@ -15,7 +15,7 @@ import sys
 
 name = "notebook"
 
-if sys.version_info < (3, 5):
+if sys.version_info < (3, 6):
     pip_message = 'This may be due to an out of date pip. Make sure you have pip >= 9.0.1.'
     try:
         import pip
@@ -31,7 +31,8 @@ if sys.version_info < (3, 5):
 
 
     error = """
-Notebook 6.0+ supports Python 3.5 and above.
+Notebook 6.3+ supports Python 3.6 and above.
+When using Python 3.5, please install Notebook <= 6.2.
 When using Python 3.4 or earlier (including 2.7), please install Notebook 5.x.
 
 Python {py} detected.
@@ -90,10 +91,10 @@ for more information.
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8'
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9'
     ],
     zip_safe = False,
     install_requires = [
@@ -121,7 +122,7 @@ for more information.
         'test:sys_platform != "win32"': ['requests-unixsocket'],
         'json-logging': ['json-logging']
     },
-    python_requires = '>=3.5',
+    python_requires = '>=3.6',
     entry_points = {
         'console_scripts': [
             'jupyter-notebook = notebook.notebookapp:main',
