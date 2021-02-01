@@ -217,7 +217,8 @@ class IPythonHandler(AuthenticatedHandler):
         """Use tornado to request Quartic's API to get user data."""
         http_client = httpclient.AsyncHTTPClient()
         template_vars = self.settings.get('jinja_template_vars', {})
-        server_name = os.environ.get('SERVER_NAME', 'localhost:8000')
+        # server_name = os.environ.get('SERVER_NAME', 'localhost:8000')
+        server_name = 'stag.quartic.ai'
         site_url = 'https://' + server_name if 'localhost:8000' not in server_name else 'http://' + server_name
         self.log.info(f'site url = {site_url}')
         cookie = {

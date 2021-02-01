@@ -5,6 +5,9 @@ import os
 import django
 from django.conf import settings
 
+
+from deming import deming_setup
+
 # PG values.
 PG_DB_USER = os.environ.get('PG_DB_USER', '')
 PG_DB_NAME = os.environ.get('PG_DB_NAME', '')

@@ -241,14 +241,16 @@ class GatewayClient(SingletonConfigurable):
     def _env_whitelist_default(self):
         return os.environ.get(self.env_whitelist_env, self.env_whitelist_default_value)
 
+    # setting this as true since this property states if the gateway is configured or not. In our case we
+    # will always have gateway set as True.
     @property
     def gateway_enabled(self):
         """
         This property validates if the urls property is null or not.
         Updated this to validate on an array.
-        :return:
+        :return: True
         """
-        return bool(self.urls is not None and len(self.urls) > 0)
+        return True
 
     # Ensure KERNEL_LAUNCH_TIMEOUT has a default value.
     KERNEL_LAUNCH_TIMEOUT = int(os.environ.get('KERNEL_LAUNCH_TIMEOUT', 40))
