@@ -117,6 +117,7 @@ from .utils import (
     urlencode_unix_socket_path,
     urljoin,
 )
+from .traittypes import TypeFromClasses
 
 # Check if we can use async kernel management
 try:
@@ -1375,12 +1376,40 @@ class NotebookApp(JupyterApp):
         (shutdown the notebook server)."""
     )
 
-    contents_manager_class = Type(
+    # We relax this trait to handle Contents Managers using jupyter_server
+    # as the core backend.
+    contents_manager_class = TypeFromClasses(
         default_value=LargeFileManager,
-        klass=ContentsManager,
+        klasses=[
+            ContentsManager,
+            # To make custom ContentsManagers both forward+backward
+            # compatible, we'll relax the strictness of this trait
+            # and allow jupyter_server contents managers to pass
+            # through. If jupyter_server is not installed, this class
+            # will be ignored.
+            'jupyter_server.contents.services.managers.ContentsManager'
+        ],
         config=True,
         help=_('The notebook manager class to use.')
     )
+
+    # Throws a deprecation warning to jupyter_server based contents managers.
+    @observe('contents_manager_class')
+    def _observe_contents_manager_class(self, change):
+        new = change['new']
+        # If 'new' is a class, get a string representing the import
+        # module path.
+        if inspect.isclass(new):
+            new = new.__module__
+
+        if new.startswith('jupyter_server'):
+            self.log.warning(
+                "The specified 'contents_manager_class' class inherits a manager from the "
+                "'jupyter_server' package. These (future-looking) managers are not "
+                "guaranteed to work with the 'notebook' package. For longer term support "
+                "consider switching to NBClassic—a notebook frontend that leverages "
+                "Jupyter Server as its server backend."
+            )
 
     kernel_manager_class = Type(
         default_value=MappingKernelManager,
