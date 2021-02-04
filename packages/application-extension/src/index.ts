@@ -285,6 +285,32 @@ const spacer: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to display the document title in the browser tab title
+ */
+const tabTitle: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-classic/application-extension:tab-title',
+  autoStart: true,
+  requires: [IClassicShell],
+  activate: (app: JupyterFrontEnd, shell: IClassicShell) => {
+    const setTabTitle = () => {
+      const current = shell.currentWidget;
+      if (!(current instanceof DocumentWidget)) {
+        return;
+      }
+      const update = () => {
+        const basename = PathExt.basename(current.context.path);
+        document.title = basename;
+      };
+      current.context.pathChanged.connect(update);
+      update();
+    };
+
+    shell.currentChanged.connect(setTabTitle);
+    setTabTitle();
+  }
+};
+
+/**
  * A plugin to display and rename the title of a file
  */
 const title: JupyterFrontEndPlugin<void> = {
@@ -472,6 +498,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   sessionDialogs,
   shell,
   spacer,
+  tabTitle,
   title,
   topVisibility,
   translator,

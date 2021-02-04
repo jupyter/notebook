@@ -106,6 +106,7 @@ class ClassicApp(NBClassicConfigShimMixin, LabServerApp):
     description = "JupyterLab Classic - A JupyterLab Distribution with the Classic Notebook look and feel"
     app_version = version
     extension_url = "/classic/tree"
+    default_url = "/classic/tree"
     load_other_extensions = True
     app_dir = app_dir
     app_settings_dir = pjoin(app_dir, "settings")
