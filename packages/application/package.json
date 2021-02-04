@@ -1,6 +1,6 @@
 {
   "name": "@jupyterlab-classic/application",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "JupyterLab Classic - Application",
   "homepage": "https://github.com/jtpio/jupyterlab-classic",
   "bugs": {
