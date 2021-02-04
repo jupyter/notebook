@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{page_config['appName'] | e}} - Edit</title>
+  {% block favicon %}
+  <link rel="icon" type="image/x-icon" href="{{ base_url | escape }}static/favicons/favicon-file.ico" class="favicon">
+  {% endblock %}
 </head>
 <body>
 
