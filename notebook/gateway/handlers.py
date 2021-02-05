@@ -81,12 +81,13 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
         """
         self.log.info(f'kernel_id in webhook handler get={kernel_id} get')
         self.authenticate()
-        # TODO: Update the database with user info.
-        #  This will be done as a part of
-        #  https://quarticai.atlassian.net/jira/software/projects/PLT/boards/20?selectedIssue=PLT-4015
-
         self.log.info(f"Got the user={self.current_user}")
-
+        self.log.info(f"username = {self.current_user['name']}")
+        _field_values = {
+            'user_name': self.current_user['name'],
+            'kernel_id': kernel_id
+        }
+        self.db.update_kernel_session(_field_values)
         self.kernel_id = cast_unicode(kernel_id, 'ascii')
         self.ml_node_url = self.mlnode_url()
         self.gateway = GatewayWebSocketClient(gateway_url=f'{self.ml_node_url}:8888')
@@ -149,7 +150,6 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
             summary.append(', ...')  # don't display potentially sensitive data
 
         return ''.join(summary)
-
 
 
 class GatewayWebSocketClient(LoggingConfigurable):
