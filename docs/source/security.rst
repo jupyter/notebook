@@ -72,7 +72,7 @@ and store the hashed password in your :file:`jupyter_notebook_config.json`.
     :command:`jupyter notebook password` command is added.
 
 
-It is possible disable authentication altogether by setting the token and password to empty strings,
+It is possible to disable authentication altogether by setting the token and password to empty strings,
 but this is **NOT RECOMMENDED**, unless authentication or access restrictions are handled at a different layer in your web application:
 
 .. sourcecode:: python
