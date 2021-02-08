@@ -9,7 +9,7 @@
 Jupyter नोटबुक इंटरैक्टिव के लिए एक वेब-आधारित नोटबुक वातावरण है
 कंप्यूटिंग।
 
-![Jupyter notebook example](docs/resources/running_code_med.png "Jupyter notebook example")
+![Jupyter notebook example](resources/running_code_med.png "Jupyter notebook example")
 
 ### नोटिस
 कृपया ध्यान दें कि इस भंडार का रखरखाव वर्तमान में जुपिटर समुदाय के एक कंकाल के दल द्वारा किया जाता है। हम उपयोगकर्ताओं को जुपिटरलैब में संक्रमण के लिए प्रोत्साहित करते हैं, जहां अधिक तत्काल समर्थन हो सकता है। हमारा दृष्टिकोण आगे बढ़ेगा:

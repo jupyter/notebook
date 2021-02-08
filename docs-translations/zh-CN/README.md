@@ -9,7 +9,7 @@
 Jupyter Notebook是用于交互的基于Web的笔记本环境
 计算。
 
-![Jupyter notebook example](docs/resources/running_code_med.png "Jupyter notebook example")
+![Jupyter notebook example](resources/running_code_med.png "Jupyter notebook example")
 
 ### 注意
 请注意，这家商店目前由木星社区的骨干团队维护。我们鼓励用户过渡到 JupyterLab，那里可能会立即提供更多支持。我们的方法将向前发展：
