@@ -1584,6 +1584,21 @@ class NotebookApp(JupyterApp):
         """
     ).tag(config=True)
 
+    @default('authenticate_prometheus')
+    def _default_authenticate_prometheus(self):
+        """ Authenticate Prometheus by default, unless auth is disabled. """
+        auth = bool(self.password) or bool(self.token)
+        if auth is False:
+            self.log.info(_("Authentication of /metrics is OFF, since other authentication is disabled."))
+        return auth
+
+    @observe('authenticate_prometheus')
+    def _update_authenticate_prometheus(self, change):
+        newauth = change['new']
+        if self.authenticate_prometheus is True and newauth is False:
+            self.log.info(_("Authentication of /metrics is being turned OFF."))
+        self.authenticate_prometheus = newauth
+
     # Since use of terminals is also a function of whether the terminado package is
     # available, this variable holds the "final indication" of whether terminal functionality
     # should be considered (particularly during shutdown/cleanup).  It is enabled only
