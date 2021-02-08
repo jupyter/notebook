@@ -31,7 +31,6 @@ data-server-root="{{server_root}}"
       <ul id="tabs" class="nav nav-tabs">
         <li class="active"><a href="#notebooks" data-toggle="tab">{% trans %}Files{% endtrans %}</a></li>
         <li><a href="#running" data-toggle="tab">{% trans %}Running{% endtrans %}</a></li>
-        <li><a href="#clusters" data-toggle="tab" class="clusters_tab_link" >{% trans %}Clusters{% endtrans %}</a></li>
       </ul>
       <div class="tab-content">
         <div id="notebooks" class="tab-pane active">
@@ -63,14 +62,6 @@ data-server-root="{{server_root}}"
             </div>
             <div class="col-sm-4 no-padding tree-buttons">
               <div class="pull-right">
-                <form id='alternate_upload'  class='alternate_upload'>
-                  <span id="notebook_list_info">
-                  <span id="upload_span" class="btn btn-xs btn-default btn-upload" role="button" tabindex="0">
-                    <input id="upload_span_input" title="{% trans %}Click to browse for a file to upload.{% endtrans %}" type="file" name="datafile" class="fileinput" multiple='multiple' tabindex="-1">
-                    {% trans %}Upload{% endtrans %}
-                  </span>
-                  </span>
-                </form>
                 <div id="new-buttons" class="btn-group">
                   <button class="dropdown-toggle btn btn-default btn-xs" id="new-dropdown-button" data-toggle="dropdown">
                   <span>{% trans %}New{% endtrans %}</span>
@@ -202,10 +193,6 @@ data-server-root="{{server_root}}"
               </div>
             </div>
           </div>
-        </div>
-        <div id="clusters" class="tab-pane">
-          {% trans %}Clusters tab is now provided by IPython parallel.{% endtrans %}
-          {% trans %}See '<a href="https://github.com/ipython/ipyparallel">IPython parallel</a>' for installation details.{% endtrans %}
         </div>
       </div><!-- class:tab-content -->
     </div><!-- id:tab_content -->

@@ -72,21 +72,3 @@
  * @class customjs
  * @static
  */
-
-define(function() {
-    // Add click handlers for the background overlay to uncheck the respective checkbox
-    var dropdown_radio_btn = document.getElementById('login-checkbox')
-    var sidebar_btn = document.getElementById('checkbox-sidebar')
-    var sidebar_overlay = document.getElementById('sidebar-overlay')
-    var dropdown_overlay = document.getElementById('login-dropdown-overlay')
-
-    dropdown_overlay.addEventListener('click', function(event){
-        event.stopPropagation()
-        dropdown_radio_btn.checked = !dropdown_radio_btn.checked
-    })
-
-    sidebar_overlay.addEventListener('click', function(event){
-        event.stopPropagation()
-        sidebar_btn.checked = !sidebar_btn.checked
-    })
-});
