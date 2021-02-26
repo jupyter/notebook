@@ -1,16 +1,11 @@
 name: jupyterlab-classic
 channels:
-- conda-forge/label/jupyterlab_rc
-- conda-forge/label/jupyterlab_server_rc
-- conda-forge/label/jupyterlab_widgets_rc
 - conda-forge
 dependencies:
-- ipywidgets=7
+- ipywidgets=7.6
 - jupyterlab=3
-- jupyterlab_widgets=1
 - jupyterlab-python-file
 - matplotlib
 - numpy
 - nodejs
-- tornado>=6.1
 - xeus-python
