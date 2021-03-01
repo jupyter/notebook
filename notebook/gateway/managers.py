@@ -669,10 +669,14 @@ class GatewayKernelSpecManager(KernelSpecManager):
             endpoint = f'{ml_node}/api/kernelspecs'
             self.log.info('Inisde Mlnode')
             self.log.info(f'endpoint={endpoint}')
-            response = yield gateway_request(endpoint, method='GET')
-            self.log.info(f'response={response.body}')
-            _ip = re.search(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ml_node).group()
-            kernel_mlnode[str(_ip)] = json_decode(response.body)
+            try:
+                response = yield gateway_request(endpoint, method='GET')
+                self.log.info(f'response={response.body}')
+                _ip = re.search(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ml_node).group()
+                kernel_mlnode[str(_ip)] = json_decode(response.body)
+            except Exception as e:
+                self.log.info("gateway request failed::::", str(e))
+                pass
 
         """
         Since the data structure that is send by mlnodes is same. When sending the data to FE the data structure
