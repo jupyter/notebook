@@ -101,8 +101,8 @@ class ExecuteQueries:
         _kernel_name   = _field_values.get("kernel_name", None)
         mlnode_id = _field_values['mlnode_id']
         result, _ = KernelSession.objects.update_or_create(kernel_id=_kernel_id,
-                                                        kernel_name=_kernel_name,
-                                                        ml_node=EdgeDevice.objects.get(id=mlnode_id))
+                                                           kernel_name=_kernel_name,
+                                                           ml_node=EdgeDevice.objects.get(id=mlnode_id))
         return result
 
     def check_kernel_sessions(self, column_name, column_value):
@@ -138,11 +138,8 @@ class ExecuteQueries:
         Get address for all the mlnodes
         :return: List of address for Mlnodes instances.
         """
-        _addr = []
         mlnodes = EdgeDevice.objects.filter(device_type__in=device_types.valid_ml_node_types)
-        for mlnode in mlnodes:
-            _addr.append(f'http://{str(mlnode.ip_address)}:{mlnode.config["port"]}')
-        return _addr
+        return [f'https://{str(mlnode.ip_address)}' for mlnode in mlnodes]
 
     def get_mlnode_address_with_field(self, column_name, column_value):
         """
@@ -152,8 +149,5 @@ class ExecuteQueries:
         :return: Address for Mlnode instances.
         """
         kwargs = {column_name: column_value}
-        mlnode = EdgeDevice.objects.get(**kwargs)
-        return f'http://{str(mlnode.ip_address)}:{mlnode.config["port"]}'
-
-
-
+        mlnode = MLNode.objects.get(**kwargs)
+        return f'https://{str(mlnode.ip_address)}'

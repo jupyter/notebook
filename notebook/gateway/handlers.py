@@ -90,7 +90,7 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
         self.db.update_kernel_session(_field_values)
         self.kernel_id = cast_unicode(kernel_id, 'ascii')
         self.ml_node_url = self.mlnode_url()
-        self.gateway = GatewayWebSocketClient(gateway_url=f'{self.ml_node_url}:8888')
+        self.gateway = GatewayWebSocketClient(gateway_url=f'{self.ml_node_url}')
         yield super().get(kernel_id=kernel_id, *args, **kwargs)
 
     def send_ping(self):
@@ -171,13 +171,15 @@ class GatewayWebSocketClient(LoggingConfigurable):
 
         # get the data from the kernel session.
         ws_url = url_path_join(
-            f'ws://{self.gateway_url}',
+            f'wss://{self.gateway_url}',
             GatewayClient.instance().kernels_endpoint, url_escape(kernel_id), 'channels'
         )
 
         self.log.info(f'Connecting to={ws_url}')
         kwargs = {}
         kwargs = GatewayClient.instance().load_connection_args(**kwargs)
+
+        self.log.info(f"kwargs ws in ={kwargs}")
 
         request = HTTPRequest(ws_url, **kwargs)
         self.ws_future = websocket_connect(request)
@@ -210,19 +212,18 @@ class GatewayWebSocketClient(LoggingConfigurable):
         """
         while self.ws:
             message = None
-            if not self.disconnected:
-                try:
-                    message = yield self.ws.read_message()
-                except Exception as e:
-                    self.log.error("Exception reading message from websocket: {}".format(e))  # , exc_info=True)
-                if message is None:
-                    if not self.disconnected:
-                        self.log.warning("Lost connection to Gateway: {}".format(self.kernel_id))
-                    break
-                callback(message)  # pass back to notebook client (see self.on_open and WebSocketChannelsHandler.open)
-            else:  # ws cancelled - stop reading
+            if self.disconnected:  # ws cancelled - stop reading
                 break
 
+            try:
+                message = yield self.ws.read_message()
+            except Exception as e:
+                self.log.error("Exception reading message from websocket: {}".format(e))  # , exc_info=True)
+            if message is None:
+                if not self.disconnected:
+                    self.log.warning("Lost connection to Gateway: {}".format(self.kernel_id))
+                break
+            callback(message)  # pass back to notebook client (see self.on_open and WebSocketChannelsHandler.open)
         if not self.disconnected: # if websocket is not disconnected by client, attept to reconnect to Gateway
             self.log.info("Attempting to re-establish the connection to Gateway: {}".format(self.kernel_id))
             self._connect(self.kernel_id)

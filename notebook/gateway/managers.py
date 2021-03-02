@@ -38,9 +38,11 @@ class GatewayClient(SingletonConfigurable):
     ml_nodes = ExecuteQueries().get_mlnodes()
     ml_node_urls = []
     for record in ml_nodes:
-        ml_node_urls.append(str(record.ip_address) + ':8888')
+        ml_node_urls.append(str(record.ip_address))
 
     urls = ml_node_urls
+
+    print(f'urls={urls}')
 
     urls_env = 'JUPYTER_GATEWAY_URL'
 
@@ -65,9 +67,8 @@ class GatewayClient(SingletonConfigurable):
         for url in proposal:
             value = url['value']
             # Ensure value, if present, starts with 'http'
-            if value and len(value):
-                if not str(value).lower().startswith('http'):
-                    raise TraitError("GatewayClient url must start with 'http': '%r'" % value)
+            if value and len(value) and not str(value).lower().startswith('http'):
+                raise TraitError("GatewayClient url must start with 'http': '%r'" % value)
             values.append(value)
         return proposal
 
@@ -82,18 +83,16 @@ class GatewayClient(SingletonConfigurable):
     @default('ws_url')
     def _ws_url_default(self):
         default_value = os.environ.get(self.ws_url_env)
-        if default_value is None:
-            if self.gateway_enabled:
-                default_value = self.url.lower().replace('http', 'ws')
+        if default_value is None and self.gateway_enabled:
+            default_value = self.url.lower().replace('http', 'ws')
         return default_value
 
     @validate('ws_url')
     def _ws_url_validate(self, proposal):
         value = proposal['value']
         # Ensure value, if present, starts with 'ws'
-        if value and len(value):
-            if not str(value).lower().startswith('ws'):
-                raise TraitError("GatewayClient ws_url must start with 'ws': '%r'" % value)
+        if value and len(value) and not str(value).lower().startswith('ws'):
+            raise TraitError("GatewayClient ws_url must start with 'ws': '%r'" % value)
         return value
 
     kernels_endpoint_default_value = '/api/kernels'
@@ -215,9 +214,9 @@ class GatewayClient(SingletonConfigurable):
     def _auth_token_default(self):
         return os.environ.get(self.auth_token_env, '')
 
-    validate_cert_default_value = True
+    validate_cert_default_value = False
     validate_cert_env = 'JUPYTER_GATEWAY_VALIDATE_CERT'
-    validate_cert = Bool(default_value=validate_cert_default_value, config=True,
+    validate_cert = Bool(default_value=validate_cert_default_value, config=False,
         help="""For HTTPS requests, determines if server's certificate should be validated or not.
         (JUPYTER_GATEWAY_VALIDATE_CERT env var)"""
     )
@@ -277,7 +276,7 @@ class GatewayClient(SingletonConfigurable):
             })
         self._static_args['connect_timeout'] = self.connect_timeout
         self._static_args['request_timeout'] = self.request_timeout
-        self._static_args['validate_cert'] = self.validate_cert
+        self._static_args['validate_cert'] = False
         if self.client_cert:
             self._static_args['client_cert'] = self.client_cert
             self._static_args['client_key'] = self.client_key
@@ -297,6 +296,7 @@ class GatewayClient(SingletonConfigurable):
             self.init_static_args()
 
         kwargs.update(self._static_args)
+        self.log.info(f"kwargs = {kwargs}")
         return kwargs
 
 
@@ -307,6 +307,7 @@ def gateway_request(endpoint, **kwargs):
     """
     client = AsyncHTTPClient()
     kwargs = GatewayClient.instance().load_connection_args(**kwargs)
+
     try:
         response = yield client.fetch(endpoint, **kwargs)
     # Trap a set of common exceptions so that we can inform the user that their Gateway url is incorrect
@@ -346,9 +347,10 @@ class GatewayKernelManager(MappingKernelManager):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        base_endpoints = []
-        for url in self.gateway_urls:
-            base_endpoints.append(url_path_join(url, GatewayClient.instance().kernels_endpoint))
+        base_endpoints = [
+            url_path_join(url, GatewayClient.instance().kernels_endpoint)
+            for url in self.gateway_urls
+        ]
 
         self.base_endpoints = base_endpoints
 
@@ -359,8 +361,7 @@ class GatewayKernelManager(MappingKernelManager):
         :return: Boolean stating if it is present in the system.
         """
 
-        _return = self.db.check_kernel_sessions('kernel_id', kernel_id)
-        return _return
+        return self.db.check_kernel_sessions('kernel_id', kernel_id)
 
     def remove_kernel(self, kernel_id):
         """
@@ -471,16 +472,16 @@ class GatewayKernelManager(MappingKernelManager):
         try:
             response = yield gateway_request(kernel_url, method='GET')
         except web.HTTPError as error:
-            if error.status_code == 404:
-                self.log.warn("Kernel not found at: %s" % kernel_url)
-                self.remove_kernel(kernel_id)
-                kernel = None
-            else:
+            if error.status_code != 404:
                 raise
+            self.log.warn("Kernel not found at: %s" % kernel_url)
+            self.remove_kernel(kernel_id)
+            kernel = None
         else:
             # after successful response add the updated entries to the db.
             kernel = json_decode(response.body)
-            mlnode_name = self.db.get_ml_node('ip_address', kernel_url.split(':')[1].split('//')[-1])[0]
+            kernel_ip = re.search(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', kernel_url).group()
+            mlnode_name = self.db.get_ml_node('ip_address', kernel_ip)[0]
 
             _field_values = {
                 'kernel_id': str(kernel['id']),
@@ -676,13 +677,11 @@ class GatewayKernelSpecManager(KernelSpecManager):
                 kernel_mlnode[str(_ip)] = json_decode(response.body)
             except Exception as e:
                 self.log.info("gateway request failed::::", str(e))
-                pass
-
         """
         Since the data structure that is send by mlnodes is same. When sending the data to FE the data structure
         would be updated. Avoiding that by creating a unique keys. Assuming the name of mlnode to be unique.
         For example:
-        {'168.62.201.192:8888/api/kernelspecs': 
+        {'168.62.201.192/api/kernelspecs': 
             {'default': 'python3', 'kernelspecs': 
                 {'python3': 
                     {'name': 'python3', 'spec': 
@@ -715,7 +714,7 @@ class GatewayKernelSpecManager(KernelSpecManager):
             __kernel_specs__ = value_mlnode['kernelspecs']
             for key, value in __kernel_specs__.items():
                 node = self.db.get_ml_node('ip_address', key_mlnode)[0]
-                display_name = __kernel_specs__[key]['spec']['display_name'] + " " + node.name
+                display_name = node.name
                 _key = key + "~" + str(node.id)
                 __kernel_specs['kernelspecs'][_key] = value
                 __kernel_specs['kernelspecs'][_key]['name'] = _key
