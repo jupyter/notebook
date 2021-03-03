@@ -32,7 +32,7 @@ define([
                     availableFonts: [],
                     imageFont: null,
                     preferredFont: null,
-                    webFont: "STIX-Web",
+                    webFont: "TeX",
                     styles: {'.MathJax_Display': {"margin": 0}},
                     linebreaks: { automatic: true }
                 },
