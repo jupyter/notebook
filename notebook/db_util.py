@@ -149,5 +149,5 @@ class ExecuteQueries:
         :return: Address for Mlnode instances.
         """
         kwargs = {column_name: column_value}
-        mlnode = MLNode.objects.get(**kwargs)
+        mlnode = EdgeDevice.objects.get(**kwargs)
         return f'https://{str(mlnode.ip_address)}'
