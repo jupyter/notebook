@@ -123,7 +123,7 @@ class GatewayClient(SingletonConfigurable):
     def _kernelspecs_resource_endpoint_default(self):
         return os.environ.get(self.kernelspecs_resource_endpoint_env, self.kernelspecs_resource_endpoint_default_value)
 
-    connect_timeout_default_value = 40.0
+    connect_timeout_default_value = 5.0
     connect_timeout_env = 'JUPYTER_GATEWAY_CONNECT_TIMEOUT'
     connect_timeout = Float(default_value=connect_timeout_default_value, config=True,
         help="""The time allowed for HTTP connection establishment with the Gateway server.
@@ -133,7 +133,7 @@ class GatewayClient(SingletonConfigurable):
     def connect_timeout_default(self):
         return float(os.environ.get('JUPYTER_GATEWAY_CONNECT_TIMEOUT', self.connect_timeout_default_value))
 
-    request_timeout_default_value = 40.0
+    request_timeout_default_value = 5.0
     request_timeout_env = 'JUPYTER_GATEWAY_REQUEST_TIMEOUT'
     request_timeout = Float(default_value=request_timeout_default_value, config=True,
         help="""The time allowed for HTTP request completion. (JUPYTER_GATEWAY_REQUEST_TIMEOUT env var)""")
@@ -253,7 +253,7 @@ class GatewayClient(SingletonConfigurable):
         return True
 
     # Ensure KERNEL_LAUNCH_TIMEOUT has a default value.
-    KERNEL_LAUNCH_TIMEOUT = int(os.environ.get('KERNEL_LAUNCH_TIMEOUT', 40))
+    KERNEL_LAUNCH_TIMEOUT = int(os.environ.get('KERNEL_LAUNCH_TIMEOUT', 5))
 
     def init_static_args(self):
         """Initialize arguments used on every request.  Since these are static values, we'll
