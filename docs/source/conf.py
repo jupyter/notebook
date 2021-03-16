@@ -15,6 +15,7 @@
 import sys
 import os
 import shlex
+import shutil
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -32,6 +33,9 @@ here = os.path.abspath(os.path.dirname(__file__))
 repo_root = os.path.dirname(os.path.dirname(here))
 sys.path.insert(0, repo_root)
 
+# Copy the markdown file here
+shutil.copy(os.path.join(repo_root, "CHANGELOG.md"), os.path.join(here, "changelog.md"))
+
 print("repo_root")
 print("=====================")
 print(repo_root)
@@ -47,7 +51,6 @@ for item in sys.path:
 # configuration options
 
 if os.environ.get('READTHEDOCS', ''):
-
     # Readthedocs doesn't run our Makefile, so we do this to force it to generate
     # the config docs.
     with open('../autogen_config.py') as f:
@@ -70,7 +73,11 @@ extensions = [
     'IPython.sphinxext.ipython_console_highlighting',
     'nbsphinx',
     'sphinxcontrib_github_alt',
+    'myst_parser'
 ]
+
+myst_enable_extensions = ["html_image"]
+myst_update_mathjax = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
