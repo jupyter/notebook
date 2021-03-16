@@ -38,7 +38,7 @@ A pre-save hook for stripping output::
             cell['outputs'] = []
             cell['execution_count'] = None
 
-    c.FileContentsManager.pre_save_hook = scrub_output_pre_save
+    c.ContentsManager.pre_save_hook = scrub_output_pre_save
 
 A post-save hook to make a script equivalent whenever the notebook is saved
 (replacing the ``--script`` option in older versions of the notebook):
