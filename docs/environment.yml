@@ -9,6 +9,7 @@ dependencies:
 - ipykernel
 - sphinx
 - terminado
+- myst_parser
 - pip:
   - nbsphinx
   - Send2Trash
