@@ -14,7 +14,6 @@ import warnings
 import mimetypes
 import nbformat
 
-from send2trash import send2trash
 from tornado import web
 
 from .filecheckpoints import FileCheckpoints
@@ -514,7 +513,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
         def _check_trash(os_path):
             if sys.platform in {'win32', 'darwin'}:
-                return True
+                return False
 
             # It's a bit more nuanced than this, but until we can better
             # distinguish errors from send2trash, assume that we can only trash
@@ -544,7 +543,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                 # raises let us distinguish permission errors from other errors in
                 # code. So for now, just let them all get logged as server errors.
                 send2trash(os_path)
-                return
+                return False
             else:
                 self.log.warning("Skipping trash for %s, on different device "
                                  "to home directory", os_path)
