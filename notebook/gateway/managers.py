@@ -390,10 +390,11 @@ class GatewayKernelManager(MappingKernelManager):
 
         if kernel_id:
             kernel_session = self.db.get_kernel_session('kernel_id', kernel_id)
-            ml_node = kernel_session[0].ml_node
-            mlnode = self.db.get_mlnode_address_with_field('id', ml_node.id)
-            _url = f'{mlnode}/api/kernels'
-            _url = url_path_join(_url, url_escape(str(kernel_id)))
+            if kernel_session:
+                ml_node = kernel_session[0].ml_node
+                mlnode = self.db.get_mlnode_address_with_field('id', ml_node.id)
+                _url = f'{mlnode}/api/kernels'
+                _url = url_path_join(_url, url_escape(str(kernel_id)))
 
         return _url
 
@@ -726,7 +727,8 @@ class GatewayKernelSpecManager(KernelSpecManager):
 
     @gen.coroutine
     def get_kernel_spec(self, kernel_name, **kwargs):
-        """Get kernel spec for kernel_name.
+        """
+        Get kernel spec for kernel_name.
 
         Parameters
         ----------
@@ -783,5 +785,10 @@ class GatewaySessionManager(SessionManager):
     @gen.coroutine
     def kernel_culled(self, kernel_id):
         """Checks if the kernel is still considered alive and returns true if its not found. """
-        kernel = yield self.kernel_manager.get_kernel(kernel_id)
+        kernel = None
+        try:
+            kernel = yield self.kernel_manager.get_kernel(kernel_id)
+        except Exception as e:
+            self.log.debug(f'Exception Occurred = {e}')
+
         raise gen.Return(kernel is None)
