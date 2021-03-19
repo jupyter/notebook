@@ -123,7 +123,7 @@ class GatewayClient(SingletonConfigurable):
     def _kernelspecs_resource_endpoint_default(self):
         return os.environ.get(self.kernelspecs_resource_endpoint_env, self.kernelspecs_resource_endpoint_default_value)
 
-    connect_timeout_default_value = 40.0
+    connect_timeout_default_value = 5.0
     connect_timeout_env = 'JUPYTER_GATEWAY_CONNECT_TIMEOUT'
     connect_timeout = Float(default_value=connect_timeout_default_value, config=True,
         help="""The time allowed for HTTP connection establishment with the Gateway server.
@@ -133,7 +133,7 @@ class GatewayClient(SingletonConfigurable):
     def connect_timeout_default(self):
         return float(os.environ.get('JUPYTER_GATEWAY_CONNECT_TIMEOUT', self.connect_timeout_default_value))
 
-    request_timeout_default_value = 40.0
+    request_timeout_default_value = 5.0
     request_timeout_env = 'JUPYTER_GATEWAY_REQUEST_TIMEOUT'
     request_timeout = Float(default_value=request_timeout_default_value, config=True,
         help="""The time allowed for HTTP request completion. (JUPYTER_GATEWAY_REQUEST_TIMEOUT env var)""")
@@ -253,7 +253,7 @@ class GatewayClient(SingletonConfigurable):
         return True
 
     # Ensure KERNEL_LAUNCH_TIMEOUT has a default value.
-    KERNEL_LAUNCH_TIMEOUT = int(os.environ.get('KERNEL_LAUNCH_TIMEOUT', 40))
+    KERNEL_LAUNCH_TIMEOUT = int(os.environ.get('KERNEL_LAUNCH_TIMEOUT', 5))
 
     def init_static_args(self):
         """Initialize arguments used on every request.  Since these are static values, we'll
@@ -336,7 +336,6 @@ def gateway_request(endpoint, **kwargs):
     raise gen.Return(response)
 
 
-
 class GatewayKernelManager(MappingKernelManager):
     """
     Kernel manager that supports remote kernels hosted by Jupyter Kernel or Enterprise Gateway.
@@ -390,10 +389,11 @@ class GatewayKernelManager(MappingKernelManager):
 
         if kernel_id:
             kernel_session = self.db.get_kernel_session('kernel_id', kernel_id)
-            ml_node = kernel_session[0].ml_node
-            mlnode = self.db.get_mlnode_address_with_field('id', ml_node.id)
-            _url = f'{mlnode}/api/kernels'
-            _url = url_path_join(_url, url_escape(str(kernel_id)))
+            if kernel_session:
+                ml_node = kernel_session[0].ml_node
+                mlnode = self.db.get_mlnode_address_with_field('id', ml_node.id)
+                _url = f'{mlnode}/api/kernels'
+                _url = url_path_join(_url, url_escape(str(kernel_id)))
 
         return _url
 
@@ -681,27 +681,27 @@ class GatewayKernelSpecManager(KernelSpecManager):
         Since the data structure that is send by mlnodes is same. When sending the data to FE the data structure
         would be updated. Avoiding that by creating a unique keys. Assuming the name of mlnode to be unique.
         For example:
-        {'168.62.201.192/api/kernelspecs': 
-            {'default': 'python3', 'kernelspecs': 
-                {'python3': 
-                    {'name': 'python3', 'spec': 
-                                        {'argv': 
-                                            ['/opt/conda/bin/python', '-m', 'ipykernel_launcher', '-f', 
-                                            '{connection_file}'], 'env': {}, 'display_name': 'Python 3', 
-                                            'language': 'python', 'interrupt_mode': 'signal', 'metadata': {}}, 
-                                            'resources': {'logo-64x64': '/kernelspecs/python3/logo-64x64.png', 
-                                            'logo-32x32': '/kernelspecs/python3/logo-32x32.png'}}, 'spylon-kernel': 
-                                            {'name': 'spylon-kernel', 'spec': {'argv': ['/opt/conda/bin/python', '-m', 
-                                            'spylon_kernel', '-f', '{connection_file}'], 
-                                            'env': {'PYTHONUNBUFFERED': '1', 'SPARK_SUBMIT_OPTS': 
-                                            '-Dscala.usejavacp=true'}, 'display_name': 'spylon-kernel', 
+        {'168.62.201.192/api/kernelspecs':
+            {'default': 'python3', 'kernelspecs':
+                {'python3':
+                    {'name': 'python3', 'spec':
+                                        {'argv':
+                                            ['/opt/conda/bin/python', '-m', 'ipykernel_launcher', '-f',
+                                            '{connection_file}'], 'env': {}, 'display_name': 'Python 3',
+                                            'language': 'python', 'interrupt_mode': 'signal', 'metadata': {}},
+                                            'resources': {'logo-64x64': '/kernelspecs/python3/logo-64x64.png',
+                                            'logo-32x32': '/kernelspecs/python3/logo-32x32.png'}}, 'spylon-kernel':
+                                            {'name': 'spylon-kernel', 'spec': {'argv': ['/opt/conda/bin/python', '-m',
+                                            'spylon_kernel', '-f', '{connection_file}'],
+                                            'env': {'PYTHONUNBUFFERED': '1', 'SPARK_SUBMIT_OPTS':
+                                            '-Dscala.usejavacp=true'}, 'display_name': 'spylon-kernel',
                                             'language': 'scala', 'interrupt_mode': 'signal', 'metadata': {}},
-                                             'resources': {'logo-64x64': '/kernelspecs/spylon-kernel/logo-64x64.png', 
-                                             'logo-32x32': '/kernelspecs/spylon-kernel/logo-32x32.png'}}, 
-                                             'ir': {'name': 'ir', 'spec': {'argv': ['R', '--slave', '-e', 
-                                             'IRkernel::main()', '--args', '{connection_file}'], 'env': {}, 
-                                             'display_name': 'R', 'language': 'R', 'interrupt_mode': 'signal', 
-                                             'metadata': {}}, 'resources': {'kernel.js': '/kernelspecs/ir/kernel.js', 
+                                             'resources': {'logo-64x64': '/kernelspecs/spylon-kernel/logo-64x64.png',
+                                             'logo-32x32': '/kernelspecs/spylon-kernel/logo-32x32.png'}},
+                                             'ir': {'name': 'ir', 'spec': {'argv': ['R', '--slave', '-e',
+                                             'IRkernel::main()', '--args', '{connection_file}'], 'env': {},
+                                             'display_name': 'R', 'language': 'R', 'interrupt_mode': 'signal',
+                                             'metadata': {}}, 'resources': {'kernel.js': '/kernelspecs/ir/kernel.js',
                                              'logo-64x64': '/kernelspecs/ir/logo-64x64.png'}
                                         }
                     }
@@ -726,7 +726,8 @@ class GatewayKernelSpecManager(KernelSpecManager):
 
     @gen.coroutine
     def get_kernel_spec(self, kernel_name, **kwargs):
-        """Get kernel spec for kernel_name.
+        """
+        Get kernel spec for kernel_name.
 
         Parameters
         ----------
@@ -783,5 +784,10 @@ class GatewaySessionManager(SessionManager):
     @gen.coroutine
     def kernel_culled(self, kernel_id):
         """Checks if the kernel is still considered alive and returns true if its not found. """
-        kernel = yield self.kernel_manager.get_kernel(kernel_id)
+        kernel = None
+        try:
+            kernel = yield self.kernel_manager.get_kernel(kernel_id)
+        except Exception as e:
+            self.log.debug(f'Exception Occurred = {e}')
+
         raise gen.Return(kernel is None)
