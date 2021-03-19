@@ -336,7 +336,6 @@ def gateway_request(endpoint, **kwargs):
     raise gen.Return(response)
 
 
-
 class GatewayKernelManager(MappingKernelManager):
     """
     Kernel manager that supports remote kernels hosted by Jupyter Kernel or Enterprise Gateway.
