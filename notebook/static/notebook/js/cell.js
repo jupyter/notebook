@@ -610,6 +610,7 @@ define([
         var flag_empty_cell = is_single_cursor(start, end);
         var flag_first_position = false;
         var flag_last_position = false;
+        var flag_all_select = false;
 
         var ranges = this.code_mirror.listSelections();
 
@@ -617,12 +618,21 @@ define([
 
         for (var i = 0; i < ranges.length; i++) {
             // append both to handle selections
-            if (ranges[i].head.sticky == 'before') {
+            // ranges[i].head.sticky is null if ctrl-a select
+            if ((ranges[i].head.sticky ?? 'before') == 'before') {
                 cursors.push(ranges[i].anchor);
                 cursors.push(ranges[i].head);
+                if (is_single_cursor(ranges[i].anchor, start) &&
+                    is_single_cursor(ranges[i].head, end)) {
+                    flag_all_select = true;
+                }
             } else {
                 cursors.push(ranges[i].head);
                 cursors.push(ranges[i].anchor);
+                if (is_single_cursor(ranges[i].head, start) &&
+                    is_single_cursor(ranges[i].anchor, end)) {
+                    flag_all_select = true;
+                }
             }
             // single cursor at beginning or end of cell
             if (is_single_cursor(ranges[i].head, ranges[i].anchor)) {
@@ -644,13 +654,19 @@ define([
 
         // Split text
         var text_list = [];
+        // Split single cursors at first position
         if (flag_empty_cell || flag_first_position) text_list.push('');
         for (var i = 1; i < locations.length; i++) {
             var text = this.code_mirror.getRange(locations[i-1], locations[i]);
             text = text.replace(/^\n+/, '').replace(/\n+$/, ''); // removes newlines at beginning and end
             text_list.push(text);
         }
+        // Split single cursors at last position
         if (flag_last_position) text_list.push('');
+        // Duplicate cell if full cell is selected
+        if ((text_list.length == 1) && flag_all_select && !flag_empty_cell) {
+            text_list = text_list.concat(text_list);
+        }
         return text_list;
     };
 
