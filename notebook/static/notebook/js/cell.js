@@ -619,7 +619,7 @@ define([
         for (var i = 0; i < ranges.length; i++) {
             // append both to handle selections
             // ranges[i].head.sticky is null if ctrl-a select
-            if ((ranges[i].head.sticky ?? 'before') == 'before') {
+            if ((ranges[i].head.sticky == 'before') || (ranges[i].head.sticky === null )) {
                 cursors.push(ranges[i].anchor);
                 cursors.push(ranges[i].head);
                 if (is_single_cursor(ranges[i].anchor, start) &&
