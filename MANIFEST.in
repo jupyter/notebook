@@ -1,6 +1,7 @@
 include LICENSE
 include CONTRIBUTING.rst
 include README.md
+include CHANGELOG.md
 include package.json
 include bower.json
 include .bowerrc
