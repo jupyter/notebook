@@ -137,7 +137,7 @@ def test_notebook_password():
             assert nb.password != ''
             passwd_check(nb.password, password)
 
-class StopTestApp(notebookapp.NbserverStopApp):
+class StopAppTest(notebookapp.NbserverStopApp):
     """For testing the logic of NbserverStopApp."""
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -166,7 +166,7 @@ def test_notebook_stop():
 
     # test stop with a match
     with mock_servers:
-        app = StopTestApp()
+        app = StopAppTest()
         app.initialize(['105'])
         app.start()
     assert len(app.servers_shut_down) == 1
@@ -174,7 +174,7 @@ def test_notebook_stop():
 
     # test no match
     with mock_servers, patch('os.kill') as os_kill:
-        app = StopTestApp()
+        app = StopAppTest()
         app.initialize(['999'])
         with pytest.raises(SystemExit) as exc:
             app.start()
