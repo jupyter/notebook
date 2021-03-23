@@ -9,6 +9,7 @@ dependencies:
 - nbformat
 - jupyter_client
 - ipykernel
+- pip
 - sphinx
 - terminado
 - myst-parser
