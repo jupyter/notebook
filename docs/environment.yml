@@ -1,4 +1,6 @@
 name: notebook_docs
+channels:
+  - conda-forge
 dependencies:
 - python=3.8
 - sphinx_rtd_theme
@@ -7,9 +9,10 @@ dependencies:
 - nbformat
 - jupyter_client
 - ipykernel
+- pip
 - sphinx
 - terminado
-- myst_parser
+- myst-parser
 - pip:
   - nbsphinx
   - Send2Trash
