@@ -61,10 +61,15 @@ define([
         var that = this;
         this.kernelspecs = data.kernelspecs;
         var change_kernel_submenu = $("#menu-change-kernel-submenu");
-        var change_select_kernel_menu = $("#change_kernel_type")
+        var change_select_kernel_menu = $("#change_kernel_type");
         var new_notebook_submenu = $("#menu-new-notebook-submenu");
         var keys = _sorted_names(data.kernelspecs);
         
+        //chrome doesn't support 'click' event on the individual dropdown options, hence applying to parent
+        change_select_kernel_menu.change((e) =>
+          that.set_kernel(e.target.value)
+        );
+
         keys.map(function (key) {
             // Create the Kernel > Change kernel submenu
             var ks = data.kernelspecs[key];
@@ -82,12 +87,11 @@ define([
             // Create the Kernel Select option > Change kernel type
             // Add click and text change handler for the kernel select element
             change_select_kernel_menu.append(
-                $("<option>").attr("id", "kernel-selectmenu-"+ks.name)
-                    .click( function () {
-                        that.set_kernel(ks.name);
-                    })
-                    .text(ks.spec.display_name)
-            )
+              $("<option>")
+                .attr("id", "kernel-selectmenu-" + ks.name)
+                .attr("value", ks.name)
+                .text(ks.spec.display_name)
+            );
             
             // Create the File > New Notebook submenu
             new_notebook_submenu.append(
@@ -350,6 +354,37 @@ define([
         console.warn('switching kernel is not guaranteed to work !');
     };
 
+    //Method to disable the dropdown 
+    KernelSelector.prototype.disable_kernel_dropdown = function () {
+        $('select#change_kernel_type').attr("disabled", "disabled")
+    }
+
+    //method to enable the kernel selector dropdown
+    KernelSelector.prototype.enable_kernel_dropdown = function () {
+        $("select#change_kernel_type").removeAttr("disabled");
+    }
+
+    //method to set the selected kernel in the dropdown
+    KernelSelector.prototype.set_selected_kernel = function (event, data) {
+      var name = data.name ? data.name : "";
+      //proceed only if name is available
+      if (!name) {
+        return;
+      }
+      
+      $("select#change_kernel_type option").each((index, option) => {
+        var opt = $(option);
+        var optvalue = opt.attr("value");
+        var isSelected = opt.attr("seleted") === "selected";
+        if (optvalue === name && !isSelected) {
+          opt.attr("selected", "selected");
+        } else {
+          //remove selected attribute from other options
+          opt.removeAttr("selected");
+        }
+      });
+    };
+
     KernelSelector.prototype.bind_events = function() {
         var that = this;
         this.events.on('spec_changed.Kernel', $.proxy(this._spec_changed, this));
@@ -357,6 +392,12 @@ define([
         this.events.on('kernel_created.Session', function (event, data) {
             that.set_kernel(data.kernel.name);
         });
+
+        //disable the dropdown while loading is in progress
+        this.events.on("spec_changed.Kernel", this.disable_kernel_dropdown);
+        this.events.on("kernel_ready.Kernel", this.enable_kernel_dropdown);
+        this.events.on("spec_changed.Kernel", this.set_selected_kernel);
+        this.events.on('kernel_connection_failed.Kernel', this.enable_kernel_dropdown);
         
         var logo_img = this.element.find("img.current_kernel_logo");
         logo_img.on("load", function() {
