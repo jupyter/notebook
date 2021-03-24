@@ -90,37 +90,35 @@ def test_generate_config():
         assert os.path.exists(os.path.join(td, 'jupyter_notebook_config.py'))
 
 #test if the version testin function works
-def test_pep440_version():
-
-    for version in [
+@pytest.mark.parametrize(
+    'version', [
         '4.1.0.b1',
         '4.1.b1',
         '4.2',
         'X.y.z',
         '1.2.3.dev1.post2',
-        ]:
-        def loc():
-            with pytest.raises(ValueError):
-                raise_on_bad_version(version)
-        yield loc
+    ]
+)
+def test_pep440_bad_version(version):
+    with pytest.raises(ValueError):
+        raise_on_bad_version(version)
 
-    for version in [
+@pytest.mark.parametrize(
+    'version', [
         '4.1.1',
         '4.2.1b3',
-        ]:
+    ]
+)
+def test_pep440_good_version(version):
+    raise_on_bad_version(version)
 
-        yield (raise_on_bad_version, version)
-
-
-
-pep440re = re.compile('^(\d+)\.(\d+)\.(\d+((a|b|rc)\d+)?)(\.post\d+)?(\.dev\d*)?$')
+pep440re = re.compile(r'^(\d+)\.(\d+)\.(\d+((a|b|rc)\d+)?)(\.post\d+)?(\.dev\d*)?$')
 
 def raise_on_bad_version(version):
     if not pep440re.match(version):
         raise ValueError("Versions String does apparently not match Pep 440 specification, "
                          "which might lead to sdist and wheel being seen as 2 different release. "
                          "E.g: do not use dots for beta/alpha/rc markers.")
-
 
 def test_current_version():
     raise_on_bad_version(__version__)
@@ -139,7 +137,7 @@ def test_notebook_password():
             assert nb.password != ''
             passwd_check(nb.password, password)
 
-class TestingStopApp(notebookapp.NbserverStopApp):
+class StopAppTest(notebookapp.NbserverStopApp):
     """For testing the logic of NbserverStopApp."""
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -168,7 +166,7 @@ def test_notebook_stop():
 
     # test stop with a match
     with mock_servers:
-        app = TestingStopApp()
+        app = StopAppTest()
         app.initialize(['105'])
         app.start()
     assert len(app.servers_shut_down) == 1
@@ -176,7 +174,7 @@ def test_notebook_stop():
 
     # test no match
     with mock_servers, patch('os.kill') as os_kill:
-        app = TestingStopApp()
+        app = StopAppTest()
         app.initialize(['999'])
         with pytest.raises(SystemExit) as exc:
             app.start()
