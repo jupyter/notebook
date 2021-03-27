@@ -601,7 +601,7 @@ define([
     };
 
     /**
-     * Get all Cell objects in this notebook.
+     * Get all cell objects in this notebook.
      * 
      * @return {Array} This notebook's Cell objects
      */
@@ -614,7 +614,7 @@ define([
     };
 
     /**
-     * Get a Cell objects from this notebook.
+     * Get a cell object from this notebook.
      * 
      * @param {integer} index - An index of a cell to retrieve
      * @return {Cell} Cell or null if no cell was found.
@@ -721,13 +721,21 @@ define([
         return i;
     };
 
-
+    /**
+     * Get the selected cells.
+     * 
+     * @return {Cell} The selected cells or null if no cell was found.
+     */
     Notebook.prototype.get_selected_cells = function () {
         return this.get_cells().filter(function(cell, index){ return cell.selected || soft_selected(cell) || cell.anchor;});
     };
-
+    
+     /**
+     * Get the selected cells.
+     * 
+     * @return {array} cell indicies
+     */
     Notebook.prototype.get_selected_cells_indices = function () {
-
         var result = [];
         this.get_cells().filter(function (cell, index) {
             if (cell.selected || soft_selected(cell) || cell.anchor) {
@@ -736,7 +744,6 @@ define([
         });
         return result;
     };
-
 
     /**
      * Get the currently selected cell.
@@ -970,7 +977,7 @@ define([
     };
     
     /**
-     * Ensure either cell, or codemirror is focused. Is none 
+     * Ensure either cell or codemirror is focused. If none 
      * is focused, focus the cell.
      */
     Notebook.prototype.ensure_focused = function(){
@@ -1715,7 +1722,7 @@ define([
     };
     
     /**
-     * Re-render the output of a CodeCell.
+     * Re-render the output of a code cell.
      */
     Notebook.prototype.render_cell_output = function (code_cell) {
         var cell_data = code_cell.toJSON();
@@ -1998,7 +2005,7 @@ define([
     };
 
     /**
-     * Clear the selected CodeCell's output area.
+     * Clear a code cell's output area.
      * 
      * @param {integer} index - cell index
      */
@@ -2012,7 +2019,7 @@ define([
     };
 
     /**
-     * Clear multiple selected CodeCells' output areas.
+     * Clear multiple selected code cells' output areas.
      *
      */
     Notebook.prototype.clear_cells_outputs = function(indices) {
