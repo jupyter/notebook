@@ -111,8 +111,6 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
     const baseUrl = PageConfig.getBaseUrl();
 
     let widget: Widget;
-    // TODO: this signal might not be needed if we assume there is always only
-    // one notebook in the main area
     const onChange = async () => {
       if (widget) {
         widget.dispose();
@@ -198,8 +196,6 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
       widget.node.textContent = text;
     };
 
-    // TODO: this signal might not be needed if we assume there is always only
-    // one notebook in the main area
     const onChange = async () => {
       const current = shell.currentWidget;
       if (!(current instanceof NotebookPanel)) {
