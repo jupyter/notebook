@@ -401,7 +401,9 @@ class GatewayKernelManager(AsyncMappingKernelManager):
 
             json_body = json_encode({'name': kernel_name, 'env': kernel_env})
 
-            response = await gateway_request(kernel_url, method='POST', body=json_body)
+            response = await gateway_request(
+                kernel_url, method='POST', headers={'Content-Type': 'application/json'}, body=json_body
+            )
             kernel = json_decode(response.body)
             kernel_id = kernel['id']
             self.log.info("Kernel started: %s" % kernel_id)
@@ -489,7 +491,9 @@ class GatewayKernelManager(AsyncMappingKernelManager):
         """
         kernel_url = self._get_kernel_endpoint_url(kernel_id) + '/restart'
         self.log.debug("Request restart kernel at: %s", kernel_url)
-        response = await gateway_request(kernel_url, method='POST', body=json_encode({}))
+        response = await gateway_request(
+            kernel_url, method='POST', headers={'Content-Type': 'application/json'}, body=json_encode({})
+        )
         self.log.debug("Restart kernel response: %d %s", response.code, response.reason)
 
     async def interrupt_kernel(self, kernel_id, **kwargs):
@@ -502,7 +506,9 @@ class GatewayKernelManager(AsyncMappingKernelManager):
         """
         kernel_url = self._get_kernel_endpoint_url(kernel_id) + '/interrupt'
         self.log.debug("Request interrupt kernel at: %s", kernel_url)
-        response = await gateway_request(kernel_url, method='POST', body=json_encode({}))
+        response = await gateway_request(
+            kernel_url, method='POST', headers={'Content-Type': 'application/json'}, body=json_encode({})
+        )
         self.log.debug("Interrupt kernel response: %d %s", response.code, response.reason)
 
     def shutdown_all(self, now=False):
