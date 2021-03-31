@@ -299,7 +299,13 @@ class GatewayClient(SingletonConfigurable):
         if len(self._static_args) == 0:
             self.init_static_args()
 
-        kwargs.update(self._static_args)
+        for arg, static_value in self._static_args.items():
+            if arg == 'headers':
+                given_value = kwargs.setdefault(arg, {})
+                if isinstance(given_value, dict):
+                    given_value.update(static_value)
+            else:
+                kwargs[arg] = static_value
         return kwargs
 
 
@@ -401,7 +407,9 @@ class GatewayKernelManager(AsyncMappingKernelManager):
 
             json_body = json_encode({'name': kernel_name, 'env': kernel_env})
 
-            response = await gateway_request(kernel_url, method='POST', body=json_body)
+            response = await gateway_request(
+                kernel_url, method='POST', headers={'Content-Type': 'application/json'}, body=json_body
+            )
             kernel = json_decode(response.body)
             kernel_id = kernel['id']
             self.log.info("Kernel started: %s" % kernel_id)
@@ -489,7 +497,9 @@ class GatewayKernelManager(AsyncMappingKernelManager):
         """
         kernel_url = self._get_kernel_endpoint_url(kernel_id) + '/restart'
         self.log.debug("Request restart kernel at: %s", kernel_url)
-        response = await gateway_request(kernel_url, method='POST', body=json_encode({}))
+        response = await gateway_request(
+            kernel_url, method='POST', headers={'Content-Type': 'application/json'}, body=json_encode({})
+        )
         self.log.debug("Restart kernel response: %d %s", response.code, response.reason)
 
     async def interrupt_kernel(self, kernel_id, **kwargs):
@@ -502,7 +512,9 @@ class GatewayKernelManager(AsyncMappingKernelManager):
         """
         kernel_url = self._get_kernel_endpoint_url(kernel_id) + '/interrupt'
         self.log.debug("Request interrupt kernel at: %s", kernel_url)
-        response = await gateway_request(kernel_url, method='POST', body=json_encode({}))
+        response = await gateway_request(
+            kernel_url, method='POST', headers={'Content-Type': 'application/json'}, body=json_encode({})
+        )
         self.log.debug("Interrupt kernel response: %d %s", response.code, response.reason)
 
     def shutdown_all(self, now=False):
