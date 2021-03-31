@@ -142,6 +142,7 @@
     "singletonPackages": [
       "@jupyterlab/application",
       "@jupyterlab/apputils",
+      "@jupyterlab/celltags",
       "@jupyterlab/codeeditor",
       "@jupyterlab/completer",
       "@jupyterlab/console",
