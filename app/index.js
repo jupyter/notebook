@@ -26,6 +26,7 @@ if (Promise.allSettled === undefined) {
 }
 
 require('./style.js');
+require('./extraStyle.js');
 
 function loadScript(url) {
   return new Promise((resolve, reject) => {
@@ -65,6 +66,9 @@ async function createModule(scope, module) {
  * The main function
  */
 async function main() {
+  // load extra packages
+  require('@jupyterlab/celltags');
+
   const App = require('@jupyterlab-classic/application').App;
   const app = new App();
 

@@ -328,11 +328,12 @@ const title: JupyterFrontEndPlugin<void> = {
     widget.id = 'jp-title';
     app.shell.add(widget, 'top', { rank: 10 });
 
-    // TODO: this signal might not be needed if we assume there is always only
-    // one notebook in the main area
-    shell.currentChanged.connect(async () => {
+    const addTitle = async () => {
       const current = shell.currentWidget;
-      if (!(current instanceof DocumentWidget)) {
+      if (!current || !(current instanceof DocumentWidget)) {
+        return;
+      }
+      if (widget.node.children.length > 0) {
         return;
       }
       const h = document.createElement('h1');
@@ -369,7 +370,10 @@ const title: JupyterFrontEndPlugin<void> = {
           skipRouting: true
         });
       };
-    });
+    };
+
+    shell.currentChanged.connect(addTitle);
+    addTitle();
   }
 };
 
