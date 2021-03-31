@@ -299,7 +299,13 @@ class GatewayClient(SingletonConfigurable):
         if len(self._static_args) == 0:
             self.init_static_args()
 
-        kwargs.update(self._static_args)
+        for arg, static_value in self._static_args.items():
+            if arg == 'headers':
+                given_value = kwargs.setdefault(arg, {})
+                if isinstance(given_value, dict):
+                    given_value.update(static_value)
+            else:
+                kwargs[arg] = static_value
         return kwargs
 
 
