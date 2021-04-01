@@ -2867,6 +2867,7 @@ define([
         var that = this;
         var current_dir = $('body').attr('data-notebook-path').split('/').slice(0, -1).join("/");
         current_dir = current_dir? current_dir + "/": "";
+        current_dir = decodeURIComponent(current_dir);
         var dialog_body = $('<div/>').append(
             $('<p/>').addClass('save-message')
                 .text(i18n.msg._('Enter a notebook path relative to notebook dir'))
