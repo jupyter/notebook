@@ -25,6 +25,7 @@
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
     "install": "lerna bootstrap",
+    "integrity": "node buildutils/lib/ensure-repo.js",
     "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "publish": "yarn run clean && yarn run build && lerna publish",
