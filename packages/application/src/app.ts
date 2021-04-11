@@ -23,7 +23,8 @@ export class App extends JupyterFrontEnd<IClassicShell> {
    */
   constructor(options: App.IOptions = { shell: new ClassicShell() }) {
     super({
-      shell: options.shell
+      ...options,
+      shell: options.shell ?? new ClassicShell()
     });
     void this._formatter.invoke();
   }
