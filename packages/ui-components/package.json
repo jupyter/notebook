@@ -43,7 +43,9 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/ui-components": "^3.0.0"
+    "@jupyterlab/ui-components": "^3.0.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
@@ -58,5 +60,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "jupyterlab": {
+    "coreDependency": true
   }
 }
