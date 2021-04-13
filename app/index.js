@@ -124,35 +124,42 @@ async function main() {
   // The motivation here is to only load a specific set of plugins dependending on
   // the current page
   const page = PageConfig.getOption('classicPage');
-  if (page === 'tree') {
-    mods = mods.concat([
-      require('@jupyterlab-classic/tree-extension'),
-      require('@jupyterlab/running-extension')
-    ]);
-  } else if (page === 'notebooks') {
-    mods = mods.concat([
-      require('@jupyterlab/completer-extension').default.filter(({ id }) =>
-        ['@jupyterlab/completer-extension:notebooks'].includes(id)
-      ),
-      require('@jupyterlab/tooltip-extension').default.filter(({ id }) =>
-        [
-          '@jupyterlab/tooltip-extension:manager',
-          '@jupyterlab/tooltip-extension:notebooks'
-        ].includes(id)
-      )
-    ]);
-  } else if (page === 'edit') {
-    mods = mods.concat([
-      require('@jupyterlab/completer-extension').default.filter(({ id }) =>
-        ['@jupyterlab/completer-extension:files'].includes(id)
-      ),
-      require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
-        ['@jupyterlab/fileeditor-extension:plugin'].includes(id)
-      ),
-      require('@jupyterlab-classic/tree-extension').default.filter(({ id }) =>
-        ['@jupyterlab-classic/tree-extension:factory'].includes(id)
-      )
-    ]);
+  switch (page) {
+    case 'tree': {
+      mods = mods.concat([
+        require('@jupyterlab-classic/tree-extension'),
+        require('@jupyterlab/running-extension')
+      ]);
+      break;
+    }
+    case 'notebooks': {
+      mods = mods.concat([
+        require('@jupyterlab/completer-extension').default.filter(({ id }) =>
+          ['@jupyterlab/completer-extension:notebooks'].includes(id)
+        ),
+        require('@jupyterlab/tooltip-extension').default.filter(({ id }) =>
+          [
+            '@jupyterlab/tooltip-extension:manager',
+            '@jupyterlab/tooltip-extension:notebooks'
+          ].includes(id)
+        )
+      ]);
+      break;
+    }
+    case 'edit': {
+      mods = mods.concat([
+        require('@jupyterlab/completer-extension').default.filter(({ id }) =>
+          ['@jupyterlab/completer-extension:files'].includes(id)
+        ),
+        require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
+          ['@jupyterlab/fileeditor-extension:plugin'].includes(id)
+        ),
+        require('@jupyterlab-classic/tree-extension').default.filter(({ id }) =>
+          ['@jupyterlab-classic/tree-extension:factory'].includes(id)
+        )
+      ]);
+      break;
+    }
   }
 
   /**
