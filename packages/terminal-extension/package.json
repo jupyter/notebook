@@ -1,6 +1,6 @@
 {
   "name": "@jupyterlab-classic/terminal-extension",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "JupyterLab Classic - Terminal Extension",
   "homepage": "https://github.com/jtpio/jupyterlab-classic",
   "bugs": {
