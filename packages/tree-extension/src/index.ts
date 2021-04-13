@@ -124,7 +124,7 @@ namespace CommandIDs {
  * Plugin to add extra buttons to the file browser to create
  * new notebooks, files and terminals.
  */
-const buttons: JupyterFrontEndPlugin<void> = {
+const newFiles: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-classic/tree-extension:buttons',
   requires: [IFileBrowserFactory],
   autoStart: true,
@@ -142,15 +142,6 @@ const buttons: JupyterFrontEndPlugin<void> = {
       }
     });
 
-    const newTerminalCommand = 'tree:new-terminal';
-    commands.addCommand(newTerminalCommand, {
-      label: 'New Terminal',
-      icon: terminalIcon,
-      execute: () => {
-        return commands.execute('terminal:create-new');
-      }
-    });
-
     const newNotebook = new CommandToolbarButton({
       commands,
       id: newNotebookCommand
@@ -161,13 +152,36 @@ const buttons: JupyterFrontEndPlugin<void> = {
       id: CommandIDs.createNewFile
     });
 
+    browser.toolbar.insertItem(0, 'new-notebook', newNotebook);
+    browser.toolbar.insertItem(1, 'new-file', newFile);
+  }
+};
+
+/**
+ * Plugin to add a "New Terminal" button to the file browser toolbar.
+ */
+const newTerminal: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-classic/tree-extension:new-terminal',
+  requires: [IFileBrowserFactory],
+  autoStart: true,
+  activate: (app: JupyterFrontEnd, filebrowser: IFileBrowserFactory) => {
+    const { commands } = app;
+    const browser = filebrowser.defaultBrowser;
+
+    const newTerminalCommand = 'tree:new-terminal';
+    commands.addCommand(newTerminalCommand, {
+      label: 'New Terminal',
+      icon: terminalIcon,
+      execute: () => {
+        return commands.execute('terminal:create-new');
+      }
+    });
+
     const newTerminal = new CommandToolbarButton({
       commands,
       id: newTerminalCommand
     });
 
-    browser.toolbar.insertItem(0, 'new-notebook', newNotebook);
-    browser.toolbar.insertItem(1, 'new-file', newFile);
     browser.toolbar.insertItem(2, 'new-terminal', newTerminal);
   }
 };
@@ -964,5 +978,10 @@ namespace Private {
 /**
  * Export the plugins as default.
  */
-const plugins: JupyterFrontEndPlugin<any>[] = [browser, buttons, factory];
+const plugins: JupyterFrontEndPlugin<any>[] = [
+  browser,
+  factory,
+  newFiles,
+  newTerminal
+];
 export default plugins;
