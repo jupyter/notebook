@@ -69,8 +69,15 @@ async function main() {
   // load extra packages
   require('@jupyterlab/celltags');
 
+  const mimeExtensions = [
+    require('@jupyterlab/javascript-extension'),
+    require('@jupyterlab/json-extension'),
+    require('@jupyterlab/pdf-extension'),
+    require('@jupyterlab/vega5-extension')
+  ];
+
   const App = require('@jupyterlab-classic/application').App;
-  const app = new App();
+  const app = new App({ mimeExtensions });
 
   const disabled = [];
   // TODO: formalize the way the set of initial extensions and plugins are specified

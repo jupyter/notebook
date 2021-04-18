@@ -95,16 +95,20 @@
     "@jupyterlab/coreutils": "~5.0.0",
     "@jupyterlab/docmanager-extension": "^3.0.0",
     "@jupyterlab/fileeditor-extension": "^3.0.0",
+    "@jupyterlab/javascript-extension": "^3.0.0",
+    "@jupyterlab/json-extension": "^3.0.0",
     "@jupyterlab/mainmenu-extension": "^3.0.0",
     "@jupyterlab/mathjax2-extension": "^3.0.0",
     "@jupyterlab/notebook-extension": "^3.0.0",
+    "@jupyterlab/pdf-extension": "^3.0.0",
     "@jupyterlab/rendermime-extension": "^3.0.0",
     "@jupyterlab/running-extension": "^3.0.0",
     "@jupyterlab/shortcuts-extension": "^3.0.0",
     "@jupyterlab/terminal-extension": "^3.0.0",
     "@jupyterlab/theme-dark-extension": "^3.0.0",
     "@jupyterlab/theme-light-extension": "^3.0.0",
-    "@jupyterlab/tooltip-extension": "^3.0.0"
+    "@jupyterlab/tooltip-extension": "^3.0.0",
+    "@jupyterlab/vega5-extension": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
