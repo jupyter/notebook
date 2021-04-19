@@ -6,7 +6,11 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
+import { createRendermimePlugins } from '@jupyterlab/application/lib/mimerenderers';
+
 import { PageConfig } from '@jupyterlab/coreutils';
+
+import { IRenderMime } from '@jupyterlab/rendermime-interfaces';
 
 import { Throttler } from '@lumino/polling';
 
@@ -26,6 +30,11 @@ export class App extends JupyterFrontEnd<IClassicShell> {
       ...options,
       shell: options.shell ?? new ClassicShell()
     });
+    if (options.mimeExtensions) {
+      for (const plugin of createRendermimePlugins(options.mimeExtensions)) {
+        this.registerPlugin(plugin);
+      }
+    }
     void this._formatter.invoke();
   }
 
@@ -135,7 +144,19 @@ export namespace App {
   /**
    * The instantiation options for an App application.
    */
-  export type IOptions = JupyterFrontEnd.IOptions<IClassicShell>;
+  export interface IOptions
+    extends JupyterFrontEnd.IOptions<IClassicShell>,
+      Partial<IInfo> {}
+
+  /**
+   * The information about a JupyterLab Classic application.
+   */
+  export interface IInfo {
+    /**
+     * The mime renderer extensions.
+     */
+    readonly mimeExtensions: IRenderMime.IExtensionModule[];
+  }
 
   /**
    * The interface for a module that exports a plugin or plugins as
