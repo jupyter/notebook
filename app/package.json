@@ -15,7 +15,7 @@
     "test:debug:watch": "node --inspect-brk node_modules/.bin/jest --runInBand --watch",
     "test:e2e": "jlpm run clean:artifacts && jest",
     "test:e2e:pwdebug": "jlpm run clean:artifacts && PWDEBUG=1 jlpm run test:e2e",
-    "watch": "webpack --watch"
+    "watch": "webpack --config ./webpack.config.watch.js"
   },
   "resolutions": {
     "@jupyterlab-classic/application": "~0.1.10",

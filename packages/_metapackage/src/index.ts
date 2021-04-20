@@ -1,0 +1,9 @@
+import '@jupyterlab-classic/application';
+import '@jupyterlab-classic/application-extension';
+import '@jupyterlab-classic/docmanager-extension';
+import '@jupyterlab-classic/help-extension';
+import '@jupyterlab-classic/lab-extension';
+import '@jupyterlab-classic/notebook-extension';
+import '@jupyterlab-classic/terminal-extension';
+import '@jupyterlab-classic/tree-extension';
+import '@jupyterlab-classic/ui-components';

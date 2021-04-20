@@ -28,7 +28,13 @@ pip install -e .
 `jupyterlab-classic` follows a monorepo structure. To build all the packages at once:
 
 ```bash
-jlpm run build
+jlpm build
+```
+
+There is also a `watch` script to watch for changes and rebuild the app automatically:
+
+```bash
+jlpm watch
 ```
 
 To make sure the `jupyterlab_classic` server extension is installed:
