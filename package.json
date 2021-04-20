@@ -36,7 +36,10 @@
     "test": "lerna run test",
     "test:e2e": "lerna run test:e2e --stream",
     "test:ci": "(jlpm run start&) && jlpm run test:e2e",
-    "update:dependency": "node ./node_modules/@jupyterlab/buildutils/lib/update-dependency.js --lerna"
+    "update:dependency": "node ./node_modules/@jupyterlab/buildutils/lib/update-dependency.js --lerna",
+    "watch": "run-p watch:lib watch:app",
+    "watch:lib": "lerna exec --stream --scope @jupyterlab-classic/metapackage jlpm watch",
+    "watch:app": "lerna exec --stream --scope \"@jupyterlab-classic/app\" jlpm watch"
   },
   "husky": {
     "hooks": {
@@ -52,6 +55,7 @@
     "eslint-plugin-jest": "^24.1.3",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
+    "extra-watch-webpack-plugin": "^1.0.3",
     "husky": "^3",
     "jest": "^26.4.2",
     "jest-junit": "^11.1.0",

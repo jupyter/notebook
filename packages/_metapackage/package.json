@@ -1,0 +1,36 @@
+{
+  "name": "@jupyterlab-classic/metapackage",
+  "private": true,
+  "version": "0.1.0",
+  "description": "JupyterLab Classic - Metapackage",
+  "homepage": "https://github.com/jtpio/jupyterlab-classic",
+  "bugs": {
+    "url": "https://github.com/jtpio/jupyterlab-classic/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jtpio/jupyterlab-classic.git"
+  },
+  "license": "BSD-3-Clause",
+  "author": "JupyterLab Classic Contributors",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "watch": "tsc -b -w --preserveWatchOutput"
+  },
+  "dependencies": {
+    "@jupyterlab-classic/application": "file:../application",
+    "@jupyterlab-classic/application-extension": "file:../application-extension",
+    "@jupyterlab-classic/docmanager-extension": "file:../docmanager-extension",
+    "@jupyterlab-classic/help-extension": "file:../help-extension",
+    "@jupyterlab-classic/lab-extension": "file:../lab-extension",
+    "@jupyterlab-classic/notebook-extension": "file:../notebook-extension",
+    "@jupyterlab-classic/terminal-extension": "file:../terminal-extension",
+    "@jupyterlab-classic/tree-extension": "file:../tree-extension",
+    "@jupyterlab-classic/ui-components": "file:../ui-components"
+  },
+  "devDependencies": {
+    "typescript": "~4.1.3"
+  }
+}
