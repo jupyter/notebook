@@ -14,6 +14,7 @@ import sys
 import traceback
 import types
 import warnings
+import contextvars
 from http.client import responses
 from http.cookies import Morsel
 
@@ -35,6 +36,10 @@ from notebook.i18n import combine_translations
 from notebook.utils import is_hidden, url_path_join, url_is_absolute, url_escape, urldecode_unix_socket_path
 from notebook.services.security import csp_report_uri
 
+
+_current_request_var: contextvars.ContextVar = contextvars.ContextVar("current_request")
+
+
 #-----------------------------------------------------------------------------
 # Top-level handlers
 #-----------------------------------------------------------------------------
@@ -55,6 +60,9 @@ def log():
 
 class AuthenticatedHandler(web.RequestHandler):
     """A RequestHandler with an authenticated user."""
+
+    def prepare(self):
+        _current_request_var.set(self.request)
 
     @property
     def content_security_policy(self):
@@ -930,6 +938,13 @@ class PrometheusMetricsHandler(IPythonHandler):
 
         self.set_header('Content-Type', prometheus_client.CONTENT_TYPE_LATEST)
         self.write(prometheus_client.generate_latest(prometheus_client.REGISTRY))
+
+
+def get_current_request():
+    """
+    Get :class:`tornado.httputil.HTTPServerRequest` that is currently being processed.
+    """
+    return _current_request_var.get(None)
 
 
 #-----------------------------------------------------------------------------

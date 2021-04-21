@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu, macos, windows]
-        python-version: [ '3.6' , '3.7', '3.8', '3.9' ] # Windows 3.9 fails due to the pywinpty dependency not working (Issue #5967)
+        python-version: [ '3.7', '3.8', '3.9' ] # Windows 3.9 fails due to the pywinpty dependency not working (Issue #5967)
     steps:
     - name: Checkout
       uses: actions/checkout@v1
