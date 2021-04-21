@@ -54,9 +54,10 @@ class MainKernelHandler(APIHandler):
 class KernelHandler(APIHandler):
 
     @web.authenticated
+    @gen.coroutine
     def get(self, kernel_id):
         km = self.kernel_manager
-        model = km.kernel_model(kernel_id)
+        model = yield maybe_future(km.kernel_model(kernel_id))
         self.finish(json.dumps(model, default=date_default))
 
     @web.authenticated

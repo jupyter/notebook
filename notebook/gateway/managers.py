@@ -443,8 +443,13 @@ class GatewayKernelManager(AsyncMappingKernelManager):
                 raise
         else:
             kernel = json_decode(response.body)
-            self._kernels[kernel_id] = kernel
-        self.log.debug("Kernel retrieved: %s" % kernel)
+            # Only update our models if we already know about this kernel
+            if kernel_id in self._kernels:
+                self._kernels[kernel_id] = kernel
+                self.log.debug("Kernel retrieved: %s", kernel)
+            else:
+                self.log.warning("Kernel '%s' is not managed by this instance.", kernel_id)
+                kernel = None
         return kernel
 
     async def kernel_model(self, kernel_id):
@@ -466,8 +471,9 @@ class GatewayKernelManager(AsyncMappingKernelManager):
         self.log.debug("Request list kernels: %s", kernel_url)
         response = await gateway_request(kernel_url, method='GET')
         kernels = json_decode(response.body)
-        self._kernels = {x['id']: x for x in kernels}
-        return kernels
+        # Only update our models if we already know about the kernels
+        self._kernels = {x['id']: x for x in kernels if x['id'] in self._kernels}
+        return list(self._kernels.values())
 
     async def shutdown_kernel(self, kernel_id, now=False, restart=False):
         """Shutdown a kernel by its kernel uuid.
@@ -524,7 +530,7 @@ class GatewayKernelManager(AsyncMappingKernelManager):
         kwargs = {'method': 'DELETE'}
         kwargs = GatewayClient.instance().load_connection_args(**kwargs)
         client = HTTPClient()
-        for kernel_id in self._kernels.keys():
+        for kernel_id in self._kernels:
             kernel_url = self._get_kernel_endpoint_url(kernel_id)
             self.log.debug("Request delete kernel at: %s", kernel_url)
             try:
