@@ -1,4 +1,4 @@
-// leave at least 2 line with only a star on it below, or doc generation fails
+// leave at least 2 lines with only a star on it below, or doc generation fails
 /**
  *
  *
