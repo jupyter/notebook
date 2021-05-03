@@ -3,7 +3,7 @@ store the current version info of the notebook.
 
 """
 # Version string must appear intact for tbump versioning
-__version__ = '6.4.0.dev0'
+__version__ = '6.4.0a0'
 
 try:
     # When installing from a tarball, this import will not yet be available
