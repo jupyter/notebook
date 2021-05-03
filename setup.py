@@ -50,6 +50,9 @@ if os.path.exists('MANIFEST'): os.remove('MANIFEST')
 
 from setuptools import setup
 
+# Needed to support building with `setuptools.build_meta`
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
 from setupbase import (
     version,
     find_packages,
@@ -116,6 +119,7 @@ for more information.
         'traitlets>=4.2.1',
         'jupyter_core>=4.6.1',
         'jupyter_client>=5.3.4',
+        'jupyter_packaging>0.9,<2',
         'nbformat',
         'nbconvert',
         'ipykernel', # bless IPython kernel for now

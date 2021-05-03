@@ -1,5 +1,6 @@
 {
   "name": "jupyter-notebook-deps",
+  "private": true,
   "version": "4.0.0",
   "description": "Jupyter Notebook nodejs dependencies",
   "author": "Jupyter Developers",

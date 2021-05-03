@@ -47,7 +47,7 @@ front-end Notebook client (i.e. the familiar notebook interface).
         documented in the configuration file and the user documentation.
 
   - :ref:`Running a Notebook server <working_remotely>`
-  - Related: `Configuring a language kernel <https://jupyter.readthedocs.io/en/latest/install-kernel.html>`_
+  - Related: `Configuring a language kernel <https://ipython.readthedocs.io/en/latest/install/kernel_install.html>`_
     to run in the Notebook server enables your server to run other languages, like R or Julia.
 
 .. _configure_nbclient:

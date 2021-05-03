@@ -68,11 +68,11 @@ example, for blog posts), reStructuredText, LaTeX, PDF, and slide shows, via
 the nbconvert_ command.
 
 Furthermore, any  ``.ipynb`` notebook document available from a public
-URL can be shared via the `Jupyter Notebook Viewer <nbviewer>`_ (nbviewer_).
+URL can be shared via the Jupyter Notebook Viewer <nbviewer>.
 This service loads the notebook document from the URL and renders it as a
 static web page.  The results may thus be shared with a colleague, or as a
 public blog post, without other users needing to install the Jupyter notebook
-themselves.  In effect, nbviewer_ is simply nbconvert_ as
+themselves.  In effect, nbviewer is simply nbconvert_ as
 a web service, so you can do your own static conversions with nbconvert,
 without relying on nbviewer.
 
@@ -278,9 +278,7 @@ way, using standard LaTeX notation: ``$...$`` for inline mathematics and
 ``$$...$$`` for displayed mathematics. When the Markdown cell is executed,
 the LaTeX portions are automatically rendered in the HTML output as equations
 with high quality typography. This is made possible by MathJax_, which
-supports a `large subset <mathjax_tex>`_ of LaTeX functionality
-
-.. _mathjax_tex: https://docs.mathjax.org/en/latest/tex.html
+supports a `large subset <https://docs.mathjax.org/en/latest/input/tex/index.html>`__ of LaTeX functionality
 
 Standard mathematics environments defined by LaTeX and AMS-LaTeX (the
 ``amsmath`` package) also work, such as
