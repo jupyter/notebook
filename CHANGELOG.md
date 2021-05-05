@@ -14,11 +14,15 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
-## 6.4.0a0
+## 6.4.0a1
 
 No merged PRs
 
 <!-- <END NEW CHANGELOG ENTRY> -->
+
+## 6.4.0a0
+
+No merged PRs
 
 ## 6.3.0
 
