@@ -27,24 +27,22 @@ DATABASES = {
 }
 
 settings.configure(
-        DATABASES=DATABASES,
-        SECRET_KEY='1234578',
-        INSTALLED_APPS=[
-            'deming_core',
-            'django.contrib.auth',
-            'django.contrib.admin',
-            'django.contrib.contenttypes',
-            'django.contrib.sessions',
-            'django.contrib.messages',
-            'django.contrib.staticfiles',
-        ])
+    DATABASES=DATABASES,
+    SECRET_KEY='1234578',
+    INSTALLED_APPS=[
+        'deming_core',
+        'django.contrib.auth',
+        'django.contrib.admin',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+    ])
 
 django.setup()
 
-
 from deming.models import EnterpriseUser, KernelSession, EdgeDevice
 from deming.edge import device_types
-
 
 class ExecuteQueries:
     """
@@ -59,7 +57,7 @@ class ExecuteQueries:
         """
 
         return EdgeDevice.objects.filter(device_type__in=device_types.valid_ml_node_types,
-                                         system_status__is_connected=True)
+                                         system_status__is_connected=True, system_status__is_active=True)
 
     def get_ml_node(self, column_name, column_value):
         """
@@ -70,7 +68,7 @@ class ExecuteQueries:
         """
         kwargs = {column_name: column_value}
         return EdgeDevice.objects.filter(device_type__in=device_types.valid_ml_node_types,
-                                         system_status__is_connected=True).filter(**kwargs)
+                                         system_status__is_connected=True, system_status__is_active=True).filter(**kwargs)
 
     def delete_kernel_session(self, column_name, column_value):
         """
@@ -100,7 +98,7 @@ class ExecuteQueries:
         """
 
         _kernel_id = _field_values.get("kernel_id", None)
-        _kernel_name   = _field_values.get("kernel_name", None)
+        _kernel_name = _field_values.get("kernel_name", None)
         mlnode_id = _field_values['mlnode_id']
         result, _ = KernelSession.objects.update_or_create(kernel_id=_kernel_id,
                                                            kernel_name=_kernel_name,
@@ -124,10 +122,12 @@ class ExecuteQueries:
         :param _field_values: (Dict) Dictionary of field values.
         """
         try:
-            kernel_session = KernelSession.objects.get(kernel_id=_field_values['kernel_id'])
+            kernel_session = KernelSession.objects.get(
+                kernel_id=_field_values['kernel_id'])
 
             if 'user_name' in _field_values.keys():
-                user = EnterpriseUser.objects.get(username=_field_values['user_name'])
+                user = EnterpriseUser.objects.get(
+                    username=_field_values['user_name'])
                 kernel_session.enterprise_user = user
 
             kernel_session.save()
@@ -141,7 +141,7 @@ class ExecuteQueries:
         :return: List of address for Mlnodes instances.
         """
         mlnodes = EdgeDevice.objects.filter(device_type__in=device_types.valid_ml_node_types,
-                                            system_status__is_connected=True)
+                                            system_status__is_connected=True, system_status__is_active=True)
         return [f'https://{str(mlnode.ip_address)}' for mlnode in mlnodes]
 
     def get_mlnode_address_with_field(self, column_name, column_value):
