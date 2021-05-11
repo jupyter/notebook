@@ -2086,7 +2086,7 @@ class NotebookApp(JupyterApp):
     def _init_asyncio_patch(self):
         """set default asyncio policy to be compatible with tornado
 
-        Tornado <6.1 is not compatible with the default
+        Tornado 6 (at least) is not compatible with the default
         asyncio implementation on Windows
 
         Pick the older SelectorEventLoopPolicy on Windows
@@ -2099,7 +2099,7 @@ class NotebookApp(JupyterApp):
         FIXME: if/when tornado supports the defaults in asyncio,
                remove and bump tornado requirement for py38
         """
-        if sys.platform.startswith("win") and sys.version_info >= (3, 8) and tornado.version_info < (6, 1):
+        if sys.platform.startswith("win") and sys.version_info >= (3, 8):
             import asyncio
             try:
                 from asyncio import (
