@@ -438,6 +438,8 @@ define([
             );
             breadcrumb.append(crumb);
         });
+        console.log("LIST CONTENTS BELOW")
+        console.log(this.contents.list_contents(that.notebook_path))
         this.contents.list_contents(that.notebook_path).then(
             $.proxy(this.draw_notebook_list, this),
             function(error) {
@@ -496,11 +498,15 @@ define([
             model = {
                 type: 'directory',
                 name: '..',
-                path: utils.url_path_split(path)[0]
+                path: utils.url_path_split(path)[0],
+                path_full: path
             };
             this.add_link(model, item);
             offset += 1;
         }
+        console.log(len)
+        console.log(list)
+        console.log("********************************************************")
         for (var i=0; i<len; i++) {
             model = list.content[i];
             item = this.new_item(i+offset, true);
@@ -876,6 +882,33 @@ define([
     };
 
     NotebookList.prototype.add_link = function (model, item) {
+
+        var lastModifiedTimeStamps = []
+        if (model.content) {
+            model.content.then(function (result) {
+                console.log("********* Filee " + model.name + " *************");
+                console.log("Result last modified timestamps below");
+                console.log(result);
+                var lastModifiedTimeStamps = []
+                result.content.forEach(function (entry) {
+                    lastModifiedTimeStamps.push(entry.last_modified)
+                });
+                console.log(lastModifiedTimeStamps);
+
+                var sorted = lastModifiedTimeStamps.sort(function(a, b) {
+                    return utils.datetime_sort_helper(a.last_modified, b.last_modified,
+                                              0)
+                })
+                console.log(sorted)
+
+                console.log(lastModifiedTimeStamps.sort(function(a, b) {
+                    return utils.datetime_sort_helper(a.last_modified, b.last_modified,
+                                              0)
+                }))
+            })
+
+        }
+
         var that = this;
         var running = (model.type === 'notebook' && this.sessions[model.path] !== undefined);
         item.data('name',model.name);
@@ -940,6 +973,7 @@ define([
         // Add in the date that the file was last modified
         item.find(".item_modified").text(utils.format_datetime(model.last_modified));
         item.find(".item_modified").attr("title", moment(model.last_modified).format("YYYY-MM-DD HH:mm"));
+
 
         var filesize = utils.format_filesize(model.size);
         item.find(".file_size").text(filesize || '\xA0');
