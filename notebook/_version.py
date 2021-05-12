@@ -2,12 +2,19 @@
 store the current version info of the notebook.
 
 """
+import re
+
+# Version string must appear intact for tbump versioning
+__version__ = '6.4.0a1'
+
+# Build up version_info tuple for backwards compatibility
+pattern = r'(?P<major>\d+).(?P<minor>\d+).(?P<patch>\d+)(?P<rest>.*)'
+match = re.match(pattern, __version__)
+parts = [int(match[part]) for part in ['major', 'minor', 'patch']]
+if match['rest']:
+  parts.append(match['rest'])
+version_info = tuple(parts)
 
 # Downstream maintainer, when running `python.setup.py jsversion`,
 # the version string is propagated to the JavaScript files,  do not forget to
 # patch the JavaScript files in `.postN` release done by distributions.
-
-# Next beta/alpha/rc release: The version number for beta is X.Y.ZbN **without dots**.
-
-version_info = (6, 4, 0, '.dev0')
-__version__ = '.'.join(map(str, version_info[:3])) + ''.join(version_info[3:])

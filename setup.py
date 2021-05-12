@@ -50,6 +50,9 @@ if os.path.exists('MANIFEST'): os.remove('MANIFEST')
 
 from setuptools import setup
 
+# Needed to support building with `setuptools.build_meta`
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
 from setupbase import (
     version,
     find_packages,
