@@ -1792,12 +1792,6 @@ class NotebookApp(JupyterApp):
                                                  max_body_size=self.max_body_size,
                                                  max_buffer_size=self.max_buffer_size)
 
-        success = self._bind_http_server()
-        if not success:
-            self.log.critical(_('ERROR: the notebook server could not be started because '
-                              'no available port could be found.'))
-            self.exit(1)
-
     def _bind_http_server(self):
         return self._bind_http_server_unix() if self.sock else self._bind_http_server_tcp()
 
@@ -2296,6 +2290,12 @@ class NotebookApp(JupyterApp):
             if uid == 0:
                 self.log.critical(_("Running as root is not recommended. Use --allow-root to bypass."))
                 self.exit(1)
+
+        success = self._bind_http_server()
+        if not success:
+            self.log.critical(_('ERROR: the notebook server could not be started because '
+                              'no available port could be found.'))
+            self.exit(1)
 
         info = self.log.info
         for line in self.notebook_info(kernel_count=False).split("\n"):
