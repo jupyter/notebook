@@ -25,6 +25,7 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 - Correct 'Content-Type' headers [#6026](https://github.com/jupyter/notebook/pull/6026) ([@faucct](https://github.com/faucct))
 - Fix skipped tests & remove deprecation warnings [#6018](https://github.com/jupyter/notebook/pull/6018) ([@befeleme](https://github.com/befeleme))
 - [Gateway] Track only this server's kernels [#5980](https://github.com/jupyter/notebook/pull/5980) ([@kevin-bates](https://github.com/kevin-bates))
+- Bind the HTTPServer in start [#6061](https://github.com/jupyter/notebook/pull/6061)
 
 ### Maintenance and upkeep improvements
 
