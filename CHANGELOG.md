@@ -14,14 +14,18 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
-## 6.4.0rc0
+## 6.4.0
 
-([Full Changelog](https://github.com/jupyter/notebook/compare/6.3.0...c19323de9ac56b2e0d075a3e6070be57ee63c194))
+([Full Changelog](https://github.com/jupyter/notebook/compare/6.3.0...80eb286f316838afc76a9a84b06f54e7dccb6c86))
 
 ### Bugs fixed
 
 - Fix Handling of Encoded Paths in Save As Dialog [#6030](https://github.com/jupyter/notebook/pull/6030) ([@afshin](https://github.com/afshin))
 - Fix: split_cell doesn't always split cell [#6017](https://github.com/jupyter/notebook/pull/6017) ([@gamestrRUS](https://github.com/gamestrRUS))
+- Correct 'Content-Type' headers [#6026](https://github.com/jupyter/notebook/pull/6026) ([@faucct](https://github.com/faucct))
+- Fix skipped tests & remove deprecation warnings [#6018](https://github.com/jupyter/notebook/pull/6018) ([@befeleme](https://github.com/befeleme))
+- [Gateway] Track only this server's kernels [#5980](https://github.com/jupyter/notebook/pull/5980) ([@kevin-bates](https://github.com/kevin-bates))
+- Bind the HTTPServer in start [#6061](https://github.com/jupyter/notebook/pull/6061)
 
 ### Maintenance and upkeep improvements
 
@@ -29,6 +33,8 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 - Use Jupyter Releaser [#6048](https://github.com/jupyter/notebook/pull/6048) ([@afshin](https://github.com/afshin))
 - Add Workflow Permissions for Lock Bot [#6042](https://github.com/jupyter/notebook/pull/6042) ([@jtpio](https://github.com/jtpio))
 - Fixes related to the recent changes in the documentation [#6021](https://github.com/jupyter/notebook/pull/6021) ([@frenzymadness](https://github.com/frenzymadness))
+- Add maths checks in CSS reference test [#6035](https://github.com/jupyter/notebook/pull/6035) ([@stef4k](https://github.com/stef4k))
+- Add Issue Lock and Answered Bots [#6019](https://github.com/jupyter/notebook/pull/6019) ([@afshin](https://github.com/afshin))
 
 ### Documentation improvements
 
@@ -37,14 +43,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 - Fixes related to the recent changes in the documentation [#6021](https://github.com/jupyter/notebook/pull/6021) ([@frenzymadness](https://github.com/frenzymadness))
 - Fix readthedocs environment [#6020](https://github.com/jupyter/notebook/pull/6020) ([@blink1073](https://github.com/blink1073))
 
-### Other merged PRs
-
-- Add maths checks in CSS reference test [#6035](https://github.com/jupyter/notebook/pull/6035) ([@stef4k](https://github.com/stef4k))
-- Correct 'Content-Type' headers [#6026](https://github.com/jupyter/notebook/pull/6026) ([@faucct](https://github.com/faucct))
-- Add Issue Lock and Answered Bots [#6019](https://github.com/jupyter/notebook/pull/6019) ([@afshin](https://github.com/afshin))
-- Fix skipped tests & remove deprecation warnings [#6018](https://github.com/jupyter/notebook/pull/6018) ([@befeleme](https://github.com/befeleme))
-- [Gateway] Track only this server's kernels [#5980](https://github.com/jupyter/notebook/pull/5980) ([@kevin-bates](https://github.com/kevin-bates))
-
 ### Contributors to this release
 
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2021-03-22&to=2021-05-12&type=c))
@@ -52,14 +50,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 [@afshin](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aafshin+updated%3A2021-03-22..2021-05-12&type=Issues) | [@befeleme](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abefeleme+updated%3A2021-03-22..2021-05-12&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2021-03-22..2021-05-12&type=Issues) | [@faucct](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afaucct+updated%3A2021-03-22..2021-05-12&type=Issues) | [@frenzymadness](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afrenzymadness+updated%3A2021-03-22..2021-05-12&type=Issues) | [@gamestrRUS](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AgamestrRUS+updated%3A2021-03-22..2021-05-12&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2021-03-22..2021-05-12&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2021-03-22..2021-05-12&type=Issues) | [@minrk](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aminrk+updated%3A2021-03-22..2021-05-12&type=Issues) | [@misterhay](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Amisterhay+updated%3A2021-03-22..2021-05-12&type=Issues) | [@stef4k](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Astef4k+updated%3A2021-03-22..2021-05-12&type=Issues) | [@wggillen](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Awggillen+updated%3A2021-03-22..2021-05-12&type=Issues)
 
 <!-- <END NEW CHANGELOG ENTRY> -->
-
-## 6.4.0a1
-
-No merged PRs
-
-## 6.4.0a0
-
-No merged PRs
 
 ## 6.3.0
 
