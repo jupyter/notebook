@@ -14,7 +14,7 @@ import { IDocumentManager } from '@jupyterlab/docmanager';
 
 import { NotebookPanel } from '@jupyterlab/notebook';
 
-import { App, RetroShell, IRetroShell } from '@retrolab/application';
+import { RetroApp, RetroShell, IRetroShell } from '@retrolab/application';
 
 import { Poll } from '@lumino/polling';
 
@@ -211,7 +211,7 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
 const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
   id: '@retrolab/application-extension:paths',
   activate: (app: JupyterFrontEnd): JupyterFrontEnd.IPaths => {
-    if (!(app instanceof App)) {
+    if (!(app instanceof RetroApp)) {
       throw new Error(`${paths.id} must be activated in RetroLab.`);
     }
     return app.paths;

@@ -19,13 +19,13 @@ import { IRetroShell, RetroShell } from './shell';
 /**
  * App is the main application class. It is instantiated once and shared.
  */
-export class App extends JupyterFrontEnd<IRetroShell> {
+export class RetroApp extends JupyterFrontEnd<IRetroShell> {
   /**
-   * Construct a new App object.
+   * Construct a new RetroApp object.
    *
    * @param options The instantiation options for an application.
    */
-  constructor(options: App.IOptions = { shell: new RetroShell() }) {
+  constructor(options: RetroApp.IOptions = { shell: new RetroShell() }) {
     super({
       ...options,
       shell: options.shell ?? new RetroShell()
@@ -103,7 +103,7 @@ export class App extends JupyterFrontEnd<IRetroShell> {
    *
    * @param mod - The plugin module to register.
    */
-  registerPluginModule(mod: App.IPluginModule): void {
+  registerPluginModule(mod: RetroApp.IPluginModule): void {
     let data = mod.default;
     // Handle commonjs exports.
     if (!Object.prototype.hasOwnProperty.call(mod, '__esModule')) {
@@ -126,7 +126,7 @@ export class App extends JupyterFrontEnd<IRetroShell> {
    *
    * @param mods - The plugin modules to register.
    */
-  registerPluginModules(mods: App.IPluginModule[]): void {
+  registerPluginModules(mods: RetroApp.IPluginModule[]): void {
     mods.forEach(mod => {
       this.registerPluginModule(mod);
     });
@@ -140,7 +140,7 @@ export class App extends JupyterFrontEnd<IRetroShell> {
 /**
  * A namespace for App statics.
  */
-export namespace App {
+export namespace RetroApp {
   /**
    * The instantiation options for an App application.
    */
@@ -184,7 +184,7 @@ namespace Private {
    *
    * @param app The front-end application whose format is set.
    */
-  export function setFormat(app: App): void {
+  export function setFormat(app: RetroApp): void {
     app.format = window.matchMedia(MOBILE_QUERY).matches ? 'mobile' : 'desktop';
   }
 }

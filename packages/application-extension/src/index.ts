@@ -25,7 +25,7 @@ import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { ITranslator, TranslationManager } from '@jupyterlab/translation';
 
-import { App, RetroShell, IRetroShell } from '@retrolab/application';
+import { RetroApp, RetroShell, IRetroShell } from '@retrolab/application';
 
 import { jupyterIcon } from '@retrolab/ui-components';
 
@@ -204,7 +204,7 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
   autoStart: true,
   provides: JupyterFrontEnd.IPaths,
   activate: (app: JupyterFrontEnd): JupyterFrontEnd.IPaths => {
-    if (!(app instanceof App)) {
+    if (!(app instanceof RetroApp)) {
       throw new Error(`${paths.id} must be activated in RetroLab.`);
     }
     return app.paths;

@@ -76,8 +76,8 @@ async function main() {
     require('@jupyterlab/vega5-extension')
   ];
 
-  const App = require('@retrolab/application').App;
-  const app = new App({ mimeExtensions });
+  const RetroApp = require('@retrolab/application').RetroApp;
+  const app = new RetroApp({ mimeExtensions });
 
   const disabled = [];
   // TODO: formalize the way the set of initial extensions and plugins are specified
