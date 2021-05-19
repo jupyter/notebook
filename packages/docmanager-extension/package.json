@@ -1,6 +1,6 @@
 {
   "name": "@retrolab/docmanager-extension",
-  "version": "0.1.10",
+  "version": "0.2.0-rc.0",
   "description": "RetroLab - Document Manager Extension",
   "homepage": "https://github.com/jtpio/retrolab",
   "bugs": {

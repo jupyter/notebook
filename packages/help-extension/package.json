@@ -1,6 +1,6 @@
 {
   "name": "@retrolab/help-extension",
-  "version": "0.1.10",
+  "version": "0.2.0-rc.0",
   "description": "RetroLab - Help Extension",
   "homepage": "https://github.com/jtpio/retrolab",
   "bugs": {
@@ -39,10 +39,10 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@retrolab/ui-components": "^0.1.10",
     "@jupyterlab/application": "^3.0.0",
     "@jupyterlab/apputils": "^3.0.0",
-    "@jupyterlab/mainmenu": "^3.0.0"
+    "@jupyterlab/mainmenu": "^3.0.0",
+    "@retrolab/ui-components": "^0.2.0-rc.0"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",
