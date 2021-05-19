@@ -17,7 +17,7 @@
   {% set _ = page_config_full.update(baseUrl=base_url, wsUrl=ws_url) %}
 
   {# Sentinel value to say that we are on the tree page #}
-  {% set _ = page_config_full.update(classicPage='notebooks') %}
+  {% set _ = page_config_full.update(retroPage='notebooks') %}
 
   <script id="jupyter-config-data" type="application/json">
     {{ page_config_full | tojson }}

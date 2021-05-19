@@ -47,8 +47,8 @@ jobs:
     - name: Install the package
       run: |
         python -m pip install .
-        jupyter labextension list 2>&1 | grep -ie "@jupyterlab-classic/lab-extension.*enabled.*ok" -
-        jupyter server extension list 2>&1 | grep -ie "jupyterlab_classic.*enabled" -
+        jupyter labextension list 2>&1 | grep -ie "@retrolab/lab-extension.*enabled.*ok" -
+        jupyter server extension list 2>&1 | grep -ie "retrolab.*enabled" -
         python -m jupyterlab.browser_check
     - name: Lint
       run: |
@@ -114,9 +114,9 @@ jobs:
         python: ['3.6', '3.9']
         include:
           - python: '3.6'
-            dist: 'jupyterlab-classic*.tar.gz'
+            dist: 'retrolab*.tar.gz'
           - python: '3.9'
-            dist: 'jupyterlab_classic*.whl'
+            dist: 'retrolab*.whl'
           - os: windows
             py_cmd: python
           - os: macos
@@ -147,11 +147,11 @@ jobs:
       - name: Validate the install
         run: |
           jupyter labextension list
-          jupyter labextension list 2>&1 | grep -ie "@jupyterlab-classic/lab-extension.*enabled.*ok" -
+          jupyter labextension list 2>&1 | grep -ie "@retrolab/lab-extension.*enabled.*ok" -
           jupyter server extension list
-          jupyter server extension list 2>&1 | grep -ie "jupyterlab_classic.*enabled" -
-          jupyter classic --version
-          jupyter classic --help
+          jupyter server extension list 2>&1 | grep -ie "retrolab.*enabled" -
+          jupyter retro --version
+          jupyter retro --help
 
   end2end:
     needs: [build]
@@ -178,7 +178,7 @@ jobs:
       - name: Install the package
         run: |
           cd dist
-          python -m pip install -vv jupyterlab_classic*.whl
+          python -m pip install -vv retrolab*.whl
       - uses: microsoft/playwright-github-action@v1
       - name: Test
         run: |

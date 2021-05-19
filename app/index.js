@@ -76,19 +76,19 @@ async function main() {
     require('@jupyterlab/vega5-extension')
   ];
 
-  const App = require('@jupyterlab-classic/application').App;
+  const App = require('@retrolab/application').App;
   const app = new App({ mimeExtensions });
 
   const disabled = [];
   // TODO: formalize the way the set of initial extensions and plugins are specified
   let mods = [
-    // @jupyterlab-classic plugins
-    require('@jupyterlab-classic/application-extension'),
-    require('@jupyterlab-classic/docmanager-extension'),
-    require('@jupyterlab-classic/help-extension'),
-    require('@jupyterlab-classic/notebook-extension'),
+    // @retrolab plugins
+    require('@retrolab/application-extension'),
+    require('@retrolab/docmanager-extension'),
+    require('@retrolab/help-extension'),
+    require('@retrolab/notebook-extension'),
     // to handle opening new tabs after creating a new terminal
-    require('@jupyterlab-classic/terminal-extension'),
+    require('@retrolab/terminal-extension'),
 
     // @jupyterlab plugins
     require('@jupyterlab/apputils-extension').default.filter(({ id }) =>
@@ -130,11 +130,11 @@ async function main() {
 
   // The motivation here is to only load a specific set of plugins dependending on
   // the current page
-  const page = PageConfig.getOption('classicPage');
+  const page = PageConfig.getOption('retroPage');
   switch (page) {
     case 'tree': {
       mods = mods.concat([
-        require('@jupyterlab-classic/tree-extension'),
+        require('@retrolab/tree-extension'),
         require('@jupyterlab/running-extension')
       ]);
       break;
@@ -161,8 +161,8 @@ async function main() {
         require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
           ['@jupyterlab/fileeditor-extension:plugin'].includes(id)
         ),
-        require('@jupyterlab-classic/tree-extension').default.filter(({ id }) =>
-          ['@jupyterlab-classic/tree-extension:factory'].includes(id)
+        require('@retrolab/tree-extension').default.filter(({ id }) =>
+          ['@retrolab/tree-extension:factory'].includes(id)
         )
       ]);
       break;

@@ -6,7 +6,7 @@ import { chromium, firefox, Browser } from 'playwright';
 import { BrowserName, BASE_URL } from './utils';
 
 const NOTEBOOK_PATH = 'app/test/data/example.ipynb';
-const NOTEBOOK_URL = `${BASE_URL}classic/notebooks/${NOTEBOOK_PATH}`;
+const NOTEBOOK_URL = `${BASE_URL}retro/notebooks/${NOTEBOOK_PATH}`;
 
 describe('Notebook', () => {
   let browser: Browser;
@@ -26,9 +26,9 @@ describe('Notebook', () => {
       await page.goto(NOTEBOOK_URL);
       await page.waitForTimeout(2000);
       const href = await page.evaluate(() => {
-        return document.querySelector('#jp-ClassicLogo')?.getAttribute('href');
+        return document.querySelector('#jp-RetroLogo')?.getAttribute('href');
       });
-      expect(href).toContain('/classic/tree');
+      expect(href).toContain('/retro/tree');
     });
   });
 

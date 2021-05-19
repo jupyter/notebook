@@ -47,8 +47,8 @@ jobs:
     - name: Install the package
       run: |
         python -m pip install .
-        jupyter labextension list 2>&1 | grep -ie "@jupyterlab-classic/lab-extension.*enabled.*ok" -
-        jupyter server extension list 2>&1 | grep -ie "jupyterlab_classic.*enabled" -
+        jupyter labextension list 2>&1 | grep -ie "@retrolab/lab-extension.*enabled.*ok" -
+        jupyter server extension list 2>&1 | grep -ie "retrolab.*enabled" -
         python -m jupyterlab.browser_check
     - name: Lint
       run: |
@@ -114,9 +114,9 @@ jobs:
         python: ['3.6', '3.9']
         include:
           - python: '3.6'
-            dist: 'jupyterlab-classic*.tar.gz'
+            dist: 'retrolab*.tar.gz'
           - python: '3.9'
-            dist: 'jupyterlab_classic*.whl'
+            dist: 'retrolab*.whl'
           - os: windows
             py_cmd: python
           - os: macos
@@ -147,11 +147,11 @@ jobs:
       - name: Validate the install
         run: |
           jupyter labextension list
-          jupyter labextension list 2>&1 | grep -ie "@jupyterlab-classic/lab-extension.*enabled.*ok" -
+          jupyter labextension list 2>&1 | grep -ie "@retrolab/lab-extension.*enabled.*ok" -
           jupyter server extension list
-          jupyter server extension list 2>&1 | grep -ie "jupyterlab_classic.*enabled" -
-          jupyter classic --version
-          jupyter classic --help
+          jupyter server extension list 2>&1 | grep -ie "retrolab.*enabled" -
+          jupyter retro --version
+          jupyter retro --help
 
   release:
     if: startsWith(github.ref, 'refs/tags/')
@@ -217,7 +217,7 @@ jobs:
         docker run --rm -v "$(pwd)":/usr/local/src/your-app \
           -e CHANGELOG_GITHUB_TOKEN=${CHANGELOG_GITHUB_TOKEN} \
           ferrarimarco/github-changelog-generator \
-          github_changelog_generator -u jtpio -p jupyterlab-classic --usernames-as-github-logins --no-issues --no-unreleased \
+          github_changelog_generator -u jtpio -p retrolab --usernames-as-github-logins --no-issues --no-unreleased \
           --since-tag ${{ steps.previous_tag.outputs.tag }} --header "" --pr-label "## Changes"
         head -n -1 CHANGELOG.md > CHANGELOG
     - name: Create Release

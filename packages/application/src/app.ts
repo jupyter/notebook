@@ -14,21 +14,21 @@ import { IRenderMime } from '@jupyterlab/rendermime-interfaces';
 
 import { Throttler } from '@lumino/polling';
 
-import { IClassicShell, ClassicShell } from './shell';
+import { IRetroShell, RetroShell } from './shell';
 
 /**
  * App is the main application class. It is instantiated once and shared.
  */
-export class App extends JupyterFrontEnd<IClassicShell> {
+export class App extends JupyterFrontEnd<IRetroShell> {
   /**
    * Construct a new App object.
    *
    * @param options The instantiation options for an application.
    */
-  constructor(options: App.IOptions = { shell: new ClassicShell() }) {
+  constructor(options: App.IOptions = { shell: new RetroShell() }) {
     super({
       ...options,
-      shell: options.shell ?? new ClassicShell()
+      shell: options.shell ?? new RetroShell()
     });
     if (options.mimeExtensions) {
       for (const plugin of createRendermimePlugins(options.mimeExtensions)) {
@@ -41,7 +41,7 @@ export class App extends JupyterFrontEnd<IClassicShell> {
   /**
    * The name of the application.
    */
-  readonly name = 'JupyterLab Classic';
+  readonly name = 'RetroLab';
 
   /**
    * A namespace/prefix plugins may use to denote their provenance.
@@ -145,11 +145,11 @@ export namespace App {
    * The instantiation options for an App application.
    */
   export interface IOptions
-    extends JupyterFrontEnd.IOptions<IClassicShell>,
+    extends JupyterFrontEnd.IOptions<IRetroShell>,
       Partial<IInfo> {}
 
   /**
-   * The information about a JupyterLab Classic application.
+   * The information about a RetroLab application.
    */
   export interface IInfo {
     /**

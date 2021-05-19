@@ -113,8 +113,8 @@ dmypy.json
 _temp_extension
 junit.xml
 [uU]ntitled*
-jupyterlab_classic/static
-jupyterlab_classic/labextension
+retrolab/static
+retrolab/labextension
 
 # playwright
 app/artifacts/videos

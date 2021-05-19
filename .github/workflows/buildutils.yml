@@ -38,7 +38,7 @@ jobs:
       run: |
         # TODO: improve this with a mock package?
         # This step is to ensure the workflow always starts with a final version
-        sed -i -E "s/VersionInfo\(.*\)/VersionInfo\(9, 8, 7, 'final', 0\)/" jupyterlab_classic/_version.py
+        sed -i -E "s/VersionInfo\(.*\)/VersionInfo\(9, 8, 7, 'final', 0\)/" retrolab/_version.py
         sed -i -E "s/current_version = .*/current_version = 9, 8, 7, 'final', 0/" .bumpversion.cfg
         jlpm run lerna version 9.8.7 --no-push --force-publish --no-git-tag-version --yes
         git commit -am "Release 9.8.7"

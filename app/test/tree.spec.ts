@@ -18,7 +18,7 @@ describe('Tree', () => {
   describe('File Browser', () => {
     it('should render a New Notebook button', async () => {
       const page = await browser.newPage();
-      await page.goto(`${BASE_URL}classic/tree`);
+      await page.goto(`${BASE_URL}retro/tree`);
 
       const button = await page.$('text="New Notebook"');
       expect(button).toBeDefined();

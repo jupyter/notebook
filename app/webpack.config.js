@@ -158,7 +158,7 @@ module.exports = [
     mode: 'development',
     entry: ['./publicpath.js', './' + path.relative(__dirname, entryPoint)],
     output: {
-      path: path.resolve(__dirname, '..', 'jupyterlab_classic/static/'),
+      path: path.resolve(__dirname, '..', 'retrolab/static/'),
       library: {
         type: 'var',
         name: ['_JUPYTERLAB', 'CORE_OUTPUT']

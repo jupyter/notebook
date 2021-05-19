@@ -14,11 +14,7 @@ import { IDocumentManager } from '@jupyterlab/docmanager';
 
 import { NotebookPanel } from '@jupyterlab/notebook';
 
-import {
-  App,
-  ClassicShell,
-  IClassicShell
-} from '@jupyterlab-classic/application';
+import { App, RetroShell, IRetroShell } from '@retrolab/application';
 
 import { Poll } from '@lumino/polling';
 
@@ -27,40 +23,40 @@ import { Widget } from '@lumino/widgets';
 /**
  * The class for kernel status errors.
  */
-const KERNEL_STATUS_ERROR_CLASS = 'jp-ClassicKernelStatus-error';
+const KERNEL_STATUS_ERROR_CLASS = 'jp-RetroKernelStatus-error';
 
 /**
  * The class for kernel status warnings.
  */
-const KERNEL_STATUS_WARN_CLASS = 'jp-ClassicKernelStatus-warn';
+const KERNEL_STATUS_WARN_CLASS = 'jp-RetroKernelStatus-warn';
 
 /**
  * The class for kernel status infos.
  */
-const KERNEL_STATUS_INFO_CLASS = 'jp-ClassicKernelStatus-info';
+const KERNEL_STATUS_INFO_CLASS = 'jp-RetroKernelStatus-info';
 
 /**
  * The class to fade out the kernel status.
  */
-const KERNEL_STATUS_FADE_OUT_CLASS = 'jp-ClassicKernelStatus-fade';
+const KERNEL_STATUS_FADE_OUT_CLASS = 'jp-RetroKernelStatus-fade';
 
 /**
  * A plugin for the checkpoint indicator
  */
 const checkpoints: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-classic/application-extension:checkpoints',
+  id: '@retrolab/application-extension:checkpoints',
   autoStart: true,
   requires: [IDocumentManager],
-  optional: [IClassicShell],
+  optional: [IRetroShell],
   activate: (
     app: JupyterFrontEnd,
     docManager: IDocumentManager,
-    classicShell: IClassicShell
+    retroShell: IRetroShell
   ) => {
     const { shell } = app;
     const widget = new Widget();
     widget.id = DOMUtils.createDomID();
-    widget.addClass('jp-ClassicCheckpoint');
+    widget.addClass('jp-RetroCheckpoint');
     app.shell.add(widget, 'top', { rank: 100 });
 
     const onChange = async () => {
@@ -83,8 +79,8 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
       )}`;
     };
 
-    if (classicShell) {
-      classicShell.currentChanged.connect(onChange);
+    if (retroShell) {
+      retroShell.currentChanged.connect(onChange);
     }
 
     new Poll({
@@ -103,10 +99,10 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
  * The kernel logo plugin.
  */
 const kernelLogo: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-classic/application-extension:kernel-logo',
+  id: '@retrolab/application-extension:kernel-logo',
   autoStart: true,
-  requires: [IClassicShell],
-  activate: (app: JupyterFrontEnd, shell: IClassicShell) => {
+  requires: [IRetroShell],
+  activate: (app: JupyterFrontEnd, shell: IRetroShell) => {
     const { serviceManager } = app;
     const baseUrl = PageConfig.getBaseUrl();
 
@@ -144,7 +140,7 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
       img.title = spec.display_name;
       node.appendChild(img);
       widget = new Widget({ node });
-      widget.addClass('jp-ClassicKernelLogo');
+      widget.addClass('jp-RetroKernelLogo');
       app.shell.add(widget, 'top', { rank: 10_010 });
     };
 
@@ -156,12 +152,12 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
  * A plugin to display the kernel status;
  */
 const kernelStatus: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-classic/application-extension:kernel-status',
+  id: '@retrolab/application-extension:kernel-status',
   autoStart: true,
-  requires: [IClassicShell],
-  activate: (app: JupyterFrontEnd, shell: IClassicShell) => {
+  requires: [IRetroShell],
+  activate: (app: JupyterFrontEnd, shell: IRetroShell) => {
     const widget = new Widget();
-    widget.addClass('jp-ClassicKernelStatus');
+    widget.addClass('jp-RetroKernelStatus');
     app.shell.add(widget, 'menu', { rank: 10_010 });
 
     const removeClasses = () => {
@@ -210,13 +206,13 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * The default paths for a JupyterLab Classic app.
+ * The default paths for a RetroLab app.
  */
 const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
-  id: '@jupyterlab-classic/application-extension:paths',
+  id: '@retrolab/application-extension:paths',
   activate: (app: JupyterFrontEnd): JupyterFrontEnd.IPaths => {
     if (!(app instanceof App)) {
-      throw new Error(`${paths.id} must be activated in JupyterLab Classic.`);
+      throw new Error(`${paths.id} must be activated in RetroLab.`);
     }
     return app.paths;
   },
@@ -225,18 +221,18 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
 };
 
 /**
- * The default JupyterLab Classic application shell.
+ * The default RetroLab application shell.
  */
-const shell: JupyterFrontEndPlugin<IClassicShell> = {
-  id: '@jupyterlab-classic/application-extension:shell',
+const shell: JupyterFrontEndPlugin<IRetroShell> = {
+  id: '@retrolab/application-extension:shell',
   activate: (app: JupyterFrontEnd) => {
-    if (!(app.shell instanceof ClassicShell)) {
-      throw new Error(`${shell.id} did not find a ClassicShell instance.`);
+    if (!(app.shell instanceof RetroShell)) {
+      throw new Error(`${shell.id} did not find a RetroShell instance.`);
     }
     return app.shell;
   },
   autoStart: true,
-  provides: IClassicShell
+  provides: IRetroShell
 };
 
 /**

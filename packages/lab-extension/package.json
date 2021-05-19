@@ -1,14 +1,14 @@
 {
-  "name": "@jupyterlab-classic/lab-extension",
+  "name": "@retrolab/lab-extension",
   "version": "0.1.10",
-  "description": "JupyterLab Classic - Lab Extension",
-  "homepage": "https://github.com/jtpio/jupyterlab-classic",
+  "description": "RetroLab - Lab Extension",
+  "homepage": "https://github.com/jtpio/retrolab",
   "bugs": {
-    "url": "https://github.com/jtpio/jupyterlab-classic/issues"
+    "url": "https://github.com/jtpio/retrolab/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jtpio/jupyterlab-classic.git"
+    "url": "https://github.com/jtpio/retrolab.git"
   },
   "license": "BSD-3-Clause",
   "author": "Project Jupyter",
@@ -38,7 +38,7 @@
     "build:prod": "jlpm run build:lib && jlpm run build:labextension",
     "clean": "jlpm run clean:lib",
     "clean:all": "jlpm run clean:lib && jlpm run clean:labextension",
-    "clean:labextension": "rimraf ../../jupyterlab_classic/labextension",
+    "clean:labextension": "rimraf ../../retrolab/labextension",
     "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
     "prepare": "jlpm run clean && jlpm run build:prod",
     "watch": "run-p watch:src watch:labextension",
@@ -46,7 +46,7 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab-classic/ui-components": "^0.1.10",
+    "@retrolab/ui-components": "^0.1.10",
     "@jupyterlab/application": "^3.0.0",
     "@jupyterlab/apputils": "^3.0.0",
     "@jupyterlab/coreutils": "^5.0.0",
@@ -66,6 +66,6 @@
   },
   "jupyterlab": {
     "extension": true,
-    "outputDir": "../../jupyterlab_classic/labextension"
+    "outputDir": "../../retrolab/labextension"
   }
 }

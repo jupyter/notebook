@@ -19,7 +19,7 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${PR_HEAD_USERREPO}/${PR_HEAD_REF}?urlpath=classic/tree) :point_left: Launch JupyterLab Classic on Binder`
+            body: `[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${PR_HEAD_USERREPO}/${PR_HEAD_REF}?urlpath=retro/tree) :point_left: Launch RetroLab on Binder`
           })
       env:
         PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}

@@ -1,15 +1,15 @@
 {
-  "name": "@jupyterlab-classic/buildutils",
+  "name": "@retrolab/buildutils",
   "version": "0.1.10",
   "private": true,
-  "description": "JupyterLab Classic - Build Utilities",
-  "homepage": "https://github.com/jtpio/jupyterlab-classic",
+  "description": "RetroLab - Build Utilities",
+  "homepage": "https://github.com/jtpio/retrolab",
   "bugs": {
-    "url": "https://github.com/jtpio/jupyterlab-classic/issues"
+    "url": "https://github.com/jtpio/retrolab/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jtpio/jupyterlab-classic.git"
+    "url": "https://github.com/jtpio/retrolab.git"
   },
   "license": "BSD-3-Clause",
   "author": "Project Jupyter",

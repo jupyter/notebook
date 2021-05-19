@@ -25,7 +25,7 @@ describe('Smoke', () => {
       const tree = await context.newPage();
 
       // Open the tree page
-      await tree.goto(`${BASE_URL}classic/tree`);
+      await tree.goto(`${BASE_URL}retro/tree`);
       await tree.click('text="Running"');
       await tree.click('text="Files"');
 

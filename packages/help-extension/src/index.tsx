@@ -10,7 +10,7 @@ import { showDialog, Dialog } from '@jupyterlab/apputils';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
-import { jupyterlabClassicIcon } from '@jupyterlab-classic/ui-components';
+import { retroIcon } from '@retrolab/ui-components';
 
 import * as React from 'react';
 
@@ -43,7 +43,7 @@ namespace CommandIDs {
  * The help plugin.
  */
 const plugin: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-classic/help-extension:plugin',
+  id: '@retrolab/help-extension:plugin',
   autoStart: true,
   optional: [IMainMenu],
   activate: (app: JupyterFrontEnd, menu: IMainMenu): void => {
@@ -61,15 +61,15 @@ const plugin: JupyterFrontEndPlugin<void> = {
       label: 'Keyboard Shortcuts',
       execute: () => {
         const title = (
-          <span className="jp-AboutClassic-about-header">
-            <div className="jp-AboutClassic-about-header-info">
+          <span className="jp-AboutRetro-about-header">
+            <div className="jp-AboutRetro-about-header-info">
               Keyboard Shortcuts
             </div>
           </span>
         );
 
         const body = (
-          <table className="jp-AboutClassic-shortcuts">
+          <table className="jp-AboutRetro-shortcuts">
             <thead>
               <tr>
                 <th>Name</th>
@@ -98,7 +98,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
             Dialog.createButton({
               label: 'Dismiss',
               className:
-                'jp-AboutClassic-about-button jp-mod-reject jp-mod-styled'
+                'jp-AboutRetro-about-button jp-mod-reject jp-mod-styled'
             })
           ]
         });
@@ -110,29 +110,28 @@ const plugin: JupyterFrontEndPlugin<void> = {
       execute: () => {
         const title = (
           <>
-            <span className="jp-AboutClassic-header">
-              <jupyterlabClassicIcon.react height="128px" width="auto" />
+            <span className="jp-AboutRetro-header">
+              <retroIcon.react height="128px" width="auto" />
             </span>
           </>
         );
 
-        const classicNotebookURL =
-          'https://github.com/jtpio/jupyterlab-classic';
+        const retroNotebookURL = 'https://github.com/jtpio/retrolab';
         const externalLinks = (
           <span>
             <a
-              href={classicNotebookURL}
+              href={retroNotebookURL}
               target="_blank"
               rel="noopener noreferrer"
-              className="jp-Button-flat jp-AboutClassic-about-externalLinks"
+              className="jp-Button-flat jp-AboutRetro-about-externalLinks"
             >
-              JUPYTERLAB CLASSIC ON GITHUB
+              RETROLAB ON GITHUB
             </a>
           </span>
         );
         const body = (
           <>
-            <span className="jp-AboutClassic-body">Version: {app.version}</span>
+            <span className="jp-AboutRetro-body">Version: {app.version}</span>
             <div>{externalLinks}</div>
           </>
         );
@@ -144,7 +143,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
             Dialog.createButton({
               label: 'Dismiss',
               className:
-                'jp-AboutClassic-about-button jp-mod-reject jp-mod-styled'
+                'jp-AboutRetro-about-button jp-mod-reject jp-mod-styled'
             })
           ]
         });

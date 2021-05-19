@@ -22,7 +22,7 @@ app_dir = get_app_dir()
 version = __version__
 
 
-class ClassicHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
+class RetroHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
     def get_page_config(self):
         config = LabConfig()
         app = self.extensionapp
@@ -34,7 +34,7 @@ class ClassicHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterH
             "terminalsAvailable": self.settings.get('terminals_available', False),
             "token": self.settings["token"],
             "fullStaticUrl": ujoin(self.base_url, "static", self.name),
-            "frontendUrl": ujoin(self.base_url, "classic/"),
+            "frontendUrl": ujoin(self.base_url, "retro/"),
         }
 
         mathjax_config = self.settings.get("mathjax_config", "TeX-AMS_HTML-full,Safe")
@@ -72,42 +72,42 @@ class ClassicHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterH
         return page_config
 
 
-class ClassicTreeHandler(ClassicHandler):
+class RetroTreeHandler(RetroHandler):
     @web.authenticated
     def get(self, path=None):
         tpl = self.render_template("tree.html", page_config=self.get_page_config())
         return self.write(tpl)
 
 
-class ClassicTerminalHandler(ClassicHandler):
+class RetroTerminalHandler(RetroHandler):
     @web.authenticated
     def get(self, path=None):
         tpl = self.render_template("terminals.html", page_config=self.get_page_config())
         return self.write(tpl)
 
 
-class ClassicFileHandler(ClassicHandler):
+class RetroFileHandler(RetroHandler):
     @web.authenticated
     def get(self, path=None):
         tpl = self.render_template("edit.html", page_config=self.get_page_config())
         return self.write(tpl)
 
 
-class ClassicNotebookHandler(ClassicHandler):
+class RetroNotebookHandler(RetroHandler):
     @web.authenticated
     def get(self, path=None):
         tpl = self.render_template("notebooks.html", page_config=self.get_page_config())
         return self.write(tpl)
 
 
-class ClassicApp(NBClassicConfigShimMixin, LabServerApp):
-    name = "classic"
-    app_name = "JupyterLab Classic"
-    description = "JupyterLab Classic - A JupyterLab Distribution with the Classic Notebook look and feel"
+class RetroApp(NBClassicConfigShimMixin, LabServerApp):
+    name = "retro"
+    app_name = "RetroLab"
+    description = "RetroLab - A JupyterLab Distribution with a retro look and feel"
     app_version = version
-    extension_url = "/classic"
-    default_url = "/classic/tree"
-    file_url_prefix = "/classic/notebooks"
+    extension_url = "/retro"
+    default_url = "/retro/tree"
+    file_url_prefix = "/retro/notebooks"
     load_other_extensions = True
     app_dir = app_dir
     app_settings_dir = pjoin(app_dir, "settings")
@@ -122,13 +122,13 @@ class ClassicApp(NBClassicConfigShimMixin, LabServerApp):
             (
                 rf"/{self.file_url_prefix}/((?!.*\.ipynb($|\?)).*)",
                 web.RedirectHandler,
-                {"url": "/classic/edit/{0}"}
+                {"url": "/retro/edit/{0}"}
             )
         )
-        self.handlers.append(("/classic/tree(.*)", ClassicTreeHandler))
-        self.handlers.append(("/classic/notebooks(.*)", ClassicNotebookHandler))
-        self.handlers.append(("/classic/edit(.*)", ClassicFileHandler))
-        self.handlers.append(("/classic/terminals/(.*)", ClassicTerminalHandler))
+        self.handlers.append(("/retro/tree(.*)", RetroTreeHandler))
+        self.handlers.append(("/retro/notebooks(.*)", RetroNotebookHandler))
+        self.handlers.append(("/retro/edit(.*)", RetroFileHandler))
+        self.handlers.append(("/retro/terminals/(.*)", RetroTerminalHandler))
         super().initialize_handlers()
 
     def initialize_templates(self):
@@ -146,7 +146,7 @@ class ClassicApp(NBClassicConfigShimMixin, LabServerApp):
         super().initialize()
 
 
-main = launch_new_instance = ClassicApp.launch_instance
+main = launch_new_instance = RetroApp.launch_instance
 
 if __name__ == "__main__":
     main()

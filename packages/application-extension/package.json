@@ -1,14 +1,14 @@
 {
-  "name": "@jupyterlab-classic/application-extension",
+  "name": "@retrolab/application-extension",
   "version": "0.1.10",
-  "description": "JupyterLab Classic - Application Extension",
-  "homepage": "https://github.com/jtpio/jupyterlab-classic",
+  "description": "RetroLab - Application Extension",
+  "homepage": "https://github.com/jtpio/retrolab",
   "bugs": {
-    "url": "https://github.com/jtpio/jupyterlab-classic/issues"
+    "url": "https://github.com/jtpio/retrolab/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jtpio/jupyterlab-classic.git"
+    "url": "https://github.com/jtpio/retrolab.git"
   },
   "license": "BSD-3-Clause",
   "author": "Project Jupyter",
@@ -39,8 +39,8 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab-classic/application": "^0.1.10",
-    "@jupyterlab-classic/ui-components": "^0.1.10",
+    "@retrolab/application": "^0.1.10",
+    "@retrolab/ui-components": "^0.1.10",
     "@jupyterlab/application": "^3.0.0",
     "@jupyterlab/apputils": "^3.0.0",
     "@jupyterlab/celltags": "^3.0.0",

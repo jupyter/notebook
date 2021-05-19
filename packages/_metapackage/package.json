@@ -1,18 +1,18 @@
 {
-  "name": "@jupyterlab-classic/metapackage",
+  "name": "@retrolab/metapackage",
   "private": true,
   "version": "0.1.0",
-  "description": "JupyterLab Classic - Metapackage",
-  "homepage": "https://github.com/jtpio/jupyterlab-classic",
+  "description": "RetroLab - Metapackage",
+  "homepage": "https://github.com/jtpio/retrolab",
   "bugs": {
-    "url": "https://github.com/jtpio/jupyterlab-classic/issues"
+    "url": "https://github.com/jtpio/retrolab/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jtpio/jupyterlab-classic.git"
+    "url": "https://github.com/jtpio/retrolab.git"
   },
   "license": "BSD-3-Clause",
-  "author": "JupyterLab Classic Contributors",
+  "author": "RetroLab Contributors",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -20,15 +20,15 @@
     "watch": "tsc -b -w --preserveWatchOutput"
   },
   "dependencies": {
-    "@jupyterlab-classic/application": "file:../application",
-    "@jupyterlab-classic/application-extension": "file:../application-extension",
-    "@jupyterlab-classic/docmanager-extension": "file:../docmanager-extension",
-    "@jupyterlab-classic/help-extension": "file:../help-extension",
-    "@jupyterlab-classic/lab-extension": "file:../lab-extension",
-    "@jupyterlab-classic/notebook-extension": "file:../notebook-extension",
-    "@jupyterlab-classic/terminal-extension": "file:../terminal-extension",
-    "@jupyterlab-classic/tree-extension": "file:../tree-extension",
-    "@jupyterlab-classic/ui-components": "file:../ui-components"
+    "@retrolab/application": "file:../application",
+    "@retrolab/application-extension": "file:../application-extension",
+    "@retrolab/docmanager-extension": "file:../docmanager-extension",
+    "@retrolab/help-extension": "file:../help-extension",
+    "@retrolab/lab-extension": "file:../lab-extension",
+    "@retrolab/notebook-extension": "file:../notebook-extension",
+    "@retrolab/terminal-extension": "file:../terminal-extension",
+    "@retrolab/tree-extension": "file:../tree-extension",
+    "@retrolab/ui-components": "file:../ui-components"
   },
   "devDependencies": {
     "typescript": "~4.1.3"

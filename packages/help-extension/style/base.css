@@ -1,15 +1,15 @@
-.jp-AboutClassic-header {
+.jp-AboutRetro-header {
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: var(--jp-flat-button-padding);
 }
 
-.jp-AboutClassic-header-text {
+.jp-AboutRetro-header-text {
   margin-left: 16px;
 }
 
-.jp-AboutClassic-body {
+.jp-AboutRetro-body {
   display: flex;
   font-size: var(--jp-ui-font-size2);
   padding: var(--jp-flat-button-padding);
@@ -20,11 +20,11 @@
   overflow: hidden;
 }
 
-.jp-AboutClassic-about-body pre {
+.jp-AboutRetro-about-body pre {
   white-space: pre-wrap;
 }
 
-.jp-AboutClassic-about-externalLinks {
+.jp-AboutRetro-about-externalLinks {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -33,11 +33,11 @@
   color: var(--jp-warn-color0);
 }
 
-.jp-AboutClassic-shortcuts {
+.jp-AboutRetro-shortcuts {
   padding: 10px;
 }
 
-.jp-AboutClassic-shortcuts pre {
+.jp-AboutRetro-shortcuts pre {
   padding: 5px;
   margin: 0 0 10px;
   background: var(--jp-layout-color2);

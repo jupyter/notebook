@@ -4,7 +4,7 @@
 | Distributed under the terms of the Modified BSD License.
 |----------------------------------------------------------------------------*/
 
-.jp-ClassicKernelLogo {
+.jp-RetroKernelLogo {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
@@ -12,13 +12,13 @@
   margin-right: 8px;
 }
 
-.jp-ClassicKernelLogo img {
+.jp-RetroKernelLogo img {
   max-width: 28px;
   max-height: 28px;
   display: flex;
 }
 
-.jp-ClassicKernelStatus {
+.jp-RetroKernelStatus {
   font-size: var(--jp-ui-font-size1);
   margin: 0;
   font-weight: normal;
@@ -29,19 +29,19 @@
   padding-right: 5px;
 }
 
-.jp-ClassicKernelStatus-error {
+.jp-RetroKernelStatus-error {
   background-color: var(--jp-error-color0);
 }
 
-.jp-ClassicKernelStatus-warn {
+.jp-RetroKernelStatus-warn {
   background-color: var(--jp-warn-color0);
 }
 
-.jp-ClassicKernelStatus-info {
+.jp-RetroKernelStatus-info {
   background-color: var(--jp-info-color0);
 }
 
-.jp-ClassicKernelStatus-fade {
+.jp-RetroKernelStatus-fade {
   animation: 0.5s fade-out forwards;
 }
 
@@ -71,7 +71,7 @@
   background: var(--jp-layout-color2);
 }
 
-.jp-ClassicCheckpoint {
+.jp-RetroCheckpoint {
   font-size: 14px;
   margin-left: 5px;
   margin-right: 5px;
@@ -86,7 +86,7 @@
 
 /* Mobile View */
 
-body[data-format='mobile'] .jp-ClassicCheckpoint {
+body[data-format='mobile'] .jp-RetroCheckpoint {
   display: none;
 }
 

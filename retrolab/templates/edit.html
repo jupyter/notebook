@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{page_config['appName'] | e}} - Terminal</title>
+  <title>{{page_config['appName'] | e}} - Edit</title>
   {% block favicon %}
-  <link rel="icon" type="image/x-icon" href="{{ base_url | escape }}static/favicons/favicon-terminal.ico" class="favicon">
+  <link rel="icon" type="image/x-icon" href="{{ base_url | escape }}static/favicons/favicon-file.ico" class="favicon">
   {% endblock %}
 </head>
 <body>
@@ -17,7 +17,7 @@
   {% set _ = page_config_full.update(baseUrl=base_url, wsUrl=ws_url) %}
 
   {# Sentinel value to say that we are on the tree page #}
-  {% set _ = page_config_full.update(classicPage='terminals') %}
+  {% set _ = page_config_full.update(retroPage='edit') %}
 
   <script id="jupyter-config-data" type="application/json">
     {{ page_config_full | tojson }}

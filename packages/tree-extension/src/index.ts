@@ -125,7 +125,7 @@ namespace CommandIDs {
  * new notebooks, files and terminals.
  */
 const newFiles: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-classic/tree-extension:buttons',
+  id: '@retrolab/tree-extension:buttons',
   requires: [IFileBrowserFactory],
   autoStart: true,
   activate: (app: JupyterFrontEnd, filebrowser: IFileBrowserFactory) => {
@@ -161,7 +161,7 @@ const newFiles: JupyterFrontEndPlugin<void> = {
  * Plugin to add a "New Terminal" button to the file browser toolbar.
  */
 const newTerminal: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-classic/tree-extension:new-terminal',
+  id: '@retrolab/tree-extension:new-terminal',
   requires: [IFileBrowserFactory],
   autoStart: true,
   activate: (app: JupyterFrontEnd, filebrowser: IFileBrowserFactory) => {
@@ -191,7 +191,7 @@ const newTerminal: JupyterFrontEndPlugin<void> = {
  */
 const browser: JupyterFrontEndPlugin<void> = {
   activate: activateBrowser,
-  id: '@jupyterlab-classic/tree-extension:browser',
+  id: '@retrolab/tree-extension:browser',
   requires: [
     IFileBrowserFactory,
     IDocumentManager,
@@ -215,7 +215,7 @@ const browser: JupyterFrontEndPlugin<void> = {
  */
 const factory: JupyterFrontEndPlugin<IFileBrowserFactory> = {
   activate: activateFactory,
-  id: '@jupyterlab-classic/tree-extension:factory',
+  id: '@retrolab/tree-extension:factory',
   provides: IFileBrowserFactory,
   requires: [IDocumentManager, ITranslator],
   optional: [IStateDB, IRouter, JupyterFrontEnd.ITreeResolver]

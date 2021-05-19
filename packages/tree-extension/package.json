@@ -1,14 +1,14 @@
 {
-  "name": "@jupyterlab-classic/tree-extension",
+  "name": "@retrolab/tree-extension",
   "version": "0.1.10",
-  "description": "JupyterLab Classic - Tree Extension",
-  "homepage": "https://github.com/jtpio/jupyterlab-classic",
+  "description": "RetroLab - Tree Extension",
+  "homepage": "https://github.com/jtpio/retrolab",
   "bugs": {
-    "url": "https://github.com/jtpio/jupyterlab-classic/issues"
+    "url": "https://github.com/jtpio/retrolab/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jtpio/jupyterlab-classic.git"
+    "url": "https://github.com/jtpio/retrolab.git"
   },
   "license": "BSD-3-Clause",
   "author": "Project Jupyter",
@@ -39,7 +39,7 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab-classic/application": "^0.1.10",
+    "@retrolab/application": "^0.1.10",
     "@jupyterlab/application": "^3.0.0",
     "@jupyterlab/apputils": "^3.0.0",
     "@jupyterlab/coreutils": "^5.0.0",

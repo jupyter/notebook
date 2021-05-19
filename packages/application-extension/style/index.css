@@ -1,4 +1,4 @@
-@import url('~@jupyterlab-classic/application/style/index.css');
+@import url('~@retrolab/application/style/index.css');
 @import url('~@lumino/widgets/style/index.css');
 
 @import url('./base.css');

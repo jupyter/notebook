@@ -1,4 +1,4 @@
-name: jupyterlab-classic
+name: retrolab
 channels:
 - conda-forge
 dependencies:

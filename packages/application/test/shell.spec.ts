@@ -1,7 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import { ClassicShell, IClassicShell } from '@jupyterlab-classic/application';
+import { RetroShell, IRetroShell } from '@retrolab/application';
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
 
@@ -10,10 +10,10 @@ import { toArray } from '@lumino/algorithm';
 import { Widget } from '@lumino/widgets';
 
 describe('Shell', () => {
-  let shell: IClassicShell;
+  let shell: IRetroShell;
 
   beforeEach(() => {
-    shell = new ClassicShell();
+    shell = new RetroShell();
     Widget.attach(shell, document.body);
   });
 
@@ -23,7 +23,7 @@ describe('Shell', () => {
 
   describe('#constructor()', () => {
     it('should create a LabShell instance', () => {
-      expect(shell).toBeInstanceOf(ClassicShell);
+      expect(shell).toBeInstanceOf(RetroShell);
     });
   });
 

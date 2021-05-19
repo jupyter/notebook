@@ -17,7 +17,7 @@ import { find } from '@lumino/algorithm';
  * A plugin to open terminals in a new tab
  */
 const opener: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-classic/terminal-extension:opener',
+  id: '@retrolab/terminal-extension:opener',
   requires: [IRouter],
   autoStart: true,
   activate: (app: JupyterFrontEnd, router: IRouter) => {
@@ -49,7 +49,7 @@ const opener: JupyterFrontEndPlugin<void> = {
  * Open terminals in a new tab.
  */
 const redirect: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-classic/terminal-extension:redirect',
+  id: '@retrolab/terminal-extension:redirect',
   requires: [ITerminalTracker],
   autoStart: true,
   activate: (app: JupyterFrontEnd, tracker: ITerminalTracker) => {
@@ -61,7 +61,7 @@ const redirect: JupyterFrontEndPlugin<void> = {
         return;
       }
       const name = terminal.content.session.name;
-      window.open(`${baseUrl}classic/terminals/${name}`, '_blank');
+      window.open(`${baseUrl}retro/terminals/${name}`, '_blank');
 
       // dispose the widget since it is not used on this page
       terminal.dispose();

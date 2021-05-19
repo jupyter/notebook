@@ -15,7 +15,7 @@
 .jp-TreePanel .lm-TabBar-tab {
   color: var(--jp-ui-font-color0);
   font-size: var(--jp-ui-font-size1);
-  padding: 8px;
+  padding: 6px;
 }
 
 .jp-TreePanel .lm-TabBar-tabLabel {
