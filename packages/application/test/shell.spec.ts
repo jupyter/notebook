@@ -45,15 +45,15 @@ describe('Shell', () => {
 
   describe('#currentWidget', () => {
     it('should be the current widget in the shell main area', () => {
-      expect(shell.currentWidget).toBe(undefined);
+      expect(shell.currentWidget).toBe(null);
       const widget = new Widget();
       widget.node.tabIndex = -1;
       widget.id = 'foo';
-      expect(shell.currentWidget).toBe(undefined);
+      expect(shell.currentWidget).toBe(null);
       shell.add(widget, 'main');
       expect(shell.currentWidget).toBe(widget);
       widget.parent = null;
-      expect(shell.currentWidget).toBe(undefined);
+      expect(shell.currentWidget).toBe(null);
     });
   });
 

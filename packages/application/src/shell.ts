@@ -85,8 +85,8 @@ export class RetroShell extends Widget implements JupyterFrontEnd.IShell {
   /**
    * The current widget in the shell's main area.
    */
-  get currentWidget(): Widget {
-    return this._main.widgets[0];
+  get currentWidget(): Widget | null {
+    return this._main.widgets[0] ?? null;
   }
 
   /**
