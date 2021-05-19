@@ -1,6 +1,6 @@
 {
   "name": "@retrolab/application-extension",
-  "version": "0.2.0-rc.1",
+  "version": "0.2.0-rc.2",
   "description": "RetroLab - Application Extension",
   "homepage": "https://github.com/jtpio/retrolab",
   "bugs": {
@@ -51,8 +51,8 @@
     "@jupyterlab/settingregistry": "^3.0.0",
     "@jupyterlab/translation": "^3.0.0",
     "@lumino/widgets": "^1.14.0",
-    "@retrolab/application": "^0.2.0-rc.1",
-    "@retrolab/ui-components": "^0.2.0-rc.1"
+    "@retrolab/application": "^0.2.0-rc.2",
+    "@retrolab/ui-components": "^0.2.0-rc.2"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",

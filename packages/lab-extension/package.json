@@ -1,6 +1,6 @@
 {
   "name": "@retrolab/lab-extension",
-  "version": "0.2.0-rc.1",
+  "version": "0.2.0-rc.2",
   "description": "RetroLab - Lab Extension",
   "homepage": "https://github.com/jtpio/retrolab",
   "bugs": {
@@ -54,7 +54,7 @@
     "@jupyterlab/notebook": "^3.0.0",
     "@lumino/commands": "^1.11.4",
     "@lumino/disposable": "^1.4.3",
-    "@retrolab/ui-components": "^0.2.0-rc.1"
+    "@retrolab/ui-components": "^0.2.0-rc.2"
   },
   "devDependencies": {
     "@jupyterlab/builder": "^3.0.0",
