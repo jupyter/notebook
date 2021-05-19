@@ -195,6 +195,8 @@ jobs:
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
+        # do not publish the metapackage
+        rm pkgs/retrolab-metapackage*
         jlpm config set registry https://registry.npmjs.org
         npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
         echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
