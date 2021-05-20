@@ -1,6 +1,7 @@
 import os
 from os.path import join as pjoin
 
+from jupyter_core.application import base_aliases, base_flags
 from jupyter_server.base.handlers import JupyterHandler
 from jupyter_server.extension.handler import (
     ExtensionHandlerMixin,
@@ -13,6 +14,7 @@ from jupyterlab_server.config import get_page_config, recursive_update, LabConfi
 from jupyterlab_server.handlers import is_url, _camelCase
 from nbclassic.shim import NBClassicConfigShimMixin
 from tornado import web
+from traitlets import Bool
 
 from ._version import __version__
 
@@ -35,6 +37,7 @@ class RetroHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHan
             "token": self.settings["token"],
             "fullStaticUrl": ujoin(self.base_url, "static", self.name),
             "frontendUrl": ujoin(self.base_url, "retro/"),
+            "collaborative": app.collaborative,
         }
 
         mathjax_config = self.settings.get("mathjax_config", "TeX-AMS_HTML-full,Safe")
@@ -116,6 +119,16 @@ class RetroApp(NBClassicConfigShimMixin, LabServerApp):
     user_settings_dir = get_user_settings_dir()
     workspaces_dir = get_workspaces_dir()
     subcommands = {}
+    collaborative = Bool(
+        False, config=True, help="Whether to enable collaborative mode."
+    )
+
+    aliases = dict(base_aliases)
+    flags = dict(base_flags)
+    flags["collaborative"] = (
+        {"RetroApp": {"collaborative": True}},
+        "Whether to enable collaborative mode.",
+    )
 
     def initialize_handlers(self):
         self.handlers.append(

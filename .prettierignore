@@ -3,4 +3,5 @@ node_modules
 **/lib
 **/package.json
 **/static
+**/labextension
 build

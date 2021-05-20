@@ -34,12 +34,12 @@
     "release:patch": "node ./buildutils/lib/release-patch.js",
     "start": "jupyter retro --config ./app/test/jupyter_server_config.py --no-browser",
     "test": "lerna run test",
-    "test:e2e": "lerna run test:e2e --stream",
     "test:ci": "(jlpm run start&) && jlpm run test:e2e",
+    "test:e2e": "lerna run test:e2e --stream",
     "update:dependency": "node ./node_modules/@jupyterlab/buildutils/lib/update-dependency.js --lerna",
     "watch": "run-p watch:lib watch:app",
-    "watch:lib": "lerna exec --stream --scope @retrolab/metapackage jlpm watch",
-    "watch:app": "lerna exec --stream --scope \"@retrolab/app\" jlpm watch"
+    "watch:app": "lerna exec --stream --scope \"@retrolab/app\" jlpm watch",
+    "watch:lib": "lerna exec --stream --scope @retrolab/metapackage jlpm watch"
   },
   "husky": {
     "hooks": {
@@ -47,7 +47,7 @@
     }
   },
   "devDependencies": {
-    "@jupyterlab/buildutils": "^3.0.0",
+    "@jupyterlab/buildutils": "^3.1.0-alpha.8",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
     "eslint": "^7.10.0",

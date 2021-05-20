@@ -19,7 +19,6 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "style": "style/index.css",
-  "styleModule": "style/index.js",
   "directories": {
     "lib": "lib/"
   },
@@ -43,14 +42,14 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/ui-components": "^3.0.0",
+    "@jupyterlab/ui-components": "^3.1.0-alpha.8",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
-    "@jupyterlab/testutils": "^3.0.0",
+    "@jupyterlab/testutils": "^3.1.0-alpha.8",
     "@types/jest": "^26.0.10",
     "babel-loader": "^8.0.6",
     "jest": "^26.4.2",
@@ -63,5 +62,6 @@
   },
   "jupyterlab": {
     "coreDependency": true
-  }
+  },
+  "styleModule": "style/index.js"
 }

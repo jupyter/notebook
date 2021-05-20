@@ -19,7 +19,6 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "style": "style/index.css",
-  "styleModule": "style/index.js",
   "directories": {
     "lib": "lib/"
   },
@@ -46,18 +45,18 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^3.0.0",
-    "@jupyterlab/apputils": "^3.0.0",
-    "@jupyterlab/coreutils": "^5.0.0",
-    "@jupyterlab/docregistry": "^3.0.0",
-    "@jupyterlab/mainmenu": "^3.0.0",
-    "@jupyterlab/notebook": "^3.0.0",
-    "@lumino/commands": "^1.11.4",
-    "@lumino/disposable": "^1.4.3",
+    "@jupyterlab/application": "^3.1.0-alpha.8",
+    "@jupyterlab/apputils": "^3.1.0-alpha.8",
+    "@jupyterlab/coreutils": "^5.1.0-alpha.8",
+    "@jupyterlab/docregistry": "^3.1.0-alpha.8",
+    "@jupyterlab/mainmenu": "^3.1.0-alpha.8",
+    "@jupyterlab/notebook": "^3.1.0-alpha.8",
+    "@lumino/commands": "^1.15.0",
+    "@lumino/disposable": "^1.7.0",
     "@retrolab/ui-components": "^0.2.0"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^3.0.0",
+    "@jupyterlab/builder": "^3.1.0-alpha.8",
     "rimraf": "~3.0.0",
     "typescript": "~4.1.3"
   },
@@ -67,5 +66,6 @@
   "jupyterlab": {
     "extension": true,
     "outputDir": "../../retrolab/labextension"
-  }
+  },
+  "styleModule": "style/index.js"
 }

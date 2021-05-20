@@ -4,7 +4,7 @@ channels:
 dependencies:
 - ipywidgets=7.6
 - jupyterlab=3
-- jupyterlab-python-file
+- jupyterlab-link-share>=0.2
 - matplotlib
 - numpy
 - nodejs
