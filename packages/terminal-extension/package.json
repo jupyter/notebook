@@ -1,6 +1,6 @@
 {
   "name": "@retrolab/terminal-extension",
-  "version": "0.2.0",
+  "version": "0.3.0-alpha.0",
   "description": "RetroLab - Terminal Extension",
   "homepage": "https://github.com/jtpio/retrolab",
   "bugs": {
