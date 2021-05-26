@@ -1,4 +1,10 @@
-![retrolab-logo](./retrolab.png)
+<h1 align="center">
+  <img
+      alt="RetroLab"
+      src="./logo.png"
+      width="256"
+    />
+</h1>
 
 ![Github Actions Status](https://github.com/jtpio/retrolab/workflows/Build/badge.svg)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gist/jtpio/77c82c512f6779a1a05ab59d915dfc36/master?urlpath=/retro/notebooks/tour.ipynb)
@@ -67,6 +73,19 @@ Should also be available when starting `retrolab`.
 Support for existing JupyterLab themes!
 
 ![themes](https://user-images.githubusercontent.com/591645/101953333-75d9c180-3bfa-11eb-868f-af54d1ea7091.gif)
+
+For an even more retro look, you might want to start `retrolab` with the `--retro-logo` CLI flag:
+
+```bash
+jupyter retro --retro-logo
+
+# or
+# jupyter retro --RetroApp.retro_logo=True
+```
+
+Example with the [JupyterLab Miami Nights Theme](https://github.com/timkpaine/jupyterlab_miami_nights) installed as a prebuilt extension:
+
+![image](https://user-images.githubusercontent.com/591645/119634905-77e3b580-be13-11eb-9c4c-d187ebea9df8.png)
 
 ### Zen Mode 😌
 

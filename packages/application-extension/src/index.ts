@@ -27,7 +27,7 @@ import { ITranslator, TranslationManager } from '@jupyterlab/translation';
 
 import { RetroApp, RetroShell, IRetroShell } from '@retrolab/application';
 
-import { jupyterIcon } from '@retrolab/ui-components';
+import { jupyterIcon, retroInlineIcon } from '@retrolab/ui-components';
 
 import { Widget } from '@lumino/widgets';
 
@@ -84,7 +84,10 @@ const logo: JupyterFrontEndPlugin<void> = {
     node.target = '_blank';
     node.rel = 'noopener noreferrer';
     const logo = new Widget({ node });
-    jupyterIcon.element({
+
+    const retroLogo = PageConfig.getOption('retroLogo') === 'true';
+    const icon = retroLogo ? retroInlineIcon : jupyterIcon;
+    icon.element({
       container: node,
       elementPosition: 'center',
       padding: '2px 2px 2px 8px',

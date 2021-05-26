@@ -1,4 +1,4 @@
-<svg width="2048" height="2048" version="1.1" viewBox="0 0 541.87 541.87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="4240.5" height="879.73" version="1.1" viewBox="0 0 1122 232.76" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
  <defs>
   <linearGradient id="linearGradient11104-2" x1="-276.78" x2="-276.78" y1="181.02" y2="208.49" gradientTransform="matrix(2.3947 0 0 2.3947 444.54 -117.45)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient4992"/>
   <linearGradient id="linearGradient4992">
@@ -14,17 +14,17 @@
   <linearGradient id="linearGradient22602" x1="-33.991" x2="-25.952" y1="344.73" y2="362.6" gradientTransform="matrix(.49643 0 0 .49643 -126.98 -208.56)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient19205"/>
   <linearGradient id="linearGradient22604" x1="-33.991" x2="-25.952" y1="344.73" y2="362.6" gradientTransform="matrix(.64523 0 0 .64523 -113.31 -194.34)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient19205"/>
  </defs>
- <g transform="translate(436.78 15.802)">
+ <g transform="translate(838.25 -264.07)">
   <g transform="translate(0 44.183)">
-   <g transform="matrix(2.1489 0 0 2.1489 4.8812 178.2)" stroke-width=".73932">
-    <path transform="matrix(.12312 0 0 .12312 -205.52 -110.84)" d="m995.89 373.2a434.86 434.86 0 0 0-434.86 434.86 434.86 434.86 0 0 0 0.48047 20.422h868.77a434.86 434.86 0 0 0 0.4805-20.422 434.86 434.86 0 0 0-434.86-434.86zm-426.51 519.71a434.86 434.86 0 0 0 8.8066 36.123h835.4a434.86 434.86 0 0 0 8.8066-36.123h-853.01zm33.141 100.54a434.86 434.86 0 0 0 17.799 33.828h751.13a434.86 434.86 0 0 0 17.801-33.828h-786.73zm45.984 76.205a434.86 434.86 0 0 0 26.217 31.594h642.33a434.86 434.86 0 0 0 26.219-31.594h-694.77zm69.4 72.82a434.86 434.86 0 0 0 34.543 25.926h486.88a434.86 434.86 0 0 0 34.545-25.926h-555.96zm124.95 72.633a434.86 434.86 0 0 0 153.04 27.82 434.86 434.86 0 0 0 153.04-27.82h-306.08z" fill="url(#linearGradient22598)" style="mix-blend-mode:normal"/>
+   <g transform="matrix(2.1489 0 0 2.1489 -512.88 360.65)" stroke-width=".73932">
+    <path transform="matrix(.12312 0 0 .12312 -205.52 -110.84)" d="m995.89 373.2a434.86 434.86 0 0 0-434.86 434.86 434.86 434.86 0 0 0 0.48047 20.422h868.77a434.86 434.86 0 0 0 0.4805-20.422 434.86 434.86 0 0 0-434.86-434.86zm-426.51 519.71a434.86 434.86 0 0 0 8.8066 36.123h835.4a434.86 434.86 0 0 0 8.8066-36.123zm33.141 100.54a434.86 434.86 0 0 0 17.799 33.828h751.13a434.86 434.86 0 0 0 17.801-33.828zm45.984 76.205a434.86 434.86 0 0 0 26.217 31.594h642.33a434.86 434.86 0 0 0 26.219-31.594zm69.4 72.82a434.86 434.86 0 0 0 34.543 25.926h486.88a434.86 434.86 0 0 0 34.545-25.926zm124.95 72.633a434.86 434.86 0 0 0 153.04 27.82 434.86 434.86 0 0 0 153.04-27.82z" fill="url(#linearGradient22598)" style="mix-blend-mode:normal"/>
     <g>
      <circle cx="-17.476" cy="-50.398" r="11.615" fill="url(#linearGradient22600)" style="mix-blend-mode:normal"/>
      <circle cx="-145.03" cy="-34.367" r="5.7663" fill="url(#linearGradient22602)" style="mix-blend-mode:normal"/>
      <circle cx="-136.77" cy="32.057" r="7.4946" fill="url(#linearGradient22604)" style="mix-blend-mode:normal"/>
     </g>
    </g>
-   <g fill="url(#linearGradient11104-2)" stroke-width=".2858" aria-label="RETROLAB">
+   <g transform="matrix(1.5533 0 0 1.5533 132.2 -206.08)" fill="url(#linearGradient11104-2)" stroke-width=".2858" aria-label="RETROLAB">
     <path d="m-397.29 345.41q5.7466 0 8.6857-2.6759 2.983-2.6759 2.983-7.8522 0-3.2462-2.0618-4.7376-2.0179-1.5354-6.4046-1.5354h-6.9749l-3.3339 16.801zm-9.3437 11.669-4.8692 24.785h-16.889l12.765-65.494h24.96q10.791 0 16.362 4.0358 5.5711 4.0358 5.5711 11.888 0 7.9399-4.3867 13.072-4.3867 5.1324-11.888 5.8782 3.4216 0.70187 5.7027 3.5094 2.2811 2.7636 3.9919 8.5102l5.5711 18.6h-16.801l-4.9131-16.275q-1.4915-4.8692-3.641-6.6678-2.1056-1.8424-6.1414-1.8424z"/>
     <path d="m-346.45 316.37h45.534l-2.5004 12.765h-28.645l-2.3688 12.195h26.978l-2.5443 12.765h-26.934l-2.8952 15.003h29.566l-2.4127 12.765h-46.543z"/>
     <path d="m-292.89 316.37h60.361l-2.5004 12.765h-21.758l-10.265 52.728h-16.889l10.265-52.728h-21.758z"/>

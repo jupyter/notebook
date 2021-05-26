@@ -1,0 +1,25 @@
+<svg width="2048" height="1935.1" version="1.1" viewBox="0 0 541.87 512" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient22598" x1="-143.43" x2="-143.43" y1="645.46" y2="751.2" gradientTransform="matrix(8.122 0 0 8.122 2145 -4828.8)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#faf327" offset="0"/>
+   <stop stop-color="#fa2c8d" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient22600" x1="-33.991" x2="-25.952" y1="344.73" y2="362.6" gradientTransform="translate(18.881 -401.29)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient19205"/>
+  <linearGradient id="linearGradient19205">
+   <stop stop-color="#f95" offset="0"/>
+   <stop stop-color="#fff" stop-opacity="0" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient22602" x1="-33.991" x2="-25.952" y1="344.73" y2="362.6" gradientTransform="matrix(.49643 0 0 .49643 -126.98 -208.56)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient19205"/>
+  <linearGradient id="linearGradient22604" x1="-33.991" x2="-25.952" y1="344.73" y2="362.6" gradientTransform="matrix(.64523 0 0 .64523 -113.31 -194.34)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient19205"/>
+ </defs>
+ <g transform="translate(164.04 182.34)">
+  <g transform="matrix(3.5327 0 0 3.5327 383.6 103.21)" stroke-width=".73932">
+   <path transform="matrix(.12312 0 0 .12312 -205.52 -110.84)" d="m995.89 373.2a434.86 434.86 0 0 0-434.86 434.86 434.86 434.86 0 0 0 0.48047 20.422h868.77a434.86 434.86 0 0 0 0.4805-20.422 434.86 434.86 0 0 0-434.86-434.86zm-426.51 519.71a434.86 434.86 0 0 0 8.8066 36.123h835.4a434.86 434.86 0 0 0 8.8066-36.123zm33.141 100.54a434.86 434.86 0 0 0 17.799 33.828h751.13a434.86 434.86 0 0 0 17.801-33.828zm45.984 76.205a434.86 434.86 0 0 0 26.217 31.594h642.33a434.86 434.86 0 0 0 26.219-31.594zm69.4 72.82a434.86 434.86 0 0 0 34.543 25.926h486.88a434.86 434.86 0 0 0 34.545-25.926zm124.95 72.633a434.86 434.86 0 0 0 153.04 27.82 434.86 434.86 0 0 0 153.04-27.82z" fill="url(#linearGradient22598)" style="mix-blend-mode:normal"/>
+   <g>
+    <circle cx="-17.476" cy="-50.398" r="11.615" fill="url(#linearGradient22600)" style="mix-blend-mode:normal"/>
+    <circle cx="-145.03" cy="-34.367" r="5.7663" fill="url(#linearGradient22602)" style="mix-blend-mode:normal"/>
+    <circle cx="-136.77" cy="32.057" r="7.4946" fill="url(#linearGradient22604)" style="mix-blend-mode:normal"/>
+   </g>
+  </g>
+ </g>
+</svg>
