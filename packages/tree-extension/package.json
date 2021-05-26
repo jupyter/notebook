@@ -2,13 +2,13 @@
   "name": "@retrolab/tree-extension",
   "version": "0.3.0-alpha.1",
   "description": "RetroLab - Tree Extension",
-  "homepage": "https://github.com/jtpio/retrolab",
+  "homepage": "https://github.com/jupyterlab/retrolab",
   "bugs": {
-    "url": "https://github.com/jtpio/retrolab/issues"
+    "url": "https://github.com/jupyterlab/retrolab/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jtpio/retrolab.git"
+    "url": "https://github.com/jupyterlab/retrolab.git"
   },
   "license": "BSD-3-Clause",
   "author": "Project Jupyter",

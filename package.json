@@ -1,15 +1,15 @@
 {
   "private": true,
-  "homepage": "https://github.com/jtpio/retrolab",
+  "homepage": "https://github.com/jupyterlab/retrolab",
   "bugs": {
-    "url": "https://github.com/jtpio/retrolab/issues"
+    "url": "https://github.com/jupyterlab/retrolab/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jtpio/retrolab"
+    "url": "https://github.com/jupyterlab/retrolab"
   },
   "license": "BSD-3-Clause",
-  "author": "RetroLab Contributors",
+  "author": "Project Jupyter",
   "workspaces": {
     "packages": [
       "app",
