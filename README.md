@@ -1,4 +1,10 @@
-![retrolab-logo](./logo.png)
+<h1 align="center">
+  <img
+      alt="RetroLab"
+      src="./logo.png"
+      width="256"
+    />
+</h1>
 
 ![Github Actions Status](https://github.com/jtpio/retrolab/workflows/Build/badge.svg)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gist/jtpio/77c82c512f6779a1a05ab59d915dfc36/master?urlpath=/retro/notebooks/tour.ipynb)
