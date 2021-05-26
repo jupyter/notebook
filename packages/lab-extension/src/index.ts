@@ -21,7 +21,7 @@ import {
   NotebookPanel
 } from '@jupyterlab/notebook';
 
-import { jupyterIcon } from '@jupyterlab/ui-components';
+import { retroSunIcon } from '@retrolab/ui-components';
 
 import { CommandRegistry } from '@lumino/commands';
 
@@ -56,7 +56,7 @@ class RetroButton
   createNew(panel: NotebookPanel): IDisposable {
     const button = new ToolbarButton({
       tooltip: 'Open with RetroLab',
-      icon: jupyterIcon,
+      icon: retroSunIcon,
       onClick: () => {
         this._commands.execute(CommandIDs.openRetro);
       }
