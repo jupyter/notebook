@@ -111,7 +111,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
         const title = (
           <>
             <span className="jp-AboutRetro-header">
-              <retroIcon.react height="128px" width="auto" />
+              <retroIcon.react height="256px" width="auto" />
             </span>
           </>
         );
@@ -136,7 +136,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
           </>
         );
 
-        return showDialog({
+        const dialog = new Dialog({
           title,
           body,
           buttons: [
@@ -147,6 +147,8 @@ const plugin: JupyterFrontEndPlugin<void> = {
             })
           ]
         });
+        dialog.addClass('jp-AboutRetro');
+        void dialog.launch();
       }
     });
 

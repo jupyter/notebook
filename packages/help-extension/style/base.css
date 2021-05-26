@@ -1,3 +1,7 @@
+.jp-AboutRetro .jp-Dialog-header {
+  justify-content: center;
+}
+
 .jp-AboutRetro-header {
   display: flex;
   flex-direction: row;
