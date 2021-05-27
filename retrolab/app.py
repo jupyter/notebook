@@ -77,6 +77,12 @@ class RetroHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHan
         return page_config
 
 
+class RetroRedirectHandler(RetroHandler):
+    @web.authenticated
+    def get(self):
+        return self.redirect(self.base_url+'retro/tree')
+
+
 class RetroTreeHandler(RetroHandler):
     @web.authenticated
     def get(self, path=None):
@@ -152,6 +158,7 @@ class RetroApp(NBClassicConfigShimMixin, LabServerApp):
                 {"url": "/retro/edit/{0}"},
             )
         )
+        self.handlers.append(("/retro/?", RetroRedirectHandler))
         self.handlers.append(("/retro/tree(.*)", RetroTreeHandler))
         self.handlers.append(("/retro/notebooks(.*)", RetroNotebookHandler))
         self.handlers.append(("/retro/edit(.*)", RetroFileHandler))

@@ -52,6 +52,20 @@ jupyter labextension list
 
 Should also be available when starting `retrolab`.
 
+### Launching
+
+From an open notebook:
+
+1. Click the RetroLab button in the toolbar; or
+2. View > Open in RetroLab from the menu
+
+To access the main RetroLab tree (file browser):
+
+1. Help > Launch RetroLab File Browser from the menu; or
+2. Go to the /retro URL path of your Jupyter site
+
+## Tour
+
 ### Files 📂 and Running Sessions 🏃‍♀️
 
 ![tree](https://user-images.githubusercontent.com/591645/101952684-54c4a100-3bf9-11eb-8031-6900f6d3a445.gif)
