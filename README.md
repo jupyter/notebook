@@ -61,7 +61,7 @@ From an open notebook:
 
 To access the main RetroLab tree (file browser):
 
-1. Help > Launch RetroLab Tree from the menu; or
+1. Help > Launch RetroLab File Browser from the menu; or
 2. Go to the /retro URL path of your Jupyter site
 
 ## Tour

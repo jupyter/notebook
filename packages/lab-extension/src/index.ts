@@ -146,7 +146,7 @@ const launchRetroTree: JupyterFrontEndPlugin<void> = {
     const category = trans.__('Help');
 
     commands.addCommand(CommandIDs.launchRetroTree, {
-      label: trans.__('Launch RetroLab Tree'),
+      label: trans.__('Launch RetroLab File Browser'),
       execute: () => {
         window.open(PageConfig.getBaseUrl() + 'retro/tree');
       }
