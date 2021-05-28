@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: '*'
 
+permissions:
+  contents:
+    write
+
 env:
   PIP_DISABLE_PIP_VERSION_CHECK: 1
 
@@ -21,8 +25,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Build checksum file
       run: |
-        sed -n 17,146p .github/workflows/build.yml > build
-        sed -n 17,146p .github/workflows/release.yml > release
+        sed -n 20,146p .github/workflows/build.yml > build
+        sed -n 20,146p .github/workflows/release.yml > release
         diff build release
 
   test:
