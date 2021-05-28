@@ -34,6 +34,7 @@
     "@jupyterlab/filebrowser-extension": "~3.1.0-alpha.8",
     "@jupyterlab/fileeditor": "~3.1.0-alpha.8",
     "@jupyterlab/fileeditor-extension": "~3.1.0-alpha.8",
+    "@jupyterlab/hub-extension": "~3.1.0-alpha.8",
     "@jupyterlab/javascript-extension": "~3.1.0-alpha.8",
     "@jupyterlab/json-extension": "~3.1.0-alpha.8",
     "@jupyterlab/mainmenu": "~3.1.0-alpha.8",

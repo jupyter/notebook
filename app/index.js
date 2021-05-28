@@ -125,7 +125,9 @@ async function main() {
     // so new terminals can be create from the menu
     require('@jupyterlab/terminal-extension'),
     require('@jupyterlab/theme-light-extension'),
-    require('@jupyterlab/theme-dark-extension')
+    require('@jupyterlab/theme-dark-extension'),
+    // Add the "Hub Control Panel" menu option when running in JupyterHub
+    require('@jupyterlab/hub-extension')
   ];
 
   // The motivation here is to only load a specific set of plugins dependending on
