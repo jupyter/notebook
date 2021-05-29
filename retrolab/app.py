@@ -42,6 +42,19 @@ class RetroHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHan
             "retroLogo": app.retro_logo,
         }
 
+        if 'hub_prefix' in app.serverapp.tornado_settings:
+            tornado_settings = app.serverapp.tornado_settings
+            hub_prefix = tornado_settings['hub_prefix']
+            page_config['hubPrefix'] = hub_prefix
+            page_config['hubHost'] = tornado_settings['hub_host']
+            page_config['hubUser'] = tornado_settings['user']
+            page_config['shareUrl'] = ujoin(hub_prefix, 'user-redirect')
+            # Assume the server_name property indicates running JupyterHub 1.0.
+            if hasattr(app.serverapp, 'server_name'):
+                page_config['hubServerName'] = app.serverapp.server_name
+            api_token = os.getenv('JUPYTERHUB_API_TOKEN', '')
+            page_config['token'] = api_token
+
         mathjax_config = self.settings.get("mathjax_config", "TeX-AMS_HTML-full,Safe")
         # TODO Remove CDN usage.
         mathjax_url = self.settings.get(
