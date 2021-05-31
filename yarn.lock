@@ -1714,6 +1714,18 @@
     "@lumino/widgets" "^1.19.0"
     react "^17.0.1"
 
+"@jupyterlab/hub-extension@3.1.0-alpha.8":
+  version "3.1.0-alpha.8"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/hub-extension/-/hub-extension-3.1.0-alpha.8.tgz#b3bbfea2072c33da0323277e2668f031ff8464e9"
+  integrity sha512-CZBrrbbFQwE8/zN4+FUwfhHrmT48O7GCNA8JTtopKQ90YTPDYRZIZnmWMPHTGSZFnKoFl5idG9hwTww+gWBnpA==
+  dependencies:
+    "@jupyterlab/application" "^3.1.0-alpha.8"
+    "@jupyterlab/apputils" "^3.1.0-alpha.8"
+    "@jupyterlab/coreutils" "^5.1.0-alpha.8"
+    "@jupyterlab/mainmenu" "^3.1.0-alpha.8"
+    "@jupyterlab/services" "^6.1.0-alpha.8"
+    "@jupyterlab/translation" "^3.1.0-alpha.8"
+
 "@jupyterlab/javascript-extension@^3.1.0-alpha.8":
   version "3.1.0-alpha.8"
   resolved "https://registry.yarnpkg.com/@jupyterlab/javascript-extension/-/javascript-extension-3.1.0-alpha.8.tgz#4369eb648dfb8cb29cb6ce92620298e2e5da9371"
@@ -3214,7 +3226,7 @@
   integrity sha512-6RglhutqrGFMO1MNUXp95RBuYIuc8wTnMAV5MUhLmjTOy78ncwOw7RgeQ/HeymkKXRhZd0s2DNrM1rL7unk3MQ==
 
 "@retrolab/application-extension@file:packages/application-extension":
-  version "0.2.0"
+  version "0.3.0-alpha.2"
   dependencies:
     "@jupyterlab/application" "^3.1.0-alpha.8"
     "@jupyterlab/apputils" "^3.1.0-alpha.8"
@@ -3228,11 +3240,11 @@
     "@jupyterlab/settingregistry" "^3.1.0-alpha.8"
     "@jupyterlab/translation" "^3.1.0-alpha.8"
     "@lumino/widgets" "^1.23.0"
-    "@retrolab/application" "^0.2.0"
-    "@retrolab/ui-components" "^0.2.0"
+    "@retrolab/application" "^0.3.0-alpha.2"
+    "@retrolab/ui-components" "^0.3.0-alpha.2"
 
 "@retrolab/application@file:packages/application":
-  version "0.2.0"
+  version "0.3.0-alpha.2"
   dependencies:
     "@jupyterlab/application" "^3.1.0-alpha.8"
     "@jupyterlab/coreutils" "^5.1.0-alpha.8"
@@ -3247,7 +3259,7 @@
     "@lumino/widgets" "^1.23.0"
 
 "@retrolab/docmanager-extension@file:packages/docmanager-extension":
-  version "0.2.0"
+  version "0.3.0-alpha.2"
   dependencies:
     "@jupyterlab/application" "^3.1.0-alpha.8"
     "@jupyterlab/coreutils" "^5.1.0-alpha.8"
@@ -3257,15 +3269,15 @@
     "@lumino/algorithm" "^1.6.0"
 
 "@retrolab/help-extension@file:packages/help-extension":
-  version "0.2.0"
+  version "0.3.0-alpha.2"
   dependencies:
     "@jupyterlab/application" "^3.1.0-alpha.8"
     "@jupyterlab/apputils" "^3.1.0-alpha.8"
     "@jupyterlab/mainmenu" "^3.1.0-alpha.8"
-    "@retrolab/ui-components" "^0.2.0"
+    "@retrolab/ui-components" "^0.3.0-alpha.2"
 
 "@retrolab/lab-extension@file:packages/lab-extension":
-  version "0.2.0"
+  version "0.3.0-alpha.2"
   dependencies:
     "@jupyterlab/application" "^3.1.0-alpha.8"
     "@jupyterlab/apputils" "^3.1.0-alpha.8"
@@ -3275,10 +3287,10 @@
     "@jupyterlab/notebook" "^3.1.0-alpha.8"
     "@lumino/commands" "^1.15.0"
     "@lumino/disposable" "^1.7.0"
-    "@retrolab/ui-components" "^0.2.0"
+    "@retrolab/ui-components" "^0.3.0-alpha.2"
 
 "@retrolab/notebook-extension@file:packages/notebook-extension":
-  version "0.2.0"
+  version "0.3.0-alpha.2"
   dependencies:
     "@jupyterlab/application" "^3.1.0-alpha.8"
     "@jupyterlab/apputils" "^3.1.0-alpha.8"
@@ -3286,10 +3298,10 @@
     "@jupyterlab/notebook" "^3.1.0-alpha.8"
     "@lumino/polling" "^1.6.0"
     "@lumino/widgets" "^1.23.0"
-    "@retrolab/application" "^0.2.0"
+    "@retrolab/application" "^0.3.0-alpha.2"
 
 "@retrolab/terminal-extension@file:packages/terminal-extension":
-  version "0.2.0"
+  version "0.3.0-alpha.2"
   dependencies:
     "@jupyterlab/application" "^3.1.0-alpha.8"
     "@jupyterlab/coreutils" "^5.1.0-alpha.8"
@@ -3297,7 +3309,7 @@
     "@lumino/algorithm" "^1.6.0"
 
 "@retrolab/tree-extension@file:packages/tree-extension":
-  version "0.2.0"
+  version "0.3.0-alpha.2"
   dependencies:
     "@jupyterlab/application" "^3.1.0-alpha.8"
     "@jupyterlab/apputils" "^3.1.0-alpha.8"
@@ -3313,10 +3325,10 @@
     "@lumino/algorithm" "^1.6.0"
     "@lumino/commands" "^1.15.0"
     "@lumino/widgets" "^1.23.0"
-    "@retrolab/application" "^0.2.0"
+    "@retrolab/application" "^0.3.0-alpha.2"
 
 "@retrolab/ui-components@file:packages/ui-components":
-  version "0.2.0"
+  version "0.3.0-alpha.2"
   dependencies:
     "@jupyterlab/ui-components" "^3.1.0-alpha.8"
     react "^17.0.1"
