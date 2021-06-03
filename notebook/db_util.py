@@ -43,6 +43,7 @@ django.setup()
 
 from deming.models import EnterpriseUser, KernelSession, EdgeDevice
 from deming.edge import device_types
+from deming.edge.status import ACTIVE
 
 class ExecuteQueries:
     """
@@ -50,14 +51,23 @@ class ExecuteQueries:
     The logic of  django orm is kept here so that we don't repeat the imports and setup django in different files.
     """
 
+    def get_active_devices(self, edge_devices):
+        """
+        Get active devices
+        :param edge_devices: edge device query set.
+        :return: list of active edge devices.
+        """
+
+        return [edge_device for edge_device in edge_devices if edge_device.status == ACTIVE]
+
     def get_mlnodes(self):
         """
         Get all the mlnode instances that are present in the MLNode table.
         :return: List of Mlnode instances.
         """
 
-        return EdgeDevice.objects.filter(device_type__in=device_types.valid_ml_node_types,
-                                         system_status__is_connected=True, system_status__is_active=True)
+        return self.get_active_devices(EdgeDevice.objects.filter(device_type__in=device_types.valid_ml_node_types,
+                                                                 system_status__is_connected=True))
 
     def get_ml_node(self, column_name, column_value):
         """
@@ -67,8 +77,8 @@ class ExecuteQueries:
         :return: List of Mlnode instances.
         """
         kwargs = {column_name: column_value}
-        return EdgeDevice.objects.filter(device_type__in=device_types.valid_ml_node_types,
-                                         system_status__is_connected=True, system_status__is_active=True).filter(**kwargs)
+        return self.get_active_devices(EdgeDevice.objects.filter(device_type__in=device_types.valid_ml_node_types,
+                                                                 system_status__is_connected=True).filter(**kwargs))
 
     def delete_kernel_session(self, column_name, column_value):
         """
@@ -140,8 +150,8 @@ class ExecuteQueries:
         Get address for all the mlnodes
         :return: List of address for Mlnodes instances.
         """
-        mlnodes = EdgeDevice.objects.filter(device_type__in=device_types.valid_ml_node_types,
-                                            system_status__is_connected=True, system_status__is_active=True)
+        mlnodes = self.get_active_devices(EdgeDevice.objects.filter(device_type__in=device_types.valid_ml_node_types,
+                                                                    system_status__is_connected=True))
         return [f'https://{str(mlnode.ip_address)}' for mlnode in mlnodes]
 
     def get_mlnode_address_with_field(self, column_name, column_value):
