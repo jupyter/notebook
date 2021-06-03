@@ -1460,7 +1460,7 @@ class NotebookApp(JupyterApp):
     )
 
     trust_xheaders = Bool(False, config=True,
-        help=(_("Whether to trust or not X-Scheme/X-Forwarded-Proto and X-Real-Ip/X-Forwarded-For headers"
+        help=(_("Whether to trust or not X-Scheme/X-Forwarded-Proto and X-Real-Ip/X-Forwarded-For headers "
               "sent by the upstream reverse proxy. Necessary if the proxy handles SSL"))
     )
 
@@ -1535,8 +1535,8 @@ class NotebookApp(JupyterApp):
         self.server_extensions = change['new']
 
     nbserver_extensions = Dict({}, config=True,
-        help=(_("Dict of Python modules to load as notebook server extensions."
-              "Entry values can be used to enable and disable the loading of"
+        help=(_("Dict of Python modules to load as notebook server extensions. "
+              "Entry values can be used to enable and disable the loading of "
               "the extensions. The extensions will be loaded in alphabetical "
               "order."))
     )
