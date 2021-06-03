@@ -17,7 +17,7 @@ class TerminalRootHandler(APIHandler):
 
 
 class TerminalHandler(APIHandler):
-    SUPPORTED_METHODS = ('GET', 'DELETE')
+    SUPPORTED_METHODS = ('GET', 'DELETE', 'OPTIONS')
 
     @web.authenticated
     def get(self, name):
