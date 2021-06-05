@@ -187,11 +187,11 @@ def find_package_data():
 
     for tree in trees + [
         mj('localization'), # limit to en?
-        mj('fonts', 'HTML-CSS', 'STIX-Web', 'woff'),
+        mj('fonts', 'HTML-CSS', 'TeX', 'woff'),
         mj('extensions'),
         mj('jax', 'input', 'TeX'),
-        mj('jax', 'output', 'HTML-CSS', 'fonts', 'STIX-Web'),
-        mj('jax', 'output', 'SVG', 'fonts', 'STIX-Web'),
+        mj('jax', 'output', 'HTML-CSS', 'fonts', 'TeX'),
+        mj('jax', 'output', 'SVG', 'fonts', 'TeX'),
         mj('jax', 'element', 'mml'),
     ]:
         for parent, dirs, files in os.walk(tree):
