@@ -20,6 +20,8 @@ import { Poll } from '@lumino/polling';
 
 import { Widget } from '@lumino/widgets';
 
+import { addNotebookToolbarItems } from './toolbar';
+
 /**
  * The class for kernel status errors.
  */
@@ -241,7 +243,8 @@ const shell: JupyterFrontEndPlugin<IRetroShell> = {
 const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
   kernelLogo,
-  kernelStatus
+  kernelStatus,
+  addNotebookToolbarItems
 ];
 
 export default plugins;
