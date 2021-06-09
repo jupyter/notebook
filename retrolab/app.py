@@ -8,13 +8,14 @@ from jupyter_server.extension.handler import (
     ExtensionHandlerMixin,
     ExtensionHandlerJinjaMixin,
 )
-from jupyter_server.utils import url_path_join as ujoin
+from jupyter_server.utils import url_path_join as ujoin, url_escape
 from jupyterlab.commands import get_app_dir, get_user_settings_dir, get_workspaces_dir
 from jupyterlab_server import LabServerApp
 from jupyterlab_server.config import get_page_config, recursive_update, LabConfig
 from jupyterlab_server.handlers import is_url, _camelCase
 from nbclassic.shim import NBClassicConfigShimMixin
 from tornado import web
+from tornado.gen import maybe_future
 from traitlets import Bool
 
 from ._version import __version__
@@ -98,9 +99,35 @@ class RetroRedirectHandler(RetroHandler):
 
 class RetroTreeHandler(RetroHandler):
     @web.authenticated
-    def get(self, path=None):
-        tpl = self.render_template("tree.html", page_config=self.get_page_config())
-        return self.write(tpl)
+    async def get(self, path=None):
+        """
+        Display appropriate page for given path.
+
+        - A directory listing is shown if path is a directory
+        - Redirected to notebook page if path is a notebook
+        - Render the raw file if path is any other file
+        """
+        path = path.strip('/')
+        cm = self.contents_manager
+
+        if await maybe_future(cm.dir_exists(path=path)):
+            if await maybe_future(cm.is_hidden(path)) and not cm.allow_hidden:
+                self.log.info("Refusing to serve hidden directory, via 404 Error")
+                raise web.HTTPError(404)
+            tpl = self.render_template("tree.html", page_config=self.get_page_config())
+            return self.write(tpl)
+        elif await maybe_future(cm.file_exists(path)):
+            # it's not a directory, we have redirecting to do
+            model = await maybe_future(cm.get(path, content=False))
+            if model['type'] == 'notebook':
+                url = ujoin(self.base_url, 'retro/notebooks', url_escape(path))
+            else:
+                # Return raw content if file is not a notebook
+                url = ujoin(self.base_url, 'files', url_escape(path))
+            self.log.debug("Redirecting %s to %s", self.request.path, url)
+            self.redirect(url)
+        else:
+            raise web.HTTPError(404)
 
 
 class RetroTerminalHandler(RetroHandler):
