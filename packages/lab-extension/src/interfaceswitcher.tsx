@@ -16,43 +16,42 @@ import { CommandRegistry } from '@lumino/commands';
 import { IDisposable } from '@lumino/disposable';
 import * as React from 'react';
 
-/**
- * Command IDs used by notebook toolbar items
- */
-namespace CommandIDs {
-  /**
-   * Open current notebook in classic notebook
-   */
-  export const openClassic = 'retro:open-classic';
-  /**
-   * Open current notebook in JupyterLab
-   */
-  export const openLab = 'retro:open-lab';
+interface ISwitcherChoice {
+  command: string;
+  dropdownLabel: string;
+  commandLabel: string;
+  urlPrefix: string;
+  current: boolean;
 }
 
 class InterfaceSwitcher extends ReactWidget {
-  constructor(private commands: CommandRegistry) {
+  private switcherChoices: ISwitcherChoice[];
+  constructor(
+    private commands: CommandRegistry,
+    switcherChoices: ISwitcherChoice[]
+  ) {
     super();
     this.addClass('jp-Notebook-toolbarCellType');
+    this.switcherChoices = switcherChoices;
   }
-
-  onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const target = event.target.value;
-    if (target === '-') {
-      return;
-    }
-    this.commands.execute(target);
-  };
 
   render = () => {
     return (
       <HTMLSelect
-        onChange={this.onChange}
         className="jp-Notebook-toolbarCellTypeDropdown"
+        value={this.switcherChoices.find(sc => sc.current)?.command}
       >
-        <option value="-">Retrolab</option>
-        <option value={CommandIDs.openClassic}>Classic</option>
-        <option value={CommandIDs.openLab}>JupyterLab</option>
+        {this.switcherChoices.map(sc => {
+          return (
+            <option
+              key={sc.command}
+              value={sc.command}
+              onClick={() => !sc.current && this.commands.execute(sc.command)}
+            >
+              {sc.dropdownLabel}
+            </option>
+          );
+        })}
       </HTMLSelect>
     );
   };
@@ -63,12 +62,18 @@ class InterfaceSwitcher extends ReactWidget {
  */
 class InterfaceSwitcherButton
   implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
-  constructor(commands: CommandRegistry) {
+  private switcherChoices: ISwitcherChoice[];
+
+  constructor(commands: CommandRegistry, switcherChoices: ISwitcherChoice[]) {
     this._commands = commands;
+    this.switcherChoices = switcherChoices;
   }
 
   createNew(panel: NotebookPanel): IDisposable {
-    const switcher = new InterfaceSwitcher(this._commands);
+    const switcher = new InterfaceSwitcher(
+      this._commands,
+      this.switcherChoices
+    );
     panel.toolbar.insertBefore('kernelName', 'switch-interface', switcher);
     return switcher;
   }
@@ -97,46 +102,64 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     const { commands, docRegistry, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
 
-    const isEnabled = () => {
-      return (
-        notebookTracker.currentWidget !== null &&
-        notebookTracker.currentWidget === shell.currentWidget
-      );
+    const switcherChoices: ISwitcherChoice[] = [
+      {
+        command: 'retrolab:open-classic',
+        commandLabel: 'Open in Classic Notebook',
+        dropdownLabel: 'Classic',
+        urlPrefix: `${baseUrl}tree/`,
+        current: false
+      },
+      {
+        command: 'retrolab:open-retro',
+        commandLabel: 'Open in RetroLab',
+        dropdownLabel: 'RetroLab',
+        urlPrefix: `${baseUrl}retro/tree/`,
+        current: app.name === 'RetroLab'
+      },
+      {
+        command: 'retrolab:open-lab',
+        commandLabel: 'Open in JupyterLab',
+        dropdownLabel: 'JupyterLab',
+        urlPrefix: `${baseUrl}lab/tree/`,
+        current: app.name === 'JupyterLab'
+      }
+    ];
+
+    const addInterface = (option: ISwitcherChoice) => {
+      commands.addCommand(option.command, {
+        label: option.commandLabel,
+        execute: () => {
+          const current = notebookTracker.currentWidget;
+          if (!current) {
+            return;
+          }
+          window.location.href = `${option.urlPrefix}${current.context.path}`;
+        },
+        isEnabled: () => {
+          return (
+            notebookTracker.currentWidget !== null &&
+            notebookTracker.currentWidget === shell.currentWidget &&
+            !option.current
+          );
+        }
+      });
+
+      if (palette) {
+        palette.addItem({ command: option.command, category: 'Other' });
+      }
+
+      if (menu) {
+        menu.viewMenu.addGroup([{ command: option.command }], 1);
+      }
     };
 
-    commands.addCommand(CommandIDs.openClassic, {
-      label: 'Open in Classic Notebook',
-      execute: () => {
-        const current = notebookTracker.currentWidget;
-        if (!current) {
-          return;
-        }
-        window.open(`${baseUrl}tree/${current.context.path}`);
-      },
-      isEnabled
-    });
+    switcherChoices.map(iface => addInterface(iface));
 
-    commands.addCommand(CommandIDs.openLab, {
-      label: 'Open in JupyterLab',
-      execute: () => {
-        const current = notebookTracker.currentWidget;
-        if (!current) {
-          return;
-        }
-        window.open(`${baseUrl}lab/tree/${current.context.path}`);
-      },
-      isEnabled
-    });
-
-    if (palette) {
-      palette.addItem({ command: CommandIDs.openClassic, category: 'Other' });
-    }
-
-    if (menu) {
-      menu.viewMenu.addGroup([{ command: CommandIDs.openClassic }], 1);
-    }
-
-    const interfaceSwitcher = new InterfaceSwitcherButton(commands);
+    const interfaceSwitcher = new InterfaceSwitcherButton(
+      commands,
+      switcherChoices
+    );
     docRegistry.addWidgetExtension('Notebook', interfaceSwitcher);
   }
 };
