@@ -50,7 +50,7 @@ class InterfaceSwitcher extends ReactWidget {
         onChange={this.onChange}
         className="jp-Notebook-toolbarCellTypeDropdown"
       >
-        <option value="-">Interface</option>
+        <option value="-">Retrolab</option>
         <option value={CommandIDs.openClassic}>Classic</option>
         <option value={CommandIDs.openLab}>JupyterLab</option>
       </HTMLSelect>
@@ -79,8 +79,8 @@ class InterfaceSwitcherButton
 /**
  * A plugin to add custom toolbar items to the notebook page
  */
-const notebookToolbarItems: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/notebook-extension:open-classic',
+const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
+  id: '@retrolab/lab-extension:interface-switcher',
   autoStart: true,
   optional: [INotebookTracker, ICommandPalette, IMainMenu],
   activate: (
@@ -141,4 +141,4 @@ const notebookToolbarItems: JupyterFrontEndPlugin<void> = {
   }
 };
 
-export { notebookToolbarItems as addNotebookToolbarItems };
+export { interfaceSwitcher };

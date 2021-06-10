@@ -88,6 +88,9 @@ async function main() {
     require('@retrolab/docmanager-extension'),
     require('@retrolab/help-extension'),
     require('@retrolab/notebook-extension'),
+    require('@retrolab/lab-extension').default.filter(({ id }) =>
+      ['@retrolab/lab-extension:interface-switcher'].includes(id)
+    ),
     // to handle opening new tabs after creating a new terminal
     require('@retrolab/terminal-extension'),
 
