@@ -14,6 +14,7 @@ import {
 import { HTMLSelect } from '@jupyterlab/ui-components';
 import { CommandRegistry } from '@lumino/commands';
 import { IDisposable } from '@lumino/disposable';
+import { IRetroShell } from '@retrolab/application';
 import * as React from 'react';
 
 interface ISwitcherChoice {
@@ -87,12 +88,13 @@ class InterfaceSwitcherButton
 const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/lab-extension:interface-switcher',
   autoStart: true,
-  optional: [INotebookTracker, ICommandPalette, IMainMenu],
+  optional: [INotebookTracker, ICommandPalette, IMainMenu, IRetroShell],
   activate: (
     app: JupyterFrontEnd,
     notebookTracker: INotebookTracker | null,
     palette: ICommandPalette | null,
-    menu: IMainMenu | null
+    menu: IMainMenu | null,
+    retroShell: IRetroShell | null
   ) => {
     if (!notebookTracker) {
       // to prevent showing the toolbar button in RetroLab
@@ -115,14 +117,16 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
         commandLabel: 'Open in RetroLab',
         dropdownLabel: 'RetroLab',
         urlPrefix: `${baseUrl}retro/tree/`,
-        current: app.name === 'RetroLab'
+        current: retroShell !== null
       },
       {
         command: 'retrolab:open-lab',
         commandLabel: 'Open in JupyterLab',
         dropdownLabel: 'JupyterLab',
         urlPrefix: `${baseUrl}lab/tree/`,
-        current: app.name === 'JupyterLab'
+        // If we aren't in retroShell, assume we're in JupyterLab
+        // So any new Lab based UIs will fallback to behaving like JupyterLab
+        current: retroShell === null
       }
     ];
 
