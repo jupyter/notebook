@@ -91,6 +91,9 @@ async function main() {
     require('@retrolab/terminal-extension'),
 
     // @jupyterlab plugins
+    require('@jupyterlab/application-extension').default.filter(({ id }) =>
+      ['@jupyterlab/application-extension:faviconbusy'].includes(id)
+    ),
     require('@jupyterlab/apputils-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/apputils-extension:palette',

@@ -2,6 +2,7 @@
 // Distributed under the terms of the Modified BSD License.
 
 import {
+  ILabStatus,
   IRouter,
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
@@ -284,6 +285,21 @@ const spacer: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * The default JupyterLab application status provider.
+ */
+const status: JupyterFrontEndPlugin<ILabStatus> = {
+  id: '@jupyterlab/application-extension:status',
+  autoStart: true,
+  provides: ILabStatus,
+  activate: (app: JupyterFrontEnd) => {
+    if (!(app instanceof RetroApp)) {
+      throw new Error(`${status.id} must be activated in RetroLab.`);
+    }
+    return app.status;
+  }
+};
+
+/**
  * A plugin to display the document title in the browser tab title
  */
 const tabTitle: JupyterFrontEndPlugin<void> = {
@@ -501,6 +517,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   sessionDialogs,
   shell,
   spacer,
+  status,
   tabTitle,
   title,
   topVisibility,
