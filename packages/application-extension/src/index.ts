@@ -73,6 +73,34 @@ namespace CommandIDs {
 }
 
 /**
+ * Check if the application is dirty before closing the browser tab.
+ */
+const dirty: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab/application-extension:dirty',
+  autoStart: true,
+  requires: [ILabStatus, ITranslator],
+  activate: (
+    app: JupyterFrontEnd,
+    status: ILabStatus,
+    translator: ITranslator
+  ): void => {
+    if (!(app instanceof RetroApp)) {
+      throw new Error(`${dirty.id} must be activated in RetroLab.`);
+    }
+    const trans = translator.load('jupyterlab');
+    const message = trans.__(
+      'Are you sure you want to exit JupyterLab?\n\nAny unsaved changes will be lost.'
+    );
+
+    window.addEventListener('beforeunload', event => {
+      if (app.status.isDirty) {
+        return ((event as any).returnValue = message);
+      }
+    });
+  }
+};
+
+/**
  * The logo plugin.
  */
 const logo: JupyterFrontEndPlugin<void> = {
@@ -508,6 +536,7 @@ const zen: JupyterFrontEndPlugin<void> = {
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
+  dirty,
   logo,
   noTabsMenu,
   opener,
