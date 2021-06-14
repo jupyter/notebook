@@ -76,7 +76,7 @@ namespace CommandIDs {
  * Check if the application is dirty before closing the browser tab.
  */
 const dirty: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab/application-extension:dirty',
+  id: '@retrolab/application-extension:dirty',
   autoStart: true,
   requires: [ILabStatus, ITranslator],
   activate: (
@@ -316,7 +316,7 @@ const spacer: JupyterFrontEndPlugin<void> = {
  * The default JupyterLab application status provider.
  */
 const status: JupyterFrontEndPlugin<ILabStatus> = {
-  id: '@jupyterlab/application-extension:status',
+  id: '@retrolab/application-extension:status',
   autoStart: true,
   provides: ILabStatus,
   activate: (app: JupyterFrontEnd) => {
