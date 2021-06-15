@@ -19,6 +19,7 @@
   },
   "resolutions": {
     "@jupyterlab/application": "~3.1.0-alpha.8",
+    "@jupyterlab/application-extension": "~3.1.0-alpha.8",
     "@jupyterlab/apputils": "~3.1.0-alpha.8",
     "@jupyterlab/apputils-extension": "~3.1.0-alpha.8",
     "@jupyterlab/celltags": "~3.1.0-alpha.8",
@@ -86,6 +87,7 @@
     "react-dom": "~17.0.2"
   },
   "dependencies": {
+    "@jupyterlab/application-extension": "^3.1.0-alpha.8",
     "@jupyterlab/apputils-extension": "^3.1.0-alpha.8",
     "@jupyterlab/celltags": "^3.1.0-alpha.8",
     "@jupyterlab/codemirror-extension": "^3.1.0-alpha.8",
@@ -154,6 +156,7 @@
       "@retrolab/notebook-extension",
       "@retrolab/terminal-extension",
       "@retrolab/tree-extension",
+      "@jupyterlab/application-extension",
       "@jupyterlab/apputils-extension",
       "@jupyterlab/codemirror-extension",
       "@jupyterlab/completer-extension",

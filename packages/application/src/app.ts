@@ -8,6 +8,8 @@ import {
 
 import { createRendermimePlugins } from '@jupyterlab/application/lib/mimerenderers';
 
+import { LabStatus } from '@jupyterlab/application/lib/status';
+
 import { PageConfig } from '@jupyterlab/coreutils';
 
 import { IRenderMime } from '@jupyterlab/rendermime-interfaces';
@@ -47,6 +49,11 @@ export class RetroApp extends JupyterFrontEnd<IRetroShell> {
    * A namespace/prefix plugins may use to denote their provenance.
    */
   readonly namespace = this.name;
+
+  /**
+   * The application busy and dirty status signals and flags.
+   */
+  readonly status = new LabStatus(this);
 
   /**
    * The version of the application.

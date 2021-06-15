@@ -2,6 +2,7 @@
 // Distributed under the terms of the Modified BSD License.
 
 import {
+  ILabStatus,
   IRouter,
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
@@ -70,6 +71,34 @@ namespace CommandIDs {
    */
   export const openTree = 'application:open-tree';
 }
+
+/**
+ * Check if the application is dirty before closing the browser tab.
+ */
+const dirty: JupyterFrontEndPlugin<void> = {
+  id: '@retrolab/application-extension:dirty',
+  autoStart: true,
+  requires: [ILabStatus, ITranslator],
+  activate: (
+    app: JupyterFrontEnd,
+    status: ILabStatus,
+    translator: ITranslator
+  ): void => {
+    if (!(app instanceof RetroApp)) {
+      throw new Error(`${dirty.id} must be activated in RetroLab.`);
+    }
+    const trans = translator.load('jupyterlab');
+    const message = trans.__(
+      'Are you sure you want to exit RetroLab?\n\nAny unsaved changes will be lost.'
+    );
+
+    window.addEventListener('beforeunload', event => {
+      if (app.status.isDirty) {
+        return ((event as any).returnValue = message);
+      }
+    });
+  }
+};
 
 /**
  * The logo plugin.
@@ -284,6 +313,21 @@ const spacer: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * The default JupyterLab application status provider.
+ */
+const status: JupyterFrontEndPlugin<ILabStatus> = {
+  id: '@retrolab/application-extension:status',
+  autoStart: true,
+  provides: ILabStatus,
+  activate: (app: JupyterFrontEnd) => {
+    if (!(app instanceof RetroApp)) {
+      throw new Error(`${status.id} must be activated in RetroLab.`);
+    }
+    return app.status;
+  }
+};
+
+/**
  * A plugin to display the document title in the browser tab title
  */
 const tabTitle: JupyterFrontEndPlugin<void> = {
@@ -492,6 +536,7 @@ const zen: JupyterFrontEndPlugin<void> = {
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
+  dirty,
   logo,
   noTabsMenu,
   opener,
@@ -501,6 +546,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   sessionDialogs,
   shell,
   spacer,
+  status,
   tabTitle,
   title,
   topVisibility,
