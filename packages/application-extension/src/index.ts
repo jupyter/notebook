@@ -89,7 +89,7 @@ const dirty: JupyterFrontEndPlugin<void> = {
     }
     const trans = translator.load('jupyterlab');
     const message = trans.__(
-      'Are you sure you want to exit JupyterLab?\n\nAny unsaved changes will be lost.'
+      'Are you sure you want to exit RetroLab?\n\nAny unsaved changes will be lost.'
     );
 
     window.addEventListener('beforeunload', event => {
