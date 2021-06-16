@@ -38,9 +38,9 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/application": "^3.1.0-alpha.8",
-    "@jupyterlab/apputils": "^3.1.0-alpha.8",
-    "@jupyterlab/mainmenu": "^3.1.0-alpha.8",
+    "@jupyterlab/application": "^3.1.0-alpha.13",
+    "@jupyterlab/apputils": "^3.1.0-alpha.13",
+    "@jupyterlab/mainmenu": "^3.1.0-alpha.13",
     "@retrolab/ui-components": "^0.3.0-alpha.2"
   },
   "devDependencies": {
