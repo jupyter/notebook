@@ -7,7 +7,6 @@
 }
 
 .jp-TreePanel .lm-TabPanel-tabBar {
-  border: none;
   overflow: visible;
   min-height: 32px;
 }
@@ -15,7 +14,8 @@
 .jp-TreePanel .lm-TabBar-tab {
   color: var(--jp-ui-font-color0);
   font-size: var(--jp-ui-font-size1);
-  padding: 6px;
+  padding-top: 6px;
+  height: 100%;
 }
 
 .jp-TreePanel .lm-TabBar-tabLabel {
