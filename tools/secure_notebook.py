@@ -7,7 +7,7 @@ the corresponding entries in the notebook json configuration file.
 
 """
 
-import six
+from six import u
 
 from notebook.auth import passwd
 from traitlets.config.loader import JSONFileConfigLoader, ConfigFileNotFound
@@ -82,7 +82,7 @@ def persist_config(mode=0o600):
 
     filepath = os.path.join(jupyter_config_dir(), 'jupyter_notebook_config.json')
     with io.open(filepath, 'w') as f:
-        f.write(six.u(json.dumps(config, indent=2)))
+        f.write(u(json.dumps(config, indent=2)))
     try:
         os.chmod(filepath, mode)
     except Exception:
