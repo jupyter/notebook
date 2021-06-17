@@ -99,14 +99,8 @@ def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     if os.path.isfile(path):
         copy2_safe(path, tmp_path, log=log)
 
-    if text:
-        # Make sure that text files have Unix linefeeds by default
-        kwargs.setdefault('newline', '\n')
-        fileobj = io.open(path, 'w', encoding=encoding, **kwargs)
-    else:
-        fileobj = io.open(path, 'wb', **kwargs)
-
     try:
+        fileobj = open_file(path, text, encoding, log, **kwargs)
         yield fileobj
     except:
         # Failed! Move the backup file back to the real path to avoid corruption
@@ -123,6 +117,34 @@ def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     if os.path.isfile(tmp_path):
         os.remove(tmp_path)
 
+
+def open_file(path, text=True, encoding='utf-8', log=None, **kwargs):
+    """Open file for contextmanager for writing
+
+    Parameters
+    ----------
+    path : str
+      The target file to write to.
+
+    text : bool, optional
+      Whether to open the file in text mode (i.e. to write unicode). Default is
+      True.
+
+    encoding : str, optional
+      The encoding to use for files opened in text mode. Default is UTF-8.
+
+    **kwargs
+      Passed to :func:`io.open`."""
+
+    if os.path.islink(path):
+        path = os.path.join(os.path.dirname(path), os.readlink(path))
+
+    if text:
+        # Make sure that text files have Unix linefeeds by default
+        kwargs.setdefault('newline', '\n')
+        return io.open(path, 'w', encoding=encoding, **kwargs)
+    else:
+        return io.open(path, 'wb', **kwargs)
 
 
 @contextmanager
@@ -148,25 +170,15 @@ def _simple_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     # realpath doesn't work on Windows: https://bugs.python.org/issue9949
     # Luckily, we only need to resolve the file itself being a symlink, not
     # any of its directories, so this will suffice:
-    if os.path.islink(path):
-        path = os.path.join(os.path.dirname(path), os.readlink(path))
-
-    if text:
-        # Make sure that text files have Unix linefeeds by default
-        kwargs.setdefault('newline', '\n')
-        fileobj = io.open(path, 'w', encoding=encoding, **kwargs)
-    else:
-        fileobj = io.open(path, 'wb', **kwargs)
 
     try:
+        fileobj = open_file(path, text, encoding, log, **kwargs)
         yield fileobj
     except:
         fileobj.close()
         raise
 
     fileobj.close()
-
-
 
 
 class FileManagerMixin(Configurable):
