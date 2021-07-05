@@ -47,7 +47,6 @@ test.describe('Notebook', () => {
       newName
     );
     await page.click('text="Rename"');
-    await page.waitForNavigation();
 
     // Check the URL contains the new name
     const url = page.url();

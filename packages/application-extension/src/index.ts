@@ -394,11 +394,12 @@ const title: JupyterFrontEndPlugin<void> = {
           current.activate();
         }
 
-        if (!result) {
+        if (result === null) {
           return;
         }
 
-        const basename = PathExt.basename(result.path);
+        const newPath = current.context.path ?? result.path;
+        const basename = PathExt.basename(newPath);
         h.textContent = basename;
         if (!router) {
           return;
@@ -408,7 +409,7 @@ const title: JupyterFrontEndPlugin<void> = {
         if (!route || !path) {
           return;
         }
-        const encoded = encodeURIComponent(result.path);
+        const encoded = encodeURIComponent(newPath);
         router.navigate(`/retro/${route}/${encoded}`, {
           skipRouting: true
         });
