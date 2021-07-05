@@ -188,11 +188,9 @@ jobs:
         run: |
           jlpm
           jlpm run build:test
-          jlpm run test:ci
-        env:
-          BROWSER: ${{ matrix.browser }}
+          jlpm run test:ci -- --browser ${{ matrix.browser }}
       - uses: actions/upload-artifact@v2
         if: ${{ always() }}
         with:
           name: test-artifacts-${{ matrix.browser }} ${{ github.run_number }}
-          path: app/artifacts
+          path: app/test-results
