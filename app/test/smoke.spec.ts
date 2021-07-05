@@ -1,88 +1,68 @@
-import { chromium, firefox, Browser, BrowserContext } from 'playwright';
+import { test, expect } from '@playwright/test';
 
-import { BrowserName, BASE_URL } from './utils';
+import { BASE_URL } from './utils';
 
-describe('Smoke', () => {
-  let browser: Browser;
-  let context: BrowserContext;
+test.describe('Smoke', () => {
+  test('Tour', async ({ page }) => {
+    // Open the tree page
+    await page.goto(`${BASE_URL}retro/tree`);
+    await page.click('text="Running"');
+    await page.click('text="Files"');
 
-  beforeAll(async () => {
-    jest.setTimeout(200000);
-    const browserName = (process.env.BROWSER as BrowserName) || 'chromium';
-    browser = await { chromium, firefox }[browserName].launch({ slowMo: 100 });
-    context = await browser.newContext({
-      recordVideo: { dir: 'artifacts/videos/' }
-    });
-  });
+    // Create a new notebook
+    const [notebook] = await Promise.all([
+      page.waitForEvent('popup'),
+      page.click('text="New Notebook"')
+    ]);
 
-  afterAll(async () => {
-    await context.close();
-    await browser.close();
-  });
+    // Choose the kernel
+    await notebook.click('text="Select"');
+    await notebook.click('pre[role="presentation"]');
 
-  describe('Tour', () => {
-    it('should open a new new notebook and stop the kernel after', async () => {
-      const tree = await context.newPage();
+    // Enter code in the first cell
+    await notebook.fill('//textarea', 'import math');
+    await notebook.press('//textarea', 'Enter');
+    await notebook.press('//textarea', 'Enter');
+    await notebook.fill('//textarea', 'math.pi');
 
-      // Open the tree page
-      await tree.goto(`${BASE_URL}retro/tree`);
-      await tree.click('text="Running"');
-      await tree.click('text="Files"');
+    // Run the cell
+    await notebook.click(
+      "//button[normalize-space(@title)='Run the selected cells and advance']"
+    );
 
-      // Create a new notebook
-      const [notebook] = await Promise.all([
-        tree.waitForEvent('popup'),
-        tree.click('text="New Notebook"')
-      ]);
+    // Enter code in the next cell
+    await notebook.fill(
+      "//div[normalize-space(.)=' ​']/div[1]/textarea",
+      'import this'
+    );
 
-      // Choose the kernel
-      await notebook.click('text="Select"');
-      await notebook.click('pre[role="presentation"]');
+    // Run the cell
+    await notebook.click(
+      '//button[normalize-space(@title)=\'Run the selected cells and advance\']/span/span/*[local-name()="svg"]'
+    );
 
-      // Enter code in the first cell
-      await notebook.fill('//textarea', 'import math');
-      await notebook.press('//textarea', 'Enter');
-      await notebook.press('//textarea', 'Enter');
-      await notebook.fill('//textarea', 'math.pi');
+    // Save the notebook
+    // TODO: re-enable after fixing the name on save dialog?
+    // await notebook.click('//span/*[local-name()="svg"]');
 
-      // Run the cell
-      await notebook.click(
-        "//button[normalize-space(@title)='Run the selected cells and advance']"
-      );
+    // Click on the Jupyter logo to open the tree page
+    const [tree2] = await Promise.all([
+      notebook.waitForEvent('popup'),
+      notebook.click(
+        '//*[local-name()="svg" and normalize-space(.)=\'Jupyter\']'
+      )
+    ]);
 
-      // Enter code in the next cell
-      await notebook.fill(
-        "//div[normalize-space(.)=' ​']/div[1]/textarea",
-        'import this'
-      );
+    // Shut down the kernels
+    await tree2.click('text="Running"');
+    await tree2.click('text="Shut Down All"');
+    await tree2.click("//div[normalize-space(.)='Shut Down All']");
 
-      // Run the cell
-      await notebook.click(
-        '//button[normalize-space(@title)=\'Run the selected cells and advance\']/span/span/*[local-name()="svg"]'
-      );
+    // Close the pages
+    await tree2.close();
+    await notebook.close();
+    await page.close();
 
-      // Save the notebook
-      await notebook.click('//span/*[local-name()="svg"]');
-
-      // Click on the Jupyter logo to open the tree page
-      const [tree2] = await Promise.all([
-        notebook.waitForEvent('popup'),
-        notebook.click(
-          '//*[local-name()="svg" and normalize-space(.)=\'Jupyter\']'
-        )
-      ]);
-
-      // Shut down the kernels
-      await tree2.click('text="Running"');
-      await tree2.click('text="Shut Down All"');
-      await tree2.click("//div[normalize-space(.)='Shut Down All']");
-
-      // Close the pages
-      await tree2.close();
-      await notebook.close();
-      await tree.close();
-
-      expect(true).toBe(true);
-    });
+    expect(true).toBe(true);
   });
 });

@@ -117,5 +117,5 @@ retrolab/static
 retrolab/labextension
 
 # playwright
-app/artifacts/videos
+app/test-results
 app/test/data

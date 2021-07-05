@@ -44,6 +44,7 @@ module.exports = {
       'single',
       { avoidEscape: true, allowTemplateLiterals: false }
     ],
+    'jest/no-done-callback': 'off',
     curly: ['error', 'all'],
     eqeqeq: 'error',
     'prefer-arrow-callback': 'error'
