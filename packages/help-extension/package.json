@@ -1,6 +1,6 @@
 {
   "name": "@retrolab/help-extension",
-  "version": "0.3.0-alpha.2",
+  "version": "0.3.0-beta.0",
   "description": "RetroLab - Help Extension",
   "homepage": "https://github.com/jupyterlab/retrolab",
   "bugs": {
@@ -41,7 +41,7 @@
     "@jupyterlab/application": "^3.1.0-beta.0",
     "@jupyterlab/apputils": "^3.1.0-beta.0",
     "@jupyterlab/mainmenu": "^3.1.0-beta.0",
-    "@retrolab/ui-components": "^0.3.0-alpha.2"
+    "@retrolab/ui-components": "^0.3.0-beta.0"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",
