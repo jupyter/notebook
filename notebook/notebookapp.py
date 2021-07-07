@@ -1867,7 +1867,7 @@ class NotebookApp(JupyterApp):
             url = self._unix_sock_url()
         else:
             if self.ip in ('', '0.0.0.0'):
-                ip = "%s" % socket.gethostname()
+                ip = "%s" % socket.getfqdn()
             else:
                 ip = self.ip
             url = self._tcp_url(ip)
