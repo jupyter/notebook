@@ -161,6 +161,7 @@ class RetroApp(NBClassicConfigShimMixin, LabServerApp):
     name = "retro"
     app_name = "RetroLab"
     description = "RetroLab - A JupyterLab Distribution with a retro look and feel"
+    version = version
     app_version = version
     extension_url = "/retro"
     default_url = "/retro/tree"
