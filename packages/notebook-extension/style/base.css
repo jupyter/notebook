@@ -89,22 +89,3 @@
 body[data-format='mobile'] .jp-RetroCheckpoint {
   display: none;
 }
-
-body[data-format='mobile'] .jp-InputArea,
-body[data-format='mobile'] .jp-OutputArea-child {
-  flex-direction: column;
-}
-
-body[data-format='mobile'] .jp-InputPrompt,
-body[data-format='mobile'] .jp-OutputPrompt {
-  flex: 0 0 auto;
-  text-align: left;
-}
-
-body[data-format='mobile'] .jp-InputArea-editor {
-  margin-left: var(--jp-notebook-padding);
-}
-
-body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
-  margin-left: var(--jp-notebook-padding);
-}
