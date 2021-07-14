@@ -450,7 +450,7 @@ class IPythonHandler(AuthenticatedHandler):
         except web.HTTPError as e:
             if self.request.method in {'GET', 'HEAD'}:
                 # Consider Referer a sufficient cross-origin check for GET requests
-                if not self.check_referer():
+                if not self.check_referer() and not self.settings.get('relax_xssi_check', False):
                     referer = self.request.headers.get('Referer')
                     if referer:
                         msg = "Blocking Cross Origin request from {}.".format(referer)

@@ -279,6 +279,7 @@ class NotebookWebApplication(web.Application):
             password=jupyter_app.password,
             xsrf_cookies=True,
             disable_check_xsrf=jupyter_app.disable_check_xsrf,
+            relax_xssi_check=jupyter_app.relax_xssi_check,
             allow_remote_access=jupyter_app.allow_remote_access,
             local_hostnames=jupyter_app.local_hostnames,
             authenticate_prometheus=jupyter_app.authenticate_prometheus,
@@ -1098,6 +1099,20 @@ class NotebookApp(JupyterApp):
         completely without authentication.
         These services can disable all authentication and security checks,
         with the full knowledge of what that implies.
+        """
+    )
+
+    relax_xssi_check = Bool(False, config=True,
+        help="""Relax cross-site inclusion (XSSI) protection
+        
+        By default, GET and HEAD requests get a 403 forbidden response if a 
+        xsrf token is absent from the request parameters and the referrer is
+        unknown. This happens for example if you are viewing a HTML document
+        with relative images as these are sandboxed in the browser and the
+        referrer is then dropped.
+        
+        If set to true GET and HEAD requests will not check for a present
+        xsrf token. 
         """
     )
 
