@@ -83,3 +83,9 @@
   overflow: hidden;
   white-space: nowrap;
 }
+
+/* Mobile View */
+
+body[data-format='mobile'] .jp-RetroCheckpoint {
+  display: none;
+}
