@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.3.0rc0
+
+([full changelog](https://github.com/jupyterlab/retrolab/compare/0.3.0b0...96671df35822f09721fd2e5df7118ce4fa2225ea))
+
+### Enhancements made
+
+- `jupyter retro --version` returns the version [#177](https://github.com/jupyterlab/retrolab/pull/177) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to jupyter-packaging 0.10 [#179](https://github.com/jupyterlab/retrolab/pull/179) ([@jtpio](https://github.com/jtpio))
+- Reuse mobile view CSS from upstream JupyterLab [#178](https://github.com/jupyterlab/retrolab/pull/178) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 3.1.0rc1 [#176](https://github.com/jupyterlab/retrolab/pull/176) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-07-06&to=2021-07-14&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-07-06..2021-07-14&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-07-06..2021-07-14&type=Issues)
+
 ## v0.3.0b0
 
 ([full changelog](https://github.com/jupyterlab/retrolab/compare/0.3.0a2...574da61aa7c8cc4aa6840b0e548860f7ceeb11dc))
