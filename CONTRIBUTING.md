@@ -23,6 +23,12 @@ conda activate retrolab
 
 # Install package in development mode
 pip install -e .
+
+# Link the RetroLab JupyterLab extension
+jupyter labextension develop . --overwrite
+
+# Enable the server extension
+jupyter server extension enable retrolab
 ```
 
 `retrolab` follows a monorepo structure. To build all the packages at once:

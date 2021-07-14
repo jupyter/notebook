@@ -32,6 +32,7 @@
   ],
   "scripts": {
     "build": "tsc -b",
+    "build:prod": "tsc -b",
     "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
     "docs": "typedoc src",
     "prepublishOnly": "npm run build",

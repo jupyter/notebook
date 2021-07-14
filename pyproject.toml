@@ -1,3 +1,17 @@
 [build-system]
-requires = ["jupyter_packaging~=0.7.9", "jupyterlab>=3.1.0rc1,==3.*", "setuptools>=40.8.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["jupyter_packaging~=0.10", "jupyterlab>=3.1.0rc1,==3.1.*"]
+build-backend = "jupyter_packaging.build_api"
+
+[license]
+file="LICENSE"
+
+[tool.jupyter-packaging.options]
+skip-if-exists = ["retrolab/labextension/static/style.js", "retrolab/static/bundle.js"]
+ensured-targets = ["retrolab/labextension/static/style.js", "retrolab/static/bundle.js"]
+
+[tool.jupyter-packaging.builder]
+factory = "jupyter_packaging.npm_builder"
+
+[tool.jupyter-packaging.build-args]
+build_cmd = "build:prod"
+npm = ["jlpm"]

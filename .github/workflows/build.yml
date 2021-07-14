@@ -47,7 +47,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip wheel
-        python -m pip install jupyter_packaging
+        python -m pip install jupyter_packaging~=0.10
     - name: Install the package
       run: |
         python -m pip install .
@@ -82,10 +82,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip wheel
-        python -m pip install setuptools jupyter_packaging "jupyterlab>=3,<4"
+        python -m pip install setuptools jupyter_packaging~=0.10 "jupyterlab>=3,<4" build
     - name: Build pypi distributions
       run: |
-        python setup.py sdist bdist_wheel
+        python -m build
     - name: Build npm distributions
       run: |
         mkdir pkgs

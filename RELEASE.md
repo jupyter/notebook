@@ -63,7 +63,7 @@ Make sure the `dist/` folder is empty.
 - `jlpm`
 - `jlpm run lerna version x.y.z --no-push --amend --force-publish`
 
-4. Run: `python setup.py sdist bdist_wheel`
+4. Run: `python -m pip install build && python -m build`
 5. Double check the size of the bundles in the `dist/` folder
 6. Test the release by installing the wheel or sdist: `python -m pip install ./dist/retrolab-x.y.z-py3-none-any.whl
 7. `export TWINE_USERNAME=mypypi_username`
