@@ -15,6 +15,7 @@ The Jupyter Notebook
    troubleshooting
    changelog
    comms
+   kernels
 
 .. toctree::
    :maxdepth: 1
