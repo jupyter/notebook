@@ -192,23 +192,65 @@ define([
                 e.preventDefault();
             });
             $('#new-folder').click(function(e) {
-                that.contents.new_untitled(that.notebook_path || '', {type: 'directory'})
-                .then(function(){
-                    that.load_list();
-                }).catch(function (e) {
-                    dialog.modal({
-                        title: i18n.msg._('Creating Folder Failed'),
-                        body: $('<div/>')
-                            .text(i18n.msg._("An error occurred while creating a new folder."))
-                            .append($('<div/>')
-                                .addClass('alert alert-danger')
-                                .text(e.message || e)),
-                        buttons: {
-                            OK: {'class': 'btn-primary'}
+                var input = $('<input/>')
+                .attr('type','text')
+                .attr('size','25')
+                .attr('aria-labelledby','new-folder-msg')
+                .addClass('form-control');
+                var message = i18n.msg._("Enter a new directory name:");
+                var title = i18n.msg._("Create directory");
+                var dialog_body = $('<div/>').append(
+                    $("<p/>").addClass("new-folder-msg")
+                        .attr('id', 'new-folder-msg')
+                        .text(message)
+                ).append(
+                    $("<br/>")
+                ).append(input);
+
+                var d = dialog.modal({
+                    title : title,
+                    body : dialog_body,
+                    default_button: "Cancel",
+                    buttons : {
+                        Cancel: {},
+                        Create : {
+                            class: "btn-primary",
+                            click: function() {
+                                var new_folder = `${that.notebook_path || ''}/${input.val()}`;
+                                that.contents.new(new_folder, {type: 'directory'})
+                                .then(function(){
+                                    that.update_location(new_folder);
+                                }).catch(function (e) {
+                                    dialog.modal({
+                                        title: i18n.msg._('Creating Folder Failed'),
+                                        body: $('<div/>')
+                                            .text(i18n.msg._("An error occurred while creating a new folder."))
+                                            .append($('<div/>')
+                                                .addClass('alert alert-danger')
+                                                .text(e.message || e)),
+                                        buttons: {
+                                            OK: {'class': 'btn-primary'}
+                                        }
+                                    });
+                                    console.warn('Error during New directory creation', e);
+                                });
+                            }
                         }
-                    });
-                    console.warn('Error during New directory creation', e);
+                    },
+                    open : function () {
+                        // Focus input on open
+                        input.select();
+                        // Upon ENTER, click the OK button.
+                        input.keydown(function (event) {
+                            if (event.which === keyboard.keycodes.enter) {
+                                d.find('.btn-primary').first().click();
+                                return false;
+                            }
+                        });
+                        input.focus();
+                    }
                 });
+                
                 that.load_sessions();
                 e.preventDefault();
             });

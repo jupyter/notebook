@@ -128,6 +128,33 @@ define(function(requirejs) {
         return utils.promising_ajax(this.api_url(path), settings);
     };
 
+
+    /**
+     * Creates a new empty file or directory in the specified directory path.
+     *
+     * @method new
+     * @param {String} path: the directory in which to create the new file/directory
+     * @param {Object} options:
+     *      ext: file extension to use
+     *      type: model type to create ('notebook', 'file', or 'directory')
+     */
+     Contents.prototype.new = function(path, options) {
+        var data = JSON.stringify({
+            ext: options.ext,
+            type: options.type
+        });
+
+        var settings = {
+            processData : false,
+            type : "PUT",
+            data: data,
+            contentType: 'application/json',
+            dataType : "json",
+        };
+        return utils.promising_ajax(this.api_url(path), settings);
+     };
+
+
     Contents.prototype.delete = function(path) {
         var settings = {
             processData : false,
