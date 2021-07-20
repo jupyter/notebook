@@ -1,5 +1,7 @@
 # Changelog
 
+<!-- <START NEW CHANGELOG ENTRY> -->
+
 ## v0.3.0rc0
 
 ([full changelog](https://github.com/jupyterlab/retrolab/compare/0.3.0b0...96671df35822f09721fd2e5df7118ce4fa2225ea))
@@ -19,6 +21,8 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-07-06&to=2021-07-14&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-07-06..2021-07-14&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-07-06..2021-07-14&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## v0.3.0b0
 

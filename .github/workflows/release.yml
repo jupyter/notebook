@@ -206,26 +206,6 @@ jobs:
         echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
         cp ~/.npmrc .npmrc
         jlpm release:npm --dist ./pkgs
-    - name: Get the current tag
-      id: current_tag
-      run: |
-        tag=`git describe --abbrev=0 --tags $(git rev-list --tags --max-count=1)`
-        echo "::set-output name=tag::${tag}"
-    - name: Get the previous tag
-      id: previous_tag
-      run: |
-        tag=`git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1)`
-        echo "::set-output name=tag::${tag}"
-    - name: Generate Changelog
-      env:
-        CHANGELOG_GITHUB_TOKEN: ${{ secrets.CHANGELOG_GITHUB_TOKEN }}
-      run: |
-        docker run --rm -v "$(pwd)":/usr/local/src/your-app \
-          -e CHANGELOG_GITHUB_TOKEN=${CHANGELOG_GITHUB_TOKEN} \
-          ferrarimarco/github-changelog-generator \
-          github_changelog_generator -u jupyterlab -p retrolab --usernames-as-github-logins --no-issues --no-unreleased \
-          --since-tag ${{ steps.previous_tag.outputs.tag }} --header "" --pr-label "## Changes"
-        head -n -1 CHANGELOG.md > CHANGELOG
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -234,8 +214,6 @@ jobs:
       with:
         tag_name: ${{ github.ref }}
         release_name: ${{ github.ref }}
-        body_path: CHANGELOG
         # TODO: set to false?
         draft: true
         prerelease: ${{ contains(github.ref, 'a') || contains(github.ref, 'b') || contains(github.ref, 'rc') }}
-
