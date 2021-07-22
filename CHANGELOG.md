@@ -2,6 +2,28 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.0rc1
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/0.3.0rc0...9eaa171504b94869b850a46b97f748394d2154fa))
+
+### Enhancements made
+
+- Provide `IStateDB` [#187](https://github.com/jupyterlab/retrolab/pull/187) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab 3.1.0rc2 [#186](https://github.com/jupyterlab/retrolab/pull/186) ([@jtpio](https://github.com/jtpio))
+- Improve the bump version script [#185](https://github.com/jupyterlab/retrolab/pull/185) ([@jtpio](https://github.com/jtpio))
+- Add check-release CI workflow and Changelog [#173](https://github.com/jupyterlab/retrolab/pull/173) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-07-14&to=2021-07-22&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-07-14..2021-07-22&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-07-14..2021-07-22&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## v0.3.0rc0
 
 ([full changelog](https://github.com/jupyterlab/retrolab/compare/0.3.0b0...96671df35822f09721fd2e5df7118ce4fa2225ea))
@@ -21,8 +43,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-07-06&to=2021-07-14&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-07-06..2021-07-14&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-07-06..2021-07-14&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## v0.3.0b0
 
