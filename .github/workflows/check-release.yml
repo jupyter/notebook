@@ -52,5 +52,7 @@ jobs:
           pip install .
       - name: Check Release
         uses: jupyter-server/jupyter_releaser/.github/actions/check-release@v1
+        env:
+          RH_VERSION_SPEC: build
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

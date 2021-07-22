@@ -39,7 +39,6 @@
     "clean:all": "jlpm run clean:lib && jlpm run clean:labextension",
     "clean:labextension": "rimraf ../../retrolab/labextension",
     "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
-    "prepare": "jlpm run clean && jlpm run build:prod",
     "watch": "run-p watch:src watch:labextension",
     "watch:labextension": "jupyter labextension watch .",
     "watch:src": "tsc -w"

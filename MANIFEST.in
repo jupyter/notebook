@@ -1,6 +1,7 @@
 include LICENSE
 include *.md
 include pyproject.toml
+include setup.py
 include jupyter-config/retrolab.json
 
 include package.json

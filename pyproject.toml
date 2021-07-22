@@ -15,3 +15,6 @@ factory = "jupyter_packaging.npm_builder"
 [tool.jupyter-packaging.build-args]
 build_cmd = "build:prod"
 npm = ["jlpm"]
+
+[tool.check-manifest]
+ignore = ["app/**", "binder/**", "buildutils/**", "packages/**", "*.json", "yarn.lock", "readthedocs.yml", ".bumpversion.cfg", ".*", "lint-staged.config.js", "logo.*", "retrolab/labextension/**", "retrolab/static/**", "retrolab/template/**"]
