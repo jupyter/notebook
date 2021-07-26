@@ -9,9 +9,4 @@ store the current version info of the notebook.
 
 # Next beta/alpha/rc release: The version number for beta is X.Y.ZbN **without dots**.
 
-<<<<<<< HEAD
 __version__ = 'rc1.1.2.0'
-=======
-
-__version__ = '1.5.dev389'
->>>>>>> 06cedc8e4... [QPD-389] Added import deming_setup (#69)
