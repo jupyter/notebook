@@ -39,9 +39,10 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
         Return MlNode url for the class level kernel ID.
         :return: Ipaddress of the URL. ( String )
         """
-        kernel_session = self.db.get_kernel_session('kernel_id', self.kernel_id)
-        ml_node = kernel_session[0].ml_node
-        return str(ml_node.ip_address)
+        kernel_session = self.db.get_kernel_session(self.kernel_id)
+        ml_node_id = kernel_session["ml_node"]
+        ml_node = self.db.get_ml_node('id', ml_node_id)
+        return str(ml_node["ip_address"])
 
 
     def check_origin(self, origin=None):
@@ -157,10 +158,12 @@ class GatewayWebSocketClient(LoggingConfigurable):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.gateway_url = kwargs['gateway_url']
         self.kernel_id = None
         self.ws = None
         self.ws_future = Future()
         self.disconnected = False
+
 
     @gen.coroutine
     def _connect(self, kernel_id):
@@ -168,6 +171,8 @@ class GatewayWebSocketClient(LoggingConfigurable):
 
         self.ws = None
         self.kernel_id = kernel_id
+
+        self.log.info(f'Kernel ID={kernel_id}')
 
         # get the data from the kernel session.
         ws_url = url_path_join(
