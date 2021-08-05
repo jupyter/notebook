@@ -14,7 +14,7 @@ before-build-python = ["pip install babel", "npm install -g po2json"]
 ignore-glob = ["docs/source/examples/Notebook/Working With Markdown Cells.ipynb", "docs-translations/**/README.md", "docs/source/contributing.rst", "docs/source/examples/Notebook/JavaScript Notebook Extensions.ipynb", "CHANGELOG.md"]
 
 [tool.tbump.version]
-current = "6.5.0.dev0"
+current = "6.4.1"
 regex = '''
   (?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)
   ((?P<channel>a|b|rc|.dev)(?P<release>\d+))?
