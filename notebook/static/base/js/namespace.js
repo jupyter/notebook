@@ -32,7 +32,7 @@ define(function(){
     // expose modules
     
     jprop('utils','base/js/utils')
-    
+
     //Jupyter.load_extensions = Jupyter.utils.load_extensions;
     // 
     jprop('security','base/js/security');

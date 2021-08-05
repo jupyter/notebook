@@ -140,7 +140,6 @@ def find_package_data():
         pjoin(components, "font-awesome", "css", "*.css"),
         pjoin(components, "es6-promise", "*.js"),
         pjoin(components, "font-awesome", "fonts", "*.*"),
-        pjoin(components, "google-caja", "html-css-sanitizer-minified.js"),
         pjoin(components, "jed", "jed.js"),
         pjoin(components, "jquery", "jquery.min.js"),
         pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.js"),
@@ -153,6 +152,7 @@ def find_package_data():
         pjoin(components, "requirejs", "require.js"),
         pjoin(components, "requirejs-plugins", "src", "json.js"),
         pjoin(components, "requirejs-text", "text.js"),
+        pjoin(components, "sanitizer", "index.js"),
         pjoin(components, "underscore", "underscore-min.js"),
         pjoin(components, "moment", "moment.js"),
         pjoin(components, "moment", "min", "*.js"),
@@ -376,14 +376,21 @@ class Bower(Command):
     
     bower_dir = pjoin(static, 'components')
     node_modules = pjoin(repo_root, 'node_modules')
+    sanitizer_dir = pjoin(bower_dir, 'sanitizer')
     
     def should_run(self):
         if self.force:
             return True
         if not os.path.exists(self.bower_dir):
             return True
-        
-        return mtime(self.bower_dir) < mtime(pjoin(repo_root, 'bower.json'))
+        if not os.path.exists(self.sanitizer_dir):
+            return True
+
+        bower_stale = mtime(self.bower_dir) < mtime(pjoin(repo_root, 'bower.json'))
+        if bower_stale:
+            return True
+
+        return mtime(self.sanitizer_dir) < mtime(pjoin(repo_root, 'webpack.config.js'))
 
     def should_run_npm(self):
         if not which('npm'):
@@ -417,6 +424,8 @@ class Bower(Command):
             print("You can install js dependencies with `npm install`", file=sys.stderr)
             raise
         # self.npm_components()
+        if not os.path.exists(self.sanitizer_dir):
+            run(['npm', 'run', 'build:webpack'], cwd=repo_root, env=env)
         os.utime(self.bower_dir, None)
         # update package data in case this created new files
         update_package_data(self.distribution)
