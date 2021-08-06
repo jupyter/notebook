@@ -1,6 +1,7 @@
 include COPYING.md
 include CONTRIBUTING.rst
 include README.md
+include *.js
 include package.json
 include bower.json
 include .bowerrc
