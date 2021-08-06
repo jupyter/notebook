@@ -17,7 +17,7 @@ from ..utils import url_path_join
 
 from traitlets import Instance, Unicode, Float, Bool, default, validate, TraitError
 from traitlets.config import SingletonConfigurable
-from ..db_util import ExecuteQueries
+from ..db_util import ExecuteQueries, run_inside_thread
 import re
 
 
@@ -38,7 +38,7 @@ class GatewayClient(SingletonConfigurable):
     ml_nodes = ExecuteQueries().get_mlnodes()
     ml_node_urls = []
     for record in ml_nodes:
-        ml_node_urls.append(str(record['ip_address']))
+        ml_node_urls.append(str(record.ip_address))
 
     urls = ml_node_urls
 
@@ -360,14 +360,23 @@ class GatewayKernelManager(MappingKernelManager):
         :return: Boolean stating if it is present in the system.
         """
 
-        return self.db.check_kernel_sessions(kernel_id)
+        return self.db.check_kernel_sessions('kernel_id', kernel_id)
 
     def remove_kernel(self, kernel_id):
         """
         Complete override since we want to be more tolerant of missing keys
         """
-        self.db.delete_kernel_session(kernel_id)
+        self.db.delete_kernel_session('kernel_id', kernel_id)
 
+    @run_inside_thread
+    def get_url_from_ml_node(self, kernel_session):
+        if kernel_session:
+            ml_node = kernel_session[0].ml_node
+            mlnode = self.db.get_mlnode_address_with_field('id', ml_node.id)
+            _url = f'{mlnode}/api/kernels'
+            _url = url_path_join(_url, url_escape(str(kernel_session[0].kernel_id)))
+            return _url
+        
     def _get_kernel_endpoint_url(self, kernel_id=None,
                                  kernel_name=None,
                                  mlnode_id=None):
@@ -387,12 +396,9 @@ class GatewayKernelManager(MappingKernelManager):
             _url = f'{ml_node}/api/kernels'
 
         if kernel_id:
-            kernel_session = self.db.get_kernel_session(kernel_id)
-            ml_node_id = kernel_session["ml_node"]
-            ml_node = self.db.get_ml_node('id', ml_node_id)
-            mlnode = f"https://{ml_node['ip_address']}"
-            _url = f'{mlnode}/api/kernels'
-            _url = url_path_join(_url, url_escape(str(kernel_id)))
+            kernel_session = self.db.get_kernel_session('kernel_id', kernel_id)
+            _url = self.get_url_from_ml_node(kernel_session)
+
         return _url
 
     @gen.coroutine
@@ -479,11 +485,11 @@ class GatewayKernelManager(MappingKernelManager):
             # after successful response add the updated entries to the db.
             kernel = json_decode(response.body)
             kernel_ip = re.search(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', kernel_url).group()
-            mlnode_name = self.db.get_ml_node('ip_address', kernel_ip)
+            mlnode_name = self.db.get_ml_node('ip_address', kernel_ip)[0]
 
             _field_values = {
                 'kernel_id': str(kernel['id']),
-                'mlnode_id': mlnode_name['id'],
+                'mlnode_id': mlnode_name.id,
                 'kernel_name': str(kernel['name'])
             }
 
@@ -711,13 +717,13 @@ class GatewayKernelSpecManager(KernelSpecManager):
             __kernel_specs = {'kernelspecs': {}}
             __kernel_specs__ = value_mlnode['kernelspecs']
             for key, value in __kernel_specs__.items():
-                node = self.db.get_ml_node('ip_address', key_mlnode)
-                display_name = node["name"]
-                _key = key + "~" + str(node["id"])
+                node = self.db.get_ml_node('ip_address', key_mlnode)[0]
+                display_name = node.name
+                _key = key + "~" + str(node.id)
                 __kernel_specs['kernelspecs'][_key] = value
                 __kernel_specs['kernelspecs'][_key]['name'] = _key
                 __kernel_specs['kernelspecs'][_key]['spec']['display_name'] = display_name
-                __kernel_specs['kernelspecs'][_key]['node_id'] = str(node["id"])
+                __kernel_specs['kernelspecs'][_key]['node_id'] = str(node.id)
             _kernel_specs.append(__kernel_specs)
 
         raise gen.Return(_kernel_specs)
