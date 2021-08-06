@@ -45,7 +45,8 @@ npm install -g po2json
 ### Update the version
 
 ```bash
-vim notebook/_version.py
+vim notebook/_version.py  # update version
+vim pyproject.toml  # update version to match
 python setup.py jsversion
 git commit -am "Release $(python setup.py --version)"
 git tag $(python setup.py --version)

@@ -9,6 +9,7 @@ include pyproject.toml
 include setup.py
 include setupbase.py
 include Dockerfile
+include *.js
 graft tools
 graft notebook/tests
 
