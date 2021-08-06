@@ -20,6 +20,7 @@ from jupyter_client.session import Session
 from traitlets.config.configurable import LoggingConfigurable
 from .managers import GatewayClient
 from ..db_util import ExecuteQueries
+from notebook.db_util import run_inside_thread
 
 # Keepalive ping interval (default: 30 seconds)
 GATEWAY_WS_PING_INTERVAL_SECS = int(os.getenv('GATEWAY_WS_PING_INTERVAL_SECS', 30))
@@ -34,15 +35,15 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
     ml_node_url = None
     db = ExecuteQueries()
 
+    @run_inside_thread
     def mlnode_url(self):
         """
         Return MlNode url for the class level kernel ID.
         :return: Ipaddress of the URL. ( String )
         """
-        kernel_session = self.db.get_kernel_session(self.kernel_id)
-        ml_node_id = kernel_session["ml_node"]
-        ml_node = self.db.get_ml_node('id', ml_node_id)
-        return str(ml_node["ip_address"])
+        kernel_session = self.db.get_kernel_session('kernel_id', self.kernel_id)
+        ml_node = kernel_session[0].ml_node
+        return str(ml_node.ip_address)
 
 
     def check_origin(self, origin=None):
@@ -164,15 +165,12 @@ class GatewayWebSocketClient(LoggingConfigurable):
         self.ws_future = Future()
         self.disconnected = False
 
-
     @gen.coroutine
     def _connect(self, kernel_id):
         # websocket is initialized before connection
 
         self.ws = None
         self.kernel_id = kernel_id
-
-        self.log.info(f'Kernel ID={kernel_id}')
 
         # get the data from the kernel session.
         ws_url = url_path_join(
