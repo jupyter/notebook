@@ -122,7 +122,7 @@ for more information.
         'nbformat',
         'nbconvert',
         'ipykernel', # bless IPython kernel for now
-        'Send2Trash>=1.5.0',
+        'Send2Trash>=1.8.0',
         'terminado>=0.8.3',
         'prometheus_client'
     ],
