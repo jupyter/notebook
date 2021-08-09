@@ -10,6 +10,8 @@ from django.db.models import QuerySet
 from functools import wraps
 from typing import List
 
+from deming import deming_setup
+
 # PG values.
 PG_DB_USER = os.environ.get('PG_DB_USER', '')
 PG_DB_NAME = os.environ.get('PG_DB_NAME', '')
