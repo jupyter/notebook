@@ -11,7 +11,9 @@ two hooks available:
   without content. This could be used to commit changes after every save, for
   instance.
 
-They are both called with keyword arguments::
+They are both called with keyword arguments:
+
+.. code-block:: python
 
     pre_save_hook(model=model, path=path, contents_manager=cm)
     post_save_hook(model=model, os_path=os_path, contents_manager=cm)
@@ -21,7 +23,9 @@ Examples
 
 These can both be added to :file:`jupyter_notebook_config.py`.
 
-A pre-save hook for stripping output::
+A pre-save hook for stripping output:
+
+.. code-block:: python
 
     def scrub_output_pre_save(model, **kwargs):
         """scrub output before saving notebooks"""
