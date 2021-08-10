@@ -12,12 +12,15 @@
   "scripts": {
     "bower": "bower install",
     "build": "python setup.py js css",
-    "build:webpack": "webpack --mode development",
+    "build:webpack": "webpack --mode production",
     "build:watch": "npm run watch",
     "watch": "onchange 'notebook/static/**/!(*.min).js' 'notebook/static/**/*.less' 'bower.json' -- npm run build"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.15.0",
     "@jupyterlab/apputils": "^3.1.3",
+    "babel-loader": "^8.2.2",
+    "babel-polyfill": "^6.26.0",
     "bower": "^1.8.8",
     "less": "~2",
     "onchange": "^6.0.0",
