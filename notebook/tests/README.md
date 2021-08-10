@@ -1,7 +1,7 @@
 # IPython Notebook JavaScript Tests
 
 This directory includes regression tests for the web notebook. These tests
-depend on [CasperJS](http://casperjs.org/), which in turn requires a recent
+depend on [CasperJS](https://github.com/casperjs/casperjs/), which in turn requires a recent
 version of [PhantomJS](http://phantomjs.org/).
 
 The JavaScript tests are organized into subdirectories that match those in

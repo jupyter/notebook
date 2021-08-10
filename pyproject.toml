@@ -6,6 +6,9 @@ build-backend = "setuptools.build_meta"
 ignore = ["docs-translations/**", ".*", "*.yml", "*.less", "git-hooks/**", "MANIFEST.in", "RELEASE.md", "jupyter.svg", "notebook/static/**", "notebook/i18n/**/*.json", "docs/source/*.*"]
 ignore-bad-ideas = ["notebook/i18n/**/*.mo"]
 
+[tool.jupyter-releaser]
+skip = ["check-links"]
+
 [tool.jupyter-releaser.hooks]
 after-bump-version = "python setup.py jsversion"
 before-build-python = ["pip install babel", "npm install -g po2json"]
