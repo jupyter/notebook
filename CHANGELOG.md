@@ -18,14 +18,14 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.2...c373bd89adaaddffbb71747ebbcfe8a749cae0a8))
 
-### Maintenance and upkeep improvements
-
-- Clean up link checking [#6130](https://github.com/jupyter/notebook/pull/6130) ([@blink1073](https://github.com/blink1073))
-
-### Other merged PRs
+### Bugs fixed
 
 - Add @babel/core dependency [#6133](https://github.com/jupyter/notebook/pull/6133) ([@afshin](https://github.com/afshin))
 - Switch webpack to production mode [#6131](https://github.com/jupyter/notebook/pull/6131) ([@afshin](https://github.com/afshin))
+
+### Maintenance and upkeep improvements
+
+- Clean up link checking [#6130](https://github.com/jupyter/notebook/pull/6130) ([@blink1073](https://github.com/blink1073))
 
 ### Contributors to this release
 
