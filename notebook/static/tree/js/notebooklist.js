@@ -139,6 +139,12 @@ define([
           'application/x-sh',
           'application/vnd.groove-tool-template'
         ];
+        /**
+         * This object will be for right click
+         */
+        this.current_selection={
+            selected:[]
+        }
     };
 
     NotebookList.prototype.style = function () {
@@ -149,6 +155,7 @@ define([
         $(prefix + '_list_header').addClass('list_header');
         this.element.addClass("list_container");
     };
+
 
     NotebookList.prototype.bind_events = function () {
         var that = this;
@@ -223,6 +230,8 @@ define([
             $('.edit-button').click($.proxy(this.edit_selected, this));
             $('.delete-button').click($.proxy(this.delete_selected, this));
 
+            
+
             // Bind events for selection menu buttons.
             $('#selector-menu').click(function (event) {
                 that.select($(event.target).attr('id'));
@@ -264,8 +273,78 @@ define([
                 }
                 that.sort_id = sort_on;
             });
+
+            /**Bind Right Click to the notebook */
+            var current_selection={};
+            $(document).on("contextmenu","#notebook_list .list_item",
+                function(e){
+                    e.preventDefault()
+                    //current_selection=that.clone()
+                    Object.assign(current_selection,that)
+                    Object.setPrototypeOf(current_selection,that)
+                    //console.log(current_selection)
+                    current_selection.selected=[]
+                    var parent = $(this);
+                    //console.log(parent)
+
+                    // If the item doesn't have an upload button, isn't the
+                    // breadcrumbs and isn't the parent folder '..', then it can be selected.
+                    // Breadcrumbs path == ''.
+                    if (parent.find('.upload_button').length === 0 && parent.data('path') !== '' && parent.data('path') !== utils.url_path_split(that.notebook_path)[0]) {
+                        current_selection.selected.push({
+                            name: parent.data('name'),
+                            path: parent.data('path'),
+                            type: parent.data('type')
+                        })
+                    }
+                    $("#contextMenu").css({"top":that.getMouseY(e),"left":that.getMouseX(e)})
+                    $("#open-item").attr("href",$(this).find('a').attr("href"))
+                    $("#contextMenu").show()
+                    //console.log(current_selection)
+                    //console.log(that.getMouseX(e),that.getMouseY(e))
+            
+            })
+            
+            
+            $('#rename-item').click($.proxy(that.rename_selected, current_selection));
+            $('#move-item').click($.proxy(that.move_selected, current_selection));
+            $('#delete-item').click($.proxy(that.delete_selected, current_selection));
+
+            $(document).bind("click", function(event) {
+                /**Hide the custom context menu */
+                $("#contextMenu").hide()
+                
+              });
+
+            
         }
     };
+
+    
+
+    NotebookList.prototype.getMouseX=function(evt){
+        if (evt.pageX) {
+            return evt.pageX;
+          } else if (evt.clientX) {
+            return evt.clientX + (document.documentElement.scrollLeft ?
+              document.documentElement.scrollLeft :
+              document.body.scrollLeft);
+          } else {
+            return null;
+          }
+    }
+
+    NotebookList.prototype.getMouseY=function(evt){
+        if (evt.pageY) {
+            return evt.pageY;
+          } else if (evt.clientY) {
+            return evt.clientY + (document.documentElement.scrollTop ?
+              document.documentElement.scrollTop :
+              document.body.scrollTop);
+          } else {
+            return null;
+          }
+    }
 
     NotebookList.prototype.sort_list = function(id, order) {
         if (sort_functions.hasOwnProperty(id)) {
@@ -723,7 +802,7 @@ define([
         var checked = 0;
         $('.list_item :checked').each(function(index, item) {
             var parent = $(item).parent().parent();
-
+            //console.log(parent)
             // If the item doesn't have an upload button, isn't the
             // breadcrumbs and isn't the parent folder '..', then it can be selected.
             // Breadcrumbs path == ''.
@@ -734,6 +813,7 @@ define([
                     path: parent.data('path'),
                     type: parent.data('type')
                 });
+                //console.log(selected)
 
                 // Set flags according to what is selected.  Flags are later
                 // used to decide which action buttons are visible.
@@ -1004,6 +1084,8 @@ define([
     };
 
     NotebookList.prototype.rename_selected = function() {
+        //console.log(this)
+        //console.log(this.selected)
         if (this.selected.length !== 1){
             return;
         }

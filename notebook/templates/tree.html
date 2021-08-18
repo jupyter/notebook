@@ -25,7 +25,12 @@ data-server-root="{{server_root}}"
 {% endblock %}
 
 {% block site %}
-
+  <div id="contextMenu">
+      <div class="options"><a id="open-item" href="javascript:void(0)">Open</a></div>
+      <div class="options"><a id="rename-item" href="javascript:void(0)">Rename</a></div>
+      <div class="options"><a id="move-item" href="javascript:void(0)">Move</a></div>
+      <div class="options"><a id="delete-item" href="javascript:void(0)">Delete</a></div>
+  </div>
   <div id="ipython-main-app" class="container">
     <div id="tab_content" class="tabbable" role="main">
       <ul id="tabs" class="nav nav-tabs">
