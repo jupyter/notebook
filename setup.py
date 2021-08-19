@@ -15,22 +15,7 @@ import sys
 
 name = "notebook"
 
-if sys.version_info < (3, 6):
-    pip_message = 'This may be due to an out of date pip. Make sure you have pip >= 9.0.1.'
-    try:
-        import pip
-        pip_version = tuple([int(x) for x in pip.__version__.split('.')[:3]])
-        if pip_version < (9, 0, 1) :
-            pip_message = 'Your pip version is out of date, please install pip >= 9.0.1. '\
-            'pip {} detected.'.format(pip.__version__)
-        else:
-            # pip is new enough - it must be something else
-            pip_message = ''
-    except Exception:
-        pass
 
-
-    error = """
 Notebook 6.3+ supports Python 3.6 and above.
 When using Python 3.5, please install Notebook <= 6.2.
 When using Python 3.4 or earlier (including 2.7), please install Notebook 5.x.
