@@ -47,7 +47,6 @@ pip install jupyter_releaser  # used for build dependencies (build, twine, tbump
 
 ```bash
 tbump --only-patch <new_version> # set the new version
-vim pyproject.toml  # update version to match
 python setup.py jsversion
 git commit -am "Release $(python setup.py --version)"
 git tag $(python setup.py --version)
