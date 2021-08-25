@@ -38,14 +38,15 @@ pip install -ve .
 ### Install release dependencies
 
 ```bash
-conda install -c conda-forge nodejs babel twine build
+conda install -c conda-forge nodejs babel
 npm install -g po2json
+pip install jupyter_releaser  # used for build dependencies (build, twine, tbump)
 ```
 
 ### Update the version
 
 ```bash
-vim notebook/_version.py  # update version
+tbump --only-patch <new_version> # set the new version
 vim pyproject.toml  # update version to match
 python setup.py jsversion
 git commit -am "Release $(python setup.py --version)"
@@ -68,7 +69,7 @@ twine check dist/* && twine upload dist/*
 ### Change back to dev version
 
 ```bash
-vim notebook/_version.py   # Add the .dev suffix
+tbump --only-patch <dev_version>  # Add the .dev suffix
 python setup.py jsversion
 git commit -am "Back to dev version"
 ```
