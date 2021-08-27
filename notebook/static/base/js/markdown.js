@@ -106,7 +106,7 @@ define([
                     html = mathjaxutils.replace_math(html, math);
                 }
                 if(options.sanitize) {
-                    html = $(security.sanitize_html_and_parse(html));
+                    html = $(security.sanitize_html_and_parse(html, true));
                 }
             }
             callback(err, html);
