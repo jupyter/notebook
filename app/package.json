@@ -28,6 +28,7 @@
     "@jupyterlab/coreutils": "~5.1.8",
     "@jupyterlab/docmanager": "~3.1.8",
     "@jupyterlab/docmanager-extension": "~3.1.8",
+    "@jupyterlab/docprovider": "~3.1.8",
     "@jupyterlab/filebrowser": "~3.1.8",
     "@jupyterlab/filebrowser-extension": "~3.1.8",
     "@jupyterlab/fileeditor": "~3.1.8",
@@ -49,6 +50,7 @@
     "@jupyterlab/running-extension": "~3.1.8",
     "@jupyterlab/services": "~6.1.8",
     "@jupyterlab/settingregistry": "~3.1.8",
+    "@jupyterlab/shared-models": "~3.1.8",
     "@jupyterlab/shortcuts-extension": "~3.1.8",
     "@jupyterlab/statedb": "~3.1.8",
     "@jupyterlab/statusbar": "~3.1.8",
@@ -81,7 +83,8 @@
     "@retrolab/tree-extension": "~0.3.0",
     "@retrolab/ui-components": "~0.3.0",
     "react": "~17.0.2",
-    "react-dom": "~17.0.2"
+    "react-dom": "~17.0.2",
+    "yjs": "~13.5.10"
   },
   "dependencies": {
     "@jupyterlab/application-extension": "^3.1.8",
@@ -178,6 +181,7 @@
       "@jupyterlab/console",
       "@jupyterlab/coreutils",
       "@jupyterlab/docmanager",
+      "@jupyterlab/docprovider",
       "@jupyterlab/filebrowser",
       "@jupyterlab/fileeditor",
       "@jupyterlab/mainmenu",
@@ -188,6 +192,7 @@
       "@jupyterlab/rendermime-interfaces",
       "@jupyterlab/services",
       "@jupyterlab/settingregistry",
+      "@jupyterlab/shared-models",
       "@jupyterlab/statedb",
       "@jupyterlab/statusbar",
       "@jupyterlab/terminal",
@@ -206,7 +211,8 @@
       "@lumino/virtualdom",
       "@lumino/widgets",
       "react",
-      "react-dom"
+      "react-dom",
+      "yjs"
     ],
     "mimeExtensions": {},
     "linkedPackages": {}
