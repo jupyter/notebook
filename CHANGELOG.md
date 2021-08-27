@@ -2,6 +2,44 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.0
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/0.2.2...2f06d80c12f720d2c457b0db5a57390f004819f4))
+
+### Enhancements made
+
+- Provide `IStateDB` [#187](https://github.com/jupyterlab/retrolab/pull/187) ([@jtpio](https://github.com/jtpio))
+- `jupyter retro --version` returns the version [#177](https://github.com/jupyterlab/retrolab/pull/177) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab 3.1 final [#189](https://github.com/jupyterlab/retrolab/pull/189) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 3.1.0rc2 [#186](https://github.com/jupyterlab/retrolab/pull/186) ([@jtpio](https://github.com/jtpio))
+- Improve the bump version script [#185](https://github.com/jupyterlab/retrolab/pull/185) ([@jtpio](https://github.com/jtpio))
+- Update to jupyter-packaging 0.10 [#179](https://github.com/jupyterlab/retrolab/pull/179) ([@jtpio](https://github.com/jtpio))
+- Reuse mobile view CSS from upstream JupyterLab [#178](https://github.com/jupyterlab/retrolab/pull/178) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 3.1.0rc1 [#176](https://github.com/jupyterlab/retrolab/pull/176) ([@jtpio](https://github.com/jtpio))
+- Add check-release CI workflow and Changelog [#173](https://github.com/jupyterlab/retrolab/pull/173) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 3.1.0-beta.0 packages [#167](https://github.com/jupyterlab/retrolab/pull/167) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Add changelog for v0.3.0rc0 [#180](https://github.com/jupyterlab/retrolab/pull/180) ([@jtpio](https://github.com/jtpio))
+- Add Changelog for 0.3.0b0 [#174](https://github.com/jupyterlab/retrolab/pull/174) ([@jtpio](https://github.com/jtpio))
+
+### Other merged PRs
+
+- Check the application status before closing the tab [#166](https://github.com/jupyterlab/retrolab/pull/166) ([@jtpio](https://github.com/jtpio))
+- Mimic classic notebook behavior for /tree/<path> [#159](https://github.com/jupyterlab/retrolab/pull/159) ([@yuvipanda](https://github.com/yuvipanda))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-05-31&to=2021-08-27&type=c))
+
+[@fcollonval](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Afcollonval+updated%3A2021-05-31..2021-08-27&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-05-31..2021-08-27&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-05-31..2021-08-27&type=Issues) | [@welcome](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Awelcome+updated%3A2021-05-31..2021-08-27&type=Issues) | [@yuvipanda](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ayuvipanda+updated%3A2021-05-31..2021-08-27&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.0rc1
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/0.3.0rc0...9eaa171504b94869b850a46b97f748394d2154fa))
@@ -21,8 +59,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-07-14&to=2021-07-22&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-07-14..2021-07-22&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-07-14..2021-07-22&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## v0.3.0rc0
 
