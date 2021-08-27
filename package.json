@@ -79,6 +79,7 @@
       "version-cmd": [
         "jlpm run release:bump --force --skip-commit"
       ]
-    }
+    },
+    "skip": ["check-links"]
   }
 }
