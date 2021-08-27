@@ -173,7 +173,7 @@ class NbconvertPostHandler(IPythonHandler):
                 "config_dir": self.application.settings['config_dir'],
             })
         except Exception as e:
-            raise web.HTTPError(500, "nbconvert failed: %s" % e) from e
+            raise web.HTTPError(500, "nbconvert failed due to: %s" % e) from e
 
         if respond_zip(self, name, output, resources):
             return
