@@ -2,6 +2,26 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.1
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/0.3.0...660066f7c58763bff9afcfcbaf005660f9889085))
+
+### Enhancements made
+
+- Fix support for RTC [#194](https://github.com/jupyterlab/retrolab/pull/194) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update spec in the check release workflow [#193](https://github.com/jupyterlab/retrolab/pull/193) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-08-27&to=2021-08-28&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-08-27..2021-08-28&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-08-27..2021-08-28&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.0
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/0.2.2...2f06d80c12f720d2c457b0db5a57390f004819f4))
@@ -37,8 +57,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-05-31&to=2021-08-27&type=c))
 
 [@fcollonval](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Afcollonval+updated%3A2021-05-31..2021-08-27&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-05-31..2021-08-27&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-05-31..2021-08-27&type=Issues) | [@welcome](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Awelcome+updated%3A2021-05-31..2021-08-27&type=Issues) | [@yuvipanda](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ayuvipanda+updated%3A2021-05-31..2021-08-27&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.0rc1
 
