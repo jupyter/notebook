@@ -119,6 +119,7 @@ async function main() {
     require('@jupyterlab/docmanager-extension').default.filter(({ id }) =>
       ['@jupyterlab/docmanager-extension:plugin'].includes(id)
     ),
+    require('@jupyterlab/docprovider-extension'),
     require('@jupyterlab/mainmenu-extension'),
     require('@jupyterlab/mathjax2-extension'),
     require('@jupyterlab/notebook-extension').default.filter(({ id }) =>
