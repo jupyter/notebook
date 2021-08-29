@@ -8,6 +8,7 @@
   "references": [
     { "path": "../application" },
     { "path": "../application-extension" },
+    { "path": "../console-extension" },
     { "path": "../docmanager-extension" },
     { "path": "../help-extension" },
     { "path": "../lab-extension" },

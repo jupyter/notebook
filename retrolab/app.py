@@ -130,6 +130,13 @@ class RetroTreeHandler(RetroHandler):
             raise web.HTTPError(404)
 
 
+class RetroConsoleHandler(RetroHandler):
+    @web.authenticated
+    def get(self, path=None):
+        tpl = self.render_template("consoles.html", page_config=self.get_page_config())
+        return self.write(tpl)
+
+
 class RetroTerminalHandler(RetroHandler):
     @web.authenticated
     def get(self, path=None):
@@ -203,6 +210,7 @@ class RetroApp(NBClassicConfigShimMixin, LabServerApp):
         self.handlers.append(("/retro/tree(.*)", RetroTreeHandler))
         self.handlers.append(("/retro/notebooks(.*)", RetroNotebookHandler))
         self.handlers.append(("/retro/edit(.*)", RetroFileHandler))
+        self.handlers.append(("/retro/consoles/(.*)", RetroConsoleHandler))
         self.handlers.append(("/retro/terminals/(.*)", RetroTerminalHandler))
         super().initialize_handlers()
 
