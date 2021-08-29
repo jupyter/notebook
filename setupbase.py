@@ -14,7 +14,7 @@ import os
 import re
 import pipes
 import shutil
-import sys
+import sy
 
 from distutils import log
 from distutils.cmd import Command
