@@ -176,6 +176,20 @@ async function main() {
       ]);
       break;
     }
+    case 'consoles': {
+      mods = mods.concat([
+        require('@jupyterlab/completer-extension').default.filter(({ id }) =>
+          ['@jupyterlab/completer-extension:consoles'].includes(id)
+        ),
+        require('@jupyterlab/tooltip-extension').default.filter(({ id }) =>
+          [
+            '@jupyterlab/tooltip-extension:manager',
+            '@jupyterlab/tooltip-extension:consoles'
+          ].includes(id)
+        )
+      ]);
+      break;
+    }
     case 'edit': {
       mods = mods.concat([
         require('@jupyterlab/completer-extension').default.filter(({ id }) =>
