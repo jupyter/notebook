@@ -126,6 +126,7 @@ async function main() {
     require('@jupyterlab/mathjax2-extension'),
     require('@jupyterlab/notebook-extension').default.filter(({ id }) =>
       [
+        '@jupyterlab/notebook-extension:code-console',
         '@jupyterlab/notebook-extension:factory',
         '@jupyterlab/notebook-extension:tracker',
         '@jupyterlab/notebook-extension:widget-factory'
