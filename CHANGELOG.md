@@ -4,17 +4,21 @@
 
 ## 0.3.2
 
-([Full Changelog](https://github.com/jupyterlab/retrolab/compare/0.3.1...ab319333c993ba2765ef0e31c5f905c5b9578dd8))
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/0.3.1...ecd9b1ee96b01f418d098885c6e2442c60b8480b))
 
 ### New features added
 
 - Add support for code consoles [#197](https://github.com/jupyterlab/retrolab/pull/197) ([@jtpio](https://github.com/jtpio))
 
+### Maintenance and upkeep improvements
+
+- Update dependencies and resolutions [#199](https://github.com/jupyterlab/retrolab/pull/199) ([@jtpio](https://github.com/jtpio))
+
 ### Contributors to this release
 
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-08-28&to=2021-08-30&type=c))
 
-[@bollwyvl](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Abollwyvl+updated%3A2021-08-28..2021-08-30&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-08-28..2021-08-30&type=Issues)
+[@bollwyvl](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Abollwyvl+updated%3A2021-08-28..2021-08-30&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-08-28..2021-08-30&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-08-28..2021-08-30&type=Issues)
 
 <!-- <END NEW CHANGELOG ENTRY> -->
 
