@@ -93,6 +93,7 @@
     "@jupyterlab/celltags": "^3.1.8",
     "@jupyterlab/codemirror-extension": "^3.1.8",
     "@jupyterlab/completer-extension": "^3.1.8",
+    "@jupyterlab/console-extension": "^3.1.8",
     "@jupyterlab/coreutils": "~5.1.8",
     "@jupyterlab/docmanager-extension": "^3.1.8",
     "@jupyterlab/docprovider-extension": "^3.1.8",
@@ -150,6 +151,7 @@
     "name": "RetroLab",
     "extensions": [
       "@retrolab/application-extension",
+      "@retrolab/console-extension",
       "@retrolab/docmanager-extension",
       "@retrolab/help-extension",
       "@retrolab/notebook-extension",
@@ -159,6 +161,7 @@
       "@jupyterlab/apputils-extension",
       "@jupyterlab/codemirror-extension",
       "@jupyterlab/completer-extension",
+      "@jupyterlab/console-extension",
       "@jupyterlab/docmanager-extension",
       "@jupyterlab/filebrowser-extension",
       "@jupyterlab/fileeditor-extension",

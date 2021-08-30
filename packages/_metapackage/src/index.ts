@@ -1,5 +1,6 @@
 import '@retrolab/application';
 import '@retrolab/application-extension';
+import '@retrolab/console-extension';
 import '@retrolab/docmanager-extension';
 import '@retrolab/help-extension';
 import '@retrolab/lab-extension';

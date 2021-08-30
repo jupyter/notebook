@@ -9,6 +9,13 @@ test.describe('Smoke', () => {
     await page.click('text="Running"');
     await page.click('text="Files"');
 
+    // Create a new console
+    await page.click('text="New Console"');
+    // Choose the kernel
+    await page.click('text="Select"');
+    const console = await page.waitForEvent('popup');
+    await console.waitForSelector('.jp-CodeConsole');
+
     // Create a new notebook
     const [notebook] = await Promise.all([
       page.waitForEvent('popup'),
@@ -61,6 +68,7 @@ test.describe('Smoke', () => {
     // Close the pages
     await tree2.close();
     await notebook.close();
+    await console.close();
     await page.close();
 
     expect(true).toBe(true);

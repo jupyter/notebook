@@ -84,6 +84,7 @@ async function main() {
   let mods = [
     // @retrolab plugins
     require('@retrolab/application-extension'),
+    require('@retrolab/console-extension'),
     require('@retrolab/docmanager-extension'),
     require('@retrolab/help-extension'),
     require('@retrolab/notebook-extension'),
@@ -116,6 +117,7 @@ async function main() {
     require('@jupyterlab/completer-extension').default.filter(({ id }) =>
       ['@jupyterlab/completer-extension:manager'].includes(id)
     ),
+    require('@jupyterlab/console-extension'),
     require('@jupyterlab/docmanager-extension').default.filter(({ id }) =>
       ['@jupyterlab/docmanager-extension:plugin'].includes(id)
     ),
@@ -124,6 +126,7 @@ async function main() {
     require('@jupyterlab/mathjax2-extension'),
     require('@jupyterlab/notebook-extension').default.filter(({ id }) =>
       [
+        '@jupyterlab/notebook-extension:code-console',
         '@jupyterlab/notebook-extension:factory',
         '@jupyterlab/notebook-extension:tracker',
         '@jupyterlab/notebook-extension:widget-factory'
@@ -169,6 +172,20 @@ async function main() {
           [
             '@jupyterlab/tooltip-extension:manager',
             '@jupyterlab/tooltip-extension:notebooks'
+          ].includes(id)
+        )
+      ]);
+      break;
+    }
+    case 'consoles': {
+      mods = mods.concat([
+        require('@jupyterlab/completer-extension').default.filter(({ id }) =>
+          ['@jupyterlab/completer-extension:consoles'].includes(id)
+        ),
+        require('@jupyterlab/tooltip-extension').default.filter(({ id }) =>
+          [
+            '@jupyterlab/tooltip-extension:manager',
+            '@jupyterlab/tooltip-extension:consoles'
           ].includes(id)
         )
       ]);

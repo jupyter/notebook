@@ -14,6 +14,7 @@ import { IRunningSessionManagers, RunningSessions } from '@jupyterlab/running';
 import { ITranslator } from '@jupyterlab/translation';
 
 import {
+  consoleIcon,
   notebookIcon,
   runningIcon,
   terminalIcon
@@ -22,8 +23,7 @@ import {
 import { TabPanel } from '@lumino/widgets';
 
 /**
- * Plugin to add extra buttons to the file browser to create
- * new notebooks, files and terminals.
+ * Plugin to add extra buttons to the file browser to create new notebooks and files
  */
 const newFiles: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/tree-extension:buttons',
@@ -59,6 +59,35 @@ const newFiles: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * Plugin to add a "New Console" button to the file browser toolbar.
+ */
+const newConsole: JupyterFrontEndPlugin<void> = {
+  id: '@retrolab/tree-extension:new-console',
+  requires: [IFileBrowserFactory],
+  autoStart: true,
+  activate: (app: JupyterFrontEnd, filebrowser: IFileBrowserFactory) => {
+    const { commands } = app;
+    const browser = filebrowser.defaultBrowser;
+
+    const newConsoleCommand = 'tree:new-console';
+    commands.addCommand(newConsoleCommand, {
+      label: 'New Console',
+      icon: consoleIcon,
+      execute: () => {
+        return commands.execute('console:create');
+      }
+    });
+
+    const newConsole = new CommandToolbarButton({
+      commands,
+      id: newConsoleCommand
+    });
+
+    browser.toolbar.insertItem(2, 'new-console', newConsole);
+  }
+};
+
+/**
  * Plugin to add a "New Terminal" button to the file browser toolbar.
  */
 const newTerminal: JupyterFrontEndPlugin<void> = {
@@ -83,9 +112,10 @@ const newTerminal: JupyterFrontEndPlugin<void> = {
       id: newTerminalCommand
     });
 
-    browser.toolbar.insertItem(2, 'new-terminal', newTerminal);
+    browser.toolbar.insertItem(3, 'new-terminal', newTerminal);
   }
 };
+
 /**
  * A plugin to add the file browser widget to an ILabShell
  */
@@ -126,6 +156,7 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   newFiles,
+  newConsole,
   newTerminal,
   browserWidget
 ];

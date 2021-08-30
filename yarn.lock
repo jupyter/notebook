@@ -1824,6 +1824,29 @@
     "@lumino/signaling" "^1.4.3"
     "@lumino/widgets" "^1.19.0"
 
+"@jupyterlab/console-extension@^3.1.8":
+  version "3.1.8"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/console-extension/-/console-extension-3.1.8.tgz#877e14a4e4edeabd3c6ece08219123e5bf81ef98"
+  integrity sha512-04g8eXzvWCSg8kdu0Dy7z1GEpgEWYv+w7v204u8vTbYiz6nDqR+Mdiox415egCCuObAaMwG6knAq/WsvQai/aQ==
+  dependencies:
+    "@jupyterlab/application" "^3.1.8"
+    "@jupyterlab/apputils" "^3.1.8"
+    "@jupyterlab/codeeditor" "^3.1.8"
+    "@jupyterlab/console" "^3.1.8"
+    "@jupyterlab/coreutils" "^5.1.8"
+    "@jupyterlab/filebrowser" "^3.1.8"
+    "@jupyterlab/launcher" "^3.1.8"
+    "@jupyterlab/mainmenu" "^3.1.8"
+    "@jupyterlab/rendermime" "^3.1.8"
+    "@jupyterlab/settingregistry" "^3.1.8"
+    "@jupyterlab/translation" "^3.1.8"
+    "@jupyterlab/ui-components" "^3.1.8"
+    "@lumino/algorithm" "^1.3.3"
+    "@lumino/coreutils" "^1.5.3"
+    "@lumino/disposable" "^1.4.3"
+    "@lumino/properties" "^1.2.3"
+    "@lumino/widgets" "^1.19.0"
+
 "@jupyterlab/console@^3.1.8":
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/@jupyterlab/console/-/console-3.1.8.tgz#efa64e994d0128b8a9f8b1234057b9bc2b312046"
@@ -3593,7 +3616,7 @@
   integrity sha512-6RglhutqrGFMO1MNUXp95RBuYIuc8wTnMAV5MUhLmjTOy78ncwOw7RgeQ/HeymkKXRhZd0s2DNrM1rL7unk3MQ==
 
 "@retrolab/application-extension@file:packages/application-extension":
-  version "0.3.0"
+  version "0.3.1"
   dependencies:
     "@jupyterlab/application" "^3.1.8"
     "@jupyterlab/apputils" "^3.1.8"
@@ -3607,11 +3630,11 @@
     "@jupyterlab/settingregistry" "^3.1.8"
     "@jupyterlab/translation" "^3.1.8"
     "@lumino/widgets" "^1.23.0"
-    "@retrolab/application" "^0.3.0"
-    "@retrolab/ui-components" "^0.3.0"
+    "@retrolab/application" "^0.3.1"
+    "@retrolab/ui-components" "^0.3.1"
 
 "@retrolab/application@file:packages/application":
-  version "0.3.0"
+  version "0.3.1"
   dependencies:
     "@jupyterlab/application" "^3.1.8"
     "@jupyterlab/coreutils" "^5.1.8"
@@ -3625,8 +3648,16 @@
     "@lumino/signaling" "^1.7.0"
     "@lumino/widgets" "^1.23.0"
 
+"@retrolab/console-extension@file:packages/console-extension":
+  version "0.3.1"
+  dependencies:
+    "@jupyterlab/application" "^3.1.8"
+    "@jupyterlab/console" "^3.1.8"
+    "@jupyterlab/coreutils" "^5.1.8"
+    "@lumino/algorithm" "^1.6.0"
+
 "@retrolab/docmanager-extension@file:packages/docmanager-extension":
-  version "0.3.0"
+  version "0.3.1"
   dependencies:
     "@jupyterlab/application" "^3.1.8"
     "@jupyterlab/coreutils" "^5.1.8"
@@ -3636,15 +3667,15 @@
     "@lumino/algorithm" "^1.6.0"
 
 "@retrolab/help-extension@file:packages/help-extension":
-  version "0.3.0"
+  version "0.3.1"
   dependencies:
     "@jupyterlab/application" "^3.1.8"
     "@jupyterlab/apputils" "^3.1.8"
     "@jupyterlab/mainmenu" "^3.1.8"
-    "@retrolab/ui-components" "^0.3.0"
+    "@retrolab/ui-components" "^0.3.1"
 
 "@retrolab/lab-extension@file:packages/lab-extension":
-  version "0.3.0"
+  version "0.3.1"
   dependencies:
     "@jupyterlab/application" "^3.1.8"
     "@jupyterlab/apputils" "^3.1.8"
@@ -3654,10 +3685,10 @@
     "@jupyterlab/notebook" "^3.1.8"
     "@lumino/commands" "^1.15.0"
     "@lumino/disposable" "^1.7.0"
-    "@retrolab/ui-components" "^0.3.0"
+    "@retrolab/ui-components" "^0.3.1"
 
 "@retrolab/notebook-extension@file:packages/notebook-extension":
-  version "0.3.0"
+  version "0.3.1"
   dependencies:
     "@jupyterlab/application" "^3.1.8"
     "@jupyterlab/apputils" "^3.1.8"
@@ -3665,10 +3696,10 @@
     "@jupyterlab/notebook" "^3.1.8"
     "@lumino/polling" "^1.6.0"
     "@lumino/widgets" "^1.23.0"
-    "@retrolab/application" "^0.3.0"
+    "@retrolab/application" "^0.3.1"
 
 "@retrolab/terminal-extension@file:packages/terminal-extension":
-  version "0.3.0"
+  version "0.3.1"
   dependencies:
     "@jupyterlab/application" "^3.1.8"
     "@jupyterlab/coreutils" "^5.1.8"
@@ -3676,7 +3707,7 @@
     "@lumino/algorithm" "^1.6.0"
 
 "@retrolab/tree-extension@file:packages/tree-extension":
-  version "0.3.0"
+  version "0.3.1"
   dependencies:
     "@jupyterlab/application" "^3.1.8"
     "@jupyterlab/apputils" "^3.1.8"
@@ -3692,10 +3723,10 @@
     "@lumino/algorithm" "^1.6.0"
     "@lumino/commands" "^1.15.0"
     "@lumino/widgets" "^1.23.0"
-    "@retrolab/application" "^0.3.0"
+    "@retrolab/application" "^0.3.1"
 
 "@retrolab/ui-components@file:packages/ui-components":
-  version "0.3.0"
+  version "0.3.1"
   dependencies:
     "@jupyterlab/ui-components" "^3.1.8"
     react "^17.0.1"
