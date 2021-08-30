@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{page_config['appName'] | e}} - Console</title>
   {% block favicon %}
-  <link rel="icon" type="image/x-icon" href="{{ base_url | escape }}static/favicons/favicon-terminal.ico" class="favicon">
+  <link rel="icon" type="image/x-icon" href="{{ page_config['fullStaticUrl'] | e }}/favicons/favicon-console.ico" class="favicon">
   {% endblock %}
 </head>
 <body>

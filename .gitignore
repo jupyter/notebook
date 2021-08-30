@@ -113,7 +113,8 @@ dmypy.json
 _temp_extension
 junit.xml
 [uU]ntitled*
-retrolab/static
+retrolab/static/*
+!retrolab/static/favicons
 retrolab/labextension
 
 # playwright
