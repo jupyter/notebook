@@ -14,6 +14,7 @@ import { IRunningSessionManagers, RunningSessions } from '@jupyterlab/running';
 import { ITranslator } from '@jupyterlab/translation';
 
 import {
+  consoleIcon,
   notebookIcon,
   runningIcon,
   terminalIcon
@@ -23,9 +24,9 @@ import { TabPanel } from '@lumino/widgets';
 
 /**
  * Plugin to add extra buttons to the file browser to create
- * new notebooks, files and terminals.
+ * new notebooks, consoles, files and terminals.
  */
-const newFiles: JupyterFrontEndPlugin<void> = {
+const newButtons: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/tree-extension:buttons',
   requires: [IFileBrowserFactory],
   autoStart: true,
@@ -43,9 +44,23 @@ const newFiles: JupyterFrontEndPlugin<void> = {
       }
     });
 
+    const newConsoleCommand = 'tree:new-console';
+    commands.addCommand(newConsoleCommand, {
+      label: 'New Console',
+      icon: consoleIcon,
+      execute: () => {
+        return commands.execute('console:create');
+      }
+    });
+
     const newNotebook = new CommandToolbarButton({
       commands,
       id: newNotebookCommand
+    });
+
+    const newConsole = new CommandToolbarButton({
+      commands,
+      id: newConsoleCommand
     });
 
     const newFile = new CommandToolbarButton({
@@ -54,7 +69,8 @@ const newFiles: JupyterFrontEndPlugin<void> = {
     });
 
     browser.toolbar.insertItem(0, 'new-notebook', newNotebook);
-    browser.toolbar.insertItem(1, 'new-file', newFile);
+    browser.toolbar.insertItem(1, 'new-console', newConsole);
+    browser.toolbar.insertItem(2, 'new-file', newFile);
   }
 };
 
@@ -125,7 +141,7 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
-  newFiles,
+  newButtons,
   newTerminal,
   browserWidget
 ];

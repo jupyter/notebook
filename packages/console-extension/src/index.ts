@@ -54,14 +54,15 @@ const redirect: JupyterFrontEndPlugin<void> = {
   autoStart: true,
   activate: (app: JupyterFrontEnd, tracker: IConsoleTracker) => {
     const baseUrl = PageConfig.getBaseUrl();
-    tracker.widgetAdded.connect((send, console) => {
+    tracker.widgetAdded.connect(async (send, console) => {
       const widget = find(app.shell.widgets('main'), w => w.id === console.id);
       if (widget) {
         // bail if the console is already added to the main area
         return;
       }
-      const name = console.sessionContext.name;
-      window.open(`${baseUrl}retro/consoles/${name}`, '_blank');
+      const { sessionContext } = console;
+      await sessionContext.ready;
+      window.open(`${baseUrl}retro/consoles/${sessionContext.name}`, '_blank');
     });
   }
 };
