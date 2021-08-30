@@ -32,12 +32,13 @@ const opener: JupyterFrontEndPlugin<void> = {
         if (!matches) {
           return;
         }
-        const [, name] = matches;
-        if (!name) {
+        const [, match] = matches;
+        if (!match) {
           return;
         }
 
-        commands.execute('console:create', { name });
+        const path = decodeURIComponent(match);
+        commands.execute('console:create', { path });
       }
     });
 
@@ -55,14 +56,17 @@ const redirect: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, tracker: IConsoleTracker) => {
     const baseUrl = PageConfig.getBaseUrl();
     tracker.widgetAdded.connect(async (send, console) => {
+      const { sessionContext } = console;
+      await sessionContext.ready;
       const widget = find(app.shell.widgets('main'), w => w.id === console.id);
       if (widget) {
         // bail if the console is already added to the main area
         return;
       }
-      const { sessionContext } = console;
-      await sessionContext.ready;
-      window.open(`${baseUrl}retro/consoles/${sessionContext.name}`, '_blank');
+      window.open(`${baseUrl}retro/consoles/${sessionContext.path}`, '_blank');
+
+      // the widget is not needed anymore
+      console.dispose();
     });
   }
 };
