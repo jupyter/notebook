@@ -11,7 +11,8 @@
 #
 # All configuration values have a default; values that are commented out
 # serve to show the default.
-
+#install required libraries before importing
+pip install shutil 
 import sys
 import os
 import shlex
@@ -44,7 +45,7 @@ print(repo_root)
 print("DEBUG:: Post insert to sys.path")
 print("===============================")
 for item in sys.path:
-    print(item)
+    print("item names:",item)
 
 # Check if docs are being built by ReadTheDocs
 # If so, generate a config.rst file and populate it with documentation about
