@@ -23,10 +23,9 @@ import {
 import { TabPanel } from '@lumino/widgets';
 
 /**
- * Plugin to add extra buttons to the file browser to create
- * new notebooks, consoles, files and terminals.
+ * Plugin to add extra buttons to the file browser to create new notebooks and files
  */
-const newButtons: JupyterFrontEndPlugin<void> = {
+const newFiles: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/tree-extension:buttons',
   requires: [IFileBrowserFactory],
   autoStart: true,
@@ -44,6 +43,32 @@ const newButtons: JupyterFrontEndPlugin<void> = {
       }
     });
 
+    const newNotebook = new CommandToolbarButton({
+      commands,
+      id: newNotebookCommand
+    });
+
+    const newFile = new CommandToolbarButton({
+      commands,
+      id: 'filebrowser:create-new-file'
+    });
+
+    browser.toolbar.insertItem(0, 'new-notebook', newNotebook);
+    browser.toolbar.insertItem(1, 'new-file', newFile);
+  }
+};
+
+/**
+ * Plugin to add a "New Console" button to the file browser toolbar.
+ */
+const newConsole: JupyterFrontEndPlugin<void> = {
+  id: '@retrolab/tree-extension:new-console',
+  requires: [IFileBrowserFactory],
+  autoStart: true,
+  activate: (app: JupyterFrontEnd, filebrowser: IFileBrowserFactory) => {
+    const { commands } = app;
+    const browser = filebrowser.defaultBrowser;
+
     const newConsoleCommand = 'tree:new-console';
     commands.addCommand(newConsoleCommand, {
       label: 'New Console',
@@ -53,24 +78,12 @@ const newButtons: JupyterFrontEndPlugin<void> = {
       }
     });
 
-    const newNotebook = new CommandToolbarButton({
-      commands,
-      id: newNotebookCommand
-    });
-
     const newConsole = new CommandToolbarButton({
       commands,
       id: newConsoleCommand
     });
 
-    const newFile = new CommandToolbarButton({
-      commands,
-      id: 'filebrowser:create-new-file'
-    });
-
-    browser.toolbar.insertItem(0, 'new-notebook', newNotebook);
-    browser.toolbar.insertItem(1, 'new-console', newConsole);
-    browser.toolbar.insertItem(2, 'new-file', newFile);
+    browser.toolbar.insertItem(2, 'new-console', newConsole);
   }
 };
 
@@ -99,9 +112,10 @@ const newTerminal: JupyterFrontEndPlugin<void> = {
       id: newTerminalCommand
     });
 
-    browser.toolbar.insertItem(2, 'new-terminal', newTerminal);
+    browser.toolbar.insertItem(3, 'new-terminal', newTerminal);
   }
 };
+
 /**
  * A plugin to add the file browser widget to an ILabShell
  */
@@ -141,7 +155,8 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
-  newButtons,
+  newFiles,
+  newConsole,
   newTerminal,
   browserWidget
 ];
