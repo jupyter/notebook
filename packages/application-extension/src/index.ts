@@ -4,6 +4,7 @@
 import {
   ILabStatus,
   IRouter,
+  ITreePathUpdater,
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
   Router
@@ -74,6 +75,11 @@ namespace CommandIDs {
    * Open the tree page.
    */
   export const openTree = 'application:open-tree';
+
+  /**
+   * Resolve tree path
+   */
+  export const resolveTree = 'application:resolve-tree';
 }
 
 /**
@@ -498,7 +504,7 @@ const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
     const treePattern = new RegExp('/retro(/tree/.*)?');
 
     set.add(
-      commands.addCommand('retrolab-router:tree', {
+      commands.addCommand(CommandIDs.resolveTree, {
         execute: (async (args: IRouter.ILocation) => {
           if (set.isDisposed) {
             return;
@@ -518,7 +524,7 @@ const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
       })
     );
     set.add(
-      router.register({ command: 'retrolab-router:tree', pattern: treePattern })
+      router.register({ command: CommandIDs.resolveTree, pattern: treePattern })
     );
 
     // If a route is handled by the router without the tree command being
@@ -539,6 +545,29 @@ const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
 
     return { paths: delegate.promise };
   }
+};
+
+const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
+  id: '@retrolab/application-extension:tree-updater',
+  requires: [IRouter],
+  provides: ITreePathUpdater,
+  activate: (app: JupyterFrontEnd, router: IRouter) => {
+    function updateTreePath(treePath: string) {
+      if (treePath !== PageConfig.getOption('treePath')) {
+        const path = URLExt.join(
+          PageConfig.getOption('baseUrl') || '/',
+          PageConfig.getOption('frontendUrl'),
+          'tree',
+          treePath
+        );
+        router.navigate(path, { skipRouting: true });
+        // Persist the new tree path to PageConfig as it is used elsewhere at runtime.
+        PageConfig.setOption('treePath', URLExt.encodeParts(treePath));
+      }
+    }
+    return updateTreePath;
+  },
+  autoStart: true
 };
 
 /**
@@ -619,6 +648,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   topVisibility,
   translator,
   tree,
+  treePathUpdater,
   zen
 ];
 
