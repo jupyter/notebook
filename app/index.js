@@ -303,6 +303,14 @@ async function main() {
 
   app.registerPluginModules(mods);
 
+  // Expose global app instance when in dev mode or when toggled explicitly.
+  const exposeAppInBrowser =
+    (PageConfig.getOption('exposeAppInBrowser') || '').toLowerCase() === 'true';
+
+  if (exposeAppInBrowser) {
+    window.jupyterapp = app;
+  }
+
   await app.start();
 }
 
