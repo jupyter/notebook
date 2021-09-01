@@ -14,7 +14,7 @@ test('Tree', async ({ page }) => {
 test('should go to subfolder', async ({ page }) => {
   await page.goto(`${BASE_URL}retro/tree/binder`);
 
-  const breadcrumb = await page.waitForSelector('.jp-FileBrowser-crumbs');
-
-  expect(await breadcrumb.textContent()).toEqual('/binder/');
+  expect(
+    await page.waitForSelector('.jp-FileBrowser-crumbs >> text=/binder/')
+  ).toBeTruthy();
 });
