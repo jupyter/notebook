@@ -16,7 +16,7 @@ import {
   ICommandPalette
 } from '@jupyterlab/apputils';
 
-import { PageConfig, PathExt } from '@jupyterlab/coreutils';
+import { PageConfig, PathExt, URLExt } from '@jupyterlab/coreutils';
 
 import { IDocumentManager, renameDialog } from '@jupyterlab/docmanager';
 
@@ -29,6 +29,10 @@ import { ITranslator, TranslationManager } from '@jupyterlab/translation';
 import { RetroApp, RetroShell, IRetroShell } from '@retrolab/application';
 
 import { jupyterIcon, retroInlineIcon } from '@retrolab/ui-components';
+
+import { PromiseDelegate } from '@lumino/coreutils';
+
+import { DisposableDelegate, DisposableSet } from '@lumino/disposable';
 
 import { Widget } from '@lumino/widgets';
 
@@ -476,6 +480,68 @@ const translator: JupyterFrontEndPlugin<ITranslator> = {
 };
 
 /**
+ * The default tree route resolver plugin.
+ */
+const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
+  id: '@retrolab/application-extension:tree-resolver',
+  autoStart: true,
+  requires: [IRouter],
+  provides: JupyterFrontEnd.ITreeResolver,
+  activate: (
+    app: JupyterFrontEnd,
+    router: IRouter
+  ): JupyterFrontEnd.ITreeResolver => {
+    const { commands } = app;
+    const set = new DisposableSet();
+    const delegate = new PromiseDelegate<JupyterFrontEnd.ITreeResolver.Paths>();
+
+    const treePattern = new RegExp('/retro(/tree/.*)?');
+
+    set.add(
+      commands.addCommand('retrolab-router:tree', {
+        execute: (async (args: IRouter.ILocation) => {
+          if (set.isDisposed) {
+            return;
+          }
+
+          const query = URLExt.queryStringToObject(args.search ?? '');
+          const browser = query['file-browser-path'] || '';
+
+          // Remove the file browser path from the query string.
+          delete query['file-browser-path'];
+
+          // Clean up artifacts immediately upon routing.
+          set.dispose();
+
+          delegate.resolve({ browser, file: PageConfig.getOption('treePath') });
+        }) as (args: any) => Promise<void>
+      })
+    );
+    set.add(
+      router.register({ command: 'retrolab-router:tree', pattern: treePattern })
+    );
+
+    // If a route is handled by the router without the tree command being
+    // invoked, resolve to `null` and clean up artifacts.
+    const listener = () => {
+      if (set.isDisposed) {
+        return;
+      }
+      set.dispose();
+      delegate.resolve(null);
+    };
+    router.routed.connect(listener);
+    set.add(
+      new DisposableDelegate(() => {
+        router.routed.disconnect(listener);
+      })
+    );
+
+    return { paths: delegate.promise };
+  }
+};
+
+/**
  * Zen mode plugin
  */
 const zen: JupyterFrontEndPlugin<void> = {
@@ -552,6 +618,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   title,
   topVisibility,
   translator,
+  tree,
   zen
 ];
 
