@@ -39,6 +39,7 @@ class RetroHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHan
             "token": self.settings["token"],
             "fullStaticUrl": ujoin(self.base_url, "static", self.name),
             "frontendUrl": ujoin(self.base_url, "retro/"),
+            "exposeAppInBrowser": app.expose_app_in_browser,
             "collaborative": app.collaborative,
             "retroLogo": app.retro_logo,
         }
@@ -181,6 +182,13 @@ class RetroApp(NBClassicConfigShimMixin, LabServerApp):
     user_settings_dir = get_user_settings_dir()
     workspaces_dir = get_workspaces_dir()
     subcommands = {}
+
+    expose_app_in_browser = Bool(
+        False,
+        config=True,
+        help="Whether to expose the global app instance to browser via window.jupyterapp"
+    )
+
     collaborative = Bool(
         False, config=True, help="Whether to enable collaborative mode."
     )
@@ -189,6 +197,10 @@ class RetroApp(NBClassicConfigShimMixin, LabServerApp):
     )
 
     flags = flags
+    flags['expose-app-in-browser'] = (
+        {'RetroApp': {'expose_app_in_browser': True}},
+        "Expose the global app instance to browser via window.jupyterlab."
+    )
     flags["collaborative"] = (
         {"RetroApp": {"collaborative": True}},
         "Whether to enable collaborative mode.",
