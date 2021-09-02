@@ -115,7 +115,12 @@ class RetroTreeHandler(RetroHandler):
             if await maybe_future(cm.is_hidden(path)) and not cm.allow_hidden:
                 self.log.info("Refusing to serve hidden directory, via 404 Error")
                 raise web.HTTPError(404)
-            tpl = self.render_template("tree.html", page_config=self.get_page_config())
+            
+            # Set treePath for routing to the directory
+            page_config = self.get_page_config()
+            page_config['treePath'] = path
+
+            tpl = self.render_template("tree.html", page_config=page_config)
             return self.write(tpl)
         elif await maybe_future(cm.file_exists(path)):
             # it's not a directory, we have redirecting to do
