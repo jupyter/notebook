@@ -2,6 +2,23 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.3
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/0.3.2...ac9bac4f3ccfad16063aea1579fe0d64f79f4ae7))
+
+### Enhancements made
+
+- Add expose add in browser for galata [#203](https://github.com/jupyterlab/retrolab/pull/203) ([@fcollonval](https://github.com/fcollonval))
+- Route on file browser navigation [#202](https://github.com/jupyterlab/retrolab/pull/202) ([@fcollonval](https://github.com/fcollonval))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-08-30&to=2021-09-02&type=c))
+
+[@fcollonval](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Afcollonval+updated%3A2021-08-30..2021-09-02&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-08-30..2021-09-02&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-08-30..2021-09-02&type=Issues) | [@welcome](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Awelcome+updated%3A2021-08-30..2021-09-02&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.2
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/0.3.1...ecd9b1ee96b01f418d098885c6e2442c60b8480b))
@@ -19,8 +36,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-08-28&to=2021-08-30&type=c))
 
 [@bollwyvl](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Abollwyvl+updated%3A2021-08-28..2021-08-30&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-08-28..2021-08-30&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-08-28..2021-08-30&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.1
 
