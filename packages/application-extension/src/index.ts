@@ -556,13 +556,13 @@ const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
       if (treePath !== PageConfig.getOption('treePath')) {
         const path = URLExt.join(
           PageConfig.getOption('baseUrl') || '/',
-          PageConfig.getOption('frontendUrl'),
+          'retro',
           'tree',
-          treePath
+          URLExt.encodeParts(treePath)
         );
         router.navigate(path, { skipRouting: true });
         // Persist the new tree path to PageConfig as it is used elsewhere at runtime.
-        PageConfig.setOption('treePath', URLExt.encodeParts(treePath));
+        PageConfig.setOption('treePath', treePath);
       }
     }
     return updateTreePath;
