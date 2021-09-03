@@ -7,91 +7,86 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { ICommandPalette, ToolbarButton } from '@jupyterlab/apputils';
+import { CommandToolbarButton, ICommandPalette } from '@jupyterlab/apputils';
 
 import { PageConfig } from '@jupyterlab/coreutils';
 
-import { DocumentRegistry } from '@jupyterlab/docregistry';
-
 import { IMainMenu } from '@jupyterlab/mainmenu';
+
+import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
 
 import { ITranslator } from '@jupyterlab/translation';
 
 import {
-  INotebookModel,
-  INotebookTracker,
-  NotebookPanel
-} from '@jupyterlab/notebook';
+  jupyterIcon,
+  jupyterFaviconIcon,
+  LabIcon
+} from '@jupyterlab/ui-components';
+
+import { IRetroShell } from '@retrolab/application';
 
 import { retroSunIcon } from '@retrolab/ui-components';
-
-import { CommandRegistry } from '@lumino/commands';
-
-import { IDisposable } from '@lumino/disposable';
 
 /**
  * The command IDs used by the application plugin.
  */
 namespace CommandIDs {
   /**
-   * Toggle Top Bar visibility
+   * Launch RetroLab Tree
    */
-  export const openRetro = 'retrolab:open';
-  export const launchRetroTree = 'retrolab:launchtree';
+  export const launchRetroTree = 'retrolab:launch-tree';
+
+  /**
+   * Open RetroLab
+   */
+  export const openRetro = 'retrolab:open-retro';
+
+  /**
+   * Open in Classic Notebook
+   */
+  export const openClassic = 'retrolab:open-classic';
+
+  /**
+   * Open in JupyterLab
+   */
+  export const openLab = 'retrolab:open-lab';
+}
+
+interface ISwitcherChoice {
+  command: string;
+  commandLabel: string;
+  buttonLabel: string;
+  icon: LabIcon;
+  urlPrefix: string;
 }
 
 /**
- * A notebook widget extension that adds a retrolab button to the toolbar.
+ * A plugin to add custom toolbar items to the notebook page
  */
-class RetroButton
-  implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
-  /**
-   * Instantiate a new RetroButton.
-   * @param commands The command registry.
-   */
-  constructor(commands: CommandRegistry) {
-    this._commands = commands;
-  }
-
-  /**
-   * Create a new extension object.
-   */
-  createNew(panel: NotebookPanel): IDisposable {
-    const button = new ToolbarButton({
-      tooltip: 'Open with RetroLab',
-      icon: retroSunIcon,
-      onClick: () => {
-        this._commands.execute(CommandIDs.openRetro);
-      }
-    });
-    panel.toolbar.insertAfter('cellType', 'retro', button);
-    return button;
-  }
-
-  private _commands: CommandRegistry;
-}
-
-/**
- * A plugin for the checkpoint indicator
- */
-const openRetro: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/lab-extension:open-retro',
+const launchButtons: JupyterFrontEndPlugin<void> = {
+  id: '@retrolab/lab-extension:interface-switcher',
   autoStart: true,
-  optional: [INotebookTracker, ICommandPalette, IMainMenu, ILabShell],
+  optional: [
+    INotebookTracker,
+    ICommandPalette,
+    IMainMenu,
+    IRetroShell,
+    ILabShell
+  ],
   activate: (
     app: JupyterFrontEnd,
     notebookTracker: INotebookTracker | null,
     palette: ICommandPalette | null,
     menu: IMainMenu | null,
+    retroShell: IRetroShell | null,
     labShell: ILabShell | null
   ) => {
-    // TODO: do not activate if already in a IRetroShell?
-    if (!notebookTracker || !labShell) {
+    if (!notebookTracker) {
       // to prevent showing the toolbar button in RetroLab
       return;
     }
 
-    const { commands, docRegistry, shell } = app;
+    const { commands, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
 
     const isEnabled = () => {
@@ -101,29 +96,75 @@ const openRetro: JupyterFrontEndPlugin<void> = {
       );
     };
 
-    commands.addCommand(CommandIDs.openRetro, {
-      label: 'Open in RetroLab',
-      execute: () => {
-        const current = notebookTracker.currentWidget;
-        if (!current) {
-          return;
+    const addInterface = (option: ISwitcherChoice) => {
+      const { command, icon, buttonLabel, commandLabel, urlPrefix } = option;
+      commands.addCommand(command, {
+        label: args => (args.noLabel ? '' : commandLabel),
+        caption: commandLabel,
+        icon,
+        execute: () => {
+          const current = notebookTracker.currentWidget;
+          if (!current) {
+            return;
+          }
+          window.open(`${urlPrefix}${current.context.path}`);
+        },
+        isEnabled
+      });
+
+      if (palette) {
+        palette.addItem({ command, category: 'Other' });
+      }
+
+      if (menu) {
+        menu.viewMenu.addGroup([{ command }], 1);
+      }
+
+      notebookTracker.widgetAdded.connect(
+        async (sender: INotebookTracker, panel: NotebookPanel) => {
+          panel.toolbar.insertBefore(
+            'kernelName',
+            buttonLabel,
+            new CommandToolbarButton({
+              commands,
+              id: command,
+              args: { noLabel: 1 }
+            })
+          );
+          await panel.context.ready;
+          commands.notifyCommandChanged();
         }
-        const { context } = current;
-        window.open(`${baseUrl}retro/notebooks/${context.path}`);
-      },
-      isEnabled
+      );
+    };
+
+    // always add Classic
+    addInterface({
+      command: 'retrolab:open-classic',
+      commandLabel: 'Open in Classic Notebook',
+      buttonLabel: 'openClassic',
+      icon: jupyterIcon,
+      urlPrefix: `${baseUrl}tree/`
     });
 
-    if (palette) {
-      palette.addItem({ command: CommandIDs.openRetro, category: 'Other' });
+    if (!retroShell) {
+      addInterface({
+        command: 'retrolab:open-retro',
+        commandLabel: 'Open in RetroLab',
+        buttonLabel: 'openRetro',
+        icon: retroSunIcon,
+        urlPrefix: `${baseUrl}retro/tree/`
+      });
     }
 
-    if (menu) {
-      menu.viewMenu.addGroup([{ command: CommandIDs.openRetro }], 1);
+    if (!labShell) {
+      addInterface({
+        command: 'retrolab:open-lab',
+        commandLabel: 'Open in JupyterLab',
+        buttonLabel: 'openLab',
+        icon: jupyterFaviconIcon,
+        urlPrefix: `${baseUrl}doc/tree/`
+      });
     }
-
-    const retroButton = new RetroButton(commands);
-    docRegistry.addWidgetExtension('Notebook', retroButton);
   }
 };
 
@@ -166,6 +207,6 @@ const launchRetroTree: JupyterFrontEndPlugin<void> = {
 /**
  * Export the plugins as default.
  */
-const plugins: JupyterFrontEndPlugin<any>[] = [launchRetroTree, openRetro];
+const plugins: JupyterFrontEndPlugin<any>[] = [launchRetroTree, launchButtons];
 
 export default plugins;
