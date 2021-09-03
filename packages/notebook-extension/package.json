@@ -1,6 +1,6 @@
 {
   "name": "@retrolab/notebook-extension",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "RetroLab - Notebook Extension",
   "homepage": "https://github.com/jupyterlab/retrolab",
   "bugs": {
@@ -45,7 +45,7 @@
     "@jupyterlab/notebook": "^3.1.8",
     "@lumino/polling": "^1.6.0",
     "@lumino/widgets": "^1.23.0",
-    "@retrolab/application": "^0.3.3"
+    "@retrolab/application": "^0.3.4"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",
