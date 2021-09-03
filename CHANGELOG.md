@@ -2,6 +2,22 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.4
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/0.3.3...b9cba834c9f0cb150cbb4fff8f08007aa5bf08ca))
+
+### Enhancements made
+
+- Add an 'interface switcher' to the toolbar [#158](https://github.com/jupyterlab/retrolab/pull/158) ([@yuvipanda](https://github.com/yuvipanda))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-09-02&to=2021-09-03&type=c))
+
+[@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-09-02..2021-09-03&type=Issues) | [@yuvipanda](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ayuvipanda+updated%3A2021-09-02..2021-09-03&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.3
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/0.3.2...ac9bac4f3ccfad16063aea1579fe0d64f79f4ae7))
@@ -16,8 +32,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-08-30&to=2021-09-02&type=c))
 
 [@fcollonval](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Afcollonval+updated%3A2021-08-30..2021-09-02&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-08-30..2021-09-02&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-08-30..2021-09-02&type=Issues) | [@welcome](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Awelcome+updated%3A2021-08-30..2021-09-02&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.2
 
