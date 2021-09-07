@@ -17,6 +17,8 @@ import {
   ICommandPalette
 } from '@jupyterlab/apputils';
 
+import { ConsolePanel } from '@jupyterlab/console';
+
 import { PageConfig, PathExt, URLExt } from '@jupyterlab/coreutils';
 
 import { IDocumentManager, renameDialog } from '@jupyterlab/docmanager';
@@ -347,15 +349,24 @@ const tabTitle: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, shell: IRetroShell) => {
     const setTabTitle = () => {
       const current = shell.currentWidget;
-      if (!(current instanceof DocumentWidget)) {
+      if (current instanceof ConsolePanel) {
+        const update = () => {
+          const title =
+            current.sessionContext.path || current.sessionContext.name;
+          const basename = PathExt.basename(title);
+          document.title = basename;
+        };
+        current.sessionContext.sessionChanged.connect(update);
+        update();
         return;
+      } else if (current instanceof DocumentWidget) {
+        const update = () => {
+          const basename = PathExt.basename(current.context.path);
+          document.title = basename;
+        };
+        current.context.pathChanged.connect(update);
+        update();
       }
-      const update = () => {
-        const basename = PathExt.basename(current.context.path);
-        document.title = basename;
-      };
-      current.context.pathChanged.connect(update);
-      update();
     };
 
     shell.currentChanged.connect(setTabTitle);
