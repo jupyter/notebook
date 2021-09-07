@@ -17,19 +17,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - name: Install Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
           architecture: "x64"
+
       - name: Install node
         uses: actions/setup-node@v2
         with:
           node-version: '14.x'
+
       - name: Get pip cache dir
         id: pip-cache
         run: |
           echo "::set-output name=dir::$(pip cache dir)"
+
       - name: Cache pip
         uses: actions/cache@v1
         with:
@@ -37,6 +41,7 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('setup.py') }}
           restore-keys: |
             ${{ runner.os }}-pip-
+
       - name: Cache checked links
         uses: actions/cache@v2
         with:
@@ -44,15 +49,31 @@ jobs:
           key: ${{ runner.os }}-linkcheck-${{ hashFiles('**/.md') }}-md-links
           restore-keys: |
             ${{ runner.os }}-linkcheck-
+
       - name: Upgrade packaging dependencies
         run: |
-          pip install --upgrade pip setuptools wheel jupyter-packaging~=0.7.9 --user
+          pip install --upgrade pip setuptools wheel jupyter-packaging~=0.10 --user
+
       - name: Install Dependencies
         run: |
           pip install .
+
+      - name: Configure Version Spec
+        id: version-spec
+        if: ${{ matrix.group == 'check_release' }}
+        run: |
+          set -eux
+          version=$(python setup.py --version)
+          if [[ $version =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            version_spec=patch
+          else
+            version_spec=build
+          fi
+          echo "::set-output name=spec::${version_spec}"
+
       - name: Check Release
         uses: jupyter-server/jupyter_releaser/.github/actions/check-release@v1
         env:
-          RH_VERSION_SPEC: patch
+          RH_VERSION_SPEC: ${{ steps.version-spec.outputs.spec }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
