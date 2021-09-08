@@ -2,6 +2,27 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.5
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/0.3.4...17c1792c8f188696b29a8176fea6f4f31db772cb))
+
+### Enhancements made
+
+- Show path in the console tab title [#208](https://github.com/jupyterlab/retrolab/pull/208) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Remove release-npm script [#210](https://github.com/jupyterlab/retrolab/pull/210) ([@jtpio](https://github.com/jtpio))
+- Adopt the Jupyter Releaser [#207](https://github.com/jupyterlab/retrolab/pull/207) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-09-03&to=2021-09-08&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-09-03..2021-09-08&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-09-03..2021-09-08&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.4
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/0.3.3...b9cba834c9f0cb150cbb4fff8f08007aa5bf08ca))
@@ -15,8 +36,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-09-02&to=2021-09-03&type=c))
 
 [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-09-02..2021-09-03&type=Issues) | [@yuvipanda](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ayuvipanda+updated%3A2021-09-02..2021-09-03&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.3
 
