@@ -17,6 +17,7 @@ import { postbump } from './utils';
 commander
   .description('Create a patch release')
   .option('--force', 'Force the upgrade')
+  .option('--skip-commit', 'Whether to skip commit changes')
   .action((options: any) => {
     // Make sure we can patch release.
     const pyVersion = utils.getPythonVersion();
@@ -45,8 +46,9 @@ commander
     }
     utils.run(cmd);
 
-    // Run post-bump actions.
-    postbump();
+    // Whether to commit after bumping
+    const commit = options.skipCommit !== true;
+    postbump(commit);
   });
 
 commander.parse(process.argv);
