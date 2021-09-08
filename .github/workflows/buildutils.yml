@@ -75,9 +75,3 @@ jobs:
         python -m pip install -U jupyterlab~=3.0 jupyter_packaging~=0.10 pip
         jlpm
         jlpm run build
-    - name: Publish to npm in dry-run mode
-      run: |
-        mkdir dist
-        jlpm lerna exec -- npm pack
-        cp packages/*/*.tgz dist
-        jlpm release:npm --dist ./dist --dry-run
