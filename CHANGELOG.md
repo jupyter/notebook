@@ -4,16 +4,22 @@
 
 ## 0.3.5
 
-([Full Changelog](https://github.com/jupyterlab/retrolab/compare/0.3.4...17c1792c8f188696b29a8176fea6f4f31db772cb))
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/0.3.4...ecdeb2816318af12ce5e6191ab59016414a88160))
 
 ### Enhancements made
 
 - Show path in the console tab title [#208](https://github.com/jupyterlab/retrolab/pull/208) ([@jtpio](https://github.com/jtpio))
 
+### Bugs fixed
+
+- Fix handling of skip-commit [#212](https://github.com/jupyterlab/retrolab/pull/212) ([@jtpio](https://github.com/jtpio))
+
 ### Maintenance and upkeep improvements
 
 - Remove release-npm script [#210](https://github.com/jupyterlab/retrolab/pull/210) ([@jtpio](https://github.com/jtpio))
 - Adopt the Jupyter Releaser [#207](https://github.com/jupyterlab/retrolab/pull/207) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
 
 ### Contributors to this release
 
