@@ -30,7 +30,6 @@
     "integrity": "node buildutils/lib/ensure-repo.js",
     "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
-    "publish": "yarn run clean && yarn run build && lerna publish",
     "release:bump": "node ./buildutils/lib/release-bump.js",
     "release:patch": "node ./buildutils/lib/release-patch.js",
     "start": "jupyter retro --config ./app/test/jupyter_server_config.py --no-browser",
@@ -72,6 +71,10 @@
   },
   "jupyter-releaser": {
     "hooks": {
+      "before-build-npm": [
+        "jlpm",
+        "jlpm run build:prod"
+      ],
       "before-bump-version": "python -m pip install bump2version"
     },
     "options": {
