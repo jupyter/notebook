@@ -11,7 +11,12 @@ import json
 from tornado import gen, web
 
 from notebook.utils import maybe_future, url_path_join, url_escape
-from jupyter_client.jsonutil import date_default
+try:
+    from jupyter_client.jsonutil import json_default
+except ImportError:
+    from jupyter_client.jsonutil import (
+        date_default as json_default
+    )
 
 from notebook.base.handlers import (
     IPythonHandler, APIHandler, path_regex,
@@ -85,7 +90,7 @@ class ContentsHandler(APIHandler):
             self.set_header('Location', location)
         self.set_header('Last-Modified', model['last_modified'])
         self.set_header('Content-Type', 'application/json')
-        self.finish(json.dumps(model, default=date_default))
+        self.finish(json.dumps(model, default=json_default))
 
     @web.authenticated
     @gen.coroutine
@@ -107,7 +112,7 @@ class ContentsHandler(APIHandler):
         if content not in {'0', '1'}:
             raise web.HTTPError(400, u'Content %r is invalid' % content)
         content = int(content)
-        
+
         model = yield maybe_future(self.contents_manager.get(
             path=path, type=type, format=format, content=content,
         ))
@@ -125,7 +130,7 @@ class ContentsHandler(APIHandler):
         model = yield maybe_future(cm.update(model, path))
         validate_model(model, expect_content=False)
         self._finish_model(model)
-    
+
     @gen.coroutine
     def _copy(self, copy_from, copy_to=None):
         """Copy a file, optionally specifying a target directory."""
@@ -146,7 +151,7 @@ class ContentsHandler(APIHandler):
         self.set_status(201)
         validate_model(model, expect_content=False)
         self._finish_model(model)
-    
+
     @gen.coroutine
     def _new_untitled(self, path, type='', ext=''):
         """Create a new, empty untitled entity"""
@@ -155,13 +160,13 @@ class ContentsHandler(APIHandler):
         self.set_status(201)
         validate_model(model, expect_content=False)
         self._finish_model(model)
-    
+
     @gen.coroutine
     def _save(self, model, path):
         """Save an existing file."""
-        chunk = model.get("chunk", None) 
+        chunk = model.get("chunk", None)
         if not chunk or chunk == -1:  # Avoid tedious log information
-            self.log.info(u"Saving file at %s", path)  
+            self.log.info(u"Saving file at %s", path)
         model = yield maybe_future(self.contents_manager.save(model, path))
         validate_model(model, expect_content=False)
         self._finish_model(model)
@@ -247,7 +252,7 @@ class CheckpointsHandler(APIHandler):
         """get lists checkpoints for a file"""
         cm = self.contents_manager
         checkpoints = yield maybe_future(cm.list_checkpoints(path))
-        data = json.dumps(checkpoints, default=date_default)
+        data = json.dumps(checkpoints, default=json_default)
         self.finish(data)
 
     @web.authenticated
@@ -256,7 +261,7 @@ class CheckpointsHandler(APIHandler):
         """post creates a new checkpoint"""
         cm = self.contents_manager
         checkpoint = yield maybe_future(cm.create_checkpoint(path))
-        data = json.dumps(checkpoint, default=date_default)
+        data = json.dumps(checkpoint, default=json_default)
         location = url_path_join(self.base_url, 'api/contents',
             url_escape(path), 'checkpoints', url_escape(checkpoint['id']))
         self.set_header('Location', location)
