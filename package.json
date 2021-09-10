@@ -72,8 +72,11 @@
   "jupyter-releaser": {
     "hooks": {
       "before-build-npm": [
-        "jlpm",
-        "jlpm run build:prod"
+        "jlpm clean",
+        "jlpm build:prod"
+      ],
+      "before-build-python": [
+        "jlpm clean"
       ],
       "before-bump-version": "python -m pip install bump2version"
     },
