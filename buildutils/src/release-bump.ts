@@ -39,7 +39,7 @@ commander
       if (opts.force) {
         cmd += ' --force';
       }
-      if (opts.skipCommit) {
+      if (commit) {
         cmd += ' --skip-commit';
       }
       utils.run(cmd);
