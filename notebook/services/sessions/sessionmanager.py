@@ -108,7 +108,9 @@ class SessionManager(LoggingConfigurable):
         # allow contents manager to specify kernels cwd
         kernel_path = self.contents_manager.get_kernel_path(path=path)
         kernel_id = yield maybe_future(
-            self.kernel_manager.start_kernel(path=kernel_path, kernel_name=kernel_name)
+            self.kernel_manager.start_kernel(
+                path=kernel_path, kernel_name=kernel_name, session_name=path
+            )
         )
         # py2-compat
         raise gen.Return(kernel_id)
