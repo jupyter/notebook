@@ -203,23 +203,26 @@ const noTabsMenu: JupyterFrontEndPlugin<void> = {
 const pages: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/application-extension:pages',
   autoStart: true,
+  requires: [ITranslator],
   optional: [ICommandPalette, IMainMenu],
   activate: (
     app: JupyterFrontEnd,
-    palette: ICommandPalette,
-    menu: IMainMenu
+    translator: ITranslator,
+    palette: ICommandPalette | null,
+    menu: IMainMenu | null
   ): void => {
+    const trans = translator.load('jupyterlab');
     const baseUrl = PageConfig.getBaseUrl();
 
     app.commands.addCommand(CommandIDs.openLab, {
-      label: 'Open JupyterLab',
+      label: trans.__('Open JupyterLab'),
       execute: () => {
         window.open(`${baseUrl}lab`);
       }
     });
 
     app.commands.addCommand(CommandIDs.openTree, {
-      label: 'Open Files',
+      label: trans.__('Open Files'),
       execute: () => {
         window.open(`${baseUrl}retro/tree`);
       }
@@ -447,17 +450,19 @@ const title: JupyterFrontEndPlugin<void> = {
  */
 const topVisibility: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/application-extension:top',
-  requires: [IRetroShell],
+  requires: [IRetroShell, ITranslator],
   optional: [IMainMenu],
   activate: (
     app: JupyterFrontEnd<JupyterFrontEnd.IShell>,
     retroShell: IRetroShell,
+    translator: ITranslator,
     menu: IMainMenu | null
   ) => {
+    const trans = translator.load('jupyterlab');
     const top = retroShell.top;
 
     app.commands.addCommand(CommandIDs.toggleTop, {
-      label: 'Show Header',
+      label: trans.__('Show Header'),
       execute: () => {
         top.setHidden(top.isVisible);
       },
@@ -574,15 +579,18 @@ const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
 const zen: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/application-extension:zen',
   autoStart: true,
+  requires: [ITranslator],
   optional: [ICommandPalette, IRetroShell, IMainMenu],
   activate: (
     app: JupyterFrontEnd,
+    translator: ITranslator,
     palette: ICommandPalette | null,
     retroShell: IRetroShell | null,
     menu: IMainMenu | null
   ): void => {
     const { commands } = app;
     const elem = document.documentElement;
+    const trans = translator.load('jupyterlab');
 
     const toggleOn = () => {
       retroShell?.collapseTop();
@@ -598,7 +606,7 @@ const zen: JupyterFrontEndPlugin<void> = {
 
     let zenModeEnabled = false;
     commands.addCommand(CommandIDs.toggleZen, {
-      label: 'Toggle Zen Mode',
+      label: trans.__('Toggle Zen Mode'),
       execute: () => {
         if (!zenModeEnabled) {
           elem.requestFullscreen();

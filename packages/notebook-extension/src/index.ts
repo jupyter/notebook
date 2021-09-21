@@ -14,6 +14,8 @@ import { IDocumentManager } from '@jupyterlab/docmanager';
 
 import { NotebookPanel } from '@jupyterlab/notebook';
 
+import { ITranslator } from '@jupyterlab/translation';
+
 import { RetroApp, RetroShell, IRetroShell } from '@retrolab/application';
 
 import { Poll } from '@lumino/polling';
@@ -46,14 +48,16 @@ const KERNEL_STATUS_FADE_OUT_CLASS = 'jp-RetroKernelStatus-fade';
 const checkpoints: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/application-extension:checkpoints',
   autoStart: true,
-  requires: [IDocumentManager],
+  requires: [IDocumentManager, ITranslator],
   optional: [IRetroShell],
   activate: (
     app: JupyterFrontEnd,
     docManager: IDocumentManager,
-    retroShell: IRetroShell
+    translator: ITranslator,
+    retroShell: IRetroShell | null
   ) => {
     const { shell } = app;
+    const trans = translator.load('jupyterlab');
     const widget = new Widget();
     widget.id = DOMUtils.createDomID();
     widget.addClass('jp-RetroCheckpoint');
@@ -74,9 +78,10 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
         return;
       }
       const checkpoint = checkpoints[checkpoints.length - 1];
-      widget.node.textContent = `Last Checkpoint: ${Time.formatHuman(
-        new Date(checkpoint.last_modified)
-      )}`;
+      widget.node.textContent = trans.__(
+        'Last Checkpoint: %1',
+        Time.formatHuman(new Date(checkpoint.last_modified))
+      );
     };
 
     if (retroShell) {
