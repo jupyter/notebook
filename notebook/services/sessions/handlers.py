@@ -11,7 +11,12 @@ import json
 from tornado import gen, web
 
 from ...base.handlers import APIHandler
-from jupyter_client.jsonutil import date_default
+try:
+    from jupyter_client.jsonutil import json_default
+except ImportError:
+    from jupyter_client.jsonutil import (
+        date_default as json_default
+    )
 from notebook.utils import maybe_future, url_path_join
 from jupyter_client.kernelspec import NoSuchKernel
 
@@ -24,7 +29,7 @@ class SessionRootHandler(APIHandler):
         # Return a list of running sessions
         sm = self.session_manager
         sessions = yield maybe_future(sm.list_sessions())
-        self.finish(json.dumps(sessions, default=date_default))
+        self.finish(json.dumps(sessions, default=json_default))
 
     @web.authenticated
     @gen.coroutine
@@ -82,7 +87,7 @@ class SessionRootHandler(APIHandler):
         location = url_path_join(self.base_url, 'api', 'sessions', model['id'])
         self.set_header('Location', location)
         self.set_status(201)
-        self.finish(json.dumps(model, default=date_default))
+        self.finish(json.dumps(model, default=json_default))
 
 
 class SessionHandler(APIHandler):
@@ -93,7 +98,7 @@ class SessionHandler(APIHandler):
         # Returns the JSON model for a single session
         sm = self.session_manager
         model = yield maybe_future(sm.get_session(session_id=session_id))
-        self.finish(json.dumps(model, default=date_default))
+        self.finish(json.dumps(model, default=json_default))
 
     @web.authenticated
     @gen.coroutine
@@ -146,7 +151,7 @@ class SessionHandler(APIHandler):
             yield maybe_future(
                 km.shutdown_kernel(before['kernel']['id'])
             )
-        self.finish(json.dumps(model, default=date_default))
+        self.finish(json.dumps(model, default=json_default))
 
     @web.authenticated
     @gen.coroutine

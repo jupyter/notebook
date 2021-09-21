@@ -48,7 +48,7 @@ define([
     OutputArea.config_defaults = {
         stream_chunk_size: 8192, // chunk size for stream output
     };
-    
+
     /**
      * Class prototypes
      **/
@@ -79,17 +79,17 @@ define([
         if (!this.prompt_area) {
             this.prompt_overlay.hide();
         }
-        
+
         this.wrapper.addClass('output_wrapper');
         this.element.addClass('output');
-        
+
         this.collapse_button.addClass("btn btn-default output_collapsed");
         this.collapse_button.attr('title', i18n.msg._('click to expand output'));
         this.collapse_button.text('. . .');
-        
+
         this.prompt_overlay.addClass('out_prompt_overlay prompt');
         this.prompt_overlay.attr('title', i18n.msg._('click to expand output; double click to hide output'));
-        
+
         this.expand();
     };
 
@@ -255,7 +255,7 @@ define([
         }
         this.append_output(json);
     };
-    
+
     // Declare mime type as constants
     var MIME_JAVASCRIPT = 'application/javascript';
     var MIME_HTML = 'text/html';
@@ -267,8 +267,8 @@ define([
     var MIME_GIF = 'image/gif';
     var MIME_PDF = 'application/pdf';
     var MIME_TEXT = 'text/plain';
-    
-    
+
+
     OutputArea.output_types = [
         MIME_JAVASCRIPT,
         MIME_HTML,
@@ -304,10 +304,10 @@ define([
         });
         return bundle;
     };
-    
+
     OutputArea.prototype.append_output = function (json) {
         this.expand();
-        
+
         if (this.clear_queued) {
             this.clear_output(false);
             this._needs_height_reset = true;
@@ -443,7 +443,7 @@ define([
             .append($('<div/>').text(err.toString()).addClass('js-error'))
             .append($('<div/>').text(i18n.msg._('See your browser Javascript console for more details.')).addClass('js-error'));
     };
-    
+
     OutputArea.prototype._safe_append = function (toinsert, toreplace) {
         /**
          * safely append an item to the document
@@ -657,7 +657,7 @@ define([
             element: element,
         });
     };
-    
+
     OutputArea.prototype.append_display_data = function (json, handle_inserted) {
         var toinsert = this.create_output_area();
         this._record_display_id(json, toinsert);
@@ -687,22 +687,28 @@ define([
                 var md = json.metadata || {};
                 var value = json.data[type];
                 var toinsert;
-                if (!this.trusted && !OutputArea.safe_outputs[type]) {
-                    // not trusted, sanitize HTML
-                    if (type===MIME_HTML || type==='text/svg') {
-                        var parsed = $(security.sanitize_html_and_parse(value));
-                        toinsert = append.apply(this, [parsed, md, element, handle_inserted]);
+
+                try {
+                    if (!this.trusted && !OutputArea.safe_outputs[type]) {
+                        // not trusted, sanitize HTML
+                        if (type===MIME_HTML || type==='text/svg') {
+                            var parsed = $(security.sanitize_html_and_parse(value));
+                            toinsert = append.apply(this, [parsed, md, element, handle_inserted]);
+                        } else {
+                            // don't display if we don't know how to sanitize it
+                            console.log("Ignoring untrusted " + type + " output.");
+                            continue;
+                        }
                     } else {
-                        // don't display if we don't know how to sanitize it
-                        console.log("Ignoring untrusted " + type + " output.");
-                        continue;
+                        toinsert = append.apply(this, [value, md, element, handle_inserted]);
                     }
-                } else {
-                    toinsert = append.apply(this, [value, md, element, handle_inserted]);
+                } catch (e) {
+                    console.error('Failed to render mimetype "' + type + '" with: ', e);
+                    continue;
                 }
 
                 // Since only the png and jpeg mime types call the inserted
-                // callback, if the mime type is something other we must call the 
+                // callback, if the mime type is something other we must call the
                 // inserted callback only when the element is actually inserted
                 // into the DOM.  Use a timeout of 0 to do this.
                 if ([MIME_PNG, MIME_JPEG, MIME_GIF].indexOf(type) < 0 && handle_inserted !== undefined) {
@@ -712,6 +718,7 @@ define([
                 return toinsert;
             }
         }
+
         return null;
     };
 
@@ -783,7 +790,7 @@ define([
         var type = MIME_SVG;
         var toinsert = this.create_output_subarea(md, "output_svg", type);
 
-        // Get the svg element from within the HTML. 
+        // Get the svg element from within the HTML.
         // One svg is supposed, but could embed other nested svgs
         var svg = $($('<div \>').html(svg_html).find('svg')[0]);
         var svg_area = $('<div />');
@@ -819,7 +826,7 @@ define([
             }
         });
     }
-    
+
     var set_width_height = function (img, md, mime) {
         /**
          * set width and height of an img element from metadata
@@ -832,7 +839,7 @@ define([
             img.addClass('unconfined');
         }
     };
-    
+
     OutputArea.prototype._append_img = function (src_type, md, element, handle_inserted, MIME, type_string) {
         var type = MIME;
         var toinsert = this.create_output_subarea(md, 'output_' + type_string, type);
@@ -849,7 +856,7 @@ define([
         element.append(toinsert);
         return toinsert;
     };
-    
+
     var append_png = function (png, md, element, handle_inserted) {
         return this._append_img(png, md, element, handle_inserted, MIME_PNG, 'png');
     };
@@ -857,7 +864,7 @@ define([
     var append_jpeg = function (jpeg, md, element, handle_inserted) {
         return this._append_img(jpeg, md, element, handle_inserted, MIME_JPEG, 'jpeg');
     };
-    
+
     var append_gif = function (gif, md, element, handle_inserted) {
         return this._append_img(gif, md, element, handle_inserted, MIME_GIF, 'gif');
     };
@@ -884,18 +891,18 @@ define([
         element.append(toinsert);
         return toinsert;
     };
-    
+
     OutputArea.prototype.append_raw_input = function (msg) {
         var that = this;
         this.expand();
         var content = msg.content;
         var area = this.create_output_area();
-        
+
         // disable any other raw_inputs, if they are left around
         $("div.output_subarea.raw_input_container").remove();
-        
+
         var input_type = content.password ? 'password' : 'text';
-        
+
         area.append(
             $("<div/>")
             .addClass("box-flex1 output_subarea raw_input_container")
@@ -920,7 +927,7 @@ define([
             )
             .attr("dir","auto")
         );
-        
+
         this.element.append(area);
         var raw_input = area.find('input.raw_input');
         // Register events that enable/disable the keyboard manager while raw
@@ -986,7 +993,7 @@ define([
                 this.element.height(height);
                 this.clear_queued = false;
             }
-            
+
             // Clear all
             // Remove load event handlers from img tags because we don't want
             // them to fire if the image is never added to the page.
@@ -997,7 +1004,7 @@ define([
             // Notify others of changes.
             this.element.trigger('changed', {output_area: this});
             this.element.trigger('cleared', {output_area: this});
-            
+
             this.outputs = [];
             this._display_id_targets = {};
             this.trusted = true;
@@ -1104,11 +1111,11 @@ define([
     OutputArea.append_map[MIME_LATEX] = append_latex;
     OutputArea.append_map[MIME_JAVASCRIPT] = append_javascript;
     OutputArea.append_map[MIME_PDF] = append_pdf;
-    
+
     OutputArea.prototype.mime_types = function () {
         return OutputArea.display_order;
     };
-    
+
     OutputArea.prototype.register_mime_type = function (mimetype, append, options) {
         if (mimetype && typeof(append) === 'function') {
             OutputArea.output_types.push(mimetype);
