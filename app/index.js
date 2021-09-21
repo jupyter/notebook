@@ -122,6 +122,9 @@ async function main() {
       ['@jupyterlab/docmanager-extension:plugin'].includes(id)
     ),
     require('@jupyterlab/docprovider-extension'),
+    require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
+      ['@jupyterlab/fileeditor-extension:plugin'].includes(id)
+    ),
     require('@jupyterlab/mainmenu-extension'),
     require('@jupyterlab/mathjax2-extension'),
     require('@jupyterlab/notebook-extension').default.filter(({ id }) =>
@@ -195,9 +198,6 @@ async function main() {
       mods = mods.concat([
         require('@jupyterlab/completer-extension').default.filter(({ id }) =>
           ['@jupyterlab/completer-extension:files'].includes(id)
-        ),
-        require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
-          ['@jupyterlab/fileeditor-extension:plugin'].includes(id)
         ),
         require('@jupyterlab/filebrowser-extension').default.filter(({ id }) =>
           [
