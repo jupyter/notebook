@@ -27,7 +27,7 @@ import { DocumentWidget } from '@jupyterlab/docregistry';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
-import { ITranslator, TranslationManager } from '@jupyterlab/translation';
+import { ITranslator } from '@jupyterlab/translation';
 
 import { RetroApp, RetroShell, IRetroShell } from '@retrolab/application';
 
@@ -484,19 +484,6 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * A simplified Translator
- */
-const translator: JupyterFrontEndPlugin<ITranslator> = {
-  id: '@retrolab/application-extension:translator',
-  activate: (app: JupyterFrontEnd<JupyterFrontEnd.IShell>): ITranslator => {
-    const translationManager = new TranslationManager();
-    return translationManager;
-  },
-  autoStart: true,
-  provides: ITranslator
-};
-
-/**
  * The default tree route resolver plugin.
  */
 const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
@@ -657,7 +644,6 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   tabTitle,
   title,
   topVisibility,
-  translator,
   tree,
   treePathUpdater,
   zen
