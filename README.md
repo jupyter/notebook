@@ -16,6 +16,16 @@
 
 ![image](https://user-images.githubusercontent.com/591645/118792690-2f1e8080-b898-11eb-98fb-1b8a22b8a07d.png)
 
+## Try it online in your browser
+
+It is possible to try RetroLab on Binder without installing anything using the following link:
+
+<img
+    alt="Try it on Binder"
+    src="https://mybinder.org/badge_logo.svg"
+    width="256"
+/>
+
 ## Install
 
 `retrolab` can be installed with `pip`:
