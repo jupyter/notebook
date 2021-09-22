@@ -10,6 +10,8 @@ import { showDialog, Dialog } from '@jupyterlab/apputils';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
+import { ITranslator } from '@jupyterlab/translation';
+
 import { retroIcon } from '@retrolab/ui-components';
 
 import * as React from 'react';
@@ -45,9 +47,15 @@ namespace CommandIDs {
 const plugin: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/help-extension:plugin',
   autoStart: true,
+  requires: [ITranslator],
   optional: [IMainMenu],
-  activate: (app: JupyterFrontEnd, menu: IMainMenu): void => {
+  activate: (
+    app: JupyterFrontEnd,
+    translator: ITranslator,
+    menu: IMainMenu | null
+  ): void => {
     const { commands } = app;
+    const trans = translator.load('retrolab');
 
     commands.addCommand(CommandIDs.open, {
       label: args => args['text'] as string,
@@ -58,12 +66,12 @@ const plugin: JupyterFrontEndPlugin<void> = {
     });
 
     commands.addCommand(CommandIDs.shortcuts, {
-      label: 'Keyboard Shortcuts',
+      label: trans.__('Keyboard Shortcuts'),
       execute: () => {
         const title = (
           <span className="jp-AboutRetro-about-header">
             <div className="jp-AboutRetro-about-header-info">
-              Keyboard Shortcuts
+              {trans.__('Keyboard Shortcuts')}
             </div>
           </span>
         );
@@ -72,8 +80,8 @@ const plugin: JupyterFrontEndPlugin<void> = {
           <table className="jp-AboutRetro-shortcuts">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Shortcut</th>
+                <th>{trans.__('Name')}</th>
+                <th>{trans.__('Shortcut')}</th>
               </tr>
             </thead>
             <tbody>
@@ -96,7 +104,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
           body,
           buttons: [
             Dialog.createButton({
-              label: 'Dismiss',
+              label: trans.__('Dismiss'),
               className:
                 'jp-AboutRetro-about-button jp-mod-reject jp-mod-styled'
             })
@@ -106,7 +114,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     });
 
     commands.addCommand(CommandIDs.about, {
-      label: `About ${app.name}`,
+      label: trans.__('About %1', app.name),
       execute: () => {
         const title = (
           <>
@@ -157,9 +165,11 @@ const plugin: JupyterFrontEndPlugin<void> = {
       command: CommandIDs.open
     }));
 
-    menu.helpMenu.addGroup([{ command: CommandIDs.about }]);
-    menu.helpMenu.addGroup([{ command: CommandIDs.shortcuts }]);
-    menu.helpMenu.addGroup(resourcesGroup);
+    if (menu) {
+      menu.helpMenu.addGroup([{ command: CommandIDs.about }]);
+      menu.helpMenu.addGroup([{ command: CommandIDs.shortcuts }]);
+      menu.helpMenu.addGroup(resourcesGroup);
+    }
   }
 };
 

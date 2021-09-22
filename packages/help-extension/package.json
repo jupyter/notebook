@@ -42,6 +42,7 @@
     "@jupyterlab/application": "^3.1.11",
     "@jupyterlab/apputils": "^3.1.11",
     "@jupyterlab/mainmenu": "^3.1.11",
+    "@jupyterlab/translation": "^3.1.11",
     "@retrolab/ui-components": "^0.3.6"
   },
   "devDependencies": {

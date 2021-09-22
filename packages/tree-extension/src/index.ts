@@ -27,16 +27,21 @@ import { TabPanel } from '@lumino/widgets';
  */
 const newFiles: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/tree-extension:buttons',
-  requires: [IFileBrowserFactory],
+  requires: [IFileBrowserFactory, ITranslator],
   autoStart: true,
-  activate: (app: JupyterFrontEnd, filebrowser: IFileBrowserFactory) => {
+  activate: (
+    app: JupyterFrontEnd,
+    filebrowser: IFileBrowserFactory,
+    translator: ITranslator
+  ) => {
     const { commands } = app;
     const browser = filebrowser.defaultBrowser;
+    const trans = translator.load('retrolab');
 
     // wrapper commands to be able to override the label
     const newNotebookCommand = 'tree:new-notebook';
     commands.addCommand(newNotebookCommand, {
-      label: 'New Notebook',
+      label: trans.__('New Notebook'),
       icon: notebookIcon,
       execute: () => {
         return commands.execute('notebook:create-new');
@@ -63,15 +68,20 @@ const newFiles: JupyterFrontEndPlugin<void> = {
  */
 const newConsole: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/tree-extension:new-console',
-  requires: [IFileBrowserFactory],
+  requires: [IFileBrowserFactory, ITranslator],
   autoStart: true,
-  activate: (app: JupyterFrontEnd, filebrowser: IFileBrowserFactory) => {
+  activate: (
+    app: JupyterFrontEnd,
+    filebrowser: IFileBrowserFactory,
+    translator: ITranslator
+  ) => {
     const { commands } = app;
     const browser = filebrowser.defaultBrowser;
+    const trans = translator.load('retrolab');
 
     const newConsoleCommand = 'tree:new-console';
     commands.addCommand(newConsoleCommand, {
-      label: 'New Console',
+      label: trans.__('New Console'),
       icon: consoleIcon,
       execute: () => {
         return commands.execute('console:create');
@@ -92,15 +102,20 @@ const newConsole: JupyterFrontEndPlugin<void> = {
  */
 const newTerminal: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/tree-extension:new-terminal',
-  requires: [IFileBrowserFactory],
+  requires: [IFileBrowserFactory, ITranslator],
   autoStart: true,
-  activate: (app: JupyterFrontEnd, filebrowser: IFileBrowserFactory) => {
+  activate: (
+    app: JupyterFrontEnd,
+    filebrowser: IFileBrowserFactory,
+    translator: ITranslator
+  ) => {
     const { commands } = app;
     const browser = filebrowser.defaultBrowser;
+    const trans = translator.load('retrolab');
 
     const newTerminalCommand = 'tree:new-terminal';
     commands.addCommand(newTerminalCommand, {
-      label: 'New Terminal',
+      label: trans.__('New Terminal'),
       icon: terminalIcon,
       execute: () => {
         return commands.execute('terminal:create-new');
@@ -133,15 +148,17 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
     const tabPanel = new TabPanel({ tabPlacement: 'top', tabsMovable: true });
     tabPanel.addClass('jp-TreePanel');
 
+    const trans = translator.load('retrolab');
+
     const { defaultBrowser: browser } = factory;
-    browser.title.label = 'Files';
+    browser.title.label = trans.__('Files');
     tabPanel.addWidget(browser);
     tabPanel.tabBar.addTab(browser.title);
 
     if (manager) {
       const running = new RunningSessions(manager, translator);
       running.id = 'jp-running-sessions';
-      running.title.label = 'Running';
+      running.title.label = trans.__('Running');
       running.title.icon = runningIcon;
       tabPanel.addWidget(running);
       tabPanel.tabBar.addTab(running.title);

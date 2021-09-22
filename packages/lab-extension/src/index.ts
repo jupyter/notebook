@@ -66,6 +66,7 @@ interface ISwitcherChoice {
 const launchButtons: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/lab-extension:interface-switcher',
   autoStart: true,
+  requires: [ITranslator],
   optional: [
     INotebookTracker,
     ICommandPalette,
@@ -75,6 +76,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
   ],
   activate: (
     app: JupyterFrontEnd,
+    translator: ITranslator,
     notebookTracker: INotebookTracker | null,
     palette: ICommandPalette | null,
     menu: IMainMenu | null,
@@ -88,6 +90,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
 
     const { commands, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
+    const trans = translator.load('retrolab');
 
     const isEnabled = () => {
       return (
@@ -140,7 +143,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
     // always add Classic
     addInterface({
       command: 'retrolab:open-classic',
-      commandLabel: 'Open in Classic Notebook',
+      commandLabel: trans.__('Open With %1', 'Classic Notebook'),
       buttonLabel: 'openClassic',
       icon: jupyterIcon,
       urlPrefix: `${baseUrl}tree/`
@@ -149,7 +152,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
     if (!retroShell) {
       addInterface({
         command: 'retrolab:open-retro',
-        commandLabel: 'Open in RetroLab',
+        commandLabel: trans.__('Open With %1', 'RetroLab'),
         buttonLabel: 'openRetro',
         icon: retroSunIcon,
         urlPrefix: `${baseUrl}retro/tree/`
@@ -159,7 +162,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
     if (!labShell) {
       addInterface({
         command: 'retrolab:open-lab',
-        commandLabel: 'Open in JupyterLab',
+        commandLabel: trans.__('Open With %1', 'JupyterLab'),
         buttonLabel: 'openLab',
         icon: jupyterFaviconIcon,
         urlPrefix: `${baseUrl}doc/tree/`
@@ -183,7 +186,7 @@ const launchRetroTree: JupyterFrontEndPlugin<void> = {
     palette: ICommandPalette | null
   ): void => {
     const { commands } = app;
-    const trans = translator.load('jupyterlab');
+    const trans = translator.load('retrolab');
     const category = trans.__('Help');
 
     commands.addCommand(CommandIDs.launchRetroTree, {

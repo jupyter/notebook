@@ -62,6 +62,8 @@
     "@jupyterlab/theme-light-extension": "~3.1.11",
     "@jupyterlab/tooltip": "~3.1.11",
     "@jupyterlab/tooltip-extension": "~3.1.11",
+    "@jupyterlab/translation": "~3.1.11",
+    "@jupyterlab/translation-extension": "~3.1.11",
     "@jupyterlab/ui-components": "~3.1.11",
     "@jupyterlab/vega5-extension": "~3.1.12",
     "@lumino/algorithm": "~1.6.0",
@@ -115,6 +117,7 @@
     "@jupyterlab/theme-dark-extension": "^3.1.11",
     "@jupyterlab/theme-light-extension": "^3.1.11",
     "@jupyterlab/tooltip-extension": "^3.1.11",
+    "@jupyterlab/translation-extension": "^3.1.11",
     "@jupyterlab/vega5-extension": "^3.1.12",
     "@retrolab/application": "^0.3.6",
     "@retrolab/application-extension": "^0.3.6",
@@ -178,7 +181,8 @@
       "@jupyterlab/terminal-extension",
       "@jupyterlab/theme-dark-extension",
       "@jupyterlab/theme-light-extension",
-      "@jupyterlab/tooltip-extension"
+      "@jupyterlab/tooltip-extension",
+      "@jupyterlab/translation-extension"
     ],
     "singletonPackages": [
       "@jupyterlab/application",
@@ -205,6 +209,7 @@
       "@jupyterlab/statusbar",
       "@jupyterlab/terminal",
       "@jupyterlab/tooltip",
+      "@jupyterlab/translation",
       "@jupyterlab/ui-components",
       "@lumino/algorithm",
       "@lumino/application",
