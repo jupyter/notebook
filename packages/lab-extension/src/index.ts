@@ -90,7 +90,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
 
     const { commands, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
-    const trans = translator.load('jupyterlab');
+    const trans = translator.load('retrolab');
 
     const isEnabled = () => {
       return (
@@ -186,7 +186,7 @@ const launchRetroTree: JupyterFrontEndPlugin<void> = {
     palette: ICommandPalette | null
   ): void => {
     const { commands } = app;
-    const trans = translator.load('jupyterlab');
+    const trans = translator.load('retrolab');
     const category = trans.__('Help');
 
     commands.addCommand(CommandIDs.launchRetroTree, {

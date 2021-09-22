@@ -57,7 +57,7 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
     retroShell: IRetroShell | null
   ) => {
     const { shell } = app;
-    const trans = translator.load('jupyterlab');
+    const trans = translator.load('retrolab');
     const widget = new Widget();
     widget.id = DOMUtils.createDomID();
     widget.addClass('jp-RetroCheckpoint');

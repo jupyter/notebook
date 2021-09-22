@@ -36,7 +36,7 @@ const newFiles: JupyterFrontEndPlugin<void> = {
   ) => {
     const { commands } = app;
     const browser = filebrowser.defaultBrowser;
-    const trans = translator.load('jupyterlab');
+    const trans = translator.load('retrolab');
 
     // wrapper commands to be able to override the label
     const newNotebookCommand = 'tree:new-notebook';
@@ -77,7 +77,7 @@ const newConsole: JupyterFrontEndPlugin<void> = {
   ) => {
     const { commands } = app;
     const browser = filebrowser.defaultBrowser;
-    const trans = translator.load('jupyterlab');
+    const trans = translator.load('retrolab');
 
     const newConsoleCommand = 'tree:new-console';
     commands.addCommand(newConsoleCommand, {
@@ -111,7 +111,7 @@ const newTerminal: JupyterFrontEndPlugin<void> = {
   ) => {
     const { commands } = app;
     const browser = filebrowser.defaultBrowser;
-    const trans = translator.load('jupyterlab');
+    const trans = translator.load('retrolab');
 
     const newTerminalCommand = 'tree:new-terminal';
     commands.addCommand(newTerminalCommand, {
@@ -148,7 +148,7 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
     const tabPanel = new TabPanel({ tabPlacement: 'top', tabsMovable: true });
     tabPanel.addClass('jp-TreePanel');
 
-    const trans = translator.load('jupyterlab');
+    const trans = translator.load('retrolab');
 
     const { defaultBrowser: browser } = factory;
     browser.title.label = trans.__('Files');

@@ -55,7 +55,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     menu: IMainMenu | null
   ): void => {
     const { commands } = app;
-    const trans = translator.load('jupyterlab');
+    const trans = translator.load('retrolab');
 
     commands.addCommand(CommandIDs.open, {
       label: args => args['text'] as string,

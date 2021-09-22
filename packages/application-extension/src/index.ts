@@ -99,7 +99,7 @@ const dirty: JupyterFrontEndPlugin<void> = {
     if (!(app instanceof RetroApp)) {
       throw new Error(`${dirty.id} must be activated in RetroLab.`);
     }
-    const trans = translator.load('jupyterlab');
+    const trans = translator.load('retrolab');
     const message = trans.__(
       'Are you sure you want to exit RetroLab?\n\nAny unsaved changes will be lost.'
     );
@@ -211,7 +211,7 @@ const pages: JupyterFrontEndPlugin<void> = {
     palette: ICommandPalette | null,
     menu: IMainMenu | null
   ): void => {
-    const trans = translator.load('jupyterlab');
+    const trans = translator.load('retrolab');
     const baseUrl = PageConfig.getBaseUrl();
 
     app.commands.addCommand(CommandIDs.openLab, {
@@ -458,7 +458,7 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
     translator: ITranslator,
     menu: IMainMenu | null
   ) => {
-    const trans = translator.load('jupyterlab');
+    const trans = translator.load('retrolab');
     const top = retroShell.top;
 
     app.commands.addCommand(CommandIDs.toggleTop, {
@@ -590,7 +590,7 @@ const zen: JupyterFrontEndPlugin<void> = {
   ): void => {
     const { commands } = app;
     const elem = document.documentElement;
-    const trans = translator.load('jupyterlab');
+    const trans = translator.load('retrolab');
 
     const toggleOn = () => {
       retroShell?.collapseTop();
