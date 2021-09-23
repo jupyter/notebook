@@ -2,6 +2,32 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.7
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.6...d720af21ba271d7e9306bcc25385bc6cefd4adb3))
+
+### Enhancements made
+
+- Add support for translation [#229](https://github.com/jupyterlab/retrolab/pull/229) ([@jtpio](https://github.com/jtpio))
+- Expose the file editor plugin to all pages [#227](https://github.com/jupyterlab/retrolab/pull/227) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Simplify bump version script [#224](https://github.com/jupyterlab/retrolab/pull/224) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Add a Binder section to the readme [#230](https://github.com/jupyterlab/retrolab/pull/230) ([@jtpio](https://github.com/jtpio))
+- Update RELEASE.md to mention the Jupyter Releaser [#223](https://github.com/jupyterlab/retrolab/pull/223) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-09-10&to=2021-09-23&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-09-10..2021-09-23&type=Issues) | [@goanpeca](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agoanpeca+updated%3A2021-09-10..2021-09-23&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-09-10..2021-09-23&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.6
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.5...e1bd1bc708f3192c15bba4edbc424f3ffef54977))
@@ -20,8 +46,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-09-08&to=2021-09-10&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-09-08..2021-09-10&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-09-08..2021-09-10&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.5
 
