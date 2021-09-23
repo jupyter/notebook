@@ -4,7 +4,7 @@
 
 ## 0.3.7
 
-([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.6...d720af21ba271d7e9306bcc25385bc6cefd4adb3))
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.6...986ce55f74bd663512122f727a2f487d5df77eb2))
 
 ### Enhancements made
 
@@ -13,12 +13,15 @@
 
 ### Maintenance and upkeep improvements
 
+- Fix handling of `--skip-commit` [#232](https://github.com/jupyterlab/retrolab/pull/232) ([@jtpio](https://github.com/jtpio))
 - Simplify bump version script [#224](https://github.com/jupyterlab/retrolab/pull/224) ([@jtpio](https://github.com/jtpio))
 
 ### Documentation improvements
 
 - Add a Binder section to the readme [#230](https://github.com/jupyterlab/retrolab/pull/230) ([@jtpio](https://github.com/jtpio))
 - Update RELEASE.md to mention the Jupyter Releaser [#223](https://github.com/jupyterlab/retrolab/pull/223) ([@jtpio](https://github.com/jtpio))
+
+### Other merged PRs
 
 ### Contributors to this release
 
