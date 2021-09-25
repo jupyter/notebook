@@ -125,6 +125,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
         );
 
         const retroNotebookURL = 'https://github.com/jupyterlab/retrolab';
+        const linkLabel = trans.__('RETROLAB ON GITHUB');
         const externalLinks = (
           <span>
             <a
@@ -133,13 +134,14 @@ const plugin: JupyterFrontEndPlugin<void> = {
               rel="noopener noreferrer"
               className="jp-Button-flat jp-AboutRetro-about-externalLinks"
             >
-              RETROLAB ON GITHUB
+              {linkLabel}
             </a>
           </span>
         );
+        const version = trans.__('Version: %1', app.version);
         const body = (
           <>
-            <span className="jp-AboutRetro-body">Version: {app.version}</span>
+            <span className="jp-AboutRetro-body">{version}</span>
             <div>{externalLinks}</div>
           </>
         );
@@ -149,7 +151,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
           body,
           buttons: [
             Dialog.createButton({
-              label: 'Dismiss',
+              label: trans.__('Dismiss'),
               className:
                 'jp-AboutRetro-about-button jp-mod-reject jp-mod-styled'
             })
