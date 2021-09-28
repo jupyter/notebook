@@ -360,7 +360,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         This is likely due to a client reconnecting from a lost network connection,
         where the socket on our side has not been cleaned up yet.
         """
-        self.session_key = '%s:%s' % (self.kernel_id, self.session.session)
+        # self.session_key = '%s:%s' % (self.kernel_id, self.session.session)
+        self.session_key = self.kernel_id
         stale_handler = self._open_sessions.get(self.session_key)
         if stale_handler:
             self.log.warning("Replacing stale connection: %s", self.session_key)
