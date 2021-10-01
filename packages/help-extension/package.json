@@ -39,10 +39,10 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/application": "^3.1.11",
-    "@jupyterlab/apputils": "^3.1.11",
-    "@jupyterlab/mainmenu": "^3.1.11",
-    "@jupyterlab/translation": "^3.1.11",
+    "@jupyterlab/application": "^3.2.0",
+    "@jupyterlab/apputils": "^3.2.0",
+    "@jupyterlab/mainmenu": "^3.2.0",
+    "@jupyterlab/translation": "^3.2.0",
     "@retrolab/ui-components": "^0.3.9"
   },
   "devDependencies": {

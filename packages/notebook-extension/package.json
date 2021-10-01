@@ -39,11 +39,11 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/application": "^3.1.11",
-    "@jupyterlab/apputils": "^3.1.11",
-    "@jupyterlab/docmanager": "^3.1.11",
-    "@jupyterlab/notebook": "^3.1.11",
-    "@jupyterlab/translation": "^3.1.11",
+    "@jupyterlab/application": "^3.2.0",
+    "@jupyterlab/apputils": "^3.2.0",
+    "@jupyterlab/docmanager": "^3.2.0",
+    "@jupyterlab/notebook": "^3.2.0",
+    "@jupyterlab/translation": "^3.2.0",
     "@lumino/polling": "^1.6.0",
     "@lumino/widgets": "^1.23.0",
     "@retrolab/application": "^0.3.9"

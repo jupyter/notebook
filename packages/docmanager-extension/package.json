@@ -39,11 +39,11 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/application": "^3.1.11",
-    "@jupyterlab/coreutils": "^5.1.11",
-    "@jupyterlab/docmanager": "^3.1.11",
-    "@jupyterlab/docregistry": "^3.1.11",
-    "@jupyterlab/services": "^6.1.11",
+    "@jupyterlab/application": "^3.2.0",
+    "@jupyterlab/coreutils": "^5.2.0",
+    "@jupyterlab/docmanager": "^3.2.0",
+    "@jupyterlab/docregistry": "^3.2.0",
+    "@jupyterlab/services": "^6.2.0",
     "@lumino/algorithm": "^1.6.0"
   },
   "devDependencies": {
