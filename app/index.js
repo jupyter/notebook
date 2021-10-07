@@ -311,7 +311,7 @@ async function main() {
       console.error(reason);
     });
 
-  app.registerPluginModules(baseMods);
+  app.registerPluginModules(mods);
 
   // Expose global app instance when in dev mode or when toggled explicitly.
   const exposeAppInBrowser =
