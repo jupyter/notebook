@@ -81,7 +81,7 @@ async function main() {
 
   const disabled = [];
   // TODO: formalize the way the set of initial extensions and plugins are specified
-  let mods = [
+  let baseMods = [
     // @retrolab plugins
     require('@retrolab/application-extension'),
     require('@retrolab/console-extension'),
@@ -151,7 +151,7 @@ async function main() {
   const page = PageConfig.getOption('retroPage');
   switch (page) {
     case 'tree': {
-      mods = mods.concat([
+      baseMods = baseMods.concat([
         require('@jupyterlab/filebrowser-extension').default.filter(({ id }) =>
           [
             '@jupyterlab/filebrowser-extension:browser',
@@ -168,7 +168,7 @@ async function main() {
       break;
     }
     case 'notebooks': {
-      mods = mods.concat([
+      baseMods = baseMods.concat([
         require('@jupyterlab/completer-extension').default.filter(({ id }) =>
           ['@jupyterlab/completer-extension:notebooks'].includes(id)
         ),
@@ -182,7 +182,7 @@ async function main() {
       break;
     }
     case 'consoles': {
-      mods = mods.concat([
+      baseMods = baseMods.concat([
         require('@jupyterlab/completer-extension').default.filter(({ id }) =>
           ['@jupyterlab/completer-extension:consoles'].includes(id)
         ),
@@ -196,7 +196,7 @@ async function main() {
       break;
     }
     case 'edit': {
-      mods = mods.concat([
+      baseMods = baseMods.concat([
         require('@jupyterlab/completer-extension').default.filter(({ id }) =>
           ['@jupyterlab/completer-extension:files'].includes(id)
         ),
@@ -241,6 +241,7 @@ async function main() {
     PageConfig.getOption('federated_extensions')
   );
 
+  const mods = [];
   const federatedExtensionPromises = [];
   const federatedMimeExtensionPromises = [];
   const federatedStylePromises = [];
@@ -280,6 +281,14 @@ async function main() {
     }
   });
 
+  // Add the base frontend extensions
+  const baseFrontendMods = await Promise.all(baseMods);
+  baseFrontendMods.forEach(p => {
+    for (let plugin of activePlugins(p)) {
+      mods.push(plugin);
+    }
+  });
+
   // Add the federated extensions.
   // TODO: Add support for disabled extensions
   const federatedExtensions = await Promise.allSettled(
@@ -288,7 +297,7 @@ async function main() {
   federatedExtensions.forEach(p => {
     if (p.status === 'fulfilled') {
       for (let plugin of activePlugins(p.value)) {
-        mods.push(plugin);
+        baseMods.push(plugin);
       }
     } else {
       console.error(p.reason);
@@ -302,7 +311,7 @@ async function main() {
       console.error(reason);
     });
 
-  app.registerPluginModules(mods);
+  app.registerPluginModules(baseMods);
 
   // Expose global app instance when in dev mode or when toggled explicitly.
   const exposeAppInBrowser =
