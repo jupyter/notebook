@@ -7,6 +7,7 @@
   --jp-private-topbar-height: 28px;
   /* Override the layout-2 color for the dark theme */
   --md-grey-800: #323232;
+  --jp-notebook-max-width: 1200px;
 }
 
 body {
@@ -54,16 +55,28 @@ body {
   padding-right: 5px;
   margin-left: auto;
   margin-right: auto;
-  max-width: 1200px;
+  max-width: var(--jp-notebook-max-width);
 }
 
 #main-panel {
   box-shadow: var(--jp-elevation-z4);
   margin-left: auto;
   margin-right: auto;
-  max-width: 1200px;
+  max-width: var(--jp-notebook-max-width);
 }
 
 #spacer-widget {
   min-height: 16px;
+}
+
+/* Special case notebooks as document oriented pages */
+
+body[data-retro='notebooks'] #main-panel {
+  margin-left: unset;
+  margin-right: unset;
+  max-width: unset;
+}
+
+body[data-retro='notebooks'] #spacer-widget {
+  min-height: unset;
 }

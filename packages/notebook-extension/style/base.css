@@ -4,6 +4,44 @@
 | Distributed under the terms of the Modified BSD License.
 |----------------------------------------------------------------------------*/
 
+@import './variables.css';
+
+.jp-NotebookPanel-toolbar {
+  padding-left: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
+  padding-right: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
+}
+
+.jp-Notebook > * {
+  background: var(--jp-layout-color0);
+  padding: var(--jp-notebook-padding);
+}
+
+.jp-Notebook.jp-mod-commandMode
+  .jp-Cell.jp-mod-active.jp-mod-selected:not(.jp-mod-multiSelected) {
+  background: var(--jp-layout-color0) !important;
+}
+
+.jp-Notebook > *:first-child {
+  padding-top: var(--jp-notebook-padding-offset);
+  margin-top: var(--jp-notebook-toolbar-margin-bottom);
+}
+
+.jp-Notebook {
+  padding-top: unset;
+  padding-bottom: unset;
+  padding-left: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
+  padding-right: calc(
+    calc(
+        100% - var(--jp-notebook-max-width) - var(--jp-notebook-padding-offset)
+      ) * 0.5
+  );
+  background: var(--jp-layout-color2);
+}
+
+.jp-Notebook.jp-mod-scrollPastEnd::after {
+  background: var(--jp-layout-color0);
+}
+
 .jp-RetroKernelLogo {
   flex: 0 0 auto;
   display: flex;
@@ -19,14 +57,14 @@
 }
 
 .jp-RetroKernelStatus {
-  font-size: var(--jp-ui-font-size1);
   margin: 0;
   font-weight: normal;
+  font-size: var(--jp-ui-font-size1);
   color: var(--jp-ui-font-color0);
   font-family: var(--jp-ui-font-family);
   line-height: var(--jp-private-title-panel-height);
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: var(--jp-kernel-status-padding);
+  padding-right: var(--jp-kernel-status-padding);
 }
 
 .jp-RetroKernelStatus-error {
@@ -88,4 +126,8 @@
 
 body[data-format='mobile'] .jp-RetroCheckpoint {
   display: none;
+}
+
+body[data-format='mobile'] .jp-Notebook > *:first-child {
+  margin-top: 0;
 }
