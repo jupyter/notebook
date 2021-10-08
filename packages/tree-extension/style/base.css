@@ -9,6 +9,12 @@
 .jp-TreePanel .lm-TabPanel-tabBar {
   overflow: visible;
   min-height: 32px;
+  border-bottom: unset;
+  height: var(--jp-private-toolbar-height);
+}
+
+.jp-TreePanel .lm-TabBar-content {
+  height: 100%;
 }
 
 .jp-TreePanel .lm-TabBar-tab {
