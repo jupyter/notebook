@@ -297,7 +297,7 @@ async function main() {
   federatedExtensions.forEach(p => {
     if (p.status === 'fulfilled') {
       for (let plugin of activePlugins(p.value)) {
-        baseMods.push(plugin);
+        mods.push(plugin);
       }
     } else {
       console.error(p.reason);
