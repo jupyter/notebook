@@ -290,7 +290,6 @@ async function main() {
   });
 
   // Add the federated extensions.
-  // TODO: Add support for disabled extensions
   const federatedExtensions = await Promise.allSettled(
     federatedExtensionPromises
   );
