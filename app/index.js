@@ -290,14 +290,13 @@ async function main() {
   });
 
   // Add the federated extensions.
-  // TODO: Add support for disabled extensions
   const federatedExtensions = await Promise.allSettled(
     federatedExtensionPromises
   );
   federatedExtensions.forEach(p => {
     if (p.status === 'fulfilled') {
       for (let plugin of activePlugins(p.value)) {
-        baseMods.push(plugin);
+        mods.push(plugin);
       }
     } else {
       console.error(p.reason);
