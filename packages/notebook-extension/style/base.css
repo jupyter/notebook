@@ -6,27 +6,30 @@
 
 @import './variables.css';
 
-.jp-NotebookPanel-toolbar {
+/* Document oriented look for the notebook (scrollbar to the right of the page) */
+
+body[data-retro='notebooks'] .jp-NotebookPanel-toolbar {
   padding-left: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
   padding-right: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
 }
 
-.jp-Notebook > * {
+body[data-retro='notebooks'] .jp-Notebook > * {
   background: var(--jp-layout-color0);
   padding: var(--jp-notebook-padding);
 }
 
-.jp-Notebook.jp-mod-commandMode
+body[data-retro='notebooks']
+  .jp-Notebook.jp-mod-commandMode
   .jp-Cell.jp-mod-active.jp-mod-selected:not(.jp-mod-multiSelected) {
   background: var(--jp-layout-color0) !important;
 }
 
-.jp-Notebook > *:first-child {
+body[data-retro='notebooks'] .jp-Notebook > *:first-child {
   padding-top: var(--jp-notebook-padding-offset);
   margin-top: var(--jp-notebook-toolbar-margin-bottom);
 }
 
-.jp-Notebook {
+body[data-retro='notebooks'] .jp-Notebook {
   padding-top: unset;
   padding-bottom: unset;
   padding-left: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
@@ -38,9 +41,11 @@
   background: var(--jp-layout-color2);
 }
 
-.jp-Notebook.jp-mod-scrollPastEnd::after {
+body[data-retro='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
   background: var(--jp-layout-color0);
 }
+
+/* ---- */
 
 .jp-RetroKernelLogo {
   flex: 0 0 auto;
