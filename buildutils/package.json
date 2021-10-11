@@ -1,6 +1,6 @@
 {
   "name": "@retrolab/buildutils",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "private": true,
   "description": "RetroLab - Build Utilities",
   "homepage": "https://github.com/jupyterlab/retrolab",
