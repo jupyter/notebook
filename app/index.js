@@ -203,10 +203,7 @@ async function main() {
           ['@jupyterlab/completer-extension:files'].includes(id)
         ),
         require('@jupyterlab/filebrowser-extension').default.filter(({ id }) =>
-          [
-            '@jupyterlab/filebrowser-extension:browser',
-            '@jupyterlab/filebrowser-extension:factory'
-          ].includes(id)
+          ['@jupyterlab/filebrowser-extension:browser'].includes(id)
         )
       ]);
       break;
