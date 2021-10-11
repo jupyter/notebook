@@ -122,6 +122,9 @@ async function main() {
       ['@jupyterlab/docmanager-extension:plugin'].includes(id)
     ),
     require('@jupyterlab/docprovider-extension'),
+    require('@jupyterlab/filebrowser-extension').default.filter(({ id }) =>
+      ['@jupyterlab/filebrowser-extension:factory'].includes(id)
+    ),
     require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
       ['@jupyterlab/fileeditor-extension:plugin'].includes(id)
     ),
@@ -156,7 +159,6 @@ async function main() {
           [
             '@jupyterlab/filebrowser-extension:browser',
             '@jupyterlab/filebrowser-extension:download',
-            '@jupyterlab/filebrowser-extension:factory',
             '@jupyterlab/filebrowser-extension:file-upload-status',
             '@jupyterlab/filebrowser-extension:open-with',
             '@jupyterlab/filebrowser-extension:share-file'
