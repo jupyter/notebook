@@ -16,7 +16,7 @@ import { NotebookPanel } from '@jupyterlab/notebook';
 
 import { ITranslator } from '@jupyterlab/translation';
 
-import { RetroApp, RetroShell, IRetroShell } from '@retrolab/application';
+import { RetroApp, IRetroShell } from '@retrolab/application';
 
 import { Poll } from '@lumino/polling';
 
@@ -149,7 +149,9 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
       app.shell.add(widget, 'top', { rank: 10_010 });
     };
 
-    shell.currentChanged.connect(onChange);
+    app.started.then(() => {
+      shell.currentChanged.connect(onChange);
+    });
   }
 };
 
@@ -223,21 +225,6 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
   },
   autoStart: true,
   provides: JupyterFrontEnd.IPaths
-};
-
-/**
- * The default RetroLab application shell.
- */
-const shell: JupyterFrontEndPlugin<IRetroShell> = {
-  id: '@retrolab/application-extension:shell',
-  activate: (app: JupyterFrontEnd) => {
-    if (!(app.shell instanceof RetroShell)) {
-      throw new Error(`${shell.id} did not find a RetroShell instance.`);
-    }
-    return app.shell;
-  },
-  autoStart: true,
-  provides: IRetroShell
 };
 
 /**

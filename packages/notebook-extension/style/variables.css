@@ -1,0 +1,6 @@
+:root {
+  --jp-notebook-toolbar-margin-bottom: 20px;
+  --jp-notebook-padding-offset: 20px;
+
+  --jp-kernel-status-padding: 5px;
+}
