@@ -2,6 +2,33 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.8
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.7...812e76db12dce15acc3ff582fd7cfb009fd33879))
+
+### Enhancements made
+
+- More document-oriented feel for the notebook (scrollbar) [#244](https://github.com/jupyterlab/retrolab/pull/244) ([@jtpio](https://github.com/jtpio))
+- Improve tree page tab bar CSS [#243](https://github.com/jupyterlab/retrolab/pull/243) ([@jtpio](https://github.com/jtpio))
+- Add missing translations to help extension [#237](https://github.com/jupyterlab/retrolab/pull/237) ([@krassowski](https://github.com/krassowski))
+
+### Bugs fixed
+
+- Fix handling of federated extensions [#245](https://github.com/jupyterlab/retrolab/pull/245) ([@jtpio](https://github.com/jtpio))
+- Support disabling core retrolab extensions [#242](https://github.com/jupyterlab/retrolab/pull/242) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Update link to the stable Binder [#236](https://github.com/jupyterlab/retrolab/pull/236) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-09-23&to=2021-10-11&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-09-23..2021-10-11&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-09-23..2021-10-11&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Akrassowski+updated%3A2021-09-23..2021-10-11&type=Issues) | [@welcome](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Awelcome+updated%3A2021-09-23..2021-10-11&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.7
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.6...986ce55f74bd663512122f727a2f487d5df77eb2))
@@ -28,8 +55,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-09-10&to=2021-09-23&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-09-10..2021-09-23&type=Issues) | [@goanpeca](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agoanpeca+updated%3A2021-09-10..2021-09-23&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-09-10..2021-09-23&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.6
 
