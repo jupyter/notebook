@@ -1,5 +1,5 @@
 sphinx>=1.3.6
 sphinx-rtd-theme
-nbsphinx
+nbsphinx==0.8.6
 sphinxcontrib_github_alt
 myst_parser
