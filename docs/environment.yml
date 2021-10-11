@@ -14,7 +14,7 @@ dependencies:
 - terminado
 - myst-parser
 - pip:
-  - nbsphinx==0.8.6
+  - nbsphinx
   - Send2Trash
   - prometheus_client
   - sphinxcontrib_github_alt
