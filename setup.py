@@ -113,12 +113,12 @@ for more information.
         'pyzmq>=17',
         'argon2-cffi',
         'ipython_genutils',
-        'traitlets>=4.2.1',
-        'jupyter_core>=4.6.1',
-        'jupyter_client>=5.3.4',
-        'nbformat',
-        'nbconvert',
-        'ipykernel', # bless IPython kernel for now
+        'traitlets==4.3.3',
+        'jupyter_core==4.7.1',
+        'jupyter_client==6.1.12',
+        'nbformat==5.1.3',
+        'nbconvert==6.0.7',
+        'ipykernel==5.5.5', # bless IPython kernel for now
         'Send2Trash>=1.5.0',
         'terminado>=0.8.3',
         'prometheus_client'
