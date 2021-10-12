@@ -2,6 +2,22 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.9
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.8...a901cb1351735cbbd1163ba3c5ee553010f4d8ea))
+
+### Bugs fixed
+
+- Hoist the filebrowser factory plugin [#249](https://github.com/jupyterlab/retrolab/pull/249) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-10-11&to=2021-10-12&type=c))
+
+[@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-10-11..2021-10-12&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.8
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.7...812e76db12dce15acc3ff582fd7cfb009fd33879))
@@ -26,8 +42,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-09-23&to=2021-10-11&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-09-23..2021-10-11&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-09-23..2021-10-11&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Akrassowski+updated%3A2021-09-23..2021-10-11&type=Issues) | [@welcome](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Awelcome+updated%3A2021-09-23..2021-10-11&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.7
 
