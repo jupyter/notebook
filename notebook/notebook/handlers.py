@@ -38,7 +38,10 @@ def get_frontend_exporters():
 
     frontend_exporters = []
     for name in get_export_names():
-        exporter_class = get_exporter(name)
+        try:
+            exporter_class = get_exporter(name)
+        except AttributeError:
+            continue
         exporter_instance = exporter_class()
         ux_name = getattr(exporter_instance, 'export_from_notebook', None)
         super_uxname = getattr(super(exporter_class, exporter_instance),
