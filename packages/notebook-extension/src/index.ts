@@ -8,7 +8,7 @@ import {
 
 import { ISessionContext, DOMUtils } from '@jupyterlab/apputils';
 
-import { PageConfig, Text, Time } from '@jupyterlab/coreutils';
+import { Text, Time } from '@jupyterlab/coreutils';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
@@ -109,7 +109,6 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
   requires: [IRetroShell],
   activate: (app: JupyterFrontEnd, shell: IRetroShell) => {
     const { serviceManager } = app;
-    const baseUrl = PageConfig.getBaseUrl();
 
     let widget: Widget;
     const onChange = async () => {
@@ -132,13 +131,11 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
         return;
       }
 
-      let kernelIconUrl = spec.resources['logo-64x64'];
+      const kernelIconUrl = spec.resources['logo-64x64'];
       if (!kernelIconUrl) {
         return;
       }
 
-      const index = kernelIconUrl.indexOf('kernelspecs');
-      kernelIconUrl = baseUrl + kernelIconUrl.slice(index);
       const node = document.createElement('div');
       const img = document.createElement('img');
       img.src = kernelIconUrl;
