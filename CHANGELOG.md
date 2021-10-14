@@ -2,6 +2,22 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.10
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.9...15a00e5691ef37e5d383ed982662d71c54d0bb6f))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab 3.2 [#240](https://github.com/jupyterlab/retrolab/pull/240) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-10-12&to=2021-10-14&type=c))
+
+[@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-10-12..2021-10-14&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.9
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.8...a901cb1351735cbbd1163ba3c5ee553010f4d8ea))
@@ -15,8 +31,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-10-11&to=2021-10-12&type=c))
 
 [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-10-11..2021-10-12&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.8
 
