@@ -2284,7 +2284,7 @@ class NotebookApp(JupyterApp):
         if not self.allow_root:
             # check if we are running as root, and abort if it's not allowed
             try:
-                uid = os.geteuid()
+                uid = os.getuid()
             except AttributeError:
                 uid = -1 # anything nonzero here, since we can't check UID assume non-root
             if uid == 0:
