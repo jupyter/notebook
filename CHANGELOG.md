@@ -14,6 +14,34 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 6.4.5
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.4...ccd9665571107e02a325a738b8baebd6532b2d3d))
+
+### Maintenance and upkeep improvements
+
+- Fix crypto handling [#6197](https://github.com/jupyter/notebook/pull/6197) ([@blink1073](https://github.com/blink1073))
+
+### Documentation improvements
+
+- DOC: Fix nbsphinx settings [#6200](https://github.com/jupyter/notebook/pull/6200) ([@mgeier](https://github.com/mgeier))
+
+### Other merged PRs
+
+- Fully revert the pinning of nbsphinx to 0.8.6 [#6201](https://github.com/jupyter/notebook/pull/6201) ([@kevin-bates](https://github.com/kevin-bates))
+- Pin nbsphinx to 0.8.6, clean up orphaned resources [#6194](https://github.com/jupyter/notebook/pull/6194) ([@kevin-bates](https://github.com/kevin-bates))
+- Fix typo in docstring [#6188](https://github.com/jupyter/notebook/pull/6188) ([@jgarte](https://github.com/jgarte))
+- Recover from failure to render mimetype [#6181](https://github.com/jupyter/notebook/pull/6181) ([@martinRenou](https://github.com/martinRenou))
+- Fix jupyter_client warning [#6178](https://github.com/jupyter/notebook/pull/6178) ([@martinRenou](https://github.com/martinRenou))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2021-09-03&to=2021-10-19&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2021-09-03..2021-10-19&type=Issues) | [@jgarte](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajgarte+updated%3A2021-09-03..2021-10-19&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2021-09-03..2021-10-19&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2021-09-03..2021-10-19&type=Issues) | [@mgeier](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Amgeier+updated%3A2021-09-03..2021-10-19&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 6.4.4
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.3...c06c340574e1d2207940c5bd1190eb73d82ab945))
@@ -32,8 +60,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2021-08-11&to=2021-09-03&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2021-08-11..2021-09-03&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2021-08-11..2021-09-03&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2021-08-11..2021-09-03&type=Issues) | [@massongit](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Amassongit+updated%3A2021-08-11..2021-09-03&type=Issues) | [@minrk](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aminrk+updated%3A2021-08-11..2021-09-03&type=Issues) | [@Zsailer](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AZsailer+updated%3A2021-08-11..2021-09-03&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.4.3
 
