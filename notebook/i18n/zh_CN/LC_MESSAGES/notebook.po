@@ -368,7 +368,7 @@ msgstr ""
 #: notebook/notebookapp.py:1187
 #, python-format
 msgid "The port %i is already in use, trying another port."
-msgstr "端口 %i 已经被站用, 请尝试其他端口."
+msgstr "端口 %i 已经被占用, 请尝试其他端口."
 
 #: notebook/notebookapp.py:1190
 #, python-format
