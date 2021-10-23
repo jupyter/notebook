@@ -14,7 +14,7 @@
 
 `RetroLab` (also known as _JupyterLab Retro_, previously called _JupyterLab Classic_) is a [JupyterLab](https://github.com/jupyterlab/jupyterlab) distribution with a retro look and feel.
 
-![image](https://user-images.githubusercontent.com/591645/118792690-2f1e8080-b898-11eb-98fb-1b8a22b8a07d.png)
+![retrolab](https://user-images.githubusercontent.com/591645/138552467-ed2d96ff-1ea3-496c-bc7b-660d009c1459.png)
 
 ## Try it online in your browser
 
