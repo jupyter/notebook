@@ -90,7 +90,7 @@ class GenericCheckpointsMixin(object):
                 path,
             )
         else:
-            raise HTTPError(500, u'Unexpected type %s' % type)
+            raise HTTPError(500, 'Unexpected type %s' % type)
 
     def restore_checkpoint(self, contents_mgr, checkpoint_id, path):
         """Restore a checkpoint."""
@@ -100,7 +100,7 @@ class GenericCheckpointsMixin(object):
         elif type == 'file':
             model = self.get_file_checkpoint(checkpoint_id, path)
         else:
-            raise HTTPError(500, u'Unexpected type %s' % type)
+            raise HTTPError(500, 'Unexpected type %s' % type)
         contents_mgr.save(model, path)
 
     # Required Methods

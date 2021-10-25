@@ -391,7 +391,7 @@ class MappingKernelManager(MultiKernelManager):
     def _check_kernel_id(self, kernel_id):
         """Check a that a kernel_id exists and raise 404 if not."""
         if kernel_id not in self:
-            raise web.HTTPError(404, u'Kernel does not exist: %s' % kernel_id)
+            raise web.HTTPError(404, 'Kernel does not exist: %s' % kernel_id)
 
     # monitoring activity:
 

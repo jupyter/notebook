@@ -516,12 +516,12 @@ def validate_nbextension(require, logger=None):
     js_exists = False
     for exts in jupyter_path('nbextensions'):
         # Does the Javascript entrypoint actually exist on disk?
-        js = u"{}.js".format(os.path.join(exts, *require.split("/")))
+        js = "{}.js".format(os.path.join(exts, *require.split("/")))
         js_exists = os.path.exists(js)
         if js_exists:
             break
 
-    require_tmpl = u"        - require? {} {}"
+    require_tmpl = "        - require? {} {}"
     if js_exists:
         infos.append(require_tmpl.format(GREEN_OK, require))
     else:
@@ -529,13 +529,13 @@ def validate_nbextension(require, logger=None):
     
     if logger:
         if warnings:
-            logger.warning(u"      - Validating: problems found:")
+            logger.warning("      - Validating: problems found:")
             for msg in warnings:
                 logger.warning(msg)
             for msg in infos:
                 logger.info(msg)
         else:
-            logger.info(u"      - Validating: {}".format(GREEN_OK))
+            logger.info("      - Validating: {}".format(GREEN_OK))
     
     return warnings
 
@@ -567,19 +567,19 @@ def validate_nbextension_python(spec, full_dest, logger=None):
 
     section = spec.get("section", None)
     if section in NBCONFIG_SECTIONS:
-        infos.append(u"  {} section: {}".format(GREEN_OK, section))
+        infos.append("  {} section: {}".format(GREEN_OK, section))
     else:
-        warnings.append(u"  {}  section: {}".format(RED_X, section))
+        warnings.append("  {}  section: {}".format(RED_X, section))
 
     require = spec.get("require", None)
     if require is not None:
         require_path = os.path.join(
             full_dest[0:-len(spec["dest"])],
-            u"{}.js".format(require))
+            "{}.js".format(require))
         if os.path.exists(require_path):
-            infos.append(u"  {} require: {}".format(GREEN_OK, require_path))
+            infos.append("  {} require: {}".format(GREEN_OK, require_path))
         else:
-            warnings.append(u"  {}  require: {}".format(RED_X, require_path))
+            warnings.append("  {}  require: {}".format(RED_X, require_path))
 
     if logger:
         if warnings:
@@ -588,9 +588,9 @@ def validate_nbextension_python(spec, full_dest, logger=None):
                 logger.warning(msg)
             for msg in infos:
                 logger.info(msg)
-            logger.warning(u"Full spec: {}".format(spec))
+            logger.warning("Full spec: {}".format(spec))
         else:
-            logger.info(u"- Validating: {}".format(GREEN_OK))
+            logger.info("- Validating: {}".format(GREEN_OK))
 
     return warnings
 
@@ -689,7 +689,7 @@ class InstallNBExtensionApp(BaseExtensionApp):
 
         if full_dests:
             self.log.info(
-                u"\nTo initialize this nbextension in the browser every time"
+                "\nTo initialize this nbextension in the browser every time"
                 " the notebook (or other app) loads:\n\n"
                 "      jupyter nbextension enable {}{}{}{}\n".format(
                     self.extra_args[0] if self.python else "<the entry point>",
@@ -927,7 +927,7 @@ class ListNBExtensionsApp(BaseExtensionApp):
         print("Known nbextensions:")
         
         for config_dir in config_dirs:
-            head = u'  config dir: {}'.format(config_dir)
+            head = '  config dir: {}'.format(config_dir)
             head_shown = False
 
             cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
@@ -938,10 +938,10 @@ class ListNBExtensionsApp(BaseExtensionApp):
                         # only show heading if there is an nbextension here
                         print(head)
                         head_shown = True
-                    print(u'    {} section'.format(section))
+                    print('    {} section'.format(section))
                     
                     for require, enabled in data['load_extensions'].items():
-                        print(u'      {} {}'.format(
+                        print('      {} {}'.format(
                             require,
                             GREEN_ENABLED if enabled else RED_DISABLED))
                         if enabled:
@@ -1082,9 +1082,9 @@ def _get_nbextension_dir(user=False, sys_prefix=False, prefix=None, nbextensions
             "cannot specify more than one of user, sys_prefix, prefix, or nbextensions_dir, but got: {}"
             .format(', '.join(conflicting_set)))
     if user:
-        nbext = pjoin(jupyter_data_dir(), u'nbextensions')
+        nbext = pjoin(jupyter_data_dir(), 'nbextensions')
     elif sys_prefix:
-        nbext = pjoin(ENV_JUPYTER_PATH[0], u'nbextensions')
+        nbext = pjoin(ENV_JUPYTER_PATH[0], 'nbextensions')
     elif prefix:
         nbext = pjoin(prefix, 'share', 'jupyter', 'nbextensions')
     elif nbextensions_dir:

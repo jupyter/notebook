@@ -226,8 +226,8 @@ class JSController(TestController):
         self.dirs.append(self.home)
         self.dirs.append(self.config_dir)
         self.dirs.append(self.nbdir)
-        os.makedirs(os.path.join(self.nbdir.name, os.path.join(u'sub ∂ir1', u'sub ∂ir 1a')))
-        os.makedirs(os.path.join(self.nbdir.name, os.path.join(u'sub ∂ir2', u'sub ∂ir 1b')))
+        os.makedirs(os.path.join(self.nbdir.name, os.path.join('sub ∂ir1', 'sub ∂ir 1a')))
+        os.makedirs(os.path.join(self.nbdir.name, os.path.join('sub ∂ir2', 'sub ∂ir 1b')))
 
         if self.xunit:
             self.add_xunit()

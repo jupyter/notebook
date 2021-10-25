@@ -75,8 +75,8 @@ class LoginHandler(IPythonHandler):
         return passwd_check(a, b)
     
     def post(self):
-        typed_password = self.get_argument('password', default=u'')
-        new_password = self.get_argument('new_password', default=u'')
+        typed_password = self.get_argument('password', default='')
+        new_password = self.get_argument('new_password', default='')
 
 
         
@@ -245,7 +245,7 @@ class LoginHandler(IPythonHandler):
 
         If there is no configured password, an empty string will be returned.
         """
-        return settings.get('password', u'')
+        return settings.get('password', '')
 
     @classmethod
     def get_login_available(cls, settings):

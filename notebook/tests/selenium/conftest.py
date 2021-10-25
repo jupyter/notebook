@@ -39,8 +39,8 @@ def notebook_server():
     info = {}
     with TemporaryDirectory() as td:
         nbdir = info['nbdir'] = pjoin(td, 'notebooks')
-        os.makedirs(pjoin(nbdir, u'sub ∂ir1', u'sub ∂ir 1a'))
-        os.makedirs(pjoin(nbdir, u'sub ∂ir2', u'sub ∂ir 1b'))
+        os.makedirs(pjoin(nbdir, 'sub ∂ir1', 'sub ∂ir 1a'))
+        os.makedirs(pjoin(nbdir, 'sub ∂ir2', 'sub ∂ir 1b'))
 
         info['extra_env'] = {
             'JUPYTER_CONFIG_DIR': pjoin(td, 'jupyter_config'),

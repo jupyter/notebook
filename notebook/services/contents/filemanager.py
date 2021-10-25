@@ -132,7 +132,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                 self.post_save_hook(os_path=os_path, model=model, contents_manager=self)
             except Exception as e:
                 self.log.error("Post-save hook failed o-n %s", os_path, exc_info=True)
-                raise web.HTTPError(500, u'Unexpected error while running post hook save: %s'
+                raise web.HTTPError(500, 'Unexpected error while running post hook save: %s'
                                     % e) from e
 
     @validate('root_dir')
@@ -292,7 +292,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         """
         os_path = self._get_os_path(path)
 
-        four_o_four = u'directory does not exist: %r' % path
+        four_o_four = 'directory does not exist: %r' % path
 
         if not os.path.isdir(os_path):
             raise web.HTTPError(404, four_o_four)
@@ -427,32 +427,32 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         path = path.strip('/')
 
         if not self.exists(path):
-            raise web.HTTPError(404, u'No such file or directory: %s' % path)
+            raise web.HTTPError(404, 'No such file or directory: %s' % path)
 
         os_path = self._get_os_path(path)
         if os.path.isdir(os_path):
             if type not in (None, 'directory'):
                 raise web.HTTPError(400,
-                                u'%s is a directory, not a %s' % (path, type), reason='bad type')
+                                '%s is a directory, not a %s' % (path, type), reason='bad type')
             model = self._dir_model(path, content=content)
         elif type == 'notebook' or (type is None and path.endswith('.ipynb')):
             model = self._notebook_model(path, content=content)
         else:
             if type == 'directory':
                 raise web.HTTPError(400,
-                                u'%s is not a directory' % path, reason='bad type')
+                                '%s is not a directory' % path, reason='bad type')
             model = self._file_model(path, content=content, format=format)
         return model
 
     def _save_directory(self, os_path, model, path=''):
         """create a directory"""
         if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
-            raise web.HTTPError(400, u'Cannot create hidden directory %r' % os_path)
+            raise web.HTTPError(400, 'Cannot create hidden directory %r' % os_path)
         if not os.path.exists(os_path):
             with self.perm_to_403():
                 os.mkdir(os_path)
         elif not os.path.isdir(os_path):
-            raise web.HTTPError(400, u'Not a directory: %s' % (os_path))
+            raise web.HTTPError(400, 'Not a directory: %s' % (os_path))
         else:
             self.log.debug("Directory %r already exists", os_path)
 
@@ -461,9 +461,9 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         path = path.strip('/')
 
         if 'type' not in model:
-            raise web.HTTPError(400, u'No file type provided')
+            raise web.HTTPError(400, 'No file type provided')
         if 'content' not in model and model['type'] != 'directory':
-            raise web.HTTPError(400, u'No file content provided')
+            raise web.HTTPError(400, 'No file content provided')
 
         os_path = self._get_os_path(path)
         self.log.debug("Saving %s", os_path)
@@ -488,8 +488,8 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         except web.HTTPError:
             raise
         except Exception as e:
-            self.log.error(u'Error while saving file: %s %s', path, e, exc_info=True)
-            raise web.HTTPError(500, u'Unexpected error while saving file: %s %s' %
+            self.log.error('Error while saving file: %s %s', path, e, exc_info=True)
+            raise web.HTTPError(500, 'Unexpected error while saving file: %s %s' %
                                 (path, e)) from e
 
         validation_message = None
@@ -511,7 +511,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         os_path = self._get_os_path(path)
         rm = os.unlink
         if not os.path.exists(os_path):
-            raise web.HTTPError(404, u'File or directory does not exist: %s' % os_path)
+            raise web.HTTPError(404, 'File or directory does not exist: %s' % os_path)
 
         def is_non_empty_dir(os_path):
             if os.path.isdir(os_path):
@@ -527,7 +527,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             if sys.platform == 'win32' and is_non_empty_dir(os_path):
                 # send2trash can really delete files on Windows, so disallow
                 # deleting non-empty files. See Github issue 3631.
-                raise web.HTTPError(400, u'Directory %s not empty' % os_path)
+                raise web.HTTPError(400, 'Directory %s not empty' % os_path)
             try:
                 self.log.debug("Sending %s to trash", os_path)
                 send2trash(os_path)
@@ -538,7 +538,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         if os.path.isdir(os_path):
             # Don't permanently delete non-empty directories.
             if is_non_empty_dir(os_path):
-                raise web.HTTPError(400, u'Directory %s not empty' % os_path)
+                raise web.HTTPError(400, 'Directory %s not empty' % os_path)
             self.log.debug("Removing directory %s", os_path)
             with self.perm_to_403():
                 shutil.rmtree(os_path)
@@ -563,7 +563,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
         # Should we proceed with the move?
         if os.path.exists(new_os_path) and not samefile(old_os_path, new_os_path):
-            raise web.HTTPError(409, u'File already exists: %s' % new_path)
+            raise web.HTTPError(409, 'File already exists: %s' % new_path)
 
         # Move the file
         try:
@@ -572,7 +572,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         except web.HTTPError:
             raise
         except Exception as e:
-            raise web.HTTPError(500, u'Unknown error renaming file: %s %s' %
+            raise web.HTTPError(500, 'Unknown error renaming file: %s %s' %
                                 (old_path, e)) from e
 
     def info_string(self):

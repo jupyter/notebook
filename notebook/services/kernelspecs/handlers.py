@@ -87,7 +87,7 @@ class KernelSpecHandler(APIHandler):
         try:
             spec = yield maybe_future(ksm.get_kernel_spec(kernel_name))
         except KeyError as e:
-            raise web.HTTPError(404, u'Kernel spec %s not found' % kernel_name) from e
+            raise web.HTTPError(404, 'Kernel spec %s not found' % kernel_name) from e
         if is_kernelspec_model(spec):
             model = spec
         else:

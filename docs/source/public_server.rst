@@ -137,7 +137,7 @@ You can then add the hashed password to your
 :file:`jupyter_notebook_config.py` is in your Jupyter folder in your home
 directory, ``~/.jupyter``, e.g.::
 
-    c.NotebookApp.password = u'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
+    c.NotebookApp.password = 'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
 
 Automatic password setup will store the hash in ``jupyter_notebook_config.json``
 while this method stores the hash in ``jupyter_notebook_config.py``. The ``.json``
@@ -210,11 +210,11 @@ following::
 
      # Set options for certfile, ip, password, and toggle off
      # browser auto-opening
-     c.NotebookApp.certfile = u'/absolute/path/to/your/certificate/mycert.pem'
-     c.NotebookApp.keyfile = u'/absolute/path/to/your/certificate/mykey.key'
+     c.NotebookApp.certfile = '/absolute/path/to/your/certificate/mycert.pem'
+     c.NotebookApp.keyfile = '/absolute/path/to/your/certificate/mykey.key'
      # Set ip to '*' to bind on all interfaces (ips) for the public server
      c.NotebookApp.ip = '*'
-     c.NotebookApp.password = u'sha1:bcd259ccf...<your hashed password here>'
+     c.NotebookApp.password = 'sha1:bcd259ccf...<your hashed password here>'
      c.NotebookApp.open_browser = False
 
      # It is a good idea to set a known, fixed port for server access
@@ -249,11 +249,11 @@ following::
 
      # Set options for certfile, ip, password, and toggle off
      # browser auto-opening
-     c.NotebookApp.certfile = u'/absolute/path/to/your/certificate/fullchain.pem'
-     c.NotebookApp.keyfile = u'/absolute/path/to/your/certificate/privkey.pem'
+     c.NotebookApp.certfile = '/absolute/path/to/your/certificate/fullchain.pem'
+     c.NotebookApp.keyfile = '/absolute/path/to/your/certificate/privkey.pem'
      # Set ip to '*' to bind on all interfaces (ips) for the public server
      c.NotebookApp.ip = '*'
-     c.NotebookApp.password = u'sha1:bcd259ccf...<your hashed password here>'
+     c.NotebookApp.password = 'sha1:bcd259ccf...<your hashed password here>'
      c.NotebookApp.open_browser = False
 
      # It is a good idea to set a known, fixed port for server access

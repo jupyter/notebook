@@ -187,7 +187,7 @@ class SessionManager(LoggingConfigurable):
             for key, value in kwargs.items():
                 q.append("%s=%r" % (key, value))
 
-            raise web.HTTPError(404, u'Session not found: %s' % (', '.join(q)))
+            raise web.HTTPError(404, 'Session not found: %s' % (', '.join(q)))
 
         model = yield maybe_future(self.row_to_model(row))
         raise gen.Return(model)

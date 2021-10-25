@@ -20,7 +20,7 @@ sample_kernel_json = {'argv':['cat', '{connection_file}'],
                       'display_name':'Test kernel',
                      }
 
-some_resource = u"The very model of a modern major general"
+some_resource = "The very model of a modern major general"
 
 
 class KernelSpecAPI(object):

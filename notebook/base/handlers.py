@@ -543,13 +543,13 @@ class IPythonHandler(AuthenticatedHandler):
         if not self.request.body:
             return None
         # Do we need to call body.decode('utf-8') here?
-        body = self.request.body.strip().decode(u'utf-8')
+        body = self.request.body.strip().decode('utf-8')
         try:
             model = json.loads(body)
         except Exception as e:
             self.log.debug("Bad JSON: %r", body)
             self.log.error("Couldn't parse JSON", exc_info=True)
-            raise web.HTTPError(400, u'Invalid JSON in body of request') from e
+            raise web.HTTPError(400, 'Invalid JSON in body of request') from e
         return model
 
     def write_error(self, status_code, **kwargs):

@@ -226,7 +226,7 @@ class FileManagerMixin(Configurable):
                 if not os_path:
                     os_path = str_to_unicode(e.filename or 'unknown file')
                 path = to_api_path(os_path, root=self.root_dir)
-                raise HTTPError(403, u'Permission denied: %s' % path) from e
+                raise HTTPError(403, 'Permission denied: %s' % path) from e
             else:
                 raise
 
@@ -276,7 +276,7 @@ class FileManagerMixin(Configurable):
             if not self.use_atomic_writing or not os.path.exists(tmp_path):
                 raise HTTPError(
                     400,
-                    u"Unreadable Notebook: %s %r" % (os_path, e_orig),
+                    "Unreadable Notebook: %s %r" % (os_path, e_orig),
                 )
 
             # Move the bad file aside, restore the intermediate, and try again.
@@ -334,7 +334,7 @@ class FileManagerMixin(Configurable):
                 bcontent = decodebytes(b64_bytes)
         except Exception as e:
             raise HTTPError(
-                400, u'Encoding error saving %s: %s' % (os_path, e)
+                400, 'Encoding error saving %s: %s' % (os_path, e)
             ) from e
 
         with self.atomic_writing(os_path, text=False) as f:

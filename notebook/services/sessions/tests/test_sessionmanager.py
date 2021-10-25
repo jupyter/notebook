@@ -22,7 +22,7 @@ class DummyMKM(MappingKernelManager):
     """MappingKernelManager interface that doesn't start kernels, for testing"""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.id_letters = iter(u'ABCDEFGHIJK')
+        self.id_letters = iter('ABCDEFGHIJK')
 
     def _new_id(self):
         return next(self.id_letters)
@@ -68,8 +68,8 @@ class TestSessionManager(TestCase):
         session_id = self.create_session(path='/path/to/test.ipynb', kernel_name='bar')['id']
         model = self.loop.run_sync(lambda: sm.get_session(session_id=session_id))
         expected = {'id':session_id,
-                    'path': u'/path/to/test.ipynb',
-                    'notebook': {'path': u'/path/to/test.ipynb', 'name': None},
+                    'path': '/path/to/test.ipynb',
+                    'notebook': {'path': '/path/to/test.ipynb', 'name': None},
                     'type': 'notebook',
                     'name': None,
                     'kernel': {
@@ -112,9 +112,9 @@ class TestSessionManager(TestCase):
         expected = [
             {
                 'id':sessions[0]['id'],
-                'path': u'/path/to/1/test1.ipynb',
+                'path': '/path/to/1/test1.ipynb',
                 'type': 'notebook',
-                'notebook': {'path': u'/path/to/1/test1.ipynb', 'name': None},
+                'notebook': {'path': '/path/to/1/test1.ipynb', 'name': None},
                 'name': None,
                 'kernel': {
                     'id': 'A',
@@ -125,7 +125,7 @@ class TestSessionManager(TestCase):
                 }
             }, {
                 'id':sessions[1]['id'],
-                'path': u'/path/to/2/test2.py',
+                'path': '/path/to/2/test2.py',
                 'type': 'file',
                 'name': None,
                 'kernel': {
@@ -137,7 +137,7 @@ class TestSessionManager(TestCase):
                 }
             }, {
                 'id':sessions[2]['id'],
-                'path': u'/path/to/3',
+                'path': '/path/to/3',
                 'type': 'console',
                 'name': 'foo',
                 'kernel': {
@@ -163,10 +163,10 @@ class TestSessionManager(TestCase):
         expected = [
             {
                 'id': sessions[1]['id'],
-                'path': u'/path/to/2/test2.ipynb',
+                'path': '/path/to/2/test2.ipynb',
                 'type': 'notebook',
                 'name': None,
-                'notebook': {'path': u'/path/to/2/test2.ipynb', 'name': None},
+                'notebook': {'path': '/path/to/2/test2.ipynb', 'name': None},
                 'kernel': {
                     'id': 'B',
                     'name':'python',
@@ -185,10 +185,10 @@ class TestSessionManager(TestCase):
         self.loop.run_sync(lambda: sm.update_session(session_id, path='/path/to/new_name.ipynb'))
         model = self.loop.run_sync(lambda: sm.get_session(session_id=session_id))
         expected = {'id':session_id,
-                    'path': u'/path/to/new_name.ipynb',
+                    'path': '/path/to/new_name.ipynb',
                     'type': 'notebook',
                     'name': None,
-                    'notebook': {'path': u'/path/to/new_name.ipynb', 'name': None},
+                    'notebook': {'path': '/path/to/new_name.ipynb', 'name': None},
                     'kernel': {
                         'id': 'A',
                         'name':'julia',
@@ -218,10 +218,10 @@ class TestSessionManager(TestCase):
         new_sessions = self.loop.run_sync(lambda: sm.list_sessions())
         expected = [{
                 'id': sessions[0]['id'],
-                'path': u'/path/to/1/test1.ipynb',
+                'path': '/path/to/1/test1.ipynb',
                 'type': 'notebook',
                 'name': None,
-                'notebook': {'path': u'/path/to/1/test1.ipynb', 'name': None},
+                'notebook': {'path': '/path/to/1/test1.ipynb', 'name': None},
                 'kernel': {
                     'id': 'A',
                     'name':'python',
@@ -232,7 +232,7 @@ class TestSessionManager(TestCase):
             }, {
                 'id': sessions[2]['id'],
                 'type': 'console',
-                'path': u'/path/to/3',
+                'path': '/path/to/3',
                 'name': 'foo',
                 'kernel': {
                     'id': 'C',

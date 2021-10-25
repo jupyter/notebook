@@ -65,7 +65,7 @@ class ContentsManager(LoggingConfigurable):
         return sign.NotebookNotary(parent=self)
 
     hide_globs = List(Unicode(), [
-            u'__pycache__', '*.pyc', '*.pyo',
+            '__pycache__', '*.pyc', '*.pyo',
             '.DS_Store', '*.so', '*.dylib', '*~',
         ], config=True, help="""
         Glob patterns to hide in file and directory listings.
@@ -342,9 +342,9 @@ class ContentsManager(LoggingConfigurable):
                 insert_i = '{}{}'.format(insert, i)
             else:
                 insert_i = ''
-            name = u'{basename}{insert}{suffix}'.format(basename=basename,
+            name = '{basename}{insert}{suffix}'.format(basename=basename,
                 insert=insert_i, suffix=suffix)
-            if not self.exists(u'{}/{}'.format(path, name)):
+            if not self.exists('{}/{}'.format(path, name)):
                 break
         return name
 
@@ -353,7 +353,7 @@ class ContentsManager(LoggingConfigurable):
         try:
             validate_nb(model['content'])
         except ValidationError as e:
-            model['message'] = u'Notebook validation failed: {}:\n{}'.format(
+            model['message'] = 'Notebook validation failed: {}:\n{}'.format(
                 e.message, json.dumps(e.instance, indent=1, default=lambda obj: '<UNKNOWN>'),
             )
         return model
@@ -393,7 +393,7 @@ class ContentsManager(LoggingConfigurable):
             raise HTTPError(400, "Unexpected model type: %r" % model['type'])
         
         name = self.increment_filename(untitled + ext, path, insert=insert)
-        path = u'{0}/{1}'.format(path, name)
+        path = '{0}/{1}'.format(path, name)
         return self.new(model, path)
     
     def new(self, model=None, path=''):
@@ -452,9 +452,9 @@ class ContentsManager(LoggingConfigurable):
         if to_path is None:
             to_path = from_dir
         if self.dir_exists(to_path):
-            name = copy_pat.sub(u'.', from_name)
+            name = copy_pat.sub('.', from_name)
             to_name = self.increment_filename(name, to_path, insert='-Copy')
-            to_path = u'{0}/{1}'.format(to_path, to_name)
+            to_path = '{0}/{1}'.format(to_path, to_name)
         
         model = self.save(model, to_path)
         return model

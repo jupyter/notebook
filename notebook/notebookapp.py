@@ -507,7 +507,7 @@ class NbserverStopApp(JupyterApp):
     port = Integer(DEFAULT_NOTEBOOK_PORT, config=True,
         help="Port of the server to be killed. Default %s" % DEFAULT_NOTEBOOK_PORT)
 
-    sock = Unicode(u'', config=True,
+    sock = Unicode('', config=True,
         help="UNIX socket of the server to be killed.")
 
     def parse_command_line(self, argv=None):
@@ -753,7 +753,7 @@ class NotebookApp(JupyterApp):
     @default('log_format')
     def _default_log_format(self):
         """override default log format to include time"""
-        return u"%(color)s[%(levelname)1.1s %(asctime)s.%(msecs).03d %(name)s]%(end_color)s %(message)s"
+        return "%(color)s[%(levelname)1.1s %(asctime)s.%(msecs).03d %(name)s]%(end_color)s %(message)s"
 
     ignore_minified_js = Bool(False,
             config=True,
@@ -844,11 +844,11 @@ class NotebookApp(JupyterApp):
     @validate('ip')
     def _validate_ip(self, proposal):
         value = proposal['value']
-        if value == u'*':
-            value = u''
+        if value == '*':
+            value = ''
         return value
 
-    custom_display_url = Unicode(u'', config=True,
+    custom_display_url = Unicode('', config=True,
         help=_("""Override URL shown to users.
 
         Replace actual URL, including protocol, address, port and base URL,
@@ -883,7 +883,7 @@ class NotebookApp(JupyterApp):
         return int(os.getenv(self.port_retries_env, self.port_retries_default_value))
 
 
-    sock = Unicode(u'', config=True,
+    sock = Unicode('', config=True,
         help=_("The UNIX socket the notebook server will listen on.")
     )
 
@@ -914,15 +914,15 @@ class NotebookApp(JupyterApp):
         return value
 
 
-    certfile = Unicode(u'', config=True,
+    certfile = Unicode('', config=True,
         help=_("""The full path to an SSL/TLS certificate file.""")
     )
 
-    keyfile = Unicode(u'', config=True,
+    keyfile = Unicode('', config=True,
         help=_("""The full path to a private key file for usage with SSL/TLS.""")
     )
 
-    client_ca = Unicode(u'', config=True,
+    client_ca = Unicode('', config=True,
         help=_("""The full path to a certificate authority certificate for SSL/TLS client authentication.""")
     )
 
@@ -1000,7 +1000,7 @@ class NotebookApp(JupyterApp):
         if self.password:
             # no token if password is enabled
             self._token_generated = False
-            return u''
+            return ''
         else:
             self._token_generated = True
             return binascii.hexlify(os.urandom(24)).decode('ascii')
@@ -1051,7 +1051,7 @@ class NotebookApp(JupyterApp):
     def _token_changed(self, change):
         self._token_generated = False
 
-    password = Unicode(u'', config=True,
+    password = Unicode('', config=True,
                       help="""Hashed password to use for web authentication.
 
                       To generate, type in a python/IPython shell:
@@ -1166,7 +1166,7 @@ class NotebookApp(JupyterApp):
                         (NotebookApp.browser) configuration option.
                         """)
 
-    browser = Unicode(u'', config=True,
+    browser = Unicode('', config=True,
                       help="""Specify what command to use to invoke a web
                       browser when opening the notebook. If not specified, the
                       default browser will be determined by the `webbrowser`
@@ -1252,7 +1252,7 @@ class NotebookApp(JupyterApp):
     def _update_enable_mathjax(self, change):
         """set mathjax url to empty if mathjax is disabled"""
         if not change['new']:
-            self.mathjax_url = u''
+            self.mathjax_url = ''
 
     base_url = Unicode('/', config=True,
                                help='''The base URL for the notebook server.
@@ -1351,7 +1351,7 @@ class NotebookApp(JupyterApp):
     @default('mathjax_url')
     def _default_mathjax_url(self):
         if not self.enable_mathjax:
-            return u''
+            return ''
         static_url_prefix = self.tornado_settings.get("static_url_prefix", "static")
         return url_path_join(static_url_prefix, 'components', 'MathJax', 'MathJax.js')
 
@@ -1360,7 +1360,7 @@ class NotebookApp(JupyterApp):
         new = change['new']
         if new and not self.enable_mathjax:
             # enable_mathjax=False overrides mathjax_url
-            self.mathjax_url = u''
+            self.mathjax_url = ''
         else:
             self.log.info(_("Using MathJax: %s"), new)
 

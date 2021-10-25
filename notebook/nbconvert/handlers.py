@@ -67,7 +67,7 @@ def get_exporter(format, **kwargs):
         Exporter = get_exporter(format)
     except KeyError as e:
         # should this be 400?
-        raise web.HTTPError(404, u"No exporter for format: %s" % format) from e
+        raise web.HTTPError(404, "No exporter for format: %s" % format) from e
 
     try:
         return Exporter(**kwargs)
