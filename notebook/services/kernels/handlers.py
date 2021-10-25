@@ -602,7 +602,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         self.write_message(json.dumps(msg, default=json_default))
 
     def on_kernel_restarted(self):
-        logging.warn("kernel %s restarted", self.kernel_id)
+        logging.warning("kernel %s restarted", self.kernel_id)
         self._send_status_message('restarting')
 
     def on_restart_failed(self):
