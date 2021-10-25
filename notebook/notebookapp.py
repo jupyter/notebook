@@ -1353,7 +1353,7 @@ class NotebookApp(JupyterApp):
         if not self.enable_mathjax:
             return u''
         static_url_prefix = self.tornado_settings.get("static_url_prefix", "static")
-        return url_path_join(static_url_prefix, 'components', 'MathJax', 'MathJax.js')
+        return url_path_join(static_url_prefix, 'components', 'mathjax', 'MathJax.js')
 
     @observe('mathjax_url')
     def _update_mathjax_url(self, change):

@@ -131,22 +131,21 @@ def find_package_data():
     static_data.extend([
         pjoin(components, "backbone", "backbone-min.js"),
         pjoin(components, "bootstrap", "dist", "js", "bootstrap.min.js"),
-        pjoin(components, "bootstrap-tour", "build", "css", "bootstrap-tour.min.css"),
-        pjoin(components, "bootstrap-tour", "build", "js", "bootstrap-tour.min.js"),
-        pjoin(components, "create-react-class", "index.js"),
+        pjoin(components, "bootstrap-tour", "lib", "bootstrap-tour.js"),
+        pjoin(components, "create-react-class", "create-react-class.min.js"),
         pjoin(components, "font-awesome", "css", "*.css"),
-        pjoin(components, "es6-promise", "*.js"),
+        pjoin(components, "es6-promise", "dist", "*.min.js"),
         pjoin(components, "font-awesome", "fonts", "*.*"),
         pjoin(components, "jed", "jed.js"),
-        pjoin(components, "jquery", "jquery.min.js"),
+        pjoin(components, "jquery", "dist", "jquery.min.js"),
         pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.js"),
         pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.css"),
         pjoin(components, "jquery-ui", "jquery-ui.min.js"),
-        pjoin(components, "jquery-ui", "themes", "smoothness", "jquery-ui.min.css"),
-        pjoin(components, "jquery-ui", "themes", "smoothness", "images", "*"),
+        pjoin(components, "jquery-ui-themes", "themes", "smoothness", "jquery-ui.min.css"),
+        pjoin(components, "jquery-ui-themes", "themes", "smoothness", "images", "*"),
         pjoin(components, "marked", "lib", "marked.js"),
-        pjoin(components, "react", "react.production.min.js"),
-        pjoin(components, "react", "react-dom.production.min.js"),
+        pjoin(components, "react", "umd", "react.production.min.js"),
+        pjoin(components, "react-dom", "umd", "react-dom.production.min.js"),
         pjoin(components, "requirejs", "require.js"),
         pjoin(components, "requirejs-plugins", "src", "json.js"),
         pjoin(components, "requirejs-text", "text.js"),
@@ -154,9 +153,9 @@ def find_package_data():
         pjoin(components, "underscore", "underscore-min.js"),
         pjoin(components, "moment", "moment.js"),
         pjoin(components, "moment", "min", "*.js"),
-        pjoin(components, "xterm.js", "index.js"),
-        pjoin(components, "xterm.js-css", "index.css"),
-        pjoin(components, "xterm.js-fit", "index.js"),
+        pjoin(components, "xterm", "dist", "xterm.js"),
+        pjoin(components, "xterm", "dist", "xterm.css"),
+        pjoin(components, "xterm", "dist", "addons", "fit", "fit.js"),
         pjoin(components, "text-encoding", "lib", "encoding.js"),
     ])
 
@@ -167,7 +166,7 @@ def find_package_data():
                 static_data.append(pjoin(parent, f))
 
     # Trim mathjax
-    mj = lambda *path: pjoin(components, 'MathJax', *path)
+    mj = lambda *path: pjoin(components, 'mathjax', *path)
     static_data.extend([
         mj('MathJax.js'),
         mj('config', 'TeX-AMS-MML_HTMLorMML-full.js'),
@@ -360,10 +359,10 @@ class CompileBackendTranslation(Command):
                     ])
 
 class Bower(Command):
-    description = "fetch static client-side components with bower"
+    description = "fetch static client-side components"
     
     user_options = [
-        ('force', 'f', "force fetching of bower dependencies"),
+        ('force', 'f', "force fetching of javascript components"),
     ]
     
     def initialize_options(self):
@@ -384,7 +383,7 @@ class Bower(Command):
         if not os.path.exists(self.sanitizer_dir):
             return True
 
-        bower_stale = mtime(self.bower_dir) < mtime(pjoin(repo_root, 'bower.json'))
+        bower_stale = mtime(self.bower_dir) < mtime(pjoin(repo_root, "package.json"))
         if bower_stale:
             return True
 
@@ -400,7 +399,7 @@ class Bower(Command):
 
     def run(self):
         if not self.should_run():
-            print("bower dependencies up to date")
+            print("static/components up to date")
             return
         
         if self.should_run_npm():
@@ -413,12 +412,12 @@ class Bower(Command):
         
         try:
             run(
-                ['bower', 'install', '--allow-root', '--config.interactive=false'],
+                [sys.executable, pjoin(repo_root, "bower-lite")],
                 cwd=repo_root,
-                env=env
+                env=env,
             )
         except OSError as e:
-            print("Failed to run bower: %s" % e, file=sys.stderr)
+            print("Failed to run bower-lite: %s" % e, file=sys.stderr)
             print("You can install js dependencies with `npm install`", file=sys.stderr)
             raise
         # self.npm_components()

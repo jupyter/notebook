@@ -10,11 +10,36 @@
     "url": "https://github.com/jupyter/notebook.git"
   },
   "scripts": {
-    "bower": "bower install",
+    "bower": "python3 bower-lite",
     "build": "python setup.py js css",
     "build:webpack": "webpack --mode production",
     "build:watch": "npm run watch",
-    "watch": "onchange 'notebook/static/**/!(*.min).js' 'notebook/static/**/*.less' 'bower.json' -- npm run build"
+    "watch": "onchange 'notebook/static/**/!(*.min).js' 'notebook/static/**/*.less' -- npm run build"
+  },
+  "dependencies": {
+    "backbone": "~1.2",
+    "bootstrap": "~3.4",
+    "bootstrap-tour": "^0.9.0",
+    "codemirror": "5.56.0",
+    "create-react-class": "^15.6.3",
+    "es6-promise": "~1.0",
+    "font-awesome": "~4.7.0",
+    "jed": "~1.1.1",
+    "jquery": "~3.5.0",
+    "jquery-typeahead": "~2.10.6",
+    "jquery-ui-dist": "^1.12.0",
+    "jquery-ui-themes": "^1.12.0",
+    "marked": "~0.7",
+    "mathjax": "^2.7.4",
+    "moment": "~2.19.3",
+    "react": "~16.0.0",
+    "react-dom": "~16.0.0",
+    "requirejs": "^2.3.6",
+    "requirejs-plugins": "~1.0.2",
+    "requirejs-text": "~2.0.15",
+    "text-encoding": "^0.7.0",
+    "underscore": "~1.8.3",
+    "xterm": "~3.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
@@ -22,11 +47,9 @@
     "@jupyterlab/apputils": "^3.1.3",
     "babel-loader": "^8.2.2",
     "babel-polyfill": "^6.26.0",
-    "bower": "^1.8.8",
     "less": "~2",
     "onchange": "^6.0.0",
     "po2json": "^0.4.5",
-    "requirejs": "^2.3.6",
     "webpack": "^5.46.0",
     "webpack-cli": "^4.7.2"
   }

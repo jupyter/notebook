@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+# Copyright (c) Jupyter Development Team.
+# Distributed under the terms of the Modified BSD License.
+"""
+bower-lite
+
+Since Bower's on its way out,
+stage frontend dependencies from node_modules into components
+"""
+import json
+import os
+import shutil
+from os.path import join
+
+HERE = os.path.abspath(os.path.dirname(__file__))
+
+
+components = join(HERE, "notebook", "static", "components")
+node_modules = join(HERE, "node_modules")
+
+if os.path.exists(components):
+    shutil.rmtree(components)
+os.mkdir(components)
+
+with open(join(HERE, "package.json")) as f:
+    package_json = json.load(f)
+
+renames = {
+    "jquery-ui-dist": "jquery-ui",
+}
+
+dependencies = package_json["dependencies"]
+for dep in dependencies:
+    src = join(node_modules, dep)
+    dest_name = renames.get(dep, dep)
+    dest = join(components, dest_name)
+    print(f"{src} -> {dest}")
+    shutil.copytree(src, dest)
