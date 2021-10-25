@@ -17,7 +17,7 @@ cancel_selector = ".modal-footer button:first-of-type"
 def test_cancel_restart_or_shutdown(notebook):
     """Click each of the restart options, then cancel the confirmation dialog"""
     browser = notebook.browser
-    kernel_menu = browser.find_element_by_id('kernellink')
+    kernel_menu = browser.find_element(by=By.ID, value='kernellink')
 
     for menu_item in restart_selectors + [shutdown_selector]:
         kernel_menu.click()
@@ -31,7 +31,7 @@ def test_cancel_restart_or_shutdown(notebook):
 
 def test_menu_items(notebook):
     browser = notebook.browser
-    kernel_menu = browser.find_element_by_id('kernellink')
+    kernel_menu = browser.find_element(by=By.ID, value='kernellink')
 
     for menu_item in restart_selectors:
         # Shutdown

@@ -1,4 +1,5 @@
 from notebook.tests.selenium.utils import wait_for_selector, Notebook
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -20,7 +21,7 @@ def execute_promise(js, browser):
 def wait_for_rename(browser, nbname, timeout=10):
     wait = WebDriverWait(browser, timeout)
     def notebook_renamed(browser):
-        elem = browser.find_element_by_id('notebook_name')
+        elem = browser.find_element(by=By.ID, value='notebook_name')
         current_name = browser.execute_script('return arguments[0].innerText', elem)
         return current_name == nbname
     return wait.until(notebook_renamed)
@@ -54,7 +55,7 @@ def test_save_readonly_notebook_as(notebook):
     # Wait for Save As modal, save
     save_as(notebook)
     wait_for_selector(notebook.browser, '.save-message')
-    inp = notebook.browser.find_element_by_xpath('//input[@data-testid="save-as"]')
+    inp = notebook.browser.find_element(by=By.XPATH, value='//input[@data-testid="save-as"]')
     inp.send_keys('writable_notebook.ipynb')
     inp.send_keys(Keys.RETURN)
     wait_for_rename(notebook.browser, "writable_notebook")

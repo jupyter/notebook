@@ -1,4 +1,6 @@
 """Tests arrow keys on both command and edit mode"""
+
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
 def test_dualmode_arrows(notebook):
@@ -76,7 +78,7 @@ def test_dualmode_arrows(notebook):
 
     # Tests in edit mode.
     # First, erase the previous content and then setup the cells to test the keys to move up.
-    [notebook.browser.find_element_by_class_name("fa-cut.fa").click() for i in range(6)]
+    [notebook.browser.find_element(by=By.CLASS_NAME, value="fa-cut.fa").click() for i in range(6)]
     [notebook.body.send_keys("b") for i in range(2)]
     notebook.body.send_keys("a")
     notebook.body.send_keys(Keys.ENTER)

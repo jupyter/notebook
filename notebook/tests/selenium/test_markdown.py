@@ -1,15 +1,17 @@
 from nbformat.v4 import new_markdown_cell
+from selenium.webdriver.common.by import By
+
 
 def get_rendered_contents(nb):
     cl = ["text_cell", "render"]
-    rendered_cells = [cell.find_element_by_class_name("text_cell_render") 
-                      for cell in nb.cells 
+    rendered_cells = [cell.find_element(by=By.CLASS_NAME, value="text_cell_render")
+                      for cell in nb.cells
                       if all([c in cell.get_attribute("class") for c in cl])]
     return [x.get_attribute('innerHTML').strip()
-            for x in rendered_cells 
+            for x in rendered_cells
             if x is not None]
 
-            
+
 def test_markdown_cell(prefill_notebook):
     nb = prefill_notebook([new_markdown_cell(md) for md in [
         '# Foo', '**Bar**', '*Baz*', '```\nx = 1\n```', '```aaaa\nx = 1\n```',
@@ -22,10 +24,11 @@ def test_markdown_cell(prefill_notebook):
         '<p><em>Baz</em></p>',
         '<pre><code>x = 1</code></pre>',
         '<pre><code class="cm-s-ipython language-aaaa">x = 1</code></pre>',
-        '<pre><code class="cm-s-ipython language-python">' + 
+        '<pre><code class="cm-s-ipython language-python">' +
         '<span class="cm-variable">s</span> <span class="cm-operator">=</span> <span class="cm-string">"$"</span>\n' +
         '<span class="cm-variable">t</span> <span class="cm-operator">=</span> <span class="cm-string">"$"</span></code></pre>'
     ]
+
 
 def test_markdown_headings(notebook):
     lst = list([1, 2, 3, 4, 5, 6, 2, 1])

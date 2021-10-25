@@ -37,7 +37,7 @@ def get_list_items(browser):
 
     return [{
         'link': a.get_attribute('href'),
-        'label': a.find_element_by_class_name('item_name').text,
+        'label': a.find_element(by=By.CLASS_NAME, value='item_name').text,
         'element': a,
     } for a in browser.find_elements_by_class_name('item_link')]
 
