@@ -1,13 +1,8 @@
 """Test the /files/ handler."""
 
 import io
-import os
-from unicodedata import normalize
-
-pjoin = os.path.join
-
-import requests
 import json
+import os
 
 from nbformat import write
 from nbformat.v4 import (new_notebook,
@@ -16,7 +11,8 @@ from nbformat.v4 import (new_notebook,
 
 from notebook.utils import url_path_join
 from .launchnotebook import NotebookTestBase
-from ipython_genutils import py3compat
+
+pjoin = os.path.join
 
 
 class FilesTest(NotebookTestBase):

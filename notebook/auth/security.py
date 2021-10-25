@@ -12,7 +12,6 @@ import random
 import traceback
 import warnings
 
-from ipython_genutils.py3compat import cast_bytes, str_to_bytes, cast_unicode
 from traitlets.config import Config, ConfigFileNotFound, JSONFileConfigLoader
 from jupyter_core.paths import jupyter_config_dir
 
@@ -68,11 +67,11 @@ def passwd(passphrase=None, algorithm='argon2'):
         )
         h = ph.hash(passphrase)
 
-        return ':'.join((algorithm, cast_unicode(h, 'ascii')))
+        return ':'.join((algorithm, h))
     else:
         h = hashlib.new(algorithm)
         salt = ('%0' + str(salt_len) + 'x') % random.getrandbits(4 * salt_len)
-        h.update(cast_bytes(passphrase, 'utf-8') + str_to_bytes(salt, 'ascii'))
+        h.update(passphrase.encode('utf-8') + salt.encode('ascii'))
 
         return ':'.join((algorithm, salt, h.hexdigest()))
 
@@ -127,7 +126,7 @@ def passwd_check(hashed_passphrase, passphrase):
         if len(pw_digest) == 0:
             return False
 
-        h.update(cast_bytes(passphrase, 'utf-8') + cast_bytes(salt, 'ascii'))
+        h.update(passphrase.encode('utf-8') + salt.encode('ascii'))
 
         return h.hexdigest() == pw_digest
 
@@ -153,7 +152,7 @@ def persist_config(config_file=None, mode=0o600):
     yield config
 
     with io.open(config_file, 'w', encoding='utf8') as f:
-        f.write(cast_unicode(json.dumps(config, indent=2)))
+        f.write(json.dumps(config, indent=2))
 
     try:
         os.chmod(config_file, mode)

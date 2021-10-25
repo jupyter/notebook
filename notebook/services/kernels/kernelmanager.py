@@ -23,7 +23,6 @@ from traitlets import (Any, Bool, Dict, List, Unicode, TraitError, Integer,
 
 from notebook.utils import maybe_future, to_os_path, exists
 from notebook._tz import utcnow, isoformat
-from ipython_genutils.py3compat import getcwd
 
 from notebook.prometheus.metrics import KERNEL_CURRENTLY_RUNNING_TOTAL
 
@@ -61,7 +60,7 @@ class MappingKernelManager(MultiKernelManager):
         try:
             return self.parent.notebook_dir
         except AttributeError:
-            return getcwd()
+            return os.getcwd()
 
     @validate('root_dir')
     def _update_root_dir(self, proposal):

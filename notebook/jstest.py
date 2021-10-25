@@ -18,14 +18,15 @@ import sys
 import subprocess
 import time
 from io import BytesIO
+from shutil import which
+from tempfile import TemporaryDirectory
 from threading import Thread, Lock, Event
 
 from unittest.mock import patch
 
 from jupyter_core.paths import jupyter_runtime_dir
-from ipython_genutils.py3compat import bytes_to_str, which
+from ipython_genutils.py3compat import bytes_to_str
 from notebook._sysinfo import get_sys_info
-from ipython_genutils.tempdir import TemporaryDirectory
 
 from subprocess import TimeoutExpired
 def popen_wait(p, timeout):
@@ -59,7 +60,7 @@ class StreamCapturer(Thread):
             with self.buffer_lock:
                 self.buffer.write(chunk)
             if self.echo:
-                sys.stdout.write(bytes_to_str(chunk))
+                sys.stdout.write(chunk)
     
         os.close(self.readfd)
         os.close(self.writefd)

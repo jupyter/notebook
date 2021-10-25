@@ -11,13 +11,12 @@ import tarfile
 import zipfile
 from io import BytesIO, StringIO
 from os.path import basename, join as pjoin
-from traitlets.tests.utils import check_help_all_output
+from tempfile import TemporaryDirectory
 from unittest import TestCase
 
 from unittest.mock import patch
 
-from ipython_genutils import py3compat
-from ipython_genutils.tempdir import TemporaryDirectory
+from traitlets.tests.utils import check_help_all_output
 from notebook import nbextensions
 from notebook.nbextensions import (install_nbextension, check_nbextension,
     enable_nbextension, disable_nbextension,
@@ -55,7 +54,7 @@ class TestInstallNBExtension(TestCase):
     def tempdir(self):
         td = TemporaryDirectory()
         self.tempdirs.append(td)
-        return py3compat.cast_unicode(td.name)
+        return td.name
 
     def setUp(self):
         # Any TemporaryDirectory objects appended to this list will be cleaned

@@ -7,6 +7,8 @@ import json
 import os
 import shutil
 import sys
+from base64 import encodebytes, decodebytes
+from tempfile import TemporaryDirectory
 from unicodedata import normalize
 
 pjoin = os.path.join
@@ -25,13 +27,6 @@ from nbformat.v4 import (
     new_notebook, new_markdown_cell,
 )
 from nbformat import v2
-from ipython_genutils import py3compat
-from ipython_genutils.tempdir import TemporaryDirectory
-
-try: #PY3
-    from base64 import encodebytes, decodebytes
-except ImportError: #PY2
-    from base64 import encodestring as encodebytes, decodestring as decodebytes
 
 
 def uniq_stable(elems):
@@ -142,7 +137,7 @@ class APITest(NotebookTestBase):
     hidden_dirs = ['.hidden', '__pycache__']
 
     # Don't include root dir.
-    dirs = uniq_stable([py3compat.cast_unicode(d) for (d,n) in dirs_nbs[1:]])
+    dirs = uniq_stable([d for (d, _n) in dirs_nbs[1:]])
     top_level_dirs = {normalize('NFC', d.split('/')[0]) for d in dirs}
 
     @staticmethod
@@ -312,7 +307,7 @@ class APITest(NotebookTestBase):
             }],
         }
         path = 'å b/Validate tést.ipynb'
-        self.make_txt(path, py3compat.cast_unicode(json.dumps(nb)))
+        self.make_txt(path, json.dumps(nb))
         model = self.api.read(path).json()
         self.assertEqual(model['path'], path)
         self.assertEqual(model['type'], 'notebook')
@@ -369,9 +364,9 @@ class APITest(NotebookTestBase):
         with assert_http_error(400):
             self.api.read('unicodé/innonascii.ipynb', type='directory')
 
-    def _check_created(self, resp, path, type='notebook'):
+    def _check_created(self, resp: requests.Response, path, type='notebook'):
         self.assertEqual(resp.status_code, 201)
-        location_header = py3compat.str_to_unicode(resp.headers['Location'])
+        location_header = resp.headers['Location']
         self.assertEqual(location_header, url_path_join(self.url_prefix, 'api/contents', url_escape(path)))
         rjson = resp.json()
         self.assertEqual(rjson['name'], path.rsplit('/', 1)[-1])

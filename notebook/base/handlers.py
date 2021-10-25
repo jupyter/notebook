@@ -27,7 +27,6 @@ from notebook._sysinfo import get_sys_info
 
 from traitlets.config import Application
 from ipython_genutils.path import filefind
-from ipython_genutils.py3compat import string_types
 
 import notebook
 from notebook._tz import utcnow
@@ -807,7 +806,7 @@ class FileFindHandler(IPythonHandler, web.StaticFileHandler):
     def initialize(self, path, default_filename=None, no_cache_paths=None):
         self.no_cache_paths = no_cache_paths or []
         
-        if isinstance(path, string_types):
+        if isinstance(path, str):
             path = [path]
         
         self.root = tuple(

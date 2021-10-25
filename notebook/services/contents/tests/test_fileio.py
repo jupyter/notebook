@@ -9,12 +9,12 @@ import unittest
 import pytest
 import stat
 import sys
+from tempfile import TemporaryDirectory
 
 from ..fileio import atomic_writing
 
-from ipython_genutils.tempdir import TemporaryDirectory
-
 umask = 0
+
 
 def test_atomic_writing():
     class CustomExc(Exception): pass

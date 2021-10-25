@@ -9,6 +9,7 @@ import sys
 import tarfile
 import zipfile
 from os.path import basename, join as pjoin, normpath
+from tempfile import TemporaryDirectory
 
 from urllib.parse import urlparse
 from urllib.request import urlretrieve
@@ -17,8 +18,6 @@ from jupyter_core.paths import (
     SYSTEM_JUPYTER_PATH, ENV_JUPYTER_PATH,
 )
 from jupyter_core.utils import ensure_dir_exists
-from ipython_genutils.py3compat import string_types, cast_unicode_py2
-from ipython_genutils.tempdir import TemporaryDirectory
 from ._version import __version__
 from .config_manager import BaseJSONConfigManager
 
@@ -59,7 +58,7 @@ def check_nbextension(files, user=False, prefix=None, nbextensions_dir=None, sys
     if not os.path.exists(nbext):
         return False
     
-    if isinstance(files, string_types):
+    if isinstance(files, str):
         # one file given, turn it into a list
         files = [files]
     
@@ -123,8 +122,6 @@ def install_nbextension(path, overwrite=False, symlink=False,
     
     if isinstance(path, (list, tuple)):
         raise TypeError("path must be a string pointing to a single extension to install; call this function multiple times to install multiple extensions")
-    
-    path = cast_unicode_py2(path)
 
     if path.startswith(('https://', 'http://')):
         if symlink:
@@ -158,7 +155,6 @@ def install_nbextension(path, overwrite=False, symlink=False,
     else:
         if not destination:
             destination = basename(normpath(path))
-        destination = cast_unicode_py2(destination)
         full_dest = normpath(pjoin(nbext, destination))
         if overwrite and os.path.lexists(full_dest):
             if logger:
@@ -252,7 +248,6 @@ def uninstall_nbextension(dest, require=None, user=False, sys_prefix=False, pref
         Logger instance to use
     """
     nbext = _get_nbextension_dir(user=user, sys_prefix=sys_prefix, prefix=prefix, nbextensions_dir=nbextensions_dir)
-    dest = cast_unicode_py2(dest)
     full_dest = pjoin(nbext, dest)
     if os.path.lexists(full_dest):
         if logger:
@@ -276,7 +271,6 @@ def _find_uninstall_nbextension(filename, logger=None):
 
     Returns True if files were removed, False otherwise.
     """
-    filename = cast_unicode_py2(filename)
     for nbext in jupyter_path('nbextensions'):
         path = pjoin(nbext, filename)
         if os.path.lexists(path):

@@ -29,7 +29,6 @@ from traitlets import (
     validate,
     default,
 )
-from ipython_genutils.py3compat import string_types
 from notebook.base.handlers import IPythonHandler
 from notebook.transutils import _
 
@@ -106,7 +105,7 @@ class ContentsManager(LoggingConfigurable):
     @validate('pre_save_hook')
     def _validate_pre_save_hook(self, proposal):
         value = proposal['value']
-        if isinstance(value, string_types):
+        if isinstance(value, str):
             value = import_item(self.pre_save_hook)
         if not callable(value):
             raise TraitError("pre_save_hook must be callable")

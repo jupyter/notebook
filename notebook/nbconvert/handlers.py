@@ -17,7 +17,6 @@ from ..base.handlers import (
 from ..utils import maybe_future
 from nbformat import from_dict
 
-from ipython_genutils.py3compat import cast_bytes
 from ipython_genutils import text
 
 def find_resource_files(output_files_dir):
@@ -47,7 +46,7 @@ def respond_zip(handler, name, output, resources):
     buffer = io.BytesIO()
     zipf = zipfile.ZipFile(buffer, mode='w', compression=zipfile.ZIP_DEFLATED)
     output_filename = os.path.splitext(name)[0] + resources['output_extension']
-    zipf.writestr(output_filename, cast_bytes(output, 'utf-8'))
+    zipf.writestr(output_filename, output)
     for filename, data in output_files.items():
         zipf.writestr(os.path.basename(filename), data)
     zipf.close()

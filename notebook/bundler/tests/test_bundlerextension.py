@@ -6,10 +6,9 @@
 import os
 import shutil
 import unittest
+from tempfile import TemporaryDirectory
 
 from unittest.mock import patch
-from ipython_genutils.tempdir import TemporaryDirectory
-from ipython_genutils import py3compat
 
 from traitlets.tests.utils import check_help_all_output
 
@@ -29,7 +28,7 @@ class TestBundlerExtensionCLI(unittest.TestCase):
         """Build an isolated config environment."""
         td = TemporaryDirectory()
         
-        self.test_dir = py3compat.cast_unicode(td.name)
+        self.test_dir = td.name
         self.data_dir = os.path.join(self.test_dir, 'data')
         self.config_dir = os.path.join(self.test_dir, 'config')
         self.system_data_dir = os.path.join(self.test_dir, 'system_data')

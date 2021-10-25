@@ -1,11 +1,8 @@
-import imp
 import os
 import sys
+from tempfile import TemporaryDirectory
 from unittest import TestCase
 from unittest.mock import patch
-
-from ipython_genutils.tempdir import TemporaryDirectory
-from ipython_genutils import py3compat
 
 from notebook.config_manager import BaseJSONConfigManager
 from traitlets.tests.utils import check_help_all_output
@@ -50,7 +47,7 @@ class MockEnvTestCase(TestCase):
     def tempdir(self):
         td = TemporaryDirectory()
         self.tempdirs.append(td)
-        return py3compat.cast_unicode(td.name)
+        return td.name
 
     def setUp(self):
         self.tempdirs = []

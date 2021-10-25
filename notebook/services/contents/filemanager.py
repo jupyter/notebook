@@ -25,7 +25,6 @@ from ...utils import exists
 
 from ipython_genutils.importstring import import_item
 from traitlets import Any, Unicode, Bool, TraitError, observe, default, validate
-from ipython_genutils.py3compat import getcwd, string_types
 
 from notebook import _tz as tz
 from notebook.utils import (
@@ -73,7 +72,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         try:
             return self.parent.notebook_dir
         except AttributeError:
-            return getcwd()
+            return os.getcwd()
 
     save_script = Bool(False, config=True, help='DEPRECATED, use post_save_hook. Will be removed in Notebook 5.0')
     @observe('save_script')
@@ -118,7 +117,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
     @validate('post_save_hook')
     def _validate_post_save_hook(self, proposal):
         value = proposal['value']
-        if isinstance(value, string_types):
+        if isinstance(value, str):
             value = import_item(value)
         if not callable(value):
             raise TraitError("post_save_hook must be callable")

@@ -14,7 +14,6 @@ except ImportError:
 from tornado import gen, web
 
 from traitlets.config.configurable import LoggingConfigurable
-from ipython_genutils.py3compat import unicode_type
 from traitlets import Instance
 
 from notebook.utils import maybe_future
@@ -86,7 +85,7 @@ class SessionManager(LoggingConfigurable):
 
     def new_session_id(self):
         "Create a uuid for a new session"
-        return unicode_type(uuid.uuid4())
+        return str(uuid.uuid4())
 
     @gen.coroutine
     def create_session(self, path=None, name=None, type=None, kernel_name=None, kernel_id=None):

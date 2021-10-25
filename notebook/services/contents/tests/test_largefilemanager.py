@@ -1,8 +1,10 @@
-from unittest import TestCase
-from ipython_genutils.tempdir import TemporaryDirectory
-from ..largefilemanager import LargeFileManager
 import os
+from tempfile import TemporaryDirectory
+from unittest import TestCase
+
 from tornado import web
+
+from ..largefilemanager import LargeFileManager
 
 
 def _make_dir(contents_manager, api_path):

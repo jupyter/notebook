@@ -11,7 +11,7 @@ import pprint
 import sys
 import subprocess
 
-from ipython_genutils import py3compat, encoding
+from ipython_genutils import encoding
 
 import notebook
 

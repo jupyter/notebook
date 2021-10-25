@@ -13,8 +13,6 @@ from nbformat.v4 import (
     new_notebook, new_markdown_cell, new_code_cell, new_output,
 )
 
-from ipython_genutils.testing.decorators import onlyif_cmds_exist
-
 from base64 import encodebytes
 
 

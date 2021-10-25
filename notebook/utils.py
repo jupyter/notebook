@@ -21,7 +21,6 @@ from urllib.request import pathname2url
 # in tornado >=5 with Python 3
 from tornado.concurrent import Future as TornadoFuture
 from tornado import gen
-from ipython_genutils import py3compat
 
 # UF_HIDDEN is a stat flag not defined in the stat module.
 # It is used by BSD to indicate hidden files.
@@ -78,18 +77,15 @@ def url_escape(path):
 
     Turns '/foo bar/' into '/foo%20bar/'
     """
-    parts = py3compat.unicode_to_str(path, encoding='utf8').split('/')
-    return '/'.join([quote(p) for p in parts])
+    parts = path.split('/')
+    return '/'.join(quote(p) for p in parts)
 
 def url_unescape(path):
     """Unescape special characters in a URL path
 
     Turns '/foo%20bar/' into '/foo bar/'
     """
-    return '/'.join([
-        py3compat.str_to_unicode(unquote(p), encoding='utf8')
-        for p in py3compat.unicode_to_str(path, encoding='utf8').split('/')
-    ])
+    return '/'.join(unquote(p) for p in path.split('/'))
 
 
 def is_file_hidden_win(abs_path, stat_res=None):
@@ -113,9 +109,7 @@ def is_file_hidden_win(abs_path, stat_res=None):
 
     win32_FILE_ATTRIBUTE_HIDDEN = 0x02
     try:
-        attrs = ctypes.windll.kernel32.GetFileAttributesW(
-            py3compat.cast_unicode(abs_path)
-        )
+        attrs = ctypes.windll.kernel32.GetFileAttributesW(abs_path)
     except AttributeError:
         pass
     else:

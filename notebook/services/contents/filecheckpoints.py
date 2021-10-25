@@ -13,7 +13,6 @@ from .checkpoints import (
 from .fileio import FileManagerMixin
 
 from jupyter_core.utils import ensure_dir_exists
-from ipython_genutils.py3compat import getcwd
 from traitlets import Unicode
 
 from notebook import _tz as tz
@@ -45,7 +44,7 @@ class FileCheckpoints(FileManagerMixin, Checkpoints):
         try:
             return self.parent.root_dir
         except AttributeError:
-            return getcwd()
+            return os.getcwd()
 
     # ContentsManager-dependent checkpoint API
     def create_checkpoint(self, contents_mgr, path):

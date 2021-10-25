@@ -9,10 +9,10 @@ from itertools import combinations
 from tornado.web import HTTPError
 from unittest import TestCase, skipIf
 from tempfile import NamedTemporaryFile
+from tempfile import TemporaryDirectory
 
 from nbformat import v4 as nbformat
 
-from ipython_genutils.tempdir import TemporaryDirectory
 from traitlets import TraitError
 
 from ..filemanager import FileContentsManager
