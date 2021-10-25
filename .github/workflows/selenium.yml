@@ -13,6 +13,10 @@ jobs:
       matrix:
         os: [ubuntu, macos]
         python-version: [ '3.6', '3.7', '3.8', '3.9' ]
+        exclude:
+          # macOS do not have python 3.6 x86_64
+          - os: macos
+            python-version: '3.6'
     steps:
     - name: Checkout
       uses: actions/checkout@v2
