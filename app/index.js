@@ -119,11 +119,17 @@ async function main() {
     ),
     require('@jupyterlab/console-extension'),
     require('@jupyterlab/docmanager-extension').default.filter(({ id }) =>
-      ['@jupyterlab/docmanager-extension:plugin'].includes(id)
+      [
+        '@jupyterlab/docmanager-extension:plugin',
+        '@jupyterlab/docmanager-extension:download'
+      ].includes(id)
     ),
     require('@jupyterlab/docprovider-extension'),
     require('@jupyterlab/filebrowser-extension').default.filter(({ id }) =>
-      ['@jupyterlab/filebrowser-extension:factory'].includes(id)
+      [
+        '@jupyterlab/filebrowser-extension:factory',
+        '@jupyterlab/filebrowser-extension:download'
+      ].includes(id)
     ),
     require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
       ['@jupyterlab/fileeditor-extension:plugin'].includes(id)
