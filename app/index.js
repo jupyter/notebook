@@ -69,15 +69,13 @@ async function main() {
   // load extra packages
   require('@jupyterlab/celltags');
 
-  const mimeExtensions = [
+  const mimeExtensionsMods = [
     require('@jupyterlab/javascript-extension'),
     require('@jupyterlab/json-extension'),
     require('@jupyterlab/pdf-extension'),
     require('@jupyterlab/vega5-extension')
   ];
-
-  const RetroApp = require('@retrolab/application').RetroApp;
-  const app = new RetroApp({ mimeExtensions });
+  const mimeExtensions = await Promise.all(mimeExtensionsMods);
 
   const disabled = [];
   // TODO: formalize the way the set of initial extensions and plugins are specified
@@ -302,12 +300,29 @@ async function main() {
     }
   });
 
+  // Add the federated mime extensions.
+  const federatedMimeExtensions = await Promise.allSettled(
+    federatedMimeExtensionPromises
+  );
+  federatedMimeExtensions.forEach(p => {
+    if (p.status === 'fulfilled') {
+      for (let plugin of activePlugins(p.value)) {
+        mimeExtensions.push(plugin);
+      }
+    } else {
+      console.error(p.reason);
+    }
+  });
+
   // Load all federated component styles and log errors for any that do not
   (await Promise.allSettled(federatedStylePromises))
     .filter(({ status }) => status === 'rejected')
     .forEach(({ reason }) => {
       console.error(reason);
     });
+
+  const RetroApp = require('@retrolab/application').RetroApp;
+  const app = new RetroApp({ mimeExtensions });
 
   app.registerPluginModules(mods);
 
