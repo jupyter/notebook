@@ -1,0 +1,16 @@
+{
+  "jupyter.lab.setting-icon": "retro-ui-components:retroSun",
+  "jupyter.lab.setting-icon-label": "RetroLab Top Area",
+  "title": "RetroLab Top Area",
+  "description": "RetroLab Top Area settings",
+  "properties": {
+    "visible": {
+      "type": "boolean",
+      "title": "Top Bar Visibility",
+      "description": "Whether to show the top bar or not",
+      "default": true
+    }
+  },
+  "additionalProperties": false,
+  "type": "object"
+}
