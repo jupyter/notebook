@@ -24,7 +24,7 @@ ensured_targets = [
 data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, str(lab_extension_dest), "**"),
     ("share/jupyter/labextensions/%s" % labext_name, str(HERE), "install.json"),
-    ("share/jupyter/lab/schemas", f"{NAME}/schemas", "@retrolab/**"),
+    ("share/jupyter/lab/schemas", f"{NAME}/schemas", "@retrolab/**/*"),
     (
         "etc/jupyter/jupyter_server_config.d",
         "jupyter-config/jupyter_server_config.d",
