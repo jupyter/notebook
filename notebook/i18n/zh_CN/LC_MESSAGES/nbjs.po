@@ -4,6 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 #, fuzzy
+# Universal translation: cell=单元格; kernal=内核; don't translate notebook whenever referring to Jupyter Notebook
 msgid ""
 msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
@@ -35,11 +36,11 @@ msgstr "编辑元数据"
 
 #: notebook/static/base/js/dialog.js:202
 msgid "Edit Notebook Metadata"
-msgstr "编辑笔记本元数据"
+msgstr "编辑Notebook元数据"
 
 #: notebook/static/base/js/dialog.js:204
 msgid "Edit Cell Metadata"
-msgstr "编辑块元数据"
+msgstr "编辑单元格元数据"
 
 #: notebook/static/base/js/dialog.js:208
 #: notebook/static/notebook/js/notebook.js:485
@@ -74,11 +75,11 @@ msgstr "警告: 不能保存无效的JSON。"
 
 #: notebook/static/base/js/dialog.js:247
 msgid "There are no attachments for this cell."
-msgstr "这个块没有附件。"
+msgstr "这个单元格没有附件。"
 
 #: notebook/static/base/js/dialog.js:250
 msgid "Current cell attachments"
-msgstr "当前块附件"
+msgstr "当前单元格附件"
 
 #: notebook/static/base/js/dialog.js:259
 #: notebook/static/notebook/js/celltoolbarpresets/attachments.js:46
@@ -104,7 +105,7 @@ msgstr "编辑笔记本附件"
 
 #: notebook/static/base/js/dialog.js:350
 msgid "Edit Cell Attachments"
-msgstr "编辑块附件"
+msgstr "编辑单元格附件"
 
 #: notebook/static/base/js/dialog.js:373
 msgid "Select a file to insert."
@@ -188,7 +189,7 @@ msgstr "重启内核（带确认对话框）"
 
 #: notebook/static/notebook/js/actions.js:113
 msgid "restart kernel and run all cells"
-msgstr "重启内核并且运行所有代码块"
+msgstr "重启内核并且运行所有单元格"
 
 #: notebook/static/notebook/js/actions.js:114
 msgid "restart the kernel, then re-run the whole notebook (no confirmation dialog)"
@@ -196,11 +197,11 @@ msgstr "重启服务，然后重新运行整个笔记本（无确认对话框）
 
 #: notebook/static/notebook/js/actions.js:120
 msgid "confirm restart kernel and run all cells"
-msgstr "确认重启内核并且运行所有代码块"
+msgstr "确认重启内核并且运行所有单元格"
 
 #: notebook/static/notebook/js/actions.js:121
 msgid "restart the kernel, then re-run the whole notebook (with dialog)"
-msgstr "重启内核, 然后重新运行整个代码（带确认对话框）"
+msgstr "重启内核, 然后重新运行整个notebook（带确认对话框）"
 
 #: notebook/static/notebook/js/actions.js:127
 msgid "restart kernel and clear output"
@@ -225,36 +226,36 @@ msgstr "中断内核"
 
 #: notebook/static/notebook/js/actions.js:150
 msgid "run cell and select next"
-msgstr "运行代码块并且选择下一个代码块"
+msgstr "运行单元格并且选择下一个单元格"
 
 #: notebook/static/notebook/js/actions.js:152
 msgid "run cell, select below"
-msgstr "运行代码块, 选择下面的代码块"
+msgstr "运行单元格, 选择下面的单元格"
 
 #: notebook/static/notebook/js/actions.js:159
 #: notebook/static/notebook/js/actions.js:160
 msgid "run selected cells"
-msgstr "运行选中的代码块"
+msgstr "运行选中的单元格"
 
 #: notebook/static/notebook/js/actions.js:167
 #: notebook/static/notebook/js/actions.js:168
 msgid "run cell and insert below"
-msgstr "运行代码块并且在下面插入代码块"
+msgstr "运行单元格并且在下面插入单元格"
 
 #: notebook/static/notebook/js/actions.js:175
 #: notebook/static/notebook/js/actions.js:176
 msgid "run all cells"
-msgstr "运行所有的代码块"
+msgstr "运行所有的单元格"
 
 #: notebook/static/notebook/js/actions.js:183
 #: notebook/static/notebook/js/actions.js:184
 msgid "run all cells above"
-msgstr "运行上面所有的代码块"
+msgstr "运行上面所有的单元格"
 
 #: notebook/static/notebook/js/actions.js:190
 #: notebook/static/notebook/js/actions.js:191
 msgid "run all cells below"
-msgstr "运行下面所有的代码块"
+msgstr "运行下面所有的单元格"
 
 #: notebook/static/notebook/js/actions.js:197
 #: notebook/static/notebook/js/actions.js:198
@@ -269,22 +270,22 @@ msgstr "插入图片"
 #: notebook/static/notebook/js/actions.js:213
 #: notebook/static/notebook/js/actions.js:214
 msgid "cut cell attachments"
-msgstr "剪切代码块的附件"
+msgstr "剪切单元格的附件"
 
 #: notebook/static/notebook/js/actions.js:221
 #: notebook/static/notebook/js/actions.js:222
 msgid "copy cell attachments"
-msgstr "复制代码块的附件"
+msgstr "复制单元格的附件"
 
 #: notebook/static/notebook/js/actions.js:229
 #: notebook/static/notebook/js/actions.js:230
 msgid "paste cell attachments"
-msgstr "粘贴代码块的附件"
+msgstr "粘贴单元格的附件"
 
 #: notebook/static/notebook/js/actions.js:237
 #: notebook/static/notebook/js/actions.js:238
 msgid "split cell at cursor"
-msgstr "在光标处分割代码块"
+msgstr "在光标处分割单元格"
 
 #: notebook/static/notebook/js/actions.js:245
 #: notebook/static/notebook/js/actions.js:246
@@ -293,45 +294,45 @@ msgstr "进入编辑模式"
 
 #: notebook/static/notebook/js/actions.js:253
 msgid "select previous cell"
-msgstr "选择上一个代码块"
+msgstr "选择上一个单元格"
 
 #: notebook/static/notebook/js/actions.js:254
 msgid "select cell above"
-msgstr "选择上面的代码块"
+msgstr "选择上面的单元格"
 
 #: notebook/static/notebook/js/actions.js:265
 msgid "select next cell"
-msgstr "选择下一个代码块"
+msgstr "选择下一个单元格"
 
 #: notebook/static/notebook/js/actions.js:266
 msgid "select cell below"
-msgstr "选择下面的代码块"
+msgstr "选择下面的单元格"
 
 #: notebook/static/notebook/js/actions.js:277
 msgid "extend selection above"
-msgstr "扩展上面的代码块"
+msgstr "扩展上面的单元格"
 
 #: notebook/static/notebook/js/actions.js:278
 msgid "extend selected cells above"
-msgstr "扩展上面选择的代码块"
+msgstr "扩展上面选择的单元格"
 
 #: notebook/static/notebook/js/actions.js:289
 msgid "extend selection below"
-msgstr "扩展下面的代码块"
+msgstr "扩展下面的单元格"
 
 #: notebook/static/notebook/js/actions.js:290
 msgid "extend selected cells below"
-msgstr "扩展下面选择的代码块"
+msgstr "扩展下面选择的单元格"
 
 #: notebook/static/notebook/js/actions.js:301
 #: notebook/static/notebook/js/actions.js:302
 msgid "cut selected cells"
-msgstr "剪切选择的代码块"
+msgstr "剪切选择的单元格"
 
 #: notebook/static/notebook/js/actions.js:312
 #: notebook/static/notebook/js/actions.js:313
 msgid "copy selected cells"
-msgstr "复制选择的代码块"
+msgstr "复制选择的单元格"
 
 #: notebook/static/notebook/js/actions.js:327
 #: notebook/static/notebook/js/actions.js:328
@@ -346,73 +347,73 @@ msgstr "粘贴到下面"
 #: notebook/static/notebook/js/actions.js:344
 #: notebook/static/notebook/js/actions.js:345
 msgid "insert cell above"
-msgstr "在上面插入代码块"
+msgstr "在上面插入单元格"
 
 #: notebook/static/notebook/js/actions.js:354
 #: notebook/static/notebook/js/actions.js:355
 msgid "insert cell below"
-msgstr "在下面插入代码块"
+msgstr "在下面插入单元格"
 
 #: notebook/static/notebook/js/actions.js:365
 #: notebook/static/notebook/js/actions.js:366
 msgid "change cell to code"
-msgstr "把代码块变成代码"
+msgstr "把单元格变成代码快"
 
 #: notebook/static/notebook/js/actions.js:373
 #: notebook/static/notebook/js/actions.js:374
 msgid "change cell to markdown"
-msgstr "把代码块变成 Markdown"
+msgstr "把单元格变成 Markdown"
 
 #: notebook/static/notebook/js/actions.js:381
 #: notebook/static/notebook/js/actions.js:382
 msgid "change cell to raw"
-msgstr "清除代码块格式"
+msgstr "清除单元格格式"
 
 #: notebook/static/notebook/js/actions.js:389
 #: notebook/static/notebook/js/actions.js:390
 msgid "change cell to heading 1"
-msgstr "把代码块变成标题 1"
+msgstr "把单元格变成标题 1"
 
 #: notebook/static/notebook/js/actions.js:397
 #: notebook/static/notebook/js/actions.js:398
 msgid "change cell to heading 2"
-msgstr "把代码块变成标题 2"
+msgstr "把单元格变成标题 2"
 
 #: notebook/static/notebook/js/actions.js:405
 #: notebook/static/notebook/js/actions.js:406
 msgid "change cell to heading 3"
-msgstr "把代码块变成标题 3"
+msgstr "把单元格变成标题 3"
 
 #: notebook/static/notebook/js/actions.js:413
 #: notebook/static/notebook/js/actions.js:414
 msgid "change cell to heading 4"
-msgstr "把代码块变成标题 4"
+msgstr "把单元格变成标题 4"
 
 #: notebook/static/notebook/js/actions.js:421
 #: notebook/static/notebook/js/actions.js:422
 msgid "change cell to heading 5"
-msgstr "把代码块变成标题 5"
+msgstr "把单元格变成标题 5"
 
 #: notebook/static/notebook/js/actions.js:429
 #: notebook/static/notebook/js/actions.js:430
 msgid "change cell to heading 6"
-msgstr "把代码块变成标题 6"
+msgstr "把单元格变成标题 6"
 
 #: notebook/static/notebook/js/actions.js:437
 msgid "toggle cell output"
-msgstr "切换代码块输出"
+msgstr "显示/隐藏单元格输出"
 
 #: notebook/static/notebook/js/actions.js:438
 msgid "toggle output of selected cells"
-msgstr "切换选定单元格的输出"
+msgstr "显示/隐藏选定单元格的输出"
 
 #: notebook/static/notebook/js/actions.js:445
 msgid "toggle cell scrolling"
-msgstr "切换单元格滚动"
+msgstr "切换单元格为滚动"
 
 #: notebook/static/notebook/js/actions.js:446
 msgid "toggle output scrolling of selected cells"
-msgstr "切换选中单元格的输出滚动"
+msgstr "切换选中单元格的输出为滚动"
 
 #: notebook/static/notebook/js/actions.js:453
 msgid "clear cell output"
@@ -424,7 +425,7 @@ msgstr "清空已选择单元格的输出"
 
 #: notebook/static/notebook/js/actions.js:460
 msgid "move cells down"
-msgstr "下移"
+msgstr "下移单元格"
 
 #: notebook/static/notebook/js/actions.js:461
 msgid "move selected cells down"
@@ -432,7 +433,7 @@ msgstr "下移选中单元格"
 
 #: notebook/static/notebook/js/actions.js:469
 msgid "move cells up"
-msgstr "上移"
+msgstr "上移单元格"
 
 #: notebook/static/notebook/js/actions.js:470
 msgid "move selected cells up"
@@ -459,7 +460,7 @@ msgstr "删除选中单元格"
 #: notebook/static/notebook/js/actions.js:502
 #: notebook/static/notebook/js/actions.js:503
 msgid "undo cell deletion"
-msgstr "撤销删除"
+msgstr "撤销删除单元格"
 
 #: notebook/static/notebook/js/actions.js:512
 msgid "merge cell with previous cell"
