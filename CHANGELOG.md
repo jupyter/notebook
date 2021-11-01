@@ -2,6 +2,31 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.12
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.11...8d92d7ff18a0b57d9aa1f64952064d3babc87de1))
+
+### Bugs fixed
+
+- Fix missing download command [#263](https://github.com/jupyterlab/retrolab/pull/263) ([@jtpio](https://github.com/jtpio))
+- Fix handling of federated mime extensions [#262](https://github.com/jupyterlab/retrolab/pull/262) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Pass version spec as a GitHub Actions input [#254](https://github.com/jupyterlab/retrolab/pull/254) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Update the top screenshot in the README [#255](https://github.com/jupyterlab/retrolab/pull/255) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-10-14&to=2021-11-01&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-10-14..2021-11-01&type=Issues) | [@gutow](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agutow+updated%3A2021-10-14..2021-11-01&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-10-14..2021-11-01&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.11
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.10...29c41d3b005701fcc2d7a0760addc65858b7231b))
@@ -15,8 +40,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-10-14&to=2021-10-14&type=c))
 
 [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-10-14..2021-10-14&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.10
 
