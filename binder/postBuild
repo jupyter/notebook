@@ -1,4 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-python -m pip install .
+jlpm && jlpm run build
+python -m pip install -e .
+jlpm run develop
+jupyter server extension enable retrolab
+jupyter serverextension enable retrolab
