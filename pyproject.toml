@@ -1,5 +1,5 @@
 [build-system]
-requires = ["jupyter_packaging~=0.10", "jupyterlab>=3.2.0rc0,==3.*"]
+requires = ["jupyter_packaging~=0.10", "jupyterlab~=3.2"]
 build-backend = "jupyter_packaging.build_api"
 
 [license]
@@ -17,4 +17,4 @@ build_cmd = "build:prod"
 npm = ["jlpm"]
 
 [tool.check-manifest]
-ignore = ["app/**", "binder/**", "buildutils/**", "packages/**", "*.json", "yarn.lock", "readthedocs.yml", ".bumpversion.cfg", ".*", "lint-staged.config.js", "logo.*", "retrolab/labextension/**", "retrolab/static/**", "retrolab/template/**"]
+ignore = ["app/**", "binder/**", "buildutils/**", "packages/**", "*.json", "yarn.lock", "readthedocs.yml", ".bumpversion.cfg", ".*", "lint-staged.config.js", "logo.*", "retrolab/labextension/**", "retrolab/schemas/**", "retrolab/static/**", "retrolab/template/**"]

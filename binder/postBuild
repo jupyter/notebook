@@ -3,6 +3,6 @@ set -euo pipefail
 
 jlpm && jlpm run build
 python -m pip install -e .
-jupyter labextension develop . --overwrite
+jlpm run develop
 jupyter server extension enable retrolab
 jupyter serverextension enable retrolab

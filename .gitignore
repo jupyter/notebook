@@ -116,6 +116,7 @@ junit.xml
 retrolab/static/*
 !retrolab/static/favicons
 retrolab/labextension
+retrolab/schemas
 
 # playwright
 app/test-results

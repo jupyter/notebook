@@ -65,7 +65,8 @@
     "access": "public"
   },
   "jupyterlab": {
-    "extension": true
+    "extension": true,
+    "schemaDir": "schema"
   },
   "styleModule": "style/index.js"
 }

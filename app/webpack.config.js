@@ -37,7 +37,8 @@ fs.copySync(cssImports, path.resolve(buildDir, 'extraStyle.js'));
 
 const extras = Build.ensureAssets({
   packageNames: names,
-  output: buildDir
+  output: buildDir,
+  schemaOutput: path.resolve(__dirname, '..', 'retrolab')
 });
 
 /**

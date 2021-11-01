@@ -24,8 +24,8 @@ conda activate retrolab
 # Install package in development mode
 pip install -e .
 
-# Link the RetroLab JupyterLab extension
-jupyter labextension develop . --overwrite
+# Link the RetroLab JupyterLab extension and RetroLab schemas
+jlpm develop
 
 # Enable the server extension
 jupyter server extension enable retrolab

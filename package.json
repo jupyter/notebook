@@ -26,6 +26,7 @@
     "clean": "lerna run clean",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
+    "develop": "jupyter labextension develop . --overwrite && node ./buildutils/lib/develop.js --overwrite",
     "install": "lerna bootstrap",
     "integrity": "node buildutils/lib/ensure-repo.js",
     "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",

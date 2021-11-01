@@ -38,6 +38,7 @@ import { PromiseDelegate } from '@lumino/coreutils';
 import { DisposableDelegate, DisposableSet } from '@lumino/disposable';
 
 import { Widget } from '@lumino/widgets';
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 /**
  * The default notebook factory.
@@ -451,26 +452,50 @@ const title: JupyterFrontEndPlugin<void> = {
 const topVisibility: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/application-extension:top',
   requires: [IRetroShell, ITranslator],
-  optional: [IMainMenu],
+  optional: [IMainMenu, ISettingRegistry],
   activate: (
     app: JupyterFrontEnd<JupyterFrontEnd.IShell>,
     retroShell: IRetroShell,
     translator: ITranslator,
-    menu: IMainMenu | null
+    menu: IMainMenu | null,
+    settingRegistry: ISettingRegistry | null
   ) => {
     const trans = translator.load('retrolab');
     const top = retroShell.top;
+    const pluginId = topVisibility.id;
 
     app.commands.addCommand(CommandIDs.toggleTop, {
       label: trans.__('Show Header'),
       execute: () => {
         top.setHidden(top.isVisible);
+        if (settingRegistry) {
+          void settingRegistry.set(pluginId, 'visible', top.isVisible);
+        }
       },
       isToggled: () => top.isVisible
     });
 
     if (menu) {
       menu.viewMenu.addGroup([{ command: CommandIDs.toggleTop }], 2);
+    }
+
+    if (settingRegistry) {
+      const loadSettings = settingRegistry.load(pluginId);
+      const updateSettings = (settings: ISettingRegistry.ISettings): void => {
+        const visible = settings.get('visible').composite as boolean;
+        top.setHidden(!visible);
+      };
+
+      Promise.all([loadSettings, app.restored])
+        .then(([settings]) => {
+          updateSettings(settings);
+          settings.changed.connect(settings => {
+            updateSettings(settings);
+          });
+        })
+        .catch((reason: Error) => {
+          console.error(reason.message);
+        });
     }
 
     const onChanged = (): void => {
