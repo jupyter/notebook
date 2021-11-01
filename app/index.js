@@ -124,10 +124,7 @@ async function main() {
     ),
     require('@jupyterlab/docprovider-extension'),
     require('@jupyterlab/filebrowser-extension').default.filter(({ id }) =>
-      [
-        '@jupyterlab/filebrowser-extension:factory',
-        '@jupyterlab/filebrowser-extension:download'
-      ].includes(id)
+      ['@jupyterlab/filebrowser-extension:factory'].includes(id)
     ),
     require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
       ['@jupyterlab/fileeditor-extension:plugin'].includes(id)
