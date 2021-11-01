@@ -1,0 +1,14 @@
+{
+  "title": "RetroLab Zen Mode",
+  "description": "RetoLab Zen Mode settings.",
+  "jupyter.lab.shortcuts": [
+    {
+      "command": "application:toggle-zen",
+      "keys": ["Ctrl Shift U"],
+      "selector": "body"
+    }
+  ],
+  "properties": {},
+  "additionalProperties": false,
+  "type": "object"
+}
