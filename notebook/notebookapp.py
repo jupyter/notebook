@@ -2092,7 +2092,34 @@ class NotebookApp(JupyterApp):
 
         FIXME: if/when tornado supports the defaults in asyncio,
                remove and bump tornado requirement for py38
+
+        With the introduction of the async kernel, the existing sync kernel
+        requires the use of nested loops in order to run code synchronously.
+        This is done in `jupyter_client` using the helper util `run_sync`:
+
+        ref: https://github.com/jupyter/jupyter_client/blob/f453b51eeeff9e905c583b7da3905c0e35cfbdf0/jupyter_client/utils.py#L11
+
+        which creates a new event loop and relies on `nest_asyncio` patching
+        to allow nested loops. This requires that *all* potential tasks are
+        patched before executing. When only some tasks are patched it leads to
+        the following issue:
+
+        ref: https://github.com/jupyter/notebook/issues/6164
+
+        So we must call `nest_asyncio.apply()` method as early as possible. It
+        is preferable to do this in the consuming application rather than the
+        `jupyter_client` as it is a global patch and would impact all consumers
+        rather than just the ones that rely on synchronous kernel behavior.
         """
+        import nest_asyncio
+
+        try:
+            nest_asyncio.apply()
+        except RuntimeError:
+            # nest_asyncio requires a running loop in order to patch.
+            # In tests the loop may not have been created yet.
+            pass
+
         if sys.platform.startswith("win") and sys.version_info >= (3, 8):
             import asyncio
             try:
