@@ -12,29 +12,30 @@
 [![PyPI](https://img.shields.io/pypi/v/retrolab.svg)](https://pypi.org/project/retrolab)
 [![conda-forge](https://img.shields.io/conda/vn/conda-forge/retrolab.svg)](https://anaconda.org/conda-forge/retrolab)
 
-[Introduction](#introduction) | [Try it](#try-it-online-in-your-browser) | 
-[Installation](#install) | [Usage](#usage) | [Tour](#tour) | 
-[Contributing](#contributing) | [Motivation](#motivation) | 
-[vs Other Jupyter Frontends](#relation-to-other-jupyter-frontends) | 
+[Introduction](#introduction) | [Try it](#try-it-online-in-your-browser) |
+[Installation](#install) | [Usage](#usage) | [Tour](#tour) |
+[Contributing](#contributing) | [Motivation](#motivation) |
+[vs Other Jupyter Frontends](#relation-to-other-jupyter-frontends) |
 [Community Guidelines](#community-guidelines-and-code-of-conduct)
 
 ## Introduction
-`RetroLab` (also known as _JupyterLab Retro_, previously called _JupyterLab 
-Classic_) is a [JupyterLab](https://github.com/jupyterlab/jupyterlab) 
-distribution with a retro look and feel, more similar to the classic 
+
+`RetroLab` (also known as _JupyterLab Retro_, previously called _JupyterLab
+Classic_) is a [JupyterLab](https://github.com/jupyterlab/jupyterlab)
+distribution with a retro look and feel, more similar to the classic
 [Jupyter notebook](https://github.com/jupyter/notebook).
 
 ![retrolab](https://user-images.githubusercontent.com/591645/138552467-ed2d96ff-1ea3-496c-bc7b-660d009c1459.png)
 
 ## Try it online in your browser
 
-It is possible to try RetroLab on the web in Binder without installing 
+It is possible to try RetroLab on the web in Binder without installing
 anything:
 
-* A tour of the current release:
-[![Binder Tour](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gist/jtpio/4a6a34da66b32249e28df718ec30e4d7/master?urlpath=/retro/notebooks/tour.ipynb)
-* The current state of this development repository: 
- [![Binder Main](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/retrolab/main?urlpath=retro/tree)
+- A tour of the current release:
+  [![Binder Tour](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gist/jtpio/4a6a34da66b32249e28df718ec30e4d7/master?urlpath=/retro/notebooks/tour.ipynb)
+- The current state of this development repository:
+  [![Binder Main](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/retrolab/main?urlpath=retro/tree)
 
 ## Install
 
