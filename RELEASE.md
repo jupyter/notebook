@@ -8,9 +8,9 @@ We follow a similar bump strategy as in JupyterLab: https://github.com/jupyterla
 
 If you would still like to do the release manually instead, read below.
 
-## Making a nanual new release of RetroLab
+## Making a manual new release of RetroLab
 
-This process is still a bit manual and consists in running a couple of commands.
+This process is still a bit manual and consists of running a couple of commands.
 
 ## Getting a clean environment
 
