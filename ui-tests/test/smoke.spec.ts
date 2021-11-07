@@ -1,19 +1,24 @@
-import { test, expect } from '@playwright/test';
+import { test } from './fixtures';
 
-import { BASE_URL } from './utils';
+import { expect } from '@playwright/test';
+
+test.use({ autoGoto: false });
 
 test.describe('Smoke', () => {
-  test('Tour', async ({ page }) => {
+  test('Tour', async ({ page, tmpPath }) => {
     // Open the tree page
-    await page.goto(`${BASE_URL}retro/tree`);
+    await page.goto(`tree/${tmpPath}`);
     await page.click('text="Running"');
     await page.click('text="Files"');
 
     // Create a new console
     await page.click('text="New Console"');
     // Choose the kernel
-    await page.click('text="Select"');
-    const console = await page.waitForEvent('popup');
+    const [console] = await Promise.all([
+      page.waitForEvent('popup'),
+      page.click('text="Select"')
+    ]);
+    await console.waitForLoadState();
     await console.waitForSelector('.jp-CodeConsole');
 
     // Create a new notebook

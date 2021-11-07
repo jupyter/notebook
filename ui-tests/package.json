@@ -1,0 +1,19 @@
+{
+  "name": "@retrolab/ui-tests",
+  "private": true,
+  "version": "0.1.0",
+  "author": "Project Jupyter",
+  "license": "BSD-3-Clause",
+  "description": "RetroLab UI Tests",
+  "scripts": {
+    "start": "jupyter retro --config test/jupyter_server_config.py",
+    "start:detached": "yarn run start&",
+    "test": "playwright test",
+    "test:debug": "PWDEBUG=1 playwright test",
+    "test:report": "http-server ./playwright-report -a localhost -o",
+    "test:update": "playwright test --update-snapshots"
+  },
+  "dependencies": {
+    "@jupyterlab/galata": "~4.0.2"
+  }
+}

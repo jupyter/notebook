@@ -119,5 +119,5 @@ retrolab/labextension
 retrolab/schemas
 
 # playwright
-app/test-results
-app/test/data
+ui-tests/test-results
+ui-tests/playwright-report
