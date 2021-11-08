@@ -17,4 +17,4 @@ build_cmd = "build:prod"
 npm = ["jlpm"]
 
 [tool.check-manifest]
-ignore = ["app/**", "binder/**", "buildutils/**", "packages/**", "*.json", "yarn.lock", "readthedocs.yml", ".bumpversion.cfg", ".*", "lint-staged.config.js", "logo.*", "retrolab/labextension/**", "retrolab/schemas/**", "retrolab/static/**", "retrolab/template/**"]
+ignore = ["app/**", "binder/**", "buildutils/**", "packages/**", "*.json", "yarn.lock", "readthedocs.yml", ".bumpversion.cfg", ".*", "lint-staged.config.js", "logo.*", "retrolab/labextension/**", "retrolab/schemas/**", "retrolab/static/**", "retrolab/template/**", "ui-tests/**"]

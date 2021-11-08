@@ -1,0 +1,53 @@
+name: "Build RetroLab"
+description: "Build RetroLab fron source"
+runs:
+  using: "composite"
+  steps:
+    - name: Install node
+      uses: actions/setup-node@v2
+      with:
+       node-version: '14.x'
+
+    - name: Install Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+        architecture: 'x64'
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip wheel
+        python -m pip install setuptools jupyter_packaging~=0.10 "jupyterlab>=3,<4" build
+
+    - name: Build pypi distributions
+      shell: bash
+      run: |
+        python -m build
+
+    - name: Build npm distributions
+      shell: bash
+      run: |
+        mkdir pkgs
+        jlpm lerna exec -- npm pack
+        cp packages/*/*.tgz pkgs
+
+    - name: Build checksum file
+      shell: bash
+      run: |
+        cd dist
+        sha256sum * | tee SHA256SUMS
+        cd ../pkgs
+        sha256sum * | tee SHA256SUMS
+
+    - name: Upload distributions
+      uses: actions/upload-artifact@v2
+      with:
+        name: retrolab-dist-${{ github.run_number }}
+        path: ./dist
+
+    - name: Upload distributions
+      uses: actions/upload-artifact@v2
+      with:
+        name: retrolab-pkgs-${{ github.run_number }}
+        path: ./pkgs

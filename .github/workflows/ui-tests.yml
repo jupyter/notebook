@@ -1,0 +1,100 @@
+name: UI Tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build
+        uses: ./.github/actions/build-dist
+
+  ui-tests:
+    needs: [build]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [firefox, chromium]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+          architecture: 'x64'
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: retrolab-dist-${{ github.run_number }}
+          path: ./dist
+
+      - name: Install the prerequisites
+        run: |
+          python -m pip install pip wheel
+
+      - name: Install the package
+        run: |
+          cd dist
+          python -m pip install -vv retrolab*.whl
+
+      - name: Install the test dependencies
+        run: |
+          cd ui-tests
+          jlpm --frozen-lockfile
+          jlpm playwright install
+
+      - name: Start RetroLab
+        run: |
+          cd ui-tests
+          jlpm start:detached
+
+      - name: Wait for RetroLab
+        uses: ifaxity/wait-on-action@v1
+        with:
+          resource: http-get://127.0.0.1:8888/
+          timeout: 360000
+
+      - name: Test
+        run: |
+          cd ui-tests
+          jlpm test --browser ${{ matrix.browser }}
+
+      - name: Upload Playwright Test assets
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: retrolab-${{ matrix.browser }}-test-assets
+          path: |
+            ui-tests/test-results
+
+      - name: Upload Playwright Test report
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: retrolab-${{ matrix.browser }}-test-report
+          path: |
+            ui-tests/playwright-report
+
+      - name: Update snapshots
+        if: failure()
+        run: |
+          cd ui-tests
+          # remove previous snapshots from other browser
+          jlpm rimraf "test/**/*-snapshots/*.png"
+          # generate new snapshots
+          jlpm run test:update --browser ${{ matrix.browser }}
+
+      - name: Upload updated snapshots
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: retrolab-${{ matrix.browser }}-updated-snapshots
+          path: ui-tests/test
