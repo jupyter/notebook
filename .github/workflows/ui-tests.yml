@@ -33,7 +33,7 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
-          name: dist ${{ github.run_number }}
+          name: retrolab-dist-${{ github.run_number }}
           path: ./dist
 
       - name: Install the prerequisites
