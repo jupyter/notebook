@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """Setup script for Jupyter Notebook"""
 
+
 #-----------------------------------------------------------------------------
 #  Copyright (c) 2015-, Jupyter Development Team.
 #  Copyright (c) 2008-2015, IPython Development Team.
@@ -19,7 +20,7 @@ if sys.version_info < (3, 5):
     pip_message = 'This may be due to an out of date pip. Make sure you have pip >= 9.0.1.'
     try:
         import pip
-        pip_version = tuple([int(x) for x in pip.__version__.split('.')[:3]])
+        pip_version = tuple(int(x) for x in pip.__version__.split('.')[:3])
         if pip_version < (9, 0, 1):
             pip_message = 'Your pip version is out of date, please install pip >= 9.0.1. '\
             'pip {} detected.'.format(pip.__version__)
@@ -50,7 +51,6 @@ if os.path.exists('MANIFEST'): os.remove('MANIFEST')
 from setuptools import setup
 
 from setupbase import (
-    version,
     find_packages,
     find_package_data,
     check_package_data_first,
@@ -74,7 +74,6 @@ languages, sharing, and interactive widgets.
 Read `the documentation <https://jupyter-notebook.readthedocs.io>`_
 for more information.
     """,
-    version         = version,
     packages        = find_packages(),
     package_data    = find_package_data(),
     author          = 'Quartic Development Team',
