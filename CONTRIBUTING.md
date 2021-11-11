@@ -78,22 +78,21 @@ jlpm run build:test
 jlpm run test
 ```
 
-There are also end to end tests to cover higher level user interactions, located in the `app/test` folder. To run these tests:
+There are also end to end tests to cover higher level user interactions, located in the [`ui-tests`](./ui-tests) folder. To run these tests:
 
 ```bash
+cd ui-tests
 # start a new Jupyter server in a terminal
-npm start
+jlpm start
 
-# run the end to end tests
-jlpm run test:e2e
-
-# to run in headful mode
-PWDEBUG=1 jlpm run test:e2e
-
-# to run with firefox as the browser
-BROWSER=firefox jlpm run test:e2e
+# in a new terminal, run the tests
+jlpm test
 ```
+
+The `test` script calls the Playwright test runner. You can pass additional arguments to `playwright` by appending parameters to the command. For example to run the test in headed mode, `jlpm test --headed`.
+
+Checkout the [Playwright Command Line Reference](https://playwright.dev/docs/test-cli/) for more information about the available command line options.
 
 Running the end to end tests in headful mode will trigger something like the following:
 
-![end-to-end-smoke](https://user-images.githubusercontent.com/591645/106299215-34a67b00-6255-11eb-854c-756a8790246b.gif)
+![playwight-headed-demo](https://user-images.githubusercontent.com/591645/141274633-ca9f9c2f-eef6-430e-9228-a35827f8133d.gif)
