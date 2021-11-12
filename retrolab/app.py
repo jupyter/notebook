@@ -63,7 +63,7 @@ class RetroHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHan
             "mathjax_url",
             "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js",
         )
-        if not url_is_absolute(mathjax_url):
+        if not url_is_absolute(mathjax_url) or not mathjax_url.startswith(self.base_url):
             mathjax_url = ujoin(self.base_url, mathjax_url)
 
         page_config.setdefault("mathjaxConfig", mathjax_config)
