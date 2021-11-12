@@ -252,6 +252,7 @@ define([
             '#insert_cell_below': 'insert-cell-below',
             '#run_cell': 'run-cell',
             '#debug_cell': 'debug-cell',
+            '#hide_unhide_debug_cells': 'hide-unhide-debug-cells',
             '#run_cell_select_below': 'run-cell-and-select-next',
             '#run_cell_insert_below': 'run-cell-and-insert-below',
             '#run_all_cells': 'run-all-cells',

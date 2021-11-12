@@ -195,6 +195,8 @@ data-notebook-path="{{notebook_path | urlencode}}"
                     <ul id="cell_menu" class="dropdown-menu" role="menu" aria-labelledby="celllink">
                         <li id="debug_cell" role="none" title="{% trans %}Make/unmake this cell a debug cell{% endtrans %}">
                             <a role="menuitem" href="#">{% trans %}Debug/Undebug cell{% endtrans %}</a></li>
+                        <li id="hide_unhide_debug_cells" role="none" title="{% trans %}Hide/Unhide debug cells{% endtrans %}">
+                            <a role="menuitem" href="#">{% trans %}Hide/Unhide debug cells{% endtrans %}</a></li>
                         <li id="run_cell" role="none" title="{% trans %}Run this cell, and move cursor to the next one{% endtrans %}">
                             <a role="menuitem" href="#">{% trans %}Run Cells{% endtrans %}</a></li>
                         <li id="run_cell_select_below" role="none" title="{% trans %}Run this cell, select below{% endtrans %}">

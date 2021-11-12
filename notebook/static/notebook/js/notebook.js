@@ -86,6 +86,7 @@ define([
      * @param {string}          options.notebook_name
      */
     function Notebook(selector, options) {
+        this.debug_cells_hidden = false
         this.config = options.config;
         this.config.loaded.then(this.validate_config.bind(this));
         this.class_config = new configmod.ConfigWithDefaults(this.config, 
@@ -2499,6 +2500,19 @@ define([
      */
      Notebook.prototype.debug_selected_cells = function () {
         this.debug_cells(this.get_selected_cells_indices());
+    };
+
+    /**
+     * Hide all debug cells in the notebook.
+     */
+    Notebook.prototype.hide_unhide_debug_cells = function () {
+        if (this.debug_cells_hidden) {
+            this.debug_cells_hidden = false;
+            this.element.removeClass('hidden-debug');
+        } else {
+            this.debug_cells_hidden = true;
+            this.element.addClass('hidden-debug');
+        }
     };
 
     /**
