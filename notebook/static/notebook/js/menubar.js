@@ -251,6 +251,7 @@ define([
             '#insert_cell_above': 'insert-cell-above',
             '#insert_cell_below': 'insert-cell-below',
             '#run_cell': 'run-cell',
+            '#debug_cell': 'debug-cell',
             '#run_cell_select_below': 'run-cell-and-select-next',
             '#run_cell_insert_below': 'run-cell-and-insert-below',
             '#run_all_cells': 'run-all-cells',

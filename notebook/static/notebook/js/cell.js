@@ -61,6 +61,7 @@ define([
         this.selected = false;
         this.anchor = false;
         this.rendered = false;
+        this.debug = false;
         this.mode = 'command';
 
         // Metadata property
@@ -175,6 +176,23 @@ define([
         } else {
             this.element.addClass('unrendered');
         }
+    };
+
+    // make or unmake the cell a debug cell
+    Cell.prototype.make_debug = function () {
+        if (this.debug === true) {
+            return;
+        }
+        this.debug = true;
+        this.element.addClass('debug');
+    };
+
+    Cell.prototype.unmake_debug = function () {
+        if (this.debug !== true) {
+            return;
+        }
+        this.debug = false;
+        this.element.removeClass('debug');
     };
 
     /**

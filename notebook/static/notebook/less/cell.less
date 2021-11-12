@@ -1,4 +1,5 @@
 @_cell_padding_minus_border: @cell_padding - @cell_border_width;
+@debug_cell_padding: @cell_padding * 15;
 
 ._selected_style(@border_color) {
     position: absolute;
@@ -72,6 +73,9 @@ div.cell {
         }
     }
 
+    &.debug {
+        padding-left: @debug_cell_padding;
+    }
 }
 
 
