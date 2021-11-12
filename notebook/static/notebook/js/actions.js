@@ -174,6 +174,14 @@ define([
                 env.notebook.execute_cell_and_select_below();
             }
         },
+        'debug-cell':{
+            cmd: i18n.msg._('debug selected cells'),
+            help    : i18n.msg._('debug selected cells'),
+            help_index : 'ug',
+            handler : function (env) {
+                env.notebook.debug_selected_cells();
+            }
+        },
         'run-cell':{
             cmd: i18n.msg._('run selected cells'),
             help    : i18n.msg._('run selected cells'),

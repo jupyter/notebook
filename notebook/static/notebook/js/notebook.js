@@ -2448,6 +2448,60 @@ define([
     };
 
     /**
+     * Debug cells corresponding to the given indices.
+     *
+     * @param {Array} indices - indices of the cells to execute
+     */
+
+    Notebook.prototype.any_debug_cell = function () {
+        var cells = this.get_cells();
+        for (var i = 0; i < cells.length; i++) {
+            if (cells[i].debug) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    Notebook.prototype.debug_cells = function (indices) {
+        if (indices.length === 0) {
+            return;
+        }
+
+        let all_debug_cell = true;
+
+        var cell;
+        for (var i = 0; i < indices.length; i++) {
+            cell = this.get_cell(indices[i]);
+            if (cell.debug !== true) {
+                all_debug_cell = false;
+            }
+        }
+
+        if (all_debug_cell) {
+            // If all cells are already in debug mode, then we need to
+            // turn off debug mode.
+            for (var i = 0; i < indices.length; i++) {
+                cell = this.get_cell(indices[i]);
+                cell.unmake_debug();
+            }
+        } else {
+            // Otherwise, we just need to make all of them a debug cell.
+            for (var i = 0; i < indices.length; i++) {
+                cell = this.get_cell(indices[i]);
+                cell.make_debug();
+            }
+        }
+    }
+
+    /**
+     * Debug all cells in the notebook.
+     */
+     Notebook.prototype.debug_selected_cells = function () {
+        this.debug_cells(this.get_selected_cells_indices());
+    };
+
+    /**
      * Execute or render cell outputs and go into command mode.
      */
     Notebook.prototype.execute_selected_cells = function () {
