@@ -6,7 +6,7 @@
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jupyter/notebook.git"
+    "url": "https://github.com/Quarticai/quartic-notebook.git"
   },
   "scripts": {
     "bower": "bower install",
