@@ -16,7 +16,7 @@ import { NotebookPanel } from '@jupyterlab/notebook';
 
 import { ITranslator } from '@jupyterlab/translation';
 
-import { RetroApp, IRetroShell } from '@retrolab/application';
+import { IRetroShell } from '@retrolab/application';
 
 import { Poll } from '@lumino/polling';
 
@@ -46,7 +46,7 @@ const KERNEL_STATUS_FADE_OUT_CLASS = 'jp-RetroKernelStatus-fade';
  * A plugin for the checkpoint indicator
  */
 const checkpoints: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/application-extension:checkpoints',
+  id: '@retrolab/notebook-extension:checkpoints',
   autoStart: true,
   requires: [IDocumentManager, ITranslator],
   optional: [IRetroShell],
@@ -104,7 +104,7 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
  * The kernel logo plugin.
  */
 const kernelLogo: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/application-extension:kernel-logo',
+  id: '@retrolab/notebook-extension:kernel-logo',
   autoStart: true,
   requires: [IRetroShell],
   activate: (app: JupyterFrontEnd, shell: IRetroShell) => {
@@ -156,7 +156,7 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
  * A plugin to display the kernel status;
  */
 const kernelStatus: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/application-extension:kernel-status',
+  id: '@retrolab/notebook-extension:kernel-status',
   autoStart: true,
   requires: [IRetroShell],
   activate: (app: JupyterFrontEnd, shell: IRetroShell) => {
@@ -207,21 +207,6 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
 
     shell.currentChanged.connect(onChange);
   }
-};
-
-/**
- * The default paths for a RetroLab app.
- */
-const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
-  id: '@retrolab/application-extension:paths',
-  activate: (app: JupyterFrontEnd): JupyterFrontEnd.IPaths => {
-    if (!(app instanceof RetroApp)) {
-      throw new Error(`${paths.id} must be activated in RetroLab.`);
-    }
-    return app.paths;
-  },
-  autoStart: true,
-  provides: JupyterFrontEnd.IPaths
 };
 
 /**
