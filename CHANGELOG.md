@@ -2,6 +2,38 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.13
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.12...a77d66953de2d73931959a131837049322a59216))
+
+### Enhancements made
+
+- Ensure `@retrolab` settings [#265](https://github.com/jupyterlab/retrolab/pull/265) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Fix handling of the MathJax URL to render Latex [#280](https://github.com/jupyterlab/retrolab/pull/280) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Fix plugin ids in the notebook extension [#284](https://github.com/jupyterlab/retrolab/pull/284) ([@jtpio](https://github.com/jtpio))
+- Add UI test to check the retrolab settings are persisted [#281](https://github.com/jupyterlab/retrolab/pull/281) ([@jtpio](https://github.com/jtpio))
+- Update UI Tests to use Galata [#273](https://github.com/jupyterlab/retrolab/pull/273) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Update testing docs [#278](https://github.com/jupyterlab/retrolab/pull/278) ([@jtpio](https://github.com/jtpio))
+- Fix typos in readme [#271](https://github.com/jupyterlab/retrolab/pull/271) ([@jweill-aws](https://github.com/jweill-aws))
+- edits to aid in navigation of Readme.md [#269](https://github.com/jupyterlab/retrolab/pull/269) ([@gutow](https://github.com/gutow))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-11-01&to=2021-11-12&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-11-01..2021-11-12&type=Issues) | [@gutow](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agutow+updated%3A2021-11-01..2021-11-12&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-11-01..2021-11-12&type=Issues) | [@jweill-aws](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajweill-aws+updated%3A2021-11-01..2021-11-12&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Akrassowski+updated%3A2021-11-01..2021-11-12&type=Issues) | [@welcome](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Awelcome+updated%3A2021-11-01..2021-11-12&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.12
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.11...8d92d7ff18a0b57d9aa1f64952064d3babc87de1))
@@ -24,8 +56,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-10-14&to=2021-11-01&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-10-14..2021-11-01&type=Issues) | [@gutow](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agutow+updated%3A2021-10-14..2021-11-01&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-10-14..2021-11-01&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.11
 
