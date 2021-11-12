@@ -208,6 +208,8 @@ define([
           }
         });
         
+        this.reset_code_types();
+
         // prevent assign to miss-typed properties.
         Object.seal(this);
     }
@@ -2448,57 +2450,54 @@ define([
     };
 
     /**
-     * Debug cells corresponding to the given indices.
+     * Reset code types set
+     */
+
+    Notebook.prototype.reset_code_types = function () {
+        this.code_types = ["main", "data", "debug"];
+
+        var code_types_submenu = $("#menu-code-type-submenu");
+        code_types_submenu.empty();
+        this.code_types.forEach(function (code_type) {
+            code_types_submenu.append(
+                $("<li>").attr("id", "code-type-submenu-" + code_type).append(
+                    $('<a>')
+                        .attr('href', '#')
+                        .click( function () {
+                            that.change_code_type(code_type);
+                        })
+                        .text(code_type)
+                )
+            );
+        });
+    }
+
+    /**
+     * Set cell types to cells corresponding to the given indices.
      *
      * @param {Array} indices - indices of the cells to execute
      */
 
-    Notebook.prototype.any_debug_cell = function () {
-        var cells = this.get_cells();
-        for (var i = 0; i < cells.length; i++) {
-            if (cells[i].debug) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    Notebook.prototype.debug_cells = function (indices) {
+    Notebook.prototype.change_code_types = function (indices, code_type) {
         if (indices.length === 0) {
             return;
         }
 
-        let all_debug_cell = true;
-
         var cell;
+
         for (var i = 0; i < indices.length; i++) {
             cell = this.get_cell(indices[i]);
-            if (cell.debug !== true) {
-                all_debug_cell = false;
-            }
+            cell.set_code_type(code_type);
         }
 
-        if (all_debug_cell) {
-            // If all cells are already in debug mode, then we need to
-            // turn off debug mode.
-            for (var i = 0; i < indices.length; i++) {
-                cell = this.get_cell(indices[i]);
-                cell.unmake_debug();
-            }
-        } else {
-            // Otherwise, we just need to make all of them a debug cell.
-            for (var i = 0; i < indices.length; i++) {
-                cell = this.get_cell(indices[i]);
-                cell.make_debug();
-            }
-        }
+        this.reset_code_types();
     }
 
     /**
-     * Debug all cells in the notebook.
+     * Change the type of all cells in the notebook.
      */
-     Notebook.prototype.debug_selected_cells = function () {
-        this.debug_cells(this.get_selected_cells_indices());
+    Notebook.prototype.change_code_type = function (code_type) {
+        this.change_code_types(this.get_selected_cells_indices(), code_type);
     };
 
     /**
