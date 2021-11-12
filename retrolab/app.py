@@ -8,7 +8,7 @@ from jupyter_server.extension.handler import (
     ExtensionHandlerMixin,
     ExtensionHandlerJinjaMixin,
 )
-from jupyter_server.utils import url_path_join as ujoin, url_escape
+from jupyter_server.utils import url_path_join as ujoin, url_escape, url_is_absolute
 from jupyterlab.commands import get_app_dir, get_user_settings_dir, get_workspaces_dir
 from jupyterlab_server import LabServerApp
 from jupyterlab_server.config import get_page_config, recursive_update, LabConfig
@@ -63,6 +63,9 @@ class RetroHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHan
             "mathjax_url",
             "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js",
         )
+        if not url_is_absolute(mathjax_url) and not mathjax_url.startswith(self.base_url):
+            mathjax_url = ujoin(self.base_url, mathjax_url)
+
         page_config.setdefault("mathjaxConfig", mathjax_config)
         page_config.setdefault("fullMathjaxUrl", mathjax_url)
 
@@ -115,7 +118,7 @@ class RetroTreeHandler(RetroHandler):
             if await maybe_future(cm.is_hidden(path)) and not cm.allow_hidden:
                 self.log.info("Refusing to serve hidden directory, via 404 Error")
                 raise web.HTTPError(404)
-            
+
             # Set treePath for routing to the directory
             page_config = self.get_page_config()
             page_config['treePath'] = path
