@@ -1,6 +1,6 @@
 {
   "name": "@retrolab/tree-extension",
-  "version": "0.3.12",
+  "version": "0.3.13",
   "description": "RetroLab - Tree Extension",
   "homepage": "https://github.com/jupyterlab/retrolab",
   "bugs": {
@@ -53,7 +53,7 @@
     "@lumino/algorithm": "^1.6.0",
     "@lumino/commands": "^1.15.0",
     "@lumino/widgets": "^1.23.0",
-    "@retrolab/application": "^0.3.12"
+    "@retrolab/application": "^0.3.13"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",

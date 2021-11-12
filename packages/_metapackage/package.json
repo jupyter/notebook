@@ -1,7 +1,7 @@
 {
   "name": "@retrolab/metapackage",
   "private": true,
-  "version": "0.3.12",
+  "version": "0.3.13",
   "description": "RetroLab - Metapackage",
   "homepage": "https://github.com/jupyterlab/retrolab",
   "bugs": {

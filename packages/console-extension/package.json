@@ -1,6 +1,6 @@
 {
   "name": "@retrolab/console-extension",
-  "version": "0.3.12",
+  "version": "0.3.13",
   "description": "RetroLab - Console Extension",
   "homepage": "https://github.com/jupyterlab/retrolab",
   "bugs": {
