@@ -76,6 +76,22 @@ div.cell {
     &.debug {
         padding-left: @debug_cell_padding;
     }
+
+    &.data {
+        padding-right: @debug_cell_padding;
+    }
+
+    .hidden-debug &.debug {
+        display: none;
+    }
+
+    .hidden-data &.data {
+        display: none;
+    }
+
+    .hidden-main &.main {
+        display: none;
+    }
 }
 
 

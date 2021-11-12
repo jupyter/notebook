@@ -86,6 +86,7 @@ define([
      * @param {string}          options.notebook_name
      */
     function Notebook(selector, options) {
+        this.debug_cells_hidden = false
         this.config = options.config;
         this.config.loaded.then(this.validate_config.bind(this));
         this.class_config = new configmod.ConfigWithDefaults(this.config, 
@@ -2454,9 +2455,11 @@ define([
      */
 
     Notebook.prototype.reset_code_types = function () {
+        var that = this;
         this.code_types = ["main", "data", "debug"];
 
         var code_types_submenu = $("#menu-code-type-submenu");
+        var hide_cells = $("#menu-hide-cells-submenu");
         code_types_submenu.empty();
         this.code_types.forEach(function (code_type) {
             code_types_submenu.append(
@@ -2465,6 +2468,19 @@ define([
                         .attr('href', '#')
                         .click( function () {
                             that.change_code_type(code_type);
+                        })
+                        .text(code_type)
+                )
+            );
+        });
+        hide_cells.empty();
+        this.code_types.forEach(function (code_type) {
+            hide_cells.append(
+                $("<li>").attr("id", "code-type-submenu-" + code_type).append(
+                    $('<a>')
+                        .attr('href', '#')
+                        .click( function () {
+                            that.hide_unhide_cells(code_type);
                         })
                         .text(code_type)
                 )
@@ -2498,6 +2514,19 @@ define([
      */
     Notebook.prototype.change_code_type = function (code_type) {
         this.change_code_types(this.get_selected_cells_indices(), code_type);
+    };
+
+    /**
+     * Hide all debug cells in the notebook.
+     */
+    Notebook.prototype.hide_unhide_cells = function (code_type) {
+        var cls_type = "hidden-" + code_type;
+        console.log(cls_type);
+        if (this.element.hasClass(cls_type)) {
+            this.element.removeClass(cls_type);
+        } else {
+            this.element.addClass(cls_type);
+        }
     };
 
     /**

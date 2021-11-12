@@ -197,10 +197,12 @@ data-notebook-path="{{notebook_path | urlencode}}"
                             title="{% trans %}Change code type for selected cells{% endtrans %}">
                             <a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Change code type{% endtrans %}</a>
                             <ul class="dropdown-menu" id="menu-code-type-submenu">
-                              <li id="main" role="none"
-                                  title="{% trans %}Contents will be sent to the kernel for execution, and output will display in the footer of cell{% endtrans %}">
-                                  <a href="#">Code</a>
-                              </li>
+                            </ul>
+                        </li>
+                        <li id="hide_unhide_debug_cells" class="menu_focus_highlight dropdown-submenu" role="none"
+                            title="{% trans %}Hide/Unhide debug cells{% endtrans %}">
+                            <a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Hide/Unhide debug cells{% endtrans %}</a>
+                            <ul class="dropdown-menu" id="menu-hide-cells-submenu">
                             </ul>
                         </li>
                         <li id="run_cell" role="none" title="{% trans %}Run this cell, and move cursor to the next one{% endtrans %}">

@@ -127,8 +127,6 @@ define([
         }
 
         this.code_type = 'main';
-        this.current_cls = 'col-1';
-        this.element.addClass(this.current_cls);
     };
 
     Cell.options_default = {
@@ -330,10 +328,9 @@ define([
      * @method set_code_type
      */
     Cell.prototype.set_code_type = function (code_type, cls) {
+        this.element.removeClass(code_type);
         this.code_type = code_type;
-        this.element.removeClass(this.current_cls)
-        this.current_cls = cls;
-        this.element.addClass(this.current_cls);
+        this.element.addClass(code_type);
     };
     
 

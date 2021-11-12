@@ -182,6 +182,14 @@ define([
                 env.notebook.debug_selected_cells();
             }
         },
+        'hide-unhide-debug-cells':{
+            cmd: i18n.msg._('hide/unhide debug cells'),
+            help    : i18n.msg._('hide/unhide debug cells'),
+            help_index : 'ug',
+            handler : function (env) {
+                env.notebook.hide_unhide_debug_cells();
+            }
+        },
         'run-cell':{
             cmd: i18n.msg._('run selected cells'),
             help    : i18n.msg._('run selected cells'),
