@@ -68,6 +68,7 @@ class MockEnvTestCase(TestCase):
         p = patch.dict('os.environ', {
             'JUPYTER_CONFIG_DIR': self.config_dir,
             'JUPYTER_DATA_DIR': self.data_dir,
+            'PYTHONNOUSERSITE': "1",
         })
         self.patches.append(p)
         for mod in (paths, nbextensions):
