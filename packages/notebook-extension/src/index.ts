@@ -8,11 +8,13 @@ import {
 
 import { ISessionContext, DOMUtils } from '@jupyterlab/apputils';
 
+import { CodeCell } from '@jupyterlab/cells';
+
 import { Text, Time } from '@jupyterlab/coreutils';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
-import { NotebookPanel } from '@jupyterlab/notebook';
+import { NotebookPanel, INotebookTracker } from '@jupyterlab/notebook';
 
 import { ITranslator } from '@jupyterlab/translation';
 
@@ -215,12 +217,38 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to enable scrolling for outputs by default
+ */
+const scrollOutput: JupyterFrontEndPlugin<void> = {
+  id: '@retrolab/notebook-extension:scroll-output',
+  autoStart: true,
+  requires: [INotebookTracker],
+  activate: async (app: JupyterFrontEnd, tracker: INotebookTracker) => {
+    tracker.widgetAdded.connect((sender, notebook) => {
+      notebook.model?.cells.changed.connect((sender, changed) => {
+        // process new cells only
+        if (!(changed.type === 'add')) {
+          return;
+        }
+        const [cellModel] = changed.newValues;
+        notebook.content.widgets.forEach(cell => {
+          if (cell.model.id === cellModel.id && cell.model.type === 'code') {
+            (cell as CodeCell).outputsScrolled = true;
+          }
+        });
+      });
+    });
+  }
+};
+
+/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
   kernelLogo,
-  kernelStatus
+  kernelStatus,
+  scrollOutput
 ];
 
 export default plugins;
