@@ -85,6 +85,8 @@ class MockEnvTestCase(TestCase):
             p = patch.object(mod,
                 'ENV_CONFIG_PATH', [])
             self.patches.append(p)
+        # avoid adding the user site to the config paths with jupyter-core >= 4.9
+        # https://github.com/jupyter/jupyter_core/pull/242
         p = patch.object(site,
             'ENABLE_USER_SITE', False)
         self.patches.append(p)
