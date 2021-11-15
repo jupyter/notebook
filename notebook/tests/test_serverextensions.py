@@ -1,5 +1,6 @@
 import imp
 import os
+import site
 import sys
 from unittest import TestCase
 from unittest.mock import patch
@@ -68,7 +69,6 @@ class MockEnvTestCase(TestCase):
         p = patch.dict('os.environ', {
             'JUPYTER_CONFIG_DIR': self.config_dir,
             'JUPYTER_DATA_DIR': self.data_dir,
-            'PYTHONNOUSERSITE': "1",
         })
         self.patches.append(p)
         for mod in (paths, nbextensions):
@@ -85,6 +85,9 @@ class MockEnvTestCase(TestCase):
             p = patch.object(mod,
                 'ENV_CONFIG_PATH', [])
             self.patches.append(p)
+        p = patch.object(site,
+            'ENABLE_USER_SITE', False)
+        self.patches.append(p)
         for p in self.patches:
             p.start()
             self.addCleanup(p.stop)
