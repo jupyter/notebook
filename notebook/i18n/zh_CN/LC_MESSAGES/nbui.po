@@ -4,6 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 #, fuzzy
+# Universal translation: cell=单元格; kernal=内核; don't translate notebook whenever referring to Jupyter Notebook
 msgid ""
 msgstr ""
 "Project-Id-Version: Jupyter VERSION\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: notebook/templates/404.html:3
 msgid "You are requesting a page that does not exist!"
-msgstr "请求的代码不存在!"
+msgstr "您所请求的页面不存在!"
 
 #: notebook/templates/edit.html:37
 msgid "current mode"
@@ -81,11 +82,11 @@ msgstr "显示/隐藏 标题和logo"
 
 #: notebook/templates/edit.html:71 notebook/templates/notebook.html:163
 msgid "Toggle Header"
-msgstr "切换Header"
+msgstr "显示/隐藏 标题栏"
 
 #: notebook/templates/edit.html:72 notebook/templates/notebook.html:171
 msgid "Toggle Line Numbers"
-msgstr "切换行号"
+msgstr "显示/隐藏 行号"
 
 #: notebook/templates/edit.html:75
 msgid "Language"
@@ -127,15 +128,15 @@ msgstr "菜单"
 
 #: notebook/templates/notebook.html:65 notebook/templates/notebook.html:254
 msgid "Kernel"
-msgstr "服务"
+msgstr "内核"
 
 #: notebook/templates/notebook.html:68
 msgid "This notebook is read-only"
-msgstr "这个代码是只读的"
+msgstr "这个notebook文件是只读的"
 
 #: notebook/templates/notebook.html:81
 msgid "New Notebook"
-msgstr "新建代码"
+msgstr "新建Notebook"
 
 #: notebook/templates/notebook.html:85
 msgid "Opens a new window with the Dashboard view"
@@ -147,7 +148,7 @@ msgstr "打开..."
 
 #: notebook/templates/notebook.html:90
 msgid "Open a copy of this notebook's contents and start a new kernel"
-msgstr "打开代码内容的副本并启动一个新的服务"
+msgstr "复制并打开当前notebook的内容，同时启动一个新的内核"
 
 #: notebook/templates/notebook.html:91
 msgid "Make a Copy..."
@@ -159,11 +160,11 @@ msgstr "重命名..."
 
 #: notebook/templates/notebook.html:93
 msgid "Save and Checkpoint"
-msgstr "保存"
+msgstr "保存，且作为一个检查点"
 
 #: notebook/templates/notebook.html:96
 msgid "Revert to Checkpoint"
-msgstr "恢复"
+msgstr "恢复到某一个检查点"
 
 #: notebook/templates/notebook.html:106
 msgid "Print Preview"
@@ -171,11 +172,11 @@ msgstr "打印预览"
 
 #: notebook/templates/notebook.html:107
 msgid "Download as"
-msgstr "下载"
+msgstr "另存为"
 
 #: notebook/templates/notebook.html:109
 msgid "Notebook (.ipynb)"
-msgstr "代码(.ipynb)"
+msgstr "Notebook (.ipynb)"
 
 #: notebook/templates/notebook.html:110
 msgid "Script"
@@ -199,7 +200,7 @@ msgstr ""
 
 #: notebook/templates/notebook.html:115
 msgid "PDF via LaTeX (.pdf)"
-msgstr ""
+msgstr "通过LaTeX生成的PDF (.pdf)"
 
 #: notebook/templates/notebook.html:118
 msgid "Deploy as"
@@ -207,15 +208,15 @@ msgstr "部署在"
 
 #: notebook/templates/notebook.html:123
 msgid "Trust the output of this notebook"
-msgstr "信任代码的输出"
+msgstr "信任当前notebook的输出"
 
 #: notebook/templates/notebook.html:124
 msgid "Trust Notebook"
-msgstr "信任代码"
+msgstr "信任当前Notebook"
 
 #: notebook/templates/notebook.html:127
 msgid "Shutdown this notebook's kernel, and close this window"
-msgstr "关闭代码服务并关闭窗口"
+msgstr "关闭当前notebook的内核，并关闭当前窗口"
 
 #: notebook/templates/notebook.html:128
 msgid "Close and Halt"
@@ -223,55 +224,55 @@ msgstr "关闭"
 
 #: notebook/templates/notebook.html:133
 msgid "Cut Cells"
-msgstr "剪切代码块"
+msgstr "剪切单元格"
 
 #: notebook/templates/notebook.html:134
 msgid "Copy Cells"
-msgstr "复制代码块"
+msgstr "复制单元格"
 
 #: notebook/templates/notebook.html:135
 msgid "Paste Cells Above"
-msgstr "粘贴到上面"
+msgstr "粘贴单元格到上面"
 
 #: notebook/templates/notebook.html:136
 msgid "Paste Cells Below"
-msgstr "粘贴到下面"
+msgstr "粘贴单元格到下面"
 
 #: notebook/templates/notebook.html:137
 msgid "Paste Cells &amp; Replace"
-msgstr "粘贴代码块 &amp; 替换"
+msgstr "粘贴单元格 &amp; 替换"
 
 #: notebook/templates/notebook.html:138
 msgid "Delete Cells"
-msgstr "删除代码块"
+msgstr "删除单元格"
 
 #: notebook/templates/notebook.html:139
 msgid "Undo Delete Cells"
-msgstr "撤销删除"
+msgstr "撤销删除单元格"
 
 #: notebook/templates/notebook.html:141
 msgid "Split Cell"
-msgstr "分割代码块"
+msgstr "分割单元格"
 
 #: notebook/templates/notebook.html:142
 msgid "Merge Cell Above"
-msgstr "合并上面的代码块"
+msgstr "合并上面的单元格"
 
 #: notebook/templates/notebook.html:143
 msgid "Merge Cell Below"
-msgstr "合并下面的代码块"
+msgstr "合并下面的单元格"
 
 #: notebook/templates/notebook.html:145
 msgid "Move Cell Up"
-msgstr "上移代码块"
+msgstr "上移单元格"
 
 #: notebook/templates/notebook.html:146
 msgid "Move Cell Down"
-msgstr "下移代码块"
+msgstr "下移单元格"
 
 #: notebook/templates/notebook.html:148
 msgid "Edit Notebook Metadata"
-msgstr "编辑界面元数据"
+msgstr "编辑Notebook的元数据"
 
 #: notebook/templates/notebook.html:150
 msgid "Find and Replace"
@@ -299,15 +300,15 @@ msgstr "显示/隐藏 操作图标"
 
 #: notebook/templates/notebook.html:167
 msgid "Toggle Toolbar"
-msgstr ""
+msgstr "显示/隐藏 工具栏"
 
 #: notebook/templates/notebook.html:170
 msgid "Show/Hide line numbers in cells"
-msgstr "显示/隐藏行号"
+msgstr "显示/隐藏 当前单元格的行号"
 
 #: notebook/templates/notebook.html:174
 msgid "Cell Toolbar"
-msgstr "单元格工具栏"
+msgstr "单元格 工具栏"
 
 #: notebook/templates/notebook.html:179
 msgid "Insert"
@@ -315,19 +316,19 @@ msgstr "插入"
 
 #: notebook/templates/notebook.html:182
 msgid "Insert an empty Code cell above the currently active cell"
-msgstr "在当前活动单元上插入一个空的代码单元格"
+msgstr "在当前代码块上面插入一个空的单元格"
 
 #: notebook/templates/notebook.html:183
 msgid "Insert Cell Above"
-msgstr "插入单元格上面"
+msgstr "在上面插入一个单元格"
 
 #: notebook/templates/notebook.html:185
 msgid "Insert an empty Code cell below the currently active cell"
-msgstr "在当前活动单元下面插入一个空的代码单元格"
+msgstr "在当前代码块下面插入一个空的单元格"
 
 #: notebook/templates/notebook.html:186
 msgid "Insert Cell Below"
-msgstr "插入单元格下面"
+msgstr "在下面插入一个单元格"
 
 #: notebook/templates/notebook.html:189
 msgid "Cell"
@@ -335,7 +336,7 @@ msgstr "单元格"
 
 #: notebook/templates/notebook.html:191
 msgid "Run this cell, and move cursor to the next one"
-msgstr "运行这个单元格，并将光标移到下一个"
+msgstr "运行此单元格，并将光标移到下一个"
 
 #: notebook/templates/notebook.html:192
 msgid "Run Cells"
@@ -343,19 +344,19 @@ msgstr "运行所有单元格"
 
 #: notebook/templates/notebook.html:193
 msgid "Run this cell, select below"
-msgstr "运行此单元，选择以下选项"
+msgstr "运行此单元格，并自动选择下一个"
 
 #: notebook/templates/notebook.html:194
 msgid "Run Cells and Select Below"
-msgstr "运行单元格并自动选择下一个"
+msgstr "运行所有单元格，并自动选择下一个"
 
 #: notebook/templates/notebook.html:195
 msgid "Run this cell, insert below"
-msgstr "运行单元格并选择以下"
+msgstr "运行此单元格，并在下面插入一个新的单元格"
 
 #: notebook/templates/notebook.html:196
 msgid "Run Cells and Insert Below"
-msgstr "运行单元格并在下面插入"
+msgstr "运行所有单元格，并在下面插入一个新的单元格"
 
 #: notebook/templates/notebook.html:197
 msgid "Run all cells in the notebook"
@@ -367,23 +368,23 @@ msgstr "运行所有"
 
 #: notebook/templates/notebook.html:199
 msgid "Run all cells above (but not including) this cell"
-msgstr "运行上面的所有单元(但不包括)这个单元格"
+msgstr "运行上面所有的单元格(但不包括这个单元格)"
 
 #: notebook/templates/notebook.html:200
 msgid "Run All Above"
-msgstr "运行上面的代码块"
+msgstr "运行上面所有的单元格"
 
 #: notebook/templates/notebook.html:201
 msgid "Run this cell and all cells below it"
-msgstr "运行当前及以下代码块"
+msgstr "运行当前及以下所有的单元格"
 
 #: notebook/templates/notebook.html:202
 msgid "Run All Below"
-msgstr "运行下面的代码块"
+msgstr "运行下面的所有的单元格"
 
 #: notebook/templates/notebook.html:205
 msgid "All cells in the notebook have a cell type. By default, new cells are created as 'Code' cells"
-msgstr "代码里的所有单元格都有一个类型. 默认情况下, 新单元被创建为'Code'单元格"
+msgstr "Notebook里的所有单元格都有一个类型。默认新单元格都会被创建为代码单元格"
 
 #: notebook/templates/notebook.html:206
 msgid "Cell Type"
@@ -391,7 +392,7 @@ msgstr "单元格类型"
 
 #: notebook/templates/notebook.html:209
 msgid "Contents will be sent to the kernel for execution, and output will display in the footer of cell"
-msgstr "内容将被发送到内核以执行, 输出将显示在单元格的页脚."
+msgstr "内容将被发送到内核执行，输出将显示在单元格的页脚。"
 
 #: notebook/templates/notebook.html:212
 msgid "Contents will be rendered as HTML and serve as explanatory text"
@@ -399,11 +400,11 @@ msgstr "内容将以HTML形式呈现, 并作为解释性文本"
 
 #: notebook/templates/notebook.html:213 notebook/templates/notebook.html:298
 msgid "Markdown"
-msgstr "标签"
+msgstr ""
 
 #: notebook/templates/notebook.html:215
 msgid "Contents will pass through nbconvert unmodified"
-msgstr "内容将通过未经修改的nbconvert"
+msgstr "内容将通过nbconvert且不会被修改"
 
 #: notebook/templates/notebook.html:216
 msgid "Raw NBConvert"
@@ -419,15 +420,15 @@ msgstr "隐藏/显示当前单元格输出"
 
 #: notebook/templates/notebook.html:224 notebook/templates/notebook.html:240
 msgid "Toggle"
-msgstr "切换"
+msgstr "显示/隐藏"
 
 #: notebook/templates/notebook.html:227
 msgid "Scroll the output of the current cell"
-msgstr "滚动当前单元格的输出"
+msgstr "滚动到当前单元格的输出"
 
 #: notebook/templates/notebook.html:228 notebook/templates/notebook.html:244
 msgid "Toggle Scrolling"
-msgstr "切换滚动"
+msgstr "滚动显示"
 
 #: notebook/templates/notebook.html:231
 msgid "Clear the output of the current cell"
@@ -443,11 +444,11 @@ msgstr "所有输出"
 
 #: notebook/templates/notebook.html:239
 msgid "Hide/Show the output of all cells"
-msgstr "隐藏/显示 所有代码块的输出"
+msgstr "隐藏/显示 所有单元格的输出"
 
 #: notebook/templates/notebook.html:243
 msgid "Scroll the output of all cells"
-msgstr "滚动所有单元格的输出"
+msgstr "切换所有单元格的输出为滚动模式"
 
 #: notebook/templates/notebook.html:247
 msgid "Clear the output of all cells"
@@ -455,7 +456,7 @@ msgstr "清空所有代码块的输出"
 
 #: notebook/templates/notebook.html:257
 msgid "Send Keyboard Interrupt (CTRL-C) to the Kernel"
-msgstr "按下CTRL-C 中断服务"
+msgstr "按下CTRL-C 中断内核"
 
 #: notebook/templates/notebook.html:258
 msgid "Interrupt"
@@ -463,7 +464,7 @@ msgstr "中断"
 
 #: notebook/templates/notebook.html:261
 msgid "Restart the Kernel"
-msgstr "重启服务"
+msgstr "重启内核"
 
 #: notebook/templates/notebook.html:262
 msgid "Restart"
@@ -479,7 +480,7 @@ msgstr "重启 &amp; 清空输出"
 
 #: notebook/templates/notebook.html:269
 msgid "Restart the Kernel and re-run the notebook"
-msgstr "重启服务并且重新运行代码"
+msgstr "重启内核并且重新运行整个notebook"
 
 #: notebook/templates/notebook.html:270
 msgid "Restart &amp; Run All"
@@ -487,7 +488,7 @@ msgstr "重启 &amp; 运行所有"
 
 #: notebook/templates/notebook.html:273
 msgid "Reconnect to the Kernel"
-msgstr "重新连接服务"
+msgstr "重连内核"
 
 #: notebook/templates/notebook.html:274
 msgid "Reconnect"
@@ -495,7 +496,7 @@ msgstr "重连"
 
 #: notebook/templates/notebook.html:282
 msgid "Change kernel"
-msgstr "改变服务"
+msgstr "更换内核"
 
 #: notebook/templates/notebook.html:287
 msgid "Help"
@@ -511,7 +512,7 @@ msgstr "用户界面之旅"
 
 #: notebook/templates/notebook.html:291
 msgid "Opens a tooltip with all keyboard shortcuts"
-msgstr "打开所有快捷键提示信息"
+msgstr "打开包含所有快捷键的提示信息"
 
 #: notebook/templates/notebook.html:291
 msgid "Keyboard Shortcuts"
@@ -547,7 +548,7 @@ msgstr "Jupyter Notebook需要的JavaScript."
 
 #: notebook/templates/page.html:115
 msgid "Please enable it to proceed. "
-msgstr "请允许它继续."
+msgstr "请启用它以继续。"
 
 #: notebook/templates/page.html:122
 msgid "dashboard"
@@ -579,7 +580,7 @@ msgstr "选择操作对象."
 
 #: notebook/templates/tree.html:35
 msgid "Duplicate selected"
-msgstr "复制选择的对象"
+msgstr "复制选中的对象"
 
 #: notebook/templates/tree.html:35
 msgid "Duplicate"
@@ -587,11 +588,11 @@ msgstr "复制"
 
 #: notebook/templates/tree.html:36
 msgid "Rename selected"
-msgstr "重命名"
+msgstr "重命名选中的对象"
 
 #: notebook/templates/tree.html:37
 msgid "Move selected"
-msgstr "移动"
+msgstr "移动选中的对象"
 
 #: notebook/templates/tree.html:37
 msgid "Move"
@@ -599,7 +600,7 @@ msgstr "移动"
 
 #: notebook/templates/tree.html:38
 msgid "Download selected"
-msgstr "下载"
+msgstr "下载选中的对象"
 
 #: notebook/templates/tree.html:39
 msgid "Shutdown selected notebook(s)"
@@ -612,19 +613,19 @@ msgstr "关闭"
 
 #: notebook/templates/tree.html:40
 msgid "View selected"
-msgstr "查看"
+msgstr "查看选中的对象"
 
 #: notebook/templates/tree.html:41
 msgid "Edit selected"
-msgstr "编辑"
+msgstr "编辑选中的对象"
 
 #: notebook/templates/tree.html:42
 msgid "Delete selected"
-msgstr "删除"
+msgstr "删除选中的对象"
 
 #: notebook/templates/tree.html:50
 msgid "Click to browse for a file to upload."
-msgstr "点击浏览文件上传"
+msgstr "浏览文件并上传"
 
 #: notebook/templates/tree.html:51
 msgid "Upload"
@@ -652,7 +653,7 @@ msgstr "刷新笔记列表"
 
 #: notebook/templates/tree.html:90
 msgid "Select All / None"
-msgstr "全选 / 全部选"
+msgstr "全选 / 全不选"
 
 #: notebook/templates/tree.html:93
 msgid "Select..."
@@ -668,15 +669,15 @@ msgstr "文件夹"
 
 #: notebook/templates/tree.html:99
 msgid "Select All Notebooks"
-msgstr "选择所有笔记"
+msgstr "选择所有Notebooks"
 
 #: notebook/templates/tree.html:99
 msgid "All Notebooks"
-msgstr "所有笔记"
+msgstr "所有Notebooks"
 
 #: notebook/templates/tree.html:100
 msgid "Select Running Notebooks"
-msgstr "选择运行中的笔记"
+msgstr "选择运行中的Notebooks"
 
 #: notebook/templates/tree.html:100
 msgid "Running"
@@ -716,11 +717,11 @@ msgstr "终端不可用"
 
 #: notebook/templates/tree.html:162
 msgid "Notebooks"
-msgstr "笔记"
+msgstr ""
 
 #: notebook/templates/tree.html:169
 msgid "There are no notebooks running."
-msgstr "没有笔记正在运行"
+msgstr "没有notebooks正在运行"
 
 #: notebook/templates/tree.html:178
 msgid "Clusters tab is now provided by IPython parallel."
