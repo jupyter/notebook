@@ -14,6 +14,33 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 6.4.6
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.5...160c27d3c23dafe8b42240571db21b0d5cbae2fe))
+
+### Bugs fixed
+
+- Fix asyncio error when opening notebooks [#6221](https://github.com/jupyter/notebook/pull/6221) ([@dleen](https://github.com/dleen))
+- Change to use a universal Chinese translation on certain words [#6218](https://github.com/jupyter/notebook/pull/6218) ([@jackexu](https://github.com/jackexu))
+- fix chinese translation typo [#6211](https://github.com/jupyter/notebook/pull/6211) ([@maliubiao](https://github.com/maliubiao))
+
+### Maintenance and upkeep improvements
+
+- TST: don't look in user site for serverextensions [#6233](https://github.com/jupyter/notebook/pull/6233) ([@bnavigator](https://github.com/bnavigator))
+- Enable terminal tests as pywinpty is ported for python 3.9 [#6228](https://github.com/jupyter/notebook/pull/6228) ([@nsait-linaro](https://github.com/nsait-linaro))
+
+### Other merged PRs
+
+- Fix send2trash tests failing on Windows [#6127](https://github.com/jupyter/notebook/pull/6127) ([@dolfinus](https://github.com/dolfinus))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2021-10-19&to=2021-11-16&type=c))
+
+[@bnavigator](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abnavigator+updated%3A2021-10-19..2021-11-16&type=Issues) | [@dleen](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adleen+updated%3A2021-10-19..2021-11-16&type=Issues) | [@dolfinus](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adolfinus+updated%3A2021-10-19..2021-11-16&type=Issues) | [@jackexu](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajackexu+updated%3A2021-10-19..2021-11-16&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2021-10-19..2021-11-16&type=Issues) | [@maliubiao](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Amaliubiao+updated%3A2021-10-19..2021-11-16&type=Issues) | [@nsait-linaro](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ansait-linaro+updated%3A2021-10-19..2021-11-16&type=Issues) | [@takluyver](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atakluyver+updated%3A2021-10-19..2021-11-16&type=Issues) | [@Zsailer](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AZsailer+updated%3A2021-10-19..2021-11-16&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 6.4.5
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.4...ccd9665571107e02a325a738b8baebd6532b2d3d))
@@ -34,14 +61,11 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 - Pin `nbsphinx` to 0.8.6, clean up orphaned resources [#6194](https://github.com/jupyter/notebook/pull/6194) ([@kevin-bates](https://github.com/kevin-bates))
 - Fix typo in docstring [#6188](https://github.com/jupyter/notebook/pull/6188) ([@jgarte](https://github.com/jgarte))
 
-
 ### Contributors to this release
 
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2021-09-03&to=2021-10-19&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2021-09-03..2021-10-19&type=Issues) | [@jgarte](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajgarte+updated%3A2021-09-03..2021-10-19&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2021-09-03..2021-10-19&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2021-09-03..2021-10-19&type=Issues) | [@mgeier](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Amgeier+updated%3A2021-09-03..2021-10-19&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.4.4
 
