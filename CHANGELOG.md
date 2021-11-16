@@ -20,18 +20,16 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 ### Bugs fixed
 
-- Fix asyncio error when opening notebooks [#6221](https://github.com/jupyter/notebook/pull/6221) ([@dleen](https://github.com/dleen))
+- Fix `asyncio` error when opening notebooks [#6221](https://github.com/jupyter/notebook/pull/6221) ([@dleen](https://github.com/dleen))
 - Change to use a universal Chinese translation on certain words [#6218](https://github.com/jupyter/notebook/pull/6218) ([@jackexu](https://github.com/jackexu))
-- fix chinese translation typo [#6211](https://github.com/jupyter/notebook/pull/6211) ([@maliubiao](https://github.com/maliubiao))
+- Fix Chinese translation typo [#6211](https://github.com/jupyter/notebook/pull/6211) ([@maliubiao](https://github.com/maliubiao)
+- Fix `send2trash` tests failing on Windows [#6127](https://github.com/jupyter/notebook/pull/6127) ([@dolfinus](https://github.com/dolfinus))
 
 ### Maintenance and upkeep improvements
 
 - TST: don't look in user site for serverextensions [#6233](https://github.com/jupyter/notebook/pull/6233) ([@bnavigator](https://github.com/bnavigator))
-- Enable terminal tests as pywinpty is ported for python 3.9 [#6228](https://github.com/jupyter/notebook/pull/6228) ([@nsait-linaro](https://github.com/nsait-linaro))
+- Enable terminal tests as `pywinpty` is ported for python 3.9 [#6228](https://github.com/jupyter/notebook/pull/6228) ([@nsait-linaro](https://github.com/nsait-linaro))
 
-### Other merged PRs
-
-- Fix send2trash tests failing on Windows [#6127](https://github.com/jupyter/notebook/pull/6127) ([@dolfinus](https://github.com/dolfinus))
 
 ### Contributors to this release
 
