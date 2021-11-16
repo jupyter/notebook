@@ -41,6 +41,7 @@
   "dependencies": {
     "@jupyterlab/application": "^3.2.0",
     "@jupyterlab/apputils": "^3.2.0",
+    "@jupyterlab/cells": "^3.2.0",
     "@jupyterlab/docmanager": "^3.2.0",
     "@jupyterlab/notebook": "^3.2.0",
     "@jupyterlab/translation": "^3.2.0",
