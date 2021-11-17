@@ -135,7 +135,7 @@ const newTerminal: JupyterFrontEndPlugin<void> = {
  * A plugin to add the file browser widget to an ILabShell
  */
 const browserWidget: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-classic/tree-extension:widget',
+  id: '@retrolab/tree-extension:widget',
   requires: [IFileBrowserFactory, ITranslator],
   optional: [IRunningSessionManagers],
   autoStart: true,
@@ -169,9 +169,21 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to customize the menus on the tree page
+ */
+const menu: JupyterFrontEndPlugin<void> = {
+  id: '@retrolab/tree-extension:menu',
+  autoStart: true,
+  activate: (): void => {
+    // no-op
+  }
+};
+
+/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
+  menu,
   newFiles,
   newConsole,
   newTerminal,
