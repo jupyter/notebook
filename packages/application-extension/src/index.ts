@@ -425,7 +425,7 @@ const title: JupyterFrontEndPlugin<void> = {
     widget.id = 'jp-title';
     app.shell.add(widget, 'top', { rank: 10 });
 
-    const addTitle = async () => {
+    const addTitle = async (): Promise<void> => {
       const current = shell.currentWidget;
       if (!current || !(current instanceof DocumentWidget)) {
         return;
@@ -451,7 +451,6 @@ const title: JupyterFrontEndPlugin<void> = {
         label: () => trans.__('Rename…'),
         isEnabled,
         execute: async () => {
-          // Implies contextMenuWidget() !== null
           if (!isEnabled()) {
             return;
           }
@@ -491,7 +490,7 @@ const title: JupyterFrontEndPlugin<void> = {
     };
 
     shell.currentChanged.connect(addTitle);
-    addTitle();
+    void addTitle();
   }
 };
 
