@@ -1,0 +1,8 @@
+{
+  "title": "RetroLab Menu Entries",
+  "description": "RetroLab Menu Entries",
+  "jupyter.lab.menus": {},
+  "properties": {},
+  "additionalProperties": false,
+  "type": "object"
+}
