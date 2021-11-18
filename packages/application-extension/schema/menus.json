@@ -1,0 +1,24 @@
+{
+  "title": "RetroLab Menu Entries",
+  "description": "RetroLab Menu Entries",
+  "jupyter.lab.menus": {
+    "main": [
+      {
+        "id": "jp-mainmenu-file",
+        "items": [
+          {
+            "command": "application:rename",
+            "rank": 4
+          },
+          {
+            "command": "notebook:trust",
+            "rank": 20
+          }
+        ]
+      }
+    ]
+  },
+  "properties": {},
+  "additionalProperties": false,
+  "type": "object"
+}

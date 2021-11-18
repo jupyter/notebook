@@ -135,7 +135,7 @@ const newTerminal: JupyterFrontEndPlugin<void> = {
  * A plugin to add the file browser widget to an ILabShell
  */
 const browserWidget: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-classic/tree-extension:widget',
+  id: '@retrolab/tree-extension:widget',
   requires: [IFileBrowserFactory, ITranslator],
   optional: [IRunningSessionManagers],
   autoStart: true,
