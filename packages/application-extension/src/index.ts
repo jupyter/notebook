@@ -187,14 +187,34 @@ const opener: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * A plugin to dispose the Tabs menu
+ * A plugin to customize menus
+ *
+ * TODO: use this plugin to customize the menu items and their order
  */
-const noTabsMenu: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/application-extension:no-tabs-menu',
+const menus: JupyterFrontEndPlugin<void> = {
+  id: '@retrolab/application-extension:menus',
   requires: [IMainMenu],
   autoStart: true,
   activate: (app: JupyterFrontEnd, menu: IMainMenu) => {
+    // always disable the Tabs menu
     menu.tabsMenu.dispose();
+
+    const page = PageConfig.getOption('retroPage');
+    switch (page) {
+      case 'consoles':
+      case 'terminals':
+      case 'tree':
+        menu.editMenu.dispose();
+        menu.kernelMenu.dispose();
+        menu.runMenu.dispose();
+        break;
+      case 'edit':
+        menu.kernelMenu.dispose();
+        menu.runMenu.dispose();
+        break;
+      default:
+        break;
+    }
   }
 };
 
@@ -665,7 +685,7 @@ const zen: JupyterFrontEndPlugin<void> = {
 const plugins: JupyterFrontEndPlugin<any>[] = [
   dirty,
   logo,
-  noTabsMenu,
+  menus,
   opener,
   pages,
   paths,

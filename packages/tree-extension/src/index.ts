@@ -169,21 +169,9 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * A plugin to customize the menus on the tree page
- */
-const menu: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/tree-extension:menu',
-  autoStart: true,
-  activate: (): void => {
-    // no-op
-  }
-};
-
-/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
-  menu,
   newFiles,
   newConsole,
   newTerminal,
