@@ -1,7 +1,19 @@
 {
   "title": "RetroLab Menu Entries",
   "description": "RetroLab Menu Entries",
-  "jupyter.lab.menus": {},
+  "jupyter.lab.menus": {
+    "main": [
+      {
+        "id": "jp-mainmenu-file",
+        "items": [
+          {
+            "command": "notebook:trust",
+            "rank": 20
+          }
+        ]
+      }
+    ]
+  },
   "properties": {},
   "additionalProperties": false,
   "type": "object"
