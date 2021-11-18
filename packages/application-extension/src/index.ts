@@ -80,6 +80,11 @@ namespace CommandIDs {
   export const openTree = 'application:open-tree';
 
   /**
+   * Rename the current document
+   */
+  export const rename = 'application:rename';
+
+  /**
    * Resolve tree path
    */
   export const resolveTree = 'application:resolve-tree';
@@ -404,14 +409,18 @@ const tabTitle: JupyterFrontEndPlugin<void> = {
 const title: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/application-extension:title',
   autoStart: true,
-  requires: [IRetroShell],
+  requires: [IRetroShell, ITranslator],
   optional: [IDocumentManager, IRouter],
   activate: (
     app: JupyterFrontEnd,
     shell: IRetroShell,
+    translator: ITranslator,
     docManager: IDocumentManager | null,
     router: IRouter | null
   ) => {
+    const { commands } = app;
+    const trans = translator.load('retrolab');
+
     const widget = new Widget();
     widget.id = 'jp-title';
     app.shell.add(widget, 'top', { rank: 10 });
@@ -424,6 +433,7 @@ const title: JupyterFrontEndPlugin<void> = {
       if (widget.node.children.length > 0) {
         return;
       }
+
       const h = document.createElement('h1');
       h.textContent = current.title.label;
       widget.node.appendChild(h);
@@ -431,33 +441,52 @@ const title: JupyterFrontEndPlugin<void> = {
       if (!docManager) {
         return;
       }
+
+      const isEnabled = () => {
+        const { currentWidget } = shell;
+        return !!(currentWidget && docManager.contextForWidget(currentWidget));
+      };
+
+      commands.addCommand(CommandIDs.rename, {
+        label: () => trans.__('Rename…'),
+        isEnabled,
+        execute: async () => {
+          // Implies contextMenuWidget() !== null
+          if (!isEnabled()) {
+            return;
+          }
+
+          const result = await renameDialog(docManager, current.context.path);
+
+          // activate the current widget to bring the focus
+          if (current) {
+            current.activate();
+          }
+
+          if (result === null) {
+            return;
+          }
+
+          const newPath = current.context.path ?? result.path;
+          const basename = PathExt.basename(newPath);
+          h.textContent = basename;
+          if (!router) {
+            return;
+          }
+          const matches = router.current.path.match(TREE_PATTERN) ?? [];
+          const [, route, path] = matches;
+          if (!route || !path) {
+            return;
+          }
+          const encoded = encodeURIComponent(newPath);
+          router.navigate(`/retro/${route}/${encoded}`, {
+            skipRouting: true
+          });
+        }
+      });
+
       widget.node.onclick = async () => {
-        const result = await renameDialog(docManager, current.context.path);
-
-        // activate the current widget to bring the focus
-        if (current) {
-          current.activate();
-        }
-
-        if (result === null) {
-          return;
-        }
-
-        const newPath = current.context.path ?? result.path;
-        const basename = PathExt.basename(newPath);
-        h.textContent = basename;
-        if (!router) {
-          return;
-        }
-        const matches = router.current.path.match(TREE_PATTERN) ?? [];
-        const [, route, path] = matches;
-        if (!route || !path) {
-          return;
-        }
-        const encoded = encodeURIComponent(newPath);
-        router.navigate(`/retro/${route}/${encoded}`, {
-          skipRouting: true
-        });
+        void commands.execute(CommandIDs.rename);
       };
     };
 

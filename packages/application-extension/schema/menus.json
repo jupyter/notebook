@@ -7,6 +7,10 @@
         "id": "jp-mainmenu-file",
         "items": [
           {
+            "command": "application:rename",
+            "rank": 4
+          },
+          {
             "command": "notebook:trust",
             "rank": 20
           }
