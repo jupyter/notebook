@@ -158,8 +158,13 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
 const kernelStatus: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/notebook-extension:kernel-status',
   autoStart: true,
-  requires: [IRetroShell],
-  activate: (app: JupyterFrontEnd, shell: IRetroShell) => {
+  requires: [IRetroShell, ITranslator],
+  activate: (
+    app: JupyterFrontEnd,
+    shell: IRetroShell,
+    translator: ITranslator
+  ) => {
+    const trans = translator.load('retrolab');
     const widget = new Widget();
     widget.addClass('jp-RetroKernelStatus');
     app.shell.add(widget, 'menu', { rank: 10_010 });
@@ -193,7 +198,7 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
           widget.addClass(KERNEL_STATUS_FADE_OUT_CLASS);
           break;
       }
-      widget.node.textContent = text;
+      widget.node.textContent = trans.__(text);
     };
 
     const onChange = async () => {

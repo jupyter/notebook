@@ -37,7 +37,7 @@ export class RetroApp extends JupyterFrontEnd<IRetroShell> {
         this.registerPlugin(plugin);
       }
     }
-    void this._formatter.invoke();
+    this.restored.then(() => this._formatter.invoke());
   }
 
   /**

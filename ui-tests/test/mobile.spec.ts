@@ -15,6 +15,7 @@ test.describe('Mobile', () => {
     tmpPath
   }) => {
     await page.goto(`tree/${tmpPath}`);
+    await page.waitForSelector('#top-panel-wrapper', { state: 'hidden' });
     expect(await page.screenshot()).toMatchSnapshot('tree.png');
   });
 
@@ -28,6 +29,25 @@ test.describe('Mobile', () => {
       `${tmpPath}/${notebook}`
     );
     await page.goto(`notebooks/${tmpPath}/${notebook}`);
+    // TODO: investigate why this does not run the cells in RetroLab
+    // await page.notebook.run();
+
+    // wait for the kernel status animations to be finished
+    await page.waitForSelector('.jp-RetroKernelStatus-fade');
+    await page.waitForFunction(() => {
+      const status = window.document.getElementsByClassName(
+        'jp-RetroKernelStatus'
+      )[0];
+
+      if (!status) {
+        return false;
+      }
+
+      const finished = status?.getAnimations().reduce((prev, curr) => {
+        return prev && curr.playState === 'finished';
+      }, true);
+      return finished;
+    });
 
     expect(await page.screenshot()).toMatchSnapshot('notebook.png');
   });
