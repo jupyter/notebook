@@ -39,6 +39,29 @@ from os.path import samefile
 
 _script_exporter = None
 
+# workaround nbformat bug:
+# nbformat save logic will mutate the notebook if it does not
+# have cells ids, so if we sign the notebook,
+# the signature of the saved notebook is changed.
+# we thus need to add cell ids to the notebook before signing.
+try:
+    from nbformat.validator import normalize
+except ImportError:
+    from nbformat.corpus.words import generate_corpus_id
+    from copy import deepcopy
+
+    def normalize(nbdict, version, version_minor):
+        nbdict = deepcopy(nbdict)
+
+        if version >= 4 and version_minor >= 5:
+            # if we support cell ids ensure default ids are provided
+            for cell in nbdict["cells"]:
+                if "id" not in cell:
+                    changes += 1
+                    # Generate cell ids if any are missing
+                    cell["id"] = generate_corpus_id()
+        return nbdict
+
 
 def _post_save_script(model, os_path, contents_manager, **kwargs):
     """convert notebooks to Python script after save with nbconvert
@@ -473,6 +496,8 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         try:
             if model['type'] == 'notebook':
                 nb = nbformat.from_dict(model['content'])
+
+                nb = normalize(nb, nb.get("nbformat"), nb.get("nbformat_minor"))
                 self.check_and_sign(nb, path)
                 self._save_notebook(os_path, nb)
                 # One checkpoint should always exist for notebooks.
