@@ -5,7 +5,6 @@
   "scripts": {
     "build": "webpack",
     "build:prod": "webpack --mode=production",
-    "build:test": "tsc --build tsconfig.test.json",
     "clean": "rimraf build && jlpm run clean:static",
     "clean:static": "rimraf -g \"../retrolab/static/!(favicons)\"",
     "prepublishOnly": "yarn run build",

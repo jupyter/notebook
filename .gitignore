@@ -121,3 +121,6 @@ retrolab/schemas
 # playwright
 ui-tests/test-results
 ui-tests/playwright-report
+
+# VSCode
+.vscode
