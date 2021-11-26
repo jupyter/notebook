@@ -10,6 +10,7 @@
     { "path": "../application-extension" },
     { "path": "../console-extension" },
     { "path": "../docmanager-extension" },
+    { "path": "../documentsearch-extension" },
     { "path": "../help-extension" },
     { "path": "../lab-extension" },
     { "path": "../notebook-extension" },
