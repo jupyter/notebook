@@ -527,11 +527,16 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
       menu.viewMenu.addGroup([{ command: CommandIDs.toggleTop }], 2);
     }
 
+    let settingsOverride = false;
+
     if (settingRegistry) {
       const loadSettings = settingRegistry.load(pluginId);
       const updateSettings = (settings: ISettingRegistry.ISettings): void => {
-        const visible = settings.get('visible').composite as boolean;
-        top.setHidden(!visible);
+        const visible = settings.get('visible').composite;
+        if (settings.user.visible !== undefined) {
+          settingsOverride = true;
+          top.setHidden(!visible);
+        }
       };
 
       Promise.all([loadSettings, app.restored])
@@ -547,6 +552,9 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
     }
 
     const onChanged = (): void => {
+      if (settingsOverride) {
+        return;
+      }
       if (app.format === 'desktop') {
         retroShell.expandTop();
       } else {
@@ -556,7 +564,6 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
 
     // listen on format change (mobile and desktop) to make the view more compact
     app.formatChanged.connect(onChanged);
-    onChanged();
   },
   autoStart: true
 };
