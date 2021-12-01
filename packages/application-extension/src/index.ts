@@ -468,7 +468,10 @@ const title: JupyterFrontEndPlugin<void> = {
 
           const newPath = current.context.path ?? result.path;
           const basename = PathExt.basename(newPath);
-          h.textContent = basename;
+          // Don't show the file extension for .ipynb files.
+          const stripIpynb = /\.ipynb$/;
+
+          h.textContent = basename.replace(stripIpynb, '');
           if (!router) {
             return;
           }
