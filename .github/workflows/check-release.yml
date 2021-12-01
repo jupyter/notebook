@@ -18,41 +18,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-          architecture: "x64"
-
-      - name: Install node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14.x'
-
-      - name: Get pip cache dir
-        id: pip-cache
-        run: |
-          echo "::set-output name=dir::$(pip cache dir)"
-
-      - name: Cache pip
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ runner.os }}-pip-${{ hashFiles('setup.py') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - name: Cache checked links
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pytest-link-check
-          key: ${{ runner.os }}-linkcheck-${{ hashFiles('**/.md') }}-md-links
-          restore-keys: |
-            ${{ runner.os }}-linkcheck-
+      - name: Base Setup
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
 
       - name: Upgrade packaging dependencies
         run: |
-          pip install --upgrade pip setuptools wheel jupyter-packaging~=0.10 --user
+          pip install --upgrade jupyter-packaging~=0.10 --user
 
       - name: Install Dependencies
         run: |

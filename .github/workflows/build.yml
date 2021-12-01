@@ -34,30 +34,27 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Install node
-      uses: actions/setup-node@v2
-      with:
-       node-version: '14.x'
-    - name: Install Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.9'
-        architecture: 'x64'
+
+    - name: Base Setup
+      uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip wheel
-        python -m pip install jupyter_packaging~=0.10
+        python -m pip install -U jupyter_packaging~=0.10
+
     - name: Install the package
       run: |
         python -m pip install .
         jupyter labextension list 2>&1 | grep -ie "@retrolab/lab-extension.*enabled.*ok" -
         jupyter server extension list 2>&1 | grep -ie "retrolab.*enabled" -
         python -m jupyterlab.browser_check
+
     - name: Lint
       run: |
         jlpm
         jlpm run eslint:check
         jlpm run prettier:check
+
     - name: Test
       run: |
         jlpm run build:test

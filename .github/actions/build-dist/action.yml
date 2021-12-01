@@ -3,22 +3,13 @@ description: "Build RetroLab fron source"
 runs:
   using: "composite"
   steps:
-    - name: Install node
-      uses: actions/setup-node@v2
-      with:
-       node-version: '14.x'
-
-    - name: Install Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.9'
-        architecture: 'x64'
+    - name: Base Setup
+      uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
 
     - name: Install dependencies
       shell: bash
       run: |
-        python -m pip install --upgrade pip wheel
-        python -m pip install setuptools jupyter_packaging~=0.10 "jupyterlab>=3,<4" build
+        python -m pip install --upgrade jupyter_packaging~=0.10 "jupyterlab>=3,<4" build
 
     - name: Build pypi distributions
       shell: bash
