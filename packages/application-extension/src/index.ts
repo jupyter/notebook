@@ -434,8 +434,11 @@ const title: JupyterFrontEndPlugin<void> = {
         return;
       }
 
+      // Don't show the file extension for .ipynb files.
+      const stripIpynb = /\.ipynb$/;
+
       const h = document.createElement('h1');
-      h.textContent = current.title.label;
+      h.textContent = current.title.label.replace(stripIpynb, '');
       widget.node.appendChild(h);
       widget.node.style.marginLeft = '10px';
       if (!docManager) {
@@ -468,8 +471,6 @@ const title: JupyterFrontEndPlugin<void> = {
 
           const newPath = current.context.path ?? result.path;
           const basename = PathExt.basename(newPath);
-          // Don't show the file extension for .ipynb files.
-          const stripIpynb = /\.ipynb$/;
 
           h.textContent = basename.replace(stripIpynb, '');
           if (!router) {
