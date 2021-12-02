@@ -34,11 +34,12 @@ test.describe('Notebook', () => {
     const notebook = `${tmpPath}/${NOTEBOOK}`;
     await page.goto(`notebooks/${notebook}`);
 
-    // Click on the title
-    await page.click('text="example.ipynb"');
+    // Click on the title (with .ipynb extension stripped)
+    await page.click('text="example"');
 
     // Rename in the input dialog
     const newName = 'test.ipynb';
+    const newNameStripped = 'test';
     await page.fill(
       `//div[normalize-space(.)='File Path${notebook}New Name']/input`,
       newName
@@ -52,6 +53,6 @@ test.describe('Notebook', () => {
 
     // Check the URL contains the new name
     const url = page.url();
-    expect(url).toContain(newName);
+    expect(url).toContain(newNameStripped);
   });
 });

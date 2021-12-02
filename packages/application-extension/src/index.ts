@@ -56,6 +56,11 @@ const EDITOR_FACTORY = 'Editor';
 const TREE_PATTERN = new RegExp('/(notebooks|edit)/(.*)');
 
 /**
+ * A regular expression to suppress the file extension from display for .ipynb files.
+ */
+const STRIP_IPYNB = /\.ipynb$/;
+
+/**
  * The command IDs used by the application plugin.
  */
 namespace CommandIDs {
@@ -383,7 +388,8 @@ const tabTitle: JupyterFrontEndPlugin<void> = {
           const title =
             current.sessionContext.path || current.sessionContext.name;
           const basename = PathExt.basename(title);
-          document.title = basename;
+          // Strip the ".ipynb" suffix from filenames for display in tab titles.
+          document.title = basename.replace(STRIP_IPYNB, '');
         };
         current.sessionContext.sessionChanged.connect(update);
         update();
@@ -391,7 +397,7 @@ const tabTitle: JupyterFrontEndPlugin<void> = {
       } else if (current instanceof DocumentWidget) {
         const update = () => {
           const basename = PathExt.basename(current.context.path);
-          document.title = basename;
+          document.title = basename.replace(STRIP_IPYNB, '');
         };
         current.context.pathChanged.connect(update);
         update();
@@ -435,7 +441,7 @@ const title: JupyterFrontEndPlugin<void> = {
       }
 
       const h = document.createElement('h1');
-      h.textContent = current.title.label;
+      h.textContent = current.title.label.replace(STRIP_IPYNB, '');
       widget.node.appendChild(h);
       widget.node.style.marginLeft = '10px';
       if (!docManager) {
@@ -468,7 +474,8 @@ const title: JupyterFrontEndPlugin<void> = {
 
           const newPath = current.context.path ?? result.path;
           const basename = PathExt.basename(newPath);
-          h.textContent = basename;
+
+          h.textContent = basename.replace(STRIP_IPYNB, '');
           if (!router) {
             return;
           }
