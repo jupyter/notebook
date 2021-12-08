@@ -1,30 +1,15 @@
-# Reference https://mybinder.readthedocs.io/en/latest/howto/gh-actions-badges.html
 name: Binder Badge
 on:
   pull_request_target:
     types: [opened]
 
-permissions:
-  pull-requests:
-    write
-
 jobs:
   binder:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
-    - name: comment on PR with Binder link
-      uses: actions/github-script@v3
-      with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
-        script: |
-          var PR_HEAD_USERREPO = process.env.PR_HEAD_USERREPO;
-          var PR_HEAD_REF = process.env.PR_HEAD_REF;
-          github.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: `[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${PR_HEAD_USERREPO}/${PR_HEAD_REF}?urlpath=retro/tree) :point_left: Launch RetroLab on Binder`
-          })
-      env:
-        PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
-        PR_HEAD_USERREPO: ${{ github.event.pull_request.head.repo.full_name }}
+      - uses: jupyterlab/maintainer-tools/.github/actions/binder-link@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          url_path: retro
