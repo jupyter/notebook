@@ -46,7 +46,7 @@ Installing the Jupyter Notebook
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Once you have installed the dependencies mentioned above
-Download and run the following `installer <https://github.com/JaskaranSinghUofT/windows-jupyter-notebook-development-installation/blob/main/Windows_Jupyter_Notebook_Development_Installation.bat?raw=true>` 
+Download and run the following `installer <https://github.com/JaskaranSinghUofT/windows-jupyter-notebook-development-installation/blob/main/Windows_Jupyter_Notebook_Development_Installation.bat?raw=true>`_ 
 or if you prefer, the manual installation is below
 
 
