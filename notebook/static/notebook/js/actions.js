@@ -336,6 +336,16 @@ define([
                 env.notebook.select(index);
             }
         },
+        'mute-cell' : {
+            handler : function (env) {
+                env.notebook.mute_cell();
+            }
+        },
+        'unmute-cell' : {
+            handler : function (env) {
+                env.notebook.unmute_cell();
+            }
+        },
         'copy-cell' : {
             cmd: i18n.msg._('copy selected cells'),
             help: i18n.msg._('copy selected cells'),

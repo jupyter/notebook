@@ -151,6 +151,7 @@ define([
         this.trusted = null;
         this._changed_on_disk_dialog = null;
         this._fully_loaded = false;
+        this.mutedCells = [];
 
         // Trigger cell toolbar registration.
         default_celltoolbar.register(this);
@@ -1640,6 +1641,30 @@ define([
     };
 
     /**
+     * Mute a cell
+     */
+    Notebook.prototype.mute_cell = function () {
+        var cells = this.get_selected_cells_indices();
+        this.mutedCells.push(cells.tabindex);
+    };
+
+    /**
+     * Unmute a cell
+     */
+    Notebook.prototype.unmute_cell = function () {
+        var cells = this.get_selected_cells_indices();
+        //console.log("muted cell == " + JSON.stringify(cells));
+        for (var i = 0;j<cells.len();i++)
+        {
+            var currentIndex = cells[i].tabindex;
+            if(currentIndex in this.mutedCells)
+            {
+                this.mutedCells.remove(currentIndex);
+            }
+        }
+        this.mutedCells.remove(cells.tabindex);
+    };
+    /**
      * Copy cells.
      */
     Notebook.prototype.copy_cell = function () {
@@ -2566,6 +2591,16 @@ define([
         for (var i=start; i<end; i++) {
             indices.push(i);
         }
+
+        for (var j = 0;j<this.mutedCells.len();j++)
+        {
+            var currentIndex = this.mutedCells[j];
+            if(currentIndex in indices)
+            {
+                indices.remove(currentIndex);
+            }
+        }
+        
         this.execute_cells(indices);
     };
 

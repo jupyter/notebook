@@ -271,6 +271,8 @@ define([
             '#insert_image': 'insert-image',
             '#keyboard_shortcuts' : 'show-keyboard-shortcuts',
             '#edit_keyboard_shortcuts' : 'edit-command-mode-keyboard-shortcuts',
+            '#mute_cell' : 'mute-cell',
+            '#unmute_cell' : 'unmute-cell',
         };
 
         for(var idx in id_actions_dict){
