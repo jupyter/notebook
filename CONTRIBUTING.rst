@@ -45,7 +45,7 @@ You can also use the installer from the `Node.js website <https://nodejs.org>`_.
 Installing the Jupyter Notebook
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Once you have installed the dependencies mentioned above download and run the following 
+Once you have installed the dependencies mentioned above download and run the d
 `installer <https://jaskaransinghuoft.github.io/windows-jupyter-notebook-development-installation/Windows_Jupyter_Notebook_Development_Installation.bat>`_.
 
 
