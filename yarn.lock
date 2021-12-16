@@ -3298,7 +3298,7 @@
   integrity sha512-6RglhutqrGFMO1MNUXp95RBuYIuc8wTnMAV5MUhLmjTOy78ncwOw7RgeQ/HeymkKXRhZd0s2DNrM1rL7unk3MQ==
 
 "@retrolab/application-extension@file:packages/application-extension":
-  version "0.3.12"
+  version "0.3.13"
   dependencies:
     "@jupyterlab/application" "^3.2.0"
     "@jupyterlab/apputils" "^3.2.0"
@@ -3315,11 +3315,11 @@
     "@lumino/coreutils" "^1.8.0"
     "@lumino/disposable" "^1.7.0"
     "@lumino/widgets" "^1.23.0"
-    "@retrolab/application" "^0.3.12"
-    "@retrolab/ui-components" "^0.3.12"
+    "@retrolab/application" "^0.3.13"
+    "@retrolab/ui-components" "^0.3.13"
 
 "@retrolab/application@file:packages/application":
-  version "0.3.12"
+  version "0.3.13"
   dependencies:
     "@jupyterlab/application" "^3.2.0"
     "@jupyterlab/coreutils" "^5.2.0"
@@ -3334,7 +3334,7 @@
     "@lumino/widgets" "^1.23.0"
 
 "@retrolab/console-extension@file:packages/console-extension":
-  version "0.3.12"
+  version "0.3.13"
   dependencies:
     "@jupyterlab/application" "^3.2.0"
     "@jupyterlab/console" "^3.2.0"
@@ -3342,7 +3342,7 @@
     "@lumino/algorithm" "^1.6.0"
 
 "@retrolab/docmanager-extension@file:packages/docmanager-extension":
-  version "0.3.12"
+  version "0.3.13"
   dependencies:
     "@jupyterlab/application" "^3.2.0"
     "@jupyterlab/coreutils" "^5.2.0"
@@ -3352,16 +3352,16 @@
     "@lumino/algorithm" "^1.6.0"
 
 "@retrolab/help-extension@file:packages/help-extension":
-  version "0.3.12"
+  version "0.3.13"
   dependencies:
     "@jupyterlab/application" "^3.2.0"
     "@jupyterlab/apputils" "^3.2.0"
     "@jupyterlab/mainmenu" "^3.2.0"
     "@jupyterlab/translation" "^3.2.0"
-    "@retrolab/ui-components" "^0.3.12"
+    "@retrolab/ui-components" "^0.3.13"
 
 "@retrolab/lab-extension@file:packages/lab-extension":
-  version "0.3.12"
+  version "0.3.13"
   dependencies:
     "@jupyterlab/application" "^3.2.0"
     "@jupyterlab/apputils" "^3.2.0"
@@ -3373,11 +3373,11 @@
     "@jupyterlab/ui-components" "^3.2.0"
     "@lumino/commands" "^1.15.0"
     "@lumino/disposable" "^1.7.0"
-    "@retrolab/application" "^0.3.12"
-    "@retrolab/ui-components" "^0.3.12"
+    "@retrolab/application" "^0.3.13"
+    "@retrolab/ui-components" "^0.3.13"
 
 "@retrolab/notebook-extension@file:packages/notebook-extension":
-  version "0.3.12"
+  version "0.3.13"
   dependencies:
     "@jupyterlab/application" "^3.2.0"
     "@jupyterlab/apputils" "^3.2.0"
@@ -3386,10 +3386,10 @@
     "@jupyterlab/translation" "^3.2.0"
     "@lumino/polling" "^1.6.0"
     "@lumino/widgets" "^1.23.0"
-    "@retrolab/application" "^0.3.12"
+    "@retrolab/application" "^0.3.13"
 
 "@retrolab/terminal-extension@file:packages/terminal-extension":
-  version "0.3.12"
+  version "0.3.13"
   dependencies:
     "@jupyterlab/application" "^3.2.0"
     "@jupyterlab/coreutils" "^5.2.0"
@@ -3397,7 +3397,7 @@
     "@lumino/algorithm" "^1.6.0"
 
 "@retrolab/tree-extension@file:packages/tree-extension":
-  version "0.3.12"
+  version "0.3.13"
   dependencies:
     "@jupyterlab/application" "^3.2.0"
     "@jupyterlab/apputils" "^3.2.0"
@@ -3413,10 +3413,10 @@
     "@lumino/algorithm" "^1.6.0"
     "@lumino/commands" "^1.15.0"
     "@lumino/widgets" "^1.23.0"
-    "@retrolab/application" "^0.3.12"
+    "@retrolab/application" "^0.3.13"
 
 "@retrolab/ui-components@file:packages/ui-components":
-  version "0.3.12"
+  version "0.3.13"
   dependencies:
     "@jupyterlab/ui-components" "^3.2.0"
     react "^17.0.1"
@@ -4200,7 +4200,7 @@ agent-base@4, agent-base@^4.3.0:
   dependencies:
     es6-promisify "^5.0.0"
 
-agent-base@6:
+agent-base@6, agent-base@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-6.0.2.tgz#49fff58577cfee3f37176feab4c22e00f86d7f77"
   integrity sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==
@@ -5282,7 +5282,7 @@ commander@2.17.x:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
   integrity sha512-wPMUt6FnH2yzG95SA6mzjQOEKUU3aLaDEmzs1ti+1E9h+CsrZghRlqEM/EJ4KscsQVG8uNN4uVreUeT8+drlgg==
 
-commander@^6.1.0, commander@^6.2.0:
+commander@^6.2.0:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-6.2.1.tgz#0792eb682dfbc325999bb2b84fddddba110ac73c"
   integrity sha512-U7VdrJFnJgo4xjrHpTzu0yrHPGImdsmD95ZlgYSEajAn2JKzDhDTPG9kBTefmObL2w/ngeZnilk+OV9CG3d7UA==
@@ -5291,6 +5291,11 @@ commander@^7.0.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-7.2.0.tgz#a36cb57d0b501ce108e4d20559a150a391d97ab7"
   integrity sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==
+
+commander@^8.2.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
+  integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
 
 commander@~2.19.0:
   version "2.19.0"
@@ -8009,7 +8014,7 @@ ip-regex@^2.1.0:
   resolved "https://registry.yarnpkg.com/ip-regex/-/ip-regex-2.1.0.tgz#fa78bf5d2e6913c911ce9f819ee5146bb6d844e9"
   integrity sha1-+ni/XS5pE8kRzp+BnuUUa7bYROk=
 
-ip@1.1.5:
+ip@1.1.5, ip@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/ip/-/ip-1.1.5.tgz#bdded70114290828c0a039e72ef25f5aaec4354a"
   integrity sha1-vd7XARQpCCjAoDnnLvJfWq7ENUo=
@@ -10984,12 +10989,12 @@ pkginfo@0.4.1:
   resolved "https://registry.yarnpkg.com/pkginfo/-/pkginfo-0.4.1.tgz#b5418ef0439de5425fc4995042dced14fb2a84ff"
   integrity sha1-tUGO8EOd5UJfxJlQQtztFPsqhP8=
 
-playwright@^1.12.3:
-  version "1.12.3"
-  resolved "https://registry.yarnpkg.com/playwright/-/playwright-1.12.3.tgz#113afa2cba10fb56e9a5b307377343e32a155a99"
-  integrity sha512-eyhHvZV7dMAUltqjQsgJ9CjZM8dznzN1+rcfCI6W6lfQ7IlPvTFGLuKOCcI4ETbjfbxqaS5FKIkb1WDDzq2Nww==
+playwright-core@=1.17.1:
+  version "1.17.1"
+  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.17.1.tgz#a16e0f89284a0ed8ae6d77e1c905c84b8a2ba022"
+  integrity sha512-C3c8RpPiC3qr15fRDN6dx6WnUkPLFmST37gms2aoHPDRvp7EaGDPMMZPpqIm/QWB5J40xDrQCD4YYHz2nBTojQ==
   dependencies:
-    commander "^6.1.0"
+    commander "^8.2.0"
     debug "^4.1.1"
     extract-zip "^2.0.1"
     https-proxy-agent "^5.0.0"
@@ -11000,9 +11005,18 @@ playwright@^1.12.3:
     proper-lockfile "^4.1.1"
     proxy-from-env "^1.1.0"
     rimraf "^3.0.2"
+    socks-proxy-agent "^6.1.0"
     stack-utils "^2.0.3"
     ws "^7.4.6"
+    yauzl "^2.10.0"
     yazl "^2.5.1"
+
+playwright@^1.17.1:
+  version "1.17.1"
+  resolved "https://registry.yarnpkg.com/playwright/-/playwright-1.17.1.tgz#a6d63302ee40f41283c4bf869de261c4743a787c"
+  integrity sha512-DisCkW9MblDJNS3rG61p8LiLA2WA7IY/4A4W7DX4BphWe/HuWjKmGQptuk4NVIh5UuSwXpW/jaH2+ZgjHs3GMA==
+  dependencies:
+    playwright-core "=1.17.1"
 
 please-upgrade-node@^3.2.0:
   version "3.2.0"
@@ -12359,6 +12373,23 @@ socks-proxy-agent@^4.0.0:
   dependencies:
     agent-base "~4.2.1"
     socks "~2.3.2"
+
+socks-proxy-agent@^6.1.0:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/socks-proxy-agent/-/socks-proxy-agent-6.1.1.tgz#e664e8f1aaf4e1fb3df945f09e3d94f911137f87"
+  integrity sha512-t8J0kG3csjA4g6FTbsMOWws+7R7vuRC8aQ/wy3/1OWmsgwA68zs/+cExQ0koSitUDXqhufF/YJr9wtNMZHw5Ew==
+  dependencies:
+    agent-base "^6.0.2"
+    debug "^4.3.1"
+    socks "^2.6.1"
+
+socks@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/socks/-/socks-2.6.1.tgz#989e6534a07cf337deb1b1c94aaa44296520d30e"
+  integrity sha512-kLQ9N5ucj8uIcxrDwjm0Jsqk06xdpBjGNQtpXy4Q8/QY2k+fY7nZH8CARy+hkbG+SGAovmzzuauCpBlb8FrnBA==
+  dependencies:
+    ip "^1.1.5"
+    smart-buffer "^4.1.0"
 
 socks@~2.3.2:
   version "2.3.3"
