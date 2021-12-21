@@ -112,7 +112,7 @@ class LoginHandler(IPythonHandler):
         handler.set_secure_cookie(handler.cookie_name, user_id, **cookie_options)
         return user_id
 
-    auth_header_pat = re.compile('token\s+(.+)', re.IGNORECASE)
+    auth_header_pat = re.compile(r'token\s+(.+)', re.IGNORECASE)
 
     @classmethod
     def get_token(cls, handler):
