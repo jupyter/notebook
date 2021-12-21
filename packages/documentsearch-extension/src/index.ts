@@ -3,6 +3,7 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 import { ISearchProviderRegistry } from '@jupyterlab/documentsearch';
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { IRetroShell } from '@retrolab/application';
 import { Widget } from '@lumino/widgets';
@@ -51,4 +52,29 @@ const retroShellWidgetListener: JupyterFrontEndPlugin<void> = {
   }
 };
 
-export default [retroShellWidgetListener];
+const disableShortcut: JupyterFrontEndPlugin<void> = {
+  id: '@retrolab/documentsearch-extension:disableShortcut',
+  requires: [ISettingRegistry],
+  autoStart: true,
+  activate: async (app: JupyterFrontEnd, registry: ISettingRegistry) => {
+    const docSearchShortcut = registry.plugins[
+      '@jupyterlab/documentsearch-extension:plugin'
+    ]?.schema['jupyter.lab.shortcuts']?.find(
+      shortcut => shortcut.command === 'documentsearch:start'
+    );
+
+    if (docSearchShortcut) {
+      docSearchShortcut.disabled = true;
+    }
+  }
+};
+
+/**
+ * Export the plugins as default.
+ */
+const plugins: JupyterFrontEndPlugin<any>[] = [
+  retroShellWidgetListener,
+  disableShortcut
+];
+
+export default plugins;
