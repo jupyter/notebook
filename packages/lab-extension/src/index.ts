@@ -7,7 +7,7 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { CommandToolbarButton, ICommandPalette } from '@jupyterlab/apputils';
+import { ICommandPalette } from '@jupyterlab/apputils';
 
 import { PageConfig } from '@jupyterlab/coreutils';
 
@@ -17,15 +17,9 @@ import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
 
 import { ITranslator } from '@jupyterlab/translation';
 
-import {
-  jupyterIcon,
-  jupyterFaviconIcon,
-  LabIcon
-} from '@jupyterlab/ui-components';
+import { Menu, MenuBar } from '@lumino/widgets';
 
 import { IRetroShell } from '@retrolab/application';
-
-import { retroSunIcon } from '@retrolab/ui-components';
 
 /**
  * The command IDs used by the application plugin.
@@ -56,7 +50,6 @@ interface ISwitcherChoice {
   command: string;
   commandLabel: string;
   buttonLabel: string;
-  icon: LabIcon;
   urlPrefix: string;
 }
 
@@ -84,13 +77,17 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
     labShell: ILabShell | null
   ) => {
     if (!notebookTracker) {
-      // to prevent showing the toolbar button in RetroLab
+      // to prevent showing the toolbar button in non-notebook pages
       return;
     }
 
     const { commands, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
     const trans = translator.load('retrolab');
+    const menubar = new MenuBar();
+    const switcher = new Menu({ commands });
+    switcher.title.label = trans.__('Interface');
+    menubar.addMenu(switcher);
 
     const isEnabled = () => {
       return (
@@ -100,11 +97,10 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
     };
 
     const addInterface = (option: ISwitcherChoice) => {
-      const { command, icon, buttonLabel, commandLabel, urlPrefix } = option;
+      const { command, commandLabel, urlPrefix } = option;
       commands.addCommand(command, {
         label: args => (args.noLabel ? '' : commandLabel),
         caption: commandLabel,
-        icon,
         execute: () => {
           const current = notebookTracker.currentWidget;
           if (!current) {
@@ -123,21 +119,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
         menu.viewMenu.addGroup([{ command }], 1);
       }
 
-      notebookTracker.widgetAdded.connect(
-        async (sender: INotebookTracker, panel: NotebookPanel) => {
-          panel.toolbar.insertBefore(
-            'kernelName',
-            buttonLabel,
-            new CommandToolbarButton({
-              commands,
-              id: command,
-              args: { noLabel: 1 }
-            })
-          );
-          await panel.context.ready;
-          commands.notifyCommandChanged();
-        }
-      );
+      switcher.addItem({ command });
     };
 
     // always add Classic
@@ -145,7 +127,6 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
       command: 'retrolab:open-classic',
       commandLabel: trans.__('Open With %1', 'Classic Notebook'),
       buttonLabel: 'openClassic',
-      icon: jupyterIcon,
       urlPrefix: `${baseUrl}tree/`
     });
 
@@ -154,7 +135,6 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
         command: 'retrolab:open-retro',
         commandLabel: trans.__('Open With %1', 'RetroLab'),
         buttonLabel: 'openRetro',
-        icon: retroSunIcon,
         urlPrefix: `${baseUrl}retro/tree/`
       });
     }
@@ -164,10 +144,17 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
         command: 'retrolab:open-lab',
         commandLabel: trans.__('Open With %1', 'JupyterLab'),
         buttonLabel: 'openLab',
-        icon: jupyterFaviconIcon,
         urlPrefix: `${baseUrl}doc/tree/`
       });
     }
+
+    notebookTracker.widgetAdded.connect(
+      async (sender: INotebookTracker, panel: NotebookPanel) => {
+        panel.toolbar.insertBefore('kernelName', 'interface-switcher', menubar);
+        await panel.context.ready;
+        commands.notifyCommandChanged();
+      }
+    );
   }
 };
 
