@@ -1,7 +1,6 @@
 """Test the kernels service API."""
 
 import json
-import sys
 import time
 
 from requests import HTTPError

@@ -1,4 +1,3 @@
-import imp
 import os
 import site
 import sys
@@ -13,7 +12,7 @@ from traitlets.tests.utils import check_help_all_output
 from jupyter_core import paths
 
 from notebook.serverextensions import toggle_serverextension_python
-from notebook import nbextensions, serverextensions, extensions
+from notebook import nbextensions, extensions
 from notebook.notebookapp import NotebookApp
 from notebook.nbextensions import _get_config_dir
 

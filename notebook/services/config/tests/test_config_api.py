@@ -2,8 +2,6 @@
 
 import json
 
-import requests
-
 from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase
 

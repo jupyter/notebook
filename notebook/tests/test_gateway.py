@@ -6,7 +6,6 @@ from datetime import datetime
 from io import StringIO
 from unittest.mock import patch
 
-from tornado import gen
 from tornado.web import HTTPError
 from tornado.httpclient import HTTPRequest, HTTPResponse
 
