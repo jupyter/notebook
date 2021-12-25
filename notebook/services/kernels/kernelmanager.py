@@ -33,7 +33,7 @@ from notebook.prometheus.metrics import KERNEL_CURRENTLY_RUNNING_TOTAL
 try:
     from jupyter_client.multikernelmanager import AsyncMultiKernelManager
 except ImportError:
-    class AsyncMultiKernelManager(object):
+    class AsyncMultiKernelManager:
         """Empty class to satisfy unused reference by AsyncMappingKernelManager."""
         def __init__(self, **kwargs):
             pass
@@ -391,7 +391,7 @@ class MappingKernelManager(MultiKernelManager):
     def _check_kernel_id(self, kernel_id):
         """Check a that a kernel_id exists and raise 404 if not."""
         if kernel_id not in self:
-            raise web.HTTPError(404, u'Kernel does not exist: %s' % kernel_id)
+            raise web.HTTPError(404, f'Kernel does not exist: {kernel_id}')
 
     # monitoring activity:
 

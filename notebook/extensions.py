@@ -65,7 +65,11 @@ class BaseExtensionApp(JupyterApp):
     def _verbose_changed(self):
         """Warn about verbosity changes"""
         import warnings
-        warnings.warn("`verbose` traits of `{}` has been deprecated, has no effects and will be removed in notebook 5.0.".format(type(self).__name__), DeprecationWarning)
+        warnings.warn(
+            f"`verbose` traits of `{type(self).__name__}` has been deprecated, "
+            f"has no effects and will be removed in notebook 5.0.",
+            DeprecationWarning
+        )
 
     def _log_format_default(self):
         """A default format for messages"""

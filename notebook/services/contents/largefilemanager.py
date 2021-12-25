@@ -1,9 +1,7 @@
 from notebook.services.contents.filemanager import FileContentsManager
-from contextlib import contextmanager
 from tornado import web
-import nbformat
 import base64
-import os, io
+import os
 
 class LargeFileManager(FileContentsManager):
     """Handle large file upload."""
@@ -13,13 +11,13 @@ class LargeFileManager(FileContentsManager):
         chunk = model.get('chunk', None)
         if chunk is not None:
             path = path.strip('/')
-            
+
             if 'type' not in model:
-                raise web.HTTPError(400, u'No file type provided')
+                raise web.HTTPError(400, 'No file type provided')
             if model['type'] != 'file':
-                raise web.HTTPError(400, u'File type "{}" is not supported for large file transfer'.format(model['type']))
+                raise web.HTTPError(400, f'File type "{model["type"]}" is not supported for large file transfer')
             if 'content' not in model and model['type'] != 'directory':
-                raise web.HTTPError(400, u'No file content provided')
+                raise web.HTTPError(400, 'No file content provided')
 
             os_path = self._get_os_path(path)
 
@@ -33,8 +31,8 @@ class LargeFileManager(FileContentsManager):
             except web.HTTPError:
                 raise
             except Exception as e:
-                self.log.error(u'Error while saving file: %s %s', path, e, exc_info=True)
-                raise web.HTTPError(500, u'Unexpected error while saving file: %s %s' % (path, e)) from e
+                self.log.error('Error while saving file: %s %s', path, e, exc_info=True)
+                raise web.HTTPError(500, f'Unexpected error while saving file: {path} {e}') from e
 
             model = self.get(path, content=False)
 
@@ -60,11 +58,11 @@ class LargeFileManager(FileContentsManager):
                 bcontent = base64.b64decode(b64_bytes)
         except Exception as e:
             raise web.HTTPError(
-                400, u'Encoding error saving %s: %s' % (os_path, e)
+                400, f'Encoding error saving {os_path}: {e}'
             ) from e
 
         with self.perm_to_403(os_path):
             if os.path.islink(os_path):
                 os_path = os.path.join(os.path.dirname(os_path), os.readlink(os_path))
-            with io.open(os_path, 'ab') as f:
+            with open(os_path, 'ab') as f:
                 f.write(bcontent)

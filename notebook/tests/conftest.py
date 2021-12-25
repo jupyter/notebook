@@ -1,5 +1,3 @@
-
-
 def pytest_addoption(parser):
     parser.addoption('--integration_tests', action='store_true', dest="integration_tests",
                  default=False, help="enable integration tests")

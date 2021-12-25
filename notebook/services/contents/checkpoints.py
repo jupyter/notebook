@@ -53,7 +53,7 @@ class Checkpoints(LoggingConfigurable):
             self.delete_checkpoint(checkpoint['id'], path)
 
 
-class GenericCheckpointsMixin(object):
+class GenericCheckpointsMixin:
     """
     Helper for creating Checkpoints subclasses that can be used with any
     ContentsManager.
@@ -90,7 +90,7 @@ class GenericCheckpointsMixin(object):
                 path,
             )
         else:
-            raise HTTPError(500, u'Unexpected type %s' % type)
+            raise HTTPError(500, f'Unexpected type {type}')
 
     def restore_checkpoint(self, contents_mgr, checkpoint_id, path):
         """Restore a checkpoint."""
@@ -100,7 +100,7 @@ class GenericCheckpointsMixin(object):
         elif type == 'file':
             model = self.get_file_checkpoint(checkpoint_id, path)
         else:
-            raise HTTPError(500, u'Unexpected type %s' % type)
+            raise HTTPError(500, f'Unexpected type {type}')
         contents_mgr.save(model, path)
 
     # Required Methods

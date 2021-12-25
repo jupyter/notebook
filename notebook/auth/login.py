@@ -73,13 +73,13 @@ class LoginHandler(IPythonHandler):
 
     def passwd_check(self, a, b):
         return passwd_check(a, b)
-    
+
     def post(self):
-        typed_password = self.get_argument('password', default=u'')
-        new_password = self.get_argument('new_password', default=u'')
+        typed_password = self.get_argument('password', default='')
+        new_password = self.get_argument('new_password', default='')
 
 
-        
+
         if self.get_login_available(self.settings):
             if self.passwd_check(self.hashed_password, typed_password) and not new_password:
                 self.set_login_cookie(self, uuid.uuid4().hex)
@@ -112,7 +112,7 @@ class LoginHandler(IPythonHandler):
         handler.set_secure_cookie(handler.cookie_name, user_id, **cookie_options)
         return user_id
 
-    auth_header_pat = re.compile('token\s+(.+)', re.IGNORECASE)
+    auth_header_pat = re.compile(r'token\s+(.+)', re.IGNORECASE)
 
     @classmethod
     def get_token(cls, handler):
@@ -197,7 +197,7 @@ class LoginHandler(IPythonHandler):
     @classmethod
     def get_user_token(cls, handler):
         """Identify the user based on a token in the URL or Authorization header
-        
+
         Returns:
         - uuid if authenticated
         - None if not
@@ -245,7 +245,7 @@ class LoginHandler(IPythonHandler):
 
         If there is no configured password, an empty string will be returned.
         """
-        return settings.get('password', u'')
+        return settings.get('password', '')
 
     @classmethod
     def get_login_available(cls, settings):

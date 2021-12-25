@@ -136,23 +136,23 @@ class TestGateway(NotebookTestBase):
     @classmethod
     def setup_class(cls):
         GatewayClient.clear_instance()
-        super(TestGateway, cls).setup_class()
+        super().setup_class()
 
     @classmethod
     def teardown_class(cls):
         GatewayClient.clear_instance()
-        super(TestGateway, cls).teardown_class()
+        super().teardown_class()
 
     @classmethod
     def get_patch_env(cls):
-        test_env = super(TestGateway, cls).get_patch_env()
+        test_env = super().get_patch_env()
         test_env.update({'JUPYTER_GATEWAY_URL': TestGateway.mock_gateway_url,
                          'JUPYTER_GATEWAY_CONNECT_TIMEOUT': '44.4'})
         return test_env
 
     @classmethod
     def get_argv(cls):
-        argv = super(TestGateway, cls).get_argv()
+        argv = super().get_argv()
         argv.extend(['--GatewayClient.request_timeout=96.0', '--GatewayClient.http_user=' + TestGateway.mock_http_user])
         return argv
 

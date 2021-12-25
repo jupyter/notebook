@@ -1,12 +1,9 @@
 """Test the /tree handlers"""
 import os
-import io
 from notebook.utils import url_path_join
 from nbformat import write
 from nbformat.v4 import new_notebook
 from urllib.parse import urlparse
-
-import requests
 
 from notebook.tests.launchnotebook import NotebookTestBase
 
@@ -16,12 +13,12 @@ class TreeTest(NotebookTestBase):
         d = os.path.join(nbdir, 'foo')
         os.mkdir(d)
 
-        with io.open(os.path.join(d, 'bar.ipynb'), 'w', encoding='utf-8') as f:
+        with open(os.path.join(d, 'bar.ipynb'), 'w', encoding='utf-8') as f:
             nb = new_notebook()
             write(nb, f, version=4)
 
-        with io.open(os.path.join(d, 'baz.txt'), 'w', encoding='utf-8') as f:
-            f.write(u'flamingo')
+        with open(os.path.join(d, 'baz.txt'), 'w', encoding='utf-8') as f:
+            f.write('flamingo')
 
         self.base_url()
 

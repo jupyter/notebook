@@ -8,7 +8,7 @@ from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase
 
 
-class ConfigAPI(object):
+class ConfigAPI:
     """Wrapper for notebook API calls."""
     def __init__(self, request):
         self.request = request

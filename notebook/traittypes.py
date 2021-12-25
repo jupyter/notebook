@@ -75,7 +75,7 @@ except ImportError:
 
         if article == "the" or (article is None and not inspect.isclass(value)):
             if name is not None:
-                result = "{} {}".format(typename, name)
+                result = f"{typename} {name}"
                 if article is not None:
                     return add_article(result, True, capital)
                 else:
@@ -294,7 +294,7 @@ class InstanceFromClasses(ClassBasedTraitType):
         self.default_args = args
         self.default_kwargs = kw
 
-        super(InstanceFromClasses, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def instance_from_importable_klasses(self, value):
         "Check that a given class is a subclasses found in the klasses list."

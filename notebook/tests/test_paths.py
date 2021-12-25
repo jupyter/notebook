@@ -1,4 +1,3 @@
-
 import re
 
 from notebook.base.handlers import path_regex

@@ -319,7 +319,7 @@ man_pages = [
 # -- Options for link checks ----------------------------------------------
 
 linkcheck_ignore = [
-    'http://127\.0\.0\.1/*'
+    r'http://127\.0\.0\.1/*'
 ]
 
 

@@ -3,7 +3,6 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-import io
 from os.path import join as pjoin
 
 from notebook.tests.launchnotebook import NotebookTestBase
@@ -14,7 +13,7 @@ from nbformat.v4 import (
 
 from unittest.mock import patch
 
-    
+
 def bundle(handler, model):
     """Bundler test stub. Echo the notebook path."""
     handler.finish(model['path'])
@@ -25,17 +24,17 @@ class BundleAPITest(NotebookTestBase):
     def setup_class(cls):
         """Make a test notebook. Borrowed from nbconvert test. Assumes the class
         teardown will clean it up in the end."""
-        super(BundleAPITest, cls).setup_class()
+        super().setup_class()
         nbdir = cls.notebook_dir
 
         nb = new_notebook()
 
-        nb.cells.append(new_markdown_cell(u'Created by test'))
-        cc1 = new_code_cell(source=u'print(2*6)')
-        cc1.outputs.append(new_output(output_type="stream", text=u'12'))
+        nb.cells.append(new_markdown_cell('Created by test'))
+        cc1 = new_code_cell(source='print(2*6)')
+        cc1.outputs.append(new_output(output_type="stream", text='12'))
         nb.cells.append(cc1)
-        
-        with io.open(pjoin(nbdir, 'testnb.ipynb'), 'w',
+
+        with open(pjoin(nbdir, 'testnb.ipynb'), 'w',
                      encoding='utf-8') as f:
             write(nb, f, version=4)
 
@@ -68,7 +67,7 @@ class BundleAPITest(NotebookTestBase):
             mock.assert_called_with('fake_bundler')
         self.assertEqual(resp.status_code, 500)
         self.assertIn('Could not import bundler fake_bundler', resp.text)
-        
+
     def test_bundler_invoke(self):
         """Should respond with 200 and output from test bundler stub"""
         with patch('notebook.bundler.handlers.BundlerHandler.get_bundler') as mock:

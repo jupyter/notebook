@@ -3,11 +3,9 @@
 script to automatically setup notebook over SSL.
 
 Generate cert and keyfiles (rsa 1024) in ~/.ssh/, ask for a password, and add
-the corresponding entries in the notebook json configuration file. 
+the corresponding entries in the notebook json configuration file.
 
 """
-
-import six
 
 from notebook.auth import passwd
 from traitlets.config.loader import JSONFileConfigLoader, ConfigFileNotFound
@@ -19,7 +17,6 @@ from contextlib import contextmanager
 from OpenSSL import crypto
 from os.path import exists, join
 
-import io
 import os
 import json
 import traceback
@@ -33,7 +30,7 @@ def create_self_signed_cert(cert_dir, keyfile, certfile):
     """
 
     if exists(join(cert_dir, certfile))  or exists(join(cert_dir, keyfile)):
-        raise FileExistsError('{} or {} already exist in {}. Aborting.'.format(keyfile, certfile, cert_dir))
+        raise FileExistsError(f'{keyfile} or {certfile} already exist in {cert_dir}. Aborting.')
     else:
         # create a key pair
         k = crypto.PKey()
@@ -54,11 +51,11 @@ def create_self_signed_cert(cert_dir, keyfile, certfile):
         cert.set_pubkey(k)
         cert.sign(k, 'sha256')
 
-        with io.open(join(cert_dir, certfile), "wt") as f:
+        with open(join(cert_dir, certfile), "wt") as f:
             f.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert).decode('utf8'))
         os.chmod(join(cert_dir, certfile), 0o600)
-        
-        with io.open(join(cert_dir, keyfile), "wt") as f:
+
+        with open(join(cert_dir, keyfile), "wt") as f:
             f.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, k).decode('utf8'))
         os.chmod(join(cert_dir, keyfile), 0o600)
 
@@ -68,7 +65,7 @@ def create_self_signed_cert(cert_dir, keyfile, certfile):
 def persist_config(mode=0o600):
     """Context manager that can be use to modify a config object
 
-    On exit of the context manager, the config will be written back to disk, 
+    On exit of the context manager, the config will be written back to disk,
     by default with 600 permissions.
     """
 
@@ -81,8 +78,8 @@ def persist_config(mode=0o600):
     yield config
 
     filepath = os.path.join(jupyter_config_dir(), 'jupyter_notebook_config.json')
-    with io.open(filepath, 'w') as f:
-        f.write(six.u(json.dumps(config, indent=2)))
+    with open(filepath, 'w') as f:
+        f.write(json.dumps(config, indent=2))
     try:
         os.chmod(filepath, mode)
     except Exception:

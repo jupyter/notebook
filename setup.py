@@ -19,7 +19,7 @@ if sys.version_info < (3, 6):
     pip_message = 'This may be due to an out of date pip. Make sure you have pip >= 9.0.1.'
     try:
         import pip
-        pip_version = tuple([int(x) for x in pip.__version__.split('.')[:3]])
+        pip_version = tuple(int(x) for x in pip.__version__.split('.')[:3])
         if pip_version < (9, 0, 1) :
             pip_message = 'Your pip version is out of date, please install pip >= 9.0.1. '\
             'pip {} detected.'.format(pip.__version__)
@@ -102,10 +102,10 @@ for more information.
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9'
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
     ],
     zip_safe = False,
     install_requires = [
@@ -135,7 +135,7 @@ for more information.
         'test:sys_platform != "win32"': ['requests-unixsocket'],
         'json-logging': ['json-logging']
     },
-    python_requires = '>=3.6',
+    python_requires = '>=3.7',
     entry_points = {
         'console_scripts': [
             'jupyter-notebook = notebook.notebookapp:main',

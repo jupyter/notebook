@@ -87,7 +87,7 @@ class TestFileContentsManager(TestCase):
             self.assertEqual(path, fs_path)
 
     def test_checkpoint_subdir(self):
-        subd = u'sub ∂ir'
+        subd = 'sub ∂ir'
         cp_name = 'test-cp.ipynb'
         with TemporaryDirectory() as td:
             root = td
@@ -149,7 +149,7 @@ class TestFileContentsManager(TestCase):
             cm = FileContentsManager(root_dir=td)
             parent = 'test good symlink'
             name = 'good symlink'
-            path = '{0}/{1}'.format(parent, name)
+            path = f'{parent}/{name}'
             _make_dir(cm, parent)
 
             file_model = cm.new(path=parent + '/zfoo.txt')
@@ -175,7 +175,7 @@ class TestFileContentsManager(TestCase):
             os.chmod(os_path, 0o400)
             try:
                 with cm.open(os_path, 'w') as f:
-                    f.write(u"don't care")
+                    f.write("don't care")
             except HTTPError as e:
                 self.assertEqual(e.status_code, 403)
             else:
@@ -201,7 +201,7 @@ class TestFileContentsManager(TestCase):
             with self.assertRaisesHTTPError(404):
                 cm.save(model={
                     'type': 'file',
-                    'content': u'',
+                    'content': '',
                     'format': 'text',
                 }, path='../foo')
 
@@ -378,19 +378,19 @@ class TestContentsManager(TestCase):
         self.assertIn('path', model2)
         self.assertIn('content', model2)
         self.assertEqual(model2['name'], 'Untitled.ipynb')
-        self.assertEqual(model2['path'], '{0}/{1}'.format(sub_dir.strip('/'), name))
+        self.assertEqual(model2['path'], f'{sub_dir.strip("/")}/{name}')
 
         # Test with a regular file.
         file_model_path = cm.new_untitled(path=sub_dir, ext='.txt')['path']
         file_model = cm.get(file_model_path)
         self.assertDictContainsSubset(
             {
-                'content': u'',
-                'format': u'text',
-                'mimetype': u'text/plain',
-                'name': u'untitled.txt',
-                'path': u'foo/untitled.txt',
-                'type': u'file',
+                'content': '',
+                'format': 'text',
+                'mimetype': 'text/plain',
+                'name': 'untitled.txt',
+                'path': 'foo/untitled.txt',
+                'type': 'file',
                 'writable': True,
             },
             file_model,
@@ -413,7 +413,7 @@ class TestContentsManager(TestCase):
         # Directory contents should match the contents of each individual entry
         # when requested with content=False.
         model2_no_content = cm.get(sub_dir + name, content=False)
-        file_model_no_content = cm.get(u'foo/untitled.txt', content=False)
+        file_model_no_content = cm.get('foo/untitled.txt', content=False)
         sub_sub_dir_no_content = cm.get('foo/bar', content=False)
         self.assertEqual(sub_sub_dir_no_content['path'], 'foo/bar')
         self.assertEqual(sub_sub_dir_no_content['name'], 'bar')
@@ -582,9 +582,9 @@ class TestContentsManager(TestCase):
 
     def test_copy(self):
         cm = self.contents_manager
-        parent = u'å b'
-        name = u'nb √.ipynb'
-        path = u'{0}/{1}'.format(parent, name)
+        parent = 'å b'
+        name = 'nb √.ipynb'
+        path = f'{parent}/{name}'
         self.make_dir(parent)
 
         orig = cm.new(path=path)
@@ -593,11 +593,11 @@ class TestContentsManager(TestCase):
         self.assertEqual(copy['name'], orig['name'].replace('.ipynb', '-Copy1.ipynb'))
 
         # copy with specified name
-        copy2 = cm.copy(path, u'å b/copy 2.ipynb')
-        self.assertEqual(copy2['name'], u'copy 2.ipynb')
-        self.assertEqual(copy2['path'], u'å b/copy 2.ipynb')
+        copy2 = cm.copy(path, 'å b/copy 2.ipynb')
+        self.assertEqual(copy2['name'], 'copy 2.ipynb')
+        self.assertEqual(copy2['path'], 'å b/copy 2.ipynb')
         # copy with specified path
-        copy2 = cm.copy(path, u'/')
+        copy2 = cm.copy(path, '/')
         self.assertEqual(copy2['name'], name)
         self.assertEqual(copy2['path'], name)
 

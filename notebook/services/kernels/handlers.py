@@ -305,7 +305,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         protocol_version = info.get('protocol_version', client_protocol_version)
         if protocol_version != client_protocol_version:
             self.session.adapt_version = int(protocol_version.split('.')[0])
-            self.log.info("Adapting from protocol version {protocol_version} (kernel {kernel_id}) to {client_protocol_version} (client).".format(protocol_version=protocol_version, kernel_id=self.kernel_id, client_protocol_version=client_protocol_version))
+            self.log.info(f"Adapting from protocol version {protocol_version} (kernel {self.kernel_id}) to {client_protocol_version} (client).")
         if not self._kernel_info_future.done():
             self._kernel_info_future.set_result(info)
 
@@ -485,7 +485,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             # Increment the bytes and message count
             self._iopub_window_msg_count += 1
             if msg_type == 'stream':
-                byte_count = sum([len(x) for x in msg_list])
+                byte_count = sum(len(x) for x in msg_list)
             else:
                 byte_count = 0
             self._iopub_window_byte_count += byte_count

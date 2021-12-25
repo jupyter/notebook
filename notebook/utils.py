@@ -79,14 +79,14 @@ def url_escape(path):
     Turns '/foo bar/' into '/foo%20bar/'
     """
     parts = py3compat.unicode_to_str(path, encoding='utf8').split('/')
-    return u'/'.join([quote(p) for p in parts])
+    return '/'.join([quote(p) for p in parts])
 
 def url_unescape(path):
     """Unescape special characters in a URL path
 
     Turns '/foo%20bar/' into '/foo bar/'
     """
-    return u'/'.join([
+    return '/'.join([
         py3compat.str_to_unicode(unquote(p), encoding='utf8')
         for p in py3compat.unicode_to_str(path, encoding='utf8').split('/')
     ])
@@ -393,7 +393,7 @@ def unix_socket_in_use(socket_path):
     try:
         sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         sock.connect(socket_path)
-    except socket.error:
+    except OSError:
         return False
     else:
         return True

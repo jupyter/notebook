@@ -276,7 +276,7 @@ class GatewayClient(SingletonConfigurable):
         self._static_args['headers'] = json.loads(self.headers)
         if 'Authorization' not in self._static_args['headers'].keys():
             self._static_args['headers'].update({
-                'Authorization': 'token {}'.format(self.auth_token)
+                'Authorization': f'token {self.auth_token}'
             })
         self._static_args['connect_timeout'] = self.connect_timeout
         self._static_args['request_timeout'] = self.request_timeout
@@ -640,7 +640,7 @@ class GatewayKernelSpecManager(KernelSpecManager):
             The name of the desired resource
         """
         kernel_spec_resource_url = url_path_join(self.base_resource_endpoint, str(kernel_name), str(path))
-        self.log.debug("Request kernel spec resource '{}' at: {}".format(path, kernel_spec_resource_url))
+        self.log.debug(f"Request kernel spec resource '{path}' at: {kernel_spec_resource_url}")
         try:
             response = await gateway_request(kernel_spec_resource_url, method='GET')
         except web.HTTPError as error:

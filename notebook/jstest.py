@@ -60,7 +60,7 @@ class StreamCapturer(Thread):
                 self.buffer.write(chunk)
             if self.echo:
                 sys.stdout.write(bytes_to_str(chunk))
-    
+
         os.close(self.readfd)
         os.close(self.writefd)
 
@@ -87,7 +87,7 @@ class StreamCapturer(Thread):
         self.join()
 
 
-class TestController(object):
+class TestController:
     """Run tests in a subprocess
     """
     #: str, test group to be executed.
@@ -110,7 +110,7 @@ class TestController(object):
 
     def setup(self):
         """Create temporary directories etc.
-        
+
         This is only called when we know the test group will be run. Things
         created here may be cleaned up by self.cleanup().
         """
@@ -138,11 +138,11 @@ class TestController(object):
 
     def print_extra_info(self):
         """Print extra information about this test run.
-        
+
         If we're running in parallel and showing the concise view, this is only
         called if the test group fails. Otherwise, it's called before the test
         group is started.
-        
+
         The base implementation does nothing, but it can be overridden by
         subclasses.
         """
@@ -193,7 +193,7 @@ def all_js_groups():
 
 class JSController(TestController):
     """Run CasperJS tests """
-    
+
     requirements =  ['casperjs']
 
     def __init__(self, section, xunit=True, engine='phantomjs', url=None):
@@ -226,8 +226,8 @@ class JSController(TestController):
         self.dirs.append(self.home)
         self.dirs.append(self.config_dir)
         self.dirs.append(self.nbdir)
-        os.makedirs(os.path.join(self.nbdir.name, os.path.join(u'sub ∂ir1', u'sub ∂ir 1a')))
-        os.makedirs(os.path.join(self.nbdir.name, os.path.join(u'sub ∂ir2', u'sub ∂ir 1b')))
+        os.makedirs(os.path.join(self.nbdir.name, os.path.join('sub ∂ir1', 'sub ∂ir 1a')))
+        os.makedirs(os.path.join(self.nbdir.name, os.path.join('sub ∂ir2', 'sub ∂ir 1b')))
 
         if self.xunit:
             self.add_xunit()
@@ -317,7 +317,7 @@ class JSController(TestController):
             'nbserver-%i.json' % self.server.pid
         )
         self._wait_for_server()
-    
+
     def _wait_for_server(self):
         """Wait 30 seconds for the notebook server to start"""
         for i in range(300):
@@ -336,14 +336,14 @@ class JSController(TestController):
         print("Notebook server-info file never arrived: %s" % self.server_info_file,
             file=sys.stderr
         )
-    
+
     def _failed_to_start(self):
         """Notebook server exited prematurely"""
         captured = self.stream_capturer.get_buffer().decode('utf-8', 'replace')
         print("Notebook failed to start: ", file=sys.stderr)
         print(self.server_command)
         print(captured, file=sys.stderr)
-    
+
     def _load_server_info(self):
         """Notebook server started, load connection info from JSON"""
         with open(self.server_info_file) as f:
@@ -377,7 +377,7 @@ class JSController(TestController):
                 print("Notebook server still running (%s)" % self.server_info_file,
                     file=sys.stderr
                 )
-              
+
             self.stream_capturer.halt()
         TestController.cleanup(self)
 
@@ -399,11 +399,11 @@ def prepare_controllers(options):
 
 def do_run(controller, buffer_output=True):
     """Setup and run a test controller.
-    
+
     If buffer_output is True, no output is displayed, to avoid it appearing
     interleaved. In this case, the caller is responsible for displaying test
     output on failure.
-    
+
     Returns
     -------
     controller : TestController
@@ -468,7 +468,7 @@ def report():
 
 def run_jstestall(options):
     """Run the entire Javascript test suite.
-    
+
     This function constructs TestControllers and runs them in subprocesses.
 
     Parameters

@@ -1,12 +1,9 @@
 """Test the /files/ handler."""
 
-import io
 import os
-from unicodedata import normalize
 
 pjoin = os.path.join
 
-import requests
 import json
 
 from nbformat import write
@@ -16,21 +13,20 @@ from nbformat.v4 import (new_notebook,
 
 from notebook.utils import url_path_join
 from .launchnotebook import NotebookTestBase
-from ipython_genutils import py3compat
 
 
 class FilesTest(NotebookTestBase):
     def test_hidden_files(self):
         not_hidden = [
-            u'å b',
-            u'å b/ç. d',
+            'å b',
+            'å b/ç. d',
         ]
         hidden = [
-            u'.å b',
-            u'å b/.ç d',
+            '.å b',
+            'å b/.ç d',
         ]
         dirs = not_hidden + hidden
-        
+
         nbdir = self.notebook_dir
         for d in dirs:
             path = pjoin(nbdir, d.replace('/', os.sep))
@@ -82,23 +78,23 @@ class FilesTest(NotebookTestBase):
 
         nb = new_notebook(
             cells=[
-                new_markdown_cell(u'Created by test ³'),
+                new_markdown_cell('Created by test ³'),
                 new_code_cell("print(2*6)", outputs=[
                     new_output("stream", text="12"),
                 ])
             ]
         )
 
-        with io.open(pjoin(nbdir, 'testnb.ipynb'), 'w', 
+        with open(pjoin(nbdir, 'testnb.ipynb'), 'w',
             encoding='utf-8') as f:
             write(nb, f, version=4)
 
-        with io.open(pjoin(nbdir, 'test.bin'), 'wb') as f:
+        with open(pjoin(nbdir, 'test.bin'), 'wb') as f:
             f.write(b'\xff' + os.urandom(5))
             f.close()
 
-        with io.open(pjoin(nbdir, 'test.txt'), 'w') as f:
-            f.write(u'foobar')
+        with open(pjoin(nbdir, 'test.txt'), 'w') as f:
+            f.write('foobar')
             f.close()
 
         r = self.request('GET', 'files/testnb.ipynb')
@@ -116,14 +112,14 @@ class FilesTest(NotebookTestBase):
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.headers['content-type'], 'text/plain; charset=UTF-8')
         self.assertEqual(r.text, 'foobar')
-    
+
     def test_download(self):
         nbdir = self.notebook_dir
-        
+
         text = 'hello'
         with open(pjoin(nbdir, 'test.txt'), 'w') as f:
             f.write(text)
-        
+
         r = self.request('GET', 'files/test.txt')
         disposition = r.headers.get('Content-Disposition', '')
         self.assertNotIn('attachment', disposition)
@@ -132,24 +128,24 @@ class FilesTest(NotebookTestBase):
         disposition = r.headers.get('Content-Disposition', '')
         self.assertIn('attachment', disposition)
         self.assertIn("filename*=utf-8''test.txt", disposition)
-        
+
     def test_view_html(self):
         nbdir = self.notebook_dir
-        
+
         html = '<div>Test test</div>'
         with open(pjoin(nbdir, 'test.html'), 'w') as f:
             f.write(html)
-        
+
         r = self.request('GET', 'view/test.html')
         self.assertEqual(r.status_code, 200)
 
     def test_old_files_redirect(self):
         """pre-2.0 'files/' prefixed links are properly redirected"""
         nbdir = self.notebook_dir
-        
+
         os.mkdir(pjoin(nbdir, 'files'))
         os.makedirs(pjoin(nbdir, 'sub', 'files'))
-        
+
         for prefix in ('', 'sub'):
             with open(pjoin(nbdir, prefix, 'files', 'f1.txt'), 'w') as f:
                 f.write(prefix + '/files/f1')
