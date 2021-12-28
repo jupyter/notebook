@@ -2,6 +2,39 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.14
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.13...ec926de136ba17afd3335e8ad452b16bb173986b))
+
+### Enhancements made
+
+- Interface switcher menu [#309](https://github.com/jupyterlab/retrolab/pull/309) ([@jtpio](https://github.com/jtpio))
+- Strip .ipynb extension for display in header and tab title [#296](https://github.com/jupyterlab/retrolab/pull/296) ([@jweill-aws](https://github.com/jweill-aws))
+- Add extension for document-scoped search [#294](https://github.com/jupyterlab/retrolab/pull/294) ([@loichuder](https://github.com/loichuder))
+- Improve menus [#289](https://github.com/jupyterlab/retrolab/pull/289) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Remove `playwright` dependency from the `app` folder [#307](https://github.com/jupyterlab/retrolab/pull/307) ([@jtpio](https://github.com/jtpio))
+- Bump playwright version in package.json [#304](https://github.com/jupyterlab/retrolab/pull/304) ([@gabalafou](https://github.com/gabalafou))
+- Switch to `maintainer-tools` action for Binder on PR [#301](https://github.com/jupyterlab/retrolab/pull/301) ([@jtpio](https://github.com/jtpio))
+- Use `maintainer-tools` base setup action [#295](https://github.com/jupyterlab/retrolab/pull/295) ([@jtpio](https://github.com/jtpio))
+- Remove unused build:test task in app [#293](https://github.com/jupyterlab/retrolab/pull/293) ([@loichuder](https://github.com/loichuder))
+- Add UI test for the mobile layout [#292](https://github.com/jupyterlab/retrolab/pull/292) ([@jtpio](https://github.com/jtpio))
+- Enforce labels on PRs [#291](https://github.com/jupyterlab/retrolab/pull/291) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- add alt text together during the 2021 diy a11y workshop (#1) [#310](https://github.com/jupyterlab/retrolab/pull/310) ([@tonyfast](https://github.com/tonyfast))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-11-12&to=2021-12-28&type=c))
+
+[@gabalafou](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agabalafou+updated%3A2021-11-12..2021-12-28&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-11-12..2021-12-28&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-11-12..2021-12-28&type=Issues) | [@jweill-aws](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajweill-aws+updated%3A2021-11-12..2021-12-28&type=Issues) | [@loichuder](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Aloichuder+updated%3A2021-11-12..2021-12-28&type=Issues) | [@tonyfast](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Atonyfast+updated%3A2021-11-12..2021-12-28&type=Issues) | [@welcome](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Awelcome+updated%3A2021-11-12..2021-12-28&type=Issues) | [@yuvipanda](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ayuvipanda+updated%3A2021-11-12..2021-12-28&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.13
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.12...a77d66953de2d73931959a131837049322a59216))
@@ -31,8 +64,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-11-01&to=2021-11-12&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-11-01..2021-11-12&type=Issues) | [@gutow](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agutow+updated%3A2021-11-01..2021-11-12&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-11-01..2021-11-12&type=Issues) | [@jweill-aws](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajweill-aws+updated%3A2021-11-01..2021-11-12&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Akrassowski+updated%3A2021-11-01..2021-11-12&type=Issues) | [@welcome](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Awelcome+updated%3A2021-11-01..2021-11-12&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.12
 
