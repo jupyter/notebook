@@ -84,6 +84,7 @@ async function main() {
     require('@retrolab/application-extension'),
     require('@retrolab/console-extension'),
     require('@retrolab/docmanager-extension'),
+    require('@retrolab/documentsearch-extension'),
     require('@retrolab/help-extension'),
     require('@retrolab/notebook-extension'),
     // to handle opening new tabs after creating a new terminal
@@ -123,6 +124,9 @@ async function main() {
       ].includes(id)
     ),
     require('@jupyterlab/docprovider-extension'),
+    require('@jupyterlab/documentsearch-extension').default.filter(({ id }) =>
+      ['@jupyterlab/documentsearch:plugin'].includes(id)
+    ),
     require('@jupyterlab/filebrowser-extension').default.filter(({ id }) =>
       ['@jupyterlab/filebrowser-extension:factory'].includes(id)
     ),

@@ -24,6 +24,7 @@
     "@retrolab/application-extension": "file:../application-extension",
     "@retrolab/console-extension": "file:../console-extension",
     "@retrolab/docmanager-extension": "file:../docmanager-extension",
+    "@retrolab/documentsearch-extension": "file:../documentsearch-extension",
     "@retrolab/help-extension": "file:../help-extension",
     "@retrolab/lab-extension": "file:../lab-extension",
     "@retrolab/notebook-extension": "file:../notebook-extension",
