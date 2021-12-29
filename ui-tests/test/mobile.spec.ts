@@ -6,6 +6,7 @@ import path from 'path';
 import { expect } from '@playwright/test';
 
 import { test } from './fixtures';
+import { waitForKernelReady } from './utils';
 
 test.use({ autoGoto: false, viewport: { width: 512, height: 768 } });
 
@@ -33,21 +34,7 @@ test.describe('Mobile', () => {
     // await page.notebook.run();
 
     // wait for the kernel status animations to be finished
-    await page.waitForSelector('.jp-RetroKernelStatus-fade');
-    await page.waitForFunction(() => {
-      const status = window.document.getElementsByClassName(
-        'jp-RetroKernelStatus'
-      )[0];
-
-      if (!status) {
-        return false;
-      }
-
-      const finished = status?.getAnimations().reduce((prev, curr) => {
-        return prev && curr.playState === 'finished';
-      }, true);
-      return finished;
-    });
+    await waitForKernelReady(page);
 
     expect(await page.screenshot()).toMatchSnapshot('notebook.png');
   });
