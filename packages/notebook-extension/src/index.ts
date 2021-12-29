@@ -45,6 +45,11 @@ const KERNEL_STATUS_INFO_CLASS = 'jp-RetroKernelStatus-info';
 const KERNEL_STATUS_FADE_OUT_CLASS = 'jp-RetroKernelStatus-fade';
 
 /**
+ * The class for scrolled outputs
+ */
+const SCROLLED_OUTPUTS_CLASS = 'jp-mod-outputsScrolled';
+
+/**
  * A plugin for the checkpoint indicator
  */
 const checkpoints: JupyterFrontEndPlugin<void> = {
@@ -217,13 +222,35 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * A plugin to enable scrolling for outputs by default
+ * A plugin to enable scrolling for outputs by default.
+ * Mimic the logic from the classic notebook, as found here:
+ * https://github.com/jupyter/notebook/blob/a9a31c096eeffe1bff4e9164c6a0442e0e13cdb3/notebook/static/notebook/js/outputarea.js#L96-L120
  */
 const scrollOutput: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/notebook-extension:scroll-output',
   autoStart: true,
   requires: [INotebookTracker],
   activate: async (app: JupyterFrontEnd, tracker: INotebookTracker) => {
+    const autoScrollThreshold = 100;
+
+    // decide whether to scroll the output of the cell based on some heuristics
+    const autoScroll = (cell: CodeCell) => {
+      const { outputArea } = cell;
+      // respect cells with an explicit scrolled state
+      const scrolled = cell.model.metadata.get('scrolled');
+      if (scrolled !== undefined) {
+        return;
+      }
+      const { node } = outputArea;
+      const height = node.getBoundingClientRect().height;
+      const fontSize = parseFloat(node.style.fontSize.replace('px', ''));
+      const lineHeight = (fontSize || 14) * 1.3;
+      const scroll = height > lineHeight * autoScrollThreshold;
+      // do not set via cell.outputScrolled = true, as this would
+      // otherwise synchronize the scrolled state to the notebook metadata
+      cell.toggleClass(SCROLLED_OUTPUTS_CLASS, scroll);
+    };
+
     tracker.widgetAdded.connect((sender, notebook) => {
       notebook.model?.cells.changed.connect((sender, changed) => {
         // process new cells only
@@ -233,7 +260,20 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
         const [cellModel] = changed.newValues;
         notebook.content.widgets.forEach(cell => {
           if (cell.model.id === cellModel.id && cell.model.type === 'code') {
-            (cell as CodeCell).outputsScrolled = true;
+            const codeCell = cell as CodeCell;
+            codeCell.outputArea.model.changed.connect(() =>
+              autoScroll(codeCell)
+            );
+          }
+        });
+      });
+
+      // when the notebook widget is created, process all the cells
+      // TODO: investigate why notebook.content.fullyRendered is not enough
+      notebook.sessionContext.ready.then(() => {
+        notebook.content.widgets.forEach(cell => {
+          if (cell.model.type === 'code') {
+            autoScroll(cell as CodeCell);
           }
         });
       });
