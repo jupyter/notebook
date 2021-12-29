@@ -245,10 +245,11 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
       const height = node.getBoundingClientRect().height;
       const fontSize = parseFloat(node.style.fontSize.replace('px', ''));
       const lineHeight = (fontSize || 14) * 1.3;
-      const scroll = height > lineHeight * autoScrollThreshold;
       // do not set via cell.outputScrolled = true, as this would
       // otherwise synchronize the scrolled state to the notebook metadata
-      cell.toggleClass(SCROLLED_OUTPUTS_CLASS, scroll);
+      if (height > lineHeight * autoScrollThreshold) {
+        cell.toggleClass(SCROLLED_OUTPUTS_CLASS, true);
+      }
     };
 
     tracker.widgetAdded.connect((sender, notebook) => {
