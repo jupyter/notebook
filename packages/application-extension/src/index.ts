@@ -27,6 +27,8 @@ import { DocumentWidget } from '@jupyterlab/docregistry';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
+
 import { ITranslator } from '@jupyterlab/translation';
 
 import { RetroApp, RetroShell, IRetroShell } from '@retrolab/application';
@@ -38,7 +40,6 @@ import { PromiseDelegate } from '@lumino/coreutils';
 import { DisposableDelegate, DisposableSet } from '@lumino/disposable';
 
 import { Widget } from '@lumino/widgets';
-import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 /**
  * The default notebook factory.

@@ -16,6 +16,8 @@ import { IDocumentManager } from '@jupyterlab/docmanager';
 
 import { NotebookPanel, INotebookTracker } from '@jupyterlab/notebook';
 
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
+
 import { ITranslator } from '@jupyterlab/translation';
 
 import { IRetroShell } from '@retrolab/application';
@@ -230,11 +232,21 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/notebook-extension:scroll-output',
   autoStart: true,
   requires: [INotebookTracker],
-  activate: async (app: JupyterFrontEnd, tracker: INotebookTracker) => {
+  optional: [ISettingRegistry],
+  activate: async (
+    app: JupyterFrontEnd,
+    tracker: INotebookTracker,
+    settingRegistry: ISettingRegistry | null
+  ) => {
     const autoScrollThreshold = 100;
+    let autoScrollOutputs = true;
 
     // decide whether to scroll the output of the cell based on some heuristics
     const autoScroll = (cell: CodeCell) => {
+      if (!autoScrollOutputs) {
+        // bail if disabled via the settings
+        return;
+      }
       const { outputArea } = cell;
       // respect cells with an explicit scrolled state
       const scrolled = cell.model.metadata.get('scrolled');
@@ -279,6 +291,25 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
         });
       });
     });
+
+    if (settingRegistry) {
+      const loadSettings = settingRegistry.load(scrollOutput.id);
+      const updateSettings = (settings: ISettingRegistry.ISettings): void => {
+        autoScrollOutputs = settings.get('autoScrollOutputs')
+          .composite as boolean;
+      };
+
+      Promise.all([loadSettings, app.restored])
+        .then(([settings]) => {
+          updateSettings(settings);
+          settings.changed.connect(settings => {
+            updateSettings(settings);
+          });
+        })
+        .catch((reason: Error) => {
+          console.error(reason.message);
+        });
+    }
   }
 };
 
