@@ -11,7 +11,7 @@ import * as utils from '@jupyterlab/buildutils';
 
 import commander from 'commander';
 
-import { postbump } from './utils';
+import { getPythonVersion, postbump } from './utils';
 
 // Specify the program signature.
 commander
@@ -20,7 +20,7 @@ commander
   .option('--skip-commit', 'Whether to skip commit changes')
   .action((options: any) => {
     // Make sure we can patch release.
-    const pyVersion = utils.getPythonVersion();
+    const pyVersion = getPythonVersion();
     if (
       pyVersion.includes('a') ||
       pyVersion.includes('b') ||

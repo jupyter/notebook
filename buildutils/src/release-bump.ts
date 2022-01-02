@@ -11,7 +11,7 @@ import * as utils from '@jupyterlab/buildutils';
 
 import commander from 'commander';
 
-import { postbump } from './utils';
+import { getPythonVersion, postbump } from './utils';
 
 // Specify the program signature.
 commander
@@ -22,7 +22,7 @@ commander
   .arguments('<spec>')
   .action((spec: any, opts: any) => {
     // Get the previous version.
-    const prev = utils.getPythonVersion();
+    const prev = getPythonVersion();
     const isFinal = /\d+\.\d+\.\d+$/.test(prev);
 
     // Whether to commit after bumping
