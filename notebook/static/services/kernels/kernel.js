@@ -79,6 +79,7 @@ define([
     Kernel.prototype._get_msg = function (msg_type, content, metadata, buffers) {
         var msg = {
             header : {
+                date: new Date().toISOString(),
                 msg_id : utils.uuid(),
                 username : this.username,
                 session : this.session_id,
