@@ -24,9 +24,9 @@
     "build:prod": "lerna run build:prod",
     "build:test": "lerna run build:test",
     "clean": "lerna run clean",
+    "develop": "jupyter labextension develop . --overwrite && node ./buildutils/lib/develop.js --overwrite",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
-    "develop": "jupyter labextension develop . --overwrite && node ./buildutils/lib/develop.js --overwrite",
     "install": "lerna bootstrap",
     "integrity": "node buildutils/lib/ensure-repo.js",
     "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
@@ -45,7 +45,7 @@
     }
   },
   "devDependencies": {
-    "@jupyterlab/buildutils": "^3.2.0",
+    "@jupyterlab/buildutils": "^3.2.5",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
     "eslint": "^7.10.0",

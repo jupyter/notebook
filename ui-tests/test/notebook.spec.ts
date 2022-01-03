@@ -3,9 +3,11 @@
 
 import path from 'path';
 
+import { expect } from '@playwright/test';
+
 import { test } from './fixtures';
 
-import { expect } from '@playwright/test';
+import { runAndAdvance, waitForKernelReady } from './utils';
 
 const NOTEBOOK = 'example.ipynb';
 
@@ -54,5 +56,39 @@ test.describe('Notebook', () => {
     // Check the URL contains the new name
     const url = page.url();
     expect(url).toContain(newNameStripped);
+  });
+
+  // TODO: rewrite with page.notebook when fixed upstream in Galata
+  // and usable in RetroLab without active tabs
+  test('Outputs should be scrolled automatically', async ({
+    page,
+    tmpPath
+  }) => {
+    const notebook = 'autoscroll.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    await waitForKernelReady(page);
+    // run the two cells
+    await runAndAdvance(page);
+    await runAndAdvance(page);
+
+    await page.waitForSelector('.jp-Cell-outputArea pre');
+
+    const checkCell = async (n: number): Promise<boolean> => {
+      const scrolled = await page.$eval(`.jp-Notebook-cell >> nth=${n}`, el =>
+        el.classList.contains('jp-mod-outputsScrolled')
+      );
+      return scrolled;
+    };
+
+    // check the long output area is auto scrolled
+    expect(await checkCell(0)).toBe(true);
+
+    // check the short output area is not auto scrolled
+    expect(await checkCell(1)).toBe(false);
   });
 });
