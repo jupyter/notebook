@@ -256,7 +256,7 @@ class FileManagerMixin(Configurable):
         root = os.path.abspath(self.root_dir)
         os_path = to_os_path(path, root)
         if not (os.path.abspath(os_path) + os.path.sep).startswith(root):
-            raise HTTPError(404, "%s is outside root contents directory" % path)
+            raise HTTPError(404, f"{path} is outside root contents directory")
         return os_path
 
     def _read_notebook(self, os_path, as_version=4):
@@ -299,7 +299,7 @@ class FileManagerMixin(Configurable):
           If not specified, try to decode as UTF-8, and fall back to base64
         """
         if not os.path.isfile(os_path):
-            raise HTTPError(400, "Cannot read non-file %s" % os_path)
+            raise HTTPError(400, f"Cannot read non-file {os_path}")
 
         with self.open(os_path, 'rb') as f:
             bcontent = f.read()
@@ -313,7 +313,7 @@ class FileManagerMixin(Configurable):
                 if format == 'text':
                     raise HTTPError(
                         400,
-                        "%s is not UTF-8 encoded" % os_path,
+                        f"{os_path} is not UTF-8 encoded",
                         reason='bad format',
                     ) from e
         return encodebytes(bcontent).decode('ascii'), 'base64'

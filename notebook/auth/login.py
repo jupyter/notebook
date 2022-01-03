@@ -48,7 +48,7 @@ class LoginHandler(IPythonHandler):
             # OR pass our cross-origin check
             if parsed.netloc:
                 # if full URL, run our cross-origin check:
-                origin = '%s://%s' % (parsed.scheme, parsed.netloc)
+                origin = f'{parsed.scheme}://{parsed.netloc}'
                 origin = origin.lower()
                 if self.allow_origin:
                     allow = self.allow_origin == origin
@@ -56,7 +56,7 @@ class LoginHandler(IPythonHandler):
                     allow = bool(self.allow_origin_pat.match(origin))
             if not allow:
                 # not allowed, use default
-                self.log.warning("Not allowing login redirect to %r" % url)
+                self.log.warning(f"Not allowing login redirect to {url!r}")
                 url = default
         self.redirect(url)
 
@@ -89,7 +89,7 @@ class LoginHandler(IPythonHandler):
                     config_dir = self.settings.get('config_dir')
                     config_file = os.path.join(config_dir, 'jupyter_notebook_config.json')
                     set_password(new_password, config_file=config_file)
-                    self.log.info("Wrote hashed password to %s" % config_file)
+                    self.log.info(f"Wrote hashed password to {config_file}")
             else:
                 self.set_status(401)
                 self._render(message={'error': 'Invalid credentials'})

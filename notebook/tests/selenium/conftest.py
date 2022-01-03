@@ -60,7 +60,7 @@ def notebook_server():
         print("command=", command)
         proc = info['popen'] = Popen(command, cwd=nbdir, env=env)
         info_file_path = pjoin(td, 'jupyter_runtime',
-                               'nbserver-%i.json' % proc.pid)
+                               f'nbserver-{proc.pid:d}.json')
         info.update(_wait_for_server(proc, info_file_path))
 
         print("Notebook server info:", info)
@@ -91,10 +91,10 @@ def make_sauce_driver():
     if capabilities['browserName'] == 'firefox':
         # Attempt to work around issue where browser loses authentication
         capabilities['version'] = '57.0'
-    hub_url = "%s:%s@localhost:4445" % (username, access_key)
+    hub_url = f"{username}:{access_key}@localhost:4445"
     print("Connecting remote driver on Sauce Labs")
     driver = Remote(desired_capabilities=capabilities,
-                    command_executor="http://%s/wd/hub" % hub_url)
+                    command_executor=f"http://{hub_url}/wd/hub")
     return driver
 
 

@@ -102,5 +102,5 @@ kernel_name_regex = r"(?P<kernel_name>[\w\.\-%]+)"
 
 default_handlers = [
     (r"/api/kernelspecs", MainKernelSpecHandler),
-    (r"/api/kernelspecs/%s" % kernel_name_regex, KernelSpecHandler),
+    (fr"/api/kernelspecs/{kernel_name_regex}", KernelSpecHandler),
 ]

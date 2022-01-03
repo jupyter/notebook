@@ -28,18 +28,16 @@ def isolated_html(notebook):
     red = 'rgb(255, 0, 0)'
     blue = 'rgb(0, 0, 255)'
     test_str = "<div id='test'>Should turn red from non-isolation</div>"
-    notebook.add_and_execute_cell(content="display(HTML(%r))" % test_str)
+    notebook.add_and_execute_cell(content=f"display(HTML({test_str!r}))")
     non_isolated = (
-        "<style>div{color:%s;}</style>" % red +
-        "<div id='non-isolated'>Should be red</div>")
-    display_ni = "display(HTML(%r), metadata={'isolated':False})" % (
-        non_isolated)
+        f"<style>div{{color:{red};}}</style>"
+        f"<div id='non-isolated'>Should be red</div>")
+    display_ni = f"display(HTML({non_isolated!r}), metadata={{'isolated':False}})"
     notebook.add_and_execute_cell(content=display_ni)
     isolated = (
-        "<style>div{color:%s;}</style>" % blue +
-        "<div id='isolated'>Should be blue</div>")
-    display_i = "display(HTML(%r), metadata={'isolated':True})" % (
-        isolated)
+        f"<style>div{{color:{blue};}}</style>"
+        f"<div id='isolated'>Should be blue</div>")
+    display_i = f"display(HTML({isolated!r}), metadata={{'isolated':True}})"
     notebook.add_and_execute_cell(content=display_i)
 
     iframe = wait_for_tag(notebook.browser, "iframe", single=True)
@@ -69,7 +67,7 @@ def isolated_svg(notebook):
     """
     yellow = "rgb(255, 255, 0)"
     black = "rgb(0, 0, 0)"
-    svg_1_str = """s1 = '''<svg width="1cm" height="1cm" viewBox="0 0 1000 500"><defs><style>rect {fill:%s;}; </style></defs><rect id="r1" x="200" y="100" width="600" height="300" /></svg>'''""" % yellow
+    svg_1_str = f"""s1 = '''<svg width="1cm" height="1cm" viewBox="0 0 1000 500"><defs><style>rect {{fill:{yellow};}}; </style></defs><rect id="r1" x="200" y="100" width="600" height="300" /></svg>'''"""
     svg_2_str = """s2 = '''<svg width="1cm" height="1cm" viewBox="0 0 1000 500"><rect id="r2" x="200" y="100" width="600" height="300" /></svg>'''"""
 
     notebook.add_and_execute_cell(content=svg_1_str)

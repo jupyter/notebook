@@ -26,14 +26,14 @@ def _make_dir(contents_manager, api_path):
     try:
         os.makedirs(os_path)
     except OSError:
-        print("Directory already exists: %r" % os_path)
+        print(f"Directory already exists: {os_path!r}")
 
 
 class TestFileContentsManager(TestCase):
 
     @contextmanager
     def assertRaisesHTTPError(self, status, msg=None):
-        msg = msg or "Should have raised HTTPError(%i)" % status
+        msg = msg or f"Should have raised HTTPError({status})"
         try:
             yield
         except HTTPError as e:
@@ -98,7 +98,7 @@ class TestFileContentsManager(TestCase):
                 'cp', 'test.ipynb'
             )
             cp_subdir = cpm.checkpoint_path(
-                'cp', '/%s/test.ipynb' % subd
+                'cp', f'/{subd}/test.ipynb'
             )
         self.assertNotEqual(cp_dir, cp_subdir)
         self.assertEqual(cp_dir, os.path.join(root, cpm.checkpoint_dir, cp_name))
@@ -113,7 +113,7 @@ class TestFileContentsManager(TestCase):
             file_model = cm.new_untitled(path=path, ext='.txt')
 
             # create a broken symlink
-            self.symlink(cm, "target", '%s/%s' % (path, 'bad symlink'))
+            self.symlink(cm, "target", f'{path}/{"bad symlink"}')
             model = cm.get(path)
 
             contents = {
@@ -209,7 +209,7 @@ class TestFileContentsManager(TestCase):
 class TestContentsManager(TestCase):
     @contextmanager
     def assertRaisesHTTPError(self, status, msg=None):
-        msg = msg or "Should have raised HTTPError(%i)" % status
+        msg = msg or f"Should have raised HTTPError({status})"
         try:
             yield
         except HTTPError as e:
@@ -309,7 +309,7 @@ class TestContentsManager(TestCase):
         self.assertIn('type', model)
         self.assertEqual(model['type'], 'file')
         self.assertEqual(model['name'], 'untitled')
-        self.assertEqual(model['path'], '%s/untitled' % sub_dir)
+        self.assertEqual(model['path'], f'{sub_dir}/untitled')
 
         # Test with a compound extension
         model = cm.new_untitled(path=sub_dir, ext='.foo.bar')
@@ -428,7 +428,7 @@ class TestContentsManager(TestCase):
             elif entry['path'] == file_model_no_content['path']:
                 self.assertEqual(entry, file_model_no_content)
             else:
-                self.fail("Unexpected directory entry: %s" % entry())
+                self.fail(f"Unexpected directory entry: {entry()}")
 
         with self.assertRaises(HTTPError):
             cm.get('foo', type='file')

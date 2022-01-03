@@ -155,7 +155,7 @@ class TestController:
             return  # Process doesn't exist, or is already dead.
 
         try:
-            print('Cleaning up stale PID: %d' % subp.pid)
+            print(f'Cleaning up stale PID: {subp.pid}')
             subp.kill()
         except: # (OSError, WindowsError) ?
             # This is just a best effort, if we fail or the process was
@@ -210,7 +210,7 @@ class JSController(TestController):
         js_test_dir = get_js_test_dir()
         includes = '--includes=' + os.path.join(js_test_dir,'util.js')
         test_cases = os.path.join(js_test_dir, self.section)
-        self.cmd = ['casperjs', 'test', includes, test_cases, '--engine=%s' % self.engine]
+        self.cmd = ['casperjs', 'test', includes, test_cases, f'--engine={self.engine}']
 
     def setup(self):
         self.ipydir = TemporaryDirectory()
@@ -240,22 +240,22 @@ class JSController(TestController):
                 alive = False
 
             if alive:
-                self.cmd.append("--url=%s" % self.url)
+                self.cmd.append(f"--url={self.url}")
             else:
-                raise Exception('Could not reach "%s".' % self.url)
+                raise Exception(f'Could not reach "{self.url}".')
         else:
             # start the ipython notebook, so we get the port number
             self.server_port = 0
             self._init_server()
             if self.server_port:
-                self.cmd.append('--url=http://localhost:%i%s' % (self.server_port, self.base_url))
+                self.cmd.append(f'--url=http://localhost:{self.server_port:d}{self.base_url}')
             else:
                 # don't launch tests if the server didn't start
                 self.cmd = [sys.executable, '-c', 'raise SystemExit(1)']
 
     def add_xunit(self):
         xunit_file = os.path.abspath(self.section.replace('/','.') + '.xunit.xml')
-        self.cmd.append('--xunit=%s' % xunit_file)
+        self.cmd.append(f'--xunit={xunit_file}')
 
     def launch(self, buffer_output):
         # If the engine is SlimerJS, we need to buffer the output because
@@ -281,7 +281,7 @@ class JSController(TestController):
             return ret
 
     def print_extra_info(self):
-        print("Running tests with notebook directory %r" % self.nbdir.name)
+        print(f"Running tests with notebook directory {self.nbdir.name!r}")
 
     @property
     def will_run(self):
@@ -295,7 +295,7 @@ class JSController(TestController):
             '--no-browser',
             '--notebook-dir', self.nbdir.name,
             '--NotebookApp.token=',
-            '--NotebookApp.base_url=%s' % self.base_url,
+            f'--NotebookApp.base_url={self.base_url}',
         ]
         # ipc doesn't work on Windows, and darwin has crazy-long temp paths,
         # which run afoul of ipc's maximum path length.
@@ -313,8 +313,9 @@ class JSController(TestController):
         )
         with patch.dict('os.environ', {'HOME': self.home.name}):
             runtime_dir = jupyter_runtime_dir()
-        self.server_info_file = os.path.join(runtime_dir,
-            'nbserver-%i.json' % self.server.pid
+        self.server_info_file = os.path.join(
+            runtime_dir,
+            f'nbserver-{self.server.pid}.json'
         )
         self._wait_for_server()
 
@@ -333,7 +334,8 @@ class JSController(TestController):
                 else:
                     return
             time.sleep(0.1)
-        print("Notebook server-info file never arrived: %s" % self.server_info_file,
+        print(
+            f"Notebook server-info file never arrived: {self.server_info_file}",
             file=sys.stderr
         )
 
@@ -374,7 +376,8 @@ class JSController(TestController):
             try:
                 popen_wait(self.server, NOTEBOOK_SHUTDOWN_TIMEOUT)
             except TimeoutExpired:
-                print("Notebook server still running (%s)" % self.server_info_file,
+                print(
+                    f"Notebook server still running ({self.server_info_file})",
                     file=sys.stderr
                 )
 
@@ -443,7 +446,7 @@ def report():
     _add('Platform', inf['platform'])
 
     width = max(len(n) for (n,v) in out)
-    out = ["{:<{width}}: {}\n".format(n, v, width=width) for (n,v) in out]
+    out = [f"{n:<{width}}: {v}\n" for (n, v) in out]
 
     avail = []
     not_avail = []
@@ -552,16 +555,15 @@ def run_jstestall(options):
     print('_'*70)
     print('Test suite completed for system with the following information:')
     print(report())
-    took = "Took %.3fs." % t_tests
+    took = f"Took {t_tests:.3f}s."
     print('Status: ', end='')
     if not failed:
-        print('OK (%d test groups).' % nrunners, took)
+        print(f'OK ({nrunners} test groups).', took)
     else:
         # If anything went wrong, point out what command to rerun manually to
         # see the actual errors and individual summary
         failed_sections = [c.section for c in failed]
-        print('ERROR - {} out of {} test groups failed ({}).'.format(nfail,
-                                  nrunners, ', '.join(failed_sections)), took)
+        print(f'ERROR - {nfail} out of {nrunners} test groups failed ({", ".join(failed_sections)}).', took)
         print()
         print('You may wish to rerun these, with:')
         print('  python -m notebook.jstest', *failed_sections)

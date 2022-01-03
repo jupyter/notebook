@@ -61,7 +61,7 @@ async def mock_gateway_request(url, **kwargs):
             response = await maybe_future(HTTPResponse(request, 200, buffer=response_buf))
             return response
         else:
-            raise HTTPError(404, message='Kernelspec does not exist: %s' % requested_kernelspec)
+            raise HTTPError(404, message=f'Kernelspec does not exist: {requested_kernelspec}')
 
     # Create kernel
     if endpoint.endswith('/api/kernels') and method == 'POST':
@@ -95,16 +95,16 @@ async def mock_gateway_request(url, **kwargs):
                 response = await maybe_future(HTTPResponse(request, 204))
                 return response
             else:
-                raise HTTPError(404, message='Kernel does not exist: %s' % requested_kernel_id)
+                raise HTTPError(404, message=f'Kernel does not exist: {requested_kernel_id}')
         elif action == 'restart':
             if requested_kernel_id in running_kernels:
                 response_buf = StringIO(json.dumps(running_kernels.get(requested_kernel_id)))
                 response = await maybe_future(HTTPResponse(request, 204, buffer=response_buf))
                 return response
             else:
-                raise HTTPError(404, message='Kernel does not exist: %s' % requested_kernel_id)
+                raise HTTPError(404, message=f'Kernel does not exist: {requested_kernel_id}')
         else:
-            raise HTTPError(404, message='Bad action detected: %s' % action)
+            raise HTTPError(404, message=f'Bad action detected: {action}')
 
     # Shutdown existing kernel
     if endpoint.rfind('/api/kernels/') >= 0 and method == 'DELETE':
@@ -121,7 +121,7 @@ async def mock_gateway_request(url, **kwargs):
             response = await maybe_future(HTTPResponse(request, 200, buffer=response_buf))
             return response
         else:
-            raise HTTPError(404, message='Kernel does not exist: %s' % requested_kernel_id)
+            raise HTTPError(404, message=f'Kernel does not exist: {requested_kernel_id}')
 
 
 mocked_gateway = patch('notebook.gateway.managers.gateway_request', mock_gateway_request)

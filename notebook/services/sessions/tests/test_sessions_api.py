@@ -128,7 +128,7 @@ class SessionAPITest(NotebookTestBase):
         self.assertIn('id', newsession)
         self.assertEqual(newsession['path'], 'foo/nb1.ipynb')
         self.assertEqual(newsession['type'], 'notebook')
-        self.assertEqual(resp.headers['Location'], self.url_prefix + 'api/sessions/{}'.format(newsession['id']))
+        self.assertEqual(resp.headers['Location'], f'{self.url_prefix}api/sessions/{newsession["id"]}')
 
         sessions = self.sess_api.list().json()
         self.assertEqual(sessions, [newsession])
@@ -172,7 +172,7 @@ class SessionAPITest(NotebookTestBase):
         self.assertIn('id', newsession)
         self.assertEqual(newsession['path'], 'foo/nb1.ipynb')
         self.assertEqual(newsession['kernel']['id'], kernel['id'])
-        self.assertEqual(resp.headers['Location'], self.url_prefix + 'api/sessions/{}'.format(newsession['id']))
+        self.assertEqual(resp.headers['Location'], f'{self.url_prefix}api/sessions/{newsession["id"]}')
 
         sessions = self.sess_api.list().json()
         self.assertEqual(sessions, [newsession])

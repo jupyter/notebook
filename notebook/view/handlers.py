@@ -22,5 +22,5 @@ class ViewHandler(IPythonHandler):
         )
 
 default_handlers = [
-    (r"/view%s" % path_regex, ViewHandler),
+    (fr"/view{path_regex}", ViewHandler),
 ]

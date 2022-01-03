@@ -32,5 +32,5 @@ class ConfigHandler(APIHandler):
 section_name_regex = r"(?P<section_name>\w+)"
 
 default_handlers = [
-    (r"/api/config/%s" % section_name_regex, ConfigHandler),
+    (fr"/api/config/{section_name_regex}", ConfigHandler),
 ]

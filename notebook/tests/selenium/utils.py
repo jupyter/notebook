@@ -199,8 +199,7 @@ class Notebook:
         elif cell_type == "code":
             self.current_cell.send_keys("y")
         else:
-            raise CellTypeError(("{} is not a valid cell type,"
-                                 "use 'code', 'markdown', or 'raw'").format(cell_type))
+            raise CellTypeError(f"{cell_type} is not a valid cell type,use 'code', 'markdown', or 'raw'")
 
         self.wait_for_stale_cell(cell)
         self.focus_cell(index)
@@ -302,7 +301,7 @@ class Notebook:
                 self.add_cell(cell_type=cell_type,
                               content=value)
             else:
-                raise TypeError("Don't know how to add cell from %r" % value)
+                raise TypeError(f"Don't know how to add cell from {value!r}")
 
     def extend(self, values):
         self.append(*values)

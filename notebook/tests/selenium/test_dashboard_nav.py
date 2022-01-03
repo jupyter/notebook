@@ -9,7 +9,7 @@ class PageError(Exception):
     """Error for an action being incompatible with the current jupyter web page."""
     def __init__(self, message):
         self.message = message
-        
+
 
 def url_in_tree(browser, url=None):
     if url is None:
@@ -20,7 +20,7 @@ def url_in_tree(browser, url=None):
 
 def get_list_items(browser):
     """Gets list items from a directory listing page
-    
+
     Raises PageError if not in directory listing page (url has tree in it)
     """
     if not url_in_tree(browser):

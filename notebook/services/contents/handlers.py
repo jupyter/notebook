@@ -190,7 +190,7 @@ class ContentsHandler(APIHandler):
 
         dir_exists = yield maybe_future(cm.dir_exists(path))
         if not dir_exists:
-            raise web.HTTPError(404, "No such directory: %s" % path)
+            raise web.HTTPError(404, f"No such directory: {path}")
 
         model = self.get_json_body()
 
@@ -320,10 +320,10 @@ class TrustNotebooksHandler(IPythonHandler):
 _checkpoint_id_regex = r"(?P<checkpoint_id>[\w-]+)"
 
 default_handlers = [
-    (r"/api/contents%s/checkpoints" % path_regex, CheckpointsHandler),
-    (r"/api/contents%s/checkpoints/%s" % (path_regex, _checkpoint_id_regex),
+    (fr"/api/contents{path_regex}/checkpoints", CheckpointsHandler),
+    (fr"/api/contents{path_regex}/checkpoints/{_checkpoint_id_regex}",
         ModifyCheckpointsHandler),
-    (r"/api/contents%s/trust" % path_regex, TrustNotebooksHandler),
-    (r"/api/contents%s" % path_regex, ContentsHandler),
+    (fr"/api/contents{path_regex}/trust", TrustNotebooksHandler),
+    (fr"/api/contents{path_regex}", ContentsHandler),
     (r"/api/notebooks/?(.*)", NotebooksRedirectHandler),
 ]

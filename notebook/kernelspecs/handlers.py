@@ -24,5 +24,5 @@ class KernelSpecResourceHandler(web.StaticFileHandler, IPythonHandler):
         return self.get(kernel_name, path, include_body=False)
 
 default_handlers = [
-    (r"/kernelspecs/%s/(?P<path>.*)" % kernel_name_regex, KernelSpecResourceHandler),
+    (fr"/kernelspecs/{kernel_name_regex}/(?P<path>.*)", KernelSpecResourceHandler),
 ]

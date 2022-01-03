@@ -382,7 +382,7 @@ def urldecode_unix_socket_path(socket_path):
 
 def urlencode_unix_socket(socket_path):
     """Encodes a UNIX socket URL from a socket path for the `http+unix` URI form."""
-    return 'http+unix://%s' % urlencode_unix_socket_path(socket_path)
+    return f'http+unix://{urlencode_unix_socket_path(socket_path)}'
 
 
 def unix_socket_in_use(socket_path):

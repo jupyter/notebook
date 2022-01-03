@@ -58,8 +58,7 @@ def test_save(notebook):
             break
         hrefs_nonmatch.append(href)
     else:
-        raise AssertionError("{!r} not found in {!r}"
-                             .format(escaped_name, hrefs_nonmatch))
+        raise AssertionError(f"{escaped_name!r} not found in {hrefs_nonmatch!r}")
 
     current_name = notebook.browser.execute_script("return Jupyter.notebook.notebook_name")
     assert current_name == nbname

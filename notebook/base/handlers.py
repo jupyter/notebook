@@ -152,9 +152,7 @@ class AuthenticatedHandler(web.RequestHandler):
 
     @property
     def cookie_name(self):
-        default_cookie_name = non_alphanum.sub('-', 'username-{}'.format(
-            self.request.host
-        ))
+        default_cookie_name = non_alphanum.sub('-', f'username-{self.request.host}')
         return self.settings.get('cookie_name', default_cookie_name)
 
     @property
@@ -327,12 +325,9 @@ class IPythonHandler(AuthenticatedHandler):
         As a method to ensure handling of filename encoding
         """
         escaped_filename = url_escape(filename)
-        self.set_header('Content-Disposition',
-            'attachment;'
-            " filename*=utf-8''{utf8}"
-            .format(
-                utf8=escaped_filename,
-            )
+        self.set_header(
+            'Content-Disposition',
+            f"attachment; filename*=utf-8''{escaped_filename}"
         )
 
     def get_origin(self):
@@ -582,7 +577,7 @@ class IPythonHandler(AuthenticatedHandler):
         self.set_header('Content-Type', 'text/html')
         # render the template
         try:
-            html = self.render_template('%s.html' % status_code, **ns)
+            html = self.render_template(f'{status_code}.html', **ns)
         except TemplateNotFound:
             html = self.render_template('error.html', **ns)
 

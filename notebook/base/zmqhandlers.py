@@ -249,7 +249,7 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
         try:
             msg = self._reserialize_reply(msg_list, channel=channel)
         except Exception:
-            self.log.critical("Malformed message: %r" % msg_list, exc_info=True)
+            self.log.critical(f"Malformed message: {msg_list!r}", exc_info=True)
             return
 
         try:

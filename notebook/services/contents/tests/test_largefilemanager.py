@@ -13,7 +13,7 @@ def _make_dir(contents_manager, api_path):
     try:
         os.makedirs(os_path)
     except OSError:
-        print("Directory already exists: %r" % os_path)
+        print(f"Directory already exists: {os_path!r}")
 
 
 class TestLargeFileManager(TestCase):

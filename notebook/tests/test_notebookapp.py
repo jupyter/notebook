@@ -157,7 +157,7 @@ def test_notebook_stop():
                 'secure': False,
                 'token': '',
                 'password': False,
-                'url': 'http://localhost:%i' % port,
+                'url': f'http://localhost:{port}',
             }
 
     mock_servers = patch('notebook.notebookapp.list_running_servers', list_running_servers)

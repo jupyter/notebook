@@ -71,7 +71,7 @@ class MappingKernelManager(MultiKernelManager):
             # If we receive a non-absolute path, make it absolute.
             value = os.path.abspath(value)
         if not exists(value) or not os.path.isdir(value):
-            raise TraitError("kernel root dir %r is not a directory" % value)
+            raise TraitError(f"kernel root dir {value!r} is not a directory")
         return value
 
     cull_idle_timeout = Integer(0, config=True,
@@ -176,8 +176,8 @@ class MappingKernelManager(MultiKernelManager):
             kernel_id = await maybe_future(self.pinned_superclass.start_kernel(self, **kwargs))
             self._kernel_connections[kernel_id] = 0
             self.start_watching_activity(kernel_id)
-            self.log.info("Kernel started: %s, name: %s" % (kernel_id, self._kernels[kernel_id].kernel_name))
-            self.log.debug("Kernel args: %r" % kwargs)
+            self.log.info(f"Kernel started: {kernel_id}, name: {self._kernels[kernel_id].kernel_name}")
+            self.log.debug(f"Kernel args: {kwargs!r}")
             # register callback for failed auto-restart
             self.add_restart_callback(kernel_id,
                 lambda : self._handle_kernel_died(kernel_id),
@@ -192,7 +192,7 @@ class MappingKernelManager(MultiKernelManager):
 
         else:
             self._check_kernel_id(kernel_id)
-            self.log.info("Using existing kernel: %s" % kernel_id)
+            self.log.info(f"Using existing kernel: {kernel_id}")
 
         # Initialize culling if not already
         if not self._initialized_culler:
@@ -457,8 +457,10 @@ class MappingKernelManager(MultiKernelManager):
             try:
                 await self.cull_kernel_if_idle(kernel_id)
             except Exception as e:
-                self.log.exception("The following exception was encountered while checking the "
-                                   "idle duration of kernel {}: {}".format(kernel_id, e))
+                self.log.exception(
+                    f"The following exception was encountered while checking the idle duration of kernel "
+                    f"{kernel_id}: {e}"
+                )
 
     async def cull_kernel_if_idle(self, kernel_id):
         try:

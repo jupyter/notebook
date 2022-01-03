@@ -15,8 +15,12 @@ class TerminalHandler(IPythonHandler):
     """Render the terminal interface."""
     @web.authenticated
     def get(self, term_name):
-        self.write(self.render_template('terminal.html',
-                       ws_path="terminals/websocket/%s" % term_name))
+        self.write(
+            self.render_template(
+                'terminal.html',
+                ws_path=f"terminals/websocket/{term_name}",
+            )
+        )
 
 
 class NamedTerminalHandler(IPythonHandler):

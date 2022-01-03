@@ -107,11 +107,11 @@ class TestInstallNBExtension(TestCase):
     def assert_dir_exists(self, path):
         if not os.path.exists(path):
             do_exist = os.listdir(os.path.dirname(path))
-            self.fail("%s should exist (found %s)" % (path, do_exist))
+            self.fail(f"{path} should exist (found {do_exist})")
 
     def assert_not_dir_exists(self, path):
         if os.path.exists(path):
-            self.fail("%s should not exist" % path)
+            self.fail(f"{path} should not exist")
 
     def assert_installed(self, relative_path, user=False):
         if user:
@@ -287,11 +287,11 @@ class TestInstallNBExtension(TestCase):
         for i,ext in enumerate((".tar.gz", ".tgz", ".tar.bz2")):
             path = pjoin(self.src, "myjsext" + ext)
             with tarfile.open(path, 'w') as f:
-                _add_file(f, "b%i.js" % i, b"b();")
-                _add_file(f, "foo/b%i.js" % i, b"foo();")
+                _add_file(f, f"b{i}.js", b"b();")
+                _add_file(f, f"foo/b{i}.js", b"foo();")
             install_nbextension(path)
-            self.assert_installed("b%i.js" % i)
-            self.assert_installed(pjoin("foo", "b%i.js" % i))
+            self.assert_installed(f"b{i}.js")
+            self.assert_installed(pjoin("foo", f"b{i}.js"))
 
     def test_install_url(self):
         def fake_urlretrieve(url, dest):

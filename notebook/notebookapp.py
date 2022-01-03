@@ -215,13 +215,13 @@ class NotebookWebApplication(web.Application):
         env.install_gettext_translations(nbui, newstyle=False)
 
         if dev_mode:
-            DEV_NOTE_NPM = """It looks like you're running the notebook from source.
+            DEV_NOTE_NPM = f"""It looks like you're running the notebook from source.
     If you're working on the Javascript of the notebook, try running
 
-    %s
+    {'npm run build:watch'}
 
     in another terminal window to have the system incrementally
-    watch and build the notebook's JavaScript for you, as you make changes.""" % 'npm run build:watch'
+    watch and build the notebook's JavaScript for you, as you make changes."""
             log.info(DEV_NOTE_NPM)
 
         if sys_info['commit_source'] == 'repository':
@@ -424,7 +424,7 @@ class NotebookPasswordApp(JupyterApp):
     def start(self):
         from .auth.security import set_password
         set_password(config_file=self.config_file)
-        self.log.info("Wrote hashed password to %s" % self.config_file)
+        self.log.info(f"Wrote hashed password to {self.config_file}")
 
 
 def shutdown_server(server_info, timeout=5, log=None):
@@ -503,7 +503,7 @@ class NbserverStopApp(JupyterApp):
     description="Stop currently running notebook server."
 
     port = Integer(DEFAULT_NOTEBOOK_PORT, config=True,
-        help="Port of the server to be killed. Default %s" % DEFAULT_NOTEBOOK_PORT)
+        help=f"Port of the server to be killed. Default {DEFAULT_NOTEBOOK_PORT}")
 
     sock = Unicode('', config=True,
         help="UNIX socket of the server to be killed.")
@@ -521,7 +521,7 @@ class NbserverStopApp(JupyterApp):
         return shutdown_server(server, log=self.log)
 
     def _shutdown_or_exit(self, target_endpoint, server):
-        print("Shutting down server on %s..." % target_endpoint)
+        print(f"Shutting down server on {target_endpoint}...")
         server_stopped = self.shutdown_server(server)
         if not server_stopped and sys.platform.startswith('win'):
             # the pid check on Windows appears to be unreliable, so fetch another
@@ -531,7 +531,7 @@ class NbserverStopApp(JupyterApp):
             if server not in servers:
                 server_stopped = True
         if not server_stopped:
-            sys.exit("Could not stop server on %s" % target_endpoint)
+            sys.exit(f"Could not stop server on {target_endpoint}")
 
     @staticmethod
     def _maybe_remove_unix_socket(socket_path):
@@ -1884,7 +1884,7 @@ class NotebookApp(JupyterApp):
             return self._tcp_url(ip)
 
     def _unix_sock_url(self, token=None):
-        return '%s%s' % (urlencode_unix_socket(self.sock), self.base_url)
+        return f'{urlencode_unix_socket(self.sock)}{self.base_url}'
 
     def _tcp_url(self, ip, port=None):
         proto = 'https' if self.certfile else 'http'

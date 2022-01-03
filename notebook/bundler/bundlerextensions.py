@@ -70,11 +70,7 @@ def _set_bundler_state(name, label, module_name, group, state,
     cm = BaseJSONConfigManager(config_dir=config_dir)
 
     if logger:
-        logger.info("{} {} bundler {}...".format(
-            "Enabling" if state else "Disabling",
-            name,
-            module_name
-        ))
+        logger.info(f"{'Enabling' if state else 'Disabling'} {name} bundler {module_name}...")
 
     if state:
         cm.update(BUNDLER_SECTION, {
@@ -297,7 +293,7 @@ jupyter bundlerextension disable --py <packagename>    # disable all bundlers in
         # The above should have called a subcommand and raised NoStart; if we
         # get here, it didn't, so we should self.log.info a message.
         subcmds = ", ".join(sorted(self.subcommands))
-        sys.exit("Please supply at least one subcommand: %s" % subcmds)
+        sys.exit(f"Please supply at least one subcommand: {subcmds}")
 
 main = BundlerExtensionApp.launch_instance
 

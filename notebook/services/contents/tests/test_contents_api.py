@@ -158,7 +158,7 @@ class APITest(NotebookTestBase):
         try:
             os.makedirs(os_path)
         except OSError:
-            print("Directory already exists: %r" % os_path)
+            print(f"Directory already exists: {os_path!r}")
 
     def make_txt(self, api_path, txt):
         """Make a text file at a given api_path"""
@@ -280,7 +280,7 @@ class APITest(NotebookTestBase):
         for d, name in self.dirs_nbs:
             path = url_path_join(d, name + '.ipynb')
             nb = self.api.read(path).json()
-            self.assertEqual(nb['name'], '%s.ipynb' % name)
+            self.assertEqual(nb['name'], f'{name}.ipynb')
             self.assertEqual(nb['path'], path)
             self.assertEqual(nb['type'], 'notebook')
             self.assertIn('content', nb)
@@ -508,7 +508,7 @@ class APITest(NotebookTestBase):
 
     def test_delete(self):
         for d, name in self.dirs_nbs:
-            print('%r, %r' % (d, name))
+            print(f'{d!r}, {name!r}')
             resp = self.api.delete(url_path_join(d, name + '.ipynb'))
             self.assertEqual(resp.status_code, 204)
 

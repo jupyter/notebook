@@ -139,8 +139,9 @@ class TerminalManager(LoggingConfigurable, NamedTermManager):
             try:
                 await self._cull_inactive_terminal(name)
             except Exception as e:
-                self.log.exception("The following exception was encountered while checking the "
-                                   "activity of terminal {}: {}".format(name, e))
+                self.log.exception(
+                    f"The following exception was encountered while checking the activity of terminal {name}: {e}"
+                )
 
     async def _cull_inactive_terminal(self, name):
         try:

@@ -141,7 +141,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             # If we receive a non-absolute path, make it absolute.
             value = os.path.abspath(value)
         if not os.path.isdir(value):
-            raise TraitError("%r is not a directory" % value)
+            raise TraitError(f"{value!r} is not a directory")
         return value
 
     @default('checkpoints_class')
@@ -290,7 +290,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         """
         os_path = self._get_os_path(path)
 
-        four_o_four = 'directory does not exist: %r' % path
+        four_o_four = f'directory does not exist: {path!r}'
 
         if not os.path.isdir(os_path):
             raise web.HTTPError(404, four_o_four)
@@ -334,7 +334,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                     if self.should_list(name):
                         if self.allow_hidden or not is_file_hidden(os_path, stat_res=st):
                             contents.append(
-                                    self.get(path='%s/%s' % (path, name), content=False)
+                                    self.get(path=f'{path}/{name}', content=False)
                             )
                 except OSError as e:
                     # ELOOP: recursive symlink
@@ -437,8 +437,9 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             model = self._notebook_model(path, content=content)
         else:
             if type == 'directory':
-                raise web.HTTPError(400,
-                                '%s is not a directory' % path, reason='bad type')
+                raise web.HTTPError(
+                    400,
+                    f'{path} is not a directory', reason='bad type')
             model = self._file_model(path, content=content, format=format)
         return model
 
@@ -450,7 +451,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             with self.perm_to_403():
                 os.mkdir(os_path)
         elif not os.path.isdir(os_path):
-            raise web.HTTPError(400, 'Not a directory: %s' % (os_path))
+            raise web.HTTPError(400, f'Not a directory: {os_path}')
         else:
             self.log.debug("Directory %r already exists", os_path)
 
@@ -482,13 +483,12 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             elif model['type'] == 'directory':
                 self._save_directory(os_path, model, path)
             else:
-                raise web.HTTPError(400, "Unhandled contents type: %s" % model['type'])
+                raise web.HTTPError(400, f"Unhandled contents type: {model['type']}")
         except web.HTTPError:
             raise
         except Exception as e:
             self.log.error('Error while saving file: %s %s', path, e, exc_info=True)
-            raise web.HTTPError(500, 'Unexpected error while saving file: %s %s' %
-                                (path, e)) from e
+            raise web.HTTPError(500, f'Unexpected error while saving file: {path} {e}') from e
 
         validation_message = None
         if model['type'] == 'notebook':
@@ -509,7 +509,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         os_path = self._get_os_path(path)
         rm = os.unlink
         if not os.path.exists(os_path):
-            raise web.HTTPError(404, 'File or directory does not exist: %s' % os_path)
+            raise web.HTTPError(404, f'File or directory does not exist: {os_path}')
 
         def is_non_empty_dir(os_path):
             if os.path.isdir(os_path):
@@ -525,7 +525,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             if sys.platform == 'win32' and is_non_empty_dir(os_path):
                 # send2trash can really delete files on Windows, so disallow
                 # deleting non-empty files. See Github issue 3631.
-                raise web.HTTPError(400, 'Directory %s not empty' % os_path)
+                raise web.HTTPError(400, f'Directory {os_path} not empty')
             try:
                 self.log.debug("Sending %s to trash", os_path)
                 send2trash(os_path)
@@ -536,7 +536,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         if os.path.isdir(os_path):
             # Don't permanently delete non-empty directories.
             if is_non_empty_dir(os_path):
-                raise web.HTTPError(400, 'Directory %s not empty' % os_path)
+                raise web.HTTPError(400, f'Directory {os_path} not empty')
             self.log.debug("Removing directory %s", os_path)
             with self.perm_to_403():
                 shutil.rmtree(os_path)

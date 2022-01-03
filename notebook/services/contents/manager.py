@@ -367,7 +367,7 @@ class ContentsManager(LoggingConfigurable):
         """
         path = path.strip('/')
         if not self.dir_exists(path):
-            raise HTTPError(404, 'No such directory: %s' % path)
+            raise HTTPError(404, f'No such directory: {path}')
 
         model = {}
         if type:
@@ -388,7 +388,7 @@ class ContentsManager(LoggingConfigurable):
         elif model['type'] == 'file':
             untitled = self.untitled_file
         else:
-            raise HTTPError(400, "Unexpected model type: %r" % model['type'])
+            raise HTTPError(400, f"Unexpected model type: {model['type']!r}")
 
         name = self.increment_filename(untitled + ext, path, insert=insert)
         path = f'{path}/{name}'

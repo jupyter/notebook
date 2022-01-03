@@ -46,8 +46,7 @@ def get_frontend_exporters():
 
         # Ensure export_from_notebook is explicitly defined & not inherited
         if ux_name is not None and ux_name != super_uxname:
-            display = _('{} ({})'.format(ux_name,
-                                         exporter_instance.file_extension))
+            display = _(f'{ux_name} ({exporter_instance.file_extension})')
             frontend_exporters.append(ExporterInfo(name, display))
 
     # Ensure default_exporters are in frontend_exporters if not already
@@ -109,6 +108,6 @@ class NotebookHandler(IPythonHandler):
 
 
 default_handlers = [
-    (r"/notebooks%s" % path_regex, NotebookHandler),
+    (fr"/notebooks{path_regex}", NotebookHandler),
 ]
 
