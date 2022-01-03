@@ -2,6 +2,26 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.15
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.14...6815878b79fa1e43bff706bb42ff3a2ee5bc23bd))
+
+### Enhancements made
+
+- Enable auto scrolling for outputs by default [#288](https://github.com/jupyterlab/retrolab/pull/288) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Fix handling of the Python version in the release scripts [#315](https://github.com/jupyterlab/retrolab/pull/315) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-12-28&to=2022-01-03&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-12-28..2022-01-03&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-12-28..2022-01-03&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.14
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.13...ec926de136ba17afd3335e8ad452b16bb173986b))
@@ -32,8 +52,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-11-12&to=2021-12-28&type=c))
 
 [@gabalafou](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agabalafou+updated%3A2021-11-12..2021-12-28&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-11-12..2021-12-28&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-11-12..2021-12-28&type=Issues) | [@jweill-aws](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajweill-aws+updated%3A2021-11-12..2021-12-28&type=Issues) | [@loichuder](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Aloichuder+updated%3A2021-11-12..2021-12-28&type=Issues) | [@tonyfast](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Atonyfast+updated%3A2021-11-12..2021-12-28&type=Issues) | [@welcome](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Awelcome+updated%3A2021-11-12..2021-12-28&type=Issues) | [@yuvipanda](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ayuvipanda+updated%3A2021-11-12..2021-12-28&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.13
 
