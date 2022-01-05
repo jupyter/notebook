@@ -22,7 +22,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install -U jupyterlab~=3.0 jupyter_packaging~=0.10
+        python -m pip install -U "jupyterlab>=4.0.0a18,<5" jupyter_packaging~=0.10
         jlpm
         jlpm run build
 
@@ -75,6 +75,6 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install -U jupyterlab~=3.0 jupyter_packaging~=0.10 pip
+        python -m pip install -U "jupyterlab>=4.0.0a18,<5" jupyter_packaging~=0.10 pip
         jlpm
         jlpm run build
