@@ -2,6 +2,23 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.3.16
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.15...41a51ac002582baac9a89a2eb3426ac26e16a46f))
+
+### Maintenance and upkeep improvements
+
+- Update to the `@jupyterlab` 3.2.6 packages [#321](https://github.com/jupyterlab/retrolab/pull/321) ([@jtpio](https://github.com/jtpio))
+- Remove allsettled polyfill [#318](https://github.com/jupyterlab/retrolab/pull/318) ([@martinRenou](https://github.com/martinRenou))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2022-01-03&to=2022-01-07&type=c))
+
+[@davidbrochart](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Adavidbrochart+updated%3A2022-01-03..2022-01-07&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2022-01-03..2022-01-07&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2022-01-03..2022-01-07&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3AmartinRenou+updated%3A2022-01-03..2022-01-07&type=Issues) | [@welcome](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Awelcome+updated%3A2022-01-03..2022-01-07&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.15
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.14...6815878b79fa1e43bff706bb42ff3a2ee5bc23bd))
@@ -19,8 +36,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2021-12-28&to=2022-01-03&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2021-12-28..2022-01-03&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2021-12-28..2022-01-03&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.14
 
