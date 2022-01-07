@@ -43,19 +43,19 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^3.2.5",
-    "@jupyterlab/apputils": "^3.2.5",
-    "@jupyterlab/coreutils": "^5.2.5",
-    "@jupyterlab/docregistry": "^3.2.5",
-    "@jupyterlab/mainmenu": "^3.2.5",
-    "@jupyterlab/notebook": "^3.2.5",
-    "@jupyterlab/translation": "^3.2.5",
+    "@jupyterlab/application": "^3.2.6",
+    "@jupyterlab/apputils": "^3.2.6",
+    "@jupyterlab/coreutils": "^5.2.6",
+    "@jupyterlab/docregistry": "^3.2.6",
+    "@jupyterlab/mainmenu": "^3.2.6",
+    "@jupyterlab/notebook": "^3.2.6",
+    "@jupyterlab/translation": "^3.2.6",
     "@lumino/commands": "^1.15.0",
     "@lumino/disposable": "^1.7.0",
     "@retrolab/application": "^0.3.15"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^3.2.5",
+    "@jupyterlab/builder": "^3.2.6",
     "rimraf": "~3.0.0",
     "typescript": "~4.1.3"
   },
