@@ -1,6 +1,6 @@
 {
   "name": "@retrolab/lab-extension",
-  "version": "0.3.15",
+  "version": "0.3.16",
   "description": "RetroLab - Lab Extension",
   "homepage": "https://github.com/jupyterlab/retrolab",
   "bugs": {
@@ -52,7 +52,7 @@
     "@jupyterlab/translation": "^3.2.6",
     "@lumino/commands": "^1.15.0",
     "@lumino/disposable": "^1.7.0",
-    "@retrolab/application": "^0.3.15"
+    "@retrolab/application": "^0.3.16"
   },
   "devDependencies": {
     "@jupyterlab/builder": "^3.2.6",
