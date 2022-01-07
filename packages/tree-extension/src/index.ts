@@ -15,6 +15,7 @@ import { ITranslator } from '@jupyterlab/translation';
 
 import {
   consoleIcon,
+  folderIcon,
   notebookIcon,
   runningIcon,
   terminalIcon
@@ -152,6 +153,10 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
 
     const { defaultBrowser: browser } = factory;
     browser.title.label = trans.__('Files');
+    browser.node.setAttribute('role', 'region');
+    browser.node.setAttribute('aria-label', trans.__('File Browser Section'));
+    browser.title.icon = folderIcon;
+
     tabPanel.addWidget(browser);
     tabPanel.tabBar.addTab(browser.title);
 
