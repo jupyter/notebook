@@ -20,7 +20,7 @@ msgstr ""
 
 #: notebook/templates/404.html:3
 msgid "You are requesting a page that does not exist!"
-msgstr "您所请求的页面不存在!"
+msgstr "您所请求的页面不存在！"
 
 #: notebook/templates/edit.html:37
 msgid "current mode"
