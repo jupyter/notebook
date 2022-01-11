@@ -729,5 +729,5 @@ msgstr "集群标签现在由IPython并行提供。"
 
 #: notebook/templates/tree.html:179
 msgid "See '<a href=\"https://github.com/ipython/ipyparallel\">IPython parallel</a>' for installation details."
-msgstr "安装细节查看 '<a href=\"https://github.com/ipython/ipyparallel\">IPython parallel</a>'."
+msgstr "安装细节查看 '<a href=\"https://github.com/ipython/ipyparallel\">IPython parallel</a>'。"
 
