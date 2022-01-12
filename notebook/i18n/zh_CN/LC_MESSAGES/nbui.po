@@ -20,7 +20,7 @@ msgstr ""
 
 #: notebook/templates/404.html:3
 msgid "You are requesting a page that does not exist!"
-msgstr "您所请求的页面不存在!"
+msgstr "您所请求的页面不存在！"
 
 #: notebook/templates/edit.html:37
 msgid "current mode"
@@ -94,15 +94,15 @@ msgstr "语言"
 
 #: notebook/templates/error.html:23
 msgid "The error was:"
-msgstr "错误:"
+msgstr "错误："
 
 #: notebook/templates/login.html:24
 msgid "Password or token:"
-msgstr "密码或者token:"
+msgstr "密码或者token："
 
 #: notebook/templates/login.html:26
 msgid "Password:"
-msgstr "密码:"
+msgstr "密码："
 
 #: notebook/templates/login.html:31
 msgid "Log in"
@@ -110,7 +110,7 @@ msgstr "登录"
 
 #: notebook/templates/login.html:39
 msgid "No login available, you shouldn't be seeing this page."
-msgstr "还没有登录, 请先登录."
+msgstr "还没有登录，请先登录。"
 
 #: notebook/templates/logout.html:31
 #, python-format
@@ -148,7 +148,7 @@ msgstr "打开..."
 
 #: notebook/templates/notebook.html:90
 msgid "Open a copy of this notebook's contents and start a new kernel"
-msgstr "复制并打开当前notebook的内容，同时启动一个新的内核"
+msgstr "复制并打开当前notebook的内容，并启动一个新的内核"
 
 #: notebook/templates/notebook.html:91
 msgid "Make a Copy..."
@@ -392,7 +392,7 @@ msgstr "单元格类型"
 
 #: notebook/templates/notebook.html:209
 msgid "Contents will be sent to the kernel for execution, and output will display in the footer of cell"
-msgstr "内容将被发送到内核执行，输出将显示在单元格的页脚。"
+msgstr "内容将被发送到内核执行，输出将显示在单元格的页脚"
 
 #: notebook/templates/notebook.html:212
 msgid "Contents will be rendered as HTML and serve as explanatory text"
@@ -456,7 +456,7 @@ msgstr "清空所有代码块的输出"
 
 #: notebook/templates/notebook.html:257
 msgid "Send Keyboard Interrupt (CTRL-C) to the Kernel"
-msgstr "按下CTRL-C 中断内核"
+msgstr "按下 CTRL-C 中断内核"
 
 #: notebook/templates/notebook.html:258
 msgid "Interrupt"
@@ -544,7 +544,7 @@ msgstr "关于"
 
 #: notebook/templates/page.html:114
 msgid "Jupyter Notebook requires JavaScript."
-msgstr "Jupyter Notebook需要的JavaScript."
+msgstr "Jupyter Notebook 需要 JavaScript。"
 
 #: notebook/templates/page.html:115
 msgid "Please enable it to proceed. "
@@ -709,11 +709,11 @@ msgstr "刷新运行列表"
 
 #: notebook/templates/tree.html:150
 msgid "There are no terminals running."
-msgstr "没有终端运行"
+msgstr "没有终端正在运行。"
 
 #: notebook/templates/tree.html:152
 msgid "Terminals are unavailable."
-msgstr "终端不可用"
+msgstr "终端不可用。"
 
 #: notebook/templates/tree.html:162
 msgid "Notebooks"
@@ -721,13 +721,13 @@ msgstr ""
 
 #: notebook/templates/tree.html:169
 msgid "There are no notebooks running."
-msgstr "没有notebooks正在运行"
+msgstr "没有notebooks正在运行。"
 
 #: notebook/templates/tree.html:178
 msgid "Clusters tab is now provided by IPython parallel."
-msgstr "集群标签现在由IPython并行提供."
+msgstr "集群标签现在由IPython并行提供。"
 
 #: notebook/templates/tree.html:179
 msgid "See '<a href=\"https://github.com/ipython/ipyparallel\">IPython parallel</a>' for installation details."
-msgstr "安装细节查看 '<a href=\"https://github.com/ipython/ipyparallel\">IPython parallel</a>'."
+msgstr "安装细节查看 '<a href=\"https://github.com/ipython/ipyparallel\">IPython parallel</a>'。"
 

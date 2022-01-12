@@ -125,7 +125,7 @@ msgstr "该 notebook 服务的版本是："
 
 #: notebook/static/notebook/js/about.js:22
 msgid "The server is running on this version of Python:"
-msgstr "该服务运行中使用的 Python 版本为:"
+msgstr "该服务运行中使用的 Python 版本为："
 
 #: notebook/static/notebook/js/about.js:25
 msgid "Waiting for kernel to be available..."
@@ -133,11 +133,11 @@ msgstr "等待内核可用..."
 
 #: notebook/static/notebook/js/about.js:27
 msgid "Server Information:"
-msgstr "服务信息:"
+msgstr "服务信息："
 
 #: notebook/static/notebook/js/about.js:29
 msgid "Current Kernel Information:"
-msgstr "当前内核信息:"
+msgstr "当前内核信息："
 
 #: notebook/static/notebook/js/about.js:32
 msgid "Could not access sys_info variable for version information."
