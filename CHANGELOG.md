@@ -14,6 +14,34 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 6.4.7
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.6...b77b5e38b8fa1a20150d7fa4d735dbf1c4f00418))
+
+### Bugs fixed
+
+- Fix Chinese punctuation [#6268](https://github.com/jupyter/notebook/pull/6268) ([@LiHua-Official](https://github.com/LiHua-Official))
+- Add date field to kernel message header [#6265](https://github.com/jupyter/notebook/pull/6265) ([@kevin-bates](https://github.com/kevin-bates))
+- Fix deprecation warning [#6253](https://github.com/jupyter/notebook/pull/6253) ([@tornaria](https://github.com/tornaria))
+
+### Maintenance and upkeep improvements
+
+- Enforce labels on PRs [#6235](https://github.com/jupyter/notebook/pull/6235) ([@blink1073](https://github.com/blink1073))
+- Fix: CI error for python 3.6 & macOS [#6215](https://github.com/jupyter/notebook/pull/6215) ([@penguinolog](https://github.com/penguinolog))
+
+### Other merged PRs
+
+- handle KeyError when get session [#6245](https://github.com/jupyter/notebook/pull/6245) ([@ccw630](https://github.com/ccw630))
+- Updated doc for passwd [#6209](https://github.com/jupyter/notebook/pull/6209) ([@antoinecarme](https://github.com/antoinecarme))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2021-11-16&to=2022-01-12&type=c))
+
+[@antoinecarme](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aantoinecarme+updated%3A2021-11-16..2022-01-12&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2021-11-16..2022-01-12&type=Issues) | [@ccw630](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Accw630+updated%3A2021-11-16..2022-01-12&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2021-11-16..2022-01-12&type=Issues) | [@LiHua-Official](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ALiHua-Official+updated%3A2021-11-16..2022-01-12&type=Issues) | [@penguinolog](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apenguinolog+updated%3A2021-11-16..2022-01-12&type=Issues) | [@tornaria](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atornaria+updated%3A2021-11-16..2022-01-12&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 6.4.6
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.5...160c27d3c23dafe8b42240571db21b0d5cbae2fe))
@@ -30,14 +58,11 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 - TST: don't look in user site for serverextensions [#6233](https://github.com/jupyter/notebook/pull/6233) ([@bnavigator](https://github.com/bnavigator))
 - Enable terminal tests as `pywinpty` is ported for python 3.9 [#6228](https://github.com/jupyter/notebook/pull/6228) ([@nsait-linaro](https://github.com/nsait-linaro))
 
-
 ### Contributors to this release
 
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2021-10-19&to=2021-11-16&type=c))
 
 [@bnavigator](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abnavigator+updated%3A2021-10-19..2021-11-16&type=Issues) | [@dleen](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adleen+updated%3A2021-10-19..2021-11-16&type=Issues) | [@dolfinus](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adolfinus+updated%3A2021-10-19..2021-11-16&type=Issues) | [@jackexu](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajackexu+updated%3A2021-10-19..2021-11-16&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2021-10-19..2021-11-16&type=Issues) | [@maliubiao](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Amaliubiao+updated%3A2021-10-19..2021-11-16&type=Issues) | [@nsait-linaro](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ansait-linaro+updated%3A2021-10-19..2021-11-16&type=Issues) | [@takluyver](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atakluyver+updated%3A2021-10-19..2021-11-16&type=Issues) | [@Zsailer](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AZsailer+updated%3A2021-10-19..2021-11-16&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.4.5
 
