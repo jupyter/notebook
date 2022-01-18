@@ -15,8 +15,8 @@ import { run } from '@jupyterlab/buildutils';
 
 commander
   .description('Setup the repository for develop mode')
-  .option('--overwrite', 'Force linking the RetroLab schemas')
-  .option('--source', 'The path to the retrolab package')
+  .option('--overwrite', 'Force linking the notebook schemas')
+  .option('--source', 'The path to the notebook package')
   .action((options: any) => {
     const { overwrite } = options;
     const prefix = run(
@@ -29,7 +29,7 @@ commander
     const source = path.resolve(options.source ?? process.cwd());
     const sourceDir = path.join(
       source,
-      'retrolab',
+      'notebook',
       'schemas',
       '@jupyter-notebook'
     );

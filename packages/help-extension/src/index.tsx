@@ -55,7 +55,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     menu: IMainMenu | null
   ): void => {
     const { commands } = app;
-    const trans = translator.load('retrolab');
+    const trans = translator.load('jupyter-notebook');
 
     commands.addCommand(CommandIDs.open, {
       label: args => args['text'] as string,
@@ -124,8 +124,8 @@ const plugin: JupyterFrontEndPlugin<void> = {
           </>
         );
 
-        const retroNotebookURL = 'https://github.com/jupyterlab/retrolab';
-        const linkLabel = trans.__('RETROLAB ON GITHUB');
+        const retroNotebookURL = 'https://github.com/jupyter/notebook';
+        const linkLabel = trans.__('JUPYTER NOTEBOOK ON GITHUB');
         const externalLinks = (
           <span>
             <a

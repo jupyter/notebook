@@ -16,16 +16,16 @@ import { ISignal, Signal } from '@lumino/signaling';
 import { Panel, Widget, BoxLayout } from '@lumino/widgets';
 
 /**
- * The RetroLab application shell token.
+ * The Jupyter Notebook application shell token.
  */
 export const INotebookShell = new Token<INotebookShell>(
   '@jupyter-notebook/application:INotebookShell'
 );
 
 /**
- * The RetroLab application shell interface.
+ * The Jupyter Notebook application shell interface.
  */
-export interface INotebookShell extends RetroShell {}
+export interface INotebookShell extends NotebookShell {}
 
 /**
  * The default rank for ranked panels.
@@ -35,7 +35,7 @@ const DEFAULT_RANK = 900;
 /**
  * The application shell.
  */
-export class RetroShell extends Widget implements JupyterFrontEnd.IShell {
+export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   constructor() {
     super();
     this.id = 'main';
@@ -78,7 +78,7 @@ export class RetroShell extends Widget implements JupyterFrontEnd.IShell {
   /**
    * A signal emitted when the current widget changes.
    */
-  get currentChanged(): ISignal<RetroShell, void> {
+  get currentChanged(): ISignal<NotebookShell, void> {
     return this._currentChanged;
   }
 

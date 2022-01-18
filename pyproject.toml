@@ -6,8 +6,8 @@ build-backend = "jupyter_packaging.build_api"
 file="LICENSE"
 
 [tool.jupyter-packaging.options]
-skip-if-exists = ["retrolab/labextension/static/style.js", "retrolab/static/bundle.js"]
-ensured-targets = ["retrolab/labextension/static/style.js", "retrolab/static/bundle.js"]
+skip-if-exists = ["notebook/labextension/static/style.js", "notebook/static/bundle.js"]
+ensured-targets = ["notebook/labextension/static/style.js", "notebook/static/bundle.js"]
 
 [tool.jupyter-packaging.builder]
 factory = "jupyter_packaging.npm_builder"
@@ -17,4 +17,4 @@ build_cmd = "build:prod"
 npm = ["jlpm"]
 
 [tool.check-manifest]
-ignore = ["app/**", "binder/**", "buildutils/**", "packages/**", "*.json", "yarn.lock", "readthedocs.yml", ".bumpversion.cfg", ".*", "lint-staged.config.js", "logo.*", "retrolab/labextension/**", "retrolab/schemas/**", "retrolab/static/**", "retrolab/template/**", "ui-tests/**"]
+ignore = ["app/**", "binder/**", "buildutils/**", "packages/**", "*.json", "yarn.lock", "readthedocs.yml", ".bumpversion.cfg", ".*", "lint-staged.config.js", "logo.*", "notebook/labextension/**", "notebook/schemas/**", "notebook/static/**", "notebook/template/**", "ui-tests/**"]

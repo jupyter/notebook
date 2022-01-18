@@ -4,5 +4,4 @@ set -euo pipefail
 python -m pip install -e .
 jlpm && jlpm run build
 jlpm run develop
-jupyter server extension enable retrolab
-jupyter serverextension enable retrolab
+jupyter serverextension enable notebook

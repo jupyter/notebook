@@ -68,7 +68,7 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
     retroShell: INotebookShell | null
   ) => {
     const { shell } = app;
-    const trans = translator.load('retrolab');
+    const trans = translator.load('jupyter-notebook');
     const widget = new Widget();
     widget.id = DOMUtils.createDomID();
     widget.addClass('jp-RetroCheckpoint');
@@ -175,7 +175,7 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
     shell: INotebookShell,
     translator: ITranslator
   ) => {
-    const trans = translator.load('retrolab');
+    const trans = translator.load('jupyter-notebook');
     const widget = new Widget();
     widget.addClass('jp-RetroKernelStatus');
     app.shell.add(widget, 'menu', { rank: 10_010 });

@@ -38,7 +38,7 @@ fs.copySync(cssImports, path.resolve(buildDir, 'extraStyle.js'));
 const extras = Build.ensureAssets({
   packageNames: names,
   output: buildDir,
-  schemaOutput: path.resolve(__dirname, '..', 'retrolab')
+  schemaOutput: path.resolve(__dirname, '..', 'notebook')
 });
 
 /**
@@ -159,7 +159,7 @@ module.exports = [
     mode: 'development',
     entry: ['./publicpath.js', './' + path.relative(__dirname, entryPoint)],
     output: {
-      path: path.resolve(__dirname, '..', 'retrolab/static/'),
+      path: path.resolve(__dirname, '..', 'notebook/static/'),
       library: {
         type: 'var',
         name: ['_JUPYTERLAB', 'CORE_OUTPUT']

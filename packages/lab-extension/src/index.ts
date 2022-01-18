@@ -26,24 +26,24 @@ import { INotebookShell } from '@jupyter-notebook/application';
  */
 namespace CommandIDs {
   /**
-   * Launch RetroLab Tree
+   * Launch Jupyter Notebook Tree
    */
-  export const launchRetroTree = 'retrolab:launch-tree';
+  export const launchRetroTree = 'jupyter-notebook:launch-tree';
 
   /**
-   * Open RetroLab
+   * Open Jupyter Notebook
    */
-  export const openRetro = 'retrolab:open-retro';
+  export const openRetro = 'jupyter-notebook:open-retro';
 
   /**
    * Open in Classic Notebook
    */
-  export const openClassic = 'retrolab:open-classic';
+  export const openClassic = 'jupyter-notebook:open-classic';
 
   /**
    * Open in JupyterLab
    */
-  export const openLab = 'retrolab:open-lab';
+  export const openLab = 'jupyter-notebook:open-lab';
 }
 
 interface ISwitcherChoice {
@@ -85,7 +85,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
 
     const { commands, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
-    const trans = translator.load('retrolab');
+    const trans = translator.load('jupyter-notebook');
     const menubar = new MenuBar();
     const switcher = new Menu({ commands });
     switcher.title.label = trans.__('Interface');
@@ -126,7 +126,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
 
     // always add Classic
     addInterface({
-      command: 'retrolab:open-classic',
+      command: 'jupyter-notebook:open-classic',
       commandLabel: trans.__('Open With %1', 'Classic Notebook'),
       buttonLabel: 'openClassic',
       urlPrefix: `${baseUrl}tree/`
@@ -134,8 +134,8 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
 
     if (!retroShell) {
       addInterface({
-        command: 'retrolab:open-retro',
-        commandLabel: trans.__('Open With %1', 'RetroLab'),
+        command: 'jupyter-notebook:open-retro',
+        commandLabel: trans.__('Open With %1', 'Jupyter Notebook'),
         buttonLabel: 'openRetro',
         urlPrefix: `${baseUrl}retro/tree/`
       });
@@ -143,7 +143,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
 
     if (!labShell) {
       addInterface({
-        command: 'retrolab:open-lab',
+        command: 'jupyter-notebook:open-lab',
         commandLabel: trans.__('Open With %1', 'JupyterLab'),
         buttonLabel: 'openLab',
         urlPrefix: `${baseUrl}doc/tree/`
@@ -166,7 +166,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * A plugin to add a command to open the RetroLab Tree.
+ * A plugin to add a command to open the Jupyter Notebook Tree.
  */
 const launchRetroTree: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/lab-extension:launch-retrotree',
@@ -180,11 +180,11 @@ const launchRetroTree: JupyterFrontEndPlugin<void> = {
     palette: ICommandPalette | null
   ): void => {
     const { commands } = app;
-    const trans = translator.load('retrolab');
+    const trans = translator.load('jupyter-notebook');
     const category = trans.__('Help');
 
     commands.addCommand(CommandIDs.launchRetroTree, {
-      label: trans.__('Launch RetroLab File Browser'),
+      label: trans.__('Launch Jupyter Notebook File Browser'),
       execute: () => {
         window.open(PageConfig.getBaseUrl() + 'retro/tree');
       }

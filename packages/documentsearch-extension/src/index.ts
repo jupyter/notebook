@@ -14,7 +14,7 @@ import { INotebookShell } from '@jupyter-notebook/application';
 const SEARCHABLE_CLASS = 'jp-mod-searchable';
 
 /**
- * A plugin to programmatically disable the Crtl-F shortcut in RetroLab
+ * A plugin to programmatically disable the Crtl-F shortcut in Jupyter Notebook
  * See https://github.com/jupyterlab/retrolab/pull/294 and
  * https://github.com/jupyterlab/jupyterlab/issues/11754 for more context.
  */

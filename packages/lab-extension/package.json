@@ -2,13 +2,13 @@
   "name": "@jupyter-notebook/lab-extension",
   "version": "0.4.0-alpha.1",
   "description": "Jupyter Notebook - Lab Extension",
-  "homepage": "https://github.com/jupyterlab/retrolab",
+  "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
-    "url": "https://github.com/jupyterlab/retrolab/issues"
+    "url": "https://github.com/jupyter/notebook/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jupyterlab/retrolab.git"
+    "url": "https://github.com/jupyter/notebook.git"
   },
   "license": "BSD-3-Clause",
   "author": "Project Jupyter",
@@ -36,7 +36,7 @@
     "build:lib": "tsc",
     "build:prod": "jlpm run build:lib && jlpm run build:labextension",
     "clean": "jlpm run clean:lib && jlpm run clean:labextension",
-    "clean:labextension": "rimraf ../../retrolab/labextension",
+    "clean:labextension": "rimraf ../../notebook/labextension",
     "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
     "watch": "run-p watch:src watch:labextension",
     "watch:labextension": "jupyter labextension watch .",
@@ -64,7 +64,7 @@
   },
   "jupyterlab": {
     "extension": true,
-    "outputDir": "../../retrolab/labextension",
+    "outputDir": "../../notebook/labextension",
     "schemaDir": "schema"
   },
   "styleModule": "style/index.js"

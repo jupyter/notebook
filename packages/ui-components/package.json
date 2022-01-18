@@ -2,13 +2,13 @@
   "name": "@jupyter-notebook/ui-components",
   "version": "0.4.0-alpha.1",
   "description": "Jupyter Notebook - UI components",
-  "homepage": "https://github.com/jupyterlab/retrolab",
+  "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
-    "url": "https://github.com/jupyterlab/retrolab/issues"
+    "url": "https://github.com/jupyter/notebook/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jupyterlab/retrolab.git"
+    "url": "https://github.com/jupyter/notebook.git"
   },
   "license": "BSD-3-Clause",
   "author": "Project Jupyter",

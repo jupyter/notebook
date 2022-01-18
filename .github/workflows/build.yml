@@ -46,7 +46,7 @@ jobs:
       run: |
         python -m pip install .
         jupyter labextension list 2>&1 | grep -ie "@jupyter-notebook/lab-extension.*enabled.*ok" -
-        jupyter server extension list 2>&1 | grep -ie "retrolab.*enabled" -
+        jupyter server extension list 2>&1 | grep -ie "notebook.*enabled" -
         python -m jupyterlab.browser_check
 
     - name: Lint
@@ -70,9 +70,9 @@ jobs:
         python: ['3.7', '3.10']
         include:
           - python: '3.7'
-            dist: 'retrolab*.tar.gz'
+            dist: 'notebook*.tar.gz'
           - python: '3.10'
-            dist: 'retrolab*.whl'
+            dist: 'notebook*.whl'
           - os: windows
             py_cmd: python
           - os: macos
@@ -87,7 +87,7 @@ jobs:
           architecture: 'x64'
       - uses: actions/download-artifact@v2
         with:
-          name: retrolab-dist-${{ github.run_number }}
+          name: notebook-dist-${{ github.run_number }}
           path: ./dist
       - name: Install the prerequisites
         run: |
@@ -105,6 +105,6 @@ jobs:
           jupyter labextension list
           jupyter labextension list 2>&1 | grep -ie "@jupyter-notebook/lab-extension.*enabled.*ok" -
           jupyter server extension list
-          jupyter server extension list 2>&1 | grep -ie "retrolab.*enabled" -
+          jupyter server extension list 2>&1 | grep -ie "notebook.*enabled" -
           jupyter retro --version
           jupyter retro --help

@@ -6,7 +6,7 @@
     "build": "webpack",
     "build:prod": "webpack --mode=production",
     "clean": "rimraf build && jlpm run clean:static",
-    "clean:static": "rimraf -g \"../retrolab/static/!(favicons)\"",
+    "clean:static": "rimraf -g \"../notebook/static/!(favicons)\"",
     "prepublishOnly": "yarn run build",
     "watch": "webpack --config ./webpack.config.watch.js"
   },
@@ -156,7 +156,7 @@
     "whatwg-fetch": "^3.0.0"
   },
   "jupyterlab": {
-    "name": "RetroLab",
+    "name": "Jupyter Notebook",
     "extensions": [
       "@jupyter-notebook/application-extension",
       "@jupyter-notebook/console-extension",

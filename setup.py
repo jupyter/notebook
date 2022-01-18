@@ -8,7 +8,7 @@ import setuptools
 HERE = Path(__file__).parent.resolve()
 
 # The name of the project
-NAME = "retrolab"
+NAME = "notebook"
 
 labext_name = "@jupyter-notebook/lab-extension"
 lab_extension_dest = HERE / NAME / "labextension"
@@ -28,12 +28,12 @@ data_files_spec = [
     (
         "etc/jupyter/jupyter_server_config.d",
         "jupyter-config/jupyter_server_config.d",
-        "retrolab.json",
+        "notebook.json",
     ),
     (
         "etc/jupyter/jupyter_notebook_config.d",
         "jupyter-config/jupyter_notebook_config.d",
-        "retrolab.json",
+        "notebook.json",
     ),
 ]
 

@@ -1,7 +1,7 @@
 import { run } from '@jupyterlab/buildutils';
 
 /**
- * Get the current version of RetroLab
+ * Get the current version of notebook
  */
 export function getPythonVersion(): string {
   const cmd = 'python setup.py --version';

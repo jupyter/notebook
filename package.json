@@ -2,13 +2,13 @@
   "name": "@jupyter-notebook/root",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/jupyterlab/retrolab",
+  "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
-    "url": "https://github.com/jupyterlab/retrolab/issues"
+    "url": "https://github.com/jupyter/notebook/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jupyterlab/retrolab"
+    "url": "https://github.com/jupyter/notebook"
   },
   "license": "BSD-3-Clause",
   "author": "Project Jupyter",

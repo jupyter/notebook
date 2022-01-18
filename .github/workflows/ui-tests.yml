@@ -33,7 +33,7 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
-          name: retrolab-dist-${{ github.run_number }}
+          name: notebook-dist-${{ github.run_number }}
           path: ./dist
 
       - name: Install the prerequisites
@@ -43,7 +43,7 @@ jobs:
       - name: Install the package
         run: |
           cd dist
-          python -m pip install -vv retrolab*.whl
+          python -m pip install -vv notebook*.whl
 
       - name: Install the test dependencies
         run: |
@@ -51,12 +51,12 @@ jobs:
           jlpm --frozen-lockfile
           jlpm playwright install
 
-      - name: Start RetroLab
+      - name: Start Jupyter Notebook
         run: |
           cd ui-tests
           jlpm start:detached
 
-      - name: Wait for RetroLab
+      - name: Wait for Jupyter Notebook
         uses: ifaxity/wait-on-action@v1
         with:
           resource: http-get://127.0.0.1:8888/
@@ -71,7 +71,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: retrolab-${{ matrix.browser }}-test-assets
+          name: notebook-${{ matrix.browser }}-test-assets
           path: |
             ui-tests/test-results
 
@@ -79,7 +79,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: retrolab-${{ matrix.browser }}-test-report
+          name: notebook-${{ matrix.browser }}-test-report
           path: |
             ui-tests/playwright-report
 
@@ -96,5 +96,5 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: retrolab-${{ matrix.browser }}-updated-snapshots
+          name: notebook-${{ matrix.browser }}-updated-snapshots
           path: ui-tests/test

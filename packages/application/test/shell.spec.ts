@@ -1,7 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import { RetroShell, INotebookShell } from '@jupyter-notebook/application';
+import { NotebookShell, INotebookShell } from '@jupyter-notebook/application';
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
 
@@ -13,7 +13,7 @@ describe('Shell', () => {
   let shell: INotebookShell;
 
   beforeEach(() => {
-    shell = new RetroShell();
+    shell = new NotebookShell();
     Widget.attach(shell, document.body);
   });
 
@@ -23,7 +23,7 @@ describe('Shell', () => {
 
   describe('#constructor()', () => {
     it('should create a LabShell instance', () => {
-      expect(shell).toBeInstanceOf(RetroShell);
+      expect(shell).toBeInstanceOf(NotebookShell);
     });
   });
 

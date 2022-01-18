@@ -2,15 +2,15 @@ include LICENSE
 include *.md
 include pyproject.toml
 include setup.py
-include jupyter-config/retrolab.json
+include jupyter-config/notebook.json
 
 include package.json
 include install.json
 include ts*.json
 
-graft retrolab/labextension
-graft retrolab/static
-graft retrolab/templates
+graft notebook/labextension
+graft notebook/static
+graft notebook/templates
 
 # Javascript files
 graft src

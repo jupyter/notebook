@@ -1,6 +1,6 @@
-# Contributing to RetroLab
+# Contributing to Jupyter Notebook
 
-Thanks for contributing to RetroLab!
+Thanks for contributing to Jupyter Notebook!
 
 Make sure to follow [Project Jupyter's Code of Conduct](https://github.com/jupyter/governance/blob/master/conduct/code_of_conduct.md)
 for a friendly and welcoming collaborative environment.
@@ -16,22 +16,22 @@ The `jlpm` command is JupyterLab's pinned version of [yarn](https://yarnpkg.com/
 
 ```bash
 # create a new environment
-mamba create -n retrolab -c conda-forge python nodejs -y
+mamba create -n notebook -c conda-forge python nodejs -y
 
 # activate the environment
-conda activate retrolab
+conda activate notebook
 
 # Install package in development mode
 pip install -e .
 
-# Link the RetroLab JupyterLab extension and RetroLab schemas
+# Link the notebook extension and @jupyter-notebook schemas
 jlpm develop
 
 # Enable the server extension
-jupyter server extension enable retrolab
+jupyter server extension enable notebook
 ```
 
-`retrolab` follows a monorepo structure. To build all the packages at once:
+`notebook` follows a monorepo structure. To build all the packages at once:
 
 ```bash
 jlpm build
@@ -43,27 +43,27 @@ There is also a `watch` script to watch for changes and rebuild the app automati
 jlpm watch
 ```
 
-To make sure the `retrolab` server extension is installed:
+To make sure the `notebook` server extension is installed:
 
 ```bash
 $ jupyter server extension list
 Config dir: /home/username/.jupyter
 
-Config dir: /home/username/miniforge3/envs/retrolab/etc/jupyter
+Config dir: /home/username/miniforge3/envs/notebook/etc/jupyter
     jupyterlab enabled
     - Validating jupyterlab...
       jupyterlab 3.0.0 OK
-    retrolab enabled
-    - Validating retrolab...
-      retrolab 0.1.0rc2 OK
+    notebook enabled
+    - Validating notebook...
+      notebook 7.0.0a0 OK
 
 Config dir: /usr/local/etc/jupyter
 ```
 
-Then start RetroLab with:
+Then start Jupyter Notebook with:
 
 ```bash
-jupyter retro
+jupyter notebook
 ```
 
 ## Running Tests

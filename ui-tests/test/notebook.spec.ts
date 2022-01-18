@@ -59,7 +59,7 @@ test.describe('Notebook', () => {
   });
 
   // TODO: rewrite with page.notebook when fixed upstream in Galata
-  // and usable in RetroLab without active tabs
+  // and usable in Jupyter Notebook without active tabs
   test('Outputs should be scrolled automatically', async ({
     page,
     tmpPath

@@ -5,14 +5,14 @@ from .serverextension import load_jupyter_server_extension
 def _jupyter_server_extension_paths():
     return [
         {
-            'module': 'retrolab'
+            'module': 'notebook'
         }
     ]
 
 
 def _jupyter_server_extension_points():
-    from .app import RetroApp
-    return [{"module": "retrolab", "app": RetroApp}]
+    from .app import NotebookApp
+    return [{"module": "notebook", "app": NotebookApp}]
 
 
 def _jupyter_labextension_paths():

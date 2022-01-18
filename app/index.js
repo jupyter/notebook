@@ -319,8 +319,8 @@ async function main() {
       console.error(reason);
     });
 
-  const RetroApp = require('@jupyter-notebook/application').RetroApp;
-  const app = new RetroApp({ mimeExtensions });
+  const NotebookApp = require('@jupyter-notebook/application').NotebookApp;
+  const app = new NotebookApp({ mimeExtensions });
 
   app.registerPluginModules(mods);
 

@@ -1,8 +1,8 @@
 {
   "jupyter.lab.setting-icon": "retro-ui-components:retroSun",
-  "jupyter.lab.setting-icon-label": "RetroLab Top Area",
-  "title": "RetroLab Top Area",
-  "description": "RetroLab Top Area settings",
+  "jupyter.lab.setting-icon-label": "Jupyter Notebook Top Area",
+  "title": "Jupyter Notebook Top Area",
+  "description": "Jupyter Notebook Top Area settings",
   "properties": {
     "visible": {
       "type": "boolean",

@@ -1,5 +1,5 @@
-name: "Build RetroLab"
-description: "Build RetroLab fron source"
+name: "Build Jupyter Notebook"
+description: "Build Jupyter Notebook from source"
 runs:
   using: "composite"
   steps:
@@ -34,11 +34,11 @@ runs:
     - name: Upload distributions
       uses: actions/upload-artifact@v2
       with:
-        name: retrolab-dist-${{ github.run_number }}
+        name: notebook-dist-${{ github.run_number }}
         path: ./dist
 
     - name: Upload distributions
       uses: actions/upload-artifact@v2
       with:
-        name: retrolab-pkgs-${{ github.run_number }}
+        name: notebook-pkgs-${{ github.run_number }}
         path: ./pkgs

@@ -1,5 +1,5 @@
 import sys
 
-from retrolab.app import main
+from notebook.app import main
 
 sys.exit(main())

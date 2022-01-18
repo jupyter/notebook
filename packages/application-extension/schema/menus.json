@@ -1,6 +1,6 @@
 {
-  "title": "RetroLab Menu Entries",
-  "description": "RetroLab Menu Entries",
+  "title": "Jupyter Notebook Menu Entries",
+  "description": "Jupyter Notebook Menu Entries",
   "jupyter.lab.menus": {
     "main": [
       {

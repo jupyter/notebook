@@ -30,7 +30,7 @@ test.describe('Mobile', () => {
       `${tmpPath}/${notebook}`
     );
     await page.goto(`notebooks/${tmpPath}/${notebook}`);
-    // TODO: investigate why this does not run the cells in RetroLab
+    // TODO: investigate why this does not run the cells in Jupyter Notebook
     // await page.notebook.run();
 
     // wait for the kernel status animations to be finished

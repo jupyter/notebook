@@ -32,8 +32,8 @@ import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { ITranslator } from '@jupyterlab/translation';
 
 import {
-  RetroApp,
-  RetroShell,
+  NotebookApp,
+  NotebookShell,
   INotebookShell
 } from '@jupyter-notebook/application';
 
@@ -112,12 +112,12 @@ const dirty: JupyterFrontEndPlugin<void> = {
     status: ILabStatus,
     translator: ITranslator
   ): void => {
-    if (!(app instanceof RetroApp)) {
-      throw new Error(`${dirty.id} must be activated in RetroLab.`);
+    if (!(app instanceof NotebookApp)) {
+      throw new Error(`${dirty.id} must be activated in Jupyter Notebook.`);
     }
-    const trans = translator.load('retrolab');
+    const trans = translator.load('jupyter-notebook');
     const message = trans.__(
-      'Are you sure you want to exit RetroLab?\n\nAny unsaved changes will be lost.'
+      'Are you sure you want to exit Jupyter Notebook?\n\nAny unsaved changes will be lost.'
     );
 
     window.addEventListener('beforeunload', event => {
@@ -245,7 +245,7 @@ const pages: JupyterFrontEndPlugin<void> = {
     palette: ICommandPalette | null,
     menu: IMainMenu | null
   ): void => {
-    const trans = translator.load('retrolab');
+    const trans = translator.load('jupyter-notebook');
     const baseUrl = PageConfig.getBaseUrl();
 
     app.commands.addCommand(CommandIDs.openLab, {
@@ -278,15 +278,15 @@ const pages: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * The default paths for a RetroLab app.
+ * The default paths for a Jupyter Notebook app.
  */
 const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
   id: '@jupyter-notebook/application-extension:paths',
   autoStart: true,
   provides: JupyterFrontEnd.IPaths,
   activate: (app: JupyterFrontEnd): JupyterFrontEnd.IPaths => {
-    if (!(app instanceof RetroApp)) {
-      throw new Error(`${paths.id} must be activated in RetroLab.`);
+    if (!(app instanceof NotebookApp)) {
+      throw new Error(`${paths.id} must be activated in Jupyter Notebook.`);
     }
     return app.paths;
   }
@@ -328,13 +328,13 @@ const sessionDialogs: JupyterFrontEndPlugin<ISessionContextDialogs> = {
 };
 
 /**
- * The default RetroLab application shell.
+ * The default Jupyter Notebook application shell.
  */
 const shell: JupyterFrontEndPlugin<INotebookShell> = {
   id: '@jupyter-notebook/application-extension:shell',
   activate: (app: JupyterFrontEnd) => {
-    if (!(app.shell instanceof RetroShell)) {
-      throw new Error(`${shell.id} did not find a RetroShell instance.`);
+    if (!(app.shell instanceof NotebookShell)) {
+      throw new Error(`${shell.id} did not find a NotebookShell instance.`);
     }
     return app.shell;
   },
@@ -371,8 +371,8 @@ const status: JupyterFrontEndPlugin<ILabStatus> = {
   autoStart: true,
   provides: ILabStatus,
   activate: (app: JupyterFrontEnd) => {
-    if (!(app instanceof RetroApp)) {
-      throw new Error(`${status.id} must be activated in RetroLab.`);
+    if (!(app instanceof NotebookApp)) {
+      throw new Error(`${status.id} must be activated in Jupyter Notebook.`);
     }
     return app.status;
   }
@@ -430,7 +430,7 @@ const title: JupyterFrontEndPlugin<void> = {
     router: IRouter | null
   ) => {
     const { commands } = app;
-    const trans = translator.load('retrolab');
+    const trans = translator.load('jupyter-notebook');
 
     const widget = new Widget();
     widget.id = 'jp-title';
@@ -520,7 +520,7 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
     menu: IMainMenu | null,
     settingRegistry: ISettingRegistry | null
   ) => {
-    const trans = translator.load('retrolab');
+    const trans = translator.load('jupyter-notebook');
     const top = retroShell.top;
     const pluginId = topVisibility.id;
 
@@ -682,7 +682,7 @@ const zen: JupyterFrontEndPlugin<void> = {
   ): void => {
     const { commands } = app;
     const elem = document.documentElement;
-    const trans = translator.load('retrolab');
+    const trans = translator.load('jupyter-notebook');
 
     const toggleOn = () => {
       retroShell?.collapseTop();

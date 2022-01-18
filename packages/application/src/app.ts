@@ -16,21 +16,21 @@ import { IRenderMime } from '@jupyterlab/rendermime-interfaces';
 
 import { Throttler } from '@lumino/polling';
 
-import { INotebookShell, RetroShell } from './shell';
+import { INotebookShell, NotebookShell } from './shell';
 
 /**
  * App is the main application class. It is instantiated once and shared.
  */
-export class RetroApp extends JupyterFrontEnd<INotebookShell> {
+export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
   /**
-   * Construct a new RetroApp object.
+   * Construct a new NotebookApp object.
    *
    * @param options The instantiation options for an application.
    */
-  constructor(options: RetroApp.IOptions = { shell: new RetroShell() }) {
+  constructor(options: NotebookApp.IOptions = { shell: new NotebookShell() }) {
     super({
       ...options,
-      shell: options.shell ?? new RetroShell()
+      shell: options.shell ?? new NotebookShell()
     });
     if (options.mimeExtensions) {
       for (const plugin of createRendermimePlugins(options.mimeExtensions)) {
@@ -43,7 +43,7 @@ export class RetroApp extends JupyterFrontEnd<INotebookShell> {
   /**
    * The name of the application.
    */
-  readonly name = 'RetroLab';
+  readonly name = 'Jupyter Notebook';
 
   /**
    * A namespace/prefix plugins may use to denote their provenance.
@@ -110,7 +110,7 @@ export class RetroApp extends JupyterFrontEnd<INotebookShell> {
    *
    * @param mod - The plugin module to register.
    */
-  registerPluginModule(mod: RetroApp.IPluginModule): void {
+  registerPluginModule(mod: NotebookApp.IPluginModule): void {
     let data = mod.default;
     // Handle commonjs exports.
     if (!Object.prototype.hasOwnProperty.call(mod, '__esModule')) {
@@ -133,7 +133,7 @@ export class RetroApp extends JupyterFrontEnd<INotebookShell> {
    *
    * @param mods - The plugin modules to register.
    */
-  registerPluginModules(mods: RetroApp.IPluginModule[]): void {
+  registerPluginModules(mods: NotebookApp.IPluginModule[]): void {
     mods.forEach(mod => {
       this.registerPluginModule(mod);
     });
@@ -147,7 +147,7 @@ export class RetroApp extends JupyterFrontEnd<INotebookShell> {
 /**
  * A namespace for App statics.
  */
-export namespace RetroApp {
+export namespace NotebookApp {
   /**
    * The instantiation options for an App application.
    */
@@ -156,7 +156,7 @@ export namespace RetroApp {
       Partial<IInfo> {}
 
   /**
-   * The information about a RetroLab application.
+   * The information about a Jupyter Notebook application.
    */
   export interface IInfo {
     /**
@@ -191,7 +191,7 @@ namespace Private {
    *
    * @param app The front-end application whose format is set.
    */
-  export function setFormat(app: RetroApp): void {
+  export function setFormat(app: NotebookApp): void {
     app.format = window.matchMedia(MOBILE_QUERY).matches ? 'mobile' : 'desktop';
   }
 }

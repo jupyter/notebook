@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "author": "Project Jupyter",
   "license": "BSD-3-Clause",
-  "description": "RetroLab UI Tests",
+  "description": "Jupyter Notebook UI Tests",
   "scripts": {
     "start": "jupyter retro --config test/jupyter_server_config.py",
     "start:detached": "yarn run start&",
