@@ -1252,6 +1252,139 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@jupyter-notebook/application-extension@file:packages/application-extension":
+  version "0.4.0-alpha.0"
+  dependencies:
+    "@jupyter-notebook/application" "^0.4.0-alpha.0"
+    "@jupyter-notebook/ui-components" "^0.4.0-alpha.0"
+    "@jupyterlab/application" "^4.0.0-alpha.5"
+    "@jupyterlab/apputils" "^4.0.0-alpha.5"
+    "@jupyterlab/celltags" "^4.0.0-alpha.5"
+    "@jupyterlab/codeeditor" "^4.0.0-alpha.5"
+    "@jupyterlab/codemirror" "^4.0.0-alpha.5"
+    "@jupyterlab/console" "^4.0.0-alpha.5"
+    "@jupyterlab/coreutils" "^6.0.0-alpha.5"
+    "@jupyterlab/docmanager" "^4.0.0-alpha.5"
+    "@jupyterlab/docregistry" "^4.0.0-alpha.5"
+    "@jupyterlab/mainmenu" "^4.0.0-alpha.5"
+    "@jupyterlab/settingregistry" "^4.0.0-alpha.5"
+    "@jupyterlab/translation" "^4.0.0-alpha.4"
+    "@lumino/coreutils" "^1.12.0"
+    "@lumino/disposable" "^1.10.1"
+    "@lumino/widgets" "^1.31.1"
+
+"@jupyter-notebook/application@file:packages/application":
+  version "0.4.0-alpha.0"
+  dependencies:
+    "@jupyterlab/application" "^4.0.0-alpha.5"
+    "@jupyterlab/coreutils" "^6.0.0-alpha.5"
+    "@jupyterlab/docregistry" "^4.0.0-alpha.5"
+    "@jupyterlab/rendermime-interfaces" "^4.0.0-alpha.5"
+    "@jupyterlab/ui-components" "^4.0.0-alpha.19"
+    "@lumino/algorithm" "^1.9.1"
+    "@lumino/coreutils" "^1.12.0"
+    "@lumino/messaging" "^1.10.1"
+    "@lumino/polling" "^1.10.0"
+    "@lumino/signaling" "^1.10.1"
+    "@lumino/widgets" "^1.31.1"
+
+"@jupyter-notebook/console-extension@file:packages/console-extension":
+  version "0.4.0-alpha.0"
+  dependencies:
+    "@jupyterlab/application" "^4.0.0-alpha.5"
+    "@jupyterlab/console" "^4.0.0-alpha.5"
+    "@jupyterlab/coreutils" "^6.0.0-alpha.5"
+    "@lumino/algorithm" "^1.9.1"
+
+"@jupyter-notebook/docmanager-extension@file:packages/docmanager-extension":
+  version "0.4.0-alpha.0"
+  dependencies:
+    "@jupyterlab/application" "^4.0.0-alpha.5"
+    "@jupyterlab/coreutils" "^6.0.0-alpha.5"
+    "@jupyterlab/docmanager" "^4.0.0-alpha.5"
+    "@jupyterlab/docregistry" "^4.0.0-alpha.5"
+    "@jupyterlab/services" "^7.0.0-alpha.5"
+    "@lumino/algorithm" "^1.9.1"
+
+"@jupyter-notebook/documentsearch-extension@file:packages/documentsearch-extension":
+  version "0.4.0-alpha.0"
+  dependencies:
+    "@jupyter-notebook/application" "^0.4.0-alpha.0"
+    "@jupyterlab/application" "^4.0.0-alpha.4"
+    "@jupyterlab/documentsearch" "^4.0.0-alpha.4"
+    "@lumino/widgets" "^1.31.1"
+
+"@jupyter-notebook/help-extension@file:packages/help-extension":
+  version "0.4.0-alpha.0"
+  dependencies:
+    "@jupyter-notebook/ui-components" "^0.4.0-alpha.0"
+    "@jupyterlab/application" "^4.0.0-alpha.5"
+    "@jupyterlab/apputils" "^4.0.0-alpha.5"
+    "@jupyterlab/mainmenu" "^4.0.0-alpha.5"
+    "@jupyterlab/translation" "^4.0.0-alpha.4"
+
+"@jupyter-notebook/lab-extension@file:packages/lab-extension":
+  version "0.4.0-alpha.0"
+  dependencies:
+    "@jupyter-notebook/application" "^0.4.0-alpha.0"
+    "@jupyterlab/application" "^4.0.0-alpha.5"
+    "@jupyterlab/apputils" "^4.0.0-alpha.5"
+    "@jupyterlab/coreutils" "^6.0.0-alpha.5"
+    "@jupyterlab/docregistry" "^4.0.0-alpha.5"
+    "@jupyterlab/mainmenu" "^4.0.0-alpha.5"
+    "@jupyterlab/notebook" "^4.0.0-alpha.5"
+    "@jupyterlab/translation" "^4.0.0-alpha.4"
+    "@lumino/commands" "^1.20.0"
+    "@lumino/disposable" "^1.10.1"
+
+"@jupyter-notebook/notebook-extension@file:packages/notebook-extension":
+  version "0.4.0-alpha.0"
+  dependencies:
+    "@jupyter-notebook/application" "^0.4.0-alpha.0"
+    "@jupyterlab/application" "^4.0.0-alpha.5"
+    "@jupyterlab/apputils" "^4.0.0-alpha.5"
+    "@jupyterlab/cells" "^4.0.0-alpha.5"
+    "@jupyterlab/docmanager" "^4.0.0-alpha.5"
+    "@jupyterlab/notebook" "^4.0.0-alpha.5"
+    "@jupyterlab/settingregistry" "^4.0.0-alpha.5"
+    "@jupyterlab/translation" "^4.0.0-alpha.4"
+    "@lumino/polling" "^1.10.0"
+    "@lumino/widgets" "^1.31.1"
+
+"@jupyter-notebook/terminal-extension@file:packages/terminal-extension":
+  version "0.4.0-alpha.0"
+  dependencies:
+    "@jupyterlab/application" "^4.0.0-alpha.5"
+    "@jupyterlab/coreutils" "^6.0.0-alpha.5"
+    "@jupyterlab/terminal" "^4.0.0-alpha.5"
+    "@lumino/algorithm" "^1.9.1"
+
+"@jupyter-notebook/tree-extension@file:packages/tree-extension":
+  version "0.4.0-alpha.0"
+  dependencies:
+    "@jupyter-notebook/application" "^0.4.0-alpha.0"
+    "@jupyterlab/application" "^4.0.0-alpha.5"
+    "@jupyterlab/apputils" "^4.0.0-alpha.5"
+    "@jupyterlab/coreutils" "^6.0.0-alpha.5"
+    "@jupyterlab/docmanager" "^4.0.0-alpha.5"
+    "@jupyterlab/filebrowser" "^4.0.0-alpha.5"
+    "@jupyterlab/mainmenu" "^4.0.0-alpha.5"
+    "@jupyterlab/services" "^7.0.0-alpha.5"
+    "@jupyterlab/settingregistry" "^4.0.0-alpha.5"
+    "@jupyterlab/statedb" "^4.0.0-alpha.5"
+    "@jupyterlab/translation" "^4.0.0-alpha.4"
+    "@jupyterlab/ui-components" "^4.0.0-alpha.19"
+    "@lumino/algorithm" "^1.9.1"
+    "@lumino/commands" "^1.20.0"
+    "@lumino/widgets" "^1.31.1"
+
+"@jupyter-notebook/ui-components@file:packages/ui-components":
+  version "0.4.0-alpha.0"
+  dependencies:
+    "@jupyterlab/ui-components" "^4.0.0-alpha.19"
+    react "^17.0.1"
+    react-dom "^17.0.1"
+
 "@jupyterlab/application-extension@^4.0.0-alpha.5":
   version "4.0.0-alpha.5"
   resolved "https://registry.yarnpkg.com/@jupyterlab/application-extension/-/application-extension-4.0.0-alpha.5.tgz#091ab2810d43baff66de1bd286a4eb67ae0232c9"
@@ -1273,7 +1406,7 @@
     "@lumino/widgets" "^1.31.1"
     react "^17.0.1"
 
-"@jupyterlab/application@^4.0.0-alpha.5":
+"@jupyterlab/application@^4.0.0-alpha.4", "@jupyterlab/application@^4.0.0-alpha.5":
   version "4.0.0-alpha.5"
   resolved "https://registry.yarnpkg.com/@jupyterlab/application/-/application-4.0.0-alpha.5.tgz#46ac3fc4e0e48ca525a8506eda90a066fde4d659"
   integrity sha512-qRLxDRhMXHu9AehIApM9SEjSdVclh3+iDSpFE16a7NLVaicUFT1zG46VVh0M0IEPIuNOYfFg70YmUY9v+vlRbA==
@@ -1730,7 +1863,7 @@
     "@jupyterlab/translation" "^4.0.0-alpha.5"
     "@lumino/widgets" "^1.31.1"
 
-"@jupyterlab/documentsearch@^4.0.0-alpha.5":
+"@jupyterlab/documentsearch@^4.0.0-alpha.4", "@jupyterlab/documentsearch@^4.0.0-alpha.5":
   version "4.0.0-alpha.5"
   resolved "https://registry.yarnpkg.com/@jupyterlab/documentsearch/-/documentsearch-4.0.0-alpha.5.tgz#5cee89e4b29d0ca3d2d0721689156a5895e7f2ab"
   integrity sha512-R08tVt79RlRk/opiUt2DYuj1JIoBhNkUFZkK6882O+vwE3k+SIwW9Jtf0TWzozzgJyaiprG7hu2Ht2h/dIMVCQ==
@@ -3410,139 +3543,6 @@
   version "1.0.0-next.21"
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.21.tgz#5de5a2385a35309427f6011992b544514d559aa1"
   integrity sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==
-
-"@retrolab/application-extension@file:packages/application-extension":
-  version "0.4.0-alpha.0"
-  dependencies:
-    "@jupyterlab/application" "^4.0.0-alpha.5"
-    "@jupyterlab/apputils" "^4.0.0-alpha.5"
-    "@jupyterlab/celltags" "^4.0.0-alpha.5"
-    "@jupyterlab/codeeditor" "^4.0.0-alpha.5"
-    "@jupyterlab/codemirror" "^4.0.0-alpha.5"
-    "@jupyterlab/console" "^4.0.0-alpha.5"
-    "@jupyterlab/coreutils" "^6.0.0-alpha.5"
-    "@jupyterlab/docmanager" "^4.0.0-alpha.5"
-    "@jupyterlab/docregistry" "^4.0.0-alpha.5"
-    "@jupyterlab/mainmenu" "^4.0.0-alpha.5"
-    "@jupyterlab/settingregistry" "^4.0.0-alpha.5"
-    "@jupyterlab/translation" "^4.0.0-alpha.4"
-    "@lumino/coreutils" "^1.12.0"
-    "@lumino/disposable" "^1.10.1"
-    "@lumino/widgets" "^1.31.1"
-    "@retrolab/application" "^0.4.0-alpha.0"
-    "@retrolab/ui-components" "^0.4.0-alpha.0"
-
-"@retrolab/application@file:packages/application":
-  version "0.4.0-alpha.0"
-  dependencies:
-    "@jupyterlab/application" "^4.0.0-alpha.5"
-    "@jupyterlab/coreutils" "^6.0.0-alpha.5"
-    "@jupyterlab/docregistry" "^4.0.0-alpha.5"
-    "@jupyterlab/rendermime-interfaces" "^4.0.0-alpha.5"
-    "@jupyterlab/ui-components" "^4.0.0-alpha.19"
-    "@lumino/algorithm" "^1.9.1"
-    "@lumino/coreutils" "^1.12.0"
-    "@lumino/messaging" "^1.10.1"
-    "@lumino/polling" "^1.10.0"
-    "@lumino/signaling" "^1.10.1"
-    "@lumino/widgets" "^1.31.1"
-
-"@retrolab/console-extension@file:packages/console-extension":
-  version "0.4.0-alpha.0"
-  dependencies:
-    "@jupyterlab/application" "^4.0.0-alpha.5"
-    "@jupyterlab/console" "^4.0.0-alpha.5"
-    "@jupyterlab/coreutils" "^6.0.0-alpha.5"
-    "@lumino/algorithm" "^1.9.1"
-
-"@retrolab/docmanager-extension@file:packages/docmanager-extension":
-  version "0.4.0-alpha.0"
-  dependencies:
-    "@jupyterlab/application" "^4.0.0-alpha.5"
-    "@jupyterlab/coreutils" "^6.0.0-alpha.5"
-    "@jupyterlab/docmanager" "^4.0.0-alpha.5"
-    "@jupyterlab/docregistry" "^4.0.0-alpha.5"
-    "@jupyterlab/services" "^7.0.0-alpha.5"
-    "@lumino/algorithm" "^1.9.1"
-
-"@retrolab/documentsearch-extension@file:packages/documentsearch-extension":
-  version "0.4.0-alpha.0"
-  dependencies:
-    "@jupyterlab/application" "^4.0.0-alpha.5"
-    "@jupyterlab/documentsearch" "^4.0.0-alpha.5"
-    "@lumino/widgets" "^1.31.1"
-    "@retrolab/application" "^0.4.0-alpha.0"
-
-"@retrolab/help-extension@file:packages/help-extension":
-  version "0.4.0-alpha.0"
-  dependencies:
-    "@jupyterlab/application" "^4.0.0-alpha.5"
-    "@jupyterlab/apputils" "^4.0.0-alpha.5"
-    "@jupyterlab/mainmenu" "^4.0.0-alpha.5"
-    "@jupyterlab/translation" "^4.0.0-alpha.4"
-    "@retrolab/ui-components" "^0.4.0-alpha.0"
-
-"@retrolab/lab-extension@file:packages/lab-extension":
-  version "0.4.0-alpha.0"
-  dependencies:
-    "@jupyterlab/application" "^4.0.0-alpha.5"
-    "@jupyterlab/apputils" "^4.0.0-alpha.5"
-    "@jupyterlab/coreutils" "^6.0.0-alpha.5"
-    "@jupyterlab/docregistry" "^4.0.0-alpha.5"
-    "@jupyterlab/mainmenu" "^4.0.0-alpha.5"
-    "@jupyterlab/notebook" "^4.0.0-alpha.5"
-    "@jupyterlab/translation" "^4.0.0-alpha.4"
-    "@lumino/commands" "^1.20.0"
-    "@lumino/disposable" "^1.10.1"
-    "@retrolab/application" "^0.4.0-alpha.0"
-
-"@retrolab/notebook-extension@file:packages/notebook-extension":
-  version "0.4.0-alpha.0"
-  dependencies:
-    "@jupyterlab/application" "^4.0.0-alpha.5"
-    "@jupyterlab/apputils" "^4.0.0-alpha.5"
-    "@jupyterlab/cells" "^4.0.0-alpha.5"
-    "@jupyterlab/docmanager" "^4.0.0-alpha.5"
-    "@jupyterlab/notebook" "^4.0.0-alpha.5"
-    "@jupyterlab/settingregistry" "^4.0.0-alpha.5"
-    "@jupyterlab/translation" "^4.0.0-alpha.4"
-    "@lumino/polling" "^1.10.0"
-    "@lumino/widgets" "^1.31.1"
-    "@retrolab/application" "^0.4.0-alpha.0"
-
-"@retrolab/terminal-extension@file:packages/terminal-extension":
-  version "0.4.0-alpha.0"
-  dependencies:
-    "@jupyterlab/application" "^4.0.0-alpha.5"
-    "@jupyterlab/coreutils" "^6.0.0-alpha.5"
-    "@jupyterlab/terminal" "^4.0.0-alpha.5"
-    "@lumino/algorithm" "^1.9.1"
-
-"@retrolab/tree-extension@file:packages/tree-extension":
-  version "0.4.0-alpha.0"
-  dependencies:
-    "@jupyterlab/application" "^4.0.0-alpha.5"
-    "@jupyterlab/apputils" "^4.0.0-alpha.5"
-    "@jupyterlab/coreutils" "^6.0.0-alpha.5"
-    "@jupyterlab/docmanager" "^4.0.0-alpha.5"
-    "@jupyterlab/filebrowser" "^4.0.0-alpha.5"
-    "@jupyterlab/mainmenu" "^4.0.0-alpha.5"
-    "@jupyterlab/services" "^7.0.0-alpha.5"
-    "@jupyterlab/settingregistry" "^4.0.0-alpha.5"
-    "@jupyterlab/statedb" "^4.0.0-alpha.5"
-    "@jupyterlab/translation" "^4.0.0-alpha.4"
-    "@jupyterlab/ui-components" "^4.0.0-alpha.19"
-    "@lumino/algorithm" "^1.9.1"
-    "@lumino/commands" "^1.20.0"
-    "@lumino/widgets" "^1.31.1"
-    "@retrolab/application" "^0.4.0-alpha.0"
-
-"@retrolab/ui-components@file:packages/ui-components":
-  version "0.4.0-alpha.0"
-  dependencies:
-    "@jupyterlab/ui-components" "^4.0.0-alpha.19"
-    react "^17.0.1"
-    react-dom "^17.0.1"
 
 "@rjsf/core@^3.1.0":
   version "3.2.1"
