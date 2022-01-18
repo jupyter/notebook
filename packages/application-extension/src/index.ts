@@ -515,13 +515,13 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
   optional: [IMainMenu, ISettingRegistry],
   activate: (
     app: JupyterFrontEnd<JupyterFrontEnd.IShell>,
-    retroShell: INotebookShell,
+    notebookShell: INotebookShell,
     translator: ITranslator,
     menu: IMainMenu | null,
     settingRegistry: ISettingRegistry | null
   ) => {
     const trans = translator.load('jupyter-notebook');
-    const top = retroShell.top;
+    const top = notebookShell.top;
     const pluginId = topVisibility.id;
 
     app.commands.addCommand(CommandIDs.toggleTop, {
@@ -568,9 +568,9 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
         return;
       }
       if (app.format === 'desktop') {
-        retroShell.expandTop();
+        notebookShell.expandTop();
       } else {
-        retroShell.collapseTop();
+        notebookShell.collapseTop();
       }
     };
 
@@ -677,7 +677,7 @@ const zen: JupyterFrontEndPlugin<void> = {
     app: JupyterFrontEnd,
     translator: ITranslator,
     palette: ICommandPalette | null,
-    retroShell: INotebookShell | null,
+    notebookShell: INotebookShell | null,
     menu: IMainMenu | null
   ): void => {
     const { commands } = app;
@@ -685,14 +685,14 @@ const zen: JupyterFrontEndPlugin<void> = {
     const trans = translator.load('jupyter-notebook');
 
     const toggleOn = () => {
-      retroShell?.collapseTop();
-      retroShell?.menu.setHidden(true);
+      notebookShell?.collapseTop();
+      notebookShell?.menu.setHidden(true);
       zenModeEnabled = true;
     };
 
     const toggleOff = () => {
-      retroShell?.expandTop();
-      retroShell?.menu.setHidden(false);
+      notebookShell?.expandTop();
+      notebookShell?.menu.setHidden(false);
       zenModeEnabled = false;
     };
 

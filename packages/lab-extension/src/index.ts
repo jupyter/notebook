@@ -74,7 +74,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
     notebookTracker: INotebookTracker | null,
     palette: ICommandPalette | null,
     menu: IMainMenu | null,
-    retroShell: INotebookShell | null,
+    notebookShell: INotebookShell | null,
     labShell: ILabShell | null,
     toolbarRegistry: IToolbarWidgetRegistry | null
   ) => {
@@ -132,7 +132,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
       urlPrefix: `${baseUrl}tree/`
     });
 
-    if (!retroShell) {
+    if (!notebookShell) {
       addInterface({
         command: 'jupyter-notebook:open-retro',
         commandLabel: trans.__('Open With %1', 'Jupyter Notebook'),

@@ -65,7 +65,7 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
     app: JupyterFrontEnd,
     docManager: IDocumentManager,
     translator: ITranslator,
-    retroShell: INotebookShell | null
+    notebookShell: INotebookShell | null
   ) => {
     const { shell } = app;
     const trans = translator.load('jupyter-notebook');
@@ -95,8 +95,8 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
       );
     };
 
-    if (retroShell) {
-      retroShell.currentChanged.connect(onChange);
+    if (notebookShell) {
+      notebookShell.currentChanged.connect(onChange);
     }
 
     new Poll({

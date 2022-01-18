@@ -39,13 +39,13 @@ const disableShortcut: JupyterFrontEndPlugin<void> = {
 /**
  * A plugin to add document search functionalities.
  */
-const retroShellWidgetListener: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/documentsearch-extension:retroShellWidgetListener',
+const notebookShellWidgetListener: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/documentsearch-extension:notebookShellWidgetListener',
   requires: [INotebookShell, ISearchProviderRegistry],
   autoStart: true,
   activate: (
     app: JupyterFrontEnd,
-    retroShell: INotebookShell,
+    notebookShell: INotebookShell,
     registry: ISearchProviderRegistry
   ) => {
     // If a given widget is searchable, apply the searchable class.
@@ -67,15 +67,15 @@ const retroShellWidgetListener: JupyterFrontEndPlugin<void> = {
     // changes, in case a provider for the current widget was added
     // or removed
     registry.changed.connect(() =>
-      transformWidgetSearchability(retroShell.currentWidget)
+      transformWidgetSearchability(notebookShell.currentWidget)
     );
 
     // Apply the searchable class only to the active widget if it is actually
     // searchable. Remove the searchable class from a widget when it's
     // no longer active.
-    retroShell.currentChanged.connect((_, args) => {
-      if (retroShell.currentWidget) {
-        transformWidgetSearchability(retroShell.currentWidget);
+    notebookShell.currentChanged.connect((_, args) => {
+      if (notebookShell.currentWidget) {
+        transformWidgetSearchability(notebookShell.currentWidget);
       }
     });
   }
@@ -86,7 +86,7 @@ const retroShellWidgetListener: JupyterFrontEndPlugin<void> = {
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   disableShortcut,
-  retroShellWidgetListener
+  notebookShellWidgetListener
 ];
 
 export default plugins;
