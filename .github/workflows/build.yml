@@ -45,7 +45,7 @@ jobs:
     - name: Install the package
       run: |
         python -m pip install .
-        jupyter labextension list 2>&1 | grep -ie "@retrolab/lab-extension.*enabled.*ok" -
+        jupyter labextension list 2>&1 | grep -ie "@jupyter-notebook/lab-extension.*enabled.*ok" -
         jupyter server extension list 2>&1 | grep -ie "retrolab.*enabled" -
         python -m jupyterlab.browser_check
 
@@ -103,7 +103,7 @@ jobs:
       - name: Validate the install
         run: |
           jupyter labextension list
-          jupyter labextension list 2>&1 | grep -ie "@retrolab/lab-extension.*enabled.*ok" -
+          jupyter labextension list 2>&1 | grep -ie "@jupyter-notebook/lab-extension.*enabled.*ok" -
           jupyter server extension list
           jupyter server extension list 2>&1 | grep -ie "retrolab.*enabled" -
           jupyter retro --version

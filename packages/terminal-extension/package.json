@@ -1,7 +1,7 @@
 {
-  "name": "@retrolab/terminal-extension",
+  "name": "@jupyter-notebook/terminal-extension",
   "version": "0.4.0-alpha.1",
-  "description": "RetroLab - Terminal Extension",
+  "description": "Jupyter Notebook - Terminal Extension",
   "homepage": "https://github.com/jupyterlab/retrolab",
   "bugs": {
     "url": "https://github.com/jupyterlab/retrolab/issues"

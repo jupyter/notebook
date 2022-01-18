@@ -18,14 +18,14 @@ import { Panel, Widget, BoxLayout } from '@lumino/widgets';
 /**
  * The RetroLab application shell token.
  */
-export const IRetroShell = new Token<IRetroShell>(
-  '@retrolab/application:IRetroShell'
+export const INotebookShell = new Token<INotebookShell>(
+  '@jupyter-notebook/application:INotebookShell'
 );
 
 /**
  * The RetroLab application shell interface.
  */
-export interface IRetroShell extends RetroShell {}
+export interface INotebookShell extends RetroShell {}
 
 /**
  * The default rank for ranked panels.

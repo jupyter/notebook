@@ -1,7 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import { RetroShell, IRetroShell } from '@retrolab/application';
+import { RetroShell, INotebookShell } from '@jupyter-notebook/application';
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
 
@@ -10,7 +10,7 @@ import { toArray } from '@lumino/algorithm';
 import { Widget } from '@lumino/widgets';
 
 describe('Shell', () => {
-  let shell: IRetroShell;
+  let shell: INotebookShell;
 
   beforeEach(() => {
     shell = new RetroShell();

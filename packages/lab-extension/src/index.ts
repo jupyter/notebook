@@ -19,7 +19,7 @@ import { ITranslator } from '@jupyterlab/translation';
 
 import { Menu, MenuBar } from '@lumino/widgets';
 
-import { IRetroShell } from '@retrolab/application';
+import { INotebookShell } from '@jupyter-notebook/application';
 
 /**
  * The command IDs used by the application plugin.
@@ -57,14 +57,14 @@ interface ISwitcherChoice {
  * A plugin to add custom toolbar items to the notebook page
  */
 const launchButtons: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/lab-extension:interface-switcher',
+  id: '@jupyter-notebook/lab-extension:interface-switcher',
   autoStart: true,
   requires: [ITranslator],
   optional: [
     INotebookTracker,
     ICommandPalette,
     IMainMenu,
-    IRetroShell,
+    INotebookShell,
     ILabShell,
     IToolbarWidgetRegistry
   ],
@@ -74,7 +74,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
     notebookTracker: INotebookTracker | null,
     palette: ICommandPalette | null,
     menu: IMainMenu | null,
-    retroShell: IRetroShell | null,
+    retroShell: INotebookShell | null,
     labShell: ILabShell | null,
     toolbarRegistry: IToolbarWidgetRegistry | null
   ) => {
@@ -169,7 +169,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
  * A plugin to add a command to open the RetroLab Tree.
  */
 const launchRetroTree: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/lab-extension:launch-retrotree',
+  id: '@jupyter-notebook/lab-extension:launch-retrotree',
   autoStart: true,
   requires: [ITranslator],
   optional: [IMainMenu, ICommandPalette],

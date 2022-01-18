@@ -1,8 +1,8 @@
 {
-  "name": "@retrolab/buildutils",
+  "name": "@jupyter-notebook/buildutils",
   "version": "0.4.0-alpha.1",
   "private": true,
-  "description": "RetroLab - Build Utilities",
+  "description": "Jupyter Notebook - Build Utilities",
   "homepage": "https://github.com/jupyterlab/retrolab",
   "bugs": {
     "url": "https://github.com/jupyterlab/retrolab/issues"

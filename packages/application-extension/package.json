@@ -1,7 +1,7 @@
 {
-  "name": "@retrolab/application-extension",
+  "name": "@jupyter-notebook/application-extension",
   "version": "0.4.0-alpha.1",
-  "description": "RetroLab - Application Extension",
+  "description": "Jupyter Notebook - Application Extension",
   "homepage": "https://github.com/jupyterlab/retrolab",
   "bugs": {
     "url": "https://github.com/jupyterlab/retrolab/issues"
@@ -54,8 +54,8 @@
     "@lumino/coreutils": "^1.12.0",
     "@lumino/disposable": "^1.10.1",
     "@lumino/widgets": "^1.31.1",
-    "@retrolab/application": "^0.4.0-alpha.1",
-    "@retrolab/ui-components": "^0.4.0-alpha.1"
+    "@jupyter-notebook/application": "^0.4.0-alpha.1",
+    "@jupyter-notebook/ui-components": "^0.4.0-alpha.1"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",

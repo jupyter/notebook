@@ -27,7 +27,7 @@ import { TabPanel } from '@lumino/widgets';
  * Plugin to add extra buttons to the file browser to create new notebooks and files
  */
 const newFiles: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/tree-extension:buttons',
+  id: '@jupyter-notebook/tree-extension:buttons',
   requires: [IFileBrowserFactory, ITranslator],
   autoStart: true,
   activate: (
@@ -68,7 +68,7 @@ const newFiles: JupyterFrontEndPlugin<void> = {
  * Plugin to add a "New Console" button to the file browser toolbar.
  */
 const newConsole: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/tree-extension:new-console',
+  id: '@jupyter-notebook/tree-extension:new-console',
   requires: [IFileBrowserFactory, ITranslator],
   autoStart: true,
   activate: (
@@ -102,7 +102,7 @@ const newConsole: JupyterFrontEndPlugin<void> = {
  * Plugin to add a "New Terminal" button to the file browser toolbar.
  */
 const newTerminal: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/tree-extension:new-terminal',
+  id: '@jupyter-notebook/tree-extension:new-terminal',
   requires: [IFileBrowserFactory, ITranslator],
   autoStart: true,
   activate: (
@@ -136,7 +136,7 @@ const newTerminal: JupyterFrontEndPlugin<void> = {
  * A plugin to add the file browser widget to an ILabShell
  */
 const browserWidget: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/tree-extension:widget',
+  id: '@jupyter-notebook/tree-extension:widget',
   requires: [IFileBrowserFactory, ITranslator],
   optional: [IRunningSessionManagers],
   autoStart: true,

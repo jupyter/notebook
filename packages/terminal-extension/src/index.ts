@@ -17,7 +17,7 @@ import { find } from '@lumino/algorithm';
  * A plugin to open terminals in a new tab
  */
 const opener: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/terminal-extension:opener',
+  id: '@jupyter-notebook/terminal-extension:opener',
   requires: [IRouter, ITerminalTracker],
   autoStart: true,
   activate: (
@@ -56,7 +56,7 @@ const opener: JupyterFrontEndPlugin<void> = {
  * Open terminals in a new tab.
  */
 const redirect: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/terminal-extension:redirect',
+  id: '@jupyter-notebook/terminal-extension:redirect',
   requires: [ITerminalTracker],
   autoStart: true,
   activate: (app: JupyterFrontEnd, tracker: ITerminalTracker) => {

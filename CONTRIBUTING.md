@@ -56,9 +56,6 @@ Config dir: /home/username/miniforge3/envs/retrolab/etc/jupyter
     retrolab enabled
     - Validating retrolab...
       retrolab 0.1.0rc2 OK
-    nbclassic enabled
-    - Validating nbclassic...
-      nbclassic  OK
 
 Config dir: /usr/local/etc/jupyter
 ```

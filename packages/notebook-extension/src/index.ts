@@ -22,7 +22,7 @@ import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { ITranslator } from '@jupyterlab/translation';
 
-import { IRetroShell } from '@retrolab/application';
+import { INotebookShell } from '@jupyter-notebook/application';
 
 import { Poll } from '@lumino/polling';
 
@@ -57,15 +57,15 @@ const SCROLLED_OUTPUTS_CLASS = 'jp-mod-outputsScrolled';
  * A plugin for the checkpoint indicator
  */
 const checkpoints: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/notebook-extension:checkpoints',
+  id: '@jupyter-notebook/notebook-extension:checkpoints',
   autoStart: true,
   requires: [IDocumentManager, ITranslator],
-  optional: [IRetroShell],
+  optional: [INotebookShell],
   activate: (
     app: JupyterFrontEnd,
     docManager: IDocumentManager,
     translator: ITranslator,
-    retroShell: IRetroShell | null
+    retroShell: INotebookShell | null
   ) => {
     const { shell } = app;
     const trans = translator.load('retrolab');
@@ -115,10 +115,10 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
  * The kernel logo plugin.
  */
 const kernelLogo: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/notebook-extension:kernel-logo',
+  id: '@jupyter-notebook/notebook-extension:kernel-logo',
   autoStart: true,
-  requires: [IRetroShell],
-  activate: (app: JupyterFrontEnd, shell: IRetroShell) => {
+  requires: [INotebookShell],
+  activate: (app: JupyterFrontEnd, shell: INotebookShell) => {
     const { serviceManager } = app;
 
     let widget: Widget;
@@ -167,12 +167,12 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
  * A plugin to display the kernel status;
  */
 const kernelStatus: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/notebook-extension:kernel-status',
+  id: '@jupyter-notebook/notebook-extension:kernel-status',
   autoStart: true,
-  requires: [IRetroShell, ITranslator],
+  requires: [INotebookShell, ITranslator],
   activate: (
     app: JupyterFrontEnd,
-    shell: IRetroShell,
+    shell: INotebookShell,
     translator: ITranslator
   ) => {
     const trans = translator.load('retrolab');
@@ -290,7 +290,7 @@ const runShortcut: JupyterFrontEndPlugin<void> = {
  * https://github.com/jupyter/notebook/blob/a9a31c096eeffe1bff4e9164c6a0442e0e13cdb3/notebook/static/notebook/js/outputarea.js#L96-L120
  */
 const scrollOutput: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/notebook-extension:scroll-output',
+  id: '@jupyter-notebook/notebook-extension:scroll-output',
   autoStart: true,
   requires: [INotebookTracker],
   optional: [ISettingRegistry],

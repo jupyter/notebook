@@ -16,12 +16,12 @@ import { IRenderMime } from '@jupyterlab/rendermime-interfaces';
 
 import { Throttler } from '@lumino/polling';
 
-import { IRetroShell, RetroShell } from './shell';
+import { INotebookShell, RetroShell } from './shell';
 
 /**
  * App is the main application class. It is instantiated once and shared.
  */
-export class RetroApp extends JupyterFrontEnd<IRetroShell> {
+export class RetroApp extends JupyterFrontEnd<INotebookShell> {
   /**
    * Construct a new RetroApp object.
    *
@@ -152,7 +152,7 @@ export namespace RetroApp {
    * The instantiation options for an App application.
    */
   export interface IOptions
-    extends JupyterFrontEnd.IOptions<IRetroShell>,
+    extends JupyterFrontEnd.IOptions<INotebookShell>,
       Partial<IInfo> {}
 
   /**

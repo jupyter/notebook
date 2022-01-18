@@ -60,15 +60,15 @@ async function main() {
   const disabled = [];
   // TODO: formalize the way the set of initial extensions and plugins are specified
   let baseMods = [
-    // @retrolab plugins
-    require('@retrolab/application-extension'),
-    require('@retrolab/console-extension'),
-    require('@retrolab/docmanager-extension'),
-    require('@retrolab/documentsearch-extension'),
-    require('@retrolab/help-extension'),
-    require('@retrolab/notebook-extension'),
+    // @jupyter-notebook plugins
+    require('@jupyter-notebook/application-extension'),
+    require('@jupyter-notebook/console-extension'),
+    require('@jupyter-notebook/docmanager-extension'),
+    require('@jupyter-notebook/documentsearch-extension'),
+    require('@jupyter-notebook/help-extension'),
+    require('@jupyter-notebook/notebook-extension'),
     // to handle opening new tabs after creating a new terminal
-    require('@retrolab/terminal-extension'),
+    require('@jupyter-notebook/terminal-extension'),
 
     // @jupyterlab plugins
     require('@jupyterlab/application-extension').default.filter(({ id }) =>
@@ -160,7 +160,7 @@ async function main() {
             '@jupyterlab/filebrowser-extension:share-file'
           ].includes(id)
         ),
-        require('@retrolab/tree-extension'),
+        require('@jupyter-notebook/tree-extension'),
         require('@jupyterlab/running-extension')
       ]);
       break;
@@ -319,7 +319,7 @@ async function main() {
       console.error(reason);
     });
 
-  const RetroApp = require('@retrolab/application').RetroApp;
+  const RetroApp = require('@jupyter-notebook/application').RetroApp;
   const app = new RetroApp({ mimeExtensions });
 
   app.registerPluginModules(mods);

@@ -9,7 +9,7 @@ import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { Widget } from '@lumino/widgets';
 
-import { IRetroShell } from '@retrolab/application';
+import { INotebookShell } from '@jupyter-notebook/application';
 
 const SEARCHABLE_CLASS = 'jp-mod-searchable';
 
@@ -19,7 +19,7 @@ const SEARCHABLE_CLASS = 'jp-mod-searchable';
  * https://github.com/jupyterlab/jupyterlab/issues/11754 for more context.
  */
 const disableShortcut: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/documentsearch-extension:disableShortcut',
+  id: '@jupyter-notebook/documentsearch-extension:disableShortcut',
   requires: [ISettingRegistry],
   autoStart: true,
   activate: async (app: JupyterFrontEnd, registry: ISettingRegistry) => {
@@ -40,12 +40,12 @@ const disableShortcut: JupyterFrontEndPlugin<void> = {
  * A plugin to add document search functionalities.
  */
 const retroShellWidgetListener: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/documentsearch-extension:retroShellWidgetListener',
-  requires: [IRetroShell, ISearchProviderRegistry],
+  id: '@jupyter-notebook/documentsearch-extension:retroShellWidgetListener',
+  requires: [INotebookShell, ISearchProviderRegistry],
   autoStart: true,
   activate: (
     app: JupyterFrontEnd,
-    retroShell: IRetroShell,
+    retroShell: INotebookShell,
     registry: ISearchProviderRegistry
   ) => {
     // If a given widget is searchable, apply the searchable class.

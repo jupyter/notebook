@@ -1,7 +1,7 @@
 {
-  "name": "@retrolab/docmanager-extension",
+  "name": "@jupyter-notebook/docmanager-extension",
   "version": "0.4.0-alpha.1",
-  "description": "RetroLab - Document Manager Extension",
+  "description": "Jupyter Notebook - Document Manager Extension",
   "homepage": "https://github.com/jupyterlab/retrolab",
   "bugs": {
     "url": "https://github.com/jupyterlab/retrolab/issues"

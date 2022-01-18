@@ -13,7 +13,6 @@ from jupyterlab.commands import get_app_dir, get_user_settings_dir, get_workspac
 from jupyterlab_server import LabServerApp
 from jupyterlab_server.config import get_page_config, recursive_update, LabConfig
 from jupyterlab_server.handlers import is_url, _camelCase
-from nbclassic.shim import NBClassicConfigShimMixin
 from tornado import web
 from tornado.gen import maybe_future
 from traitlets import Bool
@@ -169,7 +168,7 @@ class RetroNotebookHandler(RetroHandler):
 aliases = dict(base_aliases)
 
 
-class RetroApp(NBClassicConfigShimMixin, LabServerApp):
+class RetroApp(LabServerApp):
     name = "retro"
     app_name = "RetroLab"
     description = "RetroLab - A JupyterLab Distribution with a retro look and feel"

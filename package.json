@@ -1,5 +1,5 @@
 {
-  "name": "@retrolab/root",
+  "name": "@jupyter-notebook/root",
   "version": "0.1.0",
   "private": true,
   "homepage": "https://github.com/jupyterlab/retrolab",
@@ -36,8 +36,8 @@
     "test": "lerna run test",
     "update:dependency": "node ./node_modules/@jupyterlab/buildutils/lib/update-dependency.js --lerna",
     "watch": "run-p watch:lib watch:app",
-    "watch:app": "lerna exec --stream --scope \"@retrolab/app\" jlpm watch",
-    "watch:lib": "lerna exec --stream --scope @retrolab/metapackage jlpm watch"
+    "watch:app": "lerna exec --stream --scope \"@jupyter-notebook/app\" jlpm watch",
+    "watch:lib": "lerna exec --stream --scope @jupyter-notebook/metapackage jlpm watch"
   },
   "husky": {
     "hooks": {

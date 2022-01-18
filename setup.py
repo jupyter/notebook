@@ -10,7 +10,7 @@ HERE = Path(__file__).parent.resolve()
 # The name of the project
 NAME = "retrolab"
 
-labext_name = "@retrolab/lab-extension"
+labext_name = "@jupyter-notebook/lab-extension"
 lab_extension_dest = HERE / NAME / "labextension"
 main_bundle_dest = HERE / NAME / "static"
 
@@ -18,13 +18,13 @@ main_bundle_dest = HERE / NAME / "static"
 ensured_targets = [
     str(lab_extension_dest / "static" / "style.js"),
     str(main_bundle_dest / "bundle.js"),
-    str(HERE / NAME / "schemas/@retrolab/application-extension/package.json.orig"),
+    str(HERE / NAME / "schemas/@jupyter-notebook/application-extension/package.json.orig"),
 ]
 
 data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, str(lab_extension_dest), "**"),
     ("share/jupyter/labextensions/%s" % labext_name, str(HERE), "install.json"),
-    ("share/jupyter/lab/schemas", f"{NAME}/schemas", "@retrolab/**/*"),
+    ("share/jupyter/lab/schemas", f"{NAME}/schemas", "@jupyter-notebook/**/*"),
     (
         "etc/jupyter/jupyter_server_config.d",
         "jupyter-config/jupyter_server_config.d",

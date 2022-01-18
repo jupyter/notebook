@@ -12,7 +12,7 @@ import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { ITranslator } from '@jupyterlab/translation';
 
-import { retroIcon } from '@retrolab/ui-components';
+import { retroIcon } from '@jupyter-notebook/ui-components';
 
 import * as React from 'react';
 
@@ -45,7 +45,7 @@ namespace CommandIDs {
  * The help plugin.
  */
 const plugin: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/help-extension:plugin',
+  id: '@jupyter-notebook/help-extension:plugin',
   autoStart: true,
   requires: [ITranslator],
   optional: [IMainMenu],

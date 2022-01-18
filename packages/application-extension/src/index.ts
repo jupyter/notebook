@@ -31,9 +31,13 @@ import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { ITranslator } from '@jupyterlab/translation';
 
-import { RetroApp, RetroShell, IRetroShell } from '@retrolab/application';
+import {
+  RetroApp,
+  RetroShell,
+  INotebookShell
+} from '@jupyter-notebook/application';
 
-import { jupyterIcon } from '@retrolab/ui-components';
+import { jupyterIcon } from '@jupyter-notebook/ui-components';
 
 import { PromiseDelegate } from '@lumino/coreutils';
 
@@ -100,7 +104,7 @@ namespace CommandIDs {
  * Check if the application is dirty before closing the browser tab.
  */
 const dirty: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/application-extension:dirty',
+  id: '@jupyter-notebook/application-extension:dirty',
   autoStart: true,
   requires: [ILabStatus, ITranslator],
   activate: (
@@ -128,7 +132,7 @@ const dirty: JupyterFrontEndPlugin<void> = {
  * The logo plugin.
  */
 const logo: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/application-extension:logo',
+  id: '@jupyter-notebook/application-extension:logo',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
     const baseUrl = PageConfig.getBaseUrl();
@@ -154,7 +158,7 @@ const logo: JupyterFrontEndPlugin<void> = {
  * A plugin to open documents in the main area.
  */
 const opener: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/application-extension:opener',
+  id: '@jupyter-notebook/application-extension:opener',
   autoStart: true,
   requires: [IRouter, IDocumentManager],
   activate: (
@@ -201,7 +205,7 @@ const opener: JupyterFrontEndPlugin<void> = {
  * TODO: use this plugin to customize the menu items and their order
  */
 const menus: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/application-extension:menus',
+  id: '@jupyter-notebook/application-extension:menus',
   requires: [IMainMenu],
   autoStart: true,
   activate: (app: JupyterFrontEnd, menu: IMainMenu) => {
@@ -231,7 +235,7 @@ const menus: JupyterFrontEndPlugin<void> = {
  * Add commands to open the tree and running pages.
  */
 const pages: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/application-extension:pages',
+  id: '@jupyter-notebook/application-extension:pages',
   autoStart: true,
   requires: [ITranslator],
   optional: [ICommandPalette, IMainMenu],
@@ -277,7 +281,7 @@ const pages: JupyterFrontEndPlugin<void> = {
  * The default paths for a RetroLab app.
  */
 const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
-  id: '@retrolab/application-extension:paths',
+  id: '@jupyter-notebook/application-extension:paths',
   autoStart: true,
   provides: JupyterFrontEnd.IPaths,
   activate: (app: JupyterFrontEnd): JupyterFrontEnd.IPaths => {
@@ -292,7 +296,7 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
  * The default URL router provider.
  */
 const router: JupyterFrontEndPlugin<IRouter> = {
-  id: '@retrolab/application-extension:router',
+  id: '@jupyter-notebook/application-extension:router',
   autoStart: true,
   provides: IRouter,
   requires: [JupyterFrontEnd.IPaths],
@@ -317,7 +321,7 @@ const router: JupyterFrontEndPlugin<IRouter> = {
  * The default session dialogs plugin
  */
 const sessionDialogs: JupyterFrontEndPlugin<ISessionContextDialogs> = {
-  id: '@retrolab/application-extension:session-dialogs',
+  id: '@jupyter-notebook/application-extension:session-dialogs',
   provides: ISessionContextDialogs,
   autoStart: true,
   activate: () => sessionContextDialogs
@@ -326,8 +330,8 @@ const sessionDialogs: JupyterFrontEndPlugin<ISessionContextDialogs> = {
 /**
  * The default RetroLab application shell.
  */
-const shell: JupyterFrontEndPlugin<IRetroShell> = {
-  id: '@retrolab/application-extension:shell',
+const shell: JupyterFrontEndPlugin<INotebookShell> = {
+  id: '@jupyter-notebook/application-extension:shell',
   activate: (app: JupyterFrontEnd) => {
     if (!(app.shell instanceof RetroShell)) {
       throw new Error(`${shell.id} did not find a RetroShell instance.`);
@@ -335,7 +339,7 @@ const shell: JupyterFrontEndPlugin<IRetroShell> = {
     return app.shell;
   },
   autoStart: true,
-  provides: IRetroShell
+  provides: INotebookShell
 };
 
 /**
@@ -344,7 +348,7 @@ const shell: JupyterFrontEndPlugin<IRetroShell> = {
  * in https://github.com/jupyterlab/jupyterlab/pull/11900
  */
 const spacer: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/application-extension:spacer',
+  id: '@jupyter-notebook/application-extension:spacer',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
     const top = new Widget();
@@ -363,7 +367,7 @@ const spacer: JupyterFrontEndPlugin<void> = {
  * The default JupyterLab application status provider.
  */
 const status: JupyterFrontEndPlugin<ILabStatus> = {
-  id: '@retrolab/application-extension:status',
+  id: '@jupyter-notebook/application-extension:status',
   autoStart: true,
   provides: ILabStatus,
   activate: (app: JupyterFrontEnd) => {
@@ -378,10 +382,10 @@ const status: JupyterFrontEndPlugin<ILabStatus> = {
  * A plugin to display the document title in the browser tab title
  */
 const tabTitle: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/application-extension:tab-title',
+  id: '@jupyter-notebook/application-extension:tab-title',
   autoStart: true,
-  requires: [IRetroShell],
-  activate: (app: JupyterFrontEnd, shell: IRetroShell) => {
+  requires: [INotebookShell],
+  activate: (app: JupyterFrontEnd, shell: INotebookShell) => {
     const setTabTitle = () => {
       const current = shell.currentWidget;
       if (current instanceof ConsolePanel) {
@@ -414,13 +418,13 @@ const tabTitle: JupyterFrontEndPlugin<void> = {
  * A plugin to display and rename the title of a file
  */
 const title: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/application-extension:title',
+  id: '@jupyter-notebook/application-extension:title',
   autoStart: true,
-  requires: [IRetroShell, ITranslator],
+  requires: [INotebookShell, ITranslator],
   optional: [IDocumentManager, IRouter],
   activate: (
     app: JupyterFrontEnd,
-    shell: IRetroShell,
+    shell: INotebookShell,
     translator: ITranslator,
     docManager: IDocumentManager | null,
     router: IRouter | null
@@ -506,12 +510,12 @@ const title: JupyterFrontEndPlugin<void> = {
  * Plugin to toggle the top header visibility.
  */
 const topVisibility: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/application-extension:top',
-  requires: [IRetroShell, ITranslator],
+  id: '@jupyter-notebook/application-extension:top',
+  requires: [INotebookShell, ITranslator],
   optional: [IMainMenu, ISettingRegistry],
   activate: (
     app: JupyterFrontEnd<JupyterFrontEnd.IShell>,
-    retroShell: IRetroShell,
+    retroShell: INotebookShell,
     translator: ITranslator,
     menu: IMainMenu | null,
     settingRegistry: ISettingRegistry | null
@@ -580,7 +584,7 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
  * The default tree route resolver plugin.
  */
 const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
-  id: '@retrolab/application-extension:tree-resolver',
+  id: '@jupyter-notebook/application-extension:tree-resolver',
   autoStart: true,
   requires: [IRouter],
   provides: JupyterFrontEnd.ITreeResolver,
@@ -639,7 +643,7 @@ const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
 };
 
 const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
-  id: '@retrolab/application-extension:tree-updater',
+  id: '@jupyter-notebook/application-extension:tree-updater',
   requires: [IRouter],
   provides: ITreePathUpdater,
   activate: (app: JupyterFrontEnd, router: IRouter) => {
@@ -665,15 +669,15 @@ const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
  * Zen mode plugin
  */
 const zen: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/application-extension:zen',
+  id: '@jupyter-notebook/application-extension:zen',
   autoStart: true,
   requires: [ITranslator],
-  optional: [ICommandPalette, IRetroShell, IMainMenu],
+  optional: [ICommandPalette, INotebookShell, IMainMenu],
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
     palette: ICommandPalette | null,
-    retroShell: IRetroShell | null,
+    retroShell: INotebookShell | null,
     menu: IMainMenu | null
   ): void => {
     const { commands } = app;

@@ -27,14 +27,19 @@ commander
       true
     );
     const source = path.resolve(options.source ?? process.cwd());
-    const sourceDir = path.join(source, 'retrolab', 'schemas', '@retrolab');
+    const sourceDir = path.join(
+      source,
+      'retrolab',
+      'schemas',
+      '@jupyter-notebook'
+    );
     const destDir = path.join(
       prefix,
       'share',
       'jupyter',
       'lab',
       'schemas',
-      '@retrolab'
+      '@jupyter-notebook'
     );
     if (overwrite) {
       try {

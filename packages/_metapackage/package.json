@@ -1,5 +1,5 @@
 {
-  "name": "@retrolab/metapackage",
+  "name": "@jupyter-notebook/metapackage",
   "private": true,
   "version": "0.4.0-alpha.1",
   "description": "RetroLab - Metapackage",
@@ -20,17 +20,17 @@
     "watch": "tsc -b -w --preserveWatchOutput"
   },
   "dependencies": {
-    "@retrolab/application": "file:../application",
-    "@retrolab/application-extension": "file:../application-extension",
-    "@retrolab/console-extension": "file:../console-extension",
-    "@retrolab/docmanager-extension": "file:../docmanager-extension",
-    "@retrolab/documentsearch-extension": "file:../documentsearch-extension",
-    "@retrolab/help-extension": "file:../help-extension",
-    "@retrolab/lab-extension": "file:../lab-extension",
-    "@retrolab/notebook-extension": "file:../notebook-extension",
-    "@retrolab/terminal-extension": "file:../terminal-extension",
-    "@retrolab/tree-extension": "file:../tree-extension",
-    "@retrolab/ui-components": "file:../ui-components"
+    "@jupyter-notebook/application": "file:../application",
+    "@jupyter-notebook/application-extension": "file:../application-extension",
+    "@jupyter-notebook/console-extension": "file:../console-extension",
+    "@jupyter-notebook/docmanager-extension": "file:../docmanager-extension",
+    "@jupyter-notebook/documentsearch-extension": "file:../documentsearch-extension",
+    "@jupyter-notebook/help-extension": "file:../help-extension",
+    "@jupyter-notebook/lab-extension": "file:../lab-extension",
+    "@jupyter-notebook/notebook-extension": "file:../notebook-extension",
+    "@jupyter-notebook/terminal-extension": "file:../terminal-extension",
+    "@jupyter-notebook/tree-extension": "file:../tree-extension",
+    "@jupyter-notebook/ui-components": "file:../ui-components"
   },
   "devDependencies": {
     "typescript": "~4.1.3"
