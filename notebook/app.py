@@ -168,8 +168,8 @@ class RetroNotebookHandler(RetroHandler):
 aliases = dict(base_aliases)
 
 
-class NotebookApp(LabServerApp):
-    name = "retro"
+class RetroApp(LabServerApp):
+    name = "notebook"
     app_name = "Jupyter Notebook"
     description = "Jupyter Notebook - A web-based notebook environment for interactive computing"
     version = version
@@ -198,11 +198,11 @@ class NotebookApp(LabServerApp):
 
     flags = flags
     flags['expose-app-in-browser'] = (
-        {'NotebookApp': {'expose_app_in_browser': True}},
+        {'RetroApp': {'expose_app_in_browser': True}},
         "Expose the global app instance to browser via window.jupyterlab."
     )
     flags["collaborative"] = (
-        {"NotebookApp": {"collaborative": True}},
+        {"RetroApp": {"collaborative": True}},
         "Whether to enable collaborative mode.",
     )
 
@@ -237,7 +237,7 @@ class NotebookApp(LabServerApp):
         super().initialize()
 
 
-main = launch_new_instance = NotebookApp.launch_instance
+main = launch_new_instance = RetroApp.launch_instance
 
 if __name__ == "__main__":
     main()
