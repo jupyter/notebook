@@ -118,6 +118,7 @@
     "@jupyterlab/theme-light-extension": "^4.0.0-alpha.4",
     "@jupyterlab/tooltip-extension": "^4.0.0-alpha.4",
     "@jupyterlab/translation-extension": "^4.0.0-alpha.4",
+    "@jupyterlab/user-extension": "^4.0.0-alpha.4",
     "@jupyterlab/vega5-extension": "^4.0.0-alpha.4",
     "@retrolab/application": "^0.3.15",
     "@retrolab/application-extension": "^0.3.15",
@@ -183,7 +184,8 @@
       "@jupyterlab/theme-dark-extension",
       "@jupyterlab/theme-light-extension",
       "@jupyterlab/tooltip-extension",
-      "@jupyterlab/translation-extension"
+      "@jupyterlab/translation-extension",
+      "@jupyterlab/user-extension"
     ],
     "singletonPackages": [
       "@jupyterlab/application",
@@ -212,6 +214,7 @@
       "@jupyterlab/terminal",
       "@jupyterlab/tooltip",
       "@jupyterlab/translation",
+      "@jupyterlab/user",
       "@jupyterlab/ui-components",
       "@lumino/algorithm",
       "@lumino/application",

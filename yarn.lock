@@ -2326,6 +2326,16 @@
     react-dom "^17.0.1"
     typestyle "^2.0.4"
 
+"@jupyterlab/user-extension@^4.0.0-alpha.4":
+  version "4.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/user-extension/-/user-extension-4.0.0-alpha.4.tgz#dad7b0297d257dcc137380ede15b3a524c6dfd0f"
+  integrity sha512-fToh5Vlxt23xmwFDJ0VdUlZHXC6Abi2EKAb8wPmtpPaB8BvavbdswCbjNF7susV/kpU5uZeqlI8BTOIS9Y8/pQ==
+  dependencies:
+    "@jupyterlab/application" "^4.0.0-alpha.4"
+    "@jupyterlab/coreutils" "^6.0.0-alpha.4"
+    "@jupyterlab/user" "^4.0.0-alpha.4"
+    "@lumino/widgets" "^1.30.0"
+
 "@jupyterlab/user@^4.0.0-alpha.4":
   version "4.0.0-alpha.4"
   resolved "https://registry.yarnpkg.com/@jupyterlab/user/-/user-4.0.0-alpha.4.tgz#d7869568c136a236fd98619b671f131c8004f153"
