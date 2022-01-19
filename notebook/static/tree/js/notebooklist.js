@@ -1243,7 +1243,11 @@ define([
         that.selected.forEach(function(item) {
             var item_path = utils.encode_uri_components(item.path);
             var item_type = that._is_notebook(item) ? 'notebooks' : that._is_viewable(item) ? 'view' : 'files';
-            window.open(utils.url_path_join(that.base_url, item_type, item_path), IPython._target);
+            if (includes_extension(item.path, ['md'])){
+                window.open(utils.url_path_join(that.base_url, 'nbextensions/nbextensions_configurator/rendermd/files', item_path), IPython._target);
+            }else {
+                window.open(utils.url_path_join(that.base_url, item_type, item_path), IPython._target);
+            }
       	});
     };
 
