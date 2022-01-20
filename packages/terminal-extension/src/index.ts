@@ -18,9 +18,13 @@ import { find } from '@lumino/algorithm';
  */
 const opener: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/terminal-extension:opener',
-  requires: [IRouter],
+  requires: [IRouter, ITerminalTracker],
   autoStart: true,
-  activate: (app: JupyterFrontEnd, router: IRouter) => {
+  activate: (
+    app: JupyterFrontEnd,
+    router: IRouter,
+    tracker: ITerminalTracker
+  ) => {
     const { commands } = app;
     const terminalPattern = new RegExp('/terminals/(.*)');
 
@@ -37,6 +41,9 @@ const opener: JupyterFrontEndPlugin<void> = {
           return;
         }
 
+        tracker.widgetAdded.connect((send, terminal) => {
+          terminal.content.setOption('closeOnExit', false);
+        });
         commands.execute('terminal:open', { name });
       }
     });
