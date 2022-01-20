@@ -6,9 +6,7 @@ import { IJupyterLabPageFixture } from '@jupyterlab/galata';
 export async function runAndAdvance(
   page: IJupyterLabPageFixture
 ): Promise<void> {
-  await page.click(
-    "//button[normalize-space(@title)='Run the selected cells and advance']"
-  );
+  await page.click(".jp-Toolbar-item [data-icon='ui-components:run']");
 }
 
 /**
