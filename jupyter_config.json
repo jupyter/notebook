@@ -1,4 +1,4 @@
 {
-  "RetroApp": { "collaborative": false, "expose_app_in_browser": true },
-  "LabApp": { "collaborative": false, "expose_app_in_browser": true }
+  "RetroApp": { "collaborative": true, "expose_app_in_browser": true },
+  "LabApp": { "collaborative": true, "expose_app_in_browser": true }
 }
