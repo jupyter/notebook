@@ -41,7 +41,6 @@ class RetroHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHan
             "frontendUrl": ujoin(self.base_url, "retro/"),
             "exposeAppInBrowser": app.expose_app_in_browser,
             "collaborative": app.collaborative,
-            "retroLogo": app.retro_logo,
         }
 
         if 'hub_prefix' in app.serverapp.tornado_settings:
@@ -168,9 +167,6 @@ class RetroNotebookHandler(RetroHandler):
 
 
 aliases = dict(base_aliases)
-aliases.update({
-   "retro-logo": "RetroApp.retro_logo"
-})
 
 
 class RetroApp(NBClassicConfigShimMixin, LabServerApp):
@@ -200,9 +196,6 @@ class RetroApp(NBClassicConfigShimMixin, LabServerApp):
     collaborative = Bool(
         False, config=True, help="Whether to enable collaborative mode."
     )
-    retro_logo = Bool(
-        False, config=True, help="Whether to use the RetroLab inline logo."
-    )
 
     flags = flags
     flags['expose-app-in-browser'] = (
@@ -212,10 +205,6 @@ class RetroApp(NBClassicConfigShimMixin, LabServerApp):
     flags["collaborative"] = (
         {"RetroApp": {"collaborative": True}},
         "Whether to enable collaborative mode.",
-    )
-    flags["retro-logo"] = (
-        {"RetroApp": {"retro_logo": True}},
-        "Whether to use the RetroLab inline logo",
     )
 
     def initialize_handlers(self):
