@@ -1,10 +1,12 @@
 import { IJupyterLabPageFixture } from '@jupyterlab/galata';
 
+import { Page } from '@playwright/test';
+
 /**
  * Run the selected cell and advance.
  */
 export async function runAndAdvance(
-  page: IJupyterLabPageFixture
+  page: IJupyterLabPageFixture | Page
 ): Promise<void> {
   await page.click(".jp-Toolbar-item [data-icon='ui-components:run']");
 }
