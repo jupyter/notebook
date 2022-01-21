@@ -2,6 +2,26 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.4.0a0
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/@retrolab/app@0.3.16...879e644e172dee4b37f5f3062877e61290e1fcdb))
+
+### Enhancements made
+
+- Update to JupyterLab 4.0 alpha [#319](https://github.com/jupyterlab/retrolab/pull/319) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Drop support for `retro_logo` [#324](https://github.com/jupyterlab/retrolab/pull/324) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2022-01-07&to=2022-01-21&type=c))
+
+[@davidbrochart](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Adavidbrochart+updated%3A2022-01-07..2022-01-21&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2022-01-07..2022-01-21&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2022-01-07..2022-01-21&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.3.16
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.15...41a51ac002582baac9a89a2eb3426ac26e16a46f))
@@ -16,8 +36,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2022-01-03&to=2022-01-07&type=c))
 
 [@davidbrochart](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Adavidbrochart+updated%3A2022-01-03..2022-01-07&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2022-01-03..2022-01-07&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2022-01-03..2022-01-07&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3AmartinRenou+updated%3A2022-01-03..2022-01-07&type=Issues) | [@welcome](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Awelcome+updated%3A2022-01-03..2022-01-07&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.15
 
