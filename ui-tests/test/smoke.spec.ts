@@ -1,6 +1,8 @@
+import { expect } from '@playwright/test';
+
 import { test } from './fixtures';
 
-import { expect } from '@playwright/test';
+import { runAndAdvance } from './utils';
 
 test.use({ autoGoto: false });
 
@@ -27,10 +29,6 @@ test.describe('Smoke', () => {
       page.click('text="New Notebook"')
     ]);
 
-    // Choose the kernel
-    await notebook.click('text="Select"');
-    await notebook.click('pre[role="presentation"]');
-
     // Enter code in the first cell
     await notebook.fill('//textarea', 'import math');
     await notebook.press('//textarea', 'Enter');
@@ -38,9 +36,7 @@ test.describe('Smoke', () => {
     await notebook.fill('//textarea', 'math.pi');
 
     // Run the cell
-    await notebook.click(
-      "//button[normalize-space(@title)='Run the selected cells and advance']"
-    );
+    runAndAdvance(notebook);
 
     // Enter code in the next cell
     await notebook.fill(
@@ -49,9 +45,7 @@ test.describe('Smoke', () => {
     );
 
     // Run the cell
-    await notebook.click(
-      '//button[normalize-space(@title)=\'Run the selected cells and advance\']/span/span/*[local-name()="svg"]'
-    );
+    runAndAdvance(notebook);
 
     // Save the notebook
     // TODO: re-enable after fixing the name on save dialog?

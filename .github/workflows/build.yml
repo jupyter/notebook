@@ -67,11 +67,11 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu, macos, windows]
-        python: ['3.6', '3.9']
+        python: ['3.7', '3.10']
         include:
-          - python: '3.6'
+          - python: '3.7'
             dist: 'retrolab*.tar.gz'
-          - python: '3.9'
+          - python: '3.10'
             dist: 'retrolab*.whl'
           - os: windows
             py_cmd: python

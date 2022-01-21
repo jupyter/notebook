@@ -84,7 +84,9 @@ async function main() {
         '@jupyterlab/apputils-extension:settings',
         '@jupyterlab/apputils-extension:state',
         '@jupyterlab/apputils-extension:themes',
-        '@jupyterlab/apputils-extension:themes-palette-menu'
+        '@jupyterlab/apputils-extension:themes-palette-menu',
+        // TODO: rename to @jupyterlab/ when fixed and released upstream
+        '@jupyter/apputils-extension:toolbar-registry'
       ].includes(id)
     ),
     require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
@@ -131,6 +133,7 @@ async function main() {
     require('@jupyterlab/theme-dark-extension'),
     require('@jupyterlab/translation-extension'),
     // Add the "Hub Control Panel" menu option when running in JupyterHub
+    require('@jupyterlab/user-extension'),
     require('@jupyterlab/hub-extension')
   ];
 
