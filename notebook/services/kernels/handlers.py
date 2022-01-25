@@ -371,7 +371,8 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         if stale_handler:
             self.log.warning("Replacing stale connection: %s", self.session_key)
             yield stale_handler.close()
-        self._open_sessions[self.session_key] = self
+        if self.kernel_id in self.kernel_manager:  # only update open sessions if kernel is actively managed
+            self._open_sessions[self.session_key] = self
 
     def open(self, kernel_id):
         super().open()
