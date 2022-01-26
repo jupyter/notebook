@@ -224,6 +224,28 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to add an extra shortcut to execute a cell in place via Cmd-Enter on Mac.
+ * TODO: switch to settings define menus when fixed upstream: https://github.com/jupyterlab/jupyterlab/issues/11754
+ */
+const runShortcut: JupyterFrontEndPlugin<void> = {
+  id: '@retrolab/notebook-extension:run-shortcut',
+  autoStart: true,
+  activate: (app: JupyterFrontEnd) => {
+    app.commands.addKeyBinding({
+      command: 'notebook:run-cell',
+      keys: ['Accel Enter'],
+      selector: '.jp-Notebook:focus'
+    });
+
+    app.commands.addKeyBinding({
+      command: 'notebook:run-cell',
+      keys: ['Accel Enter'],
+      selector: '.jp-Notebook.jp-mod-editMode'
+    });
+  }
+};
+
+/**
  * A plugin to enable scrolling for outputs by default.
  * Mimic the logic from the classic notebook, as found here:
  * https://github.com/jupyter/notebook/blob/a9a31c096eeffe1bff4e9164c6a0442e0e13cdb3/notebook/static/notebook/js/outputarea.js#L96-L120
@@ -319,6 +341,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
   kernelLogo,
   kernelStatus,
+  runShortcut,
   scrollOutput
 ];
 
