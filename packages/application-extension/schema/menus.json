@@ -21,8 +21,12 @@
         "label": "Cell",
         "items": [
           {
+            "type": "separator",
+            "rank": 1000
+          },
+          {
             "type": "submenu",
-            "rank": 1000,
+            "rank": 1010,
             "submenu": {
               "id": "jp-mainmenu-run-cell-type",
               "label": "Cell Type",
