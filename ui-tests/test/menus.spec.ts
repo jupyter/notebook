@@ -14,7 +14,7 @@ const MENU_PATHS = [
   'File>New',
   'Edit',
   'View',
-  'Cell',
+  'Run',
   'Kernel',
   'Settings',
   'Settings>Theme',

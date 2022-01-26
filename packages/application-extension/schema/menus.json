@@ -15,38 +15,6 @@
             "rank": 20
           }
         ]
-      },
-      {
-        "id": "jp-mainmenu-run",
-        "label": "Cell",
-        "items": [
-          {
-            "type": "separator",
-            "rank": 1000
-          },
-          {
-            "type": "submenu",
-            "rank": 1010,
-            "submenu": {
-              "id": "jp-mainmenu-run-cell-type",
-              "label": "Cell Type",
-              "items": [
-                {
-                  "command": "notebook:change-cell-to-code",
-                  "rank": 0
-                },
-                {
-                  "command": "notebook:change-cell-to-markdown",
-                  "rank": 10
-                },
-                {
-                  "command": "notebook:change-cell-to-raw",
-                  "rank": 20
-                }
-              ]
-            }
-          }
-        ]
       }
     ]
   },

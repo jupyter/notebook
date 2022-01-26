@@ -14,6 +14,8 @@ import { Text, Time } from '@jupyterlab/coreutils';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
+import { IMainMenu } from '@jupyterlab/mainmenu';
+
 import { NotebookPanel, INotebookTracker } from '@jupyterlab/notebook';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -24,7 +26,7 @@ import { IRetroShell } from '@retrolab/application';
 
 import { Poll } from '@lumino/polling';
 
-import { Widget } from '@lumino/widgets';
+import { Menu, Widget } from '@lumino/widgets';
 
 /**
  * The class for kernel status errors.
@@ -224,6 +226,43 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to customize notebook related menu entries
+ * TODO: switch to settings define menus when fixed upstream: https://github.com/jupyterlab/jupyterlab/issues/11754
+ */
+const menuPlugin: JupyterFrontEndPlugin<void> = {
+  id: '@retrolab/notebook-extension:menu-plugin',
+  autoStart: true,
+  requires: [IMainMenu, ITranslator],
+  activate: (
+    app: JupyterFrontEnd,
+    mainMenu: IMainMenu,
+    translator: ITranslator
+  ) => {
+    const { commands } = app;
+    const trans = translator.load('retrolab');
+
+    const cellTypeSubmenu = new Menu({ commands });
+    cellTypeSubmenu.title.label = trans._p('menu', 'Cell Type');
+    [
+      'notebook:change-cell-to-code',
+      'notebook:change-cell-to-markdown',
+      'notebook:change-cell-to-raw'
+    ].forEach(command => {
+      cellTypeSubmenu.addItem({
+        command
+      });
+    });
+
+    mainMenu.runMenu.addItem({ type: 'separator', rank: 1000 });
+    mainMenu.runMenu.addItem({
+      type: 'submenu',
+      submenu: cellTypeSubmenu,
+      rank: 1010
+    });
+  }
+};
+
+/**
  * A plugin to add an extra shortcut to execute a cell in place via Cmd-Enter on Mac.
  * TODO: switch to settings define menus when fixed upstream: https://github.com/jupyterlab/jupyterlab/issues/11754
  */
@@ -341,6 +380,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
   kernelLogo,
   kernelStatus,
+  menuPlugin,
   runShortcut,
   scrollOutput
 ];
