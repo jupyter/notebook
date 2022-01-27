@@ -120,6 +120,7 @@ async function main() {
     require('@jupyterlab/notebook-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/notebook-extension:code-console',
+        '@jupyterlab/notebook-extension:export',
         '@jupyterlab/notebook-extension:factory',
         '@jupyterlab/notebook-extension:tracker',
         '@jupyterlab/notebook-extension:widget-factory'
