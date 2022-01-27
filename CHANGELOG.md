@@ -22,6 +22,20 @@
 
 <!-- <END NEW CHANGELOG ENTRY> -->
 
+## 0.3.18
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.17...cc611cf7d114ac0ac73517e379c39899c74d0c57))
+
+### Bugs fixed
+
+- Add `@jupyterlab/notebook-extension:export` plugin [#337](https://github.com/jupyterlab/retrolab/pull/337) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2022-01-27&to=2022-01-27&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2022-01-27..2022-01-27&type=Issues) | [@meeseeksmachine](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ameeseeksmachine+updated%3A2022-01-27..2022-01-27&type=Issues)
+
 ## 0.3.17
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.3.16...b7e4a513c671699feeb756772b8255ae5381a8fd))
