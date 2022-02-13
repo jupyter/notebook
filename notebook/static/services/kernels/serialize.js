@@ -1,9 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-define([
-    'underscore',
-    ], function (_) {
+define(function () {
     "use strict";
     
     var _deserialize_array_buffer = function (buf) {
@@ -72,7 +70,7 @@ define([
          * implement the binary serialization protocol
          * serializes JSON message to ArrayBuffer
          */
-        msg = _.clone(msg);
+        msg = Object.assign({}, msg);
         var offsets = [];
         var buffers = [];
         var i;

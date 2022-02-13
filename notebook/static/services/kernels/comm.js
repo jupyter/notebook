@@ -2,9 +2,8 @@
 // Distributed under the terms of the Modified BSD License.
 
 define([
-    'jquery',
     'base/js/utils',
-], function($, utils) {
+], function(utils) {
     "use strict";
 
     //-----------------------------------------------------------------------
@@ -27,7 +26,7 @@ define([
         var msg_types = ['comm_open', 'comm_msg', 'comm_close'];
         for (var i = 0; i < msg_types.length; i++) {
             var msg_type = msg_types[i];
-            kernel.register_iopub_handler(msg_type, $.proxy(this[msg_type], this));
+            kernel.register_iopub_handler(msg_type, this[msg_type].bind(this));
         }
     };
 

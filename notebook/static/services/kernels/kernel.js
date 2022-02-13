@@ -139,13 +139,13 @@ define([
     Kernel.prototype.init_iopub_handlers = function () {
         var output_msg_types = ['stream', 'display_data', 'execute_result', 'error', 'update_display_data'];
         this._iopub_handlers = {};
-        this.register_iopub_handler('status', $.proxy(this._handle_status_message, this));
-        this.register_iopub_handler('clear_output', $.proxy(this._handle_clear_output, this));
-        this.register_iopub_handler('execute_input', $.proxy(this._handle_input_message, this));
-        this.register_iopub_handler('shutdown_reply', $.proxy(this._handle_shutdown_message, this));
+        this.register_iopub_handler('status', this._handle_status_message.bind(this));
+        this.register_iopub_handler('clear_output', this._handle_clear_output.bind(this));
+        this.register_iopub_handler('execute_input', this._handle_input_message.bind(this));
+        this.register_iopub_handler('shutdown_reply', this._handle_shutdown_message.bind(this));
         
         for (var i=0; i < output_msg_types.length; i++) {
-            this.register_iopub_handler(output_msg_types[i], $.proxy(this._handle_output_message, this));
+            this.register_iopub_handler(output_msg_types[i], this._handle_output_message.bind(this));
         }
     };
 
@@ -506,7 +506,7 @@ define([
             that._ws_closed(ws_host_url, true);
         };
 
-        this.ws.onopen = $.proxy(this._ws_opened, this);
+        this.ws.onopen = this._ws_opened.bind(this);
         this.ws.onclose = ws_closed_early;
         this.ws.onerror = ws_error;
         // switch from early-close to late-close message after 1s
@@ -515,7 +515,7 @@ define([
                 that.ws.onclose = ws_closed_late;
             }
         }, 1000);
-        this.ws.onmessage = $.proxy(this._handle_ws_message, this);
+        this.ws.onmessage = this._handle_ws_message.bind(this);
     };
 
     Kernel.prototype._ws_opened = function (evt) {
@@ -563,7 +563,7 @@ define([
         if (this._reconnect_attempt < this.reconnect_limit) {
             var timeout = Math.pow(2, this._reconnect_attempt);
             console.log("Connection lost, reconnecting in " + timeout + " seconds.");
-            setTimeout($.proxy(this.reconnect, this), 1e3 * timeout);
+            setTimeout(this.reconnect.bind(this), 1e3 * timeout);
         } else {
             this.events.trigger('kernel_connection_dead.Kernel', {
                 kernel: this,
