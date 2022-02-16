@@ -120,7 +120,7 @@ for more information.
         'jupyter_core>=4.6.1',
         'jupyter_client>=5.3.4',
         'nbformat',
-        'nbconvert',
+        'nbconvert>=5',
         'nest-asyncio>=1.5',
         'ipykernel', # bless IPython kernel for now
         'Send2Trash>=1.8.0',
