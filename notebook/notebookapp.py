@@ -2120,7 +2120,11 @@ class NotebookApp(JupyterApp):
             # In tests the loop may not have been created yet.
             pass
 
-        if sys.platform.startswith("win") and sys.version_info >= (3, 8):
+        if (
+            sys.platform.startswith("win")
+            and sys.version_info >= (3, 8)
+            and version_info < (6, 1)
+        ):
             import asyncio
             try:
                 from asyncio import (
