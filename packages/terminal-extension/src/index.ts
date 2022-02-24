@@ -68,7 +68,7 @@ const redirect: JupyterFrontEndPlugin<void> = {
         return;
       }
       const name = terminal.content.session.name;
-      window.open(`${baseUrl}retro/terminals/${name}`, '_blank');
+      window.open(`${baseUrl}terminals/${name}`, '_blank');
 
       // dispose the widget since it is not used on this page
       terminal.dispose();

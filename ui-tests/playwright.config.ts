@@ -4,7 +4,7 @@ module.exports = {
   ...baseConfig,
   timeout: 240000,
   use: {
-    appPath: '/retro'
+    appPath: '/'
   },
   retries: 1
 };

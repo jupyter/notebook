@@ -137,7 +137,7 @@ const logo: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd) => {
     const baseUrl = PageConfig.getBaseUrl();
     const node = document.createElement('a');
-    node.href = `${baseUrl}retro/tree`;
+    node.href = `${baseUrl}tree`;
     node.target = '_blank';
     node.rel = 'noopener noreferrer';
     const logo = new Widget({ node });
@@ -258,7 +258,7 @@ const pages: JupyterFrontEndPlugin<void> = {
     app.commands.addCommand(CommandIDs.openTree, {
       label: trans.__('Open Files'),
       execute: () => {
-        window.open(`${baseUrl}retro/tree`);
+        window.open(`${baseUrl}tree`);
       }
     });
 
@@ -490,7 +490,7 @@ const title: JupyterFrontEndPlugin<void> = {
             return;
           }
           const encoded = encodeURIComponent(newPath);
-          router.navigate(`/retro/${route}/${encoded}`, {
+          router.navigate(`/${route}/${encoded}`, {
             skipRouting: true
           });
         }
@@ -596,7 +596,7 @@ const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
     const set = new DisposableSet();
     const delegate = new PromiseDelegate<JupyterFrontEnd.ITreeResolver.Paths>();
 
-    const treePattern = new RegExp('/retro(/tree/.*)?');
+    const treePattern = new RegExp('/(/tree/.*)?');
 
     set.add(
       commands.addCommand(CommandIDs.resolveTree, {
@@ -651,7 +651,6 @@ const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
       if (treePath !== PageConfig.getOption('treePath')) {
         const path = URLExt.join(
           PageConfig.getOption('baseUrl') || '/',
-          'retro',
           'tree',
           URLExt.encodeParts(treePath)
         );

@@ -26,7 +26,7 @@ test.describe('Notebook', () => {
     const href = await page.evaluate(() => {
       return document.querySelector('#jp-RetroLogo')?.getAttribute('href');
     });
-    expect(href).toContain('/retro/tree');
+    expect(href).toContain('/tree');
   });
 
   test('Renaming the notebook should be possible', async ({

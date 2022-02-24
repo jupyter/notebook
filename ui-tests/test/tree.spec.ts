@@ -34,5 +34,5 @@ test('should update url when navigating in filebrowser', async ({
   await page.waitForSelector(`.jp-FileBrowser-crumbs >> text=/${SUBFOLDER}/`);
 
   const url = new URL(page.url());
-  expect(url.pathname).toEqual(`/retro/tree/${tmpPath}/${SUBFOLDER}`);
+  expect(url.pathname).toEqual(`/tree/${tmpPath}/${SUBFOLDER}`);
 });

@@ -25,7 +25,7 @@ app_dir = get_app_dir()
 version = __version__
 
 
-class RetroHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
+class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
     def get_page_config(self):
         config = LabConfig()
         app = self.extensionapp
@@ -37,7 +37,7 @@ class RetroHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHan
             "terminalsAvailable": self.settings.get("terminals_available", False),
             "token": self.settings["token"],
             "fullStaticUrl": ujoin(self.base_url, "static", self.name),
-            "frontendUrl": ujoin(self.base_url, "retro/"),
+            "frontendUrl": ujoin(self.base_url, "/"),
             "exposeAppInBrowser": app.expose_app_in_browser,
             "collaborative": app.collaborative,
         }
@@ -93,13 +93,13 @@ class RetroHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHan
         return page_config
 
 
-class RetroRedirectHandler(RetroHandler):
+class RedirectHandler(NotebookBaseHandler):
     @web.authenticated
     def get(self):
-        return self.redirect(self.base_url+'retro/tree')
+        return self.redirect(self.base_url+'tree')
 
 
-class RetroTreeHandler(RetroHandler):
+class TreeHandler(NotebookBaseHandler):
     @web.authenticated
     async def get(self, path=None):
         """
@@ -137,28 +137,28 @@ class RetroTreeHandler(RetroHandler):
             raise web.HTTPError(404)
 
 
-class RetroConsoleHandler(RetroHandler):
+class ConsoleHandler(NotebookBaseHandler):
     @web.authenticated
     def get(self, path=None):
         tpl = self.render_template("consoles.html", page_config=self.get_page_config())
         return self.write(tpl)
 
 
-class RetroTerminalHandler(RetroHandler):
+class TerminalHandler(NotebookBaseHandler):
     @web.authenticated
     def get(self, path=None):
         tpl = self.render_template("terminals.html", page_config=self.get_page_config())
         return self.write(tpl)
 
 
-class RetroFileHandler(RetroHandler):
+class FileHandler(NotebookBaseHandler):
     @web.authenticated
     def get(self, path=None):
         tpl = self.render_template("edit.html", page_config=self.get_page_config())
         return self.write(tpl)
 
 
-class RetroNotebookHandler(RetroHandler):
+class NotebookHandler(NotebookBaseHandler):
     @web.authenticated
     def get(self, path=None):
         tpl = self.render_template("notebooks.html", page_config=self.get_page_config())
@@ -174,9 +174,9 @@ class NotebookApp(LabServerApp):
     description = "Jupyter Notebook - A web-based notebook environment for interactive computing"
     version = version
     app_version = version
-    extension_url = "/retro"
-    default_url = "/retro/tree"
-    file_url_prefix = "/retro/notebooks"
+    extension_url = "/tree"
+    default_url = "/tree"
+    file_url_prefix = "/notebooks"
     load_other_extensions = True
     app_dir = app_dir
     app_settings_dir = pjoin(app_dir, "settings")
@@ -211,15 +211,15 @@ class NotebookApp(LabServerApp):
             (
                 rf"/{self.file_url_prefix}/((?!.*\.ipynb($|\?)).*)",
                 web.RedirectHandler,
-                {"url": "/retro/edit/{0}"},
+                {"url": "/edit/{0}"},
             )
         )
-        self.handlers.append(("/retro/?", RetroRedirectHandler))
-        self.handlers.append(("/retro/tree(.*)", RetroTreeHandler))
-        self.handlers.append(("/retro/notebooks(.*)", RetroNotebookHandler))
-        self.handlers.append(("/retro/edit(.*)", RetroFileHandler))
-        self.handlers.append(("/retro/consoles/(.*)", RetroConsoleHandler))
-        self.handlers.append(("/retro/terminals/(.*)", RetroTerminalHandler))
+        self.handlers.append(("/retro/?", RedirectHandler))
+        self.handlers.append(("/tree(.*)", TreeHandler))
+        self.handlers.append(("/notebooks(.*)", NotebookHandler))
+        self.handlers.append(("/edit(.*)", FileHandler))
+        self.handlers.append(("/consoles/(.*)", ConsoleHandler))
+        self.handlers.append(("/terminals/(.*)", TerminalHandler))
         super().initialize_handlers()
 
     def initialize_templates(self):

@@ -6,7 +6,7 @@
   "license": "BSD-3-Clause",
   "description": "Jupyter Notebook UI Tests",
   "scripts": {
-    "start": "jupyter retro --config test/jupyter_server_config.py",
+    "start": "jupyter notebook --config test/jupyter_server_config.py",
     "start:detached": "yarn run start&",
     "test": "playwright test",
     "test:debug": "PWDEBUG=1 playwright test",

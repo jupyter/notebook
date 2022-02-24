@@ -63,7 +63,7 @@ const redirect: JupyterFrontEndPlugin<void> = {
         // bail if the console is already added to the main area
         return;
       }
-      window.open(`${baseUrl}retro/consoles/${sessionContext.path}`, '_blank');
+      window.open(`${baseUrl}consoles/${sessionContext.path}`, '_blank');
 
       // the widget is not needed anymore
       console.dispose();

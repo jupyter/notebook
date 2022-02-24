@@ -106,5 +106,5 @@ jobs:
           jupyter labextension list 2>&1 | grep -ie "@jupyter-notebook/lab-extension.*enabled.*ok" -
           jupyter server extension list
           jupyter server extension list 2>&1 | grep -ie "notebook.*enabled" -
-          jupyter retro --version
-          jupyter retro --help
+          jupyter notebook --version
+          jupyter notebook --help

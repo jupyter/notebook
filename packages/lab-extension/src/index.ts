@@ -137,7 +137,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
         command: 'jupyter-notebook:open-retro',
         commandLabel: trans.__('Open With %1', 'Jupyter Notebook'),
         buttonLabel: 'openRetro',
-        urlPrefix: `${baseUrl}retro/tree/`
+        urlPrefix: `${baseUrl}tree/`
       });
     }
 
@@ -186,7 +186,7 @@ const launchRetroTree: JupyterFrontEndPlugin<void> = {
     commands.addCommand(CommandIDs.launchRetroTree, {
       label: trans.__('Launch Jupyter Notebook File Browser'),
       execute: () => {
-        window.open(PageConfig.getBaseUrl() + 'retro/tree');
+        window.open(PageConfig.getBaseUrl() + 'tree');
       }
     });
 
