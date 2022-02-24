@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/documentsearch-extension",
-  "version": "0.4.0-alpha.1",
+  "version": "7.0.0-alpha.0",
   "description": "Jupyter Notebook - Document Search Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -42,7 +42,7 @@
     "@jupyterlab/application": "^4.0.0-alpha.4",
     "@jupyterlab/documentsearch": "^4.0.0-alpha.4",
     "@lumino/widgets": "^1.31.1",
-    "@jupyter-notebook/application": "^0.4.0-alpha.1"
+    "@jupyter-notebook/application": "^7.0.0-alpha.0"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",

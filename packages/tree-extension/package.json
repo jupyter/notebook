@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/tree-extension",
-  "version": "0.4.0-alpha.1",
+  "version": "7.0.0-alpha.0",
   "description": "Jupyter Notebook - Tree Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -53,7 +53,7 @@
     "@lumino/algorithm": "^1.9.1",
     "@lumino/commands": "^1.20.0",
     "@lumino/widgets": "^1.31.1",
-    "@jupyter-notebook/application": "^0.4.0-alpha.1"
+    "@jupyter-notebook/application": "^7.0.0-alpha.0"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",
