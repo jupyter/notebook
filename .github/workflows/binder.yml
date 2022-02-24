@@ -12,4 +12,4 @@ jobs:
       - uses: jupyterlab/maintainer-tools/.github/actions/binder-link@v1
         with:
           github_token: ${{ secrets.github_token }}
-          url_path: retro
+          url_path: tree

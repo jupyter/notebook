@@ -127,7 +127,7 @@ class TreeHandler(NotebookBaseHandler):
             # it's not a directory, we have redirecting to do
             model = await maybe_future(cm.get(path, content=False))
             if model['type'] == 'notebook':
-                url = ujoin(self.base_url, 'retro/notebooks', url_escape(path))
+                url = ujoin(self.base_url, 'notebooks', url_escape(path))
             else:
                 # Return raw content if file is not a notebook
                 url = ujoin(self.base_url, 'files', url_escape(path))
@@ -214,7 +214,7 @@ class NotebookApp(LabServerApp):
                 {"url": "/edit/{0}"},
             )
         )
-        self.handlers.append(("/retro/?", RedirectHandler))
+        self.handlers.append(("/?", RedirectHandler))
         self.handlers.append(("/tree(.*)", TreeHandler))
         self.handlers.append(("/notebooks(.*)", NotebookHandler))
         self.handlers.append(("/edit(.*)", FileHandler))
