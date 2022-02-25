@@ -4,4 +4,3 @@ set -euo pipefail
 python -m pip install -e .
 jlpm && jlpm run build
 jlpm run develop
-jupyter serverextension enable notebook
