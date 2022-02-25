@@ -31,7 +31,7 @@ test.describe('Notebook Menus', () => {
     );
   });
 
-  test.afterEach(async ({ page, tmpPath }) => {
+  test.afterAll(async ({ page, tmpPath }) => {
     await page.kernel.shutdownAll();
   });
 
