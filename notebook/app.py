@@ -199,11 +199,11 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
 
     flags = flags
     flags['expose-app-in-browser'] = (
-        {'NotebookApp': {'expose_app_in_browser': True}},
+        {'JupyterNotebookApp': {'expose_app_in_browser': True}},
         "Expose the global app instance to browser via window.jupyterlab."
     )
     flags["collaborative"] = (
-        {"NotebookApp": {"collaborative": True}},
+        {"JupyterNotebookApp": {"collaborative": True}},
         "Whether to enable collaborative mode.",
     )
 
