@@ -168,7 +168,6 @@ const plugin: JupyterFrontEndPlugin<void> = {
     }));
 
     if (menu) {
-      menu.helpMenu.addGroup([{ command: CommandIDs.about }]);
       menu.helpMenu.addGroup([{ command: CommandIDs.shortcuts }]);
       menu.helpMenu.addGroup(resourcesGroup);
     }
