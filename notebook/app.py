@@ -13,6 +13,7 @@ from jupyterlab.commands import get_app_dir, get_user_settings_dir, get_workspac
 from jupyterlab_server import LabServerApp
 from jupyterlab_server.config import get_page_config, recursive_update, LabConfig
 from jupyterlab_server.handlers import is_url, _camelCase
+from notebook_shim.shim import NotebookConfigShimMixin
 from tornado import web
 from tornado.gen import maybe_future
 from traitlets import Bool
@@ -168,13 +169,13 @@ class NotebookHandler(NotebookBaseHandler):
 aliases = dict(base_aliases)
 
 
-class NotebookApp(LabServerApp):
+class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
     name = "notebook"
     app_name = "Jupyter Notebook"
     description = "Jupyter Notebook - A web-based notebook environment for interactive computing"
     version = version
     app_version = version
-    extension_url = "/tree"
+    extension_url = "/"
     default_url = "/tree"
     file_url_prefix = "/notebooks"
     load_other_extensions = True
@@ -237,7 +238,7 @@ class NotebookApp(LabServerApp):
         super().initialize()
 
 
-main = launch_new_instance = NotebookApp.launch_instance
+main = launch_new_instance = JupyterNotebookApp.launch_instance
 
 if __name__ == "__main__":
     main()

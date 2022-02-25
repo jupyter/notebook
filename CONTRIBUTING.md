@@ -19,7 +19,7 @@ The `jlpm` command is JupyterLab's pinned version of [yarn](https://yarnpkg.com/
 mamba create -n notebook -c conda-forge python nodejs -y
 
 # activate the environment
-conda activate notebook
+mamba activate notebook
 
 # Install package in development mode
 pip install -e .

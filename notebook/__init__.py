@@ -2,20 +2,14 @@ from ._version import __version__
 
 
 def _jupyter_server_extension_paths():
-    return [
-        {
-            'module': 'notebook'
-        }
-    ]
+    return [{"module": "notebook"}]
 
 
 def _jupyter_server_extension_points():
-    from .app import NotebookApp
-    return [{"module": "notebook", "app": NotebookApp}]
+    from .app import JupyterNotebookApp
+
+    return [{"module": "notebook", "app": JupyterNotebookApp}]
 
 
 def _jupyter_labextension_paths():
-    return [{
-        'src': 'labextension',
-        'dest': '@jupyter-notebook/lab-extension'
-    }]
+    return [{"src": "labextension", "dest": "@jupyter-notebook/lab-extension"}]

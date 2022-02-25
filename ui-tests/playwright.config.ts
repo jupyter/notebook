@@ -4,7 +4,7 @@ module.exports = {
   ...baseConfig,
   timeout: 240000,
   use: {
-    appPath: '/'
+    appPath: ''
   },
   retries: 1
 };
