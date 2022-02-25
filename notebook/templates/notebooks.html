@@ -8,7 +8,7 @@
   <link rel="icon" type="image/x-icon" href="{{ base_url | escape }}static/favicons/favicon-notebook.ico" class="favicon">
   {% endblock %}
 </head>
-<body data-retro="notebooks">
+<body data-notebook="notebooks">
 
   {# Copy so we do not modify the page_config with updates. #}
   {% set page_config_full = page_config.copy() %}
@@ -17,7 +17,7 @@
   {% set _ = page_config_full.update(baseUrl=base_url, wsUrl=ws_url) %}
 
   {# Sentinel value to say that we are on the tree page #}
-  {% set _ = page_config_full.update(retroPage='notebooks') %}
+  {% set _ = page_config_full.update(notebookPage='notebooks') %}
 
   <script id="jupyter-config-data" type="application/json">
     {{ page_config_full | tojson }}

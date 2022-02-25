@@ -71,12 +71,12 @@ body {
 
 /* Special case notebooks as document oriented pages */
 
-body[data-retro='notebooks'] #main-panel {
+body[data-notebook='notebooks'] #main-panel {
   margin-left: unset;
   margin-right: unset;
   max-width: unset;
 }
 
-body[data-retro='notebooks'] #spacer-widget {
+body[data-notebook='notebooks'] #spacer-widget {
   min-height: unset;
 }

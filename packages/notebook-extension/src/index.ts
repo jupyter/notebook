@@ -31,22 +31,22 @@ import { Menu, Widget } from '@lumino/widgets';
 /**
  * The class for kernel status errors.
  */
-const KERNEL_STATUS_ERROR_CLASS = 'jp-RetroKernelStatus-error';
+const KERNEL_STATUS_ERROR_CLASS = 'jp-NotebookKernelStatus-error';
 
 /**
  * The class for kernel status warnings.
  */
-const KERNEL_STATUS_WARN_CLASS = 'jp-RetroKernelStatus-warn';
+const KERNEL_STATUS_WARN_CLASS = 'jp-NotebookKernelStatus-warn';
 
 /**
  * The class for kernel status infos.
  */
-const KERNEL_STATUS_INFO_CLASS = 'jp-RetroKernelStatus-info';
+const KERNEL_STATUS_INFO_CLASS = 'jp-NotebookKernelStatus-info';
 
 /**
  * The class to fade out the kernel status.
  */
-const KERNEL_STATUS_FADE_OUT_CLASS = 'jp-RetroKernelStatus-fade';
+const KERNEL_STATUS_FADE_OUT_CLASS = 'jp-NotebookKernelStatus-fade';
 
 /**
  * The class for scrolled outputs
@@ -68,10 +68,10 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
     notebookShell: INotebookShell | null
   ) => {
     const { shell } = app;
-    const trans = translator.load('jupyter-notebook');
+    const trans = translator.load('notebook');
     const widget = new Widget();
     widget.id = DOMUtils.createDomID();
-    widget.addClass('jp-RetroCheckpoint');
+    widget.addClass('jp-NotebookCheckpoint');
     app.shell.add(widget, 'top', { rank: 100 });
 
     const onChange = async () => {
@@ -153,7 +153,7 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
       img.title = spec.display_name;
       node.appendChild(img);
       widget = new Widget({ node });
-      widget.addClass('jp-RetroKernelLogo');
+      widget.addClass('jp-NotebookKernelLogo');
       app.shell.add(widget, 'top', { rank: 10_010 });
     };
 
@@ -175,9 +175,9 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
     shell: INotebookShell,
     translator: ITranslator
   ) => {
-    const trans = translator.load('jupyter-notebook');
+    const trans = translator.load('notebook');
     const widget = new Widget();
-    widget.addClass('jp-RetroKernelStatus');
+    widget.addClass('jp-NotebookKernelStatus');
     app.shell.add(widget, 'menu', { rank: 10_010 });
 
     const removeClasses = () => {
@@ -230,7 +230,7 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
  * TODO: switch to settings define menus when fixed upstream: https://github.com/jupyterlab/jupyterlab/issues/11754
  */
 const menuPlugin: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/notebook-extension:menu-plugin',
+  id: '@jupyter-notebook/notebook-extension:menu-plugin',
   autoStart: true,
   requires: [IMainMenu, ITranslator],
   activate: (
@@ -239,7 +239,7 @@ const menuPlugin: JupyterFrontEndPlugin<void> = {
     translator: ITranslator
   ) => {
     const { commands } = app;
-    const trans = translator.load('retrolab');
+    const trans = translator.load('notebook');
 
     const cellTypeSubmenu = new Menu({ commands });
     cellTypeSubmenu.title.label = trans._p('menu', 'Cell Type');
@@ -267,7 +267,7 @@ const menuPlugin: JupyterFrontEndPlugin<void> = {
  * TODO: switch to settings define menus when fixed upstream: https://github.com/jupyterlab/jupyterlab/issues/11754
  */
 const runShortcut: JupyterFrontEndPlugin<void> = {
-  id: '@retrolab/notebook-extension:run-shortcut',
+  id: '@jupyter-notebook/notebook-extension:run-shortcut',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
     app.commands.addKeyBinding({

@@ -147,7 +147,7 @@ async function main() {
 
   // The motivation here is to only load a specific set of plugins dependending on
   // the current page
-  const page = PageConfig.getOption('retroPage');
+  const page = PageConfig.getOption('notebookPage');
   switch (page) {
     case 'tree': {
       baseMods = baseMods.concat([

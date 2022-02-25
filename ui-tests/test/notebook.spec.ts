@@ -24,7 +24,7 @@ test.describe('Notebook', () => {
   test('Title should be rendered', async ({ page, tmpPath }) => {
     await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
     const href = await page.evaluate(() => {
-      return document.querySelector('#jp-RetroLogo')?.getAttribute('href');
+      return document.querySelector('#jp-NotebookLogo')?.getAttribute('href');
     });
     expect(href).toContain('/tree');
   });

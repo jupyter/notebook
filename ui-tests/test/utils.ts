@@ -17,10 +17,10 @@ export async function runAndAdvance(
 export async function waitForKernelReady(
   page: IJupyterLabPageFixture
 ): Promise<void> {
-  await page.waitForSelector('.jp-RetroKernelStatus-fade');
+  await page.waitForSelector('.jp-NotebookKernelStatus-fade');
   await page.waitForFunction(() => {
     const status = window.document.getElementsByClassName(
-      'jp-RetroKernelStatus'
+      'jp-NotebookKernelStatus'
     )[0];
 
     if (!status) {

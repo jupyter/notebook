@@ -8,28 +8,28 @@
 
 /* Document oriented look for the notebook (scrollbar to the right of the page) */
 
-body[data-retro='notebooks'] .jp-NotebookPanel-toolbar {
+body[data-notebook='notebooks'] .jp-NotebookPanel-toolbar {
   padding-left: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
   padding-right: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
 }
 
-body[data-retro='notebooks'] .jp-Notebook > * {
+body[data-notebook='notebooks'] .jp-Notebook > * {
   background: var(--jp-layout-color0);
   padding: var(--jp-notebook-padding);
 }
 
-body[data-retro='notebooks']
+body[data-notebook='notebooks']
   .jp-Notebook.jp-mod-commandMode
   .jp-Cell.jp-mod-active.jp-mod-selected:not(.jp-mod-multiSelected) {
   background: var(--jp-layout-color0) !important;
 }
 
-body[data-retro='notebooks'] .jp-Notebook > *:first-child {
+body[data-notebook='notebooks'] .jp-Notebook > *:first-child {
   padding-top: var(--jp-notebook-padding-offset);
   margin-top: var(--jp-notebook-toolbar-margin-bottom);
 }
 
-body[data-retro='notebooks'] .jp-Notebook {
+body[data-notebook='notebooks'] .jp-Notebook {
   padding-top: unset;
   padding-bottom: unset;
   padding-left: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
@@ -41,13 +41,13 @@ body[data-retro='notebooks'] .jp-Notebook {
   background: var(--jp-layout-color2);
 }
 
-body[data-retro='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
+body[data-notebook='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
   background: var(--jp-layout-color0);
 }
 
 /* ---- */
 
-.jp-RetroKernelLogo {
+.jp-NotebookKernelLogo {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
@@ -55,13 +55,13 @@ body[data-retro='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
   margin-right: 8px;
 }
 
-.jp-RetroKernelLogo img {
+.jp-NotebookKernelLogo img {
   max-width: 28px;
   max-height: 28px;
   display: flex;
 }
 
-.jp-RetroKernelStatus {
+.jp-NotebookKernelStatus {
   margin: 0;
   font-weight: normal;
   font-size: var(--jp-ui-font-size1);
@@ -72,19 +72,19 @@ body[data-retro='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
   padding-right: var(--jp-kernel-status-padding);
 }
 
-.jp-RetroKernelStatus-error {
+.jp-NotebookKernelStatus-error {
   background-color: var(--jp-error-color0);
 }
 
-.jp-RetroKernelStatus-warn {
+.jp-NotebookKernelStatus-warn {
   background-color: var(--jp-warn-color0);
 }
 
-.jp-RetroKernelStatus-info {
+.jp-NotebookKernelStatus-info {
   background-color: var(--jp-info-color0);
 }
 
-.jp-RetroKernelStatus-fade {
+.jp-NotebookKernelStatus-fade {
   animation: 0.5s fade-out forwards;
 }
 
@@ -114,7 +114,7 @@ body[data-retro='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
   background: var(--jp-layout-color2);
 }
 
-.jp-RetroCheckpoint {
+.jp-NotebookCheckpoint {
   font-size: 14px;
   margin-left: 5px;
   margin-right: 5px;
@@ -129,7 +129,7 @@ body[data-retro='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
 
 /* Mobile View */
 
-body[data-format='mobile'] .jp-RetroCheckpoint {
+body[data-format='mobile'] .jp-NotebookCheckpoint {
   display: none;
 }
 

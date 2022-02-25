@@ -33,12 +33,7 @@ namespace CommandIDs {
   /**
    * Open Jupyter Notebook
    */
-  export const openRetro = 'jupyter-notebook:open-retro';
-
-  /**
-   * Open in Classic Notebook
-   */
-  export const openClassic = 'jupyter-notebook:open-classic';
+  export const openNotebook = 'jupyter-notebook:open-notebook';
 
   /**
    * Open in JupyterLab
@@ -85,7 +80,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
 
     const { commands, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
-    const trans = translator.load('jupyter-notebook');
+    const trans = translator.load('notebook');
     const menubar = new MenuBar();
     const switcher = new Menu({ commands });
     switcher.title.label = trans.__('Interface');
@@ -124,17 +119,9 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
       switcher.addItem({ command });
     };
 
-    // always add Classic
-    addInterface({
-      command: 'jupyter-notebook:open-classic',
-      commandLabel: trans.__('Open With %1', 'Classic Notebook'),
-      buttonLabel: 'openClassic',
-      urlPrefix: `${baseUrl}tree/`
-    });
-
     if (!notebookShell) {
       addInterface({
-        command: 'jupyter-notebook:open-retro',
+        command: CommandIDs.openNotebook,
         commandLabel: trans.__('Open With %1', 'Jupyter Notebook'),
         buttonLabel: 'openRetro',
         urlPrefix: `${baseUrl}tree/`
@@ -143,7 +130,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
 
     if (!labShell) {
       addInterface({
-        command: 'jupyter-notebook:open-lab',
+        command: CommandIDs.openLab,
         commandLabel: trans.__('Open With %1', 'JupyterLab'),
         buttonLabel: 'openLab',
         urlPrefix: `${baseUrl}doc/tree/`
@@ -169,7 +156,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
  * A plugin to add a command to open the Jupyter Notebook Tree.
  */
 const launchRetroTree: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/lab-extension:launch-retrotree',
+  id: '@jupyter-notebook/lab-extension:launch-tree',
   autoStart: true,
   requires: [ITranslator],
   optional: [IMainMenu, ICommandPalette],
@@ -180,7 +167,7 @@ const launchRetroTree: JupyterFrontEndPlugin<void> = {
     palette: ICommandPalette | null
   ): void => {
     const { commands } = app;
-    const trans = translator.load('jupyter-notebook');
+    const trans = translator.load('notebook');
     const category = trans.__('Help');
 
     commands.addCommand(CommandIDs.launchRetroTree, {

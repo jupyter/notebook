@@ -12,7 +12,7 @@ import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { ITranslator } from '@jupyterlab/translation';
 
-import { retroIcon } from '@jupyter-notebook/ui-components';
+import { jupyterIcon } from '@jupyter-notebook/ui-components';
 
 import * as React from 'react';
 
@@ -55,7 +55,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     menu: IMainMenu | null
   ): void => {
     const { commands } = app;
-    const trans = translator.load('jupyter-notebook');
+    const trans = translator.load('notebook');
 
     commands.addCommand(CommandIDs.open, {
       label: args => args['text'] as string,
@@ -119,17 +119,17 @@ const plugin: JupyterFrontEndPlugin<void> = {
         const title = (
           <>
             <span className="jp-AboutRetro-header">
-              <retroIcon.react height="256px" width="auto" />
+              <jupyterIcon.react height="256px" width="auto" />
             </span>
           </>
         );
 
-        const retroNotebookURL = 'https://github.com/jupyter/notebook';
+        const notebookURL = 'https://github.com/jupyter/notebook';
         const linkLabel = trans.__('JUPYTER NOTEBOOK ON GITHUB');
         const externalLinks = (
           <span>
             <a
-              href={retroNotebookURL}
+              href={notebookURL}
               target="_blank"
               rel="noopener noreferrer"
               className="jp-Button-flat jp-AboutRetro-about-externalLinks"

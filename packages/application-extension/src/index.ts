@@ -115,7 +115,7 @@ const dirty: JupyterFrontEndPlugin<void> = {
     if (!(app instanceof NotebookApp)) {
       throw new Error(`${dirty.id} must be activated in Jupyter Notebook.`);
     }
-    const trans = translator.load('jupyter-notebook');
+    const trans = translator.load('notebook');
     const message = trans.__(
       'Are you sure you want to exit Jupyter Notebook?\n\nAny unsaved changes will be lost.'
     );
@@ -149,7 +149,7 @@ const logo: JupyterFrontEndPlugin<void> = {
       height: '28px',
       width: 'auto'
     });
-    logo.id = 'jp-RetroLogo';
+    logo.id = 'jp-NotebookLogo';
     app.shell.add(logo, 'top', { rank: 0 });
   }
 };
@@ -212,7 +212,7 @@ const menus: JupyterFrontEndPlugin<void> = {
     // always disable the Tabs menu
     menu.tabsMenu.dispose();
 
-    const page = PageConfig.getOption('retroPage');
+    const page = PageConfig.getOption('notebookPage');
     switch (page) {
       case 'consoles':
       case 'terminals':
@@ -245,7 +245,7 @@ const pages: JupyterFrontEndPlugin<void> = {
     palette: ICommandPalette | null,
     menu: IMainMenu | null
   ): void => {
-    const trans = translator.load('jupyter-notebook');
+    const trans = translator.load('notebook');
     const baseUrl = PageConfig.getBaseUrl();
 
     app.commands.addCommand(CommandIDs.openLab, {
@@ -353,12 +353,12 @@ const spacer: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd) => {
     const top = new Widget();
     top.id = DOMUtils.createDomID();
-    top.addClass('jp-RetroSpacer');
+    top.addClass('jp-NotebookSpacer');
     app.shell.add(top, 'top', { rank: 900 });
 
     const menu = new Widget();
     menu.id = DOMUtils.createDomID();
-    menu.addClass('jp-RetroSpacer');
+    menu.addClass('jp-NotebookSpacer');
     app.shell.add(menu, 'menu', { rank: 900 });
   }
 };
@@ -430,7 +430,7 @@ const title: JupyterFrontEndPlugin<void> = {
     router: IRouter | null
   ) => {
     const { commands } = app;
-    const trans = translator.load('jupyter-notebook');
+    const trans = translator.load('notebook');
 
     const widget = new Widget();
     widget.id = 'jp-title';
@@ -520,7 +520,7 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
     menu: IMainMenu | null,
     settingRegistry: ISettingRegistry | null
   ) => {
-    const trans = translator.load('jupyter-notebook');
+    const trans = translator.load('notebook');
     const top = notebookShell.top;
     const pluginId = topVisibility.id;
 
@@ -681,7 +681,7 @@ const zen: JupyterFrontEndPlugin<void> = {
   ): void => {
     const { commands } = app;
     const elem = document.documentElement;
-    const trans = translator.load('jupyter-notebook');
+    const trans = translator.load('notebook');
 
     const toggleOn = () => {
       notebookShell?.collapseTop();
