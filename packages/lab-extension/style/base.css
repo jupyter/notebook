@@ -1,0 +1,11 @@
+/*-----------------------------------------------------------------------------
+| Copyright (c) Jupyter Development Team.
+| Distributed under the terms of the Modified BSD License.
+|----------------------------------------------------------------------------*/
+
+.jp-InterfaceSwitcher {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

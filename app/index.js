@@ -85,8 +85,7 @@ async function main() {
         '@jupyterlab/apputils-extension:state',
         '@jupyterlab/apputils-extension:themes',
         '@jupyterlab/apputils-extension:themes-palette-menu',
-        // TODO: rename to @jupyterlab/ when fixed and released upstream
-        '@jupyter/apputils-extension:toolbar-registry'
+        '@jupyterlab/apputils-extension:toolbar-registry'
       ].includes(id)
     ),
     require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
@@ -98,7 +97,15 @@ async function main() {
     require('@jupyterlab/completer-extension').default.filter(({ id }) =>
       ['@jupyterlab/completer-extension:manager'].includes(id)
     ),
-    require('@jupyterlab/console-extension'),
+    require('@jupyterlab/console-extension').default.filter(({ id }) =>
+      [
+        '@jupyterlab/console-extension:completer',
+        '@jupyterlab/console-extension:cursor-position',
+        '@jupyterlab/console-extension:factory',
+        '@jupyterlab/console-extension:foreign',
+        '@jupyterlab/console-extension:tracker'
+      ].includes(id)
+    ),
     require('@jupyterlab/docmanager-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/docmanager-extension:plugin',

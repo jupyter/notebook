@@ -157,12 +157,10 @@ const opener: JupyterFrontEndPlugin<void> = {
   id: '@retrolab/application-extension:opener',
   autoStart: true,
   requires: [IRouter, IDocumentManager],
-  optional: [ISettingRegistry],
   activate: (
     app: JupyterFrontEnd,
     router: IRouter,
-    docManager: IDocumentManager,
-    settingRegistry: ISettingRegistry | null
+    docManager: IDocumentManager
   ): void => {
     const { commands } = app;
 
@@ -181,9 +179,6 @@ const opener: JupyterFrontEndPlugin<void> = {
         app.restored.then(async () => {
           // TODO: get factory from file type instead?
           if (ext === '.ipynb') {
-            // TODO: fix upstream?
-            await settingRegistry?.load('@jupyterlab/notebook-extension:panel');
-            await Promise.resolve();
             docManager.open(file, NOTEBOOK_FACTORY, undefined, {
               ref: '_noref'
             });

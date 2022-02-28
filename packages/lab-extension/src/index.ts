@@ -7,7 +7,7 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { ICommandPalette } from '@jupyterlab/apputils';
+import { ICommandPalette, IToolbarWidgetRegistry } from '@jupyterlab/apputils';
 
 import { PageConfig } from '@jupyterlab/coreutils';
 
@@ -65,7 +65,8 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
     ICommandPalette,
     IMainMenu,
     IRetroShell,
-    ILabShell
+    ILabShell,
+    IToolbarWidgetRegistry
   ],
   activate: (
     app: JupyterFrontEnd,
@@ -74,7 +75,8 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
     palette: ICommandPalette | null,
     menu: IMainMenu | null,
     retroShell: IRetroShell | null,
-    labShell: ILabShell | null
+    labShell: ILabShell | null,
+    toolbarRegistry: IToolbarWidgetRegistry | null
   ) => {
     if (!notebookTracker) {
       // to prevent showing the toolbar button in non-notebook pages
@@ -148,13 +150,18 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
       });
     }
 
-    notebookTracker.widgetAdded.connect(
-      async (sender: INotebookTracker, panel: NotebookPanel) => {
-        panel.toolbar.insertBefore('kernelName', 'interface-switcher', menubar);
-        await panel.context.ready;
-        commands.notifyCommandChanged();
-      }
-    );
+    if (toolbarRegistry) {
+      toolbarRegistry.registerFactory<NotebookPanel>(
+        'Notebook',
+        'interfaceSwitcher',
+        panel => {
+          const menubar = new MenuBar();
+          menubar.addMenu(switcher);
+          menubar.addClass('jp-InterfaceSwitcher');
+          return menubar;
+        }
+      );
+    }
   }
 };
 
