@@ -28,7 +28,7 @@ namespace CommandIDs {
   /**
    * Launch Jupyter Notebook Tree
    */
-  export const launchRetroTree = 'jupyter-notebook:launch-tree';
+  export const launchNotebookTree = 'jupyter-notebook:launch-tree';
 
   /**
    * Open Jupyter Notebook
@@ -123,7 +123,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
       addInterface({
         command: CommandIDs.openNotebook,
         commandLabel: trans.__('Open With %1', 'Jupyter Notebook'),
-        buttonLabel: 'openRetro',
+        buttonLabel: 'openNotebook',
         urlPrefix: `${baseUrl}tree/`
       });
     }
@@ -155,7 +155,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
 /**
  * A plugin to add a command to open the Jupyter Notebook Tree.
  */
-const launchRetroTree: JupyterFrontEndPlugin<void> = {
+const launchNotebookTree: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/lab-extension:launch-tree',
   autoStart: true,
   requires: [ITranslator],
@@ -170,7 +170,7 @@ const launchRetroTree: JupyterFrontEndPlugin<void> = {
     const trans = translator.load('notebook');
     const category = trans.__('Help');
 
-    commands.addCommand(CommandIDs.launchRetroTree, {
+    commands.addCommand(CommandIDs.launchNotebookTree, {
       label: trans.__('Launch Jupyter Notebook File Browser'),
       execute: () => {
         window.open(PageConfig.getBaseUrl() + 'tree');
@@ -179,11 +179,11 @@ const launchRetroTree: JupyterFrontEndPlugin<void> = {
 
     if (menu) {
       const helpMenu = menu.helpMenu;
-      helpMenu.addGroup([{ command: CommandIDs.launchRetroTree }], 1);
+      helpMenu.addGroup([{ command: CommandIDs.launchNotebookTree }], 1);
     }
 
     if (palette) {
-      palette.addItem({ command: CommandIDs.launchRetroTree, category });
+      palette.addItem({ command: CommandIDs.launchNotebookTree, category });
     }
   }
 };
@@ -191,6 +191,9 @@ const launchRetroTree: JupyterFrontEndPlugin<void> = {
 /**
  * Export the plugins as default.
  */
-const plugins: JupyterFrontEndPlugin<any>[] = [launchRetroTree, launchButtons];
+const plugins: JupyterFrontEndPlugin<any>[] = [
+  launchNotebookTree,
+  launchButtons
+];
 
 export default plugins;
