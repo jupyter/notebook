@@ -1,19 +1,19 @@
-.jp-AboutRetro .jp-Dialog-header {
+.jp-AboutNotebook .jp-Dialog-header {
   justify-content: center;
 }
 
-.jp-AboutRetro-header {
+.jp-AboutNotebook-header {
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: var(--jp-flat-button-padding);
 }
 
-.jp-AboutRetro-header-text {
+.jp-AboutNotebook-header-text {
   margin-left: 16px;
 }
 
-.jp-AboutRetro-body {
+.jp-AboutNotebook-body {
   display: flex;
   font-size: var(--jp-ui-font-size2);
   padding: var(--jp-flat-button-padding);
@@ -24,11 +24,11 @@
   overflow: hidden;
 }
 
-.jp-AboutRetro-about-body pre {
+.jp-AboutNotebook-about-body pre {
   white-space: pre-wrap;
 }
 
-.jp-AboutRetro-about-externalLinks {
+.jp-AboutNotebook-about-externalLinks {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -37,11 +37,11 @@
   color: var(--jp-warn-color0);
 }
 
-.jp-AboutRetro-shortcuts {
+.jp-AboutNotebook-shortcuts {
   padding: 10px;
 }
 
-.jp-AboutRetro-shortcuts pre {
+.jp-AboutNotebook-shortcuts pre {
   padding: 5px;
   margin: 0 0 10px;
   background: var(--jp-layout-color2);

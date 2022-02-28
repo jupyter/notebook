@@ -69,15 +69,15 @@ const plugin: JupyterFrontEndPlugin<void> = {
       label: trans.__('Keyboard Shortcuts'),
       execute: () => {
         const title = (
-          <span className="jp-AboutRetro-about-header">
-            <div className="jp-AboutRetro-about-header-info">
+          <span className="jp-AboutNotebook-about-header">
+            <div className="jp-AboutNotebook-about-header-info">
               {trans.__('Keyboard Shortcuts')}
             </div>
           </span>
         );
 
         const body = (
-          <table className="jp-AboutRetro-shortcuts">
+          <table className="jp-AboutNotebook-shortcuts">
             <thead>
               <tr>
                 <th>{trans.__('Name')}</th>
@@ -106,7 +106,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
             Dialog.createButton({
               label: trans.__('Dismiss'),
               className:
-                'jp-AboutRetro-about-button jp-mod-reject jp-mod-styled'
+                'jp-AboutNotebook-about-button jp-mod-reject jp-mod-styled'
             })
           ]
         });
@@ -118,7 +118,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
       execute: () => {
         const title = (
           <>
-            <span className="jp-AboutRetro-header">
+            <span className="jp-AboutNotebook-header">
               <jupyterIcon.react height="256px" width="auto" />
             </span>
           </>
@@ -132,7 +132,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
               href={notebookURL}
               target="_blank"
               rel="noopener noreferrer"
-              className="jp-Button-flat jp-AboutRetro-about-externalLinks"
+              className="jp-Button-flat jp-AboutNotebook-about-externalLinks"
             >
               {linkLabel}
             </a>
@@ -141,7 +141,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
         const version = trans.__('Version: %1', app.version);
         const body = (
           <>
-            <span className="jp-AboutRetro-body">{version}</span>
+            <span className="jp-AboutNotebook-body">{version}</span>
             <div>{externalLinks}</div>
           </>
         );
@@ -153,11 +153,11 @@ const plugin: JupyterFrontEndPlugin<void> = {
             Dialog.createButton({
               label: trans.__('Dismiss'),
               className:
-                'jp-AboutRetro-about-button jp-mod-reject jp-mod-styled'
+                'jp-AboutNotebook-about-button jp-mod-reject jp-mod-styled'
             })
           ]
         });
-        dialog.addClass('jp-AboutRetro');
+        dialog.addClass('jp-AboutNotebook');
         void dialog.launch();
       }
     });
