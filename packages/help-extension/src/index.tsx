@@ -119,7 +119,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
         const title = (
           <>
             <span className="jp-AboutNotebook-header">
-              <jupyterIcon.react height="256px" width="auto" />
+              <jupyterIcon.react width="196px" height="auto" />
             </span>
           </>
         );
