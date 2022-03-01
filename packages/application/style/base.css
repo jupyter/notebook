@@ -1,0 +1,82 @@
+/*-----------------------------------------------------------------------------
+| Copyright (c) Jupyter Development Team.
+| Distributed under the terms of the Modified BSD License.
+|----------------------------------------------------------------------------*/
+
+:root {
+  --jp-private-topbar-height: 28px;
+  /* Override the layout-2 color for the dark theme */
+  --md-grey-800: #323232;
+  --jp-notebook-max-width: 1200px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--jp-layout-color2);
+}
+
+#main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#top-panel-wrapper {
+  min-height: calc(1.5 * var(--jp-private-topbar-height));
+  border-bottom: var(--jp-border-width) solid var(--jp-border-color0);
+  background: var(--jp-layout-color1);
+}
+
+#top-panel {
+  display: flex;
+  min-height: calc(1.5 * var(--jp-private-topbar-height));
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+}
+
+#menu-panel-wrapper {
+  min-height: var(--jp-private-topbar-height);
+  background: var(--jp-layout-color1);
+  border-bottom: var(--jp-border-width) solid var(--jp-border-color0);
+  box-shadow: var(--jp-elevation-z1);
+}
+
+#menu-panel {
+  display: flex;
+  min-height: var(--jp-private-topbar-height);
+  background: var(--jp-layout-color1);
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--jp-notebook-max-width);
+}
+
+#main-panel {
+  box-shadow: var(--jp-elevation-z4);
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--jp-notebook-max-width);
+}
+
+#spacer-widget {
+  min-height: 16px;
+}
+
+/* Special case notebooks as document oriented pages */
+
+body[data-notebook='notebooks'] #main-panel {
+  margin-left: unset;
+  margin-right: unset;
+  max-width: unset;
+}
+
+body[data-notebook='notebooks'] #spacer-widget {
+  min-height: unset;
+}

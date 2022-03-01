@@ -1,33 +1,90 @@
 {
-  "name": "jupyter-notebook-deps",
+  "name": "@jupyter-notebook/root",
+  "version": "0.1.0",
   "private": true,
-  "version": "4.0.0",
-  "description": "Jupyter Notebook nodejs dependencies",
-  "author": "Jupyter Developers",
-  "license": "BSD-3-Clause",
+  "homepage": "https://github.com/jupyter/notebook",
+  "bugs": {
+    "url": "https://github.com/jupyter/notebook/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jupyter/notebook.git"
+    "url": "https://github.com/jupyter/notebook"
+  },
+  "license": "BSD-3-Clause",
+  "author": "Project Jupyter",
+  "workspaces": {
+    "packages": [
+      "app",
+      "buildutils",
+      "packages/*"
+    ]
   },
   "scripts": {
-    "bower": "bower install",
-    "build": "python setup.py js css",
-    "build:webpack": "webpack --mode production",
-    "build:watch": "npm run watch",
-    "watch": "onchange 'notebook/static/**/!(*.min).js' 'notebook/static/**/*.less' 'bower.json' -- npm run build"
+    "build": "lerna run build",
+    "build:prod": "lerna run build:prod",
+    "build:test": "lerna run build:test",
+    "clean": "lerna run clean",
+    "develop": "jupyter labextension develop . --overwrite && node ./buildutils/lib/develop.js --overwrite",
+    "eslint": "eslint . --ext .ts,.tsx --fix",
+    "eslint:check": "eslint . --ext .ts,.tsx",
+    "install": "lerna bootstrap",
+    "integrity": "node buildutils/lib/ensure-repo.js",
+    "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
+    "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
+    "release:bump": "node ./buildutils/lib/release-bump.js",
+    "release:patch": "node ./buildutils/lib/release-patch.js",
+    "test": "lerna run test",
+    "update:dependency": "node ./node_modules/@jupyterlab/buildutils/lib/update-dependency.js --lerna",
+    "watch": "run-p watch:lib watch:app",
+    "watch:app": "lerna exec --stream --scope \"@jupyter-notebook/app\" jlpm watch",
+    "watch:lib": "lerna exec --stream --scope @jupyter-notebook/metapackage jlpm watch"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "devDependencies": {
-    "@babel/core": "^7.15.0",
-    "@babel/preset-env": "^7.15.0",
-    "@jupyterlab/apputils": "^3.1.3",
-    "babel-loader": "^8.2.2",
-    "babel-polyfill": "^6.26.0",
-    "bower": "^1.8.8",
-    "less": "~2",
-    "onchange": "^6.0.0",
-    "po2json": "^0.4.5",
-    "requirejs": "^2.3.6",
-    "webpack": "^5.46.0",
-    "webpack-cli": "^4.7.2"
+    "@jupyterlab/buildutils": "^4.0.0-alpha.5",
+    "@typescript-eslint/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/parser": "^4.2.0",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-jest": "^24.1.3",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.5",
+    "extra-watch-webpack-plugin": "^1.0.3",
+    "husky": "^3",
+    "jest": "^26.4.2",
+    "jest-junit": "^11.1.0",
+    "jest-raw-loader": "^1.0.1",
+    "jest-summary-reporter": "^0.0.2",
+    "lerna": "^3.22.1",
+    "lint-staged": "^10.4.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.19.0",
+    "rimraf": "^3.0.2",
+    "shell-quote": "^1.7.2",
+    "typescript": "~4.1.3"
+  },
+  "jupyter-releaser": {
+    "hooks": {
+      "before-build-npm": [
+        "jlpm clean",
+        "jlpm build:prod"
+      ],
+      "before-build-python": [
+        "jlpm clean"
+      ],
+      "before-bump-version": "python -m pip install bump2version"
+    },
+    "options": {
+      "version-cmd": [
+        "jlpm run release:bump --force --skip-commit"
+      ]
+    },
+    "skip": [
+      "check-links"
+    ]
   }
 }

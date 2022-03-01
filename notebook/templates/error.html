@@ -1,10 +1,22 @@
-{% extends "page.html" %}
+<!DOCTYPE html>
+<!--
+Copyright (c) Jupyter Development Team.
+Distributed under the terms of the Modified BSD License.
+-->
+<html>
 
-{% block login_widget %}
-{% endblock %}
+<head>
+  <meta charset="utf-8">
+
+  <title>{% block title %}{{page_title | e}}{% endblock %}</title>
+
+  {% block favicon %}<link rel="shortcut icon" type="image/x-icon" href="/static/favicons/favicon.ico">{% endblock %}
+
+</head>
+
+<body>
 
 {% block stylesheet %}
-{{super()}}
 <style type="text/css">
 /* disable initial hide */
 div#header, div#site {
@@ -16,27 +28,32 @@ div#header, div#site {
 
 <div class="error">
     {% block h1_error %}
-    <h1>{{status_code}} : {{status_message}}</h1>
+    <h1>{{status_code | e}} : {{status_message | e}}</h1>
     {% endblock h1_error %}
     {% block error_detail %}
     {% if message %}
-    <p>{% trans %}The error was:{% endtrans %}</p>
+    <p>The error was:</p>
     <div class="traceback-wrapper">
-    <pre class="traceback">{{message}}</pre>
+    <pre class="traceback">{{message | e}}</pre>
     </div>
     {% endif %}
     {% endblock %}
-</div>
+</header>
 
 {% endblock %}
 
 {% block script %}
-{{super()}}
 <script type='text/javascript'>
-require(['jquery'], function($) {
-  // scroll long tracebacks to the bottom
-  var tb = $(".traceback")[0];
+window.onload = function () {
+  var tb = document.getElementsByClassName('traceback')[0];
   tb.scrollTop = tb.scrollHeight;
-});
+  {% if message %}
+  console.error("{{message | e}}")
+  {% endif %}
+};
 </script>
 {% endblock script %}
+
+</body>
+
+</html>

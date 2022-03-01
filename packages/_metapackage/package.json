@@ -1,0 +1,38 @@
+{
+  "name": "@jupyter-notebook/metapackage",
+  "private": true,
+  "version": "7.0.0-alpha.0",
+  "description": "Jupyter Notebook - Metapackage",
+  "homepage": "https://github.com/jupyter/notebook",
+  "bugs": {
+    "url": "https://github.com/jupyter/notebook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jupyter/notebook.git"
+  },
+  "license": "BSD-3-Clause",
+  "author": "Project Jupyter",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "watch": "tsc -b -w --preserveWatchOutput"
+  },
+  "dependencies": {
+    "@jupyter-notebook/application": "file:../application",
+    "@jupyter-notebook/application-extension": "file:../application-extension",
+    "@jupyter-notebook/console-extension": "file:../console-extension",
+    "@jupyter-notebook/docmanager-extension": "file:../docmanager-extension",
+    "@jupyter-notebook/documentsearch-extension": "file:../documentsearch-extension",
+    "@jupyter-notebook/help-extension": "file:../help-extension",
+    "@jupyter-notebook/lab-extension": "file:../lab-extension",
+    "@jupyter-notebook/notebook-extension": "file:../notebook-extension",
+    "@jupyter-notebook/terminal-extension": "file:../terminal-extension",
+    "@jupyter-notebook/tree-extension": "file:../tree-extension",
+    "@jupyter-notebook/ui-components": "file:../ui-components"
+  },
+  "devDependencies": {
+    "typescript": "~4.1.3"
+  }
+}

@@ -1,0 +1,13 @@
+name: notebook
+channels:
+- conda-forge
+dependencies:
+- ipywidgets=7.6
+- jupyterlab=3
+- jupyterlab-language-pack-fr-FR
+- jupyterlab-link-share>=0.2
+- matplotlib
+- numpy
+- nodejs
+- python >=3.9,<3.10
+- xeus-python
