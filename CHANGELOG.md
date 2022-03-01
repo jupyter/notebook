@@ -203,24 +203,24 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 ### Merged PRs
 
-* Add square logo and desktop entry files [#6010](https://github.com/jupyter/notebook/pull/6010) ([@befeleme](https://github.com/befeleme))
-* Modernize Changelog [#6008](https://github.com/jupyter/notebook/pull/6008) ([@afshin](https://github.com/afshin))
-* Add missing "import inspect" [#5999](https://github.com/jupyter/notebook/pull/5999) ([@mgeier](https://github.com/mgeier))
-* Add Codecov badge to README [#5989](https://github.com/jupyter/notebook/pull/5989) ([@thomasrockhu](https://github.com/thomasrockhu))
-* Remove configuration for nosetests from setup.cfg [#5986](https://github.com/jupyter/notebook/pull/5986) ([@frenzymadness](https://github.com/frenzymadness))
-* Update security.rst [#5978](https://github.com/jupyter/notebook/pull/5978) ([@dlrice](https://github.com/dlrice))
-*  Docs-Translations: Updated Hindi and Chinese Readme.md [#5976](https://github.com/jupyter/notebook/pull/5976) ([@rjn01](https://github.com/rjn01))
-* Allow /metrics by default if auth is off [#5974](https://github.com/jupyter/notebook/pull/5974) ([@blairdrummond](https://github.com/blairdrummond))
-* Skip terminal tests on Windows 3.9+ (temporary) [#5968](https://github.com/jupyter/notebook/pull/5968) ([@kevin-bates](https://github.com/kevin-bates))
-* Update GatewayKernelManager to derive from AsyncMappingKernelManager [#5966](https://github.com/jupyter/notebook/pull/5966) ([@kevin-bates](https://github.com/kevin-bates))
-* Drop use of deprecated pyzmq.ioloop [#5965](https://github.com/jupyter/notebook/pull/5965) ([@kevin-bates](https://github.com/kevin-bates))
-* Drop support for Python 3.5 [#5962](https://github.com/jupyter/notebook/pull/5962) ([@kevin-bates](https://github.com/kevin-bates))
-* Allow jupyter_server-based contents managers in notebook [#5957](https://github.com/jupyter/notebook/pull/5957) ([@afshin](https://github.com/afshin))
-* Russian translation fixes [#5954](https://github.com/jupyter/notebook/pull/5954) ([@insolor](https://github.com/insolor))
-* Increase culling test idle timeout [#5952](https://github.com/jupyter/notebook/pull/5952) ([@kevin-bates](https://github.com/kevin-bates))
-* Re-enable support for answer_yes flag [#5941](https://github.com/jupyter/notebook/pull/5941) ([@afshin](https://github.com/afshin))
-* Replace Travis and Appveyor with Github Actions [#5938](https://github.com/jupyter/notebook/pull/5938) ([@kevin-bates](https://github.com/kevin-bates))
-* DOC: Server extension, extra docs on configuration/authentication. [#5937](https://github.com/jupyter/notebook/pull/5937) ([@Carreau](https://github.com/Carreau))
+- Add square logo and desktop entry files [#6010](https://github.com/jupyter/notebook/pull/6010) ([@befeleme](https://github.com/befeleme))
+- Modernize Changelog [#6008](https://github.com/jupyter/notebook/pull/6008) ([@afshin](https://github.com/afshin))
+- Add missing "import inspect" [#5999](https://github.com/jupyter/notebook/pull/5999) ([@mgeier](https://github.com/mgeier))
+- Add Codecov badge to README [#5989](https://github.com/jupyter/notebook/pull/5989) ([@thomasrockhu](https://github.com/thomasrockhu))
+- Remove configuration for nosetests from setup.cfg [#5986](https://github.com/jupyter/notebook/pull/5986) ([@frenzymadness](https://github.com/frenzymadness))
+- Update security.rst [#5978](https://github.com/jupyter/notebook/pull/5978) ([@dlrice](https://github.com/dlrice))
+- Docs-Translations: Updated Hindi and Chinese Readme.md [#5976](https://github.com/jupyter/notebook/pull/5976) ([@rjn01](https://github.com/rjn01))
+- Allow /metrics by default if auth is off [#5974](https://github.com/jupyter/notebook/pull/5974) ([@blairdrummond](https://github.com/blairdrummond))
+- Skip terminal tests on Windows 3.9+ (temporary) [#5968](https://github.com/jupyter/notebook/pull/5968) ([@kevin-bates](https://github.com/kevin-bates))
+- Update GatewayKernelManager to derive from AsyncMappingKernelManager [#5966](https://github.com/jupyter/notebook/pull/5966) ([@kevin-bates](https://github.com/kevin-bates))
+- Drop use of deprecated pyzmq.ioloop [#5965](https://github.com/jupyter/notebook/pull/5965) ([@kevin-bates](https://github.com/kevin-bates))
+- Drop support for Python 3.5 [#5962](https://github.com/jupyter/notebook/pull/5962) ([@kevin-bates](https://github.com/kevin-bates))
+- Allow jupyter_server-based contents managers in notebook [#5957](https://github.com/jupyter/notebook/pull/5957) ([@afshin](https://github.com/afshin))
+- Russian translation fixes [#5954](https://github.com/jupyter/notebook/pull/5954) ([@insolor](https://github.com/insolor))
+- Increase culling test idle timeout [#5952](https://github.com/jupyter/notebook/pull/5952) ([@kevin-bates](https://github.com/kevin-bates))
+- Re-enable support for answer_yes flag [#5941](https://github.com/jupyter/notebook/pull/5941) ([@afshin](https://github.com/afshin))
+- Replace Travis and Appveyor with Github Actions [#5938](https://github.com/jupyter/notebook/pull/5938) ([@kevin-bates](https://github.com/kevin-bates))
+- DOC: Server extension, extra docs on configuration/authentication. [#5937](https://github.com/jupyter/notebook/pull/5937) ([@Carreau](https://github.com/Carreau))
 
 ### Contributors to this release
 
@@ -251,7 +251,7 @@ Thank you to all the contributors:
 
 ## Merged PRs
 
--  do not require nose for testing ([5826](https://github.com/jupyter/notebook/pull/5826))
+- do not require nose for testing ([5826](https://github.com/jupyter/notebook/pull/5826))
 - [docs] Update Chinese and Hindi readme.md ([5823](https://github.com/jupyter/notebook/pull/5823))
 - Add support for creating terminals via GET ([5813](https://github.com/jupyter/notebook/pull/5813))
 - Made doc translations in Hindi and Chinese ([5787](https://github.com/jupyter/notebook/pull/5787))
@@ -521,46 +521,46 @@ it's 1.0 release in preparation for a future transition.
 - Multiple translation enhancements and bug-fixes.
 - Remove deprecated ANSI CSS styles.
 - Native support to forward requests to Jupyter Gateway(s) (Embedded
-    NB2KG).
+  NB2KG).
 - Use JavaScript to redirect users to notebook homepage.
 - Enhanced SSL/TLS security by using PROTOCOL_TLS which selects the
-    highest ssl/tls protocol version available that both the client and
-    server support. When PROTOCOL_TLS is not available use
-    PROTOCOL_SSLv23.
+  highest ssl/tls protocol version available that both the client and
+  server support. When PROTOCOL_TLS is not available use
+  PROTOCOL_SSLv23.
 - Add `?no_track_activity=1` argument to allow API requests. to not be
-    registered as activity (e.g. API calls by external activity
-    monitors).
+  registered as activity (e.g. API calls by external activity
+  monitors).
 - Kernels shutting down due to an idle timeout is no longer considered
-    an activity-updating event.
+  an activity-updating event.
 - Further improve compatibility with tornado 6 with improved checks
-    for when websockets are closed.
+  for when websockets are closed.
 - Launch the browser with a local file which redirects to the server
-    address including the authentication token. This prevents another
-    logged-in user from stealing the token from command line arguments
-    and authenticating to the server. The single-use token previously
-    used to mitigate this has been removed. Thanks to Dr. Owain Kenway
-    for suggesting the local file approach.
+  address including the authentication token. This prevents another
+  logged-in user from stealing the token from command line arguments
+  and authenticating to the server. The single-use token previously
+  used to mitigate this has been removed. Thanks to Dr. Owain Kenway
+  for suggesting the local file approach.
 - Respect nbconvert entrypoints as sources for exporters
 - Update to CodeMirror to 5.37, which includes f-string syntax for
-    Python 3.6.
+  Python 3.6.
 - Update jquery-ui to 1.12
 - Execute cells by clicking icon in input prompt.
 - New "Save as" menu option.
 - When serving on a loopback interface, protect against DNS rebinding
-    by checking the `Host` header from the browser. This check can be
-    disabled if necessary by setting `NotebookApp.allow_remote_access`. (Disabled by default while we work out some Mac issues in
-    [3754](https://github.com/jupyter/notebook/issues/3754)).
+  by checking the `Host` header from the browser. This check can be
+  disabled if necessary by setting `NotebookApp.allow_remote_access`. (Disabled by default while we work out some Mac issues in
+  [3754](https://github.com/jupyter/notebook/issues/3754)).
 - Add kernel_info_timeout traitlet to enable restarting slow kernels.
 - Add `custom_display_host` config option to override displayed URL.
 - Add /metrics endpoint for Prometheus Metrics.
 - Optimize large file uploads.
 - Allow access control headers to be overriden in
-    jupyter_notebook_config.py to support greater CORS and proxy
-    configuration flexibility.
+  jupyter_notebook_config.py to support greater CORS and proxy
+  configuration flexibility.
 - Add support for terminals on windows.
 - Add a "restart and run all" button to the toolbar.
 - Frontend/extension-config: allow default json files in a .d
-    directory.
+  directory.
 - Allow setting token via jupyter_token env.
 - Cull idle kernels using `--MappingKernelManager.cull_idle_timeout`.
 - Allow read-only notebooks to be trusted.
@@ -570,27 +570,27 @@ Security Fixes included in previous minor releases of Jupyter Notebook
 and also included in version 6.0.
 
 - Fix Open Redirect vulnerability (CVE-2019-10255) where certain
-    malicious URLs could redirect from the Jupyter login page to a
-    malicious site after a successful login.
+  malicious URLs could redirect from the Jupyter login page to a
+  malicious site after a successful login.
 - Contains a security fix for a cross-site inclusion (XSSI)
-    vulnerability (CVE-2019--9644), where files at a known URL could be
-    included in a page from an unauthorized website if the user is
-    logged into a Jupyter server. The fix involves setting the
-    `X-Content-Type-Options: nosniff` header, and applying CSRF checks
-    previously on all non-GET API requests to GET requests to API
-    endpoints and the /files/ endpoint.
+  vulnerability (CVE-2019--9644), where files at a known URL could be
+  included in a page from an unauthorized website if the user is
+  logged into a Jupyter server. The fix involves setting the
+  `X-Content-Type-Options: nosniff` header, and applying CSRF checks
+  previously on all non-GET API requests to GET requests to API
+  endpoints and the /files/ endpoint.
 - Check Host header to more securely protect localhost deployments
-    from DNS rebinding. This is a pre-emptive measure, not fixing a
-    known vulnerability. Use `.NotebookApp.allow_remote_access` and
-    `.NotebookApp.local_hostnames` to configure access.
+  from DNS rebinding. This is a pre-emptive measure, not fixing a
+  known vulnerability. Use `.NotebookApp.allow_remote_access` and
+  `.NotebookApp.local_hostnames` to configure access.
 - Upgrade bootstrap to 3.4, fixing an XSS vulnerability, which has
-    been assigned
-    [CVE-2018-14041](https://nvd.nist.gov/vuln/detail/CVE-2018-14041).
+  been assigned
+  [CVE-2018-14041](https://nvd.nist.gov/vuln/detail/CVE-2018-14041).
 - Contains a security fix preventing malicious directory names from
-    being able to execute javascript.
+  being able to execute javascript.
 - Contains a security fix preventing nbconvert endpoints from
-    executing javascript with access to the server API. CVE request
-    pending.
+  executing javascript with access to the server API. CVE request
+  pending.
 
 Thanks for all the contributors:
 
@@ -732,15 +732,15 @@ Thanks for all the contributors:
 ## 5.7.8
 
 - Fix regression in restarting kernels in 5.7.5. The restart handler
-    would return before restart was completed.
+  would return before restart was completed.
 - Further improve compatibility with tornado 6 with improved checks
-    for when websockets are closed.
+  for when websockets are closed.
 - Fix regression in 5.7.6 on Windows where .js files could have the
-    wrong mime-type.
+  wrong mime-type.
 - Fix Open Redirect vulnerability (CVE-2019-10255) where certain
-    malicious URLs could redirect from the Jupyter login page to a
-    malicious site after a successful login. 5.7.7 contained only a
-    partial fix for this issue.
+  malicious URLs could redirect from the Jupyter login page to a
+  malicious site after a successful login. 5.7.7 contained only a
+  partial fix for this issue.
 
 ## 5.7.6
 
@@ -761,7 +761,7 @@ demonstrated with other browsers.
 - Fix compatibility with tornado 6 ([4392](https://github.com/jupyter/notebook/pull/4392), [4449](https://github.com/jupyter/notebook/pull/4449)).
 - Fix opening integer filedescriptor during startup on Python 2 ([4349](https://github.com/jupyter/notebook/pull/4349))
 - Fix compatibility with asynchronous
-    [KernelManager.restart_kernel]{.title-ref} methods ([4412](https://github.com/jupyter/notebook/pull/4412))
+  [KernelManager.restart_kernel]{.title-ref} methods ([4412](https://github.com/jupyter/notebook/pull/4412))
 
 ## 5.7.4
 
@@ -774,14 +774,14 @@ and consequently crashes ([4284](https://github.com/jupyter/notebook/pull/4284))
 5.7.3 contains one security improvement and one security fix:
 
 - Launch the browser with a local file which redirects to the server
-    address including the authentication token ([4260](https://github.com/jupyter/notebook/pull/4260)). This prevents another logged-in user from stealing
-    the token from command line arguments and authenticating to the
-    server. The single-use token previously used to mitigate this has
-    been removed. Thanks to Dr. Owain Kenway for suggesting the local
-    file approach.
+  address including the authentication token ([4260](https://github.com/jupyter/notebook/pull/4260)). This prevents another logged-in user from stealing
+  the token from command line arguments and authenticating to the
+  server. The single-use token previously used to mitigate this has
+  been removed. Thanks to Dr. Owain Kenway for suggesting the local
+  file approach.
 - Upgrade bootstrap to 3.4, fixing an XSS vulnerability, which has
-    been assigned
-    [CVE-2018-14041](https://nvd.nist.gov/vuln/detail/CVE-2018-14041) ([4271](https://github.com/jupyter/notebook/pull/4271)).
+  been assigned
+  [CVE-2018-14041](https://nvd.nist.gov/vuln/detail/CVE-2018-14041) ([4271](https://github.com/jupyter/notebook/pull/4271)).
 
 ## 5.7.2
 
@@ -798,20 +798,20 @@ executing javascript with access to the server API. CVE request pending.
 New features:
 
 - Update to CodeMirror to 5.37, which includes f-string syntax for
-    Python 3.6 ([3816](https://github.com/jupyter/notebook/pull/3816))
+  Python 3.6 ([3816](https://github.com/jupyter/notebook/pull/3816))
 - Update jquery-ui to 1.12 ([3836](https://github.com/jupyter/notebook/pull/3836))
 - Check Host header to more securely protect localhost deployments
-    from DNS rebinding. This is a pre-emptive measure, not fixing a
-    known vulnerability ([3766](https://github.com/jupyter/notebook/pull/3766)). Use
-    `.NotebookApp.allow_remote_access` and
-    `.NotebookApp.local_hostnames` to configure access.
+  from DNS rebinding. This is a pre-emptive measure, not fixing a
+  known vulnerability ([3766](https://github.com/jupyter/notebook/pull/3766)). Use
+  `.NotebookApp.allow_remote_access` and
+  `.NotebookApp.local_hostnames` to configure access.
 - Allow access-control-allow-headers to be overridden ([3886](https://github.com/jupyter/notebook/pull/3886))
 - Allow configuring max_body_size and max_buffer_size ([3829](https://github.com/jupyter/notebook/pull/3829))
 - Allow configuring get_secure_cookie keyword-args ([3778](https://github.com/jupyter/notebook/pull/3778))
 - Respect nbconvert entrypoints as sources for exporters ([3879](https://github.com/jupyter/notebook/pull/3879))
 - Include translation sources in source distributions ([3925](https://github.com/jupyter/notebook/pull/3925), [3931](https://github.com/jupyter/notebook/pull/3931))
 - Various improvements to documentation ([3799](https://github.com/jupyter/notebook/pull/3799), [3800](https://github.com/jupyter/notebook/pull/3800),
-    [3806](https://github.com/jupyter/notebook/pull/3806), [3883](https://github.com/jupyter/notebook/pull/3883), [3908](https://github.com/jupyter/notebook/pull/3908))
+  [3806](https://github.com/jupyter/notebook/pull/3806), [3883](https://github.com/jupyter/notebook/pull/3883), [3908](https://github.com/jupyter/notebook/pull/3908))
 
 Fixing problems:
 
@@ -819,7 +819,7 @@ Fixing problems:
 - Fix possible type error when closing activity stream ([3907](https://github.com/jupyter/notebook/pull/3907))
 - Disable metadata editing for non-editable cells ([3744](https://github.com/jupyter/notebook/pull/3744))
 - Fix some styling and alignment of prompts caused by regressions in
-    5.6.0.
+  5.6.0.
 - Enter causing page reload in shortcuts editor ([3871](https://github.com/jupyter/notebook/pull/3871))
 - Fix uploading to the same file twice ([3712](https://github.com/jupyter/notebook/pull/3712))
 
@@ -860,9 +860,9 @@ New features:
 - Execute cells by clicking icon in input prompt ([3535](https://github.com/jupyter/notebook/pull/3535), [3687](https://github.com/jupyter/notebook/pull/3687))
 - New "Save as" menu option ([3289](https://github.com/jupyter/notebook/pull/3289))
 - When serving on a loopback interface, protect against DNS rebinding
-    by checking the `Host` header from the browser ([3714](https://github.com/jupyter/notebook/pull/3714)). This check can be
-    disabled if necessary by setting `NotebookApp.allow_remote_access`. (Disabled by default while we work out some Mac issues in
-    [3754](https://github.com/jupyter/notebook/issues/3754)).
+  by checking the `Host` header from the browser ([3714](https://github.com/jupyter/notebook/pull/3714)). This check can be
+  disabled if necessary by setting `NotebookApp.allow_remote_access`. (Disabled by default while we work out some Mac issues in
+  [3754](https://github.com/jupyter/notebook/issues/3754)).
 - Add kernel_info_timeout traitlet to enable restarting slow kernels ([3665](https://github.com/jupyter/notebook/pull/3665))
 - Add `custom_display_host` config option to override displayed URL ([3668](https://github.com/jupyter/notebook/pull/3668))
 - Add /metrics endpoint for Prometheus Metrics ([3490](https://github.com/jupyter/notebook/pull/3490))
@@ -906,13 +906,13 @@ New features:
 - Display hostname in the terminal when running remotely ([3356](https://github.com/jupyter/notebook/pull/3356), [3593](https://github.com/jupyter/notebook/pull/3593))
 - Add slides exportation/download to the menu ([3287](https://github.com/jupyter/notebook/pull/3287))
 - Add any extra installed nbconvert exporters to the "Download as"
-    menu ([3323](https://github.com/jupyter/notebook/pull/3323))
+  menu ([3323](https://github.com/jupyter/notebook/pull/3323))
 - Editor: warning when overwriting a file that is modified on disk ([2783](https://github.com/jupyter/notebook/pull/2783))
 - Display a warning message if cookies are not enabled ([3511](https://github.com/jupyter/notebook/pull/3511))
 - Basic `__version__` reporting for extensions ([3541](https://github.com/jupyter/notebook/pull/3541))
 - Add `NotebookApp.terminals_enabled` config option ([3478](https://github.com/jupyter/notebook/pull/3478))
 - Make buffer time between last modified on disk and last modified on
-    last save configurable ([3273](https://github.com/jupyter/notebook/pull/3273))
+  last save configurable ([3273](https://github.com/jupyter/notebook/pull/3273))
 - Allow binding custom shortcuts for 'close and halt' ([3314](https://github.com/jupyter/notebook/pull/3314))
 - Add description for 'Trusted' notification ([3386](https://github.com/jupyter/notebook/pull/3386))
 - Add `settings['activity_sources']` ([3401](https://github.com/jupyter/notebook/pull/3401))
@@ -933,7 +933,7 @@ Fixing problems:
 - Prevent default on pageup/pagedown when completer is active ([3500](https://github.com/jupyter/notebook/pull/3500))
 - Prevent default event handling on new terminal ([3497](https://github.com/jupyter/notebook/pull/3497))
 - ConfigManager should not write out default values found in the .d
-    directory ([3485](https://github.com/jupyter/notebook/pull/3485))
+  directory ([3485](https://github.com/jupyter/notebook/pull/3485))
 - Fix leak of iopub object in activity monitoring ([3424](https://github.com/jupyter/notebook/pull/3424))
 - Javascript lint in notebooklist.js ([3409](https://github.com/jupyter/notebook/pull/3409))
 - Some Javascript syntax fixes ([3294](https://github.com/jupyter/notebook/pull/3294))
@@ -945,10 +945,10 @@ Fixing problems:
 - API spec improvements, API handler improvements ([3368](https://github.com/jupyter/notebook/pull/3368))
 - Set notebook to dirty state after change to kernel metadata ([3350](https://github.com/jupyter/notebook/pull/3350))
 - Use CSP header to treat served files as belonging to a separate
-    origin ([3341](https://github.com/jupyter/notebook/pull/3341))
+  origin ([3341](https://github.com/jupyter/notebook/pull/3341))
 - Don't install gettext into builtins ([3330](https://github.com/jupyter/notebook/pull/3330))
 - Add missing `import _` ([3316](https://github.com/jupyter/notebook/pull/3316),
-    [3326](https://github.com/jupyter/notebook/pull/3326))
+  [3326](https://github.com/jupyter/notebook/pull/3326))
 - Write `notebook.json` file atomically ([3305](https://github.com/jupyter/notebook/pull/3305))
 - Fix clicking with modifiers, page title updates ([3282](https://github.com/jupyter/notebook/pull/3282))
 - Upgrade jQuery to version 2.2 ([3428](https://github.com/jupyter/notebook/pull/3428))
@@ -964,12 +964,12 @@ Documentation:
 - Add explanation on how to change the type of a cell to Markdown ([3377](https://github.com/jupyter/notebook/pull/3377))
 - Update docs with confd implementation details ([3520](https://github.com/jupyter/notebook/pull/3520))
 - Add more information for where `jupyter_notebook_config.py` is
-    located ([3346](https://github.com/jupyter/notebook/pull/3346))
+  located ([3346](https://github.com/jupyter/notebook/pull/3346))
 - Document options to enable nbextensions in specific sections ([3525](https://github.com/jupyter/notebook/pull/3525))
 - jQuery attribute selector value MUST be surrounded by quotes ([3527](https://github.com/jupyter/notebook/pull/3527))
 - Do not execute special notebooks with nbsphinx ([3360](https://github.com/jupyter/notebook/pull/3360))
 - Other minor fixes in [3288](https://github.com/jupyter/notebook/pull/3288),
-    [3528](https://github.com/jupyter/notebook/pull/3528), [3293](https://github.com/jupyter/notebook/pull/3293), [3367](https://github.com/jupyter/notebook/pull/3367)
+  [3528](https://github.com/jupyter/notebook/pull/3528), [3293](https://github.com/jupyter/notebook/pull/3293), [3367](https://github.com/jupyter/notebook/pull/3367)
 
 Testing:
 
@@ -1040,16 +1040,16 @@ it and bringing it to our attention.
 ## 5.4.0
 
 - Fix creating files and folders after navigating directories in the
-    dashboard ([3264](https://github.com/jupyter/notebook/pull/3264)).
+  dashboard ([3264](https://github.com/jupyter/notebook/pull/3264)).
 - Enable printing notebooks in colour, removing the CSS that made
-    everything black and white ([3212](https://github.com/jupyter/notebook/pull/3212)).
+  everything black and white ([3212](https://github.com/jupyter/notebook/pull/3212)).
 - Limit the completion options displayed in the notebook to 1000, to
-    avoid performance issues with very long lists ([3195](https://github.com/jupyter/notebook/pull/3195)).
+  avoid performance issues with very long lists ([3195](https://github.com/jupyter/notebook/pull/3195)).
 - Accessibility improvements in `tree.html` ([3271](https://github.com/jupyter/notebook/pull/3271)).
 - Added alt-text to the kernel logo image in the notebook UI ([3228](https://github.com/jupyter/notebook/pull/3228)).
 - Added a test on Travis CI to flag if symlinks are accidentally
-    introduced in the future. This should prevent the issue that
-    necessitated `release-5.3.1`{.interpreted-text role="ref"} ([3227](https://github.com/jupyter/notebook/pull/3227)).
+  introduced in the future. This should prevent the issue that
+  necessitated `release-5.3.1`{.interpreted-text role="ref"} ([3227](https://github.com/jupyter/notebook/pull/3227)).
 - Use lowercase letters for random IDs generated in our Javascript ([3264](https://github.com/jupyter/notebook/pull/3264)).
 - Removed duplicate code setting `TextCell.notebook` ([3256](https://github.com/jupyter/notebook/pull/3256)).
 
@@ -1082,7 +1082,7 @@ notebook dashboard are moved to the OS trash vs. deleted permanently).
 - Send files to os trash mechanism on delete ([1968](https://github.com/jupyter/notebook/pull/1968)).
 - Allow programmatic copy to clipboard ([3088](https://github.com/jupyter/notebook/pull/3088)).
 - Use DOM History API for navigating between directories in the file
-    browser ([3115](https://github.com/jupyter/notebook/pull/3115)).
+  browser ([3115](https://github.com/jupyter/notebook/pull/3115)).
 - Add translated files to folder(docs-translations) ([3065](https://github.com/jupyter/notebook/pull/3065)).
 - Allow non empty dirs to be deleted ([3108](https://github.com/jupyter/notebook/pull/3108)).
 - Set cookie on base_url ([2959](https://github.com/jupyter/notebook/pull/2959)).
@@ -1091,7 +1091,7 @@ notebook dashboard are moved to the OS trash vs. deleted permanently).
 - Config option to shut down server after n seconds with no kernels ([2963](https://github.com/jupyter/notebook/pull/2963)).
 - Display a "close" button on load notebook error ([3176](https://github.com/jupyter/notebook/pull/3176)).
 - Add action to command pallette to run CodeMirror's "indentAuto"
-    on selection ([3175](https://github.com/jupyter/notebook/pull/3175)).
+  on selection ([3175](https://github.com/jupyter/notebook/pull/3175)).
 - Add option to specify extra services ([3158](https://github.com/jupyter/notebook/pull/3158)).
 - Warn_bad_name should not use global name ([3160](https://github.com/jupyter/notebook/pull/3160)).
 - Avoid overflow of hidden form ([3148](https://github.com/jupyter/notebook/pull/3148)).
@@ -1099,11 +1099,11 @@ notebook dashboard are moved to the OS trash vs. deleted permanently).
 - Find available kernelspecs more efficiently ([3136](https://github.com/jupyter/notebook/pull/3136)).
 - Don't try to translate missing help strings ([3122](https://github.com/jupyter/notebook/pull/3122)).
 - Frontend/extension-config: allow default json files in a .d
-    directory ([3116](https://github.com/jupyter/notebook/pull/3116)).
+  directory ([3116](https://github.com/jupyter/notebook/pull/3116)).
 - Use [requirejs]{.title-ref} vs. [require]{.title-ref} ([3097](https://github.com/jupyter/notebook/pull/3097)).
 - Fixes some ui bugs in firefox \#3044 ([3058](https://github.com/jupyter/notebook/pull/3058)).
 - Compare non-specific language code when choosing to use arabic
-    numerals ([3055](https://github.com/jupyter/notebook/pull/3055)).
+  numerals ([3055](https://github.com/jupyter/notebook/pull/3055)).
 - Fix save-script deprecation ([3053](https://github.com/jupyter/notebook/pull/3053)).
 - Include moment locales in package_data ([3051](https://github.com/jupyter/notebook/pull/3051)).
 - Fix moment locale loading in bidi support ([3048](https://github.com/jupyter/notebook/pull/3048)).
@@ -1194,7 +1194,7 @@ involved in this release.
 - Avoid base64-literals in image tests ([2851](https://github.com/jupyter/notebook/pull/2851)).
 - Upgrade xterm.js to 2.9.2 ([2849](https://github.com/jupyter/notebook/pull/2849)).
 - Changed all python variables named file to file_name to not override
-    built_in file ([2830](https://github.com/jupyter/notebook/pull/2830)).
+  built_in file ([2830](https://github.com/jupyter/notebook/pull/2830)).
 - Add more doc tests ([2823](https://github.com/jupyter/notebook/pull/2823)).
 - Typos fix ([2815](https://github.com/jupyter/notebook/pull/2815)).
 - Rename and update license \[ci skip\] ([2810](https://github.com/jupyter/notebook/pull/2810)).
@@ -1203,7 +1203,7 @@ involved in this release.
 - Factor out output_prompt_function, as is done with input prompt ([2774](https://github.com/jupyter/notebook/pull/2774)).
 - Use rfc5987 encoding for filenames ([2767](https://github.com/jupyter/notebook/pull/2767)).
 - Added path to the resources metadata, the same as in
-    from_filename(...) in nbconvert.exporters.py ([2753](https://github.com/jupyter/notebook/pull/2753)).
+  from_filename(...) in nbconvert.exporters.py ([2753](https://github.com/jupyter/notebook/pull/2753)).
 - Make "extrakeys" consistent for notebook and editor ([2745](https://github.com/jupyter/notebook/pull/2745)).
 - Bidi support ([2357](https://github.com/jupyter/notebook/pull/2357)).
 
@@ -1233,7 +1233,7 @@ involved in this release.
 - Stop notebook server from command line ([2388](https://github.com/jupyter/notebook/pull/2388)).
 - Improve "View" and "Edit" file handling in dashboard ([2449](https://github.com/jupyter/notebook/pull/2449)) and ([2402](https://github.com/jupyter/notebook/pull/2402)).
 - Provide a promise to replace use of the
-    `app_initialized.NotebookApp` event ([2710](https://github.com/jupyter/notebook/pull/2710)).
+  `app_initialized.NotebookApp` event ([2710](https://github.com/jupyter/notebook/pull/2710)).
 - Fix disabled collapse/expand output button ([2681](https://github.com/jupyter/notebook/pull/2681)).
 - Cull idle kernels using `--MappingKernelManager.cull_idle_timeout` ([2215](https://github.com/jupyter/notebook/pull/2215)).
 - Allow read-only notebooks to be trusted ([2718](https://github.com/jupyter/notebook/pull/2718)).
@@ -1264,7 +1264,7 @@ Files in the dashboard may now be sorted by last modified date or name
 
 ### Cell tags
 
-There is a new cell toolbar for adding *cell tags*
+There is a new cell toolbar for adding _cell tags_
 ([2048](https://github.com/jupyter/notebook/pull/2048)):
 
 ![image](/_static/images/cell-tags-toolbar.png)
@@ -1293,7 +1293,7 @@ After:
 
 ### Customise keyboard shortcuts
 
-You can now edit keyboard shortcuts for *Command Mode* within the UI
+You can now edit keyboard shortcuts for _Command Mode_ within the UI
 ([1347](https://github.com/jupyter/notebook/pull/1347)):
 
 ![image](/_static/images/shortcut-editor.png)
@@ -1304,41 +1304,41 @@ instructions.
 ### Other additions
 
 - You can copy and paste cells between notebooks, using
-    `Ctrl-C`{.interpreted-text role="kbd"} and
-    `Ctrl-V`{.interpreted-text role="kbd"} (`Cmd-C`{.interpreted-text
-    role="kbd"} and `Cmd-V`{.interpreted-text role="kbd"} on Mac).
+  `Ctrl-C`{.interpreted-text role="kbd"} and
+  `Ctrl-V`{.interpreted-text role="kbd"} (`Cmd-C`{.interpreted-text
+  role="kbd"} and `Cmd-V`{.interpreted-text role="kbd"} on Mac).
 - It's easier to configure a password for the notebook with the new
-    `jupyter notebook password` command ([2007](https://github.com/jupyter/notebook/pull/2007)).
-- The file list can now be ordered by *last modified* or by *name* ([943](https://github.com/jupyter/notebook/pull/943)).
+  `jupyter notebook password` command ([2007](https://github.com/jupyter/notebook/pull/2007)).
+- The file list can now be ordered by _last modified_ or by _name_ ([943](https://github.com/jupyter/notebook/pull/943)).
 - Markdown cells now support attachments. Simply drag and drop an
-    image from your desktop to a markdown cell to add it. Unlike
-    relative links that you enter manually, attachments are embedded in
-    the notebook itself. An unreferenced attachment will be
-    automatically scrubbed from the notebook on save ([621](https://github.com/jupyter/notebook/pull/621)).
+  image from your desktop to a markdown cell to add it. Unlike
+  relative links that you enter manually, attachments are embedded in
+  the notebook itself. An unreferenced attachment will be
+  automatically scrubbed from the notebook on save ([621](https://github.com/jupyter/notebook/pull/621)).
 - Undoing cell deletion now supports undeleting multiple cells. Cells
-    may not be in the same order as before their deletion, depending on
-    the actions you did on the meantime, but this should should help
-    reduce the impact of accidentally deleting code.
-- The file browser now has *Edit* and *View* buttons.
+  may not be in the same order as before their deletion, depending on
+  the actions you did on the meantime, but this should should help
+  reduce the impact of accidentally deleting code.
+- The file browser now has _Edit_ and _View_ buttons.
 - The file browser now supports moving multiple files at once ([1088](https://github.com/jupyter/notebook/pull/1088)).
 - The Notebook will refuse to run as root unless the `--allow-root`
-    flag is given ([1115](https://github.com/jupyter/notebook/pull/1115)).
+  flag is given ([1115](https://github.com/jupyter/notebook/pull/1115)).
 - Keyboard shortcuts are now declarative ([1234](https://github.com/jupyter/notebook/pull/1234)).
 - Toggling line numbers can now affect all cells ([1312](https://github.com/jupyter/notebook/pull/1312)).
-- Add more visible *Trusted* and *Untrusted* notifications ([1658](https://github.com/jupyter/notebook/pull/1658)).
+- Add more visible _Trusted_ and _Untrusted_ notifications ([1658](https://github.com/jupyter/notebook/pull/1658)).
 - The favicon (browser shortcut icon) now changes to indicate when the
-    kernel is busy ([1837](https://github.com/jupyter/notebook/pull/1837)).
+  kernel is busy ([1837](https://github.com/jupyter/notebook/pull/1837)).
 - Header and toolbar visibility is now persisted in nbconfig and
-    across sessions ([1769](https://github.com/jupyter/notebook/pull/1769)).
+  across sessions ([1769](https://github.com/jupyter/notebook/pull/1769)).
 - Load server extensions with ConfigManager so that merge happens
-    recursively, unlike normal config values, to make it load more
-    consistently with frontend extensions([2108](https://github.com/jupyter/notebook/pull/2108)).
+  recursively, unlike normal config values, to make it load more
+  consistently with frontend extensions([2108](https://github.com/jupyter/notebook/pull/2108)).
 - The notebook server now supports the [bundler
-    API](https://jupyter-notebook.readthedocs.io/en/latest/extending/bundler_extensions.html)
-    from the [jupyter_cms incubator
-    project](https://github.com/jupyter-incubator/contentmanagement) ([1579](https://github.com/jupyter/notebook/pull/1579)).
+  API](https://jupyter-notebook.readthedocs.io/en/latest/extending/bundler_extensions.html)
+  from the [jupyter_cms incubator
+  project](https://github.com/jupyter-incubator/contentmanagement) ([1579](https://github.com/jupyter/notebook/pull/1579)).
 - The notebook server now provides information about kernel activity
-    in its kernel resource API ([1827](https://github.com/jupyter/notebook/pull/1827)).
+  in its kernel resource API ([1827](https://github.com/jupyter/notebook/pull/1827)).
 
 Remember that upgrading `notebook` only affects the user interface.
 Upgrading kernels and libraries may also provide new features, better
@@ -1347,10 +1347,10 @@ stability and integration with the notebook interface.
 ## 4.4.0
 
 - Allow override of output callbacks to redirect output messages. This
-    is used to implement the ipywidgets Output widget, for example.
+  is used to implement the ipywidgets Output widget, for example.
 - Fix an async bug in message handling by allowing comm message
-    handlers to return a promise which halts message processing until
-    the promise resolves.
+  handlers to return a promise which halts message processing until
+  the promise resolves.
 
 See the 4.4 milestone on GitHub for a complete list of
 [issues](https://github.com/jupyter/notebook/issues?utf8=%E2%9C%93&q=is%3Aissue%20milestone%3A4.4)
@@ -1364,10 +1364,10 @@ involved in this release.
 handling of the "editable" cell metadata field.
 
 - Monkey-patch for CodeMirror that resolves
-    [\#2037](https://github.com/jupyter/notebook/issues/2037) without
-    breaking [\#1967](https://github.com/jupyter/notebook/issues/1967)
+  [\#2037](https://github.com/jupyter/notebook/issues/2037) without
+  breaking [\#1967](https://github.com/jupyter/notebook/issues/1967)
 - Read-only (`"editable": false`) cells can be executed but cannot be
-    split, merged, or deleted
+  split, merged, or deleted
 
 See the 4.3.2 milestone on GitHub for a complete list of
 [issues](https://github.com/jupyter/notebook/issues?utf8=%E2%9C%93&q=is%3Aissue%20milestone%3A4.3.2)
@@ -1383,9 +1383,9 @@ improvements to the newly-released token authentication.
 **Security fix**:
 
 - CVE-2016-9971. Fix CSRF vulnerability, where malicious forms could
-    create untitled files and start kernels (no remote execution or
-    modification of existing files) for users of certain browsers (Firefox, Internet Explorer / Edge). All previous notebook releases
-    are affected.
+  create untitled files and start kernels (no remote execution or
+  modification of existing files) for users of certain browsers (Firefox, Internet Explorer / Edge). All previous notebook releases
+  are affected.
 
 Bug fixes:
 
@@ -1420,12 +1420,12 @@ you can paste into your browser.
 Highlights:
 
 - API for creating mime-type based renderer extensions using
-    `OutputArea.register_mime_type` and `Notebook.render_cell_output`
-    methods. See
-    [mimerender-cookiecutter](https://github.com/jupyterlab/mimerender-cookiecutter)
-    for reference implementations and cookiecutter.
+  `OutputArea.register_mime_type` and `Notebook.render_cell_output`
+  methods. See
+  [mimerender-cookiecutter](https://github.com/jupyterlab/mimerender-cookiecutter)
+  for reference implementations and cookiecutter.
 - Enable token authentication by default. See
-    `server_security`{.interpreted-text role="ref"} for more details.
+  `server_security`{.interpreted-text role="ref"} for more details.
 - Update security docs to reflect new signature system
 - Switched from term.js to xterm.js
 
@@ -1477,7 +1477,7 @@ involved in this release.
 > Highlights:
 
 - Fix regression in 4.2.2 that delayed loading custom.js until after
-    `notebook_loaded` and `app_initialized` events have fired.
+  `notebook_loaded` and `app_initialized` events have fired.
 - Fix some outdated docs and links.
 
 ## 4.2.2
@@ -1488,13 +1488,13 @@ All users are strongly encouraged to upgrade to 4.2.2.
 > Highlights:
 
 - **Security fix**: CVE-2016-6524, where untrusted latex output could
-    be added to the page in a way that could execute javascript.
+  be added to the page in a way that could execute javascript.
 - Fix missing POST in OPTIONS responses.
 - Fix for downloading non-ascii filenames.
 - Avoid clobbering ssl_options, so that users can specify more
-    detailed SSL configuration.
+  detailed SSL configuration.
 - Fix inverted load order in nbconfig, so user config has highest
-    priority.
+  priority.
 - Improved error messages here and there.
 
 ## 4.2.1
@@ -1515,14 +1515,14 @@ package, as well.
 Highlighted changes:
 
 - Upgrade MathJax to 2.6 to fix vertical-bar appearing on some
-    equations.
+  equations.
 - Restore ability for notebook directory to be root (4.1 regression)
 - Large outputs are now throttled, reducing the ability of output
-    floods to kill the browser.
+  floods to kill the browser.
 - Fix the notebook ignoring cell executions while a kernel is starting
-    by queueing the messages.
+  by queueing the messages.
 - Fix handling of url prefixes (e.g. JupyterHub) in terminal and edit
-    pages.
+  pages.
 - Support nested SVGs in output.
 
 And various other fixes and improvements.
@@ -1541,46 +1541,46 @@ Bug fixes:
 
 UI changes:
 
-- Moved the cell toolbar selector into the *View* menu. Added a button
-    that triggers a "hint" animation to the main toolbar so users can
-    find the new location. (Click here to see a
-    [screencast](https://cloud.githubusercontent.com/assets/335567/10711889/59665a5a-7a3e-11e5-970f-86b89592880c.gif)
-    )
+- Moved the cell toolbar selector into the _View_ menu. Added a button
+  that triggers a "hint" animation to the main toolbar so users can
+  find the new location. (Click here to see a
+  [screencast](https://cloud.githubusercontent.com/assets/335567/10711889/59665a5a-7a3e-11e5-970f-86b89592880c.gif)
+  )
 
-    > ![image](/_static/images/cell-toolbar-41.png)
+  > ![image](/_static/images/cell-toolbar-41.png)
 
-- Added *Restart & Run All* to the *Kernel* menu. Users can also bind
-    it to a keyboard shortcut on action
-    `restart-kernel-and-run-all-cells`.
+- Added _Restart & Run All_ to the _Kernel_ menu. Users can also bind
+  it to a keyboard shortcut on action
+  `restart-kernel-and-run-all-cells`.
 
 - Added multiple-cell selection. Users press `Shift-Up/Down` or
-    `Shift-K/J` to extend selection in command mode. Various actions
-    such as cut/copy/paste, execute, and cell type conversions apply to
-    all selected cells.
+  `Shift-K/J` to extend selection in command mode. Various actions
+  such as cut/copy/paste, execute, and cell type conversions apply to
+  all selected cells.
 
-    ![image](/_static/images/multi-select-41.png)
+  ![image](/_static/images/multi-select-41.png)
 
 - Added a command palette for executing Jupyter actions by name. Users
-    press `Cmd/Ctrl-Shift-P` or click the new command palette icon on
-    the toolbar.
+  press `Cmd/Ctrl-Shift-P` or click the new command palette icon on
+  the toolbar.
 
-    ![image](/_static/images/command-palette-41.png)
+  ![image](/_static/images/command-palette-41.png)
 
-- Added a *Find and Replace* dialog to the *Edit* menu. Users can also
-    press `F` in command mode to show the dialog.
+- Added a _Find and Replace_ dialog to the _Edit_ menu. Users can also
+  press `F` in command mode to show the dialog.
 
-    ![image](/_static/images/find-replace-41.png)
+  ![image](/_static/images/find-replace-41.png)
 
 Other improvements:
 
 - Custom KernelManager methods can be Tornado coroutines, allowing
-    async operations.
+  async operations.
 - Make clearing output optional when rewriting input with
-    `set_next_input(replace=True)`.
+  `set_next_input(replace=True)`.
 - Added support for TLS client authentication via
-    `--NotebookApp.client-ca`.
+  `--NotebookApp.client-ca`.
 - Added tags to `jupyter/notebook` releases on DockerHub. `latest`
-    continues to track the master branch.
+  continues to track the master branch.
 
 See the 4.1 milestone on GitHub for a complete list of
 [issues](https://github.com/jupyter/notebook/issues?page=3&q=milestone%3A4.1+is%3Aclosed+is%3Aissue&utf8=%E2%9C%93)
@@ -1601,9 +1601,9 @@ handled.
 Security fixes for maliciously crafted files.
 
 - [CVE-2015-6938](http://www.openwall.com/lists/oss-security/2015/09/02/3):
-    malicious filenames
+  malicious filenames
 - [CVE-2015-7337](http://www.openwall.com/lists/oss-security/2015/09/16/3):
-    malicious binary files in text editor.
+  malicious binary files in text editor.
 
 Thanks to Jonathan Kamens at Quantopian and Juan Broullón for the
 reports.

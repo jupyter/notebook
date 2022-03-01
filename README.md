@@ -8,9 +8,10 @@
 The Jupyter notebook is a web-based notebook environment for interactive
 computing.
 
-![Jupyter notebook example](docs/resources/running_code_med.png "Jupyter notebook example")
+![Jupyter notebook example](docs/resources/running_code_med.png 'Jupyter notebook example')
 
 ### Notice
+
 Please note that this repository is currently maintained by a skeleton crew of maintainers from the Jupyter community. We encourage users to transition to JupyterLab, where more immediate support can occur. Our approach moving forward will be:
 
 1. To maintain the security of the Jupyter Notebook. That means security-related issues and pull requests are our highest priority.
@@ -20,14 +21,16 @@ Please note that this repository is currently maintained by a skeleton crew of m
 If you have an open pull request with a new feature or if you were planning to open one, please consider shipping it as a [notebook extension](https://jupyter-notebook.readthedocs.io/en/stable/extending/) instead.
 
 ##### Alternatives to contributing to `notebook`
+
 Additionally, please consider whether your contribution would be appropriate for either the underlying server for Jupyter front-ends, [jupyter_server](https://github.com/jupyter/jupyter_server) or in the [JupyterLab front-end](https://github.com/jupyterlab/jupyterlab).
 
 ### Jupyter notebook, the language-agnostic evolution of IPython notebook
+
 Jupyter notebook is a language-agnostic HTML notebook application for
 Project Jupyter. In 2015, Jupyter notebook was released as a part of
 The Big Split™ of the IPython codebase. IPython 3 was the last major monolithic
-release containing both language-agnostic code, such as the *IPython notebook*,
-and language specific code, such as the *IPython kernel for Python*. As
+release containing both language-agnostic code, such as the _IPython notebook_,
+and language specific code, such as the _IPython kernel for Python_. As
 computing spans across many languages, Project Jupyter will continue to develop the
 language-agnostic **Jupyter notebook** in this repo and with the help of the
 community develop language specific kernels which are found in their own
@@ -36,6 +39,7 @@ discrete repos.
 [[Jupyter Ascending blog post](https://blog.jupyter.org/jupyter-ascending-1bf5b362d97e)]
 
 ## Installation
+
 You can find the installation documentation for the
 [Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/latest/install.html).
 The documentation for advanced usage of Jupyter notebook can be found
@@ -67,6 +71,7 @@ See [`CONTRIBUTING.rst`](CONTRIBUTING.rst) for how to set up a local development
 If you are interested in contributing to the project, see [`CONTRIBUTING.rst`](CONTRIBUTING.rst).
 
 ## Resources
+
 - [Project Jupyter website](https://jupyter.org)
 - [Online Demo at jupyter.org/try](https://jupyter.org/try)
 - [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/latest/) [[PDF](https://media.readthedocs.org/pdf/jupyter-notebook/latest/jupyter-notebook.pdf)]
