@@ -17,4 +17,4 @@ build_cmd = "build:prod"
 npm = ["jlpm"]
 
 [tool.check-manifest]
-ignore = ["app/**", "binder/**", "buildutils/**", "packages/**", "*.json", "yarn.lock", "readthedocs.yml", ".bumpversion.cfg", ".*", "lint-staged.config.js", "logo.*", "notebook/labextension/**", "notebook/schemas/**", "notebook/static/**", "notebook/template/**", "ui-tests/**"]
+ignore = ["app/**", "binder/**", "buildutils/**", "docs/**, "packages/**", "codecov.yml", "*.json", "yarn.lock", "readthedocs.yml", ".bumpversion.cfg", ".*", "lint-staged.config.js", "*.svg", "notebook/labextension/**", "notebook/schemas/**", "notebook/static/**", "notebook/template/**", "ui-tests/**"]
