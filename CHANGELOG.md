@@ -2,6 +2,28 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.4.0a1
+
+([Full Changelog](https://github.com/jupyterlab/retrolab/compare/v0.4.0a0...27881b5f669affee575cc90d52eb98a050307d9f))
+
+### Enhancements made
+
+- Add `Accel Enter` shortcut to execute a cell [#330](https://github.com/jupyterlab/retrolab/pull/330) ([@jtpio](https://github.com/jtpio))
+- Switch cell type from the cell menu [#328](https://github.com/jupyterlab/retrolab/pull/328) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Remove workaround for the toolbar settings [#352](https://github.com/jupyterlab/retrolab/pull/352) ([@jtpio](https://github.com/jtpio))
+- Add `@jupyterlab/notebook-extension:export` plugin [#337](https://github.com/jupyterlab/retrolab/pull/337) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2022-01-21&to=2022-02-28&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2022-01-21..2022-02-28&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2022-01-21..2022-02-28&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 0.4.0a0
 
 ([Full Changelog](https://github.com/jupyterlab/retrolab/compare/@retrolab/app@0.3.16...879e644e172dee4b37f5f3062877e61290e1fcdb))
@@ -19,8 +41,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlab/retrolab/graphs/contributors?from=2022-01-07&to=2022-01-21&type=c))
 
 [@davidbrochart](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Adavidbrochart+updated%3A2022-01-07..2022-01-21&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Agithub-actions+updated%3A2022-01-07..2022-01-21&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlab%2Fretrolab+involves%3Ajtpio+updated%3A2022-01-07..2022-01-21&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.3.19
 
