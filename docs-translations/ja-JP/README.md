@@ -1,9 +1,9 @@
 # Jupyter Notebook
 
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
-[![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
+[![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=main)](https://travis-ci.org/jupyter/notebook)
 [![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/latest/?badge=latest)
-                
+
 英語版のリンク : [[English Version](http://github.com/jupyter/notebook/)]
 
 Jupyter Notebookは、インタラクティブなWebベースのノートブック形式の環境です。
@@ -41,11 +41,11 @@ Jupyter Notebookをリモートで起動する前に、いくつかの構成が�
 
 ## 開発用インストール
 
-開発用インストールのセットアップ方法については、[`CONTRIBUTING.rst`](https://github.com/jupyter/notebook/blob/master/CONTRIBUTING.rst)を参照してください。
+開発用インストールのセットアップ方法については、[`CONTRIBUTING.rst`](https://github.com/jupyter/notebook/blob/main/CONTRIBUTING.rst)を参照してください。
 
 ## 貢献
 
-プロジェクトへの貢献に興味がある場合は、[`CONTRIBUTING.rst`](https://github.com/jupyter/notebook/blob/master/CONTRIBUTING.rst)をご覧ください。
+プロジェクトへの貢献に興味がある場合は、[`CONTRIBUTING.rst`](https://github.com/jupyter/notebook/blob/main/CONTRIBUTING.rst)をご覧ください。
 
 ## 参考
 

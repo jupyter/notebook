@@ -234,7 +234,7 @@ drop-down on the toolbar (which will be "Code", initially), or via
 
 For more information on the different things you can do in a notebook,
 see the `collection of examples
-<https://nbviewer.jupyter.org/github/jupyter/notebook/tree/master/docs/source/examples/Notebook/>`_.
+<https://nbviewer.jupyter.org/github/jupyter/notebook/tree/main/docs/source/examples/Notebook/>`_.
 
 Code cells
 ~~~~~~~~~~

@@ -11,7 +11,7 @@ The recommended way to make a release is to use [`jupyter_releaser`](https://git
 #### Set the release branch
 
 ```bash
-export release_branch=master
+export release_branch=main
 ```
 
 #### Create the git checkout

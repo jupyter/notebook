@@ -56,7 +56,7 @@ steps::
 If you are using a system-wide Python installation and you only want to install the notebook for you,
 you can add ``--user`` to the install commands.
 
-Once you have done this, you can launch the master branch of Jupyter notebook
+Once you have done this, you can launch the main branch of Jupyter notebook
 from any directory in your system with::
 
     jupyter notebook
@@ -95,7 +95,7 @@ this command whenever there are changes to JavaScript or LESS sources::
 
 **IMPORTANT:** Don't forget to run ``npm run build`` after switching branches.
 When switching between branches of different versions (e.g. ``4.x`` and
-``master``), run ``pip install -e .``. If you have tried the above and still
+``main``), run ``pip install -e .``. If you have tried the above and still
 find that the notebook is not reflecting the current source code, try cleaning
 the repo with ``git clean -xfd`` and reinstalling with ``pip install -e .``.
 

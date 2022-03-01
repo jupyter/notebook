@@ -227,7 +227,7 @@ class NotebookWebApplication(web.Application):
             log.info(DEV_NOTE_NPM)
 
         if sys_info['commit_source'] == 'repository':
-            # don't cache (rely on 304) when working from master
+            # don't cache (rely on 304) when working from main
             version_hash = ''
         else:
             # reset the cache on server restart

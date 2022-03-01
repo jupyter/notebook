@@ -1,9 +1,9 @@
 # Jupyter Notebook
 
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
-[![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
+[![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=main)](https://travis-ci.org/jupyter/notebook)
 [![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](http://jupyter-notebook.readthedocs.io/en/latest/?badge=latest)
-                
+
 English 버전 링크 : [[English Version](http://github.com/jupyter/notebook/)]
 
 Jupyter notebook 은 상호 교환을 위한 웹 기반 환경입니다.
@@ -25,7 +25,7 @@ You can find the installation documentation for the
 조금 더 심화된 Jupyter notebook의 사용은 다음 주소에서 볼 수 있습니다.
 [here](https://jupyter-notebook.readthedocs.io/en/latest/).
 
-설치를 위해서는 
+설치를 위해서는
 [pip installed](https://pip.readthedocs.io/en/stable/installing/) 가 있는지 확인한 후 다음을 실행해주세요:
 
     $ pip install notebook
