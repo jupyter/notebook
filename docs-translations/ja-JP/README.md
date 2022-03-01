@@ -3,7 +3,7 @@
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
 [![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
 [![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/latest/?badge=latest)
-  
+
 英語版のリンク : [[English Version](http://github.com/jupyter/notebook/)]
 
 Jupyter Notebook は、インタラクティブな Web ベースのノートブック形式の環境です。
