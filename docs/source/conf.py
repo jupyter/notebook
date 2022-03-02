@@ -46,16 +46,6 @@ print("===============================")
 for item in sys.path:
     print(item)
 
-# Check if docs are being built by ReadTheDocs
-# If so, generate a config.rst file and populate it with documentation about
-# configuration options
-
-if os.environ.get('READTHEDOCS', ''):
-    # Readthedocs doesn't run our Makefile, so we do this to force it to generate
-    # the config docs.
-    with open('../autogen_config.py') as f:
-        exec(compile(f.read(), '../autogen_config.py', 'exec'), {})
-
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
