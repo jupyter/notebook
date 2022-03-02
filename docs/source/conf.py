@@ -14,7 +14,6 @@
 
 import sys
 import os
-import shlex
 import shutil
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -347,4 +346,4 @@ spelling_lang='en_US'
 spelling_word_list_filename='spelling_wordlist.txt'
 
 # import before any doc is built, so _ is guaranteed to be injected
-import notebook.transutils
+import jupyter_server.transutils  # noqa: F401
