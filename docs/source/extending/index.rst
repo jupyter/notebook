@@ -9,9 +9,5 @@ override the notebook's defaults with your own custom behavior.
 .. toctree::
     :maxdepth: 2
 
-    contents
-    savehooks
-    handlers
+    Extending the Jupyter Server <https://jupyter-server.readthedocs.io/en/stable/developers/index.html>
     frontend_extensions
-    keymaps
-    bundler_extensions

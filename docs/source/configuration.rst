@@ -8,8 +8,5 @@ Configuration
 
    config_overview
    config
-   public_server
-   security
-   frontend_config
-   examples/Notebook/Distributing Jupyter Extensions as Python Packages
+   Security <https://jupyter-server.readthedocs.io/en/stable/operators/security.html>
    extending/index.rst
