@@ -18,7 +18,14 @@ There is new stream of work which was submitted and then accepted as a Jupyter E
 
 #### Notebook v7
 
-TODO
+The next major version of Notebook will be based on:
+
+- JupyterLab components for the frontend
+- Jupyter Server for the Python server
+
+This results in a rather change to the `jupyter/notebook` code base.
+
+To learn more about Notebook v7: https://jupyter.org/enhancement-proposals/79-notebook-v7/notebook-v7.html
 
 #### Classic Notebook v6
 
