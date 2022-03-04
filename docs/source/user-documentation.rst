@@ -10,4 +10,3 @@ User Documentation
    examples/Notebook/examples_index.rst
    troubleshooting
    changelog
-   comms
