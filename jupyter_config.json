@@ -1,0 +1,4 @@
+{
+  "LabApp": { "collaborative": true, "expose_app_in_browser": true },
+  "JupyterNotebookApp": { "collaborative": true, "expose_app_in_browser": true }
+}

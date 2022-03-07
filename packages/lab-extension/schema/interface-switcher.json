@@ -1,0 +1,10 @@
+{
+  "title": "Interface Switcher",
+  "description": "Interface Switcher settings.",
+  "jupyter.lab.toolbars": {
+    "Notebook": [{ "name": "interfaceSwitcher", "rank": 990 }]
+  },
+  "properties": {},
+  "additionalProperties": false,
+  "type": "object"
+}

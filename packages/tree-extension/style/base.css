@@ -1,0 +1,50 @@
+.jp-FileBrowser {
+  height: 100%;
+}
+
+.lm-TabPanel {
+  height: 100%;
+}
+
+.jp-TreePanel .lm-TabPanel-tabBar {
+  overflow: visible;
+  min-height: 32px;
+  border-bottom: unset;
+  height: var(--jp-private-toolbar-height);
+}
+
+.jp-TreePanel .lm-TabBar-content {
+  height: 100%;
+}
+
+.jp-TreePanel .lm-TabBar-tab {
+  color: var(--jp-ui-font-color0);
+  font-size: var(--jp-ui-font-size1);
+  padding-top: 6px;
+  height: 100%;
+}
+
+.jp-TreePanel .lm-TabBar-tabLabel {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+/* Override the style from upstream JupyterLab */
+.jp-FileBrowser-toolbar.jp-Toolbar
+  .jp-Toolbar-item:first-child
+  .jp-ToolbarButtonComponent {
+  width: auto;
+  background: unset;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.jp-FileBrowser-toolbar.jp-Toolbar
+  .jp-Toolbar-item:first-child
+  .jp-ToolbarButtonComponent:hover {
+  background-color: var(--jp-layout-color2);
+}
+
+.jp-FileBrowser-toolbar.jp-Toolbar .jp-ToolbarButtonComponent {
+  width: unset;
+}

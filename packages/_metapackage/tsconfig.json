@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfigbase",
+  "compilerOptions": {
+    "outDir": "lib",
+    "rootDir": "src"
+  },
+  "include": ["src/**/*"],
+  "references": [
+    { "path": "../application" },
+    { "path": "../application-extension" },
+    { "path": "../console-extension" },
+    { "path": "../docmanager-extension" },
+    { "path": "../documentsearch-extension" },
+    { "path": "../help-extension" },
+    { "path": "../lab-extension" },
+    { "path": "../notebook-extension" },
+    { "path": "../terminal-extension" },
+    { "path": "../tree-extension" },
+    { "path": "../ui-components" }
+  ]
+}

@@ -1,104 +1,39 @@
-{% extends "page.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{page_config['appName'] | e}} - Edit</title>
+  {% block favicon %}
+  <link rel="icon" type="image/x-icon" href="{{ base_url | escape }}static/favicons/favicon-file.ico" class="favicon">
+  {% endblock %}
+</head>
+<body>
 
-{% block title %}{{page_title}}{% endblock %}
+  {# Copy so we do not modify the page_config with updates. #}
+  {% set page_config_full = page_config.copy() %}
 
-{% block favicon %}<link id="favicon" rel="shortcut icon" type="image/x-icon" href="{{static_url("base/images/favicon-file.ico") }}">{% endblock %}
+  {# Set a dummy variable - we just want the side effect of the update. #}
+  {% set _ = page_config_full.update(baseUrl=base_url, wsUrl=ws_url) %}
 
-{% block stylesheet %}
-<link rel="stylesheet" href="{{ static_url('components/codemirror/lib/codemirror.css') }}">
-<link rel="stylesheet" href="{{ static_url('components/codemirror/addon/dialog/dialog.css') }}">
-{{super()}}
-{% endblock %}
+  {# Sentinel value to say that we are on the tree page #}
+  {% set _ = page_config_full.update(notebookPage='edit') %}
 
-{% block bodyclasses %}edit_app {{super()}}{% endblock %}
+  <script id="jupyter-config-data" type="application/json">
+    {{ page_config_full | tojson }}
+  </script>
+  <script src="{{page_config['fullStaticUrl'] | e}}/bundle.js" main="index"></script>
 
-{% block params %}
-data-base-url="{{base_url | urlencode}}"
-data-file-path="{{file_path}}"
-{{super()}}
-{% endblock %}
+  <script type="text/javascript">
+    /* Remove token from URL. */
+    (function () {
+      var parsedUrl = new URL(window.location.href);
+      if (parsedUrl.searchParams.get('token')) {
+        parsedUrl.searchParams.delete('token');
+        window.history.replaceState({ }, '', parsedUrl.href);
+      }
+    })();
+  </script>
 
-{% block headercontainer %}
-
-<span id="save_widget" class="pull-left save_widget">
-    <span class="filename"></span>
-    <span class="last_modified"></span>
-</span>
-
-{{super()}}
-{% endblock %}
-
-{% block header %}
-
-<div id="menubar-container" class="container">
-  <div id="menubar">
-    <div id="menus" class="navbar navbar-default" role="navigation">
-      <div class="container-fluid">
-          <p  class="navbar-text indicator_area">
-          <span id="current-mode" >{% trans %}current mode{% endtrans %}</span>
-          </p>
-        <button type="button" class="btn btn-default navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <i class="fa fa-bars"></i>
-          <span class="navbar-text">Menu</span>
-        </button>
-        <ul class="nav navbar-nav navbar-right">
-          <li id="notification_area"></li>
-        </ul>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}File{% endtrans %}</a>
-              <ul id="file-menu" class="dropdown-menu">
-                <li id="new-file"><a href="#">{% trans %}New{% endtrans %}</a></li>
-                <li id="save-file"><a href="#">{% trans %}Save{% endtrans %}</a></li>
-                <li id="rename-file"><a href="#">{% trans %}Rename{% endtrans %}</a></li>
-                <li id="download-file"><a href="#">{% trans %}Download{% endtrans %}</a></li>
-              </ul>
-            </li>
-            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Edit{% endtrans %}</a>
-              <ul id="edit-menu" class="dropdown-menu">
-                <li id="menu-find"><a href="#">{% trans %}Find{% endtrans %}</a></li>
-                <li id="menu-replace"><a href="#">{% trans %}Find &amp; Replace{% endtrans %}</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">{% trans %}Key Map{% endtrans %}</li>
-                <li id="menu-keymap-default"><a href="#">{% trans %}Default{% endtrans %}<i class="fa"></i></a></li>
-                <li id="menu-keymap-sublime"><a href="#">{% trans %}Sublime Text{% endtrans %}<i class="fa"></i></a></li>
-                <li id="menu-keymap-vim"><a href="#">Vim<i class="fa"></i></a></li>
-                <li id="menu-keymap-emacs"><a href="#">emacs<i class="fa"></i></a></li>
-              </ul>
-            </li>
-            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}View{% endtrans %}</a>
-              <ul id="view-menu" class="dropdown-menu">
-              <li id="toggle_header" title="{% trans %}Show/Hide the logo and notebook title (above menu bar){% endtrans %}">
-              <a href="#">{% trans %}Toggle Header{% endtrans %}</a></li>
-              <li id="menu-line-numbers"><a href="#">{% trans %}Toggle Line Numbers{% endtrans %}</a></li>
-              </ul>
-            </li>
-            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Language{% endtrans %}</a>
-              <ul id="mode-menu" class="dropdown-menu">
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="lower-header-bar"></div>
-
-{% endblock %}
-
-{% block site %}
-
-<div id="texteditor-backdrop">
-<div id="texteditor-container" class="container"></div>
-</div>
-
-{% endblock %}
-
-{% block script %}
-
-    {{super()}}
-
-<script src="{{ static_url("edit/js/main.min.js") }}" type="text/javascript" charset="utf-8"></script>
-{% endblock %}
+</body>
+</html>

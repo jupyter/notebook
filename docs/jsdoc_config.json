@@ -1,21 +1,16 @@
 {
-    "markdown": {
-        "parser": "gfm"
-    },
-    "plugins": [ 
-        "plugins/markdown" ,
-        "jsdoc_plugin.js"
-    ],
-    "source": {
-        "include": [
-            "../notebook/static/notebook/js/notebook.js"
-        ]
-    },
-    "tags": {
-        "allowUnknownTags": true
-    },
-    "templates": {
-        "cleverLinks": false,
-        "monospaceLinks": false
-    }
+  "markdown": {
+    "parser": "gfm"
+  },
+  "plugins": ["plugins/markdown", "jsdoc_plugin.js"],
+  "source": {
+    "include": ["../notebook/static/notebook/js/notebook.js"]
+  },
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  }
 }

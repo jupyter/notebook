@@ -171,7 +171,7 @@ Other clients may connect to the same kernel.
 When each kernel is started, the notebook server prints to the terminal a
 message like this::
 
-    [NotebookApp] Kernel started: 87f7d2c0-13e3-43df-8bb8-1bd37aaf3373
+    [JupyterNotebookApp] Kernel started: 87f7d2c0-13e3-43df-8bb8-1bd37aaf3373
 
 This long string is the kernel's ID which is sufficient for getting the
 information necessary to connect to the kernel. If the notebook uses the IPython

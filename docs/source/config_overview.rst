@@ -8,8 +8,7 @@ options to suit your workflow. Here are areas that are commonly configured
 when using Jupyter Notebook:
 
     - :ref:`Jupyter's common configuration system <configure_common>`
-    - :ref:`Notebook server <configure_nbserver>`
-    - :ref:`Notebook front-end client <configure_nbclient>`
+    - :ref:`Jupyter Server <configure_jupyter_server>`
     - :ref:`Notebook extensions <configure_nbextensions>`
 
 Let's look at highlights of each area.
@@ -28,48 +27,37 @@ and editing settings is similar for all the Jupyter applications.
     - `traitlets <https://traitlets.readthedocs.io/en/latest/config.html#module-traitlets.config>`_
       provide a low-level architecture for configuration.
 
-.. _configure_nbserver:
+.. _configure_jupyter_server:
 
-Notebook server
+Jupyter server
 ---------------
-The Notebook server runs the language kernel and communicates with the
+
+The Jupyter Server runs the language kernel and communicates with the
 front-end Notebook client (i.e. the familiar notebook interface).
 
-  - Configuring the Notebook server
+  - Configuring the Jupyter Server
 
-      To create a ``jupyter_notebook_config.py`` file in the ``.jupyter``
+      To create a ``jupyter_server_config.py`` file in the ``.jupyter``
       directory, with all the defaults commented out, use the following
       command::
 
-            $ jupyter notebook --generate-config
+            $ jupyter server --generate-config
 
-        :ref:`Command line arguments for configuration <config>` settings are
-        documented in the configuration file and the user documentation.
-
-  - :ref:`Running a Notebook server <working_remotely>`
+  - `Running a Jupyter Server <https://jupyter-server.readthedocs.io/en/stable/operators/public-server.html>`_
   - Related: `Configuring a language kernel <https://ipython.readthedocs.io/en/latest/install/kernel_install.html>`_
-    to run in the Notebook server enables your server to run other languages, like R or Julia.
-
-.. _configure_nbclient:
-
-Notebook front-end client
--------------------------
-
-.. toctree::
-   :maxdepth: 2
-
-   frontend_config
+    to run in the Jupyter Server enables your server to run other languages, like R or Julia.
 
 .. _configure_nbextensions:
 
 Notebook extensions
 -------------------
-- `Distributing Jupyter Extensions as Python Packages <https://jupyter-notebook.readthedocs.io/en/latest/examples/Notebook/Distributing%20Jupyter%20Extensions%20as%20Python%20Packages.html#Distributing-Jupyter-Extensions-as-Python-Packages>`_
-- `Extending the Notebook <https://jupyter-notebook.readthedocs.io/en/latest/extending/index.html>`_
 
+The Notebook frontend can be extending with JupyterLab extensions.
 
-:ref:`Security in Jupyter notebooks:  <notebook_security>` Since security
-policies vary from organization to organization, we encourage you to
+See the :ref:`Frontend Extension Guide <frontend_extensions>` for more information.
+
+`Security in Jupyter notebooks:  <https://jupyter-server.readthedocs.io/en/stable/operators/security.html>`_
+Since security policies vary from organization to organization, we encourage you to
 consult with your security team on settings that would be best for your use
 cases. Our documentation offers some responsible security practices, and we
 recommend becoming familiar with the practices.

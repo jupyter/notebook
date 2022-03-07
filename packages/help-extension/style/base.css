@@ -1,0 +1,51 @@
+.jp-AboutNotebook .jp-Dialog-header {
+  justify-content: center;
+}
+
+.jp-AboutNotebook-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: var(--jp-flat-button-padding);
+}
+
+.jp-AboutNotebook-header-text {
+  margin-left: 16px;
+}
+
+.jp-AboutNotebook-body {
+  display: flex;
+  font-size: var(--jp-ui-font-size2);
+  padding: var(--jp-flat-button-padding);
+  color: var(--jp-ui-font-color1);
+  text-align: left;
+  flex-direction: column;
+  min-width: 360px;
+  overflow: hidden;
+}
+
+.jp-AboutNotebook-about-body pre {
+  white-space: pre-wrap;
+}
+
+.jp-AboutNotebook-about-externalLinks {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-top: 12px;
+  color: var(--jp-warn-color0);
+}
+
+.jp-AboutNotebook-shortcuts {
+  padding: 10px;
+}
+
+.jp-AboutNotebook-shortcuts pre {
+  padding: 5px;
+  margin: 0 0 10px;
+  background: var(--jp-layout-color2);
+  border: 1px solid var(--jp-border-color0);
+  border-radius: 2px;
+  word-break: break-all;
+}

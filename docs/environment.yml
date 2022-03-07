@@ -3,7 +3,7 @@ channels:
   - conda-forge
 dependencies:
 - python=3.8
-- sphinx_rtd_theme
+- pydata-sphinx-theme
 - jinja2
 - tornado
 - nbformat

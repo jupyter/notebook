@@ -1,0 +1,14 @@
+/*-----------------------------------------------------------------------------
+| Copyright (c) Jupyter Development Team.
+|
+| Distributed under the terms of the Modified BSD License.
+|----------------------------------------------------------------------------*/
+
+.jp-NotebookSpacer {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.jp-MainAreaWidget {
+  height: 100%;
+}

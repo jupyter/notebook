@@ -159,7 +159,7 @@ Resolving pywin32 Issues
 
 This Worked An Hour Ago
 -----------------------
-The Jupyter stack is very complex and rightfully so, there's a lot going on.  On occassion
+The Jupyter stack is very complex and rightfully so, there's a lot going on.  On occasion
 you might find the system working perfectly well, then, suddenly, you can't get past a
 certain cell due to ``import`` failures.  In these situations, it's best to ask yourself
 if any new python files were added to your notebook development area.

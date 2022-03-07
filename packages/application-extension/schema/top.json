@@ -1,0 +1,16 @@
+{
+  "jupyter.lab.setting-icon": "notebook-ui-components:jupyter",
+  "jupyter.lab.setting-icon-label": "Jupyter Notebook Top Area",
+  "title": "Jupyter Notebook Top Area",
+  "description": "Jupyter Notebook Top Area settings",
+  "properties": {
+    "visible": {
+      "type": "boolean",
+      "title": "Top Bar Visibility",
+      "description": "Whether to show the top bar or not",
+      "default": true
+    }
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

@@ -1,58 +1,126 @@
-MANIFEST
-build
-dist
-_build
-docs/man/*.gz
-docs/source/api/generated
-docs/source/config.rst
-docs/gh-pages
-notebook/i18n/*/LC_MESSAGES/*.mo
-notebook/i18n/*/LC_MESSAGES/nbjs.json
-notebook/static/components
-notebook/static/style/*.min.css*
-notebook/static/*/js/built/
-notebook/static/*/built/
-notebook/static/built/
-notebook/static/*/js/main.min.js*
-notebook/static/lab/*bundle.js
-node_modules
-*.py[co]
-__pycache__
-*.egg-info
-*~
-*.bak
+*.bundle.*
+lib/
+node_modules/
+*.egg-info/
 .ipynb_checkpoints
-.tox
-.DS_Store
-\#*#
-.#*
+*.tsbuildinfo
+
+# Created by https://www.gitignore.io/api/python
+# Edit at https://www.gitignore.io/?templates=python
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
 .coverage
-.pytest_cache
-src
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
 
-*.swp
-*.map
-.idea/
-Read the Docs
-config.rst
-*.iml
-/.project
-/.pydevproject
+# Translations
+*.mo
+*.pot
 
-package-lock.json
-geckodriver.log
-*.iml
+# Scrapy stuff:
+.scrapy
 
-# jetbrains IDE stuff
-*.iml
-.idea/
+# Sphinx documentation
+docs/_build/
 
-# ms IDE stuff
-*.code-workspace
-.history
+# PyBuilder
+target/
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# OS X stuff
+*.DS_Store
+
+# End of https://www.gitignore.io/api/python
+
+_temp_extension
+junit.xml
+[uU]ntitled*
+notebook/static/*
+!notebook/static/favicons
+notebook/labextension
+notebook/schemas
+
+# playwright
+ui-tests/test-results
+ui-tests/playwright-report
+
+# VSCode
 .vscode
-
-# copied changelog
-docs/source/changelog.md
-
-.jupyter_releaser_checkout

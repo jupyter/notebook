@@ -1,0 +1,138 @@
+/*-----------------------------------------------------------------------------
+| Copyright (c) Jupyter Development Team.
+|
+| Distributed under the terms of the Modified BSD License.
+|----------------------------------------------------------------------------*/
+
+@import './variables.css';
+
+/* Document oriented look for the notebook (scrollbar to the right of the page) */
+
+body[data-notebook='notebooks'] .jp-NotebookPanel-toolbar {
+  padding-left: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
+  padding-right: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
+}
+
+body[data-notebook='notebooks'] .jp-Notebook > * {
+  background: var(--jp-layout-color0);
+  padding: var(--jp-notebook-padding);
+}
+
+body[data-notebook='notebooks']
+  .jp-Notebook.jp-mod-commandMode
+  .jp-Cell.jp-mod-active.jp-mod-selected:not(.jp-mod-multiSelected) {
+  background: var(--jp-layout-color0) !important;
+}
+
+body[data-notebook='notebooks'] .jp-Notebook > *:first-child {
+  padding-top: var(--jp-notebook-padding-offset);
+  margin-top: var(--jp-notebook-toolbar-margin-bottom);
+}
+
+body[data-notebook='notebooks'] .jp-Notebook {
+  padding-top: unset;
+  padding-bottom: unset;
+  padding-left: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
+  padding-right: calc(
+    calc(
+        100% - var(--jp-notebook-max-width) - var(--jp-notebook-padding-offset)
+      ) * 0.5
+  );
+  background: var(--jp-layout-color2);
+}
+
+body[data-notebook='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
+  background: var(--jp-layout-color0);
+}
+
+/* ---- */
+
+.jp-NotebookKernelLogo {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-right: 8px;
+}
+
+.jp-NotebookKernelLogo img {
+  max-width: 28px;
+  max-height: 28px;
+  display: flex;
+}
+
+.jp-NotebookKernelStatus {
+  margin: 0;
+  font-weight: normal;
+  font-size: var(--jp-ui-font-size1);
+  color: var(--jp-ui-font-color0);
+  font-family: var(--jp-ui-font-family);
+  line-height: var(--jp-private-title-panel-height);
+  padding-left: var(--jp-kernel-status-padding);
+  padding-right: var(--jp-kernel-status-padding);
+}
+
+.jp-NotebookKernelStatus-error {
+  background-color: var(--jp-error-color0);
+}
+
+.jp-NotebookKernelStatus-warn {
+  background-color: var(--jp-warn-color0);
+}
+
+.jp-NotebookKernelStatus-info {
+  background-color: var(--jp-info-color0);
+}
+
+.jp-NotebookKernelStatus-fade {
+  animation: 0.5s fade-out forwards;
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+#jp-title h1 {
+  cursor: pointer;
+  font-size: 18px;
+  margin: 0;
+  font-weight: normal;
+  color: var(--jp-ui-font-color0);
+  font-family: var(--jp-ui-font-family);
+  line-height: calc(1.5 * var(--jp-private-title-panel-height));
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#jp-title h1:hover {
+  background: var(--jp-layout-color2);
+}
+
+.jp-NotebookCheckpoint {
+  font-size: 14px;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-weight: normal;
+  color: var(--jp-ui-font-color0);
+  font-family: var(--jp-ui-font-family);
+  line-height: calc(1.5 * var(--jp-private-title-panel-height));
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Mobile View */
+
+body[data-format='mobile'] .jp-NotebookCheckpoint {
+  display: none;
+}
+
+body[data-format='mobile'] .jp-Notebook > *:first-child {
+  margin-top: 0;
+}

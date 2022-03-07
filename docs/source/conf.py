@@ -14,7 +14,6 @@
 
 import sys
 import os
-import shlex
 import shutil
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -45,16 +44,6 @@ print("DEBUG:: Post insert to sys.path")
 print("===============================")
 for item in sys.path:
     print(item)
-
-# Check if docs are being built by ReadTheDocs
-# If so, generate a config.rst file and populate it with documentation about
-# configuration options
-
-if os.environ.get('READTHEDOCS', ''):
-    # Readthedocs doesn't run our Makefile, so we do this to force it to generate
-    # the config docs.
-    with open('../autogen_config.py') as f:
-        exec(compile(f.read(), '../autogen_config.py', 'exec'), {})
 
 # -- General configuration ------------------------------------------------
 
@@ -161,7 +150,7 @@ todo_include_todos = False
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'sphinx_rtd_theme'
+html_theme = "pydata_sphinx_theme"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -180,7 +169,7 @@ html_theme = 'sphinx_rtd_theme'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-#html_logo = None
+html_logo = "examples/images/jupyter_logo.png"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
@@ -355,6 +344,3 @@ intersphinx_mapping = {
 
 spelling_lang='en_US'
 spelling_word_list_filename='spelling_wordlist.txt'
-
-# import before any doc is built, so _ is guaranteed to be injected
-import notebook.transutils
