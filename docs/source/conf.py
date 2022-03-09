@@ -119,7 +119,7 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['examples/Notebook/.ipynb_checkpoints', 'examples/Notebook/nbpackage/*.ipynb']
+exclude_patterns = ['examples/Notebook/.ipynb_checkpoints', 'examples/Notebook/nbpackage/*.ipynb', 'examples/Notebook/nbpackage/nbs/*.ipynb']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
