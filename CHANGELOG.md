@@ -14,6 +14,32 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0a1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.8...22fe46f3e806aa346625f6ef2f2a024d030a068d))
+
+### Enhancements made
+
+- Notebook v7 scaffolding [#6294](https://github.com/jupyter/notebook/pull/6294) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Clean up CI [#6304](https://github.com/jupyter/notebook/pull/6304) ([@blink1073](https://github.com/blink1073))
+- Remove the custom run keyboard shortcut [#6303](https://github.com/jupyter/notebook/pull/6303) ([@jtpio](https://github.com/jtpio))
+- Bump nanoid from 3.1.30 to 3.3.1 in /ui-tests [#6302](https://github.com/jupyter/notebook/pull/6302) ([@dependabot](https://github.com/dependabot))
+- Bump simple-get from 3.1.0 to 3.1.1 in /ui-tests [#6301](https://github.com/jupyter/notebook/pull/6301) ([@dependabot](https://github.com/dependabot))
+- Bump url-parse from 1.5.4 to 1.5.10 in /ui-tests [#6300](https://github.com/jupyter/notebook/pull/6300) ([@dependabot](https://github.com/dependabot))
+- Bump node-fetch from 2.6.6 to 2.6.7 in /ui-tests [#6299](https://github.com/jupyter/notebook/pull/6299) ([@dependabot](https://github.com/dependabot))
+- Bump follow-redirects from 1.14.5 to 1.14.9 in /ui-tests [#6298](https://github.com/jupyter/notebook/pull/6298) ([@dependabot](https://github.com/dependabot))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-01-25&to=2022-03-09&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-01-25..2022-03-09&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2022-01-25..2022-03-09&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-01-25..2022-03-09&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-01-25..2022-03-09&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2022-01-25..2022-03-09&type=Issues) | [@Zsailer](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AZsailer+updated%3A2022-01-25..2022-03-09&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 6.4.8
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.7...479902d83a691253e0cff8439a33577e82408317))
@@ -27,8 +53,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-01-12&to=2022-01-25&type=c))
 
 [@Vishwajeet0510](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AVishwajeet0510+updated%3A2022-01-12..2022-01-25&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.4.7
 
