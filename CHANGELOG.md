@@ -151,7 +151,7 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 - Add missing file to manifest [#6122](https://github.com/jupyter/notebook/pull/6122) ([@afshin](https://github.com/afshin))
 - Fix issue #3218 [#6108](https://github.com/jupyter/notebook/pull/6108) ([@Nazeeh21](https://github.com/Nazeeh21))
 - Fix version of jupyter-packaging in pyproject.toml [#6101](https://github.com/jupyter/notebook/pull/6101) ([@frenzymadness](https://github.com/frenzymadness))
-- "#element".tooltip is not a function on home page fixed. [#6070](https://github.com/jupyter/notebook/pull/6070) ([@ilayh123](https://github.com/ilayh123))
+- "#element".tooltip is not a function on home page fixed. [#6070](https://github.com/jupyter/notebook/pull/6070) @ilayh123
 
 ### Maintenance and upkeep improvements
 
@@ -1014,7 +1014,7 @@ Thanks to the following contributors:
 - Peter Parente ([parente](https://github.com/parente))
 - Paul Masson ([paulmasson](https://github.com/paulmasson))
 - Philipp Rudiger ([philippjfr](https://github.com/philippjfr))
-- Mac Knight ([Shels1909](https://github.com/Shels1909))
+- Mac Knight (Shels1909)
 - Hisham Elsheshtawy ([Sheshtawy](https://github.com/Sheshtawy))
 - Simon Biggs ([SimonBiggs](https://github.com/SimonBiggs))
 - Sunil Hari (`@sunilhari`)
@@ -1260,14 +1260,10 @@ user-facing changes are described here.
 Files in the dashboard may now be sorted by last modified date or name
 ([943](https://github.com/jupyter/notebook/pull/943)):
 
-![image](/_static/images/dashboard-sort.png)
-
 ### Cell tags
 
 There is a new cell toolbar for adding _cell tags_
 ([2048](https://github.com/jupyter/notebook/pull/2048)):
-
-![image](/_static/images/cell-tags-toolbar.png)
 
 Cell tags are a lightweight way to customise the behaviour of tools
 working with notebooks; we're working on building support for them into
@@ -1283,20 +1279,10 @@ future releases.
 The default styling for tables in the notebook has been updated
 ([1776](https://github.com/jupyter/notebook/pull/1776)).
 
-Before:
-
-![image](/_static/images/table-style-before.png)
-
-After:
-
-![image](/_static/images/table-style-after.png)
-
 ### Customise keyboard shortcuts
 
 You can now edit keyboard shortcuts for _Command Mode_ within the UI
 ([1347](https://github.com/jupyter/notebook/pull/1347)):
-
-![image](/_static/images/shortcut-editor.png)
 
 See the `Help > Edit Keyboard Shortcuts` menu item and follow the
 instructions.
@@ -1333,8 +1319,7 @@ instructions.
 - Load server extensions with ConfigManager so that merge happens
   recursively, unlike normal config values, to make it load more
   consistently with frontend extensions([2108](https://github.com/jupyter/notebook/pull/2108)).
-- The notebook server now supports the [bundler
-  API](https://jupyter-notebook.readthedocs.io/en/latest/extending/bundler_extensions.html)
+- The notebook server now supports the bundler API
   from the [jupyter_cms incubator
   project](https://github.com/jupyter-incubator/contentmanagement) ([1579](https://github.com/jupyter/notebook/pull/1579)).
 - The notebook server now provides information about kernel activity
@@ -1546,9 +1531,6 @@ UI changes:
   find the new location. (Click here to see a
   [screencast](https://cloud.githubusercontent.com/assets/335567/10711889/59665a5a-7a3e-11e5-970f-86b89592880c.gif)
   )
-
-  > ![image](/_static/images/cell-toolbar-41.png)
-
 - Added _Restart & Run All_ to the _Kernel_ menu. Users can also bind
   it to a keyboard shortcut on action
   `restart-kernel-and-run-all-cells`.
@@ -1558,18 +1540,12 @@ UI changes:
   such as cut/copy/paste, execute, and cell type conversions apply to
   all selected cells.
 
-  ![image](/_static/images/multi-select-41.png)
-
 - Added a command palette for executing Jupyter actions by name. Users
   press `Cmd/Ctrl-Shift-P` or click the new command palette icon on
   the toolbar.
 
-  ![image](/_static/images/command-palette-41.png)
-
 - Added a _Find and Replace_ dialog to the _Edit_ menu. Users can also
   press `F` in command mode to show the dialog.
-
-  ![image](/_static/images/find-replace-41.png)
 
 Other improvements:
 

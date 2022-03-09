@@ -102,7 +102,7 @@ If you want to work with sensitive data in those cases,
 talk to your IT or data protection staff about it.
 
 We aim to ensure that other pages in your browser or other users on the same
-computer can't access your notebook server. See :ref:`server_security` for
+computer can't access your notebook server. See the `security documentation <https://jupyter-server.readthedocs.io/en/stable/operators/security.html>`__  for
 more about this.
 
 
@@ -234,7 +234,7 @@ drop-down on the toolbar (which will be "Code", initially), or via
 
 For more information on the different things you can do in a notebook,
 see the `collection of examples
-<https://nbviewer.jupyter.org/github/jupyter/notebook/tree/master/docs/source/examples/Notebook/>`_.
+<https://nbviewer.jupyter.org/github/jupyter/notebook/tree/main/docs/source/examples/Notebook/>`_.
 
 Code cells
 ~~~~~~~~~~
@@ -397,7 +397,9 @@ at the command-line with::
 
     $ jupyter trust mynotebook.ipynb
 
-See :ref:`notebook_security` for more details about the trust mechanism.
+See the `security documentation <https://jupyter-server.readthedocs.io/en/stable/operators/security.html>`__ for more details about the trust mechanism.
+
+
 
 Browser Compatibility
 ---------------------

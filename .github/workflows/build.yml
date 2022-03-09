@@ -2,15 +2,16 @@ name: Build
 
 on:
   push:
-    branches:
-      - '*'
+    branches: ['main']
   pull_request:
-    branches:
-      - '*'
 
 permissions:
   contents:
     write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
 
 env:
   PIP_DISABLE_PIP_VERSION_CHECK: 1

@@ -35,6 +35,9 @@ sys.path.insert(0, repo_root)
 # Copy the markdown file here
 shutil.copy(os.path.join(repo_root, "CHANGELOG.md"), os.path.join(here, "changelog.md"))
 
+# Copy the contributing file here
+shutil.copy(os.path.join(repo_root, "CONTRIBUTING.md"), os.path.join(here, "contributing.md"))
+
 print("repo_root")
 print("=====================")
 print(repo_root)
@@ -116,7 +119,7 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['examples/Notebook/.ipynb_checkpoints']
+exclude_patterns = ['examples/Notebook/.ipynb_checkpoints', 'examples/Notebook/nbpackage/*.ipynb', 'examples/Notebook/nbpackage/nbs/*.ipynb']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
