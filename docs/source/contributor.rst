@@ -1,6 +1,6 @@
-=========================
-Contributor Documentation
-=========================
+===========
+Contributor
+===========
 
 .. toctree::
    :maxdepth: 1

@@ -75,7 +75,7 @@ jlpm run build:test
 jlpm run test
 ```
 
-There are also end to end tests to cover higher level user interactions, located in the [`ui-tests`](./ui-tests) folder. To run these tests:
+There are also end to end tests to cover higher level user interactions, located in the `ui-tests` folder. To run these tests:
 
 ```bash
 cd ui-tests

@@ -118,6 +118,7 @@ notebook/static/*
 notebook/labextension
 notebook/schemas
 docs/source/changelog.md
+docs/source/contributing.md
 
 # playwright
 ui-tests/test-results

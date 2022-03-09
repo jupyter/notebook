@@ -16,7 +16,6 @@ __ https://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/
    Running Code
    Working With Markdown Cells
    Custom Keyboard Shortcuts
-   JavaScript Notebook Extensions
    Importing Notebooks
    Connecting with the Qt Console
    Typesetting Equations
