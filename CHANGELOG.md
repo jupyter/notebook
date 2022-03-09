@@ -1319,8 +1319,7 @@ instructions.
 - Load server extensions with ConfigManager so that merge happens
   recursively, unlike normal config values, to make it load more
   consistently with frontend extensions([2108](https://github.com/jupyter/notebook/pull/2108)).
-- The notebook server now supports the bundler
-  API
+- The notebook server now supports the bundler API
   from the [jupyter_cms incubator
   project](https://github.com/jupyter-incubator/contentmanagement) ([1579](https://github.com/jupyter/notebook/pull/1579)).
 - The notebook server now provides information about kernel activity
