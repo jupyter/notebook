@@ -117,6 +117,7 @@ notebook/static/*
 !notebook/static/favicons
 notebook/labextension
 notebook/schemas
+docs/source/changelog.md
 
 # playwright
 ui-tests/test-results
