@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/docmanager-extension",
-  "version": "7.0.0-alpha.0",
+  "version": "7.0.0-alpha.1",
   "description": "Jupyter Notebook - Document Manager Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {

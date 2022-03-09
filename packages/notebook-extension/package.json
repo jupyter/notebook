@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/notebook-extension",
-  "version": "7.0.0-alpha.0",
+  "version": "7.0.0-alpha.1",
   "description": "Jupyter Notebook - Notebook Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -39,6 +39,7 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
+    "@jupyter-notebook/application": "^7.0.0-alpha.1",
     "@jupyterlab/application": "^4.0.0-alpha.5",
     "@jupyterlab/apputils": "^4.0.0-alpha.5",
     "@jupyterlab/cells": "^4.0.0-alpha.5",
@@ -47,8 +48,7 @@
     "@jupyterlab/settingregistry": "^4.0.0-alpha.5",
     "@jupyterlab/translation": "^4.0.0-alpha.4",
     "@lumino/polling": "^1.10.0",
-    "@lumino/widgets": "^1.31.1",
-    "@jupyter-notebook/application": "^7.0.0-alpha.0"
+    "@lumino/widgets": "^1.31.1"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",
