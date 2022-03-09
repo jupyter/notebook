@@ -1,40 +1,23 @@
 name: Docs Tests
 on:
   push:
-    branches: '*'
+    branches: ['main']
   pull_request:
-    branches: '*'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
 jobs:
   build:
-    runs-on: ${{ matrix.os }}-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu]
-        python-version: [ '3.7' ]
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
-    - name: Install Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
+      uses: actions/checkout@v2
+    - name: Base Setup
+      uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
       with:
-        python-version: ${{ matrix.python-version }}
-        architecture: 'x64'
-    - name: Upgrade packaging dependencies
-      run: |
-        pip install --upgrade pip setuptools wheel
-    - name: Get pip cache dir
-      id: pip-cache
-      run: |
-        echo "::set-output name=dir::$(pip cache dir)"
-    - name: Cache pip
-      uses: actions/cache@v1
-      with:
-        path: ${{ steps.pip-cache.outputs.dir }}
-        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('setup.py') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-${{ matrix.python-version }}-
-          ${{ runner.os }}-pip-
+        python_version: '3.7'
     - name: Install the Python dependencies
       run: |
         pip install -e .[test] codecov
