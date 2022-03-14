@@ -20,7 +20,7 @@ Jupyter Notebookは、Project Jupyter用の言語に依存しないHTMLノート
 
 ## インストール
 
-[Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/stable/install.html)から、インストールドキュメントをご覧になれます。
+[Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/latest/install.html)から、インストールドキュメントをご覧になれます。
 Jupyter Notebookの発展的な使用方法に関するドキュメントは、[こちら](https://jupyter-notebook.readthedocs.io/en/stable/)をご覧ください。
 
 ローカルへのインストールの場合、[pip](https://pip.readthedocs.io/en/stable/installing/)をインストールしていることを確認し、以下のコマンドを実行してください。

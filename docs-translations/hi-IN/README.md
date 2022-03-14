@@ -38,7 +38,7 @@ IPython कोडबेस का बिग स्प्लिट ™। IPython
 
 ## स्थापना
 आप के लिए स्थापना प्रलेखन पा सकते हैं
-[बृहस्पति मंच, ReadTheDocs पर](https://jupyter.readthedocs.io/en/stable/install.html).
+[बृहस्पति मंच, ReadTheDocs पर](https://jupyter.readthedocs.io/en/latest/install.html).
 जुपिटर नोटबुक के उन्नत उपयोग के लिए दस्तावेज पाया जा सकता है
 [यहाँ](https://jupyter-notebook.readthedocs.io/en/stable/).
 

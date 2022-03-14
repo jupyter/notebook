@@ -37,7 +37,7 @@ discrete repos.
 
 ## Installation
 You can find the installation documentation for the
-[Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/stable/install.html).
+[Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/latest/install.html).
 The documentation for advanced usage of Jupyter notebook can be found
 [here](https://jupyter-notebook.readthedocs.io/en/stable/).
 

@@ -38,7 +38,7 @@ IPython代码库的Big Split™。 IPython 3是最后一个主要的整体
 
 ## 成立
 您可以找到以下安装文件
-[Jupiter论坛，在ReadTheDocs上](https://jupyter.readthedocs.io/en/stable/install.html).
+[Jupiter论坛，在ReadTheDocs上](https://jupyter.readthedocs.io/en/latest/install.html).
 可以找到有关Jupiter笔记本的高级使用的文档
 [这里](https://jupyter-notebook.readthedocs.io/en/stable/).
 

@@ -350,7 +350,7 @@ intersphinx_mapping = {
     'ipython': ('https://ipython.readthedocs.io/en/stable/', None),
     'nbconvert': ('https://nbconvert.readthedocs.io/en/latest/', None),
     'nbformat': ('https://nbformat.readthedocs.io/en/latest/', None),
-    'jupyter': ('https://jupyter.readthedocs.io/en/stable/', None),
+    'jupyter': ('https://jupyter.readthedocs.io/en/latest/', None),
 }
 
 spelling_lang='en_US'

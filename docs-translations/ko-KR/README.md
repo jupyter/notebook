@@ -21,7 +21,7 @@ IPython 3는 *IPython notebook* 과 같은 사용자 언어에 독립적인 코�
 ## 설치
 설치법 문서는 다음 주소에서 찾을 수 있습니다.
 You can find the installation documentation for the
-[Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/stable/install.html).
+[Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/latest/install.html).
 조금 더 심화된 Jupyter notebook의 사용은 다음 주소에서 볼 수 있습니다.
 [here](https://jupyter-notebook.readthedocs.io/en/stable/).
 
