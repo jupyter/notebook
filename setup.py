@@ -120,6 +120,7 @@ for more information.
         'traitlets>=4.2.1',
         'jupyter_core>=4.6.1',
         'jupyter_client>=5.3.4',
+        'ipython_genutils',
         'nbformat',
         'nbconvert>=5',
         'nest-asyncio>=1.5',
