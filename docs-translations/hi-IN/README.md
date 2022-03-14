@@ -2,7 +2,7 @@
 
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
 [![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
-[![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/stable/?badge=latest)
                 
 
 
@@ -40,7 +40,7 @@ IPython कोडबेस का बिग स्प्लिट ™। IPython
 आप के लिए स्थापना प्रलेखन पा सकते हैं
 [बृहस्पति मंच, ReadTheDocs पर](https://jupyter.readthedocs.io/en/latest/install.html).
 जुपिटर नोटबुक के उन्नत उपयोग के लिए दस्तावेज पाया जा सकता है
-[यहाँ](https://jupyter-notebook.readthedocs.io/en/latest/).
+[यहाँ](https://jupyter-notebook.readthedocs.io/en/stable/).
 
 स्थानीय स्थापना के लिए, सुनिश्चित करें कि आपके पास है
 [pip स्थापित](https://pip.readthedocs.io/en/stable/installing/) और भाग खड़ा हुआ:
@@ -70,8 +70,8 @@ IPython कोडबेस का बिग स्प्लिट ™। IPython
 ## साधन
 - [Project Jupyter website](https://jupyter.org)
 - [Online Demo at jupyter.org/try](https://jupyter.org/try)
-- [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/latest/) [[PDF](https://media.readthedocs.org/pdf/jupyter-notebook/latest/jupyter-notebook.pdf)]
+- [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/stable/)
 - [Korean Version of Installation](https://github.com/ChungJooHo/Jupyter_Kor_doc/)
-- [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/latest/index.html) [[PDF](https://media.readthedocs.org/pdf/jupyter/latest/jupyter.pdf)]
+- [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/latest/index.html )
 - [Issues](https://github.com/jupyter/notebook/issues)
 - [Technical support - Jupyter Google Group](https://groups.google.com/forum/#!forum/jupyter) 

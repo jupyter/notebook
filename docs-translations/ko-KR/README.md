@@ -2,7 +2,7 @@
 
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
 [![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
-[![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](http://jupyter-notebook.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](http://jupyter-notebook.readthedocs.io/en/stable/?badge=stable)
                 
 English 버전 링크 : [[English Version](http://github.com/jupyter/notebook/)]
 
@@ -23,7 +23,7 @@ IPython 3는 *IPython notebook* 과 같은 사용자 언어에 독립적인 코�
 You can find the installation documentation for the
 [Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/latest/install.html).
 조금 더 심화된 Jupyter notebook의 사용은 다음 주소에서 볼 수 있습니다.
-[here](https://jupyter-notebook.readthedocs.io/en/latest/).
+[here](https://jupyter-notebook.readthedocs.io/en/stable/).
 
 설치를 위해서는 
 [pip installed](https://pip.readthedocs.io/en/stable/installing/) 가 있는지 확인한 후 다음을 실행해주세요:
@@ -49,7 +49,7 @@ You can find the installation documentation for the
 ## 자료
 - [Project Jupyter website](https://jupyter.org)
 - [Online Demo at try.jupyter.org](https://try.jupyter.org)
-- [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/latest/) [[PDF](https://media.readthedocs.org/pdf/jupyter-notebook/latest/jupyter-notebook.pdf)]
-- [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/latest/index.html) [[PDF](https://media.readthedocs.org/pdf/jupyter/latest/jupyter.pdf)]
+- [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/stable/)
+- [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/latest/index.html )
 - [Issues](https://github.com/jupyter/notebook/issues)
 - [Technical support - Jupyter Google Group](https://groups.google.com/forum/#!forum/jupyter)

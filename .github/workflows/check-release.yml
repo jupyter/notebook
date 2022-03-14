@@ -15,6 +15,7 @@ jobs:
     strategy:
       matrix:
         group: [check_release, link_check]
+      fail-fast: false
     steps:
       - name: Checkout
         uses: actions/checkout@v2
