@@ -94,7 +94,7 @@ for more information.
     author_email    = 'jupyter@googlegroups.com',
     url             = 'http://jupyter.org',
     license         = 'BSD',
-    platforms       = "Linux, Mac OS X, Windows",,
+    platforms       = "Linux, Mac OS X, Windows",
     keywords        = ['Interactive', 'Interpreter', 'Shell', 'Web'],
     classifiers     = [
         'Intended Audience :: Developers',
