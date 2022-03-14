@@ -2,7 +2,7 @@
 
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
 [![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
-[![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/stable/?badge=latest)
                 
 英語版のリンク : [[English Version](http://github.com/jupyter/notebook/)]
 
@@ -20,8 +20,8 @@ Jupyter Notebookは、Project Jupyter用の言語に依存しないHTMLノート
 
 ## インストール
 
-[Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/latest/install.html)から、インストールドキュメントをご覧になれます。
-Jupyter Notebookの発展的な使用方法に関するドキュメントは、[こちら](https://jupyter-notebook.readthedocs.io/en/latest/)をご覧ください。
+[Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/stable/install.html)から、インストールドキュメントをご覧になれます。
+Jupyter Notebookの発展的な使用方法に関するドキュメントは、[こちら](https://jupyter-notebook.readthedocs.io/en/stable/)をご覧ください。
 
 ローカルへのインストールの場合、[pip](https://pip.readthedocs.io/en/stable/installing/)をインストールしていることを確認し、以下のコマンドを実行してください。
 
@@ -51,7 +51,7 @@ Jupyter Notebookをリモートで起動する前に、いくつかの構成が�
 
 - [Project Jupyter website](https://jupyter.org)
 - [Online Demo at try.jupyter.org](https://try.jupyter.org)
-- [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/latest/) [[PDF](https://media.readthedocs.org/pdf/jupyter-notebook/latest/jupyter-notebook.pdf)]
-- [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/latest/index.html) [[PDF](https://media.readthedocs.org/pdf/jupyter/latest/jupyter.pdf)]
+- [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/stable/) [[PDF](https://media.readthedocs.org/pdf/jupyter-notebook/stable/jupyter-notebook.pdf)]
+- [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/stable/index.html) [[PDF](https://media.readthedocs.org/pdf/jupyter/stable/jupyter.pdf)]
 - [Issues](https://github.com/jupyter/notebook/issues)
 - [Technical support - Jupyter Google Group](https://groups.google.com/forum/#!forum/jupyter)

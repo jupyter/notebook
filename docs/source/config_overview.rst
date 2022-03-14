@@ -22,9 +22,9 @@ Jupyter applications, from the Notebook to JupyterHub to nbgrader, share a
 common configuration system. The process for creating a configuration file
 and editing settings is similar for all the Jupyter applications.
 
-    - `Jupyter’s Common Configuration Approach <https://jupyter.readthedocs.io/en/latest/use/config.html>`_
-    - `Common Directories and File Locations <https://jupyter.readthedocs.io/en/latest/use/jupyter-directories.html>`_
-    - `Language kernels <https://jupyter.readthedocs.io/en/latest/projects/kernels.html>`_
+    - `Jupyter’s Common Configuration Approach <https://jupyter.readthedocs.io/en/stable/use/config.html>`_
+    - `Common Directories and File Locations <https://jupyter.readthedocs.io/en/stable/use/jupyter-directories.html>`_
+    - `Language kernels <https://jupyter.readthedocs.io/en/stable/projects/kernels.html>`_
     - `traitlets <https://traitlets.readthedocs.io/en/latest/config.html#module-traitlets.config>`_
       provide a low-level architecture for configuration.
 
@@ -64,8 +64,8 @@ Notebook front-end client
 
 Notebook extensions
 -------------------
-- `Distributing Jupyter Extensions as Python Packages <https://jupyter-notebook.readthedocs.io/en/latest/examples/Notebook/Distributing%20Jupyter%20Extensions%20as%20Python%20Packages.html#Distributing-Jupyter-Extensions-as-Python-Packages>`_
-- `Extending the Notebook <https://jupyter-notebook.readthedocs.io/en/latest/extending/index.html>`_
+- `Distributing Jupyter Extensions as Python Packages <https://jupyter-notebook.readthedocs.io/en/stable/examples/Notebook/Distributing%20Jupyter%20Extensions%20as%20Python%20Packages.html#Distributing-Jupyter-Extensions-as-Python-Packages>`_
+- `Extending the Notebook <https://jupyter-notebook.readthedocs.io/en/stable/extending/index.html>`_
 
 
 :ref:`Security in Jupyter notebooks:  <notebook_security>` Since security

@@ -85,6 +85,7 @@ languages, sharing, and interactive widgets.
 Read `the documentation <https://jupyter-notebook.readthedocs.io>`_
 for more information.
     """,
+    long_description_content_type = ' text/markdown',
     version         = version,
     packages        = find_packages(),
     package_data    = find_package_data(),
@@ -93,7 +94,7 @@ for more information.
     author_email    = 'jupyter@googlegroups.com',
     url             = 'http://jupyter.org',
     license         = 'BSD',
-    platforms       = "Linux, Mac OS X, Windows",
+    platforms       = "Linux, Mac OS X, Windows",,
     keywords        = ['Interactive', 'Interpreter', 'Shell', 'Web'],
     classifiers     = [
         'Intended Audience :: Developers',

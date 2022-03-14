@@ -2,7 +2,7 @@
 
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
 [![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
-[![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/stable/?badge=latest)
                 
 
 
@@ -38,9 +38,9 @@ IPython代码库的Big Split™。 IPython 3是最后一个主要的整体
 
 ## 成立
 您可以找到以下安装文件
-[Jupiter论坛，在ReadTheDocs上](https://jupyter.readthedocs.io/en/latest/install.html).
+[Jupiter论坛，在ReadTheDocs上](https://jupyter.readthedocs.io/en/stable/install.html).
 可以找到有关Jupiter笔记本的高级使用的文档
-[这里](https://jupyter-notebook.readthedocs.io/en/latest/).
+[这里](https://jupyter-notebook.readthedocs.io/en/stable/).
 
 对于本地安装，请确保您已经
 [pip 成立时间](https://pip.readthedocs.io/en/stable/installing/) 并运行：
@@ -70,8 +70,8 @@ IPython代码库的Big Split™。 IPython 3是最后一个主要的整体
 ## 资源
 - [Project Jupyter website](https://jupyter.org)
 - [Online Demo at jupyter.org/try](https://jupyter.org/try)
-- [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/latest/) [[PDF](https://media.readthedocs.org/pdf/jupyter-notebook/latest/jupyter-notebook.pdf)]
+- [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/stable/) [[PDF](https://media.readthedocs.org/pdf/jupyter-notebook/stable/jupyter-notebook.pdf)]
 - [Korean Version of Installation](https://github.com/ChungJooHo/Jupyter_Kor_doc/)
-- [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/latest/index.html) [[PDF](https://media.readthedocs.org/pdf/jupyter/latest/jupyter.pdf)]
+- [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/stable/index.html) [[PDF](https://media.readthedocs.org/pdf/jupyter/stable/jupyter.pdf)]
 - [Issues](https://github.com/jupyter/notebook/issues)
 - [Technical support - Jupyter Google Group](https://groups.google.com/forum/#!forum/jupyter) 

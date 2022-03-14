@@ -14,7 +14,7 @@ General Guidelines
 For general documentation about contributing to Jupyter projects, see the
 `Project Jupyter Contributor Documentation`__.
 
-__ https://jupyter.readthedocs.io/en/latest/contributing/content-contributor.html
+__ https://jupyter.readthedocs.io/en/stable/contributing/content-contributor.html
 
 
 Setting Up a Development Environment
@@ -194,4 +194,4 @@ Windows users can find ``make.bat`` in the ``docs`` folder.
 
 You should also have a look at the `Project Jupyter Documentation Guide`__.
 
-__ https://jupyter.readthedocs.io/en/latest/contributing/docs-contributions/index.html
+__ https://jupyter.readthedocs.io/en/stable/contributing/docs-contributions/index.html

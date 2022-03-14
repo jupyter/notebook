@@ -2,7 +2,7 @@
 
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
 [![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
-[![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/stable/?badge=latest)
 [![codecov](https://codecov.io/gh/jupyter/notebook/branch/master/graph/badge.svg)](https://codecov.io/gh/jupyter/notebook)
 
 The Jupyter notebook is a web-based notebook environment for interactive
@@ -37,9 +37,9 @@ discrete repos.
 
 ## Installation
 You can find the installation documentation for the
-[Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/latest/install.html).
+[Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/stable/install.html).
 The documentation for advanced usage of Jupyter notebook can be found
-[here](https://jupyter-notebook.readthedocs.io/en/latest/).
+[here](https://jupyter-notebook.readthedocs.io/en/stable/).
 
 For a local installation, make sure you have
 [pip installed](https://pip.readthedocs.io/en/stable/installing/) and run:
@@ -69,8 +69,8 @@ If you are interested in contributing to the project, see [`CONTRIBUTING.rst`](C
 ## Resources
 - [Project Jupyter website](https://jupyter.org)
 - [Online Demo at jupyter.org/try](https://jupyter.org/try)
-- [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/latest/) [[PDF](https://media.readthedocs.org/pdf/jupyter-notebook/latest/jupyter-notebook.pdf)]
+- [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/stable/) [[PDF](https://media.readthedocs.org/pdf/jupyter-notebook/stable/jupyter-notebook.pdf)]
 - [Korean Version of Installation](https://github.com/ChungJooHo/Jupyter_Kor_doc/)
-- [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/latest/index.html) [[PDF](https://media.readthedocs.org/pdf/jupyter/latest/jupyter.pdf)]
+- [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/stable/index.html) [[PDF](https://media.readthedocs.org/pdf/jupyter/stable/jupyter.pdf)]
 - [Issues](https://github.com/jupyter/notebook/issues)
 - [Technical support - Jupyter Google Group](https://groups.google.com/forum/#!forum/jupyter)

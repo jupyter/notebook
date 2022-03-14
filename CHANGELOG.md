@@ -1349,7 +1349,7 @@ instructions.
     recursively, unlike normal config values, to make it load more
     consistently with frontend extensions([2108](https://github.com/jupyter/notebook/pull/2108)).
 - The notebook server now supports the [bundler
-    API](https://jupyter-notebook.readthedocs.io/en/latest/extending/bundler_extensions.html)
+    API](https://jupyter-notebook.readthedocs.io/en/stable/extending/bundler_extensions.html)
     from the [jupyter_cms incubator
     project](https://github.com/jupyter-incubator/contentmanagement) ([1579](https://github.com/jupyter/notebook/pull/1579)).
 - The notebook server now provides information about kernel activity

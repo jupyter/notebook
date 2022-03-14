@@ -89,7 +89,7 @@ Notebooks and privacy
 Because you use Jupyter in a web browser, some people are understandably
 concerned about using it with sensitive data.
 However, if you followed the standard
-`install instructions <https://jupyter.readthedocs.io/en/latest/install.html>`_,
+`install instructions <https://jupyter.readthedocs.io/en/stable/install.html>`_,
 Jupyter is actually running on your own computer.
 If the URL in the address bar starts with ``http://localhost:`` or
 ``http://127.0.0.1:``, it's your computer acting as the server.
