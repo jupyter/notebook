@@ -116,7 +116,6 @@ for more information.
         # but hopefully avoids incompatibilities with Tornado 5. April 2018
         'pyzmq>=17',
         'argon2-cffi',
-        'ipython_genutils',
         'traitlets>=4.2.1',
         'jupyter_core>=4.6.1',
         'jupyter_client>=5.3.4',

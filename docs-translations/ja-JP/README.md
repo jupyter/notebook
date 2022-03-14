@@ -52,6 +52,6 @@ Jupyter Notebookをリモートで起動する前に、いくつかの構成が�
 - [Project Jupyter website](https://jupyter.org)
 - [Online Demo at try.jupyter.org](https://try.jupyter.org)
 - [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/stable/)
-- [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/stable/index.html)
+- [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/latest/index.html )
 - [Issues](https://github.com/jupyter/notebook/issues)
 - [Technical support - Jupyter Google Group](https://groups.google.com/forum/#!forum/jupyter)
