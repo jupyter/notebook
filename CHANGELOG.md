@@ -14,6 +14,22 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0a2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/app@7.0.0-alpha.1...7eb29f09d0974da9d51d23136dcbc5d462ed888f))
+
+### Documentation improvements
+
+- Update example notebook on Binder [#6306](https://github.com/jupyter/notebook/pull/6306) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-03-09&to=2022-03-14&type=c))
+
+[@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-03-09..2022-03-14&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0a1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.8...22fe46f3e806aa346625f6ef2f2a024d030a068d))
@@ -37,8 +53,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-01-25&to=2022-03-09&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-01-25..2022-03-09&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2022-01-25..2022-03-09&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-01-25..2022-03-09&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-01-25..2022-03-09&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2022-01-25..2022-03-09&type=Issues) | [@Zsailer](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AZsailer+updated%3A2022-01-25..2022-03-09&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.4.8
 
