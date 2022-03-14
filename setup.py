@@ -85,7 +85,7 @@ languages, sharing, and interactive widgets.
 Read `the documentation <https://jupyter-notebook.readthedocs.io>`_
 for more information.
     """,
-    long_description_content_type = ' text/markdown',
+    long_description_content_type = 'text/markdown',
     version         = version,
     packages        = find_packages(),
     package_data    = find_package_data(),
