@@ -16,11 +16,15 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 ## 6.4.9
 
-([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.7...6f73a5722615be297f8e434a24c41041437da622))
+([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.7...9e3a7001117e64a24ead07b888bd055fdd66faf3))
 
 ### Maintenance and upkeep improvements
 
+- Update links and fix check-release [#6310](https://github.com/jupyter/notebook/pull/6310) ([@blink1073](https://github.com/blink1073))
 - Update 6.4.x branch with some missing commits [#6308](https://github.com/jupyter/notebook/pull/6308) ([@kycutler](https://github.com/kycutler))
+
+### Other merged PRs
+
 - Specify minimum version of nbconvert required [#6286](https://github.com/jupyter/notebook/pull/6286) ([@adamjstewart](https://github.com/adamjstewart))
 
 ### Contributors to this release
