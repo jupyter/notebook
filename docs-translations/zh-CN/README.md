@@ -70,8 +70,8 @@ IPython代码库的Big Split™。 IPython 3是最后一个主要的整体
 ## 资源
 - [Project Jupyter website](https://jupyter.org)
 - [Online Demo at jupyter.org/try](https://jupyter.org/try)
-- [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/stable/) [[PDF](https://media.readthedocs.org/pdf/jupyter-notebook/stable/jupyter-notebook.pdf)]
+- [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/stable/)
 - [Korean Version of Installation](https://github.com/ChungJooHo/Jupyter_Kor_doc/)
-- [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/stable/index.html) [[PDF](https://media.readthedocs.org/pdf/jupyter/stable/jupyter.pdf)]
+- [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/stable/index.html)
 - [Issues](https://github.com/jupyter/notebook/issues)
 - [Technical support - Jupyter Google Group](https://groups.google.com/forum/#!forum/jupyter) 
