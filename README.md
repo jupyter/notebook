@@ -23,7 +23,7 @@ The next major version of Notebook will be based on:
 - JupyterLab components for the frontend
 - Jupyter Server for the Python server
 
-This results in a rather change to the `jupyter/notebook` code base.
+This represents a significant change to the `jupyter/notebook` code base.
 
 To learn more about Notebook v7: https://jupyter.org/enhancement-proposals/79-notebook-v7/notebook-v7.html
 
