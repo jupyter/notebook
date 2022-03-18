@@ -36,6 +36,11 @@ test.describe('Mobile', () => {
     // wait for the kernel status animations to be finished
     await waitForKernelReady(page);
 
+    // force switching back to command mode to avoid capturing the cursor in the screenshot
+    await page.evaluate(async () => {
+      await window.jupyterapp.commands.execute('notebook:enter-command-mode');
+    });
+
     expect(await page.screenshot()).toMatchSnapshot('notebook.png');
   });
 });
