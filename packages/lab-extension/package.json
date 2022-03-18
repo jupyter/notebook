@@ -44,18 +44,18 @@
   },
   "dependencies": {
     "@jupyter-notebook/application": "^7.0.0-alpha.1",
-    "@jupyterlab/application": "^4.0.0-alpha.5",
-    "@jupyterlab/apputils": "^4.0.0-alpha.5",
-    "@jupyterlab/coreutils": "^6.0.0-alpha.5",
-    "@jupyterlab/docregistry": "^4.0.0-alpha.5",
-    "@jupyterlab/mainmenu": "^4.0.0-alpha.5",
-    "@jupyterlab/notebook": "^4.0.0-alpha.5",
-    "@jupyterlab/translation": "^4.0.0-alpha.4",
+    "@jupyterlab/application": "^4.0.0-alpha.7",
+    "@jupyterlab/apputils": "^4.0.0-alpha.7",
+    "@jupyterlab/coreutils": "^6.0.0-alpha.7",
+    "@jupyterlab/docregistry": "^4.0.0-alpha.7",
+    "@jupyterlab/mainmenu": "^4.0.0-alpha.7",
+    "@jupyterlab/notebook": "^4.0.0-alpha.7",
+    "@jupyterlab/translation": "^4.0.0-alpha.7",
     "@lumino/commands": "^1.20.0",
     "@lumino/disposable": "^1.10.1"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^4.0.0-alpha.5",
+    "@jupyterlab/builder": "^4.0.0-alpha.7",
     "rimraf": "~3.0.0",
     "typescript": "~4.1.3"
   },
