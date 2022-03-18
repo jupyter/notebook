@@ -22,6 +22,8 @@ import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { IRunningSessionManagers, RunningSessions } from '@jupyterlab/running';
 
+import { ISettingEditorTracker } from '@jupyterlab/settingeditor';
+
 import { ITranslator } from '@jupyterlab/translation';
 
 import {
@@ -135,7 +137,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     ISettingRegistry,
     IToolbarWidgetRegistry
   ],
-  optional: [IRunningSessionManagers],
+  optional: [IRunningSessionManagers, ISettingEditorTracker],
   autoStart: true,
   provides: INotebookTree,
   activate: (
@@ -144,7 +146,8 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     translator: ITranslator,
     settingRegistry: ISettingRegistry,
     toolbarRegistry: IToolbarWidgetRegistry,
-    manager: IRunningSessionManagers | null
+    manager: IRunningSessionManagers | null,
+    settingEditorTracker: ISettingEditorTracker | null
   ): INotebookTree => {
     const nbTreeWidget = new NotebookTreeWidget();
 
@@ -205,6 +208,17 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
       });
 
     app.shell.add(nbTreeWidget, 'main', { rank: 100 });
+
+    if (settingEditorTracker) {
+      settingEditorTracker.widgetAdded.connect((_, editor) => {
+        nbTreeWidget.addWidget(editor);
+        nbTreeWidget.tabBar.addTab(editor.title);
+      });
+
+      // open the settings editor on startup
+      // comes after to previous call to shell.add
+      app.commands.execute('settingeditor:open');
+    }
 
     return nbTreeWidget;
   }
