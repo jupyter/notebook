@@ -100,7 +100,6 @@ async function main() {
     require('@jupyterlab/console-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/console-extension:completer',
-        '@jupyterlab/console-extension:cursor-position',
         '@jupyterlab/console-extension:factory',
         '@jupyterlab/console-extension:foreign',
         '@jupyterlab/console-extension:tracker'
@@ -114,7 +113,7 @@ async function main() {
     ),
     require('@jupyterlab/docprovider-extension'),
     require('@jupyterlab/documentsearch-extension').default.filter(({ id }) =>
-      ['@jupyterlab/documentsearch:plugin'].includes(id)
+      ['@jupyterlab/documentsearch-extension:plugin'].includes(id)
     ),
     require('@jupyterlab/filebrowser-extension').default.filter(({ id }) =>
       ['@jupyterlab/filebrowser-extension:factory'].includes(id)
