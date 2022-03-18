@@ -183,9 +183,6 @@ async function main() {
     }
     case 'consoles': {
       baseMods = baseMods.concat([
-        require('@jupyterlab/console-extension').default.filter(({ id }) =>
-          ['@jupyterlab/console-extension:completer'].includes(id)
-        ),
         require('@jupyterlab/tooltip-extension').default.filter(({ id }) =>
           [
             '@jupyterlab/tooltip-extension:manager',
