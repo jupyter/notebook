@@ -95,7 +95,10 @@ async function main() {
       ].includes(id)
     ),
     require('@jupyterlab/completer-extension').default.filter(({ id }) =>
-      ['@jupyterlab/completer-extension:manager'].includes(id)
+      [
+        '@jupyterlab/completer-extension:base-service',
+        '@jupyterlab/completer-extension:tracker'
+      ].includes(id)
     ),
     require('@jupyterlab/console-extension').default.filter(({ id }) =>
       [
@@ -166,8 +169,8 @@ async function main() {
     }
     case 'notebooks': {
       baseMods = baseMods.concat([
-        require('@jupyterlab/completer-extension').default.filter(({ id }) =>
-          ['@jupyterlab/completer-extension:notebooks'].includes(id)
+        require('@jupyterlab/notebook-extension').default.filter(({ id }) =>
+          ['@jupyterlab/notebook-extension:completer'].includes(id)
         ),
         require('@jupyterlab/tooltip-extension').default.filter(({ id }) =>
           [
@@ -180,8 +183,8 @@ async function main() {
     }
     case 'consoles': {
       baseMods = baseMods.concat([
-        require('@jupyterlab/completer-extension').default.filter(({ id }) =>
-          ['@jupyterlab/completer-extension:consoles'].includes(id)
+        require('@jupyterlab/console-extension').default.filter(({ id }) =>
+          ['@jupyterlab/console-extension:completer'].includes(id)
         ),
         require('@jupyterlab/tooltip-extension').default.filter(({ id }) =>
           [
@@ -194,8 +197,8 @@ async function main() {
     }
     case 'edit': {
       baseMods = baseMods.concat([
-        require('@jupyterlab/completer-extension').default.filter(({ id }) =>
-          ['@jupyterlab/completer-extension:files'].includes(id)
+        require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
+          ['@jupyterlab/fileeditor-extension:completer'].includes(id)
         ),
         require('@jupyterlab/filebrowser-extension').default.filter(({ id }) =>
           ['@jupyterlab/filebrowser-extension:browser'].includes(id)
