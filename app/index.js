@@ -95,12 +95,14 @@ async function main() {
       ].includes(id)
     ),
     require('@jupyterlab/completer-extension').default.filter(({ id }) =>
-      ['@jupyterlab/completer-extension:manager'].includes(id)
+      [
+        '@jupyterlab/completer-extension:base-service',
+        '@jupyterlab/completer-extension:tracker'
+      ].includes(id)
     ),
     require('@jupyterlab/console-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/console-extension:completer',
-        '@jupyterlab/console-extension:cursor-position',
         '@jupyterlab/console-extension:factory',
         '@jupyterlab/console-extension:foreign',
         '@jupyterlab/console-extension:tracker'
@@ -114,7 +116,7 @@ async function main() {
     ),
     require('@jupyterlab/docprovider-extension'),
     require('@jupyterlab/documentsearch-extension').default.filter(({ id }) =>
-      ['@jupyterlab/documentsearch:plugin'].includes(id)
+      ['@jupyterlab/documentsearch-extension:plugin'].includes(id)
     ),
     require('@jupyterlab/filebrowser-extension').default.filter(({ id }) =>
       ['@jupyterlab/filebrowser-extension:factory'].includes(id)
@@ -167,8 +169,8 @@ async function main() {
     }
     case 'notebooks': {
       baseMods = baseMods.concat([
-        require('@jupyterlab/completer-extension').default.filter(({ id }) =>
-          ['@jupyterlab/completer-extension:notebooks'].includes(id)
+        require('@jupyterlab/notebook-extension').default.filter(({ id }) =>
+          ['@jupyterlab/notebook-extension:completer'].includes(id)
         ),
         require('@jupyterlab/tooltip-extension').default.filter(({ id }) =>
           [
@@ -181,9 +183,6 @@ async function main() {
     }
     case 'consoles': {
       baseMods = baseMods.concat([
-        require('@jupyterlab/completer-extension').default.filter(({ id }) =>
-          ['@jupyterlab/completer-extension:consoles'].includes(id)
-        ),
         require('@jupyterlab/tooltip-extension').default.filter(({ id }) =>
           [
             '@jupyterlab/tooltip-extension:manager',
@@ -195,8 +194,8 @@ async function main() {
     }
     case 'edit': {
       baseMods = baseMods.concat([
-        require('@jupyterlab/completer-extension').default.filter(({ id }) =>
-          ['@jupyterlab/completer-extension:files'].includes(id)
+        require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
+          ['@jupyterlab/fileeditor-extension:completer'].includes(id)
         ),
         require('@jupyterlab/filebrowser-extension').default.filter(({ id }) =>
           ['@jupyterlab/filebrowser-extension:browser'].includes(id)
