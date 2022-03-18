@@ -46,16 +46,6 @@ import { DisposableDelegate, DisposableSet } from '@lumino/disposable';
 import { Widget } from '@lumino/widgets';
 
 /**
- * The default notebook factory.
- */
-const NOTEBOOK_FACTORY = 'Notebook';
-
-/**
- * The editor factory.
- */
-const EDITOR_FACTORY = 'Editor';
-
-/**
  * A regular expression to match path to notebooks and documents
  */
 const TREE_PATTERN = new RegExp('/(notebooks|edit)/(.*)');
@@ -179,18 +169,12 @@ const opener: JupyterFrontEndPlugin<void> = {
         }
 
         const file = decodeURIComponent(path);
-        const ext = PathExt.extname(file);
+        const urlParams = new URLSearchParams(parsed.search);
+        const factory = urlParams.get('factory') ?? 'default';
         app.restored.then(async () => {
-          // TODO: get factory from file type instead?
-          if (ext === '.ipynb') {
-            docManager.open(file, NOTEBOOK_FACTORY, undefined, {
-              ref: '_noref'
-            });
-          } else {
-            docManager.open(file, EDITOR_FACTORY, undefined, {
-              ref: '_noref'
-            });
-          }
+          docManager.open(file, factory, undefined, {
+            ref: '_noref'
+          });
         });
       }
     });

@@ -40,8 +40,9 @@ const opener: JupyterFrontEndPlugin<void> = {
         return;
       }
       const ext = PathExt.extname(path);
-      const route = ext === '.ipynb' ? 'notebooks' : 'edit';
-      window.open(`${baseUrl}${route}/${path}`);
+      const route =
+        widgetName !== 'Notebook' || ext !== '.ipynb' ? 'edit' : 'notebooks';
+      window.open(`${baseUrl}${route}/${path}?factory=${widgetName}`);
       return undefined;
     };
   }
