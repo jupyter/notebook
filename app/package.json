@@ -180,6 +180,7 @@
       "@jupyterlab/hub-extension",
       "@jupyterlab/mainmenu-extension",
       "@jupyterlab/mathjax2-extension",
+      "@jupyterlab/markedparser-extension",
       "@jupyterlab/notebook-extension",
       "@jupyterlab/rendermime-extension",
       "@jupyterlab/running-extension",
