@@ -35,7 +35,7 @@ New features and continuous improvement is now focused on Notebook v7 (see secti
 
 If you have an open pull request with a new feature or if you were planning to open one, we encourage switching over to the Jupyter Server and JupyterLab architecture, and distribute it as a server extension and / or JupyterLab prebuilt extension. That way your new feature will also be compatible with the new Notebook v7.
 
-### Jupyter notebook, the language-agnostic evolution of IPython notebo
+### Jupyter notebook, the language-agnostic evolution of IPython notebook
 
 Jupyter notebook is a language-agnostic HTML notebook application for
 Project Jupyter. In 2015, Jupyter notebook was released as a part of
