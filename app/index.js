@@ -125,6 +125,7 @@ async function main() {
       ['@jupyterlab/fileeditor-extension:plugin'].includes(id)
     ),
     require('@jupyterlab/mainmenu-extension'),
+    require('@jupyterlab/markedparser-extension'),
     require('@jupyterlab/mathjax2-extension'),
     require('@jupyterlab/notebook-extension').default.filter(({ id }) =>
       [
