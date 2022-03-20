@@ -14,6 +14,29 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+
+## 6.4.9
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.7...9e3a7001117e64a24ead07b888bd055fdd66faf3))
+
+### Maintenance and upkeep improvements
+
+- Update links and fix check-release [#6310](https://github.com/jupyter/notebook/pull/6310) ([@blink1073](https://github.com/blink1073))
+- Update 6.4.x branch with some missing commits [#6308](https://github.com/jupyter/notebook/pull/6308) ([@kycutler](https://github.com/kycutler))
+
+### Other merged PRs
+
+- Specify minimum version of nbconvert required [#6286](https://github.com/jupyter/notebook/pull/6286) ([@adamjstewart](https://github.com/adamjstewart))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-01-12&to=2022-03-14&type=c))
+
+[@adamjstewart](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aadamjstewart+updated%3A2022-01-12..2022-03-14&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-01-12..2022-03-14&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-01-12..2022-03-14&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-01-12..2022-03-14&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2022-01-12..2022-03-14&type=Issues) | [@kycutler](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akycutler+updated%3A2022-01-12..2022-03-14&type=Issues) | [@Zsailer](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AZsailer+updated%3A2022-01-12..2022-03-14&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
+
 ## 6.4.8
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.7...479902d83a691253e0cff8439a33577e82408317))
@@ -28,7 +51,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 [@Vishwajeet0510](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AVishwajeet0510+updated%3A2022-01-12..2022-01-25&type=Issues)
 
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.4.7
 
@@ -1334,7 +1356,7 @@ instructions.
     recursively, unlike normal config values, to make it load more
     consistently with frontend extensions([2108](https://github.com/jupyter/notebook/pull/2108)).
 - The notebook server now supports the [bundler
-    API](https://jupyter-notebook.readthedocs.io/en/latest/extending/bundler_extensions.html)
+    API](https://jupyter-notebook.readthedocs.io/en/stable/extending/bundler_extensions.html)
     from the [jupyter_cms incubator
     project](https://github.com/jupyter-incubator/contentmanagement) ([1579](https://github.com/jupyter/notebook/pull/1579)).
 - The notebook server now provides information about kernel activity
