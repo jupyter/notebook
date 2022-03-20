@@ -73,9 +73,7 @@ define(function(){
     // tree
     jglobal('SessionList','tree/js/sessionlist');
 
-
     Jupyter.version = "6.5.0.dev0";
-
     Jupyter._target = '_blank';
 
     return Jupyter;
