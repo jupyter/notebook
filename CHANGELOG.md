@@ -14,7 +14,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
-
 ## 6.4.9
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.7...9e3a7001117e64a24ead07b888bd055fdd66faf3))
@@ -35,7 +34,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 [@adamjstewart](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aadamjstewart+updated%3A2022-01-12..2022-03-14&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-01-12..2022-03-14&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-01-12..2022-03-14&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-01-12..2022-03-14&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2022-01-12..2022-03-14&type=Issues) | [@kycutler](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akycutler+updated%3A2022-01-12..2022-03-14&type=Issues) | [@Zsailer](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AZsailer+updated%3A2022-01-12..2022-03-14&type=Issues)
 
 <!-- <END NEW CHANGELOG ENTRY> -->
-
 
 ## 6.4.8
 
