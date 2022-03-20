@@ -18,3 +18,4 @@ dependencies:
   - Send2Trash
   - prometheus_client
   - sphinxcontrib_github_alt
+  - ipython_genutils
