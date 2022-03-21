@@ -1,7 +1,7 @@
 {
   "name": "@jupyter-notebook/metapackage",
   "private": true,
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.2",
   "description": "Jupyter Notebook - Metapackage",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
