@@ -40,8 +40,19 @@ const opener: JupyterFrontEndPlugin<void> = {
         return;
       }
       const ext = PathExt.extname(path);
-      const route = ext === '.ipynb' ? 'notebooks' : 'edit';
-      window.open(`${baseUrl}${route}/${path}`);
+      let route = 'edit';
+      if (
+        (widgetName === 'default' && ext === '.ipynb') ||
+        widgetName === 'Notebook'
+      ) {
+        route = 'notebooks';
+      }
+      let url = `${baseUrl}${route}/${path}`;
+      // append ?factory only if it's not the default
+      if (widgetName !== 'default') {
+        url = `${url}?factory=${widgetName}`;
+      }
+      window.open(url);
       return undefined;
     };
   }
