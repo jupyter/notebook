@@ -47,7 +47,12 @@ const opener: JupyterFrontEndPlugin<void> = {
       ) {
         route = 'notebooks';
       }
-      window.open(`${baseUrl}${route}/${path}?factory=${widgetName}`);
+      let url = `${baseUrl}${route}/${path}`;
+      // append ?factory only if it's not the default
+      if (widgetName !== 'default') {
+        url = `${url}?factory=${widgetName}`;
+      }
+      window.open(url);
       return undefined;
     };
   }
