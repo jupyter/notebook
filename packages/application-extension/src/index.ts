@@ -44,7 +44,17 @@ import { PromiseDelegate } from '@lumino/coreutils';
 
 import { DisposableDelegate, DisposableSet } from '@lumino/disposable';
 
-import { Widget } from '@lumino/widgets';
+import { Menu, Widget } from '@lumino/widgets';
+
+/**
+ * The default notebook factory.
+ */
+const NOTEBOOK_FACTORY = 'Notebook';
+
+/**
+ * The editor factory.
+ */
+const EDITOR_FACTORY = 'Editor';
 
 /**
  * A regular expression to match path to notebooks and documents
@@ -64,6 +74,11 @@ namespace CommandIDs {
    * Toggle Top Bar visibility
    */
   export const toggleTop = 'application:toggle-top';
+
+  /**
+   * Toggle sidebar visibility
+   */
+  export const togglePanel = 'application:toggle-panel';
 
   /**
    * Toggle the Zen mode
@@ -90,6 +105,13 @@ namespace CommandIDs {
    */
   export const resolveTree = 'application:resolve-tree';
 }
+
+/**
+ * Are the left and right panels available on the current page?
+ */
+const sidePanelsEnabled: () => boolean = () => {
+  return PageConfig.getOption('notebookPage') === 'notebooks';
+};
 
 /**
  * Check if the application is dirty before closing the browser tab.
@@ -153,10 +175,12 @@ const opener: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:opener',
   autoStart: true,
   requires: [IRouter, IDocumentManager],
+  optional: [ISettingRegistry],
   activate: (
     app: JupyterFrontEnd,
     router: IRouter,
-    docManager: IDocumentManager
+    docManager: IDocumentManager,
+    settingRegistry: ISettingRegistry | null
   ): void => {
     const { commands } = app;
 
@@ -171,12 +195,21 @@ const opener: JupyterFrontEndPlugin<void> = {
         }
 
         const file = decodeURIComponent(path);
-        const urlParams = new URLSearchParams(parsed.search);
-        const factory = urlParams.get('factory') ?? 'default';
+        const ext = PathExt.extname(file);
         app.restored.then(async () => {
-          docManager.open(file, factory, undefined, {
-            ref: '_noref'
-          });
+          // TODO: get factory from file type instead?
+          if (ext === '.ipynb') {
+            // TODO: fix upstream?
+            await settingRegistry?.load('@jupyterlab/notebook-extension:panel');
+            await Promise.resolve();
+            docManager.open(file, NOTEBOOK_FACTORY, undefined, {
+              ref: '_noref'
+            });
+          } else {
+            docManager.open(file, EDITOR_FACTORY, undefined, {
+              ref: '_noref'
+            });
+          }
         });
       }
     });
@@ -198,7 +231,7 @@ const menus: JupyterFrontEndPlugin<void> = {
     // always disable the Tabs menu
     menu.tabsMenu.dispose();
 
-    const page = PageConfig.getOption('notebookPage');
+    const page = PageConfig.getOption('retroPage');
     switch (page) {
       case 'consoles':
       case 'terminals':
@@ -558,6 +591,135 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * Plugin to toggle the left or right sidebar's visibility.
+ */
+const sidebarVisibility: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/application-extension:sidebar',
+  requires: [INotebookShell, ITranslator],
+  optional: [IMainMenu, ISettingRegistry],
+  activate: (
+    app: JupyterFrontEnd<JupyterFrontEnd.IShell>,
+    notebookShell: INotebookShell,
+    translator: ITranslator,
+    menu: IMainMenu | null,
+    settingRegistry: ISettingRegistry | null
+  ) => {
+    if (!sidePanelsEnabled()) {
+      return;
+    }
+
+    const trans = translator.load('notebook');
+
+    /* Arguments for togglePanel command:
+     * side, left or right area
+     * title, widget title to show in the menu
+     * id, widget ID to activate in the sidebar
+     */
+    app.commands.addCommand(CommandIDs.togglePanel, {
+      label: args => args['title'] as string,
+      caption: args => {
+        // We do not substitute the parameter into the string because the parameter is not
+        // localized (e.g., it is always 'left') even though the string is localized.
+        if (args['side'] === 'left') {
+          return trans.__(
+            'Show %1 in the left sidebar',
+            args['title'] as string
+          );
+        } else if (args['side'] === 'right') {
+          return trans.__(
+            'Show %1 in the right sidebar',
+            args['title'] as string
+          );
+        }
+        return trans.__('Show %1 in the sidebar', args['title'] as string);
+      },
+      execute: args => {
+        switch (args['side'] as string) {
+          case 'left':
+            if (notebookShell.leftCollapsed) {
+              notebookShell.activateById(args['id'] as string);
+              notebookShell.expandLeft();
+            } else {
+              notebookShell.collapseLeft();
+              if (notebookShell.currentWidget) {
+                notebookShell.activateById(notebookShell.currentWidget.id);
+              }
+            }
+            break;
+          case 'right':
+            if (notebookShell.rightCollapsed) {
+              notebookShell.activateById(args['id'] as string);
+              notebookShell.expandRight();
+            } else {
+              notebookShell.collapseRight();
+              if (notebookShell.currentWidget) {
+                notebookShell.activateById(notebookShell.currentWidget.id);
+              }
+            }
+            break;
+        }
+      },
+      isToggled: args => {
+        if (notebookShell.leftCollapsed) {
+          return false;
+        }
+        const currentWidget = notebookShell.leftHandler.current;
+        if (!currentWidget) {
+          return false;
+        }
+
+        return currentWidget.id === (args['id'] as string);
+      }
+    });
+
+    const leftSidebarMenu = new Menu({ commands: app.commands });
+    leftSidebarMenu.title.label = trans.__('Show Left Sidebar');
+
+    const rightSidebarMenu = new Menu({ commands: app.commands });
+    rightSidebarMenu.title.label = trans.__('Show Right Sidebar');
+
+    app.restored.then(() => {
+      const leftWidgets = notebookShell.widgetsList('left');
+      leftWidgets.forEach(widget => {
+        leftSidebarMenu.addItem({
+          command: CommandIDs.togglePanel,
+          args: {
+            side: 'left',
+            title: widget.title.caption,
+            id: widget.id
+          }
+        });
+      });
+
+      const rightWidgets = notebookShell.widgetsList('right');
+      rightWidgets.forEach(widget => {
+        rightSidebarMenu.addItem({
+          command: CommandIDs.togglePanel,
+          args: {
+            side: 'right',
+            title: widget.title.caption,
+            id: widget.id
+          }
+        });
+      });
+
+      const menuItemsToAdd: Menu.IItemOptions[] = [];
+      if (leftWidgets.length > 0) {
+        menuItemsToAdd.push({ type: 'submenu', submenu: leftSidebarMenu });
+      }
+      if (rightWidgets.length > 0) {
+        menuItemsToAdd.push({ type: 'submenu', submenu: rightSidebarMenu });
+      }
+
+      if (menu && menuItemsToAdd) {
+        menu.viewMenu.addGroup(menuItemsToAdd, 2);
+      }
+    });
+  },
+  autoStart: true
+};
+
+/**
  * The default tree route resolver plugin.
  */
 const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
@@ -711,6 +873,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   router,
   sessionDialogs,
   shell,
+  sidebarVisibility,
   status,
   tabTitle,
   title,

@@ -1,0 +1,37 @@
+/*-----------------------------------------------------------------------------
+| Copyright (c) Jupyter Development Team.
+| Distributed under the terms of the Modified BSD License.
+| 
+| Adapted from JupyterLab's packages/application/style/sidepanel.css.
+|----------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------
+| Variables
+|----------------------------------------------------------------------------*/
+
+:root {
+  --jp-private-sidebar-tab-width: 32px;
+}
+
+/*-----------------------------------------------------------------------------
+| SideBar
+|----------------------------------------------------------------------------*/
+
+/* Left */
+
+/* Right */
+
+/* Stack panels */
+
+#jp-left-stack > .lm-Widget,
+#jp-right-stack > .lm-Widget {
+  min-width: var(--jp-sidebar-min-width);
+}
+
+#jp-right-stack {
+  border-left: var(--jp-border-width) solid var(--jp-border-color1);
+}
+
+#jp-left-stack {
+  border-right: var(--jp-border-width) solid var(--jp-border-color1);
+}

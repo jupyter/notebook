@@ -1,21 +1,32 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import { NotebookShell, INotebookShell } from '@jupyter-notebook/application';
+import {
+  INotebookShell,
+  NotebookShell,
+  Shell
+} from '@jupyter-notebook/application';
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
 
 import { Widget } from '@lumino/widgets';
 
-describe('Shell', () => {
+describe('Shell for notebooks', () => {
   let shell: INotebookShell;
+  let sidePanelsVisibleSpy: jest.SpyInstance;
 
   beforeEach(() => {
     shell = new NotebookShell();
+    sidePanelsVisibleSpy = jest
+      .spyOn(shell, 'sidePanelsVisible')
+      .mockImplementation(() => {
+        return true;
+      });
     Widget.attach(shell, document.body);
   });
 
   afterEach(() => {
+    sidePanelsVisibleSpy.mockRestore();
     shell.dispose();
   });
 
@@ -23,10 +34,16 @@ describe('Shell', () => {
     it('should create a LabShell instance', () => {
       expect(shell).toBeInstanceOf(NotebookShell);
     });
+
+    it('should make all areas empty initially', () => {
+      ['main', 'top', 'left', 'right', 'menu'].forEach(area =>
+        expect(shell.isEmpty(area as Shell.Area)).toBe(true)
+      );
+    });
   });
 
   describe('#widgets()', () => {
-    it('should add widgets to existing areas', () => {
+    it('should add widgets to main area', () => {
       const widget = new Widget();
       shell.add(widget, 'main');
       const widgets = Array.from(shell.widgets('main'));
@@ -36,7 +53,7 @@ describe('Shell', () => {
     it('should be empty and console.error if area does not exist', () => {
       const spy = jest.spyOn(console, 'error');
       const jupyterFrontEndShell = shell as JupyterFrontEnd.IShell;
-      expect(Array.from(jupyterFrontEndShell.widgets('left'))).toHaveLength(0);
+      expect(Array.from(jupyterFrontEndShell.widgets('fake'))).toHaveLength(0);
       expect(spy).toHaveBeenCalled();
     });
   });
@@ -80,6 +97,106 @@ describe('Shell', () => {
       shell.add(widget, 'main');
       const widgets = Array.from(shell.widgets('main'));
       expect(widgets.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('#add(widget, "left")', () => {
+    it('should add a widget to the left area', () => {
+      const widget = new Widget();
+      widget.id = 'foo';
+      shell.add(widget, 'left');
+      expect(shell.isEmpty('left')).toBe(false);
+    });
+  });
+
+  describe('#add(widget, "right")', () => {
+    it('should add a widget to the right area', () => {
+      const widget = new Widget();
+      widget.id = 'foo';
+      shell.add(widget, 'right');
+      expect(shell.isEmpty('right')).toBe(false);
+    });
+  });
+});
+
+describe('Shell for tree view', () => {
+  let shell: INotebookShell;
+  let sidePanelsVisibleSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    shell = new NotebookShell();
+    sidePanelsVisibleSpy = jest
+      .spyOn(shell, 'sidePanelsVisible')
+      .mockImplementation(() => {
+        return false;
+      });
+    Widget.attach(shell, document.body);
+  });
+
+  afterEach(() => {
+    sidePanelsVisibleSpy.mockRestore();
+    shell.dispose();
+  });
+
+  describe('#constructor()', () => {
+    it('should create a LabShell instance', () => {
+      expect(shell).toBeInstanceOf(NotebookShell);
+    });
+
+    it('should make all areas empty initially', () => {
+      ['main', 'top', 'menu'].forEach(area =>
+        expect(shell.isEmpty(area as Shell.Area)).toBe(true)
+      );
+    });
+  });
+
+  describe('#widgets()', () => {
+    it('should add widgets to existing areas', () => {
+      const widget = new Widget();
+      shell.add(widget, 'main');
+      const widgets = Array.from(shell.widgets('main'));
+      expect(widgets).toEqual([widget]);
+    });
+
+    it('should throw an exception if a fake area does not exist', () => {
+      const jupyterFrontEndShell = shell as JupyterFrontEnd.IShell;
+      expect(() => {
+        jupyterFrontEndShell.widgets('fake');
+      }).toThrow('Invalid area: fake');
+    });
+
+    it('should throw an exception if the left area does not exist', () => {
+      const jupyterFrontEndShell = shell as JupyterFrontEnd.IShell;
+      expect(() => {
+        jupyterFrontEndShell.widgets('left');
+      }).toThrow('Invalid area: left');
+    });
+
+    it('should throw an exception if the right area does not exist', () => {
+      const jupyterFrontEndShell = shell as JupyterFrontEnd.IShell;
+      expect(() => {
+        jupyterFrontEndShell.widgets('right');
+      }).toThrow('Invalid area: right');
+    });
+  });
+
+  describe('#add(widget, "left")', () => {
+    it('should fail to add a widget to the left area', () => {
+      const widget = new Widget();
+      widget.id = 'foo';
+      expect(() => {
+        shell.add(widget, 'left');
+      }).toThrow('left area is not available on this page');
+    });
+  });
+
+  describe('#add(widget, "right")', () => {
+    it('should fail to add a widget to the right area', () => {
+      const widget = new Widget();
+      widget.id = 'foo';
+      expect(() => {
+        shell.add(widget, 'right');
+      }).toThrow('right area is not available on this page');
     });
   });
 });
