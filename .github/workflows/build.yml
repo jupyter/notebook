@@ -63,11 +63,11 @@ jobs:
 
   install:
     needs: [build]
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu, macos, windows]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         python: ['3.7', '3.10']
         include:
           - python: '3.7'
@@ -109,3 +109,14 @@ jobs:
           jupyter server extension list 2>&1 | grep -ie "notebook.*enabled" -
           jupyter notebook --version
           jupyter notebook --help
+
+  pre-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+      - name: Base Setup
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - name: Install Jupyterlab
+        run: pip install -e .
+      - uses: pre-commit/action@v2.0.0

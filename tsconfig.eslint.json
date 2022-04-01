@@ -1,5 +1,11 @@
 {
   "extends": "./tsconfigbase",
-  "include": ["packages/**/*", "app/**/*", "buildutils/**/*", "ui-tests/**/*"],
+  "include": [
+    "packages/**/*",
+    "app/**/*",
+    "buildutils/**/*",
+    "ui-tests/**/*",
+    "docs/**/*"
+  ],
   "types": ["jest"]
 }
