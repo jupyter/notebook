@@ -17,7 +17,7 @@ from jupyterlab_server.handlers import _camelCase, is_url
 from notebook_shim.shim import NotebookConfigShimMixin
 from tornado import web
 from tornado.gen import maybe_future
-from traitlets import Bool
+from traitlets import Bool, default
 
 from ._version import __version__
 
@@ -206,6 +206,14 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
         "Whether to enable collaborative mode.",
     )
 
+    @default("static_dir")
+    def _default_static_dir(self):
+        return os.path.join(HERE, "static")
+
+    @default("templates_dir")
+    def _default_templates_dir(self):
+        return os.path.join(HERE, "templates")
+
     def initialize_handlers(self):
         self.handlers.append(
             (
@@ -221,13 +229,6 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
         self.handlers.append(("/consoles/(.*)", ConsoleHandler))
         self.handlers.append(("/terminals/(.*)", TerminalHandler))
         super().initialize_handlers()
-
-    def initialize_templates(self):
-        super().initialize_templates()
-        self.static_dir = os.path.join(HERE, "static")
-        self.templates_dir = os.path.join(HERE, "templates")
-        self.static_paths = [self.static_dir]
-        self.template_paths = [self.templates_dir]
 
     def initialize_settings(self):
         super().initialize_settings()

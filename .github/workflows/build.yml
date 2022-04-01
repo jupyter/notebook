@@ -39,10 +39,6 @@ jobs:
     - name: Base Setup
       uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
 
-    - name: Install dependencies
-      run: |
-        python -m pip install -U jupyter_packaging~=0.10
-
     - name: Install the package
       run: |
         python -m pip install .
@@ -50,16 +46,11 @@ jobs:
         jupyter server extension list 2>&1 | grep -ie "notebook.*enabled" -
         python -m jupyterlab.browser_check
 
-    - name: Lint
-      run: |
-        jlpm
-        jlpm run eslint:check
-        jlpm run prettier:check
-
     - name: Test
       run: |
         jlpm run build:test
         jlpm run test
+        pytest -vv || pytest -vv --lf
 
   install:
     needs: [build]
