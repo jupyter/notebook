@@ -1,4 +1,4 @@
-from ._version import __version__
+from ._version import __version__  # noqa
 
 
 def _jupyter_server_extension_paths():
