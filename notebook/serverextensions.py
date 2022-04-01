@@ -59,14 +59,14 @@ def toggle_serverextension_python(import_name, enabled=None, parent=None,
 
     if logger:
         if new_enabled:
-            logger.info(u"Enabling: %s" % (import_name))
+            logger.info("Enabling: %s" % (import_name))
         else:
-            logger.info(u"Disabling: %s" % (import_name))
+            logger.info("Disabling: %s" % (import_name))
 
     server_extensions[import_name] = new_enabled
 
     if logger:
-        logger.info(u"- Writing config: {}".format(config_dir))
+        logger.info("- Writing config: {}".format(config_dir))
 
     cm.update("jupyter_notebook_config", cfg)
 
@@ -104,13 +104,13 @@ def validate_serverextension(import_name, logger=None):
     except Exception:
         logger.warning("Error loading server extension %s", import_name)
 
-    import_msg = u"     {} is {} importable?"
+    import_msg = "     {} is {} importable?"
     if func is not None:
         infos.append(import_msg.format(GREEN_OK, import_name))
     else:
         warnings.append(import_msg.format(RED_X, import_name))
 
-    post_mortem = u"      {} {} {}"
+    post_mortem = "      {} {} {}"
     if logger:
         if warnings:
             [logger.info(info) for info in infos]
@@ -254,9 +254,9 @@ class ListServerExtensionsApp(BaseExtensionApp):
                 .setdefault("nbserver_extensions", {})
             )
             if server_extensions:
-                print(u'config dir: {}'.format(config_dir))
+                print('config dir: {}'.format(config_dir))
             for import_name, enabled in server_extensions.items():
-                print(u'    {} {}'.format(
+                print('    {} {}'.format(
                               import_name,
                               GREEN_ENABLED if enabled else RED_DISABLED))
                 validate_serverextension(import_name, self.log)
@@ -324,7 +324,7 @@ def _get_server_extension_metadata(module):
     """
     m = import_item(module)
     if not hasattr(m, '_jupyter_server_extension_paths'):
-        raise KeyError(u'The Python module {} does not include any valid server extensions'.format(module))
+        raise KeyError('The Python module {} does not include any valid server extensions'.format(module))
     return m, m._jupyter_server_extension_paths()
 
 if __name__ == '__main__':

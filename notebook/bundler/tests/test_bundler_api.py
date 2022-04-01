@@ -30,9 +30,9 @@ class BundleAPITest(NotebookTestBase):
 
         nb = new_notebook()
 
-        nb.cells.append(new_markdown_cell(u'Created by test'))
-        cc1 = new_code_cell(source=u'print(2*6)')
-        cc1.outputs.append(new_output(output_type="stream", text=u'12'))
+        nb.cells.append(new_markdown_cell('Created by test'))
+        cc1 = new_code_cell(source='print(2*6)')
+        cc1.outputs.append(new_output(output_type="stream", text='12'))
         nb.cells.append(cc1)
         
         with io.open(pjoin(nbdir, 'testnb.ipynb'), 'w',

@@ -1,13 +1,8 @@
 """Test the /files/ handler."""
 
 import io
-import os
-from unicodedata import normalize
-
-pjoin = os.path.join
-
-import requests
 import json
+import os
 
 from nbformat import write
 from nbformat.v4 import (new_notebook,
@@ -16,18 +11,19 @@ from nbformat.v4 import (new_notebook,
 
 from notebook.utils import url_path_join
 from .launchnotebook import NotebookTestBase
-from ipython_genutils import py3compat
+
+pjoin = os.path.join
 
 
 class FilesTest(NotebookTestBase):
     def test_hidden_files(self):
         not_hidden = [
-            u'å b',
-            u'å b/ç. d',
+            'å b',
+            'å b/ç. d',
         ]
         hidden = [
-            u'.å b',
-            u'å b/.ç d',
+            '.å b',
+            'å b/.ç d',
         ]
         dirs = not_hidden + hidden
         
@@ -82,7 +78,7 @@ class FilesTest(NotebookTestBase):
 
         nb = new_notebook(
             cells=[
-                new_markdown_cell(u'Created by test ³'),
+                new_markdown_cell('Created by test ³'),
                 new_code_cell("print(2*6)", outputs=[
                     new_output("stream", text="12"),
                 ])
@@ -98,7 +94,7 @@ class FilesTest(NotebookTestBase):
             f.close()
 
         with io.open(pjoin(nbdir, 'test.txt'), 'w') as f:
-            f.write(u'foobar')
+            f.write('foobar')
             f.close()
 
         r = self.request('GET', 'files/testnb.ipynb')

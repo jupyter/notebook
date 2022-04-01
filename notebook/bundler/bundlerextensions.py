@@ -248,7 +248,7 @@ class ListBundlerExtensionApp(BaseExtensionApp):
         print("Known bundlerextensions:")
         
         for config_dir in config_dirs:
-            head = u'  config dir: {}'.format(config_dir)
+            head = '  config dir: {}'.format(config_dir)
             head_shown = False
 
             cm = BaseJSONConfigManager(parent=self, config_dir=config_dir)
@@ -263,9 +263,9 @@ class ListBundlerExtensionApp(BaseExtensionApp):
                     label = info.get('label')
                     module = info.get('module_name')
                     if label is None or module is None:
-                        msg = u'    {} {}'.format(bundler_id, RED_DISABLED)
+                        msg = '    {} {}'.format(bundler_id, RED_DISABLED)
                     else:
-                        msg = u'    "{}" from {} {}'.format(
+                        msg = '    "{}" from {} {}'.format(
                             label, module, GREEN_ENABLED
                         )
                     print(msg)

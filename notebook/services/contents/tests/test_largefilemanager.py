@@ -1,8 +1,10 @@
-from unittest import TestCase
-from ipython_genutils.tempdir import TemporaryDirectory
-from ..largefilemanager import LargeFileManager
 import os
+from tempfile import TemporaryDirectory
+from unittest import TestCase
+
 from tornado import web
+
+from ..largefilemanager import LargeFileManager
 
 
 def _make_dir(contents_manager, api_path):
@@ -68,7 +70,7 @@ class TestLargeFileManager(TestCase):
 
         try:
             model = {'name': 'test', 'path': 'test', 'chunk': 2, 'type': 'file',
-                     'content': u'test', 'format': 'json'}
+                     'content': 'test', 'format': 'json'}
             cm.save(model, model['path'])
         except web.HTTPError as e:
             self.assertEqual("HTTP 400: Bad Request (Must specify format of file contents as 'text' or 'base64')",
@@ -76,7 +78,7 @@ class TestLargeFileManager(TestCase):
 
         # Save model for different chunks
         model = {'name': 'test', 'path': 'test', 'type': 'file',
-                 'content': u'test==', 'format': 'text'}
+                 'content': 'test==', 'format': 'text'}
         name = model['name']
         path = model['path']
         cm.save(model, path)

@@ -18,14 +18,15 @@ import sys
 import subprocess
 import time
 from io import BytesIO
+from shutil import which
+from tempfile import TemporaryDirectory
 from threading import Thread, Lock, Event
 
 from unittest.mock import patch
 
 from jupyter_core.paths import jupyter_runtime_dir
-from ipython_genutils.py3compat import bytes_to_str, which
+from ipython_genutils.py3compat import bytes_to_str
 from notebook._sysinfo import get_sys_info
-from ipython_genutils.tempdir import TemporaryDirectory
 
 from subprocess import TimeoutExpired
 def popen_wait(p, timeout):
@@ -59,7 +60,7 @@ class StreamCapturer(Thread):
             with self.buffer_lock:
                 self.buffer.write(chunk)
             if self.echo:
-                sys.stdout.write(bytes_to_str(chunk))
+                sys.stdout.write(chunk)
     
         os.close(self.readfd)
         os.close(self.writefd)
@@ -226,8 +227,8 @@ class JSController(TestController):
         self.dirs.append(self.home)
         self.dirs.append(self.config_dir)
         self.dirs.append(self.nbdir)
-        os.makedirs(os.path.join(self.nbdir.name, os.path.join(u'sub ∂ir1', u'sub ∂ir 1a')))
-        os.makedirs(os.path.join(self.nbdir.name, os.path.join(u'sub ∂ir2', u'sub ∂ir 1b')))
+        os.makedirs(os.path.join(self.nbdir.name, os.path.join('sub ∂ir1', 'sub ∂ir 1a')))
+        os.makedirs(os.path.join(self.nbdir.name, os.path.join('sub ∂ir2', 'sub ∂ir 1b')))
 
         if self.xunit:
             self.add_xunit()

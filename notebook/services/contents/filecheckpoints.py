@@ -13,7 +13,6 @@ from .checkpoints import (
 from .fileio import FileManagerMixin
 
 from jupyter_core.utils import ensure_dir_exists
-from ipython_genutils.py3compat import getcwd
 from traitlets import Unicode
 
 from notebook import _tz as tz
@@ -45,12 +44,12 @@ class FileCheckpoints(FileManagerMixin, Checkpoints):
         try:
             return self.parent.root_dir
         except AttributeError:
-            return getcwd()
+            return os.getcwd()
 
     # ContentsManager-dependent checkpoint API
     def create_checkpoint(self, contents_mgr, path):
         """Create a checkpoint."""
-        checkpoint_id = u'checkpoint'
+        checkpoint_id = 'checkpoint'
         src_path = contents_mgr._get_os_path(path)
         dest_path = self.checkpoint_path(checkpoint_id, path)
         self._copy(src_path, dest_path)
@@ -107,7 +106,7 @@ class FileCheckpoints(FileManagerMixin, Checkpoints):
         parent, name = ('/' + path).rsplit('/', 1)
         parent = parent.strip('/')
         basename, ext = os.path.splitext(name)
-        filename = u"{name}-{checkpoint_id}{ext}".format(
+        filename = "{name}-{checkpoint_id}{ext}".format(
             name=basename,
             checkpoint_id=checkpoint_id,
             ext=ext,
@@ -133,7 +132,7 @@ class FileCheckpoints(FileManagerMixin, Checkpoints):
     def no_such_checkpoint(self, path, checkpoint_id):
         raise HTTPError(
             404,
-            u'Checkpoint does not exist: %s@%s' % (path, checkpoint_id)
+            'Checkpoint does not exist: %s@%s' % (path, checkpoint_id)
         )
 
 
@@ -146,7 +145,7 @@ class GenericFileCheckpoints(GenericCheckpointsMixin, FileCheckpoints):
         """Create a checkpoint from the current content of a file."""
         path = path.strip('/')
         # only the one checkpoint ID:
-        checkpoint_id = u"checkpoint"
+        checkpoint_id = "checkpoint"
         os_checkpoint_path = self.checkpoint_path(checkpoint_id, path)
         self.log.debug("creating checkpoint for %s", path)
         with self.perm_to_403():
@@ -159,7 +158,7 @@ class GenericFileCheckpoints(GenericCheckpointsMixin, FileCheckpoints):
         """Create a checkpoint from the current content of a notebook."""
         path = path.strip('/')
         # only the one checkpoint ID:
-        checkpoint_id = u"checkpoint"
+        checkpoint_id = "checkpoint"
         os_checkpoint_path = self.checkpoint_path(checkpoint_id, path)
         self.log.debug("creating checkpoint for %s", path)
         with self.perm_to_403():

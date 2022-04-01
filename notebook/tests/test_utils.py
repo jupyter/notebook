@@ -6,13 +6,12 @@
 import ctypes
 import os
 import sys
+from tempfile import TemporaryDirectory
 
 import pytest
 
 from traitlets.tests.utils import check_help_all_output
 from notebook.utils import url_escape, url_unescape, is_hidden, is_file_hidden
-from ipython_genutils.py3compat import cast_unicode
-from ipython_genutils.tempdir import TemporaryDirectory
 
 
 def test_help_output():
@@ -83,8 +82,7 @@ def test_is_hidden():
 @pytest.mark.skipif(sys.platform != "win32", reason="run on windows only")
 def test_is_hidden_win32():
     with TemporaryDirectory() as root:
-        root = cast_unicode(root)
-        subdir1 = os.path.join(root, u'subdir')
+        subdir1 = os.path.join(root, 'subdir')
         os.makedirs(subdir1)
         assert not is_hidden(subdir1, root)
         r = ctypes.windll.kernel32.SetFileAttributesW(subdir1, 0x02)

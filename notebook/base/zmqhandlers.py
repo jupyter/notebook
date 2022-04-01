@@ -20,7 +20,6 @@ except ImportError:
     from jupyter_client.jsonutil import (
         date_default as json_default, extract_dates
     )
-from ipython_genutils.py3compat import cast_unicode
 
 from notebook.utils import maybe_future
 from .handlers import IPythonHandler
@@ -236,7 +235,7 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
             return buf
         else:
             smsg = json.dumps(msg, default=json_default)
-            return cast_unicode(smsg)
+            return smsg
 
     def _on_zmq_reply(self, stream, msg_list):
         # Sometimes this gets triggered when the on_close method is scheduled in the
@@ -281,7 +280,7 @@ class AuthenticatedZMQStreamHandler(ZMQStreamHandler, IPythonHandler):
             raise web.HTTPError(403)
 
         if self.get_argument('session_id', False):
-            self.session.session = cast_unicode(self.get_argument('session_id'))
+            self.session.session = self.get_argument('session_id')
         else:
             self.log.warning("No session ID specified")
 

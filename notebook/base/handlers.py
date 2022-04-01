@@ -27,7 +27,6 @@ from notebook._sysinfo import get_sys_info
 
 from traitlets.config import Application
 from ipython_genutils.path import filefind
-from ipython_genutils.py3compat import string_types
 
 import notebook
 from notebook._tz import utcnow
@@ -543,13 +542,13 @@ class IPythonHandler(AuthenticatedHandler):
         if not self.request.body:
             return None
         # Do we need to call body.decode('utf-8') here?
-        body = self.request.body.strip().decode(u'utf-8')
+        body = self.request.body.strip().decode('utf-8')
         try:
             model = json.loads(body)
         except Exception as e:
             self.log.debug("Bad JSON: %r", body)
             self.log.error("Couldn't parse JSON", exc_info=True)
-            raise web.HTTPError(400, u'Invalid JSON in body of request') from e
+            raise web.HTTPError(400, 'Invalid JSON in body of request') from e
         return model
 
     def write_error(self, status_code, **kwargs):
@@ -807,7 +806,7 @@ class FileFindHandler(IPythonHandler, web.StaticFileHandler):
     def initialize(self, path, default_filename=None, no_cache_paths=None):
         self.no_cache_paths = no_cache_paths or []
         
-        if isinstance(path, string_types):
+        if isinstance(path, str):
             path = [path]
         
         self.root = tuple(

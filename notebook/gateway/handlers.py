@@ -16,7 +16,6 @@ from tornado.websocket import WebSocketHandler, websocket_connect
 from tornado.httpclient import HTTPRequest
 from tornado.escape import url_escape, json_decode, utf8
 
-from ipython_genutils.py3compat import cast_unicode
 from jupyter_client.session import Session
 from traitlets.config.configurable import LoggingConfigurable
 
@@ -56,7 +55,7 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
             raise web.HTTPError(403)
 
         if self.get_argument('session_id', False):
-            self.session.session = cast_unicode(self.get_argument('session_id'))
+            self.session.session = self.get_argument('session_id')
         else:
             self.log.warning("No session ID specified")
 
@@ -68,7 +67,7 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
     @gen.coroutine
     def get(self, kernel_id, *args, **kwargs):
         self.authenticate()
-        self.kernel_id = cast_unicode(kernel_id, 'ascii')
+        self.kernel_id = kernel_id
         yield super().get(kernel_id=kernel_id, *args, **kwargs)
 
     def send_ping(self):

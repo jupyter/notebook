@@ -21,7 +21,7 @@ class TreeTest(NotebookTestBase):
             write(nb, f, version=4)
 
         with io.open(os.path.join(d, 'baz.txt'), 'w', encoding='utf-8') as f:
-            f.write(u'flamingo')
+            f.write('flamingo')
 
         self.base_url()
 

@@ -8,6 +8,7 @@ import signal
 from subprocess import Popen, PIPE, STDOUT
 import sys
 from tempfile import NamedTemporaryFile
+from tempfile import TemporaryDirectory
 
 from unittest.mock import patch
 
@@ -16,7 +17,6 @@ import pytest
 from traitlets.tests.utils import check_help_all_output
 
 from jupyter_core.application import NoStart
-from ipython_genutils.tempdir import TemporaryDirectory
 from traitlets import TraitError
 from notebook import notebookapp, __version__
 from notebook.auth.security import passwd_check

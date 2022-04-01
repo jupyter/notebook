@@ -21,7 +21,6 @@ except ImportError:
     from jupyter_client.jsonutil import (
         date_default as json_default
     )
-from ipython_genutils.py3compat import cast_unicode
 from notebook.utils import maybe_future, url_path_join, url_escape
 
 from ...base.handlers import APIHandler
@@ -373,7 +372,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
 
     @gen.coroutine
     def get(self, kernel_id):
-        self.kernel_id = cast_unicode(kernel_id, 'ascii')
+        self.kernel_id = kernel_id
         yield super().get(kernel_id=kernel_id)
 
     @gen.coroutine
@@ -622,7 +621,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         self.write_message(json.dumps(msg, default=json_default))
 
     def on_kernel_restarted(self):
-        logging.warn("kernel %s restarted", self.kernel_id)
+        logging.warning("kernel %s restarted", self.kernel_id)
         self._send_status_message('restarting')
 
     def on_restart_failed(self):

@@ -13,8 +13,6 @@ from nbformat.v4 import (
     new_notebook, new_markdown_cell, new_code_cell, new_output,
 )
 
-from ipython_genutils.testing.decorators import onlyif_cmds_exist
-
 from base64 import encodebytes
 
 
@@ -72,9 +70,9 @@ class APITest(NotebookTestBase):
 
         nb = new_notebook()
 
-        nb.cells.append(new_markdown_cell(u'Created by test ³'))
-        cc1 = new_code_cell(source=u'print(2*6)')
-        cc1.outputs.append(new_output(output_type="stream", text=u'12'))
+        nb.cells.append(new_markdown_cell('Created by test ³'))
+        cc1 = new_code_cell(source='print(2*6)')
+        cc1.outputs.append(new_output(output_type="stream", text='12'))
         cc1.outputs.append(new_output(output_type="execute_result",
             data={'image/png' : png_green_pixel},
             execution_count=1,
@@ -94,13 +92,13 @@ class APITest(NotebookTestBase):
     def test_from_file(self):
         r = self.nbconvert_api.from_file('html', 'foo', 'testnb.ipynb')
         self.assertEqual(r.status_code, 200)
-        self.assertIn(u'text/html', r.headers['Content-Type'])
-        self.assertIn(u'Created by test', r.text)
-        self.assertIn(u'print', r.text)
+        self.assertIn('text/html', r.headers['Content-Type'])
+        self.assertIn('Created by test', r.text)
+        self.assertIn('print', r.text)
 
         r = self.nbconvert_api.from_file('python', 'foo', 'testnb.ipynb')
-        self.assertIn(u'text/x-python', r.headers['Content-Type'])
-        self.assertIn(u'print(2*6)', r.text)
+        self.assertIn('text/x-python', r.headers['Content-Type'])
+        self.assertIn('print(2*6)', r.text)
 
     @pytest.mark.skipif(
         not cmd_exists('pandoc'),
@@ -126,8 +124,8 @@ class APITest(NotebookTestBase):
     )
     def test_from_file_zip(self):
         r = self.nbconvert_api.from_file('latex', 'foo', 'testnb.ipynb', download=True)
-        self.assertIn(u'application/zip', r.headers['Content-Type'])
-        self.assertIn(u'.zip', r.headers['Content-Disposition'])
+        self.assertIn('application/zip', r.headers['Content-Type'])
+        self.assertIn('.zip', r.headers['Content-Disposition'])
 
     @pytest.mark.skipif(
         not cmd_exists('pandoc'),
@@ -138,13 +136,13 @@ class APITest(NotebookTestBase):
 
         r = self.nbconvert_api.from_post(format='html', nbmodel=nbmodel)
         self.assertEqual(r.status_code, 200)
-        self.assertIn(u'text/html', r.headers['Content-Type'])
-        self.assertIn(u'Created by test', r.text)
-        self.assertIn(u'print', r.text)
+        self.assertIn('text/html', r.headers['Content-Type'])
+        self.assertIn('Created by test', r.text)
+        self.assertIn('print', r.text)
 
         r = self.nbconvert_api.from_post(format='python', nbmodel=nbmodel)
-        self.assertIn(u'text/x-python', r.headers['Content-Type'])
-        self.assertIn(u'print(2*6)', r.text)
+        self.assertIn('text/x-python', r.headers['Content-Type'])
+        self.assertIn('print(2*6)', r.text)
 
     @pytest.mark.skipif(
         not cmd_exists('pandoc'),
@@ -154,5 +152,5 @@ class APITest(NotebookTestBase):
         nbmodel = self.request('GET', 'api/contents/foo/testnb.ipynb').json()
 
         r = self.nbconvert_api.from_post(format='latex', nbmodel=nbmodel)
-        self.assertIn(u'application/zip', r.headers['Content-Type'])
-        self.assertIn(u'.zip', r.headers['Content-Disposition'])
+        self.assertIn('application/zip', r.headers['Content-Type'])
+        self.assertIn('.zip', r.headers['Content-Disposition'])
