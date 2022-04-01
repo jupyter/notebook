@@ -96,7 +96,7 @@ github_project_url = "https://github.com/jupyter/notebook"
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
-_version_py = "../../notebook/_version.py"
+_version_py = os.path.join(here, "../../notebook/_version.py")
 version_ns = {}
 exec(compile(open(_version_py).read(), _version_py, "exec"), version_ns)
 # The short X.Y version.
