@@ -2,6 +2,8 @@
 # Distributed under the terms of the Modified BSD License.
 
 from pathlib import Path
+import subprocess
+import sys
 
 import setuptools
 
@@ -42,7 +44,18 @@ try:
 
     # In develop mode, just run yarn
     builder = npm_builder(build_cmd="build", npm="jlpm", force=True)
-    cmdclass = wrap_installers(post_develop=builder, ensured_targets=ensured_targets)
+
+    def post_develop(*args, **kwargs):
+        builder(*args, **kwargs)
+        try:
+            subprocess.run([sys.executable, "-m", "pre_commit", "install"])
+            subprocess.run(
+                [sys.executable, "-m", "pre_commit", "install", "--hook-type", "pre-push"]
+            )
+        except Exception:
+            pass
+
+    cmdclass = wrap_installers(post_develop=post_develop, ensured_targets=ensured_targets)
 
     setup_args = dict(cmdclass=cmdclass, data_files=get_data_files(data_files_spec))
 except ImportError:

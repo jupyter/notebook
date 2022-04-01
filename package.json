@@ -27,10 +27,12 @@
     "develop": "jupyter labextension develop . --overwrite && node ./buildutils/lib/develop.js --overwrite",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
+    "eslint:files": "eslint --fix",
     "install": "lerna bootstrap",
     "integrity": "node buildutils/lib/ensure-repo.js",
     "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
+    "prettier:files": "prettier --write",
     "release:bump": "node ./buildutils/lib/release-bump.js",
     "release:patch": "node ./buildutils/lib/release-patch.js",
     "test": "lerna run test",
@@ -38,11 +40,6 @@
     "watch": "run-p watch:lib watch:app",
     "watch:app": "lerna exec --stream --scope \"@jupyter-notebook/app\" jlpm watch",
     "watch:lib": "lerna exec --stream --scope @jupyter-notebook/metapackage jlpm watch"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "devDependencies": {
     "@jupyterlab/buildutils": "^4.0.0-alpha.7",
@@ -54,17 +51,14 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
     "extra-watch-webpack-plugin": "^1.0.3",
-    "husky": "^3",
     "jest": "^26.4.2",
     "jest-junit": "^11.1.0",
     "jest-raw-loader": "^1.0.1",
     "jest-summary-reporter": "^0.0.2",
     "lerna": "^3.22.1",
-    "lint-staged": "^10.4.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.19.0",
     "rimraf": "^3.0.2",
-    "shell-quote": "^1.7.2",
     "typescript": "~4.1.3"
   },
   "jupyter-releaser": {
