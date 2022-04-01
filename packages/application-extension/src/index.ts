@@ -236,12 +236,11 @@ const pages: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:pages',
   autoStart: true,
   requires: [ITranslator],
-  optional: [ICommandPalette, IMainMenu],
+  optional: [ICommandPalette],
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
-    palette: ICommandPalette | null,
-    menu: IMainMenu | null
+    palette: ICommandPalette | null
   ): void => {
     const trans = translator.load('notebook');
     const baseUrl = PageConfig.getBaseUrl();
@@ -264,13 +263,6 @@ const pages: JupyterFrontEndPlugin<void> = {
       [CommandIDs.openLab, CommandIDs.openTree].forEach(command => {
         palette.addItem({ command, category: 'View' });
       });
-    }
-
-    if (menu) {
-      menu.viewMenu.addGroup(
-        [{ command: CommandIDs.openLab }, { command: CommandIDs.openTree }],
-        0
-      );
     }
   }
 };
@@ -489,12 +481,11 @@ const title: JupyterFrontEndPlugin<void> = {
 const topVisibility: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:top',
   requires: [INotebookShell, ITranslator],
-  optional: [IMainMenu, ISettingRegistry],
+  optional: [ISettingRegistry],
   activate: (
     app: JupyterFrontEnd<JupyterFrontEnd.IShell>,
     notebookShell: INotebookShell,
     translator: ITranslator,
-    menu: IMainMenu | null,
     settingRegistry: ISettingRegistry | null
   ) => {
     const trans = translator.load('notebook');
@@ -511,10 +502,6 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
       },
       isToggled: () => top.isVisible
     });
-
-    if (menu) {
-      menu.viewMenu.addGroup([{ command: CommandIDs.toggleTop }], 2);
-    }
 
     let settingsOverride = false;
 
@@ -648,13 +635,12 @@ const zen: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:zen',
   autoStart: true,
   requires: [ITranslator],
-  optional: [ICommandPalette, INotebookShell, IMainMenu],
+  optional: [ICommandPalette, INotebookShell],
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
     palette: ICommandPalette | null,
-    notebookShell: INotebookShell | null,
-    menu: IMainMenu | null
+    notebookShell: INotebookShell | null
   ): void => {
     const { commands } = app;
     const elem = document.documentElement;
@@ -695,10 +681,6 @@ const zen: JupyterFrontEndPlugin<void> = {
     if (palette) {
       palette.addItem({ command: CommandIDs.toggleZen, category: 'Mode' });
     }
-
-    if (menu) {
-      menu.viewMenu.addGroup([{ command: CommandIDs.toggleZen }], 3);
-    }
   }
 };
 
@@ -709,13 +691,13 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   dirty,
   logo,
   menus,
+  menuSpacer,
   opener,
   pages,
   paths,
   router,
   sessionDialogs,
   shell,
-  menuSpacer,
   status,
   tabTitle,
   title,

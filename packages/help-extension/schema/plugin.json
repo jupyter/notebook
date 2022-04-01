@@ -9,6 +9,14 @@
           {
             "command": "help:about",
             "rank": 0
+          },
+          {
+            "type": "separator",
+            "rank": 10
+          },
+          {
+            "command": "help:shortcuts",
+            "rank": 11
           }
         ]
       }

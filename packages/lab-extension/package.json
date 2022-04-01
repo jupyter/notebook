@@ -48,7 +48,6 @@
     "@jupyterlab/apputils": "^4.0.0-alpha.8",
     "@jupyterlab/coreutils": "^6.0.0-alpha.8",
     "@jupyterlab/docregistry": "^4.0.0-alpha.8",
-    "@jupyterlab/mainmenu": "^4.0.0-alpha.8",
     "@jupyterlab/notebook": "^4.0.0-alpha.8",
     "@jupyterlab/translation": "^4.0.0-alpha.8",
     "@lumino/commands": "^1.20.0",

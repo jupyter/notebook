@@ -15,6 +15,37 @@
             "rank": 20
           }
         ]
+      },
+      {
+        "id": "jp-mainmenu-run",
+        "items": [
+          {
+            "type": "separator",
+            "rank": 1000
+          },
+          {
+            "type": "submenu",
+            "rank": 1010,
+            "submenu": {
+              "id": "jp-runmenu-change-cell-type",
+              "label": "Cell Type",
+              "items": [
+                {
+                  "command": "notebook:change-cell-to-code",
+                  "rank": 0
+                },
+                {
+                  "command": "notebook:change-cell-to-markdown",
+                  "rank": 0
+                },
+                {
+                  "command": "notebook:change-cell-to-raw",
+                  "rank": 0
+                }
+              ]
+            }
+          }
+        ]
       }
     ]
   },

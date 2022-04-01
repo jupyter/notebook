@@ -14,8 +14,6 @@ import { Text, Time } from '@jupyterlab/coreutils';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
-import { IMainMenu } from '@jupyterlab/mainmenu';
-
 import { NotebookPanel, INotebookTracker } from '@jupyterlab/notebook';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -26,7 +24,7 @@ import { INotebookShell } from '@jupyter-notebook/application';
 
 import { Poll } from '@lumino/polling';
 
-import { Menu, Widget } from '@lumino/widgets';
+import { Widget } from '@lumino/widgets';
 
 /**
  * The class for kernel status errors.
@@ -226,43 +224,6 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * A plugin to customize notebook related menu entries
- * TODO: switch to settings define menus when fixed upstream: https://github.com/jupyterlab/jupyterlab/issues/11754
- */
-const menuPlugin: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/notebook-extension:menu-plugin',
-  autoStart: true,
-  requires: [IMainMenu, ITranslator],
-  activate: (
-    app: JupyterFrontEnd,
-    mainMenu: IMainMenu,
-    translator: ITranslator
-  ) => {
-    const { commands } = app;
-    const trans = translator.load('notebook');
-
-    const cellTypeSubmenu = new Menu({ commands });
-    cellTypeSubmenu.title.label = trans._p('menu', 'Cell Type');
-    [
-      'notebook:change-cell-to-code',
-      'notebook:change-cell-to-markdown',
-      'notebook:change-cell-to-raw'
-    ].forEach(command => {
-      cellTypeSubmenu.addItem({
-        command
-      });
-    });
-
-    mainMenu.runMenu.addItem({ type: 'separator', rank: 1000 });
-    mainMenu.runMenu.addItem({
-      type: 'submenu',
-      submenu: cellTypeSubmenu,
-      rank: 1010
-    });
-  }
-};
-
-/**
  * A plugin to enable scrolling for outputs by default.
  * Mimic the logic from the classic notebook, as found here:
  * https://github.com/jupyter/notebook/blob/a9a31c096eeffe1bff4e9164c6a0442e0e13cdb3/notebook/static/notebook/js/outputarea.js#L96-L120
@@ -358,7 +319,6 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
   kernelLogo,
   kernelStatus,
-  menuPlugin,
   scrollOutput
 ];
 

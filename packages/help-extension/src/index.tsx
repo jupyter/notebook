@@ -168,8 +168,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     }));
 
     if (menu) {
-      menu.helpMenu.addGroup([{ command: CommandIDs.shortcuts }]);
-      menu.helpMenu.addGroup(resourcesGroup);
+      menu.helpMenu.addGroup(resourcesGroup, 20);
     }
   }
 };

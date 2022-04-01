@@ -1,14 +1,15 @@
 {
-  "title": "Interface Switcher",
-  "description": "Interface Switcher settings.",
-  "jupyter.lab.toolbars": {
-    "Notebook": [{ "name": "interfaceSwitcher", "rank": 990 }]
-  },
+  "title": "Launch Shortcuts",
+  "description": "Launch Shortcuts.",
   "jupyter.lab.menus": {
     "main": [
       {
-        "id": "jp-mainmenu-view",
+        "id": "jp-mainmenu-help",
         "items": [
+          {
+            "command": "jupyter-notebook:launch-tree",
+            "rank": 1
+          },
           {
             "command": "jupyter-notebook:open-notebook",
             "rank": 1
