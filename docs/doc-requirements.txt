@@ -1,5 +1,5 @@
-sphinx>=1.3.6
-pydata-sphinx-theme
-nbsphinx
-sphinxcontrib_github_alt
 myst_parser
+nbsphinx
+pydata-sphinx-theme
+sphinx>=1.3.6
+sphinxcontrib_github_alt

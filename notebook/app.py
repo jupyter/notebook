@@ -2,17 +2,18 @@ import os
 from os.path import join as pjoin
 
 from jupyter_core.application import base_aliases
-from jupyter_server.serverapp import flags
 from jupyter_server.base.handlers import JupyterHandler
 from jupyter_server.extension.handler import (
-    ExtensionHandlerMixin,
     ExtensionHandlerJinjaMixin,
+    ExtensionHandlerMixin,
 )
-from jupyter_server.utils import url_path_join as ujoin, url_escape, url_is_absolute
+from jupyter_server.serverapp import flags
+from jupyter_server.utils import url_escape, url_is_absolute
+from jupyter_server.utils import url_path_join as ujoin
 from jupyterlab.commands import get_app_dir, get_user_settings_dir, get_workspaces_dir
 from jupyterlab_server import LabServerApp
-from jupyterlab_server.config import get_page_config, recursive_update, LabConfig
-from jupyterlab_server.handlers import is_url, _camelCase
+from jupyterlab_server.config import LabConfig, get_page_config, recursive_update
+from jupyterlab_server.handlers import _camelCase, is_url
 from notebook_shim.shim import NotebookConfigShimMixin
 from tornado import web
 from tornado.gen import maybe_future
@@ -43,18 +44,18 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
             "collaborative": app.collaborative,
         }
 
-        if 'hub_prefix' in app.serverapp.tornado_settings:
+        if "hub_prefix" in app.serverapp.tornado_settings:
             tornado_settings = app.serverapp.tornado_settings
-            hub_prefix = tornado_settings['hub_prefix']
-            page_config['hubPrefix'] = hub_prefix
-            page_config['hubHost'] = tornado_settings['hub_host']
-            page_config['hubUser'] = tornado_settings['user']
-            page_config['shareUrl'] = ujoin(hub_prefix, 'user-redirect')
+            hub_prefix = tornado_settings["hub_prefix"]
+            page_config["hubPrefix"] = hub_prefix
+            page_config["hubHost"] = tornado_settings["hub_host"]
+            page_config["hubUser"] = tornado_settings["user"]
+            page_config["shareUrl"] = ujoin(hub_prefix, "user-redirect")
             # Assume the server_name property indicates running JupyterHub 1.0.
-            if hasattr(app.serverapp, 'server_name'):
-                page_config['hubServerName'] = app.serverapp.server_name
-            api_token = os.getenv('JUPYTERHUB_API_TOKEN', '')
-            page_config['token'] = api_token
+            if hasattr(app.serverapp, "server_name"):
+                page_config["hubServerName"] = app.serverapp.server_name
+            api_token = os.getenv("JUPYTERHUB_API_TOKEN", "")
+            page_config["token"] = api_token
 
         mathjax_config = self.settings.get("mathjax_config", "TeX-AMS_HTML-full,Safe")
         # TODO Remove CDN usage.
@@ -97,7 +98,7 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
 class RedirectHandler(NotebookBaseHandler):
     @web.authenticated
     def get(self):
-        return self.redirect(self.base_url+'tree')
+        return self.redirect(self.base_url + "tree")
 
 
 class TreeHandler(NotebookBaseHandler):
@@ -110,7 +111,7 @@ class TreeHandler(NotebookBaseHandler):
         - Redirected to notebook page if path is a notebook
         - Render the raw file if path is any other file
         """
-        path = path.strip('/')
+        path = path.strip("/")
         cm = self.contents_manager
 
         if await maybe_future(cm.dir_exists(path=path)):
@@ -120,18 +121,18 @@ class TreeHandler(NotebookBaseHandler):
 
             # Set treePath for routing to the directory
             page_config = self.get_page_config()
-            page_config['treePath'] = path
+            page_config["treePath"] = path
 
             tpl = self.render_template("tree.html", page_config=page_config)
             return self.write(tpl)
         elif await maybe_future(cm.file_exists(path)):
             # it's not a directory, we have redirecting to do
             model = await maybe_future(cm.get(path, content=False))
-            if model['type'] == 'notebook':
-                url = ujoin(self.base_url, 'notebooks', url_escape(path))
+            if model["type"] == "notebook":
+                url = ujoin(self.base_url, "notebooks", url_escape(path))
             else:
                 # Return raw content if file is not a notebook
-                url = ujoin(self.base_url, 'files', url_escape(path))
+                url = ujoin(self.base_url, "files", url_escape(path))
             self.log.debug("Redirecting %s to %s", self.request.path, url)
             self.redirect(url)
         else:
@@ -190,17 +191,15 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
     expose_app_in_browser = Bool(
         False,
         config=True,
-        help="Whether to expose the global app instance to browser via window.jupyterapp"
+        help="Whether to expose the global app instance to browser via window.jupyterapp",
     )
 
-    collaborative = Bool(
-        False, config=True, help="Whether to enable collaborative mode."
-    )
+    collaborative = Bool(False, config=True, help="Whether to enable collaborative mode.")
 
     flags = flags
-    flags['expose-app-in-browser'] = (
-        {'JupyterNotebookApp': {'expose_app_in_browser': True}},
-        "Expose the global app instance to browser via window.jupyterlab."
+    flags["expose-app-in-browser"] = (
+        {"JupyterNotebookApp": {"expose_app_in_browser": True}},
+        "Expose the global app instance to browser via window.jupyterlab.",
     )
     flags["collaborative"] = (
         {"JupyterNotebookApp": {"collaborative": True}},

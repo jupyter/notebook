@@ -1,9 +1,9 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-from pathlib import Path
 import subprocess
 import sys
+from pathlib import Path
 
 import setuptools
 
@@ -40,7 +40,7 @@ data_files_spec = [
 ]
 
 try:
-    from jupyter_packaging import wrap_installers, npm_builder, get_data_files
+    from jupyter_packaging import get_data_files, npm_builder, wrap_installers
 
     # In develop mode, just run yarn
     builder = npm_builder(build_cmd="build", npm="jlpm", force=True)
@@ -59,7 +59,7 @@ try:
 
     setup_args = dict(cmdclass=cmdclass, data_files=get_data_files(data_files_spec))
 except ImportError:
-    setup_args = dict()
+    setup_args = {}
 
 
 if __name__ == "__main__":
