@@ -216,6 +216,20 @@ const menus: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to provide a spacer at rank 900 in the menu area
+ */
+const menuSpacer: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/application-extension:menu-spacer',
+  autoStart: true,
+  activate: (app: JupyterFrontEnd) => {
+    const menu = new Widget();
+    menu.id = DOMUtils.createDomID();
+    menu.addClass('jp-NotebookSpacer');
+    app.shell.add(menu, 'menu', { rank: 900 });
+  }
+};
+
+/**
  * Add commands to open the tree and running pages.
  */
 const pages: JupyterFrontEndPlugin<void> = {
@@ -324,27 +338,6 @@ const shell: JupyterFrontEndPlugin<INotebookShell> = {
   },
   autoStart: true,
   provides: INotebookShell
-};
-
-/**
- * A plugin to provide a spacer at rank 900 for flex panels
- * TODO: reuse upstream @jupyterlab/application-extension:top-spacer plugin when fixed
- * in https://github.com/jupyterlab/jupyterlab/pull/11900
- */
-const spacer: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/application-extension:spacer',
-  autoStart: true,
-  activate: (app: JupyterFrontEnd) => {
-    const top = new Widget();
-    top.id = DOMUtils.createDomID();
-    top.addClass('jp-NotebookSpacer');
-    app.shell.add(top, 'top', { rank: 900 });
-
-    const menu = new Widget();
-    menu.id = DOMUtils.createDomID();
-    menu.addClass('jp-NotebookSpacer');
-    app.shell.add(menu, 'menu', { rank: 900 });
-  }
 };
 
 /**
@@ -722,7 +715,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   router,
   sessionDialogs,
   shell,
-  spacer,
+  menuSpacer,
   status,
   tabTitle,
   title,

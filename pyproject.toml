@@ -1,5 +1,5 @@
 [build-system]
-requires = ["jupyter_packaging~=0.10", "jupyterlab>=4.0.0a22,<5", "pre-commit"]
+requires = ["jupyter_packaging~=0.10", "jupyterlab>=4.0.0a23,<5", "pre-commit"]
 build-backend = "jupyter_packaging.build_api"
 
 [license]

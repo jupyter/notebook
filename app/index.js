@@ -75,7 +75,8 @@ async function main() {
       [
         '@jupyterlab/application-extension:commands',
         '@jupyterlab/application-extension:context-menu',
-        '@jupyterlab/application-extension:faviconbusy'
+        '@jupyterlab/application-extension:faviconbusy',
+        '@jupyterlab/application-extension:top-spacer'
       ].includes(id)
     ),
     require('@jupyterlab/apputils-extension').default.filter(({ id }) =>

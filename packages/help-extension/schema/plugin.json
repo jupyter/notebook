@@ -1,0 +1,20 @@
+{
+  "title": "Jupyter Notebook Help Menu Entries",
+  "description": "Jupyter Notebook Help Menu Entries",
+  "jupyter.lab.menus": {
+    "main": [
+      {
+        "id": "jp-mainmenu-help",
+        "items": [
+          {
+            "command": "help:about",
+            "rank": 0
+          }
+        ]
+      }
+    ]
+  },
+  "properties": {},
+  "additionalProperties": false,
+  "type": "object"
+}
