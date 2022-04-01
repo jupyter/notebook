@@ -17,7 +17,7 @@ from jupyterlab_server.handlers import _camelCase, is_url
 from notebook_shim.shim import NotebookConfigShimMixin
 from tornado import web
 from tornado.gen import maybe_future
-from traitlets import Bool
+from traitlets import Bool, default
 
 from ._version import __version__
 
@@ -181,11 +181,6 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
     file_url_prefix = "/notebooks"
     load_other_extensions = True
     app_dir = app_dir
-    app_settings_dir = pjoin(app_dir, "settings")
-    schemas_dir = pjoin(app_dir, "schemas")
-    themes_dir = pjoin(app_dir, "themes")
-    user_settings_dir = get_user_settings_dir()
-    workspaces_dir = get_workspaces_dir()
     subcommands = {}
 
     expose_app_in_browser = Bool(
@@ -206,6 +201,34 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
         "Whether to enable collaborative mode.",
     )
 
+    @default("static_dir")
+    def _default_static_dir(self):
+        return os.path.join(HERE, "static")
+
+    @default("templates_dir")
+    def _default_templates_dir(self):
+        return os.path.join(HERE, "templates")
+
+    @default("app_settings_dir")
+    def _default_app_settings_dir(self):
+        return pjoin(app_dir, "settings")
+
+    @default("schemas_dir")
+    def _default_schemas_dir(self):
+        return pjoin(app_dir, "schemas")
+
+    @default("themes_dir")
+    def _default_themes_dir(self):
+        return pjoin(app_dir, "themes")
+
+    @default("user_settings_dir")
+    def _default_user_settings_dir(self):
+        return get_user_settings_dir()
+
+    @default("workspaces_dir")
+    def _default_workspaces_dir(self):
+        return get_workspaces_dir()
+
     def initialize_handlers(self):
         self.handlers.append(
             (
@@ -221,13 +244,6 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
         self.handlers.append(("/consoles/(.*)", ConsoleHandler))
         self.handlers.append(("/terminals/(.*)", TerminalHandler))
         super().initialize_handlers()
-
-    def initialize_templates(self):
-        super().initialize_templates()
-        self.static_dir = os.path.join(HERE, "static")
-        self.templates_dir = os.path.join(HERE, "templates")
-        self.static_paths = [self.static_dir]
-        self.template_paths = [self.templates_dir]
 
     def initialize_settings(self):
         super().initialize_settings()

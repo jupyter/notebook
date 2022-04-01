@@ -8,6 +8,8 @@ include package.json
 include install.json
 include ts*.json
 
+recursive-include tests *
+
 graft notebook/labextension
 graft notebook/static
 graft notebook/templates

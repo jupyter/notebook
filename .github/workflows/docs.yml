@@ -31,5 +31,7 @@ jobs:
       run: |
         EXIT_STATUS=0
         make -C docs/ html SPHINXOPTS="-W" || EXIT_STATUS=$?
-        pytest --nbval --current-env docs || EXIT_STATUS=$?
+        # Ignore warnings to work around
+        # # https://github.com/computationalmodelling/nbval/issues/180
+        pytest --nbval --current-env -W default docs || EXIT_STATUS=$?
         exit $EXIT_STATUS
