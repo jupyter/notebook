@@ -74,11 +74,11 @@ jobs:
             dist: 'notebook*.tar.gz'
           - python: '3.10'
             dist: 'notebook*.whl'
-          - os: windows
+          - os: windows-latest
             py_cmd: python
-          - os: macos
+          - os: macos-latest
             py_cmd: python3
-          - os: ubuntu
+          - os: ubuntu-latest
             py_cmd: python
     steps:
       - name: Install Python
