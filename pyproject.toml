@@ -32,4 +32,6 @@ filterwarnings = [
     # Pending release of https://github.com/jupyterlab/jupyterlab_server/pull/259
     "ignore:metadata:DeprecationWarning",
     "ignore:There is no current event loop:DeprecationWarning",
+    # https://github.com/computationalmodelling/nbval/issues/180
+    "ignore:argument to IPyNbFile is deprecated:pytest.PytestRemovedIn8Warning",
 ]
