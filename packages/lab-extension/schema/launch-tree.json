@@ -9,14 +9,6 @@
           {
             "command": "jupyter-notebook:launch-tree",
             "rank": 1
-          },
-          {
-            "command": "jupyter-notebook:open-notebook",
-            "rank": 1
-          },
-          {
-            "command": "jupyter-notebook:open-lab",
-            "rank": 1
           }
         ]
       }
