@@ -3,14 +3,10 @@
   "description": "File Browser widget settings.",
   "jupyter.lab.toolbars": {
     "FileBrowser": [
-      { "name": "spacer", "type": "spacer", "rank": 0 },
-      {
-        "name": "new-directory",
-        "command": "filebrowser:create-new-directory",
-        "rank": 10
-      },
-      { "name": "uploader", "rank": 20 },
-      { "name": "refresh", "command": "filebrowser:refresh", "rank": 30 }
+      { "name": "spacer", "type": "spacer", "rank": 900 },
+      { "name": "new-dropdown", "rank": 1000 },
+      { "name": "uploader", "rank": 1010 },
+      { "name": "refresh", "command": "filebrowser:refresh", "rank": 1020 }
     ]
   },
   "jupyter.lab.transform": true,

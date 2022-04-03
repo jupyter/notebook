@@ -24,15 +24,9 @@ import { IRunningSessionManagers, RunningSessions } from '@jupyterlab/running';
 
 import { ITranslator } from '@jupyterlab/translation';
 
-import {
-  consoleIcon,
-  folderIcon,
-  notebookIcon,
-  runningIcon,
-  terminalIcon
-} from '@jupyterlab/ui-components';
+import { folderIcon, runningIcon } from '@jupyterlab/ui-components';
 
-import { TabPanel } from '@lumino/widgets';
+import { Menu, MenuBar, TabPanel } from '@lumino/widgets';
 
 const FILE_BROWSER_FACTORY = 'FileBrowser';
 
@@ -43,36 +37,45 @@ const FILE_BROWSER_FACTORY = 'FileBrowser';
 const createNew: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:new',
   requires: [ITranslator],
+  optional: [IToolbarWidgetRegistry],
   autoStart: true,
-  activate: (app: JupyterFrontEnd, translator: ITranslator) => {
+  activate: (
+    app: JupyterFrontEnd,
+    translator: ITranslator,
+    toolbarRegistry: IToolbarWidgetRegistry | null
+  ) => {
     const { commands } = app;
     const trans = translator.load('notebook');
 
-    // wrapper commands to be able to override the label
-    const newNotebookCommand = 'tree:new-notebook';
-    commands.addCommand(newNotebookCommand, {
-      label: trans.__('New Notebook'),
-      icon: notebookIcon,
-      execute: () => {
-        return commands.execute('notebook:create-new');
-      }
+    const menubar = new MenuBar();
+    const newMenu = new Menu({ commands });
+    newMenu.title.label = trans.__('New');
+    menubar.addMenu(newMenu);
+
+    const newCommands = [
+      'notebook:create-new',
+      'filebrowser:create-new-file',
+      'filebrowser:create-new-directory',
+      'terminal:create-new',
+      'console:create'
+    ];
+
+    newCommands.forEach(command => {
+      newMenu.addItem({ command });
     });
 
-    commands.addCommand('tree:new-terminal', {
-      label: trans.__('New Terminal'),
-      icon: terminalIcon,
-      execute: () => {
-        return commands.execute('terminal:create-new');
-      }
-    });
-
-    commands.addCommand('tree:new-console', {
-      label: trans.__('New Console'),
-      icon: consoleIcon,
-      execute: () => {
-        return commands.execute('console:create');
-      }
-    });
+    if (toolbarRegistry) {
+      toolbarRegistry.registerFactory(
+        FILE_BROWSER_FACTORY,
+        'new-dropdown',
+        (browser: FileBrowser) => {
+          const menubar = new MenuBar();
+          menubar.addMenu(newMenu);
+          menubar.addClass('jp-DropdownMenu');
+          return menubar;
+        }
+      );
+    }
   }
 };
 
