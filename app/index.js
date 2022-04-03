@@ -196,6 +196,9 @@ async function main() {
     }
     case 'edit': {
       baseMods = baseMods.concat([
+        require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
+          ['@jupyterlab/codemirror-extension:commands'].includes(id)
+        ),
         require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
           ['@jupyterlab/fileeditor-extension:completer'].includes(id)
         ),
