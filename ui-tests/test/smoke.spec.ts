@@ -14,7 +14,7 @@ test.describe('Smoke', () => {
     await page.click('text="Files"');
 
     // Create a new console
-    await page.click('text="New Console"');
+    await page.menu.clickMenuItem('New>Console');
     // Choose the kernel
     const [console] = await Promise.all([
       page.waitForEvent('popup'),
@@ -26,7 +26,8 @@ test.describe('Smoke', () => {
     // Create a new notebook
     const [notebook] = await Promise.all([
       page.waitForEvent('popup'),
-      page.click('text="New Notebook"')
+      page.click('text="New"'),
+      page.click('text="Notebook"')
     ]);
 
     // Enter code in the first cell
