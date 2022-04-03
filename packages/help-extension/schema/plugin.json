@@ -12,11 +12,11 @@
           },
           {
             "type": "separator",
-            "rank": 10
+            "rank": 1
           },
           {
             "command": "help:shortcuts",
-            "rank": 11
+            "rank": 20
           }
         ]
       }

@@ -168,7 +168,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     }));
 
     if (menu) {
-      menu.helpMenu.addGroup(resourcesGroup, 20);
+      menu.helpMenu.addGroup(resourcesGroup, 30);
     }
   }
 };

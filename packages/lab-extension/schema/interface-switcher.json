@@ -11,11 +11,11 @@
         "items": [
           {
             "command": "jupyter-notebook:open-notebook",
-            "rank": 1
+            "rank": 10
           },
           {
             "command": "jupyter-notebook:open-lab",
-            "rank": 1
+            "rank": 10
           }
         ]
       }
