@@ -5,9 +5,20 @@ import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
-import { CommandToolbarButton } from '@jupyterlab/apputils';
 
-import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
+import {
+  IToolbarWidgetRegistry,
+  createToolbarFactory,
+  setToolbar
+} from '@jupyterlab/apputils';
+
+import {
+  IFileBrowserFactory,
+  FileBrowser,
+  Uploader
+} from '@jupyterlab/filebrowser';
+
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { IRunningSessionManagers, RunningSessions } from '@jupyterlab/running';
 
@@ -23,20 +34,18 @@ import {
 
 import { TabPanel } from '@lumino/widgets';
 
+const FILE_BROWSER_FACTORY = 'FileBrowser';
+
 /**
- * Plugin to add extra buttons to the file browser to create new notebooks and files
+ * Plugin to add extra commands to the file browser to create
+ * new notebooks, files, consoles and terminals
  */
-const newFiles: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/tree-extension:buttons',
-  requires: [IFileBrowserFactory, ITranslator],
+const createNew: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/tree-extension:new',
+  requires: [ITranslator],
   autoStart: true,
-  activate: (
-    app: JupyterFrontEnd,
-    filebrowser: IFileBrowserFactory,
-    translator: ITranslator
-  ) => {
+  activate: (app: JupyterFrontEnd, translator: ITranslator) => {
     const { commands } = app;
-    const browser = filebrowser.defaultBrowser;
     const trans = translator.load('notebook');
 
     // wrapper commands to be able to override the label
@@ -49,73 +58,7 @@ const newFiles: JupyterFrontEndPlugin<void> = {
       }
     });
 
-    const newNotebook = new CommandToolbarButton({
-      commands,
-      id: newNotebookCommand
-    });
-
-    const newFile = new CommandToolbarButton({
-      commands,
-      id: 'filebrowser:create-new-file'
-    });
-
-    browser.toolbar.insertItem(0, 'new-notebook', newNotebook);
-    browser.toolbar.insertItem(1, 'new-file', newFile);
-  }
-};
-
-/**
- * Plugin to add a "New Console" button to the file browser toolbar.
- */
-const newConsole: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/tree-extension:new-console',
-  requires: [IFileBrowserFactory, ITranslator],
-  autoStart: true,
-  activate: (
-    app: JupyterFrontEnd,
-    filebrowser: IFileBrowserFactory,
-    translator: ITranslator
-  ) => {
-    const { commands } = app;
-    const browser = filebrowser.defaultBrowser;
-    const trans = translator.load('notebook');
-
-    const newConsoleCommand = 'tree:new-console';
-    commands.addCommand(newConsoleCommand, {
-      label: trans.__('New Console'),
-      icon: consoleIcon,
-      execute: () => {
-        return commands.execute('console:create');
-      }
-    });
-
-    const newConsole = new CommandToolbarButton({
-      commands,
-      id: newConsoleCommand
-    });
-
-    browser.toolbar.insertItem(2, 'new-console', newConsole);
-  }
-};
-
-/**
- * Plugin to add a "New Terminal" button to the file browser toolbar.
- */
-const newTerminal: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/tree-extension:new-terminal',
-  requires: [IFileBrowserFactory, ITranslator],
-  autoStart: true,
-  activate: (
-    app: JupyterFrontEnd,
-    filebrowser: IFileBrowserFactory,
-    translator: ITranslator
-  ) => {
-    const { commands } = app;
-    const browser = filebrowser.defaultBrowser;
-    const trans = translator.load('notebook');
-
-    const newTerminalCommand = 'tree:new-terminal';
-    commands.addCommand(newTerminalCommand, {
+    commands.addCommand('tree:new-terminal', {
       label: trans.__('New Terminal'),
       icon: terminalIcon,
       execute: () => {
@@ -123,12 +66,13 @@ const newTerminal: JupyterFrontEndPlugin<void> = {
       }
     });
 
-    const newTerminal = new CommandToolbarButton({
-      commands,
-      id: newTerminalCommand
+    commands.addCommand('tree:new-console', {
+      label: trans.__('New Console'),
+      icon: consoleIcon,
+      execute: () => {
+        return commands.execute('console:create');
+      }
     });
-
-    browser.toolbar.insertItem(3, 'new-terminal', newTerminal);
   }
 };
 
@@ -137,13 +81,20 @@ const newTerminal: JupyterFrontEndPlugin<void> = {
  */
 const browserWidget: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:widget',
-  requires: [IFileBrowserFactory, ITranslator],
+  requires: [
+    IFileBrowserFactory,
+    ITranslator,
+    ISettingRegistry,
+    IToolbarWidgetRegistry
+  ],
   optional: [IRunningSessionManagers],
   autoStart: true,
   activate: (
     app: JupyterFrontEnd,
     factory: IFileBrowserFactory,
     translator: ITranslator,
+    settings: ISettingRegistry,
+    toolbarRegistry: IToolbarWidgetRegistry,
     manager: IRunningSessionManagers | null
   ): void => {
     const tabPanel = new TabPanel({ tabPlacement: 'top', tabsMovable: true });
@@ -159,6 +110,25 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
 
     tabPanel.addWidget(browser);
     tabPanel.tabBar.addTab(browser.title);
+
+    // Toolbar
+    toolbarRegistry.registerFactory(
+      FILE_BROWSER_FACTORY,
+      'uploader',
+      (browser: FileBrowser) =>
+        new Uploader({ model: browser.model, translator })
+    );
+
+    setToolbar(
+      browser,
+      createToolbarFactory(
+        toolbarRegistry,
+        settings,
+        FILE_BROWSER_FACTORY,
+        browserWidget.id,
+        translator
+      )
+    );
 
     if (manager) {
       const running = new RunningSessions(manager, translator);
@@ -176,10 +146,5 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
 /**
  * Export the plugins as default.
  */
-const plugins: JupyterFrontEndPlugin<any>[] = [
-  newFiles,
-  newConsole,
-  newTerminal,
-  browserWidget
-];
+const plugins: JupyterFrontEndPlugin<any>[] = [createNew, browserWidget];
 export default plugins;
