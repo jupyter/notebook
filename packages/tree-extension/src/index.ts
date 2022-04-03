@@ -24,7 +24,11 @@ import { IRunningSessionManagers, RunningSessions } from '@jupyterlab/running';
 
 import { ITranslator } from '@jupyterlab/translation';
 
-import { folderIcon, runningIcon } from '@jupyterlab/ui-components';
+import {
+  caretDownIcon,
+  folderIcon,
+  runningIcon
+} from '@jupyterlab/ui-components';
 
 import { Menu, MenuBar, TabPanel } from '@lumino/widgets';
 
@@ -50,6 +54,7 @@ const createNew: JupyterFrontEndPlugin<void> = {
     const menubar = new MenuBar();
     const newMenu = new Menu({ commands });
     newMenu.title.label = trans.__('New');
+    newMenu.title.icon = caretDownIcon;
     menubar.addMenu(newMenu);
 
     const newCommands = [

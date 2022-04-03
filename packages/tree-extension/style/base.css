@@ -37,3 +37,7 @@
   flex-direction: column;
   justify-content: center;
 }
+
+.jp-DropdownMenu .lm-MenuBar-itemIcon svg {
+  vertical-align: sub;
+}
