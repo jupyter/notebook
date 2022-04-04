@@ -139,6 +139,7 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
       (browser: FileBrowser) => {
         const searcher = FilenameSearcher({
           updateFilter: (filterFn: (item: string) => boolean) => {
+            // TODO: access via readonly attribute? (needs fix upstream)
             browser['listing'].model.setFilter(value => {
               return filterFn(value.name.toLowerCase());
             });
