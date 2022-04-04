@@ -26,6 +26,7 @@ import { ITranslator } from '@jupyterlab/translation';
 
 import {
   caretDownIcon,
+  FilenameSearcher,
   folderIcon,
   runningIcon
 } from '@jupyterlab/ui-components';
@@ -110,11 +111,16 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
 
     const trans = translator.load('notebook');
 
-    const { defaultBrowser: browser } = factory;
+    const { createFileBrowser } = factory;
+    const browser = createFileBrowser('notebook-filebrowser');
     browser.title.label = trans.__('Files');
     browser.node.setAttribute('role', 'region');
     browser.node.setAttribute('aria-label', trans.__('File Browser Section'));
     browser.title.icon = folderIcon;
+
+    // TODO: replace by upstream fix
+    browser['_filenameSearcher'].parent = null;
+    browser['_filenameSearcher'].dispose();
 
     tabPanel.addWidget(browser);
     tabPanel.tabBar.addTab(browser.title);
@@ -125,6 +131,25 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
       'uploader',
       (browser: FileBrowser) =>
         new Uploader({ model: browser.model, translator })
+    );
+
+    toolbarRegistry.registerFactory(
+      FILE_BROWSER_FACTORY,
+      'searcher',
+      (browser: FileBrowser) => {
+        const searcher = FilenameSearcher({
+          updateFilter: (filterFn: (item: string) => boolean) => {
+            browser['listing'].model.setFilter(value => {
+              return filterFn(value.name.toLowerCase());
+            });
+          },
+          useFuzzyFilter: browser.useFuzzyFilter,
+          placeholder: trans.__('Filter files by name'),
+          forceRefresh: true
+        });
+        searcher.addClass('jp-FileBrowser-filterBox');
+        return searcher;
+      }
     );
 
     setToolbar(
