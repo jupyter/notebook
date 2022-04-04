@@ -59,10 +59,10 @@ const createNew: JupyterFrontEndPlugin<void> = {
 
     const newCommands = [
       'notebook:create-new',
-      'filebrowser:create-new-file',
-      'filebrowser:create-new-directory',
       'terminal:create-new',
-      'console:create'
+      'console:create',
+      'filebrowser:create-new-file',
+      'filebrowser:create-new-directory'
     ];
 
     newCommands.forEach(command => {
