@@ -4,7 +4,6 @@
   "jupyter.lab.toolbars": {
     "FileBrowser": [
       { "name": "searcher", "rank": 0 },
-      { "name": "spacer", "type": "spacer", "rank": 900 },
       { "name": "new-dropdown", "rank": 1000 },
       { "name": "uploader", "rank": 1010 },
       { "name": "refresh", "command": "filebrowser:refresh", "rank": 1020 }
