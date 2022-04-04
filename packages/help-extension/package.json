@@ -40,10 +40,10 @@
   },
   "dependencies": {
     "@jupyter-notebook/ui-components": "^7.0.0-alpha.2",
-    "@jupyterlab/application": "^4.0.0-alpha.7",
-    "@jupyterlab/apputils": "^4.0.0-alpha.7",
-    "@jupyterlab/mainmenu": "^4.0.0-alpha.7",
-    "@jupyterlab/translation": "^4.0.0-alpha.7"
+    "@jupyterlab/application": "^4.0.0-alpha.8",
+    "@jupyterlab/apputils": "^4.0.0-alpha.8",
+    "@jupyterlab/mainmenu": "^4.0.0-alpha.8",
+    "@jupyterlab/translation": "^4.0.0-alpha.8"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",
@@ -53,7 +53,8 @@
     "access": "public"
   },
   "jupyterlab": {
-    "extension": true
+    "extension": true,
+    "schemaDir": "schema"
   },
   "styleModule": "style/index.js"
 }

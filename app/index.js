@@ -75,7 +75,8 @@ async function main() {
       [
         '@jupyterlab/application-extension:commands',
         '@jupyterlab/application-extension:context-menu',
-        '@jupyterlab/application-extension:faviconbusy'
+        '@jupyterlab/application-extension:faviconbusy',
+        '@jupyterlab/application-extension:top-spacer'
       ].includes(id)
     ),
     require('@jupyterlab/apputils-extension').default.filter(({ id }) =>
@@ -195,6 +196,9 @@ async function main() {
     }
     case 'edit': {
       baseMods = baseMods.concat([
+        require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
+          ['@jupyterlab/codemirror-extension:commands'].includes(id)
+        ),
         require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
           ['@jupyterlab/fileeditor-extension:completer'].includes(id)
         ),

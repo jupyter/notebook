@@ -40,8 +40,8 @@
   },
   "dependencies": {
     "@jupyter-notebook/application": "^7.0.0-alpha.2",
-    "@jupyterlab/application": "^4.0.0-alpha.7",
-    "@jupyterlab/documentsearch": "^4.0.0-alpha.7",
+    "@jupyterlab/application": "^4.0.0-alpha.8",
+    "@jupyterlab/documentsearch": "^4.0.0-alpha.8",
     "@lumino/widgets": "^1.31.1"
   },
   "devDependencies": {
@@ -52,7 +52,8 @@
     "access": "public"
   },
   "jupyterlab": {
-    "extension": true
+    "extension": true,
+    "schemaDir": "schema"
   },
   "styleModule": "style/index.js"
 }

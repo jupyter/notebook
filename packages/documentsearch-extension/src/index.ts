@@ -5,36 +5,11 @@ import {
 
 import { ISearchProviderRegistry } from '@jupyterlab/documentsearch';
 
-import { ISettingRegistry } from '@jupyterlab/settingregistry';
-
 import { Widget } from '@lumino/widgets';
 
 import { INotebookShell } from '@jupyter-notebook/application';
 
 const SEARCHABLE_CLASS = 'jp-mod-searchable';
-
-/**
- * A plugin to programmatically disable the Crtl-F shortcut in Jupyter Notebook
- * See https://github.com/jupyterlab/retrolab/pull/294 and
- * https://github.com/jupyterlab/jupyterlab/issues/11754 for more context.
- */
-const disableShortcut: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/documentsearch-extension:disableShortcut',
-  requires: [ISettingRegistry],
-  autoStart: true,
-  activate: async (app: JupyterFrontEnd, registry: ISettingRegistry) => {
-    const docSearchShortcut = registry.plugins[
-      '@jupyterlab/documentsearch-extension:plugin'
-    ]?.schema['jupyter.lab.shortcuts']?.find(
-      shortcut => shortcut.command === 'documentsearch:start'
-    );
-
-    if (docSearchShortcut) {
-      docSearchShortcut.disabled = true;
-      docSearchShortcut.keys = [];
-    }
-  }
-};
 
 /**
  * A plugin to add document search functionalities.
@@ -84,9 +59,6 @@ const notebookShellWidgetListener: JupyterFrontEndPlugin<void> = {
 /**
  * Export the plugins as default.
  */
-const plugins: JupyterFrontEndPlugin<any>[] = [
-  disableShortcut,
-  notebookShellWidgetListener
-];
+const plugins: JupyterFrontEndPlugin<any>[] = [notebookShellWidgetListener];
 
 export default plugins;

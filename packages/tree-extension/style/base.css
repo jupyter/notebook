@@ -29,22 +29,15 @@
   padding-right: 5px;
 }
 
-/* Override the style from upstream JupyterLab */
-.jp-FileBrowser-toolbar.jp-Toolbar
-  .jp-Toolbar-item:first-child
-  .jp-ToolbarButtonComponent {
-  width: auto;
-  background: unset;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-.jp-FileBrowser-toolbar.jp-Toolbar
-  .jp-Toolbar-item:first-child
-  .jp-ToolbarButtonComponent:hover {
-  background-color: var(--jp-layout-color2);
-}
-
 .jp-FileBrowser-toolbar.jp-Toolbar .jp-ToolbarButtonComponent {
   width: unset;
+}
+
+.jp-FileBrowser-toolbar > .jp-Toolbar-item {
+  flex-direction: column;
+  justify-content: center;
+}
+
+.jp-DropdownMenu .lm-MenuBar-itemIcon svg {
+  vertical-align: sub;
 }

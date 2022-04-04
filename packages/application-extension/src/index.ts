@@ -216,18 +216,31 @@ const menus: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to provide a spacer at rank 900 in the menu area
+ */
+const menuSpacer: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/application-extension:menu-spacer',
+  autoStart: true,
+  activate: (app: JupyterFrontEnd) => {
+    const menu = new Widget();
+    menu.id = DOMUtils.createDomID();
+    menu.addClass('jp-NotebookSpacer');
+    app.shell.add(menu, 'menu', { rank: 900 });
+  }
+};
+
+/**
  * Add commands to open the tree and running pages.
  */
 const pages: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:pages',
   autoStart: true,
   requires: [ITranslator],
-  optional: [ICommandPalette, IMainMenu],
+  optional: [ICommandPalette],
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
-    palette: ICommandPalette | null,
-    menu: IMainMenu | null
+    palette: ICommandPalette | null
   ): void => {
     const trans = translator.load('notebook');
     const baseUrl = PageConfig.getBaseUrl();
@@ -250,13 +263,6 @@ const pages: JupyterFrontEndPlugin<void> = {
       [CommandIDs.openLab, CommandIDs.openTree].forEach(command => {
         palette.addItem({ command, category: 'View' });
       });
-    }
-
-    if (menu) {
-      menu.viewMenu.addGroup(
-        [{ command: CommandIDs.openLab }, { command: CommandIDs.openTree }],
-        0
-      );
     }
   }
 };
@@ -324,27 +330,6 @@ const shell: JupyterFrontEndPlugin<INotebookShell> = {
   },
   autoStart: true,
   provides: INotebookShell
-};
-
-/**
- * A plugin to provide a spacer at rank 900 for flex panels
- * TODO: reuse upstream @jupyterlab/application-extension:top-spacer plugin when fixed
- * in https://github.com/jupyterlab/jupyterlab/pull/11900
- */
-const spacer: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/application-extension:spacer',
-  autoStart: true,
-  activate: (app: JupyterFrontEnd) => {
-    const top = new Widget();
-    top.id = DOMUtils.createDomID();
-    top.addClass('jp-NotebookSpacer');
-    app.shell.add(top, 'top', { rank: 900 });
-
-    const menu = new Widget();
-    menu.id = DOMUtils.createDomID();
-    menu.addClass('jp-NotebookSpacer');
-    app.shell.add(menu, 'menu', { rank: 900 });
-  }
 };
 
 /**
@@ -496,12 +481,11 @@ const title: JupyterFrontEndPlugin<void> = {
 const topVisibility: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:top',
   requires: [INotebookShell, ITranslator],
-  optional: [IMainMenu, ISettingRegistry],
+  optional: [ISettingRegistry],
   activate: (
     app: JupyterFrontEnd<JupyterFrontEnd.IShell>,
     notebookShell: INotebookShell,
     translator: ITranslator,
-    menu: IMainMenu | null,
     settingRegistry: ISettingRegistry | null
   ) => {
     const trans = translator.load('notebook');
@@ -518,10 +502,6 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
       },
       isToggled: () => top.isVisible
     });
-
-    if (menu) {
-      menu.viewMenu.addGroup([{ command: CommandIDs.toggleTop }], 2);
-    }
 
     let settingsOverride = false;
 
@@ -655,13 +635,12 @@ const zen: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:zen',
   autoStart: true,
   requires: [ITranslator],
-  optional: [ICommandPalette, INotebookShell, IMainMenu],
+  optional: [ICommandPalette, INotebookShell],
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
     palette: ICommandPalette | null,
-    notebookShell: INotebookShell | null,
-    menu: IMainMenu | null
+    notebookShell: INotebookShell | null
   ): void => {
     const { commands } = app;
     const elem = document.documentElement;
@@ -702,10 +681,6 @@ const zen: JupyterFrontEndPlugin<void> = {
     if (palette) {
       palette.addItem({ command: CommandIDs.toggleZen, category: 'Mode' });
     }
-
-    if (menu) {
-      menu.viewMenu.addGroup([{ command: CommandIDs.toggleZen }], 3);
-    }
   }
 };
 
@@ -716,13 +691,13 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   dirty,
   logo,
   menus,
+  menuSpacer,
   opener,
   pages,
   paths,
   router,
   sessionDialogs,
   shell,
-  spacer,
   status,
   tabTitle,
   title,

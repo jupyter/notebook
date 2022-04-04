@@ -11,8 +11,6 @@ import { ICommandPalette, IToolbarWidgetRegistry } from '@jupyterlab/apputils';
 
 import { PageConfig } from '@jupyterlab/coreutils';
 
-import { IMainMenu } from '@jupyterlab/mainmenu';
-
 import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
 
 import { ITranslator } from '@jupyterlab/translation';
@@ -58,7 +56,6 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
   optional: [
     INotebookTracker,
     ICommandPalette,
-    IMainMenu,
     INotebookShell,
     ILabShell,
     IToolbarWidgetRegistry
@@ -68,7 +65,6 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
     translator: ITranslator,
     notebookTracker: INotebookTracker | null,
     palette: ICommandPalette | null,
-    menu: IMainMenu | null,
     notebookShell: INotebookShell | null,
     labShell: ILabShell | null,
     toolbarRegistry: IToolbarWidgetRegistry | null
@@ -110,10 +106,6 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
 
       if (palette) {
         palette.addItem({ command, category: 'Other' });
-      }
-
-      if (menu) {
-        menu.viewMenu.addGroup([{ command }], 1);
       }
 
       switcher.addItem({ command });
@@ -159,11 +151,10 @@ const launchNotebookTree: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/lab-extension:launch-tree',
   autoStart: true,
   requires: [ITranslator],
-  optional: [IMainMenu, ICommandPalette],
+  optional: [ICommandPalette],
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
-    menu: IMainMenu | null,
     palette: ICommandPalette | null
   ): void => {
     const { commands } = app;
@@ -176,11 +167,6 @@ const launchNotebookTree: JupyterFrontEndPlugin<void> = {
         window.open(PageConfig.getBaseUrl() + 'tree');
       }
     });
-
-    if (menu) {
-      const helpMenu = menu.helpMenu;
-      helpMenu.addGroup([{ command: CommandIDs.launchNotebookTree }], 1);
-    }
 
     if (palette) {
       palette.addItem({ command: CommandIDs.launchNotebookTree, category });

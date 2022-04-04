@@ -4,6 +4,23 @@
   "jupyter.lab.toolbars": {
     "Notebook": [{ "name": "interfaceSwitcher", "rank": 990 }]
   },
+  "jupyter.lab.menus": {
+    "main": [
+      {
+        "id": "jp-mainmenu-view",
+        "items": [
+          {
+            "command": "jupyter-notebook:open-notebook",
+            "rank": 10
+          },
+          {
+            "command": "jupyter-notebook:open-lab",
+            "rank": 10
+          }
+        ]
+      }
+    ]
+  },
   "properties": {},
   "additionalProperties": false,
   "type": "object"

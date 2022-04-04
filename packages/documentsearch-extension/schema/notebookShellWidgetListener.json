@@ -1,0 +1,15 @@
+{
+  "title": "Jupyter Notebook DocumentSearch Settings",
+  "description": "Jupyter Notebook DocumentSearch Settings",
+  "jupyter.lab.shortcuts": [
+    {
+      "command": "documentsearch:start",
+      "keys": ["Accel F"],
+      "selector": ".jp-mod-searchable",
+      "disabled": true
+    }
+  ],
+  "properties": {},
+  "additionalProperties": false,
+  "type": "object"
+}
