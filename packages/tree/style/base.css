@@ -20,7 +20,6 @@
 .jp-TreePanel .lm-TabBar-tab {
   color: var(--jp-ui-font-color0);
   font-size: var(--jp-ui-font-size1);
-  padding-top: 6px;
   height: 100%;
 }
 
@@ -44,4 +43,8 @@
 
 button[data-command='filebrowser:refresh'] .jp-ToolbarButtonComponent-label {
   display: none;
+}
+
+.jp-TreePanel .lm-TabBar-tabIcon svg {
+  vertical-align: sub;
 }
