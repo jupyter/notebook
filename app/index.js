@@ -172,7 +172,10 @@ async function main() {
         ),
         require('@jupyter-notebook/tree-extension'),
         require('@jupyterlab/running-extension'),
-        require('@jupyterlab/settingeditor-extension')
+        require('@jupyterlab/settingeditor-extension').default.filter(
+          ({ id }) =>
+            ['@jupyterlab/settingeditor-extension:form-ui'].includes(id)
+        )
       ]);
       break;
     }
