@@ -58,6 +58,16 @@
             }
           }
         ]
+      },
+      {
+        "id": "jp-mainmenu-settings",
+        "items": [
+          {
+            "command": "settingeditor:open",
+            "rank": 1000,
+            "disabled": true
+          }
+        ]
       }
     ]
   },
