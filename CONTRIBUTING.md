@@ -137,3 +137,6 @@ You may also use the prettier npm script (e.g. `npm run prettier` or
 We recommend installing a prettier extension for your code editor and
 configuring it to format your code with a keyboard shortcut or
 automatically on save.
+
+Some of the hooks only run on CI by default, but you can invoke them by
+running with the `--hook-stage manual` argument.
