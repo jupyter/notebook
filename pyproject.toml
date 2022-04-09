@@ -29,7 +29,5 @@ timeout = 300
 # timeout_method = "thread"
 filterwarnings = [
     "error",
-    # Pending release of https://github.com/jupyterlab/jupyterlab_server/pull/259
-    "ignore:metadata:DeprecationWarning",
     "ignore:There is no current event loop:DeprecationWarning",
 ]

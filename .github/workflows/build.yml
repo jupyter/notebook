@@ -113,3 +113,12 @@ jobs:
       - name: Install Jupyterlab
         run: pip install -e .
       - uses: pre-commit/action@v2.0.0
+        with:
+          extra_args: --all-files --hook-stage=manual
+      - name: Help message if pre-commit fail
+        if: ${{ failure() }}
+        run: |
+          echo "or you can run by hand on staged files with"
+          echo "    pre-commit run"
+          echo "or after-the-fact on already committed files with"
+          echo "    pre-commit run --all-files --hook-stage=manual"
