@@ -16,7 +16,7 @@ define([
          * if allow_css is true (default: false), CSS is sanitized as well.
          * otherwise, CSS elements and attributes are simply removed.
          */
-         const options = {};
+         var options = {};
          if (!allow_css) {
              options.allowedStyles = {};
          }
