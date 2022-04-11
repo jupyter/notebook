@@ -13,7 +13,7 @@ class NbconvertRootHandler(APIHandler):
         try:
             from nbconvert.exporters import base
         except ImportError as e:
-            raise web.HTTPError(500, "Could not import nbconvert: %s" % e) from e
+            raise web.HTTPError(500, f"Could not import nbconvert: {e}") from e
         res = {}
         exporters = base.get_export_names()
         for exporter_name in exporters:

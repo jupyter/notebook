@@ -4,8 +4,6 @@ import getpass
 import logging
 import os
 import re
-import signal
-from subprocess import Popen, PIPE, STDOUT
 import sys
 from tempfile import NamedTemporaryFile
 
@@ -159,7 +157,7 @@ def test_notebook_stop():
                 'secure': False,
                 'token': '',
                 'password': False,
-                'url': 'http://localhost:%i' % port,
+                'url': f'http://localhost:{port}',
             }
 
     mock_servers = patch('notebook.notebookapp.list_running_servers', list_running_servers)
@@ -211,7 +209,7 @@ class NotebookAppJSONLoggingTests(NotebookTestBase):
     """Tests for when json logging is enabled."""
     @classmethod
     def setup_class(cls):
-        super(NotebookAppJSONLoggingTests, cls).setup_class()
+        super().setup_class()
         try:
             import json_logging
             cls.json_logging_available = True
@@ -220,7 +218,7 @@ class NotebookAppJSONLoggingTests(NotebookTestBase):
 
     @classmethod
     def get_patch_env(cls):
-        test_env = super(NotebookAppJSONLoggingTests, cls).get_patch_env()
+        test_env = super().get_patch_env()
         test_env.update({'JUPYTER_ENABLE_JSON_LOGGING': 'true'})
         return test_env
 

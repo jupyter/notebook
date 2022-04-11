@@ -15,8 +15,12 @@ class TerminalHandler(IPythonHandler):
     """Render the terminal interface."""
     @web.authenticated
     def get(self, term_name):
-        self.write(self.render_template('terminal.html',
-                       ws_path="terminals/websocket/%s" % term_name))
+        self.write(
+            self.render_template(
+                'terminal.html',
+                ws_path=f"terminals/websocket/{term_name}",
+            )
+        )
 
 
 class NamedTerminalHandler(IPythonHandler):
@@ -35,7 +39,7 @@ class NewTerminalHandler(IPythonHandler):
     def get(self, term_name):
         if term_name == 'new':
             raise web.HTTPError(400, "Terminal name 'new' is reserved.")
-        new_path = self.request.path.replace("new/{}".format(term_name), term_name)
+        new_path = self.request.path.replace(f"new/{term_name}", term_name)
         if term_name in self.terminal_manager.terminals:
             self.set_header('Location', new_path)
             self.set_status(302)
@@ -50,7 +54,7 @@ class TermSocket(WebSocketMixin, IPythonHandler, terminado.TermSocket):
 
     def origin_check(self):
         """Terminado adds redundant origin_check
-        
+
         Tornado already calls check_origin, so don't do anything here.
         """
         return True

@@ -73,6 +73,6 @@ class TreeHandler(IPythonHandler):
 
 
 default_handlers = [
-    (r"/tree%s" % path_regex, TreeHandler),
+    (fr"/tree{path_regex}", TreeHandler),
     (r"/tree", TreeHandler),
     ]

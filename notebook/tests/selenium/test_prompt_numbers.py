@@ -1,4 +1,3 @@
-
 def test_prompt_numbers(prefill_notebook):
     notebook = prefill_notebook(['print("a")'])
 

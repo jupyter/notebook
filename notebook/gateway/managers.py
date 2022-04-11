@@ -46,7 +46,7 @@ class GatewayClient(SingletonConfigurable):
         # Ensure value, if present, starts with 'http'
         if value is not None and len(value) > 0:
             if not str(value).lower().startswith('http'):
-                raise TraitError("GatewayClient url must start with 'http': '%r'" % value)
+                raise TraitError(f"GatewayClient url must start with 'http': '{value!r}'")
         return value
 
     ws_url = Unicode(default_value=None, allow_none=True, config=True,
@@ -71,7 +71,7 @@ class GatewayClient(SingletonConfigurable):
         # Ensure value, if present, starts with 'ws'
         if value is not None and len(value) > 0:
             if not str(value).lower().startswith('ws'):
-                raise TraitError("GatewayClient ws_url must start with 'ws': '%r'" % value)
+                raise TraitError(f"GatewayClient ws_url must start with 'ws': '{value!r}'")
         return value
 
     kernels_endpoint_default_value = '/api/kernels'
@@ -276,7 +276,7 @@ class GatewayClient(SingletonConfigurable):
         self._static_args['headers'] = json.loads(self.headers)
         if 'Authorization' not in self._static_args['headers'].keys():
             self._static_args['headers'].update({
-                'Authorization': 'token {}'.format(self.auth_token)
+                'Authorization': f'token {self.auth_token}'
             })
         self._static_args['connect_timeout'] = self.connect_timeout
         self._static_args['request_timeout'] = self.request_timeout
@@ -322,19 +322,22 @@ async def gateway_request(endpoint, **kwargs):
     except ConnectionRefusedError as e:
         raise web.HTTPError(
             503,
-            "Connection refused from Gateway server url '{}'.  Check to be sure the"
-            " Gateway instance is running.".format(GatewayClient.instance().url)
+            f"Connection refused from Gateway server url '{GatewayClient.instance().url}'.  "
+            f"Check to be sure the Gateway instance is running."
         ) from e
     except HTTPError as e:
         # This can occur if the host is valid (e.g., foo.com) but there's nothing there.
-        raise web.HTTPError(e.code, "Error attempting to connect to Gateway server url '{}'.  "
-                       "Ensure gateway url is valid and the Gateway instance is running.".
-                            format(GatewayClient.instance().url)) from e
+        raise web.HTTPError(
+            e.code,
+            f"Error attempting to connect to Gateway server url '{GatewayClient.instance().url}'.  "
+            f"Ensure gateway url is valid and the Gateway instance is running."
+        ) from e
     except gaierror as e:
         raise web.HTTPError(
             404,
-            "The Gateway server specified in the gateway_url '{}' doesn't appear to be valid.  Ensure gateway "
-            "url is valid and the Gateway instance is running.".format(GatewayClient.instance().url)
+            f"The Gateway server specified in the gateway_url '{GatewayClient.instance().url}' "
+            f"doesn't appear to be valid.  "
+            f"Ensure gateway url is valid and the Gateway instance is running."
         ) from e
 
     return response
@@ -392,7 +395,7 @@ class GatewayKernelManager(AsyncMappingKernelManager):
                 kwargs['cwd'] = self.cwd_for_path(path)
             kernel_name = kwargs.get('kernel_name', 'python3')
             kernel_url = self._get_kernel_endpoint_url()
-            self.log.debug("Request new kernel at: %s" % kernel_url)
+            self.log.debug(f"Request new kernel at: {kernel_url}")
 
             # Let KERNEL_USERNAME take precedent over http_user config option.
             if os.environ.get('KERNEL_USERNAME') is None and GatewayClient.instance().http_user:
@@ -412,12 +415,12 @@ class GatewayKernelManager(AsyncMappingKernelManager):
             )
             kernel = json_decode(response.body)
             kernel_id = kernel['id']
-            self.log.info("Kernel started: %s" % kernel_id)
-            self.log.debug("Kernel args: %r" % kwargs)
+            self.log.info(f"Kernel started: {kernel_id}")
+            self.log.debug(f"Kernel args: {kwargs!r}")
         else:
             kernel = await self.get_kernel(kernel_id)
             kernel_id = kernel['id']
-            self.log.info("Using existing kernel: %s" % kernel_id)
+            self.log.info(f"Using existing kernel: {kernel_id}")
 
         self._kernels[kernel_id] = kernel
         return kernel_id
@@ -431,12 +434,12 @@ class GatewayKernelManager(AsyncMappingKernelManager):
             The uuid of the kernel.
         """
         kernel_url = self._get_kernel_endpoint_url(kernel_id)
-        self.log.debug("Request kernel at: %s" % kernel_url)
+        self.log.debug(f"Request kernel at: {kernel_url}")
         try:
             response = await gateway_request(kernel_url, method='GET')
         except web.HTTPError as error:
             if error.status_code == 404:
-                self.log.warn("Kernel not found at: %s" % kernel_url)
+                self.log.warn(f"Kernel not found at: {kernel_url}")
                 self.remove_kernel(kernel_id)
                 kernel = None
             else:
@@ -611,7 +614,7 @@ class GatewayKernelSpecManager(KernelSpecManager):
             The name of the kernel.
         """
         kernel_spec_url = self._get_kernelspecs_endpoint_url(kernel_name=str(kernel_name))
-        self.log.debug("Request kernel spec at: %s" % kernel_spec_url)
+        self.log.debug(f"Request kernel spec at: {kernel_spec_url}")
         try:
             response = await gateway_request(kernel_spec_url, method='GET')
         except web.HTTPError as error:
@@ -640,7 +643,7 @@ class GatewayKernelSpecManager(KernelSpecManager):
             The name of the desired resource
         """
         kernel_spec_resource_url = url_path_join(self.base_resource_endpoint, str(kernel_name), str(path))
-        self.log.debug("Request kernel spec resource '{}' at: {}".format(path, kernel_spec_resource_url))
+        self.log.debug(f"Request kernel spec resource '{path}' at: {kernel_spec_resource_url}")
         try:
             response = await gateway_request(kernel_spec_resource_url, method='GET')
         except web.HTTPError as error:

@@ -1,5 +1,4 @@
 import os
-import pytest
 import stat
 import subprocess
 import sys
@@ -22,7 +21,7 @@ def test_shutdown_sock_server_integration():
     encoded_sock_path = urlencode_unix_socket_path(sock)
 
     p = subprocess.Popen(
-        ['jupyter-notebook', '--sock=%s' % sock, '--sock-mode=0700'],
+        ['jupyter-notebook', f'--sock={sock}', '--sock-mode=0700'],
         stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
 
@@ -111,12 +110,12 @@ def test_stop_multi_integration():
     # Unix socket.
     sock = UNIXSocketNotebookTestBase.sock
     p2 = subprocess.Popen(
-        ['jupyter-notebook', '--sock=%s' % sock]
+        ['jupyter-notebook', f'--sock={sock}']
     )
 
     # Specified port
     p3 = subprocess.Popen(
-        ['jupyter-notebook', '--no-browser', '--port=%s' % TEST_PORT]
+        ['jupyter-notebook', '--no-browser', f'--port={TEST_PORT}']
     )
 
     time.sleep(3)
@@ -146,12 +145,12 @@ def test_stop_multi_integration():
 def test_launch_socket_collision():
     """Tests UNIX socket in-use detection for lifecycle correctness."""
     sock = UNIXSocketNotebookTestBase.sock
-    check_msg = 'socket %s is already in use' % sock
+    check_msg = f'socket {sock} is already in use'
 
     _ensure_stopped()
 
     # Start a server.
-    cmd = ['jupyter-notebook', '--sock=%s' % sock]
+    cmd = ['jupyter-notebook', f'--sock={sock}']
     p1 = subprocess.Popen(cmd)
     time.sleep(3)
 
@@ -161,7 +160,7 @@ def test_launch_socket_collision():
     except subprocess.CalledProcessError as e:
         assert check_msg in e.output.decode()
     else:
-        raise AssertionError('expected error, instead got %s' % e.output.decode())
+        raise AssertionError(f'expected error, instead got {e.output.decode()}')
 
     # Stop the background server, ensure it's stopped and wait on the process to exit.
     subprocess.check_call(['jupyter-notebook', 'stop', sock])

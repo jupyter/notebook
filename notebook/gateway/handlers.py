@@ -101,7 +101,7 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
             super().write_message(message, binary=binary)
         elif self.log.isEnabledFor(logging.DEBUG):
             msg_summary = WebSocketChannelsHandler._get_message_summary(json_decode(utf8(message)))
-            self.log.debug("Notebook client closed websocket connection - message dropped: {}".format(msg_summary))
+            self.log.debug(f"Notebook client closed websocket connection - message dropped: {msg_summary}")
 
     def on_close(self):
         self.log.debug("Closing websocket connection %s", self.request.path)
@@ -112,14 +112,16 @@ class WebSocketChannelsHandler(WebSocketHandler, IPythonHandler):
     def _get_message_summary(message):
         summary = []
         message_type = message['msg_type']
-        summary.append('type: {}'.format(message_type))
+        summary.append(f'type: {message_type}')
 
         if message_type == 'status':
-            summary.append(', state: {}'.format(message['content']['execution_state']))
+            summary.append(f', state: {message["content"]["execution_state"]}')
         elif message_type == 'error':
-            summary.append(', {}:{}:{}'.format(message['content']['ename'],
-                                              message['content']['evalue'],
-                                              message['content']['traceback']))
+            summary.append(
+                f', {message["content"]["ename"]}:'
+                f'{message["content"]["evalue"]}:'
+                f'{message["content"]["traceback"]}'
+            )
         else:
             summary.append(', ...')  # don't display potentially sensitive data
 
@@ -146,7 +148,7 @@ class GatewayWebSocketClient(LoggingConfigurable):
             GatewayClient.instance().ws_url,
             GatewayClient.instance().kernels_endpoint, url_escape(kernel_id), 'channels'
         )
-        self.log.info('Connecting to {}'.format(ws_url))
+        self.log.info(f'Connecting to {ws_url}')
         kwargs = {}
         kwargs = GatewayClient.instance().load_connection_args(**kwargs)
 
@@ -158,7 +160,7 @@ class GatewayWebSocketClient(LoggingConfigurable):
         if not self.disconnected and fut.exception() is None:  # prevent concurrent.futures._base.CancelledError
             self.ws = fut.result()
             self.retry = 0
-            self.log.debug("Connection is ready: ws: {}".format(self.ws))
+            self.log.debug(f"Connection is ready: ws: {self.ws}")
         else:
             self.log.warning("Websocket connection has been closed via client disconnect or due to error.  "
                              "Kernel with ID '{}' may not be terminated on GatewayClient: {}".
@@ -172,7 +174,7 @@ class GatewayWebSocketClient(LoggingConfigurable):
         elif not self.ws_future.done():
             # Cancel pending connection.  Since future.cancel() is a noop on tornado, we'll track cancellation locally
             self.ws_future.cancel()
-            self.log.debug("_disconnect: future cancelled, disconnected: {}".format(self.disconnected))
+            self.log.debug(f"_disconnect: future cancelled, disconnected: {self.disconnected}")
 
     @gen.coroutine
     def _read_messages(self, callback):
@@ -183,10 +185,10 @@ class GatewayWebSocketClient(LoggingConfigurable):
                 try:
                     message = yield self.ws.read_message()
                 except Exception as e:
-                    self.log.error("Exception reading message from websocket: {}".format(e))  # , exc_info=True)
+                    self.log.error(f"Exception reading message from websocket: {e}")  # , exc_info=True)
                 if message is None:
                     if not self.disconnected:
-                        self.log.warning("Lost connection to Gateway: {}".format(self.kernel_id))
+                        self.log.warning(f"Lost connection to Gateway: {self.kernel_id}")
                     break
                 callback(message)  # pass back to notebook client (see self.on_open and WebSocketChannelsHandler.open)
             else:  # ws cancelled - stop reading
@@ -231,7 +233,7 @@ class GatewayWebSocketClient(LoggingConfigurable):
             if not self.disconnected and self.ws is not None:
                 self.ws.write_message(message)
         except Exception as e:
-            self.log.error("Exception writing message to websocket: {}".format(e))  # , exc_info=True)
+            self.log.error(f"Exception writing message to websocket: {e}")  # , exc_info=True)
 
     def on_close(self):
         """Web socket closed event."""
@@ -247,8 +249,10 @@ class GatewayResourceHandler(APIHandler):
         ksm = self.kernel_spec_manager
         kernel_spec_res = yield ksm.get_kernel_spec_resource(kernel_name, path)
         if kernel_spec_res is None:
-            self.log.warning("Kernelspec resource '{}' for '{}' not found.  Gateway may not support"
-                             " resource serving.".format(path, kernel_name))
+            self.log.warning(
+                f"Kernelspec resource '{path}' for '{kernel_name}' not found.  "
+                f"Gateway may not support resource serving."
+            )
         else:
             self.set_header("Content-Type", mimetypes.guess_type(path)[0])
         self.finish(kernel_spec_res)
@@ -258,6 +262,6 @@ from ..services.kernels.handlers import _kernel_id_regex
 from ..services.kernelspecs.handlers import kernel_name_regex
 
 default_handlers = [
-    (r"/api/kernels/%s/channels" % _kernel_id_regex, WebSocketChannelsHandler),
-    (r"/kernelspecs/%s/(?P<path>.*)" % kernel_name_regex, GatewayResourceHandler),
+    (fr"/api/kernels/{_kernel_id_regex}/channels", WebSocketChannelsHandler),
+    (fr"/kernelspecs/{kernel_name_regex}/(?P<path>.*)", GatewayResourceHandler),
 ]

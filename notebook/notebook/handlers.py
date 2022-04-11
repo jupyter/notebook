@@ -46,13 +46,12 @@ def get_frontend_exporters():
 
         # Ensure export_from_notebook is explicitly defined & not inherited
         if ux_name is not None and ux_name != super_uxname:
-            display = _('{} ({})'.format(ux_name,
-                                         exporter_instance.file_extension))
+            display = _(f'{ux_name} ({exporter_instance.file_extension})')
             frontend_exporters.append(ExporterInfo(name, display))
 
     # Ensure default_exporters are in frontend_exporters if not already
     # This protects against nbconvert versions lower than 5.5
-    names = set(exporter.name.lower() for exporter in frontend_exporters)
+    names = {exporter.name.lower() for exporter in frontend_exporters}
     for exporter in default_exporters:
         if exporter.name not in names:
             frontend_exporters.append(exporter)
@@ -74,11 +73,11 @@ class NotebookHandler(IPythonHandler):
     @web.authenticated
     @gen.coroutine
     def get(self, path):
-        """get renders the notebook template if a name is given, or 
+        """get renders the notebook template if a name is given, or
         redirects to the '/files/' handler if the name is not given."""
         path = path.strip('/')
         cm = self.contents_manager
-        
+
         # will raise 404 on not found
         try:
             model = yield maybe_future(cm.get(path, content=False))
@@ -109,6 +108,6 @@ class NotebookHandler(IPythonHandler):
 
 
 default_handlers = [
-    (r"/notebooks%s" % path_regex, NotebookHandler),
+    (fr"/notebooks{path_regex}", NotebookHandler),
 ]
 

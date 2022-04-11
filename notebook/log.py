@@ -29,20 +29,20 @@ def log_request(handler, log=access_log, log_json=False):
         log_method = log.warning
     else:
         log_method = log.error
-    
+
     request_time = 1000.0 * request.request_time()
     ns = dict(
         status=status,
         method=request.method,
         ip=request.remote_ip,
         uri=request.uri,
-        request_time=float('%.2f' % request_time),
+        request_time=float(f'{request_time:.2f}'),
     )
     msg = "{status} {method} {uri} ({ip}) {request_time:f}ms"
     if status >= 400:
         # log bad referers
         ns['referer'] = request.headers.get('Referer', 'None')
-        msg = msg + ' referer={referer}'
+        msg += ' referer={referer}'
     if status >= 500 and status != 502:
         # Log a subset of the headers if it caused an error.
         headers = {}

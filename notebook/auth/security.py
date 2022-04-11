@@ -5,7 +5,6 @@ Password generation for the Notebook.
 from contextlib import contextmanager
 import getpass
 import hashlib
-import io
 import json
 import os
 import random
@@ -71,7 +70,7 @@ def passwd(passphrase=None, algorithm='argon2'):
         return ':'.join((algorithm, cast_unicode(h, 'ascii')))
     else:
         h = hashlib.new(algorithm)
-        salt = ('%0' + str(salt_len) + 'x') % random.getrandbits(4 * salt_len)
+        salt = f"{random.getrandbits(4 * salt_len):0{salt_len}x}"
         h.update(cast_bytes(passphrase, 'utf-8') + str_to_bytes(salt, 'ascii'))
 
         return ':'.join((algorithm, salt, h.hexdigest()))
@@ -135,7 +134,7 @@ def passwd_check(hashed_passphrase, passphrase):
 def persist_config(config_file=None, mode=0o600):
     """Context manager that can be used to modify a config object
 
-    On exit of the context manager, the config will be written back to disk, 
+    On exit of the context manager, the config will be written back to disk,
     by default with user-only (600) permissions.
     """
 
@@ -152,20 +151,20 @@ def persist_config(config_file=None, mode=0o600):
 
     yield config
 
-    with io.open(config_file, 'w', encoding='utf8') as f:
+    with open(config_file, 'w', encoding='utf8') as f:
         f.write(cast_unicode(json.dumps(config, indent=2)))
 
     try:
         os.chmod(config_file, mode)
     except Exception as e:
         tb = traceback.format_exc()
-        warnings.warn("Failed to set permissions on %s:\n%s" % (config_file, tb),
+        warnings.warn(f"Failed to set permissions on {config_file}:\n{tb}",
             RuntimeWarning)
 
 
 def set_password(password=None, config_file=None):
     """Ask user for password, store it in notebook json configuration file"""
-    
+
     hashed_password = passwd(password)
 
     with persist_config(config_file) as config:

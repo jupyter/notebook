@@ -26,14 +26,14 @@ def _make_dir(contents_manager, api_path):
     try:
         os.makedirs(os_path)
     except OSError:
-        print("Directory already exists: %r" % os_path)
+        print(f"Directory already exists: {os_path!r}")
 
 
 class TestFileContentsManager(TestCase):
 
     @contextmanager
     def assertRaisesHTTPError(self, status, msg=None):
-        msg = msg or "Should have raised HTTPError(%i)" % status
+        msg = msg or f"Should have raised HTTPError({status})"
         try:
             yield
         except HTTPError as e:
@@ -87,7 +87,7 @@ class TestFileContentsManager(TestCase):
             self.assertEqual(path, fs_path)
 
     def test_checkpoint_subdir(self):
-        subd = u'sub ∂ir'
+        subd = 'sub ∂ir'
         cp_name = 'test-cp.ipynb'
         with TemporaryDirectory() as td:
             root = td
@@ -98,7 +98,7 @@ class TestFileContentsManager(TestCase):
                 'cp', 'test.ipynb'
             )
             cp_subdir = cpm.checkpoint_path(
-                'cp', '/%s/test.ipynb' % subd
+                'cp', f'/{subd}/test.ipynb'
             )
         self.assertNotEqual(cp_dir, cp_subdir)
         self.assertEqual(cp_dir, os.path.join(root, cpm.checkpoint_dir, cp_name))
@@ -113,7 +113,7 @@ class TestFileContentsManager(TestCase):
             file_model = cm.new_untitled(path=path, ext='.txt')
 
             # create a broken symlink
-            self.symlink(cm, "target", '%s/%s' % (path, 'bad symlink'))
+            self.symlink(cm, "target", f'{path}/{"bad symlink"}')
             model = cm.get(path)
 
             contents = {
@@ -149,7 +149,7 @@ class TestFileContentsManager(TestCase):
             cm = FileContentsManager(root_dir=td)
             parent = 'test good symlink'
             name = 'good symlink'
-            path = '{0}/{1}'.format(parent, name)
+            path = f'{parent}/{name}'
             _make_dir(cm, parent)
 
             file_model = cm.new(path=parent + '/zfoo.txt')
@@ -175,7 +175,7 @@ class TestFileContentsManager(TestCase):
             os.chmod(os_path, 0o400)
             try:
                 with cm.open(os_path, 'w') as f:
-                    f.write(u"don't care")
+                    f.write("don't care")
             except HTTPError as e:
                 self.assertEqual(e.status_code, 403)
             else:
@@ -201,7 +201,7 @@ class TestFileContentsManager(TestCase):
             with self.assertRaisesHTTPError(404):
                 cm.save(model={
                     'type': 'file',
-                    'content': u'',
+                    'content': '',
                     'format': 'text',
                 }, path='../foo')
 
@@ -209,7 +209,7 @@ class TestFileContentsManager(TestCase):
 class TestContentsManager(TestCase):
     @contextmanager
     def assertRaisesHTTPError(self, status, msg=None):
-        msg = msg or "Should have raised HTTPError(%i)" % status
+        msg = msg or f"Should have raised HTTPError({status})"
         try:
             yield
         except HTTPError as e:
@@ -309,7 +309,7 @@ class TestContentsManager(TestCase):
         self.assertIn('type', model)
         self.assertEqual(model['type'], 'file')
         self.assertEqual(model['name'], 'untitled')
-        self.assertEqual(model['path'], '%s/untitled' % sub_dir)
+        self.assertEqual(model['path'], f'{sub_dir}/untitled')
 
         # Test with a compound extension
         model = cm.new_untitled(path=sub_dir, ext='.foo.bar')
@@ -378,19 +378,19 @@ class TestContentsManager(TestCase):
         self.assertIn('path', model2)
         self.assertIn('content', model2)
         self.assertEqual(model2['name'], 'Untitled.ipynb')
-        self.assertEqual(model2['path'], '{0}/{1}'.format(sub_dir.strip('/'), name))
+        self.assertEqual(model2['path'], f'{sub_dir.strip("/")}/{name}')
 
         # Test with a regular file.
         file_model_path = cm.new_untitled(path=sub_dir, ext='.txt')['path']
         file_model = cm.get(file_model_path)
         self.assertDictContainsSubset(
             {
-                'content': u'',
-                'format': u'text',
-                'mimetype': u'text/plain',
-                'name': u'untitled.txt',
-                'path': u'foo/untitled.txt',
-                'type': u'file',
+                'content': '',
+                'format': 'text',
+                'mimetype': 'text/plain',
+                'name': 'untitled.txt',
+                'path': 'foo/untitled.txt',
+                'type': 'file',
                 'writable': True,
             },
             file_model,
@@ -413,7 +413,7 @@ class TestContentsManager(TestCase):
         # Directory contents should match the contents of each individual entry
         # when requested with content=False.
         model2_no_content = cm.get(sub_dir + name, content=False)
-        file_model_no_content = cm.get(u'foo/untitled.txt', content=False)
+        file_model_no_content = cm.get('foo/untitled.txt', content=False)
         sub_sub_dir_no_content = cm.get('foo/bar', content=False)
         self.assertEqual(sub_sub_dir_no_content['path'], 'foo/bar')
         self.assertEqual(sub_sub_dir_no_content['name'], 'bar')
@@ -428,7 +428,7 @@ class TestContentsManager(TestCase):
             elif entry['path'] == file_model_no_content['path']:
                 self.assertEqual(entry, file_model_no_content)
             else:
-                self.fail("Unexpected directory entry: %s" % entry())
+                self.fail(f"Unexpected directory entry: {entry()}")
 
         with self.assertRaises(HTTPError):
             cm.get('foo', type='file')
@@ -582,9 +582,9 @@ class TestContentsManager(TestCase):
 
     def test_copy(self):
         cm = self.contents_manager
-        parent = u'å b'
-        name = u'nb √.ipynb'
-        path = u'{0}/{1}'.format(parent, name)
+        parent = 'å b'
+        name = 'nb √.ipynb'
+        path = f'{parent}/{name}'
         self.make_dir(parent)
 
         orig = cm.new(path=path)
@@ -593,11 +593,11 @@ class TestContentsManager(TestCase):
         self.assertEqual(copy['name'], orig['name'].replace('.ipynb', '-Copy1.ipynb'))
 
         # copy with specified name
-        copy2 = cm.copy(path, u'å b/copy 2.ipynb')
-        self.assertEqual(copy2['name'], u'copy 2.ipynb')
-        self.assertEqual(copy2['path'], u'å b/copy 2.ipynb')
+        copy2 = cm.copy(path, 'å b/copy 2.ipynb')
+        self.assertEqual(copy2['name'], 'copy 2.ipynb')
+        self.assertEqual(copy2['path'], 'å b/copy 2.ipynb')
         # copy with specified path
-        copy2 = cm.copy(path, u'/')
+        copy2 = cm.copy(path, '/')
         self.assertEqual(copy2['name'], name)
         self.assertEqual(copy2['path'], name)
 

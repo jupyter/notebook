@@ -1,21 +1,15 @@
 import os
 
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
 from notebook.utils import url_path_join
 from notebook.tests.selenium.utils import wait_for_selector
 pjoin = os.path.join
 
 
 class PageError(Exception):
-    """Error for an action being incompatible with the current jupyter web page.
-    
-    """
+    """Error for an action being incompatible with the current jupyter web page."""
     def __init__(self, message):
         self.message = message
-        
+
 
 def url_in_tree(browser, url=None):
     if url is None:
@@ -26,7 +20,7 @@ def url_in_tree(browser, url=None):
 
 def get_list_items(browser):
     """Gets list items from a directory listing page
-    
+
     Raises PageError if not in directory listing page (url has tree in it)
     """
     if not url_in_tree(browser):
@@ -42,9 +36,7 @@ def get_list_items(browser):
     } for a in browser.find_elements_by_class_name('item_link')]
 
 def only_dir_links(browser):
-    """Return only links that point at other directories in the tree
-    
-    """
+    """Return only links that point at other directories in the tree"""
     items = get_list_items(browser)
     return [i for i in items 
             if url_in_tree(browser, i['link']) and i['label'] != '..']

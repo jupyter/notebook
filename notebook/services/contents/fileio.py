@@ -7,7 +7,6 @@ Utilities for file-based Contents/Checkpoints managers.
 
 from contextlib import contextmanager
 import errno
-import io
 import os
 import shutil
 
@@ -102,9 +101,9 @@ def atomic_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     if text:
         # Make sure that text files have Unix linefeeds by default
         kwargs.setdefault('newline', '\n')
-        fileobj = io.open(path, 'w', encoding=encoding, **kwargs)
+        fileobj = open(path, 'w', encoding=encoding, **kwargs)
     else:
-        fileobj = io.open(path, 'wb', **kwargs)
+        fileobj = open(path, 'wb', **kwargs)
 
     try:
         yield fileobj
@@ -154,9 +153,9 @@ def _simple_writing(path, text=True, encoding='utf-8', log=None, **kwargs):
     if text:
         # Make sure that text files have Unix linefeeds by default
         kwargs.setdefault('newline', '\n')
-        fileobj = io.open(path, 'w', encoding=encoding, **kwargs)
+        fileobj = open(path, 'w', encoding=encoding, **kwargs)
     else:
-        fileobj = io.open(path, 'wb', **kwargs)
+        fileobj = open(path, 'wb', **kwargs)
 
     try:
         yield fileobj
@@ -197,7 +196,7 @@ class FileManagerMixin(Configurable):
     def open(self, os_path, *args, **kwargs):
         """wrapper around io.open that turns permission errors into 403"""
         with self.perm_to_403(os_path):
-            with io.open(os_path, *args, **kwargs) as f:
+            with open(os_path, *args, **kwargs) as f:
                 yield f
 
     @contextmanager
@@ -218,7 +217,7 @@ class FileManagerMixin(Configurable):
         """context manager for turning permission errors into 403."""
         try:
             yield
-        except (OSError, IOError) as e:
+        except OSError as e:
             if e.errno in {errno.EPERM, errno.EACCES}:
                 # make 403 error message without root prefix
                 # this may not work perfectly on unicode paths on Python 2,
@@ -226,7 +225,7 @@ class FileManagerMixin(Configurable):
                 if not os_path:
                     os_path = str_to_unicode(e.filename or 'unknown file')
                 path = to_api_path(os_path, root=self.root_dir)
-                raise HTTPError(403, u'Permission denied: %s' % path) from e
+                raise HTTPError(403, f'Permission denied: {path}') from e
             else:
                 raise
 
@@ -257,7 +256,7 @@ class FileManagerMixin(Configurable):
         root = os.path.abspath(self.root_dir)
         os_path = to_os_path(path, root)
         if not (os.path.abspath(os_path) + os.path.sep).startswith(root):
-            raise HTTPError(404, "%s is outside root contents directory" % path)
+            raise HTTPError(404, f"{path} is outside root contents directory")
         return os_path
 
     def _read_notebook(self, os_path, as_version=4):
@@ -276,7 +275,7 @@ class FileManagerMixin(Configurable):
             if not self.use_atomic_writing or not os.path.exists(tmp_path):
                 raise HTTPError(
                     400,
-                    u"Unreadable Notebook: %s %r" % (os_path, e_orig),
+                    f"Unreadable Notebook: {os_path} {e_orig!r}",
                 )
 
             # Move the bad file aside, restore the intermediate, and try again.
@@ -300,7 +299,7 @@ class FileManagerMixin(Configurable):
           If not specified, try to decode as UTF-8, and fall back to base64
         """
         if not os.path.isfile(os_path):
-            raise HTTPError(400, "Cannot read non-file %s" % os_path)
+            raise HTTPError(400, f"Cannot read non-file {os_path}")
 
         with self.open(os_path, 'rb') as f:
             bcontent = f.read()
@@ -314,7 +313,7 @@ class FileManagerMixin(Configurable):
                 if format == 'text':
                     raise HTTPError(
                         400,
-                        "%s is not UTF-8 encoded" % os_path,
+                        f"{os_path} is not UTF-8 encoded",
                         reason='bad format',
                     ) from e
         return encodebytes(bcontent).decode('ascii'), 'base64'
@@ -334,7 +333,7 @@ class FileManagerMixin(Configurable):
                 bcontent = decodebytes(b64_bytes)
         except Exception as e:
             raise HTTPError(
-                400, u'Encoding error saving %s: %s' % (os_path, e)
+                400, f'Encoding error saving {os_path}: {e}'
             ) from e
 
         with self.atomic_writing(os_path, text=False) as f:

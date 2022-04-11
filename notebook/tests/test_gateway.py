@@ -6,7 +6,6 @@ from datetime import datetime
 from io import StringIO
 from unittest.mock import patch
 
-from tornado import gen
 from tornado.web import HTTPError
 from tornado.httpclient import HTTPRequest, HTTPResponse
 
@@ -62,7 +61,7 @@ async def mock_gateway_request(url, **kwargs):
             response = await maybe_future(HTTPResponse(request, 200, buffer=response_buf))
             return response
         else:
-            raise HTTPError(404, message='Kernelspec does not exist: %s' % requested_kernelspec)
+            raise HTTPError(404, message=f'Kernelspec does not exist: {requested_kernelspec}')
 
     # Create kernel
     if endpoint.endswith('/api/kernels') and method == 'POST':
@@ -96,16 +95,16 @@ async def mock_gateway_request(url, **kwargs):
                 response = await maybe_future(HTTPResponse(request, 204))
                 return response
             else:
-                raise HTTPError(404, message='Kernel does not exist: %s' % requested_kernel_id)
+                raise HTTPError(404, message=f'Kernel does not exist: {requested_kernel_id}')
         elif action == 'restart':
             if requested_kernel_id in running_kernels:
                 response_buf = StringIO(json.dumps(running_kernels.get(requested_kernel_id)))
                 response = await maybe_future(HTTPResponse(request, 204, buffer=response_buf))
                 return response
             else:
-                raise HTTPError(404, message='Kernel does not exist: %s' % requested_kernel_id)
+                raise HTTPError(404, message=f'Kernel does not exist: {requested_kernel_id}')
         else:
-            raise HTTPError(404, message='Bad action detected: %s' % action)
+            raise HTTPError(404, message=f'Bad action detected: {action}')
 
     # Shutdown existing kernel
     if endpoint.rfind('/api/kernels/') >= 0 and method == 'DELETE':
@@ -122,7 +121,7 @@ async def mock_gateway_request(url, **kwargs):
             response = await maybe_future(HTTPResponse(request, 200, buffer=response_buf))
             return response
         else:
-            raise HTTPError(404, message='Kernel does not exist: %s' % requested_kernel_id)
+            raise HTTPError(404, message=f'Kernel does not exist: {requested_kernel_id}')
 
 
 mocked_gateway = patch('notebook.gateway.managers.gateway_request', mock_gateway_request)
@@ -136,23 +135,23 @@ class TestGateway(NotebookTestBase):
     @classmethod
     def setup_class(cls):
         GatewayClient.clear_instance()
-        super(TestGateway, cls).setup_class()
+        super().setup_class()
 
     @classmethod
     def teardown_class(cls):
         GatewayClient.clear_instance()
-        super(TestGateway, cls).teardown_class()
+        super().teardown_class()
 
     @classmethod
     def get_patch_env(cls):
-        test_env = super(TestGateway, cls).get_patch_env()
+        test_env = super().get_patch_env()
         test_env.update({'JUPYTER_GATEWAY_URL': TestGateway.mock_gateway_url,
                          'JUPYTER_GATEWAY_CONNECT_TIMEOUT': '44.4'})
         return test_env
 
     @classmethod
     def get_argv(cls):
-        argv = super(TestGateway, cls).get_argv()
+        argv = super().get_argv()
         argv.extend(['--GatewayClient.request_timeout=96.0', '--GatewayClient.http_user=' + TestGateway.mock_http_user])
         return argv
 

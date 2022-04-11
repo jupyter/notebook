@@ -1,7 +1,6 @@
 """Test the kernels service API."""
 
 import json
-import sys
 import time
 
 from requests import HTTPError
@@ -24,7 +23,7 @@ except ImportError:
     async_testing_enabled = False
 
 
-class KernelAPI(object):
+class KernelAPI:
     """Wrapper for kernel REST API requests"""
     def __init__(self, request, base_url, headers):
         self.request = request
@@ -204,11 +203,11 @@ class AsyncKernelAPITest(KernelAPITest):
     def setup_class(cls):
         if not async_testing_enabled:  # Can be removed once jupyter_client >= 6.1 is required.
             raise SkipTest("AsyncKernelAPITest tests skipped due to down-level jupyter_client!")
-        super(AsyncKernelAPITest, cls).setup_class()
+        super().setup_class()
 
     @classmethod
     def get_argv(cls):
-        argv = super(AsyncKernelAPITest, cls).get_argv()
+        argv = super().get_argv()
 
         # before we extend the argv with the class, ensure that appropriate jupyter_client is available.
         # if not available, don't set kernel_manager_class, resulting in the repeat of sync-based tests.
@@ -244,11 +243,11 @@ class KernelCullingTest(NotebookTestBase):
 
     @classmethod
     def get_argv(cls):
-        argv = super(KernelCullingTest, cls).get_argv()
+        argv = super().get_argv()
 
         # Enable culling with 5s timeout and 1s intervals
-        argv.extend(['--MappingKernelManager.cull_idle_timeout={}'.format(CULL_TIMEOUT),
-                     '--MappingKernelManager.cull_interval={}'.format(CULL_INTERVAL),
+        argv.extend([f'--MappingKernelManager.cull_idle_timeout={CULL_TIMEOUT}',
+                     f'--MappingKernelManager.cull_interval={CULL_INTERVAL}',
                      '--MappingKernelManager.cull_connected=False'])
         return argv
 

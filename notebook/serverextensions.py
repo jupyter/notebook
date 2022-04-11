@@ -59,14 +59,14 @@ def toggle_serverextension_python(import_name, enabled=None, parent=None,
 
     if logger:
         if new_enabled:
-            logger.info(u"Enabling: %s" % (import_name))
+            logger.info(f"Enabling: {import_name}")
         else:
-            logger.info(u"Disabling: %s" % (import_name))
+            logger.info(f"Disabling: {import_name}")
 
     server_extensions[import_name] = new_enabled
 
     if logger:
-        logger.info(u"- Writing config: {}".format(config_dir))
+        logger.info(f"- Writing config: {config_dir}")
 
     cm.update("jupyter_notebook_config", cfg)
 
@@ -104,13 +104,13 @@ def validate_serverextension(import_name, logger=None):
     except Exception:
         logger.warning("Error loading server extension %s", import_name)
 
-    import_msg = u"     {} is {} importable?"
+    import_msg = "     {} is {} importable?"
     if func is not None:
         infos.append(import_msg.format(GREEN_OK, import_name))
     else:
         warnings.append(import_msg.format(RED_X, import_name))
 
-    post_mortem = u"      {} {} {}"
+    post_mortem = "      {} {} {}"
     if logger:
         if warnings:
             [logger.info(info) for info in infos]
@@ -159,13 +159,13 @@ class ToggleServerExtensionApp(BaseExtensionApp):
     """A base class for enabling/disabling extensions"""
     name = "jupyter serverextension enable/disable"
     description = "Enable/disable a server extension using frontend configuration files."
-    
+
     flags = flags
 
     user = Bool(True, config=True, help="Whether to do a user install")
     sys_prefix = Bool(False, config=True, help="Use the sys.prefix as the prefix")
     python = Bool(False, config=True, help="Install from a Python package")
-    
+
     def toggle_server_extension(self, import_name):
         """Change the status of a named server extension.
 
@@ -215,7 +215,7 @@ class EnableServerExtensionApp(ToggleServerExtensionApp):
     name = "jupyter serverextension enable"
     description = """
     Enable a serverextension in configuration.
-    
+
     Usage
         jupyter serverextension enable [--system|--sys-prefix]
     """
@@ -227,7 +227,7 @@ class DisableServerExtensionApp(ToggleServerExtensionApp):
     name = "jupyter serverextension disable"
     description = """
     Disable a serverextension in configuration.
-    
+
     Usage
         jupyter serverextension disable [--system|--sys-prefix]
     """
@@ -254,11 +254,9 @@ class ListServerExtensionsApp(BaseExtensionApp):
                 .setdefault("nbserver_extensions", {})
             )
             if server_extensions:
-                print(u'config dir: {}'.format(config_dir))
+                print(f'config dir: {config_dir}')
             for import_name, enabled in server_extensions.items():
-                print(u'    {} {}'.format(
-                              import_name,
-                              GREEN_ENABLED if enabled else RED_DISABLED))
+                print(f'    {import_name} {GREEN_ENABLED if enabled else RED_DISABLED}')
                 validate_serverextension(import_name, self.log)
 
     def start(self):
@@ -293,7 +291,7 @@ class ServerExtensionApp(BaseExtensionApp):
         # The above should have called a subcommand and raised NoStart; if we
         # get here, it didn't, so we should self.log.info a message.
         subcmds = ", ".join(sorted(self.subcommands))
-        sys.exit("Please supply at least one subcommand: %s" % subcmds)
+        sys.exit(f"Please supply at least one subcommand: {subcmds}")
 
 
 main = ServerExtensionApp.launch_instance
@@ -324,7 +322,7 @@ def _get_server_extension_metadata(module):
     """
     m = import_item(module)
     if not hasattr(m, '_jupyter_server_extension_paths'):
-        raise KeyError(u'The Python module {} does not include any valid server extensions'.format(module))
+        raise KeyError(f'The Python module {module} does not include any valid server extensions')
     return m, m._jupyter_server_extension_paths()
 
 if __name__ == '__main__':

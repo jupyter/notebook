@@ -49,7 +49,7 @@ class TerminalManager(LoggingConfigurable, NamedTermManager):
     def create_with_name(self, name):
         """Create a new terminal."""
         if name in self.terminals:
-            raise web.HTTPError(409, "A terminal with name '{}' already exists.".format(name))
+            raise web.HTTPError(409, f"A terminal with name '{name}' already exists.")
         term = self.get_terminal(name)
         return self._finish_create(name, term)
 
@@ -110,7 +110,7 @@ class TerminalManager(LoggingConfigurable, NamedTermManager):
     def _check_terminal(self, name):
         """Check a that terminal 'name' exists and raise 404 if not."""
         if name not in self.terminals:
-            raise web.HTTPError(404, u'Terminal not found: %s' % name)
+            raise web.HTTPError(404, f'Terminal not found: {name}')
 
     def _initialize_culler(self):
         """Start culler if 'cull_inactive_timeout' is greater than zero.
@@ -139,8 +139,9 @@ class TerminalManager(LoggingConfigurable, NamedTermManager):
             try:
                 await self._cull_inactive_terminal(name)
             except Exception as e:
-                self.log.exception("The following exception was encountered while checking the "
-                                   "activity of terminal {}: {}".format(name, e))
+                self.log.exception(
+                    f"The following exception was encountered while checking the activity of terminal {name}: {e}"
+                )
 
     async def _cull_inactive_terminal(self, name):
         try:

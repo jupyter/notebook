@@ -3,9 +3,6 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 import json
-import os
-import io
-import errno
 from tornado import web
 
 from ...base.handlers import APIHandler
@@ -35,5 +32,5 @@ class ConfigHandler(APIHandler):
 section_name_regex = r"(?P<section_name>\w+)"
 
 default_handlers = [
-    (r"/api/config/%s" % section_name_regex, ConfigHandler),
+    (fr"/api/config/{section_name_regex}", ConfigHandler),
 ]

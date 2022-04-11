@@ -1,4 +1,3 @@
-
 INITIAL_CELLS = ['print("a")', 'print("b")', 'print("c")']
 def test_multiselect_toggle(prefill_notebook):
     notebook = prefill_notebook(INITIAL_CELLS)
@@ -24,7 +23,7 @@ def test_multiselect_toggle(prefill_notebook):
     cell_output_states = notebook.browser.execute_script(
         "return Jupyter.notebook.get_cells().map(c => c.collapsed)")
     assert cell_output_states == [False] * 3, "ensure that all cells are not collapsed"
-    
+
     # Test that cells, which start off not scrolled are scrolled after
     # calling the multiselected scroll toggle.
     select_cells()

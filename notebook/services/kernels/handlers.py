@@ -124,7 +124,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         return self.settings.get('rate_limit_window', 1.0)
 
     def __repr__(self):
-        return "%s(%s)" % (self.__class__.__name__, getattr(self, 'kernel_id', 'uninitialized'))
+        return f"{self.__class__.__name__}({getattr(self, 'kernel_id', 'uninitialized')})"
 
     def create_stream(self):
         km = self.kernel_manager
@@ -252,7 +252,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
 
             if not both_done.done():
                 log = self.log.warning if count % 10 == 0 else self.log.debug
-                log("Nudge: attempt %s on kernel %s" % (count, self.kernel_id))
+                log(f"Nudge: attempt {count} on kernel {self.kernel_id}")
                 self.session.send(shell_channel, "kernel_info_request")
                 self.session.send(control_channel, "kernel_info_request")
                 nonlocal nudge_handle
@@ -323,7 +323,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         protocol_version = info.get('protocol_version', client_protocol_version)
         if protocol_version != client_protocol_version:
             self.session.adapt_version = int(protocol_version.split('.')[0])
-            self.log.info("Adapting from protocol version {protocol_version} (kernel {kernel_id}) to {client_protocol_version} (client).".format(protocol_version=protocol_version, kernel_id=self.kernel_id, client_protocol_version=client_protocol_version))
+            self.log.info(f"Adapting from protocol version {protocol_version} (kernel {self.kernel_id}) to {client_protocol_version} (client).")
         if not self._kernel_info_future.done():
             self._kernel_info_future.set_result(info)
 
@@ -384,7 +384,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         This is likely due to a client reconnecting from a lost network connection,
         where the socket on our side has not been cleaned up yet.
         """
-        self.session_key = '%s:%s' % (self.kernel_id, self.session.session)
+        self.session_key = f'{self.kernel_id}:{self.session.session}'
         stale_handler = self._open_sessions.get(self.session_key)
         if stale_handler:
             self.log.warning("Replacing stale connection: %s", self.session_key)
@@ -457,7 +457,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
         am = self.kernel_manager.allowed_message_types
         mt = msg['header']['msg_type']
         if am and mt not in am:
-            self.log.warning('Received message of type "%s", which is not allowed. Ignoring.' % mt)
+            self.log.warning(f'Received message of type "{mt}", which is not allowed. Ignoring.')
         else:
             stream = self.channels[channel]
             self.session.send(stream, msg)
@@ -504,7 +504,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             # Increment the bytes and message count
             self._iopub_window_msg_count += 1
             if msg_type == 'stream':
-                byte_count = sum([len(x) for x in msg_list])
+                byte_count = sum(len(x) for x in msg_list)
             else:
                 byte_count = 0
             self._iopub_window_byte_count += byte_count
@@ -522,7 +522,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             if self.iopub_msg_rate_limit > 0 and msg_rate > self.iopub_msg_rate_limit:
                 if not self._iopub_msgs_exceeded:
                     self._iopub_msgs_exceeded = True
-                    write_stderr(dedent("""\
+                    write_stderr(dedent(f"""\
                     IOPub message rate exceeded.
                     The notebook server will temporarily stop sending output
                     to the client in order to avoid crashing it.
@@ -530,9 +530,9 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                     `--NotebookApp.iopub_msg_rate_limit`.
 
                     Current values:
-                    NotebookApp.iopub_msg_rate_limit={} (msgs/sec)
-                    NotebookApp.rate_limit_window={} (secs)
-                    """.format(self.iopub_msg_rate_limit, self.rate_limit_window)))
+                    NotebookApp.iopub_msg_rate_limit={self.iopub_msg_rate_limit} (msgs/sec)
+                    NotebookApp.rate_limit_window={self.rate_limit_window} (secs)
+                    """))
             else:
                 # resume once we've got some headroom below the limit
                 if self._iopub_msgs_exceeded and msg_rate < (0.8 * self.iopub_msg_rate_limit):
@@ -544,7 +544,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
             if self.iopub_data_rate_limit > 0 and data_rate > self.iopub_data_rate_limit:
                 if not self._iopub_data_exceeded:
                     self._iopub_data_exceeded = True
-                    write_stderr(dedent("""\
+                    write_stderr(dedent(f"""\
                     IOPub data rate exceeded.
                     The notebook server will temporarily stop sending output
                     to the client in order to avoid crashing it.
@@ -552,9 +552,9 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
                     `--NotebookApp.iopub_data_rate_limit`.
 
                     Current values:
-                    NotebookApp.iopub_data_rate_limit={} (bytes/sec)
-                    NotebookApp.rate_limit_window={} (secs)
-                    """.format(self.iopub_data_rate_limit, self.rate_limit_window)))
+                    NotebookApp.iopub_data_rate_limit={self.iopub_data_rate_limit} (bytes/sec)
+                    NotebookApp.rate_limit_window={self.rate_limit_window} (secs)
+                    """))
             else:
                 # resume once we've got some headroom below the limit
                 if self._iopub_data_exceeded and data_rate < (0.8 * self.iopub_data_rate_limit):
@@ -640,7 +640,7 @@ _kernel_action_regex = r"(?P<action>restart|interrupt)"
 
 default_handlers = [
     (r"/api/kernels", MainKernelHandler),
-    (r"/api/kernels/%s" % _kernel_id_regex, KernelHandler),
-    (r"/api/kernels/%s/%s" % (_kernel_id_regex, _kernel_action_regex), KernelActionHandler),
-    (r"/api/kernels/%s/channels" % _kernel_id_regex, ZMQChannelsHandler),
+    (fr"/api/kernels/{_kernel_id_regex}", KernelHandler),
+    (fr"/api/kernels/{_kernel_id_regex}/{_kernel_action_regex}", KernelActionHandler),
+    (fr"/api/kernels/{_kernel_id_regex}/channels", ZMQChannelsHandler),
 ]

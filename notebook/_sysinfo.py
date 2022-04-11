@@ -55,10 +55,10 @@ def pkg_commit_hash(pkg_path):
             if repo_commit:
                 return 'repository', repo_commit.strip().decode('ascii')
             else:
-                return u'', u''
+                return '', ''
         par_path = p.dirname(par_path)
-                
-    return u'', u''
+
+    return '', ''
 
 
 def pkg_info(pkg_path):

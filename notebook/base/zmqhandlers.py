@@ -87,7 +87,7 @@ def deserialize_binary_message(bmsg):
 WS_PING_INTERVAL = 30000
 
 
-class WebSocketMixin(object):
+class WebSocketMixin:
     """Mixin for common websocket options"""
     ping_callback = None
     last_ping = 0
@@ -167,7 +167,7 @@ class WebSocketMixin(object):
                 self.send_ping, self.ping_interval,
             )
             self.ping_callback.start()
-        return super(WebSocketMixin, self).open(*args, **kwargs)
+        return super().open(*args, **kwargs)
 
     def send_ping(self):
         """send a ping to keep the websocket alive"""
@@ -249,7 +249,7 @@ class ZMQStreamHandler(WebSocketMixin, WebSocketHandler):
         try:
             msg = self._reserialize_reply(msg_list, channel=channel)
         except Exception:
-            self.log.critical("Malformed message: %r" % msg_list, exc_info=True)
+            self.log.critical(f"Malformed message: {msg_list!r}", exc_info=True)
             return
 
         try:

@@ -5,7 +5,6 @@
 
 import errno
 import glob
-import io
 import json
 import os
 import copy
@@ -97,7 +96,7 @@ class BaseJSONConfigManager(LoggingConfigurable):
         data = {}
         for path in paths:
             if os.path.isfile(path):
-                with io.open(path, encoding='utf-8') as f:
+                with open(path, encoding='utf-8') as f:
                     recursive_update(data, json.load(f))
         return data
 
@@ -117,7 +116,7 @@ class BaseJSONConfigManager(LoggingConfigurable):
         # in order to avoid writing half-finished corrupted data to disk.
         json_content = json.dumps(data, indent=2)
 
-        f = io.open(filename, 'w', encoding='utf-8')
+        f = open(filename, 'w', encoding='utf-8')
         with f:
             f.write(json_content)
 

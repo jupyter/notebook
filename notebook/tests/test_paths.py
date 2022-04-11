@@ -1,4 +1,3 @@
-
 import re
 
 from notebook.base.handlers import path_regex
@@ -6,7 +5,7 @@ from notebook.utils import url_path_join
 from .launchnotebook import NotebookTestBase
 
 # build regexps that tornado uses:
-path_pat = re.compile('^' + '/x%s' % path_regex + '$')
+path_pat = re.compile(f'^/x{path_regex}$')
 
 
 def test_path_regex():

@@ -171,9 +171,9 @@ class SessionManager(LoggingConfigurable):
         for column in kwargs.keys():
             if column not in self._columns:
                 raise TypeError("No such column: %r", column)
-            conditions.append("%s=?" % column)
+            conditions.append(f"{column}=?")
 
-        query = "SELECT * FROM session WHERE %s" % (' AND '.join(conditions))
+        query = f"SELECT * FROM session WHERE {' AND '.join(conditions)}"
 
         self.cursor.execute(query, list(kwargs.values()))
         try:
@@ -185,14 +185,14 @@ class SessionManager(LoggingConfigurable):
         if row is None:
             q = []
             for key, value in kwargs.items():
-                q.append("%s=%r" % (key, value))
+                q.append(f"{key}={value!r}")
 
-            raise web.HTTPError(404, u'Session not found: %s' % (', '.join(q)))
+            raise web.HTTPError(404, f'Session not found: {", ".join(q)}')
 
         try:
             model = yield maybe_future(self.row_to_model(row))
         except KeyError as e:
-            raise web.HTTPError(404, u'Session not found: %s' % str(e))
+            raise web.HTTPError(404, f'Session not found: {e}')
         raise gen.Return(model)
 
     @gen.coroutine
@@ -220,9 +220,9 @@ class SessionManager(LoggingConfigurable):
         sets = []
         for column in kwargs.keys():
             if column not in self._columns:
-                raise TypeError("No such column: %r" % column)
-            sets.append("%s=?" % column)
-        query = "UPDATE session SET %s WHERE session_id=?" % (', '.join(sets))
+                raise TypeError(f"No such column: {column!r}")
+            sets.append(f"{column}=?")
+        query = f"UPDATE session SET {', '.join(sets)} WHERE session_id=?"
         self.cursor.execute(query, list(kwargs.values()) + [session_id])
 
     def kernel_culled(self, kernel_id):

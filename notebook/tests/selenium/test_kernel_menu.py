@@ -1,4 +1,3 @@
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -56,5 +55,5 @@ def test_menu_items(notebook):
         wait_for_selector(browser, menu_item, visible=True, single=True).click()
         WebDriverWait(browser, 10).until(
             lambda b: notebook.is_kernel_running(),
-            message="Restart (%r) after shutdown did not start kernel" % menu_item
+            message=f"Restart ({menu_item!r}) after shutdown did not start kernel"
         )

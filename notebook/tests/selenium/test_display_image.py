@@ -27,9 +27,9 @@ def validate_img(notebook, cell_index, image_fmt, retina):
 
     b64data = b64_image_data[image_fmt]
     commands = [
-        'b64data = %s' % b64data,
+        f'b64data = {b64data}',
         'data = base64.decodebytes(b64data)',
-        'display(Image(data, retina=%s))' % retina
+        f'display(Image(data, retina={retina}))'
     ]
     notebook.append("\n".join(commands))
     notebook.execute_cell(cell_index)
@@ -40,7 +40,7 @@ def validate_img(notebook, cell_index, image_fmt, retina):
 
     src = img_element.get_attribute("src")
     prefix = src.split(',')[0]
-    expected_prefix = "data:%s;base64" % image_fmt
+    expected_prefix = f"data:{image_fmt};base64"
     assert prefix == expected_prefix
 
     expected_size = 1 if retina else 2

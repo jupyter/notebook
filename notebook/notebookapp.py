@@ -14,7 +14,6 @@ import hashlib
 import hmac
 import importlib
 import inspect
-import io
 import ipaddress
 import json
 import logging
@@ -115,7 +114,6 @@ from .utils import (
     url_path_join,
     urldecode_unix_socket_path,
     urlencode_unix_socket,
-    urlencode_unix_socket_path,
     urljoin,
 )
 from .traittypes import TypeFromClasses
@@ -217,13 +215,13 @@ class NotebookWebApplication(web.Application):
         env.install_gettext_translations(nbui, newstyle=False)
 
         if dev_mode:
-            DEV_NOTE_NPM = """It looks like you're running the notebook from source.
+            DEV_NOTE_NPM = f"""It looks like you're running the notebook from source.
     If you're working on the Javascript of the notebook, try running
 
-    %s
+    {'npm run build:watch'}
 
     in another terminal window to have the system incrementally
-    watch and build the notebook's JavaScript for you, as you make changes.""" % 'npm run build:watch'
+    watch and build the notebook's JavaScript for you, as you make changes."""
             log.info(DEV_NOTE_NPM)
 
         if sys_info['commit_source'] == 'repository':
@@ -426,7 +424,7 @@ class NotebookPasswordApp(JupyterApp):
     def start(self):
         from .auth.security import set_password
         set_password(config_file=self.config_file)
-        self.log.info("Wrote hashed password to %s" % self.config_file)
+        self.log.info(f"Wrote hashed password to {self.config_file}")
 
 
 def shutdown_server(server_info, timeout=5, log=None):
@@ -505,9 +503,9 @@ class NbserverStopApp(JupyterApp):
     description="Stop currently running notebook server."
 
     port = Integer(DEFAULT_NOTEBOOK_PORT, config=True,
-        help="Port of the server to be killed. Default %s" % DEFAULT_NOTEBOOK_PORT)
+        help=f"Port of the server to be killed. Default {DEFAULT_NOTEBOOK_PORT}")
 
-    sock = Unicode(u'', config=True,
+    sock = Unicode('', config=True,
         help="UNIX socket of the server to be killed.")
 
     def parse_command_line(self, argv=None):
@@ -523,7 +521,7 @@ class NbserverStopApp(JupyterApp):
         return shutdown_server(server, log=self.log)
 
     def _shutdown_or_exit(self, target_endpoint, server):
-        print("Shutting down server on %s..." % target_endpoint)
+        print(f"Shutting down server on {target_endpoint}...")
         server_stopped = self.shutdown_server(server)
         if not server_stopped and sys.platform.startswith('win'):
             # the pid check on Windows appears to be unreliable, so fetch another
@@ -533,13 +531,13 @@ class NbserverStopApp(JupyterApp):
             if server not in servers:
                 server_stopped = True
         if not server_stopped:
-            sys.exit("Could not stop server on %s" % target_endpoint)
+            sys.exit(f"Could not stop server on {target_endpoint}")
 
     @staticmethod
     def _maybe_remove_unix_socket(socket_path):
         try:
             os.unlink(socket_path)
-        except (OSError, IOError):
+        except OSError:
             pass
 
     def start(self):
@@ -563,7 +561,7 @@ class NbserverStopApp(JupyterApp):
         else:
             current_endpoint = self.sock or self.port
             print(
-                "There is currently no server running on {}".format(current_endpoint),
+                f"There is currently no server running on {current_endpoint}",
                 file=sys.stderr
             )
             print("Ports/sockets currently in use:", file=sys.stderr)
@@ -753,7 +751,7 @@ class NotebookApp(JupyterApp):
     @default('log_format')
     def _default_log_format(self):
         """override default log format to include time"""
-        return u"%(color)s[%(levelname)1.1s %(asctime)s.%(msecs).03d %(name)s]%(end_color)s %(message)s"
+        return "%(color)s[%(levelname)1.1s %(asctime)s.%(msecs).03d %(name)s]%(end_color)s %(message)s"
 
     ignore_minified_js = Bool(False,
             config=True,
@@ -834,7 +832,7 @@ class NotebookApp(JupyterApp):
         s = socket.socket()
         try:
             s.bind(('localhost', 0))
-        except socket.error as e:
+        except OSError as e:
             self.log.warning(_("Cannot bind to localhost, using 127.0.0.1 as default ip\n%s"), e)
             return '127.0.0.1'
         else:
@@ -844,11 +842,11 @@ class NotebookApp(JupyterApp):
     @validate('ip')
     def _validate_ip(self, proposal):
         value = proposal['value']
-        if value == u'*':
-            value = u''
+        if value == '*':
+            value = ''
         return value
 
-    custom_display_url = Unicode(u'', config=True,
+    custom_display_url = Unicode('', config=True,
         help=_("""Override URL shown to users.
 
         Replace actual URL, including protocol, address, port and base URL,
@@ -883,7 +881,7 @@ class NotebookApp(JupyterApp):
         return int(os.getenv(self.port_retries_env, self.port_retries_default_value))
 
 
-    sock = Unicode(u'', config=True,
+    sock = Unicode('', config=True,
         help=_("The UNIX socket the notebook server will listen on.")
     )
 
@@ -914,15 +912,15 @@ class NotebookApp(JupyterApp):
         return value
 
 
-    certfile = Unicode(u'', config=True,
+    certfile = Unicode('', config=True,
         help=_("""The full path to an SSL/TLS certificate file.""")
     )
 
-    keyfile = Unicode(u'', config=True,
+    keyfile = Unicode('', config=True,
         help=_("""The full path to a private key file for usage with SSL/TLS.""")
     )
 
-    client_ca = Unicode(u'', config=True,
+    client_ca = Unicode('', config=True,
         help=_("""The full path to a certificate authority certificate for SSL/TLS client authentication.""")
     )
 
@@ -947,7 +945,7 @@ class NotebookApp(JupyterApp):
     @default('cookie_secret')
     def _default_cookie_secret(self):
         if os.path.exists(self.cookie_secret_file):
-            with io.open(self.cookie_secret_file, 'rb') as f:
+            with open(self.cookie_secret_file, 'rb') as f:
                 key =  f.read()
         else:
             key = encodebytes(os.urandom(32))
@@ -960,7 +958,7 @@ class NotebookApp(JupyterApp):
         """write my secret to my secret_file"""
         self.log.info(_("Writing notebook server cookie secret to %s"), self.cookie_secret_file)
         try:
-            with io.open(self.cookie_secret_file, 'wb') as f:
+            with open(self.cookie_secret_file, 'wb') as f:
                 f.write(secret)
         except OSError as e:
             self.log.error(_("Failed to write cookie secret to %s: %s"),
@@ -995,12 +993,12 @@ class NotebookApp(JupyterApp):
             return os.getenv('JUPYTER_TOKEN')
         if os.getenv('JUPYTER_TOKEN_FILE'):
             self._token_generated = False
-            with io.open(os.getenv('JUPYTER_TOKEN_FILE'), "r") as token_file:
+            with open(os.getenv('JUPYTER_TOKEN_FILE')) as token_file:
                 return token_file.read()
         if self.password:
             # no token if password is enabled
             self._token_generated = False
-            return u''
+            return ''
         else:
             self._token_generated = True
             return binascii.hexlify(os.urandom(24)).decode('ascii')
@@ -1051,7 +1049,7 @@ class NotebookApp(JupyterApp):
     def _token_changed(self, change):
         self._token_generated = False
 
-    password = Unicode(u'', config=True,
+    password = Unicode('', config=True,
                       help="""Hashed password to use for web authentication.
 
                       To generate, type in a python/IPython shell:
@@ -1166,7 +1164,7 @@ class NotebookApp(JupyterApp):
                         (NotebookApp.browser) configuration option.
                         """)
 
-    browser = Unicode(u'', config=True,
+    browser = Unicode('', config=True,
                       help="""Specify what command to use to invoke a web
                       browser when opening the notebook. If not specified, the
                       default browser will be determined by the `webbrowser`
@@ -1252,7 +1250,7 @@ class NotebookApp(JupyterApp):
     def _update_enable_mathjax(self, change):
         """set mathjax url to empty if mathjax is disabled"""
         if not change['new']:
-            self.mathjax_url = u''
+            self.mathjax_url = ''
 
     base_url = Unicode('/', config=True,
                                help='''The base URL for the notebook server.
@@ -1351,7 +1349,7 @@ class NotebookApp(JupyterApp):
     @default('mathjax_url')
     def _default_mathjax_url(self):
         if not self.enable_mathjax:
-            return u''
+            return ''
         static_url_prefix = self.tornado_settings.get("static_url_prefix", "static")
         return url_path_join(static_url_prefix, 'components', 'MathJax', 'MathJax.js')
 
@@ -1360,7 +1358,7 @@ class NotebookApp(JupyterApp):
         new = change['new']
         if new and not self.enable_mathjax:
             # enable_mathjax=False overrides mathjax_url
-            self.mathjax_url = u''
+            self.mathjax_url = ''
         else:
             self.log.info(_("Using MathJax: %s"), new)
 
@@ -1701,7 +1699,7 @@ class NotebookApp(JupyterApp):
             if hard < soft:
                 hard = soft
             self.log.debug(
-                'Raising open file limit: soft {}->{}; hard {}->{}'.format(old_soft, soft, old_hard, hard)
+                f'Raising open file limit: soft {old_soft}->{soft}; hard {old_hard}->{hard}'
             )
             resource.setrlimit(resource.RLIMIT_NOFILE, (soft, hard))
 
@@ -1803,7 +1801,7 @@ class NotebookApp(JupyterApp):
         try:
             sock = bind_unix_socket(self.sock, mode=int(self.sock_mode.encode(), 8))
             self.http_server.add_socket(sock)
-        except socket.error as e:
+        except OSError as e:
             if e.errno == errno.EADDRINUSE:
                 self.log.warning(_('The socket %s is already in use.') % self.sock)
                 return False
@@ -1820,7 +1818,7 @@ class NotebookApp(JupyterApp):
         for port in random_ports(self.port, self.port_retries+1):
             try:
                 self.http_server.listen(port, self.ip)
-            except socket.error as e:
+            except OSError as e:
                 eacces = (errno.EACCES, getattr(errno, 'WSAEACCES', errno.EACCES))
                 if sys.platform == 'cygwin':
                     # Cygwin has a bug that causes EPERM to be returned in this
@@ -1886,7 +1884,7 @@ class NotebookApp(JupyterApp):
             return self._tcp_url(ip)
 
     def _unix_sock_url(self, token=None):
-        return '%s%s' % (urlencode_unix_socket(self.sock), self.base_url)
+        return f'{urlencode_unix_socket(self.sock)}{self.base_url}'
 
     def _tcp_url(self, ip, port=None):
         proto = 'https' if self.certfile else 'http'
@@ -2411,7 +2409,7 @@ def list_running_servers(runtime_dir=None):
 
     for file_name in os.listdir(runtime_dir):
         if re.match('nbserver-(.+).json', file_name):
-            with io.open(os.path.join(runtime_dir, file_name), encoding='utf-8') as f:
+            with open(os.path.join(runtime_dir, file_name), encoding='utf-8') as f:
                 info = json.load(f)
 
             # Simple check whether that process is really still running

@@ -13,7 +13,7 @@ class ViewHandler(IPythonHandler):
     def get(self, path):
         path = path.strip('/')
         if not self.contents_manager.file_exists(path):
-            raise web.HTTPError(404, u'File does not exist: %s' % path)
+            raise web.HTTPError(404, f'File does not exist: {path}')
 
         basename = path.rsplit('/', 1)[-1]
         file_url = url_path_join(self.base_url, 'files', url_escape(path))
@@ -22,5 +22,5 @@ class ViewHandler(IPythonHandler):
         )
 
 default_handlers = [
-    (r"/view%s" % path_regex, ViewHandler),
+    (fr"/view{path_regex}", ViewHandler),
 ]

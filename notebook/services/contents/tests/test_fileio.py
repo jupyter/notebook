@@ -3,7 +3,6 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-import io as stdlib_io
 import os.path
 import unittest
 import pytest
@@ -17,13 +16,14 @@ from ipython_genutils.tempdir import TemporaryDirectory
 umask = 0
 
 def test_atomic_writing():
-    class CustomExc(Exception): pass
+    class CustomExc(Exception):
+        pass
 
     with TemporaryDirectory() as td:
         f1 = os.path.join(td, 'penguin')
-        with stdlib_io.open(f1, 'w') as f:
-            f.write(u'Before')
-        
+        with open(f1, 'w') as f:
+            f.write('Before')
+
         if os.name != 'nt':
             os.chmod(f1, 0o701)
             orig_mode = stat.S_IMODE(os.stat(f1).st_mode)
@@ -40,18 +40,18 @@ def test_atomic_writing():
 
         with pytest.raises(CustomExc):
             with atomic_writing(f1) as f:
-                f.write(u'Failing write')
+                f.write('Failing write')
                 raise CustomExc
 
         # Because of the exception, the file should not have been modified
-        with stdlib_io.open(f1, 'r') as f:
-            assert f.read() == u'Before'
+        with open(f1) as f:
+            assert f.read() == 'Before'
 
         with atomic_writing(f1) as f:
-            f.write(u'Overwritten')
+            f.write('Overwritten')
 
-        with stdlib_io.open(f1, 'r') as f:
-            assert f.read() == u'Overwritten'
+        with open(f1) as f:
+            assert f.read() == 'Overwritten'
 
         if os.name != 'nt':
             mode = stat.S_IMODE(os.stat(f1).st_mode)
@@ -60,10 +60,10 @@ def test_atomic_writing():
         if have_symlink:
             # Check that writing over a file preserves a symlink
             with atomic_writing(f2) as f:
-                f.write(u'written from symlink')
-            
-            with stdlib_io.open(f1, 'r') as f:
-                assert f.read() == u'written from symlink'
+                f.write('written from symlink')
+
+            with open(f1) as f:
+                assert f.read() == 'written from symlink'
 
 class TestWithSetUmask(unittest.TestCase):
     def setUp(self):
@@ -71,7 +71,7 @@ class TestWithSetUmask(unittest.TestCase):
         global umask
         umask = os.umask(0)
         os.umask(umask)
-    
+
     def tearDown(self):
         # restore umask
         os.umask(umask)
@@ -82,14 +82,14 @@ class TestWithSetUmask(unittest.TestCase):
             os.umask(0o022)
             f1 = os.path.join(td, '1')
             with atomic_writing(f1) as f:
-                f.write(u'1')
+                f.write('1')
             mode = stat.S_IMODE(os.stat(f1).st_mode)
             assert mode == 0o644
-    
+
             os.umask(0o057)
             f2 = os.path.join(td, '2')
             with atomic_writing(f2) as f:
-                f.write(u'2')
+                f.write('2')
             mode = stat.S_IMODE(os.stat(f2).st_mode)
             assert mode == 0o620
 
@@ -97,36 +97,36 @@ class TestWithSetUmask(unittest.TestCase):
 def test_atomic_writing_newlines():
     with TemporaryDirectory() as td:
         path = os.path.join(td, 'testfile')
-        
-        lf = u'a\nb\nc\n'
-        plat = lf.replace(u'\n', os.linesep)
-        crlf = lf.replace(u'\n', u'\r\n')
-        
+
+        lf = 'a\nb\nc\n'
+        plat = lf.replace('\n', os.linesep)
+        crlf = lf.replace('\n', '\r\n')
+
         # test default
-        with stdlib_io.open(path, 'w') as f:
+        with open(path, 'w') as f:
             f.write(lf)
-        with stdlib_io.open(path, 'r', newline='') as f:
+        with open(path, newline='') as f:
             read = f.read()
         assert read == plat
-        
+
         # test newline=LF
-        with stdlib_io.open(path, 'w', newline='\n') as f:
+        with open(path, 'w', newline='\n') as f:
             f.write(lf)
-        with stdlib_io.open(path, 'r', newline='') as f:
+        with open(path, newline='') as f:
             read = f.read()
         assert read == lf
-        
+
         # test newline=CRLF
         with atomic_writing(path, newline='\r\n') as f:
             f.write(lf)
-        with stdlib_io.open(path, 'r', newline='') as f:
+        with open(path, newline='') as f:
             read = f.read()
         assert read == crlf
-        
+
         # test newline=no convert
-        text = u'crlf\r\ncr\rlf\n'
+        text = 'crlf\r\ncr\rlf\n'
         with atomic_writing(path, newline='') as f:
             f.write(text)
-        with stdlib_io.open(path, 'r', newline='') as f:
+        with open(path, newline='') as f:
             read = f.read()
         assert read == text

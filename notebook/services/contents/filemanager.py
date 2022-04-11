@@ -5,7 +5,6 @@
 
 from datetime import datetime
 import errno
-import io
 import os
 import shutil
 import stat
@@ -60,7 +59,7 @@ def _post_save_script(model, os_path, contents_manager, **kwargs):
     script, resources = _script_exporter.from_filename(os_path)
     script_fname = base + resources.get('output_extension', '.txt')
     log.info("Saving script /%s", to_api_path(script_fname, contents_manager.root_dir))
-    with io.open(script_fname, 'w', encoding='utf-8') as f:
+    with open(script_fname, 'w', encoding='utf-8') as f:
         f.write(script)
 
 
@@ -132,8 +131,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                 self.post_save_hook(os_path=os_path, model=model, contents_manager=self)
             except Exception as e:
                 self.log.error("Post-save hook failed o-n %s", os_path, exc_info=True)
-                raise web.HTTPError(500, u'Unexpected error while running post hook save: %s'
-                                    % e) from e
+                raise web.HTTPError(500, f'Unexpected error while running post hook save: {e}') from e
 
     @validate('root_dir')
     def _validate_root_dir(self, proposal):
@@ -143,7 +141,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             # If we receive a non-absolute path, make it absolute.
             value = os.path.abspath(value)
         if not os.path.isdir(value):
-            raise TraitError("%r is not a directory" % value)
+            raise TraitError(f"{value!r} is not a directory")
         return value
 
     @default('checkpoints_class')
@@ -243,14 +241,14 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         """Build the common base of a contents model"""
         os_path = self._get_os_path(path)
         info = os.lstat(os_path)
-        
+
         try:
-            # size of file 
+            # size of file
             size = info.st_size
         except (ValueError, OSError):
             self.log.warning('Unable to get size.')
             size = None
-        
+
         try:
             last_modified = tz.utcfromtimestamp(info.st_mtime)
         except (ValueError, OSError):
@@ -292,7 +290,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         """
         os_path = self._get_os_path(path)
 
-        four_o_four = u'directory does not exist: %r' % path
+        four_o_four = f'directory does not exist: {path!r}'
 
         if not os.path.isdir(os_path):
             raise web.HTTPError(404, four_o_four)
@@ -336,7 +334,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
                     if self.should_list(name):
                         if self.allow_hidden or not is_file_hidden(os_path, stat_res=st):
                             contents.append(
-                                    self.get(path='%s/%s' % (path, name), content=False)
+                                    self.get(path=f'{path}/{name}', content=False)
                             )
                 except OSError as e:
                     # ELOOP: recursive symlink
@@ -392,14 +390,14 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         model = self._base_model(path)
         model['type'] = 'notebook'
         os_path = self._get_os_path(path)
-        
+
         if content:
             nb = self._read_notebook(os_path, as_version=4)
             self.mark_trusted_cells(nb, path)
             model['content'] = nb
             model['format'] = 'json'
             self.validate_notebook_model(model)
-            
+
         return model
 
     def get(self, path, content=True, type=None, format=None):
@@ -427,32 +425,33 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         path = path.strip('/')
 
         if not self.exists(path):
-            raise web.HTTPError(404, u'No such file or directory: %s' % path)
+            raise web.HTTPError(404, f'No such file or directory: {path}')
 
         os_path = self._get_os_path(path)
         if os.path.isdir(os_path):
             if type not in (None, 'directory'):
                 raise web.HTTPError(400,
-                                u'%s is a directory, not a %s' % (path, type), reason='bad type')
+                                    f'{path} is a directory, not a {type}', reason='bad type')
             model = self._dir_model(path, content=content)
         elif type == 'notebook' or (type is None and path.endswith('.ipynb')):
             model = self._notebook_model(path, content=content)
         else:
             if type == 'directory':
-                raise web.HTTPError(400,
-                                u'%s is not a directory' % path, reason='bad type')
+                raise web.HTTPError(
+                    400,
+                    f'{path} is not a directory', reason='bad type')
             model = self._file_model(path, content=content, format=format)
         return model
 
     def _save_directory(self, os_path, model, path=''):
         """create a directory"""
         if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
-            raise web.HTTPError(400, u'Cannot create hidden directory %r' % os_path)
+            raise web.HTTPError(400, f'Cannot create hidden directory {os_path!r}')
         if not os.path.exists(os_path):
             with self.perm_to_403():
                 os.mkdir(os_path)
         elif not os.path.isdir(os_path):
-            raise web.HTTPError(400, u'Not a directory: %s' % (os_path))
+            raise web.HTTPError(400, f'Not a directory: {os_path}')
         else:
             self.log.debug("Directory %r already exists", os_path)
 
@@ -461,9 +460,9 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         path = path.strip('/')
 
         if 'type' not in model:
-            raise web.HTTPError(400, u'No file type provided')
+            raise web.HTTPError(400, 'No file type provided')
         if 'content' not in model and model['type'] != 'directory':
-            raise web.HTTPError(400, u'No file content provided')
+            raise web.HTTPError(400, 'No file content provided')
 
         os_path = self._get_os_path(path)
         self.log.debug("Saving %s", os_path)
@@ -484,13 +483,12 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             elif model['type'] == 'directory':
                 self._save_directory(os_path, model, path)
             else:
-                raise web.HTTPError(400, "Unhandled contents type: %s" % model['type'])
+                raise web.HTTPError(400, f"Unhandled contents type: {model['type']}")
         except web.HTTPError:
             raise
         except Exception as e:
-            self.log.error(u'Error while saving file: %s %s', path, e, exc_info=True)
-            raise web.HTTPError(500, u'Unexpected error while saving file: %s %s' %
-                                (path, e)) from e
+            self.log.error('Error while saving file: %s %s', path, e, exc_info=True)
+            raise web.HTTPError(500, f'Unexpected error while saving file: {path} {e}') from e
 
         validation_message = None
         if model['type'] == 'notebook':
@@ -511,7 +509,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         os_path = self._get_os_path(path)
         rm = os.unlink
         if not os.path.exists(os_path):
-            raise web.HTTPError(404, u'File or directory does not exist: %s' % os_path)
+            raise web.HTTPError(404, f'File or directory does not exist: {os_path}')
 
         def is_non_empty_dir(os_path):
             if os.path.isdir(os_path):
@@ -527,7 +525,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             if sys.platform == 'win32' and is_non_empty_dir(os_path):
                 # send2trash can really delete files on Windows, so disallow
                 # deleting non-empty files. See Github issue 3631.
-                raise web.HTTPError(400, u'Directory %s not empty' % os_path)
+                raise web.HTTPError(400, f'Directory {os_path} not empty')
             try:
                 self.log.debug("Sending %s to trash", os_path)
                 send2trash(os_path)
@@ -538,7 +536,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         if os.path.isdir(os_path):
             # Don't permanently delete non-empty directories.
             if is_non_empty_dir(os_path):
-                raise web.HTTPError(400, u'Directory %s not empty' % os_path)
+                raise web.HTTPError(400, f'Directory {os_path} not empty')
             self.log.debug("Removing directory %s", os_path)
             with self.perm_to_403():
                 shutil.rmtree(os_path)
@@ -563,7 +561,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
         # Should we proceed with the move?
         if os.path.exists(new_os_path) and not samefile(old_os_path, new_os_path):
-            raise web.HTTPError(409, u'File already exists: %s' % new_path)
+            raise web.HTTPError(409, f'File already exists: {new_path}')
 
         # Move the file
         try:
@@ -572,8 +570,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         except web.HTTPError:
             raise
         except Exception as e:
-            raise web.HTTPError(500, u'Unknown error renaming file: %s %s' %
-                                (old_path, e)) from e
+            raise web.HTTPError(500, f'Unknown error renaming file: {old_path} {e}') from e
 
     def info_string(self):
         return _("Serving notebooks from local directory: %s") % self.root_dir
@@ -604,6 +601,6 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
         for char in invalid_chars:
             if char in path:
-                raise web.HTTPError(400, "Path '{}' contains characters that are invalid for the filesystem. "
-                                         "Path names on this filesystem cannot contain any of the following "
-                                         "characters: {}".format(path, invalid_chars))
+                raise web.HTTPError(400, f"Path '{path}' contains characters that are invalid for the filesystem. "
+                                         f"Path names on this filesystem cannot contain any of the following "
+                                         f"characters: {invalid_chars}")

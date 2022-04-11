@@ -60,7 +60,7 @@ class StreamCapturer(Thread):
                 self.buffer.write(chunk)
             if self.echo:
                 sys.stdout.write(bytes_to_str(chunk))
-    
+
         os.close(self.readfd)
         os.close(self.writefd)
 
@@ -87,7 +87,7 @@ class StreamCapturer(Thread):
         self.join()
 
 
-class TestController(object):
+class TestController:
     """Run tests in a subprocess
     """
     #: str, test group to be executed.
@@ -110,7 +110,7 @@ class TestController(object):
 
     def setup(self):
         """Create temporary directories etc.
-        
+
         This is only called when we know the test group will be run. Things
         created here may be cleaned up by self.cleanup().
         """
@@ -138,11 +138,11 @@ class TestController(object):
 
     def print_extra_info(self):
         """Print extra information about this test run.
-        
+
         If we're running in parallel and showing the concise view, this is only
         called if the test group fails. Otherwise, it's called before the test
         group is started.
-        
+
         The base implementation does nothing, but it can be overridden by
         subclasses.
         """
@@ -155,7 +155,7 @@ class TestController(object):
             return  # Process doesn't exist, or is already dead.
 
         try:
-            print('Cleaning up stale PID: %d' % subp.pid)
+            print(f'Cleaning up stale PID: {subp.pid}')
             subp.kill()
         except: # (OSError, WindowsError) ?
             # This is just a best effort, if we fail or the process was
@@ -193,7 +193,7 @@ def all_js_groups():
 
 class JSController(TestController):
     """Run CasperJS tests """
-    
+
     requirements =  ['casperjs']
 
     def __init__(self, section, xunit=True, engine='phantomjs', url=None):
@@ -210,7 +210,7 @@ class JSController(TestController):
         js_test_dir = get_js_test_dir()
         includes = '--includes=' + os.path.join(js_test_dir,'util.js')
         test_cases = os.path.join(js_test_dir, self.section)
-        self.cmd = ['casperjs', 'test', includes, test_cases, '--engine=%s' % self.engine]
+        self.cmd = ['casperjs', 'test', includes, test_cases, f'--engine={self.engine}']
 
     def setup(self):
         self.ipydir = TemporaryDirectory()
@@ -226,8 +226,8 @@ class JSController(TestController):
         self.dirs.append(self.home)
         self.dirs.append(self.config_dir)
         self.dirs.append(self.nbdir)
-        os.makedirs(os.path.join(self.nbdir.name, os.path.join(u'sub ∂ir1', u'sub ∂ir 1a')))
-        os.makedirs(os.path.join(self.nbdir.name, os.path.join(u'sub ∂ir2', u'sub ∂ir 1b')))
+        os.makedirs(os.path.join(self.nbdir.name, os.path.join('sub ∂ir1', 'sub ∂ir 1a')))
+        os.makedirs(os.path.join(self.nbdir.name, os.path.join('sub ∂ir2', 'sub ∂ir 1b')))
 
         if self.xunit:
             self.add_xunit()
@@ -240,22 +240,22 @@ class JSController(TestController):
                 alive = False
 
             if alive:
-                self.cmd.append("--url=%s" % self.url)
+                self.cmd.append(f"--url={self.url}")
             else:
-                raise Exception('Could not reach "%s".' % self.url)
+                raise Exception(f'Could not reach "{self.url}".')
         else:
             # start the ipython notebook, so we get the port number
             self.server_port = 0
             self._init_server()
             if self.server_port:
-                self.cmd.append('--url=http://localhost:%i%s' % (self.server_port, self.base_url))
+                self.cmd.append(f'--url=http://localhost:{self.server_port:d}{self.base_url}')
             else:
                 # don't launch tests if the server didn't start
                 self.cmd = [sys.executable, '-c', 'raise SystemExit(1)']
 
     def add_xunit(self):
         xunit_file = os.path.abspath(self.section.replace('/','.') + '.xunit.xml')
-        self.cmd.append('--xunit=%s' % xunit_file)
+        self.cmd.append(f'--xunit={xunit_file}')
 
     def launch(self, buffer_output):
         # If the engine is SlimerJS, we need to buffer the output because
@@ -281,7 +281,7 @@ class JSController(TestController):
             return ret
 
     def print_extra_info(self):
-        print("Running tests with notebook directory %r" % self.nbdir.name)
+        print(f"Running tests with notebook directory {self.nbdir.name!r}")
 
     @property
     def will_run(self):
@@ -295,7 +295,7 @@ class JSController(TestController):
             '--no-browser',
             '--notebook-dir', self.nbdir.name,
             '--NotebookApp.token=',
-            '--NotebookApp.base_url=%s' % self.base_url,
+            f'--NotebookApp.base_url={self.base_url}',
         ]
         # ipc doesn't work on Windows, and darwin has crazy-long temp paths,
         # which run afoul of ipc's maximum path length.
@@ -313,11 +313,12 @@ class JSController(TestController):
         )
         with patch.dict('os.environ', {'HOME': self.home.name}):
             runtime_dir = jupyter_runtime_dir()
-        self.server_info_file = os.path.join(runtime_dir,
-            'nbserver-%i.json' % self.server.pid
+        self.server_info_file = os.path.join(
+            runtime_dir,
+            f'nbserver-{self.server.pid}.json'
         )
         self._wait_for_server()
-    
+
     def _wait_for_server(self):
         """Wait 30 seconds for the notebook server to start"""
         for i in range(300):
@@ -333,17 +334,18 @@ class JSController(TestController):
                 else:
                     return
             time.sleep(0.1)
-        print("Notebook server-info file never arrived: %s" % self.server_info_file,
+        print(
+            f"Notebook server-info file never arrived: {self.server_info_file}",
             file=sys.stderr
         )
-    
+
     def _failed_to_start(self):
         """Notebook server exited prematurely"""
         captured = self.stream_capturer.get_buffer().decode('utf-8', 'replace')
         print("Notebook failed to start: ", file=sys.stderr)
         print(self.server_command)
         print(captured, file=sys.stderr)
-    
+
     def _load_server_info(self):
         """Notebook server started, load connection info from JSON"""
         with open(self.server_info_file) as f:
@@ -374,10 +376,11 @@ class JSController(TestController):
             try:
                 popen_wait(self.server, NOTEBOOK_SHUTDOWN_TIMEOUT)
             except TimeoutExpired:
-                print("Notebook server still running (%s)" % self.server_info_file,
+                print(
+                    f"Notebook server still running ({self.server_info_file})",
                     file=sys.stderr
                 )
-              
+
             self.stream_capturer.halt()
         TestController.cleanup(self)
 
@@ -399,11 +402,11 @@ def prepare_controllers(options):
 
 def do_run(controller, buffer_output=True):
     """Setup and run a test controller.
-    
+
     If buffer_output is True, no output is displayed, to avoid it appearing
     interleaved. In this case, the caller is responsible for displaying test
     output on failure.
-    
+
     Returns
     -------
     controller : TestController
@@ -443,7 +446,7 @@ def report():
     _add('Platform', inf['platform'])
 
     width = max(len(n) for (n,v) in out)
-    out = ["{:<{width}}: {}\n".format(n, v, width=width) for (n,v) in out]
+    out = [f"{n:<{width}}: {v}\n" for (n, v) in out]
 
     avail = []
     not_avail = []
@@ -468,7 +471,7 @@ def report():
 
 def run_jstestall(options):
     """Run the entire Javascript test suite.
-    
+
     This function constructs TestControllers and runs them in subprocesses.
 
     Parameters
@@ -552,16 +555,15 @@ def run_jstestall(options):
     print('_'*70)
     print('Test suite completed for system with the following information:')
     print(report())
-    took = "Took %.3fs." % t_tests
+    took = f"Took {t_tests:.3f}s."
     print('Status: ', end='')
     if not failed:
-        print('OK (%d test groups).' % nrunners, took)
+        print(f'OK ({nrunners} test groups).', took)
     else:
         # If anything went wrong, point out what command to rerun manually to
         # see the actual errors and individual summary
         failed_sections = [c.section for c in failed]
-        print('ERROR - {} out of {} test groups failed ({}).'.format(nfail,
-                                  nrunners, ', '.join(failed_sections)), took)
+        print(f'ERROR - {nfail} out of {nrunners} test groups failed ({", ".join(failed_sections)}).', took)
         print()
         print('You may wish to rerun these, with:')
         print('  python -m notebook.jstest', *failed_sections)

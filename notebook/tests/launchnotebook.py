@@ -69,12 +69,12 @@ class NotebookTestBase(TestCase):
         cls.notebook_thread.join(timeout=MAX_WAITTIME)
         if cls.notebook_thread.is_alive():
             raise TimeoutError("Undead notebook server")
-    
+
     @classmethod
     def auth_headers(cls):
         headers = {}
         if cls.token:
-            headers['Authorization'] = 'token %s' % cls.token
+            headers['Authorization'] = f'token {cls.token}'
         return headers
 
     @staticmethod
@@ -84,7 +84,7 @@ class NotebookTestBase(TestCase):
     @classmethod
     def request(cls, verb, path, **kwargs):
         """Send a request to my server
-        
+
         with authentication and everything.
         """
         headers = kwargs.setdefault('headers', {})
@@ -219,13 +219,13 @@ class NotebookTestBase(TestCase):
 
     @classmethod
     def base_url(cls):
-        return 'http://localhost:%i%s' % (cls.port, cls.url_prefix)
+        return f'http://localhost:{cls.port}{cls.url_prefix}'
 
 
 class UNIXSocketNotebookTestBase(NotebookTestBase):
     # Rely on `/tmp` to avoid any Linux socket length max buffer
     # issues. Key on PID for process-wise concurrency.
-    sock = '/tmp/.notebook.%i.sock' % os.getpid()
+    sock = f'/tmp/.notebook.{os.getpid()}.sock'
 
     @classmethod
     def get_bind_args(cls):
@@ -233,7 +233,7 @@ class UNIXSocketNotebookTestBase(NotebookTestBase):
 
     @classmethod
     def base_url(cls):
-        return '%s%s' % (urlencode_unix_socket(cls.sock), cls.url_prefix)
+        return f'{urlencode_unix_socket(cls.sock)}{cls.url_prefix}'
 
     @staticmethod
     def fetch_url(url):
@@ -251,7 +251,7 @@ def assert_http_error(status, msg=None):
     except requests.HTTPError as e:
         real_status = e.response.status_code
         assert real_status == status, \
-                    "Expected status %d, got %d" % (status, real_status)
+            f"Expected status {status}, got {real_status}"
         if msg:
             assert msg in str(e), e
     else:

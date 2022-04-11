@@ -60,8 +60,7 @@ class BundlerHandler(IPythonHandler):
         try:
             bundler = self.get_bundler(bundler_id)
         except KeyError as e:
-            raise web.HTTPError(400, 'Bundler %s not enabled' %
-                                bundler_id) from e
+            raise web.HTTPError(400, f'Bundler {bundler_id} not enabled') from e
 
         module_name = bundler['module_name']
         try:
@@ -70,12 +69,11 @@ class BundlerHandler(IPythonHandler):
         except UnicodeEncodeError:
             # Encode unicode as utf-8 in python2 else import_item fails
             module_name = module_name.encode('utf-8')
-        
+
         try:
             bundler_mod = import_item(module_name)
         except ImportError as e:
-            raise web.HTTPError(500, 'Could not import bundler %s ' %
-                                bundler_id) from e
+            raise web.HTTPError(500, f'Could not import bundler {bundler_id} ') from e
 
         # Let the bundler respond in any way it sees fit and assume it will
         # finish the request

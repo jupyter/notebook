@@ -9,7 +9,7 @@ from notebook.utils import url_path_join
 from notebook.tests.launchnotebook import NotebookTestBase, assert_http_error
 
 
-class TerminalAPI(object):
+class TerminalAPI:
     """Wrapper for terminal REST API requests"""
     def __init__(self, request, base_url, headers):
         self.request = request

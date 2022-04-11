@@ -48,7 +48,7 @@ class LoginHandler(IPythonHandler):
             # OR pass our cross-origin check
             if parsed.netloc:
                 # if full URL, run our cross-origin check:
-                origin = '%s://%s' % (parsed.scheme, parsed.netloc)
+                origin = f'{parsed.scheme}://{parsed.netloc}'
                 origin = origin.lower()
                 if self.allow_origin:
                     allow = self.allow_origin == origin
@@ -56,7 +56,7 @@ class LoginHandler(IPythonHandler):
                     allow = bool(self.allow_origin_pat.match(origin))
             if not allow:
                 # not allowed, use default
-                self.log.warning("Not allowing login redirect to %r" % url)
+                self.log.warning(f"Not allowing login redirect to {url!r}")
                 url = default
         self.redirect(url)
 
@@ -73,13 +73,13 @@ class LoginHandler(IPythonHandler):
 
     def passwd_check(self, a, b):
         return passwd_check(a, b)
-    
+
     def post(self):
-        typed_password = self.get_argument('password', default=u'')
-        new_password = self.get_argument('new_password', default=u'')
+        typed_password = self.get_argument('password', default='')
+        new_password = self.get_argument('new_password', default='')
 
 
-        
+
         if self.get_login_available(self.settings):
             if self.passwd_check(self.hashed_password, typed_password) and not new_password:
                 self.set_login_cookie(self, uuid.uuid4().hex)
@@ -89,7 +89,7 @@ class LoginHandler(IPythonHandler):
                     config_dir = self.settings.get('config_dir')
                     config_file = os.path.join(config_dir, 'jupyter_notebook_config.json')
                     set_password(new_password, config_file=config_file)
-                    self.log.info("Wrote hashed password to %s" % config_file)
+                    self.log.info(f"Wrote hashed password to {config_file}")
             else:
                 self.set_status(401)
                 self._render(message={'error': 'Invalid credentials'})
@@ -197,7 +197,7 @@ class LoginHandler(IPythonHandler):
     @classmethod
     def get_user_token(cls, handler):
         """Identify the user based on a token in the URL or Authorization header
-        
+
         Returns:
         - uuid if authenticated
         - None if not
@@ -245,7 +245,7 @@ class LoginHandler(IPythonHandler):
 
         If there is no configured password, an empty string will be returned.
         """
-        return settings.get('password', u'')
+        return settings.get('password', '')
 
     @classmethod
     def get_login_available(cls, settings):

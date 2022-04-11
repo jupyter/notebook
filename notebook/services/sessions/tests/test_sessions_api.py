@@ -2,11 +2,9 @@
 
 import errno
 from functools import partial
-import io
 import os
 import json
 import shutil
-import sys
 import time
 
 from unittest import SkipTest
@@ -25,7 +23,7 @@ except ImportError:
 pjoin = os.path.join
 
 
-class SessionAPI(object):
+class SessionAPI:
     """Wrapper for notebook API calls."""
     def __init__(self, request):
         self.request = request
@@ -101,7 +99,7 @@ class SessionAPITest(NotebookTestBase):
                 raise
         self.addCleanup(partial(shutil.rmtree, subdir, ignore_errors=True))
 
-        with io.open(pjoin(subdir, 'nb1.ipynb'), 'w', encoding='utf-8') as f:
+        with open(pjoin(subdir, 'nb1.ipynb'), 'w', encoding='utf-8') as f:
             nb = new_notebook()
             write(nb, f, version=4)
 
@@ -130,7 +128,7 @@ class SessionAPITest(NotebookTestBase):
         self.assertIn('id', newsession)
         self.assertEqual(newsession['path'], 'foo/nb1.ipynb')
         self.assertEqual(newsession['type'], 'notebook')
-        self.assertEqual(resp.headers['Location'], self.url_prefix + 'api/sessions/{0}'.format(newsession['id']))
+        self.assertEqual(resp.headers['Location'], f'{self.url_prefix}api/sessions/{newsession["id"]}')
 
         sessions = self.sess_api.list().json()
         self.assertEqual(sessions, [newsession])
@@ -174,7 +172,7 @@ class SessionAPITest(NotebookTestBase):
         self.assertIn('id', newsession)
         self.assertEqual(newsession['path'], 'foo/nb1.ipynb')
         self.assertEqual(newsession['kernel']['id'], kernel['id'])
-        self.assertEqual(resp.headers['Location'], self.url_prefix + 'api/sessions/{0}'.format(newsession['id']))
+        self.assertEqual(resp.headers['Location'], f'{self.url_prefix}api/sessions/{newsession["id"]}')
 
         sessions = self.sess_api.list().json()
         self.assertEqual(sessions, [newsession])
@@ -273,11 +271,11 @@ class AsyncSessionAPITest(SessionAPITest):
     def setup_class(cls):
         if not async_testing_enabled:  # Can be removed once jupyter_client >= 6.1 is required.
             raise SkipTest("AsyncSessionAPITest tests skipped due to down-level jupyter_client!")
-        super(AsyncSessionAPITest, cls).setup_class()
+        super().setup_class()
 
     @classmethod
     def get_argv(cls):
-        argv = super(AsyncSessionAPITest, cls).get_argv()
+        argv = super().get_argv()
 
         # Before we extend the argv with the class, ensure that appropriate jupyter_client is available.
         # if not available, don't set kernel_manager_class, resulting in the repeat of sync-based tests.
