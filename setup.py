@@ -129,7 +129,7 @@ for more information.
         'prometheus_client'
     ],
     extras_require = {
-        'test': ['pytest', 'coverage', 'requests',
+        'test': ['pytest', 'coverage', 'requests', 'testpath',
                  'nbval', 'selenium', 'pytest', 'pytest-cov'],
         'docs': ['sphinx', 'nbsphinx', 'sphinxcontrib_github_alt',
                  'sphinx_rtd_theme', 'myst-parser'],
