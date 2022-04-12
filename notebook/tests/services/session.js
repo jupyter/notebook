@@ -154,7 +154,7 @@ casper.notebook_test(function () {
             this.thenEvaluate(function () {
                 var cell = IPython.notebook.get_cell(0);
                 cell.set_text("import os\n" +
-                              "from IPython.kernel.connect import get_connection_file\n" +
+                              "from ipykernel.connect import get_connection_file\n" +
                               "with open(get_connection_file(), 'w') as f:\n" +
                               "    f.write('garbage')\n" +
                               "os._exit(1)");
