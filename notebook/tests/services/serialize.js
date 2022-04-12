@@ -33,7 +33,7 @@ casper.notebook_test(function () {
     this.then(function () {
         var index = this.append_cell([
             "import os",
-            "from IPython.kernel.comm import Comm",
+            "from ipykernel.comm.comm import Comm",
             "comm = Comm(target_name='echo')",
             "msgs = []",
             "def on_msg(msg):",
