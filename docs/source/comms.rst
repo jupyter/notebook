@@ -78,7 +78,7 @@ containing Javascript to connect to it.
         # Send data to the frontend on creation
         comm.send({'foo': 5})
 
-    get_ipython().comm.comm_manager.register_target('my_comm_target', target_func)
+    get_ipython().kernel.comm_manager.register_target('my_comm_target', target_func)
 
 This example uses the IPython kernel again; this example will be different in
 other kernels that support comms. Refer to the specific language kernel's
