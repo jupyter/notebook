@@ -27,7 +27,7 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 - Add testpath to the test dependencies. [#6357](https://github.com/jupyter/notebook/pull/6357) ([@echarles](https://github.com/echarles))
 - Temporary workaround to fix js-tests related to sanitizer js loading by phantomjs [#6356](https://github.com/jupyter/notebook/pull/6356) ([@echarles](https://github.com/echarles))
 - Use place-hold.it instead of plaecehold.it to create image placeholders [#6320](https://github.com/jupyter/notebook/pull/6320) ([@echarles](https://github.com/echarles))
-- Fix #6256 : migrate to python 3.7+ [#6260](https://github.com/jupyter/notebook/pull/6260) ([@penguinolog](https://github.com/penguinolog))
+- Migrate to python 3.7+ [#6260](https://github.com/jupyter/notebook/pull/6260) - Fixes [#6256](https://github.com/jupyter/notebook/pull/6256) ([@penguinolog](https://github.com/penguinolog))
 
 ### Contributors to this release
 
