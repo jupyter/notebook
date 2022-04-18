@@ -14,7 +14,7 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
-## 6.4.10
+## 6.4.11
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/6.4.10...3911672959fcd35cf4a1b1ad7c9c8a5651c17ae6))
 
