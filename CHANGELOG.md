@@ -14,6 +14,29 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 6.4.10
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/6.4.10...3911672959fcd35cf4a1b1ad7c9c8a5651c17ae6))
+
+### Bugs fixed
+
+- Update further to ipykernel comm refactoring [#6358](https://github.com/jupyter/notebook/pull/6358) ([@echarles](https://github.com/echarles))
+
+### Maintenance and upkeep improvements
+
+- Add testpath to the test dependencies. [#6357](https://github.com/jupyter/notebook/pull/6357) ([@echarles](https://github.com/echarles))
+- Temporary workaround to fix js-tests related to sanitizer js loading by phantomjs [#6356](https://github.com/jupyter/notebook/pull/6356) ([@echarles](https://github.com/echarles))
+- Use place-hold.it instead of plaecehold.it to create image placeholders [#6320](https://github.com/jupyter/notebook/pull/6320) ([@echarles](https://github.com/echarles))
+- Migrate to python 3.7+ [#6260](https://github.com/jupyter/notebook/pull/6260) - Fixes [#6256](https://github.com/jupyter/notebook/pull/6256) ([@penguinolog](https://github.com/penguinolog))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-03-15&to=2022-04-18&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-03-15..2022-04-18&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-03-15..2022-04-18&type=Issues) | [@fcollonval](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afcollonval+updated%3A2022-03-15..2022-04-18&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-03-15..2022-04-18&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-03-15..2022-04-18&type=Issues) | [@penguinolog](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apenguinolog+updated%3A2022-03-15..2022-04-18&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 6.4.9
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.7...9e3a7001117e64a24ead07b888bd055fdd66faf3))
@@ -32,8 +55,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-01-12&to=2022-03-14&type=c))
 
 [@adamjstewart](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aadamjstewart+updated%3A2022-01-12..2022-03-14&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-01-12..2022-03-14&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-01-12..2022-03-14&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-01-12..2022-03-14&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2022-01-12..2022-03-14&type=Issues) | [@kycutler](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akycutler+updated%3A2022-01-12..2022-03-14&type=Issues) | [@Zsailer](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AZsailer+updated%3A2022-01-12..2022-03-14&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.4.8
 
