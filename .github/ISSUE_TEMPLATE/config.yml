@@ -2,10 +2,10 @@ blank_issues_enabled: true
 contact_links:
   - name: Is this a common issue? See our Docs.
     url: https://jupyter-notebook.readthedocs.io/en/stable/troubleshooting.html#what-to-do-when-things-go-wrong
-    about: Before posting an issue here, make sure your issue hasn't already been addressed here.
+    about: Before opening an issue, make sure your issue hasn't already been addressed in the documentation.
   - name: Do you need support or a question answered? See Jupyter Discourse.
     url: https://discourse.jupyter.org/c/notebook/31
     about: If you have a question or you're having issues installing Jupyter Notebook, try posting on Discourse. There are lots of friendly Joyvans there to help!
   - name: Do you have a feature request? See JupyterLab.
     url: https://github.com/jupyterlab/jupyterlab
-    about: Jupyter Notebook is in a maintenance-only phase. We won't likely accept new features; instead, we recommend you check out JupyterLab for new features and support.
+    about: We won't likely accept new features for Jupyter Notebook 6.x. We recommend that you check out JupyterLab for new features and support.
