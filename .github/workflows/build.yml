@@ -41,7 +41,7 @@ jobs:
 
     - name: Install the package
       run: |
-        python -m pip install ".[test]""
+        python -m pip install ".[test]"
         jlpm run build:test
 
     - name: Unit tests
