@@ -50,6 +50,7 @@ jobs:
         pytest -vv || pytest -vv --lf
 
     - name: Integration Tests
+      run: |
         jupyter labextension list 2>&1 | grep -ie "@jupyter-notebook/lab-extension.*enabled.*ok" -
         jupyter server extension list 2>&1 | grep -ie "notebook.*enabled" -
         python -m jupyterlab.browser_check
