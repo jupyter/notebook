@@ -33,16 +33,18 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
         app = self.extensionapp
         base_url = self.settings.get("base_url")
         page_config = self.settings.setdefault("page_config_data", {})
-        page_config.update({
-            "appVersion": version,
-            "baseUrl": self.base_url,
-            "terminalsAvailable": self.settings.get("terminals_available", False),
-            "token": self.settings["token"],
-            "fullStaticUrl": ujoin(self.base_url, "static", self.name),
-            "frontendUrl": ujoin(self.base_url, "/"),
-            "exposeAppInBrowser": app.expose_app_in_browser,
-            "collaborative": app.collaborative,
-        })
+        page_config.update(
+            {
+                "appVersion": version,
+                "baseUrl": self.base_url,
+                "terminalsAvailable": self.settings.get("terminals_available", False),
+                "token": self.settings["token"],
+                "fullStaticUrl": ujoin(self.base_url, "static", self.name),
+                "frontendUrl": ujoin(self.base_url, "/"),
+                "exposeAppInBrowser": app.expose_app_in_browser,
+                "collaborative": app.collaborative,
+            }
+        )
 
         if "hub_prefix" in app.serverapp.tornado_settings:
             tornado_settings = app.serverapp.tornado_settings
