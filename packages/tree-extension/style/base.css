@@ -41,3 +41,7 @@
 .jp-DropdownMenu .lm-MenuBar-itemIcon svg {
   vertical-align: sub;
 }
+
+button[data-command='filebrowser:refresh'] .jp-ToolbarButtonComponent-label {
+  display: none;
+}
