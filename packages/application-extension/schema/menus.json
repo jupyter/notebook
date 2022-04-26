@@ -8,7 +8,7 @@
         "items": [
           {
             "command": "application:rename",
-            "rank": 4
+            "rank": 4.5
           },
           {
             "command": "notebook:trust",

@@ -59,6 +59,20 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
             api_token = os.getenv("JUPYTERHUB_API_TOKEN", "")
             page_config["token"] = api_token
 
+        server_root = self.settings.get("server_root_dir", "")
+        server_root = server_root.replace(os.sep, "/")
+        server_root = os.path.normpath(os.path.expanduser(server_root))
+        try:
+            # Remove the server_root from pref dir
+            if self.serverapp.preferred_dir != server_root:
+                page_config["preferredPath"] = "/" + os.path.relpath(
+                    self.serverapp.preferred_dir, server_root
+                )
+            else:
+                page_config["preferredPath"] = "/"
+        except Exception:
+            page_config["preferredPath"] = "/"
+
         mathjax_config = self.settings.get("mathjax_config", "TeX-AMS_HTML-full,Safe")
         # TODO Remove CDN usage.
         mathjax_url = self.settings.get(
