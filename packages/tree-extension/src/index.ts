@@ -161,19 +161,12 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
 
     // show checkboxes by default if there is no user setting override
     const settings = settingRegistry.load(FILE_BROWSER_PLUGIN_ID);
-    const updateSettings = (settings: ISettingRegistry.ISettings): void => {
-      if (settings.user.showFileCheckboxes !== undefined) {
-        return;
-      }
-      void settings.set('showFileCheckboxes', true);
-    };
-
     Promise.all([settings, app.restored])
       .then(([settings]) => {
-        updateSettings(settings);
-        settings.changed.connect(settings => {
-          updateSettings(settings);
-        });
+        if (settings.user.showFileCheckboxes !== undefined) {
+          return;
+        }
+        void settings.set('showFileCheckboxes', true);
       })
       .catch((reason: Error) => {
         console.error(reason.message);
