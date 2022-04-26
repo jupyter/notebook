@@ -43,6 +43,7 @@ body[data-notebook='notebooks'] .jp-Notebook {
 
 body[data-notebook='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
   background: var(--jp-layout-color0);
+  min-height: var(--jp-notebook-padding);
 }
 
 /* ---- */
