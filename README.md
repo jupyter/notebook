@@ -14,7 +14,9 @@ computing.
 
 The Jupyter Notebook project is currently undertaking a transition to a more modern code base built from the ground-up using JupyterLab components and extensions.
 
-There is new stream of work which was submitted and then accepted as a Jupyter Enhancement Proposal (JEP): https://jupyter.org/enhancement-proposals/79-notebook-v7/notebook-v7.html
+There is new stream of work which was submitted and then accepted as a Jupyter Enhancement Proposal (JEP) as part of the next version (v7): https://jupyter.org/enhancement-proposals/79-notebook-v7/notebook-v7.html
+
+There is also a plan to continue maintaining Notebook v6 with bug and security fixes only, to ease the transition to Notebook v7: https://github.com/jupyter/notebook-team-compass/issues/5#issuecomment-1085254000
 
 #### Notebook v7
 
@@ -30,6 +32,8 @@ To learn more about Notebook v7: https://jupyter.org/enhancement-proposals/79-no
 #### Classic Notebook v6
 
 Maintainance and security-related issues are now being addressed in the [`6.4.x`](https://github.com/jupyter/notebook/tree/6.4.x) branch.
+
+A `6.5.x` branch will be soon created and will depend on [`nbclassic`](https://github.com/jupyter/nbclassic) for the HTML/JavaScript/CSS assets.
 
 New features and continuous improvement is now focused on Notebook v7 (see section above).
 
