@@ -124,7 +124,11 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
       FILE_BROWSER_FACTORY,
       'uploader',
       (browser: FileBrowser) =>
-        new Uploader({ model: browser.model, translator })
+        new Uploader({
+          model: browser.model,
+          translator,
+          label: trans.__('Upload')
+        })
     );
 
     setToolbar(
