@@ -32,7 +32,15 @@ import {
 
 import { Menu, MenuBar, TabPanel } from '@lumino/widgets';
 
+/**
+ * The file browser factory.
+ */
 const FILE_BROWSER_FACTORY = 'FileBrowser';
+
+/**
+ * The file browser plugin id.
+ */
+const FILE_BROWSER_PLUGIN_ID = '@jupyterlab/filebrowser-extension:browser';
 
 /**
  * Plugin to add extra commands to the file browser to create
@@ -101,7 +109,7 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
     app: JupyterFrontEnd,
     factory: IFileBrowserFactory,
     translator: ITranslator,
-    settings: ISettingRegistry,
+    settingRegistry: ISettingRegistry,
     toolbarRegistry: IToolbarWidgetRegistry,
     manager: IRunningSessionManagers | null
   ): void => {
@@ -135,7 +143,7 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
       browser,
       createToolbarFactory(
         toolbarRegistry,
-        settings,
+        settingRegistry,
         FILE_BROWSER_FACTORY,
         browserWidget.id,
         translator
@@ -150,6 +158,26 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
       tabPanel.addWidget(running);
       tabPanel.tabBar.addTab(running.title);
     }
+
+    // show checkboxes by default if there is no user setting override
+    const settings = settingRegistry.load(FILE_BROWSER_PLUGIN_ID);
+    const updateSettings = (settings: ISettingRegistry.ISettings): void => {
+      if (settings.user.showFileCheckboxes !== undefined) {
+        return;
+      }
+      void settings.set('showFileCheckboxes', true);
+    };
+
+    Promise.all([settings, app.restored])
+      .then(([settings]) => {
+        updateSettings(settings);
+        settings.changed.connect(settings => {
+          updateSettings(settings);
+        });
+      })
+      .catch((reason: Error) => {
+        console.error(reason.message);
+      });
 
     app.shell.add(tabPanel, 'main', { rank: 100 });
   }
