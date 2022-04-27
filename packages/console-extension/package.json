@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/console-extension",
-  "version": "7.0.0-alpha.2",
+  "version": "7.0.0-alpha.3",
   "description": "Jupyter Notebook - Console Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
