@@ -8,5 +8,7 @@
     "docs/**/*",
     ".eslintrc.js"
   ],
-  "types": ["jest"]
+  "compilerOptions": {
+    "types": ["jest"]
+  }
 }
