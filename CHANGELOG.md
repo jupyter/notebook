@@ -14,6 +14,57 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0a3
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a2...4076882c0e08875dd719945835f8cbe5b10eac9e))
+
+### Enhancements made
+
+- Show file checkboxes by default in the file browser [#6377](https://github.com/jupyter/notebook/pull/6377) ([@jtpio](https://github.com/jtpio))
+- Remove blank space at the bottom of the notebook [#6376](https://github.com/jupyter/notebook/pull/6376) ([@jtpio](https://github.com/jtpio))
+- Add a label to the upload button [#6374](https://github.com/jupyter/notebook/pull/6374) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.0.0a24 [#6371](https://github.com/jupyter/notebook/pull/6371) ([@jtpio](https://github.com/jtpio))
+- Initialize handler page_config from Server traitlets [#6366](https://github.com/jupyter/notebook/pull/6366) ([@bollwyvl](https://github.com/bollwyvl))
+- Add project URLs to setup.cfg [#6346](https://github.com/jupyter/notebook/pull/6346) ([@tlinhart](https://github.com/tlinhart))
+- Update to JupyterLab 4.0.0a23 [#6336](https://github.com/jupyter/notebook/pull/6336) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Fix opening JupyterLab from Notebook [#6379](https://github.com/jupyter/notebook/pull/6379) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Add UI tests for a simple notebook [#6380](https://github.com/jupyter/notebook/pull/6380) ([@jtpio](https://github.com/jtpio))
+- Bump async from 2.6.3 to 2.6.4 in /ui-tests [#6370](https://github.com/jupyter/notebook/pull/6370) ([@dependabot](https://github.com/dependabot))
+- Fix build workflow on CI [#6369](https://github.com/jupyter/notebook/pull/6369) ([@jtpio](https://github.com/jtpio))
+- [pre-commit.ci] pre-commit autoupdate [#6365](https://github.com/jupyter/notebook/pull/6365) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- [pre-commit.ci] pre-commit autoupdate [#6355](https://github.com/jupyter/notebook/pull/6355) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Bump moment from 2.29.1 to 2.29.2 [#6352](https://github.com/jupyter/notebook/pull/6352) ([@dependabot](https://github.com/dependabot))
+- Bump moment from 2.29.1 to 2.29.2 in /ui-tests [#6351](https://github.com/jupyter/notebook/pull/6351) ([@dependabot](https://github.com/dependabot))
+- Clean up pre-commit [#6349](https://github.com/jupyter/notebook/pull/6349) ([@blink1073](https://github.com/blink1073))
+- Update to TypeScript 4.6 [#6345](https://github.com/jupyter/notebook/pull/6345) ([@jtpio](https://github.com/jtpio))
+- [pre-commit.ci] pre-commit autoupdate [#6343](https://github.com/jupyter/notebook/pull/6343) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Add pytest and handle warnings [#6338](https://github.com/jupyter/notebook/pull/6338) ([@blink1073](https://github.com/blink1073))
+- Add flake8 and git-blame-ignore-revs [#6337](https://github.com/jupyter/notebook/pull/6337) ([@blink1073](https://github.com/blink1073))
+- Run Autoformatters [#6335](https://github.com/jupyter/notebook/pull/6335) ([@blink1073](https://github.com/blink1073))
+- Bump minimist from 1.2.5 to 1.2.6 [#6334](https://github.com/jupyter/notebook/pull/6334) ([@dependabot](https://github.com/dependabot))
+- Bump minimist from 1.2.5 to 1.2.6 in /ui-tests [#6333](https://github.com/jupyter/notebook/pull/6333) ([@dependabot](https://github.com/dependabot))
+- Bump ansi-regex from 3.0.0 to 3.0.1 in /ui-tests [#6332](https://github.com/jupyter/notebook/pull/6332) ([@dependabot](https://github.com/dependabot))
+- Adopt pre-commit [#6331](https://github.com/jupyter/notebook/pull/6331) ([@blink1073](https://github.com/blink1073))
+
+### Documentation improvements
+
+- Link to v6 plan in the README [#6375](https://github.com/jupyter/notebook/pull/6375) ([@echarles](https://github.com/echarles))
+- Copy edits in config, edits bug report template [#6364](https://github.com/jupyter/notebook/pull/6364) ([@jweill-aws](https://github.com/jweill-aws))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-03-21&to=2022-04-27&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-03-21..2022-04-27&type=Issues) | [@bollwyvl](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abollwyvl+updated%3A2022-03-21..2022-04-27&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2022-03-21..2022-04-27&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-03-21..2022-04-27&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-03-21..2022-04-27&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-03-21..2022-04-27&type=Issues) | [@jweill-aws](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajweill-aws+updated%3A2022-03-21..2022-04-27&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-03-21..2022-04-27&type=Issues) | [@tlinhart](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atlinhart+updated%3A2022-03-21..2022-04-27&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0a2
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a1...9be03f5f27232d50b16dbbaa50a222260166694c))
@@ -42,8 +93,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-03-09&to=2022-03-21&type=c))
 
 [@dijonkitchen](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adijonkitchen+updated%3A2022-03-09..2022-03-21&type=Issues) | [@fcollonval](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afcollonval+updated%3A2022-03-09..2022-03-21&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-03-09..2022-03-21&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-03-09..2022-03-21&type=Issues) | [@jweill-aws](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajweill-aws+updated%3A2022-03-09..2022-03-21&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0a1
 
