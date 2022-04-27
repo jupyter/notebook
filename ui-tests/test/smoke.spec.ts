@@ -73,4 +73,18 @@ test.describe('Smoke', () => {
 
     expect(true).toBe(true);
   });
+
+  test('JupyterLab', async ({ page, tmpPath }) => {
+    // Open the tree page
+    await page.goto(`tree/${tmpPath}`);
+
+    // Open JupyterLab
+    await page.menu.clickMenuItem('View>Open JupyterLab');
+
+    const lab = await page.waitForEvent('popup');
+    await lab.waitForSelector('.jp-Launcher');
+    await lab.close();
+
+    expect(true).toBe(true);
+  });
 });
