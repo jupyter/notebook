@@ -12,6 +12,7 @@ const NOTEBOOK = 'empty.ipynb';
 const MENU_PATHS = [
   'File',
   'File>New',
+  'File>Save and Export Notebook As…',
   'Edit',
   'View',
   'Run',
