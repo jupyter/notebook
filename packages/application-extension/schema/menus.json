@@ -17,6 +17,18 @@
         ]
       },
       {
+        "id": "jp-mainmenu-view",
+        "items": [
+          {
+            "type": "submenu",
+            "disabled": true,
+            "submenu": {
+              "id": "jp-mainmenu-view-appearance"
+            }
+          }
+        ]
+      },
+      {
         "id": "jp-mainmenu-run",
         "items": [
           {
