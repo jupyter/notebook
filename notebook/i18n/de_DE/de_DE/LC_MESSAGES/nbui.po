@@ -1,0 +1,723 @@
+# Translations template for Jupyter.
+# Copyright (C) 2017 ORGANIZATION
+# This file is distributed under the same license as the Jupyter project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Jupyter VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2018-08-29 17:49+0200\n"
+"PO-Revision-Date: 2022-05-02 14:14+0200\n"
+"Last-Translator: Stephen Boschi <posting@vodacomm.ca>\n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.3.4\n"
+"X-Generator: Poedit 2.2.4\n"
+
+#: notebook/templates/404.html:3
+msgid "You are requesting a page that does not exist!"
+msgstr "Vous demandez une page qui n'existe pas !"
+
+#: notebook/templates/edit.html:37
+msgid "current mode"
+msgstr "aktiver Modus"
+
+#: notebook/templates/edit.html:48 notebook/templates/notebook.html:78
+msgid "File"
+msgstr "Datei"
+
+#: notebook/templates/edit.html:50 notebook/templates/tree.html:57
+msgid "New"
+msgstr "Neu"
+
+#: notebook/templates/edit.html:51
+msgid "Save"
+msgstr "Speichern"
+
+#: notebook/templates/edit.html:52 notebook/templates/tree.html:36
+msgid "Rename"
+msgstr "Umbenennen"
+
+#: notebook/templates/edit.html:53 notebook/templates/tree.html:38
+msgid "Download"
+msgstr "Herunterladen"
+
+#: notebook/templates/edit.html:56 notebook/templates/notebook.html:131
+#: notebook/templates/tree.html:41
+msgid "Edit"
+msgstr "Ändern"
+
+#: notebook/templates/edit.html:58
+msgid "Find"
+msgstr "Suchen"
+
+#: notebook/templates/edit.html:59
+msgid "Find &amp; Replace"
+msgstr "Suchen &amp; Ersetzen"
+
+#: notebook/templates/edit.html:61
+msgid "Key Map"
+msgstr "Tastatur-Tabelle"
+
+#: notebook/templates/edit.html:62
+msgid "Default"
+msgstr "Werkseinstellung"
+
+#: notebook/templates/edit.html:63
+msgid "Sublime Text"
+msgstr "Sublime Text"
+
+#: notebook/templates/edit.html:68 notebook/templates/notebook.html:159
+#: notebook/templates/tree.html:40
+msgid "View"
+msgstr "Ansicht"
+
+#: notebook/templates/edit.html:70 notebook/templates/notebook.html:162
+msgid "Show/Hide the logo and notebook title (above menu bar)"
+msgstr "Logo und Notebook-Titel ein-/ausblenden (über Menüleiste)"
+
+#: notebook/templates/edit.html:71 notebook/templates/notebook.html:163
+msgid "Toggle Header"
+msgstr "Kopfzeile ein-/ausblenden"
+
+#: notebook/templates/edit.html:72 notebook/templates/notebook.html:171
+msgid "Toggle Line Numbers"
+msgstr "Zeilenzahlen ein-/ausblenden"
+
+#: notebook/templates/edit.html:75
+msgid "Language"
+msgstr "Sprache"
+
+#: notebook/templates/error.html:23
+msgid "The error was:"
+msgstr "Der Fehler war:"
+
+#: notebook/templates/login.html:24
+msgid "Password or token:"
+msgstr "Passwort oder Token:"
+
+#: notebook/templates/login.html:26
+msgid "Password:"
+msgstr "Passwort :"
+
+#: notebook/templates/login.html:31
+msgid "Log in"
+msgstr "Anmelden"
+
+#: notebook/templates/login.html:39
+msgid "No login available, you shouldn't be seeing this page."
+msgstr "Keine Verbindung möglich, Sie sollten nicht diese Seite sehen."
+
+#: notebook/templates/logout.html:24
+#, python-format
+msgid "Proceed to the <a href=\"%(base_url)s\">dashboard"
+msgstr "Weiter zum <a href=\"%(base_url)s\"> Dashboard."
+
+#: notebook/templates/logout.html:26
+#, python-format
+msgid "Proceed to the <a href=\"%(base_url)slogin\">login page"
+msgstr "Zur <a href=\"%(base_url)slogin\">Login-Seite fortfahren"
+
+#: notebook/templates/notebook.html:62
+msgid "Menu"
+msgstr "Menu"
+
+#: notebook/templates/notebook.html:65 notebook/templates/notebook.html:254
+msgid "Kernel"
+msgstr "Kernel"
+
+#: notebook/templates/notebook.html:68
+msgid "This notebook is read-only"
+msgstr "Dieses Notebook ist im Nur-Lesen-Modus"
+
+#: notebook/templates/notebook.html:81
+msgid "New Notebook"
+msgstr "Neues Notebook"
+
+#: notebook/templates/notebook.html:85
+msgid "Opens a new window with the Dashboard view"
+msgstr "Öffnet ein neues Fenster mit Dashboard-Ansicht"
+
+#: notebook/templates/notebook.html:86
+msgid "Open..."
+msgstr "Öffnen..."
+
+#: notebook/templates/notebook.html:90
+msgid "Open a copy of this notebook's contents and start a new kernel"
+msgstr "Kopie des Notebooks öffnen und neuen Kernel starten"
+
+#: notebook/templates/notebook.html:91
+msgid "Make a Copy..."
+msgstr "Kopie erstellen..."
+
+#: notebook/templates/notebook.html:92
+msgid "Rename..."
+msgstr "Umbenennen..."
+
+#: notebook/templates/notebook.html:93
+msgid "Save and Checkpoint"
+msgstr "Speichern und Checkpoint erstellen"
+
+#: notebook/templates/notebook.html:96
+msgid "Revert to Checkpoint"
+msgstr "Checkpoint wiederherstellen"
+
+#: notebook/templates/notebook.html:106
+msgid "Print Preview"
+msgstr "Druckvorschau"
+
+#: notebook/templates/notebook.html:107
+msgid "Download as"
+msgstr "Herunterladen als"
+
+#: notebook/templates/notebook.html:109
+msgid "Notebook (.ipynb)"
+msgstr "Notebook (.ipynb)"
+
+#: notebook/templates/notebook.html:110
+msgid "Script"
+msgstr "Script"
+
+#: notebook/templates/notebook.html:111
+msgid "HTML (.html)"
+msgstr "HTML (.html)"
+
+#: notebook/templates/notebook.html:112
+msgid "Markdown (.md)"
+msgstr "Markdown (.md)"
+
+#: notebook/templates/notebook.html:113
+msgid "reST (.rst)"
+msgstr "reST (.rst)"
+
+#: notebook/templates/notebook.html:114
+msgid "LaTeX (.tex)"
+msgstr "LaTeX (.tex)"
+
+#: notebook/templates/notebook.html:115
+msgid "PDF via LaTeX (.pdf)"
+msgstr "PDF via LaTeX (.pdf)"
+
+#: notebook/templates/notebook.html:118
+msgid "Deploy as"
+msgstr "Ausladen als"
+
+#: notebook/templates/notebook.html:123
+msgid "Trust the output of this notebook"
+msgstr "Ausgabe des Notebooks vertrauen"
+
+#: notebook/templates/notebook.html:124
+msgid "Trust Notebook"
+msgstr "Notebook vertrauen"
+
+#: notebook/templates/notebook.html:127
+msgid "Shutdown this notebook's kernel, and close this window"
+msgstr "Kernel des Notebooks herunterfahren und Fenster schließen"
+
+#: notebook/templates/notebook.html:128
+msgid "Close and Halt"
+msgstr "Schließen und stoppen"
+
+#: notebook/templates/notebook.html:133
+msgid "Cut Cells"
+msgstr "Zellen ausschneiden"
+
+#: notebook/templates/notebook.html:134
+msgid "Copy Cells"
+msgstr "Zellen kopieren"
+
+#: notebook/templates/notebook.html:135
+msgid "Paste Cells Above"
+msgstr "Zellen oben einfügen"
+
+#: notebook/templates/notebook.html:136
+msgid "Paste Cells Below"
+msgstr "Zellen nachfolgend einfügen"
+
+#: notebook/templates/notebook.html:137
+msgid "Paste Cells &amp; Replace"
+msgstr "Zellen einfügen &amp; Ersetzen"
+
+#: notebook/templates/notebook.html:138
+msgid "Delete Cells"
+msgstr "Zellen löschen"
+
+#: notebook/templates/notebook.html:139
+msgid "Undo Delete Cells"
+msgstr "Zellen Löschen rückgängig machen"
+
+#: notebook/templates/notebook.html:141
+msgid "Split Cell"
+msgstr "Zelle teilen"
+
+#: notebook/templates/notebook.html:142
+msgid "Merge Cell Above"
+msgstr "Mit oberer Zelle verbinden"
+
+#: notebook/templates/notebook.html:143
+msgid "Merge Cell Below"
+msgstr "Mit unterer Zelle verbinden"
+
+#: notebook/templates/notebook.html:145
+msgid "Move Cell Up"
+msgstr "Zelle nach oben verschieben"
+
+#: notebook/templates/notebook.html:146
+msgid "Move Cell Down"
+msgstr "Zelle nach unten verschieben"
+
+#: notebook/templates/notebook.html:148
+msgid "Edit Notebook Metadata"
+msgstr "Metadaten des Notebooks ändern"
+
+#: notebook/templates/notebook.html:150
+msgid "Find and Replace"
+msgstr "Suchen und Ersetzen"
+
+#: notebook/templates/notebook.html:152
+msgid "Cut Cell Attachments"
+msgstr "Anhänge der Zelle ausschneiden"
+
+#: notebook/templates/notebook.html:153
+msgid "Copy Cell Attachments"
+msgstr "Anhänge der Zelle kopieren"
+
+#: notebook/templates/notebook.html:154
+msgid "Paste Cell Attachments"
+msgstr "Anhänge der Zelle einfügen"
+
+#: notebook/templates/notebook.html:156
+msgid "Insert Image"
+msgstr "Bild einfügen"
+
+#: notebook/templates/notebook.html:166
+msgid "Show/Hide the action icons (below menu bar)"
+msgstr "Aktionsicons ein-/ausblenden (unterhalb der Menüleiste)"
+
+#: notebook/templates/notebook.html:167
+msgid "Toggle Toolbar"
+msgstr "Toolleiste ein-/ausblenden"
+
+#: notebook/templates/notebook.html:170
+msgid "Show/Hide line numbers in cells"
+msgstr "Zeilenzahlen ein-/ausblenden"
+
+#: notebook/templates/notebook.html:174
+msgid "Cell Toolbar"
+msgstr "Zellen-Tool-Leiste"
+
+#: notebook/templates/notebook.html:179
+msgid "Insert"
+msgstr "Einfügen"
+
+#: notebook/templates/notebook.html:182
+msgid "Insert an empty Code cell above the currently active cell"
+msgstr "Leere Code-Zelle vor die aktive einfügen"
+
+#: notebook/templates/notebook.html:183
+msgid "Insert Cell Above"
+msgstr "Zelle oben einfügen"
+
+#: notebook/templates/notebook.html:185
+msgid "Insert an empty Code cell below the currently active cell"
+msgstr "Leere Code-Zelle nach der aktiven Zelle einfügen"
+
+#: notebook/templates/notebook.html:186
+msgid "Insert Cell Below"
+msgstr "Zelle nachfolgend einfügen"
+
+#: notebook/templates/notebook.html:189
+msgid "Cell"
+msgstr "Zelle"
+
+#: notebook/templates/notebook.html:191
+msgid "Run this cell, and move cursor to the next one"
+msgstr "Zelle ausführen und Cursor in die nächste versetzen"
+
+#: notebook/templates/notebook.html:192
+msgid "Run Cells"
+msgstr "Zellen ausführen"
+
+#: notebook/templates/notebook.html:193
+msgid "Run this cell, select below"
+msgstr "Zelle ausführen, nachfolgende auswählen"
+
+#: notebook/templates/notebook.html:194
+msgid "Run Cells and Select Below"
+msgstr "Zellen ausführen und nachfolgende auswählen"
+
+#: notebook/templates/notebook.html:195
+msgid "Run this cell, insert below"
+msgstr "Zelle ausführen und nachfolgende einfügen"
+
+#: notebook/templates/notebook.html:196
+msgid "Run Cells and Insert Below"
+msgstr "Zellen ausführen und nachfolgende einfügen"
+
+#: notebook/templates/notebook.html:197
+msgid "Run all cells in the notebook"
+msgstr "Alle Zellen im Notebook ausführen"
+
+#: notebook/templates/notebook.html:198
+msgid "Run All"
+msgstr "Alle ausführen"
+
+#: notebook/templates/notebook.html:199
+msgid "Run all cells above (but not including) this cell"
+msgstr "Alle vorigen Zellen ausgenommen dieser ausführen"
+
+#: notebook/templates/notebook.html:200
+msgid "Run All Above"
+msgstr "Alle vorigen Zellen ausführen"
+
+#: notebook/templates/notebook.html:201
+msgid "Run this cell and all cells below it"
+msgstr "Diese Zelle und alle folgenden ausführen"
+
+#: notebook/templates/notebook.html:202
+msgid "Run All Below"
+msgstr "Alle folgenden ausführen"
+
+#: notebook/templates/notebook.html:205
+msgid "All cells in the notebook have a cell type. By default, new cells are created as 'Code' cells"
+msgstr "Alle Zellen im Notebook haben einen Zellentyp. Neue Zellen sind vom Typ 'Code'"
+
+#: notebook/templates/notebook.html:206
+msgid "Cell Type"
+msgstr "Zellentyp"
+
+#: notebook/templates/notebook.html:209
+msgid "Contents will be sent to the kernel for execution, and output will display in the footer of cell"
+msgstr "Inhalt wird an den Kernel zur Ausführung gesendet; Ausgabe wird in der Fußzeile der Zelle angezeigt"
+
+#: notebook/templates/notebook.html:212
+msgid "Contents will be rendered as HTML and serve as explanatory text"
+msgstr "Inhalt wird als HTML dargestellt und dient als erklärender Text"
+
+#: notebook/templates/notebook.html:213 notebook/templates/notebook.html:298
+msgid "Markdown"
+msgstr "Markdown"
+
+#: notebook/templates/notebook.html:215
+msgid "Contents will pass through nbconvert unmodified"
+msgstr "Der Inhalt läuft durch nbconvert unverändert"
+
+#: notebook/templates/notebook.html:216
+msgid "Raw NBConvert"
+msgstr "Rohtext NBConvert"
+
+#: notebook/templates/notebook.html:220
+msgid "Current Outputs"
+msgstr "Aktuelle Ausgaben"
+
+#: notebook/templates/notebook.html:223
+msgid "Hide/Show the output of the current cell"
+msgstr "Ausgabe der gewählten Zelle ein-/ausblenden"
+
+#: notebook/templates/notebook.html:224 notebook/templates/notebook.html:240
+msgid "Toggle"
+msgstr "Ein-/Ausblenden"
+
+#: notebook/templates/notebook.html:227
+msgid "Scroll the output of the current cell"
+msgstr "Ausgabe der ausgewählten Zelle scrollen"
+
+#: notebook/templates/notebook.html:228 notebook/templates/notebook.html:244
+msgid "Toggle Scrolling"
+msgstr "Scrollen ein-/ausblenden"
+
+#: notebook/templates/notebook.html:231
+msgid "Clear the output of the current cell"
+msgstr "Ausgabe der aktiven Zelle löschen"
+
+#: notebook/templates/notebook.html:232 notebook/templates/notebook.html:248
+msgid "Clear"
+msgstr "Löschen"
+
+#: notebook/templates/notebook.html:236
+msgid "All Output"
+msgstr "Gesamte Ausgabe"
+
+#: notebook/templates/notebook.html:239
+msgid "Hide/Show the output of all cells"
+msgstr "Ausgabe aller Zellen ein-/ausblenden"
+
+#: notebook/templates/notebook.html:243
+msgid "Scroll the output of all cells"
+msgstr "Ausgabe aller Zellen scrollen"
+
+#: notebook/templates/notebook.html:247
+msgid "Clear the output of all cells"
+msgstr "Ausgabe aller Zellen löschen"
+
+#: notebook/templates/notebook.html:257
+msgid "Send Keyboard Interrupt (CTRL-C) to the Kernel"
+msgstr "Unterbrechungssignal (STRG-C) an den Kernel senden"
+
+#: notebook/templates/notebook.html:258
+msgid "Interrupt"
+msgstr "Unterbrechen"
+
+#: notebook/templates/notebook.html:261
+msgid "Restart the Kernel"
+msgstr "Kernel neu starten"
+
+#: notebook/templates/notebook.html:262
+msgid "Restart"
+msgstr "Neu starten"
+
+#: notebook/templates/notebook.html:265
+msgid "Restart the Kernel and clear all output"
+msgstr "Kernel neu starten und alle Ausgaben löschen"
+
+#: notebook/templates/notebook.html:266
+msgid "Restart &amp; Clear Output"
+msgstr "Neu starten  &amp; Ausgabe löschen"
+
+#: notebook/templates/notebook.html:269
+msgid "Restart the Kernel and re-run the notebook"
+msgstr "Kernel neu starten und Notebook erneut ausführen"
+
+#: notebook/templates/notebook.html:270
+msgid "Restart &amp; Run All"
+msgstr "Neu starten &amp; Alles ausführen"
+
+#: notebook/templates/notebook.html:273
+msgid "Reconnect to the Kernel"
+msgstr "Kernel neu verbinden"
+
+#: notebook/templates/notebook.html:274
+msgid "Reconnect"
+msgstr "Neu verbinden"
+
+#: notebook/templates/notebook.html:282
+msgid "Change kernel"
+msgstr "Kernel umschalten"
+
+#: notebook/templates/notebook.html:287
+msgid "Help"
+msgstr "Hilfe"
+
+#: notebook/templates/notebook.html:290
+msgid "A quick tour of the notebook user interface"
+msgstr "Kurze Führung durch die Benutzeroberfläche des Notebooks"
+
+#: notebook/templates/notebook.html:290
+msgid "User Interface Tour"
+msgstr "Benutzeroberfläche kennenlernen"
+
+#: notebook/templates/notebook.html:291
+msgid "Opens a tooltip with all keyboard shortcuts"
+msgstr "Öffnet ein Tooltip mit allen Tastatur-Kurzbefehlen"
+
+#: notebook/templates/notebook.html:291
+msgid "Keyboard Shortcuts"
+msgstr "Tastatur-Kurzbefehle"
+
+#: notebook/templates/notebook.html:292
+msgid "Opens a dialog allowing you to edit Keyboard shortcuts"
+msgstr "Öffnet ein Dialog zur Änderung der Tastatur-Kurzbefehle"
+
+#: notebook/templates/notebook.html:292
+msgid "Edit Keyboard Shortcuts"
+msgstr "Tastatur-Kurzbefehle ändern"
+
+#: notebook/templates/notebook.html:297
+msgid "Notebook Help"
+msgstr "Notebook-Hilfe"
+
+#: notebook/templates/notebook.html:303
+msgid "Opens in a new window"
+msgstr "Öffnet in einem neuen Fenster"
+
+#: notebook/templates/notebook.html:319
+msgid "About Jupyter Notebook"
+msgstr "Über Jupyter Notebook"
+
+#: notebook/templates/notebook.html:319
+msgid "About"
+msgstr "Über"
+
+#: notebook/templates/page.html:114
+msgid "Jupyter Notebook requires JavaScript."
+msgstr "Jupyter Notebook benötigt JavaScript."
+
+#: notebook/templates/page.html:115
+msgid "Please enable it to proceed. "
+msgstr "Aktiviere es um fortzufahren "
+
+#: notebook/templates/page.html:121
+msgid "dashboard"
+msgstr "Dashboard"
+
+#: notebook/templates/page.html:132
+msgid "Logout"
+msgstr "Abmelden"
+
+#: notebook/templates/page.html:134
+msgid "Login"
+msgstr "Anmelden"
+
+#: notebook/templates/tree.html:23
+msgid "Files"
+msgstr "Dateien"
+
+#: notebook/templates/tree.html:24
+msgid "Running"
+msgstr "Aktiv"
+
+#: notebook/templates/tree.html:25
+msgid "Clusters"
+msgstr "Cluster"
+
+#: notebook/templates/tree.html:32
+msgid "Select items to perform actions on them."
+msgstr "Wähle Elemente aus, um sie zu bearbeiten."
+
+#: notebook/templates/tree.html:35
+msgid "Duplicate selected"
+msgstr "Auswahl duplizieren"
+
+#: notebook/templates/tree.html:35
+msgid "Duplicate"
+msgstr "Duplizieren"
+
+#: notebook/templates/tree.html:36
+msgid "Rename selected"
+msgstr "Auswahl umbenennen"
+
+#: notebook/templates/tree.html:37
+msgid "Move selected"
+msgstr "Auswahl verschieben"
+
+#: notebook/templates/tree.html:37
+msgid "Move"
+msgstr "Verschieben"
+
+#: notebook/templates/tree.html:38
+msgid "Download selected"
+msgstr "Auswahl herunterladen"
+
+#: notebook/templates/tree.html:39
+msgid "Shutdown selected notebook(s)"
+msgstr "Ausgewählte Notebooks herunterfahren"
+
+#: notebook/templates/notebook.html:278 notebook/templates/tree.html:39
+msgid "Shutdown"
+msgstr "Herunterfahren"
+
+#: notebook/templates/tree.html:40
+msgid "View selected"
+msgstr "Auswahl anzeigen"
+
+#: notebook/templates/tree.html:41
+msgid "Edit selected"
+msgstr "Auswahl ändern"
+
+#: notebook/templates/tree.html:42
+msgid "Delete selected"
+msgstr "Auswahl löschen"
+
+#: notebook/templates/tree.html:50
+msgid "Click to browse for a file to upload."
+msgstr "Klicken, um eine Datei für das Hochladen auszuwählen."
+
+#: notebook/templates/tree.html:51
+msgid "Upload"
+msgstr "Hochladen"
+
+#: notebook/templates/tree.html:65
+msgid "Text File"
+msgstr "Text-Datei"
+
+#: notebook/templates/tree.html:68
+msgid "Folder"
+msgstr "Ordner"
+
+#: notebook/templates/tree.html:72
+msgid "Terminal"
+msgstr "Terminal"
+
+#: notebook/templates/tree.html:76
+msgid "Terminals Unavailable"
+msgstr "Terminals nicht verfügbar"
+
+#: notebook/templates/tree.html:82
+msgid "Refresh notebook list"
+msgstr "Notebookliste erneut laden"
+
+#: notebook/templates/tree.html:90
+msgid "Select All / None"
+msgstr "Alles/Nichts auswählen"
+
+#: notebook/templates/tree.html:93
+msgid "Select..."
+msgstr "Auswählen...."
+
+#: notebook/templates/tree.html:98
+msgid "Select All Folders"
+msgstr "Alle Ordner auswählen"
+
+#: notebook/templates/tree.html:98
+msgid "Folders"
+msgstr "Ordner"
+
+#: notebook/templates/tree.html:99
+msgid "Select All Notebooks"
+msgstr "Alle Notebooks auswählen"
+
+#: notebook/templates/tree.html:99
+msgid "All Notebooks"
+msgstr "Alle Notebooks"
+
+#: notebook/templates/tree.html:100
+msgid "Select Running Notebooks"
+msgstr "Aktive Notebooks auswählen"
+
+#: notebook/templates/tree.html:101
+msgid "Select All Files"
+msgstr "Alle Dateien auswählen"
+
+#: notebook/templates/tree.html:114
+msgid "Last Modified"
+msgstr "Letzte Änderung"
+
+#: notebook/templates/tree.html:120
+msgid "Name"
+msgstr "Name"
+
+#: notebook/templates/tree.html:130
+msgid "Currently running Jupyter processes"
+msgstr "Laufende Jupyter-Prozesse"
+
+#: notebook/templates/tree.html:134
+msgid "Refresh running list"
+msgstr "Liste der aktiven Prozesse aktualisieren"
+
+#: notebook/templates/tree.html:150
+msgid "There are no terminals running."
+msgstr "Es laufen keine Terminals."
+
+#: notebook/templates/tree.html:152
+msgid "Terminals are unavailable."
+msgstr "Terminals sind nicht verfügbar."
+
+#: notebook/templates/tree.html:162
+msgid "Notebooks"
+msgstr "Notebooks"
+
+#: notebook/templates/tree.html:169
+msgid "There are no notebooks running."
+msgstr "Es laufen keine Notebooks."
+
+#: notebook/templates/tree.html:178
+msgid "Clusters tab is now provided by IPython parallel."
+msgstr "Cluster-Reiter wird von IPython parallel geliefert."
+
+#: notebook/templates/tree.html:179
+msgid "See '<a href=\"https://github.com/ipython/ipyparallel\">IPython parallel</a>' for installation details."
+msgstr "Sehen Sie  '<a href=\"https://github.com/ipython/ipyparallel\">IPython parallel</a>' für eine Installationsanleitung."
