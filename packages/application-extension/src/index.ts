@@ -481,12 +481,13 @@ const title: JupyterFrontEndPlugin<void> = {
 const topVisibility: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:top',
   requires: [INotebookShell, ITranslator],
-  optional: [ISettingRegistry],
+  optional: [ISettingRegistry, ICommandPalette],
   activate: (
     app: JupyterFrontEnd<JupyterFrontEnd.IShell>,
     notebookShell: INotebookShell,
     translator: ITranslator,
-    settingRegistry: ISettingRegistry | null
+    settingRegistry: ISettingRegistry | null,
+    palette: ICommandPalette | null
   ) => {
     const trans = translator.load('notebook');
     const top = notebookShell.top;
@@ -525,6 +526,10 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
         .catch((reason: Error) => {
           console.error(reason.message);
         });
+    }
+
+    if (palette) {
+      palette.addItem({ command: CommandIDs.toggleTop, category: 'View' });
     }
 
     const onChanged = (): void => {
