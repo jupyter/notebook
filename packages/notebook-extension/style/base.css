@@ -46,6 +46,19 @@ body[data-notebook='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
   min-height: var(--jp-notebook-padding);
 }
 
+/* Cell toolbar adjustements */
+
+body[data-notebook='notebooks'] .jp-cell-toolbar {
+  background: unset;
+  top: unset;
+}
+
+@media only screen and (max-width: 760px) {
+  body[data-notebook='notebooks'] .jp-cell-toolbar {
+    top: 5px;
+  }
+}
+
 /* ---- */
 
 .jp-NotebookKernelLogo {
