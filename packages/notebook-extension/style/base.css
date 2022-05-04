@@ -53,6 +53,12 @@ body[data-notebook='notebooks'] .jp-cell-toolbar {
   top: unset;
 }
 
+@media only screen and (max-width: 760px) {
+  body[data-notebook='notebooks'] .jp-cell-toolbar {
+    top: 5px;
+  }
+}
+
 /* ---- */
 
 .jp-NotebookKernelLogo {
