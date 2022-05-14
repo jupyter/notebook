@@ -24,6 +24,7 @@ jobs:
   ui-tests:
     needs: [build]
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
@@ -32,20 +33,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
-          architecture: 'x64'
+      - name: Base Setup
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
 
       - uses: actions/download-artifact@v2
         with:
           name: notebook-dist-${{ github.run_number }}
           path: ./dist
-
-      - name: Install the prerequisites
-        run: |
-          python -m pip install pip wheel
 
       - name: Install the package
         run: |

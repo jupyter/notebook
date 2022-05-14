@@ -32,6 +32,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -43,7 +44,7 @@ jobs:
 
     - name: Install the package
       run: |
-        python -m pip install ".[test]"
+        python -m pip install ".[dev,test]"
         jlpm run build:test
 
     - name: Unit tests
@@ -60,6 +61,7 @@ jobs:
   install:
     needs: [build]
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
