@@ -181,6 +181,41 @@ class TestFileContentsManager(TestCase):
             else:
                 self.fail("Should have raised HTTPError(403)")
 
+    @skipIf(sys.platform.startswith('win'), "Can't test hidden files on Windows")
+    def test_404(self):
+        #Test visible file in hidden folder
+        with self.assertRaises(HTTPError) as excinfo:
+            with TemporaryDirectory() as td:
+                cm = FileContentsManager(root_dir=td)
+                hidden_dir = '.hidden'
+                file_in_hidden_path = os.path.join(hidden_dir,'visible.txt')
+                _make_dir(cm, hidden_dir)
+                model = cm.new(path=file_in_hidden_path)
+                os_path = cm._get_os_path(model['path'])
+
+                try:
+                    result = cm.get(os_path, 'w')
+                except HTTPError as e:
+                    self.assertEqual(e.status_code, 404)
+                else:
+                    self.fail("Should have raised HTTPError(404)")
+        #Test hidden file in visible folder
+        with self.assertRaises(HTTPError) as excinfo:
+            with TemporaryDirectory() as td:
+                cm = FileContentsManager(root_dir=td)
+                hidden_dir = 'visible'
+                file_in_hidden_path = os.path.join(hidden_dir,'.hidden.txt')
+                _make_dir(cm, hidden_dir)
+                model = cm.new(path=file_in_hidden_path)
+                os_path = cm._get_os_path(model['path'])
+
+                try:
+                    result = cm.get(os_path, 'w')
+                except HTTPError as e:
+                    self.assertEqual(e.status_code, 404)
+                else:
+                    self.fail("Should have raised HTTPError(404)")
+
     def test_escape_root(self):
         with TemporaryDirectory() as td:
             cm = FileContentsManager(root_dir=td)

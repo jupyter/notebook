@@ -363,6 +363,13 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         model['type'] = 'file'
 
         os_path = self._get_os_path(path)
+
+        four_o_four = "file does not exist: %r" % path
+
+        if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
+            self.log.info("Refusing to serve hidden file or file in hidden directory %r, via 404 Error", os_path)
+            raise web.HTTPError(404, four_o_four)
+
         model['mimetype'] = mimetypes.guess_type(os_path)[0]
 
         if content:
