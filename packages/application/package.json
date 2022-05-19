@@ -53,7 +53,7 @@
     "@lumino/messaging": "^1.10.1",
     "@lumino/polling": "^1.10.0",
     "@lumino/signaling": "^1.10.1",
-    "@lumino/widgets": "^1.31.1"
+    "@lumino/widgets": "^1.32.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",

@@ -48,7 +48,7 @@
     "@jupyterlab/settingregistry": "^4.0.0-alpha.10",
     "@jupyterlab/translation": "^4.0.0-alpha.10",
     "@lumino/polling": "^1.10.0",
-    "@lumino/widgets": "^1.31.1"
+    "@lumino/widgets": "^1.32.0"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",
