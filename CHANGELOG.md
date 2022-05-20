@@ -14,6 +14,32 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0a4
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a3...4bfaaac148a25ba76fcc7416e3a7b2c714b36fcd))
+
+### Enhancements made
+
+- Update to JupyterLab 4.0.0a25 [#6429](https://github.com/jupyter/notebook/pull/6429) ([@jtpio](https://github.com/jtpio))
+- Add cell toolbar extension [#6418](https://github.com/jupyter/notebook/pull/6418) ([@jtpio](https://github.com/jtpio))
+- add the show header command to the command palette [#6415](https://github.com/jupyter/notebook/pull/6415) ([@jeewonkoo](https://github.com/jeewonkoo))
+- Remove the "Appearance" menu entry [#6412](https://github.com/jupyter/notebook/pull/6412) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- [pre-commit.ci] pre-commit autoupdate [#6426](https://github.com/jupyter/notebook/pull/6426) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Allow bot PRs to be automatically labeled [#6414](https://github.com/jupyter/notebook/pull/6414) ([@blink1073](https://github.com/blink1073))
+- Add Visual Regression Test for the export submenu [#6383](https://github.com/jupyter/notebook/pull/6383) ([@jtpio](https://github.com/jtpio))
+- Fix ESLint config for tests [#6382](https://github.com/jupyter/notebook/pull/6382) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-04-27&to=2022-05-20&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-04-27..2022-05-20&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-04-27..2022-05-20&type=Issues) | [@jeewonkoo](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajeewonkoo+updated%3A2022-04-27..2022-05-20&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-04-27..2022-05-20&type=Issues) | [@ofek](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aofek+updated%3A2022-04-27..2022-05-20&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-04-27..2022-05-20&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0a3
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a2...4076882c0e08875dd719945835f8cbe5b10eac9e))
@@ -62,8 +88,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-03-21&to=2022-04-27&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-03-21..2022-04-27&type=Issues) | [@bollwyvl](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abollwyvl+updated%3A2022-03-21..2022-04-27&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2022-03-21..2022-04-27&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-03-21..2022-04-27&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-03-21..2022-04-27&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-03-21..2022-04-27&type=Issues) | [@jweill-aws](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajweill-aws+updated%3A2022-03-21..2022-04-27&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-03-21..2022-04-27&type=Issues) | [@tlinhart](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atlinhart+updated%3A2022-03-21..2022-04-27&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0a2
 
