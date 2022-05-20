@@ -78,7 +78,7 @@ const createNew: JupyterFrontEndPlugin<void> = {
     });
 
     if (toolbarRegistry) {
-      toolbarRegistry.registerFactory(
+      toolbarRegistry.addFactory(
         FILE_BROWSER_FACTORY,
         'new-dropdown',
         (browser: FileBrowser) => {
@@ -128,7 +128,7 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
     tabPanel.tabBar.addTab(browser.title);
 
     // Toolbar
-    toolbarRegistry.registerFactory(
+    toolbarRegistry.addFactory(
       FILE_BROWSER_FACTORY,
       'uploader',
       (browser: FileBrowser) =>

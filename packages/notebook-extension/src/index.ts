@@ -6,7 +6,11 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { ISessionContext, DOMUtils } from '@jupyterlab/apputils';
+import {
+  ISessionContext,
+  DOMUtils,
+  IToolbarWidgetRegistry
+} from '@jupyterlab/apputils';
 
 import { CodeCell } from '@jupyterlab/cells';
 
@@ -58,19 +62,26 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:checkpoints',
   autoStart: true,
   requires: [IDocumentManager, ITranslator],
-  optional: [INotebookShell],
+  optional: [INotebookShell, IToolbarWidgetRegistry],
   activate: (
     app: JupyterFrontEnd,
     docManager: IDocumentManager,
     translator: ITranslator,
-    notebookShell: INotebookShell | null
+    notebookShell: INotebookShell | null,
+    toolbarRegistry: IToolbarWidgetRegistry | null
   ) => {
     const { shell } = app;
     const trans = translator.load('notebook');
-    const widget = new Widget();
-    widget.id = DOMUtils.createDomID();
-    widget.addClass('jp-NotebookCheckpoint');
-    app.shell.add(widget, 'top', { rank: 100 });
+    const node = document.createElement('div');
+
+    if (toolbarRegistry) {
+      toolbarRegistry.addFactory('TopBar', 'checkpoint', toolbar => {
+        const widget = new Widget({ node });
+        widget.id = DOMUtils.createDomID();
+        widget.addClass('jp-NotebookCheckpoint');
+        return widget;
+      });
+    }
 
     const onChange = async () => {
       const current = shell.currentWidget;
@@ -87,7 +98,7 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
         return;
       }
       const checkpoint = checkpoints[checkpoints.length - 1];
-      widget.node.textContent = trans.__(
+      node.textContent = trans.__(
         'Last Checkpoint: %1',
         Time.formatHuman(new Date(checkpoint.last_modified))
       );
@@ -116,15 +127,19 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:kernel-logo',
   autoStart: true,
   requires: [INotebookShell],
-  activate: (app: JupyterFrontEnd, shell: INotebookShell) => {
+  optional: [IToolbarWidgetRegistry],
+  activate: (
+    app: JupyterFrontEnd,
+    shell: INotebookShell,
+    toolbarRegistry: IToolbarWidgetRegistry | null
+  ) => {
     const { serviceManager } = app;
 
-    let widget: Widget;
+    const node = document.createElement('div');
+    const img = document.createElement('img');
+    node.appendChild(img);
+
     const onChange = async () => {
-      if (widget) {
-        widget.dispose();
-        widget.parent = null;
-      }
       const current = shell.currentWidget;
       if (!(current instanceof NotebookPanel)) {
         return;
@@ -145,15 +160,17 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
         return;
       }
 
-      const node = document.createElement('div');
-      const img = document.createElement('img');
       img.src = kernelIconUrl;
       img.title = spec.display_name;
-      node.appendChild(img);
-      widget = new Widget({ node });
-      widget.addClass('jp-NotebookKernelLogo');
-      app.shell.add(widget, 'top', { rank: 10_010 });
     };
+
+    if (toolbarRegistry) {
+      toolbarRegistry.addFactory('TopBar', 'kernelLogo', toolbar => {
+        const widget = new Widget({ node });
+        widget.addClass('jp-NotebookKernelLogo');
+        return widget;
+      });
+    }
 
     app.started.then(() => {
       shell.currentChanged.connect(onChange);

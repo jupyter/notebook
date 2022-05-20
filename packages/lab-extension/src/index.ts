@@ -130,7 +130,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
     }
 
     if (toolbarRegistry) {
-      toolbarRegistry.registerFactory<NotebookPanel>(
+      toolbarRegistry.addFactory<NotebookPanel>(
         'Notebook',
         'interfaceSwitcher',
         panel => {

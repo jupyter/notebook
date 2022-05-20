@@ -14,7 +14,8 @@ import {
   sessionContextDialogs,
   ISessionContextDialogs,
   DOMUtils,
-  ICommandPalette
+  ICommandPalette,
+  IToolbarWidgetRegistry
 } from '@jupyterlab/apputils';
 
 import { ConsolePanel } from '@jupyterlab/console';
@@ -390,34 +391,40 @@ const title: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:title',
   autoStart: true,
   requires: [INotebookShell, ITranslator],
-  optional: [IDocumentManager, IRouter],
+  optional: [IDocumentManager, IRouter, IToolbarWidgetRegistry],
   activate: (
     app: JupyterFrontEnd,
     shell: INotebookShell,
     translator: ITranslator,
     docManager: IDocumentManager | null,
-    router: IRouter | null
+    router: IRouter | null,
+    toolbarRegistry: IToolbarWidgetRegistry | null
   ) => {
     const { commands } = app;
     const trans = translator.load('notebook');
 
-    const widget = new Widget();
-    widget.id = 'jp-title';
-    app.shell.add(widget, 'top', { rank: 10 });
+    const node = document.createElement('div');
+    if (toolbarRegistry) {
+      toolbarRegistry.addFactory('TopBar', 'widgetTitle', toolbar => {
+        const widget = new Widget({ node });
+        widget.id = 'jp-title';
+        return widget;
+      });
+    }
 
     const addTitle = async (): Promise<void> => {
       const current = shell.currentWidget;
       if (!current || !(current instanceof DocumentWidget)) {
         return;
       }
-      if (widget.node.children.length > 0) {
+      if (node.children.length > 0) {
         return;
       }
 
       const h = document.createElement('h1');
       h.textContent = current.title.label.replace(STRIP_IPYNB, '');
-      widget.node.appendChild(h);
-      widget.node.style.marginLeft = '10px';
+      node.appendChild(h);
+      node.style.marginLeft = '10px';
       if (!docManager) {
         return;
       }
@@ -465,7 +472,7 @@ const title: JupyterFrontEndPlugin<void> = {
         }
       });
 
-      widget.node.onclick = async () => {
+      node.onclick = async () => {
         void commands.execute(CommandIDs.rename);
       };
     };

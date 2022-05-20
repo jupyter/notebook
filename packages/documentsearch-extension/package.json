@@ -40,9 +40,9 @@
   },
   "dependencies": {
     "@jupyter-notebook/application": "^7.0.0-alpha.3",
-    "@jupyterlab/application": "^4.0.0-alpha.9",
-    "@jupyterlab/documentsearch": "^4.0.0-alpha.9",
-    "@lumino/widgets": "^1.31.1"
+    "@jupyterlab/application": "^4.0.0-alpha.10",
+    "@jupyterlab/documentsearch": "^4.0.0-alpha.10",
+    "@lumino/widgets": "^1.32.0"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",
