@@ -76,6 +76,7 @@ async function main() {
         '@jupyterlab/application-extension:commands',
         '@jupyterlab/application-extension:context-menu',
         '@jupyterlab/application-extension:faviconbusy',
+        '@jupyterlab/application-extension:top-bar',
         '@jupyterlab/application-extension:top-spacer'
       ].includes(id)
     ),

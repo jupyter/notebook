@@ -6,7 +6,11 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { ISessionContext, DOMUtils } from '@jupyterlab/apputils';
+import {
+  ISessionContext,
+  DOMUtils,
+  IToolbarWidgetRegistry
+} from '@jupyterlab/apputils';
 
 import { CodeCell } from '@jupyterlab/cells';
 
@@ -116,15 +120,19 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:kernel-logo',
   autoStart: true,
   requires: [INotebookShell],
-  activate: (app: JupyterFrontEnd, shell: INotebookShell) => {
+  optional: [IToolbarWidgetRegistry],
+  activate: (
+    app: JupyterFrontEnd,
+    shell: INotebookShell,
+    toolbarRegistry: IToolbarWidgetRegistry | null
+  ) => {
     const { serviceManager } = app;
 
-    let widget: Widget;
+    const node = document.createElement('div');
+    const img = document.createElement('img');
+    node.appendChild(img);
+
     const onChange = async () => {
-      if (widget) {
-        widget.dispose();
-        widget.parent = null;
-      }
       const current = shell.currentWidget;
       if (!(current instanceof NotebookPanel)) {
         return;
@@ -145,15 +153,17 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
         return;
       }
 
-      const node = document.createElement('div');
-      const img = document.createElement('img');
       img.src = kernelIconUrl;
       img.title = spec.display_name;
-      node.appendChild(img);
-      widget = new Widget({ node });
-      widget.addClass('jp-NotebookKernelLogo');
-      app.shell.add(widget, 'top', { rank: 10_010 });
     };
+
+    if (toolbarRegistry) {
+      toolbarRegistry.addFactory('TopBar', 'kernelLogo', toolbar => {
+        const widget = new Widget({ node });
+        widget.addClass('jp-NotebookKernelLogo');
+        return widget;
+      });
+    }
 
     app.started.then(() => {
       shell.currentChanged.connect(onChange);
