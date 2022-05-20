@@ -12,3 +12,7 @@
 .jp-MainAreaWidget {
   height: 100%;
 }
+
+.jp-Toolbar > .jp-Toolbar-item {
+  height: unset;
+}

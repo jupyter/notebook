@@ -62,19 +62,26 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:checkpoints',
   autoStart: true,
   requires: [IDocumentManager, ITranslator],
-  optional: [INotebookShell],
+  optional: [INotebookShell, IToolbarWidgetRegistry],
   activate: (
     app: JupyterFrontEnd,
     docManager: IDocumentManager,
     translator: ITranslator,
-    notebookShell: INotebookShell | null
+    notebookShell: INotebookShell | null,
+    toolbarRegistry: IToolbarWidgetRegistry | null
   ) => {
     const { shell } = app;
     const trans = translator.load('notebook');
-    const widget = new Widget();
-    widget.id = DOMUtils.createDomID();
-    widget.addClass('jp-NotebookCheckpoint');
-    app.shell.add(widget, 'top', { rank: 100 });
+    const node = document.createElement('div');
+
+    if (toolbarRegistry) {
+      toolbarRegistry.addFactory('TopBar', 'checkpoint', toolbar => {
+        const widget = new Widget({ node });
+        widget.id = DOMUtils.createDomID();
+        widget.addClass('jp-NotebookCheckpoint');
+        return widget;
+      });
+    }
 
     const onChange = async () => {
       const current = shell.currentWidget;
@@ -91,7 +98,7 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
         return;
       }
       const checkpoint = checkpoints[checkpoints.length - 1];
-      widget.node.textContent = trans.__(
+      node.textContent = trans.__(
         'Last Checkpoint: %1',
         Time.formatHuman(new Date(checkpoint.last_modified))
       );
