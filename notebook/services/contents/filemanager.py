@@ -242,6 +242,12 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         os_path = self._get_os_path(path)
         info = os.lstat(os_path)
 
+        four_o_four = "file or directory does not exist: %r" % path
+
+        if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
+            self.log.info("Refusing to serve hidden file or file in hidden directory %r, via 404 Error", os_path)
+            raise web.HTTPError(404, four_o_four)
+
         try:
             # size of file
             size = info.st_size
@@ -364,12 +370,6 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
 
         os_path = self._get_os_path(path)
 
-        four_o_four = "file does not exist: %r" % path
-
-        if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
-            self.log.info("Refusing to serve hidden file or file in hidden directory %r, via 404 Error", os_path)
-            raise web.HTTPError(404, four_o_four)
-
         model['mimetype'] = mimetypes.guess_type(os_path)[0]
 
         if content:
@@ -430,11 +430,17 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             of the file or directory as well.
         """
         path = path.strip('/')
+        os_path = self._get_os_path(path)
+        four_o_four = "file or directory does not exist: %r" % path
 
         if not self.exists(path):
-            raise web.HTTPError(404, f'No such file or directory: {path}')
+            raise web.HTTPError(404, four_o_four)
 
-        os_path = self._get_os_path(path)
+        if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
+            self.log.info("Refusing to serve hidden file or file in hidden directory %r, via 404 Error", os_path)
+            raise web.HTTPError(404, four_o_four)
+
+        
         if os.path.isdir(os_path):
             if type not in (None, 'directory'):
                 raise web.HTTPError(400,
@@ -472,6 +478,10 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             raise web.HTTPError(400, 'No file content provided')
 
         os_path = self._get_os_path(path)
+
+        if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
+            raise web.HTTPError(400, f'Cannot create hidden file or directory {os_path!r}')
+
         self.log.debug("Saving %s", os_path)
 
         self.run_pre_save_hook(model=model, path=path)
@@ -515,8 +525,14 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         path = path.strip('/')
         os_path = self._get_os_path(path)
         rm = os.unlink
-        if not os.path.exists(os_path):
-            raise web.HTTPError(404, f'File or directory does not exist: {os_path}')
+        
+        four_o_four = "file or directory does not exist: %r" % path
+
+        if not self.exists(path):
+            raise web.HTTPError(404, four_o_four)
+
+        if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
+            raise web.HTTPError(400, f'Cannot delete hidden file or directory {os_path!r}')
 
         def is_non_empty_dir(os_path):
             if os.path.isdir(os_path):
@@ -558,6 +574,9 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         new_path = new_path.strip('/')
         if new_path == old_path:
             return
+
+        if (is_hidden(old_path, self.root_dir) or is_hidden(new_path, self.root_dir)) and not self.allow_hidden:
+            raise web.HTTPError(400, f'Cannot rename hidden file or directory {os_path!r}')
 
         # Perform path validation prior to converting to os-specific value since this
         # is still relative to root_dir.
