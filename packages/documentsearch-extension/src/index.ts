@@ -29,7 +29,7 @@ const notebookShellWidgetListener: JupyterFrontEndPlugin<void> = {
       if (!widget) {
         return;
       }
-      const providerForWidget = registry.getProviderForWidget(widget);
+      const providerForWidget = registry.getProvider(widget);
       if (providerForWidget) {
         widget.addClass(SEARCHABLE_CLASS);
       }

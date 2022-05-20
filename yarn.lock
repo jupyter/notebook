@@ -1295,7 +1295,7 @@
     "@jupyterlab/application" "^4.0.0-alpha.10"
     "@jupyterlab/coreutils" "^6.0.0-alpha.10"
     "@jupyterlab/docregistry" "^4.0.0-alpha.10"
-    "@jupyterlab/rendermime-interfaces" "^4.0.0-alpha.9"
+    "@jupyterlab/rendermime-interfaces" "^3.8.0-alpha.10"
     "@jupyterlab/ui-components" "^4.0.0-alpha.25"
     "@lumino/algorithm" "^1.9.1"
     "@lumino/coreutils" "^1.12.0"
@@ -2299,15 +2299,6 @@
     "@lumino/coreutils" "^1.12.0"
     "@lumino/widgets" "^1.32.0"
 
-"@jupyterlab/rendermime-interfaces@^4.0.0-alpha.9":
-  version "4.0.0-alpha.9"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/rendermime-interfaces/-/rendermime-interfaces-4.0.0-alpha.9.tgz#ac6aa4ea4191f8b600edbea42d04cb735a472002"
-  integrity sha512-jm2ciTa5o5IHk7gzUqVvNtTiiakVg39N0SFjHnyASyu/bU6iEnXvrGtOtKt4oTuD+YCmRqH35fCqThaoTy3vRQ==
-  dependencies:
-    "@jupyterlab/translation" "^4.0.0-alpha.9"
-    "@lumino/coreutils" "^1.12.0"
-    "@lumino/widgets" "^1.31.1"
-
 "@jupyterlab/rendermime@^4.0.0-alpha.10":
   version "4.0.0-alpha.10"
   resolved "https://registry.yarnpkg.com/@jupyterlab/rendermime/-/rendermime-4.0.0-alpha.10.tgz#1bdf9f3d52b030e865c815159e03d05979a71f65"
@@ -2591,7 +2582,7 @@
     "@jupyterlab/settingregistry" "^4.0.0-alpha.10"
     "@jupyterlab/translation" "^4.0.0-alpha.10"
 
-"@jupyterlab/translation@^4.0.0-alpha.10", "@jupyterlab/translation@^4.0.0-alpha.9":
+"@jupyterlab/translation@^4.0.0-alpha.10":
   version "4.0.0-alpha.10"
   resolved "https://registry.yarnpkg.com/@jupyterlab/translation/-/translation-4.0.0-alpha.10.tgz#fe0d14c16e4c197c1a6a4cd58399321af0cefb07"
   integrity sha512-amovbAIQ97Btb6vZyVuXuWyAG/yoZXUYqn9etFY8XayO+MCWftfwXsCf+nlHTVWSv/u1/7jiDLB7OFo5nDD+wQ==
@@ -3447,7 +3438,7 @@
   dependencies:
     "@lumino/algorithm" "^1.9.1"
 
-"@lumino/widgets@^1.31.1", "@lumino/widgets@^1.32.0":
+"@lumino/widgets@^1.32.0":
   version "1.32.0"
   resolved "https://registry.yarnpkg.com/@lumino/widgets/-/widgets-1.32.0.tgz#5909222f3efb21a1ac9686ebe5cab56f73fedfbb"
   integrity sha512-f2wHtr20ZEGHt+FZo9yjMQijGVI+2zzvVyiMkeIdjeuxYpKTfsZl1OVb1dcAFqr5VbsqfQ3TEdq816Nfjf5Mvw==
