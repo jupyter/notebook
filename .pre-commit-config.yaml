@@ -34,7 +34,7 @@ repos:
         args: [--profile=black]
 
   - repo: https://github.com/PyCQA/doc8
-    rev: 0.11.1
+    rev: 0.11.2
     hooks:
       - id: doc8
         args: [--max-line-length=200]
