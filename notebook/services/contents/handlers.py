@@ -129,7 +129,7 @@ class ContentsHandler(APIHandler):
         model = self.get_json_body()
         old_path = model.get('path')
         if old_path and (cm.is_hidden(path) or cm.is_hidden(old_path))  and not cm.allow_hidden:
-            raise web.HTTPError(400, f'Cannot rename hidden file or directory {path!r}')
+            raise web.HTTPError(400, f'Cannot rename file or directory {path!r}')
         if model is None:
             raise web.HTTPError(400, 'JSON body missing')
         model = yield maybe_future(cm.update(model, path))
@@ -200,7 +200,7 @@ class ContentsHandler(APIHandler):
         model = self.get_json_body()
         copy_from = model.get('copy_from')
         if copy_from and (cm.is_hidden(path) or cm.is_hidden(copy_from))  and not cm.allow_hidden:
-            raise web.HTTPError(400, f'Cannot copy hidden file or directory {path!r}')
+            raise web.HTTPError(400, f'Cannot copy file or directory {path!r}')
 
         if model is not None:
             copy_from = model.get('copy_from')
@@ -232,7 +232,7 @@ class ContentsHandler(APIHandler):
             if model.get('copy_from'):
                 raise web.HTTPError(400, "Cannot copy with PUT, only POST")
             if model.get('path') and (cm.is_hidden(path) or cm.is_hidden(model.get('path')))  and not cm.allow_hidden:
-                raise web.HTTPError(400, f'Cannot create hidden file or directory {path!r}')
+                raise web.HTTPError(400, f'Cannot create file or directory {path!r}')
             exists = yield maybe_future(self.contents_manager.file_exists(path))
             if exists:
                 yield maybe_future(self._save(model, path))
@@ -248,7 +248,7 @@ class ContentsHandler(APIHandler):
         cm = self.contents_manager
 
         if cm.is_hidden(path) and not cm.allow_hidden:
-            raise web.HTTPError(400, f'Cannot delete hidden file or directory {path!r}')
+            raise web.HTTPError(400, f'Cannot delete file or directory {path!r}')
 
         self.log.warning('delete %s', path)
         yield maybe_future(cm.delete(path))

@@ -437,7 +437,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             raise web.HTTPError(404, four_o_four)
 
         if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
-            self.log.info("Refusing to serve hidden file or file in hidden directory %r, via 404 Error", os_path)
+            self.log.info("Refusing to serve hidden file or directory %r, via 404 Error", os_path)
             raise web.HTTPError(404, four_o_four)
 
         
@@ -459,7 +459,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
     def _save_directory(self, os_path, model, path=''):
         """create a directory"""
         if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
-            raise web.HTTPError(400, f'Cannot create hidden directory {os_path!r}')
+            raise web.HTTPError(400, f'Cannot create directory {os_path!r}')
         if not os.path.exists(os_path):
             with self.perm_to_403():
                 os.mkdir(os_path)
@@ -480,7 +480,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         os_path = self._get_os_path(path)
 
         if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
-            raise web.HTTPError(400, f'Cannot create hidden file or directory {os_path!r}')
+            raise web.HTTPError(400, f'Cannot create file or directory {os_path!r}')
 
         self.log.debug("Saving %s", os_path)
 
@@ -532,7 +532,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             raise web.HTTPError(404, four_o_four)
 
         if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
-            raise web.HTTPError(400, f'Cannot delete hidden file or directory {os_path!r}')
+            raise web.HTTPError(400, f'Cannot delete file or directory {os_path!r}')
 
         def is_non_empty_dir(os_path):
             if os.path.isdir(os_path):
@@ -576,7 +576,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             return
 
         if (is_hidden(old_path, self.root_dir) or is_hidden(new_path, self.root_dir)) and not self.allow_hidden:
-            raise web.HTTPError(400, f'Cannot rename hidden file or directory {os_path!r}')
+            raise web.HTTPError(400, f'Cannot rename file or directory {os_path!r}')
 
         # Perform path validation prior to converting to os-specific value since this
         # is still relative to root_dir.
