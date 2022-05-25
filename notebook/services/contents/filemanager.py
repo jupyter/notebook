@@ -245,7 +245,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         four_o_four = "file or directory does not exist: %r" % path
 
         if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
-            self.log.info("Refusing to serve hidden file or file in hidden directory %r, via 404 Error", os_path)
+            self.log.info("Refusing to serve hidden file or directory %r, via 404 Error", os_path)
             raise web.HTTPError(404, four_o_four)
 
         try:
