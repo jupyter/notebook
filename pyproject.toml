@@ -82,12 +82,21 @@ artifacts = [
     "notebook/schemas/@jupyter-notebook",
     "notebook/templates",
 ]
+
+[tool.hatch.build.targets.sdist]
 include = [
+    "/jupyter-config",
     "/notebook",
     "/tests",
-    "/*.json",
+    "/package.json",
+    "/install.json",
+    "/ts*.json",
     "/*.md"
 ]
+
+[tool.hatch.build.targets.wheel]
+ include = ["/notebook"]
+
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.2"]
