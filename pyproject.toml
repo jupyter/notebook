@@ -79,7 +79,14 @@ source = "code"
 artifacts = [
     "notebook/labextension",
     "notebook/static",
-    "notebook/schemas"
+    "notebook/schemas/@jupyter-notebook",
+    "notebook/templates",
+]
+include = [
+    "/notebook",
+    "/tests",
+    "/*.json",
+    "/*.md"
 ]
 
 [tool.hatch.build.hooks.jupyter-builder]
