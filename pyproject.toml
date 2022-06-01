@@ -74,13 +74,30 @@ source = "code"
 "notebook/schemas/@jupyter-notebook" = "share/jupyter/lab/schemas/@jupyter-notebook"
 "jupyter-config/jupyter_server_config.d" = "etc/jupyter/jupyter_server_config.d"
 
-
-[tool.hatch.build]
+[tool.hatch.build.targets.sdist]
 artifacts = [
     "notebook/labextension",
     "notebook/static",
-    "notebook/schemas"
+    "notebook/schemas/@jupyter-notebook",
+    "notebook/templates",
 ]
+include = [
+    "/jupyter-config",
+    "/notebook",
+    "/tests",
+    "/package.json",
+    "/install.json",
+    "/ts*.json",
+    "/*.md"
+]
+
+[tool.hatch.build.targets.wheel]
+artifacts = [
+    "notebook/static",
+    "notebook/templates",
+]
+include = ["/notebook"]
+
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.2"]
