@@ -321,6 +321,16 @@ class APITest(NotebookTestBase):
         with assert_http_error(404):
             self.api.read('foo/q.ipynb')
 
+    def test_get_404_hidden(self):
+        if sys.platform == 'win32':
+            self.skipTest("Disabled copying hidden files on Windows")
+        self.make_txt('.hidden/visible.txt', 'test string')
+        self.make_txt('.hidden.txt', 'test string')
+        with assert_http_error(404):
+            resp = self.api.read('.hidden/visible.txt')
+        with assert_http_error(404):
+            resp = self.api.read('.hidden.txt')
+
     def test_get_text_file_contents(self):
         for d, name in self.dirs_nbs:
             path = url_path_join(d, name + '.txt')
@@ -443,6 +453,51 @@ class APITest(NotebookTestBase):
         self.assertEqual(model['format'], 'text')
         self.assertEqual(model['content'], body)
 
+    def test_upload_txt_hidden(self):
+        if sys.platform == 'win32':
+            self.skipTest("Disabled copying hidden files on Windows")
+        with assert_http_error(400):
+            body = 'ünicode téxt'
+            model = {
+                'content' : body,
+                'format'  : 'text',
+                'type'    : 'file',
+            }
+            path = '.hidden/Upload tést.txt'
+            resp = self.api.upload(path, body=json.dumps(model))
+
+        with assert_http_error(400):
+            body = 'ünicode téxt'
+            model = {
+                'content' : body,
+                'format'  : 'text',
+                'type'    : 'file',
+                'path': '.hidden/test.txt'
+            }
+            path = 'Upload tést.txt'
+            resp = self.api.upload(path, body=json.dumps(model))
+
+        with assert_http_error(400):
+            body = 'ünicode téxt'
+            model = {
+                'content' : body,
+                'format'  : 'text',
+                'type'    : 'file',
+            }
+            path = '.hidden.txt'
+            resp = self.api.upload(path, body=json.dumps(model))
+
+        with assert_http_error(400):
+            body = 'ünicode téxt'
+            model = {
+                'content' : body,
+                'format'  : 'text',
+                'type'    : 'file',
+                'path': '.hidden.txt'
+            }
+            path = 'Upload tést.txt'
+            resp = self.api.upload(path, body=json.dumps(model))
+
     def test_upload_b64(self):
         body = b'\xFFblob'
         b64body = encodebytes(body).decode('ascii')
@@ -497,9 +552,36 @@ class APITest(NotebookTestBase):
         resp = self.api.copy('foo/a.ipynb', 'å b')
         self._check_created(resp, 'å b/a-Copy1.ipynb')
 
+    def test_copy_400_hidden(self):
+        if sys.platform == 'win32':
+            self.skipTest("Disabled copying hidden files on Windows")
+        self.make_txt('new.txt', 'test string')
+        self.make_txt('.hidden/new.txt', 'test string')
+        self.make_txt('.hidden.txt', 'test string')
+        with assert_http_error(400):
+            resp = self.api.copy('.hidden/old.txt', 'new.txt')
+        with assert_http_error(400):
+            resp = self.api.copy('old.txt', '.hidden/new.txt')
+        with assert_http_error(400):
+            resp = self.api.copy('.hidden.txt', 'new.txt')
+        with assert_http_error(400):
+            resp = self.api.copy('old.txt', '.hidden.txt')
+
     def test_copy_put_400(self):
         with assert_http_error(400):
             resp = self.api.copy_put('å b/ç d.ipynb', 'å b/cøpy.ipynb')
+
+    def test_copy_put_400_hidden(self):
+        if sys.platform == 'win32':
+            self.skipTest("Disabled copying hidden files on Windows")
+        with assert_http_error(400):
+            resp = self.api.copy_put('.hidden/old.txt', 'new.txt')
+        with assert_http_error(400):
+            resp = self.api.copy_put('old.txt', '.hidden/new.txt')
+        with assert_http_error(400):
+            resp = self.api.copy_put('.hidden.txt', 'new.txt')
+        with assert_http_error(400):
+            resp = self.api.copy_put('old.txt', '.hidden.txt')
 
     def test_copy_dir_400(self):
         # can't copy directories
@@ -543,6 +625,29 @@ class APITest(NotebookTestBase):
         with assert_http_error(404):
             self.api.list('å b')
 
+    def test_delete_hidden_dir(self):
+        if sys.platform == 'win32':
+            self.skipTest("Disabled deleting hidden dirs on Windows")
+        with assert_http_error(400):
+            # Test that non empty directory can be deleted
+            try:
+                self.api.delete('.hidden')
+            except requests.HTTPError as e:
+                assert e.response.status_code == 400
+                raise e
+
+    def test_delete_hidden_file(self):
+        #Test deleting file in a hidden directory
+        if sys.platform == 'win32':
+            self.skipTest("Disabled deleting hidden dirs on Windows")
+        with assert_http_error(400):
+            # Test that non empty directory can be deleted
+            self.api.delete('.hidden/test.txt')
+
+        #Test deleting a hidden file
+        with assert_http_error(400):
+            self.api.delete('.hidden.txt')
+
     def test_rename(self):
         resp = self.api.rename('foo/a.ipynb', 'foo/z.ipynb')
         self.assertEqual(resp.headers['Location'].split('/')[-1], 'z.ipynb')
@@ -554,6 +659,21 @@ class APITest(NotebookTestBase):
         nbnames = {n['name'] for n in nbs}
         self.assertIn('z.ipynb', nbnames)
         self.assertNotIn('a.ipynb', nbnames)
+
+    def test_rename_400_hidden(self):
+        if sys.platform == 'win32':
+            self.skipTest("Disabled copying hidden files on Windows")
+        # self.make_txt('new.txt', 'test string')
+        # self.make_txt('.hidden/new.txt', 'test string')
+        # self.make_txt('.hidden.txt', 'test string')
+        with assert_http_error(400):
+            resp = self.api.rename('.hidden/old.txt', 'new.txt')
+        with assert_http_error(400):
+            resp = self.api.rename('old.txt', '.hidden/new.txt')
+        with assert_http_error(400):
+            resp = self.api.rename('.hidden.txt', 'new.txt')
+        with assert_http_error(400):
+            resp = self.api.rename('old.txt', '.hidden.txt')
 
     def test_checkpoints_follow_file(self):
 
