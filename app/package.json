@@ -247,6 +247,7 @@
       "@jupyterlab/rendermime",
       "@jupyterlab/rendermime-interfaces",
       "@jupyterlab/services",
+      "@jupyterlab/settingeditor",
       "@jupyterlab/settingregistry",
       "@jupyterlab/statedb",
       "@jupyterlab/statusbar",
