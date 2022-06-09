@@ -113,8 +113,7 @@ async function main() {
     require('@jupyterlab/docmanager-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/docmanager-extension:plugin',
-        '@jupyterlab/docmanager-extension:download',
-        '@jupyterlab/docmanager-extension:manager'
+        '@jupyterlab/docmanager-extension:download'
       ].includes(id)
     ),
     require('@jupyterlab/docprovider-extension'),
