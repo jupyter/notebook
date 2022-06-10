@@ -43,10 +43,10 @@ commander
     );
     if (overwrite) {
       try {
-        fs.unlinkSync(destDir);
-        console.log('Removed previous symlink:', destDir);
+        fs.removeSync(destDir);
+        console.log('Removed previous destination:', destDir);
       } catch (e) {
-        console.info('Skip unlinkink', destDir);
+        console.info('Skip unlink', destDir);
       }
     }
     console.log('Symlinking:', sourceDir, destDir);
