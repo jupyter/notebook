@@ -11,6 +11,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -20,7 +21,7 @@ jobs:
         python_version: '3.7'
     - name: Install the Python dependencies
       run: |
-        pip install -e .[test] codecov
+        pip install -e .[dev,test] codecov
         pip install -r docs/doc-requirements.txt
         wget https://github.com/jgm/pandoc/releases/download/1.19.1/pandoc-1.19.1-1-amd64.deb && sudo dpkg -i pandoc-1.19.1-1-amd64.deb
     - name: List installed packages

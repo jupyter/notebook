@@ -81,7 +81,8 @@
       ]
     },
     "skip": [
-      "check-links"
+      "check-links",
+      "check-manifest"
     ]
   }
 }

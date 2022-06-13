@@ -15,6 +15,7 @@ concurrency:
 jobs:
   check_release:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       matrix:
         group: [check_release, link_check]
@@ -36,3 +37,10 @@ jobs:
       - name: Check Links
         if: ${{ matrix.group == 'link_check' }}
         uses: jupyter-server/jupyter_releaser/.github/actions/check-links@v1
+
+      - name: Upload Distributions
+        uses: actions/upload-artifact@v2
+        if: ${{ matrix.group == 'check_release' }}
+        with:
+          name: notebook-jupyter-releaser-dist-${{ github.run_number }}
+          path: .jupyter_releaser_checkout/dist

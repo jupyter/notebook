@@ -22,7 +22,7 @@ mamba create -n notebook -c conda-forge python nodejs -y
 mamba activate notebook
 
 # Install package in development mode
-pip install -e .
+pip install -e ".[dev,test]"
 
 # Link the notebook extension and @jupyter-notebook schemas
 jlpm develop
@@ -107,7 +107,7 @@ speeding up the review process.
 As long as your code is valid,
 the pre-commit hook should take care of how it should look.
 `pre-commit` and its associated hooks will automatically be installed when
-you run `pip install -e ".[test]"`
+you run `pip install -e ".[dev,test]"`
 
 To install `pre-commit` manually, run the following:
 

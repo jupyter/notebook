@@ -1,32 +1,126 @@
 [build-system]
-requires = ["jupyter_packaging~=0.10", "jupyterlab>=4.0.0a25,<5", "pre-commit"]
-build-backend = "jupyter_packaging.build_api"
+requires = ["hatchling>=1.0", "jupyterlab>=4.0.0a25,<5"]
+build-backend = "hatchling.build"
 
-[license]
-file="LICENSE"
+[project]
+name = "notebook"
+description = "Jupyter Notebook - A web-based notebook environment for interactive computing"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.7"
+authors = [
+    { name = "Jupyter Development Team", email = "jupyter@googlegroups.com" },
+]
+keywords = [
+    "Jupyter",
+    "JupyterLab",
+    "Notebook",
+]
+classifiers = [
+    "Framework :: Jupyter",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+dependencies = [
+    "jupyter_server>=1.16.0,<2",
+    "jupyterlab>=4.0.0a24,<5",
+    "jupyterlab_server>=2.13,<3",
+    "notebook_shim>=0.1,<0.2",
+    "tornado>=6.1.0",
+]
+dynamic = ["version"]
 
-[tool.jupyter-packaging.options]
-skip-if-exists = ["notebook/labextension/static/style.js", "notebook/static/bundle.js"]
-ensured-targets = ["notebook/labextension/static/style.js", "notebook/static/bundle.js"]
+[project.scripts]
+jupyter-notebook = "notebook.app:main"
 
-[tool.jupyter-packaging.builder]
-factory = "jupyter_packaging.npm_builder"
+[project.urls]
+Documentation = "https://jupyter-notebook.readthedocs.io/"
+Homepage = "https://github.com/jupyter/notebook"
+Source = "https://github.com/jupyter/notebook"
+Tracker = "https://github.com/jupyter/notebook/issues"
 
-[tool.jupyter-packaging.build-args]
+[project.optional-dependencies]
+test = [
+    "coverage",
+    "nbval",
+    "pytest>=6.0",
+    "pytest-cov",
+    "requests",
+    "pytest-tornasync",
+    "pytest-timeout",
+    "pytest-console-scripts",
+    "ipykernel",
+    "jupyterlab_server[test]>=2.13,<3",
+]
+dev = [
+    "pre-commit",
+    "bump2version",
+    "hatchling"
+]
+
+[tool.hatch.version]
+path = "notebook/_version.py"
+source = "code"
+
+[tool.hatch.build.targets.wheel.shared-data]
+"notebook/labextension" = "share/jupyter/labextensions/@jupyter-notebook/lab-extension"
+"notebook/schemas/@jupyter-notebook" = "share/jupyter/lab/schemas/@jupyter-notebook"
+"jupyter-config/jupyter_server_config.d" = "etc/jupyter/jupyter_server_config.d"
+
+[tool.hatch.build.targets.sdist]
+artifacts = [
+    "notebook/labextension",
+    "notebook/static",
+    "notebook/schemas/@jupyter-notebook",
+    "notebook/templates",
+]
+include = [
+    "/jupyter-config",
+    "/notebook",
+    "/tests",
+    "/package.json",
+    "/install.json",
+    "/ts*.json",
+    "/*.md"
+]
+
+[tool.hatch.build.targets.wheel]
+artifacts = [
+    "notebook/static",
+    "notebook/templates",
+]
+include = ["/notebook"]
+
+
+[tool.hatch.build.hooks.jupyter-builder]
+dependencies = ["hatch-jupyter-builder>=0.2"]
+build-function = "hatch_jupyter_builder.npm_builder"
+ensured-targets = [
+    "notebook/labextension/static/style.js",
+    "notebook/static/bundle.js"
+]
+install-pre-commit-hook = true
+
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
-npm = ["jlpm"]
-
-[tool.check-manifest]
-ignore = ["app/**", "binder/**", "buildutils/**", "docs/**", "packages/**", "codecov.yml", "*.json", "yarn.lock", "readthedocs.yml", ".bumpversion.cfg", ".*", "lint-staged.config.js", "*.svg", "notebook/labextension/**", "notebook/schemas/**", "notebook/static/**", "notebook/template/**", "ui-tests/**"]
+editable_build_cmd = "build"
+source_dir = "packages"
+build_dir = "notebook/static"
+npm = "jlpm"
 
 [tool.pytest.ini_options]
 addopts = "-raXs --durations 10 --color=yes --doctest-modules"
 testpaths = [
-    "tests/"
+    "tests/",
 ]
 timeout = 300
-# Restore this setting to debug failures
-# timeout_method = "thread"
 filterwarnings = [
     "error",
     "ignore:There is no current event loop:DeprecationWarning",
