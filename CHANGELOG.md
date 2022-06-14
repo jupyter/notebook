@@ -14,6 +14,30 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0a5
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a4...614e4780b88f5cf5e2bfda39a55357a0be5ef161))
+
+### Enhancements made
+
+- Add shadow to cells [#6433](https://github.com/jupyter/notebook/pull/6433) ([@trungleduc](https://github.com/trungleduc))
+
+### Maintenance and upkeep improvements
+
+- Fix docs build [#6447](https://github.com/jupyter/notebook/pull/6447) ([@jtpio](https://github.com/jtpio))
+- [pre-commit.ci] pre-commit autoupdate [#6444](https://github.com/jupyter/notebook/pull/6444) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- [pre-commit.ci] pre-commit autoupdate [#6439](https://github.com/jupyter/notebook/pull/6439) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- [pre-commit.ci] pre-commit autoupdate [#6434](https://github.com/jupyter/notebook/pull/6434) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Use hatch backend [#6425](https://github.com/jupyter/notebook/pull/6425) ([@blink1073](https://github.com/blink1073))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-05-20&to=2022-06-14&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-05-20..2022-06-14&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-05-20..2022-06-14&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-05-20..2022-06-14&type=Issues) | [@ofek](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aofek+updated%3A2022-05-20..2022-06-14&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-05-20..2022-06-14&type=Issues) | [@trungleduc](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atrungleduc+updated%3A2022-05-20..2022-06-14&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0a4
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a3...4bfaaac148a25ba76fcc7416e3a7b2c714b36fcd))
@@ -37,8 +61,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-04-27&to=2022-05-20&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-04-27..2022-05-20&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-04-27..2022-05-20&type=Issues) | [@jeewonkoo](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajeewonkoo+updated%3A2022-04-27..2022-05-20&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-04-27..2022-05-20&type=Issues) | [@ofek](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aofek+updated%3A2022-04-27..2022-05-20&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-04-27..2022-05-20&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0a3
 
