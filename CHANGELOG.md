@@ -14,6 +14,12 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 6.4.12
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.11...6.4.12)
+
+- Address security advisory [GHSA-v7vq-3x77-87vg](https://github.com/jupyter/notebook/security/advisories/GHSA-v7vq-3x77-87vg)
+
 ## 6.4.11
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/6.4.10...3911672959fcd35cf4a1b1ad7c9c8a5651c17ae6))
