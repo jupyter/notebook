@@ -1,0 +1,43 @@
+name: Transfer Issue
+on:
+  issues:
+    types:
+      - labeled
+    if: github.event.label == 'nbclassic'
+
+jobs:
+  transfer-and-comment-action:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        router:
+        # label_triggering_workflow:destination_repository_name
+          - nbclassic:nbclassic
+    steps:
+      - uses: actions/checkout@v3
+      - name: Transfer Issue
+        uses: lando/transfer-issue-action@v2.0.3
+        id: transfer-issue
+        with:
+          token: ${{ secrets.TRANSFER_ISSUE }} 
+          # applied_label:color_of_applied_label
+          apply_label: "transferred:D5B795"
+          router: ${{ matrix.router}}
+          debug: true
+      - name: Echo New Issue Data
+        run: |
+          echo "DESTINATION REPO: ${{steps.transfer-issue.outputs.destination_repo}}"
+          echo "NEW ISSUE NUMBER: ${{steps.transfer-issue.outputs.new_issue_number}}"
+          echo "NEW ISSUE URL: ${{steps.transfer-issue.outputs.new_issue_url}}"
+      - name: Update Transferred Issue with Comment
+        uses: actions/github-script@v6.1.0
+        if: steps.transfer-issue.outputs.new_issue_number != ''
+        with:
+          github-token: ${{ secrets.TRANSFER_ISSUE }}
+          script: |
+            await github.rest.issues.createComment({
+              issue_number: `${{ steps.transfer-issue.outputs.new_issue_number}}`,
+              owner: context.repo.owner,
+              repo: `${{ steps.transfer-issue.outputs.destination_repo }}`,
+              body: `@${ context.payload.issue.user.login } your issue is has been moved to the appropriate repo!`
+            });
