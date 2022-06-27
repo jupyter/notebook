@@ -14,6 +14,14 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 6.4.12
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.11...6.4.12)
+
+- Address security advisory [GHSA-v7vq-3x77-87vg](https://github.com/jupyter/notebook/security/advisories/GHSA-v7vq-3x77-87vg)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 6.4.11
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/6.4.10...3911672959fcd35cf4a1b1ad7c9c8a5651c17ae6))
@@ -34,8 +42,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-03-15&to=2022-04-18&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-03-15..2022-04-18&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-03-15..2022-04-18&type=Issues) | [@fcollonval](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afcollonval+updated%3A2022-03-15..2022-04-18&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-03-15..2022-04-18&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-03-15..2022-04-18&type=Issues) | [@penguinolog](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apenguinolog+updated%3A2022-03-15..2022-04-18&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.4.9
 
