@@ -53,6 +53,7 @@ test = [
     "pytest>=6.0",
     "pytest-cov",
     "requests",
+    "pytest-tornasync",
     "pytest-timeout",
     "pytest-console-scripts",
     "ipykernel",
@@ -123,4 +124,5 @@ timeout = 300
 filterwarnings = [
     "error",
     "ignore:There is no current event loop:DeprecationWarning",
+    "make_current is deprecated; start the event loop first"
 ]
