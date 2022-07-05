@@ -124,5 +124,5 @@ timeout = 300
 filterwarnings = [
     "error",
     "ignore:There is no current event loop:DeprecationWarning",
-    "make_current is deprecated; start the event loop first"
+    "ignore:make_current is deprecated; start the event loop first"
 ]
