@@ -505,14 +505,21 @@ define([
 
 
     OutputArea.prototype.append_error = function (json) {
+        var ename = json.ename;
+        var evalue = json.evalue;
         var tb = json.traceback;
+        var s = '';
         if (tb !== undefined && tb.length > 0) {
-            var s = '';
             var len = tb.length;
             for (var i=0; i<len; i++) {
                 s = s + tb[i] + '\n';
             }
             s = s + '\n';
+        } else if (ename !== undefined && ename.length > 0 && evalue !== undefined && evalue.length > 0) {
+            // If traceback is empty, and we have ename and evalue entries, concatenate the two to display
+            s = ename + ': ' + evalue;
+        }
+        if (s.length > 0) {
             var toinsert = this.create_output_area();
             var append_text = OutputArea.append_map[MIME_TEXT];
             if (append_text) {
