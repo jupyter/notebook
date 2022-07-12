@@ -103,110 +103,111 @@ def find_package_data():
     # exclude components and less from the walk;
     # we will build the components separately
     excludes = [
-        pjoin('static', 'components'),
-        pjoin('static', '*', 'less'),
-        pjoin('static', '*', 'node_modules')
+        'static',
+        # pjoin('static', 'components'),
+        # pjoin('static', '*', 'less'),
+        # pjoin('static', '*', 'node_modules')
     ]
 
     # walk notebook resources:
     cwd = os.getcwd()
     os.chdir('notebook')
     static_data = []
-    for parent, dirs, files in os.walk('static'):
-        if any(fnmatch(parent, pat) for pat in excludes):
-            # prevent descending into subdirs
-            dirs[:] = []
-            continue
-        for f in files:
-            static_data.append(pjoin(parent, f))
+    # for parent, dirs, files in os.walk('static'):
+    #     if any(fnmatch(parent, pat) for pat in excludes):
+    #         # prevent descending into subdirs
+    #         dirs[:] = []
+    #         continue
+    #     for f in files:
+    #         static_data.append(pjoin(parent, f))
 
-    # for verification purposes, explicitly add main.min.js
-    # so that installation will fail if they are missing
-    for app in ['auth', 'edit', 'notebook', 'terminal', 'tree']:
-        static_data.append(pjoin('static', app, 'js', 'main.min.js'))
+    # # for verification purposes, explicitly add main.min.js
+    # # so that installation will fail if they are missing
+    # for app in ['auth', 'edit', 'notebook', 'terminal', 'tree']:
+    #     static_data.append(pjoin('static', app, 'js', 'main.min.js'))
 
-    components = pjoin("static", "components")
+    # components = pjoin("static", "components")
     # select the components we actually need to install
     # (there are lots of resources we bundle for sdist-reasons that we don't actually use)
-    static_data.extend([
-        pjoin(components, "backbone", "backbone-min.js"),
-        pjoin(components, "bootstrap", "dist", "js", "bootstrap.min.js"),
-        pjoin(components, "bootstrap-tour", "build", "css", "bootstrap-tour.min.css"),
-        pjoin(components, "bootstrap-tour", "build", "js", "bootstrap-tour.min.js"),
-        pjoin(components, "create-react-class", "index.js"),
-        pjoin(components, "font-awesome", "css", "*.css"),
-        pjoin(components, "google-caja", "html-css-sanitizer-minified.js"),
-        pjoin(components, "es6-promise", "*.js"),
-        pjoin(components, "font-awesome", "fonts", "*.*"),
-        pjoin(components, "jed", "jed.js"),
-        pjoin(components, "jquery", "jquery.min.js"),
-        pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.js"),
-        pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.css"),
-        pjoin(components, "jquery-ui", "jquery-ui.min.js"),
-        pjoin(components, "jquery-ui", "themes", "smoothness", "jquery-ui.min.css"),
-        pjoin(components, "jquery-ui", "themes", "smoothness", "images", "*"),
-        pjoin(components, "marked", "lib", "marked.js"),
-        pjoin(components, "react", "react.production.min.js"),
-        pjoin(components, "react", "react-dom.production.min.js"),
-        pjoin(components, "requirejs", "require.js"),
-        pjoin(components, "requirejs-plugins", "src", "json.js"),
-        pjoin(components, "requirejs-text", "text.js"),
-        pjoin(components, "sanitizer", "index.js"),
-        pjoin(components, "underscore", "underscore-min.js"),
-        pjoin(components, "moment", "moment.js"),
-        pjoin(components, "moment", "min", "*.js"),
-        pjoin(components, "xterm.js", "index.js"),
-        pjoin(components, "xterm.js-css", "index.css"),
-        pjoin(components, "xterm.js-fit", "index.js"),
-        pjoin(components, "text-encoding", "lib", "encoding.js"),
-    ])
+    # static_data.extend([
+    #     pjoin(components, "backbone", "backbone-min.js"),
+    #     pjoin(components, "bootstrap", "dist", "js", "bootstrap.min.js"),
+    #     pjoin(components, "bootstrap-tour", "build", "css", "bootstrap-tour.min.css"),
+    #     pjoin(components, "bootstrap-tour", "build", "js", "bootstrap-tour.min.js"),
+    #     pjoin(components, "create-react-class", "index.js"),
+    #     pjoin(components, "font-awesome", "css", "*.css"),
+    #     pjoin(components, "google-caja", "html-css-sanitizer-minified.js"),
+    #     pjoin(components, "es6-promise", "*.js"),
+    #     pjoin(components, "font-awesome", "fonts", "*.*"),
+    #     pjoin(components, "jed", "jed.js"),
+    #     pjoin(components, "jquery", "jquery.min.js"),
+    #     pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.js"),
+    #     pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.css"),
+    #     pjoin(components, "jquery-ui", "jquery-ui.min.js"),
+    #     pjoin(components, "jquery-ui", "themes", "smoothness", "jquery-ui.min.css"),
+    #     pjoin(components, "jquery-ui", "themes", "smoothness", "images", "*"),
+    #     pjoin(components, "marked", "lib", "marked.js"),
+    #     pjoin(components, "react", "react.production.min.js"),
+    #     pjoin(components, "react", "react-dom.production.min.js"),
+    #     pjoin(components, "requirejs", "require.js"),
+    #     pjoin(components, "requirejs-plugins", "src", "json.js"),
+    #     pjoin(components, "requirejs-text", "text.js"),
+    #     pjoin(components, "sanitizer", "index.js"),
+    #     pjoin(components, "underscore", "underscore-min.js"),
+    #     pjoin(components, "moment", "moment.js"),
+    #     pjoin(components, "moment", "min", "*.js"),
+    #     pjoin(components, "xterm.js", "index.js"),
+    #     pjoin(components, "xterm.js-css", "index.css"),
+    #     pjoin(components, "xterm.js-fit", "index.js"),
+    #     pjoin(components, "text-encoding", "lib", "encoding.js"),
+    # ])
 
-    # Ship all of Codemirror's CSS and JS
-    for parent, dirs, files in os.walk(pjoin(components, 'codemirror')):
-        for f in files:
-            if f.endswith(('.js', '.css')):
-                static_data.append(pjoin(parent, f))
-
-    # Trim mathjax
-    mj = lambda *path: pjoin(components, 'MathJax', *path)
-    static_data.extend([
-        mj('MathJax.js'),
-        mj('config', 'TeX-AMS-MML_HTMLorMML-full.js'),
-        mj('config', 'Safe.js'),
-    ])
+    # # Ship all of Codemirror's CSS and JS
+    # for parent, dirs, files in os.walk(pjoin(components, 'codemirror')):
+    #     for f in files:
+    #         if f.endswith(('.js', '.css')):
+    #             static_data.append(pjoin(parent, f))
+    #
+    # # Trim mathjax
+    # mj = lambda *path: pjoin(components, 'MathJax', *path)
+    # static_data.extend([
+    #     mj('MathJax.js'),
+    #     mj('config', 'TeX-AMS-MML_HTMLorMML-full.js'),
+    #     mj('config', 'Safe.js'),
+    # ])
 
     trees = []
-    mj_out = mj('jax', 'output')
+    # mj_out = mj('jax', 'output')
 
-    if os.path.exists(mj_out):
-        for output in os.listdir(mj_out):
-            path = pjoin(mj_out, output)
-            static_data.append(pjoin(path, '*.js'))
-            autoload = pjoin(path, 'autoload')
-            if os.path.isdir(autoload):
-                trees.append(autoload)
+    # if os.path.exists(mj_out):
+    #     for output in os.listdir(mj_out):
+    #         path = pjoin(mj_out, output)
+    #         static_data.append(pjoin(path, '*.js'))
+    #         autoload = pjoin(path, 'autoload')
+    #         if os.path.isdir(autoload):
+    #             trees.append(autoload)
 
-    for tree in trees + [
-        mj('localization'), # limit to en?
-        mj('fonts', 'HTML-CSS', 'STIX-Web', 'woff'),
-        mj('extensions'),
-        mj('jax', 'input', 'TeX'),
-        mj('jax', 'output', 'HTML-CSS', 'fonts', 'STIX-Web'),
-        mj('jax', 'output', 'SVG', 'fonts', 'STIX-Web'),
-        mj('jax', 'element', 'mml'),
-    ]:
-        for parent, dirs, files in os.walk(tree):
-            for f in files:
-                static_data.append(pjoin(parent, f))
+    # for tree in trees + [
+    #     mj('localization'), # limit to en?
+    #     mj('fonts', 'HTML-CSS', 'STIX-Web', 'woff'),
+    #     mj('extensions'),
+    #     mj('jax', 'input', 'TeX'),
+    #     mj('jax', 'output', 'HTML-CSS', 'fonts', 'STIX-Web'),
+    #     mj('jax', 'output', 'SVG', 'fonts', 'STIX-Web'),
+    #     mj('jax', 'element', 'mml'),
+    # ]:
+    #     for parent, dirs, files in os.walk(tree):
+    #         for f in files:
+    #             static_data.append(pjoin(parent, f))
 
-    os.chdir(os.path.join('tests',))
-    js_tests = glob('*.js') + glob('*/*.js')
+    # os.chdir(os.path.join('tests',))
+    # js_tests = glob('*.js') + glob('*/*.js')
 
     os.chdir(cwd)
 
     package_data = {
         'notebook' : ['templates/*'] + static_data,
-        'notebook.tests' : js_tests,
+        # 'notebook.tests' : js_tests,
         'notebook.bundler.tests': ['resources/*', 'resources/*/*', 'resources/*/*/.*'],
         'notebook.services.api': ['api.yaml'],
         'notebook.i18n': ['*/LC_MESSAGES/*.*'],
@@ -606,50 +607,51 @@ class JavascriptVersion(Command):
 
 
 def css_js_prerelease(command, strict=False):
-    """decorator for building minified js/css prior to another command"""
-    class DecoratedCommand(command):
-        def run(self):
-            self.distribution.run_command('jsversion')
-            jsdeps = self.distribution.get_command_obj('jsdeps')
-            js = self.distribution.get_command_obj('js')
-            css = self.distribution.get_command_obj('css')
-            jsdeps.force = js.force = strict
-
-            targets = [ jsdeps.bower_dir ]
-            targets.extend(js.targets)
-            targets.extend(css.targets)
-            missing = [ t for t in targets if not os.path.exists(t) ]
-
-            if not is_repo and not missing:
-                # If we're an sdist, we aren't a repo and everything should be present.
-                # Don't rebuild js/css in that case.
-                command.run(self)
-                return
-
-            try:
-                self.distribution.run_command('js')
-                self.distribution.run_command('css')
-                self.distribution.run_command('backendtranslations')
-            except Exception as e:
-                # refresh missing
-                missing = [ t for t in targets if not os.path.exists(t) ]
-                if strict or missing:
-                    # die if strict or any targets didn't build
-                    prefix = os.path.commonprefix([repo_root + os.sep] + missing)
-                    missing = [ m[len(prefix):] for m in missing ]
-                    log.warn("rebuilding js and css failed. The following required files are missing: %s" % missing)
-                    raise e
-                else:
-                    log.warn("rebuilding js and css failed (not a problem)")
-                    log.warn(str(e))
-
-            # check again for missing targets, just in case:
-            missing = [ t for t in targets if not os.path.exists(t) ]
-            if missing:
-                # command succeeded, but targets still missing (?!)
-                prefix = os.path.commonprefix([repo_root + os.sep] + missing)
-                missing = [ m[len(prefix):] for m in missing ]
-                raise ValueError("The following required files are missing: %s" % missing)
-
-            command.run(self)
-    return DecoratedCommand
+    # """decorator for building minified js/css prior to another command"""
+    # class DecoratedCommand(command):
+    #     def run(self):
+    #         self.distribution.run_command('jsversion')
+    #         jsdeps = self.distribution.get_command_obj('jsdeps')
+    #         js = self.distribution.get_command_obj('js')
+    #         css = self.distribution.get_command_obj('css')
+    #         jsdeps.force = js.force = strict
+    #
+    #         targets = [ jsdeps.bower_dir ]
+    #         targets.extend(js.targets)
+    #         targets.extend(css.targets)
+    #         missing = [ t for t in targets if not os.path.exists(t) ]
+    #
+    #         if not is_repo and not missing:
+    #             # If we're an sdist, we aren't a repo and everything should be present.
+    #             # Don't rebuild js/css in that case.
+    #             command.run(self)
+    #             return
+    #
+    #         try:
+    #             self.distribution.run_command('js')
+    #             self.distribution.run_command('css')
+    #             self.distribution.run_command('backendtranslations')
+    #         except Exception as e:
+    #             # refresh missing
+    #             missing = [ t for t in targets if not os.path.exists(t) ]
+    #             if strict or missing:
+    #                 # die if strict or any targets didn't build
+    #                 prefix = os.path.commonprefix([repo_root + os.sep] + missing)
+    #                 missing = [ m[len(prefix):] for m in missing ]
+    #                 log.warn("rebuilding js and css failed. The following required files are missing: %s" % missing)
+    #                 raise e
+    #             else:
+    #                 log.warn("rebuilding js and css failed (not a problem)")
+    #                 log.warn(str(e))
+    #
+    #         # check again for missing targets, just in case:
+    #         missing = [ t for t in targets if not os.path.exists(t) ]
+    #         if missing:
+    #             # command succeeded, but targets still missing (?!)
+    #             prefix = os.path.commonprefix([repo_root + os.sep] + missing)
+    #             missing = [ m[len(prefix):] for m in missing ]
+    #             raise ValueError("The following required files are missing: %s" % missing)
+    #
+    #         command.run(self)
+    # return DecoratedCommand
+    return command
