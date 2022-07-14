@@ -24,6 +24,7 @@ DEFAULT_TEMPLATE_PATH_LIST = [
 DEFAULT_NOTEBOOK_PORT = 8888
 
 del os
+del nbclassic
 
 from .nbextensions import install_nbextension
 from ._version import version_info, __version__
