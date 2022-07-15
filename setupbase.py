@@ -107,9 +107,6 @@ def find_package_data():
     cwd = os.getcwd()
     os.chdir('notebook')
 
-    # os.chdir(os.path.join('tests',))
-    # js_tests = glob('*.js') + glob('*/*.js')
-
     os.chdir(cwd)
 
     package_data = {
@@ -228,10 +225,6 @@ except ImportError:
 
 static = pjoin(repo_root, 'notebook', 'static')
 
-npm_path = os.pathsep.join([
-    pjoin(repo_root, 'node_modules', '.bin'),
-    os.environ.get("PATH", os.defpath),
-])
 
 def mtime(path):
     """shorthand for mtime"""
@@ -271,76 +264,6 @@ class CompileBackendTranslation(Command):
                     ])
 
 
-class Bower(Command):
-    description = "fetch static client-side components with bower"
-
-    user_options = [
-        ('force', 'f', "force fetching of bower dependencies"),
-    ]
-
-    def initialize_options(self):
-        self.force = False
-
-    def finalize_options(self):
-        self.force = bool(self.force)
-
-    bower_dir = pjoin(static, 'components')
-    node_modules = pjoin(repo_root, 'node_modules')
-    sanitizer_dir = pjoin(bower_dir, 'sanitizer')
-
-    def should_run(self):
-        if self.force:
-            return True
-        if not os.path.exists(self.bower_dir):
-            return True
-        if not os.path.exists(self.sanitizer_dir):
-            return True
-
-        bower_stale = mtime(self.bower_dir) < mtime(pjoin(repo_root, 'bower.json'))
-        if bower_stale:
-            return True
-
-        return mtime(self.sanitizer_dir) < mtime(pjoin(repo_root, 'webpack.config.js'))
-
-    def should_run_npm(self):
-        if not which('npm'):
-            print("npm unavailable", file=sys.stderr)
-            return False
-        if not os.path.exists(self.node_modules):
-            return True
-        return mtime(self.node_modules) < mtime(pjoin(repo_root, 'package.json'))
-
-    def run(self):
-        if not self.should_run():
-            print("bower dependencies up to date")
-            return
-
-        if self.should_run_npm():
-            print("installing build dependencies with npm")
-            run(['npm', 'install'], cwd=repo_root)
-            os.utime(self.node_modules, None)
-
-        env = os.environ.copy()
-        env['PATH'] = npm_path
-
-        try:
-            run(
-                ['bower', 'install', '--allow-root', '--config.interactive=false'],
-                cwd=repo_root,
-                env=env
-            )
-        except OSError as e:
-            print("Failed to run bower: %s" % e, file=sys.stderr)
-            print("You can install js dependencies with `npm install`", file=sys.stderr)
-            raise
-        # self.npm_components()
-        if not os.path.exists(self.sanitizer_dir):
-            run(['npm', 'run', 'build:webpack'], cwd=repo_root, env=env)
-        os.utime(self.bower_dir, None)
-        # update package data in case this created new files
-        update_package_data(self.distribution)
-
-
 def patch_out_bootstrap_bw_print():
     """Hack! Manually patch out the bootstrap rule that forces printing in B&W.
 
@@ -363,28 +286,3 @@ def patch_out_bootstrap_bw_print():
     with open(print_less, 'w') as f:
         f.writelines(lines)
 
-
-class JavascriptVersion(Command):
-    """write the javascript version to notebook javascript"""
-    description = "Write Jupyter version to javascript"
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        nsfile = pjoin(repo_root, "notebook", "static", "base", "js", "namespace.js")
-        with open(nsfile) as f:
-            lines = f.readlines()
-        with open(nsfile, 'w') as f:
-            found = False
-            for line in lines:
-                if line.strip().startswith("Jupyter.version"):
-                    line = f'    Jupyter.version = "{version}";\n'
-                    found = True
-                f.write(line)
-            if not found:
-                raise RuntimeError("Didn't find Jupyter.version line in %s" % nsfile)
