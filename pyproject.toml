@@ -1,5 +1,5 @@
 [build-system]
-requires=["jupyter_packaging~=0.9"]
+requires=["jupyter_packaging~=0.9", "nbclassic>=0.4.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.check-manifest]
