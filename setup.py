@@ -121,7 +121,8 @@ for more information.
         'ipykernel', # bless IPython kernel for now
         'Send2Trash>=1.8.0',
         'terminado>=0.8.3',
-        'prometheus_client'
+        'prometheus_client',
+        'nbclassic>=4',
     ],
     extras_require = {
         'test': ['pytest', 'coverage', 'requests', 'testpath',
