@@ -29,6 +29,7 @@ else:
     def list2cmdline(cmd_list):
         return ' '.join(map(pipes.quote, cmd_list))
 
+
 #-------------------------------------------------------------------------------
 # Useful globals and utility functions
 #-------------------------------------------------------------------------------
@@ -72,6 +73,7 @@ loose_pep440re = re.compile(r'^([1-9]\d*!)?(0|[1-9]\d*)(\.(0|[1-9]\d*))*((a|b|rc
 if not loose_pep440re.match(version):
     raise ValueError('Invalid version number `%s`, please follow pep440 convention or pip will get confused about which package is more recent.' % version)
 
+
 #---------------------------------------------------------------------------
 # Find packages
 #---------------------------------------------------------------------------
@@ -89,6 +91,7 @@ def find_packages():
         packages.append(package)
     return packages
 
+
 #---------------------------------------------------------------------------
 # Find package data
 #---------------------------------------------------------------------------
@@ -100,105 +103,9 @@ def find_package_data():
     # This is not enough for these things to appear in a sdist.
     # We need to muck with the MANIFEST to get this to work
 
-    # exclude components and less from the walk;
-    # we will build the components separately
-    excludes = [
-        'static',
-        # pjoin('static', 'components'),
-        # pjoin('static', '*', 'less'),
-        # pjoin('static', '*', 'node_modules')
-    ]
-
     # walk notebook resources:
     cwd = os.getcwd()
     os.chdir('notebook')
-    static_data = []
-    # for parent, dirs, files in os.walk('static'):
-    #     if any(fnmatch(parent, pat) for pat in excludes):
-    #         # prevent descending into subdirs
-    #         dirs[:] = []
-    #         continue
-    #     for f in files:
-    #         static_data.append(pjoin(parent, f))
-
-    # # for verification purposes, explicitly add main.min.js
-    # # so that installation will fail if they are missing
-    # for app in ['auth', 'edit', 'notebook', 'terminal', 'tree']:
-    #     static_data.append(pjoin('static', app, 'js', 'main.min.js'))
-
-    # components = pjoin("static", "components")
-    # select the components we actually need to install
-    # (there are lots of resources we bundle for sdist-reasons that we don't actually use)
-    # static_data.extend([
-    #     pjoin(components, "backbone", "backbone-min.js"),
-    #     pjoin(components, "bootstrap", "dist", "js", "bootstrap.min.js"),
-    #     pjoin(components, "bootstrap-tour", "build", "css", "bootstrap-tour.min.css"),
-    #     pjoin(components, "bootstrap-tour", "build", "js", "bootstrap-tour.min.js"),
-    #     pjoin(components, "create-react-class", "index.js"),
-    #     pjoin(components, "font-awesome", "css", "*.css"),
-    #     pjoin(components, "google-caja", "html-css-sanitizer-minified.js"),
-    #     pjoin(components, "es6-promise", "*.js"),
-    #     pjoin(components, "font-awesome", "fonts", "*.*"),
-    #     pjoin(components, "jed", "jed.js"),
-    #     pjoin(components, "jquery", "jquery.min.js"),
-    #     pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.js"),
-    #     pjoin(components, "jquery-typeahead", "dist", "jquery.typeahead.min.css"),
-    #     pjoin(components, "jquery-ui", "jquery-ui.min.js"),
-    #     pjoin(components, "jquery-ui", "themes", "smoothness", "jquery-ui.min.css"),
-    #     pjoin(components, "jquery-ui", "themes", "smoothness", "images", "*"),
-    #     pjoin(components, "marked", "lib", "marked.js"),
-    #     pjoin(components, "react", "react.production.min.js"),
-    #     pjoin(components, "react", "react-dom.production.min.js"),
-    #     pjoin(components, "requirejs", "require.js"),
-    #     pjoin(components, "requirejs-plugins", "src", "json.js"),
-    #     pjoin(components, "requirejs-text", "text.js"),
-    #     pjoin(components, "sanitizer", "index.js"),
-    #     pjoin(components, "underscore", "underscore-min.js"),
-    #     pjoin(components, "moment", "moment.js"),
-    #     pjoin(components, "moment", "min", "*.js"),
-    #     pjoin(components, "xterm.js", "index.js"),
-    #     pjoin(components, "xterm.js-css", "index.css"),
-    #     pjoin(components, "xterm.js-fit", "index.js"),
-    #     pjoin(components, "text-encoding", "lib", "encoding.js"),
-    # ])
-
-    # # Ship all of Codemirror's CSS and JS
-    # for parent, dirs, files in os.walk(pjoin(components, 'codemirror')):
-    #     for f in files:
-    #         if f.endswith(('.js', '.css')):
-    #             static_data.append(pjoin(parent, f))
-    #
-    # # Trim mathjax
-    # mj = lambda *path: pjoin(components, 'MathJax', *path)
-    # static_data.extend([
-    #     mj('MathJax.js'),
-    #     mj('config', 'TeX-AMS-MML_HTMLorMML-full.js'),
-    #     mj('config', 'Safe.js'),
-    # ])
-
-    trees = []
-    # mj_out = mj('jax', 'output')
-
-    # if os.path.exists(mj_out):
-    #     for output in os.listdir(mj_out):
-    #         path = pjoin(mj_out, output)
-    #         static_data.append(pjoin(path, '*.js'))
-    #         autoload = pjoin(path, 'autoload')
-    #         if os.path.isdir(autoload):
-    #             trees.append(autoload)
-
-    # for tree in trees + [
-    #     mj('localization'), # limit to en?
-    #     mj('fonts', 'HTML-CSS', 'STIX-Web', 'woff'),
-    #     mj('extensions'),
-    #     mj('jax', 'input', 'TeX'),
-    #     mj('jax', 'output', 'HTML-CSS', 'fonts', 'STIX-Web'),
-    #     mj('jax', 'output', 'SVG', 'fonts', 'STIX-Web'),
-    #     mj('jax', 'element', 'mml'),
-    # ]:
-    #     for parent, dirs, files in os.walk(tree):
-    #         for f in files:
-    #             static_data.append(pjoin(parent, f))
 
     # os.chdir(os.path.join('tests',))
     # js_tests = glob('*.js') + glob('*/*.js')
@@ -206,8 +113,7 @@ def find_package_data():
     os.chdir(cwd)
 
     package_data = {
-        'notebook' : ['templates/*'] + static_data,
-        # 'notebook.tests' : js_tests,
+        'notebook' : ['templates/*'],
         'notebook.bundler.tests': ['resources/*', 'resources/*/*', 'resources/*/*/.*'],
         'notebook.services.api': ['api.yaml'],
         'notebook.i18n': ['*/LC_MESSAGES/*.*'],
@@ -240,12 +146,14 @@ def check_package_data_first(command):
             command.run(self)
     return DecoratedCommand
 
+
 def update_package_data(distribution):
     """update package_data to catch changes during setup"""
     build_py = distribution.get_command_obj('build_py')
     distribution.package_data = find_package_data()
     # re-init build_py options which load package_data
     build_py.finalize_options()
+
 
 #---------------------------------------------------------------------------
 # Notebook related
@@ -336,6 +244,7 @@ def run(cmd, *args, **kwargs):
     kwargs['shell'] = (sys.platform == 'win32')
     return check_call(cmd, *args, **kwargs)
 
+
 class CompileBackendTranslation(Command):
     description = "compile the .po files into .mo files, that contain the translations."
 
@@ -360,6 +269,7 @@ class CompileBackendTranslation(Command):
                      '-i', pjoin('notebook', 'i18n', LANG, 'LC_MESSAGES', component+'.po'),
                      '-o', pjoin('notebook', 'i18n', LANG, 'LC_MESSAGES', component+'.mo')
                     ])
+
 
 class Bower(Command):
     description = "fetch static client-side components with bower"
@@ -453,132 +363,6 @@ def patch_out_bootstrap_bw_print():
     with open(print_less, 'w') as f:
         f.writelines(lines)
 
-class CompileCSS(Command):
-    """Recompile Notebook CSS
-
-    Regenerate the compiled CSS from LESS sources.
-
-    Requires various dev dependencies, such as require and lessc.
-    """
-    description = "Recompile Notebook CSS"
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    sources = []
-    targets = []
-    for name in ('ipython', 'style'):
-        sources.append(pjoin(static, 'style', '%s.less' % name))
-        targets.append(pjoin(static, 'style', '%s.min.css' % name))
-
-    def run(self):
-        self.run_command('jsdeps')
-        env = os.environ.copy()
-        env['PATH'] = npm_path
-
-        patch_out_bootstrap_bw_print()
-
-        for src, dst in zip(self.sources, self.targets):
-            try:
-                run(['lessc',
-                    '--source-map',
-                    '--include-path=%s' % pipes.quote(static),
-                    src,
-                    dst,
-                ], cwd=repo_root, env=env)
-            except OSError as e:
-                print("Failed to build css: %s" % e, file=sys.stderr)
-                print("You can install js dependencies with `npm install`", file=sys.stderr)
-                raise
-        # update package data in case this created new files
-        update_package_data(self.distribution)
-
-
-class CompileJS(Command):
-    """Rebuild Notebook Javascript main.min.js files and translation files.
-
-    Calls require via build-main.js
-    """
-    description = "Rebuild Notebook Javascript main.min.js files"
-    user_options = [
-        ('force', 'f', "force rebuilding js targets"),
-    ]
-
-    def initialize_options(self):
-        self.force = False
-
-    def finalize_options(self):
-        self.force = bool(self.force)
-
-    apps = ['notebook', 'tree', 'edit', 'terminal', 'auth']
-    targets = [ pjoin(static, app, 'js', 'main.min.js') for app in apps ]
-
-    def sources(self, name):
-        """Generator yielding .js sources that an application depends on"""
-        yield pjoin(repo_root, 'tools', 'build-main.js')
-        yield pjoin(static, name, 'js', 'main.js')
-
-        for sec in [name, 'base', 'auth']:
-            for f in glob(pjoin(static, sec, 'js', '*.js')):
-                if not f.endswith('.min.js'):
-                    yield f
-        yield pjoin(static, 'services', 'config.js')
-        if name == 'notebook':
-            for f in glob(pjoin(static, 'services', '*', '*.js')):
-                yield f
-        for parent, dirs, files in os.walk(pjoin(static, 'components')):
-            if os.path.basename(parent) == 'MathJax':
-                # don't look in MathJax, since it takes forever to walk it
-                dirs[:] = []
-                continue
-            for f in files:
-                yield pjoin(parent, f)
-
-    def should_run(self, name, target):
-        if self.force or not os.path.exists(target):
-            return True
-        target_mtime = mtime(target)
-        for source in self.sources(name):
-            if mtime(source) > target_mtime:
-                print(source, target)
-                return True
-        return False
-
-    def build_main(self, name):
-        """Build main.min.js"""
-        target = pjoin(static, name, 'js', 'main.min.js')
-
-        if not self.should_run(name, target):
-            log.info("%s up to date" % target)
-            return
-        log.info("Rebuilding %s" % target)
-        run(['node', 'tools/build-main.js', name])
-
-    def build_jstranslation(self, trd):
-        lang = trd[-5:]
-        run([
-            pjoin('node_modules', '.bin', 'po2json'),
-            '-p', '-F',
-            '-f', 'jed1.x',
-            '-d', 'nbjs',
-            pjoin('notebook', 'i18n', lang, 'LC_MESSAGES', 'nbjs.po'),
-            pjoin('notebook', 'i18n', lang, 'LC_MESSAGES', 'nbjs.json'),
-        ])
-
-    def run(self):
-        self.run_command('jsdeps')
-        env = os.environ.copy()
-        env['PATH'] = npm_path
-        pool = ThreadPool()
-        pool.map(self.build_main, self.apps)
-        pool.map(self.build_jstranslation, glob('notebook/i18n/??_??'))
-        # update package data in case this created new files
-        update_package_data(self.distribution)
-
 
 class JavascriptVersion(Command):
     """write the javascript version to notebook javascript"""
@@ -604,54 +388,3 @@ class JavascriptVersion(Command):
                 f.write(line)
             if not found:
                 raise RuntimeError("Didn't find Jupyter.version line in %s" % nsfile)
-
-
-def css_js_prerelease(command, strict=False):
-    # """decorator for building minified js/css prior to another command"""
-    # class DecoratedCommand(command):
-    #     def run(self):
-    #         self.distribution.run_command('jsversion')
-    #         jsdeps = self.distribution.get_command_obj('jsdeps')
-    #         js = self.distribution.get_command_obj('js')
-    #         css = self.distribution.get_command_obj('css')
-    #         jsdeps.force = js.force = strict
-    #
-    #         targets = [ jsdeps.bower_dir ]
-    #         targets.extend(js.targets)
-    #         targets.extend(css.targets)
-    #         missing = [ t for t in targets if not os.path.exists(t) ]
-    #
-    #         if not is_repo and not missing:
-    #             # If we're an sdist, we aren't a repo and everything should be present.
-    #             # Don't rebuild js/css in that case.
-    #             command.run(self)
-    #             return
-    #
-    #         try:
-    #             self.distribution.run_command('js')
-    #             self.distribution.run_command('css')
-    #             self.distribution.run_command('backendtranslations')
-    #         except Exception as e:
-    #             # refresh missing
-    #             missing = [ t for t in targets if not os.path.exists(t) ]
-    #             if strict or missing:
-    #                 # die if strict or any targets didn't build
-    #                 prefix = os.path.commonprefix([repo_root + os.sep] + missing)
-    #                 missing = [ m[len(prefix):] for m in missing ]
-    #                 log.warn("rebuilding js and css failed. The following required files are missing: %s" % missing)
-    #                 raise e
-    #             else:
-    #                 log.warn("rebuilding js and css failed (not a problem)")
-    #                 log.warn(str(e))
-    #
-    #         # check again for missing targets, just in case:
-    #         missing = [ t for t in targets if not os.path.exists(t) ]
-    #         if missing:
-    #             # command succeeded, but targets still missing (?!)
-    #             prefix = os.path.commonprefix([repo_root + os.sep] + missing)
-    #             missing = [ m[len(prefix):] for m in missing ]
-    #             raise ValueError("The following required files are missing: %s" % missing)
-    #
-    #         command.run(self)
-    # return DecoratedCommand
-    return command
