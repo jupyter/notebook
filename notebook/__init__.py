@@ -1,9 +1,6 @@
 """The Jupyter HTML Notebook"""
 
 import os
-import nbclassic
-# Packagers: modify this line if you store the notebook static files elsewhere
-DEFAULT_STATIC_FILES_PATH = os.path.join(os.path.dirname(nbclassic.__file__), "static")
 
 # Packagers: modify the next line if you store the notebook template files
 # elsewhere
@@ -24,7 +21,6 @@ DEFAULT_TEMPLATE_PATH_LIST = [
 DEFAULT_NOTEBOOK_PORT = 8888
 
 del os
-del nbclassic
 
 from .nbextensions import install_nbextension
 from ._version import version_info, __version__
