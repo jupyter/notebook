@@ -3,19 +3,19 @@
 
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import {
   IToolbarWidgetRegistry,
   createToolbarFactory,
-  setToolbar,
+  setToolbar
 } from '@jupyterlab/apputils';
 
 import {
   IFileBrowserFactory,
   FileBrowser,
-  Uploader,
+  Uploader
 } from '@jupyterlab/filebrowser';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -28,7 +28,7 @@ import {
   caretDownIcon,
   folderIcon,
   runningIcon,
-  TabBarSvg,
+  TabBarSvg
 } from '@jupyterlab/ui-components';
 
 import { Menu, MenuBar, TabPanel } from '@lumino/widgets';
@@ -71,10 +71,10 @@ const createNew: JupyterFrontEndPlugin<void> = {
       'terminal:create-new',
       'console:create',
       'filebrowser:create-new-file',
-      'filebrowser:create-new-directory',
+      'filebrowser:create-new-directory'
     ];
 
-    newCommands.forEach((command) => {
+    newCommands.forEach(command => {
       newMenu.addItem({ command });
     });
 
@@ -90,7 +90,7 @@ const createNew: JupyterFrontEndPlugin<void> = {
         }
       );
     }
-  },
+  }
 };
 
 /**
@@ -102,7 +102,7 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
     IFileBrowserFactory,
     ITranslator,
     ISettingRegistry,
-    IToolbarWidgetRegistry,
+    IToolbarWidgetRegistry
   ],
   optional: [IRunningSessionManagers],
   autoStart: true,
@@ -117,7 +117,7 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
     const tabPanel = new TabPanel({
       tabPlacement: 'top',
       tabsMovable: true,
-      renderer: TabBarSvg.defaultRenderer,
+      renderer: TabBarSvg.defaultRenderer
     });
     tabPanel.addClass('jp-TreePanel');
 
@@ -140,7 +140,7 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
         new Uploader({
           model: browser.model,
           translator,
-          label: trans.__('Upload'),
+          label: trans.__('Upload')
         })
     );
 
@@ -178,7 +178,7 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
       });
 
     app.shell.add(tabPanel, 'main', { rank: 100 });
-  },
+  }
 };
 
 /**
