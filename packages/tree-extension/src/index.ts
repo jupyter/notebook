@@ -31,6 +31,7 @@ import {
 } from '@jupyterlab/ui-components';
 
 import { Menu, MenuBar, TabPanel } from '@lumino/widgets';
+import { NotebookShell } from '@jupyter-notebook/application';
 
 /**
  * The file browser factory.
@@ -116,6 +117,11 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
     const tabPanel = new TabPanel({ tabPlacement: 'top', tabsMovable: true });
     tabPanel.addClass('jp-TreePanel');
 
+    // Add the TabPanel to the main area.
+    app.shell.add(tabPanel, 'main', { rank: 100 });
+    // Set the main area as a TabPanel.
+    (app.shell as NotebookShell).mainIsTabPanel = true;
+
     const trans = translator.load('notebook');
 
     const { defaultBrowser: browser } = factory;
@@ -124,8 +130,7 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
     browser.node.setAttribute('aria-label', trans.__('File Browser Section'));
     browser.title.icon = folderIcon;
 
-    tabPanel.addWidget(browser);
-    tabPanel.tabBar.addTab(browser.title);
+    app.shell.add(browser, 'main');
 
     // Toolbar
     toolbarRegistry.addFactory(
@@ -155,8 +160,7 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
       running.id = 'jp-running-sessions';
       running.title.label = trans.__('Running');
       running.title.icon = runningIcon;
-      tabPanel.addWidget(running);
-      tabPanel.tabBar.addTab(running.title);
+      app.shell.add(running, 'main');
     }
 
     // show checkboxes by default if there is no user setting override
@@ -171,8 +175,6 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
       .catch((reason: Error) => {
         console.error(reason.message);
       });
-
-    app.shell.add(tabPanel, 'main', { rank: 100 });
   }
 };
 

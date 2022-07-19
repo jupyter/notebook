@@ -13,7 +13,7 @@ import { Message, MessageLoop, IMessageHandler } from '@lumino/messaging';
 
 import { ISignal, Signal } from '@lumino/signaling';
 
-import { Panel, Widget, BoxLayout } from '@lumino/widgets';
+import { Panel, Widget, BoxLayout, TabPanel } from '@lumino/widgets';
 
 /**
  * The Jupyter Notebook application shell token.
@@ -73,6 +73,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     rootLayout.addWidget(this._main);
 
     this.layout = rootLayout;
+    this._mainIsTabPanel = false;
   }
 
   /**
@@ -104,11 +105,28 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   }
 
   /**
+   * Get the status of main area.
+   */
+  get mainIsTabPanel(): Boolean {
+    return this._mainIsTabPanel;
+  }
+
+  /**
+   * Set the status of main area.
+   */
+  set mainIsTabPanel(value: Boolean) {
+    this._mainIsTabPanel = value;
+  }
+
+  /**
    * Activate a widget in its area.
    */
   activateById(id: string): void {
     const widget = find(this.widgets('main'), w => w.id === id);
     if (widget) {
+      if (this._mainIsTabPanel) {
+        (this._main.widgets[0] as TabPanel).tabBar.currentTitle = widget.title;
+      }
       widget.activate();
     }
   }
@@ -137,11 +155,16 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
       return this._menuHandler.addWidget(widget, rank);
     }
     if (area === 'main' || area === undefined) {
-      if (this._main.widgets.length > 0) {
+      let main = this._main;
+
+      // If main area is a TabPanel, then the widget is added to it.
+      if (this._mainIsTabPanel) main = main.widgets[0] as TabPanel;
+      else if (this._main.widgets.length > 0) {
         // do not add the widget if there is already one
         return;
       }
-      this._main.addWidget(widget);
+
+      main.addWidget(widget);
       this._main.update();
       this._currentChanged.emit(void 0);
     }
@@ -175,7 +198,10 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
       case 'menu':
         return iter(this._menuHandler.panel.widgets);
       case 'main':
-        return iter(this._main.widgets);
+        // If the main area is a TabPanel returns the list of its Widgets.
+        if (this._mainIsTabPanel)
+          return iter((this._main.widgets[0] as TabPanel).widgets);
+        else return iter(this._main.widgets);
       default:
         throw new Error(`Invalid area: ${area}`);
     }
@@ -188,6 +214,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   private _spacer: Widget;
   private _main: Panel;
   private _currentChanged = new Signal<this, void>(this);
+  private _mainIsTabPanel: Boolean;
 }
 
 /**
