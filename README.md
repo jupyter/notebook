@@ -12,7 +12,7 @@ computing.
 
 ## Maintained versions
 
-We maintain the **two most recently released major versions of Jupyter Notebook**. This is Notebook v5 and Classic Notebook v6. When Notebook v7.0 is released, Notebook v5 will leave support. All Notebook v5 users are strongly advised to upgrade to Classic Notebook v6 as soon as possible.
+We maintain the **two most recently released major versions of Jupyter Notebook**, Notebook v5 and Classic Notebook v6. When Notebook v7.0 is released, Notebook v5 will leave support. All Notebook v5 users are strongly advised to upgrade to Classic Notebook v6 as soon as possible.
 
 The Jupyter Notebook project is currently undertaking a transition to a more modern code base built from the ground-up using JupyterLab components and extensions.
 
