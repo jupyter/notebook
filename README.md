@@ -10,7 +10,9 @@ computing.
 
 ![Jupyter notebook example](docs/resources/running_code_med.png 'Jupyter notebook example')
 
-### Notice
+## Supported versions
+
+We intend to support the **two most recently released major versions of Jupyter Notebook**. This is Notebook v5 and Classic Notebook v6. When Notebook v7.0 is released, Notebook v5 will leave support. All Notebook v5 users are strongly advised to upgrade to Classic Notebook v6 as soon as possible. Pull requests for unsupported versions may be declined or ignored.
 
 The Jupyter Notebook project is currently undertaking a transition to a more modern code base built from the ground-up using JupyterLab components and extensions.
 
@@ -18,7 +20,7 @@ There is new stream of work which was submitted and then accepted as a Jupyter E
 
 There is also a plan to continue maintaining Notebook v6 with bug and security fixes only, to ease the transition to Notebook v7: https://github.com/jupyter/notebook-team-compass/issues/5#issuecomment-1085254000
 
-#### Notebook v7
+### Notebook v7
 
 The next major version of Notebook will be based on:
 
@@ -29,7 +31,7 @@ This represents a significant change to the `jupyter/notebook` code base.
 
 To learn more about Notebook v7: https://jupyter.org/enhancement-proposals/79-notebook-v7/notebook-v7.html
 
-#### Classic Notebook v6
+### Classic Notebook v6
 
 Maintainance and security-related issues are now being addressed in the [`6.4.x`](https://github.com/jupyter/notebook/tree/6.4.x) branch.
 
@@ -39,7 +41,7 @@ New features and continuous improvement is now focused on Notebook v7 (see secti
 
 If you have an open pull request with a new feature or if you were planning to open one, we encourage switching over to the Jupyter Server and JupyterLab architecture, and distribute it as a server extension and / or JupyterLab prebuilt extension. That way your new feature will also be compatible with the new Notebook v7.
 
-### Jupyter notebook, the language-agnostic evolution of IPython notebook
+## Jupyter notebook, the language-agnostic evolution of IPython notebook
 
 Jupyter notebook is a language-agnostic HTML notebook application for
 Project Jupyter. In 2015, Jupyter notebook was released as a part of
