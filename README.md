@@ -10,7 +10,7 @@ computing.
 
 ![Jupyter notebook example](docs/resources/running_code_med.png 'Jupyter notebook example')
 
-## Supported versions
+## Maintained versions
 
 We maintain the **two most recently released major versions of Jupyter Notebook**. This is Notebook v5 and Classic Notebook v6. When Notebook v7.0 is released, Notebook v5 will leave support. All Notebook v5 users are strongly advised to upgrade to Classic Notebook v6 as soon as possible.
 
