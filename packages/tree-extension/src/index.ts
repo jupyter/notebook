@@ -27,7 +27,8 @@ import { ITranslator } from '@jupyterlab/translation';
 import {
   caretDownIcon,
   folderIcon,
-  runningIcon
+  runningIcon,
+  TabBarSvg
 } from '@jupyterlab/ui-components';
 
 import { Menu, MenuBar, TabPanel } from '@lumino/widgets';
@@ -113,7 +114,11 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
     toolbarRegistry: IToolbarWidgetRegistry,
     manager: IRunningSessionManagers | null
   ): void => {
-    const tabPanel = new TabPanel({ tabPlacement: 'top', tabsMovable: true });
+    const tabPanel = new TabPanel({
+      tabPlacement: 'top',
+      tabsMovable: true,
+      renderer: TabBarSvg.defaultRenderer
+    });
     tabPanel.addClass('jp-TreePanel');
 
     const trans = translator.load('notebook');
