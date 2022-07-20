@@ -1,3 +1,6 @@
+# Pull requests to this repo should have one of the labels below,
+# this workflow ensures that this is the case.
+
 name: Enforce PR label
 
 on:
