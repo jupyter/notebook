@@ -71,7 +71,7 @@ If you are working in development mode, you will see that your version of Jupyte
 Troubleshooting the Installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you do not see that your Jupyter Notebook is not running on dev mode, it's possible that you are
+If you do not see that your Jupyter Notebook is running on dev mode, it's possible that you are
 running other instances of Jupyter Notebook. You can try the following steps:
 
 1. Uninstall all instances of the notebook package. These include any installations you made using
