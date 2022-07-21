@@ -61,7 +61,7 @@ jobs:
         uses: jupyter-server/jupyter_releaser/.github/actions/check-release@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          version_spec: dev
+          version_spec: 100.100.100
       - name: Check Links
         if: ${{ matrix.group == 'link_check' }}
         uses: jupyter-server/jupyter_releaser/.github/actions/check-links@v1
