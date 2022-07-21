@@ -75,6 +75,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     } else {
       this.layout = this.initLayoutWithoutSidePanels();
     }
+
   }
 
   initLayoutWithoutSidePanels(): Layout {
@@ -263,14 +264,14 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
         if (this.sidePanelsVisible()) {
           return this._leftHandler.addWidget(widget, rank);
         }
-        throw new Error(`${area} area is not available on this page`);
+        console.warn(`${area} area is not available on this page`);
       case 'right':
         if (this.sidePanelsVisible()) {
           return this._rightHandler.addWidget(widget, rank);
         }
-        throw new Error(`${area} area is not available on this page`);
+        console.warn(`${area} area is not available on this page`);
       default:
-        throw new Error(`Cannot add widget to area: ${area}`);
+        console.warn(`Cannot add widget to area: ${area}`);
     }
   }
 

@@ -146,6 +146,12 @@ async function main() {
     require('@jupyterlab/terminal-extension'),
     require('@jupyterlab/theme-light-extension'),
     require('@jupyterlab/theme-dark-extension'),
+    require('@jupyterlab/toc-extension').default.filter(({ id }) =>
+      [
+        '@jupyterlab/toc-extension:registry',
+        '@jupyterlab/toc-extension:tracker'
+      ].includes(id)
+    ),
     require('@jupyterlab/translation-extension'),
     // Add the "Hub Control Panel" menu option when running in JupyterHub
     require('@jupyterlab/collaboration-extension'),

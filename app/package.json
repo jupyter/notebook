@@ -140,6 +140,7 @@
     "@jupyterlab/terminal-extension": "^4.0.0-alpha.14",
     "@jupyterlab/theme-dark-extension": "^4.0.0-alpha.14",
     "@jupyterlab/theme-light-extension": "^4.0.0-alpha.14",
+    "@jupyterlab/toc-extension": "^6.0.0-alpha.14",
     "@jupyterlab/tooltip-extension": "^4.0.0-alpha.14",
     "@jupyterlab/translation-extension": "^4.0.0-alpha.14",
     "@jupyterlab/vega5-extension": "^4.0.0-alpha.14"
