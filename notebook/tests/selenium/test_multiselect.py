@@ -1,4 +1,8 @@
+from selenium.webdriver.common.by import By
+
+
 INITIAL_CELLS = ['print("a")', 'print("b")', 'print("c")']
+
 
 def test_multiselect(prefill_notebook):
     notebook = prefill_notebook(INITIAL_CELLS)
@@ -15,7 +19,8 @@ def test_multiselect(prefill_notebook):
     assert n_selected_cells() == 1
 
     # Check that only one cell is selected according to CSS classes as well
-    selected_css = notebook.browser.find_elements_by_css_selector(
+    selected_css = notebook.browser.find_elements(
+        By.CSS_SELECTOR,
         '.cell.jupyter-soft-selected, .cell.selected')
     assert len(selected_css) == 1
 

@@ -1,5 +1,7 @@
 import os
 
+from selenium.webdriver.common.by import By
+
 from notebook.utils import url_path_join
 from notebook.tests.selenium.utils import wait_for_selector
 pjoin = os.path.join
@@ -31,9 +33,9 @@ def get_list_items(browser):
 
     return [{
         'link': a.get_attribute('href'),
-        'label': a.find_element_by_class_name('item_name').text,
+        'label': a.find_element(By.CLASS_NAME, 'item_name').text,
         'element': a,
-    } for a in browser.find_elements_by_class_name('item_link')]
+    } for a in browser.find_elements(By.CLASS_NAME, 'item_link')]
 
 def only_dir_links(browser):
     """Return only links that point at other directories in the tree"""

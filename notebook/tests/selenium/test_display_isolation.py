@@ -3,6 +3,9 @@
 An object whose metadata contains an "isolated" tag must be isolated
 from the rest of the document.
 """
+
+from selenium.webdriver.common.by import By
+
 from .utils import wait_for_tag
 
 
@@ -43,16 +46,16 @@ def isolated_html(notebook):
     iframe = wait_for_tag(notebook.browser, "iframe", single=True)
 
     # The non-isolated div will be in the body
-    non_isolated_div = notebook.body.find_element_by_id("non-isolated")
+    non_isolated_div = notebook.body.find_element(By.ID, "non-isolated")
     assert non_isolated_div.value_of_css_property("color") == red
 
     # The non-isolated styling will have affected the output of other cells
-    test_div = notebook.body.find_element_by_id("test")
+    test_div = notebook.body.find_element(By.ID, "test")
     assert test_div.value_of_css_property("color") == red
 
     # The isolated div will be in an iframe, only that element will be blue
     notebook.browser.switch_to.frame(iframe)
-    isolated_div = notebook.browser.find_element_by_id("isolated")
+    isolated_div = notebook.browser.find_element(By.ID, "isolated")
     assert isolated_div.value_of_css_property("color") == blue
     notebook.browser.switch_to.default_content()
     # Clean up the html test cells
@@ -80,13 +83,13 @@ def isolated_svg(notebook):
 
     # The first rectangle will be red
     notebook.browser.switch_to.frame(iframes[0])
-    isolated_svg_1 = notebook.browser.find_element_by_id('r1')
+    isolated_svg_1 = notebook.browser.find_element(By.ID, 'r1')
     assert isolated_svg_1.value_of_css_property("fill") == yellow
     notebook.browser.switch_to.default_content()
 
     # The second rectangle will be black
     notebook.browser.switch_to.frame(iframes[1])
-    isolated_svg_2 = notebook.browser.find_element_by_id('r2')
+    isolated_svg_2 = notebook.browser.find_element(By.ID, 'r2')
     assert isolated_svg_2.value_of_css_property("fill") == black
 
     # Clean up the svg test cells

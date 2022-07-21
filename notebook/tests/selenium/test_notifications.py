@@ -2,6 +2,7 @@
 Test the notification area and widgets
 """
 import pytest
+from selenium.webdriver.common.by import By
 
 from .utils import wait_for_selector, wait_for_script_to_return_true
 
@@ -95,7 +96,7 @@ def test_notification(notebook):
 
     assert widget_message(notebook, "test") == "test click", "callback: message is correct"
 
-    notebook.browser.find_element_by_id("notification_test").click()
+    notebook.browser.find_element(By.ID, "notification_test").click()
     wait_for_script_to_return_true(notebook.browser,
                                    'return IPython.notification_area.widget("test")._clicked;')
     wait_for_selector(notebook.browser, "#notification_test", obscures=True)

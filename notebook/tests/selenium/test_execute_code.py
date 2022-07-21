@@ -1,3 +1,4 @@
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from .utils import shift, cmdtrl
 
@@ -33,7 +34,8 @@ def test_execute_code(notebook):
     # Execute cell with toolbar button
     notebook.edit_cell(index=0, content='a=13; print(a)')
     clear_outputs()
-    notebook.browser.find_element_by_css_selector(
+    notebook.browser.find_element(
+        By.CSS_SELECTOR,
         "button[data-jupyter-action='jupyter-notebook:run-cell-and-select-next']").click()
     outputs = notebook.wait_for_cell_output(0)
     assert outputs[0].text == '13'
