@@ -22,7 +22,7 @@ jobs:
         architecture: 'x64'
     - name: Upgrade packaging dependencies
       run: |
-        pip install --upgrade pip setuptools wheel --user
+        python -m pip install --upgrade pip setuptools wheel --user
     - name: Get pip cache dir
       id: pip-cache
       run: |
