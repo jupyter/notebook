@@ -3,13 +3,10 @@ include CONTRIBUTING.rst
 include README.md
 include CHANGELOG.md
 include package.json
-include bower.json
-include .bowerrc
 include pyproject.toml
 include setup.py
 include setupbase.py
 include Dockerfile
-include *.js
 graft tools
 graft notebook/tests
 

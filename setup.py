@@ -58,12 +58,7 @@ from setupbase import (
     find_packages,
     find_package_data,
     check_package_data_first,
-    CompileCSS,
-    CompileJS,
     CompileBackendTranslation,
-    Bower,
-    JavascriptVersion,
-    css_js_prerelease,
 )
 
 
@@ -126,11 +121,12 @@ for more information.
         'ipykernel', # bless IPython kernel for now
         'Send2Trash>=1.8.0',
         'terminado>=0.8.3',
-        'prometheus_client'
+        'prometheus_client',
+        'nbclassic>=0.4.0',
     ],
     extras_require = {
         'test': ['pytest', 'coverage', 'requests', 'testpath',
-                 'nbval', 'selenium', 'pytest', 'pytest-cov'],
+                 'nbval', 'selenium==4.1.5', 'pytest', 'pytest-cov'],
         'docs': ['sphinx', 'nbsphinx', 'sphinxcontrib_github_alt',
                  'sphinx_rtd_theme', 'myst-parser'],
         'test:sys_platform != "win32"': ['requests-unixsocket'],
@@ -163,15 +159,10 @@ class bdist_egg_disabled(bdist_egg):
         sys.exit("Aborting implicit building of eggs. Use `pip install .` to install from source.")
 
 setup_args['cmdclass'] = {
-    'build_py': css_js_prerelease(
-            check_package_data_first(build_py)),
-    'sdist' : css_js_prerelease(sdist, strict=True),
-    'develop': css_js_prerelease(develop),
-    'css' : CompileCSS,
+    'build_py': check_package_data_first(build_py),
+    'sdist' : sdist,
+    'develop': develop,
     'backendtranslations': CompileBackendTranslation,
-    'js' : CompileJS,
-    'jsdeps' : Bower,
-    'jsversion' : JavascriptVersion,
     'bdist_egg': bdist_egg if 'bdist_egg' in sys.argv else bdist_egg_disabled,
 }
 
@@ -179,8 +170,8 @@ try:
     from wheel.bdist_wheel import bdist_wheel
 except ImportError:
     pass
-else:
-    setup_args['cmdclass']['bdist_wheel'] = css_js_prerelease(bdist_wheel)
+# else:
+#     setup_args['cmdclass']['bdist_wheel'] = css_js_prerelease(bdist_wheel)
 
 # Run setup --------------------
 def main():

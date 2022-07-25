@@ -1,5 +1,5 @@
 [build-system]
-requires=["jupyter_packaging~=0.9"]
+requires=["jupyter_packaging~=0.9", "nbclassic>=0.4.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.check-manifest]
@@ -10,7 +10,6 @@ ignore-bad-ideas = ["notebook/i18n/**/*.mo"]
 skip = ["check-links"]
 
 [tool.jupyter-releaser.hooks]
-after-bump-version = "python setup.py jsversion"
 before-build-python = ["pip install babel", "npm install -g po2json"]
 
 [tool.jupyter-releaser.options]
