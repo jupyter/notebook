@@ -67,8 +67,9 @@ Modifying the JavaScript and CSS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The build process for this version of notebook grabs the static assets
-from the nbclassic package. Frontend changes should be made in the nbclassic repository.
+from the nbclassic package. Frontend changes should be made in the `nbclassic repository`_.
 
+.. _nbclassic repository: https://github.com/jupyter/nbclassic
 
 
 Running Tests
