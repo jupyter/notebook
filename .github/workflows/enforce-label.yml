@@ -1,3 +1,6 @@
+# Pull requests to this repo should have a triage label,
+# this workflow ensures that this is the case.
+
 name: Enforce PR label
 
 on:

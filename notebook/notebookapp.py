@@ -66,11 +66,12 @@ if not sys.platform.startswith('win'):
 
 from notebook import (
     DEFAULT_NOTEBOOK_PORT,
-    DEFAULT_STATIC_FILES_PATH,
     DEFAULT_TEMPLATE_PATH_LIST,
     __version__,
 )
-
+import nbclassic
+# Packagers: modify this line if you store the notebook static files elsewhere
+DEFAULT_STATIC_FILES_PATH = os.path.join(os.path.dirname(nbclassic.__file__), "static")
 
 from .base.handlers import Template404, RedirectWithParams
 from .log import log_request

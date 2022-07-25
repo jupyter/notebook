@@ -14,7 +14,3 @@ parts = [int(match[part]) for part in ['major', 'minor', 'patch']]
 if match['rest']:
     parts.append(match['rest'])
 version_info = tuple(parts)
-
-# Downstream maintainer, when running `python.setup.py jsversion`,
-# the version string is propagated to the JavaScript files,  do not forget to
-# patch the JavaScript files in `.postN` release done by distributions.
