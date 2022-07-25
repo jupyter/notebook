@@ -20,33 +20,10 @@ __ https://jupyter.readthedocs.io/en/latest/contributing/content-contributor.htm
 Setting Up a Development Environment
 ------------------------------------
 
-Installing Node.js and npm
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Building the Notebook from its GitHub source code requires some tools to
-create and minify JavaScript components and the CSS,
-specifically Node.js and Node's package manager, ``npm``.
-It should be node version ≥ 6.0.
-
-If you use ``conda``, you can get them with::
-
-    conda install -c conda-forge nodejs
-
-If you use `Homebrew <https://brew.sh/>`_ on Mac OS X::
-
-    brew install node
-
-Installation on Linux may vary, but be aware that the `nodejs` or `npm` packages
-included in the system package repository may be too old to work properly.
-
-You can also use the installer from the `Node.js website <https://nodejs.org>`_.
-
-
 Installing the Jupyter Notebook
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Once you have installed the dependencies mentioned above, use the following
-steps::
+Use the following steps::
 
     pip install --upgrade setuptools pip
     git clone https://github.com/jupyter/notebook
@@ -77,46 +54,21 @@ running other instances of Jupyter Notebook. You can try the following steps:
 1. Uninstall all instances of the notebook package. These include any installations you made using
    pip or conda.
 2. Run ``python3 -m pip install -e .`` in the notebook repository to install the notebook from there.
-3. Run ``npm run build`` to make sure the Javascript and CSS are updated and compiled.
-4. Launch with ``python3 -m notebook --port 8989``, and check that the browser is pointing to ``localhost:8989``
+3. Launch with ``python3 -m notebook --port 8989``, and check that the browser is pointing to ``localhost:8989``
    (rather than the default 8888). You don't necessarily have to launch with port 8989, as long as you use
    a port that is neither the default nor in use, then it should be fine.
-5. Verify the installation with the steps in the previous section.
+4. Verify the installation with the steps in the previous section.
+
+If you have tried the above and still find that the notebook is not reflecting the current source code,
+try cleaning the repo with ``git clean -xfd`` and reinstalling with ``pip install -e .``.
 
 
-Rebuilding JavaScript and CSS
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Modifying the JavaScript and CSS
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-There is a build step for the JavaScript and CSS in the notebook.
-To make sure that you are working with up-to-date code, you will need to run
-this command whenever there are changes to JavaScript or LESS sources::
+The build process for this version of notebook grabs the static assets
+from the nbclassic package. Frontend changes should be made in the nbclassic repository.
 
-    npm run build
-
-**IMPORTANT:** Don't forget to run ``npm run build`` after switching branches.
-When switching between branches of different versions (e.g. ``4.x`` and
-``master``), run ``pip install -e .``. If you have tried the above and still
-find that the notebook is not reflecting the current source code, try cleaning
-the repo with ``git clean -xfd`` and reinstalling with ``pip install -e .``.
-
-Development Tip
-"""""""""""""""
-
-When doing development, you can use this command to automatically rebuild
-JavaScript and LESS sources as they are modified::
-
-    npm run build:watch
-
-Git Hooks
-"""""""""
-
-If you want to automatically update dependencies and recompile JavaScript and
-CSS after checking out a new commit, you can install post-checkout and
-post-merge hooks which will do it for you::
-
-    git-hooks/install-hooks.sh
-
-See ``git-hooks/README.md`` for more details.
 
 
 Running Tests
@@ -137,27 +89,6 @@ If you want coverage statistics as well, you can run::
 
     py.test --cov notebook -v --pyargs notebook
 
-JavaScript Tests
-^^^^^^^^^^^^^^^^
-
-To run the JavaScript tests, you will need to have PhantomJS and CasperJS
-installed::
-
-    npm install -g casperjs phantomjs-prebuilt
-
-Then, to run the JavaScript tests::
-
-    python -m notebook.jstest [group]
-
-where ``[group]`` is an optional argument that is a path relative to
-``notebook/tests/``.
-For example, to run all tests in ``notebook/tests/notebook``::
-
-    python -m notebook.jstest notebook
-
-or to run just ``notebook/tests/notebook/deletecell.js``::
-
-    python -m notebook.jstest notebook/deletecell.js
 
 
 Building the Documentation
