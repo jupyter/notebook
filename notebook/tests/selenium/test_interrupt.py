@@ -1,8 +1,11 @@
+from selenium.webdriver.common.by import By
+
 from .utils import wait_for_selector
+
 
 def interrupt_from_menu(notebook):
     # Click interrupt button in kernel menu
-    notebook.browser.find_element_by_id('kernellink').click()
+    notebook.browser.find_element(By.ID, 'kernellink').click()
     wait_for_selector(notebook.browser, '#int_kernel', single=True).click()
 
 def interrupt_from_keyboard(notebook):

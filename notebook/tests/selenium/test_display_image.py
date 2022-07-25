@@ -3,6 +3,8 @@
 The effect of shape metadata is validated, using Image(retina=True)
 """
 
+from selenium.webdriver.common.by import By
+
 from .utils import wait_for_tag
 
 
@@ -36,7 +38,7 @@ def validate_img(notebook, cell_index, image_fmt, retina):
 
     # Find the image element that was just displayed
     wait_for_tag(notebook.cells[cell_index], "img", single=True)
-    img_element = notebook.cells[cell_index].find_element_by_tag_name("img")
+    img_element = notebook.cells[cell_index].find_element(By.TAG_NAME, "img")
 
     src = img_element.get_attribute("src")
     prefix = src.split(',')[0]

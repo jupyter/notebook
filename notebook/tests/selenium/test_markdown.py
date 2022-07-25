@@ -1,8 +1,11 @@
+from selenium.webdriver.common.by import By
+
 from nbformat.v4 import new_markdown_cell
+
 
 def get_rendered_contents(nb):
     cl = ["text_cell", "render"]
-    rendered_cells = [cell.find_element_by_class_name("text_cell_render") 
+    rendered_cells = [cell.find_element(By.CLASS_NAME, "text_cell_render")
                       for cell in nb.cells 
                       if all([c in cell.get_attribute("class") for c in cl])]
     return [x.get_attribute('innerHTML').strip()

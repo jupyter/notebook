@@ -2,7 +2,10 @@
 """
 
 from urllib.parse import quote
+from selenium.webdriver.common.by import By
+
 from .utils import wait_for_selector
+
 
 promise_js = """
 var done = arguments[arguments.length - 1];
@@ -11,6 +14,7 @@ var done = arguments[arguments.length - 1];
     error => { done(["error", error]); }
 );
 """
+
 
 def execute_promise(js, browser):
     state, data = browser.execute_async_script(promise_js % js)
@@ -39,7 +43,7 @@ def test_save(notebook):
     current_path = notebook.browser.execute_script("return Jupyter.notebook.notebook_path")
     assert current_path == nbname
 
-    displayed_name = notebook.browser.find_element_by_id('notebook_name').text
+    displayed_name = notebook.browser.find_element(By.ID, 'notebook_name').text
     assert displayed_name + '.ipynb' == nbname
 
     execute_promise("Jupyter.notebook.save_checkpoint()", notebook.browser)
@@ -47,7 +51,7 @@ def test_save(notebook):
     checkpoints = notebook.browser.execute_script("return Jupyter.notebook.checkpoints")
     assert len(checkpoints) == 1
 
-    notebook.browser.find_element_by_css_selector('#ipython_notebook a').click()
+    notebook.browser.find_element(By.CSS_SELECTOR, '#ipython_notebook a').click()
     hrefs_nonmatch = []
     for link in wait_for_selector(notebook.browser, 'a.item_link'):
         href = link.get_attribute('href')

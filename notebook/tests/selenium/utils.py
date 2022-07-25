@@ -133,14 +133,14 @@ class Notebook:
 
     @property
     def body(self):
-        return self.browser.find_element_by_tag_name("body")
+        return self.browser.find_element(By.TAG_NAME, "body")
 
     @property
     def cells(self):
         """Gets all cells once they are visible.
 
         """
-        return self.browser.find_elements_by_class_name("cell")
+        return self.browser.find_elements(By.CLASS_NAME, "cell")
 
     @property
     def current_index(self):
@@ -183,10 +183,10 @@ class Notebook:
         self.to_command_mode()
         self.body.send_keys('f')
         wait_for_selector(self.browser, "#find-and-replace", single=True)
-        self.browser.find_element_by_id("findreplace_allcells_btn").click()
-        self.browser.find_element_by_id("findreplace_find_inp").send_keys(find_txt)
-        self.browser.find_element_by_id("findreplace_replace_inp").send_keys(replace_txt)
-        self.browser.find_element_by_id("findreplace_replaceall_btn").click()
+        self.browser.find_element(By.ID, "findreplace_allcells_btn").click()
+        self.browser.find_element(By.ID, "findreplace_find_inp").send_keys(find_txt)
+        self.browser.find_element(By.ID, "findreplace_replace_inp").send_keys(replace_txt)
+        self.browser.find_element(By.ID, "findreplace_replaceall_btn").click()
 
     def convert_cell_type(self, index=0, cell_type="code"):
         # TODO add check to see if it is already present
@@ -222,10 +222,10 @@ class Notebook:
         return self.browser.execute_script(JS)
 
     def get_cell_contents(self, index=0, selector='div .CodeMirror-code'):
-        return self.cells[index].find_element_by_css_selector(selector).text
+        return self.cells[index].find_element(By.CSS_SELECTOR, selector).text
 
     def get_cell_output(self, index=0, output='output_subarea'):
-        return self.cells[index].find_elements_by_class_name(output)
+        return self.cells[index].find_elements(By.CLASS_NAME, output)
 
     def wait_for_cell_output(self, index=0, timeout=10):
         return WebDriverWait(self.browser, timeout).until(

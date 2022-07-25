@@ -1,10 +1,13 @@
+from selenium.webdriver.common.by import By
+
+
 def test_prompt_numbers(prefill_notebook):
     notebook = prefill_notebook(['print("a")'])
 
     def get_prompt():
         return (
-            notebook.cells[0].find_element_by_class_name('input')
-            .find_element_by_class_name('input_prompt')
+            notebook.cells[0].find_element(By.CLASS_NAME, 'input')
+            .find_element(By.CLASS_NAME, 'input_prompt')
             .get_attribute('innerHTML').strip()
         )
 
