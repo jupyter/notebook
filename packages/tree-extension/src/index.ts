@@ -27,11 +27,13 @@ import { ITranslator } from '@jupyterlab/translation';
 import {
   caretDownIcon,
   folderIcon,
-  runningIcon,
-  TabBarSvg
+  runningIcon
 } from '@jupyterlab/ui-components';
 
-import { Menu, MenuBar, TabPanel } from '@lumino/widgets';
+import { Menu, MenuBar } from '@lumino/widgets';
+
+import { NotebookTreeWidget } from '@jupyter-notebook/tree';
+import { INotebookTree } from '@jupyter-notebook/tree';
 
 /**
  * The file browser factory.
@@ -93,10 +95,87 @@ const createNew: JupyterFrontEndPlugin<void> = {
   }
 };
 
+function activateNotebookTreeWidget(
+  app: JupyterFrontEnd,
+  factory: IFileBrowserFactory,
+  translator: ITranslator,
+  settingRegistry: ISettingRegistry,
+  toolbarRegistry: IToolbarWidgetRegistry,
+  manager: IRunningSessionManagers | null
+): INotebookTree {
+  const notebookTreeWidget = new NotebookTreeWidget();
+  // const tabPanel = new TabPanel({
+  //   tabPlacement: 'top',
+  //   tabsMovable: true,
+  //   renderer: TabBarSvg.defaultRenderer
+  // });
+  // tabPanel.addClass('jp-TreePanel');
+
+  const trans = translator.load('notebook');
+
+  const { defaultBrowser: browser } = factory;
+  browser.title.label = trans.__('Files');
+  browser.node.setAttribute('role', 'region');
+  browser.node.setAttribute('aria-label', trans.__('File Browser Section'));
+  browser.title.icon = folderIcon;
+
+  notebookTreeWidget.addWidget(browser);
+  notebookTreeWidget.tabBar.addTab(browser.title);
+
+  // Toolbar
+  toolbarRegistry.addFactory(
+    FILE_BROWSER_FACTORY,
+    'uploader',
+    (browser: FileBrowser) =>
+      new Uploader({
+        model: browser.model,
+        translator,
+        label: trans.__('Upload')
+      })
+  );
+
+  setToolbar(
+    browser,
+    createToolbarFactory(
+      toolbarRegistry,
+      settingRegistry,
+      FILE_BROWSER_FACTORY,
+      notebookTreeWidget.id,
+      translator
+    )
+  );
+
+  if (manager) {
+    const running = new RunningSessions(manager, translator);
+    running.id = 'jp-running-sessions';
+    running.title.label = trans.__('Running');
+    running.title.icon = runningIcon;
+    notebookTreeWidget.addWidget(running);
+    notebookTreeWidget.tabBar.addTab(running.title);
+  }
+
+  // show checkboxes by default if there is no user setting override
+  const settings = settingRegistry.load(FILE_BROWSER_PLUGIN_ID);
+  Promise.all([settings, app.restored])
+    .then(([settings]) => {
+      if (settings.user.showFileCheckboxes !== undefined) {
+        return;
+      }
+      void settings.set('showFileCheckboxes', true);
+    })
+    .catch((reason: Error) => {
+      console.error(reason.message);
+    });
+
+  app.shell.add(notebookTreeWidget, 'main', { rank: 100 });
+
+  return notebookTreeWidget;
+}
+
 /**
- * A plugin to add the file browser widget to an ILabShell
+ * A plugin to add the file browser widget to an INotebookShell
  */
-const browserWidget: JupyterFrontEndPlugin<void> = {
+const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
   id: '@jupyter-notebook/tree-extension:widget',
   requires: [
     IFileBrowserFactory,
@@ -106,83 +185,12 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
   ],
   optional: [IRunningSessionManagers],
   autoStart: true,
-  activate: (
-    app: JupyterFrontEnd,
-    factory: IFileBrowserFactory,
-    translator: ITranslator,
-    settingRegistry: ISettingRegistry,
-    toolbarRegistry: IToolbarWidgetRegistry,
-    manager: IRunningSessionManagers | null
-  ): void => {
-    const tabPanel = new TabPanel({
-      tabPlacement: 'top',
-      tabsMovable: true,
-      renderer: TabBarSvg.defaultRenderer
-    });
-    tabPanel.addClass('jp-TreePanel');
-
-    const trans = translator.load('notebook');
-
-    const { defaultBrowser: browser } = factory;
-    browser.title.label = trans.__('Files');
-    browser.node.setAttribute('role', 'region');
-    browser.node.setAttribute('aria-label', trans.__('File Browser Section'));
-    browser.title.icon = folderIcon;
-
-    tabPanel.addWidget(browser);
-    tabPanel.tabBar.addTab(browser.title);
-
-    // Toolbar
-    toolbarRegistry.addFactory(
-      FILE_BROWSER_FACTORY,
-      'uploader',
-      (browser: FileBrowser) =>
-        new Uploader({
-          model: browser.model,
-          translator,
-          label: trans.__('Upload')
-        })
-    );
-
-    setToolbar(
-      browser,
-      createToolbarFactory(
-        toolbarRegistry,
-        settingRegistry,
-        FILE_BROWSER_FACTORY,
-        browserWidget.id,
-        translator
-      )
-    );
-
-    if (manager) {
-      const running = new RunningSessions(manager, translator);
-      running.id = 'jp-running-sessions';
-      running.title.label = trans.__('Running');
-      running.title.icon = runningIcon;
-      tabPanel.addWidget(running);
-      tabPanel.tabBar.addTab(running.title);
-    }
-
-    // show checkboxes by default if there is no user setting override
-    const settings = settingRegistry.load(FILE_BROWSER_PLUGIN_ID);
-    Promise.all([settings, app.restored])
-      .then(([settings]) => {
-        if (settings.user.showFileCheckboxes !== undefined) {
-          return;
-        }
-        void settings.set('showFileCheckboxes', true);
-      })
-      .catch((reason: Error) => {
-        console.error(reason.message);
-      });
-
-    app.shell.add(tabPanel, 'main', { rank: 100 });
-  }
+  provides: INotebookTree,
+  activate: activateNotebookTreeWidget
 };
 
 /**
  * Export the plugins as default.
  */
-const plugins: JupyterFrontEndPlugin<any>[] = [createNew, browserWidget];
+const plugins: JupyterFrontEndPlugin<any>[] = [createNew, notebookTreeWidget];
 export default plugins;

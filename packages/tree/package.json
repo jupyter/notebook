@@ -1,7 +1,7 @@
 {
-  "name": "@jupyter-notebook/tree-extension",
+  "name": "@jupyter-notebook/tree",
   "version": "7.0.0-alpha.5",
-  "description": "Jupyter Notebook - Tree Extension",
+  "description": "Jupyter Notebook - Tree ",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
     "url": "https://github.com/jupyter/notebook/issues"
@@ -40,7 +40,6 @@
   },
   "dependencies": {
     "@jupyter-notebook/application": "^7.0.0-alpha.5",
-    "@jupyter-notebook/tree": "^7.0.0-alpha.5",
     "@jupyterlab/application": "^4.0.0-alpha.10",
     "@jupyterlab/apputils": "^4.0.0-alpha.10",
     "@jupyterlab/coreutils": "^6.0.0-alpha.10",
@@ -62,10 +61,6 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "jupyterlab": {
-    "extension": true,
-    "schemaDir": "schema"
   },
   "styleModule": "style/index.js"
 }
