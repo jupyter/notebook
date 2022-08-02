@@ -86,7 +86,7 @@ for more information.
         'ipython_genutils',
         'traitlets>=4.2.1',
         'jupyter_core>=4.4.0',
-        'jupyter_client>=5.2.0',
+        'jupyter_client>=5.2.0,<7.0.0',
         'nbformat',
         'nbconvert<6.0',
         'ipykernel', # bless IPython kernel for now
