@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.0", "jupyterlab>=4.0.0a25,<5"]
+requires = ["hatchling>=1.0", "jupyterlab>=4.0.0a25,<5", "ypy-websocket==0.2"]
 build-backend = "hatchling.build"
 
 [project]
