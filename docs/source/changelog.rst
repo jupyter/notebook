@@ -21,6 +21,16 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+.. _release-5.7.14a0:
+
+5.7.14a0
+--------
+
+- Update JQuery dependency to version 3.6.0
+- Pin jinja2 <= 3.0.0
+- Pin jupyter_client < 7.0.0
+- Update versioning mechanism
+
 .. _release-5.7.9:
 
 5.7.9
