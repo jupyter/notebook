@@ -83,6 +83,7 @@ async function main() {
     require('@jupyterlab/apputils-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/apputils-extension:palette',
+        '@jupyter/apputils-extension:sanitizer',
         '@jupyterlab/apputils-extension:settings',
         '@jupyterlab/apputils-extension:state',
         '@jupyterlab/apputils-extension:themes',
@@ -136,6 +137,7 @@ async function main() {
         '@jupyterlab/notebook-extension:code-console',
         '@jupyterlab/notebook-extension:export',
         '@jupyterlab/notebook-extension:factory',
+        '@jupyterlab/notebook-extension:toc',
         '@jupyterlab/notebook-extension:tracker',
         '@jupyterlab/notebook-extension:widget-factory'
       ].includes(id)

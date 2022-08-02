@@ -186,7 +186,7 @@ const opener: JupyterFrontEndPlugin<void> = {
 
     const command = 'router:tree';
     commands.addCommand(command, {
-      execute: (args: any) => {
+      execute: async (args: any) => {
         const parsed = args as IRouter.ILocation;
         const matches = parsed.path.match(TREE_PATTERN) ?? [];
         const [, , path] = matches;
@@ -196,12 +196,11 @@ const opener: JupyterFrontEndPlugin<void> = {
 
         const file = decodeURIComponent(path);
         const ext = PathExt.extname(file);
-        app.restored.then(async () => {
+        await new Promise(async () => {
           // TODO: get factory from file type instead?
           if (ext === '.ipynb') {
             // TODO: fix upstream?
             await settingRegistry?.load('@jupyterlab/notebook-extension:panel');
-            await Promise.resolve();
             docManager.open(file, NOTEBOOK_FACTORY, undefined, {
               ref: '_noref'
             });

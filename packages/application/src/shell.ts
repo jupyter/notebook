@@ -6,7 +6,7 @@ import { PageConfig } from '@jupyterlab/coreutils';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
 import { ArrayExt, find } from '@lumino/algorithm';
-import { Token } from '@lumino/coreutils';
+import { PromiseDelegate, Token } from '@lumino/coreutils';
 import { Message, MessageLoop, IMessageHandler } from '@lumino/messaging';
 import { Debouncer } from '@lumino/polling';
 import { ISignal, Signal } from '@lumino/signaling';
@@ -75,12 +75,10 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     } else {
       this.layout = this.initLayoutWithoutSidePanels();
     }
-
   }
 
   initLayoutWithoutSidePanels(): Layout {
     const rootLayout = new BoxLayout();
-
     BoxLayout.setStretch(this._main, 1);
 
     this._spacer = new Widget();
@@ -212,6 +210,13 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   }
 
   /**
+   * Promise that resolves when main widget is loaded
+   */
+  get restored(): Promise<void> {
+    return this._mainWidgetLoaded.promise;
+  }
+
+  /**
    * Activate a widget in its area.
    */
   activateById(id: string): void {
@@ -259,6 +264,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
         this._main.addWidget(widget);
         this._main.update();
         this._currentChanged.emit(void 0);
+        this._mainWidgetLoaded.resolve();
         break;
       case 'left':
         if (this.sidePanelsVisible()) {
@@ -383,15 +389,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   }
 
   /**
-   * Return the list of widgets for the given area.
-   *
-   * @param area The area
-   */
-  // widgets(area?: string): IIterator<Widget> {
-  //   return iter(this.widgetsList(area));
-  // }
-
-  /**
    * Is a particular area empty (no widgets)?
    *
    * @param area Named area in the application
@@ -430,6 +427,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   private _spacer: Widget;
   private _main: Panel;
   private _currentChanged = new Signal<this, void>(this);
+  private _mainWidgetLoaded = new PromiseDelegate<void>();
 }
 
 /**
