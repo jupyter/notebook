@@ -230,7 +230,7 @@ const menus: JupyterFrontEndPlugin<void> = {
     // always disable the Tabs menu
     menu.tabsMenu.dispose();
 
-    const page = PageConfig.getOption('retroPage');
+    const page = PageConfig.getOption('notebookPage');
     switch (page) {
       case 'consoles':
       case 'terminals':
