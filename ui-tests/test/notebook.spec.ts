@@ -99,4 +99,29 @@ test.describe('Notebook', () => {
     // check the short output area is not auto scrolled
     expect(await checkCell(1)).toBe(false);
   });
+
+  test('Open table of content left panel', async ({ page, tmpPath }) => {
+    const notebook = 'simple_toc.ipynb';
+    const menuPath = 'View>Show Left Sidebar>Table Of Contents';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    await waitForKernelReady(page);
+
+    await page.menu.open(menuPath);
+
+    await expect(
+      page.locator(
+        '.jp-SidePanel-content > .jp-TableOfContents-tree > .jp-TableOfContents-content'
+      )
+    ).toHaveCount(1);
+    await expect(
+      page.locator(
+        '.jp-SidePanel-content > .jp-TableOfContents-tree > .jp-TableOfContents-content > .jp-tocItem'
+      )
+    ).toHaveCount(3);
+  });
 });
