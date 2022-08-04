@@ -44,7 +44,7 @@ import { PromiseDelegate } from '@lumino/coreutils';
 
 import { DisposableDelegate, DisposableSet } from '@lumino/disposable';
 
-import { Menu, Widget } from '@lumino/widgets';
+import { Widget } from '@lumino/widgets';
 
 /**
  * The default notebook factory.
@@ -671,47 +671,25 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
       }
     });
 
-    const leftSidebarMenu = new Menu({ commands: app.commands });
-    leftSidebarMenu.title.label = trans.__('Show Left Sidebar');
-
-    const rightSidebarMenu = new Menu({ commands: app.commands });
-    rightSidebarMenu.title.label = trans.__('Show Right Sidebar');
-
     app.restored.then(() => {
-      const leftWidgets = notebookShell.widgetsList('left');
-      leftWidgets.forEach(widget => {
-        leftSidebarMenu.addItem({
-          command: CommandIDs.togglePanel,
-          args: {
-            side: 'left',
-            title: widget.title.caption,
-            id: widget.id
-          }
+      // Create a menu entry for left and right panel and update it with current widgets
+      if (menu) {
+        notebookShell.leftHandler.createMenuEntry({
+          mainMenuEntry: menu.viewMenu,
+          commandRegistry: app.commands,
+          entryLabel: trans.__('Show Left Sidebar'),
+          command: CommandIDs.togglePanel
         });
-      });
 
-      const rightWidgets = notebookShell.widgetsList('right');
-      rightWidgets.forEach(widget => {
-        rightSidebarMenu.addItem({
-          command: CommandIDs.togglePanel,
-          args: {
-            side: 'right',
-            title: widget.title.caption,
-            id: widget.id
-          }
+        notebookShell.rightHandler.createMenuEntry({
+          mainMenuEntry: menu.viewMenu,
+          commandRegistry: app.commands,
+          entryLabel: trans.__('Show Right Sidebar'),
+          command: CommandIDs.togglePanel
         });
-      });
 
-      const menuItemsToAdd: Menu.IItemOptions[] = [];
-      if (leftWidgets.length > 0) {
-        menuItemsToAdd.push({ type: 'submenu', submenu: leftSidebarMenu });
-      }
-      if (rightWidgets.length > 0) {
-        menuItemsToAdd.push({ type: 'submenu', submenu: rightSidebarMenu });
-      }
-
-      if (menu && menuItemsToAdd) {
-        menu.viewMenu.addGroup(menuItemsToAdd, 2);
+        notebookShell.leftHandler.updateMenu();
+        notebookShell.rightHandler.updateMenu();
       }
     });
   },

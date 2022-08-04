@@ -4,9 +4,12 @@
 import { JupyterFrontEnd } from '@jupyterlab/application';
 import { PageConfig } from '@jupyterlab/coreutils';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
+import { IRankedMenu } from '@jupyterlab/ui-components';
 
 import { ArrayExt, find } from '@lumino/algorithm';
+import { CommandRegistry } from '@lumino/commands';
 import { PromiseDelegate, Token } from '@lumino/coreutils';
+import { IDisposable } from '@lumino/disposable';
 import { Message, MessageLoop, IMessageHandler } from '@lumino/messaging';
 import { Debouncer } from '@lumino/polling';
 import { ISignal, Signal } from '@lumino/signaling';
@@ -14,6 +17,7 @@ import { ISignal, Signal } from '@lumino/signaling';
 import {
   BoxLayout,
   Layout,
+  Menu,
   Panel,
   SplitPanel,
   StackedPanel,
@@ -47,8 +51,8 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
 
     this._topHandler = new Private.PanelHandler();
     this._menuHandler = new Private.PanelHandler();
-    this._leftHandler = new Private.SideBarHandler();
-    this._rightHandler = new Private.SideBarHandler();
+    this._leftHandler = new Private.SideBarHandler('left');
+    this._rightHandler = new Private.SideBarHandler('right');
     this._main = new Panel();
     const topWrapper = (this._topWrapper = new Panel());
     const menuWrapper = (this._menuWrapper = new Panel());
@@ -537,12 +541,14 @@ namespace Private {
     /**
      * Construct a new side bar handler.
      */
-    constructor() {
+    constructor(area: 'left' | 'right') {
+      this._area = area;
       this._stackedPanel = new StackedPanel();
       this._stackedPanel.hide();
       this._current = null;
       this._lastCurrent = null;
       this._stackedPanel.widgetRemoved.connect(this._onWidgetRemoved, this);
+      this._sideBarMenu = null;
     }
 
     get current(): Widget | null {
@@ -572,6 +578,13 @@ namespace Private {
      */
     get updated(): ISignal<SideBarHandler, void> {
       return this._updated;
+    }
+
+    /**
+     * Associate a menu entry to the sidebar.
+     */
+    createMenuEntry(options: SideBarMenuOption): void {
+      this._sideBarMenu = new SideBarMenu(options);
     }
 
     /**
@@ -630,8 +643,7 @@ namespace Private {
       ArrayExt.insert(this._items, index, item);
       this._stackedPanel.insertWidget(index, widget);
 
-      // TODO: Update menu to include widget in appropriate position
-
+      this.updateMenu();
       this._refreshVisibility();
     }
 
@@ -651,6 +663,14 @@ namespace Private {
       this._refreshVisibility();
     }
 
+    /**
+     * Update menu entries
+     */
+    updateMenu(): void {
+      if (!this._sideBarMenu) return;
+      const widgets = this.stackedPanel.widgets;
+      this._sideBarMenu?.updateMenu(widgets, this._area);
+    }
     /**
      * Find the insertion index for a rank item.
      */
@@ -689,15 +709,100 @@ namespace Private {
         this._lastCurrent = null;
       }
       ArrayExt.removeAt(this._items, this._findWidgetIndex(widget));
-      // TODO: Remove the widget from the menu
+
+      this.updateMenu();
       this._refreshVisibility();
     }
 
+    private _area: 'left' | 'right';
     private _isHiddenByUser = false;
     private _items = new Array<Private.IRankItem>();
     private _stackedPanel: StackedPanel;
     private _current: Widget | null;
     private _lastCurrent: Widget | null;
     private _updated: Signal<SideBarHandler, void> = new Signal(this);
+    private _sideBarMenu: SideBarMenu | null;
   }
+
+  /**
+   * A class which manages the menu entry associated to the side bar.
+   */
+  export class SideBarMenu {
+    /**
+     * Construct a new side bar handler.
+     */
+    constructor(options: SideBarMenuOption) {
+      this._commandRegistry = options.commandRegistry;
+      this._command = options.command;
+      this._mainMenuEntry = options.mainMenuEntry;
+      this._entryLabel = options.entryLabel;
+    }
+
+    /**
+     * Update the menu by disposing the previous one and rebuilding a new one from widgets list.
+     */
+    updateMenu(widgets: Readonly<Widget[]>, area: 'left' | 'right'): void {
+      // Remove the previous menu entry.
+      if (this._menu) this._menu.dispose();
+
+      // Build the new menu entry from widgets list.
+      let menu = new Menu({ commands: this._commandRegistry });
+      menu.title.label = this._entryLabel;
+      widgets.forEach(widget => {
+        menu.addItem({
+          command: this._command,
+          args: {
+            side: area,
+            title: widget.title.caption,
+            id: widget.id
+          }
+        });
+      });
+
+      // If there are widgets, add the menu to the main menu entry.
+      if (widgets.length > 0) {
+        this._menu = this._mainMenuEntry.addItem({
+          type: 'submenu',
+          submenu: menu
+        });
+      }
+    }
+
+    _entryLabel: string;
+    _command: string;
+    _mainMenuEntry: IRankedMenu;
+    _commandRegistry: CommandRegistry;
+    _menu: IDisposable | null = null;
+  }
+
+  /**
+   * An interface for the options to include in SideBarMenu constructor.
+   */
+  type SideBarMenuOption = {
+    /**
+     * The main menu entry where the sidebar menu should be added.
+     */
+    mainMenuEntry: IRankedMenu;
+
+    /**
+     * Tha label of the sidebar menu.
+     */
+    entryLabel: string;
+
+    /**
+     * The application command registry, necessary when updating the sidebar menu.
+     */
+    commandRegistry: CommandRegistry;
+
+    /**
+     * The command to call from each sidebar menu entry.
+     *
+     * ### Notes
+     * That command required 3 args :
+     *      side: 'left' | 'right', the area to toggle
+     *      title: string, label of the command
+     *      id: string, id of the widget to activate
+     */
+    command: string;
+  };
 }
