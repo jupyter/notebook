@@ -2,5 +2,6 @@
 set -euo pipefail
 
 python -m pip install -e . --force-reinstall
+python -m pip uninstall nbclassic
 jlpm && jlpm run build
 jlpm run develop
