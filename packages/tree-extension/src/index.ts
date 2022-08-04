@@ -94,77 +94,6 @@ const createNew: JupyterFrontEndPlugin<void> = {
   }
 };
 
-function activateNotebookTreeWidget(
-  app: JupyterFrontEnd,
-  factory: IFileBrowserFactory,
-  translator: ITranslator,
-  settingRegistry: ISettingRegistry,
-  toolbarRegistry: IToolbarWidgetRegistry,
-  manager: IRunningSessionManagers | null
-): INotebookTree {
-  const nbTreeWidget = new NotebookTreeWidget();
-
-  const trans = translator.load('notebook');
-
-  const { defaultBrowser: browser } = factory;
-  browser.title.label = trans.__('Files');
-  browser.node.setAttribute('role', 'region');
-  browser.node.setAttribute('aria-label', trans.__('File Browser Section'));
-  browser.title.icon = folderIcon;
-
-  nbTreeWidget.addWidget(browser);
-  nbTreeWidget.tabBar.addTab(browser.title);
-
-  // Toolbar
-  toolbarRegistry.addFactory(
-    FILE_BROWSER_FACTORY,
-    'uploader',
-    (browser: FileBrowser) =>
-      new Uploader({
-        model: browser.model,
-        translator,
-        label: trans.__('Upload')
-      })
-  );
-
-  setToolbar(
-    browser,
-    createToolbarFactory(
-      toolbarRegistry,
-      settingRegistry,
-      FILE_BROWSER_FACTORY,
-      notebookTreeWidget.id,
-      translator
-    )
-  );
-
-  if (manager) {
-    const running = new RunningSessions(manager, translator);
-    running.id = 'jp-running-sessions';
-    running.title.label = trans.__('Running');
-    running.title.icon = runningIcon;
-    nbTreeWidget.addWidget(running);
-    nbTreeWidget.tabBar.addTab(running.title);
-  }
-
-  // show checkboxes by default if there is no user setting override
-  const settings = settingRegistry.load(FILE_BROWSER_PLUGIN_ID);
-  Promise.all([settings, app.restored])
-    .then(([settings]) => {
-      if (settings.user.showFileCheckboxes !== undefined) {
-        return;
-      }
-      void settings.set('showFileCheckboxes', true);
-    })
-    .catch((reason: Error) => {
-      console.error(reason.message);
-    });
-
-  app.shell.add(nbTreeWidget, 'main', { rank: 100 });
-
-  return nbTreeWidget;
-}
-
 /**
  * A plugin to add the file browser widget to an INotebookShell
  */
@@ -179,7 +108,76 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
   optional: [IRunningSessionManagers],
   autoStart: true,
   provides: INotebookTree,
-  activate: activateNotebookTreeWidget
+  activate: (
+    app: JupyterFrontEnd,
+    factory: IFileBrowserFactory,
+    translator: ITranslator,
+    settingRegistry: ISettingRegistry,
+    toolbarRegistry: IToolbarWidgetRegistry,
+    manager: IRunningSessionManagers | null
+  ): INotebookTree => {
+    const nbTreeWidget = new NotebookTreeWidget();
+
+    const trans = translator.load('notebook');
+
+    const { defaultBrowser: browser } = factory;
+    browser.title.label = trans.__('Files');
+    browser.node.setAttribute('role', 'region');
+    browser.node.setAttribute('aria-label', trans.__('File Browser Section'));
+    browser.title.icon = folderIcon;
+
+    nbTreeWidget.addWidget(browser);
+    nbTreeWidget.tabBar.addTab(browser.title);
+
+    // Toolbar
+    toolbarRegistry.addFactory(
+      FILE_BROWSER_FACTORY,
+      'uploader',
+      (browser: FileBrowser) =>
+        new Uploader({
+          model: browser.model,
+          translator,
+          label: trans.__('Upload')
+        })
+    );
+
+    setToolbar(
+      browser,
+      createToolbarFactory(
+        toolbarRegistry,
+        settingRegistry,
+        FILE_BROWSER_FACTORY,
+        notebookTreeWidget.id,
+        translator
+      )
+    );
+
+    if (manager) {
+      const running = new RunningSessions(manager, translator);
+      running.id = 'jp-running-sessions';
+      running.title.label = trans.__('Running');
+      running.title.icon = runningIcon;
+      nbTreeWidget.addWidget(running);
+      nbTreeWidget.tabBar.addTab(running.title);
+    }
+
+    // show checkboxes by default if there is no user setting override
+    const settings = settingRegistry.load(FILE_BROWSER_PLUGIN_ID);
+    Promise.all([settings, app.restored])
+      .then(([settings]) => {
+        if (settings.user.showFileCheckboxes !== undefined) {
+          return;
+        }
+        void settings.set('showFileCheckboxes', true);
+      })
+      .catch((reason: Error) => {
+        console.error(reason.message);
+      });
+
+    app.shell.add(nbTreeWidget, 'main', { rank: 100 });
+
+    return nbTreeWidget;
+  }
 };
 
 /**
