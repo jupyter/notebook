@@ -91,6 +91,7 @@ async function main() {
         '@jupyterlab/apputils-extension:toolbar-registry'
       ].includes(id)
     ),
+    require('@jupyterlab/celltags-extension'),
     require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/codemirror-extension:services',
@@ -138,6 +139,7 @@ async function main() {
         '@jupyterlab/notebook-extension:export',
         '@jupyterlab/notebook-extension:factory',
         '@jupyterlab/notebook-extension:toc',
+        '@jupyterlab/notebook-extension:tools',
         '@jupyterlab/notebook-extension:tracker',
         '@jupyterlab/notebook-extension:widget-factory'
       ].includes(id)

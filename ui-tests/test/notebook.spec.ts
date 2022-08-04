@@ -124,4 +124,22 @@ test.describe('Notebook', () => {
       )
     ).toHaveCount(3);
   });
+
+  test('Open notebook tools right panel', async ({ page, tmpPath }) => {
+    const notebook = 'simple.ipynb';
+    const menuPath = 'View>Show Right Sidebar>Table Of Contents';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    await waitForKernelReady(page);
+
+    await page.menu.open(menuPath);
+
+    await page.isVisible('#notebook-tools.jp-NotebookTools');
+
+    await page.isVisible('#notebook-tools.jp-NotebookTools > #add-tag.tag');
+  });
 });

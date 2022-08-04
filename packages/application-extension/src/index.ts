@@ -28,6 +28,8 @@ import { DocumentWidget } from '@jupyterlab/docregistry';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
+import { INotebookTools } from '@jupyterlab/notebook';
+
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { ITranslator } from '@jupyterlab/translation';
@@ -595,13 +597,14 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
 const sidebarVisibility: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:sidebar',
   requires: [INotebookShell, ITranslator],
-  optional: [IMainMenu, ISettingRegistry],
+  optional: [IMainMenu, ISettingRegistry, INotebookTools],
   activate: (
     app: JupyterFrontEnd<JupyterFrontEnd.IShell>,
     notebookShell: INotebookShell,
     translator: ITranslator,
     menu: IMainMenu | null,
-    settingRegistry: ISettingRegistry | null
+    settingRegistry: ISettingRegistry | null,
+    notebookTools: INotebookTools | null
   ) => {
     if (!sidePanelsEnabled()) {
       return;
@@ -688,6 +691,8 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
 
         notebookShell.leftHandler.updateMenu();
         notebookShell.rightHandler.updateMenu();
+
+        if (notebookTools) notebookShell.add(notebookTools, 'right');
       }
     });
   },
