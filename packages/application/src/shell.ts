@@ -232,7 +232,13 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
 
       const widget = find(this.widgets(area), w => w.id === id);
       if (widget) {
-        widget.activate();
+        if (area === 'left') {
+          if (this.leftCollapsed) this.expandLeft(id);
+          else this.collapseLeft();
+        } else if (area === 'right') {
+          if (this.rightCollapsed) this.expandRight(id);
+          else this.collapseRight();
+        } else widget.activate();
       }
     }
   }
@@ -323,12 +329,12 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   /**
    * Expand the left panel to show the sidebar with its widget.
    */
-  expandLeft(): void {
+  expandLeft(id?: string): void {
     if (!this.sidePanelsVisible()) {
       throw new Error('Left panel is not available on this page');
     }
     this.leftPanel.show();
-    this._leftHandler.expand(); // Show the current widget, if any
+    this._leftHandler.expand(id); // Show the current widget, if any
     this._onLayoutModified();
   }
 
@@ -347,12 +353,12 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   /**
    * Expand the right panel to show the sidebar with its widget.
    */
-  expandRight(): void {
+  expandRight(id?: string): void {
     if (!this.sidePanelsVisible()) {
       throw new Error('Right panel is not available on this page');
     }
     this.rightPanel.show();
-    this._rightHandler.expand(); // Show the current widget, if any
+    this._rightHandler.expand(id); // Show the current widget, if any
     this._onLayoutModified();
   }
 
@@ -594,11 +600,14 @@ namespace Private {
      * This will open the most recently used widget, or the first widget
      * if there is no most recently used.
      */
-    expand(): void {
-      const visibleWidget = this.current;
-      if (visibleWidget) {
-        this._current = visibleWidget;
-        this.activate(visibleWidget.id);
+    expand(id?: string): void {
+      if (id) this.activate(id);
+      else {
+        const visibleWidget = this.current;
+        if (visibleWidget) {
+          this._current = visibleWidget;
+          this.activate(visibleWidget.id);
+        }
       }
     }
 
