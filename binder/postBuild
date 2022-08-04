@@ -2,6 +2,10 @@
 set -euo pipefail
 
 python -m pip install -e . --force-reinstall
+
+# TODO: remove when it's possible to install nbclassic next to Notebook v7
+# without nbclassic shadowing the v7 endpoints
 python -m pip uninstall nbclassic -y
+
 jlpm && jlpm run build
 jlpm run develop
