@@ -102,13 +102,7 @@ function activateNotebookTreeWidget(
   toolbarRegistry: IToolbarWidgetRegistry,
   manager: IRunningSessionManagers | null
 ): INotebookTree {
-  const notebookTreeWidget = new NotebookTreeWidget();
-  // const tabPanel = new TabPanel({
-  //   tabPlacement: 'top',
-  //   tabsMovable: true,
-  //   renderer: TabBarSvg.defaultRenderer
-  // });
-  // tabPanel.addClass('jp-TreePanel');
+  const nbTreeWidget = new NotebookTreeWidget();
 
   const trans = translator.load('notebook');
 
@@ -118,8 +112,8 @@ function activateNotebookTreeWidget(
   browser.node.setAttribute('aria-label', trans.__('File Browser Section'));
   browser.title.icon = folderIcon;
 
-  notebookTreeWidget.addWidget(browser);
-  notebookTreeWidget.tabBar.addTab(browser.title);
+  nbTreeWidget.addWidget(browser);
+  nbTreeWidget.tabBar.addTab(browser.title);
 
   // Toolbar
   toolbarRegistry.addFactory(
@@ -149,8 +143,8 @@ function activateNotebookTreeWidget(
     running.id = 'jp-running-sessions';
     running.title.label = trans.__('Running');
     running.title.icon = runningIcon;
-    notebookTreeWidget.addWidget(running);
-    notebookTreeWidget.tabBar.addTab(running.title);
+    nbTreeWidget.addWidget(running);
+    nbTreeWidget.tabBar.addTab(running.title);
   }
 
   // show checkboxes by default if there is no user setting override
@@ -166,9 +160,9 @@ function activateNotebookTreeWidget(
       console.error(reason.message);
     });
 
-  app.shell.add(notebookTreeWidget, 'main', { rank: 100 });
+  app.shell.add(nbTreeWidget, 'main', { rank: 100 });
 
-  return notebookTreeWidget;
+  return nbTreeWidget;
 }
 
 /**
