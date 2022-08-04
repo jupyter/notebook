@@ -32,8 +32,7 @@ import {
 
 import { Menu, MenuBar } from '@lumino/widgets';
 
-import { NotebookTreeWidget } from '@jupyter-notebook/tree';
-import { INotebookTree } from '@jupyter-notebook/tree';
+import { NotebookTreeWidget, INotebookTree } from '@jupyter-notebook/tree';
 
 /**
  * The file browser factory.
