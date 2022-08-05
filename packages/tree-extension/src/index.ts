@@ -27,11 +27,12 @@ import { ITranslator } from '@jupyterlab/translation';
 import {
   caretDownIcon,
   folderIcon,
-  runningIcon,
-  TabBarSvg
+  runningIcon
 } from '@jupyterlab/ui-components';
 
-import { Menu, MenuBar, TabPanel } from '@lumino/widgets';
+import { Menu, MenuBar } from '@lumino/widgets';
+
+import { NotebookTreeWidget, INotebookTree } from '@jupyter-notebook/tree';
 
 /**
  * The file browser factory.
@@ -94,9 +95,9 @@ const createNew: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * A plugin to add the file browser widget to an ILabShell
+ * A plugin to add the file browser widget to an INotebookShell
  */
-const browserWidget: JupyterFrontEndPlugin<void> = {
+const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
   id: '@jupyter-notebook/tree-extension:widget',
   requires: [
     IFileBrowserFactory,
@@ -106,6 +107,7 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
   ],
   optional: [IRunningSessionManagers],
   autoStart: true,
+  provides: INotebookTree,
   activate: (
     app: JupyterFrontEnd,
     factory: IFileBrowserFactory,
@@ -113,13 +115,8 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
     settingRegistry: ISettingRegistry,
     toolbarRegistry: IToolbarWidgetRegistry,
     manager: IRunningSessionManagers | null
-  ): void => {
-    const tabPanel = new TabPanel({
-      tabPlacement: 'top',
-      tabsMovable: true,
-      renderer: TabBarSvg.defaultRenderer
-    });
-    tabPanel.addClass('jp-TreePanel');
+  ): INotebookTree => {
+    const nbTreeWidget = new NotebookTreeWidget();
 
     const trans = translator.load('notebook');
 
@@ -129,8 +126,8 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
     browser.node.setAttribute('aria-label', trans.__('File Browser Section'));
     browser.title.icon = folderIcon;
 
-    tabPanel.addWidget(browser);
-    tabPanel.tabBar.addTab(browser.title);
+    nbTreeWidget.addWidget(browser);
+    nbTreeWidget.tabBar.addTab(browser.title);
 
     // Toolbar
     toolbarRegistry.addFactory(
@@ -150,7 +147,7 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
         toolbarRegistry,
         settingRegistry,
         FILE_BROWSER_FACTORY,
-        browserWidget.id,
+        notebookTreeWidget.id,
         translator
       )
     );
@@ -160,8 +157,8 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
       running.id = 'jp-running-sessions';
       running.title.label = trans.__('Running');
       running.title.icon = runningIcon;
-      tabPanel.addWidget(running);
-      tabPanel.tabBar.addTab(running.title);
+      nbTreeWidget.addWidget(running);
+      nbTreeWidget.tabBar.addTab(running.title);
     }
 
     // show checkboxes by default if there is no user setting override
@@ -177,12 +174,14 @@ const browserWidget: JupyterFrontEndPlugin<void> = {
         console.error(reason.message);
       });
 
-    app.shell.add(tabPanel, 'main', { rank: 100 });
+    app.shell.add(nbTreeWidget, 'main', { rank: 100 });
+
+    return nbTreeWidget;
   }
 };
 
 /**
  * Export the plugins as default.
  */
-const plugins: JupyterFrontEndPlugin<any>[] = [createNew, browserWidget];
+const plugins: JupyterFrontEndPlugin<any>[] = [createNew, notebookTreeWidget];
 export default plugins;

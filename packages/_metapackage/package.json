@@ -29,6 +29,7 @@
     "@jupyter-notebook/lab-extension": "file:../lab-extension",
     "@jupyter-notebook/notebook-extension": "file:../notebook-extension",
     "@jupyter-notebook/terminal-extension": "file:../terminal-extension",
+    "@jupyter-notebook/tree": "file:../tree",
     "@jupyter-notebook/tree-extension": "file:../tree-extension",
     "@jupyter-notebook/ui-components": "file:../ui-components"
   },

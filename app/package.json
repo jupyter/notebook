@@ -19,6 +19,7 @@
     "@jupyter-notebook/help-extension": "~7.0.0-alpha.5",
     "@jupyter-notebook/notebook-extension": "~7.0.0-alpha.5",
     "@jupyter-notebook/terminal-extension": "~7.0.0-alpha.5",
+    "@jupyter-notebook/tree": "~7.0.0-alpha.5",
     "@jupyter-notebook/tree-extension": "~7.0.0-alpha.5",
     "@jupyter-notebook/ui-components": "~7.0.0-alpha.5",
     "@jupyterlab/application": "~4.0.0-alpha.10",
@@ -104,6 +105,7 @@
     "@jupyter-notebook/help-extension": "^7.0.0-alpha.5",
     "@jupyter-notebook/notebook-extension": "^7.0.0-alpha.5",
     "@jupyter-notebook/terminal-extension": "^7.0.0-alpha.5",
+    "@jupyter-notebook/tree": "^7.0.0-alpha.5",
     "@jupyter-notebook/tree-extension": "^7.0.0-alpha.5",
     "@jupyter-notebook/ui-components": "^7.0.0-alpha.5",
     "@jupyterlab/application-extension": "^4.0.0-alpha.10",
@@ -194,6 +196,7 @@
       "@jupyterlab/user-extension"
     ],
     "singletonPackages": [
+      "@jupyter-notebook/tree",
       "@jupyterlab/application",
       "@jupyterlab/apputils",
       "@jupyterlab/cell-toolbar",
